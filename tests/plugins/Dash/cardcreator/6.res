@@ -10,7 +10,7 @@ AbstractButton {
                 property bool showHeader: true;
                 implicitWidth: childrenRect.width;
                 enabled: true;
-
+signal action(var actionId);
 Loader {
                                 id: backgroundLoader; 
                                 objectName: "backgroundLoader"; 

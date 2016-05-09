@@ -26,25 +26,26 @@ PreviewWidget {
     id: root
 
     implicitHeight: row.height + units.gu(1)
+    readonly property var actions: root.widgetData ? root.widgetData["actions"] : null
 
     Row {
         id: row
-        readonly property var actions: root.widgetData ? root.widgetData["actions"] : null
         anchors.right: parent.right
 
         spacing: units.gu(1)
 
         Loader {
             id: loader
-            readonly property bool button: row.actions && row.actions.length == 2
-            readonly property bool combo: row.actions && row.actions.length > 2
+            objectName: "loader"
+            readonly property bool button: root.actions && root.actions.length == 2
+            readonly property bool combo: root.actions && root.actions.length > 2
             source: button ? "PreviewActionButton.qml" : (combo ? "PreviewActionCombo.qml" : "")
             width: (root.width - units.gu(1)) / 2
             onLoaded: {
                 if (button) {
-                    item.data = row.actions[1];
+                    item.data = Qt.binding(function() { return root.actions[1]; });
                 } else if (combo) {
-                    item.model = row.actions.slice(1);
+                    item.model = Qt.binding(function() { return root.actions.slice(1); });
                 }
             }
             Binding {
@@ -61,8 +62,8 @@ PreviewWidget {
         }
 
         PreviewActionButton {
-            data: visible ? row.actions[0] : null
-            visible: row.actions && row.actions.length > 0
+            data: visible ? root.actions[0] : null
+            visible: root.actions && root.actions.length > 0
             onTriggeredAction: root.triggered(root.widgetId, actionData.id, actionData)
             width: (root.width - units.gu(1)) / 2
             color: root.scopeStyle ? root.scopeStyle.previewButtonColor : UbuntuColors.orange

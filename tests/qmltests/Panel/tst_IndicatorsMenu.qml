@@ -26,7 +26,6 @@ IndicatorTest {
     id: root
     width: units.gu(80)
     height: units.gu(71)
-    color: "white"
 
     RowLayout {
         anchors.fill: parent

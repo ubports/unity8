@@ -328,8 +328,14 @@ Item {
             LightDM.Greeter.active = true;
 
             greeter.forcedUnlock = true;
-            compare(view.locked, false);
+            compare(greeter.required, false);
             greeter.forcedUnlock = false;
+
+            // Now recover from tearing down the view above
+            LightDM.Greeter.showGreeter();
+            tryCompare(greeter, "required", true);
+            tryCompare(greeter, "waiting", false);
+            view = findChild(greeter, "testView");
 
             selectUser("no-password");
             tryCompare(view, "locked", false);
@@ -355,7 +361,7 @@ Item {
         }
 
         function test_notifyAboutToFocusApp() {
-            greeter.notifyAboutToFocusApp("fake-app");
+            greeter.notifyUserRequestedApp("fake-app");
             compare(viewTryToUnlockSpy.count, 1);
             compare(viewTryToUnlockSpy.signalArguments[0][0], false);
         }
@@ -494,7 +500,7 @@ Item {
 
             // Test opening a locked app
             greeter.lockedApp = "test-app";
-            greeter.notifyAppFocused("test-app");
+            greeter.notifyAppFocusRequested("test-app");
             verify(greeter.hasLockedApp);
             verify(!greeter.shown);
 
@@ -545,6 +551,7 @@ Item {
 
             LightDM.Greeter.showGreeter();
             compare(viewResetSpy.count, 1);
+            tryCompare(viewShowPromptSpy, "count", 1);
         }
     }
 }

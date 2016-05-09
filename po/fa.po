@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-10 22:48+0000\n"
-"PO-Revision-Date: 2015-07-11 15:43+0000\n"
+"POT-Creation-Date: 2016-05-04 18:09+0000\n"
+"PO-Revision-Date: 2016-03-30 14:29+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@gmail.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-03-13 05:51+0000\n"
-"X-Generator: Launchpad (build 17939)\n"
+"X-Launchpad-Export-Date: 2016-05-06 04:54+0000\n"
+"X-Generator: Launchpad (build 17995)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -73,53 +73,35 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "خروج"
 
-#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:194
-#: qml/Components/Dialogs.qml:253
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
+#: qml/Dash/DashPageHeader.qml:298 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "لغو"
 
 #: qml/Components/Dialogs.qml:173
-msgctxt "Title: Reboot/Shut down dialog"
-msgid "Shut down"
-msgstr "خاموش کردن"
-
-#: qml/Components/Dialogs.qml:174
-msgid "Are you sure you want to shut down?"
-msgstr "مطمئنید که می‌خواهید خاموش کنید؟"
-
-#: qml/Components/Dialogs.qml:176
-msgctxt "Button: Reboot the system"
-msgid "Reboot"
-msgstr "راه‌اندازی دوباره"
-
-#: qml/Components/Dialogs.qml:185
-msgctxt "Button: Shut down the system"
-msgid "Shut down"
-msgstr "خاموش"
-
-#: qml/Components/Dialogs.qml:207
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "راه‌اندازی دوباره"
 
-#: qml/Components/Dialogs.qml:208
+#: qml/Components/Dialogs.qml:174
 msgid "Are you sure you want to reboot?"
 msgstr "مطمئنید که می‌خواهید مجدّداً راه‌اندازی کنسد؟"
 
-#: qml/Components/Dialogs.qml:210
+#: qml/Components/Dialogs.qml:176
 msgid "No"
 msgstr "خیر"
 
-#: qml/Components/Dialogs.qml:217
+#: qml/Components/Dialogs.qml:182
 msgid "Yes"
 msgstr "بله"
 
-#: qml/Components/Dialogs.qml:232
+#: qml/Components/Dialogs.qml:197
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "انرژی"
 
-#: qml/Components/Dialogs.qml:233
+#: qml/Components/Dialogs.qml:198
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -127,12 +109,12 @@ msgstr ""
 "آیا مطمئن هستید که\n"
 "می‌خواهید خاموش کنید؟"
 
-#: qml/Components/Dialogs.qml:235
+#: qml/Components/Dialogs.qml:200
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "خاموش کردن"
 
-#: qml/Components/Dialogs.qml:244
+#: qml/Components/Dialogs.qml:209
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "راه‌اندازی دوباره"
@@ -158,6 +140,7 @@ msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"برای ادامه، دوباره متّصل کرده، کارتان را ذخیره کنید و این کاره‌ها را ببندید."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
@@ -175,41 +158,57 @@ msgstr "هم‌اکنون دوباره وصل شود"
 msgid "Close all"
 msgstr "بستن همه"
 
-#: qml/Dash/DashPageHeader.qml:270
+#: qml/Dash/DashPageHeader.qml:337
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "ذخیره"
 
-#: qml/Dash/DashPageHeader.qml:277
+#: qml/Dash/DashPageHeader.qml:344
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "جست‌وجو"
 
-#: qml/Dash/DashPageHeader.qml:287
+#: qml/Dash/DashPageHeader.qml:354
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "تنظیمات"
 
-#: qml/Dash/DashPageHeader.qml:294
+#: qml/Dash/DashPageHeader.qml:361
 msgid "Remove from Favorites"
 msgstr "برداشتن از برگزیده‌ها"
 
-#: qml/Dash/DashPageHeader.qml:294
+#: qml/Dash/DashPageHeader.qml:361
 msgid "Add to Favorites"
 msgstr "افزودن به برگزیده‌ها"
 
-#: qml/Dash/GenericScopeView.qml:567 qml/Dash/GenericScopeView.qml:725
-msgid "See less"
-msgstr "کم‌تر ببینید"
+#: qml/Dash/FiltersPopover.qml:60
+msgid "Refine your results"
+msgstr "نتایجتان را بهبود دهید"
 
-#: qml/Dash/GenericScopeView.qml:567
-msgid "See all"
-msgstr "دیدن همه"
+#: qml/Dash/FiltersPopover.qml:69
+msgid "Reset"
+msgstr "بازنشانی"
 
-#: qml/Dash/GenericScopeView.qml:629
+#: qml/Dash/GenericScopeView.qml:579 qml/Dash/GenericScopeView.qml:764
+msgid "Show less"
+msgstr ""
+
+#: qml/Dash/GenericScopeView.qml:579
+msgid "Show all"
+msgstr ""
+
+#: qml/Dash/GenericScopeView.qml:636
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "جست‌وجو"
+
+#: qml/Dash/PageHeaderExtraPanel.qml:55
+msgid "Recent Searches"
+msgstr "جست‌وجوهای اخیر"
+
+#: qml/Dash/PageHeaderExtraPanel.qml:66
+msgid "Clear All"
+msgstr "پاک‌سازی همه"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
@@ -265,6 +264,8 @@ msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
+"افزاره‌تان هم‌تکنون به یک نمایشگر خارجی وصل شده است. از این صفحه به عنوان یک "
+"صفحه‌لمسی برای کارکردن با نشانگر استفاده کنید."
 
 #: qml/Greeter/CoverPage.qml:118
 msgid "Unlock"
@@ -278,11 +279,11 @@ msgstr "تلاش دوباره"
 msgid "Tap to unlock"
 msgstr "برای باز کردن قفل ضربه بزنید"
 
-#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Greeter/NarrowView.qml:54
 msgid "Sorry, incorrect passphrase."
 msgstr "متأسّفیم، عبارت‌عبور نادرست است."
 
-#: qml/Greeter/NarrowView.qml:55 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passcode."
 msgstr "متأسّفیم، رمزعبور نادرست است."
 
@@ -311,7 +312,7 @@ msgstr ""
 msgid "Enter %1"
 msgstr "%1 را وارد کنید"
 
-#: qml/Greeter/NarrowView.qml:117 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Greeter/NarrowView.qml:117
 msgid "Enter passphrase"
 msgstr "عبارت‌عبور را وارد کنید"
 
@@ -337,7 +338,7 @@ msgstr "لطفاً دوباره وارد کنید"
 msgid "Sorry, incorrect passcode"
 msgstr "متأسّفیم، رمزعبور نادرست بود"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:129
+#: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
 msgstr "نمایش گذرواژه"
 
@@ -349,59 +350,59 @@ msgstr "برای بازگشت به تماس ضربه بزنید…"
 msgid "Conference"
 msgstr "کنفرانس"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:752
+#: qml/Panel/Indicators/MenuItemFactory.qml:762
 msgid "Nothing is playing"
 msgstr "هیچ چیزی در حال پخش نیست"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:881
+#: qml/Panel/Indicators/MenuItemFactory.qml:891
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 ساعت"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:885
+#: qml/Panel/Indicators/MenuItemFactory.qml:895
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 دقیقه"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:890
+#: qml/Panel/Indicators/MenuItemFactory.qml:900
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 ثانیه"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:893
+#: qml/Panel/Indicators/MenuItemFactory.qml:903
 msgid "0 seconds"
 msgstr "۰ ثانیه"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:895
+#: qml/Panel/Indicators/MenuItemFactory.qml:905
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 مانده"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:901
+#: qml/Panel/Indicators/MenuItemFactory.qml:911
 msgid "In queue…"
 msgstr "در صف…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:905
+#: qml/Panel/Indicators/MenuItemFactory.qml:915
 msgid "Downloading"
 msgstr "در حال بارگیری"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:907
+#: qml/Panel/Indicators/MenuItemFactory.qml:917
 msgid "Paused, tap to resume"
 msgstr "مکث شد، برای از سر گیری ضربه بزنید"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:909
+#: qml/Panel/Indicators/MenuItemFactory.qml:919
 msgid "Canceled"
 msgstr "لغو شد"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:911
+#: qml/Panel/Indicators/MenuItemFactory.qml:921
 msgid "Finished"
 msgstr "پایان یافت"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:913
+#: qml/Panel/Indicators/MenuItemFactory.qml:923
 msgid "Failed, tap to retry"
 msgstr "شکست خورد، برای تلاش دوباره ضربه بزنید"
 
@@ -421,252 +422,334 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "پاسخ تماس"
 
-#: qml/Tutorial/TutorialBottom.qml:28
-msgid "Open special menus"
-msgstr "باز کردن فهرست‌های مخصوص"
+#: qml/Stages/SideStage.qml:76
+msgid "Drag using 3 fingers any application from one window to the other"
+msgstr "هر پنجره‌ای را با کشیدن سه‌انگشت از پنجره‌ای به ینجرهٔ دیگر ببرید"
 
-#: qml/Tutorial/TutorialBottom.qml:29
-msgid "Swipe up from the bottom edge."
-msgstr "از لبه‌ی پایینی به سمت بالا بکشید."
+#: qml/Tutorial/TutorialBottom.qml:78
+msgid "Swipe up to add a contact"
+msgstr "برای افزودن مخاطب به بالا بکشید"
 
-#: qml/Tutorial/TutorialBottomFinish.qml:24
-msgid "This action does different things for different apps"
-msgstr "این عمل برای اپ‌های مختلف، کارهای متفاوتی انجام می‌دهد"
+#: qml/Tutorial/TutorialBottom.qml:80
+msgid "Swipe up for favorite calculations"
+msgstr "برای محاسبه‌های برگزیده به بالا بکشید"
 
-#: qml/Tutorial/TutorialBottomFinish.qml:25
-msgid "Tap here to finish."
-msgstr "برای پایان این‌جا را بزنید"
+#: qml/Tutorial/TutorialBottom.qml:82
+msgid "Swipe up for recent calls"
+msgstr "برای تماس‌های اخیر به بالا بکشید"
 
-#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
-#: qml/Tutorial/TutorialRight.qml:144
-msgid "Tap here to continue."
-msgstr "برای ادامه این‌جا را بزنید"
+#: qml/Tutorial/TutorialBottom.qml:84
+msgid "Swipe up to create a message"
+msgstr "برای ایجاد پیام، به بالا بکشید"
 
-#: qml/Tutorial/TutorialLeft.qml:26
-msgid "Open the launcher"
-msgstr "گشودن اجراگر"
+#: qml/Tutorial/TutorialBottom.qml:85
+msgid "Swipe up to manage the app"
+msgstr "برای مدیریت کاره، به بالا بکشید"
 
-#: qml/Tutorial/TutorialLeft.qml:27
-msgid "Short swipe from the left edge."
-msgstr "از لبه‌ی چپ، کوتاه بکشید."
+#: qml/Tutorial/TutorialLeftLong.qml:47
+msgid "Long swipe from the left edge to open the Today scope"
+msgstr "برای گشودن حوزهٔ امروز، از لبهٔ چپ طولانی بکشید"
 
-#: qml/Tutorial/TutorialLeftFinish.qml:24
-msgid "These are the shortcuts to favorite apps"
-msgstr "این‌ها میان‌برهایی به برنامه‌های برگزیده هستند"
+#: qml/Tutorial/TutorialLeft.qml:47
+msgid "Swipe from the left edge to open the launcher"
+msgstr "برای گشودن اجراگر، از لبهٔ چپ بکشید"
 
-#: qml/Tutorial/TutorialPage.qml:178
-msgid "You almost got it!"
-msgstr "تقریباً یاد گرفتید!"
+#: qml/Tutorial/TutorialRight.qml:55
+msgid "Push your mouse against the right edge to view your open apps"
+msgstr ""
 
-#: qml/Tutorial/TutorialPage.qml:195
-msgid "Try again."
-msgstr "دوباره تلاش کنید."
+#: qml/Tutorial/TutorialRight.qml:56
+msgid "Short or long swipe from the right edge to view your open apps"
+msgstr "برای دیدن کاره‌های گشوده، از گوشهٔ راست بکشید"
 
-#: qml/Tutorial/TutorialRight.qml:31
-msgid "To view open apps"
-msgstr "برای دیدن برنامه‌های باز"
+#: qml/Tutorial/TutorialTop.qml:53
+msgid "Swipe from the top right edge to open the notification bar"
+msgstr "برای گشودن نوار آگاهی،  از سمت راست لبهٔ بالا بکشید"
 
-#: qml/Tutorial/TutorialRight.qml:32
-msgid "Long swipe from the right edge."
-msgstr "از لبه‌ی راست، بلند بکشید."
+#: qml/Tutorial/TutorialTop.qml:54
+msgid "Swipe from the top edge to open the notification bar"
+msgstr "برای گشودن نوار آگاهی،  از لبهٔ بالا بکشید"
 
-#: qml/Tutorial/TutorialRight.qml:122
-msgid "View all your running tasks."
-msgstr "همه‌ی وظایف در حال اجرایتان را ببینید."
-
-#: qml/Wizard/Page.qml:89
+#: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "بازگشت"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
-msgid "Hi!"
-msgstr "سلام!"
+msgid "Language"
+msgstr "زبان"
 
-#: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu device."
-msgstr ""
+#: qml/Wizard/Pages/10-welcome.qml:156 qml/Wizard/Pages/30-wifi.qml:206
+#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:267
+#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
+#: qml/Wizard/Pages/75-report-check.qml:84
+#: qml/Wizard/Pages/passcode-desktop.qml:124
+#: qml/Wizard/Pages/password-set.qml:141
+msgid "Next"
+msgstr "بعدی"
 
-#: qml/Wizard/Pages/10-welcome.qml:52
-msgid "Let’s get started."
-msgstr "بیایید شروع کینم."
-
-#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:133
-#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
-#: qml/Wizard/Pages/60-reporting.qml:60 qml/Wizard/Pages/passwd-confirm.qml:82
-#: qml/Wizard/Pages/passwd-set.qml:90
-msgid "Continue"
-msgstr "ادامه"
-
-#: qml/Wizard/Pages/20-sim.qml:25
-msgid "Add a SIM card and restart your device"
-msgstr "سیم‌کارتی افزوده و دستگاهتان را شروع مجدّد کنید"
-
-#: qml/Wizard/Pages/20-sim.qml:59
-msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr ""
-"بدون آن، نخواهید توانست تماس گرفته با از پیام‌رسانی متنی استفاده کنید."
-
-#: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
-msgid "Skip"
-msgstr "پرش"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:39
-msgid "Lock security"
-msgstr "امنیت قفل"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your device."
-msgstr ""
-
-#: qml/Wizard/Pages/30-passwd-type.qml:102
-msgctxt "Label: Type of security method"
-msgid "Swipe"
-msgstr "لغزش"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:103
-msgctxt "Label: Description of security method"
-msgid "No security"
-msgstr "هیچ امنیتی نیست"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:105
-msgctxt "Label: Type of security method"
-msgid "Passcode"
-msgstr "رمزعبور"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:106
-msgctxt "Label: Description of security method"
-msgid "4 digits only"
-msgstr "فقط ۴ رقم"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:108
-msgctxt "Label: Type of security method"
-msgid "Passphrase"
-msgstr "عبارت‌عبور"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:109
-msgctxt "Label: Description of security method"
-msgid "Numbers and letters"
-msgstr "اعداد و حروف"
-
-#: qml/Wizard/Pages/40-wifi.qml:29
+#: qml/Wizard/Pages/30-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr "اتّصال به بی‌سیم"
 
-#: qml/Wizard/Pages/40-wifi.qml:168
-msgid "Available networks…"
-msgstr "شبکه‌های موجود…"
+#: qml/Wizard/Pages/30-wifi.qml:130
+msgid "Connected"
+msgstr "وصل شده"
 
-#: qml/Wizard/Pages/40-wifi.qml:169
-msgid "No available networks."
-msgstr "هیچ شبکه‌ای موجود نیست."
+#: qml/Wizard/Pages/30-wifi.qml:163
+msgid "Available Wi-Fi networks"
+msgstr "شبکه‌های وای‌فای موجود"
 
-#: qml/Wizard/Pages/50-location.qml:27
-msgid "Location"
-msgstr "موقعیت"
+#: qml/Wizard/Pages/30-wifi.qml:164
+msgid "No available Wi-Fi networks"
+msgstr "هیج شبکهٔ وای‌فایی موجود نیست"
 
-#: qml/Wizard/Pages/50-location.qml:62
-msgid "Let the phone detect your location:"
-msgstr "اجازه به تلفن برای تشخیص موقعیّتتان:"
+#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/sim.qml:101
+msgid "Skip"
+msgstr "پرش"
 
-#: qml/Wizard/Pages/50-location.qml:69
-msgid "Using GPS only (less accurate)"
-msgstr "فقط با استفاده از جی‌پی‌اس (دقّت کم‌تر)"
+#: qml/Wizard/Pages/40-location.qml:27
+msgid "Location Services"
+msgstr "خدمات موقعیّت"
 
-#: qml/Wizard/Pages/50-location.qml:86
-msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
-msgstr ""
-"با استفاده از جی‌پی‌اس، بی‌سیم ناشناس و اطّلاعات شبکه‌ی سلّولی (پیشنهاد شده)"
-
-#. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
-#: qml/Wizard/Pages/50-location.qml:103
+#: qml/Wizard/Pages/40-location.qml:83
 msgid ""
-"By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-"conditions</a>."
+"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
+"(recommended)"
 msgstr ""
-"با انتخاب این گزینه، با <a href='#'>شرایط و ضوابط</a> HERE نوکیا موافقت "
-"می‌کنید."
+"برای تشخیص موقعیّت، به صورت ناشناس از جی‌پی‌اس، نقطه‌های داغ وای‌فای و "
+"شبکه‌های تلفن همراه استفاده شود (توصیه شده)"
 
-#: qml/Wizard/Pages/50-location.qml:112
-msgid "Not at all"
-msgstr "به هیچ وجه"
+#: qml/Wizard/Pages/40-location.qml:105
+#, qt-format
+msgid "By selecting this option you agree to the Nokia HERE %1."
+msgstr "با گزینش این انتخاب، با %1 نوکیا HERE موافقت می‌کنید."
 
-#: qml/Wizard/Pages/50-location.qml:124
-msgid "You can change your mind later in <b>System Settings</b>."
-msgstr "می‌توانید بعدها نظرتان را در <b>تنظیمات سامانه</b> تغییر دهید."
+#: qml/Wizard/Pages/40-location.qml:106
+msgctxt "part of: Nokia HERE terms and conditions"
+msgid "terms and conditions"
+msgstr "شرایط و ضوابط"
 
-#: qml/Wizard/Pages/60-reporting.qml:26
-msgid "Improving your experience"
-msgstr "ارتقای تجربه‌ی شما"
+#: qml/Wizard/Pages/40-location.qml:160
+msgid "GPS only"
+msgstr "فقط جی‌پی‌اس"
 
-#: qml/Wizard/Pages/60-reporting.qml:46
-msgid ""
-"Your phone is set up to automatically report errors to Canonical and its "
-"partners, the makers of the operating system."
-msgstr ""
-"تلفن شما تنظیم شده تا خطاها را به صورت خودکار به سازندگان سیستم‌عامل یعنی "
-"شرکت کنونیکال و شرکایش گزارش دهد."
+#: qml/Wizard/Pages/40-location.qml:214
+msgid "Don't use my location"
+msgstr "از موقعیّت من استفاده نشود"
 
-#: qml/Wizard/Pages/60-reporting.qml:53
-msgid ""
-"This can be disabled in <b>System Settings</b> under <b>Security &amp; "
-"Privacy</b>"
-msgstr ""
-"این می‌تواند در <b>تنظیمات سامانه</b> ذیل <b>امنیت و محرمانگی</b> غیرفعَال "
-"شود"
+#: qml/Wizard/Pages/40-location.qml:260
+msgid "You can change it later in System Settings."
+msgstr "بعداً می‌توانید این را در تنظیمات سامانه تغییر دهید."
 
-#: qml/Wizard/Pages/80-finished.qml:24
-msgid "All done"
-msgstr "همه‌چیز انجام شد"
+#: qml/Wizard/Pages/50-timezone.qml:29
+msgid "Time Zone"
+msgstr "منطقهٔ زمانی"
 
-#: qml/Wizard/Pages/80-finished.qml:39
-msgid "Nice work!"
-msgstr "عالی بود!"
+#: qml/Wizard/Pages/50-timezone.qml:178
+msgid "Enter your city"
+msgstr "شهرتان را وارد کنید"
 
-#: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your device is now ready to use."
-msgstr ""
+#: qml/Wizard/Pages/60-account.qml:24
+msgid "Personalize Your Device"
+msgstr "افزاره‌تان را شخصی سازی کنید"
 
-#: qml/Wizard/Pages/80-finished.qml:53
-msgid "Finish"
-msgstr "پایان"
+#: qml/Wizard/Pages/60-account.qml:48
+msgid "Preferred Name"
+msgstr "نام ترجیحی"
 
-#: qml/Wizard/Pages/here-terms.qml:27
+#: qml/Wizard/Pages/70-passwd-type.qml:39
+msgid "Lock Screen"
+msgstr "قفل صفحه"
+
+#: qml/Wizard/Pages/70-passwd-type.qml:101
+msgctxt "Label: Type of security method"
+msgid "Create new password"
+msgstr "ایجاد گذرواژهٔ جدید"
+
+#: qml/Wizard/Pages/70-passwd-type.qml:103
+msgctxt "Label: Type of security method"
+msgid "Create passcode (numbers only)"
+msgstr "ایجاد رمزعبور جدید (فقط عدد)"
+
+#: qml/Wizard/Pages/70-passwd-type.qml:105
+msgctxt "Label: Type of security method"
+msgid "No lock code"
+msgstr "بدون رمز قفل"
+
+#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
+msgid "Privacy Policy"
+msgstr "سیاست محرمانگی"
+
+#: qml/Wizard/Pages/75-report-check.qml:26
+msgid "Help Us Improve"
+msgstr "کمک به بهبود"
+
+#: qml/Wizard/Pages/75-report-check.qml:59
+msgid "Improve system performance by sending us crashes and error reports."
+msgstr "کارایی سامانه با ارسال گزارش‌های خطا بهبود دهید."
+
+#: qml/Wizard/Pages/75-report-check.qml:60
+msgid "Privacy policy"
+msgstr "سیاست محرمانگی"
+
+#: qml/Wizard/Pages/80-finished.qml:89
+msgid "Welcome to Ubuntu"
+msgstr "به اوبونتو خوش آمدید"
+
+#: qml/Wizard/Pages/80-finished.qml:104
+msgid "You are ready to use your device now"
+msgstr "اکنون آمادهٔ استفاده از افزارهٔ جدیدتان هستید"
+
+#: qml/Wizard/Pages/80-finished.qml:124
+msgid "Get Started"
+msgstr "شروع به کار"
+
+#: qml/Wizard/Pages/here-terms.qml:25
 msgid "Terms & Conditions"
 msgstr "شرایط و ضوابط"
 
-#: qml/Wizard/Pages/passwd-confirm.qml:49
-msgid "Confirm passphrase"
-msgstr "تأیید عبارت‌عبور"
+#: qml/Wizard/Pages/here-terms.qml:69
+msgid "Your device uses positioning technologies provided by HERE."
+msgstr ""
+"افزاره‌تان از فن‌آوری‌های موقعیّت‌یابی فراهم‌شده توسّط HERE استفاده مي‌کند."
 
-#: qml/Wizard/Pages/passwd-confirm.qml:50
+#: qml/Wizard/Pages/here-terms.qml:81
+msgid ""
+"To provide you with positioning services and to improve their quality, HERE "
+"collects information about nearby cell towers and Wi-Fi hotspots around your "
+"current location whenever your position is being found."
+msgstr ""
+"به منظور فراهم کردن خدمات موقعیّت‌یابی و بهبود کیفیت آن‌ها، به هنگام پیدا "
+"شدن موقعیتتان، HERE اطّلاعاتی دربارهٔ برج‌های تلفن همراه نزدیک و نقطه‌های "
+"داغ وای‌فای اطراف موقعیّت فعلیتان را حمع‌آوری می‌کند."
+
+#: qml/Wizard/Pages/here-terms.qml:93
+msgid ""
+"The information collected is used to analyze the service and to improve the "
+"use of service, but not to identify you personally."
+msgstr ""
+"اطّلاعات جمع‌آوری شده برای تحلیل خدمت و بهبود استفاده از آن، و نه برای تشخیص "
+"شخص شما استفاده می‌شوند"
+
+#: qml/Wizard/Pages/here-terms.qml:106
+#, qt-format
+msgid "By continuing, you agree to the HERE platform %1 and %2."
+msgstr "با ادامه، با %1 و %2 بن‌سازهٔ HERE موافقت می‌کنید."
+
+#: qml/Wizard/Pages/here-terms.qml:107
+msgid "Service Terms"
+msgstr "شرایط خدمت"
+
+#: qml/Wizard/Pages/passcode-confirm.qml:43
+#: qml/Wizard/Pages/passcode-desktop.qml:80
 msgid "Confirm passcode"
 msgstr "تأیید رمزعبور"
 
-#: qml/Wizard/Pages/passwd-confirm.qml:53
-#: qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Please try again."
-msgstr "لطفاً دوباره سعی کنید."
+#: qml/Wizard/Pages/passcode-confirm.qml:45
+msgid "Incorrect passcode."
+msgstr "رمزعبور نادرست."
 
-#: qml/Wizard/Pages/passwd-set.qml:61
-msgid "Choose your passcode"
-msgstr "رمزعبور خود را انتخاب کنید"
+#: qml/Wizard/Pages/passcode-confirm.qml:45
+msgctxt "Enter the passcode again"
+msgid "Please re-enter."
+msgstr "لطفاً دوباره وارد کنید."
 
-#: qml/Wizard/Pages/passwd-set.qml:68
-msgid "Passphrase must be 4 characters long"
-msgstr "عبارت‌عبور باید ۴ نویسه طول داشته باشد"
+#: qml/Wizard/Pages/passcode-desktop.qml:30
+msgid "Lock Screen Passcode"
+msgstr "رمزعبور قفل صفحه"
 
-#. Translators: This is the arrow for "Back" buttons
-#: qml/Wizard/StackButton.qml:39
-#, qt-format
-msgid "〈  %1"
-msgstr "〈  %1"
+#: qml/Wizard/Pages/passcode-desktop.qml:56
+msgid "Enter 4 numbers to setup your passcode"
+msgstr "برای برپایی رمزعبورتان، ۴ رقم وارد کنید."
 
-#. Translators: This is the arrow for "Forward" buttons
-#: qml/Wizard/StackButton.qml:42
-#, qt-format
-msgid "%1  〉"
-msgstr "%1  〉"
+#: qml/Wizard/Pages/passcode-desktop.qml:65
+#: qml/Wizard/Pages/passcode-set.qml:54
+msgid "Choose passcode"
+msgstr "انتخاب رمزعبور"
+
+#: qml/Wizard/Pages/passcode-desktop.qml:105
+msgid "Passcode too short"
+msgstr "رمزعبور خیلی کوتاه است"
+
+#: qml/Wizard/Pages/passcode-desktop.qml:107
+msgid "Passcodes match"
+msgstr "رمز عبور مطابق است"
+
+#: qml/Wizard/Pages/passcode-desktop.qml:109
+msgid "Passcodes do not match"
+msgstr "رمز عبور مطابق نیست"
+
+#: qml/Wizard/Pages/passcode-set.qml:62
+msgid "Passcode must be 4 characters long"
+msgstr "رمزعبور باید ۴ نویسه طول داشته باشد"
+
+#: qml/Wizard/Pages/password-set.qml:30
+msgid "Lock Screen Password"
+msgstr "گذرواژهٔ قفل صفحه"
+
+#: qml/Wizard/Pages/password-set.qml:61
+msgid "Enter at least 8 characters"
+msgstr "حداقل ۸ نویسه وارد کنید"
+
+#: qml/Wizard/Pages/password-set.qml:73
+msgid "Choose password"
+msgstr "انتخاب گذرواژه"
+
+#: qml/Wizard/Pages/password-set.qml:103
+msgid "Confirm password"
+msgstr "تأیید گذرواژه"
+
+#: qml/Wizard/Pages/sim.qml:27
+msgid "No SIM card installed"
+msgstr "هیچ سیم کارتی نصب نشده"
+
+#: qml/Wizard/Pages/sim.qml:54
+msgid "SIM card added"
+msgstr "سیم کارت افزوده شد"
+
+#: qml/Wizard/Pages/sim.qml:55
+msgid "You must restart the device to access the mobile network."
+msgstr "برای دسترسی به شبکهٔ تلفن همراه، باید افزاره را شروع دوباره کنید."
+
+#: qml/Wizard/Pages/sim.qml:59
+msgid "Restart"
+msgstr "شروع مجدّد"
+
+#: qml/Wizard/Pages/sim.qml:78
+msgid "You won’t be able to make calls or use text messaging without a SIM."
+msgstr ""
+"بدون یک سیم کارت، نخواهید توانست تماس برقرار کرده یا از پیام‌رسانی متنی "
+"استفاده کنید."
+
+#: qml/Wizard/Pages/sim.qml:90
+msgid "To proceed with no SIM tap Skip."
+msgstr "برای ادامه دادن بدون سیم کارت، روی پرش ضربه بزنید."
+
+#: qml/Wizard/PasswordMeter.qml:87
+msgid "Passwords match"
+msgstr "گذرواژه‌ها مطابقند"
+
+#: qml/Wizard/PasswordMeter.qml:89
+msgid "Passwords do not match"
+msgstr "گذرواژه‌ها مطابق نیستند"
+
+#: qml/Wizard/PasswordMeter.qml:93
+msgid "Strong password"
+msgstr "گذرواژهٔ قوی"
+
+#: qml/Wizard/PasswordMeter.qml:95
+msgid "Fair password"
+msgstr "گذرواژهٔ معتدل"
+
+#: qml/Wizard/PasswordMeter.qml:97
+msgid "Weak password"
+msgstr "گذرواژهٔ ضعیف"
+
+#: qml/Wizard/PasswordMeter.qml:99
+msgid "Very weak password"
+msgstr "گذرواژهٔ خیلی ضعیف"
 
 #~ msgid "Right edge"
 #~ msgstr "لبه‌ی راست"
@@ -682,6 +765,9 @@ msgstr "%1  〉"
 
 #~ msgid "Left edge"
 #~ msgstr "لبه‌ی چپ"
+
+#~ msgid "See all"
+#~ msgstr "دیدن همه"
 
 #~ msgid "Try swiping from the top edge to access the indicators"
 #~ msgstr "برای دست‌رسی به نشانگرها، از لبه‌ی بالا بکشید"
@@ -710,6 +796,9 @@ msgstr "%1  〉"
 
 #~ msgid "Confirm"
 #~ msgstr "تأیید"
+
+#~ msgid "See less"
+#~ msgstr "کم‌تر ببینید"
 
 #~ msgid "Loading. Please Wait..."
 #~ msgstr "در حال بار کردن. لطفاً صبر کنید…"
@@ -750,6 +839,9 @@ msgstr "%1  〉"
 #~ msgid "Log out"
 #~ msgstr "خروج از حساب"
 
+#~ msgid "Are you sure you want to shut down?"
+#~ msgstr "مطمئنید که می‌خواهید خاموش کنید؟"
+
 #~ msgid "Reboot"
 #~ msgstr "راه‌اندازی مجدّد"
 
@@ -759,23 +851,192 @@ msgstr "%1  〉"
 #~ msgid "Settings"
 #~ msgstr "تنظیمات"
 
-#~ msgid "Restart"
-#~ msgstr "شروع مجدّد"
-
 #~ msgid "Please re-enter"
 #~ msgstr "لطفاً دوباره وارد کنید"
 
 #~ msgid "Manage Scopes"
 #~ msgstr "مدیریت حوزه‌ها"
 
+#~ msgid "Lock security"
+#~ msgstr "امنیت قفل"
+
+#~ msgid "Without it, you won’t be able to make calls or use text messaging."
+#~ msgstr ""
+#~ "بدون آن، نخواهید توانست تماس گرفته با از پیام‌رسانی متنی استفاده کنید."
+
+#~ msgid "Add a SIM card and restart your device"
+#~ msgstr "سیم‌کارتی افزوده و دستگاهتان را شروع مجدّد کنید"
+
 #~ msgid "Please select how you’d like to unlock your phone."
 #~ msgstr "لطفاً برگزینید که می‌خواهید چگونه قفل تلفنتان را باز کنید."
+
+#~ msgid "Hi!"
+#~ msgstr "سلام!"
 
 #~ msgid "Welcome to your Ubuntu phone."
 #~ msgstr "به تلفن اوبونتوی خودتان خوش آمدید."
 
+#~ msgid "Let’s get started."
+#~ msgstr "بیایید شروع کینم."
+
+#~ msgid "Continue"
+#~ msgstr "ادامه"
+
+#~ msgid "Available networks…"
+#~ msgstr "شبکه‌های موجود…"
+
+#~ msgid "No available networks."
+#~ msgstr "هیچ شبکه‌ای موجود نیست."
+
+#~ msgid "Location"
+#~ msgstr "موقعیت"
+
+#~ msgid "You can change your mind later in <b>System Settings</b>."
+#~ msgstr "می‌توانید بعدها نظرتان را در <b>تنظیمات سامانه</b> تغییر دهید."
+
+#~ msgid ""
+#~ "Your phone is set up to automatically report errors to Canonical and its "
+#~ "partners, the makers of the operating system."
+#~ msgstr ""
+#~ "تلفن شما تنظیم شده تا خطاها را به صورت خودکار به سازندگان سیستم‌عامل یعنی "
+#~ "شرکت کنونیکال و شرکایش گزارش دهد."
+
+#~ msgid "All done"
+#~ msgstr "همه‌چیز انجام شد"
+
+#~ msgid "Improving your experience"
+#~ msgstr "ارتقای تجربه‌ی شما"
+
+#~ msgid ""
+#~ "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
+#~ "Privacy</b>"
+#~ msgstr ""
+#~ "این می‌تواند در <b>تنظیمات سامانه</b> ذیل <b>امنیت و محرمانگی</b> غیرفعَال "
+#~ "شود"
+
+#~ msgid ""
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
+#~ "conditions</a>."
+#~ msgstr ""
+#~ "با انتخاب این گزینه، با <a href='#'>شرایط و ضوابط</a> HERE نوکیا موافقت "
+#~ "می‌کنید."
+
+#~ msgid "Not at all"
+#~ msgstr "به هیچ وجه"
+
+#~ msgid "Let the phone detect your location:"
+#~ msgstr "اجازه به تلفن برای تشخیص موقعیّتتان:"
+
+#~ msgid "Using GPS only (less accurate)"
+#~ msgstr "فقط با استفاده از جی‌پی‌اس (دقّت کم‌تر)"
+
+#~ msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
+#~ msgstr ""
+#~ "با استفاده از جی‌پی‌اس، بی‌سیم ناشناس و اطّلاعات شبکه‌ی سلّولی (پیشنهاد شده)"
+
+#~ msgid "Nice work!"
+#~ msgstr "عالی بود!"
+
+#~ msgid "Finish"
+#~ msgstr "پایان"
+
 #~ msgid "Your phone is now ready to use."
 #~ msgstr "هم‌اکنون تلفن شما آماده‌ی استفاده است."
+
+#~ msgid "Confirm passphrase"
+#~ msgstr "تأیید عبارت‌عبور"
+
+#~ msgid "Please try again."
+#~ msgstr "لطفاً دوباره سعی کنید."
+
+#, qt-format
+#~ msgid "〈  %1"
+#~ msgstr "〈  %1"
+
+#~ msgid "Choose your passcode"
+#~ msgstr "رمزعبور خود را انتخاب کنید"
+
+#~ msgid "Passphrase must be 4 characters long"
+#~ msgstr "عبارت‌عبور باید ۴ نویسه طول داشته باشد"
+
+#, qt-format
+#~ msgid "%1  〉"
+#~ msgstr "%1  〉"
+
+#~ msgid "This action does different things for different apps"
+#~ msgstr "این عمل برای اپ‌های مختلف، کارهای متفاوتی انجام می‌دهد"
+
+#~ msgid "Swipe up from the bottom edge."
+#~ msgstr "از لبه‌ی پایینی به سمت بالا بکشید."
+
+#~ msgid "Open special menus"
+#~ msgstr "باز کردن فهرست‌های مخصوص"
+
+#~ msgid "Tap here to finish."
+#~ msgstr "برای پایان این‌جا را بزنید"
+
+#~ msgid "To view open apps"
+#~ msgstr "برای دیدن برنامه‌های باز"
+
+#~ msgid "Long swipe from the right edge."
+#~ msgstr "از لبه‌ی راست، بلند بکشید."
+
+#~ msgid "View all your running tasks."
+#~ msgstr "همه‌ی وظایف در حال اجرایتان را ببینید."
+
+#~ msgid "Try again."
+#~ msgstr "دوباره تلاش کنید."
+
+#~ msgid "You almost got it!"
+#~ msgstr "تقریباً یاد گرفتید!"
+
+#~ msgid "Short swipe from the left edge."
+#~ msgstr "از لبه‌ی چپ، کوتاه بکشید."
+
+#~ msgid "Open the launcher"
+#~ msgstr "گشودن اجراگر"
+
+#~ msgid "Tap here to continue."
+#~ msgstr "برای ادامه این‌جا را بزنید"
+
+#~ msgid "These are the shortcuts to favorite apps"
+#~ msgstr "این‌ها میان‌برهایی به برنامه‌های برگزیده هستند"
+
+#~ msgctxt "Button: Shut down the system"
+#~ msgid "Shut down"
+#~ msgstr "خاموش"
+
+#~ msgctxt "Title: Reboot/Shut down dialog"
+#~ msgid "Shut down"
+#~ msgstr "خاموش کردن"
+
+#~ msgctxt "Button: Reboot the system"
+#~ msgid "Reboot"
+#~ msgstr "راه‌اندازی دوباره"
+
+#~ msgctxt "Label: Description of security method"
+#~ msgid "No security"
+#~ msgstr "هیچ امنیتی نیست"
+
+#~ msgctxt "Label: Type of security method"
+#~ msgid "Swipe"
+#~ msgstr "لغزش"
+
+#~ msgctxt "Label: Type of security method"
+#~ msgid "Passcode"
+#~ msgstr "رمزعبور"
+
+#~ msgctxt "Label: Description of security method"
+#~ msgid "4 digits only"
+#~ msgstr "فقط ۴ رقم"
+
+#~ msgctxt "Label: Type of security method"
+#~ msgid "Passphrase"
+#~ msgstr "عبارت‌عبور"
+
+#~ msgctxt "Label: Description of security method"
+#~ msgid "Numbers and letters"
+#~ msgstr "اعداد و حروف"
 
 #~ msgid "%a %d %b %H:%M"
 #~ msgstr "%a %d %b   %OH:%OM"
@@ -810,6 +1071,5 @@ msgstr "%1  〉"
 #~ msgid "Call back"
 #~ msgstr "پاسخ تماس"
 
-#~ msgid "Re-dock, save your work and close these apps to continue."
-#~ msgstr ""
-#~ "دوباره داک کنید. برای ادامه، کارتان را ذخیره کرده و این کاره‌ها را ببندید."
+#~ msgid "Hover your mouse on the right edge to view your open apps"
+#~ msgstr "برای دیدن کاره‌های گشوده، موشی‌تان را روی لبهٔ راست نگه دارید"

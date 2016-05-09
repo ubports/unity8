@@ -17,6 +17,7 @@
 import QtQuick 2.4
 
 import Ubuntu.Components 1.3
+import Ubuntu.Components.Themes 1.3
 import Ubuntu.Components.Popups 1.3
 
 /*
@@ -41,10 +42,11 @@ Dialog {
     // https://bugs.launchpad.net/ubuntu/+source/ubuntu-ui-toolkit/+bug/1555548
     ThemeSettings {
         id: themeHack
-        name: "Ubuntu.Components.Themes.Ambiance"
     }
 
     Component.onCompleted: {
+        themeHack.palette.normal.overlay = "white";
+        themeHack.palette.normal.overlayText = UbuntuColors.slate;
         __foreground.theme = themeHack
         show();
     }

@@ -1977,6 +1977,21 @@ private Q_SLOTS:
         verifyItem(0, 50., 200., false);
     }
 
+    void testBug1569976()
+    {
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 3), Q_ARG(QVariant, 3));
+
+        for (int i = 0; i < 10; ++i) {
+            scrollToBottom();
+            lvwph->showHeader();
+            QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+            scrollToTop();
+        }
+        verifyItem(0, 50., 150., false);
+        verifyItem(1, 200., 200., false);
+        verifyItem(2, 400., 350., false);
+    }
+
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;

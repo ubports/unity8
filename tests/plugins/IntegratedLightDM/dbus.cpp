@@ -138,7 +138,7 @@ private Q_SLOTS:
         greeter->authenticate("has-password");
         spy.wait();
 
-        QCOMPARE(spy.count(), 1);
+        QVERIFY(spy.count() > 0);
         QList<QVariant> arguments = spy.takeFirst();
         QVERIFY(arguments.at(0).toString() == "com.canonical.UnityGreeter.List");
         QVERIFY(arguments.at(1).toMap().contains("ActiveEntry"));
@@ -150,12 +150,10 @@ private Q_SLOTS:
         QVERIFY(dbusList->property("EntryIsLocked").toBool());
 
         greeter->authenticate("no-password");
-        QCoreApplication::processEvents(); // wait for auth to finish
-        QVERIFY(!dbusList->property("EntryIsLocked").toBool());
+        QTRY_VERIFY(!dbusList->property("EntryIsLocked").toBool());
 
         greeter->authenticate("has-password");
-        QCoreApplication::processEvents(); // wait for auth to finish
-        QVERIFY(dbusList->property("EntryIsLocked").toBool());
+        QTRY_VERIFY(dbusList->property("EntryIsLocked").toBool());
     }
 
     void testEntryIsLockedChanged()

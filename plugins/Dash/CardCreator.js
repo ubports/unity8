@@ -344,6 +344,17 @@ var kAttributesRowCode = 'CardAttributes { \n\
                             model: cardData && cardData["attributes"]; \n\
                           }\n';
 
+// %1 is used as anchors of socialActionsRow
+// %2 is used as color of socialActionsRow
+var kSocialActionsRowCode = 'CardSocialActions { \n\
+                               id: socialActionsRow; \n\
+                               objectName: "socialActionsRow"; \n\
+                               anchors { %1 } \n\
+                               color: %2; \n\
+                               model: cardData && cardData["socialActions"]; \n\
+                               onClicked: root.action(actionId); \n\
+                             }\n';
+
 // %1 is used as top anchor of summary
 // %2 is used as topMargin anchor of summary
 // %3 is used as color of summary
@@ -429,9 +440,11 @@ function cardString(template, components, isCardTool, artShapeStyle) {
     var hasSubtitle = hasTitle && components["subtitle"] || false;
     var hasHeaderRow = hasMascot && hasTitle;
     var hasAttributes = hasTitle && components["attributes"] && components["attributes"]["field"] || false;
+    var hasSocialActions = hasTitle && components["social-actions"] || false;
     var isAudio = template["quick-preview-type"] === "audio";
     var asynchronous = isCardTool ? "false" : "true";
 
+    code += 'signal action(var actionId);\n';
     if (isAudio) {
         // For now we only support audio cards with [optional] art, title, subtitle
         // in horizontal mode
@@ -851,6 +864,38 @@ function cardString(template, components, isCardTool, artShapeStyle) {
         code += kSummaryLabelCode.arg(summaryTopAnchor).arg(summaryTopMargin).arg(summaryColor);
     }
 
+// <<<<<<< TREE
+//     if (artShapeStyle != "shadow" && artShapeStyle != "icon") {
+//         var touchdownAnchors;
+// =======
+    if (hasSocialActions) {
+        var socialAnchors;
+        var socialTopAnchor;
+
+        if (hasSummary) socialTopAnchor = 'summary.bottom;';
+        else if (isHorizontal && hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
+        else if (headerAsOverlay && hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
+        else if (hasHeaderRow) socialTopAnchor = 'row.bottom;';
+        else if (hasTitleContainer) socialTopAnchor = 'headerTitleContainer.bottom;';
+        else if (hasMascot) socialTopAnchor = 'mascotImage.bottom;';
+        else if (hasAttributes) socialTopAnchor = 'attributesRow.bottom;';
+        else if (hasSubtitle) socialTopAnchor = 'subtitleLabel.bottom;';
+        else if (hasTitle) socialTopAnchor = 'titleLabel.bottom;';
+        else if (hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
+        else socialTopAnchor = 'parent.top';
+
+        socialAnchors = 'top: ' + socialTopAnchor + ' left: parent.left; right: parent.right; topMargin: units.gu(1);'
+
+        var socialColor;
+        if (hasBackground) {
+            socialColor = summaryColorWithBackground;
+        } else {
+            socialColor = 'root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText';
+        }
+
+        code += kSocialActionsRowCode.arg(socialAnchors).arg(socialColor);
+    }
+
     if (artShapeStyle != "shadow" && artShapeStyle != "icon") {
         var touchdownAnchors;
         if (hasBackground) {
@@ -864,7 +909,9 @@ function cardString(template, components, isCardTool, artShapeStyle) {
     }
 
     var implicitHeight = 'implicitHeight: ';
-    if (hasSummary) {
+    if (hasSocialActions) {
+        implicitHeight += 'socialActionsRow.y + socialActionsRow.height + units.gu(1);\n';
+    } else if (hasSummary) {
         implicitHeight += 'summary.y + summary.height + units.gu(1);\n';
     } else if (isAudio) {
         implicitHeight += 'audioButton.height;\n';

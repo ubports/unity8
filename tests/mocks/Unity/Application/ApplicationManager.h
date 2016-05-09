@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,12 +26,19 @@
 // unity-api
 #include <unity/shell/application/ApplicationManagerInterface.h>
 
+namespace unity {
+    namespace shell {
+        namespace application {
+            class MirSurfaceInterface;
+        }
+    }
+}
+
 class QQuickItem;
 using namespace unity::shell::application;
 
 class ApplicationManager : public ApplicationManagerInterface {
     Q_OBJECT
-    Q_FLAGS(ExecFlags)
 
     Q_PROPERTY(bool empty READ isEmpty NOTIFY emptyChanged)
     Q_PROPERTY(QStringList availableApplications READ availableApplications NOTIFY availableApplicationsChanged)
@@ -39,18 +46,6 @@ class ApplicationManager : public ApplicationManagerInterface {
  public:
     ApplicationManager(QObject *parent = nullptr);
     virtual ~ApplicationManager();
-
-    static ApplicationManager *singleton();
-
-    enum MoreRoles {
-        RoleSession = RoleExemptFromLifecycle+1,
-        RoleFullscreen,
-    };
-    enum Flag {
-        NoFlag = 0x0,
-        ForceMainStage = 0x1,
-    };
-    Q_DECLARE_FLAGS(ExecFlags, Flag)
 
     // QAbstractItemModel methods.
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
@@ -62,10 +57,7 @@ class ApplicationManager : public ApplicationManagerInterface {
 
     // Application control methods
     Q_INVOKABLE bool requestFocusApplication(const QString &appId) override;
-    Q_INVOKABLE bool focusApplication(const QString &appId) override;
-    Q_INVOKABLE void unfocusCurrentApplication() override;
     Q_INVOKABLE ApplicationInfo *startApplication(const QString &appId, const QStringList &arguments = QStringList()) override;
-    Q_INVOKABLE ApplicationInfo *startApplication(const QString &appId, ExecFlags flags, const QStringList &arguments = QStringList());
     Q_INVOKABLE bool stopApplication(const QString &appId) override;
 
     QString focusedApplicationId() const override;
@@ -85,20 +77,18 @@ class ApplicationManager : public ApplicationManagerInterface {
 
  private Q_SLOTS:
     void onWindowCreatedTimerTimeout();
+    void updateFocusedApplication();
 
  private:
-    void add(ApplicationInfo *application);
+    bool add(ApplicationInfo *application);
     void remove(ApplicationInfo* application);
     void buildListOfAvailableApplications();
     void onWindowCreated();
+    ApplicationInfo *findApplication(MirSurface* surface);
     QList<ApplicationInfo*> m_runningApplications;
     QList<ApplicationInfo*> m_availableApplications;
     QTimer m_windowCreatedTimer;
-
-    static ApplicationManager *the_application_manager;
 };
-
-Q_DECLARE_OPERATORS_FOR_FLAGS(ApplicationManager::ExecFlags)
 
 Q_DECLARE_METATYPE(ApplicationManager*)
 

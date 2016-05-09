@@ -36,26 +36,35 @@ Showable {
     readonly property bool partiallyOpened: unitProgress > 0 && unitProgress < 1.0
     readonly property bool fullyClosed: unitProgress == 0
     property bool enableHint: true
-    property bool contentEnabled: true
     property bool showOnClick: true
-    property color panelColor: UbuntuColors.jet
+    property color panelColor: theme.palette.normal.background
 
     signal showTapped(point position)
 
     // TODO: Perhaps we need a animation standard for showing/hiding? Each showable seems to
     // use its own values. Need to ask design about this.
-    showAnimation: StandardAnimation {
-        property: "height"
-        to: openedHeight
-        duration: UbuntuAnimation.BriskDuration
-        easing.type: Easing.OutCubic
+    showAnimation: SequentialAnimation {
+        StandardAnimation {
+            target: root
+            property: "height"
+            to: openedHeight
+            duration: UbuntuAnimation.BriskDuration
+            easing.type: Easing.OutCubic
+        }
+        // set binding in case units.gu changes while menu open, so height correctly adjusted to fit
+        ScriptAction { script: root.height = Qt.binding( function(){ return root.openedHeight; } ) }
     }
 
-    hideAnimation: StandardAnimation {
-        property: "height"
-        to: minimizedPanelHeight
-        duration: UbuntuAnimation.BriskDuration
-        easing.type: Easing.OutCubic
+    hideAnimation: SequentialAnimation {
+        StandardAnimation {
+            target: root
+            property: "height"
+            to: minimizedPanelHeight
+            duration: UbuntuAnimation.BriskDuration
+            easing.type: Easing.OutCubic
+        }
+        // set binding in case units.gu changes while menu closed, so menu adjusts to fit
+        ScriptAction { script: root.height = Qt.binding( function(){ return root.minimizedPanelHeight; } ) }
     }
 
     height: minimizedPanelHeight
@@ -76,7 +85,6 @@ Showable {
     MenuContent {
         id: content
         objectName: "menuContent"
-        color: root.panelColor
 
         anchors {
             left: parent.left
@@ -86,7 +94,6 @@ Showable {
         height: openedHeight - bar.height - handle.height
         indicatorsModel: root.indicatorsModel
         visible: root.unitProgress > 0
-        enabled: contentEnabled
         currentMenuIndex: bar.currentItemIndex
     }
 
@@ -111,7 +118,7 @@ Showable {
             height: units.gu(0.5)
             gradient: Gradient {
                 GradientStop { position: 0.0; color: "transparent" }
-                GradientStop { position: 1.0; color: root.panelColor }
+                GradientStop { position: 1.0; color: theme.palette.normal.background }
             }
             opacity: 0.3
         }

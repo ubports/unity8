@@ -32,7 +32,6 @@ Navigation::Navigation(const QString& navigationId, const QString& label, const 
 {
     QTimer::singleShot(1500, this, &Navigation::slotLoaded);
     connect(scope, &Scope::currentNavigationIdChanged, this, &Navigation::slotCurrentNavigationChanged);
-    connect(scope, &Scope::currentAltNavigationIdChanged, this, &Navigation::slotCurrentNavigationChanged);
 }
 
 QString Navigation::navigationId() const
@@ -78,17 +77,17 @@ int Navigation::count() const
 
 bool Navigation::isRoot() const
 {
-    return m_navigationId == "root" || m_navigationId == "altroot";
+    return m_navigationId == "root";
 }
 
 bool Navigation::hidden() const
 {
-    return m_navigationId == "altroot";
+    return false;
 }
 
 int Navigation::rowCount(const QModelIndex & /*parent*/) const
 {
-    if (!m_loaded || m_navigationId.startsWith("child") || m_navigationId.startsWith("altrootChild") || m_navigationId == "middle3")
+    if (!m_loaded ||(m_navigationId.startsWith("child") && !m_navigationId.startsWith("childmiddle4")) || m_navigationId == "middle3")
         return 0;
     else
         return 8;
@@ -102,16 +101,16 @@ QVariant Navigation::data(const QModelIndex &index, int role) const
                 return QString("middle%1").arg(index.row());
             else if (m_navigationId.startsWith("middle"))
                 return QString("child%1%2").arg(m_navigationId).arg(index.row());
+            else if (m_navigationId.startsWith("childmiddle"))
+                return QString("grandchild%1%2").arg(m_navigationId).arg(index.row());
         case RoleLabel:
             return QString("%1Child%2").arg(m_navigationId).arg(index.row());
+        case RoleAllLabel:
+            return QString("all%1Child%2").arg(m_navigationId).arg(index.row());
         case RoleHasChildren:
-            return m_navigationId == "root" && index.row() != 3;
+            return (m_navigationId == "root" && index.row() != 3) || (m_navigationId == "middle4");
         case RoleIsActive:
-            if (m_navigationId.startsWith("alt")) {
-                return m_scope->currentAltNavigationId() == data(index, RoleNavigationId);
-            } else {
-                return m_scope->currentNavigationId() == data(index, RoleNavigationId);
-            }
+            return m_scope->currentNavigationId() == data(index, RoleNavigationId);
     }
     return QVariant();
 }

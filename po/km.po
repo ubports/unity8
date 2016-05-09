@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-10 22:48+0000\n"
+"POT-Creation-Date: 2016-05-04 18:09+0000\n"
 "PO-Revision-Date: 2014-08-20 02:48+0000\n"
 "Last-Translator: Sophea Sok <sksophea@gmail.com>\n"
 "Language-Team: Khmer <km@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-03-13 05:51+0000\n"
-"X-Generator: Launchpad (build 17939)\n"
+"X-Launchpad-Export-Date: 2016-05-06 04:54+0000\n"
+"X-Generator: Launchpad (build 17995)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -29,7 +29,7 @@ msgstr "ភ្ជាប់​ផ្លូវកាត់"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:53
 msgid "Quit"
-msgstr ""
+msgstr "ចាកចេញ"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:107
 msgid "Unpin shortcut"
@@ -73,53 +73,35 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "ចេញ"
 
-#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:194
-#: qml/Components/Dialogs.qml:253
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
+#: qml/Dash/DashPageHeader.qml:298 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "បោះបង់"
 
 #: qml/Components/Dialogs.qml:173
-msgctxt "Title: Reboot/Shut down dialog"
-msgid "Shut down"
-msgstr "បិទ"
-
-#: qml/Components/Dialogs.qml:174
-msgid "Are you sure you want to shut down?"
-msgstr "តើ​អ្នក​ពិតជា​ចង់​បិទ​មែន​ឬ?"
-
-#: qml/Components/Dialogs.qml:176
-msgctxt "Button: Reboot the system"
-msgid "Reboot"
-msgstr "ចាប់ផ្ដើម​ឡើងវិញ"
-
-#: qml/Components/Dialogs.qml:185
-msgctxt "Button: Shut down the system"
-msgid "Shut down"
-msgstr "បិទ"
-
-#: qml/Components/Dialogs.qml:207
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "ចាប់ផ្ដើម​ឡើងវិញ"
 
-#: qml/Components/Dialogs.qml:208
+#: qml/Components/Dialogs.qml:174
 msgid "Are you sure you want to reboot?"
 msgstr "តើ​អ្នក​ពិតជា​ចង់​ចាប់ផ្ដើម​ឡើងវិញ​មែន​ឬ?"
 
-#: qml/Components/Dialogs.qml:210
+#: qml/Components/Dialogs.qml:176
 msgid "No"
 msgstr "ទេ"
 
-#: qml/Components/Dialogs.qml:217
+#: qml/Components/Dialogs.qml:182
 msgid "Yes"
 msgstr "បាទ/ចាស"
 
-#: qml/Components/Dialogs.qml:232
+#: qml/Components/Dialogs.qml:197
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "ថាមពល"
 
-#: qml/Components/Dialogs.qml:233
+#: qml/Components/Dialogs.qml:198
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -127,12 +109,12 @@ msgstr ""
 "តើ​អ្នក​ពិតជា​ចង់\n"
 "បិទ​មែន​ឬ?"
 
-#: qml/Components/Dialogs.qml:235
+#: qml/Components/Dialogs.qml:200
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "បិទ"
 
-#: qml/Components/Dialogs.qml:244
+#: qml/Components/Dialogs.qml:209
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "ចាប់ផ្ដើម​ឡើងវិញ"
@@ -173,43 +155,59 @@ msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
-msgstr ""
+msgstr "បិទ​ទាំង​អស់"
 
-#: qml/Dash/DashPageHeader.qml:270
+#: qml/Dash/DashPageHeader.qml:337
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "រក្សាទុក"
 
-#: qml/Dash/DashPageHeader.qml:277
+#: qml/Dash/DashPageHeader.qml:344
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "ស្វែងរក"
 
-#: qml/Dash/DashPageHeader.qml:287
+#: qml/Dash/DashPageHeader.qml:354
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "ការ​កំណត់"
 
-#: qml/Dash/DashPageHeader.qml:294
+#: qml/Dash/DashPageHeader.qml:361
 msgid "Remove from Favorites"
 msgstr "យក​ចេញពី​សំណព្វ"
 
-#: qml/Dash/DashPageHeader.qml:294
+#: qml/Dash/DashPageHeader.qml:361
 msgid "Add to Favorites"
 msgstr "បន្ថែម​ទៅ​សណព្វ"
 
-#: qml/Dash/GenericScopeView.qml:567 qml/Dash/GenericScopeView.qml:725
-msgid "See less"
-msgstr "មើល​តិច​ជាង"
+#: qml/Dash/FiltersPopover.qml:60
+msgid "Refine your results"
+msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:567
-msgid "See all"
-msgstr "មើល​ទាំងអស់"
+#: qml/Dash/FiltersPopover.qml:69
+msgid "Reset"
+msgstr "កំណត់​ឡើង​វិញ​"
 
-#: qml/Dash/GenericScopeView.qml:629
+#: qml/Dash/GenericScopeView.qml:579 qml/Dash/GenericScopeView.qml:764
+msgid "Show less"
+msgstr ""
+
+#: qml/Dash/GenericScopeView.qml:579
+msgid "Show all"
+msgstr ""
+
+#: qml/Dash/GenericScopeView.qml:636
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "ស្វែងរក"
+
+#: qml/Dash/PageHeaderExtraPanel.qml:55
+msgid "Recent Searches"
+msgstr ""
+
+#: qml/Dash/PageHeaderExtraPanel.qml:66
+msgid "Clear All"
+msgstr "សម្អាត​ទាំងអស់"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
@@ -278,11 +276,11 @@ msgstr "ព្យាយាម​ម្ដងទៀត"
 msgid "Tap to unlock"
 msgstr ""
 
-#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Greeter/NarrowView.qml:54
 msgid "Sorry, incorrect passphrase."
 msgstr "សូមទោស! ឃ្លា​សម្ងាត់​មិន​ត្រឹមត្រូវ។"
 
-#: qml/Greeter/NarrowView.qml:55 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passcode."
 msgstr "សូមទោស! កូដ​សម្ងាត់​មិន​ត្រឹមត្រូវ។"
 
@@ -313,7 +311,7 @@ msgstr ""
 msgid "Enter %1"
 msgstr ""
 
-#: qml/Greeter/NarrowView.qml:117 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Greeter/NarrowView.qml:117
 msgid "Enter passphrase"
 msgstr ""
 
@@ -339,7 +337,7 @@ msgstr ""
 msgid "Sorry, incorrect passcode"
 msgstr "សូមទោស! កូដ​សម្ងាត់​មិន​ត្រឹមត្រូវ"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:129
+#: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
 msgstr "បង្ហាញ​ពាក្យ​សម្ងាត់"
 
@@ -351,62 +349,59 @@ msgstr "ប៉ះ​ដើម្បី​ត្រឡប់​ទៅ​ការ
 msgid "Conference"
 msgstr "សន្និសីទ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:752
+#: qml/Panel/Indicators/MenuItemFactory.qml:762
 msgid "Nothing is playing"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:881
+#: qml/Panel/Indicators/MenuItemFactory.qml:891
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 ម៉ោង"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:885
+#: qml/Panel/Indicators/MenuItemFactory.qml:895
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 នាទី"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:890
+#: qml/Panel/Indicators/MenuItemFactory.qml:900
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 វិនាទី"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:893
+#: qml/Panel/Indicators/MenuItemFactory.qml:903
 msgid "0 seconds"
-msgstr ""
+msgstr "០ វិនាទី"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:895
+#: qml/Panel/Indicators/MenuItemFactory.qml:905
 #, qt-format
 msgid "%1 remaining"
-msgstr ""
+msgstr "នៅ​សល់ %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:901
+#: qml/Panel/Indicators/MenuItemFactory.qml:911
 msgid "In queue…"
 msgstr "ក្នុងជួរ…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:905
+#: qml/Panel/Indicators/MenuItemFactory.qml:915
 msgid "Downloading"
 msgstr "ទាញយក"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:907
+#: qml/Panel/Indicators/MenuItemFactory.qml:917
 msgid "Paused, tap to resume"
 msgstr "បាន​ផ្អាក, ប៉ះ ដើម្បីបន្ត"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:909
+#: qml/Panel/Indicators/MenuItemFactory.qml:919
 msgid "Canceled"
 msgstr "បាន​បោះបង់"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:911
+#: qml/Panel/Indicators/MenuItemFactory.qml:921
 msgid "Finished"
 msgstr "បាន​បញ្ចប់"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:913
+#: qml/Panel/Indicators/MenuItemFactory.qml:923
 msgid "Failed, tap to retry"
 msgstr "បាន​បរាជ័យ ប៉ះ​ ដើម្បី​ព្យាយាម​ម្ដង​ទៀត"
 
@@ -414,7 +409,7 @@ msgstr "បាន​បរាជ័យ ប៉ះ​ ដើម្បី​ព្�
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "ផ្ញើ"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
@@ -424,246 +419,326 @@ msgstr "ឆ្លើយតប"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
 msgctxt "Button: Call back on phone"
 msgid "Call back"
+msgstr "ហៅ​មកវិញ"
+
+#: qml/Stages/SideStage.qml:76
+msgid "Drag using 3 fingers any application from one window to the other"
 msgstr ""
 
-#: qml/Tutorial/TutorialBottom.qml:28
-msgid "Open special menus"
+#: qml/Tutorial/TutorialBottom.qml:78
+msgid "Swipe up to add a contact"
 msgstr ""
 
-#: qml/Tutorial/TutorialBottom.qml:29
-msgid "Swipe up from the bottom edge."
+#: qml/Tutorial/TutorialBottom.qml:80
+msgid "Swipe up for favorite calculations"
 msgstr ""
 
-#: qml/Tutorial/TutorialBottomFinish.qml:24
-msgid "This action does different things for different apps"
+#: qml/Tutorial/TutorialBottom.qml:82
+msgid "Swipe up for recent calls"
 msgstr ""
 
-#: qml/Tutorial/TutorialBottomFinish.qml:25
-msgid "Tap here to finish."
+#: qml/Tutorial/TutorialBottom.qml:84
+msgid "Swipe up to create a message"
 msgstr ""
 
-#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
-#: qml/Tutorial/TutorialRight.qml:144
-msgid "Tap here to continue."
+#: qml/Tutorial/TutorialBottom.qml:85
+msgid "Swipe up to manage the app"
 msgstr ""
 
-#: qml/Tutorial/TutorialLeft.qml:26
-msgid "Open the launcher"
+#: qml/Tutorial/TutorialLeftLong.qml:47
+msgid "Long swipe from the left edge to open the Today scope"
 msgstr ""
 
-#: qml/Tutorial/TutorialLeft.qml:27
-msgid "Short swipe from the left edge."
+#: qml/Tutorial/TutorialLeft.qml:47
+msgid "Swipe from the left edge to open the launcher"
 msgstr ""
 
-#: qml/Tutorial/TutorialLeftFinish.qml:24
-msgid "These are the shortcuts to favorite apps"
+#: qml/Tutorial/TutorialRight.qml:55
+msgid "Push your mouse against the right edge to view your open apps"
 msgstr ""
 
-#: qml/Tutorial/TutorialPage.qml:178
-msgid "You almost got it!"
+#: qml/Tutorial/TutorialRight.qml:56
+msgid "Short or long swipe from the right edge to view your open apps"
 msgstr ""
 
-#: qml/Tutorial/TutorialPage.qml:195
-msgid "Try again."
+#: qml/Tutorial/TutorialTop.qml:53
+msgid "Swipe from the top right edge to open the notification bar"
 msgstr ""
 
-#: qml/Tutorial/TutorialRight.qml:31
-msgid "To view open apps"
+#: qml/Tutorial/TutorialTop.qml:54
+msgid "Swipe from the top edge to open the notification bar"
 msgstr ""
 
-#: qml/Tutorial/TutorialRight.qml:32
-msgid "Long swipe from the right edge."
-msgstr ""
-
-#: qml/Tutorial/TutorialRight.qml:122
-msgid "View all your running tasks."
-msgstr ""
-
-#: qml/Wizard/Page.qml:89
+#: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "ថយក្រោយ"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
-msgid "Hi!"
-msgstr "សួស្ដី!"
+msgid "Language"
+msgstr "ភាសា"
 
-#: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu device."
-msgstr ""
+#: qml/Wizard/Pages/10-welcome.qml:156 qml/Wizard/Pages/30-wifi.qml:206
+#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:267
+#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
+#: qml/Wizard/Pages/75-report-check.qml:84
+#: qml/Wizard/Pages/passcode-desktop.qml:124
+#: qml/Wizard/Pages/password-set.qml:141
+msgid "Next"
+msgstr "បន្ទាប់"
 
-#: qml/Wizard/Pages/10-welcome.qml:52
-msgid "Let’s get started."
-msgstr "តោះ​ចាប់ផ្ដើម។"
-
-#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:133
-#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
-#: qml/Wizard/Pages/60-reporting.qml:60 qml/Wizard/Pages/passwd-confirm.qml:82
-#: qml/Wizard/Pages/passwd-set.qml:90
-msgid "Continue"
-msgstr "បន្ត"
-
-#: qml/Wizard/Pages/20-sim.qml:25
-msgid "Add a SIM card and restart your device"
-msgstr ""
-
-#: qml/Wizard/Pages/20-sim.qml:59
-msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr ""
-
-#: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
-msgid "Skip"
-msgstr "រំលង"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:39
-msgid "Lock security"
-msgstr "ចាក់សោ​សុវត្ថិភាព"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your device."
-msgstr ""
-
-#: qml/Wizard/Pages/30-passwd-type.qml:102
-msgctxt "Label: Type of security method"
-msgid "Swipe"
-msgstr "រុញ"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:103
-msgctxt "Label: Description of security method"
-msgid "No security"
-msgstr ""
-
-#: qml/Wizard/Pages/30-passwd-type.qml:105
-msgctxt "Label: Type of security method"
-msgid "Passcode"
-msgstr ""
-
-#: qml/Wizard/Pages/30-passwd-type.qml:106
-msgctxt "Label: Description of security method"
-msgid "4 digits only"
-msgstr ""
-
-#: qml/Wizard/Pages/30-passwd-type.qml:108
-msgctxt "Label: Type of security method"
-msgid "Passphrase"
-msgstr "ឃ្លាសម្ងាត់"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:109
-msgctxt "Label: Description of security method"
-msgid "Numbers and letters"
-msgstr ""
-
-#: qml/Wizard/Pages/40-wifi.qml:29
+#: qml/Wizard/Pages/30-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr ""
 
-#: qml/Wizard/Pages/40-wifi.qml:168
-msgid "Available networks…"
+#: qml/Wizard/Pages/30-wifi.qml:130
+msgid "Connected"
+msgstr "បាន​តភ្ជាប់"
+
+#: qml/Wizard/Pages/30-wifi.qml:163
+msgid "Available Wi-Fi networks"
 msgstr ""
 
-#: qml/Wizard/Pages/40-wifi.qml:169
-msgid "No available networks."
+#: qml/Wizard/Pages/30-wifi.qml:164
+msgid "No available Wi-Fi networks"
 msgstr ""
 
-#: qml/Wizard/Pages/50-location.qml:27
-msgid "Location"
-msgstr "ទីតាំង"
+#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/sim.qml:101
+msgid "Skip"
+msgstr "រំលង"
 
-#: qml/Wizard/Pages/50-location.qml:62
-msgid "Let the phone detect your location:"
+#: qml/Wizard/Pages/40-location.qml:27
+msgid "Location Services"
 msgstr ""
 
-#: qml/Wizard/Pages/50-location.qml:69
-msgid "Using GPS only (less accurate)"
-msgstr ""
-
-#: qml/Wizard/Pages/50-location.qml:86
-msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
-msgstr ""
-
-#. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
-#: qml/Wizard/Pages/50-location.qml:103
+#: qml/Wizard/Pages/40-location.qml:83
 msgid ""
-"By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-"conditions</a>."
+"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
+"(recommended)"
 msgstr ""
 
-#: qml/Wizard/Pages/50-location.qml:112
-msgid "Not at all"
+#: qml/Wizard/Pages/40-location.qml:105
+#, qt-format
+msgid "By selecting this option you agree to the Nokia HERE %1."
 msgstr ""
 
-#: qml/Wizard/Pages/50-location.qml:124
-msgid "You can change your mind later in <b>System Settings</b>."
+#: qml/Wizard/Pages/40-location.qml:106
+msgctxt "part of: Nokia HERE terms and conditions"
+msgid "terms and conditions"
 msgstr ""
 
-#: qml/Wizard/Pages/60-reporting.qml:26
-msgid "Improving your experience"
+#: qml/Wizard/Pages/40-location.qml:160
+msgid "GPS only"
 msgstr ""
 
-#: qml/Wizard/Pages/60-reporting.qml:46
-msgid ""
-"Your phone is set up to automatically report errors to Canonical and its "
-"partners, the makers of the operating system."
+#: qml/Wizard/Pages/40-location.qml:214
+msgid "Don't use my location"
 msgstr ""
 
-#: qml/Wizard/Pages/60-reporting.qml:53
-msgid ""
-"This can be disabled in <b>System Settings</b> under <b>Security &amp; "
-"Privacy</b>"
+#: qml/Wizard/Pages/40-location.qml:260
+msgid "You can change it later in System Settings."
 msgstr ""
 
-#: qml/Wizard/Pages/80-finished.qml:24
-msgid "All done"
-msgstr "ធ្វើ​រួច​ទាំងអស់"
+#: qml/Wizard/Pages/50-timezone.qml:29
+msgid "Time Zone"
+msgstr "តំបន់​ពេល​វេលា"
 
-#: qml/Wizard/Pages/80-finished.qml:39
-msgid "Nice work!"
-msgstr "ដំណើរការ​ល្អ!"
-
-#: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your device is now ready to use."
+#: qml/Wizard/Pages/50-timezone.qml:178
+msgid "Enter your city"
 msgstr ""
 
-#: qml/Wizard/Pages/80-finished.qml:53
-msgid "Finish"
-msgstr "បញ្ចប់"
+#: qml/Wizard/Pages/60-account.qml:24
+msgid "Personalize Your Device"
+msgstr ""
 
-#: qml/Wizard/Pages/here-terms.qml:27
+#: qml/Wizard/Pages/60-account.qml:48
+msgid "Preferred Name"
+msgstr ""
+
+#: qml/Wizard/Pages/70-passwd-type.qml:39
+msgid "Lock Screen"
+msgstr "​អេក្រង់ចាក់សោ"
+
+#: qml/Wizard/Pages/70-passwd-type.qml:101
+msgctxt "Label: Type of security method"
+msgid "Create new password"
+msgstr ""
+
+#: qml/Wizard/Pages/70-passwd-type.qml:103
+msgctxt "Label: Type of security method"
+msgid "Create passcode (numbers only)"
+msgstr ""
+
+#: qml/Wizard/Pages/70-passwd-type.qml:105
+msgctxt "Label: Type of security method"
+msgid "No lock code"
+msgstr ""
+
+#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
+msgid "Privacy Policy"
+msgstr "គោលនយោបាយ​ភាព​ឯកជន"
+
+#: qml/Wizard/Pages/75-report-check.qml:26
+msgid "Help Us Improve"
+msgstr ""
+
+#: qml/Wizard/Pages/75-report-check.qml:59
+msgid "Improve system performance by sending us crashes and error reports."
+msgstr ""
+
+#: qml/Wizard/Pages/75-report-check.qml:60
+msgid "Privacy policy"
+msgstr "គោលនយោបាយ​ភាព​ឯកជន"
+
+#: qml/Wizard/Pages/80-finished.qml:89
+msgid "Welcome to Ubuntu"
+msgstr "សូម​ស្វាគមន៍​ការ​មកកាន់​ Ubuntu"
+
+#: qml/Wizard/Pages/80-finished.qml:104
+msgid "You are ready to use your device now"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:124
+msgid "Get Started"
+msgstr ""
+
+#: qml/Wizard/Pages/here-terms.qml:25
 msgid "Terms & Conditions"
 msgstr "លក្ខខណ្ឌ​ប្រើប្រាស់"
 
-#: qml/Wizard/Pages/passwd-confirm.qml:49
-msgid "Confirm passphrase"
-msgstr "បញ្ជាក់​ឃ្លា​សម្ងាត់"
+#: qml/Wizard/Pages/here-terms.qml:69
+msgid "Your device uses positioning technologies provided by HERE."
+msgstr ""
 
-#: qml/Wizard/Pages/passwd-confirm.qml:50
+#: qml/Wizard/Pages/here-terms.qml:81
+msgid ""
+"To provide you with positioning services and to improve their quality, HERE "
+"collects information about nearby cell towers and Wi-Fi hotspots around your "
+"current location whenever your position is being found."
+msgstr ""
+
+#: qml/Wizard/Pages/here-terms.qml:93
+msgid ""
+"The information collected is used to analyze the service and to improve the "
+"use of service, but not to identify you personally."
+msgstr ""
+
+#: qml/Wizard/Pages/here-terms.qml:106
+#, qt-format
+msgid "By continuing, you agree to the HERE platform %1 and %2."
+msgstr ""
+
+#: qml/Wizard/Pages/here-terms.qml:107
+msgid "Service Terms"
+msgstr ""
+
+#: qml/Wizard/Pages/passcode-confirm.qml:43
+#: qml/Wizard/Pages/passcode-desktop.qml:80
 msgid "Confirm passcode"
 msgstr ""
 
-#: qml/Wizard/Pages/passwd-confirm.qml:53
-#: qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Please try again."
-msgstr "សូម​ព្យាយាម​ម្ដងទៀត។"
-
-#: qml/Wizard/Pages/passwd-set.qml:61
-msgid "Choose your passcode"
+#: qml/Wizard/Pages/passcode-confirm.qml:45
+msgid "Incorrect passcode."
 msgstr ""
 
-#: qml/Wizard/Pages/passwd-set.qml:68
-msgid "Passphrase must be 4 characters long"
+#: qml/Wizard/Pages/passcode-confirm.qml:45
+msgctxt "Enter the passcode again"
+msgid "Please re-enter."
 msgstr ""
 
-#. Translators: This is the arrow for "Back" buttons
-#: qml/Wizard/StackButton.qml:39
-#, qt-format
-msgid "〈  %1"
-msgstr "〈  %1"
+#: qml/Wizard/Pages/passcode-desktop.qml:30
+msgid "Lock Screen Passcode"
+msgstr ""
 
-#. Translators: This is the arrow for "Forward" buttons
-#: qml/Wizard/StackButton.qml:42
-#, qt-format
-msgid "%1  〉"
-msgstr "%1  〉"
+#: qml/Wizard/Pages/passcode-desktop.qml:56
+msgid "Enter 4 numbers to setup your passcode"
+msgstr ""
+
+#: qml/Wizard/Pages/passcode-desktop.qml:65
+#: qml/Wizard/Pages/passcode-set.qml:54
+msgid "Choose passcode"
+msgstr ""
+
+#: qml/Wizard/Pages/passcode-desktop.qml:105
+msgid "Passcode too short"
+msgstr ""
+
+#: qml/Wizard/Pages/passcode-desktop.qml:107
+msgid "Passcodes match"
+msgstr ""
+
+#: qml/Wizard/Pages/passcode-desktop.qml:109
+msgid "Passcodes do not match"
+msgstr ""
+
+#: qml/Wizard/Pages/passcode-set.qml:62
+msgid "Passcode must be 4 characters long"
+msgstr ""
+
+#: qml/Wizard/Pages/password-set.qml:30
+msgid "Lock Screen Password"
+msgstr ""
+
+#: qml/Wizard/Pages/password-set.qml:61
+msgid "Enter at least 8 characters"
+msgstr ""
+
+#: qml/Wizard/Pages/password-set.qml:73
+msgid "Choose password"
+msgstr ""
+
+#: qml/Wizard/Pages/password-set.qml:103
+msgid "Confirm password"
+msgstr "បញ្ជាក់​ពាក្យ​សម្ងាត់"
+
+#: qml/Wizard/Pages/sim.qml:27
+msgid "No SIM card installed"
+msgstr ""
+
+#: qml/Wizard/Pages/sim.qml:54
+msgid "SIM card added"
+msgstr ""
+
+#: qml/Wizard/Pages/sim.qml:55
+msgid "You must restart the device to access the mobile network."
+msgstr ""
+
+#: qml/Wizard/Pages/sim.qml:59
+msgid "Restart"
+msgstr "ចាប់​ផ្ដើម​ឡើង​វិញ"
+
+#: qml/Wizard/Pages/sim.qml:78
+msgid "You won’t be able to make calls or use text messaging without a SIM."
+msgstr ""
+
+#: qml/Wizard/Pages/sim.qml:90
+msgid "To proceed with no SIM tap Skip."
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:87
+msgid "Passwords match"
+msgstr "ពាក្យ​សម្ងាត់​ត្រូវ​គ្នា​ហើយ"
+
+#: qml/Wizard/PasswordMeter.qml:89
+msgid "Passwords do not match"
+msgstr "ពាក្យ​សម្ងាត់​មិន​ដូច​គ្នា​ទេ"
+
+#: qml/Wizard/PasswordMeter.qml:93
+msgid "Strong password"
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:95
+msgid "Fair password"
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:97
+msgid "Weak password"
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:99
+msgid "Very weak password"
+msgstr ""
 
 #~ msgid "Try swiping from the right edge to unlock the phone"
 #~ msgstr "សាកល្បង​​អូស​ពី​គែម​ស្ដាំ​ ដើម្បី​ដោះ​សោ​ទូរស័ព្ទ"
@@ -722,6 +797,12 @@ msgstr "%1  〉"
 #~ "ឥឡូវ​អ្នក​បាន​ពិនិត្យ​កាយវិការ​គែម​ "
 #~ "និង​អាច​ចាប់ផ្ដើម​ប្រើ​ទូរស័ព្ទ<br><br>ប៉ះ លើ​អេក្រង់​ដើម្បី​ចាប់ផ្ដើម"
 
+#~ msgid "See less"
+#~ msgstr "មើល​តិច​ជាង"
+
+#~ msgid "See all"
+#~ msgstr "មើល​ទាំងអស់"
+
 #~ msgid "All"
 #~ msgstr "ទាំងអស់"
 
@@ -749,6 +830,9 @@ msgstr "%1  〉"
 #~ msgid "Log out"
 #~ msgstr "ចេញ"
 
+#~ msgid "Are you sure you want to shut down?"
+#~ msgstr "តើ​អ្នក​ពិតជា​ចង់​បិទ​មែន​ឬ?"
+
 #~ msgid "Shut down"
 #~ msgstr "បិទ"
 
@@ -758,11 +842,66 @@ msgstr "%1  〉"
 #~ msgid "Settings"
 #~ msgstr "ការកំណត់"
 
-#~ msgid "Restart"
-#~ msgstr "ចាប់​ផ្ដើម​ឡើង​វិញ"
+#~ msgctxt "Button: Reboot the system"
+#~ msgid "Reboot"
+#~ msgstr "ចាប់ផ្ដើម​ឡើងវិញ"
+
+#~ msgctxt "Button: Shut down the system"
+#~ msgid "Shut down"
+#~ msgstr "បិទ"
+
+#~ msgctxt "Title: Reboot/Shut down dialog"
+#~ msgid "Shut down"
+#~ msgstr "បិទ"
+
+#~ msgid "Hi!"
+#~ msgstr "សួស្ដី!"
 
 #~ msgid "Welcome to your Ubuntu phone."
 #~ msgstr "សូម​ស្វាគមន៍​មកកាន់​ទូរស័ព្ទ Ubuntu ។"
 
+#~ msgid "Lock security"
+#~ msgstr "ចាក់សោ​សុវត្ថិភាព"
+
+#~ msgctxt "Label: Type of security method"
+#~ msgid "Swipe"
+#~ msgstr "រុញ"
+
+#~ msgid "Let’s get started."
+#~ msgstr "តោះ​ចាប់ផ្ដើម។"
+
+#~ msgid "Continue"
+#~ msgstr "បន្ត"
+
+#~ msgid "Location"
+#~ msgstr "ទីតាំង"
+
+#~ msgctxt "Label: Type of security method"
+#~ msgid "Passphrase"
+#~ msgstr "ឃ្លាសម្ងាត់"
+
+#~ msgid "Nice work!"
+#~ msgstr "ដំណើរការ​ល្អ!"
+
+#~ msgid "All done"
+#~ msgstr "ធ្វើ​រួច​ទាំងអស់"
+
+#~ msgid "Finish"
+#~ msgstr "បញ្ចប់"
+
 #~ msgid "Your phone is now ready to use."
 #~ msgstr "ទូរស័ព្ទ​របស់​អ្នក​ឥឡូវ​អាច​ប្រើ​បាន។"
+
+#~ msgid "Confirm passphrase"
+#~ msgstr "បញ្ជាក់​ឃ្លា​សម្ងាត់"
+
+#, qt-format
+#~ msgid "〈  %1"
+#~ msgstr "〈  %1"
+
+#, qt-format
+#~ msgid "%1  〉"
+#~ msgstr "%1  〉"
+
+#~ msgid "Please try again."
+#~ msgstr "សូម​ព្យាយាម​ម្ដងទៀត។"
