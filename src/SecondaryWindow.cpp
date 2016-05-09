@@ -30,7 +30,7 @@ SecondaryWindow::SecondaryWindow(QQmlEngine *engine)
     if (!ok) {
         pxpgu = 8;
     }
-    engine->rootContext()->setContextProperty("internalGu", pxpgu);
+    engine->rootContext()->setContextProperty(QStringLiteral("internalGu"), pxpgu);
     setResizeMode(QQuickView::SizeRootObjectToView);
     setColor("black");
     setTitle(QStringLiteral("Unity8 Shell - Secondary Screen"));
