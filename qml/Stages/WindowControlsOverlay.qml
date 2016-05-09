@@ -103,7 +103,7 @@ Item {
         objectName: "windowControlsOverlay"
         anchors.fill: parent
         visible: target.surface == MirFocusController.focusedSurface && overlayTimer.running
-        opacity: visible ? 1 : 0
+        opacity: visible ? 0.95 : 0
 
         Behavior on opacity {
             OpacityAnimator { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
