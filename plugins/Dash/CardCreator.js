@@ -62,7 +62,7 @@ var kBackgroundLoaderCode = 'Loader {\n\
 // %1 is used as anchors of artShapeHolder
 // %2 is used as image width
 // %3 is used as image height
-// %4 is used for artShapeSource.hideSource and inner Loader visible
+// %4 is whether the image or the Loader with the UbuntuShape/ProportionalShape should be visible
 // %5 is used as aspect ratio fallback
 // %6 is whether the loader should be asynchronous or not
 // %7 is injected as code to artImage
@@ -84,14 +84,6 @@ var kArtShapeHolderCode = 'Item { \n\
                                     objectName: "artShape"; \n\
                                     visible: image.status == Image.Ready; \n\
                                     readonly property alias image: artImage; \n\
-                                    ShaderEffectSource { \n\
-                                        id: artShapeSource; \n\
-                                        sourceItem: artImage; \n\
-                                        anchors.centerIn: parent; \n\
-                                        width: 1; \n\
-                                        height: 1; \n\
-                                        hideSource: %4; \n\
-                                    } \n\
                                     Loader { \n\
                                         anchors.fill: parent; \n\
                                         visible: %4; \n\
@@ -99,7 +91,7 @@ var kArtShapeHolderCode = 'Item { \n\
                                         Component { \n\
                                             id: artShapeShapeComponent; \n\
                                             UbuntuShape { \n\
-                                                source: artShapeSource; \n\
+                                                source: artImage; \n\
                                                 sourceFillMode: UbuntuShape.PreserveAspectCrop; \n\
                                                 radius: "medium"; \n\
                                                 aspect: { \n\
@@ -114,7 +106,7 @@ var kArtShapeHolderCode = 'Item { \n\
                                         } \n\
                                         Component { \n\
                                             id: artShapeIconComponent; \n\
-                                            ProportionalShape { source: artShapeSource; aspect: UbuntuShape.DropShadow; } \n\
+                                            ProportionalShape { source: artImage; aspect: UbuntuShape.DropShadow; } \n\
                                         } \n\
                                     } \n\
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1; \n\
@@ -135,6 +127,7 @@ var kArtShapeHolderCode = 'Item { \n\
                                         objectName: "artImage"; \n\
                                         source: artShapeLoader.cardArt; \n\
                                         asynchronous: %6; \n\
+                                        visible: !%4; \n\
                                         width: %2; \n\
                                         height: %3; \n\
                                         %7 \n\
@@ -358,6 +351,17 @@ var kAttributesRowCode = 'CardAttributes { \n\
                             model: cardData && cardData["attributes"]; \n\
                           }\n';
 
+// %1 is used as anchors of socialActionsRow
+// %2 is used as color of socialActionsRow
+var kSocialActionsRowCode = 'CardSocialActions { \n\
+                               id: socialActionsRow; \n\
+                               objectName: "socialActionsRow"; \n\
+                               anchors { %1 } \n\
+                               color: %2; \n\
+                               model: cardData && cardData["socialActions"]; \n\
+                               onClicked: root.action(actionId); \n\
+                             }\n';
+
 // %1 is used as top anchor of summary
 // %2 is used as topMargin anchor of summary
 // %3 is used as color of summary
@@ -444,9 +448,11 @@ function cardString(template, components, isCardTool) {
     var hasSubtitle = hasTitle && components["subtitle"] || false;
     var hasHeaderRow = hasMascot && hasTitle;
     var hasAttributes = hasTitle && components["attributes"] && components["attributes"]["field"] || false;
+    var hasSocialActions = hasTitle && components["social-actions"] || false;
     var isAudio = template["quick-preview-type"] === "audio";
     var asynchronous = isCardTool ? "false" : "true";
 
+    code += 'signal action(var actionId);\n';
     if (isAudio) {
         // For now we only support audio cards with [optional] art, title, subtitle
         // in horizontal mode
@@ -848,6 +854,34 @@ function cardString(template, components, isCardTool) {
         code += kSummaryLabelCode.arg(summaryTopAnchor).arg(summaryTopMargin).arg(summaryColor);
     }
 
+    if (hasSocialActions) {
+        var socialAnchors;
+        var socialTopAnchor;
+
+        if (hasSummary) socialTopAnchor = 'summary.bottom;';
+        else if (isHorizontal && hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
+        else if (headerAsOverlay && hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
+        else if (hasHeaderRow) socialTopAnchor = 'row.bottom;';
+        else if (hasTitleContainer) socialTopAnchor = 'headerTitleContainer.bottom;';
+        else if (hasMascot) socialTopAnchor = 'mascotImage.bottom;';
+        else if (hasAttributes) socialTopAnchor = 'attributesRow.bottom;';
+        else if (hasSubtitle) socialTopAnchor = 'subtitleLabel.bottom;';
+        else if (hasTitle) socialTopAnchor = 'titleLabel.bottom;';
+        else if (hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
+        else socialTopAnchor = 'parent.top';
+
+        socialAnchors = 'top: ' + socialTopAnchor + ' left: parent.left; right: parent.right; topMargin: units.gu(1);'
+
+        var socialColor;
+        if (hasBackground) {
+            socialColor = summaryColorWithBackground;
+        } else {
+            socialColor = 'root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText';
+        }
+
+        code += kSocialActionsRowCode.arg(socialAnchors).arg(socialColor);
+    }
+
     var touchdownAnchors;
     if (hasBackground) {
         touchdownAnchors = 'fill: backgroundLoader';
@@ -859,7 +893,9 @@ function cardString(template, components, isCardTool) {
     code += kTouchdownCode.arg(touchdownAnchors);
 
     var implicitHeight = 'implicitHeight: ';
-    if (hasSummary) {
+    if (hasSocialActions) {
+        implicitHeight += 'socialActionsRow.y + socialActionsRow.height + units.gu(1);\n';
+    } else if (hasSummary) {
         implicitHeight += 'summary.y + summary.height + units.gu(1);\n';
     } else if (isAudio) {
         implicitHeight += 'audioButton.height;\n';

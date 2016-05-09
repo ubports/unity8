@@ -19,10 +19,14 @@
 #include "fake_optionselectorfilter.h"
 #include "fake_rangeinputfilter.h"
 #include "fake_valuesliderfilter.h"
-#include "fake_scope.h"
+#include "fake_expandablefilterwidget.h"
 
-Filters::Filters(Scope* parent)
+Filters::Filters(QObject* parent)
  : unity::shell::scopes::FiltersInterface(parent)
+{
+}
+
+void Filters::addFakeFilters()
 {
     addFilter(new FakeOptionSelectorFilter("OSF1", "Tag1", "Which Cake you like More", false, QStringList() << "cheese" << "carrot" << "chocolate", this));
 
@@ -41,6 +45,11 @@ Filters::Filters(Scope* parent)
     addFilter(vsf);
 
     addFilter(new FakeOptionSelectorFilter("OSF2", "Tag2", "Which Countries have you been to?", true, QStringList() << "Germany" << "UK" << "New Zealand", this));
+
+    auto expandableFilter = new FakeExpandbleFilterWidget("EFW", "Tag5", "Advanced Settings", this);
+    expandableFilter->addFilter(new FakeValueSliderFilter("VS2", "Tag6", 15, 10, 150, labels, this));
+
+    addFilter(expandableFilter);
 }
 
 void Filters::addFilter(unity::shell::scopes::FilterBaseInterface *f)
@@ -58,9 +67,10 @@ void Filters::addFilter(unity::shell::scopes::FilterBaseInterface *f)
         }
         break;
 
-        case FiltersInterface::ValueSliderFilter: {
-            // Not counting value slider as active in the mock
-        }
+        case FiltersInterface::ExpandableFilterWidget:
+            // Can't be active
+        case FiltersInterface::ValueSliderFilter:
+            // Not counting value as active in the mock
 
         case Invalid:
         break;
@@ -113,9 +123,10 @@ int Filters::activeFiltersCount() const
             }
             break;
 
-            case FiltersInterface::ValueSliderFilter: {
-                // Not counting value slider as active in the mock
-            }
+            case FiltersInterface::ExpandableFilterWidget:
+                // Can't be active
+            case FiltersInterface::ValueSliderFilter:
+                // Not counting value as active in the mock
 
             case Invalid:
             break;

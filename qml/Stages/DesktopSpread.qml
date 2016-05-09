@@ -170,6 +170,8 @@ FocusScope {
                 property int itemScaleOriginX: 0
                 property int itemScaleOriginY: 0
 
+                readonly property string windowTitle: clippedSpreadDelegate.window.title
+
                 Behavior on x {
                     id: closeBehavior
                     enabled: spreadRepeater.closingIndex >= 0
@@ -326,9 +328,7 @@ FocusScope {
                         Label {
                             Layout.fillWidth: true
                             Layout.preferredHeight: units.gu(6)
-                            property string surfaceName: model.surface ? model.surface.name : ""
-                            property string applicationName: model.application ? model.application.name : ""
-                            text: surfaceName ? surfaceName : applicationName
+                            text: model.application ? model.application.name : spreadDelegate.windowTitle
                             wrapMode: Text.WordWrap
                             elide: Text.ElideRight
                             maximumLineCount: 2
@@ -527,7 +527,7 @@ FocusScope {
     Label {
         id: currentSelectedLabel
         anchors { bottom: parent.bottom; bottomMargin: root.height * 0.625; horizontalCenter: parent.horizontalCenter }
-        text: spreadRepeater.highlightedIndex >= 0 ? topLevelSurfaceList.surfaceAt(spreadRepeater.highlightedIndex).name : ""
+        text: spreadRepeater.highlightedIndex >= 0 ? spreadRepeater.itemAt(spreadRepeater.highlightedIndex).windowTitle: ""
         visible: false
         fontSize: "large"
     }

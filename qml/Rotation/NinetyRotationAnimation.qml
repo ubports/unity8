@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,8 +30,7 @@ SequentialAnimation {
 
     ScriptAction { script: {
         info.transitioning = true;
-        windowScreenshot.take();
-        windowScreenshot.visible = true;
+
         shell.orientationAngle = root.toAngle;
         shell.x = 0;
         shell.width = flipShellDimensions ? orientedShell.height : orientedShell.width;
@@ -41,12 +40,10 @@ SequentialAnimation {
         shell.updateFocusedAppOrientation();
         shellCover.visible = true;
 
-        windowScreenshot.transformOriginX = orientedShell.width / 2;
-        if (fromAngle == 180 || fromAngle == 270) {
-            windowScreenshot.transformOriginY = orientedShell.height - (orientedShell.width / 2);
-        } else {
-            windowScreenshot.transformOriginY = orientedShell.width / 2;
-        }
+        shellSnapshot.transformOriginX = shell.transformOriginX;
+        shellSnapshot.transformOriginY = shell.transformOriginY;
+        shellSnapshot.transformRotationAngle = shell.transformRotationAngle;
+        shellSnapshot.visible = true;
     } }
     ParallelAnimation {
         NumberAnimation {
@@ -66,24 +63,25 @@ SequentialAnimation {
         }
 
         NumberAnimation {
-            target: windowScreenshot; property: "opacity"; from: 1; to: 0;
+            target: shellSnapshot; property: "opacity"; from: 1; to: 0;
             duration: rotationDuration; easing.type: rotationEasing
         }
         RotationAnimation {
-            target: windowScreenshot; property: "transformRotationAngle";
-            from: 0; to: root.toAngle - root.fromAngle
+            target: shellSnapshot; property: "transformRotationAngle";
+            from: root.fromAngle; to: root.toAngle
             direction: RotationAnimation.Shortest
             duration: rotationDuration; easing.type: rotationEasing
         }
         NumberAnimation {
-            target: windowScreenshot; property: "y"
-            from: 0; to: root.toY - root.fromY
+            target: shellSnapshot; property: "y"
+            from: root.fromY; to: root.toY
             duration: rotationDuration; easing.type: rotationEasing
         }
     }
+    UpdateShellTransformations { info: root.info; shell: root.shell }
     ScriptAction { script: {
-        windowScreenshot.visible = false;
-        windowScreenshot.discard();
+        shellSnapshot.visible = false;
+        shellSnapshot.discard();
         shellCover.visible = false;
         info.transitioning = false;
     } }
