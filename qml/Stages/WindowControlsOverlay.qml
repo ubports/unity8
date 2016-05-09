@@ -35,31 +35,24 @@ Item {
         minimumTouchPoints: 3
         maximumTouchPoints: minimumTouchPoints
         recognitionPeriod: 500
-        //releaseRejectPeriod: 500
 
         readonly property bool recognizedPress: status == TouchGestureArea.Recognized &&
                                                 touchPoints.length >= minimumTouchPoints &&
                                                 touchPoints.length <= maximumTouchPoints
         onRecognizedPressChanged: {
             if (recognizedPress && target && !target.fullscreen) {
-                print("!!! RECOGNIZED")
                 overlayTimer.start();
             }
         }
 
         readonly property bool recognizedDrag: recognizedPress && dragging
         onRecognizedDragChanged: {
-            print("Dragging:", recognizedDrag);
-            priv.handlePressedChanged(recognizedDrag, center.x, center.y);
+            priv.handlePressedChanged(recognizedDrag, tp.x, tp.y);
         }
 
-        readonly property point center: Qt.point(touchPoints[0].x, touchPoints[0].y);
-        onCenterChanged: {
-            priv.handlePositionChanged(center.x, center.y)
-        }
-
-        onStatusChanged: {
-            print("Status changed:", status)
+        readonly property point tp: Qt.point(touchPoints[0].x, touchPoints[0].y);
+        onUpdated: {
+            priv.handlePositionChanged(tp.x, tp.y)
         }
     }
 
@@ -83,7 +76,6 @@ Item {
                 var pos = mapToItem(root.target, mouseX, mouseY);
                 priv.distanceX = pos.x;
                 priv.distanceY = pos.y;
-                print("SAVING POS", priv.distanceX, priv.distanceY)
                 priv.dragging = true;
             } else {
                 priv.dragging = false;
@@ -95,7 +87,6 @@ Item {
                 var pos = mapToItem(root.target.parent, mouseX, mouseY);
                 root.target.x = pos.x - priv.distanceX;
                 root.target.y = Math.max(pos.y - priv.distanceY, PanelState.panelHeight);
-                print("MOVED TO", root.target.x, root.target.y)
             }
         }
     }
