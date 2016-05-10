@@ -21,17 +21,16 @@ import Ubuntu.Components 1.3
 
 Rectangle {
     id: root
-    width: parent.width * 2/3
-    height: parent.height * 2/3
+    width: topLayout.childrenRect.width
+    height: topLayout.childrenRect.height
     color: theme.palette.normal.background
     radius: units.gu(.5)
 
-    readonly property int maxTextSize: (root.width / 4) - padding
+    readonly property int maxTextSize: (root.parent.width / 4) - padding
     readonly property int padding: units.gu(4)
 
     GridLayout {
-        anchors.fill: parent
-        anchors.margins: padding
+        id: topLayout
         columns: 2
         columnSpacing: padding
 

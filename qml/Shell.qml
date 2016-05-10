@@ -619,7 +619,8 @@ Item {
 
         KeyboardShortcutsOverlay {
             objectName: "shortcutsOverlay"
-            visible: launcher.shortcutHintsShown
+            visible: launcher.shortcutHintsShown && width < parent.width - (launcher.lockedVisible ? launcher.panelWidth : 0)
+                     && height < parent.height
             enabled: visible
             anchors.centerIn: parent
             anchors.horizontalCenterOffset: launcher.lockedVisible ? launcher.panelWidth/2 : 0
