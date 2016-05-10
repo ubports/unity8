@@ -623,7 +623,10 @@ Item {
             enabled: visible
             anchors.centerIn: parent
             anchors.horizontalCenterOffset: launcher.lockedVisible ? launcher.panelWidth/2 : 0
-            opacity: 0.95
+            opacity: visible? 0.95 : 0
+            Behavior on opacity {
+                OpacityAnimator { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+            }
         }
 
         Tutorial {

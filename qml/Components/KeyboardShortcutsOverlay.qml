@@ -71,7 +71,7 @@ Rectangle {
             }
 
             Label {
-                text: i18n.tr("Ctrl + PrtScr")
+                text: i18n.tr("Alt + PrtScr")
                 fontSize: "small"
                 font.weight: Font.Medium
             }
