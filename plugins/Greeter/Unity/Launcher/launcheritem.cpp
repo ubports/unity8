@@ -32,6 +32,7 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
     m_countVisible(false),
     m_focused(false),
     m_alerting(false),
+    m_surfaceCount(0),
     m_quickList(new QuickListModel(this))
 {
     QuickListEntry nameAction;

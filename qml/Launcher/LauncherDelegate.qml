@@ -172,7 +172,7 @@ Item {
             Label {
                 id: countLabel
                 objectName: "countLabel"
-                text: root.surfaceCount//root.count
+                text: root.count
                 anchors.centerIn: parent
                 width: root.itemWidth - units.gu(1)
                 horizontalAlignment: Text.AlignHCenter

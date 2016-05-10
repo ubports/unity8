@@ -529,7 +529,7 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
             Q_EMIT dataChanged(index(itemIndex), index(itemIndex), {RoleRecent});
         }
         if (item->surfaceCount() != app->surfaceCount()) {
-            item->setSurfaceCount(app->surfaceList()->count());
+            item->setSurfaceCount(app->surfaceCount());
             Q_EMIT dataChanged(index(itemIndex), index(itemIndex), {RoleSurfaceCount});
         }
 
