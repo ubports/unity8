@@ -147,8 +147,8 @@ Rectangle {
 
                 reviewTextArea.text = data.inputText;
                 var reviewContainer = findChild(previewRatingInput, "reviewContainer");
-                var reviewSubmitContainer = findChild(previewRatingInput, "reviewSubmitContainer");
-                if (reviewSubmitContainer.visible) {
+                if (reviewContainer.visible) {
+                    var reviewSubmitContainer = findChild(previewRatingInput, "reviewSubmitContainer");
                     tryCompare(reviewContainer, "implicitHeight", reviewSubmitContainer.implicitHeight + reviewContainer.anchors.topMargin);
                 }
                 mouseClick(submitButton);
