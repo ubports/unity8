@@ -386,7 +386,7 @@ StyledItem {
                 objectName: "dialogListView"
                 spacing: notification.margins
 
-                visible: count > 0
+                visible: count > 0 && notification.expanded
 
                 anchors {
                     left: parent.left
