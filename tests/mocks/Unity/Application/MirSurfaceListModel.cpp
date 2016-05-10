@@ -66,7 +66,7 @@ void MirSurfaceListModel::appendSurface(MirSurface *surface)
     m_surfaceList.append(surface);
     connectSurface(surface);
     endInsertRows();
-    Q_EMIT countChanged();
+    Q_EMIT countChanged(m_surfaceList.count());
 }
 
 void MirSurfaceListModel::connectSurface(MirSurface *surface)
@@ -82,7 +82,7 @@ void MirSurfaceListModel::removeSurface(MirSurface *surface)
         beginRemoveRows(QModelIndex(), i, i);
         m_surfaceList.removeAt(i);
         endRemoveRows();
-        Q_EMIT countChanged();
+        Q_EMIT countChanged(m_surfaceList.count());
     }
 }
 

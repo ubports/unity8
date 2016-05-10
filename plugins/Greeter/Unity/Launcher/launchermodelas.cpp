@@ -69,6 +69,8 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
             return item->focused();
         case RoleRunning:
             return item->running();
+        case RoleSurfaceCount:
+            return item->surfaceCount();
     }
 
     return QVariant();

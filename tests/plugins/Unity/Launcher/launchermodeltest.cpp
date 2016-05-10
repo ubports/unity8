@@ -66,13 +66,16 @@ public:
     void setExemptFromLifecycle(bool) override {}
     QSize initialSurfaceSize() const override { return QSize(); }
     void setInitialSurfaceSize(const QSize &) override {}
-    MirSurfaceListInterface* surfaceList() override { return nullptr; }
+    MirSurfaceListInterface* surfaceList() const override { return nullptr; }
+    int surfaceCount() const override { return m_surfaceCount; }
+    void setSurfaceCount(int count) { m_surfaceCount = count; Q_EMIT surfaceCountChanged(count); }
 
     // Methods used for mocking (not in the interface)
     void setFocused(bool focused) { m_focused = focused; Q_EMIT focusedChanged(focused); }
 private:
     QString m_appId;
     bool m_focused;
+    int m_surfaceCount = 0;
 };
 
 // This is a mock, specifically to test the LauncherModel
@@ -690,6 +693,15 @@ private Q_SLOTS:
         // Make sure it changed to visible and 55
         QCOMPARE(getASConfig().at(index).value("countVisible").toBool(), true);
         QCOMPARE(getASConfig().at(index).value("count").toInt(), 55);
+    }
+
+    void testSurfaceCountUpdates() {
+        QString appId = launcherModel->get(0)->appId();
+
+        QCOMPARE(launcherModel->get(0)->surfaceCount(), 0);
+        MockApp *app = qobject_cast<MockApp*>(appManager->findApplication(appId));
+        app->setSurfaceCount(1);
+        QCOMPARE(launcherModel->get(0)->surfaceCount(), 1);
     }
 };
 

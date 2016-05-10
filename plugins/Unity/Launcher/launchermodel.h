@@ -79,6 +79,7 @@ private Q_SLOTS:
     void applicationAdded(const QModelIndex &parent, int row);
     void applicationRemoved(const QModelIndex &parent, int row);
     void focusedAppIdChanged();
+    void applicationSurfaceCountChanged(int);
 
 private:
     QList<LauncherItem*> m_list;

@@ -1283,5 +1283,20 @@ Rectangle {
 
             assertFocusOnIndex(-2);
         }
+
+        function test_surfaceCountPips() {
+            var launcherListView = findChild(launcher, "launcherListView")
+            var moveAnimation = findInvisibleChild(launcherListView, "moveAnimation")
+
+            for (var i = 0; i < launcherListView.count; i++) {
+                launcherListView.moveToIndex(i);
+                waitForRendering(launcherListView);
+                tryCompare(moveAnimation, "running", false);
+
+                var delegate = findChild(launcher, "launcherDelegate" + i);
+                var surfacePipRepeater = findInvisibleChild(delegate, "surfacePipRepeater");
+                compare(surfacePipRepeater.model, Math.min(3, LauncherModel.get(i).surfaceCount))
+            }
+        }
     }
 }

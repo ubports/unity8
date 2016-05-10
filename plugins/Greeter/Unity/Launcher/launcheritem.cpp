@@ -179,6 +179,19 @@ void LauncherItem::setAlerting(bool alerting)
     }
 }
 
+int LauncherItem::surfaceCount() const
+{
+    return m_surfaceCount;
+}
+
+void LauncherItem::setSurfaceCount(int surfaceCount)
+{
+    if (m_surfaceCount != surfaceCount) {
+        m_surfaceCount = surfaceCount;
+        Q_EMIT surfaceCountChanged(surfaceCount);
+    }
+}
+
 unity::shell::launcher::QuickListModelInterface *LauncherItem::quickList() const
 {
     return m_quickList;
