@@ -89,8 +89,32 @@ void MousePointer::itemChange(ItemChange change, const ItemChangeData &value)
 
 void MousePointer::registerWindow(QWindow *window)
 {
-    if (m_registeredWindow && window != m_registeredWindow) {
-        auto previousCursor = dynamic_cast<MirPlatformCursor*>(m_registeredWindow->screen()->handle()->cursor());
+    if (window == m_registeredWindow) {
+        return;
+    }
+
+    if (m_registeredWindow) {
+        m_registeredWindow->disconnect(this);
+    }
+
+    m_registeredWindow = window;
+
+    if (m_registeredWindow) {
+        connect(window, &QWindow::screenChanged, this, &MousePointer::registerScreen);
+        registerScreen(window->screen());
+    } else {
+        registerScreen(nullptr);
+    }
+}
+
+void MousePointer::registerScreen(QScreen *screen)
+{
+    if (m_registeredScreen == screen) {
+        return;
+    }
+
+    if (m_registeredScreen) {
+        auto previousCursor = dynamic_cast<MirPlatformCursor*>(m_registeredScreen->handle()->cursor());
         if (previousCursor) {
             previousCursor->setMousePointer(nullptr);
         } else {
@@ -98,10 +122,10 @@ void MousePointer::registerWindow(QWindow *window)
         }
     }
 
-    m_registeredWindow = window;
+    m_registeredScreen = screen;
 
-    if (m_registeredWindow) {
-        auto cursor = dynamic_cast<MirPlatformCursor*>(window->screen()->handle()->cursor());
+    if (m_registeredScreen) {
+        auto cursor = dynamic_cast<MirPlatformCursor*>(m_registeredScreen->handle()->cursor());
         if (cursor) {
             cursor->setMousePointer(this);
         } else {

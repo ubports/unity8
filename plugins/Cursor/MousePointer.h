@@ -20,6 +20,7 @@
 // Qt
 #include <QPointer>
 #include <QWindow>
+#include <QScreen>
 
 // Unity API
 #include <unity/shell/application/MirMousePointerInterface.h>
@@ -53,11 +54,15 @@ Q_SIGNALS:
 protected:
     void itemChange(ItemChange change, const ItemChangeData &value) override;
 
+private Q_SLOTS:
+    void registerScreen(QScreen *screen);
+
 private:
     void registerWindow(QWindow *window);
     void updateHotspot();
 
     QPointer<QWindow> m_registeredWindow;
+    QPointer<QScreen> m_registeredScreen;
     QString m_cursorName;
     QString m_themeName;
     int m_hotspotX;
