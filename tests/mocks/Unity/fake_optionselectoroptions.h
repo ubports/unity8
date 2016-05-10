@@ -36,6 +36,8 @@ public:
 
     bool anyChecked() const;
 
+    void clear();
+
 Q_SIGNALS:
     void anyCheckedChanged();
 

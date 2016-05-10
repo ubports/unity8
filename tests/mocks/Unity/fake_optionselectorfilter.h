@@ -37,6 +37,8 @@ public:
 
     bool isActive() const;
 
+    void clear();
+
 Q_SIGNALS:
     void isActiveChanged();
 

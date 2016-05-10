@@ -75,3 +75,16 @@ bool FakeOptionSelectorOptions::anyChecked() const
 {
     return !m_checkedIndexes.isEmpty();
 }
+
+void FakeOptionSelectorOptions::clear()
+{
+    if (!m_checkedIndexes.isEmpty()) {
+        auto checkedIndexes = m_checkedIndexes;
+        m_checkedIndexes.clear();
+        Q_FOREACH(int row, checkedIndexes) {
+            const QModelIndex idx = index(row, 0);
+            Q_EMIT dataChanged(idx, idx,  QVector<int>() << RoleOptionChecked);
+        }
+        Q_EMIT anyCheckedChanged();
+    }
+}

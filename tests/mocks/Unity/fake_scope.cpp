@@ -342,6 +342,10 @@ int Scope::activeFiltersCount() const
 
 void Scope::resetPrimaryNavigationTag()
 {
+    if (m_hasPrimaryFilter && m_primaryNavigationFilter->isActive()) {
+        m_primaryNavigationFilter->clear();
+    }
+
     if (m_currentNavigationId != "root") {
         setNavigationState("root");
     }
