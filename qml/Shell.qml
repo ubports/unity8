@@ -42,6 +42,7 @@ import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
 import Unity.Indicators 0.1 as Indicators
 import Cursor 1.0
+import WindowManager 0.1
 
 
 Item {
@@ -96,20 +97,50 @@ Item {
         }
     }
 
-    // For autopilot consumption
-    readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
-
-    // internal props from here onwards
     readonly property var mainApp:
             applicationsDisplayLoader.item ? applicationsDisplayLoader.item.mainApp : null
-    readonly property var mainAppWindow:
-            applicationsDisplayLoader.item ? applicationsDisplayLoader.item.mainAppWindow : null
+    onMainAppChanged: {
+        if (mainApp) {
+            _onMainAppChanged(mainApp.appId);
+        }
+    }
+    Connections {
+        target: ApplicationManager
+        onFocusRequested: {
+            if (shell.mainApp && shell.mainApp.appId === appId) {
+                _onMainAppChanged(appId);
+            }
+        }
+    }
+    function _onMainAppChanged(appId) {
+        if (wizard.active && appId != "" && appId != "unity8-dash") {
+            // If this happens on first boot, we may be in edge
+            // tutorial or wizard while receiving a call.  But a call
+            // is more important than wizard so just bail out of those.
+            tutorial.finish();
+            wizard.hide();
+        }
+
+        if (appId === "dialer-app" && callManager.hasCalls && greeter.locked) {
+            // If we are in the middle of a call, make dialer lockedApp and show it.
+            // This can happen if user backs out of dialer back to greeter, then
+            // launches dialer again.
+            greeter.lockedApp = appId;
+        }
+        greeter.notifyAppFocusRequested(appId);
+
+        panel.indicators.hide();
+        launcher.hide();
+    }
+
+    // For autopilot consumption
+    readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
 
     // Disable everything while greeter is waiting, so that the user can't swipe
     // the greeter or launcher until we know whether the session is locked.
     enabled: greeter && !greeter.waiting
 
-    property real edgeSize: units.gu(2)
+    property real edgeSize: units.gu(settings.edgeDragWidth)
 
     WallpaperResolver {
         id: wallpaperResolver
@@ -141,9 +172,6 @@ Item {
 
     Component.onCompleted: {
         theme.name = "Ubuntu.Components.Themes.SuruDark"
-        if (ApplicationManager.count > 0) {
-            ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
-        }
         finishStartUpTimer.start();
     }
 
@@ -165,7 +193,7 @@ Item {
         onPowerKeyLongPressed: dialogs.showPowerDialog();
         onVolumeDownTriggered: volumeControl.volumeDown();
         onVolumeUpTriggered: volumeControl.volumeUp();
-        onScreenshotTriggered: screenGrabber.capture();
+        onScreenshotTriggered: itemGrabber.capture(shell);
     }
 
     GlobalShortcut {
@@ -179,7 +207,14 @@ Item {
     }
 
     WindowInputMonitor {
-        onHomeKeyActivated: { launcher.fadeOut(); shell.showHome(); }
+        objectName: "windowInputMonitor"
+        onHomeKeyActivated: {
+            // Ignore when greeter is active, to avoid pocket presses
+            if (!greeter.active) {
+                launcher.fadeOut();
+                shell.showHome();
+            }
+        }
         onTouchBegun: { cursor.opacity = 0; }
         onTouchEnded: {
             // move the (hidden) cursor to the last known touch position
@@ -200,36 +235,10 @@ Item {
         width: parent.width
         height: parent.height
 
-        Connections {
-            target: ApplicationManager
-
-            // This signal is also fired when we try to focus the current app
-            // again.  We rely on this!
-            onFocusedApplicationIdChanged: {
-                var appId = ApplicationManager.focusedApplicationId;
-
-                if (wizard.active && appId != "" && appId != "unity8-dash") {
-                    // If this happens on first boot, we may be in edge
-                    // tutorial or wizard while receiving a call.  But a call
-                    // is more important than wizard so just bail out of those.
-                    tutorial.finish();
-                    wizard.hide();
-                }
-
-                if (appId === "dialer-app" && callManager.hasCalls && greeter.locked) {
-                    // If we are in the middle of a call, make dialer lockedApp and show it.
-                    // This can happen if user backs out of dialer back to greeter, then
-                    // launches dialer again.
-                    greeter.lockedApp = appId;
-                }
-                greeter.notifyAppFocused(appId);
-
-                panel.indicators.hide();
-            }
-
-            onApplicationAdded: {
-                launcher.hide();
-            }
+        TopLevelSurfaceList {
+            id: topLevelSurfaceList
+            objectName: "topLevelSurfaceList"
+            applicationsModel: ApplicationManager
         }
 
         Loader {
@@ -260,6 +269,10 @@ Item {
                     return "Stages/DesktopStage.qml";
                 }
             }
+            // TODO: Ensure the current stage is destroyed before the new one gets loaded.
+            //       Currently the new one will get loaded while the old is still hanging
+            //       around for a bit, which might lead to conflicts where both stages
+            //       change the model simultaneously.
             onQmlComponentChanged: {
                 if (item) item.stageAboutToBeUnloaded();
                 source = qmlComponent;
@@ -272,6 +285,11 @@ Item {
 
             onInteractiveChanged: { if (interactive) { focus = true; } }
 
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "focus"
+                value: true
+            }
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "objectName"
@@ -358,6 +376,16 @@ Item {
                 property: "leftMargin"
                 value: shell.usageScenario == "desktop" && !settings.autohideLauncher ? launcher.panelWidth: 0
             }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "applicationManager"
+                value: ApplicationManager
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "topLevelSurfaceList"
+                value: topLevelSurfaceList
+            }
         }
     }
 
@@ -370,16 +398,6 @@ Item {
             leftMargin: launcher.lockedVisible ? launcher.panelWidth : 0
         }
         z: notifications.useModal || panel.indicators.shown || wizard.active || tutorial.running ? overlay.z + 1 : overlay.z - 1
-    }
-
-    Connections {
-        target: SessionManager
-        onSessionStopping: {
-            if (!session.parentSession && !session.application) {
-                // nothing is using it. delete it right away
-                session.release();
-            }
-        }
     }
 
     Loader {
@@ -473,7 +491,7 @@ Item {
     }
 
     function showHome() {
-        greeter.notifyAboutToFocusApp("unity8-dash");
+        greeter.notifyUserRequestedApp("unity8-dash");
 
         var animate = !lightDM.greeter.active && !stages.shown
         dash.setCurrentScope(0, animate, false)
@@ -522,9 +540,10 @@ Item {
                 greeterShown: greeter.shown
             }
 
-            readonly property bool topmostApplicationIsFullscreen: mainApp && mainApp.fullscreen
-
-            fullscreenMode: (topmostApplicationIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
+            readonly property bool focusedSurfaceIsFullscreen: MirFocusController.focusedSurface
+                ? MirFocusController.focusedSurface.state === Mir.FullscreenState
+                : false
+            fullscreenMode: (focusedSurfaceIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
             locked: greeter && greeter.active
         }
@@ -557,7 +576,7 @@ Item {
                 }
             }
             onLauncherApplicationSelected: {
-                greeter.notifyAboutToFocusApp(appId);
+                greeter.notifyUserRequestedApp(appId);
                 shell.activateApplication(appId);
             }
             onShownChanged: {
@@ -636,17 +655,10 @@ Item {
             onActiveChanged: unlockWhenDoneWithWizard()
         }
 
-        Rectangle {
-            id: modalNotificationBackground
-
-            visible: notifications.useModal
-            color: "#000000"
+        MouseArea { // modal notifications prevent interacting with other contents
             anchors.fill: parent
-            opacity: 0.9
-
-            MouseArea {
-                anchors.fill: parent
-            }
+            visible: notifications.useModal
+            enabled: visible
         }
 
         Notifications {
@@ -655,7 +667,6 @@ Item {
             model: NotificationBackend.Model
             margin: units.gu(1)
             hasMouse: shell.hasMouse
-            inverseMode: panel.indicators.shown
             background: wallpaperResolver.background
 
             y: topmostIsFullscreen ? 0 : panel.panelHeight
@@ -703,16 +714,22 @@ Item {
         onShowHome: showHome()
     }
 
-    ScreenGrabber {
-        id: screenGrabber
-        rotationAngle: -shell.orientationAngle
+    ItemGrabber {
+        id: itemGrabber
+        anchors.fill: parent
         z: dialogs.z + 10
+        GlobalShortcut { shortcut: Qt.Key_Print; onTriggered: itemGrabber.capture(shell) }
+        Connections {
+            target: applicationsDisplayLoader.item
+            ignoreUnknownSignals: true
+            onItemSnapshotRequested: itemGrabber.capture(item)
+        }
     }
 
     Cursor {
         id: cursor
         visible: shell.hasMouse
-        z: screenGrabber.z + 1
+        z: itemGrabber.z + 1
 
         onPushedLeftBoundary: {
             if (buttons === Qt.NoButton) {
@@ -730,53 +747,8 @@ Item {
         onMouseMoved: { cursor.opacity = 1; }
     }
 
-    // keymap switching
-    GlobalShortcut {
-        shortcut: Qt.MetaModifier|Qt.Key_Space
-        onTriggered: keymapPriv.nextKeymap()
-        active: keymapPriv.keymapCount > 1
-    }
-
-    GlobalShortcut {
-        shortcut: Qt.MetaModifier|Qt.ShiftModifier|Qt.Key_Space
-        onTriggered: keymapPriv.previousKeymap()
-        active: keymapPriv.keymapCount > 1
-    }
-
-    QtObject {
-        id: keymapPriv
-
-        readonly property var keymaps: AccountsService.keymaps
-        readonly property int keymapCount: keymaps.length
-        property int currentKeymapIndex: 0  // the new one that we're setting
-        onCurrentKeymapIndexChanged: switchToKeymap();
-
-        function nextKeymap() {
-            var nextIndex = 0;
-
-            if (currentKeymapIndex !== -1 && currentKeymapIndex < keymapCount - 1) {
-                nextIndex = currentKeymapIndex + 1;
-            }
-            currentKeymapIndex = nextIndex;
-        }
-
-        function previousKeymap() {
-            var prevIndex = keymapCount - 1;
-
-            if (currentKeymapIndex > 0) {
-                prevIndex = currentKeymapIndex - 1;
-            }
-            currentKeymapIndex = prevIndex;
-        }
-
-        function switchToKeymap() {
-            if (mainAppWindow) {
-                mainAppWindow.switchToKeymap(keymaps[currentKeymapIndex]);
-            }
-        }
-    }
-
-    onMainAppWindowChanged: keymapPriv.switchToKeymap()
+    // non-visual object
+    KeymapSwitcher {}
 
     Rectangle {
         id: shutdownFadeOutRectangle

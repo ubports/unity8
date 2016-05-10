@@ -18,12 +18,12 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import GSettings 1.0
 
-Rectangle {
+FocusScope {
     id: root
 
-    color: "#060606"
-
     // Controls to be set from outside
+    property QtObject applicationManager
+    property QtObject topLevelSurfaceList
     property bool altTabPressed
     property url background
     property bool beingResized
@@ -42,10 +42,10 @@ Rectangle {
     property bool suspended
      // A Stage should paint a wallpaper etc over its full size but not use the margins for window placement
     property int leftMargin: 0
+    property alias paintBackground: background.visible
 
     // To be read from outside
     property var mainApp: null
-    property var mainAppWindow: null
     property int mainAppWindowOrientationAngle: 0
     property bool orientationChangesEnabled
     property int supportedOrientations: Qt.PortraitOrientation
@@ -54,6 +54,7 @@ Rectangle {
                                       | Qt.InvertedLandscapeOrientation
 
     signal stageAboutToBeUnloaded
+    signal itemSnapshotRequested(Item item)
 
     // Shared code for use in stage implementations
     GSettings {
@@ -69,5 +70,11 @@ Rectangle {
             }
         }
         return false;
+    }
+
+    Rectangle {
+        id: background
+        color: "#060606"
+        anchors.fill: parent
     }
 }

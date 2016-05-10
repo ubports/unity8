@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -12,9 +12,6 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
 import QtQuick 2.4
@@ -71,7 +68,7 @@ Loader {
         id: textfield
 
         Column {
-            spacing: units.gu(2)
+            spacing: notification.margins
 
             anchors {
                 left: parent.left
@@ -87,12 +84,10 @@ Loader {
 
             Label {
                 text: menuData.label
-                color: notification.sdFontColor
+                color: theme.palette.normal.backgroundSecondaryText
             }
 
             TextField {
-                id: textfield
-
                 // TODO using Qt.ImhNoPredictiveText here until lp #1291575 is fixed for ubuntu-ui-toolkit
                 inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
                 anchors {
@@ -115,7 +110,7 @@ Loader {
             Row {
                 id: checkBoxRow
 
-                spacing: units.gu(.5)
+                spacing: notification.margins
 
                 CheckBox {
                     id: checkBox
@@ -127,7 +122,7 @@ Loader {
                 Label {
                     anchors.verticalCenter: checkBox.verticalCenter
                     text: i18n.tr("Show password")
-                    color: notification.sdFontColor
+                    color: theme.palette.normal.backgroundSecondaryText
 
                     MouseArea {
                         anchors.fill: parent
@@ -151,7 +146,6 @@ Loader {
             errorText: errorAction.valid ? errorAction.state : ""
             retryText: notification.body
             background: menuFactory.background
-            darkenBackground: 0.4
 
             onEntered: {
                 menuModel.changeState(menuIndex, passphrase);

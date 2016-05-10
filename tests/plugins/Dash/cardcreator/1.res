@@ -11,7 +11,7 @@ AbstractButton {
                 property bool showHeader: true;
                 implicitWidth: childrenRect.width; 
                 enabled: true;
-
+signal action(var actionId);
 readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
 Item  { 
                             id: artShapeHolder; 
@@ -30,14 +30,6 @@ Item  {
                                     objectName: "artShape";
                                     visible: image.status == Image.Ready;
                                     readonly property alias image: artImage;
-                                    ShaderEffectSource {
-                                        id: artShapeSource;
-                                        sourceItem: artImage;
-                                        anchors.centerIn: parent;
-                                        width: 1;
-                                        height: 1;
-                                        hideSource: true;
-                                    }
                                     Loader {
                                         anchors.fill: parent;
                                         visible: true;
@@ -45,7 +37,7 @@ Item  {
                                         Component {
                                             id: artShapeShapeComponent;
                                             UbuntuShape {
-                                                source: artShapeSource;
+                                                source: artImage;
                                                 sourceFillMode: UbuntuShape.PreserveAspectCrop;
                                                 radius: "medium";
                                                 aspect: {
@@ -60,7 +52,7 @@ Item  {
                                         }
                                         Component {
                                             id: artShapeIconComponent;
-                                            ProportionalShape { source: artShapeSource; aspect: UbuntuShape.DropShadow; }
+                                            ProportionalShape { source: artImage; aspect: UbuntuShape.DropShadow; }
                                         }
                                     }
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1;
@@ -81,7 +73,8 @@ Item  {
                                         objectName: "artImage"; 
                                         source: artShapeLoader.cardArt;
                                         asynchronous: true;
-                                        width: root.width; 
+                                        visible: !true;
+                                        width: root.width;
                                         height: width / artShape.aspect; 
                                     } 
                                 } 

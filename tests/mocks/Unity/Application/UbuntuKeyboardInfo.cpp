@@ -16,8 +16,6 @@
 
 #include "UbuntuKeyboardInfo.h"
 
-UbuntuKeyboardInfo *UbuntuKeyboardInfo::m_instance = nullptr;
-
 UbuntuKeyboardInfo::UbuntuKeyboardInfo(QObject *parent)
     : QObject(parent),
     m_x(0),

@@ -25,6 +25,7 @@ class DeviceConfigParser: public QObject
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY changed)
 
+    // NOTE: When changing this properties, also update the examples in docs and data
     Q_PROPERTY(Qt::ScreenOrientation primaryOrientation READ primaryOrientation NOTIFY changed)
     Q_PROPERTY(Qt::ScreenOrientations supportedOrientations READ supportedOrientations NOTIFY changed)
     Q_PROPERTY(Qt::ScreenOrientation landscapeOrientation READ landscapeOrientation NOTIFY changed)

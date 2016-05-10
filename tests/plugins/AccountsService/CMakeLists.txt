@@ -5,7 +5,7 @@ else()
 endif()
 macro(make_dbus_class NAME INTERFACE)
     if(${CMAKE_CURRENT_SOURCE_DIR}/interfaces.xml IS_NEWER_THAN ${CMAKE_CURRENT_BINARY_DIR}/${NAME}Adaptor.h)
-        execute_process(COMMAND ${QDBUSXML2CPP_EXECUTABLE} -c ${NAME}Adaptor -a ${CMAKE_CURRENT_BINARY_DIR}/${NAME}Adaptor ${CMAKE_CURRENT_SOURCE_DIR}/interfaces.xml ${INTERFACE})
+        execute_process(COMMAND ${QDBUSXML2CPP_EXECUTABLE} -c ${NAME}Adaptor -i types.h -a ${CMAKE_CURRENT_BINARY_DIR}/${NAME}Adaptor ${CMAKE_CURRENT_SOURCE_DIR}/interfaces.xml ${INTERFACE})
     endif()
 endmacro(make_dbus_class)
 
@@ -19,8 +19,14 @@ make_dbus_class(AccountsPrivate com.canonical.unity.AccountsService.Private)
 make_dbus_class(UscInput com.canonical.Unity.Input)
 
 include_directories(
+    ${GLIB_INCLUDE_DIRS}
     ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService
+    )
+
+link_libraries(
+    ${GLIB_LIBRARIES}
     )
 
 add_definitions(-DSM_BUSNAME=sessionBus)
