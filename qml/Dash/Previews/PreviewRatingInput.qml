@@ -145,8 +145,7 @@ PreviewWidget {
                         root.makeSureVisible(reviewTextArea);
                 }
                 onVisibleChanged: {
-                    if (visible &&
-                        widgetData["visible"] !== "review") // either default or 'both'
+                    if (visible && widgetData["visible"] !== "review")
                         focus = true;
                 }
                 anchors {
