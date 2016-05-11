@@ -725,6 +725,95 @@ Item {
                 tryCompare(mockModel, "count", before - 1)
             }
 
+            function expansionLogic_data() {
+                return [{
+                            tag: "Snap Decision without secondary icon and no button-tint",
+                            n: nlist[3],
+                            summaryVisible: true,
+                            bodyVisible: true,
+                            iconVisible: true,
+                            centeredIconVisible: false,
+                            shaped: true,
+                            secondaryIconVisible: false,
+                            buttonRowVisible: true,
+                            buttonTinted: false,
+                            hasSound: true,
+                            valueVisible: false,
+                            valueLabelVisible: false,
+                            valueTinted: false
+                        },
+                        {
+                            tag: "2-over-1 Snap Decision with button-tint",
+                            n: nlist[8],
+                            summaryVisible: true,
+                            bodyVisible: true,
+                            iconVisible: false,
+                            centeredIconVisible: false,
+                            shaped: false,
+                            secondaryIconVisible: false,
+                            buttonRowVisible: false,
+                            buttonTinted: true,
+                            hasSound: false,
+                            valueVisible: false,
+                            valueLabelVisible: false,
+                            valueTinted: false
+                        },
+                        {
+                            tag: "Snap Decision without secondary icon and no button-tint",
+                            n: nlist[3],
+                            summaryVisible: true,
+                            bodyVisible: true,
+                            iconVisible: true,
+                            centeredIconVisible: false,
+                            shaped: true,
+                            secondaryIconVisible: false,
+                            buttonRowVisible: true,
+                            buttonTinted: false,
+                            hasSound: true,
+                            valueVisible: false,
+                            valueLabelVisible: false,
+                            valueTinted: false
+                        }
+                        ]
+            }
+
+            function test_expansionLogic() {
+                var data = expansionLogic_data();
+
+                // fill the model
+                data.forEach(function(notification) {
+                    mockModel.append(notification.n);
+                    notification.n.completed.connect(mockModel.onCompleted)
+                })
+
+                // make sure the view is properly updated before going on
+                notifications.forceLayout();
+                waitForRendering(notifications);
+
+                // first one should be expanded by default
+                var notification1 = findChild(notifications, "notification1") // 0 is placeholder...
+                verify(!!notification1, "notification wasn't found");
+                waitForRendering(notification1);
+                verify(notification1.expanded);
+
+                // click the 2nd one, verify it's now expanded
+                var notification2 = findChild(notifications, "notification2") // 0 is placeholder...
+                verify(!!notification2, "notification wasn't found");
+                waitForRendering(notification2);
+                mouseClick(notification2);
+                verify(notification2.expanded);
+                verify(!notification1.expanded);
+
+                // now close the 2nd one, verify 1st is again expanded, 2nd is gone
+                var dragStart = notification2.width * 0.25;
+                var dragEnd = notification2.width;
+                var dragY = notification2.height / 2;
+                touchFlick(notification2, dragStart, dragY, dragEnd, dragY);
+                waitForRendering(notifications);
+                tryCompareFunction(function() { return notification1.expanded; }, true);
+                tryCompareFunction(function() { return notification2.expanded; }, undefined);
+            }
+
             function cleanupTestCase() {
                 notifications.hasMouse = false;
             }
