@@ -62,7 +62,7 @@ StyledItem {
             if (ListView.view.currentIndex === index) {
                 result = true;
             } else {
-                if (ListView.view.count > 1) {
+                if (ListView.view.count > 2) {
                     if (ListView.view.currentIndex === -1 && index == 1) {
                         result = true;
                     } else {
