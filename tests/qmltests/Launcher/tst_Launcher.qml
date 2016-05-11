@@ -478,25 +478,26 @@ Rectangle {
         function test_progressOverlays() {
             dragLauncherIntoView();
             var launcherListView = findChild(launcher, "launcherListView");
+            var moveAnimation = findInvisibleChild(launcherListView, "moveAnimation")
             for (var i = 0; i < launcherListView.count; ++i) {
+                launcherListView.moveToIndex(i);
+                waitForRendering(launcherListView);
+                tryCompare(moveAnimation, "running", false);
+
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
                 compare(findChild(delegate, "progressOverlay").visible, LauncherModel.get(i).progress >= 0)
-            }
-        }
-
-        function test_runningHighlight() {
-            dragLauncherIntoView();
-            var launcherListView = findChild(launcher, "launcherListView");
-            for (var i = 0; i < launcherListView.count; ++i) {
-                var delegate = findChild(launcherListView, "launcherDelegate" + i)
-                compare(findChild(delegate, "runningHighlight0").visible, LauncherModel.get(i).running)
             }
         }
 
         function test_focusedHighlight() {
             dragLauncherIntoView();
             var launcherListView = findChild(launcher, "launcherListView");
+            var moveAnimation = findInvisibleChild(launcherListView, "moveAnimation")
+
             for (var i = 0; i < launcherListView.count; ++i) {
+                launcherListView.moveToIndex(i);
+                waitForRendering(launcherListView);
+                tryCompare(moveAnimation, "running", false);
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
                 compare(findChild(delegate, "focusedHighlight").visible, LauncherModel.get(i).focused)
             }
