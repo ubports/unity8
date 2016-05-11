@@ -45,7 +45,7 @@ PreviewWidget {
                 return ratingLabelAndWidgetContainer.implicitHeight;
             case "review":
                 return reviewContainer.implicitHeight;
-            }
+        }
     }
 
     clip: reviewContainer.visible
@@ -89,7 +89,6 @@ PreviewWidget {
             size: 5
             height: units.gu(4)
             onValueChanged: {
-                root.makeSureVisible(rating);
                 if (widgetData["visible"] === "rating") root.submit();
             }
 
@@ -144,6 +143,11 @@ PreviewWidget {
                 onInputMethodVisibleChanged: {
                     if(inputMethodVisible && activeFocus)
                         root.makeSureVisible(reviewTextArea);
+                }
+                onVisibleChanged: {
+                    if (visible &&
+                        widgetData["visible"] !== "review") // either default or 'both'
+                        focus = true;
                 }
                 anchors {
                     top: parent.top
