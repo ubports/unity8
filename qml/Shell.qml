@@ -619,15 +619,16 @@ Item {
 
         KeyboardShortcutsOverlay {
             objectName: "shortcutsOverlay"
-            visible: launcher.shortcutHintsShown && width < parent.width - (launcher.lockedVisible ? launcher.panelWidth : 0) - padding
+            enabled: launcher.shortcutHintsShown && width < parent.width - (launcher.lockedVisible ? launcher.panelWidth : 0) - padding
                      && height < parent.height - padding - panel.panelHeight
-            enabled: visible
             anchors.centerIn: parent
             anchors.horizontalCenterOffset: launcher.lockedVisible ? launcher.panelWidth/2 : 0
             anchors.verticalCenterOffset: panel.panelHeight/2
-            opacity: visible? 0.95 : 0
+            visible: opacity > 0
+            opacity: enabled ? 0.95 : 0
+
             Behavior on opacity {
-                OpacityAnimator { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+                UbuntuNumberAnimation {}
             }
         }
 
