@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -147,26 +147,6 @@ MediaServicesControls {
         }
     }
 
-    function getPlaybackState(playbackState) {
-        if (playbackState === MediaPlayer.PlayingState) return "PlayingState";
-        else if (playbackState === MediaPlayer.PausedState) return "PausedState";
-        else if (playbackState === MediaPlayer.StoppedState) return "StoppedState";
-        return "";
-    }
-
-    function getPlayerStatus(status) {
-        if (status === MediaPlayer.NoMedia) return "NoMedia";
-        else if (status === MediaPlayer.Loading) return "Loading";
-        else if (status === MediaPlayer.Loaded) return "Loaded";
-        else if (status === MediaPlayer.Buffering) return "Buffering";
-        else if (status === MediaPlayer.Stalled) return "Stalled";
-        else if (status === MediaPlayer.Buffered) return "Buffered";
-        else if (status === MediaPlayer.EndOfMedia) return "EndOfMedia";
-        else if (status === MediaPlayer.InvalidMedia) return "InvalidMedia";
-        else if (status === MediaPlayer.UnknownStatus) return "UnknownStatus";
-        return "";
-    }
-
     MediaPlayer {
         id: _mediaPlayer
         objectName: "mediaPlayer"
@@ -176,7 +156,5 @@ MediaServicesControls {
                 stop();
             }
         }
-//        onPlaybackStateChanged: console.log("PLAYBACK STATE CHANGED", getPlaybackState(playbackState));
-//        onStatusChanged: console.log("PLAYER STATUS CHANGED", getPlayerStatus(status));
     }
 }

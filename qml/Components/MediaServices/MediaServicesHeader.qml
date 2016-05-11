@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,9 +21,9 @@ import Ubuntu.Components 1.3
 Item {
     id: root
 
-    property alias title: _title.text
+    property alias title: titleLabel.text
     property alias component: loader.sourceComponent
-    property alias iconColor: _title.color
+    property alias iconColor: titleLabel.color
 
     signal goPrevious
 
@@ -32,9 +32,9 @@ Item {
         anchors {
             left: parent.left
             right: parent.right
+            verticalCenter: parent.verticalCenter
+            margins: units.gu(2)
         }
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.margins: units.gu(2)
         spacing: units.gu(2)
 
         // eater
@@ -48,7 +48,7 @@ Item {
             Icon {
                 anchors.fill: parent
                 name: "go-previous"
-                color: _title.color
+                color: titleLabel.color
             }
 
             onTriggered: {
@@ -57,7 +57,7 @@ Item {
         }
 
         Label {
-            id: _title
+            id: titleLabel
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignVCenter
             elide: Text.ElideRight

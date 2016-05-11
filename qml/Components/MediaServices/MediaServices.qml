@@ -105,14 +105,14 @@ FocusScope {
                     height: orientationHelper.height
                     maximumEmbeddedHeight: root.maximumEmbeddedHeight
                     fixedHeight: fullscreen
-                    orientation: orientationState.state == "landscape" ? Qt.LandscapeOrientation : Qt.PortraitOrientation
+                    orientation: orientationState.state === "landscape" ? Qt.LandscapeOrientation : Qt.PortraitOrientation
 
                     playButtonBackgroundColor: root.backgroundColor
                     playButtonIconColor: root.iconColor
 
                     screenshot: {
-                        var screenshot = root.sourceData["screenshot"];
-                        if (screenshot) return screenshot;
+                        var screenshotData = root.sourceData["screenshot"];
+                        if (screenshotData) return screenshotData;
 
                         var source = root.sourceData["source"];
                         if (source) {
@@ -168,7 +168,8 @@ FocusScope {
                 visible: headerContent.status === Loader.Ready
             }
 
-            sourceComponent: root.fullscreen ? headerComponent : undefined
+            active: root.fullscreen
+            sourceComponent: headerComponent
 
             Component {
                 id: headerComponent

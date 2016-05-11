@@ -120,7 +120,6 @@ void MediaPlayer::setPlaylist(DeclarativePlaylist *playlist)
     Q_EMIT playlistChanged();
 }
 
-
 MediaPlayer::PlaybackState MediaPlayer::playbackState() const
 {
     return m_playbackState;
@@ -186,7 +185,6 @@ void MediaPlayer::seek(int position)
         m_position = newPosition;
         Q_EMIT positionChanged(m_position);
     }
-
 }
 
 void MediaPlayer::timerEvent()
@@ -227,6 +225,7 @@ QObject *MediaPlayer::metaData() const
 {
     return m_metaData;
 }
+
 
 
 MediaDataSource::MediaDataSource(QObject *parent)

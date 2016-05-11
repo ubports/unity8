@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ Item {
     property alias playButtonIconColor: playButtonIcon.color
 
     implicitHeight: {
-        if (parent && orientation == Qt.LandscapeOrientation) {
+        if (parent && orientation === Qt.LandscapeOrientation) {
             return parent.height;
         }
         return content.height;
@@ -50,7 +50,7 @@ Item {
             verticalCenter: parent.verticalCenter
         }
         height: {
-            if (root.orientation == Qt.LandscapeOrientation || fixedHeight) {
+            if (root.orientation === Qt.LandscapeOrientation || fixedHeight) {
                 return root.height;
             }
             var proposedHeight = videoOutput.height;
@@ -67,8 +67,8 @@ Item {
             anchors {
                 left: parent.left
                 right: parent.right
+                verticalCenter: parent.verticalCenter
             }
-            anchors.verticalCenter: parent.verticalCenter
             scaleTo: "width"
             lastScaledDimension: playButton.height + units.gu(2)
             initialHeight: lastScaledDimension

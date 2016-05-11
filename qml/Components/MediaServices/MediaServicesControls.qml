@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,9 +38,9 @@ Item {
         anchors {
             left: parent.left
             right: parent.right
+            verticalCenter: parent.verticalCenter
+            margins: units.gu(2)
         }
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.margins: units.gu(2)
         spacing: units.gu(2)
 
         AbstractButton {

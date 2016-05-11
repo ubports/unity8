@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Canonical Ltd.
+ * Copyright 2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,11 +28,13 @@ Rectangle {
     color: "lightgrey"
 
     property var sourceData: {
+        // TODO do we want a video or make this fake
         "source": "file:///home/nick/Videos/test-mpeg.ogv",
         "screenshot": Qt.resolvedUrl("../Dash/artwork/avatar.png")
     }
 
     property var sourceData2: {
+        // TODO do we want a video or make this fake
         "source": "file:///home/nick/Videos/test-mpeg2.ogv",
         "screenshot": Qt.resolvedUrl("../Dash/artwork/checkers.png")
     }
