@@ -308,8 +308,8 @@ Rectangle {
                 }
             }
 
-            for (var i in obj.data) {
-                waitForLazyImage(obj.data[i]);
+            for (var i in obj.children) {
+                waitForLazyImage(obj.children[i]);
             }
         }
 
