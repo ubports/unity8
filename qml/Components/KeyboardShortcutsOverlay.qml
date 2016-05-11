@@ -28,7 +28,7 @@ Rectangle {
     readonly property int maxTextSize: (root.parent.width / 4) - padding
     readonly property int padding: units.gu(4)
 
-    Item {
+    Item { // dummy container to break binding loops *and* keep the margins in topLayout working
         GridLayout {
             id: topLayout
             anchors.fill: parent
