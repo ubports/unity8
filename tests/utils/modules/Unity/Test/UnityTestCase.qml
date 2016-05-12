@@ -206,11 +206,9 @@ TestCase {
         var child = findChildIn(obj, prop, objectName);
 
         while (timeSpent < timeout && !child) {
+            wait(50)
+            timeSpent += 50
             child = findChildIn(obj, prop, objectName);
-            if (!child) {
-                wait(50)
-                timeSpent += 50
-            }
         }
         return child;
     }
