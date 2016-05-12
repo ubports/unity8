@@ -179,7 +179,7 @@ TestCase {
         if (!obj)
             qtest_fail("no obj given", 1);
 
-        return findChildInWithTimeout(obj, "children", objectName);
+        return findChildInWithTimeout(obj, "children", objectName, timeout);
     }
 
     // Find an object with the given name in the children tree of "obj"
