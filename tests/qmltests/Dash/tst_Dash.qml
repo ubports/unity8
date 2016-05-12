@@ -629,7 +629,6 @@ Item {
             touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, units.gu(2));
             var bottomEdgeController = findInvisibleChild(dash, "bottomEdgeController");
             tryCompare(bottomEdgeController, "progress", 1);
-            tryCompareFunction(function () { return findChild(dash, "scopesListCategoryother") !== null; }, true);
             var nonfavScopesListCategory = findChild(dash, "scopesListCategoryother");
             var nonfavScopesListCategoryList = findChild(nonfavScopesListCategory, "scopesListCategoryInnerList");
             tryCompare(nonfavScopesListCategoryList, "currentIndex", 0);
