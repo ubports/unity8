@@ -390,16 +390,19 @@ void DBusUnitySessionService::Shutdown()
 
 void DBusUnitySessionService::Suspend()
 {
+    PromptLock();
     d->makeLogin1Call(QStringLiteral("Suspend"), {false});
 }
 
 void DBusUnitySessionService::Hibernate()
 {
+    PromptLock();
     d->makeLogin1Call(QStringLiteral("Hibernate"), {false});
 }
 
 void DBusUnitySessionService::HybridSleep()
 {
+    PromptLock();
     d->makeLogin1Call(QStringLiteral("HybridSleep"), {false});
 }
 
