@@ -493,9 +493,10 @@ void LauncherModel::alert(const QString &appId)
     int idx = findApplication(appId);
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
-        if (!item->focused() && !item->alerting())
-        item->setAlerting(true);
-        Q_EMIT dataChanged(index(idx), index(idx), {RoleAlerting});
+        if (!item->focused() && !item->alerting()) {
+            item->setAlerting(true);
+            Q_EMIT dataChanged(index(idx), index(idx), {RoleAlerting});
+        }
     }
 }
 

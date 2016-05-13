@@ -38,10 +38,6 @@ Item {
     readonly property real foldedHeight: Math.cos(maxAngle * Math.PI / 180) * itemHeight
     readonly property alias wiggling: wiggleAnim.running
 
-    onAlertingChanged: {
-        print("item", index, "alerting:", alerting)
-    }
-
     property int itemWidth
     property int itemHeight
     // The angle used for rotating
