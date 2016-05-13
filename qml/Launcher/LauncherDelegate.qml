@@ -222,7 +222,7 @@ Item {
                     objectName: "runningHighlight" + index
                     width: units.gu(0.25)
                     height: units.gu(.5)
-                    color: root.alerting ? UbuntuColors.blue : "white"
+                    color: root.alerting ? theme.palette.normal.activity : "white"
                     visible: root.itemRunning
                 }
             }
