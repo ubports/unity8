@@ -2233,6 +2233,7 @@ Rectangle {
 
             compare(launcher.state, "");
             keyPress(Qt.Key_Super_L, Qt.MetaModifier);
+            waitForRendering(shortcutsOverlay)
             tryCompare(launcher, "state", "visible");
             tryCompare(shortcutHint, "visible", true);
             tryCompare(shortcutsOverlay, "visible", true);
