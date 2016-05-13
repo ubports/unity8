@@ -11,7 +11,6 @@ include_directories(
     ${GIO_INCLUDE_DIRS}
 )
 
-
 set(QMLPLUGIN_SRC
     ${CMAKE_SOURCE_DIR}/plugins/Utils/activefocuslogger.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/qlimitproxymodelqml.cpp
