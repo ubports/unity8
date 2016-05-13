@@ -69,13 +69,17 @@ ListView {
         // FIXME: disabled all transitions because of LP: #1354406 workaround
         //layer.enabled: add.running || remove.running || populate.running
 
-        Component.onCompleted: {
-            if (index == 1) {
-                notificationList.topmostIsFullscreen = fullscreen
-            }
-        }
+        readonly property int theIndex: index
+        onTheIndexChanged: updateListTopMostIsFullscreen();
+        Component.onCompleted: updateListTopMostIsFullscreen();
+        onFullscreenChanged: updateListTopMostIsFullscreen();
 
-        onFullscreenChanged: {
+        function updateListTopMostIsFullscreen() {
+            if (fullscreen) { // effectively hide any non-fullscreen snaps
+                notificationList.positionViewAtIndex(index, ListView.Beginning);
+            } else {
+                notificationList.positionViewAtBeginning();
+            }
             // index 1 because 0 is the PlaceHolder...
             if (index == 1) {
                 notificationList.topmostIsFullscreen = fullscreen

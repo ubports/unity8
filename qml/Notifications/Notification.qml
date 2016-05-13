@@ -414,6 +414,9 @@ StyledItem {
 
                         onLoaded: {
                             notification.fullscreen = Qt.binding(function() { return fullscreen; });
+                            if (notification.fullscreen) {
+                                ListView.view.currentIndex = index
+                            }
                         }
                         onAccepted: {
                             notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
