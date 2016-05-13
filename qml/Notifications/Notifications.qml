@@ -52,7 +52,7 @@ ListView {
         type: model.type
         hints: model.hints
         iconSource: model.icon
-        secondaryIconSource: model.secondaryIcon
+        secondaryIconSource: model.secondaryIcon ? model.secondaryIcon : ""
         summary: model.summary
         body: model.body
         value: model.value ? model.value : -1
