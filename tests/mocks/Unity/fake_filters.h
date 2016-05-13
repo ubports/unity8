@@ -20,25 +20,25 @@
 #include <unity/shell/scopes/FiltersInterface.h>
 #include <unity/shell/scopes/FilterBaseInterface.h>
 
-class Scope;
-
 class Filters : public unity::shell::scopes::FiltersInterface
 {
     Q_OBJECT
 
 public:
-    Filters(Scope* parent);
+    Filters(QObject* parent);
 
     int rowCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
+    // Mock API
     int activeFiltersCount() const;
+    void addFakeFilters();
+    void addFilter(unity::shell::scopes::FilterBaseInterface* f);
 
 Q_SIGNALS:
     void activeFiltersCountChanged();
 
 private:
-    void addFilter(unity::shell::scopes::FilterBaseInterface* f);
 
     QVector<unity::shell::scopes::FilterBaseInterface*> m_filters;
 };

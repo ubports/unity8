@@ -44,6 +44,11 @@ Rectangle {
         "fallback": "../../graphics/phone_background.jpg"
     }
 
+    property var widgetData4: {
+        "source": "fadsasf",
+        "fallback": "../../graphics/phone_background.jpg"
+    }
+
     Loader {
         id: loader
         width: parent.width
@@ -111,6 +116,18 @@ Rectangle {
             waitForRendering(zoomableImage);
             waitForRendering(lazyImage);
             tryCompare(lazyImage, "state", "ready");
+        }
+
+        function test_fallback_then_source() {
+            zoomableImage.widgetData = widgetData4;
+            waitForRendering(zoomableImage);
+            waitForRendering(lazyImage);
+            tryCompare(lazyImage, "state", "ready");
+            verify(lazyImage.sourceImage.source.toString().indexOf("phone_background") > -1);
+            zoomableImage.widgetData["source"] = "../../graphics/tablet_background.jpg"
+            zoomableImage.widgetDataChanged();
+            tryCompare(lazyImage, "state", "ready");
+            verify(lazyImage.sourceImage.source.toString().indexOf("tablet_background") > -1);
         }
     }
 }
