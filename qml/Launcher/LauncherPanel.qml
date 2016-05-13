@@ -244,6 +244,15 @@ Rectangle {
                         maxAngle: 55
                         property bool dragging: false
 
+                        Timer {
+                            interval: 1000
+                            running: index == 2
+                            repeat: true
+                            onTriggered: {
+                                print("is alerting", model.alerting)
+                            }
+                        }
+
                         SequentialAnimation {
                             id: peekingAnimation
 
@@ -275,6 +284,7 @@ Rectangle {
                         }
 
                         onAlertingChanged: {
+                            print("panel alerting changed", alerting)
                             if(alerting) {
                                 if (!dragging && (launcherListView.peekingIndex === -1 || launcher.visibleWidth > 0)) {
                                     launcherListView.moveToIndex(index)

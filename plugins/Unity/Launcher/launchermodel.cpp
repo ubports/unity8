@@ -99,18 +99,6 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void LauncherModel::setAlerting(const QString &appId, bool alerting) {
-    int index = findApplication(appId);
-    if (index >= 0) {
-        QModelIndex modelIndex = this->index(index);
-        LauncherItem *item = m_list.at(index);
-        if (!item->focused()) {
-            item->setAlerting(alerting);
-            Q_EMIT dataChanged(modelIndex, modelIndex, {RoleAlerting});
-        }
-    }
-}
-
 unity::shell::launcher::LauncherItemInterface *LauncherModel::get(int index) const
 {
     if (index < 0 || index >= m_list.count()) {
@@ -361,11 +349,13 @@ void LauncherModel::countChanged(const QString &appId, int count)
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
         item->setCount(count);
-        if (item->countVisible()) {
-            setAlerting(item->appId(), true);
+        QVector<int> changedRoles = {RoleCount};
+        if (item->countVisible() && !item->alerting() && !item->focused()) {
+            changedRoles << RoleAlerting;
+            item->setAlerting(true);
         }
         m_asAdapter->syncItems(m_list);
-        Q_EMIT dataChanged(index(idx), index(idx), {RoleCount});
+        Q_EMIT dataChanged(index(idx), index(idx), changedRoles);
     }
 }
 
@@ -375,10 +365,12 @@ void LauncherModel::countVisibleChanged(const QString &appId, bool countVisible)
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
         item->setCountVisible(countVisible);
-        if (countVisible) {
-            setAlerting(item->appId(), true);
+        QVector<int> changedRoles = {RoleCount};
+        if (countVisible && !item->alerting() && !item->focused()) {
+            changedRoles << RoleAlerting;
+            item->setAlerting(true);
         }
-        Q_EMIT dataChanged(index(idx), index(idx), {RoleCountVisible});
+        Q_EMIT dataChanged(index(idx), index(idx), changedRoles);
 
         // If countVisible goes to false, and the item is neither pinned nor recent we can drop it
         if (!countVisible && !item->pinned() && !item->recent()) {
@@ -498,10 +490,12 @@ void LauncherModel::refresh()
 
 void LauncherModel::alert(const QString &appId)
 {
+    qDebug() << "alerting for appId" << appId;
     int idx = findApplication(appId);
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
-        setAlerting(item->appId(), true);
+        if (!item->focused() && !item->alerting())
+        item->setAlerting(true);
         Q_EMIT dataChanged(index(idx), index(idx), {RoleAlerting});
     }
 }
@@ -600,8 +594,14 @@ void LauncherModel::focusedAppIdChanged()
     for (int i = 0; i < m_list.count(); ++i) {
         LauncherItem *item = m_list.at(i);
         if (!item->focused() && item->appId() == appId) {
+            QVector<int> changedRoles;
+            changedRoles << RoleFocused;
             item->setFocused(true);
-            Q_EMIT dataChanged(index(i), index(i), {RoleFocused});
+            if (item->alerting()) {
+                changedRoles << RoleAlerting;
+                item->setAlerting(false);
+            }
+            Q_EMIT dataChanged(index(i), index(i), changedRoles);
         } else if (item->focused() && item->appId() != appId) {
             item->setFocused(false);
             Q_EMIT dataChanged(index(i), index(i), {RoleFocused});

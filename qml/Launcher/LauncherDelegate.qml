@@ -38,6 +38,10 @@ Item {
     readonly property real foldedHeight: Math.cos(maxAngle * Math.PI / 180) * itemHeight
     readonly property alias wiggling: wiggleAnim.running
 
+    onAlertingChanged: {
+        print("item", index, "alerting:", alerting)
+    }
+
     property int itemWidth
     property int itemHeight
     // The angle used for rotating
@@ -114,12 +118,6 @@ Item {
             to: 0
             duration: priv.wiggleDuration
             easing.type: Easing.OutQuad
-        }
-
-        UbuntuNumberAnimation {
-            target: root
-            property: "alerting"
-            to: 0
         }
     }
 
@@ -228,7 +226,7 @@ Item {
                     objectName: "runningHighlight" + index
                     width: units.gu(0.25)
                     height: units.gu(.5)
-                    color: "white"
+                    color: root.alerting ? UbuntuColors.blue : "white"
                     visible: root.itemRunning
                 }
             }
