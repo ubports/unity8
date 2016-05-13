@@ -95,13 +95,10 @@
 #include <QDebug>
 #include <qqmlinfo.h>
 #include <qqmlengine.h>
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
 #include <private/qqmldelegatemodel_p.h>
 #include <private/qqmlglobal_p.h>
 #include <private/qquickitem_p.h>
 #include <private/qquickanimation_p.h>
-#pragma GCC diagnostic pop
 // #include <private/qquickrectangle_p.h>
 
 qreal ListViewWithPageHeader::ListItem::height() const

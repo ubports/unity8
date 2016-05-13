@@ -24,10 +24,7 @@
 #include <QScreen>
 #include <QDebug>
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
 #include <private/qquickwindow_p.h>
-#pragma GCC diagnostic pop
 
 // local
 #include "TouchOwnershipEvent.h"

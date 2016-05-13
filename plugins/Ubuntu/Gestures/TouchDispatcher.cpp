@@ -20,10 +20,7 @@
 #include <QScopedPointer>
 #include <QStyleHints>
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
 #include <private/qquickitem_p.h>
-#pragma GCC diagnostic pop
 
 #define TOUCHDISPATCHER_DEBUG 0
 

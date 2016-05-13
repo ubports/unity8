@@ -23,10 +23,7 @@
 #include <QStringListModel>
 #include <QQmlContext>
 #include <QQmlEngine>
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
 #include <private/qquickitem_p.h>
-#pragma GCC diagnostic pop
 
 #include "verticaljournal.h"
 

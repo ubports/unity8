@@ -22,12 +22,9 @@
 #include <QSignalSpy>
 #include <QSortFilterProxyModel>
 #include <QtTestGui>
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
 #include <private/qqmllistmodel_p.h>
 #include <private/qquickanimation_p.h>
 #include <private/qquickitem_p.h>
-#pragma GCC diagnostic pop
 
 class StringListModel : public QAbstractListModel
 {

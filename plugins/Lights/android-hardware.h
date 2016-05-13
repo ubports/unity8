@@ -15,9 +15,5 @@
  *
  */
 
-// The purpose of this header wrapper is just to avoid having warnings being reported on
-// code from external header files, as we can't do anything about them.
-#pragma GCC system_header
-
 #include <hardware/hardware.h>
 #include <hardware/lights.h>

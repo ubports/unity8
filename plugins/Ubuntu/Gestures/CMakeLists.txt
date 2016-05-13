@@ -32,6 +32,7 @@ SET(Qt5V8_PRIVATE_INCLUDE_DIR ${QtCoreDir0}/QtV8/${Qt5Core_VERSION_STRING}/QtV8)
 
 # DANGER! DANGER! Using Qt's private API!
 include_directories(
+    SYSTEM
     ${Qt5Qml_PRIVATE_INCLUDE_DIRS}
     ${Qt5Quick_INCLUDE_DIRS}
     ${Qt5Quick_PRIVATE_INCLUDE_DIRS}

@@ -6,9 +6,13 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/Ubuntu/Gestures
     ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures
     ${CMAKE_CURRENT_BINARY_DIR}
+    )
+
+include_directories(
+    SYSTEM
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
-    )
+)
 
 add_executable(DragHandleTestExec tst_DragHandle.cpp)
 qt5_use_modules(DragHandleTestExec Test Core Qml Gui Quick)

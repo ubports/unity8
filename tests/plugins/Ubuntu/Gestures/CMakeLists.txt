@@ -2,14 +2,15 @@ include(QmlTest)
 
 # DANGER! DANGER! Using Qt's private API!
 include_directories(
+    SYSTEM
     ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
+    ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
 )
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/Ubuntu/Gestures
     ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     )
 
 export_qmlfiles(UbuntuGesturesTest .)

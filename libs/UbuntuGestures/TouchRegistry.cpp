@@ -19,10 +19,7 @@
 #include <QCoreApplication>
 #include <QDebug>
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
 #include <private/qquickitem_p.h>
-#pragma GCC diagnostic pop
 
 #include "CandidateInactivityTimer.h"
 #include "Timer.h"
