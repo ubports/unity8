@@ -576,16 +576,21 @@ void LauncherModel::applicationRemoved(const QModelIndex &parent, int row)
     }
 
     LauncherItem * item = m_list.at(appIndex);
-    item->setRunning(false);
 
     if (!item->pinned()) {
         beginRemoveRows(QModelIndex(), appIndex, appIndex);
         m_list.takeAt(appIndex)->deleteLater();
         endRemoveRows();
         m_asAdapter->syncItems(m_list);
-        Q_EMIT dataChanged(index(appIndex), index(appIndex), {RolePinned});
+    } else {
+        QVector<int> changedRoles = {RoleRunning};
+        item->setRunning(false);
+        if (item->focused()) {
+            changedRoles << RoleFocused;
+            item->setFocused(false);
+        }
+        Q_EMIT dataChanged(index(appIndex), index(appIndex), changedRoles);
     }
-    Q_EMIT dataChanged(index(appIndex), index(appIndex), {RoleRunning});
 }
 
 void LauncherModel::focusedAppIdChanged()
