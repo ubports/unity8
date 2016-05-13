@@ -176,10 +176,7 @@ Rectangle {
 
             Button {
                 text: "set alert"
-                onClicked: {
-                    print("should alert", LauncherModel.get(parseInt(appIdEntryAlert.displayText)).appId)
-                    LauncherModel.setAlerting(LauncherModel.get(parseInt(appIdEntryAlert.displayText)).appId, true)
-                }
+                onClicked: LauncherModel.setAlerting(LauncherModel.get(parseInt(appIdEntryAlert.displayText)).appId, true)
             }
 
             TextArea {

@@ -21,7 +21,6 @@
 #include "MockQuickListModel.h"
 
 #include <paths.h>
-#include <QDebug>
 
 using namespace unity::shell::launcher;
 
@@ -180,7 +179,6 @@ void MockLauncherItem::setAlerting(bool alerting)
 {
     if (m_alerting != alerting) {
         m_alerting = alerting;
-        qDebug() << m_appId << "setting alerting" << alerting;
         Q_EMIT alertingChanged(alerting);
     }
 }

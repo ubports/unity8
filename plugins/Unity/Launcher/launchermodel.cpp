@@ -490,7 +490,6 @@ void LauncherModel::refresh()
 
 void LauncherModel::alert(const QString &appId)
 {
-    qDebug() << "alerting for appId" << appId;
     int idx = findApplication(appId);
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
