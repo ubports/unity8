@@ -59,7 +59,7 @@ StyledItem {
         var result = false;
 
         if (type === Notification.SnapDecision) {
-            if (ListView.view.currentIndex === index) {
+            if (ListView.view.currentIndex === index || fullscreen) {
                 result = true;
             } else {
                 if (ListView.view.count > 2) {
@@ -203,7 +203,7 @@ StyledItem {
             anchors.fill: parent
             objectName: "interactiveArea"
 
-            drag.target: notification
+            drag.target: !fullscreen ? notification : undefined
             drag.axis: Drag.XAxis
             drag.minimumX: -notification.width
             drag.maximumX: notification.width
@@ -415,7 +415,8 @@ StyledItem {
                         onLoaded: {
                             notification.fullscreen = Qt.binding(function() { return fullscreen; });
                             if (notification.fullscreen) {
-                                ListView.view.currentIndex = index
+                                notification.notification.urgency = Notification.Critical;
+                                ListView.view.currentIndex = index;
                             }
                         }
                         onAccepted: {
