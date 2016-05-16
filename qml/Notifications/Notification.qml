@@ -103,9 +103,9 @@ StyledItem {
             ListView.view.currentIndex = -1;
         }
 
-        if (notification.actions.count > 1) { // perform the "reject" action
-            notification.notification.invokeAction(notification.actions.data(1, ActionModel.RoleActionId));
-        }
+        // perform the "reject" action
+        notification.notification.invokeAction(notification.actions.data(1, ActionModel.RoleActionId));
+
         notification.notification.close();
     }
 
