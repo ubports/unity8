@@ -77,8 +77,6 @@ ListView {
         function updateListTopMostIsFullscreen() {
             if (fullscreen) { // effectively hide any non-fullscreen snaps
                 notificationList.positionViewAtIndex(index, ListView.Beginning);
-            } else {
-                notificationList.positionViewAtBeginning();
             }
             // index 1 because 0 is the PlaceHolder...
             if (index == 1) {

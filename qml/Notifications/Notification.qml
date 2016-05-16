@@ -119,6 +119,12 @@ StyledItem {
         }
     }
 
+    onFullscreenChanged: {
+        if (fullscreen) {
+            notification.notification.urgency = Notification.Critical;
+        }
+    }
+
     Behavior on height {
         UbuntuNumberAnimation {
             duration: UbuntuAnimation.SnapDuration
@@ -386,7 +392,7 @@ StyledItem {
                 objectName: "dialogListView"
                 spacing: notification.margins
 
-                visible: count > 0 && notification.expanded
+                visible: count > 0 && (notification.expanded || notification.fullscreen)
 
                 anchors {
                     left: parent.left
@@ -414,10 +420,6 @@ StyledItem {
 
                         onLoaded: {
                             notification.fullscreen = Qt.binding(function() { return fullscreen; });
-                            if (notification.fullscreen) {
-                                notification.notification.urgency = Notification.Critical;
-                                ListView.view.currentIndex = index;
-                            }
                         }
                         onAccepted: {
                             notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
