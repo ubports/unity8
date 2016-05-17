@@ -29,7 +29,7 @@ Item {
     property color footerColor: d.undefinedColor
     property alias imageSource: overlaidImage.source
     property url icon
-    property alias title: headerConfig.title
+    property alias title: header.title
     property alias showHeader: header.visible
 
     Ambiance.Palette {
@@ -75,25 +75,13 @@ Item {
         style: Component { MainViewStyle {theme: styledItem.fakeTheme} }
     }
 
-    Ambiance.PageHeadStyle {
-        // FIXME: Replace PageHeadStyle by PageHeader from Ubuntu.Components 1.3.
+    PageHeader {
         id: header
-        anchors {
-            left: parent.left;
-            right: parent.right
+        anchors { left: parent.left; right: parent.right }
+        StyleHints {
+            foregroundColor: styledItem.fakeTheme.palette.selected.backgroundText
+            backgroundColor: "transparent"
         }
-        property var styledItem: header
-        // FIXME Keep in sync with SDK's MainView.qml values of these two colors
-        property color dividerColor: Qt.darker(styledItem.backgroundColor, 1.1)
-        property color panelColor: Qt.lighter(styledItem.backgroundColor, 1.1)
-        panelForegroundColor: config.foregroundColor
-        backgroundColor: "transparent"
-        config: PageHeadConfiguration {
-            id: headerConfig
-            foregroundColor: styledItem.fakeTheme.palette.normal.backgroundText
-        }
-
-        property var contents: null
     }
 
     Image {

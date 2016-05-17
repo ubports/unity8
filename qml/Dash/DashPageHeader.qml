@@ -16,7 +16,7 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import Ubuntu.Components.Themes.Ambiance 1.3
+import Ubuntu.Components.Popups 1.3
 import Ubuntu.Components.ListItems 1.3
 import "../Components"
 
@@ -78,13 +78,13 @@ Item {
         }
     }
 
-    function closePopup(keepFocus) {
+    function closePopup(keepFocus, keepSearch) {
         if (extraPanel.visible) {
             extraPanel.visible = false;
         } else if (!keepFocus) {
-            unfocus();
+            unfocus(keepSearch);
         }
-        if (!searchTextField.text && !root.navigationTag && searchHistory.count == 0) {
+        if (!keepSearch && !searchTextField.text && !root.navigationTag && searchHistory.count == 0) {
             headerContainer.showSearch = false;
         }
     }
@@ -97,9 +97,9 @@ Item {
         closePopup(keepFocus);
     }
 
-    function unfocus() {
+    function unfocus(keepSearch) {
         searchTextField.focus = false;
-        if (!searchTextField.text && !root.navigationTag) {
+        if (!keepSearch && !searchTextField.text && !root.navigationTag) {
             headerContainer.showSearch = false;
         }
     }
@@ -142,7 +142,7 @@ Item {
         objectName: "headerContainer"
         clip: contentY < height
         anchors { left: parent.left; top: parent.top; right: parent.right }
-        height: header.contentHeight
+        height: header.__styleInstance.contentHeight
         contentHeight: headersColumn.height
         interactive: false
         contentY: showSearch ? 0 : height
@@ -173,22 +173,18 @@ Item {
             id: headersColumn
             anchors { left: parent.left; right: parent.right }
 
-            PageHeadStyle {
-                // FIXME: Replace PageHeadStyle from the Ambiance theme by the new PageHeader from Ubuntu.Components 1.3.
+            PageHeader {
                 id: searchHeader
                 anchors { left: parent.left; right: parent.right }
                 opacity: headerContainer.clip || headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
-                __separator_visible: false
-                // Required to keep PageHeadStyle noise down as it expects the Page's properties around.
-                property var styledItem: searchHeader
-                property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
-                property color panelColor: background.topColor
-                panelForegroundColor: config.foregroundColor
-                backgroundColor: "transparent"
-                config: PageHeadConfiguration {
+
+                StyleHints {
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : theme.palette.normal.baseText
+                    backgroundColor: "transparent"
+                    dividerColor: "transparent"
                 }
-                property var contents: Item {
+
+                contents: Item {
                     anchors.fill: parent
 
                     TextField {
@@ -273,7 +269,7 @@ Item {
                             anchors.fill: parent
                             anchors.margins: units.gu(2)
                             name: "filters"
-                            color: root.activeFiltersCount > 0 ? UbuntuColors.orange : header.config.foregroundColor
+                            color: root.activeFiltersCount > 0 ? UbuntuColors.orange : header.__styleInstance.foregroundColor
                         }
 
                         onClicked: {
@@ -283,6 +279,7 @@ Item {
 
                     AbstractButton {
                         id: cancelButton
+                        objectName: "cancelButton"
                         width: cancelLabel.width + cancelLabel.anchors.rightMargin + cancelLabel.anchors.leftMargin
                         anchors {
                             top: parent.top
@@ -296,7 +293,7 @@ Item {
                         Label {
                             id: cancelLabel
                             text: i18n.tr("Cancel")
-                            color: header.panelForegroundColor
+                            color: header.__styleInstance.foregroundColor
                             verticalAlignment: Text.AlignVCenter
                             anchors {
                                 verticalCenter: parent.verticalCenter
@@ -309,28 +306,27 @@ Item {
                 }
             }
 
-            PageHeadStyle {
-                // FIXME: Replace PageHeadStyle from the Ambiance theme by the new PageHeader from Ubuntu.Components 1.3.
+            PageHeader {
                 id: header
                 objectName: "innerPageHeader"
                 anchors { left: parent.left; right: parent.right }
                 height: headerContainer.height
                 opacity: headerContainer.clip || !headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
-                __separator_visible: false
-                property var styledItem: header
-                property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
-                property color panelColor: background.topColor
-                panelForegroundColor: config.foregroundColor
-                backgroundColor: "transparent"
-                config: PageHeadConfiguration {
-                    title: root.title
-                    foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : theme.palette.normal.baseText
-                    backAction: Action {
-                        iconName: backIsClose ? "close" : "back"
-                        visible: root.showBackButton
-                        onTriggered: root.backClicked()
-                    }
+                title: root.title
 
+                StyleHints {
+                    foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : theme.palette.normal.baseText
+                    backgroundColor: "transparent"
+                    dividerColor: "transparent"
+                }
+
+                leadingActionBar.actions: Action {
+                    iconName: backIsClose ? "close" : "back"
+                    visible: root.showBackButton
+                    onTriggered: root.backClicked()
+                }
+
+                trailingActionBar {
                     actions: [
                         Action {
                             objectName: "store"
@@ -366,7 +362,6 @@ Item {
                     ]
                 }
 
-                property var contents: null
                 Component.onCompleted: root.refreshLogo()
 
                 Component {

@@ -98,7 +98,7 @@ Rectangle {
             var header = findChild(view, "innerPageHeader");
             verify(header, "Could not find the preview header");
 
-            compare(header.config.title, "Mock Scope");
+            compare(header.title, "Mock Scope");
         }
 
         function test_header_style() {
@@ -107,8 +107,8 @@ Rectangle {
 
             var innerHeader = findChild(header, "innerPageHeader");
             verify(innerHeader, "Could not find the inner header");
-            verify(Qt.colorEqual(innerHeader.config.foregroundColor, UbuntuColors.darkGrey),
-                   "Foreground color not equal: %1 != %2".arg(innerHeader.config.foregroundColor).arg(UbuntuColors.darkGrey));
+            verify(Qt.colorEqual(innerHeader.__styleInstance.foregroundColor, UbuntuColors.darkGrey),
+                   "Foreground color not equal: %1 != %2".arg(innerHeader.__styleInstance.foregroundColor).arg(UbuntuColors.darkGrey));
 
             var background = findChild(header, "headerBackground");
             verify(background, "Could not find the background");
