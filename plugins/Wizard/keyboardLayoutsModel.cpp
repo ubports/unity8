@@ -89,38 +89,46 @@ void KeyboardLayoutsModel::buildModel()
 {
     beginResetModel();
 
+
+    GList *sources, *tmp;
+    const gchar *display_name;
+    const gchar *short_name;
+    const gchar *xkb_layout;
+    const gchar *xkb_variant;
+
     if (m_language.isEmpty()) {
-        GList *sources, *tmp;
-        const gchar *display_name;
-        const gchar *short_name;
-        const gchar *xkb_layout;
-        const gchar *xkb_variant;
         sources = gnome_xkb_info_get_all_layouts(m_xkbInfo);
-
-        m_layouts.clear();
-        m_layouts.reserve(g_list_length(sources));
-
-        for (tmp = sources; tmp != NULL; tmp = tmp->next) {
-            gnome_xkb_info_get_layout_info(m_xkbInfo, (const gchar *)tmp->data,
-                                           &display_name, &short_name, &xkb_layout, &xkb_variant);
-
-            KeyboardLayoutInfo layout;
-            layout.id = QString::fromUtf8((const gchar *)tmp->data);
-            layout.shortName = QString::fromUtf8(short_name);
-            layout.displayName = QString::fromUtf8(display_name);
-            layout.layoutAndVariant = QString::fromUtf8(g_strconcat(xkb_layout, "+", xkb_variant, NULL));
-
-            if (!layout.shortName.isEmpty()) {
-                qDebug() << "Appending layout with id:" << layout.id;
-                m_layouts.append(layout);
-            }
-
-        }
-        g_list_free(sources);
-        std::sort(m_layouts.begin(), m_layouts.end(), compareLayouts);
     } else {
-        // TODO
+        sources = gnome_xkb_info_get_layouts_for_language(m_xkbInfo, m_language.toUtf8().constData());
     }
+
+    m_layouts.clear();
+    m_layouts.reserve(g_list_length(sources));
+
+    qDebug() << "!!! Got" << m_layouts.count() << "layouts";
+
+    for (tmp = sources; tmp != NULL; tmp = tmp->next) {
+        gboolean result = gnome_xkb_info_get_layout_info(m_xkbInfo, (const gchar *)tmp->data,
+                                                         &display_name, &short_name, &xkb_layout, &xkb_variant);
+        if (!result) {
+            qWarning() << "!!! Skipping invalid layout";
+            continue;
+        }
+
+        KeyboardLayoutInfo layout;
+        layout.id = QString::fromUtf8((const gchar *)tmp->data);
+        layout.shortName = QString::fromUtf8(short_name);
+        layout.displayName = QString::fromUtf8(display_name);
+        layout.layoutAndVariant = QString::fromUtf8(g_strconcat(xkb_layout, "+", xkb_variant, NULL));
+
+        if (!layout.shortName.isEmpty()) {
+            qDebug() << "!!! Appending layout with id:" << layout.id;
+            m_layouts.append(layout);
+        }
+
+    }
+    g_list_free(sources);
+    std::sort(m_layouts.begin(), m_layouts.end(), compareLayouts);
 
     endResetModel();
 }
