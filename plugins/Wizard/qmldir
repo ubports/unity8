@@ -1,3 +1,2 @@
 module Wizard
 plugin Wizard-qml
-typeinfo Wizard.qmltypes

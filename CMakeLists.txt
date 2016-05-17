@@ -62,6 +62,7 @@ pkg_check_modules(GEONAMES REQUIRED geonames>=0.2)
 pkg_check_modules(GIO REQUIRED gio-2.0>=2.32)
 pkg_check_modules(GLIB REQUIRED glib-2.0>=2.32)
 pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
+pkg_check_modules(GD3 REQUIRED gnome-desktop-3.0)
 
 # Standard install paths
 include(GNUInstallDirs)
