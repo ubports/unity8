@@ -86,7 +86,7 @@ void MirSurfaceListModel::removeSurface(MirSurface *surface)
         m_surfaceList.removeAt(i);
         endRemoveRows();
         Q_EMIT countChanged();
-        if (m_surfaceList.count() == 0) {
+        if (m_surfaceList.count() == 0 || i == 0) {
             Q_EMIT firstChanged();
         }
     }

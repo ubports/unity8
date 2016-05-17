@@ -136,7 +136,7 @@ Column {
 
     // Prompts controls row
     RowLayout {
-        anchors.left: parent.left
+        anchors.left: root.left
         anchors.leftMargin: units.gu(2)
         visible: root.checked === true && d.application !== null && root.enabled
         spacing: units.gu(1)
@@ -166,7 +166,7 @@ Column {
     Repeater {
         model: d.application ? d.application.surfaceList : null
         RowLayout {
-            anchors.left: parent.left
+            anchors.left: root.left
             anchors.leftMargin: units.gu(2)
             spacing: units.gu(1)
             Label {
