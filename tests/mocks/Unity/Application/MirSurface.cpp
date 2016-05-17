@@ -19,7 +19,7 @@
 #include <QDebug>
 #include <QQmlEngine>
 
-#define MIRSURFACE_DEBUG 1
+#define MIRSURFACE_DEBUG 0
 
 #if MIRSURFACE_DEBUG
 #define DEBUG_MSG(params) qDebug().nospace() << "MirSurface[" << (void*)this << "," << m_name << "]::" << __func__  << " " << params

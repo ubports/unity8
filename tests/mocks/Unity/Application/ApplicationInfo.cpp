@@ -25,7 +25,7 @@
 #include <QQuickView>
 #include <QQmlComponent>
 
-#define APPLICATION_DEBUG 1
+#define APPLICATION_DEBUG 0
 
 #if APPLICATION_DEBUG
 #define DEBUG_MSG(params) qDebug().nospace() << "Application["<<appId()<<"]::" << __func__  << " " << params
