@@ -201,12 +201,7 @@ FocusScope {
         objectName: "promptSurfacesRepeater"
         // show only along with the top-most application surface
         model: {
-            if (!root.application) {
-                return null;
-            }
-
-            if (root.application.surfaceList.count === 0
-                    || root.surface === root.application.surfaceList.first) {
+            if (root.application && root.surface === root.application.surfaceList.first) {
                 return root.application.promptSurfaceList;
             } else {
                 return null;
