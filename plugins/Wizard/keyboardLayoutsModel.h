@@ -37,8 +37,7 @@ public:
     enum Roles {
         LayoutIdRole = Qt::UserRole + 1,
         DisplayNameRole,
-        ShortNameRole,
-        LayoutAndVariantRole,
+        LanguageRole
     };
 
     QString language() const;

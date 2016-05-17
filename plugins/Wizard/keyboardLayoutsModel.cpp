@@ -25,8 +25,7 @@ Q_DECLARE_METATYPE(StringMapList)
 struct KeyboardLayoutInfo {
     QString id;
     QString displayName;
-    QString shortName; // language
-    QString layoutAndVariant;
+    QString language;
 };
 
 KeyboardLayoutsModel::KeyboardLayoutsModel(QObject *parent)
@@ -35,8 +34,7 @@ KeyboardLayoutsModel::KeyboardLayoutsModel(QObject *parent)
     m_roleNames = {
         {LayoutIdRole, "layoutId"},
         {DisplayNameRole, "displayName"},
-        {ShortNameRole, "shortName"},
-        {LayoutAndVariantRole, "layoutAndVariant"}
+        {LanguageRole, "language"}
     };
 
     qDBusRegisterMetaType<StringMapList>();
@@ -73,8 +71,8 @@ static bool compareLayouts(const KeyboardLayoutInfo &layout0, const KeyboardLayo
     QString name1(layout1.displayName);
 
     if (name0 == name1) {
-        name0 = layout0.shortName;
-        name1 = layout1.shortName;
+        name0 = layout0.language;
+        name1 = layout1.language;
 
         if (name0 == name1) {
             name0 = layout0.id;
@@ -89,23 +87,15 @@ void KeyboardLayoutsModel::buildModel()
 {
     beginResetModel();
 
-
     GList *sources, *tmp;
     const gchar *display_name;
     const gchar *short_name;
     const gchar *xkb_layout;
     const gchar *xkb_variant;
 
-    if (m_language.isEmpty()) {
-        sources = gnome_xkb_info_get_all_layouts(m_xkbInfo);
-    } else {
-        sources = gnome_xkb_info_get_layouts_for_language(m_xkbInfo, m_language.toUtf8().constData());
-    }
+    sources = gnome_xkb_info_get_all_layouts(m_xkbInfo);
 
     m_layouts.clear();
-    m_layouts.reserve(g_list_length(sources));
-
-    qDebug() << "!!! Got" << m_layouts.count() << "layouts";
 
     for (tmp = sources; tmp != NULL; tmp = tmp->next) {
         gboolean result = gnome_xkb_info_get_layout_info(m_xkbInfo, (const gchar *)tmp->data,
@@ -117,17 +107,16 @@ void KeyboardLayoutsModel::buildModel()
 
         KeyboardLayoutInfo layout;
         layout.id = QString::fromUtf8((const gchar *)tmp->data);
-        layout.shortName = QString::fromUtf8(short_name);
+        layout.language = QString::fromUtf8(short_name);
         layout.displayName = QString::fromUtf8(display_name);
-        layout.layoutAndVariant = QString::fromUtf8(g_strconcat(xkb_layout, "+", xkb_variant, NULL));
 
-        if (!layout.shortName.isEmpty()) {
-            qDebug() << "!!! Appending layout with id:" << layout.id;
+        if (layout.language.isEmpty() || layout.language == m_language) {
             m_layouts.append(layout);
+            qDebug() << "Inserted layout:" << layout.id << ", language:" << layout.language;
         }
-
     }
     g_list_free(sources);
+
     std::sort(m_layouts.begin(), m_layouts.end(), compareLayouts);
 
     endResetModel();
@@ -156,10 +145,8 @@ QVariant KeyboardLayoutsModel::data(const QModelIndex &index, int role) const
         return layout.displayName;
     case LayoutIdRole:
         return layout.id;
-    case ShortNameRole:
-        return layout.shortName;
-    case LayoutAndVariantRole:
-        return layout.layoutAndVariant;
+    case LanguageRole:
+        return layout.language;
     default: {
         qWarning() << Q_FUNC_INFO << "unsupported data role";
         return QVariant();

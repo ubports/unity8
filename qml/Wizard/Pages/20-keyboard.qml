@@ -15,8 +15,10 @@
  */
 
 import QtQuick 2.4
+import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
+import Ubuntu.SystemSettings.LanguagePlugin 1.0
 import Wizard 0.1
 import ".." as LocalComponents
 
@@ -26,42 +28,96 @@ LocalComponents.Page {
     title: i18n.tr("Hardware Keyboard")
     forwardButtonSourceComponent: forwardButton
 
-    KeyboardLayoutsModel {
-        id: allLayoutsModel
+    UbuntuLanguagePlugin {
+        id: langPlugin
     }
 
-    ListView {
-        id: keyboardListView
-        clip: true
-        snapMode: ListView.SnapToItem
+    KeyboardLayoutsModel {
+        id: layoutsModel
+        language: selectedLanguage
+    }
+
+    Component.onCompleted: print("Initial language:", i18n.language)
+
+    readonly property string selectedLanguage: langPlugin.languageCodes[langSelector.selectedIndex].split("_")[0].split(".")[0]
+
+    onSelectedLanguageChanged: {
+        print("Selected language:", selectedLanguage)
+    }
+
+    ColumnLayout {
+        id: column
+        spacing: units.gu(2)
 
         anchors {
             fill: content
             leftMargin: wideMode ? parent.leftMargin : 0
             rightMargin: wideMode ? parent.rightMargin : 0
             topMargin: wideMode ? parent.customMargin : 0
+            bottomMargin: units.gu(2)
         }
 
-        model: allLayoutsModel
+        ItemSelector {
+            id: langSelector
+            anchors.left: parent.left
+            anchors.right: parent.right
+            text: i18n.tr("Keyboard Language")
+            model: langPlugin.languageNames
+            selectedIndex: langPlugin.languageCodes.indexOf(i18n.language)
+            onSelectedIndexChanged: keyboardListView.currentIndex = -1
+        }
 
-        delegate: ListItem {
-            objectName: "kbdDelegate" + index
-            height: layout.height + (divider.visible ? divider.height : 0)
+        ListView {
+            Layout.fillHeight: true
+            id: keyboardListView
+            clip: true
+            anchors.left: parent.left
+            anchors.right: parent.right
+            snapMode: ListView.SnapToItem
+            model: layoutsModel
+            currentIndex: -1
 
-            ListItemLayout {
-                id: layout
-                title.text: displayName
-                subtitle.text: layoutId
-                CheckBox { SlotsLayout.position: SlotsLayout.Leading }
+            delegate: ListItem {
+                id: itemDelegate
+                objectName: "kbdDelegate" + index
+                height: layout.height + (divider.visible ? divider.height : 0)
+                readonly property bool isCurrent: index === ListView.view.currentIndex
+
+                ListItemLayout {
+                    id: layout
+                    title.text: displayName
+                    subtitle.text: layoutId
+                    Image {
+                        SlotsLayout.position: SlotsLayout.Trailing
+                        SlotsLayout.overrideVerticalPositioning: true
+                        fillMode: Image.PreserveAspectFit
+                        anchors.verticalCenter: parent.verticalCenter
+                        height: units.gu(1.5)
+                        source: "data/Tick@30.png"
+                        visible: itemDelegate.isCurrent
+                    }
+                }
+
+                onClicked: {
+                    keyboardListView.currentIndex = index;
+                }
             }
+        }
+
+        TextField {
+            id: tester
+            anchors.left: parent.left
+            anchors.leftMargin: column.anchors.leftMargin == 0 ? units.gu(2) : 0
+            anchors.right: parent.right
+            anchors.rightMargin: column.anchors.rightMargin == 0 ? units.gu(2) : 0
+            placeholderText: i18n.tr("Type here to test your keyboard")
         }
     }
 
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            text: i18n.tr("Next")
-            enabled: true
+            text: keyboardListView.currentIndex != -1 ? i18n.tr("Next") : i18n.tr("Skip")
             onClicked: pageStack.next();
         }
     }
