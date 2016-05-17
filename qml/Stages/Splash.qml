@@ -79,7 +79,7 @@ Item {
         id: header
         anchors { left: parent.left; right: parent.right }
         StyleHints {
-            foregroundColor: styledItem.fakeTheme.palette.selected.backgroundText
+            foregroundColor: styledItem.fakeTheme.palette.normal.backgroundText
             backgroundColor: "transparent"
         }
     }
