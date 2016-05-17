@@ -164,7 +164,7 @@ Item {
             }
             width: Math.min(root.itemWidth, Math.max(units.gu(2), countLabel.implicitWidth + units.gu(1)))
             height: units.gu(2)
-            backgroundColor: UbuntuColors.green
+            backgroundColor: theme.palette.normal.positive
             visible: root.countVisible
             aspect: UbuntuShape.Flat
 
@@ -207,7 +207,7 @@ Item {
                         top: parent.top
                         bottom: parent.bottom
                     }
-                    backgroundColor: UbuntuColors.blue
+                    backgroundColor: theme.palette.normal.activity
                     borderSource: "none"
                     width: progressOverlay.width
                 }

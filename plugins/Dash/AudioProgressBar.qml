@@ -49,6 +49,6 @@ Item {
             rightMargin: maxWidth - (maxWidth * root.progress)
         }
         height: units.dp(2)
-        backgroundColor: UbuntuColors.orange
+        backgroundColor: theme.palette.normal.activity
     }
 }

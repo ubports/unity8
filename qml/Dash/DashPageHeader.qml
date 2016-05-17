@@ -269,7 +269,7 @@ Item {
                             anchors.fill: parent
                             anchors.margins: units.gu(2)
                             name: "filters"
-                            color: root.activeFiltersCount > 0 ? UbuntuColors.orange : header.__styleInstance.foregroundColor
+                            color: root.activeFiltersCount > 0 ? theme.palette.normal.positive : header.__styleInstance.foregroundColor
                         }
 
                         onClicked: {
