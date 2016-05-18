@@ -20,6 +20,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
 import Ubuntu.SystemSettings.LanguagePlugin 1.0
 import Wizard 0.1
+import Unity.InputInfo 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -28,6 +29,9 @@ LocalComponents.Page {
     title: i18n.tr("Hardware Keyboard")
     forwardButtonSourceComponent: forwardButton
 
+    skip: keyboardsModel.count == 0
+    skipValid: false
+
     UbuntuLanguagePlugin {
         id: langPlugin
     }
@@ -35,6 +39,12 @@ LocalComponents.Page {
     KeyboardLayoutsModel {
         id: layoutsModel
         language: selectedLanguage
+    }
+
+    InputDeviceModel {
+        id: keyboardsModel
+        deviceFilter: InputInfo.Keyboard
+        Component.onCompleted: skipValid = true;
     }
 
     Component.onCompleted: print("Initial language:", i18n.language)

@@ -24,6 +24,7 @@ import Ubuntu.SystemSettings.SecurityPrivacy 1.0
 import Ubuntu.SystemSettings.TimeDate 1.0
 import Unity.Test 0.1 as UT
 import Wizard 0.1
+import Unity.InputInfo 0.1
 import "../../../qml/Wizard"
 
 Item {
@@ -41,7 +42,12 @@ Item {
                 id: wizard
                 anchors.fill: parent
 
+                Component.onCompleted: {
+                    MockInputDeviceBackend.addMockDevice("/test", InputInfo.Keyboard);
+                }
+
                 Component.onDestruction: {
+                    MockInputDeviceBackend.removeDevice("/test");
                     wizardLoader.itemDestroyed = true;
                 }
             }
