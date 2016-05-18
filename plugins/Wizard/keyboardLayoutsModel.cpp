@@ -119,8 +119,13 @@ void KeyboardLayoutsModel::updateModel()
     beginResetModel();
     m_layouts.clear();
 
+    const QString lang = m_language.section("_", 0, 0);
+    const QString country = m_language.section("_", 1, 1).toLower();
+
     Q_FOREACH(const KeyboardLayoutInfo & info, m_db) {
-        if (info.language.isEmpty() || info.language == m_language) {
+        const QString kbdCountry = info.id.section("+", 0, 0);
+        if (info.language == lang &&                                           // filter by language
+                (kbdCountry.startsWith(country) || kbdCountry.length() > 2)) { // and by known country, also insert anything that doesn't match the country
             m_layouts.append(info);
             qDebug() << "Inserted layout:" << info.id << ", language:" << info.language;
         }
