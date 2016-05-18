@@ -16,10 +16,11 @@
 
 #include "TouchGestureArea.h"
 
-// local
-#include "TouchOwnershipEvent.h"
-#include "TouchRegistry.h"
-#include "UnownedTouchEvent.h"
+#include <UbuntuGestures/TouchOwnershipEvent>
+#include <UbuntuGestures/TouchRegistry>
+#include <UbuntuGestures/UnownedTouchEvent>
+// #include "TouchRegistry.h"
+// #include "UnownedTouchEvent.h"
 
 #include <QGuiApplication>
 #include <QStyleHints>
@@ -588,13 +589,15 @@ void TouchGestureArea::setInternalStatus(uint newStatus)
             resyncCachedTouchPoints();
             break;
         case InternalStatus::WaitingForMoreTouches:
-            m_recognitionTimer->start(m_recognitionPeriod);
+            m_recognitionTimer->setInterval(m_recognitionPeriod);
+            m_recognitionTimer->start();
             break;
         case InternalStatus::Recognized:
             resyncCachedTouchPoints();
             break;
         case InternalStatus::WaitingForRejection:
-            m_recognitionTimer->start(m_releaseRejectPeriod);
+            m_recognitionTimer->setInterval(m_releaseRejectPeriod);
+            m_recognitionTimer->start();
             break;
         case InternalStatus::Rejected:
             resyncCachedTouchPoints();

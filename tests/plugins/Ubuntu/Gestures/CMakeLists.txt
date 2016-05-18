@@ -1,5 +1,7 @@
 include(QmlTest)
 
+pkg_check_modules(UBUNTUGESTURES REQUIRED UbuntuGestures)
+
 # DANGER! DANGER! Using Qt's private API!
 include_directories(
     ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
@@ -7,7 +9,7 @@ include_directories(
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/Ubuntu/Gestures
-    ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures
+    ${UBUNTUGESTURES_INCLUDE_DIRS}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     )
@@ -17,7 +19,7 @@ export_qmlfiles(UbuntuGesturesTest .)
 macro(build_gesture_test CLASSNAME)
     add_executable(${CLASSNAME}TestExec tst_${CLASSNAME}.cpp GestureTest.cpp TestItem.cpp)
     qt5_use_modules(${CLASSNAME}TestExec Test Core Qml Gui Quick)
-    target_link_libraries(${CLASSNAME}TestExec UbuntuGesturesQml UbuntuGestures)
+    target_link_libraries(${CLASSNAME}TestExec UbuntuGesturesQml ${UBUNTUGESTURES_LIBRARIES})
 endmacro()
 
 set(UNITY_IMPORT_PATHS
@@ -44,11 +46,9 @@ macro(add_gesture_ui_test CLASSNAME)
     add_manual_qml_test(. ${CLASSNAME} IMPORT_PATHS ${UNITY_IMPORT_PATHS})
 endmacro()
 
-add_gesture_ui_test(DirectionalDragArea)
 add_gesture_ui_test(FloatingFlickable)
 add_gesture_ui_test(PressedOutsideNotifier)
 add_gesture_ui_test(TouchDispatcher)
 add_gesture_ui_test(TouchGate)
-add_gesture_unit_test(Damper)
 add_gesture_unit_test(AxisVelocityCalculator)
 add_gesture_ui_test(TouchGestureArea)

@@ -21,8 +21,7 @@
 
 #include <QQuickItem>
 
-// lib UbuntuGestures
-#include <Timer.h>
+#include <UbuntuGestures/Timer>
 
 class TouchOwnershipEvent;
 class UnownedTouchEvent;

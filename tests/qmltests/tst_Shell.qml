@@ -436,7 +436,7 @@ Rectangle {
             shellLoader.state = formFactor;
             shellLoader.active = true;
             tryCompare(shellLoader, "status", Loader.Ready);
-            removeTimeConstraintsFromDirectionalDragAreas(shellLoader.item);
+            removeTimeConstraintsFromSwipeAreas(shellLoader.item);
             tryCompare(shell, "enabled", true); // enabled by greeter when ready
 
             sessionSpy.target = findChild(shell, "greeter")
@@ -749,8 +749,9 @@ Rectangle {
             // greeter unloads its internal components when hidden
             // and reloads them when shown. Thus we have to do this
             // again before interacting with it otherwise any
-            // DirectionalDragAreas in there won't be easily fooled by
+            // SwipeAreas in there won't be easily fooled by
             // fake swipes.
+            removeTimeConstraintsFromSwipeAreas(greeter);
             swipeAwayGreeter();
 
             compare(mainApp.requestedState, ApplicationInfoInterface.RequestedRunning);
@@ -761,7 +762,7 @@ Rectangle {
             var greeter = findChild(shell, "greeter");
             tryCompare(greeter, "fullyShown", true);
             waitForGreeterToStabilize();
-            removeTimeConstraintsFromDirectionalDragAreas(greeter);
+            removeTimeConstraintsFromSwipeAreas(greeter);
 
             var touchX = shell.width - (shell.edgeSize / 2);
             var touchY = shell.height / 2;
@@ -1069,9 +1070,9 @@ Rectangle {
             // greeter unloads its internal components when hidden
             // and reloads them when shown. Thus we have to do this
             // again before interacting with it otherwise any
-            // DirectionalDragAreas in there won't be easily fooled by
+            // SwipeAreas in there won't be easily fooled by
             // fake swipes.
-            removeTimeConstraintsFromDirectionalDragAreas(greeter);
+            removeTimeConstraintsFromSwipeAreas(greeter);
         }
 
         function revealLauncherByEdgePushWithMouse() {
@@ -2203,6 +2204,7 @@ Rectangle {
             compare(ApplicationManager.focusedApplicationId, "unity8-dash");
 
             // Use Super + Tab Tab to cycle to the first entry in the launcher
+            wait(1000);
             keyPress(Qt.Key_Super_L, Qt.MetaModifier);
             keyClick(Qt.Key_Tab);
             tryCompare(launcher, "state", "visible");

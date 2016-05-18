@@ -29,6 +29,7 @@ class UBUNTUGESTURESQML_EXPORT Direction : public QObject {
     Q_ENUMS(Type)
 
 public:
+    // Make sure it is kept synchronized with SDK UCSwipeArea::Direction
     enum Type {
         Rightwards, // Along the positive direction of the X axis
         Leftwards, // Along the negative direction of the X axis

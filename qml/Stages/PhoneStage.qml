@@ -713,7 +713,7 @@ AbstractStage {
         enabled: spreadDragArea.dragging
     }
 
-    DirectionalDragArea {
+    SwipeArea {
         id: spreadDragArea
         objectName: "spreadDragArea"
         direction: Direction.Leftwards
@@ -724,10 +724,10 @@ AbstractStage {
 
         property var gesturePoints: new Array()
 
-        onTouchXChanged: {
+        onTouchPositionChanged: {
             if (dragging) {
                 // Gesture recognized. Let's move the spreadView with the finger
-                var dragX = Math.min(touchX + width, width); // Prevent dragging rightwards
+                var dragX = Math.min(touchPosition.x + width, width); // Prevent dragging rightwards
                 dragX = -dragX + spreadDragArea.width - spreadView.shift;
                 // Don't allow dragging further than the animation crossing with phase2's animation
                 var maxMovement =  spreadView.width * spreadView.positionMarker4 - spreadView.shift;
@@ -739,7 +739,7 @@ AbstractStage {
                 spreadView.contentX = -spreadView.shift;
             }
 
-            gesturePoints.push(touchX);
+            gesturePoints.push(touchPosition.x);
         }
 
         onDraggingChanged: {

@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtTest 1.0
 import Unity.Application 0.1
 import Ubuntu.Components 1.3
+import Ubuntu.Test 1.0 as UbuntuTest
 import Unity.Test 0.1 as UT
 import Utils 0.1
 
@@ -572,28 +573,27 @@ TestCase {
         while (rootItem.parent != undefined) {
             rootItem = rootItem.parent;
         }
-        removeTimeConstraintsFromDirectionalDragAreas(rootItem);
+        removeTimeConstraintsFromSwipeAreas(rootItem);
     }
 
     /*
       In qmltests, sequences of touch events are sent all at once, unlike in "real life".
       Also qmltests might run really slowly, e.g. when run from inside virtual machines.
       Thus to remove a variable that qmltests cannot really control, namely time, this
-      function removes all constraints from DirectionalDragAreas that are sensible to
+      function removes all constraints from SwipeAreas that are sensible to
       elapsed time.
 
-      This effectively makes DirectionalDragAreas easier to fool.
+      This effectively makes SwipeAreas easier to fool.
      */
-    function removeTimeConstraintsFromDirectionalDragAreas(item) {
+    function removeTimeConstraintsFromSwipeAreas(item) {
         if (!item)
             qtest_fail("no item given", 1);
 
-        // use duck-typing to identify a DirectionalDragArea
-        if (item.removeTimeConstraints != undefined) {
-            item.removeTimeConstraints();
+        if (UT.Util.isInstanceOf(item, "UCSwipeArea")) {
+            UbuntuTest.TestExtras.removeTimeConstraintsFromSwipeArea(item);
         } else {
             for (var i in item.children) {
-                removeTimeConstraintsFromDirectionalDragAreas(item.children[i]);
+                removeTimeConstraintsFromSwipeAreas(item.children[i]);
             }
         }
     }

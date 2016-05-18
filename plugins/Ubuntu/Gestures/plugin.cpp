@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2015 Canonical, Ltd.
+ * Copyright (C) 2013,2015,2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,8 +17,7 @@
 #include "plugin.h"
 #include "AxisVelocityCalculator.h"
 #include "Direction.h"
-#include "DirectionalDragArea.h"
-#include "FloatingFlickable.h"
+#include "MouseEventGenerator.h"
 #include "PressedOutsideNotifier.h"
 #include "TouchGate.h"
 #include "TouchGestureArea.h"
@@ -34,9 +33,8 @@ static QObject* directionSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) 
 void UbuntuGesturesQmlPlugin::registerTypes(const char *uri)
 {
     qmlRegisterSingletonType<Direction>(uri, 0, 1, "Direction", directionSingleton);
-    qmlRegisterType<DirectionalDragArea>(uri, 0, 1, "DirectionalDragArea");
     qmlRegisterType<AxisVelocityCalculator>(uri, 0, 1, "AxisVelocityCalculator");
-    qmlRegisterType<FloatingFlickable>(uri, 0, 1, "FloatingFlickable");
+    qmlRegisterType<MouseEventGenerator>(uri, 0, 1, "MouseEventGenerator");
     qmlRegisterType<PressedOutsideNotifier>(uri, 0, 1, "PressedOutsideNotifier");
     qmlRegisterType<TouchGate>(uri, 0, 1, "TouchGate");
     qmlRegisterType<TouchGestureArea>(uri, 0, 1, "TouchGestureArea");

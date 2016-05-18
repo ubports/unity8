@@ -39,7 +39,7 @@ Showable {
     property bool showOnClick: true
     property color panelColor: theme.palette.normal.background
 
-    signal showTapped(point position)
+    signal showTapped()
 
     // TODO: Perhaps we need a animation standard for showing/hiding? Each showable seems to
     // use its own values. Need to ask design about this.
@@ -204,7 +204,7 @@ Showable {
             } else {
                 var touchReleaseTime = new Date().getTime();
                 if (touchReleaseTime - touchPressTime <= 300) {
-                    root.showTapped(Qt.point(touchSceneX, touchSceneY));
+                    root.showTapped();
                 }
             }
         }
@@ -233,10 +233,10 @@ Showable {
         stretch: true
         maxTotalDragDistance: openedHeight - expandedPanelHeight - handle.height
 
-        onTouchSceneXChanged: {
+        onTouchPositionChanged: {
             if (root.state === "locked") {
-                d.xDisplacementSinceLock += (touchSceneX - d.lastHideTouchSceneX)
-                d.lastHideTouchSceneX = touchSceneX;
+                d.xDisplacementSinceLock += (touchPosition.x - d.lastHideTouchX)
+                d.lastHideTouchX = touchPosition.x;
             }
         }
     }
@@ -244,7 +244,11 @@ Showable {
     PanelVelocityCalculator {
         id: yVelocityCalculator
         velocityThreshold: d.hasCommitted ? 0.1 : 0.3
-        trackedValue: d.activeDragHandle ? d.activeDragHandle.touchSceneY : 0
+        trackedValue: d.activeDragHandle ?
+                            (Direction.isPositive(d.activeDragHandle.direction) ?
+                                    d.activeDragHandle.distance :
+                                    -d.activeDragHandle.distance)
+                            : 0
 
         onVelocityAboveThresholdChanged: d.updateState()
     }
@@ -271,13 +275,13 @@ Showable {
         id: d
         property var activeDragHandle: showDragHandle.dragging ? showDragHandle : hideDragHandle.dragging ? hideDragHandle : null
         property bool hasCommitted: false
-        property real lastHideTouchSceneX: 0
+        property real lastHideTouchX: 0
         property real xDisplacementSinceLock: 0
         onXDisplacementSinceLockChanged: d.updateState()
 
         property real rowMappedLateralPosition: {
             if (!d.activeDragHandle) return -1;
-            return d.activeDragHandle.mapToItem(bar, d.activeDragHandle.touchX, 0).x;
+            return d.activeDragHandle.mapToItem(bar, d.activeDragHandle.touchPosition.x, 0).x;
         }
 
         function updateState() {
@@ -305,7 +309,7 @@ Showable {
                 script: {
                     yVelocityCalculator.reset();
                     // initial item selection
-                    if (!d.hasCommitted) bar.selectItemAt(d.activeDragHandle ? d.activeDragHandle.touchX : -1);
+                    if (!d.hasCommitted) bar.selectItemAt(d.activeDragHandle ? d.activeDragHandle.touchPosition.x : -1);
                     d.hasCommitted = false;
                 }
             }
@@ -323,7 +327,7 @@ Showable {
                 target: leftScroller
                 lateralPosition: {
                     if (!d.activeDragHandle) return -1;
-                    var mapped = d.activeDragHandle.mapToItem(leftScroller, d.activeDragHandle.touchX, 0);
+                    var mapped = d.activeDragHandle.mapToItem(leftScroller, d.activeDragHandle.touchPosition.x, 0);
                     return mapped.x;
                 }
             }
@@ -332,7 +336,7 @@ Showable {
                 target: rightScroller
                 lateralPosition: {
                     if (!d.activeDragHandle) return -1;
-                    var mapped = d.activeDragHandle.mapToItem(rightScroller, d.activeDragHandle.touchX, 0);
+                    var mapped = d.activeDragHandle.mapToItem(rightScroller, d.activeDragHandle.touchPosition.x, 0);
                     return mapped.x;
                 }
             }
@@ -342,7 +346,7 @@ Showable {
             StateChangeScript {
                 script: {
                     d.xDisplacementSinceLock = 0;
-                    d.lastHideTouchSceneX = hideDragHandle.touchSceneX;
+                    d.lastHideTouchX = hideDragHandle.touchPosition.x;
                 }
             }
             PropertyChanges { target: bar; expanded: true }
@@ -354,7 +358,7 @@ Showable {
             PropertyChanges {
                 target: d;
                 hasCommitted: true
-                lastHideTouchSceneX: 0
+                lastHideTouchX: 0
                 xDisplacementSinceLock: 0
                 restoreEntryValues: false
             }
