@@ -110,7 +110,7 @@ Item {
             height: indicators.minimizedPanelHeight
             hoverEnabled: true
             onClicked: callHint.visible ? callHint.showLiveCall() : PanelState.focusMaximizedApp()
-            onDoubleClicked: PanelState.restore()
+            onDoubleClicked: PanelState.restoreClicked()
 
             // WindowControlButtons inside the mouse area, otherwise QML doesn't grok nested hover events :/
             // cf. https://bugreports.qt.io/browse/QTBUG-32909
@@ -125,15 +125,16 @@ Item {
                     bottomMargin: units.gu(0.5)
                 }
                 height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
+
                 visible: ((PanelState.buttonsVisible && parent.containsMouse) ||
                           (TouchControlsState.overlayShown && TouchControlsState.buttonsShownInPanel))
                          && !root.locked && !callHint.visible
                 active: PanelState.buttonsVisible || TouchControlsState.overlayShown
                 windowIsMaximized: true
+                onCloseClicked: PanelState.closeClicked()
+                onMinimizeClicked: PanelState.minimizeClicked()
+                onMaximizeClicked: PanelState.restoreClicked()
                 closeButtonShown: PanelState.closeButtonShown
-                onClose: PanelState.close()
-                onMinimize: PanelState.minimize()
-                onMaximize: PanelState.restore()
             }
         }
 
