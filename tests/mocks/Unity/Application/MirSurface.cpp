@@ -408,27 +408,6 @@ void MirSurface::close()
     }
 }
 
-void MirSurface::createPromptSurface()
-{
-    QStringList screenshotIds = {"gallery", "map", "facebook", "camera", "browser", "music", "twitter"};
-    int i = rand() % screenshotIds.count();
-
-    QUrl screenshotUrl = QString("qrc:///Unity/Application/screenshots/%1@12.png")
-            .arg(screenshotIds[i]);
-
-    auto surface = new MirSurface(QString("prompt foo"),
-            Mir::NormalType,
-            Mir::RestoredState,
-            screenshotUrl);
-
-    m_promptSurfaceList.appendSurface(surface);
-}
-
-MirSurfaceListInterface* MirSurface::promptSurfaceList()
-{
-    return &m_promptSurfaceList;
-}
-
 void MirSurface::requestFocus()
 {
     DEBUG_MSG("");
@@ -485,6 +464,7 @@ void MirFocusController::setFocusedSurface(MirSurfaceInterface *surface)
 
     if (m_focusedSurface) {
         Q_EMIT m_focusedSurface->focusedChanged(true);
+        m_focusedSurface->raise();
     }
 }
 
