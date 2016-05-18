@@ -78,6 +78,7 @@ Item {
 
                 model: columnModel
                 cacheBuffer: height
+                highlightMoveDuration: 0 // QTBUG-53460
 
                 Behavior on contentY { UbuntuNumberAnimation { } }
 

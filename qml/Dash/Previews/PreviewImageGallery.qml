@@ -38,6 +38,7 @@ PreviewWidget {
         cacheBuffer: width * 3
         model: root.widgetData["sources"]
         clip: true
+        highlightMoveDuration: 0 // QTBUG-53460
 
         onCurrentIndexChanged: overlay.updateInitialItem()
 
