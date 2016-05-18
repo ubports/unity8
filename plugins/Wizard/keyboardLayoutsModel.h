@@ -52,11 +52,13 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void buildModel();
+    void updateModel();
 
 private:
     QString m_language;
     QHash<int, QByteArray> m_roleNames;
     QVector<KeyboardLayoutInfo> m_layouts;
+    QVector<KeyboardLayoutInfo> m_db;
     GnomeXkbInfo *m_xkbInfo = nullptr;
 };
 

@@ -40,8 +40,8 @@ KeyboardLayoutsModel::KeyboardLayoutsModel(QObject *parent)
     qDBusRegisterMetaType<StringMapList>();
     m_xkbInfo = gnome_xkb_info_new();
 
-    connect(this, &KeyboardLayoutsModel::languageChanged, this, &KeyboardLayoutsModel::buildModel);
     buildModel();
+    connect(this, &KeyboardLayoutsModel::languageChanged, this, &KeyboardLayoutsModel::updateModel);
 }
 
 KeyboardLayoutsModel::~KeyboardLayoutsModel()
@@ -85,8 +85,6 @@ static bool compareLayouts(const KeyboardLayoutInfo &layout0, const KeyboardLayo
 
 void KeyboardLayoutsModel::buildModel()
 {
-    beginResetModel();
-
     GList *sources, *tmp;
     const gchar *display_name;
     const gchar *short_name;
@@ -94,8 +92,6 @@ void KeyboardLayoutsModel::buildModel()
     const gchar *xkb_variant;
 
     sources = gnome_xkb_info_get_all_layouts(m_xkbInfo);
-
-    m_layouts.clear();
 
     for (tmp = sources; tmp != NULL; tmp = tmp->next) {
         gboolean result = gnome_xkb_info_get_layout_info(m_xkbInfo, (const gchar *)tmp->data,
@@ -110,15 +106,27 @@ void KeyboardLayoutsModel::buildModel()
         layout.language = QString::fromUtf8(short_name);
         layout.displayName = QString::fromUtf8(display_name);
 
-        if (layout.language.isEmpty() || layout.language == m_language) {
-            m_layouts.append(layout);
-            qDebug() << "Inserted layout:" << layout.id << ", language:" << layout.language;
-        }
+        m_db.append(layout);
+        qDebug() << "DB layout:" << layout.id << ", language:" << layout.language;
     }
     g_list_free(sources);
 
-    std::sort(m_layouts.begin(), m_layouts.end(), compareLayouts);
+    std::sort(m_db.begin(), m_db.end(), compareLayouts);
+}
 
+void KeyboardLayoutsModel::updateModel()
+{
+    beginResetModel();
+    m_layouts.clear();
+
+    Q_FOREACH(const KeyboardLayoutInfo & info, m_db) {
+        if (info.language.isEmpty() || info.language == m_language) {
+            m_layouts.append(info);
+            qDebug() << "Inserted layout:" << info.id << ", language:" << info.language;
+        }
+    }
+
+    std::sort(m_layouts.begin(), m_layouts.end(), compareLayouts);
     endResetModel();
 }
 
