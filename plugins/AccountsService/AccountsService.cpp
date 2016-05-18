@@ -274,6 +274,23 @@ QStringList AccountsService::keymaps() const
     return {QStringLiteral("us")};
 }
 
+void AccountsService::setKeymaps(const QStringList &keymaps)
+{
+    if (keymaps.isEmpty()) {
+        return;
+    }
+
+    StringMap map;
+    StringMapList result;
+    Q_FOREACH(const QString &keymap, keymaps) {
+        map.insert(QStringLiteral("xkb"), keymap);
+    }
+
+    result.append(map);
+    setProperty(IFACE_ACCOUNTS_USER, PROP_INPUT_SOURCES, QVariant::fromValue(result));
+    Q_EMIT keymapsChanged();
+}
+
 uint AccountsService::failedLogins() const
 {
     return getProperty(IFACE_UNITY_PRIVATE, PROP_FAILED_LOGINS).toUInt();

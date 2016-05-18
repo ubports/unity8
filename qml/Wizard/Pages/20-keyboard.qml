@@ -20,6 +20,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
 import Ubuntu.SystemSettings.LanguagePlugin 1.0
 import Wizard 0.1
+import AccountsService 0.1
 import Unity.InputInfo 0.1
 import ".." as LocalComponents
 
@@ -55,6 +56,8 @@ LocalComponents.Page {
         print("Selected language:", selectedLanguage)
     }
 
+    property string selectedKeymap: ""
+
     ColumnLayout {
         id: column
         spacing: units.gu(2)
@@ -69,13 +72,14 @@ LocalComponents.Page {
 
         ItemSelector {
             id: langSelector
+            objectName: "langSelector"
             anchors.left: parent.left
             anchors.right: parent.right
-            //text: i18n.tr("Keyboard Language")
             model: langPlugin.languageNames
             selectedIndex: langPlugin.languageCodes.indexOf(i18n.language)
             onSelectedIndexChanged: {
                 keyboardListView.currentIndex = -1;
+                selectedKeymap = "";
                 tester.text = "";
             }
         }
@@ -117,6 +121,7 @@ LocalComponents.Page {
 
                 onClicked: {
                     keyboardListView.currentIndex = index;
+                    selectedKeymap = layoutId;
                 }
             }
         }
@@ -136,7 +141,13 @@ LocalComponents.Page {
         id: forwardButton
         LocalComponents.StackButton {
             text: keyboardListView.currentIndex != -1 ? i18n.tr("Next") : i18n.tr("Skip")
-            onClicked: pageStack.next();
+            onClicked: {
+                if (keyboardListView.currentIndex != -1) {
+                    print("Saving keymap:", selectedKeymap);
+                    AccountsService.keymaps = selectedKeymap;
+                }
+                pageStack.next();
+            }
         }
     }
 }
