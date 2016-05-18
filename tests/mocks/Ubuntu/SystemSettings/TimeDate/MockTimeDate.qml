@@ -18,8 +18,20 @@ import QtQuick 2.4
 
 Item {
     id: root
-    property string timeZone: "Europe/Prague"
-    onTimeZoneChanged: root.timeZoneChangedCalled(root.timeZone);
+    readonly property alias timeZone: d.timeZone
+    readonly property alias timeZoneName: d.timeZoneName
 
-    signal timeZoneChangedCalled(string tz);
+    signal timeZoneChangedCalled(string tz, string name) // only in mock
+
+    function setTimeZone(tz, name) {
+        d.timeZone = tz;
+        d.timeZoneName = name;
+        timeZoneChangedCalled(tz, name);
+    }
+
+    QtObject {
+        id: d
+        property string timeZone: "Europe/Prague"
+        property string timeZoneName: "Prague"
+    }
 }
