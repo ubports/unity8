@@ -490,6 +490,10 @@ private Q_SLOTS:
 
         // Finally check, that the change to "count" implicitly also set the alerting-state to true
         QVERIFY(launcherModel->get(index)->alerting() == true);
+
+        // Focus the app, make sure the alert gets cleared
+        appManager->focusApplication("abs-icon");
+        QVERIFY(launcherModel->get(index)->alerting() == false);
     }
 
     void testCountEmblemAddsRemovesItem_data() {
@@ -561,6 +565,10 @@ private Q_SLOTS:
 
         // Check that the alerting-status is now true
         QVERIFY(launcherModel->get(index)->alerting() == true);
+
+        // Focus the app, make sure the alert gets cleared
+        appManager->focusApplication("abs-icon");
+        QVERIFY(launcherModel->get(index)->alerting() == false);
     }
 
     void testRefreshAfterDeletedDesktopFiles_data() {
