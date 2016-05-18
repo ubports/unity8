@@ -19,7 +19,7 @@ import Ubuntu.Components 1.3
 
 FocusScope {
     id: root
-    implicitHeight: units.gu(4.5)
+    implicitHeight: units.gu(4)
 
     property bool isPrompt
     property bool isAlphanumeric
@@ -69,11 +69,11 @@ FocusScope {
 
         style: Item {
             property color color: UbuntuColors.porcelain
-            property color selectedTextColor: styledItem.enabled ? theme.palette.selected.selectionText : theme.palette.disabled.selectionText
-            property color selectionColor: styledItem.enabled ? theme.palette.selected.selection : theme.palette.disabled.selection
+            property color selectedTextColor: UbuntuColors.jet
+            property color selectionColor: UbuntuColors.porcelain
             property color borderColor: "transparent"
             property color backgroundColor: "transparent"
-            property color errorColor: styledItem.enabled ? theme.palette.normal.negative : theme.palette.disabled.negative
+            property color errorColor: UbuntuColors.red
             property real frameSpacing: units.gu(0.5)
             anchors.fill: parent
 

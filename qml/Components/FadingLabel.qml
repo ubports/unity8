@@ -19,13 +19,11 @@ import QtGraphicalEffects 1.0
 import Ubuntu.Components 1.3
 
 Label {
-    id: root
-
     property real fadeDistance: units.gu(8)
 
     layer.enabled: contentWidth > width
     layer.effect: ShaderEffect {
-        property real fadeThreshold: Math.min(1, Math.max(0, 1 - fadeDistance / root.width))
+        property real fadeThreshold: Math.min(1, Math.max(0, 1 - fadeDistance / width))
 
         fragmentShader: "
             varying highp vec2 qt_TexCoord0;

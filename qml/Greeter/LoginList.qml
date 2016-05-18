@@ -200,7 +200,7 @@ Item {
         }
     }
 
-    Label {
+    FadingLabel {
         id: infoLabel
         objectName: "infoLabel"
         anchors {
@@ -216,7 +216,6 @@ Item {
         width: root.width - anchors.leftMargin - anchors.rightMargin
         fontSize: "small"
         textFormat: Text.StyledText
-        clip: true
 
         opacity: (userList.movingInternally || text == "") ? 0 : 1
         Behavior on opacity {

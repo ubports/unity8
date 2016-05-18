@@ -29,9 +29,8 @@ QtObject {
     // Users should set their UI width here.
     property real width
 
-    readonly property url defaultBackground: Qt.resolvedUrl(width >= units.gu(60)
-                                                            ? "../graphics/tablet_background.jpg"
-                                                            : "../graphics/phone_background.jpg")
+    property url defaultBackground: Qt.resolvedUrl(width >= units.gu(60) ? "../graphics/tablet_background.jpg"
+                                                                         : "../graphics/phone_background.jpg")
 
     // That's the property users of this component are going to consume.
     readonly property url background: asImageTester.status == Image.Ready ? asImageTester.source
