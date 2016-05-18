@@ -32,14 +32,25 @@ FocusScope {
 
     function reset() {
         passwordInput.text = "";
-        passwordInput.focus = false;
-        passwordInput.enabled = true;
+        focus = false;
+        enabled = true;
+    }
+
+    StyledItem {
+        id: d
+
+        property color color: root.enabled ? theme.palette.normal.backgroundText
+                                           : theme.palette.disabled.backgroundText
+        property color inverseColor: root.enabled ? theme.palette.normal.background
+                                                  : theme.palette.disabled.background
+        property color errorColor: root.enabled ? theme.palette.normal.negative
+                                                : theme.palette.disabled.negative
     }
 
     Rectangle {
         anchors.fill: parent
         border.width: units.dp(1)
-        border.color: UbuntuColors.porcelain
+        border.color: d.color
         radius: units.gu(0.5)
         color: "transparent"
     }
@@ -52,7 +63,7 @@ FocusScope {
 
         Label {
             anchors.centerIn: parent
-            color: UbuntuColors.porcelain
+            color: d.color
             text: root.text
         }
     }
@@ -68,12 +79,12 @@ FocusScope {
         hasClearButton: false
 
         style: Item {
-            property color color: UbuntuColors.porcelain
-            property color selectedTextColor: UbuntuColors.jet
-            property color selectionColor: UbuntuColors.porcelain
+            property color color: d.color
+            property color selectedTextColor: d.inverseColor
+            property color selectionColor: d.color
             property color borderColor: "transparent"
             property color backgroundColor: "transparent"
-            property color errorColor: UbuntuColors.red
+            property color errorColor: d.errorColor
             property real frameSpacing: units.gu(0.5)
             anchors.fill: parent
 
@@ -89,16 +100,21 @@ FocusScope {
                 name: "keyboard-caps-enabled"
                 height: units.gu(2)
                 width: units.gu(2)
-                color: UbuntuColors.porcelain
-                visible: false // TODO: detect when caps lock is on
+                color: d.color
+                visible: root.isSecret && false // TODO: detect when caps lock is on
             }
         ]
 
+        cursorDelegate: Rectangle {
+            width: units.dp(1)
+            color: d.color
+        }
+
         onAccepted: {
-            if (!enabled)
+            if (!root.enabled)
                 return;
             root.focus = true; // so that it can handle Escape presses for us
-            enabled = false;
+            root.enabled = false;
             root.responded(text);
         }
 
@@ -107,7 +123,7 @@ FocusScope {
         Connections {
             target: Qt.inputMethod
             onVisibleChanged: {
-                if (!Qt.inputMethod.visible) {
+                if (passwordInput.visible && !Qt.inputMethod.visible) {
                     passwordInput.focus = false;
                 }
             }

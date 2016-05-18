@@ -91,7 +91,7 @@ Item {
         userList.currentIndex = currentIndex;
     }
 
-    Rectangle {
+    UbuntuShape {
         id: highlightItem
         anchors {
             left: parent.left
@@ -99,11 +99,8 @@ Item {
             verticalCenter: parent.verticalCenter
         }
         height: root.highlightedHeight
-        color: Qt.rgba(0.1, 0.1, 0.1, 0.4)
-        border.color: Qt.rgba(0.4, 0.4, 0.4, 0.4)
-        border.width: units.dp(1)
-        radius: units.gu(1.5)
-        antialiasing: true
+        aspect: UbuntuShape.Flat
+        backgroundColor: Qt.rgba(0, 0, 0, 0.4)
     }
 
     ListView {
@@ -161,15 +158,15 @@ Item {
 
                 anchors {
                     left: parent.left
-                    leftMargin: units.gu(2)
+                    leftMargin: units.gu(1)
                     right: parent.right
-                    rightMargin: units.gu(2)
-                    top: parent.top
-                    // Add an offset to topMargin for any items below the highlight
-                    topMargin: units.gu(1) + (parent.belowHighlight ? parent.belowOffset : 0)
+                    rightMargin: units.gu(1)
+                    bottom: parent.top
+                    // Add an offset to bottomMargin for any items below the highlight
+                    bottomMargin: -(units.gu(3) + (parent.belowHighlight ? parent.belowOffset : 0))
                 }
                 text: realName
-                color: UbuntuColors.porcelain
+                color: theme.palette.normal.backgroundText
 
                 Behavior on anchors.topMargin { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
             }
@@ -212,7 +209,7 @@ Item {
             rightMargin: units.gu(1)
         }
 
-        color: UbuntuColors.porcelain
+        color: theme.palette.normal.backgroundText
         width: root.width - anchors.leftMargin - anchors.rightMargin
         fontSize: "small"
         textFormat: Text.StyledText

@@ -22,10 +22,12 @@ import IntegratedLightDM 0.1 as LightDM
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
 
-Item {
+StyledItem {
     id: root
     width: units.gu(120)
     height: units.gu(80)
+
+    theme.name: "Ubuntu.Components.Themes.SuruDark"
 
     Binding {
         target: LightDM.Users
@@ -103,7 +105,7 @@ Item {
 
         Rectangle {
             id: controls
-            color: "white"
+            color: theme.palette.normal.background
             width: units.gu(40)
             height: parent.height
 
