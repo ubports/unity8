@@ -71,10 +71,13 @@ LocalComponents.Page {
             id: langSelector
             anchors.left: parent.left
             anchors.right: parent.right
-            text: i18n.tr("Keyboard Language")
+            //text: i18n.tr("Keyboard Language")
             model: langPlugin.languageNames
             selectedIndex: langPlugin.languageCodes.indexOf(i18n.language)
-            onSelectedIndexChanged: keyboardListView.currentIndex = -1
+            onSelectedIndexChanged: {
+                keyboardListView.currentIndex = -1;
+                tester.text = "";
+            }
         }
 
         ListView {
@@ -125,6 +128,7 @@ LocalComponents.Page {
             anchors.right: parent.right
             anchors.rightMargin: column.anchors.rightMargin == 0 ? units.gu(2) : 0
             placeholderText: i18n.tr("Type here to test your keyboard")
+            enabled: keyboardListView.currentIndex != -1
         }
     }
 
