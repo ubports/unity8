@@ -64,15 +64,33 @@ Rectangle {
             onDragHandleRecognizedGesture: { root.dragHandle = dragHandle }
         }
 
-        VerticalShowable {
-            visible: !root.bidirectional
+        TopEdgeShowable {
+            id: topEdgeShowable
+            visible: !root.bidirectional && !bottomEdgeShowable.shown
             onDragHandleRecognizedGesture: { root.dragHandle = dragHandle }
             stretch: root.stretch
             hintDisplacement: root.hintDisplacement
         }
 
-        HorizontalShowable {
-            visible: !root.bidirectional
+        BottomEdgeShowable {
+            id: bottomEdgeShowable
+            visible: !root.bidirectional && !topEdgeShowable.shown
+            onDragHandleRecognizedGesture: { root.dragHandle = dragHandle }
+            stretch: root.stretch
+            hintDisplacement: root.hintDisplacement
+        }
+
+        LeftEdgeShowable {
+            id: leftEdgeShowable
+            visible: !root.bidirectional && !rightEdgeShowable.shown
+            onDragHandleRecognizedGesture: { root.dragHandle = dragHandle }
+            stretch: root.stretch
+            hintDisplacement: root.hintDisplacement
+        }
+
+        RightEdgeShowable {
+            id: rightEdgeShowable
+            visible: !root.bidirectional && !leftEdgeShowable.shown
             onDragHandleRecognizedGesture: { root.dragHandle = dragHandle }
             stretch: root.stretch
             hintDisplacement: root.hintDisplacement

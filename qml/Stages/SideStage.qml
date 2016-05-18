@@ -98,8 +98,7 @@ Showable {
         id: hideSideStageDragArea
         objectName: "hideSideStageDragArea"
 
-        direction: Direction.Leftwards
-        rotation: 180
+        direction: Direction.Rightwards
         enabled: root.shown
         anchors.right: root.left
         width: sideStageDragHandle.width

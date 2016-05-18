@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013,2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,8 +52,8 @@ Showable {
     Image { source: "../../UnityLogo.png"; anchors.fill: parent }
 
     DragHandle {
-        objectName: "upwardsDragHandle"
-        id: upwardsDragHandle
+        objectName: "topEdgeHideDragHandle"
+        id: hideDragHandle
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
@@ -67,7 +67,7 @@ Showable {
 
         onDraggingChanged: {
             if (dragging) {
-                dragHandleRecognizedGesture(upwardsDragHandle);
+                dragHandleRecognizedGesture(hideDragHandle);
             }
         }
 
@@ -75,8 +75,8 @@ Showable {
     }
 
     DragHandle {
-        objectName: "downwardsDragHandle"
-        id: downwardsDragHandle
+        objectName: "topEdgeShowDragHandle"
+        id: showDragHandle
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.bottom
@@ -90,7 +90,7 @@ Showable {
 
         onDraggingChanged: {
             if (dragging) {
-                dragHandleRecognizedGesture(downwardsDragHandle);
+                dragHandleRecognizedGesture(showDragHandle);
             }
         }
 
