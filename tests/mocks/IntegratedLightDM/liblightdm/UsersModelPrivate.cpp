@@ -89,7 +89,7 @@ void UsersModelPrivate::resetEntries_full()
         { "long-info-prompt",  "Long Info Prompt", 0, 0, false, false, 0, 0 },
         { "wide-info-prompt",  "Wide Info Prompt", 0, 0, false, false, 0, 0 },
         { "multi-info-prompt", "Multi Info Prompt", 0, 0, false, false, 0, 0 },
-        { "long-name",         "Long name (far far too long to fit)", 0, 0, false, false, 0, 0 },
+        { "long-name",         "Long name (far far too long to fit, seriously this would never fit on the screen, you will never see this part of the name)", 0, 0, false, false, 0, 0 },
         { "color-background",  "Color Background", "#dd4814", 0, false, false, 0, 0 },
         // white and black are a bit redundant, but useful for manually testing if UI is still readable
         { "white-background",  "White Background", "#ffffff", 0, false, false, 0, 0 },
