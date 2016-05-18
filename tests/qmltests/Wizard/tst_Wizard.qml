@@ -307,7 +307,7 @@ Item {
 
             // Make sure that moving from sim page lands on wifi page
             tap(findChild(page, "forwardButton"));
-            waitForPage("wifiPage"); // thus skipping passwdPage
+            waitForPage("keyboardPage"); // thus skipping passwdPage
         }
 
         function verifyAnimationsNotRunning(page) {
