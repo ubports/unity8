@@ -175,6 +175,7 @@ FocusScope {
                 id: headerComponent
 
                 MediaServicesHeader {
+                    iconColor: root.iconColor
                     onGoPrevious: {
                         rotationAction.checked = false;
                         root.close();
