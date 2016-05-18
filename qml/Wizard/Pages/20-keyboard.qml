@@ -39,7 +39,7 @@ LocalComponents.Page {
 
     Component.onCompleted: print("Initial language:", i18n.language)
 
-    readonly property string selectedLanguage: langPlugin.languageCodes[langSelector.selectedIndex].split("_")[0].split(".")[0]
+    readonly property string selectedLanguage: langPlugin.languageCodes[langSelector.selectedIndex].split(".")[0] // chop off the codeset (.UTF-8)
 
     onSelectedLanguageChanged: {
         print("Selected language:", selectedLanguage)
@@ -76,6 +76,10 @@ LocalComponents.Page {
             snapMode: ListView.SnapToItem
             model: layoutsModel
             currentIndex: -1
+            opacity: langSelector.currentlyExpanded ? 0.5 : 1
+            Behavior on opacity {
+                UbuntuNumberAnimation {}
+            }
 
             delegate: ListItem {
                 id: itemDelegate

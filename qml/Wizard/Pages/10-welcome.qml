@@ -160,7 +160,6 @@ LocalComponents.Page {
                     var locale = plugin.languageCodes[languagesListView.currentIndex];
                     var language = locale.split("_")[0].split(".")[0];
                     plugin.currentLanguage = languagesListView.currentIndex;
-                    print("Setting current language to:", plugin.currentLanguage)
                     oskPlugin.setCurrentLayout(language);
                     System.updateSessionLocale(locale);
                 }
