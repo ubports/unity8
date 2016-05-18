@@ -55,6 +55,8 @@ StyledItem {
         name: "Ubuntu.Components.Themes.Ambiance"
     }
 
+    signal dismissed()
+
     readonly property bool expanded: {
         var result = false;
 
@@ -107,6 +109,7 @@ StyledItem {
         notification.notification.invokeAction(notification.actions.data(1, ActionModel.RoleActionId));
 
         notification.notification.close();
+        notification.dismissed()
     }
 
     Behavior on x {
@@ -198,6 +201,7 @@ StyledItem {
             onNameOwnerChanged: {
                 if (lastNameOwner !== "" && nameOwner === "" && notification.notification !== undefined) {
                     notification.notification.close()
+                    notification.dismissed()
                 }
                 lastNameOwner = nameOwner
             }
@@ -423,6 +427,7 @@ StyledItem {
                         }
                         onAccepted: {
                             notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
+                            notification.dismissed()
                         }
                     }
                 }

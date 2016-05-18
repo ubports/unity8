@@ -41,10 +41,17 @@ ListView {
         filterRegExp: RegExp(UnityNotifications.Notification.SnapDecision)
     }
 
-    property bool topmostIsFullscreen: false
+    readonly property bool topmostIsFullscreen: fullscreenIndex != -1
     spacing: topmostIsFullscreen ? 0 : units.gu(1)
 
     currentIndex: count > 1 ? 1 : -1
+
+    property int fullscreenIndex: -1
+    onFullscreenIndexChanged: {
+        if (fullscreenIndex != -1) {
+            positionViewAtIndex(fullscreenIndex, ListView.Beginning);
+        }
+    }
 
     delegate: Notification {
         objectName: "notification" + index
@@ -69,18 +76,18 @@ ListView {
         // FIXME: disabled all transitions because of LP: #1354406 workaround
         //layer.enabled: add.running || remove.running || populate.running
 
-        readonly property int theIndex: index
-        onTheIndexChanged: updateListTopMostIsFullscreen();
-        Component.onCompleted: updateListTopMostIsFullscreen();
         onFullscreenChanged: updateListTopMostIsFullscreen();
 
         function updateListTopMostIsFullscreen() {
-            if (fullscreen) { // effectively hide any non-fullscreen snaps
-                notificationList.positionViewAtIndex(index, ListView.Beginning);
+            if (fullscreen) {
+                fullscreenIndex = index;
             }
-            // index 1 because 0 is the PlaceHolder...
-            if (index == 1) {
-                notificationList.topmostIsFullscreen = fullscreen
+        }
+
+        onDismissed: {
+            if (fullscreenIndex == index) {
+                fullscreenIndex = -1;
+                notificationList.positionViewAtBeginning();
             }
         }
     }
