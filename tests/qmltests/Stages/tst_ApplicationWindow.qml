@@ -241,9 +241,7 @@ Rectangle {
 
             surfaceCheckbox.checked = false;
 
-            console.log("killApps() start");
             killApps();
-            console.log("killApps() end");
 
             root.fakeApplication = ApplicationManager.add("gallery-app");
             root.fakeApplication.manualSurfaceCreation = true;
