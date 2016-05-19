@@ -81,6 +81,7 @@ Item {
         StyleHints {
             foregroundColor: styledItem.fakeTheme.palette.normal.backgroundText
             backgroundColor: "transparent"
+            dividerColor: styledItem.fakeTheme.palette.normal.base
         }
     }
 
