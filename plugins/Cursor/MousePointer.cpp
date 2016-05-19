@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -43,7 +43,12 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
         Q_EMIT mouseMoved();
     }
 
-    qreal newX = x() + movement.x();
+    m_accumulatedMovement += movement;
+    // don't apply the fractional part
+    QPointF appliedMovement(int(m_accumulatedMovement.x()), int(m_accumulatedMovement.y()));
+    m_accumulatedMovement -= appliedMovement;
+
+    qreal newX = x() + appliedMovement.x();
     if (newX < 0) {
         Q_EMIT pushedLeftBoundary(qAbs(newX), buttons);
         newX = 0;
@@ -53,7 +58,7 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
     }
     setX(newX);
 
-    qreal newY = y() + movement.y();
+    qreal newY = y() + appliedMovement.y();
     if (newY < 0) {
         newY = 0;
     } else if (newY > parentItem()->height()) {

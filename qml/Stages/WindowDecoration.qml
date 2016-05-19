@@ -58,8 +58,11 @@ MouseArea {
         if (priv.dragging) {
             Mir.cursorName = "grabbing";
             var pos = mapToItem(root.target.parent, mouseX, mouseY);
-            root.target.x = pos.x - priv.distanceX;
-            root.target.y = Math.max(pos.y - priv.distanceY, PanelState.panelHeight);
+            // Use integer coordinate values to ensure that target is left in a pixel-aligned
+            // position. Mouse movement could have subpixel precision, yielding a fractional
+            // mouse position.
+            root.target.x = Math.round(pos.x - priv.distanceX);
+            root.target.y = Math.round(Math.max(pos.y - priv.distanceY, PanelState.panelHeight));
         }
     }
 
