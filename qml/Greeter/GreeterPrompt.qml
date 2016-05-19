@@ -33,18 +33,19 @@ FocusScope {
     function reset() {
         passwordInput.text = "";
         focus = false;
-        enabled = true;
+        d.enabled = true;
     }
 
     StyledItem {
         id: d
 
-        property color color: root.enabled ? theme.palette.normal.backgroundText
-                                           : theme.palette.disabled.backgroundText
-        property color inverseColor: root.enabled ? theme.palette.normal.background
-                                                  : theme.palette.disabled.background
-        property color errorColor: root.enabled ? theme.palette.normal.negative
-                                                : theme.palette.disabled.negative
+        property bool enabled: true
+        readonly property color color: root.enabled ? theme.palette.normal.backgroundText
+                                                    : theme.palette.disabled.backgroundText
+        readonly property color inverseColor: root.enabled ? theme.palette.normal.background
+                                                           : theme.palette.disabled.background
+        readonly property color errorColor: root.enabled ? theme.palette.normal.negative
+                                                         : theme.palette.disabled.negative
     }
 
     Rectangle {
@@ -58,6 +59,7 @@ FocusScope {
     AbstractButton {
         anchors.fill: parent
         visible: !root.isPrompt
+        enabled: d.enabled
 
         onClicked: root.clicked()
 
@@ -70,8 +72,10 @@ FocusScope {
 
     TextField {
         id: passwordInput
+        objectName: "promptField"
         anchors.fill: parent
         visible: root.isPrompt
+        enabled: d.enabled
 
         inputMethodHints: root.isAlphanumeric ? Qt.ImhNone : Qt.ImhDigitsOnly
         echoMode: root.isSecret ? TextInput.Password : TextInput.Normal
@@ -111,10 +115,10 @@ FocusScope {
         }
 
         onAccepted: {
-            if (!root.enabled)
+            if (!enabled)
                 return;
             root.focus = true; // so that it can handle Escape presses for us
-            root.enabled = false;
+            d.enabled = false;
             root.responded(text);
         }
 
