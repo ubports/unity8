@@ -50,7 +50,7 @@ Item {
             priv.handlePressedChanged(recognizedDrag, tp.x, tp.y);
         }
 
-        readonly property point tp: Qt.point(touchPoints[0].x, touchPoints[0].y);
+        readonly property point tp: recognizedPress ? Qt.point(touchPoints[0].x, touchPoints[0].y) : Qt.point(-1, -1)
         onUpdated: {
             priv.handlePositionChanged(tp.x, tp.y)
         }
@@ -102,11 +102,12 @@ Item {
         id: overlay
         objectName: "windowControlsOverlay"
         anchors.fill: parent
-        visible: target.surface == MirFocusController.focusedSurface && overlayTimer.running
-        opacity: visible ? 0.95 : 0
+        enabled: target.surface == MirFocusController.focusedSurface && overlayTimer.running
+        visible: opacity > 0
+        opacity: enabled ? 0.95 : 0
 
         Behavior on opacity {
-            OpacityAnimator { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+            UbuntuNumberAnimation {}
         }
 
         readonly property bool anyMaximized: target && (target.maximized || target.maximizedLeft || target.maximizedRight)
