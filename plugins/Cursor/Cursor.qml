@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,14 +15,30 @@
  */
 
 import QtQuick 2.4
-import Cursor 1.0 // For MousePointer
+import Cursor 1.1
 
 MousePointer {
     id: mousePointer
 
-    Image {
-        x: -mousePointer.hotspotX
-        y: -mousePointer.hotspotY
+    CursorImageInfo {
+        id: imageInfo
+        themeName: mousePointer.themeName
+        cursorName: mousePointer.cursorName
+    }
+
+    AnimatedSprite {
+        x: -imageInfo.hotspot.x
+        y: -imageInfo.hotspot.y
         source: "image://cursor/" + mousePointer.themeName + "/" + mousePointer.cursorName
+
+        interpolate: false
+
+        width: imageInfo.frameWidth
+        height: imageInfo.frameHeight
+
+        frameCount: imageInfo.frameCount
+        frameDuration: imageInfo.frameDuration
+        frameWidth: imageInfo.frameWidth
+        frameHeight: imageInfo.frameHeight
     }
 }

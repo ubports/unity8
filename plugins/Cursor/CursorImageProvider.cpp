@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -46,6 +46,9 @@ BuiltInCursorImage::BuiltInCursorImage()
     qimage.fill(Qt::transparent);
     QPainter imagePainter(&qimage);
 
+    frameWidth = qimage.width();
+    frameHeight = qimage.height();
+
     QSvgRenderer *svgRenderer = new QSvgRenderer(QByteArray(svgString));
     svgRenderer->render(&imagePainter);
     delete svgRenderer;
@@ -59,6 +62,8 @@ BlankCursorImage::BlankCursorImage()
 {
     qimage = QImage(1, 1, QImage::Format_ARGB32);
     qimage.fill(Qt::transparent);
+    frameWidth = qimage.width();
+    frameHeight = qimage.height();
 }
 
 /////
@@ -69,40 +74,74 @@ CustomCursorImage::CustomCursorImage(const QCursor &cursor)
 {
     qimage = cursor.pixmap().toImage();
     hotspot = cursor.hotSpot();
+    frameWidth = qimage.width();
+    frameHeight = qimage.height();
 }
 
 /////
 // XCursorImage
 
 XCursorImage::XCursorImage(const QString &theme, const QString &file)
-    : xcursorImages(nullptr)
 {
     // TODO: Consider grid unit value
     //       Hardcoding to a medium size for now
     int preferredCursorHeightPx = 32;
 
-    xcursorImages = XcursorLibraryLoadImages(QFile::encodeName(file), QFile::encodeName(theme),
+    XcursorImages *xcursorImages = XcursorLibraryLoadImages(QFile::encodeName(file), QFile::encodeName(theme),
             preferredCursorHeightPx);
-    if (!xcursorImages) {
+    if (!xcursorImages || xcursorImages->nimage == 0) {
         return;
     }
 
-    // Just take the first one. It will have multiple images in case of an animated cursor.
-    // TODO: Support animated cursors
-    if ( xcursorImages->nimage > 0) {
+    frameCount = xcursorImages->nimage;
+
+    for (int i = 0; i < xcursorImages->nimage; ++i) {
         XcursorImage *xcursorImage = xcursorImages->images[0];
+        if (frameWidth <  (int)xcursorImage->width) {
+            frameWidth = xcursorImage->width;
+        }
+        if (frameHeight <  (int)xcursorImage->height) {
+            frameHeight = xcursorImage->height;
+        }
+        if (i == 0) {
+            frameDuration = (int)xcursorImage->delay;
+        } else {
+            if (frameDuration != (int)xcursorImage->delay) {
+                qWarning().nospace() << "CursorImageProvider: XCursorImage("<<theme<<","<<file<<") has"
+                                        " varying delays in its animation. Animation won't look right.";
+            }
+        }
+    }
 
-        qimage = QImage((uchar*)xcursorImage->pixels,
-                xcursorImage->width, xcursorImage->height, QImage::Format_ARGB32);
-
+    {
+        // Assume that the hotspot position does not animate
+        XcursorImage *xcursorImage = xcursorImages->images[0];
         hotspot.setX(xcursorImage->xhot);
         hotspot.setY(xcursorImage->yhot);
     }
+
+    // Build the sprite as a single row of frames
+    qimage = QImage(frameWidth*frameCount, frameHeight, QImage::Format_ARGB32);
+    qimage.fill(Qt::transparent);
+
+    {
+        QPainter painter(&qimage);
+
+        for (int i = 0; i < xcursorImages->nimage; ++i) {
+            XcursorImage *xcursorImage = xcursorImages->images[i];
+
+            auto frameImage = QImage((uchar*)xcursorImage->pixels,
+                    xcursorImage->width, xcursorImage->height, QImage::Format_ARGB32);
+
+            painter.drawImage(QPoint(i*frameWidth, 0), frameImage);
+        }
+    }
+
+    XcursorImagesDestroy(xcursorImages);
 }
 
 XCursorImage::~XCursorImage()
 {
-    XcursorImagesDestroy(xcursorImages);
 }
 
 /////
@@ -203,16 +242,6 @@ QImage CursorImageProvider::requestImage(const QString &cursorThemeAndName, QSiz
     size->setHeight(cursorImage->qimage.height());
 
     return cursorImage->qimage;
-}
-
-QPoint CursorImageProvider::hotspot(const QString &themeName, const QString &cursorName)
-{
-    CursorImage *cursorImage = fetchCursor(themeName, cursorName);
-    if (cursorImage) {
-        return cursorImage->hotspot;
-    } else {
-        return QPoint(0,0);
-    }
 }
 
 CursorImage *CursorImageProvider::fetchCursor(const QString &cursorThemeAndName)

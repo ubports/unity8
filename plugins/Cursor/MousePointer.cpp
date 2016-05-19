@@ -29,10 +29,7 @@ MousePointer::MousePointer(QQuickItem *parent)
     : MirMousePointerInterface(parent)
     , m_cursorName(QStringLiteral("left_ptr"))
     , m_themeName(QStringLiteral("default"))
-    , m_hotspotX(0)
-    , m_hotspotY(0)
 {
-    updateHotspot();
 }
 
 void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::MouseButtons buttons,
@@ -115,22 +112,6 @@ void MousePointer::setCursorName(const QString &cursorName)
     if (cursorName != m_cursorName) {
         m_cursorName = cursorName;
         Q_EMIT cursorNameChanged(m_cursorName);
-        updateHotspot();
-    }
-}
-
-void MousePointer::updateHotspot()
-{
-    QPoint newHotspot = CursorImageProvider::instance()->hotspot(m_themeName, m_cursorName);
-
-    if (m_hotspotX != newHotspot.x()) {
-        m_hotspotX = newHotspot.x();
-        Q_EMIT hotspotXChanged(m_hotspotX);
-    }
-
-    if (m_hotspotY != newHotspot.y()) {
-        m_hotspotY = newHotspot.y();
-        Q_EMIT hotspotYChanged(m_hotspotY);
     }
 }
 

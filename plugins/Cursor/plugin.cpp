@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,13 +22,15 @@
 #include "plugin.h"
 
 // local
+#include "CursorImageInfo.h"
 #include "CursorImageProvider.h"
 #include "MousePointer.h"
 
 void CursorPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("Cursor"));
-    qmlRegisterType<MousePointer>(uri, 1, 0, "MousePointer");
+    qmlRegisterType<CursorImageInfo>(uri, 1, 1, "CursorImageInfo");
+    qmlRegisterType<MousePointer>(uri, 1, 1, "MousePointer");
 }
 
 void CursorPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
