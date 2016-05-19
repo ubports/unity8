@@ -385,12 +385,12 @@ Rectangle {
 
         function test_tutorialLeftFinish() {
             var tutorial = findChild(shell, "tutorial");
-            var tutorialLeft = findChild(tutorial, "tutorialLeft");
+            var tutorialLeftLoader = findChild(tutorial, "tutorialLeftLoader");
             var launcher = findChild(shell, "launcher");
 
             touchFlick(shell, 0, halfHeight, halfWidth, halfHeight);
 
-            tryCompare(tutorialLeft, "shown", false);
+            tryCompare(tutorialLeftLoader, "shown", false);
             tryCompare(AccountsService, "demoEdgesCompleted", ["left"]);
             tryCompare(launcher, "state", "visible");
         }
@@ -400,6 +400,7 @@ Rectangle {
             // letting go (i.e. not triggering the "progress" property of
             // Launcher).
             var tutorialLeft = findChild(shell, "tutorialLeft");
+            var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
             var launcher = findChild(shell, "launcher");
 
             // Confirm fade during drag
@@ -416,31 +417,32 @@ Rectangle {
             // out much.
             touchFlick(shell, 0, halfHeight, launcher.panelWidth * 0.4, halfHeight);
             tryCompare(launcher, "state", ""); // should remain hidden
-            tryCompare(tutorialLeft, "shown", true); // and we should still be on left
+            tryCompare(tutorialLeftLoader, "shown", true); // and we should still be on left
 
 
             // Now drag out but not past launcher itself
             touchFlick(shell, 0, halfHeight, launcher.panelWidth * 0.9, halfHeight);
 
-            tryCompare(tutorialLeft, "shown", false);
+            tryCompare(tutorialLeftLoader, "shown", false);
             tryCompare(AccountsService, "demoEdgesCompleted", ["left"]);
             tryCompare(launcher, "state", "visible");
         }
 
-        function test_tutorialLeftLongDrag() {
-            // Just confirm that a long drag ("dash" drag) doesn't confuse us
+        function test_tutorialLeftLongFinish() {
+            AccountsService.demoEdgesCompleted = ["left", "top"];
 
-            // So that we actually switch to dash and launcher hides
+            var tutorialLeftLongTimer = findInvisibleChild(shell, "tutorialLeftLongTimer");
+            tutorialLeftLongTimer.interval = 1;
+
             ApplicationManager.startApplication("gallery-app");
 
-            var launcher = findChild(shell, "launcher");
-            var tutorialLeft = findChild(shell, "tutorialLeftLoader");
-            verify(tutorialLeft);
+            var tutorialLeftLongLoader = findChild(shell, "tutorialLeftLongLoader");
+            tryCompare(tutorialLeftLongLoader, "shown", true);
 
             touchFlick(shell, 0, halfHeight, shell.width, halfHeight);
 
-            tryCompare(tutorialLeft, "shown", false);
-            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "left-long"]);
+            tryCompare(tutorialLeftLongLoader, "shown", false);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "top", "left-long"]);
         }
 
         function test_tutorialLeftAutoSkipped() {
@@ -494,13 +496,13 @@ Rectangle {
 
         function test_tutorialTopFinish() {
             var tutorial = findChild(shell, "tutorial");
-            var tutorialTop = findChild(tutorial, "tutorialTop");
+            var tutorialTopLoader = findChild(tutorial, "tutorialTopLoader");
             var panel = findChild(shell, "panel");
 
             openTutorialTop();
             touchFlick(shell, halfWidth, 0, halfWidth, shell.height);
 
-            tryCompare(tutorialTop, "shown", false);
+            tryCompare(tutorialTopLoader, "shown", false);
             tryCompare(AccountsService, "demoEdgesCompleted", ["left", "top"]);
             tryCompare(panel.indicators, "fullyOpened", true);
         }
@@ -555,15 +557,11 @@ Rectangle {
         }
 
         function test_tutorialRightFinish() {
-            var tutorial = findChild(shell, "tutorial");
-            var tutorialRight = findChild(tutorial, "tutorialRight");
-            var stage = findChild(shell, "stage");
-
             openTutorialRight();
             touchFlick(shell, shell.width, halfHeight, 0, halfHeight);
 
-            tryCompare(tutorialRight, "shown", false);
             tryCompare(AccountsService, "demoEdgesCompleted", ["left", "top", "left-long", "right"]);
+            tryCompare(AccountsService, "demoEdges", false);
         }
 
         function test_tutorialRightShortDrag() {
@@ -671,19 +669,22 @@ Rectangle {
 
             var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
             var tutorialTopLoader = findChild(shell, "tutorialTopLoader");
+            var tutorialLeftLongLoader = findChild(shell, "tutorialLeftLongLoader");
             var tutorialRightLoader = findChild(shell, "tutorialRightLoader");
             verify(!tutorialLeftLoader.active);
             verify(!tutorialTopLoader.active);
+            verify(!tutorialLeftLongLoader.active);
             verify(tutorialRightLoader.active);
             compare(AccountsService.demoEdgesCompleted, []);
+
+            var tutorialRightTimer = findInvisibleChild(tutorialRightLoader, "tutorialRightTimer");
+            tutorialRightTimer.interval = 1;
 
             ApplicationManager.startApplication("dialer-app");
             ApplicationManager.startApplication("camera-app");
             ApplicationManager.startApplication("facebook-webapp");
             tryCompare(tutorialRightLoader.item, "isReady", true);
 
-            var tutorialRightTimer = findInvisibleChild(tutorialRightLoader, "tutorialRightTimer");
-            tutorialRightTimer.interval = 1;
             tryCompare(tutorialRightLoader, "shown", true);
         }
 
@@ -692,10 +693,10 @@ Rectangle {
 
             var tutorialRight = findChild(shell, "tutorialRight");
             var tutorialRightTimer = findInvisibleChild(tutorialRight, "tutorialRightTimer");
+            tutorialRightTimer.interval = 1;
             ApplicationManager.startApplication("dialer-app");
             ApplicationManager.startApplication("camera-app");
             ApplicationManager.startApplication("facebook-webapp");
-            tutorialRightTimer.interval = 1;
             tryCompare(tutorialRight, "shown", true);
 
             var stage = findChild(shell, "stage");
@@ -734,6 +735,7 @@ Rectangle {
 
             var notifications = findChild(shell, "notificationList");
             notifications.model = mockNotificationsModel;
+            addNotification(); // placeholder
             addNotification();
 
             tryCompare(tutorial, "delayed", true);
