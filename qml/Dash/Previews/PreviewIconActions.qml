@@ -32,16 +32,31 @@ PreviewWidget {
         id: row
         readonly property var actions: root.widgetData ? root.widgetData["actions"] : null
         width: parent.width
+        onActionsChanged: {
+            // Rewire the source since it may have been unwired on onClicked
+            // but the icon didn't change i.e. the scope updated the results
+            // and the icon needs to go back to the one it was originally
+            for (var i = 0; i < repeater.count; ++i) {
+                var button = repeater.itemAt(i);
+                button.updateIcon();
+            }
+        }
 
         spacing: units.gu(2)
 
         Repeater {
+            id: repeater
             model: row.actions
 
             AbstractButton {
                 objectName: "button" + modelData.id
                 height: label.height
                 width: childrenRect.width
+
+                readonly property var iconUrl: modelData.icon;
+                function updateIcon() {
+                    icon.source = iconUrl;
+                }
 
                 Image {
                     id: icon
