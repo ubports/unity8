@@ -67,6 +67,7 @@ public:
     QSize initialSurfaceSize() const override { return QSize(); }
     void setInitialSurfaceSize(const QSize &) override {}
     MirSurfaceListInterface* surfaceList() const override { return nullptr; }
+    MirSurfaceListInterface* promptSurfaceList() const override { return nullptr; }
     int surfaceCount() const override { return m_surfaceCount; }
     void setSurfaceCount(int count) { m_surfaceCount = count; Q_EMIT surfaceCountChanged(count); }
 
