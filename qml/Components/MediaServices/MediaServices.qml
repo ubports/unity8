@@ -40,6 +40,12 @@ FocusScope {
     readonly property color backgroundColor: "#1B1B1B"
     readonly property color iconColor: "#F3F3E7"
 
+    Rectangle {
+        anchors.fill: parent
+        color: root.backgroundColor
+        opacity: 0.85
+    }
+
     OrientationHelper {
         id: orientationHelper
         automaticOrientation: fullscreen
@@ -87,12 +93,6 @@ FocusScope {
                     return videoComponent;
                 }
                 return undefined;
-            }
-
-            Rectangle {
-                anchors.fill: parent
-                color: root.backgroundColor
-                opacity: 0.85
             }
 
             Component {
@@ -144,141 +144,141 @@ FocusScope {
                 }
             }
         }
+    }
 
-        Loader {
-            id: headerContent
-            anchors {
-                top: contentLoader.top
-                left: parent.left
-                right: parent.right
-                topMargin: -headerContent.height
-            }
-            height: units.gu(6)
-            visible: false
+    Loader {
+        id: headerContent
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+            topMargin: -headerContent.height
+        }
+        height: units.gu(6)
+        visible: false
 
-            // eater
-            MouseArea {
-                anchors.fill: parent
-            }
+        // eater
+        MouseArea {
+            anchors.fill: parent
+        }
 
-            Rectangle {
-                anchors.fill: parent
-                color: root.backgroundColor
-                opacity: 0.85
-                visible: headerContent.status === Loader.Ready
-            }
+        Rectangle {
+            anchors.fill: parent
+            color: root.backgroundColor
+            opacity: 0.85
+            visible: headerContent.status === Loader.Ready
+        }
 
-            active: root.fullscreen
-            sourceComponent: headerComponent
+        active: root.fullscreen
+        sourceComponent: headerComponent
 
-            Component {
-                id: headerComponent
+        Component {
+            id: headerComponent
 
-                MediaServicesHeader {
-                    iconColor: root.iconColor
-                    onGoPrevious: {
-                        rotationAction.checked = false;
-                        root.close();
-                    }
-                }
-            }
-
-            // If we interact with the bar, reset the hide timer.
-            MouseArea {
-                anchors.fill: parent
-                onPressed: {
-                    mouse.accepted = false
-                    if (controlHideTimer.running) controlHideTimer.restart()
+            MediaServicesHeader {
+                iconColor: root.iconColor
+                onGoPrevious: {
+                    rotationAction.checked = false;
+                    root.close();
                 }
             }
         }
 
-        Loader {
-            id: footerContent
-            anchors {
-                left: parent.left
-                right: parent.right
-                bottom: contentLoader.bottom
-                bottomMargin: -footerContent.height
+        // If we interact with the bar, reset the hide timer.
+        MouseArea {
+            anchors.fill: parent
+            onPressed: {
+                mouse.accepted = false
+                if (controlHideTimer.running) controlHideTimer.restart()
             }
-            height: units.gu(7)
-            visible: false
+        }
+    }
 
-            sourceComponent: {
-                switch (context) {
-                case "video":
-                    return videoControlsComponent;
+    Loader {
+        id: footerContent
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+            bottomMargin: -footerContent.height
+        }
+        height: units.gu(7)
+        visible: false
+
+        sourceComponent: {
+            switch (context) {
+            case "video":
+                return videoControlsComponent;
+            }
+            return undefined;
+        }
+        // eater
+        MouseArea {
+            anchors.fill: parent
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            color: root.backgroundColor
+            opacity: 0.85
+            visible: footerContent.status === Loader.Ready
+        }
+
+        Component {
+            id: videoControlsComponent
+            VideoPlayerControls {
+                id: controls
+                objectName: "videoControls"
+
+                viewAction: rotationAction.enabled ? rotationAction : fullscreenAction
+                userActions: root.actions
+                iconColor: root.iconColor
+                backgroundColor: root.backgroundColor
+
+                mediaPlayer.source: {
+                    if (!root.sourceData) return "";
+
+                    var source = root.sourceData["source"];
+                    if (source.toString().indexOf("video://") === 0) {
+                        return source.toString().substr(6);
+                    }
+                    return source;
                 }
-                return undefined;
-            }
-            // eater
-            MouseArea {
-                anchors.fill: parent
-            }
+                mediaPlayer.onPlaybackStateChanged: {
+                    controlHideTimer.restart();
+                }
 
-            Rectangle {
-                anchors.fill: parent
-                color: root.backgroundColor
-                opacity: 0.85
-                visible: footerContent.status === Loader.Ready
-            }
+                Binding {
+                    target: priv
+                    property: "forceControlsShown"
 
-            Component {
-                id: videoControlsComponent
-                VideoPlayerControls {
-                    id: controls
-                    objectName: "videoControls"
+                    value: (fullscreen && mediaPlayer.playbackState === MediaPlayer.StoppedState) ||
+                           mediaPlayer.playbackState === MediaPlayer.PausedState ||
+                           interacting
+                }
 
-                    viewAction: rotationAction.enabled ? rotationAction : fullscreenAction
-                    userActions: root.actions
-                    iconColor: root.iconColor
-                    backgroundColor: root.backgroundColor
+                onInteractingChanged:  {
+                    controlHideTimer.restart();
+                }
 
-                    mediaPlayer.source: {
-                        if (!root.sourceData) return "";
-
-                        var source = root.sourceData["source"];
-                        if (source.toString().indexOf("video://") === 0) {
-                            return source.toString().substr(6);
-                        }
-                        return source;
-                    }
-                    mediaPlayer.onPlaybackStateChanged: {
-                        controlHideTimer.restart();
-                    }
-
-                    Binding {
-                        target: priv
-                        property: "forceControlsShown"
-
-                        value: (fullscreen && mediaPlayer.playbackState === MediaPlayer.StoppedState) ||
-                               mediaPlayer.playbackState === MediaPlayer.PausedState ||
-                               interacting
-                    }
-
-                    onInteractingChanged:  {
-                        controlHideTimer.restart();
-                    }
-
-                    Binding {
-                        target: header
-                        property: "title"
-                        value: controls.mediaPlayer.metaData.title !== undefined ?
-                                   controls.mediaPlayer.metaData.title :
-                                   controls.mediaPlayer.source.toString().replace(/^.*[\\\/]/, '')
-                        when: header != null
-                    }
+                Binding {
+                    target: header
+                    property: "title"
+                    value: controls.mediaPlayer.metaData.title !== undefined ?
+                               controls.mediaPlayer.metaData.title :
+                               controls.mediaPlayer.source.toString().replace(/^.*[\\\/]/, '')
+                    when: header != null
                 }
             }
+        }
 
-            // If we interact with the bar, reset the hide timer.
-            MouseArea {
-                z: 1
-                anchors.fill: parent
-                onPressed: {
-                    mouse.accepted = false
-                    if (controlHideTimer.running) controlHideTimer.restart()
-                }
+        // If we interact with the bar, reset the hide timer.
+        MouseArea {
+            z: 1
+            anchors.fill: parent
+            onPressed: {
+                mouse.accepted = false
+                if (controlHideTimer.running) controlHideTimer.restart()
             }
         }
     }
