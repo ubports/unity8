@@ -568,9 +568,10 @@ void LauncherModel::applicationRemoved(const QModelIndex &parent, int row)
 {
     Q_UNUSED(parent)
 
+    ApplicationInfoInterface *app = m_appManager->get(row);
     int appIndex = -1;
     for (int i = 0; i < m_list.count(); ++i) {
-        if (m_list.at(i)->appId() == m_appManager->get(row)->appId()) {
+        if (m_list.at(i)->appId() == app->appId()) {
             appIndex = i;
             break;
         }
@@ -580,6 +581,8 @@ void LauncherModel::applicationRemoved(const QModelIndex &parent, int row)
         qWarning() << Q_FUNC_INFO << "appIndex not found";
         return;
     }
+
+    disconnect(app, &ApplicationInfoInterface::surfaceCountChanged, this, &LauncherModel::applicationSurfaceCountChanged);
 
     LauncherItem * item = m_list.at(appIndex);
     item->setRunning(false);
