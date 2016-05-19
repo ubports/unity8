@@ -72,6 +72,7 @@ Item {
             scaleTo: "width"
             lastScaledDimension: playButton.height + units.gu(2)
             initialHeight: lastScaledDimension
+            useUbuntuShape: false
 
             visible: !mediaPlayer || mediaPlayer.playbackState === MediaPlayer.StoppedState
         }

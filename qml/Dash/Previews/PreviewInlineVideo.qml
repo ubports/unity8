@@ -31,6 +31,8 @@ PreviewWidget {
     implicitWidth: units.gu(35)
     implicitHeight: services.height
 
+    widgetMargins: -units.gu(1)
+
     property alias rootItem: services.rootItem
 
     MediaServices {
