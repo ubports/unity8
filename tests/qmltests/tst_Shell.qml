@@ -2237,7 +2237,7 @@ Rectangle {
             tryCompare(launcher, "state", "visible");
             tryCompare(shortcutHint, "visible", true);
             if (shortcutsOverlay.enabled) {
-                tryCompareFunction(function() { return shortcutsOverlay.visible; }, true, 15000);
+                tryCompare(shortcutsOverlay, "visible", true, 10000);
             }
 
             keyRelease(Qt.Key_Super_L, Qt.MetaModifier);
