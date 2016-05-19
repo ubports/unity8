@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-05-04 18:09+0000\n"
+"POT-Creation-Date: 2016-05-18 11:19+0000\n"
 "PO-Revision-Date: 2016-05-10 19:23+0000\n"
 "Last-Translator: Torsten Franz <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-05-11 06:02+0000\n"
+"X-Launchpad-Export-Date: 2016-05-19 05:49+0000\n"
 "X-Generator: Launchpad (build 18025)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -466,6 +466,8 @@ msgstr "Von der linken Kante wischen, um den Starter zu öffnen"
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
 msgstr ""
+"Bewegen Sie den Mauszeiger an die rechte Kante, um die geöffneten "
+"Anwendungen zu sehen"
 
 #: qml/Tutorial/TutorialRight.qml:56
 msgid "Short or long swipe from the right edge to view your open apps"
