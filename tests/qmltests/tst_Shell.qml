@@ -2236,12 +2236,12 @@ Rectangle {
             waitForRendering(shortcutsOverlay);
             tryCompare(launcher, "state", "visible");
             tryCompare(shortcutHint, "visible", true);
-            tryCompareFunction(function() { return shortcutsOverlay.visible; }, true, 40000);
+            tryCompareFunction(function() { return shortcutsOverlay.opacity > 0; }, true, 40000);
 
             keyRelease(Qt.Key_Super_L, Qt.MetaModifier);
             tryCompare(launcher, "state", "");
             tryCompare(shortcutHint, "visible", false);
-            tryCompare(shortcutsOverlay, "visible", false);
+            tryCompare(shortcutsOverlay, "opacity", 0);
         }
 
         function test_metaNumberLaunchesFromLauncher_data() {
