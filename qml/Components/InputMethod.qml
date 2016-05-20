@@ -30,8 +30,8 @@ Item {
 
         consumesInput: true
 
-        surfaceWidth: width
-        surfaceHeight: height
+        surfaceWidth: root.enabled ? width : -1
+        surfaceHeight: root.enabled ? height : -1
         surface: SurfaceManager.inputMethodSurface
 
         onLiveChanged: {
