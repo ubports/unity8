@@ -34,7 +34,7 @@ Item {
         anchors.fill: parent
 
         // NB: for testing set to 2, not to clash with unity7 touch overlay controls
-        minimumTouchPoints: 2
+        minimumTouchPoints: 3
         maximumTouchPoints: minimumTouchPoints
         releaseRejectPeriod: 500
 
@@ -152,7 +152,7 @@ Item {
         ResizeGrip { // top left
             anchors.horizontalCenter: parent.left
             anchors.verticalCenter: parent.top
-            visible: target && !overlay.anyMaximized
+            visible: target && !overlay.anyMaximized && !target.maximizedHorizontally && !target.maximizedVertically
             resizeTarget: priv.resizeArea
         }
 
@@ -160,7 +160,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.top
             rotation: 45
-            visible: target && !overlay.anyMaximized
+            visible: target && !overlay.anyMaximized && !target.maximizedVertically
             resizeTarget: priv.resizeArea
         }
 
@@ -168,7 +168,7 @@ Item {
             anchors.horizontalCenter: parent.right
             anchors.verticalCenter: parent.top
             rotation: 90
-            visible: target && !overlay.anyMaximized
+            visible: target && !overlay.anyMaximized && !target.maximizedHorizontally && !target.maximizedVertically
             resizeTarget: priv.resizeArea
         }
 
@@ -176,14 +176,14 @@ Item {
             anchors.horizontalCenter: parent.right
             anchors.verticalCenter: parent.verticalCenter
             rotation: 135
-            visible: target && !target.maximizedRight && !target.maximized
+            visible: target && !target.maximizedRight && !target.maximized && !target.maximizedHorizontally
             resizeTarget: priv.resizeArea
         }
 
         ResizeGrip { // bottom right
             anchors.horizontalCenter: parent.right
             anchors.verticalCenter: parent.bottom
-            visible: target && !overlay.anyMaximized
+            visible: target && !overlay.anyMaximized && !target.maximizedHorizontally && !target.maximizedVertically
             resizeTarget: priv.resizeArea
         }
 
@@ -191,7 +191,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.bottom
             rotation: 45
-            visible: target && !overlay.anyMaximized
+            visible: target && !overlay.anyMaximized && !target.maximizedVertically
             resizeTarget: priv.resizeArea
         }
 
@@ -199,7 +199,7 @@ Item {
             anchors.horizontalCenter: parent.left
             anchors.verticalCenter: parent.bottom
             rotation: 90
-            visible: target && !overlay.anyMaximized
+            visible: target && !overlay.anyMaximized && !target.maximizedHorizontally && !target.maximizedVertically
             resizeTarget: priv.resizeArea
         }
 
@@ -207,7 +207,7 @@ Item {
             anchors.horizontalCenter: parent.left
             anchors.verticalCenter: parent.verticalCenter
             rotation: 135
-            visible: target && !target.maximizedLeft && !target.maximized
+            visible: target && !target.maximizedLeft && !target.maximized && !target.maximizedHorizontally
             resizeTarget: priv.resizeArea
         }
     }
