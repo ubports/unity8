@@ -587,7 +587,6 @@ Rectangle {
             var tutorialRight = findChild(shell, "tutorialRight");
             var tutorialRightTimer = findInvisibleChild(tutorialRight, "tutorialRightTimer");
 
-            tutorialRightTimer.interval = 1;
             openTutorialTop();
             ApplicationManager.startApplication("gallery-app");
             ApplicationManager.startApplication("facebook-webapp");
@@ -597,6 +596,7 @@ Rectangle {
             AccountsService.demoEdgesCompleted = ["left", "top", "left-long"];
             verify(tutorialRightTimer.running);
             verify(!tutorialRight.shown);
+            tutorialRightTimer.interval = 1;
             tryCompare(tutorialRight, "shown", true);
         }
 
