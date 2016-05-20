@@ -25,13 +25,27 @@ Rectangle {
     color: Qt.rgba(0, 0, 0, 0.8)
     visible: sharingWidget.active
 
-    PreviewSharing {
-        id: sharingWidget
-        objectName: "sharingWidget"
+    AbstractButton {
+        id: button
         anchors {
             left: parent.left
             verticalCenter: parent.verticalCenter
             leftMargin: units.gu(1)
         }
+        height: units.gu(4)
+        width: units.gu(4)
+        onClicked: sharingWidget.showPeerPicker()
+
+        Icon {
+            anchors.centerIn: parent
+            height: units.gu(3)
+            width: units.gu(3)
+            source: "image://theme/share"
+        }
+    }
+
+    SharingPicker {
+        id: sharingWidget
+        objectName: "sharingWidget"
     }
 }
