@@ -25,6 +25,12 @@ Rectangle {
     color: Qt.rgba(0, 0, 0, 0.8)
     visible: sharingWidget.active
 
+    Action {
+        id: sharingAction
+        iconName: "share"
+        onTriggered: sharingWidget.showPeerPicker()
+    }
+
     AbstractButton {
         id: button
         anchors {
@@ -34,13 +40,13 @@ Rectangle {
         }
         height: units.gu(4)
         width: units.gu(4)
-        onClicked: sharingWidget.showPeerPicker()
+        action: sharingAction
 
         Icon {
             anchors.centerIn: parent
             height: units.gu(3)
             width: units.gu(3)
-            source: "image://theme/share"
+            source: button.action.iconSource
         }
     }
 
