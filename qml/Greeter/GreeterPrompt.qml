@@ -40,12 +40,12 @@ FocusScope {
         id: d
 
         property bool enabled: true
-        readonly property color color: root.enabled ? theme.palette.normal.backgroundText
-                                                    : theme.palette.disabled.backgroundText
-        readonly property color inverseColor: root.enabled ? theme.palette.normal.background
-                                                           : theme.palette.disabled.background
-        readonly property color errorColor: root.enabled ? theme.palette.normal.negative
-                                                         : theme.palette.disabled.negative
+        readonly property color color: passwordInput.enabled ? theme.palette.normal.backgroundText
+                                                             : theme.palette.disabled.backgroundText
+        readonly property color inverseColor: passwordInput.enabled ? theme.palette.normal.background
+                                                                    : theme.palette.disabled.background
+        readonly property color errorColor: passwordInput.enabled ? theme.palette.normal.negative
+                                                                  : theme.palette.disabled.negative
     }
 
     Rectangle {
