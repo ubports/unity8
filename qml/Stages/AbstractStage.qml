@@ -21,13 +21,6 @@ import GSettings 1.0
 FocusScope {
     id: root
 
-    property alias color: backRect.color
-    Rectangle {
-        id: backRect
-        color: "#060606"
-        anchors.fill: parent
-    }
-
     // Controls to be set from outside
     property QtObject applicationManager
     property QtObject topLevelSurfaceList
@@ -49,6 +42,7 @@ FocusScope {
     property bool suspended
      // A Stage should paint a wallpaper etc over its full size but not use the margins for window placement
     property int leftMargin: 0
+    property alias paintBackground: background.visible
 
     // To be read from outside
     property var mainApp: null
@@ -60,6 +54,7 @@ FocusScope {
                                       | Qt.InvertedLandscapeOrientation
 
     signal stageAboutToBeUnloaded
+    signal itemSnapshotRequested(Item item)
 
     // Shared code for use in stage implementations
     GSettings {
@@ -75,5 +70,11 @@ FocusScope {
             }
         }
         return false;
+    }
+
+    Rectangle {
+        id: background
+        color: "#060606"
+        anchors.fill: parent
     }
 }

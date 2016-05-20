@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-04-27 15:01+0000\n"
-"PO-Revision-Date: 2013-06-27 04:14+0000\n"
-"Last-Translator: Michał Sawicz <michal.sawicz@canonical.com>\n"
+"POT-Creation-Date: 2016-05-18 11:19+0000\n"
+"PO-Revision-Date: 2016-05-04 17:52+0000\n"
+"Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2016-04-30 05:37+0000\n"
-"X-Generator: Launchpad (build 17995)\n"
+"X-Launchpad-Export-Date: 2016-05-19 05:50+0000\n"
+"X-Generator: Launchpad (build 18025)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -192,15 +192,15 @@ msgstr "Precizirajte svoje rezultate"
 msgid "Reset"
 msgstr "Ponovno postavi"
 
-#: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:755
+#: qml/Dash/GenericScopeView.qml:579 qml/Dash/GenericScopeView.qml:764
 msgid "Show less"
-msgstr ""
+msgstr "Prikaži manje"
 
-#: qml/Dash/GenericScopeView.qml:570
+#: qml/Dash/GenericScopeView.qml:579
 msgid "Show all"
-msgstr ""
+msgstr "Prikaži sve"
 
-#: qml/Dash/GenericScopeView.qml:627
+#: qml/Dash/GenericScopeView.qml:636
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Pretraži"
@@ -467,6 +467,7 @@ msgstr "Povucite od lijevog ruba za otvaranje pokretača"
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
 msgstr ""
+"Gurnite svoj miš uz desni rub kako bi vidjeli svoje otvorene aplikacije"
 
 #: qml/Tutorial/TutorialRight.qml:56
 msgid "Short or long swipe from the right edge to view your open apps"
@@ -782,8 +783,35 @@ msgstr "Vrlo slaba lozinka"
 #~ msgid "Search"
 #~ msgstr "Pretraživanje"
 
+#~ msgid "Top edge"
+#~ msgstr "Gornji rub"
+
+#~ msgid "Left edge"
+#~ msgstr "Lijevi rub"
+
+#~ msgid "Well done"
+#~ msgstr "Dobro obavljeno"
+
+#~ msgid "Right edge"
+#~ msgstr "Desni rub"
+
+#~ msgid "Close"
+#~ msgstr "Zatvori"
+
+#~ msgid "Power"
+#~ msgstr "Energija"
+
+#~ msgid "Power off"
+#~ msgstr "Isključivanje"
+
+#~ msgid "Skip intro"
+#~ msgstr "Preskoči uvod"
+
 #~ msgid "See all"
 #~ msgstr "Prikaži sve"
+
+#~ msgid "Settings"
+#~ msgstr "Postavke"
 
 #~ msgid "See less"
 #~ msgstr "Prikaži manje"
@@ -1013,3 +1041,38 @@ msgstr "Vrlo slaba lozinka"
 #~ msgid "Hover your mouse on the right edge to view your open apps"
 #~ msgstr ""
 #~ "Lebdite svojim mišem po desnom rubu kako bi vidjeli otvorene aplikacije"
+
+#~ msgid "Please re-enter"
+#~ msgstr "Ponovno upišite"
+
+#~ msgid "Log out"
+#~ msgstr "Odjava"
+
+#~ msgid "Reboot"
+#~ msgstr "Ponovno pokretanje"
+
+#~ msgid "Shut down"
+#~ msgstr "Isključivanje"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "Za pristup indikatorima pokušajte povući s desnog ruba"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "Za otključavanje telefona pokušajte povući s desnog ruba"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Za zatvaranje zaslona postavki povucite prema gore"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "Za otkrivanje pokretača brzog pristupa aplikacijama povucite s lijeve strane"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Uspješno ste ovladali korištenjem rubova zaslona i možete započeti s "
+#~ "korištenjem telefona<br><br>Dotaknite zaslon kako bi započeli"
+
+#~ msgid "Store"
+#~ msgstr "Pohrana"

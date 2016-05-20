@@ -360,6 +360,11 @@ FocusScope {
                         scopeView.enableHeightBehaviorOnNextCreation = item.enableHeightBehaviorOnNextCreation;
                     }
                 }
+                // FIXME: directly connecting to onUnitsChanged cause a compile error:
+                // Cannot assign to non-existent property "onUnitsChanged"
+                // Until the units object is reworked to properly do all we need, let's go through a intermediate property
+                property int pxpgu: units.gu(1);
+                onPxpguChanged: clickScopeSizingHacks();
 
                 function clickScopeSizingHacks() {
                     if (scope && scope.id === "clickscope" &&
@@ -388,6 +393,10 @@ FocusScope {
 
                     onPressAndHold: { // (int index, var result, var itemModel)
                         scopeView.itemPressedAndHeld(result, baseItem.category);
+                    }
+
+                    onAction: { // (int index, var result, var actionId)
+                        scope.activateAction(result, baseItem.category, actionId);
                     }
 
                     function categoryItemCount() {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,17 +12,34 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors: Alberto Aguirre <alberto.aguirre@canonical.com>
  */
 
-#include "plugin.h"
-#include "screengrabber.h"
+import QtQuick 2.4
 
-#include <QtQml/qqml.h>
+Item {
+    id: root
 
-void ScreenGrabberPlugin::registerTypes(const char *uri)
-{
-    Q_ASSERT(uri == QLatin1String("ScreenGrabber"));
-    qmlRegisterType<ScreenGrabber>(uri, 0, 1, "ScreenGrabber");
+    property Item target
+
+    property bool ready: image.status === Image.Ready
+
+    function take() {
+        if (!target) {
+            console.warn("ItemSnapshot.take(): no target set");
+            return;
+        }
+
+        target.grabToImage(function(result) {
+                               image.source = result.url;
+                           });
+    }
+
+    // Unload the image to free up memory
+    function discard() {
+        image.source = "";
+    }
+
+    Image {
+        id: image
+    }
 }
