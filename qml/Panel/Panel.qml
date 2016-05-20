@@ -128,7 +128,7 @@ Item {
 
                 visible: ((PanelState.buttonsVisible && parent.containsMouse) || TouchControlsState.buttonsShownInPanel)
                          && !root.locked && !callHint.visible
-                active: PanelState.buttonsVisible || TouchControlsState.overlayShown
+                active: PanelState.buttonsVisible || TouchControlsState.buttonsShownInPanel
                 windowIsMaximized: true
                 onCloseClicked: PanelState.closeClicked()
                 onMinimizeClicked: PanelState.minimizeClicked()

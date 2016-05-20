@@ -579,7 +579,7 @@ AbstractStage {
                 Binding {
                     target: TouchControlsState
                     property: "buttonsShownInPanel"
-                    value: appDelegate && appDelegate.maximized
+                    value: appDelegate && appDelegate.maximized && touchControls.overlayShown
                 }
 
                 WindowResizeArea {
