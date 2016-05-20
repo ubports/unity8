@@ -19,16 +19,16 @@ import Ubuntu.Components 1.3
 import "../../Components"
 
 Rectangle {
-    property alias shareData: sharingWidget.shareData
+    property alias shareData: sharingPicker.shareData
 
     implicitHeight: units.gu(6)
     color: Qt.rgba(0, 0, 0, 0.8)
-    visible: sharingWidget.active
+    visible: sharingPicker.active
 
     Action {
         id: sharingAction
         iconName: "share"
-        onTriggered: sharingWidget.showPeerPicker()
+        onTriggered: sharingPicker.showPeerPicker()
     }
 
     AbstractButton {
@@ -51,7 +51,7 @@ Rectangle {
     }
 
     SharingPicker {
-        id: sharingWidget
-        objectName: "sharingWidget"
+        id: sharingPicker
+        objectName: "sharingPicker"
     }
 }

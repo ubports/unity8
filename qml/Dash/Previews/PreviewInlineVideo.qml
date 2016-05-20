@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtMultimedia 5.0
 import Ubuntu.Components 1.3
 import Ubuntu.Thumbnailer 0.1
+import "../../Components"
 import "../../Components/MediaServices"
 
 /*! \brief Preview widget for video.
@@ -39,11 +40,25 @@ PreviewWidget {
         id: services
         width: parent.width
 
+        actions: sharingAction
         context: "video"
         sourceData: widgetData
         fullscreen: false
         maximumEmbeddedHeight: rootItem.height / 2
 
         onClose: fullscreen = false
+
+        Action {
+            id: sharingAction
+            iconName: "share"
+            visible: sharingPicker.active
+            onTriggered: sharingPicker.showPeerPicker()
+        }
+    }
+
+    SharingPicker {
+        id: sharingPicker
+        objectName: "sharingPicker"
+        shareData: widgetData["share-data"]
     }
 }

@@ -28,7 +28,15 @@ Rectangle {
 
     property var widgetData0: {
         "source": "file:///test-video1",
-        "screenshot": Qt.resolvedUrl("../artwork/avatar.png")
+        "screenshot": Qt.resolvedUrl("../artwork/avatar.png"),
+        "share-data": {
+            "uri": [
+                        "file:///this/is/an/url",
+                        "file:///this/is/an/url/2",
+                        "file:///this/is/an/url/3"
+                    ],
+            "content-type": "text"
+        }
     }
 
     property var widgetData1: {
