@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014,2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,15 +17,26 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Thumbnailer 0.1 // Register support for image://thumbnailer/ and image://albumart/
+import QtQuick.Window 2.0
 
-MainView {
-    implicitWidth: units.gu(40)
-    implicitHeight: units.gu(68)
+Window {
+    visible: true
+    title: i18n.tr("Scopes")
 
-    // Workaround bug #1475643
-    headerColor: Qt.rgba(0, 0, 0, 0)
+    width: initialWidth > 0 ? initialWidth : units.gu(40)
+    height: initialHeight > 0 ? initialHeight : units.gu(68)
 
-    Dash {
+    minimumWidth: units.gu(40)
+    minimumHeight: units.gu(40)
+
+    MainView {
         anchors.fill: parent
+
+        // Workaround bug #1475643
+        headerColor: Qt.rgba(0, 0, 0, 0)
+
+        Dash {
+            anchors.fill: parent
+        }
     }
 }
