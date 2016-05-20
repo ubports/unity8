@@ -46,6 +46,8 @@ FocusScope {
     property alias widthIncrement: applicationWindow.widthIncrement
     property alias heightIncrement: applicationWindow.heightIncrement
 
+    property alias overlayShown: decoration.overlayShown
+
     signal closeClicked()
     signal maximizeClicked()
     signal maximizeHorizontallyClicked()

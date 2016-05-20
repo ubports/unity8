@@ -206,19 +206,6 @@ AbstractStage {
         value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized && priv.focusedAppDelegate.application.appId !== "unity8-dash"
     }
 
-    Binding {
-        target: TouchControlsState
-        property: "buttonsShownInPanel"
-        value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized
-    }
-
-    Binding {
-        target: TouchControlsState
-        property: "surface"
-        value: priv.focusedAppDelegate.surface
-        when: priv.focusedAppDelegate && priv.focusedAppDelegate.surface
-    }
-
     Component.onDestruction: {
         PanelState.title = "";
         PanelState.buttonsVisible = false;
@@ -340,13 +327,13 @@ AbstractStage {
                         return;
 
                     if (focus) {
-                        priv.focusedAppDelegate = appDelegate;
-
                         // If we're orphan (!parent) it means this stage is no longer the current one
                         // and will be deleted shortly. So we should no longer have a say over the model
                         if (root.parent) {
                             topLevelSurfaceList.raiseId(model.id);
                         }
+
+                        priv.focusedAppDelegate = appDelegate;
                     } else if (!focus && priv.focusedAppDelegate === appDelegate) {
                         priv.focusedAppDelegate = null;
                         // FIXME: No idea why the Binding{} doens't update when focusedAppDelegate turns null
@@ -589,6 +576,12 @@ AbstractStage {
                     when: index == spread.highlightedIndex && spread.ready
                 }
 
+                Binding {
+                    target: TouchControlsState
+                    property: "buttonsShownInPanel"
+                    value: appDelegate && appDelegate.maximized
+                }
+
                 WindowResizeArea {
                     id: resizeArea
                     objectName: "windowResizeArea"
@@ -632,6 +625,7 @@ AbstractStage {
                     surface: model.surface
                     active: appDelegate.focus
                     focus: true
+                    overlayShown: touchControls.overlayShown
 
                     requestedWidth: appDelegate.requestedWidth
                     requestedHeight: appDelegate.requestedHeight
@@ -644,6 +638,12 @@ AbstractStage {
                     onMaximizeVerticallyClicked: appDelegate.maximizedVertically ? appDelegate.restoreFromMaximized() : appDelegate.maximizeVertically()
                     onMinimizeClicked: appDelegate.minimize()
                     onDecorationPressed: { appDelegate.focus = true; }
+                }
+
+                WindowControlsOverlay {
+                    id: touchControls
+                    anchors.fill: appDelegate
+                    target: appDelegate
                 }
 
                 WindowedFullscreenPolicy {

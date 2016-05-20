@@ -20,7 +20,5 @@ import QtQuick 2.4
 QtObject {
     id: root
 
-    property bool overlayShown: false
     property bool buttonsShownInPanel: false
-    property var surface: null
 }

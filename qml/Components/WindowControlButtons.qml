@@ -16,7 +16,6 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import "../Components/TouchControlsState"
 
 Row {
     id: root
@@ -30,8 +29,7 @@ Row {
     property bool active: false
     property bool windowIsMaximized: false
     property bool closeButtonShown: true
-
-    readonly property bool overlayShown: TouchControlsState.overlayShown && target && target.surface === TouchControlsState.surface
+    property bool overlayShown
 
     signal closeClicked()
     signal minimizeClicked()

@@ -27,14 +27,16 @@ Item {
     // to be set from outside
     property Item target // appDelegate
 
+    readonly property bool overlayShown: overlay.visible
+
     TouchGestureArea {
         id: gestureArea
         anchors.fill: parent
 
         // NB: for testing set to 2, not to clash with unity7 touch overlay controls
-        minimumTouchPoints: 3
+        minimumTouchPoints: 2
         maximumTouchPoints: minimumTouchPoints
-        recognitionPeriod: 500
+        releaseRejectPeriod: 500
 
         readonly property bool recognizedPress: status == TouchGestureArea.Recognized &&
                                                 touchPoints.length >= minimumTouchPoints &&
@@ -47,12 +49,18 @@ Item {
 
         readonly property bool recognizedDrag: recognizedPress && dragging
         onRecognizedDragChanged: {
-            priv.handlePressedChanged(recognizedDrag, tp.x, tp.y);
+            if (recognizedDrag) {
+                priv.handlePressedChanged(true, tp.x, tp.y);
+            } else if (!moveHandler.containsPress) { // prevent interfering with the central piece drag/move
+                priv.dragging = false;
+            }
         }
 
         readonly property point tp: recognizedPress ? Qt.point(touchPoints[0].x, touchPoints[0].y) : Qt.point(-1, -1)
         onUpdated: {
-            priv.handlePositionChanged(tp.x, tp.y)
+            if (recognizedDrag) {
+                priv.handlePositionChanged(tp.x, tp.y);
+            }
         }
     }
 
@@ -85,16 +93,10 @@ Item {
         function handlePositionChanged(mouseX, mouseY) {
             if (priv.dragging) {
                 var pos = mapToItem(root.target.parent, mouseX, mouseY);
-                root.target.x = pos.x - priv.distanceX;
-                root.target.y = Math.max(pos.y - priv.distanceY, PanelState.panelHeight);
+                root.target.x = Math.round(pos.x - priv.distanceX);
+                root.target.y = Math.round(Math.max(pos.y - priv.distanceY, PanelState.panelHeight));
             }
         }
-    }
-
-    Binding {
-        target: TouchControlsState
-        property: "overlayShown"
-        value: overlay.visible
     }
 
     // the visual overlay
@@ -102,7 +104,7 @@ Item {
         id: overlay
         objectName: "windowControlsOverlay"
         anchors.fill: parent
-        enabled: target.surface == MirFocusController.focusedSurface && overlayTimer.running
+        enabled: target && overlayTimer.running
         visible: opacity > 0
         opacity: enabled ? 0.95 : 0
 
@@ -123,6 +125,7 @@ Item {
 
             // move handler
             MouseArea {
+                id: moveHandler
                 anchors.fill: parent
                 visible: overlay.visible
                 enabled: visible

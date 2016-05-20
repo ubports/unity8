@@ -126,8 +126,7 @@ Item {
                 }
                 height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
 
-                visible: ((PanelState.buttonsVisible && parent.containsMouse) ||
-                          (TouchControlsState.overlayShown && TouchControlsState.buttonsShownInPanel))
+                visible: ((PanelState.buttonsVisible && parent.containsMouse) || TouchControlsState.buttonsShownInPanel)
                          && !root.locked && !callHint.visible
                 active: PanelState.buttonsVisible || TouchControlsState.overlayShown
                 windowIsMaximized: true
