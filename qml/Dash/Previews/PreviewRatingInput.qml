@@ -173,9 +173,7 @@ PreviewWidget {
                 }
                 enabled: readyToSubmit
                 text: widgetData["submit-label"] || i18n.tr("Send")
-                onClicked: {
-                    if (readyToSubmit) root.submit()
-                }
+                onClicked: root.submit()
             }
         }
     }
