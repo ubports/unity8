@@ -171,7 +171,7 @@ PreviewWidget {
                     top: parent.top
                     right: parent.right
                 }
-                color: readyToSubmit ? theme.palette.selected.base : theme.palette.normal.base
+                enabled: readyToSubmit
                 text: widgetData["submit-label"] || i18n.tr("Send")
                 onClicked: {
                     if (readyToSubmit) root.submit()
