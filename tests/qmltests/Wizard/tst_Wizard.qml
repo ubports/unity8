@@ -144,22 +144,13 @@ Item {
             var pages = findChild(wizard, "wizardPages");
             var stack = findChild(pages, "pageStack");
             // don't simply call tryCompare here, because stack.currentPage will be swapped out itself
-            tryCompareFunction(function() { return stack.currentPage.objectName; }, name);
+            tryCompareFunction(function() { return stack.currentPage.objectName; }, name, 15000);
+            var contentAnimation = findInvisibleChild(stack.currentPage, "contentAnimation");
+            tryCompareFunction(function() { return contentAnimation.running; }, false);
             tryCompare(stack.currentPage, "opacity", 1.0);
             tryCompare(stack.currentPage, "enabled", true);
             tryCompare(stack.currentPage, "skipValid", true);
             tryCompare(stack.currentPage, "skip", false);
-            waitForRendering(stack.currentPage);
-            return stack.currentPage;
-        }
-
-        function verifyPageIsBlocked(name) {
-            var pages = findChild(wizard, "wizardPages");
-            var stack = findChild(pages, "pageStack");
-            // don't simply call tryCompare here, because stack.currentPage will be swapped out itself
-            tryCompareFunction(function() { return stack.currentPage.objectName; }, name);
-            tryCompare(stack.currentPage, "enabled", false);
-            tryCompare(stack.currentPage, "skipValid", false);
             waitForRendering(stack.currentPage);
             return stack.currentPage;
         }
