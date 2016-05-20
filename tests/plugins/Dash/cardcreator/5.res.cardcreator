@@ -28,7 +28,6 @@ Item  {
                                     objectName: "artShape";
                                     visible: image.status == Image.Ready;
                                     readonly property alias image: artImage;
-                                    readonly property real aspect: 1;
                                     width: image.status !== Image.Ready ? 0 : image.width;
                                     height: image.status !== Image.Ready ? 0 : image.height;
                                     CroppedImageMinimumSourceSize {
@@ -38,7 +37,7 @@ Item  {
                                         asynchronous: false;
                                         visible: true;
                                         width: root.width;
-                                        height: width / artShape.aspect;
+                                        height: width / 1;
                                     }
                                 } 
                             }
