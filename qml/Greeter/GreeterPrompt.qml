@@ -57,6 +57,7 @@ FocusScope {
     }
 
     AbstractButton {
+        objectName: "promptButton"
         anchors.fill: parent
         visible: !root.isPrompt
         enabled: d.enabled
