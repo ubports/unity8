@@ -43,28 +43,36 @@ GridLayout {
             Layout.column: index % grid.columns
             Layout.row: index / grid.columns
             Layout.columnSpan: index == repeater.count - 1 && grid.columns == 3 && column == 1 ? 2 : 1
-            Layout.maximumWidth: Math.max(icon.width, label.x + label.implicitWidth)
+            Layout.maximumWidth: Math.max(iconLoader.width, labelLoader.x + labelLoader.implicitWidth)
             Layout.fillWidth: true
             height: units.gu(2)
-            Icon {
-                id: icon
-                height: units.gu(2)
-                // FIXME Workaround for bug https://bugs.launchpad.net/ubuntu/+source/ubuntu-ui-toolkit/+bug/1421293
-                width: implicitWidth > 0 && implicitHeight > 0 ? (implicitWidth / implicitHeight * height) : implicitWidth
-                source: "icon" in modelData && modelData["icon"] || ""
-                color: grid.color
+            Loader {
+                id: iconLoader
+                readonly property string source: "icon" in modelData && modelData["icon"] || ""
+                active: source !== ""
+                sourceComponent: Icon {
+                    height: units.gu(2)
+                    // FIXME Workaround for bug https://bugs.launchpad.net/ubuntu/+source/ubuntu-ui-toolkit/+bug/1421293
+                    width: implicitWidth > 0 && implicitHeight > 0 ? (implicitWidth / implicitHeight * height) : implicitWidth
+                    source: parent.source
+                    color: grid.color
+                }
             }
-            Label {
-                id: label
+            Loader {
+                id: labelLoader
                 width: parent.width - x
-                anchors.verticalCenter: parent.verticalCenter
-                text: "value" in modelData && modelData["value"] || "";
-                elide: Text.ElideRight
-                maximumLineCount: 1
-                font.weight: "style" in modelData && modelData["style"] === "highlighted" ? Font.Bold : Font.Light
-                fontSize: "small"
-                font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
-                color: grid.color
+                readonly property string value: "value" in modelData && modelData["value"] || ""
+                active: value !== ""
+                sourceComponent: Label {
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: parent.value
+                    elide: Text.ElideRight
+                    maximumLineCount: 1
+                    font.weight: "style" in modelData && modelData["style"] === "highlighted" ? Font.Bold : Font.Light
+                    fontSize: "small"
+                    font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
+                    color: grid.color
+                }
             }
         }
     }
