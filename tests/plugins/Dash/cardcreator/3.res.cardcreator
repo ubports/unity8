@@ -10,13 +10,9 @@ AbstractButton {
                 enabled: true;
 signal action(var actionId);
 readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
-Item  { 
-                            id: artShapeHolder; 
-                            height: artShapeLoader.height;
-                            width: artShapeLoader.width;
+Loader  {
+                            id: artShapeLoader;
                             anchors { horizontalCenter: parent.horizontalCenter; } 
-                            Loader { 
-                                id: artShapeLoader; 
                                 objectName: "artShapeLoader"; 
                                 readonly property string cardArt: cardData && cardData["art"] || "";
                                 onCardArtChanged: { if (item) { item.image.source = cardArt; } }
@@ -45,7 +41,6 @@ Item  {
                                         height: width / 0.75;
                                     }
                                 } 
-                            } 
                         }
 readonly property int headerHeight: titleLabel.height + subtitleLabel.height + subtitleLabel.anchors.topMargin;
 Label { 
@@ -53,7 +48,7 @@ Label {
                         objectName: "titleLabel"; 
                         anchors { right: parent.right;
                         left: parent.left;
-                        top: artShapeHolder.bottom; 
+                        top: artShapeLoader.bottom;
                         topMargin: units.gu(1);
                         } 
                         elide: Text.ElideRight; 

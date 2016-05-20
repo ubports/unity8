@@ -12,13 +12,9 @@ AbstractButton {
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
 signal action(var actionId);
 readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
-Item  { 
-                            id: artShapeHolder; 
-                            height: root.fixedArtShapeSize.height;
-                            width: root.fixedArtShapeSize.width;
-                            anchors { horizontalCenter: parent.horizontalCenter; } 
-                            Loader { 
+Loader  {
                                 id: artShapeLoader; 
+                            anchors { horizontalCenter: parent.horizontalCenter; }
                                 objectName: "artShapeLoader"; 
                                 readonly property string cardArt: cardData && cardData["art"] || "";
                                 onCardArtChanged: { if (item) { item.image.source = cardArt; } }
@@ -42,12 +38,11 @@ Item  {
                                         height: width / (root.fixedArtShapeSize.width / root.fixedArtShapeSize.height);
                                     }
                                 } 
-                            }
                         }
 Loader { 
                             id: overlayLoader; 
                             readonly property real overlayHeight: root.fixedHeaderHeight + units.gu(2);
-                            anchors.fill: artShapeHolder; 
+                            anchors.fill: artShapeLoader;
                             active: artShapeLoader.active && artShapeLoader.item && artShapeLoader.item.image.status === Image.Ready || false; 
                             asynchronous: true;
                             visible: showHeader && status == Loader.Ready; 
@@ -102,5 +97,5 @@ Label {
                             text: cardData && cardData["subtitle"] || ""; 
                             font.weight: Font.Light; 
                         }
-implicitHeight: artShapeHolder.height;
+implicitHeight: artShapeLoader.height;
 }
