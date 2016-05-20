@@ -26,7 +26,7 @@ import AccountsService 0.1
 Item {
     id: root
 
-    property alias active: loader.active
+    readonly property alias active: loader.active
 
     property Item launcher
     property Item panel

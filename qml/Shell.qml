@@ -114,10 +114,9 @@ Item {
     }
     function _onMainAppChanged(appId) {
         if (wizard.active && appId != "" && appId != "unity8-dash") {
-            // If this happens on first boot, we may be in edge
-            // tutorial or wizard while receiving a call.  But a call
-            // is more important than wizard so just bail out of those.
-            tutorial.finish();
+            // If this happens on first boot, we may be in the
+            // wizard while receiving a call.  But a call is more
+            // important than the wizard so just bail out of it.
             wizard.hide();
         }
 

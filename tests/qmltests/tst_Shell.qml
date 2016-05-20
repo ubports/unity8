@@ -1232,13 +1232,10 @@ Rectangle {
 
         function test_wizardEarlyExit() {
             Wizard.System.wizardEnabled = true;
-            AccountsService.demoEdges = true;
             loadShell("phone");
 
             var wizard = findChild(shell, "wizard");
-            var tutorial = findChild(shell, "tutorial");
             tryCompare(wizard, "active", true);
-            tryCompare(tutorial, "running", true);
             tryCompareFunction(function() { return topLevelSurfaceList.applicationAt(0).appId; }, "unity8-dash");
 
             // Make sure we stay running when there's no top level window (can happen for
@@ -1251,14 +1248,12 @@ Rectangle {
 
             tryCompare(topLevelSurfaceList, "count", 0);
             compare(wizard.shown, true);
-            compare(tutorial.running, true);
 
             // And make sure we stay running when dash comes back again
             var dashSurfaceId = topLevelSurfaceList.nextId;
             ApplicationManager.startApplication(dashApplication.appId);
             waitUntilAppWindowIsFullyLoaded(dashSurfaceId);
             compare(wizard.shown, true);
-            compare(tutorial.running, true);
 
             // And make sure we stop when some other surface shows app
             var gallerySurfaceId = topLevelSurfaceList.nextId;
@@ -1266,12 +1261,7 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(gallerySurfaceId);
             tryCompareFunction(function() { return topLevelSurfaceList.applicationAt(0).appId; }, "gallery-app");
             compare(wizard.shown, false);
-            compare(tutorial.running, false);
-            tryCompare(AccountsService, "demoEdges", false);
             tryCompare(Wizard.System, "wizardEnabled", false);
-
-            var tutorialLeft = findChild(tutorial, "tutorialLeft");
-            compare(tutorialLeft, null); // should be destroyed with tutorial
         }
 
         function test_tutorialPausedDuringGreeter() {
