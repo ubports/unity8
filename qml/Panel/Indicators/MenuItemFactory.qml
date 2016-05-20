@@ -377,11 +377,11 @@ Item {
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
 
-            property date serverTime: new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) * 1000)
+            readonly property date serverTime: new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) * 1000)
             LiveTimer {
                 frequency: LiveTimer.Relative
                 relativeTime: alarmItem.serverTime
-                onTrigger: alarmItem.serverTime = new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) * 1000)
+                onTrigger: alarmItem.time = i18n.relativeDateTime(alarmItem.serverTime)
             }
 
             text: menuData && menuData.label || ""
