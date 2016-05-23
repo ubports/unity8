@@ -21,7 +21,7 @@ import QtQuick.Window 2.2
 
 Window {
     visible: true
-    title: i18n.tr("Scopes")
+    title: "Scopes" // Intentionally not translated
 
     width: initialWidth > 0 ? initialWidth : units.gu(40)
     height: initialHeight > 0 ? initialHeight : units.gu(68)
