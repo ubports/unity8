@@ -362,7 +362,7 @@ Rectangle {
             waitForRendering(card);
             tryCompare(art, "width", units.gu(8));
             tryCompare(art, "height", units.gu(4));
-            tryCompare(art, "fixedArtShapeSizeAspect", 2);
+            tryCompare(artImage, "width", artImage.height * 2);
         }
 
         function test_art_layout_data() {
