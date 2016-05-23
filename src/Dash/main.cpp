@@ -91,7 +91,7 @@ int main(int argc, const char *argv[])
     }
     #endif
 
-    QQmlApplicationEngine engine;
+    QQmlApplicationEngine *engine = new QQmlApplicationEngine(application);
 
     int initialWidth = -1;
     int initialHeight = -1;
@@ -105,19 +105,21 @@ int main(int argc, const char *argv[])
             initialHeight = windowSize.height();
         }
     }
-    engine.rootContext()->setContextProperty("initialWidth", initialWidth);
-    engine.rootContext()->setContextProperty("initialHeight", initialHeight);
+    engine->rootContext()->setContextProperty("initialWidth", initialWidth);
+    engine->rootContext()->setContextProperty("initialHeight", initialHeight);
 
     QUrl source(::qmlDirectory() + "/Dash/DashApplication.qml");
-    prependImportPaths(&engine, ::overrideImportPaths());
-    appendImportPaths(&engine, ::fallbackImportPaths());
+    prependImportPaths(engine, ::overrideImportPaths());
+    appendImportPaths(engine, ::fallbackImportPaths());
 
     CachingNetworkManagerFactory *managerFactory = new CachingNetworkManagerFactory();
-    engine.setNetworkAccessManagerFactory(managerFactory);
+    engine->setNetworkAccessManagerFactory(managerFactory);
 
-    engine.load(source);
+    engine->load(source);
 
     int result = application->exec();
+
+    delete engine;
 
     #ifdef UNITY8_ENABLE_TOUCH_EMULATION
     delete mouseTouchAdaptor;
