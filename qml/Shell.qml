@@ -552,7 +552,14 @@ Item {
             id: launcher
             objectName: "launcher"
 
-            readonly property bool dashSwipe: progress > 0
+            /*
+             * Since the Dash doesn't have the same controll over surfaces that the
+             * Shell does, it can't slowly move the scope out of the way, as the shell
+             * does  with apps, and the dash is show instantly. This allows for some
+             * leeway and prevents accidental home swipes.
+             */
+            readonly property real offset: shell.focusedApplicationId == "unity8-dash" ? units.gu(12) : 0
+            readonly property bool dashSwipe: progress > offset
 
             anchors.top: parent.top
             anchors.topMargin: inverted ? 0 : panel.panelHeight
