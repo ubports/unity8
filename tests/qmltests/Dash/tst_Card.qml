@@ -496,6 +496,18 @@ Rectangle {
             tryCompare(art, "visible", true);
             compare(artImage.source, Qt.resolvedUrl("artwork/checkers.png"));
 
+            card.cardData["art"] = "somethingbroken";
+            card.cardDataChanged();
+            waitForRendering(card);
+            tryCompare(art, "visible", true);
+            compare(artImage.source, Qt.resolvedUrl("artwork/checkers.png"));
+
+            card.cardData["art"] = Qt.resolvedUrl("artwork/music-player-design.png");
+            card.cardDataChanged();
+            waitForRendering(card);
+            tryCompare(art, "visible", true);
+            compare(artImage.source, Qt.resolvedUrl("artwork/music-player-design.png"));
+
             card.cardData["mascot"] = "somethingbroken2";
             card.cardDataChanged();
             compare(mascotImage.status, Image.Error);
