@@ -362,7 +362,11 @@ AbstractStage {
                     }
                 }
                 Component.onCompleted: {
-                    decoratedWindow.surfaceOrientationAngle = shellOrientationAngle;
+                    if (application && application.rotatesWindowContents) {
+                        decoratedWindow.surfaceOrientationAngle = shellOrientationAngle;
+                    } else {
+                        decoratedWindow.surfaceOrientationAngle = 0;
+                    }
 
                     // NB: We're differentiating if this delegate was created in response to a new entry in the model
                     //     or if the Repeater is just populating itself with delegates to match the model it received.
