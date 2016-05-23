@@ -425,7 +425,7 @@ Rectangle {
                 }
             }
 
-            SurfaceManagerControls { textColor: "white" }
+            SurfaceManagerControls { }
         }
     }
 
