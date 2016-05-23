@@ -1,3 +1,13 @@
+unity8 (8.12+16.04.20160518.1-0ubuntu1) xenial; urgency=medium
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+  [ Daniel d'Andrada, Michał Sawicz ]
+  * Move prompt surfaces from MirSurface to Application
+
+ -- Nick Dedekind <ci-train-bot@canonical.com>  Wed, 18 May 2016 11:20:04 +0000
+
 unity8 (8.12+16.04.20160504.2-0ubuntu1) xenial; urgency=medium
 
   [ Albert Astals Cid ]
