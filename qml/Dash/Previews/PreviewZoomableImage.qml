@@ -34,6 +34,8 @@ PreviewWidget {
 
     property Item rootItem: QuickUtils.rootItem(root)
 
+    readonly property var imageUrl: widgetData["source"] || widgetData["fallback"] || ""
+
     LazyImage {
         id: lazyImage
         objectName: "lazyImage"
@@ -42,7 +44,7 @@ PreviewWidget {
             right: parent.right
         }
         scaleTo: "width"
-        source: widgetData["source"] || widgetData["fallback"] || ""
+        source: root.imageUrl
         asynchronous: true
         useUbuntuShape: false
         pressed: mouseArea.pressed
@@ -59,10 +61,11 @@ PreviewWidget {
 
         Connections {
             target: lazyImage.sourceImage
-            // If modelData would change after failing to load it would not be
-            // reloaded since the source binding is destroyed by the source = fallback
-            // But at the moment the model never changes
             onStatusChanged: if (lazyImage.sourceImage.status === Image.Error) lazyImage.sourceImage.source = widgetData["fallback"];
+        }
+        Connections {
+            target: root
+            onImageUrlChanged: lazyImage.sourceImage.source = root.imageUrl;
         }
 
         PreviewMediaToolbar {
@@ -86,12 +89,14 @@ PreviewWidget {
 
         delegate: ZoomableImage {
             anchors.fill: parent
-            source: widgetData["source"] || widgetData["fallback"] || ""
+            source: root.imageUrl
             zoomable: widgetData["zoomable"] ? widgetData["zoomable"] : false
-            // If modelData would change after failing to load it would not be
-            // reloaded since the source binding is destroyed by the source = fallback
-            // But at the moment the model never changes
             onStatusChanged: if (status === Image.Error) source = widgetData["fallback"];
+
+            Connections {
+                target: root
+                onImageUrlChanged: source = root.imageUrl;
+            }
         }
     }
 }

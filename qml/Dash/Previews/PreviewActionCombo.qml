@@ -59,7 +59,7 @@ Item {
 
             delegate: PreviewActionButton {
                 data: modelData
-                width: implicitWidth < parent.width ? parent.width : implicitWidth
+                width: implicitWidth < root.width ? root.width : implicitWidth
                 onClicked: root.triggeredAction(modelData)
                 strokeColor: moreButton.strokeColor
             }
