@@ -35,8 +35,7 @@
 
 int main(int argc, const char *argv[])
 {
-    qSetMessagePattern("JOSH!!!!%{if-category}%{category}: %{endif}%{message}");
-    qDebug() << "JOSH IS SUPER COOL";
+    qSetMessagePattern("%{time process} %{if-category}%{category}: %{endif}%{message}");
     if (enableQmlDebugger(argc, argv)) {
         QQmlDebuggingEnabler qQmlEnableDebuggingHelper(true);
     }
