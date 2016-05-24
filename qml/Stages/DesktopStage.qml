@@ -588,7 +588,7 @@ AbstractStage {
                     target: appDelegate
                     minWidth: units.gu(10)
                     minHeight: units.gu(10)
-                    borderThickness: units.gu(1)
+                    borderThickness: units.gu(2)
                     windowId: model.application.appId // FIXME: Change this to point to windowId once we have such a thing
                     screenWidth: appContainer.width
                     screenHeight: appContainer.height
