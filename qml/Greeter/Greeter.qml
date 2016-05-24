@@ -16,7 +16,7 @@
 
 import QtQuick 2.4
 import AccountsService 0.1
-import Biometryd 0.0 as Biometryd
+import Biometryd 0.0
 import GSettings 1.0
 import Ubuntu.Components 1.3
 import Ubuntu.SystemImage 0.1
@@ -482,35 +482,43 @@ Showable {
         onLanguageChanged: lightDM.infographic.readyForDataChange()
     }
 
-    Biometryd.Observer {
+    Observer {
         id: biometryd
         objectName: "biometryd"
 
-        property var operation
+        property var operation: null
 
-        Component.onCompleted: {
-            if (Biometryd.defaultDevice) {
+        function cancelOperation() {
+            if (operation) {
+                operation.cancel();
+                operation = null;
+            }
+        }
+
+        function restartOperation() {
+            cancelOperation();
+
+            if (Biometryd.defaultDevice && true /* FIXME check AS */) {
                 var identifier = Biometryd.defaultDevice.identifier;
                 operation = identifier.identifyUser();
                 operation.start(biometryd);
             }
         }
 
-        Component.onDestruction: {
-            if (operation)
-                operation.cancel();
-        }
+        Component.onCompleted: restartOperation()
+        Component.onDestruction: cancelOperation()
 
         onSucceeded: {
             // FIXME validate result.uid
             d.fingerprintFailureCount = 0;
-            operation.start(biometryd);
+            restartOperation();
             if (root.active)
                 root.forcedUnlock = true;
         }
         onFailed: {
+            console.log("Failed to identify user:", reason);
             d.fingerprintFailureCount++;
-            operation.start(biometryd);
+            restartOperation();
             if (loader.item)
                 loader.item.showErrorMessage(i18n.tr("Try again"));
         }
