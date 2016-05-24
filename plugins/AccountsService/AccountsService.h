@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, 2015 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,6 +41,9 @@ class AccountsService: public QObject
     Q_PROPERTY (QStringList demoEdgesCompleted
                 READ demoEdgesCompleted
                 NOTIFY demoEdgesCompletedChanged)
+    Q_PROPERTY (bool enableFingerprintIdentification
+                READ enableFingerprintIdentification
+                NOTIFY enableFingerprintIdentificationChanged)
     Q_PROPERTY (bool enableLauncherWhileLocked
                 READ enableLauncherWhileLocked
                 NOTIFY enableLauncherWhileLockedChanged)
@@ -91,6 +94,7 @@ public:
     void setDemoEdges(bool demoEdges);
     QStringList demoEdgesCompleted() const;
     Q_INVOKABLE void markDemoEdgeCompleted(const QString &edge);
+    bool enableFingerprintIdentification() const;
     bool enableLauncherWhileLocked() const;
     bool enableIndicatorsWhileLocked() const;
     QString backgroundFile() const;
@@ -112,6 +116,7 @@ Q_SIGNALS:
     void userChanged();
     void demoEdgesChanged();
     void demoEdgesCompletedChanged();
+    void enableFingerprintIdentificationChanged();
     void enableLauncherWhileLockedChanged();
     void enableIndicatorsWhileLockedChanged();
     void backgroundFileChanged();

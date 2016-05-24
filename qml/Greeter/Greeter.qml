@@ -487,6 +487,9 @@ Showable {
         objectName: "biometryd"
 
         property var operation: null
+        readonly property bool idEnabled: root.active &&
+                                          Biometryd.defaultDevice &&
+                                          AccountsService.enableFingerprintIdentification
 
         function cancelOperation() {
             if (operation) {
@@ -498,29 +501,35 @@ Showable {
         function restartOperation() {
             cancelOperation();
 
-            if (Biometryd.defaultDevice && true /* FIXME check AS */) {
+            if (idEnabled) {
                 var identifier = Biometryd.defaultDevice.identifier;
                 operation = identifier.identifyUser();
                 operation.start(biometryd);
             }
         }
 
-        Component.onCompleted: restartOperation()
-        Component.onDestruction: cancelOperation()
-
-        onSucceeded: {
-            // FIXME validate result.uid
-            d.fingerprintFailureCount = 0;
-            restartOperation();
-            if (root.active)
-                root.forcedUnlock = true;
-        }
-        onFailed: {
-            console.log("Failed to identify user:", reason);
+        function failOperation(reason) {
+            console.log("Failed to identify user by fingerprint:", reason);
             d.fingerprintFailureCount++;
             restartOperation();
             if (loader.item)
                 loader.item.showErrorMessage(i18n.tr("Try again"));
         }
+
+        Component.onCompleted: restartOperation()
+        Component.onDestruction: cancelOperation()
+        onIdEnabledChanged: restartOperation()
+
+        onSucceeded: {
+            if (result.uid !== lightDM.users.data(d.currentIndex, lightDM.userRoles.UidRole)) {
+                failOperation("not the selected user");
+                return;
+            }
+            console.log("Identified user by fingerprint:" result.uid);
+            d.fingerprintFailureCount = 0;
+            if (root.active)
+                root.forcedUnlock = true;
+        }
+        onFailed: failOperation(reason)
     }
 }
