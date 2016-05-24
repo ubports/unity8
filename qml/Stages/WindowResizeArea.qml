@@ -248,8 +248,6 @@ MouseArea {
     }
 
     onPressedChanged: {
-        var pos = mapToItem(target.parent, mouseX, mouseY);
-
         if (pressed) {
             d.updateBorders();
             resetBordersToMoveTimer.stop();
