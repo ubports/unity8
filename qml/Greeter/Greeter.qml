@@ -525,7 +525,7 @@ Showable {
                 failOperation("not the selected user");
                 return;
             }
-            console.log("Identified user by fingerprint:" result.uid);
+            console.log("Identified user by fingerprint:", result.uid);
             d.fingerprintFailureCount = 0;
             if (root.active)
                 root.forcedUnlock = true;
