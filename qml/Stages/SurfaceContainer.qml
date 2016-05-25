@@ -33,7 +33,10 @@ FocusScope {
     property bool interactive
     property int surfaceOrientationAngle: 0
     property bool resizeSurface: true
-    property bool inPromptSession: false
+    property bool isPromptSurface: false
+    // FIME - dont export, use interactive property. Need to fix qtmir to handle consumesInputChanged
+    // to update surface activeFocus. See mock MirSurfaceItem.
+    property alias consumesInput: surfaceItem.consumesInput
 
     onSurfaceChanged: {
         // Not a binding because animations might remove the surface from the surfaceItem
@@ -55,6 +58,8 @@ FocusScope {
     MirSurfaceItem {
         id: surfaceItem
         objectName: "surfaceItem"
+
+        focus: true
 
         fillMode: MirSurfaceItem.PadOrCrop
         consumesInput: true
@@ -122,59 +127,12 @@ FocusScope {
         when: root.requestedHeight < 0
     }
 
-    Repeater {
-        id: childSurfacesRepeater
-        objectName: "childSurfacesRepeater"
-        model: root.surface ? root.surface.promptSurfaceList : null
-
-        delegate: Loader {
-            objectName: "childDelegate" + index
-            anchors.fill: root
-
-            // Only way to do recursive qml items.
-            source: Qt.resolvedUrl("SurfaceContainer.qml")
-
-            z: index
-
-            // Since a Loader is a FocusScope, propagate its focus to the loaded Item
-            Binding {
-                target: item; when: item
-                property: "focus"; value: focus
-            }
-
-            Binding {
-                target: item; when: item
-                property: "interactive"; value: index == (childSurfacesRepeater.count - 1) && root.interactive
-            }
-
-            Binding {
-                target: item; when: item
-                property: "surface"; value: model.surface
-            }
-
-            Binding {
-                target: item; when: item
-                property: "width"; value: root.width
-            }
-
-            Binding {
-                target: item; when: item
-                property: "height"; value: root.height
-            }
-
-            Binding {
-                target: item; when: item
-                property: "inPromptSession"; value: true
-            }
-        }
-    }
-
     Loader {
         id: animationsLoader
         objectName: "animationsLoader"
         active: root.surface
         source: {
-            if (root.inPromptSession) {
+            if (root.isPromptSurface) {
                 return "PromptSurfaceAnimations.qml";
             } else {
                 // Let ApplicationWindow do the animations
@@ -192,20 +150,6 @@ FocusScope {
             when: animationsLoader.item
             property: "container"
             value: root
-        }
-    }
-
-    QtObject {
-        id: d
-        property var focusedChild: {
-            if (childSurfacesRepeater.count == 0) {
-                return surfaceItem;
-            } else {
-                return childSurfacesRepeater.itemAt(childSurfacesRepeater.count - 1);
-            }
-        }
-        onFocusedChildChanged: {
-            focusedChild.focus = true;
         }
     }
 }

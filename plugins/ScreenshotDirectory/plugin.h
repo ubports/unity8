@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2014,2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,22 +14,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.4
+#ifndef SCREENSHOTDIRECTORY_PLUGIN_H
+#define SCREENSHOTDIRECTORY_PLUGIN_H
 
-Item {
-    id: root
+#include <QtQml/QQmlExtensionPlugin>
 
-    function take() {
-        var timeNow = new Date().getTime();
-        image.source = "image://window/" + timeNow;
-    }
+class ScreenshotDirectoryPlugin : public QQmlExtensionPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
-    // Unload the image to free up memory
-    function discard() {
-        image.source = "";
-    }
+public:
+    void registerTypes(const char *uri) override;
+};
 
-    Image {
-        id: image
-    }
-}
+#endif // SCREENSHOTDIRECTORY_PLUGIN_H

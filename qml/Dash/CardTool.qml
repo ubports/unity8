@@ -162,7 +162,7 @@ Item {
         id: attributesModel
         property int numOfAttributes: 0
         property var model: []
-        property bool hasAttributes: {
+        readonly property bool hasAttributes: {
             var attributes = components["attributes"];
             var hasAttributesFlag = (attributes != undefined) && (attributes["field"] != undefined);
 
@@ -182,16 +182,31 @@ Item {
         }
     }
 
+    Item {
+        id: socialActionsModel
+        property var model: []
+        readonly property bool hasActions: components["social-actions"] != undefined
+
+        onHasActionsChanged: {
+            model = []
+            if (hasActions) {
+                model.push( {"id":"text", "icon":"image://theme/ok" } );
+            }
+        }
+    }
+
     Loader {
         id: cardLoader
-        readonly property var fields: ["art", "mascot", "title", "subtitle", "summary", "attributes"]
+        readonly property var cfields: ["art", "mascot", "title", "subtitle", "summary", "attributes", "social-actions"]
+        readonly property var dfields: ["art", "mascot", "title", "subtitle", "summary", "attributes", "socialActions"]
         readonly property var maxData: {
             "art": Qt.resolvedUrl("graphics/pixel.png"),
             "mascot": Qt.resolvedUrl("graphics/pixel.png"),
             "title": "—\n—",
             "subtitle": "—",
             "summary": "—\n—\n—\n—\n—",
-            "attributes": attributesModel.model
+            "attributes": attributesModel.model,
+            "socialActions": socialActionsModel.model
         }
         sourceComponent: CardCreatorCache.getCardComponent(cardTool.template, cardTool.components, true);
         onLoaded: {
@@ -206,13 +221,14 @@ Item {
         }
         function updateCardData() {
             var data = {};
-            for (var k in fields) {
-                var component = cardTool.components[fields[k]];
-                var key = fields[k];
+            for (var k in cfields) {
+                var ckey = cfields[k];
+                var component = cardTool.components[ckey];
                 if ((typeof component === "string" && component.length > 0) ||
                     (typeof component === "object" && component !== null
                     && typeof component["field"] === "string" && component["field"].length > 0)) {
-                    data[key] = maxData[key];
+                    var dkey = dfields[k];
+                    data[dkey] = maxData[dkey];
                 }
             }
             item.cardData = data;

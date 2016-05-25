@@ -193,7 +193,7 @@ Item {
         onPowerKeyLongPressed: dialogs.showPowerDialog();
         onVolumeDownTriggered: volumeControl.volumeDown();
         onVolumeUpTriggered: volumeControl.volumeUp();
-        onScreenshotTriggered: screenGrabber.capture();
+        onScreenshotTriggered: itemGrabber.capture(shell);
     }
 
     GlobalShortcut {
@@ -705,16 +705,22 @@ Item {
         onShowHome: showHome()
     }
 
-    ScreenGrabber {
-        id: screenGrabber
-        rotationAngle: -shell.orientationAngle
+    ItemGrabber {
+        id: itemGrabber
+        anchors.fill: parent
         z: dialogs.z + 10
+        GlobalShortcut { shortcut: Qt.Key_Print; onTriggered: itemGrabber.capture(shell) }
+        Connections {
+            target: applicationsDisplayLoader.item
+            ignoreUnknownSignals: true
+            onItemSnapshotRequested: itemGrabber.capture(item)
+        }
     }
 
     Cursor {
         id: cursor
         visible: shell.hasMouse
-        z: screenGrabber.z + 1
+        z: itemGrabber.z + 1
 
         onPushedLeftBoundary: {
             if (buttons === Qt.NoButton) {

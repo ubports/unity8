@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,10 +23,14 @@ Item {
     readonly property var playbackState: priv.audio ? priv.audio.playbackState : 0
 
     function play() {
-        priv.audio.play();
+        if (priv.audio) {
+            priv.audio.play();
+        }
     }
     function stop() {
-        priv.audio.stop();
+        if (priv.audio) {
+            priv.audio.stop();
+        }
     }
 
     QtObject {

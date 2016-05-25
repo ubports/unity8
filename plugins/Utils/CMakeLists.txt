@@ -18,7 +18,6 @@ set(QMLPLUGIN_SRC
     Timer.cpp
     unitymenumodelpaths.cpp
     windowinputfilter.cpp
-    windowscreenshotprovider.cpp
     easingcurve.cpp
     windowstatestorage.cpp
     timezoneFormatter.cpp

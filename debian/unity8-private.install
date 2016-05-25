@@ -8,7 +8,7 @@ usr/lib/*/unity8/qml/Greeter
 usr/lib/*/unity8/qml/IntegratedLightDM
 usr/lib/*/unity8/qml/Lights
 usr/lib/*/unity8/qml/Powerd
-usr/lib/*/unity8/qml/ScreenGrabber
+usr/lib/*/unity8/qml/ScreenshotDirectory
 usr/lib/*/unity8/qml/SessionBroadcast
 usr/lib/*/unity8/qml/Ubuntu
 usr/lib/*/unity8/qml/Unity
