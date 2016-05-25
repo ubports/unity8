@@ -34,6 +34,8 @@ AbstractStage {
     property int stageFocusedSurface: priv.focusedAppDelegate ? priv.focusedAppDelegate.stage : ApplicationInfoInterface.MainStage
     // </tutorial-hacks>
 
+    paintBackground: spreadView.shiftedContentX !== 0
+
     // Functions to be called from outside
     function updateFocusedAppOrientation() {
         var mainStageIndex = root.topLevelSurfaceList.indexForId(priv.mainStageItemId);
@@ -746,10 +748,11 @@ AbstractStage {
                     surface: model.surface
                     closeable: !isDash
                     highlightShown: root.altTabPressed && priv.highlightIndex == zIndex
+                    dropShadow: spreadView.active || priv.focusedAppDelegateIsDislocated
 
                     readonly property bool wantsMainStage: stage == ApplicationInfoInterface.MainStage
 
-                    readonly property bool isDash: model.application.appId == "unity8-dash"
+                    readonly property bool isDash: application.appId == "unity8-dash"
 
                     onFocusChanged: {
                         if (focus && !spreadRepeater.startingUp) {
@@ -765,7 +768,7 @@ AbstractStage {
                         onFocusRequested: spreadTile.focus = true;
                     }
                     Connections {
-                        target: model.application
+                        target: spreadTile.application
                         onFocusRequested: {
                             if (!model.surface) {
                                 // when an app has no surfaces, we assume there's only one entry representing it:
@@ -841,7 +844,7 @@ AbstractStage {
                         _constructing = false;
                     }
                     Component.onDestruction: {
-                        WindowStateStorage.saveStage(model.application.appId, stage);
+                        WindowStateStorage.saveStage(application.appId, stage);
                     }
 
                     function refreshStage() {
@@ -1070,6 +1073,7 @@ AbstractStage {
 
                 surface: spreadDelegate ? spreadDelegate.surface : null
 
+                consumesInput: false
                 interactive: false
                 resizeSurface: false
                 focus: false

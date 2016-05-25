@@ -43,6 +43,11 @@ public:
 
     bool contains(MirSurface *surface) const { return m_surfaceList.contains(surface); }
 
+    ////
+    // API for tests
+
+    Q_INVOKABLE unity::shell::application::MirSurfaceInterface *createSurface();
+
 private:
     void raise(MirSurface *surface);
     void moveSurface(int from, int to);
