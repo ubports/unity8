@@ -69,9 +69,12 @@ Rectangle {
     Timer {
         id: timer
         property int index: -1
+        property bool changeIcon: true
         interval: 500
         onTriggered: {
-            actionDataActions.actions[index].icon = Qt.resolvedUrl("../../UnityLogo.png");
+            if (changeIcon) {
+                actionDataActions.actions[index].icon = Qt.resolvedUrl("../../UnityLogo.png");
+            }
             preview.widgetDataChanged();
             index = -1;
         }
@@ -89,12 +92,14 @@ Rectangle {
 
         function test_checkButtonWithTemporary_data() {
             return [
-                {tag: "with temporary", temporaryIcon: "emblem", index: 0},
-                {tag: "without temporary", temporaryIcon: undefined, index: 2},
+                {tag: "with temporary change icon",    temporaryIcon: "emblem", index: 0, changeIcon: true},
+                {tag: "with temporary no change icon", temporaryIcon: "emblem", index: 1, changeIcon: false},
+                {tag: "without temporary",             temporaryIcon: undefined, index: 2, changeIcon: true},
             ];
         }
 
         function test_checkButtonWithTemporary(data) {
+            waitForRendering(preview);
             spy.target = preview;
 
             var buttonId = actionDataActions.actions[data.index].id;
@@ -108,6 +113,7 @@ Rectangle {
 
             compare(image.source, buttonIcon);
             compare(label.text, buttonLabel);
+            timer.changeIcon = data.changeIcon;
             mouseClick(button);
             compare(spy.count, 1);
             compare(spy.signalArguments[0][1], buttonId);
@@ -119,7 +125,11 @@ Rectangle {
             tryCompareFunction(function() {
                 var button = findChild(root, "button" + buttonId);
                 var image = findChildsByType(button, "QQuickImage")[0];
-                return image.source && image.source.toString().indexOf("UnityLogo") > -1;
+                if (data.changeIcon) {
+                    return image.source && image.source.toString().indexOf("UnityLogo") > -1;
+                } else {
+                    return image.source && image.source == buttonIcon;
+                }
             }, true);
         }
     }

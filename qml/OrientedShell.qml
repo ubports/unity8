@@ -26,9 +26,8 @@ import "Rotation"
 // Workaround https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1473471
 import Ubuntu.Components 1.3
 
-Rectangle {
+Item {
     id: root
-    color: "black"
 
     implicitWidth: units.gu(40)
     implicitHeight: units.gu(71)
@@ -241,7 +240,7 @@ Rectangle {
         orientedShell: root
         shell: shell
         shellCover: shellCover
-        windowScreenshot: windowScreenshot
+        shellSnapshot: shellSnapshot
     }
 
     Shell {
@@ -291,8 +290,9 @@ Rectangle {
         visible: false
     }
 
-    WindowScreenshot {
-        id: windowScreenshot
+    ItemSnapshot {
+        id: shellSnapshot
+        target: shell
         visible: false
         width: root.width
         height: root.height
@@ -302,9 +302,9 @@ Rectangle {
         property real transformOriginY
 
         transform: Rotation {
-            origin.x: windowScreenshot.transformOriginX; origin.y: windowScreenshot.transformOriginY;
+            origin.x: shellSnapshot.transformOriginX; origin.y: shellSnapshot.transformOriginY;
             axis { x: 0; y: 0; z: 1 }
-            angle: windowScreenshot.transformRotationAngle
+            angle: shellSnapshot.transformRotationAngle
         }
     }
 }

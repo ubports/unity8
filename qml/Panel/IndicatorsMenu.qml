@@ -43,18 +43,28 @@ Showable {
 
     // TODO: Perhaps we need a animation standard for showing/hiding? Each showable seems to
     // use its own values. Need to ask design about this.
-    showAnimation: StandardAnimation {
-        property: "height"
-        to: openedHeight
-        duration: UbuntuAnimation.BriskDuration
-        easing.type: Easing.OutCubic
+    showAnimation: SequentialAnimation {
+        StandardAnimation {
+            target: root
+            property: "height"
+            to: openedHeight
+            duration: UbuntuAnimation.BriskDuration
+            easing.type: Easing.OutCubic
+        }
+        // set binding in case units.gu changes while menu open, so height correctly adjusted to fit
+        ScriptAction { script: root.height = Qt.binding( function(){ return root.openedHeight; } ) }
     }
 
-    hideAnimation: StandardAnimation {
-        property: "height"
-        to: minimizedPanelHeight
-        duration: UbuntuAnimation.BriskDuration
-        easing.type: Easing.OutCubic
+    hideAnimation: SequentialAnimation {
+        StandardAnimation {
+            target: root
+            property: "height"
+            to: minimizedPanelHeight
+            duration: UbuntuAnimation.BriskDuration
+            easing.type: Easing.OutCubic
+        }
+        // set binding in case units.gu changes while menu closed, so menu adjusts to fit
+        ScriptAction { script: root.height = Qt.binding( function(){ return root.minimizedPanelHeight; } ) }
     }
 
     height: minimizedPanelHeight

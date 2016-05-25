@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,28 +15,22 @@
  */
 
 import QtQuick 2.4
-import ScreenGrabber 0.1
-import GlobalShortcut 1.0
+import ScreenshotDirectory 0.1
 
+/*
+    Captures an image of the given item and saves it in a screenshots directory.
+    It also displays a flash visual effect and camera shutter sound, as feedback
+    to the user to hint that a screenshot was taken.
+ */
 Rectangle {
     id: root
     visible: false
     color: "white"
-    anchors.fill: parent
     opacity: 0.0
 
-    // to be set from outside
-    property int rotationAngle: 0
-
-    ScreenGrabber {
-        id: screenGrabber
+    ScreenshotDirectory {
+        id: screenshotDirectory
         objectName: "screenGrabber"
-    }
-
-    GlobalShortcut {
-        id: screenshotShortcut
-        shortcut: Qt.Key_Print
-        onTriggered: capture()
     }
 
     NotificationAudio {
@@ -44,7 +38,8 @@ Rectangle {
         source: "/system/media/audio/ui/camera_click.ogg"
     }
 
-    function capture() {
+    function capture(item) {
+        d.target = item;
         visible = true;
         shutterSound.stop();
         shutterSound.play();
@@ -62,13 +57,28 @@ Rectangle {
         }
     }
 
+    QtObject {
+        id: d
+        property Item target
+    }
+
     NumberAnimation on opacity {
         id: fadeOut
         from: 1.0
         to: 0.0
         onStopped: {
             if (visible) {
-                screenGrabber.captureAndSave(root.rotationAngle);
+                d.target.grabToImage(function(result)
+                    {
+                        var fileName = screenshotDirectory.makeFileName();
+                        if (fileName.length === 0) {
+                            console.warn("ItemGrabber: No fileName to save image to");
+                        } else {
+                            console.log("ItemGrabber: Saving image to " + fileName);
+                            result.saveToFile(fileName);
+                        }
+                    });
+
                 visible = false;
             }
         }

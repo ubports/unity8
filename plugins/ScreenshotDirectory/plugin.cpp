@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Canonical Ltd.
+ * Copyright (C) 2014,2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,18 +14,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.4
-import ScreenGrabber 0.1
+#include "plugin.h"
+#include "ScreenshotDirectory.h"
 
-Rectangle {
-    property var grabber: screenGrabber
+#include <QtQml/qqml.h>
 
-    width: 101 // width intentionally bigger than height to test rotation
-    height: 100
-    color: "green"
-
-    ScreenGrabber {
-        id: screenGrabber
-        objectName: "screenGrabber"
-    }
+void ScreenshotDirectoryPlugin::registerTypes(const char *uri)
+{
+    Q_ASSERT(uri == QLatin1String("ScreenshotDirectory"));
+    qmlRegisterType<ScreenshotDirectory>(uri, 0, 1, "ScreenshotDirectory");
 }

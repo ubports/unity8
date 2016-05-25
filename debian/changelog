@@ -1,3 +1,77 @@
+unity8 (8.12+16.10.20160520.1-0ubuntu1) yakkety; urgency=medium
+
+  [ Lukáš Tinkl ]
+  * Don't dim screen when the indicators are open (LP: #1564342)
+  * Fix upcoming alarms ETA labels (LP: #1576741)
+  * Stabilize flaky wizard tests (LP: #1582994)
+
+  [ Michael Zanetti ]
+  * fix the SIM PIN darkening after it got removed accidentally (LP:
+    #1577147)
+
+  [ Michał Sawicz, Nick Dedekind ]
+  * Fixed saving current stage and loss of surface focus when switching
+    stages
+
+  [ Nick Dedekind ]
+  * Fixed incorrect osk surface item resizing the surface.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 20 May 2016 08:44:19 +0000
+
+unity8 (8.12+16.04.20160518.1-0ubuntu1) xenial; urgency=medium
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+  [ Daniel d'Andrada, Michał Sawicz ]
+  * Move prompt surfaces from MirSurface to Application
+
+ -- Nick Dedekind <ci-train-bot@canonical.com>  Wed, 18 May 2016 11:20:04 +0000
+
+unity8 (8.12+16.04.20160504.2-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Expandable Filter Widget
+  * Pass the category correctly
+
+  [ Albert Astals Cid, CI Train Bot ]
+  * Make the previewActions react to the actions model changing (LP:
+    #1485887)
+  * Reload Preview Zoomable Image source if it gets updated
+  * Update the icon also to the original one if that's what the scope
+    wants
+
+  [ Andrea Cimitan ]
+  * Add social actions to cards
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+ -- Pawel Stolowski <ci-train-bot@canonical.com>  Wed, 04 May 2016 18:09:33 +0000
+
+unity8 (8.12+16.04.20160429.2-0ubuntu1) xenial; urgency=medium
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+  [ Daniel d'Andrada ]
+  * Ensure shell transformations use bindings as OrientedShell can get
+    resized
+  * Make shell rotation animation work on multimonitor scenarios.
+  * Refactor screenshotting code and make it work in multimonitor
+    scenarios
+
+  [ Gerry Boland, Nick Dedekind ]
+  * Indicators: set menu height binding while fully open/closed, fixes
+    dynamic grid unit bug.
+
+  [ Michael Zanetti ]
+  * Call the dash sizing hack when units.gu changes
+  * Temporary means to override GUs on the internal screen
+  * reduce some paint layers.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 29 Apr 2016 20:07:37 +0000
+
 unity8 (8.12+16.04.20160427.3-0ubuntu1) xenial; urgency=medium
 
   [ Albert Astals Cid ]
