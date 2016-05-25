@@ -107,7 +107,7 @@ Item {
             onPressed: mouseWasPressed = containsPress
             onMouseYChanged: {
                 if (mouseWasPressed && mouseY > panelHeight) {
-                    PanelState.maximize(); // restore the window when "dragging" the panel down
+                    PanelState.restoreClicked(); // restore the window when "dragging" the panel down
                     mouseWasPressed = false;
                 }
             }
