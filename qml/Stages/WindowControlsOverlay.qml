@@ -22,6 +22,7 @@ import "../Components/PanelState"
 
 Item {
     id: root
+    enabled: target && !target.fullscreen
 
     // to be set from outside
     property Item target // appDelegate
@@ -41,7 +42,8 @@ Item {
                                                 touchPoints.length >= minimumTouchPoints &&
                                                 touchPoints.length <= maximumTouchPoints
         onRecognizedPressChanged: {
-            if (recognizedPress && target && !target.fullscreen) {
+            if (recognizedPress) {
+                target.focus = true;
                 overlayTimer.start();
             }
         }
