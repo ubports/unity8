@@ -67,16 +67,16 @@ void KeyboardLayoutsModel::setLanguage(const QString &language)
 
 static bool compareLayouts(const KeyboardLayoutInfo &layout0, const KeyboardLayoutInfo &layout1)
 {
-    QString name0(layout0.displayName);
-    QString name1(layout1.displayName);
+    QString name0(layout0.id);
+    QString name1(layout1.id);
 
     if (name0 == name1) {
-        name0 = layout0.language;
-        name1 = layout1.language;
+        name0 = layout0.displayName;
+        name1 = layout1.displayName;
 
         if (name0 == name1) {
-            name0 = layout0.id;
-            name1 = layout1.id;
+            name0 = layout0.language;
+            name1 = layout1.language;
         }
     }
 
