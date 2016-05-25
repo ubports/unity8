@@ -11,7 +11,7 @@ AbstractButton {
                 property bool showHeader: true; 
                 implicitWidth: childrenRect.width; 
                 enabled: true; 
-                
+signal action(var actionId);
 readonly property size artShapeSize: Qt.size(-1, -1);
 readonly property int headerHeight: titleLabel.height + subtitleLabel.height + subtitleLabel.anchors.topMargin + audioProgressBar.height + audioProgressBar.anchors.topMargin;
 Label { 

@@ -25,5 +25,8 @@ Item {
     //! Variable used to contain widget's data
     property var widgetData: null
 
+    //! Does the widget show the title inside?
+    property bool showsTitleOnItsOwn: false
+
     objectName: widgetId
 }

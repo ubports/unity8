@@ -44,6 +44,7 @@ Column {
         d.bindGuard = false;
     }
 
+    // Application checkbox row
     RowLayout {
 
         QtObject {
@@ -128,17 +129,47 @@ Column {
             visible: enabled
             Label {
                 text: "➕"
-                color: "white"
                 anchors.centerIn: parent
             }
         }
     }
+
+    // Prompts controls row
+    RowLayout {
+        anchors.left: root.left
+        anchors.leftMargin: units.gu(2)
+        visible: root.checked === true && d.application !== null && root.enabled
+        spacing: units.gu(1)
+        Label {
+            property int promptCount: d.application ? d.application.promptSurfaceList.count : 0
+            id: promptsLabel
+            text: promptCount + " prompts"
+        }
+        MouseArea {
+            width: height
+            height: promptsLabel.height * 0.7
+            anchors.verticalCenter: parent.verticalCenter
+            onClicked: d.application.promptSurfaceList.createSurface()
+            Label { text: "➕"; anchors.centerIn: parent }
+        }
+        MouseArea {
+            width: height
+            height: promptsLabel.height * 0.7
+            anchors.verticalCenter: parent.verticalCenter
+            onClicked: d.application.promptSurfaceList.get(d.application.promptSurfaceList.count - 1).close()
+            enabled: d.application && d.application.promptSurfaceList.count > 0
+            Label { text: "➖"; anchors.centerIn: parent; enabled: parent.enabled }
+        }
+    }
+
+    // Rows of application surfaces
     Repeater {
         model: d.application ? d.application.surfaceList : null
         RowLayout {
+            anchors.left: root.left
+            anchors.leftMargin: units.gu(2)
             spacing: units.gu(1)
             Label {
-                color: "white"
                 text: "- " + model.surface.name
             }
             MouseArea {
@@ -150,7 +181,6 @@ Column {
                 onClicked: model.surface.setLive(false);
                 Label {
                     text: "⛒"
-                    color: "white"
                     anchors.centerIn: parent
                 }
             }
