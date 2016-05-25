@@ -36,7 +36,6 @@ Item {
         // NB: for testing set to 2, not to clash with unity7 touch overlay controls
         minimumTouchPoints: 3
         maximumTouchPoints: minimumTouchPoints
-        releaseRejectPeriod: 500
 
         readonly property bool recognizedPress: status == TouchGestureArea.Recognized &&
                                                 touchPoints.length >= minimumTouchPoints &&
@@ -105,7 +104,7 @@ Item {
         id: overlay
         objectName: "windowControlsOverlay"
         anchors.fill: parent
-        enabled: target && overlayTimer.running
+        enabled: overlayTimer.running
         visible: opacity > 0
         opacity: enabled ? 0.95 : 0
 
@@ -143,8 +142,13 @@ Item {
                 visible: overlay.visible
                 enabled: visible
                 onPressed: {
+                    if (gestureArea.recognizedPress || gestureArea.recognizedDrag) {
+                        mouse.accepted = false;
+                        return;
+                    }
+
                     overlayTimer.stop();
-                    mouse.accepted = false;
+                    mouse.accepted = root.contains(Qt.point(mouse.x, mouse.y));
                 }
                 propagateComposedEvents: true
             }
