@@ -2435,12 +2435,13 @@ Rectangle {
             var panel = findChild(shell, "windowControlArea");
             verify(panel);
 
+            var appSurfaceId = topLevelSurfaceList.nextId;
             var app = ApplicationManager.startApplication("dialer-app")
-            waitUntilAppWindowIsFullyLoaded(app);
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             // start dialer, maximize it
             var appContainer = findChild(shell, "appContainer");
-            var appDelegate = findChild(appContainer, "appDelegate_dialer-app");
+            var appDelegate = findChild(appContainer, "appDelegate_" + appSurfaceId);
             verify(appDelegate);
             appDelegate.maximize();
             tryCompare(appDelegate, "state", "maximized");
