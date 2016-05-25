@@ -22,6 +22,8 @@ import Ubuntu.SystemSettings.LanguagePlugin 1.0
 import Wizard 0.1
 import AccountsService 0.1
 import Unity.InputInfo 0.1
+import Unity.Application 0.1
+import WindowManager 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -57,6 +59,12 @@ LocalComponents.Page {
     }
 
     property string selectedKeymap: ""
+
+    TopLevelSurfaceList {
+        id: topLevelSurfaceList
+        objectName: "topLevelSurfaceList"
+        applicationsModel: ApplicationManager
+    }
 
     ColumnLayout {
         id: column
@@ -122,6 +130,11 @@ LocalComponents.Page {
                 onClicked: {
                     keyboardListView.currentIndex = index;
                     selectedKeymap = layoutId;
+                    if (topLevelSurfaceList.count > 0) {
+                        print("Setting wizard keymap to:", selectedKeymap)
+                        var surface = topLevelSurfaceList.surfaceAt(0);
+                        surface.keymap = selectedKeymap;
+                    }
                 }
             }
         }
