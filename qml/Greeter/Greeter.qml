@@ -158,7 +158,7 @@ Showable {
             if (lightDM.greeter.startSessionSync()) {
                 sessionStarted();
                 if (loader.item) {
-                    loader.item.notifyAuthenticationSucceeded();
+                    loader.item.notifyAuthenticationSucceeded(false /* showFakePassword */);
                 }
             } else if (loader.item) {
                 loader.item.notifyAuthenticationFailed();
@@ -177,7 +177,7 @@ Showable {
         function checkForcedUnlock() {
             if (forcedUnlock && shown && loader.item) {
                 // pretend we were just authenticated
-                loader.item.notifyAuthenticationSucceeded();
+                loader.item.notifyAuthenticationSucceeded(false /* showFakePassword */);
                 loader.item.hide();
             }
         }
@@ -527,6 +527,8 @@ Showable {
             }
             console.log("Identified user by fingerprint:", result.uid);
             d.fingerprintFailureCount = 0;
+            if (loader.item)
+                loader.item.notifyAuthenticationSucceeded(true /* showFakePassword */);
             if (root.active)
                 root.forcedUnlock = true;
         }

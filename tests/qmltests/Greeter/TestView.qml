@@ -48,7 +48,7 @@ Item {
     signal _showPromptCalled(string text, bool isSecret, bool isDefaultPrompt)
     signal _showLastChanceCalled()
     signal _hideCalled()
-    signal _notifyAuthenticationSucceededCalled()
+    signal _notifyAuthenticationSucceededCalled(bool showFakePassword)
     signal _notifyAuthenticationFailedCalled()
     signal _showErrorMessageCalled(string msg)
     signal _resetCalled()
@@ -72,8 +72,8 @@ Item {
         _fullyShown = false;
     }
 
-    function notifyAuthenticationSucceeded() {
-        _notifyAuthenticationSucceededCalled();
+    function notifyAuthenticationSucceeded(showFakePassword) {
+        _notifyAuthenticationSucceededCalled(showFakePassword);
     }
 
     function notifyAuthenticationFailed() {

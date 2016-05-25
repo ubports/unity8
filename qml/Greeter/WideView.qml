@@ -58,7 +58,7 @@ FocusScope {
         coverPage.hide();
     }
 
-    function notifyAuthenticationSucceeded() {
+    function notifyAuthenticationSucceeded(showFakePassword) {
         // Nothing needed
     }
 

@@ -128,7 +128,7 @@ Item {
                         text: "Authenticated"
                         onClicked: {
                             if (successCheckBox.checked) {
-                                loader.item.notifyAuthenticationSucceeded();
+                                loader.item.notifyAuthenticationSucceeded(fakePasswordCheckBox.checked);
                             } else {
                                 loader.item.notifyAuthenticationFailed();
                             }
@@ -139,6 +139,12 @@ Item {
                     }
                     Label {
                         text: "success"
+                    }
+                    CheckBox {
+                        id: fakePasswordCheckBox
+                    }
+                    Label {
+                        text: "fake password"
                     }
                 }
                 Row {
