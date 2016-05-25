@@ -27,7 +27,7 @@ Item {
     // to be set from outside
     property Item target // appDelegate
 
-    readonly property bool overlayShown: overlay.visible
+    readonly property alias overlayShown: overlay.visible
 
     TouchGestureArea {
         id: gestureArea
@@ -120,7 +120,6 @@ Item {
             height: width
             sourceSize: Qt.size(width, height)
             anchors.centerIn: parent
-            opacity: 0.95
             visible: target && target.width > units.gu(12) && target.height > units.gu(12)
 
             // move handler
