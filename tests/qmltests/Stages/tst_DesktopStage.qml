@@ -658,8 +658,7 @@ Item {
         }
 
         function test_threeFingerTapShowsWindowControls(data) {
-            var facebookApp = startApplication("facebook-webapp");
-            var facebookAppDelegate = findChild(desktopStage, "appDelegate_facebook-webapp");
+            var facebookAppDelegate = startApplication("facebook-webapp");
             verify(facebookAppDelegate);
             var overlay = findChild(facebookAppDelegate, "windowControlsOverlay");
             verify(overlay);
