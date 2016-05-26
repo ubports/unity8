@@ -51,10 +51,11 @@ Q_SIGNALS:
     void languageChanged(const QString &language);
 
 private Q_SLOTS:
-    void buildModel();
     void updateModel();
 
 private:
+    void buildModel();
+
     QString m_language;
     QHash<int, QByteArray> m_roleNames;
     QVector<KeyboardLayoutInfo> m_layouts;
