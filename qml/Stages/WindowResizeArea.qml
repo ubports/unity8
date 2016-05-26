@@ -22,8 +22,15 @@ import "../Components/PanelState"
 
 MouseArea {
     id: root
-    anchors.fill: target
+
+    // we either fill the target (for mouse)...
+    anchors.fill: !touchMode ? target : undefined
     anchors.margins: -borderThickness
+
+    // ... or put it on top for touch controls
+    anchors.centerIn: touchMode ? target : undefined
+    width: touchMode ? target.width - borderThickness/2 : undefined
+    height: touchMode ? target.height - borderThickness/2 : undefined
 
     hoverEnabled: target && !target.maximized // don't grab the resize under the panel
 
@@ -31,7 +38,7 @@ MouseArea {
     readonly property alias dragging: d.dragging
 
     // The target item managed by this. Must be a parent or a sibling
-    // The area will anchor to it and manage move and resize events
+    // The area will anchor to it and manage resize events
     property Item target: null
     property string windowId: ""
     property int borderThickness: 0
@@ -42,6 +49,7 @@ MouseArea {
     property int screenWidth: 0
     property int screenHeight: 0
     property int leftMargin: 0
+    property bool touchMode: false
 
     QtObject {
         id: priv

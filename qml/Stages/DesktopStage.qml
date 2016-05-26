@@ -593,6 +593,7 @@ AbstractStage {
                     screenWidth: appContainer.width
                     screenHeight: appContainer.height
                     leftMargin: root.leftMargin
+                    touchMode: touchControls.overlayShown
 
                     onPressed: { appDelegate.focus = true; }
 
