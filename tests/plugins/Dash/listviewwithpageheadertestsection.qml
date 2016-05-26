@@ -94,13 +94,24 @@ Rectangle {
             }
         }
 
+        property bool useBrokenSectionDelegateComponent: false
         sectionProperty: "type"
-        sectionDelegate: Component {
+        sectionDelegate: useBrokenSectionDelegateComponent ? objectComponent
+                                                           : regularSectionDelegateComponent
+
+        Component {
+            id: regularSectionDelegateComponent
             Rectangle {
                 color: "green"
                 height: section === "" ? 0 : section != "halfheight" ? 40 : 20;
                 Text { text: section; font.pixelSize: 34 }
                 anchors { left: parent.left; right: parent.right }
+            }
+        }
+
+        Component {
+            id: objectComponent
+            QtObject {
             }
         }
     }
