@@ -94,8 +94,8 @@ Showable {
     function showText(text) {
         // Programmatically enters the given text into the lockscreen
         if (pinPadLoader.item) {
-            pinPadLoader.waiting = true;
             pinPadLoader.item.showText(text);
+            pinPadLoader.waiting = true;
         }
     }
 

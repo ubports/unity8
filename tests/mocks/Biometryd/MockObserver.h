@@ -29,8 +29,6 @@ class MockObserver : public QObject
 public:
     explicit MockObserver(QObject *parent = 0);
 
-    Q_INVOKABLE void mockIdentification(int uid, const QString &error); // only in mock
-
 Q_SIGNALS:
     void succeeded(const QVariant &result);
     void failed(const QString &reason);

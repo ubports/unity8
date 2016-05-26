@@ -15,13 +15,27 @@
  */
 
 #include "plugin.h"
+#include "MockBiometryd.h"
+#include "MockDevice.h"
+#include "MockIdentifier.h"
 #include "MockObserver.h"
+#include "MockOperation.h"
 
 #include <QtQml>
+
+static QObject *biometryd_provider(QQmlEngine *, QJSEngine *)
+{
+    return new MockBiometryd();
+}
 
 void BackendPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("Biometryd"));
 
     qmlRegisterType<MockObserver>(uri, 0, 0, "Observer");
+    qmlRegisterSingletonType<MockBiometryd>(uri, 0, 0, "Biometryd", biometryd_provider);
+
+    qRegisterMetaType<MockDevice*>();
+    qRegisterMetaType<MockIdentifier*>();
+    qRegisterMetaType<MockOperation*>();
 }

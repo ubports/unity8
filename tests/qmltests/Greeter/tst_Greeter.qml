@@ -20,6 +20,7 @@ import ".."
 import "../../../qml/Greeter"
 import Ubuntu.Components 1.3
 import AccountsService 0.1
+import Biometryd 0.0
 import GSettings 1.0
 import IntegratedLightDM 0.1 as LightDM
 import Unity.Test 0.1 as UT
@@ -149,6 +150,8 @@ Item {
             teaseSpy.clear();
             sessionStartedSpy.clear();
             activeChangedSpy.clear();
+            Biometryd.reset(false);
+            AccountsService.enableFingerprintIdentification = false;
             viewShowMessageSpy.clear();
             viewShowPromptSpy.clear();
             viewShowLastChanceSpy.clear();
@@ -562,49 +565,129 @@ Item {
         }
 
         function test_fingerprintSuccess() {
+            Biometryd.reset(true);
+            AccountsService.enableFingerprintIdentification = true;
+            var index = selectUser("has-password");
+
             var biometryd = findInvisibleChild(greeter, "biometryd");
-            selectUser("has-password");
-            biometryd.mockIdentification(0, "");
-            verify(greeter.forcedUnlock);
+            verify(biometryd.operation);
+            verify(biometryd.operation.running);
+
+            biometryd.operation.mockSuccess(LightDM.Users.data(index, LightDM.UserRoles.UidRole));
+            verify(!greeter.active);
         }
 
         function test_fingerprintFailureMessage() {
+            Biometryd.reset(true);
+            AccountsService.enableFingerprintIdentification = true;
+            var index = selectUser("has-password");
+
             var biometryd = findInvisibleChild(greeter, "biometryd");
-            selectUser("has-password");
-            biometryd.mockIdentification(0, "error");
+            verify(biometryd.operation);
+            verify(biometryd.operation.running);
+
+            biometryd.operation.mockFailure("error");
             compare(viewShowErrorMessageSpy.count, 1);
             compare(viewShowErrorMessageSpy.signalArguments[0][0], i18n.tr("Try again"));
         }
 
         function test_fingerprintTooManyFailures() {
-            var biometryd = findInvisibleChild(greeter, "biometryd");
+            Biometryd.reset(true);
+            AccountsService.enableFingerprintIdentification = true;
             selectUser("has-password");
-            biometryd.mockIdentification(0, "error");
-            biometryd.mockIdentification(0, "error");
+
+            var biometryd = findInvisibleChild(greeter, "biometryd");
+            biometryd.operation.mockFailure("error");
+            biometryd.operation.mockFailure("error");
             compare(viewTryToUnlockSpy.count, 0);
 
-            biometryd.mockIdentification(0, "error");
+            biometryd.operation.mockFailure("error");
             compare(viewTryToUnlockSpy.count, 1);
 
             compare(viewShowErrorMessageSpy.count, 3);
         }
 
         function test_fingerprintFailureCountReset() {
-            var biometryd = findInvisibleChild(greeter, "biometryd");
+            Biometryd.reset(true);
+            AccountsService.enableFingerprintIdentification = true;
             selectUser("has-password");
-            biometryd.mockIdentification(0, "error");
-            biometryd.mockIdentification(0, "error");
+
+            var biometryd = findInvisibleChild(greeter, "biometryd");
+            biometryd.operation.mockFailure("error");
+            biometryd.operation.mockFailure("error");
             compare(viewTryToUnlockSpy.count, 0);
 
             greeter.forceShow();
-            biometryd.mockIdentification(0, "error");
-            biometryd.mockIdentification(0, "error");
+            biometryd.operation.mockFailure("error");
+            biometryd.operation.mockFailure("error");
             compare(viewTryToUnlockSpy.count, 0);
 
-            biometryd.mockIdentification(0, "error");
+            biometryd.operation.mockFailure("error");
             compare(viewTryToUnlockSpy.count, 1);
 
             compare(viewShowErrorMessageSpy.count, 5);
+        }
+
+        function test_fingerprintWrongUid() {
+            Biometryd.reset(true);
+            AccountsService.enableFingerprintIdentification = true;
+            selectUser("has-password");
+
+            var biometryd = findInvisibleChild(greeter, "biometryd");
+            biometryd.operation.mockSuccess(0);
+
+            verify(greeter.active);
+            compare(viewShowErrorMessageSpy.count, 1);
+            compare(viewShowErrorMessageSpy.signalArguments[0][0], i18n.tr("Try again"));
+        }
+
+        function test_fingerprintNotEnabled() {
+            Biometryd.reset(true);
+            selectUser("has-password");
+
+            var biometryd = findInvisibleChild(greeter, "biometryd");
+            verify(!biometryd.operation);
+
+            AccountsService.enableFingerprintIdentification = true;
+            verify(biometryd.operation);
+            verify(biometryd.operation.running);
+
+            AccountsService.enableFingerprintIdentification = false;
+            verify(!biometryd.operation);
+        }
+
+        function test_fingerprintReaderNotPresent() {
+            AccountsService.enableFingerprintIdentification = true;
+            selectUser("has-password");
+
+            verify(!Biometryd.defaultDevice);
+
+            var biometryd = findInvisibleChild(greeter, "biometryd");
+            verify(!biometryd.operation);
+
+            Biometryd.reset(true);
+            verify(biometryd.operation);
+            verify(biometryd.operation.running);
+
+            Biometryd.reset(false);
+            verify(!biometryd.operation);
+        }
+
+        function test_fingerprintGreeterNotActive() {
+            Biometryd.reset(true);
+            AccountsService.enableFingerprintIdentification = true;
+            selectUser("has-password");
+
+            var biometryd = findInvisibleChild(greeter, "biometryd");
+            verify(biometryd.operation);
+            verify(biometryd.operation.running);
+
+            greeter.hideNow();
+            verify(!biometryd.operation);
+
+            greeter.showNow();
+            verify(biometryd.operation);
+            verify(biometryd.operation.running);
         }
     }
 }

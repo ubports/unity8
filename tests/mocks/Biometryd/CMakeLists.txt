@@ -4,7 +4,11 @@ include_directories(
 
 set(MOCK_BIOMETRYD_SOURCES
     plugin.cpp
+    MockBiometryd.cpp
+    MockDevice.cpp
+    MockIdentifier.cpp
     MockObserver.cpp
+    MockOperation.cpp
 )
 
 add_library(MockBiometryd MODULE ${MOCK_BIOMETRYD_SOURCES})

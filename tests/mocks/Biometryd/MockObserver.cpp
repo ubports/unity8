@@ -16,33 +16,7 @@
 
 #include "MockObserver.h"
 
-class Result : public QObject
-{
-    Q_OBJECT
-    Q_PROPERTY(unsigned int uid READ uid CONSTANT)
-
-public:
-    explicit Result(unsigned int uid, QObject *parent = 0)
-        : QObject(parent), m_uid(uid)
-    {}
-
-    unsigned int uid() const { return m_uid; }
-
-private:
-    unsigned int m_uid;
-};
-
 MockObserver::MockObserver(QObject *parent)
     : QObject(parent)
 {
 }
-
-void MockObserver::mockIdentification(int uid, const QString &error)
-{
-    if (error.isEmpty())
-        Q_EMIT succeeded(QVariant::fromValue(new Result(uid, this)));
-    else
-        Q_EMIT failed(error);
-}
-
-#include "MockObserver.moc"

@@ -20,6 +20,7 @@
 
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
+    m_enableFingerprintIdentification(false),
     m_enableLauncherWhileLocked(true),
     m_enableIndicatorsWhileLocked(true),
     m_backgroundFile(qmlDirectory() + "/graphics/phone_background.jpg"),
@@ -72,6 +73,17 @@ void AccountsService::setDemoEdgesCompleted(const QStringList &demoEdgesComplete
 {
     m_demoEdgesCompleted = demoEdgesCompleted;
     Q_EMIT demoEdgesCompletedChanged();
+}
+
+bool AccountsService::enableFingerprintIdentification() const
+{
+    return m_enableFingerprintIdentification;
+}
+
+void AccountsService::setEnableFingerprintIdentification(bool enableFingerprintIdentification)
+{
+    m_enableFingerprintIdentification = enableFingerprintIdentification;
+    Q_EMIT enableFingerprintIdentificationChanged();
 }
 
 bool AccountsService::enableLauncherWhileLocked() const
