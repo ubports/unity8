@@ -169,7 +169,7 @@ private Q_SLOTS:
     {
         view = new QQuickView();
         view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/listviewwithpageheadertestsectionexternalmodel.qml"));
-        lvwph = dynamic_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
+        lvwph = static_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
         QVERIFY(lvwph);
         view->show();
         QTest::qWaitForWindowExposed(view);
