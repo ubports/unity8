@@ -18,11 +18,11 @@ Loader  {
                                 onCardArtChanged: { if (item) { item.image.source = cardArt; } }
                                 active: cardArt != "";
                                 asynchronous: false;
-                                visible: status == Loader.Ready;
+                                visible: status === Loader.Ready;
                                 sourceComponent: Item {
                                     id: artShape;
                                     objectName: "artShape";
-                                    visible: image.status == Image.Ready;
+                                    visible: image.status === Image.Ready;
                                     readonly property alias image: artImage;
                                     width: image.status !== Image.Ready ? 0 : image.width;
                                     height: image.status !== Image.Ready ? 0 : image.height;
@@ -43,7 +43,7 @@ Loader {
                             anchors.fill: artShapeLoader;
                             active: artShapeLoader.active && artShapeLoader.item && artShapeLoader.item.image.status === Image.Ready || false; 
                             asynchronous: false;
-                            visible: showHeader && status == Loader.Ready; 
+                            visible: showHeader && status === Loader.Ready;
                             sourceComponent: UbuntuShapeOverlay { 
                                 id: overlay; 
                                 property real luminance: Style.luminance(overlayColor); 

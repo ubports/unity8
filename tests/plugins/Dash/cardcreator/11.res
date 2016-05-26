@@ -16,7 +16,7 @@ Loader {
                                 objectName: "backgroundLoader"; 
                                 anchors.fill: parent; 
                                 asynchronous: true;
-                                visible: status == Loader.Ready; 
+                                visible: status === Loader.Ready;
                                 sourceComponent: UbuntuShape { 
                                     objectName: "background"; 
                                     radius: "medium"; 
@@ -58,11 +58,11 @@ Loader {
                                 onCardArtChanged: { if (item) { item.image.source = cardArt; } }
                                 active: cardArt != "";
                                 asynchronous: true;
-                                visible: status == Loader.Ready; 
+                                visible: status === Loader.Ready;
                                 sourceComponent: Item { 
                                     id: artShape; 
                                     objectName: "artShape"; 
-                                    visible: image.status == Image.Ready; 
+                                    visible: image.status === Image.Ready;
                                     readonly property alias image: artImage; 
                                     UbuntuShape {
                                         anchors.fill: parent;

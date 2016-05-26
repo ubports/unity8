@@ -25,7 +25,7 @@ var kBackgroundLoaderCode = 'Loader {\n\
                                 objectName: "backgroundLoader"; \n\
                                 anchors.fill: parent; \n\
                                 asynchronous: %3; \n\
-                                visible: status == Loader.Ready; \n\
+                                visible: status === Loader.Ready; \n\
                                 sourceComponent: UbuntuShape { \n\
                                     objectName: "background"; \n\
                                     radius: "medium"; \n\
@@ -90,11 +90,11 @@ var kArtShapeHolderCode = 'Loader { \n\
                             onCardArtChanged: { if (item) { item.image.source = cardArt; } } \n\
                             active: cardArt != ""; \n\
                             asynchronous: %5; \n\
-                            visible: status == Loader.Ready; \n\
+                            visible: status === Loader.Ready; \n\
                             sourceComponent: Item { \n\
                                 id: artShape; \n\
                                 objectName: "artShape"; \n\
-                                visible: image.status == Image.Ready; \n\
+                                visible: image.status === Image.Ready; \n\
                                 readonly property alias image: artImage; \n\
                                 %6 \n\
                                 width: root.fixedArtShapeSize.width; \n\
@@ -128,11 +128,11 @@ var kArtShapeHolderCodeCardToolCard = 'Loader { \n\
                             onCardArtChanged: { if (item) { item.image.source = cardArt; } } \n\
                             active: cardArt != ""; \n\
                             asynchronous: %5; \n\
-                            visible: status == Loader.Ready; \n\
+                            visible: status === Loader.Ready; \n\
                             sourceComponent: Item { \n\
                                 id: artShape; \n\
                                 objectName: "artShape"; \n\
-                                visible: image.status == Image.Ready; \n\
+                                visible: image.status === Image.Ready; \n\
                                 readonly property alias image: artImage; \n\
                                 %6 \n\
                                 width: image.status !== Image.Ready ? 0 : image.width; \n\
@@ -206,7 +206,7 @@ var kOverlayLoaderCode = 'Loader { \n\
                             anchors.fill: artShapeLoader; \n\
                             active: artShapeLoader.active && artShapeLoader.item && artShapeLoader.item.image.status === Image.Ready || false; \n\
                             asynchronous: %1; \n\
-                            visible: showHeader && status == Loader.Ready; \n\
+                            visible: showHeader && status === Loader.Ready; \n\
                             sourceComponent: UbuntuShapeOverlay { \n\
                                 id: overlay; \n\
                                 property real luminance: Style.luminance(overlayColor); \n\
@@ -263,7 +263,7 @@ var kMascotShapeLoaderCode = 'Loader { \n\
                                 objectName: "mascotShapeLoader"; \n\
                                 asynchronous: %2; \n\
                                 active: mascotImage.status === Image.Ready; \n\
-                                visible: showHeader && active && status == Loader.Ready; \n\
+                                visible: showHeader && active && status === Loader.Ready; \n\
                                 width: units.gu(6); \n\
                                 height: units.gu(5.625); \n\
                                 sourceComponent: UbuntuShape { image: mascotImage } \n\
