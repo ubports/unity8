@@ -27,6 +27,7 @@ Item {
     // to be set from outside
     property Item target // appDelegate
 
+    // to be read from outside
     readonly property alias overlayShown: overlay.visible
 
     TouchGestureArea {

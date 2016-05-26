@@ -42,7 +42,6 @@ AbstractStage {
     property bool spreadShown: spread.state == "altTab"
 
     mainApp: priv.focusedAppDelegate ? priv.focusedAppDelegate.application : null
-    mainAppDelegate: priv.focusedAppDelegate
 
     // application windows never rotate independently
     mainAppWindowOrientationAngle: shellOrientationAngle
