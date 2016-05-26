@@ -44,6 +44,7 @@
 #include <libudev.h>
 #include <libevdev/libevdev.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <QDebug>
 #include <QSocketNotifier>
 #include <QTimer>
@@ -168,6 +169,7 @@ QInputDevice *QInputDeviceManagerPrivate::addDevice(struct udev_device *udev)
     rc = libevdev_new_from_fd(fd, &dev);
     if (rc < 0) {
         qWarning() << "Failed to init libevdev ("<< strerror(-rc) << ")";
+        close(fd);
         return Q_NULLPTR;
     }
 
@@ -195,6 +197,9 @@ QInputDevice *QInputDeviceManagerPrivate::addDevice(struct udev_device *udev)
         }
     }
 
+    qDebug() << "MOOOOOOOOO";
+    libevdev_free(dev);
+    close(fd);
     return inputDevice;
 }
 
