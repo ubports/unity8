@@ -197,7 +197,6 @@ QInputDevice *QInputDeviceManagerPrivate::addDevice(struct udev_device *udev)
         }
     }
 
-    qDebug() << "MOOOOOOOOO";
     libevdev_free(dev);
     close(fd);
     return inputDevice;
