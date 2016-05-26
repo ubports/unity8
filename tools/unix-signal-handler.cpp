@@ -77,8 +77,7 @@ int UnixSignalHandler::setupUnixSignalHandlers()
 
     sighup.sa_handler = UnixSignalHandler::hupSignalHandler;
     sigemptyset(&sighup.sa_mask);
-    sighup.sa_flags = 0;
-    sighup.sa_flags |= SA_RESTART;
+    sighup.sa_flags = SA_RESTART;
 
     if (sigaction(SIGHUP, &sighup, 0) > 0)
     {
@@ -87,8 +86,7 @@ int UnixSignalHandler::setupUnixSignalHandlers()
 
     sigint.sa_handler = UnixSignalHandler::intSignalHandler;
     sigemptyset(&sigint.sa_mask);
-    sigint.sa_flags = 0;
-    sigint.sa_flags |= SA_RESTART;
+    sigint.sa_flags = SA_RESTART;
 
     if (sigaction(SIGINT, &sigint, 0) > 0)
     {
@@ -97,7 +95,7 @@ int UnixSignalHandler::setupUnixSignalHandlers()
 
     sigterm.sa_handler = UnixSignalHandler::termSignalHandler;
     sigemptyset(&sigterm.sa_mask);
-    sigterm.sa_flags |= SA_RESTART;
+    sigterm.sa_flags = SA_RESTART;
 
     if (sigaction(SIGTERM, &sigterm, 0) > 0)
     {
