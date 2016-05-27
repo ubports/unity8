@@ -62,7 +62,7 @@ FocusScope {
     Rectangle {
         anchors { left: selectionHighlight.left; right: selectionHighlight.right; bottom: selectionHighlight.bottom; }
         height: units.dp(2)
-        color: UbuntuColors.orange
+        color: theme.palette.normal.focus
         visible: highlightShown
     }
 
