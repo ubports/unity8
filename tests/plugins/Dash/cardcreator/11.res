@@ -69,7 +69,6 @@ Item {
                                     readonly property alias image: artImage; 
                                     UbuntuShape {
                                         anchors.fill: parent;
-                                        visible: true;
                                         source: artImage;
                                         sourceFillMode: UbuntuShape.PreserveAspectCrop;
                                         radius: "medium";

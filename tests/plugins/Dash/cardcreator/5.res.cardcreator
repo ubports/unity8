@@ -28,14 +28,6 @@ Item  {
                                     objectName: "artShape";
                                     visible: image.status == Image.Ready;
                                     readonly property alias image: artImage;
-                                    UbuntuShape {
-                                        anchors.fill: parent;
-                                        visible: false;
-                                        source: artImage;
-                                        sourceFillMode: UbuntuShape.PreserveAspectCrop;
-                                        radius: "medium";
-                                        aspect: UbuntuShape.DropShadow;
-                                    }
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1;
                                     readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : 1;
                                     Component.onCompleted: { updateWidthHeightBindings(); }

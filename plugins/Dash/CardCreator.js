@@ -59,21 +59,17 @@ var kBackgroundLoaderCode = 'Loader {\n\
                                 } \n\
                             }\n';
 
-// %1 is the visible code
-// %2 is the aspect of the UbuntuShape
+// %1 is the aspect of the UbuntuShape
 var kArtUbuntuShapeCode = 'UbuntuShape { \n\
                                 anchors.fill: parent; \n\
-                                visible: %1; \n\
                                 source: artImage; \n\
                                 sourceFillMode: UbuntuShape.PreserveAspectCrop; \n\
                                 radius: "medium"; \n\
-                                aspect: %2; \n\
+                                aspect: %1; \n\
                             }';
 
-// %1 is the visible code
 var kArtProportionalShapeCode = 'ProportionalShape { \n\
                                     anchors.fill: parent; \n\
-                                    visible: %1; \n\
                                     source: artImage; \n\
                                     aspect: UbuntuShape.DropShadow; \n\
                                  }';
@@ -520,18 +516,21 @@ function cardString(template, components, isCardTool, artShapeStyle) {
             fallbackURICode = 'decodeURI("%1")'.arg(fallback);
         }
         var artShapeHolderShapeCode;
-        if (artShapeStyle === "icon") {
-            artShapeHolderShapeCode = kArtProportionalShapeCode.arg(isConciergeMode ? "false" : "true");
-        } else {
-            var artShapeHolderShapeAspect;
-            switch (artShapeStyle) {
-                case "inset": artShapeHolderShapeAspect = "UbuntuShape.Inset"; break;
-                case "shadow": artShapeHolderShapeAspect = "UbuntuShape.DropShadow"; break;
-                default:
-                case "flat": artShapeHolderShapeAspect = "UbuntuShape.Flat"; break;
+        if (!isConciergeMode) {
+            if (artShapeStyle === "icon") {
+                artShapeHolderShapeCode = kArtProportionalShapeCode;
+            } else {
+                var artShapeHolderShapeAspect;
+                switch (artShapeStyle) {
+                    case "inset": artShapeHolderShapeAspect = "UbuntuShape.Inset"; break;
+                    case "shadow": artShapeHolderShapeAspect = "UbuntuShape.DropShadow"; break;
+                    default:
+                    case "flat": artShapeHolderShapeAspect = "UbuntuShape.Flat"; break;
+                }
+                artShapeHolderShapeCode = kArtUbuntuShapeCode.arg(artShapeHolderShapeAspect);
             }
-            artShapeHolderShapeCode = kArtUbuntuShapeCode.arg(isConciergeMode ? "false" : "true")
-                                                         .arg(artShapeHolderShapeAspect);
+        } else {
+            artShapeHolderShapeCode = "";
         }
         code += kArtShapeHolderCode.arg(artAnchors)
                                    .arg(widthCode)
