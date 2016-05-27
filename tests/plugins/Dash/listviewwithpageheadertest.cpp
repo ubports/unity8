@@ -45,6 +45,11 @@ private:
         QTRY_COMPARE(item->y(), pos);
         QTRY_COMPARE(item->height(), height);
         QCOMPARE(QQuickItemPrivate::get(item->m_item)->culled, culled);
+        if (lvwph->delegate() == otherDelegate) {
+            QCOMPARE(item->m_item->width(), lvwph->width());
+        } else {
+            QCOMPARE(item->m_item->width(), lvwph->width() - 20);
+        }
     }
 
     void changeContentY(qreal change)

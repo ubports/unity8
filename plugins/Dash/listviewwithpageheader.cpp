@@ -169,7 +169,7 @@ ListViewWithPageHeader::ListViewWithPageHeader()
     m_contentYAnimation->setDuration(200);
     m_contentYAnimation->setTargetObject(this);
 
-    connect(this, &ListViewWithPageHeader::contentWidthChanged, this, &ListViewWithPageHeader::onContentWidthChanged);
+    connect(contentItem(), &QQuickItem::widthChanged, this, &ListViewWithPageHeader::onContentWidthChanged);
     connect(this, &ListViewWithPageHeader::contentHeightChanged, this, &ListViewWithPageHeader::onContentHeightChanged);
     connect(this, &ListViewWithPageHeader::heightChanged, this, &ListViewWithPageHeader::onHeightChanged);
     connect(m_contentYAnimation, &QQuickNumberAnimation::runningChanged, this, &ListViewWithPageHeader::contentYAnimationRunningChanged);
