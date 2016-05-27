@@ -654,5 +654,31 @@ Item {
             var closeButton = findChild(dashAppDelegate, "closeWindowButton");
             tryCompare(closeButton, "visible", false);
         }
+
+        function test_hideMaximizeButtonWhenSizeConstrained() {
+            var dialerDelegate = startApplication("dialer-app");
+
+            var dialerMaximizeButton = findChild(dialerDelegate, "maximizeWindowButton");
+            tryCompare(dialerMaximizeButton, "visible", true);
+
+            // add size restrictions, smaller than our stage
+            dialerDelegate.surface.setMaximumWidth(40);
+            dialerDelegate.surface.setMaximumHeight(30);
+            tryCompare(dialerMaximizeButton, "visible", false);
+
+            // try double clicking the decoration, shouldn't maximize it
+            var sizeBefore = Qt.size(dialerDelegate.width, dialerDelegate.height);
+            var deco = findChild(dialerDelegate, "appWindowDecoration");
+            verify(deco);
+            tryCompare(deco, "maximizeButtonShown", false);
+            mouseDoubleClick(deco);
+            var sizeAfter = Qt.size(dialerDelegate.width, dialerDelegate.height);
+            tryCompareFunction(function(){ return sizeBefore; }, sizeAfter);
+
+            // remove restrictions, the maximize button should again be visible
+            dialerDelegate.surface.setMaximumWidth(0);
+            dialerDelegate.surface.setMaximumHeight(0);
+            tryCompare(dialerMaximizeButton, "visible", true);
+        }
     }
 }

@@ -630,12 +630,6 @@ AbstractStage {
                     onMaximizeVerticallyClicked: appDelegate.maximizedVertically ? appDelegate.restoreFromMaximized() : appDelegate.maximizeVertically()
                     onMinimizeClicked: appDelegate.minimize()
                     onDecorationPressed: { appDelegate.focus = true; }
-
-                    Component.onCompleted: {
-                        print("Window:", objectName);
-                        print("Width:", width, ", maximum width:", maximumWidth, ", desktop width:", appContainer.width);
-                        print("Height:", height, ", maximum height:", maximumHeight, ", desktop height:", appContainer.height);
-                    }
                 }
 
                 WindowedFullscreenPolicy {
