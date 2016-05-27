@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013,2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -70,15 +70,16 @@ SwipeArea {
         property: "targetValue"
         duration: 150
         velocity: -1
-        to: Direction.isPositive(direction) ? d.startValue + hintDisplacement
-                                            : d.startValue - hintDisplacement
+
+        to: d.incrementTargetProp ? d.startValue + hintDisplacement
+                                  : d.startValue - hintDisplacement
         property real targetValue
         onTargetValueChanged: {
             if (!running) {
                 return;
             }
 
-            if (Direction.isPositive(direction)) {
+            if (d.incrementTargetProp) {
                 if (parent[d.targetProp] < targetValue) {
                     parent[d.targetProp] = targetValue;
                 }
@@ -93,19 +94,24 @@ SwipeArea {
     // Private stuff
     QtObject {
         id: d
+
+        // Whether movement along the designated direction will increment the value of the target property
+        readonly property bool incrementTargetProp: (Direction.isPositive(direction) && !dragArea.stretch)
+                                                 || (dragArea.stretch && !d.dragParent.shown)
+
         property real startValue
         property real minValue: {
             if (direction == Direction.Horizontal) {
                 return startValue - maxTotalDragDistance;
-            } else if (Direction.isPositive(direction)) {
+            } else if (incrementTargetProp) {
                 return startValue;
             } else {
                 return startValue - maxTotalDragDistance;
             }
         }
 
-        property real maxValue: Direction.isPositive(direction) ? startValue + maxTotalDragDistance
-                                                                : startValue
+        property real maxValue: incrementTargetProp ? startValue + maxTotalDragDistance
+                                                    : startValue;
 
         property var dragParent: dragArea.parent
 
@@ -127,7 +133,7 @@ SwipeArea {
             }
 
             // we should not go behind hintingAnimation's current value
-            if (Direction.isPositive(direction)) {
+            if (d.incrementTargetProp) {
                 if (d.startValue + diff < hintingAnimation.targetValue) {
                     diff = hintingAnimation.targetValue - d.startValue;
                 }
@@ -180,6 +186,20 @@ SwipeArea {
         if (dragging) {
             if (!Direction.isPositive(direction))
                 distance = -distance;
+
+            if (dragArea.stretch &&
+                   ((!Direction.isPositive(direction) && !d.dragParent.shown)
+                     ||
+                    (Direction.isPositive(direction) && d.dragParent.shown))
+               )
+            {
+                // This happens when you have a stretching showable being shown from the right or
+                // top edge (and consequently being hidden when dragged towards the right/top edge)
+                // In those situations, dimension expansion/retraction happens in the opposite
+                // sign of the axis direction
+                distance = -distance;
+            }
+
             var toAdd = d.limitMovement(distance);
             parent[d.targetProp] = d.startValue + toAdd;
         }

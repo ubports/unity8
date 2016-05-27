@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 Canonical, Ltd.
+ * Copyright (C) 2013-2014,2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -290,7 +290,7 @@ void tst_DragHandle::dragThreshold_vertical()
     QQuickItem *baseItem =  m_view->rootObject()->findChild<QQuickItem*>("baseItem");
     baseItem->setRotation(rotation);
 
-    QQuickItem *dragHandle = fetchAndSetupDragHandle("downwardsDragHandle");
+    QQuickItem *dragHandle = fetchAndSetupDragHandle("topEdgeShowDragHandle");
 
     qreal dragThreshold = fetchDragThreshold(dragHandle);
 
@@ -309,7 +309,7 @@ void tst_DragHandle::dragThreshold_vertical()
     tryCompare([&](){ return parentItem->y(); }, 0);
     QCOMPARE(parentItem->property("shown").toBool(), true);
 
-    dragHandle = fetchAndSetupDragHandle("upwardsDragHandle");
+    dragHandle = fetchAndSetupDragHandle("topEdgeHideDragHandle");
 
     dragThreshold = fetchDragThreshold(dragHandle);
 
@@ -372,7 +372,7 @@ void tst_DragHandle::stretch_horizontal()
 
 void tst_DragHandle::stretch_vertical()
 {
-    QQuickItem *dragHandle = fetchAndSetupDragHandle("downwardsDragHandle");
+    QQuickItem *dragHandle = fetchAndSetupDragHandle("topEdgeShowDragHandle");
     qreal totalDragDistance = dragHandle->property("maxTotalDragDistance").toReal();
     QQuickItem *parentItem = dragHandle->parentItem();
 
@@ -389,7 +389,7 @@ void tst_DragHandle::stretch_vertical()
     tryCompare([&](){ return parentItem->height(); }, totalDragDistance);
     QCOMPARE(parentItem->property("shown").toBool(), true);
 
-    dragHandle = fetchAndSetupDragHandle("upwardsDragHandle");
+    dragHandle = fetchAndSetupDragHandle("topEdgeHideDragHandle");
 
     // flick all the way
     flickAndHold(dragHandle, totalDragDistance);
@@ -408,7 +408,7 @@ void tst_DragHandle::stretch_vertical()
  */
 void tst_DragHandle::hintingAnimation()
 {
-    QQuickItem *dragHandle = fetchAndSetupDragHandle("downwardsDragHandle");
+    QQuickItem *dragHandle = fetchAndSetupDragHandle("topEdgeShowDragHandle");
     QQuickItem *parentItem = dragHandle->parentItem();
     qreal hintDisplacement = 100.0;
 
@@ -449,7 +449,7 @@ void tst_DragHandle::hintingAnimation()
  */
 void tst_DragHandle::hintingAnimation_dontRestartAfterFinishedAndStillPressed()
 {
-    QQuickItem *dragHandle = fetchAndSetupDragHandle("downwardsDragHandle");
+    QQuickItem *dragHandle = fetchAndSetupDragHandle("topEdgeShowDragHandle");
     QQuickItem *parentItem = dragHandle->parentItem();
     qreal hintDisplacement = 100.0;
 
