@@ -25,20 +25,26 @@ class MockBiometryd : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(MockBiometryd)
-    Q_PROPERTY(MockDevice *defaultDevice READ defaultDevice NOTIFY defaultDeviceChanged)
+    Q_PROPERTY(MockDevice *defaultDevice READ defaultDevice CONSTANT)
+    Q_PROPERTY(bool valid
+               READ valid
+               WRITE setValid // only in mock
+               NOTIFY validChanged)
 
 public:
     explicit MockBiometryd(QObject *parent = 0);
 
     MockDevice *defaultDevice() const;
 
-    Q_INVOKABLE void reset(bool devicePresent); // only in mock
+    bool valid() const;
+    void setValid(bool valid);
 
 Q_SIGNALS:
-    void defaultDeviceChanged();
+    void validChanged();
 
 private:
     MockDevice *m_device;
+    bool m_valid;
 };
 
 #endif // MOCK_BIOMETRYD_H

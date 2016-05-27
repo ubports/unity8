@@ -19,7 +19,8 @@
 
 MockBiometryd::MockBiometryd(QObject *parent)
     : QObject(parent)
-    , m_device(nullptr)
+    , m_device(new MockDevice(this))
+    , m_valid(false)
 {
 }
 
@@ -28,15 +29,15 @@ MockDevice *MockBiometryd::defaultDevice() const
     return m_device;
 }
 
-void MockBiometryd::reset(bool devicePresent)
+bool MockBiometryd::valid() const
 {
-    if (m_device) {
-        delete m_device;
-        m_device = nullptr;
+    return m_valid;
+}
+
+void MockBiometryd::setValid(bool valid)
+{
+    if (m_valid != valid) {
+        m_valid = valid;
+        Q_EMIT validChanged();
     }
-
-    if (devicePresent)
-        m_device = new MockDevice(this);
-
-    Q_EMIT defaultDeviceChanged();
 }

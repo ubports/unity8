@@ -150,7 +150,7 @@ Item {
             teaseSpy.clear();
             sessionStartedSpy.clear();
             activeChangedSpy.clear();
-            Biometryd.reset(false);
+            Biometryd.valid = false;
             AccountsService.enableFingerprintIdentification = false;
             viewShowMessageSpy.clear();
             viewShowPromptSpy.clear();
@@ -565,7 +565,7 @@ Item {
         }
 
         function test_fingerprintSuccess() {
-            Biometryd.reset(true);
+            Biometryd.valid = true;
             AccountsService.enableFingerprintIdentification = true;
             var index = selectUser("has-password");
 
@@ -578,7 +578,7 @@ Item {
         }
 
         function test_fingerprintFailureMessage() {
-            Biometryd.reset(true);
+            Biometryd.valid = true;
             AccountsService.enableFingerprintIdentification = true;
             var index = selectUser("has-password");
 
@@ -592,7 +592,7 @@ Item {
         }
 
         function test_fingerprintTooManyFailures() {
-            Biometryd.reset(true);
+            Biometryd.valid = true;
             AccountsService.enableFingerprintIdentification = true;
             selectUser("has-password");
 
@@ -608,7 +608,7 @@ Item {
         }
 
         function test_fingerprintFailureCountReset() {
-            Biometryd.reset(true);
+            Biometryd.valid = true;
             AccountsService.enableFingerprintIdentification = true;
             selectUser("has-password");
 
@@ -629,7 +629,7 @@ Item {
         }
 
         function test_fingerprintWrongUid() {
-            Biometryd.reset(true);
+            Biometryd.valid = true;
             AccountsService.enableFingerprintIdentification = true;
             selectUser("has-password");
 
@@ -642,7 +642,7 @@ Item {
         }
 
         function test_fingerprintNotEnabled() {
-            Biometryd.reset(true);
+            Biometryd.valid = true;
             selectUser("has-password");
 
             var biometryd = findInvisibleChild(greeter, "biometryd");
@@ -660,21 +660,21 @@ Item {
             AccountsService.enableFingerprintIdentification = true;
             selectUser("has-password");
 
-            verify(!Biometryd.defaultDevice);
+            verify(!Biometryd.valid);
 
             var biometryd = findInvisibleChild(greeter, "biometryd");
             verify(!biometryd.operation);
 
-            Biometryd.reset(true);
+            Biometryd.valid = true;
             verify(biometryd.operation);
             verify(biometryd.operation.running);
 
-            Biometryd.reset(false);
+            Biometryd.valid = false;
             verify(!biometryd.operation);
         }
 
         function test_fingerprintGreeterNotActive() {
-            Biometryd.reset(true);
+            Biometryd.valid = true;
             AccountsService.enableFingerprintIdentification = true;
             selectUser("has-password");
 
