@@ -345,10 +345,10 @@ FocusScope {
                     if (scope && scope.id === "clickscope") {
                         if (categoryId === "predefined" || categoryId === "local") {
                             cardTool.artShapeSize = Qt.binding(function() { return Qt.size(units.gu(8), units.gu(7.5)) });
-                            item.artShapeStyle = "icon";
+                            cardTool.artShapeStyle = "icon";
                         } else {
                             // Should be ubuntu store icon
-                            item.artShapeStyle = "flat";
+                            cardTool.artShapeStyle = "flat";
                             item.backgroundShapeStyle = "shadow";
                         }
                     }

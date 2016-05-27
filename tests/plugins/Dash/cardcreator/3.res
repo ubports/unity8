@@ -1,7 +1,6 @@
 AbstractButton { 
                 id: root; 
                 property var cardData; 
-                property string artShapeStyle: "inset"; 
                 property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
@@ -30,30 +29,11 @@ Item  {
                                     objectName: "artShape";
                                     visible: image.status == Image.Ready;
                                     readonly property alias image: artImage;
-                                    Loader {
+                                    ProportionalShape {
                                         anchors.fill: parent;
                                         visible: true;
-                                        sourceComponent: root.artShapeStyle === "icon" ? artShapeIconComponent : artShapeShapeComponent;
-                                        Component {
-                                            id: artShapeShapeComponent;
-                                            UbuntuShape {
-                                                source: artImage;
-                                                sourceFillMode: UbuntuShape.PreserveAspectCrop;
-                                                radius: "medium";
-                                                aspect: {
-                                                    switch (root.artShapeStyle) {
-                                                        case "inset": return UbuntuShape.Inset;
-                                                        case "shadow": return UbuntuShape.DropShadow;
-                                                        default:
-                                                        case "flat": return UbuntuShape.Flat;
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        Component {
-                                            id: artShapeIconComponent;
-                                            ProportionalShape { source: artImage; aspect: UbuntuShape.DropShadow; }
-                                        }
+                                        source: artImage;
+                                        aspect: UbuntuShape.DropShadow;
                                     }
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1;
                                     readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : 0.75;
@@ -73,7 +53,7 @@ Item  {
                                         objectName: "artImage";
                                         source: artShapeLoader.cardArt;
                                         asynchronous: true;
-                                        visible: !true;
+                                        visible: false;
                                         width: root.width;
                                         height: width / artShape.aspect;
                                         onStatusChanged: if (status === Image.Error) source = decodeURI("IHAVE%5C%22ESCAPED%5C%22QUOTES%5C%22");
@@ -120,13 +100,5 @@ Label {
                             text: cardData && cardData["subtitle"] || ""; 
                             font.weight: Font.Light; 
                         }
-UbuntuShape {
-    id: touchdown;
-    objectName: "touchdown";
-    anchors { fill: artShapeHolder }
-    visible: root.artShapeStyle != "shadow" && root.artShapeStyle != "icon" && root.pressed;
-    radius: "medium";
-    borderSource: "radius_pressed.sci"
-}
 implicitHeight: subtitleLabel.y + subtitleLabel.height + units.gu(1);
 }
