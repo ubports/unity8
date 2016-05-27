@@ -26,6 +26,7 @@ MouseArea {
 
     property Item target
     property alias title: titleLabel.text
+    property alias maximizeButtonShown: buttons.maximizeButtonShown
     property bool active: false
     hoverEnabled: true
 
@@ -35,7 +36,11 @@ MouseArea {
     signal maximizeHorizontallyClicked()
     signal maximizeVerticallyClicked()
 
-    onDoubleClicked: root.maximizeClicked()
+    onDoubleClicked: {
+        if (maximizeButtonShown) {
+            root.maximizeClicked();
+        }
+    }
 
     QtObject {
         id: priv

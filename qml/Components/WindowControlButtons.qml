@@ -24,6 +24,7 @@ Row {
     // to be set from outside
     property bool active: false
     property bool closeButtonShown: true
+    property bool maximizeButtonShown: true
 
     signal closeClicked()
     signal minimizeClicked()
@@ -90,6 +91,8 @@ Row {
         hoverEnabled: true
         height: parent.height
         width: height
+        visible: root.maximizeButtonShown
+
         acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
         onClicked: {
             if (mouse.button == Qt.LeftButton) {

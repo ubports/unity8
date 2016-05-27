@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,8 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors: Michael Zanetti <michael.zanetti@canonical.com>
  */
 
 import QtQuick 2.4
@@ -31,6 +29,7 @@ FocusScope {
     property alias active: decoration.active
     readonly property alias title: applicationWindow.title
     property alias fullscreen: applicationWindow.fullscreen
+    property alias maximizeButtonShown: decoration.maximizeButtonShown
 
     readonly property bool decorationShown: !fullscreen
     property bool highlightShown: false
@@ -42,7 +41,7 @@ FocusScope {
     property alias minimumWidth: applicationWindow.minimumWidth
     readonly property int minimumHeight: (root.decorationShown ? decoration.height : 0) + applicationWindow.minimumHeight
     property alias maximumWidth: applicationWindow.maximumWidth
-    readonly property int maximumHeight: (root.decorationShown ? decoration.height : 0) + applicationWindow.maximumHeight
+    readonly property int maximumHeight: (root.decorationShown && applicationWindow.maximumHeight > 0 ? decoration.height : 0) + applicationWindow.maximumHeight
     property alias widthIncrement: applicationWindow.widthIncrement
     property alias heightIncrement: applicationWindow.heightIncrement
 
