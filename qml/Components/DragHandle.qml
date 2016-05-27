@@ -38,12 +38,12 @@ import Ubuntu.Gestures 0.1
         anchors.bottom: parent.bottom
         width: units.gu(2)
 
-        direction: DirectionalDragArea::Leftwards
+        direction: SwipeArea::Leftwards
     }
   }
 
  */
-DirectionalDragArea {
+SwipeArea {
     id: dragArea
 
     property bool stretch: false
@@ -118,26 +118,26 @@ DirectionalDragArea {
             }
         }
 
-        function limitMovement(inputStep) {
-            var targetValue = MathUtils.clamp(dragParent[targetProp] + inputStep, minValue, maxValue);
-            var step = targetValue - dragParent[targetProp];
+        function limitMovement(distance) {
+            var targetValue = MathUtils.clamp(d.startValue + distance, minValue, maxValue);
+            var diff = targetValue - d.startValue;
 
             if (hintDisplacement == 0) {
-                return step;
+                return diff;
             }
 
             // we should not go behind hintingAnimation's current value
             if (Direction.isPositive(direction)) {
-                if (dragParent[targetProp] + step < hintingAnimation.targetValue) {
-                    step = hintingAnimation.targetValue - dragParent[targetProp];
+                if (d.startValue + diff < hintingAnimation.targetValue) {
+                    diff = hintingAnimation.targetValue - d.startValue;
                 }
             } else {
-                if (dragParent[targetProp] + step > hintingAnimation.targetValue) {
-                    step = hintingAnimation.targetValue - dragParent[targetProp];
+                if (d.startValue + diff > hintingAnimation.targetValue) {
+                    diff = hintingAnimation.targetValue - d.startValue;
                 }
             }
 
-            return step;
+            return diff;
         }
 
         function onFinishedRecognizedGesture() {
@@ -171,19 +171,17 @@ DirectionalDragArea {
         objectName: "edgeDragEvaluator"
         id: dragEvaluator
         // Effectively convert distance into the drag position projected onto the gesture direction axis
-        trackedPosition: Direction.isPositive(dragArea.direction) ? sceneDistance : -sceneDistance
+        trackedPosition: Direction.isPositive(dragArea.direction) ? distance : -distance
         maxDragDistance: maxTotalDragDistance
         direction: dragArea.direction
     }
 
     onDistanceChanged: {
         if (dragging) {
-            // don't go the whole distance in order to smooth out the movement
-            var step = distance * 0.3;
-
-            step = d.limitMovement(step);
-
-            parent[d.targetProp] += step;
+            if (!Direction.isPositive(direction))
+                distance = -distance;
+            var toAdd = d.limitMovement(distance);
+            parent[d.targetProp] = d.startValue + toAdd;
         }
     }
 

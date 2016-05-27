@@ -63,6 +63,18 @@ pkg_check_modules(GIO REQUIRED gio-2.0>=2.32)
 pkg_check_modules(GLIB REQUIRED glib-2.0>=2.32)
 pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
 
+pkg_check_modules(UBUNTUGESTURES REQUIRED UbuntuGestures)
+
+### Check UbuntuGestures private headers. No pkg-config (.pc) file is provided for them
+find_path(UBUNTUGESTUREPRIV
+    NAMES UbuntuGestures/private/damper_p.h UbuntuGestures/private/ucswipearea_p.h UbuntuGestures/private/ucswipearea_p_p.h
+    PATHS ${UBUNTUGESTURES_INCLUDEDIR}/UbuntuGestures/${UBUNTUGESTURES_VERSION}
+    NO_DEFAULT_PATH)
+if (${UBUNTUGESTUREPRIV} STREQUAL UBUNTUGESTUREPRIV-NOTFOUND)
+   message(FATAL_ERROR "UbuntuGestures private headers not found.")
+endif()
+# end of UbuntuGesture private headers check
+
 # Standard install paths
 include(GNUInstallDirs)
 
@@ -144,7 +156,6 @@ endif()
 
 # add subdirectories to build
 add_subdirectory(include)
-add_subdirectory(libs)
 add_subdirectory(src)
 add_subdirectory(tools)
 add_subdirectory(qml)
