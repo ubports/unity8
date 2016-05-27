@@ -19,7 +19,7 @@ import Ubuntu.Components 1.3
 
 FocusScope {
     id: root
-    implicitHeight: units.gu(4)
+    implicitHeight: units.gu(5)
 
     property bool isPrompt
     property bool isAlphanumeric
@@ -40,10 +40,12 @@ FocusScope {
         id: d
 
         property bool enabled: true
-        readonly property color color: passwordInput.enabled ? theme.palette.normal.backgroundText
-                                                             : theme.palette.disabled.backgroundText
-        readonly property color inverseColor: passwordInput.enabled ? theme.palette.normal.background
-                                                                    : theme.palette.disabled.background
+        readonly property color textColor: passwordInput.enabled ? theme.palette.normal.raisedText
+                                                                 : theme.palette.disabled.raisedText
+        readonly property color selectedColor: passwordInput.enabled ? theme.palette.normal.raised
+                                                                     : theme.palette.disabled.raised
+        readonly property color drawColor: passwordInput.enabled ? theme.palette.normal.raisedSecondaryText
+                                                                 : theme.palette.disabled.raisedSecondaryText
         readonly property color errorColor: passwordInput.enabled ? theme.palette.normal.negative
                                                                   : theme.palette.disabled.negative
     }
@@ -51,7 +53,7 @@ FocusScope {
     Rectangle {
         anchors.fill: parent
         border.width: units.dp(1)
-        border.color: d.color
+        border.color: d.drawColor
         radius: units.gu(0.5)
         color: "transparent"
     }
@@ -66,7 +68,7 @@ FocusScope {
 
         Label {
             anchors.centerIn: parent
-            color: d.color
+            color: d.textColor
             text: root.text
         }
     }
@@ -84,36 +86,25 @@ FocusScope {
         hasClearButton: false
 
         style: Item {
-            property color color: d.color
-            property color selectedTextColor: d.inverseColor
-            property color selectionColor: d.color
+            property color color: d.textColor
+            property color selectedTextColor: d.selectedColor
+            property color selectionColor: d.textColor
             property color borderColor: "transparent"
             property color backgroundColor: "transparent"
             property color errorColor: d.errorColor
             property real frameSpacing: units.gu(0.5)
             anchors.fill: parent
-
-            Rectangle {
-                anchors.fill: parent
-                color: "white"
-                opacity: 0.1
-            }
         }
 
         secondaryItem: [
             Icon {
                 name: "keyboard-caps-enabled"
-                height: units.gu(2)
-                width: units.gu(2)
-                color: d.color
+                height: units.gu(3)
+                width: units.gu(3)
+                color: d.textColor
                 visible: root.isSecret && false // TODO: detect when caps lock is on
             }
         ]
-
-        cursorDelegate: Rectangle {
-            width: units.dp(1)
-            color: d.color
-        }
 
         onAccepted: {
             if (!enabled)

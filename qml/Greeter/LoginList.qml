@@ -15,10 +15,11 @@
  */
 
 import QtQuick 2.4
+import QtGraphicalEffects 1.0
 import Ubuntu.Components 1.3
 import "../Components"
 
-Item {
+StyledItem {
     id: root
 
     property alias model: userList.model
@@ -28,7 +29,7 @@ Item {
 
     readonly property int numAboveBelow: 4
     readonly property int cellHeight: units.gu(5)
-    readonly property int highlightedHeight: units.gu(10)
+    readonly property int highlightedHeight: units.gu(15)
     readonly property int moveDuration: 200
     readonly property string currentUser: userList.currentItem.username
     property bool wasPrompted: false
@@ -83,6 +84,8 @@ Item {
         property string promptText
     }
 
+    theme.name: "Ubuntu.Components.Themes.Ambiance"
+
     Keys.onEscapePressed: {
         selected(currentIndex);
     }
@@ -91,16 +94,30 @@ Item {
         userList.currentIndex = currentIndex;
     }
 
+    BorderImage {
+        anchors {
+            fill: highlightItem
+            topMargin: -units.gu(1)
+            leftMargin: -units.gu(1.5)
+            rightMargin: -units.gu(1.5)
+            bottomMargin: -units.gu(1.5)
+        }
+        source: "../Stages/graphics/dropshadow2gu.sci"
+        opacity: 0.35
+    }
+
     UbuntuShape {
         id: highlightItem
         anchors {
             left: parent.left
+            leftMargin: units.gu(2)
             right: parent.right
+            rightMargin: units.gu(2)
             verticalCenter: parent.verticalCenter
         }
         height: root.highlightedHeight
         aspect: UbuntuShape.Flat
-        backgroundColor: Qt.rgba(0, 0, 0, 0.4)
+        backgroundColor: theme.palette.normal.raised
     }
 
     ListView {
@@ -108,6 +125,8 @@ Item {
         objectName: "userList"
 
         anchors.fill: parent
+        anchors.leftMargin: units.gu(2)
+        anchors.rightMargin: units.gu(2)
 
         preferredHighlightBegin: userList.height / 2 - root.highlightedHeight / 2
         preferredHighlightEnd: userList.height / 2 - root.highlightedHeight / 2
@@ -158,15 +177,15 @@ Item {
 
                 anchors {
                     left: parent.left
-                    leftMargin: units.gu(1)
+                    leftMargin: units.gu(2)
                     right: parent.right
-                    rightMargin: units.gu(1)
+                    rightMargin: units.gu(2)
                     bottom: parent.top
                     // Add an offset to bottomMargin for any items below the highlight
-                    bottomMargin: -(units.gu(3) + (parent.belowHighlight ? parent.belowOffset : 0))
+                    bottomMargin: -(units.gu(4) + (parent.belowHighlight ? parent.belowOffset : 0))
                 }
                 text: realName
-                color: theme.palette.normal.backgroundText
+                color: userList.currentIndex !== index ? theme.palette.normal.raised : theme.palette.normal.raisedText
 
                 Behavior on anchors.topMargin { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
             }
@@ -202,14 +221,14 @@ Item {
         objectName: "infoLabel"
         anchors {
             bottom: passwordInput.top
-            left: parent.left
+            left: highlightItem.left
             topMargin: units.gu(1)
             bottomMargin: units.gu(1)
             leftMargin: units.gu(2)
             rightMargin: units.gu(1)
         }
 
-        color: theme.palette.normal.backgroundText
+        color: theme.palette.normal.raisedText
         width: root.width - anchors.leftMargin - anchors.rightMargin
         fontSize: "small"
         textFormat: Text.StyledText
@@ -225,10 +244,10 @@ Item {
         objectName: "passwordInput"
         anchors {
             bottom: highlightItem.bottom
-            horizontalCenter: parent.horizontalCenter
-            margins: units.gu(1)
+            horizontalCenter: highlightItem.horizontalCenter
+            margins: units.gu(2)
         }
-        width: parent.width - anchors.margins * 2
+        width: highlightItem.width - anchors.margins * 2
         opacity: userList.movingInternally ? 0 : 1
 
         isPrompt: root.wasPrompted
