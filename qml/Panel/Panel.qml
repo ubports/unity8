@@ -101,7 +101,7 @@ Item {
             height: indicators.minimizedPanelHeight
             hoverEnabled: true
             onClicked: callHint.visible ? callHint.showLiveCall() : PanelState.focusMaximizedApp()
-            onDoubleClicked: PanelState.maximize()
+            onDoubleClicked: PanelState.restoreClicked()
 
             property bool mouseWasPressed: false
             onPressed: mouseWasPressed = containsPress
@@ -127,10 +127,10 @@ Item {
                 height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
                 visible: PanelState.buttonsVisible && parent.containsMouse && !root.locked && !callHint.visible
                 active: PanelState.buttonsVisible
+                onCloseClicked: PanelState.closeClicked()
+                onMinimizeClicked: PanelState.minimizeClicked()
+                onMaximizeClicked: PanelState.restoreClicked()
                 closeButtonShown: PanelState.closeButtonShown
-                onClose: PanelState.close()
-                onMinimize: PanelState.minimize()
-                onMaximize: PanelState.maximize()
             }
         }
 
