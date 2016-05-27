@@ -616,10 +616,10 @@ FocusScope {
         sectionProperty: "name"
         sectionDelegate: ListItems.Header {
             objectName: "dashSectionHeader" + (delegate ? delegate.category : "")
+            property int delegateIndex: -1
             readonly property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
-            height: section != "" ? units.gu(5) : 0
-            text: section
+            height: text != "" ? units.gu(5) : 0
             color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
             iconName: delegate && delegate.headerLink ? "go-next" : ""
             onClicked: {
