@@ -2429,5 +2429,30 @@ Rectangle {
             ApplicationManager.requestFocusApplication("calendar-app");
             tryCompare(app2Surface, "keymap", "fr");
         }
+
+        function test_dragPanelToRestoreMaximizedWindow() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            var panel = findChild(shell, "windowControlArea");
+            verify(panel);
+
+            var appSurfaceId = topLevelSurfaceList.nextId;
+            var app = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            // start dialer, maximize it
+            var appContainer = findChild(shell, "appContainer");
+            var appDelegate = findChild(appContainer, "appDelegate_" + appSurfaceId);
+            verify(appDelegate);
+            appDelegate.maximize();
+            tryCompare(appDelegate, "state", "maximized");
+
+            mousePress(panel);
+            mouseMove(shell, shell.width/2, shell.height/2);
+            mouseRelease(shell);
+
+            tryCompare(appDelegate, "state", "normal");
+        }
     }
 }

@@ -92,6 +92,7 @@ Item {
         }
 
         MouseArea {
+            objectName: "windowControlArea"
             anchors {
                 top: parent.top
                 left: parent.left
@@ -101,6 +102,15 @@ Item {
             hoverEnabled: true
             onClicked: callHint.visible ? callHint.showLiveCall() : PanelState.focusMaximizedApp()
             onDoubleClicked: PanelState.maximize()
+
+            property bool mouseWasPressed: false
+            onPressed: mouseWasPressed = containsPress
+            onMouseYChanged: {
+                if (mouseWasPressed && mouseY > panelHeight) {
+                    PanelState.restoreClicked(); // restore the window when "dragging" the panel down
+                    mouseWasPressed = false;
+                }
+            }
 
             // WindowControlButtons inside the mouse area, otherwise QML doesn't grok nested hover events :/
             // cf. https://bugreports.qt.io/browse/QTBUG-32909
