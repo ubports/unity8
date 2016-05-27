@@ -84,7 +84,9 @@ StyledItem {
         property string promptText
     }
 
-    theme.name: "Ubuntu.Components.Themes.Ambiance"
+    theme: ThemeSettings {
+        name: "Ubuntu.Components.Themes.Ambiance"
+    }
 
     Keys.onEscapePressed: {
         selected(currentIndex);
