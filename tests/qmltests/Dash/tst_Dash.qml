@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtTest 1.0
 import "../../../qml/Dash"
 import Ubuntu.Components 1.3
+import Unity 0.2 // Access the Filters enum
 import Unity.Test 0.1 as UT
 
 Item {
@@ -57,7 +58,7 @@ Item {
             tryCompare(dashContentList, "count", 0);
             scopes.load();
             tryCompare(dashContentList, "currentIndex", 0);
-            tryCompare(dashContentList, "count", 6);
+            tryCompare(dashContentList, "count", 7);
             tryCompare(scopes, "loaded", true);
             tryCompareFunction(function() {
                 var mockScope1Loader = findChild(dash, "scopeLoader0");
@@ -104,6 +105,45 @@ Item {
             var tile = findChild(findChild(genericScopeView, "dashCategory"+category), "delegate"+delegate);
             waitForRendering(tile);
             mouseClick(tile);
+        }
+
+        function test_longNavigationFilterList() {
+            // Select the scope with long navigation
+            dash.setCurrentScope("LongPrimaryNavigation")
+            var dashContent = findChild(dash, "dashContent")
+            tryCompare(dashContent.currentScope, "id", "LongPrimaryNavigation")
+
+            var dashContentList = findChild(dashContent, "dashContentList")
+            var searchButton = findChild(dashContentList.currentItem, "search_button")
+            var extraPanel = findChild(dashContentList.currentItem, "peExtraPanel")
+            tryCompare(extraPanel, "visible", false)
+
+            // Open the primaryNavigationFilter
+            dashContent.currentScope.setHasNavigation(false)
+            mouseClick(searchButton)
+            tryCompare(extraPanel, "visible", true)
+
+            var primaryFilterContainer = findChild(extraPanel, "primaryFilterContainer")
+            verify(primaryFilterContainer)
+
+            var primaryFilter = findChild(extraPanel, "primaryFilter")
+            verify(primaryFilter)
+            tryCompare(primaryFilter, "widgetType", Filters.OptionSelectorFilter)
+
+            var genericScopeView = dashContentList.currentItem;
+            var categoryListView = findChild(genericScopeView, "categoryListView")
+            verify(categoryListView)
+            tryCompare(categoryListView, "atYBeginning", true)
+
+            var expandingItem = findChild(primaryFilter, "expandingItem")
+            verify(expandingItem)
+            expandingItem.expanded = true
+
+            // Flick the navigation list and ensure the underlying scope didn't move
+            tryCompareFunction(function() { return expandingItem.height == expandingItem.expandedHeight; }, true);
+            flickToYEnd(primaryFilterContainer)
+
+            tryCompare(categoryListView, "atYBeginning", true)
         }
 
         function test_manage_dash_clickscope_unfavoritable() {
