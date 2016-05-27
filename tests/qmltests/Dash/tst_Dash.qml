@@ -146,6 +146,33 @@ Item {
             tryCompare(categoryListView, "atYBeginning", true)
         }
 
+        function test_navigationFilterPopupClosesWhenOptionSelected() {
+            dash.setCurrentScope("LongPrimaryNavigation")
+
+            var dashContentList = findChild(dashContent, "dashContentList")
+            var searchButton = findChild(dashContentList.currentItem, "search_button")
+            verify(searchButton)
+            var extraPanel = findChild(dashContentList.currentItem, "peExtraPanel")
+            verify(extraPanel)
+
+            var primaryFilter = findChild(extraPanel, "primaryFilter")
+            var expandingItem = findChild(primaryFilter, "expandingItem")
+            verify(expandingItem)
+            tryCompare(expandingItem, "expanded", false)
+
+            mouseClick(searchButton)
+            expandingItem.expanded = true
+            tryCompare(expandingItem, "expanded", true)
+            tryCompareFunction(function() { return expandingItem.height == expandingItem.expandedHeight; }, true);
+
+            var optionsRepeater = findChild(expandingItem, "optionsRepeater")
+            verify(optionsRepeater)
+            verify(optionsRepeater.itemAt(0))
+            tryCompare(optionsRepeater.itemAt(0), "visible", true)
+            mouseClick(optionsRepeater.itemAt(0))
+            tryCompare(expandingItem, "visible", false)
+        }
+
         function test_manage_dash_clickscope_unfavoritable() {
             // Show the manage dash
             touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, units.gu(2));

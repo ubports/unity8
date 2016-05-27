@@ -36,6 +36,7 @@ Item {
 
     signal historyItemClicked(string text)
     signal dashNavigationLeafClicked()
+    signal extraPanelOptionSelected()
 
     function resetNavigation() {
         dashNavigation.resetNavigation();
@@ -181,6 +182,8 @@ Item {
             widgetId: filter ? filter.filterId : ""
             widgetType: filter ? filter.filterType : -1
             widgetData: filter
+
+            onSingleSelectionFilterSelected: extraPanelOptionSelected()
         }
     }
 

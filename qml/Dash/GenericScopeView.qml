@@ -689,6 +689,11 @@ FocusScope {
                 categoryView.pageHeader.closePopup();
                 categoryView.pageHeader.unfocus();
             }
+
+            onExtraPanelOptionSelected: {
+                categoryView.pageHeader.closePopup();
+                categoryView.pageHeader.unfocus();
+            }
         }
     }
 
