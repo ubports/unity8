@@ -36,9 +36,6 @@ public:
     void setThemeName(const QString &themeName) override;
     QString themeName() const override { return m_themeName; }
 
-    qreal hotspotX() const override { return m_hotspotX; }
-    qreal hotspotY() const override { return m_hotspotY; }
-
     void setCustomCursor(const QCursor &) override;
 
 public Q_SLOTS:
@@ -59,14 +56,11 @@ private Q_SLOTS:
 
 private:
     void registerWindow(QWindow *window);
-    void updateHotspot();
 
     QPointer<QWindow> m_registeredWindow;
     QPointer<QScreen> m_registeredScreen;
     QString m_cursorName;
     QString m_themeName;
-    int m_hotspotX;
-    int m_hotspotY;
 };
 
 #endif // MOUSEPOINTER_H
