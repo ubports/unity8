@@ -273,6 +273,18 @@ FocusScope {
         }
     }
 
+    InverseMouseArea {
+        id: closeMouseArea
+        anchors.fill: panel
+        enabled: root.state == "visible" && (!root.lockedVisible || panel.highlightIndex >= -1)
+        visible: enabled
+        onPressed: {
+            mouse.accepted = false;
+            panel.highlightIndex = -2;
+            root.hide();
+        }
+    }
+
     MouseArea {
         id: launcherDragArea
         enabled: root.available && (root.state == "visible" || root.state == "visibleTemporary") && !root.lockedVisible
@@ -291,26 +303,6 @@ FocusScope {
                 root.switchToNextState("visible")
             }
         }
-    }
-
-    InverseMouseArea {
-        id: closeMouseArea
-        anchors.fill: panel
-        enabled: root.state == "visible" && (!root.lockedVisible || panel.highlightIndex >= -1)
-        visible: enabled
-        onPressed: {
-            panel.highlightIndex = -2
-            root.hide();
-        }
-    }
-
-    Rectangle {
-        id: backgroundShade
-        anchors.fill: parent
-        color: "black"
-        opacity: root.state == "visible" && !root.lockedVisible ? 0.6 : 0
-
-        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.BriskDuration } }
     }
 
     EdgeBarrier {

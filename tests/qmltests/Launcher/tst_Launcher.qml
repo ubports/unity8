@@ -34,6 +34,14 @@ Rectangle {
 
     Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark"
 
+    MouseArea {
+        id: clickThroughTester
+        anchors.fill: parent
+        // SignalSpy does not seem to want to connect to the pressed signal. let's count them ourselves.
+        property int pressCount: 0
+        onPressed: pressCount++;
+    }
+
     Loader {
         id: launcherLoader
         anchors.fill: parent
@@ -836,16 +844,20 @@ Rectangle {
             dragLauncherIntoView();
             verify(launcher.state == "visible");
 
+            clickThroughTester.pressCount = 0;
             mouseClick(root, root.width / 2, units.gu(1));
             waitUntilLauncherDisappears();
             verify(launcher.state == "");
+            compare(clickThroughTester.pressCount, 1);
 
             // and repeat, as a test for regression in lpbug#1531339
             dragLauncherIntoView();
             verify(launcher.state == "visible");
+            clickThroughTester.pressCount = 0;
             mouseClick(root, root.width / 2, units.gu(1));
             waitUntilLauncherDisappears();
             verify(launcher.state == "");
+            compare(clickThroughTester.pressCount, 1);
         }
 
         function test_quicklist_positioning_data() {
