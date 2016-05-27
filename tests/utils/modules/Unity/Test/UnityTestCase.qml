@@ -176,11 +176,11 @@ TestCase {
 
 
     // Find an object with the given name in the children tree of "obj"
-    function findChild(obj, objectName) {
+    function findChild(obj, objectName, timeout) {
         if (!obj)
             qtest_fail("no obj given", 1);
 
-        return findChildIn(obj, "children", objectName);
+        return findChildInWithTimeout(obj, "children", objectName, timeout);
     }
 
     // Find an object with the given name in the children tree of "obj"
@@ -188,11 +188,30 @@ TestCase {
     // Note: you should use findChild if you're not sure you need this
     // as this tree is much bigger and might contain stuff that goes
     // away randomly.
-    function findInvisibleChild(obj, objectName) {
+    function findInvisibleChild(obj, objectName, timeout) {
         if (!obj)
             qtest_fail("no obj given", 1);
 
-        return findChildIn(obj, "data", objectName);
+        return findChildInWithTimeout(obj, "data", objectName, timeout);
+    }
+
+    // Find a child in the named property with timeout
+    function findChildInWithTimeout(obj, prop, objectName, timeout) {
+        if (!obj)
+            qtest_fail("no obj given", 1);
+
+        var timeSpent = 0
+        if (timeout === undefined)
+            timeout = 5000;
+
+        var child = findChildIn(obj, prop, objectName);
+
+        while (timeSpent < timeout && !child) {
+            wait(50)
+            timeSpent += 50
+            child = findChildIn(obj, prop, objectName);
+        }
+        return child;
     }
 
     // Find a child in the named property
