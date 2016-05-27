@@ -99,6 +99,10 @@ StyledItem {
     }
 
     function closeNotification() {
+        if (index === ListView.view.currentIndex) { // reset to get the 1st snap decision expanded
+            ListView.view.currentIndex = -1;
+        }
+
         if (notification.actions.count > 1) { // perform the "reject" action
             notification.notification.invokeAction(notification.actions.data(1, ActionModel.RoleActionId));
         }
@@ -382,7 +386,7 @@ StyledItem {
                 objectName: "dialogListView"
                 spacing: notification.margins
 
-                visible: count > 0
+                visible: count > 0 && notification.expanded
 
                 anchors {
                     left: parent.left
