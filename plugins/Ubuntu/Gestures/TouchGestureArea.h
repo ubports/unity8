@@ -175,7 +175,7 @@ Q_SIGNALS:
     void clicked();
 
 protected:
-    void itemChange(ItemChange change, const ItemChangeData &value);
+    void itemChange(ItemChange change, const ItemChangeData &value) override;
 
 private Q_SLOTS:
     void rejectGesture();
