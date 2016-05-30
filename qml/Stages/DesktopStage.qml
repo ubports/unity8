@@ -50,8 +50,8 @@ AbstractStage {
     GlobalShortcut {
         id: closeWindowShortcut
         shortcut: Qt.AltModifier|Qt.Key_F4
-        onTriggered: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.close(); } }
-        active: priv.focusedAppDelegate !== null
+        onTriggered: priv.focusedAppDelegate.close();
+        active: priv.focusedAppDelegate && !priv.focusedAppDelegate.isDash
     }
 
     GlobalShortcut {
@@ -297,6 +297,8 @@ AbstractStage {
                 property bool visuallyMinimized: false
 
                 readonly property var surface: model.surface
+
+                readonly property bool isDash: model.application.appId == "unity8-dash"
 
                 function claimFocus() {
                     if (spread.state == "altTab") {

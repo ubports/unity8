@@ -19,6 +19,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 import Unity.Application 0.1
 import Utils 0.1
+import GlobalShortcut 1.0
 import Powerd 0.1
 import "../Components"
 
@@ -112,6 +113,12 @@ AbstractStage {
                    Qt.InvertedPortraitOrientation |
                    Qt.InvertedLandscapeOrientation;
         }
+    }
+
+    GlobalShortcut {
+        shortcut: Qt.AltModifier|Qt.Key_F4
+        onTriggered: priv.focusedAppDelegate.closed()
+        active: priv.focusedAppDelegate && priv.focusedAppDelegate.isDash
     }
 
     // How far left the stage has been dragged, used externally by tutorial code
