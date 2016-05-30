@@ -584,6 +584,10 @@ AbstractStage {
                 WindowResizeArea {
                     id: resizeArea
                     objectName: "windowResizeArea"
+
+                    // workaround so that it chooses the correct resize borders when you drag from a corner ResizeGrip
+                    anchors.margins: touchControls.overlayShown ? borderThickness/2 : -borderThickness
+
                     target: appDelegate
                     minWidth: units.gu(10)
                     minHeight: units.gu(10)
@@ -592,7 +596,6 @@ AbstractStage {
                     screenWidth: appContainer.width
                     screenHeight: appContainer.height
                     leftMargin: root.leftMargin
-                    touchMode: touchControls.overlayShown
 
                     onPressed: { appDelegate.focus = true; }
 

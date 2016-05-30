@@ -23,14 +23,8 @@ import "../Components/PanelState"
 MouseArea {
     id: root
 
-    // we either fill the target (for mouse)...
-    anchors.fill: !touchMode ? target : undefined
+    anchors.fill: target
     anchors.margins: -borderThickness
-
-    // ... or put it on top for touch controls
-    anchors.centerIn: touchMode ? target : undefined
-    width: touchMode ? target.width - borderThickness/2 : undefined
-    height: touchMode ? target.height - borderThickness/2 : undefined
 
     hoverEnabled: target && !target.maximized // don't grab the resize under the panel
 
@@ -49,7 +43,6 @@ MouseArea {
     property int screenWidth: 0
     property int screenHeight: 0
     property int leftMargin: 0
-    property bool touchMode: false
 
     QtObject {
         id: priv
