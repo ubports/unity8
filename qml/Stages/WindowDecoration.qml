@@ -19,7 +19,6 @@ import Unity.Application 0.1 // For Mir singleton
 import Ubuntu.Components 1.3
 import "../Components"
 import "../Components/PanelState"
-import "../Components/TouchControlsState"
 
 MouseArea {
     id: root
