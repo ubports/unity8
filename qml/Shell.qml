@@ -719,10 +719,12 @@ Item {
 
         property bool mouseNeverMoved: true
         Binding {
-            target: cursor; property: "x"; value: shell.width / 2; when: mouseNeverMoved && visible
+            target: cursor; property: "x"; value: shell.width / 2
+            when: cursor.mouseNeverMoved && cursor.visible
         }
         Binding {
-            target: cursor; property: "y"; value: shell.height / 2; when: mouseNeverMoved && visible
+            target: cursor; property: "y"; value: shell.height / 2
+            when: cursor.mouseNeverMoved && cursor.visible
         }
 
         onPushedLeftBoundary: {
