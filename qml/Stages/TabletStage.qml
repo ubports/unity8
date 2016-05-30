@@ -118,7 +118,7 @@ AbstractStage {
     GlobalShortcut {
         shortcut: Qt.AltModifier|Qt.Key_F4
         onTriggered: priv.focusedAppDelegate.closed()
-        active: priv.focusedAppDelegate && priv.focusedAppDelegate.isDash
+        active: priv.focusedAppDelegate && !priv.focusedAppDelegate.isDash
     }
 
     // How far left the stage has been dragged, used externally by tutorial code
