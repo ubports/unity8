@@ -18,7 +18,6 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Unity.Application 0.1
 import "../Components/PanelState"
-import "../Components/TouchControlsState"
 import "../Components"
 import Utils 0.1
 import Ubuntu.Gestures 0.1
@@ -576,8 +575,8 @@ AbstractStage {
                 }
 
                 Binding {
-                    target: TouchControlsState
-                    property: "buttonsShownInPanel"
+                    target: PanelState
+                    property: "buttonsAlwaysVisible"
                     value: appDelegate && appDelegate.maximized && touchControls.overlayShown
                 }
 

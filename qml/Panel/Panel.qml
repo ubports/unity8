@@ -19,7 +19,6 @@ import Ubuntu.Components 1.3
 import Unity.Application 0.1
 import "../Components"
 import "../Components/PanelState"
-import "../Components/TouchControlsState"
 import ".."
 
 Item {
@@ -126,9 +125,9 @@ Item {
                 }
                 height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
 
-                visible: ((PanelState.buttonsVisible && parent.containsMouse) || TouchControlsState.buttonsShownInPanel)
+                visible: ((PanelState.buttonsVisible && parent.containsMouse) || PanelState.buttonsAlwaysVisible)
                          && !root.locked && !callHint.visible
-                active: PanelState.buttonsVisible || TouchControlsState.buttonsShownInPanel
+                active: PanelState.buttonsVisible || PanelState.buttonsAlwaysVisible
                 windowIsMaximized: true
                 onCloseClicked: PanelState.closeClicked()
                 onMinimizeClicked: PanelState.minimizeClicked()
