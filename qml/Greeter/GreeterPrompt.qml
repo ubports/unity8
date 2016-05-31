@@ -82,8 +82,9 @@ FocusScope {
 
         inputMethodHints: root.isAlphanumeric ? Qt.ImhNone : Qt.ImhDigitsOnly
         echoMode: root.isSecret ? TextInput.Password : TextInput.Normal
-        placeholderText: "  " + root.text // add some spacing here
         hasClearButton: false
+
+        readonly property real frameSpacing: units.gu(0.5)
 
         style: Item {
             property color color: d.textColor
@@ -92,12 +93,13 @@ FocusScope {
             property color borderColor: "transparent"
             property color backgroundColor: "transparent"
             property color errorColor: d.errorColor
-            property real frameSpacing: units.gu(0.5)
+            property real frameSpacing: passwordInput.frameSpacing
             anchors.fill: parent
         }
 
         secondaryItem: [
             Icon {
+                id: capsIcon
                 name: "keyboard-caps-enabled"
                 height: units.gu(3)
                 width: units.gu(3)
@@ -123,6 +125,26 @@ FocusScope {
                     passwordInput.focus = false;
                 }
             }
+        }
+
+        // We use our own custom placeholder label instead of the standard
+        // TextField one because the standard one hardcodes baseText as the
+        // palette color, whereas we want raisedSecondaryText.
+        Label {
+            id: hint
+            anchors {
+                left: parent.left
+                right: parent.right
+                verticalCenter: parent.verticalCenter
+                leftMargin: units.gu(1.5)
+                rightMargin: anchors.leftMargin +
+                             (capsIcon.visible ? capsIcon.width + passwordInput.frameSpacing
+                                               : 0)
+            }
+            text: root.text
+            visible: passwordInput.text == "" && !passwordInput.inputMethodComposing
+            color: theme.palette.normal.raisedSecondaryText
+            elide: Text.ElideRight
         }
     }
 }
