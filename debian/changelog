@@ -1,3 +1,23 @@
+unity8 (8.12+16.10.20160520.1-0ubuntu1) yakkety; urgency=medium
+
+  [ Lukáš Tinkl ]
+  * Don't dim screen when the indicators are open (LP: #1564342)
+  * Fix upcoming alarms ETA labels (LP: #1576741)
+  * Stabilize flaky wizard tests (LP: #1582994)
+
+  [ Michael Zanetti ]
+  * fix the SIM PIN darkening after it got removed accidentally (LP:
+    #1577147)
+
+  [ Michał Sawicz, Nick Dedekind ]
+  * Fixed saving current stage and loss of surface focus when switching
+    stages
+
+  [ Nick Dedekind ]
+  * Fixed incorrect osk surface item resizing the surface.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 20 May 2016 08:44:19 +0000
+
 unity8 (8.12+16.04.20160518.1-0ubuntu1) xenial; urgency=medium
 
   [ CI Train Bot ]
