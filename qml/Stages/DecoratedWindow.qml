@@ -32,7 +32,10 @@ FocusScope {
     readonly property alias title: applicationWindow.title
     property alias fullscreen: applicationWindow.fullscreen
 
-    readonly property bool decorationShown: !fullscreen
+    // Whether we want it to sho in general
+    property bool showDecoration: true
+    // Whether it is actually shown. Even if showDecoration is true, this might be false for other reasons (e.g. app is fullscreened)
+    readonly property bool decorationShown: showDecoration && !fullscreen
     property bool highlightShown: false
     property real shadowOpacity: 1
 
@@ -96,9 +99,9 @@ FocusScope {
         id: applicationWindow
         objectName: "appWindow"
         anchors.top: parent.top
-        anchors.topMargin: decoration.height
+        anchors.topMargin: root.decorationShown ? decoration.height : 0
         anchors.left: parent.left
-        requestedHeight: root.requestedHeight - (root.decorationShown ? decoration.height : 0)
+        requestedHeight: root.requestedHeight
         interactive: true
         focus: true
     }

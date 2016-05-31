@@ -33,6 +33,26 @@ Item {
     property int windowWidth: surface ? surface.size.width : 0
     property int windowHeight: surface ? surface.size.height : 0
 
+    property alias requestedHeight: applicationWindow.requestedHeight
+    property alias requestedWidth: applicationWindow.requestedWidth
+
+    property alias minimumWidth: applicationWindow.minimumWidth
+    property alias minimumHeight: applicationWindow.minimumHeight
+    property alias maximumWidth: applicationWindow.maximumWidth
+    property alias maximumHeight: applicationWindow.maximumHeight
+    property alias widthIncrement: applicationWindow.widthIncrement
+    property alias heightIncrement: applicationWindow.heightIncrement
+
+    property alias fullscreen: applicationWindow.fullscreen
+    property alias title: applicationWindow.title
+    property alias showDecoration: applicationWindow.showDecoration
+    property alias active: applicationWindow.active
+
+    signal close()
+    signal maximize()
+    signal minimize()
+    signal decorationPressed()
+
     state: "normal"
     states: [
         State {
@@ -49,6 +69,7 @@ Item {
                 target: applicationWindow
                 itemScale: Math.max(root.width / root.windowWidth, root.height / root.windowHeight)
                 interactive: false
+                showDecoration: false
             }
             PropertyChanges {
                 target: clipper
@@ -92,27 +113,42 @@ Item {
         id: clipper
         anchors.fill: parent
 
-        ApplicationWindow {
+        DecoratedWindow {
             id: applicationWindow
-            objectName: application ? "appWindow_" + application.appId : "appWindow_null"
-            anchors.top: parent.top
-            anchors.topMargin: 0
-            anchors.left: parent.left
-            width: root.windowWidth
-            height: root.windowHeight
-            interactive: false
-            resizeSurface: false
-            focus: false
+            objectName: "decoratedWindow"
+            anchors.left: root.left
+            anchors.top: root.top
+            active: root.focus
+            focus: true
+            showDecoration: true
 
-            property real itemScale: 1
-            transform: [
-                Scale {
-                    origin.x: 0; origin.y: 0
-                    xScale: applicationWindow.itemScale
-                    yScale: applicationWindow.itemScale
-                }
-            ]
+            onClose: root.close()
+            onMaximize: root.maximize()
+            onMinimize: root.minimize()
+            onDecorationPressed: root.decorationPressed()
         }
+
+//        ApplicationWindow {
+//            id: applicationWindow
+//            objectName: application ? "appWindow_" + application.appId : "appWindow_null"
+//            anchors.top: parent.top
+//            anchors.topMargin: 0
+//            anchors.left: parent.left
+//            width: root.windowWidth
+//            height: root.windowHeight
+//            interactive: false
+//            resizeSurface: false
+//            focus: false
+
+//            property real itemScale: 1
+//            transform: [
+//                Scale {
+//                    origin.x: 0; origin.y: 0
+//                    xScale: applicationWindow.itemScale
+//                    yScale: applicationWindow.itemScale
+//                }
+//            ]
+//        }
     }
 
     Rectangle {

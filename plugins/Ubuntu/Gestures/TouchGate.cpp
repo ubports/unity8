@@ -59,7 +59,7 @@ void TouchGate::touchEvent(QTouchEvent *event)
         const QTouchEvent::TouchPoint &touchPoint = touchPoints[i];
 
         if (touchPoint.state() == Qt::TouchPointPressed) {
-            Q_ASSERT(!m_touchInfoMap.contains(touchPoint.id()));
+//            Q_ASSERT(!m_touchInfoMap.contains(touchPoint.id()));
             m_touchInfoMap[touchPoint.id()].ownership = OwnershipRequested;
             m_touchInfoMap[touchPoint.id()].ended = false;
             TouchRegistry::instance()->requestTouchOwnership(touchPoint.id(), this);

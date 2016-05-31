@@ -37,8 +37,10 @@ AbstractStage {
         }
     }
 
+    property string mode: "staged"
+
     // Used by TutorialRight
-    property bool spreadShown: spread.state == "altTab"
+    property bool spreadShown: state == "altTab"
 
     mainApp: priv.focusedAppDelegate ? priv.focusedAppDelegate.application : null
 
@@ -57,7 +59,7 @@ AbstractStage {
     GlobalShortcut {
         id: showSpreadShortcut
         shortcut: Qt.MetaModifier|Qt.Key_W
-        onTriggered: spread.state = "altTab"
+        onTriggered: state = "altTab"
     }
 
     GlobalShortcut {
@@ -104,8 +106,8 @@ AbstractStage {
     Connections {
         target: root.topLevelSurfaceList
         onCountChanged: {
-            if (spread.state == "altTab") {
-                spread.cancel();
+            if (root.state == "spread") {
+                priv.goneToSpread = false;
             }
         }
     }
@@ -116,12 +118,14 @@ AbstractStage {
 
         property var focusedAppDelegate: null
         onFocusedAppDelegateChanged: {
-            if (spread.state == "altTab") {
-                spread.state = "";
+            if (root.state == "spread") {
+                goneToSpread = false;
             }
         }
 
         property var foregroundMaximizedAppDelegate: null // for stuff like drop shadow and focusing maximized app by clicking panel
+
+        property bool goneToSpread: false
 
         function updateForegroundMaximizedApp() {
             var found = false;
@@ -180,12 +184,12 @@ AbstractStage {
         target: PanelState
         property: "title"
         value: {
-            if (priv.focusedAppDelegate !== null && spread.state == "") {
-                if (priv.focusedAppDelegate.maximized)
-                    return priv.focusedAppDelegate.title
-                else
-                    return priv.focusedAppDelegate.appName
-            }
+//            if (priv.focusedAppDelegate !== null && spread.state == "") {
+//                if (priv.focusedAppDelegate.maximized)
+//                    return priv.focusedAppDelegate.title
+//                else
+//                    return priv.focusedAppDelegate.appName
+//            }
             return ""
         }
         when: priv.focusedAppDelegate
@@ -230,6 +234,25 @@ AbstractStage {
         value: priv.focusedAppDelegate ? priv.focusedAppDelegate.surface : null
         when: !appRepeater.startingUp && root.parent
     }
+
+    states: [
+        State {
+            name: "spread"; when: root.altTabPressed || priv.goneToSpread
+        },
+        State {
+            name: "stagedrightedge"; when: rightEdgeDragArea.dragging && root.mode == "staged"
+        },
+        State {
+            name: "windowedrightedge"; when: rightEdgeDragArea.dragging && root.mode == "windowed"
+        },
+        State {
+            name: "staged"; when: root.mode === "staged"
+        },
+        State {
+            name: "windowed"; when: root.mode === "windowed"
+        }
+    ]
+    onStateChanged: print("spread going to state:", state)
 
     FocusScope {
         id: appContainer
@@ -297,6 +320,8 @@ AbstractStage {
                 property bool visuallyMinimized: false
 
                 readonly property var surface: model.surface
+
+                property real angle: 0
 
                 function claimFocus() {
                     if (spread.state == "altTab") {
@@ -378,7 +403,7 @@ AbstractStage {
                           && (priv.foregroundMaximizedAppDelegate === null || priv.foregroundMaximizedAppDelegate.normalZ <= z)
                          )
                          || decoratedWindow.fullscreen
-                         || (spread.state == "altTab" && index === spread.highlightedIndex)
+                       //  || (root.state == "altTab" && index === spread.highlightedIndex)
 
                 function close() {
                     model.surface.close();
@@ -440,7 +465,93 @@ AbstractStage {
                     duration: UbuntuAnimation.SnapDuration
                 }
 
+                SpreadMaths {
+                    id: spreadMaths
+                    itemIndex: index
+                    totalItems: appRepeater.count
+                    flickable: floatingFlickable
+                }
+                StagedRightEdgeMaths {
+                    id: stagedRightEdgeMaths
+                    itemIndex: index
+                    sceneWidth: root.width
+                    sceneHeight: root.height
+                    progress: 0
+                    targetX: spreadMaths.animatedX
+                    targetAngle: spreadMaths.animatedAngle
+                }
+
+                transform: [
+                    Scale {
+                        origin.x: itemScaleOriginX
+                        origin.y: itemScaleOriginY
+                        xScale: itemScale
+                        yScale: itemScale
+                    },
+                    Rotation {
+//                        origin { x: 0; y: (clippedSpreadDelegate.height - (clippedSpreadDelegate.height * itemScale / 2)) }
+                        axis { x: 0; y: 1; z: 0 }
+                        angle: appDelegate.angle
+                    }
+                ]
+
+                onRequestedWidthChanged: if (index == 0) print("requestedWidth", requestedWidth)
                 states: [
+                    State {
+                        name: "spread"; when: root.state == "spread"
+                        PropertyChanges { target: appDelegate;
+                            x: spreadMaths.animatedX
+                            y: spreadMaths.animatedY
+                            z: index
+                            angle: spreadMaths.animatedAngle
+                        }
+                        PropertyChanges { target: decoratedWindow; showDecoration: false }
+                    },
+                    State {
+                        name: "stagedrightedge"; when: root.state == "stagedrightedge"
+                        PropertyChanges {
+                            target: stagedRightEdgeMaths
+                            progress: rightEdgeDragArea.progress
+                        }
+                        PropertyChanges {
+                            target: appDelegate
+                            y: PanelState.panelHeight
+                            x: stagedRightEdgeMaths.animatedX
+                            requestedWidth: stagedRightEdgeMaths.animatedWidth
+                            requestedHeight: stagedRightEdgeMaths.animatedHeight
+                            angle: stagedRightEdgeMaths.animatedAngle
+                            z: index
+                        }
+                        PropertyChanges { target: decoratedWindow; showDecoration: false }
+                    },
+                    State {
+                        name: "staged"; when: root.state == "staged"
+                        PropertyChanges {
+                            target: appDelegate
+                            x: 0; y: 0
+                            visuallyMaximized: true
+                        }
+                        PropertyChanges {
+                            target: decoratedWindow
+                            requestedWidth: appContainer.width - root.leftMargin;
+                            requestedHeight: appContainer.height;
+                        }
+                    },
+                    State {
+                        name: "maximized"; when: root.state === "windowed" && appDelegate.maximized && !appDelegate.minimized
+                        PropertyChanges {
+                            target: appDelegate;
+                            x: root.leftMargin;
+                            y: 0;
+                            visuallyMinimized: false;
+                            visuallyMaximized: true
+                        }
+                        PropertyChanges {
+                            target: decoratedWindow
+                            requestedWidth: appContainer.width - root.leftMargin;
+                            requestedHeight: appContainer.height;
+                        }
+                    },
                     State {
                         name: "fullscreen"; when: decoratedWindow.fullscreen && !appDelegate.minimized
                         PropertyChanges {
@@ -459,21 +570,6 @@ AbstractStage {
                             target: appDelegate;
                             visuallyMinimized: false;
                             visuallyMaximized: false
-                        }
-                    },
-                    State {
-                        name: "maximized"; when: appDelegate.maximized && !appDelegate.minimized
-                        PropertyChanges {
-                            target: appDelegate;
-                            x: root.leftMargin;
-                            y: 0;
-                            visuallyMinimized: false;
-                            visuallyMaximized: true
-                        }
-                        PropertyChanges {
-                            target: decoratedWindow
-                            requestedWidth: appContainer.width - root.leftMargin;
-                            requestedHeight: appContainer.height;
                         }
                     },
                     State {
@@ -513,6 +609,7 @@ AbstractStage {
                             visuallyMaximized: false
                         }
                     }
+
                 ]
                 transitions: [
                     Transition {
@@ -543,7 +640,7 @@ AbstractStage {
                         }
                     },
                     Transition {
-                        to: "*" //maximized and fullscreen
+                        to: "maximized,fullscreen" //maximized and fullscreen
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                         SequentialAnimation {
@@ -553,16 +650,25 @@ AbstractStage {
                             }
                             PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         }
+                    },
+                    Transition {
+                        to: "spread"
+                        PropertyAnimation { target: appDelegate; properties: "x,y,width,height"; duration: UbuntuAnimation.FastDuration }
+                    },
+                    Transition {
+                        to: "staged";
+                        PropertyAnimation { target: appDelegate; properties: "x,y,width,height"; duration: UbuntuAnimation.FastDuration }
                     }
+
                 ]
 
-                Binding {
-                    id: previewBinding
-                    target: appDelegate
-                    property: "z"
-                    value: topLevelSurfaceList.count + 1
-                    when: index == spread.highlightedIndex && spread.ready
-                }
+//                Binding {
+//                    id: previewBinding
+//                    target: appDelegate
+//                    property: "z"
+//                    value: topLevelSurfaceList.count + 1
+//                    when: index == spread.highlightedIndex
+//                }
 
                 WindowResizeArea {
                     id: resizeArea
@@ -607,6 +713,7 @@ AbstractStage {
                     surface: model.surface
                     active: appDelegate.focus
                     focus: true
+                    showDecoration: true
 
                     requestedWidth: appDelegate.requestedWidth
                     requestedHeight: appDelegate.requestedHeight
@@ -650,23 +757,91 @@ AbstractStage {
         }
     }
 
+    FloatingFlickable {
+        id: floatingFlickable
+        anchors.fill: parent
+
+        property int minContentWidth: 6 * Math.min(height / 4, width / 5)
+        contentWidth: Math.max(6, appRepeater.count) * Math.min(height / 4, width / 5)
+
+    }
+
     DirectionalDragArea {
+        id: rightEdgeDragArea
         direction: Direction.Leftwards
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
-        width: units.gu(1)
-        onDraggingChanged: { if (dragging) { spread.show(); } }
-    }
+        width: root.dragAreaWidth
 
-    DesktopSpread {
-        id: spread
-        objectName: "spread"
-        anchors.fill: appContainer
-        workspace: appContainer
-        focus: state == "altTab"
-        altTabPressed: root.altTabPressed
+        property var gesturePoints: new Array()
 
-        onPlayFocusAnimation: {
-            appRepeater.itemAt(index).playFocusAnimation();
+        property real progress: -touchX / root.width
+        onProgressChanged: print("dda progress", progress, root.width, touchX, root.width + touchX)
+
+        Rectangle { color: "blue"; anchors.fill: parent }
+        onTouchXChanged: {
+            if (dragging) {
+                // Gesture recognized. Let's move the spreadView with the finger
+//                var dragX = Math.min(touchX + width, width); // Prevent dragging rightwards
+//                dragX = -dragX + spreadDragArea.width - spreadView.shift;
+//                // Don't allow dragging further than the animation crossing with phase2's animation
+//                var maxMovement =  spreadView.width * spreadView.positionMarker4 - spreadView.shift;
+
+//                spreadView.contentX = Math.min(dragX, maxMovement);
+            } else {
+//                // Initial touch. Let's reset the spreadView to the starting position.
+//                spreadView.phase = 0;
+//                spreadView.contentX = -spreadView.shift;
+            }
+
+            gesturePoints.push(touchX);
+        }
+
+        onDraggingChanged: {
+            print("dda dragging changed", dragging)
+            if (dragging) {
+                // A potential edge-drag gesture has started. Start recording it
+                gesturePoints = [];
+            } else {
+                if (gesturePoints[gesturePoints.length - 1] < -root.width / 2) {
+                    priv.goneToSpread = true;
+                }
+
+//                // Ok. The user released. Find out if it was a one-way movement.
+//                var oneWayFlick = true;
+//                var smallestX = spreadDragArea.width;
+//                for (var i = 0; i < gesturePoints.length; i++) {
+//                    if (gesturePoints[i] >= smallestX) {
+//                        oneWayFlick = false;
+//                        break;
+//                    }
+//                    smallestX = gesturePoints[i];
+//                }
+//                gesturePoints = [];
+
+//                if (oneWayFlick && spreadView.shiftedContentX > units.gu(2) &&
+//                        spreadView.shiftedContentX < spreadView.positionMarker1 * spreadView.width) {
+//                    // If it was a short one-way movement, do the Alt+Tab switch
+//                    // no matter if we didn't cross positionMarker1 yet.
+//                    spreadView.snapTo(1);
+//                } else if (!dragging) {
+//                    // otherwise snap to the closest snap position we can find
+//                    // (might be back to start, to app 1 or to spread)
+//                    spreadView.snap();
+//                }
+            }
         }
     }
+
+//    DesktopSpread {
+//        id: spread
+//        objectName: "spread"
+//        anchors.fill: appContainer
+//        workspace: appContainer
+//        focus: state == "altTab"
+//        altTabPressed: root.altTabPressed
+
+//        onPlayFocusAnimation: {
+//            appRepeater.itemAt(index).playFocusAnimation();
+//        }
+//    }
 }
