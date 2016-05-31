@@ -488,7 +488,7 @@ Showable {
 
         property var operation: null
         readonly property bool idEnabled: root.active &&
-                                          Biometryd.valid &&
+                                          Biometryd.available &&
                                           AccountsService.enableFingerprintIdentification
 
         function cancelOperation() {

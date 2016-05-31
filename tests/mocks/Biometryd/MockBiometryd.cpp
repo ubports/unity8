@@ -20,7 +20,7 @@
 MockBiometryd::MockBiometryd(QObject *parent)
     : QObject(parent)
     , m_device(new MockDevice(this))
-    , m_valid(false)
+    , m_available(false)
 {
 }
 
@@ -29,15 +29,15 @@ MockDevice *MockBiometryd::defaultDevice() const
     return m_device;
 }
 
-bool MockBiometryd::valid() const
+bool MockBiometryd::available() const
 {
-    return m_valid;
+    return m_available;
 }
 
-void MockBiometryd::setValid(bool valid)
+void MockBiometryd::setAvailable(bool available)
 {
-    if (m_valid != valid) {
-        m_valid = valid;
-        Q_EMIT validChanged();
+    if (m_available != available) {
+        m_available = available;
+        Q_EMIT availableChanged();
     }
 }
