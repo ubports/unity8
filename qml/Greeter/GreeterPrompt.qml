@@ -143,7 +143,7 @@ FocusScope {
             }
             text: root.text
             visible: passwordInput.text == "" && !passwordInput.inputMethodComposing
-            color: theme.palette.normal.raisedSecondaryText
+            color: d.drawColor
             elide: Text.ElideRight
         }
     }
