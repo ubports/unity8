@@ -20,7 +20,6 @@ import Ubuntu.Gestures 0.1
 import Unity.Application 0.1
 import Unity.Session 0.1
 import Utils 0.1
-import GlobalShortcut 1.0
 import Powerd 0.1
 import "../Components"
 
@@ -109,6 +108,12 @@ AbstractStage {
         }
     }
 
+    function closeFocusedDelegate() {
+        if (priv.focusedAppDelegate && !priv.focusedAppDelegate.isDash) {
+            priv.focusedAppDelegate.closed();
+        }
+    }
+
     mainApp: priv.focusedAppDelegate ? priv.focusedAppDelegate.application : null
 
     orientationChangesEnabled: priv.focusedAppOrientationChangesEnabled
@@ -126,12 +131,6 @@ AbstractStage {
     readonly property alias dragging: spreadDragArea.dragging
 
     signal opened()
-
-    GlobalShortcut {
-        shortcut: Qt.AltModifier|Qt.Key_F4
-        onTriggered: priv.focusedAppDelegate.closed()
-        active: priv.focusedAppDelegate && !priv.focusedAppDelegate.isDash
-    }
 
     function select(appId) {
         spreadView.snapTo(priv.indexOf(appId));
