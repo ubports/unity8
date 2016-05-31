@@ -2374,7 +2374,7 @@ Rectangle {
         function test_switchKeymap() {
             // start with phone shell
             loadShell("phone");
-            shell.usageScenario = "shell";
+            shell.usageScenario = "phone";
             waitForRendering(shell);
             swipeAwayGreeter();
 
