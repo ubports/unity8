@@ -4,4 +4,5 @@ usr/share/unity8/Components
 usr/share/unity8/Dash
 usr/share/unity8/Notifications
 usr/share/unity8/graphics
+usr/share/icons
 var/lib/polkit-1/localauthority/10-vendor.d

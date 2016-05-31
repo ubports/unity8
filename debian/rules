@@ -29,6 +29,10 @@ override_dh_install:
 	cd $(CURDIR)
 	dh_install -X'*.pyc' --fail-missing
 
+override_dh_installdeb:
+	dh_apparmor --profile-name=usr.bin.unity8-dash -punity8-dash
+	dh_installdeb
+
 # use private lib directories
 override_dh_makeshlibs:
 	dh_makeshlibs -Nunity8-private -Nunity8-fake-env
