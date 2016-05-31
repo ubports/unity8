@@ -385,7 +385,7 @@ FocusScope {
     Action {
         id: rotationAction
         enabled: root.fullscreen === true
-        iconName: "orientation-lock"
+        iconName: "view-rotate"
 
         property bool checked: false
         onTriggered: checked = !checked
