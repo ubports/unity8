@@ -31,6 +31,9 @@ Item {
     //! Widget data, forwarded to the widget as is.
     property var widgetData: null
 
+    // Emitted iff filter type is FilterOptionSelector
+    signal singleSelectionFilterSelected()
+
     implicitHeight: title.height + title.anchors.topMargin + loader.height
 
     Label {
@@ -76,6 +79,11 @@ Item {
         onLoaded: {
             item.widgetId = Qt.binding(function() { return root.widgetId } )
             item.widgetData = Qt.binding(function() { return root.widgetData } )
+        }
+
+        Connections {
+            target: widgetType == Filters.OptionSelectorFilter ? loader.item : null
+            onFilterSelected: root.singleSelectionFilterSelected()
         }
     }
 }

@@ -29,10 +29,7 @@ MousePointer::MousePointer(QQuickItem *parent)
     : MirMousePointerInterface(parent)
     , m_cursorName(QStringLiteral("left_ptr"))
     , m_themeName(QStringLiteral("default"))
-    , m_hotspotX(0)
-    , m_hotspotY(0)
 {
-    updateHotspot();
 }
 
 void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::MouseButtons buttons,
@@ -89,8 +86,32 @@ void MousePointer::itemChange(ItemChange change, const ItemChangeData &value)
 
 void MousePointer::registerWindow(QWindow *window)
 {
-    if (m_registeredWindow && window != m_registeredWindow) {
-        auto previousCursor = dynamic_cast<MirPlatformCursor*>(m_registeredWindow->screen()->handle()->cursor());
+    if (window == m_registeredWindow) {
+        return;
+    }
+
+    if (m_registeredWindow) {
+        m_registeredWindow->disconnect(this);
+    }
+
+    m_registeredWindow = window;
+
+    if (m_registeredWindow) {
+        connect(window, &QWindow::screenChanged, this, &MousePointer::registerScreen);
+        registerScreen(window->screen());
+    } else {
+        registerScreen(nullptr);
+    }
+}
+
+void MousePointer::registerScreen(QScreen *screen)
+{
+    if (m_registeredScreen == screen) {
+        return;
+    }
+
+    if (m_registeredScreen) {
+        auto previousCursor = dynamic_cast<MirPlatformCursor*>(m_registeredScreen->handle()->cursor());
         if (previousCursor) {
             previousCursor->setMousePointer(nullptr);
         } else {
@@ -98,10 +119,10 @@ void MousePointer::registerWindow(QWindow *window)
         }
     }
 
-    m_registeredWindow = window;
+    m_registeredScreen = screen;
 
-    if (m_registeredWindow) {
-        auto cursor = dynamic_cast<MirPlatformCursor*>(window->screen()->handle()->cursor());
+    if (m_registeredScreen) {
+        auto cursor = dynamic_cast<MirPlatformCursor*>(m_registeredScreen->handle()->cursor());
         if (cursor) {
             cursor->setMousePointer(this);
         } else {
@@ -115,22 +136,6 @@ void MousePointer::setCursorName(const QString &cursorName)
     if (cursorName != m_cursorName) {
         m_cursorName = cursorName;
         Q_EMIT cursorNameChanged(m_cursorName);
-        updateHotspot();
-    }
-}
-
-void MousePointer::updateHotspot()
-{
-    QPoint newHotspot = CursorImageProvider::instance()->hotspot(m_themeName, m_cursorName);
-
-    if (m_hotspotX != newHotspot.x()) {
-        m_hotspotX = newHotspot.x();
-        Q_EMIT hotspotXChanged(m_hotspotX);
-    }
-
-    if (m_hotspotY != newHotspot.y()) {
-        m_hotspotY = newHotspot.y();
-        Q_EMIT hotspotYChanged(m_hotspotY);
     }
 }
 

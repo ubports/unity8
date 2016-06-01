@@ -31,14 +31,14 @@ FocusScope {
     property int panelWidth: units.gu(10)
     property int dragAreaWidth: units.gu(1)
     property int minimizeDistance: units.gu(26)
-    property real progress: dragArea.dragging && dragArea.touchX > panelWidth ?
-                                (width * (dragArea.touchX-panelWidth) / (width - panelWidth)) : 0
+    property real progress: dragArea.dragging && dragArea.touchPosition.x > panelWidth ?
+                                (width * (dragArea.touchPosition.x-panelWidth) / (width - panelWidth)) : 0
 
     property bool superPressed: false
     property bool superTabPressed: false
 
     readonly property bool dragging: dragArea.dragging
-    readonly property real dragDistance: dragArea.dragging ? dragArea.touchX : 0
+    readonly property real dragDistance: dragArea.dragging ? dragArea.touchPosition.x : 0
     readonly property real visibleWidth: panel.width + panel.x
 
     readonly property bool shown: panel.x > -panel.width
@@ -273,6 +273,18 @@ FocusScope {
         }
     }
 
+    InverseMouseArea {
+        id: closeMouseArea
+        anchors.fill: panel
+        enabled: root.state == "visible" && (!root.lockedVisible || panel.highlightIndex >= -1)
+        visible: enabled
+        onPressed: {
+            mouse.accepted = false;
+            panel.highlightIndex = -2;
+            root.hide();
+        }
+    }
+
     MouseArea {
         id: launcherDragArea
         enabled: root.available && (root.state == "visible" || root.state == "visibleTemporary") && !root.lockedVisible
@@ -291,26 +303,6 @@ FocusScope {
                 root.switchToNextState("visible")
             }
         }
-    }
-
-    InverseMouseArea {
-        id: closeMouseArea
-        anchors.fill: panel
-        enabled: root.state == "visible" && (!root.lockedVisible || panel.highlightIndex >= -1)
-        visible: enabled
-        onPressed: {
-            panel.highlightIndex = -2
-            root.hide();
-        }
-    }
-
-    Rectangle {
-        id: backgroundShade
-        anchors.fill: parent
-        color: "black"
-        opacity: root.state == "visible" && !root.lockedVisible ? 0.6 : 0
-
-        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.BriskDuration } }
     }
 
     EdgeBarrier {
@@ -400,7 +392,7 @@ FocusScope {
         }
     }
 
-    DirectionalDragArea {
+    SwipeArea {
         id: dragArea
         objectName: "launcherDragArea"
 

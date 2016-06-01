@@ -65,9 +65,10 @@ Rectangle {
         sectionProperty: "type"
         sectionDelegate: Component {
             Rectangle {
+                property alias text: theText.text
                 color: "green"
                 height: 40
-                Text { text: section; font.pixelSize: 34 }
+                Text { id: theText; font.pixelSize: 34 }
                 anchors { left: parent.left; right: parent.right }
             }
         }

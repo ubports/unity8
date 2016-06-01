@@ -46,7 +46,7 @@ Row {
             width: units.gu(2)
             height: units.gu(2)
             radius: height / 2
-            color: UbuntuColors.red
+            color: theme.palette.normal.negative
             visible: parent.containsMouse
         }
         Icon {
@@ -92,7 +92,6 @@ Row {
         height: parent.height
         width: height
         visible: root.maximizeButtonShown
-
         acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
         onClicked: {
             if (mouse.button == Qt.LeftButton) {
