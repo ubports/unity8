@@ -23,8 +23,8 @@ import Unity.Application 0.1
 FocusScope {
     id: root
 
-    width: applicationWindow.width
-    height: (decorationShown ? decoration.height : 0) + applicationWindow.height
+    implicitWidth: applicationWindow.width
+    implicitHeight: (decorationShown ? decoration.height : 0) + applicationWindow.implicitHeight
 
     property alias application: applicationWindow.application
     property alias surface: applicationWindow.surface
@@ -39,8 +39,9 @@ FocusScope {
     property bool highlightShown: false
     property real shadowOpacity: 1
 
+    property alias resizeSurface: applicationWindow.resizeSurface
     property alias requestedWidth: applicationWindow.requestedWidth
-    property real requestedHeight
+    property alias requestedHeight: applicationWindow.requestedHeight
 
     property alias minimumWidth: applicationWindow.minimumWidth
     readonly property int minimumHeight: (root.decorationShown ? decoration.height : 0) + applicationWindow.minimumHeight
@@ -101,6 +102,8 @@ FocusScope {
         anchors.top: parent.top
         anchors.topMargin: root.decorationShown ? decoration.height : 0
         anchors.left: parent.left
+        width: root.width
+        height: root.height - anchors.topMargin
         requestedHeight: root.requestedHeight
         interactive: true
         focus: true

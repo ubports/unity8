@@ -55,35 +55,40 @@ FocusScope {
     MirSurfaceItem {
         id: surfaceItem
         objectName: "surfaceItem"
+        anchors.fill: parent
 
         focus: true
 
         fillMode: MirSurfaceItem.PadOrCrop
         consumesInput: true
 
-        surfaceWidth: {
-            if (root.resizeSurface) {
-                if (root.requestedWidth >= 0) {
-                    return root.requestedWidth;
-                } else {
-                    return width;
-                }
-            } else {
-                return -1;
-            }
-        }
+        surfaceWidth: root.requestedWidth
+        surfaceHeight: root.requestedHeight
+//        surfaceWidth: {
+//            print("surfaceWidth:", model.application.appId, root.resizeSurface, root.requestedWidth, width)
+//            if (root.resizeSurface) {
+//                if (root.requestedWidth >= 0) {
+//                    return root.requestedWidth;
+//                } else {
+//                    return width;
+//                }
+//            } else {
+//                return -1;
+//            }
+//        }
 
-        surfaceHeight: {
-            if (root.resizeSurface) {
-                if (root.requestedHeight >= 0) {
-                    return root.requestedHeight;
-                } else {
-                    return height;
-                }
-            } else {
-                return -1;
-            }
-        }
+//        surfaceHeight: {
+//            print("surfaceHeight:", model.application.appId, root.resizeSurface, root.requestedHeight, height)
+//            if (root.resizeSurface) {
+//                if (root.requestedHeight >= 0) {
+//                    return root.requestedHeight;
+//                } else {
+//                    return height;
+//                }
+//            } else {
+//                return -1;
+//            }
+//        }
 
         enabled: root.interactive
         antialiasing: !root.interactive
@@ -106,11 +111,11 @@ FocusScope {
         when: root.requestedHeight >= 0 && root.surface
     }
     Binding {
-        target: root; property: "width"; value: surfaceItem.width
+        target: root; property: "implicitWidth"; value: surfaceItem.width
         when: root.requestedWidth >= 0
     }
     Binding {
-        target: root; property: "height"; value: surfaceItem.height
+        target: root; property: "implicitHeight"; value: surfaceItem.height
         when: root.requestedHeight >= 0
     }
 

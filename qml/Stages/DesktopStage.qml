@@ -291,8 +291,8 @@ AbstractStage {
                 x: priv.focusedAppDelegate ? priv.focusedAppDelegate.x + units.gu(3) : (normalZ - 1) * units.gu(3)
                 y: priv.focusedAppDelegate ? priv.focusedAppDelegate.y + units.gu(3) : normalZ * units.gu(3)
 
-                width: decoratedWindow.width
-                height: decoratedWindow.height
+                width: decoratedWindow.implicitWidth
+                height: decoratedWindow.implicitHeight
                 property int requestedWidth: -1
                 property int requestedHeight: -1
                 property alias minimumWidth: decoratedWindow.minimumWidth
@@ -486,8 +486,8 @@ AbstractStage {
                 StagedRightEdgeMaths {
                     id: stagedRightEdgeMaths
                     itemIndex: index
-                    sceneWidth: root.width
-                    sceneHeight: root.height
+                    sceneWidth: appContainer.width - root.leftMargin
+                    sceneHeight: appContainer.height
                     progress: 0
                     targetX: spreadMaths.animatedX
                     targetAngle: spreadMaths.animatedAngle
@@ -507,7 +507,7 @@ AbstractStage {
                     }
                 ]
 
-                onXChanged: if (model.application.appId == "unity8-dash") print("dash moved to", x)
+//                onXChanged: if (model.application.appId == "unity8-dash") print("dash moved to", x)
                 onRequestedWidthChanged: if (index == 0) print("requestedWidth", requestedWidth)
                 states: [
                     State {
@@ -517,8 +517,17 @@ AbstractStage {
                             y: spreadMaths.animatedY
                             z: index
                             angle: spreadMaths.animatedAngle
+                            height: appDelegate.width
                         }
-                        PropertyChanges { target: decoratedWindow; showDecoration: false }
+                        PropertyChanges {
+                            target: decoratedWindow;
+                            showDecoration: false;
+                            height: units.gu(15)
+                            width: units.gu(15)
+                            requestedWidth: decoratedWindow.oldRequestedWidth
+                            requestedHeight: decoratedWindow.oldRequestedHeight
+//                            resizeSurface: false;
+                        }
                         PropertyChanges { target: inputBlocker; enabled: true }
                     },
                     State {
@@ -531,12 +540,17 @@ AbstractStage {
                             target: appDelegate
                             y: PanelState.panelHeight
                             x: stagedRightEdgeMaths.animatedX
-                            requestedWidth: stagedRightEdgeMaths.animatedWidth
-                            requestedHeight: stagedRightEdgeMaths.animatedHeight
                             angle: stagedRightEdgeMaths.animatedAngle
                             z: index
                         }
-                        PropertyChanges { target: decoratedWindow; showDecoration: false }
+                        PropertyChanges {
+                            target: decoratedWindow;
+                            showDecoration: false
+                            requestedWidth: stagedRightEdgeMaths.animatedWidth
+                            requestedHeight: stagedRightEdgeMaths.animatedHeight
+                            width: appContainer.width - root.leftMargin
+                            height: appContainer.height
+                        }
                     },
                     State {
                         name: "staged"; when: root.state == "staged"
@@ -549,6 +563,8 @@ AbstractStage {
                             target: decoratedWindow
                             requestedWidth: appContainer.width - root.leftMargin;
                             requestedHeight: appContainer.height;
+                            width: requestedWidth
+                            height: requestedHeight
                             showDecoration: false
                         }
                         PropertyChanges {
@@ -747,6 +763,11 @@ AbstractStage {
                     requestedWidth: appDelegate.requestedWidth
                     requestedHeight: appDelegate.requestedHeight
 
+                    property int oldRequestedWidth: -1
+                    property int oldRequestedHeight: -1
+                    onRequestedWidthChanged: oldRequestedWidth = requestedWidth
+                    onRequestedHeightChanged: oldRequestedHeight = requestedHeight
+
                     onClose: { appDelegate.close(); }
                     onMaximize: appDelegate.maximized || appDelegate.maximizedLeft || appDelegate.maximizedRight
                                 ? appDelegate.restoreFromMaximized() : appDelegate.maximize()
@@ -765,11 +786,19 @@ AbstractStage {
 
                 MouseArea {
                     id: inputBlocker
+                    anchors.fill: parent
                     enabled: false
+                    onPressed: mouse.accepted = true;
                     onClicked: {
                         print("focusing because of inputBlocker click")
                         appDelegate.focus = true
+                        priv.goneToSpread = false;
                     }
+                }
+                Rectangle {
+                    anchors.fill: parent
+                    color: "blue"
+                    opacity: .4
                 }
             }
         }

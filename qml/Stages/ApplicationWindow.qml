@@ -191,6 +191,7 @@ FocusScope {
 
     SurfaceContainer {
         id: surfaceContainer
+        anchors.fill: parent
         requestedWidth: root.requestedWidth
         requestedHeight: root.requestedHeight
         surfaceOrientationAngle: application && application.rotatesWindowContents ? root.surfaceOrientationAngle : 0
@@ -216,27 +217,27 @@ FocusScope {
         }
     }
 
-    // SurfaceContainer size drives ApplicationWindow size
-    Binding {
-        target: root; property: "width"
-        value: stateGroup.state === "surface" ? surfaceContainer.width : root.requestedWidth
-        when: root.requestedWidth >= 0
-    }
-    Binding {
-        target: root; property: "height"
-        value: stateGroup.state === "surface" ? surfaceContainer.height : root.requestedHeight
-        when: root.requestedHeight >= 0
-    }
+//    // SurfaceContainer size drives ApplicationWindow size
+//    Binding {
+//        target: root; property: "implicitWidth"
+//        value: stateGroup.state === "surface" ? surfaceContainer.implicitWidth : root.requestedWidth
+//        when: root.requestedWidth >= 0
+//    }
+//    Binding {
+//        target: root; property: "implicitHeight"
+//        value: stateGroup.state === "surface" ? surfaceContainer.implicitHeight : root.requestedHeight
+//        when: root.requestedHeight >= 0
+//    }
 
-    // ApplicationWindow size drives SurfaceContainer size
-    Binding {
-        target: surfaceContainer; property: "width"; value: root.width
-        when: root.requestedWidth < 0
-    }
-    Binding {
-        target: surfaceContainer; property: "height"; value: root.height
-        when: root.requestedHeight < 0
-    }
+//    // ApplicationWindow size drives SurfaceContainer size
+//    Binding {
+//        target: surfaceContainer; property: "width"; value: root.width
+//        when: root.requestedWidth < 0
+//    }
+//    Binding {
+//        target: surfaceContainer; property: "height"; value: root.height
+//        when: root.requestedHeight < 0
+//    }
 
     StateGroup {
         id: stateGroup
@@ -402,4 +403,9 @@ FocusScope {
         ]
     }
 
+    Rectangle {
+        anchors.fill: parent
+        color: "yellow"
+        opacity: .4
+    }
 }

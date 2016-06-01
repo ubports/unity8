@@ -135,7 +135,7 @@ void TopLevelSurfaceList::connectSurface(MirSurfaceInterface *surface)
 {
     connect(surface, &MirSurfaceInterface::focusedChanged, this, [this, surface](bool focused){
             if (focused) {
-                this->raise(surface);
+//                this->raise(surface);
             }
         });
     connect(surface, &MirSurfaceInterface::liveChanged, this, [this, surface](bool live){
