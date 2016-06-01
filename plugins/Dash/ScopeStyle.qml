@@ -70,7 +70,7 @@ QtObject {
     readonly property url navigationBackground: "navigation-background" in d.headerStyle ? d.headerStyle["navigation-background"] : "color:///#f5f5f5"
 
     /// Color of the primary preview button
-    readonly property color previewButtonColor: "preview-button-color" in style ? style["preview-button-color"] : UbuntuColors.orange
+    readonly property color previewButtonColor: "preview-button-color" in style ? style["preview-button-color"] : theme.palette.normal.positive
 
     //! @cond
     property var d: QtObject {

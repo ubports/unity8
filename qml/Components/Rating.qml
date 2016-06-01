@@ -21,6 +21,7 @@ import Ubuntu.Components 1.3
 
 StyledItem {
     id: root
+    implicitHeight: units.gu(2)
 
     //! True if it accepts user input.
     property bool interactive: true
