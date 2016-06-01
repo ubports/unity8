@@ -32,7 +32,7 @@
 // local
 #include <paths.h>
 #include "registry-tracker.h"
-#include "unix-signal-handler.h"
+#include "../src/UnixSignalHandler.h"
 
 
 int main(int argc, char *argv[])

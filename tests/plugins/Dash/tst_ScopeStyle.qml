@@ -174,7 +174,7 @@ Rectangle {
 
         function test_previewButtonColor_data() {
             return [
-                { tag: "default", index: 0, previewButtonColor: UbuntuColors.orange },
+                { tag: "default", index: 0, previewButtonColor: theme.palette.normal.positive },
                 { tag: "red", index: 1, previewButtonColor: "red" },
             ];
         }

@@ -227,11 +227,14 @@ private Q_SLOTS:
     {
         if (!active) {
             setupSystemdInhibition();
+        } else {
+            Q_EMIT prepareForSleep();
         }
     }
 
 Q_SIGNALS:
     void screensaverActiveChanged(bool active);
+    void prepareForSleep();
 };
 
 Q_GLOBAL_STATIC(DBusUnitySessionServicePrivate, d)
@@ -245,6 +248,7 @@ DBusUnitySessionService::DBusUnitySessionService()
         // ... and our Unlocked() signal to the logind's session Unlock() signal
         // (lightdm handles the unlocking by calling logind's Unlock method which in turn emits this signal we connect to)
         QDBusConnection::systemBus().connect(LOGIN1_SERVICE, d->logindSessionPath, LOGIN1_SESSION_IFACE, QStringLiteral("Unlock"), this, SIGNAL(Unlocked()));
+        connect(d, &DBusUnitySessionServicePrivate::prepareForSleep, this, &DBusUnitySessionService::PromptLock);
     } else {
         qWarning() << "Failed to connect to logind's session Lock/Unlock signals";
     }
@@ -390,16 +394,19 @@ void DBusUnitySessionService::Shutdown()
 
 void DBusUnitySessionService::Suspend()
 {
+    PromptLock();
     d->makeLogin1Call(QStringLiteral("Suspend"), {false});
 }
 
 void DBusUnitySessionService::Hibernate()
 {
+    PromptLock();
     d->makeLogin1Call(QStringLiteral("Hibernate"), {false});
 }
 
 void DBusUnitySessionService::HybridSleep()
 {
+    PromptLock();
     d->makeLogin1Call(QStringLiteral("HybridSleep"), {false});
 }
 

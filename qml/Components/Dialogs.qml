@@ -185,7 +185,7 @@ Item {
                     unitySessionService.reboot();
                     rebootDialog.hide();
                 }
-                color: UbuntuColors.red
+                color: theme.palette.normal.negative
             }
         }
     }
@@ -203,7 +203,7 @@ Item {
                     powerDialog.hide();
                     root.powerOffClicked();
                 }
-                color: UbuntuColors.red
+                color: theme.palette.normal.negative
             }
             Button {
                 text: i18n.ctr("Button: Restart the system", "Restart")
