@@ -2459,7 +2459,7 @@ Rectangle {
             return [
                         { tag: "phone" },
                         { tag: "tablet" },
-                        { tag: "desktop" },
+                        { tag: "desktop" }
                     ]
         }
 
@@ -2482,6 +2482,7 @@ Rectangle {
             keyClick(Qt.Key_F4, Qt.AltModifier);
 
             tryCompare(topLevelSurfaceList, "count", countBeforeClose - 1);
+            tryCompare(ApplicationManager, "focusedApplicationId", "calendar-app");
         }
     }
 }

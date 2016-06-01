@@ -109,8 +109,9 @@ AbstractStage {
     }
 
     function closeFocusedDelegate() {
-        if (priv.focusedAppDelegate && !priv.focusedAppDelegate.isDash) {
+        if (priv.focusedAppDelegate && priv.focusedAppDelegate.closeable) {
             priv.focusedAppDelegate.closed();
+            spreadRepeater.itemAt(1).focus = true; // focus the next one
         }
     }
 
