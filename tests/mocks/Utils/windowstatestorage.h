@@ -56,6 +56,9 @@ public:
 Q_SIGNALS:
     void geometryChanged(const QVariantMap& geometry);
 
+    // For testing.
+    void stageSaved(const QString& appId, int stage);
+
 private:
     void setGeometry(const QVariantMap& geometry);
     QVariantMap geometry() const;

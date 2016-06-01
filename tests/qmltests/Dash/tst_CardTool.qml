@@ -240,7 +240,7 @@ Rectangle {
         id: testCase
         name: "CardTool"
 
-        property var internalCard: findChild(cardTool, "cardToolCard")
+        property var internalCard: findChild(cardTool, "cardToolCard", 0 /*timeout*/)
 
         when: windowShown
 

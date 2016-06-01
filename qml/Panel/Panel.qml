@@ -30,22 +30,13 @@ Item {
     property real indicatorAreaShowProgress: 1.0
     property bool locked: false
 
-    Rectangle {
-        id: darkenedArea
-        property real darkenedOpacity: 0.6
-        anchors {
-            fill: parent
-            topMargin: panelHeight
-        }
-        color: "black"
-        opacity: indicators.unitProgress * darkenedOpacity
+    MouseArea {
+        anchors.fill: parent
+        anchors.topMargin: panelHeight
         visible: !indicators.fullyClosed
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: if (indicators.fullyOpened) indicators.hide();
-            hoverEnabled: true // should also eat hover events, otherwise they will pass through
-        }
+        enabled: visible
+        onClicked: if (indicators.fullyOpened) indicators.hide();
+        hoverEnabled: true // should also eat hover events, otherwise they will pass through
     }
 
     Binding {
@@ -89,7 +80,7 @@ Item {
 
         Rectangle {
             id: indicatorAreaBackground
-            color: callHint.visible ? UbuntuColors.green : theme.palette.normal.background
+            color: callHint.visible ? theme.palette.normal.positive : theme.palette.normal.background
             anchors {
                 top: parent.top
                 left: parent.left
@@ -101,6 +92,7 @@ Item {
         }
 
         MouseArea {
+            objectName: "windowControlArea"
             anchors {
                 top: parent.top
                 left: parent.left
@@ -110,6 +102,15 @@ Item {
             hoverEnabled: true
             onClicked: callHint.visible ? callHint.showLiveCall() : PanelState.focusMaximizedApp()
             onDoubleClicked: PanelState.restoreClicked()
+
+            property bool mouseWasPressed: false
+            onPressed: mouseWasPressed = containsPress
+            onMouseYChanged: {
+                if (mouseWasPressed && mouseY > panelHeight) {
+                    PanelState.restoreClicked(); // restore the window when "dragging" the panel down
+                    mouseWasPressed = false;
+                }
+            }
 
             // WindowControlButtons inside the mouse area, otherwise QML doesn't grok nested hover events :/
             // cf. https://bugreports.qt.io/browse/QTBUG-32909

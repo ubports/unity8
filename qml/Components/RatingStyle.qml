@@ -36,6 +36,9 @@ Row {
         property url urlIconHalf: styledItem.urlIconHalf || "graphics/icon_star_half.png"
 
         Image {
+            height: parent.height
+            fillMode: Image.PreserveAspectFit
+            sourceSize.height: height
             opacity: styledItem.value < 0 ? 0.4 : 1 // Let's make the stars look inactive for a not-set value
             source: {
                 if (index === repeater.indexHalfValue) return repeater.urlIconHalf;

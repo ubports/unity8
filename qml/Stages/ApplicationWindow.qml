@@ -120,6 +120,17 @@ FocusScope {
                  || (application.supportedOrientations & Qt.InvertedLandscapeOrientation))
 
         property bool surfaceOldEnoughToBeResized: false
+
+        property var focusedSurface: {
+            if (promptSurfacesRepeater.count == 0) {
+                return surfaceContainer;
+            } else {
+                return promptSurfacesRepeater.itemAt(promptSurfacesRepeater.count - 1);
+            }
+        }
+        onFocusedSurfaceChanged: {
+            focusedSurface.focus = true;
+        }
     }
 
     Binding {
@@ -183,7 +194,26 @@ FocusScope {
         requestedWidth: root.requestedWidth
         requestedHeight: root.requestedHeight
         surfaceOrientationAngle: application && application.rotatesWindowContents ? root.surfaceOrientationAngle : 0
-        focus: true
+    }
+
+    Repeater {
+        id: promptSurfacesRepeater
+        objectName: "promptSurfacesRepeater"
+        // show only along with the top-most application surface
+        model: {
+            if (root.application && root.surface === root.application.surfaceList.first) {
+                return root.application.promptSurfaceList;
+            } else {
+                return null;
+            }
+        }
+        delegate: SurfaceContainer {
+            interactive: index == (promptSurfacesRepeater.count - 1) && root.interactive
+            surface: model.surface
+            width: root.width
+            height: root.height
+            isPromptSurface: true
+        }
     }
 
     // SurfaceContainer size drives ApplicationWindow size

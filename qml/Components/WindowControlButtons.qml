@@ -49,7 +49,7 @@ Row {
         Rectangle {
             anchors.fill: parent
             radius: height / 2
-            color: UbuntuColors.red
+            color: theme.palette.normal.negative
             visible: parent.containsMouse && !overlayShown
         }
         Icon {
