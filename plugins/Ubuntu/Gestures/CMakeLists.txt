@@ -4,27 +4,27 @@ remove_definitions(-DQT_NO_KEYWORDS)
 set(UbuntuGesturesQml_SOURCES
     plugin.cpp
     AxisVelocityCalculator.cpp
-    Damper.cpp
     Direction.cpp
-    DirectionalDragArea.cpp
-    FloatingFlickable.cpp
+    MouseEventGenerator.cpp
     PressedOutsideNotifier.cpp
     TouchDispatcher.cpp
     TouchGate.cpp
     TouchGestureArea.cpp
 )
 
+pkg_check_modules(UBUNTUGESTURES REQUIRED UbuntuGestures)
+
 add_definitions(-DUBUNTUGESTURESQML_LIBRARY)
 
 add_library(UbuntuGesturesQml MODULE ${UbuntuGesturesQml_SOURCES})
-target_link_libraries(UbuntuGesturesQml UbuntuGestures)
+target_link_libraries(UbuntuGesturesQml ${UBUNTUGESTURES_LIBRARIES})
 
 qt5_use_modules(UbuntuGesturesQml Core Quick)
 
 # So that Foo.cpp can #include "Foo.moc"
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-include_directories(${CMAKE_SOURCE_DIR}/libs/UbuntuGestures)
+include_directories(${UBUNTUGESTURES_INCLUDE_DIRS})
 
 # There's no cmake var for v8 include path :-/ so create one
 LIST(GET Qt5Core_INCLUDE_DIRS 0 QtCoreDir0)
