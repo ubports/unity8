@@ -33,6 +33,7 @@ PreviewWidget {
     implicitHeight: services.height
 
     widgetMargins: -units.gu(1)
+    orientationLock: services.fullscreen
 
     property alias rootItem: services.rootItem
 

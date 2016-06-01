@@ -37,6 +37,9 @@ Loader {
     //! Should the widget show in expanded mode (For those that support it)
     property bool expanded: widgetType !== "expandable" || widgetData["expanded"] === true
 
+    //! Should the orientation be locked
+    readonly property bool orientationLock: status === Loader.Ready ? item.orientationLock : false
+
     //! Set margins width.
     property real widgetMargins: status === Loader.Ready ? item.widgetMargins : units.gu(1)
 

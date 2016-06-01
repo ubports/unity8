@@ -27,6 +27,8 @@ PreviewWidget {
     id: root
     implicitHeight: units.gu(22)
 
+    orientationLock: overlay.visible
+
     property Item rootItem: QuickUtils.rootItem(root)
 
     ListView {
