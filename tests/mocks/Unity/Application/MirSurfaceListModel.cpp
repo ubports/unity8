@@ -74,7 +74,7 @@ void MirSurfaceListModel::appendSurface(MirSurface *surface)
 
 void MirSurfaceListModel::connectSurface(MirSurface *surface)
 {
-    connect(surface, &MirSurface::raiseRequested, this, [this, surface](){ this->raise(surface); });
+//    connect(surface, &MirSurface::raiseRequested, this, [this, surface](){ this->raise(surface); });
     connect(surface, &QObject::destroyed, this, [this, surface](){ this->removeSurface(surface); });
 }
 

@@ -118,6 +118,7 @@ AbstractStage {
 
         property var focusedAppDelegate: null
         onFocusedAppDelegateChanged: {
+            print("focusedAppDelegate changed", focusedAppDelegate.objectName)
             if (root.state == "spread") {
                 goneToSpread = false;
             }
@@ -154,6 +155,7 @@ AbstractStage {
             for (var i = 0; i < appRepeater.count; i++) {
                 var appDelegate = appRepeater.itemAt(i);
                 if (appDelegate && !appDelegate.minimized) {
+                    print("***** focusing because of focusNext() call", appDelegate.application.appId)
                     appDelegate.focus = true;
                     return;
                 }
@@ -168,6 +170,7 @@ AbstractStage {
         onMaximize: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.restoreFromMaximized(); } }
         onFocusMaximizedApp: {
             if (priv.foregroundMaximizedAppDelegate) {
+                print("***** focusing because of Panel request", model.application.appId)
                 priv.foregroundMaximizedAppDelegate.focus = true;
              }
         }
@@ -324,14 +327,17 @@ AbstractStage {
                 property real angle: 0
 
                 function claimFocus() {
-                    if (spread.state == "altTab") {
-                        spread.cancel();
-                    }
-                    appDelegate.restore();
+//                    if (spread.state == "altTab") {
+//                        spread.cancel();
+//                    }
+//                    appDelegate.restore();
                 }
                 Connections {
                     target: model.surface
-                    onFocusRequested: claimFocus();
+                    onFocusRequested: {
+                        print("model surface requesting focus", model.application.appId)
+                        claimFocus();
+                    }
                 }
                 Connections {
                     target: model.application
@@ -351,11 +357,14 @@ AbstractStage {
                         return;
 
                     if (focus) {
+                        print("app surface gained focus:", model.application.appId)
+                        print("setting focusedAppDelegate to", appDelegate.application.appId)
                         priv.focusedAppDelegate = appDelegate;
 
                         // If we're orphan (!parent) it means this stage is no longer the current one
                         // and will be deleted shortly. So we should no longer have a say over the model
                         if (root.parent) {
+                            print("raising surface in model", model.id)
                             topLevelSurfaceList.raiseId(model.id);
                         }
                     } else if (!focus && priv.focusedAppDelegate === appDelegate) {
@@ -370,6 +379,7 @@ AbstractStage {
                     if (!appRepeater.startingUp) {
                         // a top level window is always the focused one when it first appears, unfocusing
                         // any preexisting one
+                        print("***** focusing after starting up", model.application.appId)
                         focus = true;
                     }
                 }
@@ -388,6 +398,7 @@ AbstractStage {
                         for (var i = 0; i < appRepeater.count; i++) {
                             var appDelegate = appRepeater.itemAt(i);
                             if (appDelegate && !appDelegate.minimized && i != index) {
+                                print("***** focusing because of previously focused window disappeared", appDelegate.application.appId)
                                 appDelegate.focus = true;
                                 return;
                             }
@@ -397,13 +408,13 @@ AbstractStage {
 
                 onVisuallyMaximizedChanged: priv.updateForegroundMaximizedApp()
 
-                visible: (
-                          !visuallyMinimized
-                          && !greeter.fullyShown
-                          && (priv.foregroundMaximizedAppDelegate === null || priv.foregroundMaximizedAppDelegate.normalZ <= z)
-                         )
-                         || decoratedWindow.fullscreen
-                       //  || (root.state == "altTab" && index === spread.highlightedIndex)
+//                visible: (
+//                          !visuallyMinimized
+//                          && !greeter.fullyShown
+//                          && (priv.foregroundMaximizedAppDelegate === null || priv.foregroundMaximizedAppDelegate.normalZ <= z)
+//                         )
+//                         || decoratedWindow.fullscreen
+//                       //  || (root.state == "altTab" && index === spread.highlightedIndex)
 
                 function close() {
                     model.surface.close();
@@ -449,6 +460,7 @@ AbstractStage {
                     else if (maximizedRight)
                         maximizeRight();
 
+                    print("***** focusing because of window restore", model.application.appId)
                     focus = true;
                 }
 
@@ -495,6 +507,7 @@ AbstractStage {
                     }
                 ]
 
+                onXChanged: if (model.application.appId == "unity8-dash") print("dash moved to", x)
                 onRequestedWidthChanged: if (index == 0) print("requestedWidth", requestedWidth)
                 states: [
                     State {
@@ -506,6 +519,7 @@ AbstractStage {
                             angle: spreadMaths.animatedAngle
                         }
                         PropertyChanges { target: decoratedWindow; showDecoration: false }
+                        PropertyChanges { target: inputBlocker; enabled: true }
                     },
                     State {
                         name: "stagedrightedge"; when: root.state == "stagedrightedge"
@@ -528,13 +542,18 @@ AbstractStage {
                         name: "staged"; when: root.state == "staged"
                         PropertyChanges {
                             target: appDelegate
-                            x: 0; y: 0
+                            x: appDelegate.focus ? 0 : root.width; y: appDelegate.fullscreen ? 0 : PanelState.panelHeight
                             visuallyMaximized: true
                         }
                         PropertyChanges {
                             target: decoratedWindow
                             requestedWidth: appContainer.width - root.leftMargin;
                             requestedHeight: appContainer.height;
+                            showDecoration: false
+                        }
+                        PropertyChanges {
+                            target: resizeArea
+                            enabled: false
                         }
                     },
                     State {
@@ -656,10 +675,17 @@ AbstractStage {
                         PropertyAnimation { target: appDelegate; properties: "x,y,width,height"; duration: UbuntuAnimation.FastDuration }
                     },
                     Transition {
+                        from: "spread"; to: "staged"
+                        PropertyAnimation {
+                            target: appDelegate
+                            properties: "x,y,angle"
+                            duration: 4000
+                        }
+                    },
+                    Transition { // Ordering is important. This generic case needs to be after spread -> staged
                         to: "staged";
                         PropertyAnimation { target: appDelegate; properties: "x,y,width,height"; duration: UbuntuAnimation.FastDuration }
                     }
-
                 ]
 
 //                Binding {
@@ -682,7 +708,10 @@ AbstractStage {
                     screenHeight: appContainer.height
                     leftMargin: root.leftMargin
 
-                    onPressed: { appDelegate.focus = true; }
+                    onPressed: {
+                        print("***** focusing because of resize area press", model.application.appId)
+                        appDelegate.focus = true;
+                    }
 
                     Component.onCompleted: {
                         loadWindowState();
@@ -722,13 +751,25 @@ AbstractStage {
                     onMaximize: appDelegate.maximized || appDelegate.maximizedLeft || appDelegate.maximizedRight
                                 ? appDelegate.restoreFromMaximized() : appDelegate.maximize()
                     onMinimize: appDelegate.minimize()
-                    onDecorationPressed: { appDelegate.focus = true; }
+                    onDecorationPressed: {
+                        print("***** focusing because of decoration press", model.application.appId)
+                        appDelegate.focus = true;
+                    }
                 }
 
                 WindowedFullscreenPolicy {
                     id: fullscreenPolicy
                     active: true
                     surface: model.surface
+                }
+
+                MouseArea {
+                    id: inputBlocker
+                    enabled: false
+                    onClicked: {
+                        print("focusing because of inputBlocker click")
+                        appDelegate.focus = true
+                    }
                 }
             }
         }
@@ -760,6 +801,7 @@ AbstractStage {
     FloatingFlickable {
         id: floatingFlickable
         anchors.fill: parent
+        enabled: false
 
         property int minContentWidth: 6 * Math.min(height / 4, width / 5)
         contentWidth: Math.max(6, appRepeater.count) * Math.min(height / 4, width / 5)
@@ -777,7 +819,7 @@ AbstractStage {
         property real progress: -touchX / root.width
         onProgressChanged: print("dda progress", progress, root.width, touchX, root.width + touchX)
 
-        Rectangle { color: "blue"; anchors.fill: parent }
+//        Rectangle { color: "blue"; anchors.fill: parent }
         onTouchXChanged: {
             if (dragging) {
                 // Gesture recognized. Let's move the spreadView with the finger
