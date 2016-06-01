@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -81,15 +81,35 @@ MouseArea {
         target.y = Qt.binding(function() { return Math.max(Math.min(windowGeometry.y, root.screenHeight - target.requestedHeight), PanelState.panelHeight); });
 
         var windowState = windowStateStorage.getState(root.windowId, WindowStateStorage.WindowStateNormal)
-        if (windowState === WindowStateStorage.WindowStateMaximized) {
-            target.maximize(false)
+        switch (windowState) {
+            case WindowStateStorage.WindowStateNormal:
+                break;
+            case WindowStateStorage.WindowStateMaximized:
+                target.maximize(false);
+                break;
+            case WindowStateStorage.WindowStateMaximizedLeft:
+                target.maximizeLeft(false);
+                break;
+            case WindowStateStorage.WindowStateMaximizedRight:
+                target.maximizeRight(false);
+                break;
+            case WindowStateStorage.WindowStateMaximizedHorizontally:
+                target.maximizeHorizontally(false);
+                break;
+            case WindowStateStorage.WindowStateMaximizedVertically:
+                target.maximizeVertically(false);
+                break;
+            default:
+                console.warn("Unsupported window state");
+                break;
         }
+
         priv.updateNormalGeometry();
     }
 
     function saveWindowState() {
-        windowStateStorage.saveState(root.windowId, target.state == "maximized" ? WindowStateStorage.WindowStateMaximized : WindowStateStorage.WindowStateNormal)
-        windowStateStorage.saveGeometry(root.windowId, Qt.rect(priv.normalX, priv.normalY, priv.normalWidth, priv.normalHeight))
+        windowStateStorage.saveState(root.windowId, target.windowState & ~WindowStateStorage.WindowStateMinimized); // clear the minimized bit when saving
+        windowStateStorage.saveGeometry(root.windowId, Qt.rect(priv.normalX, priv.normalY, priv.normalWidth, priv.normalHeight));
     }
 
     QtObject {

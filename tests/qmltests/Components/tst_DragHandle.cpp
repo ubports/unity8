@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 Canonical, Ltd.
+ * Copyright (C) 2013-2014,2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,11 +21,11 @@
 #include <QtQuick/QQuickView>
 #include <QtQml/QQmlEngine>
 #include <private/qquickwindow_p.h>
+#include <UbuntuGestures/private/ucswipearea_p_p.h>
 
 #include <AxisVelocityCalculator.h>
-#include <DirectionalDragArea.h>
-#include <DirectionalDragArea_p.h>
-#include <Timer.h>
+#include <Timer>
+#include "Direction.h"
 
 #include <paths.h>
 
@@ -53,11 +53,11 @@ private Q_SLOTS:
     void hintingAnimation_dontRestartAfterFinishedAndStillPressed();
 
 private:
-    void flickAndHold(DirectionalDragArea *dragHandle, qreal distance);
+    void flickAndHold(QQuickItem *dragHandle, qreal distance);
     void drag(QPointF &touchPoint, const QPointF& direction, qreal distance,
               int numSteps, qint64 timeMs = 500);
-    DirectionalDragArea *fetchAndSetupDragHandle(const char *objectName);
-    qreal fetchDragThreshold(DirectionalDragArea *dragHandle);
+    QQuickItem *fetchAndSetupDragHandle(const char *objectName);
+    qreal fetchDragThreshold(QQuickItem *dragHandle);
     void tryCompare(std::function<qreal ()> actualFunc, qreal expectedValue);
 
     QQuickView *createView();
@@ -132,11 +132,11 @@ void tst_DragHandle::tryCompare(std::function<qreal ()> actualFunc,
 }
 
 namespace {
-QPointF calculateDirectionVector(DirectionalDragArea *edgeDragArea)
+QPointF calculateDirectionVector(QQuickItem *edgeDragArea)
 {
     QPointF localOrigin(0., 0.);
     QPointF localDirection;
-    switch (edgeDragArea->direction()) {
+    switch (edgeDragArea->property("direction").toInt()) {
         case Direction::Upwards:
             localDirection.rx() = 0.;
             localDirection.ry() = -1.;
@@ -160,7 +160,7 @@ QPointF calculateDirectionVector(DirectionalDragArea *edgeDragArea)
 }
 }
 
-void tst_DragHandle::flickAndHold(DirectionalDragArea *dragHandle,
+void tst_DragHandle::flickAndHold(QQuickItem *dragHandle,
                                   qreal distance)
 {
     QPointF initialTouchPos = dragHandle->mapToScene(
@@ -198,13 +198,17 @@ void tst_DragHandle::drag(QPointF &touchPoint, const QPointF& direction, qreal d
     }
 }
 
-DirectionalDragArea *tst_DragHandle::fetchAndSetupDragHandle(const char *objectName)
+QQuickItem *tst_DragHandle::fetchAndSetupDragHandle(const char *objectName)
 {
-    DirectionalDragArea *dragHandle =
-        m_view->rootObject()->findChild<DirectionalDragArea*>(objectName);
+    QQuickItem *dragHandle =
+        m_view->rootObject()->findChild<QQuickItem*>(objectName);
     Q_ASSERT(dragHandle != 0);
-    dragHandle->d->setRecognitionTimer(m_fakeTimer);
-    dragHandle->d->setTimeSource(m_fakeTimeSource);
+    UCSwipeArea *swipeArea = dynamic_cast<UCSwipeArea*>(dragHandle);
+    if (swipeArea) {
+        UCSwipeAreaPrivate *swipeAreaPrivate = dynamic_cast<UCSwipeAreaPrivate *>(QQuickItemPrivate::get(swipeArea));
+        swipeAreaPrivate->setRecognitionTimer(m_fakeTimer);
+        swipeAreaPrivate->setTimeSource(m_fakeTimeSource);
+    }
 
     AxisVelocityCalculator *edgeDragEvaluator =
         dragHandle->findChild<AxisVelocityCalculator*>("edgeDragEvaluator");
@@ -214,7 +218,7 @@ DirectionalDragArea *tst_DragHandle::fetchAndSetupDragHandle(const char *objectN
     return dragHandle;
 }
 
-qreal tst_DragHandle::fetchDragThreshold(DirectionalDragArea *dragHandle)
+qreal tst_DragHandle::fetchDragThreshold(QQuickItem *dragHandle)
 {
     AxisVelocityCalculator *edgeDragEvaluator =
         dragHandle->findChild<AxisVelocityCalculator*>("edgeDragEvaluator");
@@ -235,7 +239,7 @@ void tst_DragHandle::dragThreshold_horizontal()
     QQuickItem *baseItem =  m_view->rootObject()->findChild<QQuickItem*>("baseItem");
     baseItem->setRotation(rotation);
 
-    DirectionalDragArea *dragHandle = fetchAndSetupDragHandle("rightwardsDragHandle");
+    QQuickItem *dragHandle = fetchAndSetupDragHandle("rightwardsDragHandle");
     QQuickItem *parentItem = dragHandle->parentItem();
 
     qreal dragThreshold = fetchDragThreshold(dragHandle);
@@ -288,7 +292,7 @@ void tst_DragHandle::dragThreshold_vertical()
     QQuickItem *baseItem =  m_view->rootObject()->findChild<QQuickItem*>("baseItem");
     baseItem->setRotation(rotation);
 
-    DirectionalDragArea *dragHandle = fetchAndSetupDragHandle("downwardsDragHandle");
+    QQuickItem *dragHandle = fetchAndSetupDragHandle("topEdgeShowDragHandle");
 
     qreal dragThreshold = fetchDragThreshold(dragHandle);
 
@@ -307,7 +311,7 @@ void tst_DragHandle::dragThreshold_vertical()
     tryCompare([&](){ return parentItem->y(); }, 0);
     QCOMPARE(parentItem->property("shown").toBool(), true);
 
-    dragHandle = fetchAndSetupDragHandle("upwardsDragHandle");
+    dragHandle = fetchAndSetupDragHandle("topEdgeHideDragHandle");
 
     dragThreshold = fetchDragThreshold(dragHandle);
 
@@ -340,7 +344,7 @@ void tst_DragHandle::dragThreshold_vertical_data()
  */
 void tst_DragHandle::stretch_horizontal()
 {
-    DirectionalDragArea *dragHandle = fetchAndSetupDragHandle("rightwardsDragHandle");
+    QQuickItem *dragHandle = fetchAndSetupDragHandle("rightwardsDragHandle");
     qreal totalDragDistance = dragHandle->property("maxTotalDragDistance").toReal();
     QQuickItem *parentItem = dragHandle->parentItem();
 
@@ -370,7 +374,7 @@ void tst_DragHandle::stretch_horizontal()
 
 void tst_DragHandle::stretch_vertical()
 {
-    DirectionalDragArea *dragHandle = fetchAndSetupDragHandle("downwardsDragHandle");
+    QQuickItem *dragHandle = fetchAndSetupDragHandle("topEdgeShowDragHandle");
     qreal totalDragDistance = dragHandle->property("maxTotalDragDistance").toReal();
     QQuickItem *parentItem = dragHandle->parentItem();
 
@@ -387,7 +391,7 @@ void tst_DragHandle::stretch_vertical()
     tryCompare([&](){ return parentItem->height(); }, totalDragDistance);
     QCOMPARE(parentItem->property("shown").toBool(), true);
 
-    dragHandle = fetchAndSetupDragHandle("upwardsDragHandle");
+    dragHandle = fetchAndSetupDragHandle("topEdgeHideDragHandle");
 
     // flick all the way
     flickAndHold(dragHandle, totalDragDistance);
@@ -406,7 +410,7 @@ void tst_DragHandle::stretch_vertical()
  */
 void tst_DragHandle::hintingAnimation()
 {
-    DirectionalDragArea *dragHandle = fetchAndSetupDragHandle("downwardsDragHandle");
+    QQuickItem *dragHandle = fetchAndSetupDragHandle("topEdgeShowDragHandle");
     QQuickItem *parentItem = dragHandle->parentItem();
     qreal hintDisplacement = 100.0;
 
@@ -447,7 +451,7 @@ void tst_DragHandle::hintingAnimation()
  */
 void tst_DragHandle::hintingAnimation_dontRestartAfterFinishedAndStillPressed()
 {
-    DirectionalDragArea *dragHandle = fetchAndSetupDragHandle("downwardsDragHandle");
+    QQuickItem *dragHandle = fetchAndSetupDragHandle("topEdgeShowDragHandle");
     QQuickItem *parentItem = dragHandle->parentItem();
     qreal hintDisplacement = 100.0;
 
