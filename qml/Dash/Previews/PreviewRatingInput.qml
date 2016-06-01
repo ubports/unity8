@@ -40,13 +40,15 @@ PreviewWidget {
         switch(widgetData["visible"]) {
             default:
             case "both":
-                return ratingLabelAndWidgetContainer.implicitHeight + reviewContainer.implicitHeight;
+                return ratingLabelAndWidgetContainer.implicitHeight + (reviewContainer.visible ? reviewContainer.implicitHeight : 0);
             case "rating":
                 return ratingLabelAndWidgetContainer.implicitHeight;
             case "review":
                 return reviewContainer.implicitHeight;
-            }
+        }
     }
+
+    clip: reviewContainer.visible
 
     property alias ratingValue: rating.value
     property alias reviewText: reviewTextArea.text
@@ -64,21 +66,17 @@ PreviewWidget {
         triggered(root.widgetId, "rated", data);
     }
 
-    Item {
+    Column {
         id: ratingLabelAndWidgetContainer
-        anchors {
-            left: parent.left
-            right: parent.right
-        }
-        implicitHeight: rating.height
+        anchors { left: parent.left; right: parent.right; }
+        spacing: units.gu(0.5)
         visible: widgetData["visible"] !== "review"
 
         Label {
+            id: ratingLabel
             objectName: "ratingLabel"
-            anchors {
-                verticalCenter: parent.verticalCenter
-                left: parent.left
-            }
+            anchors { left: parent.left; right: parent.right; }
+            fontSize: "large"
             color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText
             opacity: .8
             text: widgetData["rating-label"] || i18n.tr("Rate this")
@@ -87,23 +85,22 @@ PreviewWidget {
         Rating {
             id: rating
             objectName: "rating"
-            anchors {
-                verticalCenter: parent.verticalCenter
-                right: parent.right
-            }
+            anchors.left: parent.left
             size: 5
+            height: units.gu(4)
             onValueChanged: {
                 if (widgetData["visible"] === "rating") root.submit();
             }
 
-            property var urlIconEmpty: widgetData["rating-icon-empty"]
-            property var urlIconFull: widgetData["rating-icon-full"]
+            property var urlIconEmpty: widgetData["rating-icon-empty"] || "image://theme/non-starred"
+            property var urlIconFull: widgetData["rating-icon-full"] || "image://theme/starred"
         }
     }
 
     Item {
         id: reviewContainer
-        implicitHeight: reviewLabel.implicitHeight + reviewSubmitContainer.implicitHeight + anchors.topMargin
+        objectName: "reviewContainer"
+        implicitHeight: visible ? reviewSubmitContainer.implicitHeight + anchors.topMargin : 0
 
         readonly property real innerMargin: units.gu(1)
 
@@ -112,32 +109,31 @@ PreviewWidget {
             right: parent.right
             top: ratingLabelAndWidgetContainer.visible ? ratingLabelAndWidgetContainer.bottom : parent.top
             bottom: parent.bottom
-            topMargin: ratingLabelAndWidgetContainer.visible ? reviewContainer.innerMargin : 0
+            topMargin: ratingLabelAndWidgetContainer.visible ? innerMargin : 0
         }
-        visible: widgetData["visible"] !== "rating"
-
-        Label {
-            objectName: "reviewLabel"
-            id: reviewLabel
-            anchors {
-                top: parent.top
-                left: parent.left
-                right: parent.right
+        visible: {
+            switch(widgetData["visible"]) {
+                default:
+                case "both":
+                    return widgetData["required"] === "review" || rating.value > 0;
+                case "rating":
+                    return false;
+                case "review":
+                    return true;
             }
-            color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText
-            opacity: .8
-            text: widgetData["review-label"] || i18n.tr("Add a review")
+        }
+
+        Behavior on implicitHeight {
+            UbuntuNumberAnimation {
+                duration: UbuntuAnimation.FastDuration
+                easing.type: Easing.OutCubic
+            }
         }
 
         Item {
             id: reviewSubmitContainer
-            anchors {
-                top: reviewLabel.bottom
-                left: parent.left
-                right: parent.right
-                bottom: parent.bottom
-                topMargin: reviewContainer.innerMargin
-            }
+            objectName: "reviewSubmitContainer"
+            anchors.fill: parent
             implicitHeight: reviewTextArea.implicitHeight + anchors.topMargin
 
             TextArea {
@@ -148,12 +144,17 @@ PreviewWidget {
                     if(inputMethodVisible && activeFocus)
                         root.makeSureVisible(reviewTextArea);
                 }
+                onVisibleChanged: {
+                    if (visible && widgetData["visible"] !== "review")
+                        focus = true;
+                }
                 anchors {
                     top: parent.top
                     left: parent.left
                     right: submitButton.left
                     rightMargin: reviewContainer.innerMargin
                 }
+                placeholderText: widgetData["review-label"] || i18n.tr("Add a review")
             }
 
             Button {
@@ -170,11 +171,9 @@ PreviewWidget {
                     top: parent.top
                     right: parent.right
                 }
-                color: readyToSubmit ? theme.palette.selected.base : theme.palette.normal.base
+                enabled: readyToSubmit
                 text: widgetData["submit-label"] || i18n.tr("Send")
-                onClicked: {
-                    if (readyToSubmit) root.submit()
-                }
+                onClicked: root.submit()
             }
         }
     }

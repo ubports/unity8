@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, 2015 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ MediaPlayer::MediaPlayer(QObject* parent)
     , m_playbackState(StoppedState)
     , m_status(NoMedia)
     , m_metaData(new MetaDataObject(this))
-    , m_playlist(0)
+    , m_playlist(nullptr)
 {
     qsrand(time(nullptr));
     m_timer.setInterval(100);
@@ -199,7 +199,7 @@ void MediaPlayer::timerEvent()
 
 MediaPlayer::AudioRole MediaPlayer::audioRole() const
 {
-    return MediaPlayer::multimedia;
+    return MediaPlayer::MusicRole;
 }
 
 void MediaPlayer::setAudioRole(MediaPlayer::AudioRole audioRole)

@@ -43,7 +43,7 @@ Rectangle {
         name: "PreviewWidgetFactory"
         when: windowShown
 
-        property Item mockWidget: findChild(factory, "mockPreviewWidget")
+        property Item mockWidget: findChild(factory, "mockPreviewWidget", 0 /*timeout*/)
 
         function cleanup() {
             factory.source = Qt.binding(function() { return factory.widgetSource });
