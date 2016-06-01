@@ -1,3 +1,10 @@
+unity8 (8.12+16.10.20160601.1-0ubuntu1) yakkety; urgency=medium
+
+  [ Pawel Stolowski ]
+  * Added apparmor profile for unity8-dash.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 01 Jun 2016 20:59:03 +0000
+
 unity8 (8.12+16.10.20160527-0ubuntu1) yakkety; urgency=medium
 
   [ Albert Astals Cid ]
