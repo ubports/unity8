@@ -471,7 +471,7 @@ AbstractStage {
                 model: topLevelSurfaceList
 
                 onItemRemoved: {
-                    // Unless we're closing the app ourselves in the spread,
+                    // Unless we're closing the app ourselves,
                     // lets make sure the spread doesn't mess up by the changing app list.
                     if (spreadView.closingIndex == -1) {
                         spreadView.phase = 0;
