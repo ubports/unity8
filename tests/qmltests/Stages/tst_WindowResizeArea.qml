@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Canonical Ltd.
+ * Copyright 2014-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@ import "../../../qml/Stages"
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
+import Utils 0.1
 
 Item {
     id: root
@@ -55,10 +56,20 @@ Item {
             property real maximumHeight: 0
             property real widthIncrement: 0
             property real heightIncrement: 0
-            state: "normal"
+
+            property int windowState: WindowStateStorage.WindowStateNormal
+
+            states: [
+                State { name: "normal"; when: windowState == WindowStateStorage.WindowStateNormal },
+                State { name: "maximized"; when: windowState == WindowStateStorage.WindowStateMaximized }
+            ]
 
             function maximize() {
-                state = "maximized"
+                windowState = WindowStateStorage.WindowStateMaximized
+            }
+
+            function restoreFromMaximized() {
+                windowState = WindowStateStorage.WindowStateNormal
             }
 
             WindowResizeArea {
@@ -346,7 +357,7 @@ Item {
             fakeWindow.y = initialWindowY + moveDelta
 
             // Now change the state to maximized. The window should not keep updating the stored values
-            fakeWindow.state = "maximized"
+            fakeWindow.maximize()
             fakeWindow.x = 31415 // 0 is too risky to pass the test even when broken
             fakeWindow.y = 31415
 
@@ -363,7 +374,7 @@ Item {
             tryCompare(fakeWindow, "state", "maximized")
 
             // clean up
-            fakeWindow.state = "normal"
+            fakeWindow.restoreFromMaximized()
         }
 
         function test_restoreMovesIntoBounds_data() {

@@ -147,30 +147,6 @@ Item {
             doResetSearch();
         }
 
-        function test_extraPanel() {
-            searchEnabled = true;
-            pageHeader.searchHistory.clear();
-
-            pageHeader.searchHistory.addQuery("Search1");
-            pageHeader.searchHistory.addQuery("Search2");
-
-            pageHeader.triggerSearch();
-
-            tryCompare(pageHeader.extraPanel, "visible", true);
-
-            var searchTextField = findChild(pageHeader, "searchTextField");
-            compare(searchTextField.focus, true);
-
-            var recentSearches = findChild(pageHeader.extraPanel, "recentSearchesRepeater");
-            verify(recentSearches, "Could not find recent searches");
-            waitForRendering(recentSearches);
-            mouseClick(recentSearches.itemAt(0));
-
-            compare(pageHeader.searchQuery, "Search2");
-            tryCompare(pageHeader.extraPanel, "visible", false);
-            compare(searchTextField.focus, false);
-        }
-
         function test_popup_closing_data() {
             return [
                         { tag: "with search text", searchText: "foobar", hideSearch: false },

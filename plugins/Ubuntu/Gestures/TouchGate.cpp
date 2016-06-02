@@ -20,8 +20,8 @@
 #include <QDebug>
 #include <QQuickWindow>
 
-#include <TouchOwnershipEvent.h>
-#include <TouchRegistry.h>
+#include <TouchOwnershipEvent>
+#include <TouchRegistry>
 
 #if TOUCHGATE_DEBUG
 #define ugDebug(params) qDebug().nospace() << "[TouchGate(" << (void*)this << ")] " << params
