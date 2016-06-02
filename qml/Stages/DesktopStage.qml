@@ -127,6 +127,7 @@ AbstractStage {
         property var foregroundMaximizedAppDelegate: null // for stuff like drop shadow and focusing maximized app by clicking panel
 
         property bool goneToSpread: false
+        property int animationDuration: UbuntuAnimation.SleepyDuration
 
         function updateForegroundMaximizedApp() {
             var found = false;
@@ -324,8 +325,6 @@ AbstractStage {
 
                 readonly property var surface: model.surface
 
-                property real angle: 0
-
                 function claimFocus() {
 //                    if (spread.state == "altTab") {
 //                        spread.cancel();
@@ -493,40 +492,26 @@ AbstractStage {
                     targetAngle: spreadMaths.animatedAngle
                 }
 
-                transform: [
-                    Scale {
-                        origin.x: itemScaleOriginX
-                        origin.y: itemScaleOriginY
-                        xScale: itemScale
-                        yScale: itemScale
-                    },
-                    Rotation {
-//                        origin { x: 0; y: (clippedSpreadDelegate.height - (clippedSpreadDelegate.height * itemScale / 2)) }
-                        axis { x: 0; y: 1; z: 0 }
-                        angle: appDelegate.angle
-                    }
-                ]
-
 //                onXChanged: if (model.application.appId == "unity8-dash") print("dash moved to", x)
                 onRequestedWidthChanged: if (index == 0) print("requestedWidth", requestedWidth)
                 states: [
                     State {
                         name: "spread"; when: root.state == "spread"
-                        PropertyChanges { target: appDelegate;
+                        PropertyChanges {
+                            target: appDelegate;
                             x: spreadMaths.animatedX
                             y: spreadMaths.animatedY
                             z: index
-                            angle: spreadMaths.animatedAngle
-                            height: appDelegate.width
+                            height: appContainer.height
                         }
                         PropertyChanges {
                             target: decoratedWindow;
                             showDecoration: false;
                             height: units.gu(15)
                             width: units.gu(15)
+                            angle: spreadMaths.animatedAngle
                             requestedWidth: decoratedWindow.oldRequestedWidth
                             requestedHeight: decoratedWindow.oldRequestedHeight
-//                            resizeSurface: false;
                         }
                         PropertyChanges { target: inputBlocker; enabled: true }
                     },
@@ -540,7 +525,6 @@ AbstractStage {
                             target: appDelegate
                             y: PanelState.panelHeight
                             x: stagedRightEdgeMaths.animatedX
-                            angle: stagedRightEdgeMaths.animatedAngle
                             z: index
                         }
                         PropertyChanges {
@@ -550,6 +534,7 @@ AbstractStage {
                             requestedHeight: stagedRightEdgeMaths.animatedHeight
                             width: appContainer.width - root.leftMargin
                             height: appContainer.height
+                            angle: stagedRightEdgeMaths.animatedAngle
                         }
                     },
                     State {
@@ -693,19 +678,17 @@ AbstractStage {
                     },
                     Transition {
                         to: "spread"
-                        PropertyAnimation { target: appDelegate; properties: "x,y,width,height"; duration: UbuntuAnimation.FastDuration }
+                        PropertyAnimation { target: appDelegate; properties: "x,y"; duration: priv.animationDuration }
+                        PropertyAnimation { target: decoratedWindow; properties: "width,height,angle"; duration: priv.animationDuration }
                     },
                     Transition {
                         from: "spread"; to: "staged"
-                        PropertyAnimation {
-                            target: appDelegate
-                            properties: "x,y,angle"
-                            duration: 4000
-                        }
+                        PropertyAnimation { target: appDelegate; properties: "x,y"; duration: priv.animationDuration }
+                        PropertyAnimation { target: decoratedWindow; properties: "angle,width,height"; duration: priv.animationDuration }
                     },
                     Transition { // Ordering is important. This generic case needs to be after spread -> staged
                         to: "staged";
-                        PropertyAnimation { target: appDelegate; properties: "x,y,width,height"; duration: UbuntuAnimation.FastDuration }
+                        PropertyAnimation { target: appDelegate; properties: "x,y,width,height"; duration: priv.animationDuration }
                     }
                 ]
 
@@ -781,6 +764,21 @@ AbstractStage {
                         print("***** focusing because of decoration press", model.application.appId)
                         appDelegate.focus = true;
                     }
+
+                    property real angle: 0
+                    transform: [
+//                        Scale {
+//                            origin.x: itemScaleOriginX
+//                            origin.y: itemScaleOriginY
+//                            xScale: itemScale
+//                            yScale: itemScale
+//                        },
+                        Rotation {
+    //                        origin { x: 0; y: (clippedSpreadDelegate.height - (clippedSpreadDelegate.height * itemScale / 2)) }
+                            axis { x: 0; y: 1; z: 0 }
+                            angle: decoratedWindow.angle
+                        }
+                    ]
                 }
 
                 WindowedFullscreenPolicy {

@@ -319,6 +319,7 @@ int MirSurfaceItem::surfaceWidth() const
 
 void MirSurfaceItem::setSurfaceWidth(int value)
 {
+    qDebug() << "setSurfaceWidth called" << value;
     if (value != -1 && m_surfaceWidth != value) {
         m_surfaceWidth = value;
         Q_EMIT surfaceWidthChanged(m_surfaceWidth);
@@ -344,6 +345,10 @@ void MirSurfaceItem::updateSurfaceSize()
 {
     if (m_qmlSurface && m_surfaceWidth > 0 && m_surfaceHeight > 0) {
         m_qmlSurface->resize(m_surfaceWidth, m_surfaceHeight);
+        if (m_qmlItem) {
+            m_qmlItem->setWidth(m_surfaceWidth);
+            m_qmlItem->setHeight(m_surfaceHeight);
+        }
         setImplicitSize(m_surfaceWidth, m_surfaceHeight);
     }
 }

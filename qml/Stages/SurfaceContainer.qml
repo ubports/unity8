@@ -44,16 +44,6 @@ FocusScope {
         surfaceItem.surface = surface;
     }
 
-    onImplicitWidthChanged: print("implicit width changed", implicitWidth)
-    onImplicitHeightChanged: print("implicit height changed", implicitHeight)
-
-    Timer {
-        interval: 1000
-        repeat: true
-        running: true
-        onTriggered: print("implicit size:", root.implicitWidth, root.implicitHeight)
-    }
-
     InputWatcher {
         target: surfaceItem
         onTargetPressedChanged: {
