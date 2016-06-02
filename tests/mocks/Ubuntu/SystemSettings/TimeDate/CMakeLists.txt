@@ -1,1 +1,1 @@
-add_unity8_mock(Ubuntu.SystemSettings.TimeDate 1.0 Ubuntu/SystemSettings/TimeDate)
+add_unity8_mock(Ubuntu.SystemSettings.TimeDate 1.1 Ubuntu/SystemSettings/TimeDate)

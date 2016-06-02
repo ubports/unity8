@@ -194,6 +194,10 @@ void ApplicationInfo::setState(State value)
                 MirSurface *surface = static_cast<MirSurface*>(m_surfaceList.get(i));
                 surface->setLive(false);
             }
+            for (int i = 0; i < m_promptSurfaceList.count(); ++i) {
+                auto surface = static_cast<MirSurface*>(m_promptSurfaceList.get(i));
+                surface->setLive(false);
+            }
         }
 
         m_state = value;
@@ -238,6 +242,10 @@ void ApplicationInfo::setManualSurfaceCreation(bool value)
     if (value != m_manualSurfaceCreation) {
         m_manualSurfaceCreation = value;
         Q_EMIT manualSurfaceCreationChanged(value);
+
+        if (m_manualSurfaceCreation && m_surfaceCreationTimer.isActive()) {
+            m_surfaceCreationTimer.stop();
+        }
     }
 }
 

@@ -21,7 +21,7 @@ import MeeGo.QOfono 0.2
 import QMenuModel 0.1
 import Ubuntu.Components 1.3
 import Ubuntu.SystemSettings.SecurityPrivacy 1.0
-import Ubuntu.SystemSettings.TimeDate 1.0
+import Ubuntu.SystemSettings.TimeDate 1.1
 import Unity.Test 0.1 as UT
 import Wizard 0.1
 import "../../../qml/Wizard"
@@ -144,22 +144,13 @@ Item {
             var pages = findChild(wizard, "wizardPages");
             var stack = findChild(pages, "pageStack");
             // don't simply call tryCompare here, because stack.currentPage will be swapped out itself
-            tryCompareFunction(function() { return stack.currentPage.objectName; }, name);
+            tryCompareFunction(function() { return stack.currentPage.objectName; }, name, 15000);
+            var contentAnimation = findInvisibleChild(stack.currentPage, "contentAnimation");
+            tryCompareFunction(function() { return contentAnimation.running; }, false);
             tryCompare(stack.currentPage, "opacity", 1.0);
             tryCompare(stack.currentPage, "enabled", true);
             tryCompare(stack.currentPage, "skipValid", true);
             tryCompare(stack.currentPage, "skip", false);
-            waitForRendering(stack.currentPage);
-            return stack.currentPage;
-        }
-
-        function verifyPageIsBlocked(name) {
-            var pages = findChild(wizard, "wizardPages");
-            var stack = findChild(pages, "pageStack");
-            // don't simply call tryCompare here, because stack.currentPage will be swapped out itself
-            tryCompareFunction(function() { return stack.currentPage.objectName; }, name);
-            tryCompare(stack.currentPage, "enabled", false);
-            tryCompare(stack.currentPage, "skipValid", false);
             waitForRendering(stack.currentPage);
             return stack.currentPage;
         }
@@ -464,7 +455,7 @@ Item {
             var tzFilter = findChild(page, "tzFilter");
             verify(tzFilter);
             tap(tzFilter);
-            typeString("London");
+            typeString("Belfa");
 
             var tzList = findChild(page, "tzList");
             verify(tzList);
@@ -478,7 +469,8 @@ Item {
             // go next and verify the (mock) signal got fired
             tap(findChild(page, "forwardButton"));
             tryCompare(timezoneSpy, "count", 1);
-            tryCompare(page.tdModule, "timeZone", timezoneSpy.signalArguments[0][0]);
+            compare(timezoneSpy.signalArguments[0][0], "Europe/London");
+            compare(timezoneSpy.signalArguments[0][1], "Belfast");
         }
 
         function test_accountPage() {

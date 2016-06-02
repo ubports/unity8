@@ -41,12 +41,14 @@ import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
 import Unity.Indicators 0.1 as Indicators
-import Cursor 1.0
+import Cursor 1.1
 import WindowManager 0.1
 
 
-Item {
+StyledItem {
     id: shell
+
+    theme.name: "Ubuntu.Components.Themes.SuruDark"
 
     // to be set from outside
     property int orientationAngle: 0
@@ -171,7 +173,6 @@ Item {
     }
 
     Component.onCompleted: {
-        theme.name = "Ubuntu.Components.Themes.SuruDark"
         finishStartUpTimer.start();
     }
 

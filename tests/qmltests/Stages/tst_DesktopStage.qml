@@ -462,6 +462,36 @@ Item {
             verify(topSurfaceList.indexForId(dialerSurfaceId) === -1);
         }
 
+        function test_windowMaximizeHorizontally() {
+            var dialerDelegate = startApplication("dialer-app");
+
+            var dialerMaximizeButton = findChild(dialerDelegate, "maximizeWindowButton");
+            verify(dialerMaximizeButton);
+
+            // RMB to maximize horizontally
+            mouseClick(dialerMaximizeButton, dialerMaximizeButton.width/2, dialerMaximizeButton.height/2, Qt.RightButton);
+            tryCompare(dialerDelegate, "windowState", WindowStateStorage.WindowStateMaximizedHorizontally);
+
+            // click again to restore
+            mouseClick(dialerMaximizeButton);
+            tryCompare(dialerDelegate, "windowState", WindowStateStorage.WindowStateNormal);
+        }
+
+        function test_windowMaximizeVertically() {
+            var dialerDelegate = startApplication("dialer-app");
+
+            var dialerMaximizeButton = findChild(dialerDelegate, "maximizeWindowButton");
+            verify(dialerMaximizeButton);
+
+            // MMB to maximize vertically
+            mouseClick(dialerMaximizeButton, dialerMaximizeButton.width/2, dialerMaximizeButton.height/2, Qt.MiddleButton);
+            tryCompare(dialerDelegate, "windowState", WindowStateStorage.WindowStateMaximizedVertically);
+
+            // click again to restore
+            mouseClick(dialerMaximizeButton);
+            tryCompare(dialerDelegate, "windowState", WindowStateStorage.WindowStateNormal);
+        }
+
         function test_smashCursorKeys() {
             var apps = ["dialer-app", "gmail-webapp"];
             apps.forEach(startApplication);
@@ -483,7 +513,7 @@ Item {
             verify(decoratedWindow);
 
             tryCompare(dashSurface, "visible", true);
-            decoratedWindow.minimize();
+            decoratedWindow.minimizeClicked();
             tryCompare(dashSurface, "visible", false);
         }
 
