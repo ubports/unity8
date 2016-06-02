@@ -21,6 +21,7 @@
 
 MockPayments::MockPayments(QObject *parent)
     : QObject(parent)
+    , m_price(0)
 {
 }
 

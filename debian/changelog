@@ -1,3 +1,98 @@
+unity8 (8.12+16.10.20160527-0ubuntu1) yakkety; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Activate on click for SimpleMessages (LP: #1421696)
+  * Add override
+  * Change the art back to the cardData value if it changes from broken
+    to valid image (LP: #1533577)
+  * Concierge mode generated code optimization
+  * Don't use context properties but properties of the delegates
+  * Listen to contentItem::widthChanged instead of
+    Flickable::contentWidthChanged (LP: #1565763)
+  * Make some AP code faster
+  * Make tests a bit more stable
+  * Make unity8 and unity8-dash handle termination signals
+  * Remove  workaround not needed anymore (LP: #1475643)
+  * Resolve cardArtStyle on compile time
+  * Set the theme earlier (LP: #1574048)
+
+  [ Albert Astals Cid, Daniel d'Andrada ]
+  * Remove DirectionalDragArea and libs/UbuntuGestures and port to SDK
+    equivalents
+
+  [ Andrea Cimitan ]
+  * Hide the preview review input field when a rating is required (LP:
+    #1541971)
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+  [ Daniel d'Andrada ]
+  * Fix DragHandle so it works in all directions
+  * Support animated cursors
+  * WindowInputMonitor - also map Qt::Key_HomePage to our home key
+  * plugins/Cursor: properly register to the screen's QPlatformCursor
+    when screen changes (LP: #1579742)
+
+  [ Josh Arenson ]
+  * Close the PageHeaderExtraPanel when a filter option is selected (LP:
+    #1569498)
+  * Wrap primaryFilter in a flickable to make it behave nicely. (LP:
+    #1569492)
+
+  [ Lukáš Tinkl ]
+  * First snap decision should always be expanded, unless user decides
+    otherwise (LP: #1580090, #1575045)
+  * Fullscreen notification bug fixes (LP: #1583944, #1581498, #1422711)
+  * Implement maximizing windows horizontally/vertically
+  * Lock the session when putting the laptop into sleep (LP: #1581063)
+
+  [ Lukáš Tinkl, Michael Terry ]
+  * With a maximized window, "dragging" the panel down should restore it
+
+  [ Michael Terry ]
+  * Change some dash button colors from orange to green. (LP: #1581047)
+  * Use PageHeader instead Ambiance's PageHeadStyle
+  * Use new setTimeZone method to set user-friendly timezone name in the
+    wizard. (LP: #1566295)
+
+  [ Michael Zanetti ]
+  * Remove the background dimming when the launcher is revealed by a
+    drag (LP: #1575137)
+  * reenable or drop disabled tests
+
+ -- Michael Terry <michael.terry@canonical.com>  Fri, 27 May 2016 13:54:44 +0000
+
+unity8 (8.12+16.10.20160520.1-0ubuntu1) yakkety; urgency=medium
+
+  [ Lukáš Tinkl ]
+  * Don't dim screen when the indicators are open (LP: #1564342)
+  * Fix upcoming alarms ETA labels (LP: #1576741)
+  * Stabilize flaky wizard tests (LP: #1582994)
+
+  [ Michael Zanetti ]
+  * fix the SIM PIN darkening after it got removed accidentally (LP:
+    #1577147)
+
+  [ Michał Sawicz, Nick Dedekind ]
+  * Fixed saving current stage and loss of surface focus when switching
+    stages
+
+  [ Nick Dedekind ]
+  * Fixed incorrect osk surface item resizing the surface.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 20 May 2016 08:44:19 +0000
+
+unity8 (8.12+16.04.20160518.1-0ubuntu1) xenial; urgency=medium
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+  [ Daniel d'Andrada, Michał Sawicz ]
+  * Move prompt surfaces from MirSurface to Application
+
+ -- Nick Dedekind <ci-train-bot@canonical.com>  Wed, 18 May 2016 11:20:04 +0000
+
 unity8 (8.12+16.04.20160504.2-0ubuntu1) xenial; urgency=medium
 
   [ Albert Astals Cid ]

@@ -40,6 +40,7 @@ using namespace unity::shell::application;
 MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
     : MirSurfaceItemInterface(parent)
     , m_qmlSurface(nullptr)
+    , m_qmlContentComponent(nullptr)
     , m_qmlItem(nullptr)
     , m_consumesInput(false)
     , m_surfaceWidth(0)
@@ -56,7 +57,11 @@ MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
         Qt::ExtraButton9 | Qt::ExtraButton10 | Qt::ExtraButton11 |
         Qt::ExtraButton12 | Qt::ExtraButton13);
 
+    connect(this, &QQuickItem::activeFocusChanged, this, &MirSurfaceItem::updateMirSurfaceActiveFocus);
     connect(this, &QQuickItem::visibleChanged, this, &MirSurfaceItem::updateMirSurfaceVisibility);
+    connect(this, &MirSurfaceItem::consumesInputChanged, this, [this]() {
+        updateMirSurfaceActiveFocus(hasActiveFocus());
+    });
 }
 
 MirSurfaceItem::~MirSurfaceItem()
@@ -234,6 +239,10 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
         delete m_qmlContentComponent;
         m_qmlContentComponent = nullptr;
 
+        if (hasActiveFocus() && m_consumesInput && m_qmlSurface->live()) {
+            m_qmlSurface->setActiveFocus(false);
+        }
+
         disconnect(m_qmlSurface, nullptr, this, nullptr);
         m_qmlSurface->unregisterView((qintptr)this);
     }
@@ -242,8 +251,6 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
 
     if (m_qmlSurface) {
         m_qmlSurface->registerView((qintptr)this);
-
-        m_qmlSurface->setActiveFocus(hasActiveFocus());
 
         updateSurfaceSize();
         updateMirSurfaceVisibility();
@@ -277,17 +284,20 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
             default:
                 qFatal("MirSurfaceItem: Unhandled component status");
         }
+
+        if (m_consumesInput) {
+            m_qmlSurface->setActiveFocus(hasActiveFocus());
+        }
     }
 
     Q_EMIT surfaceChanged(m_qmlSurface);
 }
 
-void MirSurfaceItem::itemChange(ItemChange change, const ItemChangeData & value)
+
+void MirSurfaceItem::updateMirSurfaceActiveFocus(bool focused)
 {
-    if (change == QQuickItem::ItemActiveFocusHasChanged) {
-        if (m_qmlSurface) {
-            m_qmlSurface->setActiveFocus(value.boolValue);
-        }
+    if (m_qmlSurface && m_consumesInput && m_qmlSurface->live()) {
+        m_qmlSurface->setActiveFocus(focused);
     }
 }
 

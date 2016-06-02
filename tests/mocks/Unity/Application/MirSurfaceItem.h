@@ -98,12 +98,12 @@ protected:
     void mousePressEvent(QMouseEvent * event) override;
     void mouseMoveEvent(QMouseEvent * event) override;
     void mouseReleaseEvent(QMouseEvent * event) override;
-    void itemChange(ItemChange change, const ItemChangeData & value) override;
 
 private Q_SLOTS:
     void onComponentStatusChanged(QQmlComponent::Status status);
     void updateScreenshot(QUrl screenshot);
     void updateMirSurfaceVisibility();
+    void updateMirSurfaceActiveFocus(bool focused);
 
 private:
     void createQmlContentItem();

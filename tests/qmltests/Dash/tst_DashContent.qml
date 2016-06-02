@@ -215,7 +215,7 @@ Item {
             verify(pageHeader, "Could not find the scope page header.");
             var innerHeader = findChild(pageHeader, "innerPageHeader");
             verify(innerHeader, "Could not find the scope page header.");
-            compare(innerHeader.config.title, scopesModel.getScope(data.index).name);
+            compare(innerHeader.title, scopesModel.getScope(data.index).name);
         }
 
         function test_is_active_data() {
@@ -515,10 +515,18 @@ Item {
         }
 
         function test_navigationShowFilterPopup() {
-            goToSecondLevel();
-
             var dashContentList = findChild(dashContent, "dashContentList");
+            var pageHeader = findChild(dashContentList.currentItem, "scopePageHeader")
             var settingsButton = findChild(dashContentList.currentItem, "settingsButton");
+            var searchButton = findChild(dashContentList.currentItem, "search_button");
+            var cancelButton = findChild(dashContentList.currentItem, "cancelButton");
+            var searchTextField = findChild(pageHeader, "searchTextField");
+            var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
+            var headerContainer = findChild(pageHeader, "headerContainer");
+
+            // test that closing the filters popover without a search unfocuses and removes the navigation
+            mouseClick(searchButton);
+            tryCompare(peExtraPanel, "visible", true);
 
             var filtersPopover = findChild(shell, "filtersPopover")
             verify(!filtersPopover);
@@ -526,8 +534,33 @@ Item {
             mouseClick(settingsButton);
 
             filtersPopover = findChild(shell, "filtersPopover")
-
             verify(filtersPopover);
+
+            mouseClick(shell, shell.width - 1, shell.height - 1);
+
+            tryCompare(pageHeader.extraPanel, "visible", false);
+            tryCompare(headerContainer, "showSearch", true);
+            tryCompare(searchTextField, "focus", false);
+
+            mouseClick(cancelButton);
+            tryCompare(headerContainer, "showSearch", false);
+            tryCompare(headerContainer, "contentY", headerContainer.height);
+
+            // test within a navigation
+            goToSecondLevel();
+
+            filtersPopover = findChild(shell, "filtersPopover")
+            verify(!filtersPopover);
+
+            mouseClick(settingsButton);
+
+            filtersPopover = findChild(shell, "filtersPopover")
+            verify(filtersPopover);
+
+            mouseClick(shell, shell.width - 1, shell.height - 1);
+
+            tryCompare(pageHeader.extraPanel, "visible", false);
+            tryCompare(headerContainer, "showSearch", true);
         }
 
         function test_primaryFilter() {
@@ -624,6 +657,32 @@ Item {
             mouseClick(favoriteAction);
             tryCompareFunction(function() { return dashContentList.currentItem.item.scope.id == nextScopeId; }, true);
             compare(dashContentList.currentIndex, 0);
+        }
+
+        function test_extraPanel() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            var pageHeader = findChild(dashContentList.currentItem, "scopePageHeader")
+            pageHeader.searchEntryEnabled = true;
+            pageHeader.searchHistory.clear();
+
+            pageHeader.searchHistory.addQuery("Search1");
+            pageHeader.searchHistory.addQuery("Search2");
+
+            pageHeader.triggerSearch();
+            tryCompare(pageHeader.extraPanel, "visible", true);
+
+            var searchTextField = findChild(pageHeader, "searchTextField");
+            compare(searchTextField.focus, true);
+
+            var recentSearches = findChild(pageHeader.extraPanel, "recentSearchesRepeater");
+            verify(recentSearches, "Could not find recent searches");
+
+            waitForRendering(recentSearches);
+
+            mouseClick(recentSearches.itemAt(0));
+            compare(pageHeader.searchQuery, "Search2");
+            tryCompare(pageHeader.extraPanel, "visible", false);
+            compare(searchTextField.focus, false);
         }
     }
 }
