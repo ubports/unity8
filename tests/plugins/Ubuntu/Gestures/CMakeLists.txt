@@ -14,10 +14,6 @@ include_directories(
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     )
 
-export_qmlfiles(UbuntuGesturesTest .
-    DESTINATION "${SHELL_APP_DIR}/tests/plugins/Ubuntu/Gestures"
-)
-
 macro(build_gesture_test CLASSNAME)
     add_executable(${CLASSNAME}TestExec tst_${CLASSNAME}.cpp GestureTest.cpp TestItem.cpp)
     qt5_use_modules(${CLASSNAME}TestExec Test Core Qml Gui Quick)
@@ -38,7 +34,6 @@ macro(add_gesture_unit_test CLASSNAME)
     build_gesture_test(${CLASSNAME})
     add_unity8_unittest(${CLASSNAME} ${CLASSNAME}TestExec
         ENVIRONMENT LD_LIBRARY_PATH=${UNITY_PLUGINPATH}/Ubuntu/Gestures
-        DEPENDS UbuntuGesturesTest-qmlfiles
         ${ARGN}
     )
 endmacro()
@@ -47,11 +42,13 @@ macro(add_gesture_ui_test CLASSNAME)
     build_gesture_test(${CLASSNAME})
     add_unity8_uitest(${CLASSNAME} ${CLASSNAME}TestExec
         ENVIRONMENT LD_LIBRARY_PATH=${UNITY_PLUGINPATH}/Ubuntu/Gestures
-        DEPENDS UbuntuGesturesTest-qmlfiles
         ${ARGN}
     )
     add_manual_qml_test(. ${CLASSNAME} IMPORT_PATHS ${UNITY_IMPORT_PATHS})
 endmacro()
+
+add_qml_test_data(. empty.qml)
+add_qml_test_data(. touchGateExample.qml)
 
 add_gesture_ui_test(FloatingFlickable)
 add_gesture_ui_test(PressedOutsideNotifier)
