@@ -16,7 +16,7 @@
  * Author: Marcus Tomlinson <marcus.tomlinson@canonical.com>
  */
 
-#include "unix-signal-handler.h"
+#include "UnixSignalHandler.h"
 
 #include <QDebug>
 

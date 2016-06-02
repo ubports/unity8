@@ -57,11 +57,23 @@ find_package(Qt5DBus 5.4 REQUIRED)
 find_package(Qt5Concurrent 5.4 REQUIRED)
 find_package(Qt5Sql 5.4 REQUIRED)
 
-pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=16)
+pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=17)
 pkg_check_modules(GEONAMES REQUIRED geonames>=0.2)
 pkg_check_modules(GIO REQUIRED gio-2.0>=2.32)
 pkg_check_modules(GLIB REQUIRED glib-2.0>=2.32)
 pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
+
+pkg_check_modules(UBUNTUGESTURES REQUIRED UbuntuGestures)
+
+### Check UbuntuGestures private headers. No pkg-config (.pc) file is provided for them
+find_path(UBUNTUGESTUREPRIV
+    NAMES UbuntuGestures/private/damper_p.h UbuntuGestures/private/ucswipearea_p.h UbuntuGestures/private/ucswipearea_p_p.h
+    PATHS ${UBUNTUGESTURES_INCLUDEDIR}/UbuntuGestures/${UBUNTUGESTURES_VERSION}
+    NO_DEFAULT_PATH)
+if (${UBUNTUGESTUREPRIV} STREQUAL UBUNTUGESTUREPRIV-NOTFOUND)
+   message(FATAL_ERROR "UbuntuGestures private headers not found.")
+endif()
+# end of UbuntuGesture private headers check
 
 # Standard install paths
 include(GNUInstallDirs)
@@ -144,7 +156,6 @@ endif()
 
 # add subdirectories to build
 add_subdirectory(include)
-add_subdirectory(libs)
 add_subdirectory(src)
 add_subdirectory(tools)
 add_subdirectory(qml)
