@@ -69,7 +69,6 @@ var kArtUbuntuShapeCode = 'UbuntuShape { \n\
                             }';
 
 var kArtProportionalShapeCode = 'ProportionalShape { \n\
-                                    objectName: "artShapeProportionalShape"; \n\
                                     anchors.fill: parent; \n\
                                     source: artImage; \n\
                                     aspect: UbuntuShape.DropShadow; \n\

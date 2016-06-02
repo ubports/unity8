@@ -650,8 +650,8 @@ Item {
 
             scrollToCategory("dashCategorypredefined");
             var tile = getCategoryDelegate("predefined", 2);
-            var proportionalShape = findChild(tile, "artShapeProportionalShape");
-            verify(proportionalShape != undefined);
+            var proportionalShape = findChildsByType(tile, "UCProportionalShape");
+            compare(proportionalShape.length, 1);
         }
 
         function test_tempScopeItemXOnResize()
