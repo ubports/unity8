@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-05-04 18:09+0000\n"
+"POT-Creation-Date: 2016-05-27 13:54+0000\n"
 "PO-Revision-Date: 2015-07-06 05:33+0000\n"
 "Last-Translator: ☠Jay ZDLin☠ <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2016-05-06 04:54+0000\n"
-"X-Generator: Launchpad (build 17995)\n"
+"X-Launchpad-Export-Date: 2016-06-02 06:21+0000\n"
+"X-Generator: Launchpad (build 18053)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -80,7 +80,7 @@ msgid "Log Out"
 msgstr "Выйти из системы"
 
 #: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
-#: qml/Dash/DashPageHeader.qml:298 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Отменить"
@@ -161,38 +161,38 @@ msgstr "Переподключиться сейчас!"
 msgid "Close all"
 msgstr "Закрыть все"
 
-#: qml/Dash/DashPageHeader.qml:337
+#: qml/Dash/DashPageHeader.qml:333
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Магазин"
 
-#: qml/Dash/DashPageHeader.qml:344
+#: qml/Dash/DashPageHeader.qml:340
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Найти"
 
-#: qml/Dash/DashPageHeader.qml:354
+#: qml/Dash/DashPageHeader.qml:350
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Настройки"
 
-#: qml/Dash/DashPageHeader.qml:361
+#: qml/Dash/DashPageHeader.qml:357
 msgid "Remove from Favorites"
 msgstr "Удалить из избранного"
 
-#: qml/Dash/DashPageHeader.qml:361
+#: qml/Dash/DashPageHeader.qml:357
 msgid "Add to Favorites"
 msgstr "Добавить в избранное"
 
 #: qml/Dash/FiltersPopover.qml:60
 msgid "Refine your results"
-msgstr ""
+msgstr "Уточнить результаты"
 
 #: qml/Dash/FiltersPopover.qml:69
 msgid "Reset"
 msgstr "Сбросить"
 
-#: qml/Dash/GenericScopeView.qml:579 qml/Dash/GenericScopeView.qml:764
+#: qml/Dash/GenericScopeView.qml:579 qml/Dash/GenericScopeView.qml:774
 msgid "Show less"
 msgstr ""
 
@@ -205,11 +205,11 @@ msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Поиск"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:55
+#: qml/Dash/PageHeaderExtraPanel.qml:56
 msgid "Recent Searches"
 msgstr "Недавние поиски"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:66
+#: qml/Dash/PageHeaderExtraPanel.qml:67
 msgid "Clear All"
 msgstr "Очистить всё"
 
@@ -222,15 +222,15 @@ msgid "Less..."
 msgstr "Меньше..."
 
 #: qml/Dash/Previews/PreviewCommentInput.qml:68
-#: qml/Dash/Previews/PreviewRatingInput.qml:174
+#: qml/Dash/Previews/PreviewRatingInput.qml:175
 msgid "Send"
 msgstr "Отправить"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:84
+#: qml/Dash/Previews/PreviewRatingInput.qml:82
 msgid "Rate this"
 msgstr "Оцените это"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:129
+#: qml/Dash/Previews/PreviewRatingInput.qml:157
 msgid "Add a review"
 msgstr "Добавьте отзыв"
 
@@ -250,19 +250,19 @@ msgstr "Отпустите для обновления…"
 msgid "Enable location data"
 msgstr "Включить данные о местоположении"
 
-#: qml/Dash/ScopesList.qml:67
+#: qml/Dash/ScopesList.qml:55
 msgid "Manage"
 msgstr "Настройка"
 
-#: qml/Dash/ScopesList.qml:113
+#: qml/Dash/ScopesList.qml:101
 msgid "Home"
 msgstr "Домой"
 
-#: qml/Dash/ScopesList.qml:114
+#: qml/Dash/ScopesList.qml:102
 msgid "Also installed"
 msgstr "Также установлено"
 
-#: qml/DisabledScreenNotice.qml:104
+#: qml/DisabledScreenNotice.qml:109
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
@@ -415,29 +415,29 @@ msgstr "Завершено"
 msgid "Failed, tap to retry"
 msgstr "Сбой, нажмите для повтора"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:155
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:151
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:210
 msgctxt "Button: Send a reply message"
 msgid "Send"
 msgstr "Отправить"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:152
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
 msgstr "Ответить"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:209
 msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Позвонить"
 
 #: qml/Stages/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
-msgstr ""
+msgstr "Передвигайте любое приложение с помощью трёх пальцев"
 
 #: qml/Tutorial/TutorialBottom.qml:78
 msgid "Swipe up to add a contact"
-msgstr ""
+msgstr "Проведите сверху, чтобы добавить контакт"
 
 #: qml/Tutorial/TutorialBottom.qml:80
 msgid "Swipe up for favorite calculations"
@@ -445,15 +445,15 @@ msgstr ""
 
 #: qml/Tutorial/TutorialBottom.qml:82
 msgid "Swipe up for recent calls"
-msgstr ""
+msgstr "Проведите сверху, чтобы увидеть последние набранные номера"
 
 #: qml/Tutorial/TutorialBottom.qml:84
 msgid "Swipe up to create a message"
-msgstr ""
+msgstr "Проведите сверху, чтобы написать новое сообщение"
 
 #: qml/Tutorial/TutorialBottom.qml:85
 msgid "Swipe up to manage the app"
-msgstr ""
+msgstr "Проведите сверху, чтобы управлять приложением"
 
 #: qml/Tutorial/TutorialLeftLong.qml:47
 msgid "Long swipe from the left edge to open the Today scope"
@@ -461,7 +461,7 @@ msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Swipe from the left edge to open the launcher"
-msgstr ""
+msgstr "Проведите от левого края экрана, что бы открыть меню запуска"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
@@ -489,13 +489,13 @@ msgid "Language"
 msgstr "Язык"
 
 #: qml/Wizard/Pages/10-welcome.qml:156 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:267
+#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
 #: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
 #: qml/Wizard/Pages/75-report-check.qml:84
 #: qml/Wizard/Pages/passcode-desktop.qml:124
 #: qml/Wizard/Pages/password-set.qml:141
 msgid "Next"
-msgstr ""
+msgstr "Далее"
 
 #: qml/Wizard/Pages/30-wifi.qml:29
 msgid "Connect to Wi‑Fi"
@@ -507,11 +507,11 @@ msgstr "Подключено"
 
 #: qml/Wizard/Pages/30-wifi.qml:163
 msgid "Available Wi-Fi networks"
-msgstr ""
+msgstr "Доступные Wi-Fi сети"
 
 #: qml/Wizard/Pages/30-wifi.qml:164
 msgid "No available Wi-Fi networks"
-msgstr ""
+msgstr "Нет доступных Wi-Fi сетей"
 
 #: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
 #: qml/Wizard/Pages/sim.qml:101
@@ -520,23 +520,25 @@ msgstr "Пропустить"
 
 #: qml/Wizard/Pages/40-location.qml:27
 msgid "Location Services"
-msgstr ""
+msgstr "Службы геолокации"
 
 #: qml/Wizard/Pages/40-location.qml:83
 msgid ""
 "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
 "(recommended)"
 msgstr ""
+"Использовать анонимно GPS, точки доступа Wi-Fi  и мобильную сеть для "
+"определения местоположения (рекомендуется)"
 
 #: qml/Wizard/Pages/40-location.qml:105
 #, qt-format
 msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr ""
+msgstr "Выбрав эту опцию, вы соглашаитесь с  Nokia HERE %1."
 
 #: qml/Wizard/Pages/40-location.qml:106
 msgctxt "part of: Nokia HERE terms and conditions"
 msgid "terms and conditions"
-msgstr ""
+msgstr "условия и соглашения"
 
 #: qml/Wizard/Pages/40-location.qml:160
 msgid "GPS only"
@@ -544,31 +546,31 @@ msgstr "Только GPS"
 
 #: qml/Wizard/Pages/40-location.qml:214
 msgid "Don't use my location"
-msgstr ""
+msgstr "Не использовать определение моего местоположения"
 
 #: qml/Wizard/Pages/40-location.qml:260
 msgid "You can change it later in System Settings."
-msgstr ""
+msgstr "Вы можете это изменить, позже в Настройках Системы"
 
 #: qml/Wizard/Pages/50-timezone.qml:29
 msgid "Time Zone"
 msgstr "Часовой пояс"
 
-#: qml/Wizard/Pages/50-timezone.qml:178
+#: qml/Wizard/Pages/50-timezone.qml:181
 msgid "Enter your city"
 msgstr "Введите ваш город"
 
 #: qml/Wizard/Pages/60-account.qml:24
 msgid "Personalize Your Device"
-msgstr ""
+msgstr "Персонализация Устройства"
 
 #: qml/Wizard/Pages/60-account.qml:48
 msgid "Preferred Name"
-msgstr ""
+msgstr "Предпочитаемое имя"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:39
 msgid "Lock Screen"
-msgstr ""
+msgstr "Заблокировать экран"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:101
 msgctxt "Label: Type of security method"
@@ -578,28 +580,29 @@ msgstr "Создать новый пароль"
 #: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
-msgstr ""
+msgstr "Создать парольный код (только цифры)"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "No lock code"
-msgstr ""
+msgstr "Без кода разблокировки"
 
 #: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Политика конфиденциальности"
 
 #: qml/Wizard/Pages/75-report-check.qml:26
 msgid "Help Us Improve"
-msgstr ""
+msgstr "Помогите нам улучшить"
 
 #: qml/Wizard/Pages/75-report-check.qml:59
 msgid "Improve system performance by sending us crashes and error reports."
 msgstr ""
+"Помогите нам улучшить систему, отправивь нам отчёт об ошибках устройства"
 
 #: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Privacy policy"
-msgstr ""
+msgstr "Политика конфиденциальности"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
@@ -607,11 +610,11 @@ msgstr "Добро пожаловать в Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:104
 msgid "You are ready to use your device now"
-msgstr ""
+msgstr "Теперь устройство готово к использованию"
 
 #: qml/Wizard/Pages/80-finished.qml:124
 msgid "Get Started"
-msgstr ""
+msgstr "Приступая к работе"
 
 #: qml/Wizard/Pages/here-terms.qml:25
 msgid "Terms & Conditions"
@@ -619,7 +622,7 @@ msgstr "Условия использования"
 
 #: qml/Wizard/Pages/here-terms.qml:69
 msgid "Your device uses positioning technologies provided by HERE."
-msgstr ""
+msgstr "Ваше устройство использует HERE для определения местоположения"
 
 #: qml/Wizard/Pages/here-terms.qml:81
 msgid ""
@@ -627,12 +630,18 @@ msgid ""
 "collects information about nearby cell towers and Wi-Fi hotspots around your "
 "current location whenever your position is being found."
 msgstr ""
+"Для того, чтобы предоставить вам услуги позиционирования и повышения их "
+"качества, ЗДЕСЬ собирается информация о близлежащих вышках сотовой связи и "
+"точках доступа Wi-Fi вокруг вашего текущего местоположения всякий раз, когда "
+"ваша позиция была обнаружена."
 
 #: qml/Wizard/Pages/here-terms.qml:93
 msgid ""
 "The information collected is used to analyze the service and to improve the "
 "use of service, but not to identify you personally."
 msgstr ""
+"Собираемая информация используется для анализа и улучшения сервиса, а не для "
+"идентификации вашей личности."
 
 #: qml/Wizard/Pages/here-terms.qml:106
 #, qt-format
@@ -659,11 +668,11 @@ msgstr "Введите заново."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:30
 msgid "Lock Screen Passcode"
-msgstr ""
+msgstr "Код блокировки экрана"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:56
 msgid "Enter 4 numbers to setup your passcode"
-msgstr ""
+msgstr "Введите код блокировки из 4 цифр"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:65
 #: qml/Wizard/Pages/passcode-set.qml:54
@@ -672,15 +681,15 @@ msgstr ""
 
 #: qml/Wizard/Pages/passcode-desktop.qml:105
 msgid "Passcode too short"
-msgstr ""
+msgstr "Код слишком короткий"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:107
 msgid "Passcodes match"
-msgstr ""
+msgstr "Коды совпадают"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:109
 msgid "Passcodes do not match"
-msgstr ""
+msgstr "Коды не совпадают"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
@@ -688,7 +697,7 @@ msgstr "Код должен содержать 4 символа"
 
 #: qml/Wizard/Pages/password-set.qml:30
 msgid "Lock Screen Password"
-msgstr ""
+msgstr "Пароль блокировки экрана"
 
 #: qml/Wizard/Pages/password-set.qml:61
 msgid "Enter at least 8 characters"
@@ -737,11 +746,11 @@ msgstr "Пароли не совпадают"
 
 #: qml/Wizard/PasswordMeter.qml:93
 msgid "Strong password"
-msgstr ""
+msgstr "Сильный пароль"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Fair password"
-msgstr ""
+msgstr "Неплохой пароль"
 
 #: qml/Wizard/PasswordMeter.qml:97
 msgid "Weak password"
