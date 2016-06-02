@@ -72,6 +72,18 @@ void MirSurfaceListModel::appendSurface(MirSurface *surface)
     }
 }
 
+void MirSurfaceListModel::prependSurface(MirSurface *surface)
+{
+    beginInsertRows(QModelIndex(), 0, 0);
+    m_surfaceList.prepend(surface);
+    connectSurface(surface);
+    endInsertRows();
+    Q_EMIT countChanged();
+    if (m_surfaceList.count() == 1) {
+        Q_EMIT firstChanged();
+    }
+}
+
 void MirSurfaceListModel::connectSurface(MirSurface *surface)
 {
     connect(surface, &MirSurface::raiseRequested, this, [this, surface](){ this->raise(surface); });
@@ -143,7 +155,7 @@ MirSurfaceInterface *MirSurfaceListModel::createSurface()
             Mir::RestoredState,
             screenshotUrl);
 
-    appendSurface(surface);
+    prependSurface(surface);
 
     return surface;
 }

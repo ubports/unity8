@@ -106,7 +106,7 @@ Rectangle {
                     enabled: parent.promptSurfaceList !== null && parent.promptSurfaceList.count > 0
                     activeFocusOnPress: false
                     text: "Remove"
-                    onClicked: { parent.promptSurfaceList.get(parent.promptSurfaceList.count - 1).close(); }
+                    onClicked: { parent.promptSurfaceList.get(0).close(); }
                 }
 
                 Button {
