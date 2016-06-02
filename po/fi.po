@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-05-18 11:19+0000\n"
+"POT-Creation-Date: 2016-05-27 13:54+0000\n"
 "PO-Revision-Date: 2015-07-04 18:32+0000\n"
 "Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-05-19 05:49+0000\n"
-"X-Generator: Launchpad (build 18025)\n"
+"X-Launchpad-Export-Date: 2016-06-02 06:20+0000\n"
+"X-Generator: Launchpad (build 18053)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -76,7 +76,7 @@ msgid "Log Out"
 msgstr "Kirjaudu ulos"
 
 #: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
-#: qml/Dash/DashPageHeader.qml:298 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Peru"
@@ -161,26 +161,26 @@ msgstr "Yhdistä uudelleen nyt!"
 msgid "Close all"
 msgstr "Sulje kaikki"
 
-#: qml/Dash/DashPageHeader.qml:337
+#: qml/Dash/DashPageHeader.qml:333
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Kauppa"
 
-#: qml/Dash/DashPageHeader.qml:344
+#: qml/Dash/DashPageHeader.qml:340
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Etsi"
 
-#: qml/Dash/DashPageHeader.qml:354
+#: qml/Dash/DashPageHeader.qml:350
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Asetukset"
 
-#: qml/Dash/DashPageHeader.qml:361
+#: qml/Dash/DashPageHeader.qml:357
 msgid "Remove from Favorites"
 msgstr "Poista suosikeista"
 
-#: qml/Dash/DashPageHeader.qml:361
+#: qml/Dash/DashPageHeader.qml:357
 msgid "Add to Favorites"
 msgstr "Lisää suosikkeihin"
 
@@ -192,24 +192,24 @@ msgstr "Tarkenna tuloksia"
 msgid "Reset"
 msgstr "Palauta"
 
-#: qml/Dash/GenericScopeView.qml:579 qml/Dash/GenericScopeView.qml:764
+#: qml/Dash/GenericScopeView.qml:579 qml/Dash/GenericScopeView.qml:774
 msgid "Show less"
-msgstr ""
+msgstr "Näytä vähemmän"
 
 #: qml/Dash/GenericScopeView.qml:579
 msgid "Show all"
-msgstr ""
+msgstr "Näytä kaikki"
 
 #: qml/Dash/GenericScopeView.qml:636
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Etsi"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:55
+#: qml/Dash/PageHeaderExtraPanel.qml:56
 msgid "Recent Searches"
 msgstr "Viimeisimmät haut"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:66
+#: qml/Dash/PageHeaderExtraPanel.qml:67
 msgid "Clear All"
 msgstr "Tyhjennä kaikki"
 
@@ -222,15 +222,15 @@ msgid "Less..."
 msgstr "Vähemmän..."
 
 #: qml/Dash/Previews/PreviewCommentInput.qml:68
-#: qml/Dash/Previews/PreviewRatingInput.qml:174
+#: qml/Dash/Previews/PreviewRatingInput.qml:175
 msgid "Send"
 msgstr "Lähetä"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:84
+#: qml/Dash/Previews/PreviewRatingInput.qml:82
 msgid "Rate this"
 msgstr "Arvioi tämä"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:129
+#: qml/Dash/Previews/PreviewRatingInput.qml:157
 msgid "Add a review"
 msgstr "Lisää arvostelu"
 
@@ -250,19 +250,19 @@ msgstr "Vapauta päivittääksesi…"
 msgid "Enable location data"
 msgstr "Käytä sijaintitietoa"
 
-#: qml/Dash/ScopesList.qml:67
+#: qml/Dash/ScopesList.qml:55
 msgid "Manage"
 msgstr "Hallitse"
 
-#: qml/Dash/ScopesList.qml:113
+#: qml/Dash/ScopesList.qml:101
 msgid "Home"
 msgstr "Koti"
 
-#: qml/Dash/ScopesList.qml:114
+#: qml/Dash/ScopesList.qml:102
 msgid "Also installed"
 msgstr "Myös asennettu"
 
-#: qml/DisabledScreenNotice.qml:104
+#: qml/DisabledScreenNotice.qml:109
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
@@ -412,18 +412,18 @@ msgstr "Valmistunut"
 msgid "Failed, tap to retry"
 msgstr "Epäonnistunut, napauta yrittääksesi uudelleen"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:155
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:151
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:210
 msgctxt "Button: Send a reply message"
 msgid "Send"
 msgstr "Lähetä"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:152
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
 msgstr "Vastaa"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:209
 msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Soita takaisin"
@@ -463,6 +463,8 @@ msgstr "Vedä vasemmasta reunasta avataksesi käynnistimen"
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
 msgstr ""
+"Työnnä oikeaa reunaa hiiren osoittimella nähdäksesi avoinna olevat "
+"sovellukset"
 
 #: qml/Tutorial/TutorialRight.qml:56
 msgid "Short or long swipe from the right edge to view your open apps"
@@ -488,7 +490,7 @@ msgid "Language"
 msgstr "Kieli"
 
 #: qml/Wizard/Pages/10-welcome.qml:156 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:267
+#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
 #: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
 #: qml/Wizard/Pages/75-report-check.qml:84
 #: qml/Wizard/Pages/passcode-desktop.qml:124
@@ -555,7 +557,7 @@ msgstr "Voit muuttaa asetusta myöhemmin järjestelmän asetuksista."
 msgid "Time Zone"
 msgstr "Aikavyöhyke"
 
-#: qml/Wizard/Pages/50-timezone.qml:178
+#: qml/Wizard/Pages/50-timezone.qml:181
 msgid "Enter your city"
 msgstr "Määritä kaupunkisi"
 

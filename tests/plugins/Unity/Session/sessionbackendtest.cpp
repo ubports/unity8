@@ -148,21 +148,6 @@ private Q_SLOTS:
         }
     }
 
-    void testLogin1Capabilities() {
-        QSKIP("This test talks to real logind backend, it will fail depending on how the machine is set up");
-        DBusUnitySessionService dbusUnitySessionService;
-        QDBusInterface login1face("org.freedesktop.login1", "/org/freedesktop/login1", "org.freedesktop.login1.Manager", QDBusConnection::systemBus());
-        QCoreApplication::processEvents(); // to let the services register on DBus
-
-        if (login1face.isValid()) {
-            QCOMPARE(dbusUnitySessionService.CanHibernate(), (login1face.call("CanHibernate").arguments().first().toString() != "no"));
-            QCOMPARE(dbusUnitySessionService.CanSuspend(), (login1face.call("CanSuspend").arguments().first().toString() != "no"));
-            QCOMPARE(dbusUnitySessionService.CanReboot(), (login1face.call("CanReboot").arguments().first().toString() != "no"));
-            QCOMPARE(dbusUnitySessionService.CanShutdown(), (login1face.call("CanPowerOff").arguments().first().toString() != "no"));
-            QCOMPARE(dbusUnitySessionService.CanHybridSleep(), (login1face.call("CanHybridSleep").arguments().first().toString() != "no"));
-        }
-    }
-
 private:
     QDBusInterface *dbusUnitySession;
 };

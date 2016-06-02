@@ -34,6 +34,9 @@ FocusScope {
     property int surfaceOrientationAngle: 0
     property bool resizeSurface: true
     property bool isPromptSurface: false
+    // FIME - dont export, use interactive property. Need to fix qtmir to handle consumesInputChanged
+    // to update surface activeFocus. See mock MirSurfaceItem.
+    property alias consumesInput: surfaceItem.consumesInput
 
     onSurfaceChanged: {
         // Not a binding because animations might remove the surface from the surfaceItem
