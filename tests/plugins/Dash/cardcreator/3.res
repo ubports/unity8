@@ -31,6 +31,7 @@ Item  {
                                     visible: image.status == Image.Ready;
                                     readonly property alias image: artImage;
                                     ProportionalShape {
+                                        objectName: "artShapeProportionalShape";
                                         anchors.fill: parent;
                                         source: artImage;
                                         aspect: UbuntuShape.DropShadow;
