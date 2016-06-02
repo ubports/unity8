@@ -107,8 +107,6 @@ public:
 
     Q_INVOKABLE void close() override;
 
-    unity::shell::application::MirSurfaceListInterface* promptSurfaceList() override;
-
     Q_INVOKABLE void raise() override;
 
     ////
@@ -129,8 +127,6 @@ public:
     Q_INVOKABLE void setMaximumHeight(int);
     Q_INVOKABLE void setWidthIncrement(int);
     Q_INVOKABLE void setHeightIncrement(int);
-
-    Q_INVOKABLE void createPromptSurface();
 
     /////
     // internal mock stuff
@@ -199,7 +195,6 @@ private:
     QSize m_pendingResize;
 
     Mir::ShellChrome m_shellChrome;
-    MirSurfaceListModel m_promptSurfaceList;
 
     struct View {
         bool visible;

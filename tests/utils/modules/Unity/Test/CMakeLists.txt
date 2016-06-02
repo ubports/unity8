@@ -2,6 +2,8 @@ include(QmlPlugins)
 
 add_definitions(-DQT_NO_KEYWORDS)
 
+pkg_check_modules(UBUNTUGESTURES REQUIRED UbuntuGestures)
+
 include_directories(
     ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures
     ${CMAKE_SOURCE_DIR}/src
@@ -11,6 +13,7 @@ include_directories(
     SYSTEM
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
+    ${UBUNTUGESTURES_INCLUDE_DIRS}
 )
 
 set(UnityTestQML_SOURCES
@@ -24,7 +27,7 @@ if (ENABLE_TOUCH_EMULATION)
 endif()
 
 add_library(UnityTestQml MODULE ${UnityTestQML_SOURCES})
-target_link_libraries(UnityTestQml UbuntuGestures)
+target_link_libraries(UnityTestQml ${UBUNTUGESTURES_LIBRARIES})
 
 if (ENABLE_TOUCH_EMULATION)
     target_link_libraries(UnityTestQml ${MOUSETOUCHADAPTOR_LIBS_LDFLAGS})

@@ -55,11 +55,13 @@ StyledItem {
         name: "Ubuntu.Components.Themes.Ambiance"
     }
 
+    signal dismissed()
+
     readonly property bool expanded: {
         var result = false;
 
         if (type === Notification.SnapDecision) {
-            if (ListView.view.currentIndex === index) {
+            if (ListView.view.currentIndex === index || fullscreen) {
                 result = true;
             } else {
                 if (ListView.view.count > 2) {
@@ -99,10 +101,15 @@ StyledItem {
     }
 
     function closeNotification() {
-        if (notification.actions.count > 1) { // perform the "reject" action
-            notification.notification.invokeAction(notification.actions.data(1, ActionModel.RoleActionId));
+        if (index === ListView.view.currentIndex) { // reset to get the 1st snap decision expanded
+            ListView.view.currentIndex = -1;
         }
+
+        // perform the "reject" action
+        notification.notification.invokeAction(notification.actions.data(1, ActionModel.RoleActionId));
+
         notification.notification.close();
+        notification.dismissed()
     }
 
     Behavior on x {
@@ -112,6 +119,12 @@ StyledItem {
     onHintsChanged: {
         if (type === Notification.Confirmation && opacity == defaultOpacity && hints["suppress-sound"] !== "true" && sound.source !== "") {
             sound.play();
+        }
+    }
+
+    onFullscreenChanged: {
+        if (fullscreen) {
+            notification.notification.urgency = Notification.Critical;
         }
     }
 
@@ -188,6 +201,7 @@ StyledItem {
             onNameOwnerChanged: {
                 if (lastNameOwner !== "" && nameOwner === "" && notification.notification !== undefined) {
                     notification.notification.close()
+                    notification.dismissed()
                 }
                 lastNameOwner = nameOwner
             }
@@ -199,7 +213,7 @@ StyledItem {
             anchors.fill: parent
             objectName: "interactiveArea"
 
-            drag.target: notification
+            drag.target: !fullscreen ? notification : undefined
             drag.axis: Drag.XAxis
             drag.minimumX: -notification.width
             drag.maximumX: notification.width
@@ -382,7 +396,7 @@ StyledItem {
                 objectName: "dialogListView"
                 spacing: notification.margins
 
-                visible: count > 0
+                visible: count > 0 && (notification.expanded || notification.fullscreen)
 
                 anchors {
                     left: parent.left
@@ -413,6 +427,7 @@ StyledItem {
                         }
                         onAccepted: {
                             notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
+                            notification.dismissed()
                         }
                     }
                 }

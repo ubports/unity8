@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-05-04 18:09+0000\n"
-"PO-Revision-Date: 2014-01-17 09:05+0000\n"
+"POT-Creation-Date: 2016-05-27 13:54+0000\n"
+"PO-Revision-Date: 2016-05-24 01:36+0000\n"
 "Last-Translator: abuyop <Unknown>\n"
 "Language-Team: Malay <ms@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-05-06 04:54+0000\n"
-"X-Generator: Launchpad (build 17995)\n"
+"X-Launchpad-Export-Date: 2016-06-02 06:20+0000\n"
+"X-Generator: Launchpad (build 18053)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -76,7 +76,7 @@ msgid "Log Out"
 msgstr "Daftar Keluar"
 
 #: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
-#: qml/Dash/DashPageHeader.qml:298 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Batal"
@@ -125,7 +125,7 @@ msgstr "Kembali ke Panggilan"
 
 #: qml/Components/Lockscreen.qml:231
 msgid "Emergency Call"
-msgstr "panggilan Kecemasan"
+msgstr "Panggilan Kecemasan"
 
 #: qml/Components/Lockscreen.qml:263
 msgid "OK"
@@ -139,7 +139,7 @@ msgstr "Apl mungkin mempunyai data tidak disimpan:"
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
-msgstr ""
+msgstr "Labuh-semula, simpan kerja anda dan tutup apl ini untuk teruskan."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
@@ -157,57 +157,57 @@ msgstr "Sambung semula sekarang!"
 msgid "Close all"
 msgstr "Tutup semua"
 
-#: qml/Dash/DashPageHeader.qml:337
+#: qml/Dash/DashPageHeader.qml:333
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Kedai"
 
-#: qml/Dash/DashPageHeader.qml:344
+#: qml/Dash/DashPageHeader.qml:340
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Gelintar"
 
-#: qml/Dash/DashPageHeader.qml:354
+#: qml/Dash/DashPageHeader.qml:350
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Tetapan"
 
-#: qml/Dash/DashPageHeader.qml:361
+#: qml/Dash/DashPageHeader.qml:357
 msgid "Remove from Favorites"
 msgstr "Buang dari Kegemaran"
 
-#: qml/Dash/DashPageHeader.qml:361
+#: qml/Dash/DashPageHeader.qml:357
 msgid "Add to Favorites"
 msgstr "Tambah ke Kegemaran"
 
 #: qml/Dash/FiltersPopover.qml:60
 msgid "Refine your results"
-msgstr ""
+msgstr "Takrif keputusan anda"
 
 #: qml/Dash/FiltersPopover.qml:69
 msgid "Reset"
-msgstr ""
+msgstr "Tetap Semula"
 
-#: qml/Dash/GenericScopeView.qml:579 qml/Dash/GenericScopeView.qml:764
+#: qml/Dash/GenericScopeView.qml:579 qml/Dash/GenericScopeView.qml:774
 msgid "Show less"
-msgstr ""
+msgstr "Tunjuk sedikit"
 
 #: qml/Dash/GenericScopeView.qml:579
 msgid "Show all"
-msgstr ""
+msgstr "Tunjuk semua"
 
 #: qml/Dash/GenericScopeView.qml:636
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Gelintar"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:55
+#: qml/Dash/PageHeaderExtraPanel.qml:56
 msgid "Recent Searches"
-msgstr ""
+msgstr "Gelintar Baru-baru Ini"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:66
+#: qml/Dash/PageHeaderExtraPanel.qml:67
 msgid "Clear All"
-msgstr ""
+msgstr "Kosongkan Semua"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
@@ -218,15 +218,15 @@ msgid "Less..."
 msgstr "Kurang..."
 
 #: qml/Dash/Previews/PreviewCommentInput.qml:68
-#: qml/Dash/Previews/PreviewRatingInput.qml:174
+#: qml/Dash/Previews/PreviewRatingInput.qml:175
 msgid "Send"
 msgstr "Hantar"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:84
+#: qml/Dash/Previews/PreviewRatingInput.qml:82
 msgid "Rate this"
 msgstr "Kadar ini"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:129
+#: qml/Dash/Previews/PreviewRatingInput.qml:157
 msgid "Add a review"
 msgstr "Tambah ulasan"
 
@@ -246,23 +246,25 @@ msgstr "Lepas untuk segar semula..."
 msgid "Enable location data"
 msgstr "Benarkan data lokasi"
 
-#: qml/Dash/ScopesList.qml:67
+#: qml/Dash/ScopesList.qml:55
 msgid "Manage"
 msgstr "Urus"
 
-#: qml/Dash/ScopesList.qml:113
+#: qml/Dash/ScopesList.qml:101
 msgid "Home"
 msgstr "Rumah"
 
-#: qml/Dash/ScopesList.qml:114
+#: qml/Dash/ScopesList.qml:102
 msgid "Also installed"
 msgstr "Juga dipasang"
 
-#: qml/DisabledScreenNotice.qml:104
+#: qml/DisabledScreenNotice.qml:109
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
+"Peranti anda kini bersambung dengan paparan luar. Guna skrin ini sebagai pad "
+"sentuh untuk berinteraksi dengan penuding."
 
 #: qml/Greeter/CoverPage.qml:118
 msgid "Unlock"
@@ -392,7 +394,7 @@ msgstr "Memuat turun"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:917
 msgid "Paused, tap to resume"
-msgstr "Dijeda, ketuk untuk sambung semula"
+msgstr "Dijeda, ketik untuk sambung semula"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:919
 msgid "Canceled"
@@ -404,20 +406,20 @@ msgstr "Selesai"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:923
 msgid "Failed, tap to retry"
-msgstr "Gagal, ketuk untuk cuba lagi"
+msgstr "Gagal, ketik untuk cuba lagi"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:155
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:151
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:210
 msgctxt "Button: Send a reply message"
 msgid "Send"
 msgstr "Hantar"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:152
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
 msgstr "Balas"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:209
 msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Panggilan semula"
@@ -425,50 +427,56 @@ msgstr "Panggilan semula"
 #: qml/Stages/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr ""
+"Seret menggunakan 3 jari pada mana-mana aplik dari satu tetingkap ke "
+"tetingkap yang lain"
 
 #: qml/Tutorial/TutorialBottom.qml:78
 msgid "Swipe up to add a contact"
-msgstr ""
+msgstr "Leret ke atas untuk menambah kenalan"
 
 #: qml/Tutorial/TutorialBottom.qml:80
 msgid "Swipe up for favorite calculations"
-msgstr ""
+msgstr "Leret ke atas untuk pengiraan kegemaran"
 
 #: qml/Tutorial/TutorialBottom.qml:82
 msgid "Swipe up for recent calls"
-msgstr ""
+msgstr "Leret ke atas untuk panggilan baru-baru ini"
 
 #: qml/Tutorial/TutorialBottom.qml:84
 msgid "Swipe up to create a message"
-msgstr ""
+msgstr "Leret ke atas untuk cipta satu mesej"
 
 #: qml/Tutorial/TutorialBottom.qml:85
 msgid "Swipe up to manage the app"
-msgstr ""
+msgstr "Leret ke atas untuk mengurus apl"
 
 #: qml/Tutorial/TutorialLeftLong.qml:47
 msgid "Long swipe from the left edge to open the Today scope"
-msgstr ""
+msgstr "Leret panjang dari pinggir kiri untuk membuka skop Hari Ini"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Swipe from the left edge to open the launcher"
-msgstr ""
+msgstr "Leret dari pinggir kiri untuk membuka pelancar"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
 msgstr ""
+"Tolak penuding tetikus anda ke pinggir kanan untuk melihat apl yang telah "
+"dibuka"
 
 #: qml/Tutorial/TutorialRight.qml:56
 msgid "Short or long swipe from the right edge to view your open apps"
 msgstr ""
+"Leret pendek atau panjang dari pinggir kanan untuk melihat apl yang telah "
+"dibuka"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top right edge to open the notification bar"
-msgstr ""
+msgstr "Leret dari pinggir kanan atas untuk membuka palang pemberitahuan"
 
 #: qml/Tutorial/TutorialTop.qml:54
 msgid "Swipe from the top edge to open the notification bar"
-msgstr ""
+msgstr "Leret dari pinggir atas untuk membuka palang pemberitahuan"
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
@@ -477,16 +485,16 @@ msgstr "Kembali"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Language"
-msgstr ""
+msgstr "Bahasa"
 
 #: qml/Wizard/Pages/10-welcome.qml:156 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:267
+#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
 #: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
 #: qml/Wizard/Pages/75-report-check.qml:84
 #: qml/Wizard/Pages/passcode-desktop.qml:124
 #: qml/Wizard/Pages/password-set.qml:141
 msgid "Next"
-msgstr ""
+msgstr "Berikutnya"
 
 #: qml/Wizard/Pages/30-wifi.qml:29
 msgid "Connect to Wi‑Fi"
@@ -494,15 +502,15 @@ msgstr "Sambung ke Wi-Fi"
 
 #: qml/Wizard/Pages/30-wifi.qml:130
 msgid "Connected"
-msgstr ""
+msgstr "Bersambung"
 
 #: qml/Wizard/Pages/30-wifi.qml:163
 msgid "Available Wi-Fi networks"
-msgstr ""
+msgstr "Rangkaian Wi-Fi tersedia"
 
 #: qml/Wizard/Pages/30-wifi.qml:164
 msgid "No available Wi-Fi networks"
-msgstr ""
+msgstr "Tiada rangkaian Wi-Fi tersedia"
 
 #: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
 #: qml/Wizard/Pages/sim.qml:101
@@ -511,98 +519,101 @@ msgstr "Langkau"
 
 #: qml/Wizard/Pages/40-location.qml:27
 msgid "Location Services"
-msgstr ""
+msgstr "Perkhidmatan Lokasi"
 
 #: qml/Wizard/Pages/40-location.qml:83
 msgid ""
 "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
 "(recommended)"
 msgstr ""
+"Guna GPS, hotspot Wi-Fi dan rangkaian mudah alih secara awanama untuk "
+"mengesan lokasi (disarankan)"
 
 #: qml/Wizard/Pages/40-location.qml:105
 #, qt-format
 msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr ""
+msgstr "Dengan memilih pilihan ini anda bersetuju dengan Nokia HERE %1."
 
 #: qml/Wizard/Pages/40-location.qml:106
 msgctxt "part of: Nokia HERE terms and conditions"
 msgid "terms and conditions"
-msgstr ""
+msgstr "terma dan syarat"
 
 #: qml/Wizard/Pages/40-location.qml:160
 msgid "GPS only"
-msgstr ""
+msgstr "GPS sahaja"
 
 #: qml/Wizard/Pages/40-location.qml:214
 msgid "Don't use my location"
-msgstr ""
+msgstr "Jangan guna lokasi saya"
 
 #: qml/Wizard/Pages/40-location.qml:260
 msgid "You can change it later in System Settings."
-msgstr ""
+msgstr "Anda boleh mengubahnya kemudian di dalam Tetapan Sistem."
 
 #: qml/Wizard/Pages/50-timezone.qml:29
 msgid "Time Zone"
-msgstr ""
+msgstr "Zon Waktu"
 
-#: qml/Wizard/Pages/50-timezone.qml:178
+#: qml/Wizard/Pages/50-timezone.qml:181
 msgid "Enter your city"
-msgstr ""
+msgstr "Masukkan bandar anda"
 
 #: qml/Wizard/Pages/60-account.qml:24
 msgid "Personalize Your Device"
-msgstr ""
+msgstr "Peribadikan Peranti Anda"
 
 #: qml/Wizard/Pages/60-account.qml:48
 msgid "Preferred Name"
-msgstr ""
+msgstr "Nama Digemari"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:39
 msgid "Lock Screen"
-msgstr ""
+msgstr "Skrin Kunci"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:101
 msgctxt "Label: Type of security method"
 msgid "Create new password"
-msgstr ""
+msgstr "Cipta kata laluan baharu"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
-msgstr ""
+msgstr "Cipta kod laluan (nombor sahaja)"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "No lock code"
-msgstr ""
+msgstr "Tiada kod kunci"
 
 #: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Dasar Kerahsiaan"
 
 #: qml/Wizard/Pages/75-report-check.qml:26
 msgid "Help Us Improve"
-msgstr ""
+msgstr "Bantu Kami"
 
 #: qml/Wizard/Pages/75-report-check.qml:59
 msgid "Improve system performance by sending us crashes and error reports."
 msgstr ""
+"Tambah baik prestasi sistem dengan menghantar laporan kerosakan dan ralat."
 
 #: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Privacy policy"
-msgstr ""
+msgstr "Dasar kerahsiaan"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
-msgstr ""
+msgstr "Selamat datang ke Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:104
 msgid "You are ready to use your device now"
-msgstr ""
+msgstr "Anda boleh gunakan peranti sekarang"
 
 #: qml/Wizard/Pages/80-finished.qml:124
 msgid "Get Started"
-msgstr ""
+msgstr "Membiasakan Diri"
 
 #: qml/Wizard/Pages/here-terms.qml:25
 msgid "Terms & Conditions"
@@ -611,6 +622,8 @@ msgstr "Terma & Syarat"
 #: qml/Wizard/Pages/here-terms.qml:69
 msgid "Your device uses positioning technologies provided by HERE."
 msgstr ""
+"Peranti anda menggunakan teknologi menentukan lokasi yang disediakan oleh "
+"HERE."
 
 #: qml/Wizard/Pages/here-terms.qml:81
 msgid ""
@@ -618,21 +631,27 @@ msgid ""
 "collects information about nearby cell towers and Wi-Fi hotspots around your "
 "current location whenever your position is being found."
 msgstr ""
+"Untuk menyediakan perkhidmatan penentuan lokasi dan menambahbaik kualiti, "
+"HERE mengutip maklumat berkenaan menara telekomunikasi berhampiran dan "
+"hotspot Wi-Fi disekitar anda bilamana kedudukan anda ditemui."
 
 #: qml/Wizard/Pages/here-terms.qml:93
 msgid ""
 "The information collected is used to analyze the service and to improve the "
 "use of service, but not to identify you personally."
 msgstr ""
+"Maklumat tersebut digunakan untuk menganalisis perkhidmatan dan menambahbaik "
+"penggunaan perkhidmatan, walaubagaimanapun tidak mengenalpasti anda secara "
+"peribadi."
 
 #: qml/Wizard/Pages/here-terms.qml:106
 #, qt-format
 msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr ""
+msgstr "Jika diteruskan, anda menyetujui HERE platform %1 dan %2."
 
 #: qml/Wizard/Pages/here-terms.qml:107
 msgid "Service Terms"
-msgstr ""
+msgstr "Terma Perkhidmatan"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:80
@@ -641,69 +660,70 @@ msgstr "Sahkan kod laluan"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
-msgstr ""
+msgstr "Kod laluan tidak betul."
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgctxt "Enter the passcode again"
 msgid "Please re-enter."
-msgstr ""
+msgstr "Sila masukkan sekali lagi."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:30
 msgid "Lock Screen Passcode"
-msgstr ""
+msgstr "Kod Laluan Skrin Kunci"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:56
 msgid "Enter 4 numbers to setup your passcode"
-msgstr ""
+msgstr "Masukkan 4 nombor untuk persediaan kod laluan anda"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:65
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
-msgstr ""
+msgstr "Pilih kod laluan"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:105
 msgid "Passcode too short"
-msgstr ""
+msgstr "Kod laluan terlalu pendek"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:107
 msgid "Passcodes match"
-msgstr ""
+msgstr "Kod laluan sepadan"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:109
 msgid "Passcodes do not match"
-msgstr ""
+msgstr "Kod laluan tidak sepadan"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr ""
+msgstr "Kod laluan mestilah 4 aksara panjang"
 
 #: qml/Wizard/Pages/password-set.qml:30
 msgid "Lock Screen Password"
-msgstr ""
+msgstr "Kata Laluan Skrin Kunci"
 
 #: qml/Wizard/Pages/password-set.qml:61
 msgid "Enter at least 8 characters"
-msgstr ""
+msgstr "Masukkan sekurang-kurangnya 8 aksara"
 
 #: qml/Wizard/Pages/password-set.qml:73
 msgid "Choose password"
-msgstr ""
+msgstr "Pilih kata laluan"
 
 #: qml/Wizard/Pages/password-set.qml:103
 msgid "Confirm password"
-msgstr ""
+msgstr "Sahkan kata laluan"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
-msgstr ""
+msgstr "Tiada kad SIM terpasang"
 
 #: qml/Wizard/Pages/sim.qml:54
 msgid "SIM card added"
-msgstr ""
+msgstr "Kad SIM ditambah"
 
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
 msgstr ""
+"Anda mesti mulakan semula peranti supaya dapat mencapai rangkaian mudah alih."
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
@@ -712,34 +732,35 @@ msgstr "Mula Semula"
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
 msgstr ""
+"Anda tidak dapat membuat panggilan atau guna pemesejan teks tanpa SIM."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr ""
+msgstr "Untuk teruskan tanpa SIM ketik Langkau."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Passwords match"
-msgstr ""
+msgstr "Kata laluan sepadan"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Kata laluan tidak sepadan"
 
 #: qml/Wizard/PasswordMeter.qml:93
 msgid "Strong password"
-msgstr ""
+msgstr "Kata laluan kuat"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Fair password"
-msgstr ""
+msgstr "Kata laluan sederhana"
 
 #: qml/Wizard/PasswordMeter.qml:97
 msgid "Weak password"
-msgstr ""
+msgstr "Kata laluan lemah"
 
 #: qml/Wizard/PasswordMeter.qml:99
 msgid "Very weak password"
-msgstr ""
+msgstr "Kata laluan sangat lemah"
 
 #~ msgid "Top edge"
 #~ msgstr "Pinggir atas"

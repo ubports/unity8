@@ -442,8 +442,8 @@ Item {
 
                 var innerHeader = findChild(header, "innerPageHeader");
                 verify(innerHeader, "Could not find the inner header");
-                verify(Qt.colorEqual(innerHeader.config.foregroundColor, data.foreground),
-                       "Foreground color not equal: %1 != %2".arg(innerHeader.config.foregroundColor).arg(data.foreground));
+                verify(Qt.colorEqual(innerHeader.__styleInstance.foregroundColor, data.foreground),
+                       "Foreground color not equal: %1 != %2".arg(innerHeader.__styleInstance.foregroundColor).arg(data.foreground));
 
                 var background = findChild(header, "headerBackground");
                 verify(background, "Could not find the background");
