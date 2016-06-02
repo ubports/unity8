@@ -165,8 +165,7 @@ endfunction()
 #
 # Logging options in the standard form of "-o filename,format"
 # will be appended to the arguments list, prefixed with ARG_PREFIX.
-# XUnitXML files will be stored in current binary dir or under
-# ARTIFACTS_DIR, if set.
+# XUnitXML files will be stored in current binary dir.
 #
 # Three targets will be created:
 #   - test${component_name} - Runs the test
@@ -179,14 +178,8 @@ function(add_executable_test COMPONENT_NAME TARGET)
     cmake_parse_arguments(QMLTEST "${QMLTEST_OPTIONS}" "${QMLTEST_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
     mangle_arguments()
 
-    if(ARTIFACTS_DIR)
-        file(RELATIVE_PATH path ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-        file(MAKE_DIRECTORY ${ARTIFACTS_DIR}/${path})
-        set(file_logger -o ${ARTIFACTS_DIR}/${path}/test${COMPONENT_NAME}.xml,xunitxml)
-    else()
-        file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-        set(file_logger -o ${CMAKE_CURRENT_BINARY_DIR}/test${COMPONENT_NAME}.xml,xunitxml)
-    endif()
+    file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+    set(file_logger -o ${CMAKE_CURRENT_BINARY_DIR}/test${COMPONENT_NAME}.xml,xunitxml)
 
     bake_arguments("${QMLTEST_ARG_PREFIX}" args ${iterations} ${file_logger} ${STDOUT_LOGGER})
 
@@ -304,10 +297,14 @@ function(install_test_script TARGET_NAME)
     set(script "${script}export UNITY_TESTING_DATADIR=\"${CMAKE_INSTALL_PREFIX}/${SHELL_APP_DIR}\"\n")
     set(script "${script}export UNITY_TESTING_LIBDIR=\"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}\"\n")
     set(script "${script}\n")
+    set(script "${script}XML_ARGS=\n")
+    set(script "${script}if [ -n \"\$ARTIFACTS_DIR\" ]; then\n")
+    set(script "${script}    XML_ARGS=\"@XML_ARGS@\"\n")
+    set(script "${script}fi\n")
+    set(script "${script}\n")
     foreach(ONE_CMD ${TEST_COMMAND})
         set(script "${script}'${ONE_CMD}' ")
     endforeach()
-    set(script "${script}$@")
 
     set(filename "${CMAKE_BINARY_DIR}/tests/scripts/${TARGET_NAME}.sh")
 
@@ -328,6 +325,11 @@ function(install_test_script TARGET_NAME)
     file(READ \"${filename}\" replacestr)
 
     # Now some replacements...
+    # tests like to write xml output to our builddir; we don't need that, but we do want them in ARTIFACTS_DIR
+    string(REGEX MATCH \"( '--parameter')? '-o'( '--parameter')? '[^ ]*,xunitxml' \" xmlargs \"\${replacestr}\")
+    string(REGEX REPLACE \"( '--parameter')? '-o'( '--parameter')? '[^ ]*,xunitxml' \" \" \\\$XML_ARGS \" replacestr \"\${replacestr}\")
+    string(REGEX REPLACE \"${CMAKE_BINARY_DIR}\" \"\\\$ARTIFACTS_DIR\" xmlargs \"\${xmlargs}\")
+    string(REGEX REPLACE \"@XML_ARGS@\" \"\${xmlargs}\" replacestr \"\${replacestr}\")
     # replace build/source roots with their install paths
     string(REPLACE \"${CMAKE_BINARY_DIR}/libs\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}\" replacestr \"\${replacestr}\")
     string(REPLACE \"${CMAKE_BINARY_DIR}/plugins\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}\" replacestr \"\${replacestr}\")
@@ -339,8 +341,6 @@ function(install_test_script TARGET_NAME)
     string(REPLACE \"${CMAKE_BINARY_DIR}/tests/utils/modules\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/utils\" replacestr \"\${replacestr}\")
     string(REPLACE \"${CMAKE_SOURCE_DIR}/tests/plugins\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_APP_DIR}/tests/plugins\" replacestr \"\${replacestr}\")
     string(REPLACE \"${CMAKE_SOURCE_DIR}/tests/qmltests\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_APP_DIR}/tests/qmltests\" replacestr \"\${replacestr}\")
-    # tests like to write xml output to our builddir; we don't need that
-    string(REGEX REPLACE \"( '--parameter')? '-o'( '--parameter')? '[^ ]*,xunitxml' \" \" \" replacestr \"\${replacestr}\")
 
     file(WRITE \"${filename}\" \"\${replacestr}\")
     ")
