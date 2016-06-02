@@ -16,13 +16,8 @@ pkg_check_modules(UBUNTUGESTURES REQUIRED UbuntuGestures)
 
 add_definitions(-DUBUNTUGESTURESQML_LIBRARY)
 
-<<<<<<< TREE
 add_library(UbuntuGesturesQml SHARED ${UbuntuGesturesQml_SOURCES})
-target_link_libraries(UbuntuGesturesQml UbuntuGestures)
-=======
-add_library(UbuntuGesturesQml MODULE ${UbuntuGesturesQml_SOURCES})
 target_link_libraries(UbuntuGesturesQml ${UBUNTUGESTURES_LIBRARIES})
->>>>>>> MERGE-SOURCE
 
 qt5_use_modules(UbuntuGesturesQml Core Quick)
 
