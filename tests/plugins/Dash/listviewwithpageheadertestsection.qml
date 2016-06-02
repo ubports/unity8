@@ -97,9 +97,10 @@ Rectangle {
         sectionProperty: "type"
         sectionDelegate: Component {
             Rectangle {
+                property alias text: theText.text
                 color: "green"
-                height: section === "" ? 0 : section != "halfheight" ? 40 : 20;
-                Text { text: section; font.pixelSize: 34 }
+                height: text === "" ? 0 : text != "halfheight" ? 40 : 20;
+                Text { id: theText; font.pixelSize: 34 }
                 anchors { left: parent.left; right: parent.right }
             }
         }

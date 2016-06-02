@@ -1,7 +1,7 @@
 add_executable(${SCOPE_TOOL}
     scopetool.cpp
     registry-tracker.cpp
-    unix-signal-handler.cpp
+    ../src/UnixSignalHandler.cpp
     )
 
 qt5_use_modules(${SCOPE_TOOL} Qml Quick)
