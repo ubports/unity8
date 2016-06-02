@@ -27,10 +27,7 @@
  */
 #include "verticaljournal.h"
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
 #include <private/qquickitem_p.h>
-#pragma GCC diagnostic pop
 
 VerticalJournal::VerticalJournal()
  : m_columnWidth(0)
