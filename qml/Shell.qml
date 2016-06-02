@@ -623,7 +623,8 @@ StyledItem {
             objectName: "tutorial"
             anchors.fill: parent
 
-            paused: callManager.hasCalls || !greeter || greeter.shown
+            paused: callManager.hasCalls || !greeter || greeter.shown ||
+                    wizard.active
             delayed: dialogs.hasActiveDialog || notifications.hasNotification ||
                      inputMethod.state === "shown" ||
                      (launcher.shown && !launcher.lockedVisible) ||
