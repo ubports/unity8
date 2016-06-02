@@ -8,8 +8,9 @@ include_directories(
 
 set(QMLPLUGIN_SRC
     plugin.cpp
-    MousePointer.cpp
+    CursorImageInfo.cpp
     CursorImageProvider.cpp
+    MousePointer.cpp
     # We need to run moc on this header
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirMousePointerInterface.h
     )

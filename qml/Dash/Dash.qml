@@ -349,7 +349,7 @@ Showable {
         }
     }
 
-    DirectionalDragArea {
+    SwipeArea {
         id: overviewDragHandle
         objectName: "overviewDragHandle"
         z: 1
@@ -364,10 +364,10 @@ Showable {
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
         height: units.gu(2)
 
-        onSceneDistanceChanged: {
+        onDistanceChanged: {
             if (dragging) {
                 bottomEdgeController.enableAnimation = false;
-                bottomEdgeController.progress = Math.max(0, Math.min(1, sceneDistance / fullMovement));
+                bottomEdgeController.progress = Math.max(0, Math.min(1, distance / fullMovement));
             }
         }
 

@@ -1,7 +1,6 @@
 AbstractButton { 
                 id: root; 
                 property var cardData; 
-                property string artShapeStyle: "inset"; 
                 property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
@@ -126,14 +125,6 @@ top: titleLabel.bottom;
                         }
  
                                 ] 
-                    }
-UbuntuShape { 
-                        id: touchdown; 
-                        objectName: "touchdown"; 
-                        anchors { fill: backgroundLoader } 
-                        visible: root.artShapeStyle != "shadow" && root.artShapeStyle != "icon" && root.pressed; 
-                        radius: "medium"; 
-                        borderSource: "radius_pressed.sci" 
                     }
 implicitHeight: row.y + row.height + units.gu(1);
 }

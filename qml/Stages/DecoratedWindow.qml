@@ -50,9 +50,11 @@ FocusScope {
     property alias widthIncrement: applicationWindow.widthIncrement
     property alias heightIncrement: applicationWindow.heightIncrement
 
-    signal close()
-    signal maximize()
-    signal minimize()
+    signal closeClicked()
+    signal maximizeClicked()
+    signal maximizeHorizontallyClicked()
+    signal maximizeVerticallyClicked()
+    signal minimizeClicked()
     signal decorationPressed()
 
     Rectangle {
@@ -66,7 +68,7 @@ FocusScope {
     Rectangle {
         anchors { left: selectionHighlight.left; right: selectionHighlight.right; bottom: selectionHighlight.bottom; }
         height: units.dp(2)
-        color: UbuntuColors.orange
+        color: theme.palette.normal.focus
         visible: highlightShown
     }
 
@@ -90,9 +92,11 @@ FocusScope {
         title: applicationWindow.title
         visible: root.decorationShown
 
-        onClose: root.close();
-        onMaximize: { root.decorationPressed(); root.maximize(); }
-        onMinimize: root.minimize();
+        onCloseClicked: root.closeClicked();
+        onMaximizeClicked: { root.decorationPressed(); root.maximizeClicked(); }
+        onMaximizeHorizontallyClicked: { root.decorationPressed(); root.maximizeHorizontallyClicked(); }
+        onMaximizeVerticallyClicked: { root.decorationPressed(); root.maximizeVerticallyClicked(); }
+        onMinimizeClicked: root.minimizeClicked();
         onPressed: root.decorationPressed();
     }
 
