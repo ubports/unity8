@@ -87,7 +87,6 @@ AbstractStage {
     function closeFocusedDelegate() {
         if (priv.focusedAppDelegate && priv.focusedAppDelegate.closeable) {
             priv.focusedAppDelegate.closed();
-            spreadRepeater.itemAt(1).focus = true; // focus the next one
         }
     }
 
@@ -719,8 +718,8 @@ AbstractStage {
                     if (spreadView.closingIndex == -1) {
                         spreadView.phase = 0;
                         spreadView.contentX = -spreadView.shift;
-                        focusTopMostApp();
                     }
+                    focusTopMostApp();
                 }
                 function focusTopMostApp() {
                     if (spreadRepeater.count > 0) {
