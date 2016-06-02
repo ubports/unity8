@@ -23,9 +23,6 @@ Rectangle {
     implicitWidth: units.gu(40)
     implicitHeight: units.gu(70)
 
-    width: parent ? parent.width : implicitWidth
-    height: parent ? parent.height : implicitHeight
-
     property alias screenshotSource: screenshotImage.source
     property int orientationAngle
 

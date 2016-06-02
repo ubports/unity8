@@ -57,6 +57,9 @@ MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
         Qt::ExtraButton12 | Qt::ExtraButton13);
 
     connect(this, &QQuickItem::visibleChanged, this, &MirSurfaceItem::updateMirSurfaceVisibility);
+
+    // We're just clipping contents in the mock. The real QtMir would copy only relevant buffer instead
+    setClip(true);
 }
 
 MirSurfaceItem::~MirSurfaceItem()
@@ -162,6 +165,9 @@ void MirSurfaceItem::createQmlContentItem()
 
     m_qmlItem = qobject_cast<QQuickItem*>(m_qmlContentComponent->create());
     m_qmlItem->setParentItem(this);
+
+    m_qmlItem->setWidth(m_surfaceWidth);
+    m_qmlItem->setHeight(m_surfaceHeight);
 
     setImplicitWidth(m_qmlItem->implicitWidth());
     setImplicitHeight(m_qmlItem->implicitHeight());
@@ -338,6 +344,7 @@ void MirSurfaceItem::updateSurfaceSize()
 {
     if (m_qmlSurface && m_surfaceWidth > 0 && m_surfaceHeight > 0) {
         m_qmlSurface->resize(m_surfaceWidth, m_surfaceHeight);
+        setImplicitSize(m_surfaceWidth, m_surfaceHeight);
     }
 }
 

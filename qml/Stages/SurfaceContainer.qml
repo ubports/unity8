@@ -23,6 +23,8 @@ import Unity.Application 0.1 // for MirSurfaceItem
 FocusScope {
     id: root
     objectName: "surfaceContainer"
+    implicitWidth: surfaceItem.implicitWidth
+    implicitHeight: surfaceItem.implicitHeight
 
     // Must be set from outside
     property var surface: null
@@ -40,6 +42,16 @@ FocusScope {
         // programatically (in order to signal that a zombie surface is free for deletion),
         // even though root.surface is still !null.
         surfaceItem.surface = surface;
+    }
+
+    onImplicitWidthChanged: print("implicit width changed", implicitWidth)
+    onImplicitHeightChanged: print("implicit height changed", implicitHeight)
+
+    Timer {
+        interval: 1000
+        repeat: true
+        running: true
+        onTriggered: print("implicit size:", root.implicitWidth, root.implicitHeight)
     }
 
     InputWatcher {
@@ -101,33 +113,33 @@ FocusScope {
         enabled: surfaceItem.enabled
     }
 
-    // MirSurface size drives SurfaceContainer size
-    Binding {
-        target: surfaceItem; property: "width"; value: root.surface ? root.surface.size.width : 0
-        when: root.requestedWidth >= 0 && root.surface
-    }
-    Binding {
-        target: surfaceItem; property: "height"; value: root.surface ? root.surface.size.height : 0
-        when: root.requestedHeight >= 0 && root.surface
-    }
-    Binding {
-        target: root; property: "implicitWidth"; value: surfaceItem.width
-        when: root.requestedWidth >= 0
-    }
-    Binding {
-        target: root; property: "implicitHeight"; value: surfaceItem.height
-        when: root.requestedHeight >= 0
-    }
+//    // MirSurface size drives SurfaceContainer size
+//    Binding {
+//        target: surfaceItem; property: "width"; value: root.surface ? root.surface.size.width : 0
+//        when: root.requestedWidth >= 0 && root.surface
+//    }
+//    Binding {
+//        target: surfaceItem; property: "height"; value: root.surface ? root.surface.size.height : 0
+//        when: root.requestedHeight >= 0 && root.surface
+//    }
+//    Binding {
+//        target: root; property: "implicitWidth"; value: surfaceItem.width
+//        when: root.requestedWidth >= 0
+//    }
+//    Binding {
+//        target: root; property: "implicitHeight"; value: surfaceItem.height
+//        when: root.requestedHeight >= 0
+//    }
 
-    // SurfaceContainer size drives MirSurface size
-    Binding {
-        target: surfaceItem; property: "width"; value: root.width
-        when: root.requestedWidth < 0
-    }
-    Binding {
-        target: surfaceItem; property: "height"; value: root.height
-        when: root.requestedHeight < 0
-    }
+//    // SurfaceContainer size drives MirSurface size
+//    Binding {
+//        target: surfaceItem; property: "width"; value: root.width
+//        when: root.requestedWidth < 0
+//    }
+//    Binding {
+//        target: surfaceItem; property: "height"; value: root.height
+//        when: root.requestedHeight < 0
+//    }
 
     Loader {
         id: animationsLoader

@@ -606,6 +606,11 @@ AbstractStage {
                             visuallyMinimized: false;
                             visuallyMaximized: false
                         }
+                        PropertyChanges {
+                            target: decoratedWindow
+                            width: appDelegate.width
+                            height: appDelegate.height
+                        }
                     },
                     State {
                         name: "maximizedLeft"; when: appDelegate.maximizedLeft && !appDelegate.minimized
