@@ -8,5 +8,4 @@ DEB_HOST_MULTIARCH=$(dpkg-architecture -qDEB_HOST_MULTIARCH)
 
 export ARTIFACTS_DIR="${ADT_ARTIFACTS}"
 
-parallel --shebang /usr/lib/$DEB_HOST_MULTIARCH/unity8/tests/scripts/unittests.sh
-parallel --shebang --no-notice /usr/lib/$DEB_HOST_MULTIARCH/unity8/tests/scripts/xvfbuitests.sh
+/usr/lib/$DEB_HOST_MULTIARCH/unity8/tests/scripts/xvfballtests.sh

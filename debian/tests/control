@@ -1,7 +1,6 @@
 Tests: qmluitests.sh
 Restrictions: allow-stderr
 Depends: dpkg-dev,
-         parallel,
          unity8-tests,
 
 Tests: autopilot.sh
