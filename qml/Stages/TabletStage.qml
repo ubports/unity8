@@ -752,7 +752,7 @@ AbstractStage {
 
                     readonly property bool wantsMainStage: stage == ApplicationInfoInterface.MainStage
 
-                    readonly property bool isDash: model.application.appId == "unity8-dash"
+                    readonly property bool isDash: application.appId == "unity8-dash"
 
                     onFocusChanged: {
                         if (focus && !spreadRepeater.startingUp) {
@@ -768,7 +768,7 @@ AbstractStage {
                         onFocusRequested: spreadTile.focus = true;
                     }
                     Connections {
-                        target: model.application
+                        target: spreadTile.application
                         onFocusRequested: {
                             if (!model.surface) {
                                 // when an app has no surfaces, we assume there's only one entry representing it:
@@ -844,7 +844,7 @@ AbstractStage {
                         _constructing = false;
                     }
                     Component.onDestruction: {
-                        WindowStateStorage.saveStage(model.application.appId, stage);
+                        WindowStateStorage.saveStage(application.appId, stage);
                     }
 
                     function refreshStage() {
@@ -1073,6 +1073,7 @@ AbstractStage {
 
                 surface: spreadDelegate ? spreadDelegate.surface : null
 
+                consumesInput: false
                 interactive: false
                 resizeSurface: false
                 focus: false
@@ -1105,7 +1106,7 @@ AbstractStage {
         enabled: spreadDragArea.dragging
     }
 
-    DirectionalDragArea {
+    SwipeArea {
         id: spreadDragArea
         objectName: "spreadDragArea"
         x: parent.width - root.dragAreaWidth
@@ -1116,18 +1117,18 @@ AbstractStage {
 
         property var gesturePoints: new Array()
 
-        onTouchXChanged: {
+        onTouchPositionChanged: {
             if (!dragging) {
                 spreadView.phase = 0;
                 spreadView.contentX = -spreadView.shift;
             }
 
             if (dragging) {
-                var dragX = -touchX + spreadDragArea.width - spreadView.shift;
+                var dragX = -touchPosition.x + spreadDragArea.width - spreadView.shift;
                 var maxDrag = spreadView.width * spreadView.positionMarker4 - spreadView.shift;
                 spreadView.contentX = Math.min(dragX, maxDrag);
             }
-            gesturePoints.push(touchX);
+            gesturePoints.push(touchPosition.x);
         }
 
         onDraggingChanged: {

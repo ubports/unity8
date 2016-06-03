@@ -1,2 +1,2 @@
 module Ubuntu.SystemSettings.TimeDate
-UbuntuTimeDatePanel 1.0 MockTimeDate.qml
+UbuntuTimeDatePanel 1.1 MockTimeDate.qml
