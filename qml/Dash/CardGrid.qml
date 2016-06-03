@@ -25,7 +25,6 @@ DashRenderer {
         if (!cardTool || !cardTool.template || typeof cardTool.template["collapsed-rows"] != "number") return 2;
         return cardTool.template["collapsed-rows"];
     }
-    property string artShapeStyle: "inset";
     property string backgroundShapeStyle: "inset";
     property alias minimumHorizontalSpacing: grid.minimumHorizontalSpacing
 
@@ -71,7 +70,6 @@ DashRenderer {
                     item.fixedArtShapeSize = Qt.binding(function() { return cardTool.artShapeSize; });
                     item.cardData = Qt.binding(function() { return model; });
                     item.scopeStyle = root.scopeStyle;
-                    item.artShapeStyle = root.artShapeStyle;
                     item.backgroundShapeStyle = root.backgroundShapeStyle;
                 }
                 Connections {
