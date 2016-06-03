@@ -23,11 +23,11 @@ import "../Components/PanelState"
 MouseArea {
     id: root
     clip: true
+    acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
 
     property Item target
     property alias title: titleLabel.text
     property bool active: false
-    hoverEnabled: true
 
     signal closeClicked()
     signal minimizeClicked()
@@ -64,6 +64,9 @@ MouseArea {
             root.target.y = Math.max(pos.y - priv.distanceY, PanelState.panelHeight);
         }
     }
+
+    // do not let unhandled wheel event pass thru the decoration
+    onWheel: wheel.accepted = true;
 
     Rectangle {
         anchors.fill: parent

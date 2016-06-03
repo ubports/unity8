@@ -89,6 +89,15 @@ Item {
                 topLevelSurfaceList: topSurfaceList
             }
         }
+
+        MouseArea {
+            id: fakeMouseArea
+            anchors.fill: desktopStageLoader.item
+            enabled: desktopStageLoader.status === Loader.Ready && testCase.running
+            visible: enabled
+            acceptedButtons: Qt.AllButtons
+            hoverEnabled: true
+        }
     }
 
     Rectangle {
@@ -140,6 +149,11 @@ Item {
         }
     }
 
+    SignalSpy {
+        id: mouseEaterSpy
+        target: fakeMouseArea
+    }
+
     UnityTestCase {
         id: testCase
         name: "DesktopStage"
@@ -179,6 +193,7 @@ Item {
             desktopStageLoader.active = true;
             tryCompare(desktopStageLoader, "status", Loader.Ready);
 
+            mouseEaterSpy.clear();
         }
 
         function waitUntilAppSurfaceShowsUp(surfaceId) {
@@ -653,6 +668,32 @@ Item {
             verify(dashAppDelegate);
             var closeButton = findChild(dashAppDelegate, "closeWindowButton");
             tryCompare(closeButton, "visible", false);
+        }
+
+        function test_eatWindowDecorationMouseEvents_data() {
+            return [
+                {tag: "left mouse press", signalName: "clicked", button: Qt.LeftButton },
+                {tag: "right mouse press", signalName: "clicked", button: Qt.RightButton },
+                {tag: "middle mouse press", signalName: "clicked", button: Qt.MiddleButton },
+                {tag: "mouse wheel", signalName: "wheel", button: Qt.MiddleButton }
+            ]
+        }
+
+        function test_eatWindowDecorationMouseEvents(data) {
+            var dialerAppDelegate = startApplication("dialer-app");
+            verify(dialerAppDelegate);
+            var decoration = findChild(dialerAppDelegate, "appWindowDecoration");
+            verify(decoration);
+
+            fakeMouseArea.enabled = true;
+            mouseEaterSpy.signalName = data.signalName;
+            if (data.signalName === "wheel") {
+                mouseWheel(decoration, decoration.width/2, decoration.height/2, 20, 20);
+            } else {
+                mouseClick(decoration, decoration.width/2, decoration.height/2, data.button);
+            }
+            tryCompare(mouseEaterSpy, "count", 0);
+            fakeMouseArea.enabled = false;
         }
     }
 }
