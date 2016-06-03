@@ -349,6 +349,13 @@ AbstractStage {
                     }
                 }
 
+//                Timer {
+//                    interval: 1000
+//                    repeat: true
+//                    running: index == 0
+//                    onTriggered: print("index", index, "focused:", appDelegate.focus, "x", appDelegate.x, "state", appDelegate.state)
+//                }
+
                 onFocusChanged: {
                     if (appRepeater.startingUp)
                         return;
@@ -358,12 +365,8 @@ AbstractStage {
                         print("setting focusedAppDelegate to", appDelegate.application.appId)
                         priv.focusedAppDelegate = appDelegate;
 
-                        // If we're orphan (!parent) it means this stage is no longer the current one
-                        // and will be deleted shortly. So we should no longer have a say over the model
-                        if (root.parent) {
-                            print("raising surface in model", model.id)
-                            topLevelSurfaceList.raiseId(model.id);
-                        }
+                        print("raising surface in model", model.id)
+                        topLevelSurfaceList.raiseId(model.id);
                     } else if (!focus && priv.focusedAppDelegate === appDelegate) {
                         priv.focusedAppDelegate = null;
                         // FIXME: No idea why the Binding{} doens't update when focusedAppDelegate turns null
@@ -464,7 +467,14 @@ AbstractStage {
                 }
 
                 function playFocusAnimation() {
-                    focusAnimation.start()
+                    if (state == "stagedrightedge") {
+                        rightEdgeFocusAnimation.start()
+                    } else {
+                        focusAnimation.start()
+                    }
+                }
+                function playHidingAnimation() {
+                    hidingAnimation.start()
                 }
 
                 UbuntuNumberAnimation {
@@ -474,6 +484,17 @@ AbstractStage {
                     from: 0.98
                     to: 1
                     duration: UbuntuAnimation.SnapDuration
+                }
+                ParallelAnimation {
+                    id: rightEdgeFocusAnimation
+                    UbuntuNumberAnimation { target: appDelegate; properties: "x"; to: 0; duration: priv.animationDuration }
+                    UbuntuNumberAnimation { target: decoratedWindow; properties: "angle"; to: 0; duration: priv.animationDuration }
+                    onStopped: appDelegate.focus = true
+                }
+                ParallelAnimation {
+                    id: hidingAnimation
+                    UbuntuNumberAnimation { target: appDelegate; property: "opacity"; to: 0; duration: priv.animationDuration }
+                    onStopped: appDelegate.opacity = 1
                 }
 
                 SpreadMaths {
@@ -492,8 +513,9 @@ AbstractStage {
                     targetAngle: spreadMaths.animatedAngle
                 }
 
-//                onXChanged: if (model.application.appId == "unity8-dash") print("dash moved to", x)
-                onRequestedWidthChanged: if (index == 0) print("requestedWidth", requestedWidth)
+                onXChanged: if (model.application.appId == "unity8-dash") print("dash moved to", x)
+//                onRequestedWidthChanged: if (index == 0) print("requestedWidth", requestedWidth)
+                onStateChanged: if (model.application.appId == "unity8-dash") print("state changed", state)
                 states: [
                     State {
                         name: "spread"; when: root.state == "spread"
@@ -502,21 +524,23 @@ AbstractStage {
                             x: spreadMaths.animatedX
                             y: spreadMaths.animatedY
                             z: index
-                            height: appContainer.height
+                            height: decoratedWindow.height + windowInfoItem.height + units.gu(2)
                         }
                         PropertyChanges {
                             target: decoratedWindow;
                             showDecoration: false;
-                            height: units.gu(15)
-                            width: units.gu(15)
+                            height: units.gu(40)
+                            width: units.gu(40)
                             angle: spreadMaths.animatedAngle
                             requestedWidth: decoratedWindow.oldRequestedWidth
                             requestedHeight: decoratedWindow.oldRequestedHeight
                         }
                         PropertyChanges { target: inputBlocker; enabled: true }
+                        PropertyChanges { target: windowInfoItem; opacity: 1 }
                     },
                     State {
-                        name: "stagedrightedge"; when: root.state == "stagedrightedge"
+                        name: "stagedrightedge";
+                        when: root.state == "stagedrightedge" || rightEdgeFocusAnimation.running || hidingAnimation.running
                         PropertyChanges {
                             target: stagedRightEdgeMaths
                             progress: rightEdgeDragArea.progress
@@ -525,7 +549,7 @@ AbstractStage {
                             target: appDelegate
                             y: PanelState.panelHeight
                             x: stagedRightEdgeMaths.animatedX
-                            z: index
+                            z: index +1
                         }
                         PropertyChanges {
                             target: decoratedWindow;
@@ -541,7 +565,8 @@ AbstractStage {
                         name: "staged"; when: root.state == "staged"
                         PropertyChanges {
                             target: appDelegate
-                            x: appDelegate.focus ? 0 : root.width; y: appDelegate.fullscreen ? 0 : PanelState.panelHeight
+                            x: appDelegate.focus ? 0 : root.width
+                            y: appDelegate.fullscreen ? 0 : PanelState.panelHeight
                             visuallyMaximized: true
                         }
                         PropertyChanges {
@@ -687,16 +712,16 @@ AbstractStage {
                     },
                     Transition {
                         to: "spread"
-                        PropertyAnimation { target: appDelegate; properties: "x,y"; duration: priv.animationDuration }
+                        PropertyAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
                         PropertyAnimation { target: decoratedWindow; properties: "width,height,angle"; duration: priv.animationDuration }
                     },
                     Transition {
                         from: "spread"; to: "staged"
-                        PropertyAnimation { target: appDelegate; properties: "x,y"; duration: priv.animationDuration }
+                        PropertyAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
                         PropertyAnimation { target: decoratedWindow; properties: "angle,width,height"; duration: priv.animationDuration }
                     },
-                    Transition { // Ordering is important. This generic case needs to be after spread -> staged
-                        to: "staged";
+                    Transition {
+                        from: "windowed"; to: "staged";
                         PropertyAnimation { target: appDelegate; properties: "x,y,width,height"; duration: priv.animationDuration }
                     }
                 ]
@@ -813,6 +838,16 @@ AbstractStage {
                     color: "blue"
                     opacity: .4
                 }
+
+                WindowInfoItem {
+                    id: windowInfoItem
+                    anchors { left: parent.left; bottom: parent.bottom }
+                    title: decoratedWindow.title
+                    iconSource: model.application.icon
+                    opacity: 0
+                    visible: opacity > 0
+                    Behavior on opacity { UbuntuNumberAnimation { duration: priv.animationDuration } }
+                }
             }
         }
     }
@@ -848,6 +883,13 @@ AbstractStage {
         property int minContentWidth: 6 * Math.min(height / 4, width / 5)
         contentWidth: Math.max(6, appRepeater.count) * Math.min(height / 4, width / 5)
 
+    }
+
+    PropertyAnimation {
+        id: shortRightEdgeSwipeAnimation
+        property: "x"
+        to: 0
+        duration: priv.animationDuration
     }
 
     SwipeArea {
@@ -888,6 +930,9 @@ AbstractStage {
             } else {
                 if (gesturePoints[gesturePoints.length - 1] < -root.width / 2) {
                     priv.goneToSpread = true;
+                } else {
+                    appRepeater.itemAt(0).playHidingAnimation()
+                    appRepeater.itemAt(1).playFocusAnimation()
                 }
 
 //                // Ok. The user released. Find out if it was a one-way movement.
