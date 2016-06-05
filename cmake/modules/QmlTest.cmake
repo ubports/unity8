@@ -300,6 +300,8 @@ function(install_test_script TARGET_NAME)
     set(script "${script}XML_ARGS=\n")
     set(script "${script}if [ -n \"\$ARTIFACTS_DIR\" ]; then\n")
     set(script "${script}    XML_ARGS=\"@XML_ARGS@\"\n")
+    set(script "${script}    mkdir -p \"@XML_DIR@\"\n")
+    set(script "${script}    touch \"@XML_FILE@\"\n")
     set(script "${script}fi\n")
     set(script "${script}\n")
     foreach(ONE_CMD ${TEST_COMMAND})
@@ -326,10 +328,15 @@ function(install_test_script TARGET_NAME)
 
     # Now some replacements...
     # tests like to write xml output to our builddir; we don't need that, but we do want them in ARTIFACTS_DIR
-    string(REGEX MATCH \"( '--parameter')? '-o'( '--parameter')? '[^ ]*,xunitxml' \" xmlargs \"\${replacestr}\")
-    string(REGEX REPLACE \"( '--parameter')? '-o'( '--parameter')? '[^ ]*,xunitxml' \" \" \\\$XML_ARGS \" replacestr \"\${replacestr}\")
+    string(REGEX MATCH \"( '--parameter')? '-o'( '--parameter')? '[^']*,xunitxml' \" xmlargs \"\${replacestr}\")
+    string(REGEX REPLACE \"( '--parameter')? '-o'( '--parameter')? '[^']*,xunitxml' \" \" \\\$XML_ARGS \" replacestr \"\${replacestr}\")
     string(REGEX REPLACE \"${CMAKE_BINARY_DIR}\" \"\\\$ARTIFACTS_DIR\" xmlargs \"\${xmlargs}\")
+    string(REGEX REPLACE \".*'([^']*),xunitxml'.*\" \"\\\\1\" xmlfile \"\${xmlargs}\")
+    string(REGEX REPLACE \"(.*)/[^/]*\" \"\\\\1\" xmldir \"\${xmlfile}\")
+    string(REGEX REPLACE \"'\" \"\" xmlargs \"\${xmlargs}\") # strip single quotes
     string(REGEX REPLACE \"@XML_ARGS@\" \"\${xmlargs}\" replacestr \"\${replacestr}\")
+    string(REGEX REPLACE \"@XML_DIR@\" \"\${xmldir}\" replacestr \"\${replacestr}\")
+    string(REGEX REPLACE \"@XML_FILE@\" \"\${xmlfile}\" replacestr \"\${replacestr}\")
     # replace build/source roots with their install paths
     string(REPLACE \"${CMAKE_BINARY_DIR}/libs\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}\" replacestr \"\${replacestr}\")
     string(REPLACE \"${CMAKE_BINARY_DIR}/plugins\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}\" replacestr \"\${replacestr}\")
