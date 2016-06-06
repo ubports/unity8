@@ -56,6 +56,7 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     : ApplicationInfoInterface(appId, parent)
     , m_appId(appId)
     , m_surfaceList(new MirSurfaceListModel(this))
+    , m_promptSurfaceList(new MirSurfaceListModel(this))
 {
     connect(m_surfaceList, &MirSurfaceListModel::countChanged,
         this, &ApplicationInfo::onSurfaceCountChanged, Qt::QueuedConnection);
