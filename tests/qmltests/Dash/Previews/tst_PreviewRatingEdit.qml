@@ -57,6 +57,7 @@ Rectangle {
 
             var editButton = findChild(previewRatingEdit, "editButton");
             mouseClick(editButton);
+            tryCompare(previewRatingEdit.display, "visible", false);
             verify(!authorLabel.visible)
             verify(reviewTextArea.visible)
 
@@ -72,6 +73,8 @@ Rectangle {
             var submitButton = findChild(previewRatingEdit, "submitButton")
             mouseClick(submitButton);
 
+
+            tryCompare(previewRatingEdit.display, "visible", true);
             compare(spy.count, 1);
             var args = spy.signalArguments[0];
             compare(args[0], previewRatingEdit.widgetId);

@@ -32,6 +32,8 @@ PreviewWidget {
     id: root
     implicitHeight: display.visible ? display.implicitHeight : input.implicitHeight
 
+    readonly property alias display: display // For testing access
+
     Button {
         id: editIcon
         objectName: "editButton"
