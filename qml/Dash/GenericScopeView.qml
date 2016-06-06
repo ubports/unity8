@@ -342,8 +342,8 @@ FocusScope {
                     }
                     updateRanges();
                     clickScopeSizingHacks();
-                    if (scope && scope.id === "clickscope") {
-                        if (categoryId === "predefined" || categoryId === "local") {
+                    if (scope && (scope.id === "clickscope" || scope.id === "libertine-scope.ubuntu_libertine-scope")) {
+                        if (scope.id === "libertine-scope.ubuntu_libertine-scope" || categoryId === "predefined" || categoryId === "local") {
                             cardTool.artShapeSize = Qt.binding(function() { return Qt.size(units.gu(8), units.gu(7.5)) });
                             cardTool.artShapeStyle = "icon";
                         } else {
@@ -367,8 +367,9 @@ FocusScope {
                 onPxpguChanged: clickScopeSizingHacks();
 
                 function clickScopeSizingHacks() {
-                    if (scope && scope.id === "clickscope" &&
-                        (categoryId === "predefined" || categoryId === "local")) {
+                    if (scope &&
+                        ((scope.id === "clickscope" && (categoryId === "predefined" || categoryId === "local")) ||
+                         scope.id === "libertine-scope.ubuntu_libertine-scope")) {
                         // Yeah, hackish :/
                         if (scopeView.width > units.gu(45)) {
                             if (scopeView.width >= units.gu(70)) {
@@ -639,7 +640,7 @@ FocusScope {
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
             settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false
-            favoriteEnabled: scopeView.scope && scopeView.scope.id !== "clickscope"
+            favoriteEnabled: scopeView.scope && scopeView.scope.id !== "clickscope" && scopeView.scope.id !== "libertine-scope.ubuntu_libertine-scope"
             favorite: scopeView.scope && scopeView.scope.favorite
             navigationTag: scopeView.scope ? scopeView.scope.primaryNavigationTag : ""
             scopeStyle: scopeView.scopeStyle
