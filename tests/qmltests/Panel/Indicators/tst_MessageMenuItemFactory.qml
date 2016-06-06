@@ -30,6 +30,7 @@ Item {
         id: factory
         menuModel: UnityMenuModel {}
         menuIndex: 0
+        width: parent.width
     }
 
     UT.UnityTestCase {

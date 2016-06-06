@@ -345,10 +345,10 @@ FocusScope {
                     if (scope && scope.id === "clickscope") {
                         if (categoryId === "predefined" || categoryId === "local") {
                             cardTool.artShapeSize = Qt.binding(function() { return Qt.size(units.gu(8), units.gu(7.5)) });
-                            item.artShapeStyle = "icon";
+                            cardTool.artShapeStyle = "icon";
                         } else {
                             // Should be ubuntu store icon
-                            item.artShapeStyle = "flat";
+                            cardTool.artShapeStyle = "flat";
                             item.backgroundShapeStyle = "shadow";
                         }
                     }
@@ -616,10 +616,10 @@ FocusScope {
         sectionProperty: "name"
         sectionDelegate: ListItems.Header {
             objectName: "dashSectionHeader" + (delegate ? delegate.category : "")
+            property int delegateIndex: -1
             readonly property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
-            height: section != "" ? units.gu(5) : 0
-            text: section
+            height: text != "" ? units.gu(5) : 0
             color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
             iconName: delegate && delegate.headerLink ? "go-next" : ""
             onClicked: {
@@ -662,6 +662,10 @@ FocusScope {
             onShowFiltersPopup: { // item
                 extraPanel.visible = false;
                 scopeView.filtersPopover = PopupUtils.open(Qt.resolvedUrl("FiltersPopover.qml"), item, { "contentWidth": scopeView.width - units.gu(2) } );
+                scopeView.filtersPopover.Component.onDestruction.connect(function () {
+                    categoryView.pageHeader.closePopup(false, true);
+                    categoryView.pageHeader.unfocus(true); // remove the focus from the search field
+                })
             }
         }
 
@@ -683,9 +687,15 @@ FocusScope {
             onHistoryItemClicked: {
                 SearchHistoryModel.addQuery(text);
                 categoryView.pageHeader.searchQuery = text;
+                categoryView.pageHeader.unfocus();
             }
 
             onDashNavigationLeafClicked: {
+                categoryView.pageHeader.closePopup();
+                categoryView.pageHeader.unfocus();
+            }
+
+            onExtraPanelOptionSelected: {
                 categoryView.pageHeader.closePopup();
                 categoryView.pageHeader.unfocus();
             }

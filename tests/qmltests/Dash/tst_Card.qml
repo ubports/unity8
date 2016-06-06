@@ -226,16 +226,16 @@ Rectangle {
 
         when: windowShown
 
-        property Item title: findChild(loader, "titleLabel")
-        property Item subtitle: findChild(loader, "subtitleLabel")
-        property var headerRow: findChild(loader, "outerRow")
-        property var art: findChild(loader, "artShape")
-        property Item artImage: findChild(loader, "artImage")
-        property Item summary: findChild(loader, "summaryLabel")
-        property Item background: findChild(loader, "background")
-        property Item backgroundLoader: findChild(loader, "backgroundLoader")
-        property Item backgroundImage: findChild(loader, "backgroundImage")
-        property Item mascotImage: findChild(loader, "mascotImage");
+        property Item title: findChild(loader, "titleLabel", 0 /*timeout*/)
+        property Item subtitle: findChild(loader, "subtitleLabel", 0 /*timeout*/)
+        property var headerRow: findChild(loader, "outerRow", 0 /*timeout*/)
+        property var art: findChild(loader, "artShape", 0 /*timeout*/)
+        property Item artImage: findChild(loader, "artImage", 0 /*timeout*/)
+        property Item summary: findChild(loader, "summaryLabel", 0 /*timeout*/)
+        property Item background: findChild(loader, "background", 0 /*timeout*/)
+        property Item backgroundLoader: findChild(loader, "backgroundLoader", 0 /*timeout*/)
+        property Item backgroundImage: findChild(loader, "backgroundImage", 0 /*timeout*/)
+        property Item mascotImage: findChild(loader, "mascotImage", 0 /*timeout*/)
 
         function init() {
             cardTool.components = Qt.binding(function() { return Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components']; });
@@ -495,6 +495,18 @@ Rectangle {
             waitForRendering(card);
             tryCompare(art, "visible", true);
             compare(artImage.source, Qt.resolvedUrl("artwork/checkers.png"));
+
+            card.cardData["art"] = "somethingbroken";
+            card.cardDataChanged();
+            waitForRendering(card);
+            tryCompare(art, "visible", true);
+            compare(artImage.source, Qt.resolvedUrl("artwork/checkers.png"));
+
+            card.cardData["art"] = Qt.resolvedUrl("artwork/music-player-design.png");
+            card.cardDataChanged();
+            waitForRendering(card);
+            tryCompare(art, "visible", true);
+            compare(artImage.source, Qt.resolvedUrl("artwork/music-player-design.png"));
 
             card.cardData["mascot"] = "somethingbroken2";
             card.cardDataChanged();

@@ -66,7 +66,7 @@ PreviewWidget {
             visible: root.actions && root.actions.length > 0
             onTriggeredAction: root.triggered(root.widgetId, actionData.id, actionData)
             width: (root.width - units.gu(1)) / 2
-            color: root.scopeStyle ? root.scopeStyle.previewButtonColor : UbuntuColors.orange
+            color: root.scopeStyle ? root.scopeStyle.previewButtonColor : theme.palette.normal.positive
         }
     }
 }
