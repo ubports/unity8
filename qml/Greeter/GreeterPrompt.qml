@@ -20,6 +20,7 @@ import Ubuntu.Components 1.3
 FocusScope {
     id: root
     implicitHeight: units.gu(5)
+    focus: true
 
     property bool isPrompt
     property bool isAlphanumeric
@@ -32,7 +33,6 @@ FocusScope {
 
     function reset() {
         passwordInput.text = "";
-        focus = false;
         d.enabled = true;
     }
 
@@ -63,6 +63,7 @@ FocusScope {
         anchors.fill: parent
         visible: !root.isPrompt
         enabled: d.enabled
+        focus: visible
 
         onClicked: root.clicked()
 
@@ -79,6 +80,7 @@ FocusScope {
         anchors.fill: parent
         visible: root.isPrompt
         enabled: d.enabled
+        focus: visible
 
         inputMethodHints: root.isAlphanumeric ? Qt.ImhNone : Qt.ImhDigitsOnly
         echoMode: root.isSecret ? TextInput.Password : TextInput.Normal
@@ -111,21 +113,11 @@ FocusScope {
         onAccepted: {
             if (!enabled)
                 return;
-            root.focus = true; // so that it can handle Escape presses for us
             d.enabled = false;
             root.responded(text);
         }
 
         Keys.onEscapePressed: root.canceled()
-
-        Connections {
-            target: Qt.inputMethod
-            onVisibleChanged: {
-                if (passwordInput.visible && !Qt.inputMethod.visible) {
-                    passwordInput.focus = false;
-                }
-            }
-        }
 
         // We use our own custom placeholder label instead of the standard
         // TextField one because the standard one hardcodes baseText as the
