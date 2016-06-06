@@ -29,7 +29,7 @@ QtObject {
 
         var tString = JSON.stringify(template);
         var cString = JSON.stringify(components);
-        var allString = tString + cString + isCardTool;
+        var allString = tString + cString + isCardTool + artShapeStyle;
         var component = cache[allString];
         if (component === undefined) {
             component = CardCreator.createCardComponent(root, template, components, isCardTool, artShapeStyle, allString);
