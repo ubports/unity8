@@ -73,7 +73,6 @@ Rectangle {
             var submitButton = findChild(previewRatingEdit, "submitButton")
             mouseClick(submitButton);
 
-
             tryCompare(previewRatingEdit.display, "visible", true);
             compare(spy.count, 1);
             var args = spy.signalArguments[0];
