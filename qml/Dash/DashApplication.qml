@@ -34,9 +34,6 @@ Window {
 
         Dash {
             anchors.fill: parent
-
-            // Workaround bug #1475643
-            headerColor: Qt.rgba(0, 0, 0, 0)
         }
     }
 }
