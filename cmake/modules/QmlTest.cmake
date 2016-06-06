@@ -330,7 +330,7 @@ function(install_test_script TARGET_NAME)
     # tests like to write xml output to our builddir; we don't need that, but we do want them in ARTIFACTS_DIR
     string(REGEX MATCH \"( '--parameter')? '-o'( '--parameter')? '[^']*,xunitxml' \" xmlargs \"\${replacestr}\")
     string(REGEX REPLACE \"( '--parameter')? '-o'( '--parameter')? '[^']*,xunitxml' \" \" \\\$XML_ARGS \" replacestr \"\${replacestr}\")
-    string(REGEX REPLACE \"${CMAKE_BINARY_DIR}\" \"\\\$ARTIFACTS_DIR\" xmlargs \"\${xmlargs}\")
+    string(REGEX REPLACE \"'.*/tests/\" \"'\\\$ARTIFACTS_DIR/tests/\" xmlargs \"\${xmlargs}\")
     string(REGEX REPLACE \".*'([^']*),xunitxml'.*\" \"\\\\1\" xmlfile \"\${xmlargs}\")
     string(REGEX REPLACE \"(.*)/[^/]*\" \"\\\\1\" xmldir \"\${xmlfile}\")
     string(REGEX REPLACE \"'\" \"\" xmlargs \"\${xmlargs}\") # strip single quotes
