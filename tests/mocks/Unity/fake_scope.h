@@ -109,13 +109,14 @@ protected:
     bool m_searching;
     bool m_favorite;
     bool m_isActive;
+    bool m_hasBeenActive;
     bool m_hasNavigation;
     bool m_hasPrimaryFilter;
     QString m_currentNavigationId;
 
     QString m_previewRendererName;
 
-    unity::shell::scopes::CategoriesInterface* m_categories;
+    mutable unity::shell::scopes::CategoriesInterface* m_categories;
     unity::shell::scopes::ScopeInterface* m_openScope;
     unity::shell::scopes::SettingsModelInterface* m_settings;
     Filters* m_filters;
