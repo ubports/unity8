@@ -290,7 +290,7 @@ function(install_test_script TARGET_NAME)
 
     # Now write the above test into a shell script that we can run on an
     # installed system.
-    set(script "#!/bin/sh\n\n")
+    set(script "#!/bin/sh\n\nset -x\n\n")
     foreach(ONE_ENV ${TEST_ENVIRONMENT})
         set(script "${script}export ${ONE_ENV}\n")
     endforeach()
