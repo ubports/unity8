@@ -116,7 +116,7 @@ protected:
 
     QString m_previewRendererName;
 
-    mutable unity::shell::scopes::CategoriesInterface* m_categories;
+    unity::shell::scopes::CategoriesInterface* m_categories;
     unity::shell::scopes::ScopeInterface* m_openScope;
     unity::shell::scopes::SettingsModelInterface* m_settings;
     Filters* m_filters;
