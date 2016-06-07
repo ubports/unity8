@@ -587,7 +587,7 @@ Item {
                 // test short swipe doesn't refresh on tall window
                 mouseFlick(genericScopeView,
                            genericScopeView.width/2, units.gu(10),
-                           genericScopeView.width/2, units.gu(15),
+                           genericScopeView.width/2, units.gu(20),
                            true, false)
                 mouseRelease(genericScopeView)
                 compare(spy.count, 1)
@@ -598,7 +598,7 @@ Item {
                 waitForRendering(shell)
                 mouseFlick(genericScopeView,
                            genericScopeView.width/2, units.gu(10),
-                           genericScopeView.width/2, units.gu(15),
+                           genericScopeView.width/2, units.gu(20),
                            true, false)
 
                 tryCompare(pullToRefresh, "releaseToRefresh", true)

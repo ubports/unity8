@@ -24,8 +24,6 @@ import Ubuntu.Components.Styles 1.3
  * a subclass of the Ambiance version with a hidden ActivityIndicator.
  */
 PullToRefreshStyle {
-    id: pullToRefreshScopeStyle
-
     releaseToRefresh: styledItem.target.originY - styledItem.target.contentY > activationThreshold
 
     Connections {
