@@ -58,7 +58,7 @@ Item {
             tryCompare(dashContentList, "count", 0);
             scopes.load();
             tryCompare(dashContentList, "currentIndex", 0);
-            tryCompare(dashContentList, "count", 7);
+            tryCompare(dashContentList, "count", 8);
             tryCompare(scopes, "loaded", true);
             tryCompareFunction(function() {
                 var mockScope1Loader = findChild(dash, "scopeLoader0");
@@ -651,6 +651,15 @@ Item {
             scrollToCategory("dashCategorypredefined");
             var tile = getCategoryDelegate("predefined", 2);
             var proportionalShape = findChildsByType(tile, "UCProportionalShape");
+            compare(proportionalShape.length, 1);
+
+            dash.setCurrentScope("libertine-scope.ubuntu_libertine-scope");
+            var dashContent = findChild(dash, "dashContent");
+            tryCompare(dashContent.currentScope, "id", "libertine-scope.ubuntu_libertine-scope");
+
+            scrollToCategory("dashCategory2");
+            tile = getCategoryDelegate("2", 2);
+            proportionalShape = findChildsByType(tile, "UCProportionalShape");
             compare(proportionalShape.length, 1);
         }
 
