@@ -24,7 +24,17 @@ import Ubuntu.Components.Styles 1.3
  * a subclass of the Ambiance version with a hidden ActivityIndicator.
  */
 PullToRefreshStyle {
-    releaseToRefresh: styledItem.target.originY - styledItem.target.contentY > activationThreshold
+    id: pullToRefreshScopeStyle
+    readonly property Item rootItem: QuickUtils.rootItem(pullToRefreshScopeStyle)
+    readonly property bool timerEnabled: activationThreshold > rootItem.height / 3
+    property bool timerTriggered: false
+    releaseToRefresh: timerTriggered || styledItem.target.originY - styledItem.target.contentY > activationThreshold
+
+    Timer {
+        id: timer
+        interval: 1000
+        onTriggered: pullToRefreshScopeStyle.timerTriggered = true
+    }
 
     Connections {
         property bool willRefresh: false
@@ -33,6 +43,15 @@ PullToRefreshStyle {
         onDraggingChanged: {
             if (!styledItem.target.dragging && releaseToRefresh) {
                 willRefresh = true
+            }
+
+            if (!timerEnabled) return;
+
+            if (styledItem.target.dragging) {
+                timer.start()
+            } else {
+                timer.stop()
+                pullToRefreshScopeStyle.timerTriggered = false
             }
         }
         onContentYChanged: {
