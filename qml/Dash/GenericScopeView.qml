@@ -732,9 +732,7 @@ FocusScope {
 
             style: PullToRefreshScopeStyle {
                 anchors.fill: parent
-                activationThreshold: units.gu(14)
-                timerEnabled: activationThreshold > scopeView.height / 3
-                minimumPullThreshold: units.gu(5)
+                activationThreshold: Math.min(units.gu(14), scopeView.height / 5)
             }
         }
     }
