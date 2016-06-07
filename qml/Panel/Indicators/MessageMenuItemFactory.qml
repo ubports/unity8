@@ -123,11 +123,7 @@ Loader {
                 menuModel.activate(menuIndex, false);
             }
             onTriggered: {
-                if (selected) {
-                    menuDeselected();
-                } else {
-                    menuSelected();
-                }
+                menuModel.activate(menuIndex, true);
             }
         }
     }

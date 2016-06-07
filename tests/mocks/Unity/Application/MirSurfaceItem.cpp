@@ -40,6 +40,7 @@ using namespace unity::shell::application;
 MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
     : MirSurfaceItemInterface(parent)
     , m_qmlSurface(nullptr)
+    , m_qmlContentComponent(nullptr)
     , m_qmlItem(nullptr)
     , m_consumesInput(false)
     , m_surfaceWidth(0)
