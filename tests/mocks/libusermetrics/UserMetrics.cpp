@@ -220,7 +220,7 @@ int UserMetricsData::length() const
 }
 
 UserMetricsPrivate::UserMetricsPrivate(UserMetrics *parent) :
-        q_ptr(parent), m_firstColor(this), m_secondColor(this)
+        q_ptr(parent), m_firstColor(this), m_secondColor(this), m_currentDay(0)
 {
     m_fakeData.insert("", UserMetricsDataPtr(new UserMetricsData(this)));
 }

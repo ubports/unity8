@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 #define UNITY_WINDOWINPUTMONITOR_H
 
 #include <QQuickItem>
+#include <QList>
 #include <QPointer>
 
 #include "Timer.h"
@@ -83,9 +84,14 @@ private Q_SLOTS:
 private:
     QPointer<QQuickWindow> m_filteredWindow;
     bool m_windowBeingTouched;
-    bool m_homeKeyPressed;
     UnityUtil::AbstractElapsedTimer *m_windowLastTouchedTimer;
     UnityUtil::AbstractTimer *m_activationTimer;
+
+    // Qt::Keys that are mapped to our "home" key.
+    QList<int> m_homeKeys{Qt::Key_Super_L, Qt::Key_HomePage};
+    // Which Qt::Key from m_homeKeys is currently pressed.
+    // 0 if none
+    int m_pressedHomeKey{0};
 };
 
 #endif // UNITY_WINDOWINPUTMONITOR_H

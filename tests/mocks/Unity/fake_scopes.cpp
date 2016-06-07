@@ -60,6 +60,17 @@ void Scopes::updateScopes()
     addScope(new Scope("MockScope7", "MS7", false, this));
     addScope(new Scope("MockScope8", "MS8", false, this));
     addScope(new Scope("MockScope9", "MS9", false, this));
+
+    Scope *longNavigationScope = new Scope(
+            "LongPrimaryNavigation", "LongPrimaryNavigation", true, this, 1, false,
+            QStringList() << "Meat" << "Vegetables" << "BBQ" << "Burritos"
+            << "Pasta" << "Pancakes" << "Seafood" << "Soup" << "Bugs"
+            << "Pudding" << "Chocolate" << "Gluten-Free" << "Hamburgers"
+            << "Pho" << "Panang Curry" << "Lumpia" << "Sushi");
+
+    longNavigationScope->setHasNavigation(false);
+    addScope(longNavigationScope);
+
     addScope(new Scope("NullPreviewScope", "NPS", false, this, 1, true));
     m_scopesOverview = new ScopesOverview(this);
 

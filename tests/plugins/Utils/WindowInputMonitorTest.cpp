@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -71,6 +71,8 @@ public:
 
 using namespace UnityUtil;
 
+Q_DECLARE_METATYPE(Qt::Key) // because of QTest::addColumn<Qt::Key>
+
 class WindowInputMonitorTest : public QObject {
     Q_OBJECT
 private Q_SLOTS:
@@ -81,6 +83,7 @@ private Q_SLOTS:
     void touchTapTouch();
 
     void tapWhileTouching();
+    void multipleHomeKeys();
 
 private:
     void passTime(qint64 timeSpanMs);
@@ -112,13 +115,15 @@ void WindowInputMonitorTest::touchTapTouch_data()
     QTest::addColumn<int>("tapDuration");
     QTest::addColumn<int>("silenceAfterTap");
     QTest::addColumn<int>("expectedActivatedCount");
+    QTest::addColumn<Qt::Key>("key");
 
-    QTest::newRow("tap followed by touch") << 2000 << 50 << 10 << 0;
-    QTest::newRow("touch, tap and touch") << 10 << 50 << 10 << 0;
-    QTest::newRow("touch followed by tap") << 10 << 50 << 2000 << 0;
-    QTest::newRow("touch followed by long tap") << 10 << 500 << 2000 << 0;
-    QTest::newRow("isolated tap") << 1000 << 50 << 1000 << 1;
-    QTest::newRow("isolated long press") << 1000 << 200 << 1000 << 0;
+    QTest::newRow("tap followed by touch") << 2000 << 50 << 10 << 0 << Qt::Key_Super_L;
+    QTest::newRow("touch, tap and touch") << 10 << 50 << 10 << 0 << Qt::Key_Super_L;
+    QTest::newRow("touch followed by tap") << 10 << 50 << 2000 << 0 << Qt::Key_Super_L;
+    QTest::newRow("touch followed by long tap") << 10 << 500 << 2000 << 0 << Qt::Key_Super_L;
+    QTest::newRow("isolated tap, Super_L") << 1000 << 50 << 1000 << 1 << Qt::Key_Super_L;
+    QTest::newRow("isolated tap, HomePage") << 1000 << 50 << 1000 << 1 << Qt::Key_HomePage;
+    QTest::newRow("isolated long press") << 1000 << 200 << 1000 << 0 << Qt::Key_Super_L;
 }
 
 void WindowInputMonitorTest::touchTapTouch()
@@ -127,6 +132,7 @@ void WindowInputMonitorTest::touchTapTouch()
     QFETCH(int, tapDuration);
     QFETCH(int, silenceAfterTap);
     QFETCH(int, expectedActivatedCount);
+    QFETCH(Qt::Key, key);
     WindowInputMonitor homeKeyWatcher(m_fakeTimerFactory->create(), new FakeElapsedTimer);
     QSignalSpy activatedSpy(&homeKeyWatcher, &WindowInputMonitor::homeKeyActivated);
     QVERIFY(activatedSpy.isValid());
@@ -149,7 +155,7 @@ void WindowInputMonitorTest::touchTapTouch()
     passTime(silenceBeforeTap);
 
     {
-        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Super_L, Qt::NoModifier);
+        QKeyEvent keyEvent(QEvent::KeyPress, key, Qt::NoModifier);
         homeKeyWatcher.update(&keyEvent);
     }
     int tapTime = 0;
@@ -157,10 +163,10 @@ void WindowInputMonitorTest::touchTapTouch()
         passTime(10);
         tapTime += 10;
         if (tapTime + 10 >= tapDuration) {
-            QKeyEvent keyEvent(QEvent::KeyRelease, Qt::Key_Super_L, Qt::NoModifier);
+            QKeyEvent keyEvent(QEvent::KeyRelease, key, Qt::NoModifier);
             homeKeyWatcher.update(&keyEvent);
         } else {
-            QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Super_L, Qt::NoModifier, QString(), true /*autorepeat*/);
+            QKeyEvent keyEvent(QEvent::KeyPress, key, Qt::NoModifier, QString(), true /*autorepeat*/);
             homeKeyWatcher.update(&keyEvent);
         }
     }
@@ -215,6 +221,41 @@ void WindowInputMonitorTest::tapWhileTouching()
 
 
     QCOMPARE(activatedSpy.count(), 0);
+}
+
+/*
+  Press multiple of the mapped home keys  roughly at the same time.
+  The first pressed will be recognized and the other ignored
+ */
+void WindowInputMonitorTest::multipleHomeKeys()
+{
+    WindowInputMonitor homeKeyWatcher(m_fakeTimerFactory->create(), new FakeElapsedTimer);
+    QSignalSpy activatedSpy(&homeKeyWatcher, &WindowInputMonitor::homeKeyActivated);
+    QVERIFY(activatedSpy.isValid());
+
+    passTime(1000);
+    {
+        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_HomePage, Qt::NoModifier);
+        homeKeyWatcher.update(&keyEvent);
+    }
+    passTime(50);
+    {
+        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Super_L, Qt::NoModifier);
+        homeKeyWatcher.update(&keyEvent);
+    }
+    passTime(50);
+    {
+        QKeyEvent keyEvent(QEvent::KeyRelease, Qt::Key_HomePage, Qt::NoModifier);
+        homeKeyWatcher.update(&keyEvent);
+    }
+    passTime(10);
+    {
+        QKeyEvent keyEvent(QEvent::KeyRelease, Qt::Key_Super_L, Qt::NoModifier);
+        homeKeyWatcher.update(&keyEvent);
+    }
+    passTime(1000);
+
+    QCOMPARE(activatedSpy.count(), 1);
 }
 
 /////////////////////////////////// FakeTimer //////////////////////////////////

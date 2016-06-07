@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,11 +29,13 @@ MouseArea {
     property bool active: false
     hoverEnabled: true
 
-    signal close()
-    signal minimize()
-    signal maximize()
+    signal closeClicked()
+    signal minimizeClicked()
+    signal maximizeClicked()
+    signal maximizeHorizontallyClicked()
+    signal maximizeVerticallyClicked()
 
-    onDoubleClicked: root.maximize()
+    onDoubleClicked: root.maximizeClicked()
 
     QtObject {
         id: priv
@@ -84,10 +86,12 @@ MouseArea {
             id: buttons
             height: parent.height
             active: root.active
+            onCloseClicked: root.closeClicked();
+            onMinimizeClicked: root.minimizeClicked();
+            onMaximizeClicked: root.maximizeClicked();
+            onMaximizeHorizontallyClicked: root.maximizeHorizontallyClicked();
+            onMaximizeVerticallyClicked: root.maximizeVerticallyClicked();
             closeButtonShown: root.target.application.appId !== "unity8-dash"
-            onClose: root.close();
-            onMinimize: root.minimize();
-            onMaximize: root.maximize();
         }
 
         Label {

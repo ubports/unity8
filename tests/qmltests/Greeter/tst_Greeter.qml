@@ -166,7 +166,7 @@ Item {
             tryCompare(loader, "itemDestroyed", true);
             loader.active = true;
             tryCompare(loader, "status", Loader.Ready);
-            removeTimeConstraintsFromDirectionalDragAreas(loader.item);
+            removeTimeConstraintsFromSwipeAreas(loader.item);
         }
 
         function getIndexOf(name) {
