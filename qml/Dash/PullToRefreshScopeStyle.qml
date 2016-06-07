@@ -25,15 +25,23 @@ import Ubuntu.Components.Styles 1.3
  */
 PullToRefreshStyle {
     id: pullToRefreshScopeStyle
-    readonly property Item rootItem: QuickUtils.rootItem(pullToRefreshScopeStyle)
-    readonly property bool timerEnabled: activationThreshold > rootItem.height / 3
+    property bool timerEnabled: false
     property bool timerTriggered: false
+    property int minimumPullThreshold
+
     releaseToRefresh: timerTriggered || styledItem.target.originY - styledItem.target.contentY > activationThreshold
+
+    onTimerEnabledChanged: if (!timerEnabled) stopTimer()
 
     Timer {
         id: timer
-        interval: 1000
+        interval: 150
         onTriggered: pullToRefreshScopeStyle.timerTriggered = true
+    }
+
+    function stopTimer() {
+        timer.stop()
+        timerTriggered = false
     }
 
     Connections {
@@ -45,19 +53,20 @@ PullToRefreshStyle {
                 willRefresh = true
             }
 
-            if (!timerEnabled) return;
-
-            if (styledItem.target.dragging) {
-                timer.start()
-            } else {
-                timer.stop()
-                pullToRefreshScopeStyle.timerTriggered = false
+            if (timerEnabled && !styledItem.target.dragging) {
+                pullToRefreshScopeStyle.stopTimer()
             }
         }
         onContentYChanged: {
             if (styledItem.target.originY - styledItem.target.contentY == 0 && willRefresh) {
                 styledItem.refresh()
                 willRefresh = false
+            } else if (timerEnabled) {
+                if (minimumPullThreshold + styledItem.target.contentY < 0) {
+                    timer.start()
+                } else {
+                    pullToRefreshScopeStyle.stopTimer()
+                }
             }
         }
     }
