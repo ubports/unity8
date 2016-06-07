@@ -521,11 +521,11 @@ Showable {
         onIdEnabledChanged: restartOperation()
 
         onSucceeded: {
-            if (result.uid !== lightDM.users.data(d.currentIndex, lightDM.userRoles.UidRole)) {
+            if (result !== lightDM.users.data(d.currentIndex, lightDM.userRoles.UidRole)) {
                 failOperation("not the selected user");
                 return;
             }
-            console.log("Identified user by fingerprint:", result.uid);
+            console.log("Identified user by fingerprint:", result);
             d.fingerprintFailureCount = 0;
             if (loader.item)
                 loader.item.notifyAuthenticationSucceeded(true /* showFakePassword */);

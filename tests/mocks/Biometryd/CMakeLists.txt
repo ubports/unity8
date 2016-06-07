@@ -1,7 +1,3 @@
-include_directories(
-    ${CMAKE_CURRENT_BINARY_DIR}
-)
-
 set(MOCK_BIOMETRYD_SOURCES
     plugin.cpp
     MockBiometryd.cpp

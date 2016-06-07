@@ -19,22 +19,6 @@
 
 #include "MockOperation.h"
 
-class Result : public QObject
-{
-    Q_OBJECT
-    Q_PROPERTY(unsigned int uid READ uid CONSTANT)
-
-public:
-    explicit Result(unsigned int uid, QObject *parent = 0)
-        : QObject(parent), m_uid(uid)
-    {}
-
-    unsigned int uid() const { return m_uid; }
-
-private:
-    unsigned int m_uid;
-};
-
 MockOperation::MockOperation(QObject *parent)
     : QObject(parent)
     , m_observer(nullptr)
@@ -61,7 +45,7 @@ void MockOperation::mockSuccess(unsigned int uid)
 {
     if (m_observer)
         QMetaObject::invokeMethod(m_observer, "succeeded", Qt::DirectConnection,
-                                  Q_ARG(QVariant, QVariant::fromValue(new Result(uid, this))));
+                                  Q_ARG(QVariant, QVariant::fromValue(uid)));
 }
 
 void MockOperation::mockFailure(const QString &reason)
@@ -70,5 +54,3 @@ void MockOperation::mockFailure(const QString &reason)
         QMetaObject::invokeMethod(m_observer, "failed", Qt::DirectConnection,
                                   Q_ARG(QString, reason));
 }
-
-#include "MockOperation.moc"
