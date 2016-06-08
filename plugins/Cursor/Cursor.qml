@@ -29,7 +29,10 @@ MousePointer {
     AnimatedSprite {
         x: -imageInfo.hotspot.x
         y: -imageInfo.hotspot.y
-        source: "image://cursor/" + mousePointer.themeName + "/" + mousePointer.cursorName
+
+        // The only reason of the ready property is to work around https://bugreports.qt.io/browse/QTBUG-53937
+        source: imageInfo.ready ? "image://cursor/" + mousePointer.themeName + "/" + mousePointer.cursorName
+                                : ""
 
         interpolate: false
 
