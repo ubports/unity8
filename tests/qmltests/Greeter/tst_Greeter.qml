@@ -153,7 +153,6 @@ Item {
             viewTryToUnlockSpy.clear();
             tryCompare(greeter, "waiting", false);
             view = findChild(greeter, "testView");
-            verifySelected(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
             greeter.failedLoginsDelayAttempts = 7;
             greeter.failedLoginsDelayMinutes = 5;
         }
@@ -191,6 +190,7 @@ Item {
             compare(view.currentIndex, i);
             compare(AccountsService.user, name);
             compare(LightDM.Greeter.authenticationUser, name);
+            return i;
         }
 
         function verifyLoggedIn() {
@@ -552,6 +552,12 @@ Item {
             LightDM.Greeter.showGreeter();
             compare(viewResetSpy.count, 1);
             tryCompare(viewShowPromptSpy, "count", 1);
+        }
+
+        function test_selectUserHint() {
+            // "full" mock sets selectUser == "info-prompt"
+            var i = verifySelected("info-prompt");
+            verify(i != 0); // just make sure that info-prompt isn't default 0 answer
         }
     }
 }

@@ -39,6 +39,7 @@ public:
 
     void handleAuthenticate();
     void handleRespond(const QString &response);
+    QString selectUserHint() const;
 
 protected:
     Greeter * const q_ptr;
