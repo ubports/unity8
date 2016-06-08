@@ -78,6 +78,12 @@ bool Greeter::promptless() const
     return d->promptless;
 }
 
+QString Greeter::selectUser() const
+{
+    Q_D(const Greeter);
+    return d->m_greeter->selectUserHint();
+}
+
 void Greeter::authenticate(const QString &username)
 {
     Q_D(Greeter);
