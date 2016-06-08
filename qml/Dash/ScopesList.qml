@@ -72,7 +72,7 @@ Item {
     }
 
     Flickable {
-    	objectName: "scopesListFlickable"
+        objectName: "scopesListFlickable"
         anchors {
             top: header.bottom
             bottom: parent.bottom
