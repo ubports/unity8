@@ -133,12 +133,16 @@ Showable {
         }
 
         function getUserIndex(username) {
+            if (username === "")
+                return -1;
+
             // Find index for requested user, if it exists
             for (var i = 0; i < LightDMService.users.count; i++) {
                 if (username === LightDMService.users.data(i, LightDMService.userRoles.NameRole)) {
                     return i;
                 }
             }
+
             return -1;
         }
 
