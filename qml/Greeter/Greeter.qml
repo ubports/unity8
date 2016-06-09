@@ -382,10 +382,6 @@ Showable {
         }
 
         onShowMessage: {
-            if (!lightDM.greeter.active) {
-                return; // could happen if hideGreeter() comes in before we prompt
-            }
-
             // inefficient, but we only rarely deal with messages
             var html = text.replace(/&/g, "&amp;")
                            .replace(/</g, "&lt;")
@@ -395,20 +391,17 @@ Showable {
                 html = "<font color=\"#df382c\">" + html + "</font>";
             }
 
-            loader.item.showMessage(html);
+            if (loader.item) {
+                loader.item.showMessage(html);
+            }
         }
 
         onShowPrompt: {
             d.waiting = false;
 
-            // Check root.required as well -- even though it's directly used to
-            // determine greeter.active -- because this callback can be made
-            // after required=true, but before greeter.active gets updated. 
-            if (!LightDMService.greeter.active && !root.required) {
-                return; // could happen if hideGreeter() comes in before we prompt
+            if (loader.item) {
+                loader.item.showPrompt(text, isSecret, isDefaultPrompt);
             }
-
-            loader.item.showPrompt(text, isSecret, isDefaultPrompt);
         }
 
         onAuthenticationComplete: {
