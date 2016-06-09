@@ -61,8 +61,11 @@ Showable {
 
     function forceShow() {
         forcedUnlock = false;
-        showNow();
-        d.selectUser(d.currentIndex, true);
+        if (!required) {
+            showNow(); // loader.onLoaded will select a user
+        } else {
+            d.selectUser(d.currentIndex, true);
+        }
     }
 
     function notifyAppFocusRequested(appId) {
@@ -398,7 +401,10 @@ Showable {
         onShowPrompt: {
             d.waiting = false;
 
-            if (!lightDM.greeter.active) {
+            // Check root.required as well -- even though it's directly used to
+            // determine greeter.active -- because this callback can be made
+            // after required=true, but before greeter.active gets updated. 
+            if (!LightDMService.greeter.active && !root.required) {
                 return; // could happen if hideGreeter() comes in before we prompt
             }
 
