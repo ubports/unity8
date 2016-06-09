@@ -672,9 +672,9 @@ Item {
 
         function test_eatWindowDecorationMouseEvents_data() {
             return [
-                {tag: "left mouse press", signalName: "clicked", button: Qt.LeftButton },
-                {tag: "right mouse press", signalName: "clicked", button: Qt.RightButton },
-                {tag: "middle mouse press", signalName: "clicked", button: Qt.MiddleButton },
+                {tag: "left mouse press", signalName: "pressed", button: Qt.LeftButton },
+                {tag: "right mouse press", signalName: "pressed", button: Qt.RightButton },
+                {tag: "middle mouse press", signalName: "pressed", button: Qt.MiddleButton },
                 {tag: "mouse wheel", signalName: "wheel", button: Qt.MiddleButton }
             ]
         }

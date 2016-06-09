@@ -23,7 +23,6 @@ import "../Components/PanelState"
 MouseArea {
     id: root
     clip: true
-    acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
 
     property Item target
     property alias title: titleLabel.text
@@ -45,6 +44,10 @@ MouseArea {
     }
 
     onPressedChanged: {
+        if (pressedButtons != Qt.LeftButton) {
+            return;
+        }
+
         if (pressed) {
             var pos = mapToItem(root.target, mouseX, mouseY);
             priv.distanceX = pos.x;
