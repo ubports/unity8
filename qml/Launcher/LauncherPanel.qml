@@ -239,6 +239,7 @@ Rectangle {
                         alerting: model.alerting
                         highlighted: root.highlightIndex == index
                         shortcutHintShown: root.shortcutHintsShown && index <= 9
+                        surfaceCount: model.surfaceCount
                         z: -Math.abs(offset)
                         maxAngle: 55
                         property bool dragging: false

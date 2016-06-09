@@ -25,6 +25,7 @@
 #include "asadapter.h"
 
 #include <unity/shell/application/ApplicationInfoInterface.h>
+#include <unity/shell/application/MirSurfaceListInterface.h>
 
 #include <QDesktopServices>
 #include <QDebug>
@@ -88,6 +89,8 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
             return item->alerting();
         case RoleRunning:
             return item->running();
+        case RoleSurfaceCount:
+            return item->surfaceCount();
         default:
             qWarning() << Q_FUNC_INFO << "missing role, implement me";
             return QVariant();
@@ -525,28 +528,50 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
             item->setRecent(true);
             Q_EMIT dataChanged(index(itemIndex), index(itemIndex), {RoleRecent});
         }
+        if (item->surfaceCount() != app->surfaceCount()) {
+            item->setSurfaceCount(app->surfaceCount());
+            Q_EMIT dataChanged(index(itemIndex), index(itemIndex), {RoleSurfaceCount});
+        }
+
         item->setRunning(true);
     } else {
         LauncherItem *item = new LauncherItem(app->appId(), app->name(), app->icon().toString(), this);
         item->setRecent(true);
         item->setRunning(true);
         item->setFocused(app->focused());
-
+        item->setSurfaceCount(app->surfaceCount());
         beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
         m_list.append(item);
         endInsertRows();
     }
+    connect(app, &ApplicationInfoInterface::surfaceCountChanged, this, &LauncherModel::applicationSurfaceCountChanged);
     m_asAdapter->syncItems(m_list);
     Q_EMIT dataChanged(index(itemIndex), index(itemIndex), {RoleRunning});
+}
+
+void LauncherModel::applicationSurfaceCountChanged(int count)
+{
+    ApplicationInfoInterface *app = static_cast<ApplicationInfoInterface*>(sender());
+    int idx = findApplication(app->appId());
+    if (idx < 0) {
+        qWarning() << "Received a surface count changed event from an app that's not in the Launcher model";
+        return;
+    }
+    LauncherItem *item = m_list.at(idx);
+    if (item->surfaceCount() != count) {
+        item->setSurfaceCount(count);
+        Q_EMIT dataChanged(index(idx), index(idx), {RoleSurfaceCount});
+    }
 }
 
 void LauncherModel::applicationRemoved(const QModelIndex &parent, int row)
 {
     Q_UNUSED(parent)
 
+    ApplicationInfoInterface *app = m_appManager->get(row);
     int appIndex = -1;
     for (int i = 0; i < m_list.count(); ++i) {
-        if (m_list.at(i)->appId() == m_appManager->get(row)->appId()) {
+        if (m_list.at(i)->appId() == app->appId()) {
             appIndex = i;
             break;
         }
@@ -556,6 +581,8 @@ void LauncherModel::applicationRemoved(const QModelIndex &parent, int row)
         qWarning() << Q_FUNC_INFO << "appIndex not found";
         return;
     }
+
+    disconnect(app, &ApplicationInfoInterface::surfaceCountChanged, this, &LauncherModel::applicationSurfaceCountChanged);
 
     LauncherItem * item = m_list.at(appIndex);
     item->setRunning(false);

@@ -32,6 +32,7 @@ Item {
     property bool alerting: false
     property bool highlighted: false
     property bool shortcutHintShown: false
+    property int surfaceCount: 1
 
     readonly property int effectiveHeight: Math.cos(angle * Math.PI / 180) * itemHeight
     readonly property real foldedHeight: Math.cos(maxAngle * Math.PI / 180) * itemHeight
@@ -221,7 +222,8 @@ Item {
             }
             spacing: units.gu(.5)
             Repeater {
-                model: 1 // TODO: This should be "Math.min(3, app.surfaceCount)" once we have multiple surfaces
+                objectName: "surfacePipRepeater"
+                model: Math.min(3, root.surfaceCount)
                 Rectangle {
                     objectName: "runningHighlight" + index
                     width: units.gu(0.25)

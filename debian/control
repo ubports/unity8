@@ -32,7 +32,7 @@ Build-Depends: cmake,
                libubuntugestures5-dev,
                libubuntugestures5-private-dev,
                libudev-dev,
-               libunity-api-dev (>= 7.113),
+               libunity-api-dev (>= 7.114),
                libusermetricsoutput1-dev,
 # Need those X11 libs touch emulation from mouse events in manual QML tests on a X11 desktop
                libx11-dev[!armhf],
