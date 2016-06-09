@@ -21,7 +21,6 @@
 
 #include <QObject>
 #include <QString>
-#include <QTimer>
 
 class CursorImageInfo : public QObject
 {
@@ -35,10 +34,6 @@ class CursorImageInfo : public QObject
     Q_PROPERTY(qreal frameHeight READ frameHeight NOTIFY frameHeightChanged)
     Q_PROPERTY(int frameCount READ frameCount NOTIFY frameCountChanged)
     Q_PROPERTY(int frameDuration READ frameDuration NOTIFY frameDurationChanged)
-
-    // Will be true when all properties are in sync and false while they're
-    // being updated to reflect a change in themeName or cursorName.
-    Q_PROPERTY(bool ready READ ready NOTIFY readyChanged)
 
 public:
     CursorImageInfo(QObject *parent = nullptr);
@@ -54,7 +49,6 @@ public:
     qreal frameHeight() const;
     int frameCount() const;
     int frameDuration() const;
-    bool ready() const;
 
 Q_SIGNALS:
     void themeNameChanged();
@@ -64,21 +58,15 @@ Q_SIGNALS:
     void frameHeightChanged();
     void frameCountChanged();
     void frameDurationChanged();
-    void readyChanged();
 
 private Q_SLOTS:
     void update();
 
 private:
-    void scheduleUpdate();
-    QTimer m_updateTimer;
-
     QString m_themeName;
     QString m_cursorName;
 
     CursorImage *m_cursorImage{nullptr};
-
-    bool m_ready{false};
 };
 
 #endif // CURSOR_IMAGE_INFO_H

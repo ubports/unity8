@@ -19,16 +19,13 @@
 CursorImageInfo::CursorImageInfo(QObject *parent)
     : QObject(parent)
 {
-    m_updateTimer.setInterval(0);
-    m_updateTimer.setSingleShot(true);
-    connect(&m_updateTimer, &QTimer::timeout, this, &CursorImageInfo::update);
 }
 
 void CursorImageInfo::setCursorName(const QString &cursorName)
 {
     if (cursorName != m_cursorName) {
-        scheduleUpdate();
         m_cursorName = cursorName;
+        update();
         Q_EMIT cursorNameChanged();
     }
 }
@@ -36,20 +33,9 @@ void CursorImageInfo::setCursorName(const QString &cursorName)
 void CursorImageInfo::setThemeName(const QString &themeName)
 {
     if (m_themeName != themeName) {
-        scheduleUpdate();
         m_themeName = themeName;
+        update();
         Q_EMIT themeNameChanged();
-    }
-}
-
-void CursorImageInfo::scheduleUpdate()
-{
-    if (!m_updateTimer.isActive()) {
-        if (m_ready) {
-            m_ready = false;
-            Q_EMIT readyChanged();
-        }
-        m_updateTimer.start();
     }
 }
 
@@ -62,10 +48,6 @@ void CursorImageInfo::update()
     Q_EMIT frameHeightChanged();
     Q_EMIT frameCountChanged();
     Q_EMIT frameDurationChanged();
-
-    Q_ASSERT(!m_ready);
-    m_ready = true;
-    Q_EMIT readyChanged();
 }
 
 QPoint CursorImageInfo::hotspot() const
@@ -111,9 +93,4 @@ int CursorImageInfo::frameDuration() const
     } else {
         return 0;
     }
-}
-
-bool CursorImageInfo::ready() const
-{
-    return m_ready;
 }
