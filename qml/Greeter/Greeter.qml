@@ -168,8 +168,9 @@ Showable {
                 // pretend we were just authenticated
                 loader.item.notifyAuthenticationSucceeded();
                 loader.item.hide();
-                if (hideNow)
+                if (hideNow) {
                     root.hideNow(); // skip hide animation
+                }
             }
         }
     }
