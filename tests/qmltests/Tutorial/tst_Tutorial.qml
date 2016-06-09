@@ -353,12 +353,12 @@ Rectangle {
 
         function test_tutorialLeftFinish() {
             var tutorial = findChild(shell, "tutorial");
-            var tutorialLeft = findChild(tutorial, "tutorialLeft");
+            var tutorialLeftLoader = findChild(tutorial, "tutorialLeftLoader");
             var launcher = findChild(shell, "launcher");
 
             touchFlick(shell, 0, halfHeight, halfWidth, halfHeight);
 
-            tryCompare(tutorialLeft, "shown", false);
+            tryCompare(tutorialLeftLoader, "shown", false);
             tryCompare(AccountsService, "demoEdgesCompleted", ["left"]);
             tryCompare(launcher, "state", "visible");
         }
@@ -368,6 +368,7 @@ Rectangle {
             // letting go (i.e. not triggering the "progress" property of
             // Launcher).
             var tutorialLeft = findChild(shell, "tutorialLeft");
+            var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
             var launcher = findChild(shell, "launcher");
 
             // Confirm fade during drag
@@ -384,13 +385,13 @@ Rectangle {
             // out much.
             touchFlick(shell, 0, halfHeight, launcher.panelWidth * 0.4, halfHeight);
             tryCompare(launcher, "state", ""); // should remain hidden
-            tryCompare(tutorialLeft, "shown", true); // and we should still be on left
+            tryCompare(tutorialLeftLoader, "shown", true); // and we should still be on left
 
 
             // Now drag out but not past launcher itself
             touchFlick(shell, 0, halfHeight, launcher.panelWidth * 0.9, halfHeight);
 
-            tryCompare(tutorialLeft, "shown", false);
+            tryCompare(tutorialLeftLoader, "shown", false);
             tryCompare(AccountsService, "demoEdgesCompleted", ["left"]);
             tryCompare(launcher, "state", "visible");
         }
@@ -402,12 +403,11 @@ Rectangle {
             ApplicationManager.startApplication("gallery-app");
 
             var launcher = findChild(shell, "launcher");
-            var tutorialLeft = findChild(shell, "tutorialLeftLoader");
-            verify(tutorialLeft);
+            var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
 
             touchFlick(shell, 0, halfHeight, shell.width, halfHeight);
 
-            tryCompare(tutorialLeft, "shown", false);
+            tryCompare(tutorialLeftLoader, "shown", false);
             tryCompare(AccountsService, "demoEdgesCompleted", ["left", "left-long"]);
         }
 
@@ -444,13 +444,13 @@ Rectangle {
 
         function test_tutorialTopFinish() {
             var tutorial = findChild(shell, "tutorial");
-            var tutorialTop = findChild(tutorial, "tutorialTop");
+            var tutorialTopLoader = findChild(tutorial, "tutorialTopLoader");
             var panel = findChild(shell, "panel");
 
             openTutorialTop();
             touchFlick(shell, halfWidth, 0, halfWidth, shell.height);
 
-            tryCompare(tutorialTop, "shown", false);
+            tryCompare(tutorialTopLoader, "shown", false);
             tryCompare(AccountsService, "demoEdgesCompleted", ["left", "left-long", "top"]);
             tryCompare(panel.indicators, "fullyOpened", true);
         }
@@ -476,10 +476,10 @@ Rectangle {
             // Test that we skip the tutorial if user uses top edge themselves
 
             var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
-            var tutorialTop = findChild(shell, "tutorialTop");
+            var tutorialTopLoader = findChild(shell, "tutorialTopLoader");
             AccountsService.demoEdgesCompleted = ["left", "left-long"];
             tryCompare(tutorialLeftLoader, "active", false);
-            verify(!tutorialTop.shown);
+            verify(!tutorialTopLoader.shown);
 
             touchFlick(shell, halfWidth, 0, halfWidth, shell.height);
             tryCompare(AccountsService, "demoEdgesCompleted", ["left", "left-long", "top"]);
@@ -506,13 +506,13 @@ Rectangle {
 
         function test_tutorialRightFinish() {
             var tutorial = findChild(shell, "tutorial");
-            var tutorialRight = findChild(tutorial, "tutorialRight");
+            var tutorialRightLoader = findChild(tutorial, "tutorialRightLoader");
             var stage = findChild(shell, "stage");
 
             openTutorialRight();
             touchFlick(shell, shell.width, halfHeight, 0, halfHeight);
 
-            tryCompare(tutorialRight, "shown", false);
+            tryCompare(tutorialRightLoader, "shown", false);
             tryCompare(AccountsService, "demoEdgesCompleted", ["left", "left-long", "top", "right"]);
         }
 
@@ -536,8 +536,8 @@ Rectangle {
         function test_tutorialRightDelay() {
             // Test that if we exit the top tutorial, we don't immediately
             // jump into right tutorial.
-            var tutorialRight = findChild(shell, "tutorialRight");
-            var tutorialRightTimer = findInvisibleChild(tutorialRight, "tutorialRightInactivityTimer");
+            var tutorialRightLoader = findChild(shell, "tutorialRightLoader");
+            var tutorialRightTimer = findInvisibleChild(tutorialRightLoader, "tutorialRightInactivityTimer");
 
             tutorialRightTimer.interval = 1;
             openTutorialTop();
@@ -547,8 +547,8 @@ Rectangle {
 
             AccountsService.demoEdgesCompleted = ["left", "left-long", "top"];
             verify(tutorialRightTimer.running, true);
-            verify(!tutorialRight.shown);
-            tryCompare(tutorialRight, "shown", true);
+            verify(!tutorialRightLoader.shown);
+            tryCompare(tutorialRightLoader, "shown", true);
         }
 
         function test_tutorialRightAutoSkipped() {
@@ -585,12 +585,12 @@ Rectangle {
 
         function test_tutorialBottomFinish() {
             var tutorial = findChild(shell, "tutorial");
-            var tutorialBottom = findChild(tutorial, "tutorialBottom");
+            var tutorialBottomLoader = findChild(tutorial, "tutorialBottomLoader");
 
             openTutorialBottom();
             touchFlick(shell, halfWidth, shell.height, halfWidth, halfHeight);
 
-            tryCompare(tutorialBottom, "shown", false);
+            tryCompare(tutorialBottomLoader, "shown", false);
             tryCompare(AccountsService, "demoEdgesCompleted", ["left", "left-long", "top", "right", "bottom-dialer-app"]);
 
             // OK, we did one, just confirm that when all are done, we mark whole tutorial as done.
@@ -679,28 +679,28 @@ Rectangle {
         }
 
         function test_dialerInterruptionWithNoOverlappingTutorials() {
-            var tutorialLeft = findChild(shell, "tutorialLeft");
-            var tutorialBottom = findChild(shell, "tutorialBottom");
-            verify(tutorialLeft.shown);
+            var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
+            var tutorialBottomLoader = findChild(shell, "tutorialBottomLoader");
+            verify(tutorialLeftLoader.shown);
 
             // Start call, hiding left tutorial
             callManager.foregroundCall = phoneCall;
-            tryCompare(tutorialLeft, "shown", false);
+            tryCompare(tutorialLeftLoader, "shown", false);
 
             // Start dialer app
             ApplicationManager.startApplication("dialer-app");
             tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
-            verify(!tutorialBottom.shown);
+            verify(!tutorialBottomLoader.shown);
 
             // Dismiss call, bottom tutorial should appear
             callManager.foregroundCall = null;
-            tryCompare(tutorialBottom, "shown", true);
-            verify(!tutorialLeft.shown);
+            tryCompare(tutorialBottomLoader, "shown", true);
+            verify(!tutorialLeftLoader.shown);
 
             // Get rid of bottom tutorial, left should now be shown
             touchFlick(shell, halfWidth, shell.height, halfWidth, halfHeight);
-            tryCompare(tutorialBottom, "shown", false);
-            tryCompare(tutorialLeft, "shown", true);
+            tryCompare(tutorialBottomLoader, "shown", false);
+            tryCompare(tutorialLeftLoader, "shown", true);
         }
 
         function test_greeterInterruptsTutorial() {
@@ -763,22 +763,22 @@ Rectangle {
         function test_desktopTutorialRightFinish() {
             loadShell("desktop");
 
-            var tutorialRight = findChild(shell, "tutorialRight");
+            var tutorialRightLoader = findChild(shell, "tutorialRightLoader");
             ApplicationManager.startApplication("dialer-app");
             ApplicationManager.startApplication("camera-app");
-            tryCompare(tutorialRight, "shown", true);
+            tryCompare(tutorialRightLoader, "shown", true);
 
             var stage = findChild(shell, "stage");
             mouseMove(shell, shell.width, shell.height / 2);
             stage.pushRightEdge(units.gu(8));
-            tryCompare(tutorialRight, "shown", false);
+            tryCompare(tutorialRightLoader, "shown", false);
 
             tryCompare(AccountsService, "demoEdges", false);
         }
 
         function test_oskDoesNotHideTutorial() {
-            var tutorialLeft = findChild(shell, "tutorialLeft");
-            verify(tutorialLeft.shown);
+            var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
+            verify(tutorialLeftLoader.shown);
 
             var surface = SurfaceManager.inputMethodSurface;
             surface.setState(Mir.RestoredState);
@@ -786,7 +786,7 @@ Rectangle {
             var inputMethod = findInvisibleChild(shell, "inputMethod");
             tryCompare(inputMethod, "state", "shown");
 
-            verify(tutorialLeft.shown);
+            verify(tutorialLeftLoader.shown);
         }
 
         function test_oskPreventsTutorial() {
@@ -801,26 +801,24 @@ Rectangle {
             tryCompare(tutorial, "keyboardVisible", true);
 
             AccountsService.demoEdges = true;
-            var tutorialLeft = findChild(shell, "tutorialLeft");
-            verify(!tutorialLeft.shown);
+            var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
+            verify(!tutorialLeftLoader.shown);
 
             surface.setState(Mir.MinimizedState);
             tryCompare(inputMethod, "state", "hidden");
-            tryCompare(tutorialLeft, "shown", false);
+            tryCompare(tutorialLeftLoader, "shown", false);
         }
 
         function test_accountsServiceSettings() {
-            var tutorialLeft = findChild(shell, "tutorialLeft");
-            verify(tutorialLeft != null);
-            verify(tutorialLeft.shown);
+            var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
+            verify(tutorialLeftLoader.shown);
 
             AccountsService.demoEdges = false;
-            verify(findChild(shell, "tutorialLeft") == null);
+            verify(findChild(shell, "tutorialLeftLoader") == null);
 
             AccountsService.demoEdges = true;
-            tutorialLeft = findChild(shell, "tutorialLeft");
-            verify(tutorialLeft != null);
-            tryCompare(tutorialLeft, "shown", true);
+            tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
+            tryCompare(tutorialLeftLoader, "shown", true);
         }
     }
 }
