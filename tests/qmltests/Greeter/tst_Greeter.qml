@@ -230,11 +230,9 @@ Item {
 
         function test_promptless() {
             selectUser("no-password");
-            tryCompare(viewAuthenticationSucceededSpy, "count", 1);
-            compare(sessionStartedSpy.count, 1);
+            tryCompare(view, "locked", false);
             compare(viewShowPromptSpy.count, 0);
             compare(viewHideSpy.count, 0);
-            compare(view.locked, false);
         }
 
         function test_twoFactorPass() {
