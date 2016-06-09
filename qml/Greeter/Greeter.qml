@@ -60,6 +60,7 @@ Showable {
     signal emergencyCall()
 
     function forceShow() {
+        forcedUnlock = false;
         showNow();
         d.selectUser(d.currentIndex, true);
     }
