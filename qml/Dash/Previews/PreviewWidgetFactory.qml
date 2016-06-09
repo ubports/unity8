@@ -76,7 +76,7 @@ Loader {
             case "video": {
                 if (!widgetData) return "";
                 var source = widgetData.hasOwnProperty("source") ? widgetData["source"].toString() : "";
-                if (source.match("^http") !== null) {
+                if (source.match("^https{0,1}\:") !== null) {
                     return "PreviewVideoPlayback.qml";
                 }
                 return "PreviewInlineVideo.qml";

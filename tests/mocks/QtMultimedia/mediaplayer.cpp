@@ -227,7 +227,6 @@ QObject *MediaPlayer::metaData() const
 }
 
 
-
 MediaDataSource::MediaDataSource(QObject *parent)
     : QObject(parent)
     , m_seekable(true)

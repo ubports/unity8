@@ -37,7 +37,6 @@ Item {
         }
         spacing: units.gu(2)
 
-        // eater
         AbstractButton {
             id: navigationButton
             objectName: "navigationButton"

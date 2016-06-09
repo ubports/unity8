@@ -341,7 +341,7 @@ FocusScope {
                 when: priv.fullscreen
                 ParentChange { target: root; parent: rootItem; x: 0; y: 0; width: parent.width; }
                 PropertyChanges { target: root; implicitHeight: root.parent ? root.parent.height : 0; }
-                PropertyChanges { target: fullscreenAction; iconName: "view-restore" }
+                PropertyChanges { target: fullscreenAction; iconName: "view-restore"; }
             }
         ]
 
@@ -356,7 +356,7 @@ FocusScope {
         id: priv
 
         property bool fullscreen: false
-        property bool controlTimerActive: false
+        property alias controlTimerActive: controlHideTimer.running
         property bool forceControlsShown: false
     }
 
@@ -365,13 +365,6 @@ FocusScope {
         objectName: "controlHideTimer"
         interval: 4000
         running: false
-
-        onRunningChanged: {
-            if (running) {
-                priv.controlTimerActive = true;
-            }
-        }
-        onTriggered: priv.controlTimerActive = false;
     }
 
     Action {

@@ -29,7 +29,7 @@ Item {
     readonly property Item rootItem: QuickUtils.rootItem(root)
 
     function showPeerPicker() {
-        peerPicker.visible = true
+        peerPicker.visible = true;
     }
 
     function createExportedItems(url) {

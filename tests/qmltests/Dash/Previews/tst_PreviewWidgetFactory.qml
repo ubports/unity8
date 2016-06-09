@@ -88,8 +88,8 @@ Rectangle {
                 { tag: "Rating Display", data: { type: "reviews" }, source: "PreviewRatingDisplay.qml", expanded: true },
                 { tag: "Table", data: { type: "table" }, source: "PreviewTable.qml", expanded: true },
                 { tag: "Text", data: { type: "text" }, source: "PreviewTextSummary.qml", expanded: true },
-                { tag: "Video", data: { type: "video" }, source: "PreviewInlineVideo.qml", expanded: true },
-                { tag: "Video", data: { type: "video", source: "http://demo" }, source: "PreviewVideoPlayback.qml", expanded: true },
+                { tag: "Video Inline", data: { type: "video", source: "httpDemo" }, source: "PreviewInlineVideo.qml", expanded: true },
+                { tag: "Video", data: { type: "video", source: "https://demo" }, source: "PreviewVideoPlayback.qml", expanded: true },
             ];
         }
 

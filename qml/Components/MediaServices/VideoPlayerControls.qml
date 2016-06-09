@@ -106,8 +106,7 @@ MediaServicesControls {
             }
 
             onValueChanged: {
-                if (!pressed) return;
-                if (slider.valueGuard) return;
+                if (!pressed || slider.valueGuard) return;
 
                 slider.valueGuard = true;
                 mediaPlayer.seek(value);
@@ -120,7 +119,6 @@ MediaServicesControls {
                     wasPlaying = mediaPlayer.playbackState === MediaPlayer.PlayingState
                     mediaPlayer.pause();
                 } else {
-
                     positionLabel.text = priv.formatProgress(mediaPlayer.position);
                     if (wasPlaying) {
                         mediaPlayer.play();
