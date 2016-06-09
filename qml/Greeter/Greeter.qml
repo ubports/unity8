@@ -163,11 +163,13 @@ Showable {
             }
         }
 
-        function checkForcedUnlock() {
+        function checkForcedUnlock(hideNow) {
             if (forcedUnlock && shown && loader.item) {
                 // pretend we were just authenticated
                 loader.item.notifyAuthenticationSucceeded();
                 loader.item.hide();
+                if (hideNow)
+                    root.hideNow(); // skip hide animation
             }
         }
     }
@@ -178,8 +180,8 @@ Showable {
         }
     }
 
-    onForcedUnlockChanged: d.checkForcedUnlock()
-    Component.onCompleted: d.checkForcedUnlock()
+    onForcedUnlockChanged: d.checkForcedUnlock(false /* hideNow */)
+    Component.onCompleted: d.checkForcedUnlock(true /* hideNow */)
 
     onRequiredChanged: {
         if (required) {

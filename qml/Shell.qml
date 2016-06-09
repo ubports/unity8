@@ -419,7 +419,7 @@ StyledItem {
             hides: [launcher, panel.indicators]
             tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
-            forcedUnlock: wizard.active
+            forcedUnlock: wizard.active || shell.mode === "full-shell"
             background: wallpaperResolver.background
 
             // avoid overlapping with Launcher's edge drag area
