@@ -34,12 +34,12 @@ public:
     bool authenticated;
     QString authenticationUser;
     bool twoFactorDone;
+    QString selectUserHint;
 
     QString mockMode;
 
     void handleAuthenticate();
     void handleRespond(const QString &response);
-    QString selectUserHint() const;
 
 protected:
     Greeter * const q_ptr;

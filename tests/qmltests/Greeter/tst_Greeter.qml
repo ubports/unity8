@@ -139,7 +139,9 @@ Item {
 
         function init() {
             greeterSettings.lockedOutTime = 0;
-            resetLoader();
+            LightDM.Greeter.selectUser = "";
+            greeter.failedLoginsDelayAttempts = 7;
+            greeter.failedLoginsDelayMinutes = 5;
             teaseSpy.clear();
             sessionStartedSpy.clear();
             activeChangedSpy.clear();
@@ -151,10 +153,7 @@ Item {
             viewAuthenticationFailedSpy.clear();
             viewResetSpy.clear();
             viewTryToUnlockSpy.clear();
-            tryCompare(greeter, "waiting", false);
-            view = findChild(greeter, "testView");
-            greeter.failedLoginsDelayAttempts = 7;
-            greeter.failedLoginsDelayMinutes = 5;
+            resetLoader();
         }
 
         function resetLoader() {
@@ -166,6 +165,8 @@ Item {
             loader.active = true;
             tryCompare(loader, "status", Loader.Ready);
             removeTimeConstraintsFromSwipeAreas(loader.item);
+            tryCompare(greeter, "waiting", false);
+            view = findChild(greeter, "testView");
         }
 
         function getIndexOf(name) {
@@ -555,9 +556,22 @@ Item {
         }
 
         function test_selectUserHint() {
-            // "full" mock sets selectUser == "info-prompt"
+            LightDM.Greeter.selectUser = "info-prompt";
+            resetLoader();
             var i = verifySelected("info-prompt");
-            verify(i != 0); // just make sure that info-prompt isn't default 0 answer
+            verify(i != 0); // sanity-check that info-prompt isn't default 0 answer
+        }
+
+        function test_selectUserHintUnset() {
+            LightDM.Greeter.selectUser = "";
+            resetLoader();
+            verifySelected(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+        }
+
+        function test_selectUserHintInvalid() {
+            LightDM.Greeter.selectUser = "not-a-real-user";
+            resetLoader();
+            verifySelected(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
         }
     }
 }

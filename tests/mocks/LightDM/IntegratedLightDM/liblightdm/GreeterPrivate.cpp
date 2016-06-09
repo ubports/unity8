@@ -129,13 +129,4 @@ void GreeterPrivate::handleRespond_full(const QString &response)
     q->sendAuthenticationComplete();
 }
 
-QString GreeterPrivate::selectUserHint() const
-{
-    if (mockMode == "full") {
-        return "info-prompt";
-    } else {
-        return "";
-    }
-}
-
 }
