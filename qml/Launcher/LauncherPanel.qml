@@ -272,6 +272,7 @@ Rectangle {
 
                             PropertyAction { target: launcherListViewItem; property: "clip"; value: 1 }
                             PropertyAction { target: root; property: "visible"; value: (launcher.visibleWidth === 0) ? 0 : 1 }
+                            PropertyAction { target: launcherListView; property: "peekingIndex"; value: -1 }
                         }
 
                         onAlertingChanged: {
