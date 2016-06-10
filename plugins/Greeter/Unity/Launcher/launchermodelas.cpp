@@ -69,16 +69,11 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
             return item->focused();
         case RoleRunning:
             return item->running();
+        case RoleSurfaceCount:
+            return item->surfaceCount();
     }
 
     return QVariant();
-}
-
-void LauncherModel::setAlerting(const QString &appId, bool alerting)
-{
-    Q_UNUSED(appId)
-    Q_UNUSED(alerting)
-    qWarning() << "This is a read only implementation. Cannot set alert-state of items.";
 }
 
 unity::shell::launcher::LauncherItemInterface *LauncherModel::get(int index) const
