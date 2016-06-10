@@ -210,6 +210,12 @@ Rectangle {
         target: LauncherModel
     }
 
+    SignalSpy {
+        id: wheelSignalSpy
+        target: clickThroughTester
+        signalName: "wheel"
+    }
+
     Item {
         id: fakeDismissTimer
         property bool running: false
@@ -1310,6 +1316,14 @@ Rectangle {
                 var surfacePipRepeater = findInvisibleChild(delegate, "surfacePipRepeater");
                 compare(surfacePipRepeater.model, Math.min(3, LauncherModel.get(i).surfaceCount))
             }
+        }
+
+        function test_preventMouseWheelThru(){
+            dragLauncherIntoView();
+            var launcherPanel = findChild(launcher, "launcherPanel");
+            tryCompare(launcherPanel, "visible", true);
+            mouseWheel(launcherPanel, launcherPanel.width/2, launcherPanel.height/2, 10, 10);
+            tryCompare(wheelSignalSpy, "count", 0);
         }
     }
 }

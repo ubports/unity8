@@ -27,6 +27,17 @@ IndicatorTest {
     width: units.gu(80)
     height: units.gu(71)
 
+    SignalSpy {
+        id: wheelSignalSpy
+        target: clickThroughTester
+        signalName: "wheel"
+    }
+
+    MouseArea {
+        id: clickThroughTester
+        anchors.fill: root
+    }
+
     RowLayout {
         anchors.fill: parent
         anchors.margins: units.gu(1)
@@ -256,6 +267,13 @@ IndicatorTest {
             tryCompare(indicatorItemRow, "currentItem", nextItem);
 
             touchRelease(indicatorsMenu, nextItemMappedPositionX, indicatorsMenu.openedHeight / 3);
+        }
+
+        function test_preventMouseWheelThru() {
+            indicatorsMenu.show();
+            tryCompare(indicatorsMenu, "fullyOpened", true);
+            mouseWheel(indicatorsMenu, indicatorsMenu.width/2, indicatorsMenu.height/2, 10, 10);
+            tryCompare(wheelSignalSpy, "count", 0);
         }
     }
 }
