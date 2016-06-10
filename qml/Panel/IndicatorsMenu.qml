@@ -80,6 +80,7 @@ Showable {
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
+        onWheel: wheel.accepted = true;
     }
 
     MenuContent {
