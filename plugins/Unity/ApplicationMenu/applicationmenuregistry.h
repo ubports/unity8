@@ -68,8 +68,8 @@ Q_SIGNALS:
     void appMenuRegistered(pid_t processId);
     void appMenuUnregistered(pid_t processId);
 
-    void surfaceMenuRegistered(const QString& surface);
-    void surfaceMenuUnregistered(const QString& surface);
+    void surfaceMenuRegistered(const QString& surfaceId);
+    void surfaceMenuUnregistered(const QString& surfaceId);
 
 protected:
     explicit ApplicationMenuRegistry(QObject *parent = 0);
