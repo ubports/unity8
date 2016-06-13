@@ -70,7 +70,7 @@ void UsersModelPrivate::resetEntries_singlePin()
 {
     entries =
     {
-        { "has-pin", "Has PIN", 0, 0, false, false, 0, 0 },
+        { "has-pin", "Has PIN", 0, 0, false, false, "Ubuntu", 0 },
     };
 }
 
@@ -88,7 +88,7 @@ void UsersModelPrivate::resetEntries_full()
         { "html-info-prompt",  "HTML Info Prompt", 0, 0, false, false, "Ubuntu", 0 },
         { "long-info-prompt",  "Long Info Prompt", 0, 0, false, false, "Ubuntu", 0 },
         { "wide-info-prompt",  "Wide Info Prompt", 0, 0, false, false, "Ubuntu", 0 },
-        { "multi-info-prompt", "Multi Info Prompt", 0, 0, false, false, "Ububntu", 0 },
+        { "multi-info-prompt", "Multi Info Prompt", 0, 0, false, false, "Ubuntu", 0 },
         { "long-name",         "Long name (far far too long to fit)", 0, 0, false, false, "Ubuntu", 0 },
         { "color-background",  "Color Background", "#dd4814", 0, false, false, "Ubuntu", 0 },
         // white and black are a bit redundant, but useful for manually testing if UI is still readable
