@@ -7,8 +7,7 @@ foreach(include_directory ${QMLPLUGIN_INCLUDES})
 endforeach()
 
 include_directories(
-    ../
-    ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM/IntegratedLightDM
+    . #QLightDM
     )
 
 foreach(source_file ${QMLPLUGIN_SRC})
