@@ -70,6 +70,7 @@ public:
     bool lockHint () const;
     bool hasGuestAccountHint() const;
     QString selectUserHint() const;
+    void setSelectUserHint(const QString &selectUserHint); // only in mock
     bool selectGuestHint() const;
     QString autologinUserHint() const;
     bool autologinGuestHint() const;

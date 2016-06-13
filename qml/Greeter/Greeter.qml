@@ -124,7 +124,8 @@ Showable {
         id: d
 
         readonly property bool multiUser: LightDMService.users.count > 1
-        property int currentIndex
+        readonly property int selectUserIndex: d.getUserIndex(LightDMService.greeter.selectUser)
+        property int currentIndex: Math.max(selectUserIndex, 0)
         property bool waiting
 
         // We want 'launcherOffset' to animate down to zero.  But not to animate
@@ -141,7 +142,23 @@ Showable {
             UbuntuNumberAnimation {}
         }
 
+        function getUserIndex(username) {
+            if (username === "")
+                return -1;
+
+            // Find index for requested user, if it exists
+            for (var i = 0; i < LightDMService.users.count; i++) {
+                if (username === LightDMService.users.data(i, LightDMService.userRoles.NameRole)) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
         function selectUser(uid, reset) {
+            if (uid < 0)
+                return;
             d.waiting = true;
             if (reset) {
                 loader.item.reset();
@@ -450,15 +467,7 @@ Showable {
             }
         }
 
-        onRequestAuthenticationUser: {
-            // Find index for requested user, if it exists
-            for (var i = 0; i < LightDMService.users.count; i++) {
-                if (user === LightDMService.users.data(i, LightDMService.userRoles.NameRole)) {
-                    d.selectUser(i, true);
-                    return;
-                }
-            }
-        }
+        onRequestAuthenticationUser: d.selectUser(d.getUserIndex(user), true)
     }
 
     Connections {

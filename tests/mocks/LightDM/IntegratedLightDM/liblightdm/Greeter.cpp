@@ -76,7 +76,14 @@ bool Greeter::lockHint () const
 
 QString Greeter::selectUserHint() const
 {
-    return "";
+    Q_D(const Greeter);
+    return d->selectUserHint;
+}
+
+void Greeter::setSelectUserHint(const QString &selectUserHint)
+{
+    Q_D(Greeter);
+    d->selectUserHint = selectUserHint;
 }
 
 bool Greeter::selectGuestHint() const
