@@ -78,7 +78,7 @@ SequentialAnimation {
             duration: rotationDuration; easing.type: rotationEasing
         }
     }
-    UpdateShellTransformations { info: root.info; shell: root.shell }
+    UpdateShellTransformations { shell: root.shell; rotationAngle: root.toAngle }
     ScriptAction { script: {
         shellSnapshot.visible = false;
         shellSnapshot.discard();
