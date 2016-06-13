@@ -38,6 +38,7 @@ class Greeter : public QObject
     Q_PROPERTY(QString authenticationUser READ authenticationUser NOTIFY authenticationUserChanged)
     Q_PROPERTY(QString defaultSession READ defaultSessionHint CONSTANT)
     Q_PROPERTY(bool promptless READ promptless NOTIFY promptlessChanged)
+    Q_PROPERTY(QString selectUser READ selectUser CONSTANT)
 
 public:
     explicit Greeter(QObject* parent=0);
@@ -47,6 +48,7 @@ public:
     QString authenticationUser() const;
     QString defaultSessionHint() const;
     bool promptless() const;
+    QString selectUser() const;
 
 public Q_SLOTS:
     void authenticate(const QString &username=QString());

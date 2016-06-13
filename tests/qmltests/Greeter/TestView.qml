@@ -33,6 +33,7 @@ Item {
     property var infographicModel
     readonly property bool fullyShown: _fullyShown
     readonly property bool required: _required
+    readonly property bool animating: false
 
     property bool _fullyShown: true
     property bool _required: true
@@ -41,6 +42,7 @@ Item {
     signal responded(string response)
     signal tease()
     signal emergencyCall()
+    signal promptlessLogin()
 
     signal _showMessageCalled(string html)
     signal _showPromptCalled(string text, bool isSecret, bool isDefaultPrompt)
