@@ -33,3 +33,19 @@ void MockGreeter::setMockMode(QString mockMode)
         Q_EMIT mockModeChanged(mockMode);
     }
 }
+
+QString MockGreeter::selectUserHint() const
+{
+    Q_D(const Greeter);
+    return d->m_greeter->selectUserHint();
+}
+
+void MockGreeter::setSelectUserHint(const QString &selectUserHint)
+{
+    Q_D(Greeter);
+
+    if (d->m_greeter->selectUserHint() != selectUserHint) {
+        d->m_greeter->setSelectUserHint(selectUserHint);
+        Q_EMIT selectUserHintChanged();
+    }
+}

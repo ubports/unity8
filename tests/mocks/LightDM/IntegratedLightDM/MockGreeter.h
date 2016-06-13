@@ -25,13 +25,18 @@ class MockGreeter : public Greeter {
     Q_OBJECT
 
     Q_PROPERTY(QString mockMode READ mockMode WRITE setMockMode NOTIFY mockModeChanged)
+    Q_PROPERTY(QString selectUser READ selectUserHint WRITE setSelectUserHint NOTIFY selectUserHintChanged)
 
 public:
     QString mockMode() const;
     void setMockMode(QString mockMode);
 
+    QString selectUserHint() const;
+    void setSelectUserHint(const QString &selectUserHint);
+
 Q_SIGNALS:
     void mockModeChanged(QString mode);
+    void selectUserHintChanged();
 };
 
 #endif // MOCK_UNITY_GREETER_H
