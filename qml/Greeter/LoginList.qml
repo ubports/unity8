@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,11 +15,12 @@
  */
 
 import QtQuick 2.4
+import QtGraphicalEffects 1.0
 import Ubuntu.Components 1.3
 import "../Components"
 import "." 0.1
 
-Item {
+StyledItem {
     id: root
 
     property alias model: userList.model
@@ -29,7 +30,7 @@ Item {
 
     readonly property int numAboveBelow: 4
     readonly property int cellHeight: units.gu(5)
-    readonly property int highlightedHeight: units.gu(10)
+    readonly property int highlightedHeight: units.gu(15)
     readonly property int moveDuration: 200
     property string selectedSession
     property string currentSession: selectedSession ?
@@ -66,10 +67,9 @@ Item {
     }
 
     function showPrompt(text, isSecret, isDefaultPrompt) {
-        passwordInput.text = "";
-        passwordInput.promptText = text;
-        passwordInput.enabled = true;
-        passwordInput.echoMode = isSecret ? TextInput.Password : TextInput.Normal;
+        d.promptText = text;
+        passwordInput.reset();
+        passwordInput.isSecret = isSecret;
         if (wasPrompted) // stay in text field if second prompt
             passwordInput.focus = true;
         wasPrompted = true;
@@ -87,6 +87,16 @@ Item {
         root.resetAuthentication();
     }
 
+    QtObject {
+        id: d
+
+        property string promptText
+    }
+
+    theme: ThemeSettings {
+        name: "Ubuntu.Components.Themes.Ambiance"
+    }
+
     Keys.onEscapePressed: {
         selected(currentIndex);
     }
@@ -99,9 +109,13 @@ Item {
         id: highlightItem
         anchors {
             left: parent.left
+            leftMargin: units.gu(2)
             right: parent.right
+            rightMargin: units.gu(2)
             verticalCenter: parent.verticalCenter
         }
+
+        height: root.highlightedHeight
 
         z: sessionChooser.visible ? userList.z + 1 : z
 
@@ -152,6 +166,8 @@ Item {
         objectName: "userList"
 
         anchors.fill: parent
+        anchors.leftMargin: units.gu(2)
+        anchors.rightMargin: units.gu(2)
 
         preferredHighlightBegin: userList.height / 2 - root.highlightedHeight / 2
         preferredHighlightEnd: userList.height / 2 - root.highlightedHeight / 2
@@ -198,7 +214,7 @@ Item {
                 return 1 - Math.min(1, (Math.abs(highlightDist) + root.cellHeight) / ((root.numAboveBelow + 1) * root.cellHeight))
             }
 
-            Label {
+            FadingLabel {
                 objectName: "username" + index
 
                 anchors {
@@ -206,13 +222,12 @@ Item {
                     leftMargin: units.gu(2)
                     right: parent.right
                     rightMargin: units.gu(2)
-                    top: parent.top
-                    // Add an offset to topMargin for any items below the highlight
-                    topMargin: units.gu(1) + (parent.belowHighlight ? parent.belowOffset : 0)
+                    bottom: parent.top
+                    // Add an offset to bottomMargin for any items below the highlight
+                    bottomMargin: -(units.gu(4) + (parent.belowHighlight ? parent.belowOffset : 0))
                 }
                 text: realName
-                color: "white"
-                elide: Text.ElideRight
+                color: userList.currentIndex !== index ? theme.palette.normal.raised : theme.palette.normal.raisedText
 
                 Behavior on anchors.topMargin { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
             }
@@ -243,23 +258,22 @@ Item {
         }
     }
 
-    Label {
+    FadingLabel {
         id: infoLabel
         objectName: "infoLabel"
         anchors {
             bottom: passwordInput.top
-            left: parent.left
+            left: highlightItem.left
             topMargin: units.gu(1)
             bottomMargin: units.gu(1)
             leftMargin: units.gu(2)
             rightMargin: units.gu(1)
         }
 
-        color: "white"
+        color: theme.palette.normal.raisedText
         width: root.width - anchors.leftMargin - anchors.rightMargin
         fontSize: "small"
         textFormat: Text.StyledText
-        clip: true
 
         opacity: (userList.movingInternally || text == "") ? 0 : 1
         Behavior on opacity {
@@ -267,72 +281,36 @@ Item {
         }
     }
 
-    TextField {
+    GreeterPrompt {
         id: passwordInput
         objectName: "passwordInput"
         anchors {
             bottom: highlightItem.bottom
-            horizontalCenter: parent.horizontalCenter
-            margins: units.gu(1)
+            horizontalCenter: highlightItem.horizontalCenter
+            margins: units.gu(2)
         }
-        height: units.gu(4.5)
-        width: parent.width - anchors.margins * 2
+        width: highlightItem.width - anchors.margins * 2
         opacity: userList.movingInternally ? 0 : 1
 
-        inputMethodHints: root.alphanumeric ? Qt.ImhNone : Qt.ImhDigitsOnly
+        isPrompt: root.wasPrompted
+        isAlphanumeric: root.alphanumeric
 
-        property string promptText
-        placeholderText: root.wasPrompted ? promptText
-                                          : (root.locked ? i18n.tr("Retry")
-                                                         : i18n.tr("Tap to unlock"))
+        text: root.wasPrompted ? d.promptText
+                               : (root.locked ? i18n.tr("Retry")
+                                              : i18n.tr("Log In"))
+
+        onClicked: root.tryToUnlock()
+        onResponded: root.responded(text)
+        onCanceled: root.selected(currentIndex)
 
         Behavior on opacity {
             NumberAnimation { duration: 100 }
-        }
-
-        onAccepted: {
-            if (!enabled)
-                return;
-            root.focus = true; // so that it can handle Escape presses for us
-            enabled = false;
-            root.responded(text);
-        }
-        Keys.onEscapePressed: {
-            root.selected(currentIndex);
-        }
-
-        Image {
-            anchors {
-                right: parent.right
-                rightMargin: units.gu(2)
-                verticalCenter: parent.verticalCenter
-            }
-            visible: !root.wasPrompted
-            source: "graphics/icon_arrow.png"
         }
 
         WrongPasswordAnimation {
             id: wrongPasswordAnimation
             target: passwordInput
         }
-
-        Connections {
-            target: Qt.inputMethod
-            onVisibleChanged: {
-                if (!Qt.inputMethod.visible) {
-                    passwordInput.focus = false;
-                }
-            }
-        }
-
-    }
-
-    MouseArea {
-        id: passwordMouseArea
-        objectName: "passwordMouseArea"
-        anchors.fill: passwordInput
-        enabled: !root.wasPrompted
-        onClicked: root.tryToUnlock()
     }
 
     function resetAuthentication() {
@@ -340,10 +318,8 @@ Item {
             return;
         }
         infoLabel.text = "";
-        passwordInput.promptText = "";
-        passwordInput.text = "";
-        passwordInput.focus = false;
-        passwordInput.enabled = true;
+        d.promptText = "";
+        passwordInput.reset();
         root.wasPrompted = false;
     }
 }

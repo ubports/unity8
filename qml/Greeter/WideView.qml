@@ -149,7 +149,7 @@ FocusScope {
                 top: parent.top
             }
 
-            width: units.gu(29)
+            width: units.gu(40)
             height: inputMethod && inputMethod.visible ?
                 parent.height - inputMethod.keyboardRectangle.height : parent.height
 
