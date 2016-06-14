@@ -307,9 +307,7 @@ Showable {
                 if (root.locked) {
                     LightDMService.greeter.respond(response);
                 } else {
-                    if (LightDMService.greeter.active && !LightDMService.greeter.authenticated) { // could happen if forcedUnlock
-                        d.login();
-                    }
+                    d.login();
                     loader.item.hide();
                 }
             }
