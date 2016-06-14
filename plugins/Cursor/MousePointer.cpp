@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015, 2016 Canonical, Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -48,7 +48,7 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
         Q_EMIT pushedLeftBoundary(qAbs(newX), buttons);
         newX = 0;
     } else if (newX >= parentItem()->width()) {
-        Q_EMIT pushedRightBoundary(newX - parentItem()->width(), buttons);
+        Q_EMIT pushedRightBoundary(newX - (parentItem()->width() - 1), buttons);
         newX = parentItem()->width() - 1;
     }
     setX(newX);
