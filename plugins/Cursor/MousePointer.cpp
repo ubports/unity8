@@ -47,17 +47,17 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
     if (newX < 0) {
         Q_EMIT pushedLeftBoundary(qAbs(newX), buttons);
         newX = 0;
-    } else if (newX > parentItem()->width()) {
+    } else if (newX >= parentItem()->width()) {
         Q_EMIT pushedRightBoundary(newX - parentItem()->width(), buttons);
-        newX = parentItem()->width();
+        newX = parentItem()->width() - 1;
     }
     setX(newX);
 
     qreal newY = y() + movement.y();
     if (newY < 0) {
         newY = 0;
-    } else if (newY > parentItem()->height()) {
-        newY = parentItem()->height();
+    } else if (newY >= parentItem()->height()) {
+        newY = parentItem()->height() - 1;
     }
     setY(newY);
 
