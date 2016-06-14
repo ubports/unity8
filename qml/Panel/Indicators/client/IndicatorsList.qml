@@ -58,9 +58,9 @@ Page {
 
                 onClicked: {
                     var new_page = Qt.createComponent("IndicatorRepresentation.qml");
-                    if (new_page.status != Component.Ready) {
-                        if (new_page.status == Component.Error)
-                            console.error("Error:"+ new_page.errorString());
+                    if (new_page.status !== Component.Ready) {
+                        if (new_page.status === Component.Error)
+                            console.error("Error: " + new_page.errorString());
 
                         return;
                     }
