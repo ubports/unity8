@@ -1142,16 +1142,13 @@ Rectangle {
 
         function test_greeterLoginsAutomaticallyWhenNoPasswordSet() {
             loadShell("phone");
-            swipeAwayGreeter();
-
-            sessionSpy.clear();
-            verify(sessionSpy.valid);
-
-            showGreeter();
 
             var greeter = findChild(shell, "greeter");
             verify(!greeter.locked);
-            verify(sessionSpy.count > 0);
+            compare(sessionSpy.count, 0);
+
+            swipeAwayGreeter();
+            compare(sessionSpy.count, 1);
         }
 
         function test_fullscreen() {
@@ -2189,11 +2186,6 @@ Rectangle {
             shell.usageScenario = "desktop";
             GSettingsController.setAutohideLauncher(!data.launcherLocked);
             waitForRendering(shell);
-            // Not sure why 2 but it's the number of times
-            // it triggers at this time and we need to wait
-            // for them otherwise a sessionStarted signal will
-            // hide the launcher and make the test fail
-            tryCompare(sessionSpy, "count", 2);
 
             var launcher = findChild(shell, "launcher");
             var launcherPanel = findChild(launcher, "launcherPanel");
