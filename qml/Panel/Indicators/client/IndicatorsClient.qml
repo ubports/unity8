@@ -36,9 +36,9 @@ Rectangle {
         function reset() {
             clear();
             var component = Qt.createComponent("IndicatorsList.qml");
-            if (component.status != Component.Ready) {
-                if (component.status == Component.Error)
-                    console.error("Error:"+ component.errorString());
+            if (component.status !== Component.Ready) {
+                if (component.status === Component.Error)
+                    console.error("Error: " + component.errorString());
 
                 return;
             }
