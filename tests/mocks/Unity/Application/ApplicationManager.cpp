@@ -302,7 +302,6 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setAppId("unity8-dash");
     application->setName("Unity 8 Mock Dash");
     application->setScreenshotId("unity8-dash");
-    application->setSupportedOrientations(Qt::PrimaryOrientation);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
