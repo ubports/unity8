@@ -32,6 +32,7 @@ IndicatorBase {
 
     TextArea {
         anchors.fill: parent
+        anchors.margins: units.gu(0.5)
         id: all_data
         text: printer.text
     }
