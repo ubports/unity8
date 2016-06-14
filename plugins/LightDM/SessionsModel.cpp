@@ -53,9 +53,9 @@ QUrl SessionsModel::iconUrl(const QString sessionName) const
     {
         // This is an established icon naming convention
         QString customIconUrl = searchDirectory.toString(QUrl::StripTrailingSlash) +
-            "/custom_" + sessionName.toLower()  + "_badge.png";
+            "/custom_" + sessionName  + "_badge.png";
         QString iconUrl = searchDirectory.toString(QUrl::StripTrailingSlash) +
-            "/" + sessionName.toLower()  + "_badge.png";
+            "/" + sessionName  + "_badge.png";
 
         QFile customIconFile(customIconUrl);
         QFile iconFile(iconUrl);
