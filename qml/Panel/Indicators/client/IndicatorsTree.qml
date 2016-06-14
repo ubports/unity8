@@ -30,14 +30,9 @@ IndicatorBase {
         model: root.menuModel
     }
 
-    Flickable {
+    TextArea {
         anchors.fill: parent
-        contentHeight: all_data.height
-        clip:true
-        Text {
-            id: all_data
-            color: "white"
-            text: printer.text
-        }
+        id: all_data
+        text: printer.text
     }
 }
