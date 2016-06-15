@@ -34,15 +34,27 @@ Page {
 
     anchors.fill: parent
 
-    ListItemLayout {
+    Rectangle {
+        color: theme.palette.highlighted.background
         id: visualCheckItem
-        title.text: "Enable Visual Representation"
-        anchors.top: header.bottom
 
-        Switch {
-            id: visualCheck
-            checked: true
-            SlotsLayout.position: SlotsLayout.Trailing
+        anchors {
+            top: header.bottom
+            left: parent.left
+            right: parent.right
+        }
+
+        height: selectorLayout.height
+
+        ListItemLayout {
+            id: selectorLayout
+            title.text: "Enable Visual Representation"
+
+            Switch {
+                id: visualCheck
+                checked: true
+                SlotsLayout.position: SlotsLayout.Trailing
+            }
         }
     }
 
