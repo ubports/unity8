@@ -132,6 +132,7 @@ FocusScope {
         anchors.fill: parent
         visible: spreadBackground.visible
         enabled: visible
+        acceptedButtons: Qt.AllButtons
         onWheel: wheel.accepted = true;
     }
 

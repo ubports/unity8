@@ -668,15 +668,19 @@ Item {
             tryCompare(closeButton, "visible", false);
         }
 
-        function test_preventMouseWheelThruDesktopSpread() {
+        function test_preventMouseEventsThruDesktopSpread() {
             var spread = findChild(desktopStage, "spread");
             verify(spread);
             spread.show();
             tryCompareFunction( function(){ return spread.ready }, true );
 
             mouseEaterSpy.signalName = "wheel";
-
             mouseWheel(spread, spread.width/2, spread.height/2, 10, 10);
+            tryCompare(mouseEaterSpy, "count", 0);
+
+            mouseEaterSpy.clear();
+            mouseEaterSpy.signalName = "clicked";
+            mouseClick(spread, spread.width/2, spread.height/2, Qt.RightButton);
             tryCompare(mouseEaterSpy, "count", 0);
 
             spread.cancel();
