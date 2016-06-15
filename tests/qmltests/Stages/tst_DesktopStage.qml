@@ -91,7 +91,7 @@ Item {
         }
 
         MouseArea {
-            id: fakeMouseArea
+            id: clickThroughTester
             anchors.fill: desktopStageLoader.item
             acceptedButtons: Qt.AllButtons
             hoverEnabled: true
@@ -149,7 +149,7 @@ Item {
 
     SignalSpy {
         id: mouseEaterSpy
-        target: fakeMouseArea
+        target: clickThroughTester
     }
 
     UnityTestCase {

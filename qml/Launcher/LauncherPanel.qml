@@ -69,6 +69,7 @@ Rectangle {
     MouseArea {
         id: mouseEventEater
         anchors.fill: parent
+        acceptedButtons: Qt.AllButtons
         hoverEnabled: true
         onWheel: wheel.accepted = true;
     }

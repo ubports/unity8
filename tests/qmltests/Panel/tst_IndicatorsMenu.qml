@@ -28,9 +28,8 @@ IndicatorTest {
     height: units.gu(71)
 
     SignalSpy {
-        id: wheelSignalSpy
+        id: clickThroughSpy
         target: clickThroughTester
-        signalName: "wheel"
     }
 
     MouseArea {
@@ -124,7 +123,7 @@ IndicatorTest {
         }
 
         function cleanup() {
-            wheelSignalSpy.clear();
+            clickThroughSpy.clear();
         }
 
         function get_indicator_item(index) {
@@ -273,11 +272,18 @@ IndicatorTest {
             touchRelease(indicatorsMenu, nextItemMappedPositionX, indicatorsMenu.openedHeight / 3);
         }
 
-        function test_preventMouseWheelThru() {
+        function test_preventMouseEventsThru() {
             indicatorsMenu.show();
             tryCompare(indicatorsMenu, "fullyOpened", true);
+
+            clickThroughSpy.signalName = "wheel";
             mouseWheel(indicatorsMenu, indicatorsMenu.width/2, indicatorsMenu.height/2, 10, 10);
-            tryCompare(wheelSignalSpy, "count", 0);
+            tryCompare(clickThroughSpy, "count", 0);
+
+            clickThroughSpy.clear();
+            clickThroughSpy.signalName = "clicked";
+            mouseClick(indicatorsMenu, indicatorsMenu.width/2, indicatorsMenu.height/2, Qt.RightButton);
+            tryCompare(clickThroughSpy, "count", 0);
         }
     }
 }

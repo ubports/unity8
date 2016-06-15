@@ -211,9 +211,8 @@ Rectangle {
     }
 
     SignalSpy {
-        id: wheelSignalSpy
+        id: clickThroughSpy
         target: clickThroughTester
-        signalName: "wheel"
     }
 
     Item {
@@ -238,7 +237,7 @@ Rectangle {
         property Item launcher: launcherLoader.status === Loader.Ready ? launcherLoader.item : null
         function cleanup() {
             signalSpy.clear();
-            wheelSignalSpy.clear();
+            clickThroughSpy.clear();
             launcherLoader.active = false;
             // Loader.status might be Loader.Null and Loader.item might be null but the Loader
             // item might still be alive. So if we set Loader.active back to true
@@ -1318,12 +1317,19 @@ Rectangle {
             }
         }
 
-        function test_preventMouseWheelThru() {
+        function test_preventMouseEventsThru() {
             dragLauncherIntoView();
             var launcherPanel = findChild(launcher, "launcherPanel");
             tryCompare(launcherPanel, "visible", true);
+
+            clickThroughSpy.signalName = "wheel";
             mouseWheel(launcherPanel, launcherPanel.width/2, launcherPanel.height/2, 10, 10);
-            tryCompare(wheelSignalSpy, "count", 0);
+            tryCompare(clickThroughSpy, "count", 0);
+
+            clickThroughSpy.clear();
+            clickThroughSpy.signalName = "clicked";
+            mouseWheel(launcherPanel, launcherPanel.width/2, launcherPanel.height/2, Qt.RightButton);
+            tryCompare(clickThroughSpy, "count", 0);
         }
     }
 }
