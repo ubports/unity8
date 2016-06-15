@@ -30,6 +30,8 @@ target_link_libraries(IndicatorsFakeQml
     QMenuModelQml
 )
 
+configure_file(fakeindicatorsmodeldata.js fakeindicatorsmodeldata.js COPYONLY)
+
 qt5_use_modules(IndicatorsFakeQml Core Qml Quick)
 
 add_unity8_mock(Unity.Indicators 0.1 Unity/Indicators TARGETS IndicatorsFakeQml)
