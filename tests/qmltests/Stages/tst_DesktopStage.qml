@@ -93,8 +93,6 @@ Item {
         MouseArea {
             id: fakeMouseArea
             anchors.fill: desktopStageLoader.item
-            enabled: desktopStageLoader.status === Loader.Ready && testCase.running
-            visible: enabled
             acceptedButtons: Qt.AllButtons
             hoverEnabled: true
         }
@@ -676,13 +674,11 @@ Item {
             spread.show();
             tryCompareFunction( function(){ return spread.ready }, true );
 
-            fakeMouseArea.enabled = true;
             mouseEaterSpy.signalName = "wheel";
 
             mouseWheel(spread, spread.width/2, spread.height/2, 10, 10);
             tryCompare(mouseEaterSpy, "count", 0);
 
-            fakeMouseArea.enabled = false;
             spread.cancel();
         }
     }
