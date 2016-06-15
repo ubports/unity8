@@ -446,6 +446,12 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setScreenshotId("libreoffice");
     application->setIsTouchApp(false);
     m_availableApplications.append(application);
+
+    application = new ApplicationInfo(this);
+    application->setAppId("primary-oriented-app");
+    application->setName("Primary Oriented");
+    application->setSupportedOrientations(Qt::PrimaryOrientation);
+    m_availableApplications.append(application);
 }
 
 
