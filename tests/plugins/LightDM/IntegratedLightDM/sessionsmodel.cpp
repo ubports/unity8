@@ -41,6 +41,16 @@ private Q_SLOTS:
         delete sourceModel;
     }
 
+    static QModelIndex findByKey(QAbstractItemModel *model, const QString& key)
+    {
+        for (int i = 0; i < model->rowCount(QModelIndex()); i++) {
+            if (model->data(model->index(i, 0), QLightDM::SessionsModel::KeyRole).toString() == key)
+                return model->index(i, 0);
+        }
+
+        return QModelIndex();
+    }
+
     void testIconDirectoriesAreValid()
     {
         Q_FOREACH(const QUrl& searchDirectory, model->iconSearchDirectories())
@@ -65,6 +75,15 @@ private Q_SLOTS:
     {
         sourceModel->setTestScenario("singleSession");
         QVERIFY(sourceModel->rowCount(QModelIndex()) == 1);
+    }
+
+    void testSessionNameIsCorrect()
+    {
+        // This is testing the lookup, not the correctness of the strings,
+        // so one test should be sufficient
+        sourceModel->setTestScenario("multipleSessions");
+        QVERIFY(model->data(findByKey(sourceModel, "ubuntu"),
+                Qt::DisplayRole).toString() == "Ubuntu");
     }
 
 private:

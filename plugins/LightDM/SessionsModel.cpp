@@ -52,11 +52,42 @@ QUrl SessionsModel::iconUrl(const QString sessionName) const
     Q_FOREACH(const QUrl& searchDirectory, m_iconSearchDirectories)
     {
         // This is an established icon naming convention
+        QString customIconUrl = searchDirectory.toString(QUrl::StripTrailingSlash) +
+            "/custom_" + sessionName  + "_badge.png";
         QString iconUrl = searchDirectory.toString(QUrl::StripTrailingSlash) +
-            "/" + sessionName.toLower()  + "_badge.png";
+            "/" + sessionName  + "_badge.png";
+
+        QFile customIconFile(customIconUrl);
         QFile iconFile(iconUrl);
-        if (iconFile.exists()) {
+        if (customIconFile.exists()) {
+            return QUrl(customIconUrl);
+        } else if (iconFile.exists()) {
             return QUrl(iconUrl);
+        } else{
+            // Search the legacy way
+            QString path = searchDirectory.toString(QUrl::StripTrailingSlash) + "/";
+            if (sessionName == "ubuntu" || sessionName == "ubuntu-2d") {
+                path += "ubuntu_badge.png";
+            } else if(
+                        sessionName == "gnome-classic" ||
+                        sessionName == "gnome-flashback-compiz" ||
+                        sessionName == "gnome-flashback-metacity" ||
+                        sessionName == "gnome-shell" ||
+                        sessionName == "gnome-wayland" ||
+                        sessionName == "gnome"
+                    ){
+                path += "gnome_badge.png";
+            } else if (sessionName == "plasma") {
+                path += "kde_badge.png";
+            } else if (sessionName == "xterm") {
+                path += "recovery_console_badge.png";
+            } else if (sessionName == "remote-login") {
+                path += "remote_login_help.png";
+            }
+
+            if (QFile(path).exists()) {
+                return path;
+            }
         }
     }
 
