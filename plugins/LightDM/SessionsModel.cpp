@@ -47,15 +47,15 @@ void SessionsModel::setIconSearchDirectories(const QList<QUrl> searchDirectories
     Q_EMIT iconSearchDirectoriesChanged();
 }
 
-QUrl SessionsModel::iconUrl(const QString sessionName) const
+QUrl SessionsModel::iconUrl(const QString sessionKey) const
 {
     Q_FOREACH(const QUrl& searchDirectory, m_iconSearchDirectories)
     {
         // This is an established icon naming convention
         QString customIconUrl = searchDirectory.toString(QUrl::StripTrailingSlash) +
-            "/custom_" + sessionName  + "_badge.png";
+            "/custom_" + sessionKey  + "_badge.png";
         QString iconUrl = searchDirectory.toString(QUrl::StripTrailingSlash) +
-            "/" + sessionName  + "_badge.png";
+            "/" + sessionKey  + "_badge.png";
 
         QFile customIconFile(customIconUrl);
         QFile iconFile(iconUrl);
@@ -67,26 +67,26 @@ QUrl SessionsModel::iconUrl(const QString sessionName) const
             // Search the legacy way
             QString path = searchDirectory.toString(QUrl::StripTrailingSlash) + "/";
             bool iconFound = false;
-            if (sessionName == "ubuntu" || sessionName == "ubuntu-2d") {
+            if (sessionKey == "ubuntu" || sessionKey == "ubuntu-2d") {
                 path += "ubuntu_badge.png";
                 iconFound = true;
             } else if(
-                        sessionName == "gnome-classic" ||
-                        sessionName == "gnome-flashback-compiz" ||
-                        sessionName == "gnome-flashback-metacity" ||
-                        sessionName == "gnome-shell" ||
-                        sessionName == "gnome-wayland" ||
-                        sessionName == "gnome"
+                        sessionKey == "gnome-classic" ||
+                        sessionKey == "gnome-flashback-compiz" ||
+                        sessionKey == "gnome-flashback-metacity" ||
+                        sessionKey == "gnome-shell" ||
+                        sessionKey == "gnome-wayland" ||
+                        sessionKey == "gnome"
                     ){
                 path += "gnome_badge.png";
                 iconFound = true;
-            } else if (sessionName == "plasma") {
+            } else if (sessionKey == "plasma") {
                 path += "kde_badge.png";
                 iconFound = true;
-            } else if (sessionName == "xterm") {
+            } else if (sessionKey == "xterm") {
                 path += "recovery_console_badge.png";
                 iconFound = true;
-            } else if (sessionName == "remote-login") {
+            } else if (sessionKey == "remote-login") {
                 path += "remote_login_help.png";
                 iconFound = true;
             }
@@ -105,7 +105,7 @@ QVariant SessionsModel::data(const QModelIndex& index, int role) const
 {
     switch (role) {
         case SessionsModel::IconRole:
-            return iconUrl(m_model->data(index, Qt::DisplayRole).toString());
+            return iconUrl(m_model->data(index, QLightDM::SessionsModel::KeyRole).toString());
         default:
             return m_model->data(index, role);
     }
