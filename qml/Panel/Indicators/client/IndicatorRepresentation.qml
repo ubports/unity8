@@ -34,7 +34,7 @@ Page {
 
     anchors.fill: parent
 
-    Rectangle {
+    ListItem {
         color: theme.palette.highlighted.background
         id: visualCheckItem
 
@@ -45,6 +45,7 @@ Page {
         }
 
         height: selectorLayout.height
+        onClicked: visualCheck.checked = !visualCheck.checked
 
         ListItemLayout {
             id: selectorLayout
