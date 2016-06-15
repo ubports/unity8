@@ -63,11 +63,13 @@ QUrl SessionsModel::iconUrl(const QString sessionName) const
             return QUrl(customIconUrl);
         } else if (iconFile.exists()) {
             return QUrl(iconUrl);
-        } else{
+        } else {
             // Search the legacy way
             QString path = searchDirectory.toString(QUrl::StripTrailingSlash) + "/";
+            bool iconFound = false;
             if (sessionName == "ubuntu" || sessionName == "ubuntu-2d") {
                 path += "ubuntu_badge.png";
+                iconFound = true;
             } else if(
                         sessionName == "gnome-classic" ||
                         sessionName == "gnome-flashback-compiz" ||
@@ -77,15 +79,19 @@ QUrl SessionsModel::iconUrl(const QString sessionName) const
                         sessionName == "gnome"
                     ){
                 path += "gnome_badge.png";
+                iconFound = true;
             } else if (sessionName == "plasma") {
                 path += "kde_badge.png";
+                iconFound = true;
             } else if (sessionName == "xterm") {
                 path += "recovery_console_badge.png";
+                iconFound = true;
             } else if (sessionName == "remote-login") {
                 path += "remote_login_help.png";
+                iconFound = true;
             }
 
-            if (QFile(path).exists()) {
+            if (QFile(path).exists() && iconFound) {
                 return path;
             }
         }
