@@ -20,25 +20,29 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItem
 import "../.."
 
 Page {
     id: root
-
-    title: indicatorProperties && indicatorProperties.title ? indicatorProperties.title :
-                                                              indicatorProperties && indicatorProperties.accessibleName ? indicatorProperties.accessibleName
-                                                                                                                        : ""
     property variant indicatorProperties
+
+    header: PageHeader {
+        title: indicatorProperties && indicatorProperties.title ? indicatorProperties.title :
+                                                                  indicatorProperties && indicatorProperties.accessibleName ? indicatorProperties.accessibleName
+                                                                                                                            : identifier
+    }
 
     anchors.fill: parent
 
-    ListItem.Standard {
+    ListItemLayout {
         id: visualCheckItem
-        text: "Enable Visual Representation"
-        control: Switch {
+        title.text: "Enable Visual Representation"
+        anchors.top: header.bottom
+
+        Switch {
             id: visualCheck
             checked: true
+            SlotsLayout.position: SlotsLayout.Trailing
         }
     }
 
@@ -47,11 +51,6 @@ Page {
         objectName: "pageLoader"
         clip:true
         asynchronous: true
-
-        Rectangle {
-            anchors.fill: pageLoader
-            color: "#221e1c" // FIXME not in palette yet
-        }
 
         anchors {
             top: visualCheckItem.bottom
@@ -92,13 +91,5 @@ Page {
             margins: units.gu(1)
         }
         height: childrenRect.height
-
-        Button {
-            anchors {
-                left: parent.left
-            }
-            text: "Back"
-            onClicked: root.pageStack.reset()
-        }
     }
 }
