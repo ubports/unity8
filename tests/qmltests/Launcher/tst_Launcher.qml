@@ -237,6 +237,8 @@ Rectangle {
 
         property Item launcher: launcherLoader.status === Loader.Ready ? launcherLoader.item : null
         function cleanup() {
+            signalSpy.clear();
+            wheelSignalSpy.clear();
             launcherLoader.active = false;
             // Loader.status might be Loader.Null and Loader.item might be null but the Loader
             // item might still be alive. So if we set Loader.active back to true
@@ -931,7 +933,6 @@ Rectangle {
 
             var quickListEntry = findChild(quickList, "quickListEntry" + data.index)
 
-            signalSpy.clear();
             signalSpy.signalName = "quickListTriggered"
 
             mouseClick(quickListEntry)
@@ -1224,7 +1225,6 @@ Rectangle {
             launcher.openForKeyboardNavigation();
             waitForRendering(launcher);
 
-            signalSpy.clear();
             signalSpy.signalName = "quickListTriggered"
 
             keyClick(Qt.Key_Down); // Down to launcher item 0

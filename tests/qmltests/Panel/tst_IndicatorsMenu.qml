@@ -123,6 +123,10 @@ IndicatorTest {
             indicatorsMenu.verticalVelocityThreshold = 0.5
         }
 
+        function cleanup() {
+            wheelSignalSpy.clear();
+        }
+
         function get_indicator_item(index) {
             var indicatorItem = findChild(indicatorsMenu, root.originalModelData[index]["identifier"] + "-panelItem");
             verify(indicatorItem !== null);
