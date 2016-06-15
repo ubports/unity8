@@ -55,6 +55,8 @@ QVariant SessionsModel::data(const QModelIndex& index, int role) const
     int row = index.row();
 
     switch (role) {
+        case QLightDM::SessionsModel::KeyRole:
+            return d->sessionItems[row].key;
         case Qt::DisplayRole:
             return d->sessionItems[row].name;
         default:

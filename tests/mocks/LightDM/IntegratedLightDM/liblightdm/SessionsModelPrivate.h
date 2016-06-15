@@ -28,7 +28,7 @@ class SessionsModel;
 class SessionItem
 {
 public:
-    QString key; // unused
+    QString key;
     QString type; // unused
     QString name;
     QString comment; // unused
