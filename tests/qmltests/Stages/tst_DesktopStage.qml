@@ -89,6 +89,15 @@ Item {
                 topLevelSurfaceList: topSurfaceList
             }
         }
+
+        MouseArea {
+            id: fakeMouseArea
+            anchors.fill: desktopStageLoader.item
+            enabled: desktopStageLoader.status === Loader.Ready && testCase.running
+            visible: enabled
+            acceptedButtons: Qt.AllButtons
+            hoverEnabled: true
+        }
     }
 
     Rectangle {
@@ -140,6 +149,11 @@ Item {
         }
     }
 
+    SignalSpy {
+        id: mouseEaterSpy
+        target: fakeMouseArea
+    }
+
     UnityTestCase {
         id: testCase
         name: "DesktopStage"
@@ -179,6 +193,7 @@ Item {
             desktopStageLoader.active = true;
             tryCompare(desktopStageLoader, "status", Loader.Ready);
 
+            mouseEaterSpy.clear();
         }
 
         function waitUntilAppSurfaceShowsUp(surfaceId) {
@@ -653,6 +668,22 @@ Item {
             verify(dashAppDelegate);
             var closeButton = findChild(dashAppDelegate, "closeWindowButton");
             tryCompare(closeButton, "visible", false);
+        }
+
+        function test_preventMouseWheelThruDesktopSpread() {
+            var spread = findChild(desktopStage, "spread");
+            verify(spread);
+            spread.show();
+            tryCompareFunction( function(){ return spread.ready }, true );
+
+            fakeMouseArea.enabled = true;
+            mouseEaterSpy.signalName = "wheel";
+
+            mouseWheel(spread, spread.width/2, spread.height/2, 10, 10);
+            tryCompare(mouseEaterSpy, "count", 0);
+
+            fakeMouseArea.enabled = false;
+            spread.cancel();
         }
     }
 }

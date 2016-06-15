@@ -1318,7 +1318,7 @@ Rectangle {
             }
         }
 
-        function test_preventMouseWheelThru(){
+        function test_preventMouseWheelThru() {
             dragLauncherIntoView();
             var launcherPanel = findChild(launcher, "launcherPanel");
             tryCompare(launcherPanel, "visible", true);

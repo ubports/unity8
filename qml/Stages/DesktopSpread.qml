@@ -132,6 +132,7 @@ FocusScope {
         anchors.fill: parent
         visible: spreadBackground.visible
         enabled: visible
+        onWheel: wheel.accepted = true;
     }
 
     Item {
