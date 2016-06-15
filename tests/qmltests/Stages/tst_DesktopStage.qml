@@ -696,5 +696,27 @@ Item {
 
             tryCompare(mouseEaterSpy, "count", 0);
         }
+
+        function test_canMoveWindowWithLeftMouseButtonOnly_data() {
+            return [
+                {tag: "left mouse button", button: Qt.LeftButton },
+                {tag: "right mouse button", button: Qt.RightButton },
+                {tag: "middle mouse button", button: Qt.MiddleButton }
+            ]
+        }
+
+        function test_canMoveWindowWithLeftMouseButtonOnly(data) {
+            var appDelegate = startApplication("dialer-app");
+            verify(appDelegate);
+
+            var posBefore = Qt.point(appDelegate.x, appDelegate.y);
+
+            mousePress(appDelegate, appDelegate.width / 2, units.gu(1), data.button);
+            mouseMove(appDelegate, appDelegate.width / 2, -units.gu(100), undefined /* delay */, data.button);
+
+            var posAfter = Qt.point(appDelegate.x, appDelegate.y);
+
+            tryCompareFunction(function(){return posBefore == posAfter;}, data.button !== Qt.LeftButton ? true : false);
+        }
     }
 }
