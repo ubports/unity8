@@ -27,6 +27,7 @@ MouseArea {
     property Item target
     property alias title: titleLabel.text
     property bool active: false
+    acceptedButtons: Qt.AllButtons // prevent leaking unhandled mouse events
 
     signal closeClicked()
     signal minimizeClicked()
@@ -34,7 +35,11 @@ MouseArea {
     signal maximizeHorizontallyClicked()
     signal maximizeVerticallyClicked()
 
-    onDoubleClicked: root.maximizeClicked()
+    onDoubleClicked: {
+        if (mouse.button == Qt.LeftButton) {
+            root.maximizeClicked();
+        }
+    }
 
     QtObject {
         id: priv
@@ -44,11 +49,7 @@ MouseArea {
     }
 
     onPressedChanged: {
-        if (pressedButtons != Qt.LeftButton) {
-            return;
-        }
-
-        if (pressed) {
+        if (pressed && pressedButtons == Qt.LeftButton) {
             var pos = mapToItem(root.target, mouseX, mouseY);
             priv.distanceX = pos.x;
             priv.distanceY = pos.y;

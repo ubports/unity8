@@ -91,10 +91,8 @@ Item {
         }
 
         MouseArea {
-            id: fakeMouseArea
+            id: clickThroughTester
             anchors.fill: desktopStageLoader.item
-            enabled: desktopStageLoader.status === Loader.Ready && testCase.running
-            visible: enabled
             acceptedButtons: Qt.AllButtons
             hoverEnabled: true
         }
@@ -151,7 +149,7 @@ Item {
 
     SignalSpy {
         id: mouseEaterSpy
-        target: fakeMouseArea
+        target: clickThroughTester
     }
 
     UnityTestCase {
@@ -672,10 +670,11 @@ Item {
 
         function test_eatWindowDecorationMouseEvents_data() {
             return [
-                {tag: "left mouse press", signalName: "pressed", button: Qt.LeftButton },
-                {tag: "right mouse press", signalName: "pressed", button: Qt.RightButton },
-                {tag: "middle mouse press", signalName: "pressed", button: Qt.MiddleButton },
-                {tag: "mouse wheel", signalName: "wheel", button: Qt.MiddleButton }
+                {tag: "left mouse click", signalName: "clicked", button: Qt.LeftButton },
+                {tag: "right mouse click", signalName: "clicked", button: Qt.RightButton },
+                {tag: "middle mouse click", signalName: "clicked", button: Qt.MiddleButton },
+                {tag: "mouse wheel", signalName: "wheel", button: Qt.MiddleButton },
+                {tag: "double click (RMB)", signalName: "doubleClicked", button: Qt.RightButton },
             ]
         }
 
@@ -685,15 +684,17 @@ Item {
             var decoration = findChild(dialerAppDelegate, "appWindowDecoration");
             verify(decoration);
 
-            fakeMouseArea.enabled = true;
             mouseEaterSpy.signalName = data.signalName;
             if (data.signalName === "wheel") {
                 mouseWheel(decoration, decoration.width/2, decoration.height/2, 20, 20);
-            } else {
+            } else if (data.signalName === "clicked") {
                 mouseClick(decoration, decoration.width/2, decoration.height/2, data.button);
+            } else {
+                mouseDoubleClick(decoration, decoration.width/2, decoration.height/2, data.button);
+                tryCompare(dialerAppDelegate, "maximized", false);
             }
+
             tryCompare(mouseEaterSpy, "count", 0);
-            fakeMouseArea.enabled = false;
         }
     }
 }
