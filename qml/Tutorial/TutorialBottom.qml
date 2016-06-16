@@ -51,7 +51,7 @@ TutorialPage {
     readonly property real dragAreaHeight: units.gu(3) // based on PageWithBottomEdge.qml
     readonly property real targetDistance: height * 0.2 + dragAreaHeight // based on PageWithBottomEdge.qml
 
-    opacityOverride: dragArea.dragging ? 1 - (-dragArea.distance / targetDistance) : 1
+    opacityOverride: dragArea.dragging ? 1 - (dragArea.distance / targetDistance) : 1
 
     mouseArea {
         anchors.bottomMargin: root.dragAreaHeight
@@ -95,9 +95,9 @@ TutorialPage {
 
     // Watches drag events but does not intercept them, so that the app beneath
     // will still drag the bottom edge up.
-    DirectionalDragArea {
+    SwipeArea {
         id: dragArea
-        monitorOnly: true
+        grabGesture: false
         direction: Direction.Upwards
         anchors.left: parent.left
         anchors.right: parent.right

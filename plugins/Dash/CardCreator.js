@@ -59,14 +59,30 @@ var kBackgroundLoaderCode = 'Loader {\n\
                                 } \n\
                             }\n';
 
+// %1 is the aspect of the UbuntuShape
+var kArtUbuntuShapeCode = 'UbuntuShape { \n\
+                                anchors.fill: parent; \n\
+                                source: artImage; \n\
+                                sourceFillMode: UbuntuShape.PreserveAspectCrop; \n\
+                                radius: "medium"; \n\
+                                aspect: %1; \n\
+                            }';
+
+var kArtProportionalShapeCode = 'ProportionalShape { \n\
+                                    anchors.fill: parent; \n\
+                                    source: artImage; \n\
+                                    aspect: UbuntuShape.DropShadow; \n\
+                                 }';
+
 // %1 is used as anchors of artShapeHolder
 // %2 is used as image width
 // %3 is used as image height
-// %4 is whether the image or the Loader with the UbuntuShape/ProportionalShape should be visible
+// %4 is whether the image should be visible
 // %5 is used as aspect ratio fallback
 // %6 is whether the loader should be asynchronous or not
-// %7 is injected as code to artImage
-// %8 is used as image fallback
+// %7 is the shape code we want to use
+// %8 is injected as code to artImage
+// %9 is used as image fallback
 var kArtShapeHolderCode = 'Item { \n\
                             id: artShapeHolder; \n\
                             height: root.fixedArtShapeSize.height > 0 ? root.fixedArtShapeSize.height : artShapeLoader.height; \n\
@@ -75,7 +91,8 @@ var kArtShapeHolderCode = 'Item { \n\
                             Loader { \n\
                                 id: artShapeLoader; \n\
                                 objectName: "artShapeLoader"; \n\
-                                readonly property string cardArt: cardData && cardData["art"] || %8; \n\
+                                readonly property string cardArt: cardData && cardData["art"] || %9; \n\
+                                onCardArtChanged: { if (item) { item.image.source = cardArt; } } \n\
                                 active: cardArt != ""; \n\
                                 asynchronous: %6; \n\
                                 visible: status == Loader.Ready; \n\
@@ -84,31 +101,7 @@ var kArtShapeHolderCode = 'Item { \n\
                                     objectName: "artShape"; \n\
                                     visible: image.status == Image.Ready; \n\
                                     readonly property alias image: artImage; \n\
-                                    Loader { \n\
-                                        anchors.fill: parent; \n\
-                                        visible: %4; \n\
-                                        sourceComponent: root.artShapeStyle === "icon" ? artShapeIconComponent : artShapeShapeComponent; \n\
-                                        Component { \n\
-                                            id: artShapeShapeComponent; \n\
-                                            UbuntuShape { \n\
-                                                source: artImage; \n\
-                                                sourceFillMode: UbuntuShape.PreserveAspectCrop; \n\
-                                                radius: "medium"; \n\
-                                                aspect: { \n\
-                                                    switch (root.artShapeStyle) { \n\
-                                                        case "inset": return UbuntuShape.Inset; \n\
-                                                        case "shadow": return UbuntuShape.DropShadow; \n\
-                                                        default: \n\
-                                                        case "flat": return UbuntuShape.Flat; \n\
-                                                    } \n\
-                                                } \n\
-                                            } \n\
-                                        } \n\
-                                        Component { \n\
-                                            id: artShapeIconComponent; \n\
-                                            ProportionalShape { source: artImage; aspect: UbuntuShape.DropShadow; } \n\
-                                        } \n\
-                                    } \n\
+                                    %7 \n\
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1; \n\
                                     readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : %5; \n\
                                     Component.onCompleted: { updateWidthHeightBindings(); } \n\
@@ -127,10 +120,10 @@ var kArtShapeHolderCode = 'Item { \n\
                                         objectName: "artImage"; \n\
                                         source: artShapeLoader.cardArt; \n\
                                         asynchronous: %6; \n\
-                                        visible: !%4; \n\
+                                        visible: %4; \n\
                                         width: %2; \n\
                                         height: %3; \n\
-                                        %7 \n\
+                                        %8 \n\
                                     } \n\
                                 } \n\
                             } \n\
@@ -318,7 +311,7 @@ var kTouchdownCode = 'UbuntuShape { \n\
                         id: touchdown; \n\
                         objectName: "touchdown"; \n\
                         anchors { %1 } \n\
-                        visible: root.artShapeStyle != "shadow" && root.artShapeStyle != "icon" && root.pressed; \n\
+                        visible: root.pressed; \n\
                         radius: "medium"; \n\
                         borderSource: "radius_pressed.sci" \n\
                     }\n';
@@ -350,6 +343,17 @@ var kAttributesRowCode = 'CardAttributes { \n\
                             fontScale: root.fontScale; \n\
                             model: cardData && cardData["attributes"]; \n\
                           }\n';
+
+// %1 is used as anchors of socialActionsRow
+// %2 is used as color of socialActionsRow
+var kSocialActionsRowCode = 'CardSocialActions { \n\
+                               id: socialActionsRow; \n\
+                               objectName: "socialActionsRow"; \n\
+                               anchors { %1 } \n\
+                               color: %2; \n\
+                               model: cardData && cardData["socialActions"]; \n\
+                               onClicked: root.action(actionId); \n\
+                             }\n';
 
 // %1 is used as top anchor of summary
 // %2 is used as topMargin anchor of summary
@@ -401,7 +405,7 @@ function sanitizeColor(colorString) {
     return colorString;
 }
 
-function cardString(template, components, isCardTool) {
+function cardString(template, components, isCardTool, artShapeStyle) {
     var code;
 
     var templateInteractive = (template == null ? true : (template["non-interactive"] !== undefined ? !template["non-interactive"] : true)) ? "true" : "false";
@@ -409,7 +413,6 @@ function cardString(template, components, isCardTool) {
     code = 'AbstractButton { \n\
                 id: root; \n\
                 property var cardData; \n\
-                property string artShapeStyle: "inset"; \n\
                 property string backgroundShapeStyle: "inset"; \n\
                 property real fontScale: 1.0; \n\
                 property var scopeStyle: null; \n\
@@ -437,9 +440,11 @@ function cardString(template, components, isCardTool) {
     var hasSubtitle = hasTitle && components["subtitle"] || false;
     var hasHeaderRow = hasMascot && hasTitle;
     var hasAttributes = hasTitle && components["attributes"] && components["attributes"]["field"] || false;
+    var hasSocialActions = hasTitle && components["social-actions"] || false;
     var isAudio = template["quick-preview-type"] === "audio";
     var asynchronous = isCardTool ? "false" : "true";
 
+    code += 'signal action(var actionId);\n';
     if (isAudio) {
         // For now we only support audio cards with [optional] art, title, subtitle
         // in horizontal mode
@@ -506,17 +511,35 @@ function cardString(template, components, isCardTool) {
         var fallbackStatusCode = "";
         var fallbackURICode = '""';
         if (fallback !== "") {
-            // fallbackStatusCode has %6 in it because we want to substitute it for fallbackURICode
-            // which in kArtShapeHolderCode is %8
-            fallbackStatusCode += 'onStatusChanged: if (status === Image.Error) source = %8;';
+            // fallbackStatusCode has %9 in it because we want to substitute it for fallbackURICode
+            // which in kArtShapeHolderCode is %9
+            fallbackStatusCode += 'onStatusChanged: if (status === Image.Error) source = %9;';
             fallbackURICode = 'decodeURI("%1")'.arg(fallback);
+        }
+        var artShapeHolderShapeCode;
+        if (!isConciergeMode) {
+            if (artShapeStyle === "icon") {
+                artShapeHolderShapeCode = kArtProportionalShapeCode;
+            } else {
+                var artShapeHolderShapeAspect;
+                switch (artShapeStyle) {
+                    case "inset": artShapeHolderShapeAspect = "UbuntuShape.Inset"; break;
+                    case "shadow": artShapeHolderShapeAspect = "UbuntuShape.DropShadow"; break;
+                    default:
+                    case "flat": artShapeHolderShapeAspect = "UbuntuShape.Flat"; break;
+                }
+                artShapeHolderShapeCode = kArtUbuntuShapeCode.arg(artShapeHolderShapeAspect);
+            }
+        } else {
+            artShapeHolderShapeCode = "";
         }
         code += kArtShapeHolderCode.arg(artAnchors)
                                    .arg(widthCode)
                                    .arg(heightCode)
-                                   .arg(isConciergeMode ? "false" : "true")
+                                   .arg(isConciergeMode ? "true" : "false")
                                    .arg(aspectRatio)
                                    .arg(asynchronous)
+                                   .arg(artShapeHolderShapeCode)
                                    .arg(fallbackStatusCode)
                                    .arg(fallbackURICode);
     } else {
@@ -841,18 +864,54 @@ function cardString(template, components, isCardTool) {
         code += kSummaryLabelCode.arg(summaryTopAnchor).arg(summaryTopMargin).arg(summaryColor);
     }
 
-    var touchdownAnchors;
-    if (hasBackground) {
-        touchdownAnchors = 'fill: backgroundLoader';
-    } else if (touchdownOnArtShape) {
-        touchdownAnchors = 'fill: artShapeHolder';
-    } else {
-        touchdownAnchors = 'fill: root'
+// <<<<<<< TREE
+//     if (artShapeStyle != "shadow" && artShapeStyle != "icon") {
+//         var touchdownAnchors;
+// =======
+    if (hasSocialActions) {
+        var socialAnchors;
+        var socialTopAnchor;
+
+        if (hasSummary) socialTopAnchor = 'summary.bottom;';
+        else if (isHorizontal && hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
+        else if (headerAsOverlay && hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
+        else if (hasHeaderRow) socialTopAnchor = 'row.bottom;';
+        else if (hasTitleContainer) socialTopAnchor = 'headerTitleContainer.bottom;';
+        else if (hasMascot) socialTopAnchor = 'mascotImage.bottom;';
+        else if (hasAttributes) socialTopAnchor = 'attributesRow.bottom;';
+        else if (hasSubtitle) socialTopAnchor = 'subtitleLabel.bottom;';
+        else if (hasTitle) socialTopAnchor = 'titleLabel.bottom;';
+        else if (hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
+        else socialTopAnchor = 'parent.top';
+
+        socialAnchors = 'top: ' + socialTopAnchor + ' left: parent.left; right: parent.right; topMargin: units.gu(1);'
+
+        var socialColor;
+        if (hasBackground) {
+            socialColor = summaryColorWithBackground;
+        } else {
+            socialColor = 'root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText';
+        }
+
+        code += kSocialActionsRowCode.arg(socialAnchors).arg(socialColor);
     }
-    code += kTouchdownCode.arg(touchdownAnchors);
+
+    if (artShapeStyle != "shadow" && artShapeStyle != "icon") {
+        var touchdownAnchors;
+        if (hasBackground) {
+            touchdownAnchors = 'fill: backgroundLoader';
+        } else if (touchdownOnArtShape) {
+            touchdownAnchors = 'fill: artShapeHolder';
+        } else {
+            touchdownAnchors = 'fill: root'
+        }
+        code += kTouchdownCode.arg(touchdownAnchors);
+    }
 
     var implicitHeight = 'implicitHeight: ';
-    if (hasSummary) {
+    if (hasSocialActions) {
+        implicitHeight += 'socialActionsRow.y + socialActionsRow.height + units.gu(1);\n';
+    } else if (hasSummary) {
         implicitHeight += 'summary.y + summary.height + units.gu(1);\n';
     } else if (isAudio) {
         implicitHeight += 'audioButton.height;\n';
@@ -882,13 +941,13 @@ function cardString(template, components, isCardTool) {
     return code;
 }
 
-function createCardComponent(parent, template, components, isCardTool, identifier) {
+function createCardComponent(parent, template, components, isCardTool, artShapeStyle, identifier) {
     var imports = 'import QtQuick 2.4; \n\
                    import Ubuntu.Components 1.3; \n\
                    import Ubuntu.Settings.Components 0.1; \n\
                    import Dash 0.1;\n\
                    import Utils 0.1;\n';
-    var card = cardString(template, components, isCardTool);
+    var card = cardString(template, components, isCardTool, artShapeStyle);
     var code = imports + 'Component {\n' + card + '}\n';
 
     try {

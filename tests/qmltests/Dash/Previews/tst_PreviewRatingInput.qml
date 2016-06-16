@@ -73,11 +73,10 @@ Rectangle {
 
         function test_labels() {
             var ratingLabel = findChild(previewRatingInput, "ratingLabel");
-            var reviewLabel = findChild(previewRatingInput, "reviewLabel");
 
             previewRatingInput.widgetData = widgetDataNewLabels;
             compare(ratingLabel.text, widgetDataNewLabels["rating-label"]);
-            compare(reviewLabel.text, widgetDataNewLabels["review-label"]);
+            compare(reviewTextArea.placeholderText, widgetDataNewLabels["review-label"]);
             compare(submitButton.text, widgetDataNewLabels["submit-label"]);
         }
 
@@ -120,10 +119,17 @@ Rectangle {
 
             previewRatingInput.widgetData = data.widgetData;
 
+            if (data.widgetData["visible"] === "both" && data.widgetData["required"] === "both")
+                compare(reviewTextArea.visible, false);
+
             if (data.widgetData["visible"] !== "review") {
-                verify(rating.visible === true);
+                compare(rating.visible, true);
 
                 rating.value = data.inputRating;
+
+                if (data.inputRating > 0 && data.widgetData["visible"] === "both")
+                    compare(reviewTextArea.visible, true);
+
                 if (data.widgetData["required"] !== "rating" ||
                     data.widgetData["visible"] !== "rating" ||
                     data.inputRating < 0) {
@@ -132,13 +138,19 @@ Rectangle {
                     compare(spy.count, 1);
                 }
             } else {
-                verify(rating.visible === false);
+                compare(rating.visible, false);
             }
 
             if (data.widgetData["visible"] !== "rating") {
-                verify(reviewTextArea.visible === true);
+                if (data.widgetData["visible"] === "review" || data.widgetData["required"] === "review")
+                    compare(reviewTextArea.visible, true);
 
                 reviewTextArea.text = data.inputText;
+                var reviewContainer = findChild(previewRatingInput, "reviewContainer");
+                if (reviewContainer.visible) {
+                    var reviewSubmitContainer = findChild(previewRatingInput, "reviewSubmitContainer");
+                    tryCompare(reviewContainer, "implicitHeight", reviewSubmitContainer.implicitHeight + reviewContainer.anchors.topMargin);
+                }
                 mouseClick(submitButton);
                 switch (data.widgetData["required"]) {
                     case "rating": {
@@ -164,7 +176,7 @@ Rectangle {
                     }
                 }
             } else {
-                verify(reviewTextArea.visible === false);
+                compare(reviewTextArea.visible, false);
             }
 
             compare(spy.count === 1, data.emitted);

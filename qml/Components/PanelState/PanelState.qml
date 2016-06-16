@@ -26,8 +26,8 @@ QtObject {
     property bool dropShadow: false
     property int panelHeight: 0
 
-    signal close()
-    signal minimize()
-    signal maximize()
+    signal closeClicked()
+    signal minimizeClicked()
+    signal restoreClicked()
     signal focusMaximizedApp()
 }

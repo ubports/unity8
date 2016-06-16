@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Canonical Ltd.
+ * Copyright 2015-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -25,9 +25,20 @@ class WindowStateStorage: public QObject
     Q_ENUMS(WindowState)
 public:
     enum WindowState {
-        WindowStateNormal,
-        WindowStateMaximized
+        WindowStateNormal = 1 << 0,
+        WindowStateMaximized = 1 << 1,
+        WindowStateMinimized = 1 << 2,
+        WindowStateFullscreen = 1 << 3,
+        WindowStateMaximizedLeft = 1 << 4,
+        WindowStateMaximizedRight = 1 << 5,
+        WindowStateMaximizedHorizontally = 1 << 6,
+        WindowStateMaximizedVertically = 1 << 7
     };
+    Q_DECLARE_FLAGS(WindowStates, WindowState)
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+    Q_FLAG(WindowStates)
+#endif
+
     WindowStateStorage(QObject *parent = 0);
 
     Q_INVOKABLE void saveState(const QString &windowId, WindowState state);

@@ -124,7 +124,8 @@ Item {
 
         InputMethod {
             id: inputMethod
-            active: screens.count > 1
+            // Don't resize when there is only one screen to avoid resize clashing with the InputMethod in the Shell.
+            enabled: screens.count > 1
             objectName: "inputMethod"
             anchors.fill: parent
         }

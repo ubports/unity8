@@ -86,7 +86,7 @@ ShellDialog {
         Button {
             objectName: "forceCloseButton"
             text: i18n.tr("Close all")
-            color: UbuntuColors.red
+            color: theme.palette.normal.negative
             onClicked: {
                 root.forceClose();
             }

@@ -22,7 +22,6 @@ import Ubuntu.Gestures 0.1
 Item {
     id: root
 
-    property bool active: false
     property int transitionDuration: UbuntuAnimation.FastDuration
 
     MirSurfaceItem {
@@ -31,8 +30,8 @@ Item {
 
         consumesInput: true
 
-        surfaceWidth: root.active ? width : -1
-        surfaceHeight: root.active ? height : -1
+        surfaceWidth: root.enabled ? width : -1
+        surfaceHeight: root.enabled ? height : -1
         surface: SurfaceManager.inputMethodSurface
 
         onLiveChanged: {
