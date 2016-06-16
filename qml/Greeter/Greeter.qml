@@ -18,6 +18,7 @@ import QtQuick 2.4
 import AccountsService 0.1
 import Biometryd 0.0
 import GSettings 1.0
+import Powerd 0.1
 import Ubuntu.Components 1.3
 import Ubuntu.SystemImage 0.1
 import Unity.Launcher 0.1
@@ -488,6 +489,7 @@ Showable {
 
         property var operation: null
         readonly property bool idEnabled: root.active &&
+                                          Powerd.status === Powerd.On &&
                                           Biometryd.available &&
                                           AccountsService.enableFingerprintIdentification
 
