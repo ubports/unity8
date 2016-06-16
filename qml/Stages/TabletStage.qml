@@ -848,9 +848,6 @@ AbstractStage {
                         refreshStage();
                         _constructing = false;
                     }
-                    Component.onDestruction: {
-                        WindowStateStorage.saveStage(application.appId, stage);
-                    }
 
                     function refreshStage() {
                         var newStage = ApplicationInfoInterface.MainStage;
