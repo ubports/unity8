@@ -127,9 +127,10 @@ Showable {
         color: "white"
         font.weight: Font.Light
 
+        readonly property var opacityAnimation: showLabelAnimation // for testing
+
         SequentialAnimation on opacity {
             id: showLabelAnimation
-            objectName: "showLabelAnimation"
             running: false
             loops: 2
 

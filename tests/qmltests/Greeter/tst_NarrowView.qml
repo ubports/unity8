@@ -540,16 +540,15 @@ Item {
             var coverPage = findChild(view, "coverPage");
             var swipeHint = findChild(coverPage, "swipeHint");
             var errorMessageAnimation = findInvisibleChild(coverPage, "errorMessageAnimation");
-            var showLabelAnimation = findInvisibleChild(coverPage, "showLabelAnimation");
 
             view.showErrorMessage("hello");
             compare(swipeHint.text, "《    hello    》");
             verify(errorMessageAnimation.running);
-            verify(showLabelAnimation.running);
+            verify(swipeHint.opacityAnimation.running);
 
             errorMessageAnimation.complete();
-            showLabelAnimation.complete();
-            compare(swipeHint.text, "《    " + i18n.tr("Unlock") + "    》");
+            swipeHint.opacityAnimation.complete();
+            tryCompare(swipeHint, "text", "《    " + i18n.tr("Unlock") + "    》");
         }
     }
 }
