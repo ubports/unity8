@@ -65,7 +65,7 @@ Item {
 
             onDelegateClicked: {
                 sessionSelected(sessionsList.model.data(index,
-                        LightDMService.sessionRoles.DisplayRole));
+                    LightDMService.sessionRoles.KeyRole));
             }
         }
     }
