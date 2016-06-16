@@ -29,7 +29,7 @@ FocusScope {
     property alias loginListShown: loginAreaLoader.loginListShown
     property int currentIndex // Set from outside
     property int delayMinutes // TODO
-    property bool alphanumeric // unused
+    property bool alphanumeric: true
     property bool locked
     property alias sessionToStart: loginAreaLoader.currentSession
     property var userModel // Set from outside
@@ -162,6 +162,12 @@ FocusScope {
                 from: loader.item ? loader.item.width : 0
                 to: 0
                 running: false
+            }
+
+            Binding {
+                target: loginAreaLoader.item
+                property: "alphanumeric"
+                value: loginListShown ? root.alphanumeric : null
             }
 
             Binding {
