@@ -219,7 +219,7 @@ FocusScope {
                 onSessionSelected: {
                     loginAreaLoader.loginListShown = true
                     loginAreaLoader.sessionUpdated = true
-                    loginAreaLoader.currentSession = sessionName
+                    loginAreaLoader.currentSession = sessionKey
                 }
                 ignoreUnknownSignals: true
             }

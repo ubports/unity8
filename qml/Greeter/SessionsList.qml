@@ -25,7 +25,7 @@ Item {
 
     property string initiallySelectedSession
     property alias selectedIndex: sessionsList.selectedIndex
-    signal sessionSelected(string sessionName)
+    signal sessionSelected(string sessionKey)
 
     LoginAreaContainer {
         height: sessionsList.itemHeight * sessionsList.model.count
@@ -51,7 +51,7 @@ Item {
                 objectName: "sessionDelegate" + index
                 iconSource: icon_url
                 text: display
-                selected: display.toLowerCase() === initiallySelectedSession.toLowerCase()
+                selected: key === initiallySelectedSession
             }
 
             Component.onCompleted: {
