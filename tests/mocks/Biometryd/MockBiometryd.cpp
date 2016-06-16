@@ -20,7 +20,7 @@
 MockBiometryd::MockBiometryd(QObject *parent)
     : QObject(parent)
     , m_device(new MockDevice(this))
-    , m_available(false)
+    , m_available(true)
 {
 }
 

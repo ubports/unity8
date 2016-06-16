@@ -20,7 +20,7 @@
 
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
-    m_enableFingerprintIdentification(false),
+    m_enableFingerprintIdentification(true),
     m_enableLauncherWhileLocked(true),
     m_enableIndicatorsWhileLocked(true),
     m_backgroundFile(qmlDirectory() + "/graphics/phone_background.jpg"),

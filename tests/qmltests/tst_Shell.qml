@@ -340,7 +340,14 @@ Rectangle {
                         text: "Success"
                         onClicked: {
                             var biometryd = testCase.findInvisibleChild(shellContainer, "biometryd");
-                            biometryd.mockIdentification(0, "");
+                            var uid = 0;
+                            for (var i = 0; i < LightDM.Users.count; i++) {
+                                if (LightDM.Users.data(i, LightDM.UserRoles.NameRole) == AccountsService.user) {
+                                    uid = LightDM.Users.data(i, LightDM.UserRoles.UidRole);
+                                    break;
+                                }
+                            }
+                            biometryd.operation.mockSuccess(uid);
                         }
                     }
 
@@ -348,7 +355,7 @@ Rectangle {
                         text: "Failure"
                         onClicked: {
                             var biometryd = testCase.findInvisibleChild(shellContainer, "biometryd");
-                            biometryd.mockIdentification(0, "error");
+                            biometryd.operation.mockFailure("error");
                         }
                     }
                 }

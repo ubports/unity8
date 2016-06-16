@@ -150,8 +150,8 @@ Item {
             teaseSpy.clear();
             sessionStartedSpy.clear();
             activeChangedSpy.clear();
-            Biometryd.available = false;
-            AccountsService.enableFingerprintIdentification = false;
+            Biometryd.available = true;
+            AccountsService.enableFingerprintIdentification = true;
             viewShowMessageSpy.clear();
             viewShowPromptSpy.clear();
             viewShowLastChanceSpy.clear();
@@ -565,8 +565,6 @@ Item {
         }
 
         function test_fingerprintSuccess() {
-            Biometryd.available = true;
-            AccountsService.enableFingerprintIdentification = true;
             var index = selectUser("has-password");
 
             var biometryd = findInvisibleChild(greeter, "biometryd");
@@ -578,8 +576,6 @@ Item {
         }
 
         function test_fingerprintFailureMessage() {
-            Biometryd.available = true;
-            AccountsService.enableFingerprintIdentification = true;
             var index = selectUser("has-password");
 
             var biometryd = findInvisibleChild(greeter, "biometryd");
@@ -592,8 +588,6 @@ Item {
         }
 
         function test_fingerprintTooManyFailures() {
-            Biometryd.available = true;
-            AccountsService.enableFingerprintIdentification = true;
             selectUser("has-password");
 
             var biometryd = findInvisibleChild(greeter, "biometryd");
@@ -608,8 +602,6 @@ Item {
         }
 
         function test_fingerprintFailureCountReset() {
-            Biometryd.available = true;
-            AccountsService.enableFingerprintIdentification = true;
             selectUser("has-password");
 
             var biometryd = findInvisibleChild(greeter, "biometryd");
@@ -629,8 +621,6 @@ Item {
         }
 
         function test_fingerprintWrongUid() {
-            Biometryd.available = true;
-            AccountsService.enableFingerprintIdentification = true;
             selectUser("has-password");
 
             var biometryd = findInvisibleChild(greeter, "biometryd");
@@ -642,7 +632,7 @@ Item {
         }
 
         function test_fingerprintNotEnabled() {
-            Biometryd.available = true;
+            AccountsService.enableFingerprintIdentification = false;
             selectUser("has-password");
 
             var biometryd = findInvisibleChild(greeter, "biometryd");
@@ -657,7 +647,7 @@ Item {
         }
 
         function test_fingerprintReaderNotPresent() {
-            AccountsService.enableFingerprintIdentification = true;
+            Biometryd.available = false;
             selectUser("has-password");
 
             verify(!Biometryd.available);
@@ -674,8 +664,6 @@ Item {
         }
 
         function test_fingerprintGreeterNotActive() {
-            Biometryd.available = true;
-            AccountsService.enableFingerprintIdentification = true;
             selectUser("has-password");
 
             var biometryd = findInvisibleChild(greeter, "biometryd");
