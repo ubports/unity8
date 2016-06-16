@@ -410,14 +410,6 @@ Item {
             tryCompare(sessionsList, "visible", true);
             tryCompare(sessionsListSelector, "expanded", true);
 
-            waitForRendering(sessionsList)
-            for (var i = 0; i < LightDM.Sessions.count; i++) {
-                var delegateName = "sessionDelegate" + String(i);
-                var currentDelegate = findChild(view, delegateName);
-                var session = String(currentDelegate.text).toLowerCase();
-                var icon = String(currentDelegate.iconSource);
-                compare(icon.indexOf(session) > -1, true);
-            }
         }
 
         function test_choosingNewSessionChangesLoginListIcon() {
