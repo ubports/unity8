@@ -163,9 +163,6 @@ void LauncherItem::setCount(int count)
     if (m_count != count) {
         m_count = count;
         Q_EMIT countChanged(count);
-        if (m_countVisible) {
-            setAlerting(true);
-        }
     }
 }
 
@@ -179,9 +176,6 @@ void LauncherItem::setCountVisible(bool countVisible)
     if (m_countVisible != countVisible) {
         m_countVisible = countVisible;
         Q_EMIT countVisibleChanged(countVisible);
-        if (countVisible) {
-            setAlerting(true);
-        }
     }
 }
 
@@ -194,9 +188,6 @@ void LauncherItem::setFocused(bool focused)
 {
     if (m_focused != focused) {
         m_focused = focused;
-        if (focused) {
-            setAlerting(false);
-        }
         Q_EMIT focusedChanged(focused);
     }
 }
