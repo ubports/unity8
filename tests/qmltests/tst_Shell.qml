@@ -65,6 +65,7 @@ Rectangle {
             property int shellOrientation: Qt.PortraitOrientation
             property int nativeOrientation: Qt.PortraitOrientation
             property int primaryOrientation: Qt.PortraitOrientation
+            property string mode: "full-greeter"
 
             state: "phone"
             states: [
@@ -114,6 +115,7 @@ Rectangle {
                         native_: shellLoader.nativeOrientation
                         primary: shellLoader.primaryOrientation
                     }
+                    mode: shellLoader.mode
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }
@@ -508,6 +510,7 @@ Rectangle {
             AccountsService.demoEdges = false;
             AccountsService.demoEdgesCompleted = [];
             Wizard.System.wizardEnabled = false;
+            shellLoader.mode = "full-greeter";
 
             // kill all (fake) running apps
             killApps();
@@ -2455,6 +2458,23 @@ Rectangle {
             mouseRelease(shell);
 
             tryCompare(appDelegate, "state", "normal");
+        }
+
+        function test_fullShellModeHasNoInitialGreeter() {
+            setLightDMMockMode("single-pin");
+            shellLoader.mode = "full-shell";
+            loadShell("phone");
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+
+            var greeter = findChild(shell, "greeter");
+            verify(!greeter.shown);
+            verify(!greeter.locked);
+
+            showGreeter();
+
+            verify(greeter.shown);
+            verify(greeter.locked);
         }
     }
 }
