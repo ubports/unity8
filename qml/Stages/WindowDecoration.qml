@@ -27,6 +27,8 @@ MouseArea {
     property Item target
     property alias title: titleLabel.text
     property bool active: false
+    property alias overlayShown: buttons.overlayShown
+
     hoverEnabled: true
 
     signal closeClicked()
@@ -78,11 +80,15 @@ MouseArea {
     Row {
         anchors {
             fill: parent
-            leftMargin: units.gu(1)
+            leftMargin: overlayShown ? units.gu(5) : units.gu(1)
             rightMargin: units.gu(1)
             topMargin: units.gu(0.5)
             bottomMargin: units.gu(0.5)
         }
+        Behavior on anchors.leftMargin {
+            UbuntuNumberAnimation {}
+        }
+
         spacing: units.gu(3)
 
         WindowControlButtons {
@@ -95,6 +101,7 @@ MouseArea {
             onMaximizeHorizontallyClicked: root.maximizeHorizontallyClicked();
             onMaximizeVerticallyClicked: root.maximizeVerticallyClicked();
             closeButtonShown: root.target.application.appId !== "unity8-dash"
+            target: root.target
         }
 
         Label {
@@ -107,6 +114,11 @@ MouseArea {
             fontSize: "medium"
             font.weight: root.active ? Font.Light : Font.Medium
             elide: Text.ElideRight
+            opacity: overlayShown ? 0 : 1
+            visible: opacity == 1
+            Behavior on opacity {
+                OpacityAnimator { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+            }
         }
     }
 }

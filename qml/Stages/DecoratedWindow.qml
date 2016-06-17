@@ -49,6 +49,8 @@ FocusScope {
     readonly property int widthIncrement: !counterRotate ? applicationWindow.widthIncrement : applicationWindow.heightIncrement
     readonly property int heightIncrement: !counterRotate ? applicationWindow.heightIncrement : applicationWindow.widthIncrement
 
+    property alias overlayShown: decoration.overlayShown
+
     signal closeClicked()
     signal maximizeClicked()
     signal maximizeHorizontallyClicked()
