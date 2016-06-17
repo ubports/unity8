@@ -528,10 +528,10 @@ Rectangle {
             // Test that we skip the tutorial if user uses top edge themselves
 
             var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
-            var tutorialTop = findChild(shell, "tutorialTop");
+            var tutorialTopLoader = findChild(shell, "tutorialTopLoader");
             AccountsService.demoEdgesCompleted = ["left"];
             tryCompare(tutorialLeftLoader, "active", false);
-            verify(!tutorialTop.shown);
+            verify(!tutorialTopLoader.shown);
 
             touchFlick(shell, halfWidth, 0, halfWidth, shell.height);
             tryCompare(AccountsService, "demoEdgesCompleted", ["left", "top"]);
@@ -584,8 +584,8 @@ Rectangle {
         function test_tutorialRightDelay() {
             // Test that if we exit the top tutorial, we don't immediately
             // jump into right tutorial.
-            var tutorialRight = findChild(shell, "tutorialRight");
-            var tutorialRightTimer = findInvisibleChild(tutorialRight, "tutorialRightTimer");
+            var tutorialRightLoader = findChild(shell, "tutorialRightLoader");
+            var tutorialRightTimer = findInvisibleChild(tutorialRightLoader, "tutorialRightTimer");
 
             openTutorialTop();
             ApplicationManager.startApplication("gallery-app");
@@ -595,9 +595,9 @@ Rectangle {
 
             AccountsService.demoEdgesCompleted = ["left", "top", "left-long"];
             verify(tutorialRightTimer.running);
-            verify(!tutorialRight.shown);
+            verify(!tutorialRightLoader.shown);
             tutorialRightTimer.interval = 1;
-            tryCompare(tutorialRight, "shown", true);
+            tryCompare(tutorialRightLoader, "shown", true);
         }
 
         function test_tutorialRightAutoSkipped() {
@@ -691,25 +691,25 @@ Rectangle {
         function test_desktopTutorialRightFinish() {
             loadShell("desktop");
 
-            var tutorialRight = findChild(shell, "tutorialRight");
-            var tutorialRightTimer = findInvisibleChild(tutorialRight, "tutorialRightTimer");
+            var tutorialRightLoader = findChild(shell, "tutorialRightLoader");
+            var tutorialRightTimer = findInvisibleChild(tutorialRightLoader, "tutorialRightTimer");
             tutorialRightTimer.interval = 1;
             ApplicationManager.startApplication("dialer-app");
             ApplicationManager.startApplication("camera-app");
             ApplicationManager.startApplication("facebook-webapp");
-            tryCompare(tutorialRight, "shown", true);
+            tryCompare(tutorialRightLoader, "shown", true);
 
             var stage = findChild(shell, "stage");
             mouseMove(shell, shell.width, shell.height / 2);
             stage.pushRightEdge(units.gu(8));
-            tryCompare(tutorialRight, "shown", false);
+            tryCompare(tutorialRightLoader, "shown", false);
 
             tryCompare(AccountsService, "demoEdges", false);
         }
 
         function test_oskDoesNotHideTutorial() {
-            var tutorialLeft = findChild(shell, "tutorialLeft");
-            verify(tutorialLeft.shown);
+            var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
+            verify(tutorialLeftLoader.shown);
 
             var surface = SurfaceManager.inputMethodSurface;
             surface.setState(Mir.RestoredState);
@@ -717,7 +717,7 @@ Rectangle {
             var inputMethod = findInvisibleChild(shell, "inputMethod");
             tryCompare(inputMethod, "state", "shown");
 
-            verify(tutorialLeft.shown);
+            verify(tutorialLeftLoader.shown);
         }
 
         function test_oskDelaysTutorial() {
@@ -777,18 +777,15 @@ Rectangle {
         }
 
         function test_accountsServiceSettings() {
-            var tutorialLeft = findChild(shell, "tutorialLeft");
-            verify(tutorialLeft != null);
-            verify(tutorialLeft.shown);
+            var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
+            verify(tutorialLeftLoader.shown);
 
             AccountsService.demoEdges = false;
-            verify(findChild(shell, "tutorialLeft") == null);
+            verify(findChild(shell, "tutorialLeftLoader") == null);
 
             AccountsService.demoEdges = true;
-            tutorialLeft = findChild(shell, "tutorialLeft");
-            verify(tutorialLeft != null);
-
-            var tutorialLeftTimer = findChild(tutorialLeft, "tutorialLeftTimer");
+            tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
+            var tutorialLeftTimer = findChild(tutorialLeftLoader, "tutorialLeftTimer");
             verify(tutorialLeftTimer.running);
         }
     }
