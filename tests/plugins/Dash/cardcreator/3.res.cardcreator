@@ -33,7 +33,6 @@ Item  {
                                         source: artImage;
                                         aspect: UbuntuShape.DropShadow;
                                     }
-                                    readonly property real aspect: 0.75;
                                     width: image.status !== Image.Ready ? 0 : image.width;
                                     height: image.status !== Image.Ready ? 0 : image.height;
                                     CroppedImageMinimumSourceSize {
@@ -43,7 +42,7 @@ Item  {
                                         asynchronous: false;
                                         visible: false;
                                         width: root.width;
-                                        height: width / artShape.aspect;
+                                        height: width / 0.75;
                                     }
                                 } 
                             } 

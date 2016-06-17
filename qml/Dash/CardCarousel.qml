@@ -62,6 +62,7 @@ DashRenderer {
             asynchronous: true
             onLoaded: {
                 item.fixedHeaderHeight = Qt.binding(function() { return carousel.headerHeight; });
+                item.fixedArtShapeSize = Qt.binding(function() { return cardTool.artShapeSize; });
                 item.height = Qt.binding(function() { return cardTool.cardHeight; });
                 item.cardData = Qt.binding(function() { return model; });
                 item.fontScale = Qt.binding(function() { return carousel.fontScale; });
