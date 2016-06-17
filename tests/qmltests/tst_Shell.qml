@@ -810,10 +810,14 @@ Rectangle {
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "fullyShown", true);
 
-            var passwordMouseArea = findChild(shell, "passwordMouseArea")
-            tryCompare(passwordMouseArea, "enabled", isButton)
+            var passwordInput = findChild(shell, "passwordInput");
 
-            var passwordInput = findChild(shell, "passwordInput")
+            var promptButton = findChild(passwordInput, "promptButton");
+            tryCompare(promptButton, "visible", isButton);
+
+            var promptField = findChild(passwordInput, "promptField");
+            tryCompare(promptField, "visible", !isButton);
+
             mouseClick(passwordInput)
         }
 
@@ -2370,7 +2374,7 @@ Rectangle {
         function test_switchKeymap() {
             // start with phone shell
             loadShell("phone");
-            shell.usageScenario = "shell";
+            shell.usageScenario = "phone";
             waitForRendering(shell);
             swipeAwayGreeter();
 
