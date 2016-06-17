@@ -60,7 +60,7 @@ Item {
             tryCompare(dashContentList, "count", 0);
             scopes.load();
             tryCompare(dashContentList, "currentIndex", 0);
-            tryCompare(dashContentList, "count", 7);
+            tryCompare(dashContentList, "count", 8);
             tryCompare(scopes, "loaded", true);
             tryCompareFunction(function() {
                 var mockScope1Loader = findChild(dash, "scopeLoader0");
