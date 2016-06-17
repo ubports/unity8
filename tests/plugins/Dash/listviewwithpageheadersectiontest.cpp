@@ -2195,6 +2195,12 @@ private Q_SLOTS:
         verifyItem(1, 240., 220., false, "halfheight", false);
     }
 
+    void testInvalidSectionDelegate()
+    {
+        lvwph->setProperty("useBrokenSectionDelegateComponent", true);
+        scrollToBottom();
+    }
+
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;

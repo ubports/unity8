@@ -287,9 +287,11 @@ void ListViewWithPageHeader::setSectionDelegate(QQmlComponent *delegate)
         m_sectionDelegate = delegate;
 
         m_topSectionItem = getSectionItem(QString(), false /*watchGeometry*/);
-        m_topSectionItem->setZ(3);
-        QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
-        connect(m_topSectionItem, &QQuickItem::heightChanged, this, &ListViewWithPageHeader::stickyHeaderHeightChanged);
+        if (m_topSectionItem) {
+            m_topSectionItem->setZ(3);
+            QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
+            connect(m_topSectionItem, &QQuickItem::heightChanged, this, &ListViewWithPageHeader::stickyHeaderHeightChanged);
+        }
 
         // TODO create sections for existing items
 
@@ -776,7 +778,7 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText, b
     }
     m_sectionDelegate->completeCreate();
 
-    if (watchGeometry) {
+    if (watchGeometry && sectionItem) {
         QQuickItemPrivate::get(sectionItem)->addItemChangeListener(this, QQuickItemPrivate::Geometry);
     }
 
