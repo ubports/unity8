@@ -625,6 +625,21 @@ StyledItem {
             }
         }
 
+        KeyboardShortcutsOverlay {
+            objectName: "shortcutsOverlay"
+            enabled: launcher.shortcutHintsShown && width < parent.width - (launcher.lockedVisible ? launcher.panelWidth : 0) - padding
+                     && height < parent.height - padding - panel.panelHeight
+            anchors.centerIn: parent
+            anchors.horizontalCenterOffset: launcher.lockedVisible ? launcher.panelWidth/2 : 0
+            anchors.verticalCenterOffset: panel.panelHeight/2
+            visible: opacity > 0
+            opacity: enabled ? 0.95 : 0
+
+            Behavior on opacity {
+                UbuntuNumberAnimation {}
+            }
+        }
+
         Tutorial {
             id: tutorial
             objectName: "tutorial"
