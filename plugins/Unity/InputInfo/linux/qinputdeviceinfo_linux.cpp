@@ -85,9 +85,9 @@ void QInputDeviceManagerPrivate::init()
         udev_enumerate_add_match_subsystem(enumerate, subsystem.toLatin1());
 
         udev_monitor_enable_receiving(udevMonitor);
-        notifierFd = udev_monitor_get_fd(udevMonitor);
+        int notifierFd = udev_monitor_get_fd(udevMonitor);
 
-        notifier = new QSocketNotifier(notifierFd, QSocketNotifier::Read, this);
+        QSocketNotifier *notifier = new QSocketNotifier(notifierFd, QSocketNotifier::Read, this);
         connect(notifier, SIGNAL(activated(int)), this, SLOT(onUDevChanges()));
 
         udev_enumerate_scan_devices(enumerate);
