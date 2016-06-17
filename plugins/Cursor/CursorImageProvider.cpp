@@ -300,7 +300,7 @@ CursorImage *CursorImageProvider::fetchCursorHelper(const QString &themeName, co
 {
     if (cursorName == QLatin1String("blank")) {
         return &m_blankCursorImage;
-    } else if (cursorName == QLatin1String("custom")) {
+    } else if (cursorName.startsWith(QLatin1String("custom"))) {
         return m_customCursorImage.data();
     } else {
         QMap<QString, CursorImage*> &themeCursors = m_cursors[themeName];
