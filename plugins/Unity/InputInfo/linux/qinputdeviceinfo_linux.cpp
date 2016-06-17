@@ -53,6 +53,7 @@
 QInputDeviceManagerPrivate::QInputDeviceManagerPrivate(QObject *parent) :
     QObject(parent),
     currentFilter(QInputDevice::Unknown),
+    udevMonitor(0),
     udevice(0)
 {
     QTimer::singleShot(250,this,SLOT(init()));
