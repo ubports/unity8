@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2014 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,19 +26,21 @@ Item {
     property Item panel
     property Item stage
     property string usageScenario
-    property bool paused
-    property bool keyboardVisible
+    property bool paused: true // default to true so that we won't start until top level is all ready
+    property bool delayed: true // same
     property var lastInputTimestamp
 
     readonly property bool launcherEnabled: !running
                                             || tutorialLeftLoader.shown
                                             || tutorialLeftLongLoader.shown
+    readonly property bool launcherLongSwipeEnabled: tutorialLeftLongLoader.shown
+                                                     || tutorialLeftLongLoader.skipped
     readonly property bool spreadEnabled: !running || tutorialRightLoader.shown
     readonly property bool panelEnabled: !running || tutorialTopLoader.shown
     readonly property bool running: tutorialLeftLoader.shown
+                                    || tutorialLeftLongLoader.shown
                                     || tutorialTopLoader.shown
                                     || tutorialRightLoader.shown
-                                    || tutorialBottomLoader.shown
 
     signal finished()
 
@@ -57,16 +59,11 @@ Item {
                                       root.usageScenario === "phone" ||
                                       root.usageScenario === "tablet"
 
-        property var focusedApp: ApplicationManager.focusedApplicationId
-                                 ? ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
-                                 : null
-
         function haveShown(tutorialId) {
             return AccountsService.demoEdgesCompleted.indexOf(tutorialId) != -1;
         }
 
-        property bool endPointsFinished: tutorialRightLoader.skipped &&
-                                         tutorialBottomLoader.skipped
+        property bool endPointsFinished: tutorialRightLoader.skipped
         onEndPointsFinishedChanged: if (endPointsFinished) root.finish()
     }
 
@@ -88,61 +85,18 @@ Item {
             hides: [launcher, panel.indicators]
             paused: root.paused
 
-            isReady: !tutorialLeftLoader.skipped && !paused && !keyboardVisible &&
-                     !tutorialBottomLoader.shown && !tutorialBottomLoader.mightShow
+            isReady: !tutorialLeftLoader.skipped && !paused && !delayed
 
-            // Use an idle timer here, because when constructed, all our isReady variables will be false.
-            // Qml needs a moment to copy their values from Tutorial.qml.  So we idle it and recheck.
-            Timer {
+            InactivityTimer {
                 id: tutorialLeftTimer
-                interval: 0
-                onTriggered: if (tutorialLeft.isReady && !tutorialLeft.shown) tutorialLeft.show()
+                objectName: "tutorialLeftTimer"
+                interval: 20000
+                lastInputTimestamp: root.lastInputTimestamp
+                page: parent
             }
 
             onIsReadyChanged: if (isReady && !shown) tutorialLeftTimer.start()
             onFinished: AccountsService.markDemoEdgeCompleted("left")
-        }
-    }
-
-    Loader {
-        id: tutorialLeftLongLoader
-        objectName: "tutorialLeftLongLoader"
-        anchors.fill: parent
-
-        readonly property bool skipped: !d.mobileScenario || d.haveShown("left-long")
-        readonly property bool shown: item && item.shown
-        active: !skipped || (item && item.visible)
-        onSkippedChanged: if (skipped && shown) item.hide()
-
-        sourceComponent: TutorialLeftLong {
-            id: tutorialLeftLong
-            objectName: "tutorialLeftLong"
-            anchors.fill: parent
-            launcher: root.launcher
-            hides: [launcher, panel.indicators]
-            paused: root.paused
-
-            skipped: tutorialLeftLongLoader.skipped
-            isReady: tutorialLeftLoader.skipped && !skipped && !paused && !keyboardVisible &&
-                     !tutorialBottomLoader.shown && !tutorialBottomLoader.mightShow
-
-            Timer {
-                id: tutorialLeftLongTimer
-                objectName: "tutorialLeftLongTimer"
-                interval: 5000
-                onTriggered: {
-                    if (parent.isReady) {
-                        if (!parent.shown) {
-                            parent.show();
-                        }
-                    } else if (!parent.skipped) {
-                        restart();
-                    }
-                }
-            }
-
-            onIsReadyChanged: if (isReady && !shown) tutorialLeftLongTimer.start()
-            onFinished: AccountsService.markDemoEdgeCompleted("left-long")
         }
     }
 
@@ -165,26 +119,53 @@ Item {
             paused: root.paused
 
             skipped: tutorialTopLoader.skipped
-            isReady: tutorialLeftLongLoader.skipped && !skipped && !paused && !keyboardVisible &&
-                     !tutorialBottomLoader.shown && !tutorialBottomLoader.mightShow
-
-            // We fire 30s after left edge tutorial, with at least 3s of inactivity
+            isReady: tutorialLeftLoader.skipped && !skipped && !paused && !delayed
 
             InactivityTimer {
-                id: tutorialTopInactivityTimer
+                id: tutorialTopTimer
+                objectName: "tutorialTopTimer"
+                interval: 60000
                 lastInputTimestamp: root.lastInputTimestamp
                 page: parent
             }
 
-            Timer {
-                id: tutorialTopTimer
-                objectName: "tutorialTopTimer"
-                interval: 27000
-                onTriggered: tutorialTopInactivityTimer.start()
-            }
-
             onIsReadyChanged: if (isReady && !shown) tutorialTopTimer.start()
             onFinished: AccountsService.markDemoEdgeCompleted("top")
+        }
+    }
+
+    Loader {
+        id: tutorialLeftLongLoader
+        objectName: "tutorialLeftLongLoader"
+        anchors.fill: parent
+
+        readonly property bool skipped: !d.mobileScenario || d.haveShown("left-long")
+        readonly property bool shown: item && item.shown
+        active: !skipped || (item && item.visible)
+        onSkippedChanged: if (skipped && shown) item.hide()
+
+        sourceComponent: TutorialLeftLong {
+            id: tutorialLeftLong
+            objectName: "tutorialLeftLong"
+            anchors.fill: parent
+            launcher: root.launcher
+            hides: [launcher, panel.indicators]
+            paused: root.paused
+
+            skipped: tutorialLeftLongLoader.skipped
+            isReady: tutorialTopLoader.skipped && !skipped && !paused && !delayed &&
+                     ApplicationManager.focusedApplicationId != "unity8-dash"
+
+            InactivityTimer {
+                id: tutorialLeftLongTimer
+                objectName: "tutorialLeftLongTimer"
+                interval: 5000
+                lastInputTimestamp: root.lastInputTimestamp
+                page: parent
+            }
+
+            onIsReadyChanged: if (isReady && !shown) tutorialLeftLongTimer.start()
+            onFinished: AccountsService.markDemoEdgeCompleted("left-long")
         }
     }
 
@@ -208,83 +189,19 @@ Item {
             paused: root.paused
 
             skipped: tutorialRightLoader.skipped
-            isReady: tutorialTopLoader.skipped && !skipped && !paused && !keyboardVisible &&
-                     !tutorialBottomLoader.shown && !tutorialBottomLoader.mightShow &&
-                     ApplicationManager.count >= 3
+            isReady: tutorialTopLoader.skipped && !skipped && !paused && !delayed &&
+                     ApplicationManager.count >= 4
 
             InactivityTimer {
-                id: tutorialRightInactivityTimer
-                objectName: "tutorialRightInactivityTimer"
+                id: tutorialRightTimer
+                objectName: "tutorialRightTimer"
+                interval: 10000
                 lastInputTimestamp: root.lastInputTimestamp
                 page: parent
             }
 
-            Connections {
-                target: d
-                onFocusedAppChanged: {
-                    if (tutorialRight.isReady && !tutorialRight.shown && d.focusedApp
-                            && d.focusedApp.state === ApplicationInfoInterface.Starting) {
-                        tutorialRight.show();
-                    }
-                }
-            }
-
-            onIsReadyChanged: if (isReady && !shown) tutorialRightInactivityTimer.start()
+            onIsReadyChanged: if (isReady && !shown) tutorialRightTimer.start()
             onFinished: AccountsService.markDemoEdgeCompleted("right")
-        }
-    }
-
-    Loader {
-        id: tutorialBottomLoader
-        objectName: "tutorialBottomLoader"
-        anchors.fill: parent
-
-        // See TutorialBottom.qml for an explanation of why we only support
-        // certain apps.
-        readonly property var supportedApps: ["address-book-app",
-                                              "com.ubuntu.calculator_calculator",
-                                              "dialer-app",
-                                              "messaging-app"]
-        readonly property bool skipped: {
-            if (!d.mobileScenario) {
-                return true;
-            }
-            for (var i = 0; i < supportedApps.length; i++) {
-                if (!d.haveShown("bottom-" + supportedApps[i])) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        readonly property bool shown: item && item.shown
-        readonly property bool haveShownFocusedApp: d.focusedApp &&
-                                                    d.haveShown("bottom-" + d.focusedApp.appId)
-        readonly property bool mightShow: !skipped && d.focusedApp &&
-                                          supportedApps.indexOf(d.focusedApp.appId) !== -1 &&
-                                          !haveShownFocusedApp
-        active: !skipped || (item && item.visible)
-        onHaveShownFocusedAppChanged: if (haveShownFocusedApp && shown) hide()
-        onSkippedChanged: if (skipped && shown) item.hide()
-
-        sourceComponent: TutorialBottom {
-            id: tutorialBottom
-            objectName: "tutorialBottom"
-            anchors.fill: parent
-            hides: [launcher, panel.indicators]
-            paused: root.paused
-            usageScenario: root.usageScenario
-            stage: root.stage
-            application: d.focusedApp
-
-            skipped: tutorialBottomLoader.skipped
-            isReady: !tutorialBottomLoader.skipped && !paused && !keyboardVisible &&
-                     !tutorialLeftLoader.shown && !tutorialLeftLongLoader.shown &&
-                     !tutorialTopLoader.shown && !tutorialRightLoader.shown &&
-                     tutorialBottomLoader.mightShow &&
-                     d.focusedApp.state === ApplicationInfoInterface.Running
-
-            onIsReadyChanged: if (isReady && !shown) show()
-            onFinished: AccountsService.markDemoEdgeCompleted("bottom-" + d.focusedApp.appId)
         }
     }
 }

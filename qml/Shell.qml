@@ -116,10 +116,9 @@ StyledItem {
     }
     function _onMainAppChanged(appId) {
         if (wizard.active && appId != "" && appId != "unity8-dash") {
-            // If this happens on first boot, we may be in edge
-            // tutorial or wizard while receiving a call.  But a call
-            // is more important than wizard so just bail out of those.
-            tutorial.finish();
+            // If this happens on first boot, we may be in the
+            // wizard while receiving a call.  But a call is more
+            // important than the wizard so just bail out of it.
             wizard.hide();
         }
 
@@ -320,7 +319,7 @@ StyledItem {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "inverseProgress"
-                value: greeter && greeter.locked ? 0 : launcher.progress
+                value: !greeter || greeter.locked || !tutorial.launcherLongSwipeEnabled ? 0 : launcher.progress
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -504,7 +503,8 @@ StyledItem {
             launcher.fadeOut();
         }
 
-        if (!greeter.locked && ApplicationManager.focusedApplicationId != "unity8-dash") {
+        if (!greeter.locked && tutorial.launcherLongSwipeEnabled
+            && ApplicationManager.focusedApplicationId != "unity8-dash") {
             ApplicationManager.requestFocusApplication("unity8-dash")
             launcher.fadeOut();
         }
@@ -630,8 +630,12 @@ StyledItem {
             objectName: "tutorial"
             anchors.fill: parent
 
-            paused: callManager.hasCalls || greeter.shown
-            keyboardVisible: inputMethod.state === "shown"
+            paused: callManager.hasCalls || !greeter || greeter.shown ||
+                    wizard.active
+            delayed: dialogs.hasActiveDialog || notifications.hasNotification ||
+                     inputMethod.state === "shown" ||
+                     (launcher.shown && !launcher.lockedVisible) ||
+                     panel.indicators.shown || stage.dragProgress > 0
             usageScenario: shell.usageScenario
             lastInputTimestamp: inputFilter.lastInputTimestamp
             launcher: launcher
