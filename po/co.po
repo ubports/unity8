@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-05-27 13:54+0000\n"
+"POT-Creation-Date: 2016-06-01 20:59+0000\n"
 "PO-Revision-Date: 2016-05-24 10:40+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Corsican <co@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-06-02 06:20+0000\n"
-"X-Generator: Launchpad (build 18053)\n"
+"X-Launchpad-Export-Date: 2016-06-17 05:44+0000\n"
+"X-Generator: Launchpad (build 18097)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -238,7 +238,7 @@ msgstr "Aghjustà una recensione"
 
 #: qml/Dash/Previews/PreviewSharing.qml:66
 msgid "Preview Share Item"
-msgstr ""
+msgstr "Anteprima elementi da sparte"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -528,11 +528,13 @@ msgid ""
 "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
 "(recommended)"
 msgstr ""
+"Usà di manera anonima u GPS, i punti d'accessu Wi-Fi, e reti mobili, per "
+"stabilisce à pusizione (segeritu)"
 
 #: qml/Wizard/Pages/40-location.qml:105
 #, qt-format
 msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr ""
+msgstr "Selezziunendu issa ozzione s'accettanu i %1 di Nokia HERE."
 
 #: qml/Wizard/Pages/40-location.qml:106
 msgctxt "part of: Nokia HERE terms and conditions"
@@ -597,6 +599,8 @@ msgstr "Aiutaci à migliurà"
 #: qml/Wizard/Pages/75-report-check.qml:59
 msgid "Improve system performance by sending us crashes and error reports."
 msgstr ""
+"Migliurà l'efficienza di u sistema mandenduci nutificazioni d'errori è "
+"blocchi impurtanti."
 
 #: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Privacy policy"
@@ -620,7 +624,7 @@ msgstr "Termini & Cundizioni"
 
 #: qml/Wizard/Pages/here-terms.qml:69
 msgid "Your device uses positioning technologies provided by HERE."
-msgstr ""
+msgstr "U dispusitivu utliza tecnulugie di pusiziunamentu furnite da HERE."
 
 #: qml/Wizard/Pages/here-terms.qml:81
 msgid ""
@@ -628,6 +632,9 @@ msgid ""
 "collects information about nearby cell towers and Wi-Fi hotspots around your "
 "current location whenever your position is being found."
 msgstr ""
+"Per furnì servizii di pusiziunamentu è migliuranne a qualità, ogni volta chì "
+"a pusizione hè truvata, HERE culleziona e infurmazione nant'à i punti "
+"d'accessu Wi-Fi è i repetitori di telefunia mobile ind'u circondu."
 
 #: qml/Wizard/Pages/here-terms.qml:93
 msgid ""
@@ -724,14 +731,15 @@ msgstr "Turnà ad avvià"
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
 msgstr ""
+"Senza una carta SIM ùn hè micca pussibile di chjamà o mandà messaggi SMS."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr ""
+msgstr "Per prucede senza una carta SIM tuccà Saltà"
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Passwords match"
-msgstr ""
+msgstr "E parolle d'ordine sò l'istesse"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords do not match"
