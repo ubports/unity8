@@ -129,6 +129,51 @@ var kArtShapeHolderCode = 'Item { \n\
                             } \n\
                         }\n';
 
+// %1 is used as anchors of artShapeHolder
+// %2 is used as image width
+// %3 is used as image height
+// %4 is whether the image should be visible
+// %5 is used as aspect ratio
+// %6 is whether the loader should be asynchronous or not
+// %7 is the shape code we want to use
+// %8 is injected as code to artImage
+// %9 is used as image fallback
+var kArtShapeHolderCodeCardToolCard = 'Item { \n\
+                            id: artShapeHolder; \n\
+                            height: artShapeLoader.height; \n\
+                            width: artShapeLoader.width; \n\
+                            anchors { %1 } \n\
+                            Loader { \n\
+                                id: artShapeLoader; \n\
+                                objectName: "artShapeLoader"; \n\
+                                readonly property string cardArt: cardData && cardData["art"] || %9; \n\
+                                onCardArtChanged: { if (item) { item.image.source = cardArt; } } \n\
+                                active: cardArt != ""; \n\
+                                asynchronous: %6; \n\
+                                visible: status == Loader.Ready; \n\
+                                sourceComponent: Item { \n\
+                                    id: artShape; \n\
+                                    objectName: "artShape"; \n\
+                                    visible: image.status == Image.Ready; \n\
+                                    readonly property alias image: artImage; \n\
+                                    %7 \n\
+                                    readonly property real aspect: %5; \n\
+                                    width: image.status !== Image.Ready ? 0 : image.width; \n\
+                                    height: image.status !== Image.Ready ? 0 : image.height; \n\
+                                    CroppedImageMinimumSourceSize { \n\
+                                        id: artImage; \n\
+                                        objectName: "artImage"; \n\
+                                        source: artShapeLoader.cardArt; \n\
+                                        asynchronous: %6; \n\
+                                        visible: %4; \n\
+                                        width: %2; \n\
+                                        height: %3; \n\
+                                        %8 \n\
+                                    } \n\
+                                } \n\
+                            } \n\
+                        }\n';
+
 // %1 is anchors.fill
 // %2 is width
 // %3 is height
@@ -416,15 +461,16 @@ function cardString(template, components, isCardTool, artShapeStyle) {
                 property string backgroundShapeStyle: "inset"; \n\
                 property real fontScale: 1.0; \n\
                 property var scopeStyle: null; \n\
-                %2\
-                property size fixedArtShapeSize: Qt.size(-1, -1); \n\
                 readonly property string title: cardData && cardData["title"] || ""; \n\
                 property bool showHeader: true; \n\
                 implicitWidth: childrenRect.width; \n\
                 enabled: %1; \n\
                 \n'.arg(templateInteractive);
 
-    code = code.arg(isCardTool ? "" : "property int fixedHeaderHeight: -1; \n");
+    if (!isCardTool) {
+        code += "property int fixedHeaderHeight: -1; \n\
+                 property size fixedArtShapeSize: Qt.size(-1, -1); \n";
+    }
 
     var hasArt = components["art"] && components["art"]["field"] || false;
     var hasSummary = components["summary"] || false;
@@ -533,15 +579,16 @@ function cardString(template, components, isCardTool, artShapeStyle) {
         } else {
             artShapeHolderShapeCode = "";
         }
-        code += kArtShapeHolderCode.arg(artAnchors)
-                                   .arg(widthCode)
-                                   .arg(heightCode)
-                                   .arg(isConciergeMode ? "true" : "false")
-                                   .arg(aspectRatio)
-                                   .arg(asynchronous)
-                                   .arg(artShapeHolderShapeCode)
-                                   .arg(fallbackStatusCode)
-                                   .arg(fallbackURICode);
+        var artShapeHolderCode = isCardTool ? kArtShapeHolderCodeCardToolCard : kArtShapeHolderCode;
+        code += artShapeHolderCode.arg(artAnchors)
+                                  .arg(widthCode)
+                                  .arg(heightCode)
+                                  .arg(isConciergeMode ? "true" : "false")
+                                  .arg(aspectRatio)
+                                  .arg(asynchronous)
+                                  .arg(artShapeHolderShapeCode)
+                                  .arg(fallbackStatusCode)
+                                  .arg(fallbackURICode);
     } else {
         code += 'readonly property size artShapeSize: Qt.size(-1, -1);\n'
     }
