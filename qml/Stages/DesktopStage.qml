@@ -90,7 +90,8 @@ AbstractStage {
     GlobalShortcut {
         id: minimizeRestoreShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Down
-        onTriggered: priv.focusedAppDelegate.maximized || priv.focusedAppDelegate.maximizedLeft || priv.focusedAppDelegate.maximizedRight
+        onTriggered: priv.focusedAppDelegate.maximized || priv.focusedAppDelegate.maximizedLeft || priv.focusedAppDelegate.maximizedRight ||
+                     priv.focusedAppDelegate.maximizedHorizontally || priv.focusedAppDelegate.maximizedVertically
                      ? priv.focusedAppDelegate.restoreFromMaximized() : priv.focusedAppDelegate.minimize()
         active: priv.focusedAppDelegate !== null
     }
@@ -159,9 +160,9 @@ AbstractStage {
 
     Connections {
         target: PanelState
-        onClose: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.close(); } }
-        onMinimize: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.minimize(); } }
-        onMaximize: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.restoreFromMaximized(); } }
+        onCloseClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.close(); } }
+        onMinimizeClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.minimize(); } }
+        onRestoreClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.restoreFromMaximized(); } }
         onFocusMaximizedApp: {
             if (priv.foregroundMaximizedAppDelegate) {
                 priv.foregroundMaximizedAppDelegate.focus = true;
@@ -267,29 +268,47 @@ AbstractStage {
 
                 width: decoratedWindow.width
                 height: decoratedWindow.height
+
+                Connections {
+                    target: root
+                    onShellOrientationAngleChanged: {
+                        // at this point decoratedWindow.surfaceOrientationAngle is the old shellOrientationAngle
+                        if (application && application.rotatesWindowContents) {
+                            if (state == "normal") {
+                                var angleDiff = decoratedWindow.surfaceOrientationAngle - shellOrientationAngle;
+                                angleDiff = (360 + angleDiff) % 360;
+                                if (angleDiff === 90 || angleDiff === 270) {
+                                    var aux = decoratedWindow.requestedHeight;
+                                    decoratedWindow.requestedHeight = decoratedWindow.requestedWidth + decoratedWindow.visibleDecorationHeight;
+                                    decoratedWindow.requestedWidth = aux - decoratedWindow.visibleDecorationHeight;
+                                }
+                            }
+                            decoratedWindow.surfaceOrientationAngle = shellOrientationAngle;
+                        } else {
+                            decoratedWindow.surfaceOrientationAngle = 0;
+                        }
+                    }
+                }
+
+                readonly property alias application: decoratedWindow.application
+                readonly property alias minimumWidth: decoratedWindow.minimumWidth
+                readonly property alias minimumHeight: decoratedWindow.minimumHeight
+                readonly property alias maximumWidth: decoratedWindow.maximumWidth
+                readonly property alias maximumHeight: decoratedWindow.maximumHeight
+                readonly property alias widthIncrement: decoratedWindow.widthIncrement
+                readonly property alias heightIncrement: decoratedWindow.heightIncrement
                 property int requestedWidth: -1
                 property int requestedHeight: -1
-                property alias minimumWidth: decoratedWindow.minimumWidth
-                property alias minimumHeight: decoratedWindow.minimumHeight
-                property alias maximumWidth: decoratedWindow.maximumWidth
-                property alias maximumHeight: decoratedWindow.maximumHeight
-                property alias widthIncrement: decoratedWindow.widthIncrement
-                property alias heightIncrement: decoratedWindow.heightIncrement
 
-                QtObject {
-                    id: appDelegatePrivate
-                    property bool maximized: false
-                    property bool maximizedLeft: false
-                    property bool maximizedRight: false
-                    property bool minimized: false
-                }
-                readonly property alias maximized: appDelegatePrivate.maximized
-                readonly property alias maximizedLeft: appDelegatePrivate.maximizedLeft
-                readonly property alias maximizedRight: appDelegatePrivate.maximizedRight
-                readonly property alias minimized: appDelegatePrivate.minimized
+                readonly property bool maximized: windowState & WindowStateStorage.WindowStateMaximized
+                readonly property bool maximizedLeft: windowState & WindowStateStorage.WindowStateMaximizedLeft
+                readonly property bool maximizedRight: windowState & WindowStateStorage.WindowStateMaximizedRight
+                readonly property bool maximizedHorizontally: windowState & WindowStateStorage.WindowStateMaximizedHorizontally
+                readonly property bool maximizedVertically: windowState & WindowStateStorage.WindowStateMaximizedVertically
+                readonly property bool minimized: windowState & WindowStateStorage.WindowStateMinimized
                 readonly property alias fullscreen: decoratedWindow.fullscreen
 
-                readonly property var application: model.application
+                property int windowState: WindowStateStorage.WindowStateNormal
                 property bool animationsEnabled: true
                 property alias title: decoratedWindow.title
                 readonly property string appName: model.application ? model.application.name : ""
@@ -297,6 +316,7 @@ AbstractStage {
                 property bool visuallyMinimized: false
 
                 readonly property var surface: model.surface
+                readonly property alias resizeArea: resizeArea
 
                 function claimFocus() {
                     if (spread.state == "altTab") {
@@ -326,13 +346,13 @@ AbstractStage {
                         return;
 
                     if (focus) {
-                        priv.focusedAppDelegate = appDelegate;
-
                         // If we're orphan (!parent) it means this stage is no longer the current one
                         // and will be deleted shortly. So we should no longer have a say over the model
                         if (root.parent) {
                             topLevelSurfaceList.raiseId(model.id);
                         }
+
+                        priv.focusedAppDelegate = appDelegate;
                     } else if (!focus && priv.focusedAppDelegate === appDelegate) {
                         priv.focusedAppDelegate = null;
                         // FIXME: No idea why the Binding{} doens't update when focusedAppDelegate turns null
@@ -340,6 +360,12 @@ AbstractStage {
                     }
                 }
                 Component.onCompleted: {
+                    if (application && application.rotatesWindowContents) {
+                        decoratedWindow.surfaceOrientationAngle = shellOrientationAngle;
+                    } else {
+                        decoratedWindow.surfaceOrientationAngle = 0;
+                    }
+
                     // NB: We're differentiating if this delegate was created in response to a new entry in the model
                     //     or if the Repeater is just populating itself with delegates to match the model it received.
                     if (!appRepeater.startingUp) {
@@ -386,43 +412,45 @@ AbstractStage {
 
                 function maximize(animated) {
                     animationsEnabled = (animated === undefined) || animated;
-                    appDelegatePrivate.minimized = false;
-                    appDelegatePrivate.maximized = true;
-                    appDelegatePrivate.maximizedLeft = false;
-                    appDelegatePrivate.maximizedRight = false;
+                    windowState = WindowStateStorage.WindowStateMaximized;
                 }
-                function maximizeLeft() {
-                    appDelegatePrivate.minimized = false;
-                    appDelegatePrivate.maximized = false;
-                    appDelegatePrivate.maximizedLeft = true;
-                    appDelegatePrivate.maximizedRight = false;
+                function maximizeLeft(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
+                    windowState = WindowStateStorage.WindowStateMaximizedLeft;
                 }
-                function maximizeRight() {
-                    appDelegatePrivate.minimized = false;
-                    appDelegatePrivate.maximized = false;
-                    appDelegatePrivate.maximizedLeft = false;
-                    appDelegatePrivate.maximizedRight = true;
+                function maximizeRight(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
+                    windowState = WindowStateStorage.WindowStateMaximizedRight;
+                }
+                function maximizeHorizontally(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
+                    windowState = WindowStateStorage.WindowStateMaximizedHorizontally;
+                }
+                function maximizeVertically(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
+                    windowState = WindowStateStorage.WindowStateMaximizedVertically;
                 }
                 function minimize(animated) {
                     animationsEnabled = (animated === undefined) || animated;
-                    appDelegatePrivate.minimized = true;
+                    windowState |= WindowStateStorage.WindowStateMinimized; // add the minimized bit
                 }
                 function restoreFromMaximized(animated) {
                     animationsEnabled = (animated === undefined) || animated;
-                    appDelegatePrivate.minimized = false;
-                    appDelegatePrivate.maximized = false;
-                    appDelegatePrivate.maximizedLeft = false;
-                    appDelegatePrivate.maximizedRight = false;
+                    windowState = WindowStateStorage.WindowStateNormal;
                 }
                 function restore(animated) {
                     animationsEnabled = (animated === undefined) || animated;
-                    appDelegatePrivate.minimized = false;
+                    windowState &= ~WindowStateStorage.WindowStateMinimized; // clear the minimized bit
                     if (maximized)
                         maximize();
                     else if (maximizedLeft)
                         maximizeLeft();
                     else if (maximizedRight)
                         maximizeRight();
+                    else if (maximizedHorizontally)
+                        maximizeHorizontally();
+                    else if (maximizedVertically)
+                        maximizeVertically();
 
                     focus = true;
                 }
@@ -445,16 +473,15 @@ AbstractStage {
                         name: "fullscreen"; when: decoratedWindow.fullscreen && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
-                            x: 0;
-                            y: -PanelState.panelHeight
+                            x: rotation == 0 ? 0 : (parent.width - width) / 2 + (shellOrientationAngle == 90 ? -PanelState.panelHeight : PanelState.panelHeight)
+                            y: rotation == 0 ? -PanelState.panelHeight : (parent.height - height) / 2
                             requestedWidth: appContainer.width;
                             requestedHeight: appContainer.height;
                         }
                     },
                     State {
                         name: "normal";
-                        when: !appDelegate.maximized && !appDelegate.minimized
-                              && !appDelegate.maximizedLeft && !appDelegate.maximizedRight
+                        when: appDelegate.windowState == WindowStateStorage.WindowStateNormal
                         PropertyChanges {
                             target: appDelegate;
                             visuallyMinimized: false;
@@ -503,12 +530,22 @@ AbstractStage {
                         }
                     },
                     State {
+                        name: "maximizedHorizontally"; when: appDelegate.maximizedHorizontally && !appDelegate.minimized
+                        PropertyChanges { target: appDelegate; x: root.leftMargin }
+                        PropertyChanges { target: decoratedWindow; requestedWidth: appContainer.width - root.leftMargin }
+                    },
+                    State {
+                        name: "maximizedVertically"; when: appDelegate.maximizedVertically && !appDelegate.minimized
+                        PropertyChanges { target: appDelegate; y: PanelState.panelHeight }
+                        PropertyChanges { target: decoratedWindow; requestedHeight: appContainer.height - PanelState.panelHeight }
+                    },
+                    State {
                         name: "minimized"; when: appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
                             x: -appDelegate.width / 2;
                             scale: units.gu(5) / appDelegate.width;
-                            opacity: 0
+                            opacity: 0;
                             visuallyMinimized: true;
                             visuallyMaximized: false
                         }
@@ -564,9 +601,19 @@ AbstractStage {
                     when: index == spread.highlightedIndex && spread.ready
                 }
 
+                Binding {
+                    target: PanelState
+                    property: "buttonsAlwaysVisible"
+                    value: appDelegate && appDelegate.maximized && touchControls.overlayShown
+                }
+
                 WindowResizeArea {
                     id: resizeArea
                     objectName: "windowResizeArea"
+
+                    // workaround so that it chooses the correct resize borders when you drag from a corner ResizeGrip
+                    anchors.margins: touchControls.overlayShown ? borderThickness/2 : -borderThickness
+
                     target: appDelegate
                     minWidth: units.gu(10)
                     minHeight: units.gu(10)
@@ -607,15 +654,25 @@ AbstractStage {
                     surface: model.surface
                     active: appDelegate.focus
                     focus: true
+                    overlayShown: touchControls.overlayShown
 
                     requestedWidth: appDelegate.requestedWidth
                     requestedHeight: appDelegate.requestedHeight
 
-                    onClose: { appDelegate.close(); }
-                    onMaximize: appDelegate.maximized || appDelegate.maximizedLeft || appDelegate.maximizedRight
-                                ? appDelegate.restoreFromMaximized() : appDelegate.maximize()
-                    onMinimize: appDelegate.minimize()
+                    onCloseClicked: { appDelegate.close(); }
+                    onMaximizeClicked: appDelegate.maximized || appDelegate.maximizedLeft || appDelegate.maximizedRight
+                                       || appDelegate.maximizedHorizontally || appDelegate.maximizedVertically
+                                       ? appDelegate.restoreFromMaximized() : appDelegate.maximize()
+                    onMaximizeHorizontallyClicked: appDelegate.maximizedHorizontally ? appDelegate.restoreFromMaximized() : appDelegate.maximizeHorizontally()
+                    onMaximizeVerticallyClicked: appDelegate.maximizedVertically ? appDelegate.restoreFromMaximized() : appDelegate.maximizeVertically()
+                    onMinimizeClicked: appDelegate.minimize()
                     onDecorationPressed: { appDelegate.focus = true; }
+                }
+
+                WindowControlsOverlay {
+                    id: touchControls
+                    anchors.fill: appDelegate
+                    target: appDelegate
                 }
 
                 WindowedFullscreenPolicy {
@@ -650,7 +707,7 @@ AbstractStage {
         }
     }
 
-    DirectionalDragArea {
+    SwipeArea {
         direction: Direction.Leftwards
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: units.gu(1)

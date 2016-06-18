@@ -65,6 +65,7 @@ Rectangle {
             property int shellOrientation: Qt.PortraitOrientation
             property int nativeOrientation: Qt.PortraitOrientation
             property int primaryOrientation: Qt.PortraitOrientation
+            property string mode: "full-greeter"
 
             state: "phone"
             states: [
@@ -114,6 +115,7 @@ Rectangle {
                         native_: shellLoader.nativeOrientation
                         primary: shellLoader.primaryOrientation
                     }
+                    mode: shellLoader.mode
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }
@@ -463,7 +465,7 @@ Rectangle {
             shellLoader.state = formFactor;
             shellLoader.active = true;
             tryCompare(shellLoader, "status", Loader.Ready);
-            removeTimeConstraintsFromDirectionalDragAreas(shellLoader.item);
+            removeTimeConstraintsFromSwipeAreas(shellLoader.item);
             tryCompare(shell, "enabled", true); // enabled by greeter when ready
 
             sessionSpy.target = findChild(shell, "greeter")
@@ -535,6 +537,7 @@ Rectangle {
             AccountsService.demoEdges = false;
             AccountsService.demoEdgesCompleted = [];
             Wizard.System.wizardEnabled = false;
+            shellLoader.mode = "full-greeter";
 
             // kill all (fake) running apps
             killApps();
@@ -776,8 +779,9 @@ Rectangle {
             // greeter unloads its internal components when hidden
             // and reloads them when shown. Thus we have to do this
             // again before interacting with it otherwise any
-            // DirectionalDragAreas in there won't be easily fooled by
+            // SwipeAreas in there won't be easily fooled by
             // fake swipes.
+            removeTimeConstraintsFromSwipeAreas(greeter);
             swipeAwayGreeter();
 
             compare(mainApp.requestedState, ApplicationInfoInterface.RequestedRunning);
@@ -788,7 +792,7 @@ Rectangle {
             var greeter = findChild(shell, "greeter");
             tryCompare(greeter, "fullyShown", true);
             waitForGreeterToStabilize();
-            removeTimeConstraintsFromDirectionalDragAreas(greeter);
+            removeTimeConstraintsFromSwipeAreas(greeter);
 
             var touchX = shell.width - (shell.edgeSize / 2);
             var touchY = shell.height / 2;
@@ -836,10 +840,14 @@ Rectangle {
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "fullyShown", true);
 
-            var passwordMouseArea = findChild(shell, "passwordMouseArea")
-            tryCompare(passwordMouseArea, "enabled", isButton)
+            var passwordInput = findChild(shell, "passwordInput");
 
-            var passwordInput = findChild(shell, "passwordInput")
+            var promptButton = findChild(passwordInput, "promptButton");
+            tryCompare(promptButton, "visible", isButton);
+
+            var promptField = findChild(passwordInput, "promptField");
+            tryCompare(promptField, "visible", !isButton);
+
             mouseClick(passwordInput)
         }
 
@@ -1096,9 +1104,9 @@ Rectangle {
             // greeter unloads its internal components when hidden
             // and reloads them when shown. Thus we have to do this
             // again before interacting with it otherwise any
-            // DirectionalDragAreas in there won't be easily fooled by
+            // SwipeAreas in there won't be easily fooled by
             // fake swipes.
-            removeTimeConstraintsFromDirectionalDragAreas(greeter);
+            removeTimeConstraintsFromSwipeAreas(greeter);
         }
 
         function revealLauncherByEdgePushWithMouse() {
@@ -1259,13 +1267,10 @@ Rectangle {
 
         function test_wizardEarlyExit() {
             Wizard.System.wizardEnabled = true;
-            AccountsService.demoEdges = true;
             loadShell("phone");
 
             var wizard = findChild(shell, "wizard");
-            var tutorial = findChild(shell, "tutorial");
             tryCompare(wizard, "active", true);
-            tryCompare(tutorial, "running", true);
             tryCompareFunction(function() { return topLevelSurfaceList.applicationAt(0).appId; }, "unity8-dash");
 
             // Make sure we stay running when there's no top level window (can happen for
@@ -1278,14 +1283,12 @@ Rectangle {
 
             tryCompare(topLevelSurfaceList, "count", 0);
             compare(wizard.shown, true);
-            compare(tutorial.running, true);
 
             // And make sure we stay running when dash comes back again
             var dashSurfaceId = topLevelSurfaceList.nextId;
             ApplicationManager.startApplication(dashApplication.appId);
             waitUntilAppWindowIsFullyLoaded(dashSurfaceId);
             compare(wizard.shown, true);
-            compare(tutorial.running, true);
 
             // And make sure we stop when some other surface shows app
             var gallerySurfaceId = topLevelSurfaceList.nextId;
@@ -1293,12 +1296,7 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(gallerySurfaceId);
             tryCompareFunction(function() { return topLevelSurfaceList.applicationAt(0).appId; }, "gallery-app");
             compare(wizard.shown, false);
-            compare(tutorial.running, false);
-            tryCompare(AccountsService, "demoEdges", false);
             tryCompare(Wizard.System, "wizardEnabled", false);
-
-            var tutorialLeft = findChild(tutorial, "tutorialLeft");
-            compare(tutorialLeft, null); // should be destroyed with tutorial
         }
 
         function test_tutorialPausedDuringGreeter() {
@@ -2230,6 +2228,7 @@ Rectangle {
             compare(ApplicationManager.focusedApplicationId, "unity8-dash");
 
             // Use Super + Tab Tab to cycle to the first entry in the launcher
+            wait(1000);
             keyPress(Qt.Key_Super_L, Qt.MetaModifier);
             keyClick(Qt.Key_Tab);
             tryCompare(launcher, "state", "visible");
@@ -2252,19 +2251,27 @@ Rectangle {
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
         }
 
-        function test_longpressSuperOpensLauncher() {
+        function test_longpressSuperOpensLauncherAndShortcutsOverlay() {
             loadShell("desktop");
             var launcher = findChild(shell, "launcher");
             var shortcutHint = findChild(findChild(launcher, "launcherDelegate0"), "shortcutHint")
+            var shortcutsOverlay = findChild(shell, "shortcutsOverlay");
 
             compare(launcher.state, "");
             keyPress(Qt.Key_Super_L, Qt.MetaModifier);
+            waitForRendering(shortcutsOverlay);
             tryCompare(launcher, "state", "visible");
             tryCompare(shortcutHint, "visible", true);
+            if (shortcutsOverlay.enabled) {
+                tryCompare(shortcutsOverlay, "visible", true, 10000);
+            }
 
             keyRelease(Qt.Key_Super_L, Qt.MetaModifier);
             tryCompare(launcher, "state", "");
             tryCompare(shortcutHint, "visible", false);
+            if (shortcutsOverlay.enabled) {
+                tryCompare(shortcutsOverlay, "visible", false);
+            }
         }
 
         function test_metaNumberLaunchesFromLauncher_data() {
@@ -2397,7 +2404,7 @@ Rectangle {
         function test_switchKeymap() {
             // start with phone shell
             loadShell("phone");
-            shell.usageScenario = "shell";
+            shell.usageScenario = "phone";
             waitForRendering(shell);
             swipeAwayGreeter();
 
@@ -2453,6 +2460,48 @@ Rectangle {
             // switch to app2, should also get "fr"
             ApplicationManager.requestFocusApplication("calendar-app");
             tryCompare(app2Surface, "keymap", "fr");
+        }
+
+        function test_dragPanelToRestoreMaximizedWindow() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            var panel = findChild(shell, "windowControlArea");
+            verify(panel);
+
+            var appSurfaceId = topLevelSurfaceList.nextId;
+            var app = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            // start dialer, maximize it
+            var appContainer = findChild(shell, "appContainer");
+            var appDelegate = findChild(appContainer, "appDelegate_" + appSurfaceId);
+            verify(appDelegate);
+            appDelegate.maximize();
+            tryCompare(appDelegate, "state", "maximized");
+
+            mousePress(panel);
+            mouseMove(shell, shell.width/2, shell.height/2);
+            mouseRelease(shell);
+
+            tryCompare(appDelegate, "state", "normal");
+        }
+
+        function test_fullShellModeHasNoInitialGreeter() {
+            setLightDMMockMode("single-pin");
+            shellLoader.mode = "full-shell";
+            loadShell("phone");
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+
+            var greeter = findChild(shell, "greeter");
+            verify(!greeter.shown);
+            verify(!greeter.locked);
+
+            showGreeter();
+
+            verify(greeter.shown);
+            verify(greeter.locked);
         }
     }
 }

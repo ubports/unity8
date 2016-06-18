@@ -286,7 +286,7 @@ FocusScope {
             Rectangle {
                 anchors { left: selectionHighlight.left; right: selectionHighlight.right; bottom: selectionHighlight.bottom; }
                 height: units.dp(2)
-                color: UbuntuColors.orange
+                color: theme.palette.normal.focus
                 visible: root.highlightShown
                 antialiasing: true
             }
@@ -323,13 +323,14 @@ FocusScope {
             angle: appWindowScreenshotWithShadow.transformRotationAngle
         }
 
-        property var window: appWindowScreenshot
+        readonly property Item window: appWindowScreenshot
+        readonly property bool ready: appWindowScreenshot.status === Image.Ready
 
         function take() {
-            // Format: "image://application/$APP_ID/$CURRENT_TIME_MS"
-            // eg: "image://application/calculator-app/123456"
-            var timeMs = new Date().getTime();
-            appWindowScreenshot.source = "image://application/" + root.application.appId + "/" + timeMs;
+            appWindow.grabToImage(
+                function(result) {
+                    appWindowScreenshot.source = result.url;
+                });
         }
         function discard() {
             appWindowScreenshot.source = "";
@@ -337,12 +338,7 @@ FocusScope {
 
         Image {
             id: appWindowScreenshot
-            source: ""
-
-            anchors.fill: parent
-
-            sourceSize.width: width
-            sourceSize.height: height
+            anchors.top: parent.top
         }
     }
 

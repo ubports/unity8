@@ -137,7 +137,7 @@ private Q_SLOTS:
         QTest::qWaitForWindowExposed(view);
         view->resize(470, 400);
 
-        vj = dynamic_cast<VerticalJournal*>(view->rootObject()->findChild<QObject*>("vj"));
+        vj = static_cast<VerticalJournal*>(view->rootObject()->findChild<QObject*>("vj"));
         vj->setModel(model);
         QTRY_COMPARE(vj->width(), 470.);
 

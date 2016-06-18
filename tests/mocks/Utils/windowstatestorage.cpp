@@ -50,6 +50,7 @@ QRect WindowStateStorage::getGeometry(const QString &windowId, const QRect &defa
 void WindowStateStorage::saveStage(const QString &appId, int stage)
 {
     m_stage[appId] = stage;
+    Q_EMIT stageSaved(appId, stage);
 }
 
 int WindowStateStorage::getStage(const QString &appId) const

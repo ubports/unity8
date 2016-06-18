@@ -2,7 +2,6 @@ pkg_check_modules(CONNECTIVITY REQUIRED connectivity-qt1)
 
 include_directories(
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
-    ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures
     ${CONNECTIVITY_INCLUDE_DIRS}
 )
 
@@ -24,6 +23,7 @@ set(SOURCE_FILES
     ShellApplication.cpp
     ShellView.cpp
     UnityCommandLineParser.cpp
+    UnixSignalHandler.cpp
     ${QML_FILES} # This is to make qml and image files appear in the IDE's project tree
 )
 
@@ -43,9 +43,6 @@ target_link_libraries(${SHELL_APP} ${ANDROID_PROPERTIES_LDFLAGS} UbuntuGestures 
 if (ENABLE_TOUCH_EMULATION)
     target_link_libraries(${SHELL_APP} ${MOUSETOUCHADAPTOR_LIBS_LDFLAGS})
 endif()
-
-# For it to find libUbuntuGestures.so
-set_target_properties(${SHELL_APP} PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}")
 
 # install binaries
 install(TARGETS ${SHELL_APP}

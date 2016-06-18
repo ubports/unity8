@@ -1,6 +1,7 @@
 set(DASH_SRCS
     main.cpp
     ../CachingNetworkManagerFactory.cpp
+    ../UnixSignalHandler.cpp
 )
 
 if (ENABLE_TOUCH_EMULATION)
