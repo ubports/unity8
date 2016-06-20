@@ -9,6 +9,7 @@ include_directories(
 set(QMLPLUGIN_SRC
     activefocuslogger.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     applicationsfiltermodel.cpp
     constants.cpp
     WindowInputMonitor.cpp
