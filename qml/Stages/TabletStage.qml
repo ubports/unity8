@@ -851,7 +851,6 @@ AbstractStage {
                         var newStage = ApplicationInfoInterface.MainStage;
                         if (priv.sideStageEnabled) { // we're in lanscape rotation.
                             if (application && application.supportedOrientations & (Qt.PortraitOrientation|Qt.InvertedPortraitOrientation)) {
-
                                 var defaultStage = ApplicationInfoInterface.SideStage; // if application supports portrait, it defaults to sidestage.
                                 if (application.supportedOrientations & (Qt.LandscapeOrientation|Qt.InvertedLandscapeOrientation)) {
                                     // if it supports lanscape, it defaults to mainstage.
