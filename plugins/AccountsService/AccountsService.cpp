@@ -39,6 +39,7 @@
 #define PROP_ENABLE_FINGERPRINT_IDENTIFICATION QStringLiteral("EnableFingerprintIdentification")
 #define PROP_ENABLE_INDICATORS_WHILE_LOCKED    QStringLiteral("EnableIndicatorsWhileLocked")
 #define PROP_ENABLE_LAUNCHER_WHILE_LOCKED      QStringLiteral("EnableLauncherWhileLocked")
+#define PROP_FAILED_FINGERPRINT_LOGINS         QStringLiteral("FailedFingerprintLogins")
 #define PROP_FAILED_LOGINS                     QStringLiteral("FailedLogins")
 #define PROP_INPUT_SOURCES                     QStringLiteral("InputSources")
 #define PROP_LICENSE_ACCEPTED                  QStringLiteral("LicenseAccepted")
@@ -101,6 +102,7 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
     registerProperty(IFACE_UBUNTU_SECURITY_OLD, PROP_STATS_WELCOME_SCREEN, QStringLiteral("statsWelcomeScreenChanged"));
     registerProperty(IFACE_UNITY, PROP_DEMO_EDGES, QStringLiteral("demoEdgesChanged"));
     registerProperty(IFACE_UNITY, PROP_DEMO_EDGES_COMPLETED, QStringLiteral("demoEdgesCompletedChanged"));
+    registerProperty(IFACE_UNITY_PRIVATE, PROP_FAILED_FINGERPRINT_LOGINS, QStringLiteral("failedFingerprintLoginsChanged"));
     registerProperty(IFACE_UNITY_PRIVATE, PROP_FAILED_LOGINS, QStringLiteral("failedLoginsChanged"));
 
     registerProxy(IFACE_UBUNTU_INPUT, PROP_MOUSE_CURSOR_SPEED,
@@ -280,6 +282,16 @@ QStringList AccountsService::keymaps() const
     }
 
     return {QStringLiteral("us")};
+}
+
+uint AccountsService::failedFingerprintLogins() const
+{
+    return getProperty(IFACE_UNITY_PRIVATE, PROP_FAILED_FINGERPRINT_LOGINS).toUInt();
+}
+
+void AccountsService::setFailedFingerprintLogins(uint failedFingerprintLogins)
+{
+    setProperty(IFACE_UNITY_PRIVATE, PROP_FAILED_FINGERPRINT_LOGINS, failedFingerprintLogins);
 }
 
 uint AccountsService::failedLogins() const

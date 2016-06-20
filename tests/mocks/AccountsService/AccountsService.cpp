@@ -26,6 +26,7 @@ AccountsService::AccountsService(QObject* parent)
     m_backgroundFile(qmlDirectory() + "/graphics/phone_background.jpg"),
     m_statsWelcomeScreen(true),
     m_failedLogins(0),
+    m_failedFingerprintLogins(0),
     m_demoEdges(false),
     m_demoEdgesCompleted(),
     m_hereEnabled(false),
@@ -147,6 +148,17 @@ void AccountsService::setFailedLogins(uint failedLogins)
 {
     m_failedLogins = failedLogins;
     failedLoginsChanged();
+}
+
+uint AccountsService::failedFingerprintLogins() const
+{
+    return m_failedFingerprintLogins;
+}
+
+void AccountsService::setFailedFingerprintLogins(uint failedFingerprintLogins)
+{
+    m_failedFingerprintLogins = failedFingerprintLogins;
+    failedFingerprintLoginsChanged();
 }
 
 bool AccountsService::hereEnabled() const

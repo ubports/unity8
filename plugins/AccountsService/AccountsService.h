@@ -63,6 +63,10 @@ class AccountsService: public QObject
                 READ failedLogins
                 WRITE setFailedLogins
                 NOTIFY failedLoginsChanged)
+    Q_PROPERTY (uint failedFingerprintLogins
+                READ failedFingerprintLogins
+                WRITE setFailedFingerprintLogins
+                NOTIFY failedFingerprintLoginsChanged)
     Q_PROPERTY(bool hereEnabled
                READ hereEnabled
                WRITE setHereEnabled
@@ -102,6 +106,8 @@ public:
     PasswordDisplayHint passwordDisplayHint() const;
     uint failedLogins() const;
     void setFailedLogins(uint failedLogins);
+    uint failedFingerprintLogins() const;
+    void setFailedFingerprintLogins(uint failedFingerprintLogins);
     bool hereEnabled() const;
     void setHereEnabled(bool enabled);
     QString hereLicensePath() const;
@@ -123,6 +129,7 @@ Q_SIGNALS:
     void statsWelcomeScreenChanged();
     void passwordDisplayHintChanged();
     void failedLoginsChanged();
+    void failedFingerprintLoginsChanged();
     void hereEnabledChanged();
     void hereLicensePathChanged();
     void realNameChanged();

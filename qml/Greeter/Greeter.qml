@@ -54,6 +54,7 @@ Showable {
     property int maxFailedLogins: -1 // disabled by default for now, will enable via settings in future
     property int failedLoginsDelayAttempts: 7 // number of failed logins
     property real failedLoginsDelayMinutes: 5 // minutes of forced waiting
+    property int failedFingerprintLoginsDisableAttempts: 3 // number of failed fingerprint logins
 
     readonly property bool animating: loader.item ? loader.item.animating : false
 
@@ -62,6 +63,9 @@ Showable {
     signal emergencyCall()
 
     function forceShow() {
+        if (!active) {
+            d.isLockscreen = true;
+        }
         forcedUnlock = false;
         if (!required) {
             showNow(); // loader.onLoaded will select a user
@@ -121,7 +125,11 @@ Showable {
         readonly property bool multiUser: lightDM.users.count > 1
         property int currentIndex
         property bool waiting
-        property int fingerprintFailureCount
+        property bool isLockscreen // true when we are locking an active session, rather than first user login
+        readonly property bool allowFingerprint: isLockscreen &&
+                                                 AccountsService.failedFingerprintLogins <
+                                                 root.failedFingerprintLoginsDisableAttempts
+        readonly property bool alphanumeric: AccountsService.passwordDisplayHint === AccountsService.Keyboard
 
         // We want 'launcherOffset' to animate down to zero.  But not to animate
         // while being dragged.  So ideally we change this only when the user
@@ -137,16 +145,8 @@ Showable {
             UbuntuNumberAnimation {}
         }
 
-        onFingerprintFailureCountChanged: {
-            if (d.fingerprintFailureCount >= 3) {
-                d.startUnlock(false /* toTheRight */);
-                d.fingerprintFailureCount = 0;
-            }
-        }
-
         function selectUser(uid, reset) {
             d.waiting = true;
-            d.fingerprintFailureCount = 0;
             if (reset) {
                 loader.item.reset();
             }
@@ -198,6 +198,13 @@ Showable {
 
     onForcedUnlockChanged: d.checkForcedUnlock(false /* hideNow */)
     Component.onCompleted: d.checkForcedUnlock(true /* hideNow */)
+
+    onLockedChanged: {
+        if (!locked) {
+            AccountsService.failedLogins = 0;
+            AccountsService.failedFingerprintLogins = 0;
+        }
+    }
 
     onRequiredChanged: {
         if (required) {
@@ -360,7 +367,7 @@ Showable {
         Binding {
             target: loader.item
             property: "alphanumeric"
-            value: AccountsService.passwordDisplayHint === AccountsService.Keyboard
+            value: d.alphanumeric
         }
 
         Binding {
@@ -419,7 +426,6 @@ Showable {
             d.waiting = false;
 
             if (lightDM.greeter.authenticated) {
-                AccountsService.failedLogins = 0;
                 d.login();
                 if (!lightDM.greeter.promptless) {
                     loader.item.hide();
@@ -515,10 +521,16 @@ Showable {
 
         function failOperation(reason) {
             console.log("Failed to identify user by fingerprint:", reason);
-            d.fingerprintFailureCount++;
             restartOperation();
-            if (loader.item)
-                loader.item.showErrorMessage(i18n.tr("Try again"));
+            if (!allowFingerprint) {
+                d.startUnlock(false /* toTheRight */);
+            }
+            if (loader.item) {
+                var msg = d.allowFingerprint ? i18n.tr("Try again")
+                          d.alphanumeric     ? i18n.tr("Use passphrase")
+                                             : i18n.tr("Use passcode");
+                loader.item.showErrorMessage(msg);
+            }
         }
 
         Component.onCompleted: restartOperation()
@@ -526,17 +538,28 @@ Showable {
         onIdEnabledChanged: restartOperation()
 
         onSucceeded: {
+            if (!d.allowFingerprint) {
+                failOperation("too many failures");
+                return;
+            }
             if (result !== lightDM.users.data(d.currentIndex, lightDM.userRoles.UidRole)) {
+                AccountsService.failedFingerprintLogins++;
                 failOperation("not the selected user");
                 return;
             }
             console.log("Identified user by fingerprint:", result);
-            d.fingerprintFailureCount = 0;
             if (loader.item)
                 loader.item.notifyAuthenticationSucceeded(true /* showFakePassword */);
             if (root.active)
                 root.forcedUnlock = true;
         }
-        onFailed: failOperation(reason)
+        onFailed: {
+            if (!d.allowFingerprint) {
+                failOperation("too many failures");
+            } else {
+                AccountsService.failedFingerprintLogins++;
+                failOperation(reason);
+            }
+        }
     }
 }
