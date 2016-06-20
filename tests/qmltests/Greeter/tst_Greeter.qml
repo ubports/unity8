@@ -594,8 +594,8 @@ Item {
             verify(biometryd.operation.running);
 
             biometryd.operation.mockSuccess(LightDM.Users.data(index, LightDM.UserRoles.UidRole));
-            compare(viewShowErrorMessageSpy.count, 1);
-            compare(viewShowErrorMessageSpy.signalArguments[0][0], i18n.tr("Use passphrase"));
+            compare(viewTryToUnlockSpy.count, 1);
+            verify(greeter.locked);
         }
 
         function test_forcedDisallowedFingerprint() {
@@ -635,13 +635,9 @@ Item {
             biometryd.operation.mockFailure("error");
             compare(viewTryToUnlockSpy.count, 1);
 
-            compare(viewShowErrorMessageSpy.count, 3);
-            compare(viewShowErrorMessageSpy.signalArguments[2][0], i18n.tr("Use passphrase"));
-
             // Confirm that we are stuck in this mode until next login
             biometryd.operation.mockSuccess(LightDM.Users.data(index, LightDM.UserRoles.UidRole));
-            compare(viewShowErrorMessageSpy.count, 4);
-            compare(viewShowErrorMessageSpy.signalArguments[3][0], i18n.tr("Use passphrase"));
+            compare(viewTryToUnlockSpy.count, 2);
 
             unlockAndShowGreeter();
 
@@ -665,8 +661,6 @@ Item {
 
             biometryd.operation.mockFailure("error");
             compare(viewTryToUnlockSpy.count, 1);
-
-            compare(viewShowErrorMessageSpy.count, 5);
         }
 
         function test_fingerprintWrongUid() {

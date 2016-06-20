@@ -526,13 +526,9 @@ Showable {
             console.log("Failed to identify user by fingerprint:", reason);
             restartOperation();
             if (!d.secureFingerprint) {
-                d.startUnlock(false /* toTheRight */);
-            }
-            if (loader.item) {
-                var msg = d.secureFingerprint ? i18n.tr("Try again") :
-                          d.alphanumeric      ? i18n.tr("Use passphrase") :
-                                                i18n.tr("Use passcode");
-                loader.item.showErrorMessage(msg);
+                d.startUnlock(false /* toTheRight */); // use normal login instead
+            } else if (loader.item) {
+                loader.item.showErrorMessage(i18n.tr("Try again"));
             }
         }
 
