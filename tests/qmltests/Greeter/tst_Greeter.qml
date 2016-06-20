@@ -152,6 +152,7 @@ Item {
             activeChangedSpy.clear();
             Biometryd.available = true;
             AccountsService.enableFingerprintIdentification = true;
+            AccountsService.failedFingerprintLogins = 0;
             viewShowMessageSpy.clear();
             viewShowPromptSpy.clear();
             viewShowLastChanceSpy.clear();
@@ -642,9 +643,7 @@ Item {
             compare(viewShowErrorMessageSpy.count, 4);
             compare(viewShowErrorMessageSpy.signalArguments[3][0], i18n.tr("Use passphrase"));
 
-            greeter.forcedUnlock = true;
-            LightDM.Greeter.showGreeter();
-            tryCompare(greeter, "waiting", false);
+            unlockAndShowGreeter();
 
             biometryd.operation.mockSuccess(LightDM.Users.data(index, LightDM.UserRoles.UidRole));
             verify(!greeter.active);
