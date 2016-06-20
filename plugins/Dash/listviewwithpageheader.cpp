@@ -702,7 +702,9 @@ void ListViewWithPageHeader::reallyReleaseItem(ListItem *listItem)
     if (flags & QQmlDelegateModel::Destroyed) {
         item->setParentItem(nullptr);
     }
-    listItem->sectionItem()->deleteLater();
+    if (listItem->sectionItem()) {
+        listItem->sectionItem()->deleteLater();
+    }
     delete listItem;
 }
 
