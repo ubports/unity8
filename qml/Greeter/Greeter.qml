@@ -72,8 +72,12 @@ Showable {
     signal emergencyCall()
 
     function forceShow() {
-        showNow();
-        d.selectUser(d.currentIndex, true);
+        forcedUnlock = false;
+        if (!required) {
+            showNow(); // loader.onLoaded will select a user
+        } else {
+            d.selectUser(d.currentIndex, true);
+        }
     }
 
     function notifyAppFocusRequested(appId) {
@@ -172,7 +176,7 @@ Showable {
 
         function login() {
             enabled = false;
-            if (LightDMService.greeter.startSessionSync(root.sessionToStart.toLowerCase())) {
+            if (LightDMService.greeter.startSessionSync()) {
                 sessionStarted();
                 if (loader.item) {
                     loader.item.notifyAuthenticationSucceeded();
@@ -191,11 +195,14 @@ Showable {
             }
         }
 
-        function checkForcedUnlock() {
+        function checkForcedUnlock(hideNow) {
             if (forcedUnlock && shown && loader.item) {
                 // pretend we were just authenticated
                 loader.item.notifyAuthenticationSucceeded();
                 loader.item.hide();
+                if (hideNow) {
+                    root.hideNow(); // skip hide animation
+                }
             }
         }
     }
@@ -206,8 +213,8 @@ Showable {
         }
     }
 
-    onForcedUnlockChanged: d.checkForcedUnlock()
-    Component.onCompleted: d.checkForcedUnlock()
+    onForcedUnlockChanged: d.checkForcedUnlock(false /* hideNow */)
+    Component.onCompleted: d.checkForcedUnlock(true /* hideNow */)
 
     onRequiredChanged: {
         if (required) {
@@ -402,10 +409,6 @@ Showable {
         }
 
         onShowMessage: {
-            if (!LightDMService.greeter.active) {
-                return; // could happen if hideGreeter() comes in before we prompt
-            }
-
             // inefficient, but we only rarely deal with messages
             var html = text.replace(/&/g, "&amp;")
                            .replace(/</g, "&lt;")
@@ -415,17 +418,17 @@ Showable {
                 html = "<font color=\"#df382c\">" + html + "</font>";
             }
 
-            loader.item.showMessage(html);
+            if (loader.item) {
+                loader.item.showMessage(html);
+            }
         }
 
         onShowPrompt: {
             d.waiting = false;
 
-            if (!LightDMService.greeter.active) {
-                return; // could happen if hideGreeter() comes in before we prompt
+            if (loader.item) {
+                loader.item.showPrompt(text, isSecret, isDefaultPrompt);
             }
-
-            loader.item.showPrompt(text, isSecret, isDefaultPrompt);
         }
 
         onAuthenticationComplete: {
@@ -471,6 +474,7 @@ Showable {
     Connections {
         target: DBusUnitySessionService
         onLockRequested: root.forceShow()
+        onUnlocked: root.forcedUnlock = true
     }
 
     Binding {

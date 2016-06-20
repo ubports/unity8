@@ -65,6 +65,7 @@ Rectangle {
             property int shellOrientation: Qt.PortraitOrientation
             property int nativeOrientation: Qt.PortraitOrientation
             property int primaryOrientation: Qt.PortraitOrientation
+            property string mode: "full-greeter"
 
             state: "phone"
             states: [
@@ -114,6 +115,7 @@ Rectangle {
                         native_: shellLoader.nativeOrientation
                         primary: shellLoader.primaryOrientation
                     }
+                    mode: shellLoader.mode
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }
@@ -508,6 +510,7 @@ Rectangle {
             AccountsService.demoEdges = false;
             AccountsService.demoEdgesCompleted = [];
             Wizard.System.wizardEnabled = false;
+            shellLoader.mode = "full-greeter";
 
             // kill all (fake) running apps
             killApps();
@@ -1234,13 +1237,10 @@ Rectangle {
 
         function test_wizardEarlyExit() {
             Wizard.System.wizardEnabled = true;
-            AccountsService.demoEdges = true;
             loadShell("phone");
 
             var wizard = findChild(shell, "wizard");
-            var tutorial = findChild(shell, "tutorial");
             tryCompare(wizard, "active", true);
-            tryCompare(tutorial, "running", true);
             tryCompareFunction(function() { return topLevelSurfaceList.applicationAt(0).appId; }, "unity8-dash");
 
             // Make sure we stay running when there's no top level window (can happen for
@@ -1253,14 +1253,12 @@ Rectangle {
 
             tryCompare(topLevelSurfaceList, "count", 0);
             compare(wizard.shown, true);
-            compare(tutorial.running, true);
 
             // And make sure we stay running when dash comes back again
             var dashSurfaceId = topLevelSurfaceList.nextId;
             ApplicationManager.startApplication(dashApplication.appId);
             waitUntilAppWindowIsFullyLoaded(dashSurfaceId);
             compare(wizard.shown, true);
-            compare(tutorial.running, true);
 
             // And make sure we stop when some other surface shows app
             var gallerySurfaceId = topLevelSurfaceList.nextId;
@@ -1268,12 +1266,7 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(gallerySurfaceId);
             tryCompareFunction(function() { return topLevelSurfaceList.applicationAt(0).appId; }, "gallery-app");
             compare(wizard.shown, false);
-            compare(tutorial.running, false);
-            tryCompare(AccountsService, "demoEdges", false);
             tryCompare(Wizard.System, "wizardEnabled", false);
-
-            var tutorialLeft = findChild(tutorial, "tutorialLeft");
-            compare(tutorialLeft, null); // should be destroyed with tutorial
         }
 
         function test_tutorialPausedDuringGreeter() {
@@ -2223,19 +2216,27 @@ Rectangle {
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
         }
 
-        function test_longpressSuperOpensLauncher() {
+        function test_longpressSuperOpensLauncherAndShortcutsOverlay() {
             loadShell("desktop");
             var launcher = findChild(shell, "launcher");
             var shortcutHint = findChild(findChild(launcher, "launcherDelegate0"), "shortcutHint")
+            var shortcutsOverlay = findChild(shell, "shortcutsOverlay");
 
             compare(launcher.state, "");
             keyPress(Qt.Key_Super_L, Qt.MetaModifier);
+            waitForRendering(shortcutsOverlay);
             tryCompare(launcher, "state", "visible");
             tryCompare(shortcutHint, "visible", true);
+            if (shortcutsOverlay.enabled) {
+                tryCompare(shortcutsOverlay, "visible", true, 10000);
+            }
 
             keyRelease(Qt.Key_Super_L, Qt.MetaModifier);
             tryCompare(launcher, "state", "");
             tryCompare(shortcutHint, "visible", false);
+            if (shortcutsOverlay.enabled) {
+                tryCompare(shortcutsOverlay, "visible", false);
+            }
         }
 
         function test_metaNumberLaunchesFromLauncher_data() {
@@ -2449,6 +2450,23 @@ Rectangle {
             mouseRelease(shell);
 
             tryCompare(appDelegate, "state", "normal");
+        }
+
+        function test_fullShellModeHasNoInitialGreeter() {
+            setLightDMMockMode("single-pin");
+            shellLoader.mode = "full-shell";
+            loadShell("phone");
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+
+            var greeter = findChild(shell, "greeter");
+            verify(!greeter.shown);
+            verify(!greeter.locked);
+
+            showGreeter();
+
+            verify(greeter.shown);
+            verify(greeter.locked);
         }
     }
 }

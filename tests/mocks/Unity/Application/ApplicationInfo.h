@@ -107,8 +107,9 @@ public:
 
     Q_INVOKABLE void setShellChrome(Mir::ShellChrome shellChrome);
 
-    MirSurfaceListInterface* surfaceList() override { return &m_surfaceList; }
-    MirSurfaceListInterface* promptSurfaceList() override { return &m_promptSurfaceList; }
+    MirSurfaceListInterface* surfaceList() const override { return m_surfaceList; }
+    MirSurfaceListInterface* promptSurfaceList() const override { return m_promptSurfaceList; }
+    int surfaceCount() const override { return m_surfaceList->count(); }
 
     void setFocused(bool value);
 
@@ -148,8 +149,8 @@ private:
     bool m_isTouchApp{true};
     bool m_exemptFromLifecycle{false};
     QSize m_initialSurfaceSize;
-    MirSurfaceListModel m_surfaceList;
-    MirSurfaceListModel m_promptSurfaceList;
+    MirSurfaceListModel *m_surfaceList;
+    MirSurfaceListModel *m_promptSurfaceList;
     int m_liveSurfaceCount{0};
     QTimer m_surfaceCreationTimer;
     QList<MirSurface*> m_closingSurfaces;
