@@ -995,7 +995,7 @@ Item {
             objectName: "keymapMenu"
             property QtObject menuData: null
             property int menuIndex: -1
-            property bool serverChecked: menuData && menuData.isToggled || false
+            readonly property bool serverChecked: menuData && menuData.isToggled || false
 
             text: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive || false
@@ -1013,25 +1013,7 @@ Item {
 
                 onSyncTriggered: {
                     menuModel.activate(checkItem.menuIndex);
-
-                    print("!!! Keymap", checkItem.menuIndex, "triggered")
-                    print("!!! Active action state:", actionGroup.activeAction.state)
-                    if (MirFocusController.focusedSurface) {
-                        print("!!! Switching keymap to:", AccountsService.keymaps[checkItem.menuIndex])
-                        MirFocusController.focusedSurface.keymap = AccountsService.keymaps[checkItem.menuIndex];
-                    }
                 }
-            }
-
-            QDBusActionGroup {
-                id: actionGroup
-                busType: DBus.SessionBus
-                busName: "com.canonical.indicator.keyboard"
-                objectPath: "/com/canonical/indicator/keyboard"
-
-                property variant activeAction: action("active")
-
-                Component.onCompleted: actionGroup.start()
             }
         }
     }

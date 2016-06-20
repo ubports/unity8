@@ -37,7 +37,8 @@ Item {
 
     readonly property var keymaps: AccountsService.keymaps
     readonly property int keymapCount: keymaps.length
-    property int currentKeymapIndex: 0
+    // default keymap, either the one remembered by the indicator, or the 1st one selected by user
+    property int currentKeymapIndex: actionGroup.currentAction.valid ? actionGroup.currentAction.state : 0
     readonly property string currentKeymap: keymaps[currentKeymapIndex]
 
     function nextKeymap() {
@@ -72,6 +73,10 @@ Item {
         objectPath: "/com/canonical/indicator/keyboard"
 
         property variant currentAction: action("current")
+        property variant activeAction: action("active")
+
+
+        Component.onCompleted: actionGroup.start();
     }
 
     onCurrentKeymapIndexChanged: {
@@ -79,11 +84,12 @@ Item {
         actionGroup.currentAction.updateState(currentKeymapIndex);
     }
 
+    readonly property int activeActionState: actionGroup.activeAction.valid ? actionGroup.activeAction.state : -1
 
-    Component.onCompleted: {
-        actionGroup.start();
-        if (actionGroup.currentAction.valid) {
-            // TODO root.currentKeymapIndex = actionGroup.activeAction.state; // restore keymap saved by the indicator
+    onActiveActionStateChanged: {
+        print("!!! Active keymap changed (via indicator) to:", activeActionState);
+        if (activeActionState != -1) {
+            currentKeymapIndex = activeActionState;
         }
     }
 }
