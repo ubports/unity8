@@ -36,6 +36,7 @@
 
 int main(int argc, const char *argv[])
 {
+    qSetMessagePattern("[%{time yyyy-mm-dd:hh:mm:ss.zzz}] %{if-category}%{category}: %{endif}%{message}");
     if (enableQmlDebugger(argc, argv)) {
         QQmlDebuggingEnabler qQmlEnableDebuggingHelper(true);
     }

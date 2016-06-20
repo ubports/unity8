@@ -94,14 +94,25 @@ Rectangle {
             }
         }
 
+        property bool useBrokenSectionDelegateComponent: false
         sectionProperty: "type"
-        sectionDelegate: Component {
+        sectionDelegate: useBrokenSectionDelegateComponent ? objectComponent
+                                                           : regularSectionDelegateComponent
+
+        Component {
+            id: regularSectionDelegateComponent
             Rectangle {
                 property alias text: theText.text
                 color: "green"
                 height: text === "" ? 0 : text != "halfheight" ? 40 : 20;
                 Text { id: theText; font.pixelSize: 34 }
                 anchors { left: parent.left; right: parent.right }
+            }
+        }
+
+        Component {
+            id: objectComponent
+            QtObject {
             }
         }
     }
