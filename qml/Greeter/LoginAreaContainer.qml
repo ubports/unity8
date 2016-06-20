@@ -15,13 +15,24 @@
  */
 
 import QtQuick 2.4
-import "." 0.1
+import Ubuntu.Components 1.3
 
-Rectangle {
-    height: units.gu(10)
-    color: Qt.rgba(0.1, 0.1, 0.1, 0.4)
-    border.color: Qt.rgba(0.4, 0.4, 0.4, 0.4)
-    border.width: units.dp(1)
-    radius: units.gu(1.5)
-    antialiasing: true
+Item {
+    BorderImage {
+        anchors {
+            fill: parent
+            topMargin: -units.gu(1)
+            leftMargin: -units.gu(1.5)
+            rightMargin: -units.gu(1.5)
+            bottomMargin: -units.gu(1.5)
+        }
+        source: "../Stages/graphics/dropshadow2gu.sci"
+        opacity: 0.35
+    }
+
+    UbuntuShape {
+        anchors.fill: parent
+        aspect: UbuntuShape.Flat
+        backgroundColor: theme.palette.normal.raised
+    }
 }
