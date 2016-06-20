@@ -38,6 +38,7 @@ MockLauncherItem::MockLauncherItem(const QString &appId, const QString& desktopF
     m_countVisible(false),
     m_focused(false),
     m_alerting(false),
+    m_surfaceCount(0),
     m_quickList(new MockQuickListModel(this))
 {
 }
@@ -179,6 +180,19 @@ void MockLauncherItem::setAlerting(bool alerting)
     if (m_alerting != alerting) {
         m_alerting = alerting;
         Q_EMIT alertingChanged(alerting);
+    }
+}
+
+int MockLauncherItem::surfaceCount() const
+{
+    return m_surfaceCount;
+}
+
+void MockLauncherItem::setSurfaceCount(int surfaceCount)
+{
+    if (m_surfaceCount != surfaceCount) {
+        m_surfaceCount = surfaceCount;
+        Q_EMIT surfaceCountChanged(surfaceCount);
     }
 }
 

@@ -127,7 +127,7 @@ private Q_SLOTS:
     {
         view = new QQuickView();
         view->setSource(QUrl::fromLocalFile(testDataDir() + "/" TEST_DIR "/listviewwithpageheadertest.qml"));
-        lvwph = dynamic_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
+        lvwph = static_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
         model = view->rootObject()->findChild<QQmlListModel*>();
         otherDelegate = view->rootObject()->findChild<QQmlComponent*>();
         QVERIFY(lvwph);
