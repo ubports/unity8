@@ -239,6 +239,7 @@ Rectangle {
                         alerting: model.alerting
                         highlighted: root.highlightIndex == index
                         shortcutHintShown: root.shortcutHintsShown && index <= 9
+                        surfaceCount: model.surfaceCount
                         z: -Math.abs(offset)
                         maxAngle: 55
                         property bool dragging: false
@@ -271,6 +272,7 @@ Rectangle {
 
                             PropertyAction { target: launcherListViewItem; property: "clip"; value: 1 }
                             PropertyAction { target: root; property: "visible"; value: (launcher.visibleWidth === 0) ? 0 : 1 }
+                            PropertyAction { target: launcherListView; property: "peekingIndex"; value: -1 }
                         }
 
                         onAlertingChanged: {
