@@ -328,6 +328,18 @@ void ApplicationManager::buildListOfAvailableApplications()
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
+    application->setAppId("camera-app2");
+    application->setName("Camera2");
+    application->setScreenshotId("camera");
+    application->setIconId("camera");
+    application->setSupportedOrientations(Qt::PortraitOrientation
+                                        | Qt::LandscapeOrientation
+                                        | Qt::InvertedPortraitOrientation
+                                        | Qt::InvertedLandscapeOrientation);
+    application->setRotatesWindowContents(true);
+    m_availableApplications.append(application);
+
+    application = new ApplicationInfo(this);
     application->setAppId("gallery-app");
     application->setName("Gallery");
     application->setScreenshotId("gallery");

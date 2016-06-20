@@ -86,6 +86,10 @@ StyledItem {
     }
 
     Component.onCompleted: {
+        if (type === Notification.PlaceHolder) {
+            return;
+        }
+
         // Turn on screen as needed (Powerd.Notification means the screen
         // stays on for a shorter amount of time)
         if (type === Notification.SnapDecision) {
@@ -97,6 +101,18 @@ StyledItem {
         // FIXME: using onCompleted because of LP: #1354406 workaround, has to be onOpacityChanged really
         if (opacity == defaultOpacity && hints["suppress-sound"] !== "true" && sound.source !== "") {
             sound.play();
+        }
+    }
+
+    Component.onDestruction: {
+        if (type === Notification.PlaceHolder) {
+            return;
+        }
+
+        if (type === Notification.SnapDecision) {
+            Powerd.setStatus(Powerd.Off, Powerd.SnapDecision);
+        } else if (type !== Notification.Confirmation) {
+            Powerd.setStatus(Powerd.Off, Powerd.Notification);
         }
     }
 
