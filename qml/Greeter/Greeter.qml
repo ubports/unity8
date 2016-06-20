@@ -522,13 +522,13 @@ Showable {
         function failOperation(reason) {
             console.log("Failed to identify user by fingerprint:", reason);
             restartOperation();
-            if (!allowFingerprint) {
+            if (!d.allowFingerprint) {
                 d.startUnlock(false /* toTheRight */);
             }
             if (loader.item) {
-                var msg = d.allowFingerprint ? i18n.tr("Try again")
-                          d.alphanumeric     ? i18n.tr("Use passphrase")
-                                             : i18n.tr("Use passcode");
+                var msg = d.allowFingerprint ? i18n.tr("Try again") :
+                          d.alphanumeric     ? i18n.tr("Use passphrase") :
+                                               i18n.tr("Use passcode");
                 loader.item.showErrorMessage(msg);
             }
         }
