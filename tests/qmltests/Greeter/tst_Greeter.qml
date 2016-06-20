@@ -597,6 +597,18 @@ Item {
             compare(viewShowErrorMessageSpy.signalArguments[0][0], i18n.tr("Use passphrase"));
         }
 
+        function test_forcedDisallowedFingerprint() {
+            var index = selectUser("has-password");
+            unlockAndShowGreeter(); // turn on lockscreen mode
+
+            var biometryd = findInvisibleChild(greeter, "biometryd");
+            verify(biometryd.operation);
+            verify(biometryd.operation.running);
+
+            greeter.allowFingerprint = false;
+            verify(!biometryd.operation);
+        }
+
         function test_fingerprintFailureMessage() {
             var index = selectUser("has-password");
             unlockAndShowGreeter(); // turn on lockscreen mode

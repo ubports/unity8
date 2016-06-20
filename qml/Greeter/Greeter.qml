@@ -39,6 +39,8 @@ Showable {
     readonly property bool active: required || hasLockedApp
     readonly property bool fullyShown: loader.item ? loader.item.fullyShown : false
 
+    property bool allowFingerprint: true
+
     // True when the greeter is waiting for PAM or other setup process
     readonly property alias waiting: d.waiting
 
@@ -126,9 +128,9 @@ Showable {
         property int currentIndex
         property bool waiting
         property bool isLockscreen // true when we are locking an active session, rather than first user login
-        readonly property bool allowFingerprint: isLockscreen &&
-                                                 AccountsService.failedFingerprintLogins <
-                                                 root.failedFingerprintLoginsDisableAttempts
+        readonly property bool secureFingerprint: isLockscreen &&
+                                                  AccountsService.failedFingerprintLogins <
+                                                  root.failedFingerprintLoginsDisableAttempts
         readonly property bool alphanumeric: AccountsService.passwordDisplayHint === AccountsService.Keyboard
 
         // We want 'launcherOffset' to animate down to zero.  But not to animate
@@ -498,6 +500,7 @@ Showable {
 
         property var operation: null
         readonly property bool idEnabled: root.active &&
+                                          root.allowFingerprint &&
                                           Powerd.status === Powerd.On &&
                                           Biometryd.available &&
                                           AccountsService.enableFingerprintIdentification
@@ -522,13 +525,13 @@ Showable {
         function failOperation(reason) {
             console.log("Failed to identify user by fingerprint:", reason);
             restartOperation();
-            if (!d.allowFingerprint) {
+            if (!d.secureFingerprint) {
                 d.startUnlock(false /* toTheRight */);
             }
             if (loader.item) {
-                var msg = d.allowFingerprint ? i18n.tr("Try again") :
-                          d.alphanumeric     ? i18n.tr("Use passphrase") :
-                                               i18n.tr("Use passcode");
+                var msg = d.secureFingerprint ? i18n.tr("Try again") :
+                          d.alphanumeric      ? i18n.tr("Use passphrase") :
+                                                i18n.tr("Use passcode");
                 loader.item.showErrorMessage(msg);
             }
         }
@@ -538,7 +541,7 @@ Showable {
         onIdEnabledChanged: restartOperation()
 
         onSucceeded: {
-            if (!d.allowFingerprint) {
+            if (!d.secureFingerprint) {
                 failOperation("too many failures");
                 return;
             }
@@ -554,7 +557,7 @@ Showable {
                 root.forcedUnlock = true;
         }
         onFailed: {
-            if (!d.allowFingerprint) {
+            if (!d.secureFingerprint) {
                 failOperation("too many failures");
             } else {
                 AccountsService.failedFingerprintLogins++;
