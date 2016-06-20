@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,8 @@ import "../Greeter"
 
 Item {
     id: root
+
+    readonly property alias hasActiveDialog: dialogLoader.active
 
     // to be set from outside, useful mostly for testing purposes
     property var unitySessionService: DBusUnitySessionService
@@ -185,7 +187,7 @@ Item {
                     unitySessionService.reboot();
                     rebootDialog.hide();
                 }
-                color: UbuntuColors.red
+                color: theme.palette.normal.negative
             }
         }
     }
@@ -203,7 +205,7 @@ Item {
                     powerDialog.hide();
                     root.powerOffClicked();
                 }
-                color: UbuntuColors.red
+                color: theme.palette.normal.negative
             }
             Button {
                 text: i18n.ctr("Button: Restart the system", "Restart")

@@ -55,8 +55,10 @@ QString stateToStr(ApplicationInfo::State state)
 ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     : ApplicationInfoInterface(appId, parent)
     , m_appId(appId)
+    , m_surfaceList(new MirSurfaceListModel(this))
+    , m_promptSurfaceList(new MirSurfaceListModel(this))
 {
-    connect(&m_surfaceList, &MirSurfaceListModel::countChanged,
+    connect(m_surfaceList, &MirSurfaceListModel::countChanged,
         this, &ApplicationInfo::onSurfaceCountChanged, Qt::QueuedConnection);
 
     m_surfaceCreationTimer.setSingleShot(true);
@@ -78,8 +80,8 @@ void ApplicationInfo::createSurface()
     if (state() == ApplicationInfo::Stopped) { return; }
 
     QString surfaceName = name();
-    if (m_surfaceList.count() > 0) {
-        surfaceName.append(QString(" %1").arg(m_surfaceList.count()+1));
+    if (m_surfaceList->count() > 0) {
+        surfaceName.append(QString(" %1").arg(m_surfaceList->count()+1));
     }
 
     auto surfaceManager = SurfaceManager::instance();
@@ -95,7 +97,7 @@ void ApplicationInfo::createSurface()
 
     surface->setShellChrome(m_shellChrome);
 
-    m_surfaceList.appendSurface(surface);
+    m_surfaceList->appendSurface(surface);
 
     ++m_liveSurfaceCount;
     connect(surface, &MirSurface::liveChanged, this, [this, surface](){
@@ -186,16 +188,16 @@ void ApplicationInfo::setState(State value)
     if (value != m_state) {
         DEBUG_MSG(qPrintable(stateToStr(value)));
         if (!m_manualSurfaceCreation && value == ApplicationInfo::Starting) {
-            Q_ASSERT(m_surfaceList.count() == 0);
+            Q_ASSERT(m_surfaceList->count() == 0);
             m_surfaceCreationTimer.start();
         } else if (value == ApplicationInfo::Stopped) {
             m_surfaceCreationTimer.stop();
-            for (int i = 0; i < m_surfaceList.count(); ++i) {
-                MirSurface *surface = static_cast<MirSurface*>(m_surfaceList.get(i));
+            for (int i = 0; i < m_surfaceList->count(); ++i) {
+                MirSurface *surface = static_cast<MirSurface*>(m_surfaceList->get(i));
                 surface->setLive(false);
             }
-            for (int i = 0; i < m_promptSurfaceList.count(); ++i) {
-                auto surface = static_cast<MirSurface*>(m_promptSurfaceList.get(i));
+            for (int i = 0; i < m_promptSurfaceList->count(); ++i) {
+                auto surface = static_cast<MirSurface*>(m_promptSurfaceList->get(i));
                 surface->setLive(false);
             }
         }
@@ -209,9 +211,9 @@ void ApplicationInfo::close()
 {
     DEBUG_MSG("");
 
-    if (m_surfaceList.count() > 0) {
-        for (int i = 0; i < m_surfaceList.count(); ++i) {
-            MirSurface *surface = static_cast<MirSurface*>(m_surfaceList.get(i));
+    if (m_surfaceList->count() > 0) {
+        for (int i = 0; i < m_surfaceList->count(); ++i) {
+            MirSurface *surface = static_cast<MirSurface*>(m_surfaceList->get(i));
             surface->close();
         }
     } else {
@@ -223,15 +225,15 @@ void ApplicationInfo::close()
 void ApplicationInfo::setFullscreen(bool value)
 {
     m_fullscreen = value;
-    if (m_surfaceList.rowCount() > 0) {
-        m_surfaceList.get(0)->setState(Mir::FullscreenState);
+    if (m_surfaceList->rowCount() > 0) {
+        m_surfaceList->get(0)->setState(Mir::FullscreenState);
     }
 }
 
 bool ApplicationInfo::fullscreen() const
 {
-    if (m_surfaceList.rowCount() > 0) {
-        return m_surfaceList.get(0)->state() == Mir::FullscreenState;
+    if (m_surfaceList->rowCount() > 0) {
+        return m_surfaceList->get(0)->state() == Mir::FullscreenState;
     } else {
         return m_fullscreen;
     }
@@ -341,16 +343,16 @@ void ApplicationInfo::setInitialSurfaceSize(const QSize &size)
 void ApplicationInfo::setShellChrome(Mir::ShellChrome shellChrome)
 {
     m_shellChrome = shellChrome;
-    if (m_surfaceList.rowCount() > 0) {
-        static_cast<MirSurface*>(m_surfaceList.get(0))->setShellChrome(shellChrome);
+    if (m_surfaceList->rowCount() > 0) {
+        static_cast<MirSurface*>(m_surfaceList->get(0))->setShellChrome(shellChrome);
     }
 }
 
 bool ApplicationInfo::focused() const
 {
     bool someSurfaceHasFocus = false; // to be proven wrong
-    for (int i = 0; i < m_surfaceList.count() && !someSurfaceHasFocus; ++i) {
-        someSurfaceHasFocus = m_surfaceList.get(i)->focused();
+    for (int i = 0; i < m_surfaceList->count() && !someSurfaceHasFocus; ++i) {
+        someSurfaceHasFocus = m_surfaceList->get(i)->focused();
     }
     return someSurfaceHasFocus;
 }
@@ -362,12 +364,12 @@ void ApplicationInfo::setFocused(bool value)
     }
 
     if (value) {
-        if (m_surfaceList.count() > 0) {
-            m_surfaceList.get(0)->requestFocus();
+        if (m_surfaceList->count() > 0) {
+            m_surfaceList->get(0)->requestFocus();
         }
     } else {
-        for (int i = 0; i < m_surfaceList.count(); ++i) {
-            MirSurface *surface = static_cast<MirSurface*>(m_surfaceList.get(i));
+        for (int i = 0; i < m_surfaceList->count(); ++i) {
+            MirSurface *surface = static_cast<MirSurface*>(m_surfaceList->get(i));
             if (surface->focused()) {
                 surface->setFocused(false);
             }
@@ -377,16 +379,16 @@ void ApplicationInfo::setFocused(bool value)
 
 void ApplicationInfo::onSurfaceCountChanged()
 {
-    if (m_surfaceList.count() == 0 && m_state == Running) {
+    if (m_surfaceList->count() == 0 && m_state == Running) {
         setState(Stopped);
     }
 }
 
 void ApplicationInfo::requestFocus()
 {
-    if (m_surfaceList.count() == 0) {
+    if (m_surfaceList->count() == 0) {
         Q_EMIT focusRequested();
     } else {
-        m_surfaceList.get(0)->requestFocus();
+        m_surfaceList->get(0)->requestFocus();
     }
 }

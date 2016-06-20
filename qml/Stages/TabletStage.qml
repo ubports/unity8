@@ -1035,7 +1035,6 @@ AbstractStage {
         id: triGestureArea
         anchors.fill: parent
         enabled: priv.sideStageEnabled && !spreadView.active
-        property var dragObject: null
 
         property Item spreadDelegate
 
@@ -1106,7 +1105,7 @@ AbstractStage {
         enabled: spreadDragArea.dragging
     }
 
-    DirectionalDragArea {
+    SwipeArea {
         id: spreadDragArea
         objectName: "spreadDragArea"
         x: parent.width - root.dragAreaWidth
@@ -1117,18 +1116,18 @@ AbstractStage {
 
         property var gesturePoints: new Array()
 
-        onTouchXChanged: {
+        onTouchPositionChanged: {
             if (!dragging) {
                 spreadView.phase = 0;
                 spreadView.contentX = -spreadView.shift;
             }
 
             if (dragging) {
-                var dragX = -touchX + spreadDragArea.width - spreadView.shift;
+                var dragX = -touchPosition.x + spreadDragArea.width - spreadView.shift;
                 var maxDrag = spreadView.width * spreadView.positionMarker4 - spreadView.shift;
                 spreadView.contentX = Math.min(dragX, maxDrag);
             }
-            gesturePoints.push(touchX);
+            gesturePoints.push(touchPosition.x);
         }
 
         onDraggingChanged: {

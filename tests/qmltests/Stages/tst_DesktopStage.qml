@@ -462,6 +462,36 @@ Item {
             verify(topSurfaceList.indexForId(dialerSurfaceId) === -1);
         }
 
+        function test_windowMaximizeHorizontally() {
+            var dialerDelegate = startApplication("dialer-app");
+
+            var dialerMaximizeButton = findChild(dialerDelegate, "maximizeWindowButton");
+            verify(dialerMaximizeButton);
+
+            // RMB to maximize horizontally
+            mouseClick(dialerMaximizeButton, dialerMaximizeButton.width/2, dialerMaximizeButton.height/2, Qt.RightButton);
+            tryCompare(dialerDelegate, "windowState", WindowStateStorage.WindowStateMaximizedHorizontally);
+
+            // click again to restore
+            mouseClick(dialerMaximizeButton);
+            tryCompare(dialerDelegate, "windowState", WindowStateStorage.WindowStateNormal);
+        }
+
+        function test_windowMaximizeVertically() {
+            var dialerDelegate = startApplication("dialer-app");
+
+            var dialerMaximizeButton = findChild(dialerDelegate, "maximizeWindowButton");
+            verify(dialerMaximizeButton);
+
+            // MMB to maximize vertically
+            mouseClick(dialerMaximizeButton, dialerMaximizeButton.width/2, dialerMaximizeButton.height/2, Qt.MiddleButton);
+            tryCompare(dialerDelegate, "windowState", WindowStateStorage.WindowStateMaximizedVertically);
+
+            // click again to restore
+            mouseClick(dialerMaximizeButton);
+            tryCompare(dialerDelegate, "windowState", WindowStateStorage.WindowStateNormal);
+        }
+
         function test_smashCursorKeys() {
             var apps = ["dialer-app", "gmail-webapp"];
             apps.forEach(startApplication);
@@ -483,7 +513,7 @@ Item {
             verify(decoratedWindow);
 
             tryCompare(dashSurface, "visible", true);
-            decoratedWindow.minimize();
+            decoratedWindow.minimizeClicked();
             tryCompare(dashSurface, "visible", false);
         }
 
@@ -618,6 +648,29 @@ Item {
             tryCompare(PanelState, "dropShadow", false);
         }
 
+        function test_threeFingerTapShowsWindowControls_data() {
+            return [
+                { tag: "1 finger", touchIds: [0], result: false },
+                { tag: "2 finger", touchIds: [0, 1], result: false },
+                { tag: "3 finger", touchIds: [0, 1, 2], result: true },
+                { tag: "4 finger", touchIds: [0, 1, 2, 3], result: false },
+            ];
+        }
+
+        function test_threeFingerTapShowsWindowControls(data) {
+            var facebookAppDelegate = startApplication("facebook-webapp");
+            verify(facebookAppDelegate);
+            var overlay = findChild(facebookAppDelegate, "windowControlsOverlay");
+            verify(overlay);
+
+            multiTouchTap(data.touchIds, facebookAppDelegate);
+            tryCompare(overlay, "visible", data.result);
+
+            if (data.result) { // if shown, try to hide it by clicking outside
+                mouseClick(desktopStage);
+                tryCompare(overlay, "visible", false);
+            }
+        }
         function test_dashHasNoCloseButton() {
             var dashAppDelegate = startApplication("unity8-dash");
             verify(dashAppDelegate);

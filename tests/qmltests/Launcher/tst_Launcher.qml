@@ -34,6 +34,14 @@ Rectangle {
 
     Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark"
 
+    MouseArea {
+        id: clickThroughTester
+        anchors.fill: parent
+        // SignalSpy does not seem to want to connect to the pressed signal. let's count them ourselves.
+        property int pressCount: 0
+        onPressed: pressCount++;
+    }
+
     Loader {
         id: launcherLoader
         anchors.fill: parent
@@ -254,7 +262,7 @@ Rectangle {
             // Now do check that snapping is in fact enabled
             compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
 
-            removeTimeConstraintsFromDirectionalDragAreas(root);
+            removeTimeConstraintsFromSwipeAreas(root);
         }
 
         function dragLauncherIntoView() {
@@ -478,25 +486,26 @@ Rectangle {
         function test_progressOverlays() {
             dragLauncherIntoView();
             var launcherListView = findChild(launcher, "launcherListView");
+            var moveAnimation = findInvisibleChild(launcherListView, "moveAnimation")
             for (var i = 0; i < launcherListView.count; ++i) {
+                launcherListView.moveToIndex(i);
+                waitForRendering(launcherListView);
+                tryCompare(moveAnimation, "running", false);
+
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
                 compare(findChild(delegate, "progressOverlay").visible, LauncherModel.get(i).progress >= 0)
-            }
-        }
-
-        function test_runningHighlight() {
-            dragLauncherIntoView();
-            var launcherListView = findChild(launcher, "launcherListView");
-            for (var i = 0; i < launcherListView.count; ++i) {
-                var delegate = findChild(launcherListView, "launcherDelegate" + i)
-                compare(findChild(delegate, "runningHighlight0").visible, LauncherModel.get(i).running)
             }
         }
 
         function test_focusedHighlight() {
             dragLauncherIntoView();
             var launcherListView = findChild(launcher, "launcherListView");
+            var moveAnimation = findInvisibleChild(launcherListView, "moveAnimation")
+
             for (var i = 0; i < launcherListView.count; ++i) {
+                launcherListView.moveToIndex(i);
+                waitForRendering(launcherListView);
+                tryCompare(moveAnimation, "running", false);
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
                 compare(findChild(delegate, "focusedHighlight").visible, LauncherModel.get(i).focused)
             }
@@ -836,16 +845,20 @@ Rectangle {
             dragLauncherIntoView();
             verify(launcher.state == "visible");
 
+            clickThroughTester.pressCount = 0;
             mouseClick(root, root.width / 2, units.gu(1));
             waitUntilLauncherDisappears();
             verify(launcher.state == "");
+            compare(clickThroughTester.pressCount, 1);
 
             // and repeat, as a test for regression in lpbug#1531339
             dragLauncherIntoView();
             verify(launcher.state == "visible");
+            clickThroughTester.pressCount = 0;
             mouseClick(root, root.width / 2, units.gu(1));
             waitUntilLauncherDisappears();
             verify(launcher.state == "");
+            compare(clickThroughTester.pressCount, 1);
         }
 
         function test_quicklist_positioning_data() {
@@ -1282,6 +1295,21 @@ Rectangle {
             }
 
             assertFocusOnIndex(-2);
+        }
+
+        function test_surfaceCountPips() {
+            var launcherListView = findChild(launcher, "launcherListView")
+            var moveAnimation = findInvisibleChild(launcherListView, "moveAnimation")
+
+            for (var i = 0; i < launcherListView.count; i++) {
+                launcherListView.moveToIndex(i);
+                waitForRendering(launcherListView);
+                tryCompare(moveAnimation, "running", false);
+
+                var delegate = findChild(launcher, "launcherDelegate" + i);
+                var surfacePipRepeater = findInvisibleChild(delegate, "surfacePipRepeater");
+                compare(surfacePipRepeater.model, Math.min(3, LauncherModel.get(i).surfaceCount))
+            }
         }
     }
 }

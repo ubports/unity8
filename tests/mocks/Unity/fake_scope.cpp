@@ -32,7 +32,7 @@ Scope::Scope(Scopes* parent) : Scope("MockScope5", "Mock Scope", false, parent)
 {
 }
 
-Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* parent, int categories, bool returnNullPreview)
+Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* parent, int categories, bool returnNullPreview, const QStringList primaryNavigationFilterOptionLabels)
     : unity::shell::scopes::ScopeInterface(parent)
     , m_id(id)
     , m_name(name)
@@ -49,10 +49,11 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     , m_filters(new Filters(this))
     , m_returnNullPreview(returnNullPreview)
 {
+    m_primaryNavigationFilter = new FakeOptionSelectorFilter("OSF3", "PFTag", "Which food you like More", false, primaryNavigationFilterOptionLabels, this);
     m_filters->addFakeFilters();
-
-    m_primaryNavigationFilter = new FakeOptionSelectorFilter("OSF3", "PFTag", "Which food you like More", false, QStringList() << "meat" << "vegetables", this);
     connect(m_filters, &Filters::activeFiltersCountChanged, this, &Scope::activeFiltersCountChanged);
+    connect(m_primaryNavigationFilter, &FakeOptionSelectorFilter::isActiveChanged,
+            this, &unity::shell::scopes::ScopeInterface::primaryNavigationTagChanged);
 }
 
 QString Scope::id() const
@@ -198,7 +199,7 @@ void Scope::activate(QVariant const& result, QString const& categoryId)
 {
     qDebug() << "Called activate on scope" << m_id << "with result" << result << "and category" << categoryId;
     if (result.toString() == "Result.2.2") {
-        Scopes *scopes = dynamic_cast<Scopes*>(parent());
+        Scopes *scopes = static_cast<Scopes*>(parent());
         m_openScope = scopes->getScopeFromAll("MockScope9");
         scopes->addTempScope(m_openScope);
         Q_EMIT openScope(m_openScope);
@@ -326,6 +327,8 @@ unity::shell::scopes::FiltersInterface* Scope::filters() const
 
 QString Scope::primaryNavigationTag() const
 {
+    if (m_hasPrimaryFilter && m_primaryNavigationFilter->isActive())
+        return m_primaryNavigationFilter->filterTag();
     if (m_currentNavigationId == "root")
         return QString();
     else
@@ -339,6 +342,10 @@ int Scope::activeFiltersCount() const
 
 void Scope::resetPrimaryNavigationTag()
 {
+    if (m_hasPrimaryFilter && m_primaryNavigationFilter->isActive()) {
+        m_primaryNavigationFilter->clear();
+    }
+
     if (m_currentNavigationId != "root") {
         setNavigationState("root");
     }

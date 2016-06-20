@@ -30,6 +30,20 @@ TestCase {
         id: testObject
     }
 
+    Item {
+        id: item
+        Behavior on height {
+            NumberAnimation {
+                duration: 500
+            }
+        }
+        Behavior on width {
+            NumberAnimation {
+                duration: 100
+            }
+        }
+    }
+
     function test_direct() {
         compare(Util.isInstanceOf(rect, "QQuickRectangle"), true, "rect should be an instance of QQuickRectangle");
         compare(Util.isInstanceOf(Util, "TestUtil"), true, "Util should be an instance of TestUtil");
@@ -51,5 +65,22 @@ TestCase {
 
     function test_undefined() {
         compare(Util.isInstanceOf(undefined, "QObject"), false, "passing undefined should fail");
+    }
+
+    function test_behavior_waiting() {
+        item.height = 100;
+        verify(item.height != 100);
+
+        item.width = 100;
+        verify(item.width != 100);
+
+        var date1 = new Date();
+        Util.waitForBehaviors(item);
+        var date2 = new Date();
+
+        compare(item.height, 100);
+        compare(item.width, 100);
+
+        verify(date2 - date1 >= 500);
     }
 }

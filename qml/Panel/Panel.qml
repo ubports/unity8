@@ -80,7 +80,7 @@ Item {
 
         Rectangle {
             id: indicatorAreaBackground
-            color: callHint.visible ? UbuntuColors.green : theme.palette.normal.background
+            color: callHint.visible ? theme.palette.normal.positive : theme.palette.normal.background
             anchors {
                 top: parent.top
                 left: parent.left
@@ -92,6 +92,7 @@ Item {
         }
 
         MouseArea {
+            objectName: "windowControlArea"
             anchors {
                 top: parent.top
                 left: parent.left
@@ -100,7 +101,16 @@ Item {
             height: indicators.minimizedPanelHeight
             hoverEnabled: true
             onClicked: callHint.visible ? callHint.showLiveCall() : PanelState.focusMaximizedApp()
-            onDoubleClicked: PanelState.maximize()
+            onDoubleClicked: PanelState.restoreClicked()
+
+            property bool mouseWasPressed: false
+            onPressed: mouseWasPressed = containsPress
+            onMouseYChanged: {
+                if (mouseWasPressed && mouseY > panelHeight) {
+                    PanelState.restoreClicked(); // restore the window when "dragging" the panel down
+                    mouseWasPressed = false;
+                }
+            }
 
             // WindowControlButtons inside the mouse area, otherwise QML doesn't grok nested hover events :/
             // cf. https://bugreports.qt.io/browse/QTBUG-32909
@@ -115,12 +125,15 @@ Item {
                     bottomMargin: units.gu(0.5)
                 }
                 height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
-                visible: PanelState.buttonsVisible && parent.containsMouse && !root.locked && !callHint.visible
-                active: PanelState.buttonsVisible
+
+                visible: ((PanelState.buttonsVisible && parent.containsMouse) || PanelState.buttonsAlwaysVisible)
+                         && !root.locked && !callHint.visible
+                active: PanelState.buttonsVisible || PanelState.buttonsAlwaysVisible
+                windowIsMaximized: true
+                onCloseClicked: PanelState.closeClicked()
+                onMinimizeClicked: PanelState.minimizeClicked()
+                onMaximizeClicked: PanelState.restoreClicked()
                 closeButtonShown: PanelState.closeButtonShown
-                onClose: PanelState.close()
-                onMinimize: PanelState.minimize()
-                onMaximize: PanelState.maximize()
             }
         }
 

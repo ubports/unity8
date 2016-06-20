@@ -116,12 +116,12 @@ private:
 
     QString section(QQuickItem *item) const
     {
-        return item ? QQmlEngine::contextForObject(item)->parentContext()->contextProperty(QLatin1String("section")).toString() : QString();
+        return item ? item->property("text").toString() : QString();
     }
 
     int sectionDelegateIndex(QQuickItem *item) const
     {
-        return item ? QQmlEngine::contextForObject(item)->parentContext()->contextProperty(QLatin1String("delegateIndex")).toInt() : -1;
+        return item ? item->property("delegateIndex").toInt() : -1;
     }
 
 private Q_SLOTS:
@@ -134,7 +134,7 @@ private Q_SLOTS:
     {
         view = new QQuickView();
         view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/listviewwithpageheadertestsection.qml"));
-        lvwph = dynamic_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
+        lvwph = static_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
         model = view->rootObject()->findChild<QQmlListModel*>();
         otherDelegate = view->rootObject()->findChild<QQmlComponent*>();
         QVERIFY(lvwph);
@@ -2193,6 +2193,12 @@ private Q_SLOTS:
         model->setProperty(1, "type", "halfheight");
         verifyItem(0, 50., 190., false, "Agressive", false);
         verifyItem(1, 240., 220., false, "halfheight", false);
+    }
+
+    void testInvalidSectionDelegate()
+    {
+        lvwph->setProperty("useBrokenSectionDelegateComponent", true);
+        scrollToBottom();
     }
 
 private:
