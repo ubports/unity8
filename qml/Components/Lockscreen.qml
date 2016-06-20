@@ -91,6 +91,14 @@ Showable {
         popup.z = Number.MAX_VALUE
     }
 
+    function showText(text) {
+        // Programmatically enters the given text into the lockscreen
+        if (pinPadLoader.item) {
+            pinPadLoader.item.showText(text);
+            pinPadLoader.waiting = true;
+        }
+    }
+
     Rectangle {
         // In case background fails to load
         id: backgroundBackup

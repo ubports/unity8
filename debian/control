@@ -103,6 +103,7 @@ Depends: dmz-cursor-theme,
          libcap2-bin,
          libglib2.0-bin,
          qmenumodel-qml (>= 0.2.9),
+         qml-module-biometryd,
          qml-module-qt-labs-folderlistmodel,
          qml-module-qtquick-xmllistmodel,
          qml-module-qtsysteminfo,
@@ -192,7 +193,7 @@ Package: unity8-private
 Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends},
-Depends: accountsservice-ubuntu-schemas (>= 0.0.5),
+Depends: accountsservice-ubuntu-schemas (>= 0.0.7),
          gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
          libhardware2,
          pay-service,
