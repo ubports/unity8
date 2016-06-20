@@ -258,6 +258,9 @@ public Q_SLOTS:
      * @return whether the session is currently locked
      */
     Q_SCRIPTABLE bool IsLocked() const;
+
+private:
+    void switchToGreeter();
 };
 
 class DBusGnomeSessionManagerWrapper : public UnityDBusObject

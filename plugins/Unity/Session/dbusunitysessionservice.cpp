@@ -243,8 +243,8 @@ DBusUnitySessionService::DBusUnitySessionService()
     : UnityDBusObject(QStringLiteral("/com/canonical/Unity/Session"), QStringLiteral("com.canonical.Unity"))
 {
     if (!d->logindSessionPath.isEmpty()) {
-        // connect our Lock() slot to the logind's session Lock() signal
-        QDBusConnection::systemBus().connect(LOGIN1_SERVICE, d->logindSessionPath, LOGIN1_SESSION_IFACE, QStringLiteral("Lock"), this, SLOT(Lock()));
+        // connect our PromptLock() slot to the logind's session Lock() signal
+        QDBusConnection::systemBus().connect(LOGIN1_SERVICE, d->logindSessionPath, LOGIN1_SESSION_IFACE, QStringLiteral("Lock"), this, SLOT(PromptLock()));
         // ... and our Unlocked() signal to the logind's session Unlock() signal
         // (lightdm handles the unlocking by calling logind's Unlock method which in turn emits this signal we connect to)
         QDBusConnection::systemBus().connect(LOGIN1_SERVICE, d->logindSessionPath, LOGIN1_SESSION_IFACE, QStringLiteral("Unlock"), this, SIGNAL(Unlocked()));
@@ -332,15 +332,38 @@ QString DBusUnitySessionService::HostName() const
 
 void DBusUnitySessionService::PromptLock()
 {
+    // Fast lock (no animation)
     Q_EMIT LockRequested();
     Q_EMIT lockRequested();
 }
 
 void DBusUnitySessionService::Lock()
 {
-    // signal u8 to show the lockscreen/greeter
-    PromptLock();
+    // Slower lock (with animation)
+    // FIXME: We also -- as a bit of a hack around indicator-session not fully
+    // supporting a phone profile -- switch to greeter here.  The unity7 flow is
+    // that the user chooses "Lock/Switch" from the indicator, and then can go
+    // to greeter by selecting "Switch" again from the indicator, which is now
+    // exposed by the desktop_lockscreen profile.  But since in unity8, we try
+    // to expose most things all the time, we don't use the separate lockscreen
+    // profile.  Instead, we just go directly to the greeter the first time
+    // a user presses "Lock/Switch".  This isn't what this DBus call is
+    // supposed to do, but we can live with it for now.
+    //
+    // Here's a bug about indicator-session growing a converged Touch profile:
+    // https://launchpad.net/bugs/1557716
+    //
+    // We only do this here in the animated-lock call because that's the only
+    // time the indicator locks without also asking the display manager to
+    // switch sessions on us.  And since we are switching screens, we also
+    // don't bother respecting the animate request, simply doing a PromptLock.
+    switchToGreeter();
 
+    PromptLock();
+}
+
+void DBusUnitySessionService::switchToGreeter()
+{
     // lock the session using the org.freedesktop.DisplayManager system DBUS service
     const QString sessionPath = QString::fromLocal8Bit(qgetenv("XDG_SESSION_PATH"));
     QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("org.freedesktop.DisplayManager"),
@@ -486,7 +509,7 @@ void DBusGnomeScreensaverWrapper::SetActive(bool lock)
 
 void DBusGnomeScreensaverWrapper::Lock()
 {
-    performAsyncUnityCall(QStringLiteral("Lock"));
+    performAsyncUnityCall(QStringLiteral("PromptLock"));
 }
 
 quint32 DBusGnomeScreensaverWrapper::GetActiveTime() const
@@ -523,7 +546,7 @@ bool DBusScreensaverWrapper::SetActive(bool lock)
 
 void DBusScreensaverWrapper::Lock()
 {
-    performAsyncUnityCall(QStringLiteral("Lock"));
+    performAsyncUnityCall(QStringLiteral("PromptLock"));
 }
 
 quint32 DBusScreensaverWrapper::GetActiveTime() const
