@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,11 +19,17 @@ import Ubuntu.Components 1.3
 
 Row {
     id: root
-    spacing: units.gu(1)
+    spacing: overlayShown ? units.gu(2) : units.gu(1)
+    Behavior on spacing {
+        UbuntuNumberAnimation {}
+    }
 
     // to be set from outside
+    property Item target
     property bool active: false
+    property bool windowIsMaximized: false
     property bool closeButtonShown: true
+    property bool overlayShown
 
     signal closeClicked()
     signal minimizeClicked()
@@ -41,20 +47,16 @@ Row {
         visible: root.closeButtonShown
 
         Rectangle {
-            anchors.centerIn: parent
-            width: units.gu(2)
-            height: units.gu(2)
+            anchors.fill: parent
             radius: height / 2
             color: theme.palette.normal.negative
-            visible: parent.containsMouse
+            visible: parent.containsMouse && !overlayShown
         }
         Icon {
-            width: height
-            height: parent.height *.5
-            anchors.centerIn: parent
+            anchors.fill: parent
+            anchors.margins: units.dp(3)
             source: "graphics/window-close.svg"
             color: root.active ? "white" : UbuntuColors.slate
-            keyColor: "black"
         }
     }
 
@@ -67,20 +69,16 @@ Row {
         onClicked: root.minimizeClicked()
 
         Rectangle {
-            anchors.centerIn: parent
-            width: units.gu(2)
-            height: units.gu(2)
+            anchors.fill: parent
             radius: height / 2
             color: root.active ? UbuntuColors.graphite : UbuntuColors.ash
-            visible: parent.containsMouse
+            visible: parent.containsMouse && !overlayShown
         }
         Icon {
-            width: height
-            height: parent.height *.5
-            anchors.centerIn: parent
+            anchors.fill: parent
+            anchors.margins: units.dp(3)
             source: "graphics/window-minimize.svg"
             color: root.active ? "white" : UbuntuColors.slate
-            keyColor: "black"
         }
     }
 
@@ -102,20 +100,16 @@ Row {
         }
 
         Rectangle {
-            anchors.centerIn: parent
-            width: units.gu(2)
-            height: units.gu(2)
+            anchors.fill: parent
             radius: height / 2
             color: root.active ? UbuntuColors.graphite : UbuntuColors.ash
-            visible: parent.containsMouse
+            visible: parent.containsMouse && !overlayShown
         }
         Icon {
-            width: height
-            height: parent.height *.5
-            anchors.centerIn: parent
-            source: "graphics/window-maximize.svg"
+            anchors.fill: parent
+            anchors.margins: units.dp(3)
+            source: root.windowIsMaximized ? "graphics/window-window.svg" : "graphics/window-maximize.svg"
             color: root.active ? "white" : UbuntuColors.slate
-            keyColor: "black"
         }
     }
 }

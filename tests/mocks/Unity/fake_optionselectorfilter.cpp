@@ -63,3 +63,8 @@ bool FakeOptionSelectorFilter::isActive() const
 {
     return m_options->anyChecked();
 }
+
+void FakeOptionSelectorFilter::clear()
+{
+    m_options->clear();
+}

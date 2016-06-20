@@ -4,12 +4,12 @@ AbstractButton {
                 property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0;
                 property var scopeStyle: null;
-                property int fixedHeaderHeight: -1;
-                property size fixedArtShapeSize: Qt.size(-1, -1);
                 readonly property string title: cardData && cardData["title"] || "";
                 property bool showHeader: true;
                 implicitWidth: childrenRect.width;
                 enabled: true;
+                property int fixedHeaderHeight: -1;
+                property size fixedArtShapeSize: Qt.size(-1, -1);
 signal action(var actionId);
 Loader {
                                 id: backgroundLoader; 

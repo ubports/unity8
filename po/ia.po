@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-05-27 13:54+0000\n"
+"POT-Creation-Date: 2016-06-17 01:22+0000\n"
 "PO-Revision-Date: 2015-08-25 19:31+0000\n"
 "Last-Translator: karm <melo@carmu.com>\n"
 "Language-Team: Interlingua <ia@li.org>\n"
@@ -15,23 +15,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-06-02 06:20+0000\n"
-"X-Generator: Launchpad (build 18053)\n"
+"X-Launchpad-Export-Date: 2016-06-19 05:55+0000\n"
+"X-Generator: Launchpad (build 18097)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Contrasigno: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:48
-#: plugins/Unity/Launcher/launcheritem.cpp:107
+#: plugins/Unity/Launcher/launcheritem.cpp:49
+#: plugins/Unity/Launcher/launcheritem.cpp:108
 msgid "Pin shortcut"
 msgstr "Via-breve a pin"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:53
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Quitar"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:107
+#: plugins/Unity/Launcher/launcheritem.cpp:108
 msgid "Unpin shortcut"
 msgstr "Via-breve a levar pin"
 
@@ -56,54 +56,54 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Per favor attende %1 minuta e postea tenta de nove"
 msgstr[1] "Per favor attende %1 minutas e postea reproba"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:146
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Clauder de session"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:147
 msgid "Are you sure you want to log out?"
 msgstr "Desira tu vermente Clauder le Session"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:149
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Blocar"
 
-#: qml/Components/Dialogs.qml:154
+#: qml/Components/Dialogs.qml:156
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Claude session"
 
-#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
+#: qml/Components/Dialogs.qml:163 qml/Components/Dialogs.qml:219
 #: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Cancellar"
 
-#: qml/Components/Dialogs.qml:173
+#: qml/Components/Dialogs.qml:175
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Reinitiar"
 
-#: qml/Components/Dialogs.qml:174
+#: qml/Components/Dialogs.qml:176
 msgid "Are you sure you want to reboot?"
 msgstr "Desira tu vermente reinitiar"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:178
 msgid "No"
 msgstr "No"
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:184
 msgid "Yes"
 msgstr "Si"
 
-#: qml/Components/Dialogs.qml:197
+#: qml/Components/Dialogs.qml:199
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Energia"
 
-#: qml/Components/Dialogs.qml:198
+#: qml/Components/Dialogs.qml:200
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -111,15 +111,175 @@ msgstr ""
 "Desira tu vermente \n"
 "stoppar le energia?"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:202
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Stoppar le energia"
 
-#: qml/Components/Dialogs.qml:209
+#: qml/Components/Dialogs.qml:211
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Reinitiar"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:41
+msgid "Keyboard Shortcuts"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:55
+msgid "Unity 8"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:62
+msgid "PrtScr"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:67
+msgid "Takes a screenshot."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:75
+msgid "Alt + PrtScr"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:80
+msgid "Takes a screenshot of a window."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:88
+msgid "Super + Space"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:93
+msgid "Switches to next keyboard layout."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:101
+msgid "Super + Shift + Space"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:106
+msgid "Switches to previous keyboard layout."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:118
+msgid "Launcher"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:125
+msgid "Super (Hold)"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:130
+msgid "Opens the launcher, displays shortcuts."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:138
+msgid "Alt + F1"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:143
+msgid "Opens launcher keyboard navigation mode."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:151
+msgid "Super + Tab"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:156
+msgid "Switches applications via the launcher."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:164
+msgid "Super + 0 to 9"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:169
+msgid "Same as clicking on a launcher icon."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:181
+msgid "Scopes"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:188
+msgid "Super (Tap)"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:193
+msgid "Opens the Scopes home."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:209
+msgid "Switching"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:216
+msgid "Alt + Tab"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:221
+msgid "Switches between applications."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:229
+msgid "Super + W"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:234
+msgid "Opens the desktop spread."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:242
+msgid "Cursor Left or Right"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:247
+msgid "Moves the focus."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:259
+msgid "Windows"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:266
+msgid "Ctrl + Super + D"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:271
+msgid "Minimizes all windows."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:279
+msgid "Ctrl + Super + Up"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:284
+msgid "Maximizes the current window."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:292
+msgid "Ctrl + Super + Down"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:297
+msgid "Minimizes or restores the current window."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:305
+msgid "Ctrl + Super + Left or Right"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:310
+msgid "Semi-maximizes the current window."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:318
+msgid "Alt + F4"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:323
+msgid "Closes the current window."
+msgstr ""
 
 #: qml/Components/Lockscreen.qml:231
 msgid "Return to Call"
@@ -190,15 +350,15 @@ msgstr "Poli tu resultatos"
 msgid "Reset"
 msgstr "Restabilir"
 
-#: qml/Dash/GenericScopeView.qml:579 qml/Dash/GenericScopeView.qml:774
+#: qml/Dash/GenericScopeView.qml:580 qml/Dash/GenericScopeView.qml:775
 msgid "Show less"
 msgstr "Monstrar minus"
 
-#: qml/Dash/GenericScopeView.qml:579
+#: qml/Dash/GenericScopeView.qml:580
 msgid "Show all"
 msgstr "Monstrar toto"
 
-#: qml/Dash/GenericScopeView.qml:636
+#: qml/Dash/GenericScopeView.qml:637
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Cerca"
@@ -268,17 +428,17 @@ msgstr ""
 "Tu dispositivo es nunc connexe a un schermo externe. Usa iste schermo como "
 "pannello tactile pro interager con le punctator."
 
-#: qml/Greeter/CoverPage.qml:118
+#: qml/Greeter/CoverPage.qml:119
 msgid "Unlock"
 msgstr "Liberar"
 
-#: qml/Greeter/LoginList.qml:239
+#: qml/Greeter/LoginList.qml:259
 msgid "Retry"
 msgstr "Re-provar"
 
-#: qml/Greeter/LoginList.qml:240
-msgid "Tap to unlock"
-msgstr "Pulsa pro liberar"
+#: qml/Greeter/LoginList.qml:260
+msgid "Log In"
+msgstr ""
 
 #: qml/Greeter/NarrowView.qml:54
 msgid "Sorry, incorrect passphrase."
@@ -430,33 +590,13 @@ msgstr "Appellar retro"
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "Tirar per 3 digitos qualcunque application ab un fenestra al altere"
 
-#: qml/Tutorial/TutorialBottom.qml:78
-msgid "Swipe up to add a contact"
-msgstr "Striar in alto pro adder un contacto"
-
-#: qml/Tutorial/TutorialBottom.qml:80
-msgid "Swipe up for favorite calculations"
-msgstr "Striar in alto pro le calculationes favorite"
-
-#: qml/Tutorial/TutorialBottom.qml:82
-msgid "Swipe up for recent calls"
-msgstr "Striar in alto pro le appellos recente"
-
-#: qml/Tutorial/TutorialBottom.qml:84
-msgid "Swipe up to create a message"
-msgstr "Striar in alto pro crear un message"
-
-#: qml/Tutorial/TutorialBottom.qml:85
-msgid "Swipe up to manage the app"
-msgstr "Striar in alto pro gerer le applicationes"
-
-#: qml/Tutorial/TutorialLeftLong.qml:47
+#: qml/Tutorial/TutorialLeftLong.qml:49
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr "Striar ab le bordo sinistre pro aperir le campo Hodie"
 
 #: qml/Tutorial/TutorialLeft.qml:47
-msgid "Swipe from the left edge to open the launcher"
-msgstr "Striar ab le bordo sinistre pro aperir le lanceator"
+msgid "Short swipe from the left edge to open the launcher"
+msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
@@ -464,17 +604,12 @@ msgstr ""
 "Pulsa tu mus contra le margine dextre pro vider tu applicationes aperte"
 
 #: qml/Tutorial/TutorialRight.qml:56
-msgid "Short or long swipe from the right edge to view your open apps"
+msgid "Swipe from the right edge to view your open apps"
 msgstr ""
-"Striar breve o longe ab le bordo dextre pro vider tu applicationes aperte"
 
 #: qml/Tutorial/TutorialTop.qml:53
-msgid "Swipe from the top right edge to open the notification bar"
-msgstr "Stria ab le bordo alte dextre pro aperir le barra del notificationes"
-
-#: qml/Tutorial/TutorialTop.qml:54
-msgid "Swipe from the top edge to open the notification bar"
-msgstr "Stria ab le bordo alte pro aperir le barra de notification"
+msgid "Swipe from the top edge to access notifications and quick settings"
+msgstr ""
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
@@ -485,7 +620,7 @@ msgstr "Retro"
 msgid "Language"
 msgstr "Lingua"
 
-#: qml/Wizard/Pages/10-welcome.qml:156 qml/Wizard/Pages/30-wifi.qml:206
+#: qml/Wizard/Pages/10-welcome.qml:171 qml/Wizard/Pages/30-wifi.qml:206
 #: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
 #: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
 #: qml/Wizard/Pages/75-report-check.qml:84
@@ -865,6 +1000,9 @@ msgstr "Contrasigno troppo debile"
 #~ msgid "Reboot"
 #~ msgstr "Reinitiar"
 
+#~ msgid "Tap to unlock"
+#~ msgstr "Pulsa pro liberar"
+
 #~ msgid "Tap here to finish."
 #~ msgstr "Pulsa ci pro finir"
 
@@ -1067,7 +1205,35 @@ msgstr "Contrasigno troppo debile"
 #~ msgid "Yesterday %l:%M %p"
 #~ msgstr "Heri"
 
+#~ msgid "Swipe from the left edge to open the launcher"
+#~ msgstr "Striar ab le bordo sinistre pro aperir le lanceator"
+
 #~ msgid "Hover your mouse on the right edge to view your open apps"
 #~ msgstr ""
 #~ "Passar supra con tu mus sur le bordo dextere pro vider tu applicationes "
 #~ "aperte"
+
+#~ msgid "Short or long swipe from the right edge to view your open apps"
+#~ msgstr ""
+#~ "Striar breve o longe ab le bordo dextre pro vider tu applicationes aperte"
+
+#~ msgid "Swipe up for recent calls"
+#~ msgstr "Striar in alto pro le appellos recente"
+
+#~ msgid "Swipe up for favorite calculations"
+#~ msgstr "Striar in alto pro le calculationes favorite"
+
+#~ msgid "Swipe up to manage the app"
+#~ msgstr "Striar in alto pro gerer le applicationes"
+
+#~ msgid "Swipe up to create a message"
+#~ msgstr "Striar in alto pro crear un message"
+
+#~ msgid "Swipe up to add a contact"
+#~ msgstr "Striar in alto pro adder un contacto"
+
+#~ msgid "Swipe from the top right edge to open the notification bar"
+#~ msgstr "Stria ab le bordo alte dextre pro aperir le barra del notificationes"
+
+#~ msgid "Swipe from the top edge to open the notification bar"
+#~ msgstr "Stria ab le bordo alte pro aperir le barra de notification"
