@@ -21,6 +21,8 @@
 
 int main(int argc, const char *argv[])
 {
+    qSetMessagePattern("[%{time yyyy-mm-dd:hh:mm:ss.zzz}] %{if-category}%{category}: %{endif}%{message}");
+
     bool isMirServer = false;
     if (qgetenv("QT_QPA_PLATFORM") == "ubuntumirclient") {
         setenv("QT_QPA_PLATFORM", "mirserver", 1 /* overwrite */);

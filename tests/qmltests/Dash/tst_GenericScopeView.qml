@@ -583,6 +583,34 @@ Item {
 
                 spy.wait()
                 compare(spy.count, 1)
+
+                // test short swipe doesn't refresh on tall window
+                mouseFlick(genericScopeView,
+                           genericScopeView.width/2, units.gu(10),
+                           genericScopeView.width/2, units.gu(20),
+                           true, false)
+                mouseRelease(genericScopeView)
+                compare(spy.count, 1)
+
+                // resize window, repeat the test
+                var initialHeight = shell.height
+                shell.height = units.gu(30)
+                waitForRendering(shell)
+                mouseFlick(genericScopeView,
+                           genericScopeView.width/2, units.gu(10),
+                           genericScopeView.width/2, units.gu(20),
+                           true, false)
+
+                tryCompare(pullToRefresh, "releaseToRefresh", true)
+
+                mouseRelease(genericScopeView)
+                tryCompare(pullToRefresh, "releaseToRefresh", false)
+
+                spy.wait()
+                compare(spy.count, 2)
+
+                shell.height = initialHeight
+                waitForRendering(shell)
             }
 
             function test_item_noninteractive() {

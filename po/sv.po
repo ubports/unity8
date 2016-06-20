@@ -7,32 +7,32 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-05-27 13:54+0000\n"
-"PO-Revision-Date: 2016-03-25 05:01+0000\n"
+"POT-Creation-Date: 2016-06-17 01:22+0000\n"
+"PO-Revision-Date: 2016-06-19 19:31+0000\n"
 "Last-Translator: Josef Andersson <Unknown>\n"
 "Language-Team: Swedish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-06-02 06:21+0000\n"
-"X-Generator: Launchpad (build 18053)\n"
+"X-Launchpad-Export-Date: 2016-06-20 06:12+0000\n"
+"X-Generator: Launchpad (build 18097)\n"
 "Language: sv\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Lösenord: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:48
-#: plugins/Unity/Launcher/launcheritem.cpp:107
+#: plugins/Unity/Launcher/launcheritem.cpp:49
+#: plugins/Unity/Launcher/launcheritem.cpp:108
 msgid "Pin shortcut"
 msgstr "Fäst genväg"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:53
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Avsluta"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:107
+#: plugins/Unity/Launcher/launcheritem.cpp:108
 msgid "Unpin shortcut"
 msgstr "Släpp genväg"
 
@@ -55,54 +55,54 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Vänta %1 minut och prova sedan igen…"
 msgstr[1] "Vänta %1 minuter och prova sedan igen…"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:146
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Logga ut"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:147
 msgid "Are you sure you want to log out?"
 msgstr "Är du säker på att du vill logga ut?"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:149
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Lås"
 
-#: qml/Components/Dialogs.qml:154
+#: qml/Components/Dialogs.qml:156
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Logga ut"
 
-#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
+#: qml/Components/Dialogs.qml:163 qml/Components/Dialogs.qml:219
 #: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: qml/Components/Dialogs.qml:173
+#: qml/Components/Dialogs.qml:175
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Starta om"
 
-#: qml/Components/Dialogs.qml:174
+#: qml/Components/Dialogs.qml:176
 msgid "Are you sure you want to reboot?"
 msgstr "Är du säker på att du vill starta om?"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:178
 msgid "No"
 msgstr "Nej"
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:184
 msgid "Yes"
 msgstr "Ja"
 
-#: qml/Components/Dialogs.qml:197
+#: qml/Components/Dialogs.qml:199
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Ström"
 
-#: qml/Components/Dialogs.qml:198
+#: qml/Components/Dialogs.qml:200
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -110,15 +110,175 @@ msgstr ""
 "Är du säker på att du vill \n"
 "stänga av?"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:202
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Stäng av"
 
-#: qml/Components/Dialogs.qml:209
+#: qml/Components/Dialogs.qml:211
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Starta om"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:41
+msgid "Keyboard Shortcuts"
+msgstr "Tangentbordsgenvägar"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:55
+msgid "Unity 8"
+msgstr "Unity 8"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:62
+msgid "PrtScr"
+msgstr "PrtScr"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:67
+msgid "Takes a screenshot."
+msgstr "Tar en skärmbild"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:75
+msgid "Alt + PrtScr"
+msgstr "Alt + PrtScr"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:80
+msgid "Takes a screenshot of a window."
+msgstr "Tar en skärmbild av ett fönster."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:88
+msgid "Super + Space"
+msgstr "Super + Mellanslag"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:93
+msgid "Switches to next keyboard layout."
+msgstr "Byter till nästa tangentbordslayout."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:101
+msgid "Super + Shift + Space"
+msgstr "Super + Skift + Mellanslag"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:106
+msgid "Switches to previous keyboard layout."
+msgstr "Byter till tidigare tangentbordslayout."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:118
+msgid "Launcher"
+msgstr "Programstartare"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:125
+msgid "Super (Hold)"
+msgstr "Super (håll ned)"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:130
+msgid "Opens the launcher, displays shortcuts."
+msgstr "Öppnar Programstartaren, visar genvägar."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:138
+msgid "Alt + F1"
+msgstr "Alt + F1"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:143
+msgid "Opens launcher keyboard navigation mode."
+msgstr "Öppnar Programstartaren i navigationsläge för tangentbord."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:151
+msgid "Super + Tab"
+msgstr "Super + Tab"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:156
+msgid "Switches applications via the launcher."
+msgstr "Byter program via Programstartaren."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:164
+msgid "Super + 0 to 9"
+msgstr "Super + 0 till 9"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:169
+msgid "Same as clicking on a launcher icon."
+msgstr "Samma som att klicka på en ikon i Programstartaren."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:181
+msgid "Scopes"
+msgstr "Vyer"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:188
+msgid "Super (Tap)"
+msgstr "Super (Tryck)"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:193
+msgid "Opens the Scopes home."
+msgstr "Öppnar hem för Vyerna."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:209
+msgid "Switching"
+msgstr "Växlar"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:216
+msgid "Alt + Tab"
+msgstr "Alt + Tab"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:221
+msgid "Switches between applications."
+msgstr "Växlar mellan program."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:229
+msgid "Super + W"
+msgstr "Super + W"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:234
+msgid "Opens the desktop spread."
+msgstr "Öppnar skrivbordsutdelningen."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:242
+msgid "Cursor Left or Right"
+msgstr "Muspekare vänster- eller högerställd"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:247
+msgid "Moves the focus."
+msgstr "Flyttar fokus."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:259
+msgid "Windows"
+msgstr "Fönster"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:266
+msgid "Ctrl + Super + D"
+msgstr "Ctrl + Super + D"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:271
+msgid "Minimizes all windows."
+msgstr "Förminskar alla fönster."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:279
+msgid "Ctrl + Super + Up"
+msgstr "Ctrl + Super + Upp"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:284
+msgid "Maximizes the current window."
+msgstr "Förstorar aktuellt fönster."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:292
+msgid "Ctrl + Super + Down"
+msgstr "Ctrl + Super + Down"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:297
+msgid "Minimizes or restores the current window."
+msgstr "Minimerar eller återställer aktuellt fönster."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:305
+msgid "Ctrl + Super + Left or Right"
+msgstr "Ctrl + Super + Vänster eller Höger"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:310
+msgid "Semi-maximizes the current window."
+msgstr "Semi-maximerar aktuellt fönster."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:318
+msgid "Alt + F4"
+msgstr "Alt + F4"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:323
+msgid "Closes the current window."
+msgstr "Stänger det aktuella fönstret."
 
 #: qml/Components/Lockscreen.qml:231
 msgid "Return to Call"
@@ -190,15 +350,15 @@ msgstr "Förfina dina resultat"
 msgid "Reset"
 msgstr "Återställ"
 
-#: qml/Dash/GenericScopeView.qml:579 qml/Dash/GenericScopeView.qml:774
+#: qml/Dash/GenericScopeView.qml:580 qml/Dash/GenericScopeView.qml:775
 msgid "Show less"
-msgstr ""
+msgstr "Visa mindre"
 
-#: qml/Dash/GenericScopeView.qml:579
+#: qml/Dash/GenericScopeView.qml:580
 msgid "Show all"
-msgstr ""
+msgstr "Visa alla"
 
-#: qml/Dash/GenericScopeView.qml:636
+#: qml/Dash/GenericScopeView.qml:637
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Sök"
@@ -268,17 +428,17 @@ msgstr ""
 "Din enhet är nu ansluten till en extern display. Använd denna skärm som en "
 "styrplatta för att interagera med pekaren."
 
-#: qml/Greeter/CoverPage.qml:118
+#: qml/Greeter/CoverPage.qml:119
 msgid "Unlock"
 msgstr "Lås upp"
 
-#: qml/Greeter/LoginList.qml:239
+#: qml/Greeter/LoginList.qml:259
 msgid "Retry"
 msgstr "Försök igen"
 
-#: qml/Greeter/LoginList.qml:240
-msgid "Tap to unlock"
-msgstr "Tryck för att låsa upp"
+#: qml/Greeter/LoginList.qml:260
+msgid "Log In"
+msgstr "Logga in"
 
 #: qml/Greeter/NarrowView.qml:54
 msgid "Sorry, incorrect passphrase."
@@ -430,50 +590,26 @@ msgstr "Ring upp"
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "Dra ett program från ett fönster till det andra med tre fingrar"
 
-#: qml/Tutorial/TutorialBottom.qml:78
-msgid "Swipe up to add a contact"
-msgstr "Svep uppåt för att lägga till en kontakt"
-
-#: qml/Tutorial/TutorialBottom.qml:80
-msgid "Swipe up for favorite calculations"
-msgstr "Svep uppåt för favoritberäkningar"
-
-#: qml/Tutorial/TutorialBottom.qml:82
-msgid "Swipe up for recent calls"
-msgstr "Svep uppåt för senaste samtal"
-
-#: qml/Tutorial/TutorialBottom.qml:84
-msgid "Swipe up to create a message"
-msgstr "Svep uppåt för att skapa ett meddelande"
-
-#: qml/Tutorial/TutorialBottom.qml:85
-msgid "Swipe up to manage the app"
-msgstr "Svep uppåt för att hantera programmet"
-
-#: qml/Tutorial/TutorialLeftLong.qml:47
+#: qml/Tutorial/TutorialLeftLong.qml:49
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr "Gör ett lång svep från vänstra kanten för öppna vyn Idag"
 
 #: qml/Tutorial/TutorialLeft.qml:47
-msgid "Swipe from the left edge to open the launcher"
-msgstr "Svep från vänstra kanten för att öppna programstartaren"
+msgid "Short swipe from the left edge to open the launcher"
+msgstr "Svep kort från vänster kant för att öppna Programstartaren"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
-msgstr ""
+msgstr "Flytta din mus mot höger kant för att visa dina öppna program"
 
 #: qml/Tutorial/TutorialRight.qml:56
-msgid "Short or long swipe from the right edge to view your open apps"
-msgstr ""
-"Svep kort eller långt från högra kanten för att visa dina öppna program"
+msgid "Swipe from the right edge to view your open apps"
+msgstr "Svep från den högra kanten för att visa dina program"
 
 #: qml/Tutorial/TutorialTop.qml:53
-msgid "Swipe from the top right edge to open the notification bar"
-msgstr "Svep från översta högra kanten för att öppna aviseringsytan"
-
-#: qml/Tutorial/TutorialTop.qml:54
-msgid "Swipe from the top edge to open the notification bar"
-msgstr "Svep från översta kanten för att öppna aviseringsytan"
+msgid "Swipe from the top edge to access notifications and quick settings"
+msgstr ""
+"Svep för övre kanten för att komma åt aviseringar och snabbinställningar"
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
@@ -484,7 +620,7 @@ msgstr "Bakåt"
 msgid "Language"
 msgstr "Språk"
 
-#: qml/Wizard/Pages/10-welcome.qml:156 qml/Wizard/Pages/30-wifi.qml:206
+#: qml/Wizard/Pages/10-welcome.qml:171 qml/Wizard/Pages/30-wifi.qml:206
 #: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
 #: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
 #: qml/Wizard/Pages/75-report-check.qml:84
@@ -984,6 +1120,9 @@ msgstr "Väldigt svagt lösenord"
 #~ msgid "Short swipe from the left edge."
 #~ msgstr "Kort svep från vänsta kanten."
 
+#~ msgid "Tap to unlock"
+#~ msgstr "Tryck för att låsa upp"
+
 #~ msgctxt "Button: Shut down the system"
 #~ msgid "Shut down"
 #~ msgstr "Stäng av"
@@ -1075,5 +1214,33 @@ msgstr "Väldigt svagt lösenord"
 #~ msgid "Call back"
 #~ msgstr "Ring upp"
 
+#~ msgid "Swipe up for recent calls"
+#~ msgstr "Svep uppåt för senaste samtal"
+
+#~ msgid "Swipe up for favorite calculations"
+#~ msgstr "Svep uppåt för favoritberäkningar"
+
+#~ msgid "Swipe up to add a contact"
+#~ msgstr "Svep uppåt för att lägga till en kontakt"
+
+#~ msgid "Swipe from the left edge to open the launcher"
+#~ msgstr "Svep från vänstra kanten för att öppna programstartaren"
+
+#~ msgid "Swipe from the top right edge to open the notification bar"
+#~ msgstr "Svep från översta högra kanten för att öppna aviseringsytan"
+
+#~ msgid "Swipe from the top edge to open the notification bar"
+#~ msgstr "Svep från översta kanten för att öppna aviseringsytan"
+
 #~ msgid "Hover your mouse on the right edge to view your open apps"
 #~ msgstr "Hovra din mus över högra kanten för att se dina öppna program"
+
+#~ msgid "Short or long swipe from the right edge to view your open apps"
+#~ msgstr ""
+#~ "Svep kort eller långt från högra kanten för att visa dina öppna program"
+
+#~ msgid "Swipe up to manage the app"
+#~ msgstr "Svep uppåt för att hantera programmet"
+
+#~ msgid "Swipe up to create a message"
+#~ msgstr "Svep uppåt för att skapa ett meddelande"

@@ -5,6 +5,7 @@ Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: cmake,
                dbus-test-runner,
                debhelper (>= 9),
+               dh-apparmor,
                doxyqml,
 # To allow cross-compiling to work, we also must append :native
 # to g++ so we don't try to run armhf g++
