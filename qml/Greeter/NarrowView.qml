@@ -81,7 +81,7 @@ FocusScope {
 
     function showErrorMessage(msg) {
         coverPage.showErrorMessage(msg);
-        lockscreen.customError = msg;
+        lockscreen.customError = msg ? msg : " "; // avoid default message
         lockscreen.clear(true);
     }
 

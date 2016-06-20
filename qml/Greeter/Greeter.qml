@@ -205,6 +205,10 @@ Showable {
         if (!locked) {
             AccountsService.failedLogins = 0;
             AccountsService.failedFingerprintLogins = 0;
+
+            // Stop delay timer if they logged in with fingerprint
+            forcedDelayTimer.stop();
+            forcedDelayTimer.delayMinutes = 0;
         }
     }
 
@@ -527,8 +531,10 @@ Showable {
             restartOperation();
             if (!d.secureFingerprint) {
                 d.startUnlock(false /* toTheRight */); // use normal login instead
-            } else if (loader.item) {
-                loader.item.showErrorMessage(i18n.tr("Try again"));
+            }
+            if (loader.item) {
+                var msg = d.secureFingerprint ? i18n.tr("Try again") : "";
+                loader.item.showErrorMessage(msg);
             }
         }
 
