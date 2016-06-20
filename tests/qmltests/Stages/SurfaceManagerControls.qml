@@ -21,7 +21,7 @@ import Unity.Application 0.1
 Column {
     id: root
 
-    Label {text: "Size hints for new surface:"; color: root.textColor; font.bold: true}
+    Label {text: "Size hints for new surface:"; font.bold: true}
 
     SurfaceManagerField { text: "min width"; propertyName: "newSurfaceMinimumWidth"; }
     SurfaceManagerField { text: "max width"; propertyName: "newSurfaceMaximumWidth"; }
