@@ -17,18 +17,19 @@
 import QtQuick 2.4
 import AccountsService 0.1
 import GlobalShortcut 1.0
+import QMenuModel 0.1
 import Unity.Application 0.1
 
-QtObject {
+Item {
     id: root
 
-    property GlobalShortcut shortcutNext: GlobalShortcut {
+    GlobalShortcut {
         shortcut: Qt.MetaModifier|Qt.Key_Space
         onTriggered: root.nextKeymap()
         active: root.keymapCount > 1
     }
 
-    property GlobalShortcut shortcutPrevious: GlobalShortcut {
+    GlobalShortcut {
         shortcut: Qt.MetaModifier|Qt.ShiftModifier|Qt.Key_Space
         onTriggered: root.previousKeymap()
         active: root.keymapCount > 1
@@ -57,9 +58,32 @@ QtObject {
         currentKeymapIndex = prevIndex;
     }
 
-    property Binding surfaceKeymapBinding: Binding {
+    Binding {
         target: MirFocusController.focusedSurface
         property: "keymap"
         value: root.currentKeymap
+    }
+
+    // indicator
+    QDBusActionGroup {
+        id: actionGroup
+        busType: DBus.SessionBus
+        busName: "com.canonical.indicator.keyboard"
+        objectPath: "/com/canonical/indicator/keyboard"
+
+        property variant currentAction: action("current")
+    }
+
+    onCurrentKeymapIndexChanged: {
+        print("!!! Current keymap index changed:", currentKeymapIndex)
+        actionGroup.currentAction.updateState(currentKeymapIndex);
+    }
+
+
+    Component.onCompleted: {
+        actionGroup.start();
+        if (actionGroup.currentAction.valid) {
+            // TODO root.currentKeymapIndex = actionGroup.activeAction.state; // restore keymap saved by the indicator
+        }
     }
 }

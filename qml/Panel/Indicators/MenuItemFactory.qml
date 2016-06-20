@@ -18,12 +18,14 @@ import QtQuick 2.4
 import QtQuick.Window 2.2
 import Ubuntu.Settings.Menus 0.1 as Menus
 import Ubuntu.Settings.Components 0.1
+import AccountsService 0.1
 import QMenuModel 0.1
 import Utils 0.1 as Utils
 import Ubuntu.Components.ListItems 1.3 as ListItems
 import Ubuntu.Components 1.3
 import Unity.Session 0.1
 import Unity.Platform 1.0
+import Unity.Application 0.1
 
 Item {
     id: menuFactory
@@ -985,6 +987,55 @@ Item {
         }
     }
 
+    Component {
+        id: keymapMenu;
+
+        Menus.CheckableMenu {
+            id: checkItem
+            objectName: "keymapMenu"
+            property QtObject menuData: null
+            property int menuIndex: -1
+            property bool serverChecked: menuData && menuData.isToggled || false
+
+            text: menuData && menuData.label || ""
+            enabled: menuData && menuData.sensitive || false
+            checked: serverChecked
+            highlightWhenPressed: false
+
+            ServerPropertySynchroniser {
+                objectName: "sync"
+                syncTimeout: Utils.Constants.indicatorValueTimeout
+
+                serverTarget: checkItem
+                serverProperty: "serverChecked"
+                userTarget: checkItem
+                userProperty: "checked"
+
+                onSyncTriggered: {
+                    menuModel.activate(checkItem.menuIndex);
+
+                    print("!!! Keymap", checkItem.menuIndex, "triggered")
+                    print("!!! Active action state:", actionGroup.activeAction.state)
+                    if (MirFocusController.focusedSurface) {
+                        print("!!! Switching keymap to:", AccountsService.keymaps[checkItem.menuIndex])
+                        MirFocusController.focusedSurface.keymap = AccountsService.keymaps[checkItem.menuIndex];
+                    }
+                }
+            }
+
+            QDBusActionGroup {
+                id: actionGroup
+                busType: DBus.SessionBus
+                busName: "com.canonical.indicator.keyboard"
+                objectPath: "/com/canonical/indicator/keyboard"
+
+                property variant activeAction: action("active")
+
+                Component.onCompleted: actionGroup.start()
+            }
+        }
+    }
+
     function load(modelData, context) {
         // tweak indicator-session items
         if (context === "indicator-session") {
@@ -993,6 +1044,11 @@ Item {
                     && !Platform.isPC) {
                 return null; // logout, suspend and hibernate hidden on devices
             }
+        }
+
+        // specialize for indicator-keyboard
+        if (context === "indicator-keyboard" && modelData.isRadio) {
+            return keymapMenu;
         }
 
         if (modelData.type !== undefined && modelData.type !== "") {
