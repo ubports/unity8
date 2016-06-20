@@ -136,7 +136,7 @@ private Q_SLOTS:
         QTest::qWaitForWindowExposed(view);
         view->resize(470, 400);
 
-        grid = dynamic_cast<OrganicGrid*>(view->rootObject()->findChild<QObject*>("grid"));
+        grid = static_cast<OrganicGrid*>(view->rootObject()->findChild<QObject*>("grid"));
         grid->setModel(model);
         QTRY_COMPARE(grid->width(), 470.);
 

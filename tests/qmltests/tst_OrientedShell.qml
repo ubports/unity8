@@ -28,6 +28,7 @@ import Unity.InputInfo 0.1
 import Utils 0.1
 
 import "../../qml"
+import "Stages"
 
 Rectangle {
     id: root
@@ -423,6 +424,8 @@ Rectangle {
                     }
                 }
             }
+
+            SurfaceManagerControls { }
         }
     }
 
@@ -619,12 +622,22 @@ Rectangle {
         function test_appRotatesWindowContents_data() {
             return [
                 {tag: "mako", deviceName: "mako", orientationAngleAfterRotation: 90},
+                {tag: "mako_windowed", deviceName: "mako", orientationAngleAfterRotation: 90, windowed: true},
                 {tag: "manta", deviceName: "manta", orientationAngleAfterRotation: 90},
-                {tag: "flo", deviceName: "flo", orientationAngleAfterRotation: 180}
+                {tag: "manta_windowed", deviceName: "manta", orientationAngleAfterRotation: 90, windowed: true},
+                {tag: "flo", deviceName: "flo", orientationAngleAfterRotation: 180},
+                {tag: "flo_windowed", deviceName: "flo", orientationAngleAfterRotation: 180, windowed: true}
             ];
         }
         function test_appRotatesWindowContents(data) {
             loadShell(data.deviceName);
+
+            if (data.windowed) {
+                usageModeSelector.selectWindowed();
+            } else {
+                usageModeSelector.selectStaged();
+            }
+
             var cameraSurfaceId = topLevelSurfaceList.nextId;
             var cameraApp = ApplicationManager.startApplication("camera-app");
             verify(cameraApp);

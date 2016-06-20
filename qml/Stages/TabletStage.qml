@@ -1035,7 +1035,6 @@ AbstractStage {
         id: triGestureArea
         anchors.fill: parent
         enabled: priv.sideStageEnabled && !spreadView.active
-        property var dragObject: null
 
         property Item spreadDelegate
 

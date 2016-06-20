@@ -25,6 +25,7 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     MockLauncherItem *item = new MockLauncherItem("dialer-app", "/usr/share/applications/dialer-app.desktop", "Dialer", "dialer-app", this);
     item->setProgress(0);
     item->setPinned(true);
+    item->setSurfaceCount(1);
     item->setRunning(true);
     item->setFocused(true);
     m_list.append(item);
@@ -32,10 +33,14 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     item->setProgress(10);
     item->setPinned(true);
     m_list.append(item);
+    item = new MockLauncherItem("camera-app2", "/usr/share/applications/camera-app2.desktop", "Camera2", "camera", this);
+    item->setPinned(true);
+    m_list.append(item);
     item = new MockLauncherItem("gallery-app", "/usr/share/applications/gallery-app.desktop", "Gallery", "gallery", this);
     item->setProgress(50);
     item->setCountVisible(true);
     item->setRunning(true);
+    item->setSurfaceCount(2);
     item->setAlerting(false);
     m_list.append(item);
     item = new MockLauncherItem("music-app", "/usr/share/applications/music-app.desktop", "Music", "soundcloud", this);
@@ -44,6 +49,7 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     item->setProgress(150);
     m_list.append(item);
     item = new MockLauncherItem("webbrowser-app", "/usr/share/applications/webbrowser-app.desktop", "Browser", "browser", this);
+    item->setSurfaceCount(5);
     item->setCount(1);
     item->setCountVisible(true);
     item->setRunning(true);
@@ -119,6 +125,8 @@ QVariant MockLauncherModel::data(const QModelIndex& index, int role) const
         return item->focused();
     case RoleAlerting:
         return item->alerting();
+    case RoleSurfaceCount:
+        return item->surfaceCount();
     }
 
     return QVariant();

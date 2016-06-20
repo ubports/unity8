@@ -35,6 +35,7 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
     m_countVisible(false),
     m_focused(false),
     m_alerting(false),
+    m_surfaceCount(0),
     m_quickList(new QuickListModel(this))
 {
     Q_ASSERT(parent != nullptr);
@@ -162,9 +163,6 @@ void LauncherItem::setCount(int count)
     if (m_count != count) {
         m_count = count;
         Q_EMIT countChanged(count);
-        if (m_countVisible) {
-            setAlerting(true);
-        }
     }
 }
 
@@ -178,9 +176,6 @@ void LauncherItem::setCountVisible(bool countVisible)
     if (m_countVisible != countVisible) {
         m_countVisible = countVisible;
         Q_EMIT countVisibleChanged(countVisible);
-        if (countVisible) {
-            setAlerting(true);
-        }
     }
 }
 
@@ -193,9 +188,6 @@ void LauncherItem::setFocused(bool focused)
 {
     if (m_focused != focused) {
         m_focused = focused;
-        if (focused) {
-            setAlerting(false);
-        }
         Q_EMIT focusedChanged(focused);
     }
 }
@@ -210,6 +202,19 @@ void LauncherItem::setAlerting(bool alerting)
     if (m_alerting != alerting) {
         m_alerting = alerting;
         Q_EMIT alertingChanged(alerting);
+    }
+}
+
+int LauncherItem::surfaceCount() const
+{
+    return m_surfaceCount;
+}
+
+void LauncherItem::setSurfaceCount(int surfaceCount)
+{
+    if (m_surfaceCount != surfaceCount) {
+        m_surfaceCount = surfaceCount;
+        Q_EMIT surfaceCountChanged(surfaceCount);
     }
 }
 
