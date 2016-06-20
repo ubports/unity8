@@ -1264,7 +1264,7 @@ Rectangle {
            Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1476757
 
            Steps:
-           1- have a portrait-only app in foreground (eg unity8-dash)
+           1- have a portrait-only app in foreground (eg primary-oriented-app)
            2- launch or switch to some other application
            3- right-edge swipe to show the apps spread
            4- swipe up to close the current app (the one from step 2)
@@ -1282,8 +1282,10 @@ Rectangle {
         function test_lockPhoneAfterClosingAppInSpreadThenUnlockAndRotate() {
             loadShell("mako");
 
-            compare(topLevelSurfaceList.applicationAt(0).appId, "unity8-dash");
-            var dashSurfaceId = topLevelSurfaceList.idAt(0);
+            var primarySurfaceId = topLevelSurfaceList.nextId;
+            var primaryApp = ApplicationManager.startApplication("primary-oriented-app");
+            verify(primaryApp);
+            waitUntilAppWindowIsFullyLoaded(primarySurfaceId);
 
             var gmailSurfaceId = topLevelSurfaceList.nextId;
             var gmailApp = ApplicationManager.startApplication("gmail-webapp");
@@ -1305,7 +1307,7 @@ Rectangle {
 
             swipeAwayGreeter();
 
-            verify(isAppSurfaceFocused(dashSurfaceId))
+            verify(isAppSurfaceFocused(primarySurfaceId))
 
             signalSpy.clear();
             signalSpy.target = shell;
