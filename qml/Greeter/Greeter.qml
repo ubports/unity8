@@ -542,7 +542,7 @@ Showable {
 
         onSucceeded: {
             if (!d.secureFingerprint) {
-                failOperation("too many failures");
+                failOperation("fingerprint reader is locked");
                 return;
             }
             if (result !== lightDM.users.data(d.currentIndex, lightDM.userRoles.UidRole)) {
@@ -558,7 +558,7 @@ Showable {
         }
         onFailed: {
             if (!d.secureFingerprint) {
-                failOperation("too many failures");
+                failOperation("fingerprint reader is locked");
             } else {
                 AccountsService.failedFingerprintLogins++;
                 failOperation(reason);
