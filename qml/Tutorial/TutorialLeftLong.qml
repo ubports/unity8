@@ -23,7 +23,9 @@ TutorialPage {
 
     property var launcher
 
-    opacityOverride: 1 - launcher.dragDistance / launcher.minimizeDistance
+    // Unlike other tutorials, this one can't be skipped before we show it, so
+    // only set opacityOverride if we're already shown.
+    opacityOverride: shown ? 1 - launcher.dragDistance / launcher.minimizeDistance : 1
 
     mouseArea {
         anchors.leftMargin: launcher.dragAreaWidth

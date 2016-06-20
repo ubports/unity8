@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -61,6 +61,9 @@ private:
     QPointer<QScreen> m_registeredScreen;
     QString m_cursorName;
     QString m_themeName;
+
+    // Accumulated, unapplied, mouse movement.
+    QPointF m_accumulatedMovement;
 };
 
 #endif // MOUSEPOINTER_H

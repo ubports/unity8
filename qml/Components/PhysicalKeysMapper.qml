@@ -66,11 +66,6 @@ Item {
         property bool superTabPressed: false
 
         property var powerButtonPressStart: 0
-
-        // We need to eat ALT presses until we know what they're for (Alt+Tab or going to the app?)
-        // Once we know if an ALT keypress is for the app, we need to re-inject the pressed event for it
-        // but we must only do that once.
-        property bool altPressInjected: false
     }
 
     InputEventGenerator {
@@ -78,12 +73,6 @@ Item {
     }
 
     function onKeyPressed(event, currentEventTimestamp) {
-        if (d.altPressed && !d.altTabPressed && event.key !== Qt.Key_Tab && event.key !== Qt.Key_Alt && !d.altPressInjected) {
-            // ALT is pressed and another key that is not Tab has been received. Re-inject the alt pressed event
-            d.altPressInjected = true;
-            inputEventGenerator.generateKeyEvent(Qt.Key_Alt, true, Qt.NoModifier, currentEventTimestamp - 1, 56);
-        }
-
         if (event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff) {
             if (event.isAutoRepeat) {
                 if (d.powerButtonPressStart > 0
@@ -119,12 +108,7 @@ Item {
                 d.volumeUpKeyPressed = true;
             }
         } else if (event.key == Qt.Key_Alt || (root.controlInsteadOfAlt && event.key == Qt.Key_Control)) {
-            if (!d.altPressed || event.isAutoRepeat) {
-                // Only eat it if it's the first time we receive alt pressed (or if it's the autorepeat of the first press)
-                d.altPressed = true;
-                event.accepted = true;
-                d.altPressInjected = false;
-            }
+            d.altPressed = true;
 
         // Adding MetaModifier here because that's what keyboards do. Pressing Super_L actually gives
         // Super_L + MetaModifier. This helps to make sure we only invoke superPressed if no other
@@ -135,6 +119,7 @@ Item {
             d.superPressed = true;
         } else if (event.key == Qt.Key_Tab) {
             if (d.altPressed && !d.altTabPressed) {
+                inputEventGenerator.generateKeyEvent(Qt.Key_Alt, false, Qt.NoModifier, currentEventTimestamp, 56);
                 d.altTabPressed = true;
                 event.accepted = true;
             }
@@ -161,11 +146,6 @@ Item {
             if (d.altTabPressed) {
                 d.altTabPressed = false;
                 event.accepted = true;
-            } else if (d.altPressed && !d.altPressInjected) {
-                // Alt was released but nothing else. Let's inject a pressed event and also forward the release.
-                d.altPressInjected = true;
-                inputEventGenerator.generateKeyEvent(Qt.Key_Alt, true, Qt.AltModifer, currentEventTimestamp, 56);
-                d.altPressInjected = false;
             }
             d.altPressed = false;
         } else if (event.key == Qt.Key_Tab) {

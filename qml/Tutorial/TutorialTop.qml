@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,8 +50,7 @@ TutorialPage {
     }
 
     label {
-        text: d.landscape ? i18n.tr("Swipe from the top right edge to open the notification bar")
-                          : i18n.tr("Swipe from the top edge to open the notification bar")
+        text: i18n.tr("Swipe from the top edge to access notifications and quick settings")
         anchors.top: arrow.bottom
         anchors.topMargin: units.gu(3)
         anchors.horizontalCenter: arrow.horizontalCenter
