@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Canonical Ltd.
+ * Copyright 2015, 2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -68,12 +68,22 @@ QtObject {
             }
         }
 
-        if (chosenAnimation)
-            chosenAnimation.start();
+        if (chosenAnimation) {
+            chosenAnimation.setup();
+        }
+    }
+
+    property Connections chosenAnimationConns: Connections {
+        target: root.chosenAnimation
+        onReadyChanged: {
+            if (root.chosenAnimation.ready) {
+                root.chosenAnimation.start();
+            }
+        }
     }
 
     // to be read from outside
-    property bool running: chosenAnimation ? chosenAnimation.running : false
+    property bool running: chosenAnimation !== null
 
     property int duration: 450
     property int easingType: Easing.InOutCubic
@@ -84,7 +94,7 @@ QtObject {
                                    ? spreadDelegate.width : spreadDelegate.height
     property string longestAxis: spreadDelegate.width > spreadDelegate.height ? "x" : "y"
 
-    property QtObject chosenAnimation
+    property QtObject chosenAnimation: null
 
     function setup90Animation() {
         background.visible = true;
@@ -92,7 +102,6 @@ QtObject {
         screenshot.width = window.width;
         screenshot.height = window.height;
         screenshot.window.anchors.topMargin = window.window.anchors.topMargin;
-        screenshot.take();
         screenshot.transformOriginX = root.shortestDimension / 2;
         screenshot.transformOriginY = root.shortestDimension / 2;
         screenshot.visible = true;
@@ -109,10 +118,16 @@ QtObject {
         screenshot.discard();
         screenshot.visible = false;
         background.visible = false;
+        chosenAnimation.ranSetup = false;
+        chosenAnimation = null;
     }
 
     property QtObject simple90Animation: SequentialAnimation {
         id: simple90Animation
+
+        function setup() { screenshot.take(); ranSetup = true; }
+        property bool ranSetup: false
+        readonly property bool ready: ranSetup && root.screenshot && root.screenshot.ready
 
         ScriptAction { script: setup90Animation() }
         ParallelAnimation {
@@ -154,6 +169,10 @@ QtObject {
 
     property QtObject moving90Animation: SequentialAnimation {
         id: moving90Animation
+
+        function setup() { screenshot.take(); ranSetup = true; }
+        property bool ranSetup: false
+        readonly property bool ready: ranSetup && root.screenshot && root.screenshot.ready
 
         ScriptAction { script: setup90Animation() }
         ParallelAnimation {
@@ -214,6 +233,9 @@ QtObject {
     property QtObject halfLoopAnimation: SequentialAnimation {
         id: halfLoopAnimation
 
+        function setup() { ready = true; }
+        property bool ready: false
+
         ScriptAction { script: {
             background.visible = true;
 
@@ -236,6 +258,8 @@ QtObject {
         ScriptAction { script: {
             window.orientationAngle = spreadDelegate.shellOrientationAngle;
             background.visible = false;
+            chosenAnimation = null;
+            halfLoopAnimation.ready = false;
         } }
     }
 }

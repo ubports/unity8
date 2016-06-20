@@ -1,3 +1,4 @@
+debian/usr.bin.unity8-dash etc/apparmor.d
 var/lib/unity8/version
 data/unity8-dash.conf usr/share/upstart/sessions/
 data/unity8-filewatcher.conf usr/share/upstart/sessions/

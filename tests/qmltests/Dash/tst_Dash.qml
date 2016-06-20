@@ -58,7 +58,7 @@ Item {
             tryCompare(dashContentList, "count", 0);
             scopes.load();
             tryCompare(dashContentList, "currentIndex", 0);
-            tryCompare(dashContentList, "count", 7);
+            tryCompare(dashContentList, "count", 8);
             tryCompare(scopes, "loaded", true);
             tryCompareFunction(function() {
                 var mockScope1Loader = findChild(dash, "scopeLoader0");
@@ -88,7 +88,7 @@ Item {
             return findChild(genericScopeView, categoryName);
         }
 
-        function clickCategoryDelegate(category, delegate) {
+        function getCategoryDelegate(category, delegate) {
             var dashContentList = findChild(dash, "dashContentList");
             var genericScopeView = dashContentList.currentItem;
             if (category === undefined) category = 0;
@@ -104,6 +104,11 @@ Item {
                                 true);
             var tile = findChild(findChild(genericScopeView, "dashCategory"+category), "delegate"+delegate);
             waitForRendering(tile);
+            return tile;
+        }
+
+        function clickCategoryDelegate(category, delegate) {
+            var tile = getCategoryDelegate(category, delegate);
             mouseClick(tile);
         }
 
@@ -635,6 +640,27 @@ Item {
             tryCompare(dashTempScopeItem, "x", dash.width);
             tryCompare(dashTempScopeItem, "visible", false);
             tryCompare(dashContent, "x", 0);
+        }
+
+        function test_cardIconStyle()
+        {
+            dash.setCurrentScope("clickscope");
+            var dashContent = findChild(dash, "dashContent");
+            tryCompare(dashContent.currentScope, "id", "clickscope");
+
+            scrollToCategory("dashCategorypredefined");
+            var tile = getCategoryDelegate("predefined", 2);
+            var proportionalShape = findChildsByType(tile, "UCProportionalShape");
+            compare(proportionalShape.length, 1);
+
+            dash.setCurrentScope("libertine-scope.ubuntu_libertine-scope");
+            var dashContent = findChild(dash, "dashContent");
+            tryCompare(dashContent.currentScope, "id", "libertine-scope.ubuntu_libertine-scope");
+
+            scrollToCategory("dashCategory2");
+            tile = getCategoryDelegate("2", 2);
+            proportionalShape = findChildsByType(tile, "UCProportionalShape");
+            compare(proportionalShape.length, 1);
         }
 
         function test_tempScopeItemXOnResize()
