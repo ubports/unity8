@@ -19,17 +19,14 @@
 CursorImageInfo::CursorImageInfo(QObject *parent)
     : QObject(parent)
 {
-    m_updateTimer.setInterval(0);
-    m_updateTimer.setSingleShot(true);
-    connect(&m_updateTimer, &QTimer::timeout, this, &CursorImageInfo::update);
 }
 
 void CursorImageInfo::setCursorName(const QString &cursorName)
 {
     if (cursorName != m_cursorName) {
         m_cursorName = cursorName;
+        update();
         Q_EMIT cursorNameChanged();
-        scheduleUpdate();
     }
 }
 
@@ -37,15 +34,8 @@ void CursorImageInfo::setThemeName(const QString &themeName)
 {
     if (m_themeName != themeName) {
         m_themeName = themeName;
+        update();
         Q_EMIT themeNameChanged();
-        scheduleUpdate();
-    }
-}
-
-void CursorImageInfo::scheduleUpdate()
-{
-    if (!m_updateTimer.isActive()) {
-        m_updateTimer.start();
     }
 }
 

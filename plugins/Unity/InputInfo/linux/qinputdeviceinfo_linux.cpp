@@ -44,6 +44,7 @@
 #include <libudev.h>
 #include <libevdev/libevdev.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <QDebug>
 #include <QSocketNotifier>
 #include <QTimer>
@@ -52,6 +53,7 @@
 QInputDeviceManagerPrivate::QInputDeviceManagerPrivate(QObject *parent) :
     QObject(parent),
     currentFilter(QInputDevice::Unknown),
+    udevMonitor(0),
     udevice(0)
 {
     QTimer::singleShot(250,this,SLOT(init()));
@@ -83,9 +85,9 @@ void QInputDeviceManagerPrivate::init()
         udev_enumerate_add_match_subsystem(enumerate, subsystem.toLatin1());
 
         udev_monitor_enable_receiving(udevMonitor);
-        notifierFd = udev_monitor_get_fd(udevMonitor);
+        int notifierFd = udev_monitor_get_fd(udevMonitor);
 
-        notifier = new QSocketNotifier(notifierFd, QSocketNotifier::Read, this);
+        QSocketNotifier *notifier = new QSocketNotifier(notifierFd, QSocketNotifier::Read, this);
         connect(notifier, SIGNAL(activated(int)), this, SLOT(onUDevChanges()));
 
         udev_enumerate_scan_devices(enumerate);
@@ -168,6 +170,7 @@ QInputDevice *QInputDeviceManagerPrivate::addDevice(struct udev_device *udev)
     rc = libevdev_new_from_fd(fd, &dev);
     if (rc < 0) {
         qWarning() << "Failed to init libevdev ("<< strerror(-rc) << ")";
+        close(fd);
         return Q_NULLPTR;
     }
 
@@ -195,6 +198,8 @@ QInputDevice *QInputDeviceManagerPrivate::addDevice(struct udev_device *udev)
         }
     }
 
+    libevdev_free(dev);
+    close(fd);
     return inputDevice;
 }
 
