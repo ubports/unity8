@@ -348,7 +348,7 @@ Item {
 
             // wait for PhoneStage to stabilize back into its initial state
             var spreadView = findChild(phoneStage, "spreadView");
-            while (spreadView.phase !== 0 || spreadView.contentX !== -spreadView.shift) {
+            while (spreadView.phase !== 0 || spreadView.contentX !== -spreadView.shift || spreadView.selectedIndex != -1) {
                 wait(50);
             }
         }

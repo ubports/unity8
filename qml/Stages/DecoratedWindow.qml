@@ -23,8 +23,8 @@ import Unity.Application 0.1
 FocusScope {
     id: root
 
-    width: applicationWindow.width
-    height: (decorationShown ? decoration.height : 0) + applicationWindow.height
+    width: !counterRotate ? applicationWindow.width : applicationWindow.height
+    height: visibleDecorationHeight + (!counterRotate ? applicationWindow.height : applicationWindow.width)
 
     property alias application: applicationWindow.application
     property alias surface: applicationWindow.surface
@@ -36,15 +36,20 @@ FocusScope {
     property bool highlightShown: false
     property real shadowOpacity: 1
 
-    property alias requestedWidth: applicationWindow.requestedWidth
+    property real requestedWidth
     property real requestedHeight
+    property alias surfaceOrientationAngle: applicationWindow.surfaceOrientationAngle
+    readonly property real visibleDecorationHeight: root.decorationShown ? decoration.height : 0
+    readonly property bool counterRotate: surfaceOrientationAngle != 0 && surfaceOrientationAngle != 180
 
-    property alias minimumWidth: applicationWindow.minimumWidth
-    readonly property int minimumHeight: (root.decorationShown ? decoration.height : 0) + applicationWindow.minimumHeight
-    property alias maximumWidth: applicationWindow.maximumWidth
-    readonly property int maximumHeight: (root.decorationShown ? decoration.height : 0) + applicationWindow.maximumHeight
-    property alias widthIncrement: applicationWindow.widthIncrement
-    property alias heightIncrement: applicationWindow.heightIncrement
+    readonly property int minimumWidth: !counterRotate ? applicationWindow.minimumWidth : applicationWindow.minimumHeight
+    readonly property int minimumHeight: visibleDecorationHeight + (!counterRotate ? applicationWindow.minimumHeight : applicationWindow.minimumWidth)
+    readonly property int maximumWidth: !counterRotate ? applicationWindow.maximumWidth : applicationWindow.maximumHeight
+    readonly property int maximumHeight: visibleDecorationHeight + (!counterRotate ? applicationWindow.maximumHeight : applicationWindow.maximumWidth)
+    readonly property int widthIncrement: !counterRotate ? applicationWindow.widthIncrement : applicationWindow.heightIncrement
+    readonly property int heightIncrement: !counterRotate ? applicationWindow.heightIncrement : applicationWindow.widthIncrement
+
+    property alias overlayShown: decoration.overlayShown
 
     signal closeClicked()
     signal maximizeClicked()
@@ -102,8 +107,29 @@ FocusScope {
         anchors.top: parent.top
         anchors.topMargin: decoration.height
         anchors.left: parent.left
-        requestedHeight: root.requestedHeight - (root.decorationShown ? decoration.height : 0)
+        readonly property real requestedHeightMinusDecoration: root.requestedHeight - root.visibleDecorationHeight
+        requestedHeight: !counterRotate ? requestedHeightMinusDecoration : root.requestedWidth
+        requestedWidth: !counterRotate ? root.requestedWidth : requestedHeightMinusDecoration
         interactive: true
         focus: true
+
+        transform: Rotation {
+                readonly property int rotationAngle: applicationWindow.application &&
+                                                     applicationWindow.application.rotatesWindowContents
+                                                     ? ((360 - applicationWindow.surfaceOrientationAngle) % 360) : 0
+                origin.x: {
+                    if (rotationAngle == 90) return applicationWindow.height / 2;
+                    else if (rotationAngle == 270) return applicationWindow.width / 2;
+                    else if (rotationAngle == 180) return applicationWindow.width / 2;
+                    else return 0;
+                }
+                origin.y: {
+                    if (rotationAngle == 90) return applicationWindow.height / 2;
+                    else if (rotationAngle == 270) return applicationWindow.width / 2;
+                    else if (rotationAngle == 180) return applicationWindow.height / 2;
+                    else return 0;
+                }
+                angle: rotationAngle
+        }
     }
 }

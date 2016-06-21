@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,10 +22,12 @@ import IntegratedLightDM 0.1 as LightDM
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
 
-Item {
+StyledItem {
     id: root
     width: units.gu(120)
     height: units.gu(80)
+
+    theme.name: "Ubuntu.Components.Themes.SuruDark"
 
     Binding {
         target: LightDM.Users
@@ -103,7 +105,7 @@ Item {
 
         Rectangle {
             id: controls
-            color: "white"
+            color: theme.palette.normal.background
             width: units.gu(40)
             height: parent.height
 
@@ -392,8 +394,8 @@ Item {
             view.locked = true;
             view.showPrompt("Prompt", true, true);
             var passwordInput = findChild(view, "passwordInput");
-            compare(passwordInput.placeholderText, "Prompt");
-            compare(passwordInput.echoMode, TextInput.Password);
+            compare(passwordInput.text, "Prompt");
+            verify(passwordInput.isSecret);
             tap(passwordInput);
             typeString("password");
             keyClick(Qt.Key_Enter);
@@ -405,8 +407,8 @@ Item {
             view.locked = true;
             view.showPrompt("otp", false, false);
             var passwordInput = findChild(view, "passwordInput");
-            compare(passwordInput.placeholderText, "otp");
-            compare(passwordInput.echoMode, TextInput.Normal);
+            compare(passwordInput.text, "otp");
+            verify(!passwordInput.isSecret);
             tap(passwordInput);
             typeString("foo");
             keyClick(Qt.Key_Enter);
@@ -439,7 +441,6 @@ Item {
             var infoLabel = findChild(view, "infoLabel");
             compare(infoLabel.text, "Welcome to Unity Greeter<br><font color=\"#df382c\">This is an error</font><br>You should have seen three messages and this is a really long message too. wow so long much length");
             compare(infoLabel.textFormat, Text.StyledText);
-            compare(infoLabel.clip, true);
             verify(infoLabel.contentWidth > infoLabel.width);
             verify(infoLabel.opacity < 1);
             tryCompare(infoLabel, "opacity", 1);
@@ -451,15 +452,15 @@ Item {
             selectedSpy.clear();
             view.locked = true;
             view.showPrompt("Prompt", true, true);
-            var passwordInput = findChild(view, "passwordInput");
-            tap(passwordInput);
-            compare(passwordInput.focus, true);
-            compare(passwordInput.enabled, true);
+            var promptField = findChild(view, "promptField");
+            tap(promptField);
+            compare(promptField.focus, true);
+            compare(promptField.enabled, true);
 
             typeString("password");
             keyClick(Qt.Key_Enter);
-            compare(passwordInput.focus, false);
-            compare(passwordInput.enabled, false);
+            compare(promptField.focus, true);
+            compare(promptField.enabled, false);
 
             compare(selectedSpy.count, 0);
             keyClick(Qt.Key_Escape);
@@ -467,8 +468,8 @@ Item {
             compare(selectedSpy.signalArguments[0][0], 1);
 
             view.reset();
-            compare(passwordInput.focus, false);
-            compare(passwordInput.enabled, true);
+            compare(promptField.focus, false);
+            compare(promptField.enabled, true);
         }
 
         function test_unicode() {
@@ -477,17 +478,11 @@ Item {
             tryCompare(label, "text", "가나다라마");
         }
 
-        function test_longName() {
-            var index = selectUser("long-name");
-            var label = findChild(view, "username" + index);
-            tryCompare(label, "truncated", true);
-        }
-
         function test_promptless() {
             var passwordInput = findChild(view, "passwordInput");
 
             view.locked = true;
-            compare(passwordInput.placeholderText, "Retry");
+            compare(passwordInput.text, "Retry");
             tap(passwordInput);
             compare(respondedSpy.count, 0);
             compare(selectedSpy.count, 1);
@@ -495,7 +490,7 @@ Item {
             selectedSpy.clear();
 
             view.locked = false;
-            compare(passwordInput.placeholderText, "Tap to unlock");
+            compare(passwordInput.text, "Log In");
             tap(passwordInput);
             compare(selectedSpy.count, 0);
             compare(respondedSpy.count, 1);
@@ -527,11 +522,9 @@ Item {
             var passwordInput = findChild(view, "passwordInput");
 
             verify(view.alphanumeric);
-            compare(passwordInput.inputMethodHints, Qt.ImhNone);
+            verify(passwordInput.isAlphanumeric);
             view.alphanumeric = false;
-            compare(passwordInput.inputMethodHints, Qt.ImhDigitsOnly);
-            view.alphanumeric = true;
-            compare(passwordInput.inputMethodHints, Qt.ImhNone);
+            verify(!passwordInput.isAlphanumeric);
         }
     }
 }

@@ -25,6 +25,7 @@
 #include "asadapter.h"
 
 #include <unity/shell/application/ApplicationInfoInterface.h>
+#include <unity/shell/application/MirSurfaceListInterface.h>
 
 #include <QDesktopServices>
 #include <QDebug>
@@ -88,24 +89,14 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
             return item->alerting();
         case RoleRunning:
             return item->running();
+        case RoleSurfaceCount:
+            return item->surfaceCount();
         default:
             qWarning() << Q_FUNC_INFO << "missing role, implement me";
             return QVariant();
     }
 
     return QVariant();
-}
-
-void LauncherModel::setAlerting(const QString &appId, bool alerting) {
-    int index = findApplication(appId);
-    if (index >= 0) {
-        QModelIndex modelIndex = this->index(index);
-        LauncherItem *item = m_list.at(index);
-        if (!item->focused()) {
-            item->setAlerting(alerting);
-            Q_EMIT dataChanged(modelIndex, modelIndex, {RoleAlerting});
-        }
-    }
 }
 
 unity::shell::launcher::LauncherItemInterface *LauncherModel::get(int index) const
@@ -358,11 +349,13 @@ void LauncherModel::countChanged(const QString &appId, int count)
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
         item->setCount(count);
-        if (item->countVisible()) {
-            setAlerting(item->appId(), true);
+        QVector<int> changedRoles = {RoleCount};
+        if (item->countVisible() && !item->alerting() && !item->focused()) {
+            changedRoles << RoleAlerting;
+            item->setAlerting(true);
         }
         m_asAdapter->syncItems(m_list);
-        Q_EMIT dataChanged(index(idx), index(idx), {RoleCount});
+        Q_EMIT dataChanged(index(idx), index(idx), changedRoles);
     }
 }
 
@@ -372,10 +365,12 @@ void LauncherModel::countVisibleChanged(const QString &appId, bool countVisible)
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
         item->setCountVisible(countVisible);
-        if (countVisible) {
-            setAlerting(item->appId(), true);
+        QVector<int> changedRoles = {RoleCount};
+        if (countVisible && !item->alerting() && !item->focused()) {
+            changedRoles << RoleAlerting;
+            item->setAlerting(true);
         }
-        Q_EMIT dataChanged(index(idx), index(idx), {RoleCountVisible});
+        Q_EMIT dataChanged(index(idx), index(idx), changedRoles);
 
         // If countVisible goes to false, and the item is neither pinned nor recent we can drop it
         if (!countVisible && !item->pinned() && !item->recent()) {
@@ -498,8 +493,10 @@ void LauncherModel::alert(const QString &appId)
     int idx = findApplication(appId);
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
-        setAlerting(item->appId(), true);
-        Q_EMIT dataChanged(index(idx), index(idx), {RoleAlerting});
+        if (!item->focused() && !item->alerting()) {
+            item->setAlerting(true);
+            Q_EMIT dataChanged(index(idx), index(idx), {RoleAlerting});
+        }
     }
 }
 
@@ -525,28 +522,50 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
             item->setRecent(true);
             Q_EMIT dataChanged(index(itemIndex), index(itemIndex), {RoleRecent});
         }
+        if (item->surfaceCount() != app->surfaceCount()) {
+            item->setSurfaceCount(app->surfaceCount());
+            Q_EMIT dataChanged(index(itemIndex), index(itemIndex), {RoleSurfaceCount});
+        }
+
         item->setRunning(true);
     } else {
         LauncherItem *item = new LauncherItem(app->appId(), app->name(), app->icon().toString(), this);
         item->setRecent(true);
         item->setRunning(true);
         item->setFocused(app->focused());
-
+        item->setSurfaceCount(app->surfaceCount());
         beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
         m_list.append(item);
         endInsertRows();
     }
+    connect(app, &ApplicationInfoInterface::surfaceCountChanged, this, &LauncherModel::applicationSurfaceCountChanged);
     m_asAdapter->syncItems(m_list);
     Q_EMIT dataChanged(index(itemIndex), index(itemIndex), {RoleRunning});
+}
+
+void LauncherModel::applicationSurfaceCountChanged(int count)
+{
+    ApplicationInfoInterface *app = static_cast<ApplicationInfoInterface*>(sender());
+    int idx = findApplication(app->appId());
+    if (idx < 0) {
+        qWarning() << "Received a surface count changed event from an app that's not in the Launcher model";
+        return;
+    }
+    LauncherItem *item = m_list.at(idx);
+    if (item->surfaceCount() != count) {
+        item->setSurfaceCount(count);
+        Q_EMIT dataChanged(index(idx), index(idx), {RoleSurfaceCount});
+    }
 }
 
 void LauncherModel::applicationRemoved(const QModelIndex &parent, int row)
 {
     Q_UNUSED(parent)
 
+    ApplicationInfoInterface *app = m_appManager->get(row);
     int appIndex = -1;
     for (int i = 0; i < m_list.count(); ++i) {
-        if (m_list.at(i)->appId() == m_appManager->get(row)->appId()) {
+        if (m_list.at(i)->appId() == app->appId()) {
             appIndex = i;
             break;
         }
@@ -557,17 +576,24 @@ void LauncherModel::applicationRemoved(const QModelIndex &parent, int row)
         return;
     }
 
+    disconnect(app, &ApplicationInfoInterface::surfaceCountChanged, this, &LauncherModel::applicationSurfaceCountChanged);
+
     LauncherItem * item = m_list.at(appIndex);
-    item->setRunning(false);
 
     if (!item->pinned()) {
         beginRemoveRows(QModelIndex(), appIndex, appIndex);
         m_list.takeAt(appIndex)->deleteLater();
         endRemoveRows();
         m_asAdapter->syncItems(m_list);
-        Q_EMIT dataChanged(index(appIndex), index(appIndex), {RolePinned});
+    } else {
+        QVector<int> changedRoles = {RoleRunning};
+        item->setRunning(false);
+        if (item->focused()) {
+            changedRoles << RoleFocused;
+            item->setFocused(false);
+        }
+        Q_EMIT dataChanged(index(appIndex), index(appIndex), changedRoles);
     }
-    Q_EMIT dataChanged(index(appIndex), index(appIndex), {RoleRunning});
 }
 
 void LauncherModel::focusedAppIdChanged()
@@ -576,8 +602,14 @@ void LauncherModel::focusedAppIdChanged()
     for (int i = 0; i < m_list.count(); ++i) {
         LauncherItem *item = m_list.at(i);
         if (!item->focused() && item->appId() == appId) {
+            QVector<int> changedRoles;
+            changedRoles << RoleFocused;
             item->setFocused(true);
-            Q_EMIT dataChanged(index(i), index(i), {RoleFocused});
+            if (item->alerting()) {
+                changedRoles << RoleAlerting;
+                item->setAlerting(false);
+            }
+            Q_EMIT dataChanged(index(i), index(i), changedRoles);
         } else if (item->focused() && item->appId() != appId) {
             item->setFocused(false);
             Q_EMIT dataChanged(index(i), index(i), {RoleFocused});

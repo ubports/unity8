@@ -33,6 +33,7 @@ public:
     ~TestUtil();
 
     Q_INVOKABLE bool isInstanceOf(QObject*, QString);
+    Q_INVOKABLE void waitForBehaviors(QObject *obj);
     Q_INVOKABLE TouchEventSequenceWrapper *touchEvent(QQuickItem *item);
 
 private:

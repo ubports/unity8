@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-05-27 13:54+0000\n"
+"POT-Creation-Date: 2016-06-17 01:22+0000\n"
 "PO-Revision-Date: 2014-01-14 20:08+0000\n"
 "Last-Translator: Jógvan Olsen <jeggy@jebster.net>\n"
 "Language-Team: Faroese <fo@li.org>\n"
@@ -15,160 +15,324 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-06-02 06:20+0000\n"
-"X-Generator: Launchpad (build 18053)\n"
+"X-Launchpad-Export-Date: 2016-06-19 05:54+0000\n"
+"X-Generator: Launchpad (build 18097)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
-msgstr ""
+msgstr "Loyniorð: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:48
-#: plugins/Unity/Launcher/launcheritem.cpp:107
+#: plugins/Unity/Launcher/launcheritem.cpp:49
+#: plugins/Unity/Launcher/launcheritem.cpp:108
 msgid "Pin shortcut"
-msgstr ""
+msgstr "Heft snarveg"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:53
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
-msgstr ""
+msgstr "Gevst"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:107
+#: plugins/Unity/Launcher/launcheritem.cpp:108
 msgid "Unpin shortcut"
-msgstr ""
+msgstr "Óheft snarveg"
 
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
-msgstr ""
+msgstr "Tóleind stongd"
 
 #: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
+"Tú ert vorðin útstongdur, tí tú ikki hevur skrivað skeiva loyniorðið ov ofta."
 
 #: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
+"Tú ert vorðin útstongdur, tí tú ikki hevur skrivað skeiva loyniorðið ov ofta."
 
 #: qml/Components/DelayedLockscreen.qml:74
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Vinaliga bíða %1 minutt og royn aftur..."
+msgstr[1] "Vinaliga bíða %1 minuttir og royn aftur."
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:146
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr ""
-
-#: qml/Components/Dialogs.qml:145
-msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "Útrita"
 
 #: qml/Components/Dialogs.qml:147
+msgid "Are you sure you want to log out?"
+msgstr "Ert tú vísur ið tú vilt rita út?"
+
+#: qml/Components/Dialogs.qml:149
 msgctxt "Button: Lock the system"
 msgid "Lock"
-msgstr ""
+msgstr "Læs"
 
-#: qml/Components/Dialogs.qml:154
+#: qml/Components/Dialogs.qml:156
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr ""
+msgstr "Rita út"
 
-#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
+#: qml/Components/Dialogs.qml:163 qml/Components/Dialogs.qml:219
 #: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
-msgstr ""
+msgstr "Angra"
 
-#: qml/Components/Dialogs.qml:173
+#: qml/Components/Dialogs.qml:175
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
-msgstr ""
-
-#: qml/Components/Dialogs.qml:174
-msgid "Are you sure you want to reboot?"
-msgstr ""
+msgstr "Endurbyrja"
 
 #: qml/Components/Dialogs.qml:176
+msgid "Are you sure you want to reboot?"
+msgstr "Ert tú vísur ið tú vilt endurbyrja?"
+
+#: qml/Components/Dialogs.qml:178
 msgid "No"
-msgstr ""
+msgstr "Nei"
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:184
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
-#: qml/Components/Dialogs.qml:197
+#: qml/Components/Dialogs.qml:199
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr ""
+msgstr "Sløkk"
 
-#: qml/Components/Dialogs.qml:198
+#: qml/Components/Dialogs.qml:200
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
-msgstr ""
+msgstr "Ert tú vísur ið tú vilt sløkkja?"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:202
 msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr ""
+msgstr "Sløkk"
 
-#: qml/Components/Dialogs.qml:209
+#: qml/Components/Dialogs.qml:211
 msgctxt "Button: Restart the system"
 msgid "Restart"
+msgstr "Endurbyrja"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:41
+msgid "Keyboard Shortcuts"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:55
+msgid "Unity 8"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:62
+msgid "PrtScr"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:67
+msgid "Takes a screenshot."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:75
+msgid "Alt + PrtScr"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:80
+msgid "Takes a screenshot of a window."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:88
+msgid "Super + Space"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:93
+msgid "Switches to next keyboard layout."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:101
+msgid "Super + Shift + Space"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:106
+msgid "Switches to previous keyboard layout."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:118
+msgid "Launcher"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:125
+msgid "Super (Hold)"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:130
+msgid "Opens the launcher, displays shortcuts."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:138
+msgid "Alt + F1"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:143
+msgid "Opens launcher keyboard navigation mode."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:151
+msgid "Super + Tab"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:156
+msgid "Switches applications via the launcher."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:164
+msgid "Super + 0 to 9"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:169
+msgid "Same as clicking on a launcher icon."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:181
+msgid "Scopes"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:188
+msgid "Super (Tap)"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:193
+msgid "Opens the Scopes home."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:209
+msgid "Switching"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:216
+msgid "Alt + Tab"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:221
+msgid "Switches between applications."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:229
+msgid "Super + W"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:234
+msgid "Opens the desktop spread."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:242
+msgid "Cursor Left or Right"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:247
+msgid "Moves the focus."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:259
+msgid "Windows"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:266
+msgid "Ctrl + Super + D"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:271
+msgid "Minimizes all windows."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:279
+msgid "Ctrl + Super + Up"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:284
+msgid "Maximizes the current window."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:292
+msgid "Ctrl + Super + Down"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:297
+msgid "Minimizes or restores the current window."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:305
+msgid "Ctrl + Super + Left or Right"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:310
+msgid "Semi-maximizes the current window."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:318
+msgid "Alt + F4"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:323
+msgid "Closes the current window."
 msgstr ""
 
 #: qml/Components/Lockscreen.qml:231
 msgid "Return to Call"
-msgstr ""
+msgstr "Far aftur til uppkall"
 
 #: qml/Components/Lockscreen.qml:231
 msgid "Emergency Call"
-msgstr ""
+msgstr "Neyðarkall"
 
 #: qml/Components/Lockscreen.qml:263
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
-msgstr ""
+msgstr "Forrit kunna hava ógoymd dáta:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Endurdokka, goym tað tú hevur gjørt og sløkk hesi forritini fyri at halda "
+"fram."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
-msgstr ""
+msgstr "Ella noyðsløkk nú (ógoymd dáta strikast)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
-msgstr ""
+msgstr "Ok, eg vil endursambinda"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
-msgstr ""
+msgstr "Endursambind nú!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
-msgstr ""
+msgstr "Sløkk alt"
 
 #: qml/Dash/DashPageHeader.qml:333
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr ""
+msgstr "Handil"
 
 #: qml/Dash/DashPageHeader.qml:340
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
-msgstr ""
+msgstr "Leita"
 
 #: qml/Dash/DashPageHeader.qml:350
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr ""
+msgstr "Stillingar"
 
 #: qml/Dash/DashPageHeader.qml:357
 msgid "Remove from Favorites"
@@ -184,41 +348,41 @@ msgstr ""
 
 #: qml/Dash/FiltersPopover.qml:69
 msgid "Reset"
-msgstr ""
+msgstr "Tómstilla"
 
-#: qml/Dash/GenericScopeView.qml:579 qml/Dash/GenericScopeView.qml:774
+#: qml/Dash/GenericScopeView.qml:580 qml/Dash/GenericScopeView.qml:775
 msgid "Show less"
-msgstr ""
+msgstr "Sý minni"
 
-#: qml/Dash/GenericScopeView.qml:579
+#: qml/Dash/GenericScopeView.qml:580
 msgid "Show all"
-msgstr ""
+msgstr "Sý alt"
 
-#: qml/Dash/GenericScopeView.qml:636
+#: qml/Dash/GenericScopeView.qml:637
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
-msgstr ""
+msgstr "Leita"
 
 #: qml/Dash/PageHeaderExtraPanel.qml:56
 msgid "Recent Searches"
-msgstr ""
+msgstr "Seinastu leitiúrslit"
 
 #: qml/Dash/PageHeaderExtraPanel.qml:67
 msgid "Clear All"
-msgstr ""
+msgstr "Strika Alt"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
-msgstr ""
+msgstr "Meira..."
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
-msgstr ""
+msgstr "Minni..."
 
 #: qml/Dash/Previews/PreviewCommentInput.qml:68
 #: qml/Dash/Previews/PreviewRatingInput.qml:175
 msgid "Send"
-msgstr ""
+msgstr "Send"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:82
 msgid "Rate this"
@@ -246,11 +410,11 @@ msgstr ""
 
 #: qml/Dash/ScopesList.qml:55
 msgid "Manage"
-msgstr ""
+msgstr "Umsit"
 
 #: qml/Dash/ScopesList.qml:101
 msgid "Home"
-msgstr ""
+msgstr "Heim"
 
 #: qml/Dash/ScopesList.qml:102
 msgid "Also installed"
@@ -262,16 +426,16 @@ msgid ""
 "touch pad to interact with the pointer."
 msgstr ""
 
-#: qml/Greeter/CoverPage.qml:118
+#: qml/Greeter/CoverPage.qml:119
 msgid "Unlock"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:239
+#: qml/Greeter/LoginList.qml:259
 msgid "Retry"
-msgstr ""
+msgstr "Royn aftur"
 
-#: qml/Greeter/LoginList.qml:240
-msgid "Tap to unlock"
+#: qml/Greeter/LoginList.qml:260
+msgid "Log In"
 msgstr ""
 
 #: qml/Greeter/NarrowView.qml:54
@@ -301,20 +465,20 @@ msgstr ""
 #: qml/Greeter/NarrowView.qml:116
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "Skriva %1"
 
 #: qml/Greeter/NarrowView.qml:117
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Skriva loyniorð"
 
 #: qml/Greeter/NarrowView.qml:118
 msgid "Enter passcode"
-msgstr ""
+msgstr "Skriva loyniorð"
 
 #: qml/Greeter/NarrowView.qml:119
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr ""
+msgstr "Orsakað, skeiv %1"
 
 #: qml/Greeter/NarrowView.qml:120
 msgid "Sorry, incorrect passphrase"
@@ -331,7 +495,7 @@ msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
-msgstr ""
+msgstr "Vís loyniorð"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
@@ -343,46 +507,46 @@ msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:762
 msgid "Nothing is playing"
-msgstr ""
+msgstr "Einki spælir"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:891
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 tími"
+msgstr[1] "%1 tímar"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:895
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 minuttur"
+msgstr[1] "%1 minuttir"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:900
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 sekund"
+msgstr[1] "%1 sekund"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:903
 msgid "0 seconds"
-msgstr ""
+msgstr "0 sekund"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
 #: qml/Panel/Indicators/MenuItemFactory.qml:905
 #, qt-format
 msgid "%1 remaining"
-msgstr ""
+msgstr "%1 eftir"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:911
 msgid "In queue…"
-msgstr ""
+msgstr "Á rað..."
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:915
 msgid "Downloading"
-msgstr ""
+msgstr "Tekur niður"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:917
 msgid "Paused, tap to resume"
@@ -394,7 +558,7 @@ msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:921
 msgid "Finished"
-msgstr ""
+msgstr "Liðugt"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:923
 msgid "Failed, tap to retry"
@@ -404,48 +568,28 @@ msgstr ""
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:210
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "Send"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:152
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
-msgstr ""
+msgstr "Svara"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:209
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr ""
+msgstr "Ring aftur"
 
 #: qml/Stages/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr ""
 
-#: qml/Tutorial/TutorialBottom.qml:78
-msgid "Swipe up to add a contact"
-msgstr ""
-
-#: qml/Tutorial/TutorialBottom.qml:80
-msgid "Swipe up for favorite calculations"
-msgstr ""
-
-#: qml/Tutorial/TutorialBottom.qml:82
-msgid "Swipe up for recent calls"
-msgstr ""
-
-#: qml/Tutorial/TutorialBottom.qml:84
-msgid "Swipe up to create a message"
-msgstr ""
-
-#: qml/Tutorial/TutorialBottom.qml:85
-msgid "Swipe up to manage the app"
-msgstr ""
-
-#: qml/Tutorial/TutorialLeftLong.qml:47
+#: qml/Tutorial/TutorialLeftLong.qml:49
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:47
-msgid "Swipe from the left edge to open the launcher"
+msgid "Short swipe from the left edge to open the launcher"
 msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:55
@@ -453,55 +597,51 @@ msgid "Push your mouse against the right edge to view your open apps"
 msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:56
-msgid "Short or long swipe from the right edge to view your open apps"
+msgid "Swipe from the right edge to view your open apps"
 msgstr ""
 
 #: qml/Tutorial/TutorialTop.qml:53
-msgid "Swipe from the top right edge to open the notification bar"
-msgstr ""
-
-#: qml/Tutorial/TutorialTop.qml:54
-msgid "Swipe from the top edge to open the notification bar"
+msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr ""
+msgstr "Aftur"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Language"
-msgstr ""
+msgstr "Mál"
 
-#: qml/Wizard/Pages/10-welcome.qml:156 qml/Wizard/Pages/30-wifi.qml:206
+#: qml/Wizard/Pages/10-welcome.qml:171 qml/Wizard/Pages/30-wifi.qml:206
 #: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
 #: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
 #: qml/Wizard/Pages/75-report-check.qml:84
 #: qml/Wizard/Pages/passcode-desktop.qml:124
 #: qml/Wizard/Pages/password-set.qml:141
 msgid "Next"
-msgstr ""
+msgstr "Næsta"
 
 #: qml/Wizard/Pages/30-wifi.qml:29
 msgid "Connect to Wi‑Fi"
-msgstr ""
+msgstr "Sambind til Wi-Fi"
 
 #: qml/Wizard/Pages/30-wifi.qml:130
 msgid "Connected"
-msgstr ""
+msgstr "Sambundin"
 
 #: qml/Wizard/Pages/30-wifi.qml:163
 msgid "Available Wi-Fi networks"
-msgstr ""
+msgstr "Tøk Wi-Fi-net"
 
 #: qml/Wizard/Pages/30-wifi.qml:164
 msgid "No available Wi-Fi networks"
-msgstr ""
+msgstr "Eingin tøk Wi-Fi-net"
 
 #: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
 #: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
-msgstr ""
+msgstr "Leyp um"
 
 #: qml/Wizard/Pages/40-location.qml:27
 msgid "Location Services"
@@ -537,11 +677,11 @@ msgstr ""
 
 #: qml/Wizard/Pages/50-timezone.qml:29
 msgid "Time Zone"
-msgstr ""
+msgstr "Tíðarøki"
 
 #: qml/Wizard/Pages/50-timezone.qml:181
 msgid "Enter your city"
-msgstr ""
+msgstr "Skriv tín bý"
 
 #: qml/Wizard/Pages/60-account.qml:24
 msgid "Personalize Your Device"
@@ -549,26 +689,26 @@ msgstr ""
 
 #: qml/Wizard/Pages/60-account.qml:48
 msgid "Preferred Name"
-msgstr ""
+msgstr "Navnið tær dámar best"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:39
 msgid "Lock Screen"
-msgstr ""
+msgstr "Læs skíggjan"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:101
 msgctxt "Label: Type of security method"
 msgid "Create new password"
-msgstr ""
+msgstr "Ger nýtt loyniorð"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
-msgstr ""
+msgstr "Ger loyniorð (bara nummør)"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "No lock code"
-msgstr ""
+msgstr "Eingin læsikota"
 
 #: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
 msgid "Privacy Policy"
@@ -588,7 +728,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
-msgstr ""
+msgstr "Vælkomin til Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:104
 msgid "You are ready to use your device now"
@@ -596,7 +736,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:124
 msgid "Get Started"
-msgstr ""
+msgstr "Byrja"
 
 #: qml/Wizard/Pages/here-terms.qml:25
 msgid "Terms & Conditions"
@@ -701,7 +841,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
-msgstr ""
+msgstr "Endurbyrja"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
@@ -721,11 +861,11 @@ msgstr ""
 
 #: qml/Wizard/PasswordMeter.qml:93
 msgid "Strong password"
-msgstr ""
+msgstr "Sterkt loyniorð"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Fair password"
-msgstr ""
+msgstr "Miðal loyniorð"
 
 #: qml/Wizard/PasswordMeter.qml:97
 msgid "Weak password"
