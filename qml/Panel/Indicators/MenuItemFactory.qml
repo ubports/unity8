@@ -1052,8 +1052,12 @@ Item {
         }
 
         // specialize for indicator-keyboard
-        if (context === "indicator-keyboard" && modelData.isRadio) {
-            return keymapMenu;
+        if (context === "indicator-keyboard") {
+            if (modelData.isRadio) {
+                return keymapMenu;
+            } else if (modelData.action === "indicator.map" || modelData.action === "indicator.chart") {
+                return null; // map and chart not available
+            }
         }
 
         if (modelData.type !== undefined && modelData.type !== "") {

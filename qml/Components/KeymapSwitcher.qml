@@ -75,7 +75,6 @@ Item {
         property variant currentAction: action("current")
         property variant activeAction: action("active")
 
-
         Component.onCompleted: actionGroup.start();
     }
 
