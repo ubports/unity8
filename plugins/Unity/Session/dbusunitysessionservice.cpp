@@ -64,19 +64,19 @@ public:
                                                           QStringLiteral("GetSessionByPID"));
         msg << (quint32) getpid();
 
-        QDBusReply<QDBusObjectPath> reply = QDBusConnection::systemBus().call(msg);
+        QDBusReply<QDBusObjectPath> reply = QDBusConnection::SM_BUSNAME().call(msg);
         if (reply.isValid()) {
             logindSessionPath = reply.value().path();
 
             // start watching the Active property
-            QDBusConnection::systemBus().connect(LOGIN1_SERVICE, logindSessionPath, QStringLiteral("org.freedesktop.DBus.Properties"), QStringLiteral("PropertiesChanged"),
-                                                 this, SLOT(onPropertiesChanged(QString,QVariantMap,QStringList)));
+            QDBusConnection::SM_BUSNAME().connect(LOGIN1_SERVICE, logindSessionPath, QStringLiteral("org.freedesktop.DBus.Properties"), QStringLiteral("PropertiesChanged"),
+                                                  this, SLOT(onPropertiesChanged(QString,QVariantMap,QStringList)));
 
             setupSystemdInhibition();
 
             // re-enable the inhibition upon resume from sleep
-            QDBusConnection::systemBus().connect(LOGIN1_SERVICE, LOGIN1_PATH, LOGIN1_IFACE, QStringLiteral("PrepareForSleep"),
-                                                 this, SLOT(onResuming(bool)));
+            QDBusConnection::SM_BUSNAME().connect(LOGIN1_SERVICE, LOGIN1_PATH, LOGIN1_IFACE, QStringLiteral("PrepareForSleep"),
+                                                  this, SLOT(onResuming(bool)));
         } else {
             qWarning() << "Failed to get logind session path" << reply.error().message();
         }
@@ -96,7 +96,7 @@ public:
         msg << "Unity8 handles power events"; // why
         msg << "block"; // mode
 
-        QDBusPendingCall pendingCall = QDBusConnection::systemBus().asyncCall(msg);
+        QDBusPendingCall pendingCall = QDBusConnection::SM_BUSNAME().asyncCall(msg);
         QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingCall, this);
         connect(watcher, &QDBusPendingCallWatcher::finished,
             this, [this](QDBusPendingCallWatcher* watcher) {
@@ -114,7 +114,7 @@ public:
     bool checkLogin1Call(const QString &method) const
     {
         QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE, LOGIN1_PATH, LOGIN1_IFACE, method);
-        QDBusReply<QString> reply = QDBusConnection::systemBus().call(msg);
+        QDBusReply<QString> reply = QDBusConnection::SM_BUSNAME().call(msg);
         return reply.isValid() && (reply == QStringLiteral("yes") || reply == QStringLiteral("challenge"));
     }
 
@@ -125,7 +125,7 @@ public:
                                                           LOGIN1_IFACE,
                                                           method);
         msg.setArguments(args);
-        QDBusConnection::systemBus().asyncCall(msg);
+        QDBusConnection::SM_BUSNAME().asyncCall(msg);
     }
 
     void setActive(bool active)
@@ -157,7 +157,7 @@ public:
         msg << LOGIN1_SESSION_IFACE;
         msg << ACTIVE_KEY;
 
-        QDBusPendingCall pendingCall = QDBusConnection::systemBus().asyncCall(msg);
+        QDBusPendingCall pendingCall = QDBusConnection::SM_BUSNAME().asyncCall(msg);
         QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingCall, this);
         connect(watcher, &QDBusPendingCallWatcher::finished,
             this, [this](QDBusPendingCallWatcher* watcher) {
@@ -191,7 +191,7 @@ public:
         msg << LOGIN1_SESSION_IFACE;
         msg << IDLE_SINCE_KEY;
 
-        QDBusReply<QVariant> reply = QDBusConnection::systemBus().call(msg);
+        QDBusReply<QVariant> reply = QDBusConnection::SM_BUSNAME().call(msg);
         if (reply.isValid()) {
             return reply.value().value<quint64>();
         } else {
@@ -208,7 +208,7 @@ public:
                                                           LOGIN1_SESSION_IFACE,
                                                           QStringLiteral("SetIdleHint"));
         msg << idle;
-        QDBusConnection::systemBus().asyncCall(msg);
+        QDBusConnection::SM_BUSNAME().asyncCall(msg);
     }
 
 private Q_SLOTS:
@@ -244,10 +244,10 @@ DBusUnitySessionService::DBusUnitySessionService()
 {
     if (!d->logindSessionPath.isEmpty()) {
         // connect our PromptLock() slot to the logind's session Lock() signal
-        QDBusConnection::systemBus().connect(LOGIN1_SERVICE, d->logindSessionPath, LOGIN1_SESSION_IFACE, QStringLiteral("Lock"), this, SLOT(PromptLock()));
+        QDBusConnection::SM_BUSNAME().connect(LOGIN1_SERVICE, d->logindSessionPath, LOGIN1_SESSION_IFACE, QStringLiteral("Lock"), this, SLOT(PromptLock()));
         // ... and our Unlocked() signal to the logind's session Unlock() signal
         // (lightdm handles the unlocking by calling logind's Unlock method which in turn emits this signal we connect to)
-        QDBusConnection::systemBus().connect(LOGIN1_SERVICE, d->logindSessionPath, LOGIN1_SESSION_IFACE, QStringLiteral("Unlock"), this, SIGNAL(Unlocked()));
+        QDBusConnection::SM_BUSNAME().connect(LOGIN1_SERVICE, d->logindSessionPath, LOGIN1_SESSION_IFACE, QStringLiteral("Unlock"), this, SIGNAL(Unlocked()));
         connect(d, &DBusUnitySessionServicePrivate::prepareForSleep, this, &DBusUnitySessionService::PromptLock);
     } else {
         qWarning() << "Failed to connect to logind's session Lock/Unlock signals";
@@ -332,14 +332,18 @@ QString DBusUnitySessionService::HostName() const
 
 void DBusUnitySessionService::PromptLock()
 {
-    // Fast lock (no animation)
+    // Prompt as in quick.  No locking animation needed.  Usually used by
+    // indicator-session in combination with a switch to greeter or other
+    // user session.
     Q_EMIT LockRequested();
     Q_EMIT lockRequested();
 }
 
 void DBusUnitySessionService::Lock()
 {
-    // Slower lock (with animation)
+    // Normal lock (with animation, as compared to PromptLock above).  Usually
+    // used by indicator-session to lock the session in place.
+    //
     // FIXME: We also -- as a bit of a hack around indicator-session not fully
     // supporting a phone profile -- switch to greeter here.  The unity7 flow is
     // that the user chooses "Lock/Switch" from the indicator, and then can go
@@ -371,7 +375,7 @@ void DBusUnitySessionService::switchToGreeter()
                                                       QStringLiteral("org.freedesktop.DisplayManager.Session"),
                                                       QStringLiteral("Lock"));
 
-    QDBusPendingCall pendingCall = QDBusConnection::systemBus().asyncCall(msg);
+    QDBusPendingCall pendingCall = QDBusConnection::SM_BUSNAME().asyncCall(msg);
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingCall, this);
     connect(watcher, &QDBusPendingCallWatcher::finished,
         this, [this](QDBusPendingCallWatcher* watcher) {

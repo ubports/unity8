@@ -61,6 +61,8 @@ private Q_SLOTS:
         QTest::newRow("Reboot") << "RequestReboot" << "RebootRequested(bool)";
         QTest::newRow("Shutdown") << "RequestShutdown" << "ShutdownRequested(bool)";
         QTest::newRow("PromptLock") << "PromptLock" << "LockRequested()";
+        QTest::newRow("Lock") << "Lock" << "LockRequested()";
+        QTest::newRow("LockLightDM") << "Lock" << "Locked()"; // happens when we lock LightDM, only for Lock()
     }
 
     void testUnitySessionLogoutRequested() {
@@ -76,7 +78,7 @@ private Q_SLOTS:
         QDBusReply<void> reply = dbusUnitySession->call(method);
         QCOMPARE(reply.isValid(), true);
 
-        QCOMPARE(spy.count(), 1);
+        QTRY_COMPARE(spy.count(), 1);
     }
 
     void testGnomeSessionWrapper_data() {
