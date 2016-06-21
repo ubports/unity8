@@ -990,17 +990,27 @@ Item {
     Component {
         id: keymapMenu;
 
-        Menus.CheckableMenu {
+        // FIXME this should use a "radio button" menu, once we have it in the SDK
+        ListItems.Empty {
             id: checkItem
             objectName: "keymapMenu"
             property QtObject menuData: null
             property int menuIndex: -1
             readonly property bool serverChecked: menuData && menuData.isToggled || false
 
-            text: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive || false
-            checked: serverChecked
             highlightWhenPressed: false
+            __acceptEvents: !serverChecked
+
+            CheckBox {
+                id: checkbox
+                __acceptEvents: !checkItem.serverChecked
+                anchors {
+                    left: parent.left
+                    leftMargin: checkItem.__contentsMargins
+                    verticalCenter: parent.verticalCenter
+                }
+            }
 
             ServerPropertySynchroniser {
                 objectName: "sync"
@@ -1008,13 +1018,28 @@ Item {
 
                 serverTarget: checkItem
                 serverProperty: "serverChecked"
-                userTarget: checkItem
+                userTarget: checkbox
                 userProperty: "checked"
 
                 onSyncTriggered: {
                     menuModel.activate(checkItem.menuIndex);
                 }
             }
+
+            Label {
+                id: label
+                anchors {
+                    left: checkbox.right
+                    leftMargin: checkItem.__contentsMargins
+                    right: parent.right
+                    rightMargin: checkItem.__contentsMargins
+                    verticalCenter: parent.verticalCenter
+                }
+                elide: Text.ElideRight
+                text: checkItem.menuData && checkItem.menuData.label || ""
+            }
+
+            onClicked: menuModel.activate(menuIndex);
         }
     }
 
