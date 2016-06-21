@@ -68,6 +68,7 @@ StyledItem {
         applicationsDisplayLoader.item.updateFocusedAppOrientationAnimated();
     }
     property bool hasMouse: false
+    property bool hasKeyboard: false
 
     // to be read from outside
     readonly property int mainAppWindowOrientationAngle:
@@ -780,7 +781,9 @@ StyledItem {
     }
 
     // non-visual object
-    KeymapSwitcher {}
+    KeymapSwitcher {
+        hasKeyboard: shell.hasKeyboard
+    }
 
     Rectangle {
         id: shutdownFadeOutRectangle
