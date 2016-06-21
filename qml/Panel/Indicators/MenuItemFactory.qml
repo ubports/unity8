@@ -18,14 +18,12 @@ import QtQuick 2.4
 import QtQuick.Window 2.2
 import Ubuntu.Settings.Menus 0.1 as Menus
 import Ubuntu.Settings.Components 0.1
-import AccountsService 0.1
 import QMenuModel 0.1
 import Utils 0.1 as Utils
 import Ubuntu.Components.ListItems 1.3 as ListItems
 import Ubuntu.Components 1.3
 import Unity.Session 0.1
 import Unity.Platform 1.0
-import Unity.Application 0.1
 
 Item {
     id: menuFactory
