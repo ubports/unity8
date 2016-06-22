@@ -1,18 +1,18 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node xmlns:dox="http://www.ayatana.org/dbus/dox.dtd">
-  <dox:d><![CDATA[
-    @mainpage
-   
-    An interface to register menus that are associated with a window in an application.  The
+        <dox:d><![CDATA[
+          @mainpage
+
+          An interface to register menus that are associated with a window in an application.  The
           main interface is docuemented here: @ref com::ubuntu::MenuRegistrar.
-      
+
           The actual menus are transported using the gmenumodel protocol
-  ]]></dox:d>
+        ]]></dox:d>
         <interface name="com.ubuntu.MenuRegistrar" xmlns:dox="http://www.ayatana.org/dbus/dox.dtd">
                 <dox:d>
                   An interface to register a menu from an application to be displayed in another
-                  window.  This manages that association between Mir surface IDs and the dbus
-                  address and object that provides the menu using the  org.gtk.Menus interface.
+                  window.  This manages that association between processes and/or Mir surface IDs and the dbus
+                  address and object that provides the menus using the  org.gtk.Menus interface.
                 </dox:d>
                 <method name="RegisterAppMenu">
                         <dox:d><![CDATA[
@@ -23,7 +23,7 @@
                             ensure this method is called with the same connection that implmenets the object.
                         ]]></dox:d>
                         <arg name="pid" type="u" direction="in">
-                                <dox:d>The surface ID of the surface</dox:d>
+                                <dox:d>The process ID of the application for which the menu is associated</dox:d>
                         </arg>
                         <arg name="menuObjectPath" type="o" direction="in">
                                 <dox:d>The object on the dbus interface implementing the gmenumodel interface</dox:d>
