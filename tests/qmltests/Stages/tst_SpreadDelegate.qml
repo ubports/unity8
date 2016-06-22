@@ -278,12 +278,16 @@ Rectangle {
         function test_keepsSceneTransformationWhenShellRotates(data) {
             loadWithGalleryApp.clicked();
 
+            {
+                var priv = findInvisibleChild(spreadDelegate, "spreadDelegatePriv");
+                verify(priv);
+                tryCompare(priv, "startingUp", false);
+            }
+
             var appWindowWithShadow = findChild(spreadDelegate, "appWindowWithShadow");
             verify(appWindowWithShadow);
 
-            // Wait until it reaches the state we are interested on.
-            // It begins with "startingUp"
-            tryCompare(appWindowWithShadow, "state", "keepSceneRotation");
+            compare(appWindowWithShadow.state, "keepSceneRotation");
 
             shellOrientationAngleSelector.selectedIndex = data.selectedIndex;
 

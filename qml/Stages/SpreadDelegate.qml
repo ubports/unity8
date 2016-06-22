@@ -82,11 +82,68 @@ FocusScope {
 
     QtObject {
         id: priv
+        objectName: "spreadDelegatePriv"
         property bool startingUp: true
     }
 
     Component.onCompleted: { finishStartUpTimer.start(); }
     Timer { id: finishStartUpTimer; interval: 400; onTriggered: priv.startingUp = false }
+
+    // JS version of QPlatformScreen::angleBetween C++ implementation.
+    // So don't ask me how it works because I don't know.
+    // Calling Screen.angleBetween from within a Binding component doesn't work for some reason.
+    function angleBetween(a, b) {
+        if (a == b)
+            return 0;
+
+        var ia = Math.log(a) / Math.LN2;
+        var ib = Math.log(b) / Math.LN2;
+
+        var delta = ia - ib;
+
+        if (delta < 0)
+            delta = delta + 4;
+
+        var angles = [ 0, 90, 180, 270 ];
+        return angles[delta];
+    }
+
+    // Sets the initial orientationAngle of the window, when it first slides into view
+    // (with the splash screen likely being displayed). At that point we just try to
+    // match shell's current orientation. We need a bit of time in this state as the
+    // information we need to decide orientationAngle may take a few cycles to
+    // be set.
+    Binding {
+        target: appWindowWithShadow
+        property: "orientationAngle"
+        when: priv.startingUp
+        value: {
+            var supportedOrientations = root.supportedOrientations;
+
+            if (supportedOrientations === Qt.PrimaryOrientation) {
+                supportedOrientations = root.orientations.primary;
+            }
+
+            // If it doesn't support shell's current orientation
+            // then simply pick some arbitraty one that it does support
+            var chosenOrientation = 0;
+            if (supportedOrientations & root.shellOrientation) {
+                chosenOrientation = root.shellOrientation;
+            } else if (supportedOrientations & Qt.PortraitOrientation) {
+                chosenOrientation = root.orientations.portrait;
+            } else if (supportedOrientations & Qt.LandscapeOrientation) {
+                chosenOrientation = root.orientations.landscape;
+            } else if (supportedOrientations & Qt.InvertedPortraitOrientation) {
+                chosenOrientation = root.orientations.invertedPortrait;
+            } else if (supportedOrientations & Qt.InvertedLandscapeOrientation) {
+                chosenOrientation = root.orientations.invertedLandscape;
+            } else {
+                chosenOrientation = root.orientations.primary;
+            }
+
+            return angleBetween(root.orientations.native_, chosenOrientation);
+        }
+    }
 
     Rectangle {
         id: background
@@ -129,9 +186,7 @@ FocusScope {
             }
 
             state: {
-                if (priv.startingUp) {
-                    return "startingUp";
-                } else if (root.application && root.application.rotatesWindowContents) {
+                if (root.application && root.application.rotatesWindowContents) {
                     return "counterRotate";
                 } else if (orientationChangeAnimation.running) {
                     return "animatingRotation";
@@ -149,109 +204,29 @@ FocusScope {
             }
 
             states: [
-                // Sets the initial orientationAngle of the window, when it first slides into view
-                // (with the splash screen likely being displayed). At that point we just try to
-                // match shell's current orientation. We need a bit of time in this state as the
-                // information we need to decide orientationAngle may take a few cycles to
-                // be set.
-                State {
-                    name: "startingUp"
-                    PropertyChanges {
-                        target: appWindowWithShadow
-                        restoreEntryValues: false
-                        orientationAngle: {
-                            if (!root.application || root.application.rotatesWindowContents) {
-                                return 0;
-                            }
-
-                            var supportedOrientations = root.supportedOrientations;
-
-                            if (supportedOrientations === Qt.PrimaryOrientation) {
-                                supportedOrientations = root.orientations.primary;
-                            }
-
-                            // If it doesn't support shell's current orientation
-                            // then simply pick some arbitraty one that it does support
-                            var chosenOrientation = 0;
-                            if (supportedOrientations & root.shellOrientation) {
-                                chosenOrientation = root.shellOrientation;
-                            } else if (supportedOrientations & Qt.PortraitOrientation) {
-                                chosenOrientation = root.orientations.portrait;
-                            } else if (supportedOrientations & Qt.LandscapeOrientation) {
-                                chosenOrientation = root.orientations.landscape;
-                            } else if (supportedOrientations & Qt.InvertedPortraitOrientation) {
-                                chosenOrientation = root.orientations.invertedPortrait;
-                            } else if (supportedOrientations & Qt.InvertedLandscapeOrientation) {
-                                chosenOrientation = root.orientations.invertedLandscape;
-                            } else {
-                                chosenOrientation = root.orientations.primary;
-                            }
-
-                            return Screen.angleBetween(root.orientations.native_, chosenOrientation);
-                        }
-
-                        rotation: normalizeAngle(appWindowWithShadow.orientationAngle - root.shellOrientationAngle)
-                        width: {
-                            if (rotation == 0 || rotation == 180) {
-                                return root.width;
-                            } else {
-                                return root.height;
-                            }
-                        }
-                        height: {
-                            if (rotation == 0 || rotation == 180)
-                                return root.height;
-                            else
-                                return root.width;
-                        }
-                    }
-                },
                 // In this state we stick to our currently set orientationAngle, which may change only due
                 // to calls made to matchShellOrientation() or animateToShellOrientation()
                 State {
-                    id: keepSceneRotationState
                     name: "keepSceneRotation"
-
-                    StateChangeScript { script: {
-                        // break binding
-                        appWindowWithShadow.orientationAngle = appWindowWithShadow.orientationAngle;
-                    } }
                     PropertyChanges {
                         target: appWindowWithShadow
                         restoreEntryValues: false
                         rotation: normalizeAngle(appWindowWithShadow.orientationAngle - root.shellOrientationAngle)
-                        width: {
-                            if (rotation == 0 || rotation == 180) {
-                                return root.width;
-                            } else {
-                                return root.height;
-                            }
-                        }
-                        height: {
-                            if (rotation == 0 || rotation == 180)
-                                return root.height;
-                            else
-                                return root.width;
-                        }
                     }
                 },
                 // In this state we counteract any shell rotation so that the window, in scene coordinates,
                 // remains unrotated.
+                // But the splash screen should still obey the set orientationAngle set by shell
                 State {
                     name: "counterRotate"
-                    StateChangeScript { script: {
-                        // break binding
-                        appWindowWithShadow.orientationAngle = appWindowWithShadow.orientationAngle;
-                    } }
                     PropertyChanges {
                         target: appWindowWithShadow
-                        width: root.shellOrientationAngle == 0 || root.shellOrientationAngle == 180 ? root.width : root.height
-                        height: root.shellOrientationAngle == 0 || root.shellOrientationAngle == 180 ? root.height : root.width
                         rotation: normalizeAngle(-root.shellOrientationAngle)
                     }
                     PropertyChanges {
                         target: appWindow
                         surfaceOrientationAngle: appWindowWithShadow.orientationAngle
+                        splashRotation: appWindowWithShadow.orientationAngle
                     }
                 },
                 State {
@@ -259,8 +234,9 @@ FocusScope {
                 }
             ]
 
-            x: (parent.width - width) / 2
-            y: (parent.height - height) / 2
+            anchors.centerIn: parent
+            width: rotation == 0 || rotation == 180 ? root.width : root.height
+            height: rotation == 0 || rotation == 180 ? root.height : root.width
 
             BorderImage {
                 anchors {
