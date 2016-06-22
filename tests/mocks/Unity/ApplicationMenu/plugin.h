@@ -29,4 +29,4 @@ public:
     void initializeEngine(QQmlEngine *engine, const char *uri) override;
 };
 
-#endif // CONNECTIVITY_PLUGIN_H
+#endif // APPLICATIONMENU_PLUGIN_H
