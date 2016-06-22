@@ -17,4 +17,3 @@ add_library(ApplicationMenu-qml MODULE ${applicationMenu_SRCS})
 qt5_use_modules(ApplicationMenu-qml DBus Qml)
 
 add_unity8_plugin(Unity.ApplicationMenu 1.0 Unity/ApplicationMenu TARGETS ApplicationMenu-qml)
-
