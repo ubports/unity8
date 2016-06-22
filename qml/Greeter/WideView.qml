@@ -148,9 +148,13 @@ FocusScope {
                 leftMargin: Math.min(parent.width * 0.16, units.gu(20))
                 top: parent.top
             }
+
             width: units.gu(40)
-            height: inputMethod && inputMethod.visible ? parent.height - inputMethod.keyboardRectangle.height
-                                                       : parent.height
+            height: inputMethod && inputMethod.visible ?
+                parent.height - inputMethod.keyboardRectangle.height : parent.height
+
+            Behavior on height { UbuntuNumberAnimation {} }
+
             UbuntuNumberAnimation {
                 id: loadingAnimation
                 target: loginAreaLoader.item

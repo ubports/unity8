@@ -116,49 +116,6 @@ StyledItem {
         }
 
         height: root.highlightedHeight
-
-        z: sessionChooser.visible ? userList.z + 1 : z
-
-        // Use an AbstractButton due to icon limitations with Button
-        AbstractButton {
-            id: sessionChooser
-            objectName: "sessionChooserButton"
-
-            readonly property alias icon: badge.source
-
-            visible: LightDMService.sessions.count > 1 &&
-                LightDMService.greeter.locked
-
-            height: units.gu(2.5)
-            width: units.gu(2.5)
-
-            anchors {
-                right: parent.right
-                rightMargin: units.gu(1)
-
-                top: parent.top
-                topMargin: units.gu(1)
-            }
-
-            Image {
-                id: badge
-                anchors.fill: parent
-                source: LightDMService.sessions.iconUrl(root.currentSession)
-            }
-
-            onClicked: {
-                sessionChooserButtonClicked();
-            }
-
-            // Refresh the icon path if looking at different places at runtime
-            // this is mainly for testing
-            Connections {
-                target: LightDMService.sessions
-                onIconSearchDirectoriesChanged: {
-                    badge.source = LightDMService.sessions.iconUrl(root.currentSession)
-                }
-            }
-        }
     }
 
     ListView {
@@ -255,6 +212,54 @@ StyledItem {
             running: false
             repeat: false
             interval: root.moveDuration
+        }
+    }
+
+    // Use an AbstractButton due to icon limitations with Button
+    AbstractButton {
+        id: sessionChooser
+        objectName: "sessionChooserButton"
+
+        readonly property alias icon: badge.source
+
+        visible: LightDMService.sessions.count > 1 &&
+            LightDMService.greeter.locked
+
+        height: units.gu(3)
+        width: units.gu(3)
+
+        anchors {
+            right: highlightItem.right
+            rightMargin: units.gu(2)
+
+            top: highlightItem.top
+            topMargin: units.gu(1.5)
+        }
+
+        Icon {
+            id: badge
+            anchors.fill: parent
+            keyColor: "#ffffff" // icon providers give us white icons
+            color: theme.palette.normal.raisedSecondaryText
+            source: LightDMService.sessions.iconUrl(root.currentSession)
+        }
+
+        Component.onCompleted: {
+            console.log("JOSH-> count: " + LightDMService.sessions.count);
+            console.log("JOSH-> visible: " + visible)
+        }
+
+        onClicked: {
+            sessionChooserButtonClicked();
+        }
+
+        // Refresh the icon path if looking at different places at runtime
+        // this is mainly for testing
+        Connections {
+            target: LightDMService.sessions
+            onIconSearchDirectoriesChanged: {
+                badge.source = LightDMService.sessions.iconUrl(root.currentSession)
+            }
         }
     }
 
