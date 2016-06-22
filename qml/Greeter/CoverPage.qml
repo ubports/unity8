@@ -88,6 +88,7 @@ Showable {
         sourceSize.width: width
     }
 
+    // Darkens wallpaper so that we can read text on it and see infographic
     Rectangle {
         anchors.fill: parent
         color: "black"

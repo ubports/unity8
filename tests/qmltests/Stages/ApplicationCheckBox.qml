@@ -156,7 +156,7 @@ Column {
             width: height
             height: promptsLabel.height * 0.7
             anchors.verticalCenter: parent.verticalCenter
-            onClicked: d.application.promptSurfaceList.get(d.application.promptSurfaceList.count - 1).close()
+            onClicked: d.application.promptSurfaceList.get(0).close()
             enabled: d.application && d.application.promptSurfaceList.count > 0
             Label { text: "➖"; anchors.centerIn: parent; enabled: parent.enabled }
         }
