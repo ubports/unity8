@@ -244,11 +244,6 @@ StyledItem {
             source: LightDMService.sessions.iconUrl(root.currentSession)
         }
 
-        Component.onCompleted: {
-            console.log("JOSH-> count: " + LightDMService.sessions.count);
-            console.log("JOSH-> visible: " + visible)
-        }
-
         onClicked: {
             sessionChooserButtonClicked();
         }
