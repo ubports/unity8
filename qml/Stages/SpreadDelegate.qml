@@ -204,10 +204,22 @@ FocusScope {
             }
 
             states: [
+                // A base state containing bindings common to others
+                // Ensures appWindowWithShadow fills the root area.
+                State {
+                    name: "fillRootArea"
+                    PropertyChanges {
+                        target: appWindowWithShadow
+                        restoreEntryValues: false
+                        width: appWindowWithShadow.rotation == 0 || appWindowWithShadow.rotation == 180 ? root.width : root.height
+                        height: appWindowWithShadow.rotation == 0 || appWindowWithShadow.rotation == 180 ? root.height : root.width
+                    }
+                },
                 // In this state we stick to our currently set orientationAngle, which may change only due
                 // to calls made to matchShellOrientation() or animateToShellOrientation()
                 State {
                     name: "keepSceneRotation"
+                    extend: "fillRootArea"
                     PropertyChanges {
                         target: appWindowWithShadow
                         restoreEntryValues: false
@@ -219,6 +231,7 @@ FocusScope {
                 // But the splash screen should still obey the set orientationAngle set by shell
                 State {
                     name: "counterRotate"
+                    extend: "fillRootArea"
                     PropertyChanges {
                         target: appWindowWithShadow
                         rotation: normalizeAngle(-root.shellOrientationAngle)
@@ -229,14 +242,15 @@ FocusScope {
                         splashRotation: appWindowWithShadow.orientationAngle
                     }
                 },
+                // Dummy state.
+                // The animation may indiscriminately break any bindings assigned to appWindowWithShadow rotation,
+                // width or height.
                 State {
                     name: "animatingRotation"
                 }
             ]
 
             anchors.centerIn: parent
-            width: rotation == 0 || rotation == 180 ? root.width : root.height
-            height: rotation == 0 || rotation == 180 ? root.height : root.width
 
             BorderImage {
                 anchors {
