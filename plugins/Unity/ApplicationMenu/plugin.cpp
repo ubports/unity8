@@ -28,7 +28,6 @@ static QObject *service_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 
 void ApplicationMenuPlugin::registerTypes(const char *uri)
 {
-    qDebug() << "LOADING!";
     Q_ASSERT(uri == QLatin1String("Unity.ApplicationMenu"));
 
     qmlRegisterUncreatableType<MenuServicePath>(uri, 0, 1, "MenuServicePath", "You cannot create a MenuServicePath");

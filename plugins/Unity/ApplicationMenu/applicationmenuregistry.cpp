@@ -39,7 +39,7 @@ void ApplicationMenuRegistry::RegisterAppMenu(pid_t processId,
                                                 const QDBusObjectPath &actionObjectPath,
                                                 const QString &service)
 {
-    qInfo() << "RegisterApplicationMenu" << processId << " @ " << service << menuObjectPath.path() << actionObjectPath.path();
+    qDebug() << "RegisterApplicationMenu" << processId << " @ " << service << menuObjectPath.path() << actionObjectPath.path();
 
     QMultiMap<pid_t, MenuServicePath*>::iterator i = m_appMenus.find(processId);
     while (i != m_appMenus.end() && i.key() == processId) {
@@ -59,7 +59,7 @@ void ApplicationMenuRegistry::RegisterAppMenu(pid_t processId,
 
 void ApplicationMenuRegistry::UnregisterAppMenu(pid_t processId, const QDBusObjectPath &menuObjectPath)
 {
-    qInfo() << "RegisterApplicationMenu" << processId << " @ " << menuObjectPath.path();
+    qDebug() << "RegisterApplicationMenu" << processId << " @ " << menuObjectPath.path();
 
     QMultiMap<pid_t, MenuServicePath*>::iterator i = m_appMenus.find(processId);
     while (i != m_appMenus.end() && i.key() == processId) {
@@ -78,7 +78,7 @@ void ApplicationMenuRegistry::RegisterSurfaceMenu(const QString &surfaceId,
                                            const QDBusObjectPath &actionObjectPath,
                                            const QString &service)
 {
-    qInfo() << "RegisterSurfaceMenu" << surfaceId << " @ " << service << menuObjectPath.path() << actionObjectPath.path();
+    qDebug() << "RegisterSurfaceMenu" << surfaceId << " @ " << service << menuObjectPath.path() << actionObjectPath.path();
 
     QMultiMap<QString, MenuServicePath*>::iterator i = m_surfaceMenus.find(surfaceId);
     while (i != m_surfaceMenus.end() && i.key() == surfaceId) {
@@ -98,7 +98,7 @@ void ApplicationMenuRegistry::RegisterSurfaceMenu(const QString &surfaceId,
 
 void ApplicationMenuRegistry::UnregisterSurfaceMenu(const QString &surfaceId, const QDBusObjectPath &menuObjectPath)
 {
-    qInfo() << "UnregisterSurfaceMenu" << surfaceId << " @ " << menuObjectPath.path();
+    qDebug() << "UnregisterSurfaceMenu" << surfaceId << " @ " << menuObjectPath.path();
 
     QMultiMap<QString, MenuServicePath*>::iterator i = m_surfaceMenus.find(surfaceId);
     while (i != m_surfaceMenus.end() && i.key() == surfaceId) {
