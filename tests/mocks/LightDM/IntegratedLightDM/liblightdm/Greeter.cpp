@@ -71,7 +71,7 @@ bool Greeter::showRemoteLoginHint() const
 
 bool Greeter::lockHint () const
 {
-    return true;
+    return false;
 }
 
 QString Greeter::selectUserHint() const

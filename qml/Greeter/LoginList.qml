@@ -223,7 +223,7 @@ StyledItem {
         readonly property alias icon: badge.source
 
         visible: LightDMService.sessions.count > 1 &&
-            LightDMService.greeter.locked
+            !LightDMService.greeter.locked
 
         height: units.gu(3)
         width: units.gu(3)
