@@ -10,6 +10,7 @@
     <signal name="PrepareForSleep" />
   </interface>
   <interface name="org.freedesktop.login1.Session">
+    <method name="MockEmitUnlock" />
     <signal name="Lock" />
     <signal name="Unlock" />
   </interface>

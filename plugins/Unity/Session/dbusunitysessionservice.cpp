@@ -247,7 +247,7 @@ DBusUnitySessionService::DBusUnitySessionService()
         QDBusConnection::SM_BUSNAME().connect(LOGIN1_SERVICE, d->logindSessionPath, LOGIN1_SESSION_IFACE, QStringLiteral("Lock"), this, SLOT(PromptLock()));
         // ... and our Unlocked() signal to the logind's session Unlock() signal
         // (lightdm handles the unlocking by calling logind's Unlock method which in turn emits this signal we connect to)
-        QDBusConnection::SM_BUSNAME().connect(LOGIN1_SERVICE, d->logindSessionPath, LOGIN1_SESSION_IFACE, QStringLiteral("Unlock"), this, SIGNAL(Unlocked()));
+        QDBusConnection::SM_BUSNAME().connect(LOGIN1_SERVICE, d->logindSessionPath, LOGIN1_SESSION_IFACE, QStringLiteral("Unlock"), this, SLOT(doUnlock()));
         connect(d, &DBusUnitySessionServicePrivate::prepareForSleep, this, &DBusUnitySessionService::PromptLock);
     } else {
         qWarning() << "Failed to connect to logind's session Lock/Unlock signals";
@@ -361,9 +361,8 @@ void DBusUnitySessionService::Lock()
     // time the indicator locks without also asking the display manager to
     // switch sessions on us.  And since we are switching screens, we also
     // don't bother respecting the animate request, simply doing a PromptLock.
-    switchToGreeter();
-
     PromptLock();
+    switchToGreeter();
 }
 
 void DBusUnitySessionService::switchToGreeter()
@@ -390,6 +389,12 @@ void DBusUnitySessionService::switchToGreeter()
         // emit Locked when the call succeeds
         Q_EMIT Locked();
     });
+}
+
+void DBusUnitySessionService::doUnlock()
+{
+    Q_EMIT Unlocked();
+    Q_EMIT unlocked();
 }
 
 bool DBusUnitySessionService::IsLocked() const

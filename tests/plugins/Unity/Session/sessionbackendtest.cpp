@@ -124,6 +124,18 @@ private Q_SLOTS:
         QCOMPARE(spy.count(), 1);
     }
 
+    void testUnlockFromLogind() {
+        DBusUnitySessionService dbusUnitySessionService;
+        QCoreApplication::processEvents(); // to let the service register on DBus
+
+        QDBusInterface iface("org.freedesktop.login1", "/logindsession", "org.freedesktop.login1.Session");
+        QVERIFY(iface.isValid());
+
+        QSignalSpy spy(&dbusUnitySessionService, SIGNAL(Unlocked()));
+        QCOMPARE(iface.call("MockEmitUnlock").errorMessage(), QString());
+        QTRY_COMPARE(spy.count(), 1);
+    }
+
     void testUserName() {
         DBusUnitySessionService dbusUnitySessionService;
         QCoreApplication::processEvents(); // to let the service register on DBus

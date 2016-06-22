@@ -32,6 +32,8 @@ public:
 public Q_SLOTS:
     QDBusObjectPath GetSessionByPID(quint32 pid);
 
+    void MockEmitUnlock(); // only in mock
+
 Q_SIGNALS:
     void Lock();
     void Unlock();

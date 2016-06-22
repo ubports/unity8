@@ -26,3 +26,8 @@ QDBusObjectPath LogindServer::GetSessionByPID(quint32)
 {
     return QDBusObjectPath("/logindsession");
 }
+
+void LogindServer::MockEmitUnlock()
+{
+    Q_EMIT Unlock();
+}
