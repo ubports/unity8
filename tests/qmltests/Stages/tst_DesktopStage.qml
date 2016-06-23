@@ -688,6 +688,8 @@ Item {
 
         function test_oskDisplacesWindow(data) {
             var dashAppDelegate = startApplication("unity8-dash");
+            var oldOSKState = SurfaceManager.inputMethodSurface.state;
+            SurfaceManager.inputMethodSurface.state = Mir.RestoredState;
             verify(dashAppDelegate);
             dashAppDelegate.requestedHeight = data.windowHeight;
             dashAppDelegate.requestedY = data.windowY;
@@ -700,6 +702,7 @@ Item {
 
             UbuntuKeyboardInfo.height = 0;
             tryCompare(dashAppDelegate, "y", initialY);
+            SurfaceManager.inputMethodSurface.state = oldOSKState;
         }
     }
 }
