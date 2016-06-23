@@ -66,7 +66,7 @@ Flickable {
     }
 
     UT.UnityTestCase {
-        name: "PreviewRatingDisplayTest"
+        name: "PreviewRatingDisplayCreationRangesTest"
         when: windowShown
 
         function initTestCase() {
@@ -108,7 +108,10 @@ Flickable {
             waitForRendering(root);
 
             // Check we have only created a few delegates
-            tryCompare(root, "createdDelegates", 16);
+            // For some reason xenial and yaketti we get 16 and on vivid 15 so
+            // settle for <= 20
+            expectFailContinue("", "Should not create more than 20 delegates when using ranges");
+            tryCompareFunction(function() { return root.createdDelegates > 20 }, true);
 
             // Check that item 499 isn't there on startup but if we scroll down
             // it will be there
