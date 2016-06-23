@@ -273,7 +273,7 @@ AbstractStage {
                     property: "y"
                     value: appDelegate.requestedY -
                            Math.min(appDelegate.requestedY - PanelState.panelHeight,
-                                    UbuntuKeyboardInfo.height)
+                                    Math.max(0, UbuntuKeyboardInfo.height - (appContainer.height - (appDelegate.requestedY + appDelegate.height))))
                     when: appDelegate.focus
                 }
 

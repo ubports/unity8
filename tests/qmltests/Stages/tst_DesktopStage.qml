@@ -678,14 +678,25 @@ Item {
             tryCompare(closeButton, "visible", false);
         }
 
-        function test_oskDisplacesWindow() {
+        function test_oskDisplacesWindow_data() {
+            return [
+                {tag: "no need to displace", windowHeight: units.gu(10), windowY: units.gu(5), targetDisplacement: units.gu(5)},
+                {tag: "displace to top", windowHeight: units.gu(50), windowY: units.gu(10), targetDisplacement: PanelState.panelHeight},
+                {tag: "displace a bit", windowHeight: units.gu(40), windowY: units.gu(10), targetDisplacement: (root.height / 2) - units.gu(40)},
+            ]
+        }
+
+        function test_oskDisplacesWindow(data) {
             var dashAppDelegate = startApplication("unity8-dash");
             verify(dashAppDelegate);
+            dashAppDelegate.requestedHeight = data.windowHeight;
+            dashAppDelegate.requestedY = data.windowY;
+            UbuntuKeyboardInfo.height = 0;
             var initialY = dashAppDelegate.y;
             verify(initialY > PanelState.panelHeight);
 
-            UbuntuKeyboardInfo.height = units.gu(10);
-            tryCompare(dashAppDelegate, "y", PanelState.panelHeight);
+            UbuntuKeyboardInfo.height = root.height / 2;
+            tryCompare(dashAppDelegate, "y", data.targetDisplacement);
 
             UbuntuKeyboardInfo.height = 0;
             tryCompare(dashAppDelegate, "y", initialY);
