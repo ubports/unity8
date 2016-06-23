@@ -106,7 +106,7 @@ Rectangle {
                     enabled: parent.promptSurfaceList !== null && parent.promptSurfaceList.count > 0
                     activeFocusOnPress: false
                     text: "Remove"
-                    onClicked: { parent.promptSurfaceList.get(parent.promptSurfaceList.count - 1).close(); }
+                    onClicked: { parent.promptSurfaceList.get(0).close(); }
                 }
 
                 Button {
@@ -241,9 +241,7 @@ Rectangle {
 
             surfaceCheckbox.checked = false;
 
-            console.log("killApps() start");
             killApps();
-            console.log("killApps() end");
 
             root.fakeApplication = ApplicationManager.add("gallery-app");
             root.fakeApplication.manualSurfaceCreation = true;
@@ -449,20 +447,21 @@ Rectangle {
             for (i = 0; i < 3; i++) {
                 promptSurfaceList.createSurface();
                 compare(promptSurfaces.count, i+1);
-                waitUntilSurfaceContainerStopsAnimating(promptSurfaces.itemAt(promptSurfaces.count - 1));
+                waitUntilSurfaceContainerStopsAnimating(promptSurfaces.itemAt(0));
             }
 
-            for (i = 2; i >= 0; --i) {
-                var promptSurface = promptSurfaceList.get(i);
+            for (i = 3; i > 0; --i) {
+                var promptSurface = promptSurfaceList.get(0);
                 compare(promptSurface.activeFocus, true);
 
                 promptSurface.close();
-                tryCompareFunction(function() { return promptSurfaces.count; }, i);
+                promptSurface = null;
+                tryCompareFunction(function() { return promptSurfaces.count; }, i-1);
 
-                if (i > 0) {
-                    // active focus should have gone to the yongest remaining sibling
-                    var previousPromptSurface = promptSurfaceList.get(i-1);
-                    tryCompare(previousPromptSurface, "activeFocus", true);
+                if (promptSurfaces.count > 0) {
+                    // active focus should have gone to the new head of the list
+                    promptSurface = promptSurfaceList.get(0);
+                    tryCompare(promptSurface, "activeFocus", true);
                 } else {
                     // active focus should have gone to the application surface
                     tryCompare(applicationWindow.surface, "activeFocus", true);
@@ -497,6 +496,35 @@ Rectangle {
             // clean up
             delegate.surface.close();
             tryCompare(promptSurfaces, "count", 0);
+        }
+
+        // Check that the z value of SurfaceContainers for prompt surfaces go from highest
+        // for index 0 to lowest for the last index in the prompt surface list.
+        // Regression test for https://bugs.launchpad.net/bugs/1586219
+        function test_promptSurfacesZOrdering() {
+            var promptSurfaceList = root.fakeApplication.promptSurfaceList;
+            var promptSurfaces = testCase.findChild(applicationWindow, "promptSurfacesRepeater");
+
+            promptSurfaceList.createSurface();
+
+            for (var i = 2; i <= 3; i++) {
+                promptSurfaceList.createSurface();
+                tryCompare(promptSurfaces, "count", i);
+                waitUntilSurfaceContainerStopsAnimating(promptSurfaces.itemAt(0));
+
+                for (var j = 1; j < promptSurfaces.count; j++) {
+                    var delegate = promptSurfaces.itemAt(j);
+                    var previousDelegate = promptSurfaces.itemAt(j-1);
+                    verify(previousDelegate.z > delegate.z);
+                }
+            }
+
+            // clean up
+            while (promptSurfaceList.count > 0) {
+                var currentCount = promptSurfaceList.count;
+                promptSurfaceList.get(0).close();
+                tryCompare(promptSurfaceList, "count", currentCount - 1);
+            }
         }
     }
 }

@@ -295,14 +295,38 @@ AbstractStage {
 
                 width: decoratedWindow.implicitWidth
                 height: decoratedWindow.implicitHeight
+
+                Connections {
+                    target: root
+                    onShellOrientationAngleChanged: {
+                        // at this point decoratedWindow.surfaceOrientationAngle is the old shellOrientationAngle
+                        if (application && application.rotatesWindowContents) {
+                            if (state == "normal") {
+                                var angleDiff = decoratedWindow.surfaceOrientationAngle - shellOrientationAngle;
+                                angleDiff = (360 + angleDiff) % 360;
+                                if (angleDiff === 90 || angleDiff === 270) {
+                                    var aux = decoratedWindow.requestedHeight;
+                                    decoratedWindow.requestedHeight = decoratedWindow.requestedWidth + decoratedWindow.visibleDecorationHeight;
+                                    decoratedWindow.requestedWidth = aux - decoratedWindow.visibleDecorationHeight;
+                                }
+                            }
+                            decoratedWindow.surfaceOrientationAngle = shellOrientationAngle;
+                        } else {
+                            decoratedWindow.surfaceOrientationAngle = 0;
+                        }
+                    }
+                }
+
+                readonly property alias application: decoratedWindow.application
+                readonly property alias minimumWidth: decoratedWindow.minimumWidth
+                readonly property alias minimumHeight: decoratedWindow.minimumHeight
+                readonly property alias maximumWidth: decoratedWindow.maximumWidth
+                readonly property alias maximumHeight: decoratedWindow.maximumHeight
+                readonly property alias widthIncrement: decoratedWindow.widthIncrement
+                readonly property alias heightIncrement: decoratedWindow.heightIncrement
+
                 property int requestedWidth: -1
                 property int requestedHeight: -1
-                property alias minimumWidth: decoratedWindow.minimumWidth
-                property alias minimumHeight: decoratedWindow.minimumHeight
-                property alias maximumWidth: decoratedWindow.maximumWidth
-                property alias maximumHeight: decoratedWindow.maximumHeight
-                property alias widthIncrement: decoratedWindow.widthIncrement
-                property alias heightIncrement: decoratedWindow.heightIncrement
 
                 readonly property bool maximized: windowState & WindowStateStorage.WindowStateMaximized
                 readonly property bool maximizedLeft: windowState & WindowStateStorage.WindowStateMaximizedLeft
@@ -313,8 +337,6 @@ AbstractStage {
                 readonly property alias fullscreen: decoratedWindow.fullscreen
 
                 property int windowState: WindowStateStorage.WindowStateNormal
-
-                readonly property var application: model.application
                 property bool animationsEnabled: true
                 property alias title: decoratedWindow.title
                 readonly property string appName: model.application ? model.application.name : ""
@@ -322,6 +344,7 @@ AbstractStage {
                 property bool visuallyMinimized: false
 
                 readonly property var surface: model.surface
+                readonly property alias resizeArea: resizeArea
 
                 function claimFocus() {
 //                    if (spread.state == "altTab") {
@@ -363,9 +386,9 @@ AbstractStage {
                     if (focus) {
                         print("app surface gained focus:", model.application.appId)
                         print("setting focusedAppDelegate to", appDelegate.application.appId)
-                        priv.focusedAppDelegate = appDelegate;
-
                         print("raising surface in model", model.id)
+                        topLevelSurfaceList.raiseId(model.id);
+                        priv.focusedAppDelegate = appDelegate;
                         topLevelSurfaceList.raiseId(model.id);
                     } else if (!focus && priv.focusedAppDelegate === appDelegate) {
                         priv.focusedAppDelegate = null;
@@ -374,6 +397,12 @@ AbstractStage {
                     }
                 }
                 Component.onCompleted: {
+                    if (application && application.rotatesWindowContents) {
+                        decoratedWindow.surfaceOrientationAngle = shellOrientationAngle;
+                    } else {
+                        decoratedWindow.surfaceOrientationAngle = 0;
+                    }
+
                     // NB: We're differentiating if this delegate was created in response to a new entry in the model
                     //     or if the Repeater is just populating itself with delegates to match the model it received.
                     if (!appRepeater.startingUp) {
@@ -601,8 +630,8 @@ AbstractStage {
                         name: "fullscreen"; when: decoratedWindow.fullscreen && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
-                            x: 0;
-                            y: -PanelState.panelHeight
+                            x: rotation == 0 ? 0 : (parent.width - width) / 2 + (shellOrientationAngle == 90 ? -PanelState.panelHeight : PanelState.panelHeight)
+                            y: rotation == 0 ? -PanelState.panelHeight : (parent.height - height) / 2
                             requestedWidth: appContainer.width;
                             requestedHeight: appContainer.height;
                         }
@@ -734,9 +763,19 @@ AbstractStage {
 //                    when: index == spread.highlightedIndex
 //                }
 
+                Binding {
+                    target: PanelState
+                    property: "buttonsAlwaysVisible"
+                    value: appDelegate && appDelegate.maximized && touchControls.overlayShown
+                }
+
                 WindowResizeArea {
                     id: resizeArea
                     objectName: "windowResizeArea"
+
+                    // workaround so that it chooses the correct resize borders when you drag from a corner ResizeGrip
+                    anchors.margins: touchControls.overlayShown ? borderThickness/2 : -borderThickness
+
                     target: appDelegate
                     minWidth: units.gu(10)
                     minHeight: units.gu(10)
@@ -781,6 +820,7 @@ AbstractStage {
                     active: appDelegate.focus
                     focus: true
                     showDecoration: true
+                    overlayShown: touchControls.overlayShown
 
                     requestedWidth: appDelegate.requestedWidth
                     requestedHeight: appDelegate.requestedHeight
@@ -814,6 +854,12 @@ AbstractStage {
                             angle: decoratedWindow.angle
                         }
                     ]
+                }
+
+                WindowControlsOverlay {
+                    id: touchControls
+                    anchors.fill: appDelegate
+                    target: appDelegate
                 }
 
                 WindowedFullscreenPolicy {

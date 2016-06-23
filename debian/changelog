@@ -1,3 +1,89 @@
+unity8 (8.12+16.10.20160617-0ubuntu1) yakkety; urgency=medium
+
+  [ Michael Terry ]
+  * Do not create Label/Icon if we don't need it
+  * Fix Z-ordering of prompt surfaces (LP: #1586219)
+  * Drop bottom edge tutorials completely and small fixes for other
+    edges. (LP: #1565103)
+  * Redo visuals for greeter prompt box. (LP: #1435923)
+  * Make tutorial qmltests more robust. (LP: #1590810)
+  * Stop showing an extra lockscreen in desktop unity8 sessions. (LP:
+    #1582987)
+
+  [ Albert Astals Cid ]
+  * Improve dash plugin mock
+  * Stabilize PreviewExpandableTest::test_all_widgets_height
+  * Workaround QTBUG-53460
+  * Split artShape code for cardTool card and regular card
+  * Simplify the code since fixedArtSize code is mandatory for regular
+    cards
+  * Desktop stage: Support rotatesWindowContents (LP: #1547481)
+  * Turn if if else into if elseif else
+  * Fix leaks in QInputDeviceManagerPrivate::addDevice
+  * Do not call |= on uninitialized sigterm.sa_flags
+  * initialize udevMonitor
+  * Make notifier and notifierFd function local variables
+  * Fix crash if a component that is not an Item is given to
+    sectionDelegate
+  * Tests: Do not use dynamic_cast if we're not going to test it anyway
+  * Minor coverity fixes
+  * Fix warning about anchors.fill in ProportionalShape (LP: #1590963)
+  * Make wait in cleanup() wait for snapTo animation to have finished
+
+  [ Alexandros Frantzis ]
+  * Improve the way notifications interact with power management (LP:
+    #1570922)
+
+  [ Andrea Cimitan ]
+  * Correctly refresh cardcreator cache on artshapestyle changes (LP:
+    #1588335)
+  * Same tweaks we have for click scope now for libertine
+  * add a timer to pull to refresh to work on small windows (LP:
+    #1589060)
+
+  [ Daniel d'Andrada ]
+  * Clean up debug leftovers
+  * Ensure mouse and window movement are pixel-aligned (LP: #1510382)
+  * Fix SpreadDelegate rotation animations
+  * No point in version-controlling files that are automatically
+    generated
+  * Center cursor on screen when it's first shown
+  * Custom cursor name just have to start with "custom"
+  * Work around AnimatedSprite infinite loop bug (LP: #1588929)
+
+  [ Josh Arenson ]
+  * Disable showDash when it is already shown. (LP: #1506708)
+  * Add a timestamp to the dash log (LP: #1580074)
+  * Add timestamp to unity8 log (LP: #1498169)
+
+  [ Lukáš Tinkl ]
+  * Implement keyboard shortcuts info panel
+  * Implement window controls overlay activatable with 3 fingers tap
+    (LP: #1489020)
+  * Select correct Chinese input method for OSK in the wizard (LP:
+    #1588633)
+
+  [ Michael Zanetti ]
+  * Add support for the launcher surface pips displaying the correct
+    number of surfaces
+  * Add support for the persistent alert state. (LP: #1575147, #1584348,
+    #1586621)
+  * send a Alt-release event on alt+tab instead of delaying it
+    completely and invoking it later (LP: #1565236)
+
+  [ Stephen M. Webb ]
+  * added a new upstart $SESSION for unity8-desktop-session (LP:
+    #1376715)
+
+ -- Michael Terry <michael.terry@canonical.com>  Fri, 17 Jun 2016 01:22:57 +0000
+
+unity8 (8.12+16.10.20160601.1-0ubuntu1) yakkety; urgency=medium
+
+  [ Pawel Stolowski ]
+  * Added apparmor profile for unity8-dash.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 01 Jun 2016 20:59:03 +0000
+
 unity8 (8.12+16.10.20160527-0ubuntu1) yakkety; urgency=medium
 
   [ Albert Astals Cid ]

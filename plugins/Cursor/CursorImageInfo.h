@@ -21,7 +21,6 @@
 
 #include <QObject>
 #include <QString>
-#include <QTimer>
 
 class CursorImageInfo : public QObject
 {
@@ -64,9 +63,6 @@ private Q_SLOTS:
     void update();
 
 private:
-    void scheduleUpdate();
-    QTimer m_updateTimer;
-
     QString m_themeName;
     QString m_cursorName;
 
