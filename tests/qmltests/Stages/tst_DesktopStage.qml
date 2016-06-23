@@ -677,5 +677,18 @@ Item {
             var closeButton = findChild(dashAppDelegate, "closeWindowButton");
             tryCompare(closeButton, "visible", false);
         }
+
+        function test_oskDisplacesWindow() {
+            var dashAppDelegate = startApplication("unity8-dash");
+            verify(dashAppDelegate);
+            var initialY = dashAppDelegate.y;
+            verify(initialY > PanelState.panelHeight);
+
+            UbuntuKeyboardInfo.height = units.gu(10);
+            tryCompare(dashAppDelegate, "y", PanelState.panelHeight);
+
+            UbuntuKeyboardInfo.height = 0;
+            tryCompare(dashAppDelegate, "y", initialY);
+        }
     }
 }
