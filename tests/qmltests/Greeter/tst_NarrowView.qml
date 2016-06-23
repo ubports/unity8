@@ -18,7 +18,7 @@ import QtQuick 2.4
 import QtTest 1.0
 import ".."
 import "../../../qml/Greeter"
-import IntegratedLightDM 0.1 as LightDM
+import LightDM.IntegratedLightDM 0.1 as LightDM
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
 

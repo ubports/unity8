@@ -1,0 +1,98 @@
+#!/bin/sh
+# -*- Mode: sh; indent-tabs-mode: nil; tab-width: 4 -*-
+#
+# Copyright (C) 2011,2013 Canonical Ltd
+# Author: Michael Terry <michael.terry@canonical.com>
+#
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, version 3 of the License.
+#
+# See http://www.gnu.org/copyleft/gpl.html the full text of the license.
+
+# This wrapper merely ensures that init and friends live only as long as this
+# script does.  Otherwise, it's very easy for some processes to not notice that
+# the session died.  We could try to do this in-process, but we want to do this
+# cleanup even if the greeter aborts.
+
+trap cleanup TERM EXIT
+
+cleanup()
+{
+    trap - TERM EXIT
+    # Kill upstart and indicators
+    if [ -n "$INIT_PID" ]; then
+        kill "$INIT_PID"
+    fi
+    if [ -n "$CMD_PID" ]; then
+        kill "$CMD_PID"
+    fi
+    exit 0
+}
+
+set_greeter_var()
+{
+    export "$1=$2"
+    gdbus call --session --dest org.freedesktop.DBus --object-path /org/freedesktop/DBus --method org.freedesktop.DBus.UpdateActivationEnvironment "{'$1': '$2'}"
+    if [ -n "$INIT_PID" ]; then
+        initctl set-env --global "$1=$2"
+    fi
+}
+
+SUB_SOCKET=$XDG_RUNTIME_DIR/mir_socket
+rm -f $SUB_SOCKET # clear socket in case we were hard shut down
+
+# If touch session script (which sets up grid units and mir variables) is available, use it
+TOUCH_WRAPPER=
+if [ -x /usr/bin/ubuntu-touch-session ]; then
+    TOUCH_WRAPPER=/usr/bin/ubuntu-touch-session
+fi
+
+# Pretend that we're in an ubuntu-touch session, so that indicator-network
+# will start.
+export DESKTOP_SESSION=ubuntu-touch
+
+# We disable ofono using pulse.  It causes problems with racing with the user's
+# pulse.  We need to come up with a better long-term fix for this, because we
+# eventually need the greeter to play ringtones for users that aren't logged in.
+set_greeter_var PA_DISABLED 1
+
+# Normal unity8 sessions are entirely driven by Upstart.  But greeters
+# are special.  They need access to the file descriptors that lightdm
+# creates for them and don't want to start all the services that a normal
+# session would.  So it's inconvenient to live within an upstart session.
+# But... we still want to use Upstart for some services.  So launch here.
+MIR_SOCKET=$SUB_SOCKET $TOUCH_WRAPPER /sbin/upstart --user --no-startup-event &
+INIT_PID=$!
+while [ ! -e "$XDG_RUNTIME_DIR/upstart/sessions/$INIT_PID.session" ]; do sleep 0.1; done
+export UPSTART_SESSION=$(/sbin/initctl list-sessions | grep "^$INIT_PID " | cut -d' ' -f2)
+
+# Start any pre-greeter tasks if needed (like wizard)
+/sbin/initctl emit unity8-greeter-starting
+
+# Define language here for phone if available.  When phone user switches their
+# language, they expect that to affect the greeter too.  But the user doesn't
+# have permission to switch system language, only their own.  So we notice if
+# the phablet user exists and use their language if so.  TODO: talk to design
+# about whether we should switch language on fly as users are selected (this
+# is very hard to do technically).
+#
+# Do this after unity8-greeter-starting, in case a customization upstart job
+# changes language.
+if [ "$(id -u phablet 2>/dev/null)" = "32011" ]; then
+    USER_LANG=$(gdbus call --system --dest org.freedesktop.Accounts --object-path /org/freedesktop/Accounts/User32011 --method org.freedesktop.DBus.Properties.Get org.freedesktop.Accounts.User Language | cut -d\' -f2)
+    if [ -n "$USER_LANG" ]; then
+        set_greeter_var LANGUAGE "$USER_LANG"
+    fi
+    USER_LOCALE=$(gdbus call --system --dest org.freedesktop.Accounts --object-path /org/freedesktop/Accounts/User32011 --method org.freedesktop.DBus.Properties.Get org.freedesktop.Accounts.User FormatsLocale | cut -d\' -f2)
+    if [ -n "$USER_LOCALE" ]; then
+        set_greeter_var LANG "$USER_LOCALE"
+        set_greeter_var LC_ALL "$USER_LOCALE"
+    fi
+fi
+
+# And finally actually start the greeter
+exec env QT_QPA_PLATFORM=ubuntumirclient MIR_SERVER_FILE=$SUB_SOCKET $TOUCH_WRAPPER $@ &
+CMD_PID=$!
+wait $CMD_PID
+CMD_PID=

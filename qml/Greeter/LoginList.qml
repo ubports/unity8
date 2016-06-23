@@ -36,6 +36,7 @@ StyledItem {
 
     signal selected(int index)
     signal responded(string response)
+    signal promptlessLogin()
 
     function tryToUnlock() {
         if (wasPrompted) {
@@ -44,6 +45,7 @@ StyledItem {
             if (root.locked) {
                 root.selected(currentIndex);
             } else {
+                promptlessLogin();
                 root.responded("");
             }
         }

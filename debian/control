@@ -23,6 +23,7 @@ Build-Depends: cmake,
                libglib2.0-dev,
                libgsettings-qt-dev,
                libhardware-dev,
+               liblightdm-qt5-3-dev,
                libpam0g-dev,
                libpay2-dev,
                libpulse-dev,
@@ -81,6 +82,17 @@ Depends: qmenumodel-qml (>= 0.2.9),
          ${shlibs:Depends},
 Description: Indicators client test application
  This package contains the client application for indicators used by autopilot
+
+Package: unity8-greeter
+Architecture: any
+Depends: unity8 (= ${binary:Version}),
+         unity-system-compositor,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Recommends: lightdm
+Provides: lightdm-greeter
+Description: The Unity8 Greeter
+ The Unity 8 greeter is the primary login greeter for Ubuntu devices.
 
 Package: unity-scope-tool
 Architecture: any

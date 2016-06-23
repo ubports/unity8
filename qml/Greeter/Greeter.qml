@@ -21,6 +21,8 @@ import Ubuntu.Components 1.3
 import Ubuntu.SystemImage 0.1
 import Unity.Launcher 0.1
 import Unity.Session 0.1
+
+import "." 0.1
 import "../Components"
 
 Showable {
@@ -44,7 +46,7 @@ Showable {
     readonly property bool hasLockedApp: lockedApp !== ""
 
     property bool forcedUnlock
-    readonly property bool locked: lightDM.greeter.active && !lightDM.greeter.authenticated && !forcedUnlock
+    readonly property bool locked: LightDMService.greeter.active && !LightDMService.greeter.authenticated && !forcedUnlock
 
     property bool tabletMode
     property url viewSource // only used for testing
@@ -112,12 +114,12 @@ Showable {
         return d.startUnlock(true /* toTheRight */);
     }
 
-    LightDM{id:lightDM} // Provide backend access
     QtObject {
         id: d
 
-        readonly property bool multiUser: lightDM.users.count > 1
-        property int currentIndex
+        readonly property bool multiUser: LightDMService.users.count > 1
+        readonly property int selectUserIndex: d.getUserIndex(LightDMService.greeter.selectUser)
+        property int currentIndex: Math.max(selectUserIndex, 0)
         property bool waiting
 
         // We want 'launcherOffset' to animate down to zero.  But not to animate
@@ -134,21 +136,37 @@ Showable {
             UbuntuNumberAnimation {}
         }
 
+        function getUserIndex(username) {
+            if (username === "")
+                return -1;
+
+            // Find index for requested user, if it exists
+            for (var i = 0; i < LightDMService.users.count; i++) {
+                if (username === LightDMService.users.data(i, LightDMService.userRoles.NameRole)) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
         function selectUser(uid, reset) {
+            if (uid < 0)
+                return;
             d.waiting = true;
             if (reset) {
                 loader.item.reset();
             }
             currentIndex = uid;
-            var user = lightDM.users.data(uid, lightDM.userRoles.NameRole);
+            var user = LightDMService.users.data(uid, LightDMService.userRoles.NameRole);
             AccountsService.user = user;
             LauncherModel.setUser(user);
-            lightDM.greeter.authenticate(user); // always resets auth state
+            LightDMService.greeter.authenticate(user); // always resets auth state
         }
 
         function login() {
             enabled = false;
-            if (lightDM.greeter.startSessionSync()) {
+            if (LightDMService.greeter.startSessionSync()) {
                 sessionStarted();
                 if (loader.item) {
                     loader.item.notifyAuthenticationSucceeded();
@@ -283,7 +301,7 @@ Showable {
             root.lockedApp = "";
             root.forceActiveFocus();
             d.selectUser(d.currentIndex, true);
-            lightDM.infographic.readyForDataChange();
+            LightDMService.infographic.readyForDataChange();
         }
 
         Connections {
@@ -291,13 +309,12 @@ Showable {
             onSelected: {
                 d.selectUser(index, true);
             }
+            onPromptlessLogin: d.login();
             onResponded: {
                 if (root.locked) {
-                    lightDM.greeter.respond(response);
+                    LightDMService.greeter.respond(response);
                 } else {
-                    if (lightDM.greeter.active && !lightDM.greeter.authenticated) { // could happen if forcedUnlock
-                        d.login();
-                    }
+                    d.login();
                     loader.item.hide();
                 }
             }
@@ -361,18 +378,18 @@ Showable {
         Binding {
             target: loader.item
             property: "userModel"
-            value: lightDM.users
+            value: LightDMService.users
         }
 
         Binding {
             target: loader.item
             property: "infographicModel"
-            value: lightDM.infographic
+            value: LightDMService.infographic
         }
     }
 
     Connections {
-        target: lightDM.greeter
+        target: LightDMService.greeter
 
         onShowGreeter: root.forceShow()
 
@@ -407,14 +424,14 @@ Showable {
         onAuthenticationComplete: {
             d.waiting = false;
 
-            if (lightDM.greeter.authenticated) {
+            if (LightDMService.greeter.authenticated) {
                 AccountsService.failedLogins = 0;
-                d.login();
-                if (!lightDM.greeter.promptless) {
+                if (!LightDMService.greeter.promptless) {
+                    d.login();
                     loader.item.hide();
                 }
             } else {
-                if (!lightDM.greeter.promptless) {
+                if (!LightDMService.greeter.promptless) {
                     AccountsService.failedLogins++;
                 }
 
@@ -435,21 +452,13 @@ Showable {
                 }
 
                 loader.item.notifyAuthenticationFailed();
-                if (!lightDM.greeter.promptless) {
+                if (!LightDMService.greeter.promptless) {
                     d.selectUser(d.currentIndex, false);
                 }
             }
         }
 
-        onRequestAuthenticationUser: {
-            // Find index for requested user, if it exists
-            for (var i = 0; i < lightDM.users.count; i++) {
-                if (user === lightDM.users.data(i, lightDM.userRoles.NameRole)) {
-                    d.selectUser(i, true);
-                    return;
-                }
-            }
-        }
+        onRequestAuthenticationUser: d.selectUser(d.getUserIndex(user), true)
     }
 
     Connections {
@@ -459,19 +468,19 @@ Showable {
     }
 
     Binding {
-        target: lightDM.greeter
+        target: LightDMService.greeter
         property: "active"
         value: root.active
     }
 
     Binding {
-        target: lightDM.infographic
+        target: LightDMService.infographic
         property: "username"
-        value: AccountsService.statsWelcomeScreen ? lightDM.users.data(d.currentIndex, lightDM.userRoles.NameRole) : ""
+        value: AccountsService.statsWelcomeScreen ? LightDMService.users.data(d.currentIndex, LightDMService.userRoles.NameRole) : ""
     }
 
     Connections {
         target: i18n
-        onLanguageChanged: lightDM.infographic.readyForDataChange()
+        onLanguageChanged: LightDMService.infographic.readyForDataChange()
     }
 }
