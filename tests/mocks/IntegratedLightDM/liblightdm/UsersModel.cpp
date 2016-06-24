@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,6 +46,7 @@ UsersModel::UsersModel(QObject *parent) :
     roles[SessionRole] = "session";
     roles[HasMessagesRole] = "hasMessages";
     roles[ImagePathRole] = "imagePath";
+    roles[UidRole] = "uid";
     setRoleNames(roles);
 }
 
@@ -95,6 +96,8 @@ QVariant UsersModel::data(const QModelIndex &index, int role) const
         return d->entries[row].has_messages;
     case UsersModel::ImagePathRole:
         return "";
+    case UsersModel::UidRole:
+        return d->entries[row].uid;
     default:
         return QVariant();
     }

@@ -58,12 +58,16 @@ FocusScope {
         coverPage.hide();
     }
 
-    function notifyAuthenticationSucceeded() {
+    function notifyAuthenticationSucceeded(showFakePassword) {
         // Nothing needed
     }
 
     function notifyAuthenticationFailed() {
         loginList.showError();
+    }
+
+    function showErrorMessage(msg) {
+        coverPage.showErrorMessage(msg);
     }
 
     function reset() {

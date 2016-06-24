@@ -65,15 +65,28 @@ FocusScope {
         coverPage.hide();
     }
 
-    function notifyAuthenticationSucceeded() {
+    function notifyAuthenticationSucceeded(showFakePassword) {
+        // When using an alternate log in mechanism like fingerprints, the
+        // design is it looks like the user entered a passcode.
+        if (!alphanumeric && showFakePassword) {
+            lockscreen.showText("...."); // actual text doesn't matter, we show bullets
+        }
         lockscreen.hide();
     }
 
     function notifyAuthenticationFailed() {
+        lockscreen.customError = "";
+        lockscreen.clear(true);
+    }
+
+    function showErrorMessage(msg) {
+        coverPage.showErrorMessage(msg);
+        lockscreen.customError = msg ? msg : " "; // avoid default message
         lockscreen.clear(true);
     }
 
     function reset() {
+        lockscreen.customError = "";
         coverPage.show();
     }
 
@@ -116,7 +129,10 @@ FocusScope {
         infoText: promptText !== "" ? i18n.tr("Enter %1").arg(promptText) :
                   alphaNumeric ? i18n.tr("Enter passphrase") :
                                  i18n.tr("Enter passcode")
-        errorText: promptText !== "" ? i18n.tr("Sorry, incorrect %1").arg(promptText) :
+
+        property string customError
+        errorText: customError !== "" ? customError :
+                   promptText !== "" ? i18n.tr("Sorry, incorrect %1").arg(promptText) :
                    alphaNumeric ? i18n.tr("Sorry, incorrect passphrase") + "\n" +
                                   i18n.ctr("passphrase", "Please re-enter") :
                                   i18n.tr("Sorry, incorrect passcode")
