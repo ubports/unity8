@@ -51,7 +51,7 @@ PreviewWidget {
     clip: reviewContainer.visible
 
     property alias ratingValue: rating.value
-    property alias reviewText: reviewTextArea.text
+    property alias reviewText: reviewTextArea.displayText
 
     function submit() {
         // checks rating-input requirements
@@ -60,9 +60,9 @@ PreviewWidget {
              rating.value < 0) ||
             ((widgetData["required"] === "both" ||
               widgetData["required"] === "review") &&
-             reviewTextArea.text === "")) return;
+             reviewTextArea.displayText === "")) return;
 
-        var data = {"rating": rating.value, "review": reviewTextArea.text, "author": null};
+        var data = {"rating": rating.value, "review": reviewTextArea.displayText, "author": null};
         triggered(root.widgetId, "rated", data);
     }
 
