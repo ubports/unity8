@@ -27,7 +27,10 @@ namespace QLightDM
 SessionsModelPrivate::SessionsModelPrivate(SessionsModel* parent)
   : q_ptr(parent)
 {
-    sessionItems.append({"", "", qgetenv("XDG_SESSION_DESKTOP"), ""});
+    // Since this model is never visible, as there is only 1 session,
+    // just use the session name as the key
+    QString sessionName = qgetenv("XDG_SESSION_DESKTOP");
+    sessionItems.append({sessionName, "", sessionName, ""});
 }
 
 } // namespace QLightDM
