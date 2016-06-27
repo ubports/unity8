@@ -691,6 +691,28 @@ Item {
             tryCompare(closeButton, "visible", false);
         }
 
+        function test_canMoveWindowWithLeftMouseButtonOnly_data() {
+            return [
+                {tag: "left mouse button", button: Qt.LeftButton },
+                {tag: "right mouse button", button: Qt.RightButton },
+                {tag: "middle mouse button", button: Qt.MiddleButton }
+            ]
+        }
+
+        function test_canMoveWindowWithLeftMouseButtonOnly(data) {
+            var appDelegate = startApplication("dialer-app");
+            verify(appDelegate);
+
+            var posBefore = Qt.point(appDelegate.x, appDelegate.y);
+
+            mousePress(appDelegate, appDelegate.width / 2, units.gu(1), data.button);
+            mouseMove(appDelegate, appDelegate.width / 2, -units.gu(100), undefined /* delay */, data.button);
+
+            var posAfter = Qt.point(appDelegate.x, appDelegate.y);
+
+            tryCompareFunction(function(){return posBefore == posAfter;}, data.button !== Qt.LeftButton ? true : false);
+        }
+
         function test_preventMouseEventsThruDesktopSpread() {
             var spread = findChild(desktopStage, "spread");
             verify(spread);
@@ -707,6 +729,35 @@ Item {
             tryCompare(mouseEaterSpy, "count", 0);
 
             spread.cancel();
+        }
+
+        function test_eatWindowDecorationMouseEvents_data() {
+            return [
+                {tag: "left mouse click", signalName: "clicked", button: Qt.LeftButton },
+                {tag: "right mouse click", signalName: "clicked", button: Qt.RightButton },
+                {tag: "middle mouse click", signalName: "clicked", button: Qt.MiddleButton },
+                {tag: "mouse wheel", signalName: "wheel", button: Qt.MiddleButton },
+                {tag: "double click (RMB)", signalName: "doubleClicked", button: Qt.RightButton },
+            ]
+        }
+
+        function test_eatWindowDecorationMouseEvents(data) {
+            var dialerAppDelegate = startApplication("dialer-app");
+            verify(dialerAppDelegate);
+            var decoration = findChild(dialerAppDelegate, "appWindowDecoration");
+            verify(decoration);
+
+            mouseEaterSpy.signalName = data.signalName;
+            if (data.signalName === "wheel") {
+                mouseWheel(decoration, decoration.width/2, decoration.height/2, 20, 20);
+            } else if (data.signalName === "clicked") {
+                mouseClick(decoration, decoration.width/2, decoration.height/2, data.button);
+            } else {
+                mouseDoubleClick(decoration, decoration.width/2, decoration.height/2, data.button);
+                tryCompare(dialerAppDelegate, "maximized", false);
+            }
+
+            tryCompare(mouseEaterSpy, "count", 0);
         }
     }
 }

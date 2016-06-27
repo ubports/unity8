@@ -27,9 +27,8 @@ MouseArea {
     property Item target
     property alias title: titleLabel.text
     property bool active: false
+    acceptedButtons: Qt.AllButtons // prevent leaking unhandled mouse events
     property alias overlayShown: buttons.overlayShown
-
-    hoverEnabled: true
 
     signal closeClicked()
     signal minimizeClicked()
@@ -37,7 +36,11 @@ MouseArea {
     signal maximizeHorizontallyClicked()
     signal maximizeVerticallyClicked()
 
-    onDoubleClicked: root.maximizeClicked()
+    onDoubleClicked: {
+        if (mouse.button == Qt.LeftButton) {
+            root.maximizeClicked();
+        }
+    }
 
     QtObject {
         id: priv
@@ -47,7 +50,7 @@ MouseArea {
     }
 
     onPressedChanged: {
-        if (pressed) {
+        if (pressed && pressedButtons == Qt.LeftButton) {
             var pos = mapToItem(root.target, mouseX, mouseY);
             priv.distanceX = pos.x;
             priv.distanceY = pos.y;
@@ -69,6 +72,9 @@ MouseArea {
             root.target.y = Math.round(Math.max(pos.y - priv.distanceY, PanelState.panelHeight));
         }
     }
+
+    // do not let unhandled wheel event pass thru the decoration
+    onWheel: wheel.accepted = true;
 
     Rectangle {
         anchors.fill: parent
