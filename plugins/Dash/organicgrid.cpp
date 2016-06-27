@@ -16,10 +16,7 @@
 
 #include "organicgrid.h"
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
 #include <private/qquickitem_p.h>
-#pragma GCC diagnostic pop
 
 OrganicGrid::OrganicGrid()
  : m_firstVisibleIndex(-1)
