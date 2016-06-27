@@ -170,7 +170,7 @@ StyledItem {
                         text: "Authenticated"
                         onClicked: {
                             if (successCheckBox.checked) {
-                                loader.item.notifyAuthenticationSucceeded();
+                                loader.item.notifyAuthenticationSucceeded(false);
                             } else {
                                 loader.item.notifyAuthenticationFailed();
                             }

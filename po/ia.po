@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-06-17 01:22+0000\n"
+"POT-Creation-Date: 2016-06-20 20:25+0000\n"
 "PO-Revision-Date: 2015-08-25 19:31+0000\n"
 "Last-Translator: karm <melo@carmu.com>\n"
 "Language-Team: Interlingua <ia@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-06-19 05:55+0000\n"
-"X-Generator: Launchpad (build 18097)\n"
+"X-Launchpad-Export-Date: 2016-06-26 06:01+0000\n"
+"X-Generator: Launchpad (build 18111)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -35,21 +35,21 @@ msgstr "Quitar"
 msgid "Unpin shortcut"
 msgstr "Via-breve a levar pin"
 
-#: qml/Components/DelayedLockscreen.qml:49
+#: qml/Components/DelayedLockscreen.qml:50
 msgid "Device Locked"
 msgstr "Dispositivo blocate"
 
-#: qml/Components/DelayedLockscreen.qml:64
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
 "Tu ha essite blocate per multe tentativas de phrase-contrasigno fallite."
 
-#: qml/Components/DelayedLockscreen.qml:65
+#: qml/Components/DelayedLockscreen.qml:66
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
 "Tu ha essite blocate per multe tentativas de codice-contrasigno fallite."
 
-#: qml/Components/DelayedLockscreen.qml:74
+#: qml/Components/DelayedLockscreen.qml:75
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
@@ -123,173 +123,173 @@ msgstr "Reinitiar"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "Vias breve del claviero"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Unity 8"
-msgstr ""
+msgstr "Unity 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
-msgstr ""
+msgstr "PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr ""
+msgstr "Prende un imagine instantanee del schermo."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
-msgstr ""
+msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of a window."
-msgstr ""
+msgstr "Prende un imagine instantanee de un fenestra."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
-msgstr ""
+msgstr "Super + Space"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr ""
+msgstr "Excambia al mappa de claviero sequente."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
-msgstr ""
+msgstr "Super + Shift + Space"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr ""
+msgstr "Excambia al mappa de claviero precedente."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:118
 msgid "Launcher"
-msgstr ""
+msgstr "Lanceator"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:125
 msgid "Super (Hold)"
-msgstr ""
+msgstr "Super (Hold)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:130
 msgid "Opens the launcher, displays shortcuts."
-msgstr ""
+msgstr "Aperi le lanceator, monstra le vias breve."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Alt + F1"
-msgstr ""
+msgstr "Alt + F1"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens launcher keyboard navigation mode."
-msgstr ""
+msgstr "Aperi le modo de navigation per le claviero del lanceator."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Super + Tab"
-msgstr ""
+msgstr "Super + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Switches applications via the launcher."
-msgstr ""
+msgstr "Excambia le applicationes via le lanceator"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + 0 to 9"
-msgstr ""
+msgstr "Super + 0 a 9"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Same as clicking on a launcher icon."
-msgstr ""
+msgstr "Mesmo que cliccar sur un icone del lanceator."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:181
 msgid "Scopes"
-msgstr ""
+msgstr "Miras"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:188
 msgid "Super (Tap)"
-msgstr ""
+msgstr "Super (Tap)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:193
 msgid "Opens the Scopes home."
-msgstr ""
+msgstr "Aperi le initio de Scopes."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:209
 msgid "Switching"
-msgstr ""
+msgstr "Commutar"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:216
 msgid "Alt + Tab"
-msgstr ""
+msgstr "Alt + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:221
 msgid "Switches between applications."
-msgstr ""
+msgstr "Commuta inter le applicationes."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:229
 msgid "Super + W"
-msgstr ""
+msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:234
 msgid "Opens the desktop spread."
-msgstr ""
+msgstr "Aperi le diffusion delscriptorio"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Cursor Left or Right"
-msgstr ""
+msgstr "Cursor sinistre o dextre"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Moves the focus."
-msgstr ""
+msgstr "Move le foco."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:259
 msgid "Windows"
-msgstr ""
+msgstr "Fenestras"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:266
 msgid "Ctrl + Super + D"
-msgstr ""
+msgstr "Ctrl + Super + D"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:271
 msgid "Minimizes all windows."
-msgstr ""
+msgstr "Minimisa tote le fenestras."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:279
 msgid "Ctrl + Super + Up"
-msgstr ""
+msgstr "Ctrl + Super + Up"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:284
 msgid "Maximizes the current window."
-msgstr ""
+msgstr "Maximisa tote le fenestras."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + Down"
-msgstr ""
+msgstr "Ctrl + Super + Down"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes or restores the current window."
-msgstr ""
+msgstr "Maximisa o restaura le fenestra actual."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Left or Right"
-msgstr ""
+msgstr "Ctrl + Super + Left o Right"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Semi-maximizes the current window."
-msgstr ""
+msgstr "Semi-maximisa le fenestra actual."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Alt + F4"
-msgstr ""
+msgstr "Alt + F4"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Closes the current window."
-msgstr ""
+msgstr "Claude le fenestra actual"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:239
 msgid "Return to Call"
 msgstr "Retornar al appello"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:239
 msgid "Emergency Call"
 msgstr "Appello de emergentia"
 
-#: qml/Components/Lockscreen.qml:263
+#: qml/Components/Lockscreen.qml:271
 msgid "OK"
 msgstr "OK"
 
@@ -428,9 +428,13 @@ msgstr ""
 "Tu dispositivo es nunc connexe a un schermo externe. Usa iste schermo como "
 "pannello tactile pro interager con le punctator."
 
-#: qml/Greeter/CoverPage.qml:119
+#: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
 msgstr "Liberar"
+
+#: qml/Greeter/Greeter.qml:536
+msgid "Try again"
+msgstr ""
 
 #: qml/Greeter/LoginList.qml:259
 msgid "Retry"
@@ -438,7 +442,7 @@ msgstr "Re-provar"
 
 #: qml/Greeter/LoginList.qml:260
 msgid "Log In"
-msgstr ""
+msgstr "Connecter se"
 
 #: qml/Greeter/NarrowView.qml:54
 msgid "Sorry, incorrect passphrase."
@@ -468,34 +472,34 @@ msgstr ""
 "Si le codice-contrasigno es inserite incorrectemente, tu telephono conducera "
 "un prefixation a fabrica e omne le datos personal essera delite."
 
-#: qml/Greeter/NarrowView.qml:116
+#: qml/Greeter/NarrowView.qml:129
 #, qt-format
 msgid "Enter %1"
 msgstr "Inserer %1"
 
-#: qml/Greeter/NarrowView.qml:117
+#: qml/Greeter/NarrowView.qml:130
 msgid "Enter passphrase"
 msgstr "Inserer le phrase-contrasigno"
 
-#: qml/Greeter/NarrowView.qml:118
+#: qml/Greeter/NarrowView.qml:131
 msgid "Enter passcode"
 msgstr "Inserer le codice-contrasigno"
 
-#: qml/Greeter/NarrowView.qml:119
+#: qml/Greeter/NarrowView.qml:135
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Displacente, incorrecte %1"
 
-#: qml/Greeter/NarrowView.qml:120
+#: qml/Greeter/NarrowView.qml:136
 msgid "Sorry, incorrect passphrase"
 msgstr "Displacente, phrase-contrasigno incorrecte"
 
-#: qml/Greeter/NarrowView.qml:121
+#: qml/Greeter/NarrowView.qml:137
 msgctxt "passphrase"
 msgid "Please re-enter"
 msgstr "Per favor re-insere"
 
-#: qml/Greeter/NarrowView.qml:122
+#: qml/Greeter/NarrowView.qml:138
 msgid "Sorry, incorrect passcode"
 msgstr "Displacente, codice-contrasigno incorrecte"
 
@@ -596,7 +600,7 @@ msgstr "Striar ab le bordo sinistre pro aperir le campo Hodie"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
-msgstr ""
+msgstr "Colpa brevemente ab le bordo sinistre pro aperir le lanceator."
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
@@ -605,11 +609,13 @@ msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:56
 msgid "Swipe from the right edge to view your open apps"
-msgstr ""
+msgstr "Colpa ab le bordo dextre pro aperir le applicationes."
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
+"Colpa ab le bordo superior pro acceder la notificationes e al "
+"configurationes celere."
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"

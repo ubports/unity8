@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-06-17 01:22+0000\n"
+"POT-Creation-Date: 2016-06-20 20:25+0000\n"
 "PO-Revision-Date: 2016-02-24 04:40+0000\n"
 "Last-Translator: Po-Hsu Lin <po-hsu.lin@canonical.com>\n"
 "Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-06-19 05:55+0000\n"
-"X-Generator: Launchpad (build 18097)\n"
+"X-Launchpad-Export-Date: 2016-06-26 06:01+0000\n"
+"X-Generator: Launchpad (build 18111)\n"
 "Language: zh_TW\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -36,19 +36,19 @@ msgstr "結束"
 msgid "Unpin shortcut"
 msgstr "取消捷徑釘選"
 
-#: qml/Components/DelayedLockscreen.qml:49
+#: qml/Components/DelayedLockscreen.qml:50
 msgid "Device Locked"
 msgstr "裝置已鎖定"
 
-#: qml/Components/DelayedLockscreen.qml:64
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr "因為嘗試輸入太多次錯誤的密碼，裝置已經被鎖定。"
 
-#: qml/Components/DelayedLockscreen.qml:65
+#: qml/Components/DelayedLockscreen.qml:66
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr "因為嘗試輸入太多次錯誤的密碼，裝置已經被鎖定。"
 
-#: qml/Components/DelayedLockscreen.qml:74
+#: qml/Components/DelayedLockscreen.qml:75
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
@@ -277,15 +277,15 @@ msgstr ""
 msgid "Closes the current window."
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:239
 msgid "Return to Call"
 msgstr "返回通話"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:239
 msgid "Emergency Call"
 msgstr "緊急通話"
 
-#: qml/Components/Lockscreen.qml:263
+#: qml/Components/Lockscreen.qml:271
 msgid "OK"
 msgstr "確定"
 
@@ -422,9 +422,13 @@ msgid ""
 "touch pad to interact with the pointer."
 msgstr ""
 
-#: qml/Greeter/CoverPage.qml:119
+#: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
 msgstr "解鎖"
+
+#: qml/Greeter/Greeter.qml:536
+msgid "Try again"
+msgstr ""
 
 #: qml/Greeter/LoginList.qml:259
 msgid "Retry"
@@ -458,34 +462,34 @@ msgid ""
 "and all personal data will be deleted."
 msgstr "如輸入的通關碼不對，本電話會進行重設，所有個人資料都會刪除。"
 
-#: qml/Greeter/NarrowView.qml:116
+#: qml/Greeter/NarrowView.qml:129
 #, qt-format
 msgid "Enter %1"
 msgstr "輸入 %1"
 
-#: qml/Greeter/NarrowView.qml:117
+#: qml/Greeter/NarrowView.qml:130
 msgid "Enter passphrase"
 msgstr "輸入密語"
 
-#: qml/Greeter/NarrowView.qml:118
+#: qml/Greeter/NarrowView.qml:131
 msgid "Enter passcode"
 msgstr "輸入通關碼"
 
-#: qml/Greeter/NarrowView.qml:119
+#: qml/Greeter/NarrowView.qml:135
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "抱歉，%1不對"
 
-#: qml/Greeter/NarrowView.qml:120
+#: qml/Greeter/NarrowView.qml:136
 msgid "Sorry, incorrect passphrase"
 msgstr "抱歉，密語不對"
 
-#: qml/Greeter/NarrowView.qml:121
+#: qml/Greeter/NarrowView.qml:137
 msgctxt "passphrase"
 msgid "Please re-enter"
 msgstr "請再輸入"
 
-#: qml/Greeter/NarrowView.qml:122
+#: qml/Greeter/NarrowView.qml:138
 msgid "Sorry, incorrect passcode"
 msgstr "抱歉，通關碼不對"
 

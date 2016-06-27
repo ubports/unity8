@@ -47,5 +47,9 @@
       <annotation name="org.freedesktop.Accounts.DefaultValue" value="0"/>
     </property>
 
+    <property name="FailedFingerprintLogins" type="u" access="readwrite">
+      <annotation name="org.freedesktop.Accounts.DefaultValue" value="0"/>
+    </property>
+
   </interface>
 </node>

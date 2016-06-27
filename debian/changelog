@@ -1,3 +1,10 @@
+unity8 (8.12+16.10.20160620.3-0ubuntu1) yakkety; urgency=medium
+
+  [ Michael Terry, Michał Sawicz ]
+  * Support unlocking via fingerprint, if one is registered.
+
+ -- Michael Terry <michael.terry@canonical.com>  Mon, 20 Jun 2016 20:25:25 +0000
+
 unity8 (8.12+16.10.20160617-0ubuntu1) yakkety; urgency=medium
 
   [ Michael Terry ]
