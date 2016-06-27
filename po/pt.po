@@ -6,12 +6,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-17 01:22+0000\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2016-06-20 20:25+0000\n"
 "PO-Revision-Date: 2016-06-20 11:37+0000\n"
 "Last-Translator: Ivo Xavier <ivoxavier.8@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
-"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,23 +35,23 @@ msgstr "Sair"
 msgid "Unpin shortcut"
 msgstr "Remover atalho"
 
-#: qml/Components/DelayedLockscreen.qml:49
+#: qml/Components/DelayedLockscreen.qml:50
 msgid "Device Locked"
 msgstr "Dispositivo bloqueado"
 
-#: qml/Components/DelayedLockscreen.qml:64
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
 "Está bloqueado por diversas tentativas falhadas na introdução da palavra-"
 "passe."
 
-#: qml/Components/DelayedLockscreen.qml:65
+#: qml/Components/DelayedLockscreen.qml:66
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
 "Está bloqueado por diversas tentativas falhadas na introdução do código de "
 "segurança."
 
-#: qml/Components/DelayedLockscreen.qml:74
+#: qml/Components/DelayedLockscreen.qml:75
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
@@ -284,15 +283,15 @@ msgstr "Alt + F4"
 msgid "Closes the current window."
 msgstr "Fecha a janela atual."
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:239
 msgid "Return to Call"
 msgstr "Volte para a chamada"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:239
 msgid "Emergency Call"
 msgstr "Chamada de emergência"
 
-#: qml/Components/Lockscreen.qml:263
+#: qml/Components/Lockscreen.qml:271
 msgid "OK"
 msgstr "OK"
 
@@ -432,9 +431,13 @@ msgstr ""
 "O seu dispositivo está agora ligado a um ecrã externo. Use este ecrã como "
 "touchpad para mover o ponteiro."
 
-#: qml/Greeter/CoverPage.qml:119
+#: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
 msgstr "Desbloquear"
+
+#: qml/Greeter/Greeter.qml:536
+msgid "Try again"
+msgstr "Tentar novamente"
 
 #: qml/Greeter/LoginList.qml:259
 msgid "Retry"
@@ -472,34 +475,34 @@ msgstr ""
 "Se o código for introduzido incorretamente, todos os dados pessoais serão "
 "eliminados."
 
-#: qml/Greeter/NarrowView.qml:116
+#: qml/Greeter/NarrowView.qml:129
 #, qt-format
 msgid "Enter %1"
 msgstr "Introduziu %1"
 
-#: qml/Greeter/NarrowView.qml:117
+#: qml/Greeter/NarrowView.qml:130
 msgid "Enter passphrase"
 msgstr "Introduza a palavra-passe"
 
-#: qml/Greeter/NarrowView.qml:118
+#: qml/Greeter/NarrowView.qml:131
 msgid "Enter passcode"
 msgstr "Introduza o código"
 
-#: qml/Greeter/NarrowView.qml:119
+#: qml/Greeter/NarrowView.qml:135
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Desculpe, %1 incorreto"
 
-#: qml/Greeter/NarrowView.qml:120
+#: qml/Greeter/NarrowView.qml:136
 msgid "Sorry, incorrect passphrase"
 msgstr "Palavra-passe incorreta"
 
-#: qml/Greeter/NarrowView.qml:121
+#: qml/Greeter/NarrowView.qml:137
 msgctxt "passphrase"
 msgid "Please re-enter"
 msgstr "Por favor, volte a introduzir"
 
-#: qml/Greeter/NarrowView.qml:122
+#: qml/Greeter/NarrowView.qml:138
 msgid "Sorry, incorrect passcode"
 msgstr "Desculpe, código incorreto"
 
@@ -896,9 +899,6 @@ msgstr "Palavra-passe fraca"
 msgid "Very weak password"
 msgstr "Palavra-passe muito fraca"
 
-#~ msgid "Try again"
-#~ msgstr "Tentar novamente"
-
 #~ msgid "Top edge"
 #~ msgstr "Margem superior"
 
@@ -1020,6 +1020,7 @@ msgstr "Palavra-passe muito fraca"
 #~ msgid "Finish"
 #~ msgstr "Concluir"
 
+#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
@@ -1059,6 +1060,7 @@ msgstr "Palavra-passe muito fraca"
 #~ msgid "Not at all"
 #~ msgstr "De modo nenhum"
 
+#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
@@ -1140,11 +1142,11 @@ msgstr "Palavra-passe muito fraca"
 #~ msgstr "Ontem %H:%M"
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
-#~ "and conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
+#~ "conditions</a>."
 #~ msgstr ""
-#~ "Ao selecionar esta opção concorda com os <a href='#'>termos e condições</"
-#~ "a> do Nokia HERE."
+#~ "Ao selecionar esta opção concorda com os <a href='#'>termos e condições</a> "
+#~ "do Nokia HERE."
 
 #~ msgid "Using GPS only (less accurate)"
 #~ msgstr "Utilizando apenas o GPS (menos preciso)"
@@ -1195,8 +1197,7 @@ msgstr "Palavra-passe muito fraca"
 
 #~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
 #~ msgstr ""
-#~ "Deslize da margem esquerda para mostrar o Launcher de acesso rápido às "
-#~ "apps"
+#~ "Deslize da margem esquerda para mostrar o Launcher de acesso rápido às apps"
 
 #~ msgid ""
 #~ "You have now mastered the edge gestures and can start using the "
@@ -1218,8 +1219,8 @@ msgstr "Palavra-passe muito fraca"
 #~ "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 #~ "Privacy</b>"
 #~ msgstr ""
-#~ "Isto pode ser desligado nas <b>Definições</b> debaixo da <b>Segurança "
-#~ "eamp; Privacidade</b>"
+#~ "Isto pode ser desligado nas <b>Definições</b> debaixo da <b>Segurança eamp; "
+#~ "Privacidade</b>"
 
 #~ msgid "Swipe up for recent calls"
 #~ msgstr "Deslize para cima para ver as chamadas recentes"

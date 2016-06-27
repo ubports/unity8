@@ -6,12 +6,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-17 01:22+0000\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2016-06-20 20:25+0000\n"
 "PO-Revision-Date: 2016-06-20 07:28+0000\n"
 "Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
-"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,19 +35,19 @@ msgstr "Kilépés"
 msgid "Unpin shortcut"
 msgstr "Indító feloldása"
 
-#: qml/Components/DelayedLockscreen.qml:49
+#: qml/Components/DelayedLockscreen.qml:50
 msgid "Device Locked"
 msgstr "Az eszköz zárolva"
 
-#: qml/Components/DelayedLockscreen.qml:64
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr "A túl sok hibás jelmondat próbálkozás miatt az eszköz zárolva lett."
 
-#: qml/Components/DelayedLockscreen.qml:65
+#: qml/Components/DelayedLockscreen.qml:66
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr "A túl sok hibás jelkód próbálkozás miatt az eszköz zárolva lett."
 
-#: qml/Components/DelayedLockscreen.qml:74
+#: qml/Components/DelayedLockscreen.qml:75
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
@@ -280,15 +279,15 @@ msgstr "Alt + F4"
 msgid "Closes the current window."
 msgstr "Az aktuális ablak bezárása."
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:239
 msgid "Return to Call"
 msgstr "Vissza a híváshoz"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:239
 msgid "Emergency Call"
 msgstr "Segélyhívás"
 
-#: qml/Components/Lockscreen.qml:263
+#: qml/Components/Lockscreen.qml:271
 msgid "OK"
 msgstr "OK"
 
@@ -429,9 +428,13 @@ msgstr ""
 "Az eszköz jelenleg egy külső kijelzőhöz van csatlakoztatva. Használja ezt a "
 "kijelzőt érintőtáblaként, melynek segítéségével irányíthatja a mutatót."
 
-#: qml/Greeter/CoverPage.qml:119
+#: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
 msgstr "Feloldás"
+
+#: qml/Greeter/Greeter.qml:536
+msgid "Try again"
+msgstr "Próbálja újra"
 
 #: qml/Greeter/LoginList.qml:259
 msgid "Retry"
@@ -469,34 +472,34 @@ msgstr ""
 "Ha helytelen jelkódot ad meg, a telefonja visszaállítja a gyári "
 "beállításokat és törli minden személyes adatát."
 
-#: qml/Greeter/NarrowView.qml:116
+#: qml/Greeter/NarrowView.qml:129
 #, qt-format
 msgid "Enter %1"
 msgstr "%1 megadása"
 
-#: qml/Greeter/NarrowView.qml:117
+#: qml/Greeter/NarrowView.qml:130
 msgid "Enter passphrase"
 msgstr "Jelmondat megadása"
 
-#: qml/Greeter/NarrowView.qml:118
+#: qml/Greeter/NarrowView.qml:131
 msgid "Enter passcode"
 msgstr "Jelkód megadása"
 
-#: qml/Greeter/NarrowView.qml:119
+#: qml/Greeter/NarrowView.qml:135
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Elnézést, helytelen %1"
 
-#: qml/Greeter/NarrowView.qml:120
+#: qml/Greeter/NarrowView.qml:136
 msgid "Sorry, incorrect passphrase"
 msgstr "Elnézést, helytelen jelmondat"
 
-#: qml/Greeter/NarrowView.qml:121
+#: qml/Greeter/NarrowView.qml:137
 msgctxt "passphrase"
 msgid "Please re-enter"
 msgstr "Próbálja újra"
 
-#: qml/Greeter/NarrowView.qml:122
+#: qml/Greeter/NarrowView.qml:138
 msgid "Sorry, incorrect passcode"
 msgstr "Elnézést, helytelen jelkód"
 
@@ -589,7 +592,8 @@ msgstr "Visszahívás"
 
 #: qml/Stages/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
-msgstr "Az alkalmazások 3 ujjal megragadva húzhatóak egyik ablakból a másikba"
+msgstr ""
+"Az alkalmazások 3 ujjal megragadva húzhatóak egyik ablakból a másikba"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
 msgid "Long swipe from the left edge to open the Today scope"
@@ -610,7 +614,8 @@ msgstr "Jobbról csúsztatva tekintheti meg a nyitott alkalmazásokat"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
-msgstr "Fentről csúsztatva érheti el az értesítéseket és a gyors-beállításokat"
+msgstr ""
+"Fentről csúsztatva érheti el az értesítéseket és a gyors-beállításokat"
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
@@ -756,7 +761,8 @@ msgstr "Felhasználási feltételek"
 
 #: qml/Wizard/Pages/here-terms.qml:69
 msgid "Your device uses positioning technologies provided by HERE."
-msgstr "Az eszköze a HERE által nyújtott pozicionáló technológiákat használja."
+msgstr ""
+"Az eszköze a HERE által nyújtott pozicionáló technológiákat használja."
 
 #: qml/Wizard/Pages/here-terms.qml:81
 msgid ""
@@ -894,9 +900,6 @@ msgstr "Gyenge jelszó"
 msgid "Very weak password"
 msgstr "Nagyon gyenge jelszó"
 
-#~ msgid "Try again"
-#~ msgstr "Próbálja újra"
-
 #~ msgid "Confirm"
 #~ msgstr "Megerősítés"
 
@@ -951,8 +954,8 @@ msgstr "Nagyon gyenge jelszó"
 #~ "You have now mastered the edge gestures and can start using the "
 #~ "phone<br><br>Tap on the screen to start"
 #~ msgstr ""
-#~ "Elsajátította a gesztusokat, és megkezdheti a telefon használatát."
-#~ "<br><br>Koppintson a képernyőre a kezdéshez."
+#~ "Elsajátította a gesztusokat, és megkezdheti a telefon "
+#~ "használatát.<br><br>Koppintson a képernyőre a kezdéshez."
 
 #~ msgid "See all"
 #~ msgstr "Összes megtekintése"
@@ -1021,11 +1024,11 @@ msgstr "Nagyon gyenge jelszó"
 #~ msgstr "Ezt később a <b>Rendszerbeállítások</b> alatt módosíthatja."
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
-#~ "and conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
+#~ "conditions</a>."
 #~ msgstr ""
-#~ "A lehetőség kiválasztásával elfogadja a Nokia HERE <a "
-#~ "href='#'>felhasználási feltételeit</a>."
+#~ "A lehetőség kiválasztásával elfogadja a Nokia HERE <a href='#'>felhasználási "
+#~ "feltételeit</a>."
 
 #~ msgid "Available networks…"
 #~ msgstr "Elérhető hálózatok…"
@@ -1046,8 +1049,8 @@ msgstr "Nagyon gyenge jelszó"
 #~ "Your phone is set up to automatically report errors to Canonical and its "
 #~ "partners, the makers of the operating system."
 #~ msgstr ""
-#~ "A telefonja automatikus hibajelentéseket küld az operációs rendszert "
-#~ "készítő Canonical, és annak partnerei felé."
+#~ "A telefonja automatikus hibajelentéseket küld az operációs rendszert készítő "
+#~ "Canonical, és annak partnerei felé."
 
 #~ msgid "Nice work!"
 #~ msgstr "Szép munka!"
@@ -1067,9 +1070,11 @@ msgstr "Nagyon gyenge jelszó"
 #~ msgid "Please try again."
 #~ msgstr "Próbálja újra."
 
+#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
+#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
@@ -1152,8 +1157,8 @@ msgstr "Nagyon gyenge jelszó"
 #~ "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 #~ "Privacy</b>"
 #~ msgstr ""
-#~ "Ezt kikapcsolhatja a <b>Rendszerbeállítások</b> alatt található "
-#~ "<b>Biztonság és adatvédelem</b> menüpontnál"
+#~ "Ezt kikapcsolhatja a <b>Rendszerbeállítások</b> alatt található <b>Biztonság "
+#~ "és adatvédelem</b> menüpontnál"
 
 #~ msgid "%a %l:%M %p"
 #~ msgstr "%a %p. %I.%M"
@@ -1199,8 +1204,8 @@ msgstr "Nagyon gyenge jelszó"
 
 #~ msgid "Without it, you won’t be able to make calls or use text messaging."
 #~ msgstr ""
-#~ "Anélkül nem indíthat vagy fogadhat hívásokat, és nem küldhet vagy "
-#~ "fogadhat üzeneteket."
+#~ "Anélkül nem indíthat vagy fogadhat hívásokat, és nem küldhet vagy fogadhat "
+#~ "üzeneteket."
 
 #~ msgid "Add a SIM card and restart your device"
 #~ msgstr "Helyezzen be egy SIM kártyát és indítsa újra az eszközt"
