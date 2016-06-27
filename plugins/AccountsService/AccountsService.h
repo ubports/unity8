@@ -118,6 +118,9 @@ public:
     void setEmail(const QString &email);
     QStringList keymaps() const;
 
+public Q_SLOTS:
+    Q_INVOKABLE void migrateKeymapSettings();
+
 Q_SIGNALS:
     void userChanged();
     void demoEdgesChanged();

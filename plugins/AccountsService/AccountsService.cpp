@@ -21,8 +21,10 @@
 #include <QFile>
 #include <QStringList>
 #include <QDebug>
+#include <QSettings>
 
 #include <glib.h>
+#include <gio/gio.h> // for gsettings
 
 #define IFACE_ACCOUNTS_USER          QStringLiteral("org.freedesktop.Accounts.User")
 #define IFACE_LOCATION_HERE          QStringLiteral("com.ubuntu.location.providers.here.AccountsService")
@@ -282,6 +284,29 @@ QStringList AccountsService::keymaps() const
     }
 
     return {QStringLiteral("us")};
+}
+
+void AccountsService::migrateKeymapSettings()
+{
+    QSettings settings;
+    if (!settings.value(QStringLiteral("KeymapsMigrated")).toBool()) {
+        auto value = getProperty(IFACE_ACCOUNTS_USER, PROP_INPUT_SOURCES);
+        QDBusArgument arg = value.value<QDBusArgument>();
+        StringMapList maps = qdbus_cast<StringMapList>(arg);
+
+        // Save the config settings (for the keyboard indicator)
+        GSettings * sourcesSettings = g_settings_new("org.gnome.desktop.input-sources");
+        GVariantBuilder builder;
+        g_variant_builder_init(&builder, G_VARIANT_TYPE("a(ss)"));
+        Q_FOREACH(const auto & keymapPair, maps) {
+            g_variant_builder_add(&builder, "(ss)", keymapPair.firstKey().toUtf8().constData(),
+                                  keymapPair.first().toUtf8().constData());
+        }
+        g_settings_set_value(sourcesSettings, "sources", g_variant_builder_end(&builder));
+        g_object_unref(sourcesSettings);
+
+        settings.setValue(QStringLiteral("KeymapsMigrated"), true);
+    }
 }
 
 uint AccountsService::failedFingerprintLogins() const
