@@ -58,6 +58,13 @@ Page {
 
                 onClicked: {
                     var new_page = Qt.createComponent("IndicatorRepresentation.qml");
+                    if (new_page.status !== Component.Ready) {
+                        if (new_page.status === Component.Error)
+                            console.error("Error: " + new_page.errorString());
+
+                        return;
+                    }
+
                     page.pageStack.push(new_page.createObject(pages), {"indicatorProperties" : model.indicatorProperties });
                 }
             }
