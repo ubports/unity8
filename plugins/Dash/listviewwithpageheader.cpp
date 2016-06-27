@@ -256,6 +256,7 @@ void ListViewWithPageHeader::setHeader(QQuickItem *headerItem)
             oldHeaderHeight = m_headerItem->height();
             oldHeaderY = m_headerItem->y();
             m_headerItem->setParentItem(nullptr);
+            QQuickItemPrivate::get(m_headerItem)->removeItemChangeListener(this, QQuickItemPrivate::ImplicitHeight);
         }
         m_headerItem = headerItem;
         if (m_headerItem) {
