@@ -101,7 +101,7 @@ AbstractStage {
             orientations |= Qt.LandscapeOrientation | Qt.InvertedLandscapeOrientation;
             if (priv.sideStageItemId && !spreadView.surfaceDragging) {
                 // If we have a sidestage app, support Portrait orientation
-                // so that it will switch the sidestage app to mainstage on rotate
+                // so that it will switch the sidestage app to mainstage on rotate to portrait
                 orientations |= Qt.PortraitOrientation|Qt.InvertedPortraitOrientation;
             }
             return orientations;
@@ -851,9 +851,14 @@ AbstractStage {
 
                     function refreshStage() {
                         var newStage = ApplicationInfoInterface.MainStage;
-                        if (priv.sideStageEnabled) {
+                        if (priv.sideStageEnabled) { // we're in lanscape rotation.
                             if (!isDash && application && application.supportedOrientations & (Qt.PortraitOrientation|Qt.InvertedPortraitOrientation)) {
-                                newStage = WindowStateStorage.getStage(application.appId);
+                                var defaultStage = ApplicationInfoInterface.SideStage; // if application supports portrait, it defaults to sidestage.
+                                if (application.supportedOrientations & (Qt.LandscapeOrientation|Qt.InvertedLandscapeOrientation)) {
+                                    // if it supports lanscape, it defaults to mainstage.
+                                    defaultStage = ApplicationInfoInterface.MainStage;
+                                }
+                                newStage = WindowStateStorage.getStage(application.appId, defaultStage);
                             }
                         }
 

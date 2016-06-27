@@ -535,14 +535,36 @@ Rectangle {
                                 function() { return sideStage.shown; });
         }
 
-        function test_applicationLoadsInCorrectStage_data() {
+        function test_applicationLoadsInDefaultStage_data() {
+            return [
+                { tag: "MainStage", appId: "webbrowser-app", mainStageAppId: "webbrowser-app", sideStageAppId: "" },
+                { tag: "SideStage", appId: "dialer-app", mainStageAppId: "unity8-dash", sideStageAppId: "dialer-app" },
+            ];
+        }
+
+        function test_applicationLoadsInDefaultStage(data) {
+            var stagesPriv = findInvisibleChild(tabletStage, "stagesPriv");
+            verify(stagesPriv);
+
+            tryCompare(stagesPriv, "mainStageAppId", "unity8-dash");
+            tryCompare(stagesPriv, "sideStageAppId", "");
+
+            var appSurfaceId = topSurfaceList.nextId;
+            var app = ApplicationManager.startApplication(data.appId);
+            waitUntilAppSurfaceShowsUp(appSurfaceId);
+
+            tryCompare(stagesPriv, "mainStageAppId", data.mainStageAppId);
+            tryCompare(stagesPriv, "sideStageAppId", data.sideStageAppId);
+        }
+
+        function test_applicationLoadsInSavedStage_data() {
             return [
                 { tag: "MainStage", stage: ApplicationInfoInterface.MainStage, mainStageAppId: "webbrowser-app", sideStageAppId: ""},
                 { tag: "SideStage", stage: ApplicationInfoInterface.SideStage, mainStageAppId: "unity8-dash", sideStageAppId: "webbrowser-app" },
             ];
         }
 
-        function test_applicationLoadsInCorrectStage(data) {
+        function test_applicationLoadsInSavedStage(data) {
             WindowStateStorage.saveStage(webbrowserCheckBox.appId, data.stage)
 
             var stagesPriv = findInvisibleChild(tabletStage, "stagesPriv");
