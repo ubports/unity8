@@ -128,7 +128,7 @@ AbstractStage {
         property var foregroundMaximizedAppDelegate: null // for stuff like drop shadow and focusing maximized app by clicking panel
 
         property bool goneToSpread: false
-        property int animationDuration: UbuntuAnimation.SleepyDuration
+        property int animationDuration: 4000//UbuntuAnimation.SleepyDuration
 
         function updateForegroundMaximizedApp() {
             var found = false;
@@ -554,6 +554,8 @@ AbstractStage {
                             y: spreadMaths.animatedY
                             z: index
                             height: decoratedWindow.height + windowInfoItem.height + units.gu(2)
+                            requestedWidth: decoratedWindow.oldRequestedWidth
+                            requestedHeight: decoratedWindow.oldRequestedHeight
                         }
                         PropertyChanges {
                             target: decoratedWindow;
@@ -561,8 +563,6 @@ AbstractStage {
                             height: units.gu(40)
                             width: units.gu(40)
                             angle: spreadMaths.animatedAngle
-                            requestedWidth: decoratedWindow.oldRequestedWidth
-                            requestedHeight: decoratedWindow.oldRequestedHeight
                         }
                         PropertyChanges { target: inputBlocker; enabled: true }
                         PropertyChanges { target: windowInfoItem; opacity: 1 }
@@ -584,9 +584,9 @@ AbstractStage {
                             target: decoratedWindow;
                             showDecoration: false
                             requestedWidth: stagedRightEdgeMaths.animatedWidth
-                            requestedHeight: stagedRightEdgeMaths.animatedHeight
-                            width: appContainer.width - root.leftMargin
-                            height: appContainer.height
+                            requestedHeight: stagedRightEdgeMaths.animatedHeight - PanelState.panelHeight
+//                            width: appContainer.width - root.leftMargin
+//                            height: appContainer.height
                             angle: stagedRightEdgeMaths.animatedAngle
                         }
                     },
@@ -596,14 +596,12 @@ AbstractStage {
                             target: appDelegate
                             x: appDelegate.focus ? 0 : root.width
                             y: appDelegate.fullscreen ? 0 : PanelState.panelHeight
+                            requestedWidth: appContainer.width
+                            requestedHeight: appContainer.height - PanelState.panelHeight
                             visuallyMaximized: true
                         }
                         PropertyChanges {
                             target: decoratedWindow
-                            requestedWidth: appContainer.width - root.leftMargin;
-                            requestedHeight: appContainer.height;
-                            width: requestedWidth
-                            height: requestedHeight
                             showDecoration: false
                         }
                         PropertyChanges {
@@ -619,9 +617,6 @@ AbstractStage {
                             y: 0;
                             visuallyMinimized: false;
                             visuallyMaximized: true
-                        }
-                        PropertyChanges {
-                            target: decoratedWindow
                             requestedWidth: appContainer.width - root.leftMargin;
                             requestedHeight: appContainer.height;
                         }
@@ -642,12 +637,7 @@ AbstractStage {
                         PropertyChanges {
                             target: appDelegate;
                             visuallyMinimized: false;
-                            visuallyMaximized: false
-                        }
-                        PropertyChanges {
-                            target: decoratedWindow
-                            width: appDelegate.width
-                            height: appDelegate.height
+                            visuallyMaximized: false;
                         }
                     },
                     State {
@@ -704,8 +694,7 @@ AbstractStage {
                         to: "normal"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
-                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: UbuntuAnimation.FastDuration }
-                        UbuntuNumberAnimation { target: decoratedWindow; properties: "requestedWidth,requestedHeight"; duration: UbuntuAnimation.FastDuration }
+                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: priv.animationDuration }
                     },
                     Transition {
                         to: "minimized"
@@ -713,8 +702,8 @@ AbstractStage {
                         PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         SequentialAnimation {
                             ParallelAnimation {
-                                UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,scale"; duration: UbuntuAnimation.FastDuration }
-                                UbuntuNumberAnimation { target: decoratedWindow; properties: "requestedWidth,requestedHeight"; duration: UbuntuAnimation.FastDuration }
+                                UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,scale"; duration: priv.animationDuration }
+                                UbuntuNumberAnimation { target: decoratedWindow; properties: "requestedWidth,requestedHeight"; duration: priv.animationDuration }
                             }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                             ScriptAction {
@@ -728,13 +717,12 @@ AbstractStage {
                         }
                     },
                     Transition {
-                        to: "maximized,fullscreen" //maximized and fullscreen
+                        to: "maximized,fullscreen"
                         enabled: appDelegate.animationsEnabled
-                        PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                         SequentialAnimation {
+                            PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                             ParallelAnimation {
-                                UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,scale"; duration: UbuntuAnimation.FastDuration }
-                                UbuntuNumberAnimation { target: decoratedWindow; properties: "requestedWidth,requestedHeight"; duration: UbuntuAnimation.FastDuration }
+                                UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,scale,requestedWidth,requestedHeight"; duration: UbuntuAnimation.FastDuration }
                             }
                             PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         }
@@ -745,14 +733,20 @@ AbstractStage {
                         PropertyAnimation { target: decoratedWindow; properties: "width,height,angle"; duration: priv.animationDuration }
                     },
                     Transition {
-                        from: "spread"; to: "staged"
+                        from: "spread"; to: "staged,normal"
                         PropertyAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
                         PropertyAnimation { target: decoratedWindow; properties: "angle,width,height"; duration: priv.animationDuration }
                     },
                     Transition {
-                        from: "windowed"; to: "staged";
-                        PropertyAnimation { target: appDelegate; properties: "x,y,width,height"; duration: priv.animationDuration }
+                        from: "normal"; to: "staged";
+                        PropertyAnimation { target: appDelegate; properties: "x,y,requestedWidth,requestedHeight"; duration: priv.animationDuration }
+                    },
+                    Transition {
+                        to: "staged"
+                        PropertyAnimation { target: appDelegate; properties: "x,y"; duration: priv.animationDuration }
+                        PropertyAnimation { target: appDelegate; properties: "requestedWidth,requestedHeight"; duration: priv.animationDuration }
                     }
+
                 ]
 
 //                Binding {
@@ -821,6 +815,8 @@ AbstractStage {
                     focus: true
                     showDecoration: true
                     overlayShown: touchControls.overlayShown
+                    width: implicitWidth
+                    height: implicitHeight
 
                     requestedWidth: appDelegate.requestedWidth
                     requestedHeight: appDelegate.requestedHeight

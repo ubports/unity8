@@ -23,8 +23,8 @@ import Unity.Application 0.1
 FocusScope {
     id: root
 
-    implicitWidth: !counterRotate ? applicationWindow.width : applicationWindow.height
-    implicitHeight: visibleDecorationHeight + (!counterRotate ? applicationWindow.height : applicationWindow.width)
+    implicitWidth: !counterRotate ? applicationWindow.implicitWidth : applicationWindow.implicitHeight
+    implicitHeight: visibleDecorationHeight + (!counterRotate ? applicationWindow.implicitHeight : applicationWindow.implicitWidth)
 
     property alias application: applicationWindow.application
     property alias surface: applicationWindow.surface
@@ -119,6 +119,10 @@ FocusScope {
         requestedWidth: !counterRotate ? root.requestedWidth : requestedHeightMinusDecoration
         interactive: true
         focus: true
+
+        Behavior on anchors.topMargin {
+            UbuntuNumberAnimation { duration: 4000 }
+        }
 
         transform: Rotation {
                 readonly property int rotationAngle: applicationWindow.application &&
