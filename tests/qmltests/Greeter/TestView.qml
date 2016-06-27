@@ -42,13 +42,11 @@ Item {
     signal responded(string response)
     signal tease()
     signal emergencyCall()
-    signal promptlessLogin()
 
     signal _showMessageCalled(string html)
     signal _showPromptCalled(string text, bool isSecret, bool isDefaultPrompt)
     signal _showLastChanceCalled()
     signal _hideCalled()
-    signal _notifyAuthenticationSucceededCalled()
     signal _notifyAuthenticationFailedCalled()
     signal _resetCalled()
     signal _tryToUnlockCalled(bool toTheRight)
@@ -69,10 +67,6 @@ Item {
         _hideCalled();
         _required = false;
         _fullyShown = false;
-    }
-
-    function notifyAuthenticationSucceeded() {
-        _notifyAuthenticationSucceededCalled();
     }
 
     function notifyAuthenticationFailed() {

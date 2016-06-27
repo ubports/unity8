@@ -16,6 +16,7 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import "../Components"
 
 FocusScope {
     id: root
@@ -33,6 +34,7 @@ FocusScope {
 
     function reset() {
         passwordInput.text = "";
+        fakeLabel.text = "";
         d.enabled = true;
     }
 
@@ -62,10 +64,14 @@ FocusScope {
         objectName: "promptButton"
         anchors.fill: parent
         visible: !root.isPrompt
-        enabled: d.enabled
         focus: visible
 
-        onClicked: root.clicked()
+        onClicked: {
+            if (d.enabled) {
+                d.enabled = false;
+                root.clicked();
+            }
+        }
 
         Label {
             anchors.centerIn: parent
@@ -79,10 +85,22 @@ FocusScope {
         objectName: "promptField"
         anchors.fill: parent
         visible: root.isPrompt
-        enabled: d.enabled
-        focus: visible
+        opacity: fakeLabel.visible ? 0 : 1
 
-        inputMethodHints: root.isAlphanumeric ? Qt.ImhNone : Qt.ImhDigitsOnly
+        // Oddly, a simple "focus: visible" does not stick -- the binding
+        // gets lost when switching between buttons and prompts.  But this
+        // explicit binding does work.
+        Binding on focus {
+            value: passwordInput.visible
+        }
+
+        validator: RegExpValidator {
+            regExp: root.isAlphanumeric ? /^.*$/ : /^\d{4}$/
+        }
+
+        inputMethodHints: Qt.ImhSensitiveData | Qt.ImhNoPredictiveText |
+                          Qt.ImhMultiLine | // so OSK doesn't close on Enter
+                          (root.isAlphanumeric ? Qt.ImhNone : Qt.ImhDigitsOnly)
         echoMode: root.isSecret ? TextInput.Password : TextInput.Normal
         hasClearButton: false
 
@@ -107,17 +125,32 @@ FocusScope {
                 width: units.gu(3)
                 color: d.textColor
                 visible: root.isSecret && false // TODO: detect when caps lock is on
+                readonly property real visibleWidth: visible ? width + passwordInput.frameSpacing : 0
             }
         ]
 
+        onTextChanged: {
+            if (!isAlphanumeric && text.length >= 4) {
+                // hard limit of 4 for passcodes right now
+                respond();
+            }
+        }
+
         onAccepted: {
-            if (!enabled)
-                return;
+            if (d.enabled)
+                respond();
+        }
+
+        function respond() {
             d.enabled = false;
+            fakeLabel.text = displayText;
             root.responded(text);
         }
 
-        Keys.onEscapePressed: root.canceled()
+        Keys.onEscapePressed: {
+            root.canceled();
+            event.accepted = true;
+        }
 
         // We use our own custom placeholder label instead of the standard
         // TextField one because the standard one hardcodes baseText as the
@@ -129,14 +162,30 @@ FocusScope {
                 right: parent.right
                 verticalCenter: parent.verticalCenter
                 leftMargin: units.gu(1.5)
-                rightMargin: anchors.leftMargin +
-                             (capsIcon.visible ? capsIcon.width + passwordInput.frameSpacing
-                                               : 0)
+                rightMargin: anchors.leftMargin + capsIcon.visibleWidth
             }
             text: root.text
             visible: passwordInput.text == "" && !passwordInput.inputMethodComposing
             color: d.drawColor
             elide: Text.ElideRight
         }
+    }
+
+    // Have a fake label that covers the text field after the user presses
+    // enter.  What we *really* want is a disabled mode that doesn't lose
+    // focus.  Because our goal here is simply to keep the OSK up while
+    // we wait for PAM to get back to us, and while waiting, we don't want
+    // the user to be able to edit the field (simply because it would look
+    // weird if we allowed that).  But until we have such a disabled mode,
+    // we'll fake it by covering the real text field with a label.
+    FadingLabel {
+        id: fakeLabel
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin: passwordInput.frameSpacing * 2
+        anchors.rightMargin: passwordInput.frameSpacing * 2 + capsIcon.visibleWidth
+        color: d.drawColor
+        visible: root.isPrompt && !d.enabled
     }
 }

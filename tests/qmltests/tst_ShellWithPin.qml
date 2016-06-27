@@ -150,7 +150,7 @@ Item {
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
 
         function init() {
-            tryCompare(shell, "enabled", true); // will be enabled when greeter is all ready
+            tryCompare(shell, "waitingOnGreeter", false); // will be set when greeter is all ready
             var greeter = findChild(shell, "greeter");
             sessionSpy.target = greeter;
             swipeAwayGreeter(true);
@@ -165,7 +165,7 @@ Item {
         }
 
         function cleanup() {
-            tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
+            tryCompare(shell, "waitingOnGreeter", false); // make sure greeter didn't leave us in disabled state
 
             shellLoader.itemDestroyed = false
 
@@ -533,10 +533,12 @@ Item {
 
             // Confirm that we start disabled
             compare(promptSpy.count, 0);
-            verify(!shell.enabled);
+            verify(shell.waitingOnGreeter);
+            var coverPageDragHandle = findChild(shell, "coverPageDragHandle");
+            verify(!coverPageDragHandle.enabled);
 
             // And that we only become enabled once the lockscreen is up
-            tryCompare(shell, "enabled", true);
+            tryCompare(shell, "waitingOnGreeter", false);
             verify(promptSpy.count > 0);
             var lockscreen = findChild(shell, "lockscreen");
             verify(lockscreen.shown);

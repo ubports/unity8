@@ -114,12 +114,6 @@ Item {
         }
 
         SignalSpy {
-            id: viewAuthenticationSucceededSpy
-            target: testCase.view
-            signalName: "_notifyAuthenticationSucceededCalled"
-        }
-
-        SignalSpy {
             id: viewAuthenticationFailedSpy
             target: testCase.view
             signalName: "_notifyAuthenticationFailedCalled"
@@ -149,7 +143,6 @@ Item {
             viewShowPromptSpy.clear();
             viewShowLastChanceSpy.clear();
             viewHideSpy.clear();
-            viewAuthenticationSucceededSpy.clear();
             viewAuthenticationFailedSpy.clear();
             viewResetSpy.clear();
             viewTryToUnlockSpy.clear();
@@ -196,7 +189,6 @@ Item {
 
         function verifyLoggedIn() {
             tryCompare(sessionStartedSpy, "count", 1);
-            verify(viewAuthenticationSucceededSpy.count > 0);
             compare(LightDM.Greeter.authenticated, true);
             compare(greeter.shown, false);
         }

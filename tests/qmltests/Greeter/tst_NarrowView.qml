@@ -125,20 +125,8 @@ Item {
                 }
                 Row {
                     Button {
-                        text: "Authenticated"
-                        onClicked: {
-                            if (successCheckBox.checked) {
-                                loader.item.notifyAuthenticationSucceeded();
-                            } else {
-                                loader.item.notifyAuthenticationFailed();
-                            }
-                        }
-                    }
-                    CheckBox {
-                        id: successCheckBox
-                    }
-                    Label {
-                        text: "success"
+                        text: "Auth Failed"
+                        onClicked: loader.item.notifyAuthenticationFailed()
                     }
                 }
                 Row {

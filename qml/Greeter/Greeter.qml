@@ -150,35 +150,40 @@ Showable {
             return -1;
         }
 
-        function selectUser(uid, reset) {
-            if (uid < 0)
+        function selectUser(index, reset) {
+            if (index < 0 || index >= LightDMService.users.count)
                 return;
             d.waiting = true;
             if (reset) {
                 loader.item.reset();
             }
-            currentIndex = uid;
-            var user = LightDMService.users.data(uid, LightDMService.userRoles.NameRole);
+            currentIndex = index;
+            var user = LightDMService.users.data(index, LightDMService.userRoles.NameRole);
             AccountsService.user = user;
             LauncherModel.setUser(user);
             LightDMService.greeter.authenticate(user); // always resets auth state
         }
 
+        function hideView() {
+            if (loader.item) {
+                loader.item.enabled = false; // drop OSK and prevent interaction
+                loader.item.hide();
+            }
+        }
+
         function login() {
-            enabled = false;
+            d.waiting = true;
             if (LightDMService.greeter.startSessionSync()) {
                 sessionStarted();
-                if (loader.item) {
-                    loader.item.notifyAuthenticationSucceeded();
-                }
+                hideView();
             } else if (loader.item) {
                 loader.item.notifyAuthenticationFailed();
             }
-            enabled = true;
+            d.waiting = false;
         }
 
         function startUnlock(toTheRight) {
-            if (loader.item) {
+            if (loader.item && !d.waiting) {
                 return loader.item.tryToUnlock(toTheRight);
             } else {
                 return false;
@@ -186,10 +191,8 @@ Showable {
         }
 
         function checkForcedUnlock(hideNow) {
-            if (forcedUnlock && shown && loader.item) {
-                // pretend we were just authenticated
-                loader.item.notifyAuthenticationSucceeded();
-                loader.item.hide();
+            if (forcedUnlock && shown) {
+                hideView();
                 if (hideNow) {
                     root.hideNow(); // skip hide animation
                 }
@@ -299,7 +302,7 @@ Showable {
 
         onLoaded: {
             root.lockedApp = "";
-            root.forceActiveFocus();
+            item.forceActiveFocus();
             d.selectUser(d.currentIndex, true);
             LightDMService.infographic.readyForDataChange();
         }
@@ -309,13 +312,11 @@ Showable {
             onSelected: {
                 d.selectUser(index, true);
             }
-            onPromptlessLogin: d.login();
             onResponded: {
                 if (root.locked) {
                     LightDMService.greeter.respond(response);
                 } else {
                     d.login();
-                    loader.item.hide();
                 }
             }
             onTease: root.tease()
@@ -365,6 +366,12 @@ Showable {
 
         Binding {
             target: loader.item
+            property: "waiting"
+            value: d.waiting
+        }
+
+        Binding {
+            target: loader.item
             property: "alphanumeric"
             value: AccountsService.passwordDisplayHint === AccountsService.Keyboard
         }
@@ -393,10 +400,7 @@ Showable {
 
         onShowGreeter: root.forceShow()
 
-        onHideGreeter: {
-            d.login();
-            loader.item.hide();
-        }
+        onHideGreeter: d.login()
 
         onShowMessage: {
             // inefficient, but we only rarely deal with messages
@@ -414,11 +418,11 @@ Showable {
         }
 
         onShowPrompt: {
-            d.waiting = false;
-
             if (loader.item) {
                 loader.item.showPrompt(text, isSecret, isDefaultPrompt);
             }
+
+            d.waiting = false;
         }
 
         onAuthenticationComplete: {
@@ -428,7 +432,6 @@ Showable {
                 AccountsService.failedLogins = 0;
                 if (!LightDMService.greeter.promptless) {
                     d.login();
-                    loader.item.hide();
                 }
             } else {
                 if (!LightDMService.greeter.promptless) {
