@@ -850,7 +850,7 @@ AbstractStage {
                     function refreshStage() {
                         var newStage = ApplicationInfoInterface.MainStage;
                         if (priv.sideStageEnabled) {
-                            if (application && application.supportedOrientations & (Qt.PortraitOrientation|Qt.InvertedPortraitOrientation)) {
+                            if (!isDash && application && application.supportedOrientations & (Qt.PortraitOrientation|Qt.InvertedPortraitOrientation)) {
                                 newStage = WindowStateStorage.getStage(application.appId);
                             }
                         }
@@ -1085,6 +1085,7 @@ AbstractStage {
                 // only accept opposite stage.
                 Drag.keys: {
                     if (!surface) return "Disabled";
+                    if (spreadDelegate.isDash) return "Disabled";
 
                     if (spreadDelegate.stage === ApplicationInfo.MainStage) {
                         if (spreadDelegate.application.supportedOrientations

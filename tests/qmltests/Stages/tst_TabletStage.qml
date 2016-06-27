@@ -570,6 +570,8 @@ Rectangle {
                                            pos >= end_pos;
                                 });
 
+            var spreadView = findChild(tabletStageLoader, "spreadView")
+            tryCompare(spreadView, "surfaceDragging", false);
             tryCompare(appDelegate, "stage", ApplicationInfoInterface.SideStage);
         }
 
@@ -598,6 +600,8 @@ Rectangle {
                                     return pos <= end_pos;
                                 });
 
+            var spreadView = findChild(tabletStageLoader, "spreadView")
+            tryCompare(spreadView, "surfaceDragging", false);
             tryCompare(appDelegate, "stage", ApplicationInfoInterface.MainStage);
         }
 
@@ -752,7 +756,38 @@ Rectangle {
                                            pos >= end_pos;
                                 });
 
+            var spreadView = findChild(tabletStageLoader, "spreadView")
+            tryCompare(spreadView, "surfaceDragging", false);
             tryCompare(appDelegate.surface, "activeFocus", true);
+        }
+
+        function test_dashDoesNotDragToSidestage() {
+            sideStage.showNow();
+            compare(topSurfaceList.applicationAt(0).appId, "unity8-dash");
+            var dashSurfaceId = topSurfaceList.idAt(0);
+
+            var appDelegate = findChild(tabletStage, "spreadDelegate_" + dashSurfaceId);
+            verify(appDelegate);
+            compare(appDelegate.stage, ApplicationInfoInterface.MainStage);
+
+            var pos = tabletStage.width - sideStage.width - (tabletStage.width - sideStage.width) / 2;
+            var end_pos = tabletStage.width - sideStage.width / 2;
+
+            multiTouchDragUntil([0,1,2],
+                                tabletStage,
+                                pos,
+                                tabletStage.height / 2,
+                                units.gu(3),
+                                0,
+                                function() {
+                                    pos += units.gu(3);
+                                    return sideStage.shown && !sideStage.showAnimation.running &&
+                                           pos >= end_pos;
+                                });
+
+            var spreadView = findChild(tabletStageLoader, "spreadView")
+            tryCompare(spreadView, "surfaceDragging", false);
+            tryCompare(appDelegate, "stage", ApplicationInfoInterface.MainStage);
         }
     }
 }
