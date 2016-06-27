@@ -50,6 +50,8 @@ Loader {
 readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
 Loader {
                                 id: artShapeLoader; 
+                                height: root.fixedArtShapeSize.height; \n\
+                                width: root.fixedArtShapeSize.width; \n\
                             anchors { horizontalCenter: parent.horizontalCenter; }
                                 objectName: "artShapeLoader"; 
                                 readonly property string cardArt: cardData && cardData["art"] || "";

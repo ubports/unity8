@@ -84,6 +84,8 @@ var kArtProportionalShapeCode = 'ProportionalShape { \n\
 // %8 is used as image fallback
 var kArtShapeHolderCode = 'Loader { \n\
                             id: artShapeLoader; \n\
+                            height: root.fixedArtShapeSize.height; \n\
+                            width: root.fixedArtShapeSize.width; \n\
                             anchors { %1 } \n\
                             objectName: "artShapeLoader"; \n\
                             readonly property string cardArt: cardData && cardData["art"] || %8; \n\
@@ -122,6 +124,8 @@ var kArtShapeHolderCode = 'Loader { \n\
 // %8 is used as image fallback
 var kArtShapeHolderCodeCardToolCard = 'Loader { \n\
                             id: artShapeLoader; \n\
+                            height: root.fixedArtShapeSize.height; \n\
+                            width: root.fixedArtShapeSize.width; \n\
                             anchors { %1 } \n\
                             objectName: "artShapeLoader"; \n\
                             readonly property string cardArt: cardData && cardData["art"] || %8; \n\
