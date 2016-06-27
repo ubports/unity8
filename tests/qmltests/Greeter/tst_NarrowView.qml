@@ -125,8 +125,26 @@ Item {
                 }
                 Row {
                     Button {
-                        text: "Auth Failed"
-                        onClicked: loader.item.notifyAuthenticationFailed()
+                        text: "Authenticated"
+                        onClicked: {
+                            if (successCheckBox.checked) {
+                                loader.item.notifyAuthenticationSucceeded(fakePasswordCheckBox.checked);
+                            } else {
+                                loader.item.notifyAuthenticationFailed();
+                            }
+                        }
+                    }
+                    CheckBox {
+                        id: successCheckBox
+                    }
+                    Label {
+                        text: "success"
+                    }
+                    CheckBox {
+                        id: fakePasswordCheckBox
+                    }
+                    Label {
+                        text: "fake password"
                     }
                 }
                 Row {
@@ -516,6 +534,21 @@ Item {
             verify(coverPage.shown);
             mouseClick(coverPage, coverPage.width/2, coverPage.height - units.gu(2));
             verify(!coverPage.shown);
+        }
+
+        function test_showErrorMessage() {
+            var coverPage = findChild(view, "coverPage");
+            var swipeHint = findChild(coverPage, "swipeHint");
+            var errorMessageAnimation = findInvisibleChild(coverPage, "errorMessageAnimation");
+
+            view.showErrorMessage("hello");
+            compare(swipeHint.text, "《    hello    》");
+            verify(errorMessageAnimation.running);
+            verify(swipeHint.opacityAnimation.running);
+
+            errorMessageAnimation.complete();
+            swipeHint.opacityAnimation.complete();
+            tryCompare(swipeHint, "text", "《    " + i18n.tr("Unlock") + "    》");
         }
     }
 }

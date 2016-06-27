@@ -168,8 +168,20 @@ StyledItem {
                 }
                 Row {
                     Button {
-                        text: "Auth Failed"
-                        onClicked: loader.item.notifyAuthenticationFailed()
+                        text: "Authenticated"
+                        onClicked: {
+                            if (successCheckBox.checked) {
+                                loader.item.notifyAuthenticationSucceeded(false);
+                            } else {
+                                loader.item.notifyAuthenticationFailed();
+                            }
+                        }
+                    }
+                    CheckBox {
+                        id: successCheckBox
+                    }
+                    Label {
+                        text: "success"
                     }
                 }
                 Row {
