@@ -449,8 +449,8 @@ Showable {
             d.waiting = false;
 
             if (LightDMService.greeter.authenticated) {
-                d.login();
                 if (!LightDMService.greeter.promptless) {
+                    d.login();
                     loader.item.hide();
                 }
             } else {
