@@ -26,6 +26,7 @@ MouseArea {
 
     property Item target
     property alias title: titleLabel.text
+    property alias maximizeButtonShown: buttons.maximizeButtonShown
     property bool active: false
     acceptedButtons: Qt.AllButtons // prevent leaking unhandled mouse events
     property alias overlayShown: buttons.overlayShown
@@ -37,7 +38,7 @@ MouseArea {
     signal maximizeVerticallyClicked()
 
     onDoubleClicked: {
-        if (mouse.button == Qt.LeftButton) {
+        if (maximizeButtonShown && mouse.button == Qt.LeftButton) {
             root.maximizeClicked();
         }
     }
