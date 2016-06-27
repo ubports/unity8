@@ -14,8 +14,8 @@ signal action(var actionId);
 readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
 Loader  {
                                 id: artShapeLoader; 
-                                height: root.fixedArtShapeSize.height; \n\
-                                width: root.fixedArtShapeSize.width; \n\
+                                height: root.fixedArtShapeSize.height; 
+                                width: root.fixedArtShapeSize.width; 
                             anchors { horizontalCenter: parent.horizontalCenter; }
                                 objectName: "artShapeLoader"; 
                                 readonly property string cardArt: cardData && cardData["art"] || decodeURI("IHAVE%5C%22ESCAPED%5C%22QUOTES%5C%22");
