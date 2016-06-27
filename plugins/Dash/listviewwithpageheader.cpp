@@ -1335,6 +1335,10 @@ void ListViewWithPageHeader::layout()
             }
         }
     }
+    if (m_headerItem) {
+        const bool cullHeader = m_headerItem->y() + m_headerItem->height() < contentY();
+        QQuickItemPrivate::get(m_headerItem)->setCulled(cullHeader);
+    }
     m_inLayout = false;
 }
 
