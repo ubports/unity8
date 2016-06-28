@@ -128,7 +128,7 @@ AbstractStage {
         property var foregroundMaximizedAppDelegate: null // for stuff like drop shadow and focusing maximized app by clicking panel
 
         property bool goneToSpread: false
-        property int animationDuration: 4000//UbuntuAnimation.SleepyDuration
+        property int animationDuration: UbuntuAnimation.FastDuration// 4000//UbuntuAnimation.SleepyDuration
 
         function updateForegroundMaximizedApp() {
             var found = false;
@@ -263,7 +263,7 @@ AbstractStage {
         id: appContainer
         objectName: "appContainer"
         anchors.fill: parent
-        focus: spread.state !== "altTab"
+        focus: root.state !== "altTab"
 
         CrossFadeImage {
             id: wallpaper
@@ -542,7 +542,7 @@ AbstractStage {
                     targetAngle: spreadMaths.animatedAngle
                 }
 
-                onXChanged: if (model.application.appId == "unity8-dash") print("dash moved to", x)
+//                onXChanged: if (model.application.appId == "unity8-dash") print("dash moved to", x)
 //                onRequestedWidthChanged: if (index == 0) print("requestedWidth", requestedWidth)
                 onStateChanged: if (model.application.appId == "unity8-dash") print("state changed", state)
                 states: [
@@ -566,6 +566,7 @@ AbstractStage {
                         }
                         PropertyChanges { target: inputBlocker; enabled: true }
                         PropertyChanges { target: windowInfoItem; opacity: 1 }
+                        PropertyChanges { target: floatingFlickable; enabled: true }
                     },
                     State {
                         name: "stagedrightedge";
@@ -837,6 +838,7 @@ AbstractStage {
                     onDecorationPressed: { appDelegate.focus = true; }
 
                     property real angle: 0
+                    property real itemScale: 1
                     transform: [
 //                        Scale {
 //                            origin.x: itemScaleOriginX
@@ -845,7 +847,7 @@ AbstractStage {
 //                            yScale: itemScale
 //                        },
                         Rotation {
-    //                        origin { x: 0; y: (clippedSpreadDelegate.height - (clippedSpreadDelegate.height * itemScale / 2)) }
+                            origin { x: 0; y: (decoratedWindow.height - (decoratedWindow.height * decoratedWindow.itemScale / 2)) }
                             axis { x: 0; y: 1; z: 0 }
                             angle: decoratedWindow.angle
                         }
@@ -875,11 +877,11 @@ AbstractStage {
                         priv.goneToSpread = false;
                     }
                 }
-                Rectangle {
-                    anchors.fill: parent
-                    color: "blue"
-                    opacity: .4
-                }
+//                Rectangle {
+//                    anchors.fill: parent
+//                    color: "blue"
+//                    opacity: .4
+//                }
 
                 WindowInfoItem {
                     id: windowInfoItem

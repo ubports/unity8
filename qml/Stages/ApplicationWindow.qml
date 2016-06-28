@@ -419,9 +419,9 @@ FocusScope {
         ]
     }
 
-    Rectangle {
-        anchors.fill: parent
-        color: "yellow"
-        opacity: .4
-    }
+//    Rectangle {
+//        anchors.fill: parent
+//        color: "yellow"
+//        opacity: .4
+//    }
 }

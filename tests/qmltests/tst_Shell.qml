@@ -208,14 +208,15 @@ Rectangle {
                     }
                 }
                 ListItem.ItemSelector {
+                    id: sizeSelector
                     anchors { left: parent.left; right: parent.right }
                     activeFocusOnPress: false
                     text: "Size"
                     model: ["phone", "tablet", "desktop"]
                     onSelectedIndexChanged: {
-                        shellLoader.active = false;
+//                        shellLoader.active = false;
                         shellLoader.state = model[selectedIndex];
-                        shellLoader.active = true;
+//                        shellLoader.active = true;
                     }
                 }
                 ListItem.ItemSelector {

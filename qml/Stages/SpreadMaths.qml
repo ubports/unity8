@@ -68,6 +68,7 @@ Item {
 
     // Output
     readonly property int animatedX: {
+        if (itemIndex == 0) print("leftFoldingAreaProgress", leftFoldingAreaProgress, "rightFoldingAreaProgress", rightFoldingAreaProgress)
         if (leftFoldingAreaProgress > 4) { // Stop it at the edge
             return margins;
         }
@@ -94,6 +95,7 @@ Item {
         }
 
         if (rightFoldingAreaProgress > 0) {
+            print("returning this")
             return linearAnimation(0, 1, rightFoldingAreaX, flickableWidth - margins - stackWidth, rightEasing.value);
         }
 
