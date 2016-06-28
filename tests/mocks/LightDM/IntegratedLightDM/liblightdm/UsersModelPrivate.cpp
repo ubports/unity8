@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,6 +45,12 @@ void UsersModelPrivate::resetEntries()
         resetEntries_singlePin();
     } else if (mockMode == "full") {
         resetEntries_full();
+    }
+
+    // Assign uids in a loop, just to avoid having to muck with them when
+    // adding or removing test users.
+    for (int i = 0; i < entries.size(); i++) {
+        entries[i].uid = i + 1;
     }
 
     q->endResetModel();

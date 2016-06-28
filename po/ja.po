@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-06-17 01:22+0000\n"
+"POT-Creation-Date: 2016-06-20 20:25+0000\n"
 "PO-Revision-Date: 2015-10-05 10:05+0000\n"
 "Last-Translator: Kentaro Kazuhama <Unknown>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-06-19 05:55+0000\n"
-"X-Generator: Launchpad (build 18097)\n"
+"X-Launchpad-Export-Date: 2016-06-26 06:01+0000\n"
+"X-Generator: Launchpad (build 18111)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -35,19 +35,19 @@ msgstr "終了"
 msgid "Unpin shortcut"
 msgstr "ショートカットを削除する"
 
-#: qml/Components/DelayedLockscreen.qml:49
+#: qml/Components/DelayedLockscreen.qml:50
 msgid "Device Locked"
 msgstr "デバイスをロックしました"
 
-#: qml/Components/DelayedLockscreen.qml:64
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr "パスフレーズの入力失敗が多すぎたため、デバイスをロックしました。"
 
-#: qml/Components/DelayedLockscreen.qml:65
+#: qml/Components/DelayedLockscreen.qml:66
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr "パスコードの入力失敗が多すぎたため、デバイスをロックしました。"
 
-#: qml/Components/DelayedLockscreen.qml:74
+#: qml/Components/DelayedLockscreen.qml:75
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
@@ -276,15 +276,15 @@ msgstr ""
 msgid "Closes the current window."
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:239
 msgid "Return to Call"
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:239
 msgid "Emergency Call"
 msgstr "緊急通報"
 
-#: qml/Components/Lockscreen.qml:263
+#: qml/Components/Lockscreen.qml:271
 msgid "OK"
 msgstr "OK"
 
@@ -421,9 +421,13 @@ msgid ""
 "touch pad to interact with the pointer."
 msgstr ""
 
-#: qml/Greeter/CoverPage.qml:119
+#: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
 msgstr "ロックの解除"
+
+#: qml/Greeter/Greeter.qml:536
+msgid "Try again"
+msgstr ""
 
 #: qml/Greeter/LoginList.qml:259
 msgid "Retry"
@@ -457,34 +461,34 @@ msgid ""
 "and all personal data will be deleted."
 msgstr "パスコードが間違っている場合、ファクトリーリセットを実施し、すべての個人データは削除されます。"
 
-#: qml/Greeter/NarrowView.qml:116
+#: qml/Greeter/NarrowView.qml:129
 #, qt-format
 msgid "Enter %1"
 msgstr "%1 を入力"
 
-#: qml/Greeter/NarrowView.qml:117
+#: qml/Greeter/NarrowView.qml:130
 msgid "Enter passphrase"
 msgstr "パスフレーズを入力"
 
-#: qml/Greeter/NarrowView.qml:118
+#: qml/Greeter/NarrowView.qml:131
 msgid "Enter passcode"
 msgstr "パスコードを入力"
 
-#: qml/Greeter/NarrowView.qml:119
+#: qml/Greeter/NarrowView.qml:135
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "%1が違います"
 
-#: qml/Greeter/NarrowView.qml:120
+#: qml/Greeter/NarrowView.qml:136
 msgid "Sorry, incorrect passphrase"
 msgstr "パスフレーズが違います"
 
-#: qml/Greeter/NarrowView.qml:121
+#: qml/Greeter/NarrowView.qml:137
 msgctxt "passphrase"
 msgid "Please re-enter"
 msgstr ""
 
-#: qml/Greeter/NarrowView.qml:122
+#: qml/Greeter/NarrowView.qml:138
 msgid "Sorry, incorrect passcode"
 msgstr "パスコードが違います"
 

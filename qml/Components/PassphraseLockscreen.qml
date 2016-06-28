@@ -43,6 +43,10 @@ FocusScope {
         }
     }
 
+    function showText(text) {
+        pinentryField.text = text;
+    }
+
     Column {
         id: shakeContainer
         anchors.horizontalCenter: parent.horizontalCenter
