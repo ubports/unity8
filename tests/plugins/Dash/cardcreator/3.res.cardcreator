@@ -11,10 +11,8 @@ AbstractButton {
 signal action(var actionId);
 readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
 Loader  {
-                            id: artShapeLoader;
-                            height: artShapeLoader.height; 
-                            width: artShapeLoader.width; 
-                            anchors { horizontalCenter: parent.horizontalCenter; } 
+                                id: artShapeLoader;
+                                anchors { horizontalCenter: parent.horizontalCenter; } 
                                 objectName: "artShapeLoader"; 
                                 readonly property string cardArt: cardData && cardData["art"] || "";
                                 onCardArtChanged: { if (item) { item.image.source = cardArt; } }
