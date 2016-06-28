@@ -16,7 +16,7 @@ Loader  {
                                 id: artShapeLoader; 
                                 height: root.fixedArtShapeSize.height; 
                                 width: root.fixedArtShapeSize.width; 
-                            anchors { horizontalCenter: parent.horizontalCenter; }
+                                anchors { horizontalCenter: parent.horizontalCenter; }
                                 objectName: "artShapeLoader"; 
                                 readonly property string cardArt: cardData && cardData["art"] || "";
                                 onCardArtChanged: { if (item) { item.image.source = cardArt; } }
