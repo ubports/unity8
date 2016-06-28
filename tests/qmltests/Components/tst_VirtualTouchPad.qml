@@ -29,6 +29,7 @@ Item {
     VirtualTouchPad {
         id: touchScreenPad
         anchors.fill: parent
+        property int internalGu: units.gu(1)
     }
 
     SignalSpy {

@@ -75,19 +75,22 @@ Item {
         }
         transformOrigin: Item.Center
 
+        Rectangle {
+            anchors.fill: parent
+            color: UbuntuColors.jet
+        }
+
         VirtualTouchPad {
             anchors.fill: parent
 
             onPressedChanged: {
                 if (pressed && infoNoteDisplayed) {
                     infoNoteDisplayed = false;
+                    if (true) {
+                        runTutorial();
+                    }
                 }
             }
-        }
-
-        Rectangle {
-            anchors.fill: parent
-            color: "#3b3b3b"
         }
 
         Item {

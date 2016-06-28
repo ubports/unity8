@@ -32,6 +32,12 @@ Item {
         anchors.fill: parent
         anchors.rightMargin: units.gu(40)
 
+        // Mock some things here
+        property int internalGu: units.gu(1)
+        property var applicationArguments: {
+            deviceName: "mako"
+        }
+
         screen: QtObject {
             property int orientation: {
                 switch (orientationSelector.selectedIndex) {
@@ -52,8 +58,8 @@ Item {
     }
 
     Column {
-        anchors.fill: parent
-        anchors.leftMargin: units.gu(40)
+        anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
+        width: units.gu(40)
 
         ItemSelector {
             id: orientationSelector

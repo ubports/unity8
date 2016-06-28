@@ -15,16 +15,22 @@
  */
 
 import QtQuick 2.4
+import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import UInput 0.1
 
 Item {
+    id: root
     property var uinput: UInput {
         Component.onCompleted: createMouse();
         Component.onDestruction: removeMouse();
     }
 
-    readonly property bool pressed: point1.pressed || point2.pressed
+    function runTutorial() {
+        tutorial.start()
+    }
+
+    readonly property bool pressed: point1.pressed || point2.pressed || leftButton.pressed || rightButton.pressed
 
     MultiPointTouchArea {
         objectName: "touchPadArea"
@@ -134,5 +140,150 @@ Item {
                 id: point2
             }
         ]
+    }
+
+    RowLayout {
+        anchors { left: parent.left; right: parent.right; bottom: parent.bottom; margins: -units.gu(1) }
+        height: units.gu(10)
+        spacing: units.gu(1)
+
+        MouseArea {
+            id: leftButton
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            onPressed: uinput.pressMouse(UInput.ButtonLeft);
+            onReleased: uinput.releaseMouse(UInput.ButtonLeft);
+            property bool highlight: false
+            UbuntuShape {
+                anchors.fill: parent
+                backgroundColor: leftButton.highlight || leftButton.pressed ? UbuntuColors.ash : UbuntuColors.inkstone
+                Behavior on backgroundColor { ColorAnimation { duration: UbuntuAnimation.FastDuration } }
+            }
+        }
+
+        MouseArea {
+            id: rightButton
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            onPressed: uinput.pressMouse(UInput.ButtonRight);
+            onReleased: uinput.releaseMouse(UInput.ButtonRight);
+            property bool highlight: false
+            UbuntuShape {
+                anchors.fill: parent
+                backgroundColor: rightButton.highlight || rightButton.pressed ? UbuntuColors.ash : UbuntuColors.inkstone
+                Behavior on backgroundColor { ColorAnimation { duration: UbuntuAnimation.FastDuration } }
+            }
+        }
+    }
+
+    Label {
+        id: tutorialLabel
+        anchors { left: parent.left; top: parent.top; right: parent.right; margins: units.gu(4); topMargin: units.gu(10) }
+        opacity: 0
+        fontSize: "large"
+        color: "white"
+        wrapMode: Text.WordWrap
+    }
+
+    Item {
+        id: tutorialFinger1
+        width: units.gu(5)
+        height: width
+        property real scale: 1
+        opacity: 0
+        Rectangle {
+            width: parent.width * parent.scale
+            height: width
+            anchors.centerIn: parent
+            radius: width / 2
+            color: UbuntuColors.inkstone
+        }
+    }
+
+    Item {
+        id: tutorialFinger2
+        width: units.gu(5)
+        height: width
+        property real scale: 1
+        opacity: 0
+        Rectangle {
+            width: parent.width * parent.scale
+            height: width
+            anchors.centerIn: parent
+            radius: width / 2
+            color: UbuntuColors.inkstone
+        }
+    }
+
+    SequentialAnimation {
+        id: tutorial
+        PauseAnimation { duration: UbuntuAnimation.SleepyDuration }
+        PropertyAction { target: tutorialLabel; property: "text"; value: i18n.tr("Tap left button to click") }
+        UbuntuNumberAnimation { target: tutorialLabel; property: "opacity"; to: 1; duration: UbuntuAnimation.FastDuration }
+        SequentialAnimation {
+            loops: 2
+            PropertyAction { target: leftButton; property: "highlight"; value: true }
+            PauseAnimation { duration: UbuntuAnimation.FastDuration }
+            PropertyAction { target: leftButton; property: "highlight"; value: false }
+            PauseAnimation { duration: UbuntuAnimation.SleepyDuration }
+        }
+        UbuntuNumberAnimation { target: tutorialLabel; property: "opacity"; to: 0; duration: UbuntuAnimation.FastDuration }
+
+        PauseAnimation { duration: UbuntuAnimation.SleepyDuration }
+        PropertyAction { target: tutorialLabel; property: "text"; value: i18n.tr("Tap right button to right click") }
+        UbuntuNumberAnimation { target: tutorialLabel; property: "opacity"; to: 1; duration: UbuntuAnimation.FastDuration }
+        SequentialAnimation {
+            loops: 2
+            PropertyAction { target: rightButton; property: "highlight"; value: true }
+            PauseAnimation { duration: UbuntuAnimation.FastDuration }
+            PropertyAction { target: rightButton; property: "highlight"; value: false }
+            PauseAnimation { duration: UbuntuAnimation.SleepyDuration }
+        }
+        UbuntuNumberAnimation { target: tutorialLabel; property: "opacity"; to: 0; duration: UbuntuAnimation.FastDuration }
+
+        PauseAnimation { duration: UbuntuAnimation.SleepyDuration }
+        PropertyAction { target: tutorialLabel; property: "text"; value: i18n.tr("Swipe with two fingers to scroll") }
+        UbuntuNumberAnimation { target: tutorialLabel; property: "opacity"; to: 1; duration: UbuntuAnimation.FastDuration }
+        PropertyAction { target: tutorialFinger1; property: "x"; value: root.width / 2 - tutorialFinger1.width - units.gu(1) }
+        PropertyAction { target: tutorialFinger2; property: "x"; value: root.width / 2 + tutorialFinger1.width + units.gu(1) - tutorialFinger2.width }
+        PropertyAction { target: tutorialFinger1; property: "y"; value: root.height / 2 - units.gu(10) }
+        PropertyAction { target: tutorialFinger2; property: "y"; value: root.height / 2 - units.gu(10) }
+        SequentialAnimation {
+            ParallelAnimation {
+                UbuntuNumberAnimation { target: tutorialFinger1; property: "opacity"; to: 1; duration: UbuntuAnimation.FastDuration }
+                UbuntuNumberAnimation { target: tutorialFinger2; property: "opacity"; to: 1; duration: UbuntuAnimation.FastDuration }
+                UbuntuNumberAnimation { target: tutorialFinger1; property: "scale"; from: 0; to: 1; duration: UbuntuAnimation.FastDuration }
+                UbuntuNumberAnimation { target: tutorialFinger2; property: "scale"; from: 0; to: 1; duration: UbuntuAnimation.FastDuration }
+            }
+            ParallelAnimation {
+                UbuntuNumberAnimation { target: tutorialFinger1; property: "y"; to: root.height / 2 + units.gu(10); duration: UbuntuAnimation.SleepyDuration }
+                UbuntuNumberAnimation { target: tutorialFinger2; property: "y"; to: root.height / 2 + units.gu(10); duration: UbuntuAnimation.SleepyDuration }
+            }
+            ParallelAnimation {
+                UbuntuNumberAnimation { target: tutorialFinger1; property: "opacity"; to: 0; duration: UbuntuAnimation.FastDuration }
+                UbuntuNumberAnimation { target: tutorialFinger2; property: "opacity"; to: 0; duration: UbuntuAnimation.FastDuration }
+                UbuntuNumberAnimation { target: tutorialFinger1; property: "scale"; from: 1; to: 0; duration: UbuntuAnimation.FastDuration }
+                UbuntuNumberAnimation { target: tutorialFinger2; property: "scale"; from: 1; to: 0; duration: UbuntuAnimation.FastDuration }
+            }
+            PauseAnimation { duration: UbuntuAnimation.SlowDuration }
+            ParallelAnimation {
+                UbuntuNumberAnimation { target: tutorialFinger1; property: "opacity"; to: 1; duration: UbuntuAnimation.FastDuration }
+                UbuntuNumberAnimation { target: tutorialFinger2; property: "opacity"; to: 1; duration: UbuntuAnimation.FastDuration }
+                UbuntuNumberAnimation { target: tutorialFinger1; property: "scale"; from: 0; to: 1; duration: UbuntuAnimation.FastDuration }
+                UbuntuNumberAnimation { target: tutorialFinger2; property: "scale"; from: 0; to: 1; duration: UbuntuAnimation.FastDuration }
+            }
+            ParallelAnimation {
+                UbuntuNumberAnimation { target: tutorialFinger1; property: "y"; to: root.height / 2 - units.gu(10); duration: UbuntuAnimation.SleepyDuration }
+                UbuntuNumberAnimation { target: tutorialFinger2; property: "y"; to: root.height / 2 - units.gu(10); duration: UbuntuAnimation.SleepyDuration }
+            }
+            ParallelAnimation {
+                UbuntuNumberAnimation { target: tutorialFinger1; property: "opacity"; to: 0; duration: UbuntuAnimation.FastDuration }
+                UbuntuNumberAnimation { target: tutorialFinger2; property: "opacity"; to: 0; duration: UbuntuAnimation.FastDuration }
+                UbuntuNumberAnimation { target: tutorialFinger1; property: "scale"; from: 1; to: 0; duration: UbuntuAnimation.FastDuration }
+                UbuntuNumberAnimation { target: tutorialFinger2; property: "scale"; from: 1; to: 0; duration: UbuntuAnimation.FastDuration }
+            }
+            PauseAnimation { duration: UbuntuAnimation.SleepyDuration }
+        }
+        UbuntuNumberAnimation { target: tutorialLabel; property: "opacity"; to: 0; duration: UbuntuAnimation.FastDuration }
     }
 }
