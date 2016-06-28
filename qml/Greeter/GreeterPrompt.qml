@@ -129,7 +129,10 @@ FocusScope {
             }
         ]
 
-        onTextChanged: {
+        onDisplayTextChanged: {
+            // We use onDisplayTextChanged instead of onTextChanged because
+            // displayText changes after text and if we did this before it
+            // updated, we would use the wrong displayText for fakeLabel.
             if (!isAlphanumeric && text.length >= 4) {
                 // hard limit of 4 for passcodes right now
                 respond();
