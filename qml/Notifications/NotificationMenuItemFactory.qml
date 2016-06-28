@@ -151,7 +151,6 @@ Loader {
             onEntered: {
                 menuModel.changeState(menuIndex, passphrase);
                 clear(false);
-                notification.dismissed()
             }
 
             onCancel: {
