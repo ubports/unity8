@@ -24,7 +24,10 @@ qt5_use_modules(UbuntuGesturesQml Core Quick)
 # So that Foo.cpp can #include "Foo.moc"
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-include_directories(${UBUNTUGESTURES_INCLUDE_DIRS})
+include_directories(
+    SYSTEM
+    ${UBUNTUGESTURES_INCLUDE_DIRS}
+)
 
 # There's no cmake var for v8 include path :-/ so create one
 LIST(GET Qt5Core_INCLUDE_DIRS 0 QtCoreDir0)
@@ -32,6 +35,7 @@ SET(Qt5V8_PRIVATE_INCLUDE_DIR ${QtCoreDir0}/QtV8/${Qt5Core_VERSION_STRING}/QtV8)
 
 # DANGER! DANGER! Using Qt's private API!
 include_directories(
+    SYSTEM
     ${Qt5Qml_PRIVATE_INCLUDE_DIRS}
     ${Qt5Quick_INCLUDE_DIRS}
     ${Qt5Quick_PRIVATE_INCLUDE_DIRS}

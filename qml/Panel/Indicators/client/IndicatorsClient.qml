@@ -19,7 +19,6 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItem
 
 Rectangle {
     color: theme.palette.normal.background
@@ -37,6 +36,13 @@ Rectangle {
         function reset() {
             clear();
             var component = Qt.createComponent("IndicatorsList.qml");
+            if (component.status !== Component.Ready) {
+                if (component.status === Component.Error)
+                    console.error("Error: " + component.errorString());
+
+                return;
+            }
+
             var page = component.createObject(pages, {"profile": indicatorProfile});
             push(page);
         }

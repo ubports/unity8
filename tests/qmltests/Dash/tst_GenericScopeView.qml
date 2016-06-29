@@ -76,6 +76,7 @@ Item {
                 tryCompare(scopes, "loaded", true);
 
                 genericScopeView.scope = scopes.getScope(2);
+                genericScopeView.isCurrent = true;
                 shell.width = units.gu(120);
                 genericScopeView.categoryView.positionAtBeginning();
                 waitForRendering(genericScopeView.categoryView);
@@ -116,6 +117,7 @@ Item {
             }
 
             function test_isActive() {
+                genericScopeView.isCurrent = false
                 tryCompare(genericScopeView.scope, "isActive", false)
                 genericScopeView.isCurrent = true
                 tryCompare(genericScopeView.scope, "isActive", true)
@@ -140,6 +142,7 @@ Item {
             }
 
             function test_searchQuery() {
+                genericScopeView.isCurrent = false
                 genericScopeView.scope = scopes.getScope(0);
                 genericScopeView.scope.searchQuery = "test";
                 genericScopeView.scope = scopes.getScope(1);
@@ -151,6 +154,7 @@ Item {
             }
 
             function test_changeScope() {
+                genericScopeView.isCurrent = false;
                 genericScopeView.scope.searchQuery = "test"
                 var originalScopeId = genericScopeView.scope.id;
                 genericScopeView.scope = scopes.getScope(originalScopeId + 1)
@@ -458,6 +462,7 @@ Item {
             function test_seeAllTwoCategoriesScenario1() {
                 mockScope.setId("mockScope");
                 mockScope.setName("Mock Scope");
+                mockScope.isActive = true;
                 mockScope.categories.setCount(2);
                 mockScope.categories.resultModel(0).setResultCount(50);
                 mockScope.categories.resultModel(1).setResultCount(25);
@@ -501,6 +506,7 @@ Item {
             function test_seeAllTwoCategoriesScenario2() {
                 mockScope.setId("mockScope");
                 mockScope.setName("Mock Scope");
+                mockScope.isActive = true;
                 mockScope.categories.setCount(2);
                 mockScope.categories.resultModel(0).setResultCount(25);
                 mockScope.categories.resultModel(1).setResultCount(50);
@@ -629,6 +635,7 @@ Item {
                 var category0 = findChild(categoryListView, "dashCategory0");
                 waitForRendering(category0);
 
+                tryCompareFunction(function() { return category0.item != null; }, true);
                 var cardGrid = category0.item;
                 compare(cardGrid.cardTool.template["non-interactive"], true);
 

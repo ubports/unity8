@@ -73,7 +73,10 @@ PreviewWidget {
         ratingValue: widgetData["rating"]
         reviewText: widgetData["review"]
 
-        onTriggered: root.triggered(widgetId, actionId, data);
+        onTriggered: {
+            root.triggered(widgetId, actionId, data);
+            display.visible = true;
+        }
         onMakeSureVisible: root.makeSureVisible(item);
     }
 

@@ -128,6 +128,13 @@ function(add_unity8_qmltest_data PATH COMPONENT_NAME)
     add_qml_test_data("${PATH}" "${COMPONENT_NAME}")
 endfunction()
 
+# used to make dbus adaptor classes from xml to mock system services
+if(DEFINED ENV{DEB_BUILD_MULTIARCH})
+  set(QDBUSXML2CPP_EXECUTABLE "/usr/lib/$ENV{DEB_BUILD_MULTIARCH}/qt5/bin/qdbusxml2cpp")
+else()
+  FIND_PROGRAM(QDBUSXML2CPP_EXECUTABLE qdbusxml2cpp)
+endif()
+
 
 install(DIRECTORY data graphics
     DESTINATION "${SHELL_APP_DIR}/tests"

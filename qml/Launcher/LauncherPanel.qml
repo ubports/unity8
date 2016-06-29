@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -69,7 +69,9 @@ Rectangle {
     MouseArea {
         id: mouseEventEater
         anchors.fill: parent
+        acceptedButtons: Qt.AllButtons
         hoverEnabled: true
+        onWheel: wheel.accepted = true;
     }
 
     Column {
