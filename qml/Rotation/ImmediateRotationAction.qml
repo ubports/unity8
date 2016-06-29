@@ -25,7 +25,7 @@ SequentialAnimation {
         root.info.transitioning = true;
     } }
 
-    UpdateShellTransformations { info: root.info; shell: root.shell }
+    UpdateShellTransformations { shell: root.shell; rotationAngle: root.info.requestedOrientationAngle }
 
     ScriptAction { script: {
         root.shell.updateFocusedAppOrientation();
