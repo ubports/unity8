@@ -48,7 +48,7 @@ public:
     Q_INVOKABLE QRect getGeometry(const QString &windowId, const QRect &defaultValue);
 
     Q_INVOKABLE void saveStage(const QString &appId, int stage);
-    Q_INVOKABLE int getStage(const QString &appId) const;
+    Q_INVOKABLE int getStage(const QString &appId, int defaultValue) const;
 
     // Only in the mock, to easily restore a fresh state
     Q_INVOKABLE void clear();

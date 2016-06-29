@@ -491,7 +491,10 @@ Showable {
     Connections {
         target: DBusUnitySessionService
         onLockRequested: root.forceShow()
-        onUnlocked: root.forcedUnlock = true
+        onUnlocked: {
+            root.forcedUnlock = true;
+            root.hideNow();
+        }
     }
 
     Binding {

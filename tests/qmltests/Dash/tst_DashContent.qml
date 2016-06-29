@@ -70,7 +70,7 @@ Item {
         function loadScopes() {
             scopeLoadedSpy.clear();
             scopesModel.load();
-            tryCompare(scopeLoadedSpy, "count", 6, 15000);
+            tryCompare(scopeLoadedSpy, "count", 8, 15000);
             tryCompare(scopesModel, "loaded", true);
             tryCompareFunction(function() {
                 var mockScope1Loader = findChild(shell, "scopeLoader0");
@@ -610,6 +610,12 @@ Item {
         }
 
         function test_noDelegateCreationDestructionOnMove() {
+            // Go to scope 1 and back so that items are created
+            // and so this test makes sense
+            dashContent.setCurrentScopeAtIndex(1);
+            waitForRendering(dashContent);
+            dashContent.setCurrentScopeAtIndex(0);
+
             // Our cards are of type AbstractButton as defined in CardCreator.js
             // This gives also other things that are not cards but for our purpose it
             // does not matter
