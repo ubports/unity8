@@ -6,8 +6,12 @@ pkg_check_modules(UBUNTUGESTURES REQUIRED UbuntuGestures)
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/Ubuntu/Gestures
-    ${UBUNTUGESTURES_INCLUDE_DIRS}
     ${CMAKE_CURRENT_BINARY_DIR}
+    )
+
+include_directories(
+    SYSTEM
+    ${UBUNTUGESTURES_INCLUDE_DIRS}
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
     ${UBUNTUGESTURES_INCLUDEDIR}/UbuntuGestures/${UBUNTUGESTURES_VERSION}

@@ -20,8 +20,6 @@ import Ubuntu.Content 1.1
 
 Item {
     id: root
-    implicitHeight: button.height
-    implicitWidth: button.width
 
     property var shareData
     property alias active: peerPicker.active
@@ -30,18 +28,8 @@ Item {
     readonly property var url: shareData ? shareData["uri"] : ""
     readonly property Item rootItem: QuickUtils.rootItem(root)
 
-    AbstractButton {
-        id: button
-        height: units.gu(4)
-        width: units.gu(4)
-        onClicked: peerPicker.visible = true
-
-        Icon {
-            anchors.centerIn: parent
-            height: units.gu(3)
-            width: units.gu(3)
-            source: "image://theme/share"
-        }
+    function showPeerPicker() {
+        peerPicker.visible = true;
     }
 
     function createExportedItems(url) {
