@@ -68,7 +68,6 @@ while [ ! -e "$XDG_RUNTIME_DIR/upstart/sessions/$INIT_PID.session" ]; do sleep 0
 export UPSTART_SESSION=$(/sbin/initctl list-sessions | grep "^$INIT_PID " | cut -d' ' -f2)
 
 # Connect upstart to system.
-echo "DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS}" >"$XDG_RUNTIME_DIR/dbus-session"
 /sbin/initctl notify-dbus-address "$DBUS_SESSION_BUS_ADDRESS"
 /sbin/initctl start notify-cgmanager
 
