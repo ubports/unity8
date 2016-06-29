@@ -503,39 +503,37 @@ Rectangle {
         function test_appSupportingOnlyPrimaryOrientationMakesPhoneShellStayPut() {
             loadShell("mako");
 
-            var spreadRepeater = findChild(shell, "spreadRepeater");
-            verify(spreadRepeater);
+            var primarySurfaceId = topLevelSurfaceList.nextId;
+            var primaryApp = ApplicationManager.startApplication("primary-oriented-app");
+            verify(primaryApp);
+            waitUntilAppWindowIsFullyLoaded(primarySurfaceId);
 
-            // unity8-dash supports only primary orientation and should be already running
-            compare(spreadRepeater.count, 1);
-            var dashDelegate = spreadRepeater.itemAt(0);
-            var dashApp = dashDelegate.application;
-            verify(dashApp);
-            compare(dashApp.appId, "unity8-dash");
-            var dashAppWindow = findChild(dashDelegate, "appWindow");
-            verify(dashAppWindow);
-            compare(dashDelegate.focus, true);
-            compare(dashApp.rotatesWindowContents, false);
-            compare(dashApp.supportedOrientations, Qt.PrimaryOrientation);
-            compare(dashApp.stage, ApplicationInfoInterface.MainStage);
+            var primaryAppWindow = findAppWindowForSurfaceId(primarySurfaceId);
+            verify(primaryAppWindow)
+            var primaryDelegate = findChild(shell, "spreadDelegate_" + primarySurfaceId);
 
-            tryCompareFunction(function(){return dashDelegate.surface != null;}, true);
-            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
+            compare(primaryDelegate.focus, true);
+            compare(primaryApp.rotatesWindowContents, false);
+            compare(primaryApp.supportedOrientations, Qt.PrimaryOrientation);
+            compare(primaryApp.stage, ApplicationInfoInterface.MainStage);
+
+            tryCompareFunction(function(){return primaryDelegate.surface != null;}, true);
+            verify(checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle));
 
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
             rotateTo(90);
 
-            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
+            verify(checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle));
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
 
             rotateTo(180);
 
-            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
+            verify(checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle));
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
 
             rotateTo(270);
 
-            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
+            verify(checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle));
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
         }
 
@@ -548,37 +546,39 @@ Rectangle {
         function test_appSupportingOnlyPrimaryOrientationWillOnlyRotateInLandscape(data) {
             loadShell(data.deviceName);
 
-            compare(topLevelSurfaceList.applicationAt(0).appId, "unity8-dash");
-            var dashSurfaceId = topLevelSurfaceList.idAt(0);
-            var dashAppWindow = findAppWindowForSurfaceId(dashSurfaceId);
+            var primarySurfaceId = topLevelSurfaceList.nextId;
+            var primaryApp = ApplicationManager.startApplication("primary-oriented-app");
+            verify(primaryApp);
+            waitUntilAppWindowIsFullyLoaded(primarySurfaceId);
 
-            // unity8-dash supports only primary orientation and should be already running
+            var primaryAppWindow = findAppWindowForSurfaceId(primarySurfaceId);
+            verify(primaryAppWindow)
 
-            compare(ApplicationManager.focusedApplicationId, "unity8-dash");
-            var dashApp = dashAppWindow.application;
-            verify(dashApp);
-            compare(dashApp.rotatesWindowContents, false);
-            compare(dashApp.supportedOrientations, Qt.PrimaryOrientation);
-            compare(dashApp.stage, ApplicationInfoInterface.MainStage);
+            // primary-oriented-app supports only primary orientation
 
-            tryCompareFunction(function(){return dashApp.surfaceList.count > 0;}, true);
+            compare(ApplicationManager.focusedApplicationId, "primary-oriented-app");
+            compare(primaryApp.rotatesWindowContents, false);
+            compare(primaryApp.supportedOrientations, Qt.PrimaryOrientation);
+            compare(primaryApp.stage, ApplicationInfoInterface.MainStage);
 
-            tryCompareFunction(function(){return checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle)}, true);
+            tryCompareFunction(function(){return primaryApp.surfaceList.count > 0;}, true);
+
+            tryCompareFunction(function(){return checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle)}, true);
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
 
             rotateTo(90);
 
-            tryCompareFunction(function(){return checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle)}, true);
+            tryCompareFunction(function(){return checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle)}, true);
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
 
             rotateTo(180);
 
-            tryCompareFunction(function(){return checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle + 180)}, true);
+            tryCompareFunction(function(){return checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle + 180)}, true);
             compare(shell.transformRotationAngle, root.primaryOrientationAngle + 180);
 
             rotateTo(270);
 
-            tryCompareFunction(function(){return checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle + 180)}, true);
+            tryCompareFunction(function(){return checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle + 180)}, true);
             compare(shell.transformRotationAngle, root.primaryOrientationAngle + 180);
         }
 
@@ -816,12 +816,13 @@ Rectangle {
         }
 
         /*
+            - launch an app that only supports the primary orientation
             - launch an app that supports all orientations, such as twitter-webapp
             - wait a bit until that app is considered to have finished initializing and is thus
               ready to get resized/rotated
-            - switch back to dash
+            - switch back to previous app (only supporting primary
             - rotate device to 90 degrees
-            - Physical orientation is 90 but Shell orientation is kept at 0 because unity8-dash
+            - Physical orientation is 90 but Shell orientation is kept at 0 because the app
               doesn't support such orientation
             - do a long right-edge drag to show the apps spread
             - tap on twitter-webapp
@@ -838,6 +839,13 @@ Rectangle {
          */
         function test_greeterStaysAwayAfterRotation() {
             loadShell("mako");
+
+            // Load an app which only supports primary
+            var primarySurfaceId = topLevelSurfaceList.nextId;
+            var primaryApp = ApplicationManager.startApplication("primary-oriented-app");
+            verify(primaryApp);
+            waitUntilAppWindowIsFullyLoaded(primarySurfaceId);
+
             var twitterSurfaceId = topLevelSurfaceList.nextId;
             var twitterApp = ApplicationManager.startApplication("twitter-webapp");
             verify(twitterApp);
@@ -850,12 +858,11 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(twitterSurfaceId);
             waitUntilAppWindowCanRotate(twitterSurfaceId);
 
-            // go back to unity8-dash
+            // go back to primary-oriented-app
             performEdgeSwipeToSwitchToPreviousApp();
 
             rotateTo(90);
             wait(1); // spin the event loop to let all bindings do their thing
-            // should not rotat as unity8-dash doesn't support it
             tryCompare(shell, "transformRotationAngle", 0);
 
             performEdgeSwipeToShowAppSpread();
@@ -1257,7 +1264,7 @@ Rectangle {
            Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1476757
 
            Steps:
-           1- have a portrait-only app in foreground (eg unity8-dash)
+           1- have a portrait-only app in foreground (eg primary-oriented-app)
            2- launch or switch to some other application
            3- right-edge swipe to show the apps spread
            4- swipe up to close the current app (the one from step 2)
@@ -1275,8 +1282,10 @@ Rectangle {
         function test_lockPhoneAfterClosingAppInSpreadThenUnlockAndRotate() {
             loadShell("mako");
 
-            compare(topLevelSurfaceList.applicationAt(0).appId, "unity8-dash");
-            var dashSurfaceId = topLevelSurfaceList.idAt(0);
+            var primarySurfaceId = topLevelSurfaceList.nextId;
+            var primaryApp = ApplicationManager.startApplication("primary-oriented-app");
+            verify(primaryApp);
+            waitUntilAppWindowIsFullyLoaded(primarySurfaceId);
 
             var gmailSurfaceId = topLevelSurfaceList.nextId;
             var gmailApp = ApplicationManager.startApplication("gmail-webapp");
@@ -1298,7 +1307,7 @@ Rectangle {
 
             swipeAwayGreeter();
 
-            verify(isAppSurfaceFocused(dashSurfaceId))
+            verify(isAppSurfaceFocused(primarySurfaceId))
 
             signalSpy.clear();
             signalSpy.target = shell;

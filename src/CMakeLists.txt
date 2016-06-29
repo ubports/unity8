@@ -1,6 +1,7 @@
 pkg_check_modules(CONNECTIVITY REQUIRED connectivity-qt1)
 
 include_directories(
+    SYSTEM
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${CONNECTIVITY_INCLUDE_DIRS}
 )
