@@ -25,6 +25,7 @@
 #include <QCommandLineParser>
 #include <QLibrary>
 #include <libintl.h>
+#include <QQmlApplicationEngine>
 
 #include <paths.h>
 #include "../qmldebuggerutils.h"
@@ -83,22 +84,6 @@ int main(int argc, const char *argv[])
     bindtextdomain("unity8", translationDirectory().toUtf8().data());
     textdomain("unity8");
 
-    QQuickView* view = new QQuickView();
-    view->setResizeMode(QQuickView::SizeRootObjectToView);
-
-    if (parser.isSet(windowGeometryOption) &&
-        parser.value(windowGeometryOption).split('x').size() == 2)
-    {
-        QStringList geom = parser.value(windowGeometryOption).split('x');
-        QSize windowSize(geom.at(0).toInt(), geom.at(1).toInt());
-        if (windowSize.isValid()) {
-            view->setWidth(windowSize.width());
-            view->setHeight(windowSize.height());
-        }
-    }
-
-    view->setTitle(QStringLiteral("Scopes"));
-
     #ifdef UNITY8_ENABLE_TOUCH_EMULATION
     // You will need this if you want to interact with touch-only components using a mouse
     // Needed only when manually testing on a desktop.
@@ -108,15 +93,31 @@ int main(int argc, const char *argv[])
     }
     #endif
 
+    QQmlApplicationEngine *engine = new QQmlApplicationEngine(application);
+
+    int initialWidth = -1;
+    int initialHeight = -1;
+    if (parser.isSet(windowGeometryOption) &&
+        parser.value(windowGeometryOption).split('x').size() == 2)
+    {
+        QStringList geom = parser.value(windowGeometryOption).split('x');
+        QSize windowSize(geom.at(0).toInt(), geom.at(1).toInt());
+        if (windowSize.isValid()) {
+            initialWidth = windowSize.width();
+            initialHeight = windowSize.height();
+        }
+    }
+    engine->rootContext()->setContextProperty("initialWidth", initialWidth);
+    engine->rootContext()->setContextProperty("initialHeight", initialHeight);
+
     QUrl source(::qmlDirectory() + "/Dash/DashApplication.qml");
-    prependImportPaths(view->engine(), ::overrideImportPaths());
-    appendImportPaths(view->engine(), ::fallbackImportPaths());
+    prependImportPaths(engine, ::overrideImportPaths());
+    appendImportPaths(engine, ::fallbackImportPaths());
 
     CachingNetworkManagerFactory *managerFactory = new CachingNetworkManagerFactory();
-    view->engine()->setNetworkAccessManagerFactory(managerFactory);
+    engine->setNetworkAccessManagerFactory(managerFactory);
 
-    view->setSource(source);
-    view->show();
+    engine->load(source);
 
     UnixSignalHandler signalHandler([]{
         QGuiApplication::exit(0);
@@ -125,7 +126,7 @@ int main(int argc, const char *argv[])
 
     int result = application->exec();
 
-    delete view;
+    delete engine;
 
     #ifdef UNITY8_ENABLE_TOUCH_EMULATION
     delete mouseTouchAdaptor;

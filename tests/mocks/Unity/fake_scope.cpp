@@ -39,6 +39,7 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     , m_searching(false)
     , m_favorite(favorite)
     , m_isActive(false)
+    , m_hasBeenActive(false)
     , m_hasNavigation(true)
     , m_hasPrimaryFilter(true)
     , m_currentNavigationId("root")
@@ -108,7 +109,7 @@ bool Scope::favorite() const
 
 unity::shell::scopes::CategoriesInterface* Scope::categories() const
 {
-    return m_categories;
+    return m_hasBeenActive ? m_categories : nullptr;
 }
 
 unity::shell::scopes::SettingsModelInterface* Scope::settings() const
@@ -152,6 +153,10 @@ void Scope::setActive(const bool active)
     if (active != m_isActive) {
         m_isActive = active;
         Q_EMIT isActiveChanged();
+    }
+    if (active && !m_hasBeenActive) {
+        m_hasBeenActive = true;
+        Q_EMIT categoriesChanged();
     }
 }
 

@@ -55,8 +55,8 @@ MouseArea {
 
         function updateNormalGeometry() {
             if (root.target.state == "normal") {
-                normalX = root.target.x
-                normalY = root.target.y
+                normalX = root.target.requestedX
+                normalY = root.target.requestedY
                 normalWidth = root.target.width
                 normalHeight = root.target.height
             }
@@ -73,14 +73,14 @@ MouseArea {
 
     function loadWindowState() {
         var windowGeometry = windowStateStorage.getGeometry(root.windowId,
-                                                            Qt.rect(target.x, target.y, defaultWidth, defaultHeight));
+                                                            Qt.rect(target.requestedX, target.requestedY, defaultWidth, defaultHeight));
 
         target.requestedWidth = Qt.binding(function() { return Math.min(Math.max(windowGeometry.width, d.minimumWidth), screenWidth - root.leftMargin); });
         target.requestedHeight = Qt.binding(function() { return Math.min(Math.max(windowGeometry.height, d.minimumHeight),
                                                                          root.screenHeight - (target.fullscreen ? 0 : PanelState.panelHeight)); });
-        target.x = Qt.binding(function() { return Math.max(Math.min(windowGeometry.x, root.screenWidth - root.leftMargin - target.requestedWidth),
+        target.requestedX = Qt.binding(function() { return Math.max(Math.min(windowGeometry.x, root.screenWidth - root.leftMargin - target.requestedWidth),
                                                            (target.fullscreen ? 0 : root.leftMargin)); });
-        target.y = Qt.binding(function() { return Math.max(Math.min(windowGeometry.y, root.screenHeight - target.requestedHeight), PanelState.panelHeight); });
+        target.requestedY = Qt.binding(function() { return Math.max(Math.min(windowGeometry.y, root.screenHeight - target.requestedHeight), PanelState.panelHeight); });
 
         var windowState = windowStateStorage.getState(root.windowId, WindowStateStorage.WindowStateNormal)
         switch (windowState) {
@@ -258,8 +258,8 @@ MouseArea {
             var pos = mapToItem(root.target.parent, mouseX, mouseY);
             d.startMousePosX = pos.x;
             d.startMousePosY = pos.y;
-            d.startX = target.x;
-            d.startY = target.y;
+            d.startX = target.requestedX;
+            d.startY = target.requestedY;
             d.startWidth = target.width;
             d.startHeight = target.height;
             d.currentWidth = target.width;
@@ -296,7 +296,7 @@ MouseArea {
 
         if (d.leftBorder) {
             var newTargetX = d.startX + deltaX;
-            var rightBorderX = target.x + target.width;
+            var rightBorderX = target.requestedX + target.width;
             if (rightBorderX > newTargetX + d.minimumWidth) {
                 if (rightBorderX  < newTargetX + d.maximumWidth) {
                     target.requestedWidth = rightBorderX - newTargetX;
@@ -322,7 +322,7 @@ MouseArea {
 
         if (d.topBorder) {
             var newTargetY = Math.max(d.startY + deltaY, PanelState.panelHeight); // disallow resizing up past Panel
-            var bottomBorderY = target.y + target.height;
+            var bottomBorderY = target.requestedY + target.height;
             if (bottomBorderY > newTargetY + d.minimumHeight) {
                 if (bottomBorderY < newTargetY + d.maximumHeight) {
                     target.requestedHeight = bottomBorderY - newTargetY;
@@ -351,13 +351,13 @@ MouseArea {
         target: root.target
         onWidthChanged: {
             if (d.moveLeftBorder) {
-                target.x += d.currentWidth - target.width;
+                target.requestedX += d.currentWidth - target.width;
             }
             d.currentWidth = target.width;
         }
         onHeightChanged: {
             if (d.moveTopBorder) {
-                target.y += d.currentHeight - target.height;
+                target.requestedY += d.currentHeight - target.height;
             }
             d.currentHeight = target.height;
         }

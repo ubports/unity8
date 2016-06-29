@@ -53,9 +53,9 @@ void WindowStateStorage::saveStage(const QString &appId, int stage)
     Q_EMIT stageSaved(appId, stage);
 }
 
-int WindowStateStorage::getStage(const QString &appId) const
+int WindowStateStorage::getStage(const QString &appId, int defaultValue) const
 {
-    return m_stage.value(appId, unity::shell::application::ApplicationInfoInterface::MainStage);
+    return m_stage.value(appId, defaultValue);
 }
 
 void WindowStateStorage::clear()
