@@ -16,6 +16,7 @@
 
 import QtQuick 2.4
 import Cursor 1.1
+import Powerd 0.1
 
 MousePointer {
     id: mousePointer
@@ -26,19 +27,33 @@ MousePointer {
         cursorName: mousePointer.cursorName
     }
 
-    AnimatedSprite {
-        x: -imageInfo.hotspot.x
-        y: -imageInfo.hotspot.y
-        source: "image://cursor/" + mousePointer.themeName + "/" + mousePointer.cursorName
+    Loader {
+        active: mousePointer.visible && imageInfo.frameCount > 1
+        sourceComponent: AnimatedSprite {
+            x: -imageInfo.hotspot.x
+            y: -imageInfo.hotspot.y
+            source: "image://cursor/" + mousePointer.themeName + "/" + mousePointer.cursorName
 
-        interpolate: false
+            interpolate: false
 
-        width: imageInfo.frameWidth
-        height: imageInfo.frameHeight
+            width: imageInfo.frameWidth
+            height: imageInfo.frameHeight
 
-        frameCount: imageInfo.frameCount
-        frameDuration: imageInfo.frameDuration
-        frameWidth: imageInfo.frameWidth
-        frameHeight: imageInfo.frameHeight
+            frameCount: imageInfo.frameCount
+            frameDuration: imageInfo.frameDuration
+            frameWidth: imageInfo.frameWidth
+            frameHeight: imageInfo.frameHeight
+
+            running: Powerd.status === Powerd.On
+        }
+    }
+
+    Loader {
+        active: mousePointer.visible && imageInfo.frameCount === 1
+        sourceComponent: Image {
+            x: -imageInfo.hotspot.x
+            y: -imageInfo.hotspot.y
+            source: "image://cursor/" + mousePointer.themeName + "/" + mousePointer.cursorName
+        }
     }
 }

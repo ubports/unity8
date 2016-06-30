@@ -75,26 +75,27 @@ Rectangle {
 
         function test_mapping_data() {
             return [
-                { tag: "Actions", type: "actions", source: "PreviewActions.qml", expanded: true },
-                { tag: "Audio", type: "audio", source: "PreviewAudioPlayback.qml", expanded: true },
-                { tag: "Comment", type: "comment", source: "PreviewComment.qml", expanded: true },
-                { tag: "Comment Input", type: "comment-input", source: "PreviewCommentInput.qml", expanded: true },
-                { tag: "Expandable", type: "expandable", source: "PreviewExpandable.qml", expanded: false },
-                { tag: "Gallery", type: "gallery", source: "PreviewImageGallery.qml", expanded: true },
-                { tag: "Header", type: "header", source: "PreviewHeader.qml", expanded: true },
-                { tag: "Image", type: "image", source: "PreviewZoomableImage.qml", expanded: true },
-                { tag: "Progress", type: "progress", source: "PreviewProgress.qml", expanded: true },
-                { tag: "Rating Input", type: "rating-input", source: "PreviewRatingInput.qml", expanded: true },
-                { tag: "Rating Display", type: "reviews", source: "PreviewRatingDisplay.qml", expanded: true },
-                { tag: "Table", type: "table", source: "PreviewTable.qml", expanded: true },
-                { tag: "Text", type: "text", source: "PreviewTextSummary.qml", expanded: true },
-                { tag: "Video", type: "video", source: "PreviewVideoPlayback.qml", expanded: true },
+                { tag: "Actions", data: { type: "actions" }, source: "PreviewActions.qml", expanded: true },
+                { tag: "Audio", data: { type: "audio" }, source: "PreviewAudioPlayback.qml", expanded: true },
+                { tag: "Comment", data: { type: "comment" }, source: "PreviewComment.qml", expanded: true },
+                { tag: "Comment Input", data: { type: "comment-input" }, source: "PreviewCommentInput.qml", expanded: true },
+                { tag: "Expandable", data: { type: "expandable" }, source: "PreviewExpandable.qml", expanded: false },
+                { tag: "Gallery", data: { type: "gallery" }, source: "PreviewImageGallery.qml", expanded: true },
+                { tag: "Header", data: { type: "header" }, source: "PreviewHeader.qml", expanded: true },
+                { tag: "Image", data: { type: "image" }, source: "PreviewZoomableImage.qml", expanded: true },
+                { tag: "Progress", data: { type: "progress" }, source: "PreviewProgress.qml", expanded: true },
+                { tag: "Rating Input", data: { type: "rating-input" }, source: "PreviewRatingInput.qml", expanded: true },
+                { tag: "Rating Display", data: { type: "reviews" }, source: "PreviewRatingDisplay.qml", expanded: true },
+                { tag: "Table", data: { type: "table" }, source: "PreviewTable.qml", expanded: true },
+                { tag: "Text", data: { type: "text" }, source: "PreviewTextSummary.qml", expanded: true },
+                { tag: "Video Inline", data: { type: "video", source: "httpDemo" }, source: "PreviewInlineVideo.qml", expanded: true },
+                { tag: "Video", data: { type: "video", source: "https://demo" }, source: "PreviewVideoPlayback.qml", expanded: true },
             ];
         }
 
         function test_mapping(data) {
-            factory.widgetData = { type: data.type };
-            factory.widgetType = data.type;
+            factory.widgetData = data.data;
+            factory.widgetType = data.data.type;
 
             verify((String(factory.source)).indexOf(data.source) != -1);
             compare(factory.item.expanded, data.expanded);

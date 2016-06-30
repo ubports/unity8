@@ -31,6 +31,9 @@ Item {
     //! Should the widget show in expanded mode (For those that support it)
     property bool expanded: true
 
+    //! Should the orientation be locked
+    property bool orientationLock: false
+
     //! Set margins width.
     property real widgetMargins: units.gu(1)
 
