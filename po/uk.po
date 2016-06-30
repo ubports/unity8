@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-06-20 20:25+0000\n"
+"POT-Creation-Date: 2016-06-27 18:49+0000\n"
 "PO-Revision-Date: 2016-04-01 17:32+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2016-06-26 06:01+0000\n"
-"X-Generator: Launchpad (build 18111)\n"
+"X-Launchpad-Export-Date: 2016-06-30 05:52+0000\n"
+"X-Generator: Launchpad (build 18115)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -297,6 +297,16 @@ msgstr "Терміновий виклик"
 msgid "OK"
 msgstr "Гаразд"
 
+#: qml/Components/MediaServices/VideoPlayerControls.qml:44
+#, qt-format
+msgid "%1:%2:%3"
+msgstr ""
+
+#: qml/Components/MediaServices/VideoPlayerControls.qml:49
+#, qt-format
+msgid "%1:%2"
+msgstr ""
+
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
 msgstr "Додатки можуть містити незбережені дані:"
@@ -324,6 +334,10 @@ msgstr "Перепід’єднатися зараз!"
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
 msgstr "Закрити усе"
+
+#: qml/Components/SharingPicker.qml:54
+msgid "Preview Share Item"
+msgstr "Попередній перегляд спільного запису"
 
 #: qml/Dash/DashPageHeader.qml:333
 msgctxt "Button: Open the Ubuntu Store"
@@ -398,10 +412,6 @@ msgstr "Оцінити"
 msgid "Add a review"
 msgstr "Додати рецензію"
 
-#: qml/Dash/Previews/PreviewSharing.qml:66
-msgid "Preview Share Item"
-msgstr "Попередній перегляд спільного запису"
-
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
 msgstr "Потягніть для оновлення…"
@@ -418,11 +428,11 @@ msgstr "Увімкнути дані перебування"
 msgid "Manage"
 msgstr "Керування"
 
-#: qml/Dash/ScopesList.qml:101
+#: qml/Dash/ScopesList.qml:102
 msgid "Home"
 msgstr "Домівка"
 
-#: qml/Dash/ScopesList.qml:102
+#: qml/Dash/ScopesList.qml:103
 msgid "Also installed"
 msgstr "Також встановлено"
 
@@ -438,7 +448,7 @@ msgstr ""
 msgid "Unlock"
 msgstr "Розблокувати"
 
-#: qml/Greeter/Greeter.qml:536
+#: qml/Greeter/Greeter.qml:539
 msgid "Try again"
 msgstr ""
 
@@ -636,7 +646,7 @@ msgstr "Мова"
 #: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
 #: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
 #: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:124
+#: qml/Wizard/Pages/passcode-desktop.qml:141
 #: qml/Wizard/Pages/password-set.qml:141
 msgid "Next"
 msgstr "Наступне"
@@ -799,7 +809,7 @@ msgid "Service Terms"
 msgstr "Умовами надання послуг"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:80
+#: qml/Wizard/Pages/passcode-desktop.qml:96
 msgid "Confirm passcode"
 msgstr "Підтвердіть код-пароль"
 
@@ -816,24 +826,24 @@ msgstr "Уведіть поновій."
 msgid "Lock Screen Passcode"
 msgstr "Код блокування екрану"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:56
+#: qml/Wizard/Pages/passcode-desktop.qml:60
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "Уведіть код блокування із 4 цифр"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:65
+#: qml/Wizard/Pages/passcode-desktop.qml:76
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "Виберіть код-пароль"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:105
+#: qml/Wizard/Pages/passcode-desktop.qml:126
 msgid "Passcode too short"
 msgstr "Код закороткий"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:107
+#: qml/Wizard/Pages/passcode-desktop.qml:128
 msgid "Passcodes match"
 msgstr "Коди збігаються"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:109
+#: qml/Wizard/Pages/passcode-desktop.qml:130
 msgid "Passcodes do not match"
 msgstr "Коди не збігаються"
 
@@ -883,26 +893,30 @@ msgid "To proceed with no SIM tap Skip."
 msgstr "Щоб продовжити без SIM картки, натисніть кнопку \"Пропустити\""
 
 #: qml/Wizard/PasswordMeter.qml:87
+msgid "Password too short"
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
 msgstr "Паролі збігаються"
 
-#: qml/Wizard/PasswordMeter.qml:89
+#: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
 msgstr "Паролі не збігаються"
 
-#: qml/Wizard/PasswordMeter.qml:93
+#: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
 msgstr "Сильний пароль"
 
-#: qml/Wizard/PasswordMeter.qml:95
+#: qml/Wizard/PasswordMeter.qml:97
 msgid "Fair password"
 msgstr "Задовільний пароль"
 
-#: qml/Wizard/PasswordMeter.qml:97
+#: qml/Wizard/PasswordMeter.qml:99
 msgid "Weak password"
 msgstr "Слабкий пароль"
 
-#: qml/Wizard/PasswordMeter.qml:99
+#: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
 msgstr "Дуже слабкий пароль"
 

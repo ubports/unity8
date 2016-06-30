@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-06-20 20:25+0000\n"
+"POT-Creation-Date: 2016-06-27 18:49+0000\n"
 "PO-Revision-Date: 2016-04-08 18:34+0000\n"
 "Last-Translator: Akerbeltz <fios@akerbeltz.org>\n"
 "Language-Team: Fòram na Gàidhlig\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2016-06-26 06:00+0000\n"
-"X-Generator: Launchpad (build 18111)\n"
+"X-Launchpad-Export-Date: 2016-06-30 05:51+0000\n"
+"X-Generator: Launchpad (build 18115)\n"
 "Language: gd\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -299,6 +299,16 @@ msgstr "Gairm èiginn"
 msgid "OK"
 msgstr "Ceart ma-thà"
 
+#: qml/Components/MediaServices/VideoPlayerControls.qml:44
+#, qt-format
+msgid "%1:%2:%3"
+msgstr ""
+
+#: qml/Components/MediaServices/VideoPlayerControls.qml:49
+#, qt-format
+msgid "%1:%2"
+msgstr ""
+
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
 msgstr "Aplacaidean aig a bheil dàta gun sàbhaladh ma dh'fhaoidte:"
@@ -326,6 +336,10 @@ msgstr "Ath-cheangail an-dràsta!"
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
 msgstr "Dùin na h-uile"
+
+#: qml/Components/SharingPicker.qml:54
+msgid "Preview Share Item"
+msgstr "Ro-sheall an nì co-roinnidh"
 
 #: qml/Dash/DashPageHeader.qml:333
 msgctxt "Button: Open the Ubuntu Store"
@@ -400,10 +414,6 @@ msgstr "Rangaich seo"
 msgid "Add a review"
 msgstr "Cuir lèirmheas ris"
 
-#: qml/Dash/Previews/PreviewSharing.qml:66
-msgid "Preview Share Item"
-msgstr "Ro-sheall an nì co-roinnidh"
-
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
 msgstr "Tarraing airson ath-nuadhachadh…"
@@ -420,11 +430,11 @@ msgstr "Cuir an comas dàta an ionaid"
 msgid "Manage"
 msgstr "Stiùirich"
 
-#: qml/Dash/ScopesList.qml:101
+#: qml/Dash/ScopesList.qml:102
 msgid "Home"
 msgstr "Dhachaigh"
 
-#: qml/Dash/ScopesList.qml:102
+#: qml/Dash/ScopesList.qml:103
 msgid "Also installed"
 msgstr "Air a stàladh cuideachd"
 
@@ -441,7 +451,7 @@ msgstr ""
 msgid "Unlock"
 msgstr "Thoir a' ghlas dheth"
 
-#: qml/Greeter/Greeter.qml:536
+#: qml/Greeter/Greeter.qml:539
 msgid "Try again"
 msgstr ""
 
@@ -650,7 +660,7 @@ msgstr "Cànan"
 #: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
 #: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
 #: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:124
+#: qml/Wizard/Pages/passcode-desktop.qml:141
 #: qml/Wizard/Pages/password-set.qml:141
 msgid "Next"
 msgstr "Air adhart"
@@ -814,7 +824,7 @@ msgid "Service Terms"
 msgstr "teirmichean na seirbheise"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:80
+#: qml/Wizard/Pages/passcode-desktop.qml:96
 msgid "Confirm passcode"
 msgstr "Dearbhaich an còd-faire"
 
@@ -831,24 +841,24 @@ msgstr "Cuir a-steach e às ùr."
 msgid "Lock Screen Passcode"
 msgstr "Còd-faire na sgrin-ghlasaidh"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:56
+#: qml/Wizard/Pages/passcode-desktop.qml:60
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "Cuir a-steach 4 àireamhan a bhios ’nan còd-faire agad"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:65
+#: qml/Wizard/Pages/passcode-desktop.qml:76
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "Tagh còd-faire"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:105
+#: qml/Wizard/Pages/passcode-desktop.qml:126
 msgid "Passcode too short"
 msgstr "Tha an còd-faire ro ghoirid"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:107
+#: qml/Wizard/Pages/passcode-desktop.qml:128
 msgid "Passcodes match"
 msgstr "Tha an dà chòd-faire co-ionnann"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:109
+#: qml/Wizard/Pages/passcode-desktop.qml:130
 msgid "Passcodes do not match"
 msgstr "Chan eil an dà chòd-faire co-ionnann"
 
@@ -900,26 +910,30 @@ msgstr ""
 "Leum thairis air seo ma tha thu airson leantainn air adhart as aonais SIM."
 
 #: qml/Wizard/PasswordMeter.qml:87
+msgid "Password too short"
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
 msgstr "Tha an dà fhacal-faire co-ionnann"
 
-#: qml/Wizard/PasswordMeter.qml:89
+#: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
 msgstr "Chan eil an dà fhacal-faire co-ionnann"
 
-#: qml/Wizard/PasswordMeter.qml:93
+#: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
 msgstr "Facal-faire làidir"
 
-#: qml/Wizard/PasswordMeter.qml:95
+#: qml/Wizard/PasswordMeter.qml:97
 msgid "Fair password"
 msgstr "Facal-faire meadhanach"
 
-#: qml/Wizard/PasswordMeter.qml:97
+#: qml/Wizard/PasswordMeter.qml:99
 msgid "Weak password"
 msgstr "Facal-faire lag"
 
-#: qml/Wizard/PasswordMeter.qml:99
+#: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
 msgstr "Facal-faire glè lag"
 
