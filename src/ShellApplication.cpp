@@ -29,6 +29,7 @@
 #include <paths.h>
 #include "CachingNetworkManagerFactory.h"
 #include "UnityCommandLineParser.h"
+#include "DebuggingController.h"
 
 ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     : QGuiApplication(argc, argv)
@@ -93,6 +94,7 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     }
     #endif
 
+    new DebuggingController(this);
 
     // Some hard-coded policy for now.
     // NB: We don't support more than two screens at the moment

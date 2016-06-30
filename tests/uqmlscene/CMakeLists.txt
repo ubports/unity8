@@ -1,16 +1,19 @@
 add_executable(uqmlscene
     ${shellapplication_MOC_SRCS}
     main.cpp
+    ${CMAKE_SOURCE_DIR}/src/DebuggingController.cpp
     )
 
-qt5_use_modules(uqmlscene Qml Quick Test)
+qt5_use_modules(uqmlscene Qml Quick Test DBus)
 pkg_check_modules(XCB REQUIRED xcb)
 
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/src
+    ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures
+    ${libunity8-private_SOURCE_DIR}
 )
 
 if (NOT "${XCB_INCLUDE_DIRS}" STREQUAL "")
@@ -22,4 +25,5 @@ target_link_libraries(uqmlscene
     ${Qt5Quick_LIBRARIES}
     ${XCB_LDFLAGS}
     UbuntuGestures
+    unity8-private
     )
