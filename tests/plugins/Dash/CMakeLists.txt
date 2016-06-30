@@ -12,10 +12,14 @@ endif()
 
 
 include_directories(
+    SYSTEM
     ${Qt5Qml_PRIVATE_INCLUDE_DIRS}
     ${Qt5Quick_INCLUDE_DIRS}
     ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
     ${Qt5V8_PRIVATE_INCLUDE_DIR}
+    )
+
+include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/Dash
     ${CMAKE_CURRENT_BINARY_DIR}
     )

@@ -109,6 +109,7 @@ protected:
     bool m_searching;
     bool m_favorite;
     bool m_isActive;
+    bool m_hasBeenActive;
     bool m_hasNavigation;
     bool m_hasPrimaryFilter;
     QString m_currentNavigationId;

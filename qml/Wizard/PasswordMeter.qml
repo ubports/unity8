@@ -83,7 +83,9 @@ Item {
         wrapMode: Text.Wrap
         text: {
             if (matching !== undefined) {
-                if (matching)
+                if (password.length < 8)
+                    return i18n.tr("Password too short");
+                else if (matching)
                     return i18n.tr("Passwords match");
                 else if (!matching)
                     return i18n.tr("Passwords do not match");
