@@ -29,7 +29,7 @@
                                 <dox:d>The object on the dbus interface implementing the gmenumodel interface</dox:d>
                         </arg>
                         <arg name="actionObjectPath" type="o" direction="in">
-                                <dox:d>The object on the dbus interface implementing the gmenumodel interface</dox:d>
+                                <dox:d>The object on the dbus interface implementing the gactiongroup interface</dox:d>
                         </arg>
                         <arg name="service" type="s" direction="in">
                             <dox:d>The address of the connection on DBus (e.g. :1.23 or org.example.service)</dox:d>
@@ -62,7 +62,7 @@
                                 <dox:d>The object on the dbus interface implementing the gmenumodel interface</dox:d>
                         </arg>
                         <arg name="actionObjectPath" type="o" direction="in">
-                                <dox:d>The object on the dbus interface implementing the gmenumodel interface</dox:d>
+                                <dox:d>The object on the dbus interface implementing the gactiongroup interface</dox:d>
                         </arg>
                         <arg name="service" type="s" direction="in">
                             <dox:d>The address of the connection on DBus (e.g. :1.23 or org.example.service)</dox:d>
