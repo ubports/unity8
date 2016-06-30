@@ -16,11 +16,8 @@
 
 #include "globalfunctions.h"
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
-#include <private/qquickitem_p.h>
-#pragma GCC diagnostic pop
 #include <QQmlEngine>
+#include <private/qquickitem_p.h>
 
 GlobalFunctions::GlobalFunctions(QObject *parent)
     : QObject(parent)

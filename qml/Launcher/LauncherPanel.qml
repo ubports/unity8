@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -69,7 +69,9 @@ Rectangle {
     MouseArea {
         id: mouseEventEater
         anchors.fill: parent
+        acceptedButtons: Qt.AllButtons
         hoverEnabled: true
+        onWheel: wheel.accepted = true;
     }
 
     Column {
@@ -239,6 +241,7 @@ Rectangle {
                         alerting: model.alerting
                         highlighted: root.highlightIndex == index
                         shortcutHintShown: root.shortcutHintsShown && index <= 9
+                        surfaceCount: model.surfaceCount
                         z: -Math.abs(offset)
                         maxAngle: 55
                         property bool dragging: false
@@ -271,6 +274,7 @@ Rectangle {
 
                             PropertyAction { target: launcherListViewItem; property: "clip"; value: 1 }
                             PropertyAction { target: root; property: "visible"; value: (launcher.visibleWidth === 0) ? 0 : 1 }
+                            PropertyAction { target: launcherListView; property: "peekingIndex"; value: -1 }
                         }
 
                         onAlertingChanged: {

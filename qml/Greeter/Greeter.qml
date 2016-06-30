@@ -16,7 +16,9 @@
 
 import QtQuick 2.4
 import AccountsService 0.1
+import Biometryd 0.0
 import GSettings 1.0
+import Powerd 0.1
 import Ubuntu.Components 1.3
 import Ubuntu.SystemImage 0.1
 import Unity.Launcher 0.1
@@ -37,6 +39,8 @@ Showable {
     readonly property bool active: required || hasLockedApp
     readonly property bool fullyShown: loader.item ? loader.item.fullyShown : false
 
+    property bool allowFingerprint: true
+
     // True when the greeter is waiting for PAM or other setup process
     readonly property alias waiting: d.waiting
 
@@ -52,6 +56,7 @@ Showable {
     property int maxFailedLogins: -1 // disabled by default for now, will enable via settings in future
     property int failedLoginsDelayAttempts: 7 // number of failed logins
     property real failedLoginsDelayMinutes: 5 // minutes of forced waiting
+    property int failedFingerprintLoginsDisableAttempts: 3 // number of failed fingerprint logins
 
     readonly property bool animating: loader.item ? loader.item.animating : false
 
@@ -60,8 +65,15 @@ Showable {
     signal emergencyCall()
 
     function forceShow() {
-        showNow();
-        d.selectUser(d.currentIndex, true);
+        if (!active) {
+            d.isLockscreen = true;
+        }
+        forcedUnlock = false;
+        if (!required) {
+            showNow(); // loader.onLoaded will select a user
+        } else {
+            d.selectUser(d.currentIndex, true);
+        }
     }
 
     function notifyAppFocusRequested(appId) {
@@ -115,6 +127,11 @@ Showable {
         readonly property bool multiUser: lightDM.users.count > 1
         property int currentIndex
         property bool waiting
+        property bool isLockscreen // true when we are locking an active session, rather than first user login
+        readonly property bool secureFingerprint: isLockscreen &&
+                                                  AccountsService.failedFingerprintLogins <
+                                                  root.failedFingerprintLoginsDisableAttempts
+        readonly property bool alphanumeric: AccountsService.passwordDisplayHint === AccountsService.Keyboard
 
         // We want 'launcherOffset' to animate down to zero.  But not to animate
         // while being dragged.  So ideally we change this only when the user
@@ -147,7 +164,7 @@ Showable {
             if (lightDM.greeter.startSessionSync()) {
                 sessionStarted();
                 if (loader.item) {
-                    loader.item.notifyAuthenticationSucceeded();
+                    loader.item.notifyAuthenticationSucceeded(false /* showFakePassword */);
                 }
             } else if (loader.item) {
                 loader.item.notifyAuthenticationFailed();
@@ -163,11 +180,14 @@ Showable {
             }
         }
 
-        function checkForcedUnlock() {
+        function checkForcedUnlock(hideNow) {
             if (forcedUnlock && shown && loader.item) {
                 // pretend we were just authenticated
-                loader.item.notifyAuthenticationSucceeded();
+                loader.item.notifyAuthenticationSucceeded(false /* showFakePassword */);
                 loader.item.hide();
+                if (hideNow) {
+                    root.hideNow(); // skip hide animation
+                }
             }
         }
     }
@@ -178,8 +198,19 @@ Showable {
         }
     }
 
-    onForcedUnlockChanged: d.checkForcedUnlock()
-    Component.onCompleted: d.checkForcedUnlock()
+    onForcedUnlockChanged: d.checkForcedUnlock(false /* hideNow */)
+    Component.onCompleted: d.checkForcedUnlock(true /* hideNow */)
+
+    onLockedChanged: {
+        if (!locked) {
+            AccountsService.failedLogins = 0;
+            AccountsService.failedFingerprintLogins = 0;
+
+            // Stop delay timer if they logged in with fingerprint
+            forcedDelayTimer.stop();
+            forcedDelayTimer.delayMinutes = 0;
+        }
+    }
 
     onRequiredChanged: {
         if (required) {
@@ -342,7 +373,7 @@ Showable {
         Binding {
             target: loader.item
             property: "alphanumeric"
-            value: AccountsService.passwordDisplayHint === AccountsService.Keyboard
+            value: d.alphanumeric
         }
 
         Binding {
@@ -375,10 +406,6 @@ Showable {
         }
 
         onShowMessage: {
-            if (!lightDM.greeter.active) {
-                return; // could happen if hideGreeter() comes in before we prompt
-            }
-
             // inefficient, but we only rarely deal with messages
             var html = text.replace(/&/g, "&amp;")
                            .replace(/</g, "&lt;")
@@ -388,24 +415,23 @@ Showable {
                 html = "<font color=\"#df382c\">" + html + "</font>";
             }
 
-            loader.item.showMessage(html);
+            if (loader.item) {
+                loader.item.showMessage(html);
+            }
         }
 
         onShowPrompt: {
             d.waiting = false;
 
-            if (!lightDM.greeter.active) {
-                return; // could happen if hideGreeter() comes in before we prompt
+            if (loader.item) {
+                loader.item.showPrompt(text, isSecret, isDefaultPrompt);
             }
-
-            loader.item.showPrompt(text, isSecret, isDefaultPrompt);
         }
 
         onAuthenticationComplete: {
             d.waiting = false;
 
             if (lightDM.greeter.authenticated) {
-                AccountsService.failedLogins = 0;
                 d.login();
                 if (!lightDM.greeter.promptless) {
                     loader.item.hide();
@@ -452,6 +478,10 @@ Showable {
     Connections {
         target: DBusUnitySessionService
         onLockRequested: root.forceShow()
+        onUnlocked: {
+            root.forcedUnlock = true;
+            root.hideNow();
+        }
     }
 
     Binding {
@@ -469,5 +499,75 @@ Showable {
     Connections {
         target: i18n
         onLanguageChanged: lightDM.infographic.readyForDataChange()
+    }
+
+    Observer {
+        id: biometryd
+        objectName: "biometryd"
+
+        property var operation: null
+        readonly property bool idEnabled: root.active &&
+                                          root.allowFingerprint &&
+                                          Powerd.status === Powerd.On &&
+                                          Biometryd.available &&
+                                          AccountsService.enableFingerprintIdentification
+
+        function cancelOperation() {
+            if (operation) {
+                operation.cancel();
+                operation = null;
+            }
+        }
+
+        function restartOperation() {
+            cancelOperation();
+
+            if (idEnabled) {
+                var identifier = Biometryd.defaultDevice.identifier;
+                operation = identifier.identifyUser();
+                operation.start(biometryd);
+            }
+        }
+
+        function failOperation(reason) {
+            console.log("Failed to identify user by fingerprint:", reason);
+            restartOperation();
+            if (!d.secureFingerprint) {
+                d.startUnlock(false /* toTheRight */); // use normal login instead
+            }
+            if (loader.item) {
+                var msg = d.secureFingerprint ? i18n.tr("Try again") : "";
+                loader.item.showErrorMessage(msg);
+            }
+        }
+
+        Component.onCompleted: restartOperation()
+        Component.onDestruction: cancelOperation()
+        onIdEnabledChanged: restartOperation()
+
+        onSucceeded: {
+            if (!d.secureFingerprint) {
+                failOperation("fingerprint reader is locked");
+                return;
+            }
+            if (result !== lightDM.users.data(d.currentIndex, lightDM.userRoles.UidRole)) {
+                AccountsService.failedFingerprintLogins++;
+                failOperation("not the selected user");
+                return;
+            }
+            console.log("Identified user by fingerprint:", result);
+            if (loader.item)
+                loader.item.notifyAuthenticationSucceeded(true /* showFakePassword */);
+            if (root.active)
+                root.forcedUnlock = true;
+        }
+        onFailed: {
+            if (!d.secureFingerprint) {
+                failOperation("fingerprint reader is locked");
+            } else {
+                AccountsService.failedFingerprintLogins++;
+                failOperation(reason);
+            }
+        }
     }
 }

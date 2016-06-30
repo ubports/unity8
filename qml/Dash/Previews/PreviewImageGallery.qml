@@ -27,6 +27,8 @@ PreviewWidget {
     id: root
     implicitHeight: units.gu(22)
 
+    orientationLock: overlay.visible
+
     property Item rootItem: QuickUtils.rootItem(root)
 
     ListView {
@@ -38,6 +40,7 @@ PreviewWidget {
         cacheBuffer: width * 3
         model: root.widgetData["sources"]
         clip: true
+        highlightMoveDuration: 0 // QTBUG-53460
 
         onCurrentIndexChanged: overlay.updateInitialItem()
 

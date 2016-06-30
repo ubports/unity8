@@ -61,6 +61,21 @@ LocalComponents.Page {
         }
     }
 
+    function applyOSKSettings(locale) {
+        var language = locale.split("_")[0].split(".")[0];
+        var oskLanguage = language;
+
+        if (language === "zh") { // special case for Chinese, select either simplified or traditional
+            if (locale.substr(0, 5) === "zh_CN" || locale.substr(0,5) === "zh_SG") {
+                oskLanguage = "zh-hans"; // Chinese Simplified
+            } else {
+                oskLanguage = "zh-hant"; // Chinese Traditional
+            }
+        }
+
+        oskPlugin.setCurrentLayout(oskLanguage);
+    }
+
     // splash screen (this has to be on the first page)
     Image {
         id: splashImage
@@ -158,9 +173,8 @@ LocalComponents.Page {
             onClicked: {
                 if (plugin.currentLanguage !== languagesListView.currentIndex) {
                     var locale = plugin.languageCodes[languagesListView.currentIndex];
-                    var language = locale.split("_")[0].split(".")[0];
                     plugin.currentLanguage = languagesListView.currentIndex;
-                    oskPlugin.setCurrentLayout(language);
+                    applyOSKSettings(locale);
                     System.updateSessionLocale(locale);
                 }
                 i18n.language = plugin.languageCodes[plugin.currentLanguage]; // re-notify of change after above call (for qlocale change)
@@ -169,8 +183,7 @@ LocalComponents.Page {
                         (root.simManager0.present && root.simManager0.ready) || (root.simManager1.present && root.simManager1.ready) ||
                         root.seenSIMPage) { // go to next page
                     pageStack.next();
-                }
-                else {
+                } else {
                     pageStack.load(Qt.resolvedUrl("sim.qml")); // show the SIM page
                 }
             }

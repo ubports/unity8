@@ -4,12 +4,12 @@ AbstractButton {
                 property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
+                readonly property string title: cardData && cardData["title"] || "";
+                property bool showHeader: true;
+                implicitWidth: childrenRect.width;
+                enabled: true;
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
-                readonly property string title: cardData && cardData["title"] || ""; 
-                property bool showHeader: true; 
-                implicitWidth: childrenRect.width; 
-                enabled: true; 
 signal action(var actionId);
 Loader {
                                 id: backgroundLoader; 
@@ -52,8 +52,8 @@ Loader {
 readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
 Item { 
                             id: artShapeHolder; 
-                            height: root.fixedArtShapeSize.height > 0 ? root.fixedArtShapeSize.height : artShapeLoader.height; 
-                            width: root.fixedArtShapeSize.width > 0 ? root.fixedArtShapeSize.width : artShapeLoader.width; 
+                            height: root.fixedArtShapeSize.height;
+                            width: root.fixedArtShapeSize.width;
                             anchors { horizontalCenter: parent.horizontalCenter; } 
                             Loader { 
                                 id: artShapeLoader; 
@@ -75,27 +75,16 @@ Item {
                                         radius: "medium";
                                         aspect: UbuntuShape.Flat;
                                     }
-                                    readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1;
-                                    readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : 1;
-                                    Component.onCompleted: { updateWidthHeightBindings(); } 
-                                    Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); } 
-                                    function updateWidthHeightBindings() { 
-                                        if (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) { 
-                                            width = root.fixedArtShapeSize.width; 
-                                            height = root.fixedArtShapeSize.height; 
-                                        } else { 
-                                            width = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.width }); 
-                                            height = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.height }); 
-                                        } 
-                                    } 
-                                    CroppedImageMinimumSourceSize { 
+                                    width: root.fixedArtShapeSize.width;
+                                    height: root.fixedArtShapeSize.height;
+                                    CroppedImageMinimumSourceSize {
                                         id: artImage; 
                                         objectName: "artImage"; 
                                         source: artShapeLoader.cardArt;
                                         asynchronous: true;
                                         visible: false;
                                         width: root.width; 
-                                        height: width / artShape.aspect; 
+                                        height: width / (root.fixedArtShapeSize.width / root.fixedArtShapeSize.height);
                                         onStatusChanged: if (status === Image.Error) source = decodeURI("%5C");
                                     } 
                                 } 

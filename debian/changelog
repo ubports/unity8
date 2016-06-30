@@ -1,3 +1,159 @@
+unity8 (8.12+16.10.20160627.5-0ubuntu1) yakkety; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Stop watching the old header item height once it's not our header
+    anymore
+  * LVWPH: cull the header item when not on view to save some painting
+  * Adapt test to new mock behaviour
+  * Don't let the mouse go outside the parentItem (LP: #1525350)
+  * Use non deprecated package names
+  * Mark system includes as such
+  * Fix initialization order warning
+  * Do not rely on deleteLater not crashing on null pointers
+  * Add more headers of classes we use for automoc to be run
+  * CardTool: Fix the fallback value to be a size and not an integer
+  * CardTool: Include Ubuntu Components since we're using units.gu
+  * Rework tst_PreviewRatingDisplayCreationRanges
+
+  [ Daniel d'Andrada ]
+  * Cursor: Let AnimatedSprite run only on animated cursors and while
+    the display is on (LP: #1588873, #1594358)
+  * Fix missing screenshot when orientation changes while shell rotation
+    ongoing (LP: #1587796)
+
+  [ Josh Arenson ]
+  * Make PreviewRatingSingleDisplay visible again after editing a
+    review. (LP: #1587097)
+  * Correct errors in all png images to prevent libpng warnings.
+
+  [ Lukáš Tinkl ]
+  * Fix some smaller issues with OOBE wizard password pages (LP:
+    #1590467)
+  * Prevent mouse wheel events from going through shell elements (LP:
+    #1536268)
+  * Do not let mouse and wheel events pass thru the titlebar (LP:
+    #1588424)
+  * Hide the maximize window button based on size restrictions (LP:
+    #1541982)
+
+  [ Marco Trevisan (Treviño) ]
+  * Unity8.conf: ensure MIR_SOCKET is set for future customers (such as
+    the dash)
+  * ClientIndicator: be more informative about loading failures for
+    dynamically created objects
+
+  [ Michael Terry ]
+  * Stop unity8 from getting in a "switch-to-greeter" loop when locking
+    on a desktop. (LP: #1593718)
+
+  [ Michael Zanetti ]
+  * set minimum window sizes on dash
+  * displace application windows when the OSK would cover them
+
+  [ Nick Dedekind ]
+  * Force dash to always stay in the main stage. (lp:#1592404) (LP:
+    #1592404)
+  * Save the last surface stage on stage drop. (LP: #1579003)
+  * Default portrait only apps to the side stage. (LP: #1573153)
+
+  [ Albert Astals Cid, Andrea Cimitan, Michał Sawicz, Nick Dedekind ]
+  * Added live video playback in dash previews
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Mon, 27 Jun 2016 18:48:59 +0000
+
+unity8 (8.12+16.10.20160620.3-0ubuntu1) yakkety; urgency=medium
+
+  [ Michael Terry, Michał Sawicz ]
+  * Support unlocking via fingerprint, if one is registered.
+
+ -- Michael Terry <michael.terry@canonical.com>  Mon, 20 Jun 2016 20:25:25 +0000
+
+unity8 (8.12+16.10.20160617-0ubuntu1) yakkety; urgency=medium
+
+  [ Michael Terry ]
+  * Do not create Label/Icon if we don't need it
+  * Fix Z-ordering of prompt surfaces (LP: #1586219)
+  * Drop bottom edge tutorials completely and small fixes for other
+    edges. (LP: #1565103)
+  * Redo visuals for greeter prompt box. (LP: #1435923)
+  * Make tutorial qmltests more robust. (LP: #1590810)
+  * Stop showing an extra lockscreen in desktop unity8 sessions. (LP:
+    #1582987)
+
+  [ Albert Astals Cid ]
+  * Improve dash plugin mock
+  * Stabilize PreviewExpandableTest::test_all_widgets_height
+  * Workaround QTBUG-53460
+  * Split artShape code for cardTool card and regular card
+  * Simplify the code since fixedArtSize code is mandatory for regular
+    cards
+  * Desktop stage: Support rotatesWindowContents (LP: #1547481)
+  * Turn if if else into if elseif else
+  * Fix leaks in QInputDeviceManagerPrivate::addDevice
+  * Do not call |= on uninitialized sigterm.sa_flags
+  * initialize udevMonitor
+  * Make notifier and notifierFd function local variables
+  * Fix crash if a component that is not an Item is given to
+    sectionDelegate
+  * Tests: Do not use dynamic_cast if we're not going to test it anyway
+  * Minor coverity fixes
+  * Fix warning about anchors.fill in ProportionalShape (LP: #1590963)
+  * Make wait in cleanup() wait for snapTo animation to have finished
+
+  [ Alexandros Frantzis ]
+  * Improve the way notifications interact with power management (LP:
+    #1570922)
+
+  [ Andrea Cimitan ]
+  * Correctly refresh cardcreator cache on artshapestyle changes (LP:
+    #1588335)
+  * Same tweaks we have for click scope now for libertine
+  * add a timer to pull to refresh to work on small windows (LP:
+    #1589060)
+
+  [ Daniel d'Andrada ]
+  * Clean up debug leftovers
+  * Ensure mouse and window movement are pixel-aligned (LP: #1510382)
+  * Fix SpreadDelegate rotation animations
+  * No point in version-controlling files that are automatically
+    generated
+  * Center cursor on screen when it's first shown
+  * Custom cursor name just have to start with "custom"
+  * Work around AnimatedSprite infinite loop bug (LP: #1588929)
+
+  [ Josh Arenson ]
+  * Disable showDash when it is already shown. (LP: #1506708)
+  * Add a timestamp to the dash log (LP: #1580074)
+  * Add timestamp to unity8 log (LP: #1498169)
+
+  [ Lukáš Tinkl ]
+  * Implement keyboard shortcuts info panel
+  * Implement window controls overlay activatable with 3 fingers tap
+    (LP: #1489020)
+  * Select correct Chinese input method for OSK in the wizard (LP:
+    #1588633)
+
+  [ Michael Zanetti ]
+  * Add support for the launcher surface pips displaying the correct
+    number of surfaces
+  * Add support for the persistent alert state. (LP: #1575147, #1584348,
+    #1586621)
+  * send a Alt-release event on alt+tab instead of delaying it
+    completely and invoking it later (LP: #1565236)
+
+  [ Stephen M. Webb ]
+  * added a new upstart $SESSION for unity8-desktop-session (LP:
+    #1376715)
+
+ -- Michael Terry <michael.terry@canonical.com>  Fri, 17 Jun 2016 01:22:57 +0000
+
+unity8 (8.12+16.10.20160601.1-0ubuntu1) yakkety; urgency=medium
+
+  [ Pawel Stolowski ]
+  * Added apparmor profile for unity8-dash.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 01 Jun 2016 20:59:03 +0000
+
 unity8 (8.12+16.10.20160527-0ubuntu1) yakkety; urgency=medium
 
   [ Albert Astals Cid ]

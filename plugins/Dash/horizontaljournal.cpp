@@ -26,12 +26,9 @@
 #include "horizontaljournal.h"
 
 #include <qqmlengine.h>
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
-#include <private/qqmldelegatemodel_p.h>
 #include <qqmlinfo.h>
+#include <private/qqmldelegatemodel_p.h>
 #include <private/qquickitem_p.h>
-#pragma GCC diagnostic pop
 
 HorizontalJournal::HorizontalJournal()
  : m_firstVisibleIndex(-1)

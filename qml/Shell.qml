@@ -116,10 +116,9 @@ StyledItem {
     }
     function _onMainAppChanged(appId) {
         if (wizard.active && appId != "" && appId != "unity8-dash") {
-            // If this happens on first boot, we may be in edge
-            // tutorial or wizard while receiving a call.  But a call
-            // is more important than wizard so just bail out of those.
-            tutorial.finish();
+            // If this happens on first boot, we may be in the
+            // wizard while receiving a call.  But a call is more
+            // important than the wizard so just bail out of it.
             wizard.hide();
         }
 
@@ -222,6 +221,7 @@ StyledItem {
             var mappedCoords = mapFromItem(null, pos.x, pos.y);
             cursor.x = mappedCoords.x;
             cursor.y = mappedCoords.y;
+            cursor.mouseNeverMoved = false;
         }
     }
 
@@ -320,7 +320,7 @@ StyledItem {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "inverseProgress"
-                value: greeter && greeter.locked ? 0 : launcher.progress
+                value: !greeter || greeter.locked || !tutorial.launcherLongSwipeEnabled ? 0 : launcher.progress
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -419,8 +419,11 @@ StyledItem {
             hides: [launcher, panel.indicators]
             tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
-            forcedUnlock: wizard.active
+            forcedUnlock: wizard.active || shell.mode === "full-shell"
             background: wallpaperResolver.background
+            allowFingerprint: !dialogs.hasActiveDialog &&
+                              !notifications.topmostIsFullscreen &&
+                              !panel.indicators.shown
 
             // avoid overlapping with Launcher's edge drag area
             // FIXME: Fix TouchRegistry & friends and remove this workaround
@@ -504,7 +507,8 @@ StyledItem {
             launcher.fadeOut();
         }
 
-        if (!greeter.locked && ApplicationManager.focusedApplicationId != "unity8-dash") {
+        if (!greeter.locked && tutorial.launcherLongSwipeEnabled
+            && ApplicationManager.focusedApplicationId != "unity8-dash") {
             ApplicationManager.requestFocusApplication("unity8-dash")
             launcher.fadeOut();
         }
@@ -553,7 +557,14 @@ StyledItem {
             id: launcher
             objectName: "launcher"
 
-            readonly property bool dashSwipe: progress > 0
+            /*
+             * Since the Dash doesn't have the same controll over surfaces that the
+             * Shell does, it can't slowly move the scope out of the way, as the shell
+             * does  with apps, and the dash is show instantly. This allows for some
+             * leeway and prevents accidental home swipes.
+             */
+            readonly property real offset: shell.focusedApplicationId == "unity8-dash" ? units.gu(12) : 0
+            readonly property bool dashSwipe: progress > offset
 
             anchors.top: parent.top
             anchors.topMargin: inverted ? 0 : panel.panelHeight
@@ -618,13 +629,32 @@ StyledItem {
             }
         }
 
+        KeyboardShortcutsOverlay {
+            objectName: "shortcutsOverlay"
+            enabled: launcher.shortcutHintsShown && width < parent.width - (launcher.lockedVisible ? launcher.panelWidth : 0) - padding
+                     && height < parent.height - padding - panel.panelHeight
+            anchors.centerIn: parent
+            anchors.horizontalCenterOffset: launcher.lockedVisible ? launcher.panelWidth/2 : 0
+            anchors.verticalCenterOffset: panel.panelHeight/2
+            visible: opacity > 0
+            opacity: enabled ? 0.95 : 0
+
+            Behavior on opacity {
+                UbuntuNumberAnimation {}
+            }
+        }
+
         Tutorial {
             id: tutorial
             objectName: "tutorial"
             anchors.fill: parent
 
-            paused: callManager.hasCalls || greeter.shown
-            keyboardVisible: inputMethod.state === "shown"
+            paused: callManager.hasCalls || !greeter || greeter.shown ||
+                    wizard.active
+            delayed: dialogs.hasActiveDialog || notifications.hasNotification ||
+                     inputMethod.state === "shown" ||
+                     (launcher.shown && !launcher.lockedVisible) ||
+                     panel.indicators.shown || stage.dragProgress > 0
             usageScenario: shell.usageScenario
             lastInputTimestamp: inputFilter.lastInputTimestamp
             launcher: launcher
@@ -723,6 +753,16 @@ StyledItem {
         visible: shell.hasMouse
         z: itemGrabber.z + 1
 
+        property bool mouseNeverMoved: true
+        Binding {
+            target: cursor; property: "x"; value: shell.width / 2
+            when: cursor.mouseNeverMoved && cursor.visible
+        }
+        Binding {
+            target: cursor; property: "y"; value: shell.height / 2
+            when: cursor.mouseNeverMoved && cursor.visible
+        }
+
         onPushedLeftBoundary: {
             if (buttons === Qt.NoButton) {
                 launcher.pushEdge(amount);
@@ -736,7 +776,10 @@ StyledItem {
             }
         }
 
-        onMouseMoved: { cursor.opacity = 1; }
+        onMouseMoved: {
+            mouseNeverMoved = false;
+            cursor.opacity = 1;
+        }
     }
 
     // non-visual object
