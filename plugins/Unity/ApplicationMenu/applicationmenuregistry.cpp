@@ -19,6 +19,10 @@
 #include <QQmlEngine>
 #include <QDebug>
 
+Q_LOGGING_CATEGORY(UNITY_APPMENU, "unity.appmenu", QtDebugMsg)
+
+#define DEBUG_MSG qCDebug(UNITY_APPMENU).nospace().noquote() << "ApplicationMenuRegistry::"  << __func__
+#define WARNING_MSG qCWarning(UNITY_APPMENU).nospace().noquote() << "ApplicationMenuRegistry::" << __func__
 
 ApplicationMenuRegistry::ApplicationMenuRegistry(QObject *parent)
     : QObject(parent)
@@ -39,18 +43,23 @@ void ApplicationMenuRegistry::RegisterAppMenu(pid_t processId,
                                                 const QDBusObjectPath &actionObjectPath,
                                                 const QString &service)
 {
-    qDebug() << "RegisterApplicationMenu" << processId << " @ " << service << menuObjectPath.path() << actionObjectPath.path();
+    DEBUG_MSG << "(pid=" << processId
+              << ", menuPath=" << menuObjectPath.path()
+              << ", actionPath="  << actionObjectPath.path()
+              << ", service=" << service;
 
     QMultiMap<pid_t, MenuServicePath*>::iterator i = m_appMenus.find(processId);
     while (i != m_appMenus.end() && i.key() == processId) {
         if (i.value()->m_menuPath == menuObjectPath.path().toUtf8()) {
-            qWarning() << "Already have a menu for application:" << processId << service << menuObjectPath.path();
+            WARNING_MSG << "Already have a menu for application (pid= " << processId
+                        << ", service=" << service
+                        << ", menuPath=" << menuObjectPath.path() << ")";
             return;
         }
         ++i;
     }
 
-    auto menu = new MenuServicePath(service.toUtf8(), menuObjectPath.path().toUtf8(), actionObjectPath.path().toUtf8());
+    auto menu = new MenuServicePath(service, menuObjectPath, actionObjectPath);
     QQmlEngine::setObjectOwnership(menu, QQmlEngine::CppOwnership);
 
     m_appMenus.insert(processId, menu);
@@ -59,7 +68,8 @@ void ApplicationMenuRegistry::RegisterAppMenu(pid_t processId,
 
 void ApplicationMenuRegistry::UnregisterAppMenu(pid_t processId, const QDBusObjectPath &menuObjectPath)
 {
-    qDebug() << "RegisterApplicationMenu" << processId << " @ " << menuObjectPath.path();
+    DEBUG_MSG << "(pid=" << processId
+              << ", menuPath=" << menuObjectPath.path();
 
     QMultiMap<pid_t, MenuServicePath*>::iterator i = m_appMenus.find(processId);
     while (i != m_appMenus.end() && i.key() == processId) {
@@ -78,18 +88,23 @@ void ApplicationMenuRegistry::RegisterSurfaceMenu(const QString &surfaceId,
                                            const QDBusObjectPath &actionObjectPath,
                                            const QString &service)
 {
-    qDebug() << "RegisterSurfaceMenu" << surfaceId << " @ " << service << menuObjectPath.path() << actionObjectPath.path();
+    DEBUG_MSG << "(surfaceId=" << surfaceId
+              << ", menuPath=" << menuObjectPath.path()
+              << ", actionPath="  << actionObjectPath.path()
+              << ", service=" << service;
 
     QMultiMap<QString, MenuServicePath*>::iterator i = m_surfaceMenus.find(surfaceId);
     while (i != m_surfaceMenus.end() && i.key() == surfaceId) {
         if (i.value()->m_menuPath == menuObjectPath.path().toUtf8()) {
-            qWarning() << "Already have a menu for surface:" << surfaceId << service << menuObjectPath.path();
+            WARNING_MSG << "Already have a menu for surface (surfaceId= " << surfaceId
+                        << ", service=" << service
+                        << ", menuPath=" << menuObjectPath.path() << ")";
             return;
         }
         ++i;
     }
 
-    auto menu = new MenuServicePath(service.toUtf8(), menuObjectPath.path().toUtf8(), actionObjectPath.path().toUtf8());
+    auto menu = new MenuServicePath(service, menuObjectPath, actionObjectPath);
     QQmlEngine::setObjectOwnership(menu, QQmlEngine::CppOwnership);
 
     m_surfaceMenus.insert(surfaceId, menu);
@@ -98,7 +113,8 @@ void ApplicationMenuRegistry::RegisterSurfaceMenu(const QString &surfaceId,
 
 void ApplicationMenuRegistry::UnregisterSurfaceMenu(const QString &surfaceId, const QDBusObjectPath &menuObjectPath)
 {
-    qDebug() << "UnregisterSurfaceMenu" << surfaceId << " @ " << menuObjectPath.path();
+    DEBUG_MSG << "(surfaceId=" << surfaceId
+              << ", menuPath=" << menuObjectPath.path();
 
     QMultiMap<QString, MenuServicePath*>::iterator i = m_surfaceMenus.find(surfaceId);
     while (i != m_surfaceMenus.end() && i.key() == surfaceId) {

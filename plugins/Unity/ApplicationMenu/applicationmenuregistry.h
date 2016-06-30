@@ -22,6 +22,8 @@
 #include <QDBusObjectPath>
 #include <QtQml>
 
+Q_DECLARE_LOGGING_CATEGORY(UNITY_APPMENU)
+
 class MenuServicePath : public QObject
 {
     Q_OBJECT
@@ -29,12 +31,12 @@ class MenuServicePath : public QObject
     Q_PROPERTY(QByteArray menuPath MEMBER m_menuPath CONSTANT)
     Q_PROPERTY(QByteArray actionPath MEMBER m_actionPath CONSTANT)
 public:
-    explicit MenuServicePath(const QByteArray &service,
-                             const QByteArray &menuPath,
-                             const QByteArray &actionPath)
-        : m_service(service)
-        , m_menuPath(menuPath)
-        , m_actionPath(actionPath)
+    explicit MenuServicePath(const QString &service,
+                             const QDBusObjectPath &menuPath,
+                             const QDBusObjectPath &actionPath)
+        : m_service(service.toUtf8())
+        , m_menuPath(menuPath.path().toUtf8())
+        , m_actionPath(actionPath.path().toUtf8())
     {}
 
     const QByteArray m_service;

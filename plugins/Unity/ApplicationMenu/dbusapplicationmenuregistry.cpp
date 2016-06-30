@@ -24,10 +24,10 @@ DBusApplicationMenuRegistry::DBusApplicationMenuRegistry(QObject *parent)
 
     QDBusConnection connection = QDBusConnection::sessionBus();
     if (!connection.registerObject("/com/ubuntu/MenuRegistrar", this)) {
-        qWarning() << "Unable to register DBus object /com/ubuntu/MenuRegistrar";
+        qCWarning(UNITY_APPMENU) << "Unable to register DBus object /com/ubuntu/MenuRegistrar";
     }
     if (!connection.registerService("com.ubuntu.MenuRegistrar")) {
-        qWarning() << "Unable to register DBus service com.ubuntu.MenuRegistrar";
+        qCWarning(UNITY_APPMENU) << "Unable to register DBus service com.ubuntu.MenuRegistrar";
     }
 }
 
