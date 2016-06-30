@@ -421,6 +421,9 @@ StyledItem {
             launcherOffset: launcher.progress
             forcedUnlock: wizard.active || shell.mode === "full-shell"
             background: wallpaperResolver.background
+            allowFingerprint: !dialogs.hasActiveDialog &&
+                              !notifications.topmostIsFullscreen &&
+                              !panel.indicators.shown
 
             // avoid overlapping with Launcher's edge drag area
             // FIXME: Fix TouchRegistry & friends and remove this workaround

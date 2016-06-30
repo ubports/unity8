@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-06-17 01:22+0000\n"
+"POT-Creation-Date: 2016-06-27 18:49+0000\n"
 "PO-Revision-Date: 2016-04-27 12:20+0000\n"
 "Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-06-19 05:54+0000\n"
-"X-Generator: Launchpad (build 18097)\n"
+"X-Launchpad-Export-Date: 2016-06-30 05:51+0000\n"
+"X-Generator: Launchpad (build 18115)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -35,23 +35,23 @@ msgstr "Mont kuit"
 msgid "Unpin shortcut"
 msgstr "Dispilhennañ ar verradenn"
 
-#: qml/Components/DelayedLockscreen.qml:49
+#: qml/Components/DelayedLockscreen.qml:50
 msgid "Device Locked"
 msgstr "Benveg prennet"
 
-#: qml/Components/DelayedLockscreen.qml:64
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
 "Prennet eo bet ho penveg abalamour da re a daolioù-esae c'hwitet evit merkañ "
 "ho frazenn-dremen."
 
-#: qml/Components/DelayedLockscreen.qml:65
+#: qml/Components/DelayedLockscreen.qml:66
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
 "Prennet eo bet ho penveg abalamour da re a daolioù-esae evit merkañ ho kod-"
 "tremen."
 
-#: qml/Components/DelayedLockscreen.qml:74
+#: qml/Components/DelayedLockscreen.qml:75
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
@@ -283,17 +283,27 @@ msgstr ""
 msgid "Closes the current window."
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:239
 msgid "Return to Call"
 msgstr "Distreiñ d'ar bellgomzadenn"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:239
 msgid "Emergency Call"
 msgstr "Pellgomzadenn vallus"
 
-#: qml/Components/Lockscreen.qml:263
+#: qml/Components/Lockscreen.qml:271
 msgid "OK"
 msgstr "Mat eo"
+
+#: qml/Components/MediaServices/VideoPlayerControls.qml:44
+#, qt-format
+msgid "%1:%2:%3"
+msgstr ""
+
+#: qml/Components/MediaServices/VideoPlayerControls.qml:49
+#, qt-format
+msgid "%1:%2"
+msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
@@ -323,6 +333,10 @@ msgstr "Adkevreañ bremañ !"
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
 msgstr "Serriñ pep tra"
+
+#: qml/Components/SharingPicker.qml:54
+msgid "Preview Share Item"
+msgstr "Rakwelet an elfenn lodet"
 
 #: qml/Dash/DashPageHeader.qml:333
 msgctxt "Button: Open the Ubuntu Store"
@@ -397,10 +411,6 @@ msgstr "Priziit an dra-mañ"
 msgid "Add a review"
 msgstr "Ouzhpennañ un ali"
 
-#: qml/Dash/Previews/PreviewSharing.qml:66
-msgid "Preview Share Item"
-msgstr "Rakwelet an elfenn lodet"
-
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
 msgstr "Tennañ evit freskaat..."
@@ -417,11 +427,11 @@ msgstr "Gweredekaat ar roadennoù lec'hiañ"
 msgid "Manage"
 msgstr "Merañ"
 
-#: qml/Dash/ScopesList.qml:101
+#: qml/Dash/ScopesList.qml:102
 msgid "Home"
 msgstr "Er gêr"
 
-#: qml/Dash/ScopesList.qml:102
+#: qml/Dash/ScopesList.qml:103
 msgid "Also installed"
 msgstr "Staliet ivez"
 
@@ -431,9 +441,13 @@ msgid ""
 "touch pad to interact with the pointer."
 msgstr ""
 
-#: qml/Greeter/CoverPage.qml:119
+#: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
 msgstr "Dibrennañ"
+
+#: qml/Greeter/Greeter.qml:539
+msgid "Try again"
+msgstr ""
 
 #: qml/Greeter/LoginList.qml:259
 msgid "Retry"
@@ -471,34 +485,34 @@ msgstr ""
 "Ma vez ebarzhet ur c'hod-tremen direizh, e vo adderaouekaet ho pellgomzer "
 "gant arventennoù al labouradeg hag e vo diverket an holl roadennoù personel."
 
-#: qml/Greeter/NarrowView.qml:116
+#: qml/Greeter/NarrowView.qml:129
 #, qt-format
 msgid "Enter %1"
 msgstr "Merkañ  %1"
 
-#: qml/Greeter/NarrowView.qml:117
+#: qml/Greeter/NarrowView.qml:130
 msgid "Enter passphrase"
 msgstr "Merkañ ar frazenn-dremen"
 
-#: qml/Greeter/NarrowView.qml:118
+#: qml/Greeter/NarrowView.qml:131
 msgid "Enter passcode"
 msgstr "Merkañ ar c'hod-tremen"
 
-#: qml/Greeter/NarrowView.qml:119
+#: qml/Greeter/NarrowView.qml:135
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Siwazh, %1 direizh"
 
-#: qml/Greeter/NarrowView.qml:120
+#: qml/Greeter/NarrowView.qml:136
 msgid "Sorry, incorrect passphrase"
 msgstr "Siwazh, frazenn-dremen direizh"
 
-#: qml/Greeter/NarrowView.qml:121
+#: qml/Greeter/NarrowView.qml:137
 msgctxt "passphrase"
 msgid "Please re-enter"
 msgstr "Adverkañ, mar plij"
 
-#: qml/Greeter/NarrowView.qml:122
+#: qml/Greeter/NarrowView.qml:138
 msgid "Sorry, incorrect passcode"
 msgstr "Digarezit, kod-tremen direizh"
 
@@ -626,7 +640,7 @@ msgstr "Yezh"
 #: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
 #: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
 #: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:124
+#: qml/Wizard/Pages/passcode-desktop.qml:141
 #: qml/Wizard/Pages/password-set.qml:141
 msgid "Next"
 msgstr "War-lerc'h"
@@ -778,7 +792,7 @@ msgid "Service Terms"
 msgstr "Divizoù servij"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:80
+#: qml/Wizard/Pages/passcode-desktop.qml:96
 msgid "Confirm passcode"
 msgstr "Kadarnaat ar c'hod-tremen"
 
@@ -795,24 +809,24 @@ msgstr "Skrivit adarre, mar plij."
 msgid "Lock Screen Passcode"
 msgstr "Kod da brennañ ar skramm"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:56
+#: qml/Wizard/Pages/passcode-desktop.qml:60
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "Skrivit 4 sifr evit lakaat ho kod"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:65
+#: qml/Wizard/Pages/passcode-desktop.qml:76
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "Choaz ur c'hod"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:105
+#: qml/Wizard/Pages/passcode-desktop.qml:126
 msgid "Passcode too short"
 msgstr "Kod re verr"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:107
+#: qml/Wizard/Pages/passcode-desktop.qml:128
 msgid "Passcodes match"
 msgstr "klotañ a ra ar c'hodoù an eil gant egile"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:109
+#: qml/Wizard/Pages/passcode-desktop.qml:130
 msgid "Passcodes do not match"
 msgstr "Ne glot ket ar c'hodoù an eil gant egile"
 
@@ -861,26 +875,30 @@ msgid "To proceed with no SIM tap Skip."
 msgstr ""
 
 #: qml/Wizard/PasswordMeter.qml:87
+msgid "Password too short"
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
 msgstr "Klotañ a ra ar gerioù-tremen an eil gant egile"
 
-#: qml/Wizard/PasswordMeter.qml:89
+#: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
 msgstr "Ne glot ket ar gerioù-tremen"
 
-#: qml/Wizard/PasswordMeter.qml:93
+#: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
 msgstr "Ger-tremen sur"
 
-#: qml/Wizard/PasswordMeter.qml:95
+#: qml/Wizard/PasswordMeter.qml:97
 msgid "Fair password"
 msgstr "Ger-tremen reizh"
 
-#: qml/Wizard/PasswordMeter.qml:97
+#: qml/Wizard/PasswordMeter.qml:99
 msgid "Weak password"
 msgstr "Ger-tremen diasur"
 
-#: qml/Wizard/PasswordMeter.qml:99
+#: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
 msgstr "Ger-tremen diasur-kenañ"
 

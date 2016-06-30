@@ -38,6 +38,10 @@ class AccountsService: public QObject
                 READ demoEdgesCompleted
                 WRITE setDemoEdgesCompleted // only available in mock
                 NOTIFY demoEdgesCompletedChanged)
+    Q_PROPERTY (bool enableFingerprintIdentification
+                READ enableFingerprintIdentification
+                WRITE setEnableFingerprintIdentification // only available in mock
+                NOTIFY enableFingerprintIdentificationChanged)
     Q_PROPERTY (bool enableLauncherWhileLocked
                 READ enableLauncherWhileLocked
                 WRITE setEnableLauncherWhileLocked // only available in mock
@@ -61,6 +65,10 @@ class AccountsService: public QObject
                 READ failedLogins
                 WRITE setFailedLogins
                 NOTIFY failedLoginsChanged)
+    Q_PROPERTY (uint failedFingerprintLogins
+                READ failedFingerprintLogins
+                WRITE setFailedFingerprintLogins
+                NOTIFY failedFingerprintLoginsChanged)
     Q_PROPERTY(bool hereEnabled
                READ hereEnabled
                WRITE setHereEnabled
@@ -94,6 +102,8 @@ public:
     QStringList demoEdgesCompleted() const;
     void setDemoEdgesCompleted(const QStringList &demoEdges);
     Q_INVOKABLE void markDemoEdgeCompleted(const QString &edge);
+    bool enableFingerprintIdentification() const;
+    void setEnableFingerprintIdentification(bool enableFingerprintIdentification);
     bool enableLauncherWhileLocked() const;
     void setEnableLauncherWhileLocked(bool enableLauncherWhileLocked);
     bool enableIndicatorsWhileLocked() const;
@@ -105,6 +115,8 @@ public:
     PasswordDisplayHint passwordDisplayHint() const;
     uint failedLogins() const;
     void setFailedLogins(uint failedLogins);
+    uint failedFingerprintLogins() const;
+    void setFailedFingerprintLogins(uint failedFingerprintLogins);
     bool hereEnabled() const;
     void setHereEnabled(bool enabled);
     QString hereLicensePath() const;
@@ -121,12 +133,14 @@ Q_SIGNALS:
     void userChanged();
     void demoEdgesChanged();
     void demoEdgesCompletedChanged();
+    void enableFingerprintIdentificationChanged();
     void enableLauncherWhileLockedChanged();
     void enableIndicatorsWhileLockedChanged();
     void backgroundFileChanged();
     void statsWelcomeScreenChanged();
     void passwordDisplayHintChanged();
     void failedLoginsChanged();
+    void failedFingerprintLoginsChanged();
     void hereEnabledChanged();
     void hereLicensePathChanged();
     void realNameChanged();
@@ -134,12 +148,14 @@ Q_SIGNALS:
     void keymapsChanged();
 
 private:
+    bool m_enableFingerprintIdentification;
     bool m_enableLauncherWhileLocked;
     bool m_enableIndicatorsWhileLocked;
     QString m_backgroundFile;
     QString m_user;
     bool m_statsWelcomeScreen;
     uint m_failedLogins;
+    uint m_failedFingerprintLogins;
     bool m_demoEdges;
     QStringList m_demoEdgesCompleted;
     bool m_hereEnabled;
