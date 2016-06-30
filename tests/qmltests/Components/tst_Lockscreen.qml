@@ -173,6 +173,7 @@ Rectangle {
         function cleanup() {
             lockscreen.clear(false);
             delayMinutesTextField.text = "0"
+            enteredLabel.text = "";
 
             // Reset sizing
             root.width = units.gu(80)
@@ -247,7 +248,6 @@ Rectangle {
         }
 
         function test_unlock(data) {
-            enteredLabel.text = ""
             minPinLengthTextField.text = data.minPinLength
             maxPinLengthTextField.text = data.maxPinLength
             pinPadCheckBox.checked = data.alphanumeric
@@ -460,6 +460,25 @@ Rectangle {
             waitForLockscreenReady()
             var label = findChild(lockscreen, "deviceLockedLabel")
             compare(label.text, "Device Locked")
+        }
+
+        function test_showText_data() {
+            return [
+                { tag: "alphanumeric", alphanumeric: true },
+                { tag: "pinPad", alphanumeric: false },
+            ]
+        }
+
+        function test_showText(data) {
+            pinPadCheckBox.checked = data.alphanumeric;
+            waitForLockscreenReady();
+
+            lockscreen.showText("test");
+
+            var pinPadLoader = findChild(lockscreen, "pinPadLoader");
+            verify(pinPadLoader.waiting);
+            compare(enteredLabel.text, ""); // no entered signal should occur
+            compare(lockscreen.passphrase, "test");
         }
 
         function test_resize_data() {

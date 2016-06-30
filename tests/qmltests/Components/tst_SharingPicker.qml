@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import QtTest 1.0
 import Ubuntu.Components 1.3
-import "../../../../qml/Dash/Previews"
+import "../../../qml/Components"
 import Unity.Test 0.1 as UT
 
 Rectangle {
@@ -40,33 +40,33 @@ Rectangle {
         "content-type": "text"
     }
 
-    PreviewSharing {
-        id: previewSharing
+    SharingPicker {
+        id: sharingPicker
         anchors { left: parent.left; bottom: parent.bottom; }
         shareData: root.shareData
     }
 
     UT.UnityTestCase {
-        name: "PreviewSharingTest"
+        name: "SharingPickerTest"
         when: windowShown
 
-        property Item peerPicker: findChild(previewSharing.rootItem, "peerPicker")
+        property Item peerPicker: findChild(sharingPicker.rootItem, "peerPicker")
 
         function cleanup() {
             peerPicker.visible = false;
         }
 
         function test_open_picker() {
-            mouseClick(previewSharing);
+            sharingPicker.showPeerPicker();
             compare(peerPicker.visible, true);
         }
 
         function test_createExportedItems() {
-            var exportedItems = previewSharing.createExportedItems(shareData["uri"]);
+            var exportedItems = sharingPicker.createExportedItems(shareData["uri"]);
             for (var i = 0; i < exportedItems.length; i++) {
                 compare(exportedItems[i].url, shareData["uri"][i]);
             }
-            exportedItems = previewSharing.createExportedItems(shareDataString["uri"]);
+            exportedItems = sharingPicker.createExportedItems(shareDataString["uri"]);
             compare(exportedItems[0].url, shareDataString["uri"]);
         }
     }

@@ -33,15 +33,18 @@ LocalComponents.Page {
     readonly property alias password: passwordField.text
     readonly property alias password2: password2Field.text
 
-    GridLayout {
+    Flickable {
         id: column
-        columns: 1
-        rows: 3
+        clip: true
+        flickableDirection: Flickable.VerticalFlick
         anchors.fill: content
-        anchors.leftMargin: leftMargin
-        anchors.rightMargin: rightMargin
+        anchors.leftMargin: parent.leftMargin
+        anchors.rightMargin: parent.rightMargin
         anchors.topMargin: customMargin
-        rowSpacing: units.gu(3)
+
+        bottomMargin: Qt.inputMethod.keyboardRectangle.height - height - customMargin
+
+        Behavior on contentY { UbuntuNumberAnimation {} }
 
         Label {
             id: infoLabel
@@ -49,6 +52,7 @@ LocalComponents.Page {
             anchors {
                 left: parent.left
                 right: parent.right
+                top: parent.top
             }
             wrapMode: Text.Wrap
             font.weight: Font.Light
@@ -57,6 +61,13 @@ LocalComponents.Page {
         }
 
         GridLayout {
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: infoLabel.bottom
+                topMargin: units.gu(3)
+            }
+
             columns: 2
             columnSpacing: units.gu(2)
             rowSpacing: units.gu(2)
@@ -74,6 +85,11 @@ LocalComponents.Page {
                 validator: RegExpValidator { regExp: /^\d{4}$/ }
                 maximumLength: 4
                 onAccepted: password2Field.forceActiveFocus()
+                onActiveFocusChanged: {
+                    if (activeFocus) {
+                        column.contentY = y
+                    }
+                }
             }
 
             Label {
@@ -88,6 +104,11 @@ LocalComponents.Page {
                 inputMethodHints: Qt.ImhDigitsOnly
                 validator: RegExpValidator { regExp: /^\d{4}$/ }
                 maximumLength: 4
+                onActiveFocusChanged: {
+                    if (activeFocus) {
+                        column.contentY = y
+                    }
+                }
             }
 
             Label {
@@ -111,10 +132,6 @@ LocalComponents.Page {
                     return "";
                 }
             }
-        }
-
-        Item { // spacer
-            Layout.fillHeight: true
         }
     }
 

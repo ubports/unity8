@@ -44,8 +44,10 @@ Item {
             id: fakeWindow
             property alias resizeAreaMinWidth: windowResizeArea.minWidth
             property alias resizeAreaMinHeight: windowResizeArea.minHeight
-            x: units.gu(20)
-            y: units.gu(20)
+            x: requestedX
+            y: requestedY
+            property real requestedX: units.gu(20)
+            property real requestedY: units.gu(20)
             width: requestedWidth
             height: requestedHeight
             property real requestedWidth
@@ -226,8 +228,8 @@ Item {
         property var fakeWindow: windowLoader.item
 
         function init() {
-            fakeWindow.x = units.gu(20)
-            fakeWindow.y = units.gu(20)
+            fakeWindow.requestedX = units.gu(20)
+            fakeWindow.requestedY = units.gu(20)
             fakeWindow.requestedWidth = units.gu(20)
             fakeWindow.requestedHeight = units.gu(20)
             fakeWindow.resizeAreaMinWidth = units.gu(15);
@@ -254,8 +256,8 @@ Item {
         }
 
         function test_resizeWindowRightBottom(data) {
-            var initialWindowX = fakeWindow.x;
-            var initialWindowY = fakeWindow.y;
+            var initialWindowX = fakeWindow.requestedX;
+            var initialWindowY = fakeWindow.requestedY;
             var initialWindowWidth = fakeWindow.width
             var initialWindowHeight = fakeWindow.height
 
@@ -266,8 +268,8 @@ Item {
             tryCompare(fakeWindow, "width", Math.max(initialWindowWidth + data.dx, fakeWindow.resizeAreaMinWidth));
             tryCompare(fakeWindow, "height", Math.max(initialWindowHeight + data.dy, fakeWindow.resizeAreaMinHeight));
 
-            compare(fakeWindow.x, initialWindowX);
-            compare(fakeWindow.y, initialWindowY);
+            compare(fakeWindow.requestedX, initialWindowX);
+            compare(fakeWindow.requestedY, initialWindowY);
         }
 
         function test_resizeWindowLeftTop_data() {
@@ -280,8 +282,8 @@ Item {
         }
 
         function test_resizeWindowLeftTop(data) {
-            var initialWindowX = fakeWindow.x;
-            var initialWindowY = fakeWindow.y;
+            var initialWindowX = fakeWindow.requestedX;
+            var initialWindowY = fakeWindow.requestedY;
             var initialWindowWidth = fakeWindow.width
             var initialWindowHeight = fakeWindow.height
 
@@ -294,13 +296,13 @@ Item {
 
             var maxMoveX = initialWindowWidth - fakeWindow.resizeAreaMinWidth;
             var maxMoveY = initialWindowHeight - fakeWindow.resizeAreaMinHeight;
-            compare(fakeWindow.x, Math.min(initialWindowX + data.dx, initialWindowX + maxMoveX));
-            compare(fakeWindow.y, Math.min(initialWindowY + data.dy, initialWindowY + maxMoveY));
+            compare(fakeWindow.requestedX, Math.min(initialWindowX + data.dx, initialWindowX + maxMoveX));
+            compare(fakeWindow.requestedY, Math.min(initialWindowY + data.dy, initialWindowY + maxMoveY));
         }
 
         function test_saveRestoreSize() {
-            var initialWindowX = fakeWindow.x;
-            var initialWindowY = fakeWindow.y;
+            var initialWindowX = fakeWindow.requestedX;
+            var initialWindowY = fakeWindow.requestedY;
             var initialWindowWidth = fakeWindow.width
             var initialWindowHeight = fakeWindow.height
 
@@ -332,8 +334,8 @@ Item {
         }
 
         function test_resizeSmallerAndLarger(data) {
-            var initialWindowX = fakeWindow.x;
-            var initialWindowY = fakeWindow.y;
+            var initialWindowX = fakeWindow.requestedX;
+            var initialWindowY = fakeWindow.requestedY;
             var initialWindowWidth = fakeWindow.width
             var initialWindowHeight = fakeWindow.height
 
@@ -348,18 +350,18 @@ Item {
         }
 
         function test_saveRestoreMaximized() {
-            var initialWindowX = fakeWindow.x;
-            var initialWindowY = fakeWindow.y;
+            var initialWindowX = fakeWindow.requestedX;
+            var initialWindowY = fakeWindow.requestedY;
 
             var moveDelta = units.gu(5);
 
-            fakeWindow.x = initialWindowX + moveDelta
-            fakeWindow.y = initialWindowY + moveDelta
+            fakeWindow.requestedX = initialWindowX + moveDelta
+            fakeWindow.requestedY = initialWindowY + moveDelta
 
             // Now change the state to maximized. The window should not keep updating the stored values
             fakeWindow.maximize()
-            fakeWindow.x = 31415 // 0 is too risky to pass the test even when broken
-            fakeWindow.y = 31415
+            fakeWindow.requestedX = 31415 // 0 is too risky to pass the test even when broken
+            fakeWindow.requestedY = 31415
 
             // This will destroy the window and recreate it
             windowLoader.active = false;
@@ -389,8 +391,8 @@ Item {
         }
 
         function test_restoreMovesIntoBounds(data) {
-            fakeWindow.x = data.x;
-            fakeWindow.y = data.y;
+            fakeWindow.requestedX = data.x;
+            fakeWindow.requestedY = data.y;
             fakeWindow.width = data.w;
             fakeWindow.height = data.h;
             waitForRendering(root);
@@ -402,10 +404,10 @@ Item {
             waitForRendering(root)
 
             // Make sure it's again where we left it in normal state before destroying
-            compare(fakeWindow.x >= 0, true)
-            compare(fakeWindow.y >= PanelState.panelHeight, true)
-            compare(fakeWindow.x + fakeWindow.width <= root.width, true)
-            compare(fakeWindow.y + fakeWindow.height <= root.height, true)
+            compare(fakeWindow.requestedX >= 0, true)
+            compare(fakeWindow.requestedY >= PanelState.panelHeight, true)
+            compare(fakeWindow.requestedX + fakeWindow.width <= root.width, true)
+            compare(fakeWindow.requestedY + fakeWindow.height <= root.height, true)
 
             waitForRendering(root)
         }
@@ -417,8 +419,8 @@ Item {
             and height) increment value.
          */
         function test_sizeIncrement() {
-            var initialWindowX = fakeWindow.x;
-            var initialWindowY = fakeWindow.y;
+            var initialWindowX = fakeWindow.requestedX;
+            var initialWindowY = fakeWindow.requestedY;
             var initialWindowWidth = fakeWindow.width
             var initialWindowHeight = fakeWindow.height
 
@@ -448,8 +450,8 @@ Item {
             Tests that when dragging a window border you cannot make it bigger than its maximum size
          */
         function test_maximumSize() {
-            fakeWindow.x = units.gu(1);
-            fakeWindow.y = units.gu(1);
+            fakeWindow.requestedX = units.gu(1);
+            fakeWindow.requestedY = units.gu(1);
             fakeWindow.resizeAreaMinWidth = 1; // so it does not interfere with anything
             fakeWindow.resizeAreaMinHeight = 1; // so it does not interfere with anything
             fakeWindow.requestedWidth = units.gu(10);
@@ -478,8 +480,8 @@ Item {
             Tests that when dragging a window border you cannot make it smaller than its minimum size
          */
         function test_minimumSize() {
-            fakeWindow.x = units.gu(1);
-            fakeWindow.y = units.gu(1);
+            fakeWindow.requestedX = units.gu(1);
+            fakeWindow.requestedY = units.gu(1);
             fakeWindow.resizeAreaMinWidth = 1; // so it does not interfere with anything
             fakeWindow.resizeAreaMinHeight = 1; // so it does not interfere with anything
             fakeWindow.requestedWidth = units.gu(20);
