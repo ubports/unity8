@@ -2,8 +2,10 @@ pkg_check_modules(LIBUSERMETRICSOUTPUT REQUIRED libusermetricsoutput-1)
 
 set(LibLightDM_SOURCES
     Greeter.cpp
+    SessionsModel.cpp
     UsersModel.cpp
     GreeterPrivate.cpp
+    SessionsModelPrivate.cpp
     UsersModelPrivate.cpp
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsServiceDBusAdaptor.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/qvariantlistmodel.cpp
