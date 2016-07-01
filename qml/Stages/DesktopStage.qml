@@ -243,6 +243,7 @@ AbstractStage {
     states: [
         State {
             name: "spread"; when: root.altTabPressed || priv.goneToSpread
+            PropertyChanges { target: floatingFlickable; enabled: true }
         },
         State {
             name: "stagedrightedge"; when: rightEdgeDragArea.dragging && root.mode == "staged"
@@ -290,8 +291,23 @@ AbstractStage {
                     }
                 }
                 z: normalZ
-                x: priv.focusedAppDelegate ? priv.focusedAppDelegate.x + units.gu(3) : (normalZ - 1) * units.gu(3)
-                y: priv.focusedAppDelegate ? priv.focusedAppDelegate.y + units.gu(3) : normalZ * units.gu(3)
+                x: requestedX // may be overridden in some states. Do not directly write to this.
+                y: requestedY // may be overridden in some states. Do not directly write to this.
+                property real requestedX: priv.focusedAppDelegate ? priv.focusedAppDelegate.x + units.gu(3) : (normalZ - 1) * units.gu(3)
+                property real requestedY: priv.focusedAppDelegate ? priv.focusedAppDelegate.y + units.gu(3) : normalZ * units.gu(3)
+
+                Binding {
+                    target: appDelegate
+                    property: "y"
+                    value: appDelegate.requestedY -
+                           Math.min(appDelegate.requestedY - PanelState.panelHeight,
+                                    Math.max(0, UbuntuKeyboardInfo.height - (appContainer.height - (appDelegate.requestedY + appDelegate.height))))
+                    when: appDelegate.focus && appDelegate.state == "normal"
+                          && SurfaceManager.inputMethodSurface
+                          && SurfaceManager.inputMethodSurface.state != Mir.HiddenState
+                          && SurfaceManager.inputMethodSurface.state != Mir.MinimizedState
+
+                }
 
                 width: decoratedWindow.implicitWidth
                 height: decoratedWindow.implicitHeight
@@ -566,7 +582,6 @@ AbstractStage {
                         }
                         PropertyChanges { target: inputBlocker; enabled: true }
                         PropertyChanges { target: windowInfoItem; opacity: 1 }
-                        PropertyChanges { target: floatingFlickable; enabled: true }
                     },
                     State {
                         name: "stagedrightedge";
@@ -815,6 +830,8 @@ AbstractStage {
                     active: appDelegate.focus
                     focus: true
                     showDecoration: true
+                    maximizeButtonShown: (maximumWidth == 0 || maximumWidth >= appContainer.width) &&
+                                         (maximumHeight == 0 || maximumHeight >= appContainer.height)
                     overlayShown: touchControls.overlayShown
                     width: implicitWidth
                     height: implicitHeight
@@ -926,7 +943,6 @@ AbstractStage {
 
         property int minContentWidth: 6 * Math.min(height / 4, width / 5)
         contentWidth: Math.max(6, appRepeater.count) * Math.min(height / 4, width / 5)
-
     }
 
     PropertyAnimation {

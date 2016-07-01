@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@
 #include <QDir>
 #include <QSettings>
 #include <QStringList>
+#include <unistd.h>
 
 namespace QLightDM
 {
@@ -37,6 +38,7 @@ UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
 {
     QFileInfo demoFile(QDir::homePath() + "/.unity8-greeter-demo");
     QString currentUser = g_get_user_name();
+    uid_t currentUid = getuid();
 
     if (demoFile.exists()) {
         QSettings settings(demoFile.filePath(), QSettings::NativeFormat);
@@ -46,10 +48,10 @@ UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
         Q_FOREACH(const QString &user, users)
         {
             QString name = settings.value(user + "/name", user).toString();
-            entries.append({user, name, 0, 0, false, false, 0, 0});
+            entries.append({user, name, 0, 0, false, false, 0, 0, currentUid++});
         }
     } else {
-        entries.append({currentUser, 0, 0, 0, false, false, 0, 0});
+        entries.append({currentUser, 0, 0, 0, false, false, 0, 0, currentUid});
 
         connect(m_service, &AccountsServiceDBusAdaptor::maybeChanged,
                 this, [this](const QString &user) {

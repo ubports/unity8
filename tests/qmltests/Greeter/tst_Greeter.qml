@@ -20,6 +20,7 @@ import ".."
 import "../../../qml/Greeter"
 import Ubuntu.Components 1.3
 import AccountsService 0.1
+import Biometryd 0.0
 import GSettings 1.0
 import IntegratedLightDM 0.1 as LightDM
 import Unity.Test 0.1 as UT
@@ -126,6 +127,12 @@ Item {
         }
 
         SignalSpy {
+            id: viewShowErrorMessageSpy
+            target: testCase.view
+            signalName: "_showErrorMessageCalled"
+        }
+
+        SignalSpy {
             id: viewResetSpy
             target: testCase.view
             signalName: "_resetCalled"
@@ -143,12 +150,16 @@ Item {
             teaseSpy.clear();
             sessionStartedSpy.clear();
             activeChangedSpy.clear();
+            Biometryd.available = true;
+            AccountsService.enableFingerprintIdentification = true;
+            AccountsService.failedFingerprintLogins = 0;
             viewShowMessageSpy.clear();
             viewShowPromptSpy.clear();
             viewShowLastChanceSpy.clear();
             viewHideSpy.clear();
             viewAuthenticationSucceededSpy.clear();
             viewAuthenticationFailedSpy.clear();
+            viewShowErrorMessageSpy.clear();
             viewResetSpy.clear();
             viewTryToUnlockSpy.clear();
             tryCompare(greeter, "waiting", false);
@@ -198,6 +209,14 @@ Item {
             verify(viewAuthenticationSucceededSpy.count > 0);
             compare(LightDM.Greeter.authenticated, true);
             compare(greeter.shown, false);
+        }
+
+        function unlockAndShowGreeter() {
+            // useful to enable "lockscreen mode" in greeter
+            greeter.forcedUnlock = true;
+            LightDM.Greeter.showGreeter();
+            tryCompare(greeter, "waiting", false);
+            view = findChild(greeter, "testView");
         }
 
         function test_unlockPass() {
@@ -552,6 +571,158 @@ Item {
             LightDM.Greeter.showGreeter();
             compare(viewResetSpy.count, 1);
             tryCompare(viewShowPromptSpy, "count", 1);
+        }
+
+        function test_fingerprintSuccess() {
+            var index = selectUser("has-password");
+            unlockAndShowGreeter(); // turn on lockscreen mode
+
+            var biometryd = findInvisibleChild(greeter, "biometryd");
+            verify(biometryd.operation);
+            verify(biometryd.operation.running);
+
+            biometryd.operation.mockSuccess(LightDM.Users.data(index, LightDM.UserRoles.UidRole));
+            verify(!greeter.active);
+        }
+
+        function test_fingerprintFirstLoginDisabled() {
+            var index = selectUser("has-password");
+            // don't hide/show greeter, we want to test behavior before lockscreen mode is on
+
+            var biometryd = findInvisibleChild(greeter, "biometryd");
+            verify(biometryd.operation);
+            verify(biometryd.operation.running);
+
+            biometryd.operation.mockSuccess(LightDM.Users.data(index, LightDM.UserRoles.UidRole));
+            compare(viewTryToUnlockSpy.count, 1);
+            verify(greeter.locked);
+        }
+
+        function test_forcedDisallowedFingerprint() {
+            var index = selectUser("has-password");
+            unlockAndShowGreeter(); // turn on lockscreen mode
+
+            var biometryd = findInvisibleChild(greeter, "biometryd");
+            verify(biometryd.operation);
+            verify(biometryd.operation.running);
+
+            greeter.allowFingerprint = false;
+            verify(!biometryd.operation);
+        }
+
+        function test_fingerprintFailureMessage() {
+            var index = selectUser("has-password");
+            unlockAndShowGreeter(); // turn on lockscreen mode
+
+            var biometryd = findInvisibleChild(greeter, "biometryd");
+            verify(biometryd.operation);
+            verify(biometryd.operation.running);
+
+            biometryd.operation.mockFailure("error");
+            compare(viewShowErrorMessageSpy.count, 1);
+            compare(viewShowErrorMessageSpy.signalArguments[0][0], i18n.tr("Try again"));
+        }
+
+        function test_fingerprintTooManyFailures() {
+            var index = selectUser("has-password");
+            unlockAndShowGreeter(); // turn on lockscreen mode
+
+            var biometryd = findInvisibleChild(greeter, "biometryd");
+            biometryd.operation.mockFailure("error");
+            biometryd.operation.mockFailure("error");
+            compare(viewTryToUnlockSpy.count, 0);
+
+            biometryd.operation.mockFailure("error");
+            compare(viewTryToUnlockSpy.count, 1);
+
+            // Confirm that we are stuck in this mode until next login
+            biometryd.operation.mockSuccess(LightDM.Users.data(index, LightDM.UserRoles.UidRole));
+            compare(viewTryToUnlockSpy.count, 2);
+
+            unlockAndShowGreeter();
+
+            biometryd.operation.mockSuccess(LightDM.Users.data(index, LightDM.UserRoles.UidRole));
+            verify(!greeter.active);
+        }
+
+        function test_fingerprintFailureCountReset() {
+            selectUser("has-password");
+            unlockAndShowGreeter(); // turn on lockscreen mode
+
+            var biometryd = findInvisibleChild(greeter, "biometryd");
+            biometryd.operation.mockFailure("error");
+            biometryd.operation.mockFailure("error");
+            compare(viewTryToUnlockSpy.count, 0);
+
+            unlockAndShowGreeter();
+            biometryd.operation.mockFailure("error");
+            biometryd.operation.mockFailure("error");
+            compare(viewTryToUnlockSpy.count, 0);
+
+            biometryd.operation.mockFailure("error");
+            compare(viewTryToUnlockSpy.count, 1);
+        }
+
+        function test_fingerprintWrongUid() {
+            selectUser("has-password");
+            unlockAndShowGreeter(); // turn on lockscreen mode
+
+            var biometryd = findInvisibleChild(greeter, "biometryd");
+            biometryd.operation.mockSuccess(0);
+
+            verify(greeter.active);
+            compare(viewShowErrorMessageSpy.count, 1);
+            compare(viewShowErrorMessageSpy.signalArguments[0][0], i18n.tr("Try again"));
+        }
+
+        function test_fingerprintNotEnabled() {
+            AccountsService.enableFingerprintIdentification = false;
+            selectUser("has-password");
+            unlockAndShowGreeter(); // turn on lockscreen mode
+
+            var biometryd = findInvisibleChild(greeter, "biometryd");
+            verify(!biometryd.operation);
+
+            AccountsService.enableFingerprintIdentification = true;
+            verify(biometryd.operation);
+            verify(biometryd.operation.running);
+
+            AccountsService.enableFingerprintIdentification = false;
+            verify(!biometryd.operation);
+        }
+
+        function test_fingerprintReaderNotPresent() {
+            Biometryd.available = false;
+            selectUser("has-password");
+            unlockAndShowGreeter(); // turn on lockscreen mode
+
+            verify(!Biometryd.available);
+
+            var biometryd = findInvisibleChild(greeter, "biometryd");
+            verify(!biometryd.operation);
+
+            Biometryd.available = true;
+            verify(biometryd.operation);
+            verify(biometryd.operation.running);
+
+            Biometryd.available = false;
+            verify(!biometryd.operation);
+        }
+
+        function test_fingerprintGreeterNotActive() {
+            selectUser("has-password");
+            unlockAndShowGreeter(); // turn on lockscreen mode
+
+            var biometryd = findInvisibleChild(greeter, "biometryd");
+            verify(biometryd.operation);
+            verify(biometryd.operation.running);
+
+            greeter.hideNow();
+            verify(!biometryd.operation);
+
+            greeter.showNow();
+            verify(biometryd.operation);
+            verify(biometryd.operation.running);
         }
     }
 }
