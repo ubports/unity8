@@ -20,6 +20,7 @@ import Ubuntu.Components 1.3
 import Unity.Session 0.1
 import Unity.Screens 0.1
 import QtQuick.Window 2.2
+import Qt.labs.settings 1.0
 import "Components"
 
 Item {
@@ -81,15 +82,19 @@ Item {
         }
 
         VirtualTouchPad {
+            objectName: "virtualTouchPad"
             anchors.fill: parent
 
             onPressedChanged: {
                 if (pressed && infoNoteDisplayed) {
                     infoNoteDisplayed = false;
-                    if (true) {
+                    if (!firstRunSettings.tutorialHasRun) {
                         runTutorial();
                     }
                 }
+            }
+            onTutorialDone: {
+                firstRunSettings.tutorialHasRun = true;
             }
         }
 
@@ -132,5 +137,11 @@ Item {
             objectName: "inputMethod"
             anchors.fill: parent
         }
+    }
+
+    Settings {
+        id: firstRunSettings
+        objectName: "firstRunSettings"
+        property bool tutorialHasRun: false
     }
 }

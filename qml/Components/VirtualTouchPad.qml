@@ -29,6 +29,7 @@ Item {
     function runTutorial() {
         tutorial.start()
     }
+    signal tutorialDone();
 
     readonly property bool pressed: point1.pressed || point2.pressed || leftButton.pressed || rightButton.pressed
 
@@ -218,7 +219,7 @@ Item {
     SequentialAnimation {
         id: tutorial
         PauseAnimation { duration: UbuntuAnimation.SleepyDuration }
-        PropertyAction { target: tutorialLabel; property: "text"; value: i18n.tr("Tap left button to click") }
+        PropertyAction { target: tutorialLabel; property: "text"; value: i18n.tr("Tap left button to click.") }
         UbuntuNumberAnimation { target: tutorialLabel; property: "opacity"; to: 1; duration: UbuntuAnimation.FastDuration }
         SequentialAnimation {
             loops: 2
@@ -230,7 +231,7 @@ Item {
         UbuntuNumberAnimation { target: tutorialLabel; property: "opacity"; to: 0; duration: UbuntuAnimation.FastDuration }
 
         PauseAnimation { duration: UbuntuAnimation.SleepyDuration }
-        PropertyAction { target: tutorialLabel; property: "text"; value: i18n.tr("Tap right button to right click") }
+        PropertyAction { target: tutorialLabel; property: "text"; value: i18n.tr("Tap right button to right click.") }
         UbuntuNumberAnimation { target: tutorialLabel; property: "opacity"; to: 1; duration: UbuntuAnimation.FastDuration }
         SequentialAnimation {
             loops: 2
@@ -242,7 +243,7 @@ Item {
         UbuntuNumberAnimation { target: tutorialLabel; property: "opacity"; to: 0; duration: UbuntuAnimation.FastDuration }
 
         PauseAnimation { duration: UbuntuAnimation.SleepyDuration }
-        PropertyAction { target: tutorialLabel; property: "text"; value: i18n.tr("Swipe with two fingers to scroll") }
+        PropertyAction { target: tutorialLabel; property: "text"; value: i18n.tr("Swipe with two fingers to scroll.") }
         UbuntuNumberAnimation { target: tutorialLabel; property: "opacity"; to: 1; duration: UbuntuAnimation.FastDuration }
         PropertyAction { target: tutorialFinger1; property: "x"; value: root.width / 2 - tutorialFinger1.width - units.gu(1) }
         PropertyAction { target: tutorialFinger2; property: "x"; value: root.width / 2 + tutorialFinger1.width + units.gu(1) - tutorialFinger2.width }
@@ -282,8 +283,15 @@ Item {
                 UbuntuNumberAnimation { target: tutorialFinger1; property: "scale"; from: 1; to: 0; duration: UbuntuAnimation.FastDuration }
                 UbuntuNumberAnimation { target: tutorialFinger2; property: "scale"; from: 1; to: 0; duration: UbuntuAnimation.FastDuration }
             }
-            PauseAnimation { duration: UbuntuAnimation.SleepyDuration }
+            PauseAnimation { duration: UbuntuAnimation.SlowDuration }
         }
         UbuntuNumberAnimation { target: tutorialLabel; property: "opacity"; to: 0; duration: UbuntuAnimation.FastDuration }
+
+        PauseAnimation { duration: UbuntuAnimation.SleepyDuration }
+        PropertyAction { target: tutorialLabel; property: "text"; value: i18n.tr("Find more settings in the system settings.") }
+        UbuntuNumberAnimation { target: tutorialLabel; property: "opacity"; to: 1; duration: UbuntuAnimation.FastDuration }
+        PauseAnimation { duration: 2000 }
+        UbuntuNumberAnimation { target: tutorialLabel; property: "opacity"; to: 0; duration: UbuntuAnimation.FastDuration }
+        ScriptAction { script: root.tutorialDone(); }
     }
 }

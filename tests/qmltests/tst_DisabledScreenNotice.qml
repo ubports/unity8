@@ -60,6 +60,7 @@ Item {
     Column {
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: units.gu(40)
+        spacing: units.gu(1)
 
         ItemSelector {
             id: orientationSelector
@@ -75,6 +76,22 @@ Item {
             Label {
                 text: "Rotation lock"
                 Layout.fillWidth: true
+            }
+        }
+        Button {
+            text: "Reset first run settings"
+            onClicked: {
+                print("foooo")
+                var settings = testCase.findInvisibleChild(touchScreenPad, "firstRunSettings");
+                print("have settigs:", settings)
+                settings.tutorialHasRun = false;
+            }
+        }
+        Button {
+            text: "Run tutorial now"
+            onClicked: {
+                var touchPad = testCase.findChild(touchScreenPad, "virtualTouchPad")
+                touchPad.runTutorial();
             }
         }
     }
