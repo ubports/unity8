@@ -1,5 +1,5 @@
 /*
- * Copyright 2014,2015 Canonical Ltd.
+ * Copyright 2014-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,6 +42,8 @@ Flickable {
         parentFlickable: root
     }
 
+    property int createdDelegates: 0
+
     Component.onCompleted: {
         for (var i = 0; i < 500; ++i) {
             widgetData500.reviews.push({ author: "Some dude", review: "Very cool app" + i });
@@ -49,37 +51,68 @@ Flickable {
         factory.widgetData = widgetData500;
     }
 
+    Component {
+        id: countingPreviewRatingSingleDisplayComponent
+        PreviewRatingSingleDisplay {
+            objectName: "reviewItem" + index
+
+            anchors { left: parent.left; right: parent.right; }
+
+            rating: modelData["rating"] || -1
+            author: modelData["author"] || ""
+            review: modelData["review"] || ""
+            Component.onCompleted: root.createdDelegates++;
+        }
+    }
+
     UT.UnityTestCase {
-        name: "PreviewRatingDisplayTest"
+        name: "PreviewRatingDisplayCreationRangesTest"
         when: windowShown
 
-        function test_creation_speed() {
-            factory.parentFlickable = null;
-            factory.widgetData = reviewsEmpty;
-            waitForRendering(root);
-
-            var start = new Date().getTime();
-            factory.widgetData = widgetData500;
-            waitForRendering(root);
-            var end = new Date().getTime();
-            var time500 = end - start;
-
-            factory.widgetData = reviewsEmpty;
-            waitForRendering(root);
-
-            factory.parentFlickable = root;
-            start = new Date().getTime();
-            factory.widgetData = widgetData500;
-            waitForRendering(root);
-            end = new Date().getTime();
-            var timeRanges500 = end - start;
-
-            // Measurements show it's usually like 20 times faster
-            // but we set the range at 8 times fast to make sure it's not an unstable test
-            verify(timeRanges500 * 8 < time500);
+        function initTestCase() {
+            var lists = findChildsByType(factory, "QQuickListView");
+            compare(lists.length, 1)
+            lists[0].delegate = countingPreviewRatingSingleDisplayComponent;
         }
 
-        function test_check_indexes() {
+        function test_check_delegate_creation_range() {
+            // Clear the reviews
+            factory.widgetData = reviewsEmpty;
+            waitForRendering(root);
+
+            // Unset parentFlickable this disables the creation range code
+            factory.parentFlickable = null;
+            root.createdDelegates = 0;
+
+            // Set the 500 reviews data
+            factory.widgetData = widgetData500;
+            waitForRendering(root);
+
+            // Check we have created 500 delegates
+            compare(root.createdDelegates, 500);
+
+            // Check review 499 has been created
+            var reviewItem499 = findChild(factory, "reviewItem499");
+            verify(reviewItem499 !== null);
+
+            // Clear the reviews
+            factory.widgetData = reviewsEmpty;
+            waitForRendering(root);
+
+            // set parentFlickable to enable the creation ranges code
+            factory.parentFlickable = root;
+            root.createdDelegates = 0;
+
+            // Set the 500 reviews data
+            factory.widgetData = widgetData500;
+            waitForRendering(root);
+
+            // Check we have only created a few delegates
+            // For some reason xenial and yaketti we get 16 and on vivid 15 so
+            // settle for <= 20
+            expectFailContinue("", "Should not create more than 20 delegates when using ranges");
+            tryCompareFunction(function() { return root.createdDelegates > 20 }, true);
+
             // Check that item 499 isn't there on startup but if we scroll down
             // it will be there
             var reviewItem499 = findChild(factory, "reviewItem499");
@@ -89,6 +122,9 @@ Flickable {
 
             var reviewItem499 = findChild(factory, "reviewItem499");
             verify(reviewItem499 !== null);
+
+            // Check we have created 500 delegates
+            compare(root.createdDelegates, 500);
         }
     }
 }

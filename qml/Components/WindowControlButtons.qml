@@ -29,6 +29,7 @@ Row {
     property bool active: false
     property bool windowIsMaximized: false
     property bool closeButtonShown: true
+    property bool maximizeButtonShown: true
     property bool overlayShown
 
     signal closeClicked()
@@ -88,6 +89,7 @@ Row {
         hoverEnabled: true
         height: parent.height
         width: height
+        visible: root.maximizeButtonShown
         acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
         onClicked: {
             if (mouse.button == Qt.LeftButton) {
