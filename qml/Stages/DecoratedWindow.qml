@@ -22,31 +22,32 @@ FocusScope {
     id: root
 
     implicitWidth: !counterRotate ? applicationWindow.implicitWidth : applicationWindow.implicitHeight
-    implicitHeight: visibleDecorationHeight + (!counterRotate ? applicationWindow.implicitHeight : applicationWindow.implicitWidth)
+    implicitHeight: decorationHeight + (!counterRotate ? applicationWindow.implicitHeight : applicationWindow.implicitWidth)
 
     property alias application: applicationWindow.application
     property alias surface: applicationWindow.surface
     property alias active: decoration.active
     readonly property alias title: applicationWindow.title
-    property alias fullscreen: applicationWindow.fullscreen
     property alias maximizeButtonShown: decoration.maximizeButtonShown
 
-    // Whether we want it to sho in general
+    // Changing this will actually add/remove a decoration, meaning, requestedHeight will take the decoration into account.
+    property bool hasDecoration: true
+    // This will temporarily show/hide the decoration without actually changing the surface's dimensions
     property bool showDecoration: true
-    // Whether it is actually shown. Even if showDecoration is true, this might be false for other reasons (e.g. app is fullscreened)
-    readonly property bool decorationShown: showDecoration && !fullscreen
-    property bool highlightShown: false
+    property bool showHighlight: false
     property real shadowOpacity: 1
 
     property real requestedWidth
     property real requestedHeight
+    property bool scaleToPreview
+    property int scaleToPreviewSize: units.gu(30)
 
     property alias surfaceOrientationAngle: applicationWindow.surfaceOrientationAngle
-    readonly property real visibleDecorationHeight: root.decorationShown ? decoration.height : 0
+    readonly property real decorationHeight: Math.min(d.visibleDecorationHeight, d.requestedDecorationHeight)
     readonly property bool counterRotate: surfaceOrientationAngle != 0 && surfaceOrientationAngle != 180
 
     readonly property int minimumWidth: !counterRotate ? applicationWindow.minimumWidth : applicationWindow.minimumHeight
-    readonly property int minimumHeight: visibleDecorationHeight + (!counterRotate ? applicationWindow.minimumHeight : applicationWindow.minimumWidth)
+    readonly property int minimumHeight: decorationHeight + (!counterRotate ? applicationWindow.minimumHeight : applicationWindow.minimumWidth)
     readonly property int maximumWidth: !counterRotate ? applicationWindow.maximumWidth : applicationWindow.maximumHeight
     readonly property int maximumHeight: (root.decorationShown && applicationWindow.maximumHeight > 0 ? decoration.height : 0)
                                          + (!counterRotate ? applicationWindow.maximumHeight : applicationWindow.maximumWidth)
@@ -62,29 +63,28 @@ FocusScope {
     signal minimizeClicked()
     signal decorationPressed()
 
+    QtObject {
+        id: d
+        property int requestedDecorationHeight: root.hasDecoration && root.hasDecoration ? decoration.height : 0
+        Behavior on requestedDecorationHeight { UbuntuNumberAnimation { duration: priv.animationDuration } }
+
+        property int visibleDecorationHeight: root.showDecoration && root.hasDecoration ? decoration.height : 0
+        Behavior on visibleDecorationHeight { UbuntuNumberAnimation { duration: priv.animationDuration } }
+    }
+
     Rectangle {
         id: selectionHighlight
         anchors.fill: parent
         anchors.margins: -units.gu(1)
         color: "white"
-        opacity: highlightShown ? 0.15 : 0
+        opacity: showHighlight ? 0.15 : 0
     }
 
     Rectangle {
         anchors { left: selectionHighlight.left; right: selectionHighlight.right; bottom: selectionHighlight.bottom; }
         height: units.dp(2)
         color: theme.palette.normal.focus
-        visible: highlightShown
-    }
-
-    BorderImage {
-        anchors {
-            fill: root
-            margins: active ? -units.gu(2) : -units.gu(1.5)
-        }
-        source: "graphics/dropshadow2gu.sci"
-        opacity: root.shadowOpacity * .3
-        visible: !fullscreen
+        visible: showHighlight
     }
 
     WindowDecoration {
@@ -95,7 +95,10 @@ FocusScope {
         height: units.gu(3)
         width: root.width
         title: applicationWindow.title
-        visible: root.decorationShown
+        opacity: root.hasDecoration && root.showDecoration ? 1 : 0
+
+        // FIXME: priv.animationDuration reaches out of context... neads cleanup before landing
+        Behavior on opacity { UbuntuNumberAnimation { duration: priv.animationDuration } }
 
         onCloseClicked: root.closeClicked();
         onMaximizeClicked: { root.decorationPressed(); root.maximizeClicked(); }
@@ -109,21 +112,44 @@ FocusScope {
         id: applicationWindow
         objectName: "appWindow"
         anchors.top: parent.top
-        anchors.topMargin: root.decorationShown ? decoration.height : 0
+        anchors.topMargin: root.decorationHeight
         anchors.left: parent.left
         width: root.width
         height: root.height - anchors.topMargin
-        readonly property real requestedHeightMinusDecoration: root.requestedHeight - root.visibleDecorationHeight
-        requestedHeight: !counterRotate ? requestedHeightMinusDecoration : root.requestedWidth
-        requestedWidth: !counterRotate ? root.requestedWidth : requestedHeightMinusDecoration
+        requestedHeight: !counterRotate ? root.requestedHeight - d.requestedDecorationHeight : root.requestedWidth
+        requestedWidth: !counterRotate ? root.requestedWidth : root.requestedHeight - d.requestedDecorationHeight
+        property int oldRequestedWidth: requestedWidth
+        property int oldRequestedHeight: requestedHeight
+        onRequestedWidthChanged: oldRequestedWidth = requestedWidth
+        onRequestedHeightChanged: oldRequestedHeight = requestedHeight
         interactive: true
         focus: true
 
-        Behavior on anchors.topMargin {
-            UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
-        }
+        property real itemScale: 1
+        states: [
+            State {
+                name: "preview"; when: root.scaleToPreview
+                PropertyChanges {
+                    target: applicationWindow;
+                    requestedWidth: applicationWindow.oldRequestedWidth
+                    requestedHeight: applicationWindow.oldRequestedHeight
+                    implicitWidth: root.scaleToPreviewSize
+                    implicitHeight: root.scaleToPreviewSize
+                    width: Math.min(root.scaleToPreviewSize, Math.min(applicationWindow.requestedHeight, applicationWindow.requestedWidth))
+                    height: Math.min(root.scaleToPreviewSize, Math.min(applicationWindow.requestedHeight, applicationWindow.requestedWidth))
+                    itemScale: 1.0 * root.scaleToPreviewSize / applicationWindow.width
+                }
+            }
+        ]
+        transitions: [
+            Transition {
+                from: "*"; to: "*"
+                UbuntuNumberAnimation { properties: "width,height,implicitWidth,implicitHeight"; duration: priv.animationDuration }
+            }
+        ]
 
-        transform: Rotation {
+        transform: [
+            Rotation {
                 readonly property int rotationAngle: applicationWindow.application &&
                                                      applicationWindow.application.rotatesWindowContents
                                                      ? ((360 - applicationWindow.surfaceOrientationAngle) % 360) : 0
@@ -140,6 +166,14 @@ FocusScope {
                     else return 0;
                 }
                 angle: rotationAngle
-        }
+            },
+            Scale {
+                xScale: applicationWindow.itemScale
+                yScale: applicationWindow.itemScale
+            }
+
+        ]
     }
+
+    Rectangle { anchors.fill: parent; color: "blue"; opacity: .3 }
 }

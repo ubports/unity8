@@ -128,7 +128,7 @@ AbstractStage {
         property var foregroundMaximizedAppDelegate: null // for stuff like drop shadow and focusing maximized app by clicking panel
 
         property bool goneToSpread: false
-        property int animationDuration: UbuntuAnimation.FastDuration// 4000//UbuntuAnimation.SleepyDuration
+        property int animationDuration: /*UbuntuAnimation.FastDuration//*/ 4000//UbuntuAnimation.SleepyDuration
 
         function updateForegroundMaximizedApp() {
             var found = false;
@@ -350,7 +350,7 @@ AbstractStage {
                 readonly property bool maximizedHorizontally: windowState & WindowStateStorage.WindowStateMaximizedHorizontally
                 readonly property bool maximizedVertically: windowState & WindowStateStorage.WindowStateMaximizedVertically
                 readonly property bool minimized: windowState & WindowStateStorage.WindowStateMinimized
-                readonly property alias fullscreen: decoratedWindow.fullscreen
+                readonly property bool fullscreen: state == "fullscreen"
 
                 property int windowState: WindowStateStorage.WindowStateNormal
                 property bool animationsEnabled: true
@@ -569,16 +569,15 @@ AbstractStage {
                             x: spreadMaths.animatedX
                             y: spreadMaths.animatedY
                             z: index
-                            height: decoratedWindow.height + windowInfoItem.height + units.gu(2)
+                            height: spreadMaths.tileSize + windowInfoItem.height + units.gu(2)
                             requestedWidth: decoratedWindow.oldRequestedWidth
                             requestedHeight: decoratedWindow.oldRequestedHeight
                         }
                         PropertyChanges {
                             target: decoratedWindow;
                             showDecoration: false;
-                            height: units.gu(40)
-                            width: units.gu(40)
                             angle: spreadMaths.animatedAngle
+                            scaleToPreview: true
                         }
                         PropertyChanges { target: inputBlocker; enabled: true }
                         PropertyChanges { target: windowInfoItem; opacity: 1 }
@@ -618,7 +617,7 @@ AbstractStage {
                         }
                         PropertyChanges {
                             target: decoratedWindow
-                            showDecoration: false
+                            hasDecoration: false
                         }
                         PropertyChanges {
                             target: resizeArea
@@ -638,13 +637,17 @@ AbstractStage {
                         }
                     },
                     State {
-                        name: "fullscreen"; when: decoratedWindow.fullscreen && !appDelegate.minimized
+                        name: "fullscreen"; when: surface ? surface.state === Mir.FullscreenState : application.fullscreen && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
-                            x: rotation == 0 ? 0 : (parent.width - width) / 2 + (shellOrientationAngle == 90 ? -PanelState.panelHeight : PanelState.panelHeight)
-                            y: rotation == 0 ? -PanelState.panelHeight : (parent.height - height) / 2
+                            x: rotation == 0 ? 0 : (parent.width - width) / 2 + (shellOrientationAngle == 90 ? 0 : PanelState.panelHeight)
+                            y: rotation == 0 ? 0 : (parent.height - height) / 2
                             requestedWidth: appContainer.width;
                             requestedHeight: appContainer.height;
+                        }
+                        PropertyChanges {
+                            target: decoratedWindow
+                            hasDecoration: false
                         }
                     },
                     State {
@@ -745,22 +748,22 @@ AbstractStage {
                     },
                     Transition {
                         to: "spread"
-                        PropertyAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
-                        PropertyAnimation { target: decoratedWindow; properties: "width,height,angle"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,angle,baseScale"; duration: priv.animationDuration }
                     },
                     Transition {
                         from: "spread"; to: "staged,normal"
-                        PropertyAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
-                        PropertyAnimation { target: decoratedWindow; properties: "angle,width,height"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: decoratedWindow; properties: "angle,width,height,baseScale"; duration: priv.animationDuration }
                     },
                     Transition {
                         from: "normal"; to: "staged";
-                        PropertyAnimation { target: appDelegate; properties: "x,y,requestedWidth,requestedHeight"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedWidth,requestedHeight"; duration: priv.animationDuration }
                     },
                     Transition {
                         to: "staged"
-                        PropertyAnimation { target: appDelegate; properties: "x,y"; duration: priv.animationDuration }
-                        PropertyAnimation { target: appDelegate; properties: "requestedWidth,requestedHeight"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: appDelegate; properties: "requestedWidth,requestedHeight"; duration: priv.animationDuration }
                     }
 
                 ]
@@ -857,19 +860,29 @@ AbstractStage {
                     property real angle: 0
                     property real itemScale: 1
                     transform: [
-//                        Scale {
-//                            origin.x: itemScaleOriginX
-//                            origin.y: itemScaleOriginY
-//                            xScale: itemScale
-//                            yScale: itemScale
-//                        },
+                        Scale {
+                            origin.x: itemScaleOriginX
+                            origin.y: itemScaleOriginY
+                            xScale: decoratedWindow.itemScale
+                            yScale: decoratedWindow.itemScale
+                        },
                         Rotation {
-                            origin { x: 0; y: (decoratedWindow.height - (decoratedWindow.height * decoratedWindow.itemScale / 2)) }
+                            origin { x: 0; y: (decoratedWindow.height * decoratedWindow.itemScale / 2) }
                             axis { x: 0; y: 1; z: 0 }
                             angle: decoratedWindow.angle
                         }
                     ]
                 }
+                BorderImage {
+                    anchors {
+                        fill: decoratedWindow
+                        margins: /*active ? -units.gu(2) : */-units.gu(1.5)
+                    }
+                    source: "graphics/dropshadow2gu.sci"
+                    opacity: root.shadowOpacity * .3
+                    visible: false
+                }
+
 
                 WindowControlsOverlay {
                     id: touchControls
@@ -902,7 +915,7 @@ AbstractStage {
 
                 WindowInfoItem {
                     id: windowInfoItem
-                    anchors { left: parent.left; bottom: parent.bottom }
+                    anchors { left: parent.left; top: decoratedWindow.bottom; topMargin: units.gu(1) }
                     title: decoratedWindow.title
                     iconSource: model.application.icon
                     opacity: 0

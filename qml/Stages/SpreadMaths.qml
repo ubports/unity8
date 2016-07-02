@@ -67,6 +67,8 @@ Item {
     readonly property real middleSectionProgress: (linearX - margins - foldingAreaWidth) / (flickableWidth - (margins + foldingAreaWidth) * 2)
 
     // Output
+    readonly property int tileSize: units.gu(40)
+
     readonly property int animatedX: {
         if (itemIndex == 0) print("leftFoldingAreaProgress", leftFoldingAreaProgress, "rightFoldingAreaProgress", rightFoldingAreaProgress)
         if (leftFoldingAreaProgress > 4) { // Stop it at the edge
