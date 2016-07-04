@@ -690,5 +690,27 @@ Item {
             tryCompare(pageHeader.extraPanel, "visible", false);
             compare(searchTextField.focus, false);
         }
+
+        function test_cancelSearch() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            var pageHeader = findChild(dashContentList.currentItem, "scopePageHeader")
+            pageHeader.searchEntryEnabled = true;
+            pageHeader.searchHistory.clear();
+
+            pageHeader.searchHistory.addQuery("Search1");
+            pageHeader.searchHistory.addQuery("Search2");
+
+            pageHeader.triggerSearch();
+            tryCompare(pageHeader.extraPanel, "visible", true);
+
+            var searchTextField = findChild(pageHeader, "searchTextField");
+            compare(searchTextField.focus, true);
+
+            var cancelButton = findChild(dashContentList.currentItem, "cancelButton")
+
+            mouseClick(cancelButton);
+            tryCompare(pageHeader.extraPanel, "visible", false);
+            compare(searchTextField.focus, false);
+        }
     }
 }
