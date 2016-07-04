@@ -81,7 +81,7 @@ Item {
     function closePopup(keepFocus, keepSearch) {
         if (extraPanel.visible) {
             extraPanel.visible = false;
-        } else if (!keepFocus) {
+        } if (!keepFocus) {
             unfocus(keepSearch);
         }
         if (!keepSearch && !searchTextField.text && !root.navigationTag && searchHistory.count == 0) {
