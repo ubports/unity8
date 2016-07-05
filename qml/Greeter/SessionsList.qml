@@ -48,8 +48,13 @@ Item {
             model: LightDMService.sessions
             delegate: UnitySelectorDelegate {
                 objectName: "sessionDelegate" + index
+                colorImage: true
                 iconSource: icon_url
                 text: display
+
+                // This matches the color for LoginList
+                assetColor: selected ? theme.palette.normal.backgroundText :
+                    theme.palette.normal.raisedSecondaryText
                 textColor: selected ? theme.palette.normal.selectionText : theme.palette.normal.raisedText
                 selected: key === initiallySelectedSession
             }
