@@ -95,14 +95,11 @@
 #include <QDebug>
 #include <qqmlinfo.h>
 #include <qqmlengine.h>
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
 #include <private/qqmlcontext_p.h>
 #include <private/qqmldelegatemodel_p.h>
 #include <private/qqmlglobal_p.h>
 #include <private/qquickitem_p.h>
 #include <private/qquickanimation_p.h>
-#pragma GCC diagnostic pop
 // #include <private/qquickrectangle_p.h>
 
 qreal ListViewWithPageHeader::ListItem::height() const
@@ -256,6 +253,7 @@ void ListViewWithPageHeader::setHeader(QQuickItem *headerItem)
             oldHeaderHeight = m_headerItem->height();
             oldHeaderY = m_headerItem->y();
             m_headerItem->setParentItem(nullptr);
+            QQuickItemPrivate::get(m_headerItem)->removeItemChangeListener(this, QQuickItemPrivate::ImplicitHeight);
         }
         m_headerItem = headerItem;
         if (m_headerItem) {
@@ -702,7 +700,9 @@ void ListViewWithPageHeader::reallyReleaseItem(ListItem *listItem)
     if (flags & QQmlDelegateModel::Destroyed) {
         item->setParentItem(nullptr);
     }
-    listItem->sectionItem()->deleteLater();
+    if (listItem->sectionItem()) {
+        listItem->sectionItem()->deleteLater();
+    }
     delete listItem;
 }
 
@@ -1333,6 +1333,10 @@ void ListViewWithPageHeader::layout()
                 }
             }
         }
+    }
+    if (m_headerItem) {
+        const bool cullHeader = m_headerItem->y() + m_headerItem->height() < contentY();
+        QQuickItemPrivate::get(m_headerItem)->setCulled(cullHeader);
     }
     m_inLayout = false;
 }

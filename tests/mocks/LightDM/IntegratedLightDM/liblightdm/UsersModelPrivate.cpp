@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,6 +47,12 @@ void UsersModelPrivate::resetEntries()
         resetEntries_full();
     }
 
+    // Assign uids in a loop, just to avoid having to muck with them when
+    // adding or removing test users.
+    for (int i = 0; i < entries.size(); i++) {
+        entries[i].uid = i + 1;
+    }
+
     q->endResetModel();
 }
 
@@ -89,7 +95,7 @@ void UsersModelPrivate::resetEntries_full()
         { "long-info-prompt",  "Long Info Prompt", 0, 0, false, false, "ubuntu", 0 },
         { "wide-info-prompt",  "Wide Info Prompt", 0, 0, false, false, "ubuntu", 0 },
         { "multi-info-prompt", "Multi Info Prompt", 0, 0, false, false, "ubuntu", 0 },
-        { "long-name",         "Long name (far far too long to fit)", 0, 0, false, false, "ubuntu", 0 },
+        { "long-name",         "Long name (far far too long to fit, seriously this would never fit on the screen, you will never see this part of the name)", 0, 0, false, false, "ubuntu", 0 },
         { "color-background",  "Color Background", "#dd4814", 0, false, false, "ubuntu", 0 },
         // white and black are a bit redundant, but useful for manually testing if UI is still readable
         { "white-background",  "White Background", "#ffffff", 0, false, false, "ubuntu", 0 },

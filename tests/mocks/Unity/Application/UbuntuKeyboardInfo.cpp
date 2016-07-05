@@ -21,7 +21,7 @@ UbuntuKeyboardInfo::UbuntuKeyboardInfo(QObject *parent)
     m_x(0),
     m_y(0),
     m_width(200),
-    m_height(200)
+    m_height(0)
 {
 }
 
