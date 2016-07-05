@@ -163,6 +163,47 @@ AbstractStage {
                 }
             }
         }
+
+        property var mainStageDelegate: null
+        property var sideStageDelegate: null
+        property int mainStageItemId: 0
+        property int sideStageItemId: 0
+        property string mainStageAppId: ""
+        property string sideStageAppId: ""
+
+        function updateMainAndSideStageIndexes() {
+            var choseMainStage = false;
+            var choseSideStage = false;
+
+            if (!root.topLevelSurfaceList)
+                return;
+
+            for (var i = 0; i < topLevelSurfaceRepeater.count && (!choseMainStage || !choseSideStage); ++i) {
+                var appDelegate = topLevelSurfaceRepeater.itemAt(i);
+                if (sideStage.shown && spreadDelegate.stage == ApplicationInfoInterface.SideStage
+                        && !choseSideStage) {
+                    priv.sideStageDelegate = appDelegate
+                    priv.sideStageItemId = root.topLevelSurfaceList.idAt(i);
+                    priv.sideStageAppId = root.topLevelSurfaceList.applicationAt(i).appId;
+                    choseSideStage = true;
+                } else if (!choseMainStage && spreadDelegate.stage == ApplicationInfoInterface.MainStage) {
+                    priv.mainStageDelegate = appDelegate;
+                    priv.mainStageItemId = root.topLevelSurfaceList.idAt(i);
+                    priv.mainStageAppId = root.topLevelSurfaceList.applicationAt(i).appId;
+                    choseMainStage = true;
+                }
+            }
+            if (!choseMainStage) {
+                priv.mainStageDelegate = null;
+                priv.mainStageItemId = 0;
+                priv.mainStageAppId = "";
+            }
+            if (!choseSideStage) {
+                priv.sideStageDelegate = null;
+                priv.sideStageItemId = 0;
+                priv.sideStageAppId = "";
+            }
+        }
     }
 
     Connections {
@@ -253,6 +294,9 @@ AbstractStage {
         },
         State {
             name: "staged"; when: root.mode === "staged"
+        },
+        State {
+            name: "stagedWithSideStage"; when: root.mode === "stagedWithSideStage"
         },
         State {
             name: "windowed"; when: root.mode === "windowed"
@@ -358,6 +402,8 @@ AbstractStage {
                 readonly property string appName: model.application ? model.application.name : ""
                 property bool visuallyMaximized: false
                 property bool visuallyMinimized: false
+
+                property int stage: ApplicationInfoInterface.MainStage
 
                 readonly property var surface: model.surface
                 readonly property alias resizeArea: resizeArea
@@ -548,6 +594,15 @@ AbstractStage {
                     totalItems: appRepeater.count
                     flickable: floatingFlickable
                 }
+                StageMaths {
+                    id: stageMaths
+                    sceneWidth: root.width
+                    stage: appDelegate.stage
+                    thisDelegate: appDelegate
+                    mainStageDelegate: priv.mainStageDelegate
+                    sideStageDelegate: priv.sideStageDelegate
+                }
+
                 StagedRightEdgeMaths {
                     id: stagedRightEdgeMaths
                     itemIndex: index
@@ -597,7 +652,7 @@ AbstractStage {
                         }
                         PropertyChanges {
                             target: decoratedWindow;
-                            showDecoration: false
+                            hasDecoration: false
                             requestedWidth: stagedRightEdgeMaths.animatedWidth
                             requestedHeight: stagedRightEdgeMaths.animatedHeight - PanelState.panelHeight
 //                            width: appContainer.width - root.leftMargin
@@ -612,6 +667,29 @@ AbstractStage {
                             x: appDelegate.focus ? 0 : root.width
                             y: appDelegate.fullscreen ? 0 : PanelState.panelHeight
                             requestedWidth: appContainer.width
+                            requestedHeight: appContainer.height - PanelState.panelHeight
+                            visuallyMaximized: true
+                        }
+                        PropertyChanges {
+                            target: decoratedWindow
+                            hasDecoration: false
+                        }
+                        PropertyChanges {
+                            target: resizeArea
+                            enabled: false
+                        }
+                    },
+                    State {
+                        name: "stagedWithSideStage"; when: root.state == "stagedWithSideStage"
+                        PropertyChanges {
+                            target: stageMaths
+                            itemIndex: index
+                        }
+                        PropertyChanges {
+                            target: appDelegate
+                            x: stageMaths.itemX
+                            y: appDelegate.fullscreen ? 0 : PanelState.panelHeight
+                            requestedWidth: stageMaths.itemWidth
                             requestedHeight: appContainer.height - PanelState.panelHeight
                             visuallyMaximized: true
                         }

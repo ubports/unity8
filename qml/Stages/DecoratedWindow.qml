@@ -144,7 +144,7 @@ FocusScope {
         transitions: [
             Transition {
                 from: "*"; to: "*"
-                UbuntuNumberAnimation { properties: "width,height,implicitWidth,implicitHeight"; duration: priv.animationDuration }
+                UbuntuNumberAnimation { properties: "width,height,itemScale,implicitWidth,implicitHeight"; duration: priv.animationDuration }
             }
         ]
 

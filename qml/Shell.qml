@@ -283,7 +283,9 @@ StyledItem {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "mode"
-                value: applicationsDisplayLoader.usageScenario == "phone" ? "staged" : "windowed"
+                value: applicationsDisplayLoader.usageScenario == "phone" ? "staged"
+                        : applicationsDisplayLoader.usageScenario == "tablet" ? "stagedWithSideStage"
+                        : "windowed"
             }
             Binding {
                 target: applicationsDisplayLoader.item
