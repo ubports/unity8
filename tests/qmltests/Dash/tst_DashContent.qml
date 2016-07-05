@@ -524,7 +524,6 @@ Item {
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
             var headerContainer = findChild(pageHeader, "headerContainer");
 
-            
             mouseClick(searchButton);
             tryCompare(peExtraPanel, "visible", true);
 
