@@ -41,7 +41,9 @@ Item {
             id: sessionsList
             objectName: "sessionsListSelector"
 
-            anchors.centerIn: parent
+            anchors.fill: parent
+            anchors.margins: units.dp(5)
+            clip: true
             width: parent.width - units.gu(1)
             expanded:true
 
