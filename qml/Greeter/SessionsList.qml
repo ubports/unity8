@@ -25,11 +25,13 @@ Item {
     objectName: "sessionsList"
 
     property string initiallySelectedSession
-    property alias selectedIndex: sessionsList.selectedIndex
+    //property alias selectedIndex: sessionsList.selectedIndex
     signal sessionSelected(string sessionKey)
 
     LoginAreaContainer {
-        height: sessionsList.itemHeight * sessionsList.model.count
+        height: units.gu(5) * sessionsList.model.count
+        //width: parent.width
+        width: units.gu(36)
 
         anchors {
             left: parent.left
@@ -37,7 +39,30 @@ Item {
             verticalCenter: parent.verticalCenter
         }
 
-        ItemSelector {
+        UbuntuListView {
+            id: sessionsList
+            anchors.fill: parent
+
+            model: LightDMService.sessions
+            header: ListItemLayout {
+                id: header
+
+                title.color: theme.palette.normal.raisedText
+                title.font.pixelSize: units.gu(2.1)
+                title.text: i18n.tr("Select desktop environment")
+
+                Icon {
+                    id: icon
+                    width: units.gu(3)
+                    SlotsLayout.position: SlotsLayout.Leading
+                    name: "go-previous"
+                }
+            }
+
+            headerPositioning: ListView.OverlayHeader
+        }
+
+        /*ItemSelector {
             id: sessionsList
             objectName: "sessionsListSelector"
 
@@ -65,6 +90,6 @@ Item {
                 sessionSelected(sessionsList.model.data(index,
                     LightDMService.sessionRoles.KeyRole));
             }
-        }
+        }*/
     }
 }
