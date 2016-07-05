@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-06-20 20:25+0000\n"
+"POT-Creation-Date: 2016-06-27 18:49+0000\n"
 "PO-Revision-Date: 2015-08-25 19:31+0000\n"
 "Last-Translator: karm <melo@carmu.com>\n"
 "Language-Team: Interlingua <ia@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-06-26 06:01+0000\n"
-"X-Generator: Launchpad (build 18111)\n"
+"X-Launchpad-Export-Date: 2016-06-30 05:52+0000\n"
+"X-Generator: Launchpad (build 18115)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -293,6 +293,16 @@ msgstr "Appello de emergentia"
 msgid "OK"
 msgstr "OK"
 
+#: qml/Components/MediaServices/VideoPlayerControls.qml:44
+#, qt-format
+msgid "%1:%2:%3"
+msgstr ""
+
+#: qml/Components/MediaServices/VideoPlayerControls.qml:49
+#, qt-format
+msgid "%1:%2"
+msgstr ""
+
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
 msgstr "Le applicationes pote haber datos non salvate:"
@@ -318,6 +328,10 @@ msgstr "Reconnecter nunc!"
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
 msgstr "Clauder toto"
+
+#: qml/Components/SharingPicker.qml:54
+msgid "Preview Share Item"
+msgstr "Elemento compartite de vista preliminar"
 
 #: qml/Dash/DashPageHeader.qml:333
 msgctxt "Button: Open the Ubuntu Store"
@@ -392,10 +406,6 @@ msgstr "Evalutar isto"
 msgid "Add a review"
 msgstr "Adder un revision"
 
-#: qml/Dash/Previews/PreviewSharing.qml:66
-msgid "Preview Share Item"
-msgstr "Elemento compartite de vista preliminar"
-
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
 msgstr "Tirar pro renovar…"
@@ -412,11 +422,11 @@ msgstr "Habilita le datos del location"
 msgid "Manage"
 msgstr "Tractar"
 
-#: qml/Dash/ScopesList.qml:101
+#: qml/Dash/ScopesList.qml:102
 msgid "Home"
 msgstr "A domo"
 
-#: qml/Dash/ScopesList.qml:102
+#: qml/Dash/ScopesList.qml:103
 msgid "Also installed"
 msgstr "Ja installate"
 
@@ -432,7 +442,7 @@ msgstr ""
 msgid "Unlock"
 msgstr "Liberar"
 
-#: qml/Greeter/Greeter.qml:536
+#: qml/Greeter/Greeter.qml:539
 msgid "Try again"
 msgstr ""
 
@@ -630,7 +640,7 @@ msgstr "Lingua"
 #: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
 #: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
 #: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:124
+#: qml/Wizard/Pages/passcode-desktop.qml:141
 #: qml/Wizard/Pages/password-set.qml:141
 msgid "Next"
 msgstr "Sequente"
@@ -791,7 +801,7 @@ msgid "Service Terms"
 msgstr "Terminos de servicio"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:80
+#: qml/Wizard/Pages/passcode-desktop.qml:96
 msgid "Confirm passcode"
 msgstr "Confirma le codice-contrasigno"
 
@@ -808,24 +818,24 @@ msgstr "Per favor re-inserer"
 msgid "Lock Screen Passcode"
 msgstr "Codice contrasigno del bloca schermo."
 
-#: qml/Wizard/Pages/passcode-desktop.qml:56
+#: qml/Wizard/Pages/passcode-desktop.qml:60
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "Insere 4 numeros pro configurar tu codice-contrasigno"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:65
+#: qml/Wizard/Pages/passcode-desktop.qml:76
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "Seliger le codice-contrasigno"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:105
+#: qml/Wizard/Pages/passcode-desktop.qml:126
 msgid "Passcode too short"
 msgstr "Codice-contrasigno troppo breve"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:107
+#: qml/Wizard/Pages/passcode-desktop.qml:128
 msgid "Passcodes match"
 msgstr "Le codices-contrasigno concorda"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:109
+#: qml/Wizard/Pages/passcode-desktop.qml:130
 msgid "Passcodes do not match"
 msgstr "Le codices-contrasigno non concorda"
 
@@ -875,26 +885,30 @@ msgid "To proceed with no SIM tap Skip."
 msgstr "Pro proceder sin SIM colpa Saltar."
 
 #: qml/Wizard/PasswordMeter.qml:87
+msgid "Password too short"
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
 msgstr "Le contrasignos concorda"
 
-#: qml/Wizard/PasswordMeter.qml:89
+#: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
 msgstr "Le contrasignos non concorda"
 
-#: qml/Wizard/PasswordMeter.qml:93
+#: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
 msgstr "Contrasigno forte"
 
-#: qml/Wizard/PasswordMeter.qml:95
+#: qml/Wizard/PasswordMeter.qml:97
 msgid "Fair password"
 msgstr "Contrasigno passabile"
 
-#: qml/Wizard/PasswordMeter.qml:97
+#: qml/Wizard/PasswordMeter.qml:99
 msgid "Weak password"
 msgstr "Contrasigno debile"
 
-#: qml/Wizard/PasswordMeter.qml:99
+#: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
 msgstr "Contrasigno troppo debile"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-06-20 20:25+0000\n"
+"POT-Creation-Date: 2016-06-27 18:49+0000\n"
 "PO-Revision-Date: 2016-05-04 19:50+0000\n"
 "Last-Translator: Bojan Bogdanović <Unknown>\n"
 "Language-Team: српски <xfce4@xfce4.org>\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2016-06-26 06:01+0000\n"
-"X-Generator: Launchpad (build 18111)\n"
+"X-Launchpad-Export-Date: 2016-06-30 05:52+0000\n"
+"X-Generator: Launchpad (build 18115)\n"
 "Language: sr\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -295,6 +295,16 @@ msgstr "Хитан позив"
 msgid "OK"
 msgstr "У реду"
 
+#: qml/Components/MediaServices/VideoPlayerControls.qml:44
+#, qt-format
+msgid "%1:%2:%3"
+msgstr ""
+
+#: qml/Components/MediaServices/VideoPlayerControls.qml:49
+#, qt-format
+msgid "%1:%2"
+msgstr ""
+
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
 msgstr "Програми можда имају несачуванх података:"
@@ -320,6 +330,10 @@ msgstr "Поново се повежи!"
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
 msgstr "Затворите све"
+
+#: qml/Components/SharingPicker.qml:54
+msgid "Preview Share Item"
+msgstr "Преглед дељене ставке"
 
 #: qml/Dash/DashPageHeader.qml:333
 msgctxt "Button: Open the Ubuntu Store"
@@ -394,10 +408,6 @@ msgstr "Оцени"
 msgid "Add a review"
 msgstr "Напиши оцену"
 
-#: qml/Dash/Previews/PreviewSharing.qml:66
-msgid "Preview Share Item"
-msgstr "Преглед дељене ставке"
-
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
 msgstr "Повуци ради освежавања…"
@@ -414,11 +424,11 @@ msgstr "Омогући податке о положају"
 msgid "Manage"
 msgstr "Управљај"
 
-#: qml/Dash/ScopesList.qml:101
+#: qml/Dash/ScopesList.qml:102
 msgid "Home"
 msgstr "Почетна"
 
-#: qml/Dash/ScopesList.qml:102
+#: qml/Dash/ScopesList.qml:103
 msgid "Also installed"
 msgstr "Такође инсталиран"
 
@@ -434,7 +444,7 @@ msgstr ""
 msgid "Unlock"
 msgstr "Откључај"
 
-#: qml/Greeter/Greeter.qml:536
+#: qml/Greeter/Greeter.qml:539
 msgid "Try again"
 msgstr ""
 
@@ -634,7 +644,7 @@ msgstr "Језик"
 #: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
 #: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
 #: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:124
+#: qml/Wizard/Pages/passcode-desktop.qml:141
 #: qml/Wizard/Pages/password-set.qml:141
 msgid "Next"
 msgstr "Следеће"
@@ -793,7 +803,7 @@ msgid "Service Terms"
 msgstr "Услови сервиса"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:80
+#: qml/Wizard/Pages/passcode-desktop.qml:96
 msgid "Confirm passcode"
 msgstr "Потврдите приступни код"
 
@@ -810,24 +820,24 @@ msgstr "Молимо, унесите поново."
 msgid "Lock Screen Passcode"
 msgstr "Приступни код закључавања екрана"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:56
+#: qml/Wizard/Pages/passcode-desktop.qml:60
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "Унесите 4 броја да подесите приступни код"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:65
+#: qml/Wizard/Pages/passcode-desktop.qml:76
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "Одаберите приступни код"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:105
+#: qml/Wizard/Pages/passcode-desktop.qml:126
 msgid "Passcode too short"
 msgstr "Приступни код је превише кратак"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:107
+#: qml/Wizard/Pages/passcode-desktop.qml:128
 msgid "Passcodes match"
 msgstr "Приступни код се поклапа"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:109
+#: qml/Wizard/Pages/passcode-desktop.qml:130
 msgid "Passcodes do not match"
 msgstr "Приступни код се не поклапа"
 
@@ -876,26 +886,30 @@ msgid "To proceed with no SIM tap Skip."
 msgstr "Да наставите без СИМ каритице тапните Прескочи."
 
 #: qml/Wizard/PasswordMeter.qml:87
+msgid "Password too short"
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
 msgstr "Лозинке се поклапају"
 
-#: qml/Wizard/PasswordMeter.qml:89
+#: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
 msgstr "Лозинке се не поклапају"
 
-#: qml/Wizard/PasswordMeter.qml:93
+#: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
 msgstr "Јака лозинка"
 
-#: qml/Wizard/PasswordMeter.qml:95
+#: qml/Wizard/PasswordMeter.qml:97
 msgid "Fair password"
 msgstr "Солидна лозинка"
 
-#: qml/Wizard/PasswordMeter.qml:97
+#: qml/Wizard/PasswordMeter.qml:99
 msgid "Weak password"
 msgstr "Слаба лозинка"
 
-#: qml/Wizard/PasswordMeter.qml:99
+#: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
 msgstr "Веома слаба лозинка"
 
