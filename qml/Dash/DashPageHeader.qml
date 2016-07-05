@@ -132,7 +132,6 @@ Item {
         anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + (extraPanel ? extraPanel.height : 0) }
         visible: headerContainer.showSearch
         onPressed: {
-            extraPanel.visible = false;
             closePopup(/* keepFocus */false);
             mouse.accepted = false;
         }
