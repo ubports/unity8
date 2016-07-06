@@ -30,8 +30,7 @@ Item {
 
     LoginAreaContainer {
         height: units.gu(5) * sessionsList.model.count
-        //width: parent.width
-        width: units.gu(36)
+        width: parent.width
 
         anchors {
             left: parent.left
@@ -66,15 +65,30 @@ Item {
 
             highlight: Rectangle {
                 color:"transparent"
-
                 border {
                     color: theme.palette.normal.positionText
                     width: units.gu(0.2)
                 }
+
+                visible: sessionsList.currentItem.visible
+                y: sessionsList.currentItem.y
             }
 
             delegate: ListItem {
+                id: delegate
+
                 divider.visible: false
+                visible: y > sessionsList.headerItem.y
+                + sessionsList.headerItem.height
+                - sessionsList.anchors.margins
+                && (y + height) < root.height
+
+                onYChanged: console.log("jam")
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: sessionsList.currentIndex = index
+                }
+
                 ListItemLayout {
                     id: layout
 
