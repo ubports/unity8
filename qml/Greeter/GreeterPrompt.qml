@@ -66,6 +66,12 @@ FocusScope {
         visible: !root.isPrompt
         focus: visible
 
+        onVisibleChanged: {
+            // Qt owns focus, we can't keep our binding active.  So make sure
+            // focus stays in sync manually.
+            focus = visible;
+        }
+
         onClicked: {
             if (d.enabled) {
                 d.enabled = false;
@@ -86,12 +92,12 @@ FocusScope {
         anchors.fill: parent
         visible: root.isPrompt
         opacity: fakeLabel.visible ? 0 : 1
+        focus: visible
 
-        // Oddly, a simple "focus: visible" does not stick -- the binding
-        // gets lost when switching between buttons and prompts.  But this
-        // explicit binding does work.
-        Binding on focus {
-            value: passwordInput.visible
+        onVisibleChanged: {
+            // Qt owns focus, we can't keep our binding active.  So make sure
+            // focus stays in sync manually.
+            focus = visible;
         }
 
         validator: RegExpValidator {
