@@ -37,6 +37,7 @@ FocusScope {
     // so that it can be replaced in tests with a mock object
     property var inputMethod: Qt.inputMethod
 
+    signal promptlessLogin()
     signal selected(int index)
     signal responded(string response)
     signal tease()
@@ -132,6 +133,7 @@ FocusScope {
 
             locked: root.locked
 
+            onPromptlessLogin: root.promptlessLogin()
             onSelected: root.selected(index)
             onResponded: root.responded(response)
         }

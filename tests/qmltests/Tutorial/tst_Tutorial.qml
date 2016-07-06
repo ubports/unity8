@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import QtTest 1.0
 import AccountsService 0.1
-import IntegratedLightDM 0.1 as LightDM
+import LightDM.IntegratedLightDM 0.1 as LightDM
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
 import Ubuntu.Telephony 0.1 as Telephony

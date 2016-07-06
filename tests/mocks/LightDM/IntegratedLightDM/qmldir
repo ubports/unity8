@@ -1,0 +1,2 @@
+module LightDM.IntegratedLightDM
+plugin MockLightDM-qml
