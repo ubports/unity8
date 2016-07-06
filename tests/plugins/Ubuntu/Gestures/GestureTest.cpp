@@ -22,8 +22,8 @@
 #include <QQuickView>
 #include <QtTest>
 
-#include <Timer>
-#include <TouchRegistry>
+#include <UbuntuGestures/private/timer_p.h>
+#include <UbuntuGestures/private/touchregistry_p.h>
 
 using namespace UbuntuGestures;
 

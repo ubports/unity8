@@ -20,12 +20,12 @@
 #include <QDebug>
 #include <QQuickWindow>
 
-#include <TouchOwnershipEvent>
-#include <TouchRegistry>
+#include <UbuntuGestures/private/touchownershipevent_p.h>
+#include <UbuntuGestures/private/touchregistry_p.h>
 
 #if TOUCHGATE_DEBUG
 #define ugDebug(params) qDebug().nospace() << "[TouchGate(" << (void*)this << ")] " << params
-#include <DebugHelpers.h>
+#include <UbuntuGestures/private/debughelpers_p.h>
 #else // TOUCHGATE_DEBUG
 #define ugDebug(params) ((void)0)
 #endif // TOUCHGATE_DEBUG

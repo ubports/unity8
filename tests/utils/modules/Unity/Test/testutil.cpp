@@ -24,8 +24,8 @@
 #include <private/qquickanimation_p.h>
 
 // UbuntuGestures lib
-#include <TouchRegistry>
-#include <Timer>
+#include <UbuntuGestures/private/touchregistry_p.h>
+#include <UbuntuGestures/private/timer_p.h>
 
 using namespace UbuntuGestures;
 
