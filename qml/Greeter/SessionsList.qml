@@ -42,10 +42,13 @@ Item {
         UbuntuListView {
             id: sessionsList
             anchors.fill: parent
+            anchors.margins: units.gu(2)
 
             model: LightDMService.sessions
             header: ListItemLayout {
                 id: header
+
+                padding.leading: 0 // handled by parent's margins
 
                 title.color: theme.palette.normal.raisedText
                 title.font.pixelSize: units.gu(2.1)
@@ -60,6 +63,32 @@ Item {
             }
 
             headerPositioning: ListView.OverlayHeader
+
+            highlight: Rectangle {
+                color:"transparent"
+
+                border {
+                    color: theme.palette.normal.positionText
+                    width: units.gu(0.2)
+                }
+            }
+
+            delegate: ListItem {
+                divider.visible: false
+                ListItemLayout {
+                    id: layout
+
+                    SessionIcon {
+                        id: sessionIcon
+                        source: icon_url
+                        SlotsLayout.position: SlotsLayout.Leading
+                        color: theme.palette.normal.raisedSecondaryText
+                    }
+
+                    title.text: display
+                    title.color: theme.palette.normal.raisedText
+                }
+            }
         }
 
         /*ItemSelector {
