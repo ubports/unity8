@@ -1161,6 +1161,17 @@ Rectangle {
             tryCompare(indicators, "fullyClosed", true);
         }
 
+        function test_greeterShownAgainHidesIndicators() {
+            // Regression test for https://launchpad.net/bugs/1595569
+
+            loadShell("phone");
+            showIndicators();
+            showGreeter();
+
+            var indicators = findChild(shell, "indicators");
+            tryCompare(indicators, "fullyClosed", true);
+        }
+
         function test_showAndHideGreeterDBusCalls() {
             loadShell("phone");
             swipeAwayGreeter();
