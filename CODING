@@ -201,3 +201,27 @@ $ PYTHONPATH=../tests/autopilot autopilot3 run unity8.some.very.long.test.name
 or run them all with
 
 $ PYTHONPATH=../tests/autopilot autopilot3 run unity8
+
+Debugging techniques
+====================
+
+Unity8 heavily uses Qt and with that Qt debugging techniques mostly apply in the
+same fashion. There are, however, some additional unity8-specific notes:
+
+* Enable/disable Qt scenegraph visualizer on the fly:
+
+  $ qdbus com.canonical.Unity8.Debugging /com/canonical/Unity8/Debugging SetSceneGraphVisualizer <mode>
+
+  This is equivalent to exporting QSG_VISUALIZE=<mode> before running unity8, except it does it on the
+  fly.
+
+* Toggle slow animations on the fly:
+
+  $ qdbus com.canonical.Unity8.Debugging /com/canonical/Unity8/Debugging SetSlowAnimations <true|false>
+
+* Change logging filter rules on the fly:
+
+  $ qdbus com.canonical.Unity8.Debugging /com/canonical/Unity8/Debugging SetLoggingFilterRules <filter>
+
+  This is equivalent to exporting QT_LOGGING_RULES or defining them in QT_LOGGING_CONF, except it does
+  it on the fly.
