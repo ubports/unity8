@@ -25,8 +25,8 @@ Item {
     objectName: "sessionsList"
 
     property string initiallySelectedSession
-    //property alias selectedIndex: sessionsList.selectedIndex
     signal sessionSelected(string sessionKey)
+    signal showLoginList()
 
     LoginAreaContainer {
         height: units.gu(5) * sessionsList.model.count
@@ -40,8 +40,15 @@ Item {
 
         UbuntuListView {
             id: sessionsList
-            anchors.fill: parent
-            anchors.margins: units.gu(2)
+
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: parent.right
+                margins: units.gu(2)
+            }
+
+            height: parent.height - currentItem.height
 
             model: LightDMService.sessions
             header: ListItemLayout {
@@ -58,6 +65,11 @@ Item {
                     width: units.gu(3)
                     SlotsLayout.position: SlotsLayout.Leading
                     name: "go-previous"
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: showLoginList()
+                    }
                 }
             }
 
@@ -71,7 +83,6 @@ Item {
                 }
 
                 visible: sessionsList.currentItem.visible
-                y: sessionsList.currentItem.y
             }
 
             delegate: ListItem {
@@ -81,12 +92,19 @@ Item {
                 visible: y > sessionsList.headerItem.y
                 + sessionsList.headerItem.height
                 - sessionsList.anchors.margins
-                && (y + height) < root.height
 
-                onYChanged: console.log("jam")
+                /*property bool showHighlight: visible &&
+                    (sessionsList.currentIndex * height)
+                    - sessionsList.contentY
+                    < sessionsList.height + sessionsList.anchors.margins
+                */
+
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: sessionsList.currentIndex = index
+                    onClicked: {
+                        sessionsList.currentIndex = index
+                        sessionSelected(key)
+                    }
                 }
 
                 ListItemLayout {
@@ -104,35 +122,5 @@ Item {
                 }
             }
         }
-
-        /*ItemSelector {
-            id: sessionsList
-            objectName: "sessionsListSelector"
-
-            anchors.fill: parent
-            anchors.margins: units.dp(5)
-            clip: true
-            width: parent.width - units.gu(1)
-            expanded:true
-
-            model: LightDMService.sessions
-            delegate: UnitySelectorDelegate {
-                objectName: "sessionDelegate" + index
-                colorImage: true
-                iconSource: icon_url
-                text: display
-
-                // This matches the color for LoginList
-                assetColor: selected ? theme.palette.normal.backgroundText :
-                    theme.palette.normal.raisedSecondaryText
-                textColor: selected ? theme.palette.normal.selectionText : theme.palette.normal.raisedText
-                selected: key === initiallySelectedSession
-            }
-
-            onDelegateClicked: {
-                sessionSelected(sessionsList.model.data(index,
-                    LightDMService.sessionRoles.KeyRole));
-            }
-        }*/
     }
 }

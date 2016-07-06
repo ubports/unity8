@@ -223,10 +223,11 @@ FocusScope {
             Connections {
                 target: !loginListShown ? loginAreaLoader.item : null
                 onSessionSelected: {
-                    loginAreaLoader.loginListShown = true
                     loginAreaLoader.sessionUpdated = true
                     loginAreaLoader.currentSession = sessionKey
                 }
+
+                onShowLoginList: loginAreaLoader.loginListShown = true
                 ignoreUnknownSignals: true
             }
         }
