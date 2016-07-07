@@ -1,3 +1,11 @@
+unity8 (8.12+16.10.20160705-0ubuntu1) yakkety; urgency=medium
+
+  [ Michael Zanetti ]
+  * don't displace windows if the OSK is on another screen (LP:
+    #1598917)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 05 Jul 2016 10:00:57 +0000
+
 unity8 (8.12+16.10.20160627.5-0ubuntu1) yakkety; urgency=medium
 
   [ Albert Astals Cid ]
