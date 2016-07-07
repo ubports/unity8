@@ -137,15 +137,11 @@ Item {
         }
     }
 
-    Flickable {
+    Item {
         id: headerContainer
         objectName: "headerContainer"
-        clip: contentY < height
         anchors { left: parent.left; top: parent.top; right: parent.right }
         height: header.__styleInstance.contentHeight
-        contentHeight: headersColumn.height
-        interactive: false
-        contentY: showSearch ? 0 : height
 
         property bool showSearch: false
 
@@ -155,23 +151,42 @@ Item {
             style: scopeStyle.headerBackground
         }
 
-        Behavior on contentY {
-            UbuntuNumberAnimation {
+        Column {
+            id: headersColumn
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+            }
+
+            state: headerContainer.showSearch ? "search" : ""
+
+            states: State {
+                name: "search"
+
+                AnchorChanges {
+                    target: headersColumn
+                    anchors.top: parent.top
+                    anchors.bottom: undefined
+                }
+            }
+
+            transitions: Transition {
                 id: openSearchAnimation
+                AnchorAnimation {
+                    duration: UbuntuAnimation.FastDuration
+                }
+
                 property bool openPopup: false
 
                 onRunningChanged: {
+                    headerContainer.clip = running;
                     if (!running && openSearchAnimation.openPopup) {
                         openSearchAnimation.openPopup = false;
                         root.openPopup();
                     }
                 }
             }
-        }
-
-        Column {
-            id: headersColumn
-            anchors { left: parent.left; right: parent.right }
 
             PageHeader {
                 id: searchHeader
