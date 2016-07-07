@@ -29,7 +29,13 @@ Item {
     signal showLoginList()
 
     LoginAreaContainer {
-        height: units.gu(30)
+        readonly property real maxHeight: {
+            (sessionsList.currentItem.height * sessionsList.model.count) +
+            (sessionsList.headerItem.height + sessionsList.anchors.margins) -
+            units.gu(4) //some margins
+        }
+
+        height: maxHeight < parent.height ? maxHeight : parent.height - units.gu(4)
         width: parent.width
 
         anchors {
@@ -48,7 +54,7 @@ Item {
                 margins: units.gu(2)
             }
 
-            height: parent.height - currentItem.height
+            height: parent.height - currentItem.height - units.gu(2)
 
             model: LightDMService.sessions
             header: ListItemLayout {
