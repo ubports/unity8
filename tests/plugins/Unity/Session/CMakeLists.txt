@@ -29,6 +29,9 @@ add_executable(LightDMServer
     server.cpp
 )
 qt5_use_modules(LightDMServer Core DBus)
+install(TARGETS LightDMServer
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Session"
+    )
 
 ### SessionBackendTest
 add_executable(sessionbackendtestExec
