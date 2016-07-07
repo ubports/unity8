@@ -37,13 +37,15 @@ Item {
         property var headerContainer: findChild(pageHeader, "headerContainer")
 
         function doTypeString(text) {
-            tryCompare(headerContainer, "contentY", 0);
+            tryCompare(headerContainer, "clip", false);
+            compare(headerContainer.state, "search");
             typeString(text);
         }
 
         function doResetSearch() {
             pageHeader.resetSearch();
-            tryCompare(headerContainer, "contentY", headerContainer.height);
+            tryCompare(headerContainer, "clip", false);
+            verify(headerContainer.state != "search");
         }
 
         function init() {

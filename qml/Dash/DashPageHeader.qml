@@ -145,6 +145,35 @@ Item {
 
         property bool showSearch: false
 
+        state: headerContainer.showSearch ? "search" : ""
+
+        states: State {
+            name: "search"
+
+            AnchorChanges {
+                target: headersColumn
+                anchors.top: parent.top
+                anchors.bottom: undefined
+            }
+        }
+
+        transitions: Transition {
+            id: openSearchAnimation
+            AnchorAnimation {
+                duration: UbuntuAnimation.FastDuration
+            }
+
+            property bool openPopup: false
+
+            onRunningChanged: {
+                headerContainer.clip = running;
+                if (!running && openSearchAnimation.openPopup) {
+                    openSearchAnimation.openPopup = false;
+                    root.openPopup();
+                }
+            }
+        }
+
         Background {
             id: background
             objectName: "headerBackground"
@@ -157,35 +186,6 @@ Item {
                 left: parent.left
                 right: parent.right
                 bottom: parent.bottom
-            }
-
-            state: headerContainer.showSearch ? "search" : ""
-
-            states: State {
-                name: "search"
-
-                AnchorChanges {
-                    target: headersColumn
-                    anchors.top: parent.top
-                    anchors.bottom: undefined
-                }
-            }
-
-            transitions: Transition {
-                id: openSearchAnimation
-                AnchorAnimation {
-                    duration: UbuntuAnimation.FastDuration
-                }
-
-                property bool openPopup: false
-
-                onRunningChanged: {
-                    headerContainer.clip = running;
-                    if (!running && openSearchAnimation.openPopup) {
-                        openSearchAnimation.openPopup = false;
-                        root.openPopup();
-                    }
-                }
             }
 
             PageHeader {
