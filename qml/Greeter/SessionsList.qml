@@ -75,7 +75,7 @@ Item {
 
             headerPositioning: ListView.OverlayHeader
 
-            highlight: Component {
+            /*highlight: Component {
                 Rectangle {
                     color:"transparent"
                     border {
@@ -85,24 +85,17 @@ Item {
 
                     visible: sessionsList.currentItem.visible
                 }
-            }
+            }*/
 
-            property real contentBottom: contentY + height
             delegate: ListItem {
                 id: delegate
 
                 divider.visible: false
 
-                /*visible: y > sessionsList.headerItem.y
+                visible: y > sessionsList.headerItem.y
                 + sessionsList.headerItem.height
-                - sessionsList.anchors.margins*/
+                - sessionsList.anchors.margins
 
-                property real jam: sessionsList.headerItem.height
-                visible: (
-                    (y >= sessionsList.contentY && y <= sessionsList.contentBottom)
-                    || (y + height - jam >= sessionsList.contentY
-                            && y + height <= sessionsList.contentBottom))
-               //onIsVisibleChanged: console.log(index + ":" + isVisible)
                MouseArea {
                     anchors.fill: parent
                     onClicked: {
