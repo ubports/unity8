@@ -413,6 +413,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setAppId("notes-app");
     application->setName("Notepad");
     application->setIconId("notepad");
+    application->setStage(ApplicationInfoInterface::SideStage);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);

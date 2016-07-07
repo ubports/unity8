@@ -172,21 +172,23 @@ AbstractStage {
         property string sideStageAppId: ""
 
         function updateMainAndSideStageIndexes() {
+            print("updating stage indexes, sideStage shown:", sideStage.shown)
             var choseMainStage = false;
             var choseSideStage = false;
 
             if (!root.topLevelSurfaceList)
                 return;
 
-            for (var i = 0; i < topLevelSurfaceRepeater.count && (!choseMainStage || !choseSideStage); ++i) {
-                var appDelegate = topLevelSurfaceRepeater.itemAt(i);
-                if (sideStage.shown && spreadDelegate.stage == ApplicationInfoInterface.SideStage
+            for (var i = 0; i < appRepeater.count && (!choseMainStage || !choseSideStage); ++i) {
+                var appDelegate = appRepeater.itemAt(i);
+                print("have app on stage", appDelegate.applicationId, appDelegate.stage)
+                if (sideStage.shown && appDelegate.stage == ApplicationInfoInterface.SideStage
                         && !choseSideStage) {
                     priv.sideStageDelegate = appDelegate
                     priv.sideStageItemId = root.topLevelSurfaceList.idAt(i);
                     priv.sideStageAppId = root.topLevelSurfaceList.applicationAt(i).appId;
                     choseSideStage = true;
-                } else if (!choseMainStage && spreadDelegate.stage == ApplicationInfoInterface.MainStage) {
+                } else if (!choseMainStage && appDelegate.stage == ApplicationInfoInterface.MainStage) {
                     priv.mainStageDelegate = appDelegate;
                     priv.mainStageItemId = root.topLevelSurfaceList.idAt(i);
                     priv.mainStageAppId = root.topLevelSurfaceList.applicationAt(i).appId;
@@ -203,6 +205,8 @@ AbstractStage {
                 priv.sideStageItemId = 0;
                 priv.sideStageAppId = "";
             }
+
+            print("*** updated! MainStage:", priv.mainStageAppId, "SideStage:", priv.sideStageAppId)
         }
     }
 
@@ -297,12 +301,14 @@ AbstractStage {
         },
         State {
             name: "stagedWithSideStage"; when: root.mode === "stagedWithSideStage"
+            PropertyChanges { target: triGestureArea; enabled: true }
         },
         State {
             name: "windowed"; when: root.mode === "windowed"
         }
     ]
     onStateChanged: print("spread going to state:", state)
+
 
     FocusScope {
         id: appContainer
@@ -316,6 +322,65 @@ AbstractStage {
             source: root.background
             sourceSize { height: root.height; width: root.width }
             fillMode: Image.PreserveAspectCrop
+        }
+
+        Connections {
+            target: root.topLevelSurfaceList
+            onListChanged: priv.updateMainAndSideStageIndexes()
+        }
+
+
+        DropArea {
+            objectName: "MainStageDropArea"
+            anchors {
+                left: parent.left
+                top: parent.top
+                bottom: parent.bottom
+            }
+            width: appContainer.width - sideStage.width
+            enabled: sideStage.enabled
+
+            onDropped: {
+                print("dropped on main stage drop area")
+                drop.source.appDelegate.saveStage(ApplicationInfoInterface.MainStage);
+                drop.source.appDelegate.focus = true;
+            }
+            keys: "SideStage"
+        }
+
+        SideStage {
+            id: sideStage
+            shown: false
+            height: appContainer.height
+            x: appContainer.width - width
+
+            DropArea {
+                id: sideStageDropArea
+                objectName: "SideStageDropArea"
+                anchors.fill: parent
+
+                property bool dropAllowed: true
+
+                onEntered: {
+                    dropAllowed = drag.keys != "Disabled";
+                }
+                onExited: {
+                    dropAllowed = true;
+                }
+                onDropped: {
+                    if (drop.keys == "MainStage") {
+                        drop.source.appDelegate.saveStage(ApplicationInfoInterface.SideStage);
+                        drop.source.appDelegate.focus = true;
+                    }
+                }
+                drag {
+                    onSourceChanged: {
+                        if (!sideStageDropArea.drag.source) {
+                            dropAllowed = true;
+                        }
+                    }
+                }
+            }
         }
 
         TopLevelSurfaceRepeater {
@@ -404,6 +469,10 @@ AbstractStage {
                 property bool visuallyMinimized: false
 
                 property int stage: ApplicationInfoInterface.MainStage
+                function saveStage(stage) {
+                    appDelegate.stage = stage;
+                    WindowStateStorage.saveStage(application.appId, newStage);
+                }
 
                 readonly property var surface: model.surface
                 readonly property alias resizeArea: resizeArea
@@ -723,19 +792,13 @@ AbstractStage {
                             requestedWidth: appContainer.width;
                             requestedHeight: appContainer.height;
                         }
-                        PropertyChanges {
-                            target: decoratedWindow
-                            hasDecoration: false
-                        }
+                        PropertyChanges { target: decoratedWindow; hasDecoration: false }
                     },
                     State {
                         name: "normal";
                         when: appDelegate.windowState == WindowStateStorage.WindowStateNormal
-                        PropertyChanges {
-                            target: appDelegate;
-                            visuallyMinimized: false;
-                            visuallyMaximized: false;
-                        }
+                        PropertyChanges { target: appDelegate; visuallyMinimized: false; visuallyMaximized: false; }
+                        PropertyChanges { target: touchControls; enabled: true }
                     },
                     State {
                         name: "maximizedLeft"; when: appDelegate.maximizedLeft && !appDelegate.minimized
@@ -842,8 +905,12 @@ AbstractStage {
                         to: "staged"
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y"; duration: priv.animationDuration }
                         UbuntuNumberAnimation { target: appDelegate; properties: "requestedWidth,requestedHeight"; duration: priv.animationDuration }
+                    },
+                    Transition {
+                        to: "stagedWithSideStage"
+                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: appDelegate; properties: "requestedWidth,requestedHeight"; duration: priv.animationDuration }
                     }
-
                 ]
 
 //                Binding {
@@ -966,6 +1033,7 @@ AbstractStage {
                     id: touchControls
                     anchors.fill: appDelegate
                     target: appDelegate
+                    enabled: false
                 }
 
                 WindowedFullscreenPolicy {
@@ -1112,16 +1180,75 @@ AbstractStage {
         }
     }
 
-//    DesktopSpread {
-//        id: spread
-//        objectName: "spread"
-//        anchors.fill: appContainer
-//        workspace: appContainer
-//        focus: state == "altTab"
-//        altTabPressed: root.altTabPressed
+    TabletSideStageTouchGesture {
+        id: triGestureArea
+        anchors.fill: parent
+        enabled: false
+        property Item appDelegate
 
-//        onPlayFocusAnimation: {
-//            appRepeater.itemAt(index).playFocusAnimation();
-//        }
-//    }
+        dragComponent: dragComponent
+        dragComponentProperties: { "appDelegate": appDelegate }
+
+        onPressed: {
+            print("********* triGestureArea pressed!")
+            function matchDelegate(obj) { return String(obj.objectName).indexOf("appDelegate") >= 0; }
+
+            var delegateAtCenter = Functions.itemAt(appContainer, x, y, matchDelegate);
+            print("dragging delegate", delegateAtCenter)
+            if (!delegateAtCenter) return;
+
+            appDelegate = delegateAtCenter;
+        }
+
+        onClicked: {
+            if (sideStage.shown) {
+               sideStage.hide();
+            } else  {
+               sideStage.show();
+            }
+        }
+
+        onDragStarted: {
+            // If we're dragging to the sidestage.
+            if (!sideStage.shown) {
+                sideStage.show();
+            }
+        }
+
+        Component {
+            id: dragComponent
+            SurfaceContainer {
+                property Item appDelegate
+
+                surface: appDelegate ? appDelegate.surface : null
+
+                consumesInput: false
+                interactive: false
+//                resizeSurface: false
+                focus: false
+                requestedWidth: appDelegate.requestedWidth
+                requestedHeight: appDelegate.requestedHeight
+
+                width: units.gu(40)
+                height: units.gu(40)
+
+                Drag.hotSpot.x: width/2
+                Drag.hotSpot.y: height/2
+                // only accept opposite stage.
+                Drag.keys: {
+                    if (!surface) return "Disabled";
+                    if (appDelegate.isDash) return "Disabled";
+
+                    if (appDelegate.stage === ApplicationInfo.MainStage) {
+                        if (appDelegate.application.supportedOrientations
+                                & (Qt.PortraitOrientation|Qt.InvertedPortraitOrientation)) {
+                            return "MainStage";
+                        }
+                        return "Disabled";
+                    }
+                    return "SideStage";
+                }
+            }
+        }
+    }
 }
