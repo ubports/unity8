@@ -29,7 +29,7 @@ Item {
     signal showLoginList()
 
     LoginAreaContainer {
-        height: units.gu(5) * sessionsList.model.count
+        height: units.gu(30)
         width: parent.width
 
         anchors {
@@ -74,19 +74,7 @@ Item {
             }
 
             headerPositioning: ListView.OverlayHeader
-
-            /*highlight: Component {
-                Rectangle {
-                    color:"transparent"
-                    border {
-                        color: theme.palette.normal.positionText
-                        width: units.gu(0.2)
-                    }
-
-                    visible: sessionsList.currentItem.visible
-                }
-            }*/
-
+            highlightFollowsCurrentItem: false
             delegate: ListItem {
                 id: delegate
 
@@ -102,6 +90,18 @@ Item {
                         sessionsList.currentIndex = index
                         sessionSelected(key)
                     }
+                }
+
+                Rectangle {
+                    height: parent.height
+                    width: parent.width
+                    color: "transparent"
+                    border {
+                        color: theme.palette.normal.positionText
+                        width: units.gu(0.2)
+                    }
+
+                    visible: index === sessionsList.currentIndex
                 }
 
                 ListItemLayout {
