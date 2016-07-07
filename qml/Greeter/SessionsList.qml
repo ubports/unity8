@@ -29,13 +29,13 @@ Item {
     signal showLoginList()
 
     LoginAreaContainer {
-        readonly property real maxHeight: {
-            (sessionsList.currentItem.height * sessionsList.model.count) +
-            (sessionsList.headerItem.height + sessionsList.anchors.margins) -
-            units.gu(4) //some margins
+        readonly property real margins: sessionsList.anchors.margins
+        readonly property real prefferedHeight: {
+            ((sessionsList.currentItem.height + margins) * sessionsList.model.count) +
+            sessionsList.headerItem.height + margins
         }
 
-        height: maxHeight < parent.height ? maxHeight : parent.height - units.gu(4)
+        height: prefferedHeight < parent.height ? prefferedHeight : parent.height - units.gu(4)
         width: parent.width
 
         anchors {

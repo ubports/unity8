@@ -47,16 +47,16 @@ void SessionsModelPrivate::resetEntries_multipleSessions()
     sessionItems =
         {
             {"ubuntu", "", "Ubuntu", ""},
-            {"ubuntu-2d", "", "Ubuntu 2D", ""},
-            {"gnome", "", "GNOME", ""},
-            {"gnome-classic", "", "GNOME Classic", ""},
-            {"gnome-flashback-compiz", "", "GNOME Flashback (Compiz)", ""},
+            {"ubuntu-2d", "", "Ubuntu 2D", ""}
+            /*{"gnome", "", "GNOME", ""},
+            //{"gnome-classic", "", "GNOME Classic", ""},
+            //{"gnome-flashback-compiz", "", "GNOME Flashback (Compiz)", ""},
             {"gnome-flashback-metacity", "", "GNOME Flashback (Metacity)", ""},
             {"gnome-wayland", "", "GNOME on Wayland", ""},
             {"plasma", "", "Plasma", ""},
             {"kde", "", "KDE" , ""},
             {"xterm", "", "Recovery Console", ""},
-            {"", "", "Unknown?", ""}
+            {"", "", "Unknown?", ""}*/
         };
 }
 
