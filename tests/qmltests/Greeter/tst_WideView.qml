@@ -58,6 +58,10 @@ StyledItem {
                     locked: lockedCheckBox.checked
                     inputMethod: fakeInputMethod
 
+                    Component.onCompleted: {
+                        forceActiveFocus();
+                    }
+
                     Component.onDestruction: {
                         loader.itemDestroyed = true
                     }
