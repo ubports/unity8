@@ -75,31 +75,35 @@ Item {
 
             headerPositioning: ListView.OverlayHeader
 
-            highlight: Rectangle {
-                color:"transparent"
-                border {
-                    color: theme.palette.normal.positionText
-                    width: units.gu(0.2)
-                }
+            highlight: Component {
+                Rectangle {
+                    color:"transparent"
+                    border {
+                        color: theme.palette.normal.positionText
+                        width: units.gu(0.2)
+                    }
 
-                visible: sessionsList.currentItem.visible
+                    visible: sessionsList.currentItem.visible
+                }
             }
 
+            property real contentBottom: contentY + height
             delegate: ListItem {
                 id: delegate
 
                 divider.visible: false
-                visible: y > sessionsList.headerItem.y
+
+                /*visible: y > sessionsList.headerItem.y
                 + sessionsList.headerItem.height
-                - sessionsList.anchors.margins
+                - sessionsList.anchors.margins*/
 
-                /*property bool showHighlight: visible &&
-                    (sessionsList.currentIndex * height)
-                    - sessionsList.contentY
-                    < sessionsList.height + sessionsList.anchors.margins
-                */
-
-                MouseArea {
+                property real jam: sessionsList.headerItem.height
+                visible: (
+                    (y >= sessionsList.contentY && y <= sessionsList.contentBottom)
+                    || (y + height - jam >= sessionsList.contentY
+                            && y + height <= sessionsList.contentBottom))
+               //onIsVisibleChanged: console.log(index + ":" + isVisible)
+               MouseArea {
                     anchors.fill: parent
                     onClicked: {
                         sessionsList.currentIndex = index
