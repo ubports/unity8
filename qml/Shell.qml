@@ -388,6 +388,11 @@ StyledItem {
                 property: "topLevelSurfaceList"
                 value: topLevelSurfaceList
             }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "oskEnabled"
+                value: shell.oskEnabled
+            }
         }
     }
 
