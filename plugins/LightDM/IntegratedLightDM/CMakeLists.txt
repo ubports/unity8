@@ -9,6 +9,7 @@ endforeach()
 include_directories(
     ${QMLPLUGIN_INCLUDES}
     ${libunity8-private_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 foreach(source_file ${QMLPLUGIN_SRC})
