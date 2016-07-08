@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2014,2015 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -71,11 +71,14 @@ Showable {
             d.isLockscreen = true;
         }
         forcedUnlock = false;
-        if (!required) {
-            showNow(); // loader.onLoaded will select a user
-        } else {
+        if (required) {
+            // Normally loader.onLoaded will select a user, but if we're
+            // already shown, do it manually.
             d.selectUser(d.currentIndex, true);
         }
+        // Even though we may already be shown, we want to call show() for its
+        // possible side effects, like hiding indicators and such.
+        showNow();
     }
 
     function notifyAppFocusRequested(appId) {
@@ -163,31 +166,37 @@ Showable {
             return -1;
         }
 
-        function selectUser(uid, reset) {
-            if (uid < 0)
+        function selectUser(index, reset) {
+            if (index < 0 || index >= LightDMService.users.count)
                 return;
             d.waiting = true;
             if (reset) {
                 loader.item.reset();
             }
-            currentIndex = uid;
-            var user = LightDMService.users.data(uid, LightDMService.userRoles.NameRole);
+            currentIndex = index;
+            var user = LightDMService.users.data(index, LightDMService.userRoles.NameRole);
             AccountsService.user = user;
             LauncherModel.setUser(user);
             LightDMService.greeter.authenticate(user); // always resets auth state
         }
 
+        function hideView() {
+            if (loader.item) {
+                loader.item.enabled = false; // drop OSK and prevent interaction
+                loader.item.notifyAuthenticationSucceeded(false /* showFakePassword */);
+                loader.item.hide();
+            }
+        }
+
         function login() {
-            enabled = false;
+            d.waiting = true;
             if (LightDMService.greeter.startSessionSync()) {
                 sessionStarted();
-                if (loader.item) {
-                    loader.item.notifyAuthenticationSucceeded(false /* showFakePassword */);
-                }
+                hideView();
             } else if (loader.item) {
                 loader.item.notifyAuthenticationFailed();
             }
-            enabled = true;
+            d.waiting = false;
         }
 
         function startUnlock(toTheRight) {
@@ -199,10 +208,8 @@ Showable {
         }
 
         function checkForcedUnlock(hideNow) {
-            if (forcedUnlock && shown && loader.item) {
-                // pretend we were just authenticated
-                loader.item.notifyAuthenticationSucceeded(false /* showFakePassword */);
-                loader.item.hide();
+            if (forcedUnlock && shown) {
+                hideView();
                 if (hideNow) {
                     root.hideNow(); // skip hide animation
                 }
@@ -323,7 +330,7 @@ Showable {
 
         onLoaded: {
             root.lockedApp = "";
-            root.forceActiveFocus();
+            item.forceActiveFocus();
             d.selectUser(d.currentIndex, true);
             LightDMService.infographic.readyForDataChange();
         }
@@ -333,13 +340,11 @@ Showable {
             onSelected: {
                 d.selectUser(index, true);
             }
-            onPromptlessLogin: d.login();
             onResponded: {
                 if (root.locked) {
                     LightDMService.greeter.respond(response);
                 } else {
                     d.login();
-                    loader.item.hide();
                 }
             }
             onTease: root.tease()
@@ -389,6 +394,12 @@ Showable {
 
         Binding {
             target: loader.item
+            property: "waiting"
+            value: d.waiting
+        }
+
+        Binding {
+            target: loader.item
             property: "alphanumeric"
             value: d.alphanumeric
         }
@@ -417,10 +428,7 @@ Showable {
 
         onShowGreeter: root.forceShow()
 
-        onHideGreeter: {
-            d.login();
-            loader.item.hide();
-        }
+        onHideGreeter: d.login()
 
         onShowMessage: {
             // inefficient, but we only rarely deal with messages
@@ -438,11 +446,11 @@ Showable {
         }
 
         onShowPrompt: {
-            d.waiting = false;
-
             if (loader.item) {
                 loader.item.showPrompt(text, isSecret, isDefaultPrompt);
             }
+
+            d.waiting = false;
         }
 
         onAuthenticationComplete: {
@@ -451,7 +459,6 @@ Showable {
             if (LightDMService.greeter.authenticated) {
                 if (!LightDMService.greeter.promptless) {
                     d.login();
-                    loader.item.hide();
                 }
             } else {
                 if (!LightDMService.greeter.promptless) {

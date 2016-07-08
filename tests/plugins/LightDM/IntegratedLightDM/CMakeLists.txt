@@ -44,6 +44,29 @@ target_include_directories(GreeterPamTestExec PUBLIC
     )
 add_qmltest_target(testGreeterPam GreeterPamTestExec COMMAND $<TARGET_FILE:GreeterPamTestExec>)
 
+# SessionsModelTest
+add_executable(GreeterSessionsModelTestExec
+    sessionsmodel.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/LightDM/SessionsModel.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/unitysortfilterproxymodelqml.cpp
+    )
+add_dependencies(GreeterSessionsModelTestExec MockLightDM)
+qt5_use_modules(GreeterSessionsModelTestExec Core Test)
+target_link_libraries(GreeterSessionsModelTestExec
+    MockLightDM
+    )
+target_include_directories(GreeterSessionsModelTestExec PUBLIC
+    ${CMAKE_SOURCE_DIR}/plugins/LightDM
+    ${CMAKE_SOURCE_DIR}/plugins/Utils
+    ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM/IntegratedLightDM
+    )
+add_unity8_uitest(GreeterSessions GreeterSessionsModelTestExec
+    ENVIRONMENT LIBLIGHTDM_MOCK_MODE=full
+    DEPENDS MockLightDM
+    LIGHTDM
+    )
+
+# UsersModelTest
 add_executable(GreeterUsersModelTestExec
     usersmodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/UsersModel.cpp

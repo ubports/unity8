@@ -43,7 +43,6 @@ Item {
     signal responded(string response)
     signal tease()
     signal emergencyCall()
-    signal promptlessLogin()
 
     signal _showMessageCalled(string html)
     signal _showPromptCalled(string text, bool isSecret, bool isDefaultPrompt)

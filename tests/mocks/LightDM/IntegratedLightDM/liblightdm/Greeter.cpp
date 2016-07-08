@@ -51,7 +51,7 @@ QString Greeter::getHint(const QString &name) const
 
 QString Greeter::defaultSessionHint() const
 {
-    return "ubuntu";
+    return QStringLiteral("ubuntu");
 }
 
 bool Greeter::hideUsersHint() const
