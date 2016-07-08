@@ -8,10 +8,14 @@ qt5_use_modules(uqmlscene Qml Quick Test DBus)
 pkg_check_modules(XCB REQUIRED xcb)
 
 include_directories(
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_SOURCE_DIR}/src
+    SYSTEM
     ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
+)
+
+include_directories(
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures
     ${libunity8-private_SOURCE_DIR}
 )
