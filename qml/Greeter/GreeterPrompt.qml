@@ -178,7 +178,7 @@ FocusScope {
     }
 
     // Have a fake label that covers the text field after the user presses
-    // enter.  What we *really* want is a disabled mode that doesn't lose
+    // enter.  What we *really* want is a disabled mode that doesn't lose OSK
     // focus.  Because our goal here is simply to keep the OSK up while
     // we wait for PAM to get back to us, and while waiting, we don't want
     // the user to be able to edit the field (simply because it would look
