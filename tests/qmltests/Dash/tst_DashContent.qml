@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2013 Canonical Ltd.
+ * Copyright (C) 2013,2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -321,7 +321,7 @@ Item {
 
             var headerContainer = findChild(dashContentList.currentItem, "headerContainer");
             tryCompare(headerContainer, "clip", false);
-            verify(headerContainer.state != "search");
+            verify(headerContainer.state !== "search");
             mouseClick(searchButton);
             tryCompare(peExtraPanel, "visible", true);
             waitForRendering(navigationListView);
@@ -386,7 +386,7 @@ Item {
             compare(peExtraPanel.visible, false);
 
             tryCompare(headerContainer, "clip", false);
-            verify(headerContainer.state != "search");
+            verify(headerContainer.state !== "search");
             mouseClick(searchButton);
             tryCompare(peExtraPanel, "visible", true);
             tryCompare(navigationListView.currentItem.navigation, "loaded", true);
@@ -547,7 +547,7 @@ Item {
             mouseClick(cancelButton);
             tryCompare(headerContainer, "showSearch", false);
             tryCompare(headerContainer, "clip", false);
-            verify(headerContainer.state != "search");
+            verify(headerContainer.state !== "search");
 
             // test within a navigation
             goToSecondLevel();
