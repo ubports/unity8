@@ -26,6 +26,7 @@ StyledItem {
     id: root
     width: units.gu(120)
     height: units.gu(80)
+    focus: true
 
     theme.name: "Ubuntu.Components.Themes.SuruDark"
 
@@ -41,6 +42,7 @@ StyledItem {
             id: loader
             width: root.width - controls.width
             height: parent.height
+            focus: true
 
             property bool itemDestroyed: false
             sourceComponent: Component {
@@ -57,10 +59,6 @@ StyledItem {
                     backgroundTopMargin: parseFloat(backgroundTopMarginField.text)
                     locked: lockedCheckBox.checked
                     inputMethod: fakeInputMethod
-
-                    Component.onCompleted: {
-                        forceActiveFocus();
-                    }
 
                     Component.onDestruction: {
                         loader.itemDestroyed = true
