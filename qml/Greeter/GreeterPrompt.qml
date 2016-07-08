@@ -60,17 +60,21 @@ FocusScope {
         color: "transparent"
     }
 
+    Component.onCompleted: updateFocus()
+    onIsPromptChanged: updateFocus()
+    function updateFocus() {
+        if (root.isPrompt) {
+            passwordInput.focus = true;
+        } else {
+            promptButton.focus = true;
+        }
+    }
+
     AbstractButton {
+        id: promptButton
         objectName: "promptButton"
         anchors.fill: parent
         visible: !root.isPrompt
-        focus: visible
-
-        onVisibleChanged: {
-            // Qt owns focus, we can't keep our binding active.  So make sure
-            // focus stays in sync manually.
-            focus = visible;
-        }
 
         onClicked: {
             if (d.enabled) {
@@ -92,13 +96,6 @@ FocusScope {
         anchors.fill: parent
         visible: root.isPrompt
         opacity: fakeLabel.visible ? 0 : 1
-        focus: visible
-
-        onVisibleChanged: {
-            // Qt owns focus, we can't keep our binding active.  So make sure
-            // focus stays in sync manually.
-            focus = visible;
-        }
 
         validator: RegExpValidator {
             regExp: root.isAlphanumeric ? /^.*$/ : /^\d{4}$/
