@@ -108,7 +108,6 @@ Item {
     onKeymapCountChanged: updateIndicatorVisibility();
 
     Component.onCompleted: {
-        AccountsService.migrateKeymapSettings();
         updateIndicatorVisibility();
     }
 }

@@ -15,7 +15,6 @@ make_dbus_class(UscInput com.canonical.Unity.Input)
 
 include_directories(
     ${GLIB_INCLUDE_DIRS}
-    ${GIO_INCLUDE_DIRS}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService
@@ -23,7 +22,6 @@ include_directories(
 
 link_libraries(
     ${GLIB_LIBRARIES}
-    ${GIO_LDFLAGS}
     )
 
 add_definitions(-DSM_BUSNAME=sessionBus)
