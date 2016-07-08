@@ -39,8 +39,8 @@ TouchGate::TouchGate(QQuickItem *parent)
 
 bool TouchGate::event(QEvent *e)
 {
-    if (e->type() == TouchOwnershipEvent::touchOwnershipEventType()) {
-        touchOwnershipEvent(static_cast<TouchOwnershipEvent *>(e));
+    if (e->type() == UG_PREPEND_NAMESPACE(TouchOwnershipEvent)::touchOwnershipEventType()) {
+        touchOwnershipEvent(static_cast<UG_PREPEND_NAMESPACE(TouchOwnershipEvent*)>(e));
         return true;
     } else {
         return QQuickItem::event(e);
@@ -62,7 +62,7 @@ void TouchGate::touchEvent(QTouchEvent *event)
             Q_ASSERT(!m_touchInfoMap.contains(touchPoint.id()));
             m_touchInfoMap[touchPoint.id()].ownership = OwnershipRequested;
             m_touchInfoMap[touchPoint.id()].ended = false;
-            TouchRegistry::instance()->requestTouchOwnership(touchPoint.id(), this);
+            UG_PREPEND_NAMESPACE(TouchRegistry)::instance()->requestTouchOwnership(touchPoint.id(), this);
         }
 
         if (m_touchInfoMap.contains(touchPoint.id())) {
@@ -107,12 +107,12 @@ void TouchGate::itemChange(ItemChange change, const ItemChangeData &value)
 {
     if (change == QQuickItem::ItemSceneChange) {
         if (value.window != nullptr) {
-            value.window->installEventFilter(TouchRegistry::instance());
+            value.window->installEventFilter(UG_PREPEND_NAMESPACE(TouchRegistry)::instance());
         }
     }
 }
 
-void TouchGate::touchOwnershipEvent(TouchOwnershipEvent *event)
+void TouchGate::touchOwnershipEvent(UG_PREPEND_NAMESPACE(TouchOwnershipEvent) *event)
 {
     // TODO: Optimization: batch those actions as TouchOwnershipEvents
     //       might come one right after the other.

@@ -16,15 +16,17 @@
 
 #include "TouchGestureArea.h"
 
-#include <UbuntuGestures/TouchOwnershipEvent>
-#include <UbuntuGestures/TouchRegistry>
-#include <UbuntuGestures/UnownedTouchEvent>
+#include <UbuntuGestures/private/touchownershipevent_p.h>
+#include <UbuntuGestures/private/touchregistry_p.h>
+#include <UbuntuGestures/private/unownedtouchevent_p.h>
 // #include "TouchRegistry.h"
 // #include "UnownedTouchEvent.h"
 
 #include <QGuiApplication>
 #include <QStyleHints>
 #include <private/qquickwindow_p.h>
+
+UG_USE_NAMESPACE
 
 #define TOUCHGESTUREAREA_DEBUG 0
 
@@ -135,7 +137,7 @@ TouchGestureArea::TouchGestureArea(QQuickItem* parent)
     , m_recognitionPeriod(50)
     , m_releaseRejectPeriod(100)
 {
-    setRecognitionTimer(new UbuntuGestures::Timer(this));
+    setRecognitionTimer(new UG_PREPEND_NAMESPACE(Timer)(this));
     m_recognitionTimer->setInterval(m_recognitionPeriod);
     m_recognitionTimer->setSingleShot(true);
 }
@@ -152,18 +154,18 @@ TouchGestureArea::~TouchGestureArea()
 bool TouchGestureArea::event(QEvent *event)
 {
     // Process unowned touch events (handles update/release for incomplete gestures)
-    if (event->type() == TouchOwnershipEvent::touchOwnershipEventType()) {
-        touchOwnershipEvent(static_cast<TouchOwnershipEvent *>(event));
+    if (event->type() == UG_PREPEND_NAMESPACE(TouchOwnershipEvent)::touchOwnershipEventType()) {
+        touchOwnershipEvent(static_cast<UG_PREPEND_NAMESPACE(TouchOwnershipEvent*)>(event));
         return true;
-    } else if (event->type() == UnownedTouchEvent::unownedTouchEventType()) {
-        unownedTouchEvent(static_cast<UnownedTouchEvent *>(event)->touchEvent());
+    } else if (event->type() == UG_PREPEND_NAMESPACE(UnownedTouchEvent)::unownedTouchEventType()) {
+        unownedTouchEvent(static_cast<UG_PREPEND_NAMESPACE(UnownedTouchEvent*)>(event)->touchEvent());
         return true;
     }
 
     return QQuickItem::event(event);
 }
 
-void TouchGestureArea::touchOwnershipEvent(TouchOwnershipEvent *event)
+void TouchGestureArea::touchOwnershipEvent(UG_PREPEND_NAMESPACE(TouchOwnershipEvent) *event)
 {
     int touchId = event->touchId();
     tgaDebug("touchOwnershipEvent - id:" << touchId << ", gained:" << event->gained());
@@ -608,7 +610,7 @@ void TouchGestureArea::setInternalStatus(uint newStatus)
     }
 }
 
-void TouchGestureArea::setRecognitionTimer(UbuntuGestures::AbstractTimer *timer)
+void TouchGestureArea::setRecognitionTimer(UG_PREPEND_NAMESPACE(AbstractTimer) *timer)
 {
     int interval = 0;
     bool timerWasRunning = false;

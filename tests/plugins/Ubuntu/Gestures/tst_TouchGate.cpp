@@ -29,6 +29,8 @@
 
 #include "TestItem.h"
 
+UG_USE_NAMESPACE
+
 class CandidateItem : public QQuickItem
 {
     Q_OBJECT

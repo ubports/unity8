@@ -21,14 +21,14 @@
 #include "AxisVelocityCalculator.h"
 #include <QtCore/QElapsedTimer>
 
-using namespace UbuntuGestures;
+UG_USE_NAMESPACE
 
 AxisVelocityCalculator::AxisVelocityCalculator(QObject *parent)
-    : AxisVelocityCalculator(SharedTimeSource(new RealTimeSource), parent)
+    : AxisVelocityCalculator(UG_PREPEND_NAMESPACE(SharedTimeSource)(new UG_PREPEND_NAMESPACE(RealTimeSource)), parent)
 {
 }
 
-AxisVelocityCalculator::AxisVelocityCalculator(const SharedTimeSource &timeSource,
+AxisVelocityCalculator::AxisVelocityCalculator(const UG_PREPEND_NAMESPACE(SharedTimeSource) &timeSource,
                                                QObject *parent)
     : QObject(parent)
     , m_timeSource(timeSource)
@@ -136,7 +136,7 @@ int AxisVelocityCalculator::numSamples() const
     }
 }
 
-void AxisVelocityCalculator::setTimeSource(const SharedTimeSource &timeSource)
+void AxisVelocityCalculator::setTimeSource(const UG_PREPEND_NAMESPACE(SharedTimeSource) &timeSource)
 {
     m_timeSource = timeSource;
 
