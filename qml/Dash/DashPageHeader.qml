@@ -161,6 +161,7 @@ Item {
             id: openSearchAnimation
             AnchorAnimation {
                 duration: UbuntuAnimation.FastDuration
+                easing: UbuntuAnimation.StandardEasing
             }
 
             property bool openPopup: false
