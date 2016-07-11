@@ -309,7 +309,7 @@ IndicatorTest {
             if (data.keyboard) {
                 MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
             }
-            tryCompare(item, "hidden", data.hidden);
+            compare(item.hidden, data.hidden);
         }
     }
 }
