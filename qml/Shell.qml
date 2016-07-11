@@ -789,9 +789,7 @@ StyledItem {
     }
 
     // non-visual object
-    KeymapSwitcher {
-        hasKeyboard: shell.hasKeyboard
-    }
+    KeymapSwitcher {}
 
     Rectangle {
         id: shutdownFadeOutRectangle

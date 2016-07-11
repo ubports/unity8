@@ -16,16 +16,12 @@
 
 import QtQuick 2.4
 import AccountsService 0.1
-import GSettings 1.0
 import GlobalShortcut 1.0
 import QMenuModel 0.1
 import Unity.Application 0.1
 
 Item {
     id: root
-
-    // to be set from Shell.qml
-    property bool hasKeyboard
 
     GlobalShortcut {
         shortcut: Qt.MetaModifier|Qt.Key_Space
@@ -92,23 +88,5 @@ Item {
         if (activeActionState != -1) {
             currentKeymapIndex = activeActionState;
         }
-    }
-
-    // indicator visibility
-    GSettings {
-        id: settings
-        schema.id: "com.canonical.indicator.keyboard"
-    }
-
-    function updateIndicatorVisibility() {
-        settings.visible = keymapCount > 1 && hasKeyboard;
-    }
-
-    onHasKeyboardChanged: updateIndicatorVisibility();
-    onKeymapCountChanged: updateIndicatorVisibility();
-
-    Component.onCompleted: {
-        AccountsService.migrateKeymapSettings();
-        updateIndicatorVisibility();
     }
 }
