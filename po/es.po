@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-06-27 18:49+0000\n"
+"POT-Creation-Date: 2016-07-07 16:49+0000\n"
 "PO-Revision-Date: 2016-03-25 12:02+0000\n"
 "Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-06-30 05:52+0000\n"
+"X-Launchpad-Export-Date: 2016-07-09 06:23+0000\n"
 "X-Generator: Launchpad (build 18115)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -298,12 +298,12 @@ msgstr "Aceptar"
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
 msgid "%1:%2:%3"
-msgstr ""
+msgstr "%1:%2:%3"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:49
 #, qt-format
 msgid "%1:%2"
-msgstr ""
+msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
@@ -447,7 +447,7 @@ msgstr "Desbloquear"
 
 #: qml/Greeter/Greeter.qml:539
 msgid "Try again"
-msgstr ""
+msgstr "Pruebe de nuevo"
 
 #: qml/Greeter/LoginList.qml:259
 msgid "Retry"
@@ -888,7 +888,7 @@ msgstr "Para continuar sin SIM toque en Omitir."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr ""
+msgstr "La contraseña es demasiado corta"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
