@@ -1,3 +1,19 @@
+unity8 (8.12+16.10.20160711-0ubuntu1) yakkety; urgency=medium
+
+  [ Josh Arenson ]
+  * Add a SessionsModel to lightdm to support the greeter's session
+    chooser
+  * Add unity8-greeter package which contains a basic, but usable
+    LightDM greeter. (LP: #1324602)
+
+  [ Michael Terry ]
+  * Make sure indicators and launcher hide when power button is pressed
+    on greeter. (LP: #1595569)
+  * Fix tablet greeter focus to be always-on, no longer hiding the OSK
+    or forcing a mouse click to type a password. (LP: #1435923)
+
+ -- Michael Terry <michael.terry@canonical.com>  Mon, 11 Jul 2016 17:24:20 +0000
+
 unity8 (8.12+16.10.20160707-0ubuntu1) yakkety; urgency=medium
 
   [ Michael Zanetti ]
