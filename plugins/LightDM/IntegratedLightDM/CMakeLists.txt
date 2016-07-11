@@ -7,6 +7,7 @@ foreach(include_directory ${QMLPLUGIN_INCLUDES})
 endforeach()
 
 include_directories(
+    . #QLightDM
     ${QMLPLUGIN_INCLUDES}
     ${libunity8-private_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}

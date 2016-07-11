@@ -18,7 +18,9 @@
 #include <DBusGreeter.h>
 #include <DBusGreeterList.h>
 #include "MockGreeter.h"
+#include "MockSessionsModel.h"
 #include "MockUsersModel.h"
+#include <QLightDM/SessionsModel>
 #include "ColorTheme.h"
 #include "UserMetrics.h"
 #include <QLightDM/UsersModel>
@@ -37,6 +39,13 @@ static QObject *greeter_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
     new DBusGreeterList(greeter, "/list");
 
     return greeter;
+}
+
+static QObject *sessions_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return new MockSessionsModel;
 }
 
 static QObject *users_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -62,6 +71,8 @@ void LightDMPlugin::registerTypes(const char *uri)
     qRegisterMetaType<QLightDM::Greeter::MessageType>("QLightDM::Greeter::MessageType");
     qRegisterMetaType<QLightDM::Greeter::PromptType>("QLightDM::Greeter::PromptType");
     qmlRegisterSingletonType<MockGreeter>(uri, 0, 1, "Greeter", greeter_provider);
+    qmlRegisterSingletonType<MockSessionsModel>(uri, 0, 1, "Sessions", sessions_provider);
+    qmlRegisterUncreatableType<SessionsModel>(uri, 0, 1, "SessionRoles", "Type is not instantiable");
     qmlRegisterSingletonType<MockUsersModel>(uri, 0, 1, "Users", users_provider);
     qmlRegisterUncreatableType<QLightDM::UsersModel>(uri, 0, 1, "UserRoles", "Type is not instantiable");
     qmlRegisterSingletonType<UserMetricsOutput::UserMetrics>(uri, 0, 1, "Infographic", infographic_provider);
