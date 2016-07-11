@@ -132,6 +132,7 @@ IndicatorTest {
         }
 
         function cleanup() {
+            AccountsService.keymaps = [];
             MockInputDeviceBackend.removeDevice("/kbd0");
         }
 
