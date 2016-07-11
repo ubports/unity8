@@ -26,6 +26,7 @@ StyledItem {
     id: root
     width: units.gu(120)
     height: units.gu(80)
+    focus: true
 
     theme.name: "Ubuntu.Components.Themes.SuruDark"
 
@@ -41,6 +42,7 @@ StyledItem {
             id: loader
             width: root.width - controls.width
             height: parent.height
+            focus: true
 
             property bool itemDestroyed: false
             sourceComponent: Component {
@@ -63,7 +65,8 @@ StyledItem {
                     }
 
                     onSelected: {
-                        currentIndexField.text = index;
+                        if (index >= 0)
+                            currentIndexField.text = index;
                     }
 
                     QtObject {
@@ -392,7 +395,7 @@ StyledItem {
 
         function test_respondedWithPassword() {
             view.locked = true;
-            view.showPrompt("Prompt", true, true);
+            view.showPrompt("Prompt", true, false);
             var passwordInput = findChild(view, "passwordInput");
             compare(passwordInput.text, "Prompt");
             verify(passwordInput.isSecret);
@@ -454,13 +457,13 @@ StyledItem {
             view.showPrompt("Prompt", true, true);
             var promptField = findChild(view, "promptField");
             tap(promptField);
-            compare(promptField.focus, true);
-            compare(promptField.enabled, true);
+            verify(promptField.activeFocus);
+            compare(promptField.opacity, 1);
 
             typeString("password");
             keyClick(Qt.Key_Enter);
-            compare(promptField.focus, true);
-            compare(promptField.enabled, false);
+            verify(promptField.activeFocus);
+            compare(promptField.opacity, 0); // hidden by fakeLabel
 
             compare(selectedSpy.count, 0);
             keyClick(Qt.Key_Escape);
@@ -468,8 +471,8 @@ StyledItem {
             compare(selectedSpy.signalArguments[0][0], 1);
 
             view.reset();
-            compare(promptField.focus, false);
-            compare(promptField.enabled, true);
+            verify(promptField.activeFocus);
+            compare(promptField.opacity, 1);
         }
 
         function test_unicode() {
@@ -489,6 +492,7 @@ StyledItem {
             compare(selectedSpy.signalArguments[0][0], 0);
             selectedSpy.clear();
 
+            view.reset();
             view.locked = false;
             compare(passwordInput.text, "Log In");
             tap(passwordInput);
@@ -518,13 +522,89 @@ StyledItem {
             tryCompare(loginList, "height", view.height);
         }
 
-        function test_alphanumeric() {
-            var passwordInput = findChild(view, "passwordInput");
+        function test_passphrase() {
+            var promptField = findChild(view, "promptField");
+            view.showPrompt("", true, true);
 
             verify(view.alphanumeric);
-            verify(passwordInput.isAlphanumeric);
+            compare(promptField.inputMethodHints & Qt.ImhDigitsOnly, 0);
+
+            keyClick(Qt.Key_D);
+            compare(promptField.text, "d");
+        }
+
+        function test_passcode() {
+            var promptField = findChild(view, "promptField");
+            view.showPrompt("", true, true);
+
             view.alphanumeric = false;
-            verify(!passwordInput.isAlphanumeric);
+            compare(promptField.inputMethodHints & Qt.ImhDigitsOnly, Qt.ImhDigitsOnly);
+
+            keyClick(Qt.Key_D);
+            compare(promptField.text, "");
+
+            keyClick(Qt.Key_0);
+            keyClick(Qt.Key_0);
+            keyClick(Qt.Key_0);
+            keyClick(Qt.Key_0);
+            compare(promptField.text, "0000");
+
+            compare(respondedSpy.count, 1);
+            compare(respondedSpy.signalArguments[0][0], "0000");
+
+            compare(promptField.opacity, 0);
+        }
+
+        function test_loginListMovement_data() {
+            return [
+                {tag: "up", key: Qt.Key_Up, result: -1},
+                {tag: "down", key: Qt.Key_Down, result: 1},
+            ]
+        }
+
+        function test_loginListMovement(data) {
+            keyClick(data.key);
+            compare(selectedSpy.count, 1);
+            compare(selectedSpy.signalArguments[0][0], data.result);
+        }
+
+        function test_focusStaysActive() {
+            var promptField = findChild(view, "promptField");
+            var promptButton = findChild(view, "promptButton");
+
+            verify(promptButton.activeFocus);
+            keyClick(Qt.Key_Enter);
+            compare(selectedSpy.count, 0);
+            compare(respondedSpy.count, 1);
+            compare(respondedSpy.signalArguments[0][0], "");
+            verify(promptButton.activeFocus);
+            keyClick(Qt.Key_Enter);
+            compare(respondedSpy.count, 1);
+
+            view.showPrompt("", true, true);
+            verify(promptField.activeFocus);
+            keyClick(Qt.Key_D);
+            keyClick(Qt.Key_Enter);
+            compare(selectedSpy.count, 0);
+            compare(respondedSpy.count, 2);
+            compare(respondedSpy.signalArguments[1][0], "d");
+            verify(promptField.activeFocus);
+            keyClick(Qt.Key_Enter);
+            compare(respondedSpy.count, 2);
+
+            view.reset();
+            view.locked = true;
+            verify(promptButton.activeFocus);
+            keyClick(Qt.Key_Enter);
+            compare(respondedSpy.count, 2);
+            compare(selectedSpy.count, 1);
+            compare(selectedSpy.signalArguments[0][0], 0);
+            verify(promptButton.activeFocus);
+            keyClick(Qt.Key_Enter);
+            compare(selectedSpy.count, 1);
+
+            view.showPrompt("", true, true);
+            verify(promptField.activeFocus);
         }
     }
 }
