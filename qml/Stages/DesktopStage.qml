@@ -305,6 +305,7 @@ AbstractStage {
             name: "stagedWithSideStage"; when: root.mode === "stagedWithSideStage"
             PropertyChanges { target: triGestureArea; enabled: true }
             PropertyChanges { target: priv; nextInStack: priv.sideStageDelegate ? 3 : 2 }
+            PropertyChanges { target: sideStage; visible: true }
         },
         State {
             name: "windowed"; when: root.mode === "windowed"
@@ -356,6 +357,7 @@ AbstractStage {
             shown: false
             height: appContainer.height
             x: appContainer.width - width
+            visible: false
             z: {
                 if (!priv.mainStageItemId) return 0;
 
