@@ -131,6 +131,10 @@ IndicatorTest {
             wait(1); // row seems to take a bit of time for item x values to update.
         }
 
+        function cleanup() {
+            MockInputDeviceBackend.removeDevice("/kbd0");
+        }
+
         function wait_for_expansion_to_settle() {
             tryCompare(heightAnimation, "running", false);
             wait(200); // put a little extra wait in for things to settle
@@ -306,9 +310,6 @@ IndicatorTest {
                 MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
             }
             tryCompare(item, "hidden", data.hidden);
-            if (data.keyboard) {
-                MockInputDeviceBackend.removeDevice("/kbd0");
-            }
         }
     }
 }
