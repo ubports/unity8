@@ -175,7 +175,6 @@ StyledItem {
         finishStartUpTimer.start();
     }
 
-    LightDM{id: lightDM} // Provide backend access
     VolumeControl {
         id: volumeControl
         indicators: panel.indicators
@@ -260,8 +259,8 @@ StyledItem {
                                            ? "phone"
                                            : shell.usageScenario
             readonly property string qmlComponent: {
-                if(shell.mode === "greeter") {
-                    return "Stages/ShimStage.qml"
+                if (shell.mode === "greeter") {
+                    return "Stages/AbstractStage.qml"
                 } else if (applicationsDisplayLoader.usageScenario === "phone") {
                     return "Stages/PhoneStage.qml";
                 } else if (applicationsDisplayLoader.usageScenario === "tablet") {
@@ -502,7 +501,7 @@ StyledItem {
     function showHome() {
         greeter.notifyUserRequestedApp("unity8-dash");
 
-        var animate = !lightDM.greeter.active && !stages.shown
+        var animate = !LightDMService.greeter.active && !stages.shown
         dash.setCurrentScope(0, animate, false)
         ApplicationManager.requestFocusApplication("unity8-dash")
     }
@@ -541,7 +540,12 @@ StyledItem {
 
                 indicatorsModel: Indicators.IndicatorsModel {
                     // tablet and phone both use the same profile
-                    profile: "phone"
+                    // FIXME: use just "phone" for greeter too, but first fix
+                    // greeter app launching to either load the app inside the
+                    // greeter or tell the session to load the app.  This will
+                    // involve taking the url-dispatcher dbus name and using
+                    // SessionBroadcast to tell the session.
+                    profile: shell.mode === "greeter" ? "desktop_greeter" : "phone"
                     Component.onCompleted: load();
                 }
             }
@@ -553,7 +557,7 @@ StyledItem {
             readonly property bool focusedSurfaceIsFullscreen: MirFocusController.focusedSurface
                 ? MirFocusController.focusedSurface.state === Mir.FullscreenState
                 : false
-            fullscreenMode: (focusedSurfaceIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
+            fullscreenMode: (focusedSurfaceIsFullscreen && !LightDMService.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
             locked: greeter && greeter.active
         }
@@ -671,6 +675,7 @@ StyledItem {
             id: wizard
             objectName: "wizard"
             anchors.fill: parent
+            deferred: shell.mode === "greeter"
 
             function unlockWhenDoneWithWizard() {
                 if (!active) {
