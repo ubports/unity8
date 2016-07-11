@@ -22,6 +22,15 @@ Indicators.FakeIndicatorsModel {
 
     property var originalModelData: [
         {
+            "identifier": "indicator-keyboard",
+            "indicatorProperties": {
+                "enabled": true,
+                "busName": "com.canonical.indicators.fake0",
+                "menuObjectPath": "/com/canonical/indicators/fake0",
+                "actionsObjectPath": "/com/canonical/indicators/fake0"
+            }
+        },
+        {
             "identifier": "fake-indicator-bluetooth",
             "indicatorProperties": {
                 "enabled": true,
@@ -74,6 +83,15 @@ Indicators.FakeIndicatorsModel {
                 "menuObjectPath": "/com/canonical/indicators/fake6",
                 "actionsObjectPath": "/com/canonical/indicators/fake6"
             }
+        },
+        {
+            "identifier": "fake-indicator-session",
+            "indicatorProperties": {
+                "enabled": true,
+                "busName": "com.canonical.indicators.fake7",
+                "menuObjectPath": "/com/canonical/indicators/fake7",
+                "actionsObjectPath": "/com/canonical/indicators/fake7"
+            }
         }
     ]
 
@@ -81,6 +99,11 @@ Indicators.FakeIndicatorsModel {
         unload();
         root.modelData = originalModelData;
 
+        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake0",
+                                           getUnityMenuModelData("indicator-keyboard",
+                                                                 "Czech (F)",
+                                                                 "",
+                                                                 [ "image://theme/indicator-keyboard-Cs-1" ]));
         Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake1",
                                            getUnityMenuModelData("fake-indicator-bluetooth",
                                                                  "Bluetooth (F)",
@@ -111,6 +134,11 @@ Indicators.FakeIndicatorsModel {
                                                                  "Upcoming Events (F)",
                                                                  "12:04",
                                                                  []));
+        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake7",
+                                           getUnityMenuModelData("fake-indicator-session",
+                                                                 "System (F)",
+                                                                 "",
+                                                                 ["image://theme/system-devices-panel"]));
     }
 
     function getUnityMenuModelData(identifier, title, label, icons) {
@@ -173,6 +201,5 @@ Indicators.FakeIndicatorsModel {
                 break;
             }
         }
-
     }
 }
