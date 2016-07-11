@@ -20,16 +20,16 @@ import GlobalShortcut 1.0
 import QMenuModel 0.1
 import Unity.Application 0.1
 
-Item {
+QtObject {
     id: root
 
-    GlobalShortcut {
+    property GlobalShortcut shortcutNext: GlobalShortcut {
         shortcut: Qt.MetaModifier|Qt.Key_Space
         onTriggered: root.nextKeymap()
         active: root.keymapCount > 1
     }
 
-    GlobalShortcut {
+    property GlobalShortcut shortcutPrevious: GlobalShortcut {
         shortcut: Qt.MetaModifier|Qt.ShiftModifier|Qt.Key_Space
         onTriggered: root.previousKeymap()
         active: root.keymapCount > 1
@@ -59,15 +59,14 @@ Item {
         currentKeymapIndex = prevIndex;
     }
 
-    Binding {
+    property Binding surfaceKeymapBinding: Binding {
         target: MirFocusController.focusedSurface
         property: "keymap"
         value: root.currentKeymap
     }
 
     // indicator
-    QDBusActionGroup {
-        id: actionGroup
+    property QDBusActionGroup actionGroup: QDBusActionGroup {
         busType: DBus.SessionBus
         busName: "com.canonical.indicator.keyboard"
         objectPath: "/com/canonical/indicator/keyboard"
