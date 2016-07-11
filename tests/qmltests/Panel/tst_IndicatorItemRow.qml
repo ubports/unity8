@@ -304,7 +304,7 @@ IndicatorTest {
         }
 
         function test_hidingKeyboardIndicator(data) {
-            var item = findChild(indicatorsRow, root.originalModelData[0]["identifier"] + "-panelItem");
+            var item = findChild(indicatorsRow, "indicator-keyboard-panelItem");
             AccountsService.keymaps = data.keymaps;
             if (data.keyboard) {
                 MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
