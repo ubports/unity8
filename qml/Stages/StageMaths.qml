@@ -7,7 +7,8 @@ QtObject {
     // input
     property int itemIndex: 0
     property int sceneWidth: 0
-    property int sideStageWidth: units.gu(40)
+    property int sideStageWidth: 0
+    property int sideStageX: sceneWidth
 
     property int stage: ApplicationInfoInterface.MainStage
     property var thisDelegate: null
@@ -15,10 +16,15 @@ QtObject {
     property var sideStageDelegate: null
 
     // output
-    readonly property int itemX: stage == ApplicationInfoInterface.MainStage ? 0 :
-                                 stage == ApplicationInfoInterface.SideStage ? sceneWidth - sideStageWidth :
+    readonly property int itemZ: stage == ApplicationInfoInterface.MainStage ? 0 :
+                                 stage == ApplicationInfoInterface.SideStage ? 2 :
+                                 itemIndex + 2
+
+    readonly property int itemX: mainStageDelegate == thisDelegate ? 0 :
+                                 sideStageDelegate == thisDelegate ? sideStageX :
                                  sceneWidth
 
-    readonly property int itemWidth: stage == ApplicationInfoInterface.MainStage ? sceneWidth - sideStageWidth :
+    readonly property int itemWidth: stage == ApplicationInfoInterface.MainStage ?
+                                         sideStageDelegate != null ? sideStageX : sceneWidth :
                                      stage == ApplicationInfoInterface.SideStage ? sideStageWidth : sceneWidth
 }

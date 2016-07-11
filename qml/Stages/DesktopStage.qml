@@ -208,6 +208,8 @@ AbstractStage {
 
             print("*** updated! MainStage:", priv.mainStageAppId, "SideStage:", priv.sideStageAppId)
         }
+
+        property int nextInStack: 1
     }
 
     Connections {
@@ -302,6 +304,7 @@ AbstractStage {
         State {
             name: "stagedWithSideStage"; when: root.mode === "stagedWithSideStage"
             PropertyChanges { target: triGestureArea; enabled: true }
+            PropertyChanges { target: priv; nextInStack: priv.sideStageDelegate ? 3 : 2 }
         },
         State {
             name: "windowed"; when: root.mode === "windowed"
@@ -353,6 +356,21 @@ AbstractStage {
             shown: false
             height: appContainer.height
             x: appContainer.width - width
+            z: {
+                if (!priv.mainStageItemId) return 0;
+
+                if (priv.sideStageItemId && priv.nextInStack > 0) {
+                    var nextDelegateInStack = appRepeater.itemAt(priv.nextInStack);
+
+                    if (nextDelegateInStack.stage ===  ApplicationInfoInterface.MainStage) {
+                        // if the next app in stack is a main stage app, put the sidestage on top of it.
+                        return 2;
+                    }
+                    return 1;
+                }
+
+                return 2;
+            }
 
             DropArea {
                 id: sideStageDropArea
@@ -469,9 +487,10 @@ AbstractStage {
                 property bool visuallyMinimized: false
 
                 property int stage: ApplicationInfoInterface.MainStage
-                function saveStage(stage) {
-                    appDelegate.stage = stage;
+                function saveStage(newStage) {
+                    appDelegate.stage = newStage;
                     WindowStateStorage.saveStage(application.appId, newStage);
+                    priv.updateMainAndSideStageIndexes()
                 }
 
                 readonly property var surface: model.surface
@@ -567,6 +586,12 @@ AbstractStage {
                 }
 
                 onVisuallyMaximizedChanged: priv.updateForegroundMaximizedApp()
+
+                onStageChanged: {
+                    if (!_constructing) {
+                        priv.updateMainAndSideStageIndexes();
+                    }
+                }
 
 //                visible: (
 //                          !visuallyMinimized
@@ -670,6 +695,8 @@ AbstractStage {
                     thisDelegate: appDelegate
                     mainStageDelegate: priv.mainStageDelegate
                     sideStageDelegate: priv.sideStageDelegate
+                    sideStageWidth: sideStage.panelWidth
+                    sideStageX: sideStage.x
                 }
 
                 StagedRightEdgeMaths {
@@ -758,6 +785,7 @@ AbstractStage {
                             target: appDelegate
                             x: stageMaths.itemX
                             y: appDelegate.fullscreen ? 0 : PanelState.panelHeight
+                            z: stageMaths.itemZ
                             requestedWidth: stageMaths.itemWidth
                             requestedHeight: appContainer.height - PanelState.panelHeight
                             visuallyMaximized: true
@@ -1250,5 +1278,10 @@ AbstractStage {
                 }
             }
         }
+    }
+
+    Label {
+        anchors { left: parent.left; top: parent.top; margins: units.gu(4) }
+        text: "sidestage z: " + sideStage.z
     }
 }
