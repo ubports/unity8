@@ -274,7 +274,7 @@ AbstractStage {
                     value: appDelegate.requestedY -
                            Math.min(appDelegate.requestedY - PanelState.panelHeight,
                                     Math.max(0, UbuntuKeyboardInfo.height - (appContainer.height - (appDelegate.requestedY + appDelegate.height))))
-                    when: appDelegate.focus && appDelegate.state == "normal"
+                    when: root.oskEnabled && appDelegate.focus && appDelegate.state == "normal"
                           && SurfaceManager.inputMethodSurface
                           && SurfaceManager.inputMethodSurface.state != Mir.HiddenState
                           && SurfaceManager.inputMethodSurface.state != Mir.MinimizedState

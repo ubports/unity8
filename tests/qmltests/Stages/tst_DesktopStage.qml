@@ -519,13 +519,15 @@ Item {
 
         function test_oskDisplacesWindow_data() {
             return [
-                {tag: "no need to displace", windowHeight: units.gu(10), windowY: units.gu(5), targetDisplacement: units.gu(5)},
-                {tag: "displace to top", windowHeight: units.gu(50), windowY: units.gu(10), targetDisplacement: PanelState.panelHeight},
-                {tag: "displace a bit", windowHeight: units.gu(40), windowY: units.gu(10), targetDisplacement: (root.height / 2) - units.gu(40)},
+                {tag: "no need to displace", windowHeight: units.gu(10), windowY: units.gu(5), targetDisplacement: units.gu(5), oskEnabled: true},
+                {tag: "displace to top", windowHeight: units.gu(50), windowY: units.gu(10), targetDisplacement: PanelState.panelHeight, oskEnabled: true},
+                {tag: "displace to top", windowHeight: units.gu(50), windowY: units.gu(10), targetDisplacement: PanelState.panelHeight, oskEnabled: true},
+                {tag: "osk not on this screen", windowHeight: units.gu(40), windowY: units.gu(10), targetDisplacement: units.gu(10), oskEnabled: false},
             ]
         }
 
         function test_oskDisplacesWindow(data) {
+            desktopStageLoader.item.oskEnabled = data.oskEnabled
             var dashAppDelegate = startApplication("unity8-dash");
             var oldOSKState = SurfaceManager.inputMethodSurface.state;
             SurfaceManager.inputMethodSurface.state = Mir.RestoredState;
