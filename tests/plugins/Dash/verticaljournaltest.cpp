@@ -504,7 +504,7 @@ private Q_SLOTS:
 
     void testInsertItem()
     {
-        // Remove a few items from the end so the verifyItem list is smallre
+        // Remove a few items from the end so the verifyItem list is smaller
         for (int i = 0; i < 12; ++i)
             model->removeLast();
 
@@ -528,7 +528,7 @@ private Q_SLOTS:
 
     void testChangeItem()
     {
-        // Remove a few items from the end so the verifyItem list is smallre
+        // Remove a few items from the end so the verifyItem list is smaller
         for (int i = 0; i < 11; ++i)
             model->removeLast();
 
