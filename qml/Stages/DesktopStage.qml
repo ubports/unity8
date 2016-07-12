@@ -422,12 +422,12 @@ AbstractStage {
                 z: normalZ
                 x: requestedX // may be overridden in some states. Do not directly write to this.
                 y: requestedY // may be overridden in some states. Do not directly write to this.
-                property real requestedX: priv.focusedAppDelegate ? priv.focusedAppDelegate.x + units.gu(3) : (normalZ - 1) * units.gu(3)
-                property real requestedY: priv.focusedAppDelegate ? priv.focusedAppDelegate.y + units.gu(3) : normalZ * units.gu(3)
+                property real requestedX: 0
+                property real requestedY: 0
                 property int requestedWidth: -1
                 property int requestedHeight: -1
-                property int windowedX
-                property int windowedY
+                property int windowedX: priv.focusedAppDelegate ? priv.focusedAppDelegate.x + units.gu(3) : (normalZ - 1) * units.gu(3)
+                property int windowedY: priv.focusedAppDelegate ? priv.focusedAppDelegate.y + units.gu(3) : normalZ * units.gu(3)
                 property int windowedWidth
                 property int windowedHeight
 
@@ -892,7 +892,7 @@ AbstractStage {
                 ]
                 transitions: [
                     Transition {
-                        to: "normal"
+                        from: "staged,stagedWithSideStage"; to: "normal"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: priv.animationDuration }
@@ -948,7 +948,7 @@ AbstractStage {
                         UbuntuNumberAnimation { target: appDelegate; properties: "requestedWidth,requestedHeight"; duration: priv.animationDuration }
                     },
                     Transition {
-                        to: "stagedWithSideStage"
+                        from: "nromal,staged"; to: "stagedWithSideStage"
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y"; duration: priv.animationDuration }
                         UbuntuNumberAnimation { target: appDelegate; properties: "requestedWidth,requestedHeight"; duration: priv.animationDuration }
                     }
