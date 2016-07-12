@@ -28,6 +28,20 @@ Item {
     signal sessionSelected(string sessionKey)
     signal showLoginList()
 
+    onInitiallySelectedSessionChanged: {
+        sessionsList.currentIndex = getSelectedIndex();
+        sessionsList.positionViewAtIndex(sessionsList.currentIndex, ListView.Contain);
+    }
+
+    function getSelectedIndex() {
+        for (var i = 0; i < sessionsList.model.count; i++) {
+            var key = sessionsList.model.get(i).key
+            if (key === initiallySelectedSession) {
+                return i;
+            }
+        }
+    }
+
     LoginAreaContainer {
         readonly property real margins: sessionsList.anchors.margins
         readonly property real prefferedHeight: {
