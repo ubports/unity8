@@ -20,8 +20,8 @@ import Unity.Application 0.1
 
 FocusScope {
     id: root
-    implicitWidth: surfaceContainer.implicitWidth
-    implicitHeight: surfaceContainer.implicitHeight
+    implicitWidth: requestedWidth
+    implicitHeight: requestedHeight
 
     // to be read from outside
     property alias interactive: surfaceContainer.interactive
@@ -270,6 +270,11 @@ FocusScope {
                       (d.liveSurface ||
                        (d.applicationState !== ApplicationInfoInterface.Running
                         && screenshotImage.status !== Image.Ready))
+                PropertyChanges {
+                    target: root
+                    implicitWidth: surfaceContainer.implicitWidth
+                    implicitHeight: surfaceContainer.implicitHeight
+                }
             },
             State {
                 name: "screenshot"
