@@ -72,10 +72,16 @@ LocalComponents.Page {
 
         anchors {
             fill: content
-            leftMargin: wideMode ? parent.leftMargin : 0
-            rightMargin: wideMode ? parent.rightMargin : 0
-            topMargin: wideMode ? parent.customMargin : 0
-            bottomMargin: units.gu(2)
+            leftMargin: wideMode ? parent.leftMargin : staticMargin
+            rightMargin: wideMode ? parent.rightMargin : staticMargin
+            topMargin: staticMargin
+        }
+
+        Label {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            text: i18n.tr("Keyboard language")
+            font.weight: Font.Normal
         }
 
         ItemSelector {
@@ -88,8 +94,15 @@ LocalComponents.Page {
             onSelectedIndexChanged: {
                 keyboardListView.currentIndex = -1;
                 selectedKeymap = "";
-                tester.text = "";
+                //tester.text = "";
             }
+        }
+
+        Label {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            text: i18n.tr("Keyboard layout")
+            font.weight: Font.Normal
         }
 
         ListView {
@@ -111,11 +124,16 @@ LocalComponents.Page {
                 objectName: "kbdDelegate" + index
                 height: layout.height + (divider.visible ? divider.height : 0)
                 readonly property bool isCurrent: index === ListView.view.currentIndex
+                highlightColor: backgroundColor
+                divider.colorFrom: dividerColor
+                divider.colorTo: backgroundColor
 
                 ListItemLayout {
                     id: layout
                     title.text: displayName
                     subtitle.text: layoutId
+                    padding.leading: -units.gu(1)
+                    padding.trailing: -units.gu(1)
                     Image {
                         SlotsLayout.position: SlotsLayout.Trailing
                         SlotsLayout.overrideVerticalPositioning: true
@@ -130,24 +148,24 @@ LocalComponents.Page {
                 onClicked: {
                     keyboardListView.currentIndex = index;
                     selectedKeymap = layoutId;
-                    if (topLevelSurfaceList.count > 0) {
-                        print("Setting wizard keymap to:", selectedKeymap)
-                        var surface = topLevelSurfaceList.surfaceAt(0);
-                        surface.keymap = selectedKeymap;
-                    }
+//                    if (topLevelSurfaceList.count > 0) {
+//                        print("Setting wizard keymap to:", selectedKeymap)
+//                        var surface = topLevelSurfaceList.surfaceAt(0);
+//                        surface.keymap = selectedKeymap;
+//                    }
                 }
             }
         }
 
-        TextField {
-            id: tester
-            anchors.left: parent.left
-            anchors.leftMargin: column.anchors.leftMargin == 0 ? units.gu(2) : 0
-            anchors.right: parent.right
-            anchors.rightMargin: column.anchors.rightMargin == 0 ? units.gu(2) : 0
-            placeholderText: i18n.tr("Type here to test your keyboard")
-            enabled: keyboardListView.currentIndex != -1
-        }
+//        TextField {
+//            id: tester
+//            anchors.left: parent.left
+//            anchors.leftMargin: column.anchors.leftMargin == 0 ? units.gu(2) : 0
+//            anchors.right: parent.right
+//            anchors.rightMargin: column.anchors.rightMargin == 0 ? units.gu(2) : 0
+//            placeholderText: i18n.tr("Type here to test your keyboard")
+//            enabled: keyboardListView.currentIndex != -1
+//        }
     }
 
     Component {
