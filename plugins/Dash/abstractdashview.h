@@ -23,9 +23,10 @@ class QAbstractItemModel;
 class QQmlComponent;
 
 #include <private/qqmldelegatemodel_p.h>
+#include <private/qquickitemchangelistener_p.h>
 #include <qqmlinfo.h>
 
-class AbstractDashView : public QQuickItem
+class AbstractDashView : public QQuickItem, public QQuickItemChangeListener
 {
     Q_OBJECT
 
