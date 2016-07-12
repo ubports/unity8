@@ -189,7 +189,7 @@ Showable {
 
         function login() {
             enabled = false;
-            if (LightDMService.greeter.startSessionSync()) {
+            if (LightDMService.greeter.startSessionSync(root.sessionToStart)) {
                 sessionStarted();
                 if (loader.item) {
                     loader.item.notifyAuthenticationSucceeded(false /* showFakePassword */);
