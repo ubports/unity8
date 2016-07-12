@@ -424,6 +424,12 @@ AbstractStage {
                 y: requestedY // may be overridden in some states. Do not directly write to this.
                 property real requestedX: priv.focusedAppDelegate ? priv.focusedAppDelegate.x + units.gu(3) : (normalZ - 1) * units.gu(3)
                 property real requestedY: priv.focusedAppDelegate ? priv.focusedAppDelegate.y + units.gu(3) : normalZ * units.gu(3)
+                property int requestedWidth: -1
+                property int requestedHeight: -1
+                property int windowedX
+                property int windowedY
+                property int windowedWidth
+                property int windowedHeight
 
                 Binding {
                     target: appDelegate
@@ -469,9 +475,6 @@ AbstractStage {
                 readonly property alias maximumHeight: decoratedWindow.maximumHeight
                 readonly property alias widthIncrement: decoratedWindow.widthIncrement
                 readonly property alias heightIncrement: decoratedWindow.heightIncrement
-
-                property int requestedWidth: -1
-                property int requestedHeight: -1
 
                 readonly property bool maximized: windowState & WindowStateStorage.WindowStateMaximized
                 readonly property bool maximizedLeft: windowState & WindowStateStorage.WindowStateMaximizedLeft
@@ -827,7 +830,15 @@ AbstractStage {
                     State {
                         name: "normal";
                         when: appDelegate.windowState == WindowStateStorage.WindowStateNormal
-                        PropertyChanges { target: appDelegate; visuallyMinimized: false; visuallyMaximized: false; }
+                        PropertyChanges {
+                            target: appDelegate
+                            visuallyMinimized: false
+                            visuallyMaximized: false
+                            requestedX: appDelegate.windowedX
+                            requestedY: appDelegate.windowedY
+                            requestedWidth: appDelegate.windowedWidth
+                            requestedHeight: appDelegate.windowedHeight
+                        }
                         PropertyChanges { target: touchControls; enabled: true }
                     },
                     State {
@@ -932,7 +943,7 @@ AbstractStage {
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedWidth,requestedHeight"; duration: priv.animationDuration }
                     },
                     Transition {
-                        to: "staged"
+                        from: "normal,spread"; to: "staged"
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y"; duration: priv.animationDuration }
                         UbuntuNumberAnimation { target: appDelegate; properties: "requestedWidth,requestedHeight"; duration: priv.animationDuration }
                     },
