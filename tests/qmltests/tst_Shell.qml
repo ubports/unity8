@@ -334,6 +334,33 @@ Rectangle {
                     }
                 }
 
+                Label {
+                    text: "Fingerprint"
+                }
+                Row {
+                    Button {
+                        text: "Success"
+                        onClicked: {
+                            var biometryd = testCase.findInvisibleChild(shellContainer, "biometryd");
+                            var uid = 0;
+                            for (var i = 0; i < LightDM.Users.count; i++) {
+                                if (LightDM.Users.data(i, LightDM.UserRoles.NameRole) == AccountsService.user) {
+                                    uid = LightDM.Users.data(i, LightDM.UserRoles.UidRole);
+                                    break;
+                                }
+                            }
+                            biometryd.operation.mockSuccess(uid);
+                        }
+                    }
+
+                    Button {
+                        text: "Failure"
+                        onClicked: {
+                            var biometryd = testCase.findInvisibleChild(shellContainer, "biometryd");
+                            biometryd.operation.mockFailure("error");
+                        }
+                    }
+                }
             }
         }
     }

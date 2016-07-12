@@ -3,6 +3,10 @@ add_subdirectory(3rd_party)
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/3rd_party/xcursor
+)
+
+include_directories(
+    SYSTEM
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
 )
 

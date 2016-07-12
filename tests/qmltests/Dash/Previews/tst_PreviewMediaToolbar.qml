@@ -51,7 +51,7 @@ Rectangle {
         name: "PreviewMediaToolbarTest"
         when: windowShown
 
-        property Item sharingWidget: findChild(previewMediaToolbar, "sharingWidget")
+        property Item sharingPicker: findChild(previewMediaToolbar, "sharingPicker")
 
         function cleanup() {
             previewMediaToolbar.shareData = root.shareData;
@@ -60,10 +60,10 @@ Rectangle {
         function test_visible() {
             previewMediaToolbar.shareData = shareDataNoUri;
             compare(previewMediaToolbar.visible, false);
-            compare(sharingWidget.visible, false);
+            compare(sharingPicker.visible, false);
             previewMediaToolbar.shareData = shareData;
             compare(previewMediaToolbar.visible, true);
-            compare(sharingWidget.visible, true);
+            compare(sharingPicker.visible, true);
         }
     }
 }

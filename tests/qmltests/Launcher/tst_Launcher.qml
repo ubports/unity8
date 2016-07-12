@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -203,11 +203,31 @@ Rectangle {
                 onClicked: LauncherModel.setAlerting(LauncherModel.get(parseInt(appIdEntryAlert.displayText)).appId, false)
             }
         }
+
+        Row {
+            spacing: units.gu(1)
+            Button {
+                text: "Toggle count visible"
+                onClicked: {
+                    var item = LauncherModel.get(parseInt(appIdEntryCountVisible.displayText))
+                    LauncherModel.setCountVisible(item.appId, !item.countVisible)
+                }
+            }
+            TextField {
+                id: appIdEntryCountVisible
+                text: "0"
+            }
+        }
     }
 
     SignalSpy {
         id: signalSpy
         target: LauncherModel
+    }
+
+    SignalSpy {
+        id: clickThroughSpy
+        target: clickThroughTester
     }
 
     Item {
@@ -231,6 +251,8 @@ Rectangle {
 
         property Item launcher: launcherLoader.status === Loader.Ready ? launcherLoader.item : null
         function cleanup() {
+            signalSpy.clear();
+            clickThroughSpy.clear();
             launcherLoader.active = false;
             // Loader.status might be Loader.Null and Loader.item might be null but the Loader
             // item might still be alive. So if we set Loader.active back to true
@@ -925,7 +947,6 @@ Rectangle {
 
             var quickListEntry = findChild(quickList, "quickListEntry" + data.index)
 
-            signalSpy.clear();
             signalSpy.signalName = "quickListTriggered"
 
             mouseClick(quickListEntry)
@@ -1218,7 +1239,6 @@ Rectangle {
             launcher.openForKeyboardNavigation();
             waitForRendering(launcher);
 
-            signalSpy.clear();
             signalSpy.signalName = "quickListTriggered"
 
             keyClick(Qt.Key_Down); // Down to launcher item 0
@@ -1310,6 +1330,21 @@ Rectangle {
                 var surfacePipRepeater = findInvisibleChild(delegate, "surfacePipRepeater");
                 compare(surfacePipRepeater.model, Math.min(3, LauncherModel.get(i).surfaceCount))
             }
+        }
+
+        function test_preventMouseEventsThru() {
+            dragLauncherIntoView();
+            var launcherPanel = findChild(launcher, "launcherPanel");
+            tryCompare(launcherPanel, "visible", true);
+
+            clickThroughSpy.signalName = "wheel";
+            mouseWheel(launcherPanel, launcherPanel.width/2, launcherPanel.height/2, 10, 10);
+            tryCompare(clickThroughSpy, "count", 0);
+
+            clickThroughSpy.clear();
+            clickThroughSpy.signalName = "clicked";
+            mouseWheel(launcherPanel, launcherPanel.width/2, launcherPanel.height/2, Qt.RightButton);
+            tryCompare(clickThroughSpy, "count", 0);
         }
     }
 }

@@ -89,6 +89,13 @@ Item {
                 topLevelSurfaceList: topSurfaceList
             }
         }
+
+        MouseArea {
+            id: clickThroughTester
+            anchors.fill: desktopStageLoader.item
+            acceptedButtons: Qt.AllButtons
+            hoverEnabled: true
+        }
     }
 
     Rectangle {
@@ -140,6 +147,11 @@ Item {
         }
     }
 
+    SignalSpy {
+        id: mouseEaterSpy
+        target: clickThroughTester
+    }
+
     UnityTestCase {
         id: testCase
         name: "DesktopStage"
@@ -179,6 +191,7 @@ Item {
             desktopStageLoader.active = true;
             tryCompare(desktopStageLoader, "status", Loader.Ready);
 
+            mouseEaterSpy.clear();
         }
 
         function waitUntilAppSurfaceShowsUp(surfaceId) {
@@ -504,6 +517,35 @@ Item {
             tryCompare(MirFocusController, "focusedSurface", null); // verify still no surface is focused
         }
 
+        function test_oskDisplacesWindow_data() {
+            return [
+                {tag: "no need to displace", windowHeight: units.gu(10), windowY: units.gu(5), targetDisplacement: units.gu(5), oskEnabled: true},
+                {tag: "displace to top", windowHeight: units.gu(50), windowY: units.gu(10), targetDisplacement: PanelState.panelHeight, oskEnabled: true},
+                {tag: "displace to top", windowHeight: units.gu(50), windowY: units.gu(10), targetDisplacement: PanelState.panelHeight, oskEnabled: true},
+                {tag: "osk not on this screen", windowHeight: units.gu(40), windowY: units.gu(10), targetDisplacement: units.gu(10), oskEnabled: false},
+            ]
+        }
+
+        function test_oskDisplacesWindow(data) {
+            desktopStageLoader.item.oskEnabled = data.oskEnabled
+            var dashAppDelegate = startApplication("unity8-dash");
+            var oldOSKState = SurfaceManager.inputMethodSurface.state;
+            SurfaceManager.inputMethodSurface.state = Mir.RestoredState;
+            verify(dashAppDelegate);
+            dashAppDelegate.requestedHeight = data.windowHeight;
+            dashAppDelegate.requestedY = data.windowY;
+            UbuntuKeyboardInfo.height = 0;
+            var initialY = dashAppDelegate.y;
+            verify(initialY > PanelState.panelHeight);
+
+            UbuntuKeyboardInfo.height = root.height / 2;
+            tryCompare(dashAppDelegate, "y", data.targetDisplacement);
+
+            UbuntuKeyboardInfo.height = 0;
+            tryCompare(dashAppDelegate, "y", initialY);
+            SurfaceManager.inputMethodSurface.state = oldOSKState;
+        }
+
         function test_minimizeApplicationHidesSurface() {
             compare(topSurfaceList.applicationAt(0).appId, "unity8-dash");
             var dashSurface = topSurfaceList.surfaceAt(0);
@@ -676,6 +718,101 @@ Item {
             verify(dashAppDelegate);
             var closeButton = findChild(dashAppDelegate, "closeWindowButton");
             tryCompare(closeButton, "visible", false);
+        }
+
+        function test_hideMaximizeButtonWhenSizeConstrained() {
+            var dialerDelegate = startApplication("dialer-app");
+
+            var dialerMaximizeButton = findChild(dialerDelegate, "maximizeWindowButton");
+            tryCompare(dialerMaximizeButton, "visible", true);
+
+            // add size restrictions, smaller than our stage
+            dialerDelegate.surface.setMaximumWidth(40);
+            dialerDelegate.surface.setMaximumHeight(30);
+            tryCompare(dialerMaximizeButton, "visible", false);
+
+            // try double clicking the decoration, shouldn't maximize it
+            var sizeBefore = Qt.size(dialerDelegate.width, dialerDelegate.height);
+            var deco = findChild(dialerDelegate, "appWindowDecoration");
+            verify(deco);
+            tryCompare(deco, "maximizeButtonShown", false);
+            mouseDoubleClick(deco);
+            var sizeAfter = Qt.size(dialerDelegate.width, dialerDelegate.height);
+            tryCompareFunction(function(){ return sizeBefore; }, sizeAfter);
+
+            // remove restrictions, the maximize button should again be visible
+            dialerDelegate.surface.setMaximumWidth(0);
+            dialerDelegate.surface.setMaximumHeight(0);
+            tryCompare(dialerMaximizeButton, "visible", true);
+        }
+
+        function test_canMoveWindowWithLeftMouseButtonOnly_data() {
+            return [
+                {tag: "left mouse button", button: Qt.LeftButton },
+                {tag: "right mouse button", button: Qt.RightButton },
+                {tag: "middle mouse button", button: Qt.MiddleButton }
+            ]
+        }
+
+        function test_canMoveWindowWithLeftMouseButtonOnly(data) {
+            var appDelegate = startApplication("dialer-app");
+            verify(appDelegate);
+
+            var posBefore = Qt.point(appDelegate.x, appDelegate.y);
+
+            mousePress(appDelegate, appDelegate.width / 2, units.gu(1), data.button);
+            mouseMove(appDelegate, appDelegate.width / 2, -units.gu(100), undefined /* delay */, data.button);
+
+            var posAfter = Qt.point(appDelegate.x, appDelegate.y);
+
+            tryCompareFunction(function(){return posBefore == posAfter;}, data.button !== Qt.LeftButton ? true : false);
+        }
+
+        function test_preventMouseEventsThruDesktopSpread() {
+            var spread = findChild(desktopStage, "spread");
+            verify(spread);
+            spread.show();
+            tryCompareFunction( function(){ return spread.ready }, true );
+
+            mouseEaterSpy.signalName = "wheel";
+            mouseWheel(spread, spread.width/2, spread.height/2, 10, 10);
+            tryCompare(mouseEaterSpy, "count", 0);
+
+            mouseEaterSpy.clear();
+            mouseEaterSpy.signalName = "clicked";
+            mouseClick(spread, spread.width/2, spread.height/2, Qt.RightButton);
+            tryCompare(mouseEaterSpy, "count", 0);
+
+            spread.cancel();
+        }
+
+        function test_eatWindowDecorationMouseEvents_data() {
+            return [
+                {tag: "left mouse click", signalName: "clicked", button: Qt.LeftButton },
+                {tag: "right mouse click", signalName: "clicked", button: Qt.RightButton },
+                {tag: "middle mouse click", signalName: "clicked", button: Qt.MiddleButton },
+                {tag: "mouse wheel", signalName: "wheel", button: Qt.MiddleButton },
+                {tag: "double click (RMB)", signalName: "doubleClicked", button: Qt.RightButton },
+            ]
+        }
+
+        function test_eatWindowDecorationMouseEvents(data) {
+            var dialerAppDelegate = startApplication("dialer-app");
+            verify(dialerAppDelegate);
+            var decoration = findChild(dialerAppDelegate, "appWindowDecoration");
+            verify(decoration);
+
+            mouseEaterSpy.signalName = data.signalName;
+            if (data.signalName === "wheel") {
+                mouseWheel(decoration, decoration.width/2, decoration.height/2, 20, 20);
+            } else if (data.signalName === "clicked") {
+                mouseClick(decoration, decoration.width/2, decoration.height/2, data.button);
+            } else {
+                mouseDoubleClick(decoration, decoration.width/2, decoration.height/2, data.button);
+                tryCompare(dialerAppDelegate, "maximized", false);
+            }
+
+            tryCompare(mouseEaterSpy, "count", 0);
         }
     }
 }

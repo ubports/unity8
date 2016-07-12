@@ -107,7 +107,7 @@ AbstractStage {
             orientations |= Qt.LandscapeOrientation | Qt.InvertedLandscapeOrientation;
             if (priv.sideStageItemId && !spreadView.surfaceDragging) {
                 // If we have a sidestage app, support Portrait orientation
-                // so that it will switch the sidestage app to mainstage on rotate
+                // so that it will switch the sidestage app to mainstage on rotate to portrait
                 orientations |= Qt.PortraitOrientation|Qt.InvertedPortraitOrientation;
             }
             return orientations;
@@ -630,7 +630,7 @@ AbstractStage {
                 enabled: priv.sideStageEnabled
 
                 onDropped: {
-                    drop.source.spreadDelegate.stage = ApplicationInfoInterface.MainStage;
+                    drop.source.spreadDelegate.saveStage(ApplicationInfoInterface.MainStage);
                     drop.source.spreadDelegate.focus = true;
                 }
                 keys: "SideStage"
@@ -685,7 +685,7 @@ AbstractStage {
                     }
                     onDropped: {
                         if (drop.keys == "MainStage") {
-                            drop.source.spreadDelegate.stage = ApplicationInfoInterface.SideStage;
+                            drop.source.spreadDelegate.saveStage(ApplicationInfoInterface.SideStage);
                             drop.source.spreadDelegate.focus = true;
                         }
                     }
@@ -816,6 +816,11 @@ AbstractStage {
                         }
                     }
 
+                    function saveStage(newStage) {
+                        stage = newStage;
+                        WindowStateStorage.saveStage(application.appId, newStage);
+                    }
+
                     // FIXME: A regular binding doesn't update any more after closing an app.
                     // Using a Binding for now.
                     Binding {
@@ -849,15 +854,17 @@ AbstractStage {
                         refreshStage();
                         _constructing = false;
                     }
-                    Component.onDestruction: {
-                        WindowStateStorage.saveStage(application.appId, stage);
-                    }
 
                     function refreshStage() {
                         var newStage = ApplicationInfoInterface.MainStage;
-                        if (priv.sideStageEnabled) {
-                            if (application && application.supportedOrientations & (Qt.PortraitOrientation|Qt.InvertedPortraitOrientation)) {
-                                newStage = WindowStateStorage.getStage(application.appId);
+                        if (priv.sideStageEnabled) { // we're in lanscape rotation.
+                            if (!isDash && application && application.supportedOrientations & (Qt.PortraitOrientation|Qt.InvertedPortraitOrientation)) {
+                                var defaultStage = ApplicationInfoInterface.SideStage; // if application supports portrait, it defaults to sidestage.
+                                if (application.supportedOrientations & (Qt.LandscapeOrientation|Qt.InvertedLandscapeOrientation)) {
+                                    // if it supports lanscape, it defaults to mainstage.
+                                    defaultStage = ApplicationInfoInterface.MainStage;
+                                }
+                                newStage = WindowStateStorage.getStage(application.appId, defaultStage);
                             }
                         }
 
@@ -1091,6 +1098,7 @@ AbstractStage {
                 // only accept opposite stage.
                 Drag.keys: {
                     if (!surface) return "Disabled";
+                    if (spreadDelegate.isDash) return "Disabled";
 
                     if (spreadDelegate.stage === ApplicationInfo.MainStage) {
                         if (spreadDelegate.application.supportedOrientations
