@@ -25,8 +25,6 @@ import Unity.Test 0.1 as UT
 StyledItem {
     id: root
 
-    property int numSessions: LightDM.Sessions.numSessions
-
     width: units.gu(120)
     height: units.gu(80)
 
@@ -281,14 +279,13 @@ StyledItem {
                     }
                 }
                 Row {
-                    id: numSessions
                     Slider {
                         id: numSessionsSlider
 
                         width: units.gu(10)
                         minimumValue: 0
                         maximumValue: LightDM.Sessions.numAvailableSessions
-                        value: root.numSessions
+                        value: LightDM.Sessions.numSessions
                         visible: LightDM.Sessions.testScenario === "multipleSessions"
                         Binding {
                             target: LightDM.Sessions

@@ -45,8 +45,12 @@ Item {
     LoginAreaContainer {
         readonly property real margins: sessionsList.anchors.margins
         readonly property real prefferedHeight: {
-            ((sessionsList.currentItem.height + margins) * sessionsList.model.count) +
-            sessionsList.headerItem.height + margins
+            if (sessionsList.currentItem) {
+                return ((sessionsList.currentItem.height + margins) *
+                    sessionsList.model.count) + sessionsList.headerItem.height + margins
+            } else {
+                return sessionsList.headerItem.height + margins
+            }
         }
 
         height: prefferedHeight < parent.height ? prefferedHeight : parent.height - units.gu(4)
