@@ -47,9 +47,9 @@ Item {
         readonly property real prefferedHeight: {
             if (sessionsList.currentItem) {
                 return ((sessionsList.currentItem.height + margins) *
-                    sessionsList.model.count) + sessionsList.headerItem.height + margins
+                sessionsList.model.count) + sessionsList.headerItem.height + 2 * margins
             } else {
-                return sessionsList.headerItem.height + margins
+                return sessionsList.headerItem.height + 2 * margins
             }
         }
 
