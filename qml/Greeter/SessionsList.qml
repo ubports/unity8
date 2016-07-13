@@ -72,7 +72,9 @@ Item {
                 margins: units.gu(2)
             }
 
-            height: parent.height - currentItem.height - units.gu(2)
+            height: parent.height - headerItem.height
+
+            boundsBehavior: Flickable.StopAtBounds
 
             model: LightDMService.sessions
             header: ListItemLayout {
