@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@ class MockSystemImage : public QObject
 public:
     explicit MockSystemImage(QObject *parent = 0);
 
+    Q_INVOKABLE void checkForUpdate() {}
     Q_INVOKABLE void factoryReset();
 
 Q_SIGNALS:

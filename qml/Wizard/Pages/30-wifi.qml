@@ -20,6 +20,7 @@ import QMenuModel 0.1 as QMenuModel
 import Ubuntu.Components 1.3
 import Wizard 0.1
 import Ubuntu.Connectivity 1.0
+import Ubuntu.SystemImage 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -158,9 +159,9 @@ LocalComponents.Page {
             anchors.right: parent.right
             anchors.leftMargin: column.anchors.leftMargin == 0 ? staticMargin : 0
             font.weight: Font.Light
-            color: "#68064d"
+            color: textColor
             wrapMode: Text.Wrap
-            text: listview.count > 0 ? i18n.tr("Available Wi-Fi networks")
+            text: listview.count > 0 ? i18n.tr("Select one of the available Wi-Fi networks to access the latest features and updates.")
                                      : i18n.tr("No available Wi-Fi networks")
         }
 
@@ -204,7 +205,12 @@ LocalComponents.Page {
         id: forwardButton
         LocalComponents.StackButton {
             text: (connected || listview.count === 0) ? i18n.tr("Next") : i18n.tr("Skip")
-            onClicked: pageStack.next()
+            onClicked: {
+                if (connected) {
+                    SystemImage.checkForUpdate(); // initiate the background check for System Update
+                }
+                pageStack.next();
+            }
         }
     }
 }
