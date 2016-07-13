@@ -26,7 +26,7 @@
 #include <Direction.h>
 #include <UbuntuGestures/private/timer_p.h>
 
-using namespace UbuntuGestures;
+UG_USE_NAMESPACE
 
 class tst_EdgeDragEvaluator: public QObject
 {
