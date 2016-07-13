@@ -24,6 +24,9 @@ import Unity.Test 0.1 as UT
 
 StyledItem {
     id: root
+
+    property int numSessions: LightDM.Sessions.numSessions
+
     width: units.gu(120)
     height: units.gu(80)
 
@@ -108,7 +111,6 @@ StyledItem {
             color: theme.palette.normal.background
             width: units.gu(40)
             height: parent.height
-
             Column {
                 anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
                 spacing: units.gu(1)
@@ -263,8 +265,9 @@ StyledItem {
                     }
                 }
                 Row {
+                    id: multipleSessions
                     CheckBox {
-                        id: multipleSessions
+                        id: multipleSessionsCheckbox
                         onClicked: {
                             if (checked) {
                                 LightDM.Sessions.testScenario = "multipleSessions"
@@ -274,7 +277,27 @@ StyledItem {
                         }
                     }
                     Label {
-                        text: "Multiple sessions"
+                        text: "Multiple Sessions"
+                    }
+                }
+                Row {
+                    id: numSessions
+                    Slider {
+                        id: numSessionsSlider
+
+                        width: units.gu(10)
+                        minimumValue: 0
+                        maximumValue: LightDM.Sessions.numAvailableSessions
+                        value: root.numSessions
+                        visible: LightDM.Sessions.testScenario === "multipleSessions"
+                        Binding {
+                            target: LightDM.Sessions
+                            property: "numSessions"
+                            value: numSessionsSlider.value
+                        }
+                    }
+                    Label {
+                        text: "Available Sessions"
                     }
                 }
                 Row {
