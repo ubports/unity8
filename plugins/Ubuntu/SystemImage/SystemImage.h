@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,17 +18,59 @@
 #define SYSTEMIMAGE_H
 
 #include <QObject>
+#include <QMap>
 
 class SystemImage : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(SystemImage)
 
+    Q_PROPERTY(bool updateAvailable READ updateAvailable NOTIFY updateAvailableStatus)
+    Q_PROPERTY(bool updateDownloading READ updateDownloading NOTIFY updateAvailableStatus)
+    Q_PROPERTY(QString availableVersion READ availableVersion NOTIFY updateAvailableStatus)
+    Q_PROPERTY(int updateSize READ updateSize NOTIFY updateAvailableStatus)
+
+    Q_PROPERTY(bool updateDownloaded READ updateDownloaded NOTIFY updateDownloadedChanged)
+
 public:
-    explicit SystemImage(QObject *parent = 0);
+    explicit SystemImage(QObject *parent = nullptr);
     ~SystemImage() = default;
 
+    bool updateAvailable() const { return m_updateAvailable; }
+    bool updateDownloading() const { return m_downloading; }
+    QString availableVersion() const { return m_availableVersion; }
+    int updateSize() const { return m_updateSize; }
+
+    bool updateDownloaded() const { return m_downloaded; }
+
+public Q_SLOTS:
+    Q_INVOKABLE void checkForUpdate();
+    Q_INVOKABLE void applyUpdate();
     Q_INVOKABLE void factoryReset();
+
+private Q_SLOTS:
+    void onUpdateAvailableStatus(bool is_available, bool updateDownloading, const QString &available_version,
+                                 int update_size, const QString &last_update_date, const QString &error_reason);
+    void onUpdateDownloaded(bool downloaded);
+    void onUpdateFailed(int consecutive_failure_count, const QString & last_reason);
+    void onUpdateApplied(bool applied);
+
+Q_SIGNALS:
+    void updateAvailableStatus();
+    void updateDownloadedChanged();
+
+private:
+    void resetUpdateStatus();
+
+private:
+    bool m_updateAvailable = false;
+    bool m_downloading = false;
+    bool m_downloaded = false;
+    QString m_availableVersion;
+    int m_updateSize = -1;
+    QString m_lastUpdateDate;
+    QString m_errorReason;
+    bool m_updateDownloaded;
 };
 
 #endif // SYSTEMIMAGE_H
