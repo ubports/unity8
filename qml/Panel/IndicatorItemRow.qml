@@ -199,7 +199,6 @@ Item {
                 // HACK for indicator-keyboard
                 readonly property bool hideKeyboardIndicator: identifier == "indicator-keyboard" && (AccountsService.keymaps.length < 2 || keyboardsModel.count == 0)
 
-
                 height: row.height
                 expanded: root.expanded
                 selected: currentItem === this

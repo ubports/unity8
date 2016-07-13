@@ -16,6 +16,8 @@
 
 import QtQuick 2.4
 import Unity.Indicators 0.1 as Indicators
+import Unity.InputInfo 0.1
+import AccountsService 0.1
 
 Indicators.FakeIndicatorsModel {
     id: root
@@ -94,6 +96,17 @@ Indicators.FakeIndicatorsModel {
             }
         }
     ]
+
+    Component.onCompleted: {
+        // init data for the fake indicator-keyboard
+        MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
+        AccountsService.keymaps = ["us", "cs"];
+    }
+
+    Component.onDestruction: {
+        MockInputDeviceBackend.removeDevice("/kbd0");
+        AccountsService.keymaps = ["us"];
+    }
 
     function load(profile) {
         unload();
