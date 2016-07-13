@@ -24,11 +24,11 @@
 UG_USE_NAMESPACE
 
 AxisVelocityCalculator::AxisVelocityCalculator(QObject *parent)
-    : AxisVelocityCalculator(UG_PREPEND_NAMESPACE(SharedTimeSource)(new UG_PREPEND_NAMESPACE(RealTimeSource)), parent)
+    : AxisVelocityCalculator(SharedTimeSource(new RealTimeSource), parent)
 {
 }
 
-AxisVelocityCalculator::AxisVelocityCalculator(const UG_PREPEND_NAMESPACE(SharedTimeSource) &timeSource,
+AxisVelocityCalculator::AxisVelocityCalculator(const SharedTimeSource &timeSource,
                                                QObject *parent)
     : QObject(parent)
     , m_timeSource(timeSource)
@@ -136,7 +136,7 @@ int AxisVelocityCalculator::numSamples() const
     }
 }
 
-void AxisVelocityCalculator::setTimeSource(const UG_PREPEND_NAMESPACE(SharedTimeSource) &timeSource)
+void AxisVelocityCalculator::setTimeSource(const SharedTimeSource &timeSource)
 {
     m_timeSource = timeSource;
 

@@ -82,7 +82,7 @@ TouchEventSequenceWrapper *TestUtil::touchEvent(QQuickItem *item)
     // Tests can be *very* slow to run and we don't want things timing out because
     // of that. So give it fake timers to use (they will never time out)
     if (!m_putFakeTimerFactoryInTouchRegistry) {
-        UG_PREPEND_NAMESPACE(TouchRegistry)::instance()->setTimerFactory(new UG_PREPEND_NAMESPACE(FakeTimerFactory));
+        TouchRegistry::instance()->setTimerFactory(new FakeTimerFactory);
         m_putFakeTimerFactoryInTouchRegistry = true;
     }
 

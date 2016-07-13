@@ -137,7 +137,7 @@ TouchGestureArea::TouchGestureArea(QQuickItem* parent)
     , m_recognitionPeriod(50)
     , m_releaseRejectPeriod(100)
 {
-    setRecognitionTimer(new UG_PREPEND_NAMESPACE(Timer)(this));
+    setRecognitionTimer(new Timer(this));
     m_recognitionTimer->setInterval(m_recognitionPeriod);
     m_recognitionTimer->setSingleShot(true);
 }
@@ -154,18 +154,18 @@ TouchGestureArea::~TouchGestureArea()
 bool TouchGestureArea::event(QEvent *event)
 {
     // Process unowned touch events (handles update/release for incomplete gestures)
-    if (event->type() == UG_PREPEND_NAMESPACE(TouchOwnershipEvent)::touchOwnershipEventType()) {
-        touchOwnershipEvent(static_cast<UG_PREPEND_NAMESPACE(TouchOwnershipEvent*)>(event));
+    if (event->type() == TouchOwnershipEvent::touchOwnershipEventType()) {
+        touchOwnershipEvent(static_cast<TouchOwnershipEvent*>(event));
         return true;
-    } else if (event->type() == UG_PREPEND_NAMESPACE(UnownedTouchEvent)::unownedTouchEventType()) {
-        unownedTouchEvent(static_cast<UG_PREPEND_NAMESPACE(UnownedTouchEvent*)>(event)->touchEvent());
+    } else if (event->type() == UnownedTouchEvent::unownedTouchEventType()) {
+        unownedTouchEvent(static_cast<UnownedTouchEvent*>(event)->touchEvent());
         return true;
     }
 
     return QQuickItem::event(event);
 }
 
-void TouchGestureArea::touchOwnershipEvent(UG_PREPEND_NAMESPACE(TouchOwnershipEvent) *event)
+void TouchGestureArea::touchOwnershipEvent(TouchOwnershipEvent *event)
 {
     int touchId = event->touchId();
     tgaDebug("touchOwnershipEvent - id:" << touchId << ", gained:" << event->gained());
@@ -610,7 +610,7 @@ void TouchGestureArea::setInternalStatus(uint newStatus)
     }
 }
 
-void TouchGestureArea::setRecognitionTimer(UG_PREPEND_NAMESPACE(AbstractTimer) *timer)
+void TouchGestureArea::setRecognitionTimer(AbstractTimer *timer)
 {
     int interval = 0;
     bool timerWasRunning = false;
