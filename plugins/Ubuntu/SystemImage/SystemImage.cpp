@@ -19,6 +19,8 @@
 #include <QDBusReply>
 #include <QDebug>
 
+#include <glib.h>
+
 #include "SystemImage.h"
 
 #define SYSTEMIMAGE_SERVICE QStringLiteral("com.canonical.SystemImage")
@@ -71,7 +73,7 @@ void SystemImage::onUpdateAvailableStatus(bool is_available, bool downloading, c
     m_updateAvailable = is_available;
     m_downloading = downloading;
     m_availableVersion = available_version;
-    m_updateSize = update_size;
+    m_updateSize = formatSize(update_size);
     m_lastUpdateDate = last_update_date;
     m_errorReason = error_reason;
     Q_EMIT updateAvailableStatus();
@@ -106,7 +108,18 @@ void SystemImage::resetUpdateStatus()
     m_downloading = false;
     m_downloaded = false;
     m_availableVersion.clear();
-    m_updateSize = -1;
+    m_updateSize.clear();
     m_lastUpdateDate.clear();
     m_errorReason.clear();
+}
+
+QString SystemImage::formatSize(quint64 size) const
+{
+    guint64 g_size = size;
+
+    gchar * formatted_size = g_format_size(g_size);
+    QString q_formatted_size = QString::fromLocal8Bit(formatted_size);
+    g_free(formatted_size);
+
+    return q_formatted_size;
 }

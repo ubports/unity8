@@ -24,11 +24,21 @@ class MockSystemImage : public QObject
     Q_OBJECT
     Q_DISABLE_COPY(MockSystemImage)
 
-public:
-    explicit MockSystemImage(QObject *parent = 0);
+    Q_PROPERTY(bool updateDownloaded READ updateDownloaded CONSTANT)
+    Q_PROPERTY(QString availableVersion READ availableVersion CONSTANT)
+    Q_PROPERTY(QString updateSize READ updateSize CONSTANT)
 
-    Q_INVOKABLE void checkForUpdate() {}
+public:
+    explicit MockSystemImage(QObject *parent = nullptr);
+
+    Q_INVOKABLE void checkForUpdate();
+    Q_INVOKABLE void applyUpdate();
     Q_INVOKABLE void factoryReset();
+
+    // these are const only in mock
+    bool updateDownloaded() const { return true; }
+    QString availableVersion() const { return QStringLiteral("42"); }
+    QString updateSize() const { return QStringLiteral("4.2 MB"); }
 
 Q_SIGNALS:
     void resettingDevice(); // only for mock

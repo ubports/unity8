@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,11 +14,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QDebug>
+
 #include "MockSystemImage.h"
 
 MockSystemImage::MockSystemImage(QObject *parent)
     : QObject(parent)
 {
+}
+
+void MockSystemImage::checkForUpdate()
+{
+    qDebug() << "Doing a fake system update check";
+}
+
+void MockSystemImage::applyUpdate()
+{
+    qDebug() << "Applying a fake system update";
 }
 
 void MockSystemImage::factoryReset()

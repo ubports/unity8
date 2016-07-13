@@ -28,7 +28,7 @@ class SystemImage : public QObject
     Q_PROPERTY(bool updateAvailable READ updateAvailable NOTIFY updateAvailableStatus)
     Q_PROPERTY(bool updateDownloading READ updateDownloading NOTIFY updateAvailableStatus)
     Q_PROPERTY(QString availableVersion READ availableVersion NOTIFY updateAvailableStatus)
-    Q_PROPERTY(int updateSize READ updateSize NOTIFY updateAvailableStatus)
+    Q_PROPERTY(QString updateSize READ updateSize NOTIFY updateAvailableStatus)
 
     Q_PROPERTY(bool updateDownloaded READ updateDownloaded NOTIFY updateDownloadedChanged)
 
@@ -39,7 +39,7 @@ public:
     bool updateAvailable() const { return m_updateAvailable; }
     bool updateDownloading() const { return m_downloading; }
     QString availableVersion() const { return m_availableVersion; }
-    int updateSize() const { return m_updateSize; }
+    QString updateSize() const { return m_updateSize; }
 
     bool updateDownloaded() const { return m_downloaded; }
 
@@ -61,13 +61,14 @@ Q_SIGNALS:
 
 private:
     void resetUpdateStatus();
+    QString formatSize(quint64 size) const;
 
 private:
     bool m_updateAvailable = false;
     bool m_downloading = false;
     bool m_downloaded = false;
     QString m_availableVersion;
-    int m_updateSize = -1;
+    QString m_updateSize;
     QString m_lastUpdateDate;
     QString m_errorReason;
     bool m_updateDownloaded;
