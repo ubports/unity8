@@ -775,6 +775,8 @@ StyledItem {
             when: cursor.mouseNeverMoved && cursor.visible
         }
 
+        height: units.gu(3)
+
         onPushedLeftBoundary: {
             if (buttons === Qt.NoButton) {
                 launcher.pushEdge(amount);

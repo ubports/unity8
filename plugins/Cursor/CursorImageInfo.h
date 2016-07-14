@@ -28,6 +28,7 @@ class CursorImageInfo : public QObject
 
     Q_PROPERTY(QString themeName READ themeName WRITE setThemeName NOTIFY themeNameChanged)
     Q_PROPERTY(QString cursorName READ cursorName WRITE setCursorName NOTIFY cursorNameChanged)
+    Q_PROPERTY(qreal cursorHeight READ cursorHeight WRITE setCursorHeight NOTIFY cursorHeightChanged)
 
     Q_PROPERTY(QPoint hotspot READ hotspot NOTIFY hotspotChanged)
     Q_PROPERTY(qreal frameWidth READ frameWidth NOTIFY frameWidthChanged)
@@ -44,6 +45,9 @@ public:
     QString cursorName() const { return m_cursorName; }
     void setCursorName(const QString &);
 
+    qreal cursorHeight() const { return m_cursorHeight; }
+    void setCursorHeight(qreal);
+
     QPoint hotspot() const;
     qreal frameWidth() const;
     qreal frameHeight() const;
@@ -53,6 +57,7 @@ public:
 Q_SIGNALS:
     void themeNameChanged();
     void cursorNameChanged();
+    void cursorHeightChanged();
     void hotspotChanged();
     void frameWidthChanged();
     void frameHeightChanged();
@@ -65,6 +70,7 @@ private Q_SLOTS:
 private:
     QString m_themeName;
     QString m_cursorName;
+    qreal m_cursorHeight{0};
 
     CursorImage *m_cursorImage{nullptr};
 };

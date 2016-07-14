@@ -28,6 +28,15 @@ void CursorImageInfo::setCursorName(const QString &cursorName)
         update();
         Q_EMIT cursorNameChanged();
     }
+
+}
+void CursorImageInfo::setCursorHeight(qreal cursorHeight)
+{
+    if (cursorHeight != m_cursorHeight) {
+        m_cursorHeight = cursorHeight;
+        update();
+        Q_EMIT cursorHeightChanged();
+    }
 }
 
 void CursorImageInfo::setThemeName(const QString &themeName)
@@ -41,7 +50,7 @@ void CursorImageInfo::setThemeName(const QString &themeName)
 
 void CursorImageInfo::update()
 {
-    m_cursorImage = CursorImageProvider::instance()->fetchCursor(m_themeName, m_cursorName);
+    m_cursorImage = CursorImageProvider::instance()->fetchCursor(m_themeName, m_cursorName, (int) m_cursorHeight);
 
     Q_EMIT hotspotChanged();
     Q_EMIT frameWidthChanged();

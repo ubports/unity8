@@ -25,6 +25,13 @@ MousePointer {
         id: imageInfo
         themeName: mousePointer.themeName
         cursorName: mousePointer.cursorName
+        cursorHeight: mousePointer.height
+    }
+
+    QtObject {
+        id: d
+        readonly property url imageSource: "image://cursor/" + mousePointer.themeName + "/" + mousePointer.cursorName
+                                           + "/" + mousePointer.height
     }
 
     Loader {
@@ -32,7 +39,7 @@ MousePointer {
         sourceComponent: AnimatedSprite {
             x: -imageInfo.hotspot.x
             y: -imageInfo.hotspot.y
-            source: "image://cursor/" + mousePointer.themeName + "/" + mousePointer.cursorName
+            source: d.imageSource
 
             interpolate: false
 
@@ -53,7 +60,9 @@ MousePointer {
         sourceComponent: Image {
             x: -imageInfo.hotspot.x
             y: -imageInfo.hotspot.y
-            source: "image://cursor/" + mousePointer.themeName + "/" + mousePointer.cursorName
+            source: d.imageSource
+            width: sourceSize.width
+            height: sourceSize.height
         }
     }
 }
