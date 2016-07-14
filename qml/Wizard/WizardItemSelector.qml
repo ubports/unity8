@@ -88,7 +88,7 @@ Rectangle {
 
                                 width: parent.width
                                 text: expanded ? modelData : optionToggle.model[selectedIndex]
-                                color: theme.palette.normal.backgroundSecondaryText
+                                color: textColor
                                 font.weight: Font.Light
                                 maximumLineCount: 1
                                 elide: Text.ElideRight

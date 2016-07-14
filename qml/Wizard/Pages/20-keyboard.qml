@@ -75,6 +75,7 @@ LocalComponents.Page {
             anchors.right: parent.right
             text: i18n.tr("Keyboard language")
             font.weight: Font.Normal
+            color: textColor
         }
 
         LocalComponents.WizardItemSelector {
@@ -96,6 +97,7 @@ LocalComponents.Page {
             anchors.right: parent.right
             text: i18n.tr("Keyboard layout")
             font.weight: Font.Normal
+            color: textColor
         }
 
         ListView {
@@ -125,7 +127,9 @@ LocalComponents.Page {
                 ListItemLayout {
                     id: layout
                     title.text: displayName
+                    title.color: textColor
                     subtitle.text: layoutId
+                    subtitle.color: textColor
                     padding.leading: -units.gu(1)
                     padding.trailing: -units.gu(1)
                     Image {
