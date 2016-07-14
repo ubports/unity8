@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@ import Ubuntu.Components 1.3
 
 FocusScope {
     id: root
+    focus: true
 
     property alias dragHandleLeftMargin: coverPage.dragHandleLeftMargin
     property alias launcherOffset: coverPage.launcherOffset
@@ -30,6 +31,7 @@ FocusScope {
     property alias alphanumeric: loginList.alphanumeric
     property alias userModel: loginList.model
     property alias infographicModel: coverPage.infographicModel
+    property bool waiting
     readonly property bool fullyShown: coverPage.showProgress === 1
     readonly property bool required: coverPage.required
     readonly property bool animating: coverPage.showAnimation.running || coverPage.hideAnimation.running
@@ -101,7 +103,7 @@ FocusScope {
         objectName: "coverPage"
         height: parent.height
         width: parent.width
-        draggable: !root.locked
+        draggable: !root.locked && !root.waiting
 
         infographics {
             height: 0.75 * parent.height
@@ -131,6 +133,7 @@ FocusScope {
             Behavior on height { UbuntuNumberAnimation {} }
 
             locked: root.locked
+            waiting: root.waiting
 
             onSelected: root.selected(index)
             onResponded: root.responded(response)
