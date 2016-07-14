@@ -29,7 +29,7 @@ import ".." as LocalComponents
 LocalComponents.Page {
     objectName: "keyboardPage"
 
-    title: i18n.tr("Hardware Keyboard")
+    title: i18n.tr("Select Keyboard")
     forwardButtonSourceComponent: forwardButton
 
     skip: keyboardsModel.count == 0
