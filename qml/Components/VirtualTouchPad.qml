@@ -144,9 +144,9 @@ Item {
     }
 
     RowLayout {
-        anchors { left: parent.left; right: parent.right; bottom: parent.bottom; margins: -units.gu(1) }
-        height: units.gu(10)
-        spacing: units.gu(1)
+        anchors { left: parent.left; right: parent.right; bottom: parent.bottom; margins: -internalGu * 1 }
+        height: internalGu * 10
+        spacing: internalGu * 1
 
         MouseArea {
             id: leftButton
@@ -179,7 +179,7 @@ Item {
 
     Label {
         id: tutorialLabel
-        anchors { left: parent.left; top: parent.top; right: parent.right; margins: units.gu(4); topMargin: units.gu(10) }
+        anchors { left: parent.left; top: parent.top; right: parent.right; margins: internalGu * 4; topMargin: internalGu * 10 }
         opacity: 0
         fontSize: "large"
         color: "white"
@@ -188,7 +188,7 @@ Item {
 
     Item {
         id: tutorialFinger1
-        width: units.gu(5)
+        width: internalGu * 5
         height: width
         property real scale: 1
         opacity: 0
@@ -203,7 +203,7 @@ Item {
 
     Item {
         id: tutorialFinger2
-        width: units.gu(5)
+        width: internalGu * 5
         height: width
         property real scale: 1
         opacity: 0
@@ -245,10 +245,10 @@ Item {
         PauseAnimation { duration: UbuntuAnimation.SleepyDuration }
         PropertyAction { target: tutorialLabel; property: "text"; value: i18n.tr("Swipe with two fingers to scroll.") }
         UbuntuNumberAnimation { target: tutorialLabel; property: "opacity"; to: 1; duration: UbuntuAnimation.FastDuration }
-        PropertyAction { target: tutorialFinger1; property: "x"; value: root.width / 2 - tutorialFinger1.width - units.gu(1) }
-        PropertyAction { target: tutorialFinger2; property: "x"; value: root.width / 2 + tutorialFinger1.width + units.gu(1) - tutorialFinger2.width }
-        PropertyAction { target: tutorialFinger1; property: "y"; value: root.height / 2 - units.gu(10) }
-        PropertyAction { target: tutorialFinger2; property: "y"; value: root.height / 2 - units.gu(10) }
+        PropertyAction { target: tutorialFinger1; property: "x"; value: root.width / 2 - tutorialFinger1.width - internalGu * 1 }
+        PropertyAction { target: tutorialFinger2; property: "x"; value: root.width / 2 + tutorialFinger1.width + internalGu * 1 - tutorialFinger2.width }
+        PropertyAction { target: tutorialFinger1; property: "y"; value: root.height / 2 - internalGu * 10 }
+        PropertyAction { target: tutorialFinger2; property: "y"; value: root.height / 2 - internalGu * 10 }
         SequentialAnimation {
             ParallelAnimation {
                 UbuntuNumberAnimation { target: tutorialFinger1; property: "opacity"; to: 1; duration: UbuntuAnimation.FastDuration }
@@ -257,8 +257,8 @@ Item {
                 UbuntuNumberAnimation { target: tutorialFinger2; property: "scale"; from: 0; to: 1; duration: UbuntuAnimation.FastDuration }
             }
             ParallelAnimation {
-                UbuntuNumberAnimation { target: tutorialFinger1; property: "y"; to: root.height / 2 + units.gu(10); duration: UbuntuAnimation.SleepyDuration }
-                UbuntuNumberAnimation { target: tutorialFinger2; property: "y"; to: root.height / 2 + units.gu(10); duration: UbuntuAnimation.SleepyDuration }
+                UbuntuNumberAnimation { target: tutorialFinger1; property: "y"; to: root.height / 2 + internalGu * 10; duration: UbuntuAnimation.SleepyDuration }
+                UbuntuNumberAnimation { target: tutorialFinger2; property: "y"; to: root.height / 2 + internalGu * 10; duration: UbuntuAnimation.SleepyDuration }
             }
             ParallelAnimation {
                 UbuntuNumberAnimation { target: tutorialFinger1; property: "opacity"; to: 0; duration: UbuntuAnimation.FastDuration }
@@ -274,8 +274,8 @@ Item {
                 UbuntuNumberAnimation { target: tutorialFinger2; property: "scale"; from: 0; to: 1; duration: UbuntuAnimation.FastDuration }
             }
             ParallelAnimation {
-                UbuntuNumberAnimation { target: tutorialFinger1; property: "y"; to: root.height / 2 - units.gu(10); duration: UbuntuAnimation.SleepyDuration }
-                UbuntuNumberAnimation { target: tutorialFinger2; property: "y"; to: root.height / 2 - units.gu(10); duration: UbuntuAnimation.SleepyDuration }
+                UbuntuNumberAnimation { target: tutorialFinger1; property: "y"; to: root.height / 2 - internalGu * 10; duration: UbuntuAnimation.SleepyDuration }
+                UbuntuNumberAnimation { target: tutorialFinger2; property: "y"; to: root.height / 2 - internalGu * 10; duration: UbuntuAnimation.SleepyDuration }
             }
             ParallelAnimation {
                 UbuntuNumberAnimation { target: tutorialFinger1; property: "opacity"; to: 0; duration: UbuntuAnimation.FastDuration }
