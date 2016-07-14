@@ -15,7 +15,6 @@
  */
 
 import QtQuick 2.4
-import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
 import Ubuntu.SystemSettings.LanguagePlugin 1.0
@@ -59,7 +58,7 @@ LocalComponents.Page {
 
     property string selectedKeymap: ""
 
-    ColumnLayout {
+    Column {
         id: column
         spacing: units.gu(2)
 
@@ -77,7 +76,7 @@ LocalComponents.Page {
             font.weight: Font.Normal
         }
 
-        ItemSelector {
+        LocalComponents.WizardItemSelector {
             id: langSelector
             objectName: "langSelector"
             anchors.left: parent.left
@@ -98,7 +97,6 @@ LocalComponents.Page {
         }
 
         ListView {
-            Layout.fillHeight: true
             id: keyboardListView
             clip: true
             anchors.left: parent.left
@@ -106,7 +104,8 @@ LocalComponents.Page {
             snapMode: ListView.SnapToItem
             model: layoutsModel
             currentIndex: -1
-            opacity: langSelector.currentlyExpanded ? 0.5 : 1
+            opacity: langSelector.expanded ? 0.5 : 1
+            height: childrenRect.height
             Behavior on opacity {
                 UbuntuNumberAnimation {}
             }
