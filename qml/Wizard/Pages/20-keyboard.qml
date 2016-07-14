@@ -23,7 +23,6 @@ import Wizard 0.1
 import AccountsService 0.1
 import Unity.InputInfo 0.1
 import Unity.Application 0.1
-import WindowManager 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -60,12 +59,6 @@ LocalComponents.Page {
 
     property string selectedKeymap: ""
 
-    TopLevelSurfaceList {
-        id: topLevelSurfaceList
-        objectName: "topLevelSurfaceList"
-        applicationsModel: ApplicationManager
-    }
-
     ColumnLayout {
         id: column
         spacing: units.gu(2)
@@ -94,7 +87,6 @@ LocalComponents.Page {
             onSelectedIndexChanged: {
                 keyboardListView.currentIndex = -1;
                 selectedKeymap = "";
-                //tester.text = "";
             }
         }
 
@@ -148,24 +140,9 @@ LocalComponents.Page {
                 onClicked: {
                     keyboardListView.currentIndex = index;
                     selectedKeymap = layoutId;
-//                    if (topLevelSurfaceList.count > 0) {
-//                        print("Setting wizard keymap to:", selectedKeymap)
-//                        var surface = topLevelSurfaceList.surfaceAt(0);
-//                        surface.keymap = selectedKeymap;
-//                    }
                 }
             }
         }
-
-//        TextField {
-//            id: tester
-//            anchors.left: parent.left
-//            anchors.leftMargin: column.anchors.leftMargin == 0 ? units.gu(2) : 0
-//            anchors.right: parent.right
-//            anchors.rightMargin: column.anchors.rightMargin == 0 ? units.gu(2) : 0
-//            placeholderText: i18n.tr("Type here to test your keyboard")
-//            enabled: keyboardListView.currentIndex != -1
-//        }
     }
 
     Component {
