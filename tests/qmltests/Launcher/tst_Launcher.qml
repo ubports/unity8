@@ -203,6 +203,21 @@ Rectangle {
                 onClicked: LauncherModel.setAlerting(LauncherModel.get(parseInt(appIdEntryAlert.displayText)).appId, false)
             }
         }
+
+        Row {
+            spacing: units.gu(1)
+            Button {
+                text: "Toggle count visible"
+                onClicked: {
+                    var item = LauncherModel.get(parseInt(appIdEntryCountVisible.displayText))
+                    LauncherModel.setCountVisible(item.appId, !item.countVisible)
+                }
+            }
+            TextField {
+                id: appIdEntryCountVisible
+                text: "0"
+            }
+        }
     }
 
     SignalSpy {

@@ -18,7 +18,7 @@ import QtQuick 2.4
 import QtTest 1.0
 import AccountsService 0.1
 import GSettings 1.0
-import IntegratedLightDM 0.1 as LightDM
+import LightDM.IntegratedLightDM 0.1 as LightDM
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.Telephony 0.1 as Telephony
@@ -456,7 +456,7 @@ Rectangle {
         function cleanup() {
             waitForRendering(shell);
             mouseEmulation.checked = true;
-            tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
+            tryCompare(shell, "waitingOnGreeter", false); // make sure greeter didn't leave us in disabled state
             tearDown();
             WindowStateStorage.clear();
         }
@@ -466,7 +466,7 @@ Rectangle {
             shellLoader.active = true;
             tryCompare(shellLoader, "status", Loader.Ready);
             removeTimeConstraintsFromSwipeAreas(shellLoader.item);
-            tryCompare(shell, "enabled", true); // enabled by greeter when ready
+            tryCompare(shell, "waitingOnGreeter", false); // reset by greeter when ready
 
             sessionSpy.target = findChild(shell, "greeter")
             dashCommunicatorSpy.target = findInvisibleChild(shell, "dashCommunicator");
@@ -818,7 +818,7 @@ Rectangle {
                 tryCompare(userlist, "currentIndex", next)
                 tryCompare(userlist, "movingInternally", false)
             }
-            tryCompare(shell, "enabled", true); // wait for PAM to settle
+            tryCompare(shell, "waitingOnGreeter", false); // wait for PAM to settle
         }
 
         function selectUser(name) {
@@ -1161,6 +1161,17 @@ Rectangle {
             tryCompare(indicators, "fullyClosed", true);
         }
 
+        function test_greeterShownAgainHidesIndicators() {
+            // Regression test for https://launchpad.net/bugs/1595569
+
+            loadShell("phone");
+            showIndicators();
+            showGreeter();
+
+            var indicators = findChild(shell, "indicators");
+            tryCompare(indicators, "fullyClosed", true);
+        }
+
         function test_showAndHideGreeterDBusCalls() {
             loadShell("phone");
             swipeAwayGreeter();
@@ -1176,16 +1187,13 @@ Rectangle {
 
         function test_greeterLoginsAutomaticallyWhenNoPasswordSet() {
             loadShell("phone");
-            swipeAwayGreeter();
-
-            sessionSpy.clear();
-            verify(sessionSpy.valid);
-
-            showGreeter();
 
             var greeter = findChild(shell, "greeter");
             verify(!greeter.locked);
-            verify(sessionSpy.count > 0);
+            compare(sessionSpy.count, 0);
+
+            swipeAwayGreeter();
+            compare(sessionSpy.count, 1);
         }
 
         function test_fullscreen() {
@@ -2213,11 +2221,6 @@ Rectangle {
             shell.usageScenario = "desktop";
             GSettingsController.setAutohideLauncher(!data.launcherLocked);
             waitForRendering(shell);
-            // Not sure why 2 but it's the number of times
-            // it triggers at this time and we need to wait
-            // for them otherwise a sessionStarted signal will
-            // hide the launcher and make the test fail
-            tryCompare(sessionSpy, "count", 2);
 
             var launcher = findChild(shell, "launcher");
             var launcherPanel = findChild(launcher, "launcherPanel");
