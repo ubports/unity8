@@ -19,7 +19,6 @@
 #include "ApplicationManager.h"
 #include "MirSurfaceItem.h"
 #include "SurfaceManager.h"
-#include "UbuntuKeyboardInfo.h"
 
 // unity-api
 #include <unity/shell/application/Mir.h>
@@ -53,12 +52,6 @@ QObject* surfaceManagerSingleton(QQmlEngine*, QJSEngine*)
     return SurfaceManager::instance();
 }
 
-QObject* ubuntuKeyboardInfoSingleton(QQmlEngine*, QJSEngine*)
-{
-    createUnityApplicationSharedSingletons();
-    return new UbuntuKeyboardInfo;
-}
-
 QObject* mirFocusControllerSingleton(QQmlEngine*, QJSEngine*)
 {
     createUnityApplicationSharedSingletons();
@@ -86,7 +79,6 @@ void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
 
     qmlRegisterSingletonType<ApplicationManager>(uri, 0, 1, "ApplicationManager", applicationManagerSingleton);
     qmlRegisterSingletonType<SurfaceManager>(uri, 0, 1, "SurfaceManager", surfaceManagerSingleton);
-    qmlRegisterSingletonType<UbuntuKeyboardInfo>(uri, 0, 1, "UbuntuKeyboardInfo", ubuntuKeyboardInfoSingleton);
 
     qmlRegisterUncreatableType<Mir>(uri, 0, 1, "Mir", "Mir provides enum values, it can't be instantiated");
 }
