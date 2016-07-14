@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Canonical Ltd.
+ * Copyright 2015-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ import Ubuntu.Components 1.3
 import AccountsService 0.1
 import Biometryd 0.0
 import GSettings 1.0
-import IntegratedLightDM 0.1 as LightDM
+import LightDM.IntegratedLightDM 0.1  as LightDM // This is the mock
 import Unity.Test 0.1 as UT
 
 Item {
@@ -146,7 +146,9 @@ Item {
 
         function init() {
             greeterSettings.lockedOutTime = 0;
-            resetLoader();
+            LightDM.Greeter.selectUser = "";
+            greeter.failedLoginsDelayAttempts = 7;
+            greeter.failedLoginsDelayMinutes = 5;
             teaseSpy.clear();
             sessionStartedSpy.clear();
             activeChangedSpy.clear();
@@ -162,11 +164,7 @@ Item {
             viewShowErrorMessageSpy.clear();
             viewResetSpy.clear();
             viewTryToUnlockSpy.clear();
-            tryCompare(greeter, "waiting", false);
-            view = findChild(greeter, "testView");
-            verifySelected(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
-            greeter.failedLoginsDelayAttempts = 7;
-            greeter.failedLoginsDelayMinutes = 5;
+            resetLoader();
         }
 
         function resetLoader() {
@@ -178,6 +176,8 @@ Item {
             loader.active = true;
             tryCompare(loader, "status", Loader.Ready);
             removeTimeConstraintsFromSwipeAreas(loader.item);
+            tryCompare(greeter, "waiting", false);
+            view = findChild(greeter, "testView");
         }
 
         function getIndexOf(name) {
@@ -194,6 +194,8 @@ Item {
             var i = getIndexOf(name);
             view.selected(i);
             verifySelected(name);
+            compare(greeter.waiting, true);
+            tryCompare(greeter, "waiting", false);
             return i;
         }
 
@@ -202,6 +204,7 @@ Item {
             compare(view.currentIndex, i);
             compare(AccountsService.user, name);
             compare(LightDM.Greeter.authenticationUser, name);
+            return i;
         }
 
         function verifyLoggedIn() {
@@ -248,11 +251,9 @@ Item {
 
         function test_promptless() {
             selectUser("no-password");
-            tryCompare(viewAuthenticationSucceededSpy, "count", 1);
-            compare(sessionStartedSpy.count, 1);
+            tryCompare(view, "locked", false);
             compare(viewShowPromptSpy.count, 0);
             compare(viewHideSpy.count, 0);
-            compare(view.locked, false);
         }
 
         function test_twoFactorPass() {
@@ -324,18 +325,6 @@ Item {
             compare(viewShowMessageSpy.signalArguments[0][0], "Welcome to Unity Greeter");
             compare(viewShowMessageSpy.signalArguments[1][0], "<font color=\"#df382c\">This is an error</font>");
             compare(viewShowMessageSpy.signalArguments[2][0], "You should have seen three messages");
-        }
-
-        function test_waiting() {
-            // Make sure we unset 'waiting' on prompt
-            selectUser("has-password");
-            compare(greeter.waiting, true);
-            tryCompare(greeter, "waiting", false);
-
-            // Make sure we unset 'waiting' on authentication
-            selectUser("no-password");
-            compare(greeter.waiting, true);
-            tryCompare(greeter, "waiting", false);
         }
 
         function test_locked() {
@@ -571,6 +560,25 @@ Item {
             LightDM.Greeter.showGreeter();
             compare(viewResetSpy.count, 1);
             tryCompare(viewShowPromptSpy, "count", 1);
+        }
+
+        function test_selectUserHint() {
+            LightDM.Greeter.selectUser = "info-prompt";
+            resetLoader();
+            var i = verifySelected("info-prompt");
+            verify(i != 0); // sanity-check that info-prompt isn't default 0 answer
+        }
+
+        function test_selectUserHintUnset() {
+            LightDM.Greeter.selectUser = "";
+            resetLoader();
+            verifySelected(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+        }
+
+        function test_selectUserHintInvalid() {
+            LightDM.Greeter.selectUser = "not-a-real-user";
+            resetLoader();
+            verifySelected(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
         }
 
         function test_fingerprintSuccess() {

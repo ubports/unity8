@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Unity 8 Greeter
+Comment=The converged Unity shell's Greeter
+Exec=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/unity8-greeter-wrapper @CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/unity8 --mode=greeter
+X-LightDM-Session-Type=mir
+X-Ubuntu-Touch=true
