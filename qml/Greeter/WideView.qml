@@ -153,14 +153,12 @@ FocusScope {
             height: inputMethod && inputMethod.visible ?
                 parent.height - inputMethod.keyboardRectangle.height : parent.height
 
-            Behavior on height { UbuntuNumberAnimation {} }
-
             UbuntuNumberAnimation {
                 id: loadingAnimation
                 target: loginAreaLoader.item
-                property: "x"
-                from: loader.item ? loader.item.width : 0
-                to: 0
+                property: "opacity"
+                from: 0
+                to: 1
                 running: false
             }
 
