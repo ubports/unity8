@@ -129,7 +129,7 @@ AbstractStage {
         property var foregroundMaximizedAppDelegate: null // for stuff like drop shadow and focusing maximized app by clicking panel
 
         property bool goneToSpread: false
-        property int animationDuration: /*UbuntuAnimation.FastDuration//*/ 4000//UbuntuAnimation.SleepyDuration
+        property int animationDuration: UbuntuAnimation.FastDuration //4000//UbuntuAnimation.SleepyDuration
 
         function updateForegroundMaximizedApp() {
             var found = false;
@@ -314,12 +314,6 @@ AbstractStage {
     ]
     onStateChanged: print("spread going to state:", state)
 
-    Spread {
-        id: spreadItem
-        anchors.fill: appContainer
-        totalItemCount: appRepeater.count
-        z: 10
-    }
 
     FocusScope {
         id: appContainer
@@ -333,6 +327,13 @@ AbstractStage {
             source: root.background
             sourceSize { height: root.height; width: root.width }
             fillMode: Image.PreserveAspectCrop
+        }
+
+        Spread {
+            id: spreadItem
+            anchors.fill: appContainer
+            totalItemCount: appRepeater.count
+            z: 10
         }
 
         Connections {
@@ -734,6 +735,7 @@ AbstractStage {
                             itemScale: spreadMaths.scale
                             scaleToPreviewSize: spreadItem.stackHeight
                             scaleToPreview: true
+                            hasDecoration: root.mode === "windowed"
                         }
                         PropertyChanges {
                             target: appDelegate
@@ -908,6 +910,12 @@ AbstractStage {
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: priv.animationDuration }
                     },
                     Transition {
+                        from: "spread"; to: "staged,normal"
+//                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
+//                        UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle"; duration: priv.animationDuration }
+                        ScriptAction { script: if (appDelegate.focus) appDelegate.playFocusAnimation() }
+                    },
+                    Transition {
                         to: "minimized"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMaximized" }
@@ -943,11 +951,6 @@ AbstractStage {
                         // DecoratedWindow wants the sceleToPreviewSize set before enabling scaleToPreview
                         PropertyAction { target: decoratedWindow; property: "scaleToPreviewSize" }
                         PropertyAction { target: decoratedWindow; property: "scaleToPreview" }
-                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
-                        UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle"; duration: priv.animationDuration }
-                    },
-                    Transition {
-                        from: "spread"; to: "staged,normal"
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
                         UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle"; duration: priv.animationDuration }
                     },
@@ -1302,14 +1305,5 @@ AbstractStage {
                 }
             }
         }
-    }
-
-    Label {
-        anchors { left: parent.left; top: parent.top; margins: units.gu(4) }
-        text: "spreadWidth: " + spreadItem.spreadWidth
-              + "\n spreadItemWidth: " + spreadItem.spreadItemWidth
-              + "\n flickableContentWidth: " + floatingFlickable.contentWidth
-              + "\n visibleItemCount: " + spreadItem.visibleItemCount
-              + "\n contentTopMargin: " + spreadItem.contentTopMargin
     }
 }

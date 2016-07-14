@@ -86,10 +86,20 @@ Item {
         elide: Qt.ElideMiddle
         anchors.horizontalCenter: parent.horizontalCenter
         y: windowTitleTopMargin
-        //y: priv.spreadTopMargin + priv.contentTopMargin + settings.spreadOffset + settings.titleOffset - height -  (priv.contentTopMargin - height) / 4
-        visible: height < priv.contentTopMargin
-        text: 'focused window title'
+//        //y: priv.spreadTopMargin + priv.contentTopMargin + settings.spreadOffset + settings.titleOffset - height -  (priv.contentTopMargin - height) / 4
+//        visible: height < priv.contentTopMargin
+        text: "focused window title"
         fontSize: root.height < units.gu(85) ? 'medium' : 'large'
-        color: 'white'
+        color: "white"
     }
+
+//    Label {
+//        anchors { left: parent.left; top: parent.top; margins: units.gu(4) }
+//        text: "spreadWidth: " + spreadWidth
+//              + "\n spreadItemWidth: " + spreadItemWidth
+//              + "\n flickableContentWidth: " + spreadTotalWidth
+//              + "\n visibleItemCount: " + visibleItemCount
+//              + "\n contentTopMargin: " + contentTopMargin
+//    }
+
 }
