@@ -34,6 +34,8 @@ Item {
     property alias contentX: flickable.contentX
     property alias contentY: flickable.contentY
     property alias direction: swipeArea.direction
+    property alias leftMargin: flickable.leftMargin
+    property alias rightMargin: flickable.rightMargin
 
     MouseEventGenerator {
         id: mouseEventGenerator

@@ -22,6 +22,7 @@ import "../Components"
 import Utils 0.1
 import Ubuntu.Gestures 0.1
 import GlobalShortcut 1.0
+import "Spread"
 
 AbstractStage {
     id: root
@@ -313,6 +314,12 @@ AbstractStage {
     ]
     onStateChanged: print("spread going to state:", state)
 
+    Spread {
+        id: spreadItem
+        anchors.fill: appContainer
+        totalItemCount: appRepeater.count
+        z: 10
+    }
 
     FocusScope {
         id: appContainer
@@ -689,8 +696,8 @@ AbstractStage {
 
                 SpreadMaths {
                     id: spreadMaths
+                    spread: spreadItem
                     itemIndex: index
-                    totalItems: appRepeater.count
                     flickable: floatingFlickable
                 }
                 StageMaths {
@@ -710,8 +717,8 @@ AbstractStage {
                     sceneWidth: appContainer.width - root.leftMargin
                     sceneHeight: appContainer.height
                     progress: 0
-                    targetX: spreadMaths.animatedX
-                    targetAngle: spreadMaths.animatedAngle
+                    targetX: spreadMaths.targetX
+                    targetAngle: spreadMaths.targetAngle
                 }
 
 //                onXChanged: if (model.application.appId == "unity8-dash") print("dash moved to", x)
@@ -721,19 +728,21 @@ AbstractStage {
                     State {
                         name: "spread"; when: root.state == "spread"
                         PropertyChanges {
-                            target: appDelegate;
-                            x: spreadMaths.animatedX
-                            y: spreadMaths.animatedY
-                            z: index
-                            height: spreadMaths.tileSize + windowInfoItem.height + units.gu(2)
-                            requestedWidth: decoratedWindow.oldRequestedWidth
-                            requestedHeight: decoratedWindow.oldRequestedHeight
-                        }
-                        PropertyChanges {
                             target: decoratedWindow;
                             showDecoration: false;
-                            angle: spreadMaths.animatedAngle
+                            angle: spreadMaths.targetAngle
+                            itemScale: spreadMaths.scale
+                            scaleToPreviewSize: spreadItem.stackHeight
                             scaleToPreview: true
+                        }
+                        PropertyChanges {
+                            target: appDelegate
+                            x: spreadMaths.targetX
+                            y: spreadMaths.targetY
+                            z: index
+                            height: spreadItem.spreadItemHeight
+                            requestedWidth: decoratedWindow.oldRequestedWidth
+                            requestedHeight: decoratedWindow.oldRequestedHeight
                         }
                         PropertyChanges { target: inputBlocker; enabled: true }
                         PropertyChanges { target: windowInfoItem; opacity: 1 }
@@ -840,6 +849,7 @@ AbstractStage {
                             requestedHeight: appDelegate.windowedHeight
                         }
                         PropertyChanges { target: touchControls; enabled: true }
+                        PropertyChanges { target: resizeArea; enabled: true }
                     },
                     State {
                         name: "maximizedLeft"; when: appDelegate.maximizedLeft && !appDelegate.minimized
@@ -930,25 +940,19 @@ AbstractStage {
                     },
                     Transition {
                         to: "spread"
+                        // DecoratedWindow wants the sceleToPreviewSize set before enabling scaleToPreview
+                        PropertyAction { target: decoratedWindow; property: "scaleToPreviewSize" }
+                        PropertyAction { target: decoratedWindow; property: "scaleToPreview" }
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
-                        UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,angle,baseScale"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle"; duration: priv.animationDuration }
                     },
                     Transition {
                         from: "spread"; to: "staged,normal"
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
-                        UbuntuNumberAnimation { target: decoratedWindow; properties: "angle,width,height,baseScale"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle"; duration: priv.animationDuration }
                     },
                     Transition {
-                        from: "normal"; to: "staged";
-                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedWidth,requestedHeight"; duration: priv.animationDuration }
-                    },
-                    Transition {
-                        from: "normal,spread"; to: "staged"
-                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y"; duration: priv.animationDuration }
-                        UbuntuNumberAnimation { target: appDelegate; properties: "requestedWidth,requestedHeight"; duration: priv.animationDuration }
-                    },
-                    Transition {
-                        from: "nromal,staged"; to: "stagedWithSideStage"
+                        from: "normal,staged"; to: "stagedWithSideStage"
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y"; duration: priv.animationDuration }
                         UbuntuNumberAnimation { target: appDelegate; properties: "requestedWidth,requestedHeight"; duration: priv.animationDuration }
                     }
@@ -983,6 +987,7 @@ AbstractStage {
                     screenWidth: appContainer.width
                     screenHeight: appContainer.height
                     leftMargin: root.leftMargin
+                    enabled: false
 
                     onPressed: {
                         print("***** focusing because of resize area press", model.application.appId)
@@ -1047,8 +1052,8 @@ AbstractStage {
                     property real itemScale: 1
                     transform: [
                         Scale {
-                            origin.x: itemScaleOriginX
-                            origin.y: itemScaleOriginY
+                            origin.x: 0
+                            origin.y: decoratedWindow.implicitHeight / 2
                             xScale: decoratedWindow.itemScale
                             yScale: decoratedWindow.itemScale
                         },
@@ -1094,11 +1099,7 @@ AbstractStage {
                         priv.goneToSpread = false;
                     }
                 }
-//                Rectangle {
-//                    anchors.fill: parent
-//                    color: "blue"
-//                    opacity: .4
-//                }
+//                Rectangle { anchors.fill: parent; color: "blue"; opacity: .4 }
 
                 WindowInfoItem {
                     id: windowInfoItem
@@ -1138,11 +1139,17 @@ AbstractStage {
 
     FloatingFlickable {
         id: floatingFlickable
-        anchors.fill: parent
+        anchors.fill: appContainer
         enabled: false
+        contentWidth: spreadItem.spreadTotalWidth
+        rightMargin: leftMargin
+        leftMargin: {
+            var stepOnXAxis = 1 / spreadItem.visibleItemCount
+            var distanceToIndex1 = spreadItem.curve.getYFromX(stepOnXAxis)
+            var middlePartDistance = spreadItem.curve.getYFromX(0.5 + stepOnXAxis/2) - spreadItem.curve.getYFromX(0.5 - stepOnXAxis/2)
+            return 1.2 * (middlePartDistance - distanceToIndex1) * spreadItem.spreadWidth
+        }
 
-        property int minContentWidth: 6 * Math.min(height / 4, width / 5)
-        contentWidth: Math.max(6, appRepeater.count) * Math.min(height / 4, width / 5)
     }
 
     PropertyAnimation {
@@ -1191,8 +1198,12 @@ AbstractStage {
                 if (gesturePoints[gesturePoints.length - 1] < -root.width / 2) {
                     priv.goneToSpread = true;
                 } else {
-                    appRepeater.itemAt(0).playHidingAnimation()
-                    appRepeater.itemAt(1).playFocusAnimation()
+                    if (appRepeater.count > 1) {
+                        appRepeater.itemAt(0).playHidingAnimation()
+                        appRepeater.itemAt(1).playFocusAnimation()
+                    } else {
+                        appRepeater.itemAt(0).playFocusAnimation();
+                    }
                 }
 
 //                // Ok. The user released. Find out if it was a one-way movement.
@@ -1295,6 +1306,10 @@ AbstractStage {
 
     Label {
         anchors { left: parent.left; top: parent.top; margins: units.gu(4) }
-        text: "sidestage z: " + sideStage.z
+        text: "spreadWidth: " + spreadItem.spreadWidth
+              + "\n spreadItemWidth: " + spreadItem.spreadItemWidth
+              + "\n flickableContentWidth: " + floatingFlickable.contentWidth
+              + "\n visibleItemCount: " + spreadItem.visibleItemCount
+              + "\n contentTopMargin: " + spreadItem.contentTopMargin
     }
 }

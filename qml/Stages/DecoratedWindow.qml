@@ -175,5 +175,5 @@ FocusScope {
         ]
     }
 
-    Rectangle { anchors.fill: parent; color: "blue"; opacity: .3 }
+//    Rectangle { anchors.fill: parent; color: "blue"; opacity: .3 }
 }
