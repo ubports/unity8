@@ -1,8 +1,9 @@
-unity8 (8.13) UNRELEASED; urgency=medium
+unity8 (8.13+16.10.20160714-0ubuntu1) yakkety; urgency=medium
 
+  [ Daniel d'Andrada ]
   * Make use of MirSurface::inputBounds and drop UbuntuKeyboardInfo hack
 
- -- Daniel d'Andrada <daniel.dandrada@canonical.com>  Tue, 12 Jul 2016 08:49:26 -0300
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 14 Jul 2016 07:09:29 +0000
 
 unity8 (8.12+16.10.20160711-0ubuntu1) yakkety; urgency=medium
 
