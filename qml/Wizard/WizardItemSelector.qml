@@ -27,7 +27,7 @@ Rectangle {
     readonly property double itemHeight: units.gu(4)
     property int maxVisibleItems: 6
 
-    color: theme.palette.normal.background
+    color: theme.palette.normal.foreground
     height: expanded ? maxVisibleItems * itemHeight : itemHeight
     Behavior on height {
         UbuntuNumberAnimation { id: heightAnimation }
@@ -73,7 +73,7 @@ Rectangle {
                             }
 
                             ListItem.ThinDivider {
-                                visible: expanded
+                                visible: expanded && index != 0
                             }
 
                             Label {
