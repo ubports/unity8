@@ -70,6 +70,7 @@ LocalComponents.Page {
         }
 
         Label {
+            id: label1
             anchors.left: parent.left
             anchors.right: parent.right
             text: i18n.tr("Keyboard language")
@@ -90,6 +91,7 @@ LocalComponents.Page {
         }
 
         Label {
+            id: label2
             anchors.left: parent.left
             anchors.right: parent.right
             text: i18n.tr("Keyboard layout")
@@ -105,7 +107,8 @@ LocalComponents.Page {
             model: layoutsModel
             currentIndex: -1
             opacity: langSelector.expanded ? 0.5 : 1
-            height: childrenRect.height
+            height: column.height - label1.height - langSelector.height - label2.height - column.spacing * 3
+            enabled: !langSelector.expanded
             Behavior on opacity {
                 UbuntuNumberAnimation {}
             }

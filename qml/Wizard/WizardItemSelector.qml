@@ -25,11 +25,12 @@ Rectangle {
     property var model
     property int selectedIndex: -1
     readonly property double itemHeight: units.gu(4)
+    property int maxVisibleItems: 6
 
     color: theme.palette.normal.background
-    height: expanded ? optionToggleRepeater.count * itemHeight : itemHeight
+    height: expanded ? maxVisibleItems * itemHeight : itemHeight
     Behavior on height {
-        UbuntuNumberAnimation {}
+        UbuntuNumberAnimation { id: heightAnimation }
     }
 
     width: parent.width
@@ -38,81 +39,89 @@ Rectangle {
     border.width: units.dp(1)
     border.color: theme.palette.normal.base
 
-    Column {
-        id: optionToggleContent
+    Flickable {
+        id: flickable
+        interactive: expanded
+        flickableDirection: Flickable.VerticalFlick
         width: parent.width
+        height: parent.height
+        contentHeight: optionToggleRepeater.count * itemHeight
 
-        Repeater {
-            id: optionToggleRepeater
-            model: optionToggle.model
+        Column {
+            id: optionToggleContent
+            width: parent.width
 
-            delegate: Loader {
-                asynchronous: true
-                visible: status === Loader.Ready
+            Repeater {
+                id: optionToggleRepeater
+                model: optionToggle.model
 
-                Component {
-                    id: optionToggleEntry
+                delegate: Loader {
+                    asynchronous: true
+                    visible: status === Loader.Ready
 
-                    AbstractButton {
-                        width: optionToggleContent.width
-                        height: optionToggle.itemHeight
-                        onClicked: {
-                            if (expanded) {
-                                selectedIndex = index;
-                            }
-                            expanded = !expanded
-                        }
+                    Component {
+                        id: optionToggleEntry
 
-                        ListItem.ThinDivider {
-                            visible: expanded
-                        }
-
-                        Label {
-                            id: delegateLabel
-                            anchors {
-                                left: parent.left
-                                leftMargin: units.gu(1)
-                                right: parent.right
-                                rightMargin: units.gu(1)
-                                verticalCenter: parent.verticalCenter
+                        AbstractButton {
+                            width: optionToggleContent.width
+                            height: optionToggle.itemHeight
+                            onClicked: {
+                                if (expanded) {
+                                    selectedIndex = index;
+                                }
+                                expanded = !expanded
                             }
 
-                            width: parent.width
-                            text: expanded ? modelData : optionToggle.model[selectedIndex]
-                            color: theme.palette.normal.backgroundSecondaryText
-                            font.weight: Font.Light
-                            maximumLineCount: 1
-                            elide: Text.ElideRight
-                        }
-
-                        Icon {
-                            anchors {
-                                right: parent.right
-                                rightMargin: units.gu(1)
-                                verticalCenter: parent.verticalCenter
+                            ListItem.ThinDivider {
+                                visible: expanded
                             }
 
-                            visible: index == 0
-                            name: optionToggle.height === optionToggle.itemHeight ? "down" : "up"
-                            width: units.gu(2)
-                            height: width
-                        }
+                            Label {
+                                id: delegateLabel
+                                anchors {
+                                    left: parent.left
+                                    leftMargin: units.gu(1)
+                                    right: parent.right
+                                    rightMargin: units.gu(3)
+                                    verticalCenter: parent.verticalCenter
+                                }
 
-                        Image {
-                            id: checkIcon
-                            anchors {
-                                right: parent.right
-                                rightMargin: units.gu(1)
-                                verticalCenter: parent.verticalCenter
+                                width: parent.width
+                                text: expanded ? modelData : optionToggle.model[selectedIndex]
+                                color: theme.palette.normal.backgroundSecondaryText
+                                font.weight: Font.Light
+                                maximumLineCount: 1
+                                elide: Text.ElideRight
                             }
-                            visible: expanded && index == optionToggle.selectedIndex && index != 0
-                            height: units.gu(1.5)
-                            fillMode: Image.PreserveAspectFit
-                            source: Qt.resolvedUrl("Pages/data/Tick@30.png")
+
+                            Icon {
+                                anchors {
+                                    right: parent.right
+                                    rightMargin: units.gu(1)
+                                    verticalCenter: parent.verticalCenter
+                                }
+
+                                visible: (index == 0 || !expanded) && !heightAnimation.running
+                                name: expanded ? "up" : "down"
+                                width: units.gu(1.5)
+                                height: width
+                            }
+
+                            Image {
+                                anchors {
+                                    right: parent.right
+                                    rightMargin: units.gu(1)
+                                    verticalCenter: parent.verticalCenter
+                                }
+                                visible: expanded && index == optionToggle.selectedIndex && index != 0
+                                height: units.gu(1.5)
+                                fillMode: Image.PreserveAspectFit
+                                source: Qt.resolvedUrl("Pages/data/Tick@30.png")
+                            }
                         }
                     }
+                    sourceComponent: optionToggleEntry
                 }
-                sourceComponent: optionToggleEntry
             }
         }
     }
