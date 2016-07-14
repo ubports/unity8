@@ -181,7 +181,7 @@ Item {
         id: tutorialLabel
         anchors { left: parent.left; top: parent.top; right: parent.right; margins: internalGu * 4; topMargin: internalGu * 10 }
         opacity: 0
-        fontSize: "large"
+        font.pixelSize: 2.5 * internalGu
         color: "white"
         wrapMode: Text.WordWrap
     }
