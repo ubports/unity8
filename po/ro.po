@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-06-27 18:49+0000\n"
+"POT-Creation-Date: 2016-07-11 17:24+0000\n"
 "PO-Revision-Date: 2015-07-06 17:47+0000\n"
 "Last-Translator: Meriuță Cornel <meriutacornel@neacornel.eu>\n"
 "Language-Team: Romanian <ro@li.org>\n"
@@ -16,10 +16,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1 ? 0: (((n % 100 > 19) || ((n % 100 "
 "== 0) && (n != 0))) ? 2: 1));\n"
-"X-Launchpad-Export-Date: 2016-06-30 05:52+0000\n"
+"X-Launchpad-Export-Date: 2016-07-14 06:01+0000\n"
 "X-Generator: Launchpad (build 18115)\n"
 
-#: plugins/IntegratedLightDM/Greeter.cpp:112
+#: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
 msgstr "Parolă: "
 
@@ -59,54 +59,54 @@ msgstr[0] "Așteptați %1 minut și apoi încercați din nou..."
 msgstr[1] "Așteptați %1 minute și apoi încercați din nou..."
 msgstr[2] "Așteptați %1 de minute și apoi încercați din nou..."
 
-#: qml/Components/Dialogs.qml:146
+#: qml/Components/Dialogs.qml:144
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Închide sesiunea"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:145
 msgid "Are you sure you want to log out?"
 msgstr "Sunteți sigur că doriți să închideți sesiunea?"
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:147
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Blocare"
 
-#: qml/Components/Dialogs.qml:156
+#: qml/Components/Dialogs.qml:154
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Ieșire din cont"
 
-#: qml/Components/Dialogs.qml:163 qml/Components/Dialogs.qml:219
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
 #: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Anulează"
 
-#: qml/Components/Dialogs.qml:175
+#: qml/Components/Dialogs.qml:173
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Repornire"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:174
 msgid "Are you sure you want to reboot?"
 msgstr "Sunteți sigur că doriți să reporniți?"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:176
 msgid "No"
 msgstr "Nu"
 
-#: qml/Components/Dialogs.qml:184
+#: qml/Components/Dialogs.qml:182
 msgid "Yes"
 msgstr "Da"
 
-#: qml/Components/Dialogs.qml:199
+#: qml/Components/Dialogs.qml:197
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Alimentare"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:198
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -114,12 +114,12 @@ msgstr ""
 "Sunteți sigur că doriți să\n"
 "opriți alimentarea?"
 
-#: qml/Components/Dialogs.qml:202
+#: qml/Components/Dialogs.qml:200
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Oprire"
 
-#: qml/Components/Dialogs.qml:211
+#: qml/Components/Dialogs.qml:209
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Repornire"
@@ -443,31 +443,39 @@ msgstr ""
 msgid "Unlock"
 msgstr "Deblocare"
 
-#: qml/Greeter/Greeter.qml:539
+#: qml/Greeter/Greeter.qml:555
 msgid "Try again"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:259
+#: qml/Greeter/LoginList.qml:63
+msgid "Passphrase"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:64
+msgid "Passcode"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:87
 msgid "Retry"
 msgstr "Reîncercați"
 
-#: qml/Greeter/LoginList.qml:260
+#: qml/Greeter/LoginList.qml:88
 msgid "Log In"
 msgstr ""
 
-#: qml/Greeter/NarrowView.qml:54
+#: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passphrase."
 msgstr "Frază parolă greșită"
 
-#: qml/Greeter/NarrowView.qml:55
+#: qml/Greeter/NarrowView.qml:56
 msgid "Sorry, incorrect passcode."
 msgstr "Parolă greșită"
 
-#: qml/Greeter/NarrowView.qml:56
+#: qml/Greeter/NarrowView.qml:57
 msgid "This will be your last attempt."
 msgstr "Aceasta va fi ultima încercare"
 
-#: qml/Greeter/NarrowView.qml:58
+#: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -476,7 +484,7 @@ msgstr ""
 "configurările inițiale, ale fabricantului, iar toate datele personale vor fi "
 "șterse."
 
-#: qml/Greeter/NarrowView.qml:59
+#: qml/Greeter/NarrowView.qml:60
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."

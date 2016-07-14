@@ -8,7 +8,10 @@ endforeach()
 
 include_directories(
     . #QLightDM
-    )
+    ${QMLPLUGIN_INCLUDES}
+    ${libunity8-private_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 foreach(source_file ${QMLPLUGIN_SRC})
     list(APPEND RELATIVE_QMLPLUGIN_SRC ../${source_file})

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-06-27 18:49+0000\n"
+"POT-Creation-Date: 2016-07-11 17:24+0000\n"
 "PO-Revision-Date: 2015-05-12 11:32+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Norwegian Nynorsk <nn@li.org>\n"
@@ -15,10 +15,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-06-30 05:52+0000\n"
+"X-Launchpad-Export-Date: 2016-07-14 06:01+0000\n"
 "X-Generator: Launchpad (build 18115)\n"
 
-#: plugins/IntegratedLightDM/Greeter.cpp:112
+#: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
 msgstr ""
 
@@ -54,65 +54,65 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qml/Components/Dialogs.qml:146
+#: qml/Components/Dialogs.qml:144
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:145
 msgid "Are you sure you want to log out?"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:147
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:156
+#: qml/Components/Dialogs.qml:154
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:163 qml/Components/Dialogs.qml:219
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
 #: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:175
+#: qml/Components/Dialogs.qml:173
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:174
 msgid "Are you sure you want to reboot?"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:176
 msgid "No"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:184
+#: qml/Components/Dialogs.qml:182
 msgid "Yes"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:199
+#: qml/Components/Dialogs.qml:197
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:198
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:202
+#: qml/Components/Dialogs.qml:200
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:211
+#: qml/Components/Dialogs.qml:209
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr ""
@@ -436,37 +436,45 @@ msgstr ""
 msgid "Unlock"
 msgstr ""
 
-#: qml/Greeter/Greeter.qml:539
+#: qml/Greeter/Greeter.qml:555
 msgid "Try again"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:259
+#: qml/Greeter/LoginList.qml:63
+msgid "Passphrase"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:64
+msgid "Passcode"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:87
 msgid "Retry"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:260
+#: qml/Greeter/LoginList.qml:88
 msgid "Log In"
 msgstr ""
 
-#: qml/Greeter/NarrowView.qml:54
+#: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passphrase."
 msgstr ""
 
-#: qml/Greeter/NarrowView.qml:55
+#: qml/Greeter/NarrowView.qml:56
 msgid "Sorry, incorrect passcode."
 msgstr ""
 
-#: qml/Greeter/NarrowView.qml:56
+#: qml/Greeter/NarrowView.qml:57
 msgid "This will be your last attempt."
 msgstr ""
 
-#: qml/Greeter/NarrowView.qml:58
+#: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
 
-#: qml/Greeter/NarrowView.qml:59
+#: qml/Greeter/NarrowView.qml:60
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."

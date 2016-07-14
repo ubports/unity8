@@ -365,7 +365,7 @@ void LauncherModel::countVisibleChanged(const QString &appId, bool countVisible)
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
         item->setCountVisible(countVisible);
-        QVector<int> changedRoles = {RoleCount};
+        QVector<int> changedRoles = {RoleCountVisible};
         if (countVisible && !item->alerting() && !item->focused()) {
             changedRoles << RoleAlerting;
             item->setAlerting(true);

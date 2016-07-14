@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-06-27 18:49+0000\n"
+"POT-Creation-Date: 2016-07-11 17:24+0000\n"
 "PO-Revision-Date: 2015-10-29 11:16+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Wolof <wo@li.org>\n"
@@ -15,10 +15,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-06-30 05:52+0000\n"
+"X-Launchpad-Export-Date: 2016-07-14 06:02+0000\n"
 "X-Generator: Launchpad (build 18115)\n"
 
-#: plugins/IntegratedLightDM/Greeter.cpp:112
+#: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
 msgstr "Baatu-jàll "
 
@@ -54,65 +54,65 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Dila ñaan nga xaar %1 simili te jéemaat..."
 msgstr[1] "Dila ñaan nga xaar %1 simili te jéemaat..."
 
-#: qml/Components/Dialogs.qml:146
+#: qml/Components/Dialogs.qml:144
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Génn"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:145
 msgid "Are you sure you want to log out?"
 msgstr "Wóor na ne danga bëgg a génn?"
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:147
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Tëj"
 
-#: qml/Components/Dialogs.qml:156
+#: qml/Components/Dialogs.qml:154
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Génn"
 
-#: qml/Components/Dialogs.qml:163 qml/Components/Dialogs.qml:219
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
 #: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Neenal"
 
-#: qml/Components/Dialogs.qml:175
+#: qml/Components/Dialogs.qml:173
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Fay-taalaat"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:174
 msgid "Are you sure you want to reboot?"
 msgstr "Wóor na ne danga bëgg a fay-taalaat?"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:176
 msgid "No"
 msgstr "Déet"
 
-#: qml/Components/Dialogs.qml:184
+#: qml/Components/Dialogs.qml:182
 msgid "Yes"
 msgstr "Waaw"
 
-#: qml/Components/Dialogs.qml:199
+#: qml/Components/Dialogs.qml:197
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Fay"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:198
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr "Wóor na ne danga bëgg a fay?"
 
-#: qml/Components/Dialogs.qml:202
+#: qml/Components/Dialogs.qml:200
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Fay"
 
-#: qml/Components/Dialogs.qml:211
+#: qml/Components/Dialogs.qml:209
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Fay-taalaat"
@@ -436,31 +436,39 @@ msgstr ""
 msgid "Unlock"
 msgstr "Ubbi"
 
-#: qml/Greeter/Greeter.qml:539
+#: qml/Greeter/Greeter.qml:555
 msgid "Try again"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:259
+#: qml/Greeter/LoginList.qml:63
+msgid "Passphrase"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:64
+msgid "Passcode"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:87
 msgid "Retry"
 msgstr "Jéemaat"
 
-#: qml/Greeter/LoginList.qml:260
+#: qml/Greeter/LoginList.qml:88
 msgid "Log In"
 msgstr ""
 
-#: qml/Greeter/NarrowView.qml:54
+#: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passphrase."
 msgstr "Jéggalu, kàddu-jàll gi baaxul."
 
-#: qml/Greeter/NarrowView.qml:55
+#: qml/Greeter/NarrowView.qml:56
 msgid "Sorry, incorrect passcode."
 msgstr "Jéggalu, baatu-jàll bi baaxul"
 
-#: qml/Greeter/NarrowView.qml:56
+#: qml/Greeter/NarrowView.qml:57
 msgid "This will be your last attempt."
 msgstr "Bii mooy sa jéem bu mujj."
 
-#: qml/Greeter/NarrowView.qml:58
+#: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -468,7 +476,7 @@ msgstr ""
 "Su kàddu-jàll gi dugg baaxul, sa wootekaay di nañ ko delloo nimu meloon ci "
 "defaram te sa bépp njoxe di nañ ko far."
 
-#: qml/Greeter/NarrowView.qml:59
+#: qml/Greeter/NarrowView.qml:60
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."

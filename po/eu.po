@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-06-27 18:49+0000\n"
+"POT-Creation-Date: 2016-07-11 17:24+0000\n"
 "PO-Revision-Date: 2015-07-13 23:29+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
@@ -15,10 +15,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-06-30 05:51+0000\n"
+"X-Launchpad-Export-Date: 2016-07-14 06:00+0000\n"
 "X-Generator: Launchpad (build 18115)\n"
 
-#: plugins/IntegratedLightDM/Greeter.cpp:112
+#: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
 msgstr "Pasahitza: "
 
@@ -57,65 +57,65 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Itxaron minutu %1ez eta saiatu berriro…"
 msgstr[1] "Itxaron %1 minutuz eta saiatu berriro…"
 
-#: qml/Components/Dialogs.qml:146
+#: qml/Components/Dialogs.qml:144
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Amaitu saioa"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:145
 msgid "Are you sure you want to log out?"
 msgstr "Ziur saioa amaitu nahi duzula?"
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:147
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Blokeatu"
 
-#: qml/Components/Dialogs.qml:156
+#: qml/Components/Dialogs.qml:154
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Amaitu saioa"
 
-#: qml/Components/Dialogs.qml:163 qml/Components/Dialogs.qml:219
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
 #: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Utzi"
 
-#: qml/Components/Dialogs.qml:175
+#: qml/Components/Dialogs.qml:173
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Berrabiarazi"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:174
 msgid "Are you sure you want to reboot?"
 msgstr "Ziur berrabiarazi nahi duzula?"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:176
 msgid "No"
 msgstr "Ez"
 
-#: qml/Components/Dialogs.qml:184
+#: qml/Components/Dialogs.qml:182
 msgid "Yes"
 msgstr "Bai"
 
-#: qml/Components/Dialogs.qml:199
+#: qml/Components/Dialogs.qml:197
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Itzali"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:198
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr "Ziur itzali nahi duzula?"
 
-#: qml/Components/Dialogs.qml:202
+#: qml/Components/Dialogs.qml:200
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Itzali"
 
-#: qml/Components/Dialogs.qml:211
+#: qml/Components/Dialogs.qml:209
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Berrabiarazi"
@@ -439,31 +439,39 @@ msgstr ""
 msgid "Unlock"
 msgstr "Desblokeatu"
 
-#: qml/Greeter/Greeter.qml:539
+#: qml/Greeter/Greeter.qml:555
 msgid "Try again"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:259
+#: qml/Greeter/LoginList.qml:63
+msgid "Passphrase"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:64
+msgid "Passcode"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:87
 msgid "Retry"
 msgstr "Saiatu berriz"
 
-#: qml/Greeter/LoginList.qml:260
+#: qml/Greeter/LoginList.qml:88
 msgid "Log In"
 msgstr ""
 
-#: qml/Greeter/NarrowView.qml:54
+#: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passphrase."
 msgstr "Sentitzen dugu, pasaesaldia okerra da."
 
-#: qml/Greeter/NarrowView.qml:55
+#: qml/Greeter/NarrowView.qml:56
 msgid "Sorry, incorrect passcode."
 msgstr "Sentitzen dugu, pasakodea okerra da."
 
-#: qml/Greeter/NarrowView.qml:56
+#: qml/Greeter/NarrowView.qml:57
 msgid "This will be your last attempt."
 msgstr "Hau duzu azken saiakera."
 
-#: qml/Greeter/NarrowView.qml:58
+#: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -471,7 +479,7 @@ msgstr ""
 "Okerreko pasaesaldia sartzen baduzu, telefonoaren jatorrizko ezarpenak "
 "berrezarri eta datu pertsonal guztiak ezabatuko dira."
 
-#: qml/Greeter/NarrowView.qml:59
+#: qml/Greeter/NarrowView.qml:60
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
