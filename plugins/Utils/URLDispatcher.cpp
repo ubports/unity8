@@ -56,8 +56,9 @@ void URLDispatcher::setActive(bool value)
     if (value == active())
         return;
 
+    QDBusConnection connection = QDBusConnection::sessionBus();
+
     if (value) {
-        QDBusConnection connection = QDBusConnection::sessionBus();
         URLDispatcherInterface *dispatcher = new URLDispatcherInterface(this);
         connection.registerObject(QStringLiteral("/com/canonical/URLDispatcher"),
                                   dispatcher,
@@ -65,6 +66,7 @@ void URLDispatcher::setActive(bool value)
         connection.registerService(QStringLiteral("com.canonical.URLDispatcher"));
         m_dispatcher = dispatcher;
     } else {
+        connection.unregisterService(QStringLiteral("com.canonical.URLDispatcher"));
         delete m_dispatcher;
         m_dispatcher = nullptr;
     }
