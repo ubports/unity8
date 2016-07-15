@@ -51,9 +51,10 @@ public Q_SLOTS:
 private Q_SLOTS:
     void onUpdateAvailableStatus(bool is_available, bool updateDownloading, const QString &available_version,
                                  int update_size, const QString &last_update_date, const QString &error_reason);
-    void onUpdateDownloaded(bool downloaded);
+    void onUpdateDownloaded();
     void onUpdateFailed(int consecutive_failure_count, const QString & last_reason);
     void onUpdateApplied(bool applied);
+    void onUpdateProgress(int percentage, double eta);
 
 Q_SIGNALS:
     void updateAvailableStatus();
@@ -71,7 +72,6 @@ private:
     QString m_updateSize;
     QString m_lastUpdateDate;
     QString m_errorReason;
-    bool m_updateDownloaded;
 };
 
 #endif // SYSTEMIMAGE_H

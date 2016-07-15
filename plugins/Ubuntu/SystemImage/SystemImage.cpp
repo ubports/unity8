@@ -33,15 +33,19 @@ SystemImage::SystemImage(QObject *parent)
     QDBusConnection::systemBus().connect(SYSTEMIMAGE_SERVICE, SYSTEMIMAGE_PATH, SYSTEMIMAGE_IFACE, QStringLiteral("UpdateAvailableStatus"),
                                          this, SLOT(onUpdateAvailableStatus(bool,bool,QString,int,QString,QString)));
     QDBusConnection::systemBus().connect(SYSTEMIMAGE_SERVICE, SYSTEMIMAGE_PATH, SYSTEMIMAGE_IFACE, QStringLiteral("UpdateDownloaded"),
-                                         this, SLOT(onUpdateDownloaded(bool)));
+                                         this, SLOT(onUpdateDownloaded()));
     QDBusConnection::systemBus().connect(SYSTEMIMAGE_SERVICE, SYSTEMIMAGE_PATH, SYSTEMIMAGE_IFACE, QStringLiteral("UpdateFailed"),
                                          this, SLOT(onUpdateFailed(int,QString)));
     QDBusConnection::systemBus().connect(SYSTEMIMAGE_SERVICE, SYSTEMIMAGE_PATH, SYSTEMIMAGE_IFACE, QStringLiteral("Applied"),
                                          this, SLOT(onUpdateApplied(bool)));
+
+    QDBusConnection::systemBus().connect(SYSTEMIMAGE_SERVICE, SYSTEMIMAGE_PATH, SYSTEMIMAGE_IFACE, QStringLiteral("UpdateProgress"),
+                                         this, SLOT(onUpdateProgress(int,double)));
 }
 
 void SystemImage::checkForUpdate()
 {
+    qDebug() << "!!! Checking for update";
     const QDBusMessage msg = QDBusMessage::createMethodCall(SYSTEMIMAGE_SERVICE, SYSTEMIMAGE_PATH, SYSTEMIMAGE_IFACE,
                                                             QStringLiteral("CheckForUpdate"));
     QDBusConnection::systemBus().asyncCall(msg);
@@ -49,6 +53,7 @@ void SystemImage::checkForUpdate()
 
 void SystemImage::applyUpdate()
 {
+    qDebug() << "!!! Applying update";
     const QDBusMessage msg = QDBusMessage::createMethodCall(SYSTEMIMAGE_SERVICE, SYSTEMIMAGE_PATH, SYSTEMIMAGE_IFACE,
                                                             QStringLiteral("ApplyUpdate"));
     QDBusConnection::systemBus().asyncCall(msg);
@@ -77,14 +82,17 @@ void SystemImage::onUpdateAvailableStatus(bool is_available, bool downloading, c
     m_lastUpdateDate = last_update_date;
     m_errorReason = error_reason;
     Q_EMIT updateAvailableStatus();
+
+    qDebug() << "!!! Downloading:" << downloading << ", version:" << available_version << ", last update:" << last_update_date <<
+                ", size:" << m_updateSize;
 }
 
-void SystemImage::onUpdateDownloaded(bool downloaded)
+void SystemImage::onUpdateDownloaded()
 {
-    if (downloaded != m_downloaded) {
-        m_downloaded = downloaded;
-        Q_EMIT updateDownloadedChanged();
-    }
+    qDebug() << "!!! Update downloaded";
+
+    m_downloaded = true;
+    Q_EMIT updateDownloadedChanged();
 }
 
 void SystemImage::onUpdateFailed(int consecutive_failure_count, const QString &last_reason)
@@ -100,6 +108,11 @@ void SystemImage::onUpdateApplied(bool applied)
         resetUpdateStatus();
         Q_EMIT updateAvailableStatus();
     }
+}
+
+void SystemImage::onUpdateProgress(int percentage, double eta)
+{
+    qDebug() << "!!! Download progress:" << percentage << "%, ETA seconds:" << eta;
 }
 
 void SystemImage::resetUpdateStatus()
