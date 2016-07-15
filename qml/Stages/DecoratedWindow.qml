@@ -144,12 +144,6 @@ FocusScope {
                 }
             }
         ]
-//        transitions: [
-//            Transition {
-//                from: "*"; to: "preview"
-//                UbuntuNumberAnimation { properties: "width,height,itemScale,implicitWidth,implicitHeight"; duration: priv.animationDuration }
-//            }
-//        ]
 
         transform: [
             Rotation {
