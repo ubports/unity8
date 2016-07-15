@@ -41,6 +41,7 @@ Item {
         }
     }
     property string usageScenario
+    property size screenSize: Qt.size(Screen.width, Screen.height)
 
     signal powerOffClicked();
 
@@ -51,7 +52,7 @@ Item {
     onUsageScenarioChanged: {
         // if we let the user switch manually to desktop mode, don't display the warning dialog
         // see MenuItemFactory.qml, for the Desktop Mode switch logic
-        var isTabletSize = Math.min(Screen.width, Screen.height) > units.gu(60);
+        var isTabletSize = Math.min(screenSize.width, screenSize.height) > units.gu(60);
 
         if (usageScenario != "desktop" && legacyAppsModel.count > 0 && !d.modeSwitchWarningPopup && !isTabletSize) {
             var comp = Qt.createComponent(Qt.resolvedUrl("ModeSwitchWarningDialog.qml"))
