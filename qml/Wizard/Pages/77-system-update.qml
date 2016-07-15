@@ -57,16 +57,13 @@ LocalComponents.Page {
             rowSpacing: units.gu(1)
             columnSpacing: units.gu(2)
 
-            UbuntuShape {
+            Image {
                 Layout.rowSpan: 3
-                aspect: UbuntuShape.Flat
-                backgroundColor: theme.palette.normal.base
-                width: units.gu(8)
+                width: units.gu(3)
                 height: width
-                sourceScale: Qt.vector2d(0.5,0.5)
-                source: Image {
-                    source: Qt.resolvedUrl("/usr/share/icons/suru/apps/scalable/ubuntu-logo-symbolic.svg")
-                }
+                sourceSize: Qt.size(units.gu(3), units.gu(3))
+                fillMode: Image.PreserveAspectFit
+                source: "image://theme/distributor-logo"
             }
 
             Label {
@@ -100,13 +97,36 @@ LocalComponents.Page {
             text: i18n.tr("This could take a few minutes...")
         }
 
-        Button {
+        Rectangle {
             anchors.left: parent.left
             anchors.leftMargin: column.anchors.leftMargin == 0 ? staticMargin : 0
-            text: i18n.tr("Install and restart now")
-            onClicked: {
-                // TODO mark the wizard to skip until the finished page for the next boot
-                SystemImage.applyUpdate();
+            color: theme.palette.normal.base
+            radius: units.dp(4)
+            width: buttonLabel.paintedWidth + units.gu(3)
+            height: buttonLabel.paintedHeight + units.gu(1.8)
+
+            Label {
+                id: buttonLabel
+                color: textColor
+                text: i18n.tr("Install and restart now")
+                fontSize: "medium"
+                anchors.centerIn: parent
+            }
+
+            AbstractButton {
+                id: button
+                objectName: "installButton"
+                anchors.fill: parent
+                onClicked: SystemImage.applyUpdate();  // TODO mark the wizard to skip until the finished page for the next boot
+            }
+
+            transformOrigin: Item.Top
+            scale: button.pressed ? 0.98 : 1.0
+            Behavior on scale {
+                ScaleAnimator {
+                    duration: UbuntuAnimation.SnapDuration
+                    easing.type: Easing.Linear
+                }
             }
         }
     }
