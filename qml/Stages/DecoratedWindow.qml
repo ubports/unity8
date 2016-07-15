@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Unity.Application 0.1
+import "Spread/MathUtils.js" as MathUtils
 
 FocusScope {
     id: root
@@ -39,7 +40,7 @@ FocusScope {
 
     property real requestedWidth
     property real requestedHeight
-    property bool scaleToPreview
+    property real scaleToPreviewProgress: 0
     property int scaleToPreviewSize: units.gu(30)
 
     property alias surfaceOrientationAngle: applicationWindow.surfaceOrientationAngle
@@ -126,27 +127,29 @@ FocusScope {
         focus: true
 
         property real itemScale: 1
+        property real minSize: Math.min(root.scaleToPreviewSize, Math.min(applicationWindow.requestedHeight, applicationWindow.requestedWidth))
         states: [
             State {
-                name: "preview"; when: root.scaleToPreview
+                name: "preview"; when: root.scaleToPreviewProgress > 0
                 PropertyChanges {
                     target: applicationWindow;
                     requestedWidth: applicationWindow.oldRequestedWidth
                     requestedHeight: applicationWindow.oldRequestedHeight
-                    implicitWidth: root.scaleToPreviewSize
-                    implicitHeight: root.scaleToPreviewSize
-                    width: Math.min(root.scaleToPreviewSize, Math.min(applicationWindow.requestedHeight, applicationWindow.requestedWidth))
-                    height: Math.min(root.scaleToPreviewSize, Math.min(applicationWindow.requestedHeight, applicationWindow.requestedWidth))
-                    itemScale: 1.0 * root.scaleToPreviewSize / applicationWindow.width
+                    implicitWidth: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedWidth, root.scaleToPreviewSize, root.scaleToPreviewProgress)
+                    implicitHeight: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedHeight, root.scaleToPreviewSize, root.scaleToPreviewProgress)
+                    width: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedWidth, applicationWindow.minSize, root.scaleToPreviewProgress)
+                    height: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedHeight, applicationWindow.minSize, root.scaleToPreviewProgress)
+                    // This is not 100% matching as it animates to an animated height, but close enough for the speed the animation plays
+                    itemScale: MathUtils.linearAnimation(0, 1, 1, 1.0 * root.scaleToPreviewSize / Math.min(applicationWindow.height, applicationWindow.width), root.scaleToPreviewProgress)
                 }
             }
         ]
-        transitions: [
-            Transition {
-                from: "*"; to: "preview"
-                UbuntuNumberAnimation { properties: "width,height,itemScale,implicitWidth,implicitHeight"; duration: priv.animationDuration }
-            }
-        ]
+//        transitions: [
+//            Transition {
+//                from: "*"; to: "preview"
+//                UbuntuNumberAnimation { properties: "width,height,itemScale,implicitWidth,implicitHeight"; duration: priv.animationDuration }
+//            }
+//        ]
 
         transform: [
             Rotation {

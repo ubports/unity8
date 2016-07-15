@@ -69,8 +69,8 @@ MouseArea {
             // Use integer coordinate values to ensure that target is left in a pixel-aligned
             // position. Mouse movement could have subpixel precision, yielding a fractional
             // mouse position.
-            root.target.requestedX = Math.round(pos.x - priv.distanceX);
-            root.target.requestedY = Math.round(Math.max(pos.y - priv.distanceY, PanelState.panelHeight));
+            root.target.windowedX = Math.round(pos.x - priv.distanceX);
+            root.target.windowedY = Math.round(Math.max(pos.y - priv.distanceY, PanelState.panelHeight));
         }
     }
 

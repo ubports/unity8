@@ -718,6 +718,7 @@ AbstractStage {
                     sceneWidth: appContainer.width - root.leftMargin
                     sceneHeight: appContainer.height
                     progress: 0
+                    targetHeight: spreadMaths.stackHeight
                     targetX: spreadMaths.targetX
                     targetAngle: spreadMaths.targetAngle
                 }
@@ -734,7 +735,7 @@ AbstractStage {
                             angle: spreadMaths.targetAngle
                             itemScale: spreadMaths.scale
                             scaleToPreviewSize: spreadItem.stackHeight
-                            scaleToPreview: true
+                            scaleToPreviewProgress: 1
                             hasDecoration: root.mode === "windowed"
                         }
                         PropertyChanges {
@@ -761,15 +762,16 @@ AbstractStage {
                             y: PanelState.panelHeight
                             x: stagedRightEdgeMaths.animatedX
                             z: index +1
+                            height: stagedRightEdgeMaths.animatedHeight
+                            requestedWidth: decoratedWindow.oldRequestedWidth
+                            requestedHeight: decoratedWindow.oldRequestedHeight
                         }
                         PropertyChanges {
                             target: decoratedWindow;
                             hasDecoration: false
-                            requestedWidth: stagedRightEdgeMaths.animatedWidth
-                            requestedHeight: stagedRightEdgeMaths.animatedHeight - PanelState.panelHeight
-//                            width: appContainer.width - root.leftMargin
-//                            height: appContainer.height
                             angle: stagedRightEdgeMaths.animatedAngle
+                            scaleToPreviewSize: spreadItem.stackHeight
+                            scaleToPreviewProgress: stagedRightEdgeMaths.progress
                         }
                     },
                     State {
@@ -950,9 +952,8 @@ AbstractStage {
                         to: "spread"
                         // DecoratedWindow wants the sceleToPreviewSize set before enabling scaleToPreview
                         PropertyAction { target: decoratedWindow; property: "scaleToPreviewSize" }
-                        PropertyAction { target: decoratedWindow; property: "scaleToPreview" }
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
-                        UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle,scaleToPreviewProgress"; duration: priv.animationDuration }
                     },
                     Transition {
                         from: "normal,staged"; to: "stagedWithSideStage"
@@ -1171,7 +1172,7 @@ AbstractStage {
         property var gesturePoints: new Array()
 
         property real progress: -touchPosition.x / root.width
-        onProgressChanged: print("dda progress", progress, root.width, touchPosition.x, root.width + touchPosition.x)
+//        onProgressChanged: print("dda progress", progress, root.width, touchPosition.x, root.width + touchPosition.x)
 
 //        Rectangle { color: "blue"; anchors.fill: parent }
         onTouchPositionChanged: {

@@ -51,12 +51,12 @@ Rectangle {
 
         Loader {
             id: spreadDelegateLoader
-            property int requestedX: units.gu(1)
-            property int requestedY: units.gu(1)
-            property int requestedWidth: units.gu(50)
-            property int requestedHeight: units.gu(40)
-            x: requestedX
-            y: requestedY
+            property int windowedX: units.gu(1)
+            property int windowedY: units.gu(1)
+            property int windowedWidth: units.gu(50)
+            property int windowedHeight: units.gu(40)
+            x: windowedX
+            y: windowedY
             width: item ? item.implicitWidth : 0
             height: item ? item.implicitHeight : 0
 
@@ -65,8 +65,8 @@ Rectangle {
             sourceComponent: DecoratedWindow {
                 anchors.fill: parent
                 application: fakeApplication
-                requestedWidth: spreadDelegateLoader.requestedWidth
-                requestedHeight: spreadDelegateLoader.requestedHeight
+                requestedWidth: spreadDelegateLoader.windowedWidth
+                requestedHeight: spreadDelegateLoader.windowedHeight
                 surface: fakeApplication && fakeApplication.surfaceList.count > 0 ? fakeApplication.surfaceList.get(0) : null
 
                 Component.onDestruction: {
@@ -122,10 +122,22 @@ Rectangle {
                 text: "show/hide decoration"
                 onClicked: spreadDelegateLoader.item.showDecoration = !spreadDelegateLoader.item.showDecoration
             }
-            Button {
-                text: "toggle scaleToPreview"
-                onClicked: spreadDelegateLoader.item.scaleToPreview = !spreadDelegateLoader.item.scaleToPreview
+            Label {
+                text: "scale to preview progress"
             }
+
+            Slider {
+                value: 0
+                minimumValue: 0
+                maximumValue: 1
+                live: true
+                onValueChanged: spreadDelegateLoader.item.scaleToPreviewProgress = value
+            }
+
+//            Button {
+//                text: "toggle scaleToPreview"
+//                onClicked: spreadDelegateLoader.item.scaleToPreviewProgress ==  !spreadDelegateLoader.item.scaleToPreview
+//            }
 
             Row {
                 anchors { left: parent.left; right: parent.right }

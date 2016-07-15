@@ -72,3 +72,8 @@ function intersectionRect(r1, r2) {
 }
 
 function easeOutCubic(t) { return (--t)*t*t+1 }
+
+function linearAnimation(startProgress, endProgress, startValue, endValue, progress) {
+    // progress : progressDiff = value : valueDiff => value = progress * valueDiff / progressDiff
+    return (progress - startProgress) * (endValue - startValue) / (endProgress - startProgress) + startValue;
+}
