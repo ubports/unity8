@@ -51,8 +51,18 @@ TestUtil::isInstanceOf(QObject *obj, QString name)
         const QMetaObject *metaObject = obj->metaObject();
         while (!result && metaObject) {
             const QString className = metaObject->className();
-            const QString qmlName = className.left(className.indexOf("_QMLTYPE_"));
+            QString qmlName = className.left(className.indexOf("_QMLTYPE_"));
             result = qmlName == name;
+            // test for known namespaces
+            if (!result) {
+                // remove UbuntuGestures and UbuntuToolkit namespace
+                qmlName = qmlName.remove(QString("UbuntuGestures::"));
+                result = qmlName == name;
+            }
+            if (!result) {
+                qmlName = qmlName.remove(QString("UbuntuToolkit::"));
+                result = qmlName == name;
+            }
             metaObject = metaObject->superClass();
         }
     }
