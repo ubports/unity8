@@ -91,6 +91,9 @@ Item {
             var stopY = startY;
             touchFlick(shell, startX, startY, stopX, stopY);
 
+            var greeter = findChild(shell, "greeter");
+            tryCompare(greeter, "shown", false);
+
             // bring in the launcher
             var startX = units.gu(1);
             var startY = shell.height / 2;
@@ -130,6 +133,9 @@ Item {
             var stopX = units.gu(1)
             var stopY = startY;
             touchFlick(shell, startX, startY, stopX, stopY);
+
+            var greeter = findChild(shell, "greeter");
+            tryCompare(greeter, "shown", false);
 
             // Now do a small launcher movement
             touchFlick(shell, stopX, startY, startX, stopY);
