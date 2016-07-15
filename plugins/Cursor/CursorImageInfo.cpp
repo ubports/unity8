@@ -57,6 +57,7 @@ void CursorImageInfo::update()
     Q_EMIT frameHeightChanged();
     Q_EMIT frameCountChanged();
     Q_EMIT frameDurationChanged();
+    Q_EMIT imageSourceChanged();
 }
 
 QPoint CursorImageInfo::hotspot() const
@@ -102,4 +103,14 @@ int CursorImageInfo::frameDuration() const
     } else {
         return 0;
     }
+}
+
+QUrl CursorImageInfo::imageSource() const
+{
+    auto urlString = QString("image://cursor/%1/%2/%3")
+        .arg(m_themeName)
+        .arg(m_cursorName)
+        .arg(m_cursorHeight);
+
+    return QUrl(urlString);
 }

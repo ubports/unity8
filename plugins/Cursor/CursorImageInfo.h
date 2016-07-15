@@ -21,6 +21,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QUrl>
 
 class CursorImageInfo : public QObject
 {
@@ -35,6 +36,7 @@ class CursorImageInfo : public QObject
     Q_PROPERTY(qreal frameHeight READ frameHeight NOTIFY frameHeightChanged)
     Q_PROPERTY(int frameCount READ frameCount NOTIFY frameCountChanged)
     Q_PROPERTY(int frameDuration READ frameDuration NOTIFY frameDurationChanged)
+    Q_PROPERTY(QUrl imageSource READ imageSource NOTIFY imageSourceChanged)
 
 public:
     CursorImageInfo(QObject *parent = nullptr);
@@ -53,6 +55,7 @@ public:
     qreal frameHeight() const;
     int frameCount() const;
     int frameDuration() const;
+    QUrl imageSource() const;
 
 Q_SIGNALS:
     void themeNameChanged();
@@ -63,6 +66,7 @@ Q_SIGNALS:
     void frameHeightChanged();
     void frameCountChanged();
     void frameDurationChanged();
+    void imageSourceChanged();
 
 private Q_SLOTS:
     void update();
