@@ -23,6 +23,7 @@ GSettingsControllerQml* GSettingsControllerQml::s_controllerInstance = 0;
 GSettingsControllerQml::GSettingsControllerQml()
     : m_disableHeight(false)
     , m_usageMode("Staged")
+    , m_lockedOutTime(0)
     , m_autohideLauncher(false)
     , m_launcherWidth(8)
     , m_edgeDragWidth(2)

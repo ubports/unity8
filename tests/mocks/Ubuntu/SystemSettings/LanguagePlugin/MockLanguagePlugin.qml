@@ -17,7 +17,8 @@
 import QtQuick 2.4
 
 Item {
-    property var languageNames: ["English (United States)", "French (France)", "Spanish (Spain)"]
-    property var languageCodes: ["en_US", "fr_FR", "es_ES"]
+    property var languageNames: ["English (United States)", "French (France)", "Spanish (Spain)", "Spanish (Mexico)",
+        "German (Switzerland)", "Czech (Czechia)", "Chinese (Hongkong)", "Chinese (Singapore)", "Chinese (China)"]
+    property var languageCodes: ["en_US", "fr_FR", "es_ES", "es_MX", "de_CH", "cs_CZ", "zh_HK", "zh_SG", "zh_CN"]
     property int currentLanguage: 0
 }

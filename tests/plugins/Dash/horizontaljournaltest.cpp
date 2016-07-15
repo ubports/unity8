@@ -23,10 +23,7 @@
 #include <QStringListModel>
 #include <QQmlContext>
 #include <QQmlEngine>
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
 #include <private/qquickitem_p.h>
-#pragma GCC diagnostic pop
 
 #include "horizontaljournal.h"
 
@@ -135,7 +132,7 @@ private Q_SLOTS:
         view->resize(470, 400);
         QTest::qWaitForWindowExposed(view);
 
-        hj = dynamic_cast<HorizontalJournal*>(view->rootObject()->findChild<QObject*>("hj"));
+        hj = static_cast<HorizontalJournal*>(view->rootObject()->findChild<QObject*>("hj"));
         hj->setModel(model);
 
         checkInitialPositions();

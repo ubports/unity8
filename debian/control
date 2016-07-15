@@ -5,6 +5,7 @@ Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: cmake,
                dbus-test-runner,
                debhelper (>= 9),
+               dh-apparmor,
                doxyqml,
 # To allow cross-compiling to work, we also must append :native
 # to g++ so we don't try to run arm g++
@@ -22,6 +23,7 @@ Build-Depends: cmake,
                libglib2.0-dev,
                libgsettings-qt-dev,
                libhardware-dev,
+               liblightdm-qt5-3-dev,
                libpam0g-dev,
                libpay2-dev,
                libpulse-dev,
@@ -29,8 +31,10 @@ Build-Depends: cmake,
                libqt5svg5-dev,
                libqt5xmlpatterns5-dev,
                libsystemsettings-dev,
+               libubuntugestures5-dev,
+               libubuntugestures5-private-dev,
                libudev-dev,
-               libunity-api-dev (>= 7.112),
+               libunity-api-dev (>= 7.115),
                libusermetricsoutput1-dev,
 # Need those X11 libs touch emulation from mouse events in manual QML tests on a X11 desktop
                libx11-dev[!arm64 !armhf],
@@ -41,11 +45,13 @@ Build-Depends: cmake,
                python3-all:any,
                python3-setuptools,
                qml-module-qt-labs-folderlistmodel,
+               qml-module-qtmultimedia (>= 5.4.1-1ubuntu19~overlay2),
                qml-module-qtquick-layouts,
                qml-module-qtquick-xmllistmodel,
                qml-module-qtquick2,
                qml-module-qtsysteminfo,
                qml-module-qttest,
+               qml-module-ubuntu-components (>= 1.3.1845) | qml-module-ubuntu-components-gles (>= 1.3.1845),
                qt5-default,
                qtbase5-dev (>= 5.4),
                qtbase5-dev-tools,
@@ -53,10 +59,8 @@ Build-Depends: cmake,
                qtdeclarative5-dev (>= 5.4),
                qtdeclarative5-dev-tools,
                qtdeclarative5-private-dev (>= 5.4),
-               qtdeclarative5-qtmultimedia-plugin (>= 5.4.1-1ubuntu19~overlay2),
                qtdeclarative5-ubuntu-content1,
                qtdeclarative5-ubuntu-settings-components (>= 0.7),
-               qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 1.3.1845) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 1.3.1845),
                ttf-ubuntu-font-family,
 Standards-Version: 3.9.4
 Homepage: http://launchpad.net/unity
@@ -71,12 +75,23 @@ X-Ubuntu-Use-Langpack: yes
 Package: indicators-client
 Architecture: any
 Depends: qmenumodel-qml (>= 0.2.9),
-         qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 1.3.1845) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 1.3.1845),
+         qml-module-ubuntu-components (>= 1.3.1845) | qml-module-ubuntu-components-gles (>= 1.3.1845),
          unity8 (= ${binary:Version}),
          ${misc:Depends},
          ${shlibs:Depends},
 Description: Indicators client test application
  This package contains the client application for indicators used by autopilot
+
+Package: unity8-greeter
+Architecture: any
+Depends: unity8 (= ${binary:Version}),
+         unity-system-compositor,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Recommends: lightdm
+Provides: lightdm-greeter
+Description: The Unity8 Greeter
+ The Unity 8 greeter is the primary login greeter for Ubuntu devices.
 
 Package: unity-scope-tool
 Architecture: any
@@ -99,13 +114,15 @@ Depends: dmz-cursor-theme,
          libcap2-bin,
          libglib2.0-bin,
          qmenumodel-qml (>= 0.2.9),
+         qml-module-biometryd,
          qml-module-qt-labs-folderlistmodel,
          qml-module-qtquick-xmllistmodel,
          qml-module-qtsysteminfo,
+         qml-module-ubuntu-web,
          qtdeclarative5-qtmir-plugin (>= 0.4.8),
          qtdeclarative5-ubuntu-telephony0.1,
          qtdeclarative5-ubuntu-web-plugin,
-         ubuntu-system-settings,
+         ubuntu-system-settings (>= 0.4),
          unity-launcher-impl-7,
          unity8-common (= ${source:Version}),
          unity8-private (= ${binary:Version}),
@@ -127,12 +144,12 @@ Description: Unity 8 shell
 Package: unity8-common
 Architecture: all
 Depends: qml-module-qtquick-layouts,
+         qml-module-ubuntu-components (>= 1.3.1845) | qml-module-ubuntu-components-gles (>= 1.3.1845),
+         qml-module-ubuntu-thumbnailer0.1 | ubuntu-thumbnailer-impl,
          qtdeclarative5-ubuntu-settings-components (>= 0.7),
-         qtdeclarative5-ubuntu-thumbnailer0.1 | ubuntu-thumbnailer-impl,
-         qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 1.3.1845) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 1.3.1845),
          qtdeclarative5-unity-notifications-plugin (>= 0.1.2) | unity-notifications-impl,
          ubuntu-thumbnailer-impl-0,
-         unity-application-impl-16,
+         unity-application-impl-17,
          unity-notifications-impl-3,
          unity-plugin-scopes | unity-scopes-impl,
          unity-scopes-impl-12,
@@ -188,7 +205,7 @@ Package: unity8-private
 Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends},
-Depends: accountsservice-ubuntu-schemas (>= 0.0.5),
+Depends: accountsservice-ubuntu-schemas (>= 0.0.7),
          gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
          libhardware2,
          pay-service,

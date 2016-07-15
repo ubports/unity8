@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -20,6 +20,7 @@
 // Qt
 #include <QPointer>
 #include <QWindow>
+#include <QScreen>
 
 // Unity API
 #include <unity/shell/application/MirMousePointerInterface.h>
@@ -34,9 +35,6 @@ public:
 
     void setThemeName(const QString &themeName) override;
     QString themeName() const override { return m_themeName; }
-
-    qreal hotspotX() const override { return m_hotspotX; }
-    qreal hotspotY() const override { return m_hotspotY; }
 
     void setCustomCursor(const QCursor &) override;
 
@@ -53,15 +51,19 @@ Q_SIGNALS:
 protected:
     void itemChange(ItemChange change, const ItemChangeData &value) override;
 
+private Q_SLOTS:
+    void registerScreen(QScreen *screen);
+
 private:
     void registerWindow(QWindow *window);
-    void updateHotspot();
 
     QPointer<QWindow> m_registeredWindow;
+    QPointer<QScreen> m_registeredScreen;
     QString m_cursorName;
     QString m_themeName;
-    int m_hotspotX;
-    int m_hotspotY;
+
+    // Accumulated, unapplied, mouse movement.
+    QPointF m_accumulatedMovement;
 };
 
 #endif // MOUSEPOINTER_H

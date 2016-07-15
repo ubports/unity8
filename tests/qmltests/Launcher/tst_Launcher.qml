@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,6 +33,14 @@ Rectangle {
     color: UbuntuColors.graphite // something neither white nor black
 
     Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark"
+
+    MouseArea {
+        id: clickThroughTester
+        anchors.fill: parent
+        // SignalSpy does not seem to want to connect to the pressed signal. let's count them ourselves.
+        property int pressCount: 0
+        onPressed: pressCount++;
+    }
 
     Loader {
         id: launcherLoader
@@ -195,11 +203,31 @@ Rectangle {
                 onClicked: LauncherModel.setAlerting(LauncherModel.get(parseInt(appIdEntryAlert.displayText)).appId, false)
             }
         }
+
+        Row {
+            spacing: units.gu(1)
+            Button {
+                text: "Toggle count visible"
+                onClicked: {
+                    var item = LauncherModel.get(parseInt(appIdEntryCountVisible.displayText))
+                    LauncherModel.setCountVisible(item.appId, !item.countVisible)
+                }
+            }
+            TextField {
+                id: appIdEntryCountVisible
+                text: "0"
+            }
+        }
     }
 
     SignalSpy {
         id: signalSpy
         target: LauncherModel
+    }
+
+    SignalSpy {
+        id: clickThroughSpy
+        target: clickThroughTester
     }
 
     Item {
@@ -223,6 +251,8 @@ Rectangle {
 
         property Item launcher: launcherLoader.status === Loader.Ready ? launcherLoader.item : null
         function cleanup() {
+            signalSpy.clear();
+            clickThroughSpy.clear();
             launcherLoader.active = false;
             // Loader.status might be Loader.Null and Loader.item might be null but the Loader
             // item might still be alive. So if we set Loader.active back to true
@@ -254,7 +284,7 @@ Rectangle {
             // Now do check that snapping is in fact enabled
             compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
 
-            removeTimeConstraintsFromDirectionalDragAreas(root);
+            removeTimeConstraintsFromSwipeAreas(root);
         }
 
         function dragLauncherIntoView() {
@@ -478,25 +508,26 @@ Rectangle {
         function test_progressOverlays() {
             dragLauncherIntoView();
             var launcherListView = findChild(launcher, "launcherListView");
+            var moveAnimation = findInvisibleChild(launcherListView, "moveAnimation")
             for (var i = 0; i < launcherListView.count; ++i) {
+                launcherListView.moveToIndex(i);
+                waitForRendering(launcherListView);
+                tryCompare(moveAnimation, "running", false);
+
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
                 compare(findChild(delegate, "progressOverlay").visible, LauncherModel.get(i).progress >= 0)
-            }
-        }
-
-        function test_runningHighlight() {
-            dragLauncherIntoView();
-            var launcherListView = findChild(launcher, "launcherListView");
-            for (var i = 0; i < launcherListView.count; ++i) {
-                var delegate = findChild(launcherListView, "launcherDelegate" + i)
-                compare(findChild(delegate, "runningHighlight0").visible, LauncherModel.get(i).running)
             }
         }
 
         function test_focusedHighlight() {
             dragLauncherIntoView();
             var launcherListView = findChild(launcher, "launcherListView");
+            var moveAnimation = findInvisibleChild(launcherListView, "moveAnimation")
+
             for (var i = 0; i < launcherListView.count; ++i) {
+                launcherListView.moveToIndex(i);
+                waitForRendering(launcherListView);
+                tryCompare(moveAnimation, "running", false);
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
                 compare(findChild(delegate, "focusedHighlight").visible, LauncherModel.get(i).focused)
             }
@@ -836,16 +867,20 @@ Rectangle {
             dragLauncherIntoView();
             verify(launcher.state == "visible");
 
+            clickThroughTester.pressCount = 0;
             mouseClick(root, root.width / 2, units.gu(1));
             waitUntilLauncherDisappears();
             verify(launcher.state == "");
+            compare(clickThroughTester.pressCount, 1);
 
             // and repeat, as a test for regression in lpbug#1531339
             dragLauncherIntoView();
             verify(launcher.state == "visible");
+            clickThroughTester.pressCount = 0;
             mouseClick(root, root.width / 2, units.gu(1));
             waitUntilLauncherDisappears();
             verify(launcher.state == "");
+            compare(clickThroughTester.pressCount, 1);
         }
 
         function test_quicklist_positioning_data() {
@@ -912,7 +947,6 @@ Rectangle {
 
             var quickListEntry = findChild(quickList, "quickListEntry" + data.index)
 
-            signalSpy.clear();
             signalSpy.signalName = "quickListTriggered"
 
             mouseClick(quickListEntry)
@@ -1205,7 +1239,6 @@ Rectangle {
             launcher.openForKeyboardNavigation();
             waitForRendering(launcher);
 
-            signalSpy.clear();
             signalSpy.signalName = "quickListTriggered"
 
             keyClick(Qt.Key_Down); // Down to launcher item 0
@@ -1282,6 +1315,36 @@ Rectangle {
             }
 
             assertFocusOnIndex(-2);
+        }
+
+        function test_surfaceCountPips() {
+            var launcherListView = findChild(launcher, "launcherListView")
+            var moveAnimation = findInvisibleChild(launcherListView, "moveAnimation")
+
+            for (var i = 0; i < launcherListView.count; i++) {
+                launcherListView.moveToIndex(i);
+                waitForRendering(launcherListView);
+                tryCompare(moveAnimation, "running", false);
+
+                var delegate = findChild(launcher, "launcherDelegate" + i);
+                var surfacePipRepeater = findInvisibleChild(delegate, "surfacePipRepeater");
+                compare(surfacePipRepeater.model, Math.min(3, LauncherModel.get(i).surfaceCount))
+            }
+        }
+
+        function test_preventMouseEventsThru() {
+            dragLauncherIntoView();
+            var launcherPanel = findChild(launcher, "launcherPanel");
+            tryCompare(launcherPanel, "visible", true);
+
+            clickThroughSpy.signalName = "wheel";
+            mouseWheel(launcherPanel, launcherPanel.width/2, launcherPanel.height/2, 10, 10);
+            tryCompare(clickThroughSpy, "count", 0);
+
+            clickThroughSpy.clear();
+            clickThroughSpy.signalName = "clicked";
+            mouseWheel(launcherPanel, launcherPanel.width/2, launcherPanel.height/2, Qt.RightButton);
+            tryCompare(clickThroughSpy, "count", 0);
         }
     }
 }

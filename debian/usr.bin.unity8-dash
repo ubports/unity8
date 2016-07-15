@@ -1,0 +1,21 @@
+# vim:syntax=apparmor
+
+#include <tunables/global>
+
+# v2 compatible wildly permissive profile
+profile unity8-dash /usr/bin/unity8-dash (attach_disconnected) {
+  capability,
+  network,
+  / rwkl,
+  /** rwlkm,
+  /** pix,
+
+  mount,
+  remount,
+  umount,
+  pivot_root,
+  dbus,
+  signal,
+  ptrace,
+  unix,
+}

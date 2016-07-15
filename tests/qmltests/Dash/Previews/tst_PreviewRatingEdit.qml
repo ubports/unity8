@@ -50,12 +50,15 @@ Rectangle {
 
             var authorLabel = findChild(previewRatingEdit, "authorLabel");
             var reviewTextArea = findChild(previewRatingEdit, "reviewTextArea");
-            var inputRating = findChild(findChild(previewRatingEdit, "input"), "rating");
+            var ratingInput = findChild(previewRatingEdit, "input");
+            var inputRating = findChild(ratingInput, "rating");
             verify(authorLabel.visible)
             verify(!reviewTextArea.visible)
 
             var editButton = findChild(previewRatingEdit, "editButton");
+            var display = findChild(previewRatingEdit, "display");
             mouseClick(editButton);
+            tryCompare(display, "visible", false);
             verify(!authorLabel.visible)
             verify(reviewTextArea.visible)
 
@@ -65,9 +68,13 @@ Rectangle {
             reviewTextArea.text = "Ho Ho";
             inputRating.value = 3;
 
+            var reviewContainer = findChild(ratingInput, "reviewContainer");
+            var reviewSubmitContainer = findChild(ratingInput, "reviewSubmitContainer");
+            tryCompare(reviewContainer, "implicitHeight", reviewSubmitContainer.implicitHeight + reviewContainer.anchors.topMargin);
             var submitButton = findChild(previewRatingEdit, "submitButton")
             mouseClick(submitButton);
 
+            tryCompare(display, "visible", true);
             compare(spy.count, 1);
             var args = spy.signalArguments[0];
             compare(args[0], previewRatingEdit.widgetId);

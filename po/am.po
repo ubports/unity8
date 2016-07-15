@@ -7,47 +7,47 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-05-18 11:19+0000\n"
-"PO-Revision-Date: 2016-03-24 19:07+0000\n"
+"POT-Creation-Date: 2016-07-11 17:24+0000\n"
+"PO-Revision-Date: 2016-07-05 02:15+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-05-19 05:49+0000\n"
-"X-Generator: Launchpad (build 18025)\n"
+"X-Launchpad-Export-Date: 2016-07-14 06:00+0000\n"
+"X-Generator: Launchpad (build 18115)\n"
 
-#: plugins/IntegratedLightDM/Greeter.cpp:112
+#: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
 msgstr "የ መግቢያ ቃል: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:48
-#: plugins/Unity/Launcher/launcheritem.cpp:107
+#: plugins/Unity/Launcher/launcheritem.cpp:49
+#: plugins/Unity/Launcher/launcheritem.cpp:108
 msgid "Pin shortcut"
 msgstr "አቋራጭ ማጣበቂያ"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:53
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "ማጥፊያ"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:107
+#: plugins/Unity/Launcher/launcheritem.cpp:108
 msgid "Unpin shortcut"
 msgstr "አቋራጭ መለያያ"
 
-#: qml/Components/DelayedLockscreen.qml:49
+#: qml/Components/DelayedLockscreen.qml:50
 msgid "Device Locked"
 msgstr "አካሉ ተቆልፏል"
 
-#: qml/Components/DelayedLockscreen.qml:64
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr "ብዙ ጊዜ የተሳሳተ የ ማለፊያ ሀረግ ለማስገባት በ መሞከር ምክንያት  ስልኩ ተቆልፏል"
 
-#: qml/Components/DelayedLockscreen.qml:65
+#: qml/Components/DelayedLockscreen.qml:66
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr "ብዙ ጊዜ የተሳሳተ የ ማለፊያ ኮድ ለማስገባት በ መሞከር ምክንያት  ስልኩ ተቆልፏል"
 
-#: qml/Components/DelayedLockscreen.qml:74
+#: qml/Components/DelayedLockscreen.qml:75
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
@@ -74,7 +74,7 @@ msgid "Log Out"
 msgstr "መውጫ"
 
 #: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
-#: qml/Dash/DashPageHeader.qml:298 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "መሰረዣ"
@@ -119,17 +119,187 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "እንደገና ማስጀመሪያ"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/KeyboardShortcutsOverlay.qml:41
+msgid "Keyboard Shortcuts"
+msgstr "የ ፊደል ገበታ አቋራጮች"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:55
+msgid "Unity 8"
+msgstr "Unity 8"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:62
+msgid "PrtScr"
+msgstr "PrtScr"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:67
+msgid "Takes a screenshot."
+msgstr "መመልከቻ ፎቶ ማንሻ"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:75
+msgid "Alt + PrtScr"
+msgstr "Alt + PrtScr"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:80
+msgid "Takes a screenshot of a window."
+msgstr "የ መስኮት መመልከቻ ፎቶ ማንሻ"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:88
+msgid "Super + Space"
+msgstr "Super + Space"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:93
+msgid "Switches to next keyboard layout."
+msgstr "የሚቀጥለው የ ፊደል ገበታ እቅድ መቀየሪያ"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:101
+msgid "Super + Shift + Space"
+msgstr "Super + Shift + Space"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:106
+msgid "Switches to previous keyboard layout."
+msgstr "ወዳለፈው የ ፊደል ገበታ እቅድ መቀየሪያ"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:118
+msgid "Launcher"
+msgstr "ማስነሻ"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:125
+msgid "Super (Hold)"
+msgstr "Super (ይጫኑ)"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:130
+msgid "Opens the launcher, displays shortcuts."
+msgstr "ማስነሻውን መክፈቻ እና አቋራጮች ማሳያ"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:138
+msgid "Alt + F1"
+msgstr "Alt + F1"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:143
+msgid "Opens launcher keyboard navigation mode."
+msgstr "መክፈቻ በ ፊደል ገበታ መቃኛ ዘዴ ማስነሻ"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:151
+msgid "Super + Tab"
+msgstr "Super + Tab"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:156
+msgid "Switches applications via the launcher."
+msgstr "መተግበሪያዎችን በ ማስጀመሪያ መቀየሪያ"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:164
+msgid "Super + 0 to 9"
+msgstr "Super + 0 እስከ 9"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:169
+msgid "Same as clicking on a launcher icon."
+msgstr "ተመሳሳይ በ ማስጀመሪያ ምልክት ላይ እንደ መጫን"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:181
+msgid "Scopes"
+msgstr "ክልል"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:188
+msgid "Super (Tap)"
+msgstr "Super (Tap)"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:193
+msgid "Opens the Scopes home."
+msgstr "የ ክልል ቤት መክፈቻ"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:209
+msgid "Switching"
+msgstr "በ መቀየር ላይ"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:216
+msgid "Alt + Tab"
+msgstr "Alt + Tab"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:221
+msgid "Switches between applications."
+msgstr "በ መተግበሪያዎች መካከል መቀያየሪያ"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:229
+msgid "Super + W"
+msgstr "Super + W"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:234
+msgid "Opens the desktop spread."
+msgstr "የ ዴስክቶፕ ማስፊያ መክፈቻ"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:242
+msgid "Cursor Left or Right"
+msgstr "መጠቆሚያ የ ግራ ወይንም የ ቀኝ"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:247
+msgid "Moves the focus."
+msgstr "ትኩረት ማንቀሳቀሻ"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:259
+msgid "Windows"
+msgstr "መስኮቶች"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:266
+msgid "Ctrl + Super + D"
+msgstr "Ctrl + Super + D"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:271
+msgid "Minimizes all windows."
+msgstr "ሁሉንም መስኮቶች ማሳነሻ"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:279
+msgid "Ctrl + Super + Up"
+msgstr "Ctrl + Super + Up"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:284
+msgid "Maximizes the current window."
+msgstr "የ አሁኑን መስኮት ማሳደጊያ"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:292
+msgid "Ctrl + Super + Down"
+msgstr "Ctrl + Super + Down"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:297
+msgid "Minimizes or restores the current window."
+msgstr "የ አሁኑን መስኮትማሳነሻ ወይንም እንደ ነበር መመለሻ"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:305
+msgid "Ctrl + Super + Left or Right"
+msgstr "Ctrl + Super + Left or Right"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:310
+msgid "Semi-maximizes the current window."
+msgstr "የ አሁኑን መስኮት በ ንዑስ-ማሳደጊያ"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:318
+msgid "Alt + F4"
+msgstr "Alt + F4"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:323
+msgid "Closes the current window."
+msgstr "የ አሁኑን መስኮት መዝጊያ"
+
+#: qml/Components/Lockscreen.qml:239
 msgid "Return to Call"
 msgstr "ወደ ጥሪ መመለሻ"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:239
 msgid "Emergency Call"
 msgstr "የ ድንገተኛ ጥሪ"
 
-#: qml/Components/Lockscreen.qml:263
+#: qml/Components/Lockscreen.qml:271
 msgid "OK"
 msgstr "እሺ"
+
+#: qml/Components/MediaServices/VideoPlayerControls.qml:44
+#, qt-format
+msgid "%1:%2:%3"
+msgstr "%1:%2:%3"
+
+#: qml/Components/MediaServices/VideoPlayerControls.qml:49
+#, qt-format
+msgid "%1:%2"
+msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
@@ -157,26 +327,30 @@ msgstr "አሁን እንደገና መገናኛ!"
 msgid "Close all"
 msgstr "ሁሉንም መዝጊያ"
 
-#: qml/Dash/DashPageHeader.qml:337
+#: qml/Components/SharingPicker.qml:54
+msgid "Preview Share Item"
+msgstr "የሚካፈሉትን እቃ ቅድመ እይታ"
+
+#: qml/Dash/DashPageHeader.qml:333
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "ማስቀመጫ"
 
-#: qml/Dash/DashPageHeader.qml:344
+#: qml/Dash/DashPageHeader.qml:340
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "መፈለጊያ"
 
-#: qml/Dash/DashPageHeader.qml:354
+#: qml/Dash/DashPageHeader.qml:350
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "ማሰናጃዎች"
 
-#: qml/Dash/DashPageHeader.qml:361
+#: qml/Dash/DashPageHeader.qml:357
 msgid "Remove from Favorites"
 msgstr "ከምወዳቸው ማስወገጃ"
 
-#: qml/Dash/DashPageHeader.qml:361
+#: qml/Dash/DashPageHeader.qml:357
 msgid "Add to Favorites"
 msgstr "ወደምወዳቸው መጨመሪያ"
 
@@ -188,24 +362,24 @@ msgstr "የ እርስዎን ውጤቶች እንደገና ማጣሪያ"
 msgid "Reset"
 msgstr "እንደ ነበረ መመለሻ"
 
-#: qml/Dash/GenericScopeView.qml:579 qml/Dash/GenericScopeView.qml:764
+#: qml/Dash/GenericScopeView.qml:580 qml/Dash/GenericScopeView.qml:775
 msgid "Show less"
-msgstr ""
+msgstr "ትንሽ ማሳያ"
 
-#: qml/Dash/GenericScopeView.qml:579
+#: qml/Dash/GenericScopeView.qml:580
 msgid "Show all"
-msgstr ""
+msgstr "ሁሉንም ማሳያ"
 
-#: qml/Dash/GenericScopeView.qml:636
+#: qml/Dash/GenericScopeView.qml:637
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "መፈለጊያ"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:55
+#: qml/Dash/PageHeaderExtraPanel.qml:56
 msgid "Recent Searches"
 msgstr "የ ቅርብ ጊዜ ፍለጋዎች"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:66
+#: qml/Dash/PageHeaderExtraPanel.qml:67
 msgid "Clear All"
 msgstr "ሁሉንም ማጽጃ"
 
@@ -218,21 +392,17 @@ msgid "Less..."
 msgstr "አነስተኛ..."
 
 #: qml/Dash/Previews/PreviewCommentInput.qml:68
-#: qml/Dash/Previews/PreviewRatingInput.qml:174
+#: qml/Dash/Previews/PreviewRatingInput.qml:175
 msgid "Send"
 msgstr "መላኪያ"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:84
+#: qml/Dash/Previews/PreviewRatingInput.qml:82
 msgid "Rate this"
 msgstr "ለዚህ ደረጃ ይስጡ"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:129
+#: qml/Dash/Previews/PreviewRatingInput.qml:157
 msgid "Add a review"
 msgstr "ግምገማ መጨመሪያ"
-
-#: qml/Dash/Previews/PreviewSharing.qml:66
-msgid "Preview Share Item"
-msgstr "የሚካፈሉትን እቃ ቅድመ እይታ"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -246,49 +416,61 @@ msgstr "ይልቀቁ ለማነቃቃት…"
 msgid "Enable location data"
 msgstr "የአካባቢ ዳታ ማስቻያ"
 
-#: qml/Dash/ScopesList.qml:67
+#: qml/Dash/ScopesList.qml:55
 msgid "Manage"
 msgstr "አስተዳዳሪ"
 
-#: qml/Dash/ScopesList.qml:113
+#: qml/Dash/ScopesList.qml:102
 msgid "Home"
 msgstr "ቤት"
 
-#: qml/Dash/ScopesList.qml:114
+#: qml/Dash/ScopesList.qml:103
 msgid "Also installed"
 msgstr "እንዲሁም የተገጠሙ"
 
-#: qml/DisabledScreenNotice.qml:104
+#: qml/DisabledScreenNotice.qml:109
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr "የ እርስዎ አካል አሁን ከ ውጪ ማሳያ ጋር ተገናኝቷል: ይህን መመልከቻ እንደ ተችፓድ መጠቀሚያ"
 
-#: qml/Greeter/CoverPage.qml:118
+#: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
 msgstr "መክፈቻ"
 
-#: qml/Greeter/LoginList.qml:239
+#: qml/Greeter/Greeter.qml:555
+msgid "Try again"
+msgstr "እንደገና ይሞክሩ"
+
+#: qml/Greeter/LoginList.qml:63
+msgid "Passphrase"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:64
+msgid "Passcode"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:87
 msgid "Retry"
 msgstr "እንደገና ይሞክሩ"
 
-#: qml/Greeter/LoginList.qml:240
-msgid "Tap to unlock"
-msgstr "ለመክፈት መታ ያድርጉ"
+#: qml/Greeter/LoginList.qml:88
+msgid "Log In"
+msgstr "መግቢያ"
 
-#: qml/Greeter/NarrowView.qml:54
+#: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passphrase."
 msgstr "አዝናለሁ የተሳሳተ የማለፊያ ሐረግ"
 
-#: qml/Greeter/NarrowView.qml:55
+#: qml/Greeter/NarrowView.qml:56
 msgid "Sorry, incorrect passcode."
 msgstr "አዝናለሁ የተሳሳተ የማለፊያ ኮድ"
 
-#: qml/Greeter/NarrowView.qml:56
+#: qml/Greeter/NarrowView.qml:57
 msgid "This will be your last attempt."
 msgstr "ይህ የመጨረሻ ሙከራዎ ነው"
 
-#: qml/Greeter/NarrowView.qml:58
+#: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -296,7 +478,7 @@ msgstr ""
 "የተሳሳተ የማለፊያ ሐረግ ካስገቡ የ እርስዎ ስልክ ወደ ነበረበት ወደ ፋክቶሪው ዘዴ ይመለሳል: እና የ ግል ዳታ በሙሉ "
 "ይጠፋል"
 
-#: qml/Greeter/NarrowView.qml:59
+#: qml/Greeter/NarrowView.qml:60
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -304,34 +486,34 @@ msgstr ""
 "የተሳሳተ የማለፊያ ኮድ ካስገቡ የ እርስዎ ስልክ ወደ ነበረበት ወደ ፋክቶሪው ዘዴ ይመለሳል: እና የ ግል ዳታ በሙሉ "
 "ይጠፋል"
 
-#: qml/Greeter/NarrowView.qml:116
+#: qml/Greeter/NarrowView.qml:129
 #, qt-format
 msgid "Enter %1"
 msgstr "ማስገቢያ %1"
 
-#: qml/Greeter/NarrowView.qml:117
+#: qml/Greeter/NarrowView.qml:130
 msgid "Enter passphrase"
 msgstr "የ ማለፊያ ሀረግ ያስገቡ"
 
-#: qml/Greeter/NarrowView.qml:118
+#: qml/Greeter/NarrowView.qml:131
 msgid "Enter passcode"
 msgstr "የ ማለፊያ ኮድ ያስገቡ"
 
-#: qml/Greeter/NarrowView.qml:119
+#: qml/Greeter/NarrowView.qml:135
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "አዝናለሁ: የተሳሳተ%1"
 
-#: qml/Greeter/NarrowView.qml:120
+#: qml/Greeter/NarrowView.qml:136
 msgid "Sorry, incorrect passphrase"
 msgstr "አዝናለሁ የተሳሳተ የማለፊያ ሐረግ"
 
-#: qml/Greeter/NarrowView.qml:121
+#: qml/Greeter/NarrowView.qml:137
 msgctxt "passphrase"
 msgid "Please re-enter"
 msgstr "እባክዎን እንደገና-ያስገቡ"
 
-#: qml/Greeter/NarrowView.qml:122
+#: qml/Greeter/NarrowView.qml:138
 msgid "Sorry, incorrect passcode"
 msgstr "አዝናለሁ የተሳሳተ የማለፊያ ኮድ"
 
@@ -406,18 +588,18 @@ msgstr "ጨርሷል"
 msgid "Failed, tap to retry"
 msgstr "አልተቻለም: እንደገና ለመሞከር መታ ያድርጉ"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:155
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:151
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:210
 msgctxt "Button: Send a reply message"
 msgid "Send"
 msgstr "መላኪያ"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:152
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
 msgstr "መመለሻ"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:209
 msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "መልሶ መደወያ"
@@ -426,49 +608,25 @@ msgstr "መልሶ መደወያ"
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "መጎተቻ 3 ጣቶች በ መጠቀም ማንኛውንም መተግበሪያ ከ አንድ መስኮት ወደ ሌላ"
 
-#: qml/Tutorial/TutorialBottom.qml:78
-msgid "Swipe up to add a contact"
-msgstr "ወደ ላይ ይጥረጉ ግንኙነት ለ መጨመር"
-
-#: qml/Tutorial/TutorialBottom.qml:80
-msgid "Swipe up for favorite calculations"
-msgstr "ወደ ላይ ይጥረጉ የሚወዱትን ለማስላት"
-
-#: qml/Tutorial/TutorialBottom.qml:82
-msgid "Swipe up for recent calls"
-msgstr "ወደ ላይ ይጥረጉ ለ ቅርብ ጊዜ ጥሪዎች"
-
-#: qml/Tutorial/TutorialBottom.qml:84
-msgid "Swipe up to create a message"
-msgstr "ወደ ላይ ይጥረጉ መልእክት ለ መፍጠር"
-
-#: qml/Tutorial/TutorialBottom.qml:85
-msgid "Swipe up to manage the app"
-msgstr "ወደ ላይ ይጥረጉ መተግበሪያ ለማስተዳደር"
-
-#: qml/Tutorial/TutorialLeftLong.qml:47
+#: qml/Tutorial/TutorialLeftLong.qml:49
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr "በ ረጅሙ ከ ግራ ጠርዝ በኩል ይጥረጉ የ ዛሬን ክልል ለ መክፈት"
 
 #: qml/Tutorial/TutorialLeft.qml:47
-msgid "Swipe from the left edge to open the launcher"
-msgstr "ከ ግራ ጠርዝ በኩል ይጥረጉ ማስጀመሪያውን ለ መክፈት"
+msgid "Short swipe from the left edge to open the launcher"
+msgstr "በ አጭሩ ይጥረጉ ከ ግራ ጠርዝ በኩል ማስጀመሪያውን ለ መክፈት"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
-msgstr ""
+msgstr "የ እርስዎን አይጥ መጠቆሚያ ወደ ቀኝ ጠርዝ በኩል ያስጠጉ የ ተከፈቱ መተግበሪያዎችን ለ መመልከት"
 
 #: qml/Tutorial/TutorialRight.qml:56
-msgid "Short or long swipe from the right edge to view your open apps"
-msgstr "በ አጭሩ ወይንም በ ረጅሙ ይጥረጉ ከ ቀኝ ጠረዝ በኩል የ ተከፈቱ መተግበሪያዎችን ለማየት"
+msgid "Swipe from the right edge to view your open apps"
+msgstr "ከ ቀኝ በኩል ይጥረጉ የ ተከፈቱ መተግበሪያዎችን ለ መመልከት"
 
 #: qml/Tutorial/TutorialTop.qml:53
-msgid "Swipe from the top right edge to open the notification bar"
-msgstr "ከ ላይ ቀኝ ጠርዝ በኩል ይጥረጉ የ ማስታወቂያ መደርደሪያ ለ መክፈት"
-
-#: qml/Tutorial/TutorialTop.qml:54
-msgid "Swipe from the top edge to open the notification bar"
-msgstr "ከ ላይ ጠርዝ በኩል ይጥረጉ የ ማስታወቂያ መደርደሪያ ለ መክፈት"
+msgid "Swipe from the top edge to access notifications and quick settings"
+msgstr "ከ ላይ ጠረዝ በኩል ይጥረጉ ማስታወቂያዎች እና በፍጥነት ማሰናጃዎች ጋር ለ መድረስ"
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
@@ -479,11 +637,11 @@ msgstr "ወደ ኋላ"
 msgid "Language"
 msgstr "ቋንቋ"
 
-#: qml/Wizard/Pages/10-welcome.qml:156 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:267
+#: qml/Wizard/Pages/10-welcome.qml:171 qml/Wizard/Pages/30-wifi.qml:206
+#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
 #: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
 #: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:124
+#: qml/Wizard/Pages/passcode-desktop.qml:141
 #: qml/Wizard/Pages/password-set.qml:141
 msgid "Next"
 msgstr "ይቀጥሉ"
@@ -545,7 +703,7 @@ msgstr "እርስዎ በኋላ በ ስርአት ማሰናጃ ውስጥ መቀየ
 msgid "Time Zone"
 msgstr "የ ሰአት ክልል"
 
-#: qml/Wizard/Pages/50-timezone.qml:178
+#: qml/Wizard/Pages/50-timezone.qml:181
 msgid "Enter your city"
 msgstr "የ እርስዎን ከተማ ያስገቡ"
 
@@ -637,7 +795,7 @@ msgid "Service Terms"
 msgstr "የ ግልጋሎት ስምምነቶች"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:80
+#: qml/Wizard/Pages/passcode-desktop.qml:96
 msgid "Confirm passcode"
 msgstr "የማለፊያ ኮድ ማረጋገጫ"
 
@@ -654,24 +812,24 @@ msgstr "እባክዎን እንደገና-ያስገቡ"
 msgid "Lock Screen Passcode"
 msgstr "የ መመልከቻው መቆለፊያ የ ማለፊያ ኮድ"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:56
+#: qml/Wizard/Pages/passcode-desktop.qml:60
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "ያስገቡ 4 ቁጥሮች የ እርስዎን የ ማለፊያ ኮድ ለማሰናዳት"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:65
+#: qml/Wizard/Pages/passcode-desktop.qml:76
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "የ ማለፊያ ኮድ ይምረጡ"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:105
+#: qml/Wizard/Pages/passcode-desktop.qml:126
 msgid "Passcode too short"
 msgstr "የ ማለፊያ ኮዱ በጣም አጭር ነው"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:107
+#: qml/Wizard/Pages/passcode-desktop.qml:128
 msgid "Passcodes match"
 msgstr "የ ማለፊያ ኮዶቹ ተመሳሳይ ናቸው"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:109
+#: qml/Wizard/Pages/passcode-desktop.qml:130
 msgid "Passcodes do not match"
 msgstr "የ ማለፊያ ኮዶቹ አይመሳሰሉም"
 
@@ -720,26 +878,30 @@ msgid "To proceed with no SIM tap Skip."
 msgstr "ያለ ሲም ለ መቀጠል መዝለያውን መታ ያድርጉ"
 
 #: qml/Wizard/PasswordMeter.qml:87
+msgid "Password too short"
+msgstr "የ መግቢያ ቃል በጣም አጭር ነው"
+
+#: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
 msgstr "የ መግቢያ ቃሎቹ ተመሳሳይ ናቸው"
 
-#: qml/Wizard/PasswordMeter.qml:89
+#: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
 msgstr "የ መግቢያ ቃሎቹ ተመሳሳይ አይደሉም"
 
-#: qml/Wizard/PasswordMeter.qml:93
+#: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
 msgstr "ጠንካራ የ መግቢያ ቃል"
 
-#: qml/Wizard/PasswordMeter.qml:95
+#: qml/Wizard/PasswordMeter.qml:97
 msgid "Fair password"
 msgstr "ደህና የ መግቢያ ቃል"
 
-#: qml/Wizard/PasswordMeter.qml:97
+#: qml/Wizard/PasswordMeter.qml:99
 msgid "Weak password"
 msgstr "ደካማ የ መግቢያ ቃል"
 
-#: qml/Wizard/PasswordMeter.qml:99
+#: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
 msgstr "በጣም ደካማ የ መግቢያ ቃል"
 
@@ -988,6 +1150,9 @@ msgstr "በጣም ደካማ የ መግቢያ ቃል"
 #~ msgid "View all your running tasks."
 #~ msgstr "እርስዎ የሚያስኬዱትን ተግባሮች በሙሉ መመልከቻ"
 
+#~ msgid "Tap to unlock"
+#~ msgstr "ለመክፈት መታ ያድርጉ"
+
 #~ msgctxt "Button: Shut down the system"
 #~ msgid "Shut down"
 #~ msgstr "ማጥፊያ"
@@ -1056,6 +1221,33 @@ msgstr "በጣም ደካማ የ መግቢያ ቃል"
 
 #~ msgid "Call back"
 #~ msgstr "መልሶ መደወያ"
+
+#~ msgid "Swipe up for recent calls"
+#~ msgstr "ወደ ላይ ይጥረጉ ለ ቅርብ ጊዜ ጥሪዎች"
+
+#~ msgid "Swipe up for favorite calculations"
+#~ msgstr "ወደ ላይ ይጥረጉ የሚወዱትን ለማስላት"
+
+#~ msgid "Swipe up to manage the app"
+#~ msgstr "ወደ ላይ ይጥረጉ መተግበሪያ ለማስተዳደር"
+
+#~ msgid "Swipe up to create a message"
+#~ msgstr "ወደ ላይ ይጥረጉ መልእክት ለ መፍጠር"
+
+#~ msgid "Swipe up to add a contact"
+#~ msgstr "ወደ ላይ ይጥረጉ ግንኙነት ለ መጨመር"
+
+#~ msgid "Swipe from the top right edge to open the notification bar"
+#~ msgstr "ከ ላይ ቀኝ ጠርዝ በኩል ይጥረጉ የ ማስታወቂያ መደርደሪያ ለ መክፈት"
+
+#~ msgid "Swipe from the top edge to open the notification bar"
+#~ msgstr "ከ ላይ ጠርዝ በኩል ይጥረጉ የ ማስታወቂያ መደርደሪያ ለ መክፈት"
+
+#~ msgid "Short or long swipe from the right edge to view your open apps"
+#~ msgstr "በ አጭሩ ወይንም በ ረጅሙ ይጥረጉ ከ ቀኝ ጠረዝ በኩል የ ተከፈቱ መተግበሪያዎችን ለማየት"
+
+#~ msgid "Swipe from the left edge to open the launcher"
+#~ msgstr "ከ ግራ ጠርዝ በኩል ይጥረጉ ማስጀመሪያውን ለ መክፈት"
 
 #~ msgid "Hover your mouse on the right edge to view your open apps"
 #~ msgstr "የ እርስዎን አይጥ ወደ ቀኝ ጠርዝ በኩል ሲያደርጉ የ ተከፈቱ መተግበሪያዎች መመልከቻ"

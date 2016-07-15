@@ -146,19 +146,23 @@ Loader {
             errorText: errorAction.valid ? errorAction.state : ""
             retryText: notification.body
             background: menuFactory.background
+            darkenBackground: 0.4
 
             onEntered: {
                 menuModel.changeState(menuIndex, passphrase);
                 clear(false);
+                notification.dismissed()
             }
 
             onCancel: {
                 menuModel.activate(menuIndex, false);
+                notification.dismissed()
             }
 
             onEmergencyCall: {
                 shell.startLockedApp("dialer-app");
                 menuModel.activate(menuIndex, false);
+                notification.dismissed()
             }
 
             property var extendedData: menuData && menuData.ext || undefined

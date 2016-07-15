@@ -31,6 +31,7 @@ FocusScope {
     property bool alphanumeric
     property var userModel // unused
     property alias infographicModel: coverPage.infographicModel
+    property bool waiting
     readonly property bool fullyShown: coverPage.showProgress === 1 || lockscreen.shown
     readonly property bool required: coverPage.required || lockscreen.required
     readonly property bool animating: coverPage.showAnimation.running || coverPage.hideAnimation.running
@@ -65,15 +66,27 @@ FocusScope {
         coverPage.hide();
     }
 
-    function notifyAuthenticationSucceeded() {
-        lockscreen.hide();
+    function notifyAuthenticationSucceeded(showFakePassword) {
+        // When using an alternate log in mechanism like fingerprints, the
+        // design is it looks like the user entered a passcode.
+        if (!alphanumeric && showFakePassword) {
+            lockscreen.showText("...."); // actual text doesn't matter, we show bullets
+        }
     }
 
     function notifyAuthenticationFailed() {
+        lockscreen.customError = "";
+        lockscreen.clear(true);
+    }
+
+    function showErrorMessage(msg) {
+        coverPage.showErrorMessage(msg);
+        lockscreen.customError = msg ? msg : " "; // avoid default message
         lockscreen.clear(true);
     }
 
     function reset() {
+        lockscreen.customError = "";
         coverPage.show();
     }
 
@@ -116,7 +129,10 @@ FocusScope {
         infoText: promptText !== "" ? i18n.tr("Enter %1").arg(promptText) :
                   alphaNumeric ? i18n.tr("Enter passphrase") :
                                  i18n.tr("Enter passcode")
-        errorText: promptText !== "" ? i18n.tr("Sorry, incorrect %1").arg(promptText) :
+
+        property string customError
+        errorText: customError !== "" ? customError :
+                   promptText !== "" ? i18n.tr("Sorry, incorrect %1").arg(promptText) :
                    alphaNumeric ? i18n.tr("Sorry, incorrect passphrase") + "\n" +
                                   i18n.ctr("passphrase", "Please re-enter") :
                                   i18n.tr("Sorry, incorrect passcode")
@@ -156,6 +172,7 @@ FocusScope {
         height: parent.height
         width: parent.width
         background: root.background
+        draggable: !root.waiting
         onTease: root.tease()
         onClicked: hide()
 

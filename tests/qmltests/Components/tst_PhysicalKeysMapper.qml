@@ -134,40 +134,31 @@ Item {
             compare(screenshotSpy.count, 1);
         }
 
-        function test_altIsDispatchedOnRelease() {
-            // Press alt, make sure it does *not* end up in inputCatcher (aka, the focused app)
-            keyPress(Qt.Key_Alt, Qt.NoModifier)
-            compare(inputCatcher.pressedKeys.length, 0);
-            // Now release alt. It should cause the previous Alt press to be dispatched along with the release
-            keyRelease(Qt.Key_Alt, Qt.NoModifier);
-            compare(inputCatcher.pressedKeys.length, 1);
-            compare(inputCatcher.pressedKeys[0], Qt.Key_Alt);
-            compare(inputCatcher.releasedKeys.length, 1);
-            compare(inputCatcher.releasedKeys[0], Qt.Key_Alt);
-        }
-
-        function test_altIsNotDispatchedOnAltTab() {
-            // Press alt, make sure it does *not* end up in inputCatcher (aka, the focused app)
+        function test_altIsCancelledOnAltTab() {
+            // Press alt, make sure it does end up in inputCatcher (aka, the focused app)
             inputCatcher.pressedKeys = [];
             keyPress(Qt.Key_Alt, Qt.NoModifier)
-            compare(inputCatcher.pressedKeys.length, 0);
-            // Now also press tab. As this should trigger the spread, neither of them should end up in the app
+            compare(inputCatcher.pressedKeys.length, 1);
+            compare(inputCatcher.pressedKeys[0], Qt.Key_Alt);
+            // Now also press tab. As this should trigger the spread, alt needs to be released for the app
             keyPress(Qt.Key_Tab, Qt.NoModifier)
-            compare(inputCatcher.pressedKeys.length, 0);
+            compare(inputCatcher.releasedKeys.length, 1);
+            compare(inputCatcher.releasedKeys[0], Qt.Key_Alt);
 
-            // Also the release events should not be dispatched to the app
+            // Now release the keys, none of that should get to the app any more
             keyRelease(Qt.Key_Tab, Qt.NoModifier);
             keyRelease(Qt.Key_Alt, Qt.NoModifier);
-            compare(inputCatcher.pressedKeys.length, 0);
-            compare(inputCatcher.releasedKeys.length, 0);
+            compare(inputCatcher.pressedKeys.length, 1);
+            compare(inputCatcher.releasedKeys.length, 1);
         }
 
         function test_altComboIsDispatched() {
             inputCatcher.pressedKeys = [];
-            // Press alt, make sure it does *not* yet end up in inputCatcher (aka, the focused app)
+            // Press alt, make sure it does end up in inputCatcher (aka, the focused app)
             keyPress(Qt.Key_Alt, Qt.NoModifier)
-            compare(inputCatcher.pressedKeys.length, 0);
-            // Now press F in order to opening the File menu (Alt+F), now the app should get the full combo
+            compare(inputCatcher.pressedKeys.length, 1);
+            compare(inputCatcher.pressedKeys[0], Qt.Key_Alt);
+            // Now press F in order to opening the File menu (Alt+F), make sure it is dispatched too
             keyPress(Qt.Key_F, Qt.NoModifier)
             compare(inputCatcher.pressedKeys.length, 2);
             compare(inputCatcher.pressedKeys[0], Qt.Key_Alt);

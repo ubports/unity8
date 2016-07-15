@@ -41,12 +41,14 @@ import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
 import Unity.Indicators 0.1 as Indicators
-import Cursor 1.0
+import Cursor 1.1
 import WindowManager 0.1
 
 
-Item {
+StyledItem {
     id: shell
+
+    theme.name: "Ubuntu.Components.Themes.SuruDark"
 
     // to be set from outside
     property int orientationAngle: 0
@@ -114,10 +116,9 @@ Item {
     }
     function _onMainAppChanged(appId) {
         if (wizard.active && appId != "" && appId != "unity8-dash") {
-            // If this happens on first boot, we may be in edge
-            // tutorial or wizard while receiving a call.  But a call
-            // is more important than wizard so just bail out of those.
-            tutorial.finish();
+            // If this happens on first boot, we may be in the
+            // wizard while receiving a call.  But a call is more
+            // important than the wizard so just bail out of it.
             wizard.hide();
         }
 
@@ -136,9 +137,9 @@ Item {
     // For autopilot consumption
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
 
-    // Disable everything while greeter is waiting, so that the user can't swipe
-    // the greeter or launcher until we know whether the session is locked.
-    enabled: greeter && !greeter.waiting
+    // Note when greeter is waiting on PAM, so that we can disable edges until
+    // we know which user data to show and whether the session is locked.
+    readonly property bool waitingOnGreeter: greeter && greeter.waiting
 
     property real edgeSize: units.gu(settings.edgeDragWidth)
 
@@ -171,11 +172,9 @@ Item {
     }
 
     Component.onCompleted: {
-        theme.name = "Ubuntu.Components.Themes.SuruDark"
         finishStartUpTimer.start();
     }
 
-    LightDM{id: lightDM} // Provide backend access
     VolumeControl {
         id: volumeControl
         indicators: panel.indicators
@@ -221,6 +220,7 @@ Item {
             var mappedCoords = mapFromItem(null, pos.x, pos.y);
             cursor.x = mappedCoords.x;
             cursor.y = mappedCoords.y;
+            cursor.mouseNeverMoved = false;
         }
     }
 
@@ -259,8 +259,8 @@ Item {
                                            ? "phone"
                                            : shell.usageScenario
             readonly property string qmlComponent: {
-                if(shell.mode === "greeter") {
-                    return "Stages/ShimStage.qml"
+                if (shell.mode === "greeter") {
+                    return "Stages/AbstractStage.qml"
                 } else if (applicationsDisplayLoader.usageScenario === "phone") {
                     return "Stages/PhoneStage.qml";
                 } else if (applicationsDisplayLoader.usageScenario === "tablet") {
@@ -319,7 +319,7 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "inverseProgress"
-                value: greeter && greeter.locked ? 0 : launcher.progress
+                value: !greeter || greeter.locked || !tutorial.launcherLongSwipeEnabled ? 0 : launcher.progress
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -386,6 +386,11 @@ Item {
                 property: "topLevelSurfaceList"
                 value: topLevelSurfaceList
             }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "oskEnabled"
+                value: shell.oskEnabled
+            }
         }
     }
 
@@ -418,8 +423,11 @@ Item {
             hides: [launcher, panel.indicators]
             tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
-            forcedUnlock: wizard.active
+            forcedUnlock: wizard.active || shell.mode === "full-shell"
             background: wallpaperResolver.background
+            allowFingerprint: !dialogs.hasActiveDialog &&
+                              !notifications.topmostIsFullscreen &&
+                              !panel.indicators.shown
 
             // avoid overlapping with Launcher's edge drag area
             // FIXME: Fix TouchRegistry & friends and remove this workaround
@@ -493,7 +501,7 @@ Item {
     function showHome() {
         greeter.notifyUserRequestedApp("unity8-dash");
 
-        var animate = !lightDM.greeter.active && !stages.shown
+        var animate = !LightDMService.greeter.active && !stages.shown
         dash.setCurrentScope(0, animate, false)
         ApplicationManager.requestFocusApplication("unity8-dash")
     }
@@ -503,7 +511,8 @@ Item {
             launcher.fadeOut();
         }
 
-        if (!greeter.locked && ApplicationManager.focusedApplicationId != "unity8-dash") {
+        if (!greeter.locked && tutorial.launcherLongSwipeEnabled
+            && ApplicationManager.focusedApplicationId != "unity8-dash") {
             ApplicationManager.requestFocusApplication("unity8-dash")
             launcher.fadeOut();
         }
@@ -524,6 +533,7 @@ Item {
                 available: tutorial.panelEnabled
                         && ((!greeter || !greeter.locked) || AccountsService.enableIndicatorsWhileLocked)
                         && (!greeter || !greeter.hasLockedApp)
+                        && !shell.waitingOnGreeter
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
 
                 minimizedPanelHeight: units.gu(3)
@@ -531,7 +541,12 @@ Item {
 
                 indicatorsModel: Indicators.IndicatorsModel {
                     // tablet and phone both use the same profile
-                    profile: "phone"
+                    // FIXME: use just "phone" for greeter too, but first fix
+                    // greeter app launching to either load the app inside the
+                    // greeter or tell the session to load the app.  This will
+                    // involve taking the url-dispatcher dbus name and using
+                    // SessionBroadcast to tell the session.
+                    profile: shell.mode === "greeter" ? "desktop_greeter" : "phone"
                     Component.onCompleted: load();
                 }
             }
@@ -543,7 +558,7 @@ Item {
             readonly property bool focusedSurfaceIsFullscreen: MirFocusController.focusedSurface
                 ? MirFocusController.focusedSurface.state === Mir.FullscreenState
                 : false
-            fullscreenMode: (focusedSurfaceIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
+            fullscreenMode: (focusedSurfaceIsFullscreen && !LightDMService.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
             locked: greeter && greeter.active
         }
@@ -552,7 +567,14 @@ Item {
             id: launcher
             objectName: "launcher"
 
-            readonly property bool dashSwipe: progress > 0
+            /*
+             * Since the Dash doesn't have the same controll over surfaces that the
+             * Shell does, it can't slowly move the scope out of the way, as the shell
+             * does  with apps, and the dash is show instantly. This allows for some
+             * leeway and prevents accidental home swipes.
+             */
+            readonly property real offset: shell.focusedApplicationId == "unity8-dash" ? units.gu(12) : 0
+            readonly property bool dashSwipe: progress > offset
 
             anchors.top: parent.top
             anchors.topMargin: inverted ? 0 : panel.panelHeight
@@ -562,6 +584,7 @@ Item {
             available: tutorial.launcherEnabled
                     && (!greeter.locked || AccountsService.enableLauncherWhileLocked)
                     && !greeter.hasLockedApp
+                    && !shell.waitingOnGreeter
             inverted: shell.usageScenario !== "desktop"
             superPressed: physicalKeysMapper.superPressed
             superTabPressed: physicalKeysMapper.superTabPressed
@@ -617,13 +640,32 @@ Item {
             }
         }
 
+        KeyboardShortcutsOverlay {
+            objectName: "shortcutsOverlay"
+            enabled: launcher.shortcutHintsShown && width < parent.width - (launcher.lockedVisible ? launcher.panelWidth : 0) - padding
+                     && height < parent.height - padding - panel.panelHeight
+            anchors.centerIn: parent
+            anchors.horizontalCenterOffset: launcher.lockedVisible ? launcher.panelWidth/2 : 0
+            anchors.verticalCenterOffset: panel.panelHeight/2
+            visible: opacity > 0
+            opacity: enabled ? 0.95 : 0
+
+            Behavior on opacity {
+                UbuntuNumberAnimation {}
+            }
+        }
+
         Tutorial {
             id: tutorial
             objectName: "tutorial"
             anchors.fill: parent
 
-            paused: callManager.hasCalls || greeter.shown
-            keyboardVisible: inputMethod.state === "shown"
+            paused: callManager.hasCalls || !greeter || greeter.shown ||
+                    wizard.active
+            delayed: dialogs.hasActiveDialog || notifications.hasNotification ||
+                     inputMethod.state === "shown" ||
+                     (launcher.shown && !launcher.lockedVisible) ||
+                     panel.indicators.shown || stage.dragProgress > 0
             usageScenario: shell.usageScenario
             lastInputTimestamp: inputFilter.lastInputTimestamp
             launcher: launcher
@@ -635,6 +677,7 @@ Item {
             id: wizard
             objectName: "wizard"
             anchors.fill: parent
+            deferred: shell.mode === "greeter"
 
             function unlockWhenDoneWithWizard() {
                 if (!active) {
@@ -722,6 +765,16 @@ Item {
         visible: shell.hasMouse
         z: itemGrabber.z + 1
 
+        property bool mouseNeverMoved: true
+        Binding {
+            target: cursor; property: "x"; value: shell.width / 2
+            when: cursor.mouseNeverMoved && cursor.visible
+        }
+        Binding {
+            target: cursor; property: "y"; value: shell.height / 2
+            when: cursor.mouseNeverMoved && cursor.visible
+        }
+
         onPushedLeftBoundary: {
             if (buttons === Qt.NoButton) {
                 launcher.pushEdge(amount);
@@ -735,7 +788,10 @@ Item {
             }
         }
 
-        onMouseMoved: { cursor.opacity = 1; }
+        onMouseMoved: {
+            mouseNeverMoved = false;
+            cursor.opacity = 1;
+        }
     }
 
     // non-visual object

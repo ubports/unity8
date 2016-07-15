@@ -6,6 +6,8 @@ include_directories(
     ${libunity8-private_SOURCE_DIR}
 )
 
+add_definitions(-DSM_BUSNAME=systemBus)
+
 set(QMLSESSIONPLUGIN_SRC
     plugin.cpp
     dbusunitysessionservice.cpp

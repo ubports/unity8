@@ -109,7 +109,6 @@ Rectangle {
         }
 
         function test_comboEnsureVisible() {
-            skip("Flaky in adt but can't reproduce locally. Given the deadline I won't risk this getting stuck in proposed.");
             waitForRendering(preview);
 
             // Scroll down

@@ -20,10 +20,12 @@
 #include <qpa/qwindowsysteminterface.h>
 #include <QtGui/QGuiApplication>
 #include <QQuickView>
+#include <private/qquickbehavior_p.h>
+#include <private/qquickanimation_p.h>
 
 // UbuntuGestures lib
-#include <TouchRegistry.h>
-#include <Timer.h>
+#include <TouchRegistry>
+#include <Timer>
 
 using namespace UbuntuGestures;
 
@@ -54,6 +56,21 @@ TestUtil::isInstanceOf(QObject *obj, QString name)
         }
     }
     return result;
+}
+
+void
+TestUtil::waitForBehaviors(QObject *obj)
+{
+    if (!obj) return;
+
+    Q_FOREACH(auto c, obj->children()) {
+        if (auto *b = dynamic_cast<QQuickBehavior*>(c)) {
+            if (b->animation()) {
+                QTRY_COMPARE(b->animation()->isRunning(), false);
+            }
+        }
+        waitForBehaviors(c);
+    }
 }
 
 TouchEventSequenceWrapper *TestUtil::touchEvent(QQuickItem *item)

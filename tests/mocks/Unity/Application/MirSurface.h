@@ -96,8 +96,8 @@ public:
     int widthIncrement() const override { return m_widthIncrement; }
     int heightIncrement() const override { return m_heightIncrement; }
 
-    virtual void setKeymap(const QString &);
-    virtual QString keymap() const;
+    void setKeymap(const QString &) override;
+    QString keymap() const override;
 
     Mir::ShellChrome shellChrome() const override;
 

@@ -132,6 +132,8 @@ FocusScope {
         anchors.fill: parent
         visible: spreadBackground.visible
         enabled: visible
+        acceptedButtons: Qt.AllButtons
+        onWheel: wheel.accepted = true;
     }
 
     Item {
@@ -494,7 +496,7 @@ FocusScope {
     //                    Rectangle {
     //                        anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
     //                        height: units.dp(2)
-    //                        color: UbuntuColors.orange
+    //                        color: theme.palette.normal.focus
     //                        visible: index == 0 // TODO: should be active workspace index
     //                    }
                 }
