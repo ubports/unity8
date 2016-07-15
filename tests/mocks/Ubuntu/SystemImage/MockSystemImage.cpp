@@ -15,6 +15,7 @@
  */
 
 #include <QDebug>
+#include <QTimer>
 
 #include "MockSystemImage.h"
 
@@ -31,9 +32,19 @@ void MockSystemImage::checkForUpdate()
 void MockSystemImage::applyUpdate()
 {
     qDebug() << "Applying a fake system update";
+    setUpdateApplying(true);
+    QTimer::singleShot(5000, [this] {setUpdateApplying(false);});
 }
 
 void MockSystemImage::factoryReset()
 {
     Q_EMIT resettingDevice();
+}
+
+void MockSystemImage::setUpdateApplying(bool status)
+{
+    if (status != m_updateApplying) {
+        m_updateApplying = status;
+        Q_EMIT updateApplyingChanged();
+    }
 }

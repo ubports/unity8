@@ -27,6 +27,7 @@ class MockSystemImage : public QObject
     Q_PROPERTY(bool updateDownloaded READ updateDownloaded CONSTANT)
     Q_PROPERTY(QString availableVersion READ availableVersion CONSTANT)
     Q_PROPERTY(QString updateSize READ updateSize CONSTANT)
+    Q_PROPERTY(bool updateApplying READ updateApplying NOTIFY updateApplyingChanged)
 
 public:
     explicit MockSystemImage(QObject *parent = nullptr);
@@ -35,6 +36,7 @@ public:
     Q_INVOKABLE void applyUpdate();
     Q_INVOKABLE void factoryReset();
 
+    bool updateApplying() const { return m_updateApplying; }
     // these are const only in mock
     bool updateDownloaded() const { return true; }
     QString availableVersion() const { return QStringLiteral("42"); }
@@ -42,6 +44,13 @@ public:
 
 Q_SIGNALS:
     void resettingDevice(); // only for mock
+    void updateApplyingChanged();
+
+private Q_SLOTS:
+    void setUpdateApplying(bool status);
+
+private:
+    bool m_updateApplying = false;
 };
 
 #endif // MOCK_SYSTEMIMAGE_H

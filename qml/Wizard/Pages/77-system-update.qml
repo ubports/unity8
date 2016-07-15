@@ -122,7 +122,6 @@ LocalComponents.Page {
                 objectName: "installButton"
                 anchors.fill: parent
                 onClicked: {
-                    spinner.running = true;
                     SystemImage.applyUpdate();  // TODO mark the wizard to skip until the finished page for the next boot
                 }
             }
@@ -141,7 +140,7 @@ LocalComponents.Page {
     ActivityIndicator {
         id: spinner
         anchors.centerIn: systemUpdatePage
-        running: false
+        running: SystemImage.updateApplying
         visible: running
     }
 

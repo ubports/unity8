@@ -38,7 +38,8 @@ SystemImage::SystemImage(QObject *parent)
                                          this, SLOT(onUpdateFailed(int,QString)));
     QDBusConnection::systemBus().connect(SYSTEMIMAGE_SERVICE, SYSTEMIMAGE_PATH, SYSTEMIMAGE_IFACE, QStringLiteral("Applied"),
                                          this, SLOT(onUpdateApplied(bool)));
-
+    QDBusConnection::systemBus().connect(SYSTEMIMAGE_SERVICE, SYSTEMIMAGE_PATH, SYSTEMIMAGE_IFACE, QStringLiteral("Rebooting"),
+                                         this, SLOT(onRebooting(bool)));
     QDBusConnection::systemBus().connect(SYSTEMIMAGE_SERVICE, SYSTEMIMAGE_PATH, SYSTEMIMAGE_IFACE, QStringLiteral("UpdateProgress"),
                                          this, SLOT(onUpdateProgress(int,double)));
 }
@@ -54,6 +55,8 @@ void SystemImage::checkForUpdate()
 void SystemImage::applyUpdate()
 {
     qDebug() << "!!! Applying update";
+    setUpdateApplying(true);
+
     const QDBusMessage msg = QDBusMessage::createMethodCall(SYSTEMIMAGE_SERVICE, SYSTEMIMAGE_PATH, SYSTEMIMAGE_IFACE,
                                                             QStringLiteral("ApplyUpdate"));
     QDBusConnection::systemBus().asyncCall(msg);
@@ -99,11 +102,13 @@ void SystemImage::onUpdateFailed(int consecutive_failure_count, const QString &l
 {
     Q_UNUSED(consecutive_failure_count)
     qWarning() << Q_FUNC_INFO << "System Update failed:" << last_reason;
+    setUpdateApplying(false);
 }
 
 void SystemImage::onUpdateApplied(bool applied)
 {
     qDebug() << Q_FUNC_INFO << "System Update applied with status:" << applied;
+    setUpdateApplying(false);
     if (applied) {
         resetUpdateStatus();
         Q_EMIT updateAvailableStatus();
@@ -115,9 +120,24 @@ void SystemImage::onUpdateProgress(int percentage, double eta)
     qDebug() << "!!! Download progress:" << percentage << "%, ETA seconds:" << eta;
 }
 
+void SystemImage::onRebooting(bool status)
+{
+    setUpdateApplying(false);
+    qDebug() << "!!! Rebooting:" << status;
+}
+
+void SystemImage::setUpdateApplying(bool status)
+{
+    if (status != m_updateApplying) {
+        m_updateApplying = status;
+        Q_EMIT updateApplyingChanged();
+    }
+}
+
 void SystemImage::resetUpdateStatus()
 {
     m_updateAvailable = false;
+    m_updateApplying = false;
     m_downloading = false;
     m_downloaded = false;
     m_availableVersion.clear();
