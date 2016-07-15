@@ -161,7 +161,7 @@ LocalComponents.Page {
             font.weight: Font.Light
             color: textColor
             wrapMode: Text.Wrap
-            text: listview.count > 0 ? i18n.tr("Select one of the available Wi-Fi networks to access the latest features and updates.")
+            text: listview.count > 0 ? i18n.tr("Available Wi-Fi networks")
                                      : i18n.tr("No available Wi-Fi networks")
         }
 
@@ -174,8 +174,6 @@ LocalComponents.Page {
             Layout.fillHeight: true
 
             delegate: Loader {
-                id: loader
-
                 readonly property bool isAccessPoint: model.type === "unity.widgets.systemsettings.tablet.accesspoint"
                 readonly property bool isConnected: item && item.menuData && item.menuData.actionState
                 readonly property bool isEnterprise: item && item.isEnterprise
