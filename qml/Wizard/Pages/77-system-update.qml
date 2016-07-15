@@ -21,7 +21,7 @@ import Ubuntu.SystemImage 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
-    id: reportingPage
+    id: systemUpdatePage
     objectName: "systemUpdatePage"
 
     title: i18n.tr("Update Device")
@@ -38,6 +38,10 @@ LocalComponents.Page {
             topMargin: customMargin
         }
         spacing: units.gu(3)
+        opacity: spinner.running ? 0.5 : 1
+        Behavior on opacity {
+            UbuntuNumberAnimation {}
+        }
 
         Label {
             anchors.left: parent.left
@@ -117,7 +121,10 @@ LocalComponents.Page {
                 id: button
                 objectName: "installButton"
                 anchors.fill: parent
-                onClicked: SystemImage.applyUpdate();  // TODO mark the wizard to skip until the finished page for the next boot
+                onClicked: {
+                    spinner.running = true;
+                    SystemImage.applyUpdate();  // TODO mark the wizard to skip until the finished page for the next boot
+                }
             }
 
             transformOrigin: Item.Top
@@ -129,6 +136,13 @@ LocalComponents.Page {
                 }
             }
         }
+    }
+
+    ActivityIndicator {
+        id: spinner
+        anchors.centerIn: systemUpdatePage
+        running: false
+        visible: running
     }
 
     Component {
