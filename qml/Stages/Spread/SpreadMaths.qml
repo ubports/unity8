@@ -49,7 +49,7 @@ Item {
                             Math.min(spread.dynamicLeftRotationAngle, spread.dynamicRightRotationAngle), Math.max(spread.dynamicLeftRotationAngle, spread.dynamicRightRotationAngle))
 
 
-    readonly property real scale: MathUtils.clamp(
+    readonly property real targetScale: MathUtils.clamp(
                             MathUtils.map(spreadPosition, 0, 1, spread.leftStackScale, spread.rightStackScale),
                                       spread.leftStackScale, spread.rightStackScale)
 

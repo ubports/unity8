@@ -129,7 +129,8 @@ AbstractStage {
         property var foregroundMaximizedAppDelegate: null // for stuff like drop shadow and focusing maximized app by clicking panel
 
         property bool goneToSpread: false
-        property int animationDuration: UbuntuAnimation.FastDuration //4000//UbuntuAnimation.SleepyDuration
+//        property int animationDuration: 4000
+        property int animationDuration: UbuntuAnimation.FastDuration
 
         function updateForegroundMaximizedApp() {
             var found = false;
@@ -490,7 +491,7 @@ AbstractStage {
                 readonly property bool maximizedHorizontally: windowState & WindowStateStorage.WindowStateMaximizedHorizontally
                 readonly property bool maximizedVertically: windowState & WindowStateStorage.WindowStateMaximizedVertically
                 readonly property bool minimized: windowState & WindowStateStorage.WindowStateMinimized
-                readonly property bool fullscreen: state == "fullscreen"
+                readonly property bool fullscreen: surface.state === Mir.FullscreenState;
 
                 property int windowState: WindowStateStorage.WindowStateNormal
                 property bool animationsEnabled: true
@@ -687,6 +688,7 @@ AbstractStage {
                     id: rightEdgeFocusAnimation
                     UbuntuNumberAnimation { target: appDelegate; properties: "x"; to: 0; duration: priv.animationDuration }
                     UbuntuNumberAnimation { target: decoratedWindow; properties: "angle"; to: 0; duration: priv.animationDuration }
+                    UbuntuNumberAnimation { target: decoratedWindow; properties: "itemScale"; to: 1; duration: priv.animationDuration }
                     onStopped: appDelegate.focus = true
                 }
                 ParallelAnimation {
@@ -720,7 +722,9 @@ AbstractStage {
                     progress: 0
                     targetHeight: spreadMaths.stackHeight
                     targetX: spreadMaths.targetX
+                    targetY: spreadMaths.targetY
                     targetAngle: spreadMaths.targetAngle
+                    targetScale: spreadMaths.targetScale
                 }
 
 //                onXChanged: if (model.application.appId == "unity8-dash") print("dash moved to", x)
@@ -733,10 +737,11 @@ AbstractStage {
                             target: decoratedWindow;
                             showDecoration: false;
                             angle: spreadMaths.targetAngle
-                            itemScale: spreadMaths.scale
+                            itemScale: spreadMaths.targetScale
                             scaleToPreviewSize: spreadItem.stackHeight
                             scaleToPreviewProgress: 1
                             hasDecoration: root.mode === "windowed"
+                            shadowOpacity: .3
                         }
                         PropertyChanges {
                             target: appDelegate
@@ -756,10 +761,11 @@ AbstractStage {
                         PropertyChanges {
                             target: stagedRightEdgeMaths
                             progress: rightEdgeDragArea.progress
+                            startY: appDelegate.fullscreen ? 0 : PanelState.panelHeight
                         }
                         PropertyChanges {
                             target: appDelegate
-                            y: PanelState.panelHeight
+                            y: stagedRightEdgeMaths.animatedY
                             x: stagedRightEdgeMaths.animatedX
                             z: index +1
                             height: stagedRightEdgeMaths.animatedHeight
@@ -770,8 +776,10 @@ AbstractStage {
                             target: decoratedWindow;
                             hasDecoration: false
                             angle: stagedRightEdgeMaths.animatedAngle
+                            itemScale: stagedRightEdgeMaths.animatedScale
                             scaleToPreviewSize: spreadItem.stackHeight
-                            scaleToPreviewProgress: stagedRightEdgeMaths.progress
+                            scaleToPreviewProgress: stagedRightEdgeMaths.scaleToPreviewProgress
+                            shadowOpacity: 0.3
                         }
                     },
                     State {
@@ -781,7 +789,7 @@ AbstractStage {
                             x: appDelegate.focus ? 0 : root.width
                             y: appDelegate.fullscreen ? 0 : PanelState.panelHeight
                             requestedWidth: appContainer.width
-                            requestedHeight: appContainer.height - PanelState.panelHeight
+                            requestedHeight: appDelegate.fullscreen ? appContainer.height : appContainer.height - PanelState.panelHeight
                             visuallyMaximized: true
                         }
                         PropertyChanges {
@@ -854,6 +862,7 @@ AbstractStage {
                         }
                         PropertyChanges { target: touchControls; enabled: true }
                         PropertyChanges { target: resizeArea; enabled: true }
+                        PropertyChanges { target: decoratedWindow; shadowOpacity: .3}
                     },
                     State {
                         name: "maximizedLeft"; when: appDelegate.maximizedLeft && !appDelegate.minimized
@@ -866,6 +875,7 @@ AbstractStage {
                             target: decoratedWindow
                             requestedWidth: (appContainer.width - root.leftMargin)/2
                             requestedHeight: appContainer.height - PanelState.panelHeight
+                            shadowOpacity: .3
                         }
                     },
                     State {
@@ -879,17 +889,26 @@ AbstractStage {
                             target: decoratedWindow
                             requestedWidth: (appContainer.width - root.leftMargin)/2
                             requestedHeight: appContainer.height - PanelState.panelHeight
+                            shadowOpacity: .3
                         }
                     },
                     State {
                         name: "maximizedHorizontally"; when: appDelegate.maximizedHorizontally && !appDelegate.minimized
                         PropertyChanges { target: appDelegate; x: root.leftMargin }
-                        PropertyChanges { target: decoratedWindow; requestedWidth: appContainer.width - root.leftMargin }
+                        PropertyChanges {
+                            target: decoratedWindow;
+                            requestedWidth: appContainer.width - root.leftMargin
+                            shadowOpacity: .3
+                        }
                     },
                     State {
                         name: "maximizedVertically"; when: appDelegate.maximizedVertically && !appDelegate.minimized
                         PropertyChanges { target: appDelegate; y: PanelState.panelHeight }
-                        PropertyChanges { target: decoratedWindow; requestedHeight: appContainer.height - PanelState.panelHeight }
+                        PropertyChanges {
+                            target: decoratedWindow;
+                            requestedHeight: appContainer.height - PanelState.panelHeight
+                            shadowOpacity: .3
+                        }
                     },
                     State {
                         name: "minimized"; when: appDelegate.minimized
@@ -912,7 +931,7 @@ AbstractStage {
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: priv.animationDuration }
                     },
                     Transition {
-                        from: "spread"; to: "staged,normal"
+                        from: "spread"; to: "*"
 //                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
 //                        UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle"; duration: priv.animationDuration }
                         ScriptAction { script: if (appDelegate.focus) appDelegate.playFocusAnimation() }
@@ -1068,15 +1087,6 @@ AbstractStage {
                         }
                     ]
                 }
-                BorderImage {
-                    anchors {
-                        fill: decoratedWindow
-                        margins: /*active ? -units.gu(2) : */-units.gu(1.5)
-                    }
-                    source: "graphics/dropshadow2gu.sci"
-                    opacity: root.shadowOpacity * .3
-                    visible: false
-                }
 
 
                 WindowControlsOverlay {
@@ -1199,7 +1209,7 @@ AbstractStage {
                 // A potential edge-drag gesture has started. Start recording it
                 gesturePoints = [];
             } else {
-                if (gesturePoints[gesturePoints.length - 1] < -root.width / 2) {
+                if (gesturePoints[gesturePoints.length - 1] < -root.width * 0.4 ) {
                     priv.goneToSpread = true;
                 } else {
                     if (appRepeater.count > 1) {

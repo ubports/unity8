@@ -35,8 +35,9 @@ FocusScope {
     property bool hasDecoration: true
     // This will temporarily show/hide the decoration without actually changing the surface's dimensions
     property bool showDecoration: true
+    property bool animateDecoration: false
     property bool showHighlight: false
-    property real shadowOpacity: 1
+    property real shadowOpacity: 0
 
     property real requestedWidth
     property real requestedHeight
@@ -67,10 +68,10 @@ FocusScope {
     QtObject {
         id: d
         property int requestedDecorationHeight: root.hasDecoration && root.hasDecoration ? decoration.height : 0
-        Behavior on requestedDecorationHeight { UbuntuNumberAnimation { duration: priv.animationDuration } }
+        Behavior on requestedDecorationHeight { enabled: root.animateDecoration; UbuntuNumberAnimation { duration: priv.animationDuration } }
 
         property int visibleDecorationHeight: root.showDecoration && root.hasDecoration ? decoration.height : 0
-        Behavior on visibleDecorationHeight { UbuntuNumberAnimation { duration: priv.animationDuration } }
+        Behavior on visibleDecorationHeight { enabled: root.animateDecoration; UbuntuNumberAnimation { duration: priv.animationDuration } }
     }
 
     Rectangle {
@@ -86,6 +87,15 @@ FocusScope {
         height: units.dp(2)
         color: theme.palette.normal.focus
         visible: showHighlight
+    }
+
+    BorderImage {
+        anchors {
+            fill: decoratedWindow
+            margins: active ? -units.gu(2) : -units.gu(1.5)
+        }
+        source: "graphics/dropshadow2gu.sci"
+        opacity: root.shadowOpacity
     }
 
     WindowDecoration {
