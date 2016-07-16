@@ -53,10 +53,19 @@ Item {
                             MathUtils.map(spreadPosition, 0, 1, spread.leftStackScale, spread.rightStackScale),
                                       spread.leftStackScale, spread.rightStackScale)
 
+    readonly property real shadowOpacity: 0.2 * (1  - rightStackingProgress) * (1 - leftStackingProgress)
+
+
     readonly property real closeIconOffset: (scale - 1) * (-root.spreadHeight / 2)
 
-    readonly property real tileInfoOpacity: 1
+    readonly property real tileInfoOpacity: Math.min(MathUtils.clamp(MathUtils.map(leftStackingProgress, 0 , 1/(spread.stackItemCount*3), 1, 0), 0 , 1),
+                                                     MathUtils.clamp(MathUtils.map(spreadPosition, 0.9 , 1, 1, 0), 0 , 1)) /** MathUtils.map(curvedSwitcherProgress, 0.7, 0.9, 0, 1)*/
 
-    readonly property bool itemVisible: true
-    readonly property real shadowOpacity: 1
+    readonly property bool itemVisible: {
+        var leftStackHidden = spreadPosition < -(spread.stackItemCount + 1)/spread.visibleItemCount
+        // don't hide the rightmost
+        var rightStackHidden = (spreadPosition > 1 + (spread.stackItemCount)/spread.visibleItemCount) && itemIndex !== spread.totalItemCount - 1
+        return !leftStackHidden && !rightStackHidden
+    }
+
 }

@@ -741,7 +741,7 @@ AbstractStage {
                             scaleToPreviewSize: spreadItem.stackHeight
                             scaleToPreviewProgress: 1
                             hasDecoration: root.mode === "windowed"
-                            shadowOpacity: .3
+                            shadowOpacity: spreadMaths.shadowOpacity
                         }
                         PropertyChanges {
                             target: appDelegate
@@ -751,9 +751,10 @@ AbstractStage {
                             height: spreadItem.spreadItemHeight
                             requestedWidth: decoratedWindow.oldRequestedWidth
                             requestedHeight: decoratedWindow.oldRequestedHeight
+                            visible: spreadMaths.itemVisible
                         }
                         PropertyChanges { target: inputBlocker; enabled: true }
-                        PropertyChanges { target: windowInfoItem; opacity: 1 }
+                        PropertyChanges { target: windowInfoItem; opacity: spreadMaths.tileInfoOpacity; visible: spreadMaths.itemVisible }
                     },
                     State {
                         name: "stagedrightedge";
@@ -1120,6 +1121,7 @@ AbstractStage {
                     anchors { left: parent.left; top: decoratedWindow.bottom; topMargin: units.gu(1) }
                     title: decoratedWindow.title
                     iconSource: model.application.icon
+                    height: spreadItem.appInfoHeight
                     opacity: 0
                     visible: opacity > 0
                     Behavior on opacity { UbuntuNumberAnimation { duration: priv.animationDuration } }
