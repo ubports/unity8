@@ -1,8 +1,7 @@
 #!/bin/sh
 # -*- Mode: sh; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Copyright (C) 2011,2013 Canonical Ltd
-# Author: Michael Terry <michael.terry@canonical.com>
+# Copyright (C) 2011,2013,2016 Canonical Ltd
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -42,6 +41,8 @@ set_greeter_var()
 SUB_SOCKET=$XDG_RUNTIME_DIR/mir_socket
 rm -f $SUB_SOCKET # clear socket in case we were hard shut down
 
+rm -f "$XDG_RUNTIME_DIR/dbus-session"
+
 # If touch session script (which sets up grid units and mir variables) is available, use it
 TOUCH_WRAPPER=
 if [ -x /usr/bin/ubuntu-touch-session ]; then
@@ -68,6 +69,7 @@ while [ ! -e "$XDG_RUNTIME_DIR/upstart/sessions/$INIT_PID.session" ]; do sleep 0
 export UPSTART_SESSION=$(/sbin/initctl list-sessions | grep "^$INIT_PID " | cut -d' ' -f2)
 
 # Connect upstart to system.
+echo "DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS}" >"$XDG_RUNTIME_DIR/dbus-session"
 /sbin/initctl notify-dbus-address "$DBUS_SESSION_BUS_ADDRESS"
 /sbin/initctl start notify-cgmanager
 
