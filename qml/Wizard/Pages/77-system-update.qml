@@ -65,6 +65,7 @@ LocalComponents.Page {
 
             Image {
                 Layout.rowSpan: 3
+                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                 sourceSize: Qt.size(units.gu(3), units.gu(3))
                 fillMode: Image.PreserveAspectFit
                 source: "image://theme/distributor-logo"
