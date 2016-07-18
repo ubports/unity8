@@ -33,7 +33,7 @@ void MockSystemImage::applyUpdate()
 {
     qDebug() << "Applying a fake system update";
     setUpdateApplying(true);
-    QTimer::singleShot(5000, [this] {setUpdateApplying(false);});
+    QTimer::singleShot(3000, [this] {setUpdateApplying(false);});
 }
 
 void MockSystemImage::factoryReset()

@@ -40,8 +40,6 @@ SystemImage::SystemImage(QObject *parent)
                                          this, SLOT(onUpdateApplied(bool)));
     QDBusConnection::systemBus().connect(SYSTEMIMAGE_SERVICE, SYSTEMIMAGE_PATH, SYSTEMIMAGE_IFACE, QStringLiteral("Rebooting"),
                                          this, SLOT(onRebooting(bool)));
-    QDBusConnection::systemBus().connect(SYSTEMIMAGE_SERVICE, SYSTEMIMAGE_PATH, SYSTEMIMAGE_IFACE, QStringLiteral("UpdateProgress"),
-                                         this, SLOT(onUpdateProgress(int,double)));
 }
 
 void SystemImage::checkForUpdate()
@@ -113,11 +111,6 @@ void SystemImage::onUpdateApplied(bool applied)
         resetUpdateStatus();
         Q_EMIT updateAvailableStatus();
     }
-}
-
-void SystemImage::onUpdateProgress(int percentage, double eta)
-{
-    qDebug() << "!!! Download progress:" << percentage << "%, ETA seconds:" << eta;
 }
 
 void SystemImage::onRebooting(bool status)

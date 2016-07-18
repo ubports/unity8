@@ -54,7 +54,6 @@ private Q_SLOTS:
     void onUpdateDownloaded();
     void onUpdateFailed(int consecutive_failure_count, const QString & last_reason);
     void onUpdateApplied(bool applied);
-    void onUpdateProgress(int percentage, double eta);
     void onRebooting(bool status);
 
 Q_SIGNALS:
