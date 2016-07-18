@@ -62,16 +62,6 @@ Showable {
 
     readonly property bool animating: loader.item ? loader.item.animating : false
 
-    property string sessionToStart: {
-        if (loader.active && loader.item.sessionToStart !== undefined) {
-            return loader.item.sessionToStart
-        } else if (LightDMService.greeter.defaultSession) {
-            return LightDMService.greeter.defaultSession
-        } else {
-            return "ubuntu"
-        }
-    }
-
     signal tease()
     signal sessionStarted()
     signal emergencyCall()
@@ -133,6 +123,18 @@ Showable {
         }
 
         return d.startUnlock(true /* toTheRight */);
+    }
+
+    function sessionToStart() {
+        for (var i = 0; i < LightDMService.sessions.count; i++) {
+            var session = LightDMService.sessions.data(i,
+                LightDMService.sessionRoles.KeyRole);
+            if (session === LightDMService.greeter.defaultSession ||
+                session === loader.item.sessionToStart) {
+                    return session;
+                }
+        }
+        return "ubuntu" // The default / fallback
     }
 
     QtObject {
@@ -200,7 +202,7 @@ Showable {
 
         function login() {
             enabled = false;
-            if (LightDMService.greeter.startSessionSync(root.sessionToStart)) {
+            if (LightDMService.greeter.startSessionSync(root.sessionToStart())) {
                 sessionStarted();
                 hideView();
             } else if (loader.item) {
