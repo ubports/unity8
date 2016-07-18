@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import Ubuntu.SystemImage 0.1
+import Wizard 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -122,7 +123,8 @@ LocalComponents.Page {
                 objectName: "installButton"
                 anchors.fill: parent
                 onClicked: {
-                    SystemImage.applyUpdate();  // TODO mark the wizard to skip until the finished page for the next boot
+                    System.skipUntilFinishedPage();
+                    SystemImage.applyUpdate();
                 }
             }
 
