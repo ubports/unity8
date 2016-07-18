@@ -43,6 +43,7 @@ FocusScope {
      // A Stage should paint a wallpaper etc over its full size but not use the margins for window placement
     property int leftMargin: 0
     property alias paintBackground: background.visible
+    property bool oskEnabled: false
 
     // To be read from outside
     property var mainApp: null

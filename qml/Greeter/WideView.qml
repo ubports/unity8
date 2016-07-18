@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@ import "." 0.1
 
 FocusScope {
     id: root
+    focus: true
 
     property alias background: coverPage.background
     property alias backgroundTopMargin: coverPage.backgroundTopMargin
@@ -41,7 +42,6 @@ FocusScope {
     // so that it can be replaced in tests with a mock object
     property var inputMethod: Qt.inputMethod
 
-    signal promptlessLogin()
     signal selected(int index)
     signal responded(string response)
     signal tease()
@@ -116,7 +116,7 @@ FocusScope {
         objectName: "coverPage"
         height: parent.height
         width: parent.width
-        draggable: !root.locked
+        draggable: !root.locked && !root.waiting
 
         infographics {
             height: 0.75 * parent.height

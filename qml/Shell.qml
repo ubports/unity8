@@ -137,9 +137,9 @@ StyledItem {
     // For autopilot consumption
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
 
-    // Disable everything while greeter is waiting, so that the user can't swipe
-    // the greeter or launcher until we know whether the session is locked.
-    enabled: greeter && !greeter.waiting
+    // Note when greeter is waiting on PAM, so that we can disable edges until
+    // we know which user data to show and whether the session is locked.
+    readonly property bool waitingOnGreeter: greeter && greeter.waiting
 
     property real edgeSize: units.gu(settings.edgeDragWidth)
 
@@ -386,6 +386,11 @@ StyledItem {
                 property: "topLevelSurfaceList"
                 value: topLevelSurfaceList
             }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "oskEnabled"
+                value: shell.oskEnabled
+            }
         }
     }
 
@@ -528,6 +533,7 @@ StyledItem {
                 available: tutorial.panelEnabled
                         && ((!greeter || !greeter.locked) || AccountsService.enableIndicatorsWhileLocked)
                         && (!greeter || !greeter.hasLockedApp)
+                        && !shell.waitingOnGreeter
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
 
                 minimizedPanelHeight: units.gu(3)
@@ -578,6 +584,7 @@ StyledItem {
             available: tutorial.launcherEnabled
                     && (!greeter.locked || AccountsService.enableLauncherWhileLocked)
                     && !greeter.hasLockedApp
+                    && !shell.waitingOnGreeter
             inverted: shell.usageScenario !== "desktop"
             superPressed: physicalKeysMapper.superPressed
             superTabPressed: physicalKeysMapper.superTabPressed

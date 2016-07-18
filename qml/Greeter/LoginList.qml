@@ -22,11 +22,13 @@ import "." 0.1
 
 StyledItem {
     id: root
+    focus: true
 
     property alias model: userList.model
     property bool alphanumeric: true
     property int currentIndex
     property bool locked
+    property bool waiting
 
     readonly property int numAboveBelow: 4
     readonly property int cellHeight: units.gu(5)
@@ -52,7 +54,6 @@ StyledItem {
             if (root.locked) {
                 root.selected(currentIndex);
             } else {
-                promptlessLogin();
                 root.responded("");
             }
         }
@@ -67,20 +68,18 @@ StyledItem {
     }
 
     function showPrompt(text, isSecret, isDefaultPrompt) {
-        d.promptText = text;
-        passwordInput.reset();
+        passwordInput.text = isDefaultPrompt ? alphanumeric ? i18n.tr("Passphrase")
+                                                            : i18n.tr("Passcode")
+                                             : text;
+        passwordInput.isPrompt = true;
         passwordInput.isSecret = isSecret;
-        if (wasPrompted) // stay in text field if second prompt
-            passwordInput.focus = true;
+        passwordInput.reset();
         wasPrompted = true;
     }
 
     function showError() {
         wrongPasswordAnimation.start();
         root.resetAuthentication();
-        if (wasPrompted) {
-            passwordInput.focus = true;
-        }
     }
 
     function reset() {
@@ -90,15 +89,33 @@ StyledItem {
     QtObject {
         id: d
 
-        property string promptText
+        function checkIfPromptless() {
+            if (!waiting && !wasPrompted) {
+                passwordInput.isPrompt = false;
+                passwordInput.text = root.locked ? i18n.tr("Retry")
+                                                 : i18n.tr("Log In")
+            }
+        }
     }
+
+    onWaitingChanged: d.checkIfPromptless()
+    onLockedChanged: d.checkIfPromptless()
 
     theme: ThemeSettings {
         name: "Ubuntu.Components.Themes.Ambiance"
     }
 
+    Keys.onUpPressed: {
+        selected(currentIndex - 1);
+        event.accepted = true;
+    }
+    Keys.onDownPressed: {
+        selected(currentIndex + 1);
+        event.accepted = true;
+    }
     Keys.onEscapePressed: {
         selected(currentIndex);
+        event.accepted = true;
     }
 
     onCurrentIndexChanged: {
@@ -131,6 +148,7 @@ StyledItem {
         highlightRangeMode: ListView.StrictlyEnforceRange
         highlightMoveDuration: root.moveDuration
         flickDeceleration: 10000
+        interactive: count > 1
 
         readonly property bool movingInternally: moveTimer.running || userList.moving
         onMovingInternallyChanged: {
@@ -292,12 +310,7 @@ StyledItem {
         width: highlightItem.width - anchors.margins * 2
         opacity: userList.movingInternally ? 0 : 1
 
-        isPrompt: root.wasPrompted
         isAlphanumeric: root.alphanumeric
-
-        text: root.wasPrompted ? d.promptText
-                               : (root.locked ? i18n.tr("Retry")
-                                              : i18n.tr("Log In"))
 
         onClicked: root.tryToUnlock()
         onResponded: root.responded(text)
@@ -318,7 +331,6 @@ StyledItem {
             return;
         }
         infoLabel.text = "";
-        d.promptText = "";
         passwordInput.reset();
         root.wasPrompted = false;
     }

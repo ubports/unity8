@@ -1,3 +1,35 @@
+unity8 (8.12+16.10.20160711-0ubuntu1) yakkety; urgency=medium
+
+  [ Josh Arenson ]
+  * Add a SessionsModel to lightdm to support the greeter's session
+    chooser
+  * Add unity8-greeter package which contains a basic, but usable
+    LightDM greeter. (LP: #1324602)
+
+  [ Michael Terry ]
+  * Make sure indicators and launcher hide when power button is pressed
+    on greeter. (LP: #1595569)
+  * Fix tablet greeter focus to be always-on, no longer hiding the OSK
+    or forcing a mouse click to type a password. (LP: #1435923)
+
+ -- Michael Terry <michael.terry@canonical.com>  Mon, 11 Jul 2016 17:24:20 +0000
+
+unity8 (8.12+16.10.20160707-0ubuntu1) yakkety; urgency=medium
+
+  [ Michael Zanetti ]
+  * emit the correct role changed signal on count visible changed (LP:
+    #1599925)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 07 Jul 2016 16:49:32 +0000
+
+unity8 (8.12+16.10.20160705-0ubuntu1) yakkety; urgency=medium
+
+  [ Michael Zanetti ]
+  * don't displace windows if the OSK is on another screen (LP:
+    #1598917)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 05 Jul 2016 10:00:57 +0000
+
 unity8 (8.12+16.10.20160627.5-0ubuntu1) yakkety; urgency=medium
 
   [ Albert Astals Cid ]
