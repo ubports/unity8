@@ -37,7 +37,7 @@ private Q_SLOTS:
     {
         dispatcher = new URLDispatcher(this);
         dispatchSpy = new QSignalSpy(dispatcher,
-                                     SIGNAL(dispatchURL(const QString &)));
+                                     SIGNAL(urlRequested(const QString &)));
     }
 
     void cleanup()

@@ -2572,7 +2572,7 @@ Rectangle {
 
             var urlDispatcher = findInvisibleChild(shell, "urlDispatcher");
             verify(urlDispatcher.active);
-            urlDispatcher.dispatchURL("test:"); // force signal emission
+            urlDispatcher.urlRequested("test:"); // force signal emission
 
             tryCompare(broadcastUrlSpy, "count", 1);
             compare(broadcastUrlSpy.signalArguments[0][0], "test:");

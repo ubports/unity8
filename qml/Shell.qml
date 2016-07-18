@@ -154,10 +154,16 @@ StyledItem {
         // Either open the app in our own session, or -- if we're acting as a
         // greeter -- ask the user's session to open it for us.
         if (shell.mode === "greeter") {
-            urlDispatcher.activateURL("application:///" + appId + ".desktop");
+            activateURL("application:///" + appId + ".desktop");
         } else {
             startApp(appId);
         }
+    }
+
+    function activateURL(url) {
+        SessionBroadcast.requestUrlStart(AccountsService.user, url);
+        greeter.notifyUserRequestedApp();
+        panel.indicators.hide();
     }
 
     function startApp(appId) {
@@ -764,13 +770,7 @@ StyledItem {
         id: urlDispatcher
         objectName: "urlDispatcher"
         active: shell.mode === "greeter"
-        onDispatchURL: activateURL(url)
-
-        function activateURL(url) {
-            SessionBroadcast.requestUrlStart(AccountsService.user, url);
-            greeter.notifyUserRequestedApp();
-            panel.indicators.hide();
-        }
+        onUrlRequested: shell.activateURL(url)
     }
 
     ItemGrabber {

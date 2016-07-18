@@ -37,7 +37,7 @@ public:
     void setActive(bool active);
 
 Q_SIGNALS:
-    void dispatchURL(const QString &url);
+    void urlRequested(const QString &url);
     void activeChanged();
 
 private:

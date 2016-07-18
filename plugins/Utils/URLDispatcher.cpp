@@ -37,7 +37,7 @@ URLDispatcherInterface::URLDispatcherInterface(URLDispatcher *parent)
 void URLDispatcherInterface::DispatchURL(const QString &url, const QString &package)
 {
     Q_UNUSED(package);
-    Q_EMIT static_cast<URLDispatcher *>(parent())->dispatchURL(url);
+    Q_EMIT static_cast<URLDispatcher *>(parent())->urlRequested(url);
 }
 
 URLDispatcher::URLDispatcher(QObject *parent)
