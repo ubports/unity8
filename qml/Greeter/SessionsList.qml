@@ -115,6 +115,7 @@ Item {
                     onClicked: {
                         sessionsList.currentIndex = index
                         sessionSelected(key)
+                        showLoginList()
                     }
                 }
 
