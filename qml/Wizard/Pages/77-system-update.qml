@@ -51,6 +51,7 @@ LocalComponents.Page {
             font.weight: Font.Light
             color: textColor
             wrapMode: Text.Wrap
+            fontSize: "small"
             text: i18n.tr("There is a system update available and ready to install. Afterwards, the device will automatically restart.")
         }
 
@@ -64,8 +65,6 @@ LocalComponents.Page {
 
             Image {
                 Layout.rowSpan: 3
-                width: units.gu(3)
-                height: width
                 sourceSize: Qt.size(units.gu(3), units.gu(3))
                 fillMode: Image.PreserveAspectFit
                 source: "image://theme/distributor-logo"
@@ -75,17 +74,20 @@ LocalComponents.Page {
                 Layout.fillWidth: true
                 color: textColor
                 font.weight: Font.Normal
+                fontSize: "small"
                 text: i18n.tr("Ubuntu system")
             }
 
             Label {
                 font.weight: Font.Light
+                fontSize: "small"
                 color: textColor
                 text: i18n.tr("Version %1").arg(SystemImage.availableVersion)
             }
 
             Label {
                 font.weight: Font.Light
+                fontSize: "small"
                 color: textColor
                 text: SystemImage.updateSize
             }
@@ -105,7 +107,7 @@ LocalComponents.Page {
         Rectangle {
             anchors.left: parent.left
             anchors.leftMargin: column.anchors.leftMargin == 0 ? staticMargin : 0
-            color: theme.palette.normal.base
+            color: theme.palette.normal.foreground
             radius: units.dp(4)
             width: buttonLabel.paintedWidth + units.gu(3)
             height: buttonLabel.paintedHeight + units.gu(1.8)
@@ -114,7 +116,7 @@ LocalComponents.Page {
                 id: buttonLabel
                 color: textColor
                 text: i18n.tr("Install and restart now")
-                fontSize: "medium"
+                font.weight: Font.Light
                 anchors.centerIn: parent
             }
 
