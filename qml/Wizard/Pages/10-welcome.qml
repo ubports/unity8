@@ -110,6 +110,7 @@ LocalComponents.Page {
 
     ListView {
         id: languagesListView
+        objectName: "languagesListView"
         clip: true
         snapMode: ListView.SnapToItem
 
@@ -124,11 +125,15 @@ LocalComponents.Page {
 
         delegate: ListItem {
             id: itemDelegate
-            objectName: "languageDelegate" + index
+            objectName: getObjectName()
             highlightColor: backgroundColor
             divider.colorFrom: dividerColor
             divider.colorTo: backgroundColor
             readonly property bool isCurrent: index === ListView.view.currentIndex
+
+            function getObjectName() {
+                return "languageDelegate_" + langLabel.text.toLowerCase().replace(/\s+/g, '_')
+            }
 
             Label {
                 id: langLabel
