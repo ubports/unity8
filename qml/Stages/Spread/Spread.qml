@@ -7,6 +7,7 @@ Item {
 
     // Information about the environment
     property int totalItemCount: 0
+    property int highlightedIndex: 1
 
     // some config options
     property real contentMargin: 0.16 * root.height
@@ -101,5 +102,55 @@ Item {
 //              + "\n visibleItemCount: " + visibleItemCount
 //              + "\n contentTopMargin: " + contentTopMargin
 //    }
+
+
+    Keys.onPressed: {
+        switch (event.key) {
+        case Qt.Key_Left:
+        case Qt.Key_Backtab:
+            selectPrevious(event.isAutoRepeat)
+            event.accepted = true;
+            break;
+        case Qt.Key_Right:
+        case Qt.Key_Tab:
+            selectNext(event.isAutoRepeat)
+            event.accepted = true;
+            break;
+        case Qt.Key_Escape:
+            spreadItem.highlightedIndex = -1
+            // Falling through intentionally
+        case Qt.Key_Enter:
+        case Qt.Key_Return:
+        case Qt.Key_Space:
+            root.state = ""
+            event.accepted = true;
+        }
+    }
+
+
+    function selectNext(isAutoRepeat) {
+        if (isAutoRepeat && highlightedIndex >= totalItemCount -1) {
+            return; // AutoRepeat is not allowed to wrap around
+        }
+
+        highlightedIndex = (highlightedIndex + 1) % totalItemCount;
+        var newContentX = ((spreadTotalWidth) / (totalItemCount + 1)) * Math.max(0, Math.min(totalItemCount - 5, highlightedIndex - 3));
+//        if (spreadFlickable.contentX < newContentX || spreadRepeater.highlightedIndex == 0) {
+//            spreadFlickable.snapTo(newContentX)
+//        }
+    }
+
+    function selectPrevious(isAutoRepeat) {
+        if (isAutoRepeat && highlightedIndex == 0) {
+            return; // AutoRepeat is not allowed to wrap around
+        }
+
+        var newIndex = highlightedIndex - 1 >= 0 ? highlightedIndex - 1 : totalItemCount - 1;
+        highlightedIndex = newIndex;
+//        var newContentX = ((spreadFlickable.contentWidth) / (topLevelSurfaceList.count + 1)) * Math.max(0, Math.min(topLevelSurfaceList.count - 5, spreadRepeater.highlightedIndex - 1));
+//        if (spreadFlickable.contentX > newContentX || newIndex == topLevelSurfaceList.count -1) {
+//            spreadFlickable.snapTo(newContentX)
+//        }
+    }
 
 }

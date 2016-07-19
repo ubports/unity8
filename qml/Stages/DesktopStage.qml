@@ -293,6 +293,7 @@ AbstractStage {
         State {
             name: "spread"; when: root.altTabPressed || priv.goneToSpread
             PropertyChanges { target: floatingFlickable; enabled: true }
+            PropertyChanges { target: spreadItem; focus: true }
         },
         State {
             name: "stagedrightedge"; when: rightEdgeDragArea.dragging && root.mode == "staged"
@@ -311,6 +312,21 @@ AbstractStage {
         },
         State {
             name: "windowed"; when: root.mode === "windowed"
+        }
+    ]
+    transitions: [
+        Transition {
+            to: "spread"
+            PropertyAction { target: spreadItem; property: "highlightedIndex"; value: 1 }
+        },
+        Transition {
+            from: "spread"
+            ScriptAction { script: {
+                    var item = appRepeater.itemAt(spreadItem.highlightedIndex);
+                    item.claimFocus();
+                    item.playFocusAnimation();
+                }
+            }
         }
     ]
     onStateChanged: print("spread going to state:", state)
@@ -739,6 +755,7 @@ AbstractStage {
                             scaleToPreviewProgress: 1
                             hasDecoration: root.mode === "windowed"
                             shadowOpacity: spreadMaths.shadowOpacity
+                            showHighlight: spreadItem.highlightedIndex === index
                         }
                         PropertyChanges {
                             target: appDelegate
@@ -1108,8 +1125,12 @@ AbstractStage {
                     onPressed: mouse.accepted = true;
                     onClicked: {
                         print("focusing because of inputBlocker click")
-                        appDelegate.focus = true
+                        spreadItem.highlightedIndex = index;
                         priv.goneToSpread = false;
+                    }
+                    hoverEnabled: true
+                    onContainsMouseChanged: {
+                        if (containsMouse) spreadItem.highlightedIndex = index
                     }
                 }
 //                Rectangle { anchors.fill: parent; color: "blue"; opacity: .4 }
