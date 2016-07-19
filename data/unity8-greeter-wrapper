@@ -41,7 +41,7 @@ set_greeter_var()
 SUB_SOCKET=$XDG_RUNTIME_DIR/mir_socket
 rm -f $SUB_SOCKET # clear socket in case we were hard shut down
 
-rm -f "$XDG_RUNTIME_DIR/dbus-session"
+echo "DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS}" >"$XDG_RUNTIME_DIR/dbus-session"
 
 # If touch session script (which sets up grid units and mir variables) is available, use it
 TOUCH_WRAPPER=
@@ -66,11 +66,13 @@ set_greeter_var PA_DISABLED 1
 MIR_SOCKET=$SUB_SOCKET $TOUCH_WRAPPER /sbin/upstart --user --no-startup-event &
 INIT_PID=$!
 while [ ! -e "$XDG_RUNTIME_DIR/upstart/sessions/$INIT_PID.session" ]; do sleep 0.1; done
-export UPSTART_SESSION=$(/sbin/initctl list-sessions | grep "^$INIT_PID " | cut -d' ' -f2)
+. "$XDG_RUNTIME_DIR/upstart/sessions/$INIT_PID.session"
+export UPSTART_SESSION
 
-# Connect upstart to system.
-echo "DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS}" >"$XDG_RUNTIME_DIR/dbus-session"
-/sbin/initctl notify-dbus-address "$DBUS_SESSION_BUS_ADDRESS"
+# Connect upstart to system, but do first command in a loop to avoid any
+# race condition between the session file above being written and upstart being
+# ready to handle requests.
+while ! /sbin/initctl notify-dbus-address "$DBUS_SESSION_BUS_ADDRESS"; do sleep 0.1; done
 /sbin/initctl start notify-cgmanager
 
 # Start any pre-greeter tasks if needed (like wizard)
