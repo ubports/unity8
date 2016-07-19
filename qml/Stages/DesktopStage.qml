@@ -756,6 +756,7 @@ AbstractStage {
                             hasDecoration: root.mode === "windowed"
                             shadowOpacity: spreadMaths.shadowOpacity
                             showHighlight: spreadItem.highlightedIndex === index
+                            anchors.topMargin: dragArea.distance
                         }
                         PropertyChanges {
                             target: appDelegate
@@ -767,7 +768,7 @@ AbstractStage {
                             requestedHeight: decoratedWindow.oldRequestedHeight
                             visible: spreadMaths.itemVisible
                         }
-                        PropertyChanges { target: inputBlocker; enabled: true }
+                        PropertyChanges { target: dragArea; enabled: true }
                         PropertyChanges { target: windowInfoItem; opacity: spreadMaths.tileInfoOpacity; visible: spreadMaths.itemVisible }
                     },
                     State {
@@ -1118,21 +1119,25 @@ AbstractStage {
                     surface: model.surface
                 }
 
-                MouseArea {
-                    id: inputBlocker
+                DragToCloseArea {
+                    id: dragArea
                     anchors.fill: parent
                     enabled: false
-                    onPressed: mouse.accepted = true;
+                    closeable: model.application.appId !== "unity8-dash"
+
                     onClicked: {
-                        print("focusing because of inputBlocker click")
                         spreadItem.highlightedIndex = index;
-                        priv.goneToSpread = false;
+                        if (distance == 0) {
+                            print("focusing because of inputBlocker click")
+                            priv.goneToSpread = false;
+                        }
                     }
-                    hoverEnabled: true
                     onContainsMouseChanged: {
                         if (containsMouse) spreadItem.highlightedIndex = index
                     }
+                    onClose: model.surface.close()
                 }
+
 //                Rectangle { anchors.fill: parent; color: "blue"; opacity: .4 }
 
                 WindowInfoItem {
