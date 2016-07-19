@@ -1101,7 +1101,7 @@ AbstractStage {
                             yScale: decoratedWindow.itemScale
                         },
                         Rotation {
-                            origin { x: 0; y: (decoratedWindow.height * decoratedWindow.itemScale / 2) }
+                            origin { x: 0; y: (decoratedWindow.height / 2) }
                             axis { x: 0; y: 1; z: 0 }
                             angle: decoratedWindow.angle
                         }

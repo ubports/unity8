@@ -11,7 +11,7 @@ Item {
 
     // some config options
     property real contentMargin: 0.16 * root.height
-    property real contentTopMargin: 0.65 * contentMargin
+    property real contentTopMargin: contentMargin
     property real contentBottomMargin: 0.35 * contentMargin
     property real windowTitleTopMargin: 3/4 * (contentTopMargin - windowTitle.height)
     property int stackItemCount: 3
@@ -30,7 +30,7 @@ Item {
 
     readonly property real spreadWidth: rightStackXPos - leftStackXPos
     readonly property real spreadHeight: root.height
-    readonly property real spreadItemHeight: 0.84 * spreadHeight
+    readonly property real spreadItemHeight: spreadHeight - contentTopMargin - contentBottomMargin
     readonly property real spreadItemWidth: stackHeight
 
     readonly property real dynamicLeftRotationAngle: leftRotationAngle * rotationAngleFactor
