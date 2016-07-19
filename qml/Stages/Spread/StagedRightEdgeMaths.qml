@@ -54,7 +54,7 @@ QtObject {
         if (progress < breakPoint) {
             return startX
         }
-        return MathUtils.linearAnimation(breakPoint, 1, startX, targetX, progress)
+        return MathUtils.linearAnimation(breakPoint, 1, startX + (itemIndex - 1) * tileDistance, targetX, progress)
     }
 
     readonly property int animatedY: progress < breakPoint ? startY : MathUtils.linearAnimation(breakPoint, 1, startY, targetY, progress)
@@ -64,4 +64,6 @@ QtObject {
 
     readonly property real animatedScale: itemIndex == 0 ? MathUtils.linearAnimation(0, 1, 1, targetScale, progress)
                                                          : MathUtils.linearAnimation(0, 1, startScale, targetScale, progress)
+
+    readonly property bool itemVisible: true //animatedX < sceneWidth
 }

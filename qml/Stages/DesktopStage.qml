@@ -511,10 +511,7 @@ AbstractStage {
                 readonly property alias resizeArea: resizeArea
 
                 function claimFocus() {
-//                    if (spread.state == "altTab") {
-//                        spread.cancel();
-//                    }
-//                    appDelegate.restore();
+                    appDelegate.focus = true;
                 }
                 Connections {
                     target: model.surface
@@ -772,6 +769,7 @@ AbstractStage {
                             height: stagedRightEdgeMaths.animatedHeight
                             requestedWidth: decoratedWindow.oldRequestedWidth
                             requestedHeight: decoratedWindow.oldRequestedHeight
+                            visible: stagedRightEdgeMaths.itemVisible
                         }
                         PropertyChanges {
                             target: decoratedWindow;
@@ -1124,7 +1122,6 @@ AbstractStage {
                     height: spreadItem.appInfoHeight
                     opacity: 0
                     visible: opacity > 0
-                    Behavior on opacity { UbuntuNumberAnimation { duration: priv.animationDuration } }
                 }
             }
         }
