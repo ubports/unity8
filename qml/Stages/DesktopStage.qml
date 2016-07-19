@@ -446,6 +446,9 @@ AbstractStage {
                 }
                 z: normalZ
 
+                x: requestedX
+                y: requestedY
+
                 // requestedX/Y/width/height is what we ask the actual surface to be.
                 // Do not write to those, they will be set by states
                 // Also do not write to the appWindow's actual x,y,width,height as they
