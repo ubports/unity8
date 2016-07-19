@@ -105,15 +105,6 @@ AbstractStage {
         active: priv.focusedAppDelegate !== null
     }
 
-    Connections {
-        target: root.topLevelSurfaceList
-        onCountChanged: {
-            if (root.state == "spread") {
-                priv.goneToSpread = false;
-            }
-        }
-    }
-
     QtObject {
         id: priv
         objectName: "DesktopStagePrivate"
@@ -129,6 +120,7 @@ AbstractStage {
         property var foregroundMaximizedAppDelegate: null // for stuff like drop shadow and focusing maximized app by clicking panel
 
         property bool goneToSpread: false
+        property int closingIndex: -1
 //        property int animationDuration: 4000
         property int animationDuration: UbuntuAnimation.FastDuration
 
@@ -446,13 +438,16 @@ AbstractStage {
                 }
                 z: normalZ
 
+                // Normally we want x/y where we request it to be. Width/height of our delegate will
+                // match what the actual surface size is.
+                // Don't write to those, they will be set by states
                 x: requestedX
                 y: requestedY
+                width: decoratedWindow.implicitWidth
+                height: decoratedWindow.implicitHeight
 
                 // requestedX/Y/width/height is what we ask the actual surface to be.
                 // Do not write to those, they will be set by states
-                // Also do not write to the appWindow's actual x,y,width,height as they
-                // will be set by states too.
                 property real requestedX: 0
                 property real requestedY: 0
                 property int requestedWidth: -1
@@ -478,8 +473,7 @@ AbstractStage {
 
                 }
 
-                width: decoratedWindow.implicitWidth
-                height: decoratedWindow.implicitHeight
+                Behavior on x { id: xBehavior; enabled: priv.closingIndex >= 0; UbuntuNumberAnimation { onRunningChanged: if (!running) priv.closingIndex = -1} }
 
                 Connections {
                     target: root
@@ -1144,7 +1138,10 @@ AbstractStage {
                     onContainsMouseChanged: {
                         if (containsMouse) spreadItem.highlightedIndex = index
                     }
-                    onClose: model.surface.close()
+                    onClose: {
+                        priv.closingIndex = index
+                        model.surface.close()
+                    }
                 }
 
 //                Rectangle { anchors.fill: parent; color: "blue"; opacity: .4 }
