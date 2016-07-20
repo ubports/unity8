@@ -68,8 +68,13 @@ Running Unity 8 on devices
 ==========================
 
 Running unity8 on a device should be done using crossbuilder.
-Go to https://launchpad.net/crossbuilder for more details on
-crossbuilder.
+Go to 
+* https://launchpad.net/crossbuilder and
+* https://wiki.ubuntu.com/Touch/Crossbuilder 
+for more details on crossbuilder.
+
+unity8 will automatically restart on the phone once deployment
+has finished due to post-build-steps set up in this repository.
 
 Coding guidelines
 =================
@@ -83,6 +88,7 @@ QtCreator (available via the Software Center) is the best IDE to hack on
 Unity 8.
 
 If using VIM, make sure you install some syntax highlighting for QML, like
+
 https://github.com/peterhoeg/vim-qml
 
 Running tests
