@@ -48,7 +48,6 @@ install_dependencies() {
                          qml-module-qtquick-xmllistmodel \
                          qml-module-ubuntu-components \
                          qml-module-ubuntu-thumbnailer0.1 \
-                         qml-module-ubuntu-web \
                          qtdeclarative5-gsettings1.0 \
                          qtdeclarative5-ubuntu-settings-components \
                          qtdeclarative5-ubuntu-telephony0.1 \
