@@ -88,7 +88,6 @@ QtCreator (available via the Software Center) is the best IDE to hack on
 Unity 8.
 
 If using VIM, make sure you install some syntax highlighting for QML, like
-
 https://github.com/peterhoeg/vim-qml
 
 Running tests
