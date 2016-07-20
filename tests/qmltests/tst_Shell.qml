@@ -2419,6 +2419,66 @@ Rectangle {
             compare(topmostSurfaceItem.touchReleaseCount, 2);
         }
 
+        function test_greeterModeBroadcastsApp() {
+            setLightDMMockMode("single-pin");
+            shellLoader.mode = "greeter";
+            loadShell("phone");
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+
+            dragLauncherIntoView();
+            var appIcon = findChild(shell, "launcherDelegate0")
+            tap(appIcon);
+
+            tryCompare(broadcastUrlSpy, "count", 1);
+            compare(broadcastUrlSpy.signalArguments[0][0], "application:///" + appIcon.appId + ".desktop");
+            compare(ApplicationManager.count, 1); // confirm only dash is open, we didn't start new app
+
+            var coverPage = findChild(shell, "coverPage");
+            tryCompare(coverPage, "showProgress", 0);
+        }
+
+        function test_greeterModeBroadcastsHome() {
+            setLightDMMockMode("single-pin");
+            shellLoader.mode = "greeter";
+            loadShell("phone");
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+
+            var gallerySurfaceId = topLevelSurfaceList.nextId;
+            var galleryApp = ApplicationManager.startApplication("gallery-app");
+            waitUntilAppWindowIsFullyLoaded(gallerySurfaceId);
+            compare(ApplicationManager.focusedApplicationId, "gallery-app");
+
+            dragLauncherIntoView();
+            tap(findChild(shell, "buttonShowDashHome"));
+
+            tryCompare(broadcastHomeSpy, "count", 1);
+            compare(ApplicationManager.focusedApplicationId, "gallery-app"); // confirm we didn't focus dash
+
+            var coverPage = findChild(shell, "coverPage");
+            tryCompare(coverPage, "showProgress", 0);
+        }
+
+        function test_greeterModeDispatchesURL() {
+            setLightDMMockMode("single-pin");
+            shellLoader.mode = "greeter";
+            loadShell("phone");
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+
+            var urlDispatcher = findInvisibleChild(shell, "urlDispatcher");
+            verify(urlDispatcher.active);
+            urlDispatcher.urlRequested("test:"); // force signal emission
+
+            tryCompare(broadcastUrlSpy, "count", 1);
+            compare(broadcastUrlSpy.signalArguments[0][0], "test:");
+            compare(ApplicationManager.count, 1); // confirm only dash is open, we didn't start new app
+
+            var coverPage = findChild(shell, "coverPage");
+            tryCompare(coverPage, "showProgress", 0);
+        }
+
         function test_switchKeymap() {
             // start with phone shell
             loadShell("phone");
@@ -2520,66 +2580,6 @@ Rectangle {
 
             verify(greeter.shown);
             verify(greeter.locked);
-        }
-
-        function test_greeterModeBroadcastsApp() {
-            setLightDMMockMode("single-pin");
-            shellLoader.mode = "greeter";
-            loadShell("phone");
-            shell.usageScenario = "phone";
-            waitForRendering(shell);
-
-            dragLauncherIntoView();
-            var appIcon = findChild(shell, "launcherDelegate0")
-            tap(appIcon);
-
-            tryCompare(broadcastUrlSpy, "count", 1);
-            compare(broadcastUrlSpy.signalArguments[0][0], "application:///" + appIcon.appId + ".desktop");
-            compare(ApplicationManager.count, 1); // confirm only dash is open, we didn't start new app
-
-            var coverPage = findChild(shell, "coverPage");
-            tryCompare(coverPage, "showProgress", 0);
-        }
-
-        function test_greeterModeBroadcastsHome() {
-            setLightDMMockMode("single-pin");
-            shellLoader.mode = "greeter";
-            loadShell("phone");
-            shell.usageScenario = "phone";
-            waitForRendering(shell);
-
-            var gallerySurfaceId = topLevelSurfaceList.nextId;
-            var galleryApp = ApplicationManager.startApplication("gallery-app");
-            waitUntilAppWindowIsFullyLoaded(gallerySurfaceId);
-            compare(ApplicationManager.focusedApplicationId, "gallery-app");
-
-            dragLauncherIntoView();
-            tap(findChild(shell, "buttonShowDashHome"));
-
-            tryCompare(broadcastHomeSpy, "count", 1);
-            compare(ApplicationManager.focusedApplicationId, "gallery-app"); // confirm we didn't focus dash
-
-            var coverPage = findChild(shell, "coverPage");
-            tryCompare(coverPage, "showProgress", 0);
-        }
-
-        function test_greeterModeDispatchesURL() {
-            setLightDMMockMode("single-pin");
-            shellLoader.mode = "greeter";
-            loadShell("phone");
-            shell.usageScenario = "phone";
-            waitForRendering(shell);
-
-            var urlDispatcher = findInvisibleChild(shell, "urlDispatcher");
-            verify(urlDispatcher.active);
-            urlDispatcher.urlRequested("test:"); // force signal emission
-
-            tryCompare(broadcastUrlSpy, "count", 1);
-            compare(broadcastUrlSpy.signalArguments[0][0], "test:");
-            compare(ApplicationManager.count, 1); // confirm only dash is open, we didn't start new app
-
-            var coverPage = findChild(shell, "coverPage");
-            tryCompare(coverPage, "showProgress", 0);
         }
     }
 }
