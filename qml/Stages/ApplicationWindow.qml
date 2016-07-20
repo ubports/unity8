@@ -121,15 +121,12 @@ FocusScope {
 
         property bool surfaceOldEnoughToBeResized: false
 
-        property var focusedSurface: {
-            if (promptSurfacesRepeater.count == 0) {
-                return surfaceContainer;
-            } else {
-                return promptSurfacesRepeater.itemAt(promptSurfacesRepeater.count - 1);
-            }
-        }
+        property Item focusedSurface: promptSurfacesRepeater.count === 0 ? surfaceContainer
+                                                                         : promptSurfacesRepeater.first
         onFocusedSurfaceChanged: {
-            focusedSurface.focus = true;
+            if (focusedSurface) {
+                focusedSurface.focus = true;
+            }
         }
     }
 
@@ -158,6 +155,7 @@ FocusScope {
         objectName: "screenshotImage"
         anchors.fill: parent
         antialiasing: !root.interactive
+        z: 1
 
         function take() {
             // Save memory by using a half-resolution (thus quarter size) screenshot.
@@ -175,6 +173,7 @@ FocusScope {
         visible: active
         active: false
         anchors.fill: parent
+        z: screenshotImage.z + 1
         sourceComponent: Component {
             Splash {
                 id: splash
@@ -191,6 +190,7 @@ FocusScope {
 
     SurfaceContainer {
         id: surfaceContainer
+        z: splashLoader.z + 1
         requestedWidth: root.requestedWidth
         requestedHeight: root.requestedHeight
         surfaceOrientationAngle: application && application.rotatesWindowContents ? root.surfaceOrientationAngle : 0
@@ -208,12 +208,28 @@ FocusScope {
             }
         }
         delegate: SurfaceContainer {
-            interactive: index == (promptSurfacesRepeater.count - 1) && root.interactive
+            id: promptSurfaceContainer
+            interactive: index === 0 && root.interactive
             surface: model.surface
             width: root.width
             height: root.height
             isPromptSurface: true
+            z: surfaceContainer.z + (promptSurfacesRepeater.count - index)
+            property int index: model.index
+            onIndexChanged: updateFirst()
+            Component.onCompleted: updateFirst()
+            function updateFirst() {
+                if (index === 0) {
+                    promptSurfacesRepeater.first = promptSurfaceContainer;
+                }
+            }
         }
+        onCountChanged: {
+            if (count === 0) {
+                first = null;
+            }
+        }
+        property Item first: null
     }
 
     // SurfaceContainer size drives ApplicationWindow size

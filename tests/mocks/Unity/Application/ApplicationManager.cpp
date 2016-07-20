@@ -302,7 +302,6 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setAppId("unity8-dash");
     application->setName("Unity 8 Mock Dash");
     application->setScreenshotId("unity8-dash");
-    application->setSupportedOrientations(Qt::PrimaryOrientation);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
@@ -320,6 +319,18 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setScreenshotId("camera");
     application->setIconId("camera");
     application->setFullscreen(true);
+    application->setSupportedOrientations(Qt::PortraitOrientation
+                                        | Qt::LandscapeOrientation
+                                        | Qt::InvertedPortraitOrientation
+                                        | Qt::InvertedLandscapeOrientation);
+    application->setRotatesWindowContents(true);
+    m_availableApplications.append(application);
+
+    application = new ApplicationInfo(this);
+    application->setAppId("camera-app2");
+    application->setName("Camera2");
+    application->setScreenshotId("camera");
+    application->setIconId("camera");
     application->setSupportedOrientations(Qt::PortraitOrientation
                                         | Qt::LandscapeOrientation
                                         | Qt::InvertedPortraitOrientation
@@ -446,6 +457,12 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setIconId("libreoffice");
     application->setScreenshotId("libreoffice");
     application->setIsTouchApp(false);
+    m_availableApplications.append(application);
+
+    application = new ApplicationInfo(this);
+    application->setAppId("primary-oriented-app");
+    application->setName("Primary Oriented");
+    application->setSupportedOrientations(Qt::PrimaryOrientation);
     m_availableApplications.append(application);
 }
 

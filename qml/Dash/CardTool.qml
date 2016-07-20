@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.4
+import Ubuntu.Components 1.3
 import Dash 0.1
 
 /*!
@@ -70,7 +71,7 @@ Item {
     // Not readonly because gets overwritten from GenericScopeView in some cases
     property string artShapeStyle: categoryLayout === "carousel" ? "shadow" : "inset"
 
-    property var cardComponent: CardCreatorCache.getCardComponent(cardTool.template, cardTool.components, false, artShapeStyle);
+    property var cardComponent: CardCreatorCache.getCardComponent(cardTool.template, cardTool.components, false, cardTool.artShapeStyle);
 
     // FIXME: Saviq
     // Only way for the card below to actually be laid out completely.
@@ -141,7 +142,7 @@ Item {
      type:real \brief Height of the card's header.
     */
     readonly property int headerHeight: cardLoader.item ? cardLoader.item.headerHeight : 0
-    property size artShapeSize: cardLoader.item ? cardLoader.item.artShapeSize : 0
+    property size artShapeSize: cardLoader.item ? cardLoader.item.artShapeSize : Qt.size(0, 0)
 
     QtObject {
         id: carouselTool
@@ -212,7 +213,7 @@ Item {
             "attributes": attributesModel.model,
             "socialActions": socialActionsModel.model
         }
-        sourceComponent: CardCreatorCache.getCardComponent(cardTool.template, cardTool.components, true, artShapeStyle);
+        sourceComponent: CardCreatorCache.getCardComponent(cardTool.template, cardTool.components, true, cardTool.artShapeStyle);
         onLoaded: {
             item.objectName = "cardToolCard";
             item.width = Qt.binding(function() { return cardTool.cardWidth !== -1 ? cardTool.cardWidth : item.implicitWidth; });

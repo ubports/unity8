@@ -21,12 +21,9 @@
 #include <QQuickView>
 #include <QSignalSpy>
 #include <QtTestGui>
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
 #include <private/qqmllistmodel_p.h>
 #include <private/qquickanimation_p.h>
 #include <private/qquickitem_p.h>
-#pragma GCC diagnostic pop
 
 class ListViewWithPageHeaderTestSection : public QObject
 {
@@ -134,7 +131,7 @@ private Q_SLOTS:
     {
         view = new QQuickView();
         view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/listviewwithpageheadertestsection.qml"));
-        lvwph = dynamic_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
+        lvwph = static_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
         model = view->rootObject()->findChild<QQmlListModel*>();
         otherDelegate = view->rootObject()->findChild<QQmlComponent*>();
         QVERIFY(lvwph);
@@ -2193,6 +2190,12 @@ private Q_SLOTS:
         model->setProperty(1, "type", "halfheight");
         verifyItem(0, 50., 190., false, "Agressive", false);
         verifyItem(1, 240., 220., false, "halfheight", false);
+    }
+
+    void testInvalidSectionDelegate()
+    {
+        lvwph->setProperty("useBrokenSectionDelegateComponent", true);
+        scrollToBottom();
     }
 
 private:
