@@ -7,6 +7,7 @@ DraggingArea {
     onPressed: mouse.accepted = true;
     hoverEnabled: true
 
+
     property bool closeable: true
 
     property bool moving: false

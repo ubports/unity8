@@ -308,8 +308,13 @@ AbstractStage {
     ]
     transitions: [
         Transition {
+            from: "stagedrightedge"; to: "spread"
+            PropertyAction { target: spreadItem; property: "highlightedIndex"; value: -1 }
+        },
+        Transition {
             to: "spread"
             PropertyAction { target: spreadItem; property: "highlightedIndex"; value: 1 }
+            PropertyAction { target: floatingFlickable; property: "contentX"; value: 0 }
         },
         Transition {
             from: "spread"
@@ -319,7 +324,12 @@ AbstractStage {
                     item.playFocusAnimation();
                 }
             }
+        },
+        Transition {
+            to: "stagedrightedge"
+            PropertyAction { target: floatingFlickable; property: "contentX"; value: 0 }
         }
+
     ]
     onStateChanged: print("spread going to state:", state)
 
@@ -1136,7 +1146,7 @@ AbstractStage {
                         }
                     }
                     onContainsMouseChanged: {
-                        if (containsMouse) spreadItem.highlightedIndex = index
+                        if (containsMouse && !pressed) spreadItem.highlightedIndex = index
                     }
                     onClose: {
                         priv.closingIndex = index
