@@ -933,7 +933,7 @@ function cardString(template, components, isCardTool, artShapeStyle) {
         code += kSocialActionsRowCode.arg(socialAnchors).arg(socialColor);
     }
 
-    if (artShapeStyle != "shadow" && artShapeStyle != "icon") {
+    if (artShapeStyle != "shadow" && artShapeStyle != "icon" && !isCardTool) {
         var touchdownAnchors;
         if (hasBackground) {
             touchdownAnchors = 'fill: backgroundLoader';
