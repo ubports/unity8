@@ -72,13 +72,15 @@ Label {
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
                         horizontalAlignment: Text.AlignHCenter;
                     }
-UbuntuShape {
-    id: touchdown;
-    objectName: "touchdown";
+Loader {
+    active: root.pressed;
     anchors { fill: artShapeHolder }
-    visible: root.pressed;
-    radius: "medium";
-    borderSource: "radius_pressed.sci"
+    sourceComponent: UbuntuShape {
+        objectName: "touchdown";
+        anchors.fill: parent;
+        radius: "medium";
+        borderSource: "radius_pressed.sci"
+    }
 }
 implicitHeight: titleLabel.y + titleLabel.height + units.gu(1);
 }

@@ -98,13 +98,15 @@ CardSocialActions {
     model: cardData && cardData["socialActions"];
     onClicked: root.action(actionId);
 }
-UbuntuShape {
-    id: touchdown;
-    objectName: "touchdown";
+Loader {
+    active: root.pressed;
     anchors { fill: artShapeHolder }
-    visible: root.pressed;
-    radius: "medium";
-    borderSource: "radius_pressed.sci"
+    sourceComponent: UbuntuShape {
+        objectName: "touchdown";
+        anchors.fill: parent;
+        radius: "medium";
+        borderSource: "radius_pressed.sci"
+    }
 }
 implicitHeight: socialActionsRow.y + socialActionsRow.height + units.gu(1);
 }
