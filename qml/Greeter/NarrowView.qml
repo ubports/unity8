@@ -31,6 +31,7 @@ FocusScope {
     property bool alphanumeric
     property var userModel // unused
     property alias infographicModel: coverPage.infographicModel
+    property bool waiting
     readonly property bool fullyShown: coverPage.showProgress === 1 || lockscreen.shown
     readonly property bool required: coverPage.required || lockscreen.required
     readonly property bool animating: coverPage.showAnimation.running || coverPage.hideAnimation.running
@@ -71,7 +72,6 @@ FocusScope {
         if (!alphanumeric && showFakePassword) {
             lockscreen.showText("...."); // actual text doesn't matter, we show bullets
         }
-        lockscreen.hide();
     }
 
     function notifyAuthenticationFailed() {
@@ -172,6 +172,7 @@ FocusScope {
         height: parent.height
         width: parent.width
         background: root.background
+        draggable: !root.waiting
         onTease: root.tease()
         onClicked: hide()
 
