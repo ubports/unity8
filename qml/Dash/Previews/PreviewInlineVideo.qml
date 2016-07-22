@@ -70,6 +70,8 @@ PreviewWidget {
         readonly property url source: mediaPlayer.source
         readonly property int position: mediaPlayer.position
 
+        property int initialPosition: -1
+
         onSourceChanged: {
             root.restorePlaybackState();
         }
@@ -78,8 +80,6 @@ PreviewWidget {
             if (mediaPlayer.playbackState === MediaPlayer.StoppedState) return;
             root.storePlaybackState();
         }
-
-        property int initialPosition: -1
 
         Connections {
             target: services.mediaPlayer
