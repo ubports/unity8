@@ -534,14 +534,14 @@ Item {
             verify(dashAppDelegate);
             dashAppDelegate.requestedHeight = data.windowHeight;
             dashAppDelegate.requestedY = data.windowY;
-            UbuntuKeyboardInfo.height = 0;
+            SurfaceManager.inputMethodSurface.setInputBounds(Qt.rect(0, 0, 0, 0));
             var initialY = dashAppDelegate.y;
             verify(initialY > PanelState.panelHeight);
 
-            UbuntuKeyboardInfo.height = root.height / 2;
+            SurfaceManager.inputMethodSurface.setInputBounds(Qt.rect(0, root.height / 2, root.width, root.height / 2));
             tryCompare(dashAppDelegate, "y", data.targetDisplacement);
 
-            UbuntuKeyboardInfo.height = 0;
+            SurfaceManager.inputMethodSurface.setInputBounds(Qt.rect(0, 0, 0, 0));
             tryCompare(dashAppDelegate, "y", initialY);
             SurfaceManager.inputMethodSurface.state = oldOSKState;
         }
