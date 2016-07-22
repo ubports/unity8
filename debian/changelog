@@ -1,8 +1,15 @@
-unity8 (8.13+16.10.20160705-0ubuntu1) UNRELEASED; urgency=medium
+unity8 (8.14-0ubuntu1) UNRELEASED; urgency=medium
 
   * Bump the version to secure UITK compatibility
 
  -- Zoltán Balogh <zoltan@bakter.hu>  Mon, 11 Jul 2016 12:42:29 +0200
+
+unity8 (8.13+16.10.20160714-0ubuntu1) yakkety; urgency=medium
+
+  [ Daniel d'Andrada ]
+  * Make use of MirSurface::inputBounds and drop UbuntuKeyboardInfo hack
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 14 Jul 2016 07:09:29 +0000
 
 unity8 (8.12+16.10.20160711-0ubuntu1) yakkety; urgency=medium
 
