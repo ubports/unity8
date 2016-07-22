@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtMultimedia 5.0
 import Ubuntu.Components 1.3
 import Ubuntu.Thumbnailer 0.1
+import "PreviewSingleton"
 import "../../Components"
 import "../../Components/MediaServices"
 
@@ -36,6 +37,23 @@ PreviewWidget {
     orientationLock: services.fullscreen
 
     property alias rootItem: services.rootItem
+    readonly property string widgetExtraDataKey: services.source.toString()
+
+    function seek() {
+        services.mediaPlayer.seek(services.initialPosition);
+        services.initialPosition = -1;
+    }
+
+    function storePlaybackState() {
+        PreviewSingleton.widgetExtraData[widgetExtraDataKey] = services.mediaPlayer.position;
+    }
+
+
+    function restorePlaybackState() {
+        if (PreviewSingleton.widgetExtraData[widgetExtraDataKey] > 0) {
+            services.initialPosition = PreviewSingleton.widgetExtraData[widgetExtraDataKey];
+        }
+    }
 
     MediaServices {
         id: services
@@ -48,6 +66,30 @@ PreviewWidget {
         maximumEmbeddedHeight: rootItem.height / 2
 
         onClose: fullscreen = false
+
+        readonly property var mediaPlayer: footer.mediaPlayer
+        readonly property url source: mediaPlayer.source
+        readonly property int position: mediaPlayer.position
+
+        onSourceChanged: {
+            root.restorePlaybackState();
+        }
+
+        onPositionChanged: {
+            if (mediaPlayer.playbackState === MediaPlayer.StoppedState) return;
+            root.storePlaybackState();
+        }
+
+        property int initialPosition: -1
+
+        Connections {
+            target: services.mediaPlayer
+            ignoreUnknownSignals: true
+            onPlaying: {
+                // at the first playback of the file, do a seek()
+                if (services.initialPosition > 0) root.seek();
+            }
+        }
 
         Action {
             id: sharingAction
