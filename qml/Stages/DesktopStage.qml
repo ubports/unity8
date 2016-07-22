@@ -1132,7 +1132,7 @@ AbstractStage {
                     surface: model.surface
                 }
 
-                DragToCloseArea {
+                SpreadDelegateInputArea {
                     id: dragArea
                     anchors.fill: parent
                     enabled: false
@@ -1146,7 +1146,7 @@ AbstractStage {
                         }
                     }
                     onContainsMouseChanged: {
-                        if (containsMouse && !pressed) spreadItem.highlightedIndex = index
+                        if (containsMouse) spreadItem.highlightedIndex = index
                     }
                     onClose: {
                         priv.closingIndex = index
