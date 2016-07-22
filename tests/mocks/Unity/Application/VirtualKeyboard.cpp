@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015,2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,4 +33,23 @@ VirtualKeyboard::VirtualKeyboard()
 
 VirtualKeyboard::~VirtualKeyboard()
 {
+}
+
+void VirtualKeyboard::updateInputBoundsAfterResize()
+{
+    int width = this->width();
+
+    int height;
+    if (this->width() > this->height()) {
+        // landscape
+        height = this->height() * 0.4;
+    } else {
+        // portrait
+        height = this->width() * 0.6;
+    }
+
+    int x = 0;
+    int y = this->height() - height;
+
+    setInputBounds(QRect(x, y, width, height));
 }

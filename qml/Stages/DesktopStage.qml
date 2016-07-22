@@ -204,6 +204,10 @@ AbstractStage {
         }
 
         property int nextInStack: 1
+
+        readonly property real virtualKeyboardHeight: SurfaceManager.inputMethodSurface
+                                                          ? SurfaceManager.inputMethodSurface.inputBounds.height
+                                                          : 0
     }
 
     Connections {
@@ -475,7 +479,7 @@ AbstractStage {
                     property: "y"
                     value: appDelegate.requestedY -
                            Math.min(appDelegate.requestedY - PanelState.panelHeight,
-                                    Math.max(0, UbuntuKeyboardInfo.height - (appContainer.height - (appDelegate.requestedY + appDelegate.height))))
+                                    Math.max(0, priv.virtualKeyboardHeight - (appContainer.height - (appDelegate.requestedY + appDelegate.height))))
                     when: root.oskEnabled && appDelegate.focus && appDelegate.state == "normal"
                           && SurfaceManager.inputMethodSurface
                           && SurfaceManager.inputMethodSurface.state != Mir.HiddenState
