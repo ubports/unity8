@@ -129,12 +129,16 @@ Showable {
         for (var i = 0; i < LightDMService.sessions.count; i++) {
             var session = LightDMService.sessions.data(i,
                 LightDMService.sessionRoles.KeyRole);
-            if (session === LightDMService.greeter.defaultSession ||
-                session === loader.item.sessionToStart) {
-                    return session;
-                }
+            if (loader.item.sessionToStart === session) {
+                return session;
+            }
         }
-        return "ubuntu" // The default / fallback
+
+        if (loader.item.sessionToStart === LightDMService.greeter.defaultSession) {
+            return LightDMService.greeter.defaultSession;
+        } else {
+            return "ubuntu"; // The default / fallback
+        }
     }
 
     QtObject {
