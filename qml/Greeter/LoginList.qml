@@ -41,7 +41,6 @@ StyledItem {
     property bool wasPrompted: false
 
     signal loginListSessionChanged(string session)
-    signal promptlessLogin()
     signal responded(string response)
     signal selected(int index)
     signal sessionChooserButtonClicked()

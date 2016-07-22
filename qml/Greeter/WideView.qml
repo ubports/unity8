@@ -212,7 +212,6 @@ FocusScope {
                         loginAreaLoader.currentSession = loginAreaLoader.item.currentSession
                     }
                 }
-                onPromptlessLogin: root.promptlessLogin()
 
                 onSessionChooserButtonClicked: loginListShown = false;
                 ignoreUnknownSignals: true

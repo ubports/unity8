@@ -205,7 +205,7 @@ Showable {
         }
 
         function login() {
-            enabled = false;
+            d.waiting = true;
             if (LightDMService.greeter.startSessionSync(root.sessionToStart())) {
                 sessionStarted();
                 hideView();
