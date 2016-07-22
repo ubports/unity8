@@ -18,7 +18,5 @@ pragma Singleton
 import QtQuick 2.4
 
 QtObject {
-    id: root
-
     property var widgetExtraData: { "foo" : "bar" }
 }

@@ -48,7 +48,6 @@ PreviewWidget {
         PreviewSingleton.widgetExtraData[widgetExtraDataKey] = services.mediaPlayer.position;
     }
 
-
     function restorePlaybackState() {
         if (PreviewSingleton.widgetExtraData[widgetExtraDataKey] > 0) {
             services.initialPosition = PreviewSingleton.widgetExtraData[widgetExtraDataKey];
