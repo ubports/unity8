@@ -514,7 +514,9 @@ function cardString(template, components, isCardTool, artShapeStyle, categoryLay
     }
 
     if (hasArt) {
-        code += 'readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);\n';
+        if (isCardTool) {
+            code += 'readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);\n';
+        }
 
         var artShapeAspect;
         if (isCardTool) {
@@ -582,7 +584,9 @@ function cardString(template, components, isCardTool, artShapeStyle, categoryLay
                                   .arg(fallbackStatusCode)
                                   .arg(fallbackURICode);
     } else {
-        code += 'readonly property size artShapeSize: Qt.size(-1, -1);\n'
+        if (isCardTool) {
+            code += 'readonly property size artShapeSize: Qt.size(-1, -1);\n'
+        }
     }
 
     if (headerAsOverlay) {
