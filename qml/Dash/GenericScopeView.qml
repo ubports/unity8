@@ -23,6 +23,7 @@ import Unity 0.2
 import Dash 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
+import "Previews/PreviewSingleton"
 
 FocusScope {
     id: scopeView
@@ -126,6 +127,9 @@ FocusScope {
         if (filtersPopover) {
             PopupUtils.close(filtersPopover)
             scopeView.filtersPopover = null;
+        }
+        if (!isCurrent) {
+            PreviewSingleton.widgetExtraData = new Object();
         }
     }
 
