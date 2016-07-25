@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-07-11 17:24+0000\n"
-"PO-Revision-Date: 2016-06-25 21:01+0000\n"
+"POT-Creation-Date: 2016-07-14 07:09+0000\n"
+"PO-Revision-Date: 2016-07-24 11:38+0000\n"
 "Last-Translator: Matthias Seidel <matthias.seidel@hamburg.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-07-14 06:01+0000\n"
-"X-Generator: Launchpad (build 18115)\n"
+"X-Launchpad-Export-Date: 2016-07-25 05:34+0000\n"
+"X-Generator: Launchpad (build 18147)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
@@ -452,11 +452,11 @@ msgstr "Erneut versuchen"
 
 #: qml/Greeter/LoginList.qml:63
 msgid "Passphrase"
-msgstr ""
+msgstr "Passwort"
 
 #: qml/Greeter/LoginList.qml:64
 msgid "Passcode"
-msgstr ""
+msgstr "PIN"
 
 #: qml/Greeter/LoginList.qml:87
 msgid "Retry"
