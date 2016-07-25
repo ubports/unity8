@@ -49,7 +49,12 @@ PreviewWidget {
     }
 
     function storePlaybackState() {
-        PreviewSingleton.widgetExtraData[widgetExtraDataKey] = services.mediaPlayer.position;
+        if ((services.mediaPlayer.duration - services.mediaPlayer.position) < 1000) {
+            // we're at the end of the video
+            PreviewSingleton.widgetExtraData[widgetExtraDataKey] = 0;
+        } else {
+            PreviewSingleton.widgetExtraData[widgetExtraDataKey] = services.mediaPlayer.position;
+        }
     }
 
     function restorePlaybackState() {
