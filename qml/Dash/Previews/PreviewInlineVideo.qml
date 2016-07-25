@@ -39,6 +39,10 @@ PreviewWidget {
     property alias rootItem: services.rootItem
     readonly property string widgetExtraDataKey: services.source.toString()
 
+    onWidgetExtraDataKeyChanged: {
+        root.restorePlaybackState();
+    }
+
     function seek() {
         services.mediaPlayer.seek(services.initialPosition);
         services.initialPosition = -1;
@@ -64,17 +68,13 @@ PreviewWidget {
         fullscreen: false
         maximumEmbeddedHeight: rootItem.height / 2
 
-        onClose: fullscreen = false
+        property int initialPosition: -1
 
         readonly property var mediaPlayer: footer.mediaPlayer
         readonly property url source: mediaPlayer.source
         readonly property int position: mediaPlayer.position
 
-        property int initialPosition: -1
-
-        onSourceChanged: {
-            root.restorePlaybackState();
-        }
+        onClose: fullscreen = false
 
         onPositionChanged: {
             if (mediaPlayer.playbackState === MediaPlayer.StoppedState) return;
