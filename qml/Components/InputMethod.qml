@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014,2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,13 +16,12 @@
 
 import QtQuick 2.4
 import Unity.Application 0.1
-import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 
 Item {
     id: root
 
-    property int transitionDuration: UbuntuAnimation.FastDuration
+    readonly property rect visibleRect: surfaceItem.surface ? surfaceItem.surface.inputBounds : Qt.rect(0, 0, 0, 0)
 
     MirSurfaceItem {
         id: surfaceItem
@@ -42,51 +41,16 @@ Item {
     }
 
     TouchGate {
-        x: UbuntuKeyboardInfo.x
-        y: UbuntuKeyboardInfo.y
-        width: UbuntuKeyboardInfo.width
-        height: UbuntuKeyboardInfo.height
+        x: root.visibleRect.x
+        y: root.visibleRect.y
+        width: root.visibleRect.width
+        height: root.visibleRect.height
 
         targetItem: surfaceItem
     }
 
-    state: {
-        if (surfaceItem.surface &&
+    visible: surfaceItem.surface &&
               surfaceItem.surfaceState != Mir.HiddenState &&
               surfaceItem.surfaceState != Mir.MinimizedState &&
-              root.enabled) {
-            return "shown";
-        } else {
-            return "hidden";
-        }
-    }
-
-    states: [
-        State {
-            name: "shown"
-            PropertyChanges {
-                target: root
-                visible: true
-                y: 0
-            }
-        },
-        State {
-            name: "hidden"
-            PropertyChanges {
-                target: root
-                visible: false
-                // half-way down because the vkb occupies only the lower half of the surface
-                // TODO: consider keyboard rotation
-                y: root.parent.height / 2.0
-            }
-        }
-    ]
-
-    transitions: [
-        Transition {
-            from: "*"; to: "*"
-            PropertyAction { property: "visible"; value: true }
-            UbuntuNumberAnimation { property: "y"; duration: transitionDuration }
-        }
-    ]
+              root.enabled
 }
