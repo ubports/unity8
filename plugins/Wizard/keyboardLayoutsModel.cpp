@@ -107,7 +107,6 @@ void KeyboardLayoutsModel::buildModel()
         layout.displayName = QString::fromUtf8(display_name);
 
         m_db.append(layout);
-        qDebug() << "DB layout:" << layout.id << ", language:" << layout.language;
     }
     g_list_free(sources);
 
@@ -127,7 +126,6 @@ void KeyboardLayoutsModel::updateModel()
         if (info.language == lang &&                                           // filter by language
                 (kbdCountry.startsWith(country) || kbdCountry.length() > 2)) { // and by known country, also insert anything that doesn't match the country
             m_layouts.append(info);
-            qDebug() << "Inserted layout:" << info.id << ", language:" << info.language;
         }
     }
 
