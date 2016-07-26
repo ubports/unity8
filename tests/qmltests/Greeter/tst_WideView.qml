@@ -458,7 +458,8 @@ StyledItem {
             for(var i = 0; i < LightDM.Sessions.count; i++) {
                 var delegateName = "sessionDelegate" + String(i);
                 var currentDelegate = findChild(view, delegateName);
-                if (currentDelegate._key === "gnome-classic") {
+                var sessionKey = LightDM.Sessions.data(i,LightDM.SessionRoles.KeyRole);
+                if (sessionKey === "gnome-classic") {
                     tap(currentDelegate);
                     var sessionChooserButton = findChild(view, "sessionChooserButton");
                     waitForRendering(sessionChooserButton);
