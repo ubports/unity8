@@ -1,3 +1,17 @@
+unity8 (8.13+16.10.20160714+fix1-0ubuntu2~1) yakkety; urgency=medium
+
+  * Rebuild against Qt 5.6.
+  * Add https://code.launchpad.net/~aacid/unity8/floor_includes/+merge/300850
+
+ -- Timo Jyrinki <timo-jyrinki@ubuntu.com>  Fri, 22 Jul 2016 09:03:54 +0300
+
+unity8 (8.13+16.10.20160714-0ubuntu1) yakkety; urgency=medium
+
+  [ Daniel d'Andrada ]
+  * Make use of MirSurface::inputBounds and drop UbuntuKeyboardInfo hack
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 14 Jul 2016 07:09:29 +0000
+
 unity8 (8.12+16.10.20160711-0ubuntu1) yakkety; urgency=medium
 
   [ Josh Arenson ]
