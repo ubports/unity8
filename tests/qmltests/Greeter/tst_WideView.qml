@@ -276,6 +276,16 @@ StyledItem {
                                 LightDM.Sessions.testScenario = "singleSession"
                             }
                         }
+                        Connections {
+                            target: LightDM.Sessions
+                            onTestScenarioChanged: {
+                                if (LightDM.Sessions.testScenario === "multipleSessions") {
+                                    multipleSessionsCheckbox.checked = true;
+                                } else {
+                                    multipleSessionsCheckbox.checked = false;
+                                }
+                            }
+                        }
                     }
                     Label {
                         text: "Multiple Sessions"
@@ -429,12 +439,9 @@ StyledItem {
             compare(icon.indexOf(session) > -1, true);
 
             // Test the session list icons are valid
-            view.loginListShown = false;
+            view.state = "SessionsList";
             var sessionsList = findChild(view, "sessionsList");
-            var sessionsListSelector = findChild(view, "sessionsListSelector");
             tryCompare(sessionsList, "visible", true);
-            tryCompare(sessionsListSelector, "expanded", true);
-
         }
 
         function test_choosingNewSessionChangesLoginListIcon() {
@@ -448,12 +455,10 @@ StyledItem {
             compare(icon.indexOf("ubuntu") > -1, true);
 
             tap(sessionChooserButton)
-            var sessionsListSelector = findChild(view, "sessionsListSelector");
-            waitForRendering(sessionsListSelector);
             for(var i = 0; i < LightDM.Sessions.count; i++) {
                 var delegateName = "sessionDelegate" + String(i);
                 var currentDelegate = findChild(view, delegateName);
-                if (currentDelegate.text === "GNOME") {
+                if (currentDelegate._key === "gnome-classic") {
                     tap(currentDelegate);
                     var sessionChooserButton = findChild(view, "sessionChooserButton");
                     waitForRendering(sessionChooserButton);
@@ -611,7 +616,7 @@ StyledItem {
         }
 
         function test_loginListNotCoveredByKeyboard() {
-            var loginList = findChild(view, "loginAreaLoader").item;
+            var loginList = findChild(view, "loginList");
             compare(loginList.height, view.height);
 
             // when the vkb shows up, loginList is moved up to remain fully uncovered

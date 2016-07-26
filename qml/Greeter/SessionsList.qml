@@ -103,7 +103,9 @@ Item {
             highlightFollowsCurrentItem: false
             delegate: ListItem {
                 id: delegate
+                objectName: "sessionDelegate" + index
 
+                readonly property string _key: key
                 divider.visible: false
 
                 visible: y > sessionsList.headerItem.y
