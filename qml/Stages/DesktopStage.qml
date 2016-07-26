@@ -165,6 +165,12 @@ AbstractStage {
         property string mainStageAppId: ""
         property string sideStageAppId: ""
 
+        onSideStageDelegateChanged: {
+            if (!sideStageDelegate) {
+                sideStage.hide();
+            }
+        }
+
         function updateMainAndSideStageIndexes() {
             print("updating stage indexes, sideStage shown:", sideStage.shown)
             var choseMainStage = false;
@@ -176,7 +182,7 @@ AbstractStage {
             for (var i = 0; i < appRepeater.count && (!choseMainStage || !choseSideStage); ++i) {
                 var appDelegate = appRepeater.itemAt(i);
                 print("have app on stage", appDelegate.applicationId, appDelegate.stage)
-                if (sideStage.shown && appDelegate.stage == ApplicationInfoInterface.SideStage
+                if (/*sideStage.shown && */appDelegate.stage == ApplicationInfoInterface.SideStage
                         && !choseSideStage) {
                     priv.sideStageDelegate = appDelegate
                     priv.sideStageItemId = root.topLevelSurfaceList.idAt(i);
@@ -405,6 +411,28 @@ AbstractStage {
                 return 2;
             }
 
+
+            onShownChanged: {
+                print("sidestage shown changed:", shown)
+                if (!shown && priv.mainStageDelegate) {
+                    priv.mainStageDelegate.claimFocus();
+                }
+            }
+
+//            onShownChanged: {
+//                if (!shown && priv.sideStageDelegate && priv.focusedAppDelegate === priv.sideStageDelegate) {
+//                    priv.updateMainAndSideStageIndexes();
+//                    if (priv.mainStageDelegate) {
+//                        priv.mainStageDelegate.focus = true;
+//                    }
+//                } else if (shown) {
+//                    priv.updateMainAndSideStageIndexes();
+//                    if (priv.sideStageDelegate) {
+//                        priv.sideStageDelegate.focus = true;
+//                    }
+//                }
+//            }
+
             DropArea {
                 id: sideStageDropArea
                 objectName: "SideStageDropArea"
@@ -545,6 +573,10 @@ AbstractStage {
 
                 function claimFocus() {
                     appDelegate.focus = true;
+                    print("focusing app", priv.sideStageDelegate, appDelegate, sideStage.shown)
+                    if (appDelegate.stage == ApplicationInfoInterface.SideStage && !sideStage.shown) {
+                        sideStage.show();
+                    }
                 }
                 Connections {
                     target: model.surface
@@ -847,7 +879,7 @@ AbstractStage {
                             y: appDelegate.fullscreen ? 0 : PanelState.panelHeight
                             z: stageMaths.itemZ
                             requestedWidth: stageMaths.itemWidth
-                            requestedHeight: appContainer.height - PanelState.panelHeight
+                            requestedHeight: appDelegate.fullscreen ? appContainer.height : appContainer.height - PanelState.panelHeight
                             visuallyMaximized: true
                         }
                         PropertyChanges {
@@ -1004,6 +1036,7 @@ AbstractStage {
                     Transition {
                         to: "spread"
                         // DecoratedWindow wants the sceleToPreviewSize set before enabling scaleToPreview
+                        PropertyAction { target: appDelegate; property: "z" }
                         PropertyAction { target: decoratedWindow; property: "scaleToPreviewSize" }
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
                         UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle,scaleToPreviewProgress"; duration: priv.animationDuration }
