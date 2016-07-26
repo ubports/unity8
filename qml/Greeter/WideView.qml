@@ -27,7 +27,6 @@ FocusScope {
     property alias dragHandleLeftMargin: coverPage.dragHandleLeftMargin
     property alias infographicModel: coverPage.infographicModel
     property alias launcherOffset: coverPage.launcherOffset
-    property alias loginListShown: loginList.loginListShown
     property alias currentIndex: loginList.currentIndex
     property int delayMinutes // TODO
     property alias alphanumeric: loginList.alphanumeric
@@ -47,36 +46,23 @@ FocusScope {
     signal tease()
     signal emergencyCall() // unused
 
-    /***** Functions that depend on LoginList being loaded *****/
-    // A decorator to only call LoginList functions when its shown
-    function ifLoginlistShownThen(f) {
-        return function() {
-            if (loginListShown) f.apply(this, arguments);
-        }
-    }
-
-    readonly property var notifyAuthenticationFailed: ifLoginlistShownThen(doNotifyAuthenticationFailed);
-    function doNotifyAuthenticationFailed() {
+    function notifyAuthenticationFailed() {
         loginListm.showError();
     }
 
-    readonly property var reset: ifLoginlistShownThen(doReset);
-    function doReset() {
+    function reset() {
         loginList.reset();
     }
 
-    readonly property var showMessage: ifLoginlistShownThen(doShowMessage);
-    function doShowMessage(html) {
+    function showMessage(html) {
         loginList.showMessage(html);
     }
 
-    readonly property var showPrompt: ifLoginlistShownThen(doShowPrompt);
-    function doShowPrompt(text, isSecret, isDefaultPrompt) {
+    function showPrompt(text, isSecret, isDefaultPrompt) {
         loginList.showPrompt(text, isSecret, isDefaultPrompt);
     }
 
-    readonly property var tryToUnlock: ifLoginlistShownThen(doTryToUnlock);
-    function doTryToUnlock(toTheRight) {
+    function tryToUnlock(toTheRight) {
         if (root.locked) {
             coverPage.show();
             loginList.tryToUnlock();
@@ -92,7 +78,6 @@ FocusScope {
         }
     }
 
-    /***** Functions that are agnostic of what object is loaded *****/
     function hide() {
         coverPage.hide();
     }
@@ -135,9 +120,6 @@ FocusScope {
         LoginList {
             id: loginList
 
-            property bool loginListShown: true
-            property bool sessionUpdated: false
-
             height: inputMethod && inputMethod.visible ?
                 parent.height - inputMethod.keyboardRectangle.height : parent.height
             width: units.gu(40)
@@ -176,11 +158,8 @@ FocusScope {
 
             Connections {
                 target: sessionChooserLoader.item
+                onSessionSelected: loginList.currentSession = sessionKey
                 onShowLoginList: coverPage.state = "LoginList"
-                onSessionSelected: {
-                    loginList.sessionUpdated = true
-                    loginList.currentSession = sessionKey
-                }
                 ignoreUnknownSignals: true
             }
         }
@@ -216,103 +195,5 @@ FocusScope {
                 }
             }
         ]
-
-        /*Loader {
-            id: loginList
-            objectName: "loginList"
-
-            // True when LoginList is shown, false when SessionList is shown
-            property bool loginListShown: true
-            property bool sessionUpdated: false
-            property string currentSession: LightDMService.sessions.defaultSession // Set as soon as LoginList is loaded
-
-            source: loginListShown ? "LoginList.qml" : "SessionsList.qml"
-            onSourceChanged: loadingAnimation.running = true
-
-            anchors {
-                left: parent.left
-                leftMargin: Math.min(parent.width * 0.16, units.gu(20))
-                top: parent.top
-            }
-
-            width: units.gu(40)
-            height: inputMethod && inputMethod.visible ?
-                parent.height - inputMethod.keyboardRectangle.height : parent.height
-
-            UbuntuNumberAnimation {
-                id: loadingAnimation
-                target: loginList.item
-                property: "opacity"
-                from: 0
-                to: 1
-                running: false
-            }
-
-            Binding {
-                target: loginList.item
-                property: "alphanumeric"
-                value: loginListShown ? root.alphanumeric : null
-            }
-
-            Binding {
-                target: loginList.item
-                property: "currentIndex"
-                value: loginListShown ? root.currentIndex : null
-            }
-
-            Binding {
-                target: loginList.item
-                property: "locked"
-                value: root.locked
-            }
-
-            Binding {
-                target: loginList.item
-                property: "model"
-                value: loginListShown ? root.userModel : null
-            }
-
-            // Only inform LoginList if the session isn't the user's default session
-            // because LoginList gets the default session on its own
-            Binding {
-                target: loginList.item
-                property: "selectedSession"
-                value: loginListShown && loginList.sessionUpdated ?
-                    loginList.currentSession : null
-            }
-
-            Binding {
-                target: loginList.item
-                property: "initiallySelectedSession"
-                value: !loginListShown ? loginList.currentSession : null
-            }
-
-            Connections {
-                target: loginListShown ? loginList.item : null
-                onSelected: root.selected(index)
-                onResponded: root.responded(response)
-                // The initially selected session lags behind the component completion
-                // so this provides the initial session name when available
-                onLoginListSessionChanged: {
-                    if (loginListShown && !loginList.sessionUpdated) {
-                        loginList.currentSession = loginList.item.currentSession
-                    }
-                }
-
-                onSessionChooserButtonClicked: loginListShown = false;
-                ignoreUnknownSignals: true
-            }
-
-            Connections {
-                target: !loginListShown ? loginList.item : null
-                onSessionSelected: {
-                    loginList.sessionUpdated = true
-                    loginList.currentSession = sessionKey
-                }
-
-                onShowLoginList: loginList.loginListShown = true
-                ignoreUnknownSignals: true
-            }
-        }*/
     }
 }
