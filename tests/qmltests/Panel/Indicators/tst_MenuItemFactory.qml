@@ -580,7 +580,7 @@ Item {
             loader.data = menuData;
             loader.sourceComponent = factory.load(menuData);
             tryCompareFunction(function() { return loader.item != undefined; }, true);
-            compare(loader.item.objectName, "accessPoint_" + menuData.label, "Should have created a access point menu");
+            compare(loader.item.objectName, "accessPoint", "Should have created a access point menu");
 
             compare(loader.item.text, data.label, "Label does not match data");
             compare(loader.item.strengthAction.name, "action::strength", "Strength action incorrect");
