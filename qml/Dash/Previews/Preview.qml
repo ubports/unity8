@@ -37,12 +37,16 @@ Item {
     //! \brief The ScopeStyle component.
     property var scopeStyle: null
 
+    //! Should the orientation be locked
+    property int orientationLockCount: 0
+
     clip: true
 
     Binding {
         target: previewModel
         property: "widgetColumnCount"
         value: row.columns
+        when: root.orientationLockCount === 0
     }
 
     MouseArea {
@@ -78,6 +82,7 @@ Item {
 
                 model: columnModel
                 cacheBuffer: height
+                highlightMoveDuration: 0 // QTBUG-53460
 
                 Behavior on contentY { UbuntuNumberAnimation { } }
 
@@ -105,7 +110,22 @@ Item {
 
                     onFocusChanged: if (focus) column.positionViewAtIndex(index, ListView.Contain)
 
-                    onHeightChanged: if (focus) column.positionViewAtIndex(index, ListView.Contain)
+                    onHeightChanged: if (focus) {
+                        column.forceLayout();
+                        column.positionViewAtIndex(index, ListView.Contain)
+                    }
+
+                    onOrientationLockChanged: {
+                        if (orientationLock)
+                            root.orientationLockCount++;
+                        else
+                            root.orientationLockCount = Math.max(0, root.orientationLockCount--);
+                    }
+
+                    Component.onDestruction: {
+                        if (orientationLock)
+                            root.orientationLockCount = Math.max(0, root.orientationLockCount--);
+                    }
                 }
             }
         }

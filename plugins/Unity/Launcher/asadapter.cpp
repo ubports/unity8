@@ -18,14 +18,18 @@
 #include "launcheritem.h"
 #include "AccountsServiceDBusAdaptor.h"
 
+#include <glib.h>
+
 #include <QDebug>
 
 ASAdapter::ASAdapter()
 {
     m_accounts = new AccountsServiceDBusAdaptor();
-    m_user = qgetenv("USER");
+
+    m_user = QString::fromUtf8(g_get_user_name());
+
     if (m_user.isEmpty()) {
-        qWarning() << "$USER not valid. Account Service integration will not work.";
+        qWarning() << "username not valid. Account Service integration will not work.";
     }
 }
 

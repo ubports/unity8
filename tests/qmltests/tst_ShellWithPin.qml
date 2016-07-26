@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ import Ubuntu.Components 1.3
 import QtTest 1.0
 import AccountsService 0.1
 import GSettings 1.0
-import IntegratedLightDM 0.1 as LightDM
+import LightDM.IntegratedLightDM 0.1 as LightDM
 import Ubuntu.SystemImage 0.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
@@ -150,7 +150,7 @@ Item {
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
 
         function init() {
-            tryCompare(shell, "enabled", true); // will be enabled when greeter is all ready
+            tryCompare(shell, "waitingOnGreeter", false); // will be set when greeter is all ready
             var greeter = findChild(shell, "greeter");
             sessionSpy.target = greeter;
             swipeAwayGreeter(true);
@@ -165,7 +165,7 @@ Item {
         }
 
         function cleanup() {
-            tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
+            tryCompare(shell, "waitingOnGreeter", false); // make sure greeter didn't leave us in disabled state
 
             shellLoader.itemDestroyed = false
 
@@ -194,15 +194,7 @@ Item {
             shellLoader.active = true
 
             tryCompare(shellLoader, "status", Loader.Ready)
-            removeTimeConstraintsFromDirectionalDragAreas(shellLoader.item)
-        }
-
-        function killApps() {
-            while (ApplicationManager.count > 1) {
-                var appIndex = ApplicationManager.get(0).appId == "unity8-dash" ? 1 : 0
-                ApplicationManager.stopApplication(ApplicationManager.get(appIndex).appId);
-            }
-            compare(ApplicationManager.count, 1)
+            removeTimeConstraintsFromSwipeAreas(shellLoader.item)
         }
 
         function swipeAwayGreeter(waitForCoverPage) {
@@ -318,6 +310,7 @@ Item {
             var emergencyButton = findChild(greeter, "emergencyCallLabel");
             tap(emergencyButton)
 
+
             tryCompare(greeter, "shown", false);
             killApps() // kill dialer-app, as if it crashed
             tryCompare(greeter, "shown", true);
@@ -424,12 +417,15 @@ Item {
 
             var greeter = findChild(shell, "greeter");
             var lockscreen = findChild(shell, "lockscreen");
+            verify(lockscreen);
 
             lockscreen.emergencyCall();
             confirmLockedApp("dialer-app");
             callManager.foregroundCall = phoneCall;
 
             LightDM.Greeter.showGreeter();
+            lockscreen = findChild(shell, "lockscreen");
+            verify(lockscreen);
             tryCompare(lockscreen, "shown", true);
             tryCompare(greeter, "hasLockedApp", false);
 
@@ -476,7 +472,7 @@ Item {
 
             var app = ApplicationManager.startApplication("gallery-app");
             // wait until the app is fully loaded (ie, real surface replaces splash screen)
-            tryCompareFunction(function() { return app.session !== null && app.session.lastSurface !== null }, true);
+            tryCompareFunction(function() { return app.session !== null && app.surfaceList.count > 0 }, true);
 
             // New app hides coverPage?
             var greeter = findChild(shell, "greeter");
@@ -537,10 +533,12 @@ Item {
 
             // Confirm that we start disabled
             compare(promptSpy.count, 0);
-            verify(!shell.enabled);
+            verify(shell.waitingOnGreeter);
+            var coverPageDragHandle = findChild(shell, "coverPageDragHandle");
+            verify(!coverPageDragHandle.enabled);
 
             // And that we only become enabled once the lockscreen is up
-            tryCompare(shell, "enabled", true);
+            tryCompare(shell, "waitingOnGreeter", false);
             verify(promptSpy.count > 0);
             var lockscreen = findChild(shell, "lockscreen");
             verify(lockscreen.shown);
@@ -593,8 +591,8 @@ Item {
             var coverPage = findChild(shell, "coverPage");
             var lockscreen = findChild(shell, "lockscreen");
             var launcher = findChild(shell, "launcherPanel");
-            ApplicationManager.startApplication("gallery-app");
-            tryCompare(ApplicationManager, "focusedApplicationId", "gallery-app");
+            var galleryApp = ApplicationManager.startApplication("gallery-app");
+            tryCompare(shell, "mainApp", galleryApp);
 
             // Show greeter
             LightDM.Greeter.showGreeter();
@@ -605,13 +603,13 @@ Item {
             tryCompare(launcher, "x", -launcher.width);
             tryCompare(coverPage, "showProgress", 0);
             compare(lockscreen.shown, true);
-            compare(ApplicationManager.focusedApplicationId, "gallery-app");
+            tryCompare(shell, "mainApp", galleryApp);
 
             // Now attempt a swipe on lockscreen
             touchFlick(shell, 2, shell.height / 2, units.gu(30), shell.height / 2);
             tryCompare(launcher, "x", 0);
             compare(lockscreen.shown, true);
-            compare(ApplicationManager.focusedApplicationId, "gallery-app");
+            tryCompare(shell, "mainApp", galleryApp);
         }
     }
 }

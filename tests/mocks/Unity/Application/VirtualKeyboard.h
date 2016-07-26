@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015,2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,8 +25,11 @@ class VirtualKeyboard : public MirSurface
 {
     Q_OBJECT
 public:
-    explicit VirtualKeyboard(QObject *parent = nullptr);
+    explicit VirtualKeyboard();
     ~VirtualKeyboard();
+
+protected:
+    void updateInputBoundsAfterResize() override;
 };
 
 Q_DECLARE_METATYPE(VirtualKeyboard*)

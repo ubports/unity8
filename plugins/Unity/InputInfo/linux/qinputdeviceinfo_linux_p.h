@@ -83,8 +83,6 @@ private:
 
     QInputDevice *addDevice(const QString &path);
     void removeDevice(const QString &path);
-    QSocketNotifier *notifier;
-    int notifierFd;
     struct udev_monitor *udevMonitor;
     QInputDevice::InputTypeFlags getInputTypeFlags(struct udev_device *);
     struct udev *udevice;

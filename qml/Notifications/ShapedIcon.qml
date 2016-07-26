@@ -27,6 +27,7 @@ Item {
         visible: shaped
         source: realImage
         sourceFillMode: UbuntuShape.PreserveAspectCrop
+        aspect: UbuntuShape.Flat
     }
 
     Image {

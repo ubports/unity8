@@ -20,7 +20,7 @@ import Ubuntu.Components 1.3
 Item {
     id: swipeToAct
 
-    height: clickToAct ? leftButton.height : childrenRect.height
+    height: clickToAct ? leftButton.height : row.height
 
     signal leftTriggered()
     signal rightTriggered()
@@ -36,8 +36,8 @@ Item {
         property double opacityDelta
         readonly property double sliderHeight: units.gu(8)
         readonly property double gap: units.gu(1)
-        readonly property color sliderMainColor: "#b2b2b2"
-        readonly property color sliderBGColor: "#f4f4f4"
+        readonly property color sliderMainColor: theme.palette.normal.base
+        readonly property color sliderBGColor: theme.palette.normal.background
         readonly property double halfWay: mouseArea.drag.maximumX / 2
 
         UbuntuNumberAnimation on opacityDelta {
@@ -66,32 +66,30 @@ Item {
         }
     }
 
-    Button {
+    NotificationButton {
         id: leftButton
         objectName: "leftButton"
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         iconName: leftIconName
         visible: clickToAct
-        width: (parent.width / 2) - priv.gap
-        color: UbuntuColors.red
-        onClicked: {
-            leftTriggered()
-        }
+        outline: false
+        width: (parent.width / 2) - priv.gap / 2
+        color: theme.palette.normal.negative
+        onClicked: leftTriggered()
     }
 
-    Button {
+    NotificationButton {
         id: rightButton
         objectName: "rightButton"
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
         iconName: rightIconName
         visible: clickToAct
-        width: (parent.width / 2) - priv.gap
-        color: UbuntuColors.green
-        onClicked: {
-            rightTriggered()
-        }
+        outline: false
+        width: (parent.width / 2) - priv.gap / 2
+        color: theme.palette.normal.positive
+        onClicked: rightTriggered()
     }
 
     UbuntuShape {
@@ -108,10 +106,9 @@ Item {
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.margins: priv.gap
-            backgroundColor: UbuntuColors.red
+            backgroundColor: theme.palette.normal.negative
             aspect: UbuntuShape.Flat
 
-            state: "normal"
             height: units.gu(6)
             width: units.gu(6)
             radius: "medium"
@@ -195,7 +192,7 @@ Item {
             Icon {
                 anchors.fill: parent
                 anchors.margins: units.gu(1.5)
-                source: "grip-large.svg"
+                name: "grip-large"
                 color: "white"
             }
         }
@@ -226,10 +223,9 @@ Item {
             anchors.top: parent.top
             anchors.right: parent.right
             anchors.margins: priv.gap
-            backgroundColor: UbuntuColors.green
+            backgroundColor: theme.palette.normal.positive
             aspect: UbuntuShape.Flat
 
-            state: "normal"
             height: units.gu(6)
             width: units.gu(6)
             radius: "medium"

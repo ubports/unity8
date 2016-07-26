@@ -29,7 +29,7 @@ IndicatorTest {
     id: root
     width: units.gu(100)
     height: units.gu(71)
-    color: "white"
+    color: "black"
 
     Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark"
 
@@ -464,7 +464,7 @@ IndicatorTest {
 
             callManager.foregroundCall = phoneCall;
 
-            ApplicationManager.focusApplication("unity8-dash");
+            MirFocusController.focusedSurface = ApplicationManager.findApplication("unity8-dash").surfaceList.get(0);
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
 
             mouseClick(panel.indicators,

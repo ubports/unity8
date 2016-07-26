@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,11 +26,12 @@ ListView {
     objectName: "notificationList"
     interactive: false
 
+    readonly property bool hasNotification: count > 1 // placeholder is index 0
     property real margin
-    property bool useModal: snapDecisionProxyModel.count > 0
     property bool hasMouse
-    property bool inverseMode
     property url background: ""
+
+    readonly property bool useModal: snapDecisionProxyModel.count > 0
 
     UnitySortFilterProxyModel {
         id: snapDecisionProxyModel
@@ -41,10 +42,17 @@ ListView {
         filterRegExp: RegExp(UnityNotifications.Notification.SnapDecision)
     }
 
-    property bool topmostIsFullscreen: false
-    spacing: topmostIsFullscreen ? 0 : units.gu(.5)
+    readonly property bool topmostIsFullscreen: fullscreenIndex != -1
+    spacing: topmostIsFullscreen ? 0 : units.gu(1)
 
     currentIndex: count > 1 ? 1 : -1
+
+    property int fullscreenIndex: -1
+    onFullscreenIndexChanged: {
+        if (fullscreenIndex != -1) {
+            positionViewAtIndex(fullscreenIndex, ListView.Beginning);
+        }
+    }
 
     delegate: Notification {
         objectName: "notification" + index
@@ -52,7 +60,7 @@ ListView {
         type: model.type
         hints: model.hints
         iconSource: model.icon
-        secondaryIconSource: model.secondaryIcon
+        secondaryIconSource: model.secondaryIcon ? model.secondaryIcon : ""
         summary: model.summary
         body: model.body
         value: model.value ? model.value : -1
@@ -62,7 +70,6 @@ ListView {
         maxHeight: notificationList.height
         margins: notificationList.margin
         hasMouse: notificationList.hasMouse
-        inverseMode: notificationList.inverseMode
         background: notificationList.background
 
         // make sure there's no opacity-difference between the several
@@ -70,16 +77,18 @@ ListView {
         // FIXME: disabled all transitions because of LP: #1354406 workaround
         //layer.enabled: add.running || remove.running || populate.running
 
-        Component.onCompleted: {
-            if (index == 1) {
-                notificationList.topmostIsFullscreen = fullscreen
+        onFullscreenChanged: updateListTopMostIsFullscreen();
+
+        function updateListTopMostIsFullscreen() {
+            if (fullscreen) {
+                fullscreenIndex = index;
             }
         }
 
-        onFullscreenChanged: {
-            // index 1 because 0 is the PlaceHolder...
-            if (index == 1) {
-                notificationList.topmostIsFullscreen = fullscreen
+        onDismissed: {
+            if (fullscreenIndex == index) {
+                fullscreenIndex = -1;
+                notificationList.positionViewAtBeginning();
             }
         }
     }

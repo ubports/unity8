@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,14 +26,22 @@ MouseArea {
 
     property Item target
     property alias title: titleLabel.text
+    property alias maximizeButtonShown: buttons.maximizeButtonShown
     property bool active: false
-    hoverEnabled: true
+    acceptedButtons: Qt.AllButtons // prevent leaking unhandled mouse events
+    property alias overlayShown: buttons.overlayShown
 
-    signal close()
-    signal minimize()
-    signal maximize()
+    signal closeClicked()
+    signal minimizeClicked()
+    signal maximizeClicked()
+    signal maximizeHorizontallyClicked()
+    signal maximizeVerticallyClicked()
 
-    onDoubleClicked: root.maximize()
+    onDoubleClicked: {
+        if (maximizeButtonShown && mouse.button == Qt.LeftButton) {
+            root.maximizeClicked();
+        }
+    }
 
     QtObject {
         id: priv
@@ -43,7 +51,7 @@ MouseArea {
     }
 
     onPressedChanged: {
-        if (pressed) {
+        if (pressed && pressedButtons == Qt.LeftButton) {
             var pos = mapToItem(root.target, mouseX, mouseY);
             priv.distanceX = pos.x;
             priv.distanceY = pos.y;
@@ -58,10 +66,16 @@ MouseArea {
         if (priv.dragging) {
             Mir.cursorName = "grabbing";
             var pos = mapToItem(root.target.parent, mouseX, mouseY);
-            root.target.x = pos.x - priv.distanceX;
-            root.target.y = Math.max(pos.y - priv.distanceY, PanelState.panelHeight);
+            // Use integer coordinate values to ensure that target is left in a pixel-aligned
+            // position. Mouse movement could have subpixel precision, yielding a fractional
+            // mouse position.
+            root.target.requestedX = Math.round(pos.x - priv.distanceX);
+            root.target.requestedY = Math.round(Math.max(pos.y - priv.distanceY, PanelState.panelHeight));
         }
     }
+
+    // do not let unhandled wheel event pass thru the decoration
+    onWheel: wheel.accepted = true;
 
     Rectangle {
         anchors.fill: parent
@@ -73,32 +87,45 @@ MouseArea {
     Row {
         anchors {
             fill: parent
-            leftMargin: units.gu(1)
+            leftMargin: overlayShown ? units.gu(5) : units.gu(1)
             rightMargin: units.gu(1)
             topMargin: units.gu(0.5)
             bottomMargin: units.gu(0.5)
         }
+        Behavior on anchors.leftMargin {
+            UbuntuNumberAnimation {}
+        }
+
         spacing: units.gu(3)
 
         WindowControlButtons {
             id: buttons
             height: parent.height
             active: root.active
-            onClose: root.close();
-            onMinimize: root.minimize();
-            onMaximize: root.maximize();
+            onCloseClicked: root.closeClicked();
+            onMinimizeClicked: root.minimizeClicked();
+            onMaximizeClicked: root.maximizeClicked();
+            onMaximizeHorizontallyClicked: root.maximizeHorizontallyClicked();
+            onMaximizeVerticallyClicked: root.maximizeVerticallyClicked();
+            closeButtonShown: root.target.application.appId !== "unity8-dash"
+            target: root.target
         }
 
         Label {
             id: titleLabel
             objectName: "windowDecorationTitle"
-            color: root.active ? "white" : "#5d5d5d"
+            color: root.active ? "white" : UbuntuColors.slate
             height: parent.height
             width: parent.width - buttons.width - parent.anchors.rightMargin - parent.anchors.leftMargin
             verticalAlignment: Text.AlignVCenter
             fontSize: "medium"
-            font.weight: root.active ? Font.Light : Font.Normal
+            font.weight: root.active ? Font.Light : Font.Medium
             elide: Text.ElideRight
+            opacity: overlayShown ? 0 : 1
+            visible: opacity == 1
+            Behavior on opacity {
+                OpacityAnimator { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+            }
         }
     }
 }

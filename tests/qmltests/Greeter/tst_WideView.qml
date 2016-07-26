@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,14 +18,17 @@ import QtQuick 2.4
 import QtTest 1.0
 import ".."
 import "../../../qml/Greeter"
-import IntegratedLightDM 0.1 as LightDM
+import LightDM.IntegratedLightDM 0.1 as LightDM
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
 
-Item {
+StyledItem {
     id: root
     width: units.gu(120)
     height: units.gu(80)
+    focus: true
+
+    theme.name: "Ubuntu.Components.Themes.SuruDark"
 
     Binding {
         target: LightDM.Users
@@ -39,6 +42,7 @@ Item {
             id: loader
             width: root.width - controls.width
             height: parent.height
+            focus: true
 
             property bool itemDestroyed: false
             sourceComponent: Component {
@@ -61,7 +65,8 @@ Item {
                     }
 
                     onSelected: {
-                        currentIndexField.text = index;
+                        if (index >= 0)
+                            currentIndexField.text = index;
                     }
 
                     QtObject {
@@ -103,7 +108,7 @@ Item {
 
         Rectangle {
             id: controls
-            color: "white"
+            color: theme.palette.normal.background
             width: units.gu(40)
             height: parent.height
 
@@ -168,7 +173,7 @@ Item {
                         text: "Authenticated"
                         onClicked: {
                             if (successCheckBox.checked) {
-                                loader.item.notifyAuthenticationSucceeded();
+                                loader.item.notifyAuthenticationSucceeded(false);
                             } else {
                                 loader.item.notifyAuthenticationFailed();
                             }
@@ -330,7 +335,7 @@ Item {
             tryCompare(loader, "itemDestroyed", true);
             loader.active = true;
             tryCompare(loader, "status", Loader.Ready);
-            removeTimeConstraintsFromDirectionalDragAreas(loader.item);
+            removeTimeConstraintsFromSwipeAreas(loader.item);
         }
 
         function getIndexOf(name) {
@@ -390,10 +395,10 @@ Item {
 
         function test_respondedWithPassword() {
             view.locked = true;
-            view.showPrompt("Prompt", true, true);
+            view.showPrompt("Prompt", true, false);
             var passwordInput = findChild(view, "passwordInput");
-            compare(passwordInput.placeholderText, "Prompt");
-            compare(passwordInput.echoMode, TextInput.Password);
+            compare(passwordInput.text, "Prompt");
+            verify(passwordInput.isSecret);
             tap(passwordInput);
             typeString("password");
             keyClick(Qt.Key_Enter);
@@ -405,8 +410,8 @@ Item {
             view.locked = true;
             view.showPrompt("otp", false, false);
             var passwordInput = findChild(view, "passwordInput");
-            compare(passwordInput.placeholderText, "otp");
-            compare(passwordInput.echoMode, TextInput.Normal);
+            compare(passwordInput.text, "otp");
+            verify(!passwordInput.isSecret);
             tap(passwordInput);
             typeString("foo");
             keyClick(Qt.Key_Enter);
@@ -439,7 +444,6 @@ Item {
             var infoLabel = findChild(view, "infoLabel");
             compare(infoLabel.text, "Welcome to Unity Greeter<br><font color=\"#df382c\">This is an error</font><br>You should have seen three messages and this is a really long message too. wow so long much length");
             compare(infoLabel.textFormat, Text.StyledText);
-            compare(infoLabel.clip, true);
             verify(infoLabel.contentWidth > infoLabel.width);
             verify(infoLabel.opacity < 1);
             tryCompare(infoLabel, "opacity", 1);
@@ -451,15 +455,15 @@ Item {
             selectedSpy.clear();
             view.locked = true;
             view.showPrompt("Prompt", true, true);
-            var passwordInput = findChild(view, "passwordInput");
-            tap(passwordInput);
-            compare(passwordInput.focus, true);
-            compare(passwordInput.enabled, true);
+            var promptField = findChild(view, "promptField");
+            tap(promptField);
+            verify(promptField.activeFocus);
+            compare(promptField.opacity, 1);
 
             typeString("password");
             keyClick(Qt.Key_Enter);
-            compare(passwordInput.focus, false);
-            compare(passwordInput.enabled, false);
+            verify(promptField.activeFocus);
+            compare(promptField.opacity, 0); // hidden by fakeLabel
 
             compare(selectedSpy.count, 0);
             keyClick(Qt.Key_Escape);
@@ -467,8 +471,8 @@ Item {
             compare(selectedSpy.signalArguments[0][0], 1);
 
             view.reset();
-            compare(passwordInput.focus, false);
-            compare(passwordInput.enabled, true);
+            verify(promptField.activeFocus);
+            compare(promptField.opacity, 1);
         }
 
         function test_unicode() {
@@ -477,25 +481,20 @@ Item {
             tryCompare(label, "text", "가나다라마");
         }
 
-        function test_longName() {
-            var index = selectUser("long-name");
-            var label = findChild(view, "username" + index);
-            tryCompare(label, "truncated", true);
-        }
-
         function test_promptless() {
             var passwordInput = findChild(view, "passwordInput");
 
             view.locked = true;
-            compare(passwordInput.placeholderText, "Retry");
+            compare(passwordInput.text, "Retry");
             tap(passwordInput);
             compare(respondedSpy.count, 0);
             compare(selectedSpy.count, 1);
             compare(selectedSpy.signalArguments[0][0], 0);
             selectedSpy.clear();
 
+            view.reset();
             view.locked = false;
-            compare(passwordInput.placeholderText, "Tap to unlock");
+            compare(passwordInput.text, "Log In");
             tap(passwordInput);
             compare(selectedSpy.count, 0);
             compare(respondedSpy.count, 1);
@@ -523,15 +522,89 @@ Item {
             tryCompare(loginList, "height", view.height);
         }
 
-        function test_alphanumeric() {
-            var passwordInput = findChild(view, "passwordInput");
+        function test_passphrase() {
+            var promptField = findChild(view, "promptField");
+            view.showPrompt("", true, true);
 
             verify(view.alphanumeric);
-            compare(passwordInput.inputMethodHints, Qt.ImhNone);
+            compare(promptField.inputMethodHints & Qt.ImhDigitsOnly, 0);
+
+            keyClick(Qt.Key_D);
+            compare(promptField.text, "d");
+        }
+
+        function test_passcode() {
+            var promptField = findChild(view, "promptField");
+            view.showPrompt("", true, true);
+
             view.alphanumeric = false;
-            compare(passwordInput.inputMethodHints, Qt.ImhDigitsOnly);
-            view.alphanumeric = true;
-            compare(passwordInput.inputMethodHints, Qt.ImhNone);
+            compare(promptField.inputMethodHints & Qt.ImhDigitsOnly, Qt.ImhDigitsOnly);
+
+            keyClick(Qt.Key_D);
+            compare(promptField.text, "");
+
+            keyClick(Qt.Key_0);
+            keyClick(Qt.Key_0);
+            keyClick(Qt.Key_0);
+            keyClick(Qt.Key_0);
+            compare(promptField.text, "0000");
+
+            compare(respondedSpy.count, 1);
+            compare(respondedSpy.signalArguments[0][0], "0000");
+
+            compare(promptField.opacity, 0);
+        }
+
+        function test_loginListMovement_data() {
+            return [
+                {tag: "up", key: Qt.Key_Up, result: -1},
+                {tag: "down", key: Qt.Key_Down, result: 1},
+            ]
+        }
+
+        function test_loginListMovement(data) {
+            keyClick(data.key);
+            compare(selectedSpy.count, 1);
+            compare(selectedSpy.signalArguments[0][0], data.result);
+        }
+
+        function test_focusStaysActive() {
+            var promptField = findChild(view, "promptField");
+            var promptButton = findChild(view, "promptButton");
+
+            verify(promptButton.activeFocus);
+            keyClick(Qt.Key_Enter);
+            compare(selectedSpy.count, 0);
+            compare(respondedSpy.count, 1);
+            compare(respondedSpy.signalArguments[0][0], "");
+            verify(promptButton.activeFocus);
+            keyClick(Qt.Key_Enter);
+            compare(respondedSpy.count, 1);
+
+            view.showPrompt("", true, true);
+            verify(promptField.activeFocus);
+            keyClick(Qt.Key_D);
+            keyClick(Qt.Key_Enter);
+            compare(selectedSpy.count, 0);
+            compare(respondedSpy.count, 2);
+            compare(respondedSpy.signalArguments[1][0], "d");
+            verify(promptField.activeFocus);
+            keyClick(Qt.Key_Enter);
+            compare(respondedSpy.count, 2);
+
+            view.reset();
+            view.locked = true;
+            verify(promptButton.activeFocus);
+            keyClick(Qt.Key_Enter);
+            compare(respondedSpy.count, 2);
+            compare(selectedSpy.count, 1);
+            compare(selectedSpy.signalArguments[0][0], 0);
+            verify(promptButton.activeFocus);
+            keyClick(Qt.Key_Enter);
+            compare(selectedSpy.count, 1);
+
+            view.showPrompt("", true, true);
+            verify(promptField.activeFocus);
         }
     }
 }

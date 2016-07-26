@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, 2015 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@
 #include <QStringList>
 #include <QDebug>
 
+#include <glib.h>
+
 #define IFACE_ACCOUNTS_USER          QStringLiteral("org.freedesktop.Accounts.User")
 #define IFACE_LOCATION_HERE          QStringLiteral("com.ubuntu.location.providers.here.AccountsService")
 #define IFACE_UBUNTU_INPUT           QStringLiteral("com.ubuntu.AccountsService.Input")
@@ -34,8 +36,10 @@
 #define PROP_DEMO_EDGES                        QStringLiteral("demo-edges")
 #define PROP_DEMO_EDGES_COMPLETED              QStringLiteral("DemoEdgesCompleted")
 #define PROP_EMAIL                             QStringLiteral("Email")
+#define PROP_ENABLE_FINGERPRINT_IDENTIFICATION QStringLiteral("EnableFingerprintIdentification")
 #define PROP_ENABLE_INDICATORS_WHILE_LOCKED    QStringLiteral("EnableIndicatorsWhileLocked")
 #define PROP_ENABLE_LAUNCHER_WHILE_LOCKED      QStringLiteral("EnableLauncherWhileLocked")
+#define PROP_FAILED_FINGERPRINT_LOGINS         QStringLiteral("FailedFingerprintLogins")
 #define PROP_FAILED_LOGINS                     QStringLiteral("FailedLogins")
 #define PROP_INPUT_SOURCES                     QStringLiteral("InputSources")
 #define PROP_LICENSE_ACCEPTED                  QStringLiteral("LicenseAccepted")
@@ -91,12 +95,14 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
     registerProperty(IFACE_ACCOUNTS_USER, PROP_INPUT_SOURCES, QStringLiteral("keymapsChanged"));
     registerProperty(IFACE_LOCATION_HERE, PROP_LICENSE_ACCEPTED, QStringLiteral("hereEnabledChanged"));
     registerProperty(IFACE_LOCATION_HERE, PROP_LICENSE_BASE_PATH, QStringLiteral("hereLicensePathChanged"));
+    registerProperty(IFACE_UBUNTU_SECURITY, PROP_ENABLE_FINGERPRINT_IDENTIFICATION, QStringLiteral("enableFingerprintIdentificationChanged"));
     registerProperty(IFACE_UBUNTU_SECURITY, PROP_ENABLE_LAUNCHER_WHILE_LOCKED, QStringLiteral("enableLauncherWhileLockedChanged"));
     registerProperty(IFACE_UBUNTU_SECURITY, PROP_ENABLE_INDICATORS_WHILE_LOCKED, QStringLiteral("enableIndicatorsWhileLockedChanged"));
     registerProperty(IFACE_UBUNTU_SECURITY, PROP_PASSWORD_DISPLAY_HINT, QStringLiteral("passwordDisplayHintChanged"));
     registerProperty(IFACE_UBUNTU_SECURITY_OLD, PROP_STATS_WELCOME_SCREEN, QStringLiteral("statsWelcomeScreenChanged"));
     registerProperty(IFACE_UNITY, PROP_DEMO_EDGES, QStringLiteral("demoEdgesChanged"));
     registerProperty(IFACE_UNITY, PROP_DEMO_EDGES_COMPLETED, QStringLiteral("demoEdgesCompletedChanged"));
+    registerProperty(IFACE_UNITY_PRIVATE, PROP_FAILED_FINGERPRINT_LOGINS, QStringLiteral("failedFingerprintLoginsChanged"));
     registerProperty(IFACE_UNITY_PRIVATE, PROP_FAILED_LOGINS, QStringLiteral("failedLoginsChanged"));
 
     registerProxy(IFACE_UBUNTU_INPUT, PROP_MOUSE_CURSOR_SPEED,
@@ -126,7 +132,7 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
     registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_TWO_FINGER_SCROLL,
                   m_unityInput, QStringLiteral("setTouchpadTwoFingerScroll"));
 
-    setUser(!user.isEmpty() ? user : QString::fromUtf8(qgetenv("USER")));
+    setUser(!user.isEmpty() ? user : QString::fromUtf8(g_get_user_name()));
 }
 
 QString AccountsService::user() const
@@ -172,6 +178,12 @@ void AccountsService::markDemoEdgeCompleted(const QString &edge)
     if (!currentList.contains(edge)) {
         setProperty(IFACE_UNITY, PROP_DEMO_EDGES_COMPLETED, currentList << edge);
     }
+}
+
+bool AccountsService::enableFingerprintIdentification() const
+{
+    auto value = getProperty(IFACE_UBUNTU_SECURITY, PROP_ENABLE_FINGERPRINT_IDENTIFICATION);
+    return value.toBool();
 }
 
 bool AccountsService::enableLauncherWhileLocked() const
@@ -270,6 +282,16 @@ QStringList AccountsService::keymaps() const
     }
 
     return {QStringLiteral("us")};
+}
+
+uint AccountsService::failedFingerprintLogins() const
+{
+    return getProperty(IFACE_UNITY_PRIVATE, PROP_FAILED_FINGERPRINT_LOGINS).toUInt();
+}
+
+void AccountsService::setFailedFingerprintLogins(uint failedFingerprintLogins)
+{
+    setProperty(IFACE_UNITY_PRIVATE, PROP_FAILED_FINGERPRINT_LOGINS, failedFingerprintLogins);
 }
 
 uint AccountsService::failedLogins() const

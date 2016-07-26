@@ -28,6 +28,7 @@ class FakeTimer : public UnityIndicators::AbstractTimer
 public:
     FakeTimer(QObject *parent = 0)
         : UnityIndicators::AbstractTimer(parent)
+        , m_duration(0)
     {}
 
     int interval() const override { return m_duration; }

@@ -18,6 +18,7 @@
 
 // Qt
 #include <QLibrary>
+#include <QProcess>
 #include <QScreen>
 
 #include <libintl.h>
@@ -110,7 +111,16 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
         m_secondaryWindow->setVisible(true);
     }
 
-    if (isMirServer || parser.hasFullscreen()) {
+    if (parser.mode().compare("greeter") == 0) {
+        QSize primaryScreenSize = this->primaryScreen()->size();
+        m_shellView->setHeight(primaryScreenSize.height());
+        m_shellView->setWidth(primaryScreenSize.width());
+        m_shellView->show();
+        m_shellView->requestActivate();
+        if (!QProcess::startDetached("/sbin/initctl emit --no-wait unity8-greeter-started")) {
+            qDebug() << "Unable to send unity8-greeter-started event to Upstart";
+        }
+    } else if (isMirServer || parser.hasFullscreen()) {
         m_shellView->showFullScreen();
     } else {
         m_shellView->show();
@@ -168,6 +178,9 @@ void ShellApplication::onScreenAdded(QScreen * /*screen*/)
         // Changing the QScreen where a QWindow is drawn makes it also lose focus (besides having
         // its backing QPlatformWindow recreated). So lets refocus it.
         m_shellView->requestActivate();
+        // QWindow::destroy() is called when it changes between screens. We have to manually make it visible again
+        // <dandrader> This bug is supposedly fixed in Qt 5.5.1, although I can still reproduce it there. :-/
+        m_shellView->setVisible(true);
 
         m_secondaryWindow = new SecondaryWindow(m_qmlEngine);
         m_secondaryWindow->setScreen(screens().at(0));
@@ -194,5 +207,8 @@ void ShellApplication::onScreenAboutToBeRemoved(QScreen *screen)
         // Changing the QScreen where a QWindow is drawn makes it also lose focus (besides having
         // its backing QPlatformWindow recreated). So lets refocus it.
         m_shellView->requestActivate();
+        // QWindow::destroy() is called when it changes between screens. We have to manually make it visible again
+        // <dandrader> This bug is supposedly fixed in Qt 5.5.1, although I can still reproduce it there. :-/
+        m_shellView->setVisible(true);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,9 +29,18 @@
 
 using namespace unity::shell::application;
 
+#define MIRSURFACEITEM_DEBUG 0
+
+#if MIRSURFACEITEM_DEBUG
+#define DEBUG_MSG(params) qDebug().nospace() << "MirSurfaceItem::" << __func__  << " " << params
+#else
+#define DEBUG_MSG(params) ((void)0)
+#endif
+
 MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
     : MirSurfaceItemInterface(parent)
     , m_qmlSurface(nullptr)
+    , m_qmlContentComponent(nullptr)
     , m_qmlItem(nullptr)
     , m_consumesInput(false)
     , m_surfaceWidth(0)
@@ -41,19 +50,23 @@ MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
     , m_mousePressCount(0)
     , m_mouseReleaseCount(0)
 {
-//    qDebug() << "MirSurfaceItem::MirSurfaceItem() " << (void*)(this) << name();
+    DEBUG_MSG((void*)(this) << name());
     setAcceptedMouseButtons(Qt::LeftButton | Qt::MiddleButton | Qt::RightButton |
         Qt::ExtraButton1 | Qt::ExtraButton2 | Qt::ExtraButton3 | Qt::ExtraButton4 |
         Qt::ExtraButton5 | Qt::ExtraButton6 | Qt::ExtraButton7 | Qt::ExtraButton8 |
         Qt::ExtraButton9 | Qt::ExtraButton10 | Qt::ExtraButton11 |
         Qt::ExtraButton12 | Qt::ExtraButton13);
 
+    connect(this, &QQuickItem::activeFocusChanged, this, &MirSurfaceItem::updateMirSurfaceActiveFocus);
     connect(this, &QQuickItem::visibleChanged, this, &MirSurfaceItem::updateMirSurfaceVisibility);
+    connect(this, &MirSurfaceItem::consumesInputChanged, this, [this]() {
+        updateMirSurfaceActiveFocus(hasActiveFocus());
+    });
 }
 
 MirSurfaceItem::~MirSurfaceItem()
 {
-//    qDebug() << "MirSurfaceItem::~MirSurfaceItem() " << (void*)(this) << name();
+    DEBUG_MSG((void*)(this) << name());
     setSurface(nullptr);
 }
 
@@ -150,7 +163,7 @@ void MirSurfaceItem::onComponentStatusChanged(QQmlComponent::Status status)
 
 void MirSurfaceItem::createQmlContentItem()
 {
-//    qDebug() << "MirSurfaceItem::createQmlContentItem()";
+    DEBUG_MSG("");
 
     m_qmlItem = qobject_cast<QQuickItem*>(m_qmlContentComponent->create());
     m_qmlItem->setParentItem(this);
@@ -213,9 +226,7 @@ void MirSurfaceItem::mouseReleaseEvent(QMouseEvent * event)
 
 void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
 {
-//    qDebug().nospace() << "MirSurfaceItem::setSurface() this=" << (void*)(this)
-//                                                   << " name=" << name()
-//                                                   << " surface=" << surface;
+    DEBUG_MSG("this=" << (void*)(this) << " name=" << name() << " surface=" << surface);
 
     if (m_qmlSurface == surface) {
         return;
@@ -228,6 +239,10 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
         delete m_qmlContentComponent;
         m_qmlContentComponent = nullptr;
 
+        if (hasActiveFocus() && m_consumesInput && m_qmlSurface->live()) {
+            m_qmlSurface->setActiveFocus(false);
+        }
+
         disconnect(m_qmlSurface, nullptr, this, nullptr);
         m_qmlSurface->unregisterView((qintptr)this);
     }
@@ -236,8 +251,6 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
 
     if (m_qmlSurface) {
         m_qmlSurface->registerView((qintptr)this);
-
-        m_qmlSurface->setActiveFocus(hasActiveFocus());
 
         updateSurfaceSize();
         updateMirSurfaceVisibility();
@@ -271,17 +284,20 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
             default:
                 qFatal("MirSurfaceItem: Unhandled component status");
         }
+
+        if (m_consumesInput) {
+            m_qmlSurface->setActiveFocus(hasActiveFocus());
+        }
     }
 
     Q_EMIT surfaceChanged(m_qmlSurface);
 }
 
-void MirSurfaceItem::itemChange(ItemChange change, const ItemChangeData & value)
+
+void MirSurfaceItem::updateMirSurfaceActiveFocus(bool focused)
 {
-    if (change == QQuickItem::ItemActiveFocusHasChanged) {
-        if (m_qmlSurface) {
-            m_qmlSurface->setActiveFocus(value.boolValue);
-        }
+    if (m_qmlSurface && m_consumesInput && m_qmlSurface->live()) {
+        m_qmlSurface->setActiveFocus(focused);
     }
 }
 

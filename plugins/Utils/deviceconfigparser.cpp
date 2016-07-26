@@ -23,6 +23,7 @@
 
 DeviceConfigParser::DeviceConfigParser(QObject *parent): QObject(parent)
 {
+    // Local files have highest priority
     QString path;
     Q_FOREACH (const QString &standardPath, QStandardPaths::standardLocations(QStandardPaths::GenericConfigLocation)) {
         if (QFileInfo(standardPath + "/devices.conf").exists()) {
@@ -31,9 +32,16 @@ DeviceConfigParser::DeviceConfigParser(QObject *parent): QObject(parent)
         }
     }
 
+    // Check if there is an override in the device tarball (/system/etc/)
+    if (path.isEmpty() && QFileInfo::exists("/system/etc/ubuntu/devices.conf")) {
+        path = "/system/etc/ubuntu/devices.conf";
+    }
+
+    // No higher priority files found. Use standard of /etc/
     if (path.isEmpty()) {
         path = "/etc/ubuntu/devices.conf";
     }
+
     qDebug() << "Using" << path << "as device configuration file";
     m_config = new QSettings(path, QSettings::IniFormat, this);
 }

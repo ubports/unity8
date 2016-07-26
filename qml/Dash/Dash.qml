@@ -293,27 +293,27 @@ Showable {
         }
 
         Rectangle {
-            id: orange
+            id: activityPulse
             anchors { top: parent.top;  bottom: parent.bottom }
             width: parent.width / 4
-            color: UbuntuColors.orange
+            color: theme.palette.normal.activity
 
             SequentialAnimation {
                 running: indicator.visible
                 loops: Animation.Infinite
                 XAnimator {
-                    from: -orange.width / 2
-                    to: indicator.width - orange.width / 2
+                    from: -activityPulse.width / 2
+                    to: indicator.width - activityPulse.width / 2
                     duration: UbuntuAnimation.SleepyDuration
                     easing.type: Easing.InOutSine
-                    target: orange
+                    target: activityPulse
                 }
                 XAnimator {
-                    from: indicator.width - orange.width / 2
-                    to: -orange.width / 2
+                    from: indicator.width - activityPulse.width / 2
+                    to: -activityPulse.width / 2
                     duration: UbuntuAnimation.SleepyDuration
                     easing.type: Easing.InOutSine
-                    target: orange
+                    target: activityPulse
                 }
             }
         }
@@ -349,7 +349,7 @@ Showable {
         }
     }
 
-    DirectionalDragArea {
+    SwipeArea {
         id: overviewDragHandle
         objectName: "overviewDragHandle"
         z: 1
@@ -364,10 +364,10 @@ Showable {
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
         height: units.gu(2)
 
-        onSceneDistanceChanged: {
+        onDistanceChanged: {
             if (dragging) {
                 bottomEdgeController.enableAnimation = false;
-                bottomEdgeController.progress = Math.max(0, Math.min(1, sceneDistance / fullMovement));
+                bottomEdgeController.progress = Math.max(0, Math.min(1, distance / fullMovement));
             }
         }
 

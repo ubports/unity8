@@ -32,13 +32,14 @@ Scope::Scope(Scopes* parent) : Scope("MockScope5", "Mock Scope", false, parent)
 {
 }
 
-Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* parent, int categories, bool returnNullPreview)
+Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* parent, int categories, bool returnNullPreview, const QStringList primaryNavigationFilterOptionLabels)
     : unity::shell::scopes::ScopeInterface(parent)
     , m_id(id)
     , m_name(name)
     , m_searching(false)
     , m_favorite(favorite)
     , m_isActive(false)
+    , m_hasBeenActive(false)
     , m_hasNavigation(true)
     , m_hasPrimaryFilter(true)
     , m_currentNavigationId("root")
@@ -49,8 +50,11 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     , m_filters(new Filters(this))
     , m_returnNullPreview(returnNullPreview)
 {
-    m_primaryNavigationFilter = new FakeOptionSelectorFilter("OSF3", "PFTag", "Which food you like More", false, QStringList() << "meat" << "vegetables", this);
+    m_primaryNavigationFilter = new FakeOptionSelectorFilter("OSF3", "PFTag", "Which food you like More", false, primaryNavigationFilterOptionLabels, this);
+    m_filters->addFakeFilters();
     connect(m_filters, &Filters::activeFiltersCountChanged, this, &Scope::activeFiltersCountChanged);
+    connect(m_primaryNavigationFilter, &FakeOptionSelectorFilter::isActiveChanged,
+            this, &unity::shell::scopes::ScopeInterface::primaryNavigationTagChanged);
 }
 
 QString Scope::id() const
@@ -105,7 +109,7 @@ bool Scope::favorite() const
 
 unity::shell::scopes::CategoriesInterface* Scope::categories() const
 {
-    return m_categories;
+    return m_hasBeenActive ? m_categories : nullptr;
 }
 
 unity::shell::scopes::SettingsModelInterface* Scope::settings() const
@@ -149,6 +153,10 @@ void Scope::setActive(const bool active)
     if (active != m_isActive) {
         m_isActive = active;
         Q_EMIT isActiveChanged();
+    }
+    if (active && !m_hasBeenActive) {
+        m_hasBeenActive = true;
+        Q_EMIT categoriesChanged();
     }
 }
 
@@ -196,7 +204,7 @@ void Scope::activate(QVariant const& result, QString const& categoryId)
 {
     qDebug() << "Called activate on scope" << m_id << "with result" << result << "and category" << categoryId;
     if (result.toString() == "Result.2.2") {
-        Scopes *scopes = dynamic_cast<Scopes*>(parent());
+        Scopes *scopes = static_cast<Scopes*>(parent());
         m_openScope = scopes->getScopeFromAll("MockScope9");
         scopes->addTempScope(m_openScope);
         Q_EMIT openScope(m_openScope);
@@ -324,6 +332,8 @@ unity::shell::scopes::FiltersInterface* Scope::filters() const
 
 QString Scope::primaryNavigationTag() const
 {
+    if (m_hasPrimaryFilter && m_primaryNavigationFilter->isActive())
+        return m_primaryNavigationFilter->filterTag();
     if (m_currentNavigationId == "root")
         return QString();
     else
@@ -337,6 +347,10 @@ int Scope::activeFiltersCount() const
 
 void Scope::resetPrimaryNavigationTag()
 {
+    if (m_hasPrimaryFilter && m_primaryNavigationFilter->isActive()) {
+        m_primaryNavigationFilter->clear();
+    }
+
     if (m_currentNavigationId != "root") {
         setNavigationState("root");
     }

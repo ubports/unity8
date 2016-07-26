@@ -2,22 +2,19 @@ set(FakeUnityApplicationQml_SOURCES
     plugin.cpp
     ApplicationInfo.cpp
     ApplicationManager.cpp
-    ApplicationScreenshotProvider.cpp
-    ApplicationTestInterface.cpp
     MirSurface.cpp
     MirSurfaceItem.cpp
+    MirSurfaceListModel.cpp
     ObjectListModel.h
-    Session.cpp
-    SessionManager.cpp
     SurfaceManager.cpp
-    SessionModel.h
-    UbuntuKeyboardInfo.cpp
     VirtualKeyboard.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/Mir.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceItemInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceListInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirFocusControllerInterface.h
     resources/surfaces.qrc
 )
 

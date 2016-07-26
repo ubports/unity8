@@ -46,6 +46,10 @@ FocusScope {
         }
     }
 
+    function showText(text) {
+        pinentryField.text = text;
+    }
+
     Keys.onPressed: {
         if (pinentryField.text.length == root.maxPinLength)
             return;
@@ -144,12 +148,13 @@ FocusScope {
 
                 AbstractButton {
                     objectName: "backspaceIcon"
-                    anchors { right: parent.right; top: parent.top; bottom: parent.bottom }
+                    anchors { right: parent.right; top: parent.top; bottom: parent.bottom; margins: -units.gu(1) }
                     width: height
                     enabled: root.entryEnabled
 
                     Icon {
                         anchors.fill: parent
+                        anchors.margins: units.gu(1)
                         name: "erase"
                         color: root.foregroundColor
                     }

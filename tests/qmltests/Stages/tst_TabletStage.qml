@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@ import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
 import Unity.Test 0.1
 import Utils 0.1
+import WindowManager 0.1
 
 import ".."
 import "../../../qml/Stages"
@@ -33,6 +34,11 @@ Rectangle {
     height: tabletStageLoader.height
 
     property var greeter: { fullyShown: true }
+
+    TopLevelSurfaceList {
+        id: topSurfaceList
+        applicationsModel: ApplicationManager
+    }
 
     Loader {
         id: tabletStageLoader
@@ -62,6 +68,8 @@ Rectangle {
                     primary: Qt.LandscapeOrientation
                 }
                 focus: true
+                applicationManager: ApplicationManager
+                topLevelSurfaceList: topSurfaceList
             }
         }
     }
@@ -75,6 +83,9 @@ Rectangle {
             bottom: parent.bottom
             right: parent.right
         }
+
+        // don't let mouse clicks in the controls area disturb the TabletStage behind it
+        MouseArea { anchors.fill: parent }
 
         Column {
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
@@ -118,6 +129,12 @@ Rectangle {
         }
     }
 
+    SignalSpy {
+        id: stageSaver
+        target: WindowStateStorage
+        signalName: "stageSaved"
+    }
+
     UnityTestCase {
         id: testCase
         name: "TabletStage"
@@ -127,21 +144,25 @@ Rectangle {
         property Item sideStage: tabletStage ? findChild(tabletStage, "sideStage") : null
 
         function init() {
+            stageSaver.clear();
             tabletStageLoader.active = true;
             tryCompare(tabletStageLoader, "status", Loader.Ready);
 
+            tryCompare(topSurfaceList, "count", 1);
+            compare(topSurfaceList.applicationAt(0).appId, "unity8-dash");
+
             // this is very strange, but sometimes the test starts without
             // TabletStage components having finished loading themselves
-            var appWindow = null;
+            var appWindow = null
             while (!appWindow) {
-                appWindow = findChild(tabletStage, "appWindow_unity8-dash");
+                appWindow = findAppWindowForSurfaceId(topSurfaceList.idAt(0));
                 if (!appWindow) {
-                    console.log("didn't find appWindow_unity8-dash in " + tabletStage + ". Trying again...");
+                    console.log("didn't find unity8-dash appWindow in " + tabletStage + ". Trying again...");
                     wait(50);
                 }
             }
 
-            waitUntilAppSurfaceShowsUp("unity8-dash");
+            waitUntilAppSurfaceShowsUp(topSurfaceList.idAt(0));
             sideStage.hideNow()
         }
 
@@ -157,23 +178,48 @@ Rectangle {
             // Shell instance gets destroyed.
             tryCompare(tabletStageLoader, "itemDestroyed", true);
 
-            // kill all (fake) running apps
-            webbrowserCheckBox.checked = false;
-            galleryCheckBox.checked = false;
-            dialerCheckBox.checked = false;
-            facebookCheckBox.checked = false;
+            killApps();
             WindowStateStorage.clear();
         }
 
-        function waitUntilAppSurfaceShowsUp(appId) {
-            var appWindow = findChild(tabletStage, "appWindow_" + appId);
+        function waitUntilAppSurfaceShowsUp(surfaceId) {
+            var appWindow = findAppWindowForSurfaceId(surfaceId);
             verify(appWindow);
             var appWindowStates = findInvisibleChild(appWindow, "applicationWindowStateGroup");
             verify(appWindowStates);
             tryCompare(appWindowStates, "state", "surface");
         }
 
-        function switchToApp(targetAppId) {
+        function findAppWindowForSurfaceId(surfaceId) {
+            var spreadDelegate = findChild(tabletStage, "spreadDelegate_" + surfaceId);
+            if (!spreadDelegate) {
+                return null;
+            }
+            var appWindow = findChild(spreadDelegate, "appWindow");
+            return appWindow;
+        }
+
+        function switchToSurface(targetSurfaceId) {
+            performEdgeSwipeToShowAppSpread();
+
+            waitUntilAppDelegateStopsMoving(targetSurfaceId);
+            var targetAppWindow = findAppWindowForSurfaceId(targetSurfaceId);
+            verify(targetAppWindow);
+            tap(targetAppWindow, 10, 10);
+        }
+
+        function waitUntilAppDelegateStopsMoving(targetSurfaceId)
+        {
+            var targetAppDelegate = findChild(tabletStage, "spreadDelegate_" + targetSurfaceId);
+            verify(targetAppDelegate);
+            var lastValue = undefined;
+            do {
+                lastValue = targetAppDelegate.animatedProgress;
+                wait(300);
+            } while (lastValue != targetAppDelegate.animatedProgress);
+        }
+
+        function performEdgeSwipeToShowAppSpread() {
             touchFlick(tabletStage,
                 tabletStage.width - (tabletStage.dragAreaWidth / 2), tabletStage.height / 2,
                 tabletStage.x + 1, tabletStage.height / 2);
@@ -183,74 +229,118 @@ Rectangle {
             tryCompare(spreadView, "phase", 2);
             tryCompare(spreadView, "flicking", false);
             tryCompare(spreadView, "moving", false);
-
-            waitUntilAppDelegateStopsMoving(targetAppId);
-
-            var targetAppWindow = findChild(tabletStage, "appWindow_" + targetAppId);
-            tap(targetAppWindow, 10, 10);
         }
 
-        function waitUntilAppDelegateStopsMoving(targetAppId)
-        {
-            var targetAppDelegate = findChild(tabletStage, "tabletSpreadDelegate_" + targetAppId);
+        function swipeSurfaceUpwards(surfaceId) {
+            var appWindow = findAppWindowForSurfaceId(surfaceId);
+            verify(appWindow);
+
+            // Swipe from the left side of the surface as it's the one most likely
+            // to not be covered by other surfaces when they're all being shown in the spread
+            touchFlick(appWindow,
+                    appWindow.width * 0.1, appWindow.height / 2,
+                    appWindow.width * 0.1, -appWindow.height / 2);
+        }
+
+        function dragToSideStage(surfaceId) {
+            sideStage.showNow();
+            var targetAppDelegate = findChild(tabletStage, "spreadDelegate_" + surfaceId);
+
+            var pos = tabletStage.width - sideStage.width - (tabletStage.width - sideStage.width) / 2;
+            var end_pos = tabletStage.width - sideStage.width / 2;
+
+            multiTouchDragUntil([0,1,2],
+                                tabletStage,
+                                pos,
+                                tabletStage.height / 2,
+                                units.gu(3),
+                                0,
+                                function() {
+                                    pos += units.gu(3);
+                                    return sideStage.shown && !sideStage.showAnimation.running &&
+                                           pos >= end_pos;
+                                });
+            tryCompare(targetAppDelegate, "stage", ApplicationInfoInterface.SideStage);
+        }
+
+        function dragToMainStage(surfaceId) {
+            sideStage.showNow();
+            var targetAppDelegate = findChild(tabletStage, "spreadDelegate_" + surfaceId);
             verify(targetAppDelegate);
-            var lastValue = undefined;
-            do {
-                lastValue = targetAppDelegate.animatedProgress;
-                wait(300);
-            } while (lastValue != targetAppDelegate.animatedProgress);
+
+            var pos = tabletStage.width - sideStage.width / 2;
+            var end_pos = tabletStage.width - sideStage.width - (tabletStage.width - sideStage.width) / 2;
+
+            multiTouchDragUntil([0,1,2],
+                                tabletStage,
+                                pos,
+                                tabletStage.height / 2,
+                                -units.gu(3),
+                                0,
+                                function() {
+                                    pos -= units.gu(3);
+                                    return pos <= end_pos;
+                                });
+            tryCompare(targetAppDelegate, "stage", ApplicationInfoInterface.MainStage);
         }
 
         function test_tappingSwitchesFocusBetweenStages() {
             WindowStateStorage.saveStage(dialerCheckBox.appId, ApplicationInfoInterface.SideStage)
 
+            var webbrowserSurfaceId = topSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserCheckBox.appId);
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
             compare(webbrowserApp.stage, ApplicationInfoInterface.MainStage);
-            tryCompare(webbrowserApp.session.lastSurface, "activeFocus", true);
+            var webbrowserWindow = findAppWindowForSurfaceId(webbrowserSurfaceId);
+            verify(webbrowserWindow);
 
+            tryCompare(webbrowserWindow.surface, "activeFocus", true);
+
+            var dialerSurfaceId = topSurfaceList.nextId;
             dialerCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(dialerCheckBox.appId);
+            waitUntilAppSurfaceShowsUp(dialerSurfaceId);
+
             var dialerApp = ApplicationManager.findApplication(dialerCheckBox.appId);
-            compare(dialerApp.stage, ApplicationInfoInterface.SideStage);
-            tryCompare(dialerApp.session.lastSurface, "activeFocus", true);
-            tryCompare(webbrowserApp.session.lastSurface, "activeFocus", false);
+            var dialerDelegate = findChild(tabletStage, "spreadDelegate_" + dialerSurfaceId);
+            verify(dialerDelegate);
+            compare(dialerDelegate.stage, ApplicationInfoInterface.SideStage);
+
+            tryCompare(dialerDelegate.surface, "activeFocus", true);
+            tryCompare(webbrowserWindow.surface, "activeFocus", false);
 
             // Tap on the main stage application and check if the focus
             // has been passed to it.
 
-            var webbrowserWindow = findChild(tabletStage, "appWindow_" + webbrowserApp.appId);
-            verify(webbrowserWindow);
             tap(webbrowserWindow);
 
-            tryCompare(dialerApp.session.lastSurface, "activeFocus", false);
-            tryCompare(webbrowserApp.session.lastSurface, "activeFocus", true);
+            tryCompare(dialerDelegate.surface, "activeFocus", false);
+            tryCompare(webbrowserWindow.surface, "activeFocus", true);
 
             // Now tap on the side stage application and check if the focus
             // has been passed back to it.
 
-            var dialerWindow = findChild(tabletStage, "appWindow_" + dialerApp.appId);
-            verify(dialerWindow);
-            tap(dialerWindow);
+            tap(dialerDelegate);
 
-            tryCompare(dialerApp.session.lastSurface, "activeFocus", true);
-            tryCompare(webbrowserApp.session.lastSurface, "activeFocus", false);
+            tryCompare(dialerDelegate.surface, "activeFocus", true);
+            tryCompare(webbrowserWindow.surface, "activeFocus", false);
         }
 
         function test_closeAppInSideStage() {
             WindowStateStorage.saveStage(dialerCheckBox.appId, ApplicationInfoInterface.SideStage)
 
+            var dialerSurfaceId = topSurfaceList.nextId;
             dialerCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(dialerCheckBox.appId);
+            waitUntilAppSurfaceShowsUp(dialerSurfaceId);
 
             performEdgeSwipeToShowAppSpread();
 
-            var appDelegate = findChild(tabletStage, "tabletSpreadDelegate_" + dialerCheckBox.appId);
+            var appDelegate = findChild(tabletStage, "spreadDelegate_" + dialerSurfaceId);
             verify(appDelegate);
+            compare(appDelegate.stage, ApplicationInfoInterface.SideStage);
             tryCompare(appDelegate, "swipeToCloseEnabled", true);
 
-            swipeAppUpwards(dialerCheckBox.appId);
+            swipeSurfaceUpwards(dialerSurfaceId);
 
             // Check that dialer-app has been closed
 
@@ -263,53 +353,36 @@ Rectangle {
             }, null);
         }
 
-        function performEdgeSwipeToShowAppSpread() {
-            var touchStartY = tabletStage.height / 2;
-            touchFlick(tabletStage,
-                       tabletStage.width - 1, touchStartY,
-                       0, touchStartY);
-
-            var spreadView = findChild(tabletStage, "spreadView");
-            verify(spreadView);
-            tryCompare(spreadView, "phase", 2);
-            tryCompare(spreadView, "flicking", false);
-            tryCompare(spreadView, "moving", false);
-        }
-
-        function swipeAppUpwards(appId) {
-            var appWindow = findChild(tabletStage, "appWindow_" + appId);
-            verify(appWindow);
-
-            touchFlick(appWindow,
-                    appWindow.width / 2, appWindow.height / 2,
-                    appWindow.width / 2, -appWindow.height / 2);
-        }
-
         function test_suspendsAndResumesAppsInMainStage() {
+            var webbrowserSurfaceId = topSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
-            compare(webbrowserApp.stage, ApplicationInfoInterface.MainStage);
+            var webbrowserDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            compare(webbrowserDelegate.stage, ApplicationInfoInterface.MainStage);
 
             tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Running);
 
+            var gallerySurfaceId = topSurfaceList.nextId;
             galleryCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(gallerySurfaceId);
             var galleryApp = ApplicationManager.findApplication(galleryCheckBox.appId);
-            compare(galleryApp.stage, ApplicationInfoInterface.MainStage);
+            var galleryDelegate = findChild(tabletStage, "spreadDelegate_" + gallerySurfaceId);
+            compare(galleryDelegate.stage, ApplicationInfoInterface.MainStage);
 
             tryCompare(galleryApp, "state", ApplicationInfoInterface.Running);
             tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Suspended);
 
-            switchToApp(webbrowserApp.appId);
+            switchToSurface(webbrowserSurfaceId);
 
             tryCompare(galleryApp, "state", ApplicationInfoInterface.Suspended);
             tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Running);
 
-            switchToApp(galleryApp.appId);
+            switchToSurface(gallerySurfaceId);
 
             tryCompare(galleryApp, "state", ApplicationInfoInterface.Running);
             tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Suspended);
         }
-
 
         function test_foregroundMainAndSideStageAppsAreKeptRunning() {
             WindowStateStorage.saveStage(facebookCheckBox.appId, ApplicationInfoInterface.SideStage)
@@ -321,30 +394,37 @@ Rectangle {
             // launch two main stage apps
             // gallery will be on foreground and webbrowser on background
 
+            var webbrowserSurfaceId = topSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserCheckBox.appId)
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
             compare(webbrowserApp.stage, ApplicationInfoInterface.MainStage);
 
+            var gallerySurfaceId = topSurfaceList.nextId;
             galleryCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(galleryCheckBox.appId)
+            waitUntilAppSurfaceShowsUp(gallerySurfaceId);
             var galleryApp = ApplicationManager.findApplication(galleryCheckBox.appId);
-            compare(galleryApp.stage, ApplicationInfoInterface.MainStage);
+            var galleryDelegate = findChild(tabletStage, "spreadDelegate_" + gallerySurfaceId);
+            compare(galleryDelegate.stage, ApplicationInfoInterface.MainStage);
 
             compare(stagesPriv.mainStageAppId, galleryCheckBox.appId);
 
             // then launch two side stage apps
             // facebook will be on foreground and dialer on background
 
+            var dialerSurfaceId = topSurfaceList.nextId;
             dialerCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(dialerCheckBox.appId)
+            waitUntilAppSurfaceShowsUp(dialerSurfaceId);
             var dialerApp = ApplicationManager.findApplication(dialerCheckBox.appId);
-            compare(dialerApp.stage, ApplicationInfoInterface.SideStage);
+            var dialerDelegate = findChild(tabletStage, "spreadDelegate_" + dialerSurfaceId);
+            compare(dialerDelegate.stage, ApplicationInfoInterface.SideStage);
 
+            var facebookSurfaceId = topSurfaceList.nextId;
             facebookCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(facebookCheckBox.appId)
+            waitUntilAppSurfaceShowsUp(facebookSurfaceId);
             var facebookApp = ApplicationManager.findApplication(facebookCheckBox.appId);
-            compare(facebookApp.stage, ApplicationInfoInterface.SideStage);
+            var facebookDelegate = findChild(tabletStage, "spreadDelegate_" + facebookSurfaceId);
+            compare(facebookDelegate.stage, ApplicationInfoInterface.SideStage);
 
             compare(stagesPriv.sideStageAppId, facebookCheckBox.appId);
 
@@ -356,14 +436,14 @@ Rectangle {
             tryCompare(facebookApp, "state", ApplicationInfoInterface.Running);
             tryCompare(dialerApp, "state", ApplicationInfoInterface.Suspended);
 
-            switchToApp(dialerCheckBox.appId);
+            switchToSurface(dialerSurfaceId);
 
             tryCompare(galleryApp, "state", ApplicationInfoInterface.Running);
             tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Suspended);
             tryCompare(facebookApp, "state", ApplicationInfoInterface.Suspended);
             tryCompare(dialerApp, "state", ApplicationInfoInterface.Running);
 
-            switchToApp(webbrowserCheckBox.appId);
+            switchToSurface(webbrowserSurfaceId);
 
             tryCompare(galleryApp, "state", ApplicationInfoInterface.Suspended);
             tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Running);
@@ -374,15 +454,19 @@ Rectangle {
         function test_foregroundAppsAreSuspendedWhenStageIsSuspended() {
             WindowStateStorage.saveStage(dialerCheckBox.appId, ApplicationInfoInterface.SideStage)
 
+            var webbrowserSurfaceId = topSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserCheckBox.appId)
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
-            compare(webbrowserApp.stage, ApplicationInfoInterface.MainStage);
+            var webbrowserDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            compare(webbrowserDelegate.stage, ApplicationInfoInterface.MainStage);
 
+            var dialerSurfaceId = topSurfaceList.nextId;
             dialerCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(dialerCheckBox.appId)
+            waitUntilAppSurfaceShowsUp(dialerSurfaceId);
             var dialerApp = ApplicationManager.findApplication(dialerCheckBox.appId);
-            compare(dialerApp.stage, ApplicationInfoInterface.SideStage);
+            var dialerDelegate = findChild(tabletStage, "spreadDelegate_" + dialerSurfaceId);
+            compare(dialerDelegate.stage, ApplicationInfoInterface.SideStage);
 
 
             compare(webbrowserApp.requestedState, ApplicationInfoInterface.RequestedRunning);
@@ -451,14 +535,36 @@ Rectangle {
                                 function() { return sideStage.shown; });
         }
 
-        function test_applicationLoadsInCorrectStage_data() {
+        function test_applicationLoadsInDefaultStage_data() {
+            return [
+                { tag: "MainStage", appId: "webbrowser-app", mainStageAppId: "webbrowser-app", sideStageAppId: "" },
+                { tag: "SideStage", appId: "dialer-app", mainStageAppId: "unity8-dash", sideStageAppId: "dialer-app" },
+            ];
+        }
+
+        function test_applicationLoadsInDefaultStage(data) {
+            var stagesPriv = findInvisibleChild(tabletStage, "stagesPriv");
+            verify(stagesPriv);
+
+            tryCompare(stagesPriv, "mainStageAppId", "unity8-dash");
+            tryCompare(stagesPriv, "sideStageAppId", "");
+
+            var appSurfaceId = topSurfaceList.nextId;
+            var app = ApplicationManager.startApplication(data.appId);
+            waitUntilAppSurfaceShowsUp(appSurfaceId);
+
+            tryCompare(stagesPriv, "mainStageAppId", data.mainStageAppId);
+            tryCompare(stagesPriv, "sideStageAppId", data.sideStageAppId);
+        }
+
+        function test_applicationLoadsInSavedStage_data() {
             return [
                 { tag: "MainStage", stage: ApplicationInfoInterface.MainStage, mainStageAppId: "webbrowser-app", sideStageAppId: ""},
                 { tag: "SideStage", stage: ApplicationInfoInterface.SideStage, mainStageAppId: "unity8-dash", sideStageAppId: "webbrowser-app" },
             ];
         }
 
-        function test_applicationLoadsInCorrectStage(data) {
+        function test_applicationLoadsInSavedStage(data) {
             WindowStateStorage.saveStage(webbrowserCheckBox.appId, data.stage)
 
             var stagesPriv = findInvisibleChild(tabletStage, "stagesPriv");
@@ -467,19 +573,230 @@ Rectangle {
             tryCompare(stagesPriv, "mainStageAppId", "unity8-dash");
             tryCompare(stagesPriv, "sideStageAppId", "");
 
+            var webbrowserSurfaceId = topSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserCheckBox.appId)
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
             tryCompare(stagesPriv, "mainStageAppId", data.mainStageAppId);
             tryCompare(stagesPriv, "sideStageAppId", data.sideStageAppId);
         }
 
-        function test_loadSideStageByDragginFromMainStage() {
-            sideStage.showNow();
-            webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserCheckBox.appId);
+        function test_applicationSavesLastStage_data() {
+            return [
+                { tag: "MainStage", fromStage: ApplicationInfoInterface.MainStage, toStage: ApplicationInfoInterface.SideStage },
+                { tag: "SideStage", fromStage: ApplicationInfoInterface.SideStage, toStage: ApplicationInfoInterface.MainStage },
+            ];
+        }
 
-            var appDelegate = findChild(tabletStage, "tabletSpreadDelegate_" + webbrowserCheckBox.appId);
+        function test_applicationSavesLastStage(data) {
+            WindowStateStorage.saveStage(webbrowserCheckBox.appId, data.fromStage);
+            stageSaver.clear();
+
+            var stagesPriv = findInvisibleChild(tabletStage, "stagesPriv");
+            verify(stagesPriv);
+
+            tryCompare(stagesPriv, "mainStageAppId", "unity8-dash");
+            tryCompare(stagesPriv, "sideStageAppId", "");
+
+            var webbrowserSurfaceId = topSurfaceList.nextId;
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
+            if (data.toStage === ApplicationInfoInterface.SideStage) {
+                dragToSideStage(webbrowserSurfaceId);
+            } else {
+                dragToMainStage(webbrowserSurfaceId);
+            }
+
+            tryCompare(stageSaver, "count", 1);
+            compare(stageSaver.signalArguments[0][0], "webbrowser-app")
+            compare(stageSaver.signalArguments[0][1], data.toStage)
+        }
+
+        function test_loadSideStageByDraggingFromMainStage() {
+            sideStage.showNow();
+            var webbrowserSurfaceId = topSurfaceList.nextId;
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
+            var appDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            verify(appDelegate);
+            compare(appDelegate.stage, ApplicationInfoInterface.MainStage);
+
+            dragToSideStage(webbrowserSurfaceId);
+
+            var spreadView = findChild(tabletStageLoader, "spreadView")
+            tryCompare(spreadView, "surfaceDragging", false);
+            tryCompare(appDelegate, "stage", ApplicationInfoInterface.SideStage);
+        }
+
+        function test_unloadSideStageByDraggingFromStageStage() {
+            sideStage.showNow();
+            WindowStateStorage.saveStage(webbrowserCheckBox.appId, ApplicationInfoInterface.SideStage)
+            var webbrowserSurfaceId = topSurfaceList.nextId;
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
+            var appDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            verify(appDelegate);
+            compare(appDelegate.stage, ApplicationInfoInterface.SideStage);
+
+            dragToMainStage(webbrowserSurfaceId);
+
+            var spreadView = findChild(tabletStageLoader, "spreadView")
+            tryCompare(spreadView, "surfaceDragging", false);
+            tryCompare(appDelegate, "stage", ApplicationInfoInterface.MainStage);
+        }
+
+        function test_closeSurfaceOfMultiSurfaceApp() {
+            var surface1Id = topSurfaceList.nextId;
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(surface1Id);
+            var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
+
+            var surface2Id = topSurfaceList.nextId;
+            verify(surface1Id !== surface2Id); // sanity checking
+            webbrowserCheckBox.createSurface();
+            waitUntilAppSurfaceShowsUp(surface2Id);
+
+            performEdgeSwipeToShowAppSpread();
+
+            var appDelegate = findChild(tabletStage, "spreadDelegate_" + surface1Id);
+            verify(appDelegate);
+            tryCompare(appDelegate, "swipeToCloseEnabled", true);
+
+            compare(webbrowserApp.surfaceList.count, 2);
+            compare(webbrowserApp.state, ApplicationInfoInterface.Running);
+
+            swipeSurfaceUpwards(surface1Id);
+
+            // Surface must eventually be gone
+            tryCompareFunction(function() { return topSurfaceList.indexForId(surface1Id); }, -1);
+            tryCompare(webbrowserApp.surfaceList, "count", 1);
+            compare(webbrowserApp.state, ApplicationInfoInterface.Running);
+        }
+
+        /*
+            1- Suspended app gets killed behind the scenes, causing its surface to go zombie.
+            2- Surface gets screenshotted and removed. Its slot in the topSurfaceList remains,
+               though (so ApplicationWindow can display the screenshot in its place).
+            3- User taps on the screenshot of the long-gone surface.
+
+            Expected outcome:
+            Application gets relaunched. Its new surface will seamlessly replace the screenshot.
+         */
+        function test_selectSuspendedAppWithoutSurface() {
+            compare(topSurfaceList.applicationAt(0).appId, "unity8-dash");
+            var dashSurfaceId = topSurfaceList.idAt(0);
+            var dashSurface = topSurfaceList.surfaceAt(0);
+
+            var webbrowserSurfaceId = topSurfaceList.nextId;
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+            var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
+
+            switchToSurface(dashSurfaceId);
+
+            tryCompare(MirFocusController, "focusedSurface", dashSurface);
+            tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Suspended);
+
+            compare(webbrowserApp.surfaceList.count, 1);
+
+            // simulate the suspended app being killed by the out-of-memory daemon
+            webbrowserApp.surfaceList.get(0).setLive(false);
+
+            // wait until the surface is gone
+            tryCompare(webbrowserApp.surfaceList, "count", 0);
+            compare(topSurfaceList.surfaceAt(topSurfaceList.indexForId(webbrowserSurfaceId)), null);
+
+            switchToSurface(webbrowserSurfaceId);
+
+            // webbrowser should have been brought to front
+            tryCompareFunction(function(){return topSurfaceList.idAt(0);}, webbrowserSurfaceId);
+
+            // and it should eventually get a new surface and get resumed
+            tryCompareFunction(function(){return topSurfaceList.surfaceAt(0) !== null;}, true);
+            compare(topSurfaceList.count, 2); // still two top-level items
+            tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Running);
+            compare(webbrowserApp.surfaceList.count, 1);
+        }
+
+        /*
+            1 - user suspends an application (ie, focus a surface from a different application)
+            2 - That suspended application gets killed, causing its surface to go zombie
+            3 - user goes to spread and closes that zombie surface. Actually, by that time
+                Tablet shell will be displaying a screenshot of it instead, so there's no
+                MirSurface whatsoever backing it up.
+         */
+        function test_closeZombieSurface()
+        {
+            compare(topSurfaceList.applicationAt(0).appId, "unity8-dash");
+            var dashSurfaceId = topSurfaceList.idAt(0);
+            var dashSurface = topSurfaceList.surfaceAt(0);
+
+            var webbrowserSurfaceId = topSurfaceList.nextId;
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+            var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
+
+            switchToSurface(dashSurfaceId);
+
+            tryCompare(MirFocusController, "focusedSurface", dashSurface);
+            tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Suspended);
+
+            compare(webbrowserApp.surfaceList.count, 1);
+
+            // simulate the suspended app being killed by the out-of-memory daemon
+            webbrowserApp.surfaceList.get(0).setLive(false);
+
+            // wait until the surface is gone
+            tryCompare(webbrowserApp.surfaceList, "count", 0);
+            compare(topSurfaceList.surfaceAt(topSurfaceList.indexForId(webbrowserSurfaceId)), null);
+
+            performEdgeSwipeToShowAppSpread();
+
+            {
+                var appDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+                verify(appDelegate);
+                tryCompare(appDelegate, "swipeToCloseEnabled", true);
+            }
+
+            swipeSurfaceUpwards(webbrowserSurfaceId);
+
+            // webbrowser entry is nowhere to be seen
+            tryCompareFunction(function(){return topSurfaceList.indexForId(webbrowserSurfaceId);}, -1);
+
+            // nor is its app
+            compare(ApplicationManager.findApplication(webbrowserCheckBox.appId), null);
+
+            // only unity8-dash surface is left
+            compare(topSurfaceList.count, 1);
+        }
+
+        function test_draggingSurfaceKeepsSurfaceFocus() {
+            var webbrowserSurfaceId = topSurfaceList.nextId;
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
+            var appDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            verify(appDelegate);
+            compare(appDelegate.stage, ApplicationInfoInterface.MainStage);
+
+            tryCompare(appDelegate.surface, "activeFocus", true);
+
+            dragToSideStage(webbrowserSurfaceId);
+
+            var spreadView = findChild(tabletStageLoader, "spreadView")
+            tryCompare(spreadView, "surfaceDragging", false);
+            tryCompare(appDelegate.surface, "activeFocus", true);
+        }
+
+        function test_dashDoesNotDragToSidestage() {
+            sideStage.showNow();
+            compare(topSurfaceList.applicationAt(0).appId, "unity8-dash");
+            var dashSurfaceId = topSurfaceList.idAt(0);
+
+            var appDelegate = findChild(tabletStage, "spreadDelegate_" + dashSurfaceId);
             verify(appDelegate);
             compare(appDelegate.stage, ApplicationInfoInterface.MainStage);
 
@@ -498,34 +815,71 @@ Rectangle {
                                            pos >= end_pos;
                                 });
 
-            tryCompare(appDelegate, "stage", ApplicationInfoInterface.SideStage);
+            var spreadView = findChild(tabletStageLoader, "spreadView")
+            tryCompare(spreadView, "surfaceDragging", false);
+            tryCompare(appDelegate, "stage", ApplicationInfoInterface.MainStage);
         }
 
-        function test_unloadSideStageByDragginFromStageStage() {
-            sideStage.showNow();
+        function test_switchStageOnRotation() {
             WindowStateStorage.saveStage(webbrowserCheckBox.appId, ApplicationInfoInterface.SideStage)
+            var webbrowserSurfaceId = topSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserCheckBox.appId);
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
-            var appDelegate = findChild(tabletStage, "tabletSpreadDelegate_" + webbrowserCheckBox.appId);
+            var appDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
             compare(appDelegate.stage, ApplicationInfoInterface.SideStage);
 
-            var pos = tabletStage.width - sideStage.width / 2;
-            var end_pos = tabletStage.width - sideStage.width - (tabletStage.width - sideStage.width) / 2;
-
-            multiTouchDragUntil([0,1,2],
-                                tabletStage,
-                                pos,
-                                tabletStage.height / 2,
-                                -units.gu(3),
-                                0,
-                                function() {
-                                    pos -= units.gu(3);
-                                    return pos <= end_pos;
-                                });
-
+            tabletStage.shellOrientation = Qt.PortraitOrientation;
             tryCompare(appDelegate, "stage", ApplicationInfoInterface.MainStage);
         }
+
+        function test_restoreOriginalStageOnRotation() {
+            var webbrowserSurfaceId = topSurfaceList.nextId;
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
+            var appDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            verify(appDelegate);
+
+            dragToSideStage(webbrowserSurfaceId);
+
+            // will be in sidestage now
+            tabletStage.shellOrientation = Qt.PortraitOrientation;
+            tryCompare(appDelegate, "stage", ApplicationInfoInterface.MainStage);
+
+            tabletStage.shellOrientation = Qt.LandscapeOrientation;
+            tryCompare(appDelegate, "stage", ApplicationInfoInterface.SideStage);
+        }
+
+        function test_restoreSavedStageOnCloseReopen() {
+            var webbrowserSurfaceId = topSurfaceList.nextId;
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
+            var appDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            verify(appDelegate);
+
+            dragToSideStage(webbrowserSurfaceId);
+            // will be in sidestage now
+            tabletStage.shellOrientation = Qt.PortraitOrientation;
+            tryCompare(appDelegate, "stage", ApplicationInfoInterface.MainStage);
+
+            webbrowserCheckBox.checked = false;
+            tryCompare(ApplicationManager, "count", 1);
+
+            // back to landscape
+            tabletStage.shellOrientation = Qt.LandscapeOrientation;
+
+            webbrowserSurfaceId = topSurfaceList.nextId;
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
+            appDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            verify(appDelegate);
+            tryCompare(appDelegate, "stage", ApplicationInfoInterface.SideStage);
+        }
+
+
     }
 }

@@ -26,9 +26,8 @@ import "Rotation"
 // Workaround https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1473471
 import Ubuntu.Components 1.3
 
-Rectangle {
+Item {
     id: root
-    color: "black"
 
     implicitWidth: units.gu(40)
     implicitHeight: units.gu(71)
@@ -57,9 +56,17 @@ Rectangle {
             invertedPortrait: deviceConfiguration.invertedPortraitOrientation
         }
     }
-        // to be overwritten by tests
-    property var unity8Settings: GSettings { schema.id: "com.canonical.Unity8" }
-    property var oskSettings: GSettings { schema.id: "com.canonical.keyboard.maliit" }
+
+    GSettings {
+        id: unity8Settings
+        schema.id: "com.canonical.Unity8"
+    }
+
+    GSettings {
+        id: oskSettings
+        objectName: "oskSettings"
+        schema.id: "com.canonical.keyboard.maliit"
+    }
 
     property int physicalOrientation: Screen.orientation
     property bool orientationLocked: OrientationLock.enabled
@@ -90,22 +97,26 @@ Rectangle {
     }
 
     readonly property int pointerInputDevices: miceModel.count + touchPadModel.count
-    onPointerInputDevicesChanged: {
-        console.log("Pointer input devices changed:", pointerInputDevices, "current mode:", root.unity8Settings.usageMode, "old device count", miceModel.oldCount + touchPadModel.oldCount)
-        if (root.unity8Settings.usageMode === "Windowed") {
+    onPointerInputDevicesChanged: calculateUsageMode()
+
+    function calculateUsageMode() {
+        if (unity8Settings.usageMode === undefined)
+            return; // gsettings isn't loaded yet, we'll try again in Component.onCompleted
+
+        console.log("Pointer input devices changed:", pointerInputDevices, "current mode:", unity8Settings.usageMode, "old device count", miceModel.oldCount + touchPadModel.oldCount)
+        if (unity8Settings.usageMode === "Windowed") {
             if (pointerInputDevices === 0) {
                 // All pointer devices have been unplugged. Move to staged.
-                root.unity8Settings.usageMode = "Staged";
+                unity8Settings.usageMode = "Staged";
             }
         } else {
-            var longEdgeWidth = Math.max(root.width, root.height)
-            if (longEdgeWidth > units.gu(90)){
+            if (Math.min(root.width, root.height) > units.gu(60)) {
                 if (pointerInputDevices > 0 && pointerInputDevices > miceModel.oldCount + touchPadModel.oldCount) {
-                    root.unity8Settings.usageMode = "Windowed";
+                    unity8Settings.usageMode = "Windowed";
                 }
             } else {
                 // Make sure we initialize to something sane
-                root.unity8Settings.usageMode = "Staged";
+                unity8Settings.usageMode = "Staged";
             }
         }
         miceModel.oldCount = miceModel.count;
@@ -154,6 +165,9 @@ Rectangle {
         if (orientationLocked) {
             orientation = orientationLock.savedOrientation;
         }
+
+        calculateUsageMode();
+
         // We need to manually update this on startup as the binding
         // below doesn't seem to have any effect at that stage
         oskSettings.disableHeight = !shell.oskEnabled || shell.usageScenario == "desktop"
@@ -226,7 +240,7 @@ Rectangle {
         orientedShell: root
         shell: shell
         shellCover: shellCover
-        windowScreenshot: windowScreenshot
+        shellSnapshot: shellSnapshot
     }
 
     Shell {
@@ -248,7 +262,7 @@ Rectangle {
                     forceOSKEnabled
 
         usageScenario: {
-            if (root.unity8Settings.usageMode === "Windowed") {
+            if (unity8Settings.usageMode === "Windowed") {
                 return "desktop";
             } else {
                 if (deviceConfiguration.category === "phone") {
@@ -276,8 +290,9 @@ Rectangle {
         visible: false
     }
 
-    WindowScreenshot {
-        id: windowScreenshot
+    ItemSnapshot {
+        id: shellSnapshot
+        target: shell
         visible: false
         width: root.width
         height: root.height
@@ -287,9 +302,9 @@ Rectangle {
         property real transformOriginY
 
         transform: Rotation {
-            origin.x: windowScreenshot.transformOriginX; origin.y: windowScreenshot.transformOriginY;
+            origin.x: shellSnapshot.transformOriginX; origin.y: shellSnapshot.transformOriginY;
             axis { x: 0; y: 0; z: 1 }
-            angle: windowScreenshot.transformRotationAngle
+            angle: shellSnapshot.transformRotationAngle
         }
     }
 }

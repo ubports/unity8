@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,8 @@ import "../Greeter"
 Item {
     id: root
 
+    readonly property alias hasActiveDialog: dialogLoader.active
+
     // to be set from outside, useful mostly for testing purposes
     property var unitySessionService: DBusUnitySessionService
     property var closeAllApps: function() {
@@ -51,8 +53,8 @@ Item {
             var comp = Qt.createComponent(Qt.resolvedUrl("ModeSwitchWarningDialog.qml"))
             d.modeSwitchWarningPopup = comp.createObject(root, {model: legacyAppsModel});
             d.modeSwitchWarningPopup.forceClose.connect(function() {
-                while (legacyAppsModel.count > 0) {
-                    ApplicationManager.stopApplication(legacyAppsModel.get(0).appId);
+                for (var i = legacyAppsModel.count - 1; i >= 0; i--) {
+                    ApplicationManager.stopApplication(legacyAppsModel.get(i).appId);
                 }
                 d.modeSwitchWarningPopup.hide();
                 d.modeSwitchWarningPopup.destroy();
@@ -105,12 +107,12 @@ Item {
 
     GlobalShortcut { // lock screen
         shortcut: Qt.Key_ScreenSaver
-        onTriggered: lightDM.greeter.showGreeter()
+        onTriggered: LightDMService.greeter.showGreeter()
     }
 
     GlobalShortcut { // lock screen
         shortcut: Qt.ControlModifier|Qt.AltModifier|Qt.Key_L
-        onTriggered: lightDM.greeter.showGreeter()
+        onTriggered: LightDMService.greeter.showGreeter()
     }
 
     QtObject {
@@ -135,8 +137,6 @@ Item {
         active: false
     }
 
-    LightDM {id: lightDM} // Provide backend access
-
     Component {
         id: logoutDialogComponent
         ShellDialog {
@@ -146,7 +146,7 @@ Item {
             Button {
                 text: i18n.ctr("Button: Lock the system", "Lock")
                 onClicked: {
-                    lightDM.greeter.showGreeter()
+                    LightDMService.greeter.showGreeter()
                     logoutDialog.hide();
                 }
             }
@@ -177,7 +177,6 @@ Item {
                 onClicked: {
                     rebootDialog.hide();
                 }
-                color: UbuntuColors.lightGrey
             }
             Button {
                 text: i18n.tr("Yes")
@@ -186,7 +185,7 @@ Item {
                     unitySessionService.reboot();
                     rebootDialog.hide();
                 }
-                color: UbuntuColors.red
+                color: theme.palette.normal.negative
             }
         }
     }
@@ -204,7 +203,7 @@ Item {
                     powerDialog.hide();
                     root.powerOffClicked();
                 }
-                color: UbuntuColors.red
+                color: theme.palette.normal.negative
             }
             Button {
                 text: i18n.ctr("Button: Restart the system", "Restart")
@@ -213,14 +212,12 @@ Item {
                     unitySessionService.reboot();
                     powerDialog.hide();
                 }
-                color: UbuntuColors.lightGrey
             }
             Button {
                 text: i18n.tr("Cancel")
                 onClicked: {
                     powerDialog.hide();
                 }
-                color: UbuntuColors.lightGrey
             }
         }
     }

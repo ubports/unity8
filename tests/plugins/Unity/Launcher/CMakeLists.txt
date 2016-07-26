@@ -1,5 +1,5 @@
 pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=7)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=8)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -7,6 +7,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher
     ${GSETTINGS_QT_INCLUDE_DIRS}
+    ${GLIB_INCLUDE_DIRS}
     ${libunity8-private_SOURCE_DIR}
     )
 
@@ -35,6 +36,7 @@ add_executable(launchermodeltestExec
 target_link_libraries(launchermodeltestExec
     unity8-private
     ${GSETTINGS_QT_LDFLAGS}
+    ${GLIB_LIBRARIES}
     )
 add_dependencies(launchermodeltestExec mock-server)
 qt5_use_modules(launchermodeltestExec Test Core DBus Xml Gui)

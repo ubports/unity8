@@ -24,7 +24,7 @@ Item {
 
     readonly property real searchesHeight: recentSearchesRepeater.count > 0 ? searchColumn.height + recentSearchesLabels.height + recentSearchesLabels.anchors.topMargin : 0
 
-    implicitHeight: searchesHeight + dashNavigation.implicitHeight + dashNavigation.anchors.topMargin + primaryFilter.height + primaryFilter.anchors.topMargin
+    implicitHeight: searchesHeight + dashNavigation.implicitHeight + dashNavigation.anchors.topMargin + primaryFilterContainer.height + primaryFilterContainer.anchors.topMargin
 
     // Set by parent
     property ListModel searchHistory
@@ -36,6 +36,7 @@ Item {
 
     signal historyItemClicked(string text)
     signal dashNavigationLeafClicked()
+    signal extraPanelOptionSelected()
 
     function resetNavigation() {
         dashNavigation.resetNavigation();
@@ -124,7 +125,7 @@ Item {
                     color: "#888888"
                 }
 
-                divider.visible: index != repeater.count - 1 || (scope && scope.hasNavigation) || primaryFilter.active
+                divider.visible: index != recentSearchesRepeater.count - 1 || (scope && scope.hasNavigation) || primaryFilter.active
 
                 onClicked: root.historyItemClicked(query)
             }
@@ -145,22 +146,45 @@ Item {
         onLeafClicked: root.dashNavigationLeafClicked();
     }
 
-    Filters.FilterWidgetFactory {
-        id: primaryFilter
-        active: scope && !scope.hasNavigation
+    Flickable {
+        id: primaryFilterContainer
+        objectName: "primaryFilterContainer"
 
-        property var filter: active ? scope.primaryNavigationFilter : null
+        height: {
+            if (!primaryFilter.active) {
+                return 0;
+            } else if (contentHeight > dashNavigation.availableHeight) {
+                return dashNavigation.availableHeight;
+            } else {
+                return contentHeight;
+            }
+        }
+
+        clip: true
+        contentHeight: primaryFilter.implicitHeight
 
         anchors {
             top: recentSearchesRepeater.count > 0 ? searchColumn.bottom : parent.top
-            topMargin: active && recentSearchesRepeater.count > 0 ? units.gu(2) : 0
+            topMargin: primaryFilter.active && recentSearchesRepeater.count > 0 ? units.gu(2) : 0
             left: parent.left
             right: parent.right
         }
 
-        widgetId: filter ? filter.filterId : ""
-        widgetType: filter ? filter.filterType : -1
-        widgetData: filter
+        Filters.FilterWidgetFactory {
+            id: primaryFilter
+            objectName: "primaryFilter"
+
+            active: scope && !scope.hasNavigation
+
+            anchors.fill: parent
+            property var filter: active ? scope.primaryNavigationFilter : null
+
+            widgetId: filter ? filter.filterId : ""
+            widgetType: filter ? filter.filterType : -1
+            widgetData: filter
+
+            onSingleSelectionFilterSelected: extraPanelOptionSelected()
+        }
     }
 
     // This is outside the item

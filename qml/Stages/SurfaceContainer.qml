@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Canonical Ltd.
+ * Copyright 2014-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,39 +19,30 @@ import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1 // For TouchGate
 import Utils 0.1 // for InputWatcher
 import Unity.Application 0.1 // for MirSurfaceItem
-import AccountsService 0.1
 
 FocusScope {
     id: root
     objectName: "surfaceContainer"
 
+    // Must be set from outside
     property var surface: null
-    property bool hadSurface: false
-    property bool interactive
-    property int surfaceOrientationAngle: 0
-    property string name: surface ? surface.name : ""
-    property bool resizeSurface: true
 
+    // Might be changed from outside
     property int requestedWidth: -1
     property int requestedHeight: -1
-
-    property string savedKeymap: AccountsService.keymaps[0] // start with the user default
+    property bool interactive
+    property int surfaceOrientationAngle: 0
+    property bool resizeSurface: true
+    property bool isPromptSurface: false
+    // FIME - dont export, use interactive property. Need to fix qtmir to handle consumesInputChanged
+    // to update surface activeFocus. See mock MirSurfaceItem.
+    property alias consumesInput: surfaceItem.consumesInput
 
     onSurfaceChanged: {
-        if (surface) {
-            surfaceItem.surface = surface;
-            root.hadSurface = false;
-            switchToKeymap(savedKeymap);
-        }
-    }
-
-    function switchToKeymap(keymap) {
-        var finalKeymap = keymap.split("+");
-        savedKeymap = keymap; // save the keymap in case the surface changes later
-
-        if (surface) {
-            surface.setKeymap(finalKeymap[0], finalKeymap[1] || "");
-        }
+        // Not a binding because animations might remove the surface from the surfaceItem
+        // programatically (in order to signal that a zombie surface is free for deletion),
+        // even though root.surface is still !null.
+        surfaceItem.surface = surface;
     }
 
     InputWatcher {
@@ -67,6 +58,8 @@ FocusScope {
     MirSurfaceItem {
         id: surfaceItem
         objectName: "surfaceItem"
+
+        focus: true
 
         fillMode: MirSurfaceItem.PadOrCrop
         consumesInput: true
@@ -96,9 +89,14 @@ FocusScope {
         }
 
         enabled: root.interactive
-        focus: true
         antialiasing: !root.interactive
         orientationAngle: root.surfaceOrientationAngle
+    }
+
+    TouchGate {
+        targetItem: surfaceItem
+        anchors.fill: root
+        enabled: surfaceItem.enabled
     }
 
     // MirSurface size drives SurfaceContainer size
@@ -129,39 +127,29 @@ FocusScope {
         when: root.requestedHeight < 0
     }
 
-
-    TouchGate {
-        objectName: "touchGate-"+name
-        targetItem: surfaceItem
-        anchors.fill: root
-        enabled: surfaceItem.enabled
-    }
-
-    states: [
-        State {
-            name: "zombie"
-            when: surfaceItem.surface && !surfaceItem.live
-        }
-    ]
-    transitions: [
-        Transition {
-            from: ""; to: "zombie"
-            SequentialAnimation {
-                UbuntuNumberAnimation { target: surfaceItem; property: "opacity"; to: 0.0
-                                        duration: UbuntuAnimation.BriskDuration }
-                PropertyAction { target: surfaceItem; property: "visible"; value: false }
-                ScriptAction { script: {
-                    surfaceItem.surface = null;
-                    root.hadSurface = true;
-                } }
+    Loader {
+        id: animationsLoader
+        objectName: "animationsLoader"
+        active: root.surface
+        source: {
+            if (root.isPromptSurface) {
+                return "PromptSurfaceAnimations.qml";
+            } else {
+                // Let ApplicationWindow do the animations
+                return "";
             }
-        },
-        Transition {
-            from: "zombie"; to: ""
-            ScriptAction { script: {
-                surfaceItem.opacity = 1.0;
-                surfaceItem.visible = true;
-            } }
         }
-    ]
+        Binding {
+            target: animationsLoader.item
+            when: animationsLoader.item
+            property: "surfaceItem"
+            value: surfaceItem
+        }
+        Binding {
+            target: animationsLoader.item
+            when: animationsLoader.item
+            property: "container"
+            value: root
+        }
+    }
 }

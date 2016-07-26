@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,10 +27,9 @@
  */
 #include "verticaljournal.h"
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
+#include <math.h>
+
 #include <private/qquickitem_p.h>
-#pragma GCC diagnostic pop
 
 VerticalJournal::VerticalJournal()
  : m_columnWidth(0)

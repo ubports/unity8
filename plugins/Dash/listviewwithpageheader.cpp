@@ -95,13 +95,11 @@
 #include <QDebug>
 #include <qqmlinfo.h>
 #include <qqmlengine.h>
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
+#include <private/qqmlcontext_p.h>
 #include <private/qqmldelegatemodel_p.h>
 #include <private/qqmlglobal_p.h>
 #include <private/qquickitem_p.h>
 #include <private/qquickanimation_p.h>
-#pragma GCC diagnostic pop
 // #include <private/qquickrectangle_p.h>
 
 qreal ListViewWithPageHeader::ListItem::height() const
@@ -168,7 +166,7 @@ ListViewWithPageHeader::ListViewWithPageHeader()
     m_contentYAnimation->setDuration(200);
     m_contentYAnimation->setTargetObject(this);
 
-    connect(this, &ListViewWithPageHeader::contentWidthChanged, this, &ListViewWithPageHeader::onContentWidthChanged);
+    connect(contentItem(), &QQuickItem::widthChanged, this, &ListViewWithPageHeader::onContentWidthChanged);
     connect(this, &ListViewWithPageHeader::contentHeightChanged, this, &ListViewWithPageHeader::onContentHeightChanged);
     connect(this, &ListViewWithPageHeader::heightChanged, this, &ListViewWithPageHeader::onHeightChanged);
     connect(m_contentYAnimation, &QQuickNumberAnimation::runningChanged, this, &ListViewWithPageHeader::contentYAnimationRunningChanged);
@@ -255,6 +253,7 @@ void ListViewWithPageHeader::setHeader(QQuickItem *headerItem)
             oldHeaderHeight = m_headerItem->height();
             oldHeaderY = m_headerItem->y();
             m_headerItem->setParentItem(nullptr);
+            QQuickItemPrivate::get(m_headerItem)->removeItemChangeListener(this, QQuickItemPrivate::ImplicitHeight);
         }
         m_headerItem = headerItem;
         if (m_headerItem) {
@@ -285,10 +284,12 @@ void ListViewWithPageHeader::setSectionDelegate(QQmlComponent *delegate)
 
         m_sectionDelegate = delegate;
 
-        m_topSectionItem = getSectionItem(QString());
-        m_topSectionItem->setZ(3);
-        QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
-        connect(m_topSectionItem, &QQuickItem::heightChanged, this, &ListViewWithPageHeader::stickyHeaderHeightChanged);
+        m_topSectionItem = getSectionItem(QString(), false /*watchGeometry*/);
+        if (m_topSectionItem) {
+            m_topSectionItem->setZ(3);
+            QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
+            connect(m_topSectionItem, &QQuickItem::heightChanged, this, &ListViewWithPageHeader::stickyHeaderHeightChanged);
+        }
 
         // TODO create sections for existing items
 
@@ -514,6 +515,11 @@ qreal ListViewWithPageHeader::minYExtent() const
     return m_minYExtent;
 }
 
+qreal ListViewWithPageHeader::maxYExtent() const
+{
+    return height() - contentHeight();
+}
+
 void ListViewWithPageHeader::componentComplete()
 {
     if (m_delegateModel)
@@ -694,14 +700,18 @@ void ListViewWithPageHeader::reallyReleaseItem(ListItem *listItem)
     if (flags & QQmlDelegateModel::Destroyed) {
         item->setParentItem(nullptr);
     }
-    listItem->sectionItem()->deleteLater();
+    if (listItem->sectionItem()) {
+        listItem->sectionItem()->deleteLater();
+    }
     delete listItem;
 }
 
 void ListViewWithPageHeader::releaseItem(ListItem *listItem)
 {
-    QQuickItemPrivate *itemPrivate = QQuickItemPrivate::get(listItem->m_item);
-    itemPrivate->removeItemChangeListener(this, QQuickItemPrivate::Geometry);
+    QQuickItemPrivate::get(listItem->m_item)->removeItemChangeListener(this, QQuickItemPrivate::Geometry);
+    if (listItem->sectionItem()) {
+        QQuickItemPrivate::get(listItem->sectionItem())->removeItemChangeListener(this, QQuickItemPrivate::Geometry);
+    }
     m_itemsToRelease << listItem;
 }
 
@@ -744,14 +754,12 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(int modelIndex, bool alreadyI
     return getSectionItem(section);
 }
 
-QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText)
+QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText, bool watchGeometry)
 {
     QQuickItem *sectionItem = nullptr;
 
     QQmlContext *creationContext = m_sectionDelegate->creationContext();
     QQmlContext *context = new QQmlContext(creationContext ? creationContext : qmlContext(this));
-    context->setContextProperty(QStringLiteral("section"), sectionText);
-    context->setContextProperty(QStringLiteral("delegateIndex"), -1);
     QObject *nobj = m_sectionDelegate->beginCreate(context);
     if (nobj) {
         QQml_setParent_noEvent(context, nobj);
@@ -759,6 +767,8 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText)
         if (!sectionItem) {
             delete nobj;
         } else {
+            sectionItem->setProperty("text", sectionText);
+            sectionItem->setProperty("delegateIndex", -1);
             sectionItem->setZ(2);
             QQml_setParent_noEvent(sectionItem, m_clipItem);
             sectionItem->setParentItem(m_clipItem);
@@ -768,7 +778,9 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText)
     }
     m_sectionDelegate->completeCreate();
 
-    // TODO attach to sectionItem so we can accomodate to it changing its height
+    if (watchGeometry && sectionItem) {
+        QQuickItemPrivate::get(sectionItem)->addItemChangeListener(this, QQuickItemPrivate::Geometry);
+    }
 
     return sectionItem;
 }
@@ -792,8 +804,7 @@ void ListViewWithPageHeader::updateSectionItem(int modelIndex)
             if (!item->sectionItem()) {
                 item->setSectionItem(getSectionItem(sectionText));
             } else {
-                QQmlContext *context = QQmlEngine::contextForObject(item->sectionItem())->parentContext();
-                context->setContextProperty(QStringLiteral("section"), sectionText);
+                item->sectionItem()->setProperty("text", sectionText);
             }
         } else {
             if (item->sectionItem()) {
@@ -914,8 +925,7 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
                 polish();
             }
             if (listItem->sectionItem()) {
-                QQmlContext *context = QQmlEngine::contextForObject(listItem->sectionItem())->parentContext();
-                context->setContextProperty(QStringLiteral("delegateIndex"), modelIndex);
+                listItem->sectionItem()->setProperty("delegateIndex", modelIndex);
             }
             adjustMinYExtent();
             m_contentHeightDirty = true;
@@ -939,9 +949,10 @@ void ListViewWithPageHeader::itemCreated(int modelIndex, QObject *object)
         return;
 
     item->setParentItem(m_clipItem);
+    // FIXME Why do we need the refreshExpressions call?
     QQmlContext *context = QQmlEngine::contextForObject(item)->parentContext();
-    context->setContextProperty(QStringLiteral("ListViewWithPageHeader"), this);
-    context->setContextProperty(QStringLiteral("heightToClip"), QVariant::fromValue<int>(0));
+    QQmlContextPrivate::get(context)->data->refreshExpressions();
+    item->setProperty("heightToClip", QVariant::fromValue<int>(0));
     if (modelIndex == m_asyncRequestedIndex) {
         createItem(modelIndex, false);
         refill();
@@ -1107,8 +1118,7 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
     for (int i = 0; i < m_visibleItems.count(); ++i) {
         ListItem *item = m_visibleItems[i];
         if (item->sectionItem()) {
-            QQmlContext *context = QQmlEngine::contextForObject(item->sectionItem())->parentContext();
-            context->setContextProperty(QStringLiteral("delegateIndex"), m_firstVisibleIndex + i);
+            item->sectionItem()->setProperty("delegateIndex", m_firstVisibleIndex + i);
         }
     }
 
@@ -1126,15 +1136,23 @@ void ListViewWithPageHeader::contentYAnimationRunningChanged(bool running)
     }
 }
 
-void ListViewWithPageHeader::itemGeometryChanged(QQuickItem * /*item*/, const QRectF &newGeometry, const QRectF &oldGeometry)
+void ListViewWithPageHeader::itemGeometryChanged(QQuickItem *item, const QRectF &newGeometry, const QRectF &oldGeometry)
 {
     const qreal heightDiff = newGeometry.height() - oldGeometry.height();
     if (heightDiff != 0) {
-        if (!m_inContentHeightKeepHeaderShown && oldGeometry.y() + oldGeometry.height() + m_clipItem->y() <= contentY() && !m_visibleItems.isEmpty()) {
+        if (!m_visibleItems.isEmpty()) {
             ListItem *firstItem = m_visibleItems.first();
-            firstItem->setY(firstItem->y() - heightDiff);
-            adjustMinYExtent();
-            layout();
+            const auto prevFirstItemY = firstItem->y();
+            if (!m_inContentHeightKeepHeaderShown && oldGeometry.y() + oldGeometry.height() + m_clipItem->y() <= contentY()) {
+                firstItem->setY(firstItem->y() - heightDiff);
+            } else if (item == firstItem->sectionItem()) {
+                firstItem->setY(firstItem->y() + heightDiff);
+            }
+
+            if (firstItem->y() != prevFirstItemY) {
+                adjustMinYExtent();
+                layout();
+            }
         }
         refill();
         adjustMinYExtent();
@@ -1186,7 +1204,7 @@ void ListViewWithPageHeader::headerHeightChanged(qreal newHeaderHeight, qreal ol
 
 void ListViewWithPageHeader::adjustMinYExtent()
 {
-    if (m_visibleItems.isEmpty() || contentHeight() < height()) {
+    if (m_visibleItems.isEmpty() || (contentHeight() + m_minYExtent < height())) {
         m_minYExtent = 0;
     } else {
         qreal nonCreatedHeight = 0;
@@ -1270,8 +1288,7 @@ void ListViewWithPageHeader::layout()
                     } else {
                         // Update the top sticky section header
                         const QString section = m_delegateModel->stringValue(modelIndex, m_sectionProperty);
-                        QQmlContext *context = QQmlEngine::contextForObject(m_topSectionItem)->parentContext();
-                        context->setContextProperty(QStringLiteral("section"), section);
+                        m_topSectionItem->setProperty("text", section);
 
                         QQuickItemPrivate::get(m_topSectionItem)->setCulled(false);
                         m_topSectionItem->setY(topSectionStickPos);
@@ -1283,19 +1300,18 @@ void ListViewWithPageHeader::layout()
                                 break;
                             delegateIndex--;
                         }
-                        context->setContextProperty(QStringLiteral("delegateIndex"), delegateIndex);
+                        m_topSectionItem->setProperty("delegateIndex", delegateIndex);
                         if (item->sectionItem()) {
                             QQuickItemPrivate::get(item->sectionItem())->setCulled(true);
                         }
                     }
                 }
             }
-            QQmlContext *context = QQmlEngine::contextForObject(item->m_item)->parentContext();
             const qreal clipFrom = visibleFrom + (!item->sectionItem() && m_topSectionItem && !QQuickItemPrivate::get(m_topSectionItem)->culled ? m_topSectionItem->height() : 0);
             if (!cull && pos < clipFrom) {
-                context->setContextProperty(QStringLiteral("heightToClip"), clipFrom - pos);
+                item->m_item->setProperty("heightToClip", clipFrom - pos);
             } else {
-                context->setContextProperty(QStringLiteral("heightToClip"), QVariant::fromValue<int>(0));
+                item->m_item->setProperty("heightToClip", QVariant::fromValue<int>(0));
             }
 //             qDebug() << "ListViewWithPageHeader::layout" << item->m_item;
             pos += item->height();
@@ -1317,6 +1333,10 @@ void ListViewWithPageHeader::layout()
                 }
             }
         }
+    }
+    if (m_headerItem) {
+        const bool cullHeader = m_headerItem->y() + m_headerItem->height() < contentY();
+        QQuickItemPrivate::get(m_headerItem)->setCulled(cullHeader);
     }
     m_inLayout = false;
 }
@@ -1368,7 +1388,7 @@ void ListViewWithPageHeader::updatePolish()
 
         m_contentHeightDirty = false;
         adjustMinYExtent();
-        if (contentHeight < height()) {
+        if (contentHeight + m_minYExtent < height()) {
             // need this since in the previous call to adjustMinYExtent contentHeight is not set yet
             m_minYExtent = 0;
         }

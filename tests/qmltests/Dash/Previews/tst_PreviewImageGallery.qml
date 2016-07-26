@@ -70,8 +70,6 @@ Rectangle {
         when: windowShown
 
         property Item overlay: findChild(imageGallery.rootItem, "overlay")
-        property Item overlayCloseButton: findChild(overlay, "overlayCloseButton")
-        property Item overlayListView: findChild(overlay, "overlayListView")
 
         function cleanup() {
             overlay.hide();
@@ -87,6 +85,7 @@ Rectangle {
         }
 
         function test_overlayOpenClose() {
+            var overlayCloseButton = findChild(overlay, "overlayCloseButton");
             var image0 = findChild(imageGallery, "previewImage0");
             mouseClick(image0);
             tryCompare(overlay, "visible", true);
@@ -97,6 +96,7 @@ Rectangle {
         }
 
         function test_overlayShowHideHeader() {
+            var overlayCloseButton = findChild(overlay, "overlayCloseButton");
             var image0 = findChild(imageGallery, "previewImage0");
             mouseClick(image0);
             tryCompare(overlay, "visible", true);
@@ -117,6 +117,7 @@ Rectangle {
         }
 
         function test_overlayOpenCorrectImage(data) {
+            var overlayListView = findChild(overlay, "overlayListView");
             var image = findChild(imageGallery, "previewImage" + data.index);
             mouseClick(image);
             tryCompare(overlay, "visible", true);

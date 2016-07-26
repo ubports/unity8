@@ -1,10 +1,14 @@
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_SOURCE_DIR}/plugins/Utils
+)
+
+include_directories(
+    SYSTEM
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
     ${GIO_INCLUDE_DIRS}
-    ${CMAKE_SOURCE_DIR}/plugins/Utils
 )
 
 set(QMLPLUGIN_SRC
@@ -13,7 +17,6 @@ set(QMLPLUGIN_SRC
     ${CMAKE_SOURCE_DIR}/plugins/Utils/unitysortfilterproxymodelqml.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/unitymenumodelpaths.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/windowinputfilter.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/Utils/windowscreenshotprovider.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/easingcurve.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/inputwatcher.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/timezoneFormatter.cpp
@@ -22,6 +25,10 @@ set(QMLPLUGIN_SRC
     ${CMAKE_SOURCE_DIR}/plugins/Utils/deviceconfigparser.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/globalfunctions.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceListInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/Mir.h
     constants.cpp
     plugin.cpp
     windowstatestorage.cpp

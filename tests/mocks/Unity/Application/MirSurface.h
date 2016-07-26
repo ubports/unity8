@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,30 @@
 #include <QHash>
 
 // unity-api
+#include <unity/shell/application/MirFocusControllerInterface.h>
 #include <unity/shell/application/MirSurfaceInterface.h>
+
+#include "MirSurfaceListModel.h"
+
+class MirSurface;
+
+class MirFocusController : public unity::shell::application::MirFocusControllerInterface
+{
+    Q_OBJECT
+public:
+    MirFocusController();
+    virtual ~MirFocusController();
+    static MirFocusController* instance();
+
+    void setFocusedSurface(unity::shell::application::MirSurfaceInterface *surface) override;
+    unity::shell::application::MirSurfaceInterface* focusedSurface() const override { return m_focusedSurface; }
+    unity::shell::application::MirSurfaceInterface* previouslyFocusedSurface() { return m_previouslyFocusedSurface; }
+    void clear();
+private:
+    static MirFocusController *m_instance;
+    unity::shell::application::MirSurfaceInterface* m_previouslyFocusedSurface{nullptr};
+    unity::shell::application::MirSurfaceInterface* m_focusedSurface{nullptr};
+};
 
 class MirSurface : public unity::shell::application::MirSurfaceInterface
 {
@@ -41,8 +64,7 @@ public:
             Mir::Type type,
             Mir::State state,
             const QUrl& screenshot,
-            const QUrl &qmlFilePath = QUrl(),
-            QObject *parent = nullptr);
+            const QUrl &qmlFilePath = QUrl());
     virtual ~MirSurface();
 
     ////
@@ -74,21 +96,25 @@ public:
     int widthIncrement() const override { return m_widthIncrement; }
     int heightIncrement() const override { return m_heightIncrement; }
 
+    void setKeymap(const QString &) override;
+    QString keymap() const override;
+
     Mir::ShellChrome shellChrome() const override;
-    QString keymapLayout() const override;
-    QString keymapVariant() const override;
-    Q_INVOKABLE void setKeymap(const QString &layout, const QString &variant) override;
+
+    bool focused() const override;
+    QRect inputBounds() const override;
+
+    Q_INVOKABLE void requestFocus() override;
+
+    Q_INVOKABLE void close() override;
+
+    Q_INVOKABLE void raise() override;
 
     ////
     // API for tests
 
     Q_INVOKABLE void setLive(bool live);
     Q_INVOKABLE void setShellChrome(Mir::ShellChrome shellChrome);
-
-    void registerView(qintptr viewId);
-    void unregisterView(qintptr viewId);
-    void setViewVisibility(qintptr viewId, bool visible);
-    int viewCount() const { return m_views.count(); }
 
     int width() const;
     int height() const;
@@ -103,6 +129,8 @@ public:
     Q_INVOKABLE void setWidthIncrement(int);
     Q_INVOKABLE void setHeightIncrement(int);
 
+    Q_INVOKABLE virtual void setInputBounds(const QRect &boundsRect);
+
     /////
     // internal mock stuff
 
@@ -114,7 +142,16 @@ public:
     bool activeFocus() const;
     void setActiveFocus(bool);
 
+    void registerView(qintptr viewId);
+    void unregisterView(qintptr viewId);
+    void setViewVisibility(qintptr viewId, bool visible);
+    int viewCount() const { return m_views.count(); }
+
+    void setFocused(bool value);
+
 Q_SIGNALS:
+    ////
+    // API for tests
     void widthChanged();
     void heightChanged();
     void slowToResizeChanged();
@@ -123,6 +160,11 @@ Q_SIGNALS:
     // internal mock stuff
     void screenshotUrlChanged(QUrl);
     void activeFocusChanged(bool);
+    void raiseRequested();
+    void closeRequested();
+
+protected:
+    virtual void updateInputBoundsAfterResize();
 
 private Q_SLOTS:
     void applyDelayedResize();
@@ -135,6 +177,7 @@ private:
     const Mir::Type m_type;
     Mir::State m_state;
     Mir::OrientationAngle m_orientationAngle;
+
     QUrl m_screenshotUrl;
     QUrl m_qmlFilePath;
     bool m_live;
@@ -150,6 +193,8 @@ private:
     int m_widthIncrement{0};
     int m_heightIncrement{0};
 
+    QString m_keymap;
+
     bool m_slowToResize;
     QTimer m_delayedResizeTimer;
     QSize m_delayedResize;
@@ -162,7 +207,9 @@ private:
     };
     QHash<qintptr, View> m_views;
 
-    QPair<QString,QString> m_keyMap; // pair of layout+variant
+    QTimer m_zombieTimer;
+
+    QRect m_inputBounds;
 };
 
 #endif // MOCK_MIR_SURFACE_H

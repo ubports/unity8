@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 
-AbstractButton {
+Item {
     id: root
     opacity: enabled ? 1 : 0.6
 
@@ -25,9 +25,11 @@ AbstractButton {
     property string iconName
     property color foregroundColor: "#000000"
 
+    signal clicked();
+
     UbuntuShape {
         anchors.fill: parent
-        opacity: root.pressed ? 1 : 0
+        opacity: mouseArea.pressed ? 1 : 0
         Behavior on opacity {
             UbuntuNumberAnimation {}
         }
@@ -58,6 +60,19 @@ AbstractButton {
         scale: root.pressed ? 0.9 : 1
         Behavior on scale {
             UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration }
+        }
+    }
+
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+
+        // Intentionally using onReleased here to increase the robustness against
+        // sloppy presses. This often happens when entering a pin very quickly and
+        // the numbers for the pin are far apart.
+        onReleased: {
+            Haptics.play();
+            root.clicked();
         }
     }
 }

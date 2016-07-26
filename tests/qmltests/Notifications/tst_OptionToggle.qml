@@ -36,6 +36,10 @@ Row {
                 console.log("Action invoked", actionId);
                 mockModel.actionInvoked(actionId)
             }
+
+            function close() {
+                console.log("Close notification");
+            }
         }
     }
 
@@ -96,7 +100,7 @@ Row {
 
         width: units.gu(40)
         height: units.gu(81)
-        color: "#cccccc"
+        color: theme.palette.normal.background
 
         MouseArea{
             id: clickThroughCatcher
@@ -142,6 +146,11 @@ Row {
                 width: parent.width
                 text: "clear model"
                 onClicked: clearNotifications()
+            }
+
+            MouseTouchEmulationCheckbox {
+                id: mouseEmulation
+                checked: false
             }
         }
     }

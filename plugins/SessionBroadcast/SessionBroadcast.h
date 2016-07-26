@@ -36,6 +36,9 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void onShowHome(const QString &username);
+
+private:
+    QString m_username;
 };
 
 #endif

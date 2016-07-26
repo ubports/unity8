@@ -49,11 +49,15 @@ void ShellView::onWidthChanged(int w)
     // The QResizeEvent we get still has the size of the first screen and since the resize move is triggered
     // from the resize event handler, the root item doesn't get resized.
     // TODO: Confirm the Qt bug and submit a patch upstream
-    rootObject()->setWidth(w);
+    if (rootObject()) {
+        rootObject()->setWidth(w);
+    }
 }
 
 void ShellView::onHeightChanged(int h)
 {
     // See comment in ShellView::onWidthChanged()
-    rootObject()->setHeight(h);
+    if (rootObject()) {
+        rootObject()->setHeight(h);
+    }
 }

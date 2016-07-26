@@ -16,16 +16,29 @@
 
 // local
 #include "ShellApplication.h"
+#include "qmldebuggerutils.h"
+#include "UnixSignalHandler.h"
 
 int main(int argc, const char *argv[])
 {
+    qSetMessagePattern("[%{time yyyy-mm-dd:hh:mm:ss.zzz}] %{if-category}%{category}: %{endif}%{message}");
+
     bool isMirServer = false;
     if (qgetenv("QT_QPA_PLATFORM") == "ubuntumirclient") {
         setenv("QT_QPA_PLATFORM", "mirserver", 1 /* overwrite */);
         isMirServer = true;
     }
 
+    if (enableQmlDebugger(argc, argv)) {
+        QQmlDebuggingEnabler qQmlEnableDebuggingHelper(true);
+    }
+
     ShellApplication *application = new ShellApplication(argc, (char**)argv, isMirServer);
+
+    UnixSignalHandler signalHandler([]{
+        QGuiApplication::exit(0);
+    });
+    signalHandler.setupUnixSignalHandlers();
 
     int result = application->exec();
 

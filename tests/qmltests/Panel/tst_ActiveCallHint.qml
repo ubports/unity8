@@ -96,11 +96,12 @@ Item {
         function test_activeHint(data) {
             if (data.dialer) {
                 var application = ApplicationManager.startApplication("dialer-app");
-                ApplicationManager.focusApplication("dialer-app");
+                tryCompare(application.surfaceList, "count", 1);
+                MirFocusController.focusedSurface = application.surfaceList.get(0);
                 tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
                 tryCompare(application, "state", ApplicationInfoInterface.Running);
 
-                if (!data.focused) { ApplicationManager.unfocusCurrentApplication(); }
+                if (!data.focused) { MirFocusController.focusedSurface = null; }
             }
             callManager.foregroundCall = data.call;
             callManager.callIndicatorVisible = data.visible;

@@ -22,12 +22,9 @@
 #include <QSignalSpy>
 #include <QSortFilterProxyModel>
 #include <QtTestGui>
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
 #include <private/qqmllistmodel_p.h>
 #include <private/qquickanimation_p.h>
 #include <private/qquickitem_p.h>
-#pragma GCC diagnostic pop
 
 class StringListModel : public QAbstractListModel
 {
@@ -151,12 +148,12 @@ private:
 
     QString section(QQuickItem *item)
     {
-        return item ? QQmlEngine::contextForObject(item)->parentContext()->contextProperty(QLatin1String("section")).toString() : QString();
+        return item ? item->property("text").toString() : QString();
     }
 
     int sectionDelegateIndex(QQuickItem *item)
     {
-        return item ? QQmlEngine::contextForObject(item)->parentContext()->contextProperty(QLatin1String("delegateIndex")).toInt() : -1;
+        return item ? item->property("delegateIndex").toInt() : -1;
     }
 
 private Q_SLOTS:
@@ -169,7 +166,7 @@ private Q_SLOTS:
     {
         view = new QQuickView();
         view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/listviewwithpageheadertestsectionexternalmodel.qml"));
-        lvwph = dynamic_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
+        lvwph = static_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
         QVERIFY(lvwph);
         view->show();
         QTest::qWaitForWindowExposed(view);

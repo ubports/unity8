@@ -7,4 +7,3 @@ Terminal=false
 Icon=@CMAKE_INSTALL_PREFIX@/@SHELL_APP_DIR@/Dash/unity8-dash.png
 NoDisplay=true
 X-Ubuntu-Touch=true
-X-Ubuntu-Supported-Orientations=primary

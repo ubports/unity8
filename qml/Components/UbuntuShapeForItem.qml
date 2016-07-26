@@ -28,6 +28,7 @@ Item {
 
     property alias radius: shape.radius
     property alias image: source.sourceItem
+    property alias aspect: shape.aspect
 
     ShaderEffectSource {
         id: source
