@@ -27,12 +27,12 @@ FocusScope {
     property alias dragHandleLeftMargin: coverPage.dragHandleLeftMargin
     property alias infographicModel: coverPage.infographicModel
     property alias launcherOffset: coverPage.launcherOffset
-    property alias loginListShown: loginAreaLoader.loginListShown
-    property int currentIndex // Set from outside
+    property alias loginListShown: loginList.loginListShown
+    property alias currentIndex: loginList.currentIndex
     property int delayMinutes // TODO
-    property bool alphanumeric: true
-    property bool locked
-    property alias sessionToStart: loginAreaLoader.currentSession
+    property alias alphanumeric: loginList.alphanumeric
+    property alias locked: loginList.locked
+    property alias sessionToStart: loginList.currentSession
     property var userModel // Set from outside
 
     readonly property bool animating: coverPage.showAnimation.running || coverPage.hideAnimation.running
@@ -57,29 +57,29 @@ FocusScope {
 
     readonly property var notifyAuthenticationFailed: ifLoginlistShownThen(doNotifyAuthenticationFailed);
     function doNotifyAuthenticationFailed() {
-        loginAreaLoader.item.showError();
+        loginListm.showError();
     }
 
     readonly property var reset: ifLoginlistShownThen(doReset);
     function doReset() {
-        loginAreaLoader.item.reset();
+        loginList.reset();
     }
 
     readonly property var showMessage: ifLoginlistShownThen(doShowMessage);
     function doShowMessage(html) {
-        loginAreaLoader.item.showMessage(html);
+        loginList.showMessage(html);
     }
 
     readonly property var showPrompt: ifLoginlistShownThen(doShowPrompt);
     function doShowPrompt(text, isSecret, isDefaultPrompt) {
-        loginAreaLoader.item.showPrompt(text, isSecret, isDefaultPrompt);
+        loginList.showPrompt(text, isSecret, isDefaultPrompt);
     }
 
     readonly property var tryToUnlock: ifLoginlistShownThen(doTryToUnlock);
     function doTryToUnlock(toTheRight) {
         if (root.locked) {
             coverPage.show();
-            loginAreaLoader.item.tryToUnlock();
+            loginList.tryToUnlock();
             return false;
         } else {
             var coverChanged = coverPage.shown;
@@ -117,10 +117,11 @@ FocusScope {
         height: parent.height
         width: parent.width
         draggable: !root.locked && !root.waiting
+        state: "LoginList"
 
         infographics {
             height: 0.75 * parent.height
-            anchors.leftMargin: loginAreaLoader.x + loginAreaLoader.width
+            anchors.leftMargin: loginList.x + loginList.width
         }
 
         onTease: root.tease()
@@ -131,9 +132,94 @@ FocusScope {
             }
         }
 
+        LoginList {
+            id: loginList
+
+            property bool loginListShown: true
+            property bool sessionUpdated: false
+
+            height: inputMethod && inputMethod.visible ?
+                parent.height - inputMethod.keyboardRectangle.height : parent.height
+            width: units.gu(40)
+            anchors {
+                left: parent.left
+                leftMargin: Math.min(parent.width * 0.16, units.gu(20))
+                top: parent.top
+            }
+
+            model: root.userModel
+
+            currentSession: LightDMService.greeter.defaultSession
+            onResponded: root.responded(response)
+            onSelected: root.selected(index)
+            onSessionChooserButtonClicked: parent.state = "SessionsList"
+        }
+
         Loader {
-            id: loginAreaLoader
-            objectName: "loginAreaLoader"
+            id: sessionChooserLoader
+
+            height: loginList.height
+            width: loginList.width
+            anchors {
+                left: parent.left
+                leftMargin: Math.min(parent.width * 0.16, units.gu(20))
+                top: parent.top
+            }
+
+            active: false
+
+            Binding {
+                target: sessionChooserLoader.item
+                property: "initiallySelectedSession"
+                value: loginList.currentSession
+            }
+
+            Connections {
+                target: sessionChooserLoader.item
+                onShowLoginList: coverPage.state = "LoginList"
+                onSessionSelected: {
+                    loginList.sessionUpdated = true
+                    loginList.currentSession = sessionKey
+                }
+                ignoreUnknownSignals: true
+            }
+        }
+
+        states: [
+            State {
+                name: "SessionsList"
+                PropertyChanges { target: loginList; opacity: 0 }
+                PropertyChanges { target: sessionChooserLoader;
+                                  active: true;
+                                  opacity: 1
+                                  source: "SessionsList.qml"
+                                }
+            },
+
+            State {
+                name: "LoginList"
+                PropertyChanges { target: loginList; opacity: 1 }
+                PropertyChanges { target: sessionChooserLoader;
+                                  active: false;
+                                  opacity: 0
+                                  source: "";
+                                }
+            }
+        ]
+
+        transitions: [
+            Transition {
+                from: "*"
+                to: "*"
+                UbuntuNumberAnimation {
+                    property: "opacity";
+                }
+            }
+        ]
+
+        /*Loader {
+            id: loginList
+            objectName: "loginList"
 
             // True when LoginList is shown, false when SessionList is shown
             property bool loginListShown: true
@@ -155,7 +241,7 @@ FocusScope {
 
             UbuntuNumberAnimation {
                 id: loadingAnimation
-                target: loginAreaLoader.item
+                target: loginList.item
                 property: "opacity"
                 from: 0
                 to: 1
@@ -163,25 +249,25 @@ FocusScope {
             }
 
             Binding {
-                target: loginAreaLoader.item
+                target: loginList.item
                 property: "alphanumeric"
                 value: loginListShown ? root.alphanumeric : null
             }
 
             Binding {
-                target: loginAreaLoader.item
+                target: loginList.item
                 property: "currentIndex"
                 value: loginListShown ? root.currentIndex : null
             }
 
             Binding {
-                target: loginAreaLoader.item
+                target: loginList.item
                 property: "locked"
                 value: root.locked
             }
 
             Binding {
-                target: loginAreaLoader.item
+                target: loginList.item
                 property: "model"
                 value: loginListShown ? root.userModel : null
             }
@@ -189,27 +275,27 @@ FocusScope {
             // Only inform LoginList if the session isn't the user's default session
             // because LoginList gets the default session on its own
             Binding {
-                target: loginAreaLoader.item
+                target: loginList.item
                 property: "selectedSession"
-                value: loginListShown && loginAreaLoader.sessionUpdated ?
-                    loginAreaLoader.currentSession : null
+                value: loginListShown && loginList.sessionUpdated ?
+                    loginList.currentSession : null
             }
 
             Binding {
-                target: loginAreaLoader.item
+                target: loginList.item
                 property: "initiallySelectedSession"
-                value: !loginListShown ? loginAreaLoader.currentSession : null
+                value: !loginListShown ? loginList.currentSession : null
             }
 
             Connections {
-                target: loginListShown ? loginAreaLoader.item : null
+                target: loginListShown ? loginList.item : null
                 onSelected: root.selected(index)
                 onResponded: root.responded(response)
                 // The initially selected session lags behind the component completion
                 // so this provides the initial session name when available
                 onLoginListSessionChanged: {
-                    if (loginListShown && !loginAreaLoader.sessionUpdated) {
-                        loginAreaLoader.currentSession = loginAreaLoader.item.currentSession
+                    if (loginListShown && !loginList.sessionUpdated) {
+                        loginList.currentSession = loginList.item.currentSession
                     }
                 }
 
@@ -218,15 +304,15 @@ FocusScope {
             }
 
             Connections {
-                target: !loginListShown ? loginAreaLoader.item : null
+                target: !loginListShown ? loginList.item : null
                 onSessionSelected: {
-                    loginAreaLoader.sessionUpdated = true
-                    loginAreaLoader.currentSession = sessionKey
+                    loginList.sessionUpdated = true
+                    loginList.currentSession = sessionKey
                 }
 
-                onShowLoginList: loginAreaLoader.loginListShown = true
+                onShowLoginList: loginList.loginListShown = true
                 ignoreUnknownSignals: true
             }
-        }
+        }*/
     }
 }
