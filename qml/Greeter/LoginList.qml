@@ -35,8 +35,7 @@ StyledItem {
     readonly property int highlightedHeight: units.gu(15)
     readonly property int moveDuration: 200
     property string selectedSession
-    property string currentSession//: selectedSession ?
-        //selectedSession : userList.currentItem.userSession
+    property string currentSession
     readonly property string currentUser: userList.currentItem.username
     property bool wasPrompted: false
 
