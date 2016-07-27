@@ -125,15 +125,11 @@ LocalComponents.Page {
 
         delegate: ListItem {
             id: itemDelegate
-            objectName: getObjectName()
+            objectName: "languageDelegate_" + langLabel.text.toLowerCase().replace(/\s+/g, '_')
             highlightColor: backgroundColor
             divider.colorFrom: dividerColor
             divider.colorTo: backgroundColor
             readonly property bool isCurrent: index === ListView.view.currentIndex
-
-            function getObjectName() {
-                return "languageDelegate_" + langLabel.text.toLowerCase().replace(/\s+/g, '_')
-            }
 
             Label {
                 id: langLabel

@@ -72,7 +72,7 @@ LocalComponents.Page {
         id: accessPointComponent
         ListItem {
             id: accessPoint
-            objectName: getObjectName()
+            objectName: "accessPoint_" + apName.text.toLowerCase().replace(/\s+/g, '_')
             highlightColor: backgroundColor
             enabled: menuData && menuData.sensitive || false
             divider.colorFrom: dividerColor
@@ -92,10 +92,6 @@ LocalComponents.Page {
             readonly property bool isEnterprise: getExtendedProperty(extendedData, "xCanonicalWifiApIsEnterprise", false)
             readonly property int signalStrength: strengthAction.valid ? strengthAction.state : 0
             property int menuIndex: -1
-
-            function getObjectName() {
-                "accessPoint_" + apName.text.toLowerCase().replace(/\s+/g, '_')
-            }
 
             function loadAttributes() {
                 if (!unityMenuModel || menuIndex == -1) return;
