@@ -19,6 +19,6 @@ import Ubuntu.Components 1.3
 import "flickableUtils.js" as FlickableUtilsJS
 
 QtQuick.GridView {
-    flickDeceleration: FlickableUtilsJS.flickDeceleration
-    maximumFlickVelocity: FlickableUtilsJS.maximumFlickVelocity
+    flickDeceleration: FlickableUtilsJS.getFlickDeceleration(units.gridUnit)
+    maximumFlickVelocity: FlickableUtilsJS.getMaximumFlickVelocity(units.gridUnit)
 }

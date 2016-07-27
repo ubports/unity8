@@ -16,5 +16,10 @@
 
 .pragma library
 
-var flickDeceleration = 1500 * units.gridUnit / 8;
-var maximumFlickVelocity = 2500 * units.gridUnit / 8
+function getFlickDeceleration(gridUnit) {
+    return 1500 * gridUnit / 8;
+}
+
+function getMaximumFlickVelocity(gridUnit) {
+    return 2500 * gridUnit / 8;
+}
