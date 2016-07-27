@@ -360,7 +360,7 @@ StyledItem {
         when: windowShown
 
         property Item view: loader.status === Loader.Ready ? loader.item : null
-        property url testIconDirectory: "./test_session_badges"
+        property url testIconDirectory: Qt.resolvedUrl("../../../qml/Greeter/graphics/session_icons")
 
         function init() {
             selectIndex(0); // break binding with text field
