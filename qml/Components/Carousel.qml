@@ -141,8 +141,6 @@ Item {
 
         boundsBehavior: Flickable.DragOverBounds
         cacheBuffer: carousel.cacheBuffer
-        flickDeceleration: Math.max(1500 * Math.pow(realWidth / referenceWidth, 1.5), 1500) // 1500 is platform default
-        maximumFlickVelocity: Math.max(2500 * Math.pow(realWidth / referenceWidth, 1.5), 2500) // 2500 is platform default
         orientation: ListView.Horizontal
 
         function getXFromContinuousIndex(index) {

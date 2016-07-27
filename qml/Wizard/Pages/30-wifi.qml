@@ -21,6 +21,7 @@ import Ubuntu.Components 1.3
 import Wizard 0.1
 import Ubuntu.Connectivity 1.0
 import ".." as LocalComponents
+import "../../Components" as UnityComponents
 
 LocalComponents.Page {
     id: wifiPage
@@ -164,7 +165,7 @@ LocalComponents.Page {
                                      : i18n.tr("No available Wi-Fi networks")
         }
 
-        ListView {
+        UnityComponents.ListView {
             id: listview
             anchors.left: parent.left
             anchors.right: parent.right

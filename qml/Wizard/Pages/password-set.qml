@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import ".." as LocalComponents
+import "../../Components" as UnityComponents
 
 /**
  * See the main passwd-type page for an explanation of why we don't actually
@@ -34,7 +35,7 @@ LocalComponents.Page {
     readonly property alias password2: password2Field.text
     readonly property bool passwordsMatching: password == password2 && password.trim().length > 7
 
-    Flickable {
+    UnityComponents.Flickable {
         id: column
         clip: true
         flickableDirection: Flickable.VerticalFlick

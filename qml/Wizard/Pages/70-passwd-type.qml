@@ -19,6 +19,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
 import Ubuntu.SystemSettings.SecurityPrivacy 1.0
 import ".." as LocalComponents
+import "../../Components" as UnityComponents
 
 /**
  * One quirk with this page: we don't actually set the password.  We avoid
@@ -67,7 +68,7 @@ LocalComponents.Page {
         anchors.leftMargin: wideMode ? parent.leftMargin : 0
         anchors.rightMargin: wideMode ? parent.rightMargin : 0
 
-        ListView {
+        UnityComponents.ListView {
             id: selector
             anchors.left: parent.left
             anchors.right: parent.right

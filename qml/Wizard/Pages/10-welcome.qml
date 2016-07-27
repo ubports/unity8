@@ -20,6 +20,7 @@ import Ubuntu.Components.ListItems 1.3
 import Ubuntu.SystemSettings.LanguagePlugin 1.0
 import Wizard 0.1
 import ".." as LocalComponents
+import "../../Components" as UnityComponents
 
 LocalComponents.Page {
     objectName: "languagePage"
@@ -108,7 +109,7 @@ LocalComponents.Page {
         onStopped: init();
     }
 
-    ListView {
+    UnityComponents.ListView {
         id: languagesListView
         clip: true
         snapMode: ListView.SnapToItem
