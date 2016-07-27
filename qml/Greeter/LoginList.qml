@@ -45,7 +45,6 @@ StyledItem {
     signal selected(int index)
     signal sessionChooserButtonClicked()
 
-    onCurrentSessionChanged: loginListSessionChanged(currentSession)
     function tryToUnlock() {
         if (wasPrompted) {
             passwordInput.forceActiveFocus();
