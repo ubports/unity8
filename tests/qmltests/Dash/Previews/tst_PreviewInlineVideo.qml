@@ -76,6 +76,23 @@ Rectangle {
 
                     rootItem: inner
                 }
+
+                Loader {
+                    id: videoPlaybackLoader
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        top: videoPlayback.bottom
+                        topMargin: units.gu(2)
+                    }
+
+                    sourceComponent: PreviewInlineVideo {
+                        width: parent.width
+                        widgetData: widgetData0
+
+                        rootItem: inner
+                    }
+                }
             }
 
         }
@@ -109,6 +126,19 @@ Rectangle {
             videoPlayback.widgetData = widgetData1;
             var screenshotSource = screenshot.source
             compare(screenshotSource.toString(), "file:///test-video2-screenshot");
+        }
+
+        function test_singleton() {
+            mouseClick(videoPlaybackLoader, videoPlaybackLoader.width / 2, videoPlaybackLoader.height / 2);
+            wait(3000);
+            var services = findChild(videoPlaybackLoader, "services");
+            verify(services.position > 2000);
+            videoPlaybackLoader.active = false;
+            videoPlaybackLoader.active = true;
+            services = findChild(videoPlaybackLoader, "services");
+            mouseClick(videoPlaybackLoader, videoPlaybackLoader.width / 2, videoPlaybackLoader.height / 2);
+            wait(500);
+            verify(services.position > 2000);
         }
     }
 }

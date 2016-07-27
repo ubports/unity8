@@ -65,6 +65,7 @@ PreviewWidget {
 
     MediaServices {
         id: services
+        objectName: "services"
         width: parent.width
 
         actions: sharingAction
