@@ -24,10 +24,11 @@
 #include <private/qquickanimation_p.h>
 
 // UbuntuGestures lib
-#include <TouchRegistry>
-#include <Timer>
+#include <UbuntuGestures/ubuntugesturesglobal.h>
+#include <UbuntuGestures/private/touchregistry_p.h>
+#include <UbuntuGestures/private/timer_p.h>
 
-using namespace UbuntuGestures;
+UG_USE_NAMESPACE
 
 TestUtil::TestUtil(QObject *parent)
     : QObject(parent)
@@ -50,8 +51,18 @@ TestUtil::isInstanceOf(QObject *obj, QString name)
         const QMetaObject *metaObject = obj->metaObject();
         while (!result && metaObject) {
             const QString className = metaObject->className();
-            const QString qmlName = className.left(className.indexOf("_QMLTYPE_"));
+            QString qmlName = className.left(className.indexOf("_QMLTYPE_"));
             result = qmlName == name;
+            // test for known namespaces
+            if (!result) {
+                // remove UbuntuGestures and UbuntuToolkit namespace
+                qmlName = qmlName.remove(QString("UbuntuGestures::"));
+                result = qmlName == name;
+            }
+            if (!result) {
+                qmlName = qmlName.remove(QString("UbuntuToolkit::"));
+                result = qmlName == name;
+            }
             metaObject = metaObject->superClass();
         }
     }

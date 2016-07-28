@@ -1,3 +1,9 @@
+unity8 (8.14-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Bump the version to secure UITK compatibility
+
+ -- Zoltán Balogh <zoltan@bakter.hu>  Mon, 11 Jul 2016 12:42:29 +0200
+
 unity8 (8.13+16.10.20160714+fix1-0ubuntu2~1) yakkety; urgency=medium
 
   * Rebuild against Qt 5.6.

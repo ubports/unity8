@@ -19,6 +19,7 @@
 
 #include "UbuntuGesturesQmlGlobal.h"
 #include "TouchDispatcher.h"
+#include <UbuntuGestures/ubuntugesturesglobal.h>
 
 #include <QQuickItem>
 #include <QList>
@@ -26,7 +27,7 @@
 
 #define TOUCHGATE_DEBUG 0
 
-class TouchOwnershipEvent;
+UG_FORWARD_DECLARE_CLASS(TouchOwnershipEvent)
 
 /*
   Blocks the passage of events until ownership over the related touch points is granted.
@@ -82,7 +83,7 @@ private:
         ulong timestamp;
     };
 
-    void touchOwnershipEvent(TouchOwnershipEvent *event);
+    void touchOwnershipEvent(UG_PREPEND_NAMESPACE(TouchOwnershipEvent) *event);
     bool isTouchPointOwned(int touchId) const;
     void storeTouchEvent(QTouchDevice *device,
             Qt::KeyboardModifiers modifiers,
