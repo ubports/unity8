@@ -34,9 +34,9 @@ LocalComponents.Page {
         id: column
         anchors {
             fill: content
-            leftMargin: leftMargin
-            rightMargin: rightMargin
-            topMargin: customMargin
+            leftMargin: systemUpdatePage.leftMargin
+            rightMargin: systemUpdatePage.rightMargin
+            topMargin: systemUpdatePage.customMargin
         }
         spacing: units.gu(3)
         opacity: spinner.running ? 0.5 : 1
@@ -76,14 +76,14 @@ LocalComponents.Page {
                 color: textColor
                 font.weight: Font.Normal
                 fontSize: "small"
-                text: i18n.tr("Ubuntu system")
+                text: i18n.ctr("string identifying name of the update", "Ubuntu system")
             }
 
             Label {
                 font.weight: Font.Light
                 fontSize: "small"
                 color: textColor
-                text: i18n.tr("Version %1").arg(SystemImage.availableVersion)
+                text: i18n.ctr("version of the system update", "Version %1").arg(SystemImage.availableVersion)
             }
 
             Label {

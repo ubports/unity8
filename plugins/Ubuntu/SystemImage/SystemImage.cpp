@@ -96,9 +96,8 @@ void SystemImage::onUpdateDownloaded()
     Q_EMIT updateDownloadedChanged();
 }
 
-void SystemImage::onUpdateFailed(int consecutive_failure_count, const QString &last_reason)
+void SystemImage::onUpdateFailed(int /*consecutive_failure_count*/, const QString &last_reason)
 {
-    Q_UNUSED(consecutive_failure_count)
     qWarning() << Q_FUNC_INFO << "System Update failed:" << last_reason;
     setUpdateApplying(false);
 }

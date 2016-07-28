@@ -18,7 +18,6 @@
 #define SYSTEMIMAGE_H
 
 #include <QObject>
-#include <QMap>
 
 class SystemImage : public QObject
 {
