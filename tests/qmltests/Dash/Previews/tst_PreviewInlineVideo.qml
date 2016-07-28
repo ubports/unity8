@@ -115,6 +115,11 @@ Rectangle {
         }
     }
 
+    SignalSpy {
+        id: spy
+        signalName: "playing"
+    }
+
     UT.UnityTestCase {
         name: "PreviewInlineVideoTest"
         when: windowShown
@@ -129,16 +134,24 @@ Rectangle {
         }
 
         function test_singleton() {
-            mouseClick(videoPlaybackLoader, videoPlaybackLoader.width / 2, videoPlaybackLoader.height / 2);
-            wait(3000);
             var services = findChild(videoPlaybackLoader, "services");
-            verify(services.position > 2000);
+            spy.clear();
+            spy.target = services.mediaPlayer;
+            mouseClick(videoPlaybackLoader, videoPlaybackLoader.width / 2, videoPlaybackLoader.height / 2);
+            tryCompare(spy, "count", 1);
+            tryCompareFunction(function() { return services.position > 3000; }, true);
+
+            // Simulate widget being destroyed and recreated
             videoPlaybackLoader.active = false;
             videoPlaybackLoader.active = true;
+
             services = findChild(videoPlaybackLoader, "services");
+            spy.clear();
+            spy.target = services.mediaPlayer;
+            compare(services.position, 0);
             mouseClick(videoPlaybackLoader, videoPlaybackLoader.width / 2, videoPlaybackLoader.height / 2);
-            wait(500);
-            verify(services.position > 2000);
+            tryCompare(spy, "count", 1);
+            tryCompareFunction(function() { return services.position > 3000; }, true, 1000);
         }
     }
 }
