@@ -238,7 +238,7 @@ StyledItem {
         readonly property alias icon: badge.source
 
         visible: LightDMService.sessions.count > 1 &&
-            !LightDMService.greeter.lockscreen
+            !LightDMService.users.data(userList.currentIndex, LightDMService.userRoles.LoggedInRole)
 
         height: units.gu(3)
         width: units.gu(3)
