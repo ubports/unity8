@@ -56,8 +56,6 @@ LocalComponents.Page {
         }
 
         GridLayout {
-            anchors.left: parent.left
-            anchors.right: parent.right
             rows: 3
             columns: 2
             rowSpacing: units.gu(1)
@@ -72,7 +70,6 @@ LocalComponents.Page {
             }
 
             Label {
-                Layout.fillWidth: true
                 color: textColor
                 font.weight: Font.Normal
                 fontSize: "small"
