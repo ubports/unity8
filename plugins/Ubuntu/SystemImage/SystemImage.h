@@ -18,6 +18,9 @@
 #define SYSTEMIMAGE_H
 
 #include <QObject>
+#include <QLoggingCategory>
+
+Q_DECLARE_LOGGING_CATEGORY(SYSTEMIMAGEPLUGIN)
 
 class SystemImage : public QObject
 {

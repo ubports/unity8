@@ -27,6 +27,11 @@
 #define SYSTEMIMAGE_PATH QStringLiteral("/Service")
 #define SYSTEMIMAGE_IFACE QStringLiteral("com.canonical.SystemImage")
 
+Q_LOGGING_CATEGORY(SYSTEMIMAGEPLUGIN, "unity8.systemimage", QtWarningMsg)
+
+#define DEBUG_MSG qCDebug(SYSTEMIMAGEPLUGIN).nospace().noquote() << Q_FUNC_INFO
+#define WARNING_MSG qCWarning(SYSTEMIMAGEPLUGIN).nospace().noquote() << Q_FUNC_INFO
+
 SystemImage::SystemImage(QObject *parent)
     : QObject(parent)
 {
@@ -44,7 +49,7 @@ SystemImage::SystemImage(QObject *parent)
 
 void SystemImage::checkForUpdate()
 {
-    qDebug() << "!!! Checking for update";
+    DEBUG_MSG << "Checking for update";
     const QDBusMessage msg = QDBusMessage::createMethodCall(SYSTEMIMAGE_SERVICE, SYSTEMIMAGE_PATH, SYSTEMIMAGE_IFACE,
                                                             QStringLiteral("CheckForUpdate"));
     QDBusConnection::systemBus().asyncCall(msg);
@@ -52,7 +57,7 @@ void SystemImage::checkForUpdate()
 
 void SystemImage::applyUpdate()
 {
-    qDebug() << "!!! Applying update";
+    DEBUG_MSG << "Applying update";
     setUpdateApplying(true);
 
     const QDBusMessage msg = QDBusMessage::createMethodCall(SYSTEMIMAGE_SERVICE, SYSTEMIMAGE_PATH, SYSTEMIMAGE_IFACE,
@@ -70,7 +75,7 @@ void SystemImage::factoryReset()
 void SystemImage::onUpdateAvailableStatus(bool is_available, bool downloading, const QString &available_version, int update_size,
                                           const QString &last_update_date, const QString &error_reason)
 {
-    qDebug() << Q_FUNC_INFO << "A new update is" << (is_available ? "" : "NOT") << "available";
+    DEBUG_MSG << "A new update is " << (is_available ? "" : "NOT") << "available";
 
     if (is_available == m_updateAvailable) {
         return;
@@ -84,13 +89,13 @@ void SystemImage::onUpdateAvailableStatus(bool is_available, bool downloading, c
     m_errorReason = error_reason;
     Q_EMIT updateAvailableStatus();
 
-    qDebug() << "!!! Downloading:" << downloading << ", version:" << available_version << ", last update:" << last_update_date <<
-                ", size:" << m_updateSize;
+    DEBUG_MSG << "Downloading: " << downloading << ", version: " << available_version << ", last update: " << last_update_date <<
+                ", size: " << m_updateSize;
 }
 
 void SystemImage::onUpdateDownloaded()
 {
-    qDebug() << "!!! Update downloaded";
+    DEBUG_MSG << "Update downloaded";
 
     m_downloaded = true;
     Q_EMIT updateDownloadedChanged();
@@ -98,13 +103,13 @@ void SystemImage::onUpdateDownloaded()
 
 void SystemImage::onUpdateFailed(int /*consecutive_failure_count*/, const QString &last_reason)
 {
-    qWarning() << Q_FUNC_INFO << "System Update failed:" << last_reason;
+    WARNING_MSG << "System Update failed: " << last_reason;
     setUpdateApplying(false);
 }
 
 void SystemImage::onUpdateApplied(bool applied)
 {
-    qDebug() << Q_FUNC_INFO << "System Update applied with status:" << applied;
+    DEBUG_MSG << "System Update applied with status: " << applied;
     setUpdateApplying(false);
     if (applied) {
         resetUpdateStatus();
@@ -115,7 +120,7 @@ void SystemImage::onUpdateApplied(bool applied)
 void SystemImage::onRebooting(bool status)
 {
     setUpdateApplying(false);
-    qDebug() << "!!! Rebooting:" << status;
+    DEBUG_MSG << "Rebooting: " << status;
 }
 
 void SystemImage::setUpdateApplying(bool status)
