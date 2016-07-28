@@ -32,7 +32,6 @@ FocusScope {
     property alias alphanumeric: loginList.alphanumeric
     property alias locked: loginList.locked
     property alias sessionToStart: loginList.currentSession
-    property alias state: coverPage.state // Used for testing
     property var userModel // Set from outside
 
     readonly property bool animating: coverPage.showAnimation.running || coverPage.hideAnimation.running

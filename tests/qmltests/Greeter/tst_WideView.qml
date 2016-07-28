@@ -439,7 +439,8 @@ StyledItem {
             compare(icon.indexOf(session) > -1, true);
 
             // Test the session list icons are valid
-            view.state = "SessionsList";
+            var coverPage = findChild(view, "coverPage");
+            coverPage.state = "SessionsList"
             var sessionsList = findChild(view, "sessionsList");
             tryCompare(sessionsList, "visible", true);
         }
