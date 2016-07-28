@@ -47,7 +47,7 @@ FocusScope {
     signal emergencyCall() // unused
 
     function notifyAuthenticationFailed() {
-        loginListm.showError();
+        loginList.showError();
     }
 
     function reset() {
