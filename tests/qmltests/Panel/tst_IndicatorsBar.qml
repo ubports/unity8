@@ -137,6 +137,8 @@ IndicatorTest {
 
         function wait_for_expansion_to_settle() {
             waitUntilTransitionsEnd(indicatorsBar);
+            tryCompare(heightAnimation, "running", false);
+            wait(UbuntuAnimation.SnapDuration); // put a little extra wait in for things to settle
         }
 
         // Rough check that expanding a selected item keeps it within the area of the original item.
