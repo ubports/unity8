@@ -196,7 +196,7 @@ IndicatorTest {
             verify(dataItem !== null);
 
             indicatorsRow.selectItemAt(dataItem.x + dataItem.width/2);
-            compare(indicatorsRow.currentItem, dataItem);
+            tryCompare(indicatorsRow, "currentItem", dataItem);
         }
 
         // tests item default selection (no item at position X)
@@ -303,9 +303,9 @@ IndicatorTest {
             var item = findChild(indicatorsRow, "indicator-keyboard-panelItem");
             AccountsService.keymaps = data.keymaps;
             if (data.keyboard) {
-                MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
+                MockInputDeviceBackend.addMockDevice("/indicator_kbd0", InputInfo.Keyboard);
             } else {
-                MockInputDeviceBackend.removeDevice("/kbd0");
+                MockInputDeviceBackend.removeDevice("/indicator_kbd0");
             }
 
             compare(item.hidden, data.hidden);

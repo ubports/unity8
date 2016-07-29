@@ -99,12 +99,12 @@ Indicators.FakeIndicatorsModel {
 
     Component.onCompleted: {
         // init data for the fake indicator-keyboard
-        MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
+        MockInputDeviceBackend.addMockDevice("/indicator_kbd0", InputInfo.Keyboard);
         AccountsService.keymaps = ["us", "cs"];
     }
 
     Component.onDestruction: {
-        MockInputDeviceBackend.removeDevice("/kbd0");
+        MockInputDeviceBackend.removeDevice("/indicator_kbd0");
         AccountsService.keymaps = ["us"];
     }
 
