@@ -116,7 +116,7 @@ Indicators.FakeIndicatorsModel {
                                            getUnityMenuModelData("indicator-keyboard",
                                                                  "Czech (F)",
                                                                  "",
-                                                                 [ "image://theme/indicator-keyboard-Cs-1" ]));
+                                                                 [ "image://theme/input-keyboard-symbolic" ]));
         Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake1",
                                            getUnityMenuModelData("fake-indicator-bluetooth",
                                                                  "Bluetooth (F)",
