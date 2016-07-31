@@ -21,7 +21,7 @@
 #include "AxisVelocityCalculator.h"
 #include <QtCore/QElapsedTimer>
 
-using namespace UbuntuGestures;
+UG_USE_NAMESPACE
 
 AxisVelocityCalculator::AxisVelocityCalculator(QObject *parent)
     : AxisVelocityCalculator(SharedTimeSource(new RealTimeSource), parent)

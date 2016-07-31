@@ -87,6 +87,8 @@ MirSurface::MirSurface(const QString& name,
     m_zombieTimer.setInterval(100);
     m_zombieTimer.setSingleShot(true);
     connect(&m_zombieTimer, &QTimer::timeout, this, [this](){ this->setLive(false); });
+
+    updateInputBoundsAfterResize();
 }
 
 MirSurface::~MirSurface()
@@ -326,6 +328,13 @@ void MirSurface::doResize(int width, int height)
     if (changed) {
         Q_EMIT sizeChanged(QSize(width, height));
     }
+
+    updateInputBoundsAfterResize();
+}
+
+void MirSurface::updateInputBoundsAfterResize()
+{
+    setInputBounds(QRect(0, 0, m_width, m_height));
 }
 
 bool MirSurface::isSlowToResize() const
@@ -439,6 +448,18 @@ bool MirSurface::focused() const
     return controller ? controller->focusedSurface() == this : false;
 }
 
+QRect MirSurface::inputBounds() const
+{
+    return m_inputBounds;
+}
+
+void MirSurface::setInputBounds(const QRect &boundsRect)
+{
+    if (boundsRect != m_inputBounds) {
+        m_inputBounds = boundsRect;
+        Q_EMIT inputBoundsChanged(m_inputBounds);
+    }
+}
 #if MIRSURFACE_DEBUG
 #undef DEBUG_MSG
 #define DEBUG_MSG(params) qDebug().nospace() << "MirFocusController::" << __func__  << " " << params
