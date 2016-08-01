@@ -291,7 +291,7 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator_name)
     // The rest of the indicators respect their default profile (which is "phone", even on desktop PCs)
     if ((new_indicator->identifier() == QStringLiteral("indicator-session"))
             || (new_indicator->identifier() == QStringLiteral("indicator-power") && m_platform.isPC())) {
-        new_indicator->setProfile(QStringLiteral("desktop"));
+        new_indicator->setProfile(m_profile.replace(QStringLiteral("phone"), QStringLiteral("desktop")));
     } else {
         new_indicator->setProfile(m_profile);
     }

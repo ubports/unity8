@@ -137,9 +137,9 @@ StyledItem {
     // For autopilot consumption
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
 
-    // Disable everything while greeter is waiting, so that the user can't swipe
-    // the greeter or launcher until we know whether the session is locked.
-    enabled: greeter && !greeter.waiting
+    // Note when greeter is waiting on PAM, so that we can disable edges until
+    // we know which user data to show and whether the session is locked.
+    readonly property bool waitingOnGreeter: greeter && greeter.waiting
 
     property real edgeSize: units.gu(settings.edgeDragWidth)
 
@@ -175,7 +175,6 @@ StyledItem {
         finishStartUpTimer.start();
     }
 
-    LightDM{id: lightDM} // Provide backend access
     VolumeControl {
         id: volumeControl
         indicators: panel.indicators
@@ -260,8 +259,8 @@ StyledItem {
                                            ? "phone"
                                            : shell.usageScenario
             readonly property string qmlComponent: {
-                if(shell.mode === "greeter") {
-                    return "Stages/ShimStage.qml"
+                if (shell.mode === "greeter") {
+                    return "Stages/AbstractStage.qml"
                 } else if (applicationsDisplayLoader.usageScenario === "phone") {
                     return "Stages/PhoneStage.qml";
                 } else if (applicationsDisplayLoader.usageScenario === "tablet") {
@@ -502,7 +501,7 @@ StyledItem {
     function showHome() {
         greeter.notifyUserRequestedApp("unity8-dash");
 
-        var animate = !lightDM.greeter.active && !stages.shown
+        var animate = !LightDMService.greeter.active && !stages.shown
         dash.setCurrentScope(0, animate, false)
         ApplicationManager.requestFocusApplication("unity8-dash")
     }
@@ -534,6 +533,7 @@ StyledItem {
                 available: tutorial.panelEnabled
                         && ((!greeter || !greeter.locked) || AccountsService.enableIndicatorsWhileLocked)
                         && (!greeter || !greeter.hasLockedApp)
+                        && !shell.waitingOnGreeter
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
 
                 minimizedPanelHeight: units.gu(3)
@@ -541,7 +541,12 @@ StyledItem {
 
                 indicatorsModel: Indicators.IndicatorsModel {
                     // tablet and phone both use the same profile
-                    profile: "phone"
+                    // FIXME: use just "phone" for greeter too, but first fix
+                    // greeter app launching to either load the app inside the
+                    // greeter or tell the session to load the app.  This will
+                    // involve taking the url-dispatcher dbus name and using
+                    // SessionBroadcast to tell the session.
+                    profile: shell.mode === "greeter" ? "desktop_greeter" : "phone"
                     Component.onCompleted: load();
                 }
             }
@@ -553,7 +558,7 @@ StyledItem {
             readonly property bool focusedSurfaceIsFullscreen: MirFocusController.focusedSurface
                 ? MirFocusController.focusedSurface.state === Mir.FullscreenState
                 : false
-            fullscreenMode: (focusedSurfaceIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
+            fullscreenMode: (focusedSurfaceIsFullscreen && !LightDMService.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
             locked: greeter && greeter.active
         }
@@ -579,6 +584,7 @@ StyledItem {
             available: tutorial.launcherEnabled
                     && (!greeter.locked || AccountsService.enableLauncherWhileLocked)
                     && !greeter.hasLockedApp
+                    && !shell.waitingOnGreeter
             inverted: shell.usageScenario !== "desktop"
             superPressed: physicalKeysMapper.superPressed
             superTabPressed: physicalKeysMapper.superTabPressed
@@ -657,7 +663,7 @@ StyledItem {
             paused: callManager.hasCalls || !greeter || greeter.shown ||
                     wizard.active
             delayed: dialogs.hasActiveDialog || notifications.hasNotification ||
-                     inputMethod.state === "shown" ||
+                     inputMethod.visible ||
                      (launcher.shown && !launcher.lockedVisible) ||
                      panel.indicators.shown || stage.dragProgress > 0
             usageScenario: shell.usageScenario
@@ -671,6 +677,7 @@ StyledItem {
             id: wizard
             objectName: "wizard"
             anchors.fill: parent
+            deferred: shell.mode === "greeter"
 
             function unlockWhenDoneWithWizard() {
                 if (!active) {
