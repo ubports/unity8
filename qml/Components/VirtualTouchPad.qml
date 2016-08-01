@@ -17,7 +17,10 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
+import Qt.labs.settings 1.0
+import Unity.Screens 0.1
 import UInput 0.1
+import "../Components"
 
 Item {
     id: root
@@ -29,13 +32,26 @@ Item {
     function runTutorial() {
         tutorial.start()
     }
-    signal tutorialDone();
 
     readonly property bool pressed: point1.pressed || point2.pressed || leftButton.pressed || rightButton.pressed
+
+    Settings {
+        id: inputMethodState
+        objectName: "inputMethodState"
+        property bool touchpadTutorialHasRun: false
+        property bool oskEnabled: true
+    }
+
+    Component.onCompleted: {
+        if (!inputMethodState.touchpadTutorialHasRun) {
+            tutorial.start();
+        }
+    }
 
     MultiPointTouchArea {
         objectName: "touchPadArea"
         anchors.fill: parent
+        enabled: !tutorial.running || tutorial.paused
 
         // FIXME: Once we have Qt DPR support, this should be Qt.styleHints.startDragDistance
         readonly property int clickThreshold: internalGu * 1.5
@@ -44,6 +60,12 @@ Item {
         property bool isDrag: false
 
         onPressed: {
+            print("pressed, tutorial state", tutorial.paused, tutorial.running)
+            if (tutorial.paused) {
+                tutorial.resume();
+                return;
+            }
+
             // If double-tapping *really* fast, it could happen that we end up having only point2 pressed
             // Make sure we check for both combos, only point1 or only point2
             if (((point1.pressed && !point2.pressed) || (!point1.pressed && point2.pressed))
@@ -177,6 +199,41 @@ Item {
         }
     }
 
+    AbstractButton {
+        id: oskButton
+        anchors { right: parent.right; top: parent.top; margins: internalGu * 2 }
+        height: internalGu * 6
+        width: height
+
+        onClicked: {
+            inputMethodState.oskEnabled = !inputMethodState.oskEnabled
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            radius: width / 2
+            color: UbuntuColors.inkstone
+        }
+
+        Icon {
+            anchors.fill: parent
+            anchors.margins: internalGu * 1.5
+            name: "input-keyboard-symbolic"
+        }
+    }
+
+    Screens {
+        id: screens
+    }
+
+    InputMethod {
+        id: inputMethod
+        // Don't resize when there is only one screen to avoid resize clashing with the InputMethod in the Shell.
+        enabled: screens.count > 1 && inputMethodState.oskEnabled
+        objectName: "inputMethod"
+        anchors.fill: parent
+    }
+
     Label {
         id: tutorialLabel
         anchors { left: parent.left; top: parent.top; right: parent.right; margins: internalGu * 4; topMargin: internalGu * 10 }
@@ -184,6 +241,16 @@ Item {
         font.pixelSize: 2.5 * internalGu
         color: "white"
         wrapMode: Text.WordWrap
+    }
+
+    Icon {
+        id: tutorialImage
+        height: internalGu * 8
+        width: height
+        name: "input-touchpad-symbolic"
+        color: "white"
+        opacity: 0
+        anchors { top: tutorialLabel.bottom; horizontalCenter: parent.horizontalCenter; margins: internalGu * 2 }
     }
 
     Item {
@@ -218,6 +285,19 @@ Item {
 
     SequentialAnimation {
         id: tutorial
+
+        PropertyAction { targets: [leftButton, rightButton, oskButton]; property: "enabled"; value: false }
+        PropertyAction { targets: [leftButton, rightButton, oskButton]; property: "opacity"; value: 0 }
+        PropertyAction { target: tutorialLabel; property: "text"; value: i18n.tr("Your device is now connected to an external display. Use this screen as a touch pad to interact with the pointer.") }
+        UbuntuNumberAnimation { targets: [tutorialLabel, tutorialImage]; property: "opacity"; to: 1; duration: UbuntuAnimation.FastDuration }
+        PropertyAction { target: tutorial; property: "paused"; value: true }
+        PauseAnimation { duration: 100 } // it takes a bit until pausing actually takes effect
+        UbuntuNumberAnimation { targets: [tutorialLabel, tutorialImage]; property: "opacity"; to: 0; duration: UbuntuAnimation.FastDuration }
+
+        PauseAnimation { duration: UbuntuAnimation.SleepyDuration }
+        UbuntuNumberAnimation { target: leftButton; property: "opacity"; to: 1 }
+        UbuntuNumberAnimation { target: rightButton; property: "opacity"; to: 1 }
+
         PauseAnimation { duration: UbuntuAnimation.SleepyDuration }
         PropertyAction { target: tutorialLabel; property: "text"; value: i18n.tr("Tap left button to click.") }
         UbuntuNumberAnimation { target: tutorialLabel; property: "opacity"; to: 1; duration: UbuntuAnimation.FastDuration }
@@ -292,6 +372,10 @@ Item {
         UbuntuNumberAnimation { target: tutorialLabel; property: "opacity"; to: 1; duration: UbuntuAnimation.FastDuration }
         PauseAnimation { duration: 2000 }
         UbuntuNumberAnimation { target: tutorialLabel; property: "opacity"; to: 0; duration: UbuntuAnimation.FastDuration }
-        ScriptAction { script: root.tutorialDone(); }
+
+        UbuntuNumberAnimation { target: oskButton; property: "opacity"; to: 1 }
+        PropertyAction { targets: [leftButton, rightButton, oskButton]; property: "enabled"; value: true }
+
+        PropertyAction { target: inputMethodState; property: "touchpadTutorialHasRun"; value: true }
     }
 }

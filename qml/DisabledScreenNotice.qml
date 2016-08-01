@@ -18,15 +18,11 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import Unity.Session 0.1
-import Unity.Screens 0.1
 import QtQuick.Window 2.2
-import Qt.labs.settings 1.0
 import "Components"
 
 Item {
     id: root
-
-    property bool infoNoteDisplayed: true
 
     // For testing
     property var screen: Screen
@@ -35,10 +31,6 @@ Item {
     DeviceConfiguration {
         id: deviceConfiguration
         name: applicationArguments.deviceName
-    }
-
-    Screens {
-        id: screens
     }
 
     Item {
@@ -84,64 +76,6 @@ Item {
         VirtualTouchPad {
             objectName: "virtualTouchPad"
             anchors.fill: parent
-
-            onPressedChanged: {
-                if (pressed && infoNoteDisplayed) {
-                    infoNoteDisplayed = false;
-                    if (!firstRunSettings.tutorialHasRun) {
-                        runTutorial();
-                    }
-                }
-            }
-            onTutorialDone: {
-                firstRunSettings.tutorialHasRun = true;
-            }
         }
-
-        Item {
-            objectName: "infoNoticeArea"
-            anchors.fill: parent
-            opacity: infoNoteDisplayed ? 1 : 0
-            visible: opacity > 0
-            Behavior on opacity {
-                UbuntuNumberAnimation { }
-            }
-
-            Column {
-                anchors.centerIn: parent
-                width: parent.width - (internalGu * 8)
-                spacing: internalGu * 4
-
-                Label {
-                    id: text
-                    text: i18n.tr("Your device is now connected to an external display. Use this screen as a touch pad to interact with the pointer.")
-                    color: "white"
-                    width: parent.width
-                    font.pixelSize: 2.5 * internalGu
-                    wrapMode: Text.Wrap
-                }
-                Icon {
-                    height: internalGu * 8
-                    width: height
-                    name: "input-touchpad-symbolic"
-                    color: "white"
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-            }
-        }
-
-        InputMethod {
-            id: inputMethod
-            // Don't resize when there is only one screen to avoid resize clashing with the InputMethod in the Shell.
-            enabled: screens.count > 1
-            objectName: "inputMethod"
-            anchors.fill: parent
-        }
-    }
-
-    Settings {
-        id: firstRunSettings
-        objectName: "firstRunSettings"
-        property bool tutorialHasRun: false
     }
 }
