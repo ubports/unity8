@@ -20,7 +20,7 @@ import ".."
 import "../../../qml/Greeter"
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
-import IntegratedLightDM 0.1 as LightDM
+import LightDM.IntegratedLightDM 0.1 as LightDM
 
 Item {
     Binding {

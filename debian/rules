@@ -37,6 +37,6 @@ override_dh_installdeb:
 override_dh_makeshlibs:
 	dh_makeshlibs -Nunity8-private -Nunity8-fake-env
 
-# libMockLightDM-qml.so links against liblightdm-qt5-2.so which doesn't exist
+# libMockLightDM-qml.so links against liblightdm-qt5-3.so which doesn't exist
 override_dh_shlibdeps:
 	dh_shlibdeps -XlibMockLightDM-qml.so
