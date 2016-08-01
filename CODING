@@ -24,7 +24,7 @@ $ ./build.sh
   If its your first time, this will install the required dependencies to build and
   build it.
 
-  You might want to also install unity-scope-home and unity-lens-application which
+  You might want to also install unity-scope-home and unity-scope-click which
   are technically "recommends", not strict dependencies
 
 You may also rebuild with the -c for clean, which just deletes the build
