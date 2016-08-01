@@ -29,8 +29,30 @@ Item {
         Component.onDestruction: removeMouse();
     }
 
+    Component.onCompleted: {
+        if (!inputMethodState.touchpadTutorialHasRun) {
+            root.runTutorial()
+        }
+    }
+
     function runTutorial() {
-        tutorial.start()
+        // If the tutorial animation is started too early, e.g. in Component.onCompleted,
+        // root width & height might be reported as 0x0 still. As animations read their
+        // values at startup and won't update them, lets make sure to only start once
+        // we have some actual size.
+        if (root.width > 0 && root.height > 0) {
+            tutorial.start();
+        } else {
+            tutorialTimer.start();
+        }
+    }
+
+    Timer {
+        id: tutorialTimer
+        interval: 50
+        repeat: false
+        running: false
+        onTriggered: root.runTutorial();
     }
 
     readonly property bool pressed: point1.pressed || point2.pressed || leftButton.pressed || rightButton.pressed
@@ -40,12 +62,6 @@ Item {
         objectName: "inputMethodState"
         property bool touchpadTutorialHasRun: false
         property bool oskEnabled: true
-    }
-
-    Component.onCompleted: {
-        if (!inputMethodState.touchpadTutorialHasRun) {
-            tutorial.start();
-        }
     }
 
     MultiPointTouchArea {
@@ -229,7 +245,7 @@ Item {
     InputMethod {
         id: inputMethod
         // Don't resize when there is only one screen to avoid resize clashing with the InputMethod in the Shell.
-        enabled: screens.count > 1 && inputMethodState.oskEnabled
+        enabled: screens.count > 1 && inputMethodState.oskEnabled && !tutorial.running
         objectName: "inputMethod"
         anchors.fill: parent
     }
@@ -294,7 +310,6 @@ Item {
         PauseAnimation { duration: 100 } // it takes a bit until pausing actually takes effect
         UbuntuNumberAnimation { targets: [tutorialLabel, tutorialImage]; property: "opacity"; to: 0; duration: UbuntuAnimation.FastDuration }
 
-        PauseAnimation { duration: UbuntuAnimation.SleepyDuration }
         UbuntuNumberAnimation { target: leftButton; property: "opacity"; to: 1 }
         UbuntuNumberAnimation { target: rightButton; property: "opacity"; to: 1 }
 
