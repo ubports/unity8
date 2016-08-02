@@ -42,6 +42,24 @@ Item {
         }
     }
 
+    function currentKey() {
+        var session = LightDMService.sessions.data(
+            sessionsList.currentIndex, LightDMService.sessionRoles.KeyRole)
+        return session;
+    }
+
+    Keys.onDownPressed: {
+        if (sessionsList.currentIndex < sessionsList.model.count - 1)
+            sessionsList.currentIndex++;
+        sessionSelected(currentKey());
+    }
+
+    Keys.onUpPressed: {
+        if (sessionsList.currentIndex > 0)
+            sessionsList.currentIndex--;
+        sessionSelected(currentKey());
+    }
+
     LoginAreaContainer {
         readonly property real margins: sessionsList.anchors.margins
         readonly property real prefferedHeight: {
@@ -101,6 +119,7 @@ Item {
 
             headerPositioning: ListView.OverlayHeader
             highlightFollowsCurrentItem: false
+
             delegate: ListItem {
                 id: delegate
                 objectName: "sessionDelegate" + index

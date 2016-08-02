@@ -131,11 +131,12 @@ FocusScope {
             }
 
             model: root.userModel
-
             currentSession: LightDMService.greeter.defaultSession
             onResponded: root.responded(response)
             onSelected: root.selected(index)
             onSessionChooserButtonClicked: parent.state = "SessionsList"
+
+            Keys.forwardTo: [sessionChooserLoader.item]
         }
 
         Loader {
@@ -151,6 +152,7 @@ FocusScope {
 
             active: false
 
+            onLoaded: sessionChooserLoader.item.focus = true;
             Binding {
                 target: sessionChooserLoader.item
                 property: "initiallySelectedSession"
