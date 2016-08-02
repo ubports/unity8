@@ -48,16 +48,28 @@ Item {
         return session;
     }
 
+    Keys.onEnterPressed: {
+        showLoginList(); // Session is already selected
+        event.accepted = true;
+    }
+
+    Keys.onReturnPressed: {
+        showLoginList();
+        event.accepted = true;
+    }
+
     Keys.onDownPressed: {
         if (sessionsList.currentIndex < sessionsList.model.count - 1)
             sessionsList.currentIndex++;
         sessionSelected(currentKey());
+        event.accepted = true;
     }
 
     Keys.onUpPressed: {
         if (sessionsList.currentIndex > 0)
             sessionsList.currentIndex--;
         sessionSelected(currentKey());
+        event.accepted = true;
     }
 
     LoginAreaContainer {
