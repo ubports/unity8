@@ -299,6 +299,7 @@ void AccountsService::setKeymaps(const QStringList &keymaps)
     result.append(map);
     setProperty(IFACE_ACCOUNTS_USER, PROP_INPUT_SOURCES, QVariant::fromValue(result));
     Q_EMIT keymapsChanged();
+}
 
 uint AccountsService::failedFingerprintLogins() const
 {
