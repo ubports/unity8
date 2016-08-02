@@ -47,21 +47,6 @@ Row {
         function getRaw(id) {
             return mockNotification.createObject(mockModel)
         }
-
-        // add the default/PlaceHolder notification to the model
-        Component.onCompleted: {
-            var n = {
-                type: Notification.PlaceHolder,
-                hints: {},
-                summary: "",
-                body: "",
-                icon: "",
-                secondaryIcon: "",
-                actions: []
-            }
-
-            append(n)
-        }
     }
 
     function addSomeSnapDecisionNotifications() {
@@ -123,14 +108,13 @@ Row {
     }
 
     function clearNotifications() {
-        // remove all but the first (PlaceHolder) notification
-        mockModel.remove(1, mockModel.count - 1)
+        mockModel.clear();
     }
 
     function removeTopMostNotification() {
-        // leave real/first (PlaceHolder) notification untouched
-        if (mockModel.count > 1)
-            mockModel.remove(1)
+        if (mockModel.count > 0) {
+            mockModel.remove(0);
+        }
     }
 
     Rectangle {
@@ -205,11 +189,11 @@ Row {
             notifications.forceLayout();
             waitForRendering(notifications);
 
-            var snap_decision = [findChild(notifications, "notification1"),
+            var snap_decision = [findChild(notifications, "notification0"),
+                                 findChild(notifications, "notification1"),
                                  findChild(notifications, "notification2"),
                                  findChild(notifications, "notification3"),
-                                 findChild(notifications, "notification4"),
-                                 findChild(notifications, "notification5")]
+                                 findChild(notifications, "notification4")]
 
             for (var index = 0; index < snap_decision.length; index++) {
                 verify(snap_decision[index] !== undefined, index + ". snap-decision wasn't found");

@@ -155,13 +155,11 @@ Loader {
 
             onCancel: {
                 menuModel.activate(menuIndex, false);
-                notification.dismissed()
             }
 
             onEmergencyCall: {
                 shell.startLockedApp("dialer-app");
                 menuModel.activate(menuIndex, false);
-                notification.dismissed()
             }
 
             property var extendedData: menuData && menuData.ext || undefined

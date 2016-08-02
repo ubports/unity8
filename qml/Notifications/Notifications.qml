@@ -26,7 +26,7 @@ ListView {
     objectName: "notificationList"
     interactive: false
 
-    readonly property bool hasNotification: count > 1 // placeholder is index 0
+    readonly property bool hasNotification: count > 0
     property real margin
     property bool hasMouse
     property url background: ""
@@ -42,17 +42,10 @@ ListView {
         filterRegExp: RegExp(UnityNotifications.Notification.SnapDecision)
     }
 
-    readonly property bool topmostIsFullscreen: fullscreenIndex != -1
+    property bool topmostIsFullscreen: false
     spacing: topmostIsFullscreen ? 0 : units.gu(1)
 
-    currentIndex: count > 1 ? 1 : -1
-
-    property int fullscreenIndex: -1
-    onFullscreenIndexChanged: {
-        if (fullscreenIndex != -1) {
-            positionViewAtIndex(fullscreenIndex, ListView.Beginning);
-        }
-    }
+    currentIndex: -1
 
     delegate: Notification {
         objectName: "notification" + index
@@ -76,21 +69,6 @@ ListView {
         // elements in a notification
         // FIXME: disabled all transitions because of LP: #1354406 workaround
         //layer.enabled: add.running || remove.running || populate.running
-
-        onFullscreenChanged: updateListTopMostIsFullscreen();
-
-        function updateListTopMostIsFullscreen() {
-            if (fullscreen) {
-                fullscreenIndex = index;
-            }
-        }
-
-        onDismissed: {
-            if (fullscreenIndex == index) {
-                fullscreenIndex = -1;
-                notificationList.positionViewAtBeginning();
-            }
-        }
     }
 
     // FIXME: disabled all transitions because of LP: #1354406 workaround

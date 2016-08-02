@@ -55,29 +55,11 @@ StyledItem {
         name: "Ubuntu.Components.Themes.Ambiance"
     }
 
-    signal dismissed()
-
-    readonly property bool expanded: {
-        var result = false;
-
-        if (type === Notification.SnapDecision) {
-            if (ListView.view.currentIndex === index || fullscreen) {
-                result = true;
-            } else {
-                if (ListView.view.count > 2) {
-                    if (ListView.view.currentIndex === -1 && index == 1) {
-                        result = true;
-                    } else {
-                        result = false;
-                    }
-                } else {
-                    result = true;
-                }
-            }
-        }
-
-        return result;
-    }
+    readonly property bool expanded: type === Notification.SnapDecision &&                   // expand only snap decisions, if...
+                                     (fullscreen ||                                          // - it's a fullscreen one
+                                      ListView.view.currentIndex === index ||                // - it's the one the user clicked on
+                                      (ListView.view.currentIndex === -1 && index == 0)      // - the first one after the user closed the previous one
+                                      )
 
     NotificationAudio {
         id: sound
@@ -116,6 +98,13 @@ StyledItem {
         }
     }
 
+    Binding {
+        target: ListView.view
+        property: "topmostIsFullscreen"
+        value: fullscreen
+        when: index == 0
+    }
+
     function closeNotification() {
         if (index === ListView.view.currentIndex) { // reset to get the 1st snap decision expanded
             ListView.view.currentIndex = -1;
@@ -125,7 +114,6 @@ StyledItem {
         notification.notification.invokeAction(notification.actions.data(1, ActionModel.RoleActionId));
 
         notification.notification.close();
-        notification.dismissed()
     }
 
     Behavior on x {
@@ -144,7 +132,8 @@ StyledItem {
         }
     }
 
-    Behavior on height {
+    Behavior on implicitHeight {
+        enabled: !fullscreen
         UbuntuNumberAnimation {
             duration: UbuntuAnimation.SnapDuration
         }
@@ -217,7 +206,6 @@ StyledItem {
             onNameOwnerChanged: {
                 if (lastNameOwner !== "" && nameOwner === "" && notification.notification !== undefined) {
                     notification.notification.close()
-                    notification.dismissed()
                 }
                 lastNameOwner = nameOwner
             }
@@ -443,7 +431,6 @@ StyledItem {
                         }
                         onAccepted: {
                             notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
-                            notification.dismissed()
                         }
                     }
                 }
