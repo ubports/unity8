@@ -98,13 +98,6 @@ StyledItem {
         }
     }
 
-    Binding {
-        target: ListView.view
-        property: "topmostIsFullscreen"
-        value: fullscreen
-        when: index == 0
-    }
-
     function closeNotification() {
         if (index === ListView.view.currentIndex) { // reset to get the 1st snap decision expanded
             ListView.view.currentIndex = -1;
@@ -130,6 +123,7 @@ StyledItem {
         if (fullscreen) {
             notification.notification.urgency = Notification.Critical;
         }
+        ListView.view.topmostIsFullscreen = fullscreen;
     }
 
     Behavior on implicitHeight {
@@ -227,7 +221,7 @@ StyledItem {
                 if (notification.type === Notification.Interactive) {
                     notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
                 } else {
-                    notificationList.currentIndex = index;
+                    notification.ListView.view.currentIndex = index;
                 }
             }
             onReleased: {
