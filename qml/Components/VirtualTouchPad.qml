@@ -188,6 +188,7 @@ Item {
 
         MouseArea {
             id: leftButton
+            objectName: "leftButton"
             Layout.fillWidth: true
             Layout.fillHeight: true
             onPressed: uinput.pressMouse(UInput.ButtonLeft);
@@ -202,6 +203,7 @@ Item {
 
         MouseArea {
             id: rightButton
+            objectName: "rightButton"
             Layout.fillWidth: true
             Layout.fillHeight: true
             onPressed: uinput.pressMouse(UInput.ButtonRight);
@@ -217,6 +219,7 @@ Item {
 
     AbstractButton {
         id: oskButton
+        objectName: "oskButton"
         anchors { right: parent.right; top: parent.top; margins: internalGu * 2 }
         height: internalGu * 6
         width: height
@@ -252,29 +255,35 @@ Item {
 
     Label {
         id: tutorialLabel
+        objectName: "tutorialLabel"
         anchors { left: parent.left; top: parent.top; right: parent.right; margins: internalGu * 4; topMargin: internalGu * 10 }
         opacity: 0
-        font.pixelSize: 2.5 * internalGu
+        visible: opacity > 0
+        font.pixelSize: 2 * internalGu
         color: "white"
         wrapMode: Text.WordWrap
     }
 
     Icon {
         id: tutorialImage
+        objectName: "tutorialImage"
         height: internalGu * 8
         width: height
         name: "input-touchpad-symbolic"
         color: "white"
         opacity: 0
+        visible: opacity > 0
         anchors { top: tutorialLabel.bottom; horizontalCenter: parent.horizontalCenter; margins: internalGu * 2 }
     }
 
     Item {
         id: tutorialFinger1
+        objectName: "tutorialFinger1"
         width: internalGu * 5
         height: width
         property real scale: 1
         opacity: 0
+        visible: opacity > 0
         Rectangle {
             width: parent.width * parent.scale
             height: width
@@ -286,10 +295,12 @@ Item {
 
     Item {
         id: tutorialFinger2
+        objectName: "tutorialFinger2"
         width: internalGu * 5
         height: width
         property real scale: 1
         opacity: 0
+        visible: opacity > 0
         Rectangle {
             width: parent.width * parent.scale
             height: width
@@ -301,13 +312,14 @@ Item {
 
     SequentialAnimation {
         id: tutorial
+        objectName: "tutorialAnimation"
 
         PropertyAction { targets: [leftButton, rightButton, oskButton]; property: "enabled"; value: false }
         PropertyAction { targets: [leftButton, rightButton, oskButton]; property: "opacity"; value: 0 }
         PropertyAction { target: tutorialLabel; property: "text"; value: i18n.tr("Your device is now connected to an external display. Use this screen as a touch pad to interact with the pointer.") }
         UbuntuNumberAnimation { targets: [tutorialLabel, tutorialImage]; property: "opacity"; to: 1; duration: UbuntuAnimation.FastDuration }
         PropertyAction { target: tutorial; property: "paused"; value: true }
-        PauseAnimation { duration: 100 } // it takes a bit until pausing actually takes effect
+        PauseAnimation { duration: 500 } // it takes a bit until pausing actually takes effect
         UbuntuNumberAnimation { targets: [tutorialLabel, tutorialImage]; property: "opacity"; to: 0; duration: UbuntuAnimation.FastDuration }
 
         UbuntuNumberAnimation { target: leftButton; property: "opacity"; to: 1 }
