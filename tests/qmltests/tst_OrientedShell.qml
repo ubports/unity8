@@ -1142,6 +1142,26 @@ Rectangle {
             orientedShellLoader.width = oldWidth;
         }
 
+        function test_screenSizeChanges() {
+            loadShell("mako")
+            var shell = findChild(orientedShell, "shell");
+
+            tryCompare(shell, "usageScenario", "phone");
+
+            // make screen larger
+            orientedShellLoader.width = units.gu(90);
+            tryCompare(shell, "usageScenario", "phone");
+
+            // plug a mouse
+            MockInputDeviceBackend.addMockDevice("/mouse0", InputInfo.Mouse);
+            tryCompare(shell, "usageScenario", "desktop");
+
+            // make the screen smaller again, it should go back to staged even though there's still a mouse around
+            orientedShellLoader.width = units.gu(40);
+
+            tryCompare(shell, "usageScenario", "phone");
+        }
+
         function test_overrideStaged() {
             loadShell("mako")
 
