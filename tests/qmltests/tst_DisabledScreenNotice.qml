@@ -131,41 +131,5 @@ Item {
             // And make sure it catches up to the expected angle
             tryCompare(content, "rotation", data.expectedAngle);
         }
-
-        function test_tutorial() {
-            var oskButton = findChild(touchScreenPad, "oskButton");
-            var leftButton = findChild(touchScreenPad, "leftButton");
-            var rightButton = findChild(touchScreenPad, "rightButton");
-            var touchPad = findChild(touchScreenPad, "virtualTouchPad")
-            var tutorial = findInvisibleChild(touchScreenPad, "tutorialAnimation")
-            var tutorialFinger1 = findChild(touchScreenPad, "tutorialFinger1");
-            var tutorialFinger2 = findChild(touchScreenPad, "tutorialFinger2");
-            var tutorialLabel = findChild(touchScreenPad, "tutorialLabel");
-            var tutorialImage = findChild(touchScreenPad, "tutorialImage");
-
-            // run the tutorial
-            touchPad.runTutorial();
-            tryCompare(tutorial, "running", true)
-
-            // Wait for it to pause
-            tryCompare(tutorial, "paused", true)
-
-            // Click somewhere to make it continue
-            mouseClick(root, root.width / 2, root.height /2)
-            tryCompare(tutorial, "paused", false)
-
-            // Wait for it to finish
-            tryCompare(tutorial, "running", false, 60000)
-
-            // Make sure after the tutorial, all the visible states are proper
-            tryCompare(oskButton, "visible", true)
-            tryCompare(leftButton, "visible", true)
-            tryCompare(rightButton, "visible", true)
-
-            tryCompare(tutorialFinger1, "visible", false)
-            tryCompare(tutorialFinger2, "visible", false)
-            tryCompare(tutorialImage, "visible", false)
-            tryCompare(tutorialLabel, "visible", false)
-        }
     }
 }
