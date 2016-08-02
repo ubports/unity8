@@ -22,10 +22,10 @@
 #include <QQuickView>
 #include <QtTest>
 
-#include <Timer>
-#include <TouchRegistry>
+#include <UbuntuGestures/private/timer_p.h>
+#include <UbuntuGestures/private/touchregistry_p.h>
 
-using namespace UbuntuGestures;
+UG_USE_NAMESPACE
 
 GestureTest::GestureTest(const QString &qmlFilename)
     : QObject(), m_device(nullptr), m_view(nullptr), m_qmlFilename(qmlFilename)
