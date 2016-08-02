@@ -515,7 +515,6 @@ Rectangle {
             compare(primaryDelegate.focus, true);
             compare(primaryApp.rotatesWindowContents, false);
             compare(primaryApp.supportedOrientations, Qt.PrimaryOrientation);
-            compare(primaryApp.stage, ApplicationInfoInterface.MainStage);
 
             tryCompareFunction(function(){return primaryDelegate.surface != null;}, true);
             verify(checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle));
@@ -559,7 +558,8 @@ Rectangle {
             compare(ApplicationManager.focusedApplicationId, "primary-oriented-app");
             compare(primaryApp.rotatesWindowContents, false);
             compare(primaryApp.supportedOrientations, Qt.PrimaryOrientation);
-            compare(primaryApp.stage, ApplicationInfoInterface.MainStage);
+            var primaryDelegate = findChild(shell, "spreadDelegate_" + primarySurfaceId);
+            compare(primaryDelegate.stage, ApplicationInfoInterface.MainStage);
 
             tryCompareFunction(function(){return primaryApp.surfaceList.count > 0;}, true);
 
@@ -599,7 +599,6 @@ Rectangle {
             compare(gmailApp.rotatesWindowContents, false);
             compare(gmailApp.supportedOrientations, Qt.PortraitOrientation | Qt.LandscapeOrientation
                     | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation);
-            compare(gmailApp.stage, ApplicationInfoInterface.MainStage);
 
             // wait until it's able to rotate
             tryCompare(shell, "orientationChangesEnabled", true);
@@ -724,7 +723,6 @@ Rectangle {
             compare(gmailApp.rotatesWindowContents, false);
             compare(gmailApp.supportedOrientations, Qt.PortraitOrientation | Qt.LandscapeOrientation
                     | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation);
-            compare(gmailApp.stage, ApplicationInfoInterface.MainStage);
 
             waitUntilAppWindowIsFullyLoaded(gmailSurfaceId);
 
@@ -736,7 +734,10 @@ Rectangle {
             compare(musicApp.rotatesWindowContents, false);
             compare(musicApp.supportedOrientations, Qt.PortraitOrientation | Qt.LandscapeOrientation
                     | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation);
-            compare(musicApp.stage, ApplicationInfoInterface.MainStage);
+            if (data.deviceName === "manta" || data.deviceName === "flo") {
+                var musicDelegate = findChild(shell, "spreadDelegate_" + musicSurfaceId);
+                compare(musicDelegate.stage, ApplicationInfoInterface.MainStage);
+            }
 
             waitUntilAppWindowIsFullyLoaded(musicSurfaceId);
             tryCompare(shell, "orientationChangesEnabled", true);
@@ -889,6 +890,7 @@ Rectangle {
             ];
         }
         function test_appInSideStageDoesntRotateOnStartUp(data) {
+            WindowStateStorage.saveStage("twitter-webapp", ApplicationInfoInterface.SideStage)
             loadShell(data.deviceName);
 
             var twitterDelegate = null;
@@ -905,9 +907,11 @@ Rectangle {
             signalSpy.target = null;
             signalSpy.signalName = "runningChanged";
 
+            var twitterSurfaceId = topLevelSurfaceList.nextId;
             var twitterApp = ApplicationManager.startApplication("twitter-webapp");
             verify(twitterApp);
-            twitterApp.stage = ApplicationInfoInterface.SideStage;
+            var twitterDelegate = findChild(shell, "spreadDelegate_" + twitterSurfaceId);
+            compare(twitterDelegate.stage, ApplicationInfoInterface.SideStage);
 
             // ensure the mock twitter-webapp is as we expect
             compare(twitterApp.rotatesWindowContents, false);
