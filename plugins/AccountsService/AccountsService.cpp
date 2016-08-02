@@ -287,16 +287,17 @@ QStringList AccountsService::keymaps() const
 void AccountsService::setKeymaps(const QStringList &keymaps)
 {
     if (keymaps.isEmpty()) {
+        qWarning() << "Setting empty keymaps is not supported";
         return;
     }
 
-    StringMap map;
     StringMapList result;
     Q_FOREACH(const QString &keymap, keymaps) {
+        StringMap map;
         map.insert(QStringLiteral("xkb"), keymap);
+        result.append(map);
     }
 
-    result.append(map);
     setProperty(IFACE_ACCOUNTS_USER, PROP_INPUT_SOURCES, QVariant::fromValue(result));
     Q_EMIT keymapsChanged();
 }

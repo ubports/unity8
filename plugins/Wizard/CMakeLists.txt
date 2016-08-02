@@ -1,6 +1,6 @@
 pkg_search_module(GD3 REQUIRED gnome-desktop-3.0)
 
-include_directories(${GD3_INCLUDE_DIRS} ${GLIB_INCLUDE_DIRS} ${GEONAMES_INCLUDE_DIRS})
+include_directories(SYSTEM ${GD3_INCLUDE_DIRS} ${GLIB_INCLUDE_DIRS} ${GEONAMES_INCLUDE_DIRS})
 
 add_library(Wizard-qml MODULE
     plugin.cpp
