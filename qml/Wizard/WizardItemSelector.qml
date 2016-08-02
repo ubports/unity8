@@ -25,7 +25,7 @@ Rectangle {
     property var model
     property int selectedIndex: -1
     readonly property double itemHeight: units.gu(4)
-    property int maxVisibleItems: 6
+    readonly property int maxVisibleItems: 6
 
     color: theme.palette.normal.foreground
     height: expanded ? maxVisibleItems * itemHeight : itemHeight

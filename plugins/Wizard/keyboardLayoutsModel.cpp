@@ -17,16 +17,13 @@
 #include <QDBusMetaType>
 #include <QDebug>
 
+#define GNOME_DESKTOP_USE_UNSTABLE_API
+#include <libgnome-desktop/gnome-xkb-info.h>
+
 #include "keyboardLayoutsModel.h"
 
 typedef QList<QMap<QString, QString>> StringMapList;
 Q_DECLARE_METATYPE(StringMapList)
-
-struct KeyboardLayoutInfo {
-    QString id;
-    QString displayName;
-    QString language;
-};
 
 KeyboardLayoutsModel::KeyboardLayoutsModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -38,17 +35,9 @@ KeyboardLayoutsModel::KeyboardLayoutsModel(QObject *parent)
     };
 
     qDBusRegisterMetaType<StringMapList>();
-    m_xkbInfo = gnome_xkb_info_new();
 
     buildModel();
     connect(this, &KeyboardLayoutsModel::languageChanged, this, &KeyboardLayoutsModel::updateModel);
-}
-
-KeyboardLayoutsModel::~KeyboardLayoutsModel()
-{
-    if (m_xkbInfo != nullptr) {
-        g_object_unref(m_xkbInfo);
-    }
 }
 
 QString KeyboardLayoutsModel::language() const
@@ -91,13 +80,15 @@ void KeyboardLayoutsModel::buildModel()
     const gchar *xkb_layout;
     const gchar *xkb_variant;
 
-    sources = gnome_xkb_info_get_all_layouts(m_xkbInfo);
+    GnomeXkbInfo * xkbInfo(gnome_xkb_info_new());
+
+    sources = gnome_xkb_info_get_all_layouts(xkbInfo);
 
     for (tmp = sources; tmp != NULL; tmp = tmp->next) {
-        gboolean result = gnome_xkb_info_get_layout_info(m_xkbInfo, (const gchar *)tmp->data,
+        gboolean result = gnome_xkb_info_get_layout_info(xkbInfo, (const gchar *)tmp->data,
                                                          &display_name, &short_name, &xkb_layout, &xkb_variant);
         if (!result) {
-            qWarning() << "!!! Skipping invalid layout";
+            qWarning() << "Skipping invalid layout";
             continue;
         }
 
@@ -109,6 +100,7 @@ void KeyboardLayoutsModel::buildModel()
         m_db.append(layout);
     }
     g_list_free(sources);
+    g_object_unref(xkbInfo);
 
     std::sort(m_db.begin(), m_db.end(), compareLayouts);
 }
@@ -148,7 +140,7 @@ QVariant KeyboardLayoutsModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    KeyboardLayoutInfo layout = m_layouts.at(row);
+    const KeyboardLayoutInfo &layout = m_layouts.at(row);
 
     switch (role) {
     case Qt::DisplayRole:

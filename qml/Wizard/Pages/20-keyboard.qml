@@ -48,13 +48,7 @@ LocalComponents.Page {
         Component.onCompleted: skipValid = true;
     }
 
-    Component.onCompleted: print("Initial language:", i18n.language)
-
     readonly property string selectedLanguage: langPlugin.languageCodes[langSelector.selectedIndex].split(".")[0] // chop off the codeset (.UTF-8)
-
-    onSelectedLanguageChanged: {
-        print("Selected language:", selectedLanguage)
-    }
 
     property string selectedKeymap: ""
 
@@ -157,7 +151,6 @@ LocalComponents.Page {
             text: keyboardListView.currentIndex != -1 ? i18n.tr("Next") : i18n.tr("Skip")
             onClicked: {
                 if (keyboardListView.currentIndex != -1) {
-                    print("Saving keymap:", selectedKeymap);
                     AccountsService.keymaps = selectedKeymap;
                 }
                 pageStack.next();

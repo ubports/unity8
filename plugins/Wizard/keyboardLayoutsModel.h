@@ -19,10 +19,11 @@
 
 #include <QAbstractListModel>
 
-#define GNOME_DESKTOP_USE_UNSTABLE_API
-#include <libgnome-desktop/gnome-xkb-info.h>
-
-struct KeyboardLayoutInfo;
+struct KeyboardLayoutInfo {
+    QString id;
+    QString displayName;
+    QString language;
+};
 
 class KeyboardLayoutsModel: public QAbstractListModel
 {
@@ -32,7 +33,7 @@ class KeyboardLayoutsModel: public QAbstractListModel
 
 public:
     explicit KeyboardLayoutsModel(QObject * parent = nullptr);
-    ~KeyboardLayoutsModel();
+    ~KeyboardLayoutsModel() = default;
 
     enum Roles {
         LayoutIdRole = Qt::UserRole + 1,
@@ -60,7 +61,6 @@ private:
     QHash<int, QByteArray> m_roleNames;
     QVector<KeyboardLayoutInfo> m_layouts;
     QVector<KeyboardLayoutInfo> m_db;
-    GnomeXkbInfo *m_xkbInfo = nullptr;
 };
 
 #endif
