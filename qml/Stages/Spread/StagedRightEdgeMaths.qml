@@ -19,12 +19,13 @@ QtObject {
     property real startScale: 1.3
     property real targetScale: 0
 
-
     onProgressChanged: if (itemIndex == 0) { print("progress", progress) }
 
     // Config
     property real breakPoint: 0.4
     property int tileDistance: units.gu(10)
+
+
 
     // Output
 

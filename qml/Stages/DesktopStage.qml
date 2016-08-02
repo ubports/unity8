@@ -301,6 +301,9 @@ AbstractStage {
             name: "stagedrightedge"; when: rightEdgeDragArea.dragging && root.mode == "staged"
         },
         State {
+            name: "sidestagedrightedge"; when: rightEdgeDragArea.dragging && root.mode == "stagedWithSideStage"
+        },
+        State {
             name: "windowedrightedge"; when: rightEdgeDragArea.dragging && root.mode == "windowed"
         },
         State {
@@ -728,7 +731,8 @@ AbstractStage {
                 }
 
                 function playFocusAnimation() {
-                    if (state == "stagedrightedge") {
+                    if (state == "stagedrightedge" || state == "sidestagedrightedge") {
+                        rightEdgeFocusAnimation.targetX = appDelegate.stage == ApplicationInfoInterface.SideStage ? sideStage.x : 0
                         rightEdgeFocusAnimation.start()
                     } else {
                         focusAnimation.start()
@@ -748,7 +752,8 @@ AbstractStage {
                 }
                 ParallelAnimation {
                     id: rightEdgeFocusAnimation
-                    UbuntuNumberAnimation { target: appDelegate; properties: "x"; to: 0; duration: priv.animationDuration }
+                    property int targetX: 0
+                    UbuntuNumberAnimation { target: appDelegate; properties: "x"; to: targetX; duration: priv.animationDuration }
                     UbuntuNumberAnimation { target: decoratedWindow; properties: "angle"; to: 0; duration: priv.animationDuration }
                     UbuntuNumberAnimation { target: decoratedWindow; properties: "itemScale"; to: 1; duration: priv.animationDuration }
                     onStopped: appDelegate.focus = true
@@ -784,6 +789,24 @@ AbstractStage {
                     progress: 0
                     targetHeight: spreadMaths.stackHeight
                     targetX: spreadMaths.targetX
+                    startY: appDelegate.fullscreen ? 0 : PanelState.panelHeight
+                    targetY: spreadMaths.targetY
+                    targetAngle: spreadMaths.targetAngle
+                    targetScale: spreadMaths.targetScale
+                }
+
+                SideStagedRightEdgeMaths {
+                    id: sideStagedRightEdgeMaths
+                    sceneWidth: appContainer.width - root.leftMargin
+                    sceneHeight: appContainer.height
+                    isMainStageApp: priv.mainStageDelegate == appDelegate
+                    isSideStageApp: priv.sideStageDelegate == appDelegate
+                    sideStageWidth: sideStage.width
+                    itemIndex: index
+                    progress: 0
+                    targetHeight: spreadMaths.stackHeight
+                    targetX: spreadMaths.targetX
+                    startY: appDelegate.fullscreen ? 0 : PanelState.panelHeight
                     targetY: spreadMaths.targetY
                     targetAngle: spreadMaths.targetAngle
                     targetScale: spreadMaths.targetScale
@@ -820,32 +843,57 @@ AbstractStage {
                         PropertyChanges { target: dragArea; enabled: true }
                         PropertyChanges { target: windowInfoItem; opacity: spreadMaths.tileInfoOpacity; visible: spreadMaths.itemVisible }
                     },
+//                    State {
+//                        name: "stagedrightedge";
+//                        when: root.state == "stagedrightedge" || rightEdgeFocusAnimation.running || hidingAnimation.running
+//                        PropertyChanges {
+//                            target: stagedRightEdgeMaths
+//                            progress: rightEdgeDragArea.progress
+//                        }
+//                        PropertyChanges {
+//                            target: appDelegate
+//                            y: stagedRightEdgeMaths.animatedY
+//                            x: stagedRightEdgeMaths.animatedX
+//                            z: index +1
+//                            height: stagedRightEdgeMaths.animatedHeight
+//                            requestedWidth: decoratedWindow.oldRequestedWidth
+//                            requestedHeight: decoratedWindow.oldRequestedHeight
+//                            visible: stagedRightEdgeMaths.itemVisible
+//                        }
+//                        PropertyChanges {
+//                            target: decoratedWindow;
+//                            hasDecoration: false
+//                            angle: stagedRightEdgeMaths.animatedAngle
+//                            itemScale: stagedRightEdgeMaths.animatedScale
+//                            scaleToPreviewSize: spreadItem.stackHeight
+//                            scaleToPreviewProgress: stagedRightEdgeMaths.scaleToPreviewProgress
+//                            shadowOpacity: 0.3
+//                        }
+//                    },
                     State {
-                        name: "stagedrightedge";
-                        when: root.state == "stagedrightedge" || rightEdgeFocusAnimation.running || hidingAnimation.running
+                        name: "sidestagedrightedge"
+                        when: root.state == "sidestagedrightedge" || root.state == "stagedrightedge" || rightEdgeFocusAnimation.running || hidingAnimation.running
                         PropertyChanges {
-                            target: stagedRightEdgeMaths
+                            target: sideStagedRightEdgeMaths
                             progress: rightEdgeDragArea.progress
-                            startY: appDelegate.fullscreen ? 0 : PanelState.panelHeight
                         }
                         PropertyChanges {
                             target: appDelegate
-                            y: stagedRightEdgeMaths.animatedY
-                            x: stagedRightEdgeMaths.animatedX
+                            x: sideStagedRightEdgeMaths.animatedX
+                            y: sideStagedRightEdgeMaths.animatedY
                             z: index +1
-                            height: stagedRightEdgeMaths.animatedHeight
+                            height: sideStagedRightEdgeMaths.animatedHeight
                             requestedWidth: decoratedWindow.oldRequestedWidth
                             requestedHeight: decoratedWindow.oldRequestedHeight
-                            visible: stagedRightEdgeMaths.itemVisible
                         }
                         PropertyChanges {
-                            target: decoratedWindow;
+                            target: decoratedWindow
                             hasDecoration: false
-                            angle: stagedRightEdgeMaths.animatedAngle
-                            itemScale: stagedRightEdgeMaths.animatedScale
+                            angle: sideStagedRightEdgeMaths.animatedAngle
+                            itemScale: sideStagedRightEdgeMaths.animatedScale
                             scaleToPreviewSize: spreadItem.stackHeight
-                            scaleToPreviewProgress: stagedRightEdgeMaths.scaleToPreviewProgress
-                            shadowOpacity: 0.3
+                            scaleToPreviewProgress: sideStagedRightEdgeMaths.scaleToPreviewProgress
+                            shadowOpacity: .3
                         }
                     },
                     State {
