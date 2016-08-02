@@ -1,3 +1,20 @@
+unity8 (8.14+16.10.20160728-0ubuntu1) yakkety; urgency=medium
+
+  [ Zoltán Balogh ]
+  * Bump the version to secure UITK compatibility
+
+  [ Albert Astals Cid ]
+  * Pass the correct number of arguments to mapToItem (LP: #1606835)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 28 Jul 2016 08:17:13 +0000
+
+unity8 (8.13+16.10.20160714+fix1-0ubuntu2~1) yakkety; urgency=medium
+
+  * Rebuild against Qt 5.6.
+  * Add https://code.launchpad.net/~aacid/unity8/floor_includes/+merge/300850
+
+ -- Timo Jyrinki <timo-jyrinki@ubuntu.com>  Fri, 22 Jul 2016 09:03:54 +0300
+
 unity8 (8.13+16.10.20160714-0ubuntu1) yakkety; urgency=medium
 
   [ Daniel d'Andrada ]
