@@ -187,6 +187,15 @@ Item {
                 contents: Item {
                     anchors.fill: parent
 
+                    Keys.onEscapePressed: { // clear the search text, dismiss the search in the second step
+                        if (searchTextField.text != "") {
+                            root.clearSearch(true);
+                        } else {
+                            root.clearSearch(false);
+                            headerContainer.showSearch = false;
+                        }
+                    }
+
                     TextField {
                         id: searchTextField
                         objectName: "searchTextField"

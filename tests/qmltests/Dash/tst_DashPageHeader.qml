@@ -28,6 +28,12 @@ Item {
     width: units.gu(110)
     height: units.gu(50)
 
+    SignalSpy {
+        id: escapeSpy
+        target: pageHeader
+        signalName: "clearSearch"
+    }
+
     UT.UnityTestCase {
         name: "PageHeaderLabelTest"
         when: windowShown
@@ -145,6 +151,7 @@ Item {
 
         function cleanup() {
             doResetSearch();
+            escapeSpy.clear();
         }
 
         function test_popup_closing_data() {
@@ -196,6 +203,38 @@ Item {
             }
 
             tryCompare(headerContainer, "showSearch", !data.hideSearch);
+            tryCompare(pageHeader.extraPanel, "visible", false);
+
+            doResetSearch();
+        }
+
+        function test_popup_closing_with_escape() {
+            searchEnabled = true;
+            pageHeader.searchHistory.clear();
+
+            pageHeader.searchHistory.addQuery("Search1");
+            pageHeader.searchHistory.addQuery("Search2");
+
+            pageHeader.triggerSearch();
+
+            var headerContainer = findChild(pageHeader, "headerContainer");
+            tryCompare(pageHeader.extraPanel, "visible", true);
+
+            pageHeader.searchQuery = "foobar";
+
+            // press Esc once, the search should be cleared
+            keyClick(Qt.Key_Escape);
+            pageHeader.searchQuery = ""; // simulate clearing the text field, the clear button doesn't do anything on its own
+            compare(escapeSpy.count, 1);
+            compare(escapeSpy.signalArguments[0][0], true);
+
+            escapeSpy.clear();
+
+            // press Escape a second time, the whole search should be hidden
+            keyClick(Qt.Key_Escape);
+            tryCompare(headerContainer, "showSearch", false);
+            compare(escapeSpy.count, 1);
+            compare(escapeSpy.signalArguments[0][0], false);
             tryCompare(pageHeader.extraPanel, "visible", false);
 
             doResetSearch();
