@@ -107,6 +107,7 @@ Rectangle {
             sourceComponent: Component {
                 Shell {
                     id: __shell
+                    objectName: "shell"
                     usageScenario: usageScenarioSelector.model[usageScenarioSelector.selectedIndex]
                     nativeWidth: width
                     nativeHeight: height
@@ -183,22 +184,44 @@ Rectangle {
                             callManager.foregroundCall = callManager.foregroundCall ? null : phoneCall;
                         }
                     }
-                }
-                Button {
-                    text: "Show Launcher"
-                    activeFocusOnPress: false
-                    onClicked: {
-                        if (shellLoader.status !== Loader.Ready)
-                            return;
+                    Button {
+                        text: "Show Launcher"
+                        activeFocusOnPress: false
+                        onClicked: {
+                            if (shellLoader.status !== Loader.Ready)
+                                return;
 
-                        var launcher = testCase.findChild(shellLoader.item, "launcher");
-                        launcher.state = "visible";
+                            var launcher = testCase.findChild(shellLoader.item, "launcher");
+                            launcher.state = "visible";
+                        }
+                    }
+                    Button {
+                        text: "Print focused"
+                        activeFocusOnPress: false
+                        onClicked: {
+                            var childs = new Array(0);
+                            childs.push(shellLoader.item)
+                            while (childs.length > 0) {
+                                if (childs[0].activeFocus && childs[0].focus && childs[0].objectName != "shell") {
+                                    print("Active focus is on item:", childs[0]);
+                                    return;
+                                }
+                                for (var i in childs[0].children) {
+                                    childs.push(childs[0].children[i])
+                                }
+                                childs.splice(0, 1);
+                            }
+                            print("No active focused item found within shell.")
+                        }
                     }
                 }
+                Label {
+                    text: "LightDM mock mode"
+                }
+
                 ListItem.ItemSelector {
                     anchors { left: parent.left; right: parent.right }
                     activeFocusOnPress: false
-                    text: "LightDM mock mode"
                     model: ["single", "single-passphrase", "single-pin", "full"]
                     onSelectedIndexChanged: {
                         shellLoader.active = false;
@@ -207,11 +230,14 @@ Rectangle {
                         shellLoader.active = true;
                     }
                 }
+                Label {
+                    text: "Size"
+                }
+
                 ListItem.ItemSelector {
                     id: sizeSelector
                     anchors { left: parent.left; right: parent.right }
                     activeFocusOnPress: false
-                    text: "Size"
                     model: ["phone", "tablet", "desktop"]
                     onSelectedIndexChanged: {
 //                        shellLoader.active = false;
@@ -219,22 +245,28 @@ Rectangle {
 //                        shellLoader.active = true;
                     }
                 }
+                Label {
+                    text: "Usage scenario"
+                }
+
                 ListItem.ItemSelector {
                     id: usageScenarioSelector
                     anchors { left: parent.left; right: parent.right }
                     activeFocusOnPress: false
-                    text: "Usage scenario"
                     model: ["phone", "tablet", "desktop"]
                 }
                 MouseTouchEmulationCheckbox {
                     id: mouseEmulation
                     checked: true
                 }
+                Label {
+                    text: "Ctrl key as"
+                }
+
                 ListItem.ItemSelector {
                     id: ctrlModifier
                     anchors { left: parent.left; right: parent.right }
                     activeFocusOnPress: false
-                    text: "Ctrl key as"
                     model: ["Ctrl", "Alt", "Super"]
                     onSelectedIndexChanged: {
                         var keyMapper = testCase.findChild(shellContainer, "physicalKeysMapper");

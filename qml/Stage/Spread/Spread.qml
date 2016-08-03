@@ -6,8 +6,8 @@ Item {
     id: root
 
     // Information about the environment
-    property int totalItemCount: 0
     property int highlightedIndex: 1
+    property var model: null
 
     // some config options
     property real contentMargin: 0.16 * root.height
@@ -22,6 +22,7 @@ Item {
 
 
     // Calculated stuff
+    readonly property int totalItemCount: model.count
     readonly property real leftStackXPos: 0.03 * root.width
     readonly property real rightStackXPos: root.width - 1.5 * leftStackXPos
 
@@ -89,9 +90,11 @@ Item {
         y: windowTitleTopMargin
 //        //y: priv.spreadTopMargin + priv.contentTopMargin + settings.spreadOffset + settings.titleOffset - height -  (priv.contentTopMargin - height) / 4
 //        visible: height < priv.contentTopMargin
-        text: "focused window title"
+        text: root.highlightedIndex >= 0 && root.model ? root.model.surfaceAt(root.highlightedIndex).name : ""
         fontSize: root.height < units.gu(85) ? 'medium' : 'large'
         color: "white"
+        opacity: root.highlightedIndex >= 0 ? 1 : 0
+        Behavior on opacity { UbuntuNumberAnimation { } }
     }
 
 //    Label {
@@ -105,6 +108,7 @@ Item {
 
 
     Keys.onPressed: {
+        print("key pressed")
         switch (event.key) {
         case Qt.Key_Left:
         case Qt.Key_Backtab:

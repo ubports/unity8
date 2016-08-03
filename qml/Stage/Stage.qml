@@ -111,8 +111,7 @@ AbstractStage {
 
         property var focusedAppDelegate: null
         onFocusedAppDelegateChanged: {
-            print("focusedAppDelegate changed", focusedAppDelegate.objectName)
-            if (root.state == "spread") {
+            if (focusedAppDelegate && root.state == "spread") {
                 goneToSpread = false;
             }
         }
@@ -121,8 +120,8 @@ AbstractStage {
 
         property bool goneToSpread: false
         property int closingIndex: -1
-        property int animationDuration: 4000
-//        property int animationDuration: UbuntuAnimation.FastDuration
+//        property int animationDuration: 4000
+        property int animationDuration: UbuntuAnimation.FastDuration
 
         function updateForegroundMaximizedApp() {
             var found = false;
@@ -172,7 +171,7 @@ AbstractStage {
         }
 
         function updateMainAndSideStageIndexes() {
-            print("updating stage indexes, sideStage shown:", sideStage.shown)
+//            print("updating stage indexes, sideStage shown:", sideStage.shown)
             var choseMainStage = false;
             var choseSideStage = false;
 
@@ -181,7 +180,6 @@ AbstractStage {
 
             for (var i = 0; i < appRepeater.count && (!choseMainStage || !choseSideStage); ++i) {
                 var appDelegate = appRepeater.itemAt(i);
-                print("have app on stage", appDelegate.applicationId, appDelegate.stage)
                 if (/*sideStage.shown && */appDelegate.stage == ApplicationInfoInterface.SideStage
                         && !choseSideStage) {
                     priv.sideStageDelegate = appDelegate
@@ -332,11 +330,14 @@ AbstractStage {
         },
         Transition {
             from: "spread"
-            ScriptAction { script: {
-                    var item = appRepeater.itemAt(spreadItem.highlightedIndex);
-                    item.claimFocus();
-                    item.playFocusAnimation();
+            SequentialAnimation {
+                ScriptAction { script: {
+                        var item = appRepeater.itemAt(spreadItem.highlightedIndex);
+                        item.claimFocus();
+                        item.playFocusAnimation();
+                    }
                 }
+                PropertyAction { target: spreadItem; property: "highlightedIndex"; value: -1 }
             }
         },
         Transition {
@@ -365,7 +366,7 @@ AbstractStage {
         Spread {
             id: spreadItem
             anchors.fill: appContainer
-            totalItemCount: appRepeater.count
+            model: root.topLevelSurfaceList
             z: 10
         }
 
@@ -1306,6 +1307,7 @@ AbstractStage {
                 gesturePoints = [];
             } else {
                 if (gesturePoints[gesturePoints.length - 1] < -root.width * 0.4 ) {
+                    print("gone to spread true")
                     priv.goneToSpread = true;
                 } else {
                     if (appRepeater.count > 1) {

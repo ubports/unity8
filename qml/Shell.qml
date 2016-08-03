@@ -271,6 +271,8 @@ StyledItem {
                     && launcher.progress == 0
                     && !notifications.useModal
 
+            onInteractiveChanged: { if (interactive) { focus = true; } }
+
             // TODO: This is not implemented yet in the new stage...
             spreadEnabled: tutorial.spreadEnabled && (!greeter || (!greeter.hasLockedApp && !greeter.shown))
             keepDashRunning: launcher.shown || launcher.dashSwipe
@@ -297,6 +299,7 @@ StyledItem {
 
     Loader {
         id: greeterLoader
+        objectName: "greeterLoader"
         anchors.fill: parent
         anchors.topMargin: panel.panelHeight
         sourceComponent: shell.mode != "shell" ? integratedGreeter :
@@ -499,7 +502,7 @@ StyledItem {
             }
             onFocusChanged: {
                 if (!focus) {
-                    shell.focus = true;
+                    stages.focus = true;
                 }
             }
 
