@@ -731,9 +731,15 @@ AbstractStage {
                 }
 
                 function playFocusAnimation() {
-                    if (state == "stagedrightedge" || state == "sidestagedrightedge") {
-                        rightEdgeFocusAnimation.targetX = appDelegate.stage == ApplicationInfoInterface.SideStage ? sideStage.x : 0
-                        rightEdgeFocusAnimation.start()
+                    if (state == "sidestagedrightedge") {
+                        // TODO: Can we drop this if and find something that always works?
+                        if (root.mode == "staged") {
+                            rightEdgeFocusAnimation.targetX = 0
+                            rightEdgeFocusAnimation.start()
+                        } else if (root.mode == "stagedWithSideStage") {
+                            rightEdgeFocusAnimation.targetX =  appDelegate.stage == ApplicationInfoInterface.SideStage ? sideStage.x : 0
+                            rightEdgeFocusAnimation.start()
+                        }
                     } else {
                         focusAnimation.start()
                     }
@@ -753,7 +759,7 @@ AbstractStage {
                 ParallelAnimation {
                     id: rightEdgeFocusAnimation
                     property int targetX: 0
-                    UbuntuNumberAnimation { target: appDelegate; properties: "x"; to: targetX; duration: priv.animationDuration }
+                    UbuntuNumberAnimation { target: appDelegate; properties: "x"; to: rightEdgeFocusAnimation.targetX; duration: priv.animationDuration }
                     UbuntuNumberAnimation { target: decoratedWindow; properties: "angle"; to: 0; duration: priv.animationDuration }
                     UbuntuNumberAnimation { target: decoratedWindow; properties: "itemScale"; to: 1; duration: priv.animationDuration }
                     onStopped: appDelegate.focus = true

@@ -30,7 +30,7 @@ QtObject {
     // Output
 
     readonly property real scaleToPreviewProgress: {
-        print("scaleProg:", progress < breakPoint ? 0 : MathUtils.linearAnimation(breakPoint, 1.0, 0.0, 1.0, progress))
+//        print("scaleProg:", progress < breakPoint ? 0 : MathUtils.linearAnimation(breakPoint, 1.0, 0.0, 1.0, progress))
         return progress < breakPoint ? 0 : MathUtils.linearAnimation(0.5, 1.0, 0.0, 1.0, progress)
     }
     readonly property int animatedWidth: {
