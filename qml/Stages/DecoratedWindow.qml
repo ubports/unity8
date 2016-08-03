@@ -95,7 +95,7 @@ FocusScope {
 
     BorderImage {
         anchors {
-            fill: decoratedWindow
+            fill: root
             margins: active ? -units.gu(2) : -units.gu(1.5)
         }
         source: "graphics/dropshadow2gu.sci"
@@ -153,8 +153,7 @@ FocusScope {
                     implicitHeight: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedHeight, root.scaleToPreviewSize, root.scaleToPreviewProgress)
                     width: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedWidth, applicationWindow.minSize, root.scaleToPreviewProgress)
                     height: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedHeight, applicationWindow.minSize, root.scaleToPreviewProgress)
-                    // This is not 100% matching as it animates to an animated height, but close enough for the speed the animation plays
-                    itemScale: MathUtils.linearAnimation(0, 1, 1, 1.0 * root.scaleToPreviewSize / Math.min(applicationWindow.height, applicationWindow.width), root.scaleToPreviewProgress)
+                    itemScale: implicitWidth / width
                 }
             }
         ]
