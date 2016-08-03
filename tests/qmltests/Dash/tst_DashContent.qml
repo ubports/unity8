@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2013 Canonical Ltd.
+ * Copyright (C) 2013,2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -320,7 +320,8 @@ Item {
             tryCompare(navigationListView.currentItem.navigation, "navigationId", "root");
 
             var headerContainer = findChild(dashContentList.currentItem, "headerContainer");
-            tryCompare(headerContainer, "contentY", headerContainer.height);
+            tryCompare(headerContainer, "clip", false);
+            verify(headerContainer.state !== "search");
             mouseClick(searchButton);
             tryCompare(peExtraPanel, "visible", true);
             waitForRendering(navigationListView);
@@ -384,7 +385,8 @@ Item {
             mouseClick(header0);
             compare(peExtraPanel.visible, false);
 
-            tryCompare(headerContainer, "contentY", headerContainer.height);
+            tryCompare(headerContainer, "clip", false);
+            verify(headerContainer.state !== "search");
             mouseClick(searchButton);
             tryCompare(peExtraPanel, "visible", true);
             tryCompare(navigationListView.currentItem.navigation, "loaded", true);
@@ -556,7 +558,8 @@ Item {
 
             mouseClick(cancelButton);
             tryCompare(headerContainer, "showSearch", false);
-            tryCompare(headerContainer, "contentY", headerContainer.height);
+            tryCompare(headerContainer, "clip", false);
+            verify(headerContainer.state !== "search");
 
             // test within a navigation
             goToSecondLevel();

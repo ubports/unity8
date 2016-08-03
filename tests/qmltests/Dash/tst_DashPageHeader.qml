@@ -1,5 +1,5 @@
 /*
- * Copyright 2013,2015 Canonical Ltd.
+ * Copyright (C) 2013,2015,2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,13 +43,15 @@ Item {
         property var headerContainer: findChild(pageHeader, "headerContainer")
 
         function doTypeString(text) {
-            tryCompare(headerContainer, "contentY", 0);
+            tryCompare(headerContainer, "clip", false);
+            compare(headerContainer.state, "search");
             typeString(text);
         }
 
         function doResetSearch() {
             pageHeader.resetSearch();
-            tryCompare(headerContainer, "contentY", headerContainer.height);
+            tryCompare(headerContainer, "clip", false);
+            verify(headerContainer.state !== "search");
         }
 
         function init() {

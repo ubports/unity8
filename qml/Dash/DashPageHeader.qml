@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2015 Canonical, Ltd.
+ * Copyright (C) 2013,2015,2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -137,17 +137,43 @@ Item {
         }
     }
 
-    Flickable {
+    Item {
         id: headerContainer
         objectName: "headerContainer"
-        clip: contentY < height
         anchors { left: parent.left; top: parent.top; right: parent.right }
         height: header.__styleInstance.contentHeight
-        contentHeight: headersColumn.height
-        interactive: false
-        contentY: showSearch ? 0 : height
 
         property bool showSearch: false
+
+        state: headerContainer.showSearch ? "search" : ""
+
+        states: State {
+            name: "search"
+
+            AnchorChanges {
+                target: headersColumn
+                anchors.top: parent.top
+                anchors.bottom: undefined
+            }
+        }
+
+        transitions: Transition {
+            id: openSearchAnimation
+            AnchorAnimation {
+                duration: UbuntuAnimation.FastDuration
+                easing: UbuntuAnimation.StandardEasing
+            }
+
+            property bool openPopup: false
+
+            onRunningChanged: {
+                headerContainer.clip = running;
+                if (!running && openSearchAnimation.openPopup) {
+                    openSearchAnimation.openPopup = false;
+                    root.openPopup();
+                }
+            }
+        }
 
         Background {
             id: background
@@ -155,23 +181,13 @@ Item {
             style: scopeStyle.headerBackground
         }
 
-        Behavior on contentY {
-            UbuntuNumberAnimation {
-                id: openSearchAnimation
-                property bool openPopup: false
-
-                onRunningChanged: {
-                    if (!running && openSearchAnimation.openPopup) {
-                        openSearchAnimation.openPopup = false;
-                        root.openPopup();
-                    }
-                }
-            }
-        }
-
         Column {
             id: headersColumn
-            anchors { left: parent.left; right: parent.right }
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+            }
 
             PageHeader {
                 id: searchHeader
