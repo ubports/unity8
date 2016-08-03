@@ -152,7 +152,7 @@ FocusScope {
 
             active: false
 
-            onLoaded: sessionChooserLoader.item.focus = true;
+            onLoaded: sessionChooserLoader.item.forceActiveFocus();
             Binding {
                 target: sessionChooserLoader.item
                 property: "initiallySelectedSession"

@@ -102,6 +102,7 @@ StyledItem {
         name: "Ubuntu.Components.Themes.Ambiance"
     }
 
+    KeyNavigation.tab: sessionChooser
     Keys.onUpPressed: {
         selected(currentIndex - 1);
         event.accepted = true;
@@ -255,8 +256,14 @@ StyledItem {
             id: badge
             anchors.fill: parent
             keyColor: "#ffffff" // icon providers give us white icons
-            color: theme.palette.normal.raisedSecondaryText
+            color: parent.activeFocus ? theme.palette.normal.selection : theme.palette.normal.raisedSecondaryText
             source: LightDMService.sessions.iconUrl(root.currentSession)
+        }
+
+        KeyNavigation.tab: passwordInput
+        Keys.onReturnPressed: {
+            sessionChooserButtonClicked();
+            event.accepted = true;
         }
 
         onClicked: {
