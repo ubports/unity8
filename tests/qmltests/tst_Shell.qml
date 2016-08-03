@@ -2154,8 +2154,10 @@ Rectangle {
 
         function test_switchToStagedForcesLegacyAppClosing_data() {
             return [
-                {tag: "forceClose", replug: false },
-                {tag: "replug", replug: true }
+                {tag: "forceClose", replug: false, tabletMode: false, screenSize: Qt.size(units.gu(20), units.gu(40)) },
+                {tag: "replug", replug: true, tabletMode: false, screenSize: Qt.size(units.gu(20), units.gu(40)) },
+                {tag: "forceClose+tablet", replug: false, tabletMode: true, screenSize: Qt.size(units.gu(90), units.gu(65)) },
+                {tag: "replug+tablet", replug: true, tabletMode: true, screenSize: Qt.size(units.gu(90), units.gu(65)) }
             ];
         }
 
@@ -2163,6 +2165,11 @@ Rectangle {
             loadShell("desktop")
             shell.usageScenario = "desktop"
             waitForRendering(shell);
+
+            // setup some screen size
+            var dialogs = findChild(root, "dialogs");
+            verify(dialogs);
+            dialogs.screenSize = data.screenSize;
 
             ApplicationManager.startApplication("camera-app")
 
@@ -2182,14 +2189,13 @@ Rectangle {
             shell.usageScenario = "phone"
             waitForRendering(shell);
 
-            // The popup must appear now
+            // The popup must appear now, unless in "tablet" mode
             popup = findChild(root, "modeSwitchWarningDialog");
-            compare(popup !== null, true);
+            compare(popup !== null, !data.tabletMode);
 
-            if (data.replug) {
+            if (data.replug || data.tabletMode) {
                 shell.usageScenario = "desktop"
                 waitForRendering(shell);
-
             } else {
                 var forceCloseButton = findChild(popup, "forceCloseButton");
                 mouseClick(forceCloseButton, forceCloseButton.width / 2, forceCloseButton.height / 2);
@@ -2200,7 +2206,7 @@ Rectangle {
             popup = findChild(root, "modeSwitchWarningDialog");
             tryCompareFunction(function() { return popup === null}, true);
 
-            if (data.replug) {
+            if (data.replug || data.tabletMode) {
                 // Libreoffice must still be running
                 compare(ApplicationManager.findApplication("libreoffice") !== null, true);
             } else {
