@@ -302,6 +302,7 @@ AbstractStage {
         },
         State {
             name: "sidestagedrightedge"; when: rightEdgeDragArea.dragging && root.mode == "stagedWithSideStage"
+            PropertyChanges { target: priv; nextInStack: priv.sideStageDelegate && priv.sideStageDelegate.itemIndex < 2 ? 2 : 1 }
         },
         State {
             name: "windowedrightedge"; when: rightEdgeDragArea.dragging && root.mode == "windowed"
@@ -312,7 +313,7 @@ AbstractStage {
         State {
             name: "stagedWithSideStage"; when: root.mode === "stagedWithSideStage"
             PropertyChanges { target: triGestureArea; enabled: true }
-            PropertyChanges { target: priv; nextInStack: priv.sideStageDelegate ? 3 : 2 }
+            PropertyChanges { target: priv; nextInStack: priv.sideStageDelegate && priv.sideStageDelegate.itemIndex < 2 ? 2 : 1 }
             PropertyChanges { target: sideStage; visible: true }
         },
         State {
@@ -473,6 +474,7 @@ AbstractStage {
             delegate: FocusScope {
                 id: appDelegate
                 objectName: "appDelegate_" + model.id
+                property int itemIndex: index // We need this from outside the repeater
                 // z might be overriden in some cases by effects, but we need z ordering
                 // to calculate occlusion detection
                 property int normalZ: topLevelSurfaceList.count - index
@@ -789,26 +791,13 @@ AbstractStage {
 
                 StagedRightEdgeMaths {
                     id: stagedRightEdgeMaths
-                    itemIndex: index
-                    sceneWidth: appContainer.width - root.leftMargin
-                    sceneHeight: appContainer.height
-                    progress: 0
-                    targetHeight: spreadMaths.stackHeight
-                    targetX: spreadMaths.targetX
-                    startY: appDelegate.fullscreen ? 0 : PanelState.panelHeight
-                    targetY: spreadMaths.targetY
-                    targetAngle: spreadMaths.targetAngle
-                    targetScale: spreadMaths.targetScale
-                }
-
-                SideStagedRightEdgeMaths {
-                    id: sideStagedRightEdgeMaths
                     sceneWidth: appContainer.width - root.leftMargin
                     sceneHeight: appContainer.height
                     isMainStageApp: priv.mainStageDelegate == appDelegate
                     isSideStageApp: priv.sideStageDelegate == appDelegate
                     sideStageWidth: sideStage.width
                     itemIndex: index
+                    nextInStack: priv.nextInStack
                     progress: 0
                     targetHeight: spreadMaths.stackHeight
                     targetX: spreadMaths.targetX
@@ -849,56 +838,29 @@ AbstractStage {
                         PropertyChanges { target: dragArea; enabled: true }
                         PropertyChanges { target: windowInfoItem; opacity: spreadMaths.tileInfoOpacity; visible: spreadMaths.itemVisible }
                     },
-//                    State {
-//                        name: "stagedrightedge";
-//                        when: root.state == "stagedrightedge" || rightEdgeFocusAnimation.running || hidingAnimation.running
-//                        PropertyChanges {
-//                            target: stagedRightEdgeMaths
-//                            progress: rightEdgeDragArea.progress
-//                        }
-//                        PropertyChanges {
-//                            target: appDelegate
-//                            y: stagedRightEdgeMaths.animatedY
-//                            x: stagedRightEdgeMaths.animatedX
-//                            z: index +1
-//                            height: stagedRightEdgeMaths.animatedHeight
-//                            requestedWidth: decoratedWindow.oldRequestedWidth
-//                            requestedHeight: decoratedWindow.oldRequestedHeight
-//                            visible: stagedRightEdgeMaths.itemVisible
-//                        }
-//                        PropertyChanges {
-//                            target: decoratedWindow;
-//                            hasDecoration: false
-//                            angle: stagedRightEdgeMaths.animatedAngle
-//                            itemScale: stagedRightEdgeMaths.animatedScale
-//                            scaleToPreviewSize: spreadItem.stackHeight
-//                            scaleToPreviewProgress: stagedRightEdgeMaths.scaleToPreviewProgress
-//                            shadowOpacity: 0.3
-//                        }
-//                    },
                     State {
-                        name: "sidestagedrightedge"
+                        name: "stagedrightedge"
                         when: root.state == "sidestagedrightedge" || root.state == "stagedrightedge" || rightEdgeFocusAnimation.running || hidingAnimation.running
                         PropertyChanges {
-                            target: sideStagedRightEdgeMaths
+                            target: stagedRightEdgeMaths
                             progress: rightEdgeDragArea.progress
                         }
                         PropertyChanges {
                             target: appDelegate
-                            x: sideStagedRightEdgeMaths.animatedX
-                            y: sideStagedRightEdgeMaths.animatedY
+                            x: stagedRightEdgeMaths.animatedX
+                            y: stagedRightEdgeMaths.animatedY
                             z: index +1
-                            height: sideStagedRightEdgeMaths.animatedHeight
+                            height: stagedRightEdgeMaths.animatedHeight
                             requestedWidth: decoratedWindow.oldRequestedWidth
                             requestedHeight: decoratedWindow.oldRequestedHeight
                         }
                         PropertyChanges {
                             target: decoratedWindow
                             hasDecoration: false
-                            angle: sideStagedRightEdgeMaths.animatedAngle
-                            itemScale: sideStagedRightEdgeMaths.animatedScale
+                            angle: stagedRightEdgeMaths.animatedAngle
+                            itemScale: stagedRightEdgeMaths.animatedScale
                             scaleToPreviewSize: spreadItem.stackHeight
-                            scaleToPreviewProgress: sideStagedRightEdgeMaths.scaleToPreviewProgress
+                            scaleToPreviewProgress: stagedRightEdgeMaths.scaleToPreviewProgress
                             shadowOpacity: .3
                         }
                     },
@@ -1345,8 +1307,9 @@ AbstractStage {
                     priv.goneToSpread = true;
                 } else {
                     if (appRepeater.count > 1) {
+                        print("playing focus animation for", priv.nextInStack)
                         appRepeater.itemAt(0).playHidingAnimation()
-                        appRepeater.itemAt(1).playFocusAnimation()
+                        appRepeater.itemAt(priv.nextInStack).playFocusAnimation()
                     } else {
                         appRepeater.itemAt(0).playFocusAnimation();
                     }

@@ -1,5 +1,6 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import Unity.Application 0.1
 import "MathUtils.js" as MathUtils
 
 QtObject {
@@ -9,6 +10,7 @@ QtObject {
     property int itemIndex: 0
     property real progress: 0
     property int sceneWidth: 0
+    property int sideStageWidth: 0
     property int sceneHeight: 0
     property int targetX: 0
     property int startY: 0
@@ -19,13 +21,16 @@ QtObject {
     property real startScale: 1.3
     property real targetScale: 0
 
-    onProgressChanged: if (itemIndex == 0) { print("progress", progress) }
+    property bool isMainStageApp: false
+    property bool isSideStageApp: false
+    property int nextInStack: 0
+
+
+//    onProgressChanged: if (itemIndex == 0) { print("progress", progress) }
 
     // Config
     property real breakPoint: 0.4
     property int tileDistance: units.gu(10)
-
-
 
     // Output
 
@@ -42,29 +47,71 @@ QtObject {
     }
 
     readonly property int animatedX: {
-        if (itemIndex == 0) {
-            return root.targetX * root.progress
+        var stageCount = (priv.mainStageDelegate ? 1 : 0) + (priv.sideStageDelegate ? 1 : 0)
+        var nextStage = appRepeater.itemAt(nextInStack).stage;
+
+        var startX = 0;
+        if (isMainStageApp) {
+            startX = 0;
+        } else if (isSideStageApp) {
+            startX = sceneWidth - sideStageWidth;
+        } else if (itemIndex == nextInStack && itemIndex < 2 && priv.sideStageDelegate && nextStage == ApplicationInfoInterface.MainStage) {
+            startX = sceneWidth - sideStageWidth;
+        } else {
+            startX = sceneWidth + Math.max(0, itemIndex - stageCount - 1) * tileDistance;
         }
-        var startX = sceneWidth //+ (itemIndex - 1) * tileDistance
-        if (itemIndex == 1) {
-            if (root.progress < breakPoint) {
-                return MathUtils.linearAnimation(0, breakPoint, startX, startX / 2 + (itemIndex - 1) * tileDistance, progress)
+
+        if (itemIndex == nextInStack) {
+            if (progress < breakPoint) {
+                return MathUtils.linearAnimation(0, breakPoint, startX, sceneWidth / 2, progress)
             }
-            return MathUtils.linearAnimation(breakPoint, 1, startX / 2 + (itemIndex - 1) * tileDistance, targetX, progress)
+            return MathUtils.linearAnimation(breakPoint, 1, sceneWidth / 2, targetX, progress)
         }
+
         if (progress < breakPoint) {
-            return startX
+            return startX;
         }
-        return MathUtils.linearAnimation(breakPoint, 1, startX + (itemIndex - 1) * tileDistance, targetX, progress)
+
+        return MathUtils.linearAnimation(breakPoint, 1, startX, targetX, progress)
+
     }
 
     readonly property int animatedY: progress < breakPoint ? startY : MathUtils.linearAnimation(breakPoint, 1, startY, targetY, progress)
 
-    readonly property real animatedAngle: itemIndex == 0 ? MathUtils.linearAnimation(0, 1, 0, targetAngle, progress)
-                                        : Math.max(MathUtils.linearAnimation(0, breakPoint, startAngle, targetAngle, progress), targetAngle)
+    readonly property real animatedAngle: {
+        var startAngle = 0;
+        if (isMainStageApp) {
+            startAngle = 0;
+        } else if (isSideStageApp) {
+            startAngle = 0;
+        } else {
+            startAngle = root.startAngle;
+        }
 
-    readonly property real animatedScale: itemIndex == 0 ? MathUtils.linearAnimation(0, 1, 1, targetScale, progress)
-                                                         : MathUtils.linearAnimation(0, 1, startScale, targetScale, progress)
+        return MathUtils.linearAnimation(0, 1, startAngle, targetAngle, progress);
+    }
+
+    readonly property real animatedScale: {
+        var startScale = 1;
+        if (isMainStageApp) {
+            startScale = 1;
+        } else if (isSideStageApp) {
+            startScale = 1;
+        } else {
+            startScale = root.startScale;
+        }
+
+//        print("main stage delegate:", priv.mainStageDelegate, "side delegate", priv.sideStageDelegate, "this", appDelegate, "scale:", startScale)
+//        return startScale;
+        if (itemIndex == nextInStack) {
+            return MathUtils.linearAnimation(0, 1, startScale, targetScale, progress)
+        }
+        if (progress < breakPoint) {
+            return startScale;
+        }
+
+        return MathUtils.linearAnimation(breakPoint, 1, startScale, targetScale, progress)
+    }
 
     readonly property bool itemVisible: true //animatedX < sceneWidth
 }
