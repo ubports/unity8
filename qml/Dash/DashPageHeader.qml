@@ -235,6 +235,8 @@ Item {
                                 anchors.fill: parent
                                 anchors.margins: units.gu(1)
                                 source: "image://theme/clear"
+                                sourceSize.width: width
+                                sourceSize.height: height
                                 opacity: parent.enabled
                                 visible: opacity > 0
                                 Behavior on opacity {
