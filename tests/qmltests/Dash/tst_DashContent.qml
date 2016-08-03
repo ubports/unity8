@@ -524,7 +524,6 @@ Item {
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
             var headerContainer = findChild(pageHeader, "headerContainer");
 
-            // test that closing the filters popover without a search unfocuses and removes the navigation
             mouseClick(searchButton);
             tryCompare(peExtraPanel, "visible", true);
 
@@ -536,6 +535,19 @@ Item {
             filtersPopover = findChild(shell, "filtersPopover")
             verify(filtersPopover);
 
+            // test that popover resizes
+            var shellWidth = shell.width;
+            var popoverWidth = filtersPopover.contentWidth;
+
+            shell.width = shellWidth + units.gu(60);
+            waitForRendering(shell);
+
+            tryCompare(filtersPopover, "contentWidth", popoverWidth + units.gu(60));
+
+            shell.width = shellWidth;
+            waitForRendering(shell);
+
+            // test that closing the filters popover without a search unfocuses and removes the navigation
             mouseClick(shell, shell.width - 1, shell.height - 1);
 
             tryCompare(pageHeader.extraPanel, "visible", false);
