@@ -121,8 +121,8 @@ AbstractStage {
 
         property bool goneToSpread: false
         property int closingIndex: -1
-//        property int animationDuration: 4000
-        property int animationDuration: UbuntuAnimation.FastDuration
+        property int animationDuration: 4000
+//        property int animationDuration: UbuntuAnimation.FastDuration
 
         function updateForegroundMaximizedApp() {
             var found = false;
@@ -733,13 +733,15 @@ AbstractStage {
                 }
 
                 function playFocusAnimation() {
-                    if (state == "sidestagedrightedge") {
+                    print("playing focus animation", state, root.mode, "app", model.application.appId)
+                    if (state == "stagedrightedge") {
                         // TODO: Can we drop this if and find something that always works?
                         if (root.mode == "staged") {
                             rightEdgeFocusAnimation.targetX = 0
+                            print("doing it to 0")
                             rightEdgeFocusAnimation.start()
                         } else if (root.mode == "stagedWithSideStage") {
-                            rightEdgeFocusAnimation.targetX =  appDelegate.stage == ApplicationInfoInterface.SideStage ? sideStage.x : 0
+                            rightEdgeFocusAnimation.targetX = appDelegate.stage == ApplicationInfoInterface.SideStage ? sideStage.x : 0
                             rightEdgeFocusAnimation.start()
                         }
                     } else {

@@ -34,7 +34,7 @@ import "Launcher"
 import "Panel"
 import "Components"
 import "Notifications"
-import "Stages"
+import "Stage"
 import "Tutorial"
 import "Wizard"
 import Unity.Notifications 1.0 as NotificationBackend
@@ -62,19 +62,18 @@ StyledItem {
     property string mode: "full-greeter"
     property alias oskEnabled: inputMethod.enabled
     function updateFocusedAppOrientation() {
-        applicationsDisplayLoader.item.updateFocusedAppOrientation();
+        stage.updateFocusedAppOrientation();
     }
     function updateFocusedAppOrientationAnimated() {
-        applicationsDisplayLoader.item.updateFocusedAppOrientationAnimated();
+        stage.updateFocusedAppOrientationAnimated();
     }
     property bool hasMouse: false
 
     // to be read from outside
-    readonly property int mainAppWindowOrientationAngle:
-            applicationsDisplayLoader.item ? applicationsDisplayLoader.item.mainAppWindowOrientationAngle : 0
+    readonly property int mainAppWindowOrientationAngle: stage.mainAppWindowOrientationAngle
 
     readonly property bool orientationChangesEnabled: panel.indicators.fullyClosed
-            && (applicationsDisplayLoader.item && applicationsDisplayLoader.item.orientationChangesEnabled)
+            && stage.orientationChangesEnabled
             && (!greeter || !greeter.animating)
 
     readonly property bool showingGreeter: greeter && greeter.shown
@@ -88,19 +87,13 @@ StyledItem {
             return Qt.PrimaryOrientation;
         } else if (greeter && greeter.shown) {
             return Qt.PrimaryOrientation;
-        } else if (applicationsDisplayLoader.item) {
-            return shell.orientations.map(applicationsDisplayLoader.item.supportedOrientations);
         } else {
-            // we just don't care
-            return Qt.PortraitOrientation
-                 | Qt.LandscapeOrientation
-                 | Qt.InvertedPortraitOrientation
-                 | Qt.InvertedLandscapeOrientation;
+            return shell.orientations.map(stage.supportedOrientations);
         }
     }
 
-    readonly property var mainApp:
-            applicationsDisplayLoader.item ? applicationsDisplayLoader.item.mainApp : null
+    readonly property var mainApp: stage.mainApp
+
     onMainAppChanged: {
         if (mainApp) {
             _onMainAppChanged(mainApp.appId);
@@ -241,157 +234,53 @@ StyledItem {
             applicationsModel: ApplicationManager
         }
 
-        Loader {
-            id: applicationsDisplayLoader
-            objectName: "applicationsDisplayLoader"
+        Stage {
+            id: stage
+            objectName: "stage"
             anchors.fill: parent
+            focus: true
 
-            // When we have a locked app, we only want to show that one app.
-            // FIXME: do this in a less traumatic way.  We currently only allow
-            // locked apps in phone mode (see FIXME in Lockscreen component in
-            // this same file).  When that changes, we need to do something
-            // nicer here.  But this code is currently just to prevent a
-            // theoretical attack where user enters lockedApp mode, then makes
-            // the screen larger (maybe connects to monitor) and tries to enter
-            // tablet mode.
+            dragAreaWidth: shell.edgeSize
+            background: wallpaperResolver.background
+
+            applicationManager: ApplicationManager
+            topLevelSurfaceList: topLevelSurfaceList
 
             property string usageScenario: shell.usageScenario === "phone" || greeter.hasLockedApp
-                                           ? "phone"
-                                           : shell.usageScenario
+                                                       ? "phone"
+                                                       : shell.usageScenario
 
-            source: "Stages/DesktopStage.qml"
-            readonly property string qmlComponent: {
-                if (shell.mode === "greeter") {
-                    return "Stages/AbstractStage.qml"
-                } else if (applicationsDisplayLoader.usageScenario === "phone") {
-                    return "Stages/PhoneStage.qml";
-                } else if (applicationsDisplayLoader.usageScenario === "tablet") {
-                    return "Stages/TabletStage.qml";
-                } else {
-                    return "Stages/DesktopStage.qml";
-                }
-            }
+            mode: usageScenario == "phone" ? "staged"
+                     : usageScenario == "tablet" ? "stagedWithSideStage"
+                     : "windowed"
 
-            property bool interactive: (!greeter || !greeter.shown)
+            shellOrientation: shell.orientation
+            shellOrientationAngle: shell.orientationAngle
+            orientations: shell.orientations
+            nativeWidth: shell.nativeWidth
+            nativeHeight: shell.nativeHeight
+            // TODO: Is this still needed? Didn't come across it. Needs checking before merging
+            beingResized: shell.beingResized
+
+            // TODO: Is this still needed? Didn't come across it. Needs checking before merging
+            // Not just using panel.panelHeight as that changes depending on the focused app.
+            maximizedAppTopMargin: panel.indicators.minimizedPanelHeight
+
+            interactive: (!greeter || !greeter.shown)
                     && panel.indicators.fullyClosed
                     && launcher.progress == 0
                     && !notifications.useModal
 
-            onInteractiveChanged: { if (interactive) { focus = true; } }
+            // TODO: This is not implemented yet in the new stage...
+            spreadEnabled: tutorial.spreadEnabled && (!greeter || (!greeter.hasLockedApp && !greeter.shown))
+            keepDashRunning: launcher.shown || launcher.dashSwipe
+            suspended: greeter.shown
+            leftMargin: shell.usageScenario == "desktop" && !settings.autohideLauncher ? launcher.panelWidth: 0
 
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "mode"
-                value: applicationsDisplayLoader.usageScenario == "phone" ? "staged"
-                        : applicationsDisplayLoader.usageScenario == "tablet" ? "stagedWithSideStage"
-                        : "windowed"
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "focus"
-                value: true
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "objectName"
-                value: "stage"
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "dragAreaWidth"
-                value: shell.edgeSize
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "maximizedAppTopMargin"
-                // Not just using panel.panelHeight as that changes depending on the focused app.
-                value: panel.indicators.minimizedPanelHeight
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "interactive"
-                value: applicationsDisplayLoader.interactive
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "spreadEnabled"
-                value: tutorial.spreadEnabled && (!greeter || (!greeter.hasLockedApp && !greeter.shown))
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "inverseProgress"
-                value: !greeter || greeter.locked || !tutorial.launcherLongSwipeEnabled ? 0 : launcher.progress
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "shellOrientationAngle"
-                value: shell.orientationAngle
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "shellOrientation"
-                value: shell.orientation
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "orientations"
-                value: shell.orientations
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "background"
-                value: wallpaperResolver.background
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "nativeWidth"
-                value: shell.nativeWidth
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "nativeHeight"
-                value: shell.nativeHeight
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "beingResized"
-                value: shell.beingResized
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "keepDashRunning"
-                value: launcher.shown || launcher.dashSwipe
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "suspended"
-                value: greeter.shown
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "altTabPressed"
-                value: physicalKeysMapper.altTabPressed
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "leftMargin"
-                value: shell.usageScenario == "desktop" && !settings.autohideLauncher ? launcher.panelWidth: 0
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "applicationManager"
-                value: ApplicationManager
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "topLevelSurfaceList"
-                value: topLevelSurfaceList
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "oskEnabled"
-                value: shell.oskEnabled
-            }
+            // TODO: this is not implemented yet in the new stage...
+            inverseProgress: !greeter || greeter.locked || !tutorial.launcherLongSwipeEnabled ? 0 : launcher.progress
+            altTabPressed: physicalKeysMapper.altTabPressed
+            oskEnabled: shell.oskEnabled
         }
     }
 
@@ -610,7 +499,7 @@ StyledItem {
             }
             onFocusChanged: {
                 if (!focus) {
-                    applicationsDisplayLoader.focus = true;
+                    shell.focus = true;
                 }
             }
 
@@ -671,7 +560,7 @@ StyledItem {
             lastInputTimestamp: inputFilter.lastInputTimestamp
             launcher: launcher
             panel: panel
-            stage: applicationsDisplayLoader.item
+            stage: stage
         }
 
         Wizard {
@@ -755,7 +644,7 @@ StyledItem {
         z: dialogs.z + 10
         GlobalShortcut { shortcut: Qt.Key_Print; onTriggered: itemGrabber.capture(shell) }
         Connections {
-            target: applicationsDisplayLoader.item
+            target: stage
             ignoreUnknownSignals: true
             onItemSnapshotRequested: itemGrabber.capture(item)
         }
@@ -783,9 +672,8 @@ StyledItem {
         }
 
         onPushedRightBoundary: {
-            if (buttons === Qt.NoButton && applicationsDisplayLoader.item
-                    && applicationsDisplayLoader.item.pushRightEdge) {
-                applicationsDisplayLoader.item.pushRightEdge(amount);
+            if (buttons === Qt.NoButton) {
+                stage.pushRightEdge(amount);
             }
         }
 
