@@ -69,16 +69,6 @@ LocalComponents.Page {
         menuObjectPath: "/com/canonical/indicator/network/phone_wifi_settings"
     }
 
-    onContentAnimationRunningChanged: {
-        // workaround to prevent an endless loop while animating the (possibly word wrapped) label in and the listview count changing
-        if (!contentAnimationRunning) {
-            label.text = listview.count > 0 ? i18n.tr("Select one of the available Wi-Fi networks to access the features and updates")
-                                            : i18n.tr("No available Wi-Fi networks");
-        } else {
-            label.text = "";
-        }
-    }
-
     Component {
         id: accessPointComponent
         ListItem {
@@ -171,6 +161,8 @@ LocalComponents.Page {
             font.weight: Font.Light
             color: textColor
             wrapMode: Text.Wrap
+            text: listview.count > 0 ? i18n.tr("Available Wi-Fi networks")
+                                     : i18n.tr("No available Wi-Fi networks")
         }
 
         ListView {
