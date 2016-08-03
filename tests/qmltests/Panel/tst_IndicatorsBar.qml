@@ -136,6 +136,7 @@ IndicatorTest {
         }
 
         function wait_for_expansion_to_settle() {
+            waitUntilTransitionsEnd(indicatorsBar);
             tryCompare(heightAnimation, "running", false);
             wait(UbuntuAnimation.SnapDuration); // put a little extra wait in for things to settle
         }
@@ -150,7 +151,6 @@ IndicatorTest {
             indicatorsBar.selectItemAt(mappedPosition.x);
             indicatorsBar.expanded = true;
             wait_for_expansion_to_settle();
-
 
             // mappedPosition contained within mappedRect
             tryCompareFunction(function() {
@@ -203,8 +203,8 @@ IndicatorTest {
 
         function test_visibleIndicators_data() {
             return [
-                { visible: [true, false, true, false, true, true] },
-                { visible: [false, false, false, false, false, false] }
+                { visible: [true, false, true, false, true, true, false, true] },
+                { visible: [false, false, false, false, false, false, true, false] }
             ];
         }
 
