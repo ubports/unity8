@@ -81,7 +81,8 @@ Item {
     function closePopup(keepFocus, keepSearch) {
         if (extraPanel.visible) {
             extraPanel.visible = false;
-        } else if (!keepFocus) {
+        }
+        if (!keepFocus) {
             unfocus(keepSearch);
         }
         if (!keepSearch && !searchTextField.text && !root.navigationTag && searchHistory.count == 0) {
@@ -131,7 +132,6 @@ Item {
         anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + (extraPanel ? extraPanel.height : 0) }
         visible: headerContainer.showSearch
         onPressed: {
-            extraPanel.visible = false;
             closePopup(/* keepFocus */false);
             mouse.accepted = false;
         }
