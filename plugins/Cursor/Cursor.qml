@@ -25,6 +25,7 @@ MousePointer {
         id: imageInfo
         themeName: mousePointer.themeName
         cursorName: mousePointer.cursorName
+        cursorHeight: mousePointer.height
     }
 
     Loader {
@@ -32,7 +33,7 @@ MousePointer {
         sourceComponent: AnimatedSprite {
             x: -imageInfo.hotspot.x
             y: -imageInfo.hotspot.y
-            source: "image://cursor/" + mousePointer.themeName + "/" + mousePointer.cursorName
+            source: imageInfo.imageSource
 
             interpolate: false
 
@@ -53,7 +54,9 @@ MousePointer {
         sourceComponent: Image {
             x: -imageInfo.hotspot.x
             y: -imageInfo.hotspot.y
-            source: "image://cursor/" + mousePointer.themeName + "/" + mousePointer.cursorName
+            source: imageInfo.imageSource
+            width: sourceSize.width
+            height: sourceSize.height
         }
     }
 }
