@@ -2506,5 +2506,35 @@ Rectangle {
             verify(greeter.shown);
             verify(greeter.locked);
         }
+
+        function test_closeFocusedDelegate_data() {
+            return [
+                        { tag: "phone" },
+                        { tag: "tablet" },
+                        { tag: "desktop" }
+                    ]
+        }
+
+        function test_closeFocusedDelegate(data) {
+            loadShell(data.tag);
+            shell.usageScenario = data.tag;
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var app2SurfaceId = topLevelSurfaceList.nextId;
+            var app2 = ApplicationManager.startApplication("calendar-app");
+            waitUntilAppWindowIsFullyLoaded(app2SurfaceId);
+
+            var app1SurfaceId = topLevelSurfaceList.nextId;
+            var app1 = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(app1SurfaceId);
+
+            var countBeforeClose = topLevelSurfaceList.count;
+
+            keyClick(Qt.Key_F4, Qt.AltModifier);
+
+            tryCompare(topLevelSurfaceList, "count", countBeforeClose - 1);
+            tryCompareFunction(function() { return ApplicationManager.focusedApplicationId; }, "calendar-app");
+        }
     }
 }
