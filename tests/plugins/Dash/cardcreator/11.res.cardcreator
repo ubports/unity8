@@ -14,7 +14,7 @@ Loader {
                                 objectName: "backgroundLoader"; 
                                 anchors.fill: parent; 
                                 asynchronous: false;
-                                visible: status == Loader.Ready; 
+                                visible: status === Loader.Ready;
                                 sourceComponent: UbuntuShape { 
                                     objectName: "background"; 
                                     radius: "medium"; 
@@ -48,23 +48,19 @@ Loader {
                                 } 
                             }
 readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
-Item { 
-                            id: artShapeHolder; 
-                            height: artShapeLoader.height;
-                            width: artShapeLoader.width;
-                            anchors { horizontalCenter: parent.horizontalCenter; } 
-                            Loader { 
+Loader {
                                 id: artShapeLoader; 
+                                anchors { horizontalCenter: parent.horizontalCenter; }
                                 objectName: "artShapeLoader"; 
                                 readonly property string cardArt: cardData && cardData["art"] || "";
                                 onCardArtChanged: { if (item) { item.image.source = cardArt; } }
                                 active: cardArt != "";
                                 asynchronous: false;
-                                visible: status == Loader.Ready; 
+                                visible: status === Loader.Ready;
                                 sourceComponent: Item { 
                                     id: artShape; 
                                     objectName: "artShape"; 
-                                    visible: image.status == Image.Ready; 
+                                    visible: image.status === Image.Ready;
                                     readonly property alias image: artImage; 
                                     UbuntuShape {
                                         anchors.fill: parent;
@@ -85,7 +81,6 @@ Item {
                                         height: width / 1;
                                     } 
                                 } 
-                            } 
                         }
 readonly property int headerHeight: row.height;
 Row { 
@@ -93,7 +88,7 @@ Row {
                         objectName: "outerRow"; 
                         property real margins: units.gu(1); 
                         spacing: margins; 
-                        anchors { top: artShapeHolder.bottom; 
+                        anchors { top: artShapeLoader.bottom;
                                          topMargin: units.gu(1);
 left: parent.left;
  } 
