@@ -289,7 +289,7 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator_name)
     if ((new_indicator->identifier() == QStringLiteral("indicator-session"))
             || new_indicator->identifier() == QStringLiteral("indicator-keyboard")
             || (new_indicator->identifier() == QStringLiteral("indicator-power") && m_platform.isPC())) {
-        new_indicator->setProfile(m_profile.replace(QStringLiteral("phone"), QStringLiteral("desktop")));
+        new_indicator->setProfile(QString(m_profile).replace(QStringLiteral("phone"), QStringLiteral("desktop")));
     } else {
         new_indicator->setProfile(m_profile);
     }
