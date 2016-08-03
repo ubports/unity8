@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-07-11 17:24+0000\n"
-"PO-Revision-Date: 2016-06-27 07:37+0000\n"
+"POT-Creation-Date: 2016-07-28 08:17+0000\n"
+"PO-Revision-Date: 2016-07-19 04:43+0000\n"
 "Last-Translator: P_E_T_O <Unknown>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Launchpad-Export-Date: 2016-07-14 06:01+0000\n"
-"X-Generator: Launchpad (build 18115)\n"
+"X-Launchpad-Export-Date: 2016-07-30 06:07+0000\n"
+"X-Generator: Launchpad (build 18169)\n"
 "Language: sk\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -247,31 +247,31 @@ msgstr "Okná"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:266
 msgid "Ctrl + Super + D"
-msgstr ""
+msgstr "Ctrl + Super + D"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:271
 msgid "Minimizes all windows."
-msgstr ""
+msgstr "Minimalizuje všetky okná."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:279
 msgid "Ctrl + Super + Up"
-msgstr ""
+msgstr "Ctrl + Super + Hore"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:284
 msgid "Maximizes the current window."
-msgstr ""
+msgstr "Maximalizuje aktuálne okno."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + Down"
-msgstr ""
+msgstr "Ctrl + Super + Dole"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes or restores the current window."
-msgstr ""
+msgstr "Minimalizuje alebo obnoví aktuálne okno."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Left or Right"
-msgstr ""
+msgstr "Ctrl + Super + Doľava alebo Doprava"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Semi-maximizes the current window."
@@ -279,11 +279,11 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Alt + F4"
-msgstr ""
+msgstr "Alt + F4"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Closes the current window."
-msgstr ""
+msgstr "Zavrie aktuálne okno."
 
 #: qml/Components/Lockscreen.qml:239
 msgid "Return to Call"
@@ -300,12 +300,12 @@ msgstr "OK"
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
 msgid "%1:%2:%3"
-msgstr ""
+msgstr "%1:%2:%3"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:49
 #, qt-format
 msgid "%1:%2"
-msgstr ""
+msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
@@ -449,15 +449,15 @@ msgstr "Odomknúť"
 
 #: qml/Greeter/Greeter.qml:555
 msgid "Try again"
-msgstr ""
+msgstr "Skúsiť znova"
 
 #: qml/Greeter/LoginList.qml:63
 msgid "Passphrase"
-msgstr ""
+msgstr "Prístupová fráza"
 
 #: qml/Greeter/LoginList.qml:64
 msgid "Passcode"
-msgstr ""
+msgstr "Heslo"
 
 #: qml/Greeter/LoginList.qml:87
 msgid "Retry"
@@ -465,7 +465,7 @@ msgstr "Skúsiť znova"
 
 #: qml/Greeter/LoginList.qml:88
 msgid "Log In"
-msgstr ""
+msgstr "Prihlásiť sa"
 
 #: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passphrase."
@@ -627,7 +627,7 @@ msgstr "Dlhé potiahnutie od ľavého okraja pre otvorenie scope Dnes"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
-msgstr ""
+msgstr "Krátkym potiahnutím zľava otvoríte spúšťač"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
@@ -635,11 +635,11 @@ msgstr "Potiahnuť myšou do pravého rohu pre zobrazenie otvorených aplikáci�
 
 #: qml/Tutorial/TutorialRight.qml:56
 msgid "Swipe from the right edge to view your open apps"
-msgstr ""
+msgstr "Potiahnutím sprava zobrazíte otvorené aplikácie"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
-msgstr ""
+msgstr "Potiahnite zhora pre prístup k oznámeniam a rýchlym nastaveniam"
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
@@ -657,7 +657,7 @@ msgstr "Jazyk"
 #: qml/Wizard/Pages/passcode-desktop.qml:141
 #: qml/Wizard/Pages/password-set.qml:141
 msgid "Next"
-msgstr "Nasledujúca"
+msgstr "Nasledujúci"
 
 #: qml/Wizard/Pages/30-wifi.qml:29
 msgid "Connect to Wi‑Fi"
@@ -898,7 +898,7 @@ msgstr "Pre pokračovanie bez SIM karty stlačte Preskočiť."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr ""
+msgstr "Veľmi krátke heslo"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-07-11 17:24+0000\n"
+"POT-Creation-Date: 2016-07-28 08:17+0000\n"
 "PO-Revision-Date: 2015-07-04 18:32+0000\n"
 "Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-07-14 06:01+0000\n"
-"X-Generator: Launchpad (build 18115)\n"
+"X-Launchpad-Export-Date: 2016-07-30 06:06+0000\n"
+"X-Generator: Launchpad (build 18169)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
@@ -123,135 +123,135 @@ msgstr "Käynnistä uudelleen"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "Pikanäppäimet"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Unity 8"
-msgstr ""
+msgstr "Unity 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
-msgstr ""
+msgstr "PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr ""
+msgstr "Ottaa kuvakaappauksen."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
-msgstr ""
+msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of a window."
-msgstr ""
+msgstr "Ottaa kuvakaappauksen ikkunasta."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
-msgstr ""
+msgstr "Super + Välilyönti"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr ""
+msgstr "Vaihtaa seuraavaan näppäimistöasetteluun."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
-msgstr ""
+msgstr "Super + Shift + Välilyönti"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr ""
+msgstr "Vaihtaa edelliseen näppäimistöasetteluun."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:118
 msgid "Launcher"
-msgstr ""
+msgstr "Käynnistin"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:125
 msgid "Super (Hold)"
-msgstr ""
+msgstr "Super (pidä pohjassa)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:130
 msgid "Opens the launcher, displays shortcuts."
-msgstr ""
+msgstr "Avaa käynnistimen, näyttää pikanäppäimet."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Alt + F1"
-msgstr ""
+msgstr "Alt + F1"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens launcher keyboard navigation mode."
-msgstr ""
+msgstr "Avaa käynnistimen näppäimistöllä liikkumisen tilassa."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Super + Tab"
-msgstr ""
+msgstr "Super + Sarkain"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Switches applications via the launcher."
-msgstr ""
+msgstr "Vaihtaa sovellusten välillä käynnistimessä."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + 0 to 9"
-msgstr ""
+msgstr "Super + 0-9"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Same as clicking on a launcher icon."
-msgstr ""
+msgstr "Sama kuin käynnistimen painikkeen napsauttaminen."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:181
 msgid "Scopes"
-msgstr ""
+msgstr "Näkymät"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:188
 msgid "Super (Tap)"
-msgstr ""
+msgstr "Super (napauta)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:193
 msgid "Opens the Scopes home."
-msgstr ""
+msgstr "Avaa näkymien pääsivun."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:209
 msgid "Switching"
-msgstr ""
+msgstr "Vaihtaminen"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:216
 msgid "Alt + Tab"
-msgstr ""
+msgstr "Alt + Sarkain"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:221
 msgid "Switches between applications."
-msgstr ""
+msgstr "Vaihtaa sovellusten välillä."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:229
 msgid "Super + W"
-msgstr ""
+msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:234
 msgid "Opens the desktop spread."
-msgstr ""
+msgstr "Avaa työpöydän laajennuksen."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Cursor Left or Right"
-msgstr ""
+msgstr "Nuolinäppäin vasemmalle tai oikealle"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Moves the focus."
-msgstr ""
+msgstr "Siirtää kohdistusta."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:259
 msgid "Windows"
-msgstr ""
+msgstr "Ikkunat"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:266
 msgid "Ctrl + Super + D"
-msgstr ""
+msgstr "Ctrl + Super + D"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:271
 msgid "Minimizes all windows."
-msgstr ""
+msgstr "Pienentää kaikki ikkunat."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:279
 msgid "Ctrl + Super + Up"
-msgstr ""
+msgstr "Ctrl + Super + ylös"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:284
 msgid "Maximizes the current window."
@@ -259,7 +259,7 @@ msgstr "Suurentaa nykyisen ikkunn,"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + Down"
-msgstr ""
+msgstr "Ctrl + Super + alas"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes or restores the current window."
@@ -267,19 +267,19 @@ msgstr "Pienentää tai palauttaa nykyisen ikkunan."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Left or Right"
-msgstr ""
+msgstr "Ctrl + Super + vasen tai oikea"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Semi-maximizes the current window."
-msgstr ""
+msgstr "Suurentaa osittain nykyisen ikkunan."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Alt + F4"
-msgstr ""
+msgstr "Alt + F4"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Closes the current window."
-msgstr ""
+msgstr "Sulkee nykyisen ikkunan."
 
 #: qml/Components/Lockscreen.qml:239
 msgid "Return to Call"
@@ -296,12 +296,12 @@ msgstr "OK"
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
 msgid "%1:%2:%3"
-msgstr ""
+msgstr "%1:%2:%3"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:49
 #, qt-format
 msgid "%1:%2"
-msgstr ""
+msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
@@ -446,15 +446,15 @@ msgstr "Avaa lukitus"
 
 #: qml/Greeter/Greeter.qml:555
 msgid "Try again"
-msgstr ""
+msgstr "Yritä uudelleen"
 
 #: qml/Greeter/LoginList.qml:63
 msgid "Passphrase"
-msgstr ""
+msgstr "Tunnuslause"
 
 #: qml/Greeter/LoginList.qml:64
 msgid "Passcode"
-msgstr ""
+msgstr "Suojakoodi"
 
 #: qml/Greeter/LoginList.qml:87
 msgid "Retry"
@@ -462,7 +462,7 @@ msgstr "Yritä uudelleen"
 
 #: qml/Greeter/LoginList.qml:88
 msgid "Log In"
-msgstr ""
+msgstr "Kirjaudu sisään"
 
 #: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passphrase."
@@ -620,7 +620,7 @@ msgstr "Tee pitkä veto vasemmasta reunasta avataksesi Tänään-näkymän"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
-msgstr ""
+msgstr "Lyhyt veto vasemmasta reunasta avaa käynnistimen"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
@@ -630,11 +630,11 @@ msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:56
 msgid "Swipe from the right edge to view your open apps"
-msgstr ""
+msgstr "Veto oikeasta reunasta näyttää avoinna olevat sovellukset"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
-msgstr ""
+msgstr "Veto yläreunasta näyttää ilmoitukset ja pika-asetukset"
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
@@ -894,7 +894,7 @@ msgstr "Valitse \"Ohita\" jatkaaksesi ilman SIM-korttia."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr ""
+msgstr "Salasana on liian lyhyt"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"

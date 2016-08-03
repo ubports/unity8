@@ -715,7 +715,7 @@ Rectangle {
             surface.setState(Mir.RestoredState);
 
             var inputMethod = findInvisibleChild(shell, "inputMethod");
-            tryCompare(inputMethod, "state", "shown");
+            tryCompare(inputMethod, "visible", true);
 
             verify(tutorialLeftLoader.shown);
         }

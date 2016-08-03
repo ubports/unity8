@@ -681,7 +681,7 @@ StyledItem {
             paused: callManager.hasCalls || !greeter || greeter.shown ||
                     wizard.active
             delayed: dialogs.hasActiveDialog || notifications.hasNotification ||
-                     inputMethod.state === "shown" ||
+                     inputMethod.visible ||
                      (launcher.shown && !launcher.lockedVisible) ||
                      panel.indicators.shown || stage.dragProgress > 0
             usageScenario: shell.usageScenario
