@@ -1031,7 +1031,7 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
                 m_firstVisibleIndex = -1;
             } else {
                 m_firstVisibleIndex -= qMax(0, m_firstVisibleIndex - remove.index);
-           }
+            }
         } else if (remove.index + remove.count <= m_firstVisibleIndex) {
             m_firstVisibleIndex -= remove.count;
         }
