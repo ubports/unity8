@@ -35,7 +35,7 @@ import Utils 0.1
 import "../../qml"
 import "../../qml/Components"
 import "../../qml/Components/PanelState"
-import "Stages"
+import "Stage"
 
 Rectangle {
     id: root
