@@ -2008,6 +2008,21 @@ private Q_SLOTS:
         QTRY_COMPARE(lvwph->m_minYExtent, 610.);
     }
 
+    void testRemoveItemCutContents()
+    {
+        view->rootObject()->setHeight(921);
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 6));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 1000));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 1);
+        scrollToBottom();
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 530));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 2);
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 1), Q_ARG(QVariant, 1));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 1);
+        verifyItem(0, 50., 530., false);
+        QTRY_COMPARE(lvwph->m_minYExtent, 530.);
+    }
+
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;
