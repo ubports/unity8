@@ -17,6 +17,8 @@
 #include "UsersModelPrivate.h"
 #include "UsersModel.h"
 
+#include <QDir>
+
 namespace QLightDM
 {
 
@@ -51,6 +53,15 @@ void UsersModelPrivate::resetEntries()
     // adding or removing test users.
     for (int i = 0; i < entries.size(); i++) {
         entries[i].uid = i + 1;
+    }
+
+    // Assign backgrounds
+    QDir backgroundDir("/usr/share/backgrounds");
+    QStringList backgrounds = backgroundDir.entryList(QDir::Files);
+    for (int i = 0; i < entries.size(); i++) {
+        if (entries[i].background.isNull()) {
+            entries[i].background = backgroundDir.filePath(backgrounds[i % backgrounds.size()]);
+        }
     }
 
     q->endResetModel();
@@ -96,7 +107,7 @@ void UsersModelPrivate::resetEntries_full()
         { "wide-info-prompt",  "Wide Info Prompt", 0, 0, false, false, "ubuntu", 0 },
         { "multi-info-prompt", "Multi Info Prompt", 0, 0, false, false, "ubuntu", 0 },
         { "long-name",         "Long name (far far too long to fit, seriously this would never fit on the screen, you will never see this part of the name)", 0, 0, false, false, "ubuntu", 0 },
-        { "color-background",  "Color Background", "#dd4814", 0, false, false, "ubuntu", 0 },
+        { "color-background",  "Color Background", "#E95420", 0, false, false, "ubuntu", 0 },
         // white and black are a bit redundant, but useful for manually testing if UI is still readable
         { "white-background",  "White Background", "#ffffff", 0, false, false, "ubuntu", 0 },
         { "black-background",  "Black Background", "#000000", 0, false, false, "ubuntu", 0 },
