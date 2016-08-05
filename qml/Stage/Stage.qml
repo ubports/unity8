@@ -1108,14 +1108,6 @@ AbstractStage {
                     }
 
                     property bool saveStateOnDestruction: true
-                    Connections {
-                        target: root
-                        onStageAboutToBeUnloaded: {
-                            resizeArea.saveWindowState();
-                            resizeArea.saveStateOnDestruction = false;
-                            fullscreenPolicy.active = false;
-                        }
-                    }
                     Component.onDestruction: {
                         if (saveStateOnDestruction) {
                             saveWindowState();
@@ -1183,8 +1175,13 @@ AbstractStage {
                 }
 
                 WindowedFullscreenPolicy {
-                    id: fullscreenPolicy
-                    active: true
+                    id: windowedFullscreenPolicy
+                    active: root.mode == "windowed"
+                    surface: model.surface
+                }
+                StagedFullscreenPolicy {
+                    id: stagedFullscreenPolicy
+                    active: root.mode == "staged" || root.mode == "stagedWithSideStage"
                     surface: model.surface
                 }
 
