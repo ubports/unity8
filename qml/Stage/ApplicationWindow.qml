@@ -203,6 +203,8 @@ FocusScope {
             surface: model.surface
             width: root.width
             height: root.height
+            requestedWidth: root.requestedWidth
+            requestedHeight: root.requestedHeight
             isPromptSurface: true
             z: surfaceContainer.z + (promptSurfacesRepeater.count - index)
             property int index: model.index

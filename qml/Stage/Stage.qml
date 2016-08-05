@@ -348,8 +348,6 @@ AbstractStage {
         }
 
     ]
-    onStateChanged: print("spread going to state:", state)
-
 
     FocusScope {
         id: appContainer
