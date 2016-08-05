@@ -50,6 +50,8 @@ AbstractStage {
 
     orientationChangesEnabled: true
 
+    onAltTabPressedChanged: priv.goneToSpread = altTabPressed
+
     GlobalShortcut {
         id: closeWindowShortcut
         shortcut: Qt.AltModifier|Qt.Key_F4
@@ -290,7 +292,7 @@ AbstractStage {
 
     states: [
         State {
-            name: "spread"; when: root.altTabPressed || priv.goneToSpread
+            name: "spread"; when: priv.goneToSpread
             PropertyChanges { target: floatingFlickable; enabled: true }
             PropertyChanges { target: spreadItem; focus: true }
         },
@@ -330,8 +332,9 @@ AbstractStage {
         Transition {
             from: "spread"
             SequentialAnimation {
-                ScriptAction { script: {
-                        var item = appRepeater.itemAt(spreadItem.highlightedIndex);
+                ScriptAction {
+                    script: {
+                        var item = appRepeater.itemAt(Math.max(0, spreadItem.highlightedIndex));
                         item.claimFocus();
                         item.playFocusAnimation();
                     }
@@ -368,6 +371,10 @@ AbstractStage {
             leftMargin: root.leftMargin
             model: root.topLevelSurfaceList
             z: 10
+
+            onLeaveSpread: {
+                priv.goneToSpread = false;
+            }
         }
 
         Connections {

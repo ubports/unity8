@@ -21,6 +21,7 @@ Item {
     property real leftStackScale: .82
     property real rightStackScale: 1
 
+    signal leaveSpread()
 
     // Calculated stuff
     readonly property int totalItemCount: model.count
@@ -123,12 +124,12 @@ Item {
             event.accepted = true;
             break;
         case Qt.Key_Escape:
-            spreadItem.highlightedIndex = -1
+            highlightedIndex = -1
             // Falling through intentionally
         case Qt.Key_Enter:
         case Qt.Key_Return:
         case Qt.Key_Space:
-            root.state = ""
+            root.leaveSpread();
             event.accepted = true;
         }
     }
