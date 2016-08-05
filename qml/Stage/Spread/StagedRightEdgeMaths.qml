@@ -48,6 +48,9 @@ QtObject {
 
     readonly property int animatedX: {
         var stageCount = (priv.mainStageDelegate ? 1 : 0) + (priv.sideStageDelegate ? 1 : 0)
+
+        if (appRepeater.count <= nextInStack) return 0;
+
         var nextStage = appRepeater.itemAt(nextInStack).stage;
 
         var startX = 0;

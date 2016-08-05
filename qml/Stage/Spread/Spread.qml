@@ -91,7 +91,8 @@ Item {
         y: windowTitleTopMargin
 //        //y: priv.spreadTopMargin + priv.contentTopMargin + settings.spreadOffset + settings.titleOffset - height -  (priv.contentTopMargin - height) / 4
 //        visible: height < priv.contentTopMargin
-        text: root.highlightedIndex >= 0 && root.model ? root.model.surfaceAt(root.highlightedIndex).name : ""
+        property var highlightedSurface: root.model ? root.model.surfaceAt(root.highlightedIndex) : null
+        text: root.highlightedIndex >= 0 && highlightedSurface ? highlightedSurface.name : ""
         fontSize: root.height < units.gu(85) ? 'medium' : 'large'
         color: "white"
         opacity: root.highlightedIndex >= 0 ? 1 : 0

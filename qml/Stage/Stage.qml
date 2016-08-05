@@ -558,7 +558,7 @@ AbstractStage {
                 readonly property bool maximizedHorizontally: windowState & WindowStateStorage.WindowStateMaximizedHorizontally
                 readonly property bool maximizedVertically: windowState & WindowStateStorage.WindowStateMaximizedVertically
                 readonly property bool minimized: windowState & WindowStateStorage.WindowStateMinimized
-                readonly property bool fullscreen: surface.state === Mir.FullscreenState;
+                readonly property bool fullscreen: surface && surface.state === Mir.FullscreenState;
 
                 property int windowState: WindowStateStorage.WindowStateNormal
                 property bool animationsEnabled: true
@@ -805,7 +805,7 @@ AbstractStage {
                     itemIndex: index
                     nextInStack: priv.nextInStack
                     progress: 0
-                    targetHeight: spreadMaths.stackHeight
+                    targetHeight: spreadItem.stackHeight
                     targetX: spreadMaths.targetX
                     startY: appDelegate.fullscreen ? 0 : PanelState.panelHeight
                     targetY: spreadMaths.targetY
