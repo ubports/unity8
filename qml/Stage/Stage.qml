@@ -578,11 +578,14 @@ AbstractStage {
                 readonly property alias resizeArea: resizeArea
 
                 function claimFocus() {
-                    appDelegate.focus = true;
                     print("focusing app", priv.sideStageDelegate, appDelegate, sideStage.shown)
+                    if (root.mode == "windowed" && minimized) {
+                        restore(true)
+                    }
                     if (appDelegate.stage == ApplicationInfoInterface.SideStage && !sideStage.shown) {
                         sideStage.show();
                     }
+                    appDelegate.focus = true;
                 }
                 Connections {
                     target: model.surface
@@ -1008,11 +1011,14 @@ AbstractStage {
                     State {
                         name: "minimized"; when: appDelegate.minimized
                         PropertyChanges {
-                            target: appDelegate;
+                            target: appDelegate
+                            requestedWidth: decoratedWindow.oldRequestedWidth
+                            requestedHeight: decoratedWindow.oldRequestedHeight
                             x: -appDelegate.width / 2;
-                            scale: units.gu(5) / appDelegate.width;
+                            y: requestedY // TODO: Should be where the icon is in the launcher. Lets just move it horizontally to the left for now.
+                            scale: units.gu(5) / appDelegate.width
                             opacity: 0;
-                            visuallyMinimized: true;
+                            visuallyMinimized: true
                             visuallyMaximized: false
                         }
                     }
@@ -1026,10 +1032,10 @@ AbstractStage {
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: priv.animationDuration }
                     },
                     Transition {
-                        from: "maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight"; to: "normal"
+                        from: "maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,minimized"; to: "normal"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
-                        UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,requestedWidth,requestedHeight"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedWidth,requestedHeight,scale"; duration: priv.animationDuration }
                     },
                     Transition {
                         from: "normal"; to: "maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight"
