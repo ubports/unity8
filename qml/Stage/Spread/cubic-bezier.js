@@ -22,4 +22,3 @@ var getBezier = function(percent,C1,C2,C3,C4) {
   pos.y = C1.y*B1(percent) + C2.y*B2(percent) + C3.y*B3(percent) + C4.y*B4(percent);
   return pos;
 }
-

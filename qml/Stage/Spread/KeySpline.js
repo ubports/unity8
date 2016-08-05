@@ -63,5 +63,3 @@ function keySpline (mX1, mY1, mX2, mY2) {
     return aGuessT;
   }
 }
-
-
