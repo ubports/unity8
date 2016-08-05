@@ -28,7 +28,6 @@ Item {
     property Spread spread: null
     property int itemIndex: 0
 
-
     // Internal
     property real spreadPosition: itemIndex/spread.visibleItemCount - flickable.contentX/spread.spreadWidth // 0 -> left stack, 1 -> right stack
     property real leftStackingProgress: MathUtils.clamp(MathUtils.map(spreadPosition, 0, -spread.stackItemCount/spread.visibleItemCount  , 0, 1), 0, 1)

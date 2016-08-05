@@ -8,6 +8,7 @@ Item {
     // Information about the environment
     property int highlightedIndex: 1
     property var model: null
+    property int leftMargin: 0
 
     // some config options
     property real contentMargin: 0.16 * root.height
@@ -23,8 +24,8 @@ Item {
 
     // Calculated stuff
     readonly property int totalItemCount: model.count
-    readonly property real leftStackXPos: 0.03 * root.width
-    readonly property real rightStackXPos: root.width - 1.5 * leftStackXPos
+    readonly property real leftStackXPos: 0.03 * root.width + leftMargin
+    readonly property real rightStackXPos: root.width - 1.5 * leftStackXPos + leftMargin
 
     readonly property real stackHeight: spreadItemHeight - appInfoHeight
     readonly property real stackWidth: Math.min(leftStackXPos/3, units.gu(1.5))
