@@ -28,7 +28,7 @@ import Unity.InputInfo 0.1
 import Utils 0.1
 
 import "../../qml"
-import "Stages"
+import "Stage"
 
 Rectangle {
     id: root
