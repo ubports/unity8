@@ -19,7 +19,7 @@ import Ubuntu.Components 1.3
 import Unity.Launcher 0.1
 import Ubuntu.Components.Popups 1.3
 import "../Components/ListItems"
-import "../Components/"
+import "../Components"
 
 Rectangle {
     id: root
