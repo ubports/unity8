@@ -913,8 +913,8 @@ AbstractStage {
                         name: "maximized"; when: root.state === "windowed" && appDelegate.maximized && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
-                            x: root.leftMargin;
-                            y: 0;
+                            requestedX: root.leftMargin;
+                            requestedY: 0;
                             visuallyMinimized: false;
                             visuallyMaximized: true
                             requestedWidth: appContainer.width - root.leftMargin;
@@ -925,8 +925,8 @@ AbstractStage {
                         name: "fullscreen"; when: surface ? surface.state === Mir.FullscreenState : application.fullscreen && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
-                            x: rotation == 0 ? 0 : (parent.width - width) / 2 + (shellOrientationAngle == 90 ? 0 : PanelState.panelHeight)
-                            y: rotation == 0 ? 0 : (parent.height - height) / 2
+                            requestedX: rotation == 0 ? 0 : (parent.width - width) / 2 + (shellOrientationAngle == 90 ? 0 : PanelState.panelHeight)
+                            requestedY: rotation == 0 ? 0 : (parent.height - height) / 2
                             requestedWidth: appContainer.width;
                             requestedHeight: appContainer.height;
                         }
@@ -952,13 +952,13 @@ AbstractStage {
                         name: "maximizedLeft"; when: appDelegate.maximizedLeft && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate
-                            x: root.leftMargin
-                            y: PanelState.panelHeight
+                            requestedX: root.leftMargin
+                            requestedY: PanelState.panelHeight
+                            requestedWidth: (appContainer.width - root.leftMargin)/2
+                            requestedHeight: appContainer.height - PanelState.panelHeight
                         }
                         PropertyChanges {
                             target: decoratedWindow
-                            requestedWidth: (appContainer.width - root.leftMargin)/2
-                            requestedHeight: appContainer.height - PanelState.panelHeight
                             shadowOpacity: .3
                         }
                     },
@@ -966,31 +966,41 @@ AbstractStage {
                         name: "maximizedRight"; when: appDelegate.maximizedRight && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
-                            x: (appContainer.width + root.leftMargin)/2
-                            y: PanelState.panelHeight
+                            requestedX: (appContainer.width + root.leftMargin)/2
+                            requestedY: PanelState.panelHeight
+                            requestedWidth: (appContainer.width - root.leftMargin)/2
+                            requestedHeight: appContainer.height - PanelState.panelHeight
                         }
                         PropertyChanges {
                             target: decoratedWindow
-                            requestedWidth: (appContainer.width - root.leftMargin)/2
-                            requestedHeight: appContainer.height - PanelState.panelHeight
                             shadowOpacity: .3
                         }
                     },
                     State {
                         name: "maximizedHorizontally"; when: appDelegate.maximizedHorizontally && !appDelegate.minimized
-                        PropertyChanges { target: appDelegate; x: root.leftMargin }
+                        PropertyChanges {
+                            target: appDelegate;
+                            requestedX: root.leftMargin
+                            requestedY: appDelegate.windowedY
+                            requestedWidth: appContainer.width - root.leftMargin
+                            requestedHeight: appDelegate.windowedHeight
+                        }
                         PropertyChanges {
                             target: decoratedWindow;
-                            requestedWidth: appContainer.width - root.leftMargin
                             shadowOpacity: .3
                         }
                     },
                     State {
                         name: "maximizedVertically"; when: appDelegate.maximizedVertically && !appDelegate.minimized
-                        PropertyChanges { target: appDelegate; y: PanelState.panelHeight }
+                        PropertyChanges {
+                            target: appDelegate;
+                            requestedX: appDelegate.windowedX
+                            requestedY: PanelState.panelHeight
+                            requestedWidth: appDelegate.windowedWidth
+                            requestedHeight: appContainer.height - PanelState.panelHeight
+                        }
                         PropertyChanges {
                             target: decoratedWindow;
-                            requestedHeight: appContainer.height - PanelState.panelHeight
                             shadowOpacity: .3
                         }
                     },
@@ -1015,10 +1025,16 @@ AbstractStage {
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: priv.animationDuration }
                     },
                     Transition {
-                        from: "maximized"; to: "normal"
+                        from: "maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight"; to: "normal"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
-                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedWidth,requestedHeight"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,requestedWidth,requestedHeight"; duration: priv.animationDuration }
+                    },
+                    Transition {
+                        from: "normal"; to: "maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight"
+                        enabled: appDelegate.animationsEnabled
+                        PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
+                        UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,requestedWidth,requestedHeight"; duration: priv.animationDuration }
                     },
                     Transition {
                         from: "spread"; to: "*"
@@ -1052,7 +1068,7 @@ AbstractStage {
                         SequentialAnimation {
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                             ParallelAnimation {
-                                UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,scale,requestedWidth,requestedHeight"; duration: UbuntuAnimation.FastDuration }
+                                UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,opacity,scale,requestedWidth,requestedHeight"; duration: UbuntuAnimation.FastDuration }
                             }
                             PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         }
