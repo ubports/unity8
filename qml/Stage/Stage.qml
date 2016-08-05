@@ -231,19 +231,18 @@ AbstractStage {
         target: PanelState
         property: "buttonsVisible"
         value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.maximized // FIXME for Locally integrated menus
-               && spread.state == ""
     }
 
     Binding {
         target: PanelState
         property: "title"
         value: {
-//            if (priv.focusedAppDelegate !== null && spread.state == "") {
-//                if (priv.focusedAppDelegate.maximized)
-//                    return priv.focusedAppDelegate.title
-//                else
-//                    return priv.focusedAppDelegate.appName
-//            }
+            if (priv.focusedAppDelegate !== null) {
+                if (priv.focusedAppDelegate.maximized)
+                    return priv.focusedAppDelegate.title
+                else
+                    return priv.focusedAppDelegate.appName
+            }
             return ""
         }
         when: priv.focusedAppDelegate
@@ -252,7 +251,7 @@ AbstractStage {
     Binding {
         target: PanelState
         property: "dropShadow"
-        value: priv.focusedAppDelegate && !priv.focusedAppDelegate.maximized && priv.foregroundMaximizedAppDelegate !== null
+        value: priv.focusedAppDelegate && !priv.focusedAppDelegate.maximized && priv.foregroundMaximizedAppDelegate !== null && mode == "windowed"
     }
 
     Binding {
@@ -1066,14 +1065,6 @@ AbstractStage {
                         UbuntuNumberAnimation { target: appDelegate; properties: "requestedWidth,requestedHeight"; duration: priv.animationDuration }
                     }
                 ]
-
-//                Binding {
-//                    id: previewBinding
-//                    target: appDelegate
-//                    property: "z"
-//                    value: topLevelSurfaceList.count + 1
-//                    when: index == spread.highlightedIndex
-//                }
 
                 Binding {
                     target: PanelState
