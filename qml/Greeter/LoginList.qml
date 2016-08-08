@@ -241,8 +241,8 @@ StyledItem {
         visible: LightDMService.sessions.count > 1 &&
             !LightDMService.users.data(userList.currentIndex, LightDMService.userRoles.LoggedInRole)
 
-        height: units.gu(3)
-        width: units.gu(3)
+        height: units.gu(3.4)
+        width: units.gu(3.4)
 
         anchors {
             right: highlightItem.right
@@ -252,11 +252,24 @@ StyledItem {
             topMargin: units.gu(1.5)
         }
 
+        Rectangle {
+            id: badgeHighlight
+
+            anchors.fill: parent
+            visible: parent.activeFocus
+            color: "transparent"
+            border.color: theme.palette.normal.focus
+            border.width: units.dp(1)
+            radius: 3
+
+        }
+
         Icon {
             id: badge
             anchors.fill: parent
+            anchors.margins: units.dp(3)
             keyColor: "#ffffff" // icon providers give us white icons
-            color: parent.activeFocus ? theme.palette.normal.selection : theme.palette.normal.raisedSecondaryText
+            color: theme.palette.normal.raisedSecondaryText
             source: LightDMService.sessions.iconUrl(root.currentSession)
         }
 
