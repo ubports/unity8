@@ -16,6 +16,9 @@
 
 .pragma library
 
+/* TODO the "8" is is DEFAULT_GRID_UNIT_PX, we use it to normalize the values with the current grid unit size.
+   Add a way to fetch this default grid unit px value from UITK. */
+
 function getFlickDeceleration(gridUnit) {
     return 1500 * gridUnit / 8;
 }

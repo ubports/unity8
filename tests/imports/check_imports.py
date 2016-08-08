@@ -82,13 +82,16 @@ def scan_for_bad_import(file_path, all_pat, good_pats):
     return bool(errors)
 
 # Flickable matches
-flickable_pat = re.compile(r'.*\ Flickable {')
-listview_pat = re.compile(r'.*\ ListView {')
-gridview_pat = re.compile(r'.*\ GridView {')
+flickable_pat = re.compile(r'.*\s*Flickable\s*{')
+listview_pat = re.compile(r'.*\s*ListView\s*{')
+gridview_pat = re.compile(r'.*\s*GridView\s*{')
 flickable_pats = [flickable_pat, listview_pat, gridview_pat]
 unity_components_pat = re.compile(r'.*import ".*Components"')
 components_import_pat = re.compile(r'.*import "."')
 components_path = re.compile(r'.*qml/Components.*')
+skip_components_flickable_path = re.compile(r'.*qml/Components/Flickable.qml')
+skip_components_listview_path = re.compile(r'.*qml/Components/ListView.qml')
+skip_components_gridview_path = re.compile(r'.*qml/Components/GridView.qml')
 
 def scan_for_flickable_imports(file_path, component_pats, qtquick_pat, unitycomponents_pat):
     errors = []
@@ -163,8 +166,11 @@ try:
                     if scan_for_flickable_imports(path, flickable_pats, quick_good_pat, unity_components_pat):
                         found_bad_import = True
                 else:
-                    if scan_for_flickable_imports(path, flickable_pats, quick_good_pat, components_import_pat):
-                        found_bad_import = True
+                    if not skip_components_flickable_path.match(path) and \
+                       not skip_components_listview_path.match(path) and \
+                       not skip_components_gridview_path.match(path):
+                        if scan_for_flickable_imports(path, flickable_pats, quick_good_pat, components_import_pat):
+                            found_bad_import = True
 
 except OSError as e:
     error("cannot create file list for \"" + dir + "\": " + e.strerror)
