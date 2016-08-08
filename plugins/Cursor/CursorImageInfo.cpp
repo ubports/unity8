@@ -28,6 +28,15 @@ void CursorImageInfo::setCursorName(const QString &cursorName)
         update();
         Q_EMIT cursorNameChanged();
     }
+
+}
+void CursorImageInfo::setCursorHeight(qreal cursorHeight)
+{
+    if (cursorHeight != m_cursorHeight) {
+        m_cursorHeight = cursorHeight;
+        update();
+        Q_EMIT cursorHeightChanged();
+    }
 }
 
 void CursorImageInfo::setThemeName(const QString &themeName)
@@ -41,13 +50,14 @@ void CursorImageInfo::setThemeName(const QString &themeName)
 
 void CursorImageInfo::update()
 {
-    m_cursorImage = CursorImageProvider::instance()->fetchCursor(m_themeName, m_cursorName);
+    m_cursorImage = CursorImageProvider::instance()->fetchCursor(m_themeName, m_cursorName, (int) m_cursorHeight);
 
     Q_EMIT hotspotChanged();
     Q_EMIT frameWidthChanged();
     Q_EMIT frameHeightChanged();
     Q_EMIT frameCountChanged();
     Q_EMIT frameDurationChanged();
+    Q_EMIT imageSourceChanged();
 }
 
 QPoint CursorImageInfo::hotspot() const
@@ -93,4 +103,14 @@ int CursorImageInfo::frameDuration() const
     } else {
         return 0;
     }
+}
+
+QUrl CursorImageInfo::imageSource() const
+{
+    auto urlString = QString("image://cursor/%1/%2/%3")
+        .arg(m_themeName)
+        .arg(m_cursorName)
+        .arg(m_cursorHeight);
+
+    return QUrl(urlString);
 }

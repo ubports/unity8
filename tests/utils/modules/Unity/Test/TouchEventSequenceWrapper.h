@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +21,8 @@
 #include <QtTest/QTest>
 #include <QtQml/qqml.h>
 
+#include <QPointer>
+
 class QQuickItem;
 
 class TouchEventSequenceWrapper : public QObject
@@ -37,7 +39,7 @@ public:
 
 private:
     QTest::QTouchEventSequence m_eventSequence;
-    QQuickItem *m_item;
+    QPointer<QQuickItem> m_item;
 };
 
 QML_DECLARE_TYPE(TouchEventSequenceWrapper)

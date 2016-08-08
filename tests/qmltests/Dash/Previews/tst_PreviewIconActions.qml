@@ -82,7 +82,7 @@ Rectangle {
 
     UT.UnityTestCase {
         id: testcase
-        name: "PreviewIconActionTest"
+        name: "PreviewIconActions"
         when: windowShown
 
         function cleanup()
