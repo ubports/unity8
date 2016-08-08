@@ -117,10 +117,10 @@ def scan_for_flickable_imports(file_path, component_pats, qtquick_pat, uitk_pat)
         else:
             plural = ''
         print(
-            "%s: bad import version in line%s %s" % (
+            "%s: bad components imports in line%s %s" % (
                 file_path, plural, ", ".join((str(i) for i in errors))))
     elif errors:
-        print("%s: bad import version in multiple lines" % file_path)
+        print("%s: bad components imports in multiple lines" % file_path)
     return bool(errors)
 
 # Parse args
