@@ -20,7 +20,7 @@
 
 #include <AxisVelocityCalculator.h>
 
-class FakeTimeSource : public UbuntuGestures::TimeSource {
+class FakeTimeSource : public UG_PREPEND_NAMESPACE(TimeSource) {
 public:
     FakeTimeSource() : m_value(0) {}
 

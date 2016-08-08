@@ -1,5 +1,5 @@
 /*
- * Copyright 2013,2015 Canonical Ltd.
+ * Copyright (C) 2013,2015,2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,12 @@ Item {
     width: units.gu(110)
     height: units.gu(50)
 
+    SignalSpy {
+        id: escapeSpy
+        target: pageHeader
+        signalName: "clearSearch"
+    }
+
     UT.UnityTestCase {
         name: "PageHeaderLabelTest"
         when: windowShown
@@ -37,13 +43,15 @@ Item {
         property var headerContainer: findChild(pageHeader, "headerContainer")
 
         function doTypeString(text) {
-            tryCompare(headerContainer, "contentY", 0);
+            tryCompare(headerContainer, "clip", false);
+            compare(headerContainer.state, "search");
             typeString(text);
         }
 
         function doResetSearch() {
             pageHeader.resetSearch();
-            tryCompare(headerContainer, "contentY", headerContainer.height);
+            tryCompare(headerContainer, "clip", false);
+            verify(headerContainer.state !== "search");
         }
 
         function init() {
@@ -145,6 +153,7 @@ Item {
 
         function cleanup() {
             doResetSearch();
+            escapeSpy.clear();
         }
 
         function test_popup_closing_data() {
@@ -196,6 +205,38 @@ Item {
             }
 
             tryCompare(headerContainer, "showSearch", !data.hideSearch);
+            tryCompare(pageHeader.extraPanel, "visible", false);
+
+            doResetSearch();
+        }
+
+        function test_popup_closing_with_escape() {
+            searchEnabled = true;
+            pageHeader.searchHistory.clear();
+
+            pageHeader.searchHistory.addQuery("Search1");
+            pageHeader.searchHistory.addQuery("Search2");
+
+            pageHeader.triggerSearch();
+
+            var headerContainer = findChild(pageHeader, "headerContainer");
+            tryCompare(pageHeader.extraPanel, "visible", true);
+
+            pageHeader.searchQuery = "foobar";
+
+            // press Esc once, the search should be cleared
+            keyClick(Qt.Key_Escape);
+            pageHeader.searchQuery = ""; // simulate clearing the text field, the clear button doesn't do anything on its own
+            compare(escapeSpy.count, 1);
+            compare(escapeSpy.signalArguments[0][0], true);
+
+            escapeSpy.clear();
+
+            // press Escape a second time, the whole search should be hidden
+            keyClick(Qt.Key_Escape);
+            tryCompare(headerContainer, "showSearch", false);
+            compare(escapeSpy.count, 1);
+            compare(escapeSpy.signalArguments[0][0], false);
             tryCompare(pageHeader.extraPanel, "visible", false);
 
             doResetSearch();

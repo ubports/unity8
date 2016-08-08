@@ -72,6 +72,20 @@ public:
         endRemoveRows();
     }
 
+    void insertString(int index, const QString& string)
+    {
+        beginInsertRows(QModelIndex(), index, index);
+        m_list.insert(index, string);
+        endInsertRows();
+    }
+
+    void changeString(int i, const QString& string)
+    {
+        m_list[i] = string;
+        auto idx = index(i, 0);
+        dataChanged(idx, idx);
+    }
+
 private:
     QStringList m_list;
 };
@@ -486,6 +500,54 @@ private Q_SLOTS:
         QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 0);
         QTRY_COMPARE(vj->m_columnVisibleItems[2].count(), 0);
         QTRY_COMPARE(vj->implicitHeight(), 0.);
+    }
+
+    void testInsertItem()
+    {
+        // Remove a few items from the end so the verifyItem list is smaller
+        for (int i = 0; i < 12; ++i)
+            model->removeLast();
+
+        model->insertString(0, "200");
+
+        QTRY_COMPARE(vj->m_columnVisibleItems.count(), 3);
+        QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 2);
+        QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 4);
+        QTRY_COMPARE(vj->m_columnVisibleItems[2].count(), 3);
+        verifyItem(vj->m_columnVisibleItems[0][0],  0,   0,   0, true);
+        verifyItem(vj->m_columnVisibleItems[1][0],  1, 160,   0, true);
+        verifyItem(vj->m_columnVisibleItems[2][0],  2, 320,   0, true);
+        verifyItem(vj->m_columnVisibleItems[2][1],  3, 320,  60, true);
+        verifyItem(vj->m_columnVisibleItems[1][1],  4, 160, 110, true);
+        verifyItem(vj->m_columnVisibleItems[1][2],  5, 160, 130, true);
+        verifyItem(vj->m_columnVisibleItems[1][3],  6, 160, 180, true);
+        verifyItem(vj->m_columnVisibleItems[2][2],  7, 320, 195, true);
+        verifyItem(vj->m_columnVisibleItems[0][1],  8,   0, 210, true);
+        QCOMPARE(vj->implicitHeight(), 395.);
+    }
+
+    void testChangeItem()
+    {
+        // Remove a few items from the end so the verifyItem list is smaller
+        for (int i = 0; i < 11; ++i)
+            model->removeLast();
+
+        model->changeString(0, "200");
+
+        QTRY_COMPARE(vj->m_columnVisibleItems.count(), 3);
+        QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 2);
+        QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 5);
+        QTRY_COMPARE(vj->m_columnVisibleItems[2].count(), 2);
+        verifyItem(vj->m_columnVisibleItems[0][0],  0,   0,   0, true);
+        verifyItem(vj->m_columnVisibleItems[1][0],  1, 160,   0, true);
+        verifyItem(vj->m_columnVisibleItems[2][0],  2, 320,   0, true);
+        verifyItem(vj->m_columnVisibleItems[1][1],  3, 160,  60, true);
+        verifyItem(vj->m_columnVisibleItems[1][2],  4, 160,  80, true);
+        verifyItem(vj->m_columnVisibleItems[1][3],  5, 160, 130, true);
+        verifyItem(vj->m_columnVisibleItems[2][1],  6, 320, 135, true);
+        verifyItem(vj->m_columnVisibleItems[0][1],  7,   0, 210, true);
+        verifyItem(vj->m_columnVisibleItems[1][4],  8, 160, 210, true);
+        QCOMPARE(vj->implicitHeight(), 370.);
     }
 
 private:

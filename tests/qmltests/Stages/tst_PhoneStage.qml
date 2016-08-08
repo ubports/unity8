@@ -272,7 +272,7 @@ Item {
             var tile = findChild(spreadView, "spreadDelegate_" + topLevelSurfaceList.idAt(data.index));
             var appId = ApplicationManager.get(data.index).appId;
 
-            if (tile.mapToItem(spreadView).x > spreadView.width) {
+            if (tile.mapToItem(spreadView, 0, 0).x > spreadView.width) {
                 // Item is not visible... Need to flick the spread
                 var startX = phoneStage.width - units.gu(1);
                 var startY = phoneStage.height / 2;
@@ -286,7 +286,7 @@ Item {
 
             console.log("clicking app", data.index, "(", appId, ")")
             tryCompare(tile, "swipeToCloseEnabled", true);
-            mouseClick(spreadView, tile.mapToItem(spreadView).x + units.gu(1), spreadView.height / 2)
+            mouseClick(spreadView, tile.mapToItem(spreadView, 0, 0).x + units.gu(1), spreadView.height / 2)
             tryCompare(ApplicationManager, "focusedApplicationId", appId);
             tryCompare(spreadView, "phase", 0);
         }
