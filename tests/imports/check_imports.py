@@ -118,10 +118,10 @@ def scan_for_flickable_imports(file_path, component_pats, qtquick_pat, unitycomp
         else:
             plural = ''
         print(
-            "%s: bad components imports in line%s %s" % (
+            "%s: missing/wrong order of Components import in line%s %s" % (
                 file_path, plural, ", ".join((str(i) for i in errors))))
     elif errors:
-        print("%s: bad components imports in multiple lines" % file_path)
+        print("%s: missing/wrong order of Components imports in multiple lines" % file_path)
     return bool(errors)
 
 # Parse args
