@@ -89,7 +89,7 @@ flickable_pats = [flickable_pat, listview_pat, gridview_pat]
 unity_components_pat = re.compile(r'.*import ".*Components"')
 components_path = re.compile(r'.*qml/Components.*')
 
-def scan_for_flickable_imports(file_path, component_pats, qtquick_pat, uitk_pat):
+def scan_for_flickable_imports(file_path, component_pats, qtquick_pat, unitycomponents_pat):
     errors = []
     with open(file_path, 'rt', encoding='utf-8') as ifile, open(file_path, 'rt', encoding='utf-8') as i2file:
         flickable_found = False
@@ -99,17 +99,17 @@ def scan_for_flickable_imports(file_path, component_pats, qtquick_pat, uitk_pat)
                     flickable_found = True
         if flickable_found:
             qtquick_found = False
-            uitk_found = False
+            unitycomponents_found = False
             for lino, line in enumerate(i2file, start=1):
                 if not qtquick_found and qtquick_pat.match(line):
                     qtquick_found = True
-                if uitk_pat.match(line):
-                    uitk_found = True
+                if unitycomponents_pat.match(line):
+                    unitycomponents_found = True
                     if not qtquick_found:
                         errors.append(lino)
                     else:
                         return
-            if not uitk_found:
+            if not unitycomponents_found:
                 errors.append(lino)
     if 0 < len(errors) <= 10:
         if len(errors) > 1:
