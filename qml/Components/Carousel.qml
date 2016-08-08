@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import "carousel.js" as CarouselJS
+import "."
 
 /*! The Carousel component presents the items of a model in a carousel view. It's similar to a
     cover flow. But it stops at it's boundaries (therefore no PathView is used).

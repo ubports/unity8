@@ -87,6 +87,7 @@ listview_pat = re.compile(r'.*\ ListView {')
 gridview_pat = re.compile(r'.*\ GridView {')
 flickable_pats = [flickable_pat, listview_pat, gridview_pat]
 unity_components_pat = re.compile(r'.*import ".*Components"')
+components_import_pat = re.compile(r'.*import "."')
 components_path = re.compile(r'.*qml/Components.*')
 
 def scan_for_flickable_imports(file_path, component_pats, qtquick_pat, unitycomponents_pat):
@@ -160,6 +161,9 @@ try:
                     found_bad_import = True
                 if not components_path.match(path):
                     if scan_for_flickable_imports(path, flickable_pats, quick_good_pat, unity_components_pat):
+                        found_bad_import = True
+                else:
+                    if scan_for_flickable_imports(path, flickable_pats, quick_good_pat, components_import_pat):
                         found_bad_import = True
 
 except OSError as e:
