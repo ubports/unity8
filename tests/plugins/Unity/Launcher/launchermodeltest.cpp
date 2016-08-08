@@ -66,13 +66,17 @@ public:
     void setExemptFromLifecycle(bool) override {}
     QSize initialSurfaceSize() const override { return QSize(); }
     void setInitialSurfaceSize(const QSize &) override {}
-    MirSurfaceListInterface* surfaceList() override { return nullptr; }
+    MirSurfaceListInterface* surfaceList() const override { return nullptr; }
+    MirSurfaceListInterface* promptSurfaceList() const override { return nullptr; }
+    int surfaceCount() const override { return m_surfaceCount; }
+    void setSurfaceCount(int count) { m_surfaceCount = count; Q_EMIT surfaceCountChanged(count); }
 
     // Methods used for mocking (not in the interface)
     void setFocused(bool focused) { m_focused = focused; Q_EMIT focusedChanged(focused); }
 private:
     QString m_appId;
     bool m_focused;
+    int m_surfaceCount = 0;
 };
 
 // This is a mock, specifically to test the LauncherModel
@@ -487,6 +491,31 @@ private Q_SLOTS:
 
         // Finally check, that the change to "count" implicitly also set the alerting-state to true
         QVERIFY(launcherModel->get(index)->alerting() == true);
+
+        // Check if the launcher emitted the changed signals
+        QCOMPARE(spy.count(), 2);
+
+        QVariantList countEmissionArgs = spy.takeFirst();
+        QCOMPARE(countEmissionArgs.at(0).value<QModelIndex>().row(), index);
+        QCOMPARE(countEmissionArgs.at(1).value<QModelIndex>().row(), index);
+        QVector<int> roles = countEmissionArgs.at(2).value<QVector<int> >();
+        QCOMPARE(roles.first(), (int)LauncherModel::RoleCount);
+
+        QVariantList countVisibleEmissionArgs = spy.takeFirst();
+        QCOMPARE(countVisibleEmissionArgs.at(0).value<QModelIndex>().row(), index);
+        QCOMPARE(countVisibleEmissionArgs.at(1).value<QModelIndex>().row(), index);
+        roles = countVisibleEmissionArgs.at(2).value<QVector<int> >();
+        QVERIFY(roles.contains(LauncherModel::RoleCountVisible));
+        QVERIFY(roles.contains(LauncherModel::RoleAlerting));
+
+        // Check if the values match
+        QCOMPARE(launcherModel->get(index)->countVisible(), true);
+        QCOMPARE(launcherModel->get(index)->count(), 55);
+        QCOMPARE(launcherModel->get(index)->alerting(), true);
+
+        // Focus the app, make sure the alert gets cleared
+        appManager->focusApplication("abs-icon");
+        QVERIFY(launcherModel->get(index)->alerting() == false);
     }
 
     void testCountEmblemAddsRemovesItem_data() {
@@ -558,6 +587,10 @@ private Q_SLOTS:
 
         // Check that the alerting-status is now true
         QVERIFY(launcherModel->get(index)->alerting() == true);
+
+        // Focus the app, make sure the alert gets cleared
+        appManager->focusApplication("abs-icon");
+        QVERIFY(launcherModel->get(index)->alerting() == false);
     }
 
     void testRefreshAfterDeletedDesktopFiles_data() {
@@ -690,6 +723,15 @@ private Q_SLOTS:
         // Make sure it changed to visible and 55
         QCOMPARE(getASConfig().at(index).value("countVisible").toBool(), true);
         QCOMPARE(getASConfig().at(index).value("count").toInt(), 55);
+    }
+
+    void testSurfaceCountUpdates() {
+        QString appId = launcherModel->get(0)->appId();
+
+        QCOMPARE(launcherModel->get(0)->surfaceCount(), 0);
+        MockApp *app = qobject_cast<MockApp*>(appManager->findApplication(appId));
+        app->setSurfaceCount(1);
+        QCOMPARE(launcherModel->get(0)->surfaceCount(), 1);
     }
 };
 

@@ -60,7 +60,7 @@ Item {
             tryCompare(dashContentList, "count", 0);
             scopes.load();
             tryCompare(dashContentList, "currentIndex", 0);
-            tryCompare(dashContentList, "count", 6);
+            tryCompare(dashContentList, "count", 8);
             tryCompare(scopes, "loaded", true);
             tryCompareFunction(function() {
                 var mockScope1Loader = findChild(dash, "scopeLoader0");
@@ -90,6 +90,9 @@ Item {
             var stopX = units.gu(1)
             var stopY = startY;
             touchFlick(shell, startX, startY, stopX, stopY);
+
+            var greeter = findChild(shell, "greeter");
+            tryCompare(greeter, "shown", false);
 
             // bring in the launcher
             var startX = units.gu(1);
@@ -130,6 +133,9 @@ Item {
             var stopX = units.gu(1)
             var stopY = startY;
             touchFlick(shell, startX, startY, stopX, stopY);
+
+            var greeter = findChild(shell, "greeter");
+            tryCompare(greeter, "shown", false);
 
             // Now do a small launcher movement
             touchFlick(shell, stopX, startY, startX, stopY);

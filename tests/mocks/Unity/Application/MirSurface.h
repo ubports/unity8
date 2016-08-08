@@ -96,18 +96,17 @@ public:
     int widthIncrement() const override { return m_widthIncrement; }
     int heightIncrement() const override { return m_heightIncrement; }
 
-    virtual void setKeymap(const QString &);
-    virtual QString keymap() const;
+    void setKeymap(const QString &) override;
+    QString keymap() const override;
 
     Mir::ShellChrome shellChrome() const override;
 
     bool focused() const override;
+    QRect inputBounds() const override;
 
     Q_INVOKABLE void requestFocus() override;
 
     Q_INVOKABLE void close() override;
-
-    unity::shell::application::MirSurfaceListInterface* promptSurfaceList() override;
 
     Q_INVOKABLE void raise() override;
 
@@ -130,7 +129,7 @@ public:
     Q_INVOKABLE void setWidthIncrement(int);
     Q_INVOKABLE void setHeightIncrement(int);
 
-    Q_INVOKABLE void createPromptSurface();
+    Q_INVOKABLE virtual void setInputBounds(const QRect &boundsRect);
 
     /////
     // internal mock stuff
@@ -163,6 +162,9 @@ Q_SIGNALS:
     void activeFocusChanged(bool);
     void raiseRequested();
     void closeRequested();
+
+protected:
+    virtual void updateInputBoundsAfterResize();
 
 private Q_SLOTS:
     void applyDelayedResize();
@@ -199,7 +201,6 @@ private:
     QSize m_pendingResize;
 
     Mir::ShellChrome m_shellChrome;
-    MirSurfaceListModel m_promptSurfaceList;
 
     struct View {
         bool visible;
@@ -207,6 +208,8 @@ private:
     QHash<qintptr, View> m_views;
 
     QTimer m_zombieTimer;
+
+    QRect m_inputBounds;
 };
 
 #endif // MOCK_MIR_SURFACE_H

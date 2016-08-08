@@ -2,6 +2,7 @@ pkg_check_modules(ANDROID_HEADERS REQUIRED android-headers)
 pkg_check_modules(ANDROID_HARDWARE REQUIRED libhardware)
 
 include_directories(
+    SYSTEM
     ${ANDROID_HEADERS_INCLUDE_DIRS}
 )
 

@@ -42,6 +42,6 @@ SequentialAnimation {
         from: root.fromAngle; to: root.toAngle
         duration: rotationDuration; easing.type: rotationEasing
     }
-    UpdateShellTransformations { info: root.info; shell: root.shell }
+    UpdateShellTransformations { shell: root.shell; rotationAngle: root.toAngle }
     ScriptAction { script: { info.transitioning = false; } }
 }

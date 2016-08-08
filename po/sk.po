@@ -7,52 +7,52 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-05-04 18:09+0000\n"
-"PO-Revision-Date: 2016-05-02 10:43+0000\n"
+"POT-Creation-Date: 2016-07-28 08:17+0000\n"
+"PO-Revision-Date: 2016-07-19 04:43+0000\n"
 "Last-Translator: P_E_T_O <Unknown>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Launchpad-Export-Date: 2016-05-06 04:55+0000\n"
-"X-Generator: Launchpad (build 17995)\n"
+"X-Launchpad-Export-Date: 2016-07-30 06:07+0000\n"
+"X-Generator: Launchpad (build 18169)\n"
 "Language: sk\n"
 
-#: plugins/IntegratedLightDM/Greeter.cpp:112
+#: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
 msgstr "Heslo: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:48
-#: plugins/Unity/Launcher/launcheritem.cpp:107
+#: plugins/Unity/Launcher/launcheritem.cpp:49
+#: plugins/Unity/Launcher/launcheritem.cpp:108
 msgid "Pin shortcut"
 msgstr "Pripnúť odkaz"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:53
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Ukončiť"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:107
+#: plugins/Unity/Launcher/launcheritem.cpp:108
 msgid "Unpin shortcut"
 msgstr "Odopnúť odkaz"
 
-#: qml/Components/DelayedLockscreen.qml:49
+#: qml/Components/DelayedLockscreen.qml:50
 msgid "Device Locked"
 msgstr "Zariadenie zamknuté"
 
-#: qml/Components/DelayedLockscreen.qml:64
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
 "Boli ste zablokovaný z dôvodu príliš veľkého počtu neúspešných pokusov o "
 "prístupovú frázu."
 
-#: qml/Components/DelayedLockscreen.qml:65
+#: qml/Components/DelayedLockscreen.qml:66
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
 "Boli ste zablokovaný z dôvodu príliš veľkého počtu neúspešných pokusov o "
 "prístupové heslo."
 
-#: qml/Components/DelayedLockscreen.qml:74
+#: qml/Components/DelayedLockscreen.qml:75
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
@@ -80,7 +80,7 @@ msgid "Log Out"
 msgstr "Odhlásiť"
 
 #: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
-#: qml/Dash/DashPageHeader.qml:298 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Zrušiť"
@@ -125,17 +125,187 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Reštartovať"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/KeyboardShortcutsOverlay.qml:41
+msgid "Keyboard Shortcuts"
+msgstr "Klávesové skratky"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:55
+msgid "Unity 8"
+msgstr "Unity 8"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:62
+msgid "PrtScr"
+msgstr "PrtScr"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:67
+msgid "Takes a screenshot."
+msgstr "Vytvorí snímku obrazovky."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:75
+msgid "Alt + PrtScr"
+msgstr "Alt + PrtScr"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:80
+msgid "Takes a screenshot of a window."
+msgstr "Vytvorí snímku okna."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:88
+msgid "Super + Space"
+msgstr "Super + Space"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:93
+msgid "Switches to next keyboard layout."
+msgstr "Prepne na ďalšie rozloženie klávesnice."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:101
+msgid "Super + Shift + Space"
+msgstr "Super + Shift + Space"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:106
+msgid "Switches to previous keyboard layout."
+msgstr "Prepne na predošlé rozloženie klávesnice."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:118
+msgid "Launcher"
+msgstr "Launcher"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:125
+msgid "Super (Hold)"
+msgstr "Super (Držať)"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:130
+msgid "Opens the launcher, displays shortcuts."
+msgstr "Otvorí launcher, zobrazí skratky."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:138
+msgid "Alt + F1"
+msgstr "Alt + F1"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:143
+msgid "Opens launcher keyboard navigation mode."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:151
+msgid "Super + Tab"
+msgstr "Super + Tab"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:156
+msgid "Switches applications via the launcher."
+msgstr "Prepínanie aplikácií pomocou launchera."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:164
+msgid "Super + 0 to 9"
+msgstr "Super + 0 do 9"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:169
+msgid "Same as clicking on a launcher icon."
+msgstr "Rovnaké ako kliknutie na ikonu v launchery."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:181
+msgid "Scopes"
+msgstr "Scopes"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:188
+msgid "Super (Tap)"
+msgstr "Super (Klik)"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:193
+msgid "Opens the Scopes home."
+msgstr "Otvorí Scopes."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:209
+msgid "Switching"
+msgstr "Prepínanie"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:216
+msgid "Alt + Tab"
+msgstr "Alt + Tab"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:221
+msgid "Switches between applications."
+msgstr "Prepínanie medzi aplikáciami."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:229
+msgid "Super + W"
+msgstr "Super + W"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:234
+msgid "Opens the desktop spread."
+msgstr "Otvorí rozloženie obrazoviek."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:242
+msgid "Cursor Left or Right"
+msgstr "Ľavý alebo pravý kurzorový kláves"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:247
+msgid "Moves the focus."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:259
+msgid "Windows"
+msgstr "Okná"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:266
+msgid "Ctrl + Super + D"
+msgstr "Ctrl + Super + D"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:271
+msgid "Minimizes all windows."
+msgstr "Minimalizuje všetky okná."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:279
+msgid "Ctrl + Super + Up"
+msgstr "Ctrl + Super + Hore"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:284
+msgid "Maximizes the current window."
+msgstr "Maximalizuje aktuálne okno."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:292
+msgid "Ctrl + Super + Down"
+msgstr "Ctrl + Super + Dole"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:297
+msgid "Minimizes or restores the current window."
+msgstr "Minimalizuje alebo obnoví aktuálne okno."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:305
+msgid "Ctrl + Super + Left or Right"
+msgstr "Ctrl + Super + Doľava alebo Doprava"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:310
+msgid "Semi-maximizes the current window."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:318
+msgid "Alt + F4"
+msgstr "Alt + F4"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:323
+msgid "Closes the current window."
+msgstr "Zavrie aktuálne okno."
+
+#: qml/Components/Lockscreen.qml:239
 msgid "Return to Call"
 msgstr "Návrat k hovoru"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:239
 msgid "Emergency Call"
 msgstr "Tiesňový hovor"
 
-#: qml/Components/Lockscreen.qml:263
+#: qml/Components/Lockscreen.qml:271
 msgid "OK"
 msgstr "OK"
+
+#: qml/Components/MediaServices/VideoPlayerControls.qml:44
+#, qt-format
+msgid "%1:%2:%3"
+msgstr "%1:%2:%3"
+
+#: qml/Components/MediaServices/VideoPlayerControls.qml:49
+#, qt-format
+msgid "%1:%2"
+msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
@@ -164,26 +334,30 @@ msgstr "Znova pripojiť!"
 msgid "Close all"
 msgstr "Zavrieť všetko"
 
-#: qml/Dash/DashPageHeader.qml:337
+#: qml/Components/SharingPicker.qml:54
+msgid "Preview Share Item"
+msgstr "Náhľad zdieľaných položiek"
+
+#: qml/Dash/DashPageHeader.qml:333
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Obchod"
 
-#: qml/Dash/DashPageHeader.qml:344
+#: qml/Dash/DashPageHeader.qml:340
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Hľadať"
 
-#: qml/Dash/DashPageHeader.qml:354
+#: qml/Dash/DashPageHeader.qml:350
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Nastavenia"
 
-#: qml/Dash/DashPageHeader.qml:361
+#: qml/Dash/DashPageHeader.qml:357
 msgid "Remove from Favorites"
 msgstr "Odstrániť z obľúbených"
 
-#: qml/Dash/DashPageHeader.qml:361
+#: qml/Dash/DashPageHeader.qml:357
 msgid "Add to Favorites"
 msgstr "Pridať k obľúbeným"
 
@@ -195,24 +369,24 @@ msgstr "Spresniť výsledky"
 msgid "Reset"
 msgstr "Resetovať"
 
-#: qml/Dash/GenericScopeView.qml:579 qml/Dash/GenericScopeView.qml:764
+#: qml/Dash/GenericScopeView.qml:580 qml/Dash/GenericScopeView.qml:775
 msgid "Show less"
 msgstr "Zobraziť menej"
 
-#: qml/Dash/GenericScopeView.qml:579
+#: qml/Dash/GenericScopeView.qml:580
 msgid "Show all"
 msgstr "Zobraziť všetko"
 
-#: qml/Dash/GenericScopeView.qml:636
+#: qml/Dash/GenericScopeView.qml:637
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Hľadať"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:55
+#: qml/Dash/PageHeaderExtraPanel.qml:56
 msgid "Recent Searches"
 msgstr "Nedávne vyhľadávania"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:66
+#: qml/Dash/PageHeaderExtraPanel.qml:67
 msgid "Clear All"
 msgstr "Vymazať všetko"
 
@@ -225,21 +399,17 @@ msgid "Less..."
 msgstr "Menej..."
 
 #: qml/Dash/Previews/PreviewCommentInput.qml:68
-#: qml/Dash/Previews/PreviewRatingInput.qml:174
+#: qml/Dash/Previews/PreviewRatingInput.qml:175
 msgid "Send"
 msgstr "Poslať"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:84
+#: qml/Dash/Previews/PreviewRatingInput.qml:82
 msgid "Rate this"
 msgstr "Ohodnotiť"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:129
+#: qml/Dash/Previews/PreviewRatingInput.qml:157
 msgid "Add a review"
 msgstr "Pridať recenziu"
-
-#: qml/Dash/Previews/PreviewSharing.qml:66
-msgid "Preview Share Item"
-msgstr "Náhľad zdieľaných položiek"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -253,19 +423,19 @@ msgstr "Uvoľniť pre obnovenie..."
 msgid "Enable location data"
 msgstr "Zapnúť údaje o polohe"
 
-#: qml/Dash/ScopesList.qml:67
+#: qml/Dash/ScopesList.qml:55
 msgid "Manage"
 msgstr "Spravovať"
 
-#: qml/Dash/ScopesList.qml:113
+#: qml/Dash/ScopesList.qml:102
 msgid "Home"
 msgstr "Domov"
 
-#: qml/Dash/ScopesList.qml:114
+#: qml/Dash/ScopesList.qml:103
 msgid "Also installed"
 msgstr "Tiež nainštalované"
 
-#: qml/DisabledScreenNotice.qml:104
+#: qml/DisabledScreenNotice.qml:109
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
@@ -273,31 +443,43 @@ msgstr ""
 "Zariadenie je pripojené k externému displeju. Táto obrazovka slúži ako "
 "dotyková plocha pre interakciu s ukazovateľom."
 
-#: qml/Greeter/CoverPage.qml:118
+#: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
 msgstr "Odomknúť"
 
-#: qml/Greeter/LoginList.qml:239
+#: qml/Greeter/Greeter.qml:555
+msgid "Try again"
+msgstr "Skúsiť znova"
+
+#: qml/Greeter/LoginList.qml:63
+msgid "Passphrase"
+msgstr "Prístupová fráza"
+
+#: qml/Greeter/LoginList.qml:64
+msgid "Passcode"
+msgstr "Heslo"
+
+#: qml/Greeter/LoginList.qml:87
 msgid "Retry"
 msgstr "Skúsiť znova"
 
-#: qml/Greeter/LoginList.qml:240
-msgid "Tap to unlock"
-msgstr "Kliknúť pre odomknutie"
+#: qml/Greeter/LoginList.qml:88
+msgid "Log In"
+msgstr "Prihlásiť sa"
 
-#: qml/Greeter/NarrowView.qml:54
+#: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passphrase."
 msgstr "Prepáčte, nesprávna prístupová fráza."
 
-#: qml/Greeter/NarrowView.qml:55
+#: qml/Greeter/NarrowView.qml:56
 msgid "Sorry, incorrect passcode."
 msgstr "Prepáčte, nesprávne prístupové heslo."
 
-#: qml/Greeter/NarrowView.qml:56
+#: qml/Greeter/NarrowView.qml:57
 msgid "This will be your last attempt."
 msgstr "Bude to váš posledný pokus."
 
-#: qml/Greeter/NarrowView.qml:58
+#: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -305,7 +487,7 @@ msgstr ""
 "Ak bude zle zadaná prístupová fráza, váš telefón vykoná továrenský reset a "
 "všetky osobné údaje budú vymazané."
 
-#: qml/Greeter/NarrowView.qml:59
+#: qml/Greeter/NarrowView.qml:60
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -313,34 +495,34 @@ msgstr ""
 "Ak bude zle zadané heslo, váš telefón vykoná továrenský reset a všetky "
 "osobné údaje budú vymazané."
 
-#: qml/Greeter/NarrowView.qml:116
+#: qml/Greeter/NarrowView.qml:129
 #, qt-format
 msgid "Enter %1"
 msgstr "Zadajte %1"
 
-#: qml/Greeter/NarrowView.qml:117
+#: qml/Greeter/NarrowView.qml:130
 msgid "Enter passphrase"
 msgstr "Zadajte prístupovú frázu"
 
-#: qml/Greeter/NarrowView.qml:118
+#: qml/Greeter/NarrowView.qml:131
 msgid "Enter passcode"
 msgstr "Zadajte heslo"
 
-#: qml/Greeter/NarrowView.qml:119
+#: qml/Greeter/NarrowView.qml:135
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Prepáčte, nesprávne %1"
 
-#: qml/Greeter/NarrowView.qml:120
+#: qml/Greeter/NarrowView.qml:136
 msgid "Sorry, incorrect passphrase"
 msgstr "Prepáčte, nesprávna prístupová fráza"
 
-#: qml/Greeter/NarrowView.qml:121
+#: qml/Greeter/NarrowView.qml:137
 msgctxt "passphrase"
 msgid "Please re-enter"
 msgstr "Zadajte znova"
 
-#: qml/Greeter/NarrowView.qml:122
+#: qml/Greeter/NarrowView.qml:138
 msgid "Sorry, incorrect passcode"
 msgstr "Prepáčte, nesprávne heslo"
 
@@ -418,18 +600,18 @@ msgstr "Ukončené"
 msgid "Failed, tap to retry"
 msgstr "Zlyhanie, kliknúť pre zopakovanie"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:155
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:151
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:210
 msgctxt "Button: Send a reply message"
 msgid "Send"
 msgstr "Poslať"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:152
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
 msgstr "Odpoveď"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:209
 msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Zavolať naspäť"
@@ -439,51 +621,25 @@ msgid "Drag using 3 fingers any application from one window to the other"
 msgstr ""
 "Potiahnite pomocou 3 prstov ľubovoľnú aplikáciu z jedného okna do druhého"
 
-#: qml/Tutorial/TutorialBottom.qml:78
-msgid "Swipe up to add a contact"
-msgstr "Potiahnuť dohora pre pridanie kontaktu"
-
-#: qml/Tutorial/TutorialBottom.qml:80
-msgid "Swipe up for favorite calculations"
-msgstr "Potiahnuť dohora pre obľúbené výpočty"
-
-#: qml/Tutorial/TutorialBottom.qml:82
-msgid "Swipe up for recent calls"
-msgstr "Potiahnuť dohora pre nedávne hovory"
-
-#: qml/Tutorial/TutorialBottom.qml:84
-msgid "Swipe up to create a message"
-msgstr "Potiahnuť dohora pre vytvorenie správy"
-
-#: qml/Tutorial/TutorialBottom.qml:85
-msgid "Swipe up to manage the app"
-msgstr "Potiahnuť dohora pre spravovanie aplikácie"
-
-#: qml/Tutorial/TutorialLeftLong.qml:47
+#: qml/Tutorial/TutorialLeftLong.qml:49
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr "Dlhé potiahnutie od ľavého okraja pre otvorenie scope Dnes"
 
 #: qml/Tutorial/TutorialLeft.qml:47
-msgid "Swipe from the left edge to open the launcher"
-msgstr "Potiahnite od ľavého okraja pre otvorenie spúšťača"
+msgid "Short swipe from the left edge to open the launcher"
+msgstr "Krátkym potiahnutím zľava otvoríte spúšťač"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
 msgstr "Potiahnuť myšou do pravého rohu pre zobrazenie otvorených aplikácií"
 
 #: qml/Tutorial/TutorialRight.qml:56
-msgid "Short or long swipe from the right edge to view your open apps"
-msgstr ""
-"Krátke alebo dlhé potiahnutie od pravého okraja pre zobrazenie otvorených "
-"aplikácií"
+msgid "Swipe from the right edge to view your open apps"
+msgstr "Potiahnutím sprava zobrazíte otvorené aplikácie"
 
 #: qml/Tutorial/TutorialTop.qml:53
-msgid "Swipe from the top right edge to open the notification bar"
-msgstr "Potiahnite od ľavého horného okraja pre otvorenie notifikačnej lišty"
-
-#: qml/Tutorial/TutorialTop.qml:54
-msgid "Swipe from the top edge to open the notification bar"
-msgstr "Potiahnite od horného okraja pre otvorenie notifikačnej lišty"
+msgid "Swipe from the top edge to access notifications and quick settings"
+msgstr "Potiahnite zhora pre prístup k oznámeniam a rýchlym nastaveniam"
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
@@ -494,14 +650,14 @@ msgstr "Naspäť"
 msgid "Language"
 msgstr "Jazyk"
 
-#: qml/Wizard/Pages/10-welcome.qml:156 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:267
+#: qml/Wizard/Pages/10-welcome.qml:171 qml/Wizard/Pages/30-wifi.qml:206
+#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
 #: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
 #: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:124
+#: qml/Wizard/Pages/passcode-desktop.qml:141
 #: qml/Wizard/Pages/password-set.qml:141
 msgid "Next"
-msgstr "Nasledujúca"
+msgstr "Nasledujúci"
 
 #: qml/Wizard/Pages/30-wifi.qml:29
 msgid "Connect to Wi‑Fi"
@@ -562,7 +718,7 @@ msgstr "Môžete to zmeniť neskôr v Systémových nastaveniach."
 msgid "Time Zone"
 msgstr "Časové pásmo"
 
-#: qml/Wizard/Pages/50-timezone.qml:178
+#: qml/Wizard/Pages/50-timezone.qml:181
 msgid "Enter your city"
 msgstr "Zadajte svoje mesto"
 
@@ -657,7 +813,7 @@ msgid "Service Terms"
 msgstr "Servisné podmienky"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:80
+#: qml/Wizard/Pages/passcode-desktop.qml:96
 msgid "Confirm passcode"
 msgstr "Potvrdiť heslo"
 
@@ -674,24 +830,24 @@ msgstr "Zadajte znova."
 msgid "Lock Screen Passcode"
 msgstr "Heslo uzamykacej obrazovky"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:56
+#: qml/Wizard/Pages/passcode-desktop.qml:60
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "Zadajte 4 čísla pre nastavenie hesla"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:65
+#: qml/Wizard/Pages/passcode-desktop.qml:76
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "Zvoliť heslo"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:105
+#: qml/Wizard/Pages/passcode-desktop.qml:126
 msgid "Passcode too short"
 msgstr "Heslo príliš krátke"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:107
+#: qml/Wizard/Pages/passcode-desktop.qml:128
 msgid "Passcodes match"
 msgstr "Zhoda hesiel"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:109
+#: qml/Wizard/Pages/passcode-desktop.qml:130
 msgid "Passcodes do not match"
 msgstr "Heslá sa nezhodujú"
 
@@ -741,26 +897,30 @@ msgid "To proceed with no SIM tap Skip."
 msgstr "Pre pokračovanie bez SIM karty stlačte Preskočiť."
 
 #: qml/Wizard/PasswordMeter.qml:87
+msgid "Password too short"
+msgstr "Veľmi krátke heslo"
+
+#: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
 msgstr "Heslá sa zhodujú"
 
-#: qml/Wizard/PasswordMeter.qml:89
+#: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
 msgstr "Heslá sa nezhodujú"
 
-#: qml/Wizard/PasswordMeter.qml:93
+#: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
 msgstr "Heslo je silné"
 
-#: qml/Wizard/PasswordMeter.qml:95
+#: qml/Wizard/PasswordMeter.qml:97
 msgid "Fair password"
 msgstr "Heslo je prijateľné"
 
-#: qml/Wizard/PasswordMeter.qml:97
+#: qml/Wizard/PasswordMeter.qml:99
 msgid "Weak password"
 msgstr "Heslo je slabé"
 
-#: qml/Wizard/PasswordMeter.qml:99
+#: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
 msgstr "Heslo je veľmi slabé"
 
@@ -808,6 +968,9 @@ msgstr "Heslo je veľmi slabé"
 
 #~ msgid "See all"
 #~ msgstr "Zobraziť všetko"
+
+#~ msgid "Tap to unlock"
+#~ msgstr "Kliknúť pre odomknutie"
 
 #~ msgid "Unlock SIM"
 #~ msgstr "Odomknúť SIM"
@@ -973,8 +1136,37 @@ msgstr "Heslo je veľmi slabé"
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
+#~ msgid "Swipe up for recent calls"
+#~ msgstr "Potiahnuť dohora pre nedávne hovory"
+
+#~ msgid "Swipe up for favorite calculations"
+#~ msgstr "Potiahnuť dohora pre obľúbené výpočty"
+
+#~ msgid "Swipe up to manage the app"
+#~ msgstr "Potiahnuť dohora pre spravovanie aplikácie"
+
+#~ msgid "Swipe up to create a message"
+#~ msgstr "Potiahnuť dohora pre vytvorenie správy"
+
+#~ msgid "Swipe up to add a contact"
+#~ msgstr "Potiahnuť dohora pre pridanie kontaktu"
+
+#~ msgid "Swipe from the left edge to open the launcher"
+#~ msgstr "Potiahnite od ľavého okraja pre otvorenie spúšťača"
+
+#~ msgid "Swipe from the top right edge to open the notification bar"
+#~ msgstr "Potiahnite od ľavého horného okraja pre otvorenie notifikačnej lišty"
+
+#~ msgid "Swipe from the top edge to open the notification bar"
+#~ msgstr "Potiahnite od horného okraja pre otvorenie notifikačnej lišty"
+
 #~ msgid "Hover your mouse on the right edge to view your open apps"
 #~ msgstr "Prejdite myšou od pravého okraja pre zobrazenie otvorených aplikácií"
+
+#~ msgid "Short or long swipe from the right edge to view your open apps"
+#~ msgstr ""
+#~ "Krátke alebo dlhé potiahnutie od pravého okraja pre zobrazenie otvorených "
+#~ "aplikácií"
 
 #~ msgid "Log out"
 #~ msgstr "Odhlásiť sa"

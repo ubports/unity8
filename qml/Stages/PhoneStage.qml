@@ -108,6 +108,12 @@ AbstractStage {
         }
     }
 
+    function closeFocusedDelegate() {
+        if (priv.focusedAppDelegate && priv.focusedAppDelegate.closeable) {
+            priv.focusedAppDelegate.closed();
+        }
+    }
+
     mainApp: priv.focusedAppDelegate ? priv.focusedAppDelegate.application : null
 
     orientationChangesEnabled: priv.focusedAppOrientationChangesEnabled
@@ -465,13 +471,13 @@ AbstractStage {
                 model: topLevelSurfaceList
 
                 onItemRemoved: {
-                    // Unless we're closing the app ourselves in the spread,
+                    // Unless we're closing the app ourselves,
                     // lets make sure the spread doesn't mess up by the changing app list.
                     if (spreadView.closingIndex == -1) {
                         spreadView.phase = 0;
                         spreadView.contentX = -spreadView.shift;
-                        focusTopMostApp();
                     }
+                    focusTopMostApp();
                 }
                 function focusTopMostApp() {
                     if (spreadRepeater.count > 0) {
@@ -713,7 +719,7 @@ AbstractStage {
         enabled: spreadDragArea.dragging
     }
 
-    DirectionalDragArea {
+    SwipeArea {
         id: spreadDragArea
         objectName: "spreadDragArea"
         direction: Direction.Leftwards
@@ -724,10 +730,10 @@ AbstractStage {
 
         property var gesturePoints: new Array()
 
-        onTouchXChanged: {
+        onTouchPositionChanged: {
             if (dragging) {
                 // Gesture recognized. Let's move the spreadView with the finger
-                var dragX = Math.min(touchX + width, width); // Prevent dragging rightwards
+                var dragX = Math.min(touchPosition.x + width, width); // Prevent dragging rightwards
                 dragX = -dragX + spreadDragArea.width - spreadView.shift;
                 // Don't allow dragging further than the animation crossing with phase2's animation
                 var maxMovement =  spreadView.width * spreadView.positionMarker4 - spreadView.shift;
@@ -739,7 +745,7 @@ AbstractStage {
                 spreadView.contentX = -spreadView.shift;
             }
 
-            gesturePoints.push(touchX);
+            gesturePoints.push(touchPosition.x);
         }
 
         onDraggingChanged: {

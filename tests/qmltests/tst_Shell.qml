@@ -18,7 +18,7 @@ import QtQuick 2.4
 import QtTest 1.0
 import AccountsService 0.1
 import GSettings 1.0
-import IntegratedLightDM 0.1 as LightDM
+import LightDM.IntegratedLightDM 0.1 as LightDM
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.Telephony 0.1 as Telephony
@@ -65,6 +65,7 @@ Rectangle {
             property int shellOrientation: Qt.PortraitOrientation
             property int nativeOrientation: Qt.PortraitOrientation
             property int primaryOrientation: Qt.PortraitOrientation
+            property string mode: "full-greeter"
 
             state: "phone"
             states: [
@@ -114,6 +115,7 @@ Rectangle {
                         native_: shellLoader.nativeOrientation
                         primary: shellLoader.primaryOrientation
                     }
+                    mode: shellLoader.mode
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }
@@ -332,6 +334,33 @@ Rectangle {
                     }
                 }
 
+                Label {
+                    text: "Fingerprint"
+                }
+                Row {
+                    Button {
+                        text: "Success"
+                        onClicked: {
+                            var biometryd = testCase.findInvisibleChild(shellContainer, "biometryd");
+                            var uid = 0;
+                            for (var i = 0; i < LightDM.Users.count; i++) {
+                                if (LightDM.Users.data(i, LightDM.UserRoles.NameRole) == AccountsService.user) {
+                                    uid = LightDM.Users.data(i, LightDM.UserRoles.UidRole);
+                                    break;
+                                }
+                            }
+                            biometryd.operation.mockSuccess(uid);
+                        }
+                    }
+
+                    Button {
+                        text: "Failure"
+                        onClicked: {
+                            var biometryd = testCase.findInvisibleChild(shellContainer, "biometryd");
+                            biometryd.operation.mockFailure("error");
+                        }
+                    }
+                }
             }
         }
     }
@@ -427,7 +456,7 @@ Rectangle {
         function cleanup() {
             waitForRendering(shell);
             mouseEmulation.checked = true;
-            tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
+            tryCompare(shell, "waitingOnGreeter", false); // make sure greeter didn't leave us in disabled state
             tearDown();
             WindowStateStorage.clear();
         }
@@ -436,8 +465,8 @@ Rectangle {
             shellLoader.state = formFactor;
             shellLoader.active = true;
             tryCompare(shellLoader, "status", Loader.Ready);
-            removeTimeConstraintsFromDirectionalDragAreas(shellLoader.item);
-            tryCompare(shell, "enabled", true); // enabled by greeter when ready
+            removeTimeConstraintsFromSwipeAreas(shellLoader.item);
+            tryCompare(shell, "waitingOnGreeter", false); // reset by greeter when ready
 
             sessionSpy.target = findChild(shell, "greeter")
             dashCommunicatorSpy.target = findInvisibleChild(shell, "dashCommunicator");
@@ -508,6 +537,7 @@ Rectangle {
             AccountsService.demoEdges = false;
             AccountsService.demoEdgesCompleted = [];
             Wizard.System.wizardEnabled = false;
+            shellLoader.mode = "full-greeter";
 
             // kill all (fake) running apps
             killApps();
@@ -749,8 +779,9 @@ Rectangle {
             // greeter unloads its internal components when hidden
             // and reloads them when shown. Thus we have to do this
             // again before interacting with it otherwise any
-            // DirectionalDragAreas in there won't be easily fooled by
+            // SwipeAreas in there won't be easily fooled by
             // fake swipes.
+            removeTimeConstraintsFromSwipeAreas(greeter);
             swipeAwayGreeter();
 
             compare(mainApp.requestedState, ApplicationInfoInterface.RequestedRunning);
@@ -761,7 +792,7 @@ Rectangle {
             var greeter = findChild(shell, "greeter");
             tryCompare(greeter, "fullyShown", true);
             waitForGreeterToStabilize();
-            removeTimeConstraintsFromDirectionalDragAreas(greeter);
+            removeTimeConstraintsFromSwipeAreas(greeter);
 
             var touchX = shell.width - (shell.edgeSize / 2);
             var touchY = shell.height / 2;
@@ -787,7 +818,7 @@ Rectangle {
                 tryCompare(userlist, "currentIndex", next)
                 tryCompare(userlist, "movingInternally", false)
             }
-            tryCompare(shell, "enabled", true); // wait for PAM to settle
+            tryCompare(shell, "waitingOnGreeter", false); // wait for PAM to settle
         }
 
         function selectUser(name) {
@@ -809,10 +840,14 @@ Rectangle {
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "fullyShown", true);
 
-            var passwordMouseArea = findChild(shell, "passwordMouseArea")
-            tryCompare(passwordMouseArea, "enabled", isButton)
+            var passwordInput = findChild(shell, "passwordInput");
 
-            var passwordInput = findChild(shell, "passwordInput")
+            var promptButton = findChild(passwordInput, "promptButton");
+            tryCompare(promptButton, "visible", isButton);
+
+            var promptField = findChild(passwordInput, "promptField");
+            tryCompare(promptField, "visible", !isButton);
+
             mouseClick(passwordInput)
         }
 
@@ -1069,9 +1104,9 @@ Rectangle {
             // greeter unloads its internal components when hidden
             // and reloads them when shown. Thus we have to do this
             // again before interacting with it otherwise any
-            // DirectionalDragAreas in there won't be easily fooled by
+            // SwipeAreas in there won't be easily fooled by
             // fake swipes.
-            removeTimeConstraintsFromDirectionalDragAreas(greeter);
+            removeTimeConstraintsFromSwipeAreas(greeter);
         }
 
         function revealLauncherByEdgePushWithMouse() {
@@ -1126,6 +1161,17 @@ Rectangle {
             tryCompare(indicators, "fullyClosed", true);
         }
 
+        function test_greeterShownAgainHidesIndicators() {
+            // Regression test for https://launchpad.net/bugs/1595569
+
+            loadShell("phone");
+            showIndicators();
+            showGreeter();
+
+            var indicators = findChild(shell, "indicators");
+            tryCompare(indicators, "fullyClosed", true);
+        }
+
         function test_showAndHideGreeterDBusCalls() {
             loadShell("phone");
             swipeAwayGreeter();
@@ -1141,16 +1187,13 @@ Rectangle {
 
         function test_greeterLoginsAutomaticallyWhenNoPasswordSet() {
             loadShell("phone");
-            swipeAwayGreeter();
-
-            sessionSpy.clear();
-            verify(sessionSpy.valid);
-
-            showGreeter();
 
             var greeter = findChild(shell, "greeter");
             verify(!greeter.locked);
-            verify(sessionSpy.count > 0);
+            compare(sessionSpy.count, 0);
+
+            swipeAwayGreeter();
+            compare(sessionSpy.count, 1);
         }
 
         function test_fullscreen() {
@@ -1232,13 +1275,10 @@ Rectangle {
 
         function test_wizardEarlyExit() {
             Wizard.System.wizardEnabled = true;
-            AccountsService.demoEdges = true;
             loadShell("phone");
 
             var wizard = findChild(shell, "wizard");
-            var tutorial = findChild(shell, "tutorial");
             tryCompare(wizard, "active", true);
-            tryCompare(tutorial, "running", true);
             tryCompareFunction(function() { return topLevelSurfaceList.applicationAt(0).appId; }, "unity8-dash");
 
             // Make sure we stay running when there's no top level window (can happen for
@@ -1251,14 +1291,12 @@ Rectangle {
 
             tryCompare(topLevelSurfaceList, "count", 0);
             compare(wizard.shown, true);
-            compare(tutorial.running, true);
 
             // And make sure we stay running when dash comes back again
             var dashSurfaceId = topLevelSurfaceList.nextId;
             ApplicationManager.startApplication(dashApplication.appId);
             waitUntilAppWindowIsFullyLoaded(dashSurfaceId);
             compare(wizard.shown, true);
-            compare(tutorial.running, true);
 
             // And make sure we stop when some other surface shows app
             var gallerySurfaceId = topLevelSurfaceList.nextId;
@@ -1266,12 +1304,7 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(gallerySurfaceId);
             tryCompareFunction(function() { return topLevelSurfaceList.applicationAt(0).appId; }, "gallery-app");
             compare(wizard.shown, false);
-            compare(tutorial.running, false);
-            tryCompare(AccountsService, "demoEdges", false);
             tryCompare(Wizard.System, "wizardEnabled", false);
-
-            var tutorialLeft = findChild(tutorial, "tutorialLeft");
-            compare(tutorialLeft, null); // should be destroyed with tutorial
         }
 
         function test_tutorialPausedDuringGreeter() {
@@ -2121,8 +2154,10 @@ Rectangle {
 
         function test_switchToStagedForcesLegacyAppClosing_data() {
             return [
-                {tag: "forceClose", replug: false },
-                {tag: "replug", replug: true }
+                {tag: "forceClose", replug: false, tabletMode: false, screenSize: Qt.size(units.gu(20), units.gu(40)) },
+                {tag: "replug", replug: true, tabletMode: false, screenSize: Qt.size(units.gu(20), units.gu(40)) },
+                {tag: "forceClose+tablet", replug: false, tabletMode: true, screenSize: Qt.size(units.gu(90), units.gu(65)) },
+                {tag: "replug+tablet", replug: true, tabletMode: true, screenSize: Qt.size(units.gu(90), units.gu(65)) }
             ];
         }
 
@@ -2130,6 +2165,11 @@ Rectangle {
             loadShell("desktop")
             shell.usageScenario = "desktop"
             waitForRendering(shell);
+
+            // setup some screen size
+            var dialogs = findChild(root, "dialogs");
+            verify(dialogs);
+            dialogs.screenSize = data.screenSize;
 
             ApplicationManager.startApplication("camera-app")
 
@@ -2149,14 +2189,13 @@ Rectangle {
             shell.usageScenario = "phone"
             waitForRendering(shell);
 
-            // The popup must appear now
+            // The popup must appear now, unless in "tablet" mode
             popup = findChild(root, "modeSwitchWarningDialog");
-            compare(popup !== null, true);
+            compare(popup !== null, !data.tabletMode);
 
-            if (data.replug) {
+            if (data.replug || data.tabletMode) {
                 shell.usageScenario = "desktop"
                 waitForRendering(shell);
-
             } else {
                 var forceCloseButton = findChild(popup, "forceCloseButton");
                 mouseClick(forceCloseButton, forceCloseButton.width / 2, forceCloseButton.height / 2);
@@ -2167,7 +2206,7 @@ Rectangle {
             popup = findChild(root, "modeSwitchWarningDialog");
             tryCompareFunction(function() { return popup === null}, true);
 
-            if (data.replug) {
+            if (data.replug || data.tabletMode) {
                 // Libreoffice must still be running
                 compare(ApplicationManager.findApplication("libreoffice") !== null, true);
             } else {
@@ -2188,11 +2227,6 @@ Rectangle {
             shell.usageScenario = "desktop";
             GSettingsController.setAutohideLauncher(!data.launcherLocked);
             waitForRendering(shell);
-            // Not sure why 2 but it's the number of times
-            // it triggers at this time and we need to wait
-            // for them otherwise a sessionStarted signal will
-            // hide the launcher and make the test fail
-            tryCompare(sessionSpy, "count", 2);
 
             var launcher = findChild(shell, "launcher");
             var launcherPanel = findChild(launcher, "launcherPanel");
@@ -2203,6 +2237,7 @@ Rectangle {
             compare(ApplicationManager.focusedApplicationId, "unity8-dash");
 
             // Use Super + Tab Tab to cycle to the first entry in the launcher
+            wait(1000);
             keyPress(Qt.Key_Super_L, Qt.MetaModifier);
             keyClick(Qt.Key_Tab);
             tryCompare(launcher, "state", "visible");
@@ -2225,19 +2260,27 @@ Rectangle {
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
         }
 
-        function test_longpressSuperOpensLauncher() {
+        function test_longpressSuperOpensLauncherAndShortcutsOverlay() {
             loadShell("desktop");
             var launcher = findChild(shell, "launcher");
             var shortcutHint = findChild(findChild(launcher, "launcherDelegate0"), "shortcutHint")
+            var shortcutsOverlay = findChild(shell, "shortcutsOverlay");
 
             compare(launcher.state, "");
             keyPress(Qt.Key_Super_L, Qt.MetaModifier);
+            waitForRendering(shortcutsOverlay);
             tryCompare(launcher, "state", "visible");
             tryCompare(shortcutHint, "visible", true);
+            if (shortcutsOverlay.enabled) {
+                tryCompare(shortcutsOverlay, "visible", true, 10000);
+            }
 
             keyRelease(Qt.Key_Super_L, Qt.MetaModifier);
             tryCompare(launcher, "state", "");
             tryCompare(shortcutHint, "visible", false);
+            if (shortcutsOverlay.enabled) {
+                tryCompare(shortcutsOverlay, "visible", false);
+            }
         }
 
         function test_metaNumberLaunchesFromLauncher_data() {
@@ -2370,7 +2413,7 @@ Rectangle {
         function test_switchKeymap() {
             // start with phone shell
             loadShell("phone");
-            shell.usageScenario = "shell";
+            shell.usageScenario = "phone";
             waitForRendering(shell);
             swipeAwayGreeter();
 
@@ -2426,6 +2469,78 @@ Rectangle {
             // switch to app2, should also get "fr"
             ApplicationManager.requestFocusApplication("calendar-app");
             tryCompare(app2Surface, "keymap", "fr");
+        }
+
+        function test_dragPanelToRestoreMaximizedWindow() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            var panel = findChild(shell, "windowControlArea");
+            verify(panel);
+
+            var appSurfaceId = topLevelSurfaceList.nextId;
+            var app = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            // start dialer, maximize it
+            var appContainer = findChild(shell, "appContainer");
+            var appDelegate = findChild(appContainer, "appDelegate_" + appSurfaceId);
+            verify(appDelegate);
+            appDelegate.maximize();
+            tryCompare(appDelegate, "state", "maximized");
+
+            mousePress(panel);
+            mouseMove(shell, shell.width/2, shell.height/2);
+            mouseRelease(shell);
+
+            tryCompare(appDelegate, "state", "normal");
+        }
+
+        function test_fullShellModeHasNoInitialGreeter() {
+            setLightDMMockMode("single-pin");
+            shellLoader.mode = "full-shell";
+            loadShell("phone");
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+
+            var greeter = findChild(shell, "greeter");
+            verify(!greeter.shown);
+            verify(!greeter.locked);
+
+            showGreeter();
+
+            verify(greeter.shown);
+            verify(greeter.locked);
+        }
+
+        function test_closeFocusedDelegate_data() {
+            return [
+                        { tag: "phone" },
+                        { tag: "tablet" },
+                        { tag: "desktop" }
+                    ]
+        }
+
+        function test_closeFocusedDelegate(data) {
+            loadShell(data.tag);
+            shell.usageScenario = data.tag;
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var app2SurfaceId = topLevelSurfaceList.nextId;
+            var app2 = ApplicationManager.startApplication("calendar-app");
+            waitUntilAppWindowIsFullyLoaded(app2SurfaceId);
+
+            var app1SurfaceId = topLevelSurfaceList.nextId;
+            var app1 = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(app1SurfaceId);
+
+            var countBeforeClose = topLevelSurfaceList.count;
+
+            keyClick(Qt.Key_F4, Qt.AltModifier);
+
+            tryCompare(topLevelSurfaceList, "count", countBeforeClose - 1);
+            tryCompareFunction(function() { return ApplicationManager.focusedApplicationId; }, "calendar-app");
         }
     }
 }

@@ -97,7 +97,7 @@ void WindowStateStorage::saveStage(const QString &appId, int stage)
     saveValue(queryString);
 }
 
-int WindowStateStorage::getStage(const QString &appId) const
+int WindowStateStorage::getStage(const QString &appId, int defaultValue) const
 {
     const QString queryString = QStringLiteral("SELECT * FROM stage WHERE appId = '%1';")
             .arg(sanitiseString(appId));
@@ -105,7 +105,7 @@ int WindowStateStorage::getStage(const QString &appId) const
     QSqlQuery query = getValue(queryString);
 
     if (!query.first()) {
-        return unity::shell::application::ApplicationInfoInterface::MainStage;
+        return defaultValue;
     }
     return query.value("stage").toInt();
 }

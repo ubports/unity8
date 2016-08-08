@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2015 Canonical, Ltd.
+ * Copyright (C) 2013,2015,2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import Ubuntu.Components.Themes.Ambiance 1.3
+import Ubuntu.Components.Popups 1.3
 import Ubuntu.Components.ListItems 1.3
 import "../Components"
 
@@ -78,13 +78,14 @@ Item {
         }
     }
 
-    function closePopup(keepFocus) {
+    function closePopup(keepFocus, keepSearch) {
         if (extraPanel.visible) {
             extraPanel.visible = false;
-        } else if (!keepFocus) {
-            unfocus();
         }
-        if (!searchTextField.text && !root.navigationTag && searchHistory.count == 0) {
+        if (!keepFocus) {
+            unfocus(keepSearch);
+        }
+        if (!keepSearch && !searchTextField.text && !root.navigationTag && searchHistory.count == 0) {
             headerContainer.showSearch = false;
         }
     }
@@ -97,9 +98,9 @@ Item {
         closePopup(keepFocus);
     }
 
-    function unfocus() {
+    function unfocus(keepSearch) {
         searchTextField.focus = false;
-        if (!searchTextField.text && !root.navigationTag) {
+        if (!keepSearch && !searchTextField.text && !root.navigationTag) {
             headerContainer.showSearch = false;
         }
     }
@@ -131,23 +132,48 @@ Item {
         anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + (extraPanel ? extraPanel.height : 0) }
         visible: headerContainer.showSearch
         onPressed: {
-            extraPanel.visible = false;
             closePopup(/* keepFocus */false);
             mouse.accepted = false;
         }
     }
 
-    Flickable {
+    Item {
         id: headerContainer
         objectName: "headerContainer"
-        clip: contentY < height
         anchors { left: parent.left; top: parent.top; right: parent.right }
-        height: header.contentHeight
-        contentHeight: headersColumn.height
-        interactive: false
-        contentY: showSearch ? 0 : height
+        height: header.__styleInstance.contentHeight
 
         property bool showSearch: false
+
+        state: headerContainer.showSearch ? "search" : ""
+
+        states: State {
+            name: "search"
+
+            AnchorChanges {
+                target: headersColumn
+                anchors.top: parent.top
+                anchors.bottom: undefined
+            }
+        }
+
+        transitions: Transition {
+            id: openSearchAnimation
+            AnchorAnimation {
+                duration: UbuntuAnimation.FastDuration
+                easing: UbuntuAnimation.StandardEasing
+            }
+
+            property bool openPopup: false
+
+            onRunningChanged: {
+                headerContainer.clip = running;
+                if (!running && openSearchAnimation.openPopup) {
+                    openSearchAnimation.openPopup = false;
+                    root.openPopup();
+                }
+            }
+        }
 
         Background {
             id: background
@@ -155,41 +181,36 @@ Item {
             style: scopeStyle.headerBackground
         }
 
-        Behavior on contentY {
-            UbuntuNumberAnimation {
-                id: openSearchAnimation
-                property bool openPopup: false
-
-                onRunningChanged: {
-                    if (!running && openSearchAnimation.openPopup) {
-                        openSearchAnimation.openPopup = false;
-                        root.openPopup();
-                    }
-                }
-            }
-        }
-
         Column {
             id: headersColumn
-            anchors { left: parent.left; right: parent.right }
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+            }
 
-            PageHeadStyle {
-                // FIXME: Replace PageHeadStyle from the Ambiance theme by the new PageHeader from Ubuntu.Components 1.3.
+            PageHeader {
                 id: searchHeader
                 anchors { left: parent.left; right: parent.right }
                 opacity: headerContainer.clip || headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
-                __separator_visible: false
-                // Required to keep PageHeadStyle noise down as it expects the Page's properties around.
-                property var styledItem: searchHeader
-                property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
-                property color panelColor: background.topColor
-                panelForegroundColor: config.foregroundColor
-                backgroundColor: "transparent"
-                config: PageHeadConfiguration {
+
+                StyleHints {
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : theme.palette.normal.baseText
+                    backgroundColor: "transparent"
+                    dividerColor: "transparent"
                 }
-                property var contents: Item {
+
+                contents: Item {
                     anchors.fill: parent
+
+                    Keys.onEscapePressed: { // clear the search text, dismiss the search in the second step
+                        if (searchTextField.text != "") {
+                            root.clearSearch(true);
+                        } else {
+                            root.clearSearch(false);
+                            headerContainer.showSearch = false;
+                        }
+                    }
 
                     TextField {
                         id: searchTextField
@@ -230,6 +251,8 @@ Item {
                                 anchors.fill: parent
                                 anchors.margins: units.gu(1)
                                 source: "image://theme/clear"
+                                sourceSize.width: width
+                                sourceSize.height: height
                                 opacity: parent.enabled
                                 visible: opacity > 0
                                 Behavior on opacity {
@@ -273,7 +296,7 @@ Item {
                             anchors.fill: parent
                             anchors.margins: units.gu(2)
                             name: "filters"
-                            color: root.activeFiltersCount > 0 ? UbuntuColors.orange : header.config.foregroundColor
+                            color: root.activeFiltersCount > 0 ? theme.palette.normal.positive : header.__styleInstance.foregroundColor
                         }
 
                         onClicked: {
@@ -283,6 +306,7 @@ Item {
 
                     AbstractButton {
                         id: cancelButton
+                        objectName: "cancelButton"
                         width: cancelLabel.width + cancelLabel.anchors.rightMargin + cancelLabel.anchors.leftMargin
                         anchors {
                             top: parent.top
@@ -296,7 +320,7 @@ Item {
                         Label {
                             id: cancelLabel
                             text: i18n.tr("Cancel")
-                            color: header.panelForegroundColor
+                            color: header.__styleInstance.foregroundColor
                             verticalAlignment: Text.AlignVCenter
                             anchors {
                                 verticalCenter: parent.verticalCenter
@@ -309,28 +333,27 @@ Item {
                 }
             }
 
-            PageHeadStyle {
-                // FIXME: Replace PageHeadStyle from the Ambiance theme by the new PageHeader from Ubuntu.Components 1.3.
+            PageHeader {
                 id: header
                 objectName: "innerPageHeader"
                 anchors { left: parent.left; right: parent.right }
                 height: headerContainer.height
                 opacity: headerContainer.clip || !headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
-                __separator_visible: false
-                property var styledItem: header
-                property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
-                property color panelColor: background.topColor
-                panelForegroundColor: config.foregroundColor
-                backgroundColor: "transparent"
-                config: PageHeadConfiguration {
-                    title: root.title
-                    foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : theme.palette.normal.baseText
-                    backAction: Action {
-                        iconName: backIsClose ? "close" : "back"
-                        visible: root.showBackButton
-                        onTriggered: root.backClicked()
-                    }
+                title: root.title
 
+                StyleHints {
+                    foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : theme.palette.normal.baseText
+                    backgroundColor: "transparent"
+                    dividerColor: "transparent"
+                }
+
+                leadingActionBar.actions: Action {
+                    iconName: backIsClose ? "close" : "back"
+                    visible: root.showBackButton
+                    onTriggered: root.backClicked()
+                }
+
+                trailingActionBar {
                     actions: [
                         Action {
                             objectName: "store"
@@ -366,7 +389,6 @@ Item {
                     ]
                 }
 
-                property var contents: null
                 Component.onCompleted: root.refreshLogo()
 
                 Component {

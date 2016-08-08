@@ -23,10 +23,7 @@
 #include <QStringListModel>
 #include <QQmlContext>
 #include <QQmlEngine>
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
 #include <private/qquickitem_p.h>
-#pragma GCC diagnostic pop
 
 #include "organicgrid.h"
 
@@ -136,7 +133,7 @@ private Q_SLOTS:
         QTest::qWaitForWindowExposed(view);
         view->resize(470, 400);
 
-        grid = dynamic_cast<OrganicGrid*>(view->rootObject()->findChild<QObject*>("grid"));
+        grid = static_cast<OrganicGrid*>(view->rootObject()->findChild<QObject*>("grid"));
         grid->setModel(model);
         QTRY_COMPARE(grid->width(), 470.);
 

@@ -31,6 +31,7 @@ PreviewWidget {
     implicitHeight: lazyImage.height
 
     widgetMargins: -units.gu(1)
+    orientationLock: overlay.visible
 
     property Item rootItem: QuickUtils.rootItem(root)
 

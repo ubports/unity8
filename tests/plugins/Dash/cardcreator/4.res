@@ -1,16 +1,15 @@
 AbstractButton { 
                 id: root; 
                 property var cardData; 
-                property string artShapeStyle: "inset"; 
                 property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null;
+                readonly property string title: cardData && cardData["title"] || "";
+                property bool showHeader: true;
+                implicitWidth: childrenRect.width;
+                enabled: true;
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
-                readonly property string title: cardData && cardData["title"] || ""; 
-                property bool showHeader: true; 
-                implicitWidth: childrenRect.width; 
-                enabled: true;
 signal action(var actionId);
 readonly property size artShapeSize: Qt.size(-1, -1);
 readonly property int headerHeight: row.height;
@@ -33,7 +32,7 @@ Loader {
                         objectName: "mascotShapeLoader"; 
                         asynchronous: true;
                         active: mascotImage.status === Image.Ready;
-                        visible: showHeader && active && status == Loader.Ready; 
+                        visible: showHeader && active && status === Loader.Ready;
                         width: units.gu(6); 
                         height: units.gu(5.625); 
                         sourceComponent: UbuntuShape { image: mascotImage }
@@ -103,7 +102,7 @@ UbuntuShape {
     id: touchdown;
     objectName: "touchdown";
     anchors { fill: root }
-    visible: root.artShapeStyle != "shadow" && root.artShapeStyle != "icon" && root.pressed;
+    visible: root.pressed;
     radius: "medium";
     borderSource: "radius_pressed.sci"
 }

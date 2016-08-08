@@ -25,6 +25,8 @@ FilterWidget {
 
     implicitHeight: expandingItem.height
 
+    signal filterSelected()
+
     ListItems.Expandable {
         id: expandingItem
         objectName: "expandingItem"
@@ -58,6 +60,7 @@ FilterWidget {
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
                 source: expandingItem.expanded ? "image://theme/up" : "image://theme/down"
+                sourceSize.height: height
             }
         }
 
@@ -67,6 +70,7 @@ FilterWidget {
             width: parent.width
             Repeater {
                 model: widgetData.options
+                objectName: "optionsRepeater"
 
                 ListItems.Standard {
                     text: label
@@ -78,11 +82,13 @@ FilterWidget {
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
                         source: "image://theme/tick"
+                        sourceSize.height: height
                         visible: checked
                     }
 
                     onClicked: {
                         widgetData.options.setChecked(index, !checked);
+                        root.filterSelected()
                     }
                 }
             }

@@ -21,13 +21,12 @@
 
 class QAbstractItemModel;
 class QQmlComponent;
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
-#include <private/qqmldelegatemodel_p.h>
-#include <qqmlinfo.h>
-#pragma GCC diagnostic pop
 
-class AbstractDashView : public QQuickItem
+#include <private/qqmldelegatemodel_p.h>
+#include <private/qquickitemchangelistener_p.h>
+#include <qqmlinfo.h>
+
+class AbstractDashView : public QQuickItem, public QQuickItemChangeListener
 {
     Q_OBJECT
 

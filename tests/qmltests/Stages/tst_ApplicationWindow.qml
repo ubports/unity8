@@ -33,7 +33,6 @@ Rectangle {
     Component.onCompleted: {
         root.fakeApplication = ApplicationManager.add("gallery-app");
         root.fakeApplication.manualSurfaceCreation = true;
-        root.fakeApplication.setState(ApplicationInfoInterface.Starting);
         applicationWindowLoader.item.application = root.fakeApplication;
     }
     property QtObject fakeApplication: null
@@ -78,7 +77,7 @@ Rectangle {
                 Layout.fillWidth: true
 
                 CheckBox {
-                    id: surfaceCheckbox;
+                    id: surfaceCheckbox
                     checked: false;
                     activeFocusOnPress: false
                     onCheckedChanged: {
@@ -86,10 +85,8 @@ Rectangle {
                             return;
 
                         if (checked) {
-                            applicationWindowLoader.item.surface = SurfaceManager.createSurface("foo",
-                                    Mir.NormalType, Mir.MaximizedState, root.fakeApplication);
-
-                            root.fakeApplication.setState(ApplicationInfoInterface.Running);
+                            root.fakeApplication.createSurface();
+                            applicationWindowLoader.item.surface = root.fakeApplication.surfaceList.get(0);
                         } else {
                             if (applicationWindowLoader.item.surface) {
                                 applicationWindowLoader.item.surface.setLive(false);
@@ -103,22 +100,20 @@ Rectangle {
                 }
             }
 
-            Rectangle {
-                border {
-                    color: "black"
-                    width: 1
+            RowLayout {
+                property var promptSurfaceList: root.fakeApplication ? root.fakeApplication.promptSurfaceList : null
+                Button {
+                    enabled: parent.promptSurfaceList !== null && parent.promptSurfaceList.count > 0
+                    activeFocusOnPress: false
+                    text: "Remove"
+                    onClicked: { parent.promptSurfaceList.get(0).close(); }
                 }
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                }
-                Layout.preferredHeight: sessionControl.height
 
-                RecursingChildSessionControl {
-                    id: sessionControl
-                    anchors { left: parent.left; right: parent.right; }
-
-                    surface: applicationWindowLoader.item ? applicationWindowLoader.item.surface : null
+                Button {
+                    enabled: parent.promptSurfaceList !== null
+                    activeFocusOnPress: false
+                    text: "Add Prompt Surface"
+                    onClicked: { parent.promptSurfaceList.createSurface(); }
                 }
             }
 
@@ -244,17 +239,25 @@ Rectangle {
             // deleted, so you end up with two instances in memory.
             tryCompare(applicationWindowLoader, "itemDestroyed", true);
 
-            setApplicationState(appStarting);
             surfaceCheckbox.checked = false;
 
-            ApplicationManager.stopApplication("gallery-app");
+            killApps();
+
             root.fakeApplication = ApplicationManager.add("gallery-app");
             root.fakeApplication.manualSurfaceCreation = true;
-            root.fakeApplication.setState(ApplicationInfoInterface.Starting);
 
             applicationWindowLoader.active = true;
 
             applicationWindowLoader.item.application = root.fakeApplication;
+        }
+
+        function waitUntilSurfaceContainerStopsAnimating(container) {
+            var animationsLoader = findChild(container, "animationsLoader");
+            verify(animationsLoader);
+            tryCompare(animationsLoader, "status", Loader.Ready)
+
+            var animation = animationsLoader.item;
+            waitUntilTransitionsEnd(animation);
         }
 
         function test_showSplashUntilAppFullyInit_data() {
@@ -431,6 +434,97 @@ Rectangle {
 
             applicationWindow.interactive = true;
             compare(applicationWindow.surface.activeFocus, true);
+        }
+
+        function test_promptSurfaceDestructionReturnsFocusToPreviousSurface() {
+            surfaceCheckbox.checked = true;
+            var promptSurfaces = testCase.findChild(applicationWindow, "promptSurfacesRepeater");
+            var promptSurfaceList = root.fakeApplication.promptSurfaceList;
+            compare(promptSurfaces.count, 0);
+
+            var i;
+            // 3 surfaces should cover all edge cases
+            for (i = 0; i < 3; i++) {
+                promptSurfaceList.createSurface();
+                compare(promptSurfaces.count, i+1);
+                waitUntilSurfaceContainerStopsAnimating(promptSurfaces.itemAt(0));
+            }
+
+            for (i = 3; i > 0; --i) {
+                var promptSurface = promptSurfaceList.get(0);
+                compare(promptSurface.activeFocus, true);
+
+                promptSurface.close();
+                promptSurface = null;
+                tryCompareFunction(function() { return promptSurfaces.count; }, i-1);
+
+                if (promptSurfaces.count > 0) {
+                    // active focus should have gone to the new head of the list
+                    promptSurface = promptSurfaceList.get(0);
+                    tryCompare(promptSurface, "activeFocus", true);
+                } else {
+                    // active focus should have gone to the application surface
+                    tryCompare(applicationWindow.surface, "activeFocus", true);
+                }
+            }
+        }
+
+        function test_promptSurfaceAdjustsForParentSize() {
+            var promptSurfaceList = root.fakeApplication.promptSurfaceList;
+
+            promptSurfaceList.createSurface();
+
+            var promptSurfaces = testCase.findChild(applicationWindow, "promptSurfacesRepeater");
+
+            var delegate = promptSurfaces.itemAt(0);
+            waitUntilSurfaceContainerStopsAnimating(delegate);
+
+            var promptSurfaceContainer = findChild(delegate, "surfaceContainer");
+
+            tryCompareFunction(function() { return promptSurfaceContainer.height === applicationWindow.height; }, true);
+            tryCompareFunction(function() { return promptSurfaceContainer.width === applicationWindow.width; }, true);
+            tryCompareFunction(function() { return promptSurfaceContainer.x === 0; }, true);
+            tryCompareFunction(function() { return promptSurfaceContainer.y === 0; }, true);
+
+            applicationWindow.anchors.margins = units.gu(2);
+
+            tryCompareFunction(function() { return promptSurfaceContainer.height === applicationWindow.height; }, true);
+            tryCompareFunction(function() { return promptSurfaceContainer.width === applicationWindow.width; }, true);
+            tryCompareFunction(function() { return promptSurfaceContainer.x === 0; }, true);
+            tryCompareFunction(function() { return promptSurfaceContainer.y === 0; }, true);
+
+            // clean up
+            delegate.surface.close();
+            tryCompare(promptSurfaces, "count", 0);
+        }
+
+        // Check that the z value of SurfaceContainers for prompt surfaces go from highest
+        // for index 0 to lowest for the last index in the prompt surface list.
+        // Regression test for https://bugs.launchpad.net/bugs/1586219
+        function test_promptSurfacesZOrdering() {
+            var promptSurfaceList = root.fakeApplication.promptSurfaceList;
+            var promptSurfaces = testCase.findChild(applicationWindow, "promptSurfacesRepeater");
+
+            promptSurfaceList.createSurface();
+
+            for (var i = 2; i <= 3; i++) {
+                promptSurfaceList.createSurface();
+                tryCompare(promptSurfaces, "count", i);
+                waitUntilSurfaceContainerStopsAnimating(promptSurfaces.itemAt(0));
+
+                for (var j = 1; j < promptSurfaces.count; j++) {
+                    var delegate = promptSurfaces.itemAt(j);
+                    var previousDelegate = promptSurfaces.itemAt(j-1);
+                    verify(previousDelegate.z > delegate.z);
+                }
+            }
+
+            // clean up
+            while (promptSurfaceList.count > 0) {
+                var currentCount = promptSurfaceList.count;
+                promptSurfaceList.get(0).close();
+                tryCompare(promptSurfaceList, "count", currentCount - 1);
+            }
         }
     }
 }

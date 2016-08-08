@@ -25,7 +25,7 @@ var kBackgroundLoaderCode = 'Loader {\n\
                                 objectName: "backgroundLoader"; \n\
                                 anchors.fill: parent; \n\
                                 asynchronous: %3; \n\
-                                visible: status == Loader.Ready; \n\
+                                visible: status === Loader.Ready; \n\
                                 sourceComponent: UbuntuShape { \n\
                                     objectName: "background"; \n\
                                     radius: "medium"; \n\
@@ -59,79 +59,96 @@ var kBackgroundLoaderCode = 'Loader {\n\
                                 } \n\
                             }\n';
 
-// %1 is used as anchors of artShapeHolder
+// %1 is the aspect of the UbuntuShape
+var kArtUbuntuShapeCode = 'UbuntuShape { \n\
+                                anchors.fill: parent; \n\
+                                source: artImage; \n\
+                                sourceFillMode: UbuntuShape.PreserveAspectCrop; \n\
+                                radius: "medium"; \n\
+                                aspect: %1; \n\
+                            }';
+
+var kArtProportionalShapeCode = 'ProportionalShape { \n\
+                                    anchors.left: parent.left; \n\
+                                    anchors.right: parent.right; \n\
+                                    source: artImage; \n\
+                                    aspect: UbuntuShape.DropShadow; \n\
+                                 }';
+
+// %1 is used as anchors of artShapeLoader
 // %2 is used as image width
 // %3 is used as image height
-// %4 is whether the image or the Loader with the UbuntuShape/ProportionalShape should be visible
-// %5 is used as aspect ratio fallback
-// %6 is whether the loader should be asynchronous or not
+// %4 is whether the image should be visible
+// %5 is whether the loader should be asynchronous or not
+// %6 is the shape code we want to use
 // %7 is injected as code to artImage
 // %8 is used as image fallback
-var kArtShapeHolderCode = 'Item { \n\
-                            id: artShapeHolder; \n\
-                            height: root.fixedArtShapeSize.height > 0 ? root.fixedArtShapeSize.height : artShapeLoader.height; \n\
-                            width: root.fixedArtShapeSize.width > 0 ? root.fixedArtShapeSize.width : artShapeLoader.width; \n\
+var kArtShapeHolderCode = 'Loader { \n\
+                            id: artShapeLoader; \n\
+                            height: root.fixedArtShapeSize.height; \n\
+                            width: root.fixedArtShapeSize.width; \n\
                             anchors { %1 } \n\
-                            Loader { \n\
-                                id: artShapeLoader; \n\
-                                objectName: "artShapeLoader"; \n\
-                                readonly property string cardArt: cardData && cardData["art"] || %8; \n\
-                                active: cardArt != ""; \n\
-                                asynchronous: %6; \n\
-                                visible: status == Loader.Ready; \n\
-                                sourceComponent: Item { \n\
-                                    id: artShape; \n\
-                                    objectName: "artShape"; \n\
-                                    visible: image.status == Image.Ready; \n\
-                                    readonly property alias image: artImage; \n\
-                                    Loader { \n\
-                                        anchors.fill: parent; \n\
-                                        visible: %4; \n\
-                                        sourceComponent: root.artShapeStyle === "icon" ? artShapeIconComponent : artShapeShapeComponent; \n\
-                                        Component { \n\
-                                            id: artShapeShapeComponent; \n\
-                                            UbuntuShape { \n\
-                                                source: artImage; \n\
-                                                sourceFillMode: UbuntuShape.PreserveAspectCrop; \n\
-                                                radius: "medium"; \n\
-                                                aspect: { \n\
-                                                    switch (root.artShapeStyle) { \n\
-                                                        case "inset": return UbuntuShape.Inset; \n\
-                                                        case "shadow": return UbuntuShape.DropShadow; \n\
-                                                        default: \n\
-                                                        case "flat": return UbuntuShape.Flat; \n\
-                                                    } \n\
-                                                } \n\
-                                            } \n\
-                                        } \n\
-                                        Component { \n\
-                                            id: artShapeIconComponent; \n\
-                                            ProportionalShape { source: artImage; aspect: UbuntuShape.DropShadow; } \n\
-                                        } \n\
-                                    } \n\
-                                    readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1; \n\
-                                    readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : %5; \n\
-                                    Component.onCompleted: { updateWidthHeightBindings(); } \n\
-                                    Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); } \n\
-                                    function updateWidthHeightBindings() { \n\
-                                        if (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) { \n\
-                                            width = root.fixedArtShapeSize.width; \n\
-                                            height = root.fixedArtShapeSize.height; \n\
-                                        } else { \n\
-                                            width = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.width }); \n\
-                                            height = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.height }); \n\
-                                        } \n\
-                                    } \n\
-                                    CroppedImageMinimumSourceSize { \n\
-                                        id: artImage; \n\
-                                        objectName: "artImage"; \n\
-                                        source: artShapeLoader.cardArt; \n\
-                                        asynchronous: %6; \n\
-                                        visible: !%4; \n\
-                                        width: %2; \n\
-                                        height: %3; \n\
-                                        %7 \n\
-                                    } \n\
+                            objectName: "artShapeLoader"; \n\
+                            readonly property string cardArt: cardData && cardData["art"] || %8; \n\
+                            onCardArtChanged: { if (item) { item.image.source = cardArt; } } \n\
+                            active: cardArt != ""; \n\
+                            asynchronous: %5; \n\
+                            visible: status === Loader.Ready; \n\
+                            sourceComponent: Item { \n\
+                                id: artShape; \n\
+                                objectName: "artShape"; \n\
+                                visible: image.status === Image.Ready; \n\
+                                readonly property alias image: artImage; \n\
+                                %6 \n\
+                                width: root.fixedArtShapeSize.width; \n\
+                                height: root.fixedArtShapeSize.height; \n\
+                                CroppedImageMinimumSourceSize { \n\
+                                    id: artImage; \n\
+                                    objectName: "artImage"; \n\
+                                    source: artShapeLoader.cardArt; \n\
+                                    asynchronous: %5; \n\
+                                    visible: %4; \n\
+                                    width: %2; \n\
+                                    height: %3; \n\
+                                    %7 \n\
+                                } \n\
+                            } \n\
+                        }\n';
+
+// %1 is used as anchors of artShapeLoader
+// %2 is used as image width
+// %3 is used as image height
+// %4 is whether the image should be visible
+// %5 is whether the loader should be asynchronous or not
+// %6 is the shape code we want to use
+// %7 is injected as code to artImage
+// %8 is used as image fallback
+var kArtShapeHolderCodeCardToolCard = 'Loader { \n\
+                            id: artShapeLoader; \n\
+                            anchors { %1 } \n\
+                            objectName: "artShapeLoader"; \n\
+                            readonly property string cardArt: cardData && cardData["art"] || %8; \n\
+                            onCardArtChanged: { if (item) { item.image.source = cardArt; } } \n\
+                            active: cardArt != ""; \n\
+                            asynchronous: %5; \n\
+                            visible: status === Loader.Ready; \n\
+                            sourceComponent: Item { \n\
+                                id: artShape; \n\
+                                objectName: "artShape"; \n\
+                                visible: image.status === Image.Ready; \n\
+                                readonly property alias image: artImage; \n\
+                                %6 \n\
+                                width: image.status !== Image.Ready ? 0 : image.width; \n\
+                                height: image.status !== Image.Ready ? 0 : image.height; \n\
+                                CroppedImageMinimumSourceSize { \n\
+                                    id: artImage; \n\
+                                    objectName: "artImage"; \n\
+                                    source: artShapeLoader.cardArt; \n\
+                                    asynchronous: %5; \n\
+                                    visible: %4; \n\
+                                    width: %2; \n\
+                                    height: %3; \n\
+                                    %7 \n\
                                 } \n\
                             } \n\
                         }\n';
@@ -189,10 +206,10 @@ var kAudioButtonCode = 'AbstractButton { \n\
 var kOverlayLoaderCode = 'Loader { \n\
                             id: overlayLoader; \n\
                             readonly property real overlayHeight: %2 + units.gu(2); \n\
-                            anchors.fill: artShapeHolder; \n\
+                            anchors.fill: artShapeLoader; \n\
                             active: artShapeLoader.active && artShapeLoader.item && artShapeLoader.item.image.status === Image.Ready || false; \n\
                             asynchronous: %1; \n\
-                            visible: showHeader && status == Loader.Ready; \n\
+                            visible: showHeader && status === Loader.Ready; \n\
                             sourceComponent: UbuntuShapeOverlay { \n\
                                 id: overlay; \n\
                                 property real luminance: Style.luminance(overlayColor); \n\
@@ -249,7 +266,7 @@ var kMascotShapeLoaderCode = 'Loader { \n\
                                 objectName: "mascotShapeLoader"; \n\
                                 asynchronous: %2; \n\
                                 active: mascotImage.status === Image.Ready; \n\
-                                visible: showHeader && active && status == Loader.Ready; \n\
+                                visible: showHeader && active && status === Loader.Ready; \n\
                                 width: units.gu(6); \n\
                                 height: units.gu(5.625); \n\
                                 sourceComponent: UbuntuShape { image: mascotImage } \n\
@@ -318,7 +335,7 @@ var kTouchdownCode = 'UbuntuShape { \n\
                         id: touchdown; \n\
                         objectName: "touchdown"; \n\
                         anchors { %1 } \n\
-                        visible: root.artShapeStyle != "shadow" && root.artShapeStyle != "icon" && root.pressed; \n\
+                        visible: root.pressed; \n\
                         radius: "medium"; \n\
                         borderSource: "radius_pressed.sci" \n\
                     }\n';
@@ -412,7 +429,7 @@ function sanitizeColor(colorString) {
     return colorString;
 }
 
-function cardString(template, components, isCardTool) {
+function cardString(template, components, isCardTool, artShapeStyle) {
     var code;
 
     var templateInteractive = (template == null ? true : (template["non-interactive"] !== undefined ? !template["non-interactive"] : true)) ? "true" : "false";
@@ -420,19 +437,19 @@ function cardString(template, components, isCardTool) {
     code = 'AbstractButton { \n\
                 id: root; \n\
                 property var cardData; \n\
-                property string artShapeStyle: "inset"; \n\
                 property string backgroundShapeStyle: "inset"; \n\
                 property real fontScale: 1.0; \n\
                 property var scopeStyle: null; \n\
-                %2\
-                property size fixedArtShapeSize: Qt.size(-1, -1); \n\
                 readonly property string title: cardData && cardData["title"] || ""; \n\
                 property bool showHeader: true; \n\
                 implicitWidth: childrenRect.width; \n\
                 enabled: %1; \n\
                 \n'.arg(templateInteractive);
 
-    code = code.arg(isCardTool ? "" : "property int fixedHeaderHeight: -1; \n");
+    if (!isCardTool) {
+        code += "property int fixedHeaderHeight: -1; \n\
+                 property size fixedArtShapeSize: Qt.size(-1, -1); \n";
+    }
 
     var hasArt = components["art"] && components["art"]["field"] || false;
     var hasSummary = components["summary"] || false;
@@ -491,47 +508,71 @@ function cardString(template, components, isCardTool) {
     if (hasArt) {
         code += 'readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);\n';
 
+        var artShapeAspect;
+        if (isCardTool) {
+            var artShapeAspect = components["art"] && components["art"]["aspect-ratio"] || 1;
+            if (isNaN(artShapeAspect)) {
+                artShapeAspect = 1;
+            }
+        } else {
+            artShapeAspect = "(root.fixedArtShapeSize.width / root.fixedArtShapeSize.height)";
+        }
+
         var widthCode, heightCode;
         var artAnchors;
         if (isHorizontal) {
             artAnchors = 'left: parent.left';
             if (hasMascot || hasTitle) {
-                widthCode = 'height * artShape.aspect'
+                widthCode = 'height * ' + artShapeAspect;
                 heightCode = 'headerHeight + 2 * units.gu(1)';
             } else {
                 // This side of the else is a bit silly, who wants an horizontal layout without mascot and title?
                 // So we define a "random" height of the image height + 2 gu for the margins
-                widthCode = 'height * artShape.aspect'
+                widthCode = 'height * ' + artShapeAspect
                 heightCode = 'units.gu(7.625)';
             }
         } else {
             artAnchors = 'horizontalCenter: parent.horizontalCenter;';
             widthCode = 'root.width'
-            heightCode = 'width / artShape.aspect';
+            heightCode = 'width / ' + artShapeAspect;
         }
 
-        var aspectRatio = components["art"] && components["art"]["aspect-ratio"] || 1;
-        if (isNaN(aspectRatio)) {
-            aspectRatio = 1;
-        }
         var fallback = !isCardTool && components["art"] && components["art"]["fallback"] || "";
         fallback = encodeURI(fallback);
         var fallbackStatusCode = "";
         var fallbackURICode = '""';
         if (fallback !== "") {
-            // fallbackStatusCode has %6 in it because we want to substitute it for fallbackURICode
+            // fallbackStatusCode has %8 in it because we want to substitute it for fallbackURICode
             // which in kArtShapeHolderCode is %8
             fallbackStatusCode += 'onStatusChanged: if (status === Image.Error) source = %8;';
             fallbackURICode = 'decodeURI("%1")'.arg(fallback);
         }
-        code += kArtShapeHolderCode.arg(artAnchors)
-                                   .arg(widthCode)
-                                   .arg(heightCode)
-                                   .arg(isConciergeMode ? "false" : "true")
-                                   .arg(aspectRatio)
-                                   .arg(asynchronous)
-                                   .arg(fallbackStatusCode)
-                                   .arg(fallbackURICode);
+        var artShapeHolderShapeCode;
+        if (!isConciergeMode) {
+            if (artShapeStyle === "icon") {
+                artShapeHolderShapeCode = kArtProportionalShapeCode;
+            } else {
+                var artShapeHolderShapeAspect;
+                switch (artShapeStyle) {
+                    case "inset": artShapeHolderShapeAspect = "UbuntuShape.Inset"; break;
+                    case "shadow": artShapeHolderShapeAspect = "UbuntuShape.DropShadow"; break;
+                    default:
+                    case "flat": artShapeHolderShapeAspect = "UbuntuShape.Flat"; break;
+                }
+                artShapeHolderShapeCode = kArtUbuntuShapeCode.arg(artShapeHolderShapeAspect);
+            }
+        } else {
+            artShapeHolderShapeCode = "";
+        }
+        var artShapeHolderCode = isCardTool ? kArtShapeHolderCodeCardToolCard : kArtShapeHolderCode;
+        code += artShapeHolderCode.arg(artAnchors)
+                                  .arg(widthCode)
+                                  .arg(heightCode)
+                                  .arg(isConciergeMode ? "true" : "false")
+                                  .arg(asynchronous)
+                                  .arg(artShapeHolderShapeCode)
+                                  .arg(fallbackStatusCode)
+                                  .arg(fallbackURICode);
     } else {
         code += 'readonly property size artShapeSize: Qt.size(-1, -1);\n'
     }
@@ -543,15 +584,15 @@ function cardString(template, components, isCardTool) {
 
     var headerVerticalAnchors;
     if (headerAsOverlay) {
-        headerVerticalAnchors = 'bottom: artShapeHolder.bottom; \n\
+        headerVerticalAnchors = 'bottom: artShapeLoader.bottom; \n\
                                  bottomMargin: units.gu(1);\n';
     } else {
         if (hasArt) {
             if (isHorizontal) {
-                headerVerticalAnchors = 'top: artShapeHolder.top; \n\
+                headerVerticalAnchors = 'top: artShapeLoader.top; \n\
                                          topMargin: units.gu(1);\n';
             } else {
-                headerVerticalAnchors = 'top: artShapeHolder.bottom; \n\
+                headerVerticalAnchors = 'top: artShapeLoader.bottom; \n\
                                          topMargin: units.gu(1);\n';
             }
         } else {
@@ -563,7 +604,7 @@ function cardString(template, components, isCardTool) {
     var headerLeftAnchor;
     var headerLeftAnchorHasMargin = false;
     if (isHorizontal && hasArt) {
-        headerLeftAnchor = 'left: artShapeHolder.right; \n\
+        headerLeftAnchor = 'left: artShapeLoader.right; \n\
                             leftMargin: units.gu(1);\n';
         headerLeftAnchorHasMargin = true;
     } else if (isHorizontal && isAudio) {
@@ -817,7 +858,7 @@ function cardString(template, components, isCardTool) {
         var audioButtonWidth;
         var audioButtonHeight;
         if (hasArt) {
-            audioButtonAnchorsFill = 'artShapeHolder';
+            audioButtonAnchorsFill = 'artShapeLoader';
             audioButtonWidth = 'undefined';
             audioButtonHeight = 'undefined';
         } else {
@@ -831,15 +872,15 @@ function cardString(template, components, isCardTool) {
 
     if (hasSummary) {
         var summaryTopAnchor;
-        if (isHorizontal && hasArt) summaryTopAnchor = 'artShapeHolder.bottom';
-        else if (headerAsOverlay && hasArt) summaryTopAnchor = 'artShapeHolder.bottom';
+        if (isHorizontal && hasArt) summaryTopAnchor = 'artShapeLoader.bottom';
+        else if (headerAsOverlay && hasArt) summaryTopAnchor = 'artShapeLoader.bottom';
         else if (hasHeaderRow) summaryTopAnchor = 'row.bottom';
         else if (hasTitleContainer) summaryTopAnchor = 'headerTitleContainer.bottom';
         else if (hasMascot) summaryTopAnchor = 'mascotImage.bottom';
         else if (hasAttributes) summaryTopAnchor = 'attributesRow.bottom';
         else if (hasSubtitle) summaryTopAnchor = 'subtitleLabel.bottom';
         else if (hasTitle) summaryTopAnchor = 'titleLabel.bottom';
-        else if (hasArt) summaryTopAnchor = 'artShapeHolder.bottom';
+        else if (hasArt) summaryTopAnchor = 'artShapeLoader.bottom';
         else summaryTopAnchor = 'parent.top';
 
         var summaryColor;
@@ -859,15 +900,15 @@ function cardString(template, components, isCardTool) {
         var socialTopAnchor;
 
         if (hasSummary) socialTopAnchor = 'summary.bottom;';
-        else if (isHorizontal && hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
-        else if (headerAsOverlay && hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
+        else if (isHorizontal && hasArt) socialTopAnchor = 'artShapeLoader.bottom;';
+        else if (headerAsOverlay && hasArt) socialTopAnchor = 'artShapeLoader.bottom;';
         else if (hasHeaderRow) socialTopAnchor = 'row.bottom;';
         else if (hasTitleContainer) socialTopAnchor = 'headerTitleContainer.bottom;';
         else if (hasMascot) socialTopAnchor = 'mascotImage.bottom;';
         else if (hasAttributes) socialTopAnchor = 'attributesRow.bottom;';
         else if (hasSubtitle) socialTopAnchor = 'subtitleLabel.bottom;';
         else if (hasTitle) socialTopAnchor = 'titleLabel.bottom;';
-        else if (hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
+        else if (hasArt) socialTopAnchor = 'artShapeLoader.bottom;';
         else socialTopAnchor = 'parent.top';
 
         socialAnchors = 'top: ' + socialTopAnchor + ' left: parent.left; right: parent.right; topMargin: units.gu(1);'
@@ -882,15 +923,17 @@ function cardString(template, components, isCardTool) {
         code += kSocialActionsRowCode.arg(socialAnchors).arg(socialColor);
     }
 
-    var touchdownAnchors;
-    if (hasBackground) {
-        touchdownAnchors = 'fill: backgroundLoader';
-    } else if (touchdownOnArtShape) {
-        touchdownAnchors = 'fill: artShapeHolder';
-    } else {
-        touchdownAnchors = 'fill: root'
+    if (artShapeStyle != "shadow" && artShapeStyle != "icon") {
+        var touchdownAnchors;
+        if (hasBackground) {
+            touchdownAnchors = 'fill: backgroundLoader';
+        } else if (touchdownOnArtShape) {
+            touchdownAnchors = 'fill: artShapeLoader';
+        } else {
+            touchdownAnchors = 'fill: root'
+        }
+        code += kTouchdownCode.arg(touchdownAnchors);
     }
-    code += kTouchdownCode.arg(touchdownAnchors);
 
     var implicitHeight = 'implicitHeight: ';
     if (hasSocialActions) {
@@ -900,7 +943,7 @@ function cardString(template, components, isCardTool) {
     } else if (isAudio) {
         implicitHeight += 'audioButton.height;\n';
     } else if (headerAsOverlay) {
-        implicitHeight += 'artShapeHolder.height;\n';
+        implicitHeight += 'artShapeLoader.height;\n';
     } else if (hasHeaderRow) {
         implicitHeight += 'row.y + row.height + units.gu(1);\n';
     } else if (hasMascot) {
@@ -914,7 +957,7 @@ function cardString(template, components, isCardTool) {
     } else if (hasTitle) {
         implicitHeight += 'titleLabel.y + titleLabel.height + units.gu(1);\n';
     } else if (hasArt) {
-        implicitHeight += 'artShapeHolder.height;\n';
+        implicitHeight += 'artShapeLoader.height;\n';
     } else {
         implicitHeight = '';
     }
@@ -925,13 +968,13 @@ function cardString(template, components, isCardTool) {
     return code;
 }
 
-function createCardComponent(parent, template, components, isCardTool, identifier) {
+function createCardComponent(parent, template, components, isCardTool, artShapeStyle, identifier) {
     var imports = 'import QtQuick 2.4; \n\
                    import Ubuntu.Components 1.3; \n\
                    import Ubuntu.Settings.Components 0.1; \n\
                    import Dash 0.1;\n\
                    import Utils 0.1;\n';
-    var card = cardString(template, components, isCardTool);
+    var card = cardString(template, components, isCardTool, artShapeStyle);
     var code = imports + 'Component {\n' + card + '}\n';
 
     try {

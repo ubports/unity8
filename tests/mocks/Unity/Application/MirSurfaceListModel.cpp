@@ -66,7 +66,20 @@ void MirSurfaceListModel::appendSurface(MirSurface *surface)
     m_surfaceList.append(surface);
     connectSurface(surface);
     endInsertRows();
-    Q_EMIT countChanged();
+    Q_EMIT countChanged(m_surfaceList.count());
+    if (m_surfaceList.count() == 1) {
+        Q_EMIT firstChanged();
+    }
+}
+
+void MirSurfaceListModel::prependSurface(MirSurface *surface)
+{
+    beginInsertRows(QModelIndex(), 0, 0);
+    m_surfaceList.prepend(surface);
+    connectSurface(surface);
+    endInsertRows();
+    Q_EMIT countChanged(m_surfaceList.count());
+    Q_EMIT firstChanged();
 }
 
 void MirSurfaceListModel::connectSurface(MirSurface *surface)
@@ -82,7 +95,10 @@ void MirSurfaceListModel::removeSurface(MirSurface *surface)
         beginRemoveRows(QModelIndex(), i, i);
         m_surfaceList.removeAt(i);
         endRemoveRows();
-        Q_EMIT countChanged();
+        Q_EMIT countChanged(m_surfaceList.count());
+        if (m_surfaceList.count() == 0 || i == 0) {
+            Q_EMIT firstChanged();
+        }
     }
 }
 
@@ -99,6 +115,10 @@ void MirSurfaceListModel::moveSurface(int from, int to)
         beginMoveRows(parent, from, from, parent, to + (to > from ? 1 : 0));
         m_surfaceList.move(from, to);
         endMoveRows();
+    }
+
+    if ((from == 0 || to == 0) && m_surfaceList.count() > 1) {
+        Q_EMIT firstChanged();
     }
 }
 
@@ -118,4 +138,22 @@ const MirSurfaceInterface *MirSurfaceListModel::get(int index) const
     } else {
         return nullptr;
     }
+}
+
+MirSurfaceInterface *MirSurfaceListModel::createSurface()
+{
+    QStringList screenshotIds = {"gallery", "map", "facebook", "camera", "browser", "music", "twitter"};
+    int i = rand() % screenshotIds.count();
+
+    QUrl screenshotUrl = QString("qrc:///Unity/Application/screenshots/%1@12.png")
+            .arg(screenshotIds[i]);
+
+    auto surface = new MirSurface(QString("prompt foo"),
+            Mir::NormalType,
+            Mir::RestoredState,
+            screenshotUrl);
+
+    prependSurface(surface);
+
+    return surface;
 }

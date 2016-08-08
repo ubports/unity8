@@ -61,6 +61,8 @@ private Q_SLOTS:
         QTest::newRow("Reboot") << "RequestReboot" << "RebootRequested(bool)";
         QTest::newRow("Shutdown") << "RequestShutdown" << "ShutdownRequested(bool)";
         QTest::newRow("PromptLock") << "PromptLock" << "LockRequested()";
+        QTest::newRow("Lock") << "Lock" << "LockRequested()";
+        QTest::newRow("LockLightDM") << "Lock" << "Locked()"; // happens when we lock LightDM, only for Lock()
     }
 
     void testUnitySessionLogoutRequested() {
@@ -76,7 +78,7 @@ private Q_SLOTS:
         QDBusReply<void> reply = dbusUnitySession->call(method);
         QCOMPARE(reply.isValid(), true);
 
-        QCOMPARE(spy.count(), 1);
+        QTRY_COMPARE(spy.count(), 1);
     }
 
     void testGnomeSessionWrapper_data() {
@@ -122,6 +124,18 @@ private Q_SLOTS:
         QCOMPARE(spy.count(), 1);
     }
 
+    void testUnlockFromLogind() {
+        DBusUnitySessionService dbusUnitySessionService;
+        QCoreApplication::processEvents(); // to let the service register on DBus
+
+        QDBusInterface iface("org.freedesktop.login1", "/logindsession", "org.freedesktop.login1.Session");
+        QVERIFY(iface.isValid());
+
+        QSignalSpy spy(&dbusUnitySessionService, SIGNAL(Unlocked()));
+        QCOMPARE(iface.call("MockEmitUnlock").errorMessage(), QString());
+        QTRY_COMPARE(spy.count(), 1);
+    }
+
     void testUserName() {
         DBusUnitySessionService dbusUnitySessionService;
         QCoreApplication::processEvents(); // to let the service register on DBus
@@ -145,21 +159,6 @@ private Q_SLOTS:
                 QDBusInterface userAccIface("org.freedesktop.Accounts", userPath.value().path(), "org.freedesktop.Accounts.User", QDBusConnection::systemBus());
                 QCOMPARE(dbusUnitySessionService.RealName(), userAccIface.property("RealName").toString());
             }
-        }
-    }
-
-    void testLogin1Capabilities() {
-        QSKIP("This test talks to real logind backend, it will fail depending on how the machine is set up");
-        DBusUnitySessionService dbusUnitySessionService;
-        QDBusInterface login1face("org.freedesktop.login1", "/org/freedesktop/login1", "org.freedesktop.login1.Manager", QDBusConnection::systemBus());
-        QCoreApplication::processEvents(); // to let the services register on DBus
-
-        if (login1face.isValid()) {
-            QCOMPARE(dbusUnitySessionService.CanHibernate(), (login1face.call("CanHibernate").arguments().first().toString() != "no"));
-            QCOMPARE(dbusUnitySessionService.CanSuspend(), (login1face.call("CanSuspend").arguments().first().toString() != "no"));
-            QCOMPARE(dbusUnitySessionService.CanReboot(), (login1face.call("CanReboot").arguments().first().toString() != "no"));
-            QCOMPARE(dbusUnitySessionService.CanShutdown(), (login1face.call("CanPowerOff").arguments().first().toString() != "no"));
-            QCOMPARE(dbusUnitySessionService.CanHybridSleep(), (login1face.call("CanHybridSleep").arguments().first().toString() != "no"));
         }
     }
 

@@ -1,23 +1,22 @@
 AbstractButton { 
                 id: root; 
                 property var cardData; 
-                property string artShapeStyle: "inset"; 
                 property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
+                readonly property string title: cardData && cardData["title"] || "";
+                property bool showHeader: true;
+                implicitWidth: childrenRect.width;
+                enabled: true;
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
-                readonly property string title: cardData && cardData["title"] || ""; 
-                property bool showHeader: true; 
-                implicitWidth: childrenRect.width; 
-                enabled: true; 
 signal action(var actionId);
 Loader {
                                 id: backgroundLoader; 
                                 objectName: "backgroundLoader"; 
                                 anchors.fill: parent; 
                                 asynchronous: true;
-                                visible: status == Loader.Ready; 
+                                visible: status === Loader.Ready;
                                 sourceComponent: UbuntuShape { 
                                     objectName: "background"; 
                                     radius: "medium"; 
@@ -126,14 +125,6 @@ top: titleLabel.bottom;
                         }
  
                                 ] 
-                    }
-UbuntuShape { 
-                        id: touchdown; 
-                        objectName: "touchdown"; 
-                        anchors { fill: backgroundLoader } 
-                        visible: root.artShapeStyle != "shadow" && root.artShapeStyle != "icon" && root.pressed; 
-                        radius: "medium"; 
-                        borderSource: "radius_pressed.sci" 
                     }
 implicitHeight: row.y + row.height + units.gu(1);
 }

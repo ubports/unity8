@@ -31,20 +31,31 @@ public:
     virtual ~CursorImage() {}
 
     QImage qimage;
+
+    // TODO: consider if there's a need to animate the hotspot
+    // ie, if there's a need to make it an array of points, one for each frame.
+    // Maybe no single xcursor (or at least the ones we know of or use)
+    // vary its hotspot position through its animation.
     QPoint hotspot;
+
+    int frameWidth{0};
+    int frameHeight{0};
+    int frameCount{1};
+    int frameDuration{40};
+
+    // Requested height when creating this cursor.
+    int requestedHeight{0};
 };
 
 class XCursorImage : public CursorImage {
 public:
-    XCursorImage(const QString &theme, const QString &file);
+    XCursorImage(const QString &theme, const QString &file, int preferredCursorHeightPx);
     virtual ~XCursorImage();
-
-    XcursorImages *xcursorImages;
 };
 
 class BuiltInCursorImage : public CursorImage {
 public:
-    BuiltInCursorImage();
+    BuiltInCursorImage(int cursorHeight);
 };
 
 class BlankCursorImage  : public CursorImage {
@@ -66,18 +77,18 @@ public:
     static CursorImageProvider *instance() { return m_instance; }
 
 
-    QImage requestImage(const QString &cursorName, QSize *size, const QSize &requestedSize) override;
+    QImage requestImage(const QString &cursorThemeAndNameAndHeight, QSize *size, const QSize &requestedSize) override;
 
-    QPoint hotspot(const QString &themeName, const QString &cursorName);
+    CursorImage *fetchCursor(const QString &themeName, const QString &cursorName, int cursorHeight);
 
     void setCustomCursor(const QCursor &customCursor);
 
 private:
-    CursorImage *fetchCursor(const QString &cursorThemeAndName);
-    CursorImage *fetchCursor(const QString &themeName, const QString &cursorName);
-    CursorImage *fetchCursorHelper(const QString &themeName, const QString &cursorName);
+    CursorImage *fetchCursor(const QString &cursorThemeAndNameAndHeight);
+    CursorImage *fetchCursorHelper(const QString &themeName, const QString &cursorName, int cursorHeight);
 
     // themeName -> (cursorName -> cursorImage)
+    // TODO: discard old, unused, cursors
     QMap<QString, QMap<QString, CursorImage*> > m_cursors;
 
     QScopedPointer<CursorImage> m_builtInCursorImage;
