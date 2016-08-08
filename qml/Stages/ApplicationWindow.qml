@@ -46,6 +46,7 @@ FocusScope {
     property alias resizeSurface: surfaceContainer.resizeSurface
     property int requestedWidth: -1
     property int requestedHeight: -1
+    property real splashRotation: 0
 
     readonly property int minimumWidth: surface ? surface.minimumWidth : 0
     readonly property int minimumHeight: surface ? surface.minimumHeight : 0
@@ -184,6 +185,11 @@ FocusScope {
                 backgroundColor: d.splashColor
                 headerColor: d.splashColorHeader
                 footerColor: d.splashColorFooter
+
+                rotation: root.splashRotation
+                anchors.centerIn: parent
+                width: rotation == 0 || rotation == 180 ? root.width : root.height
+                height: rotation == 0 || rotation == 180 ? root.height : root.width
             }
         }
     }

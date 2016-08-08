@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     "Otherwise passing a path to a scope config file will open a session with\n"
     "only that scope (assuming that the binary implementing the scope can be\n"
     "found in the same directory as the config file).");
-    parser.addHelpOption();
+    QCommandLineOption helpOption = parser.addHelpOption();
     parser.addPositionalArgument("scopes", "Paths to scope config files to spawn, optionally.", "[scopes...]");
 
     QCommandLineOption includeSystemScopes("include-system-scopes",
@@ -70,7 +70,11 @@ int main(int argc, char *argv[])
     parser.addOption(includeServerScopes);
     parser.addOption(includeSystemScopes);
 
-    parser.process(*application);
+    parser.parse(application->arguments());
+
+    if (parser.isSet(helpOption)) {
+        parser.showHelp();
+    }
 
     QStringList extraScopes = parser.positionalArguments();
 

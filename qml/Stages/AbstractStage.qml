@@ -16,6 +16,7 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import GlobalShortcut 1.0
 import GSettings 1.0
 
 FocusScope {
@@ -77,5 +78,13 @@ FocusScope {
         id: background
         color: "#060606"
         anchors.fill: parent
+    }
+
+    // shared Alt+F4 functionality
+    function closeFocusedDelegate() {} // to be implemented by stages
+
+    GlobalShortcut {
+        shortcut: Qt.AltModifier|Qt.Key_F4
+        onTriggered: closeFocusedDelegate()
     }
 }
