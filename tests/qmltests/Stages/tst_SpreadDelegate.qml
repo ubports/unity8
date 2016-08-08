@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Canonical Ltd.
+ * Copyright 2014-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -132,10 +132,12 @@ Rectangle {
                 property int value: selectedIndex * 90
             }
             Button {
+                id: matchShellButton
                 text: "matchShellOrientation()"
                 onClicked: { spreadDelegateLoader.item.matchShellOrientation(); }
             }
             Button {
+                id: animateToShellButton
                 text: "animateToShellOrientation()"
                 onClicked: { spreadDelegateLoader.item.animateToShellOrientation(); }
             }
@@ -195,6 +197,77 @@ Rectangle {
             // Shell instance gets destroyed.
             tryCompare(spreadDelegateLoader, "itemDestroyed", true);
 
+        }
+
+        function waitUntilAppWindowIsFullyLoaded() {
+            var appWindowStateGroup = findInvisibleChild(spreadDelegate, "applicationWindowStateGroup");
+            tryCompareFunction(function() { return appWindowStateGroup.state === "surface" }, true);
+            waitUntilTransitionsEnd(appWindowStateGroup);
+
+            var priv = findInvisibleChild(spreadDelegate, "spreadDelegatePriv");
+            verify(priv);
+            tryCompare(priv, "startingUp", false);
+        }
+
+        function rotateShellTo(angle) {
+            shellOrientationAngleSelector.selectedIndex = angle / 90;
+        }
+
+        function waitUntilRotationAnimationStops() {
+            var orientationChangeAnimation = findInvisibleChild(spreadDelegate, "orientationChangeAnimation");
+            verify(orientationChangeAnimation);
+            tryCompare(orientationChangeAnimation, "running", false);
+        }
+
+        function checkAppWindowTransformationMatchesRotation(appWindow, angle) {
+
+            var topLeftX = 0;
+            var topLeftY = 0;
+            var bottomRightX = 0;
+            var bottomRightY = 0;
+
+            switch (angle) {
+            case 0:
+                topLeftX = 0;
+                topLeftY = 0;
+                bottomRightX = fakeShell.shortestDimension;
+                bottomRightY = fakeShell.longestDimension;
+                break;
+            case 90:
+                topLeftX = fakeShell.shortestDimension;
+                topLeftY = 0;
+                bottomRightX = 0;
+                bottomRightY = fakeShell.longestDimension;
+                break;
+            default:
+                // TODO implement 180 and 270 once we need them
+                verify(false);
+            }
+
+            var appWindowTopLeftInRootCoords = appWindow.mapToItem(root, 0, 0);
+
+            if (appWindowTopLeftInRootCoords.x !== topLeftX) {
+                qtest_fail("appWindow topLeft.x ("+appWindowTopLeftInRootCoords.x+")"
+                           +" doesn't match expectations ("+topLeftX+").", 1);
+            }
+            if (appWindowTopLeftInRootCoords.y !== topLeftY) {
+                qtest_fail("appWindow topLeft.y ("+appWindowTopLeftInRootCoords.y+")"
+                           +" doesn't match expectations ("+topLeftY+").", 1);
+            }
+
+            var appWindowBottomRightInRootCoords = appWindow.mapToItem(root, appWindow.width,
+                                                                             appWindow.height);
+            compare(appWindowBottomRightInRootCoords.x, bottomRightX);
+            compare(appWindowBottomRightInRootCoords.y, bottomRightY);
+
+            if (appWindowBottomRightInRootCoords.x !== bottomRightX) {
+                qtest_fail("appWindow bottomRight.x ("+appWindowBottomRightInRootCoords.x+")"
+                           +" doesn't match expectations ("+bottomRightX+").", 1);
+            }
+            if (appWindowBottomRightInRootCoords.y !== bottomRightY) {
+                qtest_fail("appWindow bottomRight.y ("+appWindowBottomRightInRootCoords.y+")"
+                           +" doesn't match expectations ("+bottomRightY+").", 1);
+            }
         }
 
         function test_swipeToClose_data() {
@@ -278,12 +351,12 @@ Rectangle {
         function test_keepsSceneTransformationWhenShellRotates(data) {
             loadWithGalleryApp.clicked();
 
+            waitUntilAppWindowIsFullyLoaded();
+
             var appWindowWithShadow = findChild(spreadDelegate, "appWindowWithShadow");
             verify(appWindowWithShadow);
 
-            // Wait until it reaches the state we are interested on.
-            // It begins with "startingUp"
-            tryCompare(appWindowWithShadow, "state", "keepSceneRotation");
+            compare(appWindowWithShadow.state, "keepSceneRotation");
 
             shellOrientationAngleSelector.selectedIndex = data.selectedIndex;
 
@@ -293,14 +366,7 @@ Rectangle {
 
 
             // and scene transformation must be the identity (ie, no rotation or translation)
-            var pointInDelegateCoords = appWindowWithShadow.mapToItem(root, 0, 0);
-            compare(pointInDelegateCoords.x, 0);
-            compare(pointInDelegateCoords.y, 0);
-
-            pointInDelegateCoords = appWindowWithShadow.mapToItem(root,
-                    fakeShell.shortestDimension, fakeShell.longestDimension);
-            compare(pointInDelegateCoords.x, fakeShell.shortestDimension);
-            compare(pointInDelegateCoords.y, fakeShell.longestDimension);
+            checkAppWindowTransformationMatchesRotation(appWindowWithShadow, 0);
         }
 
         function waitForCloseAnimationToFinish() {
@@ -315,6 +381,43 @@ Rectangle {
             tryCompare(highlightRect, "visible", false)
             spreadDelegateLoader.item.highlightShown = true;
             tryCompare(highlightRect, "visible", true)
+        }
+
+        /*
+            Checks that the ApplicationWindow position, size and rotation is correct after
+            a sequence of shell rotations folowed by rotations (immediate or not) to match them
+         */
+        function test_animateToShellThenMatchShell() {
+            loadWithGalleryApp.clicked();
+            waitUntilAppWindowIsFullyLoaded();
+
+            var appWindowWithShadow = findChild(spreadDelegate, "appWindowWithShadow");
+            verify(appWindowWithShadow);
+
+            // appWindow transformation is 0 relative to display
+            checkAppWindowTransformationMatchesRotation(appWindowWithShadow, 0);
+
+            rotateShellTo(90);
+
+            // appWindow transformation remains 0 relative to display
+            checkAppWindowTransformationMatchesRotation(appWindowWithShadow, 0);
+
+            animateToShellButton.clicked();
+            waitUntilRotationAnimationStops();
+
+            // appWindow transformation is now 90 relative to display, just like shell
+            checkAppWindowTransformationMatchesRotation(appWindowWithShadow, 90);
+
+            rotateShellTo(0);
+
+            // appWindow transformation is remains 90 relative to display.
+            checkAppWindowTransformationMatchesRotation(appWindowWithShadow, 90);
+
+            matchShellButton.clicked();
+
+            // appWindow transformation is back to 0 relative to display, just like shell
+            checkAppWindowTransformationMatchesRotation(appWindowWithShadow, 0);
+
         }
     }
 }

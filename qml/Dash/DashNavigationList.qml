@@ -53,61 +53,64 @@ Item {
             Repeater {
                 model: navigation && navigation.loaded ? navigation : null
                 clip: true
-                // FIXME Move to ListItem (and remove import) once 1556971 is fixed
-                delegate: ListItems.Empty {
-                    objectName: root.objectName + "child" + index
+                delegate: Loader {
+                    asynchronous: true
                     height: root.itemHeight
                     width: column.width
-                    anchors {
-                        left: column.left
-                        right: column.right
-                        leftMargin: units.gu(2)
-                        rightMargin: units.gu(2)
-                    }
-
-                    onClicked: root.enterNavigation(navigationId, allLabel != "" ? allLabel : label, hasChildren)
-
-                    Icon {
-                        id: leftIcon
+                    // FIXME Move to ListItem (and remove import) once 1556971 is fixed
+                    sourceComponent: ListItems.Empty {
+                        objectName: root.objectName + "child" + index
                         anchors {
-                            verticalCenter: parent.verticalCenter
                             left: parent.left
-                        }
-                        height: units.gu(2)
-                        width: height
-                        name: "tick"
-                        color: "#3EB34F"
-                        visible: isActive
-                    }
-
-                    Label {
-                        anchors {
-                            verticalCenter: parent.verticalCenter
-                            left: leftIcon.right
-                            leftMargin: units.gu(1)
-                            right: rightIcon.left
+                            right: parent.right
+                            leftMargin: units.gu(2)
                             rightMargin: units.gu(2)
                         }
-                        text: label
-                        color: isActive ? "#333333" : "#888888"
-                        wrapMode: Text.Wrap
-                        maximumLineCount: 2
-                        elide: Text.ElideMiddle
-                    }
 
-                    Icon {
-                        id: rightIcon
-                        anchors {
-                            verticalCenter: parent.verticalCenter
-                            right: parent.right
+                        onClicked: root.enterNavigation(navigationId, allLabel != "" ? allLabel : label, hasChildren)
+
+                        Icon {
+                            id: leftIcon
+                            anchors {
+                                verticalCenter: parent.verticalCenter
+                                left: parent.left
+                            }
+                            height: units.gu(2)
+                            width: height
+                            name: "tick"
+                            color: "#3EB34F"
+                            visible: isActive
                         }
-                        height: units.gu(2)
-                        width: height
-                        name: "go-next"
-                        visible: hasChildren
-                    }
 
-                    divider.visible: index != navigation.count - 1
+                        Label {
+                            anchors {
+                                verticalCenter: parent.verticalCenter
+                                left: leftIcon.right
+                                leftMargin: units.gu(1)
+                                right: rightIcon.left
+                                rightMargin: units.gu(2)
+                            }
+                            text: label
+                            color: isActive ? "#333333" : "#888888"
+                            wrapMode: Text.Wrap
+                            maximumLineCount: 2
+                            elide: Text.ElideMiddle
+                        }
+
+                        Icon {
+                            id: rightIcon
+                            anchors {
+                                verticalCenter: parent.verticalCenter
+                                right: parent.right
+                            }
+                            height: units.gu(2)
+                            width: height
+                            name: "go-next"
+                            visible: hasChildren
+                        }
+
+                        divider.visible: index != navigation.count - 1
+                    }
                 }
             }
         }
