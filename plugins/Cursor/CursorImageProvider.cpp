@@ -27,7 +27,7 @@ CursorImageProvider *CursorImageProvider::m_instance = nullptr;
 /////
 // BuiltInCursorImage
 
-BuiltInCursorImage::BuiltInCursorImage()
+BuiltInCursorImage::BuiltInCursorImage(int cursorHeight)
 {
     const char *svgString =
         "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
@@ -42,12 +42,14 @@ BuiltInCursorImage::BuiltInCursorImage()
          "       d=\"M 20.504,50.94931 460.42533,518.14486 266.47603,515.61948 366.48114,719.16522 274.05218,770.68296 172.53185,559.56112 20.504,716.13476 Z\" />"
          "</svg>";
 
-    qimage = QImage(20, 32, QImage::Format_ARGB32);
+    // NB: Original image dimension is 20x32. Ensure aspect ratio is kept
+    qimage = QImage((20./32.)*cursorHeight, cursorHeight, QImage::Format_ARGB32);
     qimage.fill(Qt::transparent);
     QPainter imagePainter(&qimage);
 
     frameWidth = qimage.width();
     frameHeight = qimage.height();
+    requestedHeight = cursorHeight;
 
     QSvgRenderer *svgRenderer = new QSvgRenderer(QByteArray(svgString));
     svgRenderer->render(&imagePainter);
@@ -81,11 +83,9 @@ CustomCursorImage::CustomCursorImage(const QCursor &cursor)
 /////
 // XCursorImage
 
-XCursorImage::XCursorImage(const QString &theme, const QString &file)
+XCursorImage::XCursorImage(const QString &theme, const QString &file, int preferredCursorHeightPx)
 {
-    // TODO: Consider grid unit value
-    //       Hardcoding to a medium size for now
-    int preferredCursorHeightPx = 32;
+    requestedHeight = preferredCursorHeightPx;
 
     XcursorImages *xcursorImages = XcursorLibraryLoadImages(QFile::encodeName(file), QFile::encodeName(theme),
             preferredCursorHeightPx);
@@ -96,7 +96,7 @@ XCursorImage::XCursorImage(const QString &theme, const QString &file)
     frameCount = xcursorImages->nimage;
 
     for (int i = 0; i < xcursorImages->nimage; ++i) {
-        XcursorImage *xcursorImage = xcursorImages->images[0];
+        XcursorImage *xcursorImage = xcursorImages->images[i];
         if (frameWidth <  (int)xcursorImage->width) {
             frameWidth = xcursorImage->width;
         }
@@ -235,34 +235,43 @@ CursorImageProvider::~CursorImageProvider()
     m_instance = nullptr;
 }
 
-QImage CursorImageProvider::requestImage(const QString &cursorThemeAndName, QSize *size, const QSize & /*requestedSize*/)
+QImage CursorImageProvider::requestImage(const QString &cursorThemeAndNameAndHeight, QSize *size, const QSize & /*requestedSize*/)
 {
-    CursorImage *cursorImage = fetchCursor(cursorThemeAndName);
+    CursorImage *cursorImage = fetchCursor(cursorThemeAndNameAndHeight);
     size->setWidth(cursorImage->qimage.width());
     size->setHeight(cursorImage->qimage.height());
 
     return cursorImage->qimage;
 }
 
-CursorImage *CursorImageProvider::fetchCursor(const QString &cursorThemeAndName)
+CursorImage *CursorImageProvider::fetchCursor(const QString &cursorThemeAndNameAndHeight)
 {
     QString themeName;
     QString cursorName;
+    int cursorHeight;
     {
-        QStringList themeAndNameList = cursorThemeAndName.split('/');
-        if (themeAndNameList.size() != 2) {
+        QStringList themeAndNameList = cursorThemeAndNameAndHeight.split('/');
+        if (themeAndNameList.size() != 3) {
             return nullptr;
         }
         themeName = themeAndNameList[0];
         cursorName = themeAndNameList[1];
+
+        bool ok;
+        cursorHeight = themeAndNameList[2].toInt(&ok);
+        if (!ok) {
+            cursorHeight = 32;
+            qWarning().nospace() << "CursorImageProvider: invalid cursor height ("<<themeAndNameList[2]<<")."
+                " Falling back to "<<cursorHeight<<" pixels";
+        }
     }
 
-    return fetchCursor(themeName, cursorName);
+    return fetchCursor(themeName, cursorName, cursorHeight);
 }
 
-CursorImage *CursorImageProvider::fetchCursor(const QString &themeName, const QString &cursorName)
+CursorImage *CursorImageProvider::fetchCursor(const QString &themeName, const QString &cursorName, int cursorHeight)
 {
-    CursorImage *cursorImage = fetchCursorHelper(themeName, cursorName);
+    CursorImage *cursorImage = fetchCursorHelper(themeName, cursorName, cursorHeight);
 
     // Try some fallbacks
     if (cursorImage->qimage.isNull()) {
@@ -271,7 +280,7 @@ CursorImage *CursorImageProvider::fetchCursor(const QString &themeName, const QS
             int i = 0;
             while (cursorImage->qimage.isNull() && i < fallbackNames.count()) {
                 qDebug().nospace() << "CursorImageProvider: "<< cursorName <<" not found, trying " << fallbackNames.at(i);
-                cursorImage = fetchCursorHelper(themeName, fallbackNames.at(i));
+                cursorImage = fetchCursorHelper(themeName, fallbackNames.at(i), cursorHeight);
                 ++i;
             }
         }
@@ -281,14 +290,14 @@ CursorImage *CursorImageProvider::fetchCursor(const QString &themeName, const QS
     if (cursorImage->qimage.isNull() && cursorName != QLatin1String("left_ptr")) {
         qDebug() << "CursorImageProvider:" << cursorName
             << "not found (nor its fallbacks, if any). Going for \"left_ptr\" as a last resort.";
-        cursorImage = fetchCursorHelper(themeName, QStringLiteral("left_ptr"));
+        cursorImage = fetchCursorHelper(themeName, QStringLiteral("left_ptr"), cursorHeight);
     }
 
     if (cursorImage->qimage.isNull()) {
         // finally, go for the built-in cursor
         qWarning() << "CursorImageProvider: couldn't find any cursors. Using the built-in one";
-        if (!m_builtInCursorImage) {
-            m_builtInCursorImage.reset(new BuiltInCursorImage);
+        if (!m_builtInCursorImage || m_builtInCursorImage->requestedHeight != cursorHeight) {
+            m_builtInCursorImage.reset(new BuiltInCursorImage(cursorHeight));
         }
         cursorImage = m_builtInCursorImage.data();
     }
@@ -296,7 +305,7 @@ CursorImage *CursorImageProvider::fetchCursor(const QString &themeName, const QS
     return cursorImage;
 }
 
-CursorImage *CursorImageProvider::fetchCursorHelper(const QString &themeName, const QString &cursorName)
+CursorImage *CursorImageProvider::fetchCursorHelper(const QString &themeName, const QString &cursorName, int cursorHeight)
 {
     if (cursorName == QLatin1String("blank")) {
         return &m_blankCursorImage;
@@ -306,7 +315,10 @@ CursorImage *CursorImageProvider::fetchCursorHelper(const QString &themeName, co
         QMap<QString, CursorImage*> &themeCursors = m_cursors[themeName];
 
         if (!themeCursors.contains(cursorName)) {
-            themeCursors[cursorName] = new XCursorImage(themeName, cursorName);
+            themeCursors[cursorName] = new XCursorImage(themeName, cursorName, cursorHeight);
+        } else if (themeCursors[cursorName]->requestedHeight != cursorHeight) {
+            delete themeCursors.take(cursorName);
+            themeCursors[cursorName] = new XCursorImage(themeName, cursorName, cursorHeight);
         }
 
         return themeCursors[cursorName];

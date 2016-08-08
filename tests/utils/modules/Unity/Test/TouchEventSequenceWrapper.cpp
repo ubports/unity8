@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,9 +26,14 @@ TouchEventSequenceWrapper::TouchEventSequenceWrapper(QTest::QTouchEventSequence 
 
 void TouchEventSequenceWrapper::commit(bool processEvents)
 {
+    // Item might be deleted as a consequence of this event sequence being handled
+    // So store its window beforehand
+    QQuickWindow *window = m_item->window();
+
     m_eventSequence.commit(processEvents);
-    if (m_item->window()) {
-        QQuickWindowPrivate *wp = QQuickWindowPrivate::get(m_item->window());
+
+    if (window) {
+        QQuickWindowPrivate *wp = QQuickWindowPrivate::get(window);
         wp->flushDelayedTouchEvent();
     }
 }

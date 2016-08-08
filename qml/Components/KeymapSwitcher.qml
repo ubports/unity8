@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import AccountsService 0.1
 import GlobalShortcut 1.0
+import QMenuModel 0.1
 import Unity.Application 0.1
 
 QtObject {
@@ -36,7 +37,8 @@ QtObject {
 
     readonly property var keymaps: AccountsService.keymaps
     readonly property int keymapCount: keymaps.length
-    property int currentKeymapIndex: 0
+    // default keymap, either the one remembered by the indicator, or the 1st one selected by user
+    property int currentKeymapIndex: actionGroup.currentAction.valid ? actionGroup.currentAction.state : 0
     readonly property string currentKeymap: keymaps[currentKeymapIndex]
 
     function nextKeymap() {
@@ -61,5 +63,29 @@ QtObject {
         target: MirFocusController.focusedSurface
         property: "keymap"
         value: root.currentKeymap
+    }
+
+    // indicator
+    property QDBusActionGroup actionGroup: QDBusActionGroup {
+        busType: DBus.SessionBus
+        busName: "com.canonical.indicator.keyboard"
+        objectPath: "/com/canonical/indicator/keyboard"
+
+        property variant currentAction: action("current")
+        property variant activeAction: action("active")
+
+        Component.onCompleted: actionGroup.start();
+    }
+
+    onCurrentKeymapIndexChanged: {
+        actionGroup.currentAction.updateState(currentKeymapIndex);
+    }
+
+    readonly property int activeActionState: actionGroup.activeAction.valid ? actionGroup.activeAction.state : -1
+
+    onActiveActionStateChanged: {
+        if (activeActionState != -1) {
+            currentKeymapIndex = activeActionState;
+        }
     }
 }
