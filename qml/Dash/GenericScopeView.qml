@@ -662,7 +662,7 @@ FocusScope {
             }
             onShowFiltersPopup: { // item
                 extraPanel.visible = false;
-                scopeView.filtersPopover = PopupUtils.open(Qt.resolvedUrl("FiltersPopover.qml"), item, { "contentWidth": scopeView.width - units.gu(2) } );
+                scopeView.filtersPopover = PopupUtils.open(Qt.resolvedUrl("FiltersPopover.qml"), item, { "contentWidth": Qt.binding(function() { return scopeView.width - units.gu(2); } ) } );
                 scopeView.filtersPopover.Component.onDestruction.connect(function () {
                     categoryView.pageHeader.closePopup(false, true);
                     categoryView.pageHeader.unfocus(true); // remove the focus from the search field

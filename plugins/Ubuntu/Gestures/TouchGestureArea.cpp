@@ -16,15 +16,17 @@
 
 #include "TouchGestureArea.h"
 
-#include <UbuntuGestures/TouchOwnershipEvent>
-#include <UbuntuGestures/TouchRegistry>
-#include <UbuntuGestures/UnownedTouchEvent>
+#include <UbuntuGestures/private/touchownershipevent_p.h>
+#include <UbuntuGestures/private/touchregistry_p.h>
+#include <UbuntuGestures/private/unownedtouchevent_p.h>
 // #include "TouchRegistry.h"
 // #include "UnownedTouchEvent.h"
 
 #include <QGuiApplication>
 #include <QStyleHints>
 #include <private/qquickwindow_p.h>
+
+UG_USE_NAMESPACE
 
 #define TOUCHGESTUREAREA_DEBUG 0
 
@@ -135,7 +137,7 @@ TouchGestureArea::TouchGestureArea(QQuickItem* parent)
     , m_recognitionPeriod(50)
     , m_releaseRejectPeriod(100)
 {
-    setRecognitionTimer(new UbuntuGestures::Timer(this));
+    setRecognitionTimer(new Timer(this));
     m_recognitionTimer->setInterval(m_recognitionPeriod);
     m_recognitionTimer->setSingleShot(true);
 }
@@ -153,10 +155,10 @@ bool TouchGestureArea::event(QEvent *event)
 {
     // Process unowned touch events (handles update/release for incomplete gestures)
     if (event->type() == TouchOwnershipEvent::touchOwnershipEventType()) {
-        touchOwnershipEvent(static_cast<TouchOwnershipEvent *>(event));
+        touchOwnershipEvent(static_cast<TouchOwnershipEvent*>(event));
         return true;
     } else if (event->type() == UnownedTouchEvent::unownedTouchEventType()) {
-        unownedTouchEvent(static_cast<UnownedTouchEvent *>(event)->touchEvent());
+        unownedTouchEvent(static_cast<UnownedTouchEvent*>(event)->touchEvent());
         return true;
     }
 
@@ -608,7 +610,7 @@ void TouchGestureArea::setInternalStatus(uint newStatus)
     }
 }
 
-void TouchGestureArea::setRecognitionTimer(UbuntuGestures::AbstractTimer *timer)
+void TouchGestureArea::setRecognitionTimer(AbstractTimer *timer)
 {
     int interval = 0;
     bool timerWasRunning = false;
