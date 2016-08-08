@@ -42,17 +42,20 @@ public:
     int frameHeight{0};
     int frameCount{1};
     int frameDuration{40};
+
+    // Requested height when creating this cursor.
+    int requestedHeight{0};
 };
 
 class XCursorImage : public CursorImage {
 public:
-    XCursorImage(const QString &theme, const QString &file);
+    XCursorImage(const QString &theme, const QString &file, int preferredCursorHeightPx);
     virtual ~XCursorImage();
 };
 
 class BuiltInCursorImage : public CursorImage {
 public:
-    BuiltInCursorImage();
+    BuiltInCursorImage(int cursorHeight);
 };
 
 class BlankCursorImage  : public CursorImage {
@@ -74,15 +77,15 @@ public:
     static CursorImageProvider *instance() { return m_instance; }
 
 
-    QImage requestImage(const QString &cursorName, QSize *size, const QSize &requestedSize) override;
+    QImage requestImage(const QString &cursorThemeAndNameAndHeight, QSize *size, const QSize &requestedSize) override;
 
-    CursorImage *fetchCursor(const QString &themeName, const QString &cursorName);
+    CursorImage *fetchCursor(const QString &themeName, const QString &cursorName, int cursorHeight);
 
     void setCustomCursor(const QCursor &customCursor);
 
 private:
-    CursorImage *fetchCursor(const QString &cursorThemeAndName);
-    CursorImage *fetchCursorHelper(const QString &themeName, const QString &cursorName);
+    CursorImage *fetchCursor(const QString &cursorThemeAndNameAndHeight);
+    CursorImage *fetchCursorHelper(const QString &themeName, const QString &cursorName, int cursorHeight);
 
     // themeName -> (cursorName -> cursorImage)
     // TODO: discard old, unused, cursors

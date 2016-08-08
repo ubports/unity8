@@ -16,7 +16,7 @@ Loader {
                                 objectName: "backgroundLoader"; 
                                 anchors.fill: parent; 
                                 asynchronous: true;
-                                visible: status == Loader.Ready; 
+                                visible: status === Loader.Ready;
                                 sourceComponent: UbuntuShape { 
                                     objectName: "background"; 
                                     radius: "medium"; 
@@ -49,23 +49,21 @@ Loader {
                                     } 
                                 } 
                             }
-Item { 
-                            id: artShapeHolder; 
-                            height: root.fixedArtShapeSize.height;
-                            width: root.fixedArtShapeSize.width;
-                            anchors { horizontalCenter: parent.horizontalCenter; } 
-                            Loader { 
+Loader {
                                 id: artShapeLoader; 
+                                height: root.fixedArtShapeSize.height; 
+                                width: root.fixedArtShapeSize.width; 
+                                anchors { horizontalCenter: parent.horizontalCenter; }
                                 objectName: "artShapeLoader"; 
                                 readonly property string cardArt: cardData && cardData["art"] || decodeURI("%5C");
                                 onCardArtChanged: { if (item) { item.image.source = cardArt; } }
                                 active: cardArt != "";
                                 asynchronous: true;
-                                visible: status == Loader.Ready; 
+                                visible: status === Loader.Ready;
                                 sourceComponent: Item { 
                                     id: artShape; 
                                     objectName: "artShape"; 
-                                    visible: image.status == Image.Ready; 
+                                    visible: image.status === Image.Ready;
                                     readonly property alias image: artImage; 
                                     UbuntuShape {
                                         anchors.fill: parent;
@@ -86,8 +84,7 @@ Item {
                                         height: width / (root.fixedArtShapeSize.width / root.fixedArtShapeSize.height);
                                         onStatusChanged: if (status === Image.Error) source = decodeURI("%5C");
                                     } 
-                                } 
-                            } 
+                                }
                         }
 readonly property int headerHeight: row.height;
 Row { 
@@ -96,7 +93,7 @@ Row {
                         property real margins: units.gu(1); 
                         spacing: margins; 
                         height: root.fixedHeaderHeight;
-                        anchors { top: artShapeHolder.bottom; 
+                        anchors { top: artShapeLoader.bottom;
                                          topMargin: units.gu(1);
 left: parent.left;
  } 

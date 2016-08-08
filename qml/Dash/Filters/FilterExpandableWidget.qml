@@ -65,6 +65,7 @@ FilterWidget {
                 anchors.rightMargin: units.gu(2)
                 anchors.verticalCenter: parent.verticalCenter
                 source: expandingItem.expanded ? "image://theme/up" : "image://theme/down"
+                sourceSize.height: height
             }
         }
 

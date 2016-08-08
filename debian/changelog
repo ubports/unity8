@@ -1,3 +1,72 @@
+unity8 (8.14+16.10.20160803-0ubuntu1) yakkety; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Fix DisabledScreenNotice::test_rotation
+  * Make the delegate of DashNavigationList an async Loader
+  * unity-scope-tool: Use parse instead of process
+  * VerticalJournal improvements regarding model insertions and item
+    height changes (LP: #1599754)
+  * Add math.h includes for compilation in yakkety (LP: #1605502)
+
+  [ Andrea Cimitan ]
+  * Unfocus the search text field in the dash page header when requested
+    (LP: #1590820)
+  * Use binding for filter popover contentWidth (LP: #1595116)
+  * Add few sourceSize for Image we forgot (LP: #1595113)
+  * Replace Flickable with an Item inside DashPageHeader for
+    headerContainer (LP: #1599235)
+
+  [ Albert Astals Cid, Andrea Cimitan ]
+  * Unbox the artshapeLoader
+
+  [ Daniel d'Andrada ]
+  * Fix splashscreen orientation when app rotates own contents (LP:
+    #1586050)
+  * tst_PreviewIconActions: Make test name match filename
+  * Cursor: make its size grid unit based (LP: #1604014)
+  * TouchEventSequenceWrapper: item might get deleted when touch
+    sequence is committed (LP: #1607686)
+
+  [ Lukáš Tinkl ]
+  * Implement frontend support for running keyboard indicator
+  * Provide window/surface close shortcuts across all the stages (LP:
+    #1578392, #1606528)
+  * Restart the location trust prompt service when exiting the wizard
+    (LP: #1594430)
+  * Implement clearing the search and closing the panel on pressing
+    Escape key in the dash header
+  * Fix log timestamps (LP: #1602196)
+  * Don't display the mode switch warning dialog on tablets (LP:
+    #1600290)
+
+  [ Michael Terry ]
+  * Fix indicator profile bug that caused sound indicator to say Mute
+    instead of Silent Mode. (LP: #1604205)
+  * Fix lockscreen appearing right after unlocking a locked session on
+    the desktop. (LP: #1604374)
+
+  [ Michał Sawicz ]
+  * Add arm64 support, drop unnecessary B-D on web plugin
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 03 Aug 2016 15:56:27 +0000
+
+unity8 (8.14+16.10.20160728-0ubuntu1) yakkety; urgency=medium
+
+  [ Zoltán Balogh ]
+  * Bump the version to secure UITK compatibility
+
+  [ Albert Astals Cid ]
+  * Pass the correct number of arguments to mapToItem (LP: #1606835)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 28 Jul 2016 08:17:13 +0000
+
+unity8 (8.13+16.10.20160714+fix1-0ubuntu2~1) yakkety; urgency=medium
+
+  * Rebuild against Qt 5.6.
+  * Add https://code.launchpad.net/~aacid/unity8/floor_includes/+merge/300850
+
+ -- Timo Jyrinki <timo-jyrinki@ubuntu.com>  Fri, 22 Jul 2016 09:03:54 +0300
+
 unity8 (8.13+16.10.20160714-0ubuntu1) yakkety; urgency=medium
 
   [ Daniel d'Andrada ]
