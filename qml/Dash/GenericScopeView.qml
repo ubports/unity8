@@ -782,6 +782,17 @@ FocusScope {
             color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
         }
 
+        Image {
+            anchors {
+                bottom: parent.bottom
+                left: parent.left
+                right: parent.right
+            }
+            fillMode: Image.Stretch
+            source: "graphics/dash_divider_top_darkgrad.png"
+            z: -1
+        }
+
         Connections {
             target: floatingSeeLess.companionTo ? categoryView : null
             onContentYChanged: floatingSeeLess.updateVisibility();
