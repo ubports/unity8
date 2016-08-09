@@ -30,6 +30,7 @@ StyledItem {
     property bool locked
     property bool waiting
 
+    readonly property alias passwordInput: passwordInput
     readonly property int numAboveBelow: 4
     readonly property int cellHeight: units.gu(5)
     readonly property int highlightedHeight: units.gu(15)

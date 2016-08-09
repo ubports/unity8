@@ -162,7 +162,10 @@ FocusScope {
             Connections {
                 target: sessionChooserLoader.item
                 onSessionSelected: loginList.currentSession = sessionKey
-                onShowLoginList: coverPage.state = "LoginList"
+                onShowLoginList: {
+                    coverPage.state = "LoginList"
+                    loginList.passwordInput.forceActiveFocus();
+                }
                 ignoreUnknownSignals: true
             }
         }
