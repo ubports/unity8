@@ -40,7 +40,12 @@ Item {
     Scopes {
         id: scopes
         // for tryGenericScopeView
-        onLoadedChanged: if (loaded) genericScopeView.scope = scopes.getScope(2);
+        onLoadedChanged: {
+            if (loaded) {
+                genericScopeView.scope = scopes.getScope(2);
+                genericScopeView.isCurrent = true;
+            }
+        }
     }
 
     MockScope {
