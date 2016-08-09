@@ -128,9 +128,6 @@ FocusScope {
             PopupUtils.close(filtersPopover)
             scopeView.filtersPopover = null;
         }
-        if (!isCurrent) {
-            PreviewSingleton.widgetExtraData = new Object();
-        }
     }
 
     Binding {
@@ -827,6 +824,9 @@ FocusScope {
         }
 
         function closeSubPage() {
+            if (subPage == "preview") {
+                PreviewSingleton.widgetExtraData = new Object();
+            }
             open = false;
         }
 
