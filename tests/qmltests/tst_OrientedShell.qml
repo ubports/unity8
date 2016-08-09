@@ -1117,6 +1117,7 @@ Rectangle {
 
         function test_attachRemoveInputDevices(data) {
             loadShell("mako")
+            MockInputDeviceBackend.removeDevice("/indicator_kbd0");
             var shell = findChild(orientedShell, "shell");
             var inputMethod = findChild(shell, "inputMethod");
 
