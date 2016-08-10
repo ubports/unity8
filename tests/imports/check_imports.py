@@ -92,6 +92,7 @@ components_path = re.compile(r'.*qml/Components.*')
 skip_components_flickable_path = re.compile(r'.*qml/Components/Flickable.qml')
 skip_components_listview_path = re.compile(r'.*qml/Components/ListView.qml')
 skip_components_gridview_path = re.compile(r'.*qml/Components/GridView.qml')
+skip_mocks_path = re.compile(r'.*tests/mocks.*')
 
 def scan_for_flickable_imports(file_path, component_pats, qtquick_pat, unitycomponents_pat):
     errors = []
@@ -162,15 +163,17 @@ try:
                     found_bad_import = True
                 if scan_for_bad_import(path, ubuntu_components_pat, [ubuntu_good_components_pat]):
                     found_bad_import = True
+                if skip_mocks_path.match(path) or \
+                   skip_components_flickable_path.match(path) or \
+                   skip_components_listview_path.match(path) or \
+                   skip_components_gridview_path.match(path):
+                    break
                 if not components_path.match(path):
                     if scan_for_flickable_imports(path, flickable_pats, quick_good_pat, unity_components_pat):
                         found_bad_import = True
                 else:
-                    if not skip_components_flickable_path.match(path) and \
-                       not skip_components_listview_path.match(path) and \
-                       not skip_components_gridview_path.match(path):
-                        if scan_for_flickable_imports(path, flickable_pats, quick_good_pat, components_import_pat):
-                            found_bad_import = True
+                    if scan_for_flickable_imports(path, flickable_pats, quick_good_pat, components_import_pat):
+                        found_bad_import = True
 
 except OSError as e:
     error("cannot create file list for \"" + dir + "\": " + e.strerror)
