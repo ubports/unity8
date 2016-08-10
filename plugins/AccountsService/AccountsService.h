@@ -79,9 +79,7 @@ class AccountsService: public QObject
                NOTIFY hereLicensePathChanged)
     Q_PROPERTY(QString realName READ realName WRITE setRealName NOTIFY realNameChanged)
     Q_PROPERTY(QString email READ email WRITE setEmail NOTIFY emailChanged)
-    Q_PROPERTY(QStringList keymaps
-               READ keymaps
-               NOTIFY keymapsChanged)
+    Q_PROPERTY(QStringList keymaps READ keymaps WRITE setKeymaps NOTIFY keymapsChanged)
 
 public:
     enum PasswordDisplayHint {
@@ -117,6 +115,7 @@ public:
     QString email() const;
     void setEmail(const QString &email);
     QStringList keymaps() const;
+    void setKeymaps(const QStringList &keymaps);
 
 Q_SIGNALS:
     void userChanged();

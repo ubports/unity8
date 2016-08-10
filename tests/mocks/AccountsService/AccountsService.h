@@ -84,7 +84,7 @@ class AccountsService: public QObject
     Q_PROPERTY(QString email READ email WRITE setEmail NOTIFY emailChanged)
     Q_PROPERTY(QStringList keymaps
                READ keymaps
-               WRITE setKeymaps // only in mock
+               WRITE setKeymaps
                NOTIFY keymapsChanged)
 
 public:

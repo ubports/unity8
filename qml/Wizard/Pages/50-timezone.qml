@@ -21,7 +21,7 @@ import Wizard 0.1
 import Ubuntu.SystemSettings.TimeDate 1.1
 import Utils 0.1 as Utils
 import ".." as LocalComponents
-import "../../Components" as UnityComponents
+import "../../Components"
 
 LocalComponents.Page {
     id: tzPage
@@ -184,7 +184,7 @@ LocalComponents.Page {
             onTextChanged: resetViews();
         }
 
-        UnityComponents.ListView {
+        ListView {
             Layout.fillHeight: true
             id: tzList
             objectName: "tzList"
