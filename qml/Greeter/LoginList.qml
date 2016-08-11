@@ -242,8 +242,8 @@ StyledItem {
         visible: LightDMService.sessions.count > 1 &&
             !LightDMService.users.data(userList.currentIndex, LightDMService.userRoles.LoggedInRole)
 
-        height: units.gu(3.4)
-        width: units.gu(3.4)
+        height: units.gu(3.5)
+        width: units.gu(3.5)
 
         anchors {
             right: highlightItem.right
@@ -257,12 +257,11 @@ StyledItem {
             id: badgeHighlight
 
             anchors.fill: parent
-            visible: parent.activeFocus
+            visible: true//parent.activeFocus
             color: "transparent"
             border.color: theme.palette.normal.focus
             border.width: units.dp(1)
             radius: 3
-
         }
 
         Icon {
