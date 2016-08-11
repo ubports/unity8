@@ -793,10 +793,6 @@ FocusScope {
         }
     }
 
-    LimitProxyModel {
-        id: previewLimitModel
-    }
-
     Loader {
         id: subPageLoader
         objectName: "subPageLoader"
