@@ -244,7 +244,7 @@ AbstractStage {
     Binding {
         target: MirFocusController
         property: "focusedSurface"
-        value: priv.focusedAppDelegate ? priv.focusedAppDelegate.surface : null
+        value: priv.focusedAppDelegate ? priv.focusedAppDelegate.focusedSurface : null
         when: root.parent && !spreadRepeater.startingUp
     }
 

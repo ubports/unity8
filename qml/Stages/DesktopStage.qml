@@ -230,7 +230,7 @@ AbstractStage {
     Binding {
         target: MirFocusController
         property: "focusedSurface"
-        value: priv.focusedAppDelegate ? priv.focusedAppDelegate.surface : null
+        value: priv.focusedAppDelegate ? priv.focusedAppDelegate.focusedSurface : null
         when: !appRepeater.startingUp && root.parent
     }
 
@@ -334,6 +334,7 @@ AbstractStage {
 
                 readonly property var surface: model.surface
                 readonly property alias resizeArea: resizeArea
+                readonly property alias focusedSurface: decoratedWindow.focusedSurface
 
                 readonly property bool isDash: model.application.appId == "unity8-dash"
 
