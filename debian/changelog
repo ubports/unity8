@@ -1,3 +1,40 @@
+unity8 (8.14+16.10.20160811.1-0ubuntu1) yakkety; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Take into account carousel selectedItemScaleFactor when setting card
+    fixedArtShapeSize (LP: #1599238)
+  * Remove unused LimitProxyModel
+  * Do not calculate implicitHeight for Cards in a CardGrid
+  * Small clazy fixes
+
+  [ Daniel d'Andrada ]
+  * Remove stage property from Application
+
+  [ Larry Price ]
+  * Allow libertine-scope to show empty search result hint unmodified.
+    (LP: #1606693)
+
+  [ Lukáš Tinkl ]
+  * Open the quicklist (context) menu also using the Menu key (LP:
+    #1608265)
+  * Fix incorrect SIM PIN dialog position when entering a wrong PIN (LP:
+    #1596076)
+  * Apply the correct keymap also on prompt surfaces (LP: #1610124)
+  * Implement an optional system update feature during OOBE wizard (LP:
+    #1580785)
+  * Implement a page for choosing HW keyboard layout in OOBE wizard
+
+  [ Michael Zanetti ]
+  * Clean up some build script legacy
+  * Add a crossbuilder_post file to make crossbuilder restart unity8
+    after deploying
+  * fixes for the automatic switching between usage modes (LP: #1590944)
+
+  [ Omer Akram ]
+  * Add object names for setup wizard
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 11 Aug 2016 06:28:20 +0000
+
 unity8 (8.14+16.10.20160803-0ubuntu1) yakkety; urgency=medium
 
   [ Albert Astals Cid ]
