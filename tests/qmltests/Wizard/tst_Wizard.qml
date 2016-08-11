@@ -223,7 +223,7 @@ Item {
 
         function test_languageChange() {
             var page = goToPage("languagePage");
-            tap(findChild(page, "languageDelegate1")); // should invoke "fr" lang
+            tap(findChild(page, "languageDelegate_french_(france)")); // should invoke "fr" lang
 
             tryCompare(i18n, "language", "fr_FR");
             tap(findChild(page, "forwardButton"));

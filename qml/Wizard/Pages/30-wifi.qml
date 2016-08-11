@@ -72,7 +72,7 @@ LocalComponents.Page {
         id: accessPointComponent
         ListItem {
             id: accessPoint
-            objectName: "accessPoint"
+            objectName: "accessPoint_" + apName.text.toLowerCase().replace(/\s+/g, '_')
             highlightColor: backgroundColor
             enabled: menuData && menuData.sensitive || false
             divider.colorFrom: dividerColor
@@ -166,6 +166,7 @@ LocalComponents.Page {
 
         ListView {
             id: listview
+            objectName: "accessPointsListView"
             anchors.left: parent.left
             anchors.right: parent.right
             clip: true
