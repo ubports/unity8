@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Canonical Ltd.
+ * Copyright 2015-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -50,21 +50,6 @@ Row {
 
         function getRaw(id) {
             return mockNotification.createObject(mockModel)
-        }
-
-        // add the default/PlaceHolder notification to the model
-        Component.onCompleted: {
-            var n = {
-                type: Notification.PlaceHolder,
-                hints: {},
-                summary: "",
-                body: "",
-                icon: "",
-                secondaryIcon: "",
-                actions: []
-            }
-
-            append(n)
         }
     }
 
