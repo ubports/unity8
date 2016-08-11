@@ -985,6 +985,62 @@ Item {
         }
     }
 
+    Component {
+        id: keymapMenu;
+
+        // FIXME this should use a "radio button" menu, once we have it in the SDK
+        ListItems.Empty {
+            id: checkItem
+            objectName: "keymapMenu"
+            property QtObject menuData: null
+            property int menuIndex: -1
+            readonly property bool serverChecked: menuData && menuData.isToggled || false
+
+            enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
+            __acceptEvents: !serverChecked
+
+            CheckBox {
+                id: checkbox
+                __acceptEvents: !checkItem.serverChecked
+                anchors {
+                    left: parent.left
+                    leftMargin: checkItem.__contentsMargins
+                    verticalCenter: parent.verticalCenter
+                }
+            }
+
+            ServerPropertySynchroniser {
+                objectName: "sync"
+                syncTimeout: Utils.Constants.indicatorValueTimeout
+
+                serverTarget: checkItem
+                serverProperty: "serverChecked"
+                userTarget: checkbox
+                userProperty: "checked"
+
+                onSyncTriggered: {
+                    menuModel.activate(checkItem.menuIndex);
+                }
+            }
+
+            Label {
+                id: label
+                anchors {
+                    left: checkbox.right
+                    leftMargin: checkItem.__contentsMargins
+                    right: parent.right
+                    rightMargin: checkItem.__contentsMargins
+                    verticalCenter: parent.verticalCenter
+                }
+                elide: Text.ElideRight
+                text: checkItem.menuData && checkItem.menuData.label || ""
+            }
+
+            onClicked: menuModel.activate(menuIndex);
+        }
+    }
+
     function load(modelData, context) {
         // tweak indicator-session items
         if (context === "indicator-session") {
@@ -992,6 +1048,15 @@ Item {
                  modelData.action === "indicator.reboot")
                     && !Platform.isPC) {
                 return null; // logout, suspend and hibernate hidden on devices
+            }
+        }
+
+        // specialize for indicator-keyboard
+        if (context === "indicator-keyboard") {
+            if (modelData.isRadio) {
+                return keymapMenu;
+            } else if (modelData.action === "indicator.map" || modelData.action === "indicator.chart") {
+                return null; // map and chart not available
             }
         }
 

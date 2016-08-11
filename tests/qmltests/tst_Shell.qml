@@ -19,6 +19,7 @@ import QtTest 1.0
 import AccountsService 0.1
 import GSettings 1.0
 import LightDM.IntegratedLightDM 0.1 as LightDM
+import SessionBroadcast 0.1
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.Telephony 0.1 as Telephony
@@ -406,6 +407,18 @@ Rectangle {
     }
 
     SignalSpy {
+        id: broadcastUrlSpy
+        target: SessionBroadcast
+        signalName: "startUrl"
+    }
+
+    SignalSpy {
+        id: broadcastHomeSpy
+        target: SessionBroadcast
+        signalName: "showHome"
+    }
+
+    SignalSpy {
         id: unlockAllModemsSpy
         target: Connectivity
         signalName: "unlockingAllModems"
@@ -546,6 +559,8 @@ Rectangle {
             LightDM.Greeter.authenticate(""); // reset greeter
 
             sessionSpy.clear();
+            broadcastUrlSpy.clear();
+            broadcastHomeSpy.clear();
 
             GSettingsController.setLifecycleExemptAppids([]);
 
@@ -2154,8 +2169,10 @@ Rectangle {
 
         function test_switchToStagedForcesLegacyAppClosing_data() {
             return [
-                {tag: "forceClose", replug: false },
-                {tag: "replug", replug: true }
+                {tag: "forceClose", replug: false, tabletMode: false, screenSize: Qt.size(units.gu(20), units.gu(40)) },
+                {tag: "replug", replug: true, tabletMode: false, screenSize: Qt.size(units.gu(20), units.gu(40)) },
+                {tag: "forceClose+tablet", replug: false, tabletMode: true, screenSize: Qt.size(units.gu(90), units.gu(65)) },
+                {tag: "replug+tablet", replug: true, tabletMode: true, screenSize: Qt.size(units.gu(90), units.gu(65)) }
             ];
         }
 
@@ -2163,6 +2180,11 @@ Rectangle {
             loadShell("desktop")
             shell.usageScenario = "desktop"
             waitForRendering(shell);
+
+            // setup some screen size
+            var dialogs = findChild(root, "dialogs");
+            verify(dialogs);
+            dialogs.screenSize = data.screenSize;
 
             ApplicationManager.startApplication("camera-app")
 
@@ -2182,14 +2204,13 @@ Rectangle {
             shell.usageScenario = "phone"
             waitForRendering(shell);
 
-            // The popup must appear now
+            // The popup must appear now, unless in "tablet" mode
             popup = findChild(root, "modeSwitchWarningDialog");
-            compare(popup !== null, true);
+            compare(popup !== null, !data.tabletMode);
 
-            if (data.replug) {
+            if (data.replug || data.tabletMode) {
                 shell.usageScenario = "desktop"
                 waitForRendering(shell);
-
             } else {
                 var forceCloseButton = findChild(popup, "forceCloseButton");
                 mouseClick(forceCloseButton, forceCloseButton.width / 2, forceCloseButton.height / 2);
@@ -2200,7 +2221,7 @@ Rectangle {
             popup = findChild(root, "modeSwitchWarningDialog");
             tryCompareFunction(function() { return popup === null}, true);
 
-            if (data.replug) {
+            if (data.replug || data.tabletMode) {
                 // Libreoffice must still be running
                 compare(ApplicationManager.findApplication("libreoffice") !== null, true);
             } else {
@@ -2404,6 +2425,66 @@ Rectangle {
             compare(topmostSurfaceItem.touchReleaseCount, 2);
         }
 
+        function test_greeterModeBroadcastsApp() {
+            setLightDMMockMode("single-pin");
+            shellLoader.mode = "greeter";
+            loadShell("phone");
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+
+            dragLauncherIntoView();
+            var appIcon = findChild(shell, "launcherDelegate0")
+            tap(appIcon);
+
+            tryCompare(broadcastUrlSpy, "count", 1);
+            compare(broadcastUrlSpy.signalArguments[0][0], "application:///" + appIcon.appId + ".desktop");
+            compare(ApplicationManager.count, 1); // confirm only dash is open, we didn't start new app
+
+            var coverPage = findChild(shell, "coverPage");
+            tryCompare(coverPage, "showProgress", 0);
+        }
+
+        function test_greeterModeBroadcastsHome() {
+            setLightDMMockMode("single-pin");
+            shellLoader.mode = "greeter";
+            loadShell("phone");
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+
+            var gallerySurfaceId = topLevelSurfaceList.nextId;
+            var galleryApp = ApplicationManager.startApplication("gallery-app");
+            waitUntilAppWindowIsFullyLoaded(gallerySurfaceId);
+            compare(ApplicationManager.focusedApplicationId, "gallery-app");
+
+            dragLauncherIntoView();
+            tap(findChild(shell, "buttonShowDashHome"));
+
+            tryCompare(broadcastHomeSpy, "count", 1);
+            compare(ApplicationManager.focusedApplicationId, "gallery-app"); // confirm we didn't focus dash
+
+            var coverPage = findChild(shell, "coverPage");
+            tryCompare(coverPage, "showProgress", 0);
+        }
+
+        function test_greeterModeDispatchesURL() {
+            setLightDMMockMode("single-pin");
+            shellLoader.mode = "greeter";
+            loadShell("phone");
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+
+            var urlDispatcher = findInvisibleChild(shell, "urlDispatcher");
+            verify(urlDispatcher.active);
+            urlDispatcher.urlRequested("test:"); // force signal emission
+
+            tryCompare(broadcastUrlSpy, "count", 1);
+            compare(broadcastUrlSpy.signalArguments[0][0], "test:");
+            compare(ApplicationManager.count, 1); // confirm only dash is open, we didn't start new app
+
+            var coverPage = findChild(shell, "coverPage");
+            tryCompare(coverPage, "showProgress", 0);
+        }
+
         function test_switchKeymap() {
             // start with phone shell
             loadShell("phone");
@@ -2505,6 +2586,36 @@ Rectangle {
 
             verify(greeter.shown);
             verify(greeter.locked);
+        }
+
+        function test_closeFocusedDelegate_data() {
+            return [
+                        { tag: "phone" },
+                        { tag: "tablet" },
+                        { tag: "desktop" }
+                    ]
+        }
+
+        function test_closeFocusedDelegate(data) {
+            loadShell(data.tag);
+            shell.usageScenario = data.tag;
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var app2SurfaceId = topLevelSurfaceList.nextId;
+            var app2 = ApplicationManager.startApplication("calendar-app");
+            waitUntilAppWindowIsFullyLoaded(app2SurfaceId);
+
+            var app1SurfaceId = topLevelSurfaceList.nextId;
+            var app1 = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(app1SurfaceId);
+
+            var countBeforeClose = topLevelSurfaceList.count;
+
+            keyClick(Qt.Key_F4, Qt.AltModifier);
+
+            tryCompare(topLevelSurfaceList, "count", countBeforeClose - 1);
+            tryCompareFunction(function() { return ApplicationManager.focusedApplicationId; }, "calendar-app");
         }
     }
 }
