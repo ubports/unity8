@@ -257,7 +257,7 @@ StyledItem {
             id: badgeHighlight
 
             anchors.fill: parent
-            visible: true//parent.activeFocus
+            visible: parent.activeFocus
             color: "transparent"
             border.color: theme.palette.normal.focus
             border.width: units.dp(1)
