@@ -284,6 +284,24 @@ QStringList AccountsService::keymaps() const
     return {QStringLiteral("us")};
 }
 
+void AccountsService::setKeymaps(const QStringList &keymaps)
+{
+    if (keymaps.isEmpty()) {
+        qWarning() << "Setting empty keymaps is not supported";
+        return;
+    }
+
+    StringMapList result;
+    Q_FOREACH(const QString &keymap, keymaps) {
+        StringMap map;
+        map.insert(QStringLiteral("xkb"), keymap);
+        result.append(map);
+    }
+
+    setProperty(IFACE_ACCOUNTS_USER, PROP_INPUT_SOURCES, QVariant::fromValue(result));
+    Q_EMIT keymapsChanged();
+}
+
 uint AccountsService::failedFingerprintLogins() const
 {
     return getProperty(IFACE_UNITY_PRIVATE, PROP_FAILED_FINGERPRINT_LOGINS).toUInt();
