@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2013 Canonical Ltd.
+ * Copyright (C) 2013,2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -320,7 +320,8 @@ Item {
             tryCompare(navigationListView.currentItem.navigation, "navigationId", "root");
 
             var headerContainer = findChild(dashContentList.currentItem, "headerContainer");
-            tryCompare(headerContainer, "contentY", headerContainer.height);
+            tryCompare(headerContainer, "clip", false);
+            verify(headerContainer.state !== "search");
             mouseClick(searchButton);
             tryCompare(peExtraPanel, "visible", true);
             waitForRendering(navigationListView);
@@ -384,7 +385,8 @@ Item {
             mouseClick(header0);
             compare(peExtraPanel.visible, false);
 
-            tryCompare(headerContainer, "contentY", headerContainer.height);
+            tryCompare(headerContainer, "clip", false);
+            verify(headerContainer.state !== "search");
             mouseClick(searchButton);
             tryCompare(peExtraPanel, "visible", true);
             tryCompare(navigationListView.currentItem.navigation, "loaded", true);
@@ -524,7 +526,6 @@ Item {
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
             var headerContainer = findChild(pageHeader, "headerContainer");
 
-            // test that closing the filters popover without a search unfocuses and removes the navigation
             mouseClick(searchButton);
             tryCompare(peExtraPanel, "visible", true);
 
@@ -536,6 +537,19 @@ Item {
             filtersPopover = findChild(shell, "filtersPopover")
             verify(filtersPopover);
 
+            // test that popover resizes
+            var shellWidth = shell.width;
+            var popoverWidth = filtersPopover.contentWidth;
+
+            shell.width = shellWidth + units.gu(60);
+            waitForRendering(shell);
+
+            tryCompare(filtersPopover, "contentWidth", popoverWidth + units.gu(60));
+
+            shell.width = shellWidth;
+            waitForRendering(shell);
+
+            // test that closing the filters popover without a search unfocuses and removes the navigation
             mouseClick(shell, shell.width - 1, shell.height - 1);
 
             tryCompare(pageHeader.extraPanel, "visible", false);
@@ -544,7 +558,8 @@ Item {
 
             mouseClick(cancelButton);
             tryCompare(headerContainer, "showSearch", false);
-            tryCompare(headerContainer, "contentY", headerContainer.height);
+            tryCompare(headerContainer, "clip", false);
+            verify(headerContainer.state !== "search");
 
             // test within a navigation
             goToSecondLevel();
@@ -687,6 +702,28 @@ Item {
 
             mouseClick(recentSearches.itemAt(0));
             compare(pageHeader.searchQuery, "Search2");
+            tryCompare(pageHeader.extraPanel, "visible", false);
+            compare(searchTextField.focus, false);
+        }
+
+        function test_cancelSearch() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            var pageHeader = findChild(dashContentList.currentItem, "scopePageHeader")
+            pageHeader.searchEntryEnabled = true;
+            pageHeader.searchHistory.clear();
+
+            pageHeader.searchHistory.addQuery("Search1");
+            pageHeader.searchHistory.addQuery("Search2");
+
+            pageHeader.triggerSearch();
+            tryCompare(pageHeader.extraPanel, "visible", true);
+
+            var searchTextField = findChild(pageHeader, "searchTextField");
+            compare(searchTextField.focus, true);
+
+            var cancelButton = findChild(dashContentList.currentItem, "cancelButton")
+
+            mouseClick(cancelButton);
             tryCompare(pageHeader.extraPanel, "visible", false);
             compare(searchTextField.focus, false);
         }

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-07-28 08:17+0000\n"
+"POT-Creation-Date: 2016-08-03 15:56+0000\n"
 "PO-Revision-Date: 2015-04-24 04:29+0000\n"
 "Last-Translator: Gursharnjit_Singh <ubuntuser13@gmail.com>\n"
 "Language-Team: Punjabi <pa@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-07-30 06:07+0000\n"
+"X-Launchpad-Export-Date: 2016-08-09 05:47+0000\n"
 "X-Generator: Launchpad (build 18169)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -54,54 +54,54 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "%1 ਮਿੰਟ ਲਈ ਉਡੀਕੋ ਤੇ ਫੇਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ..."
 msgstr[1] "%1 ਮਿੰਟਾਂ ਲਈ ਉਡੀਕੋ ਤੇ ਫੇਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ..."
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:149
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "ਲਾਗ ਆਉਟ"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:150
 msgid "Are you sure you want to log out?"
 msgstr "ਕੀ ਤੁਸੀਂ ਲਾਗ ਆਉਟ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:152
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "ਲਾਕ"
 
-#: qml/Components/Dialogs.qml:154
+#: qml/Components/Dialogs.qml:159
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "ਲਾਗ ਆਉਟ"
 
-#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
-#: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
+#: qml/Dash/DashPageHeader.qml:322 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "ਰੱਦ ਕਰੋ"
 
-#: qml/Components/Dialogs.qml:173
+#: qml/Components/Dialogs.qml:178
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "ਮੁਡ਼-ਚਾਲੂ"
 
-#: qml/Components/Dialogs.qml:174
+#: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
 msgstr "ਕੀ ਤੁਸੀਂ ਮੁੜ-ਚਾਲੂ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:181
 msgid "No"
 msgstr "ਨਹੀਂ"
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:187
 msgid "Yes"
 msgstr "ਹਾਂ"
 
-#: qml/Components/Dialogs.qml:197
+#: qml/Components/Dialogs.qml:202
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "ਪਾਵਰ"
 
-#: qml/Components/Dialogs.qml:198
+#: qml/Components/Dialogs.qml:203
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -109,12 +109,12 @@ msgstr ""
 "ਕੀ ਤੁਸੀਂ ਪਾਵਰ-ਆਫ਼ ਕਰਨਾ\n"
 "ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:205
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "ਬੰਦ ਕਰੋ"
 
-#: qml/Components/Dialogs.qml:209
+#: qml/Components/Dialogs.qml:214
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "ਮੁੜ ਚਾਲੂ"
@@ -331,26 +331,26 @@ msgstr ""
 msgid "Preview Share Item"
 msgstr ""
 
-#: qml/Dash/DashPageHeader.qml:333
+#: qml/Dash/DashPageHeader.qml:360
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "ਸਟੋਰ"
 
-#: qml/Dash/DashPageHeader.qml:340
+#: qml/Dash/DashPageHeader.qml:367
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "ਖੋਜ"
 
-#: qml/Dash/DashPageHeader.qml:350
+#: qml/Dash/DashPageHeader.qml:377
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "ਸੈਟਿੰਗ"
 
-#: qml/Dash/DashPageHeader.qml:357
+#: qml/Dash/DashPageHeader.qml:384
 msgid "Remove from Favorites"
 msgstr "ਪਸੰਦ ਵਿੱਚੋਂ ਹਟਾਓ"
 
-#: qml/Dash/DashPageHeader.qml:357
+#: qml/Dash/DashPageHeader.qml:384
 msgid "Add to Favorites"
 msgstr "ਪਸੰਦ ਵਿੱਚ ਜੋੜੋ"
 
@@ -438,7 +438,7 @@ msgstr ""
 msgid "Unlock"
 msgstr "ਅਣ-ਲਾਕ"
 
-#: qml/Greeter/Greeter.qml:555
+#: qml/Greeter/Greeter.qml:561
 msgid "Try again"
 msgstr ""
 

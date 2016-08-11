@@ -117,6 +117,8 @@ private:
 
     bool m_consumesInput;
 
+    Mir::OrientationAngle *m_orientationAngle;
+
     int m_surfaceWidth;
     int m_surfaceHeight;
 

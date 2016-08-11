@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-07-28 08:17+0000\n"
+"POT-Creation-Date: 2016-08-03 15:56+0000\n"
 "PO-Revision-Date: 2015-12-13 13:12+0000\n"
 "Last-Translator: Mikhail_SaTuRn <mikhail_saturn@tut.by>\n"
 "Language-Team: Belarusian <be@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Launchpad-Export-Date: 2016-07-30 06:06+0000\n"
+"X-Launchpad-Export-Date: 2016-08-09 05:46+0000\n"
 "X-Generator: Launchpad (build 18169)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -59,54 +59,54 @@ msgstr[0] "Пачакайце %1 хвіліну і паўтарыце спроб
 msgstr[1] "Пачакайце %1 хвіліны і паўтарыце спробу…"
 msgstr[2] "Пачакайце %1 хвілін і паўтарыце спробу…"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:149
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Выйсці"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:150
 msgid "Are you sure you want to log out?"
 msgstr "Вы ўпэўненыя, што хочаце выйсці?"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:152
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Заблакаваць"
 
-#: qml/Components/Dialogs.qml:154
+#: qml/Components/Dialogs.qml:159
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Выйсці"
 
-#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
-#: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
+#: qml/Dash/DashPageHeader.qml:322 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Скасаваць"
 
-#: qml/Components/Dialogs.qml:173
+#: qml/Components/Dialogs.qml:178
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Перазагрузіць"
 
-#: qml/Components/Dialogs.qml:174
+#: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
 msgstr "Вы ўпэўнены, што жадаеце перазагрузіць?"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:181
 msgid "No"
 msgstr "Не"
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:187
 msgid "Yes"
 msgstr "Так"
 
-#: qml/Components/Dialogs.qml:197
+#: qml/Components/Dialogs.qml:202
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Сілкаванне"
 
-#: qml/Components/Dialogs.qml:198
+#: qml/Components/Dialogs.qml:203
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -114,12 +114,12 @@ msgstr ""
 "Вы ўпэўнены, што хочаце\n"
 "выключыць камп'ютэр?"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:205
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Выключыць"
 
-#: qml/Components/Dialogs.qml:209
+#: qml/Components/Dialogs.qml:214
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Перазапуск"
@@ -336,26 +336,26 @@ msgstr "Зачыніць усё"
 msgid "Preview Share Item"
 msgstr "Праглядзець элемент"
 
-#: qml/Dash/DashPageHeader.qml:333
+#: qml/Dash/DashPageHeader.qml:360
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Крама"
 
-#: qml/Dash/DashPageHeader.qml:340
+#: qml/Dash/DashPageHeader.qml:367
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Пошук"
 
-#: qml/Dash/DashPageHeader.qml:350
+#: qml/Dash/DashPageHeader.qml:377
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Налады"
 
-#: qml/Dash/DashPageHeader.qml:357
+#: qml/Dash/DashPageHeader.qml:384
 msgid "Remove from Favorites"
 msgstr "Выдаліць з абранага"
 
-#: qml/Dash/DashPageHeader.qml:357
+#: qml/Dash/DashPageHeader.qml:384
 msgid "Add to Favorites"
 msgstr "Дадаць да абранага"
 
@@ -443,7 +443,7 @@ msgstr ""
 msgid "Unlock"
 msgstr "Разблакаваць"
 
-#: qml/Greeter/Greeter.qml:555
+#: qml/Greeter/Greeter.qml:561
 msgid "Try again"
 msgstr ""
 

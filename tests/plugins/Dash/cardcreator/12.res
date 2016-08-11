@@ -12,23 +12,21 @@ AbstractButton {
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
 signal action(var actionId);
 readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
-Item  { 
-                            id: artShapeHolder; 
-                            height: root.fixedArtShapeSize.height;
-                            width: root.fixedArtShapeSize.width;
-                            anchors { horizontalCenter: parent.horizontalCenter; } 
-                            Loader { 
+Loader  {
                                 id: artShapeLoader; 
+                                height: root.fixedArtShapeSize.height; 
+                                width: root.fixedArtShapeSize.width; 
+                                anchors { horizontalCenter: parent.horizontalCenter; }
                                 objectName: "artShapeLoader"; 
                                 readonly property string cardArt: cardData && cardData["art"] || ""; 
                                 onCardArtChanged: { if (item) { item.image.source = cardArt; } }
                                 active: cardArt != ""; 
                                 asynchronous: true; 
-                                visible: status == Loader.Ready;
+                                visible: status === Loader.Ready;
                                 sourceComponent: Item {
                                     id: artShape;
                                     objectName: "artShape";
-                                    visible: image.status == Image.Ready;
+                                    visible: image.status === Image.Ready;
                                     readonly property alias image: artImage;
                                     UbuntuShape {
                                         anchors.fill: parent;
@@ -49,7 +47,6 @@ Item  {
                                         height: width / (root.fixedArtShapeSize.width / root.fixedArtShapeSize.height);
                                     }
                                 } 
-                            } 
                         }
 readonly property int headerHeight: titleLabel.height + subtitleLabel.height + subtitleLabel.anchors.topMargin;
 Label { 
@@ -57,7 +54,7 @@ Label {
                         objectName: "titleLabel"; 
                         anchors { right: parent.right;
                         left: parent.left;
-                        top: artShapeHolder.bottom; 
+                        top: artShapeLoader.bottom;
                         topMargin: units.gu(1);
                         } 
                         elide: Text.ElideRight; 
@@ -101,7 +98,7 @@ CardSocialActions {
 UbuntuShape {
     id: touchdown;
     objectName: "touchdown";
-    anchors { fill: artShapeHolder }
+    anchors { fill: artShapeLoader }
     visible: root.pressed;
     radius: "medium";
     borderSource: "radius_pressed.sci"
