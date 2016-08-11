@@ -15,16 +15,24 @@
  */
 
 import QtQuick 2.4
-import LightDM.FullLightDM 0.1 as LightDM
+import Ubuntu.Components 1.3
 
-Item{
-    id: implementation
+Item {
+    BorderImage {
+        anchors {
+            fill: parent
+            topMargin: -units.gu(1)
+            leftMargin: -units.gu(1.5)
+            rightMargin: -units.gu(1.5)
+            bottomMargin: -units.gu(1.5)
+        }
+        source: "../Stages/graphics/dropshadow2gu.sci"
+        opacity: 0.35
+    }
 
-    property var greeter: LightDM.Greeter
-    property var infographic: LightDM.Infographic
-    property var sessions: LightDM.Sessions
-    property var sessionRoles: LightDM.SessionRoles
-    property var users: LightDM.Users
-    property var userRoles: LightDM.UserRoles
-
+    UbuntuShape {
+        anchors.fill: parent
+        aspect: UbuntuShape.Flat
+        backgroundColor: theme.palette.normal.raised
+    }
 }
