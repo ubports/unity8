@@ -2103,8 +2103,13 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(app2SurfaceId);
 
             // Sanity checking
-            compare(app1.stage, ApplicationInfoInterface.MainStage);
-            compare(app2.stage, ApplicationInfoInterface.MainStage);
+            if (data.usageScenario === "tablet") {
+                var app1Delegate = findChild(shell, "spreadDelegate_" + app1SurfaceId);
+                compare(app1Delegate.stage, ApplicationInfoInterface.MainStage);
+
+                var app2Delegate = findChild(shell, "spreadDelegate_" + app2SurfaceId);
+                compare(app2Delegate.stage, ApplicationInfoInterface.MainStage);
+            }
             verify(!app1.isTouchApp);
 
             var app1Surface = app1.surfaceList.get(0);
@@ -2139,8 +2144,13 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(app2SurfaceId);
 
             // Sanity checking
-            compare(app1.stage, ApplicationInfoInterface.MainStage);
-            compare(app2.stage, ApplicationInfoInterface.MainStage);
+            if (data.usageScenario === "tablet") {
+                var app1Delegate = findChild(shell, "spreadDelegate_" + app1SurfaceId);
+                compare(app1Delegate.stage, ApplicationInfoInterface.MainStage);
+
+                var app2Delegate = findChild(shell, "spreadDelegate_" + app2SurfaceId);
+                compare(app2Delegate.stage, ApplicationInfoInterface.MainStage);
+            }
 
             var app1Surface = app1.surfaceList.get(0);
             verify(app1Surface);

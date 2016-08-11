@@ -290,8 +290,9 @@ Rectangle {
             var webbrowserSurfaceId = topSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
-            var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
-            compare(webbrowserApp.stage, ApplicationInfoInterface.MainStage);
+            var webbrowserDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            verify(webbrowserDelegate);
+            compare(webbrowserDelegate.stage, ApplicationInfoInterface.MainStage);
             var webbrowserWindow = findAppWindowForSurfaceId(webbrowserSurfaceId);
             verify(webbrowserWindow);
 
@@ -397,8 +398,10 @@ Rectangle {
             var webbrowserSurfaceId = topSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+            var webbrowserDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            verify(webbrowserDelegate);
+            compare(webbrowserDelegate.stage, ApplicationInfoInterface.MainStage);
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
-            compare(webbrowserApp.stage, ApplicationInfoInterface.MainStage);
 
             var gallerySurfaceId = topSurfaceList.nextId;
             galleryCheckBox.checked = true;

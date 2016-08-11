@@ -542,7 +542,7 @@ AbstractStage {
             if (!app) {
                 return index;
             }
-            var stage = spreadRepeater.itemAt(index) ? spreadRepeater.itemAt(index).stage : app.stage;
+            var stage = spreadRepeater.itemAt(index) ? spreadRepeater.itemAt(index).stage : ApplicationInfoInterface.MainStage;
 
             // don't shuffle indexes greater than "actives or next"
             if (index > 2) return index;
