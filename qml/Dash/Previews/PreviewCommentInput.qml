@@ -41,12 +41,11 @@ PreviewWidget {
     onWidgetIdChanged: restoreCommentState()
 
     function storeCommentState() {
-        PreviewSingleton.widgetExtraData[widgetId] = [ commentText, commentTextArea.focus ];
+        PreviewSingleton.widgetExtraData[widgetId] = commentText;
     }
 
     function restoreCommentState() {
-        if (PreviewSingleton.widgetExtraData[widgetId][0] != "") commentText = PreviewSingleton.widgetExtraData[widgetId][0];
-        if (PreviewSingleton.widgetExtraData[widgetId][1]) root.makeSureVisible(commentTextArea);
+        if (PreviewSingleton.widgetExtraData[widgetId] != "") commentText = PreviewSingleton.widgetExtraData[widgetId];
     }
 
     TextArea {

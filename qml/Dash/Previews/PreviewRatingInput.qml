@@ -54,18 +54,28 @@ PreviewWidget {
     property alias ratingValue: rating.value
     property alias reviewText: reviewTextArea.text
 
-    onRatingValueChanged: storeReviewState()
-    onReviewTextChanged: storeReviewState()
+    onRatingValueChanged: storeRatingState()
+    onReviewTextChanged: storeTextState()
     onWidgetIdChanged: restoreReviewState()
 
-    function storeReviewState() {
-        PreviewSingleton.widgetExtraData[widgetId] = [ ratingValue, reviewText, reviewTextArea.focus ];
+    function initializeWidgetExtraData() {
+        if (typeof(PreviewSingleton.widgetExtraData[widgetId]) == "undefined") PreviewSingleton.widgetExtraData[widgetId] = [];
+    }
+
+    function storeRatingState() {
+        initializeWidgetExtraData();
+        PreviewSingleton.widgetExtraData[widgetId][0] = ratingValue;
+    }
+
+    function storeTextState() {
+        initializeWidgetExtraData();
+        PreviewSingleton.widgetExtraData[widgetId][1] = reviewText;
     }
 
     function restoreReviewState() {
+        if (!PreviewSingleton.widgetExtraData[widgetId]) return;
         if (PreviewSingleton.widgetExtraData[widgetId][0] > 0) ratingValue = PreviewSingleton.widgetExtraData[widgetId][0];
         if (PreviewSingleton.widgetExtraData[widgetId][1] != "") reviewText = PreviewSingleton.widgetExtraData[widgetId][1];
-        if (PreviewSingleton.widgetExtraData[widgetId][2]) root.makeSureVisible(reviewTextArea);
     }
 
     function submit() {
@@ -104,7 +114,7 @@ PreviewWidget {
             size: 5
             height: units.gu(4)
             onValueChanged: {
-                if (widgetData["visible"] === "rating") root.submit();
+                if (widgetData && widgetData["visible"] === "rating") root.submit();
             }
 
             property var urlIconEmpty: widgetData["rating-icon-empty"] || "image://theme/non-starred"
