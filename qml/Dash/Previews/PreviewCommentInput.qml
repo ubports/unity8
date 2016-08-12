@@ -35,6 +35,20 @@ PreviewWidget {
         triggered(root.widgetId, "commented", data);
     }
 
+    property alias commentText: commentTextArea.text
+
+    onCommentTextChanged: storeCommentState()
+    onWidgetIdChanged: restoreCommentState()
+
+    function storeCommentState() {
+        PreviewSingleton.widgetExtraData[widgetId] = [ commentText, commentTextArea.focus ];
+    }
+
+    function restoreCommentState() {
+        if (PreviewSingleton.widgetExtraData[widgetId][0] != "") commentText = PreviewSingleton.widgetExtraData[widgetId][0];
+        if (PreviewSingleton.widgetExtraData[widgetId][1]) root.makeSureVisible(commentTextArea);
+    }
+
     TextArea {
         id: commentTextArea
         objectName: "commentTextArea"

@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import "../../Components"
+import "PreviewSingleton"
 
 /*! \brief Preview widget for rating.
 
@@ -52,6 +53,20 @@ PreviewWidget {
 
     property alias ratingValue: rating.value
     property alias reviewText: reviewTextArea.text
+
+    onRatingValueChanged: storeReviewState()
+    onReviewTextChanged: storeReviewState()
+    onWidgetIdChanged: restoreReviewState()
+
+    function storeReviewState() {
+        PreviewSingleton.widgetExtraData[widgetId] = [ ratingValue, reviewText, reviewTextArea.focus ];
+    }
+
+    function restoreReviewState() {
+        if (PreviewSingleton.widgetExtraData[widgetId][0] > 0) ratingValue = PreviewSingleton.widgetExtraData[widgetId][0];
+        if (PreviewSingleton.widgetExtraData[widgetId][1] != "") reviewText = PreviewSingleton.widgetExtraData[widgetId][1];
+        if (PreviewSingleton.widgetExtraData[widgetId][2]) root.makeSureVisible(reviewTextArea);
+    }
 
     function submit() {
         // checks rating-input requirements
