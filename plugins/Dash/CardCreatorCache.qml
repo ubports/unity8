@@ -23,16 +23,16 @@ QtObject {
 
     property var cache: new Object();
 
-    function getCardComponent(template, components, isCardTool, artShapeStyle) {
+    function getCardComponent(template, components, isCardTool, artShapeStyle, categoryLayout) {
         if (template === undefined || components === undefined)
             return undefined;
 
         var tString = JSON.stringify(template);
         var cString = JSON.stringify(components);
-        var allString = tString + cString + isCardTool + artShapeStyle;
+        var allString = tString + cString + isCardTool + artShapeStyle + categoryLayout;
         var component = cache[allString];
         if (component === undefined) {
-            component = CardCreator.createCardComponent(root, template, components, isCardTool, artShapeStyle, allString);
+            component = CardCreator.createCardComponent(root, template, components, isCardTool, artShapeStyle, categoryLayout, allString);
             cache[allString] = component;
         }
         return component;

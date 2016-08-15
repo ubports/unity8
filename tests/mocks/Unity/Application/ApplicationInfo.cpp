@@ -175,14 +175,6 @@ void ApplicationInfo::setIcon(const QUrl &value)
     }
 }
 
-void ApplicationInfo::setStage(Stage value)
-{
-    if (value != m_stage) {
-        m_stage = value;
-        Q_EMIT stageChanged(value);
-    }
-}
-
 void ApplicationInfo::setState(State value)
 {
     if (value != m_state) {

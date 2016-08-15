@@ -70,6 +70,15 @@ Rectangle {
 
         when: windowShown
 
+        function findScale(item) {
+            var scale = 1;
+            while (item) {
+                scale = scale * item.scale;
+                item = item.parent;
+            }
+            return scale;
+        }
+
         function test_non_overlaid_header_layout() {
             // When the header is non overlaid
             // we grow down to accomodate the header but the y of the list is the same
@@ -82,6 +91,21 @@ Rectangle {
             cTool.template = nonOverlaidTemplate;
             compare(listView.y, yPos);
             compare(cardCarousel.height, height + cTool.headerHeight);
+        }
+
+        function test_item_fits_view_data() {
+            return [
+                {tag: "overlaid", template: overlaidTemplate},
+                {tag: "nonOverlaid", template: nonOverlaidTemplate},
+            ];
+        }
+
+        function test_item_fits_view(data) {
+            cTool.template = data.template;
+            var delegate0 = findChild(cardCarousel, "carouselDelegate0");
+            tryCompareFunction(function() { return delegate0.item != null; }, true);
+            var scale = findScale(delegate0.item);
+            verify(delegate0.item.implicitHeight * scale < cardCarousel.height);
         }
     }
 }

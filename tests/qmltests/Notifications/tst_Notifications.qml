@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Canonical Ltd.
+ * Copyright 2015-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -30,21 +30,6 @@ Item {
     width: notificationsRect.width + interactiveControls.width
     height: notificationsRect.height
     property int index: 0
-
-    // add the default/PlaceHolder notification to the model
-    Component.onCompleted: {
-        var component = Qt.createComponent("Notification.qml")
-        var n = component.createObject("notification", {"nid": index++,
-                                                        "type": Notification.PlaceHolder,
-                                                        "hints": {},
-                                                        "summary": "",
-                                                        "body": "",
-                                                        "icon": "",
-                                                        "secondaryIcon": "",
-                                                        "rawActions": []})
-        n.completed.connect(mockModel.onCompleted)
-        mockModel.append(n)
-    }
 
     Row {
         id: rootRow
@@ -157,15 +142,13 @@ Item {
         }
 
         function clearNotifications() {
-            while(mockModel.count > 1) {
-                remove1stNotification()
+            while(mockModel.count > 0) {
+                remove1stNotification();
             }
         }
 
         function remove1stNotification() {
-            if (mockModel.count > 1) {
-                mockModel.removeSecond()
-            }
+            mockModel.removeFirst();
         }
 
         Rectangle {
@@ -791,13 +774,13 @@ Item {
                 waitForRendering(notifications);
 
                 // first one should be expanded by default
-                var notification1 = findChild(notifications, "notification1") // 0 is placeholder...
+                var notification1 = findChild(notifications, "notification0")
                 verify(!!notification1, "notification wasn't found");
                 waitForRendering(notification1);
                 verify(notification1.expanded);
 
                 // click the 2nd one, verify it's now expanded
-                var notification2 = findChild(notifications, "notification2") // 0 is placeholder...
+                var notification2 = findChild(notifications, "notification1")
                 verify(!!notification2, "notification wasn't found");
                 waitForRendering(notification2);
                 mouseClick(notification2);

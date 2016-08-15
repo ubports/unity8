@@ -86,7 +86,7 @@ StyledItem {
         if (startingUp) {
             // Ensure we don't rotate during start up
             return Qt.PrimaryOrientation;
-        } else if (greeter && greeter.shown) {
+        } else if (showingGreeter || notifications.topmostIsFullscreen) {
             return Qt.PrimaryOrientation;
         } else if (applicationsDisplayLoader.item) {
             return shell.orientations.map(applicationsDisplayLoader.item.supportedOrientations);
