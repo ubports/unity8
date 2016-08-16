@@ -48,6 +48,7 @@ PullToRefreshStyle {
         anchors.horizontalCenter: parent.horizontalCenter
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
+        color: styledItem.headerDividerLuminance < 0.3 ? "white" : theme.palette.normal.baseText
         states: [
             State {
                 name: "pulling"
