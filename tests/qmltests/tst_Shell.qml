@@ -2103,8 +2103,13 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(app2SurfaceId);
 
             // Sanity checking
-            compare(app1.stage, ApplicationInfoInterface.MainStage);
-            compare(app2.stage, ApplicationInfoInterface.MainStage);
+            if (data.usageScenario === "tablet") {
+                var app1Delegate = findChild(shell, "spreadDelegate_" + app1SurfaceId);
+                compare(app1Delegate.stage, ApplicationInfoInterface.MainStage);
+
+                var app2Delegate = findChild(shell, "spreadDelegate_" + app2SurfaceId);
+                compare(app2Delegate.stage, ApplicationInfoInterface.MainStage);
+            }
             verify(!app1.isTouchApp);
 
             var app1Surface = app1.surfaceList.get(0);
@@ -2139,8 +2144,13 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(app2SurfaceId);
 
             // Sanity checking
-            compare(app1.stage, ApplicationInfoInterface.MainStage);
-            compare(app2.stage, ApplicationInfoInterface.MainStage);
+            if (data.usageScenario === "tablet") {
+                var app1Delegate = findChild(shell, "spreadDelegate_" + app1SurfaceId);
+                compare(app1Delegate.stage, ApplicationInfoInterface.MainStage);
+
+                var app2Delegate = findChild(shell, "spreadDelegate_" + app2SurfaceId);
+                compare(app2Delegate.stage, ApplicationInfoInterface.MainStage);
+            }
 
             var app1Surface = app1.surfaceList.get(0);
             verify(app1Surface);
@@ -2428,6 +2438,15 @@ Rectangle {
 
             // verify the initial keymap of the newly started app is the first one from the list
             tryCompare(appSurface, "keymap", "sk");
+
+            // try to create a prompt surface, verify it also has the same keymap
+            app.promptSurfaceList.createSurface();
+            var promptSurface = app.promptSurfaceList.get(0);
+            verify(promptSurface);
+            tryCompare(appSurface, "keymap", promptSurface.keymap);
+            // ... and that the controller's surface keymap is also the same
+            tryCompare(MirFocusController.focusedSurface, "keymap", "sk");
+            app.promptSurfaceList.get(0).close();
 
             // switch to next keymap, should go to "cz+qwerty"
             keyClick(Qt.Key_Space, Qt.MetaModifier);

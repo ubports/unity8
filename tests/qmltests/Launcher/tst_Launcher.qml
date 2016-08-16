@@ -1165,7 +1165,14 @@ Rectangle {
             tryCompare(shortCutHint0, "visible", false);
         }
 
-        function test_keyboardNavigation() {
+        function test_keyboardNavigation_data() {
+            return [
+                {tag: "right key", key: Qt.Key_Right},
+                {tag: "menu key", key: Qt.Key_Menu}
+            ]
+        }
+
+        function test_keyboardNavigation(data) {
             var bfbFocusHighlight = findChild(launcher, "bfbFocusHighlight");
             var quickList = findChild(launcher, "quickList");
             var launcherPanel = findChild(launcher, "launcherPanel");
@@ -1206,7 +1213,7 @@ Rectangle {
             assertFocusOnIndex(0); // Back to Top
 
             // Right opens the quicklist
-            keyClick(Qt.Key_Right);
+            keyClick(data.key);
             assertFocusOnIndex(0); // Navigating the quicklist... the launcher focus should not move
             tryCompare(quickList, "visible", true);
             tryCompare(quickList, "selectedIndex", 0)

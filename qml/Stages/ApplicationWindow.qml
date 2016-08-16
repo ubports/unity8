@@ -27,6 +27,7 @@ FocusScope {
     property alias interactive: surfaceContainer.interactive
     property bool orientationChangesEnabled: d.supportsSurfaceResize ? d.surfaceOldEnoughToBeResized : true
     readonly property string title: surface && surface.name !== "" ? surface.name : d.name
+    readonly property QtObject focusedSurface: d.focusedSurface.surface
 
     // overridable from outside
     property bool fullscreen: {
