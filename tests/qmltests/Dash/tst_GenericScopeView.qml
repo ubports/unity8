@@ -41,7 +41,7 @@ Item {
         id: scopes
         // for tryGenericScopeView
         onLoadedChanged: {
-            if (loaded) {
+            if (loaded && !testCase.running) {
                 genericScopeView.scope = scopes.getScope(2);
                 genericScopeView.isCurrent = true;
             }
