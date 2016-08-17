@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-08-16 06:10+0000\n"
+"X-Launchpad-Export-Date: 2016-08-17 05:51+0000\n"
 "X-Generator: Launchpad (build 18169)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -656,15 +656,15 @@ msgstr "Sequente"
 
 #: qml/Wizard/Pages/20-keyboard.qml:30
 msgid "Select Keyboard"
-msgstr ""
+msgstr "Eliger le claviero"
 
 #: qml/Wizard/Pages/20-keyboard.qml:70
 msgid "Keyboard language"
-msgstr ""
+msgstr "Lingua del claviero"
 
 #: qml/Wizard/Pages/20-keyboard.qml:92
 msgid "Keyboard layout"
-msgstr ""
+msgstr "Mappa del claves"
 
 #: qml/Wizard/Pages/20-keyboard.qml:151 qml/Wizard/Pages/30-wifi.qml:206
 #: qml/Wizard/Pages/60-account.qml:65
@@ -777,32 +777,34 @@ msgstr "Politica de confidentialitate"
 
 #: qml/Wizard/Pages/77-system-update.qml:28
 msgid "Update Device"
-msgstr ""
+msgstr "Actualisar le dispositivo"
 
 #: qml/Wizard/Pages/77-system-update.qml:55
 msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
 msgstr ""
+"Il ha un actualisation del systema disponibile e preste a installar. Pois le "
+"dispositivo reinitiara automaticamente."
 
 #: qml/Wizard/Pages/77-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu system"
-msgstr ""
+msgstr "Systema Ubuntu"
 
 #: qml/Wizard/Pages/77-system-update.qml:83
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
-msgstr ""
+msgstr "Version %1"
 
 #: qml/Wizard/Pages/77-system-update.qml:102
 msgid "This could take a few minutes..."
-msgstr ""
+msgstr "Isto pote prender alcun minutas..."
 
 #: qml/Wizard/Pages/77-system-update.qml:116
 msgid "Install and restart now"
-msgstr ""
+msgstr "Installar ora e reinitiar."
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"

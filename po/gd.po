@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2016-08-16 06:10+0000\n"
+"X-Launchpad-Export-Date: 2016-08-17 05:51+0000\n"
 "X-Generator: Launchpad (build 18169)\n"
 "Language: gd\n"
 
