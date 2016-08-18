@@ -26,11 +26,13 @@ Rectangle {
 
     property string themeName: "default"
     property string cursorName: "left_ptr"
+    property string cursorHeight: "32"
 
     CursorImageInfo {
         id: imageInfo
         themeName: root.themeName
         cursorName: root.cursorName
+        cursorHeight: root.cursorHeight
     }
 
     Item {
@@ -43,7 +45,7 @@ Rectangle {
 
             x: -imageInfo.hotspot.x
             y: -imageInfo.hotspot.y
-            source: "image://cursor/" + root.themeName + "/" + root.cursorName
+            source: "image://cursor/" + root.themeName + "/" + root.cursorName + "/" + root.cursorHeight
 
             interpolate: false
 
@@ -110,6 +112,10 @@ Rectangle {
 
             Item {width: 10; height: 40}
 
+            TextEntry { id: cursorHeightEntry; name: "cursorHeight"; value: "32" }
+
+            Item {width: 10; height: 40}
+
             Rectangle {
                 color: applyMouseArea.pressed ? "green" : "lightslategray"
                 width: parent.width - 20
@@ -121,6 +127,7 @@ Rectangle {
                     onClicked: {
                         root.themeName = themeNameEntry.value;
                         root.cursorName = cursorNameEntry.value;
+                        root.cursorHeight = cursorHeightEntry.value;
                     }
                 }
             }

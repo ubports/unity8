@@ -21,10 +21,11 @@
 
 #include <QQuickItem>
 
-#include <UbuntuGestures/Timer>
+#include <UbuntuGestures/ubuntugesturesglobal.h>
+#include <UbuntuGestures/private/timer_p.h>
 
-class TouchOwnershipEvent;
-class UnownedTouchEvent;
+UG_FORWARD_DECLARE_CLASS(TouchOwnershipEvent)
+UG_FORWARD_DECLARE_CLASS(UnownedTouchEvent)
 
 class GestureTouchPoint : public QObject
 {
@@ -141,7 +142,7 @@ public:
 
     bool event(QEvent *e) override;
 
-    void setRecognitionTimer(UbuntuGestures::AbstractTimer *timer);
+    void setRecognitionTimer(UG_PREPEND_NAMESPACE(AbstractTimer) *timer);
 
     int status() const;
     bool dragging() const;
@@ -194,7 +195,7 @@ private:
     void unownedTouchEvent_recognised(QTouchEvent *unownedTouchEvent);
     void unownedTouchEvent_rejected(QTouchEvent *unownedTouchEvent);
 
-    void touchOwnershipEvent(TouchOwnershipEvent *event);
+    void touchOwnershipEvent(UG_PREPEND_NAMESPACE(TouchOwnershipEvent) *event);
     void updateTouchPoints(QTouchEvent *event);
 
     GestureTouchPoint* addTouchPoint(const QTouchEvent::TouchPoint *tp);
@@ -209,7 +210,7 @@ private:
     uint m_status;
     QSet<int> m_candidateTouches;
     QSet<int> m_watchedTouches;
-    UbuntuGestures::AbstractTimer *m_recognitionTimer;
+    UG_PREPEND_NAMESPACE(AbstractTimer) *m_recognitionTimer;
 
     bool m_dragging;
     QHash<int, GestureTouchPoint*> m_liveTouchPoints;
