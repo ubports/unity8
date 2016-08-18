@@ -54,7 +54,6 @@ Rectangle {
         }
     }
 
-
     SignalSpy {
         id: spy
         signalName: "triggered"
