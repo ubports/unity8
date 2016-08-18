@@ -75,7 +75,8 @@ PreviewWidget {
     function restoreReviewState() {
         if (!PreviewSingleton.widgetExtraData[widgetId]) return;
         if (PreviewSingleton.widgetExtraData[widgetId][0] > 0) ratingValue = PreviewSingleton.widgetExtraData[widgetId][0];
-        if (PreviewSingleton.widgetExtraData[widgetId][1] != "") reviewText = PreviewSingleton.widgetExtraData[widgetId][1];
+        if (typeof(PreviewSingleton.widgetExtraData[widgetId][1]) != "undefined" &&
+            PreviewSingleton.widgetExtraData[widgetId][1] != "") reviewText = PreviewSingleton.widgetExtraData[widgetId][1];
     }
 
     function submit() {
