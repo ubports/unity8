@@ -631,18 +631,26 @@ Item {
             tryCompare(dashContent.currentScope, "id", "clickscope");
 
             scrollToCategory("dashCategorypredefined");
-            var tile = getCategoryDelegate("predefined", 2);
-            var proportionalShape = findChildsByType(tile, "UCProportionalShape");
-            compare(proportionalShape.length, 1);
+            tryCompareFunction(function() {
+                    var tile = getCategoryDelegate("predefined", 2);
+                    var proportionalShape = findChildsByType(tile, "UCProportionalShape");
+                    return proportionalShape.length === 1;
+                },
+                true
+            );
 
             dash.setCurrentScope("libertine-scope.ubuntu_libertine-scope");
             var dashContent = findChild(dash, "dashContent");
             tryCompare(dashContent.currentScope, "id", "libertine-scope.ubuntu_libertine-scope");
 
             scrollToCategory("dashCategory2");
-            tile = getCategoryDelegate("2", 2);
-            proportionalShape = findChildsByType(tile, "UCProportionalShape");
-            compare(proportionalShape.length, 1);
+            tryCompareFunction(function() {
+                    var tile = getCategoryDelegate("2", 2);
+                    var proportionalShape = findChildsByType(tile, "UCProportionalShape");
+                    return proportionalShape.length === 1;
+                },
+                true
+            );
         }
 
         function test_tempScopeItemXOnResize()
