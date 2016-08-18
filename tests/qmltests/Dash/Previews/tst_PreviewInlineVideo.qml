@@ -94,7 +94,6 @@ Rectangle {
                     }
                 }
             }
-
         }
 
         Rectangle {
