@@ -98,6 +98,13 @@ Item {
     height: 0
     clip: true
 
+    // We have 3 view "widths"
+    //   narrow <= 45gu
+    //   normal
+    //   wide >= 70gu
+    readonly property bool isWideView: viewWidth >= units.gu(70)
+    readonly property bool isNarrowView: viewWidth <= units.gu(45)
+
     /*!
      type:real \brief Width to be enforced on the card in this configuration.
 
@@ -105,8 +112,8 @@ Item {
      */
     readonly property real cardWidth: {
         if (isAppLikeScopeAppCategory) {
-            if (viewWidth > units.gu(45)) {
-                if (viewWidth >= units.gu(70)) {
+            if (!isNarrowView) {
+                if (isWideView) {
                     return units.gu(11);
                 } else {
                     return units.gu(10);
@@ -123,16 +130,16 @@ Item {
                 if (template["card-layout"] === "horizontal") size = "large";
                 switch (size) {
                     case "small": {
-                        if (viewWidth <= units.gu(45)) return units.gu(12);
+                        if (isNarrowView) return units.gu(12);
                         else return units.gu(14);
                     }
                     case "large": {
-                        if (viewWidth >= units.gu(70)) return units.gu(42);
+                        if (isWideView) return units.gu(42);
                         else return viewWidth - units.gu(2);
                     }
                 }
-                if (viewWidth <= units.gu(45)) return units.gu(18);
-                else if (viewWidth >= units.gu(70)) return units.gu(20);
+                if (isNarrowView) return units.gu(18);
+                else if (isWideView) return units.gu(20);
                 else return units.gu(23);
             case "carousel":
             case "horizontal-list":

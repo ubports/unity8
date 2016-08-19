@@ -45,7 +45,7 @@ DashRenderer {
     ResponsiveGridView {
         id: grid
         anchors.fill: parent
-        minimumHorizontalSpacing: (cardTool.isAppLikeScopeAppCategory && cardTool.viewWidth >= units.gu(70)) ? units.gu(5) : units.gu(1)
+        minimumHorizontalSpacing: (cardTool.isAppLikeScopeAppCategory && cardTool.isWideView) ? units.gu(5) : units.gu(1)
         delegateWidth: cardTool.cardWidth
         delegateHeight: cardTool.cardHeight
         verticalSpacing: units.gu(1)
