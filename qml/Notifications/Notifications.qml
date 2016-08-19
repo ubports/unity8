@@ -78,6 +78,8 @@ ListView {
         //layer.enabled: add.running || remove.running || populate.running
     }
 
+    onCountChanged: if (count == 0) topmostIsFullscreen = false; // reset
+
     // FIXME: disabled all transitions because of LP: #1354406 workaround
     /*populate: Transition {
         UbuntuNumberAnimation {
