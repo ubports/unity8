@@ -215,6 +215,8 @@ Item {
 
             // Click in first item
             var favScopesListCategoryList = findChild(findChild(dash, "scopesListCategoryfavorites"), "scopesListCategoryInnerList");
+            tryCompareFunction(function() { return favScopesListCategoryList.currentItem !== null }, true);
+            waitForRendering(favScopesListCategoryList.currentItem);
             mouseClick(favScopesListCategoryList.currentItem);
 
             // Make sure animation went back
