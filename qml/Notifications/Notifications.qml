@@ -69,7 +69,9 @@ ListView {
 
         property int theIndex: index
         onTheIndexChanged: {
-            ListView.view.topmostIsFullscreen = fullscreen; // when we get pushed down by e.g. volume notification
+            if (theIndex == 0) {
+                ListView.view.topmostIsFullscreen = fullscreen; // when we get pushed down by e.g. volume notification
+            }
         }
 
         // make sure there's no opacity-difference between the several
