@@ -42,11 +42,6 @@ Item {
     property real viewWidth
 
     /*!
-     \brief Scaling factor of selected Carousel item.
-     */
-    readonly property real carouselSelectedItemScaleFactor: 1.38  // XXX assuming 1.38 carousel scaling factor for cards
-
-    /*!
      \brief Template supplied for the category.
      */
     property var template
@@ -57,9 +52,24 @@ Item {
     property var components
 
     /*!
+     \brief The Scope this cardTool is representing
+     */
+    property string scopeId
+
+    /*!
+     \brief The Scope category this cardTool is representing
+     */
+    property string categoryId
+
+    /*!
+     \brief Scaling factor of selected Carousel item.
+     */
+    readonly property real carouselSelectedItemScaleFactor: 1.38  // XXX assuming 1.38 carousel scaling factor for cards
+
+    /*!
      \brief The category layout for this card tool.
      */
-    property string categoryLayout: {
+    readonly property string categoryLayout: {
         var layout = template["category-layout"];
 
         // carousel fallback mode to grid
@@ -67,11 +77,19 @@ Item {
         return layout;
     }
 
+    readonly property bool isAppLikeScope: scopeId === "clickscope" || scopeId === "libertine-scope.ubuntu_libertine-scope"
+    readonly property bool isAppLikeScopeAppCategory: ((scopeId === "clickscope" && (categoryId === "predefined" || categoryId === "local"))
+                                                      || (scopeId === "libertine-scope.ubuntu_libertine-scope" && categoryId !== "hint"))
 
-    // Not readonly because gets overwritten from GenericScopeView in some cases
-    property string artShapeStyle: categoryLayout === "carousel" ? "shadow" : "inset"
+    readonly property string artShapeStyle: {
+        if (isAppLikeScope) {
+            return isAppLikeScopeAppCategory ? "icon" : "flat";
+        } else {
+            return categoryLayout === "carousel" ? "shadow" : "inset"
+        }
+    }
 
-    property var cardComponent: CardCreatorCache.getCardComponent(cardTool.template, cardTool.components, false, cardTool.artShapeStyle, cardTool.categoryLayout);
+    readonly property var cardComponent: CardCreatorCache.getCardComponent(cardTool.template, cardTool.components, false, cardTool.artShapeStyle, cardTool.categoryLayout);
 
     // FIXME: Saviq
     // Only way for the card below to actually be laid out completely.
@@ -85,7 +103,19 @@ Item {
 
      If -1, should use implicit width of the actual card.
      */
-    property real cardWidth: {
+    readonly property real cardWidth: {
+        if (isAppLikeScopeAppCategory) {
+            if (viewWidth > units.gu(45)) {
+                if (viewWidth >= units.gu(70)) {
+                    return units.gu(11);
+                } else {
+                    return units.gu(10);
+                }
+            } else {
+                return units.gu(12);
+            }
+        }
+
         switch (categoryLayout) {
             case "grid":
             case "vertical-journal":
@@ -142,12 +172,19 @@ Item {
      type:real \brief Height of the card's header.
     */
     readonly property int headerHeight: cardLoader.item ? cardLoader.item.headerHeight : 0
-    property size artShapeSize: cardLoader.item ? cardLoader.item.artShapeSize : Qt.size(0, 0)
+
+    readonly property size artShapeSize: {
+        if (isAppLikeScopeAppCategory) {
+            return Qt.size(units.gu(8), units.gu(7.5));
+        } else {
+            return cardLoader.item ? cardLoader.item.artShapeSize : Qt.size(0, 0)
+        }
+    }
 
     QtObject {
         id: carouselTool
 
-        property real minimumTileWidth: {
+        readonly property real minimumTileWidth: {
             if (cardTool.viewWidth === undefined) return undefined;
             if (cardTool.viewWidth <= units.gu(40)) return units.gu(18);
             if (cardTool.viewWidth >= units.gu(128)) return units.gu(26);
@@ -156,7 +193,7 @@ Item {
 
         readonly property real pathItemCount: 4.8457 /// (848 / 175) reference values
 
-        property real realPathItemCount: {
+        readonly property real realPathItemCount: {
             var scaledMinimumTileWidth = minimumTileWidth / cardTool.carouselSelectedItemScaleFactor;
             var tileWidth = Math.max(cardTool.viewWidth / pathItemCount, scaledMinimumTileWidth);
             return Math.min(cardTool.viewWidth / tileWidth, pathItemCount);
