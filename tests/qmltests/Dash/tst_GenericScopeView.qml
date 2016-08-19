@@ -572,9 +572,9 @@ Item {
 
             function test_pullToRefresh_data() {
                 return [
-                    { tag: "Tall window long swipe", shellHeight: units.gu(100), swipeLength: units.gu(70), refresh: true },
-                    { tag: "Tall window short swipe", shellHeight: units.gu(100), swipeLength: units.gu(25), refresh: false },
-                    { tag: "Short window", shellHeight: units.gu(30), swipeLength: units.gu(25), refresh: true }
+                    { tag: "Tall window long flick", shellHeight: units.gu(100), flickLength: units.gu(70), refresh: true },
+                    { tag: "Tall window short flick", shellHeight: units.gu(100), flickLength: units.gu(25), refresh: false },
+                    { tag: "Short window", shellHeight: units.gu(30), flickLength: units.gu(25), refresh: true }
                 ];
             }
 
@@ -583,15 +583,12 @@ Item {
                 shell.height = data.shellHeight;
                 waitForRendering(shell);
 
-                waitForRendering(genericScopeView);
-
-                var pullToRefresh = findChild(genericScopeView, "pullToRefresh");
-
                 mouseFlick(genericScopeView,
                            genericScopeView.width/2, units.gu(6),
-                           genericScopeView.width/2, units.gu(6) + data.swipeLength,
+                           genericScopeView.width/2, units.gu(6) + data.flickLength,
                            true, false);
 
+                var pullToRefresh = findChild(genericScopeView, "pullToRefresh");
                 tryCompare(pullToRefresh, "releaseToRefresh", data.refresh);
 
                 spy.target = genericScopeView.scope;
