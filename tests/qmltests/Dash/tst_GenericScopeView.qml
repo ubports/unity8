@@ -570,53 +570,43 @@ Item {
                 genericScopeView.scope = !genericScopeView.scope;
             }
 
-            function test_pullToRefresh() {
-                waitForRendering(genericScopeView)
+            function test_pullToRefresh_data() {
+                return [
+                    { tag: "Tall window long swipe", shellHeight: units.gu(100), swipeLength: units.gu(70), refresh: true },
+                    { tag: "Tall window short swipe", shellHeight: units.gu(100), swipeLength: units.gu(25), refresh: false },
+                    { tag: "Short window", shellHeight: units.gu(30), swipeLength: units.gu(25), refresh: true }
+                ];
+            }
+
+            function test_pullToRefresh(data) {
+                var initialHeight = shell.height;
+                shell.height = data.shellHeight;
+                waitForRendering(shell);
+
+                waitForRendering(genericScopeView);
+
+                var pullToRefresh = findChild(genericScopeView, "pullToRefresh");
 
                 mouseFlick(genericScopeView,
-                           genericScopeView.width/2, units.gu(10),
-                           genericScopeView.width/2, units.gu(80),
-                           true, false)
+                           genericScopeView.width/2, units.gu(6),
+                           genericScopeView.width/2, units.gu(6) + data.swipeLength,
+                           true, false);
 
-                var pullToRefresh = findChild(genericScopeView, "pullToRefresh")
-                tryCompare(pullToRefresh, "releaseToRefresh", true)
+                tryCompare(pullToRefresh, "releaseToRefresh", data.refresh);
 
-                spy.target = genericScopeView.scope
-                spy.signalName = "refreshed"
+                spy.target = genericScopeView.scope;
+                spy.signalName = "refreshed";
 
-                mouseRelease(genericScopeView)
-                tryCompare(pullToRefresh, "releaseToRefresh", false)
+                mouseRelease(genericScopeView);
+                tryCompare(pullToRefresh, "releaseToRefresh", false);
 
-                spy.wait()
-                compare(spy.count, 1)
+                if (data.refresh) {
+                    spy.wait();
+                    compare(spy.count, 1);
+                }
 
-                // test short swipe doesn't refresh on tall window
-                mouseFlick(genericScopeView,
-                           genericScopeView.width/2, units.gu(10),
-                           genericScopeView.width/2, units.gu(20),
-                           true, false)
-                mouseRelease(genericScopeView)
-                compare(spy.count, 1)
-
-                // resize window, repeat the test
-                var initialHeight = shell.height
-                shell.height = units.gu(30)
-                waitForRendering(shell)
-                mouseFlick(genericScopeView,
-                           genericScopeView.width/2, units.gu(10),
-                           genericScopeView.width/2, units.gu(20),
-                           true, false)
-
-                tryCompare(pullToRefresh, "releaseToRefresh", true)
-
-                mouseRelease(genericScopeView)
-                tryCompare(pullToRefresh, "releaseToRefresh", false)
-
-                spy.wait()
-                compare(spy.count, 2)
-
-                shell.height = initialHeight
-                waitForRendering(shell)
+                shell.height = initialHeight;
+                waitForRendering(shell);
             }
 
             function test_item_noninteractive() {
