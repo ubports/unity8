@@ -37,7 +37,8 @@ StyledItem {
     property var hints
     property var notification
     property color color: theme.palette.normal.background
-    property bool fullscreen: false
+    property bool fullscreen: notification.notification && typeof notification.notification.fullscreen != "undefined" ?
+                                  notification.notification.fullscreen : false // fullscreen prop only exists in the mock
     property int maxHeight
     property int margins: units.gu(1)
 
