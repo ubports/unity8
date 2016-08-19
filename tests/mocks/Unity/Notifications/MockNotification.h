@@ -95,7 +95,6 @@ public:
 
     Q_INVOKABLE void invokeAction(const QString &action);
     Q_INVOKABLE void close();
-
 };
 
 #endif // MOCK_NOTIFICATION_H
