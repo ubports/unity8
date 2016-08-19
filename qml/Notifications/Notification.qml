@@ -124,7 +124,9 @@ StyledItem {
         if (fullscreen) {
             notification.notification.urgency = Notification.Critical;
         }
-        ListView.view.topmostIsFullscreen = fullscreen;
+        if (index == 0) {
+            ListView.view.topmostIsFullscreen = fullscreen;
+        }
     }
 
     Behavior on implicitHeight {
