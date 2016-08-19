@@ -564,15 +564,12 @@ Item {
                 signalName: "actionInvoked"
             }
 
-            function init() {
-                while (mockModel.count > 0) {
-                    mockModel.remove(0);
-                }
-            }
-
             function cleanup() {
                 clickThroughSpy.clear()
                 actionSpy.clear()
+                while (mockModel.count > 0) {
+                    mockModel.removeFirst();
+                }
             }
 
             function test_NotificationRenderer(data) {
