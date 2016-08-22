@@ -58,9 +58,11 @@ void UsersModelPrivate::resetEntries()
     // Assign backgrounds
     QDir backgroundDir("/usr/share/backgrounds");
     QStringList backgrounds = backgroundDir.entryList(QDir::Files);
-    for (int i = 0; i < entries.size(); i++) {
-        if (entries[i].background.isNull()) {
-            entries[i].background = backgroundDir.filePath(backgrounds[i % backgrounds.size()]);
+    if (!backgrounds.empty()) {
+        for (int i = 0; i < entries.size(); i++) {
+            if (entries[i].background.isNull()) {
+                entries[i].background = backgroundDir.filePath(backgrounds[i % backgrounds.size()]);
+            }
         }
     }
 
