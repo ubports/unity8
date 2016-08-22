@@ -107,6 +107,11 @@ QString MirSurface::name() const
     return m_name;
 }
 
+QString MirSurface::persistentId() const
+{
+    return m_name+"Id";
+}
+
 Mir::Type MirSurface::type() const
 {
     return m_type;
