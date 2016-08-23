@@ -28,7 +28,9 @@
 QMutex WindowStateStorage::s_mutex;
 
 inline QString sanitiseString(QString string) {
-    return string.remove("\"").remove("'").remove("\\");
+    return string.remove(QLatin1Char('\"'))
+                 .remove(QLatin1Char('\''))
+                 .remove(QLatin1Char('\\'));
 }
 
 WindowStateStorage::WindowStateStorage(QObject *parent):

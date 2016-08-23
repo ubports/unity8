@@ -31,6 +31,7 @@ FocusScope {
 
     property alias application: applicationWindow.application
     property alias surface: applicationWindow.surface
+    readonly property alias focusedSurface: applicationWindow.focusedSurface
     property alias active: decoration.active
     readonly property alias title: applicationWindow.title
     property alias maximizeButtonShown: decoration.maximizeButtonShown

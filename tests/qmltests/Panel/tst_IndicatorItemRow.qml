@@ -21,6 +21,8 @@ import "../../../qml/Panel"
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
 import Unity.Indicators 0.1 as Indicators
+import AccountsService 0.1
+import Unity.InputInfo 0.1
 
 IndicatorTest {
     id: root
@@ -194,7 +196,7 @@ IndicatorTest {
             verify(dataItem !== null);
 
             indicatorsRow.selectItemAt(dataItem.x + dataItem.width/2);
-            compare(indicatorsRow.currentItem, dataItem);
+            tryCompare(indicatorsRow, "currentItem", dataItem);
         }
 
         // tests item default selection (no item at position X)
@@ -284,6 +286,29 @@ IndicatorTest {
 
             // should go back to 0
             tryCompare(findChild(indicatorsRow, "highlight"), "highlightCenterOffset", 0);
+        }
+
+        function test_hidingKeyboardIndicator_data() {
+            return [
+                { tag: "No keyboard, no keymap", keyboard: false, keymaps: [], hidden: true },
+                { tag: "No keyboard, one keymap", keyboard: false, keymaps: ["us"], hidden: true },
+                { tag: "No keyboard, 2 keymaps", keyboard: false, keymaps: ["us", "cs"], hidden: true },
+                { tag: "Keyboard, no keymap", keyboard: true, keymaps: [], hidden: true },
+                { tag: "Keyboard, one keymap", keyboard: true, keymaps: ["us"], hidden: true },
+                { tag: "Keyboard, 2 keymaps", keyboard: true, keymaps: ["us", "cs"], hidden: false }
+            ];
+        }
+
+        function test_hidingKeyboardIndicator(data) {
+            var item = findChild(indicatorsRow, "indicator-keyboard-panelItem");
+            AccountsService.keymaps = data.keymaps;
+            if (data.keyboard) {
+                MockInputDeviceBackend.addMockDevice("/indicator_kbd0", InputInfo.Keyboard);
+            } else {
+                MockInputDeviceBackend.removeDevice("/indicator_kbd0");
+            }
+
+            compare(item.hidden, data.hidden);
         }
     }
 }

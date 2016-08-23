@@ -2136,8 +2136,13 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(app2SurfaceId);
 
             // Sanity checking
-            compare(app1.stage, ApplicationInfoInterface.MainStage);
-            compare(app2.stage, ApplicationInfoInterface.MainStage);
+            if (data.usageScenario === "tablet") {
+                var app1Delegate = findChild(shell, "spreadDelegate_" + app1SurfaceId);
+                compare(app1Delegate.stage, ApplicationInfoInterface.MainStage);
+
+                var app2Delegate = findChild(shell, "spreadDelegate_" + app2SurfaceId);
+                compare(app2Delegate.stage, ApplicationInfoInterface.MainStage);
+            }
             verify(!app1.isTouchApp);
 
             var app1Surface = app1.surfaceList.get(0);
@@ -2172,8 +2177,13 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(app2SurfaceId);
 
             // Sanity checking
-            compare(app1.stage, ApplicationInfoInterface.MainStage);
-            compare(app2.stage, ApplicationInfoInterface.MainStage);
+            if (data.usageScenario === "tablet") {
+                var app1Delegate = findChild(shell, "spreadDelegate_" + app1SurfaceId);
+                compare(app1Delegate.stage, ApplicationInfoInterface.MainStage);
+
+                var app2Delegate = findChild(shell, "spreadDelegate_" + app2SurfaceId);
+                compare(app2Delegate.stage, ApplicationInfoInterface.MainStage);
+            }
 
             var app1Surface = app1.surfaceList.get(0);
             verify(app1Surface);
@@ -2187,8 +2197,10 @@ Rectangle {
 
         function test_switchToStagedForcesLegacyAppClosing_data() {
             return [
-                {tag: "forceClose", replug: false },
-                {tag: "replug", replug: true }
+                {tag: "forceClose", replug: false, tabletMode: false, screenSize: Qt.size(units.gu(20), units.gu(40)) },
+                {tag: "replug", replug: true, tabletMode: false, screenSize: Qt.size(units.gu(20), units.gu(40)) },
+                {tag: "forceClose+tablet", replug: false, tabletMode: true, screenSize: Qt.size(units.gu(90), units.gu(65)) },
+                {tag: "replug+tablet", replug: true, tabletMode: true, screenSize: Qt.size(units.gu(90), units.gu(65)) }
             ];
         }
 
@@ -2196,6 +2208,11 @@ Rectangle {
             loadShell("desktop")
             shell.usageScenario = "desktop"
             waitForRendering(shell);
+
+            // setup some screen size
+            var dialogs = findChild(root, "dialogs");
+            verify(dialogs);
+            dialogs.screenSize = data.screenSize;
 
             ApplicationManager.startApplication("camera-app")
 
@@ -2215,14 +2232,13 @@ Rectangle {
             shell.usageScenario = "phone"
             waitForRendering(shell);
 
-            // The popup must appear now
+            // The popup must appear now, unless in "tablet" mode
             popup = findChild(root, "modeSwitchWarningDialog");
-            compare(popup !== null, true);
+            compare(popup !== null, !data.tabletMode);
 
-            if (data.replug) {
+            if (data.replug || data.tabletMode) {
                 shell.usageScenario = "desktop"
                 waitForRendering(shell);
-
             } else {
                 var forceCloseButton = findChild(popup, "forceCloseButton");
                 mouseClick(forceCloseButton, forceCloseButton.width / 2, forceCloseButton.height / 2);
@@ -2233,7 +2249,7 @@ Rectangle {
             popup = findChild(root, "modeSwitchWarningDialog");
             tryCompareFunction(function() { return popup === null}, true);
 
-            if (data.replug) {
+            if (data.replug || data.tabletMode) {
                 // Libreoffice must still be running
                 compare(ApplicationManager.findApplication("libreoffice") !== null, true);
             } else {
@@ -2456,6 +2472,15 @@ Rectangle {
             // verify the initial keymap of the newly started app is the first one from the list
             tryCompare(appSurface, "keymap", "sk");
 
+            // try to create a prompt surface, verify it also has the same keymap
+            app.promptSurfaceList.createSurface();
+            var promptSurface = app.promptSurfaceList.get(0);
+            verify(promptSurface);
+            tryCompare(appSurface, "keymap", promptSurface.keymap);
+            // ... and that the controller's surface keymap is also the same
+            tryCompare(MirFocusController.focusedSurface, "keymap", "sk");
+            app.promptSurfaceList.get(0).close();
+
             // switch to next keymap, should go to "cz+qwerty"
             keyClick(Qt.Key_Space, Qt.MetaModifier);
             tryCompare(appSurface, "keymap", "cz+qwerty");
@@ -2538,6 +2563,36 @@ Rectangle {
 
             verify(greeter.shown);
             verify(greeter.locked);
+        }
+
+        function test_closeFocusedDelegate_data() {
+            return [
+                        { tag: "phone" },
+                        { tag: "tablet" },
+                        { tag: "desktop" }
+                    ]
+        }
+
+        function test_closeFocusedDelegate(data) {
+            loadShell(data.tag);
+            shell.usageScenario = data.tag;
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var app2SurfaceId = topLevelSurfaceList.nextId;
+            var app2 = ApplicationManager.startApplication("calendar-app");
+            waitUntilAppWindowIsFullyLoaded(app2SurfaceId);
+
+            var app1SurfaceId = topLevelSurfaceList.nextId;
+            var app1 = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(app1SurfaceId);
+
+            var countBeforeClose = topLevelSurfaceList.count;
+
+            keyClick(Qt.Key_F4, Qt.AltModifier);
+
+            tryCompare(topLevelSurfaceList, "count", countBeforeClose - 1);
+            tryCompareFunction(function() { return ApplicationManager.focusedApplicationId; }, "calendar-app");
         }
     }
 }

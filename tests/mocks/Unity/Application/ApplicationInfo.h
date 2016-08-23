@@ -67,9 +67,6 @@ public:
 
     QUrl icon() const override { return m_icon; }
 
-    Q_INVOKABLE void setStage(Stage value) override; // invokable only for mock
-    Stage stage() const override { return m_stage; }
-
     Q_INVOKABLE void setState(State value);
     State state() const override { return m_state; }
 
@@ -137,7 +134,6 @@ private:
     QString m_appId;
     QString m_name;
     QUrl m_icon;
-    Stage m_stage{MainStage};
     State m_state{Stopped};
     bool m_fullscreen{false};
     Qt::ScreenOrientations m_supportedOrientations{Qt::PortraitOrientation |

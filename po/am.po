@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-07-28 08:17+0000\n"
-"PO-Revision-Date: 2016-07-05 02:15+0000\n"
+"POT-Creation-Date: 2016-08-11 06:28+0000\n"
+"PO-Revision-Date: 2016-08-13 14:45+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-07-30 06:06+0000\n"
+"X-Launchpad-Export-Date: 2016-08-17 05:51+0000\n"
 "X-Generator: Launchpad (build 18169)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -54,54 +54,54 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "እባክዎን ይቆዩ %1 ደቂቃ እና ከዛ እንደ ገና ይምክሩ…"
 msgstr[1] "እባክዎን ይቆዩ %1 ደቂቃዎች እና ከዛ እንደ ገና ይምክሩ…"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:149
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "መውጫ"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:150
 msgid "Are you sure you want to log out?"
 msgstr "በእርግጥ መውጣት ይፈልጋሉ?"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:152
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "መቆለፊያ"
 
-#: qml/Components/Dialogs.qml:154
+#: qml/Components/Dialogs.qml:159
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "መውጫ"
 
-#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
-#: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
+#: qml/Dash/DashPageHeader.qml:322 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "መሰረዣ"
 
-#: qml/Components/Dialogs.qml:173
+#: qml/Components/Dialogs.qml:178
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "እንደገና ማስነሻ"
 
-#: qml/Components/Dialogs.qml:174
+#: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
 msgstr "በእርግጥ እንደገና ማስነሳት ይፈልጋሉ?"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:181
 msgid "No"
 msgstr "አይ"
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:187
 msgid "Yes"
 msgstr "አዎ"
 
-#: qml/Components/Dialogs.qml:197
+#: qml/Components/Dialogs.qml:202
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "ሐይል"
 
-#: qml/Components/Dialogs.qml:198
+#: qml/Components/Dialogs.qml:203
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -109,12 +109,12 @@ msgstr ""
 "በእርግጥ ሐይሉን ማጥፋት\n"
 "ይፈልጋሉ?"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:205
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "ሐይል ማጥፊያ"
 
-#: qml/Components/Dialogs.qml:209
+#: qml/Components/Dialogs.qml:214
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "እንደገና ማስጀመሪያ"
@@ -331,26 +331,26 @@ msgstr "ሁሉንም መዝጊያ"
 msgid "Preview Share Item"
 msgstr "የሚካፈሉትን እቃ ቅድመ እይታ"
 
-#: qml/Dash/DashPageHeader.qml:333
+#: qml/Dash/DashPageHeader.qml:360
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "ማስቀመጫ"
 
-#: qml/Dash/DashPageHeader.qml:340
+#: qml/Dash/DashPageHeader.qml:367
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "መፈለጊያ"
 
-#: qml/Dash/DashPageHeader.qml:350
+#: qml/Dash/DashPageHeader.qml:377
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "ማሰናጃዎች"
 
-#: qml/Dash/DashPageHeader.qml:357
+#: qml/Dash/DashPageHeader.qml:384
 msgid "Remove from Favorites"
 msgstr "ከምወዳቸው ማስወገጃ"
 
-#: qml/Dash/DashPageHeader.qml:357
+#: qml/Dash/DashPageHeader.qml:384
 msgid "Add to Favorites"
 msgstr "ወደምወዳቸው መጨመሪያ"
 
@@ -362,15 +362,15 @@ msgstr "የ እርስዎን ውጤቶች እንደገና ማጣሪያ"
 msgid "Reset"
 msgstr "እንደ ነበረ መመለሻ"
 
-#: qml/Dash/GenericScopeView.qml:580 qml/Dash/GenericScopeView.qml:775
+#: qml/Dash/GenericScopeView.qml:585 qml/Dash/GenericScopeView.qml:780
 msgid "Show less"
 msgstr "ትንሽ ማሳያ"
 
-#: qml/Dash/GenericScopeView.qml:580
+#: qml/Dash/GenericScopeView.qml:585
 msgid "Show all"
 msgstr "ሁሉንም ማሳያ"
 
-#: qml/Dash/GenericScopeView.qml:637
+#: qml/Dash/GenericScopeView.qml:642
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "መፈለጊያ"
@@ -438,17 +438,17 @@ msgstr "የ እርስዎ አካል አሁን ከ ውጪ ማሳያ ጋር ተገ�
 msgid "Unlock"
 msgstr "መክፈቻ"
 
-#: qml/Greeter/Greeter.qml:555
+#: qml/Greeter/Greeter.qml:561
 msgid "Try again"
 msgstr "እንደገና ይሞክሩ"
 
 #: qml/Greeter/LoginList.qml:63
 msgid "Passphrase"
-msgstr ""
+msgstr "የማለፊያ ሐረግ"
 
 #: qml/Greeter/LoginList.qml:64
 msgid "Passcode"
-msgstr ""
+msgstr "ማለፊያ ኮድ"
 
 #: qml/Greeter/LoginList.qml:87
 msgid "Retry"
@@ -637,35 +637,49 @@ msgstr "ወደ ኋላ"
 msgid "Language"
 msgstr "ቋንቋ"
 
-#: qml/Wizard/Pages/10-welcome.qml:171 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
+#: qml/Wizard/Pages/10-welcome.qml:172 qml/Wizard/Pages/20-keyboard.qml:151
+#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
+#: qml/Wizard/Pages/50-timezone.qml:270 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/70-passwd-type.qml:144
 #: qml/Wizard/Pages/75-report-check.qml:84
 #: qml/Wizard/Pages/passcode-desktop.qml:141
 #: qml/Wizard/Pages/password-set.qml:141
 msgid "Next"
 msgstr "ይቀጥሉ"
 
-#: qml/Wizard/Pages/30-wifi.qml:29
+#: qml/Wizard/Pages/20-keyboard.qml:30
+msgid "Select Keyboard"
+msgstr ""
+
+#: qml/Wizard/Pages/20-keyboard.qml:70
+msgid "Keyboard language"
+msgstr ""
+
+#: qml/Wizard/Pages/20-keyboard.qml:92
+msgid "Keyboard layout"
+msgstr ""
+
+#: qml/Wizard/Pages/20-keyboard.qml:151 qml/Wizard/Pages/30-wifi.qml:206
+#: qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/77-system-update.qml:152 qml/Wizard/Pages/sim.qml:101
+msgid "Skip"
+msgstr "መዝለያ"
+
+#: qml/Wizard/Pages/30-wifi.qml:30
 msgid "Connect to Wi‑Fi"
 msgstr "ወደ ዋይ‑ፋይ መገናኛ"
 
-#: qml/Wizard/Pages/30-wifi.qml:130
+#: qml/Wizard/Pages/30-wifi.qml:131
 msgid "Connected"
 msgstr "ተገናኝቷል"
 
-#: qml/Wizard/Pages/30-wifi.qml:163
+#: qml/Wizard/Pages/30-wifi.qml:164
 msgid "Available Wi-Fi networks"
 msgstr "ዝግጁ የ ዋይ-ፋይ ኔትዎርኮች"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:165
 msgid "No available Wi-Fi networks"
 msgstr "ምንም ዝግጁ ዋይ-ፋይ ኔትዎርኮች አልተገኙም"
-
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/sim.qml:101
-msgid "Skip"
-msgstr "መዝለያ"
 
 #: qml/Wizard/Pages/40-location.qml:27
 msgid "Location Services"
@@ -749,6 +763,35 @@ msgstr "የ ስርአቱን አፈጻጸም ለማሻሻል የ ግጭት እና
 #: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Privacy policy"
 msgstr "የ ግላዊነት መመሪያ"
+
+#: qml/Wizard/Pages/77-system-update.qml:28
+msgid "Update Device"
+msgstr ""
+
+#: qml/Wizard/Pages/77-system-update.qml:55
+msgid ""
+"There is a system update available and ready to install. Afterwards, the "
+"device will automatically restart."
+msgstr ""
+
+#: qml/Wizard/Pages/77-system-update.qml:76
+msgctxt "string identifying name of the update"
+msgid "Ubuntu system"
+msgstr ""
+
+#: qml/Wizard/Pages/77-system-update.qml:83
+#, qt-format
+msgctxt "version of the system update"
+msgid "Version %1"
+msgstr ""
+
+#: qml/Wizard/Pages/77-system-update.qml:102
+msgid "This could take a few minutes..."
+msgstr ""
+
+#: qml/Wizard/Pages/77-system-update.qml:116
+msgid "Install and restart now"
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
