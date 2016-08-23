@@ -79,7 +79,7 @@ void ApplicationInfo::createSurface()
 {
     if (state() == ApplicationInfo::Stopped) { return; }
 
-    QString surfaceName = name();
+    QString surfaceName = name() + "s window title";
     if (m_surfaceList->count() > 0) {
         surfaceName.append(QString(" %1").arg(m_surfaceList->count()+1));
     }

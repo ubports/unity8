@@ -1240,7 +1240,7 @@ AbstractStage {
                 WindowInfoItem {
                     id: windowInfoItem
                     anchors { left: parent.left; top: decoratedWindow.bottom; topMargin: units.gu(1) }
-                    title: decoratedWindow.title
+                    title: model.application.name
                     iconSource: model.application.icon
                     height: spreadItem.appInfoHeight
                     opacity: 0
