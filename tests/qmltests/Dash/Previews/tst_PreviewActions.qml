@@ -151,12 +151,11 @@ Rectangle {
         {
             var button = findChild(buttonGroup, "moreLessButton");
             var buttonColumn = findChild(buttonGroup, "buttonColumn");
-            var buttonColumnInitialHeight = buttonColumn.height;
             var buttonGroupInitialHeight = buttonGroup.height;
             verify(button != null);
             mouseClick(button);
             tryCompare(buttonColumn, "height", buttonColumn.implicitHeight);
-            tryCompare(buttonGroup, "height", buttonGroupInitialHeight + (buttonColumn.height - buttonColumnInitialHeight + units.gu(1)));
+            tryCompare(buttonGroup, "height", buttonGroupInitialHeight + (buttonColumn.height + buttonColumn.anchors.topMargin));
         }
 
         function test_comboButton(data) {
