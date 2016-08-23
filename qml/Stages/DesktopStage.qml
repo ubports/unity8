@@ -505,6 +505,8 @@ AbstractStage {
                     duration: UbuntuAnimation.SnapDuration
                 }
 
+                // unlike requestedX/Y, this is the last known grab position before being pushed against edges/corners
+                // when restoring, the window should return to these, not to the place where it was dropped near the edge
                 property real restoredX
                 property real restoredY
 

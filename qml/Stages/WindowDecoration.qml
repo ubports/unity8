@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import Unity.Application 0.1 // For Mir singleton
 import Ubuntu.Components 1.3
+import Utils 0.1
 import "../Components"
 import "../Components/PanelState"
 
@@ -53,6 +54,7 @@ MouseArea {
     onDoubleClicked: {
         priv.resetEdges();
         if (target.canBeMaximized && mouse.button == Qt.LeftButton) {
+            priv.dragging = false; // do not interfere with a quick double click followed by a mouse move/drag
             root.maximizeClicked();
         }
     }
@@ -82,16 +84,9 @@ MouseArea {
             nearBottomRightCorner = false;
         }
 
-        function saveRestoredPos(x, y) {
-            var pos = mapToItem(root.target, x, y);
-            target.restoredX = Math.round(pos.x);
-            target.restoredY = Math.round(pos.y);
-            print("!!! Saved pos", target.restoredX, target.restoredY)
-        }
-
         // return the progress of mouse pointer movement from 0 to 1 within a corner square of the screen
         // 0 -> before the mouse enters the square
-        // 1 -> mouse is exactly in the very corner
+        // 1 -> mouse is in the outer corner
         // a is the corner, b is the mouse pos
         function progressInCorner(ax, ay, bx, by) {
             // distance of two points, a and b, in pixels
@@ -107,7 +102,14 @@ MouseArea {
     onPressedChanged: {
         if (pressed && pressedButtons == Qt.LeftButton) {
             var pos = mapToItem(root.target, mouseX, mouseY);
-            priv.distanceX = pos.x;
+            if (target.anyMaximized) {
+                // keep distanceX relative to the normal window width minus the window control buttons (+spacing)
+                // so that dragging it back doesn't make the window jump around to weird positions, away from the mouse pointer
+                priv.distanceX = MathUtils.clampAndProject(pos.x, 0, root.target.width, buttons.width + row.spacing, root.target.resizeArea.normalWidth);
+            } else {
+                priv.distanceX = pos.x;
+            }
+
             priv.distanceY = pos.y;
             priv.dragging = true;
         } else {
@@ -119,11 +121,16 @@ MouseArea {
     onPositionChanged: {
         if (priv.dragging) {
             Mir.cursorName = "grabbing";
+
+            if (target.anyMaximized) { // restore from maximized when dragging away from edges/corners
+                priv.progress = 0;
+                target.restore(false, WindowStateStorage.WindowStateNormal);
+            }
+
             var pos = mapToItem(root.target.parent, mouseX, mouseY);
             // Use integer coordinate values to ensure that target is left in a pixel-aligned
             // position. Mouse movement could have subpixel precision, yielding a fractional
             // mouse position.
-
             root.target.requestedX = Math.round(pos.x - priv.distanceX);
             root.target.requestedY = Math.round(Math.max(pos.y - priv.distanceY, PanelState.panelHeight));
 
@@ -185,9 +192,6 @@ MouseArea {
                 priv.progress = 0;
                 priv.resetEdges();
                 root.stopFakeAnimation();
-            } else if (target.anyMaximized) {
-                priv.progress = 0;
-                target.restoreFromMaximized();
             }
         }
     }
@@ -195,7 +199,9 @@ MouseArea {
     onReleased: {
         print("Mouse released (left/top/right)", priv.nearLeftEdge, priv.nearTopEdge, priv.nearRightEdge)
         if (mouse.button == Qt.LeftButton && (target.state == "normal" || target.state == "restored") && priv.progress == 0) {
-            priv.saveRestoredPos(target.x, target.y);
+            // save the x/y to restore to
+            target.restoredX = target.x;
+            target.restoredY = target.y;
         } else if (priv.progress < 0.3) { // cancel the preview shape if under 30%
             priv.progress = 0;
             priv.resetEdges();
@@ -228,6 +234,7 @@ MouseArea {
     }
 
     Row {
+        id: row
         anchors {
             fill: parent
             leftMargin: overlayShown ? units.gu(5) : units.gu(1)
