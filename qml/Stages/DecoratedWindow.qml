@@ -52,8 +52,8 @@ FocusScope {
     readonly property int heightIncrement: !counterRotate ? applicationWindow.heightIncrement : applicationWindow.widthIncrement
 
     property alias overlayShown: decoration.overlayShown
-    property alias stageWidth: decoration.stageWidth
-    property alias stageHeight: decoration.stageHeight
+    property alias stageWidth: moveHandler.stageWidth
+    property alias stageHeight: moveHandler.stageHeight
 
     signal closeClicked()
     signal maximizeClicked()
@@ -113,6 +113,19 @@ FocusScope {
         onMinimizeClicked: root.minimizeClicked();
         onPressed: root.decorationPressed();
 
+        onDoubleClicked: moveHandler.handleDoubleClicked(mouse)
+        onPressedChanged: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
+        onPositionChanged: moveHandler.handlePositionChanged(mouseX, mouseY)
+        onReleased: moveHandler.handleReleased(mouse)
+    }
+
+    MoveHandler {
+        id: moveHandler
+        anchors.fill: decoration
+        objectName: "moveHandler"
+        target: root.parent
+        buttonsWidth: decoration.buttonsWidth
+
         onFakeMaximizeAnimationRequested: root.fakeMaximizeAnimationRequested(progress)
         onFakeMaximizeLeftAnimationRequested: root.fakeMaximizeLeftAnimationRequested(progress)
         onFakeMaximizeRightAnimationRequested: root.fakeMaximizeRightAnimationRequested(progress)
@@ -121,6 +134,8 @@ FocusScope {
         onFakeMaximizeBottomLeftAnimationRequested: root.fakeMaximizeBottomLeftAnimationRequested(progress)
         onFakeMaximizeBottomRightAnimationRequested: root.fakeMaximizeBottomRightAnimationRequested(progress)
         onStopFakeAnimation: root.stopFakeAnimation()
+
+        onDoubleClicked: root.maximizeClicked()
     }
 
     ApplicationWindow {
