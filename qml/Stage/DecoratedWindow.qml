@@ -26,8 +26,6 @@ FocusScope {
     // (minus the window decoration size in case hasDecoration and showDecoration are true)
     // The surface might not be able to resize to the requested values. It will return its actual size
     // in implicitWidth/implicitHeight.
-    implicitWidth: applicationWindow.implicitWidth
-    implicitHeight: decorationHeight + applicationWindow.implicitHeight
 
     property alias application: applicationWindow.application
     property alias surface: applicationWindow.surface
@@ -79,6 +77,35 @@ FocusScope {
 
         property int visibleDecorationHeight: root.showDecoration && root.hasDecoration ? decoration.height : 0
         Behavior on visibleDecorationHeight { enabled: root.animateDecoration; UbuntuNumberAnimation { duration: priv.animationDuration } }
+    }
+
+    StateGroup {
+        states: [
+            State {
+                name: "normal"; when: root.scaleToPreviewProgress == 0
+                PropertyChanges {
+                    target: root
+                    implicitWidth: applicationWindow.implicitWidth
+                    implicitHeight: root.decorationHeight + applicationWindow.implicitHeight
+                }
+            },
+            State {
+                name: "preview"; when: root.scaleToPreviewProgress > 0
+                PropertyChanges {
+                    target: root
+                    implicitWidth: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedWidth, root.scaleToPreviewSize, root.scaleToPreviewProgress)
+                    implicitHeight: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedHeight, root.scaleToPreviewSize, root.scaleToPreviewProgress)
+                }
+                PropertyChanges {
+                    target: applicationWindow;
+                    requestedWidth: applicationWindow.oldRequestedWidth
+                    requestedHeight: applicationWindow.oldRequestedHeight
+                    width: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedWidth, applicationWindow.minSize, root.scaleToPreviewProgress)
+                    height: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedHeight, applicationWindow.minSize, root.scaleToPreviewProgress)
+                    itemScale: root.implicitWidth / width
+                }
+            }
+        ]
     }
 
     Rectangle {
@@ -138,21 +165,6 @@ FocusScope {
 
         property real itemScale: 1
         property real minSize: Math.min(root.scaleToPreviewSize, Math.min(applicationWindow.requestedHeight, applicationWindow.requestedWidth))
-        states: [
-            State {
-                name: "preview"; when: root.scaleToPreviewProgress > 0
-                PropertyChanges {
-                    target: applicationWindow;
-                    requestedWidth: applicationWindow.oldRequestedWidth
-                    requestedHeight: applicationWindow.oldRequestedHeight
-                    implicitWidth: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedWidth, root.scaleToPreviewSize, root.scaleToPreviewProgress)
-                    implicitHeight: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedHeight, root.scaleToPreviewSize, root.scaleToPreviewProgress)
-                    width: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedWidth, applicationWindow.minSize, root.scaleToPreviewProgress)
-                    height: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedHeight, applicationWindow.minSize, root.scaleToPreviewProgress)
-                    itemScale: implicitWidth / width
-                }
-            }
-        ]
 
         transform: [
             Rotation {
