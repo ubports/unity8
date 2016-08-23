@@ -23,12 +23,24 @@ import "../Components/PanelState"
 Item {
     id: root
     enabled: target && !target.fullscreen
+    anchors.fill: target
 
     // to be set from outside
     property Item target // appDelegate
+    property int stageWidth
+    property int stageHeight
 
     // to be read from outside
     readonly property alias overlayShown: overlay.visible
+
+    signal fakeMaximizeAnimationRequested(real progress)
+    signal fakeMaximizeLeftAnimationRequested(real progress)
+    signal fakeMaximizeRightAnimationRequested(real progress)
+    signal fakeMaximizeTopLeftAnimationRequested(real progress)
+    signal fakeMaximizeTopRightAnimationRequested(real progress)
+    signal fakeMaximizeBottomLeftAnimationRequested(real progress)
+    signal fakeMaximizeBottomRightAnimationRequested(real progress)
+    signal stopFakeAnimation()
 
     TouchGestureArea {
         id: gestureArea
@@ -79,6 +91,26 @@ Item {
         property bool dragging
 
         readonly property var resizeArea: root.target && root.target.resizeArea ? root.target.resizeArea : null
+        readonly property bool ensureWindow: root.target.state == "normal" || root.target.state == "restored"
+
+        readonly property int triggerArea: units.gu(8)
+        property bool nearLeftEdge: target.maximizedLeft
+        property bool nearTopEdge: target.maximized
+        property bool nearRightEdge: target.maximizedRight
+        property bool nearTopLeftCorner: target.maximizedTopLeft
+        property bool nearTopRightCorner: target.maximizedTopRight
+        property bool nearBottomLeftCorner: target.maximizedBottomLeft
+        property bool nearBottomRightCorner: target.maximizedBottomRight
+
+        function resetEdges() {
+            nearLeftEdge = false;
+            nearRightEdge = false;
+            nearTopEdge = false;
+            nearTopLeftCorner = false;
+            nearTopRightCorner = false;
+            nearBottomLeftCorner = false;
+            nearBottomRightCorner = false;
+        }
 
         function handlePressedChanged(pressed, mouseX, mouseY) {
             if (pressed) {
@@ -92,12 +124,31 @@ Item {
         }
 
         function handlePositionChanged(mouseX, mouseY) {
-            if (priv.dragging) {
-                var pos = mapToItem(root.target.parent, mouseX, mouseY);
-                root.target.requestedX = Math.round(pos.x - priv.distanceX);
-                root.target.requestedY = Math.round(Math.max(pos.y - priv.distanceY, PanelState.panelHeight));
-            }
+            var pos = mapToItem(root.target.parent, mouseX, mouseY);
+            root.target.requestedX = Math.round(pos.x - priv.distanceX);
+            root.target.requestedY = Math.round(Math.max(pos.y - priv.distanceY, PanelState.panelHeight));
         }
+
+        function saveRestoredPos(x, y) {
+            var pos = mapToItem(root.target, x, y);
+            target.restoredX = Math.round(pos.x);
+            target.restoredY = Math.round(pos.y);
+        }
+
+        // return the progress of mouse pointer movement from 0 to 1 within a corner square of the screen
+        // 0 -> before the mouse enters the square
+        // 1 -> mouse is exactly in the very corner
+        // a is the corner, b is the mouse pos
+        function progressInCorner(ax, ay, bx, by) {
+            // distance of two points, a and b, in pixels
+            var distance = Math.sqrt(Math.pow(bx-ax, 2) + Math.pow(by-ay, 2));
+            // length of the triggerArea square diagonal
+            var diagLength = Math.sqrt(2 * priv.triggerArea * priv.triggerArea);
+            var ratio = 1 - (distance / diagLength);
+            return bx > 0 && bx <= stageWidth && by > 0 && by <= stageHeight ? ratio : 1; // everything "outside" of our square from the center is 1
+        }
+
+        property real progress: 0
     }
 
     // the visual overlay
@@ -112,8 +163,6 @@ Item {
         Behavior on opacity {
             UbuntuNumberAnimation {}
         }
-
-        readonly property bool anyMaximized: target && (target.maximized || target.maximizedLeft || target.maximizedRight)
 
         Image {
             source: "graphics/arrows-centre.png"
@@ -133,7 +182,98 @@ Item {
                 cursorShape: priv.dragging ? Qt.ClosedHandCursor : (overlay.visible ? Qt.OpenHandCursor : Qt.ArrowCursor)
 
                 onPressedChanged: priv.handlePressedChanged(pressed, mouseX, mouseY)
-                onPositionChanged: priv.handlePositionChanged(mouseX, mouseY)
+                onPositionChanged: {
+                    if (priv.dragging) {
+                        priv.handlePositionChanged(mouseX, mouseY);
+
+                        var globalPos = mapToItem(null, mouseX, mouseY);
+                        var globalX = globalPos.x;
+                        var globalY = globalPos.y;
+                        if (globalX < priv.triggerArea && globalY < PanelState.panelHeight) { // top left
+                            if (target.canBeCornerMaximized) {
+                                priv.progress = priv.progressInCorner(0, PanelState.panelHeight, globalX, globalY);
+                                priv.resetEdges();
+                                priv.nearTopLeftCorner = true;
+                                root.fakeMaximizeTopLeftAnimationRequested(priv.progress);
+                            }
+                        } else if (globalX > stageWidth - priv.triggerArea && globalY < PanelState.panelHeight) { // top right
+                            if (target.canBeCornerMaximized) {
+                                priv.progress = priv.progressInCorner(stageWidth, PanelState.panelHeight, globalX, globalY);
+                                priv.resetEdges();
+                                priv.nearTopRightCorner = true;
+                                root.fakeMaximizeTopRightAnimationRequested(priv.progress);
+                            }
+                        } else if (globalX < priv.triggerArea && globalY > stageHeight - priv.triggerArea) { // bottom left
+                            if (target.canBeCornerMaximized) {
+                                priv.progress = priv.progressInCorner(0, stageHeight, globalX, globalY);
+                                priv.resetEdges();
+                                priv.nearBottomLeftCorner = true;
+                                root.fakeMaximizeBottomLeftAnimationRequested(priv.progress);
+                            }
+                        } else if (globalX > stageWidth - priv.triggerArea && globalY > stageHeight - priv.triggerArea) { // bottom right
+                            if (target.canBeCornerMaximized) {
+                                priv.progress = priv.progressInCorner(stageWidth, stageHeight, globalX, globalY);
+                                priv.resetEdges();
+                                priv.nearBottomRightCorner = true;
+                                root.fakeMaximizeBottomRightAnimationRequested(priv.progress);
+                            }
+                        } else if (globalX < priv.triggerArea) { // left
+                            if (target.canBeMaximizedLeftRight) {
+                                priv.progress = MathUtils.clampAndProject(globalX, priv.triggerArea, 0, 0, 1);
+                                priv.resetEdges();
+                                priv.nearLeftEdge = true;
+                                root.fakeMaximizeLeftAnimationRequested(priv.progress);
+                            }
+                        } else if (globalX > stageWidth - priv.triggerArea) { // right
+                            if (target.canBeMaximizedLeftRight) {
+                                priv.progress = MathUtils.clampAndProject(globalX, stageWidth - priv.triggerArea, stageWidth, 0, 1);
+                                priv.resetEdges();
+                                priv.nearRightEdge = true;
+                                root.fakeMaximizeRightAnimationRequested(priv.progress);
+                            }
+                        } else if (globalY < PanelState.panelHeight) { // top
+                            if (target.canBeMaximized) {
+                                priv.progress = MathUtils.clampAndProject(globalY, Math.max(PanelState.panelHeight, priv.triggerArea), 0, 0, 1);
+                                priv.resetEdges();
+                                priv.nearTopEdge = true;
+                                root.fakeMaximizeAnimationRequested(priv.progress);
+                            }
+                        } else if (priv.nearLeftEdge || priv.nearRightEdge || priv.nearTopEdge || priv.nearTopLeftCorner || priv.nearTopRightCorner ||
+                                   priv.nearBottomLeftCorner || priv.nearBottomRightCorner) {
+                            print("!!! Exited")
+                            priv.progress = 0;
+                            priv.resetEdges();
+                            root.stopFakeAnimation();
+                        } else if (target.anyMaximized) {
+                            priv.progress = 0;
+                            target.restoreFromMaximized();
+                        }
+                    }
+                }
+                onReleased: {
+                    print("Mouse released (left/top/right)", priv.nearLeftEdge, priv.nearTopEdge, priv.nearRightEdge)
+                    if (mouse.button == Qt.LeftButton && (target.state == "normal" || target.state == "restored") && priv.progress == 0) {
+                        priv.saveRestoredPos(target.x, target.y);
+                    } else if (priv.progress < 0.3) { // cancel the preview shape if under 30%
+                        priv.progress = 0;
+                        priv.resetEdges();
+                        root.stopFakeAnimation();
+                    } else if (priv.nearLeftEdge) {
+                        target.maximizeLeft();
+                    } else if (priv.nearTopEdge) {
+                        target.maximize();
+                    } else if (priv.nearRightEdge) {
+                        target.maximizeRight();
+                    } else if (priv.nearTopLeftCorner) {
+                        target.maximizeTopLeft();
+                    } else if (priv.nearTopRightCorner) {
+                        target.maximizeTopRight();
+                    } else if (priv.nearBottomLeftCorner) {
+                        target.maximizeBottomLeft();
+                    } else if (priv.nearBottomRightCorner) {
+                        target.maximizeBottomRight();
+                    }
+                }
             }
 
             // dismiss area
@@ -157,7 +297,7 @@ Item {
         ResizeGrip { // top left
             anchors.horizontalCenter: parent.left
             anchors.verticalCenter: parent.top
-            visible: target && !overlay.anyMaximized && !target.maximizedHorizontally && !target.maximizedVertically
+            visible: priv.ensureWindow || target.maximizedBottomRight
             resizeTarget: priv.resizeArea
         }
 
@@ -165,7 +305,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.top
             rotation: 45
-            visible: target && !overlay.anyMaximized && !target.maximizedVertically
+            visible: priv.ensureWindow || target.maximizedHorizontally || target.maximizedBottomLeft || target.maximizedBottomRight
             resizeTarget: priv.resizeArea
         }
 
@@ -173,7 +313,7 @@ Item {
             anchors.horizontalCenter: parent.right
             anchors.verticalCenter: parent.top
             rotation: 90
-            visible: target && !overlay.anyMaximized && !target.maximizedHorizontally && !target.maximizedVertically
+            visible: priv.ensureWindow || target.maximizedBottomLeft
             resizeTarget: priv.resizeArea
         }
 
@@ -181,14 +321,15 @@ Item {
             anchors.horizontalCenter: parent.right
             anchors.verticalCenter: parent.verticalCenter
             rotation: 135
-            visible: target && !target.maximizedRight && !target.maximized && !target.maximizedHorizontally
+            visible: priv.ensureWindow || target.maximizedVertically || target.maximizedLeft ||
+                     target.maximizedTopLeft || target.maximizedBottomLeft
             resizeTarget: priv.resizeArea
         }
 
         ResizeGrip { // bottom right
             anchors.horizontalCenter: parent.right
             anchors.verticalCenter: parent.bottom
-            visible: target && !overlay.anyMaximized && !target.maximizedHorizontally && !target.maximizedVertically
+            visible: priv.ensureWindow || target.maximizedTopLeft
             resizeTarget: priv.resizeArea
         }
 
@@ -196,7 +337,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.bottom
             rotation: 45
-            visible: target && !overlay.anyMaximized && !target.maximizedVertically
+            visible: priv.ensureWindow || target.maximizedHorizontally || target.maximizedTopLeft || target.maximizedTopRight
             resizeTarget: priv.resizeArea
         }
 
@@ -204,7 +345,7 @@ Item {
             anchors.horizontalCenter: parent.left
             anchors.verticalCenter: parent.bottom
             rotation: 90
-            visible: target && !overlay.anyMaximized && !target.maximizedHorizontally && !target.maximizedVertically
+            visible: priv.ensureWindow || target.maximizedTopRight
             resizeTarget: priv.resizeArea
         }
 
@@ -212,7 +353,8 @@ Item {
             anchors.horizontalCenter: parent.left
             anchors.verticalCenter: parent.verticalCenter
             rotation: 135
-            visible: target && !target.maximizedLeft && !target.maximized && !target.maximizedHorizontally
+            visible: priv.ensureWindow || target.maximizedVertically || target.maximizedRight ||
+                     target.maximizedTopRight || target.maximizedBottomRight
             resizeTarget: priv.resizeArea
         }
     }

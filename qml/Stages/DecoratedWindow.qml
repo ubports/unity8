@@ -52,6 +52,8 @@ FocusScope {
     readonly property int heightIncrement: !counterRotate ? applicationWindow.heightIncrement : applicationWindow.widthIncrement
 
     property alias overlayShown: decoration.overlayShown
+    property alias stageWidth: decoration.stageWidth
+    property alias stageHeight: decoration.stageHeight
 
     signal closeClicked()
     signal maximizeClicked()
@@ -59,6 +61,15 @@ FocusScope {
     signal maximizeVerticallyClicked()
     signal minimizeClicked()
     signal decorationPressed()
+
+    signal fakeMaximizeAnimationRequested(real progress)
+    signal fakeMaximizeLeftAnimationRequested(real progress)
+    signal fakeMaximizeRightAnimationRequested(real progress)
+    signal fakeMaximizeTopLeftAnimationRequested(real progress)
+    signal fakeMaximizeTopRightAnimationRequested(real progress)
+    signal fakeMaximizeBottomLeftAnimationRequested(real progress)
+    signal fakeMaximizeBottomRightAnimationRequested(real progress)
+    signal stopFakeAnimation()
 
     Rectangle {
         id: selectionHighlight
@@ -101,6 +112,15 @@ FocusScope {
         onMaximizeVerticallyClicked: { root.decorationPressed(); root.maximizeVerticallyClicked(); }
         onMinimizeClicked: root.minimizeClicked();
         onPressed: root.decorationPressed();
+
+        onFakeMaximizeAnimationRequested: root.fakeMaximizeAnimationRequested(progress)
+        onFakeMaximizeLeftAnimationRequested: root.fakeMaximizeLeftAnimationRequested(progress)
+        onFakeMaximizeRightAnimationRequested: root.fakeMaximizeRightAnimationRequested(progress)
+        onFakeMaximizeTopLeftAnimationRequested: root.fakeMaximizeTopLeftAnimationRequested(progress)
+        onFakeMaximizeTopRightAnimationRequested: root.fakeMaximizeTopRightAnimationRequested(progress)
+        onFakeMaximizeBottomLeftAnimationRequested: root.fakeMaximizeBottomLeftAnimationRequested(progress)
+        onFakeMaximizeBottomRightAnimationRequested: root.fakeMaximizeBottomRightAnimationRequested(progress)
+        onStopFakeAnimation: root.stopFakeAnimation()
     }
 
     ApplicationWindow {

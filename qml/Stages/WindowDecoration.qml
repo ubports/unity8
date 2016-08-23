@@ -24,12 +24,16 @@ MouseArea {
     id: root
     clip: true
 
-    property Item target
+    property Item target // appDelegate
     property alias title: titleLabel.text
     property alias maximizeButtonShown: buttons.maximizeButtonShown
     property bool active: false
-    acceptedButtons: Qt.AllButtons // prevent leaking unhandled mouse events
     property alias overlayShown: buttons.overlayShown
+    property int stageWidth
+    property int stageHeight
+
+    acceptedButtons: Qt.AllButtons // prevent leaking unhandled mouse events
+    hoverEnabled: true
 
     signal closeClicked()
     signal minimizeClicked()
@@ -37,8 +41,18 @@ MouseArea {
     signal maximizeHorizontallyClicked()
     signal maximizeVerticallyClicked()
 
+    signal fakeMaximizeAnimationRequested(real progress)
+    signal fakeMaximizeLeftAnimationRequested(real progress)
+    signal fakeMaximizeRightAnimationRequested(real progress)
+    signal fakeMaximizeTopLeftAnimationRequested(real progress)
+    signal fakeMaximizeTopRightAnimationRequested(real progress)
+    signal fakeMaximizeBottomLeftAnimationRequested(real progress)
+    signal fakeMaximizeBottomRightAnimationRequested(real progress)
+    signal stopFakeAnimation()
+
     onDoubleClicked: {
-        if (maximizeButtonShown && mouse.button == Qt.LeftButton) {
+        priv.resetEdges();
+        if (target.canBeMaximized && mouse.button == Qt.LeftButton) {
             root.maximizeClicked();
         }
     }
@@ -48,6 +62,46 @@ MouseArea {
         property real distanceX
         property real distanceY
         property bool dragging
+
+        readonly property int triggerArea: units.gu(3)
+        property bool nearLeftEdge: target.maximizedLeft
+        property bool nearTopEdge: target.maximized
+        property bool nearRightEdge: target.maximizedRight
+        property bool nearTopLeftCorner: target.maximizedTopLeft
+        property bool nearTopRightCorner: target.maximizedTopRight
+        property bool nearBottomLeftCorner: target.maximizedBottomLeft
+        property bool nearBottomRightCorner: target.maximizedBottomRight
+
+        function resetEdges() {
+            nearLeftEdge = false;
+            nearRightEdge = false;
+            nearTopEdge = false;
+            nearTopLeftCorner = false;
+            nearTopRightCorner = false;
+            nearBottomLeftCorner = false;
+            nearBottomRightCorner = false;
+        }
+
+        function saveRestoredPos(x, y) {
+            var pos = mapToItem(root.target, x, y);
+            target.restoredX = Math.round(pos.x);
+            target.restoredY = Math.round(pos.y);
+            print("!!! Saved pos", target.restoredX, target.restoredY)
+        }
+
+        // return the progress of mouse pointer movement from 0 to 1 within a corner square of the screen
+        // 0 -> before the mouse enters the square
+        // 1 -> mouse is exactly in the very corner
+        // a is the corner, b is the mouse pos
+        function progressInCorner(ax, ay, bx, by) {
+            // distance of two points, a and b, in pixels
+            var distance = Math.sqrt(Math.pow(bx-ax, 2) + Math.pow(by-ay, 2));
+            // length of the triggerArea square diagonal
+            var diagLength = Math.sqrt(2 * priv.triggerArea * priv.triggerArea);
+            var ratio = 1 - (distance / diagLength);
+            return bx > 0 && bx <= stageWidth && by > 0 && by <= stageHeight ? ratio : 1; // everything "outside" of our square from the center is 1
+        }
+        property real progress: 0
     }
 
     onPressedChanged: {
@@ -69,8 +123,97 @@ MouseArea {
             // Use integer coordinate values to ensure that target is left in a pixel-aligned
             // position. Mouse movement could have subpixel precision, yielding a fractional
             // mouse position.
+
             root.target.requestedX = Math.round(pos.x - priv.distanceX);
             root.target.requestedY = Math.round(Math.max(pos.y - priv.distanceY, PanelState.panelHeight));
+
+            var globalPos = mapToItem(null, mouseX, mouseY);
+            var globalX = globalPos.x;
+            var globalY = globalPos.y;
+            if (globalX < priv.triggerArea && globalY < PanelState.panelHeight) { // top left
+                if (target.canBeCornerMaximized) {
+                    priv.progress = priv.progressInCorner(0, PanelState.panelHeight, globalX, globalY);
+                    priv.resetEdges();
+                    priv.nearTopLeftCorner = true;
+                    root.fakeMaximizeTopLeftAnimationRequested(priv.progress);
+                }
+            } else if (globalX > stageWidth - priv.triggerArea && globalY < PanelState.panelHeight) { // top right
+                if (target.canBeCornerMaximized) {
+                    priv.progress = priv.progressInCorner(stageWidth, PanelState.panelHeight, globalX, globalY);
+                    priv.resetEdges();
+                    priv.nearTopRightCorner = true;
+                    root.fakeMaximizeTopRightAnimationRequested(priv.progress);
+                }
+            } else if (globalX < priv.triggerArea && globalY > stageHeight - priv.triggerArea) { // bottom left
+                if (target.canBeCornerMaximized) {
+                    priv.progress = priv.progressInCorner(0, stageHeight, globalX, globalY);
+                    priv.resetEdges();
+                    priv.nearBottomLeftCorner = true;
+                    root.fakeMaximizeBottomLeftAnimationRequested(priv.progress);
+                }
+            } else if (globalX > stageWidth - priv.triggerArea && globalY > stageHeight - priv.triggerArea) { // bottom right
+                if (target.canBeCornerMaximized) {
+                    priv.progress = priv.progressInCorner(stageWidth, stageHeight, globalX, globalY);
+                    priv.resetEdges();
+                    priv.nearBottomRightCorner = true;
+                    root.fakeMaximizeBottomRightAnimationRequested(priv.progress);
+                }
+            } else if (globalX < priv.triggerArea) { // left
+                if (target.canBeMaximizedLeftRight) {
+                    priv.progress = MathUtils.clampAndProject(globalX, priv.triggerArea, 0, 0, 1);
+                    priv.resetEdges();
+                    priv.nearLeftEdge = true;
+                    root.fakeMaximizeLeftAnimationRequested(priv.progress);
+                }
+            } else if (globalX > stageWidth - priv.triggerArea) { // right
+                if (target.canBeMaximizedLeftRight) {
+                    priv.progress = MathUtils.clampAndProject(globalX, stageWidth - priv.triggerArea, stageWidth, 0, 1);
+                    priv.resetEdges();
+                    priv.nearRightEdge = true;
+                    root.fakeMaximizeRightAnimationRequested(priv.progress);
+                }
+            } else if (globalY < PanelState.panelHeight) { // top
+                if (target.canBeMaximized) {
+                    priv.progress = MathUtils.clampAndProject(globalY, Math.max(PanelState.panelHeight, priv.triggerArea), 0, 0, 1);
+                    priv.resetEdges();
+                    priv.nearTopEdge = true;
+                    root.fakeMaximizeAnimationRequested(priv.progress);
+                }
+            } else if (priv.nearLeftEdge || priv.nearRightEdge || priv.nearTopEdge || priv.nearTopLeftCorner || priv.nearTopRightCorner ||
+                       priv.nearBottomLeftCorner || priv.nearBottomRightCorner) {
+                print("!!! Exited")
+                priv.progress = 0;
+                priv.resetEdges();
+                root.stopFakeAnimation();
+            } else if (target.anyMaximized) {
+                priv.progress = 0;
+                target.restoreFromMaximized();
+            }
+        }
+    }
+
+    onReleased: {
+        print("Mouse released (left/top/right)", priv.nearLeftEdge, priv.nearTopEdge, priv.nearRightEdge)
+        if (mouse.button == Qt.LeftButton && (target.state == "normal" || target.state == "restored") && priv.progress == 0) {
+            priv.saveRestoredPos(target.x, target.y);
+        } else if (priv.progress < 0.3) { // cancel the preview shape if under 30%
+            priv.progress = 0;
+            priv.resetEdges();
+            root.stopFakeAnimation();
+        } else if (priv.nearLeftEdge) {
+            target.maximizeLeft();
+        } else if (priv.nearTopEdge) {
+            target.maximize();
+        } else if (priv.nearRightEdge) {
+            target.maximizeRight();
+        } else if (priv.nearTopLeftCorner) {
+            target.maximizeTopLeft();
+        } else if (priv.nearTopRightCorner) {
+            target.maximizeTopRight();
+        } else if (priv.nearBottomLeftCorner) {
+            target.maximizeBottomLeft();
+        } else if (priv.nearBottomRightCorner) {
+            target.maximizeBottomRight();
         }
     }
 
@@ -105,10 +248,9 @@ MouseArea {
             onCloseClicked: root.closeClicked();
             onMinimizeClicked: root.minimizeClicked();
             onMaximizeClicked: root.maximizeClicked();
-            onMaximizeHorizontallyClicked: root.maximizeHorizontallyClicked();
-            onMaximizeVerticallyClicked: root.maximizeVerticallyClicked();
+            onMaximizeHorizontallyClicked: if (root.target.canBeMaximizedHorizontally) root.maximizeHorizontallyClicked();
+            onMaximizeVerticallyClicked: if (root.target.canBeMaximizedVertically) root.maximizeVerticallyClicked();
             closeButtonShown: root.target.application.appId !== "unity8-dash"
-            target: root.target
         }
 
         Label {
@@ -122,9 +264,9 @@ MouseArea {
             font.weight: root.active ? Font.Light : Font.Medium
             elide: Text.ElideRight
             opacity: overlayShown ? 0 : 1
-            visible: opacity == 1
+            visible: opacity != 0
             Behavior on opacity {
-                OpacityAnimator { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+                UbuntuNumberAnimation {}
             }
         }
     }
