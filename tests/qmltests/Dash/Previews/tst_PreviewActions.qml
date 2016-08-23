@@ -155,7 +155,7 @@ Rectangle {
             verify(button != null);
             mouseClick(button);
             tryCompare(buttonColumn, "height", buttonColumn.implicitHeight);
-            tryCompare(buttonGroup, "height", buttonGroupInitialHeight + (buttonColumn.height + buttonColumn.anchors.topMargin));
+            tryCompare(buttonGroup, "height", buttonGroupInitialHeight + buttonColumn.height + buttonColumn.anchors.topMargin);
         }
 
         function test_comboButton(data) {
