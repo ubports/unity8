@@ -108,7 +108,6 @@ MouseArea {
             onMaximizeHorizontallyClicked: root.maximizeHorizontallyClicked();
             onMaximizeVerticallyClicked: root.maximizeVerticallyClicked();
             closeButtonShown: root.target.application.appId !== "unity8-dash"
-            target: root.target
         }
 
         Label {
@@ -122,10 +121,8 @@ MouseArea {
             font.weight: root.active ? Font.Light : Font.Medium
             elide: Text.ElideRight
             opacity: overlayShown ? 0 : 1
-            visible: opacity == 1
-            Behavior on opacity {
-                OpacityAnimator { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
-            }
+            visible: opacity != 0
+            Behavior on opacity { UbuntuNumberAnimation {} }
         }
     }
 }
