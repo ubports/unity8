@@ -42,7 +42,9 @@ FocusScope {
     property bool showDecoration: true
     property bool animateDecoration: false
     property bool showHighlight: false
+    property int highlightSize: units.gu(1)
     property real shadowOpacity: 0
+    property bool darkening: false
 
     property real requestedWidth
     property real requestedHeight
@@ -82,16 +84,9 @@ FocusScope {
     Rectangle {
         id: selectionHighlight
         anchors.fill: parent
-        anchors.margins: -units.gu(1)
+        anchors.margins: -root.highlightSize
         color: "white"
-        opacity: showHighlight ? 0.15 : 0
-    }
-
-    Rectangle {
-        anchors { left: selectionHighlight.left; right: selectionHighlight.right; bottom: selectionHighlight.bottom; }
-        height: units.dp(2)
-        color: theme.palette.normal.focus
-        visible: showHighlight
+        opacity: showHighlight ? 0.55 : 0
     }
 
     BorderImage {
@@ -185,5 +180,12 @@ FocusScope {
             }
 
         ]
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+        opacity: root.darkening && !root.showHighlight ? 0.05 : 0
+        Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
     }
 }

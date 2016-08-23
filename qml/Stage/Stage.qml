@@ -835,6 +835,7 @@ AbstractStage {
                             hasDecoration: root.mode === "windowed"
                             shadowOpacity: spreadMaths.shadowOpacity
                             showHighlight: spreadItem.highlightedIndex === index
+                            darkening: spreadItem.highlightedIndex >= 0
                             anchors.topMargin: dragArea.distance
                         }
                         PropertyChanges {
@@ -1156,6 +1157,7 @@ AbstractStage {
                     overlayShown: touchControls.overlayShown
                     width: implicitWidth
                     height: implicitHeight
+                    highlightSize: windowInfoItem.iconMargin / 2
 
                     requestedWidth: appDelegate.requestedWidth
                     requestedHeight: appDelegate.requestedHeight
