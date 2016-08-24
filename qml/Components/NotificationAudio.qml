@@ -23,7 +23,9 @@ Item {
     readonly property var playbackState: priv.audio ? priv.audio.playbackState : 0
 
     function play() {
-        /* We can be in error state if backend media player restarted, for instance */
+        /* We can be in error state if backend media player restarted, for instance.
+         * This is a qtmultimedia issue (LP: #1616425)
+         */
         if (priv.audio && priv.audio.error) {
             console.warn("NotificationAudio: player in error state (" +
                          priv.audio.errorString + "), recreating");
