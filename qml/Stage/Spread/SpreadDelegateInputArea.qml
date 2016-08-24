@@ -22,6 +22,7 @@ Item {
         property bool moving: false
         property var dragEvents: []
         property real dragVelocity: 0
+        property int threshold: units.gu(2)
 
         // Can be replaced with a fake implementation during tests
         // property var __getCurrentTimeMs: function () { return new Date().getTime() }
@@ -80,14 +81,13 @@ Item {
         anchors.fill: parent
         mouseEnabled: false
         maximumTouchPoints: 1
+        property int offset: 0
 
-        onGestureStarted: {
-            if (!d.moving) {
-                d.moving = true
-                gesture.grab();
-                d.dragEvents = []
+        touchPoints: [
+            TouchPoint {
+                id: tp
             }
-        }
+        ]
 
         onCanceled: {
             d.moving = false
@@ -95,14 +95,19 @@ Item {
         }
 
         onTouchUpdated: {
-            if (touchPoints.length == 0 || !d.moving) {
-                return;
+            if (!d.moving) {
+                if (Math.abs(tp.startY - tp.y) > d.threshold) {
+                    d.moving = true;
+                    d.dragEvents = []
+                    offset = tp.y - tp.startY;
+                } else {
+                    return;
+                }
             }
 
-            var touchPoint = touchPoints[0];
-            d.distance = touchPoint.y - touchPoint.startY
-            d.pushDragEvent(touchPoint);
-            print("pushed event", touchPoint.y, "velocity is now", d.dragVelocity)
+            d.distance = tp.y - tp.startY - offset
+            d.pushDragEvent(tp);
+            print("pushed event", tp.y, "velocity is now", d.dragVelocity)
         }
 
         onReleased: {
