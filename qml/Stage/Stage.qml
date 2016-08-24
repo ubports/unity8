@@ -1331,41 +1331,32 @@ AbstractStage {
                 // A potential edge-drag gesture has started. Start recording it
                 gesturePoints = [];
             } else {
+                // Ok. The user released. Did he drag far enough to go to full spread?
                 if (gesturePoints[gesturePoints.length - 1] < -root.width * 0.4 ) {
                     print("gone to spread true")
                     priv.goneToSpread = true;
                 } else {
-                    if (appRepeater.count > 1) {
-                        print("playing focus animation for", priv.nextInStack)
+                    // Find out if it was a one-way movement.
+                    var oneWayFlick = true;
+                    var smallestX = rightEdgeDragArea.width;
+                    for (var i = 0; i < gesturePoints.length; i++) {
+                        if (gesturePoints[i] >= smallestX) {
+                            oneWayFlick = false;
+                            break;
+                        }
+                        smallestX = gesturePoints[i];
+                    }
+
+                    if (appRepeater.count > 1 &&
+                            (oneWayFlick && rightEdgeDragArea.distance > units.gu(2) || rightEdgeDragArea.distance > root.width * .3)) {
                         appRepeater.itemAt(0).playHidingAnimation()
                         appRepeater.itemAt(priv.nextInStack).playFocusAnimation()
                     } else {
                         appRepeater.itemAt(0).playFocusAnimation();
                     }
+
+                    gesturePoints = [];
                 }
-
-//                // Ok. The user released. Find out if it was a one-way movement.
-//                var oneWayFlick = true;
-//                var smallestX = spreadDragArea.width;
-//                for (var i = 0; i < gesturePoints.length; i++) {
-//                    if (gesturePoints[i] >= smallestX) {
-//                        oneWayFlick = false;
-//                        break;
-//                    }
-//                    smallestX = gesturePoints[i];
-//                }
-//                gesturePoints = [];
-
-//                if (oneWayFlick && spreadView.shiftedContentX > units.gu(2) &&
-//                        spreadView.shiftedContentX < spreadView.positionMarker1 * spreadView.width) {
-//                    // If it was a short one-way movement, do the Alt+Tab switch
-//                    // no matter if we didn't cross positionMarker1 yet.
-//                    spreadView.snapTo(1);
-//                } else if (!dragging) {
-//                    // otherwise snap to the closest snap position we can find
-//                    // (might be back to start, to app 1 or to spread)
-//                    spreadView.snap();
-//                }
             }
         }
     }
