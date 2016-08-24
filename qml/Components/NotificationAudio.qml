@@ -23,6 +23,15 @@ Item {
     readonly property var playbackState: priv.audio ? priv.audio.playbackState : 0
 
     function play() {
+        /* We can be in error state if backend media player restarted, for instance */
+        if (priv.audio && priv.audio.error) {
+            console.warn("NotificationAudio: player in error state (" +
+                         priv.audio.errorString + "), recreating");
+            priv.audio = null;
+        }
+        if (!priv.audio) {
+            priv.audio = priv.audioComponent.createObject(root);
+        }
         if (priv.audio) {
             priv.audio.play();
         }
@@ -35,9 +44,12 @@ Item {
 
     QtObject {
         id: priv
-        property var audio: Audio {
-            source: root.source
-            audioRole: MediaPlayer.NotificationRole
+        property Audio audio: null
+        property Component audioComponent: Component {
+            Audio {
+                source: root.source
+                audioRole: MediaPlayer.NotificationRole
+            }
         }
     }
 }
