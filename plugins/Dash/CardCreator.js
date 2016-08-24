@@ -573,10 +573,8 @@ function cardString(template, components, isCardTool, artShapeStyle, categoryLay
                                   .arg(artShapeHolderShapeCode)
                                   .arg(fallbackStatusCode)
                                   .arg(fallbackURICode);
-    } else {
-        if (isCardTool) {
-            code += 'readonly property size artShapeSize: Qt.size(-1, -1);\n'
-        }
+    } else if (isCardTool) {
+        code += 'readonly property size artShapeSize: Qt.size(-1, -1);\n'
     }
 
     if (headerAsOverlay) {
