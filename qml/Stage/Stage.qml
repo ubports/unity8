@@ -324,7 +324,7 @@ AbstractStage {
         },
         Transition {
             to: "spread"
-            PropertyAction { target: spreadItem; property: "highlightedIndex"; value: 1 }
+            PropertyAction { target: spreadItem; property: "highlightedIndex"; value: appRepeater.count > 1 ? 1 : 0 }
             PropertyAction { target: floatingFlickable; property: "contentX"; value: 0 }
         },
         Transition {
@@ -819,7 +819,7 @@ AbstractStage {
                     targetScale: spreadMaths.targetScale
                 }
 
-                onXChanged: if (model.application.appId == "unity8-dash") print("dash moved to", x)
+//                onXChanged: if (model.application.appId == "unity8-dash") print("dash moved to", x)
 //                onRequestedWidthChanged: if (index == 0) print("requestedWidth", requestedWidth)
                 onStateChanged: if (model.application.appId == "unity8-dash") print("state changed", state)
                 states: [
@@ -1278,14 +1278,6 @@ AbstractStage {
         anchors.fill: appContainer
         enabled: false
         contentWidth: spreadItem.spreadTotalWidth
-        rightMargin: leftMargin
-        leftMargin: {
-            var stepOnXAxis = 1 / spreadItem.visibleItemCount
-            var distanceToIndex1 = spreadItem.curve.getYFromX(stepOnXAxis)
-            var middlePartDistance = spreadItem.curve.getYFromX(0.5 + stepOnXAxis/2) - spreadItem.curve.getYFromX(0.5 - stepOnXAxis/2)
-            return 1.2 * (middlePartDistance - distanceToIndex1) * spreadItem.spreadWidth
-        }
-
     }
 
     PropertyAnimation {
