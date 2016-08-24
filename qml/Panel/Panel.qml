@@ -108,14 +108,13 @@ Item {
             drag.minimumY: panelHeight
             drag.maximumX: PanelState.maximizedAppDelegate ? PanelState.maximizedAppDelegate.moveHandler.stageWidth : 0
             drag.maximumY: PanelState.maximizedAppDelegate ? PanelState.maximizedAppDelegate.moveHandler.stageHeight : 0
-            drag.threshold: panelHeight
+            drag.threshold: PanelState.panelHeight
             drag.filterChildren: true
             onReleased: {
                 if (drag.active) {
                     var delegate = PanelState.maximizedAppDelegate;
-                    print("!!! Released drag at", mouse.x, mouse.y, drag.active)
                     delegate.restoredX = Math.round(mouse.x - delegate.moveHandler.buttonsWidth);
-                    delegate.restoredY = Math.round(Math.max(mouse.y, panelHeight));
+                    delegate.restoredY = Math.round(Math.max(mouse.y, PanelState.panelHeight));
                     delegate.restoreFromMaximized(false);
                 }
             }

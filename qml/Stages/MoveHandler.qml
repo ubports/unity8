@@ -29,6 +29,8 @@ Item {
     property int stageHeight
     property real buttonsWidth: 0
 
+    readonly property alias dragging: priv.dragging
+
     signal fakeMaximizeAnimationRequested(real progress)
     signal fakeMaximizeLeftAnimationRequested(real progress)
     signal fakeMaximizeRightAnimationRequested(real progress)
