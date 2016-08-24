@@ -38,8 +38,6 @@ Item {
     signal fakeMaximizeBottomRightAnimationRequested(real progress)
     signal stopFakeAnimation()
 
-    signal doubleClicked()
-
     QtObject {
         id: priv
         property real distanceX
@@ -80,14 +78,6 @@ Item {
         property real progress: 0
     }
 
-    function handleDoubleClicked(mouse) {
-        priv.resetEdges();
-        if (target.canBeMaximized && mouse.button == Qt.LeftButton) {
-            priv.dragging = false; // do not interfere with a quick double click followed by a mouse move/drag
-            root.doubleClicked();
-        }
-    }
-
     function handlePressedChanged(pressed, pressedButtons, mouseX, mouseY) {
         if (pressed && pressedButtons == Qt.LeftButton) {
             var pos = mapToItem(target, mouseX, mouseY);
@@ -107,7 +97,7 @@ Item {
         }
     }
 
-    function handlePositionChanged(mouseX, mouseY) {
+    function handlePositionChanged(mouse) {
         if (priv.dragging) {
             Mir.cursorName = "grabbing";
 
@@ -116,14 +106,14 @@ Item {
                 target.restore(false, WindowStateStorage.WindowStateNormal);
             }
 
-            var pos = mapToItem(target.parent, mouseX, mouseY);
+            var pos = mapToItem(target.parent, mouse.x, mouse.y);
             // Use integer coordinate values to ensure that target is left in a pixel-aligned
             // position. Mouse movement could have subpixel precision, yielding a fractional
             // mouse position.
             target.requestedX = Math.round(pos.x - priv.distanceX);
             target.requestedY = Math.round(Math.max(pos.y - priv.distanceY, PanelState.panelHeight));
 
-            var globalPos = mapToItem(null, mouseX, mouseY);
+            var globalPos = mapToItem(null, mouse.x, mouse.y);
             var globalX = globalPos.x;
             var globalY = globalPos.y;
             if (globalX < priv.triggerArea && globalY < PanelState.panelHeight) { // top left
@@ -197,18 +187,25 @@ Item {
             root.stopFakeAnimation();
         } else if (priv.nearLeftEdge) {
             target.maximizeLeft();
+            priv.resetEdges();
         } else if (priv.nearTopEdge) {
             target.maximize();
+            priv.resetEdges();
         } else if (priv.nearRightEdge) {
             target.maximizeRight();
+            priv.resetEdges();
         } else if (priv.nearTopLeftCorner) {
             target.maximizeTopLeft();
+            priv.resetEdges();
         } else if (priv.nearTopRightCorner) {
             target.maximizeTopRight();
+            priv.resetEdges();
         } else if (priv.nearBottomLeftCorner) {
             target.maximizeBottomLeft();
+            priv.resetEdges();
         } else if (priv.nearBottomRightCorner) {
             target.maximizeBottomRight();
+            priv.resetEdges();
         }
     }
 }

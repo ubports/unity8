@@ -39,6 +39,12 @@ MouseArea {
     signal maximizeHorizontallyClicked()
     signal maximizeVerticallyClicked()
 
+    onDoubleClicked: {
+        if (target.canBeMaximized && mouse.button == Qt.LeftButton) {
+            root.maximizeClicked();
+        }
+    }
+
     // do not let unhandled wheel event pass thru the decoration
     onWheel: wheel.accepted = true;
 

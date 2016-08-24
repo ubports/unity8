@@ -54,6 +54,7 @@ FocusScope {
     property alias overlayShown: decoration.overlayShown
     property alias stageWidth: moveHandler.stageWidth
     property alias stageHeight: moveHandler.stageHeight
+    readonly property alias moveHandler: moveHandler
 
     signal closeClicked()
     signal maximizeClicked()
@@ -113,9 +114,8 @@ FocusScope {
         onMinimizeClicked: root.minimizeClicked();
         onPressed: root.decorationPressed();
 
-        onDoubleClicked: moveHandler.handleDoubleClicked(mouse)
         onPressedChanged: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
-        onPositionChanged: moveHandler.handlePositionChanged(mouseX, mouseY)
+        onPositionChanged: moveHandler.handlePositionChanged(mouse)
         onReleased: moveHandler.handleReleased(mouse)
     }
 
@@ -134,8 +134,6 @@ FocusScope {
         onFakeMaximizeBottomLeftAnimationRequested: root.fakeMaximizeBottomLeftAnimationRequested(progress)
         onFakeMaximizeBottomRightAnimationRequested: root.fakeMaximizeBottomRightAnimationRequested(progress)
         onStopFakeAnimation: root.stopFakeAnimation()
-
-        onDoubleClicked: root.maximizeClicked()
     }
 
     ApplicationWindow {
