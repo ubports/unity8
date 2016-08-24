@@ -26,6 +26,8 @@ Item {
 
     property int animDuration: 10
 
+    property int currentDay: -1  // Boot time value
+
     QtObject {
         id: d
         objectName: "infographicPrivate"
@@ -50,14 +52,20 @@ Item {
         onDataDisappeared: startShowAnimation() // show "no data" label
     }
 
-    function startShowAnimation() {
-        dotHideAnimTimer.stop()
-        notification.hideAnim.stop()
 
-        if (d.useDotAnimation) {
-            dotShowAnimTimer.startFromBeginning()
+    function startShowAnimation() {
+        if(currentDay !== model.currentDay){
+            currentDay = model.currentDay
+            model.nextDataSource();
+        }else{
+            dotHideAnimTimer.stop()
+            notification.hideAnim.stop()
+
+            if (d.useDotAnimation) {
+                dotShowAnimTimer.startFromBeginning()
+            }
+            notification.showAnim.start()
         }
-        notification.showAnim.start()
     }
 
     function startHideAnimation() {
