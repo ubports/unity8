@@ -82,7 +82,7 @@ FocusScope {
     StateGroup {
         states: [
             State {
-                name: "normal"; when: root.scaleToPreviewProgress == 0
+                name: "normal"; when: root.scaleToPreviewProgress <= 0
                 PropertyChanges {
                     target: root
                     implicitWidth: applicationWindow.implicitWidth

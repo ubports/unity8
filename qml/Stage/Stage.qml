@@ -819,7 +819,7 @@ AbstractStage {
                     targetScale: spreadMaths.targetScale
                 }
 
-//                onXChanged: if (model.application.appId == "unity8-dash") print("dash moved to", x)
+                onXChanged: if (model.application.appId == "unity8-dash") print("dash moved to", x)
 //                onRequestedWidthChanged: if (index == 0) print("requestedWidth", requestedWidth)
                 onStateChanged: if (model.application.appId == "unity8-dash") print("state changed", state)
                 states: [
@@ -1304,24 +1304,8 @@ AbstractStage {
         property var gesturePoints: new Array()
 
         property real progress: -touchPosition.x / root.width
-//        onProgressChanged: print("dda progress", progress, root.width, touchPosition.x, root.width + touchPosition.x)
 
-//        Rectangle { color: "blue"; anchors.fill: parent }
         onTouchPositionChanged: {
-            if (dragging) {
-                // Gesture recognized. Let's move the spreadView with the finger
-//                var dragX = Math.min(touchX + width, width); // Prevent dragging rightwards
-//                dragX = -dragX + spreadDragArea.width - spreadView.shift;
-//                // Don't allow dragging further than the animation crossing with phase2's animation
-//                var maxMovement =  spreadView.width * spreadView.positionMarker4 - spreadView.shift;
-
-//                spreadView.contentX = Math.min(dragX, maxMovement);
-            } else {
-//                // Initial touch. Let's reset the spreadView to the starting position.
-//                spreadView.phase = 0;
-//                spreadView.contentX = -spreadView.shift;
-            }
-
             gesturePoints.push(touchPosition.x);
         }
 
