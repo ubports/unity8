@@ -68,9 +68,9 @@ Q_DECLARE_METATYPE(StringMapList)
 QVariant primaryButtonConverter(const QVariant &value)
 {
     QString stringValue = value.toString();
-    if (stringValue == "left") {
+    if (stringValue == QLatin1String("left")) {
         return QVariant::fromValue(0);
-    } else if (stringValue == "right") {
+    } else if (stringValue == QLatin1String("right")) {
         return QVariant::fromValue(1); // Mir is less clear on this -- any non-zero value is the same
     } else {
         return QVariant::fromValue(0); // default to left
@@ -282,6 +282,24 @@ QStringList AccountsService::keymaps() const
     }
 
     return {QStringLiteral("us")};
+}
+
+void AccountsService::setKeymaps(const QStringList &keymaps)
+{
+    if (keymaps.isEmpty()) {
+        qWarning() << "Setting empty keymaps is not supported";
+        return;
+    }
+
+    StringMapList result;
+    Q_FOREACH(const QString &keymap, keymaps) {
+        StringMap map;
+        map.insert(QStringLiteral("xkb"), keymap);
+        result.append(map);
+    }
+
+    setProperty(IFACE_ACCOUNTS_USER, PROP_INPUT_SOURCES, QVariant::fromValue(result));
+    Q_EMIT keymapsChanged();
 }
 
 uint AccountsService::failedFingerprintLogins() const

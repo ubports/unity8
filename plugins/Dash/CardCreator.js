@@ -429,7 +429,7 @@ function sanitizeColor(colorString) {
     return colorString;
 }
 
-function cardString(template, components, isCardTool, artShapeStyle) {
+function cardString(template, components, isCardTool, artShapeStyle, categoryLayout) {
     var code;
 
     var templateInteractive = (template == null ? true : (template["non-interactive"] !== undefined ? !template["non-interactive"] : true)) ? "true" : "false";
@@ -935,29 +935,33 @@ function cardString(template, components, isCardTool, artShapeStyle) {
         code += kTouchdownCode.arg(touchdownAnchors);
     }
 
-    var implicitHeight = 'implicitHeight: ';
-    if (hasSocialActions) {
-        implicitHeight += 'socialActionsRow.y + socialActionsRow.height + units.gu(1);\n';
-    } else if (hasSummary) {
-        implicitHeight += 'summary.y + summary.height + units.gu(1);\n';
-    } else if (isAudio) {
-        implicitHeight += 'audioButton.height;\n';
-    } else if (headerAsOverlay) {
-        implicitHeight += 'artShapeLoader.height;\n';
-    } else if (hasHeaderRow) {
-        implicitHeight += 'row.y + row.height + units.gu(1);\n';
-    } else if (hasMascot) {
-        implicitHeight += 'mascotImage.y + mascotImage.height;\n';
-    } else if (hasTitleContainer) {
-        implicitHeight += 'headerTitleContainer.y + headerTitleContainer.height + units.gu(1);\n';
-    } else if (hasAttributes) {
-        implicitHeight += 'attributesRow.y + attributesRow.height + units.gu(1);\n';
-    } else if (hasSubtitle) {
-        implicitHeight += 'subtitleLabel.y + subtitleLabel.height + units.gu(1);\n';
-    } else if (hasTitle) {
-        implicitHeight += 'titleLabel.y + titleLabel.height + units.gu(1);\n';
-    } else if (hasArt) {
-        implicitHeight += 'artShapeLoader.height;\n';
+    if (isCardTool || categoryLayout !== "grid") {
+        var implicitHeight = 'implicitHeight: ';
+        if (hasSocialActions) {
+            implicitHeight += 'socialActionsRow.y + socialActionsRow.height + units.gu(1);\n';
+        } else if (hasSummary) {
+            implicitHeight += 'summary.y + summary.height + units.gu(1);\n';
+        } else if (isAudio) {
+            implicitHeight += 'audioButton.height;\n';
+        } else if (headerAsOverlay) {
+            implicitHeight += 'artShapeLoader.height;\n';
+        } else if (hasHeaderRow) {
+            implicitHeight += 'row.y + row.height + units.gu(1);\n';
+        } else if (hasMascot) {
+            implicitHeight += 'mascotImage.y + mascotImage.height;\n';
+        } else if (hasTitleContainer) {
+            implicitHeight += 'headerTitleContainer.y + headerTitleContainer.height + units.gu(1);\n';
+        } else if (hasAttributes) {
+            implicitHeight += 'attributesRow.y + attributesRow.height + units.gu(1);\n';
+        } else if (hasSubtitle) {
+            implicitHeight += 'subtitleLabel.y + subtitleLabel.height + units.gu(1);\n';
+        } else if (hasTitle) {
+            implicitHeight += 'titleLabel.y + titleLabel.height + units.gu(1);\n';
+        } else if (hasArt) {
+            implicitHeight += 'artShapeLoader.height;\n';
+        } else {
+            implicitHeight = '';
+        }
     } else {
         implicitHeight = '';
     }
@@ -968,13 +972,13 @@ function cardString(template, components, isCardTool, artShapeStyle) {
     return code;
 }
 
-function createCardComponent(parent, template, components, isCardTool, artShapeStyle, identifier) {
+function createCardComponent(parent, template, components, isCardTool, artShapeStyle, categoryLayout, identifier) {
     var imports = 'import QtQuick 2.4; \n\
                    import Ubuntu.Components 1.3; \n\
                    import Ubuntu.Settings.Components 0.1; \n\
                    import Dash 0.1;\n\
                    import Utils 0.1;\n';
-    var card = cardString(template, components, isCardTool, artShapeStyle);
+    var card = cardString(template, components, isCardTool, artShapeStyle, categoryLayout);
     var code = imports + 'Component {\n' + card + '}\n';
 
     try {

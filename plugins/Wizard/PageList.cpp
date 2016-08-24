@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical Ltd.
+ * Copyright (C) 2014-2016 Canonical Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
@@ -34,6 +34,7 @@
 #include <QDir>
 #include <QSet>
 #include <QStandardPaths>
+#include <QSettings>
 
 PageList::PageList(QObject *parent)
     : QObject(parent),
@@ -65,6 +66,20 @@ PageList::PageList(QObject *parent)
     // Now remove any explicitly disabled entries
     Q_FOREACH(const QString &page, disabledPages) {
         m_pages.remove(page);
+    }
+
+    // If there was a system update installed, skip until the last page to just greet the user
+    QSettings settings;
+    if (settings.value(QStringLiteral("Wizard/SkipUntilFinishedPage")).toBool()) {
+        const QString lastPage = m_pages.lastKey();
+        Q_FOREACH(const QString &page, m_pages.keys()) {
+            if (Q_UNLIKELY(page != lastPage)) {
+                m_pages.remove(page);
+            }
+        }
+
+        // ... and reset it again for the next run
+        settings.remove(QStringLiteral("Wizard/SkipUntilFinishedPage"));
     }
 }
 

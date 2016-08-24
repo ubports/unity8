@@ -170,6 +170,7 @@ FocusScope {
             event.accepted = true;
             break;
         case Qt.Key_Right:
+        case Qt.Key_Menu:
             panel.openQuicklist(panel.highlightIndex)
             event.accepted = true;
             break;
