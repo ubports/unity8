@@ -506,12 +506,10 @@ function cardString(template, components, isCardTool, artShapeStyle, categoryLay
     }
 
     if (hasArt) {
-        if (isCardTool) {
-            code += 'readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);\n';
-        }
-
         var artShapeAspect;
         if (isCardTool) {
+            code += 'readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);\n';
+
             var artShapeAspect = components["art"] && components["art"]["aspect-ratio"] || 1;
             if (isNaN(artShapeAspect)) {
                 artShapeAspect = 1;
