@@ -205,6 +205,12 @@ AbstractStage {
         value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized && !priv.focusedAppDelegate.isDash
     }
 
+    Binding {
+        target: PanelState
+        property: "maximizedAppDelegate"
+        value: priv.foregroundMaximizedAppDelegate ? priv.foregroundMaximizedAppDelegate : null
+    }
+
     Component.onDestruction: {
         PanelState.title = "";
         PanelState.buttonsVisible = false;
@@ -349,6 +355,7 @@ AbstractStage {
                 readonly property var surface: model.surface
                 readonly property alias resizeArea: resizeArea
                 readonly property alias focusedSurface: decoratedWindow.focusedSurface
+                readonly property alias moveHandler: decoratedWindow.moveHandler
 
                 readonly property bool isDash: model.application.appId == "unity8-dash"
 

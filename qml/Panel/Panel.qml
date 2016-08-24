@@ -102,13 +102,21 @@ Item {
             hoverEnabled: true
             onClicked: callHint.visible ? callHint.showLiveCall() : PanelState.focusMaximizedApp()
             onDoubleClicked: PanelState.restoreClicked()
-
-            property bool mouseWasPressed: false
-            onPressed: mouseWasPressed = containsPress
-            onMouseYChanged: {
-                if (mouseWasPressed && mouseY > panelHeight) {
-                    PanelState.restoreClicked(); // restore the window when "dragging" the panel down
-                    mouseWasPressed = false;
+            drag.target: PanelState.maximizedAppDelegate
+            drag.axis: Drag.XAndYAxis
+            drag.minimumX: 0
+            drag.minimumY: panelHeight
+            drag.maximumX: PanelState.maximizedAppDelegate ? PanelState.maximizedAppDelegate.moveHandler.stageWidth : 0
+            drag.maximumY: PanelState.maximizedAppDelegate ? PanelState.maximizedAppDelegate.moveHandler.stageHeight : 0
+            drag.threshold: panelHeight
+            drag.filterChildren: true
+            onReleased: {
+                if (drag.active) {
+                    var delegate = PanelState.maximizedAppDelegate;
+                    print("!!! Released drag at", mouse.x, mouse.y, drag.active)
+                    delegate.restoredX = Math.round(mouse.x - delegate.moveHandler.buttonsWidth);
+                    delegate.restoredY = Math.round(Math.max(mouse.y, panelHeight));
+                    delegate.restoreFromMaximized(false);
                 }
             }
 
