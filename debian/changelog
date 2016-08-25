@@ -1,3 +1,11 @@
+unity8 (8.14+16.10.20160819-0ubuntu1) yakkety; urgency=medium
+
+  [ Lukáš Tinkl ]
+  * Reset topmostIsFullscreen to correctly rotate the shell when
+    dismissing SIM PIN screen (LP: #1614070)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 19 Aug 2016 14:16:54 +0000
+
 unity8 (8.14+16.10.20160811.1-0ubuntu1) yakkety; urgency=medium
 
   [ Albert Astals Cid ]
