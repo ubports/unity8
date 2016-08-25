@@ -23,15 +23,8 @@ Item {
     readonly property var playbackState: priv.audio ? priv.audio.playbackState : 0
 
     function play() {
-        /* We can be in error state if backend media player restarted, for instance.
-         * This is a qtmultimedia issue (LP: #1616425)
-         */
-        if (priv.audio && priv.audio.error) {
-            console.warn("NotificationAudio: player in error state (" +
-                         priv.audio.errorString + "), recreating");
-            priv.audio = null;
-        }
         if (!priv.audio) {
+            console.info("NotificationAudio: creating player");
             priv.audio = priv.audioComponent.createObject(root);
         }
         if (priv.audio) {
@@ -51,6 +44,16 @@ Item {
             Audio {
                 source: root.source
                 audioRole: MediaPlayer.NotificationRole
+                /* Remove player in case of error so it gets recreated next time
+                 * we need it. Happens if backend media player restarted, for
+                 * instance. qtmultimedia should probably handle this
+                 * transparently (LP: #1616425).
+                 */
+                onError: {
+                    console.warn("NotificationAudio: error event (" +
+                                  priv.audio.errorString + "), destroying");
+                    priv.audio.destroy();
+                }
             }
         }
     }
