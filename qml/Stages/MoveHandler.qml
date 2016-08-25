@@ -29,7 +29,7 @@ Item {
     property int stageHeight
     property real buttonsWidth: 0
 
-    readonly property alias dragging: priv.dragging
+    property alias dragging: priv.dragging
 
     signal fakeMaximizeAnimationRequested(real progress)
     signal fakeMaximizeLeftAnimationRequested(real progress)
@@ -104,6 +104,7 @@ Item {
             Mir.cursorName = "grabbing";
 
             if (target.anyMaximized) { // restore from maximized when dragging away from edges/corners
+                print("!!! Restoring maximized window after a drag away")
                 priv.progress = 0;
                 target.restore(false, WindowStateStorage.WindowStateNormal);
             }
@@ -115,75 +116,75 @@ Item {
             target.requestedX = Math.round(pos.x - priv.distanceX);
             target.requestedY = Math.round(Math.max(pos.y - priv.distanceY, PanelState.panelHeight));
 
-            var globalPos = mapToItem(null, mouse.x, mouse.y);
-            var globalX = globalPos.x;
-            var globalY = globalPos.y;
-            if (globalX < priv.triggerArea && globalY < PanelState.panelHeight) { // top left
-                if (target.canBeCornerMaximized) {
-                    priv.progress = priv.progressInCorner(0, PanelState.panelHeight, globalX, globalY);
-                    priv.resetEdges();
-                    priv.nearTopLeftCorner = true;
-                    root.fakeMaximizeTopLeftAnimationRequested(priv.progress);
-                }
-            } else if (globalX > stageWidth - priv.triggerArea && globalY < PanelState.panelHeight) { // top right
-                if (target.canBeCornerMaximized) {
-                    priv.progress = priv.progressInCorner(stageWidth, PanelState.panelHeight, globalX, globalY);
-                    priv.resetEdges();
-                    priv.nearTopRightCorner = true;
-                    root.fakeMaximizeTopRightAnimationRequested(priv.progress);
-                }
-            } else if (globalX < priv.triggerArea && globalY > stageHeight - priv.triggerArea) { // bottom left
-                if (target.canBeCornerMaximized) {
-                    priv.progress = priv.progressInCorner(0, stageHeight, globalX, globalY);
-                    priv.resetEdges();
-                    priv.nearBottomLeftCorner = true;
-                    root.fakeMaximizeBottomLeftAnimationRequested(priv.progress);
-                }
-            } else if (globalX > stageWidth - priv.triggerArea && globalY > stageHeight - priv.triggerArea) { // bottom right
-                if (target.canBeCornerMaximized) {
-                    priv.progress = priv.progressInCorner(stageWidth, stageHeight, globalX, globalY);
-                    priv.resetEdges();
-                    priv.nearBottomRightCorner = true;
-                    root.fakeMaximizeBottomRightAnimationRequested(priv.progress);
-                }
-            } else if (globalX < priv.triggerArea) { // left
-                if (target.canBeMaximizedLeftRight) {
-                    priv.progress = MathUtils.clampAndProject(globalX, priv.triggerArea, 0, 0, 1);
-                    priv.resetEdges();
-                    priv.nearLeftEdge = true;
-                    root.fakeMaximizeLeftAnimationRequested(priv.progress);
-                }
-            } else if (globalX > stageWidth - priv.triggerArea) { // right
-                if (target.canBeMaximizedLeftRight) {
-                    priv.progress = MathUtils.clampAndProject(globalX, stageWidth - priv.triggerArea, stageWidth, 0, 1);
-                    priv.resetEdges();
-                    priv.nearRightEdge = true;
-                    root.fakeMaximizeRightAnimationRequested(priv.progress);
-                }
-            } else if (globalY < PanelState.panelHeight) { // top
-                if (target.canBeMaximized) {
-                    priv.progress = MathUtils.clampAndProject(globalY, Math.max(PanelState.panelHeight, priv.triggerArea), 0, 0, 1);
-                    priv.resetEdges();
-                    priv.nearTopEdge = true;
-                    root.fakeMaximizeAnimationRequested(priv.progress);
-                }
-            } else if (priv.nearLeftEdge || priv.nearRightEdge || priv.nearTopEdge || priv.nearTopLeftCorner || priv.nearTopRightCorner ||
-                       priv.nearBottomLeftCorner || priv.nearBottomRightCorner) {
-                print("!!! Exited")
-                priv.progress = 0;
-                priv.resetEdges();
-                root.stopFakeAnimation();
-            }
+//            var globalPos = mapToItem(null, mouse.x, mouse.y);
+//            var globalX = globalPos.x;
+//            var globalY = globalPos.y;
+//            if (globalX < priv.triggerArea && globalY < PanelState.panelHeight) { // top left
+//                if (target.canBeCornerMaximized) {
+//                    priv.progress = priv.progressInCorner(0, PanelState.panelHeight, globalX, globalY);
+//                    priv.resetEdges();
+//                    priv.nearTopLeftCorner = true;
+//                    root.fakeMaximizeTopLeftAnimationRequested(priv.progress);
+//                }
+//            } else if (globalX > stageWidth - priv.triggerArea && globalY < PanelState.panelHeight) { // top right
+//                if (target.canBeCornerMaximized) {
+//                    priv.progress = priv.progressInCorner(stageWidth, PanelState.panelHeight, globalX, globalY);
+//                    priv.resetEdges();
+//                    priv.nearTopRightCorner = true;
+//                    root.fakeMaximizeTopRightAnimationRequested(priv.progress);
+//                }
+//            } else if (globalX < priv.triggerArea && globalY > stageHeight - priv.triggerArea) { // bottom left
+//                if (target.canBeCornerMaximized) {
+//                    priv.progress = priv.progressInCorner(0, stageHeight, globalX, globalY);
+//                    priv.resetEdges();
+//                    priv.nearBottomLeftCorner = true;
+//                    root.fakeMaximizeBottomLeftAnimationRequested(priv.progress);
+//                }
+//            } else if (globalX > stageWidth - priv.triggerArea && globalY > stageHeight - priv.triggerArea) { // bottom right
+//                if (target.canBeCornerMaximized) {
+//                    priv.progress = priv.progressInCorner(stageWidth, stageHeight, globalX, globalY);
+//                    priv.resetEdges();
+//                    priv.nearBottomRightCorner = true;
+//                    root.fakeMaximizeBottomRightAnimationRequested(priv.progress);
+//                }
+//            } else if (globalX < priv.triggerArea) { // left
+//                if (target.canBeMaximizedLeftRight) {
+//                    priv.progress = MathUtils.clampAndProject(globalX, priv.triggerArea, 0, 0, 1);
+//                    priv.resetEdges();
+//                    priv.nearLeftEdge = true;
+//                    root.fakeMaximizeLeftAnimationRequested(priv.progress);
+//                }
+//            } else if (globalX > stageWidth - priv.triggerArea) { // right
+//                if (target.canBeMaximizedLeftRight) {
+//                    priv.progress = MathUtils.clampAndProject(globalX, stageWidth - priv.triggerArea, stageWidth, 0, 1);
+//                    priv.resetEdges();
+//                    priv.nearRightEdge = true;
+//                    root.fakeMaximizeRightAnimationRequested(priv.progress);
+//                }
+//            } else if (globalY < PanelState.panelHeight) { // top
+//                if (target.canBeMaximized) {
+//                    priv.progress = MathUtils.clampAndProject(globalY, Math.max(PanelState.panelHeight, priv.triggerArea), 0, 0, 1);
+//                    priv.resetEdges();
+//                    priv.nearTopEdge = true;
+//                    root.fakeMaximizeAnimationRequested(priv.progress);
+//                }
+//            } else if (priv.nearLeftEdge || priv.nearRightEdge || priv.nearTopEdge || priv.nearTopLeftCorner || priv.nearTopRightCorner ||
+//                       priv.nearBottomLeftCorner || priv.nearBottomRightCorner) {
+//                print("!!! Exited")
+//                priv.progress = 0;
+//                priv.resetEdges();
+//                root.stopFakeAnimation();
+//            }
         }
     }
 
     function handleReleased(mouse) {
-        print("Mouse released (left/top/right)", priv.nearLeftEdge, priv.nearTopEdge, priv.nearRightEdge)
         if (mouse.button == Qt.LeftButton && (target.state == "normal" || target.state == "restored") && priv.progress == 0) {
             // save the x/y to restore to
+            print("!!! Saving restoredX/Y")
             target.restoredX = target.x;
             target.restoredY = target.y;
-        } else if (priv.progress < 0.3) { // cancel the preview shape if under 30%
+        } /*else if (priv.progress < 0.3) { // cancel the preview shape if under 30%
             priv.progress = 0;
             priv.resetEdges();
             root.stopFakeAnimation();
@@ -208,6 +209,6 @@ Item {
         } else if (priv.nearBottomRightCorner) {
             target.maximizeBottomRight();
             priv.resetEdges();
-        }
+        }*/
     }
 }

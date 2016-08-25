@@ -51,6 +51,7 @@ Q_SIGNALS:
     void pushedTopRightCorner(qreal amount, Qt::MouseButtons buttons);
     void pushedBottomLeftCorner(qreal amount, Qt::MouseButtons buttons);
     void pushedBottomRightCorner(qreal amount, Qt::MouseButtons buttons);
+    void pushStopped();
     void mouseMoved();
 
 protected:

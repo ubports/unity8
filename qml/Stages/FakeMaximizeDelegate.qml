@@ -16,11 +16,12 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import Utils 0.1 // For EdgeBarrierSettings
 import "../Components/PanelState"
 
 Rectangle {
     id: fakeRectangle
-    visible: opacity > 0 // we go from 0.2 to 0.6
+    visible: opacity > 0 && target && !target.anyMaximized // we go from 0.2 to 0.6
     enabled: visible
     color: "#ffffff"
     border.width: units.dp(1)
@@ -33,12 +34,43 @@ Rectangle {
     property real appContainerWidth
     property real appContainerHeight
 
+    readonly property bool targetDragging: target && target.moveHandler.dragging
+
+    // Edge push progress
+    // Value range is [0.0, 1.0]
+    readonly property real progress: Math.min(Math.max(0.0, priv.accumulatedPush / EdgeBarrierSettings.pushThreshold), 1.0)
+    onProgressChanged: {
+        print("!!! Progress:", progress)
+    }
+
     QtObject {
         id: priv
 
-        property real progress: 0
+        property real accumulatedPush: 0
+
+        function push(amount) {
+            if (accumulatedPush === EdgeBarrierSettings.pushThreshold) {
+                // NO-OP
+                print("!!! Accumulated push already at threshold")
+                return;
+            }
+
+            if (accumulatedPush + amount > EdgeBarrierSettings.pushThreshold) {
+                accumulatedPush = EdgeBarrierSettings.pushThreshold;
+            } else {
+                accumulatedPush += amount;
+            }
+
+            if (accumulatedPush === EdgeBarrierSettings.pushThreshold) {
+                print("!!! Reached push progress 1, maximizing")
+                commit();
+            }
+        }
 
         function setup(edge) {
+            if (edge !== fakeRectangle.edge) {
+                stop(); // a different edge, start anew
+            }
             fakeRectangle.x = target.x;
             fakeRectangle.y = target.y;
             fakeRectangle.width = target.width;
@@ -47,25 +79,49 @@ Rectangle {
             fakeRectangle.transformOrigin = edge;
         }
 
-        function projectOpacity(progress) {
+        function projectOpacity() {
             // progress falls into [0,1], opacity moves in [0.2,0.6]
             fakeRectangle.opacity = MathUtils.clampAndProject(progress, 0.0, 1.0, 0.2, 0.6);
         }
 
-        function projectScale(progress) {
-            // progress falls into [0,1], scale moves in [1,2] as a hint, when under 30%
+        function projectScale() {
+            // progress falls into [0,1], scale moves in [1,2] as a hint, when under 10%
             fakeRectangle.scale = MathUtils.clampAndProject(progress, 0, 1, 1, 2);
         }
 
-        function processAnimation(progress, animation) {
-            if (priv.progress >= 0.3) {
+        function processAnimation(amount, animation) {
+            priv.push(amount);
+
+            if (progress > 0.1) { // above 10% we start the full preview animation
                 fakeRectangle.scale = 1;
                 animation.start();
-            } else if (progress > priv.progress) {
-                priv.progress += progress;
-                priv.projectScale(progress);
+            } else {
+                priv.projectScale();
             }
-            priv.projectOpacity(progress);
+
+            priv.projectOpacity();
+        }
+    }
+
+    function commit() {
+        if (progress > 0.1 && edge != -1) {
+            print("!!! Committing edge", edge, ", progress:", progress);
+            target.moveHandler.handlePressedChanged(false, Qt.LeftButton, 0, 0); // cancel the drag
+            if (edge == Item.Top) {
+                target.maximize();
+            } else if (edge == Item.Left) {
+                target.maximizeLeft();
+            } else if (edge == Item.Right) {
+                target.maximizeRight();
+            } else if (edge == Item.TopLeft) {
+                target.maximizeTopLeft();
+            } else if (edge == Item.TopRight) {
+                target.maximizeTopRight();
+            } else if (edge == Item.BottomLeft) {
+                target.maximizeBottomLeft();
+            } else if (edge == Item.BottomRight) {
+                target.maximizeBottomRight();
+            }
         }
     }
 
@@ -73,56 +129,56 @@ Rectangle {
         print("!!! Stop")
         opacity = 0;
         edge = -1;
-        priv.progress = 0;
+        priv.accumulatedPush = 0;
     }
 
-    function maximize(progress) {
+    function maximize(amount) {
         if (fakeRectangle.edge != Item.Top) {
             priv.setup(Item.Top);
         }
-        priv.processAnimation(progress, fakeMaximizeAnimation);
+        priv.processAnimation(amount, fakeMaximizeAnimation);
     }
 
-    function maximizeLeft(progress) {
+    function maximizeLeft(amount) {
         if (fakeRectangle.edge != Item.Left) {
             priv.setup(Item.Left);
         }
-        priv.processAnimation(progress, fakeMaximizeLeftAnimation);
+        priv.processAnimation(amount, fakeMaximizeLeftAnimation);
     }
 
-    function maximizeRight(progress) {
+    function maximizeRight(amount) {
         if (fakeRectangle.edge != Item.Right) {
             priv.setup(Item.Right);
         }
-        priv.processAnimation(progress, fakeMaximizeRightAnimation);
+        priv.processAnimation(amount, fakeMaximizeRightAnimation);
     }
 
-    function maximizeTopLeft(progress) {
+    function maximizeTopLeft(amount) {
         if (fakeRectangle.edge != Item.TopLeft) {
             priv.setup(Item.TopLeft);
         }
-        priv.processAnimation(progress, fakeMaximizeTopLeftAnimation);
+        priv.processAnimation(amount, fakeMaximizeTopLeftAnimation);
     }
 
-    function maximizeTopRight(progress) {
+    function maximizeTopRight(amount) {
         if (fakeRectangle.edge != Item.TopRight) {
             priv.setup(Item.TopRight);
         }
-        priv.processAnimation(progress, fakeMaximizeTopRightAnimation);
+        priv.processAnimation(amount, fakeMaximizeTopRightAnimation);
     }
 
-    function maximizeBottomLeft(progress) {
+    function maximizeBottomLeft(amount) {
         if (fakeRectangle.edge != Item.BottomLeft) {
             priv.setup(Item.BottomLeft);
         }
-        priv.processAnimation(progress, fakeMaximizeBottomLeftAnimation);
+        priv.processAnimation(amount, fakeMaximizeBottomLeftAnimation);
     }
 
-    function maximizeBottomRight(progress) {
+    function maximizeBottomRight(amount) {
         if (fakeRectangle.edge != Item.BottomRight) {
             priv.setup(Item.BottomRight);
         }
-        priv.processAnimation(progress, fakeMaximizeBottomRightAnimation);
+        priv.processAnimation(amount, fakeMaximizeBottomRightAnimation);
     }
 
     Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.BriskDuration } }

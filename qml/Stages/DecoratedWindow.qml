@@ -72,6 +72,8 @@ FocusScope {
     signal fakeMaximizeBottomRightAnimationRequested(real progress)
     signal stopFakeAnimation()
 
+    signal shouldCommitSnapWindow()
+
     Rectangle {
         id: selectionHighlight
         anchors.fill: parent
@@ -116,7 +118,11 @@ FocusScope {
 
         onPressedChanged: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
         onPositionChanged: moveHandler.handlePositionChanged(mouse)
-        onReleased: moveHandler.handleReleased(mouse)
+        onReleased: {
+            print("!!! Mouse released on decoration")
+            root.shouldCommitSnapWindow();
+            moveHandler.handleReleased(mouse);
+        }
     }
 
     MoveHandler {

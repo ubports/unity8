@@ -26,5 +26,6 @@ Item {
     signal pushedTopRightCorner(real amount, int buttons)
     signal pushedBottomLeftCorner(real amount, int buttons)
     signal pushedBottomRightCorner(real amount, int buttons)
+    signal pushStopped()
     signal mouseMoved()
 }

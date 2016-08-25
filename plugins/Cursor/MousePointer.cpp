@@ -73,6 +73,8 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
         Q_EMIT pushedRightBoundary(newX - (sceneWidth - 1), buttons);
     } else if (newY < m_panelHeight) { // top edge
         Q_EMIT pushedTopBoundary(qAbs(newY), buttons);
+    } else if (Q_LIKELY(newX >= 0 && newX < sceneWidth && newY >= 0 && newY < sceneHeight)) { // normal pos, not pushing
+        Q_EMIT pushStopped();
     }
 
     setX(qBound(0.0, newX, sceneWidth - 1));
@@ -98,6 +100,9 @@ void MousePointer::itemChange(ItemChange change, const ItemChangeData &value)
 {
     if (change == ItemSceneChange) {
         registerWindow(value.window);
+        if (value.window) {
+            m_panelHeight = QQmlProperty::read(this, "panelHeight").toInt(); // when we move e.g. to a different screen (with possible different DGU)
+        }
     }
 }
 

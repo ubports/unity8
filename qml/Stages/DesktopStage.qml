@@ -45,6 +45,9 @@ AbstractStage {
     // Used by TutorialRight
     property bool spreadShown: spread.state == "altTab"
 
+    // used by the snap windows (edge maximize) feature
+    readonly property alias previewRectangle: fakeRectangle
+
     mainApp: priv.focusedAppDelegate ? priv.focusedAppDelegate.application : null
 
     // application windows never rotate independently
@@ -662,9 +665,9 @@ AbstractStage {
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                         SequentialAnimation {
-                            ScriptAction { script: { fakeRectangle.stop(); } }
                             UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,opacity,scale,requestedWidth,requestedHeight" }
                             PropertyAction { target: appDelegate; property: "visuallyMaximized" }
+                            ScriptAction { script: { fakeRectangle.stop(); } }
                         }
                     }
                 ]
@@ -744,6 +747,7 @@ AbstractStage {
                     onMaximizeVerticallyClicked: appDelegate.maximizedVertically ? appDelegate.restoreFromMaximized() : appDelegate.maximizeVertically()
                     onMinimizeClicked: appDelegate.minimize()
                     onDecorationPressed: { appDelegate.focus = true; }
+                    onShouldCommitSnapWindow: fakeRectangle.commit();
 
                     onFakeMaximizeAnimationRequested: if (!appDelegate.maximized) fakeRectangle.maximize(progress)
                     onFakeMaximizeLeftAnimationRequested: if (!appDelegate.maximizedLeft) fakeRectangle.maximizeLeft(progress)
