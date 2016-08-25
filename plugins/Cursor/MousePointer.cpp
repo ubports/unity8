@@ -72,7 +72,7 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
     } else if (newX >= sceneWidth) { // right edge
         Q_EMIT pushedRightBoundary(newX - (sceneWidth - 1), buttons);
     } else if (newY < m_panelHeight) { // top edge
-        Q_EMIT pushedTopBoundary(qAbs(newY), buttons);
+        Q_EMIT pushedTopBoundary(qAbs(newY - m_panelHeight), buttons);
     } else if (Q_LIKELY(newX >= 0 && newX < sceneWidth && newY >= 0 && newY < sceneHeight)) { // normal pos, not pushing
         Q_EMIT pushStopped();
     }

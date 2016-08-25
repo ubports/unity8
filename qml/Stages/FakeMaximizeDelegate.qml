@@ -110,6 +110,8 @@ Rectangle {
             } else if (edge == Item.BottomRight) {
                 target.maximizeBottomRight();
             }
+        } else {
+            stop();
         }
     }
 
