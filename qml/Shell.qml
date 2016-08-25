@@ -826,10 +826,8 @@ StyledItem {
         }
         onPushStopped: {
             if (previewRectangle) {
-                if (previewRectangle.progress > 0 && previewRectangle.progress < previewRectangle.hintThreshold) {
-                    print("!!! Cancelling preview", previewRectangle.progress)
-                    previewRectangle.stop();
-                }
+                print("!!! Cancelling preview", previewRectangle.progress)
+                previewRectangle.stop();
             }
         }
 
