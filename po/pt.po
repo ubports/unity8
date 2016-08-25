@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-08-11 06:28+0000\n"
+"POT-Creation-Date: 2016-08-19 14:16+0000\n"
 "PO-Revision-Date: 2016-06-20 11:37+0000\n"
 "Last-Translator: Ivo Xavier <ivoxavier.8@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-08-17 05:52+0000\n"
-"X-Generator: Launchpad (build 18169)\n"
+"X-Launchpad-Export-Date: 2016-08-25 05:46+0000\n"
+"X-Generator: Launchpad (build 18179)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
@@ -658,15 +658,15 @@ msgstr "Próximo"
 
 #: qml/Wizard/Pages/20-keyboard.qml:30
 msgid "Select Keyboard"
-msgstr ""
+msgstr "Selecionar teclado"
 
 #: qml/Wizard/Pages/20-keyboard.qml:70
 msgid "Keyboard language"
-msgstr ""
+msgstr "Idioma do teclado"
 
 #: qml/Wizard/Pages/20-keyboard.qml:92
 msgid "Keyboard layout"
-msgstr ""
+msgstr "Disposição do teclado"
 
 #: qml/Wizard/Pages/20-keyboard.qml:151 qml/Wizard/Pages/30-wifi.qml:206
 #: qml/Wizard/Pages/60-account.qml:65
@@ -778,32 +778,34 @@ msgstr "Política de privacidade"
 
 #: qml/Wizard/Pages/77-system-update.qml:28
 msgid "Update Device"
-msgstr ""
+msgstr "Atualizar dispositivo"
 
 #: qml/Wizard/Pages/77-system-update.qml:55
 msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
 msgstr ""
+"Existem atualizações ao sistema e prontas a instalar. Depois, o dispositivo "
+"vai reiniciar automaticamente."
 
 #: qml/Wizard/Pages/77-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu system"
-msgstr ""
+msgstr "Sistema Ubuntu"
 
 #: qml/Wizard/Pages/77-system-update.qml:83
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
-msgstr ""
+msgstr "Versão %1"
 
 #: qml/Wizard/Pages/77-system-update.qml:102
 msgid "This could take a few minutes..."
-msgstr ""
+msgstr "Isto pode demorar alguns minutos..."
 
 #: qml/Wizard/Pages/77-system-update.qml:116
 msgid "Install and restart now"
-msgstr ""
+msgstr "Instalar e reiniciar agora"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
