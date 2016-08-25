@@ -21,12 +21,14 @@ import "../Components/PanelState"
 
 Rectangle {
     id: fakeRectangle
-    visible: opacity > 0 && target && !target.anyMaximized // we go from 0.2 to 0.6
+    visible: opacity > 0 && target && !target.anyMaximized // we go from 0.2 to 0.5
     enabled: visible
     color: "#ffffff"
-    border.width: units.dp(1)
+    border.width: units.dp(2)
     border.color: "#99ffffff"
-    opacity: 0
+
+    scale: progress > 0 && progress <= hintThreshold ? MathUtils.projectValue(progress, 0.0, 1.0, 1, 2) : 1
+    opacity: progress > 0 ? MathUtils.projectValue(progress, 0.0, 1.0, 0.2, 0.5) : 0
 
     property int edge: -1 // Item.TransformOrigin
     property var target   // appDelegate
@@ -34,11 +36,12 @@ Rectangle {
     property real appContainerWidth
     property real appContainerHeight
 
+    readonly property real hintThreshold: 0.1
     readonly property bool targetDragging: target && target.moveHandler.dragging
 
     // Edge push progress
     // Value range is [0.0, 1.0]
-    readonly property real progress: Math.min(Math.max(0.0, priv.accumulatedPush / EdgeBarrierSettings.pushThreshold), 1.0)
+    readonly property real progress: MathUtils.clamp(priv.accumulatedPush / EdgeBarrierSettings.pushThreshold, 0.0, 1.0)
     onProgressChanged: {
         print("!!! Progress:", progress)
     }
@@ -79,32 +82,17 @@ Rectangle {
             fakeRectangle.transformOrigin = edge;
         }
 
-        function projectOpacity() {
-            // progress falls into [0,1], opacity moves in [0.2,0.6]
-            fakeRectangle.opacity = MathUtils.clampAndProject(progress, 0.0, 1.0, 0.2, 0.6);
-        }
-
-        function projectScale() {
-            // progress falls into [0,1], scale moves in [1,2] as a hint, when under 10%
-            fakeRectangle.scale = MathUtils.clampAndProject(progress, 0, 1, 1, 2);
-        }
-
         function processAnimation(amount, animation) {
             priv.push(amount);
 
-            if (progress > 0.1) { // above 10% we start the full preview animation
-                fakeRectangle.scale = 1;
+            if (progress > hintThreshold) { // above 10% we start the full preview animation
                 animation.start();
-            } else {
-                priv.projectScale();
             }
-
-            priv.projectOpacity();
         }
     }
 
     function commit() {
-        if (progress > 0.1 && edge != -1) {
+        if (progress > hintThreshold && edge != -1) {
             print("!!! Committing edge", edge, ", progress:", progress);
             target.moveHandler.handlePressedChanged(false, Qt.LeftButton, 0, 0); // cancel the drag
             if (edge == Item.Top) {
@@ -127,9 +115,8 @@ Rectangle {
 
     function stop() {
         print("!!! Stop")
-        opacity = 0;
-        edge = -1;
         priv.accumulatedPush = 0;
+        edge = -1;
     }
 
     function maximize(amount) {
