@@ -37,7 +37,7 @@ FocusScope {
     // Changing this will actually add/remove a decoration, meaning, requestedHeight will take the decoration into account.
     property bool hasDecoration: true
     // This will temporarily show/hide the decoration without actually changing the surface's dimensions
-    property bool showDecoration: true
+    property real showDecoration: 1
     property bool animateDecoration: false
     property bool showHighlight: false
     property int highlightSize: units.gu(1)
@@ -72,10 +72,10 @@ FocusScope {
 
     QtObject {
         id: d
-        property int requestedDecorationHeight: root.hasDecoration && root.hasDecoration ? decoration.height : 0
+        property int requestedDecorationHeight: root.hasDecoration ? decoration.height : 0
         Behavior on requestedDecorationHeight { enabled: root.animateDecoration; UbuntuNumberAnimation { duration: priv.animationDuration } }
 
-        property int visibleDecorationHeight: root.showDecoration && root.hasDecoration ? decoration.height : 0
+        property int visibleDecorationHeight: root.hasDecoration ? root.showDecoration * decoration.height : 0
         Behavior on visibleDecorationHeight { enabled: root.animateDecoration; UbuntuNumberAnimation { duration: priv.animationDuration } }
     }
 
@@ -133,7 +133,7 @@ FocusScope {
         height: units.gu(3)
         width: root.width
         title: applicationWindow.title
-        opacity: root.hasDecoration && root.showDecoration ? 1 : 0
+        opacity: root.hasDecoration ? Math.min(1, root.showDecoration) : 0
 
         // FIXME: priv.animationDuration reaches out of context... neads cleanup before landing
         Behavior on opacity { UbuntuNumberAnimation { duration: priv.animationDuration } }
@@ -150,7 +150,7 @@ FocusScope {
         id: applicationWindow
         objectName: "appWindow"
         anchors.top: parent.top
-        anchors.topMargin: root.decorationHeight
+        anchors.topMargin: root.decorationHeight * Math.min(1, root.showDecoration)
         anchors.left: parent.left
         width: root.width
         height: root.height - anchors.topMargin

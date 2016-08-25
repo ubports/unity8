@@ -23,6 +23,7 @@ import Utils 0.1
 import Ubuntu.Gestures 0.1
 import GlobalShortcut 1.0
 import "Spread"
+import "Spread/MathUtils.js" as MathUtils
 
 AbstractStage {
     id: root
@@ -288,6 +289,7 @@ AbstractStage {
         when: !appRepeater.startingUp && root.parent
     }
 
+    onStateChanged: print("*** Main State changed to:", state)
     states: [
         State {
             name: "spread"; when: priv.goneToSpread
@@ -295,14 +297,14 @@ AbstractStage {
             PropertyChanges { target: spreadItem; focus: true }
         },
         State {
-            name: "stagedrightedge"; when: rightEdgeDragArea.dragging && root.mode == "staged"
+            name: "stagedRightEdge"; when: rightEdgeDragArea.dragging && root.mode == "staged"
         },
         State {
-            name: "sidestagedrightedge"; when: rightEdgeDragArea.dragging && root.mode == "stagedWithSideStage"
+            name: "sideStagedRightEdge"; when: rightEdgeDragArea.dragging && root.mode == "stagedWithSideStage"
             PropertyChanges { target: priv; nextInStack: priv.sideStageDelegate && priv.sideStageDelegate.itemIndex < 2 ? 2 : 1 }
         },
         State {
-            name: "windowedrightedge"; when: rightEdgeDragArea.dragging && root.mode == "windowed"
+            name: "windowedRightEdge"; when: rightEdgeDragArea.dragging && root.mode == "windowed"
         },
         State {
             name: "staged"; when: root.mode === "staged"
@@ -319,7 +321,7 @@ AbstractStage {
     ]
     transitions: [
         Transition {
-            from: "stagedrightedge"; to: "spread"
+            from: "stagedRightEdge"; to: "spread"
             PropertyAction { target: spreadItem; property: "highlightedIndex"; value: -1 }
         },
         Transition {
@@ -333,7 +335,6 @@ AbstractStage {
                 ScriptAction {
                     script: {
                         var item = appRepeater.itemAt(Math.max(0, spreadItem.highlightedIndex));
-                        item.claimFocus();
                         item.playFocusAnimation();
                     }
                 }
@@ -341,7 +342,7 @@ AbstractStage {
             }
         },
         Transition {
-            to: "stagedrightedge"
+            to: "stagedRightEdge"
             PropertyAction { target: floatingFlickable; property: "contentX"; value: 0 }
         }
 
@@ -744,7 +745,7 @@ AbstractStage {
 
                 function playFocusAnimation() {
                     print("playing focus animation", state, root.mode, "app", model.application.appId)
-                    if (state == "stagedrightedge") {
+                    if (state == "stagedRightEdge") {
                         // TODO: Can we drop this if and find something that always works?
                         if (root.mode == "staged") {
                             rightEdgeFocusAnimation.targetX = 0
@@ -754,12 +755,16 @@ AbstractStage {
                             rightEdgeFocusAnimation.targetX = appDelegate.stage == ApplicationInfoInterface.SideStage ? sideStage.x : 0
                             rightEdgeFocusAnimation.start()
                         }
+                    } else if (state == "windowedRightEdge") {
+                        claimFocus();
                     } else {
                         focusAnimation.start()
                     }
                 }
                 function playHidingAnimation() {
-                    hidingAnimation.start()
+                    if (state != "windowedRightEdge") {
+                        hidingAnimation.start()
+                    }
                 }
 
                 UbuntuNumberAnimation {
@@ -769,6 +774,8 @@ AbstractStage {
                     from: 0.98
                     to: 1
                     duration: UbuntuAnimation.SnapDuration
+                    onStarted: topLevelSurfaceList.raiseId(model.id);
+                    onStopped: appDelegate.focus = true
                 }
                 ParallelAnimation {
                     id: rightEdgeFocusAnimation
@@ -819,9 +826,24 @@ AbstractStage {
                     targetScale: spreadMaths.targetScale
                 }
 
+                WindowedRightEdgeMaths {
+                    id: windowedRightEdgeMaths
+                    itemIndex: index
+                    startWidth: appDelegate.requestedWidth
+                    startHeight: appDelegate.requestedHeight
+                    targetHeight: spreadItem.stackHeight
+                    startX: appDelegate.windowedX
+                    startY: appDelegate.windowedY
+                    targetX: spreadMaths.targetX
+                    targetY: spreadMaths.targetY
+                    normalZ: appDelegate.normalZ
+                    targetAngle: spreadMaths.targetAngle
+                    targetScale: spreadMaths.targetScale
+                }
+
 //                onXChanged: if (model.application.appId == "unity8-dash") print("dash moved to", x)
 //                onRequestedWidthChanged: if (index == 0) print("requestedWidth", requestedWidth)
-                onStateChanged: if (model.application.appId == "unity8-dash") print("state changed", state)
+                onStateChanged: print("+++ App", model.application.appId, "state changed to:", state)
                 states: [
                     State {
                         name: "spread"; when: root.state == "spread"
@@ -852,8 +874,8 @@ AbstractStage {
                         PropertyChanges { target: windowInfoItem; opacity: spreadMaths.tileInfoOpacity; visible: spreadMaths.itemVisible }
                     },
                     State {
-                        name: "stagedrightedge"
-                        when: root.state == "sidestagedrightedge" || root.state == "stagedrightedge" || rightEdgeFocusAnimation.running || hidingAnimation.running
+                        name: "stagedRightEdge"
+                        when: (root.mode == "staged" || root.mode == "stagedWithSideStage") && (root.state == "sideStagedRightEdge" || root.state == "stagedRightEdge" || rightEdgeFocusAnimation.running || hidingAnimation.running)
                         PropertyChanges {
                             target: stagedRightEdgeMaths
                             progress: rightEdgeDragArea.progress
@@ -878,10 +900,41 @@ AbstractStage {
                         }
                     },
                     State {
+                        name: "windowedRightEdge"
+                        when: root.mode == "windowed" && (root.state == "windowedRightEdge" || rightEdgeFocusAnimation.running || hidingAnimation.running)
+                        PropertyChanges {
+                            target: windowedRightEdgeMaths
+                            progress: rightEdgeDragArea.progress
+                        }
+                        PropertyChanges {
+                            target: appDelegate
+                            x: windowedRightEdgeMaths.animatedX
+                            y: windowedRightEdgeMaths.animatedY
+                            z: windowedRightEdgeMaths.animatedZ
+                            height: stagedRightEdgeMaths.animatedHeight
+                            requestedWidth: decoratedWindow.oldRequestedWidth
+                            requestedHeight: decoratedWindow.oldRequestedHeight
+                        }
+                        PropertyChanges {
+                            target: decoratedWindow
+                            showDecoration: windowedRightEdgeMaths.decorationHeight
+                            angle: windowedRightEdgeMaths.animatedAngle
+                            itemScale: windowedRightEdgeMaths.animatedScale
+                            scaleToPreviewSize: spreadItem.stackHeight
+                            scaleToPreviewProgress: windowedRightEdgeMaths.scaleToPreviewProgress
+                            shadowOpacity: .3
+                        }
+                        PropertyChanges {
+                            target: opacityEffect;
+                            opacityValue: windowedRightEdgeMaths.opacityMask
+                            sourceItem: windowedRightEdgeMaths.opacityMask < 1 ? decoratedWindow : null
+                        }
+                    },
+                    State {
                         name: "staged"; when: root.state == "staged"
                         PropertyChanges {
                             target: appDelegate
-                            x: appDelegate.focus ? 0 : root.width
+                            x: appDelegate.itemIndex == 0 ? 0 : root.width
                             y: appDelegate.fullscreen ? 0 : PanelState.panelHeight
                             requestedWidth: appContainer.width
                             requestedHeight: appDelegate.fullscreen ? appContainer.height : appContainer.height - PanelState.panelHeight
@@ -1099,7 +1152,30 @@ AbstractStage {
                         from: "normal,staged"; to: "stagedWithSideStage"
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y"; duration: priv.animationDuration }
                         UbuntuNumberAnimation { target: appDelegate; properties: "requestedWidth,requestedHeight"; duration: priv.animationDuration }
+                    },
+                    Transition {
+                        to: "windowedRightEdge"
+                        ScriptAction {
+                            script: {
+                                if (index == 1) {
+                                    print("should calculate overlap from", model.application.appId, "with", appRepeater.itemAt(0).application.appId)
+                                    var thisRect = { x: appDelegate.windowedX, y: appDelegate.windowedY, width: appDelegate.requestedWidth, height: appDelegate.requestedHeight }
+                                    print("thisRect:", thisRect.x, thisRect.y, thisRect.width, thisRect.height)
+                                    var otherDelegate = appRepeater.itemAt(0);
+                                    var otherRect = { x: otherDelegate.windowedX, y: otherDelegate.windowedY, width: otherDelegate.requestedWidth, height: otherDelegate.requestedHeight }
+                                    print("otherRect:", otherRect.x, otherRect.y, otherRect.width, otherRect.height)
+                                    var intersectionRect = MathUtils.intersectionRect(thisRect, otherRect)
+                                    print("intersection is", intersectionRect.x, intersectionRect.y, intersectionRect.width, intersectionRect.height)
+                                    var mappedInterSectionRect = appDelegate.mapFromItem(root, intersectionRect.x, intersectionRect.y)
+                                    opacityEffect.maskX = mappedInterSectionRect.x
+                                    opacityEffect.maskY = mappedInterSectionRect.y
+                                    opacityEffect.maskWidth = intersectionRect.width
+                                    opacityEffect.maskHeight = intersectionRect.height
+                                }
+                            }
+                        }
                     }
+
                 ]
 
                 Binding {
@@ -1151,7 +1227,7 @@ AbstractStage {
                     surface: model.surface
                     active: appDelegate.focus
                     focus: true
-                    showDecoration: true
+                    showDecoration: 1
                     maximizeButtonShown: (maximumWidth == 0 || maximumWidth >= appContainer.width) &&
                                          (maximumHeight == 0 || maximumHeight >= appContainer.height)
                     overlayShown: touchControls.overlayShown
@@ -1179,6 +1255,7 @@ AbstractStage {
 
                     property real angle: 0
                     property real itemScale: 1
+                    onAngleChanged: print("decoratedWindowd", model.application.appId, "angle", angle)
                     transform: [
                         Scale {
                             origin.x: 0
@@ -1194,6 +1271,10 @@ AbstractStage {
                     ]
                 }
 
+                OpacityMask {
+                    id: opacityEffect
+                    anchors.fill: decoratedWindow
+                }
 
                 WindowControlsOverlay {
                     id: touchControls
