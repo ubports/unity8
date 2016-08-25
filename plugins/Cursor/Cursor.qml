@@ -21,6 +21,8 @@ import Powerd 0.1
 MousePointer {
     id: mousePointer
 
+    property int panelHeight // to be read from MousePointer C++ class
+
     CursorImageInfo {
         id: imageInfo
         themeName: mousePointer.themeName

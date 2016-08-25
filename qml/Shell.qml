@@ -764,6 +764,7 @@ StyledItem {
         id: cursor
         visible: shell.hasMouse
         z: itemGrabber.z + 1
+        panelHeight: panel.panelHeight
 
         property bool mouseNeverMoved: true
         Binding {
@@ -778,16 +779,34 @@ StyledItem {
         height: units.gu(3)
 
         onPushedLeftBoundary: {
+            print("!!! Left edge:", amount, buttons)
             if (buttons === Qt.NoButton) {
                 launcher.pushEdge(amount);
             }
         }
 
         onPushedRightBoundary: {
+            print("!!! Right edge:", amount, buttons)
             if (buttons === Qt.NoButton && applicationsDisplayLoader.item
                     && applicationsDisplayLoader.item.pushRightEdge) {
                 applicationsDisplayLoader.item.pushRightEdge(amount);
             }
+        }
+
+        onPushedTopBoundary: {
+            print("!!! Top edge:", amount, buttons)
+        }
+        onPushedTopLeftCorner: {
+            print("!!! Top left corner:", amount, buttons)
+        }
+        onPushedTopRightCorner: {
+            print("!!! Top right corner:", amount, buttons)
+        }
+        onPushedBottomLeftCorner: {
+            print("!!! Bottom left corner:", amount, buttons)
+        }
+        onPushedBottomRightCorner: {
+            print("!!! Bottom right corner:", amount, buttons)
         }
 
         onMouseMoved: {

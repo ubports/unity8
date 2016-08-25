@@ -46,10 +46,16 @@ public Q_SLOTS:
 Q_SIGNALS:
     void pushedLeftBoundary(qreal amount, Qt::MouseButtons buttons);
     void pushedRightBoundary(qreal amount, Qt::MouseButtons buttons);
+    void pushedTopBoundary(qreal amount, Qt::MouseButtons buttons);
+    void pushedTopLeftCorner(qreal amount, Qt::MouseButtons buttons);
+    void pushedTopRightCorner(qreal amount, Qt::MouseButtons buttons);
+    void pushedBottomLeftCorner(qreal amount, Qt::MouseButtons buttons);
+    void pushedBottomRightCorner(qreal amount, Qt::MouseButtons buttons);
     void mouseMoved();
 
 protected:
     void itemChange(ItemChange change, const ItemChangeData &value) override;
+    void componentComplete() override;
 
 private Q_SLOTS:
     void registerScreen(QScreen *screen);
@@ -64,6 +70,8 @@ private:
 
     // Accumulated, unapplied, mouse movement.
     QPointF m_accumulatedMovement;
+
+    int m_panelHeight = 0;
 };
 
 #endif // MOUSEPOINTER_H

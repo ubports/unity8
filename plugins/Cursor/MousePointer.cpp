@@ -22,6 +22,8 @@
 
 #include <QQuickWindow>
 #include <QGuiApplication>
+#include <QQmlProperty>
+#include <QtMath>
 
 #include <qpa/qwindowsysteminterface.h>
 
@@ -48,23 +50,33 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
     QPointF appliedMovement(int(m_accumulatedMovement.x()), int(m_accumulatedMovement.y()));
     m_accumulatedMovement -= appliedMovement;
 
-    qreal newX = x() + appliedMovement.x();
-    if (newX < 0) {
-        Q_EMIT pushedLeftBoundary(qAbs(newX), buttons);
-        newX = 0;
-    } else if (newX >= parentItem()->width()) {
-        Q_EMIT pushedRightBoundary(newX - (parentItem()->width() - 1), buttons);
-        newX = parentItem()->width() - 1;
-    }
-    setX(newX);
+    const qreal newX = x() + appliedMovement.x();
+    const qreal newY = y() + appliedMovement.y();
+    const qreal sceneWidth = parentItem()->width();
+    const qreal sceneHeight = parentItem()->height();
 
-    qreal newY = y() + appliedMovement.y();
-    if (newY < 0) {
-        newY = 0;
-    } else if (newY >= parentItem()->height()) {
-        newY = parentItem()->height() - 1;
+    if (newX < 0 && newY < m_panelHeight) { // top left corner
+        const auto distance = qSqrt(qPow(newX, 2) + qPow(newY-m_panelHeight, 2));
+        Q_EMIT pushedTopLeftCorner(qAbs(distance), buttons);
+    } else if (newX >= sceneWidth && newY < m_panelHeight) { // top right corner
+        const auto distance = qSqrt(qPow(newX-sceneWidth, 2) + qPow(newY-m_panelHeight, 2));
+        Q_EMIT pushedTopRightCorner(qAbs(distance), buttons);
+    } else if (newX < 0 && newY >= sceneHeight) { // bottom left corner
+        const auto distance = qSqrt(qPow(newX, 2) + qPow(newY-sceneHeight, 2));
+        Q_EMIT pushedBottomLeftCorner(qAbs(distance), buttons);
+    } else if (newX >= sceneWidth && newY >= sceneHeight) { // bottom right corner
+        const auto distance = qSqrt(qPow(newX-sceneWidth, 2) + qPow(newY-sceneHeight, 2));
+        Q_EMIT pushedBottomRightCorner(qAbs(distance), buttons);
+    } else if (newX < 0) { // left edge
+        Q_EMIT pushedLeftBoundary(qAbs(newX), buttons);
+    } else if (newX >= sceneWidth) { // right edge
+        Q_EMIT pushedRightBoundary(newX - (sceneWidth - 1), buttons);
+    } else if (newY < m_panelHeight) { // top edge
+        Q_EMIT pushedTopBoundary(qAbs(newY), buttons);
     }
-    setY(newY);
+
+    setX(qBound(0.0, newX, sceneWidth - 1));
+    setY(qBound(0.0, newY, sceneHeight - 1));
 
     QPointF scenePosition = mapToItem(nullptr, QPointF(0, 0));
     QWindowSystemInterface::handleMouseEvent(window(), timestamp, scenePosition /*local*/, scenePosition /*global*/,
@@ -87,6 +99,12 @@ void MousePointer::itemChange(ItemChange change, const ItemChangeData &value)
     if (change == ItemSceneChange) {
         registerWindow(value.window);
     }
+}
+
+void MousePointer::componentComplete()
+{
+    MirMousePointerInterface::componentComplete();
+    m_panelHeight = QQmlProperty::read(this, "panelHeight").toInt();
 }
 
 void MousePointer::registerWindow(QWindow *window)
