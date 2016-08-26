@@ -27,6 +27,7 @@ QtObject {
     readonly property bool stopped: priv.audio ? priv.audio.playbackState === Audio.StoppedState : true
     readonly property int position: priv.audio ? priv.audio.position : 0
     readonly property url currentSource: priv.audio ? priv.audio.playlist.currentItemSource : ""
+    readonly property Playlist playlist: priv.audio ? priv.audio.playlist : null
 
     function playSource(newSource, newPlaylist) {
         if (!priv.audio) {
