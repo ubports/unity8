@@ -58,13 +58,13 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
     if (newX < 0 && newY < m_panelHeight) { // top left corner
         const auto distance = qSqrt(qPow(newX, 2) + qPow(newY-m_panelHeight, 2));
         Q_EMIT pushedTopLeftCorner(qAbs(distance), buttons);
-    } else if (newX >= sceneWidth && newY < m_panelHeight) { // top right corner
+    } else if (newX >= sceneWidth-1 && newY < m_panelHeight) { // top right corner
         const auto distance = qSqrt(qPow(newX-sceneWidth, 2) + qPow(newY-m_panelHeight, 2));
         Q_EMIT pushedTopRightCorner(qAbs(distance), buttons);
-    } else if (newX < 0 && newY >= sceneHeight) { // bottom left corner
+    } else if (newX < 0 && newY >= sceneHeight-1) { // bottom left corner
         const auto distance = qSqrt(qPow(newX, 2) + qPow(newY-sceneHeight, 2));
         Q_EMIT pushedBottomLeftCorner(qAbs(distance), buttons);
-    } else if (newX >= sceneWidth && newY >= sceneHeight) { // bottom right corner
+    } else if (newX >= sceneWidth-1 && newY >= sceneHeight-1) { // bottom right corner
         const auto distance = qSqrt(qPow(newX-sceneWidth, 2) + qPow(newY-sceneHeight, 2));
         Q_EMIT pushedBottomRightCorner(qAbs(distance), buttons);
     } else if (newX < 0) { // left edge
