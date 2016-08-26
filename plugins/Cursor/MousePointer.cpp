@@ -55,7 +55,7 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
     const qreal sceneWidth = parentItem()->width();
     const qreal sceneHeight = parentItem()->height();
 
-    if (newX < 0 && newY < m_panelHeight) { // top left corner
+    if (newX <= 0 && newY < m_panelHeight) { // top left corner
         const auto distance = qSqrt(qPow(newX, 2) + qPow(newY-m_panelHeight, 2));
         Q_EMIT pushedTopLeftCorner(qAbs(distance), buttons);
     } else if (newX >= sceneWidth-1 && newY < m_panelHeight) { // top right corner
