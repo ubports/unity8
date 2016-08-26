@@ -46,6 +46,8 @@ Rectangle {
         print("!!! Progress:", progress)
     }
 
+    signal passed(int origin)
+
     QtObject {
         id: priv
 
@@ -65,8 +67,9 @@ Rectangle {
             }
 
             if (accumulatedPush === EdgeBarrierSettings.pushThreshold) {
-                print("!!! Reached push progress 1, maximizing")
-                commit();
+                print("!!! Reached push progress 1; commit/passed")
+                passed(edge);
+                // commit(); // NB: uncomment to have automatic maximization on 100% progress
             }
         }
 
