@@ -1,3 +1,10 @@
+unity8 (8.14+16.10.20160826-0ubuntu1) yakkety; urgency=medium
+
+  * Make sure we emit sounds when taking a screenshot even after media-
+    hub (LP: #1544477)
+
+ -- Alfonso Sanchez-Beato <alfonso.sanchez-beato@canonical.com>  Fri, 26 Aug 2016 08:14:14 +0000
+
 unity8 (8.14+16.10.20160819-0ubuntu1) yakkety; urgency=medium
 
   [ Lukáš Tinkl ]
