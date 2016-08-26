@@ -171,7 +171,7 @@ Rectangle {
             // Playing track 2 should make progress bar 1 visible and hide progress bar 0 again
             mouseClick(track2PlayButton);
 
-            tryCompare(audio, "playbackState", Audio.PlayingState);
+            verify(DashAudioPlayer.playing == true);
             checkPlayerSource(2);
 
             tryCompare(track0ProgressBar, "visible", false);
