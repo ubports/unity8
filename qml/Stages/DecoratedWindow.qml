@@ -140,6 +140,7 @@ FocusScope {
         onFakeMaximizeBottomLeftAnimationRequested: root.fakeMaximizeBottomLeftAnimationRequested(progress)
         onFakeMaximizeBottomRightAnimationRequested: root.fakeMaximizeBottomRightAnimationRequested(progress)
         onStopFakeAnimation: root.stopFakeAnimation()
+        onShouldCommitSnapWindow: root.shouldCommitSnapWindow()
     }
 
     ApplicationWindow {

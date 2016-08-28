@@ -102,20 +102,28 @@ Item {
             hoverEnabled: true
             onClicked: callHint.visible ? callHint.showLiveCall() : PanelState.focusMaximizedApp()
             onDoubleClicked: PanelState.restoreClicked()
-            drag.target: PanelState.maximizedAppDelegate
-            drag.axis: Drag.XAndYAxis
-            drag.minimumX: 0
-            drag.minimumY: panelHeight
-            drag.maximumX: PanelState.maximizedAppDelegate ? PanelState.maximizedAppDelegate.moveHandler.stageWidth : 0
-            drag.maximumY: PanelState.maximizedAppDelegate ? PanelState.maximizedAppDelegate.moveHandler.stageHeight : 0
-            drag.threshold: PanelState.panelHeight
-            drag.filterChildren: true
-            onReleased: {
-                if (drag.active) {
-                    var delegate = PanelState.maximizedAppDelegate;
+
+            property Item delegate: null // appDelegate that's used to drag-and-restore a maximized window
+
+            onPressedChanged: {
+                if (!delegate && PanelState.maximizedAppDelegate && pressed) {
+                    delegate = PanelState.maximizedAppDelegate;
+                    delegate.moveHandler.handlePressedChanged(true, pressedButtons, mouseX, mouseY);
+                }
+            }
+            onPositionChanged: {
+                if (delegate && delegate.moveHandler.dragging) {
                     delegate.restoredX = Math.round(mouse.x - delegate.moveHandler.buttonsWidth);
                     delegate.restoredY = Math.round(Math.max(mouse.y, PanelState.panelHeight));
                     delegate.restoreFromMaximized(false);
+                }
+            }
+            onReleased: {
+                if (delegate) {
+                    delegate.moveHandler.handlePressedChanged(false, pressedButtons, mouseX, mouseY);
+                    delegate.moveHandler.handleReleased(mouse);
+                    delegate.moveHandler.shouldCommitSnapWindow();
+                    delegate = null;
                 }
             }
 

@@ -40,6 +40,8 @@ Item {
     signal fakeMaximizeBottomRightAnimationRequested(real progress)
     signal stopFakeAnimation()
 
+    signal shouldCommitSnapWindow()
+
     QtObject {
         id: priv
         property real distanceX
