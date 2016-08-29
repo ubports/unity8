@@ -24,6 +24,7 @@ QtObject {
     property bool isMainStageApp: false
     property bool isSideStageApp: false
     property int nextInStack: 0
+    property int shuffledZ: 0
 
 
 //    onProgressChanged: if (itemIndex == 0) { print("progress", progress) }
@@ -45,19 +46,30 @@ QtObject {
         return progress < breakPoint ? root.sceneHeight : MathUtils.linearAnimation(breakPoint, 1, root.sceneHeight, targetHeight, progress)
     }
 
+    readonly property var nextStage: appRepeater.itemAt(nextInStack) ? appRepeater.itemAt(nextInStack).stage : ApplicationInfoInterface.MainStage;
+
     readonly property int animatedX: {
         var stageCount = (priv.mainStageDelegate ? 1 : 0) + (priv.sideStageDelegate ? 1 : 0)
 
-        if (appRepeater.count <= nextInStack) return 0;
+//        var nextStage = ApplicationInfoInterface.MainStage;
+//        if (topLevelSurfaceList.count > nextInStack) {
+//            nextStage = appRepeater.itemAt(nextInStack).stage;
+//        }
 
-        var nextStage = appRepeater.itemAt(nextInStack).stage;
+        if (model.application.appId == "unity8-dash") {
+            print("calculating X for dash:", itemIndex, nextInStack)
+        }
 
         var startX = 0;
         if (isMainStageApp) {
-            startX = 0;
+            if (progress < breakPoint) {
+                return MathUtils.linearAnimation(0, breakPoint, 0, -units.gu(4), progress);
+            } else {
+                return MathUtils.linearAnimation(breakPoint, 1, -units.gu(4), targetX, progress);
+            }
         } else if (isSideStageApp) {
             startX = sceneWidth - sideStageWidth;
-        } else if (itemIndex == nextInStack && itemIndex < 2 && priv.sideStageDelegate && nextStage == ApplicationInfoInterface.MainStage) {
+        } else if (itemIndex == nextInStack && itemIndex <= 2 && priv.sideStageDelegate && nextStage == ApplicationInfoInterface.MainStage) {
             startX = sceneWidth - sideStageWidth;
         } else {
             startX = sceneWidth + Math.max(0, itemIndex - stageCount - 1) * tileDistance;
@@ -80,6 +92,8 @@ QtObject {
 
     readonly property int animatedY: progress < breakPoint ? startY : MathUtils.linearAnimation(breakPoint, 1, startY, targetY, progress)
 
+    readonly property int animatedZ: shuffledZ
+
     readonly property real animatedAngle: {
         var startAngle = 0;
         if (isMainStageApp) {
@@ -90,6 +104,13 @@ QtObject {
             startAngle = root.startAngle;
         }
 
+        if (progress < breakPoint) {
+            if (stage == nextStage) {
+                return MathUtils.linearAnimation(0, 1, startAngle, targetAngle, progress);
+            } else {
+                return 0;
+            }
+        }
         return MathUtils.linearAnimation(0, 1, startAngle, targetAngle, progress);
     }
 

@@ -173,6 +173,16 @@ AbstractStage {
 
         function updateMainAndSideStageIndexes() {
 //            print("updating stage indexes, sideStage shown:", sideStage.shown)
+            if (root.mode != "stagedWithSideStage") {
+                priv.sideStageDelegate = null;
+                priv.sideStageItemId = 0;
+                priv.sideStageAppId = "";
+                priv.mainStageDelegate = appRepeater.itemAt(0);
+                priv.mainStageAppId = topLevelSurfaceList.idAt(0);
+                priv.mainStageAppId = topLevelSurfaceList.applicationAt(0).appId;
+                return;
+            }
+
             var choseMainStage = false;
             var choseSideStage = false;
 
@@ -321,7 +331,7 @@ AbstractStage {
     ]
     transitions: [
         Transition {
-            from: "stagedRightEdge"; to: "spread"
+            from: "stagedRightEdge,sideStagedRightEdge"; to: "spread"
             PropertyAction { target: spreadItem; property: "highlightedIndex"; value: -1 }
         },
         Transition {
@@ -806,6 +816,8 @@ AbstractStage {
                     sideStageDelegate: priv.sideStageDelegate
                     sideStageWidth: sideStage.panelWidth
                     sideStageX: sideStage.x
+                    itemIndex: appDelegate.itemIndex
+                    nextInStack: priv.nextInStack
                 }
 
                 StagedRightEdgeMaths {
@@ -824,6 +836,7 @@ AbstractStage {
                     targetY: spreadMaths.targetY
                     targetAngle: spreadMaths.targetAngle
                     targetScale: spreadMaths.targetScale
+                    shuffledZ: stageMaths.itemZ
                 }
 
                 WindowedRightEdgeMaths {
@@ -832,8 +845,6 @@ AbstractStage {
                     startWidth: appDelegate.requestedWidth
                     startHeight: appDelegate.requestedHeight
                     targetHeight: spreadItem.stackHeight
-                    startX: appDelegate.windowedX
-                    startY: appDelegate.windowedY
                     targetX: spreadMaths.targetX
                     targetY: spreadMaths.targetY
                     normalZ: appDelegate.normalZ
@@ -884,7 +895,7 @@ AbstractStage {
                             target: appDelegate
                             x: stagedRightEdgeMaths.animatedX
                             y: stagedRightEdgeMaths.animatedY
-                            z: index +1
+                            z: stagedRightEdgeMaths.animatedZ
                             height: stagedRightEdgeMaths.animatedHeight
                             requestedWidth: decoratedWindow.oldRequestedWidth
                             requestedHeight: decoratedWindow.oldRequestedHeight
@@ -1157,6 +1168,9 @@ AbstractStage {
                         to: "windowedRightEdge"
                         ScriptAction {
                             script: {
+                                windowedRightEdgeMaths.startX = appDelegate.requestedX
+                                windowedRightEdgeMaths.startY = appDelegate.requestedY
+
                                 if (index == 1) {
                                     print("should calculate overlap from", model.application.appId, "with", appRepeater.itemAt(0).application.appId)
                                     var thisRect = { x: appDelegate.windowedX, y: appDelegate.windowedY, width: appDelegate.requestedWidth, height: appDelegate.requestedHeight }
@@ -1255,7 +1269,6 @@ AbstractStage {
 
                     property real angle: 0
                     property real itemScale: 1
-                    onAngleChanged: print("decoratedWindowd", model.application.appId, "angle", angle)
                     transform: [
                         Scale {
                             origin.x: 0
@@ -1269,6 +1282,15 @@ AbstractStage {
                             angle: decoratedWindow.angle
                         }
                     ]
+
+                    Label {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.bottom: parent.bottom
+                        anchors.bottomMargin: units.gu(3)
+                        color: "red"
+                        fontSize: "x-large"
+                        text: appDelegate.z
+                    }
                 }
 
                 OpacityMask {
