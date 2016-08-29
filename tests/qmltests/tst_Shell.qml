@@ -1707,30 +1707,33 @@ Rectangle {
         function test_altBackTabNavigation() {
             loadDesktopShellWithApps();
 
-            var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
-            verify(spreadRepeater !== null);
+            print("findItem")
+            var spreadItem = findChild(shell, "spreadItem");
+            print("starting verify")
+            verify(spreadItem !== null);
+            print("verify done")
 
             keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
-            tryCompare(spreadRepeater, "highlightedIndex", 1);
+            tryCompare(spreadItem, "highlightedIndex", 1);
 
             keyClick(Qt.Key_Tab);
-            tryCompare(spreadRepeater, "highlightedIndex", 2);
+            tryCompare(spreadItem, "highlightedIndex", 2);
 
             keyClick(Qt.Key_Tab);
-            tryCompare(spreadRepeater, "highlightedIndex", 3);
+            tryCompare(spreadItem, "highlightedIndex", 3);
 
             keyClick(Qt.Key_Tab);
-            tryCompare(spreadRepeater, "highlightedIndex", 4);
+            tryCompare(spreadItem, "highlightedIndex", 4);
 
             keyClick(Qt.Key_Backtab);
-            tryCompare(spreadRepeater, "highlightedIndex", 3);
+            tryCompare(spreadItem, "highlightedIndex", 3);
 
             keyClick(Qt.Key_Backtab);
-            tryCompare(spreadRepeater, "highlightedIndex", 2);
+            tryCompare(spreadItem, "highlightedIndex", 2);
 
             keyClick(Qt.Key_Backtab);
-            tryCompare(spreadRepeater, "highlightedIndex", 1);
+            tryCompare(spreadItem, "highlightedIndex", 1);
 
             keyRelease(Qt.Key_Alt);
         }

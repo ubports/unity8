@@ -50,10 +50,6 @@ QtObject {
     readonly property int animatedX: {
         var nextStage = appRepeater.itemAt(nextInStack) ? appRepeater.itemAt(nextInStack).stage : ApplicationInfoInterface.MainStage;
 
-        if (model.application.appId == "unity8-dash") {
-            print("calculating X for dash:", itemIndex, nextInStack, nextStage, "(Main:", ApplicationInfoInterface.MainStage,")", appRepeater.itemAt(nextInStack).stage)
-        }
-
         var startX = 0;
         if (isMainStageApp) {
             if (progress < breakPoint) {

@@ -388,6 +388,7 @@ AbstractStage {
 
         Spread {
             id: spreadItem
+            objectName: "spreadItem"
             anchors.fill: appContainer
             leftMargin: root.leftMargin
             model: root.topLevelSurfaceList
