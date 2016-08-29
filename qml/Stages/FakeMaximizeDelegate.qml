@@ -97,7 +97,7 @@ Rectangle {
     function commit() {
         if (progress > hintThreshold && edge != -1) {
             print("!!! Committing edge", edge, ", progress:", progress);
-            target.moveHandler.handlePressedChanged(false, Qt.LeftButton, 0, 0); // cancel the drag
+            target.moveHandler.handlePressedChanged(false, Qt.LeftButton); // cancel the drag
             if (edge == Item.Top) {
                 target.maximize();
             } else if (edge == Item.Left) {

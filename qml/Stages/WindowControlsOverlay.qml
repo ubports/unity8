@@ -32,6 +32,7 @@ Item {
 
     // to be read from outside
     readonly property alias overlayShown: overlay.visible
+    readonly property alias moveHandler: moveHandler
 
     signal fakeMaximizeAnimationRequested(real progress)
     signal fakeMaximizeLeftAnimationRequested(real progress)
@@ -41,6 +42,7 @@ Item {
     signal fakeMaximizeBottomLeftAnimationRequested(real progress)
     signal fakeMaximizeBottomRightAnimationRequested(real progress)
     signal stopFakeAnimation()
+    signal shouldCommitSnapWindow()
 
     TouchGestureArea {
         id: gestureArea
@@ -65,15 +67,15 @@ Item {
             if (recognizedDrag) {
                 moveHandler.handlePressedChanged(true, Qt.LeftButton, tp.x, tp.y);
             } else if (!mouseArea.containsPress) { // prevent interfering with the central piece drag/move
-                // FIXME!!!
-                moveHandler.handlePressedChanged(false, Qt.LeftButton, tp.x, tp.y);
+                moveHandler.handlePressedChanged(false, Qt.LeftButton);
+                moveHandler.handleReleased(true);
             }
         }
 
         readonly property point tp: recognizedPress ? Qt.point(touchPoints[0].x, touchPoints[0].y) : Qt.point(-1, -1)
         onUpdated: {
             if (recognizedDrag) {
-                moveHandler.handlePositionChanged(tp);
+                moveHandler.handlePositionChanged(tp, priv.getSensingPoints());
             }
         }
     }
@@ -89,6 +91,28 @@ Item {
         id: priv
         readonly property var resizeArea: root.target && root.target.resizeArea ? root.target.resizeArea : null
         readonly property bool ensureWindow: root.target.state == "normal" || root.target.state == "restored"
+
+        function getSensingPoints() {
+            var xPoints = [];
+            var yPoints = [];
+            for (var i = 0; i < gestureArea.touchPoints.length; i++) {
+                var pt = gestureArea.touchPoints[i];
+                xPoints.push(Math.round(pt.x));
+                yPoints.push(Math.round(pt.y));
+            }
+
+            var leftmost = Math.min.apply(Math, xPoints);
+            var rightmost = Math.max.apply(Math, xPoints);
+            var topmost = Math.min.apply(Math, yPoints);
+            var bottommost = Math.max.apply(Math, yPoints);
+
+            return {
+                topLeft: mapToItem(target.parent, leftmost, topmost),
+                topRight: mapToItem(target.parent, rightmost, topmost),
+                bottomLeft: mapToItem(target.parent, leftmost, bottommost),
+                bottomRight: mapToItem(target.parent, rightmost, bottommost)
+            }
+        }
     }
 
     // the visual overlay
@@ -123,7 +147,10 @@ Item {
 
                 onPressedChanged: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
                 onPositionChanged: moveHandler.handlePositionChanged(mouse)
-                onReleased: moveHandler.handleReleased(mouse)
+                onReleased: {
+                    root.shouldCommitSnapWindow();
+                    moveHandler.handleReleased();
+                }
             }
 
             MoveHandler {
@@ -154,7 +181,7 @@ Item {
                     }
 
                     overlayTimer.stop();
-                    mouse.accepted = root.contains(Qt.point(mouse.x, mouse.y));
+                    mouse.accepted = root.contains(mapToItem(root.target, mouse.x, mouse.y));
                 }
                 propagateComposedEvents: true
             }

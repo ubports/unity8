@@ -121,7 +121,7 @@ FocusScope {
         onReleased: {
             print("!!! Mouse released on decoration")
             root.shouldCommitSnapWindow();
-            moveHandler.handleReleased(mouse);
+            moveHandler.handleReleased();
         }
     }
 
@@ -131,15 +131,6 @@ FocusScope {
         objectName: "moveHandler"
         target: root.parent
         buttonsWidth: decoration.buttonsWidth
-
-        onFakeMaximizeAnimationRequested: root.fakeMaximizeAnimationRequested(progress)
-        onFakeMaximizeLeftAnimationRequested: root.fakeMaximizeLeftAnimationRequested(progress)
-        onFakeMaximizeRightAnimationRequested: root.fakeMaximizeRightAnimationRequested(progress)
-        onFakeMaximizeTopLeftAnimationRequested: root.fakeMaximizeTopLeftAnimationRequested(progress)
-        onFakeMaximizeTopRightAnimationRequested: root.fakeMaximizeTopRightAnimationRequested(progress)
-        onFakeMaximizeBottomLeftAnimationRequested: root.fakeMaximizeBottomLeftAnimationRequested(progress)
-        onFakeMaximizeBottomRightAnimationRequested: root.fakeMaximizeBottomRightAnimationRequested(progress)
-        onStopFakeAnimation: root.stopFakeAnimation()
         onShouldCommitSnapWindow: root.shouldCommitSnapWindow()
     }
 

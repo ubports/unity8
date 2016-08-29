@@ -358,7 +358,7 @@ AbstractStage {
                 readonly property var surface: model.surface
                 readonly property alias resizeArea: resizeArea
                 readonly property alias focusedSurface: decoratedWindow.focusedSurface
-                readonly property alias moveHandler: decoratedWindow.moveHandler
+                readonly property var moveHandler: touchControls.overlayShown ? touchControls.moveHandler : decoratedWindow.moveHandler
 
                 readonly property bool isDash: model.application.appId == "unity8-dash"
 
@@ -773,6 +773,7 @@ AbstractStage {
                     onFakeMaximizeBottomLeftAnimationRequested: decoratedWindow.fakeMaximizeBottomLeftAnimationRequested(progress)
                     onFakeMaximizeBottomRightAnimationRequested: decoratedWindow.fakeMaximizeBottomRightAnimationRequested(progress)
                     onStopFakeAnimation: decoratedWindow.stopFakeAnimation()
+                    onShouldCommitSnapWindow: fakeRectangle.commit();
                 }
 
                 WindowedFullscreenPolicy {

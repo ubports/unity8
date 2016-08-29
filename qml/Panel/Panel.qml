@@ -113,6 +113,7 @@ Item {
             }
             onPositionChanged: {
                 if (delegate && delegate.moveHandler.dragging) {
+                    delegate.focus = true;
                     delegate.restoredX = Math.round(mouse.x - delegate.moveHandler.buttonsWidth);
                     delegate.restoredY = Math.round(Math.max(mouse.y, PanelState.panelHeight));
                     delegate.restoreFromMaximized(false);
@@ -120,8 +121,8 @@ Item {
             }
             onReleased: {
                 if (delegate) {
-                    delegate.moveHandler.handlePressedChanged(false, pressedButtons, mouseX, mouseY);
-                    delegate.moveHandler.handleReleased(mouse);
+                    delegate.moveHandler.handlePressedChanged(false, pressedButtons);
+                    delegate.moveHandler.handleReleased();
                     delegate.moveHandler.shouldCommitSnapWindow();
                     delegate = null;
                 }
