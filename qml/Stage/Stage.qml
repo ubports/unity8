@@ -218,7 +218,21 @@ AbstractStage {
             print("*** updated! MainStage:", priv.mainStageAppId, "SideStage:", priv.sideStageAppId)
         }
 
-        property int nextInStack: 1
+        property int nextInStack: {
+            var mainStageIndex = priv.mainStageDelegate ? priv.mainStageDelegate.itemIndex : -1;
+            var sideStageIndex = priv.sideStageDelegate ? priv.sideStageDelegate.itemIndex : -1;
+//            print("calculating nextInStack:", mainStageIndex, sideStageIndex, priv.mainStageDelegate.itemIndex, priv.sideStageDelegate.itemIndex)
+            if (sideStageIndex == -1) {
+                return topLevelSurfaceList.count > 1 ? 1 : -1;
+            }
+            if (mainStageIndex == 0 || sideStageIndex == 0) {
+                if (mainStageIndex == 1 || sideStageIndex == 1) {
+                    return 2;
+                }
+                return 1;
+            }
+            return -1;
+        }
 
         readonly property real virtualKeyboardHeight: SurfaceManager.inputMethodSurface
                                                           ? SurfaceManager.inputMethodSurface.inputBounds.height
@@ -311,7 +325,7 @@ AbstractStage {
         },
         State {
             name: "sideStagedRightEdge"; when: rightEdgeDragArea.dragging && root.mode == "stagedWithSideStage"
-            PropertyChanges { target: priv; nextInStack: priv.sideStageDelegate && priv.sideStageDelegate.itemIndex < 2 ? 2 : 1 }
+//            PropertyChanges { target: priv; nextInStack: priv.sideStageDelegate && priv.sideStageDelegate.itemIndex < 2 ? 2 : 1 }
         },
         State {
             name: "windowedRightEdge"; when: rightEdgeDragArea.dragging && root.mode == "windowed"
@@ -322,7 +336,7 @@ AbstractStage {
         State {
             name: "stagedWithSideStage"; when: root.mode === "stagedWithSideStage"
             PropertyChanges { target: triGestureArea; enabled: true }
-            PropertyChanges { target: priv; nextInStack: priv.sideStageDelegate && priv.sideStageDelegate.itemIndex < 2 ? 2 : 1 }
+//            PropertyChanges { target: priv; nextInStack: priv.sideStageDelegate && priv.sideStageDelegate.itemIndex < 2 ? 2 : 1 }
             PropertyChanges { target: sideStage; visible: true }
         },
         State {
@@ -430,7 +444,6 @@ AbstractStage {
                 return 2;
             }
 
-
             onShownChanged: {
                 print("sidestage shown changed:", shown)
                 if (!shown && priv.mainStageDelegate) {
@@ -499,6 +512,8 @@ AbstractStage {
                     }
                 }
                 z: normalZ
+                onZChanged: print("app", model.application.appId, "z changed to:", z)
+
 
                 // Normally we want x/y where we request it to be. Width/height of our delegate will
                 // match what the actual surface size is.
@@ -1411,7 +1426,7 @@ AbstractStage {
                 gesturePoints = [];
             } else {
                 // Ok. The user released. Did he drag far enough to go to full spread?
-                if (gesturePoints[gesturePoints.length - 1] < -root.width * 0.4 ) {
+                if (gesturePoints[gesturePoints.length - 1] < -units.gu(15) ) {
                     print("gone to spread true")
                     priv.goneToSpread = true;
                 } else {
@@ -1427,8 +1442,14 @@ AbstractStage {
                     }
 
                     if (appRepeater.count > 1 &&
-                            (oneWayFlick && rightEdgeDragArea.distance > units.gu(2) || rightEdgeDragArea.distance > root.width * .3)) {
-                        appRepeater.itemAt(0).playHidingAnimation()
+                            (oneWayFlick && rightEdgeDragArea.distance > units.gu(2) || rightEdgeDragArea.distance > units.gu(15))) {
+                        var nextStage = appRepeater.itemAt(priv.nextInStack).stage
+                        for (var i = 0; i < appRepeater.count; i++) {
+                            if (appRepeater.itemAt(i).stage == nextStage) {
+                                appRepeater.itemAt(i).playHidingAnimation()
+                                break;
+                            }
+                        }
                         appRepeater.itemAt(priv.nextInStack).playFocusAnimation()
                     } else {
                         appRepeater.itemAt(0).playFocusAnimation();

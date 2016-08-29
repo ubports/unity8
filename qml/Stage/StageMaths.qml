@@ -25,7 +25,7 @@ QtObject {
     // We don't want to really reorder them in the model because that allows us to keep track
     // of the last focused order.
     readonly property int itemZ: {
-        // only shuffle when we've got a main and overlay
+        // only shuffle when we've got a main and side stage
         if (!sideStageDelegate) return itemIndex;
 
         // don't shuffle indexes greater than "actives or next"
@@ -36,8 +36,8 @@ QtObject {
             return 0;
         }
 
+        print("App:", model.application.appId, "index:", itemIndex, "nextInStack:", nextInStack)
         if (nextInStack > 0) {
-            print("App:", model.application.appId, "index:", itemIndex, "nextInStack:", nextInStack)
             var stageOfNextInStack = topLevelSurfaceList.applicationAt(nextInStack).stage;
 
             if (itemIndex === nextInStack) {
