@@ -640,13 +640,6 @@ AbstractStage {
                     }
                 }
 
-//                Timer {
-//                    interval: 1000
-//                    repeat: true
-//                    running: index == 0
-//                    onTriggered: print("index", index, "focused:", appDelegate.focus, "x", appDelegate.x, "state", appDelegate.state)
-//                }
-
                 onFocusChanged: {
                     if (appRepeater.startingUp)
                         return;
@@ -676,7 +669,6 @@ AbstractStage {
                     if (!appRepeater.startingUp) {
                         // a top level window is always the focused one when it first appears, unfocusing
                         // any preexisting one
-                        print("***** focusing after starting up", model.application.appId)
                         focus = true;
                     }
                 }
@@ -695,7 +687,6 @@ AbstractStage {
                         for (var i = 0; i < appRepeater.count; i++) {
                             var appDelegate = appRepeater.itemAt(i);
                             if (appDelegate && !appDelegate.minimized && i != index) {
-                                print("***** focusing because of previously focused window disappeared", appDelegate.application.appId)
                                 appDelegate.focus = true;
                                 return;
                             }
@@ -1328,6 +1319,7 @@ AbstractStage {
                     anchors.fill: parent
                     enabled: false
                     closeable: model.application.appId !== "unity8-dash"
+                    closeIconOffset: spreadMaths.closeIconOffset
 
                     onClicked: {
                         spreadItem.highlightedIndex = index;

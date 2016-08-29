@@ -63,7 +63,7 @@ Item {
     readonly property real shadowOpacity: 0.2 * (1  - rightStackingProgress) * (1 - leftStackingProgress)
 
 
-    readonly property real closeIconOffset: (scale - 1) * (-root.spreadHeight / 2)
+    readonly property real closeIconOffset: (targetScale - 1) * (-spread.stackHeight / 2)
 
     readonly property real tileInfoOpacity: Math.min(MathUtils.clamp(MathUtils.map(leftStackingProgress, 0 , 1/(spread.stackItemCount*3), 1, 0), 0 , 1),
                                                      MathUtils.clamp(MathUtils.map(spreadPosition, 0.9 , 1, 1, 0), 0 , 1)) /** MathUtils.map(curvedSwitcherProgress, 0.7, 0.9, 0, 1)*/

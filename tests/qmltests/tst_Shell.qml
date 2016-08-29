@@ -50,6 +50,8 @@ Rectangle {
         shellLoader.active = true;
     }
 
+    property var shell: shellLoader.item ? shellLoader.item : null
+
     Item {
         id: shellContainer
         anchors.left: root.left
@@ -302,7 +304,7 @@ Rectangle {
                 }
 
                 Repeater {
-                    id: appRepeater
+                    id: appCheckBoxRepeater
                     model: ApplicationManager.availableApplications
                     ApplicationCheckBox {
                         appId: modelData
@@ -1707,11 +1709,8 @@ Rectangle {
         function test_altBackTabNavigation() {
             loadDesktopShellWithApps();
 
-            print("findItem")
             var spreadItem = findChild(shell, "spreadItem");
-            print("starting verify")
             verify(spreadItem !== null);
-            print("verify done")
 
             keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
@@ -1769,21 +1768,24 @@ Rectangle {
         function test_closeFromSpread() {
             loadDesktopShellWithApps()
 
-            var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
-            verify(spreadRepeater !== null);
+            var appRepeater = findInvisibleChild(shell, "appRepeater");
+            verify(appRepeater !== null);
+
+            var spreadItem = findChild(shell, "spreadItem");
+            verify(spreadItem !== null);
 
             keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
 
             var surfaceId = topLevelSurfaceList.idAt(2);
-            var spreadDelegate2 = spreadRepeater.itemAt(2);
+            var spreadDelegate2 = appRepeater.itemAt(2);
             var closeMouseArea = findChild(spreadDelegate2, "closeMouseArea");
 
             // Move the mosue over tile 2 and verify the close button becomes visible
             var x = 0;
             var y = shell.height * .5;
             mouseMove(shell, x, y)
-            while (spreadRepeater.highlightedIndex !== 2 && x <= 4000) {
+            while (spreadItem.highlightedIndex !== 2 && x <= 4000) {
                 x+=10;
                 mouseMove(shell, x, y)
                 wait(0); // spin the loop so bindings get evaluated
