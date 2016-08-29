@@ -1297,15 +1297,6 @@ AbstractStage {
                             angle: decoratedWindow.angle
                         }
                     ]
-
-                    Label {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.bottom: parent.bottom
-                        anchors.bottomMargin: units.gu(3)
-                        color: "red"
-                        fontSize: "x-large"
-                        text: appDelegate.z
-                    }
                 }
 
                 OpacityMask {
