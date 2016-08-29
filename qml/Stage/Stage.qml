@@ -623,7 +623,8 @@ AbstractStage {
                 Connections {
                     target: model.surface
                     onFocusRequested: {
-                        print("model surface requesting focus", model.application.appId)
+                        // Reset spread selection in case there is any
+                        spreadItem.highlightedIndex = -1
                         claimFocus();
                     }
                 }

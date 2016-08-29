@@ -1952,7 +1952,7 @@ Rectangle {
         function test_focusAppFromLauncherExitsSpread(data) {
             loadDesktopShellWithApps()
             var launcher = findChild(shell, "launcher");
-            var desktopSpread = findChild(shell, "spread");
+            var stage = findChild(shell, "stage");
             var bfb = findChild(launcher, "buttonShowDashHome");
 
             GSettingsController.setAutohideLauncher(!data.launcherLocked);
@@ -1961,7 +1961,7 @@ Rectangle {
             keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
 
-            tryCompare(desktopSpread, "state", "altTab")
+            tryCompare(stage, "state", "spread")
 
             if (!data.launcherLocked) {
                 revealLauncherByEdgePushWithMouse();
@@ -1974,7 +1974,7 @@ Rectangle {
             if (!data.launcherLocked) {
                 tryCompare(launcher, "state", "")
             }
-            tryCompare(desktopSpread, "state", "")
+            tryCompare(stage, "state", "windowed")
 
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash")
 
