@@ -74,9 +74,9 @@ Item {
 
         function test_set_username_data() {
             return [
-                { username: "has-password", label: "<b>19</b> minutes talk time", visible: true },
-                { username: "two-factor", label: "", visible: true },
                 { username: "", label: "", visible: false },
+                { username: "two-factor", label: "", visible: true },
+
             ]
         }
 
@@ -84,6 +84,21 @@ Item {
             infographicModel.username = data.username
             tryCompare(label, "text", data.label)
             compare(infographic.visible, data.visible);
+        }
+
+        function test_set_current_day_data(data)
+        {
+            return [
+                { tag: "Same day",    currentDaySet: 0,     currentDayExpected: 0 },
+                { tag: "Wrong day",   currentDaySet: 1,     currentDayExpected: 0 },
+            ]
+        }
+
+        function test_set_current_day(data)
+        {
+            infographic.currentDay = data.currentDaySet
+            infographic.startShowAnimation()
+            compare(infographic.currentDay, data.currentDayExpected)
         }
     }
 
