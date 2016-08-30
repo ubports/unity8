@@ -2136,10 +2136,10 @@ Rectangle {
 
             // Sanity checking
             if (data.usageScenario === "tablet") {
-                var app1Delegate = findChild(shell, "spreadDelegate_" + app1SurfaceId);
+                var app1Delegate = findChild(shell, "appDelegate_" + app1SurfaceId);
                 compare(app1Delegate.stage, ApplicationInfoInterface.MainStage);
 
-                var app2Delegate = findChild(shell, "spreadDelegate_" + app2SurfaceId);
+                var app2Delegate = findChild(shell, "appDelegate_" + app2SurfaceId);
                 compare(app2Delegate.stage, ApplicationInfoInterface.MainStage);
             }
             verify(!app1.isTouchApp);
@@ -2177,10 +2177,10 @@ Rectangle {
 
             // Sanity checking
             if (data.usageScenario === "tablet") {
-                var app1Delegate = findChild(shell, "spreadDelegate_" + app1SurfaceId);
+                var app1Delegate = findChild(shell, "appDelegate_" + app1SurfaceId);
                 compare(app1Delegate.stage, ApplicationInfoInterface.MainStage);
 
-                var app2Delegate = findChild(shell, "spreadDelegate_" + app2SurfaceId);
+                var app2Delegate = findChild(shell, "appDelegate_" + app2SurfaceId);
                 compare(app2Delegate.stage, ApplicationInfoInterface.MainStage);
             }
 
@@ -2411,9 +2411,9 @@ Rectangle {
 
         function test_inputEventsOnEdgesEndUpInAppSurface_data() {
             return [
-                { tag: "phone", repeaterName: "spreadRepeater" },
-                { tag: "tablet", repeaterName: "spreadRepeater" },
-                { tag: "desktop", repeaterName: "appRepeater" },
+                { tag: "phone" },
+                { tag: "tablet" },
+                { tag: "desktop" },
             ]
         }
 
@@ -2428,7 +2428,7 @@ Rectangle {
             var app = ApplicationManager.startApplication("camera-app");
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
-            var appRepeater = findChild(shell, data.repeaterName);
+            var appRepeater = findChild(shell, "appRepeater");
             var topmostAppDelegate = appRepeater.itemAt(0);
             verify(topmostAppDelegate);
 

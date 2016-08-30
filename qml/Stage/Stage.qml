@@ -330,7 +330,6 @@ AbstractStage {
         when: !appRepeater.startingUp && root.parent
     }
 
-    onStateChanged: print("*** Main State changed to:", state)
     states: [
         State {
             name: "spread"; when: priv.goneToSpread
@@ -662,9 +661,6 @@ AbstractStage {
                         return;
 
                     if (focus) {
-                        print("app surface gained focus:", model.application.appId)
-                        print("setting focusedAppDelegate to", appDelegate.application.appId)
-                        print("raising surface in model", model.id)
                         topLevelSurfaceList.raiseId(model.id);
                         priv.focusedAppDelegate = appDelegate;
                         topLevelSurfaceList.raiseId(model.id);
