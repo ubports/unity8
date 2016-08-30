@@ -109,6 +109,8 @@ Showable {
         model: root.infographicModel
         clip: true // clip large data bubbles
 
+        useColor: !root.hasCustomBackground
+
         anchors {
             verticalCenter: parent.verticalCenter
             left: parent.left
