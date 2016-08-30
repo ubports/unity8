@@ -857,6 +857,7 @@ AbstractStage {
                     targetAngle: spreadMaths.targetAngle
                     targetScale: spreadMaths.targetScale
                     shuffledZ: stageMaths.itemZ
+                    breakPoint: spreadItem.rightEdgeBreakPoint
                 }
 
                 WindowedRightEdgeMaths {
@@ -870,6 +871,7 @@ AbstractStage {
                     normalZ: appDelegate.normalZ
                     targetAngle: spreadMaths.targetAngle
                     targetScale: spreadMaths.targetScale
+                    breakPoint: spreadItem.rightEdgeBreakPoint
                 }
 
                 states: [
@@ -1206,6 +1208,17 @@ AbstractStage {
                                 }
                             }
                         }
+                    },
+                    Transition {
+                        from: "stagedRightEdge"; to: "staged"
+                        SequentialAnimation {
+                            ParallelAnimation {
+                                UbuntuNumberAnimation { target: appDelegate; properties: "x,y,height,width,scale"; duration: priv.animationDuration }
+                                UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle,scaleToPreviewProgress"; duration: priv.animationDuration }
+                            }
+    //                        // We need to release scaleToPreviewSize at last
+                            PropertyAction { target: decoratedWindow; property: "scaleToPreviewSize" }
+                        }
                     }
 
                 ]
@@ -1412,6 +1425,9 @@ AbstractStage {
 
         onTouchPositionChanged: {
             gesturePoints.push(touchPosition.x);
+            if (gesturePoints.length > 10) {
+                gesturePoints.splice(0, gesturePoints.length - 10)
+            }
         }
 
         onDraggingChanged: {
@@ -1421,11 +1437,29 @@ AbstractStage {
                 gesturePoints = [];
             } else {
                 // Ok. The user released. Did he drag far enough to go to full spread?
-                if (gesturePoints[gesturePoints.length - 1] < -units.gu(15) ) {
-                    print("gone to spread true")
-                    priv.goneToSpread = true;
+                if (gesturePoints[gesturePoints.length - 1] < -spreadItem.rightEdgeBreakPoint * spreadItem.width ) {
+
+                    // He dragged far enough, but if the last movement was a flick to the right again, he wants to cancel the spread again.
+                    var oneWayFlickToRight = true;
+                    var smallestX = gesturePoints[0]-1;
+                    for (var i = 0; i < gesturePoints.length; i++) {
+                        print("have point:", gesturePoints[i])
+                        if (gesturePoints[i] <= smallestX) {
+                            oneWayFlickToRight = false;
+                            break;
+                        }
+                        smallestX = gesturePoints[i];
+                    }
+
+                    if (!oneWayFlickToRight) {
+                        // Ok, the user made it, let's go to spread!
+                        priv.goneToSpread = true;
+//                    } else {
+//                        appRepeater.itemAt(0).playFocusAnimation();
+                    }
                 } else {
-                    // Find out if it was a one-way movement.
+                    // Ok, the user didn't drag far enough to cross the breakPoint
+                    // Find out if it was a one-way movement to the left, in which case we just switch directly to next app.
                     var oneWayFlick = true;
                     var smallestX = rightEdgeDragArea.width;
                     for (var i = 0; i < gesturePoints.length; i++) {
@@ -1437,7 +1471,7 @@ AbstractStage {
                     }
 
                     if (appRepeater.count > 1 &&
-                            (oneWayFlick && rightEdgeDragArea.distance > units.gu(2) || rightEdgeDragArea.distance > units.gu(15))) {
+                            (oneWayFlick && rightEdgeDragArea.distance > units.gu(2) || rightEdgeDragArea.distance > spreadItem.rightEdgeBreakPoint * spreadItem.width)) {
                         var nextStage = appRepeater.itemAt(priv.nextInStack).stage
                         for (var i = 0; i < appRepeater.count; i++) {
                             if (appRepeater.itemAt(i).stage == nextStage) {

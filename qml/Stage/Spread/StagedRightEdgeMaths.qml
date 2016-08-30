@@ -20,6 +20,7 @@ QtObject {
     property int targetHeight: 0
     property real startScale: 1.3
     property real targetScale: 0
+    property real breakPoint: units.gu(15) / sceneWidth
 
     property bool isMainStageApp: false
     property bool isSideStageApp: false
@@ -27,10 +28,7 @@ QtObject {
     property int shuffledZ: 0
 
 
-//    onProgressChanged: if (itemIndex == 0) { print("progress", progress) }
-
     // Config
-    property real breakPoint: units.gu(15) / sceneWidth
     property int tileDistance: units.gu(10)
 
     // Output
@@ -76,9 +74,9 @@ QtObject {
 
         if (itemIndex == nextInStack) {
             if (progress < breakPoint) {
-                return MathUtils.linearAnimation(0, breakPoint, startX, startX - units.gu(15), progress)
+                return MathUtils.linearAnimation(0, breakPoint, startX, startX * (1 - breakPoint), progress)
             }
-            return MathUtils.linearAnimation(breakPoint, 1, startX - units.gu(15), targetX, progress)
+            return MathUtils.linearAnimation(breakPoint, 1, startX * (1 - breakPoint), targetX, progress)
         }
 
         if (progress < breakPoint) {

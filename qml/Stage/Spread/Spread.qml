@@ -20,6 +20,7 @@ Item {
     property real rightRotationAngle: 32
     property real leftStackScale: .82
     property real rightStackScale: 1
+    property real rightEdgeBreakPoint: Math.min(units.gu(40) / root.width, .35)
 
     signal leaveSpread()
 
