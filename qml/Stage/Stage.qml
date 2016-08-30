@@ -971,6 +971,7 @@ AbstractStage {
                             requestedWidth: appContainer.width
                             requestedHeight: appDelegate.fullscreen ? appContainer.height : appContainer.height - PanelState.panelHeight
                             visuallyMaximized: true
+                            visible: appDelegate.itemIndex == 0
                         }
                         PropertyChanges {
                             target: decoratedWindow
