@@ -748,15 +748,6 @@ AbstractStage {
                     onMinimizeClicked: appDelegate.minimize()
                     onDecorationPressed: { appDelegate.focus = true; }
                     onShouldCommitSnapWindow: fakeRectangle.commit();
-
-                    onFakeMaximizeAnimationRequested: if (!appDelegate.maximized) fakeRectangle.maximize(progress)
-                    onFakeMaximizeLeftAnimationRequested: if (!appDelegate.maximizedLeft) fakeRectangle.maximizeLeft(progress)
-                    onFakeMaximizeRightAnimationRequested: if (!appDelegate.maximizedRight) fakeRectangle.maximizeRight(progress)
-                    onFakeMaximizeTopLeftAnimationRequested: if (!appDelegate.maximizedTopLeft) fakeRectangle.maximizeTopLeft(progress);
-                    onFakeMaximizeTopRightAnimationRequested: if (!appDelegate.maximizedTopRight) fakeRectangle.maximizeTopRight(progress);
-                    onFakeMaximizeBottomLeftAnimationRequested: if (!appDelegate.maximizedBottomLeft) fakeRectangle.maximizeBottomLeft(progress);
-                    onFakeMaximizeBottomRightAnimationRequested: if (!appDelegate.maximizedBottomRight) fakeRectangle.maximizeBottomRight(progress);
-                    onStopFakeAnimation: fakeRectangle.stop();
                 }
 
                 WindowControlsOverlay {
@@ -765,14 +756,14 @@ AbstractStage {
                     stageWidth: appContainer.width
                     stageHeight: appContainer.height
 
-                    onFakeMaximizeAnimationRequested: decoratedWindow.fakeMaximizeAnimationRequested(progress)
-                    onFakeMaximizeLeftAnimationRequested: decoratedWindow.fakeMaximizeLeftAnimationRequested(progress)
-                    onFakeMaximizeRightAnimationRequested: decoratedWindow.fakeMaximizeRightAnimationRequested(progress)
-                    onFakeMaximizeTopLeftAnimationRequested: decoratedWindow.fakeMaximizeTopLeftAnimationRequested(progress)
-                    onFakeMaximizeTopRightAnimationRequested: decoratedWindow.fakeMaximizeTopRightAnimationRequested(progress)
-                    onFakeMaximizeBottomLeftAnimationRequested: decoratedWindow.fakeMaximizeBottomLeftAnimationRequested(progress)
-                    onFakeMaximizeBottomRightAnimationRequested: decoratedWindow.fakeMaximizeBottomRightAnimationRequested(progress)
-                    onStopFakeAnimation: decoratedWindow.stopFakeAnimation()
+                    onFakeMaximizeAnimationRequested: if (!appDelegate.maximized) fakeRectangle.maximize(amount)
+                    onFakeMaximizeLeftAnimationRequested: if (!appDelegate.maximizedLeft) fakeRectangle.maximizeLeft(amount)
+                    onFakeMaximizeRightAnimationRequested: if (!appDelegate.maximizedRight) fakeRectangle.maximizeRight(amount)
+                    onFakeMaximizeTopLeftAnimationRequested: if (!appDelegate.maximizedTopLeft) fakeRectangle.maximizeTopLeft(amount);
+                    onFakeMaximizeTopRightAnimationRequested: if (!appDelegate.maximizedTopRight) fakeRectangle.maximizeTopRight(amount);
+                    onFakeMaximizeBottomLeftAnimationRequested: if (!appDelegate.maximizedBottomLeft) fakeRectangle.maximizeBottomLeft(amount);
+                    onFakeMaximizeBottomRightAnimationRequested: if (!appDelegate.maximizedBottomRight) fakeRectangle.maximizeBottomRight(amount);
+                    onStopFakeAnimation: fakeRectangle.stop();
                     onShouldCommitSnapWindow: fakeRectangle.commit();
                 }
 

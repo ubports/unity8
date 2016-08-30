@@ -63,15 +63,6 @@ FocusScope {
     signal minimizeClicked()
     signal decorationPressed()
 
-    signal fakeMaximizeAnimationRequested(real progress)
-    signal fakeMaximizeLeftAnimationRequested(real progress)
-    signal fakeMaximizeRightAnimationRequested(real progress)
-    signal fakeMaximizeTopLeftAnimationRequested(real progress)
-    signal fakeMaximizeTopRightAnimationRequested(real progress)
-    signal fakeMaximizeBottomLeftAnimationRequested(real progress)
-    signal fakeMaximizeBottomRightAnimationRequested(real progress)
-    signal stopFakeAnimation()
-
     signal shouldCommitSnapWindow()
 
     Rectangle {

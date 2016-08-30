@@ -34,13 +34,13 @@ Item {
     readonly property alias overlayShown: overlay.visible
     readonly property alias moveHandler: moveHandler
 
-    signal fakeMaximizeAnimationRequested(real progress)
-    signal fakeMaximizeLeftAnimationRequested(real progress)
-    signal fakeMaximizeRightAnimationRequested(real progress)
-    signal fakeMaximizeTopLeftAnimationRequested(real progress)
-    signal fakeMaximizeTopRightAnimationRequested(real progress)
-    signal fakeMaximizeBottomLeftAnimationRequested(real progress)
-    signal fakeMaximizeBottomRightAnimationRequested(real progress)
+    signal fakeMaximizeAnimationRequested(real amount)
+    signal fakeMaximizeLeftAnimationRequested(real amount)
+    signal fakeMaximizeRightAnimationRequested(real amount)
+    signal fakeMaximizeTopLeftAnimationRequested(real amount)
+    signal fakeMaximizeTopRightAnimationRequested(real amount)
+    signal fakeMaximizeBottomLeftAnimationRequested(real amount)
+    signal fakeMaximizeBottomRightAnimationRequested(real amount)
     signal stopFakeAnimation()
     signal shouldCommitSnapWindow()
 
@@ -146,7 +146,6 @@ Item {
                 visible: overlay.visible
                 enabled: visible
                 hoverEnabled: true
-                cursorShape: moveHandler.dragging ? Qt.ClosedHandCursor : (overlay.visible ? Qt.OpenHandCursor : Qt.ArrowCursor)
 
                 onPressedChanged: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
                 onPositionChanged: moveHandler.handlePositionChanged(mouse)
@@ -170,6 +169,7 @@ Item {
                 onFakeMaximizeBottomLeftAnimationRequested: root.fakeMaximizeBottomLeftAnimationRequested(progress)
                 onFakeMaximizeBottomRightAnimationRequested: root.fakeMaximizeBottomRightAnimationRequested(progress)
                 onStopFakeAnimation: root.stopFakeAnimation()
+                onShouldCommitSnapWindow: root.shouldCommitSnapWindow();
             }
 
             // dismiss area
