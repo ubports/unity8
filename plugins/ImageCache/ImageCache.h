@@ -17,9 +17,9 @@
 #pragma once
 
 #include <QFileInfo>
+#include <QImageReader>
 #include <QQuickImageProvider>
 #include <QSize>
-#include <QUrl>
 
 /**
  * This class accepts an id formulated like a URL. So you'd use something like:
@@ -47,7 +47,7 @@ public:
 private:
     static QString imageCacheRoot();
     static QFileInfo imagePath(const QUrl &image);
-    static bool needsUpdate(const QUrl &image, const QFileInfo &cachePath, const QSize &requestedSize, QSize &finalSize);
+    static bool needsUpdate(const QUrl &image, const QFileInfo &cachePath, const QSize &imageSize, const QSize &requestedSize, QSize &finalSize);
     static QSize calculateSize(const QSize &imageSize, const QSize &requestedSize);
-    static QImage loadAndCacheImage(const QUrl &image, const QFileInfo &cachePath, const QSize &finalSize);
+    static QImage loadAndCacheImage(QImageReader &reader, const QFileInfo &cachePath, const QSize &finalSize);
 };
