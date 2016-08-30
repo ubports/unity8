@@ -430,6 +430,8 @@ StyledItem {
             var originalDirectories = LightDM.Sessions.iconSearchDirectories
             LightDM.Sessions.iconSearchDirectories = [testIconDirectory]
 
+            selectUser("has-password");
+
             // Test the login list icon is valid
             var sessionChooserButton = findChild(view, "sessionChooserButton");
             compare(sessionChooserButton.visible, true);
@@ -449,6 +451,8 @@ StyledItem {
             // Ensure the default session is selected (Ubuntu)
             loader.active = false;
             loader.active = true;
+
+            selectUser("has-password");
 
             LightDM.Sessions.testScenario = "multipleSessions";
             var sessionChooserButton = findChild(view, "sessionChooserButton");
@@ -486,9 +490,21 @@ StyledItem {
             tryCompare(sessionChooserButton, "visible", false);
         }
 
+        function test_sessionIconNotShownWithActiveUser() {
+            LightDM.Sessions.testScenario = "multipleSessions";
+            compare(LightDM.Sessions.count > 1, true);
+
+            selectUser("active");
+
+            var sessionChooserButton = findChild(view, "sessionChooserButton");
+            tryCompare(sessionChooserButton, "visible", false);
+        }
+
         function test_sessionIconShownWithMultipleSessions() {
             LightDM.Sessions.testScenario = "multipleSessions"
             compare(LightDM.Sessions.count > 1, true);
+
+            selectUser("has-password");
 
             var sessionChooserButton = findChild(view, "sessionChooserButton");
             tryCompare(sessionChooserButton, "visible", true);
