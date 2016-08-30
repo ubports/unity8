@@ -311,10 +311,10 @@ FocusScope {
                         anchors { left: parent.left; top: parent.top; right: parent.right }
                         spacing: units.gu(1)
 
-                        UbuntuShapeForItem {
+                        UbuntuShape {
                             Layout.preferredHeight: Math.min(units.gu(6), root.height * .05)
                             Layout.preferredWidth: height * 8 / 7.6
-                            image: Image {
+                            source: Image {
                                 anchors.fill: parent
                                 source: model.application.icon
                                 Rectangle {
