@@ -107,6 +107,9 @@ Item {
             var bottommost = Math.max.apply(Math, yPoints);
 
             return {
+                left: mapToItem(target.parent, leftmost, (topmost+bottommost)/2),
+                top: mapToItem(target.parent, (leftmost+rightmost)/2, topmost),
+                right: mapToItem(target.parent, rightmost, (topmost+bottommost)/2),
                 topLeft: mapToItem(target.parent, leftmost, topmost),
                 topRight: mapToItem(target.parent, rightmost, topmost),
                 bottomLeft: mapToItem(target.parent, leftmost, bottommost),

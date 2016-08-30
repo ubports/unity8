@@ -144,18 +144,18 @@ Item {
                     priv.resetEdges();
                     priv.nearBottomRightCorner = true;
                     root.fakeMaximizeBottomRightAnimationRequested(priv.progress);
-                } else if (sensingPoints.topLeft.x < priv.triggerArea && target.canBeMaximizedLeftRight) { // left
-                    priv.progress = MathUtils.clampAndProject(sensingPoints.topLeft.x, priv.triggerArea, 0, 0, 1);
+                } else if (sensingPoints.left.x < priv.triggerArea && target.canBeMaximizedLeftRight) { // left
+                    priv.progress = MathUtils.clampAndProject(sensingPoints.left.x, priv.triggerArea, 0, 0, 1);
                     priv.resetEdges();
                     priv.nearLeftEdge = true;
                     root.fakeMaximizeLeftAnimationRequested(priv.progress);
-                } else if (sensingPoints.topRight.x > stageWidth - priv.triggerArea && target.canBeMaximizedLeftRight) { // right
-                    priv.progress = MathUtils.clampAndProject(sensingPoints.topRight.x, stageWidth - priv.triggerArea, stageWidth, 0, 1);
+                } else if (sensingPoints.right.x > stageWidth - priv.triggerArea && target.canBeMaximizedLeftRight) { // right
+                    priv.progress = MathUtils.clampAndProject(sensingPoints.right.x, stageWidth - priv.triggerArea, stageWidth, 0, 1);
                     priv.resetEdges();
                     priv.nearRightEdge = true;
                     root.fakeMaximizeRightAnimationRequested(priv.progress);
-                } else if (sensingPoints.topLeft.y < PanelState.panelHeight && target.canBeMaximized) { // top
-                    priv.progress = MathUtils.clampAndProject(sensingPoints.topLeft.y, Math.max(PanelState.panelHeight, priv.triggerArea), 0, 0, 1);
+                } else if (sensingPoints.top.y < PanelState.panelHeight && target.canBeMaximized) { // top
+                    priv.progress = MathUtils.clampAndProject(sensingPoints.top.y, Math.max(PanelState.panelHeight, priv.triggerArea), 0, 0, 1);
                     priv.resetEdges();
                     priv.nearTopEdge = true;
                     root.fakeMaximizeAnimationRequested(priv.progress);
