@@ -136,6 +136,7 @@ FocusScope {
 
         // Darken background to match CoverPage
         Rectangle {
+            objectName: "lockscreenShade"
             anchors.fill: parent
             color: "black"
             opacity: root.hasCustomBackground ? 0.4 : 0

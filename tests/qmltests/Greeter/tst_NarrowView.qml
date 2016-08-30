@@ -346,14 +346,14 @@ Item {
         }
 
         function test_customBackground() {
-            var lockscreen = findChild(view, "lockscreen");
+            var lockscreenShade = findChild(view, "lockscreenShade");
             var backgroundShade = findChild(view, "backgroundShade");
 
-            compare(lockscreen.darkenBackground, 0);
+            compare(lockscreenShade.opacity, 0);
             verify(!backgroundShade.visible);
 
             view.hasCustomBackground = true;
-            compare(lockscreen.darkenBackground, 0.4);
+            compare(lockscreenShade.opacity, 0.4);
             verify(backgroundShade.visible);
         }
 
