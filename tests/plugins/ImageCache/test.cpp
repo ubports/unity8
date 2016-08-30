@@ -41,7 +41,7 @@ private:
 
     void waitForImage(QQuickImage::Status status = QQuickImage::Ready)
     {
-        QTRY_COMPARE(image->property("status"), QVariant::fromValue(status));
+        QTRY_COMPARE(image->property("status"), QVariant((int)status));
     }
 
     QSize cachedImageSize(const QString &filename)

@@ -17,7 +17,7 @@
 #include <QDateTime>
 #include <QDebug>
 #include <QDir>
-#include <QImageReader>
+#include <QUrl>
 #include <QUrlQuery>
 
 #include "ImageCache.h"
@@ -52,7 +52,7 @@ QFileInfo ImageCache::imagePath(const QUrl &image)
     return QFileInfo(imageCacheRoot() + name);
 }
 
-bool ImageCache::needsUpdate(const QUrl &image, const QFileInfo &cachePath, const QSize &requestedSize, QSize &finalSize)
+bool ImageCache::needsUpdate(const QUrl &image, const QFileInfo &cachePath, const QSize &imageSize, const QSize &requestedSize, QSize &finalSize)
 {
     if (!cachePath.exists())
         return true;
@@ -62,7 +62,6 @@ bool ImageCache::needsUpdate(const QUrl &image, const QFileInfo &cachePath, cons
         return true;
 
     QSize cacheSize(QImageReader(cachePath.filePath()).size());
-    QSize imageSize(QImageReader(imageInfo.filePath()).size());
     finalSize = calculateSize(imageSize, requestedSize);
     if (finalSize.isValid() && cacheSize != finalSize)
         return true;
@@ -83,16 +82,15 @@ QSize ImageCache::calculateSize(const QSize &imageSize, const QSize &requestedSi
     return finalSize;
 }
 
-QImage ImageCache::loadAndCacheImage(const QUrl &image, const QFileInfo &cachePath, const QSize &finalSize)
+QImage ImageCache::loadAndCacheImage(QImageReader &reader, const QFileInfo &cachePath, const QSize &finalSize)
 {
-    QImageReader reader(image.toLocalFile());
     reader.setQuality(100);
     reader.setScaledSize(finalSize);
     auto format = reader.format(); // can't get this after reading
 
     QImage loadedImage(reader.read());
     if (loadedImage.isNull()) {
-        qWarning() << "ImageCache could not read image" << image.path();
+        qWarning() << "ImageCache could not read image" << reader.fileName() << ":" << reader.errorString();
         return QImage();
     }
 
@@ -105,7 +103,8 @@ QImage ImageCache::loadAndCacheImage(const QUrl &image, const QFileInfo &cachePa
 QImage ImageCache::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
     QUrl image(id);
-    QSize imageSize(QImageReader(image.toLocalFile()).size());
+    QImageReader imageReader(image.toLocalFile());
+    QSize imageSize(imageReader.size());
     QImage result;
 
     // Early exit here, with no sourceSize, scaled-up sourceSize, or bad source image
@@ -114,7 +113,7 @@ QImage ImageCache::requestImage(const QString &id, QSize *size, const QSize &req
         requestedSize.height() >= imageSize.height() ||
         requestedSize.width() >= imageSize.width()) {
         // We're only interested in scaling down, not up.
-        result = QImage(image.toLocalFile());
+        result = imageReader.read();
         *size = result.size();
         return result;
     }
@@ -122,11 +121,11 @@ QImage ImageCache::requestImage(const QString &id, QSize *size, const QSize &req
     auto cachePath = imagePath(image);
     QSize finalSize;
 
-    if (needsUpdate(image, cachePath, requestedSize, finalSize)) {
+    if (needsUpdate(image, cachePath, imageSize, requestedSize, finalSize)) {
         if (finalSize.isEmpty()) {
             finalSize = calculateSize(imageSize, requestedSize);
         }
-        result = loadAndCacheImage(image, cachePath, finalSize);
+        result = loadAndCacheImage(imageReader, cachePath, finalSize);
     } else {
         result = QImage(cachePath.filePath());
     }
