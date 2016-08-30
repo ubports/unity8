@@ -434,6 +434,7 @@ StyledItem {
         id: integratedGreeter
         Greeter {
 
+            enabled: panel.indicators.fullyClosed // hides OSK when panel is open
             hides: [launcher, panel.indicators]
             tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
@@ -678,7 +679,7 @@ StyledItem {
             objectName: "tutorial"
             anchors.fill: parent
 
-            paused: callManager.hasCalls || !greeter || greeter.shown ||
+            paused: callManager.hasCalls || !greeter || greeter.active ||
                     wizard.active
             delayed: dialogs.hasActiveDialog || notifications.hasNotification ||
                      inputMethod.visible ||

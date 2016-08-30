@@ -687,7 +687,7 @@ Rectangle {
                 waitUntilDashIsFocused();
                 tryCompare(greeter, "shown", false);
             } else {
-                compare(greeter.fullyShown, data.greeterShown);
+                tryCompare(greeter, "fullyShown", data.greeterShown);
             }
 
             var launcher = findChild(shell, "launcherPanel");
