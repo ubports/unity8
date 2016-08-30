@@ -293,16 +293,31 @@ AbstractStage {
 
     Instantiator {
         model: root.applicationManager
-        delegate: Binding {
-            target: model.application
-            property: "requestedState"
+        delegate: QtObject {
+            property var stateBinding: Binding {
+                readonly property bool isDash: model.application ? model.application.appId == "unity8-dash" : false
+                target: model.application
+                property: "requestedState"
 
-            // TODO: figure out some lifecycle policy, like suspending minimized apps
-            //       if running on a tablet or something.
-            // TODO: If the device has a dozen suspended apps because it was running
-            //       in staged mode, when it switches to Windowed mode it will suddenly
-            //       resume all those apps at once. We might want to avoid that.
-            value: ApplicationInfoInterface.RequestedRunning // Always running for now
+                // TODO: figure out some lifecycle policy, like suspending minimized apps
+                //       or something if running windowed.
+                // TODO: If the device has a dozen suspended apps because it was running
+                //       in staged mode, when it switches to Windowed mode it will suddenly
+                //       resume all those apps at once. We might want to avoid that.
+                value: root.mode === "windowed"
+                       || (isDash && root.keepDashRunning)
+                       || (!root.suspended && model.application && priv.focusedAppDelegate.appId === model.application.appId)
+                       ? ApplicationInfoInterface.RequestedRunning
+                       : ApplicationInfoInterface.RequestedSuspended
+            }
+
+            property var lifecycleBinding: Binding {
+                target: model.application
+                property: "exemptFromLifecycle"
+                value: model.application
+                            ? (!model.application.isTouchApp || isExemptFromLifecycle(model.application.appId))
+                            : false
+            }
         }
     }
 
@@ -608,6 +623,7 @@ AbstractStage {
                 readonly property alias resizeArea: resizeArea
                 readonly property alias focusedSurface: decoratedWindow.focusedSurface
 
+                readonly property string appId: model.application.appId
                 readonly property bool isDash: model.application.appId == "unity8-dash"
 
                 function claimFocus() {
