@@ -50,21 +50,30 @@ MouseArea {
         property bool dragging
     }
 
+    Timer {
+        id: mouseDownTimer
+        interval: 175
+        onTriggered: Mir.cursorName = "grabbing";
+    }
+
     onPressedChanged: {
         if (pressed && pressedButtons == Qt.LeftButton) {
             var pos = mapToItem(root.target, mouseX, mouseY);
             priv.distanceX = pos.x;
             priv.distanceY = pos.y;
             priv.dragging = true;
-            Mir.cursorName = "grabbing"
+            mouseDownTimer.start();
         } else {
             priv.dragging = false;
+            mouseDownTimer.stop();
             Mir.cursorName = "";
         }
     }
 
     onPositionChanged: {
         if (priv.dragging) {
+            mouseDownTimer.stop();
+            Mir.cursorName = "grabbing";
             var pos = mapToItem(root.target.parent, mouseX, mouseY);
             // Use integer coordinate values to ensure that target is left in a pixel-aligned
             // position. Mouse movement could have subpixel precision, yielding a fractional
