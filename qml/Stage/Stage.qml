@@ -530,8 +530,6 @@ AbstractStage {
                     }
                 }
                 z: normalZ
-                onZChanged: print("app", model.application.appId, "z changed to:", z)
-
 
                 // Normally we want x/y where we request it to be. Width/height of our delegate will
                 // match what the actual surface size is.
@@ -878,9 +876,6 @@ AbstractStage {
                     targetScale: spreadMaths.targetScale
                 }
 
-//                onXChanged: if (model.application.appId == "unity8-dash") print("dash moved to", x)
-//                onRequestedWidthChanged: if (index == 0) print("requestedWidth", requestedWidth)
-                onStateChanged: print("+++ App", model.application.appId, "state changed to:", state)
                 states: [
                     State {
                         name: "spread"; when: root.state == "spread"

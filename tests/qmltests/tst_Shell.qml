@@ -1658,47 +1658,41 @@ Rectangle {
         function test_altTabWrapAround() {
             loadDesktopShellWithApps();
 
-            var desktopStage = findChild(shell, "stage");
-            verify(desktopStage !== null)
+            var stage = findChild(shell, "stage");
+            verify(stage !== null)
 
-            var desktopSpread = findChild(shell, "spread");
-            verify(desktopSpread !== null)
-
-            var spreadContainer = findInvisibleChild(shell, "spreadContainer")
-            verify(spreadContainer !== null)
-
-            var spreadRepeater = findInvisibleChild(shell, "spreadRepeater")
-            verify(spreadRepeater !== null)
+            var spread = findChild(shell, "spreadItem");
+            verify(spread !== null)
 
             // remember the focused appId
             var focused = ApplicationManager.get(ApplicationManager.findApplication(ApplicationManager.focusedApplicationId));
 
-            tryCompare(desktopSpread, "state", "")
+            tryCompare(stage, "state", "windowed")
 
             // Just press Alt, make sure the spread comes up
             keyPress(Qt.Key_Alt);
             keyClick(Qt.Key_Tab);
-            tryCompare(desktopSpread, "state", "altTab")
-            tryCompare(spreadRepeater, "highlightedIndex", 1)
+            tryCompare(stage, "state", "spread")
+            tryCompare(spread, "highlightedIndex", 1)
             waitForRendering(shell)
 
             // Now press and hold Tab, make sure the highlight moves all the way but stops at the last one
             // We can't simulate a pressed key with keyPress() currently, so let's inject the events
             // at API level. Jump for 10 times, verify that it's still at the last one and didn't wrap around.
             for (var i = 0; i < 10; i++) {
-                desktopSpread.selectNext(true); // true == isAutoRepeat
+                spread.selectNext(true); // true == isAutoRepeat
                 wait(0); // Trigger the event loop to make sure all the things happen
             }
-            tryCompare(spreadRepeater, "highlightedIndex", 6)
+            tryCompare(spread, "highlightedIndex", 6)
 
             // Now release it once, and verify that it does wrap around with an additional Tab press
             keyRelease(Qt.Key_Tab);
             keyClick(Qt.Key_Tab);
-            tryCompare(spreadRepeater, "highlightedIndex", 0)
+            tryCompare(spread, "highlightedIndex", 0)
 
             // Release control, check if spread disappears
             keyRelease(Qt.Key_Alt)
-            tryCompare(desktopSpread, "state", "")
+            tryCompare(stage, "state", "windowed")
 
             // Make sure that after wrapping around once, we have the same one focused as at the beginning
             var focusedAppSurface = focused.surfaceList.get(0);
