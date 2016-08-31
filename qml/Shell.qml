@@ -826,7 +826,6 @@ StyledItem {
         }
         onPushStopped: {
             if (previewRectangle) {
-                print("!!! Cancelling preview", previewRectangle.progress)
                 previewRectangle.stop();
             }
         }

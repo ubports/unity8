@@ -106,7 +106,6 @@ Item {
             Mir.cursorName = "grabbing";
 
             if (target.anyMaximized) { // restore from maximized when dragging away from edges/corners
-                print("!!! Restoring maximized window after a drag away")
                 priv.progress = 0;
                 target.restore(false, WindowStateStorage.WindowStateNormal);
             }
@@ -160,7 +159,6 @@ Item {
                     root.fakeMaximizeAnimationRequested(priv.progress);
                 } else if (priv.nearLeftEdge || priv.nearRightEdge || priv.nearTopEdge || priv.nearTopLeftCorner || priv.nearTopRightCorner ||
                            priv.nearBottomLeftCorner || priv.nearBottomRightCorner) {
-                    print("!!! Exited")
                     priv.progress = 0;
                     priv.resetEdges();
                     root.stopFakeAnimation();
@@ -177,7 +175,6 @@ Item {
         }
         if ((target.state == "normal" || target.state == "restored") && priv.progress == 0) {
             // save the x/y to restore to
-            print("!!! Saving restoredX/Y")
             target.restoredX = target.x;
             target.restoredY = target.y;
         }

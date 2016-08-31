@@ -97,8 +97,8 @@ Item {
             var yPoints = [];
             for (var i = 0; i < gestureArea.touchPoints.length; i++) {
                 var pt = gestureArea.touchPoints[i];
-                xPoints.push(Math.round(pt.x));
-                yPoints.push(Math.round(pt.y));
+                xPoints.push(pt.x);
+                yPoints.push(pt.y);
             }
 
             var leftmost = Math.min.apply(Math, xPoints);

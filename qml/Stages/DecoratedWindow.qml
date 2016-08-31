@@ -110,7 +110,6 @@ FocusScope {
         onPressedChanged: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
         onPositionChanged: moveHandler.handlePositionChanged(mouse)
         onReleased: {
-            print("!!! Mouse released on decoration")
             root.shouldCommitSnapWindow();
             moveHandler.handleReleased();
         }

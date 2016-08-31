@@ -42,9 +42,6 @@ Rectangle {
     // Edge push progress
     // Value range is [0.0, 1.0]
     readonly property real progress: priv.directProgress != -1 ? priv.directProgress : priv.accumulatedProgress
-    onProgressChanged: {
-        print("!!! Progress:", progress)
-    }
 
     signal passed(int origin)
 
@@ -58,7 +55,6 @@ Rectangle {
         function push(amount) {
             if (accumulatedPush === EdgeBarrierSettings.pushThreshold) {
                 // NO-OP
-                print("!!! Accumulated push already at threshold")
                 return;
             }
 
@@ -69,7 +65,6 @@ Rectangle {
             }
 
             if (accumulatedPush === EdgeBarrierSettings.pushThreshold) {
-                print("!!! Reached push progress 1; commit/passed")
                 passed(edge);
                 // commit(); // NB: uncomment to have automatic maximization on 100% progress
             }
@@ -103,7 +98,6 @@ Rectangle {
 
     function commit() {
         if (progress > hintThreshold && edge != -1) {
-            print("!!! Committing edge", edge, ", progress:", progress);
             target.moveHandler.handlePressedChanged(false, Qt.LeftButton); // cancel the drag
             if (edge == Item.Top) {
                 target.maximize();
@@ -126,7 +120,6 @@ Rectangle {
     }
 
     function stop() {
-        print("!!! Stop")
         priv.accumulatedPush = 0;
         priv.directProgress = -1;
         edge = -1;
