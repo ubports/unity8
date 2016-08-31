@@ -2512,7 +2512,7 @@ Rectangle {
             mouseMove(shell, shell.width/2, shell.height/2);
             mouseRelease(shell);
 
-            tryCompare(appDelegate, "state", "normal");
+            tryCompare(appDelegate, "state", "restored");
         }
 
         function test_fullShellModeHasNoInitialGreeter() {
