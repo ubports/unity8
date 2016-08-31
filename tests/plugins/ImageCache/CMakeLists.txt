@@ -16,5 +16,5 @@ add_executable(ImageCacheTestExec
 qt5_use_modules(ImageCacheTestExec Core Quick Test)
 add_unity8_uitest(ImageCache ImageCacheTestExec
     DEPENDS ImageCache-qml
-    IMPORT_PATHS ${UNITY_MOCKPATH}
+    IMPORT_PATHS ${UNITY_PLUGINPATH}
     )
