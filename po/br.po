@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-08-19 14:16+0000\n"
-"PO-Revision-Date: 2016-04-27 12:20+0000\n"
+"PO-Revision-Date: 2016-08-29 11:37+0000\n"
 "Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-08-25 05:45+0000\n"
+"X-Launchpad-Export-Date: 2016-08-31 06:21+0000\n"
 "X-Generator: Launchpad (build 18179)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -125,19 +125,19 @@ msgstr "Adloc'hañ"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "Berradennoù klavier"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Unity 8"
-msgstr ""
+msgstr "Unity 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
-msgstr ""
+msgstr "Moulsk"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr ""
+msgstr "Tapout ur skeudenn eus ar skramm"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
@@ -145,7 +145,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of a window."
-msgstr ""
+msgstr "Tapout ur skeudenn eus ur prenestr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -165,7 +165,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:118
 msgid "Launcher"
-msgstr ""
+msgstr "Lañser"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:125
 msgid "Super (Hold)"
@@ -201,7 +201,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:181
 msgid "Scopes"
-msgstr ""
+msgstr "Kefluskerioù enklask"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:188
 msgid "Super (Tap)"
@@ -209,7 +209,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:193
 msgid "Opens the Scopes home."
-msgstr ""
+msgstr "Digeriñ pajenn degemer ar c'hefluskerioù enklask."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:209
 msgid "Switching"
@@ -249,7 +249,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:271
 msgid "Minimizes all windows."
-msgstr ""
+msgstr "Bihanaat an holl brenestroù."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:279
 msgid "Ctrl + Super + Up"
@@ -298,12 +298,12 @@ msgstr "Mat eo"
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
 msgid "%1:%2:%3"
-msgstr ""
+msgstr "%1:%2:%3"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:49
 #, qt-format
 msgid "%1:%2"
-msgstr ""
+msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
@@ -371,11 +371,11 @@ msgstr "Adderaouekaat"
 
 #: qml/Dash/GenericScopeView.qml:585 qml/Dash/GenericScopeView.qml:780
 msgid "Show less"
-msgstr ""
+msgstr "Diskouez nebeutoc'h"
 
 #: qml/Dash/GenericScopeView.qml:585
 msgid "Show all"
-msgstr ""
+msgstr "Diskouez pep tra"
 
 #: qml/Dash/GenericScopeView.qml:642
 msgctxt "Label: Hint for dash search line edit"
@@ -447,7 +447,7 @@ msgstr "Dibrennañ"
 
 #: qml/Greeter/Greeter.qml:561
 msgid "Try again"
-msgstr ""
+msgstr "Esaeañ adarre"
 
 #: qml/Greeter/LoginList.qml:63
 msgid "Passphrase"
@@ -455,7 +455,7 @@ msgstr ""
 
 #: qml/Greeter/LoginList.qml:64
 msgid "Passcode"
-msgstr ""
+msgstr "Kod-tremen"
 
 #: qml/Greeter/LoginList.qml:87
 msgid "Retry"
@@ -463,7 +463,7 @@ msgstr "Esaeañ en-dro"
 
 #: qml/Greeter/LoginList.qml:88
 msgid "Log In"
-msgstr ""
+msgstr "Kevreañ"
 
 #: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passphrase."
@@ -656,15 +656,15 @@ msgstr "War-lerc'h"
 
 #: qml/Wizard/Pages/20-keyboard.qml:30
 msgid "Select Keyboard"
-msgstr ""
+msgstr "Diuzañ ar c'hlavier"
 
 #: qml/Wizard/Pages/20-keyboard.qml:70
 msgid "Keyboard language"
-msgstr ""
+msgstr "Yezh ar c'hlavier"
 
 #: qml/Wizard/Pages/20-keyboard.qml:92
 msgid "Keyboard layout"
-msgstr ""
+msgstr "Aozadur ar c'hlavier"
 
 #: qml/Wizard/Pages/20-keyboard.qml:151 qml/Wizard/Pages/30-wifi.qml:206
 #: qml/Wizard/Pages/60-account.qml:65
@@ -718,7 +718,7 @@ msgstr "Arabat implijout ma lec'h"
 
 #: qml/Wizard/Pages/40-location.qml:260
 msgid "You can change it later in System Settings."
-msgstr ""
+msgstr "Gallout a rit cheñch se diwezhatoc'h en arventennoù ar reizhiad."
 
 #: qml/Wizard/Pages/50-timezone.qml:29
 msgid "Time Zone"
@@ -773,7 +773,7 @@ msgstr "Reolennoù buhez prevez"
 
 #: qml/Wizard/Pages/77-system-update.qml:28
 msgid "Update Device"
-msgstr ""
+msgstr "Hizivaat ar benveg"
 
 #: qml/Wizard/Pages/77-system-update.qml:55
 msgid ""
@@ -784,21 +784,21 @@ msgstr ""
 #: qml/Wizard/Pages/77-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu system"
-msgstr ""
+msgstr "Reizhiad Ubuntu"
 
 #: qml/Wizard/Pages/77-system-update.qml:83
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
-msgstr ""
+msgstr "Stumm %1"
 
 #: qml/Wizard/Pages/77-system-update.qml:102
 msgid "This could take a few minutes..."
-msgstr ""
+msgstr "Gallout a ra padout un nebeud munutennoù..."
 
 #: qml/Wizard/Pages/77-system-update.qml:116
 msgid "Install and restart now"
-msgstr ""
+msgstr "Staliañ hag adloc'hañ bremañ"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
@@ -911,7 +911,7 @@ msgstr "Lakaet ez eus bet ur gartenn SIM"
 
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
-msgstr ""
+msgstr "Ret eo deoc'h adloc'hañ ar benveg evit mont d'ar rouedad hezoug."
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
@@ -919,7 +919,7 @@ msgstr "Adloc'hañ"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
-msgstr ""
+msgstr "Ne c'halloc'h ket pellgomz na kas kemennadennoù hep kartenn SIM."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
@@ -927,7 +927,7 @@ msgstr ""
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr ""
+msgstr "Re verr eo ar ger-tremen"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
