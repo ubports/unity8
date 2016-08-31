@@ -161,13 +161,13 @@ Item {
                 objectName: "moveHandler"
                 target: root.target
 
-                onFakeMaximizeAnimationRequested: root.fakeMaximizeAnimationRequested(progress)
-                onFakeMaximizeLeftAnimationRequested: root.fakeMaximizeLeftAnimationRequested(progress)
-                onFakeMaximizeRightAnimationRequested: root.fakeMaximizeRightAnimationRequested(progress)
-                onFakeMaximizeTopLeftAnimationRequested: root.fakeMaximizeTopLeftAnimationRequested(progress)
-                onFakeMaximizeTopRightAnimationRequested: root.fakeMaximizeTopRightAnimationRequested(progress)
-                onFakeMaximizeBottomLeftAnimationRequested: root.fakeMaximizeBottomLeftAnimationRequested(progress)
-                onFakeMaximizeBottomRightAnimationRequested: root.fakeMaximizeBottomRightAnimationRequested(progress)
+                onFakeMaximizeAnimationRequested: root.fakeMaximizeAnimationRequested(amount)
+                onFakeMaximizeLeftAnimationRequested: root.fakeMaximizeLeftAnimationRequested(amount)
+                onFakeMaximizeRightAnimationRequested: root.fakeMaximizeRightAnimationRequested(amount)
+                onFakeMaximizeTopLeftAnimationRequested: root.fakeMaximizeTopLeftAnimationRequested(amount)
+                onFakeMaximizeTopRightAnimationRequested: root.fakeMaximizeTopRightAnimationRequested(amount)
+                onFakeMaximizeBottomLeftAnimationRequested: root.fakeMaximizeBottomLeftAnimationRequested(amount)
+                onFakeMaximizeBottomRightAnimationRequested: root.fakeMaximizeBottomRightAnimationRequested(amount)
                 onStopFakeAnimation: root.stopFakeAnimation()
                 onShouldCommitSnapWindow: root.shouldCommitSnapWindow();
             }

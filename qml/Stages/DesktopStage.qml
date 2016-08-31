@@ -756,13 +756,13 @@ AbstractStage {
                     stageWidth: appContainer.width
                     stageHeight: appContainer.height
 
-                    onFakeMaximizeAnimationRequested: if (!appDelegate.maximized) fakeRectangle.maximize(amount)
-                    onFakeMaximizeLeftAnimationRequested: if (!appDelegate.maximizedLeft) fakeRectangle.maximizeLeft(amount)
-                    onFakeMaximizeRightAnimationRequested: if (!appDelegate.maximizedRight) fakeRectangle.maximizeRight(amount)
-                    onFakeMaximizeTopLeftAnimationRequested: if (!appDelegate.maximizedTopLeft) fakeRectangle.maximizeTopLeft(amount);
-                    onFakeMaximizeTopRightAnimationRequested: if (!appDelegate.maximizedTopRight) fakeRectangle.maximizeTopRight(amount);
-                    onFakeMaximizeBottomLeftAnimationRequested: if (!appDelegate.maximizedBottomLeft) fakeRectangle.maximizeBottomLeft(amount);
-                    onFakeMaximizeBottomRightAnimationRequested: if (!appDelegate.maximizedBottomRight) fakeRectangle.maximizeBottomRight(amount);
+                    onFakeMaximizeAnimationRequested: if (!appDelegate.maximized) fakeRectangle.maximize(amount, true)
+                    onFakeMaximizeLeftAnimationRequested: if (!appDelegate.maximizedLeft) fakeRectangle.maximizeLeft(amount, true)
+                    onFakeMaximizeRightAnimationRequested: if (!appDelegate.maximizedRight) fakeRectangle.maximizeRight(amount, true)
+                    onFakeMaximizeTopLeftAnimationRequested: if (!appDelegate.maximizedTopLeft) fakeRectangle.maximizeTopLeft(amount, true);
+                    onFakeMaximizeTopRightAnimationRequested: if (!appDelegate.maximizedTopRight) fakeRectangle.maximizeTopRight(amount, true);
+                    onFakeMaximizeBottomLeftAnimationRequested: if (!appDelegate.maximizedBottomLeft) fakeRectangle.maximizeBottomLeft(amount, true);
+                    onFakeMaximizeBottomRightAnimationRequested: if (!appDelegate.maximizedBottomRight) fakeRectangle.maximizeBottomRight(amount, true);
                     onStopFakeAnimation: fakeRectangle.stop();
                     onShouldCommitSnapWindow: fakeRectangle.commit();
                 }

@@ -119,46 +119,45 @@ Item {
             target.requestedY = Math.round(Math.max(pos.y - priv.distanceY, PanelState.panelHeight));
 
             if (sensingPoints) { // edge/corner detection when dragging via the touch overlay
-                if (sensingPoints.topLeft.x < priv.triggerArea && sensingPoints.topLeft.y < PanelState.panelHeight
+                if (sensingPoints.topLeft.x < priv.triggerArea && sensingPoints.topLeft.y < PanelState.panelHeight + priv.triggerArea
                         && target.canBeCornerMaximized) { // top left
-                    priv.progress = priv.progressInCorner(0, PanelState.panelHeight, sensingPoints.topLeft.x, sensingPoints.topLeft.y) - priv.progress;
+                    priv.progress = priv.progressInCorner(0, PanelState.panelHeight, sensingPoints.topLeft.x, sensingPoints.topLeft.y);
                     priv.resetEdges();
                     priv.nearTopLeftCorner = true;
-                    root.fakeMaximizeTopLeftAnimationRequested(priv.progress * priv.triggerArea);
-                } else if (sensingPoints.topRight.x > stageWidth - priv.triggerArea && sensingPoints.topRight.y < PanelState.panelHeight
+                    root.fakeMaximizeTopLeftAnimationRequested(priv.progress);
+                } else if (sensingPoints.topRight.x > stageWidth - priv.triggerArea && sensingPoints.topRight.y < PanelState.panelHeight + priv.triggerArea
                            && target.canBeCornerMaximized) { // top right
-                    priv.progress = priv.progressInCorner(stageWidth, PanelState.panelHeight, sensingPoints.topRight.x, sensingPoints.topRight.y) - priv.progress;
+                    priv.progress = priv.progressInCorner(stageWidth, PanelState.panelHeight, sensingPoints.topRight.x, sensingPoints.topRight.y);
                     priv.resetEdges();
                     priv.nearTopRightCorner = true;
-                    root.fakeMaximizeTopRightAnimationRequested(priv.progress * priv.triggerArea);
+                    root.fakeMaximizeTopRightAnimationRequested(priv.progress);
                 } else if (sensingPoints.bottomLeft.x < priv.triggerArea && sensingPoints.bottomLeft.y > stageHeight - priv.triggerArea
                            && target.canBeCornerMaximized) { // bottom left
-                    priv.progress = priv.progressInCorner(0, stageHeight, sensingPoints.bottomLeft.x, sensingPoints.bottomLeft.y) - priv.progress;
+                    priv.progress = priv.progressInCorner(0, stageHeight, sensingPoints.bottomLeft.x, sensingPoints.bottomLeft.y);
                     priv.resetEdges();
                     priv.nearBottomLeftCorner = true;
-                    root.fakeMaximizeBottomLeftAnimationRequested(priv.progress * priv.triggerArea);
+                    root.fakeMaximizeBottomLeftAnimationRequested(priv.progress);
                 } else if (sensingPoints.bottomRight.x > stageWidth - priv.triggerArea && sensingPoints.bottomRight.y > stageHeight - priv.triggerArea
                            && target.canBeCornerMaximized) { // bottom right
-                    priv.progress = priv.progressInCorner(stageWidth, stageHeight, sensingPoints.bottomRight.x, sensingPoints.bottomRight.y) - priv.progress;
+                    priv.progress = priv.progressInCorner(stageWidth, stageHeight, sensingPoints.bottomRight.x, sensingPoints.bottomRight.y);
                     priv.resetEdges();
                     priv.nearBottomRightCorner = true;
-                    root.fakeMaximizeBottomRightAnimationRequested(priv.progress * priv.triggerArea);
+                    root.fakeMaximizeBottomRightAnimationRequested(priv.progress);
                 } else if (sensingPoints.left.x < priv.triggerArea && target.canBeMaximizedLeftRight) { // left
-                    priv.progress = MathUtils.clampAndProject(sensingPoints.left.x, priv.triggerArea, 0, 0, 1) - priv.progress;
+                    priv.progress = MathUtils.clampAndProject(sensingPoints.left.x, priv.triggerArea, 0, 0, 1);
                     priv.resetEdges();
                     priv.nearLeftEdge = true;
-                    root.fakeMaximizeLeftAnimationRequested(priv.progress * priv.triggerArea);
+                    root.fakeMaximizeLeftAnimationRequested(priv.progress);
                 } else if (sensingPoints.right.x > stageWidth - priv.triggerArea && target.canBeMaximizedLeftRight) { // right
-                    priv.progress = MathUtils.clampAndProject(sensingPoints.right.x, stageWidth - priv.triggerArea, stageWidth, 0, 1) - priv.progress;
+                    priv.progress = MathUtils.clampAndProject(sensingPoints.right.x, stageWidth - priv.triggerArea, stageWidth, 0, 1);
                     priv.resetEdges();
                     priv.nearRightEdge = true;
-                    root.fakeMaximizeRightAnimationRequested(priv.progress * priv.triggerArea);
-                } else if (sensingPoints.top.y < PanelState.panelHeight && target.canBeMaximized) { // top
-                    priv.progress = MathUtils.clampAndProject(sensingPoints.top.y, Math.max(PanelState.panelHeight, priv.triggerArea), 0, 0, 1) - priv.progress;
+                    root.fakeMaximizeRightAnimationRequested(priv.progress);
+                } else if (sensingPoints.top.y < PanelState.panelHeight + priv.triggerArea && target.canBeMaximized) { // top
+                    priv.progress = MathUtils.clampAndProject(sensingPoints.top.y, PanelState.panelHeight + priv.triggerArea, 0, 0, 1);
                     priv.resetEdges();
                     priv.nearTopEdge = true;
-                    root.fakeMaximizeAnimationRequested(priv.progress * priv.triggerArea);
-                    priv.progress = tmpProgress;
+                    root.fakeMaximizeAnimationRequested(priv.progress);
                 } else if (priv.nearLeftEdge || priv.nearRightEdge || priv.nearTopEdge || priv.nearTopLeftCorner || priv.nearTopRightCorner ||
                            priv.nearBottomLeftCorner || priv.nearBottomRightCorner) {
                     print("!!! Exited")
