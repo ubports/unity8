@@ -502,7 +502,7 @@ StyledItem {
             }
             onFocusChanged: {
                 if (!focus) {
-                    stages.focus = true;
+                    stage.focus = true;
                 }
             }
 

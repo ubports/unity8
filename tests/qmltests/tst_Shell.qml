@@ -589,6 +589,38 @@ Rectangle {
             compare(ApplicationManager.get(0).appId, "unity8-dash");
         }
 
+        function test_phoneLeftEdgeDrag_data() {
+            return [
+                {tag: "without launcher",
+                 revealLauncher: false, swipeLength: units.gu(30), appHides: true, focusedApp: "dialer-app",
+                 launcherHides: true, greeterShown: false},
+
+                {tag: "with launcher",
+                 revealLauncher: true, swipeLength: units.gu(30), appHides: true, focusedApp: "dialer-app",
+                 launcherHides: true, greeterShown: false},
+
+                {tag: "small swipe",
+                 revealLauncher: false, swipeLength: units.gu(25), appHides: false, focusedApp: "dialer-app",
+                 launcherHides: false, greeterShown: false},
+
+                {tag: "long swipe",
+                 revealLauncher: false, swipeLength: units.gu(30), appHides: true, focusedApp: "dialer-app",
+                 launcherHides: true, greeterShown: false},
+
+                {tag: "small swipe with greeter",
+                 revealLauncher: false, swipeLength: units.gu(25), appHides: false, focusedApp: "dialer-app",
+                 launcherHides: false, greeterShown: true},
+
+                {tag: "long swipe with greeter",
+                 revealLauncher: false, swipeLength: units.gu(30), appHides: true, focusedApp: "dialer-app",
+                 launcherHides: true, greeterShown: true},
+
+                {tag: "swipe over dash",
+                 revealLauncher: false, swipeLength: units.gu(30), appHides: true, focusedApp: "unity8-dash",
+                 launcherHides: false, greeterShown: false},
+            ];
+        }
+
         function test_snapDecisionDismissalReturnsFocus() {
             loadShell("phone");
             swipeAwayGreeter();
@@ -651,38 +683,6 @@ Rectangle {
             }
 
             mockNotificationsModel.append(n)
-        }
-
-        function test_phoneLeftEdgeDrag_data() {
-            return [
-                {tag: "without launcher",
-                 revealLauncher: false, swipeLength: units.gu(30), appHides: true, focusedApp: "dialer-app",
-                 launcherHides: true, greeterShown: false},
-
-                {tag: "with launcher",
-                 revealLauncher: true, swipeLength: units.gu(30), appHides: true, focusedApp: "dialer-app",
-                 launcherHides: true, greeterShown: false},
-
-                {tag: "small swipe",
-                 revealLauncher: false, swipeLength: units.gu(25), appHides: false, focusedApp: "dialer-app",
-                 launcherHides: false, greeterShown: false},
-
-                {tag: "long swipe",
-                 revealLauncher: false, swipeLength: units.gu(30), appHides: true, focusedApp: "dialer-app",
-                 launcherHides: true, greeterShown: false},
-
-                {tag: "small swipe with greeter",
-                 revealLauncher: false, swipeLength: units.gu(25), appHides: false, focusedApp: "dialer-app",
-                 launcherHides: false, greeterShown: true},
-
-                {tag: "long swipe with greeter",
-                 revealLauncher: false, swipeLength: units.gu(30), appHides: true, focusedApp: "dialer-app",
-                 launcherHides: true, greeterShown: true},
-
-                {tag: "swipe over dash",
-                 revealLauncher: false, swipeLength: units.gu(30), appHides: true, focusedApp: "unity8-dash",
-                 launcherHides: false, greeterShown: false},
-            ];
         }
 
         function test_phoneLeftEdgeDrag(data) {
@@ -1357,7 +1357,7 @@ Rectangle {
         function test_tapOnRightEdgeReachesApplicationSurface() {
             loadShell("phone");
             swipeAwayGreeter();
-            var topmostSpreadDelegate = findChild(shell, "spreadDelegate_" + topLevelSurfaceList.idAt(0));
+            var topmostSpreadDelegate = findChild(shell, "appDelegate_" + topLevelSurfaceList.idAt(0));
             verify(topmostSpreadDelegate);
 
             waitUntilFocusedApplicationIsShowingItsSurface();
@@ -1365,7 +1365,7 @@ Rectangle {
             var topmostSurfaceItem = findChild(topmostSpreadDelegate, "surfaceItem");
             verify(topmostSurfaceItem);
 
-            var rightEdgeDragArea = findChild(shell, "spreadDragArea");
+            var rightEdgeDragArea = findChild(shell, "rightEdgeDragArea");
             topmostSurfaceItem.touchPressCount = 0;
             topmostSurfaceItem.touchReleaseCount = 0;
 
@@ -1386,9 +1386,9 @@ Rectangle {
         function test_rightEdgeDragDoesNotReachApplicationSurface() {
             loadShell("phone");
             swipeAwayGreeter();
-            var topmostSpreadDelegate = findChild(shell, "spreadDelegate_" + topLevelSurfaceList.idAt(0));
+            var topmostSpreadDelegate = findChild(shell, "appDelegate_" + topLevelSurfaceList.idAt(0));
             var topmostSurfaceItem = findChild(topmostSpreadDelegate, "surfaceItem");
-            var rightEdgeDragArea = findChild(shell, "spreadDragArea");
+            var rightEdgeDragArea = findChild(shell, "rightEdgeDragArea");
 
             topmostSurfaceItem.touchPressCount = 0;
             topmostSurfaceItem.touchReleaseCount = 0;
@@ -1406,7 +1406,7 @@ Rectangle {
 
         function waitUntilFocusedApplicationIsShowingItsSurface()
         {
-            var spreadDelegate = findChild(shell, "spreadDelegate_" + topLevelSurfaceList.idAt(0));
+            var spreadDelegate = findChild(shell, "appDelegate_" + topLevelSurfaceList.idAt(0));
             var appState = findInvisibleChild(spreadDelegate, "applicationWindowStateGroup");
             tryCompare(appState, "state", "surface");
             var transitions = appState.transitions;
@@ -1425,8 +1425,7 @@ Rectangle {
 
             // check if it's indeed showing the spread
             var stage = findChild(shell, "stage");
-            var spreadView = findChild(stage, "spreadView");
-            tryCompare(spreadView, "phase", 2);
+            tryCompare(stage, "state", "spread");
         }
 
         function test_tapUbuntuIconInLauncherOverAppSpread() {
@@ -1462,8 +1461,7 @@ Rectangle {
             // check that the stage has left spread mode.
             {
                 var stage = findChild(shell, "stage");
-                var spreadView = findChild(stage, "spreadView");
-                tryCompare(spreadView, "phase", 0);
+                tryCompare(stage, "state", "staged");
             }
 
             // check that the launcher got dismissed
@@ -1528,21 +1526,6 @@ Rectangle {
                 var passwordInput = findChild(greeter, "passwordInput")
                 tryCompare(passwordInput, "focus", true)
             }
-        }
-
-        function test_stageLoader_data() {
-            return [
-                {tag: "phone", source: "Stages/PhoneStage.qml", formFactor: "phone", usageScenario: "phone"},
-                {tag: "tablet", source: "Stages/TabletStage.qml", formFactor: "tablet", usageScenario: "tablet"},
-                {tag: "desktop", source: "Stages/DesktopStage.qml", formFactor: "tablet", usageScenario: "desktop"}
-            ]
-        }
-
-        function test_stageLoader(data) {
-            loadShell(data.formFactor);
-            shell.usageScenario = data.usageScenario;
-            var stageLoader = findChild(shell, "applicationsDisplayLoader");
-            verify(String(stageLoader.source).indexOf(data.source) >= 0);
         }
 
         function test_launcherInverted_data() {
@@ -1809,37 +1792,40 @@ Rectangle {
             loadDesktopShellWithApps()
 
             var stage = findChild(shell, "stage");
-            var spread = findChild(stage, "spread");
-            waitForRendering(spread)
+            var spreadItem = findChild(stage, "spreadItem");
+//            waitForRendering(spread)
 
-            var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
-            verify(spreadRepeater !== null);
+            var appRepeater = findInvisibleChild(shell, "appRepeater");
+            verify(appRepeater !== null);
 
             keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
 
             var surface = topLevelSurfaceList.surfaceAt(2);
-            var spreadDelegate2 = spreadRepeater.itemAt(2);
-            var clippedSpreadDelegate = findChild(spreadDelegate2, "clippedSpreadDelegate");
+            var spreadDelegate2 = appRepeater.itemAt(2);
+            var decoratedWindow = findChild(spreadDelegate2, "decoratedWindow");
 
-            tryCompare(spread, "state", "altTab");
+            tryCompare(stage, "state", "spread");
 
             // Move the mouse over tile 2 and verify the highlight becomes visible
             var x = 0;
-            var y = shell.height * (data.tileInfo ? .95 : 0.5)
+            var y = shell.height * (data.tileInfo ? .9 : 0.5)
             mouseMove(shell, x, y)
-            while (spreadRepeater.highlightedIndex !== 2 && x <= 4000) {
+            while (spreadItem.highlightedIndex !== 2 && x <= 4000) {
+                print("hightlight", spreadItem.highlightedIndex, x, y)
                 x+=10;
                 mouseMove(shell, x, y)
                 wait(0); // spin the loop so bindings get evaluated
             }
-            tryCompare(clippedSpreadDelegate, "highlightShown", true);
+            print("hightlight", spreadItem.highlightedIndex)
+            tryCompare(decoratedWindow, "showHighlight", true);
 
             // Click the tile
-            mouseClick(clippedSpreadDelegate, clippedSpreadDelegate.width / 2, clippedSpreadDelegate.height / 2)
+            mouseClick(decoratedWindow, units.gu(2), decoratedWindow.height / 2)
 
             // Verify that we left the spread and app2 is the focused one now
-            tryCompare(stage, "state", "");
+            tryCompare(stage, "state", "windowed");
+            print("selected:", surface.name)
             tryCompare(surface, "focused", true);
 
             keyRelease(Qt.Key_Alt);
@@ -1899,41 +1885,6 @@ Rectangle {
 
             tryCompare(hoverMouseArea, "enabled", false)
             tryCompare(hoverMouseArea, "visible", false)
-        }
-
-        function test_workspacePreviewsHighlightedApp() {
-            loadDesktopShellWithApps()
-
-            var targetZ = topLevelSurfaceList.count + 1;
-
-            var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
-            verify(spreadRepeater !== null);
-
-            var appRepeater = findInvisibleChild(shell, "appRepeater");
-            verify(appRepeater !== null);
-
-            keyPress(Qt.Key_Alt)
-            keyClick(Qt.Key_Tab);
-
-            tryCompare(spreadRepeater, "highlightedIndex", 1);
-            tryCompare(appRepeater.itemAt(1), "z", targetZ)
-
-            var x = 0;
-            var y = shell.height * .75;
-            mouseMove(shell, x, y)
-
-            for (var i = 0; i < 7; i++) {
-                while (spreadRepeater.highlightedIndex != i && x <= 4000) {
-                    tryCompare(appRepeater.itemAt(spreadRepeater.highlightedIndex), "z", targetZ)
-                    x+=10;
-                    mouseMove(shell, x, y)
-                    wait(0); // spin the loop so bindings get evaluated
-                }
-            }
-
-            verify(y < 4000);
-
-            keyRelease(Qt.Key_Alt);
         }
 
         function test_focusAppFromLauncherExitsSpread_data() {
@@ -2267,19 +2218,19 @@ Rectangle {
         function test_superTabToCycleLauncher(data) {
             loadShell("desktop");
             shell.usageScenario = "desktop";
+            waitForRendering(shell);
             GSettingsController.setAutohideLauncher(!data.launcherLocked);
             waitForRendering(shell);
 
+            var stage = findChild(shell, "stage");
             var launcher = findChild(shell, "launcher");
             var launcherPanel = findChild(launcher, "launcherPanel");
             var firstAppInLauncher = LauncherModel.get(0).appId;
-
             compare(launcher.state, data.launcherLocked ? "visible": "");
             compare(launcherPanel.highlightIndex, -2);
             compare(ApplicationManager.focusedApplicationId, "unity8-dash");
 
             // Use Super + Tab Tab to cycle to the first entry in the launcher
-            wait(1000);
             keyPress(Qt.Key_Super_L, Qt.MetaModifier);
             keyClick(Qt.Key_Tab);
             tryCompare(launcher, "state", "visible");
@@ -2300,6 +2251,7 @@ Rectangle {
             tryCompare(launcher, "state", data.launcherLocked ? "visible" : "");
             tryCompare(launcherPanel, "highlightIndex", -2);
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+            tryCompare(stage, "focus", true)
         }
 
         function test_longpressSuperOpensLauncherAndShortcutsOverlay() {
@@ -2360,6 +2312,7 @@ Rectangle {
             waitForRendering(shell);
             var appContainer = findChild(shell, "appContainer");
             var launcher = findChild(shell, "launcher");
+            var launcherPanel = findChild(launcher, "launcherPanel");
 
             var appSurfaceId = topLevelSurfaceList.nextId;
             var app = ApplicationManager.startApplication("music-app");
@@ -2370,12 +2323,15 @@ Rectangle {
             waitForRendering(shell);
 
             GSettingsController.setAutohideLauncher(true);
+            tryCompare(launcherPanel, "x", -launcher.panelWidth)
             waitForRendering(shell)
             var hiddenSize = appDelegate.width;
 
             GSettingsController.setAutohideLauncher(false);
+            tryCompare(launcherPanel, "x", 0)
             waitForRendering(shell)
             var shownSize = appDelegate.width;
+            print("launcher size:", launcher.panelWidth, "hidden:", hiddenSize, "shown:", shownSize)
 
             compare(shownSize + launcher.panelWidth, hiddenSize);
         }

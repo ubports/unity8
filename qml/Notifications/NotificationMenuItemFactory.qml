@@ -97,6 +97,7 @@ Loader {
                 echoMode: checkBox.checked ? TextInput.Normal : TextInput.Password
                 height: units.gu(5)
                 Component.onCompleted: {
+                    print("forcing active focus on notification!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11111")
                     forceActiveFocus();
                 }
                 onTextChanged: {

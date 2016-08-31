@@ -374,6 +374,7 @@ AbstractStage {
             SequentialAnimation {
                 ScriptAction {
                     script: {
+                        print("hightedIndex is:", spreadItem.highlightedIndex)
                         var item = appRepeater.itemAt(Math.max(0, spreadItem.highlightedIndex));
                         item.playFocusAnimation();
                     }
@@ -1272,6 +1273,7 @@ AbstractStage {
                     surface: model.surface
                     active: appDelegate.focus
                     focus: true
+                    interactive: root.interactive
                     showDecoration: 1
                     maximizeButtonShown: (maximumWidth == 0 || maximumWidth >= appContainer.width) &&
                                          (maximumHeight == 0 || maximumHeight >= appContainer.height)
@@ -1348,12 +1350,13 @@ AbstractStage {
                     onClicked: {
                         spreadItem.highlightedIndex = index;
                         if (distance == 0) {
-                            print("focusing because of inputBlocker click")
                             priv.goneToSpread = false;
                         }
                     }
                     onContainsMouseChanged: {
-                        if (containsMouse) spreadItem.highlightedIndex = index
+                        // It could happen that this triggers during the transition from spread to windowed, only actually do something
+                        // if goneToSpread is still true...
+                        if (priv.goneToSpread && containsMouse) spreadItem.highlightedIndex = index
                     }
                     onClose: {
                         priv.closingIndex = index
@@ -1415,6 +1418,7 @@ AbstractStage {
 
     SwipeArea {
         id: rightEdgeDragArea
+        objectName: "rightEdgeDragArea"
         direction: Direction.Leftwards
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
