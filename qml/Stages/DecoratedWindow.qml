@@ -52,6 +52,9 @@ FocusScope {
     readonly property int heightIncrement: !counterRotate ? applicationWindow.heightIncrement : applicationWindow.widthIncrement
 
     property alias overlayShown: decoration.overlayShown
+    property alias stageWidth: moveHandler.stageWidth
+    property alias stageHeight: moveHandler.stageHeight
+    readonly property alias moveHandler: moveHandler
 
     signal closeClicked()
     signal maximizeClicked()
@@ -59,6 +62,8 @@ FocusScope {
     signal maximizeVerticallyClicked()
     signal minimizeClicked()
     signal decorationPressed()
+
+    signal shouldCommitSnapWindow()
 
     Rectangle {
         id: selectionHighlight
@@ -101,6 +106,22 @@ FocusScope {
         onMaximizeVerticallyClicked: { root.decorationPressed(); root.maximizeVerticallyClicked(); }
         onMinimizeClicked: root.minimizeClicked();
         onPressed: root.decorationPressed();
+
+        onPressedChanged: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
+        onPositionChanged: moveHandler.handlePositionChanged(mouse)
+        onReleased: {
+            root.shouldCommitSnapWindow();
+            moveHandler.handleReleased();
+        }
+    }
+
+    MoveHandler {
+        id: moveHandler
+        anchors.fill: decoration
+        objectName: "moveHandler"
+        target: root.parent
+        buttonsWidth: decoration.buttonsWidth
+        onShouldCommitSnapWindow: root.shouldCommitSnapWindow()
     }
 
     ApplicationWindow {

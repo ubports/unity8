@@ -23,12 +23,26 @@ import "../Components/PanelState"
 Item {
     id: root
     enabled: target && !target.fullscreen
+    anchors.fill: target
 
     // to be set from outside
     property Item target // appDelegate
+    property alias stageWidth: moveHandler.stageWidth
+    property alias stageHeight: moveHandler.stageHeight
 
     // to be read from outside
     readonly property alias overlayShown: overlay.visible
+    readonly property alias moveHandler: moveHandler
+
+    signal fakeMaximizeAnimationRequested(real amount)
+    signal fakeMaximizeLeftAnimationRequested(real amount)
+    signal fakeMaximizeRightAnimationRequested(real amount)
+    signal fakeMaximizeTopLeftAnimationRequested(real amount)
+    signal fakeMaximizeTopRightAnimationRequested(real amount)
+    signal fakeMaximizeBottomLeftAnimationRequested(real amount)
+    signal fakeMaximizeBottomRightAnimationRequested(real amount)
+    signal stopFakeAnimation()
+    signal shouldCommitSnapWindow()
 
     TouchGestureArea {
         id: gestureArea
@@ -51,16 +65,17 @@ Item {
         readonly property bool recognizedDrag: recognizedPress && dragging
         onRecognizedDragChanged: {
             if (recognizedDrag) {
-                priv.handlePressedChanged(true, tp.x, tp.y);
-            } else if (!moveHandler.containsPress) { // prevent interfering with the central piece drag/move
-                priv.dragging = false;
+                moveHandler.handlePressedChanged(true, Qt.LeftButton, tp.x, tp.y);
+            } else if (!mouseArea.containsPress) { // prevent interfering with the central piece drag/move
+                moveHandler.handlePressedChanged(false, Qt.LeftButton);
+                moveHandler.handleReleased(true);
             }
         }
 
         readonly property point tp: recognizedPress ? Qt.point(touchPoints[0].x, touchPoints[0].y) : Qt.point(-1, -1)
         onUpdated: {
             if (recognizedDrag) {
-                priv.handlePositionChanged(tp.x, tp.y);
+                moveHandler.handlePositionChanged(tp, priv.getSensingPoints());
             }
         }
     }
@@ -69,33 +84,36 @@ Item {
     Timer {
         id: overlayTimer
         interval: 2000
-        repeat: priv.dragging || (priv.resizeArea && priv.resizeArea.dragging)
+        repeat: moveHandler.dragging || (priv.resizeArea && priv.resizeArea.dragging)
     }
 
     QtObject {
         id: priv
-        property real distanceX
-        property real distanceY
-        property bool dragging
-
         readonly property var resizeArea: root.target && root.target.resizeArea ? root.target.resizeArea : null
+        readonly property bool ensureWindow: root.target.state == "normal" || root.target.state == "restored"
 
-        function handlePressedChanged(pressed, mouseX, mouseY) {
-            if (pressed) {
-                var pos = mapToItem(root.target, mouseX, mouseY);
-                priv.distanceX = pos.x;
-                priv.distanceY = pos.y;
-                priv.dragging = true;
-            } else {
-                priv.dragging = false;
+        function getSensingPoints() {
+            var xPoints = [];
+            var yPoints = [];
+            for (var i = 0; i < gestureArea.touchPoints.length; i++) {
+                var pt = gestureArea.touchPoints[i];
+                xPoints.push(pt.x);
+                yPoints.push(pt.y);
             }
-        }
 
-        function handlePositionChanged(mouseX, mouseY) {
-            if (priv.dragging) {
-                var pos = mapToItem(root.target.parent, mouseX, mouseY);
-                root.target.requestedX = Math.round(pos.x - priv.distanceX);
-                root.target.requestedY = Math.round(Math.max(pos.y - priv.distanceY, PanelState.panelHeight));
+            var leftmost = Math.min.apply(Math, xPoints);
+            var rightmost = Math.max.apply(Math, xPoints);
+            var topmost = Math.min.apply(Math, yPoints);
+            var bottommost = Math.max.apply(Math, yPoints);
+
+            return {
+                left: mapToItem(target.parent, leftmost, (topmost+bottommost)/2),
+                top: mapToItem(target.parent, (leftmost+rightmost)/2, topmost),
+                right: mapToItem(target.parent, rightmost, (topmost+bottommost)/2),
+                topLeft: mapToItem(target.parent, leftmost, topmost),
+                topRight: mapToItem(target.parent, rightmost, topmost),
+                bottomLeft: mapToItem(target.parent, leftmost, bottommost),
+                bottomRight: mapToItem(target.parent, rightmost, bottommost)
             }
         }
     }
@@ -113,8 +131,6 @@ Item {
             UbuntuNumberAnimation {}
         }
 
-        readonly property bool anyMaximized: target && (target.maximized || target.maximizedLeft || target.maximizedRight)
-
         Image {
             source: "graphics/arrows-centre.png"
             width: units.gu(10)
@@ -125,15 +141,35 @@ Item {
 
             // move handler
             MouseArea {
-                id: moveHandler
+                id: mouseArea
                 anchors.fill: parent
                 visible: overlay.visible
                 enabled: visible
                 hoverEnabled: true
-                cursorShape: priv.dragging ? Qt.ClosedHandCursor : (overlay.visible ? Qt.OpenHandCursor : Qt.ArrowCursor)
 
-                onPressedChanged: priv.handlePressedChanged(pressed, mouseX, mouseY)
-                onPositionChanged: priv.handlePositionChanged(mouseX, mouseY)
+                onPressedChanged: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
+                onPositionChanged: moveHandler.handlePositionChanged(mouse)
+                onReleased: {
+                    root.shouldCommitSnapWindow();
+                    moveHandler.handleReleased();
+                }
+            }
+
+            MoveHandler {
+                id: moveHandler
+                anchors.fill: mouseArea
+                objectName: "moveHandler"
+                target: root.target
+
+                onFakeMaximizeAnimationRequested: root.fakeMaximizeAnimationRequested(amount)
+                onFakeMaximizeLeftAnimationRequested: root.fakeMaximizeLeftAnimationRequested(amount)
+                onFakeMaximizeRightAnimationRequested: root.fakeMaximizeRightAnimationRequested(amount)
+                onFakeMaximizeTopLeftAnimationRequested: root.fakeMaximizeTopLeftAnimationRequested(amount)
+                onFakeMaximizeTopRightAnimationRequested: root.fakeMaximizeTopRightAnimationRequested(amount)
+                onFakeMaximizeBottomLeftAnimationRequested: root.fakeMaximizeBottomLeftAnimationRequested(amount)
+                onFakeMaximizeBottomRightAnimationRequested: root.fakeMaximizeBottomRightAnimationRequested(amount)
+                onStopFakeAnimation: root.stopFakeAnimation()
+                onShouldCommitSnapWindow: root.shouldCommitSnapWindow();
             }
 
             // dismiss area
@@ -148,7 +184,7 @@ Item {
                     }
 
                     overlayTimer.stop();
-                    mouse.accepted = root.contains(Qt.point(mouse.x, mouse.y));
+                    mouse.accepted = root.contains(mapToItem(root.target, mouse.x, mouse.y));
                 }
                 propagateComposedEvents: true
             }
@@ -157,7 +193,7 @@ Item {
         ResizeGrip { // top left
             anchors.horizontalCenter: parent.left
             anchors.verticalCenter: parent.top
-            visible: target && !overlay.anyMaximized && !target.maximizedHorizontally && !target.maximizedVertically
+            visible: priv.ensureWindow || target.maximizedBottomRight
             resizeTarget: priv.resizeArea
         }
 
@@ -165,7 +201,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.top
             rotation: 45
-            visible: target && !overlay.anyMaximized && !target.maximizedVertically
+            visible: priv.ensureWindow || target.maximizedHorizontally || target.maximizedBottomLeft || target.maximizedBottomRight
             resizeTarget: priv.resizeArea
         }
 
@@ -173,7 +209,7 @@ Item {
             anchors.horizontalCenter: parent.right
             anchors.verticalCenter: parent.top
             rotation: 90
-            visible: target && !overlay.anyMaximized && !target.maximizedHorizontally && !target.maximizedVertically
+            visible: priv.ensureWindow || target.maximizedBottomLeft
             resizeTarget: priv.resizeArea
         }
 
@@ -181,14 +217,15 @@ Item {
             anchors.horizontalCenter: parent.right
             anchors.verticalCenter: parent.verticalCenter
             rotation: 135
-            visible: target && !target.maximizedRight && !target.maximized && !target.maximizedHorizontally
+            visible: priv.ensureWindow || target.maximizedVertically || target.maximizedLeft ||
+                     target.maximizedTopLeft || target.maximizedBottomLeft
             resizeTarget: priv.resizeArea
         }
 
         ResizeGrip { // bottom right
             anchors.horizontalCenter: parent.right
             anchors.verticalCenter: parent.bottom
-            visible: target && !overlay.anyMaximized && !target.maximizedHorizontally && !target.maximizedVertically
+            visible: priv.ensureWindow || target.maximizedTopLeft
             resizeTarget: priv.resizeArea
         }
 
@@ -196,7 +233,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.bottom
             rotation: 45
-            visible: target && !overlay.anyMaximized && !target.maximizedVertically
+            visible: priv.ensureWindow || target.maximizedHorizontally || target.maximizedTopLeft || target.maximizedTopRight
             resizeTarget: priv.resizeArea
         }
 
@@ -204,7 +241,7 @@ Item {
             anchors.horizontalCenter: parent.left
             anchors.verticalCenter: parent.bottom
             rotation: 90
-            visible: target && !overlay.anyMaximized && !target.maximizedHorizontally && !target.maximizedVertically
+            visible: priv.ensureWindow || target.maximizedTopRight
             resizeTarget: priv.resizeArea
         }
 
@@ -212,7 +249,8 @@ Item {
             anchors.horizontalCenter: parent.left
             anchors.verticalCenter: parent.verticalCenter
             rotation: 135
-            visible: target && !target.maximizedLeft && !target.maximized && !target.maximizedHorizontally
+            visible: priv.ensureWindow || target.maximizedVertically || target.maximizedRight ||
+                     target.maximizedTopRight || target.maximizedBottomRight
             resizeTarget: priv.resizeArea
         }
     }

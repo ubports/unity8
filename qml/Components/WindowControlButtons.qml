@@ -25,7 +25,6 @@ Row {
     }
 
     // to be set from outside
-    property Item target
     property bool active: false
     property bool windowIsMaximized: false
     property bool closeButtonShown: true
