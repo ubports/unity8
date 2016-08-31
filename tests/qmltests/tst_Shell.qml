@@ -1344,21 +1344,22 @@ Rectangle {
             var wallpaperResolver = findInvisibleChild(shell, "wallpaperResolver");
             var greeter = findChild(shell, "greeter");
             verify(!greeter.hasCustomBackground);
-            compare(greeter.background, wallpaperResolver.defaultBackground);
+            compare(wallpaperResolver.background, wallpaperResolver.defaultBackground);
 
             AccountsService.backgroundFile = Qt.resolvedUrl("../graphics/applicationIcons/dash.png");
             tryCompare(greeter, "hasCustomBackground", true);
-            compare(greeter.background, AccountsService.backgroundFile);
+            compare(wallpaperResolver.background, AccountsService.backgroundFile);
         }
 
-        function test_cachedDefaultBackground() {
+        function test_cachedBackground() {
             loadShell("desktop");
             shell.usageScenario = "desktop";
             waitForRendering(shell);
 
             var greeter = findChild(shell, "greeter");
             verify(!greeter.hasCustomBackground);
-            compare(greeter.background.toString().indexOf("image://thumbnailer/file:///"), 0);
+            compare(greeter.background.toString().indexOf("image://unity8imagecache/file:///"), 0);
+            verify(greeter.background.toString().indexOf("?name=wallpaper") > 0);
         }
 
         function test_tapOnRightEdgeReachesApplicationSurface() {
