@@ -55,11 +55,11 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
     const qreal sceneWidth = parentItem()->width();
     const qreal sceneHeight = parentItem()->height();
 
-    if (newX <= 0 && newY < m_panelHeight) { // top left corner
-        const auto distance = qSqrt(qPow(newX, 2) + qPow(newY-m_panelHeight, 2));
+    if (newX <= 0 && newY < m_topBoundaryOffset) { // top left corner
+        const auto distance = qSqrt(qPow(newX, 2) + qPow(newY-m_topBoundaryOffset, 2));
         Q_EMIT pushedTopLeftCorner(qAbs(distance), buttons);
-    } else if (newX >= sceneWidth-1 && newY < m_panelHeight) { // top right corner
-        const auto distance = qSqrt(qPow(newX-sceneWidth, 2) + qPow(newY-m_panelHeight, 2));
+    } else if (newX >= sceneWidth-1 && newY < m_topBoundaryOffset) { // top right corner
+        const auto distance = qSqrt(qPow(newX-sceneWidth, 2) + qPow(newY-m_topBoundaryOffset, 2));
         Q_EMIT pushedTopRightCorner(qAbs(distance), buttons);
     } else if (newX < 0 && newY >= sceneHeight-1) { // bottom left corner
         const auto distance = qSqrt(qPow(newX, 2) + qPow(newY-sceneHeight, 2));
@@ -71,8 +71,8 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
         Q_EMIT pushedLeftBoundary(qAbs(newX), buttons);
     } else if (newX >= sceneWidth) { // right edge
         Q_EMIT pushedRightBoundary(newX - (sceneWidth - 1), buttons);
-    } else if (newY < m_panelHeight) { // top edge
-        Q_EMIT pushedTopBoundary(qAbs(newY - m_panelHeight), buttons);
+    } else if (newY < m_topBoundaryOffset) { // top edge
+        Q_EMIT pushedTopBoundary(qAbs(newY - m_topBoundaryOffset), buttons);
     } else if (Q_LIKELY(newX > 0 && newX < sceneWidth-1 && newY > 0 && newY < sceneHeight-1)) { // normal pos, not pushing
         Q_EMIT pushStopped();
     }
@@ -96,20 +96,25 @@ void MousePointer::handleWheelEvent(ulong timestamp, QPoint angleDelta, Qt::Keyb
             QPoint() /* pixelDelta */, angleDelta, modifiers, Qt::ScrollUpdate);
 }
 
+int MousePointer::topBoundaryOffset() const
+{
+    return m_topBoundaryOffset;
+}
+
+void MousePointer::setTopBoundaryOffset(int topBoundaryOffset)
+{
+    if (m_topBoundaryOffset == topBoundaryOffset)
+        return;
+
+    m_topBoundaryOffset = topBoundaryOffset;
+    Q_EMIT topBoundaryOffsetChanged(topBoundaryOffset);
+}
+
 void MousePointer::itemChange(ItemChange change, const ItemChangeData &value)
 {
     if (change == ItemSceneChange) {
         registerWindow(value.window);
-        if (value.window) {
-            m_panelHeight = QQmlProperty::read(this, "panelHeight").toInt(); // when we move e.g. to a different screen (with possible different DGU)
-        }
     }
-}
-
-void MousePointer::componentComplete()
-{
-    MirMousePointerInterface::componentComplete();
-    m_panelHeight = QQmlProperty::read(this, "panelHeight").toInt();
 }
 
 void MousePointer::registerWindow(QWindow *window)

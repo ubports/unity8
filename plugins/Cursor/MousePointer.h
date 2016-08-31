@@ -27,6 +27,8 @@
 
 class MousePointer : public MirMousePointerInterface {
     Q_OBJECT
+    Q_PROPERTY(int topBoundaryOffset READ topBoundaryOffset WRITE setTopBoundaryOffset NOTIFY topBoundaryOffsetChanged)
+
 public:
     MousePointer(QQuickItem *parent = nullptr);
 
@@ -37,6 +39,9 @@ public:
     QString themeName() const override { return m_themeName; }
 
     void setCustomCursor(const QCursor &) override;
+
+    int topBoundaryOffset() const;
+    void setTopBoundaryOffset(int topBoundaryOffset);
 
 public Q_SLOTS:
     void handleMouseEvent(ulong timestamp, QPointF movement, Qt::MouseButtons buttons,
@@ -54,9 +59,10 @@ Q_SIGNALS:
     void pushStopped();
     void mouseMoved();
 
+    void topBoundaryOffsetChanged(int topBoundaryOffset);
+
 protected:
     void itemChange(ItemChange change, const ItemChangeData &value) override;
-    void componentComplete() override;
 
 private Q_SLOTS:
     void registerScreen(QScreen *screen);
@@ -72,7 +78,7 @@ private:
     // Accumulated, unapplied, mouse movement.
     QPointF m_accumulatedMovement;
 
-    int m_panelHeight = 0;
+    int m_topBoundaryOffset{0};
 };
 
 #endif // MOUSEPOINTER_H

@@ -764,7 +764,7 @@ StyledItem {
         id: cursor
         visible: shell.hasMouse
         z: itemGrabber.z + 1
-        panelHeight: panel.panelHeight
+        topBoundaryOffset: panel.panelHeight
 
         property bool mouseNeverMoved: true
         Binding {
