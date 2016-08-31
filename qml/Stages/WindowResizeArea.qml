@@ -31,6 +31,7 @@ MouseArea {
     property var windowStateStorage: WindowStateStorage
     readonly property alias dragging: d.dragging
     readonly property alias normalWidth: priv.normalWidth
+    readonly property alias normalHeight: priv.normalHeight
 
     // The target item managed by this. Must be a parent or a sibling
     // The area will anchor to it and manage resize events
