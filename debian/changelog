@@ -1,3 +1,10 @@
+unity8 (8.14+16.10.20160831.3-0ubuntu1) yakkety; urgency=medium
+
+  [ Daniel d'Andrada ]
+  * Added implementation for MirSurfaceInterface::persistentId
+
+ -- Ken VanDine <ken.vandine@canonical.com>  Wed, 31 Aug 2016 11:56:09 +0000
+
 unity8 (8.14+16.10.20160826-0ubuntu1) yakkety; urgency=medium
 
   * Make sure we emit sounds when taking a screenshot even after media-
