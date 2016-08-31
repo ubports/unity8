@@ -40,8 +40,6 @@ Item {
     signal fakeMaximizeBottomRightAnimationRequested(real amount)
     signal stopFakeAnimation()
 
-    signal shouldCommitSnapWindow()
-
     QtObject {
         id: priv
         property real distanceX
@@ -170,7 +168,6 @@ Item {
 
     function handleReleased(touchMode) {
         if (touchMode) {
-            root.shouldCommitSnapWindow();
             priv.progress = 0;
             priv.resetEdges();
         }

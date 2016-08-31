@@ -32,7 +32,6 @@ Item {
 
     // to be read from outside
     readonly property alias overlayShown: overlay.visible
-    readonly property alias moveHandler: moveHandler
 
     signal fakeMaximizeAnimationRequested(real amount)
     signal fakeMaximizeLeftAnimationRequested(real amount)
@@ -42,7 +41,7 @@ Item {
     signal fakeMaximizeBottomLeftAnimationRequested(real amount)
     signal fakeMaximizeBottomRightAnimationRequested(real amount)
     signal stopFakeAnimation()
-    signal shouldCommitSnapWindow()
+    signal dragReleased()
 
     TouchGestureArea {
         id: gestureArea
@@ -68,7 +67,8 @@ Item {
                 moveHandler.handlePressedChanged(true, Qt.LeftButton, tp.x, tp.y);
             } else if (!mouseArea.containsPress) { // prevent interfering with the central piece drag/move
                 moveHandler.handlePressedChanged(false, Qt.LeftButton);
-                moveHandler.handleReleased(true);
+                root.dragReleased();
+                moveHandler.handleReleased();
             }
         }
 
@@ -150,7 +150,7 @@ Item {
                 onPressedChanged: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
                 onPositionChanged: moveHandler.handlePositionChanged(mouse)
                 onReleased: {
-                    root.shouldCommitSnapWindow();
+                    root.dragReleased();
                     moveHandler.handleReleased();
                 }
             }
@@ -169,7 +169,6 @@ Item {
                 onFakeMaximizeBottomLeftAnimationRequested: root.fakeMaximizeBottomLeftAnimationRequested(amount)
                 onFakeMaximizeBottomRightAnimationRequested: root.fakeMaximizeBottomRightAnimationRequested(amount)
                 onStopFakeAnimation: root.stopFakeAnimation()
-                onShouldCommitSnapWindow: root.shouldCommitSnapWindow();
             }
 
             // dismiss area
