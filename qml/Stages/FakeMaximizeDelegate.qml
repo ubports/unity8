@@ -37,7 +37,6 @@ Rectangle {
     property real appContainerHeight
 
     readonly property real hintThreshold: 0.1
-    readonly property bool targetDragging: target && target.moveHandler.dragging
 
     // Edge push progress
     // Value range is [0.0, 1.0]

@@ -779,7 +779,8 @@ StyledItem {
         height: units.gu(3)
 
         readonly property var previewRectangle: applicationsDisplayLoader.item && applicationsDisplayLoader.item.previewRectangle &&
-                                                applicationsDisplayLoader.item.previewRectangle.targetDragging ?
+                                                applicationsDisplayLoader.item.previewRectangle.target &&
+                                                applicationsDisplayLoader.item.previewRectangle.target.dragging ?
                                                     applicationsDisplayLoader.item.previewRectangle : null
 
         onPushedLeftBoundary: {
