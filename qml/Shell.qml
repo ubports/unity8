@@ -802,6 +802,8 @@ StyledItem {
             mouseNeverMoved = false;
             cursor.opacity = 1;
         }
+
+        Behavior on opacity { UbuntuNumberAnimation {} }
     }
 
     // non-visual object
