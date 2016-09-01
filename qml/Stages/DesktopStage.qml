@@ -375,6 +375,9 @@ AbstractStage {
                 }
 
                 onFocusChanged: {
+                    if (appRepeater.startingUp)
+                        return;
+
                     if (focus) {
                         // If we're orphan (!parent) it means this stage is no longer the current one
                         // and will be deleted shortly. So we should no longer have a say over the model

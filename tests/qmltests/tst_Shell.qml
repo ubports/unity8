@@ -2508,10 +2508,8 @@ Rectangle {
             appDelegate.maximize();
             tryCompare(appDelegate, "state", "maximized");
 
-            mousePress(panel);
-            mouseMove(shell, shell.width/2, shell.height/2);
-            mouseRelease(shell);
-
+            mouseDrag(panel, panel.width/2, panel.height/2, 0, shell.height/3, Qt.LeftButton);
+            mouseRelease(appDelegate.findChild("appWindowDecoration"));
             tryCompare(appDelegate, "state", "restored");
         }
 
