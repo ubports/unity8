@@ -347,7 +347,7 @@ AbstractStage {
                 readonly property var surface: model.surface
                 readonly property alias resizeArea: resizeArea
                 readonly property alias focusedSurface: decoratedWindow.focusedSurface
-                readonly property bool dragging: touchControls.overlayShown ? touchControls.moveHandler.dragging : decoratedWindow.moveHandler.dragging
+                readonly property bool dragging: touchControls.overlayShown ? touchControls.dragging : decoratedWindow.dragging
 
                 readonly property bool isDash: model.application.appId == "unity8-dash"
 

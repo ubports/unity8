@@ -54,7 +54,7 @@ FocusScope {
     property alias overlayShown: decoration.overlayShown
     property alias stageWidth: moveHandler.stageWidth
     property alias stageHeight: moveHandler.stageHeight
-    readonly property alias moveHandler: moveHandler
+    readonly property alias dragging: moveHandler.dragging
 
     signal closeClicked()
     signal maximizeClicked()

@@ -32,7 +32,7 @@ Item {
 
     // to be read from outside
     readonly property alias overlayShown: overlay.visible
-    readonly property alias moveHandler: moveHandler
+    readonly property alias dragging: priv.dragging
 
     signal fakeMaximizeAnimationRequested(real amount)
     signal fakeMaximizeLeftAnimationRequested(real amount)
@@ -85,13 +85,14 @@ Item {
     Timer {
         id: overlayTimer
         interval: 2000
-        repeat: moveHandler.dragging || (priv.resizeArea && priv.resizeArea.dragging)
+        repeat: priv.dragging
     }
 
     QtObject {
         id: priv
         readonly property var resizeArea: root.target && root.target.resizeArea ? root.target.resizeArea : null
         readonly property bool ensureWindow: root.target.state == "normal" || root.target.state == "restored"
+        readonly property bool dragging: moveHandler.dragging || (resizeArea && resizeArea.dragging)
 
         function getSensingPoints() {
             var xPoints = [];
