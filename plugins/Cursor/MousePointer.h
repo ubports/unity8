@@ -79,6 +79,7 @@ private:
     QPointF m_accumulatedMovement;
 
     int m_topBoundaryOffset{0};
+    bool m_pushing{false};
 };
 
 #endif // MOUSEPOINTER_H

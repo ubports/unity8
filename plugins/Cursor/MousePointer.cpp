@@ -58,23 +58,33 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
     if (newX <= 0 && newY < m_topBoundaryOffset) { // top left corner
         const auto distance = qSqrt(qPow(newX, 2) + qPow(newY-m_topBoundaryOffset, 2));
         Q_EMIT pushedTopLeftCorner(qAbs(distance), buttons);
+        m_pushing = true;
     } else if (newX >= sceneWidth-1 && newY < m_topBoundaryOffset) { // top right corner
         const auto distance = qSqrt(qPow(newX-sceneWidth, 2) + qPow(newY-m_topBoundaryOffset, 2));
         Q_EMIT pushedTopRightCorner(qAbs(distance), buttons);
+        m_pushing = true;
     } else if (newX < 0 && newY >= sceneHeight-1) { // bottom left corner
         const auto distance = qSqrt(qPow(newX, 2) + qPow(newY-sceneHeight, 2));
         Q_EMIT pushedBottomLeftCorner(qAbs(distance), buttons);
+        m_pushing = true;
     } else if (newX >= sceneWidth-1 && newY >= sceneHeight-1) { // bottom right corner
         const auto distance = qSqrt(qPow(newX-sceneWidth, 2) + qPow(newY-sceneHeight, 2));
         Q_EMIT pushedBottomRightCorner(qAbs(distance), buttons);
+        m_pushing = true;
     } else if (newX < 0) { // left edge
         Q_EMIT pushedLeftBoundary(qAbs(newX), buttons);
+        m_pushing = true;
     } else if (newX >= sceneWidth) { // right edge
         Q_EMIT pushedRightBoundary(newX - (sceneWidth - 1), buttons);
+        m_pushing = true;
     } else if (newY < m_topBoundaryOffset) { // top edge
         Q_EMIT pushedTopBoundary(qAbs(newY - m_topBoundaryOffset), buttons);
+        m_pushing = true;
     } else if (Q_LIKELY(newX > 0 && newX < sceneWidth-1 && newY > 0 && newY < sceneHeight-1)) { // normal pos, not pushing
-        Q_EMIT pushStopped();
+        if (m_pushing) {
+            Q_EMIT pushStopped();
+            m_pushing = false;
+        }
     }
 
     setX(qBound(0.0, newX, sceneWidth - 1));
