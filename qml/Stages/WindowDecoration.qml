@@ -94,9 +94,7 @@ MouseArea {
             elide: Text.ElideRight
             opacity: overlayShown ? 0 : 1
             visible: opacity != 0
-            Behavior on opacity {
-                UbuntuNumberAnimation {}
-            }
+            Behavior on opacity { UbuntuNumberAnimation {} }
         }
     }
 }
