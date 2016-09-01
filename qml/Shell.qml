@@ -156,7 +156,7 @@ StyledItem {
         // our default wallpaper). We use a name=wallpaper argument here to
         // make sure we don't litter our cache with lots of scaled images. We
         // only need to bother caching one at a time.
-        readonly property url cachedBackground: background ? "image://unity8imagecache/" + background + "?name=wallpaper" : ""
+        readonly property url cachedBackground: background.toString().indexOf("file:///") === 0 ? "image://unity8imagecache/" + background + "?name=wallpaper" : background
 
         GSettings {
             id: backgroundSettings
