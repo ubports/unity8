@@ -98,7 +98,6 @@ Rectangle {
 
     function commit() {
         if (progress > hintThreshold && edge != -1) {
-            target.moveHandler.handlePressedChanged(false, Qt.LeftButton); // cancel the drag
             if (edge == Item.Top) {
                 target.maximize();
             } else if (edge == Item.Left) {
