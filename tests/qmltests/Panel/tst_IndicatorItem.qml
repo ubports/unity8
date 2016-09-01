@@ -190,9 +190,9 @@ Rectangle {
 
             indicatorItem.expanded = true;
             tryCompare(findChild(indicatorItem, "icon0"), "color", theme.palette.disabled.backgroundText);
-            tryCompare(findChild(indicatorItem, "leftLabel"), "color", theme.palette.disabled.backgroundText);
-            tryCompare(findChild(indicatorItem, "rightLabel"), "color", theme.palette.disabled.backgroundText);
-            tryCompare(findChild(indicatorItem, "indicatorName"), "color", theme.palette.disabled.backgroundText);
+            fuzzyCompare(findChild(indicatorItem, "leftLabel").color, theme.palette.disabled.backgroundText, 0.001);
+            fuzzyCompare(findChild(indicatorItem, "rightLabel").color, theme.palette.disabled.backgroundText, 0.001);
+            fuzzyCompare(findChild(indicatorItem, "indicatorName").color, theme.palette.disabled.backgroundText, 0.001);
 
             indicatorItem.selected = true;
             tryCompare(findChild(indicatorItem, "icon0"), "color", theme.palette.normal.backgroundText);
