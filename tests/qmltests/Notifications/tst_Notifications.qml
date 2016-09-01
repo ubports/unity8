@@ -141,6 +141,18 @@ Item {
             mockModel.append(n)
         }
 
+        function addFullscreenNotification() {
+            var component = Qt.createComponent("Notification.qml")
+            var n = component.createObject("notification", {"nid": index++,
+                                                            "type": Notification.SnapDecision,
+                                                            "hints": {"x-canonical-private-affirmative-tint": "true"},
+                                                            "summary": "SIM PIN screen",
+                                                            "body": "Enter your PIN to unlock the SIM",
+                                                            "fullscreen": true})
+            n.completed.connect(mockModel.onCompleted)
+            mockModel.append(n)
+        }
+
         function clearNotifications() {
             while(mockModel.count > 0) {
                 remove1stNotification();
@@ -226,6 +238,12 @@ Item {
                     width: parent.width
                     text: "add a 2nd confirmation"
                     onClicked: rootRow.add2ndConfirmationNotification()
+                }
+
+                Button {
+                    width: parent.width
+                    text: "add a fullscreen notification"
+                    onClicked: rootRow.addFullscreenNotification()
                 }
 
                 Button {
@@ -371,6 +389,14 @@ Item {
                     rawActions: ["ok_id",     "Ok",
                                  "snooze_id", "Snooze",
                                  "view_id",   "View"]
+                },
+                Notification {
+                    nid: 10
+                    type: Notification.SnapDecision
+                    hints: {"x-canonical-private-affirmative-tint": "true"}
+                    summary: "SIM PIN screen"
+                    body: "Enter your PIN to unlock the SIM"
+                    fullscreen: true
                 }
             ]
 
@@ -538,15 +564,12 @@ Item {
                 signalName: "actionInvoked"
             }
 
-            function init() {
-                while (mockModel.count > 0) {
-                    mockModel.remove(0);
-                }
-            }
-
             function cleanup() {
                 clickThroughSpy.clear()
                 actionSpy.clear()
+                while (mockModel.count > 0) {
+                    mockModel.removeFirst();
+                }
             }
 
             function test_NotificationRenderer(data) {
@@ -795,6 +818,50 @@ Item {
                 waitForRendering(notifications);
                 tryCompareFunction(function() { return notification1.expanded; }, true);
                 tryCompareFunction(function() { return notification2.expanded; }, undefined);
+            }
+
+            function topmostIsFullscreen_data() {
+                return [{
+                            tag: "Confirmation notification with value",
+                            n: nlist[6]
+                        },
+                        {
+                            tag: "SIM PIN fullscreen notification",
+                            n: nlist[9]
+                        },
+                        {
+                            tag: "Snap Decision without secondary icon and no button-tint",
+                            n: nlist[3]
+                        }]
+            }
+
+            function test_topmostIsFullscreen() {
+                var data = topmostIsFullscreen_data();
+
+                // fill the model
+                data.forEach(function(notification) {
+                    mockModel.append(notification.n);
+                    notification.n.completed.connect(mockModel.onCompleted);
+                })
+
+                // make sure the view is properly updated before going on
+                notifications.forceLayout();
+                waitForRendering(notifications);
+
+                // initially, topmost is not fullscreen
+                verify(!notifications.topmostIsFullscreen)
+
+                // close the 1st one, 2nd one should be fullscreen
+                var notification0 = findChild(notifications, "notification0")
+                notification0.closeNotification();
+                waitForRendering(notifications);
+                verify(notifications.topmostIsFullscreen)
+
+                // close the 1st one (SIM PIN) again, topmost should no longer be fullscreen
+                notification0 = findChild(notifications, "notification0")
+                notification0.closeNotification();
+                waitForRendering(notifications);
+                verify(!notifications.topmostIsFullscreen)
             }
 
             function cleanupTestCase() {
