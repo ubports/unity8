@@ -22,7 +22,6 @@
 
 #include <QQuickWindow>
 #include <QGuiApplication>
-#include <QQmlProperty>
 #include <QtMath>
 
 #include <qpa/qwindowsysteminterface.h>
