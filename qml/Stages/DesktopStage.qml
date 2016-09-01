@@ -167,11 +167,6 @@ AbstractStage {
         onCloseClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.close(); } }
         onMinimizeClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.minimize(); } }
         onRestoreClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.restoreFromMaximized(); } }
-        onFocusMaximizedApp: {
-            if (priv.foregroundMaximizedAppDelegate) {
-                priv.foregroundMaximizedAppDelegate.focus = true;
-             }
-        }
     }
 
     Binding {
@@ -206,12 +201,6 @@ AbstractStage {
         target: PanelState
         property: "closeButtonShown"
         value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized && !priv.focusedAppDelegate.isDash
-    }
-
-    Binding {
-        target: PanelState
-        property: "maximizedAppDelegate"
-        value: priv.foregroundMaximizedAppDelegate ? priv.foregroundMaximizedAppDelegate : null
     }
 
     Component.onDestruction: {
@@ -747,7 +736,7 @@ AbstractStage {
                     onMaximizeVerticallyClicked: appDelegate.maximizedVertically ? appDelegate.restoreFromMaximized() : appDelegate.maximizeVertically()
                     onMinimizeClicked: appDelegate.minimize()
                     onDecorationPressed: { appDelegate.focus = true; }
-                    onShouldCommitSnapWindow: fakeRectangle.commit();
+                    onDecorationReleased: fakeRectangle.commit();
                 }
 
                 WindowControlsOverlay {
@@ -764,7 +753,7 @@ AbstractStage {
                     onFakeMaximizeBottomLeftAnimationRequested: if (!appDelegate.maximizedBottomLeft) fakeRectangle.maximizeBottomLeft(amount, true);
                     onFakeMaximizeBottomRightAnimationRequested: if (!appDelegate.maximizedBottomRight) fakeRectangle.maximizeBottomRight(amount, true);
                     onStopFakeAnimation: fakeRectangle.stop();
-                    onShouldCommitSnapWindow: fakeRectangle.commit();
+                    onDragReleased: fakeRectangle.commit();
                 }
 
                 WindowedFullscreenPolicy {

@@ -62,8 +62,7 @@ FocusScope {
     signal maximizeVerticallyClicked()
     signal minimizeClicked()
     signal decorationPressed()
-
-    signal shouldCommitSnapWindow()
+    signal decorationReleased()
 
     Rectangle {
         id: selectionHighlight
@@ -110,7 +109,7 @@ FocusScope {
         onPressedChanged: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
         onPositionChanged: moveHandler.handlePositionChanged(mouse)
         onReleased: {
-            root.shouldCommitSnapWindow();
+            root.decorationReleased();
             moveHandler.handleReleased();
         }
     }
@@ -121,7 +120,6 @@ FocusScope {
         objectName: "moveHandler"
         target: root.parent
         buttonsWidth: decoration.buttonsWidth
-        onShouldCommitSnapWindow: root.shouldCommitSnapWindow()
     }
 
     ApplicationWindow {

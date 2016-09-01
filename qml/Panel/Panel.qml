@@ -100,31 +100,12 @@ Item {
             }
             height: indicators.minimizedPanelHeight
             hoverEnabled: true
-            onClicked: callHint.visible ? callHint.showLiveCall() : PanelState.focusMaximizedApp()
-            onDoubleClicked: PanelState.restoreClicked()
+            onClicked: if (callHint.visible) { callHint.showLiveCall(); }
 
-            property Item delegate: null // appDelegate that's used to drag-and-restore a maximized window
-
-            onPressedChanged: {
-                if (!delegate && PanelState.maximizedAppDelegate && pressed) {
-                    delegate = PanelState.maximizedAppDelegate;
-                    delegate.moveHandler.handlePressedChanged(true, pressedButtons, mouseX, mouseY);
-                }
-            }
-            onPositionChanged: {
-                if (delegate && delegate.moveHandler.dragging) {
-                    delegate.focus = true;
-                    delegate.restoredX = Math.round(mouse.x - delegate.moveHandler.buttonsWidth);
-                    delegate.restoredY = Math.round(Math.max(mouse.y, PanelState.panelHeight));
-                    delegate.restoreFromMaximized(false);
-                }
-            }
-            onReleased: {
-                if (delegate) {
-                    delegate.moveHandler.handlePressedChanged(false, pressedButtons);
-                    delegate.moveHandler.handleReleased();
-                    delegate.moveHandler.shouldCommitSnapWindow();
-                    delegate = null;
+            onPressed: {
+                if (!callHint.visible) {
+                    // let it fall through to the window decoration of the maximized window behind, if any
+                    mouse.accepted = false;
                 }
             }
 
