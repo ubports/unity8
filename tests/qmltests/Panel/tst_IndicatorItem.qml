@@ -190,6 +190,7 @@ Rectangle {
 
             indicatorItem.expanded = true;
             tryCompare(findChild(indicatorItem, "icon0"), "color", theme.palette.disabled.backgroundText);
+            // WORKAROUND for a Qt bug in comparing colors: https://bugs.launchpad.net/ubuntu/+source/qtdeclarative-opensource-src/+bug/1619281
             fuzzyCompare(findChild(indicatorItem, "leftLabel").color, theme.palette.disabled.backgroundText, 0.001);
             fuzzyCompare(findChild(indicatorItem, "rightLabel").color, theme.palette.disabled.backgroundText, 0.001);
             fuzzyCompare(findChild(indicatorItem, "indicatorName").color, theme.palette.disabled.backgroundText, 0.001);
