@@ -760,6 +760,14 @@ StyledItem {
         }
     }
 
+    Timer {
+        id: cursorHidingTimer
+        interval: 3000
+        running: panel.focusedSurfaceIsFullscreen
+        repeat: true
+        onTriggered: cursor.opacity = 0;
+    }
+
     Cursor {
         id: cursor
         visible: shell.hasMouse
