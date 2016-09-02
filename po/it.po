@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-08-19 14:16+0000\n"
+"POT-Creation-Date: 2016-08-26 08:14+0000\n"
 "PO-Revision-Date: 2016-04-03 16:08+0000\n"
 "Last-Translator: Milo Casagrande <milo.casagrande@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-08-25 05:45+0000\n"
+"X-Launchpad-Export-Date: 2016-09-01 06:35+0000\n"
 "X-Generator: Launchpad (build 18179)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -125,15 +125,15 @@ msgstr "Riavvia"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "Scorciatoie da tastiera"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Unity 8"
-msgstr ""
+msgstr "Unity 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
-msgstr ""
+msgstr "Stamp"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
@@ -141,7 +141,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
-msgstr ""
+msgstr "Alt + Stamp"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of a window."
@@ -149,23 +149,23 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
-msgstr ""
+msgstr "Super + Spazio"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr ""
+msgstr "Passa alla disposizione di tastiera successiva"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
-msgstr ""
+msgstr "Super + Maiusc + Spazio"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr ""
+msgstr "Passa alla disposizione di tastiera precedente"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:118
 msgid "Launcher"
-msgstr ""
+msgstr "Launcher"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:125
 msgid "Super (Hold)"
@@ -173,11 +173,11 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:130
 msgid "Opens the launcher, displays shortcuts."
-msgstr ""
+msgstr "Apre il Launcher, mostra le scorciatoie"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Alt + F1"
-msgstr ""
+msgstr "Alt + F1"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens launcher keyboard navigation mode."
@@ -185,7 +185,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Super + Tab"
-msgstr ""
+msgstr "Super + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Switches applications via the launcher."
@@ -193,7 +193,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + 0 to 9"
-msgstr ""
+msgstr "Super + 0 fino a 9"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Same as clicking on a launcher icon."
@@ -201,7 +201,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:181
 msgid "Scopes"
-msgstr ""
+msgstr "Scope"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:188
 msgid "Super (Tap)"
@@ -217,15 +217,15 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:216
 msgid "Alt + Tab"
-msgstr ""
+msgstr "Alt + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:221
 msgid "Switches between applications."
-msgstr ""
+msgstr "Passa da un'applicazione all'altra"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:229
 msgid "Super + W"
-msgstr ""
+msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:234
 msgid "Opens the desktop spread."
@@ -237,7 +237,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Moves the focus."
-msgstr ""
+msgstr "Sposta il focus"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:259
 msgid "Windows"
@@ -245,15 +245,15 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:266
 msgid "Ctrl + Super + D"
-msgstr ""
+msgstr "Ctrl + Super + D"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:271
 msgid "Minimizes all windows."
-msgstr ""
+msgstr "Minimizza tutte le finestre"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:279
 msgid "Ctrl + Super + Up"
-msgstr ""
+msgstr "Ctrl + Super + Su"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:284
 msgid "Maximizes the current window."
@@ -261,27 +261,27 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + Down"
-msgstr ""
+msgstr "Ctrl + Super + Giù"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes or restores the current window."
-msgstr ""
+msgstr "Minimizza o ripristina la finestra attuale"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Left or Right"
-msgstr ""
+msgstr "Ctrl + Super + Sinistra o Destra"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Semi-maximizes the current window."
-msgstr ""
+msgstr "Semi-massimizza la finestra attuale"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Alt + F4"
-msgstr ""
+msgstr "Alt + F4"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Closes the current window."
-msgstr ""
+msgstr "Chiude la finestra corrente"
 
 #: qml/Components/Lockscreen.qml:239
 msgid "Return to Call"
@@ -448,15 +448,15 @@ msgstr "Sblocca"
 
 #: qml/Greeter/Greeter.qml:561
 msgid "Try again"
-msgstr ""
+msgstr "Riprova"
 
 #: qml/Greeter/LoginList.qml:63
 msgid "Passphrase"
-msgstr ""
+msgstr "Passphrase"
 
 #: qml/Greeter/LoginList.qml:64
 msgid "Passcode"
-msgstr ""
+msgstr "Codice"
 
 #: qml/Greeter/LoginList.qml:87
 msgid "Retry"
@@ -464,7 +464,7 @@ msgstr "Riprova"
 
 #: qml/Greeter/LoginList.qml:88
 msgid "Log In"
-msgstr ""
+msgstr "Accedi"
 
 #: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passphrase."
@@ -662,7 +662,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/20-keyboard.qml:70
 msgid "Keyboard language"
-msgstr ""
+msgstr "Lingua della tastiera"
 
 #: qml/Wizard/Pages/20-keyboard.qml:92
 msgid "Keyboard layout"
