@@ -53,6 +53,8 @@ FocusScope {
 
     property alias overlayShown: decoration.overlayShown
 
+    readonly property Item clientAreaItem: applicationWindow
+
     signal closeClicked()
     signal maximizeClicked()
     signal maximizeHorizontallyClicked()
