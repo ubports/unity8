@@ -23,3 +23,12 @@ endforeach()
 
 # plain qml test
 add_unity8_qmlunittest(. UtilsStyle)
+
+# URLDispatcher test needs dbus-test-runner because it claims a dbus name
+add_executable(URLDispatcherTestExec URLDispatcherTest.cpp)
+qt5_use_modules(URLDispatcherTestExec Test Core Qml)
+target_link_libraries(URLDispatcherTestExec Utils-qml)
+add_unity8_unittest(URLDispatcher dbus-test-runner
+    ARG_PREFIX "--parameter"
+    ARGS --task $<TARGET_FILE:URLDispatcherTestExec>
+)

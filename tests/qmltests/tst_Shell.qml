@@ -19,6 +19,7 @@ import QtTest 1.0
 import AccountsService 0.1
 import GSettings 1.0
 import LightDM.IntegratedLightDM 0.1 as LightDM
+import SessionBroadcast 0.1
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.Telephony 0.1 as Telephony
@@ -406,6 +407,18 @@ Rectangle {
     }
 
     SignalSpy {
+        id: broadcastUrlSpy
+        target: SessionBroadcast
+        signalName: "startUrl"
+    }
+
+    SignalSpy {
+        id: broadcastHomeSpy
+        target: SessionBroadcast
+        signalName: "showHome"
+    }
+
+    SignalSpy {
         id: unlockAllModemsSpy
         target: Connectivity
         signalName: "unlockingAllModems"
@@ -536,6 +549,7 @@ Rectangle {
 
             AccountsService.demoEdges = false;
             AccountsService.demoEdgesCompleted = [];
+            AccountsService.backgroundFile = "";
             Wizard.System.wizardEnabled = false;
             shellLoader.mode = "full-greeter";
 
@@ -546,8 +560,11 @@ Rectangle {
             LightDM.Greeter.authenticate(""); // reset greeter
 
             sessionSpy.clear();
+            broadcastUrlSpy.clear();
+            broadcastHomeSpy.clear();
 
             GSettingsController.setLifecycleExemptAppids([]);
+            GSettingsController.setPictureUri("");
 
             // there should be only unity8-dash window over there
             tryCompare(ApplicationManager, "count", 1);
@@ -672,7 +689,7 @@ Rectangle {
                 waitUntilDashIsFocused();
                 tryCompare(greeter, "shown", false);
             } else {
-                compare(greeter.fullyShown, data.greeterShown);
+                tryCompare(greeter, "fullyShown", data.greeterShown);
             }
 
             var launcher = findChild(shell, "launcherPanel");
@@ -1317,6 +1334,32 @@ Rectangle {
 
             swipeAwayGreeter();
             tryCompare(tutorial, "paused", false);
+        }
+
+        function test_customBackground() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+
+            var wallpaperResolver = findInvisibleChild(shell, "wallpaperResolver");
+            var greeter = findChild(shell, "greeter");
+            verify(!greeter.hasCustomBackground);
+            compare(wallpaperResolver.background, wallpaperResolver.defaultBackground);
+
+            AccountsService.backgroundFile = Qt.resolvedUrl("../graphics/applicationIcons/dash.png");
+            tryCompare(greeter, "hasCustomBackground", true);
+            compare(wallpaperResolver.background, AccountsService.backgroundFile);
+        }
+
+        function test_cachedBackground() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+
+            var greeter = findChild(shell, "greeter");
+            verify(!greeter.hasCustomBackground);
+            compare(greeter.background.toString().indexOf("image://unity8imagecache/file:///"), 0);
+            verify(greeter.background.toString().indexOf("?name=wallpaper") > 0);
         }
 
         function test_tapOnRightEdgeReachesApplicationSurface() {
@@ -2418,6 +2461,119 @@ Rectangle {
             tap(shell, shell.width - 1, shell.height / 2);
             compare(topmostSurfaceItem.touchPressCount, 2);
             compare(topmostSurfaceItem.touchReleaseCount, 2);
+        }
+
+        function test_background_data() {
+            return [
+                {tag: "color",
+                 accounts: Qt.resolvedUrl("data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>"),
+                 gsettings: "",
+                 output: Qt.resolvedUrl("data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>")},
+
+                {tag: "empty", accounts: "", gsettings: "", output: "defaultBackground"},
+
+                {tag: "as-specified",
+                 accounts: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"),
+                 gsettings: "",
+                 output: Qt.resolvedUrl("../data/unity/backgrounds/blue.png")},
+
+                {tag: "gs-specified",
+                 accounts: "",
+                 gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"),
+                 output: Qt.resolvedUrl("../data/unity/backgrounds/red.png")},
+
+                {tag: "both-specified",
+                 accounts: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"),
+                 gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"),
+                 output: Qt.resolvedUrl("../data/unity/backgrounds/blue.png")},
+
+                {tag: "invalid-as",
+                 accounts: Qt.resolvedUrl("../data/unity/backgrounds/nope.png"),
+                 gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"),
+                 output: Qt.resolvedUrl("../data/unity/backgrounds/red.png")},
+
+                {tag: "invalid-both",
+                 accounts: Qt.resolvedUrl("../data/unity/backgrounds/nope.png"),
+                 gsettings: Qt.resolvedUrl("../data/unity/backgrounds/stillnope.png"),
+                 output: "defaultBackground"},
+            ]
+        }
+        function test_background(data) {
+            loadShell("phone");
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+
+            AccountsService.backgroundFile = data.accounts;
+            GSettingsController.setPictureUri(data.gsettings);
+
+            var wallpaperResolver = findChild(shell, "wallpaperResolver");
+            if (data.output === "defaultBackground") {
+                tryCompare(wallpaperResolver, "background", wallpaperResolver.defaultBackground);
+                verify(!wallpaperResolver.hasCustomBackground);
+            } else {
+                tryCompare(wallpaperResolver, "background", data.output);
+                verify(wallpaperResolver.hasCustomBackground);
+            }
+        }
+
+        function test_greeterModeBroadcastsApp() {
+            setLightDMMockMode("single-pin");
+            shellLoader.mode = "greeter";
+            loadShell("phone");
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+
+            dragLauncherIntoView();
+            var appIcon = findChild(shell, "launcherDelegate0")
+            tap(appIcon);
+
+            tryCompare(broadcastUrlSpy, "count", 1);
+            compare(broadcastUrlSpy.signalArguments[0][0], "application:///" + appIcon.appId + ".desktop");
+            compare(ApplicationManager.count, 1); // confirm only dash is open, we didn't start new app
+
+            var coverPage = findChild(shell, "coverPage");
+            tryCompare(coverPage, "showProgress", 0);
+        }
+
+        function test_greeterModeBroadcastsHome() {
+            setLightDMMockMode("single-pin");
+            shellLoader.mode = "greeter";
+            loadShell("phone");
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+
+            var gallerySurfaceId = topLevelSurfaceList.nextId;
+            var galleryApp = ApplicationManager.startApplication("gallery-app");
+            waitUntilAppWindowIsFullyLoaded(gallerySurfaceId);
+            compare(ApplicationManager.focusedApplicationId, "gallery-app");
+
+            dragLauncherIntoView();
+            tap(findChild(shell, "buttonShowDashHome"));
+
+            tryCompare(broadcastHomeSpy, "count", 1);
+            compare(ApplicationManager.focusedApplicationId, "gallery-app"); // confirm we didn't focus dash
+
+            var coverPage = findChild(shell, "coverPage");
+            tryCompare(coverPage, "showProgress", 0);
+        }
+
+        function test_greeterModeDispatchesURL() {
+            setLightDMMockMode("single-pin");
+            shellLoader.mode = "greeter";
+            loadShell("phone");
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+
+            var urlDispatcher = findInvisibleChild(shell, "urlDispatcher");
+            verify(urlDispatcher.active);
+            urlDispatcher.urlRequested("test:"); // force signal emission
+
+            tryCompare(broadcastUrlSpy, "count", 1);
+            compare(broadcastUrlSpy.signalArguments[0][0], "test:");
+            compare(ApplicationManager.count, 1); // confirm only dash is open, we didn't start new app
+
+            var coverPage = findChild(shell, "coverPage");
+            tryCompare(coverPage, "showProgress", 0);
         }
 
         function test_switchKeymap() {
