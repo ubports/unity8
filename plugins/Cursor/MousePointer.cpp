@@ -49,8 +49,8 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
     QPointF appliedMovement(int(m_accumulatedMovement.x()), int(m_accumulatedMovement.y()));
     m_accumulatedMovement -= appliedMovement;
 
-    const qreal newX = x() + appliedMovement.x();
-    const qreal newY = y() + appliedMovement.y();
+    qreal newX = x() + appliedMovement.x();
+    qreal newY = y() + appliedMovement.y();
     const qreal sceneWidth = parentItem()->width();
     const qreal sceneHeight = parentItem()->height();
 
@@ -86,12 +86,39 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
         }
     }
 
+    applyItemConfinement(newX, newY);
+
     setX(qBound(0.0, newX, sceneWidth - 1));
     setY(qBound(0.0, newY, sceneHeight - 1));
 
     QPointF scenePosition = mapToItem(nullptr, QPointF(0, 0));
     QWindowSystemInterface::handleMouseEvent(window(), timestamp, scenePosition /*local*/, scenePosition /*global*/,
         buttons, modifiers);
+}
+
+void MousePointer::applyItemConfinement(qreal &newX, qreal &newY)
+{
+    Q_ASSERT(parentItem() != nullptr);
+
+    if (m_confiningItem.isNull()) {
+        return;
+    }
+
+    QRectF confiningItemGeometry(0, 0, m_confiningItem->width(), m_confiningItem->height());
+
+    QRectF confiningRect = m_confiningItem->mapRectToItem(parentItem(), confiningItemGeometry);
+
+    if (newX < confiningRect.x()) {
+        newX = confiningRect.x();
+    } else if (newX > confiningRect.right()) {
+        newX = confiningRect.right();
+    }
+
+    if (newY < confiningRect.y()) {
+        newY = confiningRect.y();
+    } else if (newY > confiningRect.bottom()) {
+        newY = confiningRect.bottom();
+    }
 }
 
 void MousePointer::handleWheelEvent(ulong timestamp, QPoint angleDelta, Qt::KeyboardModifiers modifiers)
@@ -192,4 +219,17 @@ void MousePointer::setThemeName(const QString &themeName)
 void MousePointer::setCustomCursor(const QCursor &customCursor)
 {
     CursorImageProvider::instance()->setCustomCursor(customCursor);
+}
+
+QQuickItem* MousePointer::confiningItem() const
+{
+    return m_confiningItem.data();
+}
+
+void MousePointer::setConfiningItem(QQuickItem *item)
+{
+    if (item != m_confiningItem) {
+        m_confiningItem = item;
+        Q_EMIT confiningItemChanged();
+    }
 }

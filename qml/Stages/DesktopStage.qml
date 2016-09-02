@@ -55,6 +55,11 @@ AbstractStage {
 
     orientationChangesEnabled: true
 
+
+    itemConfiningMouseCursor: !spreadShown && priv.focusedAppDelegate && priv.focusedAppDelegate.surface &&
+                              priv.focusedAppDelegate.surface.confinesMousePointer ?
+                              priv.focusedAppDelegate.clientAreaItem : null;
+
     GlobalShortcut {
         id: showSpreadShortcut
         shortcut: Qt.MetaModifier|Qt.Key_W
@@ -237,12 +242,10 @@ AbstractStage {
         anchors.fill: parent
         focus: spread.state !== "altTab"
 
-        CrossFadeImage {
+        Wallpaper {
             id: wallpaper
             anchors.fill: parent
             source: root.background
-            sourceSize { height: root.height; width: root.width }
-            fillMode: Image.PreserveAspectCrop
         }
 
         TopLevelSurfaceRepeater {
@@ -350,6 +353,7 @@ AbstractStage {
                 readonly property bool dragging: touchControls.overlayShown ? touchControls.dragging : decoratedWindow.dragging
 
                 readonly property bool isDash: model.application.appId == "unity8-dash"
+                readonly property alias clientAreaItem: decoratedWindow.clientAreaItem
 
                 function claimFocus() {
                     if (spread.state == "altTab") {

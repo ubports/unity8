@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtGraphicalEffects 1.0
 import Ubuntu.Components 1.3
 import "../Components"
+import "." 0.1
 
 StyledItem {
     id: root
@@ -28,16 +29,22 @@ StyledItem {
     property int currentIndex
     property bool locked
     property bool waiting
+    property alias boxVerticalOffset: highlightItem.y
 
+    readonly property alias passwordInput: passwordInput
     readonly property int numAboveBelow: 4
     readonly property int cellHeight: units.gu(5)
     readonly property int highlightedHeight: units.gu(15)
-    readonly property int moveDuration: 200
+    readonly property int moveDuration: UbuntuAnimation.FastDuration
+    property string selectedSession
+    property string currentSession
     readonly property string currentUser: userList.currentItem.username
     property bool wasPrompted: false
 
-    signal selected(int index)
+    signal loginListSessionChanged(string session)
     signal responded(string response)
+    signal selected(int index)
+    signal sessionChooserButtonClicked()
 
     function tryToUnlock() {
         if (wasPrompted) {
@@ -78,6 +85,10 @@ StyledItem {
         root.resetAuthentication();
     }
 
+    function showFakePassword() {
+        passwordInput.showFakePassword();
+    }
+
     QtObject {
         id: d
 
@@ -97,6 +108,7 @@ StyledItem {
         name: "Ubuntu.Components.Themes.Ambiance"
     }
 
+    KeyNavigation.tab: sessionChooser
     Keys.onUpPressed: {
         selected(currentIndex - 1);
         event.accepted = true;
@@ -114,30 +126,17 @@ StyledItem {
         userList.currentIndex = currentIndex;
     }
 
-    BorderImage {
-        anchors {
-            fill: highlightItem
-            topMargin: -units.gu(1)
-            leftMargin: -units.gu(1.5)
-            rightMargin: -units.gu(1.5)
-            bottomMargin: -units.gu(1.5)
-        }
-        source: "../Stages/graphics/dropshadow2gu.sci"
-        opacity: 0.35
-    }
-
-    UbuntuShape {
+    LoginAreaContainer {
         id: highlightItem
+        objectName: "highlightItem"
         anchors {
             left: parent.left
             leftMargin: units.gu(2)
             right: parent.right
             rightMargin: units.gu(2)
-            verticalCenter: parent.verticalCenter
         }
+
         height: root.highlightedHeight
-        aspect: UbuntuShape.Flat
-        backgroundColor: theme.palette.normal.raised
     }
 
     ListView {
@@ -148,8 +147,8 @@ StyledItem {
         anchors.leftMargin: units.gu(2)
         anchors.rightMargin: units.gu(2)
 
-        preferredHighlightBegin: userList.height / 2 - root.highlightedHeight / 2
-        preferredHighlightEnd: userList.height / 2 - root.highlightedHeight / 2
+        preferredHighlightBegin: highlightItem.y
+        preferredHighlightEnd: highlightItem.y
         highlightRangeMode: ListView.StrictlyEnforceRange
         highlightMoveDuration: root.moveDuration
         flickDeceleration: 10000
@@ -173,6 +172,7 @@ StyledItem {
 
             readonly property bool belowHighlight: (userList.currentIndex < 0 && index > 0) || (userList.currentIndex >= 0 && index > userList.currentIndex)
             readonly property int belowOffset: root.highlightedHeight - root.cellHeight
+            readonly property string userSession: session
             readonly property string username: name
 
             opacity: {
@@ -206,9 +206,22 @@ StyledItem {
                     bottomMargin: -(units.gu(4) + (parent.belowHighlight ? parent.belowOffset : 0))
                 }
                 text: realName
-                color: userList.currentIndex !== index ? theme.palette.normal.raised : theme.palette.normal.raisedText
+                color: userList.currentIndex !== index ? theme.palette.normal.raised
+                                                       : theme.palette.normal.raisedText
 
                 Behavior on anchors.topMargin { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
+
+                Rectangle {
+                    id: activeIndicator
+                    anchors.horizontalCenter: parent.left
+                    anchors.horizontalCenterOffset: -units.gu(1)
+                    anchors.verticalCenter: parent.verticalCenter
+                    color: userList.currentIndex !== index ? theme.palette.normal.raised
+                                                           : theme.palette.normal.focus
+                    visible: userList.count > 1 && loggedIn
+                    height: units.gu(0.5)
+                    width: height
+                }
             }
 
             MouseArea {
@@ -234,6 +247,67 @@ StyledItem {
             running: false
             repeat: false
             interval: root.moveDuration
+        }
+    }
+
+    // Use an AbstractButton due to icon limitations with Button
+    AbstractButton {
+        id: sessionChooser
+        objectName: "sessionChooserButton"
+
+        readonly property alias icon: badge.source
+
+        visible: LightDMService.sessions.count > 1 &&
+            !LightDMService.users.data(userList.currentIndex, LightDMService.userRoles.LoggedInRole)
+
+        height: units.gu(3.5)
+        width: units.gu(3.5)
+
+        anchors {
+            right: highlightItem.right
+            rightMargin: units.gu(2)
+
+            top: highlightItem.top
+            topMargin: units.gu(1.5)
+        }
+
+        Rectangle {
+            id: badgeHighlight
+
+            anchors.fill: parent
+            visible: parent.activeFocus
+            color: "transparent"
+            border.color: theme.palette.normal.focus
+            border.width: units.dp(1)
+            radius: 3
+        }
+
+        Icon {
+            id: badge
+            anchors.fill: parent
+            anchors.margins: units.dp(3)
+            keyColor: "#ffffff" // icon providers give us white icons
+            color: theme.palette.normal.raisedSecondaryText
+            source: LightDMService.sessions.iconUrl(root.currentSession)
+        }
+
+        KeyNavigation.tab: passwordInput
+        Keys.onReturnPressed: {
+            sessionChooserButtonClicked();
+            event.accepted = true;
+        }
+
+        onClicked: {
+            sessionChooserButtonClicked();
+        }
+
+        // Refresh the icon path if looking at different places at runtime
+        // this is mainly for testing
+        Connections {
+            target: LightDMService.sessions
+            onIconSearchDirectoriesChanged: {
+                badge.source = LightDMService.sessions.iconUrl(root.currentSession)
+            }
         }
     }
 
@@ -283,6 +357,7 @@ StyledItem {
 
         WrongPasswordAnimation {
             id: wrongPasswordAnimation
+            objectName: "wrongPasswordAnimation"
             target: passwordInput
         }
     }

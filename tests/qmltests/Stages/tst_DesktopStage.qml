@@ -75,7 +75,7 @@ Item {
         sourceComponent: Component {
             DesktopStage {
                 anchors.fill: parent
-                background: "../../../qml/graphics/tablet_background.jpg"
+                background: "/usr/share/backgrounds/warty-final-ubuntu.png"
                 focus: true
 
                 Component.onCompleted: {

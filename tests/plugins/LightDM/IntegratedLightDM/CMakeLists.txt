@@ -26,7 +26,6 @@ add_unity8_uitest(GreeterDBus dbus-test-runner
     ARGS --task $<TARGET_FILE:GreeterDBusTestExec>
     DEPENDS MockLightDM
     IMPORT_PATHS  ${UNITY_MOCKPATH}
-    LIGHTDM
     )
 
 add_executable(GreeterPamTestExec
@@ -63,7 +62,6 @@ target_include_directories(GreeterSessionsModelTestExec PUBLIC
 add_unity8_uitest(GreeterSessions GreeterSessionsModelTestExec
     ENVIRONMENT LIBLIGHTDM_MOCK_MODE=full
     DEPENDS MockLightDM
-    LIGHTDM
     )
 
 # UsersModelTest
@@ -87,7 +85,6 @@ target_include_directories(GreeterUsersModelTestExec PUBLIC
 add_unity8_uitest(GreeterUsers GreeterUsersModelTestExec
     ENVIRONMENT LIBLIGHTDM_MOCK_MODE=full
     DEPENDS MockLightDM
-    LIGHTDM
     )
 
 add_executable(GreeterIntegratedTestExec

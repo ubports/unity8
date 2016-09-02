@@ -27,8 +27,8 @@
 
 class MousePointer : public MirMousePointerInterface {
     Q_OBJECT
+    Q_PROPERTY(QQuickItem* confiningItem READ confiningItem WRITE setConfiningItem NOTIFY confiningItemChanged)
     Q_PROPERTY(int topBoundaryOffset READ topBoundaryOffset WRITE setTopBoundaryOffset NOTIFY topBoundaryOffsetChanged)
-
 public:
     MousePointer(QQuickItem *parent = nullptr);
 
@@ -39,6 +39,9 @@ public:
     QString themeName() const override { return m_themeName; }
 
     void setCustomCursor(const QCursor &) override;
+
+    QQuickItem* confiningItem() const;
+    void setConfiningItem(QQuickItem*);
 
     int topBoundaryOffset() const;
     void setTopBoundaryOffset(int topBoundaryOffset);
@@ -58,6 +61,7 @@ Q_SIGNALS:
     void pushedBottomRightCorner(qreal amount, Qt::MouseButtons buttons);
     void pushStopped();
     void mouseMoved();
+    void confiningItemChanged();
 
     void topBoundaryOffsetChanged(int topBoundaryOffset);
 
@@ -69,6 +73,7 @@ private Q_SLOTS:
 
 private:
     void registerWindow(QWindow *window);
+    void applyItemConfinement(qreal &newX, qreal &newY);
 
     QPointer<QWindow> m_registeredWindow;
     QPointer<QScreen> m_registeredScreen;
@@ -77,6 +82,8 @@ private:
 
     // Accumulated, unapplied, mouse movement.
     QPointF m_accumulatedMovement;
+
+    QPointer<QQuickItem> m_confiningItem;
 
     int m_topBoundaryOffset{0};
     bool m_pushing{false};

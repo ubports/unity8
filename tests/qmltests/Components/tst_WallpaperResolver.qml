@@ -18,8 +18,6 @@ import QtQuick 2.4
 import QtTest 1.0
 import Ubuntu.Components 1.3
 import Unity.Test 0.1
-import AccountsService 0.1
-import GSettings 1.0
 
 import "../../../qml/Components"
 
@@ -32,7 +30,6 @@ Image {
 
     WallpaperResolver {
         id: wallpaperResolver
-        width: units.gu(70)
     }
 
     UnityTestCase {
@@ -42,48 +39,37 @@ Image {
 
         function test_background_data() {
             return [
-                {tag: "color",
-                 accounts: Qt.resolvedUrl("data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>"),
-                 gsettings: "",
-                 output: Qt.resolvedUrl("data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>")},
+                {tag: "none-valid",
+                 list: ["/first", "/middle", "/last"],
+                 output: "file:///last"},
 
-                {tag: "empty", accounts: "", gsettings: "", output: "defaultBackground"},
-
-                {tag: "as-specified",
-                 accounts: Qt.resolvedUrl("../../data/unity/backgrounds/blue.png"),
-                 gsettings: "",
+                {tag: "first-valid",
+                 list: [Qt.resolvedUrl("../../data/unity/backgrounds/blue.png"),
+                        "/middle", "/last"],
                  output: Qt.resolvedUrl("../../data/unity/backgrounds/blue.png")},
 
-                {tag: "gs-specified",
-                 accounts: "",
-                 gsettings: Qt.resolvedUrl("../../data/unity/backgrounds/red.png"),
+                {tag: "middle-valid",
+                 list: ["/first",
+                        Qt.resolvedUrl("../../data/unity/backgrounds/red.png"),
+                        "/last"],
                  output: Qt.resolvedUrl("../../data/unity/backgrounds/red.png")},
 
-                {tag: "both-specified",
-                 accounts: Qt.resolvedUrl("../../data/unity/backgrounds/blue.png"),
-                 gsettings: Qt.resolvedUrl("../../data/unity/backgrounds/red.png"),
+                {tag: "last-valid",
+                 list: ["/first",
+                        "/middle",
+                        Qt.resolvedUrl("../../data/unity/backgrounds/red.png")],
+                 output: Qt.resolvedUrl("../../data/unity/backgrounds/red.png")},
+
+                {tag: "multiple-valid",
+                 list: [Qt.resolvedUrl("../../data/unity/backgrounds/blue.png"),
+                        Qt.resolvedUrl("../../data/unity/backgrounds/red.png")],
                  output: Qt.resolvedUrl("../../data/unity/backgrounds/blue.png")},
-
-                {tag: "invalid-as",
-                 accounts: Qt.resolvedUrl("../../data/unity/backgrounds/nope.png"),
-                 gsettings: Qt.resolvedUrl("../../data/unity/backgrounds/red.png"),
-                 output: Qt.resolvedUrl("../../data/unity/backgrounds/red.png")},
-
-                {tag: "invalid-both",
-                 accounts: Qt.resolvedUrl("../../data/unity/backgrounds/nope.png"),
-                 gsettings: Qt.resolvedUrl("../../data/unity/backgrounds/stillnope.png"),
-                 output: "defaultBackground"},
             ]
         }
-        function test_background(data) {
-            AccountsService.backgroundFile = data.accounts;
-            GSettingsController.setPictureUri(data.gsettings);
 
-            if (data.output === "defaultBackground") {
-                tryCompare(wallpaperResolver, "background", wallpaperResolver.defaultBackground);
-            } else {
-                tryCompare(wallpaperResolver, "background", data.output);
-            }
+        function test_background(data) {
+            wallpaperResolver.candidates = data.list;
+            tryCompare(wallpaperResolver, "background", data.output);
         }
     }
 }
