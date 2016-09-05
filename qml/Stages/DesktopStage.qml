@@ -42,6 +42,38 @@ AbstractStage {
         }
     }
 
+    // Alt+LMB handlers
+    function windowMoveRequested(scenePos) {
+        var candidate;
+        if (priv.focusedAppDelegate && priv.focusedAppDelegate.contains(mapToItem(priv.focusedAppDelegate, scenePos.x, scenePos.y))) {
+            candidate = priv.focusedAppDelegate;
+        } else {
+            candidate = appContainer.childAt(scenePos.x, scenePos.y);
+        }
+
+        if (candidate && candidate.moveHandler) {
+            print("!!! Window move requested", scenePos);
+            var localPos = mapToItem(candidate, scenePos.x, scenePos.y)
+            candidate.focus = true;
+            candidate.moveHandler.handlePressedChanged(true, Qt.LeftButton, localPos.x, localPos.y);
+        }
+    }
+    function windowMoveUpdated(scenePos) {
+        if (priv.focusedAppDelegate) {
+            print("!!! Window move updated", scenePos);
+            var localPos = mapToItem(priv.focusedAppDelegate, scenePos.x, scenePos.y)
+            priv.focusedAppDelegate.moveHandler.handlePositionChanged(localPos);
+        }
+    }
+    function windowMoveEnded() {
+        if (priv.focusedAppDelegate) {
+            print("!!! Window move ended");
+            priv.focusedAppDelegate.moveHandler.handlePressedChanged(false, Qt.LeftButton);
+            priv.focusedAppDelegate.moveHandler.handleReleased();
+            fakeRectangle.commit();
+        }
+    }
+
     // Used by TutorialRight
     property bool spreadShown: spread.state == "altTab"
 
@@ -248,6 +280,20 @@ AbstractStage {
             source: root.background
         }
 
+        Timer { // fix a race condition between TopLevelSurfaceRepeater and app (usually dash) starting up; set a focusedAppDelegate
+            running: !appRepeater.startingUp
+            interval: 1
+            onTriggered: {
+                for (var i = 0; i < appRepeater.count; i++) {
+                    var appDelegate = appRepeater.itemAt(i);
+                    if (appDelegate && appDelegate.focus) {
+                        priv.focusedAppDelegate = appDelegate;
+                        break;
+                    }
+                }
+            }
+        }
+
         TopLevelSurfaceRepeater {
             id: appRepeater
             model: topLevelSurfaceList
@@ -350,7 +396,8 @@ AbstractStage {
                 readonly property var surface: model.surface
                 readonly property alias resizeArea: resizeArea
                 readonly property alias focusedSurface: decoratedWindow.focusedSurface
-                readonly property bool dragging: touchControls.overlayShown ? touchControls.dragging : decoratedWindow.dragging
+                readonly property bool dragging: moveHandler.dragging
+                readonly property alias moveHandler: decoratedWindow.moveHandler // for Alt+LMB dragging
 
                 readonly property bool isDash: model.application.appId == "unity8-dash"
                 readonly property alias clientAreaItem: decoratedWindow.clientAreaItem

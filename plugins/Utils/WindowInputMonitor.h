@@ -29,25 +29,25 @@
   * key presses.
   *
   * Additionally, this class monitors for generic touch events on the screen, to
-  * help with hiding/revealing the mouse pointer.
+  * help with hiding/revealing the mouse pointer and moving window around with Alt+LMB
  */
 class WindowInputMonitor : public QQuickItem
 {
     Q_OBJECT
 public:
 
-    WindowInputMonitor(QQuickItem *parent = 0);
+    WindowInputMonitor(QQuickItem *parent = nullptr);
 
     // for testing
     WindowInputMonitor(UnityUtil::AbstractTimer *timer,
             UnityUtil::AbstractElapsedTimer *elapsedTimer,
-            QQuickItem *parent = 0);
+            QQuickItem *parent = nullptr);
 
     virtual ~WindowInputMonitor();
 
     bool eventFilter(QObject *watched, QEvent *event) override;
 
-    void update(QEvent *event);
+    bool update(QEvent *event);
 
     const qint64 msecsWithoutTouches = 150;
 
@@ -77,6 +77,10 @@ Q_SIGNALS:
      */
     void touchEnded(const QPointF &pos);
 
+    void windowMoveRequested(const QPointF &scenePos);
+    void windowMoveUpdated(const QPointF &scenePos);
+    void windowMoveEnded();
+
 private Q_SLOTS:
     void setupFilterOnWindow(QQuickWindow *window);
     void emitActivatedIfNoTouchesAround();
@@ -92,6 +96,7 @@ private:
     // Which Qt::Key from m_homeKeys is currently pressed.
     // 0 if none
     int m_pressedHomeKey{0};
+    bool m_movingWindow{false};
 };
 
 #endif // UNITY_WINDOWINPUTMONITOR_H

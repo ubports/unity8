@@ -699,6 +699,20 @@ AbstractStage {
                 }
             }
 
+            Timer { // fix a race condition between TopLevelSurfaceRepeater and app (usually dash) starting up; set a focusedAppDelegate
+                running: !spreadRepeater.startingUp
+                interval: 1
+                onTriggered: {
+                    for (var i = 0; i < spreadRepeater.count; i++) {
+                        var appDelegate = spreadRepeater.itemAt(i);
+                        if (appDelegate && appDelegate.focus) {
+                            priv.focusedAppDelegate = appDelegate;
+                            break;
+                        }
+                    }
+                }
+            }
+
             TopLevelSurfaceRepeater {
                 id: spreadRepeater
                 objectName: "spreadRepeater"
@@ -763,7 +777,9 @@ AbstractStage {
                     onFocusChanged: {
                         if (focus && !spreadRepeater.startingUp) {
                             priv.focusedAppDelegate = spreadTile;
-                            root.topLevelSurfaceList.raiseId(model.id);
+                            if (root.parent) {
+                                root.topLevelSurfaceList.raiseId(model.id);
+                            }
                         }
                         if (focus && priv.sideStageEnabled && stage === ApplicationInfoInterface.SideStage) {
                             sideStage.show();

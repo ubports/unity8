@@ -55,6 +55,7 @@ FocusScope {
     property alias stageWidth: moveHandler.stageWidth
     property alias stageHeight: moveHandler.stageHeight
     readonly property alias dragging: moveHandler.dragging
+    readonly property alias moveHandler: moveHandler
 
     readonly property Item clientAreaItem: applicationWindow
 
@@ -118,7 +119,7 @@ FocusScope {
 
     MoveHandler {
         id: moveHandler
-        anchors.fill: decoration
+        anchors.fill: parent
         objectName: "moveHandler"
         target: root.parent
         buttonsWidth: decoration.buttonsWidth
