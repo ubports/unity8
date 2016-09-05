@@ -280,20 +280,6 @@ AbstractStage {
             source: root.background
         }
 
-        Timer { // fix a race condition between TopLevelSurfaceRepeater and app (usually dash) starting up; set a focusedAppDelegate
-            running: !appRepeater.startingUp
-            interval: 1
-            onTriggered: {
-                for (var i = 0; i < appRepeater.count; i++) {
-                    var appDelegate = appRepeater.itemAt(i);
-                    if (appDelegate && appDelegate.focus) {
-                        priv.focusedAppDelegate = appDelegate;
-                        break;
-                    }
-                }
-            }
-        }
-
         TopLevelSurfaceRepeater {
             id: appRepeater
             model: topLevelSurfaceList

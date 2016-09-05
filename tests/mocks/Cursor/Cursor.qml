@@ -18,6 +18,7 @@ import QtQuick 2.4
 
 Item {
     property int topBoundaryOffset // effectively panel height
+    property Item confiningItem
 
     signal pushedLeftBoundary(real amount, int buttons)
     signal pushedRightBoundary(real amount, int buttons)
