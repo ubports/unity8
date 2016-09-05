@@ -37,8 +37,7 @@ Rectangle {
         alphaNumeric: pinPadCheckBox.checked
         minPinLength: minPinLengthTextField.text
         maxPinLength: maxPinLengthTextField.text
-        delayMinutes: delayMinutesTextField.text
-        background: "../../../qml/graphics/phone_background.jpg"
+        background: "/usr/share/backgrounds/warty-final-ubuntu.png"
     }
 
     Connections {
@@ -109,16 +108,6 @@ Rectangle {
                     text: "Retries left"
                 }
             }
-            Row {
-                TextField {
-                    id: delayMinutesTextField
-                    width: units.gu(7)
-                    text: "0"
-                }
-                Label {
-                    text: "Delay Minutes"
-                }
-            }
             Label {
                 id: pinLabel
                 anchors.verticalCenter: parent.verticalCenter
@@ -172,7 +161,6 @@ Rectangle {
 
         function cleanup() {
             lockscreen.clear(false);
-            delayMinutesTextField.text = "0"
             enteredLabel.text = "";
 
             // Reset sizing
@@ -453,32 +441,6 @@ Rectangle {
             infoTextTextField.text = data.text;
             var label = findChild(lockscreen, "infoTextLabel")
             compare(label.text, data.text);
-        }
-
-        function test_delayMinutes() {
-            delayMinutesTextField.text = "4"
-            waitForLockscreenReady()
-            var label = findChild(lockscreen, "deviceLockedLabel")
-            compare(label.text, "Device Locked")
-        }
-
-        function test_showText_data() {
-            return [
-                { tag: "alphanumeric", alphanumeric: true },
-                { tag: "pinPad", alphanumeric: false },
-            ]
-        }
-
-        function test_showText(data) {
-            pinPadCheckBox.checked = data.alphanumeric;
-            waitForLockscreenReady();
-
-            lockscreen.showText("test");
-
-            var pinPadLoader = findChild(lockscreen, "pinPadLoader");
-            verify(pinPadLoader.waiting);
-            compare(enteredLabel.text, ""); // no entered signal should occur
-            compare(lockscreen.passphrase, "test");
         }
 
         function test_resize_data() {

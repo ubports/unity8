@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,15 @@
 import QtQuick 2.4
 
 Item {
+    property int topBoundaryOffset // effectively panel height
+
     signal pushedLeftBoundary(real amount, int buttons)
     signal pushedRightBoundary(real amount, int buttons)
+    signal pushedTopBoundary(real amount, int buttons)
+    signal pushedTopLeftCorner(real amount, int buttons)
+    signal pushedTopRightCorner(real amount, int buttons)
+    signal pushedBottomLeftCorner(real amount, int buttons)
+    signal pushedBottomRightCorner(real amount, int buttons)
+    signal pushStopped()
     signal mouseMoved()
 }
