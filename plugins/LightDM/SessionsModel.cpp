@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -111,6 +111,11 @@ QVariant SessionsModel::data(const QModelIndex& index, int role) const
     }
 }
 
+QObject *SessionsModel::mock()
+{
+    return m_model->property("mock").value<QObject*>();
+}
+
 SessionsModel::SessionsModel(QObject* parent)
   : UnitySortFilterProxyModelQML(parent)
 {
@@ -120,7 +125,6 @@ SessionsModel::SessionsModel(QObject* parent)
     m_roleNames[IconRole] = "icon_url";
 
     setModel(m_model);
-    setSourceModel(m_model);
     setSortCaseSensitivity(Qt::CaseInsensitive);
     setSortLocaleAware(true);
     setSortRole(Qt::DisplayRole);

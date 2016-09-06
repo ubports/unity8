@@ -20,19 +20,9 @@ import ".."
 import "../../../qml/Greeter"
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
-import LightDM.IntegratedLightDM 0.1 as LightDM
+import LightDM 0.1 as LightDM
 
 Item {
-    Binding {
-        target: LightDM.Greeter
-        property: "mockMode"
-        value: "full"
-    }
-    Binding {
-        target: LightDM.Users
-        property: "mockMode"
-        value: "full"
-    }
     property variant infographicModel: LightDM.Infographic
 
     width: units.gu(120)

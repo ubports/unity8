@@ -65,11 +65,11 @@ endfunction()
 # This function wraps add_executable_test, see below for available arguments.
 
 function(add_qml_unittest PATH COMPONENT_NAME)
-    import_executables(qmltestrunner)
+    import_executables(dbus-run-session)
 
-    add_executable_test(${COMPONENT_NAME} qmltestrunner
+    add_executable_test(${COMPONENT_NAME} dbus-run-session
         ${ARGN}
-        ARGS -input ${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/tst_${COMPONENT_NAME}.qml ${QMLTEST_ARGS}
+        ARGS -- qmltestrunner -input ${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/tst_${COMPONENT_NAME}.qml ${QMLTEST_ARGS}
     )
 endfunction()
 

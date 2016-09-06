@@ -46,37 +46,27 @@ private Q_SLOTS:
     {
         model = new UsersModel();
         QVERIFY(model);
-        sourceModel = new QLightDM::UsersModel();
-        QVERIFY(sourceModel);
     }
 
     void cleanup()
     {
         delete model;
-        delete sourceModel;
     }
 
     void testMangleColor()
     {
-        QString background = getStringValue(sourceModel, "color-background", QLightDM::UsersModel::BackgroundPathRole);
-        QVERIFY(background == "#E95420");
-
-        background = getStringValue(model, "color-background", QLightDM::UsersModel::BackgroundPathRole);
-        QVERIFY(background == "data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#E95420'/></svg>");
+        auto background = getStringValue(model, "color-background", QLightDM::UsersModel::BackgroundPathRole);
+        QCOMPARE(background, QString("data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#E95420'/></svg>"));
     }
 
     void testMangleEmptyName()
     {
-        QString name = getStringValue(sourceModel, "empty-name", QLightDM::UsersModel::RealNameRole);
-        QVERIFY(name == "");
-
-        name = getStringValue(model, "empty-name", QLightDM::UsersModel::RealNameRole);
-        QVERIFY(name == "empty-name");
+        auto name = getStringValue(model, "empty-name", QLightDM::UsersModel::RealNameRole);
+        QCOMPARE(name, QString("empty-name"));
     }
 
 private:
     UsersModel *model;
-    QLightDM::UsersModel *sourceModel;
 };
 
 QTEST_MAIN(GreeterUsersModelTest)

@@ -22,7 +22,7 @@
 #include <QStringList>
 #include <QVariant>
 
-class MockUsersModel;
+class UsersModel;
 
 class AccountsService: public QObject
 {
@@ -32,6 +32,10 @@ class AccountsService: public QObject
                 READ user
                 WRITE setUser
                 NOTIFY userChanged)
+    Q_PROPERTY (bool greeterMode
+                READ greeterMode
+                WRITE setGreeterMode
+                NOTIFY greeterModeChanged)
     Q_PROPERTY (bool demoEdges
                 READ demoEdges
                 WRITE setDemoEdges
@@ -99,6 +103,8 @@ public:
 
     QString user() const;
     void setUser(const QString &user);
+    bool greeterMode() const;
+    void setGreeterMode(bool greeterMode);
     bool demoEdges() const;
     void setDemoEdges(bool demoEdges);
     QStringList demoEdgesCompleted() const;
@@ -133,6 +139,7 @@ public:
 
 Q_SIGNALS:
     void userChanged();
+    void greeterModeChanged();
     void demoEdgesChanged();
     void demoEdgesCompletedChanged();
     void enableFingerprintIdentificationChanged();
@@ -155,6 +162,7 @@ private:
     bool m_enableIndicatorsWhileLocked;
     QString m_backgroundFile;
     QString m_user;
+    bool m_greeterMode;
     bool m_statsWelcomeScreen;
     uint m_failedLogins;
     uint m_failedFingerprintLogins;
@@ -165,7 +173,7 @@ private:
     QString m_realName;
     QStringList m_kbdMap;
     QString m_email;
-    MockUsersModel *m_usersModel;
+    UsersModel *m_usersModel;
 };
 
 #endif

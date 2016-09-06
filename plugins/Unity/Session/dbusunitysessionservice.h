@@ -262,9 +262,6 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void doUnlock();
-
-private:
-    void switchToGreeter();
 };
 
 class DBusGnomeSessionManagerWrapper : public UnityDBusObject

@@ -62,7 +62,6 @@ private Q_SLOTS:
         QTest::newRow("Shutdown") << "RequestShutdown" << "ShutdownRequested(bool)";
         QTest::newRow("PromptLock") << "PromptLock" << "LockRequested()";
         QTest::newRow("Lock") << "Lock" << "LockRequested()";
-        QTest::newRow("LockLightDM") << "Lock" << "Locked()"; // happens when we lock LightDM, only for Lock()
     }
 
     void testUnitySessionLogoutRequested() {

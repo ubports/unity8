@@ -30,8 +30,12 @@ class UsersModel : public UnitySortFilterProxyModelQML
 {
     Q_OBJECT
 
+    Q_PROPERTY(QObject *mock READ mock CONSTANT) // for testing
+
 public:
     explicit UsersModel(QObject* parent=0);
+
+    QObject *mock();
 };
 
 #endif

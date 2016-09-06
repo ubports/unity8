@@ -40,6 +40,8 @@ bool AccountsServer::AddUser(const QString &user)
     if (QDBusConnection::sessionBus().objectRegisteredAt(path) != nullptr)
         return true;
 
+    m_users.insert(path);
+
     auto props = new PropertiesServer(this);
     new PropertiesAdaptor(props);
     new AccountsUserAdaptor(props);
@@ -52,6 +54,15 @@ bool AccountsServer::RemoveUser(const QString &user)
     if (QDBusConnection::sessionBus().objectRegisteredAt(path) == nullptr)
         return false;
 
+    m_users.remove(path);
     QDBusConnection::sessionBus().unregisterObject(path);
     return true;
+}
+
+void AccountsServer::RemoveAllUsers()
+{
+    Q_FOREACH(const QString &path, m_users) {
+        m_users.remove(path);
+        QDBusConnection::sessionBus().unregisterObject(path);
+    }
 }

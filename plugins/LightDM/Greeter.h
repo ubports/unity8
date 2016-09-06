@@ -40,6 +40,8 @@ class Greeter : public QObject
     Q_PROPERTY(bool promptless READ promptless NOTIFY promptlessChanged)
     Q_PROPERTY(QString selectUser READ selectUser CONSTANT)
 
+    Q_PROPERTY(QObject *mock READ mock CONSTANT) // for testing
+
 public:
     explicit Greeter(QObject* parent=0);
 
@@ -49,6 +51,8 @@ public:
     QString defaultSessionHint() const;
     bool promptless() const;
     QString selectUser() const;
+
+    QObject *mock();
 
 public Q_SLOTS:
     void authenticate(const QString &username=QString());

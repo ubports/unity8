@@ -80,6 +80,7 @@ QVariant primaryButtonConverter(const QVariant &value)
 AccountsService::AccountsService(QObject* parent, const QString &user)
     : QObject(parent)
     , m_service(new AccountsServiceDBusAdaptor(this))
+    , m_greeterMode(true)
 {
     m_unityInput = new QDBusInterface(QStringLiteral("com.canonical.Unity.Input"),
                                       QStringLiteral("/com/canonical/Unity/Input"),
@@ -153,6 +154,19 @@ void AccountsService::setUser(const QString &user)
     // Do the first update synchronously, as a cheap way to block rendering
     // until we have the right values on bootup.
     refresh(!wasEmpty);
+}
+
+bool AccountsService::greeterMode() const
+{
+    return m_greeterMode;
+}
+
+void AccountsService::setGreeterMode(bool greeterMode)
+{
+    if (m_greeterMode != greeterMode) {
+        m_greeterMode = greeterMode;
+        Q_EMIT greeterModeChanged();
+    }
 }
 
 bool AccountsService::demoEdges() const
@@ -341,7 +355,19 @@ void AccountsService::setProperty(const QString &interface, const QString &prope
 {
     if (m_properties[interface][property].value != value) {
         m_properties[interface][property].value = value;
-        m_service->setUserPropertyAsync(m_user, interface, property, value);
+        if (m_greeterMode || m_user == g_get_user_name()) {
+            // Only write any changes back to AccountsService if we are running
+            // as a proper LightDM greeter (or are writing values for our own
+            // user).
+            // (A) Only the lightdm user has permission to set everyone's
+            //     properties.
+            // (B) We don't want to have policykit throw up a password dialog
+            //     when we are running in the user session.
+            // (C) We only write things to AS that are safe to ignore for other
+            //     users anyway (like failedLogins count, which does not NEED
+            //     to be persistent).
+            m_service->setUserPropertyAsync(m_user, interface, property, value);
+        }
         emitChangedForProperty(interface, property);
     }
 }

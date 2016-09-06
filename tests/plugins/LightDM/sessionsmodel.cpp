@@ -16,10 +16,9 @@
 
 #include "SessionsModel.h"
 
-#include <QLightDM/SessionsModel>
-#include <QtCore/QModelIndex>
-#include <QtTest>
+#include <QModelIndex>
 #include <QString>
+#include <QtTest>
 
 class GreeterSessionsModelTest : public QObject
 {
@@ -31,14 +30,14 @@ private Q_SLOTS:
     {
         model = new SessionsModel();
         QVERIFY(model);
-        sourceModel = new QLightDM::SessionsModel();
-        QVERIFY(sourceModel);
+        mock = model->mock();
+        QVERIFY(mock);
     }
 
     void cleanup()
     {
         delete model;
-        delete sourceModel;
+        // mock will be a singleton, doesn't need to be cleaned
     }
 
     static QModelIndex findByKey(QAbstractItemModel *model, const QString& key)
@@ -93,34 +92,34 @@ private Q_SLOTS:
 
     void testMultipleSessionsCountIsCorrect()
     {
-        sourceModel->setTestScenario("multipleSessions");
-        QVERIFY(sourceModel->rowCount(QModelIndex()) > 1);
+        mock->setProperty("sessionMode", "full");
+        QVERIFY(model->rowCount(QModelIndex()) > 1);
     }
 
     void testNoSessionsCountIsCorrect()
     {
-        sourceModel->setTestScenario("noSessions");
-        QVERIFY(sourceModel->rowCount(QModelIndex()) == 0);
+        mock->setProperty("sessionMode", "none");
+        QVERIFY(model->rowCount(QModelIndex()) == 0);
     }
 
     void testSingleSessionCountIsCorrect()
     {
-        sourceModel->setTestScenario("singleSession");
-        QVERIFY(sourceModel->rowCount(QModelIndex()) == 1);
+        mock->setProperty("sessionMode", "single");
+        QVERIFY(model->rowCount(QModelIndex()) == 1);
     }
 
     void testSessionNameIsCorrect()
     {
         // This is testing the lookup, not the correctness of the strings,
         // so one test should be sufficient
-        sourceModel->setTestScenario("multipleSessions");
-        QVERIFY(model->data(findByKey(sourceModel, "ubuntu"),
+        mock->setProperty("sessionMode", "full");
+        QVERIFY(model->data(findByKey(model, "ubuntu"),
                 Qt::DisplayRole).toString() == "Ubuntu");
     }
 
 private:
     SessionsModel *model;
-    QLightDM::SessionsModel *sourceModel;
+    QObject *mock;
 };
 
 QTEST_MAIN(GreeterSessionsModelTest)

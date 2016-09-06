@@ -337,58 +337,16 @@ void DBusUnitySessionService::PromptLock()
     // user session.
     Q_EMIT LockRequested();
     Q_EMIT lockRequested();
+    Q_EMIT Locked();
 }
 
 void DBusUnitySessionService::Lock()
 {
     // Normal lock (with animation, as compared to PromptLock above).  Usually
     // used by indicator-session to lock the session in place.
-    //
-    // FIXME: We also -- as a bit of a hack around indicator-session not fully
-    // supporting a phone profile -- switch to greeter here.  The unity7 flow is
-    // that the user chooses "Lock/Switch" from the indicator, and then can go
-    // to greeter by selecting "Switch" again from the indicator, which is now
-    // exposed by the desktop_lockscreen profile.  But since in unity8, we try
-    // to expose most things all the time, we don't use the separate lockscreen
-    // profile.  Instead, we just go directly to the greeter the first time
-    // a user presses "Lock/Switch".  This isn't what this DBus call is
-    // supposed to do, but we can live with it for now.
-    //
-    // Here's a bug about indicator-session growing a converged Touch profile:
-    // https://launchpad.net/bugs/1557716
-    //
-    // We only do this here in the animated-lock call because that's the only
-    // time the indicator locks without also asking the display manager to
-    // switch sessions on us.  And since we are switching screens, we also
-    // don't bother respecting the animate request, simply doing a PromptLock.
+    // Though here we don't really worry about the difference and just call
+    // PromptLock.
     PromptLock();
-    switchToGreeter();
-}
-
-void DBusUnitySessionService::switchToGreeter()
-{
-    // lock the session using the org.freedesktop.DisplayManager system DBUS service
-    const QString sessionPath = QString::fromLocal8Bit(qgetenv("XDG_SESSION_PATH"));
-    QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("org.freedesktop.DisplayManager"),
-                                                      sessionPath,
-                                                      QStringLiteral("org.freedesktop.DisplayManager.Session"),
-                                                      QStringLiteral("Lock"));
-
-    QDBusPendingCall pendingCall = QDBusConnection::SM_BUSNAME().asyncCall(msg);
-    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingCall, this);
-    connect(watcher, &QDBusPendingCallWatcher::finished,
-        this, [this](QDBusPendingCallWatcher* watcher) {
-
-        QDBusPendingReply<void> reply = *watcher;
-        watcher->deleteLater();
-        if (reply.isError()) {
-            qWarning() << "Lock call failed" << reply.error().message();
-            return;
-        }
-
-        // emit Locked when the call succeeds
-        Q_EMIT Locked();
-    });
 }
 
 void DBusUnitySessionService::doUnlock()

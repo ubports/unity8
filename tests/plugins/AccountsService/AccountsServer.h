@@ -23,6 +23,7 @@
 #include <QDBusContext>
 #include <QDBusObjectPath>
 #include <QObject>
+#include <QSet>
 #include <QString>
 
 class AccountsServer: public QObject, protected QDBusContext
@@ -39,6 +40,10 @@ public Q_SLOTS:
     // mock only.
     bool AddUser(const QString &user);
     bool RemoveUser(const QString &user);
+    void RemoveAllUsers();
+
+private:
+    QSet<QString> m_users;
 };
 
 #endif

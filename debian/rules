@@ -36,8 +36,3 @@ override_dh_installdeb:
 # use private lib directories
 override_dh_makeshlibs:
 	dh_makeshlibs -Nunity8-private -Nunity8-fake-env
-
-override_dh_shlibdeps:
-	# Some mock libraries link against liblightdm-qt5-3.so which we want to
-	# avoid, since we only really link against our mock one, not the system one.
-	dh_shlibdeps -XlibMockLightDM-qml.so -XlibMockAccountsService-qml.so

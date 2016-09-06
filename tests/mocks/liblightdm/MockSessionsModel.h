@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,18 +15,14 @@
  *
  */
 
-#ifndef UNITY_INTEGRATED_SESSIONSMODEL_H
-#define UNITY_INTEGRATED_SESSIONSMODEL_H
+#ifndef UNITY_MOCK_SESSIONSMODEL_H
+#define UNITY_MOCK_SESSIONSMODEL_H
 
-#include <QtCore/QAbstractListModel>
-#include <QtCore/QString>
+#include <QAbstractListModel>
+#include <QByteArray>
+#include <QHash>
+#include <QString>
 
-/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- * CHANGES MADE HERE MUST BE REFLECTED ON THE MOCK LIB
- * COUNTERPART IN tests/mocks/LightDM/IntegratedLightDM/liblightdm
- * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
-
-// This is taken from liblightdm and modified to confirm to our syle conventions
 namespace QLightDM
 {
 class SessionsModelPrivate;
@@ -35,10 +31,11 @@ class Q_DECL_EXPORT SessionsModel : public QAbstractListModel
     {
         Q_OBJECT
 
+        Q_PROPERTY(QObject *mock READ mock CONSTANT) // only in mock
+
         Q_ENUMS(SessionModelRoles SessionType)
 
     public:
-
         enum SessionModelRoles {
             //name is exposed as Qt::DisplayRole
             //comment is exposed as Qt::TooltipRole
@@ -52,21 +49,23 @@ class Q_DECL_EXPORT SessionsModel : public QAbstractListModel
             RemoteSessions
         };
 
-        explicit SessionsModel(QObject* parent=0); /** Deprecated. Loads local sessions*/
-        explicit SessionsModel(SessionsModel::SessionType, QObject* parent=0);
+        explicit SessionsModel(QObject* parent=nullptr); /** Deprecated. Loads local sessions*/
+        explicit SessionsModel(SessionsModel::SessionType, QObject* parent=nullptr);
         virtual ~SessionsModel();
 
         QHash<int, QByteArray> roleNames() const override;
         int rowCount(const QModelIndex& parent) const override;
         QVariant data(const QModelIndex& index, int role) const override;
 
-    protected:
-        SessionsModelPrivate* const d_ptr;
+        QObject *mock();
+
+    private Q_SLOTS:
+        void resetEntries();
 
     private:
-        QHash<int, QByteArray> m_roleNames;
+        SessionsModelPrivate *d_ptr;
         Q_DECLARE_PRIVATE(SessionsModel)
     };
 }
 
-#endif // UNITY_INTEGRATED_SESSIONSMODEL_H
+#endif // UNITY_MOCK_SESSIONSMODEL_H

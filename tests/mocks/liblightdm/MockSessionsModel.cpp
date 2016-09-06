@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,32 +16,39 @@
  */
 
 
-/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- * CHANGES MADE HERE MUST BE REFLECTED ON THE MOCK LIB
- * COUNTERPART IN tests/mocks/LightDM/IntegratedLightDM/liblightdm
- * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
-
 // LightDM currently is Qt4 compatible, and so doesn't define setRoleNames.
 // To use the same method of setting role name that it does, we
 // set our compatibility to Qt4 here too.
 #define QT_DISABLE_DEPRECATED_BEFORE QT_VERSION_CHECK(4, 0, 0)
 
-#include "SessionsModel.h"
-#include "SessionsModelPrivate.h"
-#include <QtCore/QDir>
-#include <QtCore/QString>
+#include "MockController.h"
+#include "MockSessionsModel.h"
 
 namespace QLightDM
 {
 
-SessionsModel::SessionsModel(QObject* parent) :
-    QAbstractListModel(parent),
-    d_ptr(new SessionsModelPrivate(this))
+class SessionsModelPrivate
+{
+public:
+    QHash<int, QByteArray> roleNames;
+    QList<MockController::SessionItem> sessionItems;
+};
+
+SessionsModel::SessionsModel(QObject* parent)
+    : QAbstractListModel(parent)
+    , d_ptr(new SessionsModelPrivate)
 {
     Q_D(SessionsModel);
-    m_roleNames = QAbstractListModel::roleNames();
-    m_roleNames[KeyRole] = "key";
-    m_roleNames[TypeRole] = "type";
+
+    d->roleNames = QAbstractListModel::roleNames();
+    d->roleNames[KeyRole] = "key";
+    d->roleNames[TypeRole] = "type";
+
+    connect(MockController::instance(), SIGNAL(sessionModeChanged()),
+            this, SLOT(resetEntries()));
+    connect(MockController::instance(), SIGNAL(numSessionsChanged()),
+            this, SLOT(resetEntries()));
+    resetEntries();
 }
 
 SessionsModel::~SessionsModel()
@@ -71,7 +78,9 @@ QVariant SessionsModel::data(const QModelIndex& index, int role) const
 
 QHash<int, QByteArray> SessionsModel::roleNames() const
 {
-    return m_roleNames;
+    Q_D(const SessionsModel);
+
+    return d->roleNames;
 }
 
 int SessionsModel::rowCount(const QModelIndex& parent) const
@@ -83,6 +92,31 @@ int SessionsModel::rowCount(const QModelIndex& parent) const
     } else { // parent is root
         return d->sessionItems.size();
     }
+}
+
+void SessionsModel::resetEntries()
+{
+    Q_D(SessionsModel);
+
+    beginResetModel();
+
+    QString sessionMode = MockController::instance()->sessionMode();
+
+    if (sessionMode == "full") {
+        d->sessionItems = MockController::instance()->fullSessionItems();
+        d->sessionItems = d->sessionItems.mid(0, MockController::instance()->numSessions());
+    } else if (sessionMode == "single") {
+        d->sessionItems = {MockController::instance()->fullSessionItems()[0]};
+    } else {
+        d->sessionItems = {};
+    }
+
+    endResetModel();
+}
+
+QObject *SessionsModel::mock()
+{
+    return MockController::instance();
 }
 
 } // namespace QLightDM

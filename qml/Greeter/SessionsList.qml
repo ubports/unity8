@@ -17,7 +17,6 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
-import "." 0.1
 import "../Components"
 
 Item {
@@ -43,8 +42,8 @@ Item {
     }
 
     function currentKey() {
-        var session = LightDMService.sessions.data(
-            sessionsList.currentIndex, LightDMService.sessionRoles.KeyRole)
+        var session = LightDM.Sessions.data(
+            sessionsList.currentIndex, LightDM.SessionRoles.KeyRole)
         return session;
     }
 
@@ -106,7 +105,7 @@ Item {
 
             boundsBehavior: Flickable.StopAtBounds
 
-            model: LightDMService.sessions
+            model: LightDM.Sessions
             header: ListItemLayout {
                 id: header
 

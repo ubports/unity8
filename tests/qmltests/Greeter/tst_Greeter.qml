@@ -22,7 +22,7 @@ import Ubuntu.Components 1.3
 import AccountsService 0.1
 import Biometryd 0.0
 import GSettings 1.0
-import LightDM.IntegratedLightDM 0.1  as LightDM // This is the mock
+import LightDM 0.1 as LightDM
 import Unity.Test 0.1 as UT
 
 Item {
@@ -32,9 +32,6 @@ Item {
     property url defaultBackground: "/usr/share/backgrounds/warty-final-ubuntu.png"
 
     Component.onCompleted: {
-        // set the mock mode before loading
-        LightDM.Greeter.mockMode = "full";
-        LightDM.Users.mockMode = "full";
         loader.active = true;
     }
 
@@ -146,7 +143,7 @@ Item {
 
         function init() {
             greeterSettings.lockedOutTime = 0;
-            LightDM.Greeter.selectUser = "";
+            LightDM.Greeter.mock.selectUserHint = "";
             greeter.failedLoginsDelayAttempts = 7;
             greeter.failedLoginsDelayMinutes = 5;
             teaseSpy.clear();
@@ -570,20 +567,20 @@ Item {
         }
 
         function test_selectUserHint() {
-            LightDM.Greeter.selectUser = "info-prompt";
+            LightDM.Greeter.mock.selectUserHint = "info-prompt";
             resetLoader();
             var i = verifySelected("info-prompt");
             verify(i != 0); // sanity-check that info-prompt isn't default 0 answer
         }
 
         function test_selectUserHintUnset() {
-            LightDM.Greeter.selectUser = "";
+            LightDM.Greeter.mock.selectUserHint = "";
             resetLoader();
             verifySelected(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
         }
 
         function test_selectUserHintInvalid() {
-            LightDM.Greeter.selectUser = "not-a-real-user";
+            LightDM.Greeter.mock.selectUserHint = "not-a-real-user";
             resetLoader();
             verifySelected(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
         }

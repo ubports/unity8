@@ -32,6 +32,9 @@ class SessionsModel : public UnitySortFilterProxyModelQML
 
     Q_PROPERTY(QList<QUrl> iconSearchDirectories READ iconSearchDirectories
             WRITE setIconSearchDirectories NOTIFY iconSearchDirectoriesChanged)
+
+    Q_PROPERTY(QObject *mock READ mock CONSTANT) // for testing
+
 Q_SIGNALS:
     void iconSearchDirectoriesChanged();
 
@@ -55,6 +58,9 @@ public:
     Q_INVOKABLE QUrl iconUrl(const QString sessionName) const;
 
     void setIconSearchDirectories(const QList<QUrl> searchDirectories);
+
+    QObject *mock();
+
 private:
     QLightDM::SessionsModel* m_model;
     QHash<int, QByteArray> m_roleNames;

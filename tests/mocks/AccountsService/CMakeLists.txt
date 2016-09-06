@@ -2,13 +2,17 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/LightDM
     ${CMAKE_SOURCE_DIR}/plugins/Utils
-    ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM/IntegratedLightDM
+    ${CMAKE_SOURCE_DIR}/tests/mocks/liblightdm
+    )
+
+include_directories(
+    SYSTEM
+    ${LIBLIGHTDM_INCLUDE_DIRS}
     )
 
 add_library(MockAccountsService-qml MODULE
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/UsersModel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/unitysortfilterproxymodelqml.cpp
-    ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM/IntegratedLightDM/MockUsersModel.cpp
     AccountsService.cpp
     plugin.cpp
     )

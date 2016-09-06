@@ -26,6 +26,8 @@
 #include <QDBusReply>
 #include <QDBusMetaType>
 
+#include <glib.h>
+
 template <class T>
 QVariant dbusVariant(const T& value) { return QVariant::fromValue(QDBusVariant(value)); }
 
@@ -62,11 +64,7 @@ public:
 private Q_SLOTS:
 
     void init() {
-        QDBusReply<bool> addReply = QDBusInterface("org.freedesktop.Accounts",
-                                                   "/org/freedesktop/Accounts",
-                                                   "org.freedesktop.Accounts").call("AddUser", QTest::currentTestFunction());
-        QVERIFY(addReply.isValid());
-        QCOMPARE(addReply.value(), true);
+        addUser(QTest::currentTestFunction());
 
         m_userInterface = new QDBusInterface("org.freedesktop.Accounts",
                                              QString("/%1").arg(QTest::currentTestFunction()),
@@ -77,15 +75,44 @@ private Q_SLOTS:
     }
 
     void cleanup() {
-        QDBusReply<bool> reply = QDBusInterface("org.freedesktop.Accounts",
+        QDBusReply<void> reply = QDBusInterface("org.freedesktop.Accounts",
                                                 "/org/freedesktop/Accounts",
-                                                "org.freedesktop.Accounts").call("RemoveUser", QTest::currentTestFunction());
+                                                "org.freedesktop.Accounts").call("RemoveAllUsers");
         QVERIFY(reply.isValid());
-        QCOMPARE(reply.value(), true);
 
         delete m_userInterface;
         m_spy.clear();
         m_mousePrimaryButtonSpy.clear();
+    }
+
+    void addUser(const QString &user)
+    {
+        QDBusReply<bool> addReply = QDBusInterface("org.freedesktop.Accounts",
+                                                   "/org/freedesktop/Accounts",
+                                                   "org.freedesktop.Accounts").call("AddUser", user);
+        QVERIFY(addReply.isValid());
+        QCOMPARE(addReply.value(), true);
+    }
+
+    QVariant getASProperty(const QString &interface, const QString &key, const QString &user = QString())
+    {
+        QString ifaceUser = user;
+        if (ifaceUser.isEmpty())
+            ifaceUser = QTest::currentTestFunction();
+
+        QDBusInterface iface("org.freedesktop.Accounts",
+                             QString("/%1").arg(ifaceUser),
+                             "org.freedesktop.DBus.Properties",
+                             QDBusConnection::sessionBus());
+
+        auto message = iface.call("Get", interface, key);
+        if (message.type() == QDBusMessage::ReplyMessage) {
+            return message.arguments().first().value<QDBusVariant>().variant();
+        }
+        else {
+            qWarning() << "Could not get property" << key << ":" << message.errorMessage();
+            return QVariant();
+        }
     }
 
     void testInvalids()
@@ -323,25 +350,16 @@ private Q_SLOTS:
         QCOMPARE(message.type(), QDBusMessage::ErrorMessage);
         QCOMPARE(message.errorName(), QStringLiteral("org.freedesktop.DBus.Error.InvalidArgs"));
 
-        message = m_userInterface->call("Get",
-                                        "org.freedesktop.Accounts.User",
-                                        "RealName");
-        QCOMPARE(message.type(), QDBusMessage::ReplyMessage);
-        auto response = message.arguments().first().value<QDBusVariant>().variant().toString();
-        QCOMPARE(response, QStringLiteral(""));
+        auto response = getASProperty("org.freedesktop.Accounts.User", "RealName");
+        QCOMPARE(response.toString(), QStringLiteral(""));
 
         // Now try it via our AS wrapper and confirm it did get through, unlike above
         session.setRealName("Stallman");
 
         QCOMPARE(session.realName(), QStringLiteral("Stallman"));
 
-        message = m_userInterface->call("Get",
-                                        "org.freedesktop.Accounts.User",
-                                        "RealName");
-        QCOMPARE(message.type(), QDBusMessage::ReplyMessage);
-        response = message.arguments().first().value<QDBusVariant>().variant().toString();
-        QCOMPARE(response, QStringLiteral("Stallman"));
-
+        response = getASProperty("org.freedesktop.Accounts.User", "RealName");
+        QCOMPARE(response.toString(), QStringLiteral("Stallman"));
     }
 
     void testAsynchronousChangeForKeymaps()
@@ -365,6 +383,38 @@ private Q_SLOTS:
                                                  QVariant::fromValue(inputSources)));
         QStringList result = {"cz+qwerty", "fr"};
         QTRY_COMPARE(session.keymaps(), result);
+    }
+
+    void testGreeterMode()
+    {
+        addUser(g_get_user_name());
+        addUser("OtherUser"); // presumably will never conflict with running user
+        AccountsService session(this);
+        QVERIFY(session.greeterMode());
+
+        session.setGreeterMode(false);
+
+        // NOTE: we change real user data here, but it's a harmless change
+        session.setFailedLogins(1);
+        QCOMPARE(session.failedLogins(), 1u);
+        QCOMPARE(getASProperty("com.canonical.unity.AccountsService.Private",
+                               "FailedLogins", session.user()), QVariant(1));
+
+        // This will fail because we aren't the active user
+        session.setUser("OtherUser");
+        session.setFailedLogins(2);
+        QCOMPARE(session.failedLogins(), 2u);
+        QCOMPARE(getASProperty("com.canonical.unity.AccountsService.Private",
+                               "FailedLogins", "OtherUser"), QVariant(0));
+
+        session.setGreeterMode(true);
+
+        // But now a similar call will succeed because we're in greeter mode
+        session.setFailedLogins(3);
+        QCOMPARE(session.failedLogins(), 3u);
+        QCOMPARE(getASProperty("com.canonical.unity.AccountsService.Private",
+                               "FailedLogins", "OtherUser"), QVariant(3));
+
     }
 
 Q_SIGNALS:
