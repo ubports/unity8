@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-08-11 06:28+0000\n"
+"POT-Creation-Date: 2016-08-31 11:56+0000\n"
 "PO-Revision-Date: 2015-11-22 19:13+0000\n"
 "Last-Translator: Klavs Anson <anson.klavs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2016-08-17 05:52+0000\n"
-"X-Generator: Launchpad (build 18169)\n"
+"X-Launchpad-Export-Date: 2016-09-03 06:55+0000\n"
+"X-Generator: Launchpad (build 18179)\n"
 "Language: lv\n"
 
-#: plugins/LightDM/Greeter.cpp:123
+#: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Parole: "
 
@@ -57,54 +57,54 @@ msgstr[0] "Lūdzu, uzgaidiet %1 minūti un tad mēģiniet vēlreiz..."
 msgstr[1] "Lūdzu, uzgaidiet %1 minūtes un tad mēģiniet vēlreiz..."
 msgstr[2] "Lūdzu, uzgaidiet %1 minūtes un tad mēģiniet vēlreiz..."
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:146
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Izrakstīties"
 
-#: qml/Components/Dialogs.qml:150
+#: qml/Components/Dialogs.qml:147
 msgid "Are you sure you want to log out?"
 msgstr "Vai tiešām vēlaties izrakstīties?"
 
-#: qml/Components/Dialogs.qml:152
+#: qml/Components/Dialogs.qml:149
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Bloķēt"
 
-#: qml/Components/Dialogs.qml:159
+#: qml/Components/Dialogs.qml:156
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Izrakstīties"
 
-#: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
-#: qml/Dash/DashPageHeader.qml:322 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:163 qml/Components/Dialogs.qml:219
+#: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Atcelt"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:175
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Pārstartēt"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:176
 msgid "Are you sure you want to reboot?"
 msgstr "Vai tiešām vēlaties pārstartēt?"
 
-#: qml/Components/Dialogs.qml:181
+#: qml/Components/Dialogs.qml:178
 msgid "No"
 msgstr "Nē"
 
-#: qml/Components/Dialogs.qml:187
+#: qml/Components/Dialogs.qml:184
 msgid "Yes"
 msgstr "Jā"
 
-#: qml/Components/Dialogs.qml:202
+#: qml/Components/Dialogs.qml:199
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Izslēgšana"
 
-#: qml/Components/Dialogs.qml:203
+#: qml/Components/Dialogs.qml:200
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -112,12 +112,12 @@ msgstr ""
 "Vai tiešām vēlaties\n"
 "izslēgt?"
 
-#: qml/Components/Dialogs.qml:205
+#: qml/Components/Dialogs.qml:202
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Izslēgt"
 
-#: qml/Components/Dialogs.qml:214
+#: qml/Components/Dialogs.qml:211
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Pārstartēt"
@@ -334,26 +334,26 @@ msgstr ""
 msgid "Preview Share Item"
 msgstr "Priekšskatīt koplietojuma vienumu"
 
-#: qml/Dash/DashPageHeader.qml:360
+#: qml/Dash/DashPageHeader.qml:333
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Veikals"
 
-#: qml/Dash/DashPageHeader.qml:367
+#: qml/Dash/DashPageHeader.qml:340
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Meklēt"
 
-#: qml/Dash/DashPageHeader.qml:377
+#: qml/Dash/DashPageHeader.qml:350
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Iestatījumi"
 
-#: qml/Dash/DashPageHeader.qml:384
+#: qml/Dash/DashPageHeader.qml:357
 msgid "Remove from Favorites"
 msgstr "Izņemt no izlases"
 
-#: qml/Dash/DashPageHeader.qml:384
+#: qml/Dash/DashPageHeader.qml:357
 msgid "Add to Favorites"
 msgstr "Pievienot izlasei"
 
@@ -365,15 +365,15 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:585 qml/Dash/GenericScopeView.qml:780
+#: qml/Dash/GenericScopeView.qml:580 qml/Dash/GenericScopeView.qml:775
 msgid "Show less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:585
+#: qml/Dash/GenericScopeView.qml:580
 msgid "Show all"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:637
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Meklēt"
@@ -441,7 +441,7 @@ msgstr ""
 msgid "Unlock"
 msgstr "Atbloķēt"
 
-#: qml/Greeter/Greeter.qml:561
+#: qml/Greeter/Greeter.qml:539
 msgid "Try again"
 msgstr ""
 
@@ -453,27 +453,27 @@ msgstr ""
 msgid "Passcode"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:87
+#: qml/Greeter/LoginList.qml:259
 msgid "Retry"
 msgstr "Mēģināt vēlreiz"
 
-#: qml/Greeter/LoginList.qml:88
+#: qml/Greeter/LoginList.qml:260
 msgid "Log In"
 msgstr ""
 
-#: qml/Greeter/NarrowView.qml:55
+#: qml/Greeter/NarrowView.qml:54
 msgid "Sorry, incorrect passphrase."
 msgstr "Piedodiet, nepareiza parole."
 
-#: qml/Greeter/NarrowView.qml:56
+#: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passcode."
 msgstr "Piedodiet, nepareizs piekļuves kods."
 
-#: qml/Greeter/NarrowView.qml:57
+#: qml/Greeter/NarrowView.qml:56
 msgid "This will be your last attempt."
 msgstr "Šīs būs jūs pēdējais mēģinājums."
 
-#: qml/Greeter/NarrowView.qml:59
+#: qml/Greeter/NarrowView.qml:58
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -481,7 +481,7 @@ msgstr ""
 "Ja parole netiks pareizi ievadīta, jūsu tālrunis tiks atstatīts uz rūpnīcas "
 "iestatījumiem un visa personīgā informācija tiks izdzēsta."
 
-#: qml/Greeter/NarrowView.qml:60
+#: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -643,10 +643,9 @@ msgstr "Atpakaļ"
 msgid "Language"
 msgstr ""
 
-#: qml/Wizard/Pages/10-welcome.qml:172 qml/Wizard/Pages/20-keyboard.qml:151
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:270 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:144
+#: qml/Wizard/Pages/10-welcome.qml:171 qml/Wizard/Pages/30-wifi.qml:206
+#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
+#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
 #: qml/Wizard/Pages/75-report-check.qml:84
 #: qml/Wizard/Pages/passcode-desktop.qml:141
 #: qml/Wizard/Pages/password-set.qml:141
@@ -665,25 +664,24 @@ msgstr ""
 msgid "Keyboard layout"
 msgstr ""
 
-#: qml/Wizard/Pages/20-keyboard.qml:151 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/77-system-update.qml:152 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Izlaist"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr "Savienoties ar Wi‑Fi"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:130
 msgid "Connected"
 msgstr ""
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:163
 msgid "Available Wi-Fi networks"
 msgstr ""
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:164
 msgid "No available Wi-Fi networks"
 msgstr ""
 

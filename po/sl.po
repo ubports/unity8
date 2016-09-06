@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-08-11 06:28+0000\n"
+"POT-Creation-Date: 2016-08-31 11:56+0000\n"
 "PO-Revision-Date: 2016-01-31 18:34+0000\n"
 "Last-Translator: Bernard Banko <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -16,10 +16,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2016-08-17 05:52+0000\n"
-"X-Generator: Launchpad (build 18169)\n"
+"X-Launchpad-Export-Date: 2016-09-03 06:55+0000\n"
+"X-Generator: Launchpad (build 18179)\n"
 
-#: plugins/LightDM/Greeter.cpp:123
+#: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Geslo: "
 
@@ -57,54 +57,54 @@ msgstr[1] "Počakajte %1 minuto ter poskusite ponovno ..."
 msgstr[2] "Počakajte %1 minuti ter poskusite ponovno ..."
 msgstr[3] "Počakajte %1 minute ter poskusite ponovno ..."
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:146
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Odjava"
 
-#: qml/Components/Dialogs.qml:150
+#: qml/Components/Dialogs.qml:147
 msgid "Are you sure you want to log out?"
 msgstr "Ali ste prepričani, da se želite odjaviti?"
 
-#: qml/Components/Dialogs.qml:152
+#: qml/Components/Dialogs.qml:149
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Zakleni"
 
-#: qml/Components/Dialogs.qml:159
+#: qml/Components/Dialogs.qml:156
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Odjavi se"
 
-#: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
-#: qml/Dash/DashPageHeader.qml:322 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:163 qml/Components/Dialogs.qml:219
+#: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:175
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Ponovni zagon"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:176
 msgid "Are you sure you want to reboot?"
 msgstr "Ali ste prepričani, da želite ponovno zagnati?"
 
-#: qml/Components/Dialogs.qml:181
+#: qml/Components/Dialogs.qml:178
 msgid "No"
 msgstr "Ne"
 
-#: qml/Components/Dialogs.qml:187
+#: qml/Components/Dialogs.qml:184
 msgid "Yes"
 msgstr "Da"
 
-#: qml/Components/Dialogs.qml:202
+#: qml/Components/Dialogs.qml:199
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Napajanje"
 
-#: qml/Components/Dialogs.qml:203
+#: qml/Components/Dialogs.qml:200
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -112,12 +112,12 @@ msgstr ""
 "Ali ste prepričani, da želite\n"
 "izključiti?"
 
-#: qml/Components/Dialogs.qml:205
+#: qml/Components/Dialogs.qml:202
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Izključi"
 
-#: qml/Components/Dialogs.qml:214
+#: qml/Components/Dialogs.qml:211
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Ponovno zaženi"
@@ -336,26 +336,26 @@ msgstr "Zapri vse"
 msgid "Preview Share Item"
 msgstr "Preglej deljeno"
 
-#: qml/Dash/DashPageHeader.qml:360
+#: qml/Dash/DashPageHeader.qml:333
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Trgovina"
 
-#: qml/Dash/DashPageHeader.qml:367
+#: qml/Dash/DashPageHeader.qml:340
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Iskanje"
 
-#: qml/Dash/DashPageHeader.qml:377
+#: qml/Dash/DashPageHeader.qml:350
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: qml/Dash/DashPageHeader.qml:384
+#: qml/Dash/DashPageHeader.qml:357
 msgid "Remove from Favorites"
 msgstr "Odstrani iz priljubljenih"
 
-#: qml/Dash/DashPageHeader.qml:384
+#: qml/Dash/DashPageHeader.qml:357
 msgid "Add to Favorites"
 msgstr "Dodaj med priljubljene"
 
@@ -367,15 +367,15 @@ msgstr "Prečistite rezultate"
 msgid "Reset"
 msgstr "Ponastavi"
 
-#: qml/Dash/GenericScopeView.qml:585 qml/Dash/GenericScopeView.qml:780
+#: qml/Dash/GenericScopeView.qml:580 qml/Dash/GenericScopeView.qml:775
 msgid "Show less"
 msgstr "Pokaži manj"
 
-#: qml/Dash/GenericScopeView.qml:585
+#: qml/Dash/GenericScopeView.qml:580
 msgid "Show all"
 msgstr "Pokaži vse"
 
-#: qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:637
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Iskanje"
@@ -445,7 +445,7 @@ msgstr ""
 msgid "Unlock"
 msgstr "Odkleni"
 
-#: qml/Greeter/Greeter.qml:561
+#: qml/Greeter/Greeter.qml:539
 msgid "Try again"
 msgstr ""
 
@@ -457,27 +457,27 @@ msgstr ""
 msgid "Passcode"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:87
+#: qml/Greeter/LoginList.qml:259
 msgid "Retry"
 msgstr "Poskusi znova"
 
-#: qml/Greeter/LoginList.qml:88
+#: qml/Greeter/LoginList.qml:260
 msgid "Log In"
 msgstr ""
 
-#: qml/Greeter/NarrowView.qml:55
+#: qml/Greeter/NarrowView.qml:54
 msgid "Sorry, incorrect passphrase."
 msgstr "Nepravilno geslo."
 
-#: qml/Greeter/NarrowView.qml:56
+#: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passcode."
 msgstr "Nepravilno geslo."
 
-#: qml/Greeter/NarrowView.qml:57
+#: qml/Greeter/NarrowView.qml:56
 msgid "This will be your last attempt."
 msgstr "To je vaš zadnji poskus"
 
-#: qml/Greeter/NarrowView.qml:59
+#: qml/Greeter/NarrowView.qml:58
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -485,7 +485,7 @@ msgstr ""
 "Če je vneseno nepravilno šifrirno reklo, bo telefon ponastavljen na "
 "tovarniške nastavitve ter vsi osebni podatki bodo izbrisani."
 
-#: qml/Greeter/NarrowView.qml:60
+#: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -650,10 +650,9 @@ msgstr "Nazaj"
 msgid "Language"
 msgstr "Jezik"
 
-#: qml/Wizard/Pages/10-welcome.qml:172 qml/Wizard/Pages/20-keyboard.qml:151
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:270 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:144
+#: qml/Wizard/Pages/10-welcome.qml:171 qml/Wizard/Pages/30-wifi.qml:206
+#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
+#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
 #: qml/Wizard/Pages/75-report-check.qml:84
 #: qml/Wizard/Pages/passcode-desktop.qml:141
 #: qml/Wizard/Pages/password-set.qml:141
@@ -672,25 +671,24 @@ msgstr ""
 msgid "Keyboard layout"
 msgstr ""
 
-#: qml/Wizard/Pages/20-keyboard.qml:151 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/77-system-update.qml:152 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Preskoči"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr "Poveži se z Wi-Fi-jem"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:130
 msgid "Connected"
 msgstr "Povezano"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:163
 msgid "Available Wi-Fi networks"
 msgstr "Razpoložljiva omrežja Wi-Fi"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:164
 msgid "No available Wi-Fi networks"
 msgstr "Ni razpoložljivih omrežij Wi-Fi"
 
