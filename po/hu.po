@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-08-11 06:28+0000\n"
+"POT-Creation-Date: 2016-08-31 11:56+0000\n"
 "PO-Revision-Date: 2016-08-17 10:53+0000\n"
 "Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -15,10 +15,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-08-18 05:53+0000\n"
-"X-Generator: Launchpad (build 18169)\n"
+"X-Launchpad-Export-Date: 2016-09-03 06:54+0000\n"
+"X-Generator: Launchpad (build 18179)\n"
 
-#: plugins/LightDM/Greeter.cpp:123
+#: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Jelszó: "
 
@@ -54,54 +54,54 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Várjon %1 percet és próbálja újra…"
 msgstr[1] "Várjon %1 percet és próbálja újra…"
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:146
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Kijelentkezés"
 
-#: qml/Components/Dialogs.qml:150
+#: qml/Components/Dialogs.qml:147
 msgid "Are you sure you want to log out?"
 msgstr "Biztos benne, hogy kijelentkezik?"
 
-#: qml/Components/Dialogs.qml:152
+#: qml/Components/Dialogs.qml:149
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Zárolás"
 
-#: qml/Components/Dialogs.qml:159
+#: qml/Components/Dialogs.qml:156
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Kijelentkezés"
 
-#: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
-#: qml/Dash/DashPageHeader.qml:322 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:163 qml/Components/Dialogs.qml:219
+#: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Mégse"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:175
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Újraindítás"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:176
 msgid "Are you sure you want to reboot?"
 msgstr "Biztosan újra szeretné indítani?"
 
-#: qml/Components/Dialogs.qml:181
+#: qml/Components/Dialogs.qml:178
 msgid "No"
 msgstr "Nem"
 
-#: qml/Components/Dialogs.qml:187
+#: qml/Components/Dialogs.qml:184
 msgid "Yes"
 msgstr "Igen"
 
-#: qml/Components/Dialogs.qml:202
+#: qml/Components/Dialogs.qml:199
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Menü"
 
-#: qml/Components/Dialogs.qml:203
+#: qml/Components/Dialogs.qml:200
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -109,12 +109,12 @@ msgstr ""
 "Biztos benne, hogy ki\n"
 "szeretné kapcsolni?"
 
-#: qml/Components/Dialogs.qml:205
+#: qml/Components/Dialogs.qml:202
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Kikapcsolás"
 
-#: qml/Components/Dialogs.qml:214
+#: qml/Components/Dialogs.qml:211
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Újraindítás"
@@ -333,26 +333,26 @@ msgstr "Minden bezárása"
 msgid "Preview Share Item"
 msgstr "Megosztandó elem előnézete"
 
-#: qml/Dash/DashPageHeader.qml:360
+#: qml/Dash/DashPageHeader.qml:333
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Áruház"
 
-#: qml/Dash/DashPageHeader.qml:367
+#: qml/Dash/DashPageHeader.qml:340
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Keresés"
 
-#: qml/Dash/DashPageHeader.qml:377
+#: qml/Dash/DashPageHeader.qml:350
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Beállítások"
 
-#: qml/Dash/DashPageHeader.qml:384
+#: qml/Dash/DashPageHeader.qml:357
 msgid "Remove from Favorites"
 msgstr "Eltávolítás a kedvencek közül"
 
-#: qml/Dash/DashPageHeader.qml:384
+#: qml/Dash/DashPageHeader.qml:357
 msgid "Add to Favorites"
 msgstr "Hozzáadás a kedvencekhez"
 
@@ -364,15 +364,15 @@ msgstr "Találatok finomítása"
 msgid "Reset"
 msgstr "Alaphelyzetbe állítás"
 
-#: qml/Dash/GenericScopeView.qml:585 qml/Dash/GenericScopeView.qml:780
+#: qml/Dash/GenericScopeView.qml:580 qml/Dash/GenericScopeView.qml:775
 msgid "Show less"
 msgstr "Kevesebb"
 
-#: qml/Dash/GenericScopeView.qml:585
+#: qml/Dash/GenericScopeView.qml:580
 msgid "Show all"
 msgstr "Összes megjelenítése"
 
-#: qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:637
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Keresés"
@@ -442,7 +442,7 @@ msgstr ""
 msgid "Unlock"
 msgstr "Feloldás"
 
-#: qml/Greeter/Greeter.qml:561
+#: qml/Greeter/Greeter.qml:539
 msgid "Try again"
 msgstr "Próbálja újra"
 
@@ -454,27 +454,27 @@ msgstr "Jelmondat"
 msgid "Passcode"
 msgstr "Jelkód"
 
-#: qml/Greeter/LoginList.qml:87
+#: qml/Greeter/LoginList.qml:259
 msgid "Retry"
 msgstr "Újra"
 
-#: qml/Greeter/LoginList.qml:88
+#: qml/Greeter/LoginList.qml:260
 msgid "Log In"
 msgstr "Bejelentkezés"
 
-#: qml/Greeter/NarrowView.qml:55
+#: qml/Greeter/NarrowView.qml:54
 msgid "Sorry, incorrect passphrase."
 msgstr "Elnézést, helytelen jelmondat."
 
-#: qml/Greeter/NarrowView.qml:56
+#: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passcode."
 msgstr "Elnézést, helytelen jelkód."
 
-#: qml/Greeter/NarrowView.qml:57
+#: qml/Greeter/NarrowView.qml:56
 msgid "This will be your last attempt."
 msgstr "Ez az utolsó próbálkozási lehetősége."
 
-#: qml/Greeter/NarrowView.qml:59
+#: qml/Greeter/NarrowView.qml:58
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -482,7 +482,7 @@ msgstr ""
 "Ha helytelen jelmondatot ad meg, a telefonja visszaállítja a gyári "
 "beállításokat és törli minden személyes adatát."
 
-#: qml/Greeter/NarrowView.qml:60
+#: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -644,10 +644,9 @@ msgstr "Vissza"
 msgid "Language"
 msgstr "Nyelv"
 
-#: qml/Wizard/Pages/10-welcome.qml:172 qml/Wizard/Pages/20-keyboard.qml:151
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:270 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:144
+#: qml/Wizard/Pages/10-welcome.qml:171 qml/Wizard/Pages/30-wifi.qml:206
+#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
+#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
 #: qml/Wizard/Pages/75-report-check.qml:84
 #: qml/Wizard/Pages/passcode-desktop.qml:141
 #: qml/Wizard/Pages/password-set.qml:141
@@ -666,25 +665,24 @@ msgstr "Billentyűzet nyelve"
 msgid "Keyboard layout"
 msgstr "Billentyűzetkiosztás"
 
-#: qml/Wizard/Pages/20-keyboard.qml:151 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/77-system-update.qml:152 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Kihagyás"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr "Csatlakozás Wi-Fi hálózathoz"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:130
 msgid "Connected"
 msgstr "Kapcsolódva"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:163
 msgid "Available Wi-Fi networks"
 msgstr "Elérhető Wi-Fi hálózatok"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:164
 msgid "No available Wi-Fi networks"
 msgstr "Nincsenek elérhető Wi-Fi hálózatok"
 
