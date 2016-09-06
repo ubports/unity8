@@ -56,7 +56,6 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
         Q_EMIT pushedRightBoundary(newX - (parentItem()->width() - 1), buttons);
         newX = parentItem()->width() - 1;
     }
-    setX(newX);
 
     qreal newY = y() + appliedMovement.y();
     if (newY < 0) {
@@ -64,11 +63,40 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
     } else if (newY >= parentItem()->height()) {
         newY = parentItem()->height() - 1;
     }
+
+    applyItemConfinement(newX, newY);
+
+    setX(newX);
     setY(newY);
 
     QPointF scenePosition = mapToItem(nullptr, QPointF(0, 0));
     QWindowSystemInterface::handleMouseEvent(window(), timestamp, scenePosition /*local*/, scenePosition /*global*/,
         buttons, modifiers);
+}
+
+void MousePointer::applyItemConfinement(qreal &newX, qreal &newY)
+{
+    Q_ASSERT(parentItem() != nullptr);
+
+    if (m_confiningItem.isNull()) {
+        return;
+    }
+
+    QRectF confiningItemGeometry(0, 0, m_confiningItem->width(), m_confiningItem->height());
+
+    QRectF confiningRect = m_confiningItem->mapRectToItem(parentItem(), confiningItemGeometry);
+
+    if (newX < confiningRect.x()) {
+        newX = confiningRect.x();
+    } else if (newX > confiningRect.right()) {
+        newX = confiningRect.right();
+    }
+
+    if (newY < confiningRect.y()) {
+        newY = confiningRect.y();
+    } else if (newY > confiningRect.bottom()) {
+        newY = confiningRect.bottom();
+    }
 }
 
 void MousePointer::handleWheelEvent(ulong timestamp, QPoint angleDelta, Qt::KeyboardModifiers modifiers)
@@ -155,4 +183,17 @@ void MousePointer::setThemeName(const QString &themeName)
 void MousePointer::setCustomCursor(const QCursor &customCursor)
 {
     CursorImageProvider::instance()->setCustomCursor(customCursor);
+}
+
+QQuickItem* MousePointer::confiningItem() const
+{
+    return m_confiningItem.data();
+}
+
+void MousePointer::setConfiningItem(QQuickItem *item)
+{
+    if (item != m_confiningItem) {
+        m_confiningItem = item;
+        Q_EMIT confiningItemChanged();
+    }
 }
