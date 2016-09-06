@@ -127,8 +127,6 @@ Rectangle {
             var track1PlayButton = findChild(track1Item, "playButton");
             var track2PlayButton = findChild(track2Item, "playButton");
 
-            var audio = DashAudioPlayer.audio;
-
             // All progress bars must be hidden in the beginning
             compare(track0ProgressBar.visible, false);
             compare(track1ProgressBar.visible, false);
@@ -137,7 +135,7 @@ Rectangle {
             // Playing track 0 should make progress bar 0 visible
             mouseClick(track0PlayButton);
 
-            tryCompare(audio, "playbackState", Audio.PlayingState);
+            compare(DashAudioPlayer.playing, true);
             checkPlayerSource(0);
 
             tryCompare(track0ProgressBar, "visible", true);
@@ -146,25 +144,25 @@ Rectangle {
 
             // Clicking the button again should pause it. The progress bar should stay visible
             mouseClick(track0PlayButton);
-            tryCompare(audio, "playbackState", Audio.PausedState);
+            compare(DashAudioPlayer.paused, true);
             checkPlayerSource(0);
             tryCompare(track0ProgressBar, "visible", true);
 
             // Continue playback
             mouseClick(track0PlayButton);
-            tryCompare(audio, "playbackState", Audio.PlayingState);
+            compare(DashAudioPlayer.playing, true);
             checkPlayerSource(0);
 
             // Playing track 1 should make progress bar 1 visible and hide progress bar 0 again
             mouseClick(track1PlayButton);
 
-            tryCompare(audio, "playbackState", Audio.PlayingState);
+            compare(DashAudioPlayer.playing, true);
             checkPlayerSource(1);
 
             // Check the playlist is song 0, 1, 2
-            checkPlayerUrls(tracksModel2["tracks"][0].source, audio.playlist.itemSource(0));
-            checkPlayerUrls(tracksModel2["tracks"][1].source, audio.playlist.itemSource(1));
-            checkPlayerUrls(tracksModel2["tracks"][2].source, audio.playlist.itemSource(2));
+            checkPlayerUrls(tracksModel2["tracks"][0].source, DashAudioPlayer.playlist.itemSource(0));
+            checkPlayerUrls(tracksModel2["tracks"][1].source, DashAudioPlayer.playlist.itemSource(1));
+            checkPlayerUrls(tracksModel2["tracks"][2].source, DashAudioPlayer.playlist.itemSource(2));
 
             tryCompare(track0ProgressBar, "visible", false);
             tryCompare(track1ProgressBar, "visible", true);
@@ -173,7 +171,7 @@ Rectangle {
             // Playing track 2 should make progress bar 1 visible and hide progress bar 0 again
             mouseClick(track2PlayButton);
 
-            tryCompare(audio, "playbackState", Audio.PlayingState);
+            compare(DashAudioPlayer.playing, true);
             checkPlayerSource(2);
 
             tryCompare(track0ProgressBar, "visible", false);
