@@ -28,4 +28,5 @@ Notification {
     secondaryIcon: ""
     value: 0
     rawActions: []
+    fullscreen: false
 }
