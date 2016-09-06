@@ -38,6 +38,16 @@ FocusScope {
         d.enabled = true;
     }
 
+    function showFakePassword() {
+        // Just a silly hack for looking like 4 pin numbers got entered, if
+        // a fingerprint was used and we happen to be using a pin.  This was
+        // a request from Design.
+        if (isSecret && isPrompt && !isAlphanumeric) {
+            d.enabled = false;
+            text = "...."; // actual text doesn't matter
+        }
+    }
+
     StyledItem {
         id: d
 
@@ -50,6 +60,12 @@ FocusScope {
                                                                  : theme.palette.disabled.raisedSecondaryText
         readonly property color errorColor: passwordInput.enabled ? theme.palette.normal.negative
                                                                   : theme.palette.disabled.negative
+
+        onEnabledChanged: {
+            if (!enabled) {
+                fakeLabel.text = passwordInput.displayText;
+            }
+        }
     }
 
     Rectangle {
@@ -142,15 +158,13 @@ FocusScope {
             }
         }
 
-        onAccepted: {
-            if (d.enabled)
-                respond();
-        }
+        onAccepted: respond()
 
         function respond() {
-            d.enabled = false;
-            fakeLabel.text = displayText;
-            root.responded(text);
+            if (d.enabled) {
+                d.enabled = false;
+                root.responded(text);
+            }
         }
 
         Keys.onEscapePressed: {
