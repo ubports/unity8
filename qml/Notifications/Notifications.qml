@@ -69,7 +69,9 @@ ListView {
 
         property int theIndex: index
         onTheIndexChanged: {
-            ListView.view.topmostIsFullscreen = fullscreen; // when we get pushed down by e.g. volume notification
+            if (theIndex == 0) {
+                ListView.view.topmostIsFullscreen = fullscreen; // when we get pushed down by e.g. volume notification
+            }
         }
 
         // make sure there's no opacity-difference between the several
@@ -77,6 +79,8 @@ ListView {
         // FIXME: disabled all transitions because of LP: #1354406 workaround
         //layer.enabled: add.running || remove.running || populate.running
     }
+
+    onCountChanged: if (count == 0) topmostIsFullscreen = false; // reset
 
     // FIXME: disabled all transitions because of LP: #1354406 workaround
     /*populate: Transition {

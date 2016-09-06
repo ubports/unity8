@@ -41,6 +41,7 @@ class MockNotification : public QObject {
     Q_PROPERTY(QStringList rawActions READ rawActions WRITE setActions)
     Q_PROPERTY(ActionModel* actions READ getActions NOTIFY actionsChanged)
     Q_PROPERTY(QVariantMap hints READ getHints WRITE setHints NOTIFY hintsChanged)
+    Q_PROPERTY(bool fullscreen READ fullscreen WRITE setFullscreen NOTIFY fullscreenChanged)  // only in mock
 
 private:
     QScopedPointer<MockNotificationPrivate> p;
@@ -63,6 +64,8 @@ Q_SIGNALS:
     void dataChanged(int nid);
     void completed(int nid);
     void actionInvoked(const QString &action);
+
+    void fullscreenChanged(bool fullscreen);
 
 public:
     MockNotification(QObject *parent=nullptr);
@@ -87,6 +90,8 @@ public:
     void setActions(const QStringList &actions);
     QVariantMap getHints() const;
     void setHints(const QVariantMap& hints);
+    bool fullscreen() const;
+    void setFullscreen(bool fullscreen);
 
     Q_INVOKABLE void invokeAction(const QString &action);
     Q_INVOKABLE void close();
