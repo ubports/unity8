@@ -24,7 +24,7 @@ import WindowManager 0.1
 import Utils 0.1
 
 import ".." // For EdgeBarrierControls
-import "../../../qml/Stages"
+import "../../../qml/Stage"
 import "../../../qml/Components"
 import "../../../qml/Components/PanelState"
 
@@ -73,7 +73,7 @@ Item {
 
         property bool itemDestroyed: false
         sourceComponent: Component {
-            DesktopStage {
+            Stage {
                 anchors.fill: parent
                 background: "../../../qml/graphics/tablet_background.jpg"
                 focus: true

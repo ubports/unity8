@@ -34,9 +34,9 @@ AbstractStage {
     function updateFocusedAppOrientation() { /* TODO */ }
     function updateFocusedAppOrientationAnimated() { /* TODO */}
     function pushRightEdge(amount) {
-        if (spread.state === "") {
+//        if (state === "windowed" || state == "") {
             edgeBarrier.push(amount);
-        }
+//        }
     }
     function closeFocusedDelegate() {
         if (priv.focusedAppDelegate && !priv.focusedAppDelegate.isDash) {
@@ -340,14 +340,14 @@ AbstractStage {
             PropertyChanges { target: hoverMouseArea; enabled: true }
         },
         State {
-            name: "stagedRightEdge"; when: rightEdgeDragArea.dragging && root.mode == "staged"
+            name: "stagedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "staged"
         },
         State {
-            name: "sideStagedRightEdge"; when: rightEdgeDragArea.dragging && root.mode == "stagedWithSideStage"
+            name: "sideStagedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "stagedWithSideStage"
 //            PropertyChanges { target: priv; nextInStack: priv.sideStageDelegate && priv.sideStageDelegate.itemIndex < 2 ? 2 : 1 }
         },
         State {
-            name: "windowedRightEdge"; when: rightEdgeDragArea.dragging && root.mode == "windowed"
+            name: "windowedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "windowed"
         },
         State {
             name: "staged"; when: root.mode === "staged"
@@ -932,7 +932,7 @@ AbstractStage {
                         when: (root.mode == "staged" || root.mode == "stagedWithSideStage") && (root.state == "sideStagedRightEdge" || root.state == "stagedRightEdge" || rightEdgeFocusAnimation.running || hidingAnimation.running)
                         PropertyChanges {
                             target: stagedRightEdgeMaths
-                            progress: rightEdgeDragArea.progress
+                            progress: Math.max(edgeBarrier.progress, rightEdgeDragArea.progress)
                         }
                         PropertyChanges {
                             target: appDelegate
@@ -955,10 +955,10 @@ AbstractStage {
                     },
                     State {
                         name: "windowedRightEdge"
-                        when: root.mode == "windowed" && (root.state == "windowedRightEdge" || rightEdgeFocusAnimation.running || hidingAnimation.running)
+                        when: root.mode == "windowed" && (root.state == "windowedRightEdge" || rightEdgeFocusAnimation.running || hidingAnimation.running || edgeBarrier.progress > 0)
                         PropertyChanges {
                             target: windowedRightEdgeMaths
-                            progress: rightEdgeDragArea.progress
+                            progress: Math.max(rightEdgeDragArea.progress, edgeBarrier.progress)
                         }
                         PropertyChanges {
                             target: appDelegate
@@ -1439,7 +1439,12 @@ AbstractStage {
         // NB: it does its own positioning according to the specified edge
         edge: Qt.RightEdge
 
-        onPassed: { spread.show(); }
+        onProgressChanged: {
+            if (progress > spreadItem.rightEdgeBreakPoint) {
+                priv.goneToSpread = true;
+            }
+        }
+
         material: Component {
             Item {
                 Rectangle {
@@ -1533,7 +1538,7 @@ AbstractStage {
         property var gesturePoints: new Array()
         property bool cancelled: false
 
-        property real progress: -touchPosition.x / root.width
+        property real progress: dragging ? -touchPosition.x / root.width : 0
 
         onTouchPositionChanged: {
             gesturePoints.push(touchPosition.x);
