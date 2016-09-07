@@ -24,7 +24,6 @@ Item {
     property var model
 
     property int animDuration: 10
-    property bool useColor: true
 
     QtObject {
         id: d
@@ -36,7 +35,6 @@ Item {
                               || circleChangeAnimTimer.running
     }
 
-    // Define a replacement white-based color theme when useColor is false
     QtObject {
         id: whiteTheme
         property color main: "white"
@@ -177,10 +175,7 @@ Item {
                             ColorAnimation {
                                 target: pastCircle
                                 property: "color"
-                                to: Gradient.threeColorByIndex(index, count,
-                                                               useColor ?
-                                                               infographic.model.secondColor :
-                                                               whiteTheme)
+                                to: Gradient.threeColorByIndex(index, count, whiteTheme)
                                 easing.type: Easing.OutCurve
                                 duration: circleChangeAnimTimer.interval * d.circleModifier
                             }
@@ -242,10 +237,7 @@ Item {
                             ColorAnimation {
                                 target: presentCircle
                                 property: "color"
-                                to: Gradient.threeColorByIndex(index, infographic.model.currentDay,
-                                                               useColor ?
-                                                               infographic.model.firstColor :
-                                                               whiteTheme)
+                                to: Gradient.threeColorByIndex(index, infographic.model.currentDay, whiteTheme)
                                 easing.type: Easing.OutCurve
                                 duration: circleChangeAnimTimer.interval * d.circleModifier
                             }
