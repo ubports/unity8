@@ -58,6 +58,8 @@ FocusScope {
 
     readonly property Item clientAreaItem: applicationWindow
 
+    readonly property Item clientAreaItem: applicationWindow
+
     signal closeClicked()
     signal maximizeClicked()
     signal maximizeHorizontallyClicked()

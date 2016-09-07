@@ -817,6 +817,8 @@ StyledItem {
 
         confiningItem: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.itemConfiningMouseCursor : null
 
+        confiningItem: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.itemConfiningMouseCursor : null
+
         property bool mouseNeverMoved: true
         Binding {
             target: cursor; property: "x"; value: shell.width / 2

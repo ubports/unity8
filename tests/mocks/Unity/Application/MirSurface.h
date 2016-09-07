@@ -74,6 +74,8 @@ public:
 
     QString name() const override;
 
+    QString persistentId() const override;
+
     QSize size() const override { return QSize(width(),height()); }
     void resize(int width, int height) override;
     void resize(const QSize &size) override { resize(size.width(), size.height()); }
