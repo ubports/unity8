@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-08-26 08:14+0000\n"
+"POT-Creation-Date: 2016-08-31 11:56+0000\n"
 "PO-Revision-Date: 2016-04-08 18:34+0000\n"
 "Last-Translator: Akerbeltz <fios@akerbeltz.org>\n"
 "Language-Team: Fòram na Gàidhlig\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2016-09-01 06:34+0000\n"
+"X-Launchpad-Export-Date: 2016-09-03 06:54+0000\n"
 "X-Generator: Launchpad (build 18179)\n"
 "Language: gd\n"
 
-#: plugins/LightDM/Greeter.cpp:123
+#: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Facal-faire: "
 
@@ -62,54 +62,54 @@ msgstr[1] "Fuirich ort %1 dhiog 's feuch ris a-rithist an uairsin…"
 msgstr[2] "Fuirich ort %1 diogan 's feuch ris a-rithist an uairsin…"
 msgstr[3] "Fuirich ort %1 diog 's feuch ris a-rithist an uairsin…"
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:146
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Clàraich a-mach"
 
-#: qml/Components/Dialogs.qml:150
+#: qml/Components/Dialogs.qml:147
 msgid "Are you sure you want to log out?"
 msgstr "A bheil thu cinnteach gu bheil thu airson clàradh a-mach?"
 
-#: qml/Components/Dialogs.qml:152
+#: qml/Components/Dialogs.qml:149
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Glais"
 
-#: qml/Components/Dialogs.qml:159
+#: qml/Components/Dialogs.qml:156
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Clàraich a-mach"
 
-#: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
-#: qml/Dash/DashPageHeader.qml:322 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:163 qml/Components/Dialogs.qml:219
+#: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Sguir dheth"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:175
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Ath-thòisich an siostam"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:176
 msgid "Are you sure you want to reboot?"
 msgstr "A bheil thu cinnteach gu bheil thu airson tòiseachadh às ùr?"
 
-#: qml/Components/Dialogs.qml:181
+#: qml/Components/Dialogs.qml:178
 msgid "No"
 msgstr "Chan eil"
 
-#: qml/Components/Dialogs.qml:187
+#: qml/Components/Dialogs.qml:184
 msgid "Yes"
 msgstr "Tha"
 
-#: qml/Components/Dialogs.qml:202
+#: qml/Components/Dialogs.qml:199
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Cumhachd"
 
-#: qml/Components/Dialogs.qml:203
+#: qml/Components/Dialogs.qml:200
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -117,12 +117,12 @@ msgstr ""
 "A bheil thu cinnteach gu bheil thu\n"
 "airson a' chumhachd a chur dheth?"
 
-#: qml/Components/Dialogs.qml:205
+#: qml/Components/Dialogs.qml:202
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Cuir a' chumhachd dheth"
 
-#: qml/Components/Dialogs.qml:214
+#: qml/Components/Dialogs.qml:211
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Ath-thòisich"
@@ -341,26 +341,26 @@ msgstr "Dùin na h-uile"
 msgid "Preview Share Item"
 msgstr "Ro-sheall an nì co-roinnidh"
 
-#: qml/Dash/DashPageHeader.qml:360
+#: qml/Dash/DashPageHeader.qml:333
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Am bùth"
 
-#: qml/Dash/DashPageHeader.qml:367
+#: qml/Dash/DashPageHeader.qml:340
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Lorg"
 
-#: qml/Dash/DashPageHeader.qml:377
+#: qml/Dash/DashPageHeader.qml:350
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Roghainnean"
 
-#: qml/Dash/DashPageHeader.qml:384
+#: qml/Dash/DashPageHeader.qml:357
 msgid "Remove from Favorites"
 msgstr "Thoir air falbh o na h-annsachdan"
 
-#: qml/Dash/DashPageHeader.qml:384
+#: qml/Dash/DashPageHeader.qml:357
 msgid "Add to Favorites"
 msgstr "Cuir ris na h-annsachdan"
 
@@ -372,15 +372,15 @@ msgstr "Cuir na toraidhean air gleus"
 msgid "Reset"
 msgstr "Ath-shuidhich"
 
-#: qml/Dash/GenericScopeView.qml:585 qml/Dash/GenericScopeView.qml:780
+#: qml/Dash/GenericScopeView.qml:580 qml/Dash/GenericScopeView.qml:775
 msgid "Show less"
 msgstr "Seall nas lugha dhiubh"
 
-#: qml/Dash/GenericScopeView.qml:585
+#: qml/Dash/GenericScopeView.qml:580
 msgid "Show all"
 msgstr "Seall na h-uile"
 
-#: qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:637
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Lorg"
@@ -451,7 +451,7 @@ msgstr ""
 msgid "Unlock"
 msgstr "Thoir a' ghlas dheth"
 
-#: qml/Greeter/Greeter.qml:561
+#: qml/Greeter/Greeter.qml:539
 msgid "Try again"
 msgstr "Feuch ris a-rithist"
 
@@ -463,27 +463,27 @@ msgstr "Abairt-fhaire"
 msgid "Passcode"
 msgstr "Còd-faire"
 
-#: qml/Greeter/LoginList.qml:87
+#: qml/Greeter/LoginList.qml:259
 msgid "Retry"
 msgstr "Feuch ris a-rithist"
 
-#: qml/Greeter/LoginList.qml:88
+#: qml/Greeter/LoginList.qml:260
 msgid "Log In"
 msgstr "Clàraich a-steach"
 
-#: qml/Greeter/NarrowView.qml:55
+#: qml/Greeter/NarrowView.qml:54
 msgid "Sorry, incorrect passphrase."
 msgstr "Duilich ach tha an abairt-fhaire cearr."
 
-#: qml/Greeter/NarrowView.qml:56
+#: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passcode."
 msgstr "Duilich ach tha an còd-faire cearr."
 
-#: qml/Greeter/NarrowView.qml:57
+#: qml/Greeter/NarrowView.qml:56
 msgid "This will be your last attempt."
 msgstr "Seo an oidhirp mu dheireadh agad."
 
-#: qml/Greeter/NarrowView.qml:59
+#: qml/Greeter/NarrowView.qml:58
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -492,7 +492,7 @@ msgstr ""
 "ath-shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta "
 "pearsanta a sguabadh às."
 
-#: qml/Greeter/NarrowView.qml:60
+#: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -669,10 +669,9 @@ msgstr "Air ais"
 msgid "Language"
 msgstr "Cànan"
 
-#: qml/Wizard/Pages/10-welcome.qml:172 qml/Wizard/Pages/20-keyboard.qml:151
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:270 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:144
+#: qml/Wizard/Pages/10-welcome.qml:171 qml/Wizard/Pages/30-wifi.qml:206
+#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
+#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
 #: qml/Wizard/Pages/75-report-check.qml:84
 #: qml/Wizard/Pages/passcode-desktop.qml:141
 #: qml/Wizard/Pages/password-set.qml:141
@@ -691,25 +690,24 @@ msgstr "Cànan a' mheur-chlàir"
 msgid "Keyboard layout"
 msgstr "Co-dhealbhachd a' mheur-chlàir"
 
-#: qml/Wizard/Pages/20-keyboard.qml:151 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/77-system-update.qml:152 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Leum thairis air"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr "Ceangail ri Wi-Fi"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:130
 msgid "Connected"
 msgstr "Ceangailte"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:163
 msgid "Available Wi-Fi networks"
 msgstr "Lìonraidhean WiFi a tha ri làimh"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:164
 msgid "No available Wi-Fi networks"
 msgstr "Chan eil lìonra WiFi sam bith ann"
 
