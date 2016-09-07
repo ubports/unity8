@@ -55,6 +55,8 @@ FocusScope {
     property alias stageWidth: moveHandler.stageWidth
     property alias stageHeight: moveHandler.stageHeight
     readonly property alias dragging: moveHandler.dragging
+
+    readonly property Item clientAreaItem: applicationWindow
     readonly property alias moveHandler: moveHandler
 
     signal closeClicked()
