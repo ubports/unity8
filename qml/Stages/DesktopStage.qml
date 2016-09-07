@@ -52,7 +52,6 @@ AbstractStage {
         }
 
         if (candidate && candidate.moveHandler) {
-            print("!!! Window move requested", scenePos);
             var localPos = mapToItem(candidate, scenePos.x, scenePos.y)
             candidate.focus = true;
             candidate.moveHandler.handlePressedChanged(true, Qt.LeftButton, localPos.x, localPos.y);
@@ -60,14 +59,12 @@ AbstractStage {
     }
     function windowMoveUpdated(scenePos) {
         if (priv.focusedAppDelegate) {
-            print("!!! Window move updated", scenePos);
             var localPos = mapToItem(priv.focusedAppDelegate, scenePos.x, scenePos.y)
             priv.focusedAppDelegate.moveHandler.handlePositionChanged(localPos);
         }
     }
     function windowMoveEnded() {
         if (priv.focusedAppDelegate) {
-            print("!!! Window move ended");
             priv.focusedAppDelegate.moveHandler.handlePressedChanged(false, Qt.LeftButton);
             priv.focusedAppDelegate.moveHandler.handleReleased();
             fakeRectangle.commit();
