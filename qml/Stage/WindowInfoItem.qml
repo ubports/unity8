@@ -3,6 +3,8 @@ import Ubuntu.Components 1.3
 
 Item {
     id: root
+    implicitWidth: Math.max(iconShape.width, titleLabel.width)
+    implicitHeight: iconShape.height + titleLabel.height + labelMargin + iconMargin
     property alias title: titleLabel.text
     property alias iconSource: icon.source
 

@@ -47,7 +47,7 @@ AbstractStage {
     property string mode: "staged"
 
     // Used by TutorialRight
-    property bool spreadShown: state == "altTab"
+    property bool spreadShown: state == "spread"
 
     mainApp: priv.focusedAppDelegate ? priv.focusedAppDelegate.application : null
 
@@ -113,6 +113,7 @@ AbstractStage {
         property var focusedAppDelegate: null
         onFocusedAppDelegateChanged: {
             if (focusedAppDelegate && root.state == "spread") {
+                print("clsing spread because of focus change to", focusedAppDelegate.application.appId)
                 goneToSpread = false;
             }
         }
@@ -121,8 +122,8 @@ AbstractStage {
 
         property bool goneToSpread: false
         property int closingIndex: -1
-//        property int animationDuration: 4000
-        property int animationDuration: UbuntuAnimation.FastDuration
+        property int animationDuration: 4000
+//        property int animationDuration: UbuntuAnimation.FastDuration
 
         function updateForegroundMaximizedApp() {
             var found = false;
@@ -179,7 +180,7 @@ AbstractStage {
                 priv.sideStageAppId = "";
                 priv.mainStageDelegate = appRepeater.itemAt(0);
                 priv.mainStageAppId = topLevelSurfaceList.idAt(0);
-                priv.mainStageAppId = topLevelSurfaceList.applicationAt(0).appId;
+                priv.mainStageAppId = topLevelSurfaceList.applicationAt(0) ? topLevelSurfaceList.applicationAt(0).appId : ""
                 return;
             }
 
@@ -306,9 +307,10 @@ AbstractStage {
                 //       resume all those apps at once. We might want to avoid that.
                 value: root.mode === "windowed"
                        || (isDash && root.keepDashRunning)
-                       || (!root.suspended && model.application && (priv.focusedAppDelegate.appId === model.application.appId ||
-                                                                    priv.mainStageAppId === model.application.appId ||
-                                                                    priv.sideStageAppId === model.application.appId))
+                       || (!root.suspended && model.application && priv.focusedAppDelegate &&
+                           (priv.focusedAppDelegate.appId === model.application.appId ||
+                            priv.mainStageAppId === model.application.appId ||
+                            priv.sideStageAppId === model.application.appId))
                        ? ApplicationInfoInterface.RequestedRunning
                        : ApplicationInfoInterface.RequestedSuspended
             }
@@ -335,6 +337,7 @@ AbstractStage {
             name: "spread"; when: priv.goneToSpread
             PropertyChanges { target: floatingFlickable; enabled: true }
             PropertyChanges { target: spreadItem; focus: true }
+            PropertyChanges { target: hoverMouseArea; enabled: true }
         },
         State {
             name: "stagedRightEdge"; when: rightEdgeDragArea.dragging && root.mode == "staged"
@@ -376,6 +379,8 @@ AbstractStage {
                     script: {
                         print("hightedIndex is:", spreadItem.highlightedIndex)
                         var item = appRepeater.itemAt(Math.max(0, spreadItem.highlightedIndex));
+                        print("playing focus animation 3 on item", spreadItem.highlightedIndex, item.application.appId)
+
                         item.playFocusAnimation();
                     }
                 }
@@ -465,6 +470,7 @@ AbstractStage {
             onShownChanged: {
                 print("sidestage shown changed:", shown)
                 if (!shown && priv.mainStageDelegate) {
+                    print("claiming focus 2")
                     priv.mainStageDelegate.claimFocus();
                 }
             }
@@ -499,6 +505,7 @@ AbstractStage {
                 onDropped: {
                     if (drop.keys == "MainStage") {
                         drop.source.appDelegate.saveStage(ApplicationInfoInterface.SideStage);
+                        print("dropped on mainstage")
                         drop.source.appDelegate.focus = true;
                     }
                 }
@@ -627,7 +634,7 @@ AbstractStage {
                 readonly property bool isDash: model.application.appId == "unity8-dash"
 
                 function claimFocus() {
-                    print("focusing app", priv.sideStageDelegate, appDelegate, sideStage.shown)
+                    print("(claimfocus) focusing app", priv.sideStageDelegate, appDelegate, sideStage.shown)
                     if (root.mode == "windowed" && minimized) {
                         restore(true)
                     }
@@ -641,6 +648,7 @@ AbstractStage {
                     onFocusRequested: {
                         // Reset spread selection in case there is any
                         spreadItem.highlightedIndex = -1
+                        print("claiming focus 3")
                         claimFocus();
                     }
                 }
@@ -650,6 +658,7 @@ AbstractStage {
                         if (!model.surface) {
                             // when an app has no surfaces, we assume there's only one entry representing it:
                             // this delegate.
+                            print("claiming focus 4")
                             claimFocus();
                         } else {
                             // if the application has surfaces, focus request should be at surface-level.
@@ -683,6 +692,7 @@ AbstractStage {
                     if (!appRepeater.startingUp) {
                         // a top level window is always the focused one when it first appears, unfocusing
                         // any preexisting one
+                        print("focusing because of creation")
                         focus = true;
                     }
                 }
@@ -701,6 +711,7 @@ AbstractStage {
                         for (var i = 0; i < appRepeater.count; i++) {
                             var appDelegate = appRepeater.itemAt(i);
                             if (appDelegate && !appDelegate.minimized && i != index) {
+                                print("focusing some other because of destruction")
                                 appDelegate.focus = true;
                                 return;
                             }
@@ -787,6 +798,7 @@ AbstractStage {
                             rightEdgeFocusAnimation.start()
                         }
                     } else if (state == "windowedRightEdge") {
+                        print("claiming focus 1")
                         claimFocus();
                     } else {
                         focusAnimation.start()
@@ -805,19 +817,30 @@ AbstractStage {
                     from: 0.98
                     to: 1
                     duration: UbuntuAnimation.SnapDuration
-                    onStarted: topLevelSurfaceList.raiseId(model.id);
-                    onStopped: appDelegate.focus = true
+                    onStarted: {
+                        print("starting focusanimation for", model.application.appId)
+                        topLevelSurfaceList.raiseId(model.id);
+                    }
+                    onStopped: {
+                        print("focusing because of normal focus animation finishing")
+                        appDelegate.focus = true
+                    }
                 }
                 ParallelAnimation {
                     id: rightEdgeFocusAnimation
                     property int targetX: 0
+                    onStarted: print("starting rightedgefocusanimation for", model.application.appId)
                     UbuntuNumberAnimation { target: appDelegate; properties: "x"; to: rightEdgeFocusAnimation.targetX; duration: priv.animationDuration }
                     UbuntuNumberAnimation { target: decoratedWindow; properties: "angle"; to: 0; duration: priv.animationDuration }
                     UbuntuNumberAnimation { target: decoratedWindow; properties: "itemScale"; to: 1; duration: priv.animationDuration }
-                    onStopped: appDelegate.focus = true
+                    onStopped: {
+                        print("focusing", model.application.appId, "because of right edge focus animation completion");
+                        appDelegate.focus = true
+                    }
                 }
                 ParallelAnimation {
                     id: hidingAnimation
+                    onStarted: print("starting hiding animation for", model.application.appId)
                     UbuntuNumberAnimation { target: appDelegate; property: "opacity"; to: 0; duration: priv.animationDuration }
                     onStopped: appDelegate.opacity = 1
                 }
@@ -1139,7 +1162,7 @@ AbstractStage {
                         from: "spread"; to: "*"
 //                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
 //                        UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle"; duration: priv.animationDuration }
-                        ScriptAction { script: if (appDelegate.focus) appDelegate.playFocusAnimation() }
+//                        ScriptAction { script: if (appDelegate.focus) appDelegate.playFocusAnimation() }
                     },
                     Transition {
                         to: "minimized"
@@ -1212,16 +1235,16 @@ AbstractStage {
                     },
                     Transition {
                         from: "stagedRightEdge"; to: "staged"
+                        enabled: rightEdgeDragArea.cancelled // only transition back to state if the gesture was cancelled, in the other cases we play the focusAnimations.
                         SequentialAnimation {
                             ParallelAnimation {
                                 UbuntuNumberAnimation { target: appDelegate; properties: "x,y,height,width,scale"; duration: priv.animationDuration }
                                 UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle,scaleToPreviewProgress"; duration: priv.animationDuration }
                             }
-    //                        // We need to release scaleToPreviewSize at last
+                            // We need to release scaleToPreviewSize at last
                             PropertyAction { target: decoratedWindow; property: "scaleToPreviewSize" }
                         }
                     }
-
                 ]
 
                 Binding {
@@ -1246,6 +1269,7 @@ AbstractStage {
                     screenHeight: appContainer.height
                     leftMargin: root.leftMargin
                     enabled: false
+                    visible: false
 
                     onPressed: {
                         print("***** focusing because of resize area press", model.application.appId)
@@ -1298,7 +1322,10 @@ AbstractStage {
                     onMaximizeHorizontallyClicked: appDelegate.maximizedHorizontally ? appDelegate.restoreFromMaximized() : appDelegate.maximizeHorizontally()
                     onMaximizeVerticallyClicked: appDelegate.maximizedVertically ? appDelegate.restoreFromMaximized() : appDelegate.maximizeVertically()
                     onMinimizeClicked: appDelegate.minimize()
-                    onDecorationPressed: { appDelegate.focus = true; }
+                    onDecorationPressed: {
+                        print("focusing because of decoration press");
+                        appDelegate.focus = true;
+                    }
 
                     property real angle: 0
                     property real itemScale: 1
@@ -1327,6 +1354,7 @@ AbstractStage {
                     anchors.fill: appDelegate
                     target: appDelegate
                     enabled: false
+                    visible: enabled
                 }
 
                 WindowedFullscreenPolicy {
@@ -1342,21 +1370,17 @@ AbstractStage {
 
                 SpreadDelegateInputArea {
                     id: dragArea
-                    anchors.fill: parent
+                    objectName: "dragArea"
+                    anchors.fill: decoratedWindow
                     enabled: false
                     closeable: model.application.appId !== "unity8-dash"
-                    closeIconOffset: spreadMaths.closeIconOffset
 
                     onClicked: {
                         spreadItem.highlightedIndex = index;
+                        print("*****************setting highlighted index to:", index, appRepeater.itemAt(index))
                         if (distance == 0) {
                             priv.goneToSpread = false;
                         }
-                    }
-                    onContainsMouseChanged: {
-                        // It could happen that this triggers during the transition from spread to windowed, only actually do something
-                        // if goneToSpread is still true...
-                        if (priv.goneToSpread && containsMouse) spreadItem.highlightedIndex = index
                     }
                     onClose: {
                         priv.closingIndex = index
@@ -1368,12 +1392,42 @@ AbstractStage {
 
                 WindowInfoItem {
                     id: windowInfoItem
+                    objectName: "windowInfoItem"
                     anchors { left: parent.left; top: decoratedWindow.bottom; topMargin: units.gu(1) }
                     title: model.application.name
                     iconSource: model.application.icon
                     height: spreadItem.appInfoHeight
                     opacity: 0
+                    z: 1
                     visible: opacity > 0
+                }
+
+                Image {
+                    id: closeImage
+                    anchors { left: parent.left; top: parent.top; leftMargin: -height / 2; topMargin: -height / 2 + spreadMaths.closeIconOffset }
+                    source: "graphics/window-close.svg"
+                    readonly property var mousePos: hoverMouseArea.mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
+                    visible: model.application.appId !== "unity8-dash"
+                             && index == spreadItem.highlightedIndex
+                             && mousePos.y < (decoratedWindow.height / 3)
+                             && mousePos.y > -units.gu(4)
+                             && mousePos.x > -units.gu(4)
+                             && mousePos.x < (decoratedWindow.width * 2 / 3)
+                    height: units.gu(2)
+                    width: height
+                    sourceSize.width: width
+                    sourceSize.height: height
+
+                    MouseArea {
+                        id: closeMouseArea
+                        objectName: "closeMouseArea"
+                        anchors.fill: closeImage
+                        anchors.margins: -units.gu(2)
+                        onClicked: {
+                            priv.closingIndex = index;
+                            model.surface.close();
+                        }
+                    }
                 }
             }
         }
@@ -1402,6 +1456,59 @@ AbstractStage {
         }
     }
 
+    MouseArea {
+        id: hoverMouseArea
+        objectName: "hoverMouseArea"
+        anchors.fill: appContainer
+        propagateComposedEvents: true
+        hoverEnabled: true
+        enabled: false
+        visible: enabled
+
+        property int scrollAreaWidth: width / 3
+        property bool progressiveScrollingEnabled: false
+
+        onMouseXChanged: {
+            mouse.accepted = false
+
+            if (hoverMouseArea.pressed) {
+                return;
+            }
+
+            // Find the hovered item and mark it active
+            var mapped = mapToItem(appContainer, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
+            var itemUnder = appContainer.childAt(mapped.x, mapped.y)
+            if (itemUnder) {
+                mapped = mapToItem(itemUnder, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
+                var delegateChild = itemUnder.childAt(mapped.x, mapped.y)
+                if (delegateChild && (delegateChild.objectName === "dragArea" || delegateChild.objectName === "windowInfoItem")) {
+                    spreadItem.highlightedIndex = appRepeater.indexOf(itemUnder)
+                }
+            }
+
+            if (floatingFlickable.contentWidth > floatingFlickable.width) {
+                var margins = floatingFlickable.width * 0.05;
+
+                if (!progressiveScrollingEnabled && mouseX < floatingFlickable.width - scrollAreaWidth) {
+                    progressiveScrollingEnabled = true
+                }
+
+                // do we need to scroll?
+                if (mouseX < scrollAreaWidth + margins) {
+                    var progress = Math.min(1, (scrollAreaWidth + margins - mouseX) / (scrollAreaWidth - margins));
+                    var contentX = (1 - progress) * (floatingFlickable.contentWidth - floatingFlickable.width)
+                    floatingFlickable.contentX = Math.max(0, Math.min(floatingFlickable.contentX, contentX))
+                }
+                if (mouseX > floatingFlickable.width - scrollAreaWidth && progressiveScrollingEnabled) {
+                    var progress = Math.min(1, (mouseX - (floatingFlickable.width - scrollAreaWidth)) / (scrollAreaWidth - margins))
+                    var contentX = progress * (floatingFlickable.contentWidth - floatingFlickable.width)
+                    floatingFlickable.contentX = Math.min(floatingFlickable.contentWidth - floatingFlickable.width, Math.max(floatingFlickable.contentX, contentX))
+                }
+            }
+        }
+        onPressed: mouse.accepted = false
+    }
+
     FloatingFlickable {
         id: floatingFlickable
         anchors.fill: appContainer
@@ -1424,6 +1531,7 @@ AbstractStage {
         width: root.dragAreaWidth
 
         property var gesturePoints: new Array()
+        property bool cancelled: false
 
         property real progress: -touchPosition.x / root.width
 
@@ -1439,6 +1547,7 @@ AbstractStage {
             if (dragging) {
                 // A potential edge-drag gesture has started. Start recording it
                 gesturePoints = [];
+                cancelled = false;
             } else {
                 // Ok. The user released. Did he drag far enough to go to full spread?
                 if (gesturePoints[gesturePoints.length - 1] < -spreadItem.rightEdgeBreakPoint * spreadItem.width ) {
@@ -1458,8 +1567,8 @@ AbstractStage {
                     if (!oneWayFlickToRight) {
                         // Ok, the user made it, let's go to spread!
                         priv.goneToSpread = true;
-//                    } else {
-//                        appRepeater.itemAt(0).playFocusAnimation();
+                    } else {
+                        cancelled = true;
                     }
                 } else {
                     // Ok, the user didn't drag far enough to cross the breakPoint
@@ -1483,9 +1592,10 @@ AbstractStage {
                                 break;
                             }
                         }
+                        print("playing focus animation 1")
                         appRepeater.itemAt(priv.nextInStack).playFocusAnimation()
                     } else {
-                        appRepeater.itemAt(0).playFocusAnimation();
+                        cancelled = true;
                     }
 
                     gesturePoints = [];

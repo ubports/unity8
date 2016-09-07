@@ -7,11 +7,9 @@ Item {
     id: root
 
     property bool closeable: true
-    property int closeIconOffset: 0
     readonly property real minSpeedToClose: units.gu(40)
     property bool zeroVelocityCounts: false
 
-    readonly property alias containsMouse: mouseArea.containsMouse
     readonly property alias distance: d.distance
 
     signal clicked()
@@ -71,38 +69,11 @@ Item {
         }
     }
 
+    // Event eater
     MouseArea {
-        id: mouseArea
         anchors.fill: parent
-        hoverEnabled: true
         onClicked: root.clicked()
     }
-
-    MouseArea {
-        id: closeButtonMouseArea
-        objectName: "closeMouseArea"
-        anchors {
-            left: parent.left;
-            leftMargin: -width / 2
-            top: parent.top;
-            topMargin: root.closeIconOffset - height / 2
-        }
-        width: units.gu(3)
-        height: width
-        hoverEnabled: true
-        onClicked: root.close()
-
-        Image {
-            anchors.centerIn: parent
-            width: units.gu(2)
-            height: width
-            sourceSize.width: width
-            sourceSize.height: height
-            source: "../graphics/window-close.svg"
-            visible: mouseArea.containsMouse || closeButtonMouseArea.containsMouse
-        }
-    }
-
 
     MultiPointTouchArea {
         anchors.fill: parent
