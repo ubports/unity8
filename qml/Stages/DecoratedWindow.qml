@@ -57,8 +57,6 @@ FocusScope {
     readonly property alias dragging: moveHandler.dragging
     readonly property alias moveHandler: moveHandler
 
-    readonly property Item clientAreaItem: applicationWindow
-
     signal closeClicked()
     signal maximizeClicked()
     signal maximizeHorizontallyClicked()
