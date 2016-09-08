@@ -380,8 +380,6 @@ IndicatorTest {
                 tap(panel, stepLength * i, tapY);
                 tryCompare(panel.indicators, "fullyClosed", true);
             }
-
-            compare(backgroundPressedSpy.count, 0);
         }
 
         function test_darkenedAreaEatsAllEvents() {
