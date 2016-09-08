@@ -48,6 +48,7 @@ MockController::MockController(QObject *parent)
 
 MockController::~MockController()
 {
+    m_instance = nullptr;
 }
 
 MockController *MockController::instance()

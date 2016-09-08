@@ -44,10 +44,10 @@ SessionsModel::SessionsModel(QObject* parent)
     d->roleNames[KeyRole] = "key";
     d->roleNames[TypeRole] = "type";
 
-    connect(MockController::instance(), SIGNAL(sessionModeChanged()),
-            this, SLOT(resetEntries()));
-    connect(MockController::instance(), SIGNAL(numSessionsChanged()),
-            this, SLOT(resetEntries()));
+    connect(MockController::instance(), &MockController::sessionModeChanged,
+            this, &SessionsModel::resetEntries);
+    connect(MockController::instance(), &MockController::numSessionsChanged,
+            this, &SessionsModel::resetEntries);
     resetEntries();
 }
 

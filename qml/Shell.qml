@@ -607,7 +607,7 @@ StyledItem {
             readonly property bool focusedSurfaceIsFullscreen: MirFocusController.focusedSurface
                 ? MirFocusController.focusedSurface.state === Mir.FullscreenState
                 : false
-            fullscreenMode: (focusedSurfaceIsFullscreen && !LightDM.Greeter.active && launcher.progress == 0)
+            fullscreenMode: (focusedSurfaceIsFullscreen && !LightDM.Greeter.active && launcher.progress === 0)
                             || greeter.hasLockedApp
             locked: greeter && greeter.active
         }
