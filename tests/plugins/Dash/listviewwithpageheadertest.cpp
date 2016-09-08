@@ -21,12 +21,9 @@
 #include <QQuickView>
 #include <QSignalSpy>
 #include <QtTestGui>
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
 #include <private/qqmllistmodel_p.h>
 #include <private/qquickanimation_p.h>
 #include <private/qquickitem_p.h>
-#pragma GCC diagnostic pop
 
 #include <limits>
 
@@ -125,7 +122,7 @@ private Q_SLOTS:
     {
         view = new QQuickView();
         view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/listviewwithpageheadertest.qml"));
-        lvwph = dynamic_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
+        lvwph = static_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
         model = view->rootObject()->findChild<QQmlListModel*>();
         otherDelegate = view->rootObject()->findChild<QQmlComponent*>();
         QVERIFY(lvwph);

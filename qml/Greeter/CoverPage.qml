@@ -41,9 +41,16 @@ Showable {
         hide();
     }
 
+    function showErrorMessage(msg) {
+        d.errorMessage = msg;
+        showLabelAnimation.start();
+        errorMessageAnimation.start();
+    }
+
     QtObject {
         id: d
         property bool forceRightOnNextHideAnimation: false
+        property string errorMessage
     }
 
     prepareToHide: function () {
@@ -88,6 +95,7 @@ Showable {
         sourceSize.width: width
     }
 
+    // Darkens wallpaper so that we can read text on it and see infographic
     Rectangle {
         anchors.fill: parent
         color: "black"
@@ -110,14 +118,17 @@ Showable {
 
     Label {
         id: swipeHint
+        objectName: "swipeHint"
         property real baseOpacity: 0.5
         opacity: 0.0
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.bottomMargin: units.gu(5)
-        text: "《    " + i18n.tr("Unlock") + "    》"
+        text: "《    " + (d.errorMessage ? d.errorMessage : i18n.tr("Unlock")) + "    》"
         color: "white"
         font.weight: Font.Light
+
+        readonly property var opacityAnimation: showLabelAnimation // for testing
 
         SequentialAnimation on opacity {
             id: showLabelAnimation
@@ -135,7 +146,18 @@ Showable {
                 to: 0.0
                 duration: UbuntuAnimation.SleepyDuration
             }
+
+            onRunningChanged: {
+                if (!running)
+                    d.errorMessage = "";
+            }
         }
+    }
+
+    WrongPasswordAnimation {
+        id: errorMessageAnimation
+        objectName: "errorMessageAnimation"
+        target: swipeHint
     }
 
     DragHandle {

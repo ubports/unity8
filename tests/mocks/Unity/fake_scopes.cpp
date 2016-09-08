@@ -60,6 +60,7 @@ void Scopes::updateScopes()
     addScope(new Scope("MockScope7", "MS7", false, this));
     addScope(new Scope("MockScope8", "MS8", false, this));
     addScope(new Scope("MockScope9", "MS9", false, this));
+    addScope(new Scope("libertine-scope.ubuntu_libertine-scope", "Libertine", true, this));
 
     Scope *longNavigationScope = new Scope(
             "LongPrimaryNavigation", "LongPrimaryNavigation", true, this, 1, false,

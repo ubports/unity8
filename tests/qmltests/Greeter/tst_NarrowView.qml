@@ -18,7 +18,7 @@ import QtQuick 2.4
 import QtTest 1.0
 import ".."
 import "../../../qml/Greeter"
-import IntegratedLightDM 0.1 as LightDM
+import LightDM.IntegratedLightDM 0.1 as LightDM
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
 
@@ -128,7 +128,7 @@ Item {
                         text: "Authenticated"
                         onClicked: {
                             if (successCheckBox.checked) {
-                                loader.item.notifyAuthenticationSucceeded();
+                                loader.item.notifyAuthenticationSucceeded(fakePasswordCheckBox.checked);
                             } else {
                                 loader.item.notifyAuthenticationFailed();
                             }
@@ -139,6 +139,12 @@ Item {
                     }
                     Label {
                         text: "success"
+                    }
+                    CheckBox {
+                        id: fakePasswordCheckBox
+                    }
+                    Label {
+                        text: "fake password"
                     }
                 }
                 Row {
@@ -528,6 +534,21 @@ Item {
             verify(coverPage.shown);
             mouseClick(coverPage, coverPage.width/2, coverPage.height - units.gu(2));
             verify(!coverPage.shown);
+        }
+
+        function test_showErrorMessage() {
+            var coverPage = findChild(view, "coverPage");
+            var swipeHint = findChild(coverPage, "swipeHint");
+            var errorMessageAnimation = findInvisibleChild(coverPage, "errorMessageAnimation");
+
+            view.showErrorMessage("hello");
+            compare(swipeHint.text, "《    hello    》");
+            verify(errorMessageAnimation.running);
+            verify(swipeHint.opacityAnimation.running);
+
+            errorMessageAnimation.complete();
+            swipeHint.opacityAnimation.complete();
+            tryCompare(swipeHint, "text", "《    " + i18n.tr("Unlock") + "    》");
         }
     }
 }

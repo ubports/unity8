@@ -20,11 +20,13 @@
 
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
+    m_enableFingerprintIdentification(true),
     m_enableLauncherWhileLocked(true),
     m_enableIndicatorsWhileLocked(true),
     m_backgroundFile(qmlDirectory() + "/graphics/phone_background.jpg"),
     m_statsWelcomeScreen(true),
     m_failedLogins(0),
+    m_failedFingerprintLogins(0),
     m_demoEdges(false),
     m_demoEdgesCompleted(),
     m_hereEnabled(false),
@@ -72,6 +74,17 @@ void AccountsService::setDemoEdgesCompleted(const QStringList &demoEdgesComplete
 {
     m_demoEdgesCompleted = demoEdgesCompleted;
     Q_EMIT demoEdgesCompletedChanged();
+}
+
+bool AccountsService::enableFingerprintIdentification() const
+{
+    return m_enableFingerprintIdentification;
+}
+
+void AccountsService::setEnableFingerprintIdentification(bool enableFingerprintIdentification)
+{
+    m_enableFingerprintIdentification = enableFingerprintIdentification;
+    Q_EMIT enableFingerprintIdentificationChanged();
 }
 
 bool AccountsService::enableLauncherWhileLocked() const
@@ -135,6 +148,17 @@ void AccountsService::setFailedLogins(uint failedLogins)
 {
     m_failedLogins = failedLogins;
     failedLoginsChanged();
+}
+
+uint AccountsService::failedFingerprintLogins() const
+{
+    return m_failedFingerprintLogins;
+}
+
+void AccountsService::setFailedFingerprintLogins(uint failedFingerprintLogins)
+{
+    m_failedFingerprintLogins = failedFingerprintLogins;
+    failedFingerprintLoginsChanged();
 }
 
 bool AccountsService::hereEnabled() const

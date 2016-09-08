@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -203,11 +203,31 @@ Rectangle {
                 onClicked: LauncherModel.setAlerting(LauncherModel.get(parseInt(appIdEntryAlert.displayText)).appId, false)
             }
         }
+
+        Row {
+            spacing: units.gu(1)
+            Button {
+                text: "Toggle count visible"
+                onClicked: {
+                    var item = LauncherModel.get(parseInt(appIdEntryCountVisible.displayText))
+                    LauncherModel.setCountVisible(item.appId, !item.countVisible)
+                }
+            }
+            TextField {
+                id: appIdEntryCountVisible
+                text: "0"
+            }
+        }
     }
 
     SignalSpy {
         id: signalSpy
         target: LauncherModel
+    }
+
+    SignalSpy {
+        id: clickThroughSpy
+        target: clickThroughTester
     }
 
     Item {
@@ -231,6 +251,8 @@ Rectangle {
 
         property Item launcher: launcherLoader.status === Loader.Ready ? launcherLoader.item : null
         function cleanup() {
+            signalSpy.clear();
+            clickThroughSpy.clear();
             launcherLoader.active = false;
             // Loader.status might be Loader.Null and Loader.item might be null but the Loader
             // item might still be alive. So if we set Loader.active back to true
@@ -486,25 +508,26 @@ Rectangle {
         function test_progressOverlays() {
             dragLauncherIntoView();
             var launcherListView = findChild(launcher, "launcherListView");
+            var moveAnimation = findInvisibleChild(launcherListView, "moveAnimation")
             for (var i = 0; i < launcherListView.count; ++i) {
+                launcherListView.moveToIndex(i);
+                waitForRendering(launcherListView);
+                tryCompare(moveAnimation, "running", false);
+
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
                 compare(findChild(delegate, "progressOverlay").visible, LauncherModel.get(i).progress >= 0)
-            }
-        }
-
-        function test_runningHighlight() {
-            dragLauncherIntoView();
-            var launcherListView = findChild(launcher, "launcherListView");
-            for (var i = 0; i < launcherListView.count; ++i) {
-                var delegate = findChild(launcherListView, "launcherDelegate" + i)
-                compare(findChild(delegate, "runningHighlight0").visible, LauncherModel.get(i).running)
             }
         }
 
         function test_focusedHighlight() {
             dragLauncherIntoView();
             var launcherListView = findChild(launcher, "launcherListView");
+            var moveAnimation = findInvisibleChild(launcherListView, "moveAnimation")
+
             for (var i = 0; i < launcherListView.count; ++i) {
+                launcherListView.moveToIndex(i);
+                waitForRendering(launcherListView);
+                tryCompare(moveAnimation, "running", false);
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
                 compare(findChild(delegate, "focusedHighlight").visible, LauncherModel.get(i).focused)
             }
@@ -924,7 +947,6 @@ Rectangle {
 
             var quickListEntry = findChild(quickList, "quickListEntry" + data.index)
 
-            signalSpy.clear();
             signalSpy.signalName = "quickListTriggered"
 
             mouseClick(quickListEntry)
@@ -1143,7 +1165,14 @@ Rectangle {
             tryCompare(shortCutHint0, "visible", false);
         }
 
-        function test_keyboardNavigation() {
+        function test_keyboardNavigation_data() {
+            return [
+                {tag: "right key", key: Qt.Key_Right},
+                {tag: "menu key", key: Qt.Key_Menu}
+            ]
+        }
+
+        function test_keyboardNavigation(data) {
             var bfbFocusHighlight = findChild(launcher, "bfbFocusHighlight");
             var quickList = findChild(launcher, "quickList");
             var launcherPanel = findChild(launcher, "launcherPanel");
@@ -1184,7 +1213,7 @@ Rectangle {
             assertFocusOnIndex(0); // Back to Top
 
             // Right opens the quicklist
-            keyClick(Qt.Key_Right);
+            keyClick(data.key);
             assertFocusOnIndex(0); // Navigating the quicklist... the launcher focus should not move
             tryCompare(quickList, "visible", true);
             tryCompare(quickList, "selectedIndex", 0)
@@ -1217,7 +1246,6 @@ Rectangle {
             launcher.openForKeyboardNavigation();
             waitForRendering(launcher);
 
-            signalSpy.clear();
             signalSpy.signalName = "quickListTriggered"
 
             keyClick(Qt.Key_Down); // Down to launcher item 0
@@ -1294,6 +1322,36 @@ Rectangle {
             }
 
             assertFocusOnIndex(-2);
+        }
+
+        function test_surfaceCountPips() {
+            var launcherListView = findChild(launcher, "launcherListView")
+            var moveAnimation = findInvisibleChild(launcherListView, "moveAnimation")
+
+            for (var i = 0; i < launcherListView.count; i++) {
+                launcherListView.moveToIndex(i);
+                waitForRendering(launcherListView);
+                tryCompare(moveAnimation, "running", false);
+
+                var delegate = findChild(launcher, "launcherDelegate" + i);
+                var surfacePipRepeater = findInvisibleChild(delegate, "surfacePipRepeater");
+                compare(surfacePipRepeater.model, Math.min(3, LauncherModel.get(i).surfaceCount))
+            }
+        }
+
+        function test_preventMouseEventsThru() {
+            dragLauncherIntoView();
+            var launcherPanel = findChild(launcher, "launcherPanel");
+            tryCompare(launcherPanel, "visible", true);
+
+            clickThroughSpy.signalName = "wheel";
+            mouseWheel(launcherPanel, launcherPanel.width/2, launcherPanel.height/2, 10, 10);
+            tryCompare(clickThroughSpy, "count", 0);
+
+            clickThroughSpy.clear();
+            clickThroughSpy.signalName = "clicked";
+            mouseWheel(launcherPanel, launcherPanel.width/2, launcherPanel.height/2, Qt.RightButton);
+            tryCompare(clickThroughSpy, "count", 0);
         }
     }
 }

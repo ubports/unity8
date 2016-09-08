@@ -20,6 +20,7 @@
 #include <QObject>
 #include <QTemporaryDir>
 #include <QTest>
+#include <QSettings>
 
 #define PAGES_PATH "Wizard/Pages"
 
@@ -28,7 +29,7 @@ class PageListTest: public QObject
     Q_OBJECT
 
 public:
-    PageListTest() {};
+    PageListTest() {}
 
 private Q_SLOTS:
     void testCollect();
@@ -37,6 +38,7 @@ private Q_SLOTS:
     void testIgnoreNonQml();
     void testIgnoreDuplicates();
     void testDisabled();
+    void testSkipUntilLastPage();
 
 private:
     void fillRoot(const QTemporaryDir &root);
@@ -148,6 +150,33 @@ void PageListTest::testDisabled()
 
     PageList pageList;
     QCOMPARE(pageList.entries(), QStringList() << "4.qml");
+}
+
+void PageListTest::testSkipUntilLastPage() {
+    PageList * pageList = nullptr;
+    QTemporaryDir root;
+    fillRoot(root);
+
+    makeFile(root, "a", "1.qml");
+    makeFile(root, "a", "2.qml");
+    makeFile(root, "a", "3.qml");
+
+    // normal run
+    pageList = new PageList;
+    QCOMPARE(pageList->numPages(), 3);
+    delete pageList; pageList = nullptr;
+
+    // after system update had been installed, have the last page only
+    QSettings settings;
+    settings.setValue(QStringLiteral("Wizard/SkipUntilFinishedPage"), true);
+    pageList = new PageList;
+    QCOMPARE(pageList->entries(), {QStringLiteral("3.qml")}); // only the last page should be in the list
+    delete pageList; pageList = nullptr;
+
+    // normal run again
+    pageList = new PageList;
+    QCOMPARE(pageList->numPages(), 3);
+    delete pageList; pageList = nullptr;
 }
 
 QTEST_MAIN(PageListTest)

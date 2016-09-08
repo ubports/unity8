@@ -28,6 +28,7 @@ Item {
     signal cancel() // unused
 
     function clear(playAnimation) {}
+    function showText(text) {}
 
     Column {
         anchors.left: parent.left

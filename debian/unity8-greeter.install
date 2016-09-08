@@ -1,0 +1,5 @@
+data/unity8-greeter-wrapper usr/bin/
+data/unity8-greeter-init.conf usr/share/upstart/sessions/
+data/unity8-greeter.pkla /var/lib/polkit-1/localauthority/10-vendor.d/
+usr/share/lightdm/greeters/unity8-greeter.desktop
+usr/share/lightdm/lightdm.conf.d/51-unity8-greeter.conf
