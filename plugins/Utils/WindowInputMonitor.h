@@ -29,7 +29,7 @@
   * key presses.
   *
   * Additionally, this class monitors for generic touch events on the screen, to
-  * help with hiding/revealing the mouse pointer and moving window around with Alt+LMB
+  * help with hiding/revealing the mouse pointer.
  */
 class WindowInputMonitor : public QQuickItem
 {
