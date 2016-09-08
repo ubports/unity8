@@ -146,8 +146,8 @@ AbstractStage {
 
         property bool goneToSpread: false
         property int closingIndex: -1
-        property int animationDuration: 4000
-//        property int animationDuration: UbuntuAnimation.FastDuration
+//        property int animationDuration: 4000
+        property int animationDuration: UbuntuAnimation.FastDuration
 
         function updateForegroundMaximizedApp() {
             var found = false;
