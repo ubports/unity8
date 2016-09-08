@@ -362,6 +362,7 @@ AbstractStage {
             PropertyChanges { target: floatingFlickable; enabled: true }
             PropertyChanges { target: spreadItem; focus: true }
             PropertyChanges { target: hoverMouseArea; enabled: true }
+            PropertyChanges { target: rightEdgeDragArea; enabled: false }
         },
         State {
             name: "stagedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "staged"
