@@ -363,6 +363,7 @@ AbstractStage {
             PropertyChanges { target: spreadItem; focus: true }
             PropertyChanges { target: hoverMouseArea; enabled: true }
             PropertyChanges { target: rightEdgeDragArea; enabled: false }
+            PropertyChanges { target: cancelSpreadMouseArea; enabled: true }
         },
         State {
             name: "stagedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "staged"
@@ -418,6 +419,13 @@ AbstractStage {
         }
 
     ]
+
+    MouseArea {
+        id: cancelSpreadMouseArea
+        anchors.fill: parent
+        enabled: false
+        onClicked: priv.goneToSpread = false
+    }
 
     FocusScope {
         id: appContainer
