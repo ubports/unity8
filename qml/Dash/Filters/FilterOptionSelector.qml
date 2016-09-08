@@ -60,6 +60,7 @@ FilterWidget {
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
                 source: expandingItem.expanded ? "image://theme/up" : "image://theme/down"
+                sourceSize.height: height
             }
         }
 
@@ -81,6 +82,7 @@ FilterWidget {
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
                         source: "image://theme/tick"
+                        sourceSize.height: height
                         visible: checked
                     }
 

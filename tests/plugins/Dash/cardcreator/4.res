@@ -32,7 +32,7 @@ Loader {
                         objectName: "mascotShapeLoader"; 
                         asynchronous: true;
                         active: mascotImage.status === Image.Ready;
-                        visible: showHeader && active && status == Loader.Ready; 
+                        visible: showHeader && active && status === Loader.Ready;
                         width: units.gu(6); 
                         height: units.gu(5.625); 
                         sourceComponent: UbuntuShape { image: mascotImage }

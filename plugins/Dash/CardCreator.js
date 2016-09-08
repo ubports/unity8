@@ -25,7 +25,7 @@ var kBackgroundLoaderCode = 'Loader {\n\
                                 objectName: "backgroundLoader"; \n\
                                 anchors.fill: parent; \n\
                                 asynchronous: %3; \n\
-                                visible: status == Loader.Ready; \n\
+                                visible: status === Loader.Ready; \n\
                                 sourceComponent: UbuntuShape { \n\
                                     objectName: "background"; \n\
                                     radius: "medium"; \n\
@@ -75,7 +75,7 @@ var kArtProportionalShapeCode = 'ProportionalShape { \n\
                                     aspect: UbuntuShape.DropShadow; \n\
                                  }';
 
-// %1 is used as anchors of artShapeHolder
+// %1 is used as anchors of artShapeLoader
 // %2 is used as image width
 // %3 is used as image height
 // %4 is whether the image should be visible
@@ -83,42 +83,39 @@ var kArtProportionalShapeCode = 'ProportionalShape { \n\
 // %6 is the shape code we want to use
 // %7 is injected as code to artImage
 // %8 is used as image fallback
-var kArtShapeHolderCode = 'Item { \n\
-                            id: artShapeHolder; \n\
+var kArtShapeHolderCode = 'Loader { \n\
+                            id: artShapeLoader; \n\
                             height: root.fixedArtShapeSize.height; \n\
                             width: root.fixedArtShapeSize.width; \n\
                             anchors { %1 } \n\
-                            Loader { \n\
-                                id: artShapeLoader; \n\
-                                objectName: "artShapeLoader"; \n\
-                                readonly property string cardArt: cardData && cardData["art"] || %8; \n\
-                                onCardArtChanged: { if (item) { item.image.source = cardArt; } } \n\
-                                active: cardArt != ""; \n\
-                                asynchronous: %5; \n\
-                                visible: status == Loader.Ready; \n\
-                                sourceComponent: Item { \n\
-                                    id: artShape; \n\
-                                    objectName: "artShape"; \n\
-                                    visible: image.status == Image.Ready; \n\
-                                    readonly property alias image: artImage; \n\
-                                    %6 \n\
-                                    width: root.fixedArtShapeSize.width; \n\
-                                    height: root.fixedArtShapeSize.height; \n\
-                                    CroppedImageMinimumSourceSize { \n\
-                                        id: artImage; \n\
-                                        objectName: "artImage"; \n\
-                                        source: artShapeLoader.cardArt; \n\
-                                        asynchronous: %5; \n\
-                                        visible: %4; \n\
-                                        width: %2; \n\
-                                        height: %3; \n\
-                                        %7 \n\
-                                    } \n\
+                            objectName: "artShapeLoader"; \n\
+                            readonly property string cardArt: cardData && cardData["art"] || %8; \n\
+                            onCardArtChanged: { if (item) { item.image.source = cardArt; } } \n\
+                            active: cardArt != ""; \n\
+                            asynchronous: %5; \n\
+                            visible: status === Loader.Ready; \n\
+                            sourceComponent: Item { \n\
+                                id: artShape; \n\
+                                objectName: "artShape"; \n\
+                                visible: image.status === Image.Ready; \n\
+                                readonly property alias image: artImage; \n\
+                                %6 \n\
+                                width: root.fixedArtShapeSize.width; \n\
+                                height: root.fixedArtShapeSize.height; \n\
+                                CroppedImageMinimumSourceSize { \n\
+                                    id: artImage; \n\
+                                    objectName: "artImage"; \n\
+                                    source: artShapeLoader.cardArt; \n\
+                                    asynchronous: %5; \n\
+                                    visible: %4; \n\
+                                    width: %2; \n\
+                                    height: %3; \n\
+                                    %7 \n\
                                 } \n\
                             } \n\
                         }\n';
 
-// %1 is used as anchors of artShapeHolder
+// %1 is used as anchors of artShapeLoader
 // %2 is used as image width
 // %3 is used as image height
 // %4 is whether the image should be visible
@@ -126,37 +123,32 @@ var kArtShapeHolderCode = 'Item { \n\
 // %6 is the shape code we want to use
 // %7 is injected as code to artImage
 // %8 is used as image fallback
-var kArtShapeHolderCodeCardToolCard = 'Item { \n\
-                            id: artShapeHolder; \n\
-                            height: artShapeLoader.height; \n\
-                            width: artShapeLoader.width; \n\
+var kArtShapeHolderCodeCardToolCard = 'Loader { \n\
+                            id: artShapeLoader; \n\
                             anchors { %1 } \n\
-                            Loader { \n\
-                                id: artShapeLoader; \n\
-                                objectName: "artShapeLoader"; \n\
-                                readonly property string cardArt: cardData && cardData["art"] || %8; \n\
-                                onCardArtChanged: { if (item) { item.image.source = cardArt; } } \n\
-                                active: cardArt != ""; \n\
-                                asynchronous: %5; \n\
-                                visible: status == Loader.Ready; \n\
-                                sourceComponent: Item { \n\
-                                    id: artShape; \n\
-                                    objectName: "artShape"; \n\
-                                    visible: image.status == Image.Ready; \n\
-                                    readonly property alias image: artImage; \n\
-                                    %6 \n\
-                                    width: image.status !== Image.Ready ? 0 : image.width; \n\
-                                    height: image.status !== Image.Ready ? 0 : image.height; \n\
-                                    CroppedImageMinimumSourceSize { \n\
-                                        id: artImage; \n\
-                                        objectName: "artImage"; \n\
-                                        source: artShapeLoader.cardArt; \n\
-                                        asynchronous: %5; \n\
-                                        visible: %4; \n\
-                                        width: %2; \n\
-                                        height: %3; \n\
-                                        %7 \n\
-                                    } \n\
+                            objectName: "artShapeLoader"; \n\
+                            readonly property string cardArt: cardData && cardData["art"] || %8; \n\
+                            onCardArtChanged: { if (item) { item.image.source = cardArt; } } \n\
+                            active: cardArt != ""; \n\
+                            asynchronous: %5; \n\
+                            visible: status === Loader.Ready; \n\
+                            sourceComponent: Item { \n\
+                                id: artShape; \n\
+                                objectName: "artShape"; \n\
+                                visible: image.status === Image.Ready; \n\
+                                readonly property alias image: artImage; \n\
+                                %6 \n\
+                                width: image.status !== Image.Ready ? 0 : image.width; \n\
+                                height: image.status !== Image.Ready ? 0 : image.height; \n\
+                                CroppedImageMinimumSourceSize { \n\
+                                    id: artImage; \n\
+                                    objectName: "artImage"; \n\
+                                    source: artShapeLoader.cardArt; \n\
+                                    asynchronous: %5; \n\
+                                    visible: %4; \n\
+                                    width: %2; \n\
+                                    height: %3; \n\
+                                    %7 \n\
                                 } \n\
                             } \n\
                         }\n';
@@ -214,10 +206,10 @@ var kAudioButtonCode = 'AbstractButton { \n\
 var kOverlayLoaderCode = 'Loader { \n\
                             id: overlayLoader; \n\
                             readonly property real overlayHeight: %2 + units.gu(2); \n\
-                            anchors.fill: artShapeHolder; \n\
+                            anchors.fill: artShapeLoader; \n\
                             active: artShapeLoader.active && artShapeLoader.item && artShapeLoader.item.image.status === Image.Ready || false; \n\
                             asynchronous: %1; \n\
-                            visible: showHeader && status == Loader.Ready; \n\
+                            visible: showHeader && status === Loader.Ready; \n\
                             sourceComponent: UbuntuShapeOverlay { \n\
                                 id: overlay; \n\
                                 property real luminance: Style.luminance(overlayColor); \n\
@@ -274,7 +266,7 @@ var kMascotShapeLoaderCode = 'Loader { \n\
                                 objectName: "mascotShapeLoader"; \n\
                                 asynchronous: %2; \n\
                                 active: mascotImage.status === Image.Ready; \n\
-                                visible: showHeader && active && status == Loader.Ready; \n\
+                                visible: showHeader && active && status === Loader.Ready; \n\
                                 width: units.gu(6); \n\
                                 height: units.gu(5.625); \n\
                                 sourceComponent: UbuntuShape { image: mascotImage } \n\
@@ -437,7 +429,7 @@ function sanitizeColor(colorString) {
     return colorString;
 }
 
-function cardString(template, components, isCardTool, artShapeStyle) {
+function cardString(template, components, isCardTool, artShapeStyle, categoryLayout) {
     var code;
 
     var templateInteractive = (template == null ? true : (template["non-interactive"] !== undefined ? !template["non-interactive"] : true)) ? "true" : "false";
@@ -592,15 +584,15 @@ function cardString(template, components, isCardTool, artShapeStyle) {
 
     var headerVerticalAnchors;
     if (headerAsOverlay) {
-        headerVerticalAnchors = 'bottom: artShapeHolder.bottom; \n\
+        headerVerticalAnchors = 'bottom: artShapeLoader.bottom; \n\
                                  bottomMargin: units.gu(1);\n';
     } else {
         if (hasArt) {
             if (isHorizontal) {
-                headerVerticalAnchors = 'top: artShapeHolder.top; \n\
+                headerVerticalAnchors = 'top: artShapeLoader.top; \n\
                                          topMargin: units.gu(1);\n';
             } else {
-                headerVerticalAnchors = 'top: artShapeHolder.bottom; \n\
+                headerVerticalAnchors = 'top: artShapeLoader.bottom; \n\
                                          topMargin: units.gu(1);\n';
             }
         } else {
@@ -612,7 +604,7 @@ function cardString(template, components, isCardTool, artShapeStyle) {
     var headerLeftAnchor;
     var headerLeftAnchorHasMargin = false;
     if (isHorizontal && hasArt) {
-        headerLeftAnchor = 'left: artShapeHolder.right; \n\
+        headerLeftAnchor = 'left: artShapeLoader.right; \n\
                             leftMargin: units.gu(1);\n';
         headerLeftAnchorHasMargin = true;
     } else if (isHorizontal && isAudio) {
@@ -866,7 +858,7 @@ function cardString(template, components, isCardTool, artShapeStyle) {
         var audioButtonWidth;
         var audioButtonHeight;
         if (hasArt) {
-            audioButtonAnchorsFill = 'artShapeHolder';
+            audioButtonAnchorsFill = 'artShapeLoader';
             audioButtonWidth = 'undefined';
             audioButtonHeight = 'undefined';
         } else {
@@ -880,15 +872,15 @@ function cardString(template, components, isCardTool, artShapeStyle) {
 
     if (hasSummary) {
         var summaryTopAnchor;
-        if (isHorizontal && hasArt) summaryTopAnchor = 'artShapeHolder.bottom';
-        else if (headerAsOverlay && hasArt) summaryTopAnchor = 'artShapeHolder.bottom';
+        if (isHorizontal && hasArt) summaryTopAnchor = 'artShapeLoader.bottom';
+        else if (headerAsOverlay && hasArt) summaryTopAnchor = 'artShapeLoader.bottom';
         else if (hasHeaderRow) summaryTopAnchor = 'row.bottom';
         else if (hasTitleContainer) summaryTopAnchor = 'headerTitleContainer.bottom';
         else if (hasMascot) summaryTopAnchor = 'mascotImage.bottom';
         else if (hasAttributes) summaryTopAnchor = 'attributesRow.bottom';
         else if (hasSubtitle) summaryTopAnchor = 'subtitleLabel.bottom';
         else if (hasTitle) summaryTopAnchor = 'titleLabel.bottom';
-        else if (hasArt) summaryTopAnchor = 'artShapeHolder.bottom';
+        else if (hasArt) summaryTopAnchor = 'artShapeLoader.bottom';
         else summaryTopAnchor = 'parent.top';
 
         var summaryColor;
@@ -908,15 +900,15 @@ function cardString(template, components, isCardTool, artShapeStyle) {
         var socialTopAnchor;
 
         if (hasSummary) socialTopAnchor = 'summary.bottom;';
-        else if (isHorizontal && hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
-        else if (headerAsOverlay && hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
+        else if (isHorizontal && hasArt) socialTopAnchor = 'artShapeLoader.bottom;';
+        else if (headerAsOverlay && hasArt) socialTopAnchor = 'artShapeLoader.bottom;';
         else if (hasHeaderRow) socialTopAnchor = 'row.bottom;';
         else if (hasTitleContainer) socialTopAnchor = 'headerTitleContainer.bottom;';
         else if (hasMascot) socialTopAnchor = 'mascotImage.bottom;';
         else if (hasAttributes) socialTopAnchor = 'attributesRow.bottom;';
         else if (hasSubtitle) socialTopAnchor = 'subtitleLabel.bottom;';
         else if (hasTitle) socialTopAnchor = 'titleLabel.bottom;';
-        else if (hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
+        else if (hasArt) socialTopAnchor = 'artShapeLoader.bottom;';
         else socialTopAnchor = 'parent.top';
 
         socialAnchors = 'top: ' + socialTopAnchor + ' left: parent.left; right: parent.right; topMargin: units.gu(1);'
@@ -936,36 +928,40 @@ function cardString(template, components, isCardTool, artShapeStyle) {
         if (hasBackground) {
             touchdownAnchors = 'fill: backgroundLoader';
         } else if (touchdownOnArtShape) {
-            touchdownAnchors = 'fill: artShapeHolder';
+            touchdownAnchors = 'fill: artShapeLoader';
         } else {
             touchdownAnchors = 'fill: root'
         }
         code += kTouchdownCode.arg(touchdownAnchors);
     }
 
-    var implicitHeight = 'implicitHeight: ';
-    if (hasSocialActions) {
-        implicitHeight += 'socialActionsRow.y + socialActionsRow.height + units.gu(1);\n';
-    } else if (hasSummary) {
-        implicitHeight += 'summary.y + summary.height + units.gu(1);\n';
-    } else if (isAudio) {
-        implicitHeight += 'audioButton.height;\n';
-    } else if (headerAsOverlay) {
-        implicitHeight += 'artShapeHolder.height;\n';
-    } else if (hasHeaderRow) {
-        implicitHeight += 'row.y + row.height + units.gu(1);\n';
-    } else if (hasMascot) {
-        implicitHeight += 'mascotImage.y + mascotImage.height;\n';
-    } else if (hasTitleContainer) {
-        implicitHeight += 'headerTitleContainer.y + headerTitleContainer.height + units.gu(1);\n';
-    } else if (hasAttributes) {
-        implicitHeight += 'attributesRow.y + attributesRow.height + units.gu(1);\n';
-    } else if (hasSubtitle) {
-        implicitHeight += 'subtitleLabel.y + subtitleLabel.height + units.gu(1);\n';
-    } else if (hasTitle) {
-        implicitHeight += 'titleLabel.y + titleLabel.height + units.gu(1);\n';
-    } else if (hasArt) {
-        implicitHeight += 'artShapeHolder.height;\n';
+    if (isCardTool || categoryLayout !== "grid") {
+        var implicitHeight = 'implicitHeight: ';
+        if (hasSocialActions) {
+            implicitHeight += 'socialActionsRow.y + socialActionsRow.height + units.gu(1);\n';
+        } else if (hasSummary) {
+            implicitHeight += 'summary.y + summary.height + units.gu(1);\n';
+        } else if (isAudio) {
+            implicitHeight += 'audioButton.height;\n';
+        } else if (headerAsOverlay) {
+            implicitHeight += 'artShapeLoader.height;\n';
+        } else if (hasHeaderRow) {
+            implicitHeight += 'row.y + row.height + units.gu(1);\n';
+        } else if (hasMascot) {
+            implicitHeight += 'mascotImage.y + mascotImage.height;\n';
+        } else if (hasTitleContainer) {
+            implicitHeight += 'headerTitleContainer.y + headerTitleContainer.height + units.gu(1);\n';
+        } else if (hasAttributes) {
+            implicitHeight += 'attributesRow.y + attributesRow.height + units.gu(1);\n';
+        } else if (hasSubtitle) {
+            implicitHeight += 'subtitleLabel.y + subtitleLabel.height + units.gu(1);\n';
+        } else if (hasTitle) {
+            implicitHeight += 'titleLabel.y + titleLabel.height + units.gu(1);\n';
+        } else if (hasArt) {
+            implicitHeight += 'artShapeLoader.height;\n';
+        } else {
+            implicitHeight = '';
+        }
     } else {
         implicitHeight = '';
     }
@@ -976,13 +972,13 @@ function cardString(template, components, isCardTool, artShapeStyle) {
     return code;
 }
 
-function createCardComponent(parent, template, components, isCardTool, artShapeStyle, identifier) {
+function createCardComponent(parent, template, components, isCardTool, artShapeStyle, categoryLayout, identifier) {
     var imports = 'import QtQuick 2.4; \n\
                    import Ubuntu.Components 1.3; \n\
                    import Ubuntu.Settings.Components 0.1; \n\
                    import Dash 0.1;\n\
                    import Utils 0.1;\n';
-    var card = cardString(template, components, isCardTool, artShapeStyle);
+    var card = cardString(template, components, isCardTool, artShapeStyle, categoryLayout);
     var code = imports + 'Component {\n' + card + '}\n';
 
     try {
