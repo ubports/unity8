@@ -86,7 +86,7 @@ StyledItem {
         if (startingUp) {
             // Ensure we don't rotate during start up
             return Qt.PrimaryOrientation;
-        } else if (greeter && greeter.shown) {
+        } else if (showingGreeter || notifications.topmostIsFullscreen) {
             return Qt.PrimaryOrientation;
         } else if (applicationsDisplayLoader.item) {
             return shell.orientations.map(applicationsDisplayLoader.item.supportedOrientations);
@@ -774,6 +774,8 @@ StyledItem {
             target: cursor; property: "y"; value: shell.height / 2
             when: cursor.mouseNeverMoved && cursor.visible
         }
+
+        height: units.gu(3)
 
         onPushedLeftBoundary: {
             if (buttons === Qt.NoButton) {

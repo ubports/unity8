@@ -37,7 +37,8 @@ StyledItem {
     property var hints
     property var notification
     property color color: theme.palette.normal.background
-    property bool fullscreen: false
+    property bool fullscreen: notification.notification && typeof notification.notification.fullscreen != "undefined" ?
+                                  notification.notification.fullscreen : false // fullscreen prop only exists in the mock
     property int maxHeight
     property int margins: units.gu(1)
 
@@ -55,29 +56,11 @@ StyledItem {
         name: "Ubuntu.Components.Themes.Ambiance"
     }
 
-    signal dismissed()
-
-    readonly property bool expanded: {
-        var result = false;
-
-        if (type === Notification.SnapDecision) {
-            if (ListView.view.currentIndex === index || fullscreen) {
-                result = true;
-            } else {
-                if (ListView.view.count > 2) {
-                    if (ListView.view.currentIndex === -1 && index == 1) {
-                        result = true;
-                    } else {
-                        result = false;
-                    }
-                } else {
-                    result = true;
-                }
-            }
-        }
-
-        return result;
-    }
+    readonly property bool expanded: type === Notification.SnapDecision &&                   // expand only snap decisions, if...
+                                     (fullscreen ||                                          // - it's a fullscreen one
+                                      ListView.view.currentIndex === index ||                // - it's the one the user clicked on
+                                      (ListView.view.currentIndex === -1 && index == 0)      // - the first one after the user closed the previous one
+                                      )
 
     NotificationAudio {
         id: sound
@@ -125,7 +108,6 @@ StyledItem {
         notification.notification.invokeAction(notification.actions.data(1, ActionModel.RoleActionId));
 
         notification.notification.close();
-        notification.dismissed()
     }
 
     Behavior on x {
@@ -142,9 +124,13 @@ StyledItem {
         if (fullscreen) {
             notification.notification.urgency = Notification.Critical;
         }
+        if (index == 0) {
+            ListView.view.topmostIsFullscreen = fullscreen;
+        }
     }
 
-    Behavior on height {
+    Behavior on implicitHeight {
+        enabled: !fullscreen
         UbuntuNumberAnimation {
             duration: UbuntuAnimation.SnapDuration
         }
@@ -217,7 +203,6 @@ StyledItem {
             onNameOwnerChanged: {
                 if (lastNameOwner !== "" && nameOwner === "" && notification.notification !== undefined) {
                     notification.notification.close()
-                    notification.dismissed()
                 }
                 lastNameOwner = nameOwner
             }
@@ -239,7 +224,7 @@ StyledItem {
                 if (notification.type === Notification.Interactive) {
                     notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
                 } else {
-                    notificationList.currentIndex = index;
+                    notification.ListView.view.currentIndex = index;
                 }
             }
             onReleased: {
@@ -443,7 +428,6 @@ StyledItem {
                         }
                         onAccepted: {
                             notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
-                            notification.dismissed()
                         }
                     }
                 }

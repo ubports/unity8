@@ -20,16 +20,22 @@ import QtMultimedia 5.6
 import Dash 0.1
 
 QtObject {
-    readonly property real progress: audio.position / audio.duration
-    readonly property bool playing: audio.playbackState === Audio.PlayingState
-    readonly property bool paused: audio.playbackState === Audio.PausedState
-    readonly property bool stopped: audio.playbackState === Audio.StoppedState
-    readonly property alias position: audio.position
-    readonly property url currentSource: audio.playlist.currentItemSource
+    id: root
+    readonly property real progress: priv.audio ? priv.audio.position / priv.audio.duration : 0.0
+    readonly property bool playing: priv.audio ? priv.audio.playbackState === Audio.PlayingState : false
+    readonly property bool paused: priv.audio ? priv.audio.playbackState === Audio.PausedState : false
+    readonly property bool stopped: priv.audio ? priv.audio.playbackState === Audio.StoppedState : true
+    readonly property int position: priv.audio ? priv.audio.position : 0
+    readonly property url currentSource: priv.audio ? priv.audio.playlist.currentItemSource : ""
+    readonly property Playlist playlist: priv.audio ? priv.audio.playlist : null
 
     function playSource(newSource, newPlaylist) {
+        if (!priv.audio) {
+            console.info("DashAudioPlayer: creating player");
+            priv.audio = priv.audioComponent.createObject(root);
+        }
         stop();
-        audio.playlist.clear();
+        priv.audio.playlist.clear();
         if (newPlaylist) {
             // Look for newSource in newPlaylist
             var sourceIndex = -1;
@@ -48,35 +54,53 @@ QtObject {
             for (var i in newPlaylist) {
                 urls.push(newPlaylist[i]);
             }
-            audio.playlist.addItems(urls);
-            audio.playlist.currentIndex = sourceIndex;
+            priv.audio.playlist.addItems(urls);
+            priv.audio.playlist.currentIndex = sourceIndex;
         } else {
-            audio.playlist.addItem(newSource);
-            audio.playlist.currentIndex = 0;
+            priv.audio.playlist.addItem(newSource);
+            priv.audio.playlist.currentIndex = 0;
         }
         play();
     }
 
     function stop() {
-        audio.stop();
+        if (priv.audio) {
+            priv.audio.stop();
+        }
     }
 
     function play() {
-        audio.play();
+        if (priv.audio) {
+            priv.audio.play();
+        }
     }
 
     function pause() {
-        audio.pause();
+        if (priv.audio) {
+            priv.audio.pause();
+        }
     }
 
-    property QtObject audio: Audio {
-        id: audio
-        objectName: "audio"
-        playlist: Playlist {
-            objectName: "playlist"
+    property QtObject priv: QtObject {
+        id: priv
+        property Audio audio: null
+        property Component audioComponent: Component {
+            Audio {
+                playlist: Playlist {
+                    objectName: "playlist"
+                }
+                /* Remove player in case of error so it gets recreated next time
+                 * we need it. Happens if backend media player restarted, for
+                 * instance. qtmultimedia should probably handle this
+                 * transparently (LP: #1616425).
+                 */
+                onError: {
+                    console.warn("DashAudioPlayer: error event (" +
+                                  priv.audio.errorString + "), destroying");
+                    priv.audio.destroy();
+                }
+            }
         }
-
-        onErrorStringChanged: console.warn("Dash Audio player error:", errorString)
     }
 
     function lengthToString(s) {

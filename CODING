@@ -15,23 +15,17 @@ download source
   $ bzr branch lp:unity8 ~/unity8/trunk
   $ cd ~/unity8/trunk
 
-install dependencies
+install dependencies and build Unity 8
 --------------------
-If its your first time, install build dependencies
-
-$ cd ~/unity8/trunk
-$ ./build.sh --setup
-
-  this will:
-  - install the required dependencies to build, as well as run on the desktop
-  - it should also install unity-scope-home and unity-lens-application which
-    are technically "recommends", not strict dependencies
-
-build Unity 8
--------------
 
 $ cd ~/unity8/trunk
 $ ./build.sh
+
+  If its your first time, this will install the required dependencies to build and
+  build it.
+
+  You might want to also install unity-scope-home and unity-scope-click which
+  are technically "recommends", not strict dependencies
 
 You may also rebuild with the -c for clean, which just deletes the build
 directory.
@@ -43,13 +37,15 @@ Running Unity 8 on your desktop
 run the Unity 8 shell
 ---------------------
 $ cd ~/unity8/trunk
-$ ./run.sh
+$ cd builddir
 
-Options can be passed to test the lock screen
-$ ./run.sh -p OR -k
+Each component of unity8 can be ran independently for development and testing
+For example:
+$ make tryShell
+$ make tryLauncher
+$ make tryLockscreen
 
--p is for pin lock, for which the default prompt answer is "1234"
--k is for keylock passphrase, for which the default prompt answer is "password"
+Check out the tests/qmltests/ directory for a list of things that can be ran.
 
 Notes
 -----
@@ -70,50 +66,15 @@ Notes
 
 Running Unity 8 on devices
 ==========================
-- Ubuntu Touch builds are currently only available in 14.04 flavour
-- supported hardware should match one of those listed here
-  https://wiki.ubuntu.com/Touch/Devices#Running_fine
-- follow the Ubuntu Touch install instructions for your chosen device
-  https://wiki.ubuntu.com/Touch/Install
-- make sure your device is connected to a network
-- also make sure you have your SSH key in ~/.ssh/id_rsa.pub (or install one
-  on the device yourself)
 
-$ cd ~/unity/trunk
-$ ./run_on_device.sh --setup
-  this will:
-  - install your public SSH key on the device
-  - install the needed dependencies
+Running unity8 on a device should be done using crossbuilder.
+Go to 
+* https://launchpad.net/crossbuilder and
+* https://wiki.ubuntu.com/Touch/Crossbuilder 
+for more details on crossbuilder.
 
-$ ./run_on_device.sh
-  this will:
-  - rsync the code to the device
-  - build on the device
-  - replace the running shell
-
-Options can be passed to test the lock screen
-$ ./run_on_device.sh -p OR -k
-
--p is for pin lock, for which the default prompt answer is "1234"
--k is for keylock passphrase, for which the default prompt answer is "password"
-
-Notes
------
-- using adb over TCP has some advantages, Google will be of help here
-  - NOTE: this is not yet available for flipped images
-  - TL;DR: `adb tcpip 5555; adb connect $your_device_ip`
-  - you can persist the above via `adb shell setprop persist.adb.tcp.port 5555`
-  - it's unsafe - anyone can connect to your device
-  - with TCP the Nexus 10 doesn't drop the adb connection when locking
-    the screen
-- exporting ANDROID_SERIAL=$your_device_serial or
-  ANDROID_SERIAL=$your_device_ip:5555 will make adb not complain about
-  multiple devices
-- you can export TARGET_IP=$your_device_ip TARGET_SSH_PORT=22 for run_on_device.sh
-  to not use adb forwarding - useful if you use multiple devices
-- using Ninja (package ninja-build - run_on_device.sh -s installs this now)
-  will improve build times (especially in the nothing-to-build case)
-
+unity8 will automatically restart on the phone once deployment
+has finished due to post-build-steps set up in this repository.
 
 Coding guidelines
 =================
