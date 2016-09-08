@@ -12,20 +12,21 @@ Item {
     property real iconMargin: (height - titleLabel.height) * 0.25
     property real labelMargin: (height - titleLabel.height) * 0.1
 
-    UbuntuShape {
+    ProportionalShape {
         id: iconShape
         anchors {
             top: parent.top
             topMargin: iconMargin
             left: parent.left
         }
-        width:  units.gu(8) / units.gu(7.5) * height
         height: iconHeight
         borderSource: "undefined"
+        aspect: UbuntuShape.Flat
         source: Image {
             id: icon
             sourceSize.width: iconShape.width
             sourceSize.height: iconShape.height
+            cache: false // see lpbug#1543290 why no cache
         }
     }
 
