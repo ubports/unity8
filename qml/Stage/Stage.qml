@@ -1463,11 +1463,7 @@ AbstractStage {
         // NB: it does its own positioning according to the specified edge
         edge: Qt.RightEdge
 
-        onProgressChanged: {
-            if (progress > spreadItem.rightEdgeBreakPoint) {
-                priv.goneToSpread = true;
-            }
-        }
+        onPassed: priv.goneToSpread = true;
 
         material: Component {
             Item {
