@@ -19,14 +19,13 @@
 
 #include <QQuickItem>
 #include <QTouchEvent>
+#include <UbuntuGestures/ubuntugesturesglobal.h>
 
 class QQuickView;
 class QTouchDevice;
 
-namespace UbuntuGestures {
-    class FakeTimerFactory;
-}
-class TouchRegistry;
+UG_FORWARD_DECLARE_CLASS(FakeTimerFactory)
+UG_FORWARD_DECLARE_CLASS(TouchRegistry)
 
 // C++ std lib
 #include <functional>
@@ -96,7 +95,7 @@ protected:
     QTouchDevice *m_device;
     QQuickView *m_view;
     TouchRegistry *m_touchRegistry;
-    UbuntuGestures::FakeTimerFactory *m_fakeTimerFactory;
+    UG_PREPEND_NAMESPACE(FakeTimerFactory) *m_fakeTimerFactory;
     QString m_qmlFilename;
 };
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical Ltd.
+ * Copyright (C) 2014-2016 Canonical Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
@@ -35,6 +35,10 @@ public:
 
 public Q_SLOTS:
     void updateSessionLocale(const QString &locale);
+    /**
+     * Mark the wizard to skip all the pages and just show the last (welcome to ubuntu) page
+     */
+    void skipUntilFinishedPage();
 
 Q_SIGNALS:
     void wizardEnabledChanged();

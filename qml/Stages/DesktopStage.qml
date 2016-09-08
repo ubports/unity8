@@ -36,6 +36,11 @@ AbstractStage {
             edgeBarrier.push(amount);
         }
     }
+    function closeFocusedDelegate() {
+        if (priv.focusedAppDelegate && !priv.focusedAppDelegate.isDash) {
+            priv.focusedAppDelegate.close();
+        }
+    }
 
     // Used by TutorialRight
     property bool spreadShown: spread.state == "altTab"
@@ -46,13 +51,6 @@ AbstractStage {
     mainAppWindowOrientationAngle: shellOrientationAngle
 
     orientationChangesEnabled: true
-
-    GlobalShortcut {
-        id: closeWindowShortcut
-        shortcut: Qt.AltModifier|Qt.Key_F4
-        onTriggered: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.close(); } }
-        active: priv.focusedAppDelegate !== null
-    }
 
     GlobalShortcut {
         id: showSpreadShortcut
@@ -156,6 +154,10 @@ AbstractStage {
                 }
             }
         }
+
+        readonly property real virtualKeyboardHeight: SurfaceManager.inputMethodSurface
+                                                          ? SurfaceManager.inputMethodSurface.inputBounds.height
+                                                          : 0
     }
 
     Connections {
@@ -201,7 +203,7 @@ AbstractStage {
     Binding {
         target: PanelState
         property: "closeButtonShown"
-        value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized && priv.focusedAppDelegate.application.appId !== "unity8-dash"
+        value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized && !priv.focusedAppDelegate.isDash
     }
 
     Component.onDestruction: {
@@ -228,7 +230,7 @@ AbstractStage {
     Binding {
         target: MirFocusController
         property: "focusedSurface"
-        value: priv.focusedAppDelegate ? priv.focusedAppDelegate.surface : null
+        value: priv.focusedAppDelegate ? priv.focusedAppDelegate.focusedSurface : null
         when: !appRepeater.startingUp && root.parent
     }
 
@@ -273,7 +275,7 @@ AbstractStage {
                     property: "y"
                     value: appDelegate.requestedY -
                            Math.min(appDelegate.requestedY - PanelState.panelHeight,
-                                    Math.max(0, UbuntuKeyboardInfo.height - (appContainer.height - (appDelegate.requestedY + appDelegate.height))))
+                                    Math.max(0, priv.virtualKeyboardHeight - (appContainer.height - (appDelegate.requestedY + appDelegate.height))))
                     when: root.oskEnabled && appDelegate.focus && appDelegate.state == "normal"
                           && SurfaceManager.inputMethodSurface
                           && SurfaceManager.inputMethodSurface.state != Mir.HiddenState
@@ -332,6 +334,9 @@ AbstractStage {
 
                 readonly property var surface: model.surface
                 readonly property alias resizeArea: resizeArea
+                readonly property alias focusedSurface: decoratedWindow.focusedSurface
+
+                readonly property bool isDash: model.application.appId == "unity8-dash"
 
                 function claimFocus() {
                     if (spread.state == "altTab") {

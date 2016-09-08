@@ -16,12 +16,23 @@
 
 import QtQuick 2.4
 import Unity.Indicators 0.1 as Indicators
+import Unity.InputInfo 0.1
+import AccountsService 0.1
 import "fakeindicatorsmodeldata.js" as FakeIndicators
 
 Indicators.FakeIndicatorsModel {
     id: root
 
     property var originalModelData: [
+        {
+            "identifier": "indicator-keyboard",
+            "indicatorProperties": {
+                "enabled": true,
+                "busName": "com.canonical.indicators.fake0",
+                "menuObjectPath": "/com/canonical/indicators/fake0",
+                "actionsObjectPath": "/com/canonical/indicators/fake0"
+            }
+        },
         {
             "identifier": "fake-indicator-bluetooth",
             "indicatorProperties": {
@@ -96,10 +107,26 @@ Indicators.FakeIndicatorsModel {
         }
     ]
 
+    Component.onCompleted: {
+        // init data for the fake indicator-keyboard
+        MockInputDeviceBackend.addMockDevice("/indicator_kbd0", InputInfo.Keyboard);
+        AccountsService.keymaps = ["us", "cs"];
+    }
+
+    Component.onDestruction: {
+        MockInputDeviceBackend.removeDevice("/indicator_kbd0");
+        AccountsService.keymaps = ["us"];
+    }
+
     function load(profile) {
         unload();
         root.modelData = originalModelData;
 
+        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake0",
+                                           getUnityMenuModelData("indicator-keyboard",
+                                                                 "Czech (F)",
+                                                                 "",
+                                                                 [ "image://theme/input-keyboard-symbolic" ]));
         Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake1",
                                            getUnityMenuModelData("fake-indicator-bluetooth",
                                                                  "Bluetooth (F)",
@@ -136,10 +163,10 @@ Indicators.FakeIndicatorsModel {
                                                                  "12:04",
                                                                  []));
         Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake8",
-                                            getUnityMenuModelData("fake-indicator-session",
-                                                                  "Session (F)",
-                                                                  "",
-                                                                  []));
+                                           getUnityMenuModelData("fake-indicator-session",
+                                                                 "System (F)",
+                                                                 "",
+                                                                 ["image://theme/system-devices-panel"]));
     }
 
     function getUnityMenuModelData(identifier, title, label, icons) {
@@ -212,6 +239,5 @@ Indicators.FakeIndicatorsModel {
                 break;
             }
         }
-
     }
 }

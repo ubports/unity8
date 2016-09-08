@@ -27,6 +27,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(
     SYSTEM
     ${UBUNTUGESTURES_INCLUDE_DIRS}
+    ${UBUNTUGESTURES_INCLUDEDIR}/UbuntuGestures/${UBUNTUGESTURES_VERSION}
 )
 
 # There's no cmake var for v8 include path :-/ so create one
