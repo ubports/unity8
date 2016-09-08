@@ -1269,7 +1269,7 @@ AbstractStage {
                     screenHeight: appContainer.height
                     leftMargin: root.leftMargin
                     enabled: false
-                    visible: false
+                    visible: enabled
 
                     onPressed: {
                         print("***** focusing because of resize area press", model.application.appId)
