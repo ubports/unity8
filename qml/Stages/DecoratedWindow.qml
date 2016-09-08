@@ -162,6 +162,7 @@ FocusScope {
         property bool dragging: false
         onPressed: {
             if (mouse.button == Qt.LeftButton && mouse.modifiers == Qt.AltModifier) {
+                root.decorationPressed(); // to raise it
                 moveHandler.handlePressedChanged(true, Qt.LeftButton, mouse.x, mouse.y);
                 dragging = true;
                 mouse.accepted = true;
