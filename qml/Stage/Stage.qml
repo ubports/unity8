@@ -56,6 +56,30 @@ AbstractStage {
 
     orientationChangesEnabled: true
 
+    supportedOrientations: {
+        if (mainApp) {
+            switch (mode) {
+            case "staged":
+                return mainApp.supportedOrientations;
+            case "stagedWithSideStage":
+                var orientations = mainApp.supportedOrientations;
+                orientations |= Qt.LandscapeOrientation | Qt.InvertedLandscapeOrientation;
+                if (priv.sideStageItemId && !spreadView.surfaceDragging) {
+                    // If we have a sidestage app, support Portrait orientation
+                    // so that it will switch the sidestage app to mainstage on rotate to portrait
+                    orientations |= Qt.PortraitOrientation|Qt.InvertedPortraitOrientation;
+                }
+                return orientations;
+            }
+        }
+
+        return Qt.PortraitOrientation |
+                Qt.LandscapeOrientation |
+                Qt.InvertedPortraitOrientation |
+                Qt.InvertedLandscapeOrientation;
+    }
+
+
     onAltTabPressedChanged: priv.goneToSpread = altTabPressed
 
     GlobalShortcut {
