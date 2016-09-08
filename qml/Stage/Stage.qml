@@ -146,8 +146,8 @@ AbstractStage {
 
         property bool goneToSpread: false
         property int closingIndex: -1
-//        property int animationDuration: 4000
-        property int animationDuration: UbuntuAnimation.FastDuration
+        property int animationDuration: 4000
+//        property int animationDuration: UbuntuAnimation.FastDuration
 
         function updateForegroundMaximizedApp() {
             var found = false;
@@ -1180,22 +1180,20 @@ AbstractStage {
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: priv.animationDuration }
                     },
                     Transition {
+                        from: "normal,maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight"; to: "staged,stagedWithSideStage"
+                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedWidth,requestedHeight"; duration: priv.animationDuration}
+                    },
+                    Transition {
                         from: "maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,minimized"; to: "normal"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
-                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedWidth,requestedHeight,scale"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,requestedWidth,requestedHeight,scale"; duration: priv.animationDuration }
                     },
                     Transition {
                         from: "normal"; to: "maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
                         UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,requestedWidth,requestedHeight"; duration: priv.animationDuration }
-                    },
-                    Transition {
-                        from: "spread"; to: "*"
-//                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
-//                        UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle"; duration: priv.animationDuration }
-//                        ScriptAction { script: if (appDelegate.focus) appDelegate.playFocusAnimation() }
                     },
                     Transition {
                         to: "minimized"
