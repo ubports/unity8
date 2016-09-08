@@ -12,6 +12,8 @@ Item {
     property real iconMargin: (height - titleLabel.height) * 0.25
     property real labelMargin: (height - titleLabel.height) * 0.1
 
+    signal clicked()
+
     ProportionalShape {
         id: iconShape
         anchors {
@@ -28,6 +30,11 @@ Item {
             sourceSize.height: iconShape.height
             cache: false // see lpbug#1543290 why no cache
         }
+    }
+
+    MouseArea {
+        anchors.fill: iconShape
+        onClicked: root.clicked()
     }
 
     Label {

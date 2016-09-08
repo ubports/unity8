@@ -1425,6 +1425,11 @@ AbstractStage {
                     opacity: 0
                     z: 1
                     visible: opacity > 0
+
+                    onClicked: {
+                        spreadItem.highlightedIndex = index;
+                        priv.goneToSpread = false;
+                    }
                 }
 
                 Image {
