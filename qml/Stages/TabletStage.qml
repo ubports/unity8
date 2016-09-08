@@ -763,9 +763,7 @@ AbstractStage {
                     onFocusChanged: {
                         if (focus && !spreadRepeater.startingUp) {
                             priv.focusedAppDelegate = spreadTile;
-                            if (root.parent) {
-                                root.topLevelSurfaceList.raiseId(model.id);
-                            }
+                            root.topLevelSurfaceList.raiseId(model.id);
                         }
                         if (focus && priv.sideStageEnabled && stage === ApplicationInfoInterface.SideStage) {
                             sideStage.show();
