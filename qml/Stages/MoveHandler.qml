@@ -21,7 +21,7 @@ import Utils 0.1
 import "../Components"
 import "../Components/PanelState"
 
-Item {
+QtObject {
     id: root
 
     property Item target // appDelegate
@@ -29,7 +29,7 @@ Item {
     property int stageHeight
     property real buttonsWidth: 0
 
-    readonly property alias dragging: priv.dragging
+    readonly property bool dragging: priv.dragging
 
     signal fakeMaximizeAnimationRequested(real amount)
     signal fakeMaximizeLeftAnimationRequested(real amount)
@@ -40,8 +40,7 @@ Item {
     signal fakeMaximizeBottomRightAnimationRequested(real amount)
     signal stopFakeAnimation()
 
-    QtObject {
-        id: priv
+    property QtObject priv: QtObject {
         property real distanceX
         property real distanceY
         property bool dragging

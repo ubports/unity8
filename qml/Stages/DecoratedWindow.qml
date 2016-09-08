@@ -119,7 +119,6 @@ FocusScope {
 
     MoveHandler {
         id: moveHandler
-        anchors.fill: parent
         objectName: "moveHandler"
         target: root.parent
         buttonsWidth: decoration.buttonsWidth

@@ -159,7 +159,6 @@ Item {
 
             MoveHandler {
                 id: moveHandler
-                anchors.fill: mouseArea
                 objectName: "moveHandler"
                 target: root.target
 
