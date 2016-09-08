@@ -736,7 +736,7 @@ var fakeMenuData = {
                     "icons": [],
                     "label": "Files",
                     "title": "Files",
-                    "visible": false
+                    "visible": true
                 },
                 "icon": "",
                 "isCheck": false,
