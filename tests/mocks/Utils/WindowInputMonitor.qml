@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2016 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,4 @@ QtObject {
     signal homeKeyActivated()
     signal touchBegun()
     signal touchEnded(point pos)
-    signal windowMoveRequested(point scenePos)
-    signal windowMoveUpdated(point scenePos)
-    signal windowMoveEnded()
 }

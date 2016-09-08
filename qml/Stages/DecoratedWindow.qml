@@ -57,7 +57,6 @@ FocusScope {
     readonly property alias dragging: moveHandler.dragging
 
     readonly property Item clientAreaItem: applicationWindow
-    readonly property alias moveHandler: moveHandler
 
     signal closeClicked()
     signal maximizeClicked()
@@ -153,6 +152,35 @@ FocusScope {
                     else return 0;
                 }
                 angle: rotationAngle
+        }
+    }
+
+    MouseArea {
+        anchors.fill: applicationWindow
+        acceptedButtons: Qt.LeftButton
+        hoverEnabled: true
+        property bool dragging: false
+        onPressed: {
+            if (mouse.button == Qt.LeftButton && mouse.modifiers == Qt.AltModifier) {
+                moveHandler.handlePressedChanged(true, Qt.LeftButton, mouse.x, mouse.y);
+                dragging = true;
+                mouse.accepted = true;
+            } else {
+                mouse.accepted = false;
+            }
+        }
+        onPositionChanged: {
+            if (dragging) {
+                 moveHandler.handlePositionChanged(mouse);
+            }
+        }
+        onReleased: {
+            if (dragging) {
+                moveHandler.handlePressedChanged(false, Qt.LeftButton);
+                root.decorationReleased();  // commits the fake preview max rectangle
+                moveHandler.handleReleased();
+                dragging = false;
+            }
         }
     }
 }

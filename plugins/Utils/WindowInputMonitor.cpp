@@ -56,13 +56,14 @@ bool WindowInputMonitor::eventFilter(QObject *watched, QEvent *event)
     Q_ASSERT(watched == static_cast<QObject*>(m_filteredWindow.data()));
     Q_UNUSED(watched);
 
-    return update(event);
+    update(event);
+
+    // We're only monitoring, never filtering out events
+    return false;
 }
 
-bool WindowInputMonitor::update(QEvent *event)
+void WindowInputMonitor::update(QEvent *event)
 {
-    bool result = false; // by default, just monitor
-
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
@@ -79,11 +80,6 @@ bool WindowInputMonitor::update(QEvent *event)
 
         if (keyEvent->key() == m_pressedHomeKey) {
             m_pressedHomeKey = 0;
-        }
-        if (m_movingWindow && keyEvent->modifiers() == Qt::AltModifier) {
-            m_movingWindow = false;
-            result = true;
-            Q_EMIT windowMoveEnded();
         }
 
     } else if (event->type() == QEvent::TouchBegin) {
@@ -102,26 +98,7 @@ bool WindowInputMonitor::update(QEvent *event)
             const QPointF pos = touchEv->touchPoints().last().screenPos();
             Q_EMIT touchEnded(pos);
         }
-    } else if (event->type() == QEvent::MouseButtonPress) {
-        QMouseEvent * mouseEv = static_cast<QMouseEvent *>(event);
-        if (mouseEv && mouseEv->button() == Qt::LeftButton && mouseEv->modifiers() == Qt::AltModifier) {
-            m_movingWindow = true;
-            result = true;
-            Q_EMIT windowMoveRequested(mouseEv->screenPos());
-        }
-    } else if (event->type() == QEvent::MouseMove && m_movingWindow) {
-        QMouseEvent * mouseEv = static_cast<QMouseEvent *>(event);
-        if (mouseEv)  {
-            result = true;
-            Q_EMIT windowMoveUpdated(mouseEv->screenPos());
-        }
-    } else if (event->type() == QEvent::MouseButtonRelease && m_movingWindow) {
-        m_movingWindow = false;
-        result = true;
-        Q_EMIT windowMoveEnded();
     }
-
-    return result;
 }
 
 void WindowInputMonitor::setupFilterOnWindow(QQuickWindow *window)

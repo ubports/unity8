@@ -260,21 +260,6 @@ StyledItem {
             cursor.y = mappedCoords.y;
             cursor.mouseNeverMoved = false;
         }
-        onWindowMoveRequested: {
-            if (applicationsDisplayLoader.item && applicationsDisplayLoader.item.windowMoveRequested) {
-                applicationsDisplayLoader.item.windowMoveRequested(scenePos);
-            }
-        }
-        onWindowMoveUpdated: {
-            if (applicationsDisplayLoader.item && applicationsDisplayLoader.item.windowMoveUpdated) {
-                applicationsDisplayLoader.item.windowMoveUpdated(scenePos);
-            }
-        }
-        onWindowMoveEnded: {
-            if (applicationsDisplayLoader.item && applicationsDisplayLoader.item.windowMoveEnded) {
-                applicationsDisplayLoader.item.windowMoveEnded();
-            }
-        }
     }
 
     GSettings {

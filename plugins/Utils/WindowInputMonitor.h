@@ -36,18 +36,18 @@ class WindowInputMonitor : public QQuickItem
     Q_OBJECT
 public:
 
-    WindowInputMonitor(QQuickItem *parent = nullptr);
+    WindowInputMonitor(QQuickItem *parent = 0);
 
     // for testing
     WindowInputMonitor(UnityUtil::AbstractTimer *timer,
             UnityUtil::AbstractElapsedTimer *elapsedTimer,
-            QQuickItem *parent = nullptr);
+            QQuickItem *parent = 0);
 
     virtual ~WindowInputMonitor();
 
     bool eventFilter(QObject *watched, QEvent *event) override;
 
-    bool update(QEvent *event);
+    void update(QEvent *event);
 
     const qint64 msecsWithoutTouches = 150;
 
@@ -77,10 +77,6 @@ Q_SIGNALS:
      */
     void touchEnded(const QPointF &pos);
 
-    void windowMoveRequested(const QPointF &scenePos);
-    void windowMoveUpdated(const QPointF &scenePos);
-    void windowMoveEnded();
-
 private Q_SLOTS:
     void setupFilterOnWindow(QQuickWindow *window);
     void emitActivatedIfNoTouchesAround();
@@ -96,7 +92,6 @@ private:
     // Which Qt::Key from m_homeKeys is currently pressed.
     // 0 if none
     int m_pressedHomeKey{0};
-    bool m_movingWindow{false};
 };
 
 #endif // UNITY_WINDOWINPUTMONITOR_H
