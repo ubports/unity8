@@ -152,7 +152,6 @@ StyledItem {
         preferredHighlightEnd: userList.height / 2 - root.highlightedHeight / 2
         highlightRangeMode: ListView.StrictlyEnforceRange
         highlightMoveDuration: root.moveDuration
-        flickDeceleration: 10000
         interactive: count > 1
 
         readonly property bool movingInternally: moveTimer.running || userList.moving

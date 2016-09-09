@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,15 +14,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.4
-import Ubuntu.Components 1.3
-import Dash 0.1
-import "../Components/flickableUtils.js" as FlickableUtilsJS
+.pragma library
 
-ListViewWithPageHeader {
-    flickDeceleration: FlickableUtilsJS.getFlickDeceleration(units.gridUnit)
-    maximumFlickVelocity: FlickableUtilsJS.getMaximumFlickVelocity(units.gridUnit)
-    // 1073741823 is s^30 -1. A quite big number so that you have "infinite" cache, but not so
-    // big so that if you add if with itself you're outside the 2^31 int range
-    cacheBuffer: 1073741823
+/* TODO the "8" is is DEFAULT_GRID_UNIT_PX, we use it to normalize the values with the current grid unit size.
+   Add a way to fetch this default grid unit px value from UITK. */
+
+function getFlickDeceleration(gridUnit) {
+    return 1500 * gridUnit / 8;
+}
+
+function getMaximumFlickVelocity(gridUnit) {
+    return 2500 * gridUnit / 8;
 }
