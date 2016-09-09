@@ -87,14 +87,12 @@ Rectangle {
                     }
 
                     sourceComponent: PreviewInlineVideo {
-                        width: parent.width
                         widgetData: widgetData0
 
                         rootItem: inner
                     }
                 }
             }
-
         }
 
         Rectangle {
