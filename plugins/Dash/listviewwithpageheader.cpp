@@ -587,6 +587,10 @@ void ListViewWithPageHeader::adjustHeader(qreal diff)
                 } else {
                     m_headerItem->setY(-m_minYExtent);
                 }
+            } else if (m_headerItemShownHeight == 0 && m_previousContentY > m_headerItem->y() && contentY() < m_headerItem->y()) {
+                // The header was hidden but now that we've moved up (e.g. because of item removed) it's visible
+                // make sure it isn't
+                m_headerItem->setY(-m_minYExtent);
             }
             Q_EMIT headerItemShownHeightChanged();
         } else {
