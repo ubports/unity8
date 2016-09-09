@@ -2664,7 +2664,7 @@ Rectangle {
             appDelegate.maximize();
             tryCompare(appDelegate, "state", "maximized");
 
-            mouseDrag(panel, panel.width/2, panel.height/2, 0, shell.height/3, Qt.LeftButton, Qt.NoModifier, 100);
+            mouseDrag(panel, panel.width/2, panel.height/2, 0, shell.height/3, Qt.LeftButton, Qt.NoModifier, 300);
             tryCompare(appDelegate, "state", "normal");
         }
 
