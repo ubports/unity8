@@ -629,11 +629,15 @@ Item {
                 var item0 = findChild(cardGrid, "delegate0");
                 waitForRendering(item0);
                 compare(item0.enabled, false);
-                var touchdown = findChild(item0, "touchdown");
 
-                compare(touchdown.visible, false);
+                var touchdown = findChild(item0, "touchdown");
+                compare(touchdown, null);
+
                 mousePress(item0);
-                compare(touchdown.visible, false);
+
+                touchdown = findChild(item0, "touchdown");
+                compare(touchdown, null);
+
                 mouseRelease(item0);
 
                 cardTool.template["non-interactive"] = false;
@@ -643,13 +647,19 @@ Item {
                 waitForRendering(category0);
                 item0 = findChild(cardGrid, "delegate0");
                 compare(item0.enabled, true);
-                var touchdown = findChild(item0, "touchdown");
 
-                compare(touchdown.visible, false);
+                touchdown = findChild(item0, "touchdown");
+                compare(touchdown, null);
+
                 mousePress(item0);
+
+                touchdown = findChild(item0, "touchdown");
                 compare(touchdown.visible, true);
+
                 mouseRelease(item0);
-                compare(touchdown.visible, false);
+
+                touchdown = findChild(item0, "touchdown");
+                compare(touchdown, null);
                 closePreview();
             }
 
