@@ -25,6 +25,7 @@ Showable {
     property real dragHandleLeftMargin
     property real launcherOffset
     property alias background: greeterBackground.source
+    property alias hasCustomBackground: backgroundShade.visible
     property real backgroundTopMargin
     property var infographicModel
     property bool draggable: true
@@ -82,24 +83,23 @@ Showable {
         color: "black"
     }
 
-    CrossFadeImage {
+    Wallpaper {
         id: greeterBackground
         objectName: "greeterBackground"
         anchors {
             fill: parent
             topMargin: root.backgroundTopMargin
         }
-        fillMode: Image.PreserveAspectCrop
-        // Limit how much memory we'll reserve for this image
-        sourceSize.height: height
-        sourceSize.width: width
     }
 
     // Darkens wallpaper so that we can read text on it and see infographic
     Rectangle {
+        id: backgroundShade
+        objectName: "backgroundShade"
         anchors.fill: parent
         color: "black"
         opacity: 0.4
+        visible: false
     }
 
     Infographics {

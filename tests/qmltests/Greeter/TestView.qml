@@ -27,6 +27,7 @@ Item {
     property int delayMinutes
     property real backgroundTopMargin
     property url background
+    property bool hasCustomBackground
     property bool locked
     property bool alphanumeric
     property var userModel
