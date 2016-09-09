@@ -124,6 +124,7 @@ Item {
                     }
                     text: query
                     color: "#888888"
+                    elide: Text.ElideRight
                 }
 
                 divider.visible: index != recentSearchesRepeater.count - 1 || (scope && scope.hasNavigation) || primaryFilter.active
