@@ -763,7 +763,7 @@ StyledItem {
     Timer {
         id: cursorHidingTimer
         interval: 3000
-        running: panel.focusedSurfaceIsFullscreen
+        running: panel.focusedSurfaceIsFullscreen && cursor.opacity > 0
         repeat: true
         onTriggered: cursor.opacity = 0;
     }
