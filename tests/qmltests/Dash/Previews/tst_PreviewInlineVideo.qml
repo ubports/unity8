@@ -76,6 +76,23 @@ Rectangle {
 
                     rootItem: inner
                 }
+
+                Loader {
+                    id: videoPlaybackLoader
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        top: videoPlayback.bottom
+                        topMargin: units.gu(2)
+                    }
+
+                    sourceComponent: PreviewInlineVideo {
+                        width: parent.width
+                        widgetData: widgetData0
+
+                        rootItem: inner
+                    }
+                }
             }
 
         }
@@ -98,6 +115,11 @@ Rectangle {
         }
     }
 
+    SignalSpy {
+        id: spy
+        signalName: "playing"
+    }
+
     UT.UnityTestCase {
         name: "PreviewInlineVideoTest"
         when: windowShown
@@ -109,6 +131,27 @@ Rectangle {
             videoPlayback.widgetData = widgetData1;
             var screenshotSource = screenshot.source
             compare(screenshotSource.toString(), "file:///test-video2-screenshot");
+        }
+
+        function test_singleton() {
+            var services = findChild(videoPlaybackLoader, "services");
+            spy.clear();
+            spy.target = services.mediaPlayer;
+            mouseClick(videoPlaybackLoader, videoPlaybackLoader.width / 2, videoPlaybackLoader.height / 2);
+            tryCompare(spy, "count", 1);
+            tryCompareFunction(function() { return services.position > 3000; }, true);
+
+            // Simulate widget being destroyed and recreated
+            videoPlaybackLoader.active = false;
+            videoPlaybackLoader.active = true;
+
+            services = findChild(videoPlaybackLoader, "services");
+            spy.clear();
+            spy.target = services.mediaPlayer;
+            compare(services.position, 0);
+            mouseClick(videoPlaybackLoader, videoPlaybackLoader.width / 2, videoPlaybackLoader.height / 2);
+            tryCompare(spy, "count", 1);
+            tryCompareFunction(function() { return services.position > 3000; }, true, 1000);
         }
     }
 }
