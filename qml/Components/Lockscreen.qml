@@ -41,9 +41,6 @@ Showable {
     // The text to be displayed in case the login failed
     property string errorText: ""
 
-    // If > 0, a forced delay is happening
-    property int delayMinutes: 0
-
     // Set those to a value greater 0 to restrict the pin length.
     // If both are unset, the Lockscreen will show a confirm button and allow typing any length of pin before
     // confirming. If minPinLength is set to a value > 0, the confirm button will only become active when the
@@ -91,14 +88,6 @@ Showable {
         popup.z = Number.MAX_VALUE
     }
 
-    function showText(text) {
-        // Programmatically enters the given text into the lockscreen
-        if (pinPadLoader.item) {
-            pinPadLoader.item.showText(text);
-            pinPadLoader.waiting = true;
-        }
-    }
-
     Rectangle {
         // In case background fails to load
         id: backgroundBackup
@@ -141,8 +130,6 @@ Showable {
         source: {
             if (resetting || !root.required) {
                 return ""
-            } else if (root.delayMinutes > 0) {
-                return "DelayedLockscreen.qml"
             } else if (root.alphaNumeric) {
                 return "PassphraseLockscreen.qml"
             } else {
@@ -196,16 +183,6 @@ Showable {
             target: pinPadLoader.item
             property: "entryEnabled"
             value: !pinPadLoader.waiting
-        }
-        Binding {
-            target: pinPadLoader.item
-            property: "alphaNumeric"
-            value: root.alphaNumeric
-        }
-        Binding {
-            target: pinPadLoader.item
-            property: "delayMinutes"
-            value: root.delayMinutes
         }
         Binding {
             target: pinPadLoader.item

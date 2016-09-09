@@ -641,17 +641,21 @@ StyledItem {
 
             keyboardVisibleCheckBox.checked = true;
 
-            tryCompare(loginList, "height", view.height - view.inputMethod.keyboardRectangle.height);
+            var halfway = (view.height - loginList.highlightedHeight) / 2;
+            var halfwayWithOsk = halfway - view.inputMethod.keyboardRectangle.height / 2;
+            tryCompare(loginList, "boxVerticalOffset", halfwayWithOsk);
+
+            var highlightItem = findChild(loginList, "highlightItem");
             tryCompareFunction( function() {
-                var loginListRect = loginList.mapToItem(view, 0, 0, loginList.width, loginList.height);
-                return loginListRect.y + loginListRect.height <= view.inputMethod.keyboardRectangle.y;
+                var highlightRect = highlightItem.mapToItem(view, 0, 0, highlightItem.width, highlightItem.height);
+                return highlightRect.y + highlightRect.height <= view.inputMethod.keyboardRectangle.y;
             }, true);
 
             // once the vkb goes away, loginList goes back to its full height
 
             keyboardVisibleCheckBox.checked = false;
 
-            tryCompare(loginList, "height", view.height);
+            tryCompare(loginList, "boxVerticalOffset", halfway);
         }
 
         function test_passphrase() {

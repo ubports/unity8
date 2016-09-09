@@ -51,7 +51,7 @@ FocusScope {
         loginList.showError();
     }
 
-    function reset() {
+    function reset(forceShow) {
         loginList.reset();
     }
 
@@ -83,8 +83,10 @@ FocusScope {
         coverPage.hide();
     }
 
-    function notifyAuthenticationSucceeded() {
-        // Nothing needed
+    function notifyAuthenticationSucceeded(showFakePassword) {
+        if (showFakePassword) {
+            loginList.showFakePassword();
+        }
     }
 
     function showLastChance() {
@@ -122,14 +124,18 @@ FocusScope {
             id: loginList
             objectName: "loginList"
 
-            height: inputMethod && inputMethod.visible ?
-                parent.height - inputMethod.keyboardRectangle.height : parent.height
             width: units.gu(40)
             anchors {
                 left: parent.left
                 leftMargin: Math.min(parent.width * 0.16, units.gu(20))
                 top: parent.top
+                bottom: parent.bottom
             }
+
+            boxVerticalOffset: (height - highlightedHeight -
+                               (inputMethod && inputMethod.visible ?
+                                inputMethod.keyboardRectangle.height : 0)) / 2
+            Behavior on boxVerticalOffset { UbuntuNumberAnimation {} }
 
             model: root.userModel
             currentSession: LightDMService.greeter.defaultSession
