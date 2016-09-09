@@ -723,6 +723,7 @@ FocusScope {
             target: categoryView
 
             readonly property real contentY: categoryView.contentY - categoryView.originY
+            readonly property real headerDividerLuminance: categoryView.pageHeader.headerDividerLuminance
             y: -contentY - units.gu(5)
 
             onRefresh: {
