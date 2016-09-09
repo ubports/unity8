@@ -117,6 +117,7 @@ void UsersModelPrivate::resetEntries_full()
         { "unicode",           "가나다라마", 0, 0, false, false, "ubuntu", 0 },
         { "no-response",       "No Response", 0, 0, false, false, "ubuntu", 0 },
         { "empty-name",        "", 0, 0, false, false, "ubuntu", 0 },
+        { "active",            "Active Account", 0, 0, true, false, "ubuntu", 0 },
     };
 }
 
