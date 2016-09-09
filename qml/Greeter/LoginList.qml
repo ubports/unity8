@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import QtGraphicalEffects 1.0
 import Ubuntu.Components 1.3
+import LightDM 0.1 as LightDM
 import "../Components"
 
 StyledItem {

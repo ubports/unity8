@@ -37,7 +37,6 @@ AccountsService::AccountsService(QObject* parent)
     m_hereLicensePath(""),
     m_usersModel(new UsersModel(this))
 {
-    QLightDM::MockController::instance()->setUserMode("full");
 }
 
 QString AccountsService::user() const
