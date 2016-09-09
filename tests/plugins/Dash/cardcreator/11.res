@@ -49,7 +49,6 @@ Loader {
                                     } 
                                 } 
                             }
-readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
 Loader {
                                 id: artShapeLoader; 
                                 height: root.fixedArtShapeSize.height; 
