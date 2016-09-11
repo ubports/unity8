@@ -796,8 +796,9 @@ StyledItem {
         }
     }
 
-    // non-visual object
+    // non-visual objects
     KeymapSwitcher {}
+    BrightnessControl {}
 
     Rectangle {
         id: shutdownFadeOutRectangle
