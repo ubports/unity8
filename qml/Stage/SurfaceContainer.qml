@@ -69,31 +69,6 @@ FocusScope {
 
         surfaceWidth: root.requestedWidth
         surfaceHeight: root.requestedHeight
-//        surfaceWidth: {
-//            print("surfaceWidth:", model.application.appId, root.resizeSurface, root.requestedWidth, width)
-//            if (root.resizeSurface) {
-//                if (root.requestedWidth >= 0) {
-//                    return root.requestedWidth;
-//                } else {
-//                    return width;
-//                }
-//            } else {
-//                return -1;
-//            }
-//        }
-
-//        surfaceHeight: {
-//            print("surfaceHeight:", model.application.appId, root.resizeSurface, root.requestedHeight, height)
-//            if (root.resizeSurface) {
-//                if (root.requestedHeight >= 0) {
-//                    return root.requestedHeight;
-//                } else {
-//                    return height;
-//                }
-//            } else {
-//                return -1;
-//            }
-//        }
 
         enabled: root.interactive
         antialiasing: !root.interactive

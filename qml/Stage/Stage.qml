@@ -965,7 +965,7 @@ AbstractStage {
                         when: (root.mode == "staged" || root.mode == "stagedWithSideStage") && (root.state == "sideStagedRightEdge" || root.state == "stagedRightEdge" || rightEdgeFocusAnimation.running || hidingAnimation.running)
                         PropertyChanges {
                             target: stagedRightEdgeMaths
-                            progress: Math.max(edgeBarrier.progress, rightEdgeDragArea.progress)
+                            progress: Math.max(edgeBarrier.progress, rightEdgeDragArea.draggedProgress)
                         }
                         PropertyChanges {
                             target: appDelegate
@@ -1021,12 +1021,12 @@ AbstractStage {
                         name: "staged"; when: root.state == "staged"
                         PropertyChanges {
                             target: appDelegate
-                            x: appDelegate.itemIndex == 0 ? 0 : root.width
+                            x: stageMaths.itemX
                             y: appDelegate.fullscreen ? 0 : PanelState.panelHeight
                             requestedWidth: appContainer.width
                             requestedHeight: appDelegate.fullscreen ? appContainer.height : appContainer.height - PanelState.panelHeight
                             visuallyMaximized: true
-                            visible: appDelegate.itemIndex == 0
+                            visible: appDelegate.x < root.width
                         }
                         PropertyChanges {
                             target: decoratedWindow
@@ -1035,6 +1035,10 @@ AbstractStage {
                         PropertyChanges {
                             target: resizeArea
                             enabled: false
+                        }
+                        PropertyChanges {
+                            target: stageMaths
+                            animateX: !focusAnimation.running && itemIndex !== spreadItem.highlightedIndex
                         }
                     },
                     State {
@@ -1170,7 +1174,6 @@ AbstractStage {
                             visuallyMaximized: false
                         }
                     }
-
                 ]
                 transitions: [
                     Transition {
@@ -1571,6 +1574,13 @@ AbstractStage {
         property bool cancelled: false
 
         property real progress: dragging ? -touchPosition.x / root.width : 0
+        onProgressChanged: {
+            if (dragging) {
+                draggedProgress = progress;
+            }
+        }
+
+        property real draggedProgress: 0
 
         onTouchPositionChanged: {
             gesturePoints.push(touchPosition.x);
@@ -1585,6 +1595,7 @@ AbstractStage {
                 // A potential edge-drag gesture has started. Start recording it
                 gesturePoints = [];
                 cancelled = false;
+                draggedProgress = 0;
             } else {
                 // Ok. The user released. Did he drag far enough to go to full spread?
                 if (gesturePoints[gesturePoints.length - 1] < -spreadItem.rightEdgeBreakPoint * spreadItem.width ) {

@@ -1,5 +1,6 @@
 import QtQuick 2.4
 import Unity.Application 0.1
+import Ubuntu.Components 1.3
 
 QtObject {
     id: root
@@ -10,6 +11,7 @@ QtObject {
     property int sceneWidth: 0
     property int sideStageWidth: 0
     property int sideStageX: sceneWidth
+    property bool animateX: false
 
     property int stage: ApplicationInfoInterface.MainStage
     property var thisDelegate: null
@@ -60,11 +62,10 @@ QtObject {
     }
 
 
-    readonly property int itemX: mainStageDelegate == thisDelegate ? 0 :
-                                                                     sideStageDelegate == thisDelegate ? sideStageX :
-                                                                                                         sceneWidth
+    property int itemX: mainStageDelegate == thisDelegate ? 0 : sideStageDelegate == thisDelegate ? sideStageX : sceneWidth
+    Behavior on itemX { enabled: root.animateX; UbuntuNumberAnimation {} }
 
     readonly property int itemWidth: stage == ApplicationInfoInterface.MainStage ?
-                                         sideStageDelegate != null ? sideStageX : sceneWidth :
-    stage == ApplicationInfoInterface.SideStage ? sideStageWidth : sceneWidth
+                                     sideStageDelegate != null ? sideStageX : sceneWidth :
+                                     stage == ApplicationInfoInterface.SideStage ? sideStageWidth : sceneWidth
 }
