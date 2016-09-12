@@ -76,8 +76,8 @@ Item {
         readonly property real margins: sessionsList.anchors.margins
         readonly property real prefferedHeight: {
             if (sessionsList.currentItem) {
-                return ((sessionsList.currentItem.height + margins) *
-                sessionsList.model.count) + sessionsList.headerItem.height + 2 * margins
+                return (sessionsList.currentItem.height * sessionsList.model.count) +
+                       (sessionsList.model.count * margins)
             } else {
                 return sessionsList.headerItem.height + 2 * margins
             }
