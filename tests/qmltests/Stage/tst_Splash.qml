@@ -18,7 +18,7 @@ import QtQuick 2.4
 import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
-import "../../../qml/Stages"
+import "../../../qml/Stage"
 import Ubuntu.Components 1.3
 import Unity.Application 0.1
 
@@ -55,7 +55,7 @@ Rectangle {
             bottom: parent.bottom
             left: parent.left
         }
-        width: units.gu(40)
+        width: landscapeCheckbox.checked ? units.gu(70) : units.gu(40)
         sourceComponent: splashComponent
     }
 
@@ -96,6 +96,20 @@ Rectangle {
                 anchors { left: parent.left; right: parent.right }
                 CheckBox {id: footerColorCheckbox; checked: false; }
                 Label { text: "custom footerColor"; anchors.verticalCenter: parent.verticalCenter }
+            }
+            Row {
+                anchors { left: parent.left; right: parent.right }
+                CheckBox {
+                    id: landscapeCheckbox
+                    checked: false
+                    onCheckedChanged: {
+                    if (checked) {
+                        window.width = Math.max(window.width, units.gu(110));
+                    }
+                    window.height = checked ? units.gu(40) : units.gu(70);
+                }
+                }
+                Label { text: "Landscape"; anchors.verticalCenter: parent.verticalCenter }
             }
         }
     }

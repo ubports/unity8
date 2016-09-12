@@ -18,12 +18,40 @@
 #include "MockSessionsModel.h"
 #include <QLightDM/SessionsModel>
 
+
+int MockSessionsModel::numSessions() const
+{
+    QLightDM::SessionsModel* qSessionsModel =
+        static_cast<QLightDM::SessionsModel*>(sourceModel());
+
+    return qSessionsModel->numSessions();
+}
+
+int MockSessionsModel::numAvailableSessions() const
+{
+    QLightDM::SessionsModel* qSessionsModel =
+        static_cast<QLightDM::SessionsModel*>(sourceModel());
+
+    return qSessionsModel->numAvailableSessions();
+}
+
 QString MockSessionsModel::testScenario() const
 {
     QLightDM::SessionsModel* qSessionsModel =
         static_cast<QLightDM::SessionsModel*>(sourceModel());
 
     return qSessionsModel->testScenario();
+}
+
+void MockSessionsModel::setNumSessions(const int numSessions)
+{
+    QLightDM::SessionsModel* qSessionsModel =
+        static_cast<QLightDM::SessionsModel*>(sourceModel());
+
+    if (qSessionsModel->numSessions() != numSessions) {
+        qSessionsModel->setNumSessions(numSessions);
+        Q_EMIT numSessionsChanged();
+    }
 }
 
 void MockSessionsModel::setTestScenario(const QString testScenario)
@@ -33,5 +61,6 @@ void MockSessionsModel::setTestScenario(const QString testScenario)
 
     if (qSessionsModel->testScenario() != testScenario) {
         qSessionsModel->setTestScenario(testScenario);
+        Q_EMIT testScenarioChanged();
     }
 }

@@ -53,6 +53,21 @@ Rectangle {
         widgetId: "previewRatingInput"
     }
 
+    Loader {
+        id: previewRatingInputLoader
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: previewRatingInput.bottom
+            topMargin: units.gu(2)
+        }
+
+        sourceComponent: PreviewRatingInput {
+            widgetData: widgetDataBoth
+            widgetId: "previewRatingInputLoader"
+        }
+    }
+
     SignalSpy {
         id: spy
         signalName: "triggered"
@@ -209,6 +224,23 @@ Rectangle {
             compare(args[2]["rating"], data.triggeredData["rating"]);
             compare(args[2]["review"], data.triggeredData["review"]);
             verify(args[2]["author"] !== undefined); // Just verifying it exists now
+        }
+
+        function test_singleton() {
+            var ratingLoader = findChild(previewRatingInputLoader, "rating");
+            var reviewTextAreaLoader = findChild(previewRatingInputLoader, "reviewTextArea");
+
+            ratingLoader.value = 3;
+            reviewTextAreaLoader.text = "singleton test text";
+
+            // Simulate widget being destroyed and recreated
+            previewRatingInputLoader.active = false;
+            previewRatingInputLoader.active = true;
+
+            ratingLoader = findChild(previewRatingInputLoader, "rating");
+            reviewTextAreaLoader = findChild(previewRatingInputLoader, "reviewTextArea");
+            tryCompare(ratingLoader, "value", 3);
+            tryCompare(reviewTextAreaLoader, "text", "singleton test text");
         }
     }
 }

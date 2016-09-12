@@ -63,6 +63,11 @@ FocusScope {
     readonly property int heightIncrement: !counterRotate ? applicationWindow.heightIncrement : applicationWindow.widthIncrement
 
     property alias overlayShown: decoration.overlayShown
+    property alias stageWidth: moveHandler.stageWidth
+    property alias stageHeight: moveHandler.stageHeight
+    readonly property alias dragging: moveHandler.dragging
+
+    readonly property Item clientAreaItem: applicationWindow
 
     signal closeClicked()
     signal maximizeClicked()
@@ -70,6 +75,7 @@ FocusScope {
     signal maximizeVerticallyClicked()
     signal minimizeClicked()
     signal decorationPressed()
+    signal decorationReleased()
 
     QtObject {
         id: d
@@ -145,6 +151,20 @@ FocusScope {
         onMaximizeVerticallyClicked: { root.decorationPressed(); root.maximizeVerticallyClicked(); }
         onMinimizeClicked: root.minimizeClicked();
         onPressed: root.decorationPressed();
+
+        onPressedChanged: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
+        onPositionChanged: moveHandler.handlePositionChanged(mouse)
+        onReleased: {
+            root.decorationReleased();
+            moveHandler.handleReleased();
+        }
+    }
+
+    MoveHandler {
+        id: moveHandler
+        objectName: "moveHandler"
+        target: root.parent
+        buttonsWidth: decoration.buttonsWidth
     }
 
     ApplicationWindow {
@@ -199,5 +219,35 @@ FocusScope {
         color: "black"
         opacity: root.darkening && !root.showHighlight ? 0.05 : 0
         Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+    }
+
+    MouseArea {
+        anchors.fill: applicationWindow
+        acceptedButtons: Qt.LeftButton
+        hoverEnabled: true
+        property bool dragging: false
+        onPressed: {
+            if (mouse.button == Qt.LeftButton && mouse.modifiers == Qt.AltModifier) {
+                root.decorationPressed(); // to raise it
+                moveHandler.handlePressedChanged(true, Qt.LeftButton, mouse.x, mouse.y);
+                dragging = true;
+                mouse.accepted = true;
+            } else {
+                mouse.accepted = false;
+            }
+        }
+        onPositionChanged: {
+            if (dragging) {
+                 moveHandler.handlePositionChanged(mouse);
+            }
+        }
+        onReleased: {
+            if (dragging) {
+                moveHandler.handlePressedChanged(false, Qt.LeftButton);
+                root.decorationReleased();  // commits the fake preview max rectangle
+                moveHandler.handleReleased();
+                dragging = false;
+            }
+        }
     }
 }

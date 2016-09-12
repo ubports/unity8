@@ -331,13 +331,15 @@ var kEmblemIconCode = 'Icon { \n\
                         }\n';
 
 // %1 is used as anchors of touchdown effect
-var kTouchdownCode = 'UbuntuShape { \n\
-                        id: touchdown; \n\
-                        objectName: "touchdown"; \n\
+var kTouchdownCode = 'Loader { \n\
+                        active: root.pressed; \n\
                         anchors { %1 } \n\
-                        visible: root.pressed; \n\
-                        radius: "medium"; \n\
-                        borderSource: "radius_pressed.sci" \n\
+                        sourceComponent: UbuntuShape { \n\
+                            objectName: "touchdown"; \n\
+                            anchors.fill: parent; \n\
+                            radius: "medium"; \n\
+                            borderSource: "radius_pressed.sci" \n\
+                        } \n\
                     }\n';
 
 // %1 is used as anchors of subtitleLabel
@@ -506,10 +508,10 @@ function cardString(template, components, isCardTool, artShapeStyle, categoryLay
     }
 
     if (hasArt) {
-        code += 'readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);\n';
-
         var artShapeAspect;
         if (isCardTool) {
+            code += 'readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);\n';
+
             var artShapeAspect = components["art"] && components["art"]["aspect-ratio"] || 1;
             if (isNaN(artShapeAspect)) {
                 artShapeAspect = 1;
@@ -573,7 +575,7 @@ function cardString(template, components, isCardTool, artShapeStyle, categoryLay
                                   .arg(artShapeHolderShapeCode)
                                   .arg(fallbackStatusCode)
                                   .arg(fallbackURICode);
-    } else {
+    } else if (isCardTool) {
         code += 'readonly property size artShapeSize: Qt.size(-1, -1);\n'
     }
 
@@ -923,7 +925,7 @@ function cardString(template, components, isCardTool, artShapeStyle, categoryLay
         code += kSocialActionsRowCode.arg(socialAnchors).arg(socialColor);
     }
 
-    if (artShapeStyle != "shadow" && artShapeStyle != "icon") {
+    if (artShapeStyle != "shadow" && artShapeStyle != "icon" && !isCardTool) {
         var touchdownAnchors;
         if (hasBackground) {
             touchdownAnchors = 'fill: backgroundLoader';
