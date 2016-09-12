@@ -212,6 +212,7 @@ Showable {
         }
 
         function login() {
+            console.log("JOSH-> Entering Greeter::login()")
             d.waiting = true;
             if (LightDMService.greeter.startSessionSync(root.sessionToStart())) {
                 sessionStarted();
@@ -364,6 +365,7 @@ Showable {
                 d.selectUser(index, true);
             }
             onResponded: {
+                console.log("JOSH-> Greeter:onResponded handler called ->" + root.locked)
                 if (root.locked) {
                     LightDMService.greeter.respond(response);
                 } else {

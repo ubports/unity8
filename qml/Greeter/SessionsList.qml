@@ -48,8 +48,18 @@ Item {
         return session;
     }
 
+    Keys.onBackPressed: {
+        showLoginList();
+        event.accepted = true;
+    }
+
     Keys.onEnterPressed: {
         showLoginList(); // Session is already selected
+        event.accepted = true;
+    }
+
+    Keys.onEscapePressed: {
+        showLoginList();
         event.accepted = true;
     }
 
