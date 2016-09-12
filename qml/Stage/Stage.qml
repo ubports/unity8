@@ -85,7 +85,7 @@ AbstractStage {
     GlobalShortcut {
         id: showSpreadShortcut
         shortcut: Qt.MetaModifier|Qt.Key_W
-        onTriggered: state = "altTab"
+        onTriggered: priv.goneToSpread = true
     }
 
     GlobalShortcut {
@@ -182,6 +182,9 @@ AbstractStage {
                 }
             }
         }
+
+        readonly property bool sideStageEnabled: root.shellOrientation == Qt.LandscapeOrientation ||
+                                                 root.shellOrientation == Qt.InvertedLandscapeOrientation
 
         property var mainStageDelegate: null
         property var sideStageDelegate: null
@@ -431,7 +434,7 @@ AbstractStage {
         id: appContainer
         objectName: "appContainer"
         anchors.fill: parent
-        focus: root.state !== "altTab"
+        focus: root.state !== "spread"
 
         CrossFadeImage {
             id: wallpaper
@@ -618,8 +621,8 @@ AbstractStage {
                                 angleDiff = (360 + angleDiff) % 360;
                                 if (angleDiff === 90 || angleDiff === 270) {
                                     var aux = decoratedWindow.requestedHeight;
-                                    decoratedWindow.requestedHeight = decoratedWindow.requestedWidth + decoratedWindow.visibleDecorationHeight;
-                                    decoratedWindow.requestedWidth = aux - decoratedWindow.visibleDecorationHeight;
+                                    decoratedWindow.requestedHeight = decoratedWindow.requestedWidth + decoratedWindow.decorationHeight;
+                                    decoratedWindow.requestedWidth = aux - decoratedWindow.decorationHeight;
                                 }
                             }
                             decoratedWindow.surfaceOrientationAngle = shellOrientationAngle;
@@ -627,6 +630,10 @@ AbstractStage {
                             decoratedWindow.surfaceOrientationAngle = 0;
                         }
                     }
+                }
+                Connections {
+                    target: priv
+                    onSideStageEnabledChanged: refreshStage()
                 }
 
                 readonly property alias application: decoratedWindow.application
@@ -728,6 +735,9 @@ AbstractStage {
                         print("focusing because of creation")
                         focus = true;
                     }
+
+                    refreshStage();
+                    _constructing = false;
                 }
                 Component.onDestruction: {
                     if (!root.parent) {
@@ -754,6 +764,7 @@ AbstractStage {
 
                 onVisuallyMaximizedChanged: priv.updateForegroundMaximizedApp()
 
+                property bool _constructing: true;
                 onStageChanged: {
                     if (!_constructing) {
                         priv.updateMainAndSideStageIndexes();
@@ -840,6 +851,25 @@ AbstractStage {
                 function playHidingAnimation() {
                     if (state != "windowedRightEdge") {
                         hidingAnimation.start()
+                    }
+                }
+
+                function refreshStage() {
+                    var newStage = ApplicationInfoInterface.MainStage;
+                    if (priv.sideStageEnabled) { // we're in lanscape rotation.
+                        if (!isDash && application && application.supportedOrientations & (Qt.PortraitOrientation|Qt.InvertedPortraitOrientation)) {
+                            var defaultStage = ApplicationInfoInterface.SideStage; // if application supports portrait, it defaults to sidestage.
+                            if (application.supportedOrientations & (Qt.LandscapeOrientation|Qt.InvertedLandscapeOrientation)) {
+                                // if it supports lanscape, it defaults to mainstage.
+                                defaultStage = ApplicationInfoInterface.MainStage;
+                            }
+                            newStage = WindowStateStorage.getStage(application.appId, defaultStage);
+                        }
+                    }
+
+                    stage = newStage;
+                    if (focus && stage == ApplicationInfoInterface.SideStage && !sideStage.shown) {
+                        sideStage.show();
                     }
                 }
 
