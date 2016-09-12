@@ -1368,7 +1368,7 @@ AbstractStage {
                         }
                     },
                     Transition {
-                        to: "*" // "catch-all for maximized,fullscreen..."
+                        to: "maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,fullscreen"
                         enabled: appDelegate.animationsEnabled
                         SequentialAnimation {
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
