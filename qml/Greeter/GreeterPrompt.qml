@@ -88,7 +88,7 @@ FocusScope {
             width: parent.width
             color: "transparent"
             border {
-                color: "grey"
+                color: d.textColor
                 width: units.dp(1)
             }
         }
