@@ -22,6 +22,7 @@ import "../../../qml/Dash"
 import "../../../qml/Components"
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
+import Qt.test.qtestroot 1.0
 
 Item {
     id: shell
@@ -40,7 +41,12 @@ Item {
     Scopes {
         id: scopes
         // for tryGenericScopeView
-        onLoadedChanged: if (loaded) genericScopeView.scope = scopes.getScope(2);
+        onLoadedChanged: {
+            if (loaded && UT.Util.isInstanceOf(QTestRootObject, "DummyTestRootObject")) {
+                genericScopeView.scope = scopes.getScope(2);
+                genericScopeView.isCurrent = true;
+            }
+        }
     }
 
     MockScope {
