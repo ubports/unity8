@@ -447,6 +447,9 @@ AbstractStage {
             id: wallpaper
             anchors.fill: parent
             source: root.background
+            // Make sure it's the lowest item. Due to the left edge drag we sometimes need
+            // to put the dash at -1 and we don't want it behind the Wallpaper
+            z: -2
         }
 
         Spread {
@@ -925,6 +928,7 @@ AbstractStage {
                     sideStageX: sideStage.x
                     itemIndex: appDelegate.itemIndex
                     nextInStack: priv.nextInStack
+                    leftEdgeDragProgress: root.dragProgress
                 }
 
                 StagedRightEdgeMaths {

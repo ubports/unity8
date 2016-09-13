@@ -41,10 +41,9 @@ FocusScope {
     property int shellOrientationAngle
     property bool spreadEnabled: true // If false, animations and right edge will be disabled
     property bool suspended
-     // A Stage should paint a wallpaper etc over its full size but not use the margins for window placement
+
     property int leftMargin: 0
     property bool oskEnabled: false
-
 
     // Shared code for use in stage implementations
     GSettings {
