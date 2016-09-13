@@ -88,6 +88,7 @@ StyledItem {
         id: d
 
         function checkIfPromptless() {
+            console.log("JOSH-> Entering LoginList:checkIfPromptless(): " + waiting + " : " + wasPrompted);
             if (!waiting && !wasPrompted) {
                 passwordInput.isPrompt = false;
                 passwordInput.text = root.locked ? i18n.tr("Retry")
@@ -161,6 +162,7 @@ StyledItem {
             moveTimer.start();
         }
 
+        onCurrentItemChanged: console.log("JOSH-> LoginList currentItem.height = " + currentItem.height);
         delegate: Item {
             width: parent.width
             height: root.cellHeight
