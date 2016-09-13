@@ -28,7 +28,6 @@ import "Spread/MathUtils.js" as MathUtils
 AbstractStage {
     id: root
     anchors.fill: parent
-    paintBackground: false
 
     // functions to be called from outside
     function updateFocusedAppOrientation() { /* TODO */ }
