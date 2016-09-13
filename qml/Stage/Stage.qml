@@ -34,9 +34,7 @@ AbstractStage {
     function updateFocusedAppOrientation() { /* TODO */ }
     function updateFocusedAppOrientationAnimated() { /* TODO */}
     function pushRightEdge(amount) {
-//        if (state === "windowed" || state == "") {
-            edgeBarrier.push(amount);
-//        }
+        edgeBarrier.push(amount);
     }
     function closeFocusedDelegate() {
         if (priv.focusedAppDelegate && !priv.focusedAppDelegate.isDash) {
@@ -143,7 +141,6 @@ AbstractStage {
         property var focusedAppDelegate: null
         onFocusedAppDelegateChanged: {
             if (focusedAppDelegate && root.state == "spread") {
-                print("clsing spread because of focus change to", focusedAppDelegate.application.appId)
                 goneToSpread = false;
             }
         }
@@ -206,7 +203,6 @@ AbstractStage {
         }
 
         function updateMainAndSideStageIndexes() {
-//            print("updating stage indexes, sideStage shown:", sideStage.shown)
             if (root.mode != "stagedWithSideStage") {
                 priv.sideStageDelegate = null;
                 priv.sideStageItemId = 0;
@@ -225,7 +221,7 @@ AbstractStage {
 
             for (var i = 0; i < appRepeater.count && (!choseMainStage || !choseSideStage); ++i) {
                 var appDelegate = appRepeater.itemAt(i);
-                if (/*sideStage.shown && */appDelegate.stage == ApplicationInfoInterface.SideStage
+                if (appDelegate.stage == ApplicationInfoInterface.SideStage
                         && !choseSideStage) {
                     priv.sideStageDelegate = appDelegate
                     priv.sideStageItemId = root.topLevelSurfaceList.idAt(i);
@@ -248,14 +244,11 @@ AbstractStage {
                 priv.sideStageItemId = 0;
                 priv.sideStageAppId = "";
             }
-
-            print("*** updated! MainStage:", priv.mainStageAppId, "SideStage:", priv.sideStageAppId)
         }
 
         property int nextInStack: {
             var mainStageIndex = priv.mainStageDelegate ? priv.mainStageDelegate.itemIndex : -1;
             var sideStageIndex = priv.sideStageDelegate ? priv.sideStageDelegate.itemIndex : -1;
-//            print("calculating nextInStack:", mainStageIndex, sideStageIndex, priv.mainStageDelegate.itemIndex, priv.sideStageDelegate.itemIndex)
             if (sideStageIndex == -1) {
                 return topLevelSurfaceList.count > 1 ? 1 : -1;
             }
@@ -378,7 +371,6 @@ AbstractStage {
         },
         State {
             name: "sideStagedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "stagedWithSideStage"
-//            PropertyChanges { target: priv; nextInStack: priv.sideStageDelegate && priv.sideStageDelegate.itemIndex < 2 ? 2 : 1 }
         },
         State {
             name: "windowedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "windowed"
@@ -389,7 +381,6 @@ AbstractStage {
         State {
             name: "stagedWithSideStage"; when: root.mode === "stagedWithSideStage"
             PropertyChanges { target: triGestureArea; enabled: true }
-//            PropertyChanges { target: priv; nextInStack: priv.sideStageDelegate && priv.sideStageDelegate.itemIndex < 2 ? 2 : 1 }
             PropertyChanges { target: sideStage; visible: true }
         },
         State {
@@ -427,6 +418,10 @@ AbstractStage {
         Transition {
             to: "stagedRightEdge"
             PropertyAction { target: floatingFlickable; property: "contentX"; value: 0 }
+        },
+        Transition {
+            to: "stagedWithSideStage"
+            ScriptAction { script: priv.updateMainAndSideStageIndexes(); }
         }
 
     ]
@@ -510,26 +505,10 @@ AbstractStage {
             }
 
             onShownChanged: {
-                print("sidestage shown changed:", shown)
                 if (!shown && priv.mainStageDelegate) {
-                    print("claiming focus 2")
                     priv.mainStageDelegate.claimFocus();
                 }
             }
-
-//            onShownChanged: {
-//                if (!shown && priv.sideStageDelegate && priv.focusedAppDelegate === priv.sideStageDelegate) {
-//                    priv.updateMainAndSideStageIndexes();
-//                    if (priv.mainStageDelegate) {
-//                        priv.mainStageDelegate.focus = true;
-//                    }
-//                } else if (shown) {
-//                    priv.updateMainAndSideStageIndexes();
-//                    if (priv.sideStageDelegate) {
-//                        priv.sideStageDelegate.focus = true;
-//                    }
-//                }
-//            }
 
             DropArea {
                 id: sideStageDropArea
