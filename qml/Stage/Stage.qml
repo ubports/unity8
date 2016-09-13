@@ -1146,8 +1146,8 @@ AbstractStage {
                         name: "fullscreen"; when: surface ? surface.state === Mir.FullscreenState : application.fullscreen && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
-                            requestedX: rotation == 0 ? 0 : (parent.width - width) / 2 + (shellOrientationAngle == 90 ? -PanelState.panelHeight : PanelState.panelHeight)
-                            requestedY: rotation == 0 ? -PanelState.panelHeight : (parent.height - height) / 2
+                            requestedX: 0
+                            requestedY: 0
                             requestedWidth: appContainer.width;
                             requestedHeight: appContainer.height;
                         }
