@@ -23,6 +23,7 @@ import Unity 0.2
 import Dash 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
+import "Previews/PreviewSingleton"
 
 FocusScope {
     id: scopeView
@@ -824,6 +825,9 @@ FocusScope {
         }
 
         function closeSubPage() {
+            if (subPage == "preview") {
+                PreviewSingleton.widgetExtraData = new Object();
+            }
             open = false;
         }
 
