@@ -88,7 +88,6 @@ StyledItem {
         id: d
 
         function checkIfPromptless() {
-            console.log("JOSH-> Entering LoginList:checkIfPromptless(): " + waiting + " : " + wasPrompted);
             if (!waiting && !wasPrompted) {
                 passwordInput.isPrompt = false;
                 passwordInput.text = root.locked ? i18n.tr("Retry")
@@ -104,7 +103,6 @@ StyledItem {
         name: "Ubuntu.Components.Themes.Ambiance"
     }
 
-    KeyNavigation.tab: sessionChooser
     Keys.onUpPressed: {
         selected(currentIndex - 1);
         event.accepted = true;
@@ -162,7 +160,6 @@ StyledItem {
             moveTimer.start();
         }
 
-        onCurrentItemChanged: console.log("JOSH-> LoginList currentItem.height = " + currentItem.height);
         delegate: Item {
             width: parent.width
             height: root.cellHeight
@@ -247,6 +244,7 @@ StyledItem {
         height: units.gu(3.5)
         width: units.gu(3.5)
 
+        activeFocusOnTab: true
         anchors {
             right: highlightItem.right
             rightMargin: units.gu(2)
@@ -275,7 +273,6 @@ StyledItem {
             source: LightDMService.sessions.iconUrl(root.currentSession)
         }
 
-        KeyNavigation.tab: passwordInput
         Keys.onReturnPressed: {
             sessionChooserButtonClicked();
             event.accepted = true;
@@ -329,6 +326,7 @@ StyledItem {
         width: highlightItem.width - anchors.margins * 2
         opacity: userList.movingInternally ? 0 : 1
 
+        activeFocusOnTab: true
         isAlphanumeric: root.alphanumeric
 
         onClicked: root.tryToUnlock()
