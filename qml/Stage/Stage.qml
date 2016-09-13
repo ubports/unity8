@@ -104,27 +104,28 @@ AbstractStage {
         id: minimizeAllShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_D
         onTriggered: priv.minimizeAllWindows()
+        active: root.state == "windowed"
     }
 
     GlobalShortcut {
         id: maximizeWindowShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Up
         onTriggered: priv.focusedAppDelegate.maximize()
-        active: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.canBeMaximized
+        active: root.state == "windowed" && priv.focusedAppDelegate && priv.focusedAppDelegate.canBeMaximized
     }
 
     GlobalShortcut {
         id: maximizeWindowLeftShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Left
         onTriggered: priv.focusedAppDelegate.maximizeLeft()
-        active: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.canBeMaximizedLeftRight
+        active: root.state == "windowed" && priv.focusedAppDelegate && priv.focusedAppDelegate.canBeMaximizedLeftRight
     }
 
     GlobalShortcut {
         id: maximizeWindowRightShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Right
         onTriggered: priv.focusedAppDelegate.maximizeRight()
-        active: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.canBeMaximizedLeftRight
+        active: root.state == "windowed" && priv.focusedAppDelegate && priv.focusedAppDelegate.canBeMaximizedLeftRight
     }
 
     GlobalShortcut {
@@ -132,7 +133,7 @@ AbstractStage {
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Down
         onTriggered: priv.focusedAppDelegate.anyMaximized
                      ? priv.focusedAppDelegate.restoreFromMaximized() : priv.focusedAppDelegate.minimize()
-        active: priv.focusedAppDelegate !== null
+        active: root.state == "windowed" && priv.focusedAppDelegate
     }
 
     GlobalShortcut {
