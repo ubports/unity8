@@ -416,6 +416,9 @@ AbstractStage {
                         print("playing focus animation 3 on item", spreadItem.highlightedIndex, item.application.appId)
 
                         item.playFocusAnimation();
+                        if (item.stage == ApplicationInfoInterface.SideStage && !sideStage.shown) {
+                            sideStage.show();
+                        }
                     }
                 }
                 PropertyAction { target: spreadItem; property: "highlightedIndex"; value: -1 }
