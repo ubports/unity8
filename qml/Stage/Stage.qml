@@ -67,7 +67,7 @@ AbstractStage {
             case "stagedWithSideStage":
                 var orientations = mainApp.supportedOrientations;
                 orientations |= Qt.LandscapeOrientation | Qt.InvertedLandscapeOrientation;
-                if (priv.sideStageItemId && !spreadView.surfaceDragging) {
+                if (priv.sideStageItemId) {
                     // If we have a sidestage app, support Portrait orientation
                     // so that it will switch the sidestage app to mainstage on rotate to portrait
                     orientations |= Qt.PortraitOrientation|Qt.InvertedPortraitOrientation;
@@ -261,7 +261,7 @@ AbstractStage {
             }
             if (mainStageIndex == 0 || sideStageIndex == 0) {
                 if (mainStageIndex == 1 || sideStageIndex == 1) {
-                    return 2;
+                    return topLevelSurfaceList.count > 2 ? 2 : -1;
                 }
                 return 1;
             }
@@ -503,7 +503,7 @@ AbstractStage {
                     return 1;
                 }
 
-                return 2;
+                return 1;
             }
 
             onShownChanged: {

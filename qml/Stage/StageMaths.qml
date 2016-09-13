@@ -40,7 +40,7 @@ QtObject {
 
         print("App:", model.application.appId, "index:", itemIndex, "nextInStack:", nextInStack)
         if (nextInStack > 0) {
-            var stageOfNextInStack = topLevelSurfaceList.applicationAt(nextInStack).stage;
+            var stageOfNextInStack = appRepeater.itemAt(nextInStack).stage;
 
             if (itemIndex === nextInStack) {
                 // this is the next app in stack.
