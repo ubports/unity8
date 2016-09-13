@@ -27,9 +27,8 @@
 
 class MousePointer : public MirMousePointerInterface {
     Q_OBJECT
-
     Q_PROPERTY(QQuickItem* confiningItem READ confiningItem WRITE setConfiningItem NOTIFY confiningItemChanged)
-
+    Q_PROPERTY(int topBoundaryOffset READ topBoundaryOffset WRITE setTopBoundaryOffset NOTIFY topBoundaryOffsetChanged)
 public:
     MousePointer(QQuickItem *parent = nullptr);
 
@@ -44,6 +43,9 @@ public:
     QQuickItem* confiningItem() const;
     void setConfiningItem(QQuickItem*);
 
+    int topBoundaryOffset() const;
+    void setTopBoundaryOffset(int topBoundaryOffset);
+
 public Q_SLOTS:
     void handleMouseEvent(ulong timestamp, QPointF movement, Qt::MouseButtons buttons,
             Qt::KeyboardModifiers modifiers) override;
@@ -52,8 +54,16 @@ public Q_SLOTS:
 Q_SIGNALS:
     void pushedLeftBoundary(qreal amount, Qt::MouseButtons buttons);
     void pushedRightBoundary(qreal amount, Qt::MouseButtons buttons);
+    void pushedTopBoundary(qreal amount, Qt::MouseButtons buttons);
+    void pushedTopLeftCorner(qreal amount, Qt::MouseButtons buttons);
+    void pushedTopRightCorner(qreal amount, Qt::MouseButtons buttons);
+    void pushedBottomLeftCorner(qreal amount, Qt::MouseButtons buttons);
+    void pushedBottomRightCorner(qreal amount, Qt::MouseButtons buttons);
+    void pushStopped();
     void mouseMoved();
     void confiningItemChanged();
+
+    void topBoundaryOffsetChanged(int topBoundaryOffset);
 
 protected:
     void itemChange(ItemChange change, const ItemChangeData &value) override;
@@ -74,6 +84,9 @@ private:
     QPointF m_accumulatedMovement;
 
     QPointer<QQuickItem> m_confiningItem;
+
+    int m_topBoundaryOffset{0};
+    bool m_pushing{false};
 };
 
 #endif // MOUSEPOINTER_H
