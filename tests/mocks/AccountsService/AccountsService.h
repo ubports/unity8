@@ -22,6 +22,8 @@
 #include <QStringList>
 #include <QVariant>
 
+class MockUsersModel;
+
 class AccountsService: public QObject
 {
     Q_OBJECT
@@ -163,6 +165,7 @@ private:
     QString m_realName;
     QStringList m_kbdMap;
     QString m_email;
+    MockUsersModel *m_usersModel;
 };
 
 #endif
