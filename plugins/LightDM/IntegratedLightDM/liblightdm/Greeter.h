@@ -45,7 +45,6 @@ class Q_DECL_EXPORT Greeter : public QObject
 
     Q_PROPERTY(QString hostname READ hostname CONSTANT)
     Q_PROPERTY(bool hasGuestAccount READ hasGuestAccountHint CONSTANT)
-    Q_PROPERTY(bool locked READ lockHint CONSTANT)
 
     Q_ENUMS(PromptType MessageType)
 
@@ -68,7 +67,6 @@ public:
     bool hideUsersHint() const;
     bool showManualLoginHint() const;
     bool showRemoteLoginHint() const;
-    bool lockHint () const;
     bool hasGuestAccountHint() const;
     QString selectUserHint() const;
     bool selectGuestHint() const;

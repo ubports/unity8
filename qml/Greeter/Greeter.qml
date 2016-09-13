@@ -132,6 +132,22 @@ Showable {
         return d.startUnlock(true /* toTheRight */);
     }
 
+    function sessionToStart() {
+        for (var i = 0; i < LightDMService.sessions.count; i++) {
+            var session = LightDMService.sessions.data(i,
+                LightDMService.sessionRoles.KeyRole);
+            if (loader.item.sessionToStart === session) {
+                return session;
+            }
+        }
+
+        if (loader.item.sessionToStart === LightDMService.greeter.defaultSession) {
+            return LightDMService.greeter.defaultSession;
+        } else {
+            return "ubuntu"; // The default / fallback
+        }
+    }
+
     QtObject {
         id: d
 
@@ -196,8 +212,9 @@ Showable {
         }
 
         function login() {
+            console.log("JOSH-> Entering Greeter::login()")
             d.waiting = true;
-            if (LightDMService.greeter.startSessionSync()) {
+            if (LightDMService.greeter.startSessionSync(root.sessionToStart())) {
                 sessionStarted();
                 hideView();
             } else if (loader.item) {
@@ -348,6 +365,7 @@ Showable {
                 d.selectUser(index, true);
             }
             onResponded: {
+                console.log("JOSH-> Greeter:onResponded handler called ->" + root.locked)
                 if (root.locked) {
                     LightDMService.greeter.respond(response);
                 } else {
