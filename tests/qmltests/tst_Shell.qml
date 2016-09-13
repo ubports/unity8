@@ -206,7 +206,7 @@ Rectangle {
                             childs.push(shellLoader.item)
                             while (childs.length > 0) {
                                 if (childs[0].activeFocus && childs[0].focus && childs[0].objectName != "shell") {
-                                    print("Active focus is on item:", childs[0]);
+                                    console.log("Active focus is on item:", childs[0]);
                                     return;
                                 }
                                 for (var i in childs[0].children) {
@@ -214,7 +214,7 @@ Rectangle {
                                 }
                                 childs.splice(0, 1);
                             }
-                            print("No active focused item found within shell.")
+                            console.log("No active focused item found within shell.")
                         }
                     }
                 }
@@ -243,9 +243,7 @@ Rectangle {
                     activeFocusOnPress: false
                     model: ["phone", "tablet", "desktop"]
                     onSelectedIndexChanged: {
-//                        shellLoader.active = false;
                         shellLoader.state = model[selectedIndex];
-//                        shellLoader.active = true;
                     }
                 }
                 Label {
@@ -1855,12 +1853,10 @@ Rectangle {
             var y = shell.height * (data.tileInfo ? .9 : 0.5)
             mouseMove(shell, x, y)
             while (spreadItem.highlightedIndex !== 2 && x <= 4000) {
-                print("hightlight", spreadItem.highlightedIndex, x, y)
                 x+=10;
                 mouseMove(shell, x, y)
                 wait(0); // spin the loop so bindings get evaluated
             }
-            print("hightlight", spreadItem.highlightedIndex)
             tryCompare(decoratedWindow, "showHighlight", true);
 
             // Click the tile
@@ -1868,7 +1864,6 @@ Rectangle {
 
             // Verify that we left the spread and app2 is the focused one now
             tryCompare(stage, "state", "windowed");
-            print("selected:", surface.name)
             tryCompare(surface, "focused", true);
 
             keyRelease(Qt.Key_Alt);
@@ -2374,7 +2369,6 @@ Rectangle {
             tryCompare(launcherPanel, "x", 0)
             waitForRendering(shell)
             var shownSize = appDelegate.width;
-            print("launcher size:", launcher.panelWidth, "hidden:", hiddenSize, "shown:", shownSize)
 
             compare(shownSize + launcher.panelWidth, hiddenSize);
         }

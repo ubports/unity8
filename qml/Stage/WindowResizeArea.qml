@@ -78,7 +78,6 @@ MouseArea {
                                                             Qt.rect(target.windowedX, target.windowedY, defaultWidth, defaultHeight));
 
 
-        print("loading Window state!", root.windowId, windowGeometry.width, windowGeometry.height)
         target.windowedWidth = Qt.binding(function() { return Math.min(Math.max(windowGeometry.width, d.minimumWidth), screenWidth - root.leftMargin); });
         target.windowedHeight = Qt.binding(function() { return Math.min(Math.max(windowGeometry.height, d.minimumHeight),
                                                                          root.screenHeight - (target.fullscreen ? 0 : PanelState.panelHeight)); });

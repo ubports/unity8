@@ -22,7 +22,6 @@ StateGroup {
     property var container
     property var surfaceItem
 
-    onStateChanged: print("++++++++++++++++++++++++ surface animation state change", state)
     states: [
         State {
             name: "blank"

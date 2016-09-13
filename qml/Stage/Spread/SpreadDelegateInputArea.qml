@@ -51,7 +51,6 @@ Item {
             for (var i = 0; i < dragEvents.length; i++) {
                 totalSpeed += dragEvents[i][3]
             }
-            print("total speed", totalSpeed)
 
             if (zeroVelocityCounts || Math.abs(totalSpeed) > 0.001) {
                 dragVelocity = totalSpeed / dragEvents.length * 1000
@@ -105,11 +104,9 @@ Item {
 
             d.distance = tp.y - tp.startY - offset
             d.pushDragEvent(tp);
-            print("pushed event", tp.y, "velocity is now", d.dragVelocity)
         }
 
         onReleased: {
-            print("released", d.moving)
             if (!d.moving) {
                 root.clicked()
             }
@@ -121,7 +118,6 @@ Item {
 
             var touchPoint = touchPoints[0];
 
-            print("released velocity is", d.dragVelocity, "min velocity", root.minSpeedToClose)
             if ((d.dragVelocity < -root.minSpeedToClose && d.distance < -units.gu(8)) || d.distance < -root.height / 2) {
                 animation.animate("up")
             } else if ((d.dragVelocity > root.minSpeedToClose  && d.distance > units.gu(8)) || d.distance > root.height / 2) {

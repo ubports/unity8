@@ -179,7 +179,6 @@ AbstractStage {
             for (var i = 0; i < appRepeater.count; i++) {
                 var appDelegate = appRepeater.itemAt(i);
                 if (appDelegate && !appDelegate.minimized) {
-                    print("***** focusing because of focusNext() call", appDelegate.application.appId)
                     appDelegate.focus = true;
                     return;
                 }
@@ -402,9 +401,7 @@ AbstractStage {
             SequentialAnimation {
                 ScriptAction {
                     script: {
-                        print("hightedIndex is:", spreadItem.highlightedIndex)
                         var item = appRepeater.itemAt(Math.max(0, spreadItem.highlightedIndex));
-                        print("playing focus animation 3 on item", spreadItem.highlightedIndex, item.application.appId)
 
                         item.playFocusAnimation();
                         if (item.stage == ApplicationInfoInterface.SideStage && !sideStage.shown) {
@@ -475,7 +472,6 @@ AbstractStage {
             enabled: sideStage.enabled
 
             onDropped: {
-                print("dropped on main stage drop area")
                 drop.source.appDelegate.saveStage(ApplicationInfoInterface.MainStage);
                 drop.source.appDelegate.focus = true;
             }
@@ -526,7 +522,6 @@ AbstractStage {
                 onDropped: {
                     if (drop.keys == "MainStage") {
                         drop.source.appDelegate.saveStage(ApplicationInfoInterface.SideStage);
-                        print("dropped on mainstage")
                         drop.source.appDelegate.focus = true;
                     }
                 }
@@ -676,7 +671,6 @@ AbstractStage {
                 readonly property alias clientAreaItem: decoratedWindow.clientAreaItem
 
                 function claimFocus() {
-                    print("(claimfocus) focusing app", priv.sideStageDelegate, appDelegate, sideStage.shown)
                     if (root.state == "spread") {
                         priv.goneToSpread = false;
                     }
@@ -695,7 +689,6 @@ AbstractStage {
                     onFocusRequested: {
                         // Reset spread selection in case there is any
                         spreadItem.highlightedIndex = -1
-                        print("claiming focus 3")
                         claimFocus();
                     }
                 }
@@ -705,7 +698,6 @@ AbstractStage {
                         if (!model.surface) {
                             // when an app has no surfaces, we assume there's only one entry representing it:
                             // this delegate.
-                            print("claiming focus 4")
                             claimFocus();
                         } else {
                             // if the application has surfaces, focus request should be at surface-level.
@@ -738,7 +730,6 @@ AbstractStage {
                     if (!appRepeater.startingUp) {
                         // a top level window is always the focused one when it first appears, unfocusing
                         // any preexisting one
-                        print("focusing because of creation")
                         focus = true;
                     }
 
@@ -760,7 +751,6 @@ AbstractStage {
                         for (var i = 0; i < appRepeater.count; i++) {
                             var appDelegate = appRepeater.itemAt(i);
                             if (appDelegate && !appDelegate.minimized && i != index) {
-                                print("focusing some other because of destruction")
                                 appDelegate.focus = true;
                                 return;
                             }
@@ -837,24 +827,20 @@ AbstractStage {
                     animationsEnabled = (animated === undefined) || animated;
                     windowState = state || WindowStateStorage.WindowStateRestored;
                     windowState &= ~WindowStateStorage.WindowStateMinimized; // clear the minimized bit
-                    print("***** focusing because of window restore", model.application.appId)
                     focus = true;
                 }
 
                 function playFocusAnimation() {
-                    print("playing focus animation", state, root.mode, "app", model.application.appId)
                     if (state == "stagedRightEdge") {
                         // TODO: Can we drop this if and find something that always works?
                         if (root.mode == "staged") {
                             rightEdgeFocusAnimation.targetX = 0
-                            print("doing it to 0")
                             rightEdgeFocusAnimation.start()
                         } else if (root.mode == "stagedWithSideStage") {
                             rightEdgeFocusAnimation.targetX = appDelegate.stage == ApplicationInfoInterface.SideStage ? sideStage.x : 0
                             rightEdgeFocusAnimation.start()
                         }
                     } else if (state == "windowedRightEdge" || root.mode == "windowed") {
-                        print("claiming focus 1")
                         claimFocus();
                     } else {
                         focusAnimation.start()
@@ -893,29 +879,24 @@ AbstractStage {
                     to: 1
                     duration: UbuntuAnimation.SnapDuration
                     onStarted: {
-                        print("starting focusanimation for", model.application.appId)
                         topLevelSurfaceList.raiseId(model.id);
                     }
                     onStopped: {
-                        print("focusing because of normal focus animation finishing")
                         appDelegate.focus = true
                     }
                 }
                 ParallelAnimation {
                     id: rightEdgeFocusAnimation
                     property int targetX: 0
-                    onStarted: print("starting rightedgefocusanimation for", model.application.appId)
                     UbuntuNumberAnimation { target: appDelegate; properties: "x"; to: rightEdgeFocusAnimation.targetX; duration: priv.animationDuration }
                     UbuntuNumberAnimation { target: decoratedWindow; properties: "angle"; to: 0; duration: priv.animationDuration }
                     UbuntuNumberAnimation { target: decoratedWindow; properties: "itemScale"; to: 1; duration: priv.animationDuration }
                     onStopped: {
-                        print("focusing", model.application.appId, "because of right edge focus animation completion");
                         appDelegate.focus = true
                     }
                 }
                 ParallelAnimation {
                     id: hidingAnimation
-                    onStarted: print("starting hiding animation for", model.application.appId)
                     UbuntuNumberAnimation { target: appDelegate; property: "opacity"; to: 0; duration: priv.animationDuration }
                     onStopped: appDelegate.opacity = 1
                 }
@@ -1303,14 +1284,10 @@ AbstractStage {
                                 windowedRightEdgeMaths.startY = appDelegate.requestedY
 
                                 if (index == 1) {
-                                    print("should calculate overlap from", model.application.appId, "with", appRepeater.itemAt(0).application.appId)
                                     var thisRect = { x: appDelegate.windowedX, y: appDelegate.windowedY, width: appDelegate.requestedWidth, height: appDelegate.requestedHeight }
-                                    print("thisRect:", thisRect.x, thisRect.y, thisRect.width, thisRect.height)
                                     var otherDelegate = appRepeater.itemAt(0);
                                     var otherRect = { x: otherDelegate.windowedX, y: otherDelegate.windowedY, width: otherDelegate.requestedWidth, height: otherDelegate.requestedHeight }
-                                    print("otherRect:", otherRect.x, otherRect.y, otherRect.width, otherRect.height)
                                     var intersectionRect = MathUtils.intersectionRect(thisRect, otherRect)
-                                    print("intersection is", intersectionRect.x, intersectionRect.y, intersectionRect.width, intersectionRect.height)
                                     var mappedInterSectionRect = appDelegate.mapFromItem(root, intersectionRect.x, intersectionRect.y)
                                     opacityEffect.maskX = mappedInterSectionRect.x
                                     opacityEffect.maskY = mappedInterSectionRect.y
@@ -1369,7 +1346,6 @@ AbstractStage {
                     visible: enabled
 
                     onPressed: {
-                        print("***** focusing because of resize area press", model.application.appId)
                         appDelegate.focus = true;
                     }
 
@@ -1482,7 +1458,6 @@ AbstractStage {
 
                     onClicked: {
                         spreadItem.highlightedIndex = index;
-                        print("*****************setting highlighted index to:", index, appRepeater.itemAt(index))
                         if (distance == 0) {
                             priv.goneToSpread = false;
                         }
@@ -1669,7 +1644,6 @@ AbstractStage {
         }
 
         onDraggingChanged: {
-            print("dda dragging changed", dragging)
             if (dragging) {
                 // A potential edge-drag gesture has started. Start recording it
                 gesturePoints = [];
@@ -1683,7 +1657,6 @@ AbstractStage {
                     var oneWayFlickToRight = true;
                     var smallestX = gesturePoints[0]-1;
                     for (var i = 0; i < gesturePoints.length; i++) {
-                        print("have point:", gesturePoints[i])
                         if (gesturePoints[i] <= smallestX) {
                             oneWayFlickToRight = false;
                             break;
@@ -1719,7 +1692,6 @@ AbstractStage {
                                 break;
                             }
                         }
-                        print("playing focus animation 1")
                         appRepeater.itemAt(priv.nextInStack).playFocusAnimation()
                     } else {
                         cancelled = true;
@@ -1741,11 +1713,9 @@ AbstractStage {
         dragComponentProperties: { "appDelegate": appDelegate }
 
         onPressed: {
-            print("********* triGestureArea pressed!")
             function matchDelegate(obj) { return String(obj.objectName).indexOf("appDelegate") >= 0; }
 
             var delegateAtCenter = Functions.itemAt(appContainer, x, y, matchDelegate);
-            print("dragging delegate", delegateAtCenter)
             if (!delegateAtCenter) return;
 
             appDelegate = delegateAtCenter;

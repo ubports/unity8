@@ -38,7 +38,6 @@ Rectangle {
 
     readonly property real hintThreshold: 0.1
 
-    onEdgeChanged: print("***********+ edge changed", edge)
     // Edge push progress
     // Value range is [0.0, 1.0]
     readonly property real progress: priv.directProgress != -1 ? priv.directProgress : priv.accumulatedProgress
@@ -97,7 +96,6 @@ Rectangle {
     }
 
     function commit() {
-        print("comitting!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         if (progress > hintThreshold && edge != -1) {
             if (edge == Item.Top) {
                 target.maximize();

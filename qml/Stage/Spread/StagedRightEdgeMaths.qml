@@ -131,8 +131,6 @@ QtObject {
             startScale = root.startScale;
         }
 
-//        print("main stage delegate:", priv.mainStageDelegate, "side delegate", priv.sideStageDelegate, "this", appDelegate, "scale:", startScale)
-//        return startScale;
         if (itemIndex == nextInStack) {
             return MathUtils.linearAnimation(0, 1, startScale, targetScale, progress)
         }

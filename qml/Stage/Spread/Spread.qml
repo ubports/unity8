@@ -101,18 +101,7 @@ Item {
         Behavior on opacity { UbuntuNumberAnimation { } }
     }
 
-//    Label {
-//        anchors { left: parent.left; top: parent.top; margins: units.gu(4) }
-//        text: "spreadWidth: " + spreadWidth
-//              + "\n spreadItemWidth: " + spreadItemWidth
-//              + "\n flickableContentWidth: " + spreadTotalWidth
-//              + "\n visibleItemCount: " + visibleItemCount
-//              + "\n contentTopMargin: " + contentTopMargin
-//    }
-
-
     Keys.onPressed: {
-        print("key pressed")
         switch (event.key) {
         case Qt.Key_Left:
         case Qt.Key_Backtab:

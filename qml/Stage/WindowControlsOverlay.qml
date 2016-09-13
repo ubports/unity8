@@ -86,10 +86,6 @@ Item {
         id: overlayTimer
         interval: 2000
         repeat: priv.dragging
-        onTriggered: {
-            print("timer triggered")
-        }
-        onRunningChanged: print("timer running changed", running)
     }
 
     QtObject {

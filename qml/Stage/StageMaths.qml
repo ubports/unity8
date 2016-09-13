@@ -38,7 +38,6 @@ QtObject {
             return 0;
         }
 
-        print("App:", model.application.appId, "index:", itemIndex, "nextInStack:", nextInStack)
         if (nextInStack > 0) {
             var stageOfNextInStack = appRepeater.itemAt(nextInStack).stage;
 
@@ -55,7 +54,6 @@ QtObject {
                 // if the next app in stack is a sidestage app, it must order on top of other side stage app
                 return 1;
             }
-            print("returning", Math.min(2, topLevelSurfaceList.count-1), topLevelSurfaceList.count)
             return Math.min(2, topLevelSurfaceList.count-1);
         }
         return Math.min(index+1, topLevelSurfaceList.count-1);

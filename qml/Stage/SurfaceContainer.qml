@@ -114,7 +114,6 @@ FocusScope {
         objectName: "animationsLoader"
         active: root.surface
         source: {
-            print("++++++++++++++++++++++++++++++++++++++++++++ loading animation!!!", root.isPromptSurface, surfaceItem, root)
             if (root.isPromptSurface) {
                 return "PromptSurfaceAnimations.qml";
             } else {
