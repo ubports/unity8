@@ -105,8 +105,8 @@ Showable {
         }
     }
 
-    // Notify that the user has explicitly requested the given app through unity8 GUI.
-    function notifyUserRequestedApp(appId) {
+    // Notify that the user has explicitly requested an app
+    function notifyUserRequestedApp() {
         if (!active) {
             return;
         }
