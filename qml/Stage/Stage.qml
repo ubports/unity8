@@ -587,10 +587,10 @@ AbstractStage {
 
                 // requestedX/Y/width/height is what we ask the actual surface to be.
                 // Do not write to those, they will be set by states
-                property real requestedX: 0
-                property real requestedY: 0
-                property int requestedWidth: -1
-                property int requestedHeight: -1
+                property real requestedX: windowedX
+                property real requestedY: windowedY
+                property int requestedWidth: windowedWidth
+                property int requestedHeight: windowedHeight
 
                 // In those are for windowed mode. Those values basically store the window's properties
                 // when having a floating window. If you want to move/resize a window in normal mode, this is what you want to write to.
@@ -619,7 +619,7 @@ AbstractStage {
                     onShellOrientationAngleChanged: {
                         // at this point decoratedWindow.surfaceOrientationAngle is the old shellOrientationAngle
                         if (application && application.rotatesWindowContents) {
-                            if (state == "normal" || state == "restored") {
+                            if (root.state == "windowed") {
                                 var angleDiff = decoratedWindow.surfaceOrientationAngle - shellOrientationAngle;
                                 angleDiff = (360 + angleDiff) % 360;
                                 if (angleDiff === 90 || angleDiff === 270) {
@@ -698,14 +698,15 @@ AbstractStage {
                     if (root.state == "spread") {
                         priv.goneToSpread = false;
                     }
-                    if (root.mode == "windowed" && minimized) {
-                        restore(true)
-                    }
                     if (appDelegate.stage == ApplicationInfoInterface.SideStage && !sideStage.shown) {
                         sideStage.show();
                     }
-                    appDelegate.focus = true;
-                    appDelegate.restore(true /* animated */, appDelegate.windowState);
+
+                    if (root.mode == "windowed") {
+                        appDelegate.restore(true /* animated */, appDelegate.windowState);
+                    } else {
+                        appDelegate.focus = true;
+                    }
                 }
                 Connections {
                     target: model.surface
@@ -737,7 +738,6 @@ AbstractStage {
                     if (focus) {
                         topLevelSurfaceList.raiseId(model.id);
                         priv.focusedAppDelegate = appDelegate;
-                        topLevelSurfaceList.raiseId(model.id);
                     } else if (!focus && priv.focusedAppDelegate === appDelegate) {
                         priv.focusedAppDelegate = null;
                         // FIXME: No idea why the Binding{} doens't update when focusedAppDelegate turns null
@@ -871,7 +871,7 @@ AbstractStage {
                             rightEdgeFocusAnimation.targetX = appDelegate.stage == ApplicationInfoInterface.SideStage ? sideStage.x : 0
                             rightEdgeFocusAnimation.start()
                         }
-                    } else if (state == "windowedRightEdge") {
+                    } else if (state == "windowedRightEdge" || root.mode == "windowed") {
                         print("claiming focus 1")
                         claimFocus();
                     } else {
@@ -1160,8 +1160,6 @@ AbstractStage {
                             target: appDelegate
                             visuallyMinimized: false
                             visuallyMaximized: false
-                            requestedX: appDelegate.windowedX
-                            requestedY: appDelegate.windowedY
                             requestedWidth: appDelegate.windowedWidth
                             requestedHeight: appDelegate.windowedHeight
                         }
@@ -1182,6 +1180,7 @@ AbstractStage {
                     State {
                         name: "semiMaximized"
                         PropertyChanges { target: touchControls; enabled: true }
+                        PropertyChanges { target: resizeArea; enabled: true }
                         PropertyChanges { target: decoratedWindow; shadowOpacity: .3 }
                     },
                     State {
@@ -1244,36 +1243,21 @@ AbstractStage {
                     State {
                         name: "maximizedHorizontally"; when: appDelegate.maximizedHorizontally && !appDelegate.minimized
                         extend: "semiMaximized"
-                        PropertyChanges {
-                            target: appDelegate;
-                            requestedX: root.leftMargin
-                            requestedY: appDelegate.windowedY
-                            requestedWidth: appContainer.width - root.leftMargin
-                            requestedHeight: appDelegate.windowedHeight
-                        }
-                        PropertyChanges { target: appDelegate; requestedX: root.leftMargin; requestedY: requestedY; requestedWidth: appContainer.width - root.leftMargin }
+                        PropertyChanges { target: appDelegate; requestedX: root.leftMargin; requestedY: requestedY;
+                            requestedWidth: appContainer.width - root.leftMargin; requestedHeight: appDelegate.windowedHeight }
                     },
                     State {
                         name: "maximizedVertically"; when: appDelegate.maximizedVertically && !appDelegate.minimized
-                        PropertyChanges {
-                            target: appDelegate;
-                            requestedX: appDelegate.windowedX
-                            requestedY: PanelState.panelHeight
-                            requestedWidth: appDelegate.windowedWidth
-                            requestedHeight: appContainer.height - PanelState.panelHeight
-                        }
-                        PropertyChanges { target: appDelegate; requestedX: requestedX; requestedY: PanelState.panelHeight; requestedHeight: appContainer.height - PanelState.panelHeight }
+                        extend: "semiMaximized"
+                        PropertyChanges { target: appDelegate; requestedX: requestedX; requestedY: PanelState.panelHeight;
+                            requestedWidth: appDelegate.windowedWidth; requestedHeight: appContainer.height - PanelState.panelHeight }
                     },
                     State {
                         name: "minimized"; when: appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate
-                            requestedWidth: decoratedWindow.oldRequestedWidth
-                            requestedHeight: decoratedWindow.oldRequestedHeight
-                            x: -appDelegate.width / 2;
-                            y: requestedY // TODO: Should be where the icon is in the launcher. Lets just move it horizontally to the left for now.
-                            scale: units.gu(5) / appDelegate.width
                             requestedX: -appDelegate.width / 2
+                            scale: units.gu(5) / appDelegate.width
                             opacity: 0;
                             visuallyMinimized: true
                             visuallyMaximized: false
@@ -1288,24 +1272,23 @@ AbstractStage {
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedX,requestedY,opacity,requestedWidth,requestedHeight,scale"; duration: priv.animationDuration }
                     },
                     Transition {
-                        from: "normal,maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight"; to: "staged,stagedWithSideStage"
+                        from: "normal,maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight";
+                        to: "staged,stagedWithSideStage"
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedX,requestedY,requestedWidth,requestedHeight"; duration: priv.animationDuration}
                     },
                     Transition {
-                        from: "maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,minimized"; to: "normal"
+                        from: "maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight,minimized";
+                        to: "normal,restored"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
-                        UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,requestedWidth,requestedHeight,scale"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,restoredX,restoredY,requestedWidth,requestedHeight,scale"; duration: priv.animationDuration }
                     },
                     Transition {
                         to: "minimized"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         SequentialAnimation {
-                            ParallelAnimation {
-                                UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,scale"; duration: priv.animationDuration }
-                                UbuntuNumberAnimation { target: decoratedWindow; properties: "requestedWidth,requestedHeight"; duration: priv.animationDuration }
-                            }
+                            UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,opacity,scale,requestedWidth,requestedHeight" }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                             ScriptAction {
                                 script: {
@@ -1368,7 +1351,7 @@ AbstractStage {
                         }
                     },
                     Transition {
-                        to: "maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,fullscreen"
+                        to: "maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
                         enabled: appDelegate.animationsEnabled
                         SequentialAnimation {
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
@@ -1552,7 +1535,7 @@ AbstractStage {
                     anchors { left: parent.left; top: parent.top; leftMargin: -height / 2; topMargin: -height / 2 + spreadMaths.closeIconOffset }
                     source: "graphics/window-close.svg"
                     readonly property var mousePos: hoverMouseArea.mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
-                    visible: model.application.appId !== "unity8-dash"
+                    visible: !appDelegate.isDash
                              && index == spreadItem.highlightedIndex
                              && mousePos.y < (decoratedWindow.height / 3)
                              && mousePos.y > -units.gu(4)
@@ -1570,7 +1553,7 @@ AbstractStage {
                         anchors.margins: -units.gu(2)
                         onClicked: {
                             priv.closingIndex = index;
-                            model.surface.close();
+                            appDelegate.close();
                         }
                     }
                 }
