@@ -273,6 +273,8 @@ AbstractStage {
                                                           : 0
     }
 
+    Component.onCompleted: priv.updateMainAndSideStageIndexes();
+
     Connections {
         target: PanelState
         onCloseClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.close(); } }
@@ -442,7 +444,7 @@ AbstractStage {
         id: appContainer
         objectName: "appContainer"
         anchors.fill: parent
-        focus: root.state !== "spread"
+        focus: true
 
         Wallpaper {
             id: wallpaper
@@ -1618,6 +1620,7 @@ AbstractStage {
 
     FloatingFlickable {
         id: floatingFlickable
+        objectName: "spreadFlickable"
         anchors.fill: appContainer
         enabled: false
         contentWidth: spreadItem.spreadTotalWidth
