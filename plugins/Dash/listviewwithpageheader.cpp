@@ -978,6 +978,7 @@ void ListViewWithPageHeader::onContentWidthChanged()
 
 void ListViewWithPageHeader::onHeightChanged()
 {
+    m_clipItem->setHeight(height() - m_headerItemShownHeight);
     polish();
 }
 
