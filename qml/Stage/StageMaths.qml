@@ -69,7 +69,7 @@ QtObject {
         if (sideStageDelegate == thisDelegate) {
             return sideStageX;
         }
-        return thisDelegate.isDash ? 0 : sceneWidth;
+        return thisDelegate.isDash && leftEdgeDragProgress > 0 ? 0 : sceneWidth;
     }
     Behavior on itemX { enabled: root.animateX; UbuntuNumberAnimation {} }
 
