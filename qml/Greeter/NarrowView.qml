@@ -29,6 +29,7 @@ FocusScope {
     property alias delayMinutes: delayedLockscreen.delayMinutes
     property alias backgroundTopMargin: coverPage.backgroundTopMargin
     property url background
+    property bool hasCustomBackground
     property bool locked
     property alias alphanumeric: loginList.alphanumeric
     property alias userModel: loginList.model
@@ -123,7 +124,7 @@ FocusScope {
         showAnimation: StandardAnimation { property: "opacity"; to: 1 }
         hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
 
-        CrossFadeImage {
+        Wallpaper {
             id: lockscreenBackground
             objectName: "lockscreenBackground"
             anchors {
@@ -131,17 +132,14 @@ FocusScope {
                 topMargin: root.backgroundTopMargin
             }
             source: root.background
-            fillMode: Image.PreserveAspectCrop
-            // Limit how much memory we'll reserve for this image
-            sourceSize.height: Math.max(Screen.width, Screen.height)
-            sourceSize.width: 0
         }
 
         // Darken background to match CoverPage
         Rectangle {
+            objectName: "lockscreenShade"
             anchors.fill: parent
             color: "black"
-            opacity: 0.4
+            opacity: root.hasCustomBackground ? 0.4 : 0
         }
 
         LoginList {
@@ -191,6 +189,7 @@ FocusScope {
         height: parent.height
         width: parent.width
         background: root.background
+        hasCustomBackground: root.hasCustomBackground
         draggable: !root.waiting
         onTease: root.tease()
         onClicked: hide()

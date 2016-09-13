@@ -24,6 +24,7 @@ FocusScope {
 
     property alias background: coverPage.background
     property alias backgroundTopMargin: coverPage.backgroundTopMargin
+    property alias hasCustomBackground: coverPage.hasCustomBackground
     property alias dragHandleLeftMargin: coverPage.dragHandleLeftMargin
     property alias infographicModel: coverPage.infographicModel
     property alias launcherOffset: coverPage.launcherOffset

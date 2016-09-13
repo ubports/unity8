@@ -31,7 +31,7 @@ Rectangle {
     }
 
     property var widgetData1: {
-        "source": "../../../qml/graphics/phone_background.jpg",
+        "source": "../../../tests/graphics/avatars/amanda@12.png",
         "zoomable": false
     }
 

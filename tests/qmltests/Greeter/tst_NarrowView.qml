@@ -40,7 +40,7 @@ Item {
             property bool itemDestroyed: false
             sourceComponent: Component {
                 NarrowView {
-                    background: Qt.resolvedUrl("../../../qml/graphics/phone_background.jpg")
+                    background: "/usr/share/backgrounds/warty-final-ubuntu.png"
                     userModel: LightDM.Users
                     infographicModel: LightDM.Infographic
 
@@ -343,6 +343,18 @@ Item {
             view.dragHandleLeftMargin = data.offset;
             tap(view, data.x, 0);
             compare(teaseSpy.count, data.count);
+        }
+
+        function test_customBackground() {
+            var lockscreenShade = findChild(view, "lockscreenShade");
+            var backgroundShade = findChild(view, "backgroundShade");
+
+            compare(lockscreenShade.opacity, 0);
+            verify(!backgroundShade.visible);
+
+            view.hasCustomBackground = true;
+            compare(lockscreenShade.opacity, 0.4);
+            verify(backgroundShade.visible);
         }
 
         function test_respondedWithPin() {
