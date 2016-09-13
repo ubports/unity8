@@ -46,20 +46,6 @@ FocusScope {
     property alias paintBackground: background.visible
     property bool oskEnabled: false
 
-    // To be read from outside
-    property var mainApp: null
-    property int mainAppWindowOrientationAngle: 0
-    property bool orientationChangesEnabled
-    property int supportedOrientations: Qt.PortraitOrientation
-                                      | Qt.LandscapeOrientation
-                                      | Qt.InvertedPortraitOrientation
-                                      | Qt.InvertedLandscapeOrientation
-
-    property Item itemConfiningMouseCursor: null
-
-
-    signal stageAboutToBeUnloaded
-    signal itemSnapshotRequested(Item item)
 
     // Shared code for use in stage implementations
     GSettings {
@@ -75,19 +61,5 @@ FocusScope {
             }
         }
         return false;
-    }
-
-    Rectangle {
-        id: background
-        color: "#060606"
-        anchors.fill: parent
-    }
-
-    // shared Alt+F4 functionality
-    function closeFocusedDelegate() {} // to be implemented by stages
-
-    GlobalShortcut {
-        shortcut: Qt.AltModifier|Qt.Key_F4
-        onTriggered: closeFocusedDelegate()
     }
 }

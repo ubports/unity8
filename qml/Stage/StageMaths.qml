@@ -19,9 +19,6 @@ QtObject {
     property var sideStageDelegate: null
 
     // output
-//    readonly property int itemZ: stage == ApplicationInfoInterface.MainStage ? 0 :
-//                                                                               stage == ApplicationInfoInterface.SideStage ? 2 :
-//                                                                                                                             itemIndex + 2
 
     // We need to shuffle z ordering a bit in order to keep side stage apps above main stage apps.
     // We don't want to really reorder them in the model because that allows us to keep track

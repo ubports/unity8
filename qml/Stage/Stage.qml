@@ -50,14 +50,14 @@ AbstractStage {
     // used by the snap windows (edge maximize) feature
     readonly property alias previewRectangle: fakeRectangle
 
-    mainApp: priv.focusedAppDelegate ? priv.focusedAppDelegate.application : null
+    property var mainApp: priv.focusedAppDelegate ? priv.focusedAppDelegate.application : null
 
     // application windows never rotate independently
-    mainAppWindowOrientationAngle: shellOrientationAngle
+    property int mainAppWindowOrientationAngle: shellOrientationAngle
 
-    orientationChangesEnabled: true
+    property bool orientationChangesEnabled: true
 
-    supportedOrientations: {
+    property int supportedOrientations: {
         if (mainApp) {
             switch (mode) {
             case "staged":
@@ -83,9 +83,17 @@ AbstractStage {
 
     onAltTabPressedChanged: priv.goneToSpread = altTabPressed
 
-    itemConfiningMouseCursor: !spreadShown && priv.focusedAppDelegate && priv.focusedAppDelegate.surface &&
+    property Item itemConfiningMouseCursor: !spreadShown && priv.focusedAppDelegate && priv.focusedAppDelegate.surface &&
                               priv.focusedAppDelegate.surface.confinesMousePointer ?
                               priv.focusedAppDelegate.clientAreaItem : null;
+
+    signal itemSnapshotRequested(Item item)
+
+    GlobalShortcut {
+        id: closeFocusedShortcut
+        shortcut: Qt.AltModifier|Qt.Key_F4
+        onTriggered: closeFocusedDelegate()
+    }
 
     GlobalShortcut {
         id: showSpreadShortcut
