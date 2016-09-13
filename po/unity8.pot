@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-09 14:56+0000\n"
+"POT-Creation-Date: 2016-09-13 07:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -437,7 +437,7 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qml/Greeter/Greeter.qml:596
+#: qml/Greeter/Greeter.qml:598
 msgid "Try again"
 msgstr ""
 
@@ -449,11 +449,11 @@ msgstr ""
 msgid "Passcode"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:98
+#: qml/Greeter/LoginList.qml:99
 msgid "Retry"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:99
+#: qml/Greeter/LoginList.qml:100
 msgid "Log In"
 msgstr ""
 
@@ -461,7 +461,7 @@ msgstr ""
 msgid "Emergency"
 msgstr ""
 
-#: qml/Greeter/SessionsList.qml:117
+#: qml/Greeter/SessionsList.qml:133
 msgid "Select desktop environment"
 msgstr ""
 
