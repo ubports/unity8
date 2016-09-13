@@ -34,7 +34,7 @@ StyledItem {
     readonly property int numAboveBelow: 4
     readonly property int cellHeight: units.gu(5)
     readonly property int highlightedHeight: units.gu(15)
-    readonly property int moveDuration: 200
+    readonly property int moveDuration: UbuntuAnimation.FastDuration
     property string selectedSession
     property string currentSession
     readonly property string currentUser: userList.currentItem.username
@@ -202,9 +202,22 @@ StyledItem {
                     bottomMargin: -(units.gu(4) + (parent.belowHighlight ? parent.belowOffset : 0))
                 }
                 text: realName
-                color: userList.currentIndex !== index ? theme.palette.normal.raised : theme.palette.normal.raisedText
+                color: userList.currentIndex !== index ? theme.palette.normal.raised
+                                                       : theme.palette.normal.raisedText
 
                 Behavior on anchors.topMargin { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
+
+                Rectangle {
+                    id: activeIndicator
+                    anchors.horizontalCenter: parent.left
+                    anchors.horizontalCenterOffset: -units.gu(1)
+                    anchors.verticalCenter: parent.verticalCenter
+                    color: userList.currentIndex !== index ? theme.palette.normal.raised
+                                                           : theme.palette.normal.focus
+                    visible: userList.count > 1 && loggedIn
+                    height: units.gu(0.5)
+                    width: height
+                }
             }
 
             MouseArea {
