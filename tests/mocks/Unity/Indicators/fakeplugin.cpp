@@ -29,6 +29,7 @@
 #include "sharedunitymenumodel.h"
 #include "fakeunitymenumodelcache.h"
 #include "unitymenumodelstack.h"
+#include "modelprinter.h"
 
 #include <unitymenumodel.h>
 
@@ -49,6 +50,7 @@ void IndicatorsFakePlugin::registerTypes(const char * uri)
     qmlRegisterType<MenuContentActivator>(uri, 0, 1, "MenuContentActivator");
     qmlRegisterType<UnityMenuModelStack>(uri, 0, 1, "UnityMenuModelStack");
     qmlRegisterType<SharedUnityMenuModel>(uri, 0, 1, "SharedUnityMenuModel");
+    qmlRegisterType<ModelPrinter>(uri, 0, 1, "ModelPrinter");
 
     qmlRegisterSingletonType<FakeUnityMenuModelCache>(uri, 0, 1, "UnityMenuModelCache", menuModelCacheSingleton);
 
