@@ -1131,7 +1131,7 @@ AbstractStage {
                         }
                     },
                     State {
-                        name: "maximized"; when: root.state === "windowed" && appDelegate.maximized && !appDelegate.minimized
+                        name: "maximized"; when: appDelegate.windowState == WindowStateStorage.WindowStateMaximized
                         PropertyChanges {
                             target: appDelegate;
                             requestedX: root.leftMargin;
