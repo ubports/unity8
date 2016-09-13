@@ -741,7 +741,8 @@ AbstractStage {
                     if (!appRepeater.startingUp) {
                         // a top level window is always the focused one when it first appears, unfocusing
                         // any preexisting one
-                        focus = true;
+                        spreadItem.highlightedIndex = index;
+                        claimFocus();
                     }
 
                     refreshStage();

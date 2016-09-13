@@ -26,7 +26,7 @@ QtObject {
     // of the last focused order.
     readonly property int itemZ: {
         // only shuffle when we've got a main and side stage
-        if (thisDelegate.isDash && thisDelegate != mainStageDelegate) {
+        if (thisDelegate.isDash && thisDelegate != mainStageDelegate && leftEdgeDragProgress > 0) {
             return -1; // Keep the dash behind all other apps for the left edge gesture
         }
 
