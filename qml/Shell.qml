@@ -177,7 +177,6 @@ StyledItem {
 
     VolumeControl {
         id: volumeControl
-        indicators: panel.indicators
     }
 
     DashCommunicator {
