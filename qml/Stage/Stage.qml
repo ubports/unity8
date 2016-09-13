@@ -690,7 +690,7 @@ AbstractStage {
                 readonly property bool dragging: touchControls.overlayShown ? touchControls.dragging : decoratedWindow.dragging
 
                 readonly property string appId: model.application.appId
-                readonly property bool isDash: model.application.appId == "unity8-dash"
+                readonly property bool isDash: appId == "unity8-dash"
                 readonly property alias clientAreaItem: decoratedWindow.clientAreaItem
 
                 function claimFocus() {
@@ -1143,7 +1143,7 @@ AbstractStage {
                         }
                     },
                     State {
-                        name: "fullscreen"; when: surface ? surface.state === Mir.FullscreenState : application.fullscreen && !appDelegate.minimized
+                        name: "fullscreen"; when: appDelegate.fullscreen
                         PropertyChanges {
                             target: appDelegate;
                             requestedX: 0
@@ -1496,7 +1496,7 @@ AbstractStage {
                     objectName: "dragArea"
                     anchors.fill: decoratedWindow
                     enabled: false
-                    closeable: model.application.appId !== "unity8-dash"
+                    closeable: !appDelegate.isDash
 
                     onClicked: {
                         spreadItem.highlightedIndex = index;
