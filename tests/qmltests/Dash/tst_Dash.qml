@@ -409,7 +409,7 @@ Item {
             compare(dashContentList.currentItem.scopeId, "clickscope");
 
             // Move to second scope
-            touchFlick(dash, dash.width / 2, units.gu(2), dash.width / 5, units.gu(2));
+            mouseFlick(dash, dash.width / 2, units.gu(2), dash.width / 5, units.gu(2));
             tryCompare(dashContentList, "currentIndex", 1);
             compare(dashContentList.currentItem.scopeId, "MockScope1");
         }
