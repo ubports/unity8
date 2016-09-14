@@ -490,6 +490,7 @@ AbstractStage {
 
         SideStage {
             id: sideStage
+            objectName: "sideStage"
             shown: false
             height: appContainer.height
             x: appContainer.width - width
@@ -667,7 +668,7 @@ AbstractStage {
                 property int stage: ApplicationInfoInterface.MainStage
                 function saveStage(newStage) {
                     appDelegate.stage = newStage;
-                    WindowStateStorage.saveStage(application.appId, newStage);
+                    WindowStateStorage.saveStage(appId, newStage);
                     priv.updateMainAndSideStageIndexes()
                 }
 
