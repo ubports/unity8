@@ -18,7 +18,7 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.SystemSettings.SecurityPrivacy 1.0
 import ".." as LocalComponents
-import "../../Components" as UnityComponents
+import "../../Components"
 
 /**
  * See the main passwd-type page for an explanation of why we don't actually
@@ -45,7 +45,7 @@ LocalComponents.Page {
         onTriggered: pageStack.load(Qt.resolvedUrl("passcode-confirm.qml"));
     }
 
-    UnityComponents.Lockscreen {
+    Lockscreen {
         id: lockscreen
         anchors {
             fill: content
