@@ -19,7 +19,7 @@ import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
 import "../../../qml/Components"
-import "../../../qml/Stages"
+import "../../../qml/Stage"
 import Ubuntu.Components 1.3
 import Unity.Application 0.1
 import WindowManager 0.1
@@ -31,7 +31,7 @@ Item {
 
     property var greeter: { fullyShown: true }
 
-    PhoneStage {
+    Stage {
         id: phoneStage
         anchors { fill: parent; rightMargin: units.gu(30) }
         focus: true
@@ -41,6 +41,7 @@ Item {
         shellOrientation: Qt.PortraitOrientation
         orientations: Orientations {}
         applicationManager: ApplicationManager
+        mode: "staged"
         topLevelSurfaceList: TopLevelSurfaceList {
             id: topLevelSurfaceList
             applicationsModel: ApplicationManager
@@ -85,7 +86,7 @@ Item {
         when: windowShown
 
         function findAppWindowForSurfaceId(surfaceId) {
-            var delegateObjectName = "spreadDelegate_" + surfaceId;
+            var delegateObjectName = "appDelegate_" + surfaceId;
             var spreadDelegate = findChild(phoneStage, delegateObjectName);
             if (!spreadDelegate) {
                 console.warn("Failed to find " + delegateObjectName + " in phoneStage ("+phoneStage+")");
@@ -111,8 +112,6 @@ Item {
                 var appSurfaceId = topLevelSurfaceList.nextId;
                 var app = ApplicationManager.startApplication(ApplicationManager.availableApplications[ApplicationManager.count])
                 tryCompare(app, "state", ApplicationInfoInterface.Running)
-                var spreadView = findChild(phoneStage, "spreadView");
-                tryCompare(spreadView, "contentX", -spreadView.shift);
                 waitUntilAppSurfaceShowsUp(appSurfaceId);
                 waitForRendering(phoneStage)
             }
