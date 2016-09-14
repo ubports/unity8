@@ -24,11 +24,21 @@ class MockSessionsModel : public SessionsModel
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString testScenario READ testScenario WRITE setTestScenario)
+    Q_PROPERTY(int numAvailableSessions READ numAvailableSessions CONSTANT)
+    Q_PROPERTY(int numSessions READ numSessions WRITE setNumSessions NOTIFY numSessionsChanged)
+    Q_PROPERTY(QString testScenario READ testScenario WRITE setTestScenario NOTIFY testScenarioChanged)
 
 public:
+    int numAvailableSessions() const;
+    int numSessions() const;
     QString testScenario() const;
-    void setTestScenario(QString testScenario);
+    void setNumSessions(const int numSessions);
+    void setTestScenario(const QString testScenario);
+
+Q_SIGNALS:
+    void numSessionsChanged();
+    void testScenarioChanged();
+
 };
 
 #endif // MOCK_UNITY_SESSIONSMODEL_H
