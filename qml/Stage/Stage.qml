@@ -1217,13 +1217,13 @@ AbstractStage {
                     State {
                         name: "maximizedHorizontally"; when: appDelegate.maximizedHorizontally && !appDelegate.minimized
                         extend: "semiMaximized"
-                        PropertyChanges { target: appDelegate; requestedX: root.leftMargin; requestedY: requestedY;
+                        PropertyChanges { target: appDelegate; requestedX: root.leftMargin; requestedY: windowedY;
                             requestedWidth: appContainer.width - root.leftMargin; requestedHeight: appDelegate.windowedHeight }
                     },
                     State {
                         name: "maximizedVertically"; when: appDelegate.maximizedVertically && !appDelegate.minimized
                         extend: "semiMaximized"
-                        PropertyChanges { target: appDelegate; requestedX: requestedX; requestedY: PanelState.panelHeight;
+                        PropertyChanges { target: appDelegate; requestedX: windowedX; requestedY: PanelState.panelHeight;
                             requestedWidth: appDelegate.windowedWidth; requestedHeight: appContainer.height - PanelState.panelHeight }
                     },
                     State {
