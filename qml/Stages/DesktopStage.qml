@@ -240,12 +240,10 @@ AbstractStage {
         anchors.fill: parent
         focus: spread.state !== "altTab"
 
-        CrossFadeImage {
+        Wallpaper {
             id: wallpaper
             anchors.fill: parent
             source: root.background
-            sourceSize { height: root.height; width: root.width }
-            fillMode: Image.PreserveAspectCrop
         }
 
         TopLevelSurfaceRepeater {

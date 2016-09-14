@@ -549,6 +549,7 @@ Rectangle {
 
             AccountsService.demoEdges = false;
             AccountsService.demoEdgesCompleted = [];
+            AccountsService.backgroundFile = "";
             Wizard.System.wizardEnabled = false;
             shellLoader.mode = "full-greeter";
 
@@ -563,6 +564,7 @@ Rectangle {
             broadcastHomeSpy.clear();
 
             GSettingsController.setLifecycleExemptAppids([]);
+            GSettingsController.setPictureUri("");
 
             // there should be only unity8-dash window over there
             tryCompare(ApplicationManager, "count", 1);
@@ -1332,6 +1334,32 @@ Rectangle {
 
             swipeAwayGreeter();
             tryCompare(tutorial, "paused", false);
+        }
+
+        function test_customBackground() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+
+            var wallpaperResolver = findInvisibleChild(shell, "wallpaperResolver");
+            var greeter = findChild(shell, "greeter");
+            verify(!greeter.hasCustomBackground);
+            compare(wallpaperResolver.background, wallpaperResolver.defaultBackground);
+
+            AccountsService.backgroundFile = Qt.resolvedUrl("../graphics/applicationIcons/dash.png");
+            tryCompare(greeter, "hasCustomBackground", true);
+            compare(wallpaperResolver.background, AccountsService.backgroundFile);
+        }
+
+        function test_cachedBackground() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+
+            var greeter = findChild(shell, "greeter");
+            verify(!greeter.hasCustomBackground);
+            compare(greeter.background.toString().indexOf("image://unity8imagecache/file:///"), 0);
+            verify(greeter.background.toString().indexOf("?name=wallpaper") > 0);
         }
 
         function test_tapOnRightEdgeReachesApplicationSurface() {
@@ -2433,6 +2461,59 @@ Rectangle {
             tap(shell, shell.width - 1, shell.height / 2);
             compare(topmostSurfaceItem.touchPressCount, 2);
             compare(topmostSurfaceItem.touchReleaseCount, 2);
+        }
+
+        function test_background_data() {
+            return [
+                {tag: "color",
+                 accounts: Qt.resolvedUrl("data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>"),
+                 gsettings: "",
+                 output: Qt.resolvedUrl("data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>")},
+
+                {tag: "empty", accounts: "", gsettings: "", output: "defaultBackground"},
+
+                {tag: "as-specified",
+                 accounts: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"),
+                 gsettings: "",
+                 output: Qt.resolvedUrl("../data/unity/backgrounds/blue.png")},
+
+                {tag: "gs-specified",
+                 accounts: "",
+                 gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"),
+                 output: Qt.resolvedUrl("../data/unity/backgrounds/red.png")},
+
+                {tag: "both-specified",
+                 accounts: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"),
+                 gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"),
+                 output: Qt.resolvedUrl("../data/unity/backgrounds/blue.png")},
+
+                {tag: "invalid-as",
+                 accounts: Qt.resolvedUrl("../data/unity/backgrounds/nope.png"),
+                 gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"),
+                 output: Qt.resolvedUrl("../data/unity/backgrounds/red.png")},
+
+                {tag: "invalid-both",
+                 accounts: Qt.resolvedUrl("../data/unity/backgrounds/nope.png"),
+                 gsettings: Qt.resolvedUrl("../data/unity/backgrounds/stillnope.png"),
+                 output: "defaultBackground"},
+            ]
+        }
+        function test_background(data) {
+            loadShell("phone");
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+
+            AccountsService.backgroundFile = data.accounts;
+            GSettingsController.setPictureUri(data.gsettings);
+
+            var wallpaperResolver = findChild(shell, "wallpaperResolver");
+            if (data.output === "defaultBackground") {
+                tryCompare(wallpaperResolver, "background", wallpaperResolver.defaultBackground);
+                verify(!wallpaperResolver.hasCustomBackground);
+            } else {
+                tryCompare(wallpaperResolver, "background", data.output);
+                verify(wallpaperResolver.hasCustomBackground);
+            }
         }
 
         function test_greeterModeBroadcastsApp() {
