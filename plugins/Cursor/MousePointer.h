@@ -27,6 +27,9 @@
 
 class MousePointer : public MirMousePointerInterface {
     Q_OBJECT
+
+    Q_PROPERTY(QQuickItem* confiningItem READ confiningItem WRITE setConfiningItem NOTIFY confiningItemChanged)
+
 public:
     MousePointer(QQuickItem *parent = nullptr);
 
@@ -38,6 +41,9 @@ public:
 
     void setCustomCursor(const QCursor &) override;
 
+    QQuickItem* confiningItem() const;
+    void setConfiningItem(QQuickItem*);
+
 public Q_SLOTS:
     void handleMouseEvent(ulong timestamp, QPointF movement, Qt::MouseButtons buttons,
             Qt::KeyboardModifiers modifiers) override;
@@ -47,6 +53,7 @@ Q_SIGNALS:
     void pushedLeftBoundary(qreal amount, Qt::MouseButtons buttons);
     void pushedRightBoundary(qreal amount, Qt::MouseButtons buttons);
     void mouseMoved();
+    void confiningItemChanged();
 
 protected:
     void itemChange(ItemChange change, const ItemChangeData &value) override;
@@ -56,6 +63,7 @@ private Q_SLOTS:
 
 private:
     void registerWindow(QWindow *window);
+    void applyItemConfinement(qreal &newX, qreal &newY);
 
     QPointer<QWindow> m_registeredWindow;
     QPointer<QScreen> m_registeredScreen;
@@ -64,6 +72,8 @@ private:
 
     // Accumulated, unapplied, mouse movement.
     QPointF m_accumulatedMovement;
+
+    QPointer<QQuickItem> m_confiningItem;
 };
 
 #endif // MOUSEPOINTER_H

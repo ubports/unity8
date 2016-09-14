@@ -52,6 +52,11 @@ AbstractStage {
 
     orientationChangesEnabled: true
 
+
+    itemConfiningMouseCursor: !spreadShown && priv.focusedAppDelegate && priv.focusedAppDelegate.surface &&
+                              priv.focusedAppDelegate.surface.confinesMousePointer ?
+                              priv.focusedAppDelegate.clientAreaItem : null;
+
     GlobalShortcut {
         id: showSpreadShortcut
         shortcut: Qt.MetaModifier|Qt.Key_W
@@ -335,6 +340,7 @@ AbstractStage {
                 readonly property alias focusedSurface: decoratedWindow.focusedSurface
 
                 readonly property bool isDash: model.application.appId == "unity8-dash"
+                readonly property alias clientAreaItem: decoratedWindow.clientAreaItem
 
                 function claimFocus() {
                     if (spread.state == "altTab") {
