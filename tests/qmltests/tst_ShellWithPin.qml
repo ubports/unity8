@@ -328,6 +328,22 @@ Item {
             tryCompare(greeter, "shown", true);
         }
 
+        function test_emergencyCallPausesTutorial() {
+            var greeter = findChild(shell, "greeter");
+            var tutorial = findChild(shell, "tutorial");
+
+            AccountsService.demoEdges = true;
+            enterPin("1234");
+            tryCompare(tutorial, "paused", false);
+
+            LightDM.Greeter.showGreeter();
+            verify(tutorial.paused);
+
+            swipeAwayGreeter(true);
+            tap(findChild(greeter, "emergencyCallLabel"));
+            verify(tutorial.paused);
+        }
+
         function test_failedLoginsCount() {
             AccountsService.failedLogins = 0
 
