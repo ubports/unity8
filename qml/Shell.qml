@@ -812,6 +812,7 @@ StyledItem {
         id: cursor
         visible: shell.hasMouse
         z: itemGrabber.z + 1
+        topBoundaryOffset: panel.panelHeight
 
         confiningItem: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.itemConfiningMouseCursor : null
 
@@ -827,9 +828,16 @@ StyledItem {
 
         height: units.gu(3)
 
+        readonly property var previewRectangle: applicationsDisplayLoader.item && applicationsDisplayLoader.item.previewRectangle &&
+                                                applicationsDisplayLoader.item.previewRectangle.target &&
+                                                applicationsDisplayLoader.item.previewRectangle.target.dragging ?
+                                                    applicationsDisplayLoader.item.previewRectangle : null
+
         onPushedLeftBoundary: {
             if (buttons === Qt.NoButton) {
                 launcher.pushEdge(amount);
+            } else if (buttons === Qt.LeftButton && previewRectangle && previewRectangle.target.canBeMaximizedLeftRight) {
+                previewRectangle.maximizeLeft(amount);
             }
         }
 
@@ -837,6 +845,39 @@ StyledItem {
             if (buttons === Qt.NoButton && applicationsDisplayLoader.item
                     && applicationsDisplayLoader.item.pushRightEdge) {
                 applicationsDisplayLoader.item.pushRightEdge(amount);
+            } else if (buttons === Qt.LeftButton && previewRectangle && previewRectangle.target.canBeMaximizedLeftRight) {
+                previewRectangle.maximizeRight(amount);
+            }
+        }
+
+        onPushedTopBoundary: {
+            if (buttons === Qt.LeftButton && previewRectangle && previewRectangle.target.canBeMaximized) {
+                previewRectangle.maximize(amount);
+            }
+        }
+        onPushedTopLeftCorner: {
+            if (buttons === Qt.LeftButton && previewRectangle && previewRectangle.target.canBeCornerMaximized) {
+                previewRectangle.maximizeTopLeft(amount);
+            }
+        }
+        onPushedTopRightCorner: {
+            if (buttons === Qt.LeftButton && previewRectangle && previewRectangle.target.canBeCornerMaximized) {
+                previewRectangle.maximizeTopRight(amount);
+            }
+        }
+        onPushedBottomLeftCorner: {
+            if (buttons === Qt.LeftButton && previewRectangle && previewRectangle.target.canBeCornerMaximized) {
+                previewRectangle.maximizeBottomLeft(amount);
+            }
+        }
+        onPushedBottomRightCorner: {
+            if (buttons === Qt.LeftButton && previewRectangle && previewRectangle.target.canBeCornerMaximized) {
+                previewRectangle.maximizeBottomRight(amount);
+            }
+        }
+        onPushStopped: {
+            if (previewRectangle) {
+                previewRectangle.stop();
             }
         }
 

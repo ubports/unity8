@@ -100,15 +100,12 @@ Item {
             }
             height: indicators.minimizedPanelHeight
             hoverEnabled: true
-            onClicked: callHint.visible ? callHint.showLiveCall() : PanelState.focusMaximizedApp()
-            onDoubleClicked: PanelState.restoreClicked()
+            onClicked: if (callHint.visible) { callHint.showLiveCall(); }
 
-            property bool mouseWasPressed: false
-            onPressed: mouseWasPressed = containsPress
-            onMouseYChanged: {
-                if (mouseWasPressed && mouseY > panelHeight) {
-                    PanelState.restoreClicked(); // restore the window when "dragging" the panel down
-                    mouseWasPressed = false;
+            onPressed: {
+                if (!callHint.visible) {
+                    // let it fall through to the window decoration of the maximized window behind, if any
+                    mouse.accepted = false;
                 }
             }
 
