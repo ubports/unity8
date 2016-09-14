@@ -559,6 +559,7 @@ Item {
 
             LightDM.Greeter.showGreeter();
             compare(viewResetSpy.count, 1);
+            compare(viewResetSpy.signalArguments[0][0], true);
             tryCompare(viewShowPromptSpy, "count", 1);
         }
 
