@@ -1114,6 +1114,7 @@ AbstractStage {
                             requestedWidth: appContainer.width - root.leftMargin;
                             requestedHeight: appContainer.height;
                         }
+                        PropertyChanges { target: touchControls; enabled: true }
                     },
                     State {
                         name: "fullscreen"; when: appDelegate.fullscreen
@@ -1146,8 +1147,8 @@ AbstractStage {
                         extend: "normal"
                         PropertyChanges {
                             target: appDelegate;
-                            requestedX: restoredX;
-                            requestedY: restoredY;
+                            windowedX: restoredX;
+                            windowedY: restoredY;
                         }
                     },
                     State {
