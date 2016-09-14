@@ -282,11 +282,6 @@ AbstractStage {
         onCloseClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.close(); } }
         onMinimizeClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.minimize(); } }
         onRestoreClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.restoreFromMaximized(); } }
-        onFocusMaximizedApp: {
-            if (priv.foregroundMaximizedAppDelegate) {
-                priv.foregroundMaximizedAppDelegate.focus = true;
-             }
-        }
     }
 
     Binding {
