@@ -128,7 +128,7 @@ FocusScope {
             fill: root
             margins: active ? -units.gu(2) : -units.gu(1.5)
         }
-        source: "../graphics/dropshadow2gu@30.sci"
+        source: "../graphics/dropshadow2gu.sci"
         opacity: root.shadowOpacity
     }
 

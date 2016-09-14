@@ -280,11 +280,6 @@ AbstractStage {
         onCloseClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.close(); } }
         onMinimizeClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.minimize(); } }
         onRestoreClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.restoreFromMaximized(); } }
-        onFocusMaximizedApp: {
-            if (priv.foregroundMaximizedAppDelegate) {
-                priv.foregroundMaximizedAppDelegate.focus = true;
-             }
-        }
     }
 
     Binding {
@@ -579,15 +574,15 @@ AbstractStage {
                 // Do not write to those, they will be set by states
                 property real requestedX: windowedX
                 property real requestedY: windowedY
-                property int requestedWidth: windowedWidth
-                property int requestedHeight: windowedHeight
+                property real requestedWidth
+                property real requestedHeight
 
                 // In those are for windowed mode. Those values basically store the window's properties
                 // when having a floating window. If you want to move/resize a window in normal mode, this is what you want to write to.
-                property int windowedX: priv.focusedAppDelegate ? priv.focusedAppDelegate.x + units.gu(3) : (normalZ - 1) * units.gu(3)
-                property int windowedY: priv.focusedAppDelegate ? priv.focusedAppDelegate.y + units.gu(3) : normalZ * units.gu(3)
-                property int windowedWidth
-                property int windowedHeight
+                property real windowedX: priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedX + units.gu(3) : (normalZ - 1) * units.gu(3)
+                property real windowedY: priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedY + units.gu(3) : normalZ * units.gu(3)
+                property real windowedWidth
+                property real windowedHeight
 
                 Binding {
                     target: appDelegate

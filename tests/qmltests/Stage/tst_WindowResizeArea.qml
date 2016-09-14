@@ -20,7 +20,7 @@ import QtTest 1.0
 import Unity.Test 0.1
 import ".."
 import "../../../qml/Components/PanelState"
-import "../../../qml/Stages"
+import "../../../qml/Stage"
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
@@ -34,7 +34,7 @@ Item {
     Binding {
         target: PanelState
         property: "panelHeight"
-        value: units.gu(2)
+        value: units.gu(3)
     }
 
     Component {
@@ -46,12 +46,16 @@ Item {
             property alias resizeAreaMinHeight: windowResizeArea.minHeight
             x: requestedX
             y: requestedY
-            property real requestedX: units.gu(20)
-            property real requestedY: units.gu(20)
+            property real requestedX: windowedX
+            property real requestedY: windowedY
             width: requestedWidth
             height: requestedHeight
-            property real requestedWidth
-            property real requestedHeight
+            property real requestedWidth: windowedWidth
+            property real requestedHeight: windowedHeight
+            property real windowedX: units.gu(20)
+            property real windowedY: units.gu(20)
+            property real windowedWidth
+            property real windowedHeight
             property real minimumWidth: 0
             property real minimumHeight: 0
             property real maximumWidth: 0
