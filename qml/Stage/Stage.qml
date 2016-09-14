@@ -576,15 +576,15 @@ AbstractStage {
                 // Do not write to those, they will be set by states
                 property real requestedX: windowedX
                 property real requestedY: windowedY
-                property int requestedWidth: windowedWidth
-                property int requestedHeight: windowedHeight
+                property real requestedWidth: windowedWidth
+                property real requestedHeight: windowedHeight
 
                 // In those are for windowed mode. Those values basically store the window's properties
                 // when having a floating window. If you want to move/resize a window in normal mode, this is what you want to write to.
-                property int windowedX: priv.focusedAppDelegate ? priv.focusedAppDelegate.x + units.gu(3) : (normalZ - 1) * units.gu(3)
-                property int windowedY: priv.focusedAppDelegate ? priv.focusedAppDelegate.y + units.gu(3) : normalZ * units.gu(3)
-                property int windowedWidth
-                property int windowedHeight
+                property real windowedX: priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedX + units.gu(3) : (normalZ - 1) * units.gu(3)
+                property real windowedY: priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedY + units.gu(3) : normalZ * units.gu(3)
+                property real windowedWidth
+                property real windowedHeight
 
                 Binding {
                     target: appDelegate
@@ -1116,6 +1116,7 @@ AbstractStage {
                             requestedWidth: appContainer.width - root.leftMargin;
                             requestedHeight: appContainer.height;
                         }
+                        PropertyChanges { target: touchControls; enabled: true }
                     },
                     State {
                         name: "fullscreen"; when: appDelegate.fullscreen && !appDelegate.minimized
@@ -1135,8 +1136,6 @@ AbstractStage {
                             target: appDelegate
                             visuallyMinimized: false
                             visuallyMaximized: false
-                            requestedWidth: appDelegate.windowedWidth
-                            requestedHeight: appDelegate.windowedHeight
                         }
                         PropertyChanges { target: touchControls; enabled: true }
                         PropertyChanges { target: resizeArea; enabled: true }
@@ -1148,8 +1147,8 @@ AbstractStage {
                         extend: "normal"
                         PropertyChanges {
                             target: appDelegate;
-                            requestedX: restoredX;
-                            requestedY: restoredY;
+                            windowedX: restoredX;
+                            windowedY: restoredY;
                         }
                     },
                     State {
@@ -1163,10 +1162,10 @@ AbstractStage {
                         extend: "semiMaximized"
                         PropertyChanges {
                             target: appDelegate
-                            requestedX: root.leftMargin
-                            requestedY: PanelState.panelHeight
-                            requestedWidth: (appContainer.width - root.leftMargin)/2
-                            requestedHeight: appContainer.height - PanelState.panelHeight
+                            windowedX: root.leftMargin
+                            windowedY: PanelState.panelHeight
+                            windowedWidth: (appContainer.width - root.leftMargin)/2
+                            windowedHeight: appContainer.height - PanelState.panelHeight
                         }
                     },
                     State {
@@ -1174,7 +1173,7 @@ AbstractStage {
                         extend: "maximizedLeft"
                         PropertyChanges {
                             target: appDelegate;
-                            requestedX: (appContainer.width + root.leftMargin)/2
+                            windowedX: (appContainer.width + root.leftMargin)/2
                         }
                     },
                     State {
@@ -1182,10 +1181,10 @@ AbstractStage {
                         extend: "semiMaximized"
                         PropertyChanges {
                             target: appDelegate
-                            requestedX: root.leftMargin
-                            requestedY: PanelState.panelHeight
-                            requestedWidth: (appContainer.width - root.leftMargin)/2
-                            requestedHeight: (appContainer.height - PanelState.panelHeight)/2
+                            windowedX: root.leftMargin
+                            windowedY: PanelState.panelHeight
+                            windowedWidth: (appContainer.width - root.leftMargin)/2
+                            windowedHeight: (appContainer.height - PanelState.panelHeight)/2
                         }
                     },
                     State {
@@ -1193,7 +1192,7 @@ AbstractStage {
                         extend: "maximizedTopLeft"
                         PropertyChanges {
                             target: appDelegate
-                            requestedX: (appContainer.width + root.leftMargin)/2
+                            windowedX: (appContainer.width + root.leftMargin)/2
                         }
                     },
                     State {
@@ -1201,10 +1200,10 @@ AbstractStage {
                         extend: "semiMaximized"
                         PropertyChanges {
                             target: appDelegate
-                            requestedX: root.leftMargin
-                            requestedY: (appContainer.height + PanelState.panelHeight)/2
-                            requestedWidth: (appContainer.width - root.leftMargin)/2
-                            requestedHeight: appContainer.height/2
+                            windowedX: root.leftMargin
+                            windowedY: (appContainer.height + PanelState.panelHeight)/2
+                            windowedWidth: (appContainer.width - root.leftMargin)/2
+                            windowedHeight: appContainer.height/2
                         }
                     },
                     State {
@@ -1212,19 +1211,19 @@ AbstractStage {
                         extend: "maximizedBottomLeft"
                         PropertyChanges {
                             target: appDelegate
-                            requestedX: (appContainer.width + root.leftMargin)/2
+                            windowedX: (appContainer.width + root.leftMargin)/2
                         }
                     },
                     State {
                         name: "maximizedHorizontally"; when: appDelegate.maximizedHorizontally && !appDelegate.minimized
                         extend: "semiMaximized"
-                        PropertyChanges { target: appDelegate; requestedX: root.leftMargin; requestedY: requestedY;
+                        PropertyChanges { target: appDelegate; requestedX: root.leftMargin; requestedY: windowedY;
                             requestedWidth: appContainer.width - root.leftMargin; requestedHeight: appDelegate.windowedHeight }
                     },
                     State {
                         name: "maximizedVertically"; when: appDelegate.maximizedVertically && !appDelegate.minimized
                         extend: "semiMaximized"
-                        PropertyChanges { target: appDelegate; requestedX: requestedX; requestedY: PanelState.panelHeight;
+                        PropertyChanges { target: appDelegate; requestedX: windowedX; requestedY: PanelState.panelHeight;
                             requestedWidth: appDelegate.windowedWidth; requestedHeight: appContainer.height - PanelState.panelHeight }
                     },
                     State {
@@ -1256,7 +1255,8 @@ AbstractStage {
                         to: "normal,restored"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
-                        UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,restoredX,restoredY,requestedWidth,requestedHeight,scale"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,windowedX,windowedY,requestedWidth,requestedHeight,windowedWidth,windowedHeight,scale";
+                            duration: priv.animationDuration }
                     },
                     Transition {
                         to: "minimized"
@@ -1322,11 +1322,12 @@ AbstractStage {
                         }
                     },
                     Transition {
-                        to: "maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
+                        to: "normal,maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
                         enabled: appDelegate.animationsEnabled
                         SequentialAnimation {
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
-                            UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,opacity,scale,requestedWidth,requestedHeight"; duration: priv.animationDuration }
+                            UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,windowedX,windowedY,opacity,scale,requestedWidth,requestedHeight,windowedWidth,windowedHeight";
+                                duration: priv.animationDuration }
                             PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                             ScriptAction { script: { fakeRectangle.stop(); } }
                         }

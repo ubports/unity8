@@ -112,8 +112,8 @@ QtObject {
             // Use integer coordinate values to ensure that target is left in a pixel-aligned
             // position. Mouse movement could have subpixel precision, yielding a fractional
             // mouse position.
-            target.requestedX = Math.round(pos.x - priv.distanceX);
-            target.requestedY = Math.round(Math.max(pos.y - priv.distanceY, PanelState.panelHeight));
+            target.windowedX = Math.round(pos.x - priv.distanceX);
+            target.windowedY = Math.round(Math.max(pos.y - priv.distanceY, PanelState.panelHeight));
 
             if (sensingPoints) { // edge/corner detection when dragging via the touch overlay
                 if (sensingPoints.topLeft.x < priv.triggerArea && sensingPoints.topLeft.y < PanelState.panelHeight + priv.triggerArea
