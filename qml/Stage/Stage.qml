@@ -103,8 +103,8 @@ AbstractStage {
     GlobalShortcut {
         id: minimizeAllShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_D
-        onTriggered: priv.minimizeAllWindows()
-        active: root.state == "windowed"
+        onTriggered: {print("tigggggered"); priv.minimizeAllWindows()}
+//        active: root.state == "windowed"
     }
 
     GlobalShortcut {
@@ -177,7 +177,9 @@ AbstractStage {
         function minimizeAllWindows() {
             for (var i = 0; i < appRepeater.count; i++) {
                 var appDelegate = appRepeater.itemAt(i);
+                print("have delegate", appDelegate.appId)
                 if (appDelegate && !appDelegate.minimized) {
+                    print("minimizing it", appDelegate.appId)
                     appDelegate.minimize();
                 }
             }
@@ -700,6 +702,7 @@ AbstractStage {
                 Connections {
                     target: model.surface
                     onFocusRequested: {
+                        print("*********************************** focus requested", appId)
                         // Reset spread selection in case there is any
                         spreadItem.highlightedIndex = -1
                         claimFocus();
@@ -781,13 +784,12 @@ AbstractStage {
                     }
                 }
 
-//                visible: (
-//                          !visuallyMinimized
-//                          && !greeter.fullyShown
-//                          && (priv.foregroundMaximizedAppDelegate === null || priv.foregroundMaximizedAppDelegate.normalZ <= z)
-//                         )
-//                         || decoratedWindow.fullscreen
-//                       //  || (root.state == "altTab" && index === spread.highlightedIndex)
+                visible: (
+                          !visuallyMinimized
+                          && !greeter.fullyShown
+                          && (priv.foregroundMaximizedAppDelegate === null || priv.foregroundMaximizedAppDelegate.normalZ <= z)
+                         )
+                         || appDelegate.fullscreen
 
                 function close() {
                     model.surface.close();
@@ -1121,7 +1123,7 @@ AbstractStage {
                         }
                     },
                     State {
-                        name: "fullscreen"; when: appDelegate.fullscreen
+                        name: "fullscreen"; when: appDelegate.fullscreen && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
                             requestedX: 0
