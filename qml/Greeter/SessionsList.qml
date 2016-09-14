@@ -48,17 +48,6 @@ Item {
         return session;
     }
 
-    QtObject {
-        id: d
-        // Track if the session has changed and the list is still shown.
-        // This is currently only possible/reasonable with keyboard navigation
-        property bool sessionChanged: false
-        function sessionSelected(currentKey) {
-            d.sessionChanged = true;
-            root.sessionSelected(currentKey)
-        }
-    }
-
     Keys.onEnterPressed: {
         showLoginList(); // Session is already selected
         event.accepted = true;
@@ -77,14 +66,14 @@ Item {
     Keys.onDownPressed: {
         if (sessionsList.currentIndex < sessionsList.model.count - 1)
             sessionsList.currentIndex++;
-        d.sessionSelected(currentKey());
+        sessionSelected(currentKey());
         event.accepted = true;
     }
 
     Keys.onUpPressed: {
         if (sessionsList.currentIndex > 0)
             sessionsList.currentIndex--;
-        d.sessionSelected(currentKey());
+        sessionSelected(currentKey());
         event.accepted = true;
     }
 
@@ -172,8 +161,7 @@ Item {
                     width: parent.width
                     color: "transparent"
                     border {
-                        color: d.sessionChanged ? theme.palette.normal.focus
-                               : theme.palette.normal.positionText
+                        color: theme.palette.normal.focus
                         width: units.gu(0.2)
                     }
 

@@ -264,6 +264,7 @@ StyledItem {
         height: units.gu(3.5)
         width: units.gu(3.5)
 
+        activeFocusOnTab: true
         anchors {
             right: highlightItem.right
             rightMargin: units.gu(2)
@@ -292,7 +293,6 @@ StyledItem {
             source: LightDMService.sessions.iconUrl(root.currentSession)
         }
 
-        KeyNavigation.tab: passwordInput
         Keys.onReturnPressed: {
             sessionChooserButtonClicked();
             event.accepted = true;
@@ -346,6 +346,7 @@ StyledItem {
         width: highlightItem.width - anchors.margins * 2
         opacity: userList.movingInternally ? 0 : 1
 
+        activeFocusOnTab: true
         isAlphanumeric: root.alphanumeric
 
         onClicked: root.tryToUnlock()

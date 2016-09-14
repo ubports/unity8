@@ -41,6 +41,7 @@ Item {
         objectPath: "/com/canonical/indicator/sound"
 
         property variant actionObject: action("volume")
+        // temporary workaround for lp:1623166
         property variant muteActionObject: Platform.isPC ? action("mute") : action("silent-mode")
     }
 

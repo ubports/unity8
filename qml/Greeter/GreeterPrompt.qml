@@ -86,17 +86,34 @@ FocusScope {
         }
     }
 
-    AbstractButton {
+    Rectangle {
         id: promptButton
         objectName: "promptButton"
         anchors.fill: parent
         visible: !root.isPrompt
 
-        onClicked: {
+        function triggered() {
             if (d.enabled) {
                 d.enabled = false;
                 root.clicked();
             }
+        }
+
+        Rectangle {
+            height: parent.height;
+            width: parent.width
+            color: "transparent"
+            border {
+                color: d.textColor
+                width: units.dp(1)
+            }
+        }
+
+        Keys.onReturnPressed: triggered();
+        Keys.onEnterPressed: triggered();
+        MouseArea {
+            anchors.fill: parent
+            onClicked: parent.triggered();
         }
 
         Label {
