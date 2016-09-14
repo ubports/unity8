@@ -434,7 +434,8 @@ Rectangle {
 
                             if (mouse.button & Qt.RightButton) { // context menu
                                 // Opening QuickList
-                                quickList.open(index);
+                                //quickList.open(index);
+                                tooltip.open(index);
                                 return;
                             }
 
@@ -634,7 +635,7 @@ Rectangle {
 
     UbuntuShape {
         id: quickListShape
-        objectName: "quickListShape"
+        //objectName: "quickListShape"
         anchors.fill: quickList
         opacity: quickList.state === "open" ? 0.95 : 0
         visible: opacity > 0
@@ -826,6 +827,108 @@ Rectangle {
                     }
                 }
             }
+        }
+    }
+
+    UbuntuShape {
+        id: tooltipShape
+        anchors.fill: tooltip
+        opacity: tooltip.state === "open" ? 0.95 : 0
+        visible: opacity > 0
+        rotation: root.rotation
+        aspect: UbuntuShape.Flat
+
+        Behavior on opacity {
+            UbuntuNumberAnimation {}
+        }
+
+        source: ShaderEffectSource {
+            sourceItem: tooltip
+            hideSource: true
+        }
+
+        Image {
+            anchors {
+                right: parent.left
+                rightMargin: -units.dp(4)
+                verticalCenter: parent.verticalCenter
+                verticalCenterOffset: -tooltip.offset * (root.inverted ? -1 : 1)
+            }
+            height: units.gu(1)
+            width: units.gu(2)
+            source: "graphics/quicklist_tooltip.png"
+            rotation: 90
+        }
+    }
+
+    Rectangle {
+        id: tooltip
+
+        color: theme.palette.normal.background
+        visible: tooltipShape.visible
+
+        width: tooltipLabel.width
+        height: units.gu(5)
+
+        y: itemCenter - (height / 2) + offset
+        rotation: root.rotation
+
+        anchors {
+            left: root.inverted ? undefined : parent.right
+            right: root.inverted ? parent.left : undefined
+            margins: units.gu(1)
+        }
+
+        property string text
+        property var item
+
+        property int itemCenter: item ? root.mapFromItem(tooltip.item, 0, 0).y + (item.height / 2) + tooltip.item.offset : units.gu(1)
+        property int offset: itemCenter + (height/2) + units.gu(1) > parent.height ? -itemCenter - (height/2) - units.gu(1) + parent.height :
+                             itemCenter - (height/2) < units.gu(1) ? (height/2) - itemCenter + units.gu(1) : 0
+        /*
+        // Because we're setting left/right anchors depending on orientation, it will break the
+        // width setting after rotating twice. This makes sure we also re-apply width on rotation
+        // width: root.inverted ? units.gu(30) : units.gu(30)
+        height: tooltipLabel.height
+        visible: tooltipShape.visible
+        anchors {
+            left: root.inverted ? undefined : parent.right
+            right: root.inverted ? parent.left : undefined
+            margins: units.gu(1)
+        }
+        y: itemCenter - (height / 2) + offset
+        rotation: root.rotation
+
+        property string name
+        property var item
+
+        // internal
+        property int itemCenter: item ? root.mapFromItem(tooltip.item, 0, 0).y + (item.height / 2) + tooltip.item.offset : units.gu(1)
+        property int offset: itemCenter + (height/2) + units.gu(1) > parent.height ? -itemCenter - (height/2) - units.gu(1) + parent.height :
+                             itemCenter - (height/2) < units.gu(1) ? (height/2) - itemCenter + units.gu(1) : 0*/
+
+        function open(index) {
+            console.log("ciao")
+            var itemPosition = index * launcherListView.itemHeight;
+            var height = launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin
+            item = launcherListView.itemAt(launcherListView.width / 2, itemPosition + launcherListView.itemHeight / 2);
+            tooltip.text = launcherListView.model.get(index).name;
+            tooltip.state = "open";
+        }
+
+        Label {
+            id: tooltipLabel
+            //width: parent.width
+            //anchors.fill: parent
+            anchors.leftMargin: units.gu(2)
+            anchors.rightMargin: units.gu(2)
+            anchors.topMargin: units.gu(2)
+            anchors.bottomMargin: units.gu(2)
+            verticalAlignment: Label.AlignVCenter
+            text: tooltip.text
+            fontSize: "medium"
+            font.weight: Font.Medium
+            color: theme.palette.normal.backgroundText
         }
     }
 }
