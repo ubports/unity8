@@ -1994,6 +1994,20 @@ private Q_SLOTS:
         verifyItem(2, 400., 350., false);
     }
 
+    void testRemoveItemNotShowHeader()
+    {
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 6));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 90));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 1), Q_ARG(QVariant, 600));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 2);
+        scrollToBottom();
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 1), Q_ARG(QVariant, 2000));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 2), Q_ARG(QVariant, 1));
+        QTRY_COMPARE(lvwph->m_headerItem->y(), -610.);
+        QTRY_COMPARE(lvwph->m_minYExtent, 610.);
+    }
+
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;
