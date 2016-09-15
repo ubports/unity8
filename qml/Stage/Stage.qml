@@ -1480,11 +1480,13 @@ AbstractStage {
                     }
                     onClose: {
                         priv.closingIndex = index
-                        model.surface.close()
+                        if (model.surface) { // could be stopped by OOM
+                            model.surface.close()
+                        } else if (model.application) {
+                            root.applicationManager.stopApplication(model.application.appId);
+                        }
                     }
                 }
-
-//                Rectangle { anchors.fill: parent; color: "blue"; opacity: .4 }
 
                 WindowInfoItem {
                     id: windowInfoItem
