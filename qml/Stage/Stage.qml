@@ -787,6 +787,7 @@ AbstractStage {
                           && (priv.foregroundMaximizedAppDelegate === null || priv.foregroundMaximizedAppDelegate.normalZ <= z)
                          )
                          || appDelegate.fullscreen
+                         || focusAnimation.running || rightEdgeFocusAnimation.running || hidingAnimation.running
 
                 function close() {
                     model.surface.close();
