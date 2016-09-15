@@ -224,8 +224,7 @@ Item {
                 touchFlick(stage, endX, endY, endX + units.gu(5), endY,
                            false /* beginTouch */, true /* endTouch */, units.gu(10), 50);
             } else {
-                touchRelease(stage, endX, endY);
-            }
+                touchRelease(stage, endX, endY);            }
 
             tryCompare(stage, "state", data.endState);
             tryCompare(ApplicationManager, "focusedApplicationId", data.endState == "spread" ? "" : newFocusedApp.appId);
@@ -271,8 +270,8 @@ Item {
 
         function test_select_data() {
             return [
-                { tag: "0", index: 0 },
-                { tag: "2", index: 2 },
+//                { tag: "0", index: 0 },
+//                { tag: "2", index: 2 },
                 { tag: "4", index: 4 },
             ]
         }
@@ -280,16 +279,22 @@ Item {
         function test_select(data) {
             addApps(5);
 
-            var spreadView = findChild(stage, "spreadView");
             var selectedApp = ApplicationManager.get(data.index);
+            var appRepeater = findChild(stage, "appRepeater");
+            var selectedAppDeleage = appRepeater.itemAt(data.index);
 
             performEdgeSwipeToShowAppSpread();
 
-            stage.select(selectedApp.appId);
+            print("tapping", selectedAppDeleage.appId, selectedAppDeleage.visible)
+            if (!selectedAppDeleage.x > stage.width - units.gu(5)) {
+                touchFlick(stage, stage.width - units.gu(2), stage.height / 2, units.gu(2), stage.height / 2, true, true, units.gu(2), 10)
+            }
 
-            tryCompare(spreadView, "contentX", -spreadView.shift);
+            tap(selectedAppDeleage, 1, 1);
 
-            compare(ApplicationManager.focusedApplicationId, selectedApp.appId);
+            tryCompare(stage, "state", "staged");
+
+            tryCompare(ApplicationManager, "focusedApplicationId", selectedApp.appId);
         }
 
         function test_backgroundClickCancelsSpread() {
@@ -327,7 +332,7 @@ Item {
 
         function test_leftEdge_data() {
             return [
-                { tag: "normal", inSpread: false, leftEdgeDragWidth: units.gu(5), shouldMoveApp: true },
+                { tag: "normal", inSpread: false, leftEdgeDragWidth: units.gu(20), shouldMoveApp: true },
                 { tag: "inSpread", inSpread: true, leftEdgeDragWidth: units.gu(5), shouldMoveApp: false }
             ]
         }
@@ -340,13 +345,15 @@ Item {
             }
 
             var focusedDelegate = findChild(stage, "appDelegate_" + topLevelSurfaceList.idAt(0));
-            stage.inverseProgress = data.leftEdgeDragWidth;
+            var currentX = focusedDelegate.x;
 
-            tryCompare(focusedDelegate, "x", data.shouldMoveApp ? data.leftEdgeDragWidth : 0);
+            stage.leftEdgeDragProgress = data.leftEdgeDragWidth;
 
-            stage.inverseProgress = 0;
+            tryCompare(focusedDelegate, "x", data.shouldMoveApp ? data.leftEdgeDragWidth : currentX);
 
-            tryCompare(focusedDelegate, "x", 0);
+            stage.leftEdgeDragProgress = 0;
+
+            tryCompare(focusedDelegate, "x", currentX);
         }
 
         function test_focusedAppIsTheOnlyRunningApp() {
@@ -365,7 +372,7 @@ Item {
 
             // Switch foreground/focused appp from A to B
             performEdgeSwipeToShowAppSpread();
-            stage.select(delegateB.application.appId);
+            tap(delegateB, 1, 1);
 
             // Now it's the other way round
             // A is unfocused and suspended, B is focused and running
@@ -421,13 +428,13 @@ Item {
         }
 
         function test_mouseEdgePush() {
-            var spreadView = findChild(stage, "spreadView")
             addApps(1);
             mouseMove(stage, stage.width -  1, units.gu(10));
             for (var i = 0; i < units.gu(10); i++) {
                 stage.pushRightEdge(1);
             }
-            tryCompare(spreadView, "phase", 2);
+            mouseMove(stage, stage.width - units.gu(5), units.gu(10));
+            compare(stage.state, "spread");
         }
 
         function test_closeSurfaceOfMultiSurfaceApp() {

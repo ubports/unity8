@@ -42,6 +42,7 @@ AbstractStage {
     }
 
     property string mode: "staged"
+    property real leftEdgeDragProgress: 0
 
     // Used by TutorialRight
     property bool spreadShown: state == "spread"
@@ -149,6 +150,7 @@ AbstractStage {
         property var focusedAppDelegate: null
         onFocusedAppDelegateChanged: {
             if (focusedAppDelegate && root.state == "spread") {
+                spreadItem.highlightedIndex = appRepeater.indexOf(focusedAppDelegate);
                 goneToSpread = false;
             }
         }
@@ -363,6 +365,7 @@ AbstractStage {
         when: !appRepeater.startingUp && root.parent
     }
 
+    onStateChanged: print("***************************************state:", state)
     states: [
         State {
             name: "spread"; when: priv.goneToSpread
@@ -944,7 +947,7 @@ AbstractStage {
                     sideStageX: sideStage.x
                     itemIndex: appDelegate.itemIndex
                     nextInStack: priv.nextInStack
-                    leftEdgeDragProgress: root.dragProgress
+                    leftEdgeDragProgress: root.leftEdgeDragProgress
                 }
 
                 StagedRightEdgeMaths {
