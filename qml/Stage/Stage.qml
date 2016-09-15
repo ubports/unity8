@@ -104,7 +104,7 @@ AbstractStage {
         id: minimizeAllShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_D
         onTriggered: {print("tigggggered"); priv.minimizeAllWindows()}
-//        active: root.state == "windowed"
+        active: root.state == "windowed"
     }
 
     GlobalShortcut {
