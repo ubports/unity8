@@ -1021,6 +1021,7 @@ AbstractStage {
                             height: stagedRightEdgeMaths.animatedHeight
                             requestedWidth: decoratedWindow.oldRequestedWidth
                             requestedHeight: decoratedWindow.oldRequestedHeight
+                            visible: appDelegate.x < root.width
                         }
                         PropertyChanges {
                             target: decoratedWindow
@@ -1326,6 +1327,7 @@ AbstractStage {
                             }
                             // We need to release scaleToPreviewSize at last
                             PropertyAction { target: decoratedWindow; property: "scaleToPreviewSize" }
+                            PropertyAction { target: appDelegate; property: "visible" }
                         }
                     },
                     Transition {
