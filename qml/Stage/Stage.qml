@@ -29,29 +29,18 @@ AbstractStage {
     id: root
     anchors.fill: parent
 
-    // functions to be called from outside
-    function updateFocusedAppOrientation() { /* TODO */ }
-    function updateFocusedAppOrientationAnimated() { /* TODO */}
-    function pushRightEdge(amount) {
-        edgeBarrier.push(amount);
-    }
-    function closeFocusedDelegate() {
-        if (priv.focusedAppDelegate && !priv.focusedAppDelegate.isDash) {
-            priv.focusedAppDelegate.close();
-        }
-    }
-
+    // Congifuration
     property string mode: "staged"
     property real leftEdgeDragProgress: 0
 
     // Used by the tutorial code
     readonly property bool spreadShown: state == "spread"
-    readonly property real dragProgress: rightEdgeDragArea.progress // How far left the stage has been dragged
+    readonly property real rightEdgeDragProgress: rightEdgeDragArea.progress // How far left the stage has been dragged
 
     // used by the snap windows (edge maximize) feature
     readonly property alias previewRectangle: fakeRectangle
 
-    property var mainApp: priv.focusedAppDelegate ? priv.focusedAppDelegate.application : null
+    readonly property var mainApp: priv.focusedAppDelegate ? priv.focusedAppDelegate.application : null
 
     // application windows never rotate independently
     property int mainAppWindowOrientationAngle: shellOrientationAngle
@@ -89,6 +78,18 @@ AbstractStage {
                               priv.focusedAppDelegate.clientAreaItem : null;
 
     signal itemSnapshotRequested(Item item)
+
+    // functions to be called from outside
+    function updateFocusedAppOrientation() { /* TODO */ }
+    function updateFocusedAppOrientationAnimated() { /* TODO */}
+    function pushRightEdge(amount) {
+        edgeBarrier.push(amount);
+    }
+    function closeFocusedDelegate() {
+        if (priv.focusedAppDelegate && !priv.focusedAppDelegate.isDash) {
+            priv.focusedAppDelegate.close();
+        }
+    }
 
     GlobalShortcut {
         id: closeFocusedShortcut
@@ -246,12 +247,12 @@ AbstractStage {
                     choseMainStage = true;
                 }
             }
-            if (!choseMainStage) {
+            if (!choseMainStage && priv.mainStageDelegate) {
                 priv.mainStageDelegate = null;
                 priv.mainStageItemId = 0;
                 priv.mainStageAppId = "";
             }
-            if (!choseSideStage) {
+            if (!choseSideStage && priv.sideStageDelegate) {
                 priv.sideStageDelegate = null;
                 priv.sideStageItemId = 0;
                 priv.sideStageAppId = "";
@@ -366,7 +367,6 @@ AbstractStage {
         when: !appRepeater.startingUp && root.parent
     }
 
-    onStateChanged: print("***************************************state:", state)
     states: [
         State {
             name: "spread"; when: priv.goneToSpread
@@ -707,7 +707,6 @@ AbstractStage {
                 Connections {
                     target: model.surface
                     onFocusRequested: {
-                        print("*********************************** focus requested", appId)
                         // Reset spread selection in case there is any
                         spreadItem.highlightedIndex = -1
                         claimFocus();
@@ -1729,6 +1728,7 @@ AbstractStage {
 
     TabletSideStageTouchGesture {
         id: triGestureArea
+        objectName: "triGestureArea"
         anchors.fill: parent
         enabled: false
         property Item appDelegate

@@ -601,7 +601,7 @@ StyledItem {
             delayed: dialogs.hasActiveDialog || notifications.hasNotification ||
                      inputMethod.visible ||
                      (launcher.shown && !launcher.lockedVisible) ||
-                     panel.indicators.shown || stage.dragProgress > 0
+                     panel.indicators.shown || stage.rightEdgeDragProgress > 0
             usageScenario: shell.usageScenario
             lastInputTimestamp: inputFilter.lastInputTimestamp
             launcher: launcher
