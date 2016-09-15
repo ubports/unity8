@@ -150,13 +150,6 @@ AbstractStage {
         objectName: "DesktopStagePrivate"
 
         property var focusedAppDelegate: null
-        onFocusedAppDelegateChanged: {
-            if (focusedAppDelegate && root.state == "spread") {
-                spreadItem.highlightedIndex = appRepeater.indexOf(focusedAppDelegate);
-                goneToSpread = false;
-            }
-        }
-
         property var foregroundMaximizedAppDelegate: null // for stuff like drop shadow and focusing maximized app by clicking panel
 
         property bool goneToSpread: false

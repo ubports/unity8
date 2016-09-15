@@ -278,7 +278,7 @@ StyledItem {
             focus: true
 
             dragAreaWidth: shell.edgeSize
-            background: wallpaperResolver.background            
+            background: wallpaperResolver.background
             leftEdgeDragProgress: !greeter || greeter.locked || !tutorial.launcherLongSwipeEnabled ? 0 :
                                 Math.max(0, (launcher.dragDistance * (stage.width - launcher.panelWidth) / stage.width) - launcher.panelWidth)
 
