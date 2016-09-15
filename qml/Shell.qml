@@ -312,15 +312,14 @@ StyledItem {
 
             onInteractiveChanged: { if (interactive) { focus = true; } }
 
-            // TODO: This is not implemented yet in the new stage...
-            spreadEnabled: tutorial.spreadEnabled && (!greeter || (!greeter.hasLockedApp && !greeter.shown))
-            keepDashRunning: launcher.shown || launcher.dashSwipe
-            suspended: greeter.shown
             leftMargin: shell.usageScenario == "desktop" && !settings.autohideLauncher ? launcher.panelWidth: 0
-
-            // TODO: this is not implemented yet in the new stage...
+            suspended: greeter.shown
+            keepDashRunning: launcher.shown || launcher.dashSwipe
             altTabPressed: physicalKeysMapper.altTabPressed
             oskEnabled: shell.oskEnabled
+
+            // TODO: This is not implemented yet in the new stage...
+            spreadEnabled: tutorial.spreadEnabled && (!greeter || (!greeter.hasLockedApp && !greeter.shown))
         }
     }
 
