@@ -581,10 +581,15 @@ AbstractStage {
 
                 // In those are for windowed mode. Those values basically store the window's properties
                 // when having a floating window. If you want to move/resize a window in normal mode, this is what you want to write to.
-                property real windowedX: priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedX + units.gu(3) : (normalZ - 1) * units.gu(3)
-                property real windowedY: priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedY + units.gu(3) : normalZ * units.gu(3)
+                property real windowedX
+                property real windowedY
                 property real windowedWidth
                 property real windowedHeight
+
+                // unlike windowedX/Y, this is the last known grab position before being pushed against edges/corners
+                // when restoring, the window should return to these, not to the place where it was dropped near the edge
+                property real restoredX
+                property real restoredY
 
                 Binding {
                     target: appDelegate
@@ -735,6 +740,9 @@ AbstractStage {
                     } else {
                         decoratedWindow.surfaceOrientationAngle = 0;
                     }
+
+                    windowedX = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedX + units.gu(3) : (normalZ - 1) * units.gu(3)
+                    windowedY = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedY + units.gu(3) : normalZ * units.gu(3)
 
                     // NB: We're differentiating if this delegate was created in response to a new entry in the model
                     //     or if the Repeater is just populating itself with delegates to match the model it received.
@@ -968,11 +976,6 @@ AbstractStage {
                     targetScale: spreadMaths.targetScale
                     breakPoint: spreadItem.rightEdgeBreakPoint
                 }
-
-                // unlike requestedX/Y, this is the last known grab position before being pushed against edges/corners
-                // when restoring, the window should return to these, not to the place where it was dropped near the edge
-                property real restoredX
-                property real restoredY
 
                 states: [
                     State {
