@@ -270,8 +270,8 @@ Item {
 
         function test_select_data() {
             return [
-//                { tag: "0", index: 0 },
-//                { tag: "2", index: 2 },
+                { tag: "0", index: 0 },
+                { tag: "2", index: 2 },
                 { tag: "4", index: 4 },
             ]
         }
@@ -286,7 +286,7 @@ Item {
             performEdgeSwipeToShowAppSpread();
 
             print("tapping", selectedAppDeleage.appId, selectedAppDeleage.visible)
-            if (!selectedAppDeleage.x > stage.width - units.gu(5)) {
+            if (selectedAppDeleage.x > stage.width - units.gu(5)) {
                 touchFlick(stage, stage.width - units.gu(2), stage.height / 2, units.gu(2), stage.height / 2, true, true, units.gu(2), 10)
             }
 

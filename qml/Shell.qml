@@ -278,8 +278,9 @@ StyledItem {
             focus: true
 
             dragAreaWidth: shell.edgeSize
-            background: wallpaperResolver.background
-            leftEdgeDragProgress: Math.max(0, (launcher.dragDistance * (stage.width - launcher.panelWidth) / stage.width) - launcher.panelWidth)
+            background: wallpaperResolver.background            
+            leftEdgeDragProgress: !greeter || greeter.locked || !tutorial.launcherLongSwipeEnabled ? 0 :
+                                Math.max(0, (launcher.dragDistance * (stage.width - launcher.panelWidth) / stage.width) - launcher.panelWidth)
 
             applicationManager: ApplicationManager
             topLevelSurfaceList: topLevelSurfaceList
@@ -318,7 +319,6 @@ StyledItem {
             leftMargin: shell.usageScenario == "desktop" && !settings.autohideLauncher ? launcher.panelWidth: 0
 
             // TODO: this is not implemented yet in the new stage...
-            inverseProgress: !greeter || greeter.locked || !tutorial.launcherLongSwipeEnabled ? 0 : launcher.progress
             altTabPressed: physicalKeysMapper.altTabPressed
             oskEnabled: shell.oskEnabled
         }
