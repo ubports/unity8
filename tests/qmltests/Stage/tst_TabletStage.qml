@@ -24,53 +24,36 @@ import Utils 0.1
 import WindowManager 0.1
 
 import ".."
-import "../../../qml/Stages"
+import "../../../qml/Stage"
 import "../../../qml/Components"
 
 Rectangle {
     id: root
     color: "grey"
-    width:  tabletStageLoader.width + controls.width
-    height: tabletStageLoader.height
+    width: units.gu(160*0.7)
+    height: units.gu(100*0.7)
 
     property var greeter: { fullyShown: true }
 
-    TopLevelSurfaceList {
-        id: topSurfaceList
-        applicationsModel: ApplicationManager
-    }
-
-    Loader {
-        id: tabletStageLoader
-
-        x: ((root.width - controls.width) - width) / 2
-        y: (root.height - height) / 2
-        width: units.gu(160*0.7)
-        height: units.gu(100*0.7)
-
+    Stage {
+        id: tabletStage
+        anchors { fill: parent; rightMargin: units.gu(30) }
+        dragAreaWidth: units.gu(2)
+        maximizedAppTopMargin: units.gu(3)
+        interactive: true
+        shellOrientation: Qt.LandscapeOrientation
+        nativeWidth: width
+        nativeHeight: height
+        orientations: Orientations {
+            native_: Qt.LandscapeOrientation
+            primary: Qt.LandscapeOrientation
+        }
         focus: true
-
-        property bool itemDestroyed: false
-        sourceComponent: Component {
-            TabletStage {
-                anchors.fill: parent
-                Component.onDestruction: {
-                    tabletStageLoader.itemDestroyed = true;
-                }
-                dragAreaWidth: units.gu(2)
-                maximizedAppTopMargin: units.gu(3)
-                interactive: true
-                shellOrientation: Qt.LandscapeOrientation
-                nativeWidth: width
-                nativeHeight: height
-                orientations: Orientations {
-                    native_: Qt.LandscapeOrientation
-                    primary: Qt.LandscapeOrientation
-                }
-                focus: true
-                applicationManager: ApplicationManager
-                topLevelSurfaceList: topSurfaceList
-            }
+        mode: "stagedWithSideStage"
+        applicationManager: ApplicationManager
+        topLevelSurfaceList: TopLevelSurfaceList {
+            id: topLevelSurfaceList
+            applicationsModel: ApplicationManager
         }
     }
 
@@ -95,9 +78,9 @@ Rectangle {
                 id: edgeBarrierControls
                 text: "Drag here to pull out spread"
                 backgroundColor: "blue"
-                onDragged: { tabletStageLoader.item.pushRightEdge(amount); }
+                onDragged: { tabletStage.pushRightEdge(amount); }
                 Component.onCompleted: {
-                    edgeBarrierControls.target = testCase.findChild(tabletStageLoader, "edgeBarrierController");
+                    edgeBarrierControls.target = testCase.findChild(tabletStage, "edgeBarrierController");
                 }
             }
 
@@ -140,13 +123,11 @@ Rectangle {
         name: "TabletStage"
         when: windowShown
 
-        property Item tabletStage: tabletStageLoader.status === Loader.Ready ? tabletStageLoader.item : null
+        readonly property alias topSurfaceList: tabletStage.topLevelSurfaceList
         property Item sideStage: tabletStage ? findChild(tabletStage, "sideStage") : null
 
         function init() {
             stageSaver.clear();
-            tabletStageLoader.active = true;
-            tryCompare(tabletStageLoader, "status", Loader.Ready);
 
             tryCompare(topSurfaceList, "count", 1);
             compare(topSurfaceList.applicationAt(0).appId, "unity8-dash");
@@ -167,17 +148,6 @@ Rectangle {
         }
 
         function cleanup() {
-            tabletStageLoader.itemDestroyed = false;
-            tabletStageLoader.active = false;
-
-            tryCompare(tabletStageLoader, "status", Loader.Null);
-            tryCompare(tabletStageLoader, "item", null);
-            // Loader.status might be Loader.Null and Loader.item might be null but the Loader
-            // actually took place. Likely because Loader waits until the next event loop
-            // iteration to do its work. So to ensure the reload, we will wait until the
-            // Shell instance gets destroyed.
-            tryCompare(tabletStageLoader, "itemDestroyed", true);
-
             killApps();
             WindowStateStorage.clear();
         }
@@ -191,7 +161,7 @@ Rectangle {
         }
 
         function findAppWindowForSurfaceId(surfaceId) {
-            var spreadDelegate = findChild(tabletStage, "spreadDelegate_" + surfaceId);
+            var spreadDelegate = findChild(tabletStage, "appDelegate_" + surfaceId);
             if (!spreadDelegate) {
                 return null;
             }
@@ -210,7 +180,7 @@ Rectangle {
 
         function waitUntilAppDelegateStopsMoving(targetSurfaceId)
         {
-            var targetAppDelegate = findChild(tabletStage, "spreadDelegate_" + targetSurfaceId);
+            var targetAppDelegate = findChild(tabletStage, "appDelegate_" + targetSurfaceId);
             verify(targetAppDelegate);
             var lastValue = undefined;
             do {
@@ -244,7 +214,7 @@ Rectangle {
 
         function dragToSideStage(surfaceId) {
             sideStage.showNow();
-            var targetAppDelegate = findChild(tabletStage, "spreadDelegate_" + surfaceId);
+            var targetAppDelegate = findChild(tabletStage, "appDelegate_" + surfaceId);
 
             var pos = tabletStage.width - sideStage.width - (tabletStage.width - sideStage.width) / 2;
             var end_pos = tabletStage.width - sideStage.width / 2;
@@ -265,7 +235,7 @@ Rectangle {
 
         function dragToMainStage(surfaceId) {
             sideStage.showNow();
-            var targetAppDelegate = findChild(tabletStage, "spreadDelegate_" + surfaceId);
+            var targetAppDelegate = findChild(tabletStage, "appDelegate_" + surfaceId);
             verify(targetAppDelegate);
 
             var pos = tabletStage.width - sideStage.width / 2;
@@ -290,7 +260,7 @@ Rectangle {
             var webbrowserSurfaceId = topSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
-            var webbrowserDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            var webbrowserDelegate = findChild(tabletStage, "appDelegate_" + webbrowserSurfaceId);
             verify(webbrowserDelegate);
             compare(webbrowserDelegate.stage, ApplicationInfoInterface.MainStage);
             var webbrowserWindow = findAppWindowForSurfaceId(webbrowserSurfaceId);
@@ -303,7 +273,7 @@ Rectangle {
             waitUntilAppSurfaceShowsUp(dialerSurfaceId);
 
             var dialerApp = ApplicationManager.findApplication(dialerCheckBox.appId);
-            var dialerDelegate = findChild(tabletStage, "spreadDelegate_" + dialerSurfaceId);
+            var dialerDelegate = findChild(tabletStage, "appDelegate_" + dialerSurfaceId);
             verify(dialerDelegate);
             compare(dialerDelegate.stage, ApplicationInfoInterface.SideStage);
 
@@ -336,7 +306,7 @@ Rectangle {
 
             performEdgeSwipeToShowAppSpread();
 
-            var appDelegate = findChild(tabletStage, "spreadDelegate_" + dialerSurfaceId);
+            var appDelegate = findChild(tabletStage, "appDelegate_" + dialerSurfaceId);
             verify(appDelegate);
             compare(appDelegate.stage, ApplicationInfoInterface.SideStage);
             tryCompare(appDelegate, "swipeToCloseEnabled", true);
@@ -359,7 +329,7 @@ Rectangle {
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
-            var webbrowserDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            var webbrowserDelegate = findChild(tabletStage, "appDelegate_" + webbrowserSurfaceId);
             compare(webbrowserDelegate.stage, ApplicationInfoInterface.MainStage);
 
             tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Running);
@@ -368,7 +338,7 @@ Rectangle {
             galleryCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(gallerySurfaceId);
             var galleryApp = ApplicationManager.findApplication(galleryCheckBox.appId);
-            var galleryDelegate = findChild(tabletStage, "spreadDelegate_" + gallerySurfaceId);
+            var galleryDelegate = findChild(tabletStage, "appDelegate_" + gallerySurfaceId);
             compare(galleryDelegate.stage, ApplicationInfoInterface.MainStage);
 
             tryCompare(galleryApp, "state", ApplicationInfoInterface.Running);
@@ -389,7 +359,7 @@ Rectangle {
             WindowStateStorage.saveStage(facebookCheckBox.appId, ApplicationInfoInterface.SideStage)
             WindowStateStorage.saveStage(dialerCheckBox.appId, ApplicationInfoInterface.SideStage)
 
-            var stagesPriv = findInvisibleChild(tabletStage, "stagesPriv");
+            var stagesPriv = findInvisibleChild(tabletStage, "DesktopStagePrivate");
             verify(stagesPriv);
 
             // launch two main stage apps
@@ -398,7 +368,7 @@ Rectangle {
             var webbrowserSurfaceId = topSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
-            var webbrowserDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            var webbrowserDelegate = findChild(tabletStage, "appDelegate_" + webbrowserSurfaceId);
             verify(webbrowserDelegate);
             compare(webbrowserDelegate.stage, ApplicationInfoInterface.MainStage);
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
@@ -407,7 +377,7 @@ Rectangle {
             galleryCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(gallerySurfaceId);
             var galleryApp = ApplicationManager.findApplication(galleryCheckBox.appId);
-            var galleryDelegate = findChild(tabletStage, "spreadDelegate_" + gallerySurfaceId);
+            var galleryDelegate = findChild(tabletStage, "appDelegate_" + gallerySurfaceId);
             compare(galleryDelegate.stage, ApplicationInfoInterface.MainStage);
 
             compare(stagesPriv.mainStageAppId, galleryCheckBox.appId);
@@ -419,14 +389,14 @@ Rectangle {
             dialerCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(dialerSurfaceId);
             var dialerApp = ApplicationManager.findApplication(dialerCheckBox.appId);
-            var dialerDelegate = findChild(tabletStage, "spreadDelegate_" + dialerSurfaceId);
+            var dialerDelegate = findChild(tabletStage, "appDelegate_" + dialerSurfaceId);
             compare(dialerDelegate.stage, ApplicationInfoInterface.SideStage);
 
             var facebookSurfaceId = topSurfaceList.nextId;
             facebookCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(facebookSurfaceId);
             var facebookApp = ApplicationManager.findApplication(facebookCheckBox.appId);
-            var facebookDelegate = findChild(tabletStage, "spreadDelegate_" + facebookSurfaceId);
+            var facebookDelegate = findChild(tabletStage, "appDelegate_" + facebookSurfaceId);
             compare(facebookDelegate.stage, ApplicationInfoInterface.SideStage);
 
             compare(stagesPriv.sideStageAppId, facebookCheckBox.appId);
@@ -461,14 +431,14 @@ Rectangle {
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
-            var webbrowserDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            var webbrowserDelegate = findChild(tabletStage, "appDelegate_" + webbrowserSurfaceId);
             compare(webbrowserDelegate.stage, ApplicationInfoInterface.MainStage);
 
             var dialerSurfaceId = topSurfaceList.nextId;
             dialerCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(dialerSurfaceId);
             var dialerApp = ApplicationManager.findApplication(dialerCheckBox.appId);
-            var dialerDelegate = findChild(tabletStage, "spreadDelegate_" + dialerSurfaceId);
+            var dialerDelegate = findChild(tabletStage, "appDelegate_" + dialerSurfaceId);
             compare(dialerDelegate.stage, ApplicationInfoInterface.SideStage);
 
 
@@ -546,7 +516,7 @@ Rectangle {
         }
 
         function test_applicationLoadsInDefaultStage(data) {
-            var stagesPriv = findInvisibleChild(tabletStage, "stagesPriv");
+            var stagesPriv = findInvisibleChild(tabletStage, "DesktopStagePrivate");
             verify(stagesPriv);
 
             tryCompare(stagesPriv, "mainStageAppId", "unity8-dash");
@@ -570,7 +540,7 @@ Rectangle {
         function test_applicationLoadsInSavedStage(data) {
             WindowStateStorage.saveStage(webbrowserCheckBox.appId, data.stage)
 
-            var stagesPriv = findInvisibleChild(tabletStage, "stagesPriv");
+            var stagesPriv = findInvisibleChild(tabletStage, "DesktopStagePrivate");
             verify(stagesPriv);
 
             tryCompare(stagesPriv, "mainStageAppId", "unity8-dash");
@@ -595,7 +565,7 @@ Rectangle {
             WindowStateStorage.saveStage(webbrowserCheckBox.appId, data.fromStage);
             stageSaver.clear();
 
-            var stagesPriv = findInvisibleChild(tabletStage, "stagesPriv");
+            var stagesPriv = findInvisibleChild(tabletStage, "DesktopStagePrivate");
             verify(stagesPriv);
 
             tryCompare(stagesPriv, "mainStageAppId", "unity8-dash");
@@ -622,7 +592,7 @@ Rectangle {
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
-            var appDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            var appDelegate = findChild(tabletStage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
             compare(appDelegate.stage, ApplicationInfoInterface.MainStage);
 
@@ -640,7 +610,7 @@ Rectangle {
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
-            var appDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            var appDelegate = findChild(tabletStage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
             compare(appDelegate.stage, ApplicationInfoInterface.SideStage);
 
@@ -664,7 +634,7 @@ Rectangle {
 
             performEdgeSwipeToShowAppSpread();
 
-            var appDelegate = findChild(tabletStage, "spreadDelegate_" + surface1Id);
+            var appDelegate = findChild(tabletStage, "appDelegate_" + surface1Id);
             verify(appDelegate);
             tryCompare(appDelegate, "swipeToCloseEnabled", true);
 
@@ -759,7 +729,7 @@ Rectangle {
             performEdgeSwipeToShowAppSpread();
 
             {
-                var appDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+                var appDelegate = findChild(tabletStage, "appDelegate_" + webbrowserSurfaceId);
                 verify(appDelegate);
                 tryCompare(appDelegate, "swipeToCloseEnabled", true);
             }
@@ -781,7 +751,7 @@ Rectangle {
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
-            var appDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            var appDelegate = findChild(tabletStage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
             compare(appDelegate.stage, ApplicationInfoInterface.MainStage);
 
@@ -799,7 +769,7 @@ Rectangle {
             compare(topSurfaceList.applicationAt(0).appId, "unity8-dash");
             var dashSurfaceId = topSurfaceList.idAt(0);
 
-            var appDelegate = findChild(tabletStage, "spreadDelegate_" + dashSurfaceId);
+            var appDelegate = findChild(tabletStage, "appDelegate_" + dashSurfaceId);
             verify(appDelegate);
             compare(appDelegate.stage, ApplicationInfoInterface.MainStage);
 
@@ -829,7 +799,7 @@ Rectangle {
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
-            var appDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            var appDelegate = findChild(tabletStage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
             compare(appDelegate.stage, ApplicationInfoInterface.SideStage);
 
@@ -842,7 +812,7 @@ Rectangle {
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
-            var appDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            var appDelegate = findChild(tabletStage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
 
             dragToSideStage(webbrowserSurfaceId);
@@ -860,7 +830,7 @@ Rectangle {
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
-            var appDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            var appDelegate = findChild(tabletStage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
 
             dragToSideStage(webbrowserSurfaceId);
@@ -878,7 +848,7 @@ Rectangle {
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
-            appDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            appDelegate = findChild(tabletStage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
             tryCompare(appDelegate, "stage", ApplicationInfoInterface.SideStage);
         }
