@@ -29,7 +29,6 @@ FocusScope {
     property url background
     property bool beingResized
     property int dragAreaWidth
-    property real dragProgress // How far left the stage has been dragged, used externally by tutorial code
     property bool interactive
     property bool keepDashRunning: true
     property real maximizedAppTopMargin

@@ -44,8 +44,9 @@ AbstractStage {
     property string mode: "staged"
     property real leftEdgeDragProgress: 0
 
-    // Used by TutorialRight
-    property bool spreadShown: state == "spread"
+    // Used by the tutorial code
+    readonly property bool spreadShown: state == "spread"
+    readonly property real dragProgress: rightEdgeDragArea.progress // How far left the stage has been dragged
 
     // used by the snap windows (edge maximize) feature
     readonly property alias previewRectangle: fakeRectangle
