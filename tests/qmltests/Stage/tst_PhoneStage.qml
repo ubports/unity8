@@ -251,7 +251,7 @@ Item {
             var tile = findChild(stage, "appDelegate_" + topLevelSurfaceList.idAt(data.index));
             var appId = ApplicationManager.get(data.index).appId;
 
-            if (tile.mapToItem(stage, 0, 0).x > stage.width) {
+            if (tile.mapToItem(stage, 0, 0).x > stage.width - units.gu(3)) {
                 // Item is not visible... Need to flick the spread
                 var startX = stage.width - units.gu(1);
                 var startY = stage.height / 2;
