@@ -93,8 +93,10 @@ Item {
         y: windowTitleTopMargin
 //        //y: priv.spreadTopMargin + priv.contentTopMargin + settings.spreadOffset + settings.titleOffset - height -  (priv.contentTopMargin - height) / 4
 //        visible: height < priv.contentTopMargin
-        property var highlightedSurface: root.model ? root.model.surfaceAt(root.highlightedIndex) : null
-        text: root.highlightedIndex >= 0 && highlightedSurface ? highlightedSurface.name : ""
+        readonly property var highlightedSurface: root.model ? root.model.surfaceAt(root.highlightedIndex) : null
+        readonly property var highlightedApp: root.model ? root.model.applicationAt(root.highlightedIndex) : null
+        text: root.highlightedIndex >= 0 && highlightedSurface && highlightedSurface.name != "" ? highlightedSurface.name :
+                                                                                                  highlightedApp ? highlightedApp.name : ""
         fontSize: root.height < units.gu(85) ? 'medium' : 'large'
         color: "white"
         opacity: root.highlightedIndex >= 0 ? 1 : 0
