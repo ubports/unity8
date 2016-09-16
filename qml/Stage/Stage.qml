@@ -1619,10 +1619,11 @@ AbstractStage {
             }
         }
         onWheel: {
+            print("DELTA:", wheel.angleDelta.y)
             if (wheel.angleDelta.y >= 120) {
-                spreadItem.selectNext(false);
-            } else if (wheel.angleDelta.y < 120 ){
-                spreadItem.selectPrevious(false);
+                spreadItem.selectNext(true);
+            } else if (wheel.angleDelta.y <= -120 ){
+                spreadItem.selectPrevious(true);
             }
         }
 

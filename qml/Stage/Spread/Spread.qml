@@ -152,5 +152,4 @@ Item {
             spreadFlickable.contentX = newContentX
         }
     }
-
 }
