@@ -455,6 +455,7 @@ AbstractStage {
             anchors.fill: appContainer
             leftMargin: root.leftMargin
             model: root.topLevelSurfaceList
+            spreadFlickable: floatingFlickable
             z: 10
 
             onLeaveSpread: {
@@ -1617,6 +1618,14 @@ AbstractStage {
                 }
             }
         }
+        onWheel: {
+            if (wheel.angleDelta.y >= 120) {
+                spreadItem.selectNext(false);
+            } else if (wheel.angleDelta.y < 120 ){
+                spreadItem.selectPrevious(false);
+            }
+        }
+
         onPressed: mouse.accepted = false
     }
 
@@ -1642,7 +1651,7 @@ AbstractStage {
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
 
-        property var gesturePoints: new Array()
+        property var gesturePoints: []
         property bool cancelled: false
 
         property real progress: dragging ? -touchPosition.x / root.width : 0

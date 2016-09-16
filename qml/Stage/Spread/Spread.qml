@@ -9,6 +9,7 @@ Item {
     property int highlightedIndex: -1
     property var model: null
     property int leftMargin: 0
+    property var spreadFlickable
 
     // some config options
     property real contentMargin: 0.16 * root.height
@@ -133,10 +134,10 @@ Item {
         }
 
         highlightedIndex = (highlightedIndex + 1) % totalItemCount;
-        var newContentX = ((spreadTotalWidth) / (totalItemCount + 1)) * Math.max(0, Math.min(totalItemCount - 5, highlightedIndex - 3));
-//        if (spreadFlickable.contentX < newContentX || spreadRepeater.highlightedIndex == 0) {
-//            spreadFlickable.snapTo(newContentX)
-//        }
+        var newContentX = (spreadTotalWidth / (totalItemCount + 1)) * Math.max(0, Math.min(totalItemCount - 1, highlightedIndex - 1));
+        if (spreadFlickable.contentX < newContentX || highlightedIndex == 0) {
+            spreadFlickable.contentX = newContentX;
+        }
     }
 
     function selectPrevious(isAutoRepeat) {
@@ -146,10 +147,10 @@ Item {
 
         var newIndex = highlightedIndex - 1 >= 0 ? highlightedIndex - 1 : totalItemCount - 1;
         highlightedIndex = newIndex;
-//        var newContentX = ((spreadFlickable.contentWidth) / (topLevelSurfaceList.count + 1)) * Math.max(0, Math.min(topLevelSurfaceList.count - 5, spreadRepeater.highlightedIndex - 1));
-//        if (spreadFlickable.contentX > newContentX || newIndex == topLevelSurfaceList.count -1) {
-//            spreadFlickable.snapTo(newContentX)
-//        }
+        var newContentX = (spreadFlickable.contentWidth / (totalItemCount + 1)) * Math.max(0, Math.min(totalItemCount - 1, highlightedIndex - 1));
+        if (spreadFlickable.contentX > newContentX || newIndex == totalItemCount - 1) {
+            spreadFlickable.contentX = newContentX
+        }
     }
 
 }
