@@ -44,7 +44,9 @@ Item {
             top: iconShape.bottom
             topMargin: labelMargin
         }
+        width: iconShape.width * 1.5
         fontSize: 'small'
         color: 'white'
+        elide: Label.ElideRight
     }
 }
