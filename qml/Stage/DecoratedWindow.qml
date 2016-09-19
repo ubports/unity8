@@ -117,10 +117,12 @@ FocusScope {
 
     Rectangle {
         id: selectionHighlight
+        objectName: "selectionHighlight"
         anchors.fill: parent
         anchors.margins: -root.highlightSize
         color: "white"
         opacity: showHighlight ? 0.55 : 0
+        visible: opacity > 0
     }
 
     BorderImage {
@@ -134,7 +136,7 @@ FocusScope {
 
     WindowDecoration {
         id: decoration
-        target: root.parent
+        target: root.parent || null
         objectName: "appWindowDecoration"
         anchors { left: parent.left; top: parent.top; right: parent.right }
         height: units.gu(3)

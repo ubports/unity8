@@ -19,7 +19,7 @@ import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
 import "../../../qml/Components"
-import "../../../qml/Stages"
+import "../../../qml/Stage"
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
@@ -62,6 +62,7 @@ Rectangle {
 
             active: false
             property bool itemDestroyed: false
+
             sourceComponent: DecoratedWindow {
                 anchors.fill: parent
                 application: fakeApplication
@@ -170,7 +171,7 @@ Rectangle {
         SignalSpy {
             id: spyClosedSignal
             target: spreadDelegateLoader.item
-            signalName: "closed"
+            signalName: "closeClicked"
         }
 
         property var dragArea
@@ -333,7 +334,7 @@ Rectangle {
             loadWithGalleryApp.clicked();
             var highlightRect = findChild(spreadDelegateLoader.item, "selectionHighlight")
             tryCompare(highlightRect, "visible", false)
-            spreadDelegateLoader.item.highlightShown = true;
+            spreadDelegateLoader.item.showHighlight = true;
             tryCompare(highlightRect, "visible", true)
         }
     }

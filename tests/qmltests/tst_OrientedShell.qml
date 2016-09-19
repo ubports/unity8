@@ -443,7 +443,7 @@ Rectangle {
         SignalSpy { id: signalSpy2 }
 
         Connections {
-            id: spreadRepeaterConnections
+            id: appRepeaterConnections
             ignoreUnknownSignals : true
             property var itemAddedCallback: null
             onItemAdded: {
@@ -483,8 +483,8 @@ Rectangle {
             while (keyboardsModel.count > 0)
                 MockInputDeviceBackend.removeDevice("/kbd" + (keyboardsModel.count - 1))
 
-            spreadRepeaterConnections.target = null;
-            spreadRepeaterConnections.itemAddedCallback = null;
+            appRepeaterConnections.target = null;
+            appRepeaterConnections.itemAddedCallback = null;
             signalSpy.target = null;
             signalSpy.signalName = "";
 
@@ -896,8 +896,8 @@ Rectangle {
 
             var twitterDelegate = null;
 
-            verify(spreadRepeaterConnections.target);
-            spreadRepeaterConnections.itemAddedCallback = function(item) {
+            verify(appRepeaterConnections.target);
+            appRepeaterConnections.itemAddedCallback = function(item) {
                 verify(item.application.appId, "twitter-webapp");
                 twitterDelegate = item;
                 signalSpy.target = findInvisibleChild(item, "orientationChangeAnimation");
@@ -919,7 +919,7 @@ Rectangle {
             compare(twitterApp.supportedOrientations, Qt.PortraitOrientation | Qt.LandscapeOrientation
                     | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation);
 
-            // Wait until spreadRepeaterConnections hs caught the new SpreadDelegate and
+            // Wait until appRepeaterConnections hs caught the new SpreadDelegate and
             // set up the signalSpy target accordingly.
             tryCompareFunction(function(){ return signalSpy.target != null && signalSpy.valid; }, true);
 
@@ -943,8 +943,8 @@ Rectangle {
             loadShell(data.deviceName);
 
             var dialerDelegate = null;
-            verify(spreadRepeaterConnections.target);
-            spreadRepeaterConnections.itemAddedCallback = function(item) {
+            verify(appRepeaterConnections.target);
+            appRepeaterConnections.itemAddedCallback = function(item) {
                 dialerDelegate = item;
                 verify(item.application.appId, "dialer-app");
             }
@@ -990,8 +990,8 @@ Rectangle {
             ////
             // Launch dialer
             var dialerDelegate = null;
-            verify(spreadRepeaterConnections.target);
-            spreadRepeaterConnections.itemAddedCallback = function(item) {
+            verify(appRepeaterConnections.target);
+            appRepeaterConnections.itemAddedCallback = function(item) {
                 dialerDelegate = item;
                 verify(item.application.appId, "dialer-app");
             }
@@ -1011,7 +1011,7 @@ Rectangle {
             ////
             // Launch twitter
             var twitterDelegate = null;
-            spreadRepeaterConnections.itemAddedCallback = function(item) {
+            appRepeaterConnections.itemAddedCallback = function(item) {
                 twitterDelegate = item;
                 verify(item.application.appId, "twitter-webapp");
             }
@@ -1606,9 +1606,6 @@ Rectangle {
             topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
             verify(topLevelSurfaceList);
 
-            var stageLoader = findChild(shell, "applicationsDisplayLoader");
-            verify(stageLoader);
-
             tryCompare(shell, "waitingOnGreeter", false); // reset by greeter when ready
 
             waitUntilShellIsInOrientation(root.physicalOrientation0);
@@ -1617,9 +1614,9 @@ Rectangle {
 
             swipeAwayGreeter();
 
-            var spreadRepeater = findChild(stageLoader, "spreadRepeater");
-            if (spreadRepeater) {
-                spreadRepeaterConnections.target = spreadRepeater;
+            var appRepeater = findChild(shell, "appRepeater");
+            if (appRepeater) {
+                appRepeaterConnections.target = appRepeater;
             }
         }
 
