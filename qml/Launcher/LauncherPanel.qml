@@ -41,7 +41,10 @@ Rectangle {
     signal kbdNavigationCancelled()
 
     onXChanged: {
-        if (quickList.state == "open") {
+        if (quickList.state === "open") {
+            quickList.state = ""
+        }
+        if (tooltip.state === "open") {
             quickList.state = ""
         }
     }
@@ -171,6 +174,12 @@ Rectangle {
                     property int draggedIndex: dndArea.draggedIndex
                     property real realContentY: contentY - originY + topMargin
                     property int realItemHeight: itemHeight + spacing
+
+                    onRealContentYChanged : {
+                        if (tooltip.state === "open") {
+                            tooltip.state = "";
+                        }
+                    }
 
                     // In case the start dragging transition is running, we need to delay the
                     // move because the displaced transition would clash with it and cause items
@@ -399,6 +408,7 @@ Rectangle {
                         id: dndArea
                         objectName: "dndArea"
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
+                        hoverEnabled: true
                         anchors {
                             fill: parent
                             topMargin: launcherListView.topMargin
@@ -421,11 +431,19 @@ Rectangle {
 
                         function processPress(mouse) {
                             selectedItem = launcherListView.itemAt(mouse.x, mouse.y + launcherListView.realContentY)
+
+                            if (tooltip.state === "open") {
+                                tooltip.state = "";
+                            }
                         }
 
                         onClicked: {
                             var index = Math.floor((mouseY + launcherListView.realContentY) / launcherListView.realItemHeight);
                             var clickedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
+
+                            if (tooltip.state === "open") {
+                                tooltip.state = "";
+                            }
 
                             // Check if we actually clicked an item or only at the spacing in between
                             if (clickedItem === null) {
@@ -434,8 +452,7 @@ Rectangle {
 
                             if (mouse.button & Qt.RightButton) { // context menu
                                 // Opening QuickList
-                                //quickList.open(index);
-                                tooltip.open(index);
+                                quickList.open(index);
                                 return;
                             }
 
@@ -527,6 +544,10 @@ Rectangle {
                             startY = mouse.y
                         }
 
+                        onExited: {
+                            tooltip.state = "";
+                        }
+
                         onPositionChanged: {
                             processPositionChanged(mouse)
                         }
@@ -581,6 +602,17 @@ Rectangle {
                                         draggedIndex = newIndex
                                     }
                                 }
+                            } else {
+                                var index = Math.floor((mouse.y + launcherListView.realContentY) / launcherListView.realItemHeight);
+                                var clickedItem = launcherListView.itemAt(mouse.x, mouse.y + launcherListView.realContentY);
+
+                                // Check if we actually hovered an item or only the spacing in between
+                                if (clickedItem === null || mouse.buttons) {
+                                    tooltip.state = "";
+                                    return;
+                                }
+
+                                tooltip.open(index);
                             }
                         }
                     }
@@ -635,7 +667,7 @@ Rectangle {
 
     UbuntuShape {
         id: quickListShape
-        //objectName: "quickListShape"
+        objectName: "quickListShape"
         anchors.fill: quickList
         opacity: quickList.state === "open" ? 0.95 : 0
         visible: opacity > 0
@@ -833,7 +865,7 @@ Rectangle {
     UbuntuShape {
         id: tooltipShape
         anchors.fill: tooltip
-        opacity: tooltip.state === "open" ? 0.95 : 0
+        opacity: tooltip.state === "open" && quickList.state != "open" ? 0.95 : 0
         visible: opacity > 0
         rotation: root.rotation
         aspect: UbuntuShape.Flat
@@ -867,8 +899,8 @@ Rectangle {
         color: theme.palette.normal.background
         visible: tooltipShape.visible
 
-        width: tooltipLabel.width
-        height: units.gu(5)
+        width: tooltipLabel.contentWidth + units.gu(4)
+        height: tooltipLabel.contentHeight + units.gu(2)
 
         y: itemCenter - (height / 2) + offset
         rotation: root.rotation
@@ -885,30 +917,8 @@ Rectangle {
         property int itemCenter: item ? root.mapFromItem(tooltip.item, 0, 0).y + (item.height / 2) + tooltip.item.offset : units.gu(1)
         property int offset: itemCenter + (height/2) + units.gu(1) > parent.height ? -itemCenter - (height/2) - units.gu(1) + parent.height :
                              itemCenter - (height/2) < units.gu(1) ? (height/2) - itemCenter + units.gu(1) : 0
-        /*
-        // Because we're setting left/right anchors depending on orientation, it will break the
-        // width setting after rotating twice. This makes sure we also re-apply width on rotation
-        // width: root.inverted ? units.gu(30) : units.gu(30)
-        height: tooltipLabel.height
-        visible: tooltipShape.visible
-        anchors {
-            left: root.inverted ? undefined : parent.right
-            right: root.inverted ? parent.left : undefined
-            margins: units.gu(1)
-        }
-        y: itemCenter - (height / 2) + offset
-        rotation: root.rotation
-
-        property string name
-        property var item
-
-        // internal
-        property int itemCenter: item ? root.mapFromItem(tooltip.item, 0, 0).y + (item.height / 2) + tooltip.item.offset : units.gu(1)
-        property int offset: itemCenter + (height/2) + units.gu(1) > parent.height ? -itemCenter - (height/2) - units.gu(1) + parent.height :
-                             itemCenter - (height/2) < units.gu(1) ? (height/2) - itemCenter + units.gu(1) : 0*/
 
         function open(index) {
-            console.log("ciao")
             var itemPosition = index * launcherListView.itemHeight;
             var height = launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin
             item = launcherListView.itemAt(launcherListView.width / 2, itemPosition + launcherListView.itemHeight / 2);
@@ -918,16 +928,10 @@ Rectangle {
 
         Label {
             id: tooltipLabel
-            //width: parent.width
-            //anchors.fill: parent
-            anchors.leftMargin: units.gu(2)
-            anchors.rightMargin: units.gu(2)
-            anchors.topMargin: units.gu(2)
-            anchors.bottomMargin: units.gu(2)
+            height: parent.height
+            anchors.centerIn: parent
             verticalAlignment: Label.AlignVCenter
             text: tooltip.text
-            fontSize: "medium"
-            font.weight: Font.Medium
             color: theme.palette.normal.backgroundText
         }
     }
