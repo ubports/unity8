@@ -701,9 +701,12 @@ AbstractStage {
                 Connections {
                     target: model.surface
                     onFocusRequested: {
-                        // Reset spread selection in case there is any
-                        spreadItem.highlightedIndex = -1
-                        claimFocus();
+                        if (root.state == "spread") {
+                            spreadItem.highlightedIndex = index
+                            priv.goneToSpread = false;
+                        } else {
+                            claimFocus();
+                        }
                     }
                 }
                 Connections {
