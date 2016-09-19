@@ -686,6 +686,7 @@ AbstractStage {
 
                 function claimFocus() {
                     if (root.state == "spread") {
+                        spreadItem.highlightedIndex = index
                         priv.goneToSpread = false;
                     }
                     if (appDelegate.stage == ApplicationInfoInterface.SideStage && !sideStage.shown) {
@@ -701,12 +702,7 @@ AbstractStage {
                 Connections {
                     target: model.surface
                     onFocusRequested: {
-                        if (root.state == "spread") {
-                            spreadItem.highlightedIndex = index
-                            priv.goneToSpread = false;
-                        } else {
-                            claimFocus();
-                        }
+                        claimFocus();
                     }
                 }
                 Connections {
