@@ -294,6 +294,7 @@ Rectangle {
                 Button {
                     text: "Start all apps"
                     width: parent.width
+                    activeFocusOnPress: false
                     onClicked: {
                         for (var i = 0; i < ApplicationManager.availableApplications.length; i++) {
                             var appId = ApplicationManager.availableApplications[i];
