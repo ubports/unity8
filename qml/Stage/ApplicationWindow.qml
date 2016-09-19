@@ -145,6 +145,9 @@ FocusScope {
         id: screenshotImage
         objectName: "screenshotImage"
         anchors.fill: parent
+        fillMode: Image.PreserveAspectCrop
+        horizontalAlignment: Image.AlignLeft
+        verticalAlignment: Image.AlignTop
         antialiasing: !root.interactive
         z: 1
 
