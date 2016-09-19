@@ -72,6 +72,7 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked: root.clicked()
+        onWheel: wheel.accepted = true
     }
 
     MultiPointTouchArea {

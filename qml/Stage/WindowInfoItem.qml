@@ -11,6 +11,7 @@ Item {
     property real iconHeight: (height - titleLabel.height) * 0.65
     property real iconMargin: (height - titleLabel.height) * 0.25
     property real labelMargin: (height - titleLabel.height) * 0.1
+    property int maxWidth: units.gu(10)
 
     signal clicked()
 
@@ -44,7 +45,9 @@ Item {
             top: iconShape.bottom
             topMargin: labelMargin
         }
+        width: root.maxWidth
         fontSize: 'small'
         color: 'white'
+        elide: Label.ElideRight
     }
 }

@@ -9,6 +9,7 @@ Item {
     property int highlightedIndex: -1
     property var model: null
     property int leftMargin: 0
+    property var spreadFlickable
 
     // some config options
     property real contentMargin: 0.16 * root.height
@@ -93,8 +94,10 @@ Item {
         y: windowTitleTopMargin
 //        //y: priv.spreadTopMargin + priv.contentTopMargin + settings.spreadOffset + settings.titleOffset - height -  (priv.contentTopMargin - height) / 4
 //        visible: height < priv.contentTopMargin
-        property var highlightedSurface: root.model ? root.model.surfaceAt(root.highlightedIndex) : null
-        text: root.highlightedIndex >= 0 && highlightedSurface ? highlightedSurface.name : ""
+        readonly property var highlightedSurface: root.model ? root.model.surfaceAt(root.highlightedIndex) : null
+        readonly property var highlightedApp: root.model ? root.model.applicationAt(root.highlightedIndex) : null
+        text: root.highlightedIndex >= 0 && highlightedSurface && highlightedSurface.name != "" ? highlightedSurface.name :
+                                                                                                  highlightedApp ? highlightedApp.name : ""
         fontSize: root.height < units.gu(85) ? 'medium' : 'large'
         color: "white"
         opacity: root.highlightedIndex >= 0 ? 1 : 0
@@ -131,9 +134,10 @@ Item {
         }
 
         highlightedIndex = (highlightedIndex + 1) % totalItemCount;
-        var newContentX = ((spreadTotalWidth) / (totalItemCount + 1)) * Math.max(0, Math.min(totalItemCount - 5, highlightedIndex - 3));
-//        if (spreadFlickable.contentX < newContentX || spreadRepeater.highlightedIndex == 0) {
-//            spreadFlickable.snapTo(newContentX)
+        spreadFlickable.snap(highlightedIndex)
+//        var newContentX = (spreadTotalWidth / (totalItemCount + 1)) * Math.max(0, Math.min(totalItemCount - visibleItemCount, highlightedIndex - 1));
+//        if (spreadFlickable.contentX < newContentX || highlightedIndex == 0) {
+//            spreadFlickable.snap(newContentX);
 //        }
     }
 
@@ -142,12 +146,11 @@ Item {
             return; // AutoRepeat is not allowed to wrap around
         }
 
-        var newIndex = highlightedIndex - 1 >= 0 ? highlightedIndex - 1 : totalItemCount - 1;
-        highlightedIndex = newIndex;
-//        var newContentX = ((spreadFlickable.contentWidth) / (topLevelSurfaceList.count + 1)) * Math.max(0, Math.min(topLevelSurfaceList.count - 5, spreadRepeater.highlightedIndex - 1));
-//        if (spreadFlickable.contentX > newContentX || newIndex == topLevelSurfaceList.count -1) {
-//            spreadFlickable.snapTo(newContentX)
+        highlightedIndex = highlightedIndex - 1 >= 0 ? highlightedIndex - 1 : totalItemCount - 1;
+        spreadFlickable.snap(highlightedIndex)
+//        var newContentX = (spreadFlickable.contentWidth / (totalItemCount + 1)) * Math.max(0, Math.min(totalItemCount - visibleItemCount, highlightedIndex - 1));
+//        if (spreadFlickable.contentX > newContentX || highlightedIndex == totalItemCount - 1) {
+//            spreadFlickable.snap(newContentX)
 //        }
     }
-
 }

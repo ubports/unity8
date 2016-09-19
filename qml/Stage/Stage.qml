@@ -455,6 +455,7 @@ AbstractStage {
             anchors.fill: appContainer
             leftMargin: root.leftMargin
             model: root.topLevelSurfaceList
+            spreadFlickable: floatingFlickable
             z: 10
 
             onLeaveSpread: {
@@ -1497,6 +1498,13 @@ AbstractStage {
                     opacity: 0
                     z: 1
                     visible: opacity > 0
+                    maxWidth: {
+                        var nextApp = appRepeater.itemAt(index + 1);
+                        if (nextApp) {
+                            return nextApp.x - appDelegate.x - units.gu(1)
+                        }
+                        return appDelegate.width;
+                    }
 
                     onClicked: {
                         spreadItem.highlightedIndex = index;
@@ -1617,6 +1625,7 @@ AbstractStage {
                 }
             }
         }
+
         onPressed: mouse.accepted = false
     }
 
@@ -1626,6 +1635,21 @@ AbstractStage {
         anchors.fill: appContainer
         enabled: false
         contentWidth: spreadItem.spreadTotalWidth
+
+        function snap(toIndex) {
+            var delegate = appRepeater.itemAt(toIndex)
+            var targetContentX = floatingFlickable.contentWidth / spreadItem.totalItemCount * toIndex;
+            if (targetContentX - floatingFlickable.contentX > spreadItem.rightStackXPos - (spreadItem.spreadItemWidth / 2)) {
+                var offset = (spreadItem.rightStackXPos - (spreadItem.spreadItemWidth / 2)) - (targetContentX - floatingFlickable.contentX)
+                snapAnimation.to = floatingFlickable.contentX - offset;
+                snapAnimation.start();
+            } else if (targetContentX - floatingFlickable.contentX < spreadItem.leftStackXPos + units.gu(1)) {
+                var offset = (spreadItem.leftStackXPos + units.gu(1)) - (targetContentX - floatingFlickable.contentX);
+                snapAnimation.to = floatingFlickable.contentX - offset;
+                snapAnimation.start();
+            }
+        }
+        UbuntuNumberAnimation {id: snapAnimation; target: floatingFlickable; property: "contentX"}
     }
 
     PropertyAnimation {
@@ -1642,7 +1666,7 @@ AbstractStage {
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
 
-        property var gesturePoints: new Array()
+        property var gesturePoints: []
         property bool cancelled: false
 
         property real progress: dragging ? -touchPosition.x / root.width : 0
