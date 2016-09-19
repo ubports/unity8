@@ -374,6 +374,11 @@ AbstractStage {
         },
         State {
             name: "sideStagedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "stagedWithSideStage"
+            PropertyChanges {
+                target: sideStage
+                opacity: priv.sideStageDelegate.x === sideStage.x ? 1 : 0
+                visible: true
+            }
         },
         State {
             name: "windowedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "windowed"
@@ -493,6 +498,7 @@ AbstractStage {
             height: appContainer.height
             x: appContainer.width - width
             visible: false
+            Behavior on opacity { UbuntuNumberAnimation {} }
             z: {
                 if (!priv.mainStageItemId) return 0;
 
