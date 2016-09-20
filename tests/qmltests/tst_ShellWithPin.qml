@@ -393,7 +393,7 @@ Item {
             // dialer to a side stage and give access to other apps.  So just
             // confirm that such an attack doesn't work.
 
-            var applicationsDisplayLoader = findChild(shell, "applicationsDisplayLoader")
+            var applicationsDisplayLoader = findChild(shell, "stage")
 
             // We start in phone mode
             compare(shell.usageScenario, "phone");
@@ -497,13 +497,13 @@ Item {
 
         function test_suspend() {
             var greeter = findChild(shell, "greeter");
-            var applicationsDisplayLoader = findChild(shell, "applicationsDisplayLoader")
+            var applicationsDisplayLoader = findChild(shell, "stage")
 
             // Put it to sleep
             Powerd.setStatus(Powerd.Off, Powerd.Unknown);
 
             // If locked, applicationsDisplayLoader.item.suspended should be true
-            tryCompare(applicationsDisplayLoader.item, "suspended", true);
+            tryCompare(applicationsDisplayLoader, "suspended", true);
 
             // And wake up
             Powerd.setStatus(Powerd.On, Powerd.Unknown);
@@ -513,13 +513,12 @@ Item {
             swipeAwayGreeter(true);
 
             // We have a lockscreen, make sure we're still suspended
-            tryCompare(applicationsDisplayLoader.item, "suspended", true);
+            tryCompare(applicationsDisplayLoader, "suspended", true);
 
             enterPin("1234")
 
             // Now that the lockscreen has gone too, make sure we're waking up
-            tryCompare(applicationsDisplayLoader.item, "suspended", false);
-
+            tryCompare(applicationsDisplayLoader, "suspended", false);
         }
 
         /* We had a bug (1395075) where if a user kept swiping as the greeter
