@@ -131,7 +131,7 @@ QtObject {
 
 
         if (progress < breakPoint) {
-            if (itemIndex == nextInStack && sideStageOpen) {
+            if (itemIndex == nextInStack && (sideStageOpen || stage == ApplicationInfoInterface.MainStage)) {
                 return MathUtils.linearAnimation(0, 1, startAngle, targetAngle, progress);
             } else {
                 return 0;
@@ -160,7 +160,7 @@ QtObject {
         }
 
         if (progress < breakPoint) {
-            if (itemIndex == nextInStack && sideStageOpen) {
+            if (itemIndex == nextInStack && (sideStageOpen || stage == ApplicationInfoInterface.MainStage)) {
                 return MathUtils.linearAnimation(0, 1, startScale, targetScale, progress);
             }
             return startScale;
