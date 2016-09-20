@@ -92,8 +92,8 @@ FocusScope {
                 name: "normal"; when: root.scaleToPreviewProgress <= 0
                 PropertyChanges {
                     target: root
-                    implicitWidth: applicationWindow.implicitWidth
-                    implicitHeight: root.decorationHeight + applicationWindow.implicitHeight
+                    implicitWidth: counterRotate ? applicationWindow.implicitHeight : applicationWindow.implicitWidth
+                    implicitHeight: root.decorationHeight + (counterRotate ? applicationWindow.implicitWidth:  applicationWindow.implicitHeight)
                 }
             },
             State {
@@ -175,8 +175,8 @@ FocusScope {
         anchors.top: parent.top
         anchors.topMargin: root.decorationHeight * Math.min(1, root.showDecoration)
         anchors.left: parent.left
-        width: root.width
-        height: root.height - anchors.topMargin
+        width: requestedWidth
+        height: requestedHeight
         requestedHeight: !counterRotate ? root.requestedHeight - d.requestedDecorationHeight : root.requestedWidth
         requestedWidth: !counterRotate ? root.requestedWidth : root.requestedHeight - d.requestedDecorationHeight
         property int oldRequestedWidth: requestedWidth
