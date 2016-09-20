@@ -81,34 +81,6 @@ FocusScope {
         enabled: surfaceItem.enabled
     }
 
-//    // MirSurface size drives SurfaceContainer size
-//    Binding {
-//        target: surfaceItem; property: "width"; value: root.surface ? root.surface.size.width : 0
-//        when: root.requestedWidth >= 0 && root.surface
-//    }
-//    Binding {
-//        target: surfaceItem; property: "height"; value: root.surface ? root.surface.size.height : 0
-//        when: root.requestedHeight >= 0 && root.surface
-//    }
-//    Binding {
-//        target: root; property: "implicitWidth"; value: surfaceItem.width
-//        when: root.requestedWidth >= 0
-//    }
-//    Binding {
-//        target: root; property: "implicitHeight"; value: surfaceItem.height
-//        when: root.requestedHeight >= 0
-//    }
-
-//    // SurfaceContainer size drives MirSurface size
-//    Binding {
-//        target: surfaceItem; property: "width"; value: root.width
-//        when: root.requestedWidth < 0
-//    }
-//    Binding {
-//        target: surfaceItem; property: "height"; value: root.height
-//        when: root.requestedHeight < 0
-//    }
-
     Loader {
         id: animationsLoader
         objectName: "animationsLoader"

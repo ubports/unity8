@@ -234,28 +234,6 @@ FocusScope {
         property Item first: null
     }
 
-//    // SurfaceContainer size drives ApplicationWindow size
-//    Binding {
-//        target: root; property: "implicitWidth"
-//        value: stateGroup.state === "surface" ? surfaceContainer.implicitWidth : root.requestedWidth
-//        when: root.requestedWidth >= 0
-//    }
-//    Binding {
-//        target: root; property: "implicitHeight"
-//        value: stateGroup.state === "surface" ? surfaceContainer.implicitHeight : root.requestedHeight
-//        when: root.requestedHeight >= 0
-//    }
-
-//    // ApplicationWindow size drives SurfaceContainer size
-//    Binding {
-//        target: surfaceContainer; property: "width"; value: root.width
-//        when: root.requestedWidth < 0
-//    }
-//    Binding {
-//        target: surfaceContainer; property: "height"; value: root.height
-//        when: root.requestedHeight < 0
-//    }
-
     StateGroup {
         id: stateGroup
         objectName: "applicationWindowStateGroup"
@@ -424,10 +402,4 @@ FocusScope {
             }
         ]
     }
-
-//    Rectangle {
-//        anchors.fill: parent
-//        color: "yellow"
-//        opacity: .4
-//    }
 }
