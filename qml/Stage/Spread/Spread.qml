@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2016 Canonical, Ltd.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import "MathUtils.js" as MathUtils
@@ -92,8 +108,6 @@ Item {
         elide: Qt.ElideMiddle
         anchors.horizontalCenter: parent.horizontalCenter
         y: windowTitleTopMargin
-//        //y: priv.spreadTopMargin + priv.contentTopMargin + settings.spreadOffset + settings.titleOffset - height -  (priv.contentTopMargin - height) / 4
-//        visible: height < priv.contentTopMargin
         readonly property var highlightedSurface: root.model ? root.model.surfaceAt(root.highlightedIndex) : null
         readonly property var highlightedApp: root.model ? root.model.applicationAt(root.highlightedIndex) : null
         text: root.highlightedIndex >= 0 && highlightedSurface && highlightedSurface.name != "" ? highlightedSurface.name :
@@ -135,10 +149,6 @@ Item {
 
         highlightedIndex = (highlightedIndex + 1) % totalItemCount;
         spreadFlickable.snap(highlightedIndex)
-//        var newContentX = (spreadTotalWidth / (totalItemCount + 1)) * Math.max(0, Math.min(totalItemCount - visibleItemCount, highlightedIndex - 1));
-//        if (spreadFlickable.contentX < newContentX || highlightedIndex == 0) {
-//            spreadFlickable.snap(newContentX);
-//        }
     }
 
     function selectPrevious(isAutoRepeat) {
@@ -148,9 +158,5 @@ Item {
 
         highlightedIndex = highlightedIndex - 1 >= 0 ? highlightedIndex - 1 : totalItemCount - 1;
         spreadFlickable.snap(highlightedIndex)
-//        var newContentX = (spreadFlickable.contentWidth / (totalItemCount + 1)) * Math.max(0, Math.min(totalItemCount - visibleItemCount, highlightedIndex - 1));
-//        if (spreadFlickable.contentX > newContentX || highlightedIndex == totalItemCount - 1) {
-//            spreadFlickable.snap(newContentX)
-//        }
     }
 }

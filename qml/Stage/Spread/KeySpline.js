@@ -1,5 +1,3 @@
-.pragma library
-
 /** MIT License
  *
  * KeySpline - use bezier curve for transition easing function
@@ -30,6 +28,9 @@
 * var spline = new KeySpline(0.25, 0.1, 0.25, 1.0)
 * spline.get(x) => returns the easing value | x must be in [0, 1] range
 */
+
+.pragma library
+
 function keySpline (mX1, mY1, mX2, mY2) {
 
   this.get = function(aX) {
