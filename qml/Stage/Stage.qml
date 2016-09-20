@@ -22,12 +22,32 @@ import "../Components"
 import Utils 0.1
 import Ubuntu.Gestures 0.1
 import GlobalShortcut 1.0
+import GSettings 1.0
 import "Spread"
 import "Spread/MathUtils.js" as MathUtils
 
-AbstractStage {
+FocusScope {
     id: root
     anchors.fill: parent
+
+    property QtObject applicationManager
+    property QtObject topLevelSurfaceList
+    property bool altTabPressed
+    property url background
+    property bool beingResized
+    property int dragAreaWidth
+    property bool interactive
+    property bool keepDashRunning: true
+    property real maximizedAppTopMargin
+    property real nativeHeight
+    property real nativeWidth
+    property QtObject orientations
+    property int shellOrientation
+    property int shellOrientationAngle
+    property bool spreadEnabled: true // If false, animations and right edge will be disabled
+    property bool suspended
+    property int leftMargin: 0
+    property bool oskEnabled: false
 
     // Congifuration
     property string mode: "staged"
@@ -89,6 +109,21 @@ AbstractStage {
         if (priv.focusedAppDelegate && !priv.focusedAppDelegate.isDash) {
             priv.focusedAppDelegate.close();
         }
+    }
+
+    GSettings {
+        id: lifecycleExceptions
+        schema.id: "com.canonical.qtmir"
+    }
+
+    function isExemptFromLifecycle(appId) {
+        var shortAppId = appId.split('_')[0];
+        for (var i = 0; i < lifecycleExceptions.lifecycleExemptAppids.length; i++) {
+            if (shortAppId === lifecycleExceptions.lifecycleExemptAppids[i]) {
+                return true;
+            }
+        }
+        return false;
     }
 
     GlobalShortcut {
@@ -412,12 +447,9 @@ AbstractStage {
                     script: {
                         var item = appRepeater.itemAt(Math.max(0, spreadItem.highlightedIndex));
                         if (item.stage == ApplicationInfoInterface.SideStage && !sideStage.shown) {
-                            print("showing sidestage")
                             sideStage.show();
                         }
-
                         item.playFocusAnimation();
-                        print("playing focus animation for item", item.appId, "stage:", item.stage, "shown", sideStage.shown)
                     }
                 }
                 PropertyAction { target: spreadItem; property: "highlightedIndex"; value: -1 }
