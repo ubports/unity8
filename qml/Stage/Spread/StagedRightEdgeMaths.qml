@@ -15,7 +15,7 @@ QtObject {
     property int targetX: 0
     property int startY: 0
     property int targetY: 0
-    property real startAngle: 40
+    property real startAngle: 30
     property real targetAngle: 0
     property int targetHeight: 0
     property real startScale: 1.3
@@ -24,6 +24,7 @@ QtObject {
 
     property bool isMainStageApp: false
     property bool isSideStageApp: false
+    property bool sideStageOpen: false
     property int nextInStack: 0
     property int shuffledZ: 0
 
@@ -97,45 +98,59 @@ QtObject {
     }
 
     readonly property real animatedAngle: {
+        var nextStage = appRepeater.itemAt(nextInStack) ? appRepeater.itemAt(nextInStack).stage : ApplicationInfoInterface.MainStage;
+
         var startAngle = 0;
         if (isMainStageApp) {
             startAngle = 0;
         } else if (isSideStageApp) {
             startAngle = 0;
         } else {
-            startAngle = root.startAngle;
+            if (stage == ApplicationInfoInterface.SideStage && itemIndex == nextInStack && !sideStageOpen) {
+                startAngle = 0;
+            } else {
+                startAngle = root.startAngle;
+            }
         }
 
-        var nextStage = appRepeater.itemAt(nextInStack) ? appRepeater.itemAt(nextInStack).stage : ApplicationInfoInterface.MainStage;
 
         if (progress < breakPoint) {
-            if (stage == nextStage) {
+            if (itemIndex == nextInStack && sideStageOpen) {
                 return MathUtils.linearAnimation(0, 1, startAngle, targetAngle, progress);
             } else {
                 return 0;
             }
         }
-        if (itemIndex == nextInStack || (stage == nextStage && (isMainStageApp || isSideStageApp))) {
+        if (itemIndex == nextInStack) {
             return MathUtils.linearAnimation(0, 1, startAngle, targetAngle, progress);
         }
         return MathUtils.linearAnimation(breakPoint, 1, startAngle, targetAngle, progress);
     }
 
     readonly property real animatedScale: {
+        var pullingInSideStage = itemIndex == nextInStack && stage == ApplicationInfoInterface.SideStage && !sideStageOpen;
+
         var startScale = 1;
         if (isMainStageApp) {
             startScale = 1;
         } else if (isSideStageApp) {
             startScale = 1;
         } else {
-            startScale = root.startScale;
+            if (pullingInSideStage) {
+                startScale = 1
+            } else {
+                startScale = root.startScale;
+            }
         }
 
+        if (progress < breakPoint) {
+            if (itemIndex == nextInStack && sideStageOpen) {
+                return MathUtils.linearAnimation(0, 1, startScale, targetScale, progress);
+            }
+            return startScale;
+        }
         if (itemIndex == nextInStack) {
             return MathUtils.linearAnimation(0, 1, startScale, targetScale, progress)
-        }
-        if (progress < breakPoint) {
-            return startScale;
         }
 
         return MathUtils.linearAnimation(breakPoint, 1, startScale, targetScale, progress)

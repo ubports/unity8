@@ -227,7 +227,7 @@ AbstractStage {
 
             for (var i = 0; i < appRepeater.count && (!choseMainStage || !choseSideStage); ++i) {
                 var appDelegate = appRepeater.itemAt(i);
-                if (appDelegate.stage == ApplicationInfoInterface.SideStage
+                if (sideStage.shown && appDelegate.stage == ApplicationInfoInterface.SideStage
                         && !choseSideStage) {
                     priv.sideStageDelegate = appDelegate
                     priv.sideStageItemId = root.topLevelSurfaceList.idAt(i);
@@ -411,11 +411,13 @@ AbstractStage {
                 ScriptAction {
                     script: {
                         var item = appRepeater.itemAt(Math.max(0, spreadItem.highlightedIndex));
-
-                        item.playFocusAnimation();
                         if (item.stage == ApplicationInfoInterface.SideStage && !sideStage.shown) {
+                            print("showing sidestage")
                             sideStage.show();
                         }
+
+                        item.playFocusAnimation();
+                        print("playing focus animation for item", item.appId, "stage:", item.stage, "shown", sideStage.shown)
                     }
                 }
                 PropertyAction { target: spreadItem; property: "highlightedIndex"; value: -1 }
@@ -956,6 +958,7 @@ AbstractStage {
                     isMainStageApp: priv.mainStageDelegate == appDelegate
                     isSideStageApp: priv.sideStageDelegate == appDelegate
                     sideStageWidth: sideStage.width
+                    sideStageOpen: sideStage.shown
                     itemIndex: index
                     nextInStack: priv.nextInStack
                     progress: 0
@@ -1734,12 +1737,16 @@ AbstractStage {
                             (oneWayFlick && rightEdgeDragArea.distance > units.gu(2) || rightEdgeDragArea.distance > spreadItem.rightEdgeBreakPoint * spreadItem.width)) {
                         var nextStage = appRepeater.itemAt(priv.nextInStack).stage
                         for (var i = 0; i < appRepeater.count; i++) {
-                            if (appRepeater.itemAt(i).stage == nextStage) {
+                            if (i != priv.nextInStack && appRepeater.itemAt(i).stage == nextStage) {
                                 appRepeater.itemAt(i).playHidingAnimation()
                                 break;
                             }
                         }
                         appRepeater.itemAt(priv.nextInStack).playFocusAnimation()
+                        if (appRepeater.itemAt(priv.nextInStack).stage == ApplicationInfoInterface.SideStage && !sideStage.shown) {
+                            sideStage.show();
+                        }
+
                     } else {
                         cancelled = true;
                     }
