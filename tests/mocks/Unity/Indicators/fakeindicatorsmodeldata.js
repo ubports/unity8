@@ -337,34 +337,72 @@ var fakeMenuData = {
                 "type": "com.canonical.indicator.root"
             },
             "submenu": [
-                {
+                    {
+                        "rowData": {
+                            "label": "Livello di carica",
+                            "sensitive": false,
+                            "isSeparator": false,
+                            "icon": "",
+                            "type": "com.canonical.indicator.progress",
+                            "ext": {},
+                            "action": "indicator.battery-level",
+                            "actionState": "100",
+                            "isCheck": false,
+                            "isRadio": false,
+                            "isToggled": false
+                        }
+                    },
+                    {
+
+                        "rowData": {
+                            "label": "",
+                            "sensitive": true,
+                            "isSeparator": true,
+                            "icon": "",
+                            "type": "",
+                            "ext": {},
+                            "action": "",
+                            "actionState": "",
+                            "isCheck": false,
+                            "isRadio": false,
+                            "isToggled": false
+                        }
+                    },
+                    {
+
+                        "rowData": {
+                            "label": "",
+                            "sensitive": true,
+                            "isSeparator": false,
+                            "icon": "",
+                            "type": "com.canonical.unity.slider",
+                            "ext": {
+                                "maxIcon": "image://theme/display-brightness-max",
+                                "maxValue": "1",
+                                "minIcon": "image://theme/display-brightness-min",
+                                "minValue": "0",
+                            },
+                            "action": "indicator.brightness",
+                            "actionState": "0.212244897959184",
+                            "isCheck": false,
+                            "isRadio": false,
+                            "isToggled": false
+                        }
+                    },
+                    {
+
                     "rowData": {
-                        "action": "indicator.activate-statistics",
-                        "actionState": {},
-                        "ext": {},
-                        "icon": "image://theme/battery-full-charged-symbolic",
-                        "isCheck": false,
-                        "isRadio": false,
-                        "isSeparator": false,
-                        "isToggled": false,
-                        "label": "Battery (full charged)",
+                        "label": "Auto-brightness",
                         "sensitive": true,
-                        "type": "com.canonical.indicator.basic"
-                    }
-                },
-                {
-                    "rowData": {
-                        "action": "indicator.activate-statistics",
-                        "actionState": {},
-                        "ext": {},
-                        "icon": "image://theme/battery-100",
-                        "isCheck": false,
-                        "isRadio": false,
                         "isSeparator": false,
-                        "isToggled": false,
-                        "label": "Battery",
-                        "sensitive": true,
-                        "type": "com.canonical.indicator.basic"
+                        "icon": "",
+                        "type": "com.canonical.indicator.switch",
+                        "ext": {},
+                        "action": "indicator.auto-brightness",
+                        "actionState": false,
+                        "isCheck": true,
+                        "isRadio": false,
+                        "isToggled": false
                     }
                 },
                 {
@@ -589,6 +627,25 @@ var fakeMenuData = {
                         "label": "Saturday, 31 December 2016",
                         "sensitive": true,
                         "type": ""
+                    }
+                },
+                {
+                    "rowData": {
+                        "action": "indicator.calendar",
+                        "actionState": {
+                            "appointment-days": "",
+                            "calendar-day": (new Date).getTime() / 1000,
+                            "show-week-numbers": false,
+                        },
+                        "ext": {},
+                        "icon": "image://theme/calendar",
+                        "isCheck": false,
+                        "isRadio": true,
+                        "isSeparator": false,
+                        "isToggled": false,
+                        "label": "[calendar]",
+                        "sensitive": true,
+                        "type": "com.canonical.indicator.calendar"
                     }
                 },
                 {
