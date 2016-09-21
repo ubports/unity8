@@ -50,7 +50,7 @@ Rectangle {
         rotation: orientationAngle
 
         Loader {
-            id: spreadDelegateLoader
+            id: loader
             property int windowedX: units.gu(1)
             property int windowedY: units.gu(1)
             property int windowedWidth: units.gu(50)
@@ -66,22 +66,22 @@ Rectangle {
             sourceComponent: DecoratedWindow {
                 anchors.fill: parent
                 application: fakeApplication
-                requestedWidth: spreadDelegateLoader.windowedWidth
-                requestedHeight: spreadDelegateLoader.windowedHeight
+                requestedWidth: loader.windowedWidth
+                requestedHeight: loader.windowedHeight
                 surface: fakeApplication && fakeApplication.surfaceList.count > 0 ? fakeApplication.surfaceList.get(0) : null
 
                 Component.onDestruction: {
-                    spreadDelegateLoader.itemDestroyed = true;
+                    loader.itemDestroyed = true;
                 }
                 Component.onCompleted: {
-                    spreadDelegateLoader.itemDestroyed = false;
+                    loader.itemDestroyed = false;
                 }
             }
 
             Rectangle { anchors.fill: parent; color: "green"; opacity: 1 }
         }
         WindowResizeArea {
-            target: spreadDelegateLoader
+            target: loader
             borderThickness: units.gu(2)
         }
     }
@@ -110,18 +110,13 @@ Rectangle {
                 text: "Load with gallery-app"
                 onClicked: { testCase.restartWithApp("gallery-app"); }
             }
-            Row {
-                anchors { left: parent.left; right: parent.right }
-                CheckBox { id: swipeToCloseCheckbox; checked: false; }
-                Label { text: "swipeToCloseEnabled" }
-            }
             Button {
                 text: "toggle has decoration"
-                onClicked: spreadDelegateLoader.item.hasDecoration = !spreadDelegateLoader.item.hasDecoration
+                onClicked: loader.item.hasDecoration = !loader.item.hasDecoration
             }
             Button {
                 text: "show/hide decoration"
-                onClicked: spreadDelegateLoader.item.showDecoration = !spreadDelegateLoader.item.showDecoration
+                onClicked: loader.item.showDecoration = !loader.item.showDecoration
             }
             Label {
                 text: "scale to preview progress"
@@ -132,18 +127,7 @@ Rectangle {
                 minimumValue: 0
                 maximumValue: 1
                 live: true
-                onValueChanged: spreadDelegateLoader.item.scaleToPreviewProgress = value
-            }
-
-//            Button {
-//                text: "toggle scaleToPreview"
-//                onClicked: spreadDelegateLoader.item.scaleToPreviewProgress ==  !spreadDelegateLoader.item.scaleToPreview
-//            }
-
-            Row {
-                anchors { left: parent.left; right: parent.right }
-                CheckBox { id: closeableCheckbox; checked: false }
-                Label { text: "closeable" }
+                onValueChanged: loader.item.scaleToPreviewProgress = value
             }
             ListItem.ItemSelector {
                 id: shellOrientationAngleSelector
@@ -154,138 +138,56 @@ Rectangle {
             }
             Button {
                 text: "matchShellOrientation()"
-                onClicked: { spreadDelegateLoader.item.matchShellOrientation(); }
+                onClicked: { loader.item.matchShellOrientation(); }
             }
             Button {
                 text: "animateToShellOrientation()"
-                onClicked: { spreadDelegateLoader.item.animateToShellOrientation(); }
+                onClicked: { loader.item.animateToShellOrientation(); }
             }
         }
     }
 
     UT.UnityTestCase {
         id: testCase
-        name: "SpreadDelegate"
+        name: "DecoratedWindow"
         when: windowShown
 
-        SignalSpy {
-            id: spyClosedSignal
-            target: spreadDelegateLoader.item
-            signalName: "closeClicked"
-        }
-
-        property var dragArea
-        property Item spreadDelegate: spreadDelegateLoader.item
+        property Item decoratedWindow: loader.item
 
         function init() {
         }
 
         function cleanup() {
-            unloadSpreadDelegate();
-            spyClosedSignal.clear();
-            shellOrientationAngleSelector.selectedIndex = 0;
+            unloadWindow();
             root.fakeApplication = null;
             killApps();
         }
 
         function restartWithApp(appId) {
-            if (spreadDelegateLoader.active) {
-                unloadSpreadDelegate();
+            if (loader.active) {
+                unloadWindow();
             }
             if (root.fakeApplication) {
                 ApplicationManager.stopApplication(root.fakeApplication.appId);
             }
 
             root.fakeApplication = ApplicationManager.startApplication(appId);
-            spreadDelegateLoader.active = true;
-            tryCompare(spreadDelegateLoader, "status", Loader.Ready);
-
-            dragArea = findInvisibleChild(spreadDelegate, "dragArea");
-            dragArea.__dateTime = fakeDateTime;
+            loader.active = true;
+            tryCompare(loader, "status", Loader.Ready);
         }
 
-        function unloadSpreadDelegate() {
-            spreadDelegateLoader.active = false;
-            tryCompare(spreadDelegateLoader, "status", Loader.Null);
-            tryCompare(spreadDelegateLoader, "item", null);
+        function unloadWindow() {
+            loader.active = false;
+            tryCompare(loader, "status", Loader.Null);
+            tryCompare(loader, "item", null);
             // Loader.status might be Loader.Null and Loader.item might be null but the Loader
             // item might still be alive. So if we set Loader.active back to true
             // again right now we will get the very same Shell instance back. So no reload
             // actually took place. Likely because Loader waits until the next event loop
             // iteration to do its work. So to ensure the reload, we will wait until the
             // Shell instance gets destroyed.
-            tryCompare(spreadDelegateLoader, "itemDestroyed", true);
+            tryCompare(loader, "itemDestroyed", true);
 
-        }
-
-        function test_swipeToClose_data() {
-            return [
-                {tag: "swipeToClose=true closeable=true -> appWindow moves away",
-                 swipeToClose: true, closeable: true },
-
-                {tag: "swipeToClose=true closeable=false -> appWindow bounces back",
-                 swipeToClose: true, closeable: false },
-
-                {tag: "swipeToClose=false -> appWindow stays put",
-                 swipeToClose: false, closeable: true },
-            ]
-        }
-
-        function test_swipeToClose(data) {
-            loadWithGalleryApp.clicked();
-            var displacedAppWindowWithShadow = findChild(spreadDelegateLoader.item, "displacedAppWindowWithShadow");
-
-            verify(displacedAppWindowWithShadow.y === 0);
-
-            swipeToCloseCheckbox.checked = data.swipeToClose;
-            closeableCheckbox.checked = data.closeable;
-
-            var dragDistance = spreadDelegateLoader.item.height * 0.8;
-            var touchX = spreadDelegateLoader.item.width / 2;
-            var fromY = spreadDelegateLoader.item.height * 0.9;
-            var toY = fromY - dragDistance;
-            touchFlick(spreadDelegateLoader.item,
-                touchX /* fromX */,  fromY, touchX /* toX */,  toY,
-                true /* beginTouch */, false /* endTouch */, dragArea.minSpeedToClose * 1.1 /* speed */);
-
-            if (data.swipeToClose) {
-                verify(displacedAppWindowWithShadow.y < 0);
-                var threshold = findChild(spreadDelegateLoader.item, "dragArea").threshold
-                if (data.closeable) {
-                    // Verify that the delegate started moving exactly "threshold" after the finger movement
-                    // and did not jump up to the finger, but lags the threshold behind
-                    compare(Math.abs(Math.abs(displacedAppWindowWithShadow.y) - dragDistance), threshold);
-                } else {
-                    verify(Math.abs(Math.abs(displacedAppWindowWithShadow.y) - dragDistance) > threshold);
-                }
-
-                touchRelease(spreadDelegateLoader.item, touchX, toY - units.gu(1));
-
-                waitForCloseAnimationToFinish();
-
-                if (data.closeable) {
-                    verify(spyClosedSignal.count === 1);
-                } else {
-                    verify(spyClosedSignal.count === 0);
-                    tryCompare(displacedAppWindowWithShadow, "y", 0);
-                }
-
-            } else {
-                verify(displacedAppWindowWithShadow.y === 0);
-
-                touchRelease(spreadDelegateLoader.item, touchX, toY);
-            }
-        }
-
-        function test_loadingLandscapeOnlyAppWhenShellInPortrait() {
-            loadWithWeatherApp.clicked();
-
-            var appWindow = findChild(spreadDelegate, "appWindow");
-            verify(appWindow);
-
-            // It must have landscape dimensions as it does not support portrait
-            tryCompare(appWindow, "width", fakeShell.height);
-            tryCompare(appWindow, "height", fakeShell.width - spreadDelegate.maximizedAppTopMargin);
         }
 
         function test_keepsSceneTransformationWhenShellRotates_data() {
@@ -299,42 +201,31 @@ Rectangle {
         function test_keepsSceneTransformationWhenShellRotates(data) {
             loadWithGalleryApp.clicked();
 
-            var appWindowWithShadow = findChild(spreadDelegate, "appWindowWithShadow");
-            verify(appWindowWithShadow);
-
             // Wait until it reaches the state we are interested on.
             // It begins with "startingUp"
-            tryCompare(appWindowWithShadow, "state", "keepSceneRotation");
+            tryCompare(decoratedWindow, "counterRotate", false);
+            var oldWidth = decoratedWindow.width
+            var oldHeight = decoratedWindow.height
+            var oldX = decoratedWindow.x
+            var oldY = decoratedWindow.y
 
             shellOrientationAngleSelector.selectedIndex = data.selectedIndex;
 
             // must keep same aspect ratio
-            compare(appWindowWithShadow.width, fakeShell.shortestDimension);
-            compare(appWindowWithShadow.height, fakeShell.longestDimension);
+            compare(decoratedWindow.width, oldWidth);
+            compare(decoratedWindow.height, oldHeight);
 
 
             // and scene transformation must be the identity (ie, no rotation or translation)
-            var pointInDelegateCoords = appWindowWithShadow.mapToItem(root, 0, 0);
-            compare(pointInDelegateCoords.x, 0);
-            compare(pointInDelegateCoords.y, 0);
-
-            pointInDelegateCoords = appWindowWithShadow.mapToItem(root,
-                    fakeShell.shortestDimension, fakeShell.longestDimension);
-            compare(pointInDelegateCoords.x, fakeShell.shortestDimension);
-            compare(pointInDelegateCoords.y, fakeShell.longestDimension);
-        }
-
-        function waitForCloseAnimationToFinish() {
-            var closeAnimation = findInvisibleChild(spreadDelegateLoader.item, "closeAnimation");
-            wait(closeAnimation.duration * 1.5);
-            tryCompare(closeAnimation, "running", false);
+            compare(decoratedWindow.x, oldX);
+            compare(decoratedWindow.y, oldY);
         }
 
         function test_showHighLight() {
             loadWithGalleryApp.clicked();
-            var highlightRect = findChild(spreadDelegateLoader.item, "selectionHighlight")
+            var highlightRect = findChild(loader.item, "selectionHighlight")
             tryCompare(highlightRect, "visible", false)
-            spreadDelegateLoader.item.showHighlight = true;
+            loader.item.showHighlight = true;
             tryCompare(highlightRect, "visible", true)
         }
     }

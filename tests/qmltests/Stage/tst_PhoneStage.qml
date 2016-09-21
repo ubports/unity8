@@ -463,6 +463,32 @@ Item {
             tryCompare(webbrowserApp.surfaceList, "count", 1);
         }
 
+        function test_swipeToClose_data() {
+            return [
+                { tag: "closeable", closeable: true },
+                { tag: "not closeable", closeable: false }
+            ]
+        }
+
+        function test_swipeToClose(data) {
+            var surface1Id = topLevelSurfaceList.nextId;
+            var webbrowserApp  = ApplicationManager.startApplication("webbrowser-app");
+            waitUntilAppSurfaceShowsUp(surface1Id);
+
+            performEdgeSwipeToShowAppSpread();
+
+            var appDelegate = findChild(stage, "appDelegate_" + surface1Id);
+            var dragArea = findChild(appDelegate, "dragArea")
+            verify(dragArea);
+            dragArea.closeable = data.closeable;
+
+            var oldCount = ApplicationManager.count;
+
+            swipeSurfaceUpwards(surface1Id);
+
+            tryCompare(ApplicationManager, "count", data.closeable ? oldCount - 1 : oldCount);
+        }
+
         /*
             1- Suspended app gets killed behind the scenes, causing its surface to go zombie.
             2- Surface gets screenshotted and removed. Its slot in the topLevelSurfaceList remains,
