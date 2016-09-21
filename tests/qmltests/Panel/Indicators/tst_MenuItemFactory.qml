@@ -396,7 +396,7 @@ Item {
 
         function test_create_appointmentMenu_data() {
             return [
-                {label: "testLabel1", enabled: true, icon: "file:///testIcon1", color: Qt.rgba(0, 0, 0, 0),
+                {label: "testLabel1", enabled: true, icon: "file:///testIcon1", color: Qt.rgba(1, 2, 3, 0),
                             time: new Date(2014, 04, 14), timeFormat: "%a %d %b %l:%M %p"},
                 {label: "testLabel2", enabled: false, icon: "file:///testIcon2", color: Qt.rgba(1, 0, 0, 0),
                             time: new Date(2015, 11, 31), timeFormat: "%A" },
@@ -409,7 +409,7 @@ Item {
             menuData.sensitive = data.enabled;
             menuData.icon = data.icon;
             menuData.ext = {
-                'xCanonicalColor': data.colour,
+                'xCanonicalColor': data.color,
                 'xCanonicalTime': data.time.getTime() / 1000 // expected in seconds
             };
 
