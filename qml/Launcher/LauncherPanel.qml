@@ -864,6 +864,7 @@ Rectangle {
 
     UbuntuShape {
         id: tooltipShape
+        objectName: "tooltipShape"
         anchors.fill: tooltip
         opacity: tooltip.state === "open" && quickList.state != "open" ? 0.95 : 0
         visible: opacity > 0

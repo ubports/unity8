@@ -1353,5 +1353,18 @@ Rectangle {
             mouseWheel(launcherPanel, launcherPanel.width/2, launcherPanel.height/2, Qt.RightButton);
             tryCompare(clickThroughSpy, "count", 0);
         }
+
+        function test_tooltip() {
+            dragLauncherIntoView()
+            var item = findChild(launcher, "launcherDelegate0")
+            var tooltipShape = findChild(launcher, "tooltipShape")
+
+            // Initial state
+            compare(tooltipShape.visible, false)
+
+            // Move the mouse on the launcher icon
+            mouseMove(item, item.width / 2, item.height / 2, 2)
+            tryCompare(tooltipShape, "visible", true)
+        }
     }
 }
