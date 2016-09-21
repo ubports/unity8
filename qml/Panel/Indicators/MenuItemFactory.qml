@@ -102,7 +102,6 @@ Item {
             property var serverValue: getExtendedProperty(menuData, "actionState", undefined)
 
             text: menuData && menuData.label || ""
-            iconSource: menuData && menuData.icon || ""
             minIcon: getExtendedProperty(extendedData, "minIcon", "")
             maxIcon: getExtendedProperty(extendedData, "maxIcon", "")
 
@@ -765,7 +764,6 @@ Item {
             state: getExtendedProperty(actionState, "state", "")
             enabled: menuData && menuData.sensitive || false
             highlightWhenPressed: false
-            showDivider: false
 
             onTriggered: {
                 model.activate(modelIndex);
