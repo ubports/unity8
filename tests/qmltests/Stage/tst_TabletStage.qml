@@ -87,6 +87,7 @@ Rectangle {
             Button {
                 text: testCase.sideStage ? testCase.sideStage.shown ? "Hide Side-stage" : "Show Side-stage" : ""
                 enabled: testCase.sideStage
+                activeFocusOnPress: false
                 onClicked: {
                     if (testCase.sideStage.shown) testCase.sideStage.hide();
                     else testCase.sideStage.show();
