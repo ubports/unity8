@@ -233,11 +233,7 @@ Item {
             iconSource: menuData && menuData.icon || ""
             value : menuData && menuData.actionState || 0.0
             enabled: menuData && menuData.sensitive || false
-            // FIXME: Because of this bug, setting it to the theme foreground color (white)
-            // currently doesn't work. Let's hack it to be "close enough"
-            // https://bugs.launchpad.net/ubuntu/+source/ubuntu-ui-toolkit/+bug/1555784
-            foregroundColor: "#fffffe"
-            highlightWhenPressed: false
+            title.opacity: 1
         }
     }
 
