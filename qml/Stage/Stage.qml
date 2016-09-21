@@ -736,7 +736,7 @@ FocusScope {
                         spreadItem.highlightedIndex = index
                         priv.goneToSpread = false;
                     }
-                    if (appDelegate.stage == ApplicationInfoInterface.SideStage && !sideStage.shown) {
+                    if (appDelegate.stage == ApplicationInfoInterface.SideStage && !sideStage.shown && root.mode == "stagedWithSideStage") {
                         sideStage.show();
                     }
 
