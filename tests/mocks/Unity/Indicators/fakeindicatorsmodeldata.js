@@ -339,7 +339,7 @@ var fakeMenuData = {
             "submenu": [
                     {
                         "rowData": {
-                            "label": "Livello di carica",
+                            "label": "Charge Level",
                             "sensitive": false,
                             "isSeparator": false,
                             "icon": "",
@@ -593,7 +593,6 @@ var fakeMenuData = {
         }
     ],
 
-
    "fake-indicator-datetime": [
         {
             "rowData": {
@@ -783,7 +782,6 @@ var fakeMenuData = {
             ]
         }
     ],
-
 
     "fake-indicator-files": [
         {
@@ -1159,5 +1157,119 @@ var fakeMenuData = {
                 }
             ]
         }
-    ]
+    ],
+
+    "indicator-keyboard": [
+        {
+            "rowData": {
+                "action": "indicator.indicator",
+                "actionState": {
+                    "icons": [],
+                    "label": "",
+                    "title": "English (USA, QWERTY)",
+                    "visible": true
+                },
+                "icon": "",
+                "isCheck": false,
+                "isRadio": false,
+                "isSeparator": false,
+                "isToggled": false,
+                "label": "",
+                "sensitive": true,
+                "type": "com.canonical.indicator.root"
+            },
+            "submenu": [
+                {
+                    "rowData": {
+                        "label": "České (QWERTY)",
+                        "sensitive": true,
+                        "isSeparator": false,
+                        "icon": "image://theme/indicator-keyboard-Cs",
+                        "type": "",
+                        "ext": {},
+                        "action": "indicator.current",
+                        "actionState": 0,
+                        "isCheck": false,
+                        "isRadio": true,
+                        "isToggled": false
+                    }
+                },
+                {
+                    "rowData": {
+                        "label": "Italiana (QWERTY)",
+                        "sensitive": true,
+                        "isSeparator": false,
+                        "icon": "image://theme/indicator-keyboard-It",
+                        "type": "",
+                        "ext": {},
+                        "action": "indicator.current",
+                        "actionState": 0,
+                        "isCheck": false,
+                        "isRadio": true,
+                        "isToggled": false
+                    }
+                },
+                {
+                    "rowData": {
+                        "label": "English (USA)",
+                        "sensitive": true,
+                        "isSeparator": false,
+                        "icon": "image://theme/indicator-keyboard-En",
+                        "type": "",
+                        "ext": {},
+                        "action": "indicator.current",
+                        "actionState": 0,
+                        "isCheck": false,
+                        "isRadio": true,
+                        "isToggled": true
+                    }
+                },
+                {
+                    "rowData": {
+                        "label": "",
+                        "sensitive": true,
+                        "isSeparator": true,
+                        "icon": "",
+                        "type": "",
+                        "ext": {},
+                        "action": "",
+                        "actionState": "",
+                        "isCheck": false,
+                        "isRadio": false,
+                        "isToggled": false
+                    }
+                },
+                {
+                    "rowData": {
+                        "label": "Character Map",
+                        "sensitive": true,
+                        "isSeparator": false,
+                        "icon": "",
+                        "type": "",
+                        "ext": {},
+                        "action": "indicator.map",
+                        "actionState": "",
+                        "isCheck": false,
+                        "isRadio": false,
+                        "isToggled": false
+                    }
+                },
+                {
+                    "rowData": {
+                        "label": "Keyboard layout",
+                        "sensitive": true,
+                        "isSeparator": false,
+                        "icon": "",
+                        "type": "",
+                        "ext": {},
+                        "action": "indicator.key-map",
+                        "actionState": "",
+                        "isCheck": false,
+                        "isRadio": false,
+                        "isToggled": false
+                    }
+                }
+            ]
+        }
+    ],
 }
