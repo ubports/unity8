@@ -34,6 +34,7 @@ FocusScope {
     readonly property alias title: applicationWindow.title
     property alias maximizeButtonShown: decoration.maximizeButtonShown
     property alias interactive: applicationWindow.interactive
+    readonly property alias orientationChangesEnabled: applicationWindow.orientationChangesEnabled
 
     // Changing this will actually add/remove a decoration, meaning, requestedHeight will take the decoration into account.
     property bool hasDecoration: true

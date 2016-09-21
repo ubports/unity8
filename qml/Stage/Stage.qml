@@ -65,7 +65,7 @@ FocusScope {
     // application windows never rotate independently
     property int mainAppWindowOrientationAngle: shellOrientationAngle
 
-    property bool orientationChangesEnabled: true
+    property bool orientationChangesEnabled: priv.focusedAppDelegate.orientationChangesEnabled
 
     property int supportedOrientations: {
         if (mainApp) {
@@ -108,6 +108,12 @@ FocusScope {
     function closeFocusedDelegate() {
         if (priv.focusedAppDelegate && !priv.focusedAppDelegate.isDash) {
             priv.focusedAppDelegate.close();
+        }
+    }
+
+    onSpreadEnabledChanged: {
+        if (!spreadEnabled && root.state == "spread") {
+            priv.goneToSpread = false;
         }
     }
 
@@ -700,6 +706,7 @@ FocusScope {
                                                              (maximumHeight == 0 || maximumHeight >= appContainer.height/2)
                 readonly property bool canBeMaximizedHorizontally: maximumWidth == 0 || maximumWidth >= appContainer.width
                 readonly property bool canBeMaximizedVertically: maximumHeight == 0 || maximumHeight >= appContainer.height
+                readonly property alias orientationChangesEnabled: decoratedWindow.orientationChangesEnabled
 
                 property int windowState: WindowStateStorage.WindowStateNormal
                 property bool animationsEnabled: true
