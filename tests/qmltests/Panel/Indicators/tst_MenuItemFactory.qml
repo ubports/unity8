@@ -594,9 +594,7 @@ Item {
             // ModemInfoItem gets all it's data through the actions.
             return [
                         {
-                            label: "",
                             enabled: true,
-                            checked: false,
                             statusLabelAction: "action::statusLabel",
                             statusIconAction: "action::statusIcon",
                             connectivityIconAction: "action::connectivityIcon",
@@ -609,9 +607,7 @@ Item {
 
         function test_create_modemInfoItem(data) {
             menuData.type = "com.canonical.indicator.network.modeminfoitem";
-            menuData.label = data.label;
             menuData.sensitive = data.enabled;
-            menuData.isToggled = data.checked;
             menuData.ext = {
                 'xCanonicalModemStatusLabelAction': data.statusLabelAction,
                 'xCanonicalModemStatusIconAction': data.statusIconAction,
@@ -625,7 +621,6 @@ Item {
             loader.sourceComponent = factory.load(menuData);
             tryCompareFunction(function() { return loader.item != undefined; }, true);
             compare(loader.item.objectName, "modemInfoItem", "Should have created a modem info item.");
-            compare(loader.item.text, data.label, "Label does not match data");
 
             compare(loader.item.statusLabelAction.name, data.statusLabelAction, "StatusLabel action incorrect");
             compare(loader.item.statusIconAction.name, data.statusIconAction, "StatusIcon action incorrect");
