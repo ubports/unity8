@@ -34,7 +34,6 @@ FocusScope {
     property QtObject topLevelSurfaceList
     property bool altTabPressed
     property url background
-    property bool beingResized
     property int dragAreaWidth
     property bool interactive
     property bool keepDashRunning: true

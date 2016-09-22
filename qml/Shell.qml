@@ -58,7 +58,6 @@ StyledItem {
     property real nativeWidth
     property real nativeHeight
     property alias indicatorAreaShowProgress: panel.indicatorAreaShowProgress
-    property bool beingResized
     property string usageScenario: "phone" // supported values: "phone", "tablet" or "desktop"
     property string mode: "full-greeter"
     property alias oskEnabled: inputMethod.enabled
@@ -298,8 +297,6 @@ StyledItem {
             orientations: shell.orientations
             nativeWidth: shell.nativeWidth
             nativeHeight: shell.nativeHeight
-            // TODO: Is this still needed? Didn't come across it. Needs checking before merging
-            beingResized: shell.beingResized
 
             // TODO: Is this still needed? Didn't come across it. Needs checking before merging
             // Not just using panel.panelHeight as that changes depending on the focused app.
