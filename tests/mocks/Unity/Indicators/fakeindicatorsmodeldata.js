@@ -1262,7 +1262,7 @@ var fakeMenuData = {
                         "icon": "",
                         "type": "",
                         "ext": {},
-                        "action": "indicator.key-map",
+                        "action": "indicator.key-map.settings",
                         "actionState": "",
                         "isCheck": false,
                         "isRadio": false,

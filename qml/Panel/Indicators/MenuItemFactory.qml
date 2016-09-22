@@ -251,34 +251,18 @@ Item {
             onTriggered: {
                 menuModel.activate(menuIndex);
             }
-
-            // FIXME : At the moment, the indicators aren't using
-            // com.canonical.indicators.link for settings menu. Need to fudge it.
-            property bool settingsMenu: menuData && menuData.action.indexOf("settings") > -1 || false
-            backColor: settingsMenu ? Qt.rgba(1,1,1,0.07) : "transparent"
-            component: settingsMenu ? buttonForSettings : undefined
-            Component {
-                id: buttonForSettings
-                Icon {
-                    name: "settings"
-                    height: units.gu(3)
-                    width: height
-                    color: theme.palette.normal.backgroundText
-                }
-            }
         }
     }
 
     Component {
         id: linkMenu;
 
-        Menus.StandardMenu {
+        Menus.BaseLayoutMenu {
             objectName: "linkMenu"
             property QtObject menuData: null
             property int menuIndex: -1
 
             text: menuData && menuData.label || ""
-            iconSource: menuData && menuData.icon || ""
             enabled: menuData && menuData.sensitive || false
             highlightWhenPressed: false
 
@@ -288,15 +272,21 @@ Item {
 
             backColor: Qt.rgba(1,1,1,0.07)
 
-            component: menuData.icon ? icon : undefined
-            Component {
-                id: icon
-                Icon {
-                    source: menuData.icon
-                    height: units.gu(3)
-                    width: height
-                    color: theme.palette.normal.backgroundText
+            slots: Icon {
+                source: {
+                    if (menuData) {
+                        if (menuData.icon && menuData.icon != "") {
+                            return menuData.icon
+                        } else if (menuData.action.indexOf("settings") > -1) {
+                            return "image://theme/settings"
+                        }
+                    }
+                    return ""
                 }
+                height: units.gu(3)
+                width: height
+                color: theme.palette.normal.backgroundText
+                SlotsLayout.position: SlotsLayout.Trailing
             }
         }
     }
@@ -1072,6 +1062,11 @@ Item {
         }
         if (modelData.isSeparator) {
             return separatorMenu;
+        }
+        if (modelData.action !== undefined && modelData.action.indexOf("settings") > -1) {
+            // FIXME : At the moment, the indicators aren't using
+            // com.canonical.indicators.link for settings menu. Need to fudge it.
+            return linkMenu;
         }
         return standardMenu;
     }
