@@ -1393,10 +1393,6 @@ void ListViewWithPageHeader::updatePolish()
 
         m_contentHeightDirty = false;
         adjustMinYExtent();
-        if (contentHeight + m_minYExtent < height()) {
-            // need this since in the previous call to adjustMinYExtent contentHeight is not set yet
-            m_minYExtent = 0;
-        }
         m_inContentHeightKeepHeaderShown = m_headerItem && m_headerItem->y() == contentY();
         setContentHeight(contentHeight);
         m_inContentHeightKeepHeaderShown = false;
