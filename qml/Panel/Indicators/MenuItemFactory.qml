@@ -965,14 +965,12 @@ Item {
                 menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-extra-label': 'string'});
             }
 
-            component: Component {
-                Button {
-                    objectName: "buttonSectionMenuControl"
-                    text: getExtendedProperty(extendedData, "xCanonicalExtraLabel", "")
+            slots: Button {
+                objectName: "buttonSectionMenuControl"
+                text: getExtendedProperty(extendedData, "xCanonicalExtraLabel", "")
 
-                    onClicked: {
-                        menuModel.activate(menuIndex);
-                    }
+                onClicked: {
+                    menuModel.activate(menuIndex);
                 }
             }
         }
