@@ -181,29 +181,20 @@ Item {
     Component {
         id: messagesButtonMenu;
 
-        Item {
+        Menus.BaseLayoutMenu {
             objectName: "messagesButtonMenu"
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
 
-            implicitHeight: units.gu(5)
+            highlightWhenPressed: false
             enabled: menuData && menuData.sensitive || false
+            text: menuData && menuData.label || ""
+            title.color: theme.palette.selected.backgroundText
+            title.horizontalAlignment: Text.AlignHCenter
+            title.font.bold: true
 
-            Label {
-                id: buttonMenuLabel
-                text: menuData && menuData.label || ""
-                anchors.centerIn: parent
-                font.bold: true
-            }
-
-            MouseArea {
-                anchors {
-                    fill: buttonMenuLabel
-                    margins: units.gu(-1)
-                }
-                onClicked: menuModel.activate(menuIndex);
-            }
+            onClicked: menuModel.activate(menuIndex);
         }
     }
 
