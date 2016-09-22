@@ -22,7 +22,7 @@ import "Spread/MathUtils.js" as MathUtils
 FocusScope {
     id: root
 
-    // The DecoratedWindow takes requestedWidth/requestedHeight and asks it's surface to be resized to that
+    // The DecoratedWindow takes requestedWidth/requestedHeight and asks its surface to be resized to that
     // (minus the window decoration size in case hasDecoration and showDecoration are true)
     // The surface might not be able to resize to the requested values. It will return its actual size
     // in implicitWidth/implicitHeight.
