@@ -31,7 +31,8 @@ Item {
     property var rootModel: null
     property var menuModel: null
 
-    readonly property var _map: {
+    property var _userMap: null
+    readonly property var _typeToComponent: {
         "default": {
             "unity.widgets.systemsettings.tablet.volumecontrol" : sliderMenu,
             "unity.widgets.systemsettings.tablet.switch"        : switchMenu,
@@ -85,6 +86,32 @@ Item {
             "indicator.map": null,
             "indicator.chart": null
         }
+    }
+
+    function getComponentForIndicatorEntryType(indicator, type) {
+        var component = undefined;
+        var map = _userMap || _typeToComponent
+        var indicatorComponents = map[indicator];
+
+        if (indicatorComponents !== undefined) {
+            component = indicatorComponents[type];
+        }
+
+        if (component === undefined) {
+            component = map["default"][type];
+        }
+
+        return component
+    }
+
+    function getComponentForIndicatorEntryAction(indicator, action) {
+        var component = undefined;
+        var indicatorFilter = _action_filter_map[indicator]
+
+        if (indicatorFilter !== undefined) {
+            component = indicatorFilter[action];
+        }
+        return component
     }
 
     function getExtendedProperty(object, propertyName, defaultValue) {
@@ -974,25 +1001,14 @@ Item {
             context = context.substring("fake-".length)
 
         if (modelData.action !== undefined && modelData.action !== "") {
-            var contextFilter = _action_filter_map[context]
-            if (contextFilter !== undefined) {
-                var component = contextFilter[modelData.action];
-                if (component !== undefined)
-                    return component
+            var component = getComponentForIndicatorEntryAction(context, modelData.action)
+            if (component !== undefined) {
+                return component
             }
         }
 
         if (modelData.type !== undefined && modelData.type !== "") {
-            var component = undefined;
-
-            var contextComponents = _map[context];
-            if (contextComponents !== undefined) {
-                component = contextComponents[modelData.type];
-            }
-
-            if (component === undefined) {
-                component = _map["default"][modelData.type];
-            }
+            var component = getComponentForIndicatorEntryType(context, modelData.type)
             if (component !== undefined) {
                 return component;
             }
