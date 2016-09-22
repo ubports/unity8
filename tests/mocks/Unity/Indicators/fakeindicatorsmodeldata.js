@@ -47,11 +47,11 @@ var fakeMenuData = {
                         "action": "indicator.telephony-service-sms.msg.MSG_ID",
                         "actionState": {},
                         "ext": {},
-                        "icon": "file:///usr/share/telephony-service/assets/avatar-default@18.png",
+                        "icon": Qt.resolvedUrl("../../../../../tests/graphics/avatars/funky@12.png"),
                         "type": "com.canonical.indicator.messages.messageitem",
                         "ext": {
-                            "icon": "file:///usr/share/telephony-service/assets/avatar-default@18.png",
-                            "xCanonicalAppIcon": "image://theme/telephony-service-message",
+                            "icon": Qt.resolvedUrl("../../../../../tests/graphics/avatars/funky@12.png"),
+                            "xCanonicalAppIcon": Qt.resolvedUrl("../../../../../tests/graphics/applicationIcons/messages-app@18.png"),
                             "xCanonicalMessageActions": "",
                             "xCanonicalText": "This is a message sent to an awesome Ubuntu phone.",
                             "xCanonicalTime": ((new Date).getTime() - 35 * 1000) * 1000
