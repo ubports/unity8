@@ -1009,8 +1009,9 @@ Item {
     }
 
     function load(modelData, context) {
-        if (context && context.indexOf("fake-") == 0)
+        if (context && context.indexOf("fake-") == 0) {
             context = context.substring("fake-".length)
+        }
 
         var component = getComponentForIndicatorEntryAction(context, modelData.action)
         if (component !== undefined) {

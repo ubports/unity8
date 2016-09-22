@@ -30,7 +30,7 @@ var fakeMenuData = {
                         "type": "com.canonical.indicator.messages.messageitem",
                         "ext": {
                                 "icon": "file:///usr/share/ubuntu/settings/system/icons/settings-system-update.svg",
-                                "xCanonicalAppIcon": "file:///usr/share/ubuntu/settings/system/system-settings.png",
+                                "xCanonicalAppIcon": "image://theme/system-settings",
                                 "xCanonicalMessageActions": null,
                                 "xCanonicalText": "Tap to open the system updater.",
                                 "xCanonicalTime": ((new Date).getTime() - 350 * 1000) * 1000,
@@ -52,7 +52,7 @@ var fakeMenuData = {
                         "ext": {
                             "icon": Qt.resolvedUrl("../../../../../tests/graphics/avatars/funky@12.png"),
                             "xCanonicalAppIcon": Qt.resolvedUrl("../../../../../tests/graphics/applicationIcons/messages-app@18.png"),
-                            "xCanonicalMessageActions": "",
+                            "xCanonicalMessageActions": [ { "parameter-type": "s" } ],
                             "xCanonicalText": "This is a message sent to an awesome Ubuntu phone.",
                             "xCanonicalTime": ((new Date).getTime() - 35 * 1000) * 1000
                         },
@@ -62,6 +62,25 @@ var fakeMenuData = {
                         "isToggled": false,
                         "label": "+44391234567 - [SIM 1]",
                         "sensitive": true
+                    }
+                },
+                {
+                    "rowData": {
+                        "label": "+39441234567 - [SIM 2]",
+                        "sensitive": true,
+                        "isSeparator": false,
+                        "icon": "image://theme/missed-call",
+                        "type": "com.canonical.indicator.messages.messageitem",
+                        "ext": {
+                                "xCanonicalMessageActions": [ { "parameter-type": "_s" } ],
+                                "xCanonicalText": "1 Missed call.",
+                                "xCanonicalTime": ((new Date).getTime() - 350 * 1000) * 1000,
+                        },
+                        "action": "indicator.telephony-service-missed-call.call.CALL_ID",
+                        "actionState": {},
+                        "isCheck": false,
+                        "isRadio": false,
+                        "isToggled": false,
                     }
                 },
                 {
