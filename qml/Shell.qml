@@ -283,6 +283,7 @@ StyledItem {
 
             applicationManager: ApplicationManager
             topLevelSurfaceList: topLevelSurfaceList
+            inputMethodRect: inputMethod.visibleRect
 
             property string usageScenario: shell.usageScenario === "phone" || greeter.hasLockedApp
                                                        ? "phone"

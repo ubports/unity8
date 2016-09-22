@@ -47,6 +47,7 @@ FocusScope {
     property bool suspended
     property int leftMargin: 0
     property bool oskEnabled: false
+    property rect inputMethodRect
 
     // Configuration
     property string mode: "staged"
@@ -306,9 +307,7 @@ FocusScope {
             return -1;
         }
 
-        readonly property real virtualKeyboardHeight: SurfaceManager.inputMethodSurface
-                                                          ? SurfaceManager.inputMethodSurface.inputBounds.height
-                                                          : 0
+        readonly property real virtualKeyboardHeight: root.inputMethodRect.height
     }
 
     Component.onCompleted: priv.updateMainAndSideStageIndexes();
@@ -641,9 +640,7 @@ FocusScope {
                            Math.min(appDelegate.requestedY - PanelState.panelHeight,
                                     Math.max(0, priv.virtualKeyboardHeight - (appContainer.height - (appDelegate.requestedY + appDelegate.height))))
                     when: root.oskEnabled && appDelegate.focus && (appDelegate.state == "normal" || appDelegate.state == "restored")
-                          && SurfaceManager.inputMethodSurface
-                          && SurfaceManager.inputMethodSurface.state != Mir.HiddenState
-                          && SurfaceManager.inputMethodSurface.state != Mir.MinimizedState
+                          && root.inputMethodRect.height > 0
 
                 }
 
@@ -1837,7 +1834,6 @@ FocusScope {
 
                 consumesInput: false
                 interactive: false
-//                resizeSurface: false
                 focus: false
                 requestedWidth: appDelegate.requestedWidth
                 requestedHeight: appDelegate.requestedHeight
