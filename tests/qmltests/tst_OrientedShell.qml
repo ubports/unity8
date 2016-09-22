@@ -29,6 +29,7 @@ import Utils 0.1
 
 import "../../qml"
 import "../../qml/Components"
+import "../../qml/Components/PanelState"
 import "Stage"
 
 Rectangle {
@@ -1503,13 +1504,6 @@ Rectangle {
                 return false;
             }
 
-            var topMargin = 0.;
-            if (!app.fullscreen) {
-                var stage = findChild(shell, "stage");
-                verify(stage.maximizedAppTopMargin !== undefined);
-                topMargin = stage.maximizedAppTopMargin;
-            }
-
             var surfaceItem = findSurfaceItem(item, surface);
             if (!surfaceItem) {
                 console.warn("no surfaceItem rendering app surface");
@@ -1517,15 +1511,16 @@ Rectangle {
             }
             var point = surfaceItem.mapToItem(orientedShell, 0, 0);
 
+            print("exptectedAngle", expectedAngle, point.x, point.y)
             switch (expectedAngle) {
             case 0:
-                return point.x === 0. && point.y === topMargin;
+                return point.x === 0 && point.y === PanelState.panelHeight;
             case 90:
-                return point.x === orientedShell.width - topMargin && point.y === 0;
+                return point.x === orientedShell.width - PanelState.panelHeight && point.y === 0;
             case 180:
-                return point.x === orientedShell.width && point.y === orientedShell.height - topMargin;
+                return point.x === orientedShell.width && point.y === orientedShell.height - PanelState.panelHeight;
             default: // 270
-                return point.x === topMargin && point.y === orientedShell.height;
+                return point.x === PanelState.panelHeight && point.y === orientedShell.height;
             }
         }
 

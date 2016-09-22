@@ -37,7 +37,6 @@ FocusScope {
     property int dragAreaWidth
     property bool interactive
     property bool keepDashRunning: true
-    property real maximizedAppTopMargin
     property real nativeHeight
     property real nativeWidth
     property QtObject orientations

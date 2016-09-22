@@ -36,7 +36,6 @@ Item {
         anchors { fill: parent; rightMargin: units.gu(30) }
         focus: true
         dragAreaWidth: units.gu(2)
-        maximizedAppTopMargin: units.gu(3)
         interactive: true
         shellOrientation: Qt.PortraitOrientation
         orientations: Orientations {}

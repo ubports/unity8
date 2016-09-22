@@ -299,10 +299,6 @@ StyledItem {
             nativeWidth: shell.nativeWidth
             nativeHeight: shell.nativeHeight
 
-            // TODO: Is this still needed? Didn't come across it. Needs checking before merging
-            // Not just using panel.panelHeight as that changes depending on the focused app.
-            maximizedAppTopMargin: panel.indicators.minimizedPanelHeight
-
             interactive: (!greeter || !greeter.shown)
                     && panel.indicators.fullyClosed
                     && launcher.progress == 0
