@@ -132,11 +132,11 @@ void UsersModel::resetEntries()
     QString userMode = MockController::instance()->userMode();
 
     if (userMode == "single") {
-        d->entries = {{"no-password", "No Password", 0, 0, false, false, "ubuntu", 0}};
+        d->entries = {{"no-password", "No Password", "", 0, false, false, "ubuntu", 0}};
     } else if (userMode == "single-passphrase") {
-        d->entries = {{"has-password", "Has Password", 0, 0, false, false, "ubuntu", 0}};
+        d->entries = {{"has-password", "Has Password", "", 0, false, false, "ubuntu", 0}};
     } else if (userMode == "single-pin") {
-        d->entries = {{"has-pin", "Has PIN", 0, 0, false, false, "ubuntu", 0}};
+        d->entries = {{"has-pin", "Has PIN", "", 0, false, false, "ubuntu", 0}};
     } else if (userMode == "full") {
         d->entries = {
             { "has-password",      "Has Password", 0, 0, false, false, "ubuntu", 0 },
