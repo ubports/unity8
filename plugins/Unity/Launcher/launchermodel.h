@@ -20,6 +20,7 @@
 #ifndef LAUNCHERMODEL_H
 #define LAUNCHERMODEL_H
 
+#include <ubuntu-app-launch/registry.h>
 #include <unity/shell/launcher/LauncherModelInterface.h>
 #include <unity/shell/application/ApplicationManagerInterface.h>
 
@@ -29,6 +30,12 @@ class LauncherItem;
 class GSettings;
 class DBusInterface;
 class ASAdapter;
+
+namespace ubuntu {
+    namespace app_launch {
+        class Application;
+    }
+}
 
 using namespace unity::shell::launcher;
 using namespace unity::shell::application;
@@ -69,6 +76,7 @@ private:
     void storeAppList();
 
     void unpin(const QString &appId);
+    std::shared_ptr<ubuntu::app_launch::Application> getApplicationInfo(const QString &appId);
 
 private Q_SLOTS:
     void countChanged(const QString &appId, int count);
@@ -88,6 +96,7 @@ private:
     ASAdapter *m_asAdapter;
 
     ApplicationManagerInterface *m_appManager;
+    std::shared_ptr<ubuntu::app_launch::Registry> m_ualRegistry;
 
     friend class LauncherModelTest;
 };
