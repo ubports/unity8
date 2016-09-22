@@ -111,6 +111,8 @@ FocusScope {
         infographics {
             height: 0.75 * parent.height
             anchors.leftMargin: loginList.x + loginList.width
+
+            useColor: !root.hasCustomBackground
         }
 
         onTease: root.tease()
