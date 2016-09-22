@@ -814,6 +814,8 @@ StyledItem {
         visible: shell.hasMouse
         z: itemGrabber.z + 1
 
+        confiningItem: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.itemConfiningMouseCursor : null
+
         property bool mouseNeverMoved: true
         Binding {
             target: cursor; property: "x"; value: shell.width / 2
