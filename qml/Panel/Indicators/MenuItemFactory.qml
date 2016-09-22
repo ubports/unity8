@@ -255,13 +255,12 @@ Item {
 
             text: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive || false
+            backColor: Qt.rgba(1,1,1,0.07)
             highlightWhenPressed: false
 
             onTriggered: {
                 menuModel.activate(menuIndex);
             }
-
-            backColor: Qt.rgba(1,1,1,0.07)
 
             slots: Icon {
                 source: {
@@ -1014,6 +1013,9 @@ Item {
     }
 
     function load(modelData, context) {
+        if (context.indexOf("fake-") == 0)
+            context = context.substring("fake-".length)
+
         // tweak indicator-session items
         if (context === "indicator-session") {
             if ((modelData.action === "indicator.logout" || modelData.action === "indicator.suspend" || modelData.action === "indicator.hibernate" ||
