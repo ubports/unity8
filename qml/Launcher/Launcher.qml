@@ -93,7 +93,6 @@ FocusScope {
     }
 
     onLockedVisibleChanged: {
-        print("lockedVisible changed:", lockedVisible, "state:", state)
         if (lockedVisible && state == "") {
             panel.dismissTimer.stop();
             fadeOutAnimation.stop();
