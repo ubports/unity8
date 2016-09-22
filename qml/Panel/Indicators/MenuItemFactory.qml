@@ -1,5 +1,5 @@
 /*
- * Copyright 2013,2015 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -93,6 +93,10 @@ Item {
         var map = _userMap || _typeToComponent
         var indicatorComponents = map[indicator];
 
+        if (type === undefined || type === "") {
+            return component
+        }
+
         if (indicatorComponents !== undefined) {
             component = indicatorComponents[type];
         }
@@ -101,12 +105,20 @@ Item {
             component = map["default"][type];
         }
 
+        if (component === undefined) {
+            console.debug("Don't know how to make " + modelData.type + " for " + indicator);
+        }
+
         return component
     }
 
     function getComponentForIndicatorEntryAction(indicator, action) {
         var component = undefined;
         var indicatorFilter = _action_filter_map[indicator]
+
+        if (action === undefined || action === "") {
+            return component
+        }
 
         if (indicatorFilter !== undefined) {
             component = indicatorFilter[action];
@@ -1000,20 +1012,16 @@ Item {
         if (context && context.indexOf("fake-") == 0)
             context = context.substring("fake-".length)
 
-        if (modelData.action !== undefined && modelData.action !== "") {
-            var component = getComponentForIndicatorEntryAction(context, modelData.action)
-            if (component !== undefined) {
-                return component
-            }
+        var component = getComponentForIndicatorEntryAction(context, modelData.action)
+        if (component !== undefined) {
+            return component
         }
 
-        if (modelData.type !== undefined && modelData.type !== "") {
-            var component = getComponentForIndicatorEntryType(context, modelData.type)
-            if (component !== undefined) {
-                return component;
-            }
-            console.debug("Don't know how to make " + modelData.type + " for " + context);
+        component = getComponentForIndicatorEntryType(context, modelData.type)
+        if (component !== undefined) {
+            return component;
         }
+
         if (modelData.isCheck || modelData.isRadio) {
             return checkableMenu;
         }
