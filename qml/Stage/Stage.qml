@@ -695,7 +695,7 @@ FocusScope {
                                                      maximizedTopLeft || maximizedTopRight || maximizedBottomLeft || maximizedBottomRight
 
                 readonly property bool minimized: windowState & WindowStateStorage.WindowStateMinimized
-                readonly property bool fullscreen: surface && surface.state === Mir.FullscreenState;
+                readonly property bool fullscreen: surface ? surface.state === Mir.FullscreenState : application.fullscreen
 
                 readonly property bool canBeMaximized: canBeMaximizedHorizontally && canBeMaximizedVertically
                 readonly property bool canBeMaximizedLeftRight: (maximumWidth == 0 || maximumWidth >= appContainer.width/2) &&
