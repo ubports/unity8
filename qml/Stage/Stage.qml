@@ -48,7 +48,7 @@ FocusScope {
     property int leftMargin: 0
     property bool oskEnabled: false
 
-    // Congifuration
+    // Configuration
     property string mode: "staged"
     property real leftEdgeDragProgress: 0
 
