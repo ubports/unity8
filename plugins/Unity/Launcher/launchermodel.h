@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -12,15 +12,11 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *      Michael Zanetti <michael.zanetti@canonical.com>
  */
 
-#ifndef LAUNCHERMODEL_H
-#define LAUNCHERMODEL_H
+#pragma once
 
-#include <ubuntu-app-launch/registry.h>
+#include <memory>
 #include <unity/shell/launcher/LauncherModelInterface.h>
 #include <unity/shell/application/ApplicationManagerInterface.h>
 
@@ -34,6 +30,7 @@ class ASAdapter;
 namespace ubuntu {
     namespace app_launch {
         class Application;
+        class Registry;
     }
 }
 
@@ -100,5 +97,3 @@ private:
 
     friend class LauncherModelTest;
 };
-
-#endif // LAUNCHERMODEL_H
