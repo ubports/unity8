@@ -339,22 +339,22 @@ Rectangle {
         function test_card_title_alignment(data) {
             selector.selectedIndex = data.index;
 
-            tryCompareFunction(function() { return findChild(internalCard, "titleLabel").horizontalAlignment == Text.AlignLeft; }, true);
+            tryCompareFunction(function() { return findChild(internalCard, "titleLabel", 0 /* timeout */).horizontalAlignment == Text.AlignLeft; }, true);
 
             cardTool.components['title'] = { "field": "title", "align": "center" };
             cardTool.componentsChanged();
 
-            tryCompareFunction(function() { return findChild(internalCard, "titleLabel").horizontalAlignment == data.value; }, true);
+            tryCompareFunction(function() { return findChild(internalCard, "titleLabel", 0 /* timeout */).horizontalAlignment == data.value; }, true);
 
             cardTool.components['title'] = { "field": "title" };
             cardTool.componentsChanged();
 
-            tryCompareFunction(function() { return findChild(internalCard, "titleLabel").horizontalAlignment == data.value; }, true);
+            tryCompareFunction(function() { return findChild(internalCard, "titleLabel", 0 /* timeout */).horizontalAlignment == data.value; }, true);
 
             cardTool.components['title'] = { "field": "title", "align": "left" };
             cardTool.componentsChanged();
 
-            tryCompareFunction(function() { return findChild(internalCard, "titleLabel").horizontalAlignment == Text.AlignLeft; }, true);
+            tryCompareFunction(function() { return findChild(internalCard, "titleLabel", 0 /* timeout */).horizontalAlignment == Text.AlignLeft; }, true);
         }
 
         function test_categoryLayout_data() {

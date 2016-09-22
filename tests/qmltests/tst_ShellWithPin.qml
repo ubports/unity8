@@ -375,12 +375,11 @@ Item {
 
             enterPin("1111")
             enterPin("1111")
-            tryCompareFunction(function() {return findChild(root, "infoPopup") !== null}, true)
 
             var dialog = findChild(root, "infoPopup")
             var button = findChild(dialog, "infoPopupOkButton")
             tap(button)
-            tryCompareFunction(function() {return findChild(root, "infoPopup")}, null)
+            tryCompareFunction(function() {return findChild(root, "infoPopup", 0 /* timeout */)}, null)
 
             tryCompare(resetSpy, "count", 0)
             enterPin("1111")
