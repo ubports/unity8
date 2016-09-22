@@ -1026,7 +1026,7 @@ Item {
     }
 
     function load(modelData, context) {
-        if (context.indexOf("fake-") == 0)
+        if (context && context.indexOf("fake-") == 0)
             context = context.substring("fake-".length)
 
         if (modelData.action !== undefined && modelData.action !== "") {
