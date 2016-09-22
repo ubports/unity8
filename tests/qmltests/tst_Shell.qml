@@ -519,7 +519,7 @@ Rectangle {
             var greeter = findChild(shell, "greeter");
             verify(greeter);
 
-            var loginList = findChild(greeter, "loginList");
+            var loginList = findChild(greeter, "loginList", 0 /* timeout */);
             // Only present in WideView
             if (loginList) {
                 var userList = findChild(loginList, "userList");
@@ -936,7 +936,7 @@ Rectangle {
 
         function findAppWindowForSurfaceId(surfaceId) {
             // for PhoneStage and TabletStage
-            var delegate = findChild(shell, "spreadDelegate_" + surfaceId);
+            var delegate = findChild(shell, "spreadDelegate_" + surfaceId, 0 /* timeout */);
             if (!delegate) {
                 // for DesktopStage
                 delegate = findChild(shell, "appDelegate_" + surfaceId);
