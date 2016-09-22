@@ -331,13 +331,15 @@ var kEmblemIconCode = 'Icon { \n\
                         }\n';
 
 // %1 is used as anchors of touchdown effect
-var kTouchdownCode = 'UbuntuShape { \n\
-                        id: touchdown; \n\
-                        objectName: "touchdown"; \n\
+var kTouchdownCode = 'Loader { \n\
+                        active: root.pressed; \n\
                         anchors { %1 } \n\
-                        visible: root.pressed; \n\
-                        radius: "medium"; \n\
-                        borderSource: "radius_pressed.sci" \n\
+                        sourceComponent: UbuntuShape { \n\
+                            objectName: "touchdown"; \n\
+                            anchors.fill: parent; \n\
+                            radius: "medium"; \n\
+                            borderSource: "radius_pressed.sci" \n\
+                        } \n\
                     }\n';
 
 // %1 is used as anchors of subtitleLabel
