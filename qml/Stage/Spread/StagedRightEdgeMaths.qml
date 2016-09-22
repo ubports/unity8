@@ -129,16 +129,14 @@ QtObject {
             }
         }
 
+        if ((itemIndex == nextInStack)
+                || (isMainStageApp && nextStage === ApplicationInfoInterface.MainStage)
+                || (isSideStageApp && nextStage === ApplicationInfoInterface.SideStage)) {
+            return MathUtils.linearAnimation(0, 1, startAngle, targetAngle, progress);
+        }
 
         if (progress < breakPoint) {
-            if (itemIndex == nextInStack && (sideStageOpen || stage == ApplicationInfoInterface.MainStage)) {
-                return MathUtils.linearAnimation(0, 1, startAngle, targetAngle, progress);
-            } else {
-                return 0;
-            }
-        }
-        if (itemIndex == nextInStack) {
-            return MathUtils.linearAnimation(0, 1, startAngle, targetAngle, progress);
+            return 0;
         }
         return MathUtils.linearAnimation(breakPoint, 1, startAngle, targetAngle, progress);
     }
