@@ -96,17 +96,13 @@ Showable {
         visible: root.background.toString() !== ""
     }
 
-    Image {
+    Wallpaper {
         id: backgroundImage
         objectName: "lockscreenBackground"
         anchors {
             fill: parent
         }
-        // Limit how much memory we'll reserve for this image
-        sourceSize.height: height
-        sourceSize.width: width
         source: root.required ? root.background : ""
-        fillMode: Image.PreserveAspectCrop
     }
 
     // This is to

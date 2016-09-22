@@ -26,6 +26,7 @@ import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import GlobalShortcut 1.0 // has to be before Utils, because of WindowInputFilter
 import GSettings 1.0
+import ImageCache 0.1
 import Utils 0.1
 import Powerd 0.1
 import SessionBroadcast 0.1
@@ -145,7 +146,28 @@ StyledItem {
 
     WallpaperResolver {
         id: wallpaperResolver
-        width: shell.width
+        objectName: "wallpaperResolver"
+
+        readonly property url defaultBackground: "file:///usr/share/backgrounds/warty-final-ubuntu.png"
+        readonly property bool hasCustomBackground: background != defaultBackground
+
+        // Use a cached version of the scaled-down wallpaper (as sometimes the
+        // image can be quite big compared to the device size, including for
+        // our default wallpaper). We use a name=wallpaper argument here to
+        // make sure we don't litter our cache with lots of scaled images. We
+        // only need to bother caching one at a time.
+        readonly property url cachedBackground: background.toString().indexOf("file:///") === 0 ? "image://unity8imagecache/" + background + "?name=wallpaper" : background
+
+        GSettings {
+            id: backgroundSettings
+            schema.id: "org.gnome.desktop.background"
+        }
+
+        candidates: [
+            AccountsService.backgroundFile,
+            backgroundSettings.pictureUri,
+            defaultBackground
+        ]
     }
 
     readonly property alias greeter: greeterLoader.item
@@ -353,7 +375,7 @@ StyledItem {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "background"
-                value: wallpaperResolver.background
+                value: wallpaperResolver.cachedBackground
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -439,7 +461,8 @@ StyledItem {
             tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
             forcedUnlock: wizard.active || shell.mode === "full-shell"
-            background: wallpaperResolver.background
+            background: wallpaperResolver.cachedBackground
+            hasCustomBackground: wallpaperResolver.hasCustomBackground
             allowFingerprint: !dialogs.hasActiveDialog &&
                               !notifications.topmostIsFullscreen &&
                               !panel.indicators.shown
@@ -720,7 +743,7 @@ StyledItem {
             model: NotificationBackend.Model
             margin: units.gu(1)
             hasMouse: shell.hasMouse
-            background: wallpaperResolver.background
+            background: wallpaperResolver.cachedBackground
 
             y: topmostIsFullscreen ? 0 : panel.panelHeight
             height: parent.height - (topmostIsFullscreen ? 0 : panel.panelHeight)
