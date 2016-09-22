@@ -104,11 +104,6 @@ FocusScope {
     function pushRightEdge(amount) {
         edgeBarrier.push(amount);
     }
-    function closeFocusedDelegate() {
-        if (priv.focusedAppDelegate && !priv.focusedAppDelegate.isDash) {
-            priv.focusedAppDelegate.close();
-        }
-    }
 
     onSpreadEnabledChanged: {
         if (!spreadEnabled && root.state == "spread") {
@@ -134,7 +129,11 @@ FocusScope {
     GlobalShortcut {
         id: closeFocusedShortcut
         shortcut: Qt.AltModifier|Qt.Key_F4
-        onTriggered: closeFocusedDelegate()
+        onTriggered: {
+            if (priv.focusedAppDelegate && !priv.focusedAppDelegate.isDash) {
+                priv.focusedAppDelegate.close();
+            }
+        }
     }
 
     GlobalShortcut {
