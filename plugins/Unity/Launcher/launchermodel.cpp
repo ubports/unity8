@@ -20,6 +20,7 @@
 #include "dbusinterface.h"
 #include "asadapter.h"
 
+#include <ubuntu-app-launch/appid.h>
 #include <ubuntu-app-launch/application.h>
 #include <ubuntu-app-launch/registry.h>
 #include <unity/shell/application/ApplicationInfoInterface.h>
@@ -27,6 +28,8 @@
 
 #include <QDesktopServices>
 #include <QDebug>
+
+namespace ual = ubuntu::app_launch;
 
 using namespace unity::shell::application;
 
@@ -36,7 +39,7 @@ LauncherModel::LauncherModel(QObject *parent):
     m_dbusIface(new DBusInterface(this)),
     m_asAdapter(new ASAdapter()),
     m_appManager(nullptr),
-    m_ualRegistry(std::make_shared<ubuntu::app_launch::Registry>())
+    m_ualRegistry(std::make_shared<ual::Registry>())
 {
     connect(m_dbusIface, &DBusInterface::countChanged, this, &LauncherModel::countChanged);
     connect(m_dbusIface, &DBusInterface::countVisibleChanged, this, &LauncherModel::countVisibleChanged);
@@ -157,15 +160,15 @@ void LauncherModel::pin(const QString &appId, int index)
         }
 
         auto appInfo = getApplicationInfo(appId);
-        if (!appInfo) {
+        if (!appInfo.valid) {
             qWarning() << "Can't pin application, appId not found:" << appId;
             return;
         }
 
         beginInsertRows(QModelIndex(), index, index);
         LauncherItem *item = new LauncherItem(appId,
-                                              QString::fromStdString(appInfo->info()->name()),
-                                              QString::fromStdString(appInfo->info()->iconPath()),
+                                              appInfo.name,
+                                              appInfo.icon,
                                               this);
         item->setPinned(true);
         m_list.insert(index, item);
@@ -332,22 +335,30 @@ int LauncherModel::findApplication(const QString &appId)
     return -1;
 }
 
-std::shared_ptr<ubuntu::app_launch::Application> LauncherModel::getApplicationInfo(const QString &appId)
+LauncherModel::AppInfo LauncherModel::getApplicationInfo(const QString &appId)
 {
-    auto ualAppId = ubuntu::app_launch::AppID::find(appId.toStdString());
+    AppInfo info;
+
+    ual::AppID ualAppId = ual::AppID::find(appId.toStdString());
     if (ualAppId.empty()) {
-        return nullptr;
+        return info;
     }
 
+    std::shared_ptr<ual::Application> ualApp;
     try
     {
-        return ubuntu::app_launch::Application::create(ualAppId, m_ualRegistry);
+        ualApp = ual::Application::create(ualAppId, m_ualRegistry);
     }
     catch (std::runtime_error &e)
     {
         qWarning() << "Couldn't find application info for" << appId << "-" << e.what();
-        return nullptr;
+        return info;
     }
+
+    info.valid = true;
+    info.name = QString::fromStdString(ualApp->info()->name());
+    info.icon = QString::fromStdString(ualApp->info()->iconPath());
+    return info;
 }
 
 void LauncherModel::progressChanged(const QString &appId, int progress)
@@ -398,10 +409,10 @@ void LauncherModel::countVisibleChanged(const QString &appId, bool countVisible)
     } else {
         // Need to create a new LauncherItem and show the highlight
         auto appInfo = getApplicationInfo(appId);
-        if (countVisible && appInfo) {
+        if (countVisible && appInfo.valid) {
             LauncherItem *item = new LauncherItem(appId,
-                                                  QString::fromStdString(appInfo->info()->name()),
-                                                  QString::fromStdString(appInfo->info()->iconPath()),
+                                                  appInfo.name,
+                                                  appInfo.icon,
                                                   this);
             item->setCountVisible(true);
             beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
@@ -418,7 +429,7 @@ void LauncherModel::refresh()
     QList<LauncherItem*> toBeRemoved;
     Q_FOREACH (LauncherItem* item, m_list) {
         auto appInfo = getApplicationInfo(item->appId());
-        if (!appInfo) {
+        if (!appInfo.valid) {
             // Application no longer available => drop it!
             toBeRemoved << item;
         } else if (!m_settings->storedApplications().contains(item->appId())) {
@@ -426,19 +437,19 @@ void LauncherModel::refresh()
             toBeRemoved << item;
         } else {
             int idx = m_list.indexOf(item);
-            item->setName(QString::fromStdString(appInfo->info()->name()));
+            item->setName(appInfo.name);
             item->setPinned(item->pinned()); // update pinned text if needed
             item->setRunning(item->running());
             Q_EMIT dataChanged(index(idx), index(idx), {RoleName, RoleRunning});
 
             const QString oldIcon = item->icon();
-            if (oldIcon == QString::fromStdString(appInfo->info()->iconPath())) { // same icon file, perhaps different contents, simulate changing the icon name to force reload
+            if (oldIcon == appInfo.icon) { // same icon file, perhaps different contents, simulate changing the icon name to force reload
                 item->setIcon(QString());
                 Q_EMIT dataChanged(index(idx), index(idx), {RoleIcon});
             }
 
             // now set the icon for real
-            item->setIcon(QString::fromStdString(appInfo->info()->iconPath()));
+            item->setIcon(appInfo.icon);
             Q_EMIT dataChanged(index(idx), index(idx), {RoleIcon});
         }
     }
@@ -470,13 +481,13 @@ void LauncherModel::refresh()
             // Need to add it. Just add it into the addedIndex to keep same ordering as the list
             // in the settings.
             auto appInfo = getApplicationInfo(entry);
-            if (!appInfo) {
+            if (!appInfo.valid) {
                 continue;
             }
 
             LauncherItem *item = new LauncherItem(entry,
-                                                  QString::fromStdString(appInfo->info()->name()),
-                                                  QString::fromStdString(appInfo->info()->iconPath()),
+                                                  appInfo.name,
+                                                  appInfo.icon,
                                                   this);
             item->setPinned(true);
             beginInsertRows(QModelIndex(), addedIndex, addedIndex);

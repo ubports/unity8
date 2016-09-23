@@ -29,7 +29,6 @@ class ASAdapter;
 
 namespace ubuntu {
     namespace app_launch {
-        class Application;
         class Registry;
     }
 }
@@ -73,7 +72,13 @@ private:
     void storeAppList();
 
     void unpin(const QString &appId);
-    std::shared_ptr<ubuntu::app_launch::Application> getApplicationInfo(const QString &appId);
+
+    struct AppInfo {
+        bool valid = false;
+        QString name;
+        QString icon;
+    };
+    AppInfo getApplicationInfo(const QString &appId);
 
 private Q_SLOTS:
     void countChanged(const QString &appId, int count);
