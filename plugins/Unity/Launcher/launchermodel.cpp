@@ -339,7 +339,7 @@ LauncherModel::AppInfo LauncherModel::getApplicationInfo(const QString &appId)
 {
     AppInfo info;
 
-    ual::AppID ualAppId = ual::AppID::find(appId.toStdString());
+    ual::AppID ualAppId = ual::AppID::find(m_ualRegistry, appId.toStdString());
     if (ualAppId.empty()) {
         return info;
     }
