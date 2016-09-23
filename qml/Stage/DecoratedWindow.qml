@@ -81,10 +81,10 @@ FocusScope {
     QtObject {
         id: d
         property int requestedDecorationHeight: root.hasDecoration ? decoration.height : 0
-        Behavior on requestedDecorationHeight { enabled: root.animateDecoration; UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration } }
+        Behavior on requestedDecorationHeight { enabled: root.animateDecoration; UbuntuNumberAnimation { } }
 
         property int visibleDecorationHeight: root.hasDecoration ? root.showDecoration * decoration.height : 0
-        Behavior on visibleDecorationHeight { enabled: root.animateDecoration; UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration} }
+        Behavior on visibleDecorationHeight { enabled: root.animateDecoration; UbuntuNumberAnimation { } }
     }
 
     StateGroup {
@@ -145,7 +145,7 @@ FocusScope {
         title: applicationWindow.title
         opacity: root.hasDecoration ? Math.min(1, root.showDecoration) : 0
 
-        Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration } }
+        Behavior on opacity { UbuntuNumberAnimation { } }
 
         onCloseClicked: root.closeClicked();
         onMaximizeClicked: { root.decorationPressed(); root.maximizeClicked(); }
