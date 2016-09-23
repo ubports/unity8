@@ -193,7 +193,6 @@ FocusScope {
 
         property bool goneToSpread: false
         property int closingIndex: -1
-//        property int animationDuration: 4000
         property int animationDuration: UbuntuAnimation.FastDuration
 
         function updateForegroundMaximizedApp() {
