@@ -287,12 +287,16 @@ Rectangle {
             removeTimeConstraintsFromSwipeAreas(root);
         }
 
-        function dragLauncherIntoView() {
+        function dragLauncher() {
             var startX = launcher.dragAreaWidth/2;
             var startY = launcher.height/2;
             touchFlick(launcher,
                        startX, startY,
                        startX+units.gu(8), startY);
+        }
+
+        function dragLauncherIntoView() {
+            dragLauncher();
 
             var panel = findChild(launcher, "launcherPanel");
             verify(!!panel);
@@ -1340,6 +1344,8 @@ Rectangle {
         }
 
         function test_preventMouseEventsThru() {
+           compare(0, 1);
+
             dragLauncherIntoView();
             var launcherPanel = findChild(launcher, "launcherPanel");
             tryCompare(launcherPanel, "visible", true);
@@ -1352,6 +1358,23 @@ Rectangle {
             clickThroughSpy.signalName = "clicked";
             mouseWheel(launcherPanel, launcherPanel.width/2, launcherPanel.height/2, Qt.RightButton);
             tryCompare(clickThroughSpy, "count", 0);
+        }
+
+        function test_launcherEnabledSetting() {
+            launcher.available = true;
+
+            dragLauncherIntoView();
+            var launcherPanel = findChild(launcher, "launcherPanel");
+            compare(launcherPanel.x, 0);
+        }
+
+        function test_launcherDisabledSetting() {
+            launcher.available = false;
+
+            //We don't actually care that it's visible, so juct use dragLauncher() rather than dragLauncherIntoView()
+            dragLauncher();
+            var launcherPanel = findChild(launcher, "launcherPanel");
+            compare(launcherPanel.x, -launcherPanel.width);
         }
     }
 }
