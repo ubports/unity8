@@ -1356,15 +1356,77 @@ Rectangle {
 
         function test_tooltip() {
             dragLauncherIntoView()
+
             var item = findChild(launcher, "launcherDelegate0")
             var tooltipShape = findChild(launcher, "tooltipShape")
+
+            // Make sure we don't start the test with the mouse hovering the launcher
+            mouseMove(root, root.width, root.height / 2)
 
             // Initial state
             compare(tooltipShape.visible, false)
 
             // Move the mouse on the launcher icon
-            mouseMove(item, item.width / 2, item.height / 2, 2)
+            mouseMove(item, item.width / 2, item.height / 2)
+            mouseMove(item, item.width / 2 + 1, item.height / 2)
             tryCompare(tooltipShape, "visible", true)
+
+            // Move the mouse away
+            mouseMove(root, root.width, root.height / 2)
+            tryCompare(tooltipShape, "visible", false)
+        }
+
+        function test_quicklist_dismiss_tooltip() {
+            dragLauncherIntoView()
+
+            var item = findChild(launcher, "launcherDelegate0")
+            var tooltipShape = findChild(launcher, "tooltipShape")
+            var quickListShape = findChild(launcher, "quickListShape")
+
+            // Make sure we don't start the test with the mouse hovering the launcher
+            mouseMove(root, root.width, root.height / 2)
+
+            // Initial state
+            compare(tooltipShape.visible, false)
+
+                                    var tooltip = findChild(launcher, "tooltip")
+
+
+            // Move the mouse on the launcher icon
+            mouseMove(item, item.width / 2, item.height / 2)
+            mouseMove(item, item.width / 2 + 1, item.height / 2)
+            tryCompare(tooltipShape, "visible", true)
+                        console.log(tooltip.state)
+
+
+            // Right click to show the quicklist
+            mouseClick(item, item.width / 2, item.height / 2, Qt.RightButton)
+            tryCompare(quickListShape, "visible", true)
+
+            console.log(tooltip.state)
+            tryCompare(tooltipShape, "visible", false)
+        }
+
+        function test_click_dismiss_tooltip() {
+            dragLauncherIntoView()
+
+            var item = findChild(launcher, "launcherDelegate0")
+            var tooltipShape = findChild(launcher, "tooltipShape")
+
+            // Make sure we don't start the test with the mouse hovering the launcher
+            mouseMove(root, root.width, root.height / 2)
+
+            // Initial state
+            compare(tooltipShape.visible, false)
+
+            // Move the mouse on the launcher icon
+            mouseMove(item, item.width / 2, item.height / 2)
+            mouseMove(item, item.width / 2 + 1, item.height / 2)
+            tryCompare(tooltipShape, "visible", true)
+
+            // Left click should dismiss the tooltip
+            mouseClick(item, item.width / 2, item.height / 2, Qt.LeftButton)
+            tryCompare(tooltipShape, "visible", false)
         }
     }
 }

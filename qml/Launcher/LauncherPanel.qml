@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.4
+import QtQml.StateMachine 1.0 as DSM
 import Ubuntu.Components 1.3
 import Unity.Launcher 0.1
 import Ubuntu.Components.Popups 1.3
@@ -42,9 +43,6 @@ Rectangle {
 
     onXChanged: {
         if (quickList.state === "open") {
-            quickList.state = ""
-        }
-        if (tooltip.state === "open") {
             quickList.state = ""
         }
     }
@@ -175,12 +173,6 @@ Rectangle {
                     property real realContentY: contentY - originY + topMargin
                     property int realItemHeight: itemHeight + spacing
 
-                    onRealContentYChanged : {
-                        if (tooltip.state === "open") {
-                            tooltip.state = "";
-                        }
-                    }
-
                     // In case the start dragging transition is running, we need to delay the
                     // move because the displaced transition would clash with it and cause items
                     // to be moved to wrong places
@@ -235,6 +227,7 @@ Rectangle {
                         // the right app when running autopilot tests for
                         // multiple apps.
                         readonly property string appId: model.appId
+                        name: model.name
                         itemIndex: index
                         itemHeight: launcherListView.itemHeight
                         itemWidth: launcherListView.itemWidth
@@ -431,19 +424,11 @@ Rectangle {
 
                         function processPress(mouse) {
                             selectedItem = launcherListView.itemAt(mouse.x, mouse.y + launcherListView.realContentY)
-
-                            if (tooltip.state === "open") {
-                                tooltip.state = "";
-                            }
                         }
 
                         onClicked: {
                             var index = Math.floor((mouseY + launcherListView.realContentY) / launcherListView.realItemHeight);
                             var clickedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
-
-                            if (tooltip.state === "open") {
-                                tooltip.state = "";
-                            }
 
                             // Check if we actually clicked an item or only at the spacing in between
                             if (clickedItem === null) {
@@ -544,10 +529,6 @@ Rectangle {
                             startY = mouse.y
                         }
 
-                        onExited: {
-                            tooltip.state = "";
-                        }
-
                         onPositionChanged: {
                             processPositionChanged(mouse)
                         }
@@ -602,17 +583,6 @@ Rectangle {
                                         draggedIndex = newIndex
                                     }
                                 }
-                            } else {
-                                var index = Math.floor((mouse.y + launcherListView.realContentY) / launcherListView.realItemHeight);
-                                var clickedItem = launcherListView.itemAt(mouse.x, mouse.y + launcherListView.realContentY);
-
-                                // Check if we actually hovered an item or only the spacing in between
-                                if (clickedItem === null || mouse.buttons) {
-                                    tooltip.state = "";
-                                    return;
-                                }
-
-                                tooltip.open(index);
                             }
                         }
                     }
@@ -866,13 +836,15 @@ Rectangle {
         id: tooltipShape
         objectName: "tooltipShape"
         anchors.fill: tooltip
-        opacity: tooltip.state === "open" && quickList.state != "open" ? 0.95 : 0
+        opacity: tooltipShownState.active ? 0.95 : 0
         visible: opacity > 0
         rotation: root.rotation
         aspect: UbuntuShape.Flat
 
         Behavior on opacity {
-            UbuntuNumberAnimation {}
+            UbuntuNumberAnimation {
+                duration: UbuntuAnimation.BriskDuration
+            }
         }
 
         source: ShaderEffectSource {
@@ -896,6 +868,7 @@ Rectangle {
 
     Rectangle {
         id: tooltip
+        objectName: "tooltip"
 
         color: theme.palette.normal.background
         visible: tooltipShape.visible
@@ -912,19 +885,17 @@ Rectangle {
             margins: units.gu(1)
         }
 
-        property string text
-        property var item
+        property var hoveredItem: dndArea.containsMouse ? launcherListView.itemAt(dndArea.mouseX, dndArea.mouseY + launcherListView.realContentY) : null
 
-        property int itemCenter: item ? root.mapFromItem(tooltip.item, 0, 0).y + (item.height / 2) + tooltip.item.offset : units.gu(1)
+        property int itemCenter
         property int offset: itemCenter + (height/2) + units.gu(1) > parent.height ? -itemCenter - (height/2) - units.gu(1) + parent.height :
                              itemCenter - (height/2) < units.gu(1) ? (height/2) - itemCenter + units.gu(1) : 0
 
-        function open(index) {
-            var itemPosition = index * launcherListView.itemHeight;
-            var height = launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin
-            item = launcherListView.itemAt(launcherListView.width / 2, itemPosition + launcherListView.itemHeight / 2);
-            tooltip.text = launcherListView.model.get(index).name;
-            tooltip.state = "open";
+        onHoveredItemChanged : {
+            if (hoveredItem != null && !root.moving) {
+                itemCenter = root.mapFromItem(hoveredItem, 0, 0).y + (hoveredItem.height / 2) + hoveredItem.offset
+                tooltipLabel.text = tooltip.hoveredItem.name
+            }
         }
 
         Label {
@@ -932,8 +903,72 @@ Rectangle {
             height: parent.height
             anchors.centerIn: parent
             verticalAlignment: Label.AlignVCenter
-            text: tooltip.text
             color: theme.palette.normal.backgroundText
+        }
+
+        DSM.StateMachine {
+            id: tooltipStateMachine
+            initialState: tooltipHiddenState
+            running: true
+
+            DSM.State {
+                id: tooltipHiddenState
+
+                DSM.SignalTransition {
+                    targetState: tooltipShownState
+                    signal: tooltip.hoveredItemChanged
+                    // !dndArea.pressed allows us to filter out touch input events
+                    guard: tooltip.hoveredItem != null && !dndArea.pressed && !root.moving
+                }
+            }
+
+            DSM.State {
+                id: tooltipShownState
+
+                DSM.SignalTransition {
+                    targetState: tooltipHiddenState
+                    signal: tooltip.hoveredItemChanged
+                    guard: tooltip.hoveredItem == null
+                }
+
+                DSM.SignalTransition {
+                    targetState: tooltipHiddenState
+                    signal: dndArea.exited
+                } 
+
+                DSM.SignalTransition {
+                    targetState: tooltipDismissedState
+                    signal: dndArea.onPressed
+                }
+
+                DSM.SignalTransition {
+                    targetState: tooltipDismissedState
+                    signal: quickList.stateChanged
+                    guard: quickList.state === "open"
+                }
+
+                DSM.SignalTransition {
+                    targetState: tooltipDismissedState
+                    signal: root.movingChanged
+                    guard: root.moving
+                }
+            }
+
+            DSM.State {
+                id: tooltipDismissedState
+
+                DSM.SignalTransition {
+                    targetState: tooltipHiddenState
+                    signal: dndArea.positionChanged
+                    guard: quickList.state != "open" && !dndArea.pressed && !dndArea.moving
+                }
+
+                DSM.SignalTransition {
+                    targetState: tooltipHiddenState
+                    signal: dndArea.exited
+                    guard: quickList.state != "open"
+                }
+            }
         }
     }
 }
