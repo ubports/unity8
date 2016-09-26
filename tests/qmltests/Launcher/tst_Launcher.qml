@@ -1344,8 +1344,6 @@ Rectangle {
         }
 
         function test_preventMouseEventsThru() {
-           compare(0, 1);
-
             dragLauncherIntoView();
             var launcherPanel = findChild(launcher, "launcherPanel");
             tryCompare(launcherPanel, "visible", true);
