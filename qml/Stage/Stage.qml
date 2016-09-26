@@ -1327,7 +1327,7 @@ FocusScope {
                     Transition {
                         to: "spread"
                         // DecoratedWindow wants the scaleToPreviewSize set before enabling scaleToPreview
-                        PropertyAction { target: appDelegate; property: "z" }
+                        PropertyAction { target: appDelegate; properties: "z,visible" }
                         PropertyAction { target: decoratedWindow; property: "scaleToPreviewSize" }
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
                         UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle,scaleToPreviewProgress"; duration: priv.animationDuration }
