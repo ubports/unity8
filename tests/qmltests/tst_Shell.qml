@@ -2697,5 +2697,41 @@ Rectangle {
             tryCompare(topLevelSurfaceList, "count", countBeforeClose - 1);
             tryCompareFunction(function() { return ApplicationManager.focusedApplicationId; }, "calendar-app");
         }
+
+        function test_oskDisplacesWindow_data() {
+            return [
+                {tag: "no need to displace", windowHeight: units.gu(10), windowY: units.gu(5), targetDisplacement: units.gu(5), oskEnabled: true},
+                {tag: "displace to top", windowHeight: units.gu(50), windowY: units.gu(10), targetDisplacement: PanelState.panelHeight, oskEnabled: true},
+                {tag: "displace to top", windowHeight: units.gu(50), windowY: units.gu(10), targetDisplacement: PanelState.panelHeight, oskEnabled: true},
+                {tag: "osk not on this screen", windowHeight: units.gu(40), windowY: units.gu(10), targetDisplacement: units.gu(10), oskEnabled: false},
+            ]
+        }
+
+        function test_oskDisplacesWindow(data) {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+            shell.oskEnabled = data.oskEnabled;
+
+            var oldOSKState = SurfaceManager.inputMethodSurface.state;
+            SurfaceManager.inputMethodSurface.state = Mir.RestoredState;
+            var appRepeater = findChild(shell, "appRepeater");
+            var dashAppDelegate = appRepeater.itemAt(0);
+            verify(dashAppDelegate);
+            dashAppDelegate.requestedHeight = data.windowHeight;
+            dashAppDelegate.requestedY = data.windowY;
+            SurfaceManager.inputMethodSurface.setInputBounds(Qt.rect(0, 0, 0, 0));
+            var initialY = dashAppDelegate.y;
+            print("intial", initialY, "panel", PanelState.panelHeight);
+            verify(initialY > PanelState.panelHeight);
+
+            SurfaceManager.inputMethodSurface.setInputBounds(Qt.rect(0, root.height / 2, root.width, root.height / 2));
+            tryCompare(dashAppDelegate, "y", data.targetDisplacement);
+
+            SurfaceManager.inputMethodSurface.setInputBounds(Qt.rect(0, 0, 0, 0));
+            tryCompare(dashAppDelegate, "y", initialY);
+            SurfaceManager.inputMethodSurface.state = oldOSKState;
+        }
     }
 }
