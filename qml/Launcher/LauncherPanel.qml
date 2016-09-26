@@ -891,6 +891,7 @@ Rectangle {
         property int offset: itemCenter + (height/2) + units.gu(1) > parent.height ? -itemCenter - (height/2) - units.gu(1) + parent.height :
                              itemCenter - (height/2) < units.gu(1) ? (height/2) - itemCenter + units.gu(1) : 0
 
+        // This avoids artifacts on fade-out animation
         onHoveredItemChanged : {
             if (hoveredItem != null && !root.moving) {
                 itemCenter = root.mapFromItem(hoveredItem, 0, 0).y + (hoveredItem.height / 2) + hoveredItem.offset
