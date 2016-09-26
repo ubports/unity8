@@ -175,8 +175,8 @@ FocusScope {
         anchors.top: parent.top
         anchors.topMargin: root.decorationHeight * Math.min(1, root.showDecoration)
         anchors.left: parent.left
-        width: requestedWidth
-        height: requestedHeight
+        width: implicitWidth
+        height: implicitHeight
         requestedHeight: !counterRotate ? root.requestedHeight - d.requestedDecorationHeight : root.requestedWidth
         requestedWidth: !counterRotate ? root.requestedWidth : root.requestedHeight - d.requestedDecorationHeight
         property int oldRequestedWidth: requestedWidth
