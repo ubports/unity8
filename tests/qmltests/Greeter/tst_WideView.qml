@@ -24,6 +24,7 @@ import Unity.Test 0.1 as UT
 
 StyledItem {
     id: root
+
     width: units.gu(120)
     height: units.gu(80)
     focus: true
@@ -49,7 +50,7 @@ StyledItem {
                 WideView {
                     id: view
 
-                    background: Qt.resolvedUrl("../../../qml/graphics/tablet_background.jpg")
+                    background: "/usr/share/backgrounds/warty-final-ubuntu.png"
                     userModel: LightDM.Users
                     infographicModel: LightDM.Infographic
 
@@ -111,11 +112,9 @@ StyledItem {
             color: theme.palette.normal.background
             width: units.gu(40)
             height: parent.height
-
             Column {
                 anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
                 spacing: units.gu(1)
-
                 Row {
                     Button {
                         text: "Show Last Chance"
@@ -267,6 +266,51 @@ StyledItem {
                     }
                 }
                 Row {
+                    id: multipleSessions
+                    CheckBox {
+                        id: multipleSessionsCheckbox
+                        onClicked: {
+                            if (checked) {
+                                LightDM.Sessions.testScenario = "multipleSessions"
+                            } else {
+                                LightDM.Sessions.testScenario = "singleSession"
+                            }
+                        }
+                        Connections {
+                            target: LightDM.Sessions
+                            onTestScenarioChanged: {
+                                if (LightDM.Sessions.testScenario === "multipleSessions") {
+                                    multipleSessionsCheckbox.checked = true;
+                                } else {
+                                    multipleSessionsCheckbox.checked = false;
+                                }
+                            }
+                        }
+                    }
+                    Label {
+                        text: "Multiple Sessions"
+                    }
+                }
+                Row {
+                    Slider {
+                        id: numSessionsSlider
+
+                        width: units.gu(10)
+                        minimumValue: 0
+                        maximumValue: LightDM.Sessions.numAvailableSessions
+                        value: LightDM.Sessions.numSessions
+                        visible: LightDM.Sessions.testScenario === "multipleSessions"
+                        Binding {
+                            target: LightDM.Sessions
+                            property: "numSessions"
+                            value: numSessionsSlider.value
+                        }
+                    }
+                    Label {
+                        text: "Available Sessions"
+                    }
+                }
+                Row {
                     Button {
                         text: "Reload View"
                         onClicked: {
@@ -316,6 +360,7 @@ StyledItem {
         when: windowShown
 
         property Item view: loader.status === Loader.Ready ? loader.item : null
+        property url testIconDirectory: Qt.resolvedUrl("../../../qml/Greeter/graphics/session_icons")
 
         function init() {
             selectIndex(0); // break binding with text field
@@ -323,6 +368,7 @@ StyledItem {
             respondedSpy.clear();
             teaseSpy.clear();
             emergencySpy.clear();
+            LightDM.Sessions.testScenario = "multipleSessions"
         }
 
         function cleanup() {
@@ -378,6 +424,92 @@ StyledItem {
                 {tag: "right", x: view.width, offset: 0, count: 1, locked: false},
             ]
         }
+
+        function test_sessionIconsAreValid() {
+            LightDM.Sessions.testScenario = "multipleSessions"
+            var originalDirectories = LightDM.Sessions.iconSearchDirectories
+            LightDM.Sessions.iconSearchDirectories = [testIconDirectory]
+
+            selectUser("has-password");
+
+            // Test the login list icon is valid
+            var sessionChooserButton = findChild(view, "sessionChooserButton");
+            compare(sessionChooserButton.visible, true);
+
+            var session = String(view.sessionToStart).toLowerCase();
+            var icon = String(sessionChooserButton.icon);
+            compare(icon.indexOf(session) > -1, true);
+
+            // Test the session list icons are valid
+            var coverPage = findChild(view, "coverPage");
+            coverPage.state = "SessionsList"
+            var sessionsList = findChild(view, "sessionsList");
+            tryCompare(sessionsList, "visible", true);
+        }
+
+        function test_choosingNewSessionChangesLoginListIcon() {
+            // Ensure the default session is selected (Ubuntu)
+            loader.active = false;
+            loader.active = true;
+
+            selectUser("has-password");
+
+            LightDM.Sessions.testScenario = "multipleSessions";
+            var sessionChooserButton = findChild(view, "sessionChooserButton");
+            var icon = String(sessionChooserButton.icon);
+            compare(icon.indexOf("ubuntu") > -1, true);
+
+            tap(sessionChooserButton)
+            for(var i = 0; i < LightDM.Sessions.count; i++) {
+                var delegateName = "sessionDelegate" + String(i);
+                var currentDelegate = findChild(view, delegateName);
+                var sessionKey = LightDM.Sessions.data(i,LightDM.SessionRoles.KeyRole);
+                if (sessionKey === "gnome-classic") {
+                    tap(currentDelegate);
+                    var sessionChooserButton = findChild(view, "sessionChooserButton");
+                    waitForRendering(sessionChooserButton);
+                    var icon = String(sessionChooserButton.icon);
+                    break;
+                }
+            }
+
+            compare(icon.indexOf("gnome") > -1, true,
+                "Expected icon to contain gnome but it was " + icon);
+        }
+
+        function test_noSessionsDoesntBreakView() {
+            LightDM.Sessions.testScenario = "noSessions"
+            compare(LightDM.Sessions.count, 0)
+        }
+
+        function test_sessionIconNotShownWithOneSession() {
+            LightDM.Sessions.testScenario = "singleSession"
+            compare(LightDM.Sessions.count, 1);
+
+            var sessionChooserButton = findChild(view, "sessionChooserButton");
+            tryCompare(sessionChooserButton, "visible", false);
+        }
+
+        function test_sessionIconNotShownWithActiveUser() {
+            LightDM.Sessions.testScenario = "multipleSessions";
+            compare(LightDM.Sessions.count > 1, true);
+
+            selectUser("active");
+
+            var sessionChooserButton = findChild(view, "sessionChooserButton");
+            tryCompare(sessionChooserButton, "visible", false);
+        }
+
+        function test_sessionIconShownWithMultipleSessions() {
+            LightDM.Sessions.testScenario = "multipleSessions"
+            compare(LightDM.Sessions.count > 1, true);
+
+            selectUser("has-password");
+
+            var sessionChooserButton = findChild(view, "sessionChooserButton");
+            tryCompare(sessionChooserButton, "visible", true);
+        }
+
         function test_tease(data) {
             view.locked = data.locked;
             view.dragHandleLeftMargin = data.offset;
@@ -391,6 +523,17 @@ StyledItem {
             compare(selectedSpy.count, 1);
             compare(selectedSpy.signalArguments[0][0], 2);
             compare(view.currentIndex, 0); // confirm we didn't change
+        }
+
+        function test_customBackground() {
+            var coverPage = findChild(view, "coverPage");
+            var backgroundShade = findChild(coverPage, "backgroundShade");
+
+            verify(!view.hasCustomBackground);
+            verify(!backgroundShade.visible);
+
+            view.hasCustomBackground = true;
+            verify(backgroundShade.visible);
         }
 
         function test_respondedWithPassword() {
@@ -509,17 +652,21 @@ StyledItem {
 
             keyboardVisibleCheckBox.checked = true;
 
-            tryCompare(loginList, "height", view.height - view.inputMethod.keyboardRectangle.height);
+            var halfway = (view.height - loginList.highlightedHeight) / 2;
+            var halfwayWithOsk = halfway - view.inputMethod.keyboardRectangle.height / 2;
+            tryCompare(loginList, "boxVerticalOffset", halfwayWithOsk);
+
+            var highlightItem = findChild(loginList, "highlightItem");
             tryCompareFunction( function() {
-                var loginListRect = loginList.mapToItem(view, 0, 0, loginList.width, loginList.height);
-                return loginListRect.y + loginListRect.height <= view.inputMethod.keyboardRectangle.y;
+                var highlightRect = highlightItem.mapToItem(view, 0, 0, highlightItem.width, highlightItem.height);
+                return highlightRect.y + highlightRect.height <= view.inputMethod.keyboardRectangle.y;
             }, true);
 
             // once the vkb goes away, loginList goes back to its full height
 
             keyboardVisibleCheckBox.checked = false;
 
-            tryCompare(loginList, "height", view.height);
+            tryCompare(loginList, "boxVerticalOffset", halfway);
         }
 
         function test_passphrase() {

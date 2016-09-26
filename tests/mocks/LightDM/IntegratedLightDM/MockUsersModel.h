@@ -27,6 +27,8 @@ class MockUsersModel : public UsersModel
     Q_PROPERTY(QString mockMode READ mockMode WRITE setMockMode NOTIFY mockModeChanged)
 
 public:
+    explicit MockUsersModel(QObject* parent=0);
+
     QString mockMode() const;
     void setMockMode(QString mockMode);
 

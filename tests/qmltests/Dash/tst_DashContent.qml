@@ -261,11 +261,11 @@ Item {
 
         function test_carouselAspectRatio() {
             tryCompareFunction(function() {
-                                    var scope = findChild(dashContent, "scopeLoader0");
+                                    var scope = findChild(dashContent, "scopeLoader0", 0 /* timeout */);
                                     if (scope != null) {
-                                        var dashCategory1 = findChild(scope, "dashCategory1");
+                                        var dashCategory1 = findChild(scope, "dashCategory1", 0 /* timeout */);
                                         if (dashCategory1 != null) {
-                                            var tile = findChild(dashCategory1, "carouselDelegate1");
+                                            var tile = findChild(dashCategory1, "carouselDelegate1", 0 /* timeout */);
                                             return tile != null;
                                         }
                                     }
@@ -282,7 +282,6 @@ Item {
 
         function test_mainNavigation() {
             var dashContentList = findChild(dashContent, "dashContentList");
-            tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
             var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
             var searchButton = findChild(dashContentList.currentItem, "search_button");
@@ -405,7 +404,6 @@ Item {
 
         function goToSecondLevel() {
             var dashContentList = findChild(dashContent, "dashContentList");
-            tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
             var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
             var searchButton = findChild(dashContentList.currentItem, "search_button");
@@ -580,7 +578,7 @@ Item {
 
         function test_primaryFilter() {
             var dashContentList = findChild(dashContent, "dashContentList");
-            tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
+            tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation", 0 /* timeout */) != null; }, true);
             dashContentList.currentItem.item.scope.setHasNavigation(false);
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
             var searchButton = findChild(dashContentList.currentItem, "search_button");
@@ -589,7 +587,7 @@ Item {
             mouseClick(searchButton);
             tryCompare(peExtraPanel, "visible", true);
 
-            tryCompareFunction(function() { return findChild(peExtraPanel, "OSF3") != null; }, true);
+            tryCompareFunction(function() { return findChild(peExtraPanel, "OSF3", 0 /* timeout */) != null; }, true);
         }
 
         function test_searchHint() {

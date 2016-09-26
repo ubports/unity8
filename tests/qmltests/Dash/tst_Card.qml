@@ -618,12 +618,17 @@ Rectangle {
             waitForRendering(card);
 
             var touchdown = findChild(card, "touchdown");
+            compare(touchdown, null);
 
-            compare(touchdown.visible, false);
             mousePress(card);
+
+            touchdown = findChild(card, "touchdown");
             compare(touchdown.visible, true);
+
             mouseRelease(card);
-            compare(touchdown.visible, false);
+
+            touchdown = findChild(card, "touchdown");
+            compare(touchdown, null);
         }
 
         function test_paddings_data() {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,6 +38,11 @@ Rectangle {
     property var progressjsonError: {
         "type": "progress",
         "source": { "dbus-name" : "somename", "dbus-object": "error" }
+    }
+
+    property var progressjsonProcessing: {
+        "type": "progress",
+        "source": { "dbus-name" : "somename", "dbus-object": "processing" }
     }
 
     SignalSpy {
@@ -82,6 +87,14 @@ Rectangle {
             compare(args[0], "previewProgress");
             compare(args[1], "failed");
             compare(args[2], progressjsonError);
+
+            spy.clear();
+
+            var progressBar = findChild(previewProgress, "progressBar");
+            compare(progressBar.indeterminate, false);
+            previewProgress.widgetData = progressjsonProcessing;
+            progressBar = findChild(previewProgress, "progressBar");
+            tryCompare(progressBar, "indeterminate", true);
         }
     }
 }

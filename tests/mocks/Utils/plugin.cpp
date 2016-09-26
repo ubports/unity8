@@ -25,6 +25,7 @@
 #include "plugin.h"
 #include "windowstatestorage.h"
 #include "constants.h"
+#include "URLDispatcher.h"
 
 // plugin
 #include <activefocuslogger.h>
@@ -80,4 +81,5 @@ void FakeUtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<InputEventGenerator>(uri, 0, 1, "InputEventGenerator");
     qmlRegisterType<DeviceConfigParser>(uri, 0, 1, "DeviceConfigParser");
     qmlRegisterSingletonType<GlobalFunctions>(uri, 0, 1, "Functions", createGlobalFunctions);
+    qmlRegisterType<URLDispatcher>(uri, 0, 1, "URLDispatcher");
 }

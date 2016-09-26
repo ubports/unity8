@@ -59,10 +59,10 @@ private Q_SLOTS:
     void testMangleColor()
     {
         QString background = getStringValue(sourceModel, "color-background", QLightDM::UsersModel::BackgroundPathRole);
-        QVERIFY(background == "#dd4814");
+        QVERIFY(background == "#E95420");
 
         background = getStringValue(model, "color-background", QLightDM::UsersModel::BackgroundPathRole);
-        QVERIFY(background == "data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>");
+        QVERIFY(background == "data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#E95420'/></svg>");
     }
 
     void testMangleEmptyName()
