@@ -22,6 +22,8 @@ Item{
 
     property var greeter: LightDM.Greeter
     property var infographic: LightDM.Infographic
+    property var sessions: LightDM.Sessions
+    property var sessionRoles: LightDM.SessionRoles
     property var users: LightDM.Users
     property var userRoles: LightDM.UserRoles
 

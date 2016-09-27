@@ -22,6 +22,7 @@ import Wizard 0.1
 import Ubuntu.Connectivity 1.0
 import Ubuntu.SystemImage 0.1
 import ".." as LocalComponents
+import "../../Components"
 
 LocalComponents.Page {
     id: wifiPage

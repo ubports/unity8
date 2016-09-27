@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2015 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -100,15 +100,12 @@ Item {
             }
             height: indicators.minimizedPanelHeight
             hoverEnabled: true
-            onClicked: callHint.visible ? callHint.showLiveCall() : PanelState.focusMaximizedApp()
-            onDoubleClicked: PanelState.restoreClicked()
+            onClicked: if (callHint.visible) { callHint.showLiveCall(); }
 
-            property bool mouseWasPressed: false
-            onPressed: mouseWasPressed = containsPress
-            onMouseYChanged: {
-                if (mouseWasPressed && mouseY > panelHeight) {
-                    PanelState.restoreClicked(); // restore the window when "dragging" the panel down
-                    mouseWasPressed = false;
+            onPressed: {
+                if (!callHint.visible) {
+                    // let it fall through to the window decoration of the maximized window behind, if any
+                    mouse.accepted = false;
                 }
             }
 
@@ -120,11 +117,8 @@ Item {
                 anchors {
                     left: parent.left
                     top: parent.top
-                    leftMargin: units.gu(1)
-                    topMargin: units.gu(0.5)
-                    bottomMargin: units.gu(0.5)
                 }
-                height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
+                height: indicators.minimizedPanelHeight
 
                 visible: ((PanelState.buttonsVisible && parent.containsMouse) || PanelState.buttonsAlwaysVisible)
                          && !root.locked && !callHint.visible
@@ -183,13 +177,15 @@ Item {
             }
             color: "white"
             height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
-            visible: !windowControlButtons.visible && !root.locked && !callHint.visible
+            opacity: !windowControlButtons.visible && !root.locked && !callHint.visible ? 1 : 0
+            visible: opacity != 0
             verticalAlignment: Text.AlignVCenter
             fontSize: "medium"
             font.weight: PanelState.buttonsVisible ? Font.Light : Font.Medium
             text: PanelState.title
             elide: Text.ElideRight
             maximumLineCount: 1
+            Behavior on opacity { UbuntuNumberAnimation {} }
         }
 
         // TODO here would the Locally integrated menus come

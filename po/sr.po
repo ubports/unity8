@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-08-11 06:28+0000\n"
-"PO-Revision-Date: 2016-05-04 19:50+0000\n"
+"POT-Creation-Date: 2016-09-22 07:46+0000\n"
+"PO-Revision-Date: 2016-08-22 20:43+0000\n"
 "Last-Translator: Bojan Bogdanović <Unknown>\n"
 "Language-Team: српски <xfce4@xfce4.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2016-08-17 05:52+0000\n"
-"X-Generator: Launchpad (build 18169)\n"
+"X-Launchpad-Export-Date: 2016-09-27 07:05+0000\n"
+"X-Generator: Launchpad (build 18204)\n"
 "Language: sr\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -37,26 +37,6 @@ msgstr "Напусти"
 #: plugins/Unity/Launcher/launcheritem.cpp:108
 msgid "Unpin shortcut"
 msgstr "Откачи пречицу"
-
-#: qml/Components/DelayedLockscreen.qml:50
-msgid "Device Locked"
-msgstr "Уређај је закључан"
-
-#: qml/Components/DelayedLockscreen.qml:65
-msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr "Закључано је због превише погрешних покушаја уноса приступне фразе."
-
-#: qml/Components/DelayedLockscreen.qml:66
-msgid "You have been locked out due to too many failed passcode attempts."
-msgstr "Закључано је због превише погрешних покушаја уноса приступног кода."
-
-#: qml/Components/DelayedLockscreen.qml:75
-#, qt-format
-msgid "Please wait %1 minute and then try again…"
-msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Сачекајте %1 минут, па покушајте поново…"
-msgstr[1] "Сачекајте %1 минута, па покушајте поново…"
-msgstr[2] "Сачекајте %1 минута, па покушајте поново…"
 
 #: qml/Components/Dialogs.qml:149
 msgctxt "Title: Lock/Log out dialog"
@@ -78,7 +58,8 @@ msgid "Log Out"
 msgstr "Одјави ме"
 
 #: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
-#: qml/Dash/DashPageHeader.qml:322 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
+#: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Откажи"
@@ -125,185 +106,185 @@ msgstr "Покрени поново"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "Пречице тастатуре"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Unity 8"
-msgstr ""
+msgstr "Јунити 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
-msgstr ""
+msgstr "PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr ""
+msgstr "Слика екран"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
-msgstr ""
+msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of a window."
-msgstr ""
+msgstr "Slika prozor"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
-msgstr ""
+msgstr "Super + Размакница"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr ""
+msgstr "Пребацује на следећу тастатуру."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
-msgstr ""
+msgstr "Super + Shift + Размакница"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr ""
+msgstr "Пребацује на претходну тастатуру."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:118
 msgid "Launcher"
-msgstr ""
+msgstr "Покретач"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:125
 msgid "Super (Hold)"
-msgstr ""
+msgstr "Super (Задржи)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:130
 msgid "Opens the launcher, displays shortcuts."
-msgstr ""
+msgstr "Отвара Покретач, приказује пречице."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Alt + F1"
-msgstr ""
+msgstr "Alt + F1"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens launcher keyboard navigation mode."
-msgstr ""
+msgstr "Отвара покретач тастатуре у навигационим режиму."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Super + Tab"
-msgstr ""
+msgstr "Super + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Switches applications via the launcher."
-msgstr ""
+msgstr "Пребацује програме преко покретача."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + 0 to 9"
-msgstr ""
+msgstr "Super + 0 до 9"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Same as clicking on a launcher icon."
-msgstr ""
+msgstr "Исто као и клик на икону покретача."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:181
 msgid "Scopes"
-msgstr ""
+msgstr "Опсези"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:188
 msgid "Super (Tap)"
-msgstr ""
+msgstr "Super (Тапни)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:193
 msgid "Opens the Scopes home."
-msgstr ""
+msgstr "Отвара почетну страницу Опсега."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:209
 msgid "Switching"
-msgstr ""
+msgstr "Пребацивање"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:216
 msgid "Alt + Tab"
-msgstr ""
+msgstr "Alt + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:221
 msgid "Switches between applications."
-msgstr ""
+msgstr "Пребацује између програма."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:229
 msgid "Super + W"
-msgstr ""
+msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:234
 msgid "Opens the desktop spread."
-msgstr ""
+msgstr "Отвара раширени декстоп."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Cursor Left or Right"
-msgstr ""
+msgstr "Показивач лево или десно"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Moves the focus."
-msgstr ""
+msgstr "Премешта усмерење."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:259
 msgid "Windows"
-msgstr ""
+msgstr "Прозори"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:266
 msgid "Ctrl + Super + D"
-msgstr ""
+msgstr "Ctrl + Super + Д"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:271
 msgid "Minimizes all windows."
-msgstr ""
+msgstr "Умањује све прозоре."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:279
 msgid "Ctrl + Super + Up"
-msgstr ""
+msgstr "Ctrl + Super + Нагоре"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:284
 msgid "Maximizes the current window."
-msgstr ""
+msgstr "Увећава све прозоре."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + Down"
-msgstr ""
+msgstr "Ctrl + Super + Надоле"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes or restores the current window."
-msgstr ""
+msgstr "Умањује или враћа тренутни прозор."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Left or Right"
-msgstr ""
+msgstr "Ctrl + Super + Лево или Десно"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Semi-maximizes the current window."
-msgstr ""
+msgstr "Полу-увећава тренутни прозор."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Alt + F4"
-msgstr ""
+msgstr "Alt + F4"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Closes the current window."
-msgstr ""
+msgstr "Затвара тренутни прозор."
 
-#: qml/Components/Lockscreen.qml:239
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
 msgid "Return to Call"
 msgstr "Врати се на позив"
 
-#: qml/Components/Lockscreen.qml:239
+#: qml/Components/Lockscreen.qml:212
 msgid "Emergency Call"
 msgstr "Хитан позив"
 
-#: qml/Components/Lockscreen.qml:271
+#: qml/Components/Lockscreen.qml:244
 msgid "OK"
 msgstr "У реду"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
 msgid "%1:%2:%3"
-msgstr ""
+msgstr "%1:%2:%3"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:49
 #, qt-format
 msgid "%1:%2"
-msgstr ""
+msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
@@ -335,55 +316,55 @@ msgstr "Затворите све"
 msgid "Preview Share Item"
 msgstr "Преглед дељене ставке"
 
-#: qml/Dash/DashPageHeader.qml:360
+#: qml/Dash/DashPageHeader.qml:362
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Продавница"
 
-#: qml/Dash/DashPageHeader.qml:367
+#: qml/Dash/DashPageHeader.qml:369
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Тражи"
 
-#: qml/Dash/DashPageHeader.qml:377
+#: qml/Dash/DashPageHeader.qml:379
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Подешавања"
 
-#: qml/Dash/DashPageHeader.qml:384
+#: qml/Dash/DashPageHeader.qml:386
 msgid "Remove from Favorites"
 msgstr "Уклони из омиљених"
 
-#: qml/Dash/DashPageHeader.qml:384
+#: qml/Dash/DashPageHeader.qml:386
 msgid "Add to Favorites"
 msgstr "Додај у омиљене"
 
-#: qml/Dash/FiltersPopover.qml:60
+#: qml/Dash/FiltersPopover.qml:61
 msgid "Refine your results"
 msgstr "Пречистите Ваше резултате"
 
-#: qml/Dash/FiltersPopover.qml:69
+#: qml/Dash/FiltersPopover.qml:70
 msgid "Reset"
 msgstr "Ресетуј"
 
-#: qml/Dash/GenericScopeView.qml:585 qml/Dash/GenericScopeView.qml:780
+#: qml/Dash/GenericScopeView.qml:586 qml/Dash/GenericScopeView.qml:782
 msgid "Show less"
 msgstr "Прикажи мање"
 
-#: qml/Dash/GenericScopeView.qml:585
+#: qml/Dash/GenericScopeView.qml:586
 msgid "Show all"
 msgstr "Прикажи све"
 
-#: qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:643
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Претрага"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:56
+#: qml/Dash/PageHeaderExtraPanel.qml:57
 msgid "Recent Searches"
 msgstr "Скорашње претраге"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:67
+#: qml/Dash/PageHeaderExtraPanel.qml:68
 msgid "Clear All"
 msgstr "Очисти све"
 
@@ -395,24 +376,24 @@ msgstr "Више..."
 msgid "Less..."
 msgstr "Мање..."
 
-#: qml/Dash/Previews/PreviewCommentInput.qml:68
-#: qml/Dash/Previews/PreviewRatingInput.qml:175
+#: qml/Dash/Previews/PreviewCommentInput.qml:83
+#: qml/Dash/Previews/PreviewRatingInput.qml:201
 msgid "Send"
 msgstr "Пошаљи"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:108
 msgid "Rate this"
 msgstr "Оцени"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:157
+#: qml/Dash/Previews/PreviewRatingInput.qml:183
 msgid "Add a review"
 msgstr "Напиши оцену"
 
-#: qml/Dash/PullToRefreshScopeStyle.qml:55
+#: qml/Dash/PullToRefreshScopeStyle.qml:56
 msgid "Pull to refresh…"
 msgstr "Повуци ради освежавања…"
 
-#: qml/Dash/PullToRefreshScopeStyle.qml:60
+#: qml/Dash/PullToRefreshScopeStyle.qml:61
 msgid "Release to refresh…"
 msgstr "Отпусти ради освежавања…"
 
@@ -420,15 +401,15 @@ msgstr "Отпусти ради освежавања…"
 msgid "Enable location data"
 msgstr "Омогући податке о положају"
 
-#: qml/Dash/ScopesList.qml:55
+#: qml/Dash/ScopesList.qml:57
 msgid "Manage"
 msgstr "Управљај"
 
-#: qml/Dash/ScopesList.qml:102
+#: qml/Dash/ScopesList.qml:104
 msgid "Home"
 msgstr "Почетна"
 
-#: qml/Dash/ScopesList.qml:103
+#: qml/Dash/ScopesList.qml:105
 msgid "Also installed"
 msgstr "Такође инсталиран"
 
@@ -444,84 +425,53 @@ msgstr ""
 msgid "Unlock"
 msgstr "Откључај"
 
-#: qml/Greeter/Greeter.qml:561
+#: qml/Greeter/DelayedLockscreen.qml:43
+msgid "Device Locked"
+msgstr "Уређај је закључан"
+
+#: qml/Greeter/DelayedLockscreen.qml:58
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr "Закључано је због превише погрешних покушаја уноса приступне фразе."
+
+#: qml/Greeter/DelayedLockscreen.qml:59
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr "Закључано је због превише погрешних покушаја уноса приступног кода."
+
+#: qml/Greeter/DelayedLockscreen.qml:68
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "Сачекајте %1 минут, па покушајте поново…"
+msgstr[1] "Сачекајте %1 минута, па покушајте поново…"
+msgstr[2] "Сачекајте %1 минута, па покушајте поново…"
+
+#: qml/Greeter/Greeter.qml:596
 msgid "Try again"
-msgstr ""
+msgstr "Покушајте поново"
 
-#: qml/Greeter/LoginList.qml:63
+#: qml/Greeter/LoginList.qml:70
 msgid "Passphrase"
-msgstr ""
+msgstr "Приступна фраза"
 
-#: qml/Greeter/LoginList.qml:64
+#: qml/Greeter/LoginList.qml:71
 msgid "Passcode"
-msgstr ""
+msgstr "Приступни код"
 
-#: qml/Greeter/LoginList.qml:87
+#: qml/Greeter/LoginList.qml:98
 msgid "Retry"
 msgstr "Покушај поново"
 
-#: qml/Greeter/LoginList.qml:88
+#: qml/Greeter/LoginList.qml:99
 msgid "Log In"
+msgstr "Пријави се"
+
+#: qml/Greeter/NarrowView.qml:252
+msgid "Emergency"
 msgstr ""
 
-#: qml/Greeter/NarrowView.qml:55
-msgid "Sorry, incorrect passphrase."
-msgstr "Извините, погрешна приступна фраза."
-
-#: qml/Greeter/NarrowView.qml:56
-msgid "Sorry, incorrect passcode."
-msgstr "Извините, погрешан приступни код."
-
-#: qml/Greeter/NarrowView.qml:57
-msgid "This will be your last attempt."
-msgstr "Ово је ваш последњи покушај."
-
-#: qml/Greeter/NarrowView.qml:59
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
+#: qml/Greeter/SessionsList.qml:122
+msgid "Select desktop environment"
 msgstr ""
-"Ако се унесе погрешна присупна фраза, ваш телефон ће се вратити на фабричка "
-"подешавања и сви лични подаци биће обрисани."
-
-#: qml/Greeter/NarrowView.qml:60
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
-msgstr ""
-"Ако се унесе погрешан приступни код, ваш телефон ће се вратити на фабричка "
-"подешавања и сви лични подаци биће обрисани."
-
-#: qml/Greeter/NarrowView.qml:129
-#, qt-format
-msgid "Enter %1"
-msgstr "Унеси %1"
-
-#: qml/Greeter/NarrowView.qml:130
-msgid "Enter passphrase"
-msgstr "Унесите приступну фразу"
-
-#: qml/Greeter/NarrowView.qml:131
-msgid "Enter passcode"
-msgstr "Унесите приступни код"
-
-#: qml/Greeter/NarrowView.qml:135
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "Извините, погрешан %1"
-
-#: qml/Greeter/NarrowView.qml:136
-msgid "Sorry, incorrect passphrase"
-msgstr "Извините, погрешна приступна фраза"
-
-#: qml/Greeter/NarrowView.qml:137
-msgctxt "passphrase"
-msgid "Please re-enter"
-msgstr "Поново унесите"
-
-#: qml/Greeter/NarrowView.qml:138
-msgid "Sorry, incorrect passcode"
-msgstr "Извините, погрешан приступни код"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -624,7 +574,7 @@ msgstr "Дуго превлачење са леве ивице да отвори
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
-msgstr ""
+msgstr "Кратко превуците са леве ивице за отварање покретача"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
@@ -633,62 +583,63 @@ msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:56
 msgid "Swipe from the right edge to view your open apps"
-msgstr ""
+msgstr "Превуците са леве ивице да видите отворене програме"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
+"Превуците са ивице врха да приступите обавештењима и брзим подашавањима"
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Назад"
 
-#: qml/Wizard/Pages/10-welcome.qml:27
+#: qml/Wizard/Pages/10-welcome.qml:28
 msgid "Language"
 msgstr "Језик"
 
-#: qml/Wizard/Pages/10-welcome.qml:172 qml/Wizard/Pages/20-keyboard.qml:151
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:270 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:144
+#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:207 qml/Wizard/Pages/40-location.qml:271
+#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/70-passwd-type.qml:145
 #: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:141
-#: qml/Wizard/Pages/password-set.qml:141
+#: qml/Wizard/Pages/passcode-desktop.qml:142
+#: qml/Wizard/Pages/password-set.qml:142
 msgid "Next"
 msgstr "Следеће"
 
-#: qml/Wizard/Pages/20-keyboard.qml:30
+#: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
-msgstr ""
+msgstr "Одаберите тастатуру"
 
-#: qml/Wizard/Pages/20-keyboard.qml:70
+#: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
-msgstr ""
+msgstr "Језик тастатуре"
 
-#: qml/Wizard/Pages/20-keyboard.qml:92
+#: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
-msgstr ""
+msgstr "Распоред тастатуре"
 
-#: qml/Wizard/Pages/20-keyboard.qml:151 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/77-system-update.qml:152 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:207
+#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/77-system-update.qml:152
+#: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Прескочи"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
 msgstr "Повежи се на бежичну мрежу"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:132
 msgid "Connected"
 msgstr "Повезан"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:165
 msgid "Available Wi-Fi networks"
 msgstr "Доступне Wi-Fi мреже"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:166
 msgid "No available Wi-Fi networks"
 msgstr "Нема доступних Wi-Fi мрежа"
 
@@ -726,11 +677,11 @@ msgstr "Не користи моју локацију"
 msgid "You can change it later in System Settings."
 msgstr "Можете касније порменити у Подешавању система"
 
-#: qml/Wizard/Pages/50-timezone.qml:29
+#: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "Временска зона"
 
-#: qml/Wizard/Pages/50-timezone.qml:181
+#: qml/Wizard/Pages/50-timezone.qml:182
 msgid "Enter your city"
 msgstr "Унесите Ваш град"
 
@@ -742,21 +693,21 @@ msgstr "Персонализујте Ваш уређај"
 msgid "Preferred Name"
 msgstr "Омиљено име"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:39
+#: qml/Wizard/Pages/70-passwd-type.qml:40
 msgid "Lock Screen"
 msgstr "Закључавање екрана"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:101
+#: qml/Wizard/Pages/70-passwd-type.qml:102
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr "Направите нову лозинку"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:103
+#: qml/Wizard/Pages/70-passwd-type.qml:104
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr "Направите нови приступни код (само бројеви)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:105
+#: qml/Wizard/Pages/70-passwd-type.qml:106
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "Нема кода за закључавање"
@@ -779,32 +730,34 @@ msgstr "Политика приватности"
 
 #: qml/Wizard/Pages/77-system-update.qml:28
 msgid "Update Device"
-msgstr ""
+msgstr "Ажурирајте уређај"
 
 #: qml/Wizard/Pages/77-system-update.qml:55
 msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
 msgstr ""
+"Постоји ажурирање система и спремно је за инсталацију. Након тога, уређај ће "
+"се аутоматски поново покренути."
 
 #: qml/Wizard/Pages/77-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu system"
-msgstr ""
+msgstr "Убунту систем"
 
 #: qml/Wizard/Pages/77-system-update.qml:83
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
-msgstr ""
+msgstr "Издање %1"
 
 #: qml/Wizard/Pages/77-system-update.qml:102
 msgid "This could take a few minutes..."
-msgstr ""
+msgstr "Ово може потрајати неколико минута..."
 
 #: qml/Wizard/Pages/77-system-update.qml:116
 msgid "Install and restart now"
-msgstr ""
+msgstr "Инсталирајте и покрените поново сада"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
@@ -854,7 +807,7 @@ msgid "Service Terms"
 msgstr "Услови сервиса"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:96
+#: qml/Wizard/Pages/passcode-desktop.qml:97
 msgid "Confirm passcode"
 msgstr "Потврдите приступни код"
 
@@ -867,28 +820,28 @@ msgctxt "Enter the passcode again"
 msgid "Please re-enter."
 msgstr "Молимо, унесите поново."
 
-#: qml/Wizard/Pages/passcode-desktop.qml:30
+#: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
 msgstr "Приступни код закључавања екрана"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:60
+#: qml/Wizard/Pages/passcode-desktop.qml:61
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "Унесите 4 броја да подесите приступни код"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:76
+#: qml/Wizard/Pages/passcode-desktop.qml:77
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "Одаберите приступни код"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:126
+#: qml/Wizard/Pages/passcode-desktop.qml:127
 msgid "Passcode too short"
 msgstr "Приступни код је превише кратак"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:128
+#: qml/Wizard/Pages/passcode-desktop.qml:129
 msgid "Passcodes match"
 msgstr "Приступни код се поклапа"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:130
+#: qml/Wizard/Pages/passcode-desktop.qml:131
 msgid "Passcodes do not match"
 msgstr "Приступни код се не поклапа"
 
@@ -896,19 +849,19 @@ msgstr "Приступни код се не поклапа"
 msgid "Passcode must be 4 characters long"
 msgstr "Приступни код мора бити диг 4 карактера"
 
-#: qml/Wizard/Pages/password-set.qml:30
+#: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
 msgstr "Лозинка закључавања екрана"
 
-#: qml/Wizard/Pages/password-set.qml:61
+#: qml/Wizard/Pages/password-set.qml:62
 msgid "Enter at least 8 characters"
 msgstr "Унесите најмање 8 карактера"
 
-#: qml/Wizard/Pages/password-set.qml:73
+#: qml/Wizard/Pages/password-set.qml:74
 msgid "Choose password"
 msgstr "Одаберите лозинку"
 
-#: qml/Wizard/Pages/password-set.qml:103
+#: qml/Wizard/Pages/password-set.qml:104
 msgid "Confirm password"
 msgstr "Потврдите лозинку"
 
@@ -938,7 +891,7 @@ msgstr "Да наставите без СИМ каритице тапните П
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr ""
+msgstr "Лозинка је прекратка"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
@@ -1063,6 +1016,13 @@ msgstr "Веома слаба лозинка"
 
 #~ msgid "Roaming"
 #~ msgstr "Роминг"
+
+#~ msgid "This will be your last attempt."
+#~ msgstr "Ово је ваш последњи покушај."
+
+#, qt-format
+#~ msgid "Enter %1"
+#~ msgstr "Унеси %1"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Молим, унесите поново"
@@ -1204,6 +1164,12 @@ msgstr "Веома слаба лозинка"
 #~ msgid "Reboot"
 #~ msgstr "Поново покрени"
 
+#~ msgid "Enter passphrase"
+#~ msgstr "Унесите приступну фразу"
+
+#~ msgid "Enter passcode"
+#~ msgstr "Унесите приступни код"
+
 #~ msgctxt "Label: Type of security method"
 #~ msgid "Passcode"
 #~ msgstr "Приступни код"
@@ -1233,6 +1199,40 @@ msgstr "Веома слаба лозинка"
 
 #~ msgid "Tap to unlock"
 #~ msgstr "Лупните да откључате"
+
+#~ msgid "Sorry, incorrect passphrase."
+#~ msgstr "Извините, погрешна приступна фраза."
+
+#~ msgid "Sorry, incorrect passcode."
+#~ msgstr "Извините, погрешан приступни код."
+
+#~ msgid ""
+#~ "If passphrase is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
+#~ msgstr ""
+#~ "Ако се унесе погрешна присупна фраза, ваш телефон ће се вратити на фабричка "
+#~ "подешавања и сви лични подаци биће обрисани."
+
+#~ msgid ""
+#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
+#~ "and all personal data will be deleted."
+#~ msgstr ""
+#~ "Ако се унесе погрешан приступни код, ваш телефон ће се вратити на фабричка "
+#~ "подешавања и сви лични подаци биће обрисани."
+
+#, qt-format
+#~ msgid "Sorry, incorrect %1"
+#~ msgstr "Извините, погрешан %1"
+
+#~ msgid "Sorry, incorrect passphrase"
+#~ msgstr "Извините, погрешна приступна фраза"
+
+#~ msgctxt "passphrase"
+#~ msgid "Please re-enter"
+#~ msgstr "Поново унесите"
+
+#~ msgid "Sorry, incorrect passcode"
+#~ msgstr "Извините, погрешан приступни код"
 
 #~ msgid "Tap here to finish."
 #~ msgstr "Лупните овде да завршите."

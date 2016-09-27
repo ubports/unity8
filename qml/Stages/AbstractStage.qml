@@ -55,6 +55,9 @@ FocusScope {
                                       | Qt.InvertedPortraitOrientation
                                       | Qt.InvertedLandscapeOrientation
 
+    property Item itemConfiningMouseCursor: null
+
+
     signal stageAboutToBeUnloaded
     signal itemSnapshotRequested(Item item)
 

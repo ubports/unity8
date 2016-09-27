@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-08-11 06:28+0000\n"
+"POT-Creation-Date: 2016-09-22 07:46+0000\n"
 "PO-Revision-Date: 2016-06-21 10:21+0000\n"
 "Last-Translator: Åka Sikrom <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-08-17 05:52+0000\n"
-"X-Generator: Launchpad (build 18169)\n"
+"X-Launchpad-Export-Date: 2016-09-27 07:04+0000\n"
+"X-Generator: Launchpad (build 18204)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
@@ -34,27 +34,6 @@ msgstr "Avslutt"
 #: plugins/Unity/Launcher/launcheritem.cpp:108
 msgid "Unpin shortcut"
 msgstr "Fjern snarvei"
-
-#: qml/Components/DelayedLockscreen.qml:50
-msgid "Device Locked"
-msgstr "Enheten er låst"
-
-#: qml/Components/DelayedLockscreen.qml:65
-msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr ""
-"Du har skrevet inn feil passordfrase for mange ganger, og er derfor "
-"utestengt."
-
-#: qml/Components/DelayedLockscreen.qml:66
-msgid "You have been locked out due to too many failed passcode attempts."
-msgstr "Du har tastet feil kode for mange ganger, og er derfor utestengt."
-
-#: qml/Components/DelayedLockscreen.qml:75
-#, qt-format
-msgid "Please wait %1 minute and then try again…"
-msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Vent i %1 minutt, og prøv deretter på nytt …"
-msgstr[1] "Vent i %1 minutter, og prøv deretter på nytt …"
 
 #: qml/Components/Dialogs.qml:149
 msgctxt "Title: Lock/Log out dialog"
@@ -76,7 +55,8 @@ msgid "Log Out"
 msgstr "Logg ut"
 
 #: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
-#: qml/Dash/DashPageHeader.qml:322 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
+#: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Avbryt"
@@ -281,15 +261,15 @@ msgstr "Alt + F4"
 msgid "Closes the current window."
 msgstr "Lukker gjeldende vindu."
 
-#: qml/Components/Lockscreen.qml:239
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
 msgid "Return to Call"
 msgstr "Tilbake til samtale"
 
-#: qml/Components/Lockscreen.qml:239
+#: qml/Components/Lockscreen.qml:212
 msgid "Emergency Call"
 msgstr "Nødanrop"
 
-#: qml/Components/Lockscreen.qml:271
+#: qml/Components/Lockscreen.qml:244
 msgid "OK"
 msgstr "OK"
 
@@ -335,55 +315,55 @@ msgstr "Lukk alle"
 msgid "Preview Share Item"
 msgstr "Forhåndsvis delingselement"
 
-#: qml/Dash/DashPageHeader.qml:360
+#: qml/Dash/DashPageHeader.qml:362
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Butikk"
 
-#: qml/Dash/DashPageHeader.qml:367
+#: qml/Dash/DashPageHeader.qml:369
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Søk"
 
-#: qml/Dash/DashPageHeader.qml:377
+#: qml/Dash/DashPageHeader.qml:379
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Innstillinger"
 
-#: qml/Dash/DashPageHeader.qml:384
+#: qml/Dash/DashPageHeader.qml:386
 msgid "Remove from Favorites"
 msgstr "Fjern fra favoritter"
 
-#: qml/Dash/DashPageHeader.qml:384
+#: qml/Dash/DashPageHeader.qml:386
 msgid "Add to Favorites"
 msgstr "Legg til i favoritter"
 
-#: qml/Dash/FiltersPopover.qml:60
+#: qml/Dash/FiltersPopover.qml:61
 msgid "Refine your results"
 msgstr "Filtrer søketreff"
 
-#: qml/Dash/FiltersPopover.qml:69
+#: qml/Dash/FiltersPopover.qml:70
 msgid "Reset"
 msgstr "Tilbakestill"
 
-#: qml/Dash/GenericScopeView.qml:585 qml/Dash/GenericScopeView.qml:780
+#: qml/Dash/GenericScopeView.qml:586 qml/Dash/GenericScopeView.qml:782
 msgid "Show less"
 msgstr "Vis færre"
 
-#: qml/Dash/GenericScopeView.qml:585
+#: qml/Dash/GenericScopeView.qml:586
 msgid "Show all"
 msgstr "Vis alle"
 
-#: qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:643
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Søk"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:56
+#: qml/Dash/PageHeaderExtraPanel.qml:57
 msgid "Recent Searches"
 msgstr "Nylige søk"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:67
+#: qml/Dash/PageHeaderExtraPanel.qml:68
 msgid "Clear All"
 msgstr "Tøm alt"
 
@@ -395,24 +375,24 @@ msgstr "Mer …"
 msgid "Less..."
 msgstr "Mindre …"
 
-#: qml/Dash/Previews/PreviewCommentInput.qml:68
-#: qml/Dash/Previews/PreviewRatingInput.qml:175
+#: qml/Dash/Previews/PreviewCommentInput.qml:83
+#: qml/Dash/Previews/PreviewRatingInput.qml:201
 msgid "Send"
 msgstr "Send"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:108
 msgid "Rate this"
 msgstr "Vurder dette"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:157
+#: qml/Dash/Previews/PreviewRatingInput.qml:183
 msgid "Add a review"
 msgstr "Skriv en anmeldelse"
 
-#: qml/Dash/PullToRefreshScopeStyle.qml:55
+#: qml/Dash/PullToRefreshScopeStyle.qml:56
 msgid "Pull to refresh…"
 msgstr "Dra for å oppdatere …"
 
-#: qml/Dash/PullToRefreshScopeStyle.qml:60
+#: qml/Dash/PullToRefreshScopeStyle.qml:61
 msgid "Release to refresh…"
 msgstr "Slipp for å oppdatere …"
 
@@ -420,15 +400,15 @@ msgstr "Slipp for å oppdatere …"
 msgid "Enable location data"
 msgstr "Slå på plasseringsdata"
 
-#: qml/Dash/ScopesList.qml:55
+#: qml/Dash/ScopesList.qml:57
 msgid "Manage"
 msgstr "Behandle"
 
-#: qml/Dash/ScopesList.qml:102
+#: qml/Dash/ScopesList.qml:104
 msgid "Home"
 msgstr "Hjem"
 
-#: qml/Dash/ScopesList.qml:103
+#: qml/Dash/ScopesList.qml:105
 msgid "Also installed"
 msgstr "Også installert"
 
@@ -444,84 +424,54 @@ msgstr ""
 msgid "Unlock"
 msgstr "Lås opp"
 
-#: qml/Greeter/Greeter.qml:561
+#: qml/Greeter/DelayedLockscreen.qml:43
+msgid "Device Locked"
+msgstr "Enheten er låst"
+
+#: qml/Greeter/DelayedLockscreen.qml:58
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+"Du har skrevet inn feil passordfrase for mange ganger, og er derfor "
+"utestengt."
+
+#: qml/Greeter/DelayedLockscreen.qml:59
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr "Du har tastet feil kode for mange ganger, og er derfor utestengt."
+
+#: qml/Greeter/DelayedLockscreen.qml:68
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "Vent i %1 minutt, og prøv deretter på nytt …"
+msgstr[1] "Vent i %1 minutter, og prøv deretter på nytt …"
+
+#: qml/Greeter/Greeter.qml:596
 msgid "Try again"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:63
+#: qml/Greeter/LoginList.qml:70
 msgid "Passphrase"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:64
+#: qml/Greeter/LoginList.qml:71
 msgid "Passcode"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:87
+#: qml/Greeter/LoginList.qml:98
 msgid "Retry"
 msgstr "Prøv igjen"
 
-#: qml/Greeter/LoginList.qml:88
+#: qml/Greeter/LoginList.qml:99
 msgid "Log In"
 msgstr "Logg inn"
 
-#: qml/Greeter/NarrowView.qml:55
-msgid "Sorry, incorrect passphrase."
-msgstr "Feil passordfrase."
-
-#: qml/Greeter/NarrowView.qml:56
-msgid "Sorry, incorrect passcode."
-msgstr "Feil kode."
-
-#: qml/Greeter/NarrowView.qml:57
-msgid "This will be your last attempt."
-msgstr "Dette er ditt siste forsøk."
-
-#: qml/Greeter/NarrowView.qml:59
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
+#: qml/Greeter/NarrowView.qml:252
+msgid "Emergency"
 msgstr ""
-"Hvis du skriver feil passordfrase en gang til, tilbakestilles telefonen til "
-"fabrikkinnstillinger, og alle personlige data slettes."
 
-#: qml/Greeter/NarrowView.qml:60
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
+#: qml/Greeter/SessionsList.qml:122
+msgid "Select desktop environment"
 msgstr ""
-"Hvis du skriver feil kode en gang til, tilbakestilles telefonen til "
-"fabrikkinnstillinger, og alle personlige data slettes."
-
-#: qml/Greeter/NarrowView.qml:129
-#, qt-format
-msgid "Enter %1"
-msgstr "Skriv inn %1"
-
-#: qml/Greeter/NarrowView.qml:130
-msgid "Enter passphrase"
-msgstr "Skriv inn passordfrase"
-
-#: qml/Greeter/NarrowView.qml:131
-msgid "Enter passcode"
-msgstr "Tast kode"
-
-#: qml/Greeter/NarrowView.qml:135
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "Feil %1"
-
-#: qml/Greeter/NarrowView.qml:136
-msgid "Sorry, incorrect passphrase"
-msgstr "Feil passordfrase"
-
-#: qml/Greeter/NarrowView.qml:137
-msgctxt "passphrase"
-msgid "Please re-enter"
-msgstr "Skriv inn på nytt"
-
-#: qml/Greeter/NarrowView.qml:138
-msgid "Sorry, incorrect passcode"
-msgstr "Feil kode"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -639,51 +589,51 @@ msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Tilbake"
 
-#: qml/Wizard/Pages/10-welcome.qml:27
+#: qml/Wizard/Pages/10-welcome.qml:28
 msgid "Language"
 msgstr "Språk"
 
-#: qml/Wizard/Pages/10-welcome.qml:172 qml/Wizard/Pages/20-keyboard.qml:151
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:270 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:144
+#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:207 qml/Wizard/Pages/40-location.qml:271
+#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/70-passwd-type.qml:145
 #: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:141
-#: qml/Wizard/Pages/password-set.qml:141
+#: qml/Wizard/Pages/passcode-desktop.qml:142
+#: qml/Wizard/Pages/password-set.qml:142
 msgid "Next"
 msgstr "Neste"
 
-#: qml/Wizard/Pages/20-keyboard.qml:30
+#: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
 msgstr ""
 
-#: qml/Wizard/Pages/20-keyboard.qml:70
+#: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
 msgstr ""
 
-#: qml/Wizard/Pages/20-keyboard.qml:92
+#: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
 msgstr ""
 
-#: qml/Wizard/Pages/20-keyboard.qml:151 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/77-system-update.qml:152 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:207
+#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/77-system-update.qml:152
+#: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Hopp over"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
 msgstr "Koble til trådløst nettverk"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:132
 msgid "Connected"
 msgstr "Koblet til"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:165
 msgid "Available Wi-Fi networks"
 msgstr "Tilgjengelige trådløse nettverk"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:166
 msgid "No available Wi-Fi networks"
 msgstr "Intet trådløst nettverk tilgjengelig"
 
@@ -721,11 +671,11 @@ msgstr "Ikke bruk posisjon"
 msgid "You can change it later in System Settings."
 msgstr "Du kan endre dette senere i systemoppsettet."
 
-#: qml/Wizard/Pages/50-timezone.qml:29
+#: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "Tidssone"
 
-#: qml/Wizard/Pages/50-timezone.qml:181
+#: qml/Wizard/Pages/50-timezone.qml:182
 msgid "Enter your city"
 msgstr "Skriv inn by"
 
@@ -737,21 +687,21 @@ msgstr "Tilpass enhet"
 msgid "Preferred Name"
 msgstr "Foretrukket navn"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:39
+#: qml/Wizard/Pages/70-passwd-type.qml:40
 msgid "Lock Screen"
 msgstr "Låseskjerm"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:101
+#: qml/Wizard/Pages/70-passwd-type.qml:102
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr "Lag nytt passord"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:103
+#: qml/Wizard/Pages/70-passwd-type.qml:104
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr "Lag kode (kun tall)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:105
+#: qml/Wizard/Pages/70-passwd-type.qml:106
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "Ingen låsekode"
@@ -850,7 +800,7 @@ msgid "Service Terms"
 msgstr "tjenestevilkår"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:96
+#: qml/Wizard/Pages/passcode-desktop.qml:97
 msgid "Confirm passcode"
 msgstr "Bekreft kode"
 
@@ -863,28 +813,28 @@ msgctxt "Enter the passcode again"
 msgid "Please re-enter."
 msgstr "Tast koden på nytt"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:30
+#: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
 msgstr "Låseskjerm-kode"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:60
+#: qml/Wizard/Pages/passcode-desktop.qml:61
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "Skriv inn 4 sifre som skal brukes som kode"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:76
+#: qml/Wizard/Pages/passcode-desktop.qml:77
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "Velg kode"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:126
+#: qml/Wizard/Pages/passcode-desktop.qml:127
 msgid "Passcode too short"
 msgstr "Koden er for kort"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:128
+#: qml/Wizard/Pages/passcode-desktop.qml:129
 msgid "Passcodes match"
 msgstr "Kodene stemmer"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:130
+#: qml/Wizard/Pages/passcode-desktop.qml:131
 msgid "Passcodes do not match"
 msgstr "Kodene er ulike"
 
@@ -892,19 +842,19 @@ msgstr "Kodene er ulike"
 msgid "Passcode must be 4 characters long"
 msgstr "Koden må bestå av 4 sifre"
 
-#: qml/Wizard/Pages/password-set.qml:30
+#: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
 msgstr "Låseskjerm-passord"
 
-#: qml/Wizard/Pages/password-set.qml:61
+#: qml/Wizard/Pages/password-set.qml:62
 msgid "Enter at least 8 characters"
 msgstr "Skriv inn minst 8 tegn"
 
-#: qml/Wizard/Pages/password-set.qml:73
+#: qml/Wizard/Pages/password-set.qml:74
 msgid "Choose password"
 msgstr "Velg passord"
 
-#: qml/Wizard/Pages/password-set.qml:103
+#: qml/Wizard/Pages/password-set.qml:104
 msgid "Confirm password"
 msgstr "Bekreft passord"
 
@@ -1036,6 +986,36 @@ msgstr "Veldig svakt passord"
 #~ msgid "Roaming"
 #~ msgstr "Fremmednett"
 
+#~ msgid "Sorry, incorrect passphrase."
+#~ msgstr "Feil passordfrase."
+
+#~ msgid "Sorry, incorrect passcode."
+#~ msgstr "Feil kode."
+
+#~ msgid ""
+#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
+#~ "and all personal data will be deleted."
+#~ msgstr ""
+#~ "Hvis du skriver feil kode en gang til, tilbakestilles telefonen til "
+#~ "fabrikkinnstillinger, og alle personlige data slettes."
+
+#~ msgid ""
+#~ "If passphrase is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
+#~ msgstr ""
+#~ "Hvis du skriver feil passordfrase en gang til, tilbakestilles telefonen til "
+#~ "fabrikkinnstillinger, og alle personlige data slettes."
+
+#~ msgid "This will be your last attempt."
+#~ msgstr "Dette er ditt siste forsøk."
+
+#, qt-format
+#~ msgid "Sorry, incorrect %1"
+#~ msgstr "Feil %1"
+
+#~ msgid "Sorry, incorrect passphrase"
+#~ msgstr "Feil passordfrase"
+
 #~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
 #~ msgstr "Skyv fra venstre for å få tilgang til programoppstarteren"
 
@@ -1057,14 +1037,27 @@ msgstr "Veldig svakt passord"
 #~ msgid "Power"
 #~ msgstr "Strøm"
 
+#~ msgid "Sorry, incorrect passcode"
+#~ msgstr "Feil kode"
+
 #~ msgid "Settings"
 #~ msgstr "Innstillinger"
 
 #~ msgid "Manage Scopes"
 #~ msgstr "Håndter virkefelt"
 
+#, qt-format
+#~ msgid "Enter %1"
+#~ msgstr "Skriv inn %1"
+
+#~ msgid "Enter passphrase"
+#~ msgstr "Skriv inn passordfrase"
+
 #~ msgid "Please re-enter"
 #~ msgstr "Skriv inn på nytt"
+
+#~ msgid "Enter passcode"
+#~ msgstr "Tast kode"
 
 #~ msgid "Without it, you won’t be able to make calls or use text messaging."
 #~ msgstr "Du kan ikke ringe eller sende meldinger uten et SIM-kort."
@@ -1277,6 +1270,10 @@ msgstr "Veldig svakt passord"
 
 #~ msgid "Tomorrow %H:%M"
 #~ msgstr "I morgen %H:%M"
+
+#~ msgctxt "passphrase"
+#~ msgid "Please re-enter"
+#~ msgstr "Skriv inn på nytt"
 
 #~ msgid "Swipe up for recent calls"
 #~ msgstr "Dra opp for å se nylige anrop"
