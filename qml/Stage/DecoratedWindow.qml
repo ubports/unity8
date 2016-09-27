@@ -222,34 +222,4 @@ FocusScope {
         opacity: root.darkening && !root.showHighlight ? 0.05 : 0
         Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
     }
-
-    MouseArea {
-        anchors.fill: applicationWindow
-        acceptedButtons: Qt.LeftButton
-        hoverEnabled: true
-        property bool dragging: false
-        onPressed: {
-            if (mouse.button == Qt.LeftButton && mouse.modifiers == Qt.AltModifier) {
-                root.decorationPressed(); // to raise it
-                moveHandler.handlePressedChanged(true, Qt.LeftButton, mouse.x, mouse.y);
-                dragging = true;
-                mouse.accepted = true;
-            } else {
-                mouse.accepted = false;
-            }
-        }
-        onPositionChanged: {
-            if (dragging) {
-                 moveHandler.handlePositionChanged(mouse);
-            }
-        }
-        onReleased: {
-            if (dragging) {
-                moveHandler.handlePressedChanged(false, Qt.LeftButton);
-                root.decorationReleased();  // commits the fake preview max rectangle
-                moveHandler.handleReleased();
-                dragging = false;
-            }
-        }
-    }
 }
