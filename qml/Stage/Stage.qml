@@ -707,6 +707,7 @@ FocusScope {
                 readonly property string appName: model.application ? model.application.name : ""
                 property bool visuallyMaximized: false
                 property bool visuallyMinimized: false
+                readonly property alias windowedTransitionRunning: windowedTransition.running
 
                 property int stage: ApplicationInfoInterface.MainStage
                 function saveStage(newStage) {
@@ -1155,7 +1156,7 @@ FocusScope {
                         }
                     },
                     State {
-                        name: "maximized"; when: appDelegate.windowState == WindowStateStorage.WindowStateMaximized
+                        name: "maximized"; when: appDelegate.maximized && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
                             requestedX: root.leftMargin;
@@ -1372,6 +1373,7 @@ FocusScope {
                         }
                     },
                     Transition {
+                        id: windowedTransition
                         to: "normal,maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
                         enabled: appDelegate.animationsEnabled
                         SequentialAnimation {
