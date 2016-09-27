@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-08-31 11:56+0000\n"
+"POT-Creation-Date: 2016-09-22 07:46+0000\n"
 "PO-Revision-Date: 2015-07-29 09:41+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
@@ -16,10 +16,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
 "3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2016-09-03 06:53+0000\n"
-"X-Generator: Launchpad (build 18179)\n"
+"X-Launchpad-Export-Date: 2016-09-27 07:03+0000\n"
+"X-Generator: Launchpad (build 18204)\n"
 
-#: plugins/IntegratedLightDM/Greeter.cpp:112
+#: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
 msgstr "كلمة السر: "
 
@@ -36,79 +36,55 @@ msgstr "خروج"
 msgid "Unpin shortcut"
 msgstr "إزالة تثبيت الاختصار"
 
-#: qml/Components/DelayedLockscreen.qml:50
-msgid "Device Locked"
-msgstr "الجهاز موصد"
-
-#: qml/Components/DelayedLockscreen.qml:65
-msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr ""
-"لقد تم تأمين الجهاز ضد الفتح بسبب المحاولات العديدة الفاشلة للعبارة السرّية."
-
-#: qml/Components/DelayedLockscreen.qml:66
-msgid "You have been locked out due to too many failed passcode attempts."
-msgstr ""
-"لقد تم تأمين الجهاز ضد الفتح بسبب المحاولات العديدة الفاشلة للرمز السرّي."
-
-#: qml/Components/DelayedLockscreen.qml:75
-#, qt-format
-msgid "Please wait %1 minute and then try again…"
-msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "برجاء الانتظار %1 دقيقة ثم المحاولة مجددًا..."
-msgstr[1] "برجاء الانتظار دقيقة واحدة (%1) ثم المحاولة مجددًا..."
-msgstr[2] "برجاء الانتظار دقيقتين (%1) ثم المحاولة مجددًا..."
-msgstr[3] "برجاء الانتظار %1 دقائق ثم المحاولة مجددًا..."
-msgstr[4] "برجاء الانتظار %1 دقيقة ثم المحاولة مجددًا..."
-msgstr[5] "برجاء الانتظار %1 دقيقة ثم المحاولة مجددًا..."
-
-#: qml/Components/Dialogs.qml:146
+#: qml/Components/Dialogs.qml:149
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "خروج"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:150
 msgid "Are you sure you want to log out?"
 msgstr "هل أنت متأكد من رغبتك في تسجيل الخروج؟"
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:152
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "أوصِد"
 
-#: qml/Components/Dialogs.qml:156
+#: qml/Components/Dialogs.qml:159
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "خروج"
 
-#: qml/Components/Dialogs.qml:163 qml/Components/Dialogs.qml:219
-#: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
+#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
+#: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "إلغاء"
 
-#: qml/Components/Dialogs.qml:175
+#: qml/Components/Dialogs.qml:178
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "إعادة التشغيل"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
 msgstr "هل أنت متأكد من رغبتك في إعادة تشغيل الجهاز؟"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:181
 msgid "No"
 msgstr "لا"
 
-#: qml/Components/Dialogs.qml:184
+#: qml/Components/Dialogs.qml:187
 msgid "Yes"
 msgstr "نعم"
 
-#: qml/Components/Dialogs.qml:199
+#: qml/Components/Dialogs.qml:202
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "الطاقة"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:203
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -116,12 +92,12 @@ msgstr ""
 "هل أنت متأكد من رغبتك\n"
 "في إيقاف التشغيل؟"
 
-#: qml/Components/Dialogs.qml:202
+#: qml/Components/Dialogs.qml:205
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "إيقاف التشغيل"
 
-#: qml/Components/Dialogs.qml:211
+#: qml/Components/Dialogs.qml:214
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "إعادة التشغيل"
@@ -286,15 +262,15 @@ msgstr ""
 msgid "Closes the current window."
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:239
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
 msgid "Return to Call"
 msgstr "العودة إلى المكالمة"
 
-#: qml/Components/Lockscreen.qml:239
+#: qml/Components/Lockscreen.qml:212
 msgid "Emergency Call"
 msgstr "مكالمة طوارئ"
 
-#: qml/Components/Lockscreen.qml:271
+#: qml/Components/Lockscreen.qml:244
 msgid "OK"
 msgstr "موافق"
 
@@ -338,55 +314,55 @@ msgstr ""
 msgid "Preview Share Item"
 msgstr ""
 
-#: qml/Dash/DashPageHeader.qml:333
+#: qml/Dash/DashPageHeader.qml:362
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "المتجر"
 
-#: qml/Dash/DashPageHeader.qml:340
+#: qml/Dash/DashPageHeader.qml:369
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "بحث"
 
-#: qml/Dash/DashPageHeader.qml:350
+#: qml/Dash/DashPageHeader.qml:379
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "الإعدادات"
 
-#: qml/Dash/DashPageHeader.qml:357
+#: qml/Dash/DashPageHeader.qml:386
 msgid "Remove from Favorites"
 msgstr "حذف من المفضلات"
 
-#: qml/Dash/DashPageHeader.qml:357
+#: qml/Dash/DashPageHeader.qml:386
 msgid "Add to Favorites"
 msgstr "إضافة إلى المفضلات"
 
-#: qml/Dash/FiltersPopover.qml:60
+#: qml/Dash/FiltersPopover.qml:61
 msgid "Refine your results"
 msgstr ""
 
-#: qml/Dash/FiltersPopover.qml:69
+#: qml/Dash/FiltersPopover.qml:70
 msgid "Reset"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:580 qml/Dash/GenericScopeView.qml:775
+#: qml/Dash/GenericScopeView.qml:586 qml/Dash/GenericScopeView.qml:782
 msgid "Show less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:580
+#: qml/Dash/GenericScopeView.qml:586
 msgid "Show all"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:637
+#: qml/Dash/GenericScopeView.qml:643
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "بحث"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:56
+#: qml/Dash/PageHeaderExtraPanel.qml:57
 msgid "Recent Searches"
 msgstr ""
 
-#: qml/Dash/PageHeaderExtraPanel.qml:67
+#: qml/Dash/PageHeaderExtraPanel.qml:68
 msgid "Clear All"
 msgstr ""
 
@@ -398,24 +374,24 @@ msgstr "المزيد..."
 msgid "Less..."
 msgstr "أقل..."
 
-#: qml/Dash/Previews/PreviewCommentInput.qml:68
-#: qml/Dash/Previews/PreviewRatingInput.qml:175
+#: qml/Dash/Previews/PreviewCommentInput.qml:83
+#: qml/Dash/Previews/PreviewRatingInput.qml:201
 msgid "Send"
 msgstr "أرسل"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:108
 msgid "Rate this"
 msgstr "قيّم ذلك"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:157
+#: qml/Dash/Previews/PreviewRatingInput.qml:183
 msgid "Add a review"
 msgstr "أضف تعليق"
 
-#: qml/Dash/PullToRefreshScopeStyle.qml:55
+#: qml/Dash/PullToRefreshScopeStyle.qml:56
 msgid "Pull to refresh…"
 msgstr "اسحب للتحديث..."
 
-#: qml/Dash/PullToRefreshScopeStyle.qml:60
+#: qml/Dash/PullToRefreshScopeStyle.qml:61
 msgid "Release to refresh…"
 msgstr "حرّر للتحديث..."
 
@@ -423,15 +399,15 @@ msgstr "حرّر للتحديث..."
 msgid "Enable location data"
 msgstr "تفعيل بيانات الموقع"
 
-#: qml/Dash/ScopesList.qml:55
+#: qml/Dash/ScopesList.qml:57
 msgid "Manage"
 msgstr "إدارة"
 
-#: qml/Dash/ScopesList.qml:102
+#: qml/Dash/ScopesList.qml:104
 msgid "Home"
 msgstr "الرئيسية"
 
-#: qml/Dash/ScopesList.qml:103
+#: qml/Dash/ScopesList.qml:105
 msgid "Also installed"
 msgstr "أيضا تم تثبيت"
 
@@ -445,84 +421,58 @@ msgstr ""
 msgid "Unlock"
 msgstr "فك القفل"
 
-#: qml/Greeter/Greeter.qml:539
+#: qml/Greeter/DelayedLockscreen.qml:43
+msgid "Device Locked"
+msgstr "الجهاز موصد"
+
+#: qml/Greeter/DelayedLockscreen.qml:58
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+"لقد تم تأمين الجهاز ضد الفتح بسبب المحاولات العديدة الفاشلة للعبارة السرّية."
+
+#: qml/Greeter/DelayedLockscreen.qml:59
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+"لقد تم تأمين الجهاز ضد الفتح بسبب المحاولات العديدة الفاشلة للرمز السرّي."
+
+#: qml/Greeter/DelayedLockscreen.qml:68
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "برجاء الانتظار %1 دقيقة ثم المحاولة مجددًا..."
+msgstr[1] "برجاء الانتظار دقيقة واحدة (%1) ثم المحاولة مجددًا..."
+msgstr[2] "برجاء الانتظار دقيقتين (%1) ثم المحاولة مجددًا..."
+msgstr[3] "برجاء الانتظار %1 دقائق ثم المحاولة مجددًا..."
+msgstr[4] "برجاء الانتظار %1 دقيقة ثم المحاولة مجددًا..."
+msgstr[5] "برجاء الانتظار %1 دقيقة ثم المحاولة مجددًا..."
+
+#: qml/Greeter/Greeter.qml:596
 msgid "Try again"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:63
+#: qml/Greeter/LoginList.qml:70
 msgid "Passphrase"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:64
+#: qml/Greeter/LoginList.qml:71
 msgid "Passcode"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:259
+#: qml/Greeter/LoginList.qml:98
 msgid "Retry"
 msgstr "إعادة المحاولة"
 
-#: qml/Greeter/LoginList.qml:260
+#: qml/Greeter/LoginList.qml:99
 msgid "Log In"
 msgstr ""
 
-#: qml/Greeter/NarrowView.qml:54
-msgid "Sorry, incorrect passphrase."
-msgstr "عذرًا، عبارة سرّية خاطئة."
-
-#: qml/Greeter/NarrowView.qml:55
-msgid "Sorry, incorrect passcode."
-msgstr "عذرًا، رمز سرّي خاطيء."
-
-#: qml/Greeter/NarrowView.qml:56
-msgid "This will be your last attempt."
-msgstr "هذه ستكون المحاولة الأخيرة لك."
-
-#: qml/Greeter/NarrowView.qml:58
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
+#: qml/Greeter/NarrowView.qml:252
+msgid "Emergency"
 msgstr ""
-"إذا تم إدخال العبارة السرية بشكل خاطئ، فسوف يتم إعادة الهاتف لحالة ضبط "
-"المصنع وسيتم حذف كافة البيانات الشخصية."
 
-#: qml/Greeter/NarrowView.qml:59
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
+#: qml/Greeter/SessionsList.qml:122
+msgid "Select desktop environment"
 msgstr ""
-"إذا تم إدخال العبارة السرية بشكل خاطئ، فسوف يتم إعادة الهاتف لحالة ضبط "
-"المصنع وسيتم حذف كافة البيانات الشخصية."
-
-#: qml/Greeter/NarrowView.qml:129
-#, qt-format
-msgid "Enter %1"
-msgstr "أدخِل %1"
-
-#: qml/Greeter/NarrowView.qml:130
-msgid "Enter passphrase"
-msgstr "أدخِل العبارة السرية"
-
-#: qml/Greeter/NarrowView.qml:131
-msgid "Enter passcode"
-msgstr "أدخِل الرمز السرّي"
-
-#: qml/Greeter/NarrowView.qml:135
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "نأسف، %1 غير صحيحية"
-
-#: qml/Greeter/NarrowView.qml:136
-msgid "Sorry, incorrect passphrase"
-msgstr "نأسف، عبارة السّر غير صحيحية"
-
-#: qml/Greeter/NarrowView.qml:137
-msgctxt "passphrase"
-msgid "Please re-enter"
-msgstr "برجاء إعادة إدخالها"
-
-#: qml/Greeter/NarrowView.qml:138
-msgid "Sorry, incorrect passcode"
-msgstr "نأسف، الرمز السري غير صحيح"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -652,49 +602,51 @@ msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "عودة"
 
-#: qml/Wizard/Pages/10-welcome.qml:27
+#: qml/Wizard/Pages/10-welcome.qml:28
 msgid "Language"
 msgstr ""
 
-#: qml/Wizard/Pages/10-welcome.qml:171 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
+#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:207 qml/Wizard/Pages/40-location.qml:271
+#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/70-passwd-type.qml:145
 #: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:141
-#: qml/Wizard/Pages/password-set.qml:141
+#: qml/Wizard/Pages/passcode-desktop.qml:142
+#: qml/Wizard/Pages/password-set.qml:142
 msgid "Next"
 msgstr ""
 
-#: qml/Wizard/Pages/20-keyboard.qml:30
+#: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
 msgstr ""
 
-#: qml/Wizard/Pages/20-keyboard.qml:70
+#: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
 msgstr ""
 
-#: qml/Wizard/Pages/20-keyboard.qml:92
+#: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
 msgstr ""
 
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:207
+#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/77-system-update.qml:152
 #: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "تخطي"
 
-#: qml/Wizard/Pages/30-wifi.qml:29
+#: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
 msgstr "اتصل بالواي فاي"
 
-#: qml/Wizard/Pages/30-wifi.qml:130
+#: qml/Wizard/Pages/30-wifi.qml:132
 msgid "Connected"
 msgstr ""
 
-#: qml/Wizard/Pages/30-wifi.qml:163
+#: qml/Wizard/Pages/30-wifi.qml:165
 msgid "Available Wi-Fi networks"
 msgstr ""
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:166
 msgid "No available Wi-Fi networks"
 msgstr ""
 
@@ -730,11 +682,11 @@ msgstr ""
 msgid "You can change it later in System Settings."
 msgstr ""
 
-#: qml/Wizard/Pages/50-timezone.qml:29
+#: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr ""
 
-#: qml/Wizard/Pages/50-timezone.qml:181
+#: qml/Wizard/Pages/50-timezone.qml:182
 msgid "Enter your city"
 msgstr ""
 
@@ -746,21 +698,21 @@ msgstr ""
 msgid "Preferred Name"
 msgstr ""
 
-#: qml/Wizard/Pages/70-passwd-type.qml:39
+#: qml/Wizard/Pages/70-passwd-type.qml:40
 msgid "Lock Screen"
 msgstr ""
 
-#: qml/Wizard/Pages/70-passwd-type.qml:101
+#: qml/Wizard/Pages/70-passwd-type.qml:102
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr ""
 
-#: qml/Wizard/Pages/70-passwd-type.qml:103
+#: qml/Wizard/Pages/70-passwd-type.qml:104
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr ""
 
-#: qml/Wizard/Pages/70-passwd-type.qml:105
+#: qml/Wizard/Pages/70-passwd-type.qml:106
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr ""
@@ -853,7 +805,7 @@ msgid "Service Terms"
 msgstr ""
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:96
+#: qml/Wizard/Pages/passcode-desktop.qml:97
 msgid "Confirm passcode"
 msgstr "تأكيد الرمز السري"
 
@@ -866,28 +818,28 @@ msgctxt "Enter the passcode again"
 msgid "Please re-enter."
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:30
+#: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:60
+#: qml/Wizard/Pages/passcode-desktop.qml:61
 msgid "Enter 4 numbers to setup your passcode"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:76
+#: qml/Wizard/Pages/passcode-desktop.qml:77
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:126
+#: qml/Wizard/Pages/passcode-desktop.qml:127
 msgid "Passcode too short"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:128
+#: qml/Wizard/Pages/passcode-desktop.qml:129
 msgid "Passcodes match"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:130
+#: qml/Wizard/Pages/passcode-desktop.qml:131
 msgid "Passcodes do not match"
 msgstr ""
 
@@ -895,19 +847,19 @@ msgstr ""
 msgid "Passcode must be 4 characters long"
 msgstr ""
 
-#: qml/Wizard/Pages/password-set.qml:30
+#: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
 msgstr ""
 
-#: qml/Wizard/Pages/password-set.qml:61
+#: qml/Wizard/Pages/password-set.qml:62
 msgid "Enter at least 8 characters"
 msgstr ""
 
-#: qml/Wizard/Pages/password-set.qml:73
+#: qml/Wizard/Pages/password-set.qml:74
 msgid "Choose password"
 msgstr ""
 
-#: qml/Wizard/Pages/password-set.qml:103
+#: qml/Wizard/Pages/password-set.qml:104
 msgid "Confirm password"
 msgstr ""
 
@@ -1073,8 +1025,37 @@ msgstr ""
 #~ msgid "Tap to unlock"
 #~ msgstr "انقر لفك القفل"
 
+#, qt-format
+#~ msgid "Enter %1"
+#~ msgstr "أدخِل %1"
+
+#~ msgid "Sorry, incorrect passcode."
+#~ msgstr "عذرًا، رمز سرّي خاطيء."
+
+#~ msgid "Enter passphrase"
+#~ msgstr "أدخِل العبارة السرية"
+
+#~ msgid "Enter passcode"
+#~ msgstr "أدخِل الرمز السرّي"
+
+#~ msgid "Sorry, incorrect passphrase."
+#~ msgstr "عذرًا، عبارة سرّية خاطئة."
+
+#~ msgid "This will be your last attempt."
+#~ msgstr "هذه ستكون المحاولة الأخيرة لك."
+
+#, qt-format
+#~ msgid "Sorry, incorrect %1"
+#~ msgstr "نأسف، %1 غير صحيحية"
+
+#~ msgid "Sorry, incorrect passphrase"
+#~ msgstr "نأسف، عبارة السّر غير صحيحية"
+
 #~ msgid "Please re-enter"
 #~ msgstr "برجاء إعادة إدخالها"
+
+#~ msgid "Sorry, incorrect passcode"
+#~ msgstr "نأسف، الرمز السري غير صحيح"
 
 #~ msgid "This action does different things for different apps"
 #~ msgstr "هذا الإجراء يقوم بأشياء مختلفة على التطبيقات المختلفة"
@@ -1196,6 +1177,10 @@ msgstr ""
 #~ "باستخدام نظام تحديد المواقع (GPS)، والواي فاي، وبيانات الشبكة الخلوية "
 #~ "(مستحسن)"
 
+#~ msgctxt "passphrase"
+#~ msgid "Please re-enter"
+#~ msgstr "برجاء إعادة إدخالها"
+
 #~ msgid ""
 #~ "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 #~ "Privacy</b>"
@@ -1234,3 +1219,17 @@ msgstr ""
 #~ msgstr ""
 #~ "باختيارك لهذا الخيار فإنك توافق على <a href='#'>الشروط والأحكام</a> الخاصة "
 #~ "بـ Nokia HERE."
+
+#~ msgid ""
+#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
+#~ "and all personal data will be deleted."
+#~ msgstr ""
+#~ "إذا تم إدخال العبارة السرية بشكل خاطئ، فسوف يتم إعادة الهاتف لحالة ضبط "
+#~ "المصنع وسيتم حذف كافة البيانات الشخصية."
+
+#~ msgid ""
+#~ "If passphrase is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
+#~ msgstr ""
+#~ "إذا تم إدخال العبارة السرية بشكل خاطئ، فسوف يتم إعادة الهاتف لحالة ضبط "
+#~ "المصنع وسيتم حذف كافة البيانات الشخصية."
