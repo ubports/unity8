@@ -145,7 +145,7 @@ FocusScope {
     GlobalShortcut {
         id: minimizeAllShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_D
-        onTriggered: {print("tigggggered"); priv.minimizeAllWindows()}
+        onTriggered: priv.minimizeAllWindows()
         active: root.state == "windowed"
     }
 
@@ -212,9 +212,7 @@ FocusScope {
         function minimizeAllWindows() {
             for (var i = 0; i < appRepeater.count; i++) {
                 var appDelegate = appRepeater.itemAt(i);
-                print("have delegate", appDelegate.appId)
                 if (appDelegate && !appDelegate.minimized) {
-                    print("minimizing it", appDelegate.appId)
                     appDelegate.minimize();
                 }
             }
