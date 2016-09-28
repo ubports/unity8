@@ -765,7 +765,7 @@ FocusScope {
                     if (focus) {
                         topLevelSurfaceList.raiseId(model.id);
                         priv.focusedAppDelegate = appDelegate;
-                    } else if (!focus && priv.focusedAppDelegate === appDelegate) {
+                    } else if (!focus && priv.focusedAppDelegate === appDelegate && root.state != "spread") {
                         priv.focusedAppDelegate = null;
                         // FIXME: No idea why the Binding{} doens't update when focusedAppDelegate turns null
                         MirFocusController.focusedSurface = null;
