@@ -34,7 +34,7 @@ FocusScope {
     property alias alphanumeric: loginList.alphanumeric
     property alias userModel: loginList.model
     property alias infographicModel: coverPage.infographicModel
-    property string sessionToStart
+    property alias sessionToStart: loginList.currentSession
     property bool waiting
     readonly property bool fullyShown: coverPage.showProgress === 1 || lockscreen.shown
     readonly property bool required: coverPage.required || lockscreen.required
