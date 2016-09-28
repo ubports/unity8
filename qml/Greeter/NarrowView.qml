@@ -15,7 +15,9 @@
  */
 
 import QtQuick 2.4
+import QtQuick.Window 2.2
 import Ubuntu.Components 1.3
+import Ubuntu.Telephony 0.1 as Telephony
 import "../Components"
 
 FocusScope {
@@ -23,34 +25,40 @@ FocusScope {
 
     property alias dragHandleLeftMargin: coverPage.dragHandleLeftMargin
     property alias launcherOffset: coverPage.launcherOffset
-    property int currentIndex // unused
-    property alias delayMinutes: lockscreen.delayMinutes
+    property alias currentIndex: loginList.currentIndex
+    property alias delayMinutes: delayedLockscreen.delayMinutes
     property alias backgroundTopMargin: coverPage.backgroundTopMargin
     property url background
+    property bool hasCustomBackground
     property bool locked
-    property bool alphanumeric
-    property var userModel // unused
+    property alias alphanumeric: loginList.alphanumeric
+    property alias userModel: loginList.model
     property alias infographicModel: coverPage.infographicModel
+    property string sessionToStart
     property bool waiting
     readonly property bool fullyShown: coverPage.showProgress === 1 || lockscreen.shown
     readonly property bool required: coverPage.required || lockscreen.required
     readonly property bool animating: coverPage.showAnimation.running || coverPage.hideAnimation.running
 
-    signal selected(int index) // unused
+    // so that it can be replaced in tests with a mock object
+    property var inputMethod: Qt.inputMethod
+
+    signal selected(int index)
     signal responded(string response)
     signal tease()
     signal emergencyCall()
 
     function showMessage(html) {
-        // TODO
+        loginList.showMessage(html);
     }
 
     function showPrompt(text, isSecret, isDefaultPrompt) {
-        lockscreen.promptText = isDefaultPrompt ? "" : text.toLowerCase();
-        lockscreen.maybeShow();
+        loginList.showPrompt(text, isSecret, isDefaultPrompt);
     }
 
     function showLastChance() {
+        /* TODO: when we finish support for resetting device after too many
+                 failed logins, we should re-add this popup.
         var title = lockscreen.alphaNumeric ?
                     i18n.tr("Sorry, incorrect passphrase.") :
                     i18n.tr("Sorry, incorrect passcode.");
@@ -59,6 +67,7 @@ FocusScope {
                     i18n.tr("If passphrase is entered incorrectly, your phone will conduct a factory reset and all personal data will be deleted.") :
                     i18n.tr("If passcode is entered incorrectly, your phone will conduct a factory reset and all personal data will be deleted."));
         lockscreen.showInfoPopup(title, text);
+        */
     }
 
     function hide() {
@@ -67,27 +76,24 @@ FocusScope {
     }
 
     function notifyAuthenticationSucceeded(showFakePassword) {
-        // When using an alternate log in mechanism like fingerprints, the
-        // design is it looks like the user entered a passcode.
-        if (!alphanumeric && showFakePassword) {
-            lockscreen.showText("...."); // actual text doesn't matter, we show bullets
+        if (showFakePassword) {
+            loginList.showFakePassword();
         }
     }
 
     function notifyAuthenticationFailed() {
-        lockscreen.customError = "";
-        lockscreen.clear(true);
+        loginList.showError();
     }
 
     function showErrorMessage(msg) {
         coverPage.showErrorMessage(msg);
-        lockscreen.customError = msg ? msg : " "; // avoid default message
-        lockscreen.clear(true);
     }
 
-    function reset() {
-        lockscreen.customError = "";
-        coverPage.show();
+    function reset(forceShow) {
+        loginList.reset();
+        if (forceShow) {
+            coverPage.show();
+        }
     }
 
     function tryToUnlock(toTheRight) {
@@ -109,48 +115,59 @@ FocusScope {
         }
     }
 
-    Lockscreen {
+    Showable {
         id: lockscreen
         objectName: "lockscreen"
-
+        anchors.fill: parent
         shown: false
+
         showAnimation: StandardAnimation { property: "opacity"; to: 1 }
         hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
-        anchors.fill: parent
-        visible: required
-        enabled: !coverPage.shown
-        background: root.background
-        darkenBackground: 0.4
-        alphaNumeric: root.alphanumeric
-        minPinLength: 4
-        maxPinLength: 4
 
-        property string promptText
-        infoText: promptText !== "" ? i18n.tr("Enter %1").arg(promptText) :
-                  alphaNumeric ? i18n.tr("Enter passphrase") :
-                                 i18n.tr("Enter passcode")
-
-        property string customError
-        errorText: customError !== "" ? customError :
-                   promptText !== "" ? i18n.tr("Sorry, incorrect %1").arg(promptText) :
-                   alphaNumeric ? i18n.tr("Sorry, incorrect passphrase") + "\n" +
-                                  i18n.ctr("passphrase", "Please re-enter") :
-                                  i18n.tr("Sorry, incorrect passcode")
-
-        onEntered: root.responded(passphrase)
-        onCancel: coverPage.show()
-        onEmergencyCall: root.emergencyCall()
-
-        onEnabledChanged: {
-            if (enabled) {
-                lockscreen.forceActiveFocus();
+        Wallpaper {
+            id: lockscreenBackground
+            objectName: "lockscreenBackground"
+            anchors {
+                fill: parent
+                topMargin: root.backgroundTopMargin
             }
+            source: root.background
         }
 
-        onVisibleChanged: {
-            if (visible) {
-                lockscreen.forceActiveFocus();
+        // Darken background to match CoverPage
+        Rectangle {
+            objectName: "lockscreenShade"
+            anchors.fill: parent
+            color: "black"
+            opacity: root.hasCustomBackground ? 0.4 : 0
+        }
+
+        LoginList {
+            id: loginList
+            objectName: "loginList"
+
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                top: parent.top
+                bottom: parent.bottom
             }
+            width: units.gu(40)
+            boxVerticalOffset: units.gu(14)
+            enabled: !coverPage.shown && visible
+            visible: !delayedLockscreen.visible
+
+            locked: root.locked
+
+            onSelected: if (enabled) root.selected(index)
+            onResponded: root.responded(response)
+        }
+
+        DelayedLockscreen {
+            id: delayedLockscreen
+            objectName: "delayedLockscreen"
+            anchors.fill: parent
+            visible: delayMinutes > 0
+            alphaNumeric: loginList.alphanumeric
         }
 
         function maybeShow() {
@@ -172,21 +189,16 @@ FocusScope {
         height: parent.height
         width: parent.width
         background: root.background
+        hasCustomBackground: root.hasCustomBackground
         draggable: !root.waiting
         onTease: root.tease()
         onClicked: hide()
 
         onShowProgressChanged: {
             if (showProgress === 1) {
-                lockscreen.reset();
-            }
-
-            if (showProgress === 0) {
-                if (root.locked) {
-                    lockscreen.clear(false); // to reset focus if necessary
-                } else {
-                    root.responded("");
-                }
+                loginList.reset();
+            } else if (showProgress === 0) {
+                loginList.tryToUnlock();
             }
         }
 
@@ -197,5 +209,79 @@ FocusScope {
                 horizontalCenter: parent.horizontalCenter
             }
         }
+    }
+
+    StyledItem {
+        id: bottomBar
+        visible: lockscreen.shown
+        height: units.gu(4)
+
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.bottom
+        anchors.topMargin: - height * (1 - coverPage.showProgress)
+                           - (inputMethod && inputMethod.visible ?
+                              inputMethod.keyboardRectangle.height : 0)
+
+        Rectangle {
+            color: UbuntuColors.porcelain // matches OSK background
+            anchors.fill: parent
+        }
+
+        Label {
+            text: i18n.tr("Cancel")
+            anchors.left: parent.left
+            anchors.leftMargin: units.gu(2)
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            verticalAlignment: Text.AlignVCenter
+            font.weight: Font.Light
+            fontSize: "small"
+            color: UbuntuColors.slate
+
+            AbstractButton {
+                anchors.fill: parent
+                anchors.leftMargin: -units.gu(2)
+                anchors.rightMargin: -units.gu(2)
+                onClicked: coverPage.show()
+            }
+        }
+
+        Label {
+            objectName: "emergencyCallLabel"
+            text: callManager.hasCalls ? i18n.tr("Return to Call") : i18n.tr("Emergency")
+            anchors.right: parent.right
+            anchors.rightMargin: units.gu(2)
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            verticalAlignment: Text.AlignVCenter
+            font.weight: Font.Light
+            fontSize: "small"
+            color: UbuntuColors.slate
+            // TODO: uncomment once bug 1616538 is fixed
+            // visible: telepathyHelper.ready && telepathyHelper.emergencyCallsAvailable
+            enabled: visible
+
+            AbstractButton {
+                anchors.fill: parent
+                anchors.leftMargin: -units.gu(2)
+                anchors.rightMargin: -units.gu(2)
+                onClicked: root.emergencyCall()
+            }
+        }
+    }
+
+    // FIXME: It's difficult to keep something tied closely to the OSK (bug
+    //        1616163).  But as a hack to avoid the background peeking out,
+    //        we add an extra Rectangle that just serves to hide the background
+    //        during OSK animations.
+    Rectangle {
+        visible: bottomBar.visible
+        height: inputMethod && inputMethod.visible ?
+                inputMethod.keyboardRectangle.height : 0
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        color: UbuntuColors.porcelain
     }
 }
