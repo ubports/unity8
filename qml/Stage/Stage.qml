@@ -1809,9 +1809,10 @@ FocusScope {
 
         onClicked: {
             if (sideStage.shown) {
-               sideStage.hide();
+                sideStage.hide();
             } else  {
-               sideStage.show();
+                sideStage.show();
+                priv.updateMainAndSideStageIndexes()
             }
         }
 
