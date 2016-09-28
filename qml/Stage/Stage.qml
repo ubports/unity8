@@ -900,7 +900,7 @@ FocusScope {
                             rightEdgeFocusAnimation.targetX = appDelegate.stage == ApplicationInfoInterface.SideStage ? sideStage.x : 0
                             rightEdgeFocusAnimation.start()
                         }
-                    } else if (state == "windowedRightEdge" || root.mode == "windowed") {
+                    } else if (state == "windowedRightEdge") {
                         claimFocus();
                     } else {
                         focusAnimation.start()
@@ -942,7 +942,7 @@ FocusScope {
                         topLevelSurfaceList.raiseId(model.id);
                     }
                     onStopped: {
-                        appDelegate.focus = true
+                        appDelegate.claimFocus();
                     }
                 }
                 ParallelAnimation {
@@ -1370,6 +1370,7 @@ FocusScope {
                         }
                     },
                     Transition {
+                        from: "normal,maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
                         to: "normal,maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
                         enabled: appDelegate.animationsEnabled
                         SequentialAnimation {
