@@ -182,6 +182,12 @@ IndicatorTest {
             signalName: "pressedChanged"
         }
 
+        SignalSpy {
+            id: windowControlButtonsSpy
+            target: PanelState
+            signalName: "closeClicked"
+        }
+
         function init() {
             panel.fullscreenMode = false;
             callManager.foregroundCall = null;
@@ -197,6 +203,8 @@ IndicatorTest {
 
             backgroundPressedSpy.clear();
             compare(backgroundPressedSpy.valid, true);
+            windowControlButtonsSpy.clear();
+            compare(windowControlButtonsSpy.valid, true);
         }
 
         function get_indicator_item(index) {
@@ -380,8 +388,6 @@ IndicatorTest {
                 tap(panel, stepLength * i, tapY);
                 tryCompare(panel.indicators, "fullyClosed", true);
             }
-
-            compare(backgroundPressedSpy.count, 0);
         }
 
         function test_darkenedAreaEatsAllEvents() {
@@ -493,6 +499,17 @@ IndicatorTest {
 
             compare(panel.indicators.shown, false);
             tryCompare(panel.indicators, "fullyClosed", true);
+        }
+
+        // https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1611959
+        function test_windowControlButtonsFittsLaw() {
+            var buttonsVisible = PanelState.buttonsVisible;
+            PanelState.buttonsVisible = true;
+            // click in very topleft corner and verify the close button got clicked too
+            mouseMove(panel, 0, 0);
+            mouseClick(panel, 0, 0, undefined /*button*/, undefined /*modifiers*/, 100 /*short delay*/);
+            compare(windowControlButtonsSpy.count, 1);
+            PanelState.buttonsVisible = buttonsVisible;
         }
     }
 }

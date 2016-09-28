@@ -41,7 +41,7 @@ void WindowStateStorage::saveGeometry(const QString &windowId, const QRect &rect
     m_geometry[windowId] = rect;
 }
 
-QRect WindowStateStorage::getGeometry(const QString &windowId, const QRect &defaultValue)
+QRect WindowStateStorage::getGeometry(const QString &windowId, const QRect &defaultValue) const
 {
     if (!m_geometry.contains(windowId)) return defaultValue;
     return m_geometry.value(windowId).toRect();
@@ -70,7 +70,7 @@ void WindowStateStorage::saveState(const QString &windowId, WindowState state)
     m_state[windowId] = state;
 }
 
-WindowStateStorage::WindowState WindowStateStorage::getState(const QString &windowId, WindowStateStorage::WindowState defaultValue)
+WindowStateStorage::WindowState WindowStateStorage::getState(const QString &windowId, WindowStateStorage::WindowState defaultValue) const
 {
     if (!m_state.contains(windowId)) return defaultValue;
     return m_state.value(windowId);

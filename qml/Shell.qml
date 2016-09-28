@@ -26,6 +26,7 @@ import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import GlobalShortcut 1.0 // has to be before Utils, because of WindowInputFilter
 import GSettings 1.0
+import ImageCache 0.1
 import Utils 0.1
 import Powerd 0.1
 import SessionBroadcast 0.1
@@ -145,12 +146,49 @@ StyledItem {
 
     WallpaperResolver {
         id: wallpaperResolver
-        width: shell.width
+        objectName: "wallpaperResolver"
+
+        readonly property url defaultBackground: "file:///usr/share/backgrounds/warty-final-ubuntu.png"
+        readonly property bool hasCustomBackground: background != defaultBackground
+
+        // Use a cached version of the scaled-down wallpaper (as sometimes the
+        // image can be quite big compared to the device size, including for
+        // our default wallpaper). We use a name=wallpaper argument here to
+        // make sure we don't litter our cache with lots of scaled images. We
+        // only need to bother caching one at a time.
+        readonly property url cachedBackground: background.toString().indexOf("file:///") === 0 ? "image://unity8imagecache/" + background + "?name=wallpaper" : background
+
+        GSettings {
+            id: backgroundSettings
+            schema.id: "org.gnome.desktop.background"
+        }
+
+        candidates: [
+            AccountsService.backgroundFile,
+            backgroundSettings.pictureUri,
+            defaultBackground
+        ]
     }
 
     readonly property alias greeter: greeterLoader.item
 
     function activateApplication(appId) {
+        // Either open the app in our own session, or -- if we're acting as a
+        // greeter -- ask the user's session to open it for us.
+        if (shell.mode === "greeter") {
+            activateURL("application:///" + appId + ".desktop");
+        } else {
+            startApp(appId);
+        }
+    }
+
+    function activateURL(url) {
+        SessionBroadcast.requestUrlStart(AccountsService.user, url);
+        greeter.notifyUserRequestedApp();
+        panel.indicators.hide();
+    }
+
+    function startApp(appId) {
         if (ApplicationManager.findApplication(appId)) {
             ApplicationManager.requestFocusApplication(appId);
         } else {
@@ -162,7 +200,7 @@ StyledItem {
         if (greeter.locked) {
             greeter.lockedApp = app;
         }
-        shell.activateApplication(app);
+        startApp(app); // locked apps are always in our same session
     }
 
     Binding {
@@ -177,7 +215,6 @@ StyledItem {
 
     VolumeControl {
         id: volumeControl
-        indicators: panel.indicators
     }
 
     DashCommunicator {
@@ -259,9 +296,7 @@ StyledItem {
                                            ? "phone"
                                            : shell.usageScenario
             readonly property string qmlComponent: {
-                if (shell.mode === "greeter") {
-                    return "Stages/AbstractStage.qml"
-                } else if (applicationsDisplayLoader.usageScenario === "phone") {
+                if (applicationsDisplayLoader.usageScenario === "phone") {
                     return "Stages/PhoneStage.qml";
                 } else if (applicationsDisplayLoader.usageScenario === "tablet") {
                     return "Stages/TabletStage.qml";
@@ -339,7 +374,7 @@ StyledItem {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "background"
-                value: wallpaperResolver.background
+                value: wallpaperResolver.cachedBackground
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -420,11 +455,13 @@ StyledItem {
         id: integratedGreeter
         Greeter {
 
+            enabled: panel.indicators.fullyClosed // hides OSK when panel is open
             hides: [launcher, panel.indicators]
             tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
             forcedUnlock: wizard.active || shell.mode === "full-shell"
-            background: wallpaperResolver.background
+            background: wallpaperResolver.cachedBackground
+            hasCustomBackground: wallpaperResolver.hasCustomBackground
             allowFingerprint: !dialogs.hasActiveDialog &&
                               !notifications.topmostIsFullscreen &&
                               !panel.indicators.shown
@@ -499,11 +536,15 @@ StyledItem {
     }
 
     function showHome() {
-        greeter.notifyUserRequestedApp("unity8-dash");
+        greeter.notifyUserRequestedApp();
 
-        var animate = !LightDMService.greeter.active && !stages.shown
-        dash.setCurrentScope(0, animate, false)
-        ApplicationManager.requestFocusApplication("unity8-dash")
+        if (shell.mode === "greeter") {
+            SessionBroadcast.requestHomeShown(AccountsService.user);
+        } else {
+            var animate = !LightDMService.greeter.active && !stages.shown;
+            dash.setCurrentScope(0, animate, false);
+            ApplicationManager.requestFocusApplication("unity8-dash");
+        }
     }
 
     function showDash() {
@@ -599,7 +640,7 @@ StyledItem {
                 }
             }
             onLauncherApplicationSelected: {
-                greeter.notifyUserRequestedApp(appId);
+                greeter.notifyUserRequestedApp();
                 shell.activateApplication(appId);
             }
             onShownChanged: {
@@ -660,7 +701,7 @@ StyledItem {
             objectName: "tutorial"
             anchors.fill: parent
 
-            paused: callManager.hasCalls || !greeter || greeter.shown ||
+            paused: callManager.hasCalls || !greeter || greeter.active ||
                     wizard.active
             delayed: dialogs.hasActiveDialog || notifications.hasNotification ||
                      inputMethod.visible ||
@@ -701,7 +742,7 @@ StyledItem {
             model: NotificationBackend.Model
             margin: units.gu(1)
             hasMouse: shell.hasMouse
-            background: wallpaperResolver.background
+            background: wallpaperResolver.cachedBackground
 
             y: topmostIsFullscreen ? 0 : panel.panelHeight
             height: parent.height - (topmostIsFullscreen ? 0 : panel.panelHeight)
@@ -745,7 +786,14 @@ StyledItem {
 
     Connections {
         target: SessionBroadcast
-        onShowHome: showHome()
+        onShowHome: if (shell.mode !== "greeter") showHome()
+    }
+
+    URLDispatcher {
+        id: urlDispatcher
+        objectName: "urlDispatcher"
+        active: shell.mode === "greeter"
+        onUrlRequested: shell.activateURL(url)
     }
 
     ItemGrabber {
@@ -764,6 +812,9 @@ StyledItem {
         id: cursor
         visible: shell.hasMouse
         z: itemGrabber.z + 1
+        topBoundaryOffset: panel.panelHeight
+
+        confiningItem: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.itemConfiningMouseCursor : null
 
         property bool mouseNeverMoved: true
         Binding {
@@ -777,9 +828,16 @@ StyledItem {
 
         height: units.gu(3)
 
+        readonly property var previewRectangle: applicationsDisplayLoader.item && applicationsDisplayLoader.item.previewRectangle &&
+                                                applicationsDisplayLoader.item.previewRectangle.target &&
+                                                applicationsDisplayLoader.item.previewRectangle.target.dragging ?
+                                                    applicationsDisplayLoader.item.previewRectangle : null
+
         onPushedLeftBoundary: {
             if (buttons === Qt.NoButton) {
                 launcher.pushEdge(amount);
+            } else if (buttons === Qt.LeftButton && previewRectangle && previewRectangle.target.canBeMaximizedLeftRight) {
+                previewRectangle.maximizeLeft(amount);
             }
         }
 
@@ -787,6 +845,39 @@ StyledItem {
             if (buttons === Qt.NoButton && applicationsDisplayLoader.item
                     && applicationsDisplayLoader.item.pushRightEdge) {
                 applicationsDisplayLoader.item.pushRightEdge(amount);
+            } else if (buttons === Qt.LeftButton && previewRectangle && previewRectangle.target.canBeMaximizedLeftRight) {
+                previewRectangle.maximizeRight(amount);
+            }
+        }
+
+        onPushedTopBoundary: {
+            if (buttons === Qt.LeftButton && previewRectangle && previewRectangle.target.canBeMaximized) {
+                previewRectangle.maximize(amount);
+            }
+        }
+        onPushedTopLeftCorner: {
+            if (buttons === Qt.LeftButton && previewRectangle && previewRectangle.target.canBeCornerMaximized) {
+                previewRectangle.maximizeTopLeft(amount);
+            }
+        }
+        onPushedTopRightCorner: {
+            if (buttons === Qt.LeftButton && previewRectangle && previewRectangle.target.canBeCornerMaximized) {
+                previewRectangle.maximizeTopRight(amount);
+            }
+        }
+        onPushedBottomLeftCorner: {
+            if (buttons === Qt.LeftButton && previewRectangle && previewRectangle.target.canBeCornerMaximized) {
+                previewRectangle.maximizeBottomLeft(amount);
+            }
+        }
+        onPushedBottomRightCorner: {
+            if (buttons === Qt.LeftButton && previewRectangle && previewRectangle.target.canBeCornerMaximized) {
+                previewRectangle.maximizeBottomRight(amount);
+            }
+        }
+        onPushStopped: {
+            if (previewRectangle) {
+                previewRectangle.stop();
             }
         }
 

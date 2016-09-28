@@ -21,8 +21,8 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 
 Rectangle {
-    color: theme.palette.normal.background
     id: root
+    color: theme.palette.normal.background
 
     Component.onCompleted: {
         theme.name = "Ubuntu.Components.Themes.SuruDark"
