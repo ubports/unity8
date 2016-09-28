@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 - Canonical Ltd.
+ * Copyright (C) 2013-2016 Canonical Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License, as
@@ -78,6 +78,7 @@ void DownloadTracker::startService()
         connect(m_adaptor, static_cast<void (DownloadTrackerAdaptor::*)(qulonglong, qulonglong)>(&DownloadTrackerAdaptor::progress), this, &DownloadTracker::progress);
         connect(m_adaptor, &DownloadTrackerAdaptor::resumed, this, &DownloadTracker::resumed);
         connect(m_adaptor, &DownloadTrackerAdaptor::started, this, &DownloadTracker::started);
+        connect(m_adaptor, &DownloadTrackerAdaptor::processing, this, &DownloadTracker::processing);
     }
     // FIXME find a better way of determining if the service is ready
     Q_EMIT serviceReadyChanged(m_adaptor && m_adaptor->isValid());

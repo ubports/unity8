@@ -45,12 +45,20 @@ AbstractStage {
     // Used by TutorialRight
     property bool spreadShown: spread.state == "altTab"
 
+    // used by the snap windows (edge maximize) feature
+    readonly property alias previewRectangle: fakeRectangle
+
     mainApp: priv.focusedAppDelegate ? priv.focusedAppDelegate.application : null
 
     // application windows never rotate independently
     mainAppWindowOrientationAngle: shellOrientationAngle
 
     orientationChangesEnabled: true
+
+
+    itemConfiningMouseCursor: !spreadShown && priv.focusedAppDelegate && priv.focusedAppDelegate.surface &&
+                              priv.focusedAppDelegate.surface.confinesMousePointer ?
+                              priv.focusedAppDelegate.clientAreaItem : null;
 
     GlobalShortcut {
         id: showSpreadShortcut
@@ -68,28 +76,27 @@ AbstractStage {
         id: maximizeWindowShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Up
         onTriggered: priv.focusedAppDelegate.maximize()
-        active: priv.focusedAppDelegate !== null
+        active: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.canBeMaximized
     }
 
     GlobalShortcut {
         id: maximizeWindowLeftShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Left
         onTriggered: priv.focusedAppDelegate.maximizeLeft()
-        active: priv.focusedAppDelegate !== null
+        active: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.canBeMaximizedLeftRight
     }
 
     GlobalShortcut {
         id: maximizeWindowRightShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Right
         onTriggered: priv.focusedAppDelegate.maximizeRight()
-        active: priv.focusedAppDelegate !== null
+        active: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.canBeMaximizedLeftRight
     }
 
     GlobalShortcut {
         id: minimizeRestoreShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Down
-        onTriggered: priv.focusedAppDelegate.maximized || priv.focusedAppDelegate.maximizedLeft || priv.focusedAppDelegate.maximizedRight ||
-                     priv.focusedAppDelegate.maximizedHorizontally || priv.focusedAppDelegate.maximizedVertically
+        onTriggered: priv.focusedAppDelegate.anyMaximized
                      ? priv.focusedAppDelegate.restoreFromMaximized() : priv.focusedAppDelegate.minimize()
         active: priv.focusedAppDelegate !== null
     }
@@ -165,11 +172,6 @@ AbstractStage {
         onCloseClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.close(); } }
         onMinimizeClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.minimize(); } }
         onRestoreClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.restoreFromMaximized(); } }
-        onFocusMaximizedApp: {
-            if (priv.foregroundMaximizedAppDelegate) {
-                priv.foregroundMaximizedAppDelegate.focus = true;
-             }
-        }
     }
 
     Binding {
@@ -274,7 +276,7 @@ AbstractStage {
                     value: appDelegate.requestedY -
                            Math.min(appDelegate.requestedY - PanelState.panelHeight,
                                     Math.max(0, priv.virtualKeyboardHeight - (appContainer.height - (appDelegate.requestedY + appDelegate.height))))
-                    when: root.oskEnabled && appDelegate.focus && appDelegate.state == "normal"
+                    when: root.oskEnabled && appDelegate.focus && (appDelegate.state == "normal" || appDelegate.state == "restored")
                           && SurfaceManager.inputMethodSurface
                           && SurfaceManager.inputMethodSurface.state != Mir.HiddenState
                           && SurfaceManager.inputMethodSurface.state != Mir.MinimizedState
@@ -289,7 +291,7 @@ AbstractStage {
                     onShellOrientationAngleChanged: {
                         // at this point decoratedWindow.surfaceOrientationAngle is the old shellOrientationAngle
                         if (application && application.rotatesWindowContents) {
-                            if (state == "normal") {
+                            if (state == "normal" || state == "restored") {
                                 var angleDiff = decoratedWindow.surfaceOrientationAngle - shellOrientationAngle;
                                 angleDiff = (360 + angleDiff) % 360;
                                 if (angleDiff === 90 || angleDiff === 270) {
@@ -315,13 +317,28 @@ AbstractStage {
                 property int requestedWidth: -1
                 property int requestedHeight: -1
 
-                readonly property bool maximized: windowState & WindowStateStorage.WindowStateMaximized
-                readonly property bool maximizedLeft: windowState & WindowStateStorage.WindowStateMaximizedLeft
-                readonly property bool maximizedRight: windowState & WindowStateStorage.WindowStateMaximizedRight
-                readonly property bool maximizedHorizontally: windowState & WindowStateStorage.WindowStateMaximizedHorizontally
-                readonly property bool maximizedVertically: windowState & WindowStateStorage.WindowStateMaximizedVertically
+                readonly property bool maximized: windowState === WindowStateStorage.WindowStateMaximized
+                readonly property bool maximizedLeft: windowState === WindowStateStorage.WindowStateMaximizedLeft
+                readonly property bool maximizedRight: windowState === WindowStateStorage.WindowStateMaximizedRight
+                readonly property bool maximizedHorizontally: windowState === WindowStateStorage.WindowStateMaximizedHorizontally
+                readonly property bool maximizedVertically: windowState === WindowStateStorage.WindowStateMaximizedVertically
+                readonly property bool maximizedTopLeft: windowState === WindowStateStorage.WindowStateMaximizedTopLeft
+                readonly property bool maximizedTopRight: windowState === WindowStateStorage.WindowStateMaximizedTopRight
+                readonly property bool maximizedBottomLeft: windowState === WindowStateStorage.WindowStateMaximizedBottomLeft
+                readonly property bool maximizedBottomRight: windowState === WindowStateStorage.WindowStateMaximizedBottomRight
+                readonly property bool anyMaximized: maximized || maximizedLeft || maximizedRight || maximizedHorizontally || maximizedVertically ||
+                                                     maximizedTopLeft || maximizedTopRight || maximizedBottomLeft || maximizedBottomRight
+
                 readonly property bool minimized: windowState & WindowStateStorage.WindowStateMinimized
                 readonly property alias fullscreen: decoratedWindow.fullscreen
+
+                readonly property bool canBeMaximized: canBeMaximizedHorizontally && canBeMaximizedVertically
+                readonly property bool canBeMaximizedLeftRight: (maximumWidth == 0 || maximumWidth >= appContainer.width/2) &&
+                                                                (maximumHeight == 0 || maximumHeight >= appContainer.height)
+                readonly property bool canBeCornerMaximized: (maximumWidth == 0 || maximumWidth >= appContainer.width/2) &&
+                                                             (maximumHeight == 0 || maximumHeight >= appContainer.height/2)
+                readonly property bool canBeMaximizedHorizontally: maximumWidth == 0 || maximumWidth >= appContainer.width
+                readonly property bool canBeMaximizedVertically: maximumHeight == 0 || maximumHeight >= appContainer.height
 
                 property int windowState: WindowStateStorage.WindowStateNormal
                 property bool animationsEnabled: true
@@ -333,14 +350,16 @@ AbstractStage {
                 readonly property var surface: model.surface
                 readonly property alias resizeArea: resizeArea
                 readonly property alias focusedSurface: decoratedWindow.focusedSurface
+                readonly property bool dragging: touchControls.overlayShown ? touchControls.dragging : decoratedWindow.dragging
 
                 readonly property bool isDash: model.application.appId == "unity8-dash"
+                readonly property alias clientAreaItem: decoratedWindow.clientAreaItem
 
                 function claimFocus() {
                     if (spread.state == "altTab") {
                         spread.cancel();
                     }
-                    appDelegate.restore();
+                    appDelegate.restore(true /* animated */, appDelegate.windowState);
                 }
                 Connections {
                     target: model.surface
@@ -448,28 +467,34 @@ AbstractStage {
                     animationsEnabled = (animated === undefined) || animated;
                     windowState = WindowStateStorage.WindowStateMaximizedVertically;
                 }
+                function maximizeTopLeft(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
+                    windowState = WindowStateStorage.WindowStateMaximizedTopLeft;
+                }
+                function maximizeTopRight(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
+                    windowState = WindowStateStorage.WindowStateMaximizedTopRight;
+                }
+                function maximizeBottomLeft(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
+                    windowState = WindowStateStorage.WindowStateMaximizedBottomLeft;
+                }
+                function maximizeBottomRight(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
+                    windowState = WindowStateStorage.WindowStateMaximizedBottomRight;
+                }
                 function minimize(animated) {
                     animationsEnabled = (animated === undefined) || animated;
                     windowState |= WindowStateStorage.WindowStateMinimized; // add the minimized bit
                 }
                 function restoreFromMaximized(animated) {
                     animationsEnabled = (animated === undefined) || animated;
-                    windowState = WindowStateStorage.WindowStateNormal;
+                    windowState = WindowStateStorage.WindowStateRestored;
                 }
-                function restore(animated) {
+                function restore(animated,state) {
                     animationsEnabled = (animated === undefined) || animated;
+                    windowState = state || WindowStateStorage.WindowStateRestored;
                     windowState &= ~WindowStateStorage.WindowStateMinimized; // clear the minimized bit
-                    if (maximized)
-                        maximize();
-                    else if (maximizedLeft)
-                        maximizeLeft();
-                    else if (maximizedRight)
-                        maximizeRight();
-                    else if (maximizedHorizontally)
-                        maximizeHorizontally();
-                    else if (maximizedVertically)
-                        maximizeVertically();
-
                     focus = true;
                 }
 
@@ -486,9 +511,14 @@ AbstractStage {
                     duration: UbuntuAnimation.SnapDuration
                 }
 
+                // unlike requestedX/Y, this is the last known grab position before being pushed against edges/corners
+                // when restoring, the window should return to these, not to the place where it was dropped near the edge
+                property real restoredX
+                property real restoredY
+
                 states: [
                     State {
-                        name: "fullscreen"; when: decoratedWindow.fullscreen && !appDelegate.minimized
+                        name: "fullscreen"; when: appDelegate.fullscreen && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
                             x: rotation == 0 ? 0 : (parent.width - width) / 2 + (shellOrientationAngle == 90 ? -PanelState.panelHeight : PanelState.panelHeight)
@@ -507,61 +537,94 @@ AbstractStage {
                         }
                     },
                     State {
+                        name: "restored";
+                        when: appDelegate.windowState == WindowStateStorage.WindowStateRestored
+                        extend: "normal"
+                        PropertyChanges {
+                            target: appDelegate;
+                            requestedX: restoredX;
+                            requestedY: restoredY;
+                        }
+                    },
+                    State {
                         name: "maximized"; when: appDelegate.maximized && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
-                            x: root.leftMargin;
-                            y: 0;
-                            visuallyMinimized: false;
-                            visuallyMaximized: true
-                        }
-                        PropertyChanges {
-                            target: decoratedWindow
+                            requestedX: root.leftMargin;
+                            requestedY: 0;
                             requestedWidth: appContainer.width - root.leftMargin;
                             requestedHeight: appContainer.height;
+                            visuallyMinimized: false;
+                            visuallyMaximized: true
                         }
                     },
                     State {
                         name: "maximizedLeft"; when: appDelegate.maximizedLeft && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate
-                            x: root.leftMargin
-                            y: PanelState.panelHeight
-                        }
-                        PropertyChanges {
-                            target: decoratedWindow
+                            requestedX: root.leftMargin
+                            requestedY: PanelState.panelHeight
                             requestedWidth: (appContainer.width - root.leftMargin)/2
                             requestedHeight: appContainer.height - PanelState.panelHeight
                         }
                     },
                     State {
                         name: "maximizedRight"; when: appDelegate.maximizedRight && !appDelegate.minimized
+                        extend: "maximizedLeft"
                         PropertyChanges {
                             target: appDelegate;
-                            x: (appContainer.width + root.leftMargin)/2
-                            y: PanelState.panelHeight
+                            requestedX: (appContainer.width + root.leftMargin)/2
                         }
+                    },
+                    State {
+                        name: "maximizedTopLeft"; when: appDelegate.maximizedTopLeft && !appDelegate.minimized
                         PropertyChanges {
-                            target: decoratedWindow
+                            target: appDelegate
+                            requestedX: root.leftMargin
+                            requestedY: PanelState.panelHeight
                             requestedWidth: (appContainer.width - root.leftMargin)/2
-                            requestedHeight: appContainer.height - PanelState.panelHeight
+                            requestedHeight: (appContainer.height - PanelState.panelHeight)/2
+                        }
+                    },
+                    State {
+                        name: "maximizedTopRight"; when: appDelegate.maximizedTopRight && !appDelegate.minimized
+                        extend: "maximizedTopLeft"
+                        PropertyChanges {
+                            target: appDelegate
+                            requestedX: (appContainer.width + root.leftMargin)/2
+                        }
+                    },
+                    State {
+                        name: "maximizedBottomLeft"; when: appDelegate.maximizedBottomLeft && !appDelegate.minimized
+                        PropertyChanges {
+                            target: appDelegate
+                            requestedX: root.leftMargin
+                            requestedY: (appContainer.height + PanelState.panelHeight)/2
+                            requestedWidth: (appContainer.width - root.leftMargin)/2
+                            requestedHeight: appContainer.height/2
+                        }
+                    },
+                    State {
+                        name: "maximizedBottomRight"; when: appDelegate.maximizedBottomRight && !appDelegate.minimized
+                        extend: "maximizedBottomLeft"
+                        PropertyChanges {
+                            target: appDelegate
+                            requestedX: (appContainer.width + root.leftMargin)/2
                         }
                     },
                     State {
                         name: "maximizedHorizontally"; when: appDelegate.maximizedHorizontally && !appDelegate.minimized
-                        PropertyChanges { target: appDelegate; x: root.leftMargin }
-                        PropertyChanges { target: decoratedWindow; requestedWidth: appContainer.width - root.leftMargin }
+                        PropertyChanges { target: appDelegate; requestedX: root.leftMargin; requestedY: requestedY; requestedWidth: appContainer.width - root.leftMargin }
                     },
                     State {
                         name: "maximizedVertically"; when: appDelegate.maximizedVertically && !appDelegate.minimized
-                        PropertyChanges { target: appDelegate; y: PanelState.panelHeight }
-                        PropertyChanges { target: decoratedWindow; requestedHeight: appContainer.height - PanelState.panelHeight }
+                        PropertyChanges { target: appDelegate; requestedX: requestedX; requestedY: PanelState.panelHeight; requestedHeight: appContainer.height - PanelState.panelHeight }
                     },
                     State {
                         name: "minimized"; when: appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
-                            x: -appDelegate.width / 2;
+                            requestedX: -appDelegate.width / 2;
                             scale: units.gu(5) / appDelegate.width;
                             opacity: 0;
                             visuallyMinimized: true;
@@ -571,21 +634,17 @@ AbstractStage {
                 ]
                 transitions: [
                     Transition {
-                        to: "normal"
+                        to: "normal,restored"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
-                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: UbuntuAnimation.FastDuration }
-                        UbuntuNumberAnimation { target: decoratedWindow; properties: "requestedWidth,requestedHeight"; duration: UbuntuAnimation.FastDuration }
+                        UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,opacity,scale,requestedWidth,requestedHeight" }
                     },
                     Transition {
                         to: "minimized"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         SequentialAnimation {
-                            ParallelAnimation {
-                                UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,scale"; duration: UbuntuAnimation.FastDuration }
-                                UbuntuNumberAnimation { target: decoratedWindow; properties: "requestedWidth,requestedHeight"; duration: UbuntuAnimation.FastDuration }
-                            }
+                            UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,opacity,scale,requestedWidth,requestedHeight" }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                             ScriptAction {
                                 script: {
@@ -602,11 +661,9 @@ AbstractStage {
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                         SequentialAnimation {
-                            ParallelAnimation {
-                                UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,scale"; duration: UbuntuAnimation.FastDuration }
-                                UbuntuNumberAnimation { target: decoratedWindow; properties: "requestedWidth,requestedHeight"; duration: UbuntuAnimation.FastDuration }
-                            }
+                            UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,opacity,scale,requestedWidth,requestedHeight" }
                             PropertyAction { target: appDelegate; property: "visuallyMaximized" }
+                            ScriptAction { script: { fakeRectangle.stop(); } }
                         }
                     }
                 ]
@@ -672,27 +729,38 @@ AbstractStage {
                     surface: model.surface
                     active: appDelegate.focus
                     focus: true
-                    maximizeButtonShown: (maximumWidth == 0 || maximumWidth >= appContainer.width) &&
-                                         (maximumHeight == 0 || maximumHeight >= appContainer.height)
+                    maximizeButtonShown: appDelegate.canBeMaximized
                     overlayShown: touchControls.overlayShown
+                    stageWidth: appContainer.width
+                    stageHeight: appContainer.height
 
                     requestedWidth: appDelegate.requestedWidth
                     requestedHeight: appDelegate.requestedHeight
 
                     onCloseClicked: { appDelegate.close(); }
-                    onMaximizeClicked: appDelegate.maximized || appDelegate.maximizedLeft || appDelegate.maximizedRight
-                                       || appDelegate.maximizedHorizontally || appDelegate.maximizedVertically
-                                       ? appDelegate.restoreFromMaximized() : appDelegate.maximize()
+                    onMaximizeClicked: appDelegate.anyMaximized ? appDelegate.restoreFromMaximized() : appDelegate.maximize();
                     onMaximizeHorizontallyClicked: appDelegate.maximizedHorizontally ? appDelegate.restoreFromMaximized() : appDelegate.maximizeHorizontally()
                     onMaximizeVerticallyClicked: appDelegate.maximizedVertically ? appDelegate.restoreFromMaximized() : appDelegate.maximizeVertically()
                     onMinimizeClicked: appDelegate.minimize()
                     onDecorationPressed: { appDelegate.focus = true; }
+                    onDecorationReleased: fakeRectangle.commit();
                 }
 
                 WindowControlsOverlay {
                     id: touchControls
-                    anchors.fill: appDelegate
                     target: appDelegate
+                    stageWidth: appContainer.width
+                    stageHeight: appContainer.height
+
+                    onFakeMaximizeAnimationRequested: if (!appDelegate.maximized) fakeRectangle.maximize(amount, true)
+                    onFakeMaximizeLeftAnimationRequested: if (!appDelegate.maximizedLeft) fakeRectangle.maximizeLeft(amount, true)
+                    onFakeMaximizeRightAnimationRequested: if (!appDelegate.maximizedRight) fakeRectangle.maximizeRight(amount, true)
+                    onFakeMaximizeTopLeftAnimationRequested: if (!appDelegate.maximizedTopLeft) fakeRectangle.maximizeTopLeft(amount, true);
+                    onFakeMaximizeTopRightAnimationRequested: if (!appDelegate.maximizedTopRight) fakeRectangle.maximizeTopRight(amount, true);
+                    onFakeMaximizeBottomLeftAnimationRequested: if (!appDelegate.maximizedBottomLeft) fakeRectangle.maximizeBottomLeft(amount, true);
+                    onFakeMaximizeBottomRightAnimationRequested: if (!appDelegate.maximizedBottomRight) fakeRectangle.maximizeBottomRight(amount, true);
+                    onStopFakeAnimation: fakeRectangle.stop();
+                    onDragReleased: fakeRectangle.commit();
                 }
 
                 WindowedFullscreenPolicy {
@@ -702,6 +770,14 @@ AbstractStage {
                 }
             }
         }
+    }
+
+    FakeMaximizeDelegate {
+        id: fakeRectangle
+        target: priv.focusedAppDelegate
+        leftMargin: root.leftMargin
+        appContainerWidth: appContainer.width
+        appContainerHeight: appContainer.height
     }
 
     EdgeBarrier {

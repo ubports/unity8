@@ -19,6 +19,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItems
 import "Filters" as Filters
+import "../Components"
 
 Popover {
     id: root

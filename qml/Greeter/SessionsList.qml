@@ -53,6 +53,11 @@ Item {
         event.accepted = true;
     }
 
+    Keys.onEscapePressed: {
+        showLoginList();
+        event.accepted = true;
+    }
+
     Keys.onReturnPressed: {
         showLoginList();
         event.accepted = true;
@@ -76,8 +81,8 @@ Item {
         readonly property real margins: sessionsList.anchors.margins
         readonly property real prefferedHeight: {
             if (sessionsList.currentItem) {
-                return ((sessionsList.currentItem.height + margins) *
-                sessionsList.model.count) + sessionsList.headerItem.height + 2 * margins
+                return (sessionsList.currentItem.height *
+                       (1 + sessionsList.model.count)) + 2 * margins
             } else {
                 return sessionsList.headerItem.height + 2 * margins
             }
@@ -156,7 +161,7 @@ Item {
                     width: parent.width
                     color: "transparent"
                     border {
-                        color: theme.palette.normal.positionText
+                        color: theme.palette.normal.focus
                         width: units.gu(0.2)
                     }
 

@@ -108,7 +108,6 @@ StyledItem {
         name: "Ubuntu.Components.Themes.Ambiance"
     }
 
-    KeyNavigation.tab: sessionChooser
     Keys.onUpPressed: {
         selected(currentIndex - 1);
         event.accepted = true;
@@ -151,7 +150,6 @@ StyledItem {
         preferredHighlightEnd: highlightItem.y
         highlightRangeMode: ListView.StrictlyEnforceRange
         highlightMoveDuration: root.moveDuration
-        flickDeceleration: 10000
         interactive: count > 1
 
         readonly property bool movingInternally: moveTimer.running || userList.moving
@@ -263,6 +261,7 @@ StyledItem {
         height: units.gu(3.5)
         width: units.gu(3.5)
 
+        activeFocusOnTab: true
         anchors {
             right: highlightItem.right
             rightMargin: units.gu(2)
@@ -291,7 +290,6 @@ StyledItem {
             source: LightDM.Sessions.iconUrl(root.currentSession)
         }
 
-        KeyNavigation.tab: passwordInput
         Keys.onReturnPressed: {
             sessionChooserButtonClicked();
             event.accepted = true;
@@ -345,6 +343,7 @@ StyledItem {
         width: highlightItem.width - anchors.margins * 2
         opacity: userList.movingInternally ? 0 : 1
 
+        activeFocusOnTab: true
         isAlphanumeric: root.alphanumeric
 
         onClicked: root.tryToUnlock()

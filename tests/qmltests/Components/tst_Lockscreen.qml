@@ -410,7 +410,6 @@ Rectangle {
         function test_infoPopup() {
             verify(findChild(root, "infoPopup") === null);
             lockscreen.showInfoPopup("foo", "bar");
-            tryCompareFunction(function() { return findChild(root, "infoPopup") !== null}, true);
 
             var infoPopup = findChild(root, "infoPopup");
             compare(infoPopup.title, "foo");
@@ -422,7 +421,7 @@ Rectangle {
             var okButton = findChild(root, "infoPopupOkButton");
             mouseClick(okButton);
 
-            tryCompareFunction(function() { return findChild(root, "infoPopup") === null}, true);
+            tryCompareFunction(function() { return findChild(root, "infoPopup", 0 /* timeout */) === null}, true);
 
             tryCompare(signalSpy, "count", 1);
         }
