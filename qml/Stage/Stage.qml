@@ -536,7 +536,17 @@ FocusScope {
                 if (!priv.mainStageItemId) return 0;
 
                 if (priv.sideStageItemId && priv.nextInStack > 0) {
-                    var nextDelegateInStack = appRepeater.itemAt(priv.nextInStack);
+
+                    // Due the order in which bindings are evaluated, this might be triggered while shuffling
+                    // the list and index doesn't yet match with itemIndex (even though itemIndex: index)
+                    // Let's walk the list and compare itemIndex to make sure we have the correct one.
+                    var nextDelegateInStack = -1;
+                    for (var i = 0; i < appRepeater.count; i++) {
+                        if (appRepeater.itemAt(i).itemIndex == priv.nextInStack) {
+                            nextDelegateInStack = appRepeater.itemAt(i);
+                            break;
+                        }
+                    }
 
                     if (nextDelegateInStack.stage ===  ApplicationInfoInterface.MainStage) {
                         // if the next app in stack is a main stage app, put the sidestage on top of it.
@@ -727,8 +737,11 @@ FocusScope {
                         spreadItem.highlightedIndex = index
                         priv.goneToSpread = false;
                     }
-                    if (appDelegate.stage == ApplicationInfoInterface.SideStage && !sideStage.shown && root.mode == "stagedWithSideStage") {
-                        sideStage.show();
+                    if (root.mode == "stagedWithSideStage") {
+                        if (appDelegate.stage == ApplicationInfoInterface.SideStage && !sideStage.shown) {
+                            sideStage.show();
+                        }
+                        priv.updateMainAndSideStageIndexes();
                     }
 
                     if (root.mode == "windowed") {
