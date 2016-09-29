@@ -876,17 +876,19 @@ Rectangle {
             verticalAlignment: Label.AlignVCenter
             color: theme.palette.normal.backgroundText
             anchors.margins: units.gu(10)
+
+            Binding on text {
+                when: !!tooltipShape.hoveredItem
+                value: !!tooltipShape.hoveredItem ? tooltipShape.hoveredItem.name : ""
+            }
         }
 
         property var hoveredItem: dndArea.containsMouse ? launcherListView.itemAt(dndArea.mouseX, dndArea.mouseY + launcherListView.realContentY) : null
-        property int itemCenter
+        property int itemCenter: 0
 
-        // This avoids artifacts on fade-out animation
-        onHoveredItemChanged : {
-            if (hoveredItem != null && !root.moving) {
-                itemCenter = root.mapFromItem(hoveredItem, 0, 0).y + (hoveredItem.height / 2) + hoveredItem.offset
-                tooltipLabel.text = tooltipShape.hoveredItem.name
-            }
+        Binding on itemCenter {
+            when: !!tooltipShape.hoveredItem
+            value: !!tooltipShape.hoveredItem ? root.mapFromItem(tooltipShape.hoveredItem, 0, 0).y + (tooltipShape.hoveredItem.height / 2) + tooltipShape.hoveredItem.offset : 0
         }
 
         DSM.StateMachine {
