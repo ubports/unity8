@@ -26,13 +26,13 @@
                                 <dox:d>The process ID of the application for which the menu is associated</dox:d>
                         </arg>
                         <arg name="menuObjectPath" type="o" direction="in">
-                                <dox:d>The object on the dbus interface implementing the gmenumodel interface</dox:d>
+                                <dox:d>The dbus path where the gmenumodel interface for the application menu has been exported</dox:d>
                         </arg>
                         <arg name="actionObjectPath" type="o" direction="in">
-                                <dox:d>The object on the dbus interface implementing the gactiongroup interface</dox:d>
+                                <dox:d>The dbus path where the gactionmenu interface for the application menu actions has been exported</dox:d>
                         </arg>
                         <arg name="service" type="s" direction="in">
-                            <dox:d>The address of the connection on DBus (e.g. :1.23 or org.example.service)</dox:d>
+                            <dox:d>The dbus conection name of the client application to be registered (e.g. :1.23 or org.example.service)</dox:d>
                         </arg>
                 </method>
                 <method name="UnregisterAppMenu">
@@ -43,7 +43,7 @@
                                 <dox:d>The process id of the application</dox:d>
                         </arg>
                         <arg name="menuObjectPath" type="o" direction="in">
-                                <dox:d>The object on the dbus interface implementing the gmenumodel interface</dox:d>
+                                <dox:d>The dbus path for the registered application menu to be unregistered</dox:d>
                         </arg>
                 </method>
 
@@ -59,13 +59,13 @@
                                 <dox:d>The surface ID of the surface</dox:d>
                         </arg>
                         <arg name="menuObjectPath" type="o" direction="in">
-                                <dox:d>The object on the dbus interface implementing the gmenumodel interface</dox:d>
+                                <dox:d>The dbus path where the gmenumodel interface for the surface menu has been exported</dox:d>
                         </arg>
                         <arg name="actionObjectPath" type="o" direction="in">
-                                <dox:d>The object on the dbus interface implementing the gactiongroup interface</dox:d>
+                                <dox:d>The dbus path where the gactionmenu interface for the surface menu actions has been exported</dox:d>
                         </arg>
                         <arg name="service" type="s" direction="in">
-                            <dox:d>The address of the connection on DBus (e.g. :1.23 or org.example.service)</dox:d>
+                            <dox:d>The dbus conection name of the client application to be registered (e.g. :1.23 or org.example.service)</dox:d>
                         </arg>
                 </method>
                 <method name="UnregisterSurfaceMenu">
@@ -76,7 +76,7 @@
                                 <dox:d>The surface id of the surface</dox:d>
                         </arg>
                         <arg name="menuObjectPath" type="o" direction="in">
-                                <dox:d>The object on the dbus interface implementing the gmenumodel interface</dox:d>
+                                <dox:d>The dbus path for the registered surface menu to be unregistered</dox:d>
                         </arg>
                 </method>
         </interface>
