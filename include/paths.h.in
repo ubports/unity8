@@ -34,10 +34,11 @@ inline bool isRunningInstalled() {
             installRoot = snapRoot;
         } else if (QCoreApplication::applicationDirPath() ==
                    QDir(QStringLiteral("@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@")).canonicalPath()) {
-            installRoot = "";
+            installRoot = QStringLiteral("");
         }
         installRootSet = true;
     }
+qWarning() << "MIKE isRunningInstalled?" << installRootSet << installRoot << !installRoot.isNull() << snapRoot;
     return !installRoot.isNull();
 }
 
