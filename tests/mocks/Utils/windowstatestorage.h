@@ -32,7 +32,12 @@ public:
         WindowStateMaximizedLeft = 1 << 4,
         WindowStateMaximizedRight = 1 << 5,
         WindowStateMaximizedHorizontally = 1 << 6,
-        WindowStateMaximizedVertically = 1 << 7
+        WindowStateMaximizedVertically = 1 << 7,
+        WindowStateMaximizedTopLeft = 1 << 8,
+        WindowStateMaximizedTopRight = 1 << 9,
+        WindowStateMaximizedBottomLeft = 1 << 10,
+        WindowStateMaximizedBottomRight = 1 << 11,
+        WindowStateRestored = 1 << 12
     };
     Q_DECLARE_FLAGS(WindowStates, WindowState)
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
@@ -42,10 +47,10 @@ public:
     WindowStateStorage(QObject *parent = 0);
 
     Q_INVOKABLE void saveState(const QString &windowId, WindowState state);
-    Q_INVOKABLE WindowState getState(const QString &windowId, WindowState defaultValue);
+    Q_INVOKABLE WindowState getState(const QString &windowId, WindowState defaultValue) const;
 
     Q_INVOKABLE void saveGeometry(const QString &windowId, const QRect &rect);
-    Q_INVOKABLE QRect getGeometry(const QString &windowId, const QRect &defaultValue);
+    Q_INVOKABLE QRect getGeometry(const QString &windowId, const QRect &defaultValue) const;
 
     Q_INVOKABLE void saveStage(const QString &appId, int stage);
     Q_INVOKABLE int getStage(const QString &appId, int defaultValue) const;

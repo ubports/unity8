@@ -21,6 +21,7 @@ import Wizard 0.1
 import Ubuntu.SystemSettings.TimeDate 1.1
 import Utils 0.1 as Utils
 import ".." as LocalComponents
+import "../../Components"
 
 LocalComponents.Page {
     id: tzPage

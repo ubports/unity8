@@ -131,6 +131,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void playlistChanged();
+    void playing();
     void sourceChanged(const QUrl &source);
     void playbackStateChanged(PlaybackState playbackState);
     void positionChanged(int position);

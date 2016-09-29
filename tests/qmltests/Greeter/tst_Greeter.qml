@@ -29,7 +29,7 @@ Item {
     width: units.gu(120)
     height: units.gu(80)
 
-    property url defaultBackground: Qt.resolvedUrl("../../../qml/graphics/tablet_background.jpg")
+    property url defaultBackground: "/usr/share/backgrounds/warty-final-ubuntu.png"
 
     Component.onCompleted: {
         // set the mock mode before loading
@@ -368,6 +368,12 @@ Item {
             compare(view.background, Qt.resolvedUrl("testing"));
         }
 
+        function test_hasCustomBackground() {
+            verify(!view.hasCustomBackground);
+            greeter.hasCustomBackground = true;
+            verify(view.hasCustomBackground);
+        }
+
         function test_notifyAboutToFocusApp() {
             greeter.notifyUserRequestedApp("fake-app");
             compare(viewTryToUnlockSpy.count, 1);
@@ -559,6 +565,7 @@ Item {
 
             LightDM.Greeter.showGreeter();
             compare(viewResetSpy.count, 1);
+            compare(viewResetSpy.signalArguments[0][0], true);
             tryCompare(viewShowPromptSpy, "count", 1);
         }
 

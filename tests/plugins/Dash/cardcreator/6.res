@@ -49,7 +49,6 @@ Loader {
                                     } 
                                 } 
                             }
-readonly property size artShapeSize: Qt.size(-1, -1);
 readonly property int headerHeight: titleLabel.height + subtitleLabel.height + subtitleLabel.anchors.topMargin;
 Item { 
                             id: headerTitleContainer; 
@@ -114,13 +113,15 @@ Item {
  
                             ]
                         }
-UbuntuShape {
-    id: touchdown;
-    objectName: "touchdown";
+Loader {
+    active: root.pressed;
     anchors { fill: backgroundLoader }
-    visible: root.pressed;
-    radius: "medium";
-    borderSource: "radius_pressed.sci"
+    sourceComponent: UbuntuShape {
+        objectName: "touchdown";
+        anchors.fill: parent;
+        radius: "medium";
+        borderSource: "radius_pressed.sci"
+    }
 }
 implicitHeight: headerTitleContainer.y + headerTitleContainer.height + units.gu(1);
 }

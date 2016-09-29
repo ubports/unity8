@@ -59,6 +59,38 @@ private Q_SLOTS:
         }
     }
 
+    void testIconLookupLogic()
+    {
+        const QString data[][2] = {
+                                    //{SESSION KEY, ICON NAME}
+                                    {"gnome-classic", "gnome_badge.png"},
+                                    {"gnome-flashback-compiz", "gnome_badge.png"},
+                                    {"gnome-flashback-metacity", "gnome_badge.png"},
+                                    {"gnome-shell", "gnome_badge.png"},
+                                    {"gnome-wayland", "gnome_badge.png"},
+                                    {"gnome", "gnome_badge.png"},
+                                    {"kde", "kde_badge.png"},
+                                    {"plasma", "kde_badge.png"},
+                                    {"recovery_console", "recovery_console_badge.png"},
+                                    {"ubuntu","ubuntu_badge.png"},
+                                    {"ubuntu-2d", "ubuntu_badge.png"},
+                                    {"xterm", "recovery_console_badge.png"},
+                                    {"made up session", "unknown_badge.png"},
+                                    {"", "unknown_badge.png"}
+                                  };
+
+        const short length = sizeof(data) / sizeof(data[0]);
+        for (int i = 0; i < length; i++) {
+            std::string key = data[i][0].toStdString();
+            std::string icon = data[i][1].toStdString();
+            std::string url = model->iconUrl(data[i][0]).toString().toStdString();
+            std::string errorMessage = "Session icon url for " + key +
+                " should contain " + icon + " but " + url + " was returned";
+            QVERIFY2(model->iconUrl(data[i][0]).toString().contains(data[i][1]),
+                    errorMessage.c_str());
+        }
+    }
+
     void testMultipleSessionsCountIsCorrect()
     {
         sourceModel->setTestScenario("multipleSessions");

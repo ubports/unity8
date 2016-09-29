@@ -161,6 +161,7 @@ void MediaPlayer::play()
     if (m_playbackState != PlayingState) {
         m_playbackState = PlayingState;
         Q_EMIT playbackStateChanged(m_playbackState);
+        Q_EMIT playing();
 
         m_timer.start();
     }

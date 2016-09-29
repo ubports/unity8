@@ -116,7 +116,6 @@ Rectangle {
 
             tryCompare(testCase.mascotShapeLoader, "visible", data.loaderVisible);
             if (data.loaderVisible) {
-                tryCompareFunction(function() { return findChild(previewHeader, "mascotShape") != null }, true);
                 var mascot = findChild(previewHeader, "mascotShape")
                 tryCompare(mascot, "visible", data.visible);
             }
@@ -165,20 +164,17 @@ Rectangle {
 
         function test_fallback() {
             previewHeader.widgetData = brokenheaderjson;
-            tryCompareFunction(function() { return findChild(previewHeader, "mascotShape") != null }, true);
             var mascot = findChild(previewHeader, "mascotShape");
             compare(mascot.visible, false);
 
             previewHeader.widgetData = {};
             previewHeader.widgetData = fallbackheaderjson;
-            tryCompareFunction(function() { return findChild(previewHeader, "mascotShape") != null }, true);
             var mascot = findChild(previewHeader, "mascotShape");
             tryCompare(mascot, "visible", true);
             tryCompare(mascot.source, "status", Image.Ready);
 
             previewHeader.widgetData = {};
             previewHeader.widgetData = emptyfallbackheaderjson;
-            tryCompareFunction(function() { return findChild(previewHeader, "mascotShape") != null }, true);
             var mascot = findChild(previewHeader, "mascotShape");
             tryCompare(mascot, "visible", true);
             tryCompare(mascot.source, "status", Image.Ready);
