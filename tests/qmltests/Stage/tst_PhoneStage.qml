@@ -226,7 +226,7 @@ Item {
                 touchRelease(stage, endX, endY);            }
 
             tryCompare(stage, "state", data.endState);
-            tryCompare(ApplicationManager, "focusedApplicationId", data.endState == "spread" ? "" : newFocusedApp.appId);
+            tryCompare(ApplicationManager, "focusedApplicationId", data.endState == "spread" ? oldFocusedApp.appId : newFocusedApp.appId);
         }
 
         function test_selectAppFromSpread_data() {
