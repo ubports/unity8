@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2014,2015 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,11 +16,15 @@
 
 import QtQuick 2.4
 import AccountsService 0.1
+import Biometryd 0.0
 import GSettings 1.0
+import Powerd 0.1
 import Ubuntu.Components 1.3
 import Ubuntu.SystemImage 0.1
 import Unity.Launcher 0.1
 import Unity.Session 0.1
+
+import "." 0.1
 import "../Components"
 
 Showable {
@@ -30,12 +34,15 @@ Showable {
     property real dragHandleLeftMargin: 0
 
     property url background
+    property bool hasCustomBackground
 
     // How far to offset the top greeter layer during a launcher left-drag
     property real launcherOffset
 
     readonly property bool active: required || hasLockedApp
     readonly property bool fullyShown: loader.item ? loader.item.fullyShown : false
+
+    property bool allowFingerprint: true
 
     // True when the greeter is waiting for PAM or other setup process
     readonly property alias waiting: d.waiting
@@ -44,7 +51,7 @@ Showable {
     readonly property bool hasLockedApp: lockedApp !== ""
 
     property bool forcedUnlock
-    readonly property bool locked: lightDM.greeter.active && !lightDM.greeter.authenticated && !forcedUnlock
+    readonly property bool locked: LightDMService.greeter.active && !LightDMService.greeter.authenticated && !forcedUnlock
 
     property bool tabletMode
     property url viewSource // only used for testing
@@ -52,6 +59,7 @@ Showable {
     property int maxFailedLogins: -1 // disabled by default for now, will enable via settings in future
     property int failedLoginsDelayAttempts: 7 // number of failed logins
     property real failedLoginsDelayMinutes: 5 // minutes of forced waiting
+    property int failedFingerprintLoginsDisableAttempts: 3 // number of failed fingerprint logins
 
     readonly property bool animating: loader.item ? loader.item.animating : false
 
@@ -60,11 +68,27 @@ Showable {
     signal emergencyCall()
 
     function forceShow() {
+        if (!active) {
+            d.isLockscreen = true;
+        }
         forcedUnlock = false;
-        if (!required) {
-            showNow(); // loader.onLoaded will select a user
-        } else {
-            d.selectUser(d.currentIndex, true);
+        if (required) {
+            if (loader.item) {
+                loader.item.reset(true /* forceShow */);
+            }
+            // Normally loader.onLoaded will select a user, but if we're
+            // already shown, do it manually.
+            d.selectUser(d.currentIndex, false);
+        }
+
+        // Even though we may already be shown, we want to call show() for its
+        // possible side effects, like hiding indicators and such.
+        //
+        // We re-check forcedUnlock here, because selectUser above might
+        // process events during authentication, and a request to unlock could
+        // have come in in the meantime.
+        if (!forcedUnlock) {
+            showNow();
         }
     }
 
@@ -85,8 +109,8 @@ Showable {
         }
     }
 
-    // Notify that the user has explicitly requested the given app through unity8 GUI.
-    function notifyUserRequestedApp(appId) {
+    // Notify that the user has explicitly requested an app
+    function notifyUserRequestedApp() {
         if (!active) {
             return;
         }
@@ -112,13 +136,34 @@ Showable {
         return d.startUnlock(true /* toTheRight */);
     }
 
-    LightDM{id:lightDM} // Provide backend access
+    function sessionToStart() {
+        for (var i = 0; i < LightDMService.sessions.count; i++) {
+            var session = LightDMService.sessions.data(i,
+                LightDMService.sessionRoles.KeyRole);
+            if (loader.item.sessionToStart === session) {
+                return session;
+            }
+        }
+
+        if (loader.item.sessionToStart === LightDMService.greeter.defaultSession) {
+            return LightDMService.greeter.defaultSession;
+        } else {
+            return "ubuntu"; // The default / fallback
+        }
+    }
+
     QtObject {
         id: d
 
-        readonly property bool multiUser: lightDM.users.count > 1
-        property int currentIndex
+        readonly property bool multiUser: LightDMService.users.count > 1
+        readonly property int selectUserIndex: d.getUserIndex(LightDMService.greeter.selectUser)
+        property int currentIndex: Math.max(selectUserIndex, 0)
         property bool waiting
+        property bool isLockscreen // true when we are locking an active session, rather than first user login
+        readonly property bool secureFingerprint: isLockscreen &&
+                                                  AccountsService.failedFingerprintLogins <
+                                                  root.failedFingerprintLoginsDisableAttempts
+        readonly property bool alphanumeric: AccountsService.passwordDisplayHint === AccountsService.Keyboard
 
         // We want 'launcherOffset' to animate down to zero.  But not to animate
         // while being dragged.  So ideally we change this only when the user
@@ -134,29 +179,51 @@ Showable {
             UbuntuNumberAnimation {}
         }
 
-        function selectUser(uid, reset) {
+        function getUserIndex(username) {
+            if (username === "")
+                return -1;
+
+            // Find index for requested user, if it exists
+            for (var i = 0; i < LightDMService.users.count; i++) {
+                if (username === LightDMService.users.data(i, LightDMService.userRoles.NameRole)) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        function selectUser(index, reset) {
+            if (index < 0 || index >= LightDMService.users.count)
+                return;
             d.waiting = true;
             if (reset) {
-                loader.item.reset();
+                loader.item.reset(false /* forceShow */);
             }
-            currentIndex = uid;
-            var user = lightDM.users.data(uid, lightDM.userRoles.NameRole);
+            currentIndex = index;
+            var user = LightDMService.users.data(index, LightDMService.userRoles.NameRole);
             AccountsService.user = user;
             LauncherModel.setUser(user);
-            lightDM.greeter.authenticate(user); // always resets auth state
+            LightDMService.greeter.authenticate(user); // always resets auth state
+        }
+
+        function hideView() {
+            if (loader.item) {
+                loader.item.enabled = false; // drop OSK and prevent interaction
+                loader.item.notifyAuthenticationSucceeded(false /* showFakePassword */);
+                loader.item.hide();
+            }
         }
 
         function login() {
-            enabled = false;
-            if (lightDM.greeter.startSessionSync()) {
+            d.waiting = true;
+            if (LightDMService.greeter.startSessionSync(root.sessionToStart())) {
                 sessionStarted();
-                if (loader.item) {
-                    loader.item.notifyAuthenticationSucceeded();
-                }
+                hideView();
             } else if (loader.item) {
                 loader.item.notifyAuthenticationFailed();
             }
-            enabled = true;
+            d.waiting = false;
         }
 
         function startUnlock(toTheRight) {
@@ -168,14 +235,35 @@ Showable {
         }
 
         function checkForcedUnlock(hideNow) {
-            if (forcedUnlock && shown && loader.item) {
-                // pretend we were just authenticated
-                loader.item.notifyAuthenticationSucceeded();
-                loader.item.hide();
+            if (forcedUnlock && shown) {
+                hideView();
                 if (hideNow) {
                     root.hideNow(); // skip hide animation
                 }
             }
+        }
+
+        function showPromptMessage(text, isError) {
+            // inefficient, but we only rarely deal with messages
+            var html = text.replace(/&/g, "&amp;")
+                           .replace(/</g, "&lt;")
+                           .replace(/>/g, "&gt;")
+                           .replace(/\n/g, "<br>");
+            if (isError) {
+                html = "<font color=\"#df382c\">" + html + "</font>";
+            }
+
+            if (loader.item) {
+                loader.item.showMessage(html);
+            }
+        }
+
+        function showFingerprintMessage(msg) {
+            if (loader.item) {
+                loader.item.reset(false /* forceShow */);
+                loader.item.showErrorMessage(msg);
+            }
+            showPromptMessage(msg, true);
         }
     }
 
@@ -187,6 +275,17 @@ Showable {
 
     onForcedUnlockChanged: d.checkForcedUnlock(false /* hideNow */)
     Component.onCompleted: d.checkForcedUnlock(true /* hideNow */)
+
+    onLockedChanged: {
+        if (!locked) {
+            AccountsService.failedLogins = 0;
+            AccountsService.failedFingerprintLogins = 0;
+
+            // Stop delay timer if they logged in with fingerprint
+            forcedDelayTimer.stop();
+            forcedDelayTimer.delayMinutes = 0;
+        }
+    }
 
     onRequiredChanged: {
         if (required) {
@@ -281,9 +380,9 @@ Showable {
 
         onLoaded: {
             root.lockedApp = "";
-            root.forceActiveFocus();
+            item.forceActiveFocus();
             d.selectUser(d.currentIndex, true);
-            lightDM.infographic.readyForDataChange();
+            LightDMService.infographic.readyForDataChange();
         }
 
         Connections {
@@ -293,12 +392,9 @@ Showable {
             }
             onResponded: {
                 if (root.locked) {
-                    lightDM.greeter.respond(response);
+                    LightDMService.greeter.respond(response);
                 } else {
-                    if (lightDM.greeter.active && !lightDM.greeter.authenticated) { // could happen if forcedUnlock
-                        d.login();
-                    }
-                    loader.item.hide();
+                    d.login();
                 }
             }
             onTease: root.tease()
@@ -342,14 +438,26 @@ Showable {
 
         Binding {
             target: loader.item
+            property: "hasCustomBackground"
+            value: root.hasCustomBackground
+        }
+
+        Binding {
+            target: loader.item
             property: "locked"
             value: root.locked
         }
 
         Binding {
             target: loader.item
+            property: "waiting"
+            value: d.waiting
+        }
+
+        Binding {
+            target: loader.item
             property: "alphanumeric"
-            value: AccountsService.passwordDisplayHint === AccountsService.Keyboard
+            value: d.alphanumeric
         }
 
         Binding {
@@ -361,60 +469,41 @@ Showable {
         Binding {
             target: loader.item
             property: "userModel"
-            value: lightDM.users
+            value: LightDMService.users
         }
 
         Binding {
             target: loader.item
             property: "infographicModel"
-            value: lightDM.infographic
+            value: LightDMService.infographic
         }
     }
 
     Connections {
-        target: lightDM.greeter
+        target: LightDMService.greeter
 
         onShowGreeter: root.forceShow()
+        onHideGreeter: root.forcedUnlock = true
 
-        onHideGreeter: {
-            d.login();
-            loader.item.hide();
-        }
-
-        onShowMessage: {
-            // inefficient, but we only rarely deal with messages
-            var html = text.replace(/&/g, "&amp;")
-                           .replace(/</g, "&lt;")
-                           .replace(/>/g, "&gt;")
-                           .replace(/\n/g, "<br>");
-            if (isError) {
-                html = "<font color=\"#df382c\">" + html + "</font>";
-            }
-
-            if (loader.item) {
-                loader.item.showMessage(html);
-            }
-        }
+        onShowMessage: d.showPromptMessage(text, isError)
 
         onShowPrompt: {
-            d.waiting = false;
-
             if (loader.item) {
                 loader.item.showPrompt(text, isSecret, isDefaultPrompt);
             }
+
+            d.waiting = false;
         }
 
         onAuthenticationComplete: {
             d.waiting = false;
 
-            if (lightDM.greeter.authenticated) {
-                AccountsService.failedLogins = 0;
-                d.login();
-                if (!lightDM.greeter.promptless) {
-                    loader.item.hide();
+            if (LightDMService.greeter.authenticated) {
+                if (!LightDMService.greeter.promptless) {
+                    d.login();
                 }
             } else {
-                if (!lightDM.greeter.promptless) {
+                if (!LightDMService.greeter.promptless) {
                     AccountsService.failedLogins++;
                 }
 
@@ -435,43 +524,108 @@ Showable {
                 }
 
                 loader.item.notifyAuthenticationFailed();
-                if (!lightDM.greeter.promptless) {
+                if (!LightDMService.greeter.promptless) {
                     d.selectUser(d.currentIndex, false);
                 }
             }
         }
 
-        onRequestAuthenticationUser: {
-            // Find index for requested user, if it exists
-            for (var i = 0; i < lightDM.users.count; i++) {
-                if (user === lightDM.users.data(i, lightDM.userRoles.NameRole)) {
-                    d.selectUser(i, true);
-                    return;
-                }
-            }
-        }
+        onRequestAuthenticationUser: d.selectUser(d.getUserIndex(user), true)
     }
 
     Connections {
         target: DBusUnitySessionService
         onLockRequested: root.forceShow()
-        onUnlocked: root.forcedUnlock = true
+        onUnlocked: {
+            root.forcedUnlock = true;
+            root.hideNow();
+        }
     }
 
     Binding {
-        target: lightDM.greeter
+        target: LightDMService.greeter
         property: "active"
         value: root.active
     }
 
     Binding {
-        target: lightDM.infographic
+        target: LightDMService.infographic
         property: "username"
-        value: AccountsService.statsWelcomeScreen ? lightDM.users.data(d.currentIndex, lightDM.userRoles.NameRole) : ""
+        value: AccountsService.statsWelcomeScreen ? LightDMService.users.data(d.currentIndex, LightDMService.userRoles.NameRole) : ""
     }
 
     Connections {
         target: i18n
-        onLanguageChanged: lightDM.infographic.readyForDataChange()
+        onLanguageChanged: LightDMService.infographic.readyForDataChange()
+    }
+
+    Observer {
+        id: biometryd
+        objectName: "biometryd"
+
+        property var operation: null
+        readonly property bool idEnabled: root.active &&
+                                          root.allowFingerprint &&
+                                          Powerd.status === Powerd.On &&
+                                          Biometryd.available &&
+                                          AccountsService.enableFingerprintIdentification
+
+        function cancelOperation() {
+            if (operation) {
+                operation.cancel();
+                operation = null;
+            }
+        }
+
+        function restartOperation() {
+            cancelOperation();
+
+            if (idEnabled) {
+                var identifier = Biometryd.defaultDevice.identifier;
+                operation = identifier.identifyUser();
+                operation.start(biometryd);
+            }
+        }
+
+        function failOperation(reason) {
+            console.log("Failed to identify user by fingerprint:", reason);
+            restartOperation();
+            if (!d.secureFingerprint) {
+                d.startUnlock(false /* toTheRight */); // use normal login instead
+            }
+            var msg = d.secureFingerprint ? i18n.tr("Try again") : "";
+            d.showFingerprintMessage(msg);
+        }
+
+        Component.onCompleted: restartOperation()
+        Component.onDestruction: cancelOperation()
+        onIdEnabledChanged: restartOperation()
+
+        onSucceeded: {
+            if (!d.secureFingerprint) {
+                failOperation("fingerprint reader is locked");
+                return;
+            }
+            if (result !== LightDMService.users.data(d.currentIndex, LightDMService.userRoles.UidRole)) {
+                AccountsService.failedFingerprintLogins++;
+                failOperation("not the selected user");
+                return;
+            }
+            console.log("Identified user by fingerprint:", result);
+            if (loader.item) {
+                loader.item.enabled = false;
+                loader.item.notifyAuthenticationSucceeded(true /* showFakePassword */);
+            }
+            if (root.active)
+                root.forcedUnlock = true;
+        }
+        onFailed: {
+            if (!d.secureFingerprint) {
+                failOperation("fingerprint reader is locked");
+            } else {
+                AccountsService.failedFingerprintLogins++;
+                failOperation(reason);
+            }
+        }
     }
 }

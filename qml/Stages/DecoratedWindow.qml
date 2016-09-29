@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,8 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors: Michael Zanetti <michael.zanetti@canonical.com>
  */
 
 import QtQuick 2.4
@@ -28,9 +26,11 @@ FocusScope {
 
     property alias application: applicationWindow.application
     property alias surface: applicationWindow.surface
+    readonly property alias focusedSurface: applicationWindow.focusedSurface
     property alias active: decoration.active
     readonly property alias title: applicationWindow.title
     property alias fullscreen: applicationWindow.fullscreen
+    property alias maximizeButtonShown: decoration.maximizeButtonShown
 
     readonly property bool decorationShown: !fullscreen
     property bool highlightShown: false
@@ -38,6 +38,7 @@ FocusScope {
 
     property real requestedWidth
     property real requestedHeight
+
     property alias surfaceOrientationAngle: applicationWindow.surfaceOrientationAngle
     readonly property real visibleDecorationHeight: root.decorationShown ? decoration.height : 0
     readonly property bool counterRotate: surfaceOrientationAngle != 0 && surfaceOrientationAngle != 180
@@ -45,11 +46,17 @@ FocusScope {
     readonly property int minimumWidth: !counterRotate ? applicationWindow.minimumWidth : applicationWindow.minimumHeight
     readonly property int minimumHeight: visibleDecorationHeight + (!counterRotate ? applicationWindow.minimumHeight : applicationWindow.minimumWidth)
     readonly property int maximumWidth: !counterRotate ? applicationWindow.maximumWidth : applicationWindow.maximumHeight
-    readonly property int maximumHeight: visibleDecorationHeight + (!counterRotate ? applicationWindow.maximumHeight : applicationWindow.maximumWidth)
+    readonly property int maximumHeight: (root.decorationShown && applicationWindow.maximumHeight > 0 ? decoration.height : 0)
+                                         + (!counterRotate ? applicationWindow.maximumHeight : applicationWindow.maximumWidth)
     readonly property int widthIncrement: !counterRotate ? applicationWindow.widthIncrement : applicationWindow.heightIncrement
     readonly property int heightIncrement: !counterRotate ? applicationWindow.heightIncrement : applicationWindow.widthIncrement
 
     property alias overlayShown: decoration.overlayShown
+    property alias stageWidth: moveHandler.stageWidth
+    property alias stageHeight: moveHandler.stageHeight
+    readonly property alias dragging: moveHandler.dragging
+
+    readonly property Item clientAreaItem: applicationWindow
 
     signal closeClicked()
     signal maximizeClicked()
@@ -57,6 +64,7 @@ FocusScope {
     signal maximizeVerticallyClicked()
     signal minimizeClicked()
     signal decorationPressed()
+    signal decorationReleased()
 
     Rectangle {
         id: selectionHighlight
@@ -99,6 +107,20 @@ FocusScope {
         onMaximizeVerticallyClicked: { root.decorationPressed(); root.maximizeVerticallyClicked(); }
         onMinimizeClicked: root.minimizeClicked();
         onPressed: root.decorationPressed();
+
+        onPressedChanged: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
+        onPositionChanged: moveHandler.handlePositionChanged(mouse)
+        onReleased: {
+            root.decorationReleased();
+            moveHandler.handleReleased();
+        }
+    }
+
+    MoveHandler {
+        id: moveHandler
+        objectName: "moveHandler"
+        target: root.parent
+        buttonsWidth: decoration.buttonsWidth
     }
 
     ApplicationWindow {

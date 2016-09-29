@@ -84,6 +84,12 @@ AbstractStage {
         }
     }
 
+    function closeFocusedDelegate() {
+        if (priv.focusedAppDelegate && priv.focusedAppDelegate.closeable) {
+            priv.focusedAppDelegate.closed();
+        }
+    }
+
     orientationChangesEnabled: priv.mainAppOrientationChangesEnabled
 
     mainApp: {
@@ -101,7 +107,7 @@ AbstractStage {
             orientations |= Qt.LandscapeOrientation | Qt.InvertedLandscapeOrientation;
             if (priv.sideStageItemId && !spreadView.surfaceDragging) {
                 // If we have a sidestage app, support Portrait orientation
-                // so that it will switch the sidestage app to mainstage on rotate
+                // so that it will switch the sidestage app to mainstage on rotate to portrait
                 orientations |= Qt.PortraitOrientation|Qt.InvertedPortraitOrientation;
             }
             return orientations;
@@ -301,7 +307,7 @@ AbstractStage {
     Binding {
         target: MirFocusController
         property: "focusedSurface"
-        value: priv.focusedAppDelegate ? priv.focusedAppDelegate.surface : null
+        value: priv.focusedAppDelegate ? priv.focusedAppDelegate.focusedSurface : null
         when: root.parent && !spreadRepeater.startingUp
     }
 
@@ -479,8 +485,7 @@ AbstractStage {
                 return;
             }
 
-            switch (phase) {
-            case 0:
+            if (phase === 0) {
                 // the "spreadEnabled" part is because when code does "phase = 0; contentX = -shift" to
                 // dismiss the spread because spreadEnabled went to false, for some reason, during tests,
                 // Flickable might jump in and change contentX value back, causing the code below to do
@@ -490,14 +495,17 @@ AbstractStage {
                 if (root.spreadEnabled && shiftedContentX > width * positionMarker2) {
                     phase = 1;
                 }
-                break;
-            case 1:
+            }
+
+            // Do not turn to else if
+            // Sometimes the animation of shiftedContentX is very fast and we need to jump from phase 0 to 1 to 2
+            // in the same onShiftedContentXChanged
+            if (phase === 1) {
                 if (shiftedContentX < width * positionMarker2) {
                     phase = 0;
                 } else if (shiftedContentX >= width * positionMarker4 && !spreadDragArea.dragging) {
                     phase = 2;
                 }
-                break;
             }
         }
 
@@ -536,7 +544,7 @@ AbstractStage {
             if (!app) {
                 return index;
             }
-            var stage = spreadRepeater.itemAt(index) ? spreadRepeater.itemAt(index).stage : app.stage;
+            var stage = spreadRepeater.itemAt(index) ? spreadRepeater.itemAt(index).stage : ApplicationInfoInterface.MainStage;
 
             // don't shuffle indexes greater than "actives or next"
             if (index > 2) return index;
@@ -624,7 +632,7 @@ AbstractStage {
                 enabled: priv.sideStageEnabled
 
                 onDropped: {
-                    drop.source.spreadDelegate.stage = ApplicationInfoInterface.MainStage;
+                    drop.source.spreadDelegate.saveStage(ApplicationInfoInterface.MainStage);
                     drop.source.spreadDelegate.focus = true;
                 }
                 keys: "SideStage"
@@ -679,7 +687,7 @@ AbstractStage {
                     }
                     onDropped: {
                         if (drop.keys == "MainStage") {
-                            drop.source.spreadDelegate.stage = ApplicationInfoInterface.SideStage;
+                            drop.source.spreadDelegate.saveStage(ApplicationInfoInterface.SideStage);
                             drop.source.spreadDelegate.focus = true;
                         }
                     }
@@ -707,13 +715,13 @@ AbstractStage {
 
                 onItemRemoved: {
                     priv.updateMainAndSideStageIndexes();
-                    // Unless we're closing the app ourselves in the spread,
+                    // Unless we're closing the app ourselves,
                     // lets make sure the spread doesn't mess up by the changing app list.
                     if (spreadView.closingIndex == -1) {
                         spreadView.phase = 0;
                         spreadView.contentX = -spreadView.shift;
-                        focusTopMostApp();
                     }
+                    focusTopMostApp();
                 }
                 function focusTopMostApp() {
                     if (spreadRepeater.count > 0) {
@@ -810,6 +818,11 @@ AbstractStage {
                         }
                     }
 
+                    function saveStage(newStage) {
+                        stage = newStage;
+                        WindowStateStorage.saveStage(application.appId, newStage);
+                    }
+
                     // FIXME: A regular binding doesn't update any more after closing an app.
                     // Using a Binding for now.
                     Binding {
@@ -843,15 +856,17 @@ AbstractStage {
                         refreshStage();
                         _constructing = false;
                     }
-                    Component.onDestruction: {
-                        WindowStateStorage.saveStage(application.appId, stage);
-                    }
 
                     function refreshStage() {
                         var newStage = ApplicationInfoInterface.MainStage;
-                        if (priv.sideStageEnabled) {
-                            if (application && application.supportedOrientations & (Qt.PortraitOrientation|Qt.InvertedPortraitOrientation)) {
-                                newStage = WindowStateStorage.getStage(application.appId);
+                        if (priv.sideStageEnabled) { // we're in lanscape rotation.
+                            if (!isDash && application && application.supportedOrientations & (Qt.PortraitOrientation|Qt.InvertedPortraitOrientation)) {
+                                var defaultStage = ApplicationInfoInterface.SideStage; // if application supports portrait, it defaults to sidestage.
+                                if (application.supportedOrientations & (Qt.LandscapeOrientation|Qt.InvertedLandscapeOrientation)) {
+                                    // if it supports lanscape, it defaults to mainstage.
+                                    defaultStage = ApplicationInfoInterface.MainStage;
+                                }
+                                newStage = WindowStateStorage.getStage(application.appId, defaultStage);
                             }
                         }
 
@@ -1085,6 +1100,7 @@ AbstractStage {
                 // only accept opposite stage.
                 Drag.keys: {
                     if (!surface) return "Disabled";
+                    if (spreadDelegate.isDash) return "Disabled";
 
                     if (spreadDelegate.stage === ApplicationInfo.MainStage) {
                         if (spreadDelegate.application.supportedOrientations

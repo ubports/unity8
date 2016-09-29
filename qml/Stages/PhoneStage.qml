@@ -108,6 +108,12 @@ AbstractStage {
         }
     }
 
+    function closeFocusedDelegate() {
+        if (priv.focusedAppDelegate && priv.focusedAppDelegate.closeable) {
+            priv.focusedAppDelegate.closed();
+        }
+    }
+
     mainApp: priv.focusedAppDelegate ? priv.focusedAppDelegate.application : null
 
     orientationChangesEnabled: priv.focusedAppOrientationChangesEnabled
@@ -238,7 +244,7 @@ AbstractStage {
     Binding {
         target: MirFocusController
         property: "focusedSurface"
-        value: priv.focusedAppDelegate ? priv.focusedAppDelegate.surface : null
+        value: priv.focusedAppDelegate ? priv.focusedAppDelegate.focusedSurface : null
         when: root.parent && !spreadRepeater.startingUp
     }
 
@@ -465,13 +471,13 @@ AbstractStage {
                 model: topLevelSurfaceList
 
                 onItemRemoved: {
-                    // Unless we're closing the app ourselves in the spread,
+                    // Unless we're closing the app ourselves,
                     // lets make sure the spread doesn't mess up by the changing app list.
                     if (spreadView.closingIndex == -1) {
                         spreadView.phase = 0;
                         spreadView.contentX = -spreadView.shift;
-                        focusTopMostApp();
                     }
+                    focusTopMostApp();
                 }
                 function focusTopMostApp() {
                     if (spreadRepeater.count > 0) {

@@ -16,7 +16,7 @@ Loader {
                                 objectName: "backgroundLoader"; 
                                 anchors.fill: parent; 
                                 asynchronous: true;
-                                visible: status == Loader.Ready; 
+                                visible: status === Loader.Ready;
                                 sourceComponent: UbuntuShape { 
                                     objectName: "background"; 
                                     radius: "medium"; 
@@ -49,7 +49,6 @@ Loader {
                                     } 
                                 } 
                             }
-readonly property size artShapeSize: Qt.size(-1, -1);
 readonly property int headerHeight: row.height;
 Row { 
                         id: row; 

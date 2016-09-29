@@ -15,20 +15,22 @@
  */
 
 import QtQuick 2.4
-import Unity.Application 0.1 // For Mir singleton
 import Ubuntu.Components 1.3
 import "../Components"
-import "../Components/PanelState"
 
 MouseArea {
     id: root
     clip: true
 
-    property Item target
+    property Item target // appDelegate
     property alias title: titleLabel.text
+    property alias maximizeButtonShown: buttons.maximizeButtonShown
     property bool active: false
     property alias overlayShown: buttons.overlayShown
 
+    readonly property real buttonsWidth: buttons.width + row.spacing
+
+    acceptedButtons: Qt.AllButtons // prevent leaking unhandled mouse events
     hoverEnabled: true
 
     signal closeClicked()
@@ -37,38 +39,14 @@ MouseArea {
     signal maximizeHorizontallyClicked()
     signal maximizeVerticallyClicked()
 
-    onDoubleClicked: root.maximizeClicked()
-
-    QtObject {
-        id: priv
-        property real distanceX
-        property real distanceY
-        property bool dragging
-    }
-
-    onPressedChanged: {
-        if (pressed) {
-            var pos = mapToItem(root.target, mouseX, mouseY);
-            priv.distanceX = pos.x;
-            priv.distanceY = pos.y;
-            priv.dragging = true;
-        } else {
-            priv.dragging = false;
-            Mir.cursorName = "";
+    onDoubleClicked: {
+        if (target.canBeMaximized && mouse.button == Qt.LeftButton) {
+            root.maximizeClicked();
         }
     }
 
-    onPositionChanged: {
-        if (priv.dragging) {
-            Mir.cursorName = "grabbing";
-            var pos = mapToItem(root.target.parent, mouseX, mouseY);
-            // Use integer coordinate values to ensure that target is left in a pixel-aligned
-            // position. Mouse movement could have subpixel precision, yielding a fractional
-            // mouse position.
-            root.target.x = Math.round(pos.x - priv.distanceX);
-            root.target.y = Math.round(Math.max(pos.y - priv.distanceY, PanelState.panelHeight));
-        }
-    }
+    // do not let unhandled wheel event pass thru the decoration
+    onWheel: wheel.accepted = true;
 
     Rectangle {
         anchors.fill: parent
@@ -78,6 +56,7 @@ MouseArea {
     }
 
     Row {
+        id: row
         anchors {
             fill: parent
             leftMargin: overlayShown ? units.gu(5) : units.gu(1)
@@ -98,10 +77,9 @@ MouseArea {
             onCloseClicked: root.closeClicked();
             onMinimizeClicked: root.minimizeClicked();
             onMaximizeClicked: root.maximizeClicked();
-            onMaximizeHorizontallyClicked: root.maximizeHorizontallyClicked();
-            onMaximizeVerticallyClicked: root.maximizeVerticallyClicked();
+            onMaximizeHorizontallyClicked: if (root.target.canBeMaximizedHorizontally) root.maximizeHorizontallyClicked();
+            onMaximizeVerticallyClicked: if (root.target.canBeMaximizedVertically) root.maximizeVerticallyClicked();
             closeButtonShown: root.target.application.appId !== "unity8-dash"
-            target: root.target
         }
 
         Label {
@@ -115,10 +93,8 @@ MouseArea {
             font.weight: root.active ? Font.Light : Font.Medium
             elide: Text.ElideRight
             opacity: overlayShown ? 0 : 1
-            visible: opacity == 1
-            Behavior on opacity {
-                OpacityAnimator { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
-            }
+            visible: opacity != 0
+            Behavior on opacity { UbuntuNumberAnimation {} }
         }
     }
 }

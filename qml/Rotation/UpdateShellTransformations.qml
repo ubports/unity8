@@ -17,16 +17,16 @@
 import QtQuick 2.4
 
 ScriptAction {
-    property var info
     property var shell
+    property int rotationAngle
 
     script: {
-        shell.orientationAngle = info.requestedOrientationAngle;
-        shell.transformRotationAngle = info.requestedOrientationAngle;
+        shell.orientationAngle = rotationAngle;
+        shell.transformRotationAngle = rotationAngle;
 
         // They must all be bindings as orientedShell's size can change
 
-        if (info.requestedOrientationAngle === 90 || info.requestedOrientationAngle === 270) {
+        if (rotationAngle === 90 || rotationAngle === 270) {
             shell.width = Qt.binding(function() { return orientedShell.height; });
             shell.height = Qt.binding(function() { return orientedShell.width; });
         } else {

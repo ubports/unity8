@@ -15,21 +15,27 @@
  */
 
 #include "AccountsService.h"
+#include "MockUsersModel.h"
 
+#include <QLightDM/UsersModel>
 #include <paths.h>
 
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
+    m_enableFingerprintIdentification(true),
     m_enableLauncherWhileLocked(true),
     m_enableIndicatorsWhileLocked(true),
-    m_backgroundFile(qmlDirectory() + "/graphics/phone_background.jpg"),
+    m_backgroundFile(),
     m_statsWelcomeScreen(true),
     m_failedLogins(0),
+    m_failedFingerprintLogins(0),
     m_demoEdges(false),
     m_demoEdgesCompleted(),
     m_hereEnabled(false),
-    m_hereLicensePath("")
+    m_hereLicensePath(""),
+    m_usersModel(new MockUsersModel(this))
 {
+    m_usersModel->setMockMode("full");
 }
 
 QString AccountsService::user() const
@@ -42,6 +48,7 @@ void AccountsService::setUser(const QString &user)
     m_user = user;
     Q_EMIT userChanged();
     Q_EMIT passwordDisplayHintChanged();
+    Q_EMIT backgroundFileChanged();
 }
 
 bool AccountsService::demoEdges() const
@@ -74,6 +81,17 @@ void AccountsService::setDemoEdgesCompleted(const QStringList &demoEdgesComplete
     Q_EMIT demoEdgesCompletedChanged();
 }
 
+bool AccountsService::enableFingerprintIdentification() const
+{
+    return m_enableFingerprintIdentification;
+}
+
+void AccountsService::setEnableFingerprintIdentification(bool enableFingerprintIdentification)
+{
+    m_enableFingerprintIdentification = enableFingerprintIdentification;
+    Q_EMIT enableFingerprintIdentificationChanged();
+}
+
 bool AccountsService::enableLauncherWhileLocked() const
 {
     return m_enableLauncherWhileLocked;
@@ -98,7 +116,18 @@ void AccountsService::setEnableIndicatorsWhileLocked(bool enableIndicatorsWhileL
 
 QString AccountsService::backgroundFile() const
 {
-    return m_backgroundFile;
+    if (!m_backgroundFile.isEmpty()) {
+        return m_backgroundFile;
+    }
+
+    // Check if our mock user has a background set in liblightdm
+    for (int i = 0; i < m_usersModel->count(); i++) {
+        if (m_usersModel->data(i, QLightDM::UsersModel::NameRole) == m_user) {
+            return m_usersModel->data(i, QLightDM::UsersModel::BackgroundPathRole).toString();
+        }
+    }
+
+    return QString();
 }
 
 void AccountsService::setBackgroundFile(const QString &backgroundFile)
@@ -135,6 +164,17 @@ void AccountsService::setFailedLogins(uint failedLogins)
 {
     m_failedLogins = failedLogins;
     failedLoginsChanged();
+}
+
+uint AccountsService::failedFingerprintLogins() const
+{
+    return m_failedFingerprintLogins;
+}
+
+void AccountsService::setFailedFingerprintLogins(uint failedFingerprintLogins)
+{
+    m_failedFingerprintLogins = failedFingerprintLogins;
+    failedFingerprintLoginsChanged();
 }
 
 bool AccountsService::hereEnabled() const

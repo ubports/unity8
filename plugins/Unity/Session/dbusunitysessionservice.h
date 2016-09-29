@@ -106,6 +106,7 @@ Q_SIGNALS:
      * Emitted after the session has been unlocked.
      */
     Q_SCRIPTABLE void Unlocked();
+    void unlocked();
 
 public Q_SLOTS:
     /**
@@ -258,6 +259,12 @@ public Q_SLOTS:
      * @return whether the session is currently locked
      */
     Q_SCRIPTABLE bool IsLocked() const;
+
+private Q_SLOTS:
+    void doUnlock();
+
+private:
+    void switchToGreeter();
 };
 
 class DBusGnomeSessionManagerWrapper : public UnityDBusObject

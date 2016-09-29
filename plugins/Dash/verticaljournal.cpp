@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,10 +27,9 @@
  */
 #include "verticaljournal.h"
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
+#include <math.h>
+
 #include <private/qquickitem_p.h>
-#pragma GCC diagnostic pop
 
 VerticalJournal::VerticalJournal()
  : m_columnWidth(0)
@@ -97,7 +96,7 @@ void VerticalJournal::findTopModelIndexToAdd(int *modelIndex, qreal *yPos)
 
     if (*modelIndex > 0) {
         Q_ASSERT(m_indexColumnMap.contains(*modelIndex));
-        while (m_indexColumnMap[*modelIndex] != columnToAddTo) {
+        while (*modelIndex > 0 && m_indexColumnMap[*modelIndex] != columnToAddTo) {
             // We found out that we have to add to columnToAddTo
             // and thought that we had to add *modelIndex, but history tells
             // it is not correct, so find up from *modelIndex until we found the index
@@ -269,5 +268,13 @@ void VerticalJournal::processModelRemoves(const QVector<QQmlChangeSet::Change> &
                 }
             }
         }
+    }
+}
+
+void VerticalJournal::itemGeometryChanged(QQuickItem * /*item*/, const QRectF &newGeometry, const QRectF &oldGeometry)
+{
+    const qreal heightDiff = newGeometry.height() - oldGeometry.height();
+    if (heightDiff != 0) {
+        relayout();
     }
 }

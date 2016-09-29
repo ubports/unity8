@@ -19,16 +19,16 @@ import Ubuntu.Components 1.3
 
 Row {
     id: root
-    spacing: overlayShown ? units.gu(2) : units.gu(1)
+    spacing: overlayShown ? units.gu(2) : windowIsMaximized ? 0 : units.gu(1)
     Behavior on spacing {
         UbuntuNumberAnimation {}
     }
 
     // to be set from outside
-    property Item target
     property bool active: false
     property bool windowIsMaximized: false
     property bool closeButtonShown: true
+    property bool maximizeButtonShown: true
     property bool overlayShown
 
     signal closeClicked()
@@ -48,13 +48,14 @@ Row {
 
         Rectangle {
             anchors.fill: parent
+            anchors.margins: windowIsMaximized ? units.dp(3) : 0
             radius: height / 2
             color: theme.palette.normal.negative
             visible: parent.containsMouse && !overlayShown
         }
         Icon {
             anchors.fill: parent
-            anchors.margins: units.dp(3)
+            anchors.margins: windowIsMaximized ? units.dp(6) : units.dp(3)
             source: "graphics/window-close.svg"
             color: root.active ? "white" : UbuntuColors.slate
         }
@@ -70,13 +71,14 @@ Row {
 
         Rectangle {
             anchors.fill: parent
+            anchors.margins: windowIsMaximized ? units.dp(3) : 0
             radius: height / 2
             color: root.active ? UbuntuColors.graphite : UbuntuColors.ash
             visible: parent.containsMouse && !overlayShown
         }
         Icon {
             anchors.fill: parent
-            anchors.margins: units.dp(3)
+            anchors.margins: windowIsMaximized ? units.dp(6) : units.dp(3)
             source: "graphics/window-minimize.svg"
             color: root.active ? "white" : UbuntuColors.slate
         }
@@ -88,6 +90,7 @@ Row {
         hoverEnabled: true
         height: parent.height
         width: height
+        visible: root.maximizeButtonShown
         acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
         onClicked: {
             if (mouse.button == Qt.LeftButton) {
@@ -101,13 +104,14 @@ Row {
 
         Rectangle {
             anchors.fill: parent
+            anchors.margins: windowIsMaximized ? units.dp(3) : 0
             radius: height / 2
             color: root.active ? UbuntuColors.graphite : UbuntuColors.ash
             visible: parent.containsMouse && !overlayShown
         }
         Icon {
             anchors.fill: parent
-            anchors.margins: units.dp(3)
+            anchors.margins: windowIsMaximized ? units.dp(6) : units.dp(3)
             source: root.windowIsMaximized ? "graphics/window-window.svg" : "graphics/window-maximize.svg"
             color: root.active ? "white" : UbuntuColors.slate
         }

@@ -7,7 +7,6 @@ set(FakeUnityApplicationQml_SOURCES
     MirSurfaceListModel.cpp
     ObjectListModel.h
     SurfaceManager.cpp
-    UbuntuKeyboardInfo.cpp
     VirtualKeyboard.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h

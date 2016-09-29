@@ -95,14 +95,11 @@
 #include <QDebug>
 #include <qqmlinfo.h>
 #include <qqmlengine.h>
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
 #include <private/qqmlcontext_p.h>
 #include <private/qqmldelegatemodel_p.h>
 #include <private/qqmlglobal_p.h>
 #include <private/qquickitem_p.h>
 #include <private/qquickanimation_p.h>
-#pragma GCC diagnostic pop
 // #include <private/qquickrectangle_p.h>
 
 qreal ListViewWithPageHeader::ListItem::height() const
@@ -256,6 +253,7 @@ void ListViewWithPageHeader::setHeader(QQuickItem *headerItem)
             oldHeaderHeight = m_headerItem->height();
             oldHeaderY = m_headerItem->y();
             m_headerItem->setParentItem(nullptr);
+            QQuickItemPrivate::get(m_headerItem)->removeItemChangeListener(this, QQuickItemPrivate::ImplicitHeight);
         }
         m_headerItem = headerItem;
         if (m_headerItem) {
@@ -589,6 +587,10 @@ void ListViewWithPageHeader::adjustHeader(qreal diff)
                 } else {
                     m_headerItem->setY(-m_minYExtent);
                 }
+            } else if (m_headerItemShownHeight == 0 && m_previousContentY > m_headerItem->y() && contentY() < m_headerItem->y()) {
+                // The header was hidden but now that we've moved up (e.g. because of item removed) it's visible
+                // make sure it isn't
+                m_headerItem->setY(-m_minYExtent);
             }
             Q_EMIT headerItemShownHeightChanged();
         } else {
@@ -702,7 +704,9 @@ void ListViewWithPageHeader::reallyReleaseItem(ListItem *listItem)
     if (flags & QQmlDelegateModel::Destroyed) {
         item->setParentItem(nullptr);
     }
-    listItem->sectionItem()->deleteLater();
+    if (listItem->sectionItem()) {
+        listItem->sectionItem()->deleteLater();
+    }
     delete listItem;
 }
 
@@ -978,6 +982,7 @@ void ListViewWithPageHeader::onContentWidthChanged()
 
 void ListViewWithPageHeader::onHeightChanged()
 {
+    m_clipItem->setHeight(height() - m_headerItemShownHeight);
     polish();
 }
 
@@ -1334,6 +1339,10 @@ void ListViewWithPageHeader::layout()
             }
         }
     }
+    if (m_headerItem) {
+        const bool cullHeader = m_headerItem->y() + m_headerItem->height() < contentY();
+        QQuickItemPrivate::get(m_headerItem)->setCulled(cullHeader);
+    }
     m_inLayout = false;
 }
 
@@ -1384,10 +1393,6 @@ void ListViewWithPageHeader::updatePolish()
 
         m_contentHeightDirty = false;
         adjustMinYExtent();
-        if (contentHeight + m_minYExtent < height()) {
-            // need this since in the previous call to adjustMinYExtent contentHeight is not set yet
-            m_minYExtent = 0;
-        }
         m_inContentHeightKeepHeaderShown = m_headerItem && m_headerItem->y() == contentY();
         setContentHeight(contentHeight);
         m_inContentHeightKeepHeaderShown = false;

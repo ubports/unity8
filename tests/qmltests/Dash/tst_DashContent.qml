@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2013 Canonical Ltd.
+ * Copyright (C) 2013,2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -70,7 +70,7 @@ Item {
         function loadScopes() {
             scopeLoadedSpy.clear();
             scopesModel.load();
-            tryCompare(scopeLoadedSpy, "count", 6, 15000);
+            tryCompare(scopeLoadedSpy, "count", 8, 15000);
             tryCompare(scopesModel, "loaded", true);
             tryCompareFunction(function() {
                 var mockScope1Loader = findChild(shell, "scopeLoader0");
@@ -261,11 +261,11 @@ Item {
 
         function test_carouselAspectRatio() {
             tryCompareFunction(function() {
-                                    var scope = findChild(dashContent, "scopeLoader0");
+                                    var scope = findChild(dashContent, "scopeLoader0", 0 /* timeout */);
                                     if (scope != null) {
-                                        var dashCategory1 = findChild(scope, "dashCategory1");
+                                        var dashCategory1 = findChild(scope, "dashCategory1", 0 /* timeout */);
                                         if (dashCategory1 != null) {
-                                            var tile = findChild(dashCategory1, "carouselDelegate1");
+                                            var tile = findChild(dashCategory1, "carouselDelegate1", 0 /* timeout */);
                                             return tile != null;
                                         }
                                     }
@@ -282,7 +282,6 @@ Item {
 
         function test_mainNavigation() {
             var dashContentList = findChild(dashContent, "dashContentList");
-            tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
             var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
             var searchButton = findChild(dashContentList.currentItem, "search_button");
@@ -320,7 +319,8 @@ Item {
             tryCompare(navigationListView.currentItem.navigation, "navigationId", "root");
 
             var headerContainer = findChild(dashContentList.currentItem, "headerContainer");
-            tryCompare(headerContainer, "contentY", headerContainer.height);
+            tryCompare(headerContainer, "clip", false);
+            verify(headerContainer.state !== "search");
             mouseClick(searchButton);
             tryCompare(peExtraPanel, "visible", true);
             waitForRendering(navigationListView);
@@ -384,7 +384,8 @@ Item {
             mouseClick(header0);
             compare(peExtraPanel.visible, false);
 
-            tryCompare(headerContainer, "contentY", headerContainer.height);
+            tryCompare(headerContainer, "clip", false);
+            verify(headerContainer.state !== "search");
             mouseClick(searchButton);
             tryCompare(peExtraPanel, "visible", true);
             tryCompare(navigationListView.currentItem.navigation, "loaded", true);
@@ -403,7 +404,6 @@ Item {
 
         function goToSecondLevel() {
             var dashContentList = findChild(dashContent, "dashContentList");
-            tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
             var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
             var searchButton = findChild(dashContentList.currentItem, "search_button");
@@ -524,7 +524,6 @@ Item {
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
             var headerContainer = findChild(pageHeader, "headerContainer");
 
-            // test that closing the filters popover without a search unfocuses and removes the navigation
             mouseClick(searchButton);
             tryCompare(peExtraPanel, "visible", true);
 
@@ -536,6 +535,19 @@ Item {
             filtersPopover = findChild(shell, "filtersPopover")
             verify(filtersPopover);
 
+            // test that popover resizes
+            var shellWidth = shell.width;
+            var popoverWidth = filtersPopover.contentWidth;
+
+            shell.width = shellWidth + units.gu(60);
+            waitForRendering(shell);
+
+            tryCompare(filtersPopover, "contentWidth", popoverWidth + units.gu(60));
+
+            shell.width = shellWidth;
+            waitForRendering(shell);
+
+            // test that closing the filters popover without a search unfocuses and removes the navigation
             mouseClick(shell, shell.width - 1, shell.height - 1);
 
             tryCompare(pageHeader.extraPanel, "visible", false);
@@ -544,7 +556,8 @@ Item {
 
             mouseClick(cancelButton);
             tryCompare(headerContainer, "showSearch", false);
-            tryCompare(headerContainer, "contentY", headerContainer.height);
+            tryCompare(headerContainer, "clip", false);
+            verify(headerContainer.state !== "search");
 
             // test within a navigation
             goToSecondLevel();
@@ -565,7 +578,7 @@ Item {
 
         function test_primaryFilter() {
             var dashContentList = findChild(dashContent, "dashContentList");
-            tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
+            tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation", 0 /* timeout */) != null; }, true);
             dashContentList.currentItem.item.scope.setHasNavigation(false);
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
             var searchButton = findChild(dashContentList.currentItem, "search_button");
@@ -574,7 +587,7 @@ Item {
             mouseClick(searchButton);
             tryCompare(peExtraPanel, "visible", true);
 
-            tryCompareFunction(function() { return findChild(peExtraPanel, "OSF3") != null; }, true);
+            tryCompareFunction(function() { return findChild(peExtraPanel, "OSF3", 0 /* timeout */) != null; }, true);
         }
 
         function test_searchHint() {
@@ -610,6 +623,12 @@ Item {
         }
 
         function test_noDelegateCreationDestructionOnMove() {
+            // Go to scope 1 and back so that items are created
+            // and so this test makes sense
+            dashContent.setCurrentScopeAtIndex(1);
+            waitForRendering(dashContent);
+            dashContent.setCurrentScopeAtIndex(0);
+
             // Our cards are of type AbstractButton as defined in CardCreator.js
             // This gives also other things that are not cards but for our purpose it
             // does not matter
@@ -681,6 +700,28 @@ Item {
 
             mouseClick(recentSearches.itemAt(0));
             compare(pageHeader.searchQuery, "Search2");
+            tryCompare(pageHeader.extraPanel, "visible", false);
+            compare(searchTextField.focus, false);
+        }
+
+        function test_cancelSearch() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            var pageHeader = findChild(dashContentList.currentItem, "scopePageHeader")
+            pageHeader.searchEntryEnabled = true;
+            pageHeader.searchHistory.clear();
+
+            pageHeader.searchHistory.addQuery("Search1");
+            pageHeader.searchHistory.addQuery("Search2");
+
+            pageHeader.triggerSearch();
+            tryCompare(pageHeader.extraPanel, "visible", true);
+
+            var searchTextField = findChild(pageHeader, "searchTextField");
+            compare(searchTextField.focus, true);
+
+            var cancelButton = findChild(dashContentList.currentItem, "cancelButton")
+
+            mouseClick(cancelButton);
             tryCompare(pageHeader.extraPanel, "visible", false);
             compare(searchTextField.focus, false);
         }

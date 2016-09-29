@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ import Ubuntu.Components 1.3
 import Unity.Launcher 0.1
 import Ubuntu.Components.Popups 1.3
 import "../Components/ListItems"
-import "../Components/"
+import "../Components"
 
 Rectangle {
     id: root
@@ -69,7 +69,9 @@ Rectangle {
     MouseArea {
         id: mouseEventEater
         anchors.fill: parent
+        acceptedButtons: Qt.AllButtons
         hoverEnabled: true
+        onWheel: wheel.accepted = true;
     }
 
     Column {
@@ -756,7 +758,7 @@ Rectangle {
         }
 
         // internal
-        property int itemCenter: item ? root.mapFromItem(quickList.item).y + (item.height / 2) + quickList.item.offset : units.gu(1)
+        property int itemCenter: item ? root.mapFromItem(quickList.item, 0, 0).y + (item.height / 2) + quickList.item.offset : units.gu(1)
         property int offset: itemCenter + (height/2) + units.gu(1) > parent.height ? -itemCenter - (height/2) - units.gu(1) + parent.height :
                              itemCenter - (height/2) < units.gu(1) ? (height/2) - itemCenter + units.gu(1) : 0
 

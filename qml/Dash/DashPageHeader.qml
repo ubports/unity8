@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2015 Canonical, Ltd.
+ * Copyright (C) 2013,2015,2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
 import Ubuntu.Components.ListItems 1.3
+import Utils 0.1
 import "../Components"
 
 Item {
@@ -25,6 +26,7 @@ Item {
     objectName: "pageHeader"
     implicitHeight: headerContainer.height + signatureLineHeight
     readonly property real signatureLineHeight: showSignatureLine ? units.gu(2) : 0
+    readonly property real headerDividerLuminance: Style.luminance(bottomBorder.color)
 
     property int activeFiltersCount: 0
     property bool scopeHasFilters: false
@@ -81,7 +83,8 @@ Item {
     function closePopup(keepFocus, keepSearch) {
         if (extraPanel.visible) {
             extraPanel.visible = false;
-        } else if (!keepFocus) {
+        }
+        if (!keepFocus) {
             unfocus(keepSearch);
         }
         if (!keepSearch && !searchTextField.text && !root.navigationTag && searchHistory.count == 0) {
@@ -131,23 +134,48 @@ Item {
         anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + (extraPanel ? extraPanel.height : 0) }
         visible: headerContainer.showSearch
         onPressed: {
-            extraPanel.visible = false;
             closePopup(/* keepFocus */false);
             mouse.accepted = false;
         }
     }
 
-    Flickable {
+    Item {
         id: headerContainer
         objectName: "headerContainer"
-        clip: contentY < height
         anchors { left: parent.left; top: parent.top; right: parent.right }
         height: header.__styleInstance.contentHeight
-        contentHeight: headersColumn.height
-        interactive: false
-        contentY: showSearch ? 0 : height
 
         property bool showSearch: false
+
+        state: headerContainer.showSearch ? "search" : ""
+
+        states: State {
+            name: "search"
+
+            AnchorChanges {
+                target: headersColumn
+                anchors.top: parent.top
+                anchors.bottom: undefined
+            }
+        }
+
+        transitions: Transition {
+            id: openSearchAnimation
+            AnchorAnimation {
+                duration: UbuntuAnimation.FastDuration
+                easing: UbuntuAnimation.StandardEasing
+            }
+
+            property bool openPopup: false
+
+            onRunningChanged: {
+                headerContainer.clip = running;
+                if (!running && openSearchAnimation.openPopup) {
+                    openSearchAnimation.openPopup = false;
+                    root.openPopup();
+                }
+            }
+        }
 
         Background {
             id: background
@@ -155,23 +183,13 @@ Item {
             style: scopeStyle.headerBackground
         }
 
-        Behavior on contentY {
-            UbuntuNumberAnimation {
-                id: openSearchAnimation
-                property bool openPopup: false
-
-                onRunningChanged: {
-                    if (!running && openSearchAnimation.openPopup) {
-                        openSearchAnimation.openPopup = false;
-                        root.openPopup();
-                    }
-                }
-            }
-        }
-
         Column {
             id: headersColumn
-            anchors { left: parent.left; right: parent.right }
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+            }
 
             PageHeader {
                 id: searchHeader
@@ -186,6 +204,15 @@ Item {
 
                 contents: Item {
                     anchors.fill: parent
+
+                    Keys.onEscapePressed: { // clear the search text, dismiss the search in the second step
+                        if (searchTextField.text != "") {
+                            root.clearSearch(true);
+                        } else {
+                            root.clearSearch(false);
+                            headerContainer.showSearch = false;
+                        }
+                    }
 
                     TextField {
                         id: searchTextField
@@ -226,6 +253,8 @@ Item {
                                 anchors.fill: parent
                                 anchors.margins: units.gu(1)
                                 source: "image://theme/clear"
+                                sourceSize.width: width
+                                sourceSize.height: height
                                 opacity: parent.enabled
                                 visible: opacity > 0
                                 Behavior on opacity {

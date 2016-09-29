@@ -32,6 +32,8 @@ Item {
     implicitWidth: units.gu(40)
     implicitHeight: units.gu(71)
 
+    onWidthChanged: calculateUsageMode();
+
     DeviceConfiguration {
         id: deviceConfiguration
         name: applicationArguments.deviceName
@@ -103,10 +105,15 @@ Item {
         if (unity8Settings.usageMode === undefined)
             return; // gsettings isn't loaded yet, we'll try again in Component.onCompleted
 
-        console.log("Pointer input devices changed:", pointerInputDevices, "current mode:", unity8Settings.usageMode, "old device count", miceModel.oldCount + touchPadModel.oldCount)
+        console.log("Calculating new usage mode. Pointer devices:", pointerInputDevices, "current mode:", unity8Settings.usageMode, "old device count", miceModel.oldCount + touchPadModel.oldCount, "root width:", root.width / units.gu(1), "height:", root.height / units.gu(1))
         if (unity8Settings.usageMode === "Windowed") {
-            if (pointerInputDevices === 0) {
-                // All pointer devices have been unplugged. Move to staged.
+            if (Math.min(root.width, root.height) > units.gu(60)) {
+                if (pointerInputDevices === 0) {
+                    // All pointer devices have been unplugged. Move to staged.
+                    unity8Settings.usageMode = "Staged";
+                }
+            } else {
+                // The display is not large enough, use staged.
                 unity8Settings.usageMode = "Staged";
             }
         } else {

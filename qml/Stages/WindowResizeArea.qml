@@ -30,6 +30,8 @@ MouseArea {
 
     property var windowStateStorage: WindowStateStorage
     readonly property alias dragging: d.dragging
+    readonly property alias normalWidth: priv.normalWidth
+    readonly property alias normalHeight: priv.normalHeight
 
     // The target item managed by this. Must be a parent or a sibling
     // The area will anchor to it and manage resize events
@@ -54,9 +56,9 @@ MouseArea {
         property int normalHeight: 0
 
         function updateNormalGeometry() {
-            if (root.target.state == "normal") {
-                normalX = root.target.x
-                normalY = root.target.y
+            if (root.target.state == "normal" || root.target.state == "restored") {
+                normalX = root.target.requestedX
+                normalY = root.target.requestedY
                 normalWidth = root.target.width
                 normalHeight = root.target.height
             }
@@ -73,44 +75,31 @@ MouseArea {
 
     function loadWindowState() {
         var windowGeometry = windowStateStorage.getGeometry(root.windowId,
-                                                            Qt.rect(target.x, target.y, defaultWidth, defaultHeight));
+                                                            Qt.rect(target.requestedX, target.requestedY, defaultWidth, defaultHeight));
 
         target.requestedWidth = Qt.binding(function() { return Math.min(Math.max(windowGeometry.width, d.minimumWidth), screenWidth - root.leftMargin); });
         target.requestedHeight = Qt.binding(function() { return Math.min(Math.max(windowGeometry.height, d.minimumHeight),
                                                                          root.screenHeight - (target.fullscreen ? 0 : PanelState.panelHeight)); });
-        target.x = Qt.binding(function() { return Math.max(Math.min(windowGeometry.x, root.screenWidth - root.leftMargin - target.requestedWidth),
+        target.requestedX = Qt.binding(function() { return Math.max(Math.min(windowGeometry.x, root.screenWidth - root.leftMargin - target.requestedWidth),
                                                            (target.fullscreen ? 0 : root.leftMargin)); });
-        target.y = Qt.binding(function() { return Math.max(Math.min(windowGeometry.y, root.screenHeight - target.requestedHeight), PanelState.panelHeight); });
+        target.requestedY = Qt.binding(function() { return Math.max(Math.min(windowGeometry.y, root.screenHeight - target.requestedHeight), PanelState.panelHeight); });
 
         var windowState = windowStateStorage.getState(root.windowId, WindowStateStorage.WindowStateNormal)
-        switch (windowState) {
-            case WindowStateStorage.WindowStateNormal:
-                break;
-            case WindowStateStorage.WindowStateMaximized:
-                target.maximize(false);
-                break;
-            case WindowStateStorage.WindowStateMaximizedLeft:
-                target.maximizeLeft(false);
-                break;
-            case WindowStateStorage.WindowStateMaximizedRight:
-                target.maximizeRight(false);
-                break;
-            case WindowStateStorage.WindowStateMaximizedHorizontally:
-                target.maximizeHorizontally(false);
-                break;
-            case WindowStateStorage.WindowStateMaximizedVertically:
-                target.maximizeVertically(false);
-                break;
-            default:
-                console.warn("Unsupported window state");
-                break;
-        }
+        target.restore(false /* animated */, windowState);
 
         priv.updateNormalGeometry();
+
+        // initialize the x/y to restore to
+        target.restoredX = priv.normalX;
+        target.restoredY = priv.normalY;
     }
 
     function saveWindowState() {
-        windowStateStorage.saveState(root.windowId, target.windowState & ~WindowStateStorage.WindowStateMinimized); // clear the minimized bit when saving
+        var state = target.windowState;
+        if (state === WindowStateStorage.WindowStateRestored) {
+            state = WindowStateStorage.WindowStateNormal;
+        }
+        windowStateStorage.saveState(root.windowId, state & ~WindowStateStorage.WindowStateMinimized); // clear the minimized bit when saving
         windowStateStorage.saveGeometry(root.windowId, Qt.rect(priv.normalX, priv.normalY, priv.normalWidth, priv.normalHeight));
     }
 
@@ -258,8 +247,8 @@ MouseArea {
             var pos = mapToItem(root.target.parent, mouseX, mouseY);
             d.startMousePosX = pos.x;
             d.startMousePosY = pos.y;
-            d.startX = target.x;
-            d.startY = target.y;
+            d.startX = target.requestedX;
+            d.startY = target.requestedY;
             d.startWidth = target.width;
             d.startHeight = target.height;
             d.currentWidth = target.width;
@@ -296,7 +285,7 @@ MouseArea {
 
         if (d.leftBorder) {
             var newTargetX = d.startX + deltaX;
-            var rightBorderX = target.x + target.width;
+            var rightBorderX = target.requestedX + target.width;
             if (rightBorderX > newTargetX + d.minimumWidth) {
                 if (rightBorderX  < newTargetX + d.maximumWidth) {
                     target.requestedWidth = rightBorderX - newTargetX;
@@ -322,7 +311,7 @@ MouseArea {
 
         if (d.topBorder) {
             var newTargetY = Math.max(d.startY + deltaY, PanelState.panelHeight); // disallow resizing up past Panel
-            var bottomBorderY = target.y + target.height;
+            var bottomBorderY = target.requestedY + target.height;
             if (bottomBorderY > newTargetY + d.minimumHeight) {
                 if (bottomBorderY < newTargetY + d.maximumHeight) {
                     target.requestedHeight = bottomBorderY - newTargetY;
@@ -351,13 +340,13 @@ MouseArea {
         target: root.target
         onWidthChanged: {
             if (d.moveLeftBorder) {
-                target.x += d.currentWidth - target.width;
+                target.requestedX += d.currentWidth - target.width;
             }
             d.currentWidth = target.width;
         }
         onHeightChanged: {
             if (d.moveTopBorder) {
-                target.y += d.currentHeight - target.height;
+                target.requestedY += d.currentHeight - target.height;
             }
             d.currentHeight = target.height;
         }

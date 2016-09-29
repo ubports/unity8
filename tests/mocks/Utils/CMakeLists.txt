@@ -1,10 +1,14 @@
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_SOURCE_DIR}/plugins/Utils
+)
+
+include_directories(
+    SYSTEM
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
     ${GIO_INCLUDE_DIRS}
-    ${CMAKE_SOURCE_DIR}/plugins/Utils
 )
 
 set(QMLPLUGIN_SRC
@@ -28,6 +32,7 @@ set(QMLPLUGIN_SRC
     constants.cpp
     plugin.cpp
     windowstatestorage.cpp
+    URLDispatcher.cpp
     )
 
 add_library(FakeUtils-qml SHARED

@@ -3,6 +3,10 @@ add_subdirectory(3rd_party)
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/3rd_party/xcursor
+)
+
+include_directories(
+    SYSTEM
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
 )
 
@@ -24,6 +28,6 @@ target_link_libraries(Cursor-qml
     ${QT5PLATFORM_SUPPORT_LDFLAGS}
 )
 
-qt5_use_modules(Cursor-qml Qml Quick DBus Network Gui Sql Concurrent Svg)
+qt5_use_modules(Cursor-qml Qml Quick Svg)
 
-add_unity8_plugin(Cursor 1.0 Cursor TARGETS Cursor-qml)
+add_unity8_plugin(Cursor 1.1 Cursor TARGETS Cursor-qml)

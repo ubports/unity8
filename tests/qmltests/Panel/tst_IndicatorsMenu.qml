@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,16 @@ IndicatorTest {
     id: root
     width: units.gu(80)
     height: units.gu(71)
+
+    SignalSpy {
+        id: clickThroughSpy
+        target: clickThroughTester
+    }
+
+    MouseArea {
+        id: clickThroughTester
+        anchors.fill: root
+    }
 
     RowLayout {
         anchors.fill: parent
@@ -110,6 +120,10 @@ IndicatorTest {
             compare(indicatorsMenu.state, "initial");
 
             indicatorsMenu.verticalVelocityThreshold = 0.5
+        }
+
+        function cleanup() {
+            clickThroughSpy.clear();
         }
 
         function get_indicator_item(index) {
@@ -205,8 +219,8 @@ IndicatorTest {
                            mappedPosition.x, indicatorsMenu.openedHeight / 2,
                            true /* beginTouch */, false /* endTouch */);
 
-                compare(indicatorItemRow.currentItem, indicatorItem,
-                        "Incorrect item activated at position " + i);
+                tryCompare(indicatorItemRow, "currentItem", indicatorItem, undefined /*timeout, default */,
+                           "Incorrect item activated at position " + i);
 
                 touchFlick(indicatorItemRow,
                            mappedPosition.x, indicatorsMenu.openedHeight / 2,
@@ -251,11 +265,26 @@ IndicatorTest {
                        false /* beginTouch */, false /* endTouch */,
                        units.gu(50) /* speed */, 5 /* iterations */); // more samples needed for accurate velocity
 
-            compare(indicatorItemRow.currentItem, firstItem, "First indicator should still be the current item");
+            tryCompare(indicatorItemRow, "currentItem", firstItem, undefined /* timeout, default */,
+                       "First indicator should still be the current item");
             // after waiting in the same spot with touch down, it should update to the next item.
             tryCompare(indicatorItemRow, "currentItem", nextItem);
 
             touchRelease(indicatorsMenu, nextItemMappedPositionX, indicatorsMenu.openedHeight / 3);
+        }
+
+        function test_preventMouseEventsThru() {
+            indicatorsMenu.show();
+            tryCompare(indicatorsMenu, "fullyOpened", true);
+
+            clickThroughSpy.signalName = "wheel";
+            mouseWheel(indicatorsMenu, indicatorsMenu.width/2, indicatorsMenu.height/2, 10, 10);
+            tryCompare(clickThroughSpy, "count", 0);
+
+            clickThroughSpy.clear();
+            clickThroughSpy.signalName = "clicked";
+            mouseClick(indicatorsMenu, indicatorsMenu.width/2, indicatorsMenu.height/2, Qt.RightButton);
+            tryCompare(clickThroughSpy, "count", 0);
         }
     }
 }

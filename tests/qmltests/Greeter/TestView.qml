@@ -27,15 +27,18 @@ Item {
     property int delayMinutes
     property real backgroundTopMargin
     property url background
+    property bool hasCustomBackground
     property bool locked
     property bool alphanumeric
     property var userModel
     property var infographicModel
     readonly property bool fullyShown: _fullyShown
     readonly property bool required: _required
+    readonly property bool animating: _animating
 
     property bool _fullyShown: true
     property bool _required: true
+    property bool _animating: true
 
     signal selected(int index)
     signal responded(string response)
@@ -46,9 +49,10 @@ Item {
     signal _showPromptCalled(string text, bool isSecret, bool isDefaultPrompt)
     signal _showLastChanceCalled()
     signal _hideCalled()
-    signal _notifyAuthenticationSucceededCalled()
+    signal _notifyAuthenticationSucceededCalled(bool showFakePassword)
     signal _notifyAuthenticationFailedCalled()
-    signal _resetCalled()
+    signal _showErrorMessageCalled(string msg)
+    signal _resetCalled(bool forceShow)
     signal _tryToUnlockCalled(bool toTheRight)
 
     function showMessage(html) {
@@ -69,16 +73,20 @@ Item {
         _fullyShown = false;
     }
 
-    function notifyAuthenticationSucceeded() {
-        _notifyAuthenticationSucceededCalled();
+    function notifyAuthenticationSucceeded(showFakePassword) {
+        _notifyAuthenticationSucceededCalled(showFakePassword);
     }
 
     function notifyAuthenticationFailed() {
         _notifyAuthenticationFailedCalled();
     }
 
-    function reset() {
-        _resetCalled();
+    function showErrorMessage(msg) {
+        _showErrorMessageCalled(msg);
+    }
+
+    function reset(forceShow) {
+        _resetCalled(forceShow);
     }
 
     function tryToUnlock(toTheRight) {

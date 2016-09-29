@@ -49,8 +49,6 @@ public:
     QString name() const override { return "mock"; }
     QString comment() const override { return "this is a mock"; }
     QUrl icon() const override { return QUrl(); }
-    ApplicationInfoInterface::Stage stage() const override { return ApplicationInfoInterface::MainStage; }
-    void setStage(ApplicationInfoInterface::Stage) override {}
     ApplicationInfoInterface::State state() const override { return ApplicationInfoInterface::Running; }
     bool focused() const override { return m_focused; }
     QString splashTitle() const override { return QString(); }
@@ -491,6 +489,27 @@ private Q_SLOTS:
 
         // Finally check, that the change to "count" implicitly also set the alerting-state to true
         QVERIFY(launcherModel->get(index)->alerting() == true);
+
+        // Check if the launcher emitted the changed signals
+        QCOMPARE(spy.count(), 2);
+
+        QVariantList countEmissionArgs = spy.takeFirst();
+        QCOMPARE(countEmissionArgs.at(0).value<QModelIndex>().row(), index);
+        QCOMPARE(countEmissionArgs.at(1).value<QModelIndex>().row(), index);
+        QVector<int> roles = countEmissionArgs.at(2).value<QVector<int> >();
+        QCOMPARE(roles.first(), (int)LauncherModel::RoleCount);
+
+        QVariantList countVisibleEmissionArgs = spy.takeFirst();
+        QCOMPARE(countVisibleEmissionArgs.at(0).value<QModelIndex>().row(), index);
+        QCOMPARE(countVisibleEmissionArgs.at(1).value<QModelIndex>().row(), index);
+        roles = countVisibleEmissionArgs.at(2).value<QVector<int> >();
+        QVERIFY(roles.contains(LauncherModel::RoleCountVisible));
+        QVERIFY(roles.contains(LauncherModel::RoleAlerting));
+
+        // Check if the values match
+        QCOMPARE(launcherModel->get(index)->countVisible(), true);
+        QCOMPARE(launcherModel->get(index)->count(), 55);
+        QCOMPARE(launcherModel->get(index)->alerting(), true);
 
         // Focus the app, make sure the alert gets cleared
         appManager->focusApplication("abs-icon");

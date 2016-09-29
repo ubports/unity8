@@ -37,8 +37,7 @@ Rectangle {
         alphaNumeric: pinPadCheckBox.checked
         minPinLength: minPinLengthTextField.text
         maxPinLength: maxPinLengthTextField.text
-        delayMinutes: delayMinutesTextField.text
-        background: "../../../qml/graphics/phone_background.jpg"
+        background: "/usr/share/backgrounds/warty-final-ubuntu.png"
     }
 
     Connections {
@@ -109,16 +108,6 @@ Rectangle {
                     text: "Retries left"
                 }
             }
-            Row {
-                TextField {
-                    id: delayMinutesTextField
-                    width: units.gu(7)
-                    text: "0"
-                }
-                Label {
-                    text: "Delay Minutes"
-                }
-            }
             Label {
                 id: pinLabel
                 anchors.verticalCenter: parent.verticalCenter
@@ -172,7 +161,7 @@ Rectangle {
 
         function cleanup() {
             lockscreen.clear(false);
-            delayMinutesTextField.text = "0"
+            enteredLabel.text = "";
 
             // Reset sizing
             root.width = units.gu(80)
@@ -247,7 +236,6 @@ Rectangle {
         }
 
         function test_unlock(data) {
-            enteredLabel.text = ""
             minPinLengthTextField.text = data.minPinLength
             maxPinLengthTextField.text = data.maxPinLength
             pinPadCheckBox.checked = data.alphanumeric
@@ -422,7 +410,6 @@ Rectangle {
         function test_infoPopup() {
             verify(findChild(root, "infoPopup") === null);
             lockscreen.showInfoPopup("foo", "bar");
-            tryCompareFunction(function() { return findChild(root, "infoPopup") !== null}, true);
 
             var infoPopup = findChild(root, "infoPopup");
             compare(infoPopup.title, "foo");
@@ -434,7 +421,7 @@ Rectangle {
             var okButton = findChild(root, "infoPopupOkButton");
             mouseClick(okButton);
 
-            tryCompareFunction(function() { return findChild(root, "infoPopup") === null}, true);
+            tryCompareFunction(function() { return findChild(root, "infoPopup", 0 /* timeout */) === null}, true);
 
             tryCompare(signalSpy, "count", 1);
         }
@@ -453,13 +440,6 @@ Rectangle {
             infoTextTextField.text = data.text;
             var label = findChild(lockscreen, "infoTextLabel")
             compare(label.text, data.text);
-        }
-
-        function test_delayMinutes() {
-            delayMinutesTextField.text = "4"
-            waitForLockscreenReady()
-            var label = findChild(lockscreen, "deviceLockedLabel")
-            compare(label.text, "Device Locked")
         }
 
         function test_resize_data() {

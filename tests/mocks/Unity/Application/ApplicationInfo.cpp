@@ -138,7 +138,7 @@ void ApplicationInfo::createSurface()
 
 void ApplicationInfo::setIconId(const QString &iconId)
 {
-    setIcon(QString("../../tests/graphics/applicationIcons/%2@18.png")
+    setIcon(QString("../../graphics/applicationIcons/%2@18.png")
             .arg(iconId));
 }
 
@@ -172,14 +172,6 @@ void ApplicationInfo::setIcon(const QUrl &value)
     if (value != m_icon) {
         m_icon = value;
         Q_EMIT iconChanged(value);
-    }
-}
-
-void ApplicationInfo::setStage(Stage value)
-{
-    if (value != m_stage) {
-        m_stage = value;
-        Q_EMIT stageChanged(value);
     }
 }
 

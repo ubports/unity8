@@ -21,7 +21,7 @@ import Wizard 0.1
 Item {
     readonly property real maximumContentWidth: units.gu(50)
     readonly property bool wideMode: width > units.gu(90) && width > height
-    readonly property bool contentAnimationRunning: contentAnimation.running
+    readonly property alias contentAnimationRunning: contentAnimation.running
 
     readonly property real buttonMargin: units.gu(3)
     readonly property real buttonWidth: (width - buttonMargin * 2) / 2 -

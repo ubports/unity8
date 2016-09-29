@@ -24,6 +24,7 @@ import Ubuntu.SystemSettings.SecurityPrivacy 1.0
 import Ubuntu.SystemSettings.TimeDate 1.1
 import Unity.Test 0.1 as UT
 import Wizard 0.1
+import Unity.InputInfo 0.1
 import "../../../qml/Wizard"
 
 Item {
@@ -41,7 +42,12 @@ Item {
                 id: wizard
                 anchors.fill: parent
 
+                Component.onCompleted: {
+                    MockInputDeviceBackend.addMockDevice("/test", InputInfo.Keyboard);
+                }
+
                 Component.onDestruction: {
+                    MockInputDeviceBackend.removeDevice("/test");
                     wizardLoader.itemDestroyed = true;
                 }
             }
@@ -74,6 +80,12 @@ Item {
         signalName: "timeZoneChangedCalled"
     }
 
+    SignalSpy {
+        id: kbdLayoutSpy
+        target: AccountsService
+        signalName: "keymapsChanged"
+    }
+
     function setup() {
         AccountsService.hereEnabled = false;
         AccountsService.hereLicensePath = Qt.resolvedUrl("licenses");
@@ -88,6 +100,7 @@ Item {
         activateLocationSpy.clear();
         activateGPSSpy.clear();
         timezoneSpy.clear();
+        kbdLayoutSpy.clear();
 
         ActionData.data = {
             "location-detection-enabled": {
@@ -176,6 +189,10 @@ Item {
                 tap(findChild(page, "forwardButton"));
             }
 
+            page = waitForPage("keyboardPage");
+            if (name === page.objectName) return page;
+            tap(findChild(page, "forwardButton"));
+
             page = waitForPage("wifiPage");
             if (name === page.objectName) return page;
             tap(findChild(page, "forwardButton"));
@@ -223,7 +240,7 @@ Item {
 
         function test_languageChange() {
             var page = goToPage("languagePage");
-            tap(findChild(page, "languageDelegate1")); // should invoke "fr" lang
+            tap(findChild(page, "languageDelegate_french_(france)")); // should invoke "fr" lang
 
             tryCompare(i18n, "language", "fr_FR");
             tap(findChild(page, "forwardButton"));
@@ -281,7 +298,7 @@ Item {
 
             // Make sure that moving from sim page lands on wifi page
             tap(findChild(page, "forwardButton"));
-            waitForPage("wifiPage"); // thus skipping passwdPage
+            waitForPage("keyboardPage"); // thus skipping passwdPage
         }
 
         function verifyAnimationsNotRunning(page) {
@@ -318,6 +335,8 @@ Item {
 
             // now finish up
             page = waitForPage("reportingPage");
+            tap(findChild(page, "forwardButton"));
+            page = waitForPage("systemUpdatePage");
             tap(findChild(page, "forwardButton"));
             page = waitForPage("finishedPage");
             waitUntilTransitionsEnd(page);
@@ -359,6 +378,8 @@ Item {
             // now finish up
             page = waitForPage("reportingPage");
             tap(findChild(page, "forwardButton"));
+            page = waitForPage("systemUpdatePage");
+            tap(findChild(page, "forwardButton"));
             page = waitForPage("finishedPage");
             waitUntilTransitionsEnd(page);
             tap(findChild(page, "finishButton"));
@@ -376,6 +397,8 @@ Item {
             // now finish up
             tap(findChild(page, "forwardButton"));
             page = waitForPage("reportingPage");
+            tap(findChild(page, "forwardButton"));
+            page = waitForPage("systemUpdatePage");
             tap(findChild(page, "forwardButton"));
             page = waitForPage("finishedPage");
             waitUntilTransitionsEnd(page);
@@ -479,6 +502,28 @@ Item {
 
             tap(findChild(page, "nameInput"));
             typeString("foobar");
+        }
+
+        function test_keyboardPage() {
+            var page = goToPage("keyboardPage");
+            var forwardButton = findChild(page, "forwardButton");
+
+            // change language
+            var langSelector = findChild(page, "langSelector");
+            verify(langSelector);
+            langSelector.selectedIndex = 1; // should be fr_FR
+            print("Selected language:", page.selectedLanguage);
+
+            // pick some layout
+            var kbdDelegate = findChild(page, "kbdDelegate1");
+            verify(kbdDelegate);
+            mouseClick(kbdDelegate);
+            verify(kbdDelegate.isCurrent);
+            print("Selected keymap:", page.selectedKeymap);
+
+            // verify the keymapsChanged signal got fired
+            tap(findChild(page, "forwardButton"));
+            tryCompare(kbdLayoutSpy, "count", 1);
         }
     }
 }

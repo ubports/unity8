@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, 2015 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,6 +41,9 @@ class AccountsService: public QObject
     Q_PROPERTY (QStringList demoEdgesCompleted
                 READ demoEdgesCompleted
                 NOTIFY demoEdgesCompletedChanged)
+    Q_PROPERTY (bool enableFingerprintIdentification
+                READ enableFingerprintIdentification
+                NOTIFY enableFingerprintIdentificationChanged)
     Q_PROPERTY (bool enableLauncherWhileLocked
                 READ enableLauncherWhileLocked
                 NOTIFY enableLauncherWhileLockedChanged)
@@ -60,6 +63,10 @@ class AccountsService: public QObject
                 READ failedLogins
                 WRITE setFailedLogins
                 NOTIFY failedLoginsChanged)
+    Q_PROPERTY (uint failedFingerprintLogins
+                READ failedFingerprintLogins
+                WRITE setFailedFingerprintLogins
+                NOTIFY failedFingerprintLoginsChanged)
     Q_PROPERTY(bool hereEnabled
                READ hereEnabled
                WRITE setHereEnabled
@@ -72,9 +79,7 @@ class AccountsService: public QObject
                NOTIFY hereLicensePathChanged)
     Q_PROPERTY(QString realName READ realName WRITE setRealName NOTIFY realNameChanged)
     Q_PROPERTY(QString email READ email WRITE setEmail NOTIFY emailChanged)
-    Q_PROPERTY(QStringList keymaps
-               READ keymaps
-               NOTIFY keymapsChanged)
+    Q_PROPERTY(QStringList keymaps READ keymaps WRITE setKeymaps NOTIFY keymapsChanged)
 
 public:
     enum PasswordDisplayHint {
@@ -91,6 +96,7 @@ public:
     void setDemoEdges(bool demoEdges);
     QStringList demoEdgesCompleted() const;
     Q_INVOKABLE void markDemoEdgeCompleted(const QString &edge);
+    bool enableFingerprintIdentification() const;
     bool enableLauncherWhileLocked() const;
     bool enableIndicatorsWhileLocked() const;
     QString backgroundFile() const;
@@ -98,6 +104,8 @@ public:
     PasswordDisplayHint passwordDisplayHint() const;
     uint failedLogins() const;
     void setFailedLogins(uint failedLogins);
+    uint failedFingerprintLogins() const;
+    void setFailedFingerprintLogins(uint failedFingerprintLogins);
     bool hereEnabled() const;
     void setHereEnabled(bool enabled);
     QString hereLicensePath() const;
@@ -107,17 +115,20 @@ public:
     QString email() const;
     void setEmail(const QString &email);
     QStringList keymaps() const;
+    void setKeymaps(const QStringList &keymaps);
 
 Q_SIGNALS:
     void userChanged();
     void demoEdgesChanged();
     void demoEdgesCompletedChanged();
+    void enableFingerprintIdentificationChanged();
     void enableLauncherWhileLockedChanged();
     void enableIndicatorsWhileLockedChanged();
     void backgroundFileChanged();
     void statsWelcomeScreenChanged();
     void passwordDisplayHintChanged();
     void failedLoginsChanged();
+    void failedFingerprintLoginsChanged();
     void hereEnabledChanged();
     void hereLicensePathChanged();
     void realNameChanged();
