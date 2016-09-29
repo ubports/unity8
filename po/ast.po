@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-08-31 11:56+0000\n"
-"PO-Revision-Date: 2016-09-25 14:54+0000\n"
+"POT-Creation-Date: 2016-09-22 07:46+0000\n"
+"PO-Revision-Date: 2016-09-28 13:40+0000\n"
 "Last-Translator: Xuacu Saturio <xuacusk8@gmail.com>\n"
 "Language-Team: Asturian <ast@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-09-26 06:16+0000\n"
+"X-Launchpad-Export-Date: 2016-09-29 06:45+0000\n"
 "X-Generator: Launchpad (build 18204)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -34,26 +34,6 @@ msgstr "Colar"
 #: plugins/Unity/Launcher/launcheritem.cpp:108
 msgid "Unpin shortcut"
 msgstr "Desanclar atayu"
-
-#: qml/Greeter/DelayedLockscreen.qml:43
-msgid "Device Locked"
-msgstr "Preséu bloquiáu"
-
-#: qml/Greeter/DelayedLockscreen.qml:58
-msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr "Quedasti bloquiáu polos escesivos intentos fallíos de fras de pasu."
-
-#: qml/Greeter/DelayedLockscreen.qml:59
-msgid "You have been locked out due to too many failed passcode attempts."
-msgstr ""
-"Quedasti bloquiáu polos escesivos intentos fallíos de códigu de pasu."
-
-#: qml/Greeter/DelayedLockscreen.qml:68
-#, qt-format
-msgid "Please wait %1 minute and then try again…"
-msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Por favor, espera %1 minutu y vuelvi a intentalo…"
-msgstr[1] "Por favor, espera %1 minutos y vuelvi a intentalo…"
 
 #: qml/Components/Dialogs.qml:149
 msgctxt "Title: Lock/Log out dialog"
@@ -207,7 +187,7 @@ msgstr "Super (Tocar)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:193
 msgid "Opens the Scopes home."
-msgstr ""
+msgstr "Abre'l principiu d'Ámbitos"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:209
 msgid "Switching"
@@ -267,11 +247,11 @@ msgstr "Amenorga o restaura la ventana actual."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Left or Right"
-msgstr ""
+msgstr "Ctrl + Super + Izquierda o Drecha"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Semi-maximizes the current window."
-msgstr ""
+msgstr "Semi-maximiza la ventana actual."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Alt + F4"
@@ -442,6 +422,26 @@ msgstr ""
 msgid "Unlock"
 msgstr "Desbloquiar"
 
+#: qml/Greeter/DelayedLockscreen.qml:43
+msgid "Device Locked"
+msgstr "Preséu bloquiáu"
+
+#: qml/Greeter/DelayedLockscreen.qml:58
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr "Quedasti bloquiáu polos escesivos intentos fallíos de fras de pasu."
+
+#: qml/Greeter/DelayedLockscreen.qml:59
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+"Quedasti bloquiáu polos escesivos intentos fallíos de códigu de pasu."
+
+#: qml/Greeter/DelayedLockscreen.qml:68
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "Por favor, espera %1 minutu y vuelvi a intentalo…"
+msgstr[1] "Por favor, espera %1 minutos y vuelvi a intentalo…"
+
 #: qml/Greeter/Greeter.qml:596
 msgid "Try again"
 msgstr "Tentar otra vuelta"
@@ -462,64 +462,13 @@ msgstr "Reintentar"
 msgid "Log In"
 msgstr "Aniciar sesión"
 
-#: qml/Greeter/NarrowView.qml:55
-msgid "Sorry, incorrect passphrase."
-msgstr "Perdón, fras de pasu incorreuta"
+#: qml/Greeter/NarrowView.qml:252
+msgid "Emergency"
+msgstr "Emerxencia"
 
-#: qml/Greeter/NarrowView.qml:56
-msgid "Sorry, incorrect passcode."
-msgstr "Perdón, códigu de pasu incorreutu."
-
-#: qml/Greeter/NarrowView.qml:57
-msgid "This will be your last attempt."
-msgstr "Esti sedra'l to caberu intentu"
-
-#: qml/Greeter/NarrowView.qml:59
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
-msgstr ""
-"Si s'inxerta la fras de pasu incorreutamente, el to teléfonu va reafitase y "
-"van desaniciase tolos datos personales."
-
-#: qml/Greeter/NarrowView.qml:60
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
-msgstr ""
-"Si s'inxerta'l códigu de pasu incorreutamente, el to teléfonu va reafitase y "
-"van desaniciase tolos datos personales."
-
-#: qml/Greeter/NarrowView.qml:129
-#, qt-format
-msgid "Enter %1"
-msgstr "Introduz %1"
-
-#: qml/Greeter/NarrowView.qml:130
-msgid "Enter passphrase"
-msgstr "Introduz la fras de pasu"
-
-#: qml/Greeter/NarrowView.qml:131
-msgid "Enter passcode"
-msgstr "Introduz el códigu de pasu"
-
-#: qml/Greeter/NarrowView.qml:135
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "Sentímoslo, %1 incorreutu"
-
-#: qml/Greeter/NarrowView.qml:136
-msgid "Sorry, incorrect passphrase"
-msgstr "Sentímoslo, contraseña incorreuta"
-
-#: qml/Greeter/NarrowView.qml:137
-msgctxt "passphrase"
-msgid "Please re-enter"
-msgstr "Vuelve a escribila"
-
-#: qml/Greeter/NarrowView.qml:138
-msgid "Sorry, incorrect passcode"
-msgstr "Sentímoslo, códigu de pasu incorreutu"
+#: qml/Greeter/SessionsList.qml:122
+msgid "Select desktop environment"
+msgstr "Esbillar entornu d'escritoriu"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -618,7 +567,7 @@ msgstr "Eslizamientu llargu dende'l berbesu izquierdu pa ver el scope Güei"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
-msgstr ""
+msgstr "Barríu curtiu dende'l berbesu izquierdu p'abrir el llanzador"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
@@ -626,11 +575,13 @@ msgstr "Emburria'l mur escontra'l berbesu drechu pa ver les apps abiertes"
 
 #: qml/Tutorial/TutorialRight.qml:56
 msgid "Swipe from the right edge to view your open apps"
-msgstr ""
+msgstr "Barríu dende'l berbesu drechu pa ver les apps abiertes"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
+"Barríu dende'l berbesu superior pa tener accesu a los avisos y configuración "
+"nel intre"
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
@@ -821,7 +772,7 @@ msgstr "Términos y condiciones"
 
 #: qml/Wizard/Pages/here-terms.qml:69
 msgid "Your device uses positioning technologies provided by HERE."
-msgstr ""
+msgstr "El preséu usa teunoloxíes de posición qu'ufre HERE."
 
 #: qml/Wizard/Pages/here-terms.qml:81
 msgid ""
@@ -829,21 +780,26 @@ msgid ""
 "collects information about nearby cell towers and Wi-Fi hotspots around your "
 "current location whenever your position is being found."
 msgstr ""
+"Pa ufrir los servicios de posición y ameyorar la so calidá, HERE collecha "
+"información de les antenes celulares y puntos d'accesu Wi-Fi cercanos al to "
+"allugamientu actual siempre que se conoza la to posición."
 
 #: qml/Wizard/Pages/here-terms.qml:93
 msgid ""
 "The information collected is used to analyze the service and to improve the "
 "use of service, but not to identify you personally."
 msgstr ""
+"La información collechada úsase p'analizar el serviciu y ameyorar l'usu del "
+"serviciu, non pa identificate personalmente."
 
 #: qml/Wizard/Pages/here-terms.qml:106
 #, qt-format
 msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr ""
+msgstr "Al siguir, aceutes %1 y %2 de la plataforma HERE."
 
 #: qml/Wizard/Pages/here-terms.qml:107
 msgid "Service Terms"
-msgstr ""
+msgstr "Términos del serviciu"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:97
@@ -852,53 +808,53 @@ msgstr "Confirmar códigu de pasu"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
-msgstr ""
+msgstr "Códigu de pasu incorreutu."
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgctxt "Enter the passcode again"
 msgid "Please re-enter."
-msgstr ""
+msgstr "Vuelve a escribilu."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
-msgstr ""
+msgstr "Códigu de pasu de bloquéu de pantalla"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:61
 msgid "Enter 4 numbers to setup your passcode"
-msgstr ""
+msgstr "Escribi 4 númberos pa configurar el códigu de pasu"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:77
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
-msgstr ""
+msgstr "Escueyi'l códigu de pasu"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:127
 msgid "Passcode too short"
-msgstr ""
+msgstr "Códigu de pasu curtiu enforma"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:129
 msgid "Passcodes match"
-msgstr ""
+msgstr "Los códigos de pasu casen"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:131
 msgid "Passcodes do not match"
-msgstr ""
+msgstr "Los códigos de pasu nun casen"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr ""
+msgstr "El códigu de pasu tien de tener 4 caráuteres de llargo"
 
 #: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
-msgstr ""
+msgstr "Contraseña del Bloquéu de pantalla"
 
 #: qml/Wizard/Pages/password-set.qml:62
 msgid "Enter at least 8 characters"
-msgstr ""
+msgstr "Escribe polo menos 8 caráuteres"
 
 #: qml/Wizard/Pages/password-set.qml:74
 msgid "Choose password"
-msgstr ""
+msgstr "Escueye la contraseña"
 
 #: qml/Wizard/Pages/password-set.qml:104
 msgid "Confirm password"
@@ -906,15 +862,15 @@ msgstr "Confirmar contraseña"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
-msgstr ""
+msgstr "Nun ta instalada nenguna tarxeta SIM"
 
 #: qml/Wizard/Pages/sim.qml:54
 msgid "SIM card added"
-msgstr ""
+msgstr "Amestóse tarxeta SIM"
 
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
-msgstr ""
+msgstr "Tienes de reaniciar el preséu pa tener accesu a la rede móvil."
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
@@ -922,23 +878,23 @@ msgstr "Reaniciar"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
-msgstr ""
+msgstr "Nun podrás facer llamaes nin usar mensaxería de testu sin una SIM."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr ""
+msgstr "Pa siguir ensin SIM toca Saltar."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr ""
+msgstr "Contraseña curtia enforma"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
-msgstr ""
+msgstr "Les contraseñes concasen"
 
 #: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Les contraseñes nun concasen"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
@@ -1052,8 +1008,18 @@ msgstr "Contraseña feble enforma"
 #~ msgid "Store"
 #~ msgstr "Tienda"
 
+#, qt-format
+#~ msgid "Sorry, incorrect %1"
+#~ msgstr "Sentímoslo, %1 incorreutu"
+
+#~ msgid "Sorry, incorrect passphrase"
+#~ msgstr "Sentímoslo, contraseña incorreuta"
+
 #~ msgid "Roaming"
 #~ msgstr "Roaming"
+
+#~ msgid "Sorry, incorrect passcode"
+#~ msgstr "Sentímoslo, códigu de pasu incorreutu"
 
 #~ msgid "Manage Scopes"
 #~ msgstr "Xestionar ámbitos"
@@ -1140,8 +1106,41 @@ msgstr "Contraseña feble enforma"
 #~ msgid "Shut down"
 #~ msgstr "Apagáu"
 
+#~ msgid "Sorry, incorrect passphrase."
+#~ msgstr "Perdón, fras de pasu incorreuta"
+
+#, qt-format
+#~ msgid "Enter %1"
+#~ msgstr "Introduz %1"
+
+#~ msgid "Sorry, incorrect passcode."
+#~ msgstr "Perdón, códigu de pasu incorreutu."
+
+#~ msgid "Enter passcode"
+#~ msgstr "Introduz el códigu de pasu"
+
+#~ msgid "Enter passphrase"
+#~ msgstr "Introduz la fras de pasu"
+
 #~ msgid "Please re-enter"
 #~ msgstr "Por favor, reintroduzla"
+
+#~ msgid ""
+#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
+#~ "and all personal data will be deleted."
+#~ msgstr ""
+#~ "Si s'inxerta'l códigu de pasu incorreutamente, el to teléfonu va reafitase y "
+#~ "van desaniciase tolos datos personales."
+
+#~ msgid ""
+#~ "If passphrase is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
+#~ msgstr ""
+#~ "Si s'inxerta la fras de pasu incorreutamente, el to teléfonu va reafitase y "
+#~ "van desaniciase tolos datos personales."
+
+#~ msgid "This will be your last attempt."
+#~ msgstr "Esti sedra'l to caberu intentu"
 
 #~ msgid "This action does different things for different apps"
 #~ msgstr "Esta aición fai coses distintes p'aplicaciones estremaes"
@@ -1273,6 +1272,10 @@ msgstr "Contraseña feble enforma"
 
 #~ msgid "Tomorrow %l:%M %p"
 #~ msgstr "Mañana %l:%M %p"
+
+#~ msgctxt "passphrase"
+#~ msgid "Please re-enter"
+#~ msgstr "Vuelve a escribila"
 
 #~ msgid "%a %d %b %H:%M"
 #~ msgstr "%a %b %d %H:%M"

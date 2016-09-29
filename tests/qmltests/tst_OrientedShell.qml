@@ -28,6 +28,7 @@ import Unity.InputInfo 0.1
 import Utils 0.1
 
 import "../../qml"
+import "../../qml/Components"
 import "Stages"
 
 Rectangle {

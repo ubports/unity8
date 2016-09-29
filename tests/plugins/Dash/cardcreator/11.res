@@ -49,7 +49,6 @@ Loader {
                                     } 
                                 } 
                             }
-readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
 Loader {
                                 id: artShapeLoader; 
                                 height: root.fixedArtShapeSize.height; 
@@ -163,13 +162,15 @@ top: titleLabel.bottom;
  
                                 ] 
                     }
-UbuntuShape { 
-                        id: touchdown; 
-                        objectName: "touchdown"; 
-                        anchors { fill: backgroundLoader } 
-                        visible: root.pressed;
-                        radius: "medium"; 
-                        borderSource: "radius_pressed.sci" 
-                    }
+Loader {
+    active: root.pressed;
+    anchors { fill: backgroundLoader }
+    sourceComponent: UbuntuShape {
+        objectName: "touchdown";
+        anchors.fill: parent;
+        radius: "medium";
+        borderSource: "radius_pressed.sci"
+    }
+}
 implicitHeight: row.y + row.height + units.gu(1);
 }

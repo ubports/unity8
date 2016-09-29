@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2014 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,19 +16,12 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import "../Components"
 
 Item {
     id: root
 
     property int delayMinutes
     property bool alphaNumeric
-
-    signal entered(string passphrase) // unused
-    signal cancel() // unused
-
-    function clear(playAnimation) {}
-    function showText(text) {}
 
     Column {
         anchors.left: parent.left
@@ -46,7 +39,7 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.Wrap
             fontSize: "x-large"
-            color: "#f3f3e7"
+            color: "white"
             text: i18n.tr("Device Locked")
         }
 
@@ -60,7 +53,7 @@ Item {
             anchors.right: parent.right
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.Wrap
-            color: "#f3f3e7"
+            color: "white"
             text: alphaNumeric ?
                   i18n.tr("You have been locked out due to too many failed passphrase attempts.") :
                   i18n.tr("You have been locked out due to too many failed passcode attempts.")
@@ -71,7 +64,7 @@ Item {
             anchors.right: parent.right
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.Wrap
-            color: "#f3f3e7"
+            color: "white"
             text: i18n.tr("Please wait %1 minute and then try again…",
                           "Please wait %1 minutes and then try again…",
                           root.delayMinutes).arg(root.delayMinutes)
@@ -83,10 +76,8 @@ Item {
         }
 
         Icon {
-            // It would be nice to use a less network-specific name,
-            // but this is the only lock icon we have.
-            name: "network-secure"
-            color: "#f3f3e7"
+            name: "lock"
+            color: "white"
             height: units.gu(4)
             width: units.gu(4)
             anchors.horizontalCenter: parent.horizontalCenter
