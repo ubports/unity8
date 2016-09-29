@@ -314,15 +314,17 @@ FocusScope {
                         UbuntuShape {
                             Layout.preferredHeight: Math.min(units.gu(6), root.height * .05)
                             Layout.preferredWidth: height * 8 / 7.6
-                            source: Image {
-                                anchors.fill: parent
-                                source: model.application.icon
-                                Rectangle {
+                            source: ShaderEffectSource {
+                                sourceItem: Image {
                                     anchors.fill: parent
-                                    color: "black"
-                                    opacity: clippedSpreadDelegate.highlightShown ? 0 : .1
-                                    Behavior on opacity {
-                                        UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration }
+                                    source: model.application.icon
+                                    Rectangle {
+                                        anchors.fill: parent
+                                        color: "black"
+                                        opacity: clippedSpreadDelegate.highlightShown ? 0 : .1
+                                        Behavior on opacity {
+                                            UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration }
+                                        }
                                     }
                                 }
                             }
