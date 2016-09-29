@@ -74,7 +74,7 @@ Rectangle {
             waitForRendering(zoomableImage);
             overlay = findChild(zoomableImage.rootItem, "overlay");
             waitForRendering(overlay);
-            
+
             // Make sure all the lazyImage transitions have finished
             for (var i in lazyImage.transitions) {
                 tryCompare(lazyImage.transitions[i], "running", false);
