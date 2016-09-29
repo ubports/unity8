@@ -4,7 +4,7 @@
           @mainpage
 
           An interface to register menus that are associated with a window in an application.  The
-          main interface is docuemented here: @ref com::ubuntu::MenuRegistrar.
+          main interface is documented here: @ref com::ubuntu::MenuRegistrar.
 
           The actual menus are transported using the gmenumodel protocol
         ]]></dox:d>
@@ -16,11 +16,11 @@
                 </dox:d>
                 <method name="RegisterAppMenu">
                         <dox:d><![CDATA[
-                          Associates a gmenumodel with a application
+                          Associates a gmenumodel with an application
 
                           /note this method assumes that the connection from the caller is the DBus connection
                             to use for the object.  Applications that use multiple DBus connections will need to
-                            ensure this method is called with the same connection that implmenets the object.
+                            ensure this method is called with the same connection that implements the object.
                         ]]></dox:d>
                         <arg name="pid" type="u" direction="in">
                                 <dox:d>The process ID of the application for which the menu is associated</dox:d>
@@ -37,7 +37,7 @@
                 </method>
                 <method name="UnregisterAppMenu">
                         <dox:d>
-                          A method to allow removing a application menu from the database.
+                          A method to allow removing an application menu from the database.
                         </dox:d>
                         <arg name="pid" type="u" direction="in">
                                 <dox:d>The process id of the application</dox:d>
@@ -53,7 +53,7 @@
 
                           /note this method assumes that the connection from the caller is the DBus connection
                             to use for the object.  Applications that use multiple DBus connections will need to
-                            ensure this method is called with the same connection that implmenets the object.
+                            ensure this method is called with the same connection that implements the object.
                         ]]></dox:d>
                         <arg name="surface" type="s" direction="in">
                                 <dox:d>The surface ID of the surface</dox:d>
