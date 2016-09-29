@@ -835,11 +835,12 @@ Rectangle {
     UbuntuShape {
         id: tooltipShape
         objectName: "tooltipShape"
-        anchors.fill: tooltip
-        opacity: tooltipShownState.active ? 0.95 : 0
-        visible: opacity > 0
+
         rotation: root.rotation
         aspect: UbuntuShape.Flat
+        color: theme.palette.normal.background
+        opacity: tooltipShownState.active ? 0.95 : 0
+        visible: opacity > 0
 
         Behavior on opacity {
             UbuntuNumberAnimation {
@@ -847,37 +848,9 @@ Rectangle {
             }
         }
 
-        source: ShaderEffectSource {
-            sourceItem: tooltip
-            hideSource: true
-        }
-
-        Image {
-            anchors {
-                right: parent.left
-                rightMargin: -units.dp(4)
-                verticalCenter: parent.verticalCenter
-                verticalCenterOffset: -tooltip.offset * (root.inverted ? -1 : 1)
-            }
-            height: units.gu(1)
-            width: units.gu(2)
-            source: "graphics/quicklist_tooltip.png"
-            rotation: 90
-        }
-    }
-
-    Rectangle {
-        id: tooltip
-        objectName: "tooltip"
-
-        color: theme.palette.normal.background
-        visible: tooltipShape.visible
-
-        width: tooltipLabel.contentWidth + units.gu(4)
-        height: tooltipLabel.contentHeight + units.gu(2)
-
-        y: itemCenter - (height / 2) + offset
-        rotation: root.rotation
+        width: tooltipLabel.implicitWidth + units.gu(4)
+        height: tooltipLabel.implicitHeight + units.gu(2)
+        y: itemCenter - (height / 2)
 
         anchors {
             left: root.inverted ? undefined : parent.right
@@ -885,26 +858,35 @@ Rectangle {
             margins: units.gu(1)
         }
 
-        property var hoveredItem: dndArea.containsMouse ? launcherListView.itemAt(dndArea.mouseX, dndArea.mouseY + launcherListView.realContentY) : null
+        Image {
+            anchors {
+                right: parent.left
+                rightMargin: -units.dp(4)
+                verticalCenter: parent.verticalCenter
+            }
+            height: units.gu(1)
+            width: units.gu(2)
+            source: "graphics/quicklist_tooltip.png"
+            rotation: 90
+        }
 
+        Label {
+            id: tooltipLabel
+            anchors.centerIn: parent
+            verticalAlignment: Label.AlignVCenter
+            color: theme.palette.normal.backgroundText
+            anchors.margins: units.gu(10)
+        }
+
+        property var hoveredItem: dndArea.containsMouse ? launcherListView.itemAt(dndArea.mouseX, dndArea.mouseY + launcherListView.realContentY) : null
         property int itemCenter
-        property int offset: itemCenter + (height/2) + units.gu(1) > parent.height ? -itemCenter - (height/2) - units.gu(1) + parent.height :
-                             itemCenter - (height/2) < units.gu(1) ? (height/2) - itemCenter + units.gu(1) : 0
 
         // This avoids artifacts on fade-out animation
         onHoveredItemChanged : {
             if (hoveredItem != null && !root.moving) {
                 itemCenter = root.mapFromItem(hoveredItem, 0, 0).y + (hoveredItem.height / 2) + hoveredItem.offset
-                tooltipLabel.text = tooltip.hoveredItem.name
+                tooltipLabel.text = tooltipShape.hoveredItem.name
             }
-        }
-
-        Label {
-            id: tooltipLabel
-            height: parent.height
-            anchors.centerIn: parent
-            verticalAlignment: Label.AlignVCenter
-            color: theme.palette.normal.backgroundText
         }
 
         DSM.StateMachine {
@@ -917,9 +899,9 @@ Rectangle {
 
                 DSM.SignalTransition {
                     targetState: tooltipShownState
-                    signal: tooltip.hoveredItemChanged
+                    signal: tooltipShape.hoveredItemChanged
                     // !dndArea.pressed allows us to filter out touch input events
-                    guard: tooltip.hoveredItem != null && !dndArea.pressed && !root.moving
+                    guard: tooltipShape.hoveredItem != null && !dndArea.pressed && !root.moving
                 }
             }
 
@@ -928,8 +910,8 @@ Rectangle {
 
                 DSM.SignalTransition {
                     targetState: tooltipHiddenState
-                    signal: tooltip.hoveredItemChanged
-                    guard: tooltip.hoveredItem == null
+                    signal: tooltipShape.hoveredItemChanged
+                    guard: tooltipShape.hoveredItem == null
                 }
 
                 DSM.SignalTransition {
