@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,9 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.4
+import QtQuick 2.4 as QtQuick
+import Ubuntu.Components 1.3
+import "flickableUtils.js" as FlickableUtilsJS
 
-Rectangle {
-    antialiasing: true
-    radius: width / 2
- }
+QtQuick.GridView {
+    flickDeceleration: FlickableUtilsJS.getFlickDeceleration(units.gridUnit)
+    maximumFlickVelocity: FlickableUtilsJS.getMaximumFlickVelocity(units.gridUnit)
+}

@@ -30,5 +30,4 @@ QtObject {
     signal closeClicked()
     signal minimizeClicked()
     signal restoreClicked()
-    signal focusMaximizedApp()
 }

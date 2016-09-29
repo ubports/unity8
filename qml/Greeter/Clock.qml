@@ -73,7 +73,6 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: units.gu(7.5)
             color: "white"
-            opacity: 0.5
             text: Qt.formatTime(clock.currentDate)
             font.weight: Font.Light
         }
@@ -85,7 +84,6 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             fontSize: "medium"
             color: "white"
-            opacity: 0.5
             text: Qt.formatDate(clock.currentDate, Qt.DefaultLocaleLongDate)
             font.weight: Font.Light
         }

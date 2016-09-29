@@ -138,7 +138,7 @@ void ApplicationInfo::createSurface()
 
 void ApplicationInfo::setIconId(const QString &iconId)
 {
-    setIcon(QString("../../tests/graphics/applicationIcons/%2@18.png")
+    setIcon(QString("../../graphics/applicationIcons/%2@18.png")
             .arg(iconId));
 }
 

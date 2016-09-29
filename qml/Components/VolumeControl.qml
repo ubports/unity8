@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import QMenuModel 0.1 as QMenuModel
 import GlobalShortcut 1.0
+import Unity.Platform 1.0
 
 Item {
     id: root
@@ -26,8 +27,6 @@ Item {
     // TODO Work around http://pad.lv/1293478 until qmenumodel knows to cast
     readonly property int stepUp: 1
     readonly property int stepDown: -1
-
-    property var indicators // passed from Shell.qml
 
     GlobalShortcut {
         id: muteShortcut
@@ -42,7 +41,8 @@ Item {
         objectPath: "/com/canonical/indicator/sound"
 
         property variant actionObject: action("volume")
-        property variant muteActionObject: indicators.indicatorsModel.profile === "desktop" ? action("mute") : action("silent-mode")
+        // temporary workaround for lp:1623166
+        property variant muteActionObject: Platform.isPC ? action("mute") : action("silent-mode")
     }
 
     function volumeUp() {

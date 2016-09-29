@@ -112,13 +112,5 @@ Item {
  
                             ]
                         }
-UbuntuShape {
-    id: touchdown;
-    objectName: "touchdown";
-    anchors { fill: backgroundLoader }
-    visible: root.pressed;
-    radius: "medium";
-    borderSource: "radius_pressed.sci"
-}
 implicitHeight: headerTitleContainer.y + headerTitleContainer.height + units.gu(1);
 }

@@ -268,7 +268,6 @@ Item {
 
         function test_activate() {
             var carouselList = findChild(carousel, "listView");
-            tryCompareFunction(function() { return findChild(carouselList, "carouselDelegate3") ? true : false; }, true);
             var carouselItem = findChild(carousel, "carouselDelegate3")
             verify(carouselItem, "Could not find delegate");
 
