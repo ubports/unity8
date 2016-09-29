@@ -59,6 +59,12 @@ QtObject {
         currentKeymapIndex = prevIndex;
     }
 
+    property Binding surfaceKeymapBinding: Binding { // NB: needed mainly for xmir & libertine apps
+        target: MirFocusController.focusedSurface
+        property: "keymap"
+        value: root.currentKeymap
+    }
+
     property Binding unityKeymapBinding: Binding {
         target: Mir
         property: "currentKeymap"
@@ -78,7 +84,9 @@ QtObject {
     }
 
     onCurrentKeymapIndexChanged: {
-        actionGroup.currentAction.updateState(currentKeymapIndex);
+        if (actionGroup.currentAction.valid) {
+            actionGroup.currentAction.updateState(currentKeymapIndex);
+        }
     }
 
     readonly property int activeActionState: actionGroup.activeAction.valid ? actionGroup.activeAction.state : -1
