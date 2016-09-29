@@ -28,7 +28,13 @@ Item {
     property alias overFlowWidth: row.overFlowWidth
     readonly property alias currentItemIndex: row.currentItemIndex
     property real lateralPosition: -1
-    readonly property string currentIndicator: row.currentItem ? row.currentItem.identifier : ""
+    property int alignment: Qt.AlignRight
+
+    property alias showRowTitle: row.showRowTitle
+    property alias rowTitle: row.rowTitle
+    property alias rowItemDelegate: row.itemDelegate
+
+    implicitWidth: flickable.contentWidth
 
     function selectItemAt(lateralPosition) {
         if (!expanded) {
@@ -140,10 +146,10 @@ Item {
 
             // we rotate it because we want the Flickable to align its content item
             // on the right instead of on the left
-            rotation: 180
+            rotation: root.alignment != Qt.AlignRight ? 0 : 180
 
             anchors.fill: parent
-            contentWidth: row.width
+            contentWidth: row.implicitWidth
             contentX: d.combinedOffset
             interactive: false
 
@@ -161,7 +167,7 @@ Item {
                 }
             }
 
-            IndicatorItemRow {
+            PanelItemRow {
                 id: row
                 objectName: "indicatorItemRow"
                 anchors {
@@ -170,7 +176,7 @@ Item {
                 }
 
                 // Compensate for the Flickable rotation (ie, counter-rotate)
-                rotation: 180
+                rotation: root.alignment != Qt.AlignRight ? 0 : 180
 
                 lateralPosition: {
                     if (root.lateralPosition == -1) return -1;

@@ -49,6 +49,7 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void setupFilterOnWindow(QQuickWindow *window);
+    void updateFilter();
 
 private:
     QPointer<QQuickWindow> m_filteredWindow;

@@ -456,7 +456,7 @@ StyledItem {
         Greeter {
 
             enabled: panel.indicators.fullyClosed // hides OSK when panel is open
-            hides: [launcher, panel.indicators]
+            hides: [launcher, panel.indicators, panel.applicationMenus]
             tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
             forcedUnlock: wizard.active || shell.mode === "full-shell"
@@ -569,18 +569,21 @@ StyledItem {
             id: panel
             objectName: "panel"
             anchors.fill: parent //because this draws indicator menus
+
+            mode: shell.usageScenario == "desktop" ? "windowed" : "staged"
+            minimizedPanelHeight: units.gu(3)
+            expandedPanelHeight: units.gu(7)
+            indicatorMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
+            applicationMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
+
             indicators {
                 hides: [launcher]
                 available: tutorial.panelEnabled
                         && ((!greeter || !greeter.locked) || AccountsService.enableIndicatorsWhileLocked)
                         && (!greeter || !greeter.hasLockedApp)
                         && !shell.waitingOnGreeter
-                width: parent.width > units.gu(60) ? units.gu(40) : parent.width
 
-                minimizedPanelHeight: units.gu(3)
-                expandedPanelHeight: units.gu(7)
-
-                indicatorsModel: Indicators.IndicatorsModel {
+                model: Indicators.IndicatorsModel {
                     // tablet and phone both use the same profile
                     // FIXME: use just "phone" for greeter too, but first fix
                     // greeter app launching to either load the app inside the
@@ -592,8 +595,8 @@ StyledItem {
                 }
             }
 
-            callHint {
-                greeterShown: greeter.shown
+            applicationMenus {
+                hides: [launcher]
             }
 
             readonly property bool focusedSurfaceIsFullscreen: MirFocusController.focusedSurface
@@ -602,6 +605,7 @@ StyledItem {
             fullscreenMode: (focusedSurfaceIsFullscreen && !LightDMService.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
             locked: greeter && greeter.active
+            greeterShown: greeter && greeter.shown
         }
 
         Launcher {

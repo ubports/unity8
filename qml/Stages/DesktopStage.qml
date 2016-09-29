@@ -176,8 +176,8 @@ AbstractStage {
 
     Binding {
         target: PanelState
-        property: "buttonsVisible"
-        value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.maximized // FIXME for Locally integrated menus
+        property: "decorationsVisible"
+        value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.maximized
                && spread.state == ""
     }
 
@@ -185,13 +185,27 @@ AbstractStage {
         target: PanelState
         property: "title"
         value: {
-            if (priv.focusedAppDelegate !== null && spread.state == "") {
+            if (spread.state == "") {
                 if (priv.focusedAppDelegate.maximized)
                     return priv.focusedAppDelegate.title
                 else
                     return priv.focusedAppDelegate.appName
             }
             return ""
+        }
+        when: priv.focusedAppDelegate
+    }
+
+    Binding {
+        target: PanelState
+        property: "focusedPersistentSurfaceId"
+        value: {
+            if (priv.focusedAppDelegate !== null && spread.state == "") {
+                if (priv.focusedAppDelegate.surface) {
+                    return priv.focusedAppDelegate.surface.persistentId;
+                }
+            }
+            return "";
         }
         when: priv.focusedAppDelegate
     }
@@ -210,7 +224,7 @@ AbstractStage {
 
     Component.onDestruction: {
         PanelState.title = "";
-        PanelState.buttonsVisible = false;
+        PanelState.decorationsVisible = false;
         PanelState.dropShadow = false;
     }
 
@@ -678,7 +692,7 @@ AbstractStage {
 
                 Binding {
                     target: PanelState
-                    property: "buttonsAlwaysVisible"
+                    property: "decorationsAlwaysVisible"
                     value: appDelegate && appDelegate.maximized && touchControls.overlayShown
                 }
 

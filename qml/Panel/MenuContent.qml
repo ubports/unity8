@@ -27,6 +27,8 @@ Rectangle {
 
     property QtObject indicatorsModel: null
     property int currentMenuIndex: -1
+    property Component pageDelegate
+
     color: theme.palette.normal.background
 
     width: units.gu(40)
@@ -59,18 +61,14 @@ Rectangle {
 
             width: ListView.view.width
             height: ListView.view.height
-            objectName: identifier
+            objectName: item ? item.context : ""
             asynchronous: true
             visible: ListView.isCurrentItem
 
-            sourceComponent: IndicatorPage {
-                objectName: identifier + "-page"
+            property var modelData: model
+            property var modelIndex: index
 
-                identifier: model.identifier
-                busName: indicatorProperties.busName
-                actionsObjectPath: indicatorProperties.actionsObjectPath
-                menuObjectPath: indicatorProperties.menuObjectPath
-            }
+            sourceComponent: pageDelegate
 
             onVisibleChanged: {
                 // Reset the indicator states

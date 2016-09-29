@@ -21,6 +21,7 @@ import Unity.Application 0.1
 import Utils 0.1
 import Powerd 0.1
 import "../Components"
+import "../Components/PanelState"
 
 AbstractStage {
     id: root
@@ -309,6 +310,18 @@ AbstractStage {
         property: "focusedSurface"
         value: priv.focusedAppDelegate ? priv.focusedAppDelegate.focusedSurface : null
         when: root.parent && !spreadRepeater.startingUp
+    }
+
+    Binding {
+        target: PanelState
+        property: "title"
+        value: {
+            if (priv.focusedAppDelegate !== null) {
+                return priv.focusedAppDelegate.title
+            }
+            return ""
+        }
+        when: priv.focusedAppDelegate
     }
 
     Flickable {

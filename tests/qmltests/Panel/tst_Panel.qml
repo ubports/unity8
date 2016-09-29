@@ -19,24 +19,40 @@ import QtQuick.Layouts 1.1
 import QtTest 1.0
 import Unity.Test 0.1
 import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
+import Unity.ApplicationMenu 0.1
 import Unity.Indicators 0.1 as Indicators
 import Ubuntu.Telephony 0.1 as Telephony
 import "../../../qml/Panel"
 import "../../../qml/Components/PanelState"
+import "../Stages"
 
 IndicatorTest {
     id: root
-    width: units.gu(100)
+    width: units.gu(120)
     height: units.gu(71)
     color: "black"
-
-    Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark"
 
     Binding {
         target: mouseEmulation
         property: "checked"
         value: !windowControlsCB.checked
+    }
+
+    DesktopMenuData { id: appMenuData }
+
+    Component.onCompleted: {
+        QuickUtils.keyboardAttached = true;
+        theme.name = "Ubuntu.Components.Themes.SuruDark"
+
+        ApplicationMenuRegistry.RegisterSurfaceMenu("dialerAppSurfaceId", "/dialerapp", "/dialerapp", ":2");
+        Indicators.UnityMenuModelCache.setCachedModelData("/dialerapp", appMenuData.dialerData);
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: "darkgrey"
     }
 
     RowLayout {
@@ -59,12 +75,28 @@ IndicatorTest {
                 Panel {
                     id: panel
                     anchors.fill: parent
-                    indicators {
-                        width: parent.width > units.gu(60) ? units.gu(40) : parent.width
-                        indicatorsModel: root.indicatorsModel
+                    mode: "staged"
+
+                    indicatorMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
+                    applicationMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
+
+                    applicationMenus {
+                        model: sharedAppModel.model
+                        hides: [ panel.indicators ]
                     }
 
-                    property real panelAndSeparatorHeight: panel.indicators.minimizedPanelHeight
+                    indicators {
+                        model: root.indicatorsModel
+                        hides: [ panel.applicationMenus ]
+                    }
+
+                    Indicators.SharedUnityMenuModel {
+                        id: sharedAppModel
+
+                        busName: ":2"
+                        menuObjectPath: "/dialerapp"
+                        actions: { "unity": "/dialerapp" }
+                    }
                 }
             }
         }
@@ -72,6 +104,16 @@ IndicatorTest {
         ColumnLayout {
             Layout.alignment: Qt.AlignTop
             Layout.fillWidth: false
+
+            ListItem.ItemSelector {
+                anchors { left: parent.left; right: parent.right }
+                activeFocusOnPress: false
+                text: "Mode"
+                model: ["staged", "windowed" ]
+                onSelectedIndexChanged: {
+                    panel.mode = model[selectedIndex];
+                }
+            }
 
             Button {
                 Layout.fillWidth: true
@@ -107,26 +149,36 @@ IndicatorTest {
                 Layout.fillWidth: true
                 CheckBox {
                     id: windowControlsCB
-                    onClicked: PanelState.buttonsVisible = checked
+                    onClicked: PanelState.decorationsVisible = checked
                 }
                 Label {
-                    text: "Show window controls"
+                    text: "Show window decorations"
+                    color: "white"
                 }
             }
 
             RowLayout {
                 Layout.fillWidth: true
                 CheckBox {
-                    onClicked: {
-                        if (checked)
-                            PanelState.title = "Fake window title"
-                        else
-                            PanelState.title = ""
-                    }
+                    onClicked: PanelState.title = checked ? "Fake window title" : ""
                 }
                 Label {
                     text: "Show fake window title"
+                    color: "white"
                 }
+            }
+
+            Rectangle {
+                Layout.preferredHeight: units.dp(1);
+                Layout.fillWidth: true;
+                color: "black"
+            }
+
+            ApplicationCheckBox {
+                id: applicationCheckBox
+                Layout.fillWidth: true
+                appId: "dialer-app"
+                onCheckedChanged: PanelState.focusedPersistentSurfaceId = checked ? "dialer-app" : "";
             }
 
             Rectangle {
@@ -145,6 +197,7 @@ IndicatorTest {
                     Label {
                         Layout.fillWidth: true
                         text: modelData["identifier"]
+                        color: "white"
                     }
 
                     CheckBox {
@@ -153,6 +206,7 @@ IndicatorTest {
                     }
                     Label {
                         text: "visible"
+                        color: "white"
                     }
                 }
             }
@@ -163,7 +217,10 @@ IndicatorTest {
                 color: "black"
             }
 
-            MouseTouchEmulationCheckbox { id: mouseEmulation }
+            MouseTouchEmulationCheckbox {
+                id: mouseEmulation
+                color: "white"
+            }
         }
     }
 
@@ -229,11 +286,11 @@ IndicatorTest {
                 { tag: "pinned", fullscreen: false, call: null,
                             indicatorY: 0 },
                 { tag: "fullscreen", fullscreen: true, call: null,
-                            indicatorY: -panel.panelAndSeparatorHeight },
+                            indicatorY: -panel.indicators.minimizedPanelHeight },
                 { tag: "pinned-callActive", fullscreen: false, call: phoneCall,
                             indicatorY: 0},
                 { tag: "fullscreen-callActive", fullscreen: true, call: phoneCall,
-                            indicatorY: -panel.panelAndSeparatorHeight }
+                            indicatorY: -panel.indicators.minimizedPanelHeight }
             ];
         }
 
@@ -291,11 +348,11 @@ IndicatorTest {
                 { tag: "pinned", fullscreen: false, call: null,
                             indicatorY: 0 },
                 { tag: "fullscreen", fullscreen: true, call: null,
-                            indicatorY: -panel.panelAndSeparatorHeight },
+                            indicatorY: -panel.indicators.minimizedPanelHeight },
                 { tag: "pinned-callActive", fullscreen: false, call: phoneCall,
                             indicatorY: 0},
                 { tag: "fullscreen-callActive", fullscreen: true, call: phoneCall,
-                            indicatorY: -panel.panelAndSeparatorHeight }
+                            indicatorY: -panel.indicators.minimizedPanelHeight }
             ];
         }
 

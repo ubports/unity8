@@ -26,10 +26,14 @@ WindowInputFilter::WindowInputFilter(QQuickItem *parent)
 {
     connect(this, &QQuickItem::windowChanged,
             this, &WindowInputFilter::setupFilterOnWindow);
+    connect(this, &QQuickItem::enabledChanged,
+            this, &WindowInputFilter::updateFilter);
 }
 
 bool WindowInputFilter::eventFilter(QObject *watched, QEvent *event)
 {
+    if (!isEnabled()) return false;
+
     Q_ASSERT(!m_filteredWindow.isNull());
     Q_ASSERT(watched == static_cast<QObject*>(m_filteredWindow.data()));
     Q_UNUSED(watched);
@@ -53,14 +57,27 @@ bool WindowInputFilter::eventFilter(QObject *watched, QEvent *event)
 
 void WindowInputFilter::setupFilterOnWindow(QQuickWindow *window)
 {
-    if (!m_filteredWindow.isNull()) {
-        m_filteredWindow->removeEventFilter(this);
-        m_filteredWindow.clear();
-    }
+    if (isEnabled()) {
+        if (!m_filteredWindow.isNull()) {
+            m_filteredWindow->removeEventFilter(this);
+            m_filteredWindow.clear();
+        }
 
-    if (window) {
-        window->installEventFilter(this);
-        m_filteredWindow = window;
+        if (window) {
+            window->installEventFilter(this);
+        }
+    }
+    m_filteredWindow = window;
+}
+
+void WindowInputFilter::updateFilter()
+{
+    if (!m_filteredWindow.isNull()) {
+        if (isEnabled()) {
+            m_filteredWindow->installEventFilter(this);
+        } else {
+            m_filteredWindow->removeEventFilter(this);
+        }
     }
 }
 

@@ -22,6 +22,7 @@ import Unity.Session 0.1
 import Utils 0.1
 import Powerd 0.1
 import "../Components"
+import "../Components/PanelState"
 
 AbstractStage {
     id: root
@@ -55,6 +56,39 @@ AbstractStage {
         } else {
             spreadView.snapTo(priv.highlightIndex)
         }
+    }
+
+    Binding {
+        target: PanelState
+        property: "title"
+        value: {
+            if (priv.focusedAppDelegate !== null) {
+                return priv.focusedAppDelegate.title
+            }
+            return ""
+        }
+        when: priv.focusedAppDelegate
+    }
+
+    Binding {
+        target: PanelState
+        property: "focusedPersistentSurfaceId"
+        value: {
+            console.log("PLOP", priv.focusedAppDelegatem, priv.focusedAppDelegate.surface)
+            if (priv.focusedAppDelegate && priv.fullyShowingFocusedApp) {
+                if (priv.focusedAppDelegate.surface) {
+                    return priv.focusedAppDelegate.surface.persistentId;
+                }
+            }
+            return "";
+        }
+        when: priv.focusedAppDelegate
+    }
+
+    Binding {
+        target: PanelState
+        property: "decorationsVisible"
+        value: priv.focusedAppDelegate && priv.fullyShowingFocusedApp
     }
 
     FocusScope {
@@ -168,7 +202,7 @@ AbstractStage {
 
         property bool focusedAppOrientationChangesEnabled: false
         readonly property int firstSpreadIndex: root.focusFirstApp ? 1 : 0
-        property var focusedAppDelegate
+        property var focusedAppDelegate: null
         // NB! This may differ from applicationManager.focusedApplicationId if focusedAppDelegate
         // contains a screenshot instead of a surface.
         property string focusedAppId: focusedAppDelegate ? focusedAppDelegate.application.appId : ""
@@ -508,6 +542,11 @@ AbstractStage {
                     highlightShown: root.altTabPressed && index === priv.highlightIndex
 
                     readonly property bool isDash: model.application.appId == "unity8-dash"
+
+                    readonly property string title: {
+                        if (model.surface && model.surface.name !== "") return model.surface.name;
+                        return model.application.name;
+                    }
 
                     Component.onCompleted: {
                         // NB: We're differentiating if this delegate was created in response to a new entry in the model
