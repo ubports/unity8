@@ -2714,5 +2714,29 @@ Rectangle {
             tryCompare(topLevelSurfaceList, "count", countBeforeClose - 1);
             tryCompareFunction(function() { return ApplicationManager.focusedApplicationId; }, "calendar-app");
         }
+
+        function test_cursorHidingWithFullscreenApp() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            // load some fullscreen app
+            var cameraSurfaceId = topLevelSurfaceList.nextId;
+            var cameraApp = ApplicationManager.startApplication("camera-app");
+            waitUntilAppWindowIsFullyLoaded(cameraSurfaceId);
+
+            var cursor = findChild(shell, "cursor");
+            verify(cursor);
+            tryCompare(cursor, "opacity", 1);
+
+            // let the timer kick in and verify the cursor got hidden
+            wait(3000);
+            tryCompare(cursor, "opacity", 0);
+
+            // simulate moving the mouse, check the cursor is visible again
+            cursor.mouseMoved();
+            tryCompare(cursor, "opacity", 1);
+        }
     }
 }

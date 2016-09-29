@@ -818,6 +818,7 @@ StyledItem {
 
     Cursor {
         id: cursor
+        objectName: "cursor"
         visible: shell.hasMouse
         z: itemGrabber.z + 1
         topBoundaryOffset: panel.panelHeight
