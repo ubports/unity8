@@ -30,19 +30,19 @@
 static QString installRoot;
 
 inline bool isRunningInstalled() {
-    if (installRoot.isNull()) {
+    static bool installRootSet = false;
+    if (!installRootSet) {
         QString snapRoot = qgetenv("SNAP");
         if (QCoreApplication::applicationDirPath() ==
                    QDir(snapRoot + QStringLiteral("@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@")).canonicalPath()) {
             installRoot = snapRoot;
         } else if (QCoreApplication::applicationDirPath() ==
                    QDir(QStringLiteral("@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@")).canonicalPath()) {
-            installRoot = "/";
-        } else {
             installRoot = "";
         }
+        installRootSet = true;
     }
-    return !installRoot.isEmpty();
+    return !installRoot.isNull();
 }
 
 inline QString buildDirectory() {
