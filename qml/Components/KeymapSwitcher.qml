@@ -59,12 +59,6 @@ QtObject {
         currentKeymapIndex = prevIndex;
     }
 
-//    property Binding surfaceKeymapBinding: Binding {
-//        target: MirFocusController.focusedSurface
-//        property: "keymap"
-//        value: root.currentKeymap
-//    }
-
     property Binding unityKeymapBinding: Binding {
         target: Mir
         property: "currentKeymap"
