@@ -2737,6 +2737,10 @@ Rectangle {
             // simulate moving the mouse, check the cursor is visible again
             cursor.mouseMoved();
             tryCompare(cursor, "opacity", 1);
+
+            // let the timer kick in again and verify the cursor got hidden
+            wait(3000);
+            tryCompare(cursor, "opacity", 0);
         }
     }
 }
