@@ -145,7 +145,7 @@ FocusScope {
     GlobalShortcut {
         id: minimizeAllShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_D
-        onTriggered: {print("tigggggered"); priv.minimizeAllWindows()}
+        onTriggered: priv.minimizeAllWindows()
         active: root.state == "windowed"
     }
 
@@ -212,9 +212,7 @@ FocusScope {
         function minimizeAllWindows() {
             for (var i = 0; i < appRepeater.count; i++) {
                 var appDelegate = appRepeater.itemAt(i);
-                print("have delegate", appDelegate.appId)
                 if (appDelegate && !appDelegate.minimized) {
-                    print("minimizing it", appDelegate.appId)
                     appDelegate.minimize();
                 }
             }
@@ -538,7 +536,17 @@ FocusScope {
                 if (!priv.mainStageItemId) return 0;
 
                 if (priv.sideStageItemId && priv.nextInStack > 0) {
-                    var nextDelegateInStack = appRepeater.itemAt(priv.nextInStack);
+
+                    // Due the order in which bindings are evaluated, this might be triggered while shuffling
+                    // the list and index doesn't yet match with itemIndex (even though itemIndex: index)
+                    // Let's walk the list and compare itemIndex to make sure we have the correct one.
+                    var nextDelegateInStack = -1;
+                    for (var i = 0; i < appRepeater.count; i++) {
+                        if (appRepeater.itemAt(i).itemIndex == priv.nextInStack) {
+                            nextDelegateInStack = appRepeater.itemAt(i);
+                            break;
+                        }
+                    }
 
                     if (nextDelegateInStack.stage ===  ApplicationInfoInterface.MainStage) {
                         // if the next app in stack is a main stage app, put the sidestage on top of it.
@@ -730,8 +738,11 @@ FocusScope {
                         spreadItem.highlightedIndex = index
                         priv.goneToSpread = false;
                     }
-                    if (appDelegate.stage == ApplicationInfoInterface.SideStage && !sideStage.shown && root.mode == "stagedWithSideStage") {
-                        sideStage.show();
+                    if (root.mode == "stagedWithSideStage") {
+                        if (appDelegate.stage == ApplicationInfoInterface.SideStage && !sideStage.shown) {
+                            sideStage.show();
+                        }
+                        priv.updateMainAndSideStageIndexes();
                     }
 
                     if (root.mode == "windowed") {
@@ -766,7 +777,7 @@ FocusScope {
                     if (focus) {
                         topLevelSurfaceList.raiseId(model.id);
                         priv.focusedAppDelegate = appDelegate;
-                    } else if (!focus && priv.focusedAppDelegate === appDelegate) {
+                    } else if (!focus && priv.focusedAppDelegate === appDelegate && root.state != "spread") {
                         priv.focusedAppDelegate = null;
                         // FIXME: No idea why the Binding{} doens't update when focusedAppDelegate turns null
                         MirFocusController.focusedSurface = null;
@@ -903,7 +914,7 @@ FocusScope {
                             rightEdgeFocusAnimation.targetX = appDelegate.stage == ApplicationInfoInterface.SideStage ? sideStage.x : 0
                             rightEdgeFocusAnimation.start()
                         }
-                    } else if (state == "windowedRightEdge" || root.mode == "windowed") {
+                    } else if (state == "windowedRightEdge") {
                         claimFocus();
                     } else {
                         focusAnimation.start()
@@ -945,7 +956,7 @@ FocusScope {
                         topLevelSurfaceList.raiseId(model.id);
                     }
                     onStopped: {
-                        appDelegate.focus = true
+                        appDelegate.claimFocus();
                     }
                 }
                 ParallelAnimation {
@@ -1374,6 +1385,7 @@ FocusScope {
                     },
                     Transition {
                         id: windowedTransition
+                        from: "normal,maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
                         to: "normal,maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
                         enabled: appDelegate.animationsEnabled
                         SequentialAnimation {
@@ -1812,9 +1824,10 @@ FocusScope {
 
         onClicked: {
             if (sideStage.shown) {
-               sideStage.hide();
+                sideStage.hide();
             } else  {
-               sideStage.show();
+                sideStage.show();
+                priv.updateMainAndSideStageIndexes()
             }
         }
 
