@@ -12,5 +12,7 @@ set(DOWNLOADDAEMONLISTENER_SOURCES
 add_library(DownloadDaemonListener MODULE ${DOWNLOADDAEMONLISTENER_SOURCES})
 
 qt5_use_modules(DownloadDaemonListener Qml Quick DBus Core)
-
+pkg_check_modules(DDLADAPTER REQUIRED udm-common)
+add_definitions(${DDLADAPTER_CFLAGS} ${DDLADAPTER_CFLAGS_OTHER})
+target_link_libraries(DownloadDaemonListener ${DDLADAPTER_LIBRARIES})
 add_unity8_plugin(Ubuntu.DownloadDaemonListener 0.1 Ubuntu/DownloadDaemonListener TARGETS DownloadDaemonListener)

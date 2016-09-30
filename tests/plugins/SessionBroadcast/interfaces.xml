@@ -1,0 +1,18 @@
+<node>
+  <interface name="com.canonical.Unity.Greeter.Broadcast">
+    <method name="RequestUrlStart">
+      <arg name="username" type="s" direction="in" />
+      <arg name="url" type="s" direction="in" />
+    </method>
+    <method name="RequestHomeShown">
+      <arg name="username" type="s" direction="in" />
+    </method>
+    <signal name="StartUrl">
+      <arg name="username" type="s" direction="out" />
+      <arg name="url" type="s" direction="out" />
+    </signal>
+    <signal name="ShowHome">
+      <arg name="username" type="s" direction="out" />
+    </signal>
+  </interface>
+</node>

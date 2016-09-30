@@ -31,8 +31,8 @@ Rectangle {
 
     property var sourcesModel1: {
         "sources": [
-                    "../../graphics/phone_background.jpg",
-                    "../../graphics/tablet_background.jpg",
+                    "../../../tests/graphics/avatars/amanda@12.png",
+                    "../../../tests/graphics/avatars/funky@12.png",
                     "../../../tests/graphics/clock@18.png",
                     "../../graphics/borked"
                    ]
@@ -40,8 +40,8 @@ Rectangle {
 
     property var sourcesModel1WithFallback: {
         "sources": [
-                    "../../graphics/phone_background.jpg",
-                    "../../graphics/tablet_background.jpg",
+                    "../../../tests/graphics/avatars/amanda@12.png",
+                    "../../../tests/graphics/avatars/funky@12.png",
                     "../../../tests/graphics/clock@18.png",
                     "../../graphics/borked"
                    ]
@@ -50,8 +50,8 @@ Rectangle {
 
     property var sourcesModelEmptyWithFallback: {
         "sources": [
-                    "../../graphics/phone_background.jpg",
-                    "../../graphics/tablet_background.jpg",
+                    "../../../tests/graphics/avatars/amanda@12.png",
+                    "../../../tests/graphics/avatars/funky@12.png",
                     "../../../tests/graphics/clock@18.png",
                     ""
                    ]

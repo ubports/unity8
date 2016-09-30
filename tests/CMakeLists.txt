@@ -37,27 +37,22 @@ set(UNITY_IMPORT_PATHS ${UNITY_IMPORT_PATHS} CACHE INTERNAL "")
 
 macro(unity8_parse_arguments)
     cmake_parse_arguments(U8TEST
-        "${QMLTEST_OPTIONS};LIGHTDM"
+        "${QMLTEST_OPTIONS}"
         "${QMLTEST_SINGLE}"
         "${QMLTEST_MULTI}"
         ${ARGN}
     )
 
     set(ld_paths)
-    if(U8TEST_LIGHTDM)
-        list(APPEND ld_paths
-            ${UNITY_MOCKPATH}/libusermetrics
-            ${UNITY_MOCKPATH}/LightDM/IntegratedLightDM/liblightdm
-        )
-    endif()
+    list(APPEND ld_paths
+        ${UNITY_MOCKPATH}/libusermetrics
+        ${UNITY_MOCKPATH}/LightDM/IntegratedLightDM/liblightdm
+    )
 
-    if(ld_paths)
-        string(REPLACE ";" ":" ld_library_path "${ld_paths}")
-        set(ld_library_path LD_LIBRARY_PATH=${ld_library_path})
-    endif()
+    string(REPLACE ";" ":" ld_library_path "${ld_paths}")
+    set(ld_library_path LD_LIBRARY_PATH=${ld_library_path})
 
     set(U8TEST_ARGN "${ARGN}")
-    list(REMOVE_ITEM U8TEST_ARGN LIGHTDM)
 
     set(environment
         UNITY_TESTING=1
