@@ -197,7 +197,7 @@ Item {
                         }
                     }
 
-                    pageDelegate: IndicatorPage {
+                    pageDelegate: PanelMenuPage {
                         id: page
                         context: "application-menu"
                         menuModel: __applicationMenus.model
@@ -442,7 +442,7 @@ Item {
                 Behavior on width { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
             }
 
-            pageDelegate: IndicatorPage {
+            pageDelegate: PanelMenuPage {
                 id: page
                 objectName: context + "-page"
                 context: modelData.identifier

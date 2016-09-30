@@ -32,7 +32,7 @@ Item {
 
     property alias showRowTitle: row.showRowTitle
     property alias rowTitle: row.rowTitle
-    property alias rowItemDelegate: row.itemDelegate
+    property alias rowItemDelegate: row.delegate
 
     implicitWidth: flickable.contentWidth
 

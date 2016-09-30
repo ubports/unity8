@@ -20,9 +20,8 @@ import QtTest 1.0
 import "../../../qml/Panel"
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
-import Unity.Indicators 0.1 as Indicators
 
-IndicatorTest {
+PanelTest {
     id: root
     width: units.gu(80)
     height: units.gu(71)
@@ -48,7 +47,7 @@ IndicatorTest {
             id: itemArea
             color: "blue"
 
-            IndicatorsMenu {
+            PanelMenu {
                 id: indicatorsMenu
                 width: units.gu(40)
                 anchors {

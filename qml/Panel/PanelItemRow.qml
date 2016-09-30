@@ -36,7 +36,7 @@ Item {
     property bool enableLateralChanges: false
     property color hightlightColor: "#ffffff"
 
-    property alias itemDelegate: row.delegate
+    property alias delegate: row.delegate
 
     property real lateralPosition: -1
     onLateralPositionChanged: {

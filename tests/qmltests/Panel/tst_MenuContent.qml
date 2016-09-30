@@ -20,7 +20,7 @@ import Unity.Test 0.1 as UT
 import "../../../qml/Panel"
 import Unity.Indicators 0.1 as Indicators
 
-IndicatorTest {
+PanelTest {
     id: root
     width: units.gu(40)
     height: units.gu(70)

@@ -28,7 +28,7 @@ import "../../../qml/Panel"
 import "../../../qml/Components/PanelState"
 import "../Stages"
 
-IndicatorTest {
+PanelTest {
     id: root
     width: units.gu(120)
     height: units.gu(71)
@@ -567,6 +567,29 @@ IndicatorTest {
             mouseClick(panel, 0, 0, undefined /*button*/, undefined /*modifiers*/, 100 /*short delay*/);
             compare(windowControlButtonsSpy.count, 1);
             PanelState.buttonsVisible = buttonsVisible;
+        }
+
+        function test_hidingKeyboardIndicator_data() {
+            return [
+                { tag: "No keyboard, no keymap", keyboard: false, keymaps: [], hidden: true },
+                { tag: "No keyboard, one keymap", keyboard: false, keymaps: ["us"], hidden: true },
+                { tag: "No keyboard, 2 keymaps", keyboard: false, keymaps: ["us", "cs"], hidden: true },
+                { tag: "Keyboard, no keymap", keyboard: true, keymaps: [], hidden: true },
+                { tag: "Keyboard, one keymap", keyboard: true, keymaps: ["us"], hidden: true },
+                { tag: "Keyboard, 2 keymaps", keyboard: true, keymaps: ["us", "cs"], hidden: false }
+            ];
+        }
+
+        function test_hidingKeyboardIndicator(data) {
+            var item = findChild(indicatorsRow, "indicator-keyboard-panelItem");
+            AccountsService.keymaps = data.keymaps;
+            if (data.keyboard) {
+                MockInputDeviceBackend.addMockDevice("/indicator_kbd0", InputInfo.Keyboard);
+            } else {
+                MockInputDeviceBackend.removeDevice("/indicator_kbd0");
+            }
+
+            compare(item.hidden, data.hidden);
         }
     }
 }
