@@ -24,6 +24,8 @@ import Unity.Application 0.1
 import Unity.ApplicationMenu 0.1
 import Unity.Indicators 0.1 as Indicators
 import Ubuntu.Telephony 0.1 as Telephony
+import AccountsService 0.1
+import Unity.InputInfo 0.1
 import "../../../qml/Panel"
 import "../../../qml/Components/PanelState"
 import "../Stages"
@@ -561,13 +563,15 @@ PanelTest {
 
         // https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1611959
         function test_windowControlButtonsFittsLaw() {
-            var buttonsVisible = PanelState.buttonsVisible;
-            PanelState.buttonsVisible = true;
+            var buttonsVisible = PanelState.decorationsVisible;
+            PanelState.decorationsVisible = true;
             // click in very topleft corner and verify the close button got clicked too
+            wait(1000)
             mouseMove(panel, 0, 0);
             mouseClick(panel, 0, 0, undefined /*button*/, undefined /*modifiers*/, 100 /*short delay*/);
+            wait(1000)
             compare(windowControlButtonsSpy.count, 1);
-            PanelState.buttonsVisible = buttonsVisible;
+            PanelState.decorationsVisible = buttonsVisible;
         }
 
         function test_hidingKeyboardIndicator_data() {
@@ -582,7 +586,7 @@ PanelTest {
         }
 
         function test_hidingKeyboardIndicator(data) {
-            var item = findChild(indicatorsRow, "indicator-keyboard-panelItem");
+            var item = findChild(panel, "indicator-keyboard-panelItem");
             AccountsService.keymaps = data.keymaps;
             if (data.keyboard) {
                 MockInputDeviceBackend.addMockDevice("/indicator_kbd0", InputInfo.Keyboard);
