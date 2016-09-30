@@ -249,6 +249,7 @@ PanelTest {
         }
 
         function init() {
+            panel.mode = "staged";
             panel.fullscreenMode = false;
             callManager.foregroundCall = null;
 
@@ -501,12 +502,10 @@ PanelTest {
         function test_tapNearTopEdgeWithPanelInFullscreenMode() {
             var indicatorArea = findChild(panel, "indicatorArea");
             verify(indicatorArea);
-            var panelPriv = findInvisibleChild(panel, "panelPriv");
-            verify(panelPriv);
 
             panel.fullscreenMode = true;
             // wait until if finishes hiding itself
-            tryCompare(indicatorArea, "y", -panelPriv.indicatorHeight);
+            tryCompare(indicatorArea, "y", -panel.minimizedPanelHeight);
 
             compare(panel.indicators.shown, false);
             verify(panel.indicators.fullyClosed);
@@ -563,13 +562,15 @@ PanelTest {
 
         // https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1611959
         function test_windowControlButtonsFittsLaw() {
+            panel.mode = "windowed";
+            var windowControlArea = findChild(panel, "windowControlArea");
+            verify(windowControlArea, "Window control area should have been created in windowed mode")
+
             var buttonsVisible = PanelState.decorationsVisible;
             PanelState.decorationsVisible = true;
             // click in very topleft corner and verify the close button got clicked too
-            wait(1000)
             mouseMove(panel, 0, 0);
             mouseClick(panel, 0, 0, undefined /*button*/, undefined /*modifiers*/, 100 /*short delay*/);
-            wait(1000)
             compare(windowControlButtonsSpy.count, 1);
             PanelState.decorationsVisible = buttonsVisible;
         }
