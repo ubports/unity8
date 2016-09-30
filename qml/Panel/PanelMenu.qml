@@ -22,7 +22,7 @@ import "Indicators"
 
 Showable {
     id: root
-    property alias model: bar.indicatorsModel
+    property alias model: bar.model
     property alias showDragHandle: __showDragHandle
     property alias hideDragHandle: __hideDragHandle
     property alias overFlowWidth: bar.overFlowWidth
@@ -100,7 +100,7 @@ Showable {
             top: bar.bottom
         }
         height: openedHeight - bar.height - handle.height
-        indicatorsModel: root.model
+        model: root.model
         visible: root.unitProgress > 0
         currentMenuIndex: bar.currentItemIndex
     }

@@ -25,7 +25,7 @@ Item {
 
     property bool showRowTitle: false
     property alias rowTitle: rowLabel.text
-    property QtObject indicatorsModel: null
+    property QtObject model: null
     property real overFlowWidth: width
     property bool expanded: false
     readonly property alias currentItem: row.currentItem
@@ -158,7 +158,7 @@ Item {
     ListView {
         id: row
         orientation: ListView.Horizontal
-        model: indicatorsModel
+        model: root.model
         opacity: showRowTitle ? 0 : 1
         anchors {
             top: parent.top
@@ -182,32 +182,6 @@ Item {
         }
 
         Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
-    }
-
-    ListView {
-        orientation: ListView.Horizontal
-        model: indicatorsModel
-        anchors {
-            top: parent.top
-            bottom: parent.bottom
-        }
-        interactive: expanded
-
-        // TODO: make this better
-        // when the width changes, the highlight will lag behind due to animation, so we need to disable the animation
-        // and adjust the highlight X immediately.
-        width: implicitWidth
-        Behavior on width {
-            SequentialAnimation {
-                ScriptAction {
-                    script: {
-                        d.forceAlignmentAnimationDisabled = true;
-                        highlight.currentItemX = Qt.binding(function() { return currentItem ? currentItem.x : 0 });
-                        d.forceAlignmentAnimationDisabled = false;
-                    }
-                }
-            }
-        }
     }
 
     Rectangle {

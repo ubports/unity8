@@ -409,10 +409,6 @@ Item {
             showOnClick: true
             panelColor: panelAreaBackground.color
 
-            onShownChanged: {
-                if (d.menuBar) d.menuBar.close();
-            }
-
             rowItemDelegate: IndicatorItem {
                 id: indicatorItem
                 objectName: identifier+"-panelItem"

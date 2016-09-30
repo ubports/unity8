@@ -302,8 +302,8 @@ PanelTest {
             panel.fullscreenMode = data.fullscreen;
             callManager.foregroundCall = data.call;
 
-            var indicatorRow = findChild(panel.indicators, "indicatorItemRow");
-            verify(indicatorRow !== null);
+            var panelRow = findChild(panel.indicators, "panelItemRow");
+            verify(panelRow !== null);
 
             var menuContent = findChild(panel.indicators, "menuContent");
             verify(menuContent !== null);
@@ -333,7 +333,7 @@ PanelTest {
 
                 touchRelease(panel, startXPosition, panel.height);
 
-                compare(indicatorRow.currentItemIndex, i,  "Indicator item should be activated at position " + i);
+                compare(panelRow.currentItemIndex, i,  "Indicator item should be activated at position " + i);
                 compare(menuContent.currentMenuIndex, i, "Menu conetent should be activated for item at position " + i);
 
                 // init for next indicatorItem
@@ -362,8 +362,8 @@ PanelTest {
             panel.fullscreenMode = data.fullscreen;
             callManager.foregroundCall = data.call;
 
-            var indicatorRow = findChild(panel.indicators, "indicatorItemRow");
-            verify(indicatorRow !== null);
+            var panelRow = findChild(panel.indicators, "panelItemRow");
+            verify(panelRow !== null);
 
             var menuContent = findChild(panel.indicators, "menuContent");
             verify(menuContent !== null);
@@ -590,6 +590,36 @@ PanelTest {
             }
 
             compare(item.hidden, data.hidden);
+        }
+
+        function test_visibleIndicators_data() {
+            return [
+                { visible: [true, false, true, false, true, true, false, true] },
+                { visible: [false, false, false, false, false, false, true, false] }
+            ];
+        }
+
+        function test_visibleIndicators(data) {
+            for (var i = 0; i < data.visible.length; i++) {
+                var visible = data.visible[i];
+                root.setIndicatorVisible(i, visible);
+
+                var dataItem = findChild(panel, root.originalModelData[i]["identifier"] + "-panelItem");
+                tryCompare(dataItem, "opacity", visible ? 1.0 : 0.0);
+                tryCompareFunction(function() { return dataItem.width > 0.0; }, visible);
+            }
+
+            panel.indicators.show();
+            tryCompare(panel.indicators.showAnimation, "running", false);
+            tryCompare(panel.indicators, "unitProgress", 1);
+
+            for (var i = 0; i < data.visible.length; i++) {
+                root.setIndicatorVisible(i, data.visible[i]);
+
+                var dataItem = findChild(panel, root.originalModelData[i]["identifier"] + "-panelItem");
+                tryCompareFunction(function() { return dataItem.opacity > 0.0; }, true);
+                tryCompareFunction(function() { return dataItem.width > 0.0; }, true);
+            }
         }
     }
 }

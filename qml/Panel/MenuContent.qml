@@ -25,7 +25,7 @@ import "Indicators"
 Rectangle {
     id: content
 
-    property QtObject indicatorsModel: null
+    property QtObject model: null
     property int currentMenuIndex: -1
     property Component pageDelegate
 
@@ -42,7 +42,7 @@ Rectangle {
         id: listViewContent
         objectName: "indicatorsContentListView"
         anchors.fill: parent
-        model: content.indicatorsModel
+        model: content.model
 
         highlightFollowsCurrentItem: true
         interactive: false

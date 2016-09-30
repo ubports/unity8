@@ -22,7 +22,7 @@ Item {
     id: root
     property alias expanded: row.expanded
     property alias interactive: flickable.interactive
-    property alias indicatorsModel: row.indicatorsModel
+    property alias model: row.model
     property alias unitProgress: row.unitProgress
     property alias enableLateralChanges: row.enableLateralChanges
     property alias overFlowWidth: row.overFlowWidth
@@ -169,7 +169,7 @@ Item {
 
             PanelItemRow {
                 id: row
-                objectName: "indicatorItemRow"
+                objectName: "panelItemRow"
                 anchors {
                     top: parent.top
                     bottom: parent.bottom

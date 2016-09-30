@@ -21,8 +21,9 @@ import "../../../qml/Panel"
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
 import Unity.Indicators 0.1 as Indicators
+import "../../../qml/Panel/Indicators"
 
-IndicatorTest {
+PanelTest {
     id: root
     width: units.gu(100)
     height: units.gu(40)
@@ -43,13 +44,30 @@ IndicatorTest {
                 anchors.fill: indicatorsBar
             }
 
-            IndicatorsBar {
+            PanelBar {
                 id: indicatorsBar
                 height: expanded ? units.gu(7) : units.gu(3)
                 width: units.gu(widthSlider.value)
                 anchors.centerIn: parent
-                indicatorsModel: root.indicatorsModel
+                model: root.indicatorsModel
                 interactive: expanded && height === units.gu(7)
+
+                rowItemDelegate: Item {
+                    property int ownIndex: index
+                    objectName: model.identifier + "-panelItem"
+
+                    implicitWidth: indicatorsBar.expanded ? units.gu(5) : units.gu(3)
+                    height: parent.height
+
+                    Rectangle {
+                        anchors {
+                            fill: parent
+                            margins: 2
+                        }
+                        color: "red"
+                        Label { anchors.centerIn: parent; text: ownIndex }
+                    }
+                }
 
                 Behavior on height {
                     NumberAnimation {
@@ -171,7 +189,7 @@ IndicatorTest {
             var dataItem = findChild(indicatorsBar, root.originalModelData[lastItemIndex]["identifier"] + "-panelItem");
             verify(dataItem !== null);
 
-            var row = findChild(indicatorsBar, "indicatorItemRow");
+            var row = findChild(indicatorsBar, "panelItemRow");
             // test will not work without these conditions
             verify(row.width >= indicatorsBar.width + dataItem.width);
 
@@ -198,36 +216,9 @@ IndicatorTest {
                 skip("Out of bounds");
             }
             mouseClick(dataItem);
-            verify(dataItem.selected === true);
-        }
 
-        function test_visibleIndicators_data() {
-            return [
-                { visible: [true, false, true, false, true, true, false, true] },
-                { visible: [false, false, false, false, false, false, true, false] }
-            ];
-        }
-
-        function test_visibleIndicators(data) {
-            for (var i = 0; i < data.visible.length; i++) {
-                var visible = data.visible[i];
-                root.setIndicatorVisible(i, visible);
-
-                var dataItem = findChild(indicatorsBar, root.originalModelData[i]["identifier"] + "-panelItem");
-                tryCompare(dataItem, "opacity", visible ? 1.0 : 0.0);
-                tryCompareFunction(function() { return dataItem.width > 0.0; }, visible);
-            }
-
-            indicatorsBar.expanded = true;
-            wait_for_expansion_to_settle();
-
-            for (var i = 0; i < data.visible.length; i++) {
-                root.setIndicatorVisible(i, data.visible[i]);
-
-                var dataItem = findChild(indicatorsBar, root.originalModelData[i]["identifier"] + "-panelItem");
-                tryCompareFunction(function() { return dataItem.opacity > 0.0; }, true);
-                tryCompareFunction(function() { return dataItem.width > 0.0; }, true);
-            }
+            var row = findChild(indicatorsBar, "panelItemRow");
+            compare(dataItem, row.currentItem, "Item should be selected");
         }
 
         // Rough test that resizing the IndicatorsBar has the items reposition correctly

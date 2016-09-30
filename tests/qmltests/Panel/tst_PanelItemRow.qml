@@ -22,7 +22,6 @@ import Unity.Test 0.1 as UT
 import AccountsService 0.1
 import Unity.InputInfo 0.1
 import "../../../qml/Panel"
-import "../../../qml/Panel/Indicators"
 
 PanelTest {
     id: root
@@ -49,7 +48,7 @@ PanelTest {
                 id: indicatorsRow
                 height: expanded ? units.gu(7) : units.gu(3)
                 anchors.centerIn: parent
-                indicatorsModel: root.indicatorsModel
+                model: root.indicatorsModel
                 enableLateralChanges: ma.pressed
 
                 Behavior on height {
@@ -59,14 +58,21 @@ PanelTest {
                     }
                 }
 
-                delegate: IndicatorItem {
+                delegate: Item {
                     property int ownIndex: index
-                    property string identifier: model.identifier
+                    objectName: model.identifier + "-panelItem"
 
-                    objectName: identifier + "-panelItem"
-                    width: units.gu(3)
-                    height: units.gu(3)
-                    icons: [ "image://theme/settings" ]
+                    implicitWidth: indicatorsRow.expanded ? units.gu(6) : units.gu(3)
+                    height: parent.height
+
+                    Rectangle {
+                        anchors {
+                            fill: parent
+                            margins: 2
+                        }
+                        color: "red"
+                        Label { anchors.centerIn: parent; text: ownIndex }
+                    }
                 }
 
                 MouseArea {
@@ -126,7 +132,7 @@ PanelTest {
     }
 
     UT.UnityTestCase {
-        name: "IndicatorItemRow"
+        name: "PanelItemRow"
         when: windowShown
 
         function init() {
@@ -171,30 +177,36 @@ PanelTest {
             for (i = data.remove.length-1; i >= 0; i--) {
                 removeIndicator(data.remove[i]);
             }
+            wait(50);
 
             // test removals
             for (i = 0; i < root.originalModelData.length; i++) {
-                item = findChild(indicatorsRow, root.originalModelData[i]["identifier"] + "-panelItem");
+                item = findChild(indicatorsRow, root.originalModelData[i]["identifier"] + "-panelItem", 0);
                 console.log(item, i, root.originalModelData[i]["identifier"])
 
                 if (data.remove.indexOf(i) !== -1) {
                     verify(item === null, "removed item should not be present");
                 } else {
-                    verify(item === null, "items not removed item should still be present");
+                    verify(item !== null, "items not removed item should still be present");
                 }
             }
+            console.log("2")
 
             // test insertion
             for (i = 0; i < data.remove.length; i++) {
                 insertIndicator(data.remove[i]);
             }
 
+            console.log("3")
+
             for (i = 0; i < root.originalModelData.length; i++) {
-                item = findChild(indicatorsRow, root.originalModelData[i]["identifier"] + "-panelItem");
+                item = findChild(indicatorsRow, root.originalModelData[i]["identifier"] + "-panelItem", 100);
                 verify(item);
 
                 compare(item.ownIndex, i, "Item at incorrect index");
             }
+
+            console.log("4")
         }
 
         function test_validCurrentItem_data() {
