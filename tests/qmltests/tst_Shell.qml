@@ -2050,6 +2050,7 @@ Rectangle {
             var appRepeater = findChild(shell, "appRepeater")
             var appDelegate = appRepeater.itemAt(0);
             var panelButtons = findChild(shell, "panelWindowControlButtons")
+            verify(panelButtons)
 
             tryCompare(appDelegate, "state", "normal");
             tryCompare(panelButtons, "visible", false);
@@ -2058,7 +2059,8 @@ Rectangle {
 
             shell.usageScenario = "phone";
             waitForRendering(shell);
-            tryCompare(panelButtons, "visible", false);
+            panelButtons = findChild(shell, "panelWindowControlButtons")
+            verify(panelButtons === null)
         }
 
         function test_lockingGreeterHidesPanelButtons() {
