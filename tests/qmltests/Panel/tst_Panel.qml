@@ -48,6 +48,7 @@ PanelTest {
 
         ApplicationMenuRegistry.RegisterSurfaceMenu("dialerAppSurfaceId", "/dialerapp", "/dialerapp", ":2");
         Indicators.UnityMenuModelCache.setCachedModelData("/dialerapp", appMenuData.dialerData);
+        PanelState.title = "AppMenu";
     }
 
     Rectangle {
