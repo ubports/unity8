@@ -175,7 +175,7 @@ Item {
                     if (i==j) {
                         compare(paginationDot.color, UbuntuColors.blue);
                     } else {
-                        compare(paginationDot.color, "#00000000");
+                        compare(paginationDot.color.a, 0);
                     }
                 }
             }
