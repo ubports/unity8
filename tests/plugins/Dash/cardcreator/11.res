@@ -19,7 +19,7 @@ Loader {
                                 visible: status === Loader.Ready;
                                 sourceComponent: UbuntuShape { 
                                     objectName: "background"; 
-                                    radius: "medium"; 
+                                    radius: "small"; 
                                     aspect: { 
                                         switch (root.backgroundShapeStyle) { 
                                             case "inset": return UbuntuShape.Inset; 
@@ -69,7 +69,7 @@ Loader {
                                         anchors.fill: parent;
                                         source: artImage;
                                         sourceFillMode: UbuntuShape.PreserveAspectCrop;
-                                        radius: "medium";
+                                        radius: "small";
                                         aspect: UbuntuShape.Flat;
                                     }
                                     width: root.fixedArtShapeSize.width;
@@ -168,7 +168,7 @@ Loader {
     sourceComponent: UbuntuShape {
         objectName: "touchdown";
         anchors.fill: parent;
-        radius: "medium";
+        radius: "small";
         borderSource: "radius_pressed.sci"
     }
 }

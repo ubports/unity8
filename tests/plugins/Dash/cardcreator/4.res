@@ -103,7 +103,7 @@ Loader {
     sourceComponent: UbuntuShape {
         objectName: "touchdown";
         anchors.fill: parent;
-        radius: "medium";
+        radius: "small";
         borderSource: "radius_pressed.sci"
     }
 }

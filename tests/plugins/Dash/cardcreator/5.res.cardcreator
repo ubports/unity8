@@ -48,7 +48,7 @@ Loader {
                                 id: overlay; 
                                 property real luminance: Style.luminance(overlayColor); 
                                 aspect: UbuntuShape.Flat; 
-                                radius: "medium"; 
+                                radius: "small"; 
                                 overlayColor: cardData && cardData["overlayColor"] || "#99000000"; 
                                 overlayRect: Qt.rect(0, 1 - overlayLoader.overlayHeight / height, 1, 1); 
                             } 

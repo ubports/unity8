@@ -28,7 +28,7 @@ var kBackgroundLoaderCode = 'Loader {\n\
                                 visible: status === Loader.Ready; \n\
                                 sourceComponent: UbuntuShape { \n\
                                     objectName: "background"; \n\
-                                    radius: "medium"; \n\
+                                    radius: "small"; \n\
                                     aspect: { \n\
                                         switch (root.backgroundShapeStyle) { \n\
                                             case "inset": return UbuntuShape.Inset; \n\
@@ -64,7 +64,7 @@ var kArtUbuntuShapeCode = 'UbuntuShape { \n\
                                 anchors.fill: parent; \n\
                                 source: artImage; \n\
                                 sourceFillMode: UbuntuShape.PreserveAspectCrop; \n\
-                                radius: "medium"; \n\
+                                radius: "small"; \n\
                                 aspect: %1; \n\
                             }';
 
@@ -166,7 +166,7 @@ var kAudioButtonCode = 'AbstractButton { \n\
                             UbuntuShape { \n\
                                 anchors.fill: parent; \n\
                                 visible: parent.pressed; \n\
-                                radius: "medium"; \n\
+                                radius: "small"; \n\
                             } \n\
                             Rectangle { \n\
                                 color: Qt.rgba(0, 0, 0, 0.5); \n\
@@ -214,7 +214,7 @@ var kOverlayLoaderCode = 'Loader { \n\
                                 id: overlay; \n\
                                 property real luminance: Style.luminance(overlayColor); \n\
                                 aspect: UbuntuShape.Flat; \n\
-                                radius: "medium"; \n\
+                                radius: "small"; \n\
                                 overlayColor: cardData && cardData["overlayColor"] || "#99000000"; \n\
                                 overlayRect: Qt.rect(0, 1 - overlayLoader.overlayHeight / height, 1, 1); \n\
                             } \n\
@@ -337,7 +337,7 @@ var kTouchdownCode = 'Loader { \n\
                         sourceComponent: UbuntuShape { \n\
                             objectName: "touchdown"; \n\
                             anchors.fill: parent; \n\
-                            radius: "medium"; \n\
+                            radius: "small"; \n\
                             borderSource: "radius_pressed.sci" \n\
                         } \n\
                     }\n';

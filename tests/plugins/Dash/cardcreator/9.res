@@ -73,7 +73,7 @@ CardAudioProgress {
                             UbuntuShape { 
                                 anchors.fill: parent; 
                                 visible: parent.pressed; 
-                                radius: "medium"; 
+                                radius: "small"; 
                             } 
                             Rectangle { 
                                 color: Qt.rgba(0, 0, 0, 0.5); 
@@ -112,7 +112,7 @@ CardAudioProgress {
     sourceComponent: UbuntuShape {
         objectName: "touchdown";
         anchors.fill: parent;
-        radius: "medium";
+        radius: "small";
         borderSource: "radius_pressed.sci"
     }
 }

@@ -28,7 +28,7 @@ Loader  {
                                         anchors.fill: parent;
                                         source: artImage;
                                         sourceFillMode: UbuntuShape.PreserveAspectCrop;
-                                        radius: "medium";
+                                        radius: "small";
                                         aspect: UbuntuShape.Flat;
                                     }
                                     width: image.status !== Image.Ready ? 0 : image.width;

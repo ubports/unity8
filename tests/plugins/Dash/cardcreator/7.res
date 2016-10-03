@@ -19,7 +19,7 @@ Loader {
                                 visible: status === Loader.Ready;
                                 sourceComponent: UbuntuShape { 
                                     objectName: "background"; 
-                                    radius: "medium"; 
+                                    radius: "small"; 
                                     aspect: { 
                                         switch (root.backgroundShapeStyle) { 
                                             case "inset": return UbuntuShape.Inset; 

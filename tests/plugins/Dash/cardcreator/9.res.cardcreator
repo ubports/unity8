@@ -72,7 +72,7 @@ CardAudioProgress {
                             UbuntuShape { 
                                 anchors.fill: parent; 
                                 visible: parent.pressed; 
-                                radius: "medium"; 
+                                radius: "small"; 
                             } 
                             Rectangle { 
                                 color: Qt.rgba(0, 0, 0, 0.5); 
