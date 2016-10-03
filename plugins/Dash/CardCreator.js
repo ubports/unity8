@@ -439,7 +439,7 @@ function cardString(template, components, isCardTool, artShapeStyle, categoryLay
     code = 'AbstractButton { \n\
                 id: root; \n\
                 property var cardData; \n\
-                property string backgroundShapeStyle: "inset"; \n\
+                property string backgroundShapeStyle: "flat"; \n\
                 property real fontScale: 1.0; \n\
                 property var scopeStyle: null; \n\
                 readonly property string title: cardData && cardData["title"] || ""; \n\

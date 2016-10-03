@@ -25,7 +25,7 @@ DashRenderer {
         if (!cardTool || !cardTool.template || typeof cardTool.template["collapsed-rows"] != "number") return 2;
         return cardTool.template["collapsed-rows"];
     }
-    property string backgroundShapeStyle: "inset";
+    property string backgroundShapeStyle: "flat";
     property alias minimumHorizontalSpacing: grid.minimumHorizontalSpacing
 
     expandedHeight: grid.totalContentHeight

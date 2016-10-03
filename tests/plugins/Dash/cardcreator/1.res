@@ -1,7 +1,7 @@
 AbstractButton { 
                 id: root; 
                 property var cardData; 
-                property string backgroundShapeStyle: "inset"; 
+                property string backgroundShapeStyle: "flat"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
                 readonly property string title: cardData && cardData["title"] || "";
@@ -32,7 +32,7 @@ Loader  {
                                         source: artImage;
                                         sourceFillMode: UbuntuShape.PreserveAspectCrop;
                                         radius: "medium";
-                                        aspect: UbuntuShape.Inset;
+                                        aspect: UbuntuShape.Flat;
                                     }
                                     width: root.fixedArtShapeSize.width;
                                     height: root.fixedArtShapeSize.height;

@@ -69,7 +69,7 @@ Item {
 
 
     // Not readonly because gets overwritten from GenericScopeView in some cases
-    property string artShapeStyle: categoryLayout === "carousel" ? "shadow" : "inset"
+    property string artShapeStyle: categoryLayout === "carousel" ? "shadow" : "flat"
 
     // FIXME ? This seems like it should not be needed, but on Qt 5.4 + phone
     // we are doing unneeded calls to getCardComponent with artShapeStyle and categoryLayout being empty
