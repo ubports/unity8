@@ -79,7 +79,7 @@ MouseArea {
             onMaximizeClicked: root.maximizeClicked();
             onMaximizeHorizontallyClicked: if (root.target.canBeMaximizedHorizontally) root.maximizeHorizontallyClicked();
             onMaximizeVerticallyClicked: if (root.target.canBeMaximizedVertically) root.maximizeVerticallyClicked();
-            closeButtonShown: root.target.application.appId !== "unity8-dash"
+            closeButtonShown: root.target.appId !== "unity8-dash"
         }
 
         Label {

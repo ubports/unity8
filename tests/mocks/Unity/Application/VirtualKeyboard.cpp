@@ -39,13 +39,15 @@ void VirtualKeyboard::updateInputBoundsAfterResize()
 {
     int width = this->width();
 
-    int height;
-    if (this->width() > this->height()) {
-        // landscape
-        height = this->height() * 0.4;
-    } else {
-        // portrait
-        height = this->width() * 0.6;
+    int height = 0;
+    if (visible()) {
+        if (this->width() > this->height()) {
+            // landscape
+            height = this->height() * 0.4;
+        } else {
+            // portrait
+            height = this->width() * 0.6;
+        }
     }
 
     int x = 0;
