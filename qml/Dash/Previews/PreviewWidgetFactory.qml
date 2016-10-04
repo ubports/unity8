@@ -41,7 +41,7 @@ Loader {
     readonly property bool orientationLock: status === Loader.Ready ? item.orientationLock : false
 
     //! Should it have margins when on a single columns?
-    readonly property bool singleColumnMarginless: status === Loader.Ready ? item.singleColumnMarginless : true
+    readonly property bool singleColumnMarginless: status === Loader.Ready ? item.singleColumnMarginless : false
 
     /// The parent (vertical) flickable this widget is in (if any)
     property var parentFlickable: null
