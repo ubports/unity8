@@ -133,11 +133,6 @@ void TopLevelSurfaceList::appendSurfaceHelper(MirSurfaceInterface *surface, Appl
 
 void TopLevelSurfaceList::connectSurface(MirSurfaceInterface *surface)
 {
-    connect(surface, &MirSurfaceInterface::focusedChanged, this, [this, surface](bool focused){
-            if (focused) {
-                this->raise(surface);
-            }
-        });
     connect(surface, &MirSurfaceInterface::liveChanged, this, [this, surface](bool live){
             if (!live) {
                 onSurfaceDied(surface);
