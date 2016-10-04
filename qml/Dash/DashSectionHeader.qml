@@ -28,7 +28,7 @@ Item {
     height: units.gu(5)
 
     RowLayout {
-        spacing: units.gu(.5)
+        spacing: 0
         anchors {
             left: parent.left
             right: parent.right
@@ -50,7 +50,7 @@ Item {
         Icon {
             id: icon
             visible: name != ""
-            height: units.gu(2)
+            height: units.gu(1.25)
             width: height
             color: label.color
         }

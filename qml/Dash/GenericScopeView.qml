@@ -627,7 +627,7 @@ FocusScope {
             width: categoryView.width
             height: text != "" ? units.gu(5) : 0
             color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
-            iconName: delegate && delegate.headerLink ? "go-next" : ""
+            iconName: delegate && delegate.headerLink ? "toolkit_chevron-ltr_1gu" : ""
             onClicked: {
                 if (delegate.headerLink) scopeView.scope.performQuery(delegate.headerLink);
             }
