@@ -28,7 +28,7 @@ inline QString installRoot() {
     static bool installRootSet = false;
     if (!installRootSet) {
         QString snapRoot = QFile::decodeName(qgetenv("SNAP"));
-        if (QCoreApplication::applicationDirPath() ==
+        if (!snapRoot.isEmpty() && QCoreApplication::applicationDirPath() ==
                    QDir(snapRoot + QStringLiteral("@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@")).canonicalPath()) {
             installRoot = snapRoot;
         } else if (QCoreApplication::applicationDirPath() ==
