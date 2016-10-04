@@ -38,7 +38,6 @@ Item {
 
         Label {
             id: label
-            Layout.fillWidth: true
 
             font.family: "Ubuntu"
             fontSize: "medium"
@@ -54,6 +53,10 @@ Item {
             height: units.gu(2)
             width: height
             color: label.color
+        }
+
+        Item {
+            Layout.fillWidth: true
         }
     }
 
