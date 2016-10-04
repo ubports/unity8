@@ -212,6 +212,10 @@ Item {
                     visible: opacity != 0
                     Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
 
+                    onEnabledChanged: {
+                        if (!enabled) hide();
+                    }
+
                     Binding {
                         target: fakeApplicationMenus
                         property: "expanded"
@@ -464,6 +468,10 @@ Item {
             enabled: !applicationMenus.expanded
             opacity: !applicationMenus.expanded ? 1 : 0
             Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+
+            onEnabledChanged: {
+                if (!enabled) hide();
+            }
         }
     }
 
