@@ -22,7 +22,6 @@ import Utils 0.1
 import Unity 0.2
 import Dash 0.1
 import "../Components"
-import "../Components/ListItems" as ListItems
 import "Previews/PreviewSingleton"
 
 FocusScope {
@@ -621,7 +620,7 @@ FocusScope {
         }
 
         sectionProperty: "name"
-        sectionDelegate: ListItems.Header {
+        sectionDelegate: DashSectionHeader {
             objectName: "dashSectionHeader" + (delegate ? delegate.category : "")
             property int delegateIndex: -1
             readonly property var delegate: categoryView.item(delegateIndex)
