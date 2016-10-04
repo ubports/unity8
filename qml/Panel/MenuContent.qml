@@ -61,7 +61,6 @@ Rectangle {
 
             width: ListView.view.width
             height: ListView.view.height
-            objectName: item ? item.context : ""
             asynchronous: true
             visible: ListView.isCurrentItem
 

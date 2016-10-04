@@ -133,6 +133,12 @@ UbuntuShape {
         }
     }
 
+    ActionContext {
+        id: menuContext
+        objectName: "menuContext"
+        active: true
+    }
+
     ColumnLayout {
         id: container
         objectName: "container"
@@ -256,7 +262,7 @@ UbuntuShape {
 
                         property Item popup: null
 
-                        onTriggered: {
+                        action.onTriggered: {
                             if (hasSubmenu) {
                                 if (!popup) {
                                     var model = root.unityMenuModel.submenu(__ownIndex);

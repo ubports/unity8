@@ -5,38 +5,39 @@ QtObject {
     property var dialerData: [{
         "rowData": {                // 1.1
             "label": "&dialer1",
-            "action": "dialer1",
-            "shortcut": "Alt+F"
+            "action": "dialer1"
         },
         "submenu": [{
             "rowData": {                // 1.1
-                "label": "menu1.1",
+                "label": "&menu1.1",
                 "action": "menu1.1",
-                "shortcut": "Alt+0"
+                "shortcut": "Ctrl+m"
             }}, {
            "rowData": {                // 1.2
-               "label": "menu1.2",
+               "label": "m&enu1.2",
                "action": "menu1.2",
-               "shortcut": "Alt+1"
+               "shortcut": "Ctrl+e"
            },
            "submenu": [{
                 "rowData": {                // 1.2.1
-                    "label": "menu1.2.1",
-                    "action": "menu1.2.1",
-                    "shortcut": ""
+                    "label": "me&nu1.2.1",
+                    "action": "menu1.2.1"
                 }}, {
                "rowData": {                // 1.2.2
                    "label": "menu1.2.2",
                    "action": "menu1.2.2"
                }}, {
                "rowData": {                // 1.2.3
-                   "sensitive": false,
                    "isSeparator": true
                }}, {
                "rowData": {                // row 1.2.4
                    "label": "menu1.2.4",
                    "action": "menu1.2.4",
                    "isToggled": true
+               }}, {
+               "rowData": {                // row 1.2.5
+                   "label": "menu1.2.5",
+                   "sensitive": false,
                }}
             ]}, {
            "rowData": {                // 1.3
@@ -46,13 +47,12 @@ QtObject {
            "rowData": {                // row 1.4
                "label": "menu1.4",
                "action": "menu1.4",
-               "shortcut": "Alt+2"
+               "shortcut": "Ctrl+n"
            }}
         ]}, {
        "rowData": {                // 2
            "label": "d&ialer2",
-           "action": "dialer2",
-           "shortcut": "Alt+E"
+           "action": "dialer2"
         },
         "submenu": [{
             "rowData": {                // 2.1

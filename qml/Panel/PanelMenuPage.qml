@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -25,26 +25,47 @@ PageStack {
     id: root
 
     property var submenuIndex: undefined
-    property string context
     property QtObject menuModel: null
+    property Component factory
 
     Connections {
+        id: dynamicChanges
         target: root.menuModel
+        property bool ready: false
 
         // fix async creation with signal from model before it's finished.
-        onRowsInserted: root.reset()
-        onRowsRemoved: root.reset()
-        onModelReset: root.reset()
+        onRowsInserted: {
+            if (submenuIndex !== undefined && first <= submenuIndex) {
+                reset(true);
+            }
+        }
+        onRowsRemoved: {
+            if (submenuIndex !== undefined && first <= submenuIndex) {
+                reset(true);
+            }
+        }
+        onModelReset: {
+            if (root.submenuIndex !== undefined) {
+                reset(true);
+            }
+        }
     }
 
     Component.onCompleted: {
-         reset();
+        reset(true);
+        dynamicChanges.ready = true;
     }
 
-    function reset() {
-        clear();
-        var model = submenuIndex == undefined ? menuModel : menuModel.submenu(submenuIndex)
-        push(pageComponent, { "menuModel": model });
+    function reset(clearModel) {
+        if (clearModel) {
+            clear();
+            var model = submenuIndex == undefined ? menuModel : menuModel.submenu(submenuIndex)
+            if (model) {
+                push(pageComponent, { "menuModel": model });
+            }
+        } else {
+            root.currentPage.reset();
+        }
     }
 
     Component {
@@ -56,12 +77,11 @@ PageStack {
             property alias title: backLabel.title
             property bool isSubmenu: false
 
-            MenuItemFactory {
-                id: factory
-                context: root.context
-                rootModel: root.menuModel ? root.menuModel : null
-                menuModel: mainMenu.model ? mainMenu.model : null
+            function reset() {
+                mainMenu.positionViewAtBeginning();
             }
+
+            property QtObject factory: root.factory.createObject(page, { menuModel: page.menuModel } )
 
             header: PageHeader {
                 id: backLabel
@@ -151,7 +171,7 @@ PageStack {
                     visible: status == Loader.Ready
 
                     property int modelIndex: index
-                    sourceComponent: factory.load(model)
+                    sourceComponent: page.factory.load(model)
 
                     onLoaded: {
                         if (item.hasOwnProperty("selected")) {
@@ -174,7 +194,7 @@ PageStack {
                                 if (model.hasSubmenu) {
                                     root.push(pageComponent, {
                                              "isSubmenu": true,
-                                             "title": model.label,
+                                             "title": model.label.replace(/_|&/, ""),
                                              "menuModel": page.menuModel.submenu(modelIndex)
                                     });
                                 }
@@ -202,10 +222,4 @@ PageStack {
             }
         }
     }
-
-//    function reset()
-//    {
-//        menuStack.reset();
-//        mainMenu.positionViewAtBeginning();
-//    }
 }

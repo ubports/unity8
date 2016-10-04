@@ -25,7 +25,7 @@ import Ubuntu.Components 1.3
 import Unity.Session 0.1
 import Unity.Platform 1.0
 
-Item {
+Object {
     id: menuFactory
 
     property string context
@@ -1042,92 +1042,7 @@ Item {
         }
     }
 
-    Component {
-        id: applicationMenu;
-
-        ListItem {
-            property QtObject menuData: null
-            property int menuIndex: -1
-
-            height: layout.height
-            enabled: menuData && menuData.sensitive || false
-            divider.visible: false
-
-            onClicked: {
-                menuModel.activate(menuIndex);
-            }
-
-            ListItemLayout {
-                id: layout
-                title.text: menuData && menuData.label || ""
-
-                Icon {
-                    source: menuData && menuData.icon || ""
-                    SlotsLayout.position: SlotsLayout.Leading
-                    height: units.gu(3)
-                }
-
-            }
-        }
-    }
-
-    Component {
-        id: submenu
-
-        ListItem {
-            property QtObject menuData: null
-            property int menuIndex: -1
-
-            height: layout.height
-            enabled: menuData && menuData.sensitive || false
-            divider.visible: false
-
-            onClicked: {
-                menuModel.activate(menuIndex);
-            }
-
-            ListItemLayout {
-                id: layout
-                title.text: menuData && menuData.label || ""
-
-                Icon {
-                    source: menuData && menuData.icon || ""
-                    SlotsLayout.position: SlotsLayout.Leading
-                    height: units.gu(3)
-                }
-
-                Icon {
-                    name: "toolkit_chevron-ltr_1gu"
-                    SlotsLayout.position: SlotsLayout.Trailing
-                    width: units.gu(2)
-                }
-            }
-        }
-    }
-
-    Component {
-        id: applicationMenuSeparator;
-
-        ListItems.Divider {
-        }
-    }
-
     function load(modelData) {
-        if (context == "application-menu") {
-            if (modelData.isSeparator) {
-                return applicationMenuSeparator;
-            }
-            if (modelData.isRadio) {
-            }
-            if (modelData.isCheck) {
-
-            }
-            if (modelData.hasSubmenu) {
-                return submenu;
-            }
-            return applicationMenu;
-        }
-
         // tweak indicator-session items
         if (context === "indicator-session") {
             if ((modelData.action === "indicator.logout" || modelData.action === "indicator.suspend" || modelData.action === "indicator.hibernate" ||

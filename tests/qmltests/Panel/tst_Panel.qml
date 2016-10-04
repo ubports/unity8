@@ -37,20 +37,18 @@ PanelTest {
     color: "black"
 
     Binding {
-        target: mouseEmulation
-        property: "checked"
-        value: !windowControlsCB.checked
+        target: QuickUtils
+        property: "keyboardAttached"
+        value: keyboardAttached.checked
     }
 
     DesktopMenuData { id: appMenuData }
 
     Component.onCompleted: {
-        QuickUtils.keyboardAttached = true;
         theme.name = "Ubuntu.Components.Themes.SuruDark"
 
         ApplicationMenuRegistry.RegisterSurfaceMenu("dialerAppSurfaceId", "/dialerapp", "/dialerapp", ":2");
         Indicators.UnityMenuModelCache.setCachedModelData("/dialerapp", appMenuData.dialerData);
-        PanelState.title = "AppMenu";
     }
 
     Rectangle {
@@ -78,7 +76,7 @@ PanelTest {
                 Panel {
                     id: panel
                     anchors.fill: parent
-                    mode: "staged"
+                    mode: modeSelector.model[modeSelector.selectedIndex]
 
                     indicatorMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
                     applicationMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
@@ -109,12 +107,14 @@ PanelTest {
             Layout.fillWidth: false
 
             ListItem.ItemSelector {
+                id: modeSelector
                 anchors { left: parent.left; right: parent.right }
                 activeFocusOnPress: false
                 text: "Mode"
                 model: ["staged", "windowed" ]
                 onSelectedIndexChanged: {
                     panel.mode = model[selectedIndex];
+                    keyboardAttached.checked = panel.mode == "windowed"
                 }
             }
 
@@ -223,6 +223,18 @@ PanelTest {
             MouseTouchEmulationCheckbox {
                 id: mouseEmulation
                 color: "white"
+                checked: panel.mode == "staged"
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+                CheckBox {
+                    id: keyboardAttached
+                }
+                Label {
+                    text: "Keyboard Attached"
+                    color: "white"
+                }
             }
         }
     }

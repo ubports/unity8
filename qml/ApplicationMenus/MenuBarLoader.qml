@@ -30,6 +30,9 @@ Item {
 
     readonly property bool showRequested: altFilter.longAltPressed || d.currentItem != null
 
+    implicitWidth: row.width + units.gu(1)
+    height: parent.height
+
     WindowInputFilter {
         id: altFilter
         property bool altPressed: false
@@ -63,9 +66,6 @@ Item {
         }
     }
 
-    implicitWidth: row.width + units.gu(1)
-    height: parent.height
-
     InverseMouseArea {
         acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
         anchors.fill: parent
@@ -80,7 +80,7 @@ Item {
     ActionContext {
         id: menuBarContext
         objectName: "menuBarContext"
-        active: d.currentItem == null && altFilter.altPressed
+        active: true
     }
 
     Row {

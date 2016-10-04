@@ -28,7 +28,7 @@ Item {
     width: units.gu(40)
     height: units.gu(70)
 
-    MenuItemFactory {
+    IndicatorMenuItemFactory {
         id: factory
         menuModel: UnityMenuModel {}
     }
@@ -51,7 +51,7 @@ Item {
     }
 
     UT.UnityTestCase {
-        name: "MenuItemFactory"
+        name: "IndicatorMenuItemFactory"
         when: windowShown
 
         property QtObject menuData: QtObject {

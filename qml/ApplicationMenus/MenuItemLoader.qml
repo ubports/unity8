@@ -32,11 +32,10 @@ ActionItem {
             val += units.gu(1) + icon.width
         }
         val += units.gu(1) + title.contentWidth;
-        if (shortcut != undefined) {
-            val += units.gu(3) + shortcutLabel.contentWidth;
-        }
         if (hasSubmenu) {
             val += units.gu(1) + chevronIcon.width;
+        } else if (shortcut != undefined) {
+            val += units.gu(3) + shortcutLabel.contentWidth;
         }
         return val + units.gu(1);
     }
@@ -111,9 +110,11 @@ ActionItem {
                 elide: Text.ElideNone
                 wrapMode: Text.NoWrap
                 clip: true
+                color: enabled ? theme.palette.normal.backgroundSecondaryText :
+                                 theme.palette.disabled.backgroundSecondaryText
 
-                visible: root.shortcut != undefined
-                text: root.shortcut ? root.shortcut : ""
+                visible: menuData.shortcut != undefined && !root.hasSubmenu && QuickUtils.keyboardAttached
+                text: menuData.shortcut ? menuData.shortcut : ""
             }
         }
 
@@ -121,6 +122,8 @@ ActionItem {
             id: chevronIcon
             width: units.gu(2)
             height: units.gu(2)
+            color: enabled ? theme.palette.normal.backgroundSecondaryText :
+                             theme.palette.disabled.backgroundSecondaryText
 
             visible: root.hasSubmenu
             name: "chevron"

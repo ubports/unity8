@@ -199,9 +199,12 @@ Item {
 
                     pageDelegate: PanelMenuPage {
                         id: page
-                        context: "application-menu"
                         menuModel: __applicationMenus.model
                         submenuIndex: modelIndex
+
+                        factory: ApplicationMenuItemFactory {
+                            rootModel: __applicationMenus.model
+                        }
                     }
 
                     enabled: !root.locked && model
@@ -440,11 +443,16 @@ Item {
 
             pageDelegate: PanelMenuPage {
                 id: page
-                objectName: context + "-page"
-                context: modelData.identifier
+                objectName: modelData.identifier + "-page"
                 submenuIndex: 0
 
                 menuModel: delegate.menuModel
+
+                factory: IndicatorMenuItemFactory {
+                    context: modelData.identifier
+                    rootModel: delegate.menuModel
+                }
+
                 IndicatorDelegate {
                     id: delegate
                     busName: modelData.indicatorProperties.busName
