@@ -101,7 +101,7 @@ Item {
                 property bool popupVisible: __popup && __popup.visible
 
                 implicitWidth: column.implicitWidth
-                implicitHeight: parent.height
+                implicitHeight: row.height
                 enabled: model.sensitive
 
                 Keys.forwardTo: [ root ]

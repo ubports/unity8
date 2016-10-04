@@ -20,8 +20,8 @@ import Unity.Application 0.1
 
 FocusScope {
     id: root
-    implicitWidth: surfaceContainer.implicitWidth
-    implicitHeight: surfaceContainer.implicitHeight
+    implicitWidth: requestedWidth
+    implicitHeight: requestedHeight
 
     // to be read from outside
     property alias interactive: surfaceContainer.interactive
@@ -29,22 +29,10 @@ FocusScope {
     readonly property string title: surface && surface.name !== "" ? surface.name : d.name
     readonly property QtObject focusedSurface: d.focusedSurface.surface
 
-    // overridable from outside
-    property bool fullscreen: {
-        if (surface) {
-            return surface.state === Mir.FullscreenState;
-        } else if (application) {
-            return application.fullscreen;
-        } else {
-            return false;
-        }
-    }
-
     // to be set from outside
     property QtObject surface
     property QtObject application
     property int surfaceOrientationAngle
-    property alias resizeSurface: surfaceContainer.resizeSurface
     property int requestedWidth: -1
     property int requestedHeight: -1
     property real splashRotation: 0
@@ -156,6 +144,9 @@ FocusScope {
         id: screenshotImage
         objectName: "screenshotImage"
         anchors.fill: parent
+        fillMode: Image.PreserveAspectCrop
+        horizontalAlignment: Image.AlignLeft
+        verticalAlignment: Image.AlignTop
         antialiasing: !root.interactive
         z: 1
 
@@ -197,6 +188,7 @@ FocusScope {
 
     SurfaceContainer {
         id: surfaceContainer
+        anchors.fill: parent
         z: splashLoader.z + 1
         requestedWidth: root.requestedWidth
         requestedHeight: root.requestedHeight
@@ -220,6 +212,8 @@ FocusScope {
             surface: model.surface
             width: root.width
             height: root.height
+            requestedWidth: root.requestedWidth
+            requestedHeight: root.requestedHeight
             isPromptSurface: true
             z: surfaceContainer.z + (promptSurfacesRepeater.count - index)
             property int index: model.index
@@ -237,28 +231,6 @@ FocusScope {
             }
         }
         property Item first: null
-    }
-
-    // SurfaceContainer size drives ApplicationWindow size
-    Binding {
-        target: root; property: "width"
-        value: stateGroup.state === "surface" ? surfaceContainer.width : root.requestedWidth
-        when: root.requestedWidth >= 0
-    }
-    Binding {
-        target: root; property: "height"
-        value: stateGroup.state === "surface" ? surfaceContainer.height : root.requestedHeight
-        when: root.requestedHeight >= 0
-    }
-
-    // ApplicationWindow size drives SurfaceContainer size
-    Binding {
-        target: surfaceContainer; property: "width"; value: root.width
-        when: root.requestedWidth < 0
-    }
-    Binding {
-        target: surfaceContainer; property: "height"; value: root.height
-        when: root.requestedHeight < 0
     }
 
     StateGroup {
@@ -287,6 +259,11 @@ FocusScope {
                       (d.liveSurface ||
                        (d.applicationState !== ApplicationInfoInterface.Running
                         && screenshotImage.status !== Image.Ready))
+                PropertyChanges {
+                    target: root
+                    implicitWidth: surfaceContainer.implicitWidth
+                    implicitHeight: surfaceContainer.implicitHeight
+                }
             },
             State {
                 name: "screenshot"
@@ -424,5 +401,4 @@ FocusScope {
             }
         ]
     }
-
 }

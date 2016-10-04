@@ -31,6 +31,9 @@ public:
                                          const QString &actionObjectPath,
                                          const QString &service);
 
+    Q_INVOKABLE void UnregisterSurfaceMenu(const QString &surfaceId,
+                                           const QDBusObjectPath &menuObjectPath);
+
 private:
     MockApplicationMenuRegistry(QObject *parent = 0);
 };

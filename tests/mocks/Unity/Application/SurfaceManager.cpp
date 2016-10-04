@@ -36,11 +36,11 @@ SurfaceManager::SurfaceManager(QObject *parent) :
     the_surface_manager = this;
 
     m_virtualKeyboard = new VirtualKeyboard;
-    connect(m_virtualKeyboard, &QObject::destroyed, this, [this](QObject *obj) {
-        MirSurface* surface = qobject_cast<MirSurface*>(obj);
+    const QString persistentId = m_virtualKeyboard->persistentId();
+    connect(m_virtualKeyboard, &QObject::destroyed, this, [this, persistentId](QObject*) {
         m_virtualKeyboard = nullptr;
         Q_EMIT inputMethodSurfaceChanged();
-        Q_EMIT surfaceDestroyed(surface);
+        Q_EMIT surfaceDestroyed(persistentId);
     });
 }
 
@@ -56,9 +56,10 @@ MirSurface *SurfaceManager::createSurface(const QString& name,
                                           const QUrl& screenshot)
 {
     MirSurface* surface = new MirSurface(name, type, state, screenshot);
-    connect(surface, &QObject::destroyed, this, [this](QObject *obj) {
-        MirSurface* surface = qobject_cast<MirSurface*>(obj);
-        Q_EMIT surfaceDestroyed(surface);
+    const QString persistentId = surface->persistentId();
+
+    connect(surface, &QObject::destroyed, this, [this, persistentId](QObject*) {
+        Q_EMIT surfaceDestroyed(persistentId);
     });
 
     surface->setMinimumWidth(m_newSurfaceMinimumWidth);

@@ -46,9 +46,6 @@ PanelTest {
 
     Component.onCompleted: {
         theme.name = "Ubuntu.Components.Themes.SuruDark"
-
-        ApplicationMenuRegistry.RegisterSurfaceMenu("dialerAppSurfaceId", "/dialerapp", "/dialerapp", ":2");
-        Indicators.UnityMenuModelCache.setCachedModelData("/dialerapp", appMenuData.dialerData);
     }
 
     Rectangle {

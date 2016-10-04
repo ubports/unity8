@@ -70,7 +70,7 @@ Q_SIGNALS:
     void inputMethodSurfaceChanged();
     void countChanged();
     void surfaceCreated(MirSurface *surface);
-    void surfaceDestroyed(MirSurface*surface);
+    void surfaceDestroyed(const QString& persistentSurfaceId);
 
     void newSurfaceMinimumWidthChanged(int value);
     void newSurfaceMaximumWidthChanged(int value);

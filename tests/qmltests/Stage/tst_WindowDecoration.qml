@@ -24,7 +24,8 @@ import Unity.Test 0.1
 import Utils 0.1
 import QMenuModel 0.1
 
-import "../../../qml/Stages"
+import ".."
+import "../../../qml/Stage"
 
 Item {
     id: root
@@ -46,7 +47,7 @@ Item {
         property string name: "webbrowser"
     }
 
-    DesktopMenuData { id: desktopMenuData }
+    ApplicationMenuDataLoader { id: menuData }
 
     Rectangle {
         anchors {
@@ -77,7 +78,7 @@ Item {
         menu: menuBackend
         UnityMenuModel {
             id: menuBackend
-            modelData: desktopMenuData.testData
+            modelData: menuData.generateTestData(5, 3, 3, "menu")
             onActivated: log.text = "Activated " + action + "\n" + log.text
         }
 

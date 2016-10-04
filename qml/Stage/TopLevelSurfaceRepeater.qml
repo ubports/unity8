@@ -55,4 +55,13 @@ Repeater {
             startingUp = false;
         }
     }
+
+    function indexOf(delegateItem) {
+        for (var i = 0; i < count; i++) {
+            if (itemAt(i) === delegateItem) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }
