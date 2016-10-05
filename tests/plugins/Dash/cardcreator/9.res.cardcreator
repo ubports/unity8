@@ -105,13 +105,5 @@ CardAudioProgress {
                             onPressAndHold: { 
                                 root.pressAndHold(); 
                             } 
-                        }UbuntuShape { 
-                        id: touchdown; 
-                        objectName: "touchdown"; 
-                        anchors { fill: root } 
-                        visible: root.pressed;
-                        radius: "medium"; 
-                        borderSource: "radius_pressed.sci" 
-                    }
-implicitHeight: audioButton.height;
+                        }implicitHeight: audioButton.height;
 }

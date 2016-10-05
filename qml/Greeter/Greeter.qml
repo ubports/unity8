@@ -34,6 +34,7 @@ Showable {
     property real dragHandleLeftMargin: 0
 
     property url background
+    property bool hasCustomBackground
 
     // How far to offset the top greeter layer during a launcher left-drag
     property real launcherOffset
@@ -72,9 +73,12 @@ Showable {
         }
         forcedUnlock = false;
         if (required) {
+            if (loader.item) {
+                loader.item.reset(true /* forceShow */);
+            }
             // Normally loader.onLoaded will select a user, but if we're
             // already shown, do it manually.
-            d.selectUser(d.currentIndex, true);
+            d.selectUser(d.currentIndex, false);
         }
 
         // Even though we may already be shown, we want to call show() for its
@@ -105,8 +109,8 @@ Showable {
         }
     }
 
-    // Notify that the user has explicitly requested the given app through unity8 GUI.
-    function notifyUserRequestedApp(appId) {
+    // Notify that the user has explicitly requested an app
+    function notifyUserRequestedApp() {
         if (!active) {
             return;
         }
@@ -130,6 +134,22 @@ Showable {
         }
 
         return d.startUnlock(true /* toTheRight */);
+    }
+
+    function sessionToStart() {
+        for (var i = 0; i < LightDMService.sessions.count; i++) {
+            var session = LightDMService.sessions.data(i,
+                LightDMService.sessionRoles.KeyRole);
+            if (loader.item.sessionToStart === session) {
+                return session;
+            }
+        }
+
+        if (loader.item.sessionToStart === LightDMService.greeter.defaultSession) {
+            return LightDMService.greeter.defaultSession;
+        } else {
+            return "ubuntu"; // The default / fallback
+        }
     }
 
     QtObject {
@@ -178,7 +198,7 @@ Showable {
                 return;
             d.waiting = true;
             if (reset) {
-                loader.item.reset();
+                loader.item.reset(false /* forceShow */);
             }
             currentIndex = index;
             var user = LightDMService.users.data(index, LightDMService.userRoles.NameRole);
@@ -197,7 +217,7 @@ Showable {
 
         function login() {
             d.waiting = true;
-            if (LightDMService.greeter.startSessionSync()) {
+            if (LightDMService.greeter.startSessionSync(root.sessionToStart())) {
                 sessionStarted();
                 hideView();
             } else if (loader.item) {
@@ -221,6 +241,29 @@ Showable {
                     root.hideNow(); // skip hide animation
                 }
             }
+        }
+
+        function showPromptMessage(text, isError) {
+            // inefficient, but we only rarely deal with messages
+            var html = text.replace(/&/g, "&amp;")
+                           .replace(/</g, "&lt;")
+                           .replace(/>/g, "&gt;")
+                           .replace(/\n/g, "<br>");
+            if (isError) {
+                html = "<font color=\"#df382c\">" + html + "</font>";
+            }
+
+            if (loader.item) {
+                loader.item.showMessage(html);
+            }
+        }
+
+        function showFingerprintMessage(msg) {
+            if (loader.item) {
+                loader.item.reset(false /* forceShow */);
+                loader.item.showErrorMessage(msg);
+            }
+            showPromptMessage(msg, true);
         }
     }
 
@@ -395,6 +438,12 @@ Showable {
 
         Binding {
             target: loader.item
+            property: "hasCustomBackground"
+            value: root.hasCustomBackground
+        }
+
+        Binding {
+            target: loader.item
             property: "locked"
             value: root.locked
         }
@@ -436,20 +485,7 @@ Showable {
         onShowGreeter: root.forceShow()
         onHideGreeter: root.forcedUnlock = true
 
-        onShowMessage: {
-            // inefficient, but we only rarely deal with messages
-            var html = text.replace(/&/g, "&amp;")
-                           .replace(/</g, "&lt;")
-                           .replace(/>/g, "&gt;")
-                           .replace(/\n/g, "<br>");
-            if (isError) {
-                html = "<font color=\"#df382c\">" + html + "</font>";
-            }
-
-            if (loader.item) {
-                loader.item.showMessage(html);
-            }
-        }
+        onShowMessage: d.showPromptMessage(text, isError)
 
         onShowPrompt: {
             if (loader.item) {
@@ -557,10 +593,8 @@ Showable {
             if (!d.secureFingerprint) {
                 d.startUnlock(false /* toTheRight */); // use normal login instead
             }
-            if (loader.item) {
-                var msg = d.secureFingerprint ? i18n.tr("Try again") : "";
-                loader.item.showErrorMessage(msg);
-            }
+            var msg = d.secureFingerprint ? i18n.tr("Try again") : "";
+            d.showFingerprintMessage(msg);
         }
 
         Component.onCompleted: restartOperation()
@@ -578,8 +612,10 @@ Showable {
                 return;
             }
             console.log("Identified user by fingerprint:", result);
-            if (loader.item)
+            if (loader.item) {
+                loader.item.enabled = false;
                 loader.item.notifyAuthenticationSucceeded(true /* showFakePassword */);
+            }
             if (root.active)
                 root.forcedUnlock = true;
         }

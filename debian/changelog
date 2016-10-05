@@ -1,3 +1,111 @@
+unity8 (8.14+16.10.20160922-0ubuntu2) yakkety; urgency=medium
+
+  * debian/control:
+    - Drop unity-scope-mediascanner2 to a Suggests rather than a Recommends,
+      to ease our transition to main.  It's already seeded directly in
+      Touch, so this will only affect the Desktop variant of unity8.
+
+ -- Michael Terry <mterry@ubuntu.com>  Mon, 03 Oct 2016 10:43:25 -0400
+
+unity8 (8.14+16.10.20160922-0ubuntu1) yakkety; urgency=medium
+
+  [ Albert Astals Cid ]
+  * LVWPH: update clipItem height when list height changes (LP:
+    #1606935)
+  * Put the touchdown shape inside a loader
+  * No need for the touchdown in the card for the cardtool
+  * Add bottom gradient to the Show Less floating button
+  * Remove artShapeSize from non cardtool cards
+  * LVWPH: Fix case in which header was shown incorrectly
+  * LVWPH: Fix items cut on top in the dash (or at least some instances
+    of it)
+  * Reduce calls to CardCreatorCache.getCardComponent while the
+    component is being created (LP: #1615675)
+  * Dash::test_cardIconStyle change compare into tryCompareFunction
+  * Make PreviewActionsTest::test_comboButton more stable
+  * Adapt onShiftedContentXChanged to work when the content changes very
+    abruptly
+  * Make tryGenericScopeView show the scope correctly
+  * Make sure the spinner does not get too close to the title text (LP:
+    #1597392)
+  * Show "Pull to refresh" in white when overlaid in low luminance
+    colors (LP: #1596849)
+  * Make test_Shell non ultra slow again (LP: #1597366)
+  * Improve findChild calls inside tryCompareFunction.
+
+  [ Andrea Cimitan ]
+  * override some Qt Components definitions so we can have sane default
+    values for flick speeds
+  * Elide the label text inside recent searches panel (LP: #1611796)
+  * Add a PreviewSingleton module to store some data for previews (LP:
+    #1595235)
+  * Use PreviewSingleton for PreviewRatingInput and PreviewCommentInput
+    (LP: #1595235)
+  * rework GenericScopeView PullToRefresh test
+  * use mouseFlick instead touchFlick for manage_dash_move_current
+  * add a couple of waiting tricks for a flaky dash test
+
+  [ Daniel d'Andrada ]
+  * Set progress bar indeterminate when processing signal received. (LP:
+    #1249349)
+  * Implement cursor confinement (LP: #1590099)
+
+  [ Josh Arenson ]
+  * Add a frontend to the sessions model and enable a session chooser in
+    the greeter.
+
+  [ Lukáš Tinkl ]
+  * Implement edge maximizing (aka window snapping) (LP: #1602628)
+  * On the PC platform (as opposed to running on $devices), use the
+    "mute" action instead of silent mode
+  * Respect Fitt's law wrt the window control buttons in panel (LP:
+    #1611959)
+  * Fix 2 failing color-related tests
+
+  [ Marco Trevisan (Treviño) ]
+  * Indicators, mocks: add fake indicators menuitem to populate mocks
+    with different menu types
+  * IndicatorsClient: use PageHeader and ListItemLayout's
+
+  [ Michael Terry ]
+  * Support launching apps inside a unity8 session from the greeter and
+    support emergency dialing inside the greeter.
+  * Fix tryShell to actually show appropriate backgrounds for each mock
+    user.
+  * Add an indicator to the greeter when a user is logged in (only shown
+    if we have more than one user)
+  * Hide the greeter OSK if indicators are open and don't show the edge
+    tutorial during an emergency call.
+  * Switch from lockscreen PIN pad to a passcode entry box that uses the
+    OSK.
+  * Use the default system wallpaper instead of our custom one.
+  * Update look of infographic a bit
+  * Make infographic bubbles white even on the default wallpaper.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 22 Sep 2016 07:46:57 +0000
+
+unity8 (8.14+16.10.20160831.3-0ubuntu1) yakkety; urgency=medium
+
+  [ Daniel d'Andrada ]
+  * Added implementation for MirSurfaceInterface::persistentId
+
+ -- Ken VanDine <ken.vandine@canonical.com>  Wed, 31 Aug 2016 11:56:09 +0000
+
+unity8 (8.14+16.10.20160826-0ubuntu1) yakkety; urgency=medium
+
+  * Make sure we emit sounds when taking a screenshot even after media-
+    hub (LP: #1544477)
+
+ -- Alfonso Sanchez-Beato <alfonso.sanchez-beato@canonical.com>  Fri, 26 Aug 2016 08:14:14 +0000
+
+unity8 (8.14+16.10.20160819-0ubuntu1) yakkety; urgency=medium
+
+  [ Lukáš Tinkl ]
+  * Reset topmostIsFullscreen to correctly rotate the shell when
+    dismissing SIM PIN screen (LP: #1614070)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 19 Aug 2016 14:16:54 +0000
+
 unity8 (8.14+16.10.20160811.1-0ubuntu1) yakkety; urgency=medium
 
   [ Albert Astals Cid ]

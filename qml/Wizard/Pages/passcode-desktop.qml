@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import ".." as LocalComponents
+import "../../Components"
 
 /**
  * See the main passwd-type page for an explanation of why we don't actually

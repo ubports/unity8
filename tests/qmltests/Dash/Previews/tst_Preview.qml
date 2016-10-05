@@ -78,7 +78,6 @@ Rectangle {
 
         function test_containOnFocus() {
             waitForRendering(preview);
-            tryCompareFunction(function () { return findChild(preview, "widget-10") != null }, true);
             var widget = findChild(preview, "widget-10");
 
             var bottomLeft = preview.mapFromItem(widget, 0, widget.height);
@@ -94,7 +93,6 @@ Rectangle {
 
         function test_containOnGrow() {
             waitForRendering(preview);
-            tryCompareFunction(function () { return findChild(preview, "widget-13") != null }, true);
             var widget = findChild(preview, "widget-13");
 
             var bottomLeft = preview.mapFromItem(widget, 0, widget.height);

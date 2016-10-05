@@ -485,8 +485,7 @@ AbstractStage {
                 return;
             }
 
-            switch (phase) {
-            case 0:
+            if (phase === 0) {
                 // the "spreadEnabled" part is because when code does "phase = 0; contentX = -shift" to
                 // dismiss the spread because spreadEnabled went to false, for some reason, during tests,
                 // Flickable might jump in and change contentX value back, causing the code below to do
@@ -496,14 +495,17 @@ AbstractStage {
                 if (root.spreadEnabled && shiftedContentX > width * positionMarker2) {
                     phase = 1;
                 }
-                break;
-            case 1:
+            }
+
+            // Do not turn to else if
+            // Sometimes the animation of shiftedContentX is very fast and we need to jump from phase 0 to 1 to 2
+            // in the same onShiftedContentXChanged
+            if (phase === 1) {
                 if (shiftedContentX < width * positionMarker2) {
                     phase = 0;
                 } else if (shiftedContentX >= width * positionMarker4 && !spreadDragArea.dragging) {
                     phase = 2;
                 }
-                break;
             }
         }
 

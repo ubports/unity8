@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-08-11 06:28+0000\n"
-"PO-Revision-Date: 2016-07-24 11:38+0000\n"
+"POT-Creation-Date: 2016-09-22 07:46+0000\n"
+"PO-Revision-Date: 2016-09-29 12:06+0000\n"
 "Last-Translator: Matthias Seidel <matthias.seidel@hamburg.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-08-17 05:51+0000\n"
-"X-Generator: Launchpad (build 18169)\n"
+"X-Launchpad-Export-Date: 2016-09-30 06:18+0000\n"
+"X-Generator: Launchpad (build 18204)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
@@ -34,29 +34,6 @@ msgstr "Beenden"
 #: plugins/Unity/Launcher/launcheritem.cpp:108
 msgid "Unpin shortcut"
 msgstr "Verknüpfung entfernen"
-
-#: qml/Components/DelayedLockscreen.qml:50
-msgid "Device Locked"
-msgstr "Gerät gesperrt"
-
-#: qml/Components/DelayedLockscreen.qml:65
-msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr ""
-"Das Gerät wurde aufgrund zu vieler falscher Passworteingaben für längere "
-"Zeit gesperrt."
-
-#: qml/Components/DelayedLockscreen.qml:66
-msgid "You have been locked out due to too many failed passcode attempts."
-msgstr ""
-"Das Gerät wurde aufgrund zu vieler falscher PIN-Eingaben für längere Zeit "
-"gesperrt."
-
-#: qml/Components/DelayedLockscreen.qml:75
-#, qt-format
-msgid "Please wait %1 minute and then try again…"
-msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Bitte %1 Minute warten und es dann erneut versuchen …"
-msgstr[1] "Bitte %1 Minuten warten und es dann erneut versuchen …"
 
 #: qml/Components/Dialogs.qml:149
 msgctxt "Title: Lock/Log out dialog"
@@ -78,7 +55,8 @@ msgid "Log Out"
 msgstr "Abmelden"
 
 #: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
-#: qml/Dash/DashPageHeader.qml:322 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
+#: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -153,7 +131,7 @@ msgstr "Super + Leertaste"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr "Zum nächsten Tastaturlayout umschalten"
+msgstr "Wechselt zur nächsten Tastaturbelegung."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
@@ -161,7 +139,7 @@ msgstr "Super + Hochstell + Leertaste"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr "Zum vorherigen Tastaturlayout umschalten"
+msgstr "Wechselt zur vorherigen Tastaturbelegung."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:118
 msgid "Launcher"
@@ -283,15 +261,15 @@ msgstr "Alt + F4"
 msgid "Closes the current window."
 msgstr "Schließt das aktive Fenster."
 
-#: qml/Components/Lockscreen.qml:239
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
 msgid "Return to Call"
 msgstr "Zu Anruf zurückkehren"
 
-#: qml/Components/Lockscreen.qml:239
+#: qml/Components/Lockscreen.qml:212
 msgid "Emergency Call"
 msgstr "Notruf"
 
-#: qml/Components/Lockscreen.qml:271
+#: qml/Components/Lockscreen.qml:244
 msgid "OK"
 msgstr "OK"
 
@@ -337,55 +315,55 @@ msgstr "Alle schließen"
 msgid "Preview Share Item"
 msgstr "Vorschau für zu teilendes Element"
 
-#: qml/Dash/DashPageHeader.qml:360
+#: qml/Dash/DashPageHeader.qml:362
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Speichern"
 
-#: qml/Dash/DashPageHeader.qml:367
+#: qml/Dash/DashPageHeader.qml:369
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Suchen"
 
-#: qml/Dash/DashPageHeader.qml:377
+#: qml/Dash/DashPageHeader.qml:379
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: qml/Dash/DashPageHeader.qml:384
+#: qml/Dash/DashPageHeader.qml:386
 msgid "Remove from Favorites"
 msgstr "Aus den Favoriten entfernen"
 
-#: qml/Dash/DashPageHeader.qml:384
+#: qml/Dash/DashPageHeader.qml:386
 msgid "Add to Favorites"
 msgstr "Zu Favoriten hinzufügen"
 
-#: qml/Dash/FiltersPopover.qml:60
+#: qml/Dash/FiltersPopover.qml:61
 msgid "Refine your results"
 msgstr "Ergebnisse verfeinern"
 
-#: qml/Dash/FiltersPopover.qml:69
+#: qml/Dash/FiltersPopover.qml:70
 msgid "Reset"
 msgstr "Zurücksetzen"
 
-#: qml/Dash/GenericScopeView.qml:585 qml/Dash/GenericScopeView.qml:780
+#: qml/Dash/GenericScopeView.qml:586 qml/Dash/GenericScopeView.qml:782
 msgid "Show less"
 msgstr "Weniger anzeigen"
 
-#: qml/Dash/GenericScopeView.qml:585
+#: qml/Dash/GenericScopeView.qml:586
 msgid "Show all"
 msgstr "Alle anzeigen"
 
-#: qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:643
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Suchen"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:56
+#: qml/Dash/PageHeaderExtraPanel.qml:57
 msgid "Recent Searches"
 msgstr "Letzte Suchanfragen"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:67
+#: qml/Dash/PageHeaderExtraPanel.qml:68
 msgid "Clear All"
 msgstr "Alle zurücksetzen"
 
@@ -397,24 +375,24 @@ msgstr "Mehr …"
 msgid "Less..."
 msgstr "Weniger …"
 
-#: qml/Dash/Previews/PreviewCommentInput.qml:68
-#: qml/Dash/Previews/PreviewRatingInput.qml:175
+#: qml/Dash/Previews/PreviewCommentInput.qml:83
+#: qml/Dash/Previews/PreviewRatingInput.qml:201
 msgid "Send"
 msgstr "Senden"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:108
 msgid "Rate this"
 msgstr "Bewerten"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:157
+#: qml/Dash/Previews/PreviewRatingInput.qml:183
 msgid "Add a review"
 msgstr "Bewertung hinzufügen"
 
-#: qml/Dash/PullToRefreshScopeStyle.qml:55
+#: qml/Dash/PullToRefreshScopeStyle.qml:56
 msgid "Pull to refresh…"
 msgstr "Zum Aktualisieren ziehen …"
 
-#: qml/Dash/PullToRefreshScopeStyle.qml:60
+#: qml/Dash/PullToRefreshScopeStyle.qml:61
 msgid "Release to refresh…"
 msgstr "Zum Aktualisieren loslassen …"
 
@@ -422,15 +400,15 @@ msgstr "Zum Aktualisieren loslassen …"
 msgid "Enable location data"
 msgstr "Standortdaten aktivieren"
 
-#: qml/Dash/ScopesList.qml:55
+#: qml/Dash/ScopesList.qml:57
 msgid "Manage"
 msgstr "Verwalten"
 
-#: qml/Dash/ScopesList.qml:102
+#: qml/Dash/ScopesList.qml:104
 msgid "Home"
 msgstr "Startseite"
 
-#: qml/Dash/ScopesList.qml:103
+#: qml/Dash/ScopesList.qml:105
 msgid "Also installed"
 msgstr "Ebenfalls installiert"
 
@@ -446,84 +424,56 @@ msgstr ""
 msgid "Unlock"
 msgstr "Entsperren"
 
-#: qml/Greeter/Greeter.qml:561
+#: qml/Greeter/DelayedLockscreen.qml:43
+msgid "Device Locked"
+msgstr "Gerät gesperrt"
+
+#: qml/Greeter/DelayedLockscreen.qml:58
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+"Das Gerät wurde aufgrund zu vieler falscher Passworteingaben für längere "
+"Zeit gesperrt."
+
+#: qml/Greeter/DelayedLockscreen.qml:59
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+"Das Gerät wurde aufgrund zu vieler falscher PIN-Eingaben für längere Zeit "
+"gesperrt."
+
+#: qml/Greeter/DelayedLockscreen.qml:68
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "Bitte %1 Minute warten und dann erneut versuchen …"
+msgstr[1] "Bitte %1 Minuten warten und dann erneut versuchen …"
+
+#: qml/Greeter/Greeter.qml:596
 msgid "Try again"
 msgstr "Erneut versuchen"
 
-#: qml/Greeter/LoginList.qml:63
+#: qml/Greeter/LoginList.qml:70
 msgid "Passphrase"
 msgstr "Passwort"
 
-#: qml/Greeter/LoginList.qml:64
+#: qml/Greeter/LoginList.qml:71
 msgid "Passcode"
 msgstr "PIN"
 
-#: qml/Greeter/LoginList.qml:87
+#: qml/Greeter/LoginList.qml:98
 msgid "Retry"
 msgstr "Erneut versuchen"
 
-#: qml/Greeter/LoginList.qml:88
+#: qml/Greeter/LoginList.qml:99
 msgid "Log In"
 msgstr "Anmelden"
 
-#: qml/Greeter/NarrowView.qml:55
-msgid "Sorry, incorrect passphrase."
-msgstr "Entschuldigung, falsches Passwort."
+#: qml/Greeter/NarrowView.qml:252
+msgid "Emergency"
+msgstr "Notruf"
 
-#: qml/Greeter/NarrowView.qml:56
-msgid "Sorry, incorrect passcode."
-msgstr "Falsche PIN"
-
-#: qml/Greeter/NarrowView.qml:57
-msgid "This will be your last attempt."
-msgstr "Dies ist Ihr letzter Versuch."
-
-#: qml/Greeter/NarrowView.qml:59
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
-msgstr ""
-"Wird das Passwort falsch eingegeben, wird das Telefon auf den Werkszustand "
-"zurückgesetzt und alle Daten werden gelöscht."
-
-#: qml/Greeter/NarrowView.qml:60
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
-msgstr ""
-"Wird die PIN falsch eingegeben, wird das Telefon auf den Werkszustand "
-"zurückgesetzt und alle Daten werden gelöscht."
-
-#: qml/Greeter/NarrowView.qml:129
-#, qt-format
-msgid "Enter %1"
-msgstr "%1 eingeben"
-
-#: qml/Greeter/NarrowView.qml:130
-msgid "Enter passphrase"
-msgstr "Passphrase eingeben"
-
-#: qml/Greeter/NarrowView.qml:131
-msgid "Enter passcode"
-msgstr "PIN eingeben"
-
-#: qml/Greeter/NarrowView.qml:135
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "%1 falsch"
-
-#: qml/Greeter/NarrowView.qml:136
-msgid "Sorry, incorrect passphrase"
-msgstr "Das Passwort ist nicht korrekt"
-
-#: qml/Greeter/NarrowView.qml:137
-msgctxt "passphrase"
-msgid "Please re-enter"
-msgstr "Bitte erneut eingeben"
-
-#: qml/Greeter/NarrowView.qml:138
-msgid "Sorry, incorrect passcode"
-msgstr "Falsches Passwort"
+#: qml/Greeter/SessionsList.qml:122
+msgid "Select desktop environment"
+msgstr "Arbeitsumgebung auswählen"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -582,7 +532,7 @@ msgstr "Wird heruntergeladen"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:917
 msgid "Paused, tap to resume"
-msgstr "Pausiert, tippen Sie zum fortsetzen"
+msgstr "Pausiert, tippen zum Fortsetzen"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:919
 msgid "Canceled"
@@ -594,7 +544,7 @@ msgstr "Erledigt"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:923
 msgid "Failed, tap to retry"
-msgstr "Fehlgeschlagen, tippen Sie zum Wiederholen"
+msgstr "Fehlgeschlagen, tippen zum Wiederholen"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:151
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:210
@@ -646,51 +596,51 @@ msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Zurück"
 
-#: qml/Wizard/Pages/10-welcome.qml:27
+#: qml/Wizard/Pages/10-welcome.qml:28
 msgid "Language"
 msgstr "Sprache"
 
-#: qml/Wizard/Pages/10-welcome.qml:172 qml/Wizard/Pages/20-keyboard.qml:151
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:270 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:144
+#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:207 qml/Wizard/Pages/40-location.qml:271
+#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/70-passwd-type.qml:145
 #: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:141
-#: qml/Wizard/Pages/password-set.qml:141
+#: qml/Wizard/Pages/passcode-desktop.qml:142
+#: qml/Wizard/Pages/password-set.qml:142
 msgid "Next"
 msgstr "Weiter"
 
-#: qml/Wizard/Pages/20-keyboard.qml:30
+#: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
-msgstr ""
+msgstr "Tastatur wählen"
 
-#: qml/Wizard/Pages/20-keyboard.qml:70
+#: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
-msgstr ""
+msgstr "Tastatursprache"
 
-#: qml/Wizard/Pages/20-keyboard.qml:92
+#: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
-msgstr ""
+msgstr "Tastaturbelegung"
 
-#: qml/Wizard/Pages/20-keyboard.qml:151 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/77-system-update.qml:152 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:207
+#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/77-system-update.qml:152
+#: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Überspringen"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
 msgstr "Mit WLAN verbinden"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:132
 msgid "Connected"
 msgstr "Verbunden"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:165
 msgid "Available Wi-Fi networks"
 msgstr "Verfügbare Funknetzwerke"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:166
 msgid "No available Wi-Fi networks"
 msgstr "Keine Funknetzwerke verfügbar"
 
@@ -709,7 +659,7 @@ msgstr ""
 #: qml/Wizard/Pages/40-location.qml:105
 #, qt-format
 msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr "Mit dem Auswählen dieser Option akzeptieren Sie die Nokia HERE %1."
+msgstr "Durch Auswahl dieser Option akzeptieren Sie die Nokia-HERE-%1."
 
 #: qml/Wizard/Pages/40-location.qml:106
 msgctxt "part of: Nokia HERE terms and conditions"
@@ -726,13 +676,13 @@ msgstr "Meinen Standort nicht verwenden"
 
 #: qml/Wizard/Pages/40-location.qml:260
 msgid "You can change it later in System Settings."
-msgstr "Dies kann später in den Systemeinstellungen geändert werden."
+msgstr "Sie können das später in den Systemeinstellungen ändern."
 
-#: qml/Wizard/Pages/50-timezone.qml:29
+#: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "Zeitzone"
 
-#: qml/Wizard/Pages/50-timezone.qml:181
+#: qml/Wizard/Pages/50-timezone.qml:182
 msgid "Enter your city"
 msgstr "Bitte Ihre Stadt eingeben"
 
@@ -744,21 +694,21 @@ msgstr "Ihr Gerät personalisieren"
 msgid "Preferred Name"
 msgstr "Bevorzugter Name"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:39
+#: qml/Wizard/Pages/70-passwd-type.qml:40
 msgid "Lock Screen"
 msgstr "Sperrbildschirm"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:101
+#: qml/Wizard/Pages/70-passwd-type.qml:102
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr "Neues Passwort erstellen"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:103
+#: qml/Wizard/Pages/70-passwd-type.qml:104
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr "PIN erstellen (nur Ziffern)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:105
+#: qml/Wizard/Pages/70-passwd-type.qml:106
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "Kein Sperrcode"
@@ -783,32 +733,34 @@ msgstr "Datenschutzerklärung"
 
 #: qml/Wizard/Pages/77-system-update.qml:28
 msgid "Update Device"
-msgstr ""
+msgstr "Gerät aktualisieren"
 
 #: qml/Wizard/Pages/77-system-update.qml:55
 msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
 msgstr ""
+"Es ist eine Systemaktualisierung verfügbar und bereit zur Installation. "
+"Danach wird das Gerät automatisch neu starten."
 
 #: qml/Wizard/Pages/77-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu system"
-msgstr ""
+msgstr "Ubuntu-System"
 
 #: qml/Wizard/Pages/77-system-update.qml:83
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
-msgstr ""
+msgstr "Version %1"
 
 #: qml/Wizard/Pages/77-system-update.qml:102
 msgid "This could take a few minutes..."
-msgstr ""
+msgstr "Das kann ein paar Minuten dauern …"
 
 #: qml/Wizard/Pages/77-system-update.qml:116
 msgid "Install and restart now"
-msgstr ""
+msgstr "Jetzt installieren und neu starten"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
@@ -838,9 +790,9 @@ msgid ""
 "collects information about nearby cell towers and Wi-Fi hotspots around your "
 "current location whenever your position is being found."
 msgstr ""
-"Um die Standortbestimmung zu ermöglichen und zu verbessern, sammelt HERE "
-"Informationen über nahegelegene Netzwerkstationen und WLAN-Hotspots in der "
-"Umgebung, sobald eine Position erfasst wurde."
+"Zur Standortbestimmung und Verbesserung der Qualität dieser, sammelt HERE "
+"Informationen über Netzwerkstationen und WLAN-Zugangspunkte in der Umgebung, "
+"sobald eine Position erfasst wurde."
 
 #: qml/Wizard/Pages/here-terms.qml:93
 msgid ""
@@ -853,14 +805,14 @@ msgstr ""
 #: qml/Wizard/Pages/here-terms.qml:106
 #, qt-format
 msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr "Wenn Sie fortfahren, stimmen Sie mit den HERE %1 und %2 überein."
+msgstr "Wenn Sie fortfahren, stimmen Sie den HERE-%1 und -%2 zu."
 
 #: qml/Wizard/Pages/here-terms.qml:107
 msgid "Service Terms"
 msgstr "Bedingungen des Dienstes"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:96
+#: qml/Wizard/Pages/passcode-desktop.qml:97
 msgid "Confirm passcode"
 msgstr "PIN bestätigen"
 
@@ -873,28 +825,28 @@ msgctxt "Enter the passcode again"
 msgid "Please re-enter."
 msgstr "Bitte erneut eingeben."
 
-#: qml/Wizard/Pages/passcode-desktop.qml:30
+#: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
 msgstr "Sperrbildschirm-PIN"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:60
+#: qml/Wizard/Pages/passcode-desktop.qml:61
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "Geben Sie 4 Ziffern ein, um Ihre PIN einzurichten"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:76
+#: qml/Wizard/Pages/passcode-desktop.qml:77
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "PIN wählen"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:126
+#: qml/Wizard/Pages/passcode-desktop.qml:127
 msgid "Passcode too short"
 msgstr "PIN zu kurz"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:128
+#: qml/Wizard/Pages/passcode-desktop.qml:129
 msgid "Passcodes match"
 msgstr "PINs stimmen überein"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:130
+#: qml/Wizard/Pages/passcode-desktop.qml:131
 msgid "Passcodes do not match"
 msgstr "PINs stimmen nicht überein"
 
@@ -902,19 +854,19 @@ msgstr "PINs stimmen nicht überein"
 msgid "Passcode must be 4 characters long"
 msgstr "PIN muss 4 Ziffern lang sein"
 
-#: qml/Wizard/Pages/password-set.qml:30
+#: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
-msgstr "Sperrbildschirm-Passwort"
+msgstr "Sperrbildschirmpasswort"
 
-#: qml/Wizard/Pages/password-set.qml:61
+#: qml/Wizard/Pages/password-set.qml:62
 msgid "Enter at least 8 characters"
-msgstr "Geben Sie mindestens 8 Zeichen ein"
+msgstr "Bitte mindestens 8 Zeichen eingeben"
 
-#: qml/Wizard/Pages/password-set.qml:73
+#: qml/Wizard/Pages/password-set.qml:74
 msgid "Choose password"
-msgstr "Wählen Sie ein Passwort"
+msgstr "Passwort auswählen"
 
-#: qml/Wizard/Pages/password-set.qml:103
+#: qml/Wizard/Pages/password-set.qml:104
 msgid "Confirm password"
 msgstr "Passwort bestätigen"
 
@@ -1053,6 +1005,30 @@ msgstr "Sehr schwaches Passwort"
 #~ msgid "Store"
 #~ msgstr "Store"
 
+#~ msgid "This will be your last attempt."
+#~ msgstr "Dies ist Ihr letzter Versuch."
+
+#~ msgid ""
+#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
+#~ "and all personal data will be deleted."
+#~ msgstr ""
+#~ "Wird die PIN falsch eingegeben, wird das Telefon auf den Werkszustand "
+#~ "zurückgesetzt und alle Daten werden gelöscht."
+
+#~ msgid ""
+#~ "If passphrase is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
+#~ msgstr ""
+#~ "Wird das Passwort falsch eingegeben, wird das Telefon auf den Werkszustand "
+#~ "zurückgesetzt und alle Daten werden gelöscht."
+
+#~ msgid "Sorry, incorrect passcode."
+#~ msgstr "Falsche PIN"
+
+#, qt-format
+#~ msgid "Sorry, incorrect %1"
+#~ msgstr "%1 falsch"
+
 #~ msgid "Log out"
 #~ msgstr "Abmelden"
 
@@ -1068,6 +1044,9 @@ msgstr "Sehr schwaches Passwort"
 #~ msgid "Settings"
 #~ msgstr "Einstellungen"
 
+#~ msgid "Sorry, incorrect passcode"
+#~ msgstr "Falsches Passwort"
+
 #~ msgid "Are you sure you want to shut down?"
 #~ msgstr "Sind Sie sicher, dass Sie herunterfahren wollen?"
 
@@ -1079,6 +1058,13 @@ msgstr "Sehr schwaches Passwort"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Bitte erneut eingeben"
+
+#~ msgid "Enter passcode"
+#~ msgstr "PIN eingeben"
+
+#, qt-format
+#~ msgid "Enter %1"
+#~ msgstr "%1 eingeben"
 
 #~ msgid "Without it, you won’t be able to make calls or use text messaging."
 #~ msgstr "Ohne SIM funktionieren Anrufe und Nachrichten nicht."
@@ -1110,13 +1096,6 @@ msgstr "Sehr schwaches Passwort"
 #~ msgid "You can change your mind later in <b>System Settings</b>."
 #~ msgstr ""
 #~ "Sie können Ihre Meinung später in den <b>Systemeinstellungen</b> ändern."
-
-#~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
-#~ msgstr ""
-#~ "Mit dem Auswählen dieser Option stimmen Sie den Nokia HERE <a "
-#~ "href='#'>allgemeinen Geschäftsbedingungen</a> zu."
 
 #~ msgid "Not at all"
 #~ msgstr "Gar nicht"
@@ -1265,6 +1244,9 @@ msgstr "Sehr schwaches Passwort"
 #~ msgid "Reboot"
 #~ msgstr "Neustarten"
 
+#~ msgid "Enter passphrase"
+#~ msgstr "Passphrase eingeben"
+
 #~ msgid "%a %H:%M"
 #~ msgstr "%a %k:%M"
 
@@ -1294,6 +1276,10 @@ msgstr "Sehr schwaches Passwort"
 
 #~ msgid "%l:%M %p"
 #~ msgstr "%k:%M"
+
+#~ msgctxt "passphrase"
+#~ msgid "Please re-enter"
+#~ msgstr "Bitte erneut eingeben"
 
 #~ msgid "Call back"
 #~ msgstr "Zurückrufen"
@@ -1332,3 +1318,16 @@ msgstr "Sehr schwaches Passwort"
 #~ msgid "Swipe from the top edge to open the notification bar"
 #~ msgstr ""
 #~ "Vom oberen Rand her wischen, um die Benachrichtigungsleiste zu öffnen"
+
+#~ msgid "Sorry, incorrect passphrase"
+#~ msgstr "Falsche Passphrase."
+
+#~ msgid "Sorry, incorrect passphrase."
+#~ msgstr "Falsche Passphrase."
+
+#~ msgid ""
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
+#~ "conditions</a>."
+#~ msgstr ""
+#~ "Mit dem Auswählen dieser Option stimmen Sie den <a href='#'>allgemeinen "
+#~ "Geschäftsbedingungen</a> von HERE zu."

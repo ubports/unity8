@@ -82,7 +82,7 @@ void PLUGIN_CLASSNAME::registerTypes(const char *uri)
     qRegisterMetaType<QLightDM::Greeter::PromptType>("QLightDM::Greeter::PromptType");
 
     qmlRegisterSingletonType<SessionsModel>(uri, 0, 1, "Sessions", sessions_provider);
-    qmlRegisterUncreatableType<SessionsModel>(uri, 0, 1, "SessionRoles", QStringLiteral("Type is not instantiable"));
+    qmlRegisterUncreatableType<QLightDM::SessionsModel>(uri, 0, 1, "SessionRoles", QStringLiteral("Type is not instantiable"));
 
     qmlRegisterSingletonType<UsersModel>(uri, 0, 1, "Users", users_provider);
     qmlRegisterUncreatableType<QLightDM::UsersModel>(uri, 0, 1, "UserRoles", QStringLiteral("Type is not instantiable"));
