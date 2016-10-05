@@ -586,21 +586,17 @@ Rectangle {
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
-            print("browser should be focused now")
-            return;
-            wait(10000)
             var appDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
+            waitForRendering(stage);
             compare(appDelegate.stage, ApplicationInfoInterface.MainStage);
 
             dragToSideStage(webbrowserSurfaceId);
 
-            var spreadView = findChild(stageLoader, "spreadView")
-            tryCompare(spreadView, "surfaceDragging", false);
             tryCompare(appDelegate, "stage", ApplicationInfoInterface.SideStage);
         }
 
-        function test_unloadSideStageByDraggingFromStageStage() {
+        function test_unloadSideStageByDraggingFromSideStage() {
             sideStage.showNow();
             WindowStateStorage.saveStage(webbrowserCheckBox.appId, ApplicationInfoInterface.SideStage)
             var webbrowserSurfaceId = topSurfaceList.nextId;
@@ -609,6 +605,7 @@ Rectangle {
 
             var appDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
+            waitForRendering(stage);
             compare(appDelegate.stage, ApplicationInfoInterface.SideStage);
 
             dragToMainStage(webbrowserSurfaceId);
