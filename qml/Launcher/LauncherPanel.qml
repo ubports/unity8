@@ -919,7 +919,7 @@ Rectangle {
                 DSM.SignalTransition {
                     targetState: tooltipHiddenState
                     signal: dndArea.exited
-                } 
+                }
 
                 DSM.SignalTransition {
                     targetState: tooltipDismissedState
