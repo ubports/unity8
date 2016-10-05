@@ -1,3 +1,12 @@
+unity8 (8.14+16.10.20160922-0ubuntu2) yakkety; urgency=medium
+
+  * debian/control:
+    - Drop unity-scope-mediascanner2 to a Suggests rather than a Recommends,
+      to ease our transition to main.  It's already seeded directly in
+      Touch, so this will only affect the Desktop variant of unity8.
+
+ -- Michael Terry <mterry@ubuntu.com>  Mon, 03 Oct 2016 10:43:25 -0400
+
 unity8 (8.14+16.10.20160914-0ubuntu1) yakkety; urgency=medium
 
   [ Albert Astals Cid ]
