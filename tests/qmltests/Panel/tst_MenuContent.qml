@@ -31,8 +31,20 @@ PanelTest {
 
     MenuContent {
         id: menuContent
-        indicatorsModel: root.indicatorsModel
+        model: root.indicatorsModel
         height: parent.height - 50
+
+        pageDelegate: Rectangle {
+
+            function reset() {
+            }
+
+            Binding {
+                target: parent
+                property: "objectName"
+                value: modelData ? modelData.identifier : ""
+            }
+        }
     }
 
     Rectangle {

@@ -510,7 +510,7 @@ var fakeMenuData = {
                             "state": "Stopped"
                         },
                         "ext": {},
-                        "icon": "file:///usr/share/mediaplayer-app/mediaplayer-app.png",
+                        "icon": "image://theme/mediaplayer-app",
                         "isCheck": false,
                         "isRadio": false,
                         "isSeparator": false,
@@ -772,7 +772,7 @@ var fakeMenuData = {
                         "ext": {
                             "xCanonicalUid": 1003
                         },
-                        "icon": "file:///usr/share/webbrowser-app/webbrowser-app.png",
+                        "icon": "image://theme/webbrowser-app",
                         "isCheck": false,
                         "isRadio": false,
                         "isSeparator": false,
@@ -821,7 +821,7 @@ var fakeMenuData = {
                         "ext": {
                             "xCanonicalUid": 1002
                         },
-                        "icon": "file:///usr/share/webbrowser-app/webbrowser-app.png",
+                        "icon": "image://theme/webbrowser-app",
                         "isCheck": false,
                         "isRadio": false,
                         "isSeparator": false,
@@ -838,7 +838,7 @@ var fakeMenuData = {
                         "ext": {
                             "xCanonicalUid": 1001
                         },
-                        "icon": "file:///usr/share/webbrowser-app/webbrowser-app.png",
+                        "icon": "image://theme/webbrowser-app",
                         "isCheck": false,
                         "isRadio": false,
                         "isSeparator": false,

@@ -28,7 +28,8 @@ import AccountsService 0.1
 import Unity.InputInfo 0.1
 import "../../../qml/Panel"
 import "../../../qml/Components/PanelState"
-import "../Stages"
+import "../Stage"
+import ".."
 
 PanelTest {
     id: root
@@ -42,7 +43,7 @@ PanelTest {
         value: keyboardAttached.checked
     }
 
-    DesktopMenuData { id: appMenuData }
+    ApplicationMenuDataLoader { id: appMenuData }
 
     Component.onCompleted: {
         theme.name = "Ubuntu.Components.Themes.SuruDark"
