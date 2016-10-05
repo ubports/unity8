@@ -228,8 +228,9 @@ FocusScope {
             }
         }
 
-        readonly property bool sideStageEnabled: root.shellOrientation == Qt.LandscapeOrientation ||
-                                                 root.shellOrientation == Qt.InvertedLandscapeOrientation
+        readonly property bool sideStageEnabled: root.mode === "stagedWithSideStage" &&
+                                                 (root.shellOrientation == Qt.LandscapeOrientation ||
+                                                 root.shellOrientation == Qt.InvertedLandscapeOrientation)
 
         property var mainStageDelegate: null
         property var sideStageDelegate: null
@@ -913,7 +914,7 @@ FocusScope {
                             rightEdgeFocusAnimation.targetX = appDelegate.stage == ApplicationInfoInterface.SideStage ? sideStage.x : 0
                             rightEdgeFocusAnimation.start()
                         }
-                    } else if (state == "windowedRightEdge") {
+                    } else if (state == "windowedRightEdge" || state == "windowed") {
                         claimFocus();
                     } else {
                         focusAnimation.start()
