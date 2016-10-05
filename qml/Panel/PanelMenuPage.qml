@@ -73,12 +73,12 @@ PageStack {
         Page {
             id: page
 
-            property alias menuModel: mainMenu.model
+            property alias menuModel: listView.model
             property alias title: backLabel.title
             property bool isSubmenu: false
 
             function reset() {
-                mainMenu.positionViewAtBeginning();
+                listView.positionViewAtBeginning();
             }
 
             property QtObject factory: root.factory.createObject(page, { menuModel: page.menuModel } )
@@ -98,8 +98,8 @@ PageStack {
             }
 
             ListView {
-                id: mainMenu
-                objectName: "mainMenu"
+                id: listView
+                objectName: "listView"
 
                 anchors {
                     top: page.isSubmenu ? backLabel.bottom : parent.top
@@ -116,7 +116,7 @@ PageStack {
                     }
                     // TODO - does ever frame.
                     onBottomMarginChanged: {
-                        mainMenu.positionViewAtIndex(mainMenu.currentIndex, ListView.End)
+                        listView.positionViewAtIndex(listView.currentIndex, ListView.End)
                     }
                 }
 
@@ -155,11 +155,11 @@ PageStack {
                 }
 
                 Connections {
-                    target: mainMenu.model ? mainMenu.model : null
+                    target: listView.model ? listView.model : null
                     onRowsAboutToBeRemoved: {
                         // track current item deletion.
-                        if (mainMenu.selectedIndex >= first && mainMenu.selectedIndex <= last) {
-                            mainMenu.selectedIndex = -1;
+                        if (listView.selectedIndex >= first && listView.selectedIndex <= last) {
+                            listView.selectedIndex = -1;
                         }
                     }
                 }
@@ -175,13 +175,13 @@ PageStack {
 
                     onLoaded: {
                         if (item.hasOwnProperty("selected")) {
-                            item.selected = mainMenu.selectedIndex == index;
+                            item.selected = listView.selectedIndex == index;
                         }
                         if (item.hasOwnProperty("menuSelected")) {
-                            item.menuSelected.connect(function() { mainMenu.selectedIndex = index; });
+                            item.menuSelected.connect(function() { listView.selectedIndex = index; });
                         }
                         if (item.hasOwnProperty("menuDeselected")) {
-                            item.menuDeselected.connect(function() { mainMenu.selectedIndex = -1; });
+                            item.menuDeselected.connect(function() { listView.selectedIndex = -1; });
                         }
                         if (item.hasOwnProperty("menuData")) {
                             item.menuData = Qt.binding(function() { return model; });
@@ -211,10 +211,10 @@ PageStack {
                     // TODO: Fixes lp#1243146
                     // This is a workaround for a Qt bug. https://bugreports.qt-project.org/browse/QTBUG-34351
                     Connections {
-                        target: mainMenu
+                        target: listView
                         onSelectedIndexChanged: {
                             if (loader.item && loader.item.hasOwnProperty("selected")) {
-                                loader.item.selected = mainMenu.selectedIndex == index;
+                                loader.item.selected = listView.selectedIndex == index;
                             }
                         }
                     }
