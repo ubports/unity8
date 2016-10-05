@@ -151,15 +151,16 @@ Rectangle {
         {
             var button = findChild(buttonGroup, "moreLessButton");
             var buttonColumn = findChild(buttonGroup, "buttonColumn");
+            var buttonGroupInitialHeight = buttonGroup.height;
             verify(button != null);
             mouseClick(button);
             tryCompare(buttonColumn, "height", buttonColumn.implicitHeight);
+            tryCompare(buttonGroup, "height", buttonGroupInitialHeight + buttonColumn.height + buttonColumn.anchors.topMargin);
         }
 
         function test_comboButton(data) {
             var twoActionsY = twoActions.y
             pressMoreButton(buttonAndCombo);
-            tryCompareFunction(function () { return twoActions.y <= twoActionsY; }, false);
             checkButtonPressSignal(buttonAndCombo, data.id);
             mouseClick(findChild(buttonAndCombo, "moreLessButton"));
             tryCompare(twoActions, "y", twoActionsY);

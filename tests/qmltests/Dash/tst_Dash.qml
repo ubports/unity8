@@ -76,7 +76,7 @@ Item {
             var genericScopeView = dashContentList.currentItem;
             var categoryListView = findChild(genericScopeView, "categoryListView");
             tryCompareFunction(function() {
-                var category = findChild(genericScopeView, categoryName);
+                var category = findChild(genericScopeView, categoryName, 0 /* timeout */);
                 if (category && category.y > 0 && category.y < genericScopeView.height) return true;
                 touchFlick(genericScopeView, genericScopeView.width/2, units.gu(20),
                             genericScopeView.width/2, genericScopeView.y)
@@ -84,7 +84,7 @@ Item {
                 return false;
             }, true);
 
-            tryCompareFunction(function() { return findChild(genericScopeView, "delegate0") !== null; }, true);
+            tryCompareFunction(function() { return findChild(genericScopeView, "delegate0", 0 /* timeout */) !== null; }, true);
             return findChild(genericScopeView, categoryName);
         }
 
@@ -94,9 +94,9 @@ Item {
             if (category === undefined) category = 0;
             if (delegate === undefined) delegate = 0;
             tryCompareFunction(function() {
-                                    var cardGrid = findChild(genericScopeView, "dashCategory"+category);
+                                    var cardGrid = findChild(genericScopeView, "dashCategory"+category, 0 /* timeout */);
                                     if (cardGrid != null) {
-                                        var tile = findChild(cardGrid, "delegate"+delegate);
+                                        var tile = findChild(cardGrid, "delegate"+delegate, 0 /* timeout */);
                                         return tile != null;
                                     }
                                     return false;
@@ -215,6 +215,8 @@ Item {
 
             // Click in first item
             var favScopesListCategoryList = findChild(findChild(dash, "scopesListCategoryfavorites"), "scopesListCategoryInnerList");
+            tryCompareFunction(function() { return favScopesListCategoryList.currentItem !== null }, true);
+            waitForRendering(favScopesListCategoryList.currentItem);
             mouseClick(favScopesListCategoryList.currentItem);
 
             // Make sure animation went back
@@ -409,7 +411,7 @@ Item {
             compare(dashContentList.currentItem.scopeId, "clickscope");
 
             // Move to second scope
-            touchFlick(dash, dash.width / 2, units.gu(2), dash.width / 5, units.gu(2));
+            mouseFlick(dash, dash.width / 2, units.gu(2), dash.width / 5, units.gu(2));
             tryCompare(dashContentList, "currentIndex", 1);
             compare(dashContentList.currentItem.scopeId, "MockScope1");
         }
@@ -473,9 +475,9 @@ Item {
             compare(dashContentList.currentItem.scopeId, "MockScope1");
 
             tryCompareFunction(function() {
-                var cardGrid = findChild(dashContentList, "dashCategory0");
+                var cardGrid = findChild(dashContentList, "dashCategory0", 0 /* timeout */);
                 if (cardGrid != null) {
-                    var tile = findChild(cardGrid, "delegate0");
+                    var tile = findChild(cardGrid, "delegate0", 0 /* timeout */);
                     return tile != null;
                 }
                 return false;
@@ -520,9 +522,9 @@ Item {
             var categoryListView = findChild(dashTempScopeItem, "categoryListView");
             categoryListView.positionAtBeginning();
             tryCompareFunction(function() {
-                                    var cardGrid = findChild(dashTempScopeItem, "dashCategory0");
+                                    var cardGrid = findChild(dashTempScopeItem, "dashCategory0", 0 /* timeout */);
                                     if (cardGrid != null) {
-                                        var tile = findChild(cardGrid, "delegate0");
+                                        var tile = findChild(cardGrid, "delegate0", 0 /* timeout */);
                                         return tile != null;
                                     }
                                     return false;
@@ -631,18 +633,26 @@ Item {
             tryCompare(dashContent.currentScope, "id", "clickscope");
 
             scrollToCategory("dashCategorypredefined");
-            var tile = getCategoryDelegate("predefined", 2);
-            var proportionalShape = findChildsByType(tile, "UCProportionalShape");
-            compare(proportionalShape.length, 1);
+            tryCompareFunction(function() {
+                    var tile = getCategoryDelegate("predefined", 2);
+                    var proportionalShape = findChildsByType(tile, "UCProportionalShape");
+                    return proportionalShape.length === 1;
+                },
+                true
+            );
 
             dash.setCurrentScope("libertine-scope.ubuntu_libertine-scope");
             var dashContent = findChild(dash, "dashContent");
             tryCompare(dashContent.currentScope, "id", "libertine-scope.ubuntu_libertine-scope");
 
             scrollToCategory("dashCategory2");
-            tile = getCategoryDelegate("2", 2);
-            proportionalShape = findChildsByType(tile, "UCProportionalShape");
-            compare(proportionalShape.length, 1);
+            tryCompareFunction(function() {
+                    var tile = getCategoryDelegate("2", 2);
+                    var proportionalShape = findChildsByType(tile, "UCProportionalShape");
+                    return proportionalShape.length === 1;
+                },
+                true
+            );
         }
 
         function test_tempScopeItemXOnResize()

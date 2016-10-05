@@ -80,10 +80,32 @@ int SessionsModel::rowCount(const QModelIndex& parent) const
     }
 }
 
+int SessionsModel::numSessions() const
+{
+    Q_D(const SessionsModel);
+    return d->numSessions;
+}
+
+int SessionsModel::numAvailableSessions() const
+{
+    Q_D(const SessionsModel);
+    return d->numAvailableSessions();
+}
+
 QString SessionsModel::testScenario() const
 {
     Q_D(const SessionsModel);
     return d->testScenario;
+}
+
+void SessionsModel::setNumSessions(int numSessions)
+{
+    Q_D(SessionsModel);
+
+    if (d->numSessions != numSessions) {
+        d->numSessions = numSessions;
+        d->resetEntries();
+    }
 }
 
 void SessionsModel::setTestScenario(QString testScenario)

@@ -40,7 +40,10 @@ public:
     explicit SessionsModelPrivate(SessionsModel* parent=0);
     virtual ~SessionsModelPrivate() = default;
 
+    int numAvailableSessions() const;
+
     QList<SessionItem> sessionItems;
+    int numSessions;
     QString testScenario;
 
     void resetEntries();
@@ -48,7 +51,8 @@ protected:
     SessionsModel* const q_ptr;
 
 private:
-    void resetEntries_multipleSessions();
+    const QList<SessionItem> m_availableSessions;
+    void resetEntries_multipleSessions(int numSessions);
     void resetEntries_noSessions();
     void resetEntries_singleSession();
     Q_DECLARE_PUBLIC(SessionsModel)

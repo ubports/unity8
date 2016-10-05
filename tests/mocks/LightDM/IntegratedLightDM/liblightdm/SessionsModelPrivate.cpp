@@ -16,35 +16,13 @@
 
 #include "SessionsModel.h"
 #include "SessionsModelPrivate.h"
-
+#include <QDebug>
 namespace QLightDM
 {
 
 SessionsModelPrivate::SessionsModelPrivate(SessionsModel* parent)
     : testScenario("singleSession")
-    , q_ptr(parent)
-{
-    resetEntries();
-}
-
-void SessionsModelPrivate::resetEntries()
-{
-    Q_Q(SessionsModel);
-
-    q->beginResetModel();
-        if (testScenario == "multipleSessions") {
-            resetEntries_multipleSessions();
-        } else if (testScenario == "noSessions") {
-            resetEntries_noSessions();
-        } else {
-            resetEntries_singleSession();
-        }
-    q->endResetModel();
-}
-
-void SessionsModelPrivate::resetEntries_multipleSessions()
-{
-    sessionItems =
+    , m_availableSessions(
         {
             {"ubuntu", "", "Ubuntu", ""},
             {"ubuntu-2d", "", "Ubuntu 2D", ""},
@@ -57,7 +35,39 @@ void SessionsModelPrivate::resetEntries_multipleSessions()
             {"kde", "", "KDE" , ""},
             {"xterm", "", "Recovery Console", ""},
             {"", "", "Unknown?", ""}
-        };
+        })
+    , q_ptr(parent)
+{
+    numSessions = numAvailableSessions();
+    resetEntries();
+}
+
+int SessionsModelPrivate::numAvailableSessions() const
+{
+    return m_availableSessions.length();
+}
+
+void SessionsModelPrivate::resetEntries()
+{
+    Q_Q(SessionsModel);
+
+    q->beginResetModel();
+        if (testScenario == "multipleSessions") {
+            resetEntries_multipleSessions(numSessions);
+        } else if (testScenario == "noSessions") {
+            resetEntries_noSessions();
+        } else {
+            resetEntries_singleSession();
+        }
+    q->endResetModel();
+}
+
+void SessionsModelPrivate::resetEntries_multipleSessions(int numSessions)
+{
+    sessionItems.clear();
+    for (int i = 0; i < numSessions; i++) {
+        sessionItems.append(m_availableSessions.value(i));
+    }
 }
 
 void SessionsModelPrivate::resetEntries_noSessions()

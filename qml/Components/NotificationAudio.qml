@@ -23,6 +23,10 @@ Item {
     readonly property var playbackState: priv.audio ? priv.audio.playbackState : 0
 
     function play() {
+        if (!priv.audio) {
+            console.info("NotificationAudio: creating player");
+            priv.audio = priv.audioComponent.createObject(root);
+        }
         if (priv.audio) {
             priv.audio.play();
         }
@@ -35,9 +39,22 @@ Item {
 
     QtObject {
         id: priv
-        property var audio: Audio {
-            source: root.source
-            audioRole: MediaPlayer.NotificationRole
+        property Audio audio: null
+        property Component audioComponent: Component {
+            Audio {
+                source: root.source
+                audioRole: MediaPlayer.NotificationRole
+                /* Remove player in case of error so it gets recreated next time
+                 * we need it. Happens if backend media player restarted, for
+                 * instance. qtmultimedia should probably handle this
+                 * transparently (LP: #1616425).
+                 */
+                onError: {
+                    console.warn("NotificationAudio: error event (" +
+                                  priv.audio.errorString + "), destroying");
+                    priv.audio.destroy();
+                }
+            }
         }
     }
 }
