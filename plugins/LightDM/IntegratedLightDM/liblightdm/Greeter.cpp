@@ -78,11 +78,6 @@ bool Greeter::showRemoteLoginHint() const
     return true;
 }
 
-bool Greeter::lockHint () const
-{
-    return false;
-}
-
 QString Greeter::selectUserHint() const
 {
     return QLatin1String("");

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-08-19 14:16+0000\n"
+"POT-Creation-Date: 2016-09-22 07:46+0000\n"
 "PO-Revision-Date: 2016-04-13 06:27+0000\n"
 "Last-Translator: YunQiang Su <wzssyqa@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-08-25 05:46+0000\n"
-"X-Generator: Launchpad (build 18179)\n"
+"X-Launchpad-Export-Date: 2016-09-27 07:05+0000\n"
+"X-Generator: Launchpad (build 18204)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
@@ -34,24 +34,6 @@ msgstr "退出"
 #: plugins/Unity/Launcher/launcheritem.cpp:108
 msgid "Unpin shortcut"
 msgstr "取消固定快捷方式"
-
-#: qml/Components/DelayedLockscreen.qml:50
-msgid "Device Locked"
-msgstr "设备锁定"
-
-#: qml/Components/DelayedLockscreen.qml:65
-msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr "您因太多失败的口令密语尝试而被锁定。"
-
-#: qml/Components/DelayedLockscreen.qml:66
-msgid "You have been locked out due to too many failed passcode attempts."
-msgstr "您因太多失败的密码尝试而被锁定。"
-
-#: qml/Components/DelayedLockscreen.qml:75
-#, qt-format
-msgid "Please wait %1 minute and then try again…"
-msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "请稍候 %1 分钟，然后重试..."
 
 #: qml/Components/Dialogs.qml:149
 msgctxt "Title: Lock/Log out dialog"
@@ -73,7 +55,8 @@ msgid "Log Out"
 msgstr "退出"
 
 #: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
-#: qml/Dash/DashPageHeader.qml:322 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
+#: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "取消"
@@ -278,15 +261,15 @@ msgstr "Alt + F4"
 msgid "Closes the current window."
 msgstr "关闭当前窗口。"
 
-#: qml/Components/Lockscreen.qml:239
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
 msgid "Return to Call"
 msgstr "回到呼叫"
 
-#: qml/Components/Lockscreen.qml:239
+#: qml/Components/Lockscreen.qml:212
 msgid "Emergency Call"
 msgstr "紧急呼叫"
 
-#: qml/Components/Lockscreen.qml:271
+#: qml/Components/Lockscreen.qml:244
 msgid "OK"
 msgstr "确定"
 
@@ -330,55 +313,55 @@ msgstr "关闭所有"
 msgid "Preview Share Item"
 msgstr "预览分享项目"
 
-#: qml/Dash/DashPageHeader.qml:360
+#: qml/Dash/DashPageHeader.qml:362
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "商店"
 
-#: qml/Dash/DashPageHeader.qml:367
+#: qml/Dash/DashPageHeader.qml:369
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "搜索"
 
-#: qml/Dash/DashPageHeader.qml:377
+#: qml/Dash/DashPageHeader.qml:379
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "设置"
 
-#: qml/Dash/DashPageHeader.qml:384
+#: qml/Dash/DashPageHeader.qml:386
 msgid "Remove from Favorites"
 msgstr "从收藏夹中移除"
 
-#: qml/Dash/DashPageHeader.qml:384
+#: qml/Dash/DashPageHeader.qml:386
 msgid "Add to Favorites"
 msgstr "添加到收藏夹"
 
-#: qml/Dash/FiltersPopover.qml:60
+#: qml/Dash/FiltersPopover.qml:61
 msgid "Refine your results"
 msgstr "精进查找结果"
 
-#: qml/Dash/FiltersPopover.qml:69
+#: qml/Dash/FiltersPopover.qml:70
 msgid "Reset"
 msgstr "重置"
 
-#: qml/Dash/GenericScopeView.qml:585 qml/Dash/GenericScopeView.qml:780
+#: qml/Dash/GenericScopeView.qml:586 qml/Dash/GenericScopeView.qml:782
 msgid "Show less"
 msgstr "显示更少"
 
-#: qml/Dash/GenericScopeView.qml:585
+#: qml/Dash/GenericScopeView.qml:586
 msgid "Show all"
 msgstr "显示全部"
 
-#: qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:643
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "搜索"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:56
+#: qml/Dash/PageHeaderExtraPanel.qml:57
 msgid "Recent Searches"
 msgstr "近期搜索"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:67
+#: qml/Dash/PageHeaderExtraPanel.qml:68
 msgid "Clear All"
 msgstr "全部清除"
 
@@ -390,24 +373,24 @@ msgstr "更多..."
 msgid "Less..."
 msgstr "更少..."
 
-#: qml/Dash/Previews/PreviewCommentInput.qml:68
-#: qml/Dash/Previews/PreviewRatingInput.qml:175
+#: qml/Dash/Previews/PreviewCommentInput.qml:83
+#: qml/Dash/Previews/PreviewRatingInput.qml:201
 msgid "Send"
 msgstr "发送"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:108
 msgid "Rate this"
 msgstr "评分"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:157
+#: qml/Dash/Previews/PreviewRatingInput.qml:183
 msgid "Add a review"
 msgstr "添加评论"
 
-#: qml/Dash/PullToRefreshScopeStyle.qml:55
+#: qml/Dash/PullToRefreshScopeStyle.qml:56
 msgid "Pull to refresh…"
 msgstr "下拉刷新..."
 
-#: qml/Dash/PullToRefreshScopeStyle.qml:60
+#: qml/Dash/PullToRefreshScopeStyle.qml:61
 msgid "Release to refresh…"
 msgstr "放开刷新..."
 
@@ -415,15 +398,15 @@ msgstr "放开刷新..."
 msgid "Enable location data"
 msgstr "启用位置信息"
 
-#: qml/Dash/ScopesList.qml:55
+#: qml/Dash/ScopesList.qml:57
 msgid "Manage"
 msgstr "管理"
 
-#: qml/Dash/ScopesList.qml:102
+#: qml/Dash/ScopesList.qml:104
 msgid "Home"
 msgstr "首页"
 
-#: qml/Dash/ScopesList.qml:103
+#: qml/Dash/ScopesList.qml:105
 msgid "Also installed"
 msgstr "已安装"
 
@@ -437,80 +420,51 @@ msgstr "你的设备现在已经连接到一个外部显示。将这个屏幕当
 msgid "Unlock"
 msgstr "解锁"
 
-#: qml/Greeter/Greeter.qml:561
+#: qml/Greeter/DelayedLockscreen.qml:43
+msgid "Device Locked"
+msgstr "设备锁定"
+
+#: qml/Greeter/DelayedLockscreen.qml:58
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr "您因太多失败的口令密语尝试而被锁定。"
+
+#: qml/Greeter/DelayedLockscreen.qml:59
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr "您因太多失败的密码尝试而被锁定。"
+
+#: qml/Greeter/DelayedLockscreen.qml:68
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "请稍候 %1 分钟，然后重试..."
+
+#: qml/Greeter/Greeter.qml:596
 msgid "Try again"
 msgstr "重试"
 
-#: qml/Greeter/LoginList.qml:63
+#: qml/Greeter/LoginList.qml:70
 msgid "Passphrase"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:64
+#: qml/Greeter/LoginList.qml:71
 msgid "Passcode"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:87
+#: qml/Greeter/LoginList.qml:98
 msgid "Retry"
 msgstr "重试"
 
-#: qml/Greeter/LoginList.qml:88
+#: qml/Greeter/LoginList.qml:99
 msgid "Log In"
 msgstr "登录"
 
-#: qml/Greeter/NarrowView.qml:55
-msgid "Sorry, incorrect passphrase."
-msgstr "对不起，口令密语错误"
+#: qml/Greeter/NarrowView.qml:252
+msgid "Emergency"
+msgstr ""
 
-#: qml/Greeter/NarrowView.qml:56
-msgid "Sorry, incorrect passcode."
-msgstr "对不起，密码错误。"
-
-#: qml/Greeter/NarrowView.qml:57
-msgid "This will be your last attempt."
-msgstr "这是您最后的尝试机会。"
-
-#: qml/Greeter/NarrowView.qml:59
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
-msgstr "如果输入的密语不正确，您的手机将恢复到出厂设置并且所有的个人数据将被删除。"
-
-#: qml/Greeter/NarrowView.qml:60
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
-msgstr "如果输入的密码不正确，您的手机将恢复到出厂设置并且所有的个人数据将被删除。"
-
-#: qml/Greeter/NarrowView.qml:129
-#, qt-format
-msgid "Enter %1"
-msgstr "输入 %1"
-
-#: qml/Greeter/NarrowView.qml:130
-msgid "Enter passphrase"
-msgstr "输入口令密语"
-
-#: qml/Greeter/NarrowView.qml:131
-msgid "Enter passcode"
-msgstr "输入密码"
-
-#: qml/Greeter/NarrowView.qml:135
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "对不起，%1 不正确"
-
-#: qml/Greeter/NarrowView.qml:136
-msgid "Sorry, incorrect passphrase"
-msgstr "对不起，密语不正确"
-
-#: qml/Greeter/NarrowView.qml:137
-msgctxt "passphrase"
-msgid "Please re-enter"
-msgstr "请重新输入"
-
-#: qml/Greeter/NarrowView.qml:138
-msgid "Sorry, incorrect passcode"
-msgstr "对不起，密码错误"
+#: qml/Greeter/SessionsList.qml:122
+msgid "Select desktop environment"
+msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -625,51 +579,51 @@ msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "上一步"
 
-#: qml/Wizard/Pages/10-welcome.qml:27
+#: qml/Wizard/Pages/10-welcome.qml:28
 msgid "Language"
 msgstr "语言"
 
-#: qml/Wizard/Pages/10-welcome.qml:172 qml/Wizard/Pages/20-keyboard.qml:151
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:270 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:144
+#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:207 qml/Wizard/Pages/40-location.qml:271
+#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/70-passwd-type.qml:145
 #: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:141
-#: qml/Wizard/Pages/password-set.qml:141
+#: qml/Wizard/Pages/passcode-desktop.qml:142
+#: qml/Wizard/Pages/password-set.qml:142
 msgid "Next"
 msgstr "下一步"
 
-#: qml/Wizard/Pages/20-keyboard.qml:30
+#: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
 msgstr ""
 
-#: qml/Wizard/Pages/20-keyboard.qml:70
+#: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
 msgstr ""
 
-#: qml/Wizard/Pages/20-keyboard.qml:92
+#: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
 msgstr ""
 
-#: qml/Wizard/Pages/20-keyboard.qml:151 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/77-system-update.qml:152 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:207
+#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/77-system-update.qml:152
+#: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "跳过"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
 msgstr "连接至 WLAN"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:132
 msgid "Connected"
 msgstr "已连接"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:165
 msgid "Available Wi-Fi networks"
 msgstr "可用的 WLAN 网络"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:166
 msgid "No available Wi-Fi networks"
 msgstr "没有可用的 WLAN 网络"
 
@@ -705,11 +659,11 @@ msgstr "不使用我的位置"
 msgid "You can change it later in System Settings."
 msgstr "可以稍后在系统设置中更改。"
 
-#: qml/Wizard/Pages/50-timezone.qml:29
+#: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "时区"
 
-#: qml/Wizard/Pages/50-timezone.qml:181
+#: qml/Wizard/Pages/50-timezone.qml:182
 msgid "Enter your city"
 msgstr "输入您的城市"
 
@@ -721,21 +675,21 @@ msgstr "个性化您的设备"
 msgid "Preferred Name"
 msgstr "首选名称"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:39
+#: qml/Wizard/Pages/70-passwd-type.qml:40
 msgid "Lock Screen"
 msgstr "锁屏"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:101
+#: qml/Wizard/Pages/70-passwd-type.qml:102
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr "创建新密码"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:103
+#: qml/Wizard/Pages/70-passwd-type.qml:104
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr "创建密码 (仅数字)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:105
+#: qml/Wizard/Pages/70-passwd-type.qml:106
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "无密码"
@@ -828,7 +782,7 @@ msgid "Service Terms"
 msgstr "服务条款"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:96
+#: qml/Wizard/Pages/passcode-desktop.qml:97
 msgid "Confirm passcode"
 msgstr "确认新密码"
 
@@ -841,28 +795,28 @@ msgctxt "Enter the passcode again"
 msgid "Please re-enter."
 msgstr "请重新输入。"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:30
+#: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
 msgstr "锁屏密码"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:60
+#: qml/Wizard/Pages/passcode-desktop.qml:61
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "输入 4 个数字来设置你的密码"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:76
+#: qml/Wizard/Pages/passcode-desktop.qml:77
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "选择密码"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:126
+#: qml/Wizard/Pages/passcode-desktop.qml:127
 msgid "Passcode too short"
 msgstr "密码太短"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:128
+#: qml/Wizard/Pages/passcode-desktop.qml:129
 msgid "Passcodes match"
 msgstr "密码匹配"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:130
+#: qml/Wizard/Pages/passcode-desktop.qml:131
 msgid "Passcodes do not match"
 msgstr "密码不匹配"
 
@@ -870,19 +824,19 @@ msgstr "密码不匹配"
 msgid "Passcode must be 4 characters long"
 msgstr "密码必须为 4 个字符长度"
 
-#: qml/Wizard/Pages/password-set.qml:30
+#: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
 msgstr "锁屏密码"
 
-#: qml/Wizard/Pages/password-set.qml:61
+#: qml/Wizard/Pages/password-set.qml:62
 msgid "Enter at least 8 characters"
 msgstr "输入至少8个字符"
 
-#: qml/Wizard/Pages/password-set.qml:73
+#: qml/Wizard/Pages/password-set.qml:74
 msgid "Choose password"
 msgstr "设置密码"
 
-#: qml/Wizard/Pages/password-set.qml:103
+#: qml/Wizard/Pages/password-set.qml:104
 msgid "Confirm password"
 msgstr "确认密码"
 
@@ -1018,6 +972,23 @@ msgstr "密码强度：非常弱"
 #~ msgid "Roaming"
 #~ msgstr "漫游"
 
+#, qt-format
+#~ msgid "Sorry, incorrect %1"
+#~ msgstr "对不起，%1 不正确"
+
+#~ msgid "Sorry, incorrect passphrase"
+#~ msgstr "对不起，密语不正确"
+
+#~ msgid ""
+#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
+#~ "and all personal data will be deleted."
+#~ msgstr "如果输入的密码不正确，您的手机将恢复到出厂设置并且所有的个人数据将被删除。"
+
+#~ msgid ""
+#~ "If passphrase is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
+#~ msgstr "如果输入的密语不正确，您的手机将恢复到出厂设置并且所有的个人数据将被删除。"
+
 #~ msgid "Are you sure you want to shut down?"
 #~ msgstr "您确定要关机？"
 
@@ -1039,8 +1010,15 @@ msgstr "密码强度：非常弱"
 #~ msgid "Reboot"
 #~ msgstr "重启"
 
+#, qt-format
+#~ msgid "Enter %1"
+#~ msgstr "输入 %1"
+
 #~ msgid "Please re-enter"
 #~ msgstr "请重新输入"
+
+#~ msgid "Enter passcode"
+#~ msgstr "输入密码"
 
 #~ msgid "Tap here to continue."
 #~ msgstr "点击这里继续"
@@ -1103,11 +1081,26 @@ msgstr "密码强度：非常弱"
 #~ msgid "Choose your passcode"
 #~ msgstr "选择您的密码"
 
+#~ msgid "Sorry, incorrect passcode"
+#~ msgstr "对不起，密码错误"
+
 #~ msgid "You almost got it!"
 #~ msgstr "即将完成！"
 
 #~ msgid "No available networks."
 #~ msgstr "无可用网络。"
+
+#~ msgid "Sorry, incorrect passphrase."
+#~ msgstr "对不起，口令密语错误"
+
+#~ msgid "Sorry, incorrect passcode."
+#~ msgstr "对不起，密码错误。"
+
+#~ msgid "Enter passphrase"
+#~ msgstr "输入口令密语"
+
+#~ msgid "This will be your last attempt."
+#~ msgstr "这是您最后的尝试机会。"
 
 #~ msgid "These are the shortcuts to favorite apps"
 #~ msgstr "这里是已收藏应用的快捷方式"
@@ -1229,6 +1222,10 @@ msgstr "密码强度：非常弱"
 
 #~ msgid "Hi!"
 #~ msgstr "您好！"
+
+#~ msgctxt "passphrase"
+#~ msgid "Please re-enter"
+#~ msgstr "请重新输入"
 
 #~ msgid "Call back"
 #~ msgstr "回电"

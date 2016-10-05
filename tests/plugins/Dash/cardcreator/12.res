@@ -11,7 +11,6 @@ AbstractButton {
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
 signal action(var actionId);
-readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
 Loader  {
                                 id: artShapeLoader; 
                                 height: root.fixedArtShapeSize.height; 
@@ -95,13 +94,15 @@ CardSocialActions {
     model: cardData && cardData["socialActions"];
     onClicked: root.action(actionId);
 }
-UbuntuShape {
-    id: touchdown;
-    objectName: "touchdown";
+Loader {
+    active: root.pressed;
     anchors { fill: artShapeLoader }
-    visible: root.pressed;
-    radius: "medium";
-    borderSource: "radius_pressed.sci"
+    sourceComponent: UbuntuShape {
+        objectName: "touchdown";
+        anchors.fill: parent;
+        radius: "medium";
+        borderSource: "radius_pressed.sci"
+    }
 }
 implicitHeight: socialActionsRow.y + socialActionsRow.height + units.gu(1);
 }

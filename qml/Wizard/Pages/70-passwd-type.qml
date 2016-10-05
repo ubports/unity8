@@ -19,6 +19,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
 import Ubuntu.SystemSettings.SecurityPrivacy 1.0
 import ".." as LocalComponents
+import "../../Components"
 
 /**
  * One quirk with this page: we don't actually set the password.  We avoid

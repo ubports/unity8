@@ -18,6 +18,7 @@ import QtQuick 2.4
 import Unity.Indicators 0.1 as Indicators
 import Unity.InputInfo 0.1
 import AccountsService 0.1
+import "fakeindicatorsmodeldata.js" as FakeIndicators
 
 Indicators.FakeIndicatorsModel {
     id: root
@@ -60,7 +61,7 @@ Indicators.FakeIndicatorsModel {
             }
         },
         {
-            "identifier": "fake-indicator-sound",
+            "identifier": "fake-indicator-files",
             "indicatorProperties": {
                 "enabled": true,
                 "busName": "com.canonical.indicators.fake4",
@@ -69,7 +70,7 @@ Indicators.FakeIndicatorsModel {
             }
         },
         {
-            "identifier": "fake-indicator-power",
+            "identifier": "fake-indicator-sound",
             "indicatorProperties": {
                 "enabled": true,
                 "busName": "com.canonical.indicators.fake5",
@@ -78,7 +79,7 @@ Indicators.FakeIndicatorsModel {
             }
         },
         {
-            "identifier": "fake-indicator-datetime",
+            "identifier": "fake-indicator-power",
             "indicatorProperties": {
                 "enabled": true,
                 "busName": "com.canonical.indicators.fake6",
@@ -87,12 +88,21 @@ Indicators.FakeIndicatorsModel {
             }
         },
         {
-            "identifier": "fake-indicator-session",
+            "identifier": "fake-indicator-datetime",
             "indicatorProperties": {
                 "enabled": true,
                 "busName": "com.canonical.indicators.fake7",
                 "menuObjectPath": "/com/canonical/indicators/fake7",
                 "actionsObjectPath": "/com/canonical/indicators/fake7"
+            }
+        },
+        {
+            "identifier": "fake-indicator-session",
+            "indicatorProperties": {
+                "enabled": true,
+                "busName": "com.canonical.indicators.fake8",
+                "menuObjectPath": "/com/canonical/indicators/fake8",
+                "actionsObjectPath": "/com/canonical/indicators/fake8"
             }
         }
     ]
@@ -133,21 +143,26 @@ Indicators.FakeIndicatorsModel {
                                                                  "",
                                                                  [ "image://theme/messages-new" ]));
         Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake4",
+                                           getUnityMenuModelData("fake-indicator-files",
+                                                                 "Files (F)",
+                                                                 "",
+                                                                 [ "image://theme/transfer-progress" ]));
+        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake5",
                                            getUnityMenuModelData("fake-indicator-sound",
                                                                  "Sound (F)",
                                                                  "",
                                                                  [ "image://theme/audio-volume-high" ]));
-        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake5",
+        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake6",
                                            getUnityMenuModelData("fake-indicator-power",
                                                                  "Battery (F)",
                                                                  "",
                                                                  [ "image://theme/battery-020" ]));
-        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake6",
+        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake7",
                                            getUnityMenuModelData("fake-indicator-datetime",
                                                                  "Upcoming Events (F)",
                                                                  "12:04",
                                                                  []));
-        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake7",
+        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake8",
                                            getUnityMenuModelData("fake-indicator-session",
                                                                  "System (F)",
                                                                  "",
@@ -155,6 +170,16 @@ Indicators.FakeIndicatorsModel {
     }
 
     function getUnityMenuModelData(identifier, title, label, icons) {
+        var menudata = FakeIndicators.fakeMenuData[identifier];
+
+        if (menudata !== undefined) {
+            var rootState = menudata[0]["rowData"].actionState;
+            rootState.title = title;
+            rootState.label = label;
+            rootState.icons = icons;
+            return menudata;
+        }
+
         var root = [{
             "rowData": {                // 1
                 "label": "",

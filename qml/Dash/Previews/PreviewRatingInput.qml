@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import "../../Components"
+import "PreviewSingleton"
 
 /*! \brief Preview widget for rating.
 
@@ -52,6 +53,31 @@ PreviewWidget {
 
     property alias ratingValue: rating.value
     property alias reviewText: reviewTextArea.text
+
+    onRatingValueChanged: storeRatingState()
+    onReviewTextChanged: storeTextState()
+    onWidgetIdChanged: restoreReviewState()
+
+    function initializeWidgetExtraData() {
+        if (typeof(PreviewSingleton.widgetExtraData[widgetId]) == "undefined") PreviewSingleton.widgetExtraData[widgetId] = [];
+    }
+
+    function storeRatingState() {
+        initializeWidgetExtraData();
+        PreviewSingleton.widgetExtraData[widgetId][0] = ratingValue;
+    }
+
+    function storeTextState() {
+        initializeWidgetExtraData();
+        PreviewSingleton.widgetExtraData[widgetId][1] = reviewText;
+    }
+
+    function restoreReviewState() {
+        if (!PreviewSingleton.widgetExtraData[widgetId]) return;
+        if (PreviewSingleton.widgetExtraData[widgetId][0] > 0) ratingValue = PreviewSingleton.widgetExtraData[widgetId][0];
+        if (typeof(PreviewSingleton.widgetExtraData[widgetId][1]) != "undefined" &&
+            PreviewSingleton.widgetExtraData[widgetId][1] != "") reviewText = PreviewSingleton.widgetExtraData[widgetId][1];
+    }
 
     function submit() {
         // checks rating-input requirements
@@ -89,7 +115,7 @@ PreviewWidget {
             size: 5
             height: units.gu(4)
             onValueChanged: {
-                if (widgetData["visible"] === "rating") root.submit();
+                if (widgetData && widgetData["visible"] === "rating") root.submit();
             }
 
             property var urlIconEmpty: widgetData["rating-icon-empty"] || "image://theme/non-starred"

@@ -39,6 +39,21 @@ Rectangle {
         widgetId: "previewCommentInput"
     }
 
+    Loader {
+        id: previewCommentInputLoader
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: previewCommentInput.bottom
+            topMargin: units.gu(2)
+        }
+
+        sourceComponent: PreviewCommentInput {
+            widgetData: widgetDataNewLabels
+            widgetId: "previewCommentInputLoader"
+        }
+    }
+
     SignalSpy {
         id: spy
         signalName: "triggered"
@@ -80,6 +95,19 @@ Rectangle {
                 var args = spy.signalArguments[0];
                 compare(args[2]["comment"], data.inputText);
             }
+        }
+
+        function test_singleton() {
+            var commentTextAreaLoader = findChild(previewCommentInputLoader, "commentTextArea")
+
+            commentTextAreaLoader.text = "singleton test text";
+
+            // Simulate widget being destroyed and recreated
+            previewCommentInputLoader.active = false;
+            previewCommentInputLoader.active = true;
+
+            commentTextAreaLoader = findChild(previewCommentInputLoader, "commentTextArea")
+            tryCompare(commentTextAreaLoader, "text", "singleton test text");
         }
     }
 }

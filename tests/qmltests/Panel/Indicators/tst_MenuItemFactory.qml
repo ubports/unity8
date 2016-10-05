@@ -409,7 +409,7 @@ Item {
             menuData.sensitive = data.enabled;
             menuData.icon = data.icon;
             menuData.ext = {
-                'xCanonicalColor': data.colour,
+                'xCanonicalColor': data.color,
                 'xCanonicalTime': data.time.getTime() / 1000 // expected in seconds
             };
 

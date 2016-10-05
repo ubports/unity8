@@ -177,8 +177,6 @@ Item {
             initializeMenuData(fullMenuData);
 
             var menuId = "menu"+data.remove
-
-            tryCompareFunction(function() { return findChild(page, menuId) !== null;}, true);
             var menu = findChild(page, menuId);
 
             menu.menuSelected();

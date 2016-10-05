@@ -27,6 +27,7 @@ Item {
     property int delayMinutes
     property real backgroundTopMargin
     property url background
+    property bool hasCustomBackground
     property bool locked
     property bool alphanumeric
     property var userModel
@@ -51,7 +52,7 @@ Item {
     signal _notifyAuthenticationSucceededCalled(bool showFakePassword)
     signal _notifyAuthenticationFailedCalled()
     signal _showErrorMessageCalled(string msg)
-    signal _resetCalled()
+    signal _resetCalled(bool forceShow)
     signal _tryToUnlockCalled(bool toTheRight)
 
     function showMessage(html) {
@@ -84,8 +85,8 @@ Item {
         _showErrorMessageCalled(msg);
     }
 
-    function reset() {
-        _resetCalled();
+    function reset(forceShow) {
+        _resetCalled(forceShow);
     }
 
     function tryToUnlock(toTheRight) {

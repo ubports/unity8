@@ -46,10 +46,6 @@ FocusScope {
         }
     }
 
-    function showText(text) {
-        pinentryField.text = text;
-    }
-
     Keys.onPressed: {
         if (pinentryField.text.length == root.maxPinLength)
             return;
