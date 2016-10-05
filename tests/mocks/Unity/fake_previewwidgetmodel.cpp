@@ -56,6 +56,13 @@ void PreviewWidgetModel::populateWidgets()
 
     {
         QVariantMap attributes;
+        attributes["source"] = QVariant("qrc:///Unity/Application/screenshots/browser@12.png");
+        PreviewData* preview_data = new PreviewData(QString("widget-22"), QString("image"), attributes);
+        m_previewWidgets.append(QSharedPointer<PreviewData>(preview_data));
+    }
+
+    {
+        QVariantMap attributes;
         QVariantMap buttonData;
         buttonData["label"] = "Button";
         buttonData["id"] = "open_click";
@@ -63,13 +70,6 @@ void PreviewWidgetModel::populateWidgets()
         buttons << buttonData << buttonData << buttonData;
         attributes["actions"] = QVariant::fromValue(buttons);
         PreviewData* preview_data = new PreviewData(QString("widget-21"), QString("actions"), attributes);
-        m_previewWidgets.append(QSharedPointer<PreviewData>(preview_data));
-    }
-
-    {
-        QVariantMap attributes;
-        attributes["source"] = QVariant("qrc:///Unity/Application/screenshots/browser@12.png");
-        PreviewData* preview_data = new PreviewData(QString("widget-22"), QString("image"), attributes);
         m_previewWidgets.append(QSharedPointer<PreviewData>(preview_data));
     }
 
