@@ -1570,7 +1570,7 @@ FocusScope {
                     anchors { left: parent.left; top: parent.top; leftMargin: -height / 2; topMargin: -height / 2 + spreadMaths.closeIconOffset }
                     source: "graphics/window-close.svg"
                     readonly property var mousePos: hoverMouseArea.mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
-                    visible: !appDelegate.isDash
+                    visible: !appDelegate.isDash && dragArea.distance == 0
                              && index == spreadItem.highlightedIndex
                              && mousePos.y < (decoratedWindow.height / 3)
                              && mousePos.y > -units.gu(4)
