@@ -92,9 +92,9 @@ PanelTest {
                     Indicators.SharedUnityMenuModel {
                         id: sharedAppModel
 
-                        busName: ":2"
-                        menuObjectPath: "/dialerapp"
-                        actions: { "unity": "/dialerapp" }
+                        busName: ":1"
+                        menuObjectPath: "/DialerswindowtitleId"
+                        actions: { "unity": "/DialerswindowtitleId" }
                     }
                 }
             }
@@ -179,7 +179,7 @@ PanelTest {
                 id: applicationCheckBox
                 Layout.fillWidth: true
                 appId: "dialer-app"
-                onCheckedChanged: PanelState.focusedPersistentSurfaceId = checked ? "dialer-app" : "";
+                onCheckedChanged: PanelState.focusedPersistentSurfaceId = checked ? "Dialers window titleId" : "";
             }
 
             Rectangle {

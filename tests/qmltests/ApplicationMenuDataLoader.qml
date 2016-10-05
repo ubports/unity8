@@ -8,7 +8,7 @@ Object {
     Connections {
         target: SurfaceManager
         onSurfaceCreated: {
-            var fakeMenuPath = "/" + surface.persistentId.replace(/\W+/g, "");;
+            var fakeMenuPath = "/" + surface.persistentId.replace(/\W+/g, "");
 
             ApplicationMenuRegistry.RegisterSurfaceMenu(surface.persistentId, fakeMenuPath, fakeMenuPath, ":1");
             Indicators.UnityMenuModelCache.setCachedModelData(fakeMenuPath, generateTestData(5, 3, 3, "menu"));
