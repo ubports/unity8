@@ -308,7 +308,7 @@ var kTitleLabelCode = 'Label { \n\
                         visible: showHeader %3; \n\
                         width: %4; \n\
                         text: root.title; \n\
-                        font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; \n\
+                        font.weight: Font.Normal; \n\
                         horizontalAlignment: %5; \n\
                     }\n';
 
@@ -399,7 +399,8 @@ var kSummaryLabelCode = 'Label { \n\
                             elide: Text.ElideRight; \n\
                             text: cardData && cardData["summary"] || ""; \n\
                             height: text ? implicitHeight : 0; \n\
-                            fontSize: "small"; \n\
+                            fontSize: "x-small"; \n\
+                            font.weight: Font.Light; \n\
                             color: %3; \n\
                         }\n';
 

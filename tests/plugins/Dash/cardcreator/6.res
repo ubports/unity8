@@ -76,7 +76,7 @@ Item {
                         visible: showHeader ; 
                         width: undefined;
                         text: root.title; 
-                        font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
+                        font.weight: Font.Normal; 
                         horizontalAlignment: Text.AlignLeft;
                     }
 ,Label { 
