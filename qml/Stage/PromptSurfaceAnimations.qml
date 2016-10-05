@@ -43,7 +43,7 @@ StateGroup {
             SequentialAnimation {
                 // clip so we don't go out of parent's bounds during spread
                 PropertyAction { target: root.container.parent; property: "clip"; value: true }
-                UbuntuNumberAnimation { target: root.surfaceItem; property: "y"; to: root.container.height
+                UbuntuNumberAnimation { target: root.surfaceItem; property: "anchors.topMargin"; to: root.container.height
                                         duration: UbuntuAnimation.BriskDuration }
                 PropertyAction { target: root.surfaceItem; property: "visible"; value: false }
                 PropertyAction { target: container.parent; property: "clip"; value: false }
@@ -61,11 +61,10 @@ StateGroup {
                 // clip so we don't go out of parent's bounds during spread
                 PropertyAction { target: root.container.parent; property: "clip"; value: true }
                 ScriptAction { script: {
-                    root.surfaceItem.y = root.container.height;
                     root.surfaceItem.visible = true;
                 } }
                 UbuntuNumberAnimation {
-                    target: root.surfaceItem; property: "y"; to: 0
+                    target: root.surfaceItem; property: "anchors.topMargin"; from: root.container.height; to: 0
                     duration: UbuntuAnimation.BriskDuration
                 }
                 PropertyAction { target: container.parent; property: "clip"; value: false }

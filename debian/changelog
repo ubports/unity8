@@ -1,4 +1,4 @@
-unity8 (8.14+16.10.20160922-0ubuntu1) yakkety; urgency=medium
+unity8 (8.14+16.10.20160914-0ubuntu1) yakkety; urgency=medium
 
   [ Albert Astals Cid ]
   * LVWPH: update clipItem height when list height changes (LP:
@@ -46,12 +46,14 @@ unity8 (8.14+16.10.20160922-0ubuntu1) yakkety; urgency=medium
     the greeter.
 
   [ Lukáš Tinkl ]
-  * Implement edge maximizing (aka window snapping) (LP: #1602628)
   * On the PC platform (as opposed to running on $devices), use the
     "mute" action instead of silent mode
   * Respect Fitt's law wrt the window control buttons in panel (LP:
     #1611959)
   * Fix 2 failing color-related tests
+  * Implement edge maximizing (aka window snapping) (LP: #1602628,
+    #1611859)
+  * Implement moving windows by Alt + left mouse button
 
   [ Marco Trevisan (Treviño) ]
   * Indicators, mocks: add fake indicators menuitem to populate mocks
@@ -73,7 +75,7 @@ unity8 (8.14+16.10.20160922-0ubuntu1) yakkety; urgency=medium
   * Update look of infographic a bit
   * Make infographic bubbles white even on the default wallpaper.
 
- -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 22 Sep 2016 07:46:57 +0000
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 14 Sep 2016 00:46:45 +0000
 
 unity8 (8.14+16.10.20160831.3-0ubuntu1) yakkety; urgency=medium
 
