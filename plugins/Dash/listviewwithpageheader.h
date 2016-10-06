@@ -92,6 +92,7 @@ public:
     Q_INVOKABLE void showHeader();
     Q_INVOKABLE int firstCreatedIndex() const;
     Q_INVOKABLE int createdItemCount() const;
+    Q_INVOKABLE QQuickItem *item(int modelIndex) const;
 
     // The index has to be created for this to try to do something
     // Created items are those visible and the precached ones

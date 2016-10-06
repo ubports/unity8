@@ -442,6 +442,15 @@ int ListViewWithPageHeader::createdItemCount() const
     return m_visibleItems.count();
 }
 
+QQuickItem *ListViewWithPageHeader::item(int modelIndex) const
+{
+    ListItem *item = itemAtIndex(modelIndex);
+    if (item)
+        return item->m_item;
+    else
+        return nullptr;
+}
+
 bool ListViewWithPageHeader::maximizeVisibleArea(int modelIndex)
 {
     ListItem *listItem = itemAtIndex(modelIndex);
