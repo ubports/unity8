@@ -228,8 +228,9 @@ FocusScope {
             }
         }
 
-        readonly property bool sideStageEnabled: root.shellOrientation == Qt.LandscapeOrientation ||
-                                                 root.shellOrientation == Qt.InvertedLandscapeOrientation
+        readonly property bool sideStageEnabled: root.mode === "stagedWithSideStage" &&
+                                                 (root.shellOrientation == Qt.LandscapeOrientation ||
+                                                 root.shellOrientation == Qt.InvertedLandscapeOrientation)
 
         property var mainStageDelegate: null
         property var sideStageDelegate: null
@@ -913,7 +914,7 @@ FocusScope {
                             rightEdgeFocusAnimation.targetX = appDelegate.stage == ApplicationInfoInterface.SideStage ? sideStage.x : 0
                             rightEdgeFocusAnimation.start()
                         }
-                    } else if (state == "windowedRightEdge") {
+                    } else if (state == "windowedRightEdge" || state == "windowed") {
                         claimFocus();
                     } else {
                         focusAnimation.start()
@@ -1383,8 +1384,8 @@ FocusScope {
                         }
                     },
                     Transition {
-                        from: "normal,maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
-                        to: "normal,maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
+                        from: "normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
+                        to: "normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
                         enabled: appDelegate.animationsEnabled
                         SequentialAnimation {
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
@@ -1569,7 +1570,7 @@ FocusScope {
                     anchors { left: parent.left; top: parent.top; leftMargin: -height / 2; topMargin: -height / 2 + spreadMaths.closeIconOffset }
                     source: "graphics/window-close.svg"
                     readonly property var mousePos: hoverMouseArea.mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
-                    visible: !appDelegate.isDash
+                    visible: !appDelegate.isDash && dragArea.distance == 0
                              && index == spreadItem.highlightedIndex
                              && mousePos.y < (decoratedWindow.height / 3)
                              && mousePos.y > -units.gu(4)

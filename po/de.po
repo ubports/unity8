@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-09-22 07:46+0000\n"
-"PO-Revision-Date: 2016-08-28 08:35+0000\n"
-"Last-Translator: Torsten Franz <Unknown>\n"
+"PO-Revision-Date: 2016-09-29 12:06+0000\n"
+"Last-Translator: Matthias Seidel <matthias.seidel@hamburg.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-09-27 07:03+0000\n"
+"X-Launchpad-Export-Date: 2016-09-30 06:18+0000\n"
 "X-Generator: Launchpad (build 18204)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -131,7 +131,7 @@ msgstr "Super + Leertaste"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr "Zum nächsten Tastaturlayout umschalten"
+msgstr "Wechselt zur nächsten Tastaturbelegung."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
@@ -139,7 +139,7 @@ msgstr "Super + Hochstell + Leertaste"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr "Zum vorherigen Tastaturlayout umschalten"
+msgstr "Wechselt zur vorherigen Tastaturbelegung."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:118
 msgid "Launcher"
@@ -469,11 +469,11 @@ msgstr "Anmelden"
 
 #: qml/Greeter/NarrowView.qml:252
 msgid "Emergency"
-msgstr ""
+msgstr "Notruf"
 
 #: qml/Greeter/SessionsList.qml:122
 msgid "Select desktop environment"
-msgstr ""
+msgstr "Arbeitsumgebung auswählen"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -532,7 +532,7 @@ msgstr "Wird heruntergeladen"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:917
 msgid "Paused, tap to resume"
-msgstr "Pausiert, tippen Sie zum fortsetzen"
+msgstr "Pausiert, tippen zum Fortsetzen"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:919
 msgid "Canceled"
@@ -544,7 +544,7 @@ msgstr "Erledigt"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:923
 msgid "Failed, tap to retry"
-msgstr "Fehlgeschlagen, tippen Sie zum Wiederholen"
+msgstr "Fehlgeschlagen, tippen zum Wiederholen"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:151
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:210
@@ -620,7 +620,7 @@ msgstr "Tastatursprache"
 
 #: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
-msgstr "Tastaturlayout"
+msgstr "Tastaturbelegung"
 
 #: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:207
 #: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/77-system-update.qml:152
@@ -659,7 +659,7 @@ msgstr ""
 #: qml/Wizard/Pages/40-location.qml:105
 #, qt-format
 msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr "Mit dem Auswählen dieser Option akzeptieren Sie die Nokia HERE %1."
+msgstr "Durch Auswahl dieser Option akzeptieren Sie die Nokia-HERE-%1."
 
 #: qml/Wizard/Pages/40-location.qml:106
 msgctxt "part of: Nokia HERE terms and conditions"
@@ -676,7 +676,7 @@ msgstr "Meinen Standort nicht verwenden"
 
 #: qml/Wizard/Pages/40-location.qml:260
 msgid "You can change it later in System Settings."
-msgstr "Dies kann später in den Systemeinstellungen geändert werden."
+msgstr "Sie können das später in den Systemeinstellungen ändern."
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
@@ -746,7 +746,7 @@ msgstr ""
 #: qml/Wizard/Pages/77-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu system"
-msgstr "Ubuntu System"
+msgstr "Ubuntu-System"
 
 #: qml/Wizard/Pages/77-system-update.qml:83
 #, qt-format
@@ -756,7 +756,7 @@ msgstr "Version %1"
 
 #: qml/Wizard/Pages/77-system-update.qml:102
 msgid "This could take a few minutes..."
-msgstr "Dies kann ein paar Minuten dauern …"
+msgstr "Das kann ein paar Minuten dauern …"
 
 #: qml/Wizard/Pages/77-system-update.qml:116
 msgid "Install and restart now"
@@ -790,9 +790,9 @@ msgid ""
 "collects information about nearby cell towers and Wi-Fi hotspots around your "
 "current location whenever your position is being found."
 msgstr ""
-"Um die Standortbestimmung zu ermöglichen und zu verbessern, sammelt HERE "
-"Informationen über nahegelegene Netzwerkstationen und WLAN-Hotspots in der "
-"Umgebung, sobald eine Position erfasst wurde."
+"Zur Standortbestimmung und Verbesserung der Qualität dieser, sammelt HERE "
+"Informationen über Netzwerkstationen und WLAN-Zugangspunkte in der Umgebung, "
+"sobald eine Position erfasst wurde."
 
 #: qml/Wizard/Pages/here-terms.qml:93
 msgid ""
@@ -805,7 +805,7 @@ msgstr ""
 #: qml/Wizard/Pages/here-terms.qml:106
 #, qt-format
 msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr "Wenn Sie fortfahren, stimmen Sie mit den HERE %1 und %2 überein."
+msgstr "Wenn Sie fortfahren, stimmen Sie den HERE-%1 und -%2 zu."
 
 #: qml/Wizard/Pages/here-terms.qml:107
 msgid "Service Terms"
@@ -856,15 +856,15 @@ msgstr "PIN muss 4 Ziffern lang sein"
 
 #: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
-msgstr "Sperrbildschirm-Passwort"
+msgstr "Sperrbildschirmpasswort"
 
 #: qml/Wizard/Pages/password-set.qml:62
 msgid "Enter at least 8 characters"
-msgstr "Geben Sie mindestens 8 Zeichen ein"
+msgstr "Bitte mindestens 8 Zeichen eingeben"
 
 #: qml/Wizard/Pages/password-set.qml:74
 msgid "Choose password"
-msgstr "Wählen Sie ein Passwort"
+msgstr "Passwort auswählen"
 
 #: qml/Wizard/Pages/password-set.qml:104
 msgid "Confirm password"
@@ -1025,9 +1025,6 @@ msgstr "Sehr schwaches Passwort"
 #~ msgid "Sorry, incorrect passcode."
 #~ msgstr "Falsche PIN"
 
-#~ msgid "Sorry, incorrect passphrase"
-#~ msgstr "Das Passwort ist nicht korrekt"
-
 #, qt-format
 #~ msgid "Sorry, incorrect %1"
 #~ msgstr "%1 falsch"
@@ -1058,9 +1055,6 @@ msgstr "Sehr schwaches Passwort"
 
 #~ msgid "Manage Scopes"
 #~ msgstr "Filter verwalten"
-
-#~ msgid "Sorry, incorrect passphrase."
-#~ msgstr "Entschuldigung, falsches Passwort."
 
 #~ msgid "Please re-enter"
 #~ msgstr "Bitte erneut eingeben"
@@ -1102,13 +1096,6 @@ msgstr "Sehr schwaches Passwort"
 #~ msgid "You can change your mind later in <b>System Settings</b>."
 #~ msgstr ""
 #~ "Sie können Ihre Meinung später in den <b>Systemeinstellungen</b> ändern."
-
-#~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
-#~ msgstr ""
-#~ "Mit dem Auswählen dieser Option stimmen Sie den Nokia HERE <a "
-#~ "href='#'>allgemeinen Geschäftsbedingungen</a> zu."
 
 #~ msgid "Not at all"
 #~ msgstr "Gar nicht"
@@ -1331,3 +1318,16 @@ msgstr "Sehr schwaches Passwort"
 #~ msgid "Swipe from the top edge to open the notification bar"
 #~ msgstr ""
 #~ "Vom oberen Rand her wischen, um die Benachrichtigungsleiste zu öffnen"
+
+#~ msgid "Sorry, incorrect passphrase"
+#~ msgstr "Falsche Passphrase."
+
+#~ msgid "Sorry, incorrect passphrase."
+#~ msgstr "Falsche Passphrase."
+
+#~ msgid ""
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
+#~ "conditions</a>."
+#~ msgstr ""
+#~ "Mit dem Auswählen dieser Option stimmen Sie den <a href='#'>allgemeinen "
+#~ "Geschäftsbedingungen</a> von HERE zu."

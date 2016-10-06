@@ -99,16 +99,15 @@ FocusScope {
             },
             State {
                 name: "normalSuspended"; when: root.scaleToPreviewProgress <= 0 && root.application.state !== ApplicationInfoInterface.Running
+                extend: "normal"
                 PropertyChanges {
                     target: root
                     implicitWidth: counterRotate ? applicationWindow.requestedHeight : applicationWindow.requestedWidth
                     implicitHeight: root.decorationHeight + (counterRotate ? applicationWindow.requestedWidth:  applicationWindow.requestedHeight)
                 }
-//                PropertyChanges { target: applicationWindow; anchors.topMargin: (root.height - applicationWindow.implicitHeight) / 2 }
-//                PropertyChanges { target: dropShadow; anchors.topMargin: (root.height - applicationWindow.implicitHeight) / 2 }
             },
             State {
-                name: "preview"; when: root.scaleToPreviewProgress > 0 && root.application.state === ApplicationInfoInterface.Running
+                name: "preview"; when: root.scaleToPreviewProgress > 0
                 PropertyChanges {
                     target: root
                     implicitWidth: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedWidth, root.scaleToPreviewSize, root.scaleToPreviewProgress)
@@ -122,16 +121,6 @@ FocusScope {
                     height: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedHeight, applicationWindow.minSize, root.scaleToPreviewProgress)
                     itemScale: root.implicitWidth / width
                 }
-            },
-            State {
-                name: "previewSuspended"; when: root.scaleToPreviewProgress > 0 && root.application.state !== ApplicationInfoInterface.Running
-                extend: "preview"
-                PropertyChanges { target: applicationWindow;
-                    anchors.verticalCenterOffset: applicationWindow.implicitHeight < applicationWindow.height ?
-                        (root.height / applicationWindow.itemScale - applicationWindow.implicitHeight) / 2
-                        : (root.height / applicationWindow.itemScale - applicationWindow.height) / 2
-                }
-//                PropertyChanges { target: dropShadow; anchors.topMargin: (root.height - root.implicitHeight) / 2 * (1 - root.scaleToPreviewProgress) }
             }
         ]
     }
@@ -195,9 +184,9 @@ FocusScope {
     ApplicationWindow {
         id: applicationWindow
         objectName: "appWindow"
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.verticalCenterOffset: (root.decorationHeight * Math.min(1, root.showDecoration)) / 2
         anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.topMargin: root.decorationHeight * Math.min(1, root.showDecoration)
         width: implicitWidth
         height: implicitHeight
         requestedHeight: !counterRotate ? root.requestedHeight - d.requestedDecorationHeight : root.requestedWidth
@@ -232,7 +221,6 @@ FocusScope {
                 angle: rotationAngle
             },
             Scale {
-                origin.y: (applicationWindow.implicitHeight < applicationWindow.height ? applicationWindow.implicitHeight : applicationWindow.height) / 2
                 xScale: applicationWindow.itemScale
                 yScale: applicationWindow.itemScale
             }
