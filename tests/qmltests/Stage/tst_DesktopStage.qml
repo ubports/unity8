@@ -24,14 +24,14 @@ import WindowManager 0.1
 import Utils 0.1
 
 import ".." // For EdgeBarrierControls
-import "../../../qml/Stages"
+import "../../../qml/Stage"
 import "../../../qml/Components"
 import "../../../qml/Components/PanelState"
 
 Item {
     id: root
-    width:  desktopStageLoader.width + controls.width
-    height: desktopStageLoader.height
+    width:  stageLoader.width + controls.width
+    height: stageLoader.height
 
     property var greeter: { fullyShown: true }
 
@@ -63,7 +63,7 @@ Item {
     }
 
     Loader {
-        id: desktopStageLoader
+        id: stageLoader
         x: ((root.width - controls.width) - width) / 2
         y: (root.height - height) / 2
         width: units.gu(160*0.9)
@@ -73,7 +73,7 @@ Item {
 
         property bool itemDestroyed: false
         sourceComponent: Component {
-            DesktopStage {
+            Stage {
                 anchors.fill: parent
                 background: "/usr/share/backgrounds/warty-final-ubuntu.png"
                 focus: true
@@ -82,17 +82,19 @@ Item {
                     edgeBarrierControls.target = testCase.findChild(this, "edgeBarrierController");
                 }
                 Component.onDestruction: {
-                    desktopStageLoader.itemDestroyed = true;
+                    stageLoader.itemDestroyed = true;
                 }
                 orientations: Orientations {}
                 applicationManager: ApplicationManager
                 topLevelSurfaceList: topSurfaceList
+                interactive: true
+                mode: "windowed"
             }
         }
 
         MouseArea {
             id: clickThroughTester
-            anchors.fill: desktopStageLoader.item
+            anchors.fill: stageLoader.item
             acceptedButtons: Qt.AllButtons
             hoverEnabled: true
         }
@@ -130,7 +132,7 @@ Item {
                     id: edgeBarrierControls
                     text: "Drag here to pull out spread"
                     backgroundColor: "blue"
-                    onDragged: { desktopStageLoader.item.pushRightEdge(amount); }
+                    onDragged: { stageLoader.item.pushRightEdge(amount); }
                 }
 
                 Divider {}
@@ -157,7 +159,7 @@ Item {
         name: "DesktopStage"
         when: windowShown
 
-        property Item desktopStage: desktopStageLoader.status === Loader.Ready ? desktopStageLoader.item : null
+        property Item stage: stageLoader.status === Loader.Ready ? stageLoader.item : null
 
         function init() {
             // wait until unity8-dash is up and running.
@@ -173,29 +175,29 @@ Item {
         }
 
         function cleanup() {
-            desktopStageLoader.itemDestroyed = false;
-            desktopStageLoader.active = false;
+            stageLoader.itemDestroyed = false;
+            stageLoader.active = false;
 
-            tryCompare(desktopStageLoader, "status", Loader.Null);
-            tryCompare(desktopStageLoader, "item", null);
+            tryCompare(stageLoader, "status", Loader.Null);
+            tryCompare(stageLoader, "item", null);
             // Loader.status might be Loader.Null and Loader.item might be null but the Loader
             // actually took place. Likely because Loader waits until the next event loop
             // iteration to do its work. So to ensure the reload, we will wait until the
             // Shell instance gets destroyed.
-            tryCompare(desktopStageLoader, "itemDestroyed", true);
+            tryCompare(stageLoader, "itemDestroyed", true);
 
             killApps();
 
             root.resetGeometry();
 
-            desktopStageLoader.active = true;
-            tryCompare(desktopStageLoader, "status", Loader.Ready);
+            stageLoader.active = true;
+            tryCompare(stageLoader, "status", Loader.Ready);
 
             mouseEaterSpy.clear();
         }
 
         function waitUntilAppSurfaceShowsUp(surfaceId) {
-            var appDelegate = findChild(desktopStage, "appDelegate_" + surfaceId);
+            var appDelegate = findChild(stage, "appDelegate_" + surfaceId);
             verify(appDelegate);
             var appWindow = findChild(appDelegate, "appWindow");
             verify(appWindow);
@@ -213,7 +215,7 @@ Item {
                 if (app) {
                     for (var i = 0; i < topSurfaceList.count; i++) {
                         if (topSurfaceList.applicationAt(i).appId === appId) {
-                            var appRepeater = findChild(desktopStage, "appRepeater");
+                            var appRepeater = findChild(stage, "appRepeater");
                             verify(appRepeater);
                             return appRepeater.itemAt(i);
                         }
@@ -226,7 +228,7 @@ Item {
                 waitUntilAppSurfaceShowsUp(surfaceId);
                 compare(app.surfaceList.count, 1);
 
-                return findChild(desktopStage, "appDelegate_" + surfaceId);
+                return findChild(stage, "appDelegate_" + surfaceId);
             } catch(err) {
                 throw new Error("startApplication("+appId+") called from line " +  util.callerLine(1) + " failed!");
             }
@@ -324,7 +326,7 @@ Item {
         }
 
         function findDecoratedWindow(surfaceId) {
-            var appDelegate = findChild(desktopStage, "appDelegate_" + surfaceId);
+            var appDelegate = findChild(stage, "appDelegate_" + surfaceId);
             if (!appDelegate) {
                 console.warn("Could not find appDelegate for surfaceId="+surfaceId);
                 return null;
@@ -333,7 +335,7 @@ Item {
         }
 
         function findWindowDecoration(surfaceId) {
-            var appDelegate = findChild(desktopStage, "appDelegate_" + surfaceId);
+            var appDelegate = findChild(stage, "appDelegate_" + surfaceId);
             if (!appDelegate) {
                 console.warn("Could not find appDelegate for surfaceId="+surfaceId);
                 return null;
@@ -465,8 +467,8 @@ Item {
 
             mouseClick(dialerDelegate);
 
-            var desktopStagePriv = findInvisibleChild(desktopStage, "DesktopStagePrivate");
-            tryCompare(desktopStagePriv, "focusedAppDelegate", dialerDelegate);
+            var stagePriv = findInvisibleChild(stage, "DesktopStagePrivate");
+            tryCompare(stagePriv, "focusedAppDelegate", dialerDelegate);
 
             keyClick(Qt.Key_F4, Qt.AltModifier); // Alt+F4 shortcut to close
 
@@ -515,35 +517,6 @@ Item {
             // now try pressing all 4 arrow keys + ctrl + meta
             keyClick(Qt.Key_Up | Qt.Key_Down | Qt.Key_Left | Qt.Key_Right, Qt.MetaModifier|Qt.ControlModifier); // smash it!!!
             tryCompare(MirFocusController, "focusedSurface", null); // verify still no surface is focused
-        }
-
-        function test_oskDisplacesWindow_data() {
-            return [
-                {tag: "no need to displace", windowHeight: units.gu(10), windowY: units.gu(5), targetDisplacement: units.gu(5), oskEnabled: true},
-                {tag: "displace to top", windowHeight: units.gu(50), windowY: units.gu(10), targetDisplacement: PanelState.panelHeight, oskEnabled: true},
-                {tag: "displace to top", windowHeight: units.gu(50), windowY: units.gu(10), targetDisplacement: PanelState.panelHeight, oskEnabled: true},
-                {tag: "osk not on this screen", windowHeight: units.gu(40), windowY: units.gu(10), targetDisplacement: units.gu(10), oskEnabled: false},
-            ]
-        }
-
-        function test_oskDisplacesWindow(data) {
-            desktopStageLoader.item.oskEnabled = data.oskEnabled
-            var dashAppDelegate = startApplication("unity8-dash");
-            var oldOSKState = SurfaceManager.inputMethodSurface.state;
-            SurfaceManager.inputMethodSurface.state = Mir.RestoredState;
-            verify(dashAppDelegate);
-            dashAppDelegate.requestedHeight = data.windowHeight;
-            dashAppDelegate.requestedY = data.windowY;
-            SurfaceManager.inputMethodSurface.setInputBounds(Qt.rect(0, 0, 0, 0));
-            var initialY = dashAppDelegate.y;
-            verify(initialY > PanelState.panelHeight);
-
-            SurfaceManager.inputMethodSurface.setInputBounds(Qt.rect(0, root.height / 2, root.width, root.height / 2));
-            tryCompare(dashAppDelegate, "y", data.targetDisplacement);
-
-            SurfaceManager.inputMethodSurface.setInputBounds(Qt.rect(0, 0, 0, 0));
-            tryCompare(dashAppDelegate, "y", initialY);
-            SurfaceManager.inputMethodSurface.state = oldOSKState;
         }
 
         function test_minimizeApplicationHidesSurface() {
@@ -598,6 +571,8 @@ Item {
             var gmailDelegate = startApplication("gmail-webapp");
             verify(gmailDelegate);
 
+            wait(2000)
+
             var gmailMaximizeButton = findChild(gmailDelegate, "maximizeWindowButton");
             verify(gmailMaximizeButton);
             mouseClick(gmailMaximizeButton);
@@ -610,6 +585,7 @@ Item {
             tryCompare(mapApp.surfaceList.get(0), "visible", false);
 
             ApplicationManager.stopApplication("gmail-webapp");
+            wait(2000)
 
             tryCompare(mapApp.surfaceList.get(0), "visible", true);
             tryCompare(dialerApp.surfaceList.get(0), "visible", true);
@@ -709,7 +685,7 @@ Item {
             tryCompare(overlay, "visible", data.result);
 
             if (data.result) { // if shown, try to hide it by clicking outside
-                mouseClick(desktopStage);
+                mouseClick(stage);
                 tryCompare(overlay, "visible", false);
             }
         }
@@ -766,24 +742,6 @@ Item {
             var posAfter = Qt.point(appDelegate.x, appDelegate.y);
 
             tryCompareFunction(function(){return posBefore == posAfter;}, data.button !== Qt.LeftButton ? true : false);
-        }
-
-        function test_preventMouseEventsThruDesktopSpread() {
-            var spread = findChild(desktopStage, "spread");
-            verify(spread);
-            spread.show();
-            tryCompareFunction( function(){ return spread.ready }, true );
-
-            mouseEaterSpy.signalName = "wheel";
-            mouseWheel(spread, spread.width/2, spread.height/2, 10, 10);
-            tryCompare(mouseEaterSpy, "count", 0);
-
-            mouseEaterSpy.clear();
-            mouseEaterSpy.signalName = "clicked";
-            mouseClick(spread, spread.width/2, spread.height/2, Qt.RightButton);
-            tryCompare(mouseEaterSpy, "count", 0);
-
-            spread.cancel();
         }
 
         function test_eatWindowDecorationMouseEvents_data() {
