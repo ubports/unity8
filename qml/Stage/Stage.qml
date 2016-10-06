@@ -1384,8 +1384,8 @@ FocusScope {
                         }
                     },
                     Transition {
-                        from: "normal,maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
-                        to: "normal,maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
+                        from: "normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
+                        to: "normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
                         enabled: appDelegate.animationsEnabled
                         SequentialAnimation {
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
