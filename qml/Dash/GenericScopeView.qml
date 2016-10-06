@@ -644,6 +644,7 @@ FocusScope {
             scopeHasFilters: scopeView.scope.filters != null
             activeFiltersCount: scopeView.scope.activeFiltersCount
             showBackButton: scopeView.hasBackAction
+            showSignatureLine: !showBackButton
             searchEntryEnabled: true
             settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false
             favoriteEnabled: scopeView.scope && scopeView.scope.id !== "clickscope"

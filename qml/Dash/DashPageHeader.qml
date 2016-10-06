@@ -25,7 +25,7 @@ Item {
     id: root
     objectName: "pageHeader"
     implicitHeight: headerContainer.height + signatureLineHeight
-    readonly property real signatureLineHeight: showSignatureLine ? units.gu(2) : 0
+    readonly property real signatureLineHeight: showSignatureLine ? units.gu(2) : headerBottomLine.height
     readonly property real headerDividerLuminance: Style.luminance(bottomBorder.color)
 
     property int activeFiltersCount: 0
@@ -44,7 +44,7 @@ Item {
     property ListModel searchHistory
     property alias searchQuery: searchTextField.text
     property alias searchHint: searchTextField.placeholderText
-    property bool showSignatureLine: true
+    property bool showSignatureLine: false
 
     property int paginationCount: 0
     property int paginationIndex: -1
@@ -414,6 +414,7 @@ Item {
     }
 
     Rectangle {
+        id: headerBottomLine
         anchors {
             top: headerContainer.bottom
             left: parent.left
@@ -424,6 +425,11 @@ Item {
     }
 
     Row {
+        anchors {
+            top: headerContainer.bottom
+            horizontalCenter: headerContainer.horizontalCenter
+            topMargin: units.gu(.5)
+        }
         visible: showSignatureLine
         spacing: units.gu(.5)
         Repeater {
@@ -438,11 +444,6 @@ Item {
                 border.width: index == root.paginationIndex ? 0 : units.dp(1)
                 border.color: theme.palette.normal.baseText
             }
-        }
-        anchors {
-            top: headerContainer.bottom
-            horizontalCenter: headerContainer.horizontalCenter
-            topMargin: units.gu(.5)
         }
     }
 }
