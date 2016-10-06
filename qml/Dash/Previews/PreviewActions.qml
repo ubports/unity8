@@ -27,6 +27,7 @@ PreviewWidget {
 
     implicitHeight: row.height + units.gu(1)
     readonly property var actions: root.widgetData ? root.widgetData["actions"] : null
+    readonly property real maxButtonWidth: (width - units.gu(1)) / 2
 
     Row {
         id: row
@@ -40,7 +41,7 @@ PreviewWidget {
             readonly property bool button: root.actions && root.actions.length == 2
             readonly property bool combo: root.actions && root.actions.length > 2
             source: button ? "PreviewActionButton.qml" : (combo ? "PreviewActionCombo.qml" : "")
-            width: (root.width - units.gu(1)) / 2
+            width: Math.min(root.maxButtonWidth, implicitWidth)
             onLoaded: {
                 if (button) {
                     item.data = Qt.binding(function() { return root.actions[1]; });
@@ -65,7 +66,7 @@ PreviewWidget {
             data: visible ? root.actions[0] : null
             visible: root.actions && root.actions.length > 0
             onTriggeredAction: root.triggered(root.widgetId, actionData.id, actionData)
-            width: (root.width - units.gu(1)) / 2
+            width: Math.min(root.maxButtonWidth, implicitWidth)
             color: root.scopeStyle ? root.scopeStyle.previewButtonColor : theme.palette.normal.positive
         }
     }
