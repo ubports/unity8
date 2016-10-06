@@ -26,7 +26,7 @@ Item {
             rightMargin: -units.gu(1.5)
             bottomMargin: -units.gu(1.5)
         }
-        source: "../Stages/graphics/dropshadow2gu.sci"
+        source: "../graphics/dropshadow2gu.sci"
         opacity: 0.35
     }
 

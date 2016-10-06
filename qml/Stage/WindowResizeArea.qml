@@ -75,14 +75,15 @@ MouseArea {
 
     function loadWindowState() {
         var windowGeometry = windowStateStorage.getGeometry(root.windowId,
-                                                            Qt.rect(target.requestedX, target.requestedY, defaultWidth, defaultHeight));
+                                                            Qt.rect(target.windowedX, target.windowedY, defaultWidth, defaultHeight));
 
-        target.requestedWidth = Qt.binding(function() { return Math.min(Math.max(windowGeometry.width, d.minimumWidth), screenWidth - root.leftMargin); });
-        target.requestedHeight = Qt.binding(function() { return Math.min(Math.max(windowGeometry.height, d.minimumHeight),
+
+        target.windowedWidth = Qt.binding(function() { return Math.min(Math.max(windowGeometry.width, d.minimumWidth), screenWidth - root.leftMargin); });
+        target.windowedHeight = Qt.binding(function() { return Math.min(Math.max(windowGeometry.height, d.minimumHeight),
                                                                          root.screenHeight - (target.fullscreen ? 0 : PanelState.panelHeight)); });
-        target.requestedX = Qt.binding(function() { return Math.max(Math.min(windowGeometry.x, root.screenWidth - root.leftMargin - target.requestedWidth),
+        target.windowedX = Qt.binding(function() { return Math.max(Math.min(windowGeometry.x, root.screenWidth - root.leftMargin - target.windowedWidth),
                                                            (target.fullscreen ? 0 : root.leftMargin)); });
-        target.requestedY = Qt.binding(function() { return Math.max(Math.min(windowGeometry.y, root.screenHeight - target.requestedHeight), PanelState.panelHeight); });
+        target.windowedY = Qt.binding(function() { return Math.max(Math.min(windowGeometry.y, root.screenHeight - target.windowedHeight), PanelState.panelHeight); });
 
         var windowState = windowStateStorage.getState(root.windowId, WindowStateStorage.WindowStateNormal)
         target.restore(false /* animated */, windowState);
@@ -111,28 +112,28 @@ MouseArea {
 
         readonly property int minimumWidth: root.target ? Math.max(root.minWidth, root.target.minimumWidth) : root.minWidth
         onMinimumWidthChanged: {
-            if (target.requestedWidth < minimumWidth) {
-                target.requestedWidth = minimumWidth;
+            if (target.windowedWidth < minimumWidth) {
+                target.windowedWidth = minimumWidth;
             }
         }
         readonly property int minimumHeight: root.target ? Math.max(root.minHeight, root.target.minimumHeight) : root.minHeight
         onMinimumHeightChanged: {
-            if (target.requestedHeight < minimumHeight) {
-                target.requestedHeight = minimumHeight;
+            if (target.windowedHeight < minimumHeight) {
+                target.windowedHeight = minimumHeight;
             }
         }
         readonly property int maximumWidth: root.target && root.target.maximumWidth >= minimumWidth && root.target.maximumWidth > 0
             ? root.target.maximumWidth : maxSafeInt
         onMaximumWidthChanged: {
-            if (target.requestedWidth > maximumWidth) {
-                target.requestedWidth = maximumWidth;
+            if (target.windowedWidth > maximumWidth) {
+                target.windowedWidth = maximumWidth;
             }
         }
         readonly property int maximumHeight: root.target && root.target.maximumHeight >= minimumHeight && root.target.maximumHeight > 0
             ? root.target.maximumHeight : maxSafeInt
         onMaximumHeightChanged: {
-            if (target.requestedHeight > maximumHeight) {
-                target.requestedHeight = maximumHeight;
+            if (target.windowedHeight > maximumHeight) {
+                target.windowedHeight = maximumHeight;
             }
         }
         readonly property int widthIncrement: {
@@ -247,8 +248,8 @@ MouseArea {
             var pos = mapToItem(root.target.parent, mouseX, mouseY);
             d.startMousePosX = pos.x;
             d.startMousePosY = pos.y;
-            d.startX = target.requestedX;
-            d.startY = target.requestedY;
+            d.startX = target.windowedX;
+            d.startY = target.windowedY;
             d.startWidth = target.width;
             d.startHeight = target.height;
             d.currentWidth = target.width;
@@ -285,53 +286,53 @@ MouseArea {
 
         if (d.leftBorder) {
             var newTargetX = d.startX + deltaX;
-            var rightBorderX = target.requestedX + target.width;
+            var rightBorderX = target.windowedX + target.width;
             if (rightBorderX > newTargetX + d.minimumWidth) {
                 if (rightBorderX  < newTargetX + d.maximumWidth) {
-                    target.requestedWidth = rightBorderX - newTargetX;
+                    target.windowedWidth = rightBorderX - newTargetX;
                 } else {
-                    target.requestedWidth = d.maximumWidth;
+                    target.windowedWidth = d.maximumWidth;
                 }
             } else {
-                target.requestedWidth = d.minimumWidth;
+                target.windowedWidth = d.minimumWidth;
             }
 
         } else if (d.rightBorder) {
             var newWidth = d.startWidth + deltaX;
             if (newWidth > d.minimumWidth) {
                 if (newWidth < d.maximumWidth) {
-                    target.requestedWidth = newWidth;
+                    target.windowedWidth = newWidth;
                 } else {
-                    target.requestedWidth = d.maximumWidth;
+                    target.windowedWidth = d.maximumWidth;
                 }
             } else {
-                target.requestedWidth = d.minimumWidth;
+                target.windowedWidth = d.minimumWidth;
             }
         }
 
         if (d.topBorder) {
             var newTargetY = Math.max(d.startY + deltaY, PanelState.panelHeight); // disallow resizing up past Panel
-            var bottomBorderY = target.requestedY + target.height;
+            var bottomBorderY = target.windowedY + target.height;
             if (bottomBorderY > newTargetY + d.minimumHeight) {
                 if (bottomBorderY < newTargetY + d.maximumHeight) {
-                    target.requestedHeight = bottomBorderY - newTargetY;
+                    target.windowedHeight = bottomBorderY - newTargetY;
                 } else {
-                    target.requestedHeight = d.maximumHeight;
+                    target.windowedHeight = d.maximumHeight;
                 }
             } else {
-                target.requestedHeight = d.minimumHeight;
+                target.windowedHeight = d.minimumHeight;
             }
 
         } else if (d.bottomBorder) {
             var newHeight = d.startHeight + deltaY;
             if (newHeight > d.minimumHeight) {
                 if (newHeight < d.maximumHeight) {
-                    target.requestedHeight = newHeight;
+                    target.windowedHeight = newHeight;
                 } else {
-                    target.requestedHeight = d.maximumHeight;
+                    target.windowedHeight = d.maximumHeight;
                 }
             } else {
-                target.requestedHeight = d.minimumHeight;
+                target.windowedHeight = d.minimumHeight;
             }
         }
     }
@@ -340,13 +341,13 @@ MouseArea {
         target: root.target
         onWidthChanged: {
             if (d.moveLeftBorder) {
-                target.requestedX += d.currentWidth - target.width;
+                target.windowedX += d.currentWidth - target.width;
             }
             d.currentWidth = target.width;
         }
         onHeightChanged: {
             if (d.moveTopBorder) {
-                target.requestedY += d.currentHeight - target.height;
+                target.windowedY += d.currentHeight - target.height;
             }
             d.currentHeight = target.height;
         }
