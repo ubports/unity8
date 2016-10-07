@@ -123,7 +123,7 @@ SessionsModel::SessionsModel(QObject* parent)
     auto snapRoot = QFile::decodeName(qgetenv("SNAP"));
     if (!snapRoot.isEmpty()) {
         for (int i = 0; i < m_iconSearchDirectories.size(); i++) {
-            m_iconSearchDirectories[i] = snapRoot + m_iconSearchDirectories[i];
+            m_iconSearchDirectories[i] = snapRoot + m_iconSearchDirectories[i].path();
         }
     }
 
