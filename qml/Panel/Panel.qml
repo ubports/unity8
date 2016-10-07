@@ -336,7 +336,7 @@ Item {
 
                     property bool menusRequested: menuBarLoader.item ? menuBarLoader.item.showRequested : false
 
-                    sourceComponent: MenuBarLoader {
+                    sourceComponent: MenuBar {
                         id: bar
                         height: menuBarLoader.height
                         enableKeyFilter: valid && PanelState.decorationsVisible

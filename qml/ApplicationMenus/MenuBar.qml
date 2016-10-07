@@ -21,6 +21,7 @@ import Ubuntu.Components 1.3
 
 Item {
     id: root
+    objectName: "menuBar"
 
     property alias unityMenuModel: rowRepeater.model
 
@@ -94,7 +95,7 @@ Item {
 
             Item {
                 id: visualItem
-                objectName: "menuBarItem"
+                objectName: root.objectName + "-item" + __index
 
                 readonly property int __index: index
                 property Item __popup: null;
@@ -108,7 +109,7 @@ Item {
 
                 function show() {
                     if (!__popup) {
-                        __popup = menuComponent.createObject(root);
+                        __popup = menuComponent.createObject(root, { objectName: visualItem.objectName + "-menu" });
                     } else {
                         __popup.visible = true;
                     }
@@ -133,7 +134,7 @@ Item {
 
                 Component {
                     id: menuComponent
-                    MenuLoader {
+                    MenuPopup {
                         x: visualItem.x - units.gu(1)
                         anchors.top: parent.bottom
                         unityMenuModel: root.unityMenuModel.submenu(visualItem.__index)
@@ -203,6 +204,7 @@ Item {
 
     QtObject {
         id: d
+        objectName: "d"
 
         property Item currentItem: null
         property Item hoveredItem: null

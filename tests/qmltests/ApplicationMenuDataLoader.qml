@@ -52,4 +52,21 @@ Object {
         }
         return data;
     }
+
+    // Test Data
+    property var singleCheckable: [{
+            "rowData": {                // 1
+                "label": "checkable1",
+                "sensitive": true,
+                "isSeparator": false,
+                "icon": "",
+                "ext": {},
+                "action": "checkable1",
+                "actionState": {},
+                "isCheck": true,
+                "isRadio": false,
+                "isToggled": false,
+                "shortcut": "Alt+F"
+            }
+        }]
 }

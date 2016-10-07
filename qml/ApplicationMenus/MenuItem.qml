@@ -41,12 +41,14 @@ ActionItem {
     }
 
     readonly property bool hasSubmenu: menuData ? menuData.hasSubmenu : false
-    readonly property bool _checked : action && action.parameterType === Action.Bool && action.state == true
+    readonly property bool _checked : action && action.checkable ? action.checked : false
 
     enabled: menuData ? menuData.sensitive : false
 
     action: Action {
         text: menuData.label.replace("_", "&")
+        checkable: menuData.isCheck || menuData.isRadio
+        // TODO - exclusive groups.
     }
 
     width: {

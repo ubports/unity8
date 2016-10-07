@@ -120,7 +120,7 @@ Item {
         function test_titleRemainsWhenHoveringOnTitleBarWithNoMenu() {
             decoration.menu = undefined;
 
-            var menuLoader = findChild(decoration, "windowDecorationMenuBarLoader");
+            var menuLoader = findChild(decoration, "menuBarLoader");
             verify(menuLoader);
             mouseMove(menuLoader, menuLoader.width/2, menuLoader.height/2);
             wait(200);
@@ -133,7 +133,7 @@ Item {
         }
 
         function test_menuShowsWhenHoveringOnTitleBar() {
-            var menuLoader = findChild(decoration, "windowDecorationMenuBarLoader");
+            var menuLoader = findChild(decoration, "menuBarLoader");
             verify(menuLoader);
             mouseMove(menuLoader, menuLoader.width/2, menuLoader.height/2)
 
@@ -150,7 +150,7 @@ Item {
         }
 
         function test_showMenuBarWithShortcutsOnLongAltPress() {
-            var menuLoader = findChild(decoration, "windowDecorationMenuBarLoader");
+            var menuLoader = findChild(decoration, "menuBarLoader");
             verify(menuLoader);
 
             var titleLabel = findChild(decoration, "windowDecorationTitle");

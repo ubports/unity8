@@ -141,7 +141,7 @@ MouseArea {
 
                 Component {
                     id: menuBarComponent
-                    MenuBarLoader {
+                    MenuBar {
                         id: menuBar
                         height: menuBarLoader.height
                         enableKeyFilter: priv.enableMenus

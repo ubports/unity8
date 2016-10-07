@@ -24,7 +24,7 @@ import Unity.Test 0.1
 import Utils 0.1
 
 import "../../../qml/ApplicationMenus"
-import "../Stages"
+import ".."
 
 Item {
     id: root
@@ -42,7 +42,7 @@ Item {
         value: false
     }
 
-    DesktopMenuData { id: desktopMenuData }
+    ApplicationMenuDataLoader { id: appMenuData }
 
     Rectangle {
         anchors {
@@ -54,13 +54,13 @@ Item {
         height: units.gu(3)
         color: "grey"
 
-        MenuBarLoader {
+        MenuBar {
             id: menuBar
             anchors.fill: parent
 
             unityMenuModel: UnityMenuModel {
                 id: menuBackend
-                modelData: desktopMenuData.testData
+                modelData: appMenuData.generateTestData(7,5,2,3,"menu")
             }
         }
     }
@@ -73,65 +73,82 @@ Item {
 
     UnityTestCase {
         id: testCase
-        name: "MenuPage"
+        name: "MenuBar"
         when: windowShown
 
         property bool clickNavigate: true
 
         function init() {
-            menuBar.closePopup();
-            menuBackend.modelData = desktopMenuData.generateTestData(3, 2, 0);
+            menuBar.dismiss();
+            menuBackend.modelData = appMenuData.generateTestData(5,5,2,3,"menu")
             activatedSpy.clear();
+        }
+
+        function test_keyboardNavigation_RightKeySelectsNextMenuItem(data) {
+            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0,"menu");
+            var priv = findInvisibleChild(menuBar, "d");
+
+            var menuItem0 = findChild(menuBar, "menuBar-item0"); verify(menuItem0);
+            var menuItem1 = findChild(menuBar, "menuBar-item1"); verify(menuItem1);
+            var menuItem2 = findChild(menuBar, "menuBar-item2"); verify(menuItem2);
+
+            menuItem0.show();
+            compare(priv.currentItem, menuItem0, "CurrentItem should be set to item 0");
+            compare(priv.currentItem.popupVisible, true, "Popup should be visible");
+
+            keyClick(Qt.Key_Right, Qt.NoModifier);
+            compare(priv.currentItem, menuItem1, "CurrentItem should have moved to item 1");
+            compare(menuItem1.popupVisible, true, "Popup should be visible");
+
+            keyClick(Qt.Key_Right, Qt.NoModifier);
+            compare(priv.currentItem, menuItem2, "CurrentItem should have moved to item 2");
+            compare(menuItem2.popupVisible, true, "Popup should be visible");
+
+            keyClick(Qt.Key_Right, Qt.NoModifier);
+            compare(priv.currentItem, menuItem0, "CurrentItem should have moved back to item 0");
+            compare(menuItem0.popupVisible, true, "Popup should be visible");
+        }
+
+        function test_keyboardNavigation_LeftKeySelectsPreviousMenuItem(data) {
+            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0,"menu");
+            var priv = findInvisibleChild(menuBar, "d");
+
+            var menuItem0 = findChild(menuBar, "menuBar-item0"); verify(menuItem0);
+            var menuItem1 = findChild(menuBar, "menuBar-item1"); verify(menuItem1);
+            var menuItem2 = findChild(menuBar, "menuBar-item2"); verify(menuItem2);
+
+            menuItem0.show();
+            compare(priv.currentItem, menuItem0, "CurrentItem should be set to item 0");
+            compare(priv.currentItem.popupVisible, true, "Popup should be visible");
+
+            keyClick(Qt.Key_Left, Qt.NoModifier);
+            compare(priv.currentItem, menuItem2, "CurrentItem should have moved to item 2");
+            compare(menuItem2.popupVisible, true, "Popup should be visible");
+
+            keyClick(Qt.Key_Left, Qt.NoModifier);
+            compare(priv.currentItem, menuItem1, "CurrentItem should have moved to item 1");
+            compare(menuItem1.popupVisible, true, "Popup should be visible");
+
+            keyClick(Qt.Key_Left, Qt.NoModifier);
+            compare(priv.currentItem, menuItem0, "CurrentItem should have moved back to item 0");
+            compare(menuItem0.popupVisible, true, "Popup should be visible");
         }
 
         function test_mnemonics_data() {
             return [
-                { tag: "a" },
-                { tag: "b" },
+                { tag: "a", expectedItem: "menuBar-item0" },
+                { tag: "c", expectedItem: "menuBar-item2" },
             ]
         }
 
         function test_mnemonics(data) {
-            menuBackend.modelData = desktopMenuData.generateTestData(3, 2, 0);
+            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0,"menu");
+            var priv = findInvisibleChild(menuBar, "d");
+
+            var menuItem = findChild(menuBar, data.expectedItem); verify(menuItem);
 
             keyPress(data.tag, Qt.AltModifier, 100);
-            tryCompareFunction(function() { return menuBar.openItem !== undefined; }, true);
-        }
-
-        function test_navigateRight(data) {
-            var menuItem0 = findChild(menuBar, "menuBar-menu0"); verify(menuItem0);
-            var menuItem1 = findChild(menuBar, "menuBar-menu1"); verify(menuItem1);
-            var menuItem2 = findChild(menuBar, "menuBar-menu2"); verify(menuItem2);
-
-            menuBar.open(menuItem0, true);
-            compare(menuBar.openItem, menuItem0);
-
-            keyClick(Qt.Key_Right, Qt.NoModifier);
-            compare(menuBar.openItem, menuItem1);
-
-            keyClick(Qt.Key_Right, Qt.NoModifier);
-            compare(menuBar.openItem, menuItem2);
-
-            keyClick(Qt.Key_Right, Qt.NoModifier);
-            compare(menuBar.openItem, menuItem0);
-        }
-
-        function test_navigateLeft(data) {
-            var menuItem0 = findChild(menuBar, "menuBar-menu0"); verify(menuItem0);
-            var menuItem1 = findChild(menuBar, "menuBar-menu1"); verify(menuItem1);
-            var menuItem2 = findChild(menuBar, "menuBar-menu2"); verify(menuItem2);
-
-            menuBar.open(menuItem0, true);
-            compare(menuBar.openItem, menuItem0);
-
-            keyClick(Qt.Key_Left, Qt.NoModifier);
-            compare(menuBar.openItem, menuItem2);
-
-            keyClick(Qt.Key_Left, Qt.NoModifier);
-            compare(menuBar.openItem, menuItem1);
-
-            keyClick(Qt.Key_Left, Qt.NoModifier);
-            compare(menuBar.openItem, menuItem0);
+            tryCompare(priv, "currentItem", menuItem);
         }
     }
 }

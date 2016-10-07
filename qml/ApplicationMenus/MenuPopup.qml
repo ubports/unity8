@@ -23,6 +23,7 @@ import "../Components"
 
 UbuntuShape {
     id: root
+    objectName: "menu"
     backgroundColor: theme.palette.normal.overlay
 
     property alias unityMenuModel: listView.model
@@ -41,6 +42,10 @@ UbuntuShape {
 
     function select(index) {
         d.select(index)
+    }
+
+    function dismiss() {
+        d.dismissAll()
     }
 
     implicitWidth: container.width
@@ -65,12 +70,14 @@ UbuntuShape {
 
     QtObject {
         id: d
+        objectName: "d"
 
         property Item currentItem: null
         property Item hoveredItem: null
         readonly property int currentIndex: currentItem ? currentItem.__ownIndex : -1
 
         signal select(int index)
+        signal dismissAll()
 
         onCurrentItemChanged: {
             if (currentItem) {
@@ -253,6 +260,7 @@ UbuntuShape {
 
             delegate: Loader {
                 id: loader
+                objectName: root.objectName + "-item" + __ownIndex
 
                 property int __ownIndex: index
 
@@ -271,9 +279,10 @@ UbuntuShape {
 
                 Component {
                     id: menuItemComponent
-                    MenuItemLoader {
+                    MenuItem {
                         id: menuItem
                         menuData: model
+                        objectName: loader.objectName + "-actionItem"
 
                         action.onTriggered: {
                             d.currentItem = loader;
@@ -282,9 +291,10 @@ UbuntuShape {
                                 if (!popup) {
                                     var model = root.unityMenuModel.submenu(__ownIndex);
                                     popup = submenuComponent.createObject(root, {
-                                                                              "unityMenuModel": model,
-                                                                              "x": Qt.binding(function() { return root.width }),
-                                                                              "y": Qt.binding(function() { return loader.y })
+                                                                              objectName: loader.objectName + "-",
+                                                                              unityMenuModel: model,
+                                                                              x: Qt.binding(function() { return root.width }),
+                                                                              y: Qt.binding(function() { return loader.y })
                                                                           });
                                 } else if (popup) {
                                     popup.visible = true;
@@ -314,6 +324,7 @@ UbuntuShape {
                 Component {
                     id: separatorComponent
                     ListItems.ThinDivider {
+                        objectName: loader.objectName + "-separator"
                     }
                 }
             }
@@ -361,7 +372,7 @@ UbuntuShape {
         id: submenuComponent
         Loader {
             id: submenuLoader
-            source: "MenuLoader.qml"
+            source: "MenuPopup.qml"
 
             property var unityMenuModel: null
             signal dismiss()
@@ -370,6 +381,17 @@ UbuntuShape {
                 target: item
                 property: "unityMenuModel"
                 value: submenuLoader.unityMenuModel
+            }
+
+            Binding {
+                target: item
+                property: "objectName"
+                value: submenuLoader.objectName + "menu"
+            }
+
+            Connections {
+                target: d
+                onDismissAll: submenuLoader.dismiss()
             }
 
             Keys.onLeftPressed: dismiss()
