@@ -16,6 +16,8 @@
 
 #include "constants.h"
 
+#include <QFile>
+
 Constants::Constants(QObject *parent)
    : QObject(parent)
 {
