@@ -31,6 +31,11 @@ Rectangle {
         "values": [ [ "Long Label 1", "Long Value 1 Long Value 2 Long Value 3 Long Value 4 Long Value 5 Long Value 6 Long Value 2 Long Value 2 Long Value 2 Long Value 2"],  [ "Label 2", "Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2"],  [ "Label 3", "Value 3"],  [ "Label 4", "Value 4"],  [ "Label 5", "Value 5"] ]
     }
 
+    property var widgetDataComplete2: {
+        "title": "Short Title here",
+        "values": [ [ "Label A", "Long Value 1 Long Value 2 Long Value 3 Long Value 4 Long Value 5 Long Value 6 Long Value 2 Long Value 2 Long Value 2 Long Value 2"],  [ "Author", "Best 3v3r"],  [ "Summary", "If i knew how to write summaries i'd be working somewhere else"] ]
+    }
+
     property var widgetDataNoTitle: {
         "values": [ [ "Long Label 1", "Long Value 1 Long Value 2 Long Value 3 Long Value 4 Long Value 5 Long Value 6 Long Value 2 Long Value 2 Long Value 2 Long Value 2"],  [ "Label 2", "Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2"],  [ "Label 3", "Value 3"],  [ "Label 4", "Value 4"],  [ "Label 5", "Value 5"] ]
     }
@@ -48,6 +53,22 @@ Rectangle {
 
         Component.onCompleted: {
             previewTable.widgetData = widgetDataComplete
+        }
+    }
+
+    PreviewWidgetFactory {
+        id: previewTable2
+        anchors { left: parent.left; right: parent.right; top: previewTable.bottom; topMargin: units.gu(4) }
+        widgetType: "table"
+
+        Rectangle {
+            color: "red"
+            anchors.fill: parent
+            opacity: 0.5
+        }
+
+        Component.onCompleted: {
+            previewTable2.widgetData = widgetDataComplete2
         }
     }
 

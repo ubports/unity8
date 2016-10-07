@@ -76,7 +76,8 @@ PreviewWidget {
                         font.bold: index == 0
                         wrapMode: Text.Wrap
                         Layout.alignment: Qt.AlignTop
-                        Layout.maximumWidth: column.width - x
+                        Layout.maximumWidth: index == 0 ? column.width / 4 : column.width - x
+                        Layout.minimumWidth: index == 0 ? column.width / 4 : -1
                     }
                 }
             }
