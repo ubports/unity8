@@ -30,14 +30,17 @@ class Constants: public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int indicatorValueTimeout READ indicatorValueTimeout CONSTANT)
+    Q_PROPERTY(QString defaultWallpaper READ defaultWallpaper CONSTANT)
 
 public:
     Constants(QObject *parent = 0);
 
     int indicatorValueTimeout() const { return m_indicatorValueTimeout; }
+    QString defaultWallpaper() const { return m_defaultWallpaper; }
 
 private:
     int m_indicatorValueTimeout;
+    QString m_defaultWallpaper;
 };
 
 #endif

@@ -24,4 +24,7 @@ Constants::Constants(QObject *parent)
     } else {
         m_indicatorValueTimeout = 5000;
     }
+
+    QString snapRoot = QFile::decodeName(qgetenv("SNAP"));
+    m_defaultWallpaper = snapRoot + "/usr/share/backgrounds/warty-final-ubuntu.png";
 }
