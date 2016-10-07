@@ -88,6 +88,7 @@ Showable {
         acceptedButtons: Qt.AllButtons
         onWheel: wheel.accepted = true;
         enabled: root.state != "initial"
+        visible: content.visible
     }
 
     MenuContent {

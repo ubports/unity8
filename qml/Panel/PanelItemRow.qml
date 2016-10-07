@@ -20,7 +20,7 @@ import "../Components"
 
 Item {
     id: root
-    implicitWidth: rowLabel.text !== "" && !expanded ? rowLabel.width : row.width
+    implicitWidth: showRowTitle && !expanded ? rowTitle != "" ? rowLabel.width : 0 : row.width
     implicitHeight: units.gu(3)
 
     property bool showRowTitle: false
