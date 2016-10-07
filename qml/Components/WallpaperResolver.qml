@@ -15,49 +15,35 @@
  */
 
 import QtQuick 2.4
-import AccountsService 0.1
-import GSettings 1.0
 import Ubuntu.Components 1.3
 
-/*
-    Defines the background URL based on several factors, such as:
-        - default, fallback, background
-        - Background set in AccountSettings, if any
-        - Background set in GSettings, if any
- */
-QtObject {
-    // Users should set their UI width here.
-    property real width
+Item {
+    id: root
 
-    property url defaultBackground: Qt.resolvedUrl(width >= units.gu(60) ? "../graphics/tablet_background.jpg"
-                                                                         : "../graphics/phone_background.jpg")
+    // Provide a list of wallpapers to resolve here, preferred ones first
+    property var candidates: []
 
-    // That's the property users of this component are going to consume.
-    readonly property url background: asImageTester.status == Image.Ready ? asImageTester.source
-                                    : gsImageTester.status == Image.Ready ? gsImageTester.source : defaultBackground
-
-    // This is a dummy image to detect if the custom AS set wallpaper loads successfully.
-    property var _asImageTester: Image {
-        id: asImageTester
-        source: AccountsService.backgroundFile != undefined && AccountsService.backgroundFile.length > 0 ? AccountsService.backgroundFile : ""
-        height: 0
-        width: 0
-        sourceSize.height: 0
-        sourceSize.width: 0
+    readonly property url background: {
+        for (var i = 0; i < repeater.count; i++) {
+            if (repeater.itemAt(i).status === Image.Ready)
+                return candidates[i];
+        }
+        if (i > 0) {
+            return candidates[i - 1]; // last item is last resort
+        } else {
+            return "";
+        }
     }
 
-    // This is a dummy image to detect if the custom GSettings set wallpaper loads successfully.
-    property var _gsImageTester: Image {
-        id: gsImageTester
-        source: backgroundSettings.pictureUri && backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : ""
-        height: 0
-        width: 0
-        sourceSize.height: 0
-        sourceSize.width: 0
-    }
-
-    property var _gsettings: GSettings {
-        id: backgroundSettings
-        schema.id: "org.gnome.desktop.background"
+    Repeater {
+        id: repeater
+        model: root.candidates
+        delegate: Image {
+            source: modelData
+            height: 0
+            width: 0
+            sourceSize.height: 0
+            sourceSize.width: 0
+        }
     }
 }

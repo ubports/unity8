@@ -23,6 +23,7 @@ import Unity 0.2
 import Dash 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
+import "Previews/PreviewSingleton"
 
 FocusScope {
     id: scopeView
@@ -722,6 +723,7 @@ FocusScope {
             target: categoryView
 
             readonly property real contentY: categoryView.contentY - categoryView.originY
+            readonly property real headerDividerLuminance: categoryView.pageHeader.headerDividerLuminance
             y: -contentY - units.gu(5)
 
             onRefresh: {
@@ -787,6 +789,17 @@ FocusScope {
             color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
         }
 
+        Image {
+            anchors {
+                bottom: parent.bottom
+                left: parent.left
+                right: parent.right
+            }
+            fillMode: Image.Stretch
+            source: "graphics/dash_divider_top_darkgrad.png"
+            z: -1
+        }
+
         Connections {
             target: floatingSeeLess.companionTo ? categoryView : null
             onContentYChanged: floatingSeeLess.updateVisibility();
@@ -824,6 +837,9 @@ FocusScope {
         }
 
         function closeSubPage() {
+            if (subPage == "preview") {
+                PreviewSingleton.widgetExtraData = new Object();
+            }
             open = false;
         }
 

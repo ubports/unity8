@@ -11,7 +11,6 @@ AbstractButton {
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
 signal action(var actionId);
-readonly property size artShapeSize: Qt.size(-1, -1);
 readonly property int headerHeight: titleLabel.height + subtitleLabel.height + subtitleLabel.anchors.topMargin + audioProgressBar.height + audioProgressBar.anchors.topMargin;
 Label { 
                         id: titleLabel; 
@@ -107,13 +106,15 @@ CardAudioProgress {
                             onPressAndHold: { 
                                 root.pressAndHold(); 
                             } 
-                        }UbuntuShape { 
-                        id: touchdown; 
-                        objectName: "touchdown"; 
-                        anchors { fill: root } 
-                        visible: root.pressed;
-                        radius: "medium"; 
-                        borderSource: "radius_pressed.sci" 
-                    }
+                        }Loader {
+    active: root.pressed;
+    anchors { fill: root }
+    sourceComponent: UbuntuShape {
+        objectName: "touchdown";
+        anchors.fill: parent;
+        radius: "medium";
+        borderSource: "radius_pressed.sci"
+    }
+}
 implicitHeight: audioButton.height;
 }

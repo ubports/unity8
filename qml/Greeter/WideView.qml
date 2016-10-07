@@ -16,25 +16,29 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import "." 0.1
 
 FocusScope {
     id: root
     focus: true
 
+    property alias background: coverPage.background
+    property alias backgroundTopMargin: coverPage.backgroundTopMargin
+    property alias hasCustomBackground: coverPage.hasCustomBackground
     property alias dragHandleLeftMargin: coverPage.dragHandleLeftMargin
+    property alias infographicModel: coverPage.infographicModel
     property alias launcherOffset: coverPage.launcherOffset
     property alias currentIndex: loginList.currentIndex
     property int delayMinutes // TODO
-    property alias backgroundTopMargin: coverPage.backgroundTopMargin
-    property alias background: coverPage.background
-    property bool locked
     property alias alphanumeric: loginList.alphanumeric
-    property alias userModel: loginList.model
-    property alias infographicModel: coverPage.infographicModel
-    property bool waiting
+    property alias locked: loginList.locked
+    property alias sessionToStart: loginList.currentSession
+    property alias waiting: loginList.waiting
+    property var userModel // Set from outside
+
+    readonly property bool animating: coverPage.showAnimation.running || coverPage.hideAnimation.running
     readonly property bool fullyShown: coverPage.showProgress === 1
     readonly property bool required: coverPage.required
-    readonly property bool animating: coverPage.showAnimation.running || coverPage.hideAnimation.running
 
     // so that it can be replaced in tests with a mock object
     property var inputMethod: Qt.inputMethod
@@ -44,36 +48,20 @@ FocusScope {
     signal tease()
     signal emergencyCall() // unused
 
+    function notifyAuthenticationFailed() {
+        loginList.showError();
+    }
+
+    function reset(forceShow) {
+        loginList.reset();
+    }
+
     function showMessage(html) {
         loginList.showMessage(html);
     }
 
     function showPrompt(text, isSecret, isDefaultPrompt) {
         loginList.showPrompt(text, isSecret, isDefaultPrompt);
-    }
-
-    function showLastChance() {
-        // TODO
-    }
-
-    function hide() {
-        coverPage.hide();
-    }
-
-    function notifyAuthenticationSucceeded(showFakePassword) {
-        // Nothing needed
-    }
-
-    function notifyAuthenticationFailed() {
-        loginList.showError();
-    }
-
-    function showErrorMessage(msg) {
-        coverPage.showErrorMessage(msg);
-    }
-
-    function reset() {
-        loginList.reset();
     }
 
     function tryToUnlock(toTheRight) {
@@ -92,6 +80,20 @@ FocusScope {
         }
     }
 
+    function hide() {
+        coverPage.hide();
+    }
+
+    function notifyAuthenticationSucceeded(showFakePassword) {
+        if (showFakePassword) {
+            loginList.showFakePassword();
+        }
+    }
+
+    function showLastChance() {
+        // TODO
+    }
+
     Rectangle {
         anchors.fill: parent
         color: "black"
@@ -104,6 +106,7 @@ FocusScope {
         height: parent.height
         width: parent.width
         draggable: !root.locked && !root.waiting
+        state: "LoginList"
 
         infographics {
             height: 0.75 * parent.height
@@ -122,21 +125,89 @@ FocusScope {
             id: loginList
             objectName: "loginList"
 
+            width: units.gu(40)
+            anchors {
+                left: parent.left
+                leftMargin: Math.min(parent.width * 0.16, units.gu(20))
+                top: parent.top
+                bottom: parent.bottom
+            }
+
+            boxVerticalOffset: (height - highlightedHeight -
+                               (inputMethod && inputMethod.visible ?
+                                inputMethod.keyboardRectangle.height : 0)) / 2
+            Behavior on boxVerticalOffset { UbuntuNumberAnimation {} }
+
+            model: root.userModel
+            currentSession: LightDMService.greeter.defaultSession
+            onResponded: root.responded(response)
+            onSelected: root.selected(index)
+            onSessionChooserButtonClicked: parent.state = "SessionsList"
+
+            Keys.forwardTo: [sessionChooserLoader.item]
+        }
+
+        Loader {
+            id: sessionChooserLoader
+
+            height: loginList.height
+            width: loginList.width
             anchors {
                 left: parent.left
                 leftMargin: Math.min(parent.width * 0.16, units.gu(20))
                 top: parent.top
             }
-            width: units.gu(40)
-            height: inputMethod && inputMethod.visible ? parent.height - inputMethod.keyboardRectangle.height
-                                                       : parent.height
-            Behavior on height { UbuntuNumberAnimation {} }
 
-            locked: root.locked
-            waiting: root.waiting
+            active: false
 
-            onSelected: root.selected(index)
-            onResponded: root.responded(response)
+            onLoaded: sessionChooserLoader.item.forceActiveFocus();
+            Binding {
+                target: sessionChooserLoader.item
+                property: "initiallySelectedSession"
+                value: loginList.currentSession
+            }
+
+            Connections {
+                target: sessionChooserLoader.item
+                onSessionSelected: loginList.currentSession = sessionKey
+                onShowLoginList: {
+                    coverPage.state = "LoginList"
+                    loginList.passwordInput.forceActiveFocus();
+                }
+                ignoreUnknownSignals: true
+            }
         }
+
+        states: [
+            State {
+                name: "SessionsList"
+                PropertyChanges { target: loginList; opacity: 0 }
+                PropertyChanges { target: sessionChooserLoader;
+                                  active: true;
+                                  opacity: 1
+                                  source: "SessionsList.qml"
+                                }
+            },
+
+            State {
+                name: "LoginList"
+                PropertyChanges { target: loginList; opacity: 1 }
+                PropertyChanges { target: sessionChooserLoader;
+                                  active: false;
+                                  opacity: 0
+                                  source: "";
+                                }
+            }
+        ]
+
+        transitions: [
+            Transition {
+                from: "*"
+                to: "*"
+                UbuntuNumberAnimation {
+                    property: "opacity";
+                }
+            }
+        ]
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 2013 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of version 3 of the GNU Lesser General Public
@@ -19,10 +19,7 @@
 #ifndef DOWNLOADER_LIB_APP_METATYPES_H
 #define DOWNLOADER_LIB_APP_METATYPES_H
 
-#include <QMap>
-
-typedef QMap<QString, QString> StringMap;
-
-Q_DECLARE_METATYPE(StringMap)
+// Just include the system file so we're always up to date.
+#include <ubuntu/download_manager/metatypes.h>
 
 #endif // METATYPES_H
