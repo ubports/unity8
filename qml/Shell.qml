@@ -148,7 +148,7 @@ StyledItem {
         id: wallpaperResolver
         objectName: "wallpaperResolver"
 
-        readonly property url defaultBackground: "file://" + Utils.Constants.defaultBackground
+        readonly property url defaultBackground: "file://" + Constants.defaultBackground
         readonly property bool hasCustomBackground: background != defaultBackground
 
         // Use a cached version of the scaled-down wallpaper (as sometimes the
