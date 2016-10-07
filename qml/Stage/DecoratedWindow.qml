@@ -231,7 +231,7 @@ FocusScope {
         anchors.fill: applicationWindow
         acceptedButtons: Qt.LeftButton
         property bool dragging: false
-        cursorShape: undefined
+        cursorShape: undefined // don't interfere with the cursor shape set by the underlying MirSurfaceItem
         onPressed: {
             if (mouse.button == Qt.LeftButton && mouse.modifiers == Qt.AltModifier) {
                 root.decorationPressed(); // to raise it
