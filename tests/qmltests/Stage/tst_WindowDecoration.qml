@@ -64,6 +64,7 @@ Item {
             id: log
             anchors.fill: parent
             readOnly: true
+            color: "black"
         }
     }
 
@@ -82,9 +83,9 @@ Item {
             onActivated: log.text = "Activated " + action + "\n" + log.text
         }
 
-        onCloseClicked: log.text = "Close\n" + log.text
-        onMinimizeClicked: log.text = "Minimize\n" + log.text
-        onMaximizeClicked: log.text = "Maximize\n" + log.text
+        onCloseClicked: { log.text = "Close\n" + log.text }
+        onMinimizeClicked: { log.text = "Minimize\n" + log.text }
+        onMaximizeClicked: { log.text = "Maximize\n" + log.text }
     }
 
     SignalSpy {
@@ -103,9 +104,9 @@ Item {
         }
 
         function test_windowControlButtons_data() {
-            return [ { tag: "close", controlName: "closeWindowButton", signal: "close"},
-                    { tag: "minimize", controlName: "minimizeWindowButton", signal: "minimize"},
-                    { tag: "maximize", controlName: "maximizeWindowButton", signal: "maximize"}];
+            return [ { tag: "close", controlName: "closeWindowButton", signal: "closeClicked"},
+                    { tag: "minimize", controlName: "minimizeWindowButton", signal: "minimizeClicked"},
+                    { tag: "maximize", controlName: "maximizeWindowButton", signal: "maximizeClicked"}];
         }
 
         function test_windowControlButtons(data) {
@@ -158,17 +159,14 @@ Item {
 
             var menuBar = findChild(decoration, "menuBar");
             verify(menuBar);
-            verify(menuBar.enableMnemonic === false, "Menubar should not show shortcuts")
 
             keyPress(Qt.Key_Alt, Qt.NoModifier);
             tryCompare(menuLoader, "opacity", 1);
             tryCompare(titleLabel, "opacity", 0);
-            compare(menuBar.enableMnemonic, true, "Menubar should show shortcuts when long alt pressed");
 
             keyRelease(Qt.Key_Alt, Qt.NoModifier);
             tryCompare(menuLoader, "opacity", 0);
             tryCompare(titleLabel, "opacity", 1);
-            compare(menuBar.enableMnemonic, false, "Menubar should not show shortcuts after long alt pressed");
         }
     }
 }
