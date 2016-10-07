@@ -100,6 +100,9 @@ Rectangle {
                     value: decoratedWindow.surface ? decoratedWindow.surface.persistentId : "x"
                 }
 
+                Component.onDestruction: {
+                    loader.itemDestroyed = true;
+                }
                 Component.onCompleted: {
                     loader.itemDestroyed = false;
                 }
