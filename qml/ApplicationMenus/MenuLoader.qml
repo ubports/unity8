@@ -47,8 +47,15 @@ UbuntuShape {
     implicitHeight: MathUtils.clamp(listView.contentHeight, __ajustedMinimumHeight, __maximumHeight)
 
     focus: true
+
     Keys.onUpPressed: d.selectPrevious(d.currentIndex)
     Keys.onDownPressed: d.selectNext(d.currentIndex)
+    Keys.onRightPressed: {
+        // Don't let right keypresses fall through if the current item has a visible popup.
+        if (!d.currentItem || !d.currentItem.popup || !d.currentItem.popup.visible) {
+            event.accepted = false;
+        }
+    }
 
     onVisibleChanged: {
         if (!visible) {
@@ -131,12 +138,6 @@ UbuntuShape {
                 } while (newIndex !== startIndex)
             }
         }
-    }
-
-    ActionContext {
-        id: menuContext
-        objectName: "menuContext"
-        active: true
     }
 
     ColumnLayout {
@@ -238,11 +239,26 @@ UbuntuShape {
                 }
             }
 
+            ActionContext {
+                id: menuBarContext
+                objectName: "menuContext"
+                active: {
+                    if (!root.visible) return false;
+                    if (d.currentItem && d.currentItem.popup && d.currentItem.popup.visible) {
+                        return false;
+                    }
+                    return true;
+                }
+            }
+
             delegate: Loader {
                 id: loader
-                width: root.width
 
+                property int __ownIndex: index
+
+                width: root.width
                 enabled: model.isSeparator ? false : model.sensitive
+                Keys.forwardTo: [ item ]
 
                 sourceComponent: {
                     if (model.isSeparator) {
@@ -250,9 +266,8 @@ UbuntuShape {
                     }
                     return menuItemComponent;
                 }
-                property int __ownIndex: index
 
-                Keys.forwardTo: [ item ]
+                property Item popup: null
 
                 Component {
                     id: menuItemComponent
@@ -260,9 +275,9 @@ UbuntuShape {
                         id: menuItem
                         menuData: model
 
-                        property Item popup: null
-
                         action.onTriggered: {
+                            d.currentItem = loader;
+
                             if (hasSubmenu) {
                                 if (!popup) {
                                     var model = root.unityMenuModel.submenu(__ownIndex);
@@ -288,8 +303,8 @@ UbuntuShape {
                         Connections {
                             target: d
                             onCurrentIndexChanged: {
-                                if (menuItem.popup && d.currentIndex != __ownIndex) {
-                                    menuItem.popup.visible = false;
+                                if (popup && d.currentIndex != __ownIndex) {
+                                    popup.visible = false;
                                 }
                             }
                         }
@@ -302,7 +317,6 @@ UbuntuShape {
                     }
                 }
             }
-
         } // ListView
 
         // FIXME use ListView.footer - tried but was flaky with positionViewAtIndex.
@@ -358,8 +372,10 @@ UbuntuShape {
                 value: submenuLoader.unityMenuModel
             }
 
-            onLoaded: item.select(0)
             Keys.onLeftPressed: dismiss()
+
+            Component.onCompleted: item.select(0);
+            onVisibleChanged: if (visible) { item.select(0); }
         }
     }
 }

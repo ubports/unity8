@@ -21,8 +21,7 @@ import Unity.Test 0.1
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
-import Unity.ApplicationMenu 0.1
-import Unity.Indicators 0.1 as Indicators
+import QMenuModel 0.1
 import Ubuntu.Telephony 0.1 as Telephony
 import AccountsService 0.1
 import Unity.InputInfo 0.1
@@ -80,21 +79,16 @@ PanelTest {
                     applicationMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
 
                     applicationMenus {
-                        model: sharedAppModel.model
+                        model: UnityMenuModel {
+                            modelData: appMenuData.generateTestData(5, 4, 2, 3, "menu")
+                        }
+
                         hides: [ panel.indicators ]
                     }
 
                     indicators {
                         model: root.indicatorsModel
                         hides: [ panel.applicationMenus ]
-                    }
-
-                    Indicators.SharedUnityMenuModel {
-                        id: sharedAppModel
-
-                        busName: ":1"
-                        menuObjectPath: "/DialerswindowtitleId"
-                        actions: { "unity": "/DialerswindowtitleId" }
                     }
                 }
             }
@@ -173,13 +167,6 @@ PanelTest {
                 Layout.preferredHeight: units.dp(1);
                 Layout.fillWidth: true;
                 color: "black"
-            }
-
-            ApplicationCheckBox {
-                id: applicationCheckBox
-                Layout.fillWidth: true
-                appId: "dialer-app"
-                onCheckedChanged: PanelState.focusedPersistentSurfaceId = checked ? "Dialers window titleId" : "";
             }
 
             Rectangle {

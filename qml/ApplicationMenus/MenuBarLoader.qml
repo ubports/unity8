@@ -33,6 +33,10 @@ Item {
     implicitWidth: row.width + units.gu(1)
     height: parent.height
 
+    function dismiss() {
+        d.dismissAll();
+    }
+
     WindowInputFilter {
         id: altFilter
         property bool altPressed: false
@@ -70,17 +74,7 @@ Item {
         acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
         anchors.fill: parent
         enabled: d.currentItem != null
-        onPressed: {
-            if (d.currentItem) {
-                d.currentItem.dismiss();
-            }
-        }
-    }
-
-    ActionContext {
-        id: menuBarContext
-        objectName: "menuBarContext"
-        active: true
+        onPressed: d.dismissAll()
     }
 
     Row {
@@ -88,6 +82,12 @@ Item {
         anchors.left: parent.left
         height: parent.height
         spacing: units.gu(2)
+
+        ActionContext {
+            id: menuBarContext
+            objectName: "barContext"
+            active: !d.currentItem
+        }
 
         Repeater {
             id: rowRepeater
@@ -108,7 +108,7 @@ Item {
 
                 function show() {
                     if (!__popup) {
-                        __popup = menuComponent.createObject(visualItem);
+                        __popup = menuComponent.createObject(root);
                     } else {
                         __popup.visible = true;
                     }
@@ -126,10 +126,15 @@ Item {
                     }
                 }
 
+                Connections {
+                    target: d
+                    onDismissAll: visualItem.dismiss()
+                }
+
                 Component {
                     id: menuComponent
                     MenuLoader {
-                        x: -units.gu(1)
+                        x: visualItem.x - units.gu(1)
                         anchors.top: parent.bottom
                         unityMenuModel: root.unityMenuModel.submenu(visualItem.__index)
                     }
@@ -203,6 +208,8 @@ Item {
         property Item hoveredItem: null
         property Item prevCurrentItem: null
 
+        signal dismissAll()
+
         onCurrentItemChanged: {
             if (prevCurrentItem && prevCurrentItem != currentItem) {
                 if (currentItem) {
@@ -238,8 +245,6 @@ Item {
                     return false;
                 if (d.currentItem != d.hoveredItem) {
                     d.currentItem = d.hoveredItem;
-//                    if (d.currentItem) d.currentItem.hide();
-//                    if (d.hoveredItem) d.hoveredItem.show();
                 }
             }
             return true;
@@ -247,7 +252,7 @@ Item {
     }
 
     Keys.onEscapePressed: {
-        if (d.currentItem) d.currentItem.hide()
+        d.dismissAll();
         event.accepted = true;
     }
 

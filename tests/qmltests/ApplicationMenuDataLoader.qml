@@ -11,15 +11,16 @@ Object {
             var fakeMenuPath = "/" + surface.persistentId.replace(/\W+/g, "");
 
             ApplicationMenuRegistry.RegisterSurfaceMenu(surface.persistentId, fakeMenuPath, fakeMenuPath, ":1");
-            Indicators.UnityMenuModelCache.setCachedModelData(fakeMenuPath, generateTestData(5, 3, 3, "menu"));
+            Indicators.UnityMenuModelCache.setCachedModelData(fakeMenuPath, generateTestData(5, 3, 2, 3, "menu"));
         }
         onSurfaceDestroyed: {
             ApplicationMenuRegistry.UnregisterSurfaceMenu(persistentSurfaceId, "/app");
         }
     }
 
-    function generateTestData(length, depth, separatorInterval, prefix) {
+    function generateTestData(length, depth, submenuInterval, separatorInterval, prefix, root) {
         var data = [];
+        if (root === undefined) root = true;
 
         if (prefix === undefined) prefix = "menu"
 
@@ -27,7 +28,7 @@ Object {
 
             var menuCode = String.fromCharCode(i+65);
 
-            var isSeparator = separatorInterval > 0 && ((i+1) % separatorInterval == 0);
+            var isSeparator = !root && separatorInterval > 0 && ((i+1) % separatorInterval == 0);
             var row = {
                 "rowData": {                // 1
                     "label": prefix + "&" + menuCode,
@@ -43,9 +44,9 @@ Object {
                     "shortcut": ""
                 }
             }
-            if (!isSeparator && depth > 1) {
-                var submenu = generateTestData(length, depth-1, separatorInterval, prefix + menuCode + ".");
-                row["submenu"] = submenu;
+            var isSubmenu = root === undefined || root === true || (submenuInterval > 0 && ((i+1) % submenuInterval == 0));
+            if (isSubmenu && !isSeparator && depth > 1) {
+                row["submenu"] = generateTestData(length, depth-1, submenuInterval, separatorInterval, prefix + menuCode + ".", false);
             }
             data[i] = row;
         }

@@ -58,7 +58,8 @@ ActionItem {
     Keys.onRightPressed: {
         if (hasSubmenu) {
             root.trigger(action && action.checkable ? !action.checked : undefined);
-            event.accepted = true;
+        } else {
+            event.accepted = false;
         }
     }
     Keys.onEnterPressed: {

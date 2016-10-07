@@ -337,9 +337,15 @@ Item {
                     property bool menusRequested: menuBarLoader.item ? menuBarLoader.item.showRequested : false
 
                     sourceComponent: MenuBarLoader {
+                        id: bar
                         height: menuBarLoader.height
                         enableKeyFilter: valid && PanelState.decorationsVisible
                         unityMenuModel: fakeApplicationMenus.model
+
+                        Connections {
+                            target: fakeApplicationMenus
+                            onHide: bar.dismiss();
+                        }
                     }
                 }
 
