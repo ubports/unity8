@@ -362,8 +362,8 @@ void UserMetricsPrivate::finishSetFakeData()
     m_secondColor = m_newData->secondColor();
     m_secondMonth.setVariantList(m_newData->secondMonth());
 
-    bool currentDayChanged = m_currentDay != m_newData->length();
-    m_currentDay = m_newData->length();
+    bool currentDayChanged = m_currentDay != m_username.length();
+    m_currentDay = m_username.length();
 
     q_ptr->labelChanged(m_label);
     if (currentDayChanged)

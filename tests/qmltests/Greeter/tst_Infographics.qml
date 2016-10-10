@@ -38,15 +38,43 @@ Item {
     width: units.gu(120)
     height: units.gu(120)
 
+    Loader {
+        id: loader
+
+        active: false
+        anchors.fill: parent
+
+        sourceComponent: Component {
+            Infographics {
+                model: infographicModel
+            }
+        }
+    }
+
     UT.UnityTestCase {
         name: "Infographics"
         when: windowShown
 
-        property var dataCircle: findChild(infographic, "dataCircle")
-        property var dots: findChild(infographic, "dots")
-        property var label: findChild(infographic, "label")
-        property var presentCircles: findChild(infographic, "presentCircles")
-        property var pastCircles: findChild(infographic, "pastCircles")
+        property var dataCircle
+        property var dots
+        property var label
+        property var presentCircles
+        property var pastCircles
+        property var infographic
+
+        function init() {
+            loader.active = false;
+            tryCompare(loader, "status", Loader.Null);
+            tryCompare(loader, "item", null);
+            loader.active = true;
+            tryCompare(loader, "status", Loader.Ready);
+            infographic = loader.item
+            dataCircle = findChild(infographic, "dataCircle")
+            dots =  findChild(infographic, "dots")
+            label =  findChild(infographic, "label")
+            presentCircles =  findChild(infographic, "presentCircles")
+            pastCircles = findChild(infographic, "pastCircles")
+        }
 
         function test_dot_states_data() {
             return [
@@ -74,8 +102,9 @@ Item {
 
         function test_set_username_data() {
             return [
-                { username: "", label: "", visible: false },
-                { username: "two-factor", label: "", visible: true },
+               { username: "has-password", label: "<b>19</b> minutes talk time", visible: true },
+               { username: "two-factor", label: "", visible: true },
+               { username: "", label: "", visible: false },
 
             ]
         }
@@ -89,24 +118,16 @@ Item {
         function test_set_current_day_data(data)
         {
             return [
-                { tag: "Same day",    currentDaySet: 0,     currentDayExpected: 0 },
-                { tag: "Wrong day",   currentDaySet: 1,     currentDayExpected: 0 },
+               { tag: "Same day",      username: "",             expectedDay: "".length},  // Expecting day 0, since the UserMetrics mock sets this value at creation time
+               { tag: "Different day", username: "has-password", expectedDay: "has-password".length},
             ]
         }
 
         function test_set_current_day(data)
         {
-            infographic.currentDay = data.currentDaySet
-            infographic.startShowAnimation()
-            compare(infographic.currentDay, data.currentDayExpected)
+            infographicModel.username = data.username
+            tryCompare(infographic, "currentDay", data.expectedDay)
         }
-    }
-
-    Infographics {
-        id: infographic
-
-        anchors.fill: parent
-        model: infographicModel
     }
 
     Dot { id: dot }
