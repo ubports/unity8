@@ -48,11 +48,14 @@ public:
     int interval() const override;
     void setInterval(int msecs) override;
     void start() override;
+    void stop()  override;
+    bool isRunning() const override;
     bool isSingleShot() const override;
     void setSingleShot(bool value) override;
 private:
     int m_interval;
     bool m_singleShot;
+    bool m_isRunning;
     qint64 m_nextTimeoutTime;
 };
 
@@ -84,6 +87,8 @@ private Q_SLOTS:
 
     void tapWhileTouching();
     void multipleHomeKeys();
+
+    void repeatedSuperPress();
 
 private:
     void passTime(qint64 timeSpanMs);
@@ -258,12 +263,49 @@ void WindowInputMonitorTest::multipleHomeKeys()
     QCOMPARE(activatedSpy.count(), 1);
 }
 
+// regression test for lp:1607427
+void WindowInputMonitorTest::repeatedSuperPress()
+{
+    WindowInputMonitor homeKeyWatcher(m_fakeTimerFactory->create(), new FakeElapsedTimer);
+    QSignalSpy activatedSpy(&homeKeyWatcher, &WindowInputMonitor::homeKeyActivated);
+    QVERIFY(activatedSpy.isValid());
+
+    // 1st try
+    passTime(1000);
+    {
+        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Super_L, Qt::NoModifier);
+        homeKeyWatcher.update(&keyEvent);
+    }
+    passTime(50);
+    {
+        QKeyEvent keyEvent(QEvent::KeyRelease, Qt::Key_Super_L, Qt::NoModifier);
+        homeKeyWatcher.update(&keyEvent);
+    }
+    passTime(1000);
+    QCOMPARE(activatedSpy.count(), 1);
+
+    // 2nd try
+    activatedSpy.clear();
+    {
+        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Super_L, Qt::NoModifier);
+        homeKeyWatcher.update(&keyEvent);
+    }
+    passTime(50);
+    {
+        QKeyEvent keyEvent(QEvent::KeyRelease, Qt::Key_Super_L, Qt::NoModifier);
+        homeKeyWatcher.update(&keyEvent);
+    }
+    passTime(1000);
+    QCOMPARE(activatedSpy.count(), 1);
+}
+
 /////////////////////////////////// FakeTimer //////////////////////////////////
 
 FakeTimer::FakeTimer(QObject *parent)
     : UnityUtil::AbstractTimer(parent)
     , m_interval(0)
     , m_singleShot(true)
+    , m_isRunning(false)
 {
 }
 
@@ -285,8 +327,18 @@ void FakeTimer::update()
 
 void FakeTimer::start()
 {
-    AbstractTimer::start();
+    m_isRunning = true;
     m_nextTimeoutTime = FakeElapsedTimer::msecsSinceEpoch + (qint64)interval();
+}
+
+void FakeTimer::stop()
+{
+    m_isRunning = false;
+}
+
+bool FakeTimer::isRunning() const
+{
+    return m_isRunning;
 }
 
 int FakeTimer::interval() const
