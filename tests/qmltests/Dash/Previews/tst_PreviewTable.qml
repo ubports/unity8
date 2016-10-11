@@ -33,7 +33,7 @@ Rectangle {
 
     property var widgetDataComplete2: {
         "title": "Short Title here",
-        "values": [ [ "Label A", "Long Value 1 Long Value 2 Long Value 3 Long Value 4 Long Value 5 Long Value 6 Long Value 2 Long Value 2 Long Value 2 Long Value 2"],  [ "Author", "Best 3v3r"],  [ "Summary", "If i knew how to write summaries i'd be working somewhere else"] ]
+        "values": [ [ "Publisher/Creator", "Unity8 team" ], [ "Label A", "Long Value 1 Long Value 2 Long Value 3 Long Value 4 Long Value 5 Long Value 6 Long Value 2 Long Value 2 Long Value 2 Long Value 2"],  [ "Author", "Best 3v3r"],  [ "Summary", "If i knew how to write summaries i'd be working somewhere else"] ]
     }
 
     property var widgetDataNoTitle: {
