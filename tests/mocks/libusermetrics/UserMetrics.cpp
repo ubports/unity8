@@ -80,6 +80,7 @@ public:
     ColorTheme m_secondColor;
     QVariantListModel m_secondMonth;
     int m_currentDay;
+    bool m_currentDayChanged;
     QString m_username;
     FakeDataMap::const_iterator m_dataIndex;
     UserMetricsDataPtr m_newData;
@@ -88,11 +89,15 @@ public:
     void setUsername(const QString &username);
 
 protected:
+    void findAndSetUsername(const QString &username);
+
     void nextFakeData();
 
     void generateFakeData();
 
     void loadFakeData();
+
+    void loadUserMetricsData();
 
     void finishSetFakeData();
 
@@ -220,7 +225,7 @@ int UserMetricsData::length() const
 }
 
 UserMetricsPrivate::UserMetricsPrivate(UserMetrics *parent) :
-        q_ptr(parent), m_firstColor(this), m_secondColor(this), m_currentDay(0)
+        q_ptr(parent), m_firstColor(this), m_secondColor(this), m_currentDay(-1), m_currentDayChanged(false)
 {
     m_fakeData.insert("", UserMetricsDataPtr(new UserMetricsData(this)));
 }
@@ -229,12 +234,8 @@ UserMetricsPrivate::~UserMetricsPrivate()
 {
 }
 
-void UserMetricsPrivate::setUsername(const QString &username)
+void UserMetricsPrivate::findAndSetUsername(const QString &username)
 {
-    if (m_username == username && m_newData) {
-        return;
-    }
-
     m_username = username;
 
     m_dataIndex = m_fakeData.constFind(m_username);
@@ -242,7 +243,15 @@ void UserMetricsPrivate::setUsername(const QString &username)
     {
         m_dataIndex = m_fakeData.constFind("");
     }
+}
 
+void UserMetricsPrivate::setUsername(const QString &username)
+{
+    if (m_username == username && m_newData) {
+        return;
+    }
+
+    findAndSetUsername(username);
     loadFakeData();
 
     q_ptr->usernameChanged(m_username);
@@ -351,24 +360,27 @@ void UserMetricsPrivate::loadFakeData()
     // we emit no signal if the data has stayed empty
 }
 
-void UserMetricsPrivate::finishSetFakeData()
+void UserMetricsPrivate::loadUserMetricsData()
 {
-    bool oldLabelEmpty = m_label.isEmpty();
-    bool newLabelEmpty = m_newData->label().isEmpty();
-
     m_label = m_newData->label();
     m_firstColor = m_newData->firstColor();
     m_firstMonth.setVariantList(m_newData->firstMonth());
     m_secondColor = m_newData->secondColor();
     m_secondMonth.setVariantList(m_newData->secondMonth());
+}
 
-    bool currentDayChanged = m_currentDay != m_username.length();
-    m_currentDay = m_username.length();
+void UserMetricsPrivate::finishSetFakeData()
+{
+    bool oldLabelEmpty = m_label.isEmpty();
+    bool newLabelEmpty = m_newData->label().isEmpty();
+
+    loadUserMetricsData();
 
     q_ptr->labelChanged(m_label);
-    if (currentDayChanged)
+    if (m_currentDayChanged)
     {
-        q_ptr->currentDayChanged(m_currentDay);
+       q_ptr->currentDayChanged(m_currentDay);
+       m_currentDayChanged = false;
     }
 
     if (oldLabelEmpty && !newLabelEmpty)
@@ -454,6 +466,14 @@ int UserMetrics::currentDay() const
     return d_ptr->m_currentDay;
 }
 
+void UserMetrics::setDay(int day)
+{
+    if(day != d_ptr->m_currentDay){
+        d_ptr->m_currentDay = day;
+        d_ptr->m_currentDayChanged = true;
+    }
+}
+
 void UserMetrics::nextDataSourceSlot()
 {
     d_ptr->nextFakeData();
@@ -462,6 +482,15 @@ void UserMetrics::nextDataSourceSlot()
 void UserMetrics::readyForDataChangeSlot()
 {
     d_ptr->finishSetFakeData();
+}
+
+void UserMetrics::reset()
+{
+    d_ptr->m_currentDay = -1;
+    d_ptr->m_currentDayChanged = false;
+
+    d_ptr->findAndSetUsername("");
+    d_ptr->loadUserMetricsData();
 }
 
 /**

@@ -57,9 +57,13 @@ public:
 
     int currentDay() const;
 
+    Q_INVOKABLE void setDay(int day);
+
     ColorTheme * secondColor() const;
 
     QAbstractItemModel *secondMonth() const;
+
+    Q_INVOKABLE void reset();
 
 Q_SIGNALS:
     void labelChanged(const QString &label);

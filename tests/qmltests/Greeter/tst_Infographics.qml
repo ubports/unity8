@@ -44,9 +44,17 @@ Item {
         active: false
         anchors.fill: parent
 
+        property bool componentDestroyed: true
         sourceComponent: Component {
             Infographics {
+                id: infographic
+                width: loader.width
+                height: loader.height
                 model: infographicModel
+
+                Component.onDestruction: {
+                    loader.componentDestroyed = true
+                }
             }
         }
     }
@@ -62,13 +70,24 @@ Item {
         property var pastCircles
         property var infographic
 
-        function init() {
+        function reloadInfographic() {
             loader.active = false;
             tryCompare(loader, "status", Loader.Null);
             tryCompare(loader, "item", null);
+            tryCompare(loader, "componentDestroyed", true);
             loader.active = true;
             tryCompare(loader, "status", Loader.Ready);
+            loader.componentDestroyed = false
             infographic = loader.item
+        }
+
+        function reloadModel() {
+           infographicModel.reset()
+        }
+
+        function init() {
+            reloadModel()
+            reloadInfographic()
             dataCircle = findChild(infographic, "dataCircle")
             dots =  findChild(infographic, "dots")
             label =  findChild(infographic, "label")
@@ -118,15 +137,24 @@ Item {
         function test_set_current_day_data(data)
         {
             return [
-               { tag: "Same day",      username: "",             expectedDay: "".length},  // Expecting day 0, since the UserMetrics mock sets this value at creation time
-               { tag: "Different day", username: "has-password", expectedDay: "has-password".length},
+               { tag: "Same day", 	   expectedDay: 0, label: "<b>19</b> minutes talk time" },
+               { tag: "Different day", expectedDay: 1, label: "<b>33</b> messages today" },
             ]
         }
 
         function test_set_current_day(data)
         {
-            infographicModel.username = data.username
+            //Given
+            infographicModel.username = "single"
+            infographic.currentDay = 0
+
+            //When
+            infographicModel.setDay(data.expectedDay)
+            infographic.startShowAnimation()
+
+            //Then
             tryCompare(infographic, "currentDay", data.expectedDay)
+            tryCompare(label, "text", data.label)
         }
     }
 
