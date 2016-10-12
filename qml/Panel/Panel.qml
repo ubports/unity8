@@ -104,7 +104,7 @@ Item {
                 fill: panelAreaBackground
                 bottomMargin: -units.gu(1)
             }
-            visible: PanelState.dropShadow && !callHint.visible
+            visible: PanelState.dropShadow
             source: "graphics/rectangular_dropshadow.sci"
         }
 
@@ -231,6 +231,8 @@ Item {
 
                 ActiveCallHint {
                     id: callHint
+                    objectName: "callHint"
+
                     x: __applicationMenus.x + __applicationMenus.barWidth
                     height: parent.height
 
@@ -371,6 +373,8 @@ Item {
 
                 ActiveCallHint {
                     id: callHint
+                    objectName: "callHint"
+
                     anchors.centerIn: parent
                     height: minimizedPanelHeight
 

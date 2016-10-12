@@ -463,7 +463,9 @@ Item {
 
             ApplicationManager.requestFocusApplication("unity8-dash");
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
-            tryCompare(panel.callHint, "visible", true);
+            var callHint = findChild(panel, "callHint");
+            tryCompare(callHint, "visible", true);
+            wait(10000)
 
             // simulate a callHint press, the real thing requires dialer: url support
             ApplicationManager.requestFocusApplication("dialer-app");

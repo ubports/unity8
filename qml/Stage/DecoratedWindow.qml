@@ -254,8 +254,6 @@ FocusScope {
                 property var menus: surface ? ApplicationMenuRegistry.getMenusForSurface(surface.persistentId) : []
                 property var menuService: menus.length > 0 ? menus[0] : undefined
 
-                onMenuServiceChanged: console.log("MENU!", menuService.service, menuService.menuPath, menuService.actionPath)
-
                 busName: menuService ? menuService.service : ""
                 menuObjectPath: menuService && menuService.menuPath ? menuService.menuPath : ""
                 actions: menuService && menuService.actionPath ? { "unity": menuService.actionPath } : {}

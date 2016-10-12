@@ -53,9 +53,7 @@ Rectangle {
         shellLoader.active = true;
     }
 
-    DesktopMenuData {
-        id: appMenuData
-    }
+    ApplicationMenuDataLoader {}
 
     property var shell: shellLoader.item ? shellLoader.item : null
 

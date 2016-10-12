@@ -57,12 +57,10 @@ MouseArea {
         id: priv
         property var menuBar: menuBarLoader.item
 
-        property bool enableMenus: root.enableMenus &&
-                                   menuBar &&
-                                   menuBar.valid
-
-        property bool shouldShowMenus : enableMenus &&
-                                        (menuBar.showRequested || root.containsMouse)
+        property bool shouldShowMenus: root.enableMenus &&
+                                       menuBar &&
+                                       menuBar.valid &&
+                                       (menuBar.showRequested || root.containsMouse)
     }
 
     Rectangle {
@@ -144,7 +142,7 @@ MouseArea {
                     MenuBar {
                         id: menuBar
                         height: menuBarLoader.height
-                        enableKeyFilter: priv.enableMenus
+                        enableKeyFilter: root.active && valid
                         unityMenuModel: root.menu
                     }
                 }

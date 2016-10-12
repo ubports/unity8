@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Utils 0.1
 import Ubuntu.Components 1.3
+import GlobalShortcut 1.0
 
 Item {
     id: root
@@ -27,9 +28,9 @@ Item {
 
     readonly property bool valid: rowRepeater.count > 0
 
-    property alias enableKeyFilter: altFilter.enabled
+    property bool enableKeyFilter: false
 
-    readonly property bool showRequested: altFilter.longAltPressed || d.currentItem != null
+    readonly property bool showRequested: d.longAltPressed || d.currentItem != null
 
     implicitWidth: row.width + units.gu(1)
     height: parent.height
@@ -38,36 +39,32 @@ Item {
         d.dismissAll();
     }
 
-    WindowInputFilter {
-        id: altFilter
-        property bool altPressed: false
-        property bool longAltPressed: false
-        Keys.onPressed: {
-            if (event.key === Qt.Key_Alt && !event.isAutoRepeat) {
-                altPressed = true;
-                longAltPressed = false;
-                menuBarShortcutTimer.start();
-                return;
-            }
-            event.accepted = false;
+    // Need 2 shortcuts because Alt press gives a different event to Alt release.
+    GlobalShortcut {
+        shortcut: Qt.Key_Alt|Qt.AltModifier
+        active: enableKeyFilter
+        onTriggered: {
+            d.altPressed = true;
+            d.longAltPressed = false;
+            menuBarShortcutTimer.start();
         }
-        Keys.onReleased: {
-            if (event.key === Qt.Key_Alt) {
-                menuBarShortcutTimer.stop();
-                altPressed = false;
-                longAltPressed = false;
-                return;
-            }
-            event.accepted = false
+    }
+    GlobalShortcut {
+        shortcut: Qt.Key_Alt
+        active: enableKeyFilter
+        onReleased: {
+            menuBarShortcutTimer.stop();
+            d.altPressed = false;
+            d.longAltPressed = false;
         }
+    }
 
-        Timer {
-            id: menuBarShortcutTimer
-            interval: 200
-            repeat: false
-            onTriggered: {
-                altFilter.longAltPressed = true;
-            }
+    Timer {
+        id: menuBarShortcutTimer
+        interval: 200
+        repeat: false
+        onTriggered: {
+            d.longAltPressed = true;
         }
     }
 
@@ -209,6 +206,9 @@ Item {
         property Item currentItem: null
         property Item hoveredItem: null
         property Item prevCurrentItem: null
+
+        property bool altPressed: false
+        property bool longAltPressed: false
 
         signal dismissAll()
 
