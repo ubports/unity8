@@ -63,10 +63,16 @@ void GlobalShortcut::componentComplete()
 
 void GlobalShortcut::keyPressEvent(QKeyEvent * event)
 {
-    Q_UNUSED(event)
-    if (m_active) {
-        Q_EMIT triggered(m_shortcut.toString());
-    }
+    if (!m_active) return;
+
+    event->accept();
+    Q_EMIT triggered(m_shortcut.toString());
+}
+
+void GlobalShortcut::keyReleaseEvent(QKeyEvent * event)
+{
+    event->accept();
+    Q_EMIT released(m_shortcut.toString());
 }
 
 void GlobalShortcut::setupFilterOnWindow(QQuickWindow *window)
