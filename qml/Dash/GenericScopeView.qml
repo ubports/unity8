@@ -267,6 +267,8 @@ FocusScope {
                 template: model.renderer
                 components: model.components
                 viewWidth: parent.width
+                scopeId: scope ? scope.id : ""
+                categoryId: baseItem.category
             }
 
             onExpandableChanged: {
@@ -342,53 +344,12 @@ FocusScope {
                         baseItem.expand(shouldExpand, false /*animate*/);
                     }
                     updateRanges();
-                    clickScopeSizingHacks();
-                    if (scope && (scope.id === "clickscope" || scope.id === "libertine-scope.ubuntu_libertine-scope")) {
-                        if (isLibertineContainerCategory() || categoryId === "predefined" || categoryId === "local") {
-                            cardTool.artShapeSize = Qt.binding(function() { return Qt.size(units.gu(8), units.gu(7.5)) });
-                            cardTool.artShapeStyle = "icon";
-                        } else {
-                            // Should be ubuntu store icon
-                            cardTool.artShapeStyle = "flat";
-                            item.backgroundShapeStyle = "shadow";
-                        }
-                    }
                     item.cardTool = cardTool;
                 }
 
                 Component.onDestruction: {
                     if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviorOnNextCreation !== undefined) {
                         scopeView.enableHeightBehaviorOnNextCreation = item.enableHeightBehaviorOnNextCreation;
-                    }
-                }
-                // FIXME: directly connecting to onUnitsChanged cause a compile error:
-                // Cannot assign to non-existent property "onUnitsChanged"
-                // Until the units object is reworked to properly do all we need, let's go through a intermediate property
-                property int pxpgu: units.gu(1);
-                onPxpguChanged: clickScopeSizingHacks();
-
-                // Returns true if the current category pertains to a Libertine container
-                function isLibertineContainerCategory() {
-                  return scope && scope.id === "libertine-scope.ubuntu_libertine-scope" && categoryId !== "hint";
-                }
-
-                function clickScopeSizingHacks() {
-                    if (scope &&
-                        ((scope.id === "clickscope" && (categoryId === "predefined" || categoryId === "local")) ||
-                         isLibertineContainerCategory())) {
-                        // Yeah, hackish :/
-                        if (scopeView.width > units.gu(45)) {
-                            if (scopeView.width >= units.gu(70)) {
-                                cardTool.cardWidth = units.gu(11);
-                                item.minimumHorizontalSpacing = units.gu(5);
-                                return;
-                            } else {
-                                cardTool.cardWidth = units.gu(10);
-                            }
-                        } else {
-                            cardTool.cardWidth = units.gu(12);
-                        }
-                        item.minimumHorizontalSpacing = item.defaultMinimumHorizontalSpacing;
                     }
                 }
 
@@ -425,7 +386,6 @@ FocusScope {
                     target: scopeView
                     onIsCurrentChanged: rendererLoader.updateRanges();
                     onVisibleToParentChanged: rendererLoader.updateRanges();
-                    onWidthChanged: rendererLoader.clickScopeSizingHacks();
                 }
                 Connections {
                     target: holdingList
