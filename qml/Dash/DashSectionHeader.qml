@@ -28,7 +28,7 @@ Item {
     height: units.gu(5)
 
     RowLayout {
-        spacing: units.gu(0.5)
+        spacing: units.gu(.5)
         anchors {
             left: parent.left
             right: parent.right
