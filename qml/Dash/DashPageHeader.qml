@@ -25,7 +25,7 @@ Item {
     id: root
     objectName: "pageHeader"
     implicitHeight: headerContainer.height + signatureLineHeight
-    readonly property real signatureLineHeight: showSignatureLine ? units.gu(2) : headerBottomLine.height
+    readonly property real signatureLineHeight: showSignatureLine ? units.gu(2.5) : headerBottomLine.height
     readonly property real headerDividerLuminance: Style.luminance(bottomBorder.color)
 
     property int activeFiltersCount: 0
@@ -428,7 +428,7 @@ Item {
         anchors {
             top: headerContainer.bottom
             horizontalCenter: headerContainer.horizontalCenter
-            topMargin: units.gu(.5)
+            topMargin: units.gu(1)
         }
         visible: showSignatureLine
         spacing: units.gu(.5)
@@ -441,7 +441,7 @@ Item {
                 width: height
                 radius: height / 2
                 color: index == root.paginationIndex ? UbuntuColors.blue : "transparent"
-                border.width: index == root.paginationIndex ? 0 : units.dp(1)
+                border.width: index == root.paginationIndex ? 0 : 1 // yes, one pixel and not 1dp
                 border.color: theme.palette.normal.baseText
             }
         }
