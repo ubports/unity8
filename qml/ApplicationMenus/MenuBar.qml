@@ -39,33 +39,18 @@ Item {
         d.dismissAll();
     }
 
-    // Need 2 shortcuts because Alt press gives a different event to Alt release.
     GlobalShortcut {
         shortcut: Qt.Key_Alt|Qt.AltModifier
         active: enableKeyFilter
-        onTriggered: {
-            d.altPressed = true;
-            d.longAltPressed = false;
-            menuBarShortcutTimer.start();
-        }
+        onTriggered: d.startShortcutTimer()
+        onReleased: d.stopSHortcutTimer()
     }
+    // On an actual keyboard, the AltModifier is not supplied on release.
     GlobalShortcut {
         shortcut: Qt.Key_Alt
         active: enableKeyFilter
-        onReleased: {
-            menuBarShortcutTimer.stop();
-            d.altPressed = false;
-            d.longAltPressed = false;
-        }
-    }
-
-    Timer {
-        id: menuBarShortcutTimer
-        interval: 200
-        repeat: false
-        onTriggered: {
-            d.longAltPressed = true;
-        }
+        onTriggered: d.startShortcutTimer()
+        onReleased: d.stopSHortcutTimer()
     }
 
     InverseMouseArea {
@@ -187,6 +172,32 @@ Item {
         } // Repeater
     } // Row
 
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: d.currentItem
+
+        onPositionChanged: {
+            if (d.currentItem) {
+                updateCurrentItemFromPosition(mouse)
+            }
+        }
+        onClicked: updateCurrentItemFromPosition(mouse)
+
+        function updateCurrentItemFromPosition(point) {
+            var pos = mapToItem(row, point.x, point.y);
+
+            if (!d.hoveredItem || !d.currentItem || !d.hoveredItem.contains(Qt.point(pos.x - d.currentItem.x, pos.y - d.currentItem.y))) {
+                d.hoveredItem = row.childAt(pos.x, pos.y);
+                if (!d.hoveredItem || !d.hoveredItem.enabled)
+                    return false;
+                if (d.currentItem != d.hoveredItem) {
+                    d.currentItem = d.hoveredItem;
+                }
+            }
+            return true;
+        }
+    }
+
     Rectangle {
         id: underline
         anchors {
@@ -224,32 +235,25 @@ Item {
             if (currentItem) currentItem.show();
             prevCurrentItem = currentItem;
         }
+
+        function startShortcutTimer() {
+            d.altPressed = true;
+            menuBarShortcutTimer.start();
+        }
+
+        function stopSHortcutTimer() {
+            menuBarShortcutTimer.stop();
+            d.altPressed = false;
+            d.longAltPressed = false;
+        }
     }
 
-    MouseArea {
-        id: menuMouseArea
-        anchors.fill: parent
-        hoverEnabled: d.currentItem
-
-        onPositionChanged: {
-            if (d.currentItem) {
-                updateCurrentItemFromPosition(mouse)
-            }
-        }
-        onClicked: updateCurrentItemFromPosition(mouse)
-
-        function updateCurrentItemFromPosition(point) {
-            var pos = mapToItem(row, point.x, point.y);
-
-            if (!d.hoveredItem || !d.currentItem || !d.hoveredItem.contains(Qt.point(pos.x - d.currentItem.x, pos.y - d.currentItem.y))) {
-                d.hoveredItem = row.childAt(pos.x, pos.y);
-                if (!d.hoveredItem || !d.hoveredItem.enabled)
-                    return false;
-                if (d.currentItem != d.hoveredItem) {
-                    d.currentItem = d.hoveredItem;
-                }
-            }
-            return true;
+    Timer {
+        id: menuBarShortcutTimer
+        interval: 200
+        repeat: false
+        onTriggered: {
+            d.longAltPressed = true;
         }
     }
 

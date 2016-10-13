@@ -741,8 +741,7 @@ Item {
 
             var posBefore = Qt.point(appDelegate.x, appDelegate.y);
 
-            mousePress(appDelegate, appDelegate.width / 2, units.gu(1), data.button);
-            mouseMove(appDelegate, appDelegate.width / 2, -units.gu(100), undefined /* delay */, data.button);
+            mouseDrag(appDelegate, appDelegate.width / 2, units.gu(1), 0, appDelegate.height / 2, data.button, Qt.NoModifier, 200)
 
             var posAfter = Qt.point(appDelegate.x, appDelegate.y);
 

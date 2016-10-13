@@ -135,16 +135,13 @@ MouseArea {
                 anchors.bottom: parent.bottom
                 height: parent.height
                 width: parent.width
-                sourceComponent: root.menu ? menuBarComponent : undefined
+                active: root.menu !== undefined
 
-                Component {
-                    id: menuBarComponent
-                    MenuBar {
-                        id: menuBar
-                        height: menuBarLoader.height
-                        enableKeyFilter: root.active && valid
-                        unityMenuModel: root.menu
-                    }
+                sourceComponent: MenuBar {
+                    id: menuBar
+                    height: menuBarLoader.height
+                    enableKeyFilter: root.active && valid
+                    unityMenuModel: root.menu
                 }
 
                 opacity: !overlayShown && priv.shouldShowMenus ? 1 : 0
