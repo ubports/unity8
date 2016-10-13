@@ -2714,5 +2714,23 @@ Rectangle {
             tryCompare(topLevelSurfaceList, "count", countBeforeClose - 1);
             tryCompareFunction(function() { return ApplicationManager.focusedApplicationId; }, "calendar-app");
         }
+
+        function test_indicatorMenuEnabledSetting_data() {
+            return [
+                {tag: "indicator menu enabled", enabled: true},
+                {tag: "indicator menu disabled", enabled: false}
+            ]
+        }
+
+        function test_indicatorMenuEnabledSetting(data) {
+            loadShell("phone");
+
+            GSettingsController.setEnableIndicatorMenu(data.enabled);
+
+            var panel = findChild(shell, "panel");
+            compare(panel.indicators.available, data.enabled);
+
+            GSettingsController.setEnableIndicatorMenu(true);
+        }
     }
 }
