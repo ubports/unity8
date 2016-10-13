@@ -2561,5 +2561,21 @@ Rectangle {
             tryCompare(topLevelSurfaceList, "count", countBeforeClose - 1);
             tryCompareFunction(function() { return ApplicationManager.focusedApplicationId; }, "calendar-app");
         }
+
+        function test_enableLauncher_data() {
+            return [
+                {tag: "enabled", enabled: true},
+                {tag: "disabled", enabled: false}
+            ];
+        }
+
+        function test_enableLauncher(data) {
+            GSettingsController.setEnableLauncher(data.enabled);
+
+            var launcher = findChild(shell, "launcher");
+            compare(launcher.available, data.enabled);
+
+            GSettingsController.setEnableLauncher(true);
+        }
     }
 }

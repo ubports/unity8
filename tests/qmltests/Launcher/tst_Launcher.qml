@@ -1364,6 +1364,8 @@ Rectangle {
             dragLauncherIntoView();
             var launcherPanel = findChild(launcher, "launcherPanel");
             compare(launcherPanel.x, 0);
+
+            launcher.available = true;
         }
 
         function test_launcherDisabledSetting() {
@@ -1373,6 +1375,8 @@ Rectangle {
             dragLauncher();
             var launcherPanel = findChild(launcher, "launcherPanel");
             compare(launcherPanel.x, -launcherPanel.width);
+
+            launcher.available = true;
         }
     }
 }
