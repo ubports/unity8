@@ -2715,14 +2715,16 @@ Rectangle {
             tryCompareFunction(function() { return ApplicationManager.focusedApplicationId; }, "calendar-app");
         }
 
-        function test_enableLauncher_data() {
+        function test_launcherEnabledSetting_data() {
             return [
-                {tag: "enabled", enabled: true},
-                {tag: "disabled", enabled: false}
-            ];
+                {tag: "launcher enabled", enabled: true},
+                {tag: "launcher disabled", enabled: false}
+            ]
         }
 
-        function test_enableLauncher(data) {
+        function test_launcherEnabledSetting(data) {
+            loadShell("phone");
+
             GSettingsController.setEnableLauncher(data.enabled);
 
             var launcher = findChild(shell, "launcher");
