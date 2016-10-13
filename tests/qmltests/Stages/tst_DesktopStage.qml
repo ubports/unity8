@@ -75,7 +75,7 @@ Item {
         sourceComponent: Component {
             DesktopStage {
                 anchors.fill: parent
-                background: "../../../qml/graphics/tablet_background.jpg"
+                background: "/usr/share/backgrounds/warty-final-ubuntu.png"
                 focus: true
 
                 Component.onCompleted: {
@@ -487,7 +487,7 @@ Item {
 
             // click again to restore
             mouseClick(dialerMaximizeButton);
-            tryCompare(dialerDelegate, "windowState", WindowStateStorage.WindowStateNormal);
+            tryCompare(dialerDelegate, "windowState", WindowStateStorage.WindowStateRestored);
         }
 
         function test_windowMaximizeVertically() {
@@ -502,7 +502,7 @@ Item {
 
             // click again to restore
             mouseClick(dialerMaximizeButton);
-            tryCompare(dialerDelegate, "windowState", WindowStateStorage.WindowStateNormal);
+            tryCompare(dialerDelegate, "windowState", WindowStateStorage.WindowStateRestored);
         }
 
         function test_smashCursorKeys() {

@@ -76,7 +76,7 @@ public:
         return *this;
     }
 
-    bool operator=(const GestureTouchPoint& rhs) const {
+    bool operator==(const GestureTouchPoint& rhs) const {
         if (&rhs == this) return true;
         return m_id == rhs.m_id &&
                 m_pressed == rhs.m_pressed &&
@@ -84,7 +84,7 @@ public:
                 m_y == rhs.m_y &&
                 m_dragging == rhs.m_dragging;
     }
-    bool operator!=(const GestureTouchPoint& rhs) const { return !operator=(rhs); }
+    bool operator!=(const GestureTouchPoint& rhs) const { return !operator==(rhs); }
 
     void setPos(const QPointF &pos);
 
