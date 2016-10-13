@@ -60,9 +60,12 @@ Item {
             property real heightIncrement: 0
 
             property int windowState: WindowStateStorage.WindowStateNormal
+            property real restoredX
+            property real restoredY
 
             states: [
                 State { name: "normal"; when: windowState == WindowStateStorage.WindowStateNormal },
+                State { name: "restored"; when: windowState == WindowStateStorage.WindowStateRestored },
                 State { name: "maximized"; when: windowState == WindowStateStorage.WindowStateMaximized }
             ]
 
@@ -71,7 +74,12 @@ Item {
             }
 
             function restoreFromMaximized() {
-                windowState = WindowStateStorage.WindowStateNormal
+                windowState = WindowStateStorage.WindowStateRestored
+            }
+
+            function restore(animated,state) {
+                windowState = state || WindowStateStorage.WindowStateRestored;
+                windowState &= ~WindowStateStorage.WindowStateMinimized; // clear the minimized bit
             }
 
             WindowResizeArea {

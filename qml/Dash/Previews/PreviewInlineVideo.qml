@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtMultimedia 5.0
 import Ubuntu.Components 1.3
 import Ubuntu.Thumbnailer 0.1
+import "PreviewSingleton"
 import "../../Components"
 import "../../Components/MediaServices"
 
@@ -36,9 +37,35 @@ PreviewWidget {
     orientationLock: services.fullscreen
 
     property alias rootItem: services.rootItem
+    readonly property string widgetExtraDataKey: services.source.toString()
+
+    onWidgetExtraDataKeyChanged: {
+        root.restorePlaybackState();
+    }
+
+    function seek() {
+        services.mediaPlayer.seek(services.initialPosition);
+        services.initialPosition = -1;
+    }
+
+    function storePlaybackState() {
+        if ((services.mediaPlayer.duration - services.mediaPlayer.position) < 1000) {
+            // we're at the end of the video
+            PreviewSingleton.widgetExtraData[widgetExtraDataKey] = 0;
+        } else {
+            PreviewSingleton.widgetExtraData[widgetExtraDataKey] = services.mediaPlayer.position;
+        }
+    }
+
+    function restorePlaybackState() {
+        if (PreviewSingleton.widgetExtraData[widgetExtraDataKey] > 0) {
+            services.initialPosition = PreviewSingleton.widgetExtraData[widgetExtraDataKey];
+        }
+    }
 
     MediaServices {
         id: services
+        objectName: "services"
         width: parent.width
 
         actions: sharingAction
@@ -47,7 +74,27 @@ PreviewWidget {
         fullscreen: false
         maximumEmbeddedHeight: rootItem.height / 2
 
+        property int initialPosition: -1
+
+        readonly property var mediaPlayer: footer.mediaPlayer
+        readonly property url source: mediaPlayer.source
+        readonly property int position: mediaPlayer.position
+
         onClose: fullscreen = false
+
+        onPositionChanged: {
+            if (mediaPlayer.playbackState === MediaPlayer.StoppedState) return;
+            root.storePlaybackState();
+        }
+
+        Connections {
+            target: services.mediaPlayer
+            ignoreUnknownSignals: true
+            onPlaying: {
+                // at the first playback of the file, do a seek()
+                if (services.initialPosition > 0) root.seek();
+            }
+        }
 
         Action {
             id: sharingAction

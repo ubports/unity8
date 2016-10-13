@@ -119,6 +119,7 @@ Item {
     }
 
     Label {
+        id: titleLabel
         text: root.title
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: iconShape.bottom
@@ -137,12 +138,8 @@ Item {
 
     ActivityIndicator {
         id: spinner
-        anchors.centerIn: header.visible ? parent : undefined
-        anchors.verticalCenterOffset: header.visible ? header.height / 2 : 0
-
-        anchors.horizontalCenter: header.visible ? undefined : parent.horizontalCenter
-        anchors.bottom: header.visible ? undefined : parent.bottom
-        anchors.bottomMargin: header.visible ? 0 : units.gu(12)
+        anchors.centerIn: parent
+        anchors.verticalCenterOffset: header.visible ? header.height / 2 : Math.max(titleLabel.y / 2, units.gu(8))
     }
 
     MouseArea {

@@ -23,6 +23,7 @@ import AccountsService 0.1
 import Unity.InputInfo 0.1
 import Unity.Application 0.1
 import ".." as LocalComponents
+import "../../Components"
 
 LocalComponents.Page {
     objectName: "keyboardPage"
