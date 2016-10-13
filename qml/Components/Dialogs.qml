@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-
+import QtQuick.Window 2.2
 import Unity.Application 0.1
 import Unity.Session 0.1
 import GlobalShortcut 1.0
@@ -41,6 +41,7 @@ Item {
         }
     }
     property string usageScenario
+    property size screenSize: Qt.size(Screen.width, Screen.height)
 
     signal powerOffClicked();
 
@@ -49,7 +50,11 @@ Item {
     }
 
     onUsageScenarioChanged: {
-        if (usageScenario != "desktop" && legacyAppsModel.count > 0 && !d.modeSwitchWarningPopup) {
+        // if we let the user switch manually to desktop mode, don't display the warning dialog
+        // see MenuItemFactory.qml, for the Desktop Mode switch logic
+        var isTabletSize = Math.min(screenSize.width, screenSize.height) > units.gu(60);
+
+        if (usageScenario != "desktop" && legacyAppsModel.count > 0 && !d.modeSwitchWarningPopup && !isTabletSize) {
             var comp = Qt.createComponent(Qt.resolvedUrl("ModeSwitchWarningDialog.qml"))
             d.modeSwitchWarningPopup = comp.createObject(root, {model: legacyAppsModel});
             d.modeSwitchWarningPopup.forceClose.connect(function() {
@@ -107,12 +112,12 @@ Item {
 
     GlobalShortcut { // lock screen
         shortcut: Qt.Key_ScreenSaver
-        onTriggered: lightDM.greeter.showGreeter()
+        onTriggered: LightDMService.greeter.showGreeter()
     }
 
     GlobalShortcut { // lock screen
         shortcut: Qt.ControlModifier|Qt.AltModifier|Qt.Key_L
-        onTriggered: lightDM.greeter.showGreeter()
+        onTriggered: LightDMService.greeter.showGreeter()
     }
 
     QtObject {
@@ -137,8 +142,6 @@ Item {
         active: false
     }
 
-    LightDM {id: lightDM} // Provide backend access
-
     Component {
         id: logoutDialogComponent
         ShellDialog {
@@ -148,7 +151,7 @@ Item {
             Button {
                 text: i18n.ctr("Button: Lock the system", "Lock")
                 onClicked: {
-                    lightDM.greeter.showGreeter()
+                    LightDMService.greeter.showGreeter()
                     logoutDialog.hide();
                 }
             }

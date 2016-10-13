@@ -22,6 +22,8 @@
 #include <QStringList>
 #include <QVariant>
 
+class MockUsersModel;
+
 class AccountsService: public QObject
 {
     Q_OBJECT
@@ -84,7 +86,7 @@ class AccountsService: public QObject
     Q_PROPERTY(QString email READ email WRITE setEmail NOTIFY emailChanged)
     Q_PROPERTY(QStringList keymaps
                READ keymaps
-               WRITE setKeymaps // only in mock
+               WRITE setKeymaps
                NOTIFY keymapsChanged)
 
 public:
@@ -163,6 +165,7 @@ private:
     QString m_realName;
     QStringList m_kbdMap;
     QString m_email;
+    MockUsersModel *m_usersModel;
 };
 
 #endif

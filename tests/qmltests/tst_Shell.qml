@@ -18,7 +18,8 @@ import QtQuick 2.4
 import QtTest 1.0
 import AccountsService 0.1
 import GSettings 1.0
-import IntegratedLightDM 0.1 as LightDM
+import LightDM.IntegratedLightDM 0.1 as LightDM
+import SessionBroadcast 0.1
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.Telephony 0.1 as Telephony
@@ -406,6 +407,18 @@ Rectangle {
     }
 
     SignalSpy {
+        id: broadcastUrlSpy
+        target: SessionBroadcast
+        signalName: "startUrl"
+    }
+
+    SignalSpy {
+        id: broadcastHomeSpy
+        target: SessionBroadcast
+        signalName: "showHome"
+    }
+
+    SignalSpy {
         id: unlockAllModemsSpy
         target: Connectivity
         signalName: "unlockingAllModems"
@@ -456,7 +469,7 @@ Rectangle {
         function cleanup() {
             waitForRendering(shell);
             mouseEmulation.checked = true;
-            tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
+            tryCompare(shell, "waitingOnGreeter", false); // make sure greeter didn't leave us in disabled state
             tearDown();
             WindowStateStorage.clear();
         }
@@ -466,7 +479,7 @@ Rectangle {
             shellLoader.active = true;
             tryCompare(shellLoader, "status", Loader.Ready);
             removeTimeConstraintsFromSwipeAreas(shellLoader.item);
-            tryCompare(shell, "enabled", true); // enabled by greeter when ready
+            tryCompare(shell, "waitingOnGreeter", false); // reset by greeter when ready
 
             sessionSpy.target = findChild(shell, "greeter")
             dashCommunicatorSpy.target = findInvisibleChild(shell, "dashCommunicator");
@@ -506,7 +519,7 @@ Rectangle {
             var greeter = findChild(shell, "greeter");
             verify(greeter);
 
-            var loginList = findChild(greeter, "loginList");
+            var loginList = findChild(greeter, "loginList", 0 /* timeout */);
             // Only present in WideView
             if (loginList) {
                 var userList = findChild(loginList, "userList");
@@ -536,6 +549,7 @@ Rectangle {
 
             AccountsService.demoEdges = false;
             AccountsService.demoEdgesCompleted = [];
+            AccountsService.backgroundFile = "";
             Wizard.System.wizardEnabled = false;
             shellLoader.mode = "full-greeter";
 
@@ -546,8 +560,11 @@ Rectangle {
             LightDM.Greeter.authenticate(""); // reset greeter
 
             sessionSpy.clear();
+            broadcastUrlSpy.clear();
+            broadcastHomeSpy.clear();
 
             GSettingsController.setLifecycleExemptAppids([]);
+            GSettingsController.setPictureUri("");
 
             // there should be only unity8-dash window over there
             tryCompare(ApplicationManager, "count", 1);
@@ -672,7 +689,7 @@ Rectangle {
                 waitUntilDashIsFocused();
                 tryCompare(greeter, "shown", false);
             } else {
-                compare(greeter.fullyShown, data.greeterShown);
+                tryCompare(greeter, "fullyShown", data.greeterShown);
             }
 
             var launcher = findChild(shell, "launcherPanel");
@@ -818,7 +835,7 @@ Rectangle {
                 tryCompare(userlist, "currentIndex", next)
                 tryCompare(userlist, "movingInternally", false)
             }
-            tryCompare(shell, "enabled", true); // wait for PAM to settle
+            tryCompare(shell, "waitingOnGreeter", false); // wait for PAM to settle
         }
 
         function selectUser(name) {
@@ -919,7 +936,7 @@ Rectangle {
 
         function findAppWindowForSurfaceId(surfaceId) {
             // for PhoneStage and TabletStage
-            var delegate = findChild(shell, "spreadDelegate_" + surfaceId);
+            var delegate = findChild(shell, "spreadDelegate_" + surfaceId, 0 /* timeout */);
             if (!delegate) {
                 // for DesktopStage
                 delegate = findChild(shell, "appDelegate_" + surfaceId);
@@ -1161,6 +1178,17 @@ Rectangle {
             tryCompare(indicators, "fullyClosed", true);
         }
 
+        function test_greeterShownAgainHidesIndicators() {
+            // Regression test for https://launchpad.net/bugs/1595569
+
+            loadShell("phone");
+            showIndicators();
+            showGreeter();
+
+            var indicators = findChild(shell, "indicators");
+            tryCompare(indicators, "fullyClosed", true);
+        }
+
         function test_showAndHideGreeterDBusCalls() {
             loadShell("phone");
             swipeAwayGreeter();
@@ -1176,16 +1204,13 @@ Rectangle {
 
         function test_greeterLoginsAutomaticallyWhenNoPasswordSet() {
             loadShell("phone");
-            swipeAwayGreeter();
-
-            sessionSpy.clear();
-            verify(sessionSpy.valid);
-
-            showGreeter();
 
             var greeter = findChild(shell, "greeter");
             verify(!greeter.locked);
-            verify(sessionSpy.count > 0);
+            compare(sessionSpy.count, 0);
+
+            swipeAwayGreeter();
+            compare(sessionSpy.count, 1);
         }
 
         function test_fullscreen() {
@@ -1309,6 +1334,32 @@ Rectangle {
 
             swipeAwayGreeter();
             tryCompare(tutorial, "paused", false);
+        }
+
+        function test_customBackground() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+
+            var wallpaperResolver = findInvisibleChild(shell, "wallpaperResolver");
+            var greeter = findChild(shell, "greeter");
+            verify(!greeter.hasCustomBackground);
+            compare(wallpaperResolver.background, wallpaperResolver.defaultBackground);
+
+            AccountsService.backgroundFile = Qt.resolvedUrl("../graphics/applicationIcons/dash.png");
+            tryCompare(greeter, "hasCustomBackground", true);
+            compare(wallpaperResolver.background, AccountsService.backgroundFile);
+        }
+
+        function test_cachedBackground() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+
+            var greeter = findChild(shell, "greeter");
+            verify(!greeter.hasCustomBackground);
+            compare(greeter.background.toString().indexOf("image://unity8imagecache/file:///"), 0);
+            verify(greeter.background.toString().indexOf("?name=wallpaper") > 0);
         }
 
         function test_tapOnRightEdgeReachesApplicationSurface() {
@@ -2095,8 +2146,13 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(app2SurfaceId);
 
             // Sanity checking
-            compare(app1.stage, ApplicationInfoInterface.MainStage);
-            compare(app2.stage, ApplicationInfoInterface.MainStage);
+            if (data.usageScenario === "tablet") {
+                var app1Delegate = findChild(shell, "spreadDelegate_" + app1SurfaceId);
+                compare(app1Delegate.stage, ApplicationInfoInterface.MainStage);
+
+                var app2Delegate = findChild(shell, "spreadDelegate_" + app2SurfaceId);
+                compare(app2Delegate.stage, ApplicationInfoInterface.MainStage);
+            }
             verify(!app1.isTouchApp);
 
             var app1Surface = app1.surfaceList.get(0);
@@ -2131,8 +2187,13 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(app2SurfaceId);
 
             // Sanity checking
-            compare(app1.stage, ApplicationInfoInterface.MainStage);
-            compare(app2.stage, ApplicationInfoInterface.MainStage);
+            if (data.usageScenario === "tablet") {
+                var app1Delegate = findChild(shell, "spreadDelegate_" + app1SurfaceId);
+                compare(app1Delegate.stage, ApplicationInfoInterface.MainStage);
+
+                var app2Delegate = findChild(shell, "spreadDelegate_" + app2SurfaceId);
+                compare(app2Delegate.stage, ApplicationInfoInterface.MainStage);
+            }
 
             var app1Surface = app1.surfaceList.get(0);
             verify(app1Surface);
@@ -2146,8 +2207,10 @@ Rectangle {
 
         function test_switchToStagedForcesLegacyAppClosing_data() {
             return [
-                {tag: "forceClose", replug: false },
-                {tag: "replug", replug: true }
+                {tag: "forceClose", replug: false, tabletMode: false, screenSize: Qt.size(units.gu(20), units.gu(40)) },
+                {tag: "replug", replug: true, tabletMode: false, screenSize: Qt.size(units.gu(20), units.gu(40)) },
+                {tag: "forceClose+tablet", replug: false, tabletMode: true, screenSize: Qt.size(units.gu(90), units.gu(65)) },
+                {tag: "replug+tablet", replug: true, tabletMode: true, screenSize: Qt.size(units.gu(90), units.gu(65)) }
             ];
         }
 
@@ -2155,6 +2218,11 @@ Rectangle {
             loadShell("desktop")
             shell.usageScenario = "desktop"
             waitForRendering(shell);
+
+            // setup some screen size
+            var dialogs = findChild(root, "dialogs");
+            verify(dialogs);
+            dialogs.screenSize = data.screenSize;
 
             ApplicationManager.startApplication("camera-app")
 
@@ -2174,14 +2242,13 @@ Rectangle {
             shell.usageScenario = "phone"
             waitForRendering(shell);
 
-            // The popup must appear now
+            // The popup must appear now, unless in "tablet" mode
             popup = findChild(root, "modeSwitchWarningDialog");
-            compare(popup !== null, true);
+            compare(popup !== null, !data.tabletMode);
 
-            if (data.replug) {
+            if (data.replug || data.tabletMode) {
                 shell.usageScenario = "desktop"
                 waitForRendering(shell);
-
             } else {
                 var forceCloseButton = findChild(popup, "forceCloseButton");
                 mouseClick(forceCloseButton, forceCloseButton.width / 2, forceCloseButton.height / 2);
@@ -2192,7 +2259,7 @@ Rectangle {
             popup = findChild(root, "modeSwitchWarningDialog");
             tryCompareFunction(function() { return popup === null}, true);
 
-            if (data.replug) {
+            if (data.replug || data.tabletMode) {
                 // Libreoffice must still be running
                 compare(ApplicationManager.findApplication("libreoffice") !== null, true);
             } else {
@@ -2213,11 +2280,6 @@ Rectangle {
             shell.usageScenario = "desktop";
             GSettingsController.setAutohideLauncher(!data.launcherLocked);
             waitForRendering(shell);
-            // Not sure why 2 but it's the number of times
-            // it triggers at this time and we need to wait
-            // for them otherwise a sessionStarted signal will
-            // hide the launcher and make the test fail
-            tryCompare(sessionSpy, "count", 2);
 
             var launcher = findChild(shell, "launcher");
             var launcherPanel = findChild(launcher, "launcherPanel");
@@ -2401,6 +2463,119 @@ Rectangle {
             compare(topmostSurfaceItem.touchReleaseCount, 2);
         }
 
+        function test_background_data() {
+            return [
+                {tag: "color",
+                 accounts: Qt.resolvedUrl("data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>"),
+                 gsettings: "",
+                 output: Qt.resolvedUrl("data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>")},
+
+                {tag: "empty", accounts: "", gsettings: "", output: "defaultBackground"},
+
+                {tag: "as-specified",
+                 accounts: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"),
+                 gsettings: "",
+                 output: Qt.resolvedUrl("../data/unity/backgrounds/blue.png")},
+
+                {tag: "gs-specified",
+                 accounts: "",
+                 gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"),
+                 output: Qt.resolvedUrl("../data/unity/backgrounds/red.png")},
+
+                {tag: "both-specified",
+                 accounts: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"),
+                 gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"),
+                 output: Qt.resolvedUrl("../data/unity/backgrounds/blue.png")},
+
+                {tag: "invalid-as",
+                 accounts: Qt.resolvedUrl("../data/unity/backgrounds/nope.png"),
+                 gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"),
+                 output: Qt.resolvedUrl("../data/unity/backgrounds/red.png")},
+
+                {tag: "invalid-both",
+                 accounts: Qt.resolvedUrl("../data/unity/backgrounds/nope.png"),
+                 gsettings: Qt.resolvedUrl("../data/unity/backgrounds/stillnope.png"),
+                 output: "defaultBackground"},
+            ]
+        }
+        function test_background(data) {
+            loadShell("phone");
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+
+            AccountsService.backgroundFile = data.accounts;
+            GSettingsController.setPictureUri(data.gsettings);
+
+            var wallpaperResolver = findChild(shell, "wallpaperResolver");
+            if (data.output === "defaultBackground") {
+                tryCompare(wallpaperResolver, "background", wallpaperResolver.defaultBackground);
+                verify(!wallpaperResolver.hasCustomBackground);
+            } else {
+                tryCompare(wallpaperResolver, "background", data.output);
+                verify(wallpaperResolver.hasCustomBackground);
+            }
+        }
+
+        function test_greeterModeBroadcastsApp() {
+            setLightDMMockMode("single-pin");
+            shellLoader.mode = "greeter";
+            loadShell("phone");
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+
+            dragLauncherIntoView();
+            var appIcon = findChild(shell, "launcherDelegate0")
+            tap(appIcon);
+
+            tryCompare(broadcastUrlSpy, "count", 1);
+            compare(broadcastUrlSpy.signalArguments[0][0], "application:///" + appIcon.appId + ".desktop");
+            compare(ApplicationManager.count, 1); // confirm only dash is open, we didn't start new app
+
+            var coverPage = findChild(shell, "coverPage");
+            tryCompare(coverPage, "showProgress", 0);
+        }
+
+        function test_greeterModeBroadcastsHome() {
+            setLightDMMockMode("single-pin");
+            shellLoader.mode = "greeter";
+            loadShell("phone");
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+
+            var gallerySurfaceId = topLevelSurfaceList.nextId;
+            var galleryApp = ApplicationManager.startApplication("gallery-app");
+            waitUntilAppWindowIsFullyLoaded(gallerySurfaceId);
+            compare(ApplicationManager.focusedApplicationId, "gallery-app");
+
+            dragLauncherIntoView();
+            tap(findChild(shell, "buttonShowDashHome"));
+
+            tryCompare(broadcastHomeSpy, "count", 1);
+            compare(ApplicationManager.focusedApplicationId, "gallery-app"); // confirm we didn't focus dash
+
+            var coverPage = findChild(shell, "coverPage");
+            tryCompare(coverPage, "showProgress", 0);
+        }
+
+        function test_greeterModeDispatchesURL() {
+            setLightDMMockMode("single-pin");
+            shellLoader.mode = "greeter";
+            loadShell("phone");
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+
+            var urlDispatcher = findInvisibleChild(shell, "urlDispatcher");
+            verify(urlDispatcher.active);
+            urlDispatcher.urlRequested("test:"); // force signal emission
+
+            tryCompare(broadcastUrlSpy, "count", 1);
+            compare(broadcastUrlSpy.signalArguments[0][0], "test:");
+            compare(ApplicationManager.count, 1); // confirm only dash is open, we didn't start new app
+
+            var coverPage = findChild(shell, "coverPage");
+            tryCompare(coverPage, "showProgress", 0);
+        }
+
         function test_switchKeymap() {
             // start with phone shell
             loadShell("phone");
@@ -2419,6 +2594,15 @@ Rectangle {
 
             // verify the initial keymap of the newly started app is the first one from the list
             tryCompare(appSurface, "keymap", "sk");
+
+            // try to create a prompt surface, verify it also has the same keymap
+            app.promptSurfaceList.createSurface();
+            var promptSurface = app.promptSurfaceList.get(0);
+            verify(promptSurface);
+            tryCompare(appSurface, "keymap", promptSurface.keymap);
+            // ... and that the controller's surface keymap is also the same
+            tryCompare(MirFocusController.focusedSurface, "keymap", "sk");
+            app.promptSurfaceList.get(0).close();
 
             // switch to next keymap, should go to "cz+qwerty"
             keyClick(Qt.Key_Space, Qt.MetaModifier);
@@ -2480,10 +2664,7 @@ Rectangle {
             appDelegate.maximize();
             tryCompare(appDelegate, "state", "maximized");
 
-            mousePress(panel);
-            mouseMove(shell, shell.width/2, shell.height/2);
-            mouseRelease(shell);
-
+            mouseDrag(panel, panel.width/3, panel.height/2, 0, shell.height/3, Qt.LeftButton, Qt.NoModifier, 500);
             tryCompare(appDelegate, "state", "normal");
         }
 
@@ -2502,6 +2683,36 @@ Rectangle {
 
             verify(greeter.shown);
             verify(greeter.locked);
+        }
+
+        function test_closeFocusedDelegate_data() {
+            return [
+                        { tag: "phone" },
+                        { tag: "tablet" },
+                        { tag: "desktop" }
+                    ]
+        }
+
+        function test_closeFocusedDelegate(data) {
+            loadShell(data.tag);
+            shell.usageScenario = data.tag;
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var app2SurfaceId = topLevelSurfaceList.nextId;
+            var app2 = ApplicationManager.startApplication("calendar-app");
+            waitUntilAppWindowIsFullyLoaded(app2SurfaceId);
+
+            var app1SurfaceId = topLevelSurfaceList.nextId;
+            var app1 = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(app1SurfaceId);
+
+            var countBeforeClose = topLevelSurfaceList.count;
+
+            keyClick(Qt.Key_F4, Qt.AltModifier);
+
+            tryCompare(topLevelSurfaceList, "count", countBeforeClose - 1);
+            tryCompareFunction(function() { return ApplicationManager.focusedApplicationId; }, "calendar-app");
         }
     }
 }

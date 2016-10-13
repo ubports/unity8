@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import "carousel.js" as CarouselJS
+import "."
 
 /*! The Carousel component presents the items of a model in a carousel view. It's similar to a
     cover flow. But it stops at it's boundaries (therefore no PathView is used).
@@ -141,8 +142,6 @@ Item {
 
         boundsBehavior: Flickable.DragOverBounds
         cacheBuffer: carousel.cacheBuffer
-        flickDeceleration: Math.max(1500 * Math.pow(realWidth / referenceWidth, 1.5), 1500) // 1500 is platform default
-        maximumFlickVelocity: Math.max(2500 * Math.pow(realWidth / referenceWidth, 1.5), 2500) // 2500 is platform default
         orientation: ListView.Horizontal
 
         function getXFromContinuousIndex(index) {

@@ -55,7 +55,7 @@ Rectangle {
             bottom: parent.bottom
             left: parent.left
         }
-        width: units.gu(40)
+        width: landscapeCheckbox.checked ? units.gu(70) : units.gu(40)
         sourceComponent: splashComponent
     }
 
@@ -96,6 +96,20 @@ Rectangle {
                 anchors { left: parent.left; right: parent.right }
                 CheckBox {id: footerColorCheckbox; checked: false; }
                 Label { text: "custom footerColor"; anchors.verticalCenter: parent.verticalCenter }
+            }
+            Row {
+                anchors { left: parent.left; right: parent.right }
+                CheckBox {
+                    id: landscapeCheckbox
+                    checked: false
+                    onCheckedChanged: {
+                    if (checked) {
+                        window.width = Math.max(window.width, units.gu(110));
+                    }
+                    window.height = checked ? units.gu(40) : units.gu(70);
+                }
+                }
+                Label { text: "Landscape"; anchors.verticalCenter: parent.verticalCenter }
             }
         }
     }

@@ -75,7 +75,7 @@ Item {
         sourceComponent: Component {
             DesktopStage {
                 anchors.fill: parent
-                background: "../../../qml/graphics/tablet_background.jpg"
+                background: "/usr/share/backgrounds/warty-final-ubuntu.png"
                 focus: true
 
                 Component.onCompleted: {
@@ -487,7 +487,7 @@ Item {
 
             // click again to restore
             mouseClick(dialerMaximizeButton);
-            tryCompare(dialerDelegate, "windowState", WindowStateStorage.WindowStateNormal);
+            tryCompare(dialerDelegate, "windowState", WindowStateStorage.WindowStateRestored);
         }
 
         function test_windowMaximizeVertically() {
@@ -502,7 +502,7 @@ Item {
 
             // click again to restore
             mouseClick(dialerMaximizeButton);
-            tryCompare(dialerDelegate, "windowState", WindowStateStorage.WindowStateNormal);
+            tryCompare(dialerDelegate, "windowState", WindowStateStorage.WindowStateRestored);
         }
 
         function test_smashCursorKeys() {
@@ -519,27 +519,29 @@ Item {
 
         function test_oskDisplacesWindow_data() {
             return [
-                {tag: "no need to displace", windowHeight: units.gu(10), windowY: units.gu(5), targetDisplacement: units.gu(5)},
-                {tag: "displace to top", windowHeight: units.gu(50), windowY: units.gu(10), targetDisplacement: PanelState.panelHeight},
-                {tag: "displace a bit", windowHeight: units.gu(40), windowY: units.gu(10), targetDisplacement: (root.height / 2) - units.gu(40)},
+                {tag: "no need to displace", windowHeight: units.gu(10), windowY: units.gu(5), targetDisplacement: units.gu(5), oskEnabled: true},
+                {tag: "displace to top", windowHeight: units.gu(50), windowY: units.gu(10), targetDisplacement: PanelState.panelHeight, oskEnabled: true},
+                {tag: "displace to top", windowHeight: units.gu(50), windowY: units.gu(10), targetDisplacement: PanelState.panelHeight, oskEnabled: true},
+                {tag: "osk not on this screen", windowHeight: units.gu(40), windowY: units.gu(10), targetDisplacement: units.gu(10), oskEnabled: false},
             ]
         }
 
         function test_oskDisplacesWindow(data) {
+            desktopStageLoader.item.oskEnabled = data.oskEnabled
             var dashAppDelegate = startApplication("unity8-dash");
             var oldOSKState = SurfaceManager.inputMethodSurface.state;
             SurfaceManager.inputMethodSurface.state = Mir.RestoredState;
             verify(dashAppDelegate);
             dashAppDelegate.requestedHeight = data.windowHeight;
             dashAppDelegate.requestedY = data.windowY;
-            UbuntuKeyboardInfo.height = 0;
+            SurfaceManager.inputMethodSurface.setInputBounds(Qt.rect(0, 0, 0, 0));
             var initialY = dashAppDelegate.y;
             verify(initialY > PanelState.panelHeight);
 
-            UbuntuKeyboardInfo.height = root.height / 2;
+            SurfaceManager.inputMethodSurface.setInputBounds(Qt.rect(0, root.height / 2, root.width, root.height / 2));
             tryCompare(dashAppDelegate, "y", data.targetDisplacement);
 
-            UbuntuKeyboardInfo.height = 0;
+            SurfaceManager.inputMethodSurface.setInputBounds(Qt.rect(0, 0, 0, 0));
             tryCompare(dashAppDelegate, "y", initialY);
             SurfaceManager.inputMethodSurface.state = oldOSKState;
         }

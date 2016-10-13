@@ -1,4 +1,6 @@
-include_directories(${GLIB_INCLUDE_DIRS} ${GEONAMES_INCLUDE_DIRS})
+pkg_search_module(GD3 REQUIRED gnome-desktop-3.0)
+
+include_directories(SYSTEM ${GD3_INCLUDE_DIRS} ${GLIB_INCLUDE_DIRS} ${GEONAMES_INCLUDE_DIRS})
 
 add_library(Wizard-qml MODULE
     plugin.cpp
@@ -7,10 +9,11 @@ add_library(Wizard-qml MODULE
     LocalePlugin.cpp
     timezonemodel.cpp
     Status.cpp
+    keyboardLayoutsModel.cpp
 )
 
-qt5_use_modules(Wizard-qml DBus Qml Concurrent)
-target_link_libraries(Wizard-qml ${GLIB_LDFLAGS} ${GEONAMES_LDFLAGS})
+qt5_use_modules(Wizard-qml DBus Qml)
+target_link_libraries(Wizard-qml ${GD3_LDFLAGS} ${GLIB_LDFLAGS} ${GEONAMES_LDFLAGS})
 add_unity8_plugin(Wizard 0.1 Wizard TARGETS Wizard-qml)
 
 set(POLKIT_LIB_DIR "${CMAKE_INSTALL_LOCALSTATEDIR}/lib/polkit-1")

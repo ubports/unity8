@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical Ltd.
+ * Copyright (C) 2014-2016 Canonical Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
@@ -26,6 +26,7 @@
 #include <QMap>
 #include <QProcess>
 #include <QDebug>
+#include <QSettings>
 
 System::System()
     : QObject()
@@ -105,7 +106,15 @@ void System::updateSessionLocale(const QString &locale)
                                      initctl stop scope-registry; \
                                      initctl stop smart-scopes-proxy; \
                                      initctl emit --no-wait indicator-services-start; \
+                                     initctl restart --no-wait ubuntu-location-service-trust-stored; \
                                      initctl restart --no-wait maliit-server; \
                                      initctl restart --no-wait indicator-messages; \
                                      initctl restart --no-wait unity8-dash\""));
+}
+
+void System::skipUntilFinishedPage()
+{
+    QSettings settings;
+    settings.setValue(QStringLiteral("Wizard/SkipUntilFinishedPage"), true);
+    settings.sync();
 }

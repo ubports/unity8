@@ -21,7 +21,7 @@
 #include "TestItem.h"
 #include "Direction.h"
 
-using namespace UbuntuGestures;
+UG_USE_NAMESPACE
 
 class tst_FloatingFlickable: public GestureTest
 {

@@ -23,6 +23,7 @@ import Unity 0.2
 import Dash 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
+import "Previews/PreviewSingleton"
 
 FocusScope {
     id: scopeView
@@ -343,7 +344,7 @@ FocusScope {
                     updateRanges();
                     clickScopeSizingHacks();
                     if (scope && (scope.id === "clickscope" || scope.id === "libertine-scope.ubuntu_libertine-scope")) {
-                        if (scope.id === "libertine-scope.ubuntu_libertine-scope" || categoryId === "predefined" || categoryId === "local") {
+                        if (isLibertineContainerCategory() || categoryId === "predefined" || categoryId === "local") {
                             cardTool.artShapeSize = Qt.binding(function() { return Qt.size(units.gu(8), units.gu(7.5)) });
                             cardTool.artShapeStyle = "icon";
                         } else {
@@ -366,10 +367,15 @@ FocusScope {
                 property int pxpgu: units.gu(1);
                 onPxpguChanged: clickScopeSizingHacks();
 
+                // Returns true if the current category pertains to a Libertine container
+                function isLibertineContainerCategory() {
+                  return scope && scope.id === "libertine-scope.ubuntu_libertine-scope" && categoryId !== "hint";
+                }
+
                 function clickScopeSizingHacks() {
                     if (scope &&
                         ((scope.id === "clickscope" && (categoryId === "predefined" || categoryId === "local")) ||
-                         scope.id === "libertine-scope.ubuntu_libertine-scope")) {
+                         isLibertineContainerCategory())) {
                         // Yeah, hackish :/
                         if (scopeView.width > units.gu(45)) {
                             if (scopeView.width >= units.gu(70)) {
@@ -662,7 +668,7 @@ FocusScope {
             }
             onShowFiltersPopup: { // item
                 extraPanel.visible = false;
-                scopeView.filtersPopover = PopupUtils.open(Qt.resolvedUrl("FiltersPopover.qml"), item, { "contentWidth": scopeView.width - units.gu(2) } );
+                scopeView.filtersPopover = PopupUtils.open(Qt.resolvedUrl("FiltersPopover.qml"), item, { "contentWidth": Qt.binding(function() { return scopeView.width - units.gu(2); } ) } );
                 scopeView.filtersPopover.Component.onDestruction.connect(function () {
                     categoryView.pageHeader.closePopup(false, true);
                     categoryView.pageHeader.unfocus(true); // remove the focus from the search field
@@ -717,6 +723,7 @@ FocusScope {
             target: categoryView
 
             readonly property real contentY: categoryView.contentY - categoryView.originY
+            readonly property real headerDividerLuminance: categoryView.pageHeader.headerDividerLuminance
             y: -contentY - units.gu(5)
 
             onRefresh: {
@@ -782,6 +789,17 @@ FocusScope {
             color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
         }
 
+        Image {
+            anchors {
+                bottom: parent.bottom
+                left: parent.left
+                right: parent.right
+            }
+            fillMode: Image.Stretch
+            source: "graphics/dash_divider_top_darkgrad.png"
+            z: -1
+        }
+
         Connections {
             target: floatingSeeLess.companionTo ? categoryView : null
             onContentYChanged: floatingSeeLess.updateVisibility();
@@ -791,10 +809,6 @@ FocusScope {
             target: floatingSeeLess.companionTo
             onYChanged: floatingSeeLess.updateVisibility();
         }
-    }
-
-    LimitProxyModel {
-        id: previewLimitModel
     }
 
     Loader {
@@ -823,6 +837,9 @@ FocusScope {
         }
 
         function closeSubPage() {
+            if (subPage == "preview") {
+                PreviewSingleton.widgetExtraData = new Object();
+            }
             open = false;
         }
 

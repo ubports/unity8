@@ -33,6 +33,10 @@ public:
 
 public Q_SLOTS:
     void updateSessionLocale(const QString &locale);
+    /**
+     * Mark the wizard to skip all the pages and just show the last (welcome to ubuntu) page
+     */
+    void skipUntilFinishedPage();
 
 Q_SIGNALS:
     void wizardEnabledChanged();

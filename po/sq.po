@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-06-20 20:25+0000\n"
+"POT-Creation-Date: 2016-09-22 07:46+0000\n"
 "PO-Revision-Date: 2016-04-21 06:03+0000\n"
 "Last-Translator: Indrit Bashkimi <indrit.bashkimi@gmail.com>\n"
 "Language-Team: sq\n"
@@ -15,11 +15,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-06-26 06:00+0000\n"
-"X-Generator: Launchpad (build 18111)\n"
+"X-Launchpad-Export-Date: 2016-09-27 07:03+0000\n"
+"X-Generator: Launchpad (build 18204)\n"
 "Language: sq\n"
 
-#: plugins/IntegratedLightDM/Greeter.cpp:112
+#: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
 msgstr "Fjalëkalimi: "
 
@@ -36,84 +36,66 @@ msgstr "Dil"
 msgid "Unpin shortcut"
 msgstr ""
 
-#: qml/Components/DelayedLockscreen.qml:50
-msgid "Device Locked"
-msgstr "Pajisje e bllokuar"
-
-#: qml/Components/DelayedLockscreen.qml:65
-msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr ""
-
-#: qml/Components/DelayedLockscreen.qml:66
-msgid "You have been locked out due to too many failed passcode attempts."
-msgstr ""
-
-#: qml/Components/DelayedLockscreen.qml:75
-#, qt-format
-msgid "Please wait %1 minute and then try again…"
-msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Prisni %1 minutë dhe provoni përsëri…"
-msgstr[1] "Prisni %1 minuta dhe provoni përsëri…"
-
-#: qml/Components/Dialogs.qml:146
+#: qml/Components/Dialogs.qml:149
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Dalja"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:150
 msgid "Are you sure you want to log out?"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:152
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Kyç"
 
-#: qml/Components/Dialogs.qml:156
+#: qml/Components/Dialogs.qml:159
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Dil"
 
-#: qml/Components/Dialogs.qml:163 qml/Components/Dialogs.qml:219
-#: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
+#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
+#: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Anulo"
 
-#: qml/Components/Dialogs.qml:175
+#: qml/Components/Dialogs.qml:178
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Rindize"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:181
 msgid "No"
 msgstr "Jo"
 
-#: qml/Components/Dialogs.qml:184
+#: qml/Components/Dialogs.qml:187
 msgid "Yes"
 msgstr "Po"
 
-#: qml/Components/Dialogs.qml:199
+#: qml/Components/Dialogs.qml:202
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Tensioni"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:203
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:202
+#: qml/Components/Dialogs.qml:205
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Fike"
 
-#: qml/Components/Dialogs.qml:211
+#: qml/Components/Dialogs.qml:214
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Rindiz"
@@ -278,17 +260,27 @@ msgstr ""
 msgid "Closes the current window."
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:239
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
 msgid "Return to Call"
 msgstr "Kthehu tek thirrja"
 
-#: qml/Components/Lockscreen.qml:239
+#: qml/Components/Lockscreen.qml:212
 msgid "Emergency Call"
 msgstr "Thirrje emergjence"
 
-#: qml/Components/Lockscreen.qml:271
+#: qml/Components/Lockscreen.qml:244
 msgid "OK"
 msgstr "OK"
+
+#: qml/Components/MediaServices/VideoPlayerControls.qml:44
+#, qt-format
+msgid "%1:%2:%3"
+msgstr ""
+
+#: qml/Components/MediaServices/VideoPlayerControls.qml:49
+#, qt-format
+msgid "%1:%2"
+msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
@@ -316,55 +308,59 @@ msgstr "Rilidhu tani!"
 msgid "Close all"
 msgstr "Mbylli të gjitha"
 
-#: qml/Dash/DashPageHeader.qml:333
+#: qml/Components/SharingPicker.qml:54
+msgid "Preview Share Item"
+msgstr ""
+
+#: qml/Dash/DashPageHeader.qml:362
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Ruaje"
 
-#: qml/Dash/DashPageHeader.qml:340
+#: qml/Dash/DashPageHeader.qml:369
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Kërko"
 
-#: qml/Dash/DashPageHeader.qml:350
+#: qml/Dash/DashPageHeader.qml:379
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Parametrat"
 
-#: qml/Dash/DashPageHeader.qml:357
+#: qml/Dash/DashPageHeader.qml:386
 msgid "Remove from Favorites"
 msgstr "Hiq nga të preferuarit"
 
-#: qml/Dash/DashPageHeader.qml:357
+#: qml/Dash/DashPageHeader.qml:386
 msgid "Add to Favorites"
 msgstr "Shto në të preferuarit"
 
-#: qml/Dash/FiltersPopover.qml:60
+#: qml/Dash/FiltersPopover.qml:61
 msgid "Refine your results"
 msgstr "Përmirëso rezultatet"
 
-#: qml/Dash/FiltersPopover.qml:69
+#: qml/Dash/FiltersPopover.qml:70
 msgid "Reset"
 msgstr "Rivendos"
 
-#: qml/Dash/GenericScopeView.qml:580 qml/Dash/GenericScopeView.qml:775
+#: qml/Dash/GenericScopeView.qml:586 qml/Dash/GenericScopeView.qml:782
 msgid "Show less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:580
+#: qml/Dash/GenericScopeView.qml:586
 msgid "Show all"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:637
+#: qml/Dash/GenericScopeView.qml:643
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Kërko"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:56
+#: qml/Dash/PageHeaderExtraPanel.qml:57
 msgid "Recent Searches"
 msgstr "Kërkimet e fundit"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:67
+#: qml/Dash/PageHeaderExtraPanel.qml:68
 msgid "Clear All"
 msgstr ""
 
@@ -376,28 +372,24 @@ msgstr "Më tepër..."
 msgid "Less..."
 msgstr "Më pak..."
 
-#: qml/Dash/Previews/PreviewCommentInput.qml:68
-#: qml/Dash/Previews/PreviewRatingInput.qml:175
+#: qml/Dash/Previews/PreviewCommentInput.qml:83
+#: qml/Dash/Previews/PreviewRatingInput.qml:201
 msgid "Send"
 msgstr "Dërgo"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:108
 msgid "Rate this"
 msgstr "Vlerësoje këtë"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:157
+#: qml/Dash/Previews/PreviewRatingInput.qml:183
 msgid "Add a review"
 msgstr "Shto një rishikim"
 
-#: qml/Dash/Previews/PreviewSharing.qml:66
-msgid "Preview Share Item"
-msgstr ""
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:55
+#: qml/Dash/PullToRefreshScopeStyle.qml:56
 msgid "Pull to refresh…"
 msgstr "Tërhiq për rifreskim…"
 
-#: qml/Dash/PullToRefreshScopeStyle.qml:60
+#: qml/Dash/PullToRefreshScopeStyle.qml:61
 msgid "Release to refresh…"
 msgstr "Lësho për rifreskim…"
 
@@ -405,15 +397,15 @@ msgstr "Lësho për rifreskim…"
 msgid "Enable location data"
 msgstr "Aktivizo lokalizimin"
 
-#: qml/Dash/ScopesList.qml:55
+#: qml/Dash/ScopesList.qml:57
 msgid "Manage"
 msgstr "Menaxho"
 
-#: qml/Dash/ScopesList.qml:101
+#: qml/Dash/ScopesList.qml:104
 msgid "Home"
 msgstr "Shtëpia"
 
-#: qml/Dash/ScopesList.qml:102
+#: qml/Dash/ScopesList.qml:105
 msgid "Also installed"
 msgstr ""
 
@@ -427,71 +419,51 @@ msgstr ""
 msgid "Unlock"
 msgstr "Zhblloko"
 
-#: qml/Greeter/Greeter.qml:536
+#: qml/Greeter/DelayedLockscreen.qml:43
+msgid "Device Locked"
+msgstr "Pajisje e bllokuar"
+
+#: qml/Greeter/DelayedLockscreen.qml:58
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+
+#: qml/Greeter/DelayedLockscreen.qml:59
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+
+#: qml/Greeter/DelayedLockscreen.qml:68
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "Prisni %1 minutë dhe provoni përsëri…"
+msgstr[1] "Prisni %1 minuta dhe provoni përsëri…"
+
+#: qml/Greeter/Greeter.qml:596
 msgid "Try again"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:259
+#: qml/Greeter/LoginList.qml:70
+msgid "Passphrase"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:71
+msgid "Passcode"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:98
 msgid "Retry"
 msgstr "Riprovo"
 
-#: qml/Greeter/LoginList.qml:260
+#: qml/Greeter/LoginList.qml:99
 msgid "Log In"
 msgstr ""
 
-#: qml/Greeter/NarrowView.qml:54
-msgid "Sorry, incorrect passphrase."
+#: qml/Greeter/NarrowView.qml:252
+msgid "Emergency"
 msgstr ""
 
-#: qml/Greeter/NarrowView.qml:55
-msgid "Sorry, incorrect passcode."
-msgstr ""
-
-#: qml/Greeter/NarrowView.qml:56
-msgid "This will be your last attempt."
-msgstr "Kjo do to jetë përpjekja jote e fundit."
-
-#: qml/Greeter/NarrowView.qml:58
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
-msgstr ""
-
-#: qml/Greeter/NarrowView.qml:59
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
-msgstr ""
-
-#: qml/Greeter/NarrowView.qml:129
-#, qt-format
-msgid "Enter %1"
-msgstr "Shkruaj %1"
-
-#: qml/Greeter/NarrowView.qml:130
-msgid "Enter passphrase"
-msgstr ""
-
-#: qml/Greeter/NarrowView.qml:131
-msgid "Enter passcode"
-msgstr ""
-
-#: qml/Greeter/NarrowView.qml:135
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "%1 e pasaktë"
-
-#: qml/Greeter/NarrowView.qml:136
-msgid "Sorry, incorrect passphrase"
-msgstr ""
-
-#: qml/Greeter/NarrowView.qml:137
-msgctxt "passphrase"
-msgid "Please re-enter"
-msgstr "Shkruani përsëri"
-
-#: qml/Greeter/NarrowView.qml:138
-msgid "Sorry, incorrect passcode"
+#: qml/Greeter/SessionsList.qml:122
+msgid "Select desktop environment"
 msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
@@ -610,39 +582,53 @@ msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Prapa"
 
-#: qml/Wizard/Pages/10-welcome.qml:27
+#: qml/Wizard/Pages/10-welcome.qml:28
 msgid "Language"
 msgstr "Gjuha"
 
-#: qml/Wizard/Pages/10-welcome.qml:171 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
+#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:207 qml/Wizard/Pages/40-location.qml:271
+#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/70-passwd-type.qml:145
 #: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:124
-#: qml/Wizard/Pages/password-set.qml:141
+#: qml/Wizard/Pages/passcode-desktop.qml:142
+#: qml/Wizard/Pages/password-set.qml:142
 msgid "Next"
 msgstr ""
 
-#: qml/Wizard/Pages/30-wifi.qml:29
-msgid "Connect to Wi‑Fi"
-msgstr "Lidhu me Wi-Fi"
-
-#: qml/Wizard/Pages/30-wifi.qml:130
-msgid "Connected"
+#: qml/Wizard/Pages/20-keyboard.qml:31
+msgid "Select Keyboard"
 msgstr ""
 
-#: qml/Wizard/Pages/30-wifi.qml:163
-msgid "Available Wi-Fi networks"
+#: qml/Wizard/Pages/20-keyboard.qml:71
+msgid "Keyboard language"
 msgstr ""
 
-#: qml/Wizard/Pages/30-wifi.qml:164
-msgid "No available Wi-Fi networks"
+#: qml/Wizard/Pages/20-keyboard.qml:93
+msgid "Keyboard layout"
 msgstr ""
 
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:207
+#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/77-system-update.qml:152
 #: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Kapërce"
+
+#: qml/Wizard/Pages/30-wifi.qml:31
+msgid "Connect to Wi‑Fi"
+msgstr "Lidhu me Wi-Fi"
+
+#: qml/Wizard/Pages/30-wifi.qml:132
+msgid "Connected"
+msgstr ""
+
+#: qml/Wizard/Pages/30-wifi.qml:165
+msgid "Available Wi-Fi networks"
+msgstr ""
+
+#: qml/Wizard/Pages/30-wifi.qml:166
+msgid "No available Wi-Fi networks"
+msgstr ""
 
 #: qml/Wizard/Pages/40-location.qml:27
 msgid "Location Services"
@@ -676,11 +662,11 @@ msgstr "Mos përdor vendodhjen time"
 msgid "You can change it later in System Settings."
 msgstr ""
 
-#: qml/Wizard/Pages/50-timezone.qml:29
+#: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr ""
 
-#: qml/Wizard/Pages/50-timezone.qml:181
+#: qml/Wizard/Pages/50-timezone.qml:182
 msgid "Enter your city"
 msgstr ""
 
@@ -692,21 +678,21 @@ msgstr ""
 msgid "Preferred Name"
 msgstr "Emri i preferuar"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:39
+#: qml/Wizard/Pages/70-passwd-type.qml:40
 msgid "Lock Screen"
 msgstr ""
 
-#: qml/Wizard/Pages/70-passwd-type.qml:101
+#: qml/Wizard/Pages/70-passwd-type.qml:102
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr "Krijo fjalëkalim të ri"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:103
+#: qml/Wizard/Pages/70-passwd-type.qml:104
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr ""
 
-#: qml/Wizard/Pages/70-passwd-type.qml:105
+#: qml/Wizard/Pages/70-passwd-type.qml:106
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr ""
@@ -725,6 +711,35 @@ msgstr ""
 
 #: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Privacy policy"
+msgstr ""
+
+#: qml/Wizard/Pages/77-system-update.qml:28
+msgid "Update Device"
+msgstr ""
+
+#: qml/Wizard/Pages/77-system-update.qml:55
+msgid ""
+"There is a system update available and ready to install. Afterwards, the "
+"device will automatically restart."
+msgstr ""
+
+#: qml/Wizard/Pages/77-system-update.qml:76
+msgctxt "string identifying name of the update"
+msgid "Ubuntu system"
+msgstr ""
+
+#: qml/Wizard/Pages/77-system-update.qml:83
+#, qt-format
+msgctxt "version of the system update"
+msgid "Version %1"
+msgstr ""
+
+#: qml/Wizard/Pages/77-system-update.qml:102
+msgid "This could take a few minutes..."
+msgstr ""
+
+#: qml/Wizard/Pages/77-system-update.qml:116
+msgid "Install and restart now"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:89
@@ -770,7 +785,7 @@ msgid "Service Terms"
 msgstr ""
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:80
+#: qml/Wizard/Pages/passcode-desktop.qml:97
 msgid "Confirm passcode"
 msgstr ""
 
@@ -783,28 +798,28 @@ msgctxt "Enter the passcode again"
 msgid "Please re-enter."
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:30
+#: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:56
+#: qml/Wizard/Pages/passcode-desktop.qml:61
 msgid "Enter 4 numbers to setup your passcode"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:65
+#: qml/Wizard/Pages/passcode-desktop.qml:77
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:105
+#: qml/Wizard/Pages/passcode-desktop.qml:127
 msgid "Passcode too short"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:107
+#: qml/Wizard/Pages/passcode-desktop.qml:129
 msgid "Passcodes match"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:109
+#: qml/Wizard/Pages/passcode-desktop.qml:131
 msgid "Passcodes do not match"
 msgstr ""
 
@@ -812,19 +827,19 @@ msgstr ""
 msgid "Passcode must be 4 characters long"
 msgstr ""
 
-#: qml/Wizard/Pages/password-set.qml:30
+#: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
 msgstr ""
 
-#: qml/Wizard/Pages/password-set.qml:61
+#: qml/Wizard/Pages/password-set.qml:62
 msgid "Enter at least 8 characters"
 msgstr ""
 
-#: qml/Wizard/Pages/password-set.qml:73
+#: qml/Wizard/Pages/password-set.qml:74
 msgid "Choose password"
 msgstr "Zgjidh fjalëkalimin"
 
-#: qml/Wizard/Pages/password-set.qml:103
+#: qml/Wizard/Pages/password-set.qml:104
 msgid "Confirm password"
 msgstr "Konfirmo fjalëkalimin"
 
@@ -853,26 +868,30 @@ msgid "To proceed with no SIM tap Skip."
 msgstr ""
 
 #: qml/Wizard/PasswordMeter.qml:87
+msgid "Password too short"
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
 msgstr "Fjalëkalimet përputhen"
 
-#: qml/Wizard/PasswordMeter.qml:89
+#: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
 msgstr "Fjalëkalimet nuk përputhen"
 
-#: qml/Wizard/PasswordMeter.qml:93
+#: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
 msgstr "Fjalëkalim i fuqishëm"
 
-#: qml/Wizard/PasswordMeter.qml:95
+#: qml/Wizard/PasswordMeter.qml:97
 msgid "Fair password"
 msgstr "Fjalëkalim çka"
 
-#: qml/Wizard/PasswordMeter.qml:97
+#: qml/Wizard/PasswordMeter.qml:99
 msgid "Weak password"
 msgstr "Fjalëkalim i dobët"
 
-#: qml/Wizard/PasswordMeter.qml:99
+#: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
 msgstr "Fjalëkalim shumë i dobët"
 
@@ -906,6 +925,9 @@ msgstr "Fjalëkalim shumë i dobët"
 #~ msgctxt "Button: Reboot the system"
 #~ msgid "Reboot"
 #~ msgstr "Rindize"
+
+#~ msgid "This will be your last attempt."
+#~ msgstr "Kjo do to jetë përpjekja jote e fundit."
 
 #~ msgid "Unlock SIM"
 #~ msgstr "Zhblloko SIM"
@@ -967,6 +989,18 @@ msgstr "Fjalëkalim shumë i dobët"
 
 #~ msgid "Tap to unlock"
 #~ msgstr "Preke për ta zhbllokuar"
+
+#, qt-format
+#~ msgid "Enter %1"
+#~ msgstr "Shkruaj %1"
+
+#~ msgctxt "passphrase"
+#~ msgid "Please re-enter"
+#~ msgstr "Shkruani përsëri"
+
+#, qt-format
+#~ msgid "Sorry, incorrect %1"
+#~ msgstr "%1 e pasaktë"
 
 #~ msgid "Roaming"
 #~ msgstr "Roaming"

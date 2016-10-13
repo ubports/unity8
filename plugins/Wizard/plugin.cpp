@@ -20,6 +20,7 @@
 #include "timezonemodel.h"
 #include "LocalePlugin.h"
 #include "Status.h"
+#include "keyboardLayoutsModel.h"
 
 #include <QtQml/qqml.h>
 
@@ -30,5 +31,6 @@ void WizardPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<System>(uri, 0, 1, "System", [](QQmlEngine*, QJSEngine*) -> QObject* { return new System; });
     qmlRegisterSingletonType<Status>(uri, 0, 1, "Status", [](QQmlEngine*, QJSEngine*) -> QObject* { return new Status; });
     qmlRegisterType<TimeZoneLocationModel>(uri, 0, 1, "TimeZoneModel");
+    qmlRegisterType<KeyboardLayoutsModel>(uri, 0, 1, "KeyboardLayoutsModel");
     qmlRegisterType<LocalePlugin>(uri, 0, 1, "LocalePlugin");
 }

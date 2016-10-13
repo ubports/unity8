@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import "../../Components"
+import "PreviewSingleton"
 
 /*! \brief Preview widget for commenting.
 
@@ -33,6 +34,20 @@ PreviewWidget {
     function submit() {
         var data = { "comment": commentTextArea.text };
         triggered(root.widgetId, "commented", data);
+    }
+
+    property alias commentText: commentTextArea.text
+
+    onCommentTextChanged: storeCommentState()
+    onWidgetIdChanged: restoreCommentState()
+
+    function storeCommentState() {
+        PreviewSingleton.widgetExtraData[widgetId] = commentText;
+    }
+
+    function restoreCommentState() {
+        if (!PreviewSingleton.widgetExtraData[widgetId]) return;
+        if (PreviewSingleton.widgetExtraData[widgetId] != "") commentText = PreviewSingleton.widgetExtraData[widgetId];
     }
 
     TextArea {

@@ -7,18 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-06-20 20:25+0000\n"
-"PO-Revision-Date: 2016-05-19 21:22+0000\n"
-"Last-Translator: Ubuntu-QC-1 <Unknown>\n"
+"POT-Creation-Date: 2016-09-22 07:46+0000\n"
+"PO-Revision-Date: 2016-10-02 08:06+0000\n"
+"Last-Translator: Olivier Febwin <febwin@free.fr>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-06-26 06:00+0000\n"
-"X-Generator: Launchpad (build 18111)\n"
+"X-Launchpad-Export-Date: 2016-10-03 06:18+0000\n"
+"X-Generator: Launchpad (build 18204)\n"
 
-#: plugins/IntegratedLightDM/Greeter.cpp:112
+#: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
 msgstr "Mot de passe : "
 
@@ -35,77 +35,55 @@ msgstr "Quitter"
 msgid "Unpin shortcut"
 msgstr "Détacher le raccourci"
 
-#: qml/Components/DelayedLockscreen.qml:50
-msgid "Device Locked"
-msgstr "Appareil verrouillé"
-
-#: qml/Components/DelayedLockscreen.qml:65
-msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr ""
-"L'appareil a été verrouillé suite à un trop grand nombre de tentatives de "
-"saisie d'une phrase de passe erronée."
-
-#: qml/Components/DelayedLockscreen.qml:66
-msgid "You have been locked out due to too many failed passcode attempts."
-msgstr ""
-"Vous avez été bloqué suite à un trop grand nombre de tentatives de saisie "
-"d'un mot de passe erroné."
-
-#: qml/Components/DelayedLockscreen.qml:75
-#, qt-format
-msgid "Please wait %1 minute and then try again…"
-msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Veuillez patienter %1 minute et réessayer..."
-msgstr[1] "Veuillez patienter %1 minutes et réessayer..."
-
-#: qml/Components/Dialogs.qml:146
+#: qml/Components/Dialogs.qml:149
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Fermer la session"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:150
 msgid "Are you sure you want to log out?"
 msgstr "Êtes-vous sûr de vouloir vous déconnecter ?"
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:152
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Verrouiller"
 
-#: qml/Components/Dialogs.qml:156
+#: qml/Components/Dialogs.qml:159
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Fermer la session"
 
-#: qml/Components/Dialogs.qml:163 qml/Components/Dialogs.qml:219
-#: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
+#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
+#: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Annuler"
 
-#: qml/Components/Dialogs.qml:175
+#: qml/Components/Dialogs.qml:178
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Redémarrer"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
 msgstr "Êtes-vous sûr de vouloir redémarrer ?"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:181
 msgid "No"
 msgstr "Non"
 
-#: qml/Components/Dialogs.qml:184
+#: qml/Components/Dialogs.qml:187
 msgid "Yes"
 msgstr "Oui"
 
-#: qml/Components/Dialogs.qml:199
+#: qml/Components/Dialogs.qml:202
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Alimentation"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:203
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -113,187 +91,197 @@ msgstr ""
 "Êtes-vous sûr de vouloir\n"
 "couper l'alimentation ?"
 
-#: qml/Components/Dialogs.qml:202
+#: qml/Components/Dialogs.qml:205
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Éteindre"
 
-#: qml/Components/Dialogs.qml:211
+#: qml/Components/Dialogs.qml:214
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Redémarrer"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "Raccourcis clavier"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Unity 8"
-msgstr ""
+msgstr "Unity 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
-msgstr ""
+msgstr "Impécr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr ""
+msgstr "Prend une capture d'écran."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
-msgstr ""
+msgstr "Alt + Impécr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of a window."
-msgstr ""
+msgstr "Prends une capture d'écran d'une fenêtre."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
-msgstr ""
+msgstr "Super + Espace"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr ""
+msgstr "Passe à l'agencement de clavier suivant."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
-msgstr ""
+msgstr "Super + Maj + Espace"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr ""
+msgstr "Passe à l'agencement de clavier précédent."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:118
 msgid "Launcher"
-msgstr ""
+msgstr "Lanceur"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:125
 msgid "Super (Hold)"
-msgstr ""
+msgstr "Super (maintenu)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:130
 msgid "Opens the launcher, displays shortcuts."
-msgstr ""
+msgstr "Ouvre le lanceur, affiche les raccourcis."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Alt + F1"
-msgstr ""
+msgstr "Alt + F1"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens launcher keyboard navigation mode."
-msgstr ""
+msgstr "Ouvre le mode navigation au clavier du lanceur."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Super + Tab"
-msgstr ""
+msgstr "Super + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Switches applications via the launcher."
-msgstr ""
+msgstr "Bascule les applications via le lanceur."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + 0 to 9"
-msgstr ""
+msgstr "Super + 0 à 9"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Same as clicking on a launcher icon."
-msgstr ""
+msgstr "Même effet qu'un clic sur une icône du lanceur."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:181
 msgid "Scopes"
-msgstr ""
+msgstr "Moteurs de recherche"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:188
 msgid "Super (Tap)"
-msgstr ""
+msgstr "Super (appui court)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:193
 msgid "Opens the Scopes home."
-msgstr ""
+msgstr "Ouvre la page d'accueil des moteurs de recherche."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:209
 msgid "Switching"
-msgstr ""
+msgstr "Basculement"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:216
 msgid "Alt + Tab"
-msgstr ""
+msgstr "Alt + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:221
 msgid "Switches between applications."
-msgstr ""
+msgstr "Bascule entre les applications."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:229
 msgid "Super + W"
-msgstr ""
+msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:234
 msgid "Opens the desktop spread."
-msgstr ""
+msgstr "Ouvre le mode exposé."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Cursor Left or Right"
-msgstr ""
+msgstr "Flèche gauche ou droite"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Moves the focus."
-msgstr ""
+msgstr "Déplace la sélection."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:259
 msgid "Windows"
-msgstr ""
+msgstr "Fenêtres"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:266
 msgid "Ctrl + Super + D"
-msgstr ""
+msgstr "Ctrl + Super + D"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:271
 msgid "Minimizes all windows."
-msgstr ""
+msgstr "Minimise toutes les fenêtres."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:279
 msgid "Ctrl + Super + Up"
-msgstr ""
+msgstr "Ctrl + Super + Haut"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:284
 msgid "Maximizes the current window."
-msgstr ""
+msgstr "Maximise la fenêtre actuelle."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + Down"
-msgstr ""
+msgstr "Ctrl + Super + Bas"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes or restores the current window."
-msgstr ""
+msgstr "Minimise ou restaure la fenêtre actuelle."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Left or Right"
-msgstr ""
+msgstr "Ctrl + Super + Gauche ou droite"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Semi-maximizes the current window."
-msgstr ""
+msgstr "Maximise la fenêtre actuelle sur un demi-écran."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Alt + F4"
-msgstr ""
+msgstr "Alt + F4"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Closes the current window."
-msgstr ""
+msgstr "Ferme la fenêtre actuelle."
 
-#: qml/Components/Lockscreen.qml:239
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
 msgid "Return to Call"
 msgstr "Retourner à l'appel"
 
-#: qml/Components/Lockscreen.qml:239
+#: qml/Components/Lockscreen.qml:212
 msgid "Emergency Call"
 msgstr "Appel d'urgence"
 
-#: qml/Components/Lockscreen.qml:271
+#: qml/Components/Lockscreen.qml:244
 msgid "OK"
 msgstr "OK"
+
+#: qml/Components/MediaServices/VideoPlayerControls.qml:44
+#, qt-format
+msgid "%1:%2:%3"
+msgstr "%1:%2:%3"
+
+#: qml/Components/MediaServices/VideoPlayerControls.qml:49
+#, qt-format
+msgid "%1:%2"
+msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
@@ -325,55 +313,59 @@ msgstr "Se reconnecter maintenant !"
 msgid "Close all"
 msgstr "Tout fermer"
 
-#: qml/Dash/DashPageHeader.qml:333
+#: qml/Components/SharingPicker.qml:54
+msgid "Preview Share Item"
+msgstr "Aperçu de l'élément partagé"
+
+#: qml/Dash/DashPageHeader.qml:362
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Logithèque"
 
-#: qml/Dash/DashPageHeader.qml:340
+#: qml/Dash/DashPageHeader.qml:369
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Rechercher"
 
-#: qml/Dash/DashPageHeader.qml:350
+#: qml/Dash/DashPageHeader.qml:379
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Paramètres"
 
-#: qml/Dash/DashPageHeader.qml:357
+#: qml/Dash/DashPageHeader.qml:386
 msgid "Remove from Favorites"
 msgstr "Retirer des favoris"
 
-#: qml/Dash/DashPageHeader.qml:357
+#: qml/Dash/DashPageHeader.qml:386
 msgid "Add to Favorites"
 msgstr "Ajouter aux favoris"
 
-#: qml/Dash/FiltersPopover.qml:60
+#: qml/Dash/FiltersPopover.qml:61
 msgid "Refine your results"
 msgstr "Affiner vos résultats"
 
-#: qml/Dash/FiltersPopover.qml:69
+#: qml/Dash/FiltersPopover.qml:70
 msgid "Reset"
 msgstr "Réinitialiser"
 
-#: qml/Dash/GenericScopeView.qml:580 qml/Dash/GenericScopeView.qml:775
+#: qml/Dash/GenericScopeView.qml:586 qml/Dash/GenericScopeView.qml:782
 msgid "Show less"
 msgstr "Afficher plus"
 
-#: qml/Dash/GenericScopeView.qml:580
+#: qml/Dash/GenericScopeView.qml:586
 msgid "Show all"
 msgstr "Tout afficher"
 
-#: qml/Dash/GenericScopeView.qml:637
+#: qml/Dash/GenericScopeView.qml:643
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Rechercher"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:56
+#: qml/Dash/PageHeaderExtraPanel.qml:57
 msgid "Recent Searches"
 msgstr "Recherches récentes"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:67
+#: qml/Dash/PageHeaderExtraPanel.qml:68
 msgid "Clear All"
 msgstr "Tout effacer"
 
@@ -385,28 +377,24 @@ msgstr "Plus..."
 msgid "Less..."
 msgstr "Moins..."
 
-#: qml/Dash/Previews/PreviewCommentInput.qml:68
-#: qml/Dash/Previews/PreviewRatingInput.qml:175
+#: qml/Dash/Previews/PreviewCommentInput.qml:83
+#: qml/Dash/Previews/PreviewRatingInput.qml:201
 msgid "Send"
 msgstr "Envoyer"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:108
 msgid "Rate this"
 msgstr "Évaluez ceci"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:157
+#: qml/Dash/Previews/PreviewRatingInput.qml:183
 msgid "Add a review"
 msgstr "Ajouter un avis"
 
-#: qml/Dash/Previews/PreviewSharing.qml:66
-msgid "Preview Share Item"
-msgstr "Aperçu de l'élément partagé"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:55
+#: qml/Dash/PullToRefreshScopeStyle.qml:56
 msgid "Pull to refresh…"
 msgstr "Tirer pour actualiser..."
 
-#: qml/Dash/PullToRefreshScopeStyle.qml:60
+#: qml/Dash/PullToRefreshScopeStyle.qml:61
 msgid "Release to refresh…"
 msgstr "Relâcher pour actualiser..."
 
@@ -414,15 +402,15 @@ msgstr "Relâcher pour actualiser..."
 msgid "Enable location data"
 msgstr "Activer les données de localisation"
 
-#: qml/Dash/ScopesList.qml:55
+#: qml/Dash/ScopesList.qml:57
 msgid "Manage"
 msgstr "Gérer"
 
-#: qml/Dash/ScopesList.qml:101
+#: qml/Dash/ScopesList.qml:104
 msgid "Home"
 msgstr "Accueil"
 
-#: qml/Dash/ScopesList.qml:102
+#: qml/Dash/ScopesList.qml:105
 msgid "Also installed"
 msgstr "Également installées"
 
@@ -438,78 +426,56 @@ msgstr ""
 msgid "Unlock"
 msgstr "Déverrouiller"
 
-#: qml/Greeter/Greeter.qml:536
-msgid "Try again"
-msgstr ""
+#: qml/Greeter/DelayedLockscreen.qml:43
+msgid "Device Locked"
+msgstr "Appareil verrouillé"
 
-#: qml/Greeter/LoginList.qml:259
+#: qml/Greeter/DelayedLockscreen.qml:58
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+"L'appareil a été verrouillé suite à un trop grand nombre de tentatives de "
+"saisie d'une phrase de passe erronée."
+
+#: qml/Greeter/DelayedLockscreen.qml:59
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+"Vous avez été bloqué suite à un trop grand nombre de tentatives de saisie "
+"d'un mot de passe erroné."
+
+#: qml/Greeter/DelayedLockscreen.qml:68
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "Veuillez patienter %1 minute puis réessayez..."
+msgstr[1] "Veuillez patienter %1 minutes puis réessayez..."
+
+#: qml/Greeter/Greeter.qml:596
+msgid "Try again"
+msgstr "Réessayer"
+
+#: qml/Greeter/LoginList.qml:70
+msgid "Passphrase"
+msgstr "Phrase secrète"
+
+#: qml/Greeter/LoginList.qml:71
+msgid "Passcode"
+msgstr "Code"
+
+#: qml/Greeter/LoginList.qml:98
 msgid "Retry"
 msgstr "Réessayer"
 
-#: qml/Greeter/LoginList.qml:260
+#: qml/Greeter/LoginList.qml:99
 msgid "Log In"
-msgstr ""
+msgstr "Connexion"
 
-#: qml/Greeter/NarrowView.qml:54
-msgid "Sorry, incorrect passphrase."
-msgstr "Désolé, phrase secrète incorrecte."
+#: qml/Greeter/NarrowView.qml:252
+msgid "Emergency"
+msgstr "Urgence"
 
-#: qml/Greeter/NarrowView.qml:55
-msgid "Sorry, incorrect passcode."
-msgstr "Désolé, code incorrect."
-
-#: qml/Greeter/NarrowView.qml:56
-msgid "This will be your last attempt."
-msgstr "Ceci sera votre dernière tentative."
-
-#: qml/Greeter/NarrowView.qml:58
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
-msgstr ""
-"Si la phrase secrète est saisie de manière incorrecte, votre téléphone "
-"effectuera une réinitialisation aux paramètres d'usine et toutes les données "
-"personnelles seront supprimées."
-
-#: qml/Greeter/NarrowView.qml:59
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
-msgstr ""
-"Si le code est saisi de manière incorrecte, votre téléphone effectuera une "
-"réinitialisation aux paramètres d'usine et toutes les données personnelles "
-"seront supprimées."
-
-#: qml/Greeter/NarrowView.qml:129
-#, qt-format
-msgid "Enter %1"
-msgstr "Saisissez %1"
-
-#: qml/Greeter/NarrowView.qml:130
-msgid "Enter passphrase"
-msgstr "Saisissez la phrase de passe"
-
-#: qml/Greeter/NarrowView.qml:131
-msgid "Enter passcode"
-msgstr "Saisissez le mot de passe"
-
-#: qml/Greeter/NarrowView.qml:135
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "Désolé, %1 incorrect"
-
-#: qml/Greeter/NarrowView.qml:136
-msgid "Sorry, incorrect passphrase"
-msgstr "Désolé, phrase secrète incorrecte"
-
-#: qml/Greeter/NarrowView.qml:137
-msgctxt "passphrase"
-msgid "Please re-enter"
-msgstr "Veuillez ressaisir"
-
-#: qml/Greeter/NarrowView.qml:138
-msgid "Sorry, incorrect passcode"
-msgstr "Désolé, code incorrect"
+#: qml/Greeter/SessionsList.qml:122
+msgid "Select desktop environment"
+msgstr "Sélectionner l'environnement de bureau"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -612,7 +578,7 @@ msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
-msgstr ""
+msgstr "Faites glisser à partir du bord gauche pour ouvrir le lanceur"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
@@ -623,49 +589,66 @@ msgstr ""
 #: qml/Tutorial/TutorialRight.qml:56
 msgid "Swipe from the right edge to view your open apps"
 msgstr ""
+"Faites glisser à partir du bord droit pour voir les applications ouvertes"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
+"Faites glisser à partir du bord supérieur pour accéder aux notifications et "
+"aux réglages rapides"
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Précédent"
 
-#: qml/Wizard/Pages/10-welcome.qml:27
+#: qml/Wizard/Pages/10-welcome.qml:28
 msgid "Language"
 msgstr "Langue"
 
-#: qml/Wizard/Pages/10-welcome.qml:171 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
+#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:207 qml/Wizard/Pages/40-location.qml:271
+#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/70-passwd-type.qml:145
 #: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:124
-#: qml/Wizard/Pages/password-set.qml:141
+#: qml/Wizard/Pages/passcode-desktop.qml:142
+#: qml/Wizard/Pages/password-set.qml:142
 msgid "Next"
 msgstr "Suivant"
 
-#: qml/Wizard/Pages/30-wifi.qml:29
-msgid "Connect to Wi‑Fi"
-msgstr "Se connecter au Wi-Fi"
+#: qml/Wizard/Pages/20-keyboard.qml:31
+msgid "Select Keyboard"
+msgstr "Sélectionner le clavier"
 
-#: qml/Wizard/Pages/30-wifi.qml:130
-msgid "Connected"
-msgstr "Connecté"
+#: qml/Wizard/Pages/20-keyboard.qml:71
+msgid "Keyboard language"
+msgstr "Langue du clavier"
 
-#: qml/Wizard/Pages/30-wifi.qml:163
-msgid "Available Wi-Fi networks"
-msgstr "Réseaux Wi-Fi disponibles"
+#: qml/Wizard/Pages/20-keyboard.qml:93
+msgid "Keyboard layout"
+msgstr "Disposition du clavier"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
-msgid "No available Wi-Fi networks"
-msgstr "Aucun réseau Wi-Fi disponible"
-
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:207
+#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/77-system-update.qml:152
 #: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Passer"
+
+#: qml/Wizard/Pages/30-wifi.qml:31
+msgid "Connect to Wi‑Fi"
+msgstr "Se connecter au Wi-Fi"
+
+#: qml/Wizard/Pages/30-wifi.qml:132
+msgid "Connected"
+msgstr "Connecté"
+
+#: qml/Wizard/Pages/30-wifi.qml:165
+msgid "Available Wi-Fi networks"
+msgstr "Réseaux Wi-Fi disponibles"
+
+#: qml/Wizard/Pages/30-wifi.qml:166
+msgid "No available Wi-Fi networks"
+msgstr "Aucun réseau Wi-Fi disponible"
 
 #: qml/Wizard/Pages/40-location.qml:27
 msgid "Location Services"
@@ -701,11 +684,11 @@ msgstr "Ne pas utiliser ma position"
 msgid "You can change it later in System Settings."
 msgstr "Vous pourrez le modifier ultérieurement dans les Paramètres système."
 
-#: qml/Wizard/Pages/50-timezone.qml:29
+#: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "Fuseau horaire"
 
-#: qml/Wizard/Pages/50-timezone.qml:181
+#: qml/Wizard/Pages/50-timezone.qml:182
 msgid "Enter your city"
 msgstr "Saisir votre ville"
 
@@ -717,21 +700,21 @@ msgstr "Personnaliser votre appareil"
 msgid "Preferred Name"
 msgstr "Nom préferé"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:39
+#: qml/Wizard/Pages/70-passwd-type.qml:40
 msgid "Lock Screen"
 msgstr "Verrouiller l'écran"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:101
+#: qml/Wizard/Pages/70-passwd-type.qml:102
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr "Créer un nouveau mot de passe"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:103
+#: qml/Wizard/Pages/70-passwd-type.qml:104
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr "Créer un code (chiffres uniquement)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:105
+#: qml/Wizard/Pages/70-passwd-type.qml:106
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "Aucun code de verrouillage"
@@ -753,6 +736,37 @@ msgstr ""
 #: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Privacy policy"
 msgstr "Politique de confidentialité"
+
+#: qml/Wizard/Pages/77-system-update.qml:28
+msgid "Update Device"
+msgstr "Mettre à jour l'appareil"
+
+#: qml/Wizard/Pages/77-system-update.qml:55
+msgid ""
+"There is a system update available and ready to install. Afterwards, the "
+"device will automatically restart."
+msgstr ""
+"Une mise à jour du système est disponible et prête à être installée. Votre "
+"appareil redémarrera automatiquement."
+
+#: qml/Wizard/Pages/77-system-update.qml:76
+msgctxt "string identifying name of the update"
+msgid "Ubuntu system"
+msgstr "Système Ubuntu"
+
+#: qml/Wizard/Pages/77-system-update.qml:83
+#, qt-format
+msgctxt "version of the system update"
+msgid "Version %1"
+msgstr "Version %1"
+
+#: qml/Wizard/Pages/77-system-update.qml:102
+msgid "This could take a few minutes..."
+msgstr "Cela pourra prendre quelques minutes…"
+
+#: qml/Wizard/Pages/77-system-update.qml:116
+msgid "Install and restart now"
+msgstr "Installer et redémarrer maintenant"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
@@ -805,7 +819,7 @@ msgid "Service Terms"
 msgstr "Conditions de service"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:80
+#: qml/Wizard/Pages/passcode-desktop.qml:97
 msgid "Confirm passcode"
 msgstr "Confirmez votre code"
 
@@ -818,28 +832,28 @@ msgctxt "Enter the passcode again"
 msgid "Please re-enter."
 msgstr "Veuillez ressaisir."
 
-#: qml/Wizard/Pages/passcode-desktop.qml:30
+#: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
 msgstr "Code de verrouillage d'écran"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:56
+#: qml/Wizard/Pages/passcode-desktop.qml:61
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "Saisissez 4 chiffres pour définir votre code"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:65
+#: qml/Wizard/Pages/passcode-desktop.qml:77
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "Choisissez un code"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:105
+#: qml/Wizard/Pages/passcode-desktop.qml:127
 msgid "Passcode too short"
 msgstr "Code trop court"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:107
+#: qml/Wizard/Pages/passcode-desktop.qml:129
 msgid "Passcodes match"
 msgstr "Les codes correspondent"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:109
+#: qml/Wizard/Pages/passcode-desktop.qml:131
 msgid "Passcodes do not match"
 msgstr "Les codes ne correspondent pas"
 
@@ -847,19 +861,19 @@ msgstr "Les codes ne correspondent pas"
 msgid "Passcode must be 4 characters long"
 msgstr "Le code doit contenir au moins 4 caractères"
 
-#: qml/Wizard/Pages/password-set.qml:30
+#: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
 msgstr "Mot de passe de verrouillage de l'écran"
 
-#: qml/Wizard/Pages/password-set.qml:61
+#: qml/Wizard/Pages/password-set.qml:62
 msgid "Enter at least 8 characters"
 msgstr "Saisissez au moins 8 caractères"
 
-#: qml/Wizard/Pages/password-set.qml:73
+#: qml/Wizard/Pages/password-set.qml:74
 msgid "Choose password"
 msgstr "Choisissez un mot de passe"
 
-#: qml/Wizard/Pages/password-set.qml:103
+#: qml/Wizard/Pages/password-set.qml:104
 msgid "Confirm password"
 msgstr "Confirmez le mot de passe"
 
@@ -890,26 +904,30 @@ msgid "To proceed with no SIM tap Skip."
 msgstr "Pour poursuivre sans carte SIM, appuyez sur « Passer »"
 
 #: qml/Wizard/PasswordMeter.qml:87
+msgid "Password too short"
+msgstr "Mot de passe trop court"
+
+#: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
 msgstr "Les mots de passe correspondent"
 
-#: qml/Wizard/PasswordMeter.qml:89
+#: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
 msgstr "Les mots de passe ne correspondent pas"
 
-#: qml/Wizard/PasswordMeter.qml:93
+#: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
 msgstr "Mot de passe fort"
 
-#: qml/Wizard/PasswordMeter.qml:95
+#: qml/Wizard/PasswordMeter.qml:97
 msgid "Fair password"
 msgstr "Mot de passe acceptable"
 
-#: qml/Wizard/PasswordMeter.qml:97
+#: qml/Wizard/PasswordMeter.qml:99
 msgid "Weak password"
 msgstr "Mot de passe faible"
 
-#: qml/Wizard/PasswordMeter.qml:99
+#: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
 msgstr "Mot de passe très faible"
 
@@ -999,8 +1017,43 @@ msgstr "Mot de passe très faible"
 #~ msgid "Favorites"
 #~ msgstr "Favorites"
 
+#~ msgid "Sorry, incorrect passphrase."
+#~ msgstr "Désolé, phrase secrète incorrecte."
+
+#~ msgid "Sorry, incorrect passcode."
+#~ msgstr "Désolé, code incorrect."
+
+#~ msgid "This will be your last attempt."
+#~ msgstr "Ceci sera votre dernière tentative."
+
+#~ msgid ""
+#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
+#~ "and all personal data will be deleted."
+#~ msgstr ""
+#~ "Si le code est saisi de manière incorrecte, votre téléphone effectuera une "
+#~ "réinitialisation aux paramètres d'usine et toutes les données personnelles "
+#~ "seront supprimées."
+
+#~ msgid ""
+#~ "If passphrase is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
+#~ msgstr ""
+#~ "Si la phrase secrète est saisie de manière incorrecte, votre téléphone "
+#~ "effectuera une réinitialisation aux paramètres d'usine et toutes les données "
+#~ "personnelles seront supprimées."
+
 #~ msgid "Roaming"
 #~ msgstr "Roaming"
+
+#, qt-format
+#~ msgid "Sorry, incorrect %1"
+#~ msgstr "Désolé, %1 incorrect"
+
+#~ msgid "Sorry, incorrect passphrase"
+#~ msgstr "Désolé, phrase secrète incorrecte"
+
+#~ msgid "Sorry, incorrect passcode"
+#~ msgstr "Désolé, code incorrect"
 
 #~ msgid "Log out"
 #~ msgstr "Se déconnecter"
@@ -1023,8 +1076,18 @@ msgstr "Mot de passe très faible"
 #~ msgid "Manage Scopes"
 #~ msgstr "Gérer les moteurs de recherche"
 
+#~ msgid "Enter passphrase"
+#~ msgstr "Saisissez la phrase de passe"
+
+#~ msgid "Enter passcode"
+#~ msgstr "Saisissez le mot de passe"
+
 #~ msgid "Please re-enter"
 #~ msgstr "Veuillez ressaisir"
+
+#, qt-format
+#~ msgid "Enter %1"
+#~ msgstr "Saisissez %1"
 
 #~ msgid "Without it, you won’t be able to make calls or use text messaging."
 #~ msgstr ""
@@ -1243,6 +1306,10 @@ msgstr "Mot de passe très faible"
 
 #~ msgid "%a %d %b %l:%M %p"
 #~ msgstr "%a %b %d %l:%M"
+
+#~ msgctxt "passphrase"
+#~ msgid "Please re-enter"
+#~ msgstr "Veuillez ressaisir"
 
 #~ msgid "Call back"
 #~ msgstr "Rappeler"

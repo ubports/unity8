@@ -16,6 +16,7 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import GlobalShortcut 1.0
 import GSettings 1.0
 
 FocusScope {
@@ -43,6 +44,7 @@ FocusScope {
      // A Stage should paint a wallpaper etc over its full size but not use the margins for window placement
     property int leftMargin: 0
     property alias paintBackground: background.visible
+    property bool oskEnabled: false
 
     // To be read from outside
     property var mainApp: null
@@ -52,6 +54,9 @@ FocusScope {
                                       | Qt.LandscapeOrientation
                                       | Qt.InvertedPortraitOrientation
                                       | Qt.InvertedLandscapeOrientation
+
+    property Item itemConfiningMouseCursor: null
+
 
     signal stageAboutToBeUnloaded
     signal itemSnapshotRequested(Item item)
@@ -76,5 +81,13 @@ FocusScope {
         id: background
         color: "#060606"
         anchors.fill: parent
+    }
+
+    // shared Alt+F4 functionality
+    function closeFocusedDelegate() {} // to be implemented by stages
+
+    GlobalShortcut {
+        shortcut: Qt.AltModifier|Qt.Key_F4
+        onTriggered: closeFocusedDelegate()
     }
 }

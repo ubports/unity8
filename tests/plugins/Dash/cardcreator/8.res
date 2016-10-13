@@ -16,7 +16,7 @@ Loader {
                                 objectName: "backgroundLoader"; 
                                 anchors.fill: parent; 
                                 asynchronous: true;
-                                visible: status == Loader.Ready; 
+                                visible: status === Loader.Ready;
                                 sourceComponent: UbuntuShape { 
                                     objectName: "background"; 
                                     radius: "medium"; 
@@ -49,7 +49,6 @@ Loader {
                                     } 
                                 } 
                             }
-readonly property size artShapeSize: Qt.size(-1, -1);
 readonly property int headerHeight: row.height;
 Row { 
                         id: row; 
@@ -96,13 +95,15 @@ left: parent.left;
  
                                 ] 
                     }
-UbuntuShape { 
-    id: touchdown;
-    objectName: "touchdown";
+Loader {
+    active: root.pressed;
     anchors { fill: backgroundLoader }
-    visible: root.pressed;
-    radius: "medium";
-    borderSource: "radius_pressed.sci"
+    sourceComponent: UbuntuShape {
+        objectName: "touchdown";
+        anchors.fill: parent;
+        radius: "medium";
+        borderSource: "radius_pressed.sci"
+    }
 }
 implicitHeight: row.y + row.height + units.gu(1);
 }

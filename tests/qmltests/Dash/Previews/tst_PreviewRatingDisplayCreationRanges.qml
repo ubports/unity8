@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtTest 1.0
 import Ubuntu.Components 1.3
 import "../../../../qml/Dash/Previews"
+import "../../../../qml/Components"
 import Unity.Test 0.1 as UT
 
 Flickable {

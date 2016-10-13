@@ -15,14 +15,15 @@
  */
 
 import QtQuick 2.4
-import IntegratedLightDM 0.1 as LightDM
+import LightDM.IntegratedLightDM 0.1 as LightDM
 
 Item{
     id: implementation
 
     property var greeter: LightDM.Greeter
     property var infographic: LightDM.Infographic
+    property var sessions: LightDM.Sessions
+    property var sessionRoles: LightDM.SessionRoles
     property var users: LightDM.Users
     property var userRoles: LightDM.UserRoles
-
 }

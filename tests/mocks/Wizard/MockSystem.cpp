@@ -15,6 +15,7 @@
  */
 
 #include <QDebug>
+#include <QSettings>
 
 #include "MockSystem.h"
 
@@ -38,4 +39,11 @@ void MockSystem::setWizardEnabled(bool enabled)
 void MockSystem::updateSessionLocale(const QString &locale)
 {
     Q_EMIT updateSessionLocaleCalled(locale);
+}
+
+void MockSystem::skipUntilFinishedPage()
+{
+    QSettings settings;
+    settings.setValue(QStringLiteral("Wizard/SkipUntilFinishedPage"), true);
+    settings.sync();
 }
