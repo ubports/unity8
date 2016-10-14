@@ -72,8 +72,10 @@ Item {
                 anchors {
                     top: parent.top
                     bottom: parent.bottom
-                    topMargin: row.columns > 1 ? units.gu(4) : units.gu(2)
+                    topMargin: units.gu(2)
+                    bottomMargin: units.gu(2)
                 }
+                clip: true
                 width: row.columnWidth
                 spacing: units.gu(1)
 
