@@ -47,6 +47,7 @@ Column {
         objectName: "authorLabel"
         anchors { left: parent.left; right: parent.right }
         opacity: .8
+        font.size: "small"
         visible: text !== ""
         wrapMode: Text.Wrap
     }
@@ -57,6 +58,8 @@ Column {
         anchors { left: parent.left; right: parent.right }
         color: authorLabel.color
         opacity: .8
+        font.size: "x-small"
+        font.weight: Font.Light
         visible: text !== ""
         wrapMode: Text.Wrap
     }
