@@ -132,7 +132,7 @@ StyledItem {
         greeter.notifyAppFocusRequested(appId);
 
         panel.indicators.hide();
-        launcher.hide();
+        launcher.hide(launcher.ignoreHideIfMouseOverLauncher);
     }
 
     // For autopilot consumption

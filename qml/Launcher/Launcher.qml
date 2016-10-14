@@ -19,9 +19,12 @@ import "../Components"
 import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
+import Utils 0.1 as Utils
 
 FocusScope {
     id: root
+
+    readonly property int ignoreHideIfMouseOverLauncher: 1
 
     property bool autohideEnabled: false
     property bool lockedVisible: false
@@ -102,7 +105,10 @@ FocusScope {
         }
     }
 
-    function hide() {
+    function hide(flags) {
+        if ((flags & ignoreHideIfMouseOverLauncher) && Utils.Functions.itemUnderMouse(panel)) {
+            return;
+        }
         switchToNextState("")
     }
 
@@ -359,11 +365,11 @@ FocusScope {
         property bool animate: true
 
         onApplicationSelected: {
-            root.hide();
+            root.hide(ignoreHideIfMouseOverLauncher);
             launcherApplicationSelected(appId)
         }
         onShowDashHome: {
-            root.hide();
+            root.hide(ignoreHideIfMouseOverLauncher);
             root.showDashHome();
         }
 
