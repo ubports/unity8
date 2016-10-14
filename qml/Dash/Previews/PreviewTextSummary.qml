@@ -57,6 +57,7 @@ PreviewWidget {
             left: parent.left
             right: parent.right
             top: titleLabel.visible ? titleLabel.bottom : parent.top
+            topMargin: units.gu(1.5)
         }
         height: (lineCount <= maximumCollapsedLineCount || root.expanded) ? contentHeight : contentHeight / lineCount * maximumCollapsedLineCount
         clip: true
