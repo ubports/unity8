@@ -73,7 +73,6 @@ Item {
                     top: parent.top
                     bottom: parent.bottom
                     topMargin: units.gu(2)
-                    bottomMargin: units.gu(2)
                 }
                 clip: true
                 width: row.columnWidth
