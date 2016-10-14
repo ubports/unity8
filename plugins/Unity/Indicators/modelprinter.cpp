@@ -105,12 +105,32 @@ QString ModelPrinter::getRowSring(UnityMenuModel* sourceModel, int row, int dept
 
     Q_FOREACH(int role, roles) {
         const QByteArray& roleName = roleNames[role];
-        stream << tabify(depth) << getVariantString(roleName, sourceModel->get(row, roleName));
+        stream << getVariantString(roleName, sourceModel->get(row, roleName), depth);
     }
     return str;
 }
 
-QString ModelPrinter::getVariantString(const QString& roleName, const QVariant &vData) const
+QString ModelPrinter::getVariantString(const QVariant& vData) const
+{
+    if (vData.type() == QVariant::List) {
+        QString str = "[";
+        QTextStream stream(&str);
+        const QString seperator = ", ";
+
+        for (auto v : vData.toList())
+            stream << getVariantString(v) << seperator;
+
+        if (str.endsWith(seperator))
+            str.resize(str.length() - seperator.length());
+
+        str += "]";
+        return str;
+    }
+
+    return vData.toString();
+}
+
+QString ModelPrinter::getVariantString(const QString& roleName, const QVariant &vData, int depth) const
 {
     QString str;
     QTextStream stream(&str);
@@ -119,18 +139,20 @@ QString ModelPrinter::getVariantString(const QString& roleName, const QVariant &
         QMapIterator<QString, QVariant> iter(vData.toMap());
         while (iter.hasNext()) {
             iter.next();
+            stream << tabify(depth);
             stream << roleName
                 << "."
                 << iter.key()
                 << ": "
-                << iter.value().toString()
+                << getVariantString(iter.value())
                 << endl;
         }
     }
     else {
+            stream << tabify(depth);
             stream << roleName
                 << ": "
-                << vData.toString()
+                << getVariantString(vData)
                 << endl;
     }
     return str;
