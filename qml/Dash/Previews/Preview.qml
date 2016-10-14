@@ -104,12 +104,12 @@ Item {
                         leftMargin: if (row.columns == 1) {
                                         return singleColumnMarginless ? 0 : row.singleColumnMargin;
                                     } else {
-                                        return column.columnNumber == 0 ? row.spacing : 0;
+                                        return column.columnNumber == 0 ? row.singleColumnMargin : 0;
                                     }
                         rightMargin: if (row.columns == 1) {
                                         return singleColumnMarginless ? 0 : row.singleColumnMargin;
                                     } else {
-                                        return column.columnNumber == 1 ? row.spacing : 0;
+                                        return column.columnNumber == 1 ? row.singleColumnMargin : 0;
                                     }
                     }
 
