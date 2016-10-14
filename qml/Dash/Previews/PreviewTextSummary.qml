@@ -39,6 +39,7 @@ PreviewWidget {
         }
         height: visible ? implicitHeight : 0
         fontSize: "large"
+        font.weight: Font.Light
         color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText
         visible: text !== ""
         opacity: .8
@@ -59,7 +60,8 @@ PreviewWidget {
         }
         height: (lineCount <= maximumCollapsedLineCount || root.expanded) ? contentHeight : contentHeight / lineCount * maximumCollapsedLineCount
         clip: true
-        fontSize: "small"
+        fontSize: "medium"
+        font.weight: Font.Light
         lineHeight: 1.2
         color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText
         opacity: .8

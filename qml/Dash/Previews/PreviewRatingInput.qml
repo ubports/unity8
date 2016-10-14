@@ -103,6 +103,7 @@ PreviewWidget {
             objectName: "ratingLabel"
             anchors { left: parent.left; right: parent.right; }
             fontSize: "large"
+            font.weight: Font.Light
             color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText
             opacity: .8
             text: widgetData["rating-label"] || i18n.tr("Rate this")

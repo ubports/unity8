@@ -70,6 +70,7 @@ PreviewWidget {
             visible: text !== ""
             text: widgetData["subtitle"] || ""
             fontSize: "xx-small"
+            font.weight: Font.Light
             maximumLineCount: 1
             elide: Text.ElideRight
         }
@@ -77,6 +78,7 @@ PreviewWidget {
             width: parent.width
             text: widgetData["comment"] || ""
             fontSize: "small"
+            font.weight: Font.Light
             wrapMode: Text.Wrap
         }
     }

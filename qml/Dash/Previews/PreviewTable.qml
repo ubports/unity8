@@ -48,6 +48,7 @@ PreviewWidget {
             }
             height: visible ? implicitHeight : 0
             fontSize: "large"
+            font.weight: Font.Light
             color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText
             visible: text !== ""
             opacity: .8
@@ -73,7 +74,7 @@ PreviewWidget {
                         text: perRowRepeater.model[index]
                         visible: root.expanded || rowIndex < maximumCollapsedRowCount
                         color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText
-                        font.bold: index == 0
+                        font.weight: index == 0 ? Font.Normal : Font.Light
                         wrapMode: Text.Wrap
                         Layout.alignment: Qt.AlignTop
                         Layout.maximumWidth: column.width - x
