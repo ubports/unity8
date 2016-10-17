@@ -41,6 +41,7 @@ PreviewWidget {
             source: widgetData["source"]
         }
         radius: "medium"
+        aspect: UbuntuShape.Flat
         opacity: source.status === Image.Ready ? 1 : 0
         visible: widgetData["source"] !== ""
     }
