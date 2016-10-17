@@ -33,7 +33,7 @@ Rectangle {
     property bool dragging: false
     property bool moving: launcherListView.moving || launcherListView.flicking
     property bool preventHiding: moving || dndArea.draggedIndex >= 0 || quickList.state === "open" || dndArea.pressed
-                                 || mouseEventEater.containsMouse || dashItem.hovered
+                                 || dndArea.containsMouse || dashItem.hovered
     property int highlightIndex: -2
     property bool shortcutHintsShown: false
 
@@ -65,14 +65,6 @@ Rectangle {
         quickList.open(index);
         quickList.selectedIndex = 0;
         quickList.focus = true;
-    }
-
-    MouseArea {
-        id: mouseEventEater
-        anchors.fill: parent
-        acceptedButtons: Qt.AllButtons
-        hoverEnabled: true
-        onWheel: wheel.accepted = true;
     }
 
     Column {
