@@ -136,7 +136,7 @@ private:
 }
 
 UserMetricsDataPrivate::UserMetricsDataPrivate(UserMetricsData *parent) :
-        q_ptr(parent), m_firstColor(this), m_secondColor(this)
+        q_ptr(parent), m_label(""), m_firstColor(this), m_secondColor(this)
 {
     m_length = calculateLength();
 }
@@ -225,7 +225,7 @@ int UserMetricsData::length() const
 }
 
 UserMetricsPrivate::UserMetricsPrivate(UserMetrics *parent) :
-        q_ptr(parent), m_firstColor(this), m_secondColor(this), m_currentDay(-1), m_currentDayChanged(false)
+        q_ptr(parent), m_firstColor(this), m_secondColor(this), m_currentDay(0), m_currentDayChanged(false)
 {
     m_fakeData.insert("", UserMetricsDataPtr(new UserMetricsData(this)));
 }
@@ -243,6 +243,8 @@ void UserMetricsPrivate::findAndSetUsername(const QString &username)
     {
         m_dataIndex = m_fakeData.constFind("");
     }
+
+    m_newData = *m_dataIndex;
 }
 
 void UserMetricsPrivate::setUsername(const QString &username)
@@ -341,7 +343,6 @@ void UserMetricsPrivate::generateFakeData()
 
 void UserMetricsPrivate::loadFakeData()
 {
-    m_newData = *m_dataIndex;
 
     bool oldLabelEmpty = m_label.isEmpty();
     bool newLabelEmpty = m_newData->label().isEmpty();
@@ -408,6 +409,7 @@ void UserMetricsPrivate::nextFakeData()
         }
     }
 
+    m_newData = *m_dataIndex;
     loadFakeData();
 }
 

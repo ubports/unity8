@@ -17,6 +17,7 @@
 import "Gradient.js" as Gradient
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import Powerd 0.1
 
 Item {
     id: infographic
@@ -25,7 +26,7 @@ Item {
 
     property int animDuration: 10
 
-    property int currentDay: -1  // Boot time value
+    property int currentWeekDay
 
     QtObject {
         id: d
@@ -58,20 +59,38 @@ Item {
         onDataDisappeared: startShowAnimation() // show "no data" label
     }
 
+    Connections {
+        id: screenState
+        target: Powerd
+
+        onStatusChanged: {
+            if(Powerd.status === Powerd.On){
+                handleScreenOn()
+            }
+        }
+    }
+
+    function handleScreenOn(){
+        var today = new Date().getDay()
+        if(infographic.currentWeekDay !== today){
+            infographic.currentWeekDay = today
+            reloadUserData();
+        }
+    }
+
+    function reloadUserData(){
+        d.useDotAnimation = false
+        infographic.model.nextDataSource()
+    }
 
     function startShowAnimation() {
-        if(currentDay !== model.currentDay){
-            currentDay = model.currentDay
-            model.nextDataSource();
-        }else{
-            dotHideAnimTimer.stop()
-            notification.hideAnim.stop()
+        dotHideAnimTimer.stop()
+        notification.hideAnim.stop()
 
-            if (d.useDotAnimation) {
-                dotShowAnimTimer.startFromBeginning()
-            }
-            notification.showAnim.start()
+        if (d.useDotAnimation) {
+            dotShowAnimTimer.startFromBeginning()
         }
+        notification.showAnim.start()
     }
 
     function startHideAnimation() {
@@ -89,7 +108,10 @@ Item {
 
     visible: model.username !== ""
 
-    Component.onCompleted: startShowAnimation()
+    Component.onCompleted: {
+        currentWeekDay = new Date().getDay()
+        startShowAnimation()
+    }
 
     Item {
         id: dataCircle
@@ -413,8 +435,7 @@ Item {
 
         onDoubleClicked: {
             if (!d.animating) {
-                d.useDotAnimation = false
-                infographic.model.nextDataSource()
+                reloadUserData()
             }
         }
     }

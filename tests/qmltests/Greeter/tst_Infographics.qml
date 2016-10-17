@@ -134,26 +134,26 @@ Item {
             compare(infographic.visible, data.visible);
         }
 
-        function test_set_current_day_data(data)
+        function test_update_userdata_when_new_day_data()
         {
             return [
-               { tag: "Same day", 	   expectedDay: 0, label: "<b>19</b> minutes talk time" },
-               { tag: "Different day", expectedDay: 1, label: "<b>33</b> messages today" },
+               { tag: "Same day", 	   currentDayOffset: 0, label: "<b>19</b> minutes talk time" },
+               { tag: "Different day", currentDayOffset: 1, label: "<b>33</b> messages today" },
             ]
         }
 
-        function test_set_current_day(data)
+        function test_update_userdata_when_new_day(data)
         {
             //Given
+            var today = new Date().getDay()
             infographicModel.username = "single"
-            infographic.currentDay = 0
+            infographic.currentWeekDay = (today - data.currentDayOffset)
 
             //When
-            infographicModel.setDay(data.expectedDay)
-            infographic.startShowAnimation()
+            infographic.handleScreenOn()
 
             //Then
-            tryCompare(infographic, "currentDay", data.expectedDay)
+            tryCompare(infographic, "currentWeekDay", today)
             tryCompare(label, "text", data.label)
         }
     }
