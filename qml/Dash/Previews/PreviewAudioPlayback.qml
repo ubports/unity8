@@ -141,6 +141,7 @@ PreviewWidget {
                         opacity: 0.9
                         color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
                         fontSize: "small"
+                        font.weight: Font.Light
                         horizontalAlignment: Text.AlignRight
                         text: DashAudioPlayer.lengthToString(modelData["length"])
                     }
