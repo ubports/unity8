@@ -67,6 +67,13 @@ Rectangle {
         quickList.focus = true;
     }
 
+    MouseArea {
+        id: mouseEventEater
+        anchors.fill: parent
+        acceptedButtons: Qt.AllButtons
+        onWheel: wheel.accepted = true;
+    }
+
     Column {
         id: mainColumn
         anchors {
@@ -824,24 +831,12 @@ Rectangle {
         }
     }
 
-    UbuntuShape {
+    Tooltip {
         id: tooltipShape
         objectName: "tooltipShape"
 
+        visible: tooltipShownState.active
         rotation: root.rotation
-        aspect: UbuntuShape.Flat
-        color: theme.palette.normal.background
-        opacity: tooltipShownState.active ? 0.95 : 0
-        visible: opacity > 0
-
-        Behavior on opacity {
-            UbuntuNumberAnimation {
-                duration: UbuntuAnimation.BriskDuration
-            }
-        }
-
-        width: tooltipLabel.implicitWidth + units.gu(4)
-        height: tooltipLabel.implicitHeight + units.gu(2)
         y: itemCenter - (height / 2)
 
         anchors {
@@ -850,29 +845,9 @@ Rectangle {
             margins: units.gu(1)
         }
 
-        Image {
-            anchors {
-                right: parent.left
-                rightMargin: -units.dp(4)
-                verticalCenter: parent.verticalCenter
-            }
-            height: units.gu(1)
-            width: units.gu(2)
-            source: "graphics/quicklist_tooltip.png"
-            rotation: 90
-        }
-
-        Label {
-            id: tooltipLabel
-            anchors.centerIn: parent
-            verticalAlignment: Label.AlignVCenter
-            color: theme.palette.normal.backgroundText
-            anchors.margins: units.gu(10)
-
-            Binding on text {
-                when: !!tooltipShape.hoveredItem
-                value: !!tooltipShape.hoveredItem ? tooltipShape.hoveredItem.name : ""
-            }
+        Binding on text {
+            when: !!tooltipShape.hoveredItem
+            value: !!tooltipShape.hoveredItem ? tooltipShape.hoveredItem.name : ""
         }
 
         property var hoveredItem: dndArea.containsMouse ? launcherListView.itemAt(dndArea.mouseX, dndArea.mouseY + launcherListView.realContentY) : null
@@ -882,69 +857,69 @@ Rectangle {
             when: !!tooltipShape.hoveredItem
             value: !!tooltipShape.hoveredItem ? root.mapFromItem(tooltipShape.hoveredItem, 0, 0).y + (tooltipShape.hoveredItem.height / 2) + tooltipShape.hoveredItem.offset : 0
         }
+    }
 
-        DSM.StateMachine {
-            id: tooltipStateMachine
-            initialState: tooltipHiddenState
-            running: true
+    DSM.StateMachine {
+        id: tooltipStateMachine
+        initialState: tooltipHiddenState
+        running: true
 
-            DSM.State {
-                id: tooltipHiddenState
+        DSM.State {
+            id: tooltipHiddenState
 
-                DSM.SignalTransition {
-                    targetState: tooltipShownState
-                    signal: tooltipShape.hoveredItemChanged
-                    // !dndArea.pressed allows us to filter out touch input events
-                    guard: tooltipShape.hoveredItem != null && !dndArea.pressed && !root.moving
-                }
+            DSM.SignalTransition {
+                targetState: tooltipShownState
+                signal: tooltipShape.hoveredItemChanged
+                // !dndArea.pressed allows us to filter out touch input events
+                guard: tooltipShape.hoveredItem != null && !dndArea.pressed && !root.moving
+            }
+        }
+
+        DSM.State {
+            id: tooltipShownState
+
+            DSM.SignalTransition {
+                targetState: tooltipHiddenState
+                signal: tooltipShape.hoveredItemChanged
+                guard: tooltipShape.hoveredItem == null
             }
 
-            DSM.State {
-                id: tooltipShownState
-
-                DSM.SignalTransition {
-                    targetState: tooltipHiddenState
-                    signal: tooltipShape.hoveredItemChanged
-                    guard: tooltipShape.hoveredItem == null
-                }
-
-                DSM.SignalTransition {
-                    targetState: tooltipHiddenState
-                    signal: dndArea.exited
-                }
-
-                DSM.SignalTransition {
-                    targetState: tooltipDismissedState
-                    signal: dndArea.onPressed
-                }
-
-                DSM.SignalTransition {
-                    targetState: tooltipDismissedState
-                    signal: quickList.stateChanged
-                    guard: quickList.state === "open"
-                }
-
-                DSM.SignalTransition {
-                    targetState: tooltipDismissedState
-                    signal: root.movingChanged
-                    guard: root.moving
-                }
+            DSM.SignalTransition {
+                targetState: tooltipHiddenState
+                signal: dndArea.exited
             }
 
-            DSM.State {
-                id: tooltipDismissedState
+            DSM.SignalTransition {
+                targetState: tooltipDismissedState
+                signal: dndArea.onPressed
+            }
 
-                DSM.SignalTransition {
-                    targetState: tooltipHiddenState
-                    signal: dndArea.positionChanged
-                    guard: quickList.state != "open" && !dndArea.pressed && !dndArea.moving
-                }
+            DSM.SignalTransition {
+                targetState: tooltipDismissedState
+                signal: quickList.stateChanged
+                guard: quickList.state === "open"
+            }
 
-                DSM.SignalTransition {
-                    targetState: tooltipHiddenState
-                    signal: dndArea.exited
-                    guard: quickList.state != "open"
-                }
+            DSM.SignalTransition {
+                targetState: tooltipDismissedState
+                signal: root.movingChanged
+                guard: root.moving
+            }
+        }
+
+        DSM.State {
+            id: tooltipDismissedState
+
+            DSM.SignalTransition {
+                targetState: tooltipHiddenState
+                signal: dndArea.positionChanged
+                guard: quickList.state != "open" && !dndArea.pressed && !dndArea.moving
+            }
+
+            DSM.SignalTransition {
+                targetState: tooltipHiddenState
+                signal: dndArea.exited
+                guard: quickList.state != "open"
             }
         }
     }
