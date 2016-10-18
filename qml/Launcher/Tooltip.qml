@@ -57,8 +57,6 @@ UbuntuShape {
             rightMargin: -units.dp(4)
             verticalCenter: parent.verticalCenter
         }
-        height: units.gu(1)
-        width: units.gu(2)
         source: "graphics/quicklist_tooltip.png"
         rotation: 90
     }
@@ -66,7 +64,6 @@ UbuntuShape {
     Label {
         id: label
         anchors.centerIn: parent
-        verticalAlignment: Label.AlignVCenter
         color: theme.palette.normal.backgroundText
     }
 }
