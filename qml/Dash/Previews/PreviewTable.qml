@@ -77,7 +77,7 @@ PreviewWidget {
                         font.weight: index == 0 ? Font.Normal : Font.Light
                         wrapMode: Text.Wrap
                         Layout.alignment: Qt.AlignTop
-                        Layout.minimumHeight: units.gu(2.75)
+                        Layout.minimumHeight: Math.max(units.gu(2.75), contentHeight) // FIXME Reevaluate if we need this once we move away from Qt 5.4
                         Layout.maximumWidth: index == 0 ? column.width / 4 : column.width - x
                         Layout.minimumWidth: index == 0 ? column.width / 4 : -1
                         height: -1 // FIXME Qt 5.4 needs this otherwise wrapped columns

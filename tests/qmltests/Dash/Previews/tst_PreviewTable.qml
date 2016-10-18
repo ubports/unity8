@@ -83,7 +83,7 @@ Rectangle {
         function test_label_heights() {
             verify(findChild(previewTable, "label00").height == findChild(previewTable, "label10").height);
             verify(findChild(previewTable, "label01").height == findChild(previewTable, "label11").height);
-            verify(findChild(previewTable, "label01").implicitHeight > findChild(previewTable, "label00").implicitHeight * 3);
+            verify(findChild(previewTable, "label01").contentHeight > findChild(previewTable, "label00").contentHeight * 3);
             verify(findChild(previewTable, "label00").height == findChild(previewTable, "label20").height);
             verify(findChild(previewTable, "label20").height == findChild(previewTable, "label21").height);
         }
