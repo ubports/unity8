@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-09-22 07:46+0000\n"
-"PO-Revision-Date: 2016-09-25 14:54+0000\n"
+"PO-Revision-Date: 2016-09-28 13:40+0000\n"
 "Last-Translator: Xuacu Saturio <xuacusk8@gmail.com>\n"
 "Language-Team: Asturian <ast@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-09-27 07:03+0000\n"
+"X-Launchpad-Export-Date: 2016-09-29 06:45+0000\n"
 "X-Generator: Launchpad (build 18204)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -187,7 +187,7 @@ msgstr "Super (Tocar)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:193
 msgid "Opens the Scopes home."
-msgstr ""
+msgstr "Abre'l principiu d'Ámbitos"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:209
 msgid "Switching"
@@ -247,11 +247,11 @@ msgstr "Amenorga o restaura la ventana actual."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Left or Right"
-msgstr ""
+msgstr "Ctrl + Super + Izquierda o Drecha"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Semi-maximizes the current window."
-msgstr ""
+msgstr "Semi-maximiza la ventana actual."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Alt + F4"
@@ -464,11 +464,11 @@ msgstr "Aniciar sesión"
 
 #: qml/Greeter/NarrowView.qml:252
 msgid "Emergency"
-msgstr ""
+msgstr "Emerxencia"
 
 #: qml/Greeter/SessionsList.qml:122
 msgid "Select desktop environment"
-msgstr ""
+msgstr "Esbillar entornu d'escritoriu"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -567,7 +567,7 @@ msgstr "Eslizamientu llargu dende'l berbesu izquierdu pa ver el scope Güei"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
-msgstr ""
+msgstr "Barríu curtiu dende'l berbesu izquierdu p'abrir el llanzador"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
@@ -575,11 +575,13 @@ msgstr "Emburria'l mur escontra'l berbesu drechu pa ver les apps abiertes"
 
 #: qml/Tutorial/TutorialRight.qml:56
 msgid "Swipe from the right edge to view your open apps"
-msgstr ""
+msgstr "Barríu dende'l berbesu drechu pa ver les apps abiertes"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
+"Barríu dende'l berbesu superior pa tener accesu a los avisos y configuración "
+"nel intre"
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
@@ -770,7 +772,7 @@ msgstr "Términos y condiciones"
 
 #: qml/Wizard/Pages/here-terms.qml:69
 msgid "Your device uses positioning technologies provided by HERE."
-msgstr ""
+msgstr "El preséu usa teunoloxíes de posición qu'ufre HERE."
 
 #: qml/Wizard/Pages/here-terms.qml:81
 msgid ""
@@ -778,21 +780,26 @@ msgid ""
 "collects information about nearby cell towers and Wi-Fi hotspots around your "
 "current location whenever your position is being found."
 msgstr ""
+"Pa ufrir los servicios de posición y ameyorar la so calidá, HERE collecha "
+"información de les antenes celulares y puntos d'accesu Wi-Fi cercanos al to "
+"allugamientu actual siempre que se conoza la to posición."
 
 #: qml/Wizard/Pages/here-terms.qml:93
 msgid ""
 "The information collected is used to analyze the service and to improve the "
 "use of service, but not to identify you personally."
 msgstr ""
+"La información collechada úsase p'analizar el serviciu y ameyorar l'usu del "
+"serviciu, non pa identificate personalmente."
 
 #: qml/Wizard/Pages/here-terms.qml:106
 #, qt-format
 msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr ""
+msgstr "Al siguir, aceutes %1 y %2 de la plataforma HERE."
 
 #: qml/Wizard/Pages/here-terms.qml:107
 msgid "Service Terms"
-msgstr ""
+msgstr "Términos del serviciu"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:97
@@ -801,53 +808,53 @@ msgstr "Confirmar códigu de pasu"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
-msgstr ""
+msgstr "Códigu de pasu incorreutu."
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgctxt "Enter the passcode again"
 msgid "Please re-enter."
-msgstr ""
+msgstr "Vuelve a escribilu."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
-msgstr ""
+msgstr "Códigu de pasu de bloquéu de pantalla"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:61
 msgid "Enter 4 numbers to setup your passcode"
-msgstr ""
+msgstr "Escribi 4 númberos pa configurar el códigu de pasu"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:77
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
-msgstr ""
+msgstr "Escueyi'l códigu de pasu"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:127
 msgid "Passcode too short"
-msgstr ""
+msgstr "Códigu de pasu curtiu enforma"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:129
 msgid "Passcodes match"
-msgstr ""
+msgstr "Los códigos de pasu casen"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:131
 msgid "Passcodes do not match"
-msgstr ""
+msgstr "Los códigos de pasu nun casen"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr ""
+msgstr "El códigu de pasu tien de tener 4 caráuteres de llargo"
 
 #: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
-msgstr ""
+msgstr "Contraseña del Bloquéu de pantalla"
 
 #: qml/Wizard/Pages/password-set.qml:62
 msgid "Enter at least 8 characters"
-msgstr ""
+msgstr "Escribe polo menos 8 caráuteres"
 
 #: qml/Wizard/Pages/password-set.qml:74
 msgid "Choose password"
-msgstr ""
+msgstr "Escueye la contraseña"
 
 #: qml/Wizard/Pages/password-set.qml:104
 msgid "Confirm password"
@@ -855,15 +862,15 @@ msgstr "Confirmar contraseña"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
-msgstr ""
+msgstr "Nun ta instalada nenguna tarxeta SIM"
 
 #: qml/Wizard/Pages/sim.qml:54
 msgid "SIM card added"
-msgstr ""
+msgstr "Amestóse tarxeta SIM"
 
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
-msgstr ""
+msgstr "Tienes de reaniciar el preséu pa tener accesu a la rede móvil."
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
@@ -871,23 +878,23 @@ msgstr "Reaniciar"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
-msgstr ""
+msgstr "Nun podrás facer llamaes nin usar mensaxería de testu sin una SIM."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr ""
+msgstr "Pa siguir ensin SIM toca Saltar."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr ""
+msgstr "Contraseña curtia enforma"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
-msgstr ""
+msgstr "Les contraseñes concasen"
 
 #: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Les contraseñes nun concasen"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
