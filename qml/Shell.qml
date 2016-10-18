@@ -314,6 +314,11 @@ StyledItem {
 
             // TODO: This is not implemented yet in the new stage...
             spreadEnabled: tutorial.spreadEnabled && (!greeter || (!greeter.hasLockedApp && !greeter.shown))
+
+            onSpreadShownChanged: {
+                panel.indicators.hide();
+                panel.applicationMenus.hide();
+            }
         }
     }
 
