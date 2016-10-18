@@ -1362,18 +1362,18 @@ Rectangle {
             var tooltipShape = findChild(launcher, "tooltipShape");
 
             // Make sure we don't start the test with the mouse hovering the launcher
-            mouseMove(root, root.width, root.height / 2);
+            mouseMove(root, root.width, root.height / 2, 10);
 
             // Initial state
             tryCompare(tooltipShape, "visible", false);
 
             // Move the mouse on the launcher icon
-            mouseMove(item, item.width / 2, item.height / 2);
-            mouseMove(item, item.width / 2 + 1, item.height / 2);
+            mouseMove(item, item.width / 2, item.height / 2, 10);
+            mouseMove(item, item.width / 2 + 1, item.height / 2, 10);
             tryCompare(tooltipShape, "visible", true);
 
             // Move the mouse away
-            mouseMove(root, root.width, root.height / 2);
+            mouseMove(root, root.width, root.height / 2, 10);
             tryCompare(tooltipShape, "visible", false);
         }
 
@@ -1386,14 +1386,14 @@ Rectangle {
             var quickListShape = findChild(launcher, "quickListShape");
 
             // Make sure we don't start the test with the mouse hovering the launcher
-            mouseMove(root, root.width, root.height / 2);
+            mouseMove(root, root.width, root.height / 2, 10);
 
             // Initial state
             tryCompare(tooltipShape, "visible", false);
 
             // Move the mouse on the launcher icon
-            mouseMove(item, item.width / 2, item.height / 2);
-            mouseMove(item, item.width / 2 + 1, item.height / 2);
+            mouseMove(item, item.width / 2, item.height / 2, 10);
+            mouseMove(item, item.width / 2 + 1, item.height / 2, 10);
             tryCompare(tooltipShape, "visible", true);
 
             // Right click to show the quicklist
@@ -1407,8 +1407,8 @@ Rectangle {
             tryCompare(tooltipShape, "visible", false);
 
             // Mouse motion should should show tooltip again
-            mouseMove(item, item.width / 2, item.height / 2);
-            mouseMove(item, item.width / 2 + 1, item.height / 2);
+            mouseMove(item, item.width / 2, item.height / 2, 10);
+            mouseMove(item, item.width / 2 + 1, item.height / 2, 10);
             tryCompare(tooltipShape, "visible", true);
         }
 
@@ -1420,14 +1420,14 @@ Rectangle {
             var tooltipShape = findChild(launcher, "tooltipShape");
 
             // Make sure we don't start the test with the mouse hovering the launcher
-            mouseMove(root, root.width, root.height / 2);
+            mouseMove(root, root.width, root.height / 2, 10);
 
             // Initial state
             compare(tooltipShape.visible, false);
 
             // Move the mouse on the launcher icon
-            mouseMove(item, item.width / 2, item.height / 2);
-            mouseMove(item, item.width / 2 + 1, item.height / 2);
+            mouseMove(item, item.width / 2, item.height / 2, 10);
+            mouseMove(item, item.width / 2 + 1, item.height / 2, 10);
             tryCompare(tooltipShape, "visible", true);
 
             // Left click should dismiss the tooltip
@@ -1435,8 +1435,8 @@ Rectangle {
             tryCompare(tooltipShape, "visible", false);
 
             // Mouse motion should should show tooltip again
-            mouseMove(item, item.width / 2, item.height / 2);
-            mouseMove(item, item.width / 2 + 1, item.height / 2);
+            mouseMove(item, item.width / 2, item.height / 2, 10);
+            mouseMove(item, item.width / 2 + 1, item.height / 2, 10);
             tryCompare(tooltipShape, "visible", true);
         }
     }
