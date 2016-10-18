@@ -117,7 +117,7 @@ QString ModelPrinter::getVariantString(const QVariant& vData) const
         for (const auto& v : vData.toList())
             strList.append(getVariantString(v));
 
-        return "[" + strList.join(", ") + "]";
+        return '[' + strList.join(", ") + ']';
     }
 
     return vData.toString();
