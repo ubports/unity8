@@ -21,8 +21,8 @@ UbuntuShape {
     id: root
 
     // This property holds the delay (milliseconds) after which the tool tip is shown.
-    // A tooltip with a negative delay is shown immediately. The default value is UbuntuAnimation.SlowDuration.
-    property alias delay: delayTimer.interval
+    // A tooltip with a negative delay is shown immediately. The default value is 500 ms.
+    property int delay:  500
 
     // This property holds the text shown on the tool tip.
     property alias text: label.text
@@ -31,25 +31,7 @@ UbuntuShape {
     color: theme.palette.normal.background
     width: label.implicitWidth + units.gu(4)
     height: label.implicitHeight + units.gu(2)
-
-    Behavior on opacity {
-        UbuntuNumberAnimation {
-            duration: UbuntuAnimation.BriskDuration
-        }
-    }
-
-    Binding on opacity {
-        when: !visible
-        value: 0
-    }
-
-    Timer {
-        id: delayTimer
-        running: root.visible
-        triggeredOnStart: true
-        interval: UbuntuAnimation.SlowDuration
-        onTriggered: root.opacity = (running ? .0 : .95)
-    }
+    opacity: 0
 
     Image {
         anchors {
@@ -66,4 +48,25 @@ UbuntuShape {
         anchors.centerIn: parent
         color: theme.palette.normal.backgroundText
     }
+
+    states: [
+        State {
+            name: "visible"
+            when: root.visible
+            PropertyChanges {
+                target: root
+                opacity: 0.95
+            }
+        }
+    ]
+
+    transitions: [
+        Transition {
+            from: ""; to: "visible"
+            SequentialAnimation {
+                PauseAnimation { duration: root.delay }
+                UbuntuNumberAnimation { target: root; property: "opacity"; duration: UbuntuAnimation.BriskDuration }
+            }
+        }
+    ]
 }

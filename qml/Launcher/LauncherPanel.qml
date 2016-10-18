@@ -845,18 +845,10 @@ Rectangle {
             margins: units.gu(1)
         }
 
-        Binding on text {
-            when: !!tooltipShape.hoveredItem
-            value: !!tooltipShape.hoveredItem ? tooltipShape.hoveredItem.name : ""
-        }
-
         property var hoveredItem: dndArea.containsMouse ? launcherListView.itemAt(dndArea.mouseX, dndArea.mouseY + launcherListView.realContentY) : null
-        property int itemCenter: 0
+        property int itemCenter: hoveredItem ? root.mapFromItem(hoveredItem, 0, 0).y + (hoveredItem.height / 2) + hoveredItem.offset : 0
 
-        Binding on itemCenter {
-            when: !!tooltipShape.hoveredItem
-            value: !!tooltipShape.hoveredItem ? root.mapFromItem(tooltipShape.hoveredItem, 0, 0).y + (tooltipShape.hoveredItem.height / 2) + tooltipShape.hoveredItem.offset : 0
-        }
+        text: hoveredItem ? hoveredItem.name : ""
     }
 
     DSM.StateMachine {
@@ -885,11 +877,6 @@ Rectangle {
             }
 
             DSM.SignalTransition {
-                targetState: tooltipHiddenState
-                signal: dndArea.exited
-            }
-
-            DSM.SignalTransition {
                 targetState: tooltipDismissedState
                 signal: dndArea.onPressed
             }
@@ -898,12 +885,6 @@ Rectangle {
                 targetState: tooltipDismissedState
                 signal: quickList.stateChanged
                 guard: quickList.state === "open"
-            }
-
-            DSM.SignalTransition {
-                targetState: tooltipDismissedState
-                signal: root.movingChanged
-                guard: root.moving
             }
         }
 

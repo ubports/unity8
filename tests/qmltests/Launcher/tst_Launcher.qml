@@ -1366,15 +1366,18 @@ Rectangle {
 
             // Initial state
             tryCompare(tooltipShape, "visible", false);
+            tryCompare(tooltipShape, "opacity", .0);
 
             // Move the mouse on the launcher icon
             mouseMove(item, item.width / 2, item.height / 2, 10);
             mouseMove(item, item.width / 2 + 1, item.height / 2, 10);
             tryCompare(tooltipShape, "visible", true);
+            tryCompare(tooltipShape, "opacity", .95);
 
             // Move the mouse away
             mouseMove(root, root.width, root.height / 2, 10);
             tryCompare(tooltipShape, "visible", false);
+            tryCompare(tooltipShape, "opacity", .0);
         }
 
         function test_quicklist_dismisses_tooltip() {
@@ -1390,26 +1393,31 @@ Rectangle {
 
             // Initial state
             tryCompare(tooltipShape, "visible", false);
+            tryCompare(tooltipShape, "opacity", .0);
 
             // Move the mouse on the launcher icon
             mouseMove(item, item.width / 2, item.height / 2, 10);
             mouseMove(item, item.width / 2 + 1, item.height / 2, 10);
             tryCompare(tooltipShape, "visible", true);
+            tryCompare(tooltipShape, "opacity", .95);
 
             // Right click to show the quicklist
             mouseClick(item, item.width / 2, item.height / 2, Qt.RightButton);
             tryCompare(quickListShape, "visible", true);
             tryCompare(tooltipShape, "visible", false);
+            tryCompare(tooltipShape, "opacity", .0);
 
             // Left click hides the quicklist, tooltip is still dismissed
             mouseClick(item, item.width / 2, item.height / 2, Qt.LefftButton);
             tryCompare(quickListShape, "visible", false);
             tryCompare(tooltipShape, "visible", false);
+            tryCompare(tooltipShape, "opacity", .0);
 
             // Mouse motion should should show tooltip again
             mouseMove(item, item.width / 2, item.height / 2, 10);
             mouseMove(item, item.width / 2 + 1, item.height / 2, 10);
             tryCompare(tooltipShape, "visible", true);
+            tryCompare(tooltipShape, "opacity", .95);
         }
 
         function test_click_dismisses_tooltip() {
@@ -1423,21 +1431,25 @@ Rectangle {
             mouseMove(root, root.width, root.height / 2, 10);
 
             // Initial state
-            compare(tooltipShape.visible, false);
+            tryCompare(tooltipShape, "visible", false);
+            tryCompare(tooltipShape, "opacity", .0);
 
             // Move the mouse on the launcher icon
             mouseMove(item, item.width / 2, item.height / 2, 10);
             mouseMove(item, item.width / 2 + 1, item.height / 2, 10);
             tryCompare(tooltipShape, "visible", true);
+            tryCompare(tooltipShape, "opacity", .95);
 
             // Left click should dismiss the tooltip
             mouseClick(item, item.width / 2 + 1, item.height / 2, Qt.LeftButton);
             tryCompare(tooltipShape, "visible", false);
+            tryCompare(tooltipShape, "opacity", .0);
 
             // Mouse motion should should show tooltip again
             mouseMove(item, item.width / 2, item.height / 2, 10);
             mouseMove(item, item.width / 2 + 1, item.height / 2, 10);
             tryCompare(tooltipShape, "visible", true);
+            tryCompare(tooltipShape, "opacity", .95);
         }
     }
 }
