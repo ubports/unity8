@@ -113,18 +113,11 @@ QString ModelPrinter::getRowSring(UnityMenuModel* sourceModel, int row, int dept
 QString ModelPrinter::getVariantString(const QVariant& vData) const
 {
     if (vData.type() == QVariant::List) {
-        QString str = "[";
-        QTextStream stream(&str);
-        const QString seperator = ", ";
+        QStringList strList;
+        for (const auto& v : vData.toList())
+            strList.append(getVariantString(v));
 
-        for (auto v : vData.toList())
-            stream << getVariantString(v) << seperator;
-
-        if (str.endsWith(seperator))
-            str.resize(str.length() - seperator.length());
-
-        str += "]";
-        return str;
+        return "[" + strList.join(", ") + "]";
     }
 
     return vData.toString();
