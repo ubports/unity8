@@ -1356,7 +1356,7 @@ Rectangle {
 
         function test_tooltip() {
             launcher.lockedVisible = true;
-            dragLauncherIntoView();
+            revealByEdgePush();
 
             var item = findChild(launcher, "launcherDelegate0");
             var tooltipShape = findChild(launcher, "tooltipShape");
@@ -1382,7 +1382,7 @@ Rectangle {
 
         function test_quicklist_dismisses_tooltip() {
             launcher.lockedVisible = true;
-            dragLauncherIntoView();
+            revealByEdgePush();
 
             var item = findChild(launcher, "launcherDelegate0");
             var tooltipShape = findChild(launcher, "tooltipShape");
@@ -1422,7 +1422,7 @@ Rectangle {
 
         function test_click_dismisses_tooltip() {
             launcher.lockedVisible = true;
-            dragLauncherIntoView();
+            revealByEdgePush();
 
             var item = findChild(launcher, "launcherDelegate0");
             var tooltipShape = findChild(launcher, "tooltipShape");
