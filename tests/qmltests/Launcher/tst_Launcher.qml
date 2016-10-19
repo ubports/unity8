@@ -316,6 +316,7 @@ Rectangle {
             // wait until it gets fully extended
             tryCompare(panel, "x", 0);
             tryCompare(launcher, "state", "visibleTemporary");
+            waitForRendering(launcher);
         }
 
         function waitUntilLauncherDisappears() {
