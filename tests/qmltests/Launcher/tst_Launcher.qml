@@ -1354,15 +1354,12 @@ Rectangle {
             tryCompare(clickThroughSpy, "count", 0);
         }
 
-        function test_tooltip() {
+        /*function test_tooltip() {
             launcher.lockedVisible = true;
             revealByEdgePush();
 
             var item = findChild(launcher, "launcherDelegate0");
             var tooltipShape = findChild(launcher, "tooltipShape");
-
-            // Make sure we don't start the test with the mouse hovering the launcher
-            mouseMove(root, root.width, root.height / 2, 10);
 
             // Initial state
             tryCompare(tooltipShape, "visible", false);
@@ -1387,9 +1384,6 @@ Rectangle {
             var item = findChild(launcher, "launcherDelegate0");
             var tooltipShape = findChild(launcher, "tooltipShape");
             var quickListShape = findChild(launcher, "quickListShape");
-
-            // Make sure we don't start the test with the mouse hovering the launcher
-            mouseMove(root, root.width, root.height / 2, 10);
 
             // Initial state
             tryCompare(tooltipShape, "visible", false);
@@ -1427,9 +1421,6 @@ Rectangle {
             var item = findChild(launcher, "launcherDelegate0");
             var tooltipShape = findChild(launcher, "tooltipShape");
 
-            // Make sure we don't start the test with the mouse hovering the launcher
-            mouseMove(root, root.width, root.height / 2, 10);
-
             // Initial state
             tryCompare(tooltipShape, "visible", false);
             tryCompare(tooltipShape, "opacity", .0);
@@ -1450,6 +1441,6 @@ Rectangle {
             mouseMove(item, item.width / 2 + 1, item.height / 2, 10);
             tryCompare(tooltipShape, "visible", true);
             tryCompare(tooltipShape, "opacity", .95);
-        }
+        }*/
     }
 }
