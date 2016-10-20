@@ -33,7 +33,7 @@ Rectangle {
     property bool dragging: false
     property bool moving: launcherListView.moving || launcherListView.flicking
     property bool preventHiding: moving || dndArea.draggedIndex >= 0 || quickList.state === "open" || dndArea.pressed
-                                 || dndArea.containsMouse || dashItem.hovered
+                                 || mouseEventEater.containsMouse || dashItem.hovered
     property int highlightIndex: -2
     property bool shortcutHintsShown: false
 
@@ -72,6 +72,7 @@ Rectangle {
         anchors.fill: parent
         acceptedButtons: Qt.AllButtons
         onWheel: wheel.accepted = true;
+        hoverEnabled: true
     }
 
     Column {
@@ -400,7 +401,7 @@ Rectangle {
                         id: dndArea
                         objectName: "dndArea"
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
-                        hoverEnabled: true
+                        //hoverEnabled: true
                         anchors {
                             fill: parent
                             topMargin: launcherListView.topMargin
