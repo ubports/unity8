@@ -1354,7 +1354,7 @@ Rectangle {
             tryCompare(clickThroughSpy, "count", 0);
         }
 
-        /*function test_tooltip() {
+        function test_tooltip() {
             launcher.lockedVisible = true;
             revealByEdgePush();
 
@@ -1441,6 +1441,6 @@ Rectangle {
             mouseMove(item, item.width / 2 + 1, item.height / 2, 10);
             tryCompare(tooltipShape, "visible", true);
             tryCompare(tooltipShape, "opacity", .95);
-        }*/
+        }
     }
 }
