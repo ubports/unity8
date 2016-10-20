@@ -772,5 +772,21 @@ Item {
 
             tryCompare(mouseEaterSpy, "count", 0);
         }
+
+        function test_grabbingMouseOnPress() {
+            var appDelegate = startApplication("dialer-app");
+            verify(appDelegate);
+            var decoration = findChild(appDelegate, "appWindowDecoration");
+            verify(decoration);
+
+            mousePress(decoration, decoration.width/2, decoration.height/2, Qt.LeftButton);
+            tryCompare(Mir, "cursorName", "grabbing");
+
+            mouseMove(decoration, decoration.width/2 + 1, decoration.height/2 + 1);
+            tryCompare(Mir, "cursorName", "grabbing");
+
+            mouseRelease(decoration);
+            tryCompare(Mir, "cursorName", "");
+        }
     }
 }
