@@ -264,6 +264,12 @@ FocusScope {
 
             for (var i = 0; i < appRepeater.count && (!choseMainStage || !choseSideStage); ++i) {
                 var appDelegate = appRepeater.itemAt(i);
+                if (!appDelegate) {
+                    // This might happen during startup phase... If the delegate appears and claims focus
+                    // things are updated and appRepeater.itemAt(x) still returns null while appRepeater.count >= x
+                    // Lets just skip it, on startup it will be generated at a later point too...
+                    continue;
+                }
                 if (sideStage.shown && appDelegate.stage == ApplicationInfoInterface.SideStage
                         && !choseSideStage) {
                     priv.sideStageDelegate = appDelegate
