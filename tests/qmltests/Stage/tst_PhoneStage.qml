@@ -156,6 +156,11 @@ Item {
                        true /* beginTouch */, true /* endTouch */, units.gu(10), 50);
 
             tryCompare(stage, "state", "spread");
+            // Make sure all the transitions have finished
+            var appRepeater = findChild(stage, "appRepeater");
+            for (var i = 0; i < appRepeater.count; i++) {
+                waitUntilTransitionsEnd(appRepeater.itemAt(i));
+            }
             waitForRendering(stage);
         }
 

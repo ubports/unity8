@@ -47,7 +47,7 @@ Item {
 
         function pushDragEvent(event) {
             var currentTime = __dateTime.getCurrentTimeMs()
-            dragEvents.push([currentTime, event.x, event.y, getEventSpeed(currentTime, event)])
+            dragEvents.push([currentTime, event.x - event.startX, event.y - event.startY, getEventSpeed(currentTime, event)])
             cullOldDragEvents(currentTime)
             updateSpeed()
         }
@@ -77,7 +77,7 @@ Item {
             if (dragEvents.length != 0) {
                 var lastDrag = dragEvents[dragEvents.length-1]
                 var duration = Math.max(1, currentTime - lastDrag[0])
-                return (event.y - lastDrag[2]) / duration
+                return (event.y - event.startY - lastDrag[2]) / duration
             } else {
                 return 0
             }
