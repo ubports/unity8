@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-09-22 07:46+0000\n"
-"PO-Revision-Date: 2016-08-30 15:06+0000\n"
-"Last-Translator: Jean-Marc <Unknown>\n"
+"PO-Revision-Date: 2016-10-02 08:06+0000\n"
+"Last-Translator: Olivier Febwin <febwin@free.fr>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-09-27 07:03+0000\n"
+"X-Launchpad-Export-Date: 2016-10-03 06:18+0000\n"
 "X-Generator: Launchpad (build 18204)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -471,11 +471,11 @@ msgstr "Connexion"
 
 #: qml/Greeter/NarrowView.qml:252
 msgid "Emergency"
-msgstr ""
+msgstr "Urgence"
 
 #: qml/Greeter/SessionsList.qml:122
 msgid "Select desktop environment"
-msgstr ""
+msgstr "Sélectionner l'environnement de bureau"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
