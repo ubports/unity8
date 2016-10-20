@@ -140,7 +140,7 @@ MouseArea {
                 sourceComponent: MenuBar {
                     id: menuBar
                     height: menuBarLoader.height
-                    enableKeyFilter: root.active && valid
+                    enableKeyFilter: valid && root.active && root.enableMenus && !PanelState.decorationsVisible
                     unityMenuModel: root.menu
                 }
 

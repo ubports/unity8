@@ -69,7 +69,7 @@ Item {
         ActionContext {
             id: menuBarContext
             objectName: "barContext"
-            active: !d.currentItem
+            active: !d.currentItem && enableKeyFilter
         }
 
         Repeater {
