@@ -90,8 +90,6 @@ void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<ApplicationManager>(uri, 0, 1, "ApplicationManager", applicationManagerSingleton);
     qmlRegisterSingletonType<MirMock>(uri, 0, 1, "Mir", mirSingleton);
     qmlRegisterSingletonType<SurfaceManager>(uri, 0, 1, "SurfaceManager", surfaceManagerSingleton);
-
-    qmlRegisterUncreatableType<Mir>(uri, 0, 1, "Mir", "Mir provides enum values, it can't be instantiated");
 }
 
 void FakeUnityApplicationQmlPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
