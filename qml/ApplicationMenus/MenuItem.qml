@@ -48,7 +48,7 @@ ActionItem {
     action: Action {
         text: menuData.label.replace("_", "&")
         checkable: menuData.isCheck || menuData.isRadio
-        // TODO - exclusive groups.
+        checked: menuData.isToggled
     }
 
     width: {
@@ -59,14 +59,16 @@ ActionItem {
 
     Keys.onRightPressed: {
         if (hasSubmenu) {
-            root.trigger(action && action.checkable ? !action.checked : undefined);
+            root.trigger();
         } else {
             event.accepted = false;
         }
     }
+    Keys.onReturnPressed: {
+        root.trigger();
+    }
     Keys.onEnterPressed: {
-        root.trigger(action && action.checkable ? !action.checked : undefined);
-        event.accepted = true;
+        root.trigger();
     }
 
     RowLayout {
@@ -78,12 +80,17 @@ ActionItem {
         anchors.rightMargin: units.gu(1)
         anchors.verticalCenter: parent.verticalCenter
 
-        Icon {
-            id: flagGutter
-            width: units.gu(1.5)
-            height: units.gu(1.5)
+        Item {
+            Layout.minimumWidth: units.gu(1.5)
+            Layout.minimumHeight: units.gu(1.5)
 
-            name: _checked ? "tick" : ""
+            Icon {
+                id: flagGutter
+                width: units.gu(1.5)
+                height: units.gu(1.5)
+                visible: _checked
+                name: "tick"
+            }
         }
 
         Icon {
