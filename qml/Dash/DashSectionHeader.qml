@@ -33,7 +33,7 @@ Item {
         anchors {
             left: parent.left
             leftMargin: units.gu(1)
-            baseline: icon.bottom
+            verticalCenter: parent.verticalCenter
         }
 
         font.family: "Ubuntu"
@@ -54,6 +54,7 @@ Item {
             left: label.right
             leftMargin: units.gu(0.5)
             verticalCenter: parent.verticalCenter
+            verticalCenterOffset: label.font.pixelSize / 9
         }
     }
 
