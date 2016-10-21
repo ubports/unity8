@@ -52,11 +52,11 @@ Item {
     property string mode: "staged"
 
     MouseArea {
+        id: backMouseEater
         anchors.fill: parent
         anchors.topMargin: panelHeight
-        visible: !indicators.fullyClosed
+        visible: false
         enabled: visible
-        onClicked: if (indicators.fullyOpened) indicators.hide();
         hoverEnabled: true // should also eat hover events, otherwise they will pass through
     }
 
@@ -277,6 +277,16 @@ Item {
                         }
                     }
                 }
+                Binding {
+                    target: backMouseEater
+                    property: "visible"
+                    value: true
+                    when: __applicationMenus.fullyOpened
+                }
+                Connections {
+                    target: backMouseEater
+                    onClicked: __applicationMenus.hide();
+                }
             }
         }
 
@@ -481,6 +491,16 @@ Item {
 
             onEnabledChanged: {
                 if (!enabled) hide();
+            }
+            Binding {
+                target: backMouseEater
+                property: "visible"
+                value: true
+                when: __indicators.fullyOpened
+            }
+            Connections {
+                target: backMouseEater
+                onClicked: __indicators.hide();
             }
         }
     }
