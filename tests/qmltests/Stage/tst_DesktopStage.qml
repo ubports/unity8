@@ -773,7 +773,7 @@ Item {
             tryCompare(mouseEaterSpy, "count", 0);
         }
 
-        function test_grabbingMouseOnPress() {
+        function test_grabbingCursorOnDecorationPress() {
             var appDelegate = startApplication("dialer-app");
             verify(appDelegate);
             var decoration = findChild(appDelegate, "appWindowDecoration");
