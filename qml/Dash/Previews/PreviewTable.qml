@@ -78,8 +78,8 @@ PreviewWidget {
                         wrapMode: Text.Wrap
                         Layout.alignment: Qt.AlignTop
                         Layout.minimumHeight: Math.max(units.gu(2.75), contentHeight) // FIXME Reevaluate if we need this once we move away from Qt 5.4
-                        Layout.maximumWidth: index == 0 ? column.width / 4 : column.width - x
-                        Layout.minimumWidth: index == 0 ? column.width / 4 : -1
+                        Layout.maximumWidth: index == 0 ? column.width / 3 : column.width - x
+                        Layout.minimumWidth: index == 0 ? column.width / 3 : -1
                         height: -1 // FIXME Qt 5.4 needs this otherwise wrapped columns
                                    //       get the height wrong and the next row looks weird
                                    //       remove once we stop supporting Qt 5.4 (if 5.5 doesn't need it)
