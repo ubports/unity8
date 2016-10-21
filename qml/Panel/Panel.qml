@@ -55,7 +55,7 @@ Item {
         id: backMouseEater
         anchors.fill: parent
         anchors.topMargin: panelHeight
-        visible: false
+        visible: __indicators.fullyOpened
         enabled: visible
         hoverEnabled: true // should also eat hover events, otherwise they will pass through
     }
@@ -491,12 +491,6 @@ Item {
 
             onEnabledChanged: {
                 if (!enabled) hide();
-            }
-            Binding {
-                target: backMouseEater
-                property: "visible"
-                value: true
-                when: __indicators.fullyOpened
             }
             Connections {
                 target: backMouseEater
