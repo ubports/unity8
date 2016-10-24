@@ -65,7 +65,7 @@ Build-Depends: cmake,
                qtdeclarative5-dev-tools,
                qtdeclarative5-private-dev (>= 5.4),
                qtdeclarative5-ubuntu-content1,
-               qtdeclarative5-ubuntu-settings-components (>= 0.7),
+               qtdeclarative5-ubuntu-settings-components (>= 0.10),
                ttf-ubuntu-font-family,
 Standards-Version: 3.9.4
 Homepage: http://launchpad.net/unity
