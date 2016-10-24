@@ -19,7 +19,7 @@ import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
 import "../../../qml/Components"
-import "../../../qml/Stages"
+import "../../../qml/Stage"
 import Ubuntu.Components 1.3
 import Unity.Application 0.1
 import WindowManager 0.1
@@ -31,16 +31,16 @@ Item {
 
     property var greeter: { fullyShown: true }
 
-    PhoneStage {
-        id: phoneStage
+    Stage {
+        id: stage
         anchors { fill: parent; rightMargin: units.gu(30) }
         focus: true
         dragAreaWidth: units.gu(2)
-        maximizedAppTopMargin: units.gu(3)
         interactive: true
         shellOrientation: Qt.PortraitOrientation
         orientations: Orientations {}
         applicationManager: ApplicationManager
+        mode: "staged"
         topLevelSurfaceList: TopLevelSurfaceList {
             id: topLevelSurfaceList
             applicationsModel: ApplicationManager
@@ -66,9 +66,9 @@ Item {
                     id: edgeBarrierControls
                     text: "Drag here to pull out spread"
                     backgroundColor: "blue"
-                    onDragged: { phoneStage.pushRightEdge(amount); }
+                    onDragged: { stage.pushRightEdge(amount); }
                     Component.onCompleted: {
-                        edgeBarrierControls.target = testCase.findChild(phoneStage, "edgeBarrierController");
+                        edgeBarrierControls.target = testCase.findChild(stage, "edgeBarrierController");
                     }
                 }
                 Repeater {
@@ -84,11 +84,37 @@ Item {
         name: "PhoneStage"
         when: windowShown
 
+        function init() {
+            // wait until unity8-dash is up and running.
+            // it's started automatically by ApplicationManager mock implementation
+            tryCompare(ApplicationManager, "count", 1);
+            var dashApp = ApplicationManager.findApplication("unity8-dash");
+            verify(dashApp);
+            tryCompare(dashApp, "state", ApplicationInfoInterface.Running);
+        }
+
+        function cleanup() {
+            ApplicationManager.requestFocusApplication("unity8-dash");
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+            tryCompare(stage, "state", "staged");
+            waitForRendering(stage);
+
+            killApps();
+            // wait for Stage to stabilize back into its initial state
+            var appRepeater = findChild(stage, "appRepeater");
+            tryCompare(appRepeater, "count", 1);
+            tryCompare(appRepeater.itemAt(0), "x", 0);
+
+            stage.shellOrientationAngle = 0;
+
+            waitForRendering(stage)
+        }
+
         function findAppWindowForSurfaceId(surfaceId) {
-            var delegateObjectName = "spreadDelegate_" + surfaceId;
-            var spreadDelegate = findChild(phoneStage, delegateObjectName);
+            var delegateObjectName = "appDelegate_" + surfaceId;
+            var spreadDelegate = findChild(stage, delegateObjectName);
             if (!spreadDelegate) {
-                console.warn("Failed to find " + delegateObjectName + " in phoneStage ("+phoneStage+")");
+                console.warn("Failed to find " + delegateObjectName + " in stage");
                 return null;
             }
             var appWindow = findChild(spreadDelegate, "appWindow");
@@ -108,33 +134,34 @@ Item {
         function addApps(count) {
             if (count == undefined) count = 1;
             for (var i = 0; i < count; i++) {
+                var startingAppId = ApplicationManager.availableApplications[ApplicationManager.count];
                 var appSurfaceId = topLevelSurfaceList.nextId;
-                var app = ApplicationManager.startApplication(ApplicationManager.availableApplications[ApplicationManager.count])
+                var app = ApplicationManager.startApplication(startingAppId)
                 tryCompare(app, "state", ApplicationInfoInterface.Running)
-                var spreadView = findChild(phoneStage, "spreadView");
-                tryCompare(spreadView, "contentX", -spreadView.shift);
                 waitUntilAppSurfaceShowsUp(appSurfaceId);
-                waitForRendering(phoneStage)
+                waitForRendering(stage)
+                tryCompare(ApplicationManager, "focusedApplicationId", startingAppId)
             }
         }
 
         function performEdgeSwipeToShowAppSpread() {
-            var spreadView = findChild(phoneStage, "spreadView");
-
-            // Keep it inside the PhoneStage otherwise the controls on the right side will
+            // Keep it inside the Stage otherwise the controls on the right side will
             // capture the press thus the "- 2"  on startX.
-            var startX = phoneStage.width - 2;
-            var startY = phoneStage.height / 2;
+            var startX = stage.width - 2;
+            var startY = stage.height / 2;
             var endY = startY;
-            var endX = phoneStage.width / 2;
+            var endX = stage.width / 2;
 
-            touchFlick(phoneStage, startX, startY, endX, endY,
+            touchFlick(stage, startX, startY, endX, endY,
                        true /* beginTouch */, true /* endTouch */, units.gu(10), 50);
 
-            tryCompare(spreadView, "phase", 2);
-            tryCompare(spreadView, "flicking", false);
-            tryCompare(spreadView, "moving", false);
-            waitForRendering(phoneStage);
+            tryCompare(stage, "state", "spread");
+            // Make sure all the transitions have finished
+            var appRepeater = findChild(stage, "appRepeater");
+            for (var i = 0; i < appRepeater.count; i++) {
+                waitUntilTransitionsEnd(appRepeater.itemAt(i));
+            }
+            waitForRendering(stage);
         }
 
         function swipeSurfaceUpwards(surfaceId) {
@@ -163,7 +190,7 @@ Item {
 
         function waitUntilAppDelegateStopsMoving(targetSurfaceId)
         {
-            var targetAppDelegate = findChild(phoneStage, "spreadDelegate_" + targetSurfaceId);
+            var targetAppDelegate = findChild(stage, "appDelegate_" + targetSurfaceId);
             verify(targetAppDelegate);
             var lastValue = undefined;
             do {
@@ -172,79 +199,39 @@ Item {
             } while (lastValue != targetAppDelegate.animatedProgress);
         }
 
-        function test_shortFlick() {
-            addApps(2)
-            var startX = phoneStage.width - units.gu(1);
-            var startY = phoneStage.height / 2;
-            var endX = startX - units.gu(4);
-            var endY = startY;
-
-            var activeApp = ApplicationManager.get(0);
-            var inactiveApp = ApplicationManager.get(1);
-
-            touchFlick(phoneStage, startX, startY, endX, endY,
-                       true /* beginTouch */, true /* endTouch */, units.gu(10), 50);
-
-            tryCompare(ApplicationManager, "focusedApplicationId", inactiveApp.appId)
-
-            touchFlick(phoneStage, startX, startY, endX, endY,
-                       true /* beginTouch */, true /* endTouch */, units.gu(10), 50);
-
-            tryCompare(ApplicationManager, "focusedApplicationId", activeApp.appId)
-        }
-
         function test_enterSpread_data() {
             return [
-                {tag: "<position1 (linear movement)", positionMarker: "positionMarker1", linear: true, offset: 0, endPhase: 0, targetPhase: 0, newFocusedIndex: 1 },
-                {tag: "<position1 (non-linear movement)", positionMarker: "positionMarker1", linear: false, offset: 0, endPhase: 0, targetPhase: 0, newFocusedIndex: 0 },
-                {tag: ">position1", positionMarker: "positionMarker1", linear: true, offset: +5, endPhase: 0, targetPhase: 0, newFocusedIndex: 1 },
-                {tag: "<position2 (linear)", positionMarker: "positionMarker2", linear: true, offset: 0, endPhase: 0, targetPhase: 0, newFocusedIndex: 1 },
-                {tag: "<position2 (non-linear)", positionMarker: "positionMarker2", linear: false, offset: 0, endPhase: 0, targetPhase: 0, newFocusedIndex: 1 },
-                {tag: ">position2", positionMarker: "positionMarker2", linear: true, offset: +5, endPhase: 1, targetPhase: 0, newFocusedIndex: 1 },
-                {tag: "<position3", positionMarker: "positionMarker3", linear: true, offset: 0, endPhase: 1, targetPhase: 0, newFocusedIndex: 1 },
-                {tag: ">position3", positionMarker: "positionMarker3", linear: true, offset: +5, endPhase: 1, targetPhase: 2, newFocusedIndex: 2 },
+                {tag: "<breakPoint (trigger)", progress: .2, cancel: false, endState: "staged", newFocusedIndex: 1 },
+                {tag: "<breakPoint (cancel)", progress: .2, cancel: true, endState: "staged", newFocusedIndex: 0 },
+                {tag: ">breakPoint (trigger)", progress: .5, cancel: false, endState: "spread", newFocusedIndex: 0 },
+                {tag: ">breakPoint (cancel)", progress: .8, cancel: true, endState: "staged", newFocusedIndex: 0 },
             ];
         }
 
         function test_enterSpread(data) {
             addApps(5)
 
-            var spreadView = findChild(phoneStage, "spreadView");
-
-            // Keep it inside the PhoneStage otherwise the controls on the right side will
+            // Keep it inside the Stage otherwise the controls on the right side will
             // capture the press thus the "- 2"  on startX.
-            var startX = phoneStage.width - 2;
-            var startY = phoneStage.height / 2;
+            var startX = stage.width - 2;
+            var startY = stage.height / 2;
             var endY = startY;
-            var endX = spreadView.width - (spreadView.width * spreadView[data.positionMarker]) - data.offset
-                - phoneStage.dragAreaWidth;
+            var endX = stage.width - (stage.width * data.progress) - stage.dragAreaWidth;
 
             var oldFocusedApp = ApplicationManager.get(0);
             var newFocusedApp = ApplicationManager.get(data.newFocusedIndex);
 
-            touchFlick(phoneStage, startX, startY, endX, endY,
+            touchFlick(stage, startX, startY, endX, endY,
                        true /* beginTouch */, false /* endTouch */, units.gu(10), 50);
 
-            tryCompare(spreadView, "phase", data.endPhase)
+            if (data.cancel) {
+                touchFlick(stage, endX, endY, endX + units.gu(5), endY,
+                           false /* beginTouch */, true /* endTouch */, units.gu(10), 50);
+            } else {
+                touchRelease(stage, endX, endY);            }
 
-            if (!data.linear) {
-                touchFlick(phoneStage, endX, endY, endX + units.gu(.5), endY,
-                           false /* beginTouch */, false /* endTouch */, units.gu(10), 50);
-                touchFlick(phoneStage, endY + units.gu(.5), endY, endX, endY,
-                           false /* beginTouch */, false /* endTouch */, units.gu(10), 50);
-            }
-
-            touchRelease(phoneStage, endX, endY);
-
-            tryCompare(spreadView, "phase", data.targetPhase)
-
-            if (data.targetPhase == 2) {
-                var app2 = findChild(spreadView, "spreadDelegate_" + topLevelSurfaceList.idAt(2));
-                tryCompare(app2, "swipeToCloseEnabled", true);
-                mouseClick(app2, units.gu(1), units.gu(1));
-            }
-
-            tryCompare(ApplicationManager, "focusedApplicationId", newFocusedApp.appId);
+            tryCompare(stage, "state", data.endState);
+            tryCompare(ApplicationManager, "focusedApplicationId", data.endState == "spread" ? oldFocusedApp.appId : newFocusedApp.appId);
         }
 
         function test_selectAppFromSpread_data() {
@@ -263,32 +250,26 @@ Item {
         function test_selectAppFromSpread(data) {
             addApps(data.total)
 
-            var spreadView = findChild(phoneStage, "spreadView");
-
             performEdgeSwipeToShowAppSpread();
 
-            tryCompare(spreadView, "phase", 2);
-
-            var tile = findChild(spreadView, "spreadDelegate_" + topLevelSurfaceList.idAt(data.index));
+            var tile = findChild(stage, "appDelegate_" + topLevelSurfaceList.idAt(data.index));
             var appId = ApplicationManager.get(data.index).appId;
 
-            if (tile.mapToItem(spreadView, 0, 0).x > spreadView.width) {
+            if (tile.mapToItem(stage, 0, 0).x > stage.width - units.gu(3)) {
                 // Item is not visible... Need to flick the spread
-                var startX = phoneStage.width - units.gu(1);
-                var startY = phoneStage.height / 2;
+                var startX = stage.width - units.gu(1);
+                var startY = stage.height / 2;
                 var endY = startY;
                 var endX = units.gu(2);
-                touchFlick(phoneStage, startX, startY, endX, endY, true, true, units.gu(10), 50)
-                tryCompare(spreadView, "flicking", false);
-                tryCompare(spreadView, "moving", false);
-//                waitForRendering(phoneStage);
+                touchFlick(stage, startX, startY, endX, endY, true, true, units.gu(10), 50)
             }
 
             console.log("clicking app", data.index, "(", appId, ")")
-            tryCompare(tile, "swipeToCloseEnabled", true);
-            mouseClick(spreadView, tile.mapToItem(spreadView, 0, 0).x + units.gu(1), spreadView.height / 2)
+            var dragArea = findChild(tile, "dragArea");
+            tryCompare(dragArea, "closeable", true);
+            mouseClick(stage, tile.mapToItem(stage, 0, 0).x + units.gu(1), stage.height / 2)
             tryCompare(ApplicationManager, "focusedApplicationId", appId);
-            tryCompare(spreadView, "phase", 0);
+            tryCompare(stage, "state", "staged");
         }
 
         function test_select_data() {
@@ -302,16 +283,22 @@ Item {
         function test_select(data) {
             addApps(5);
 
-            var spreadView = findChild(phoneStage, "spreadView");
             var selectedApp = ApplicationManager.get(data.index);
+            var appRepeater = findChild(stage, "appRepeater");
+            var selectedAppDeleage = appRepeater.itemAt(data.index);
 
             performEdgeSwipeToShowAppSpread();
 
-            phoneStage.select(selectedApp.appId);
+            print("tapping", selectedAppDeleage.appId, selectedAppDeleage.visible)
+            if (selectedAppDeleage.x > stage.width - units.gu(5)) {
+                touchFlick(stage, stage.width - units.gu(2), stage.height / 2, units.gu(2), stage.height / 2, true, true, units.gu(2), 10)
+            }
 
-            tryCompare(spreadView, "contentX", -spreadView.shift);
+            tap(selectedAppDeleage, 1, 1);
 
-            compare(ApplicationManager.focusedApplicationId, selectedApp.appId);
+            tryCompare(stage, "state", "staged");
+
+            tryCompare(ApplicationManager, "focusedApplicationId", selectedApp.appId);
         }
 
         function test_backgroundClickCancelsSpread() {
@@ -320,37 +307,14 @@ Item {
             var focusedAppId = ApplicationManager.focusedApplicationId;
 
             performEdgeSwipeToShowAppSpread();
+            tryCompare(stage, "state", "spread");
 
-            mouseClick(phoneStage, units.gu(1), units.gu(1));
+            mouseClick(stage, units.gu(1), units.gu(1));
 
-            // Make sure the spread is in the idle position
-            var spreadView = findChild(phoneStage, "spreadView");
-            tryCompare(spreadView, "contentX", -spreadView.shift);
+            tryCompare(stage, "state", "staged");
 
             // Make sure the same app is still focused
-            compare(focusedAppId, ApplicationManager.focusedApplicationId);
-        }
-
-        function init() {
-            // wait until unity8-dash is up and running.
-            // it's started automatically by ApplicationManager mock implementation
-            tryCompare(ApplicationManager, "count", 1);
-            var dashApp = ApplicationManager.findApplication("unity8-dash");
-            verify(dashApp);
-            tryCompare(dashApp, "state", ApplicationInfoInterface.Running);
-        }
-
-        function cleanup() {
-            killApps();
-
-            phoneStage.shellOrientationAngle = 0;
-            phoneStage.select(ApplicationManager.get(0).appId);
-
-            // wait for PhoneStage to stabilize back into its initial state
-            var spreadView = findChild(phoneStage, "spreadView");
-            while (spreadView.phase !== 0 || spreadView.contentX !== -spreadView.shift || spreadView.selectedIndex != -1) {
-                wait(50);
-            }
+            tryCompare(ApplicationManager, "focusedApplicationId", focusedAppId);
         }
 
         function test_focusNewTopMostAppAfterFocusedOneClosesItself() {
@@ -370,60 +334,9 @@ Item {
             tryCompare(firstApp, "focused", true);
         }
 
-        function test_cantCloseWhileSnapping() {
-            addApps(2);
-
-            performEdgeSwipeToShowAppSpread();
-
-            var spreadView = findChild(phoneStage, "spreadView");
-            var selectedApp = ApplicationManager.get(2);
-
-            performEdgeSwipeToShowAppSpread();
-
-            var app0 = findChild(spreadView, "spreadDelegate_" + topLevelSurfaceList.idAt(0));
-            var app1 = findChild(spreadView, "spreadDelegate_" + topLevelSurfaceList.idAt(1));
-            var app2 = findChild(spreadView, "spreadDelegate_" + topLevelSurfaceList.idAt(2));
-
-            var dragArea0 = findChild(app0, "dragArea");
-            var dragArea1 = findChild(app1, "dragArea");
-            var dragArea2 = findChild(app2, "dragArea");
-
-            compare(dragArea0.enabled, true);
-            compare(dragArea1.enabled, true);
-            compare(dragArea2.enabled, true);
-
-            phoneStage.select(selectedApp.appId);
-
-            // Make sure all drag areas are disabled instantly. Don't use tryCompare here!
-            compare(dragArea0.enabled, false);
-            compare(dragArea1.enabled, false);
-            compare(dragArea2.enabled, false);
-
-            tryCompare(spreadView, "contentX", -spreadView.shift)
-        }
-
-        function test_cantAccessPhoneStageWhileRightEdgeGesture() {
-            var spreadView = findChild(phoneStage, "spreadView");
-            var eventEaterArea = findChild(phoneStage, "eventEaterArea")
-
-            var startX = phoneStage.width - 2;
-            var startY = phoneStage.height / 2;
-            var endY = startY;
-            var endX = phoneStage.width / 2;
-
-            touchFlick(phoneStage, startX, startY, endX, endY,
-                       true /* beginTouch */, false /* endTouch */, units.gu(10), 50);
-
-            compare(eventEaterArea.enabled, true);
-
-            touchRelease(phoneStage, endX, endY);
-
-            compare(eventEaterArea.enabled, false);
-        }
-
         function test_leftEdge_data() {
             return [
-                { tag: "normal", inSpread: false, leftEdgeDragWidth: units.gu(5), shouldMoveApp: true },
+                { tag: "normal", inSpread: false, leftEdgeDragWidth: units.gu(20), shouldMoveApp: true },
                 { tag: "inSpread", inSpread: true, leftEdgeDragWidth: units.gu(5), shouldMoveApp: false }
             ]
         }
@@ -435,22 +348,24 @@ Item {
                 performEdgeSwipeToShowAppSpread();
             }
 
-            var focusedDelegate = findChild(phoneStage, "spreadDelegate_" + topLevelSurfaceList.idAt(0));
-            phoneStage.inverseProgress = data.leftEdgeDragWidth;
+            var focusedDelegate = findChild(stage, "appDelegate_" + topLevelSurfaceList.idAt(0));
+            var currentX = focusedDelegate.x;
 
-            tryCompare(focusedDelegate, "x", data.shouldMoveApp ? data.leftEdgeDragWidth : 0);
+            stage.leftEdgeDragProgress = data.leftEdgeDragWidth;
 
-            phoneStage.inverseProgress = 0;
+            tryCompare(focusedDelegate, "x", data.shouldMoveApp ? data.leftEdgeDragWidth : currentX);
 
-            tryCompare(focusedDelegate, "x", 0);
+            stage.leftEdgeDragProgress = 0;
+
+            tryCompare(focusedDelegate, "x", currentX);
         }
 
         function test_focusedAppIsTheOnlyRunningApp() {
             addApps(2);
 
-            var delegateA = findChild(phoneStage, "spreadDelegate_" + topLevelSurfaceList.idAt(0));
+            var delegateA = findChild(stage, "appDelegate_" + topLevelSurfaceList.idAt(0));
             verify(delegateA);
-            var delegateB = findChild(phoneStage, "spreadDelegate_" + topLevelSurfaceList.idAt(1));
+            var delegateB = findChild(stage, "appDelegate_" + topLevelSurfaceList.idAt(1));
             verify(delegateB);
 
             // A is focused and running, B is unfocused and suspended
@@ -461,7 +376,7 @@ Item {
 
             // Switch foreground/focused appp from A to B
             performEdgeSwipeToShowAppSpread();
-            phoneStage.select(delegateB.application.appId);
+            tap(delegateB, 1, 1);
 
             // Now it's the other way round
             // A is unfocused and suspended, B is focused and running
@@ -474,15 +389,15 @@ Item {
         function test_dashRemainsRunningIfStageIsToldSo() {
             addApps(1);
 
-            var delegateDash = findChild(phoneStage, "spreadDelegate_" + topLevelSurfaceList.idAt(1));
+            var delegateDash = findChild(stage, "appDelegate_" + topLevelSurfaceList.idAt(1));
             verify(delegateDash);
             compare(delegateDash.application.appId, "unity8-dash");
 
-            var delegateOther = findChild(phoneStage, "spreadDelegate_" + topLevelSurfaceList.idAt(0));
+            var delegateOther = findChild(stage, "appDelegate_" + topLevelSurfaceList.idAt(0));
             verify(delegateOther);
 
             performEdgeSwipeToShowAppSpread();
-            phoneStage.select("unity8-dash");
+            tap(delegateDash, 1, 1);
 
             tryCompare(delegateDash, "focus", true);
             tryCompare(delegateDash.application, "requestedState", ApplicationInfoInterface.RequestedRunning);
@@ -490,41 +405,40 @@ Item {
             compare(delegateOther.application.requestedState, ApplicationInfoInterface.RequestedSuspended);
 
             performEdgeSwipeToShowAppSpread();
-            phoneStage.select(delegateOther.application.appId);
-
+            tap(delegateOther, 1, 1);
             // The other app gets focused and running but dash is kept running despite being unfocused
+            tryCompare(delegateOther, "focus", true);
+            tryCompare(delegateOther.application, "requestedState", ApplicationInfoInterface.RequestedRunning);
             tryCompare(delegateDash, "focus", false);
             tryCompare(delegateDash.application, "requestedState", ApplicationInfoInterface.RequestedRunning);
-            compare(delegateOther.focus, true);
-            compare(delegateOther.application.requestedState, ApplicationInfoInterface.RequestedRunning);
         }
 
         function test_foregroundAppIsSuspendedWhenStageIsSuspended() {
             addApps(1);
 
-            var delegate = findChild(phoneStage, "spreadDelegate_" + topLevelSurfaceList.idAt(0));
+            var delegate = findChild(stage, "appDelegate_" + topLevelSurfaceList.idAt(0));
             verify(delegate);
 
             compare(delegate.focus, true);
             compare(delegate.application.requestedState, ApplicationInfoInterface.RequestedRunning);
 
-            phoneStage.suspended = true;
+            stage.suspended = true;
 
             tryCompare(delegate.application, "requestedState", ApplicationInfoInterface.RequestedSuspended);
 
-            phoneStage.suspended = false;
+            stage.suspended = false;
 
             tryCompare(delegate.application, "requestedState", ApplicationInfoInterface.RequestedRunning);
         }
 
         function test_mouseEdgePush() {
-            var spreadView = findChild(phoneStage, "spreadView")
             addApps(1);
-            mouseMove(phoneStage, phoneStage.width -  1, units.gu(10));
+            mouseMove(stage, stage.width -  1, units.gu(10));
             for (var i = 0; i < units.gu(10); i++) {
-                phoneStage.pushRightEdge(1);
+                stage.pushRightEdge(1);
             }
-            tryCompare(spreadView, "phase", 2);
+            mouseMove(stage, stage.width - units.gu(5), units.gu(10));
+            compare(stage.state, "spread");
         }
 
         function test_closeSurfaceOfMultiSurfaceApp() {
@@ -539,19 +453,44 @@ Item {
 
             performEdgeSwipeToShowAppSpread();
 
-            var appDelegate = findChild(phoneStage, "spreadDelegate_" + surface1Id);
-            verify(appDelegate);
-            tryCompare(appDelegate, "swipeToCloseEnabled", true);
+            var appDelegate = findChild(stage, "appDelegate_" + surface1Id);
+            var dragArea = findChild(appDelegate, "dragArea")
+            verify(dragArea);
+            tryCompare(dragArea, "closeable", true);
 
             compare(webbrowserApp.surfaceList.count, 2);
-            compare(webbrowserApp.state, ApplicationInfoInterface.Running);
 
             swipeSurfaceUpwards(surface1Id);
 
             // Surface must eventually be gone
             tryCompareFunction(function() { return topLevelSurfaceList.indexForId(surface1Id); }, -1);
             tryCompare(webbrowserApp.surfaceList, "count", 1);
-            compare(webbrowserApp.state, ApplicationInfoInterface.Running);
+        }
+
+        function test_swipeToClose_data() {
+            return [
+                { tag: "closeable", closeable: true },
+                { tag: "not closeable", closeable: false }
+            ]
+        }
+
+        function test_swipeToClose(data) {
+            var surface1Id = topLevelSurfaceList.nextId;
+            var webbrowserApp  = ApplicationManager.startApplication("webbrowser-app");
+            waitUntilAppSurfaceShowsUp(surface1Id);
+
+            performEdgeSwipeToShowAppSpread();
+
+            var appDelegate = findChild(stage, "appDelegate_" + surface1Id);
+            var dragArea = findChild(appDelegate, "dragArea")
+            verify(dragArea);
+            dragArea.closeable = data.closeable;
+
+            var oldCount = ApplicationManager.count;
+
+            swipeSurfaceUpwards(surface1Id);
+
+            tryCompare(ApplicationManager, "count", data.closeable ? oldCount - 1 : oldCount);
         }
 
         /*
@@ -632,11 +571,10 @@ Item {
 
             performEdgeSwipeToShowAppSpread();
 
-            {
-                var appDelegate = findChild(phoneStage, "spreadDelegate_" + webbrowserSurfaceId);
-                verify(appDelegate);
-                tryCompare(appDelegate, "swipeToCloseEnabled", true);
-            }
+            var appDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
+            var dragArea = findChild(appDelegate, "dragArea");
+            verify(dragArea);
+            tryCompare(dragArea, "closeable", true);
 
             swipeSurfaceUpwards(webbrowserSurfaceId);
 

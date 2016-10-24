@@ -23,6 +23,8 @@ import Unity.Application 0.1 // for MirSurfaceItem
 FocusScope {
     id: root
     objectName: "surfaceContainer"
+    implicitWidth: surfaceItem.implicitWidth
+    implicitHeight: surfaceItem.implicitHeight
 
     // Must be set from outside
     property var surface: null
@@ -32,7 +34,6 @@ FocusScope {
     property int requestedHeight: -1
     property bool interactive
     property int surfaceOrientationAngle: 0
-    property bool resizeSurface: true
     property bool isPromptSurface: false
     // FIME - dont export, use interactive property. Need to fix qtmir to handle consumesInputChanged
     // to update surface activeFocus. See mock MirSurfaceItem.
@@ -58,35 +59,15 @@ FocusScope {
     MirSurfaceItem {
         id: surfaceItem
         objectName: "surfaceItem"
+        anchors.fill: parent
 
         focus: true
 
         fillMode: MirSurfaceItem.PadOrCrop
         consumesInput: true
 
-        surfaceWidth: {
-            if (root.resizeSurface) {
-                if (root.requestedWidth >= 0) {
-                    return root.requestedWidth;
-                } else {
-                    return width;
-                }
-            } else {
-                return -1;
-            }
-        }
-
-        surfaceHeight: {
-            if (root.resizeSurface) {
-                if (root.requestedHeight >= 0) {
-                    return root.requestedHeight;
-                } else {
-                    return height;
-                }
-            } else {
-                return -1;
-            }
-        }
+        surfaceWidth: root.requestedWidth
+        surfaceHeight: root.requestedHeight
 
         enabled: root.interactive
         antialiasing: !root.interactive
@@ -97,34 +78,6 @@ FocusScope {
         targetItem: surfaceItem
         anchors.fill: root
         enabled: surfaceItem.enabled
-    }
-
-    // MirSurface size drives SurfaceContainer size
-    Binding {
-        target: surfaceItem; property: "width"; value: root.surface ? root.surface.size.width : 0
-        when: root.requestedWidth >= 0 && root.surface
-    }
-    Binding {
-        target: surfaceItem; property: "height"; value: root.surface ? root.surface.size.height : 0
-        when: root.requestedHeight >= 0 && root.surface
-    }
-    Binding {
-        target: root; property: "width"; value: surfaceItem.width
-        when: root.requestedWidth >= 0
-    }
-    Binding {
-        target: root; property: "height"; value: surfaceItem.height
-        when: root.requestedHeight >= 0
-    }
-
-    // SurfaceContainer size drives MirSurface size
-    Binding {
-        target: surfaceItem; property: "width"; value: root.width
-        when: root.requestedWidth < 0
-    }
-    Binding {
-        target: surfaceItem; property: "height"; value: root.height
-        when: root.requestedHeight < 0
     }
 
     Loader {
