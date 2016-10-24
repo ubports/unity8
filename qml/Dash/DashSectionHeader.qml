@@ -52,9 +52,8 @@ Item {
         color: label.color
         anchors {
             left: label.right
-            leftMargin: units.gu(0.5)
+            leftMargin: units.gu(0.25)
             verticalCenter: parent.verticalCenter
-            verticalCenterOffset: label.font.pixelSize / 9
         }
     }
 
