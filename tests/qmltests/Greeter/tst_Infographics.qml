@@ -150,7 +150,7 @@ Item {
             infographic.currentWeekDay = (today - data.currentDayOffset)
 
             //When
-            infographic.handleScreenOn()
+            infographic.handleTimerTrigger()
 
             //Then
             tryCompare(infographic, "currentWeekDay", today)

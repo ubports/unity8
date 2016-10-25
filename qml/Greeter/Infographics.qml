@@ -59,18 +59,12 @@ Item {
         onDataDisappeared: startShowAnimation() // show "no data" label
     }
 
-    Connections {
-        id: screenState
-        target: Powerd
-
-        onStatusChanged: {
-            if(Powerd.status === Powerd.On){
-                handleScreenOn()
-            }
-        }
+    LiveTimer {
+        frequency: LiveTimer.Hour
+        onTrigger: handleTimerTrigger()
     }
 
-    function handleScreenOn(){
+    function handleTimerTrigger(){
         var today = new Date().getDay()
         if(infographic.currentWeekDay !== today){
             infographic.currentWeekDay = today
