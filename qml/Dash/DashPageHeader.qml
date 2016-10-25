@@ -185,6 +185,7 @@ Item {
 
         Column {
             id: headersColumn
+            objectName: "headersColumn"
             anchors {
                 left: parent.left
                 right: parent.right
