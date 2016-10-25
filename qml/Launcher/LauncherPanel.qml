@@ -845,8 +845,8 @@ Rectangle {
             margins: units.gu(1)
         }
 
-        property var hoveredItem: dndArea.containsMouse ? launcherListView.itemAt(dndArea.mouseX, dndArea.mouseY + launcherListView.realContentY) : null
-        property int itemCenter: hoveredItem ? root.mapFromItem(hoveredItem, 0, 0).y + (hoveredItem.height / 2) + hoveredItem.offset : 0
+        readonly property var hoveredItem: dndArea.containsMouse ? launcherListView.itemAt(dndArea.mouseX, dndArea.mouseY + launcherListView.realContentY) : null
+        readonly property int itemCenter: hoveredItem ? root.mapFromItem(hoveredItem, 0, 0).y + (hoveredItem.height / 2) + hoveredItem.offset : 0
 
         text: hoveredItem ? hoveredItem.name : ""
     }
