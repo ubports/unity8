@@ -513,7 +513,7 @@ Item {
             property int menuIndex: -1
 
             onSelectedDateChanged: {
-                menuModel.activateByVariantString(menuIndex, "int64 %1".arg(selectedDate.getTime() / 1000 | 0))
+                menuModel.activate(menuIndex, selectedDate.getTime() / 1000 | 0)
             }
         }
     }
