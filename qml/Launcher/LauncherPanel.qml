@@ -846,9 +846,9 @@ Rectangle {
         }
 
         readonly property var hoveredItem: dndArea.containsMouse ? launcherListView.itemAt(dndArea.mouseX, dndArea.mouseY + launcherListView.realContentY) : null
-        readonly property int itemCenter: hoveredItem ? root.mapFromItem(hoveredItem, 0, 0).y + (hoveredItem.height / 2) + hoveredItem.offset : 0
+        readonly property int itemCenter: !hoveredItem ? 0 : root.mapFromItem(hoveredItem, 0, 0).y + (hoveredItem.height / 2) + hoveredItem.offset
 
-        text: hoveredItem ? hoveredItem.name : ""
+        text: !hoveredItem ? "" : hoveredItem.name
     }
 
     DSM.StateMachine {
@@ -863,7 +863,7 @@ Rectangle {
                 targetState: tooltipShownState
                 signal: tooltipShape.hoveredItemChanged
                 // !dndArea.pressed allows us to filter out touch input events
-                guard: tooltipShape.hoveredItem != null && !dndArea.pressed && !root.moving
+                guard: tooltipShape.hoveredItem !== null && !dndArea.pressed && !root.moving
             }
         }
 
@@ -873,7 +873,7 @@ Rectangle {
             DSM.SignalTransition {
                 targetState: tooltipHiddenState
                 signal: tooltipShape.hoveredItemChanged
-                guard: tooltipShape.hoveredItem == null
+                guard: tooltipShape.hoveredItem === null
             }
 
             DSM.SignalTransition {
