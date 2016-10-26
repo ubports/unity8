@@ -363,6 +363,35 @@ Item {
     }
 
     Component {
+        id: radioMenu;
+
+        Menus.RadioMenu {
+            id: radioItem
+            objectName: "radioMenu"
+            property QtObject menuData: null
+            property int menuIndex: -1
+            property bool serverChecked: menuData && menuData.isToggled || false
+
+            text: menuData && menuData.label || ""
+            enabled: menuData && menuData.sensitive || false
+            checked: serverChecked
+            highlightWhenPressed: false
+
+            ServerPropertySynchroniser {
+                objectName: "sync"
+                syncTimeout: Utils.Constants.indicatorValueTimeout
+
+                serverTarget: radioItem
+                serverProperty: "serverChecked"
+                userTarget: radioItem
+                userProperty: "checked"
+
+                onSyncTriggered: menuModel.activate(radioItem.menuIndex)
+            }
+        }
+    }
+
+    Component {
         id: switchMenu;
 
         Menus.SwitchMenu {
@@ -1023,8 +1052,11 @@ Item {
             return component;
         }
 
-        if (modelData.isCheck || modelData.isRadio) {
+        if (modelData.isCheck) {
             return checkableMenu;
+        }
+        if (modelData.isRadio) {
+            return radioMenu;
         }
         if (modelData.isSeparator) {
             return separatorMenu;

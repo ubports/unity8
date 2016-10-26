@@ -140,13 +140,12 @@ Item {
         }
 
         function test_create_radio() {
-            skip("No radio component");
             menuData.isRadio = true;
 
             loader.data = menuData;
             loader.sourceComponent = factory.load(menuData);
             tryCompareFunction(function() { return loader.item != undefined; }, true);
-            compare(loader.item.objectName, "checkableMenu", "Should have created a checkable menu");
+            compare(loader.item.objectName, "radioMenu", "Should have created a radio menu");
         }
 
         function test_create_separator() {
@@ -334,6 +333,30 @@ Item {
             loader.sourceComponent = factory.load(menuData);
             tryCompareFunction(function() { return loader.item != undefined; }, true);
             compare(loader.item.objectName, "checkableMenu", "Should have created a checkable menu");
+
+            compare(loader.item.text, data.label, "Label does not match data");
+            compare(loader.item.checked, data.checked, "Checked does not match data");
+            compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+        }
+
+        function test_create_radioMenu_data() {
+            return [
+                {label: "testLabel1", enabled: true, checked: false },
+                {label: "testLabel2", enabled: false, checked: true },
+            ];
+        }
+
+        function test_create_radioMenu(data) {
+            menuData.type = "";
+            menuData.label = data.label;
+            menuData.sensitive = data.enabled;
+            menuData.isRadio = true;
+            menuData.isToggled = data.checked;
+
+            loader.data = menuData;
+            loader.sourceComponent = factory.load(menuData);
+            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            compare(loader.item.objectName, "radioMenu", "Should have created a radio menu");
 
             compare(loader.item.text, data.label, "Label does not match data");
             compare(loader.item.checked, data.checked, "Checked does not match data");
