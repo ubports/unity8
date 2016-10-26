@@ -1002,7 +1002,7 @@ Item {
     Component {
         id: buttonSectionMenu;
 
-        Menus.StandardMenu {
+        Menus.ButtonMenu {
             objectName: "buttonSectionMenu"
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
@@ -1014,6 +1014,7 @@ Item {
             highlightWhenPressed: false
             text: menuData && menuData.label || ""
             foregroundColor: theme.palette.normal.backgroundText
+            buttonText: getExtendedProperty(extendedData, "xCanonicalExtraLabel", "")
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -1026,14 +1027,7 @@ Item {
                 menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-extra-label': 'string'});
             }
 
-            slots: Button {
-                objectName: "buttonSectionMenuControl"
-                text: getExtendedProperty(extendedData, "xCanonicalExtraLabel", "")
-
-                onClicked: {
-                    menuModel.activate(menuIndex);
-                }
-            }
+            onButtonClicked: menuModel.activate(menuIndex);
         }
     }
 

@@ -556,9 +556,7 @@ Item {
             compare(loader.item.iconSource, data.icon, "Icon does not match data");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
 
-            var button = findChild(loader.item, "buttonSectionMenuControl");
-            verify(button !== null);
-            compare(button.text, data.buttonText, "Button text does not match data");
+            compare(loader.item.buttonText, data.buttonText, "Button text does not match data");
         }
 
         function test_create_wifiSection_data() {
