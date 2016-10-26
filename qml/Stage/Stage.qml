@@ -54,7 +54,7 @@ FocusScope {
 
     // Used by the tutorial code
     readonly property bool spreadShown: state == "spread"
-    readonly property real rightEdgeDragProgress: rightEdgeDragArea.progress // How far left the stage has been dragged
+    readonly property real rightEdgeDragProgress: rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0 // How far left the stage has been dragged
 
     // used by the snap windows (edge maximize) feature
     readonly property alias previewRectangle: fakeRectangle
