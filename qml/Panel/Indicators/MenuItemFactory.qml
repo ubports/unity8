@@ -506,11 +506,17 @@ Item {
 
         Menus.CalendarMenu {
             objectName: "calendarMenu"
-            highlightWhenPressed: false
+            showWeekNumbers: menuData && menuData.actionState["show-week-numbers"]
             focus: true
 
+            property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
+
+            Binding on eventDays {
+                when: menuData && menuData.actionState.hasOwnProperty("appointment-days") > 0
+                value: menuData.actionState["appointment-days"]
+            }
 
             onSelectedDateChanged: {
                 menuModel.activate(menuIndex, selectedDate.getTime() / 1000 | 0)
