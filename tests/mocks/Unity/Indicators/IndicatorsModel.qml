@@ -124,7 +124,7 @@ Indicators.FakeIndicatorsModel {
 
         Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake0",
                                            getUnityMenuModelData("indicator-keyboard",
-                                                                 "Czech (F)",
+                                                                 "English (F)",
                                                                  "",
                                                                  [ "image://theme/input-keyboard-symbolic" ]));
         Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicators/fake1",
