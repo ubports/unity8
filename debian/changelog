@@ -1,3 +1,9 @@
+unity8 (8.15) UNRELEASED; urgency=medium
+
+  * Bump version as USC breaks with unity8 << 8.14
+
+ -- Marco Trevisan (Treviño) <marco@ubuntu.com>  Thu, 27 Oct 2016 14:03:03 +0200
+
 unity8 (8.14+17.04.20161024-0ubuntu1) zesty; urgency=medium
 
   [ Albert Astals Cid ]
