@@ -651,9 +651,9 @@ var fakeMenuData = {
                     "rowData": {
                         "action": "indicator.calendar",
                         "actionState": {
-                            "appointment-days": "",
+                            "appointment-days": [10],
                             "calendar-day": (new Date).getTime() / 1000,
-                            "show-week-numbers": false,
+                            "show-week-numbers": true,
                         },
                         "ext": {},
                         "icon": "image://theme/calendar",
