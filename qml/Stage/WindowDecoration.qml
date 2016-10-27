@@ -22,7 +22,7 @@ import "../Components"
 import "../Components/PanelState"
 import "../ApplicationMenus"
 
-MouseArea {
+Item {
     id: root
 
     property Item target // appDelegate
@@ -35,23 +35,35 @@ MouseArea {
 
     readonly property real buttonsWidth: buttons.width + row.spacing
 
-    acceptedButtons: Qt.AllButtons // prevent leaking unhandled mouse events
-    hoverEnabled: true
-
     signal closeClicked()
     signal minimizeClicked()
     signal maximizeClicked()
     signal maximizeHorizontallyClicked()
     signal maximizeVerticallyClicked()
 
-    onDoubleClicked: {
-        if (target.canBeMaximized && mouse.button == Qt.LeftButton) {
-            root.maximizeClicked();
+    MouseArea {
+        id: hoverArea
+        anchors.fill: parent
+
+        acceptedButtons: Qt.AllButtons // prevent leaking unhandled mouse events
+        hoverEnabled: true
+
+        onDoubleClicked: {
+            if (target.canBeMaximized && mouse.button == Qt.LeftButton) {
+                root.maximizeClicked();
+            }
+        }
+
+        // do not let unhandled wheel event pass thru the decoration
+        onWheel: wheel.accepted = true;
+
+        // We dont want touch events to fall through to parent,
+        // otherwise the containsMouse will not work.
+        MouseArea {
+            anchors.fill: parent
+            propagateComposedEvents: true
         }
     }
-
-    // do not let unhandled wheel event pass thru the decoration
-    onWheel: wheel.accepted = true;
 
     QtObject {
         id: priv
@@ -60,7 +72,7 @@ MouseArea {
         property bool shouldShowMenus: root.enableMenus &&
                                        menuBar &&
                                        menuBar.valid &&
-                                       (menuBar.showRequested || root.containsMouse)
+                                       (menuBar.showRequested || hoverArea.containsMouse)
     }
 
     Rectangle {
@@ -108,6 +120,8 @@ MouseArea {
             onMaximizeHorizontallyClicked: if (root.target.canBeMaximizedHorizontally) root.maximizeHorizontallyClicked();
             onMaximizeVerticallyClicked: if (root.target.canBeMaximizedVertically) root.maximizeVerticallyClicked();
             closeButtonShown: root.target.appId !== "unity8-dash"
+
+            enabled: !PanelState.decorationsVisible
         }
 
         Item {
@@ -140,7 +154,7 @@ MouseArea {
                 sourceComponent: MenuBar {
                     id: menuBar
                     height: menuBarLoader.height
-                    enableKeyFilter: valid && root.active && root.enableMenus && !PanelState.decorationsVisible
+                    enableKeyFilter: valid && root.active && root.enableMenus
                     unityMenuModel: root.menu
                 }
 
@@ -150,5 +164,4 @@ MouseArea {
             }
         }
     }
-
 }

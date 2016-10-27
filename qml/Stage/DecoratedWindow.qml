@@ -232,8 +232,7 @@ FocusScope {
             enableMenus: {
                 return active &&
                          surface &&
-                         (PanelState.focusedPersistentSurfaceId !== surface.persistentId ||
-                          (PanelState.focusedPersistentSurfaceId === surface.persistentId && !PanelState.focusedSurfaceMaximized))
+                          (PanelState.focusedPersistentSurfaceId === surface.persistentId && !PanelState.decorationsVisible)
             }
             menu: sharedAppModel.model
 

@@ -42,7 +42,7 @@ Item {
     property real indicatorMenuWidth: width
     property real applicationMenuWidth: width
 
-    property alias applicationMenus: fakeApplicationMenus
+    property alias applicationMenus: __applicationMenus
     property alias indicators: __indicators
     property bool fullscreenMode: false
     property real indicatorAreaShowProgress: 1.0
@@ -55,20 +55,20 @@ Item {
         id: backMouseEater
         anchors.fill: parent
         anchors.topMargin: panelHeight
-        visible: __indicators.fullyOpened
+        visible: __indicators.fullyOpened || __applicationMenus.fullyOpened
         enabled: visible
         hoverEnabled: true // should also eat hover events, otherwise they will pass through
+
+        onClicked: {
+            __applicationMenus.hide();
+            __indicators.hide();
+        }
     }
 
     Binding {
         target: PanelState
         property: "panelHeight"
         value: minimizedPanelHeight
-    }
-
-    FakePanelMenu {
-        id: fakeApplicationMenus
-        model: registeredMenuModel.model
     }
 
     RegisteredApplicationMenuModel {
@@ -99,6 +99,16 @@ Item {
         }
 
         BorderImage {
+            id: appmenuDropShadow
+            anchors {
+                fill: __applicationMenus
+                margins: -units.gu(1)
+            }
+            visible: !__applicationMenus.fullyClosed
+            source: "graphics/rectangular_dropshadow.sci"
+        }
+
+        BorderImage {
             id: panelDropShadow
             anchors {
                 fill: panelAreaBackground
@@ -110,7 +120,7 @@ Item {
 
         Rectangle {
             id: panelAreaBackground
-            color: theme.palette.normal.background
+            color: callHint.visible ? theme.palette.normal.positive : theme.palette.normal.background
             anchors {
                 top: parent.top
                 left: parent.left
@@ -121,300 +131,148 @@ Item {
             Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration } }
         }
 
-        Loader {
-            id: apppMenuLoader
-            sourceComponent: mode == "staged" ? stagedLeftPanelComponent : windowedLeftPanelComponent
-            width: parent.width
+        MouseArea {
+            id: decorationMouseArea
+            objectName: "windowControlArea"
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
             height: minimizedPanelHeight
+            hoverEnabled: !__indicators.shown
+            onClicked: {
+                if (callHint.visible) {
+                    callHint.showLiveCall();
+                }
+            }
 
-            opacity: root.locked ? 0 : 1
-            visible: opacity != 0
-            Behavior on opacity { UbuntuNumberAnimation {} }
-        }
+            onPressed: {
+                if (!callHint.visible) {
+                    // let it fall through to the window decoration of the maximized window behind, if any
+                    mouse.accepted = false;
+                }
+            }
 
-        Component {
-            id: stagedLeftPanelComponent
+            property bool showWindowControls: (PanelState.decorationsVisible && (containsMouse || menuBarLoader.menusRequested)) || PanelState.decorationsAlwaysVisible
 
-            MouseArea {
-                id: decorationMouseArea
-                objectName: "windowControlArea"
+            // WindowControlButtons inside the mouse area, otherwise QML doesn't grok nested hover events :/
+            // cf. https://bugreports.qt.io/browse/QTBUG-32909
+            WindowControlButtons {
+                id: windowControlButtons
+                objectName: "panelWindowControlButtons"
                 anchors {
                     left: parent.left
-                    right: parent.right
+                    top: parent.top
                 }
-                height: minimizedPanelHeight
-                hoverEnabled: !__indicators.shown
-                onClicked: {
-                    if (callHint.visible) {
-                        callHint.showLiveCall();
-                    }
+                height: indicators.minimizedPanelHeight
+                opacity: decorationMouseArea.showWindowControls ? 1 : 0
+                visible: opacity != 0
+                Behavior on opacity { UbuntuNumberAnimation {} }
+
+                active: PanelState.decorationsVisible || PanelState.decorationsAlwaysVisible
+                windowIsMaximized: true
+                onCloseClicked: PanelState.closeClicked()
+                onMinimizeClicked: PanelState.minimizeClicked()
+                onMaximizeClicked: PanelState.restoreClicked()
+                closeButtonShown: PanelState.closeButtonShown
+            }
+
+            Loader {
+                id: menuBarLoader
+                anchors {
+                    left: windowControlButtons.right
+                    leftMargin: units.gu(3)
                 }
+                height: parent.height
+                opacity: windowControlButtons.opacity
+                visible: opacity != 0
+                active: __applicationMenus.model
 
-                BorderImage {
-                    id: applicationMenusDropShadow
-                    anchors {
-                        fill: __applicationMenus
-                        margins: -units.gu(1)
-                    }
-                    visible: !__applicationMenus.fullyClosed
-                    source: "graphics/rectangular_dropshadow.sci"
-                }
+                property bool menusRequested: menuBarLoader.item ? menuBarLoader.item.showRequested : false
 
-                PanelMenu {
-                    id: __applicationMenus
-
-                    hides: fakeApplicationMenus.hides
-                    model: fakeApplicationMenus.model
-
-                    width: root.applicationMenuWidth
-                    minimizedPanelHeight: root.minimizedPanelHeight
-                    expandedPanelHeight: root.expandedPanelHeight
-                    openedHeight: root.height
-                    enableHint: !callHint.active && !fullscreenMode
-                    showOnClick: !callHint.visible
-                    panelColor: callHint.visible ? theme.palette.normal.positive : theme.palette.normal.background
-                    alignment: Qt.AlignLeft
-
-                    showRowTitle: !expanded
-                    rowTitle: PanelState.title
-                    rowItemDelegate: ActionItem {
-                        id: actionItem
-                        property int ownIndex: index
-
-                        width: _title.width + units.gu(2)
-                        height: parent.height
-
-                        action: Action {
-                            text: model.label.replace("_", "&")
-                        }
-
-                        Label {
-                            id: _title
-                            anchors.centerIn: parent
-                            text: actionItem.text
-                            horizontalAlignment: Text.AlignLeft
-                            color: enabled ? "white" : "#5d5d5d"
-                        }
-                    }
-
-                    pageDelegate: PanelMenuPage {
-                        id: page
-                        menuModel: __applicationMenus.model
-                        submenuIndex: modelIndex
-
-                        factory: ApplicationMenuItemFactory {
-                            rootModel: __applicationMenus.model
-                        }
-                    }
-
-                    enabled: !root.locked && model
-                    opacity: !indicators.expanded ? 1 : 0
-                    visible: opacity != 0
-                    Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
-
-                    onEnabledChanged: {
-                        if (!enabled) hide();
-                    }
-
-                    Binding {
-                        target: fakeApplicationMenus
-                        property: "expanded"
-                        value: __applicationMenus.expanded
-                    }
+                sourceComponent: MenuBar {
+                    id: bar
+                    height: menuBarLoader.height
+                    enableKeyFilter: valid && PanelState.decorationsVisible
+                    unityMenuModel: registeredMenuModel.model
 
                     Connections {
-                        target: fakeApplicationMenus
-                        onHide: __applicationMenus.hide();
-                        onShow: __applicationMenus.show();
+                        target: __applicationMenus
+                        onHide: bar.dismiss();
                     }
                 }
+            }
 
-                ActiveCallHint {
-                    id: callHint
-                    objectName: "callHint"
+            ActiveCallHint {
+                id: callHint
+                objectName: "callHint"
 
-                    x: __applicationMenus.x + __applicationMenus.barWidth
-                    height: parent.height
+                anchors.centerIn: parent
+                height: minimizedPanelHeight
 
-                    visible: active && (indicators.state == "initial" && __applicationMenus.state == "initial")
-                    greeterShown: root.greeterShown
-                }
-
-                Binding {
-                    target: __indicators
-                    property: "overFlowWidth"
-                    value: {
-                        var width = root.width;
-                        if (callHint.visible) {
-                            width -= callHint.width;
-                        }
-                        if (__applicationMenus.visible) {
-                            width -= __applicationMenus.barWidth;
-                        }
-                        return Math.max(width, 0);
-                    }
-                }
-                Binding {
-                    target: panelAreaBackground
-                    property: "color"
-                    value: callHint.visible ? theme.palette.normal.positive : theme.palette.normal.background
-                }
-                Binding {
-                    target: __indicators
-                    property: "enableHint"
-                    value: !callHint.active && !__indicators.fullscreenMode
-                }
-                Binding {
-                    target: __indicators
-                    property: "showOnClick"
-                    value: !callHint.visible
-                }
-                Connections {
-                    target: __indicators
-                    onShowTapped: {
-                        if (callHint.active) {
-                            callHint.showLiveCall();
-                        }
-                    }
-                }
-                Binding {
-                    target: backMouseEater
-                    property: "visible"
-                    value: true
-                    when: __applicationMenus.fullyOpened
-                }
-                Connections {
-                    target: backMouseEater
-                    onClicked: __applicationMenus.hide();
-                }
+                visible: active && indicators.state == "initial"
+                greeterShown: root.greeterShown
             }
         }
 
-        Component {
-            id: windowedLeftPanelComponent
+        PanelMenu {
+            id: __applicationMenus
 
-            MouseArea {
-                id: decorationMouseArea
-                objectName: "windowControlArea"
-                anchors {
-                    left: parent.left
-                    right: parent.right
+            model: registeredMenuModel.model
+            width: root.applicationMenuWidth
+            minimizedPanelHeight: root.minimizedPanelHeight
+            expandedPanelHeight: root.expandedPanelHeight
+            openedHeight: root.height
+            alignment: Qt.AlignLeft
+            enableHint: !callHint.active && !fullscreenMode
+            showOnClick: !callHint.visible
+            panelColor: panelAreaBackground.color
+
+            onShowTapped: {
+                if (callHint.active) {
+                    callHint.showLiveCall();
                 }
-                height: minimizedPanelHeight
-                hoverEnabled: !__indicators.shown
-                onClicked: if (callHint.visible) { callHint.showLiveCall(); }
+            }
 
-                onPressed: {
-                    if (!callHint.visible) {
-                        // let it fall through to the window decoration of the maximized window behind, if any
-                        mouse.accepted = false;
-                    }
-                }
+            showRowTitle: !expanded
+            rowTitle: PanelState.title
+            rowItemDelegate: ActionItem {
+                id: actionItem
+                property int ownIndex: index
 
-                property bool showWindowControls: (PanelState.decorationsVisible && (containsMouse || menuBarLoader.menusRequested)) || PanelState.decorationsAlwaysVisible
+                width: _title.width + units.gu(2)
+                height: parent.height
 
-                // WindowControlButtons inside the mouse area, otherwise QML doesn't grok nested hover events :/
-                // cf. https://bugreports.qt.io/browse/QTBUG-32909
-                WindowControlButtons {
-                    id: windowControlButtons
-                    objectName: "panelWindowControlButtons"
-                    anchors {
-                        left: parent.left
-                        top: parent.top
-                    }
-                    height: indicators.minimizedPanelHeight
-                    opacity: decorationMouseArea.showWindowControls ? 1 : 0
-                    visible: opacity != 0
-                    Behavior on opacity { UbuntuNumberAnimation {} }
-
-                    active: PanelState.decorationsVisible || PanelState.decorationsAlwaysVisible
-                    windowIsMaximized: true
-                    onCloseClicked: PanelState.closeClicked()
-                    onMinimizeClicked: PanelState.minimizeClicked()
-                    onMaximizeClicked: PanelState.restoreClicked()
-                    closeButtonShown: PanelState.closeButtonShown
-                }
-
-                Loader {
-                    id: menuBarLoader
-                    anchors {
-                        left: windowControlButtons.right
-                        leftMargin: units.gu(3)
-                    }
-                    height: parent.height
-                    opacity: windowControlButtons.opacity
-                    visible: opacity != 0
-                    active: fakeApplicationMenus.model
-
-                    property bool menusRequested: menuBarLoader.item ? menuBarLoader.item.showRequested : false
-
-                    sourceComponent: MenuBar {
-                        id: bar
-                        height: menuBarLoader.height
-                        enableKeyFilter: valid && PanelState.decorationsVisible
-                        unityMenuModel: fakeApplicationMenus.model
-
-                        Connections {
-                            target: fakeApplicationMenus
-                            onHide: bar.dismiss();
-                        }
-                    }
+                action: Action {
+                    text: model.label.replace("_", "&")
                 }
 
                 Label {
-                    id: titleLabel
-                    objectName: "windowDecorationTitle"
-                    anchors {
-                        left: parent.left
-                        leftMargin: units.gu(1)
-                        verticalCenter: parent.verticalCenter
-                    }
-                    color: "white"
-                    opacity: !decorationMouseArea.showWindowControls ? 1 : 0
-                    visible: opacity != 0
-                    verticalAlignment: Text.AlignVCenter
-                    fontSize: "medium"
-                    font.weight: PanelState.decorationsVisible ? Font.Light : Font.Medium
-                    text: PanelState.title
-                    elide: Text.ElideRight
-                    maximumLineCount: 1
-                    Behavior on opacity { UbuntuNumberAnimation {} }
-                }
-
-                ActiveCallHint {
-                    id: callHint
-                    objectName: "callHint"
-
+                    id: _title
                     anchors.centerIn: parent
-                    height: minimizedPanelHeight
+                    text: actionItem.text
+                    horizontalAlignment: Text.AlignLeft
+                    color: enabled ? "white" : "#5d5d5d"
+                }
+            }
 
-                    visible: active && indicators.state == "initial"
-                    greeterShown: root.greeterShown
-                }
+            pageDelegate: PanelMenuPage {
+                id: page
+                menuModel: __applicationMenus.model
+                submenuIndex: modelIndex
 
-                Binding {
-                    target: panelAreaBackground
-                    property: "color"
-                    value: callHint.visible ? theme.palette.normal.positive : theme.palette.normal.background
+                factory: ApplicationMenuItemFactory {
+                    rootModel: __applicationMenus.model
                 }
-                Binding {
-                    target: __indicators
-                    property: "enableHint"
-                    value: !callHint.active && !__indicators.fullscreenMode
-                }
-                Binding {
-                    target: __indicators
-                    property: "showOnClick"
-                    value: !callHint.visible
-                }
-                Connections {
-                    target: __indicators
-                    onShowTapped: {
-                        if (callHint.active) {
-                            callHint.showLiveCall();
-                        }
-                    }
-                }
+            }
+
+            enabled: !root.locked && model
+            opacity: !decorationMouseArea.showWindowControls && !indicators.expanded ? 1 : 0
+            visible: opacity != 0
+            Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+
+            onEnabledChanged: {
+                if (!enabled) hide();
             }
         }
 
@@ -432,9 +290,15 @@ Item {
             openedHeight: root.height
 
             overFlowWidth: root.width
-            enableHint: !fullscreenMode
-            showOnClick: true
+            enableHint: !callHint.active && !fullscreenMode
+            showOnClick: !callHint.visible
             panelColor: panelAreaBackground.color
+
+            onShowTapped: {
+                if (callHint.active) {
+                    callHint.showLiveCall();
+                }
+            }
 
             rowItemDelegate: IndicatorItem {
                 id: indicatorItem
@@ -492,10 +356,6 @@ Item {
             onEnabledChanged: {
                 if (!enabled) hide();
             }
-            Connections {
-                target: backMouseEater
-                onClicked: __indicators.hide();
-            }
         }
     }
 
@@ -523,11 +383,19 @@ Item {
             when: fullscreenMode
             PropertyChanges {
                 target: indicatorArea;
-                anchors.topMargin: indicators.state === "initial" ? - minimizedPanelHeight : 0
-                opacity: indicators.fullyClosed ? 0.0 : 1.0
+                anchors.topMargin: {
+                    if (indicators.state !== "initial") return 0;
+                    if (applicationMenus.state !== "initial") return 0;
+                    return -minimizedPanelHeight;
+                }
+                opacity: indicators.fullyClosed && applicationMenus.fullyClosed ? 0.0 : 1.0
             }
             PropertyChanges {
                 target: indicators.showDragHandle;
+                anchors.bottomMargin: -units.gu(1)
+            }
+            PropertyChanges {
+                target: applicationMenus.showDragHandle;
                 anchors.bottomMargin: -units.gu(1)
             }
         }
