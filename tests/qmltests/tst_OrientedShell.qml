@@ -29,7 +29,8 @@ import Utils 0.1
 
 import "../../qml"
 import "../../qml/Components"
-import "Stages"
+import "../../qml/Components/PanelState"
+import "Stage"
 
 Rectangle {
     id: root
@@ -443,7 +444,7 @@ Rectangle {
         SignalSpy { id: signalSpy2 }
 
         Connections {
-            id: spreadRepeaterConnections
+            id: appRepeaterConnections
             ignoreUnknownSignals : true
             property var itemAddedCallback: null
             onItemAdded: {
@@ -483,8 +484,8 @@ Rectangle {
             while (keyboardsModel.count > 0)
                 MockInputDeviceBackend.removeDevice("/kbd" + (keyboardsModel.count - 1))
 
-            spreadRepeaterConnections.target = null;
-            spreadRepeaterConnections.itemAddedCallback = null;
+            appRepeaterConnections.target = null;
+            appRepeaterConnections.itemAddedCallback = null;
             signalSpy.target = null;
             signalSpy.signalName = "";
 
@@ -511,7 +512,7 @@ Rectangle {
 
             var primaryAppWindow = findAppWindowForSurfaceId(primarySurfaceId);
             verify(primaryAppWindow)
-            var primaryDelegate = findChild(shell, "spreadDelegate_" + primarySurfaceId);
+            var primaryDelegate = findChild(shell, "appDelegate_" + primarySurfaceId);
 
             compare(primaryDelegate.focus, true);
             compare(primaryApp.rotatesWindowContents, false);
@@ -559,7 +560,7 @@ Rectangle {
             compare(ApplicationManager.focusedApplicationId, "primary-oriented-app");
             compare(primaryApp.rotatesWindowContents, false);
             compare(primaryApp.supportedOrientations, Qt.PrimaryOrientation);
-            var primaryDelegate = findChild(shell, "spreadDelegate_" + primarySurfaceId);
+            var primaryDelegate = findChild(shell, "appDelegate_" + primarySurfaceId);
             compare(primaryDelegate.stage, ApplicationInfoInterface.MainStage);
 
             tryCompareFunction(function(){return primaryApp.surfaceList.count > 0;}, true);
@@ -736,7 +737,7 @@ Rectangle {
             compare(musicApp.supportedOrientations, Qt.PortraitOrientation | Qt.LandscapeOrientation
                     | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation);
             if (data.deviceName === "manta" || data.deviceName === "flo") {
-                var musicDelegate = findChild(shell, "spreadDelegate_" + musicSurfaceId);
+                var musicDelegate = findChild(shell, "appDelegate_" + musicSurfaceId);
                 compare(musicDelegate.stage, ApplicationInfoInterface.MainStage);
             }
 
@@ -873,9 +874,9 @@ Rectangle {
             var greeter = findChild(shell, "greeter");
             tryCompare(greeter, "animating", false);
 
-            var twitterDelegate = findChild(shell, "spreadDelegate_" + topLevelSurfaceList.idAt(1));
+            var twitterDelegate = findChild(shell, "appDelegate_" + topLevelSurfaceList.idAt(1));
             compare(twitterDelegate.application.appId, "twitter-webapp");
-            twitterDelegate.clicked();
+            tap(twitterDelegate, 1, 1);
 
             // now it should finally follow the physical orientation
             tryCompare(shell, "transformRotationAngle", 90);
@@ -894,24 +895,10 @@ Rectangle {
             WindowStateStorage.saveStage("twitter-webapp", ApplicationInfoInterface.SideStage)
             loadShell(data.deviceName);
 
-            var twitterDelegate = null;
-
-            verify(spreadRepeaterConnections.target);
-            spreadRepeaterConnections.itemAddedCallback = function(item) {
-                verify(item.application.appId, "twitter-webapp");
-                twitterDelegate = item;
-                signalSpy.target = findInvisibleChild(item, "orientationChangeAnimation");
-                verify(signalSpy.valid);
-            }
-
-            signalSpy.clear();
-            signalSpy.target = null;
-            signalSpy.signalName = "runningChanged";
-
             var twitterSurfaceId = topLevelSurfaceList.nextId;
             var twitterApp = ApplicationManager.startApplication("twitter-webapp");
             verify(twitterApp);
-            var twitterDelegate = findChild(shell, "spreadDelegate_" + twitterSurfaceId);
+            var twitterDelegate = findChild(shell, "appDelegate_" + twitterSurfaceId);
             compare(twitterDelegate.stage, ApplicationInfoInterface.SideStage);
 
             // ensure the mock twitter-webapp is as we expect
@@ -919,15 +906,11 @@ Rectangle {
             compare(twitterApp.supportedOrientations, Qt.PortraitOrientation | Qt.LandscapeOrientation
                     | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation);
 
-            // Wait until spreadRepeaterConnections hs caught the new SpreadDelegate and
-            // set up the signalSpy target accordingly.
-            tryCompareFunction(function(){ return signalSpy.target != null && signalSpy.valid; }, true);
-
             tryCompare(twitterDelegate, "orientationChangesEnabled", true);
 
-            var appWindowWithShadow = findChild(twitterDelegate, "appWindowWithShadow");
-            verify(appWindowWithShadow);
-            tryCompare(appWindowWithShadow, "state", "keepSceneRotation");
+            var decoratedWindow = findChild(twitterDelegate, "decoratedWindow");
+            verify(decoratedWindow);
+            tryCompare(decoratedWindow, "counterRotate", false);
 
             // no reason for any rotation animation to have taken place
             compare(signalSpy.count, 0);
@@ -943,8 +926,8 @@ Rectangle {
             loadShell(data.deviceName);
 
             var dialerDelegate = null;
-            verify(spreadRepeaterConnections.target);
-            spreadRepeaterConnections.itemAddedCallback = function(item) {
+            verify(appRepeaterConnections.target);
+            appRepeaterConnections.itemAddedCallback = function(item) {
                 dialerDelegate = item;
                 verify(item.application.appId, "dialer-app");
             }
@@ -960,98 +943,17 @@ Rectangle {
             tryCompareFunction(function(){ return dialerDelegate != null; }, true);
             tryCompare(dialerDelegate, "orientationChangesEnabled", true);
 
-            var appWindowWithShadow = findChild(dialerDelegate, "appWindowWithShadow");
-            verify(appWindowWithShadow);
-            tryCompare(appWindowWithShadow, "state", "keepSceneRotation");
+            var decoratedWindow = findChild(dialerDelegate, "decoratedWindow");
+            verify(decoratedWindow);
+            tryCompare(decoratedWindow, "counterRotate", false);
 
             // app must have portrait aspect ratio
-            verify(appWindowWithShadow.width < appWindowWithShadow.height);
-
-            compare(appWindowWithShadow.rotation, 0);
-
-            verifyAppWindowWithinSpreadDelegateBoundaries(dialerDelegate);
+            verify(decoratedWindow.width < decoratedWindow.height);
 
             // shell should remain in its primery orientation as the app in the main stage
             // is the one that dictates its orientation. In this case it's unity8-dash
             // which supports only primary orientation
             compare(shell.orientation, orientedShell.orientations.primary);
-        }
-
-        function test_sideStageAppsRemainPortraitInSpread_data() {
-            return [
-                {tag: "manta", deviceName: "manta"},
-                {tag: "flo", deviceName: "flo"}
-            ];
-        }
-        function test_sideStageAppsRemainPortraitInSpread(data) {
-            loadShell(data.deviceName);
-
-
-            ////
-            // Launch dialer
-            var dialerDelegate = null;
-            verify(spreadRepeaterConnections.target);
-            spreadRepeaterConnections.itemAddedCallback = function(item) {
-                dialerDelegate = item;
-                verify(item.application.appId, "dialer-app");
-            }
-
-            WindowStateStorage.saveStage("dialer-app", ApplicationInfoInterface.SideStage)
-            var dialerApp = ApplicationManager.startApplication("dialer-app");
-            verify(dialerApp);
-
-            // ensure the mock dialer-app is as we expect
-            compare(dialerApp.rotatesWindowContents, false);
-            compare(dialerApp.supportedOrientations, Qt.PortraitOrientation | Qt.InvertedPortraitOrientation);
-
-            tryCompareFunction(function(){ return dialerDelegate != null; }, true);
-            waitUntilAppDelegateIsFullyInit(dialerDelegate);
-
-
-            ////
-            // Launch twitter
-            var twitterDelegate = null;
-            spreadRepeaterConnections.itemAddedCallback = function(item) {
-                twitterDelegate = item;
-                verify(item.application.appId, "twitter-webapp");
-            }
-
-            var twitterApp = ApplicationManager.startApplication("twitter-webapp");
-            verify(twitterApp);
-            twitterApp.stage = ApplicationInfoInterface.SideStage;
-
-            // ensure the mock twitter-webapp is as we expect
-            compare(twitterApp.rotatesWindowContents, false);
-            compare(twitterApp.supportedOrientations, Qt.PortraitOrientation | Qt.LandscapeOrientation
-                    | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation);
-
-            tryCompareFunction(function(){ return twitterDelegate != null; }, true);
-            waitUntilAppDelegateIsFullyInit(twitterDelegate);
-
-            ////
-            // Edge swipe to show spread and check orientations
-
-            performEdgeSwipeToShowAppSpread();
-
-            {
-                var appWindowWithShadow = findChild(dialerDelegate, "appWindowWithShadow");
-                verify(appWindowWithShadow);
-                tryCompare(appWindowWithShadow, "state", "keepSceneRotation");
-                compare(appWindowWithShadow.width, dialerDelegate.width);
-                compare(appWindowWithShadow.height, dialerDelegate.height);
-                compare(appWindowWithShadow.rotation, 0);
-            }
-            {
-                var appWindowWithShadow = findChild(twitterDelegate, "appWindowWithShadow");
-                verify(appWindowWithShadow);
-                tryCompare(appWindowWithShadow, "state", "keepSceneRotation");
-                compare(appWindowWithShadow.width, twitterDelegate.width);
-                compare(appWindowWithShadow.height, twitterDelegate.height);
-                compare(appWindowWithShadow.rotation, 0);
-            }
-
-            verifyAppWindowWithinSpreadDelegateBoundaries(dialerDelegate);
-            verifyAppWindowWithinSpreadDelegateBoundaries(twitterDelegate);
         }
 
         function test_launchedAppHasActiveFocus_data() {
@@ -1449,11 +1351,10 @@ Rectangle {
         function waitUntilAppDelegateIsFullyInit(spreadDelegate) {
             tryCompare(spreadDelegate, "orientationChangesEnabled", true);
 
-            var appWindowWithShadow = findChild(spreadDelegate, "appWindowWithShadow");
-            verify(appWindowWithShadow);
-            tryCompare(appWindowWithShadow, "state", "keepSceneRotation");
+            var decoratedWindow = findChild(spreadDelegate, "decoratedWindow");
+            tryCompare(decoratedWindow, "counterRotate", false);
 
-            var appWindowStates = findInvisibleChild(appWindowWithShadow, "applicationWindowStateGroup");
+            var appWindowStates = findInvisibleChild(decoratedWindow, "applicationWindowStateGroup");
             verify(appWindowStates);
             tryCompare(appWindowStates, "state", "surface");
         }
@@ -1491,8 +1392,7 @@ Rectangle {
         }
 
         function performLeftEdgeSwipeToSwitchToDash() {
-            var spreadView = findChild(shell, "spreadView");
-            var swipeLength = spreadView.width * 0.7;
+            var swipeLength = shell.width * 0.7;
 
             var touchStartX = 1;
             var touchStartY = shell.height / 2;
@@ -1507,35 +1407,13 @@ Rectangle {
             // swipe just enough to ensure an app switch action.
             // If we swipe too much we will trigger the spread mode
             // and we don't want that.
-            var spreadView = findChild(shell, "spreadView");
-            verify(spreadView);
-
             verify(topLevelSurfaceList.count >= 2);
             var previousSurfaceId = topLevelSurfaceList.idAt(1);
 
             var touchStartX = shell.width - 1;
             var touchStartY = shell.height / 2;
 
-            var condition;
-            if (applicationArguments.deviceName === "phone") {
-                condition = function() {
-                    return spreadView.shiftedContentX > units.gu(2) &&
-                        spreadView.shiftedContentX < spreadView.positionMarker1 * spreadView.width;
-                };
-            } else {
-                condition = function() {
-                    return spreadView.shiftedContentX > spreadView.width * spreadView.positionMarker1
-                        && spreadView.shiftedContentX < spreadView.width * spreadView.positionMarker2;
-                };
-            }
-
-            touchDragUntil(shell,
-                    touchStartX, touchStartY,
-                    -units.gu(1), 0,
-                    condition);
-
-            // ensure the app switch animation has ended
-            tryCompare(spreadView, "shiftedContentX", 0);
+            touchFlick(shell, touchStartX, touchStartY, touchStartX - units.gu(8), touchStartY, units.gu(4), 10);
 
             tryCompareFunction(function(){ return topLevelSurfaceList.idAt(0); }, previousSurfaceId);
         }
@@ -1546,30 +1424,15 @@ Rectangle {
                        shell.width - 1, touchStartY,
                        0, touchStartY);
 
-            var spreadView = findChild(shell, "spreadView");
-            verify(spreadView);
-            tryCompare(spreadView, "phase", 2);
-            tryCompare(spreadView, "flicking", false);
-            tryCompare(spreadView, "moving", false);
+            var stage = findChild(shell, "stage");
+            tryCompare(stage, "state", "spread");
+            waitForRendering(stage);
         }
 
         function showPowerDialog() {
             var dialogs = findChild(orientedShell, "dialogs");
             var dialogsPrivate = findInvisibleChild(dialogs, "dialogsPrivate");
             dialogsPrivate.showPowerDialog();
-        }
-
-        function verifyAppWindowWithinSpreadDelegateBoundaries(spreadDelegate) {
-            var appWindowWithShadow = findChild(spreadDelegate, "appWindowWithShadow");
-            verify(appWindowWithShadow);
-
-            var windowInDelegateCoords = appWindowWithShadow.mapToItem(spreadDelegate, 0, 0,
-                    appWindowWithShadow.width, appWindowWithShadow.height);
-
-            compare(windowInDelegateCoords.x, 0);
-            compare(windowInDelegateCoords.y, 0);
-            compare(windowInDelegateCoords.width, spreadDelegate.width);
-            compare(windowInDelegateCoords.height, spreadDelegate.height);
         }
 
         function swipeAwayGreeter() {
@@ -1606,9 +1469,6 @@ Rectangle {
             topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
             verify(topLevelSurfaceList);
 
-            var stageLoader = findChild(shell, "applicationsDisplayLoader");
-            verify(stageLoader);
-
             tryCompare(shell, "waitingOnGreeter", false); // reset by greeter when ready
 
             waitUntilShellIsInOrientation(root.physicalOrientation0);
@@ -1617,9 +1477,9 @@ Rectangle {
 
             swipeAwayGreeter();
 
-            var spreadRepeater = findChild(stageLoader, "spreadRepeater");
-            if (spreadRepeater) {
-                spreadRepeaterConnections.target = spreadRepeater;
+            var appRepeater = findChild(shell, "appRepeater");
+            if (appRepeater) {
+                appRepeaterConnections.target = appRepeater;
             }
         }
 
@@ -1644,15 +1504,6 @@ Rectangle {
                 return false;
             }
 
-            var topMargin = 0.;
-            if (!app.fullscreen) {
-                var appsDisplayLoader = findChild(shell, "applicationsDisplayLoader");
-                verify(appsDisplayLoader);
-                verify(appsDisplayLoader.item);
-                verify(appsDisplayLoader.item.maximizedAppTopMargin !== undefined);
-                topMargin = appsDisplayLoader.item.maximizedAppTopMargin;
-            }
-
             var surfaceItem = findSurfaceItem(item, surface);
             if (!surfaceItem) {
                 console.warn("no surfaceItem rendering app surface");
@@ -1660,15 +1511,16 @@ Rectangle {
             }
             var point = surfaceItem.mapToItem(orientedShell, 0, 0);
 
+            print("exptectedAngle", expectedAngle, point.x, point.y)
             switch (expectedAngle) {
             case 0:
-                return point.x === 0. && point.y === topMargin;
+                return point.x === 0 && point.y === PanelState.panelHeight;
             case 90:
-                return point.x === orientedShell.width - topMargin && point.y === 0;
+                return point.x === orientedShell.width - PanelState.panelHeight && point.y === 0;
             case 180:
-                return point.x === orientedShell.width && point.y === orientedShell.height - topMargin;
+                return point.x === orientedShell.width && point.y === orientedShell.height - PanelState.panelHeight;
             default: // 270
-                return point.x === topMargin && point.y === orientedShell.height;
+                return point.x === PanelState.panelHeight && point.y === orientedShell.height;
             }
         }
 
@@ -1690,23 +1542,11 @@ Rectangle {
         }
 
         function swipeToCloseCurrentAppInSpread() {
-            var spreadView = findChild(shell, "spreadView");
-            verify(spreadView);
-
-            var delegateToClose = findChild(spreadView, "spreadDelegate_" + topLevelSurfaceList.idAt(0));
+            var delegateToClose = findChild(shell, "appDelegate_" + topLevelSurfaceList.idAt(0));
             verify(delegateToClose);
 
-            var appIdToClose = ApplicationManager.get(0).appId;;
+            var appIdToClose = ApplicationManager.get(0).appId;
             var appCountBefore = ApplicationManager.count;
-
-            // ensure the current app is widely visible by swiping to the right,
-            // which will move the app windows accordingly
-            touchFlick(shell,
-                shell.width * 0.25, shell.width / 2,
-                shell.width, shell.width / 2);
-
-            tryCompare(spreadView, "flicking", false);
-            tryCompare(spreadView, "moving", false);
 
             // Swipe up close to its left edge, as it is the only area of it guaranteed to be exposed
             // in the spread. Eg: its center could be covered by some other delegate.
