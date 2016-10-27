@@ -30,7 +30,7 @@ var fakeMenuData = {
                         "type": "com.canonical.indicator.messages.messageitem",
                         "ext": {
                                 "icon": "file:///usr/share/ubuntu/settings/system/icons/settings-system-update.svg",
-                                "xCanonicalAppIcon": "file:///usr/share/ubuntu/settings/system/system-settings.png",
+                                "xCanonicalAppIcon": "image://theme/system-settings",
                                 "xCanonicalMessageActions": null,
                                 "xCanonicalText": "Tap to open the system updater.",
                                 "xCanonicalTime": ((new Date).getTime() - 350 * 1000) * 1000,
@@ -47,12 +47,12 @@ var fakeMenuData = {
                         "action": "indicator.telephony-service-sms.msg.MSG_ID",
                         "actionState": {},
                         "ext": {},
-                        "icon": "file:///usr/share/telephony-service/assets/avatar-default@18.png",
+                        "icon": Qt.resolvedUrl("../../../../../tests/graphics/avatars/funky@12.png"),
                         "type": "com.canonical.indicator.messages.messageitem",
                         "ext": {
-                            "icon": "file:///usr/share/telephony-service/assets/avatar-default@18.png",
-                            "xCanonicalAppIcon": "image://theme/telephony-service-message",
-                            "xCanonicalMessageActions": "",
+                            "icon": Qt.resolvedUrl("../../../../../tests/graphics/avatars/funky@12.png"),
+                            "xCanonicalAppIcon": Qt.resolvedUrl("../../../../../tests/graphics/applicationIcons/messages-app@18.png"),
+                            "xCanonicalMessageActions": [ { "parameter-type": "s" } ],
                             "xCanonicalText": "This is a message sent to an awesome Ubuntu phone.",
                             "xCanonicalTime": ((new Date).getTime() - 35 * 1000) * 1000
                         },
@@ -62,6 +62,25 @@ var fakeMenuData = {
                         "isToggled": false,
                         "label": "+44391234567 - [SIM 1]",
                         "sensitive": true
+                    }
+                },
+                {
+                    "rowData": {
+                        "label": "+39441234567 - [SIM 2]",
+                        "sensitive": true,
+                        "isSeparator": false,
+                        "icon": "image://theme/missed-call",
+                        "type": "com.canonical.indicator.messages.messageitem",
+                        "ext": {
+                                "xCanonicalMessageActions": [ { "parameter-type": "_s" } ],
+                                "xCanonicalText": "1 Missed call.",
+                                "xCanonicalTime": ((new Date).getTime() - 350 * 1000) * 1000,
+                        },
+                        "action": "indicator.telephony-service-missed-call.call.CALL_ID",
+                        "actionState": {},
+                        "isCheck": false,
+                        "isRadio": false,
+                        "isToggled": false,
                     }
                 },
                 {
@@ -337,34 +356,72 @@ var fakeMenuData = {
                 "type": "com.canonical.indicator.root"
             },
             "submenu": [
-                {
+                    {
+                        "rowData": {
+                            "label": "Charge Level",
+                            "sensitive": false,
+                            "isSeparator": false,
+                            "icon": "",
+                            "type": "com.canonical.indicator.progress",
+                            "ext": {},
+                            "action": "indicator.battery-level",
+                            "actionState": "100",
+                            "isCheck": false,
+                            "isRadio": false,
+                            "isToggled": false
+                        }
+                    },
+                    {
+
+                        "rowData": {
+                            "label": "",
+                            "sensitive": true,
+                            "isSeparator": true,
+                            "icon": "",
+                            "type": "",
+                            "ext": {},
+                            "action": "",
+                            "actionState": "",
+                            "isCheck": false,
+                            "isRadio": false,
+                            "isToggled": false
+                        }
+                    },
+                    {
+
+                        "rowData": {
+                            "label": "",
+                            "sensitive": true,
+                            "isSeparator": false,
+                            "icon": "",
+                            "type": "com.canonical.unity.slider",
+                            "ext": {
+                                "maxIcon": "image://theme/display-brightness-max",
+                                "maxValue": "1",
+                                "minIcon": "image://theme/display-brightness-min",
+                                "minValue": "0",
+                            },
+                            "action": "indicator.brightness",
+                            "actionState": "0.212244897959184",
+                            "isCheck": false,
+                            "isRadio": false,
+                            "isToggled": false
+                        }
+                    },
+                    {
+
                     "rowData": {
-                        "action": "indicator.activate-statistics",
-                        "actionState": {},
-                        "ext": {},
-                        "icon": "image://theme/battery-full-charged-symbolic",
-                        "isCheck": false,
-                        "isRadio": false,
-                        "isSeparator": false,
-                        "isToggled": false,
-                        "label": "Battery (full charged)",
+                        "label": "Auto-brightness",
                         "sensitive": true,
-                        "type": "com.canonical.indicator.basic"
-                    }
-                },
-                {
-                    "rowData": {
-                        "action": "indicator.activate-statistics",
-                        "actionState": {},
-                        "ext": {},
-                        "icon": "image://theme/battery-100",
-                        "isCheck": false,
-                        "isRadio": false,
                         "isSeparator": false,
-                        "isToggled": false,
-                        "label": "Battery",
-                        "sensitive": true,
-                        "type": "com.canonical.indicator.basic"
+                        "icon": "",
+                        "type": "com.canonical.indicator.switch",
+                        "ext": {},
+                        "action": "indicator.auto-brightness",
+                        "actionState": false,
+                        "isCheck": true,
+                        "isRadio": false,
+                        "isToggled": false
                     }
                 },
                 {
@@ -555,7 +612,6 @@ var fakeMenuData = {
         }
     ],
 
-
    "fake-indicator-datetime": [
         {
             "rowData": {
@@ -589,6 +645,25 @@ var fakeMenuData = {
                         "label": "Saturday, 31 December 2016",
                         "sensitive": true,
                         "type": ""
+                    }
+                },
+                {
+                    "rowData": {
+                        "action": "indicator.calendar",
+                        "actionState": {
+                            "appointment-days": "",
+                            "calendar-day": (new Date).getTime() / 1000,
+                            "show-week-numbers": false,
+                        },
+                        "ext": {},
+                        "icon": "image://theme/calendar",
+                        "isCheck": false,
+                        "isRadio": true,
+                        "isSeparator": false,
+                        "isToggled": false,
+                        "label": "[calendar]",
+                        "sensitive": true,
+                        "type": "com.canonical.indicator.calendar"
                     }
                 },
                 {
@@ -726,7 +801,6 @@ var fakeMenuData = {
             ]
         }
     ],
-
 
     "fake-indicator-files": [
         {
@@ -1102,5 +1176,119 @@ var fakeMenuData = {
                 }
             ]
         }
-    ]
+    ],
+
+    "indicator-keyboard": [
+        {
+            "rowData": {
+                "action": "indicator.indicator",
+                "actionState": {
+                    "icons": [],
+                    "label": "",
+                    "title": "English (USA, QWERTY)",
+                    "visible": true
+                },
+                "icon": "",
+                "isCheck": false,
+                "isRadio": false,
+                "isSeparator": false,
+                "isToggled": false,
+                "label": "",
+                "sensitive": true,
+                "type": "com.canonical.indicator.root"
+            },
+            "submenu": [
+                {
+                    "rowData": {
+                        "label": "České (QWERTY)",
+                        "sensitive": true,
+                        "isSeparator": false,
+                        "icon": "image://theme/indicator-keyboard-Cs",
+                        "type": "",
+                        "ext": {},
+                        "action": "indicator.current",
+                        "actionState": 0,
+                        "isCheck": false,
+                        "isRadio": true,
+                        "isToggled": false
+                    }
+                },
+                {
+                    "rowData": {
+                        "label": "Italiana (QWERTY)",
+                        "sensitive": true,
+                        "isSeparator": false,
+                        "icon": "image://theme/indicator-keyboard-It",
+                        "type": "",
+                        "ext": {},
+                        "action": "indicator.current",
+                        "actionState": 0,
+                        "isCheck": false,
+                        "isRadio": true,
+                        "isToggled": false
+                    }
+                },
+                {
+                    "rowData": {
+                        "label": "English (USA)",
+                        "sensitive": true,
+                        "isSeparator": false,
+                        "icon": "image://theme/indicator-keyboard-En",
+                        "type": "",
+                        "ext": {},
+                        "action": "indicator.current",
+                        "actionState": 0,
+                        "isCheck": false,
+                        "isRadio": true,
+                        "isToggled": true
+                    }
+                },
+                {
+                    "rowData": {
+                        "label": "",
+                        "sensitive": true,
+                        "isSeparator": true,
+                        "icon": "",
+                        "type": "",
+                        "ext": {},
+                        "action": "",
+                        "actionState": "",
+                        "isCheck": false,
+                        "isRadio": false,
+                        "isToggled": false
+                    }
+                },
+                {
+                    "rowData": {
+                        "label": "Character Map",
+                        "sensitive": true,
+                        "isSeparator": false,
+                        "icon": "",
+                        "type": "",
+                        "ext": {},
+                        "action": "indicator.map",
+                        "actionState": "",
+                        "isCheck": false,
+                        "isRadio": false,
+                        "isToggled": false
+                    }
+                },
+                {
+                    "rowData": {
+                        "label": "Keyboard layout",
+                        "sensitive": true,
+                        "isSeparator": false,
+                        "icon": "",
+                        "type": "",
+                        "ext": {},
+                        "action": "indicator.key-map.settings",
+                        "actionState": "",
+                        "isCheck": false,
+                        "isRadio": false,
+                        "isToggled": false
+                    }
+                }
+            ]
+        }
+    ],
 }
