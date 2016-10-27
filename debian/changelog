@@ -1,3 +1,34 @@
+unity8 (8.14+17.04.20161024-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make PreviewProgress be thicker again (LP: #1629382)
+  * tst_PreviewZoomableImage: Wait for LazyImage transitions on init()
+    (LP: #1630136)
+
+  [ Andrea Azzarone ]
+  * Remove UbuntuShapeForItem and replace its use with the more standard
+    Ubuntu.Components.UbuntuShape.
+
+  [ Lukáš Tinkl ]
+  * Restore the double tap decoration to maximize feature (LP: #1627281)
+  * Hide the cursor for fullscreen apps after 3 seconds of inactivity
+  * Implement moving windows by Alt + left mouse button
+
+  [ Marco Trevisan (Treviño) ]
+  * MenuItemFactory: use more features from SlotsLayout based settings
+    components
+
+  [ Michael Terry ]
+  * Grab launcher icon information from ubuntu-app-launch, not directly
+    from desktop files.
+  * Adjust root paths if we're running inside a snap. (LP: #1629009)
+
+  [ Michael Zanetti ]
+  * Merge all Stages into one single codebase. Apply new spread visuals.
+    (LP: #1489517, #1603914, #1635800)
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Mon, 24 Oct 2016 11:37:28 +0000
+
 unity8 (8.14+16.10.20160922-0ubuntu2) yakkety; urgency=medium
 
   * debian/control:
