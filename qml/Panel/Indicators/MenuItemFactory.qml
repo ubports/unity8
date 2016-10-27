@@ -1,5 +1,5 @@
 /*
- * Copyright 2013,2015 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -31,7 +31,8 @@ Item {
     property var rootModel: null
     property var menuModel: null
 
-    property var _map:  {
+    property var _userMap: null
+    readonly property var _typeToComponent: {
         "default": {
             "unity.widgets.systemsettings.tablet.volumecontrol" : sliderMenu,
             "unity.widgets.systemsettings.tablet.switch"        : switchMenu,
@@ -69,9 +70,60 @@ Item {
             "indicator.guest-menu-item": Platform.isPC ? userMenuItem : null,
             "com.canonical.indicator.switch": Math.min(Screen.width, Screen.height) > units.gu(60) ? switchMenu : null // Desktop mode switch
         },
-        "indicator-messages" : {
-            "com.canonical.indicator.button"         : messagesButtonMenu
+        "indicator-messages": {
+            "com.canonical.indicator.button": messagesButtonMenu
         }
+    }
+
+    readonly property var _action_filter_map: {
+        "indicator-session": {
+            "indicator.logout": Platform.isPC ? undefined : null,
+            "indicator.suspend": Platform.isPC ? undefined : null,
+            "indicator.hibernate": Platform.isPC ? undefined : null,
+            "indicator.reboot": Platform.isPC ? undefined : null
+        },
+        "indicator-keyboard": {
+            "indicator.map": null,
+            "indicator.chart": null
+        }
+    }
+
+    function getComponentForIndicatorEntryType(indicator, type) {
+        var component = undefined;
+        var map = _userMap || _typeToComponent
+        var indicatorComponents = map[indicator];
+
+        if (type === undefined || type === "") {
+            return component
+        }
+
+        if (indicatorComponents !== undefined) {
+            component = indicatorComponents[type];
+        }
+
+        if (component === undefined) {
+            component = map["default"][type];
+        }
+
+        if (component === undefined) {
+            console.debug("Don't know how to make " + modelData.type + " for " + indicator);
+        }
+
+        return component
+    }
+
+    function getComponentForIndicatorEntryAction(indicator, action) {
+        var component = undefined;
+        var indicatorFilter = _action_filter_map[indicator]
+
+        if (action === undefined || action === "") {
+            return component
+        }
+
+        if (indicatorFilter !== undefined) {
+            component = indicatorFilter[action];
+        }
+        return component
     }
 
     function getExtendedProperty(object, propertyName, defaultValue) {
@@ -102,7 +154,6 @@ Item {
             property var serverValue: getExtendedProperty(menuData, "actionState", undefined)
 
             text: menuData && menuData.label || ""
-            iconSource: menuData && menuData.icon || ""
             minIcon: getExtendedProperty(extendedData, "minIcon", "")
             maxIcon: getExtendedProperty(extendedData, "maxIcon", "")
 
@@ -182,29 +233,20 @@ Item {
     Component {
         id: messagesButtonMenu;
 
-        Item {
+        Menus.BaseLayoutMenu {
             objectName: "messagesButtonMenu"
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
 
-            implicitHeight: units.gu(5)
+            highlightWhenPressed: false
             enabled: menuData && menuData.sensitive || false
+            text: menuData && menuData.label || ""
+            title.color: theme.palette.selected.backgroundText
+            title.horizontalAlignment: Text.AlignHCenter
+            title.font.bold: true
 
-            Label {
-                id: buttonMenuLabel
-                text: menuData && menuData.label || ""
-                anchors.centerIn: parent
-                font.bold: true
-            }
-
-            MouseArea {
-                anchors {
-                    fill: buttonMenuLabel
-                    margins: units.gu(-1)
-                }
-                onClicked: menuModel.activate(menuIndex);
-            }
+            onClicked: menuModel.activate(menuIndex);
         }
     }
 
@@ -233,11 +275,6 @@ Item {
             iconSource: menuData && menuData.icon || ""
             value : menuData && menuData.actionState || 0.0
             enabled: menuData && menuData.sensitive || false
-            // FIXME: Because of this bug, setting it to the theme foreground color (white)
-            // currently doesn't work. Let's hack it to be "close enough"
-            // https://bugs.launchpad.net/ubuntu/+source/ubuntu-ui-toolkit/+bug/1555784
-            foregroundColor: "#fffffe"
-            highlightWhenPressed: false
         }
     }
 
@@ -257,52 +294,41 @@ Item {
             onTriggered: {
                 menuModel.activate(menuIndex);
             }
-
-            // FIXME : At the moment, the indicators aren't using
-            // com.canonical.indicators.link for settings menu. Need to fudge it.
-            property bool settingsMenu: menuData && menuData.action.indexOf("settings") > -1 || false
-            backColor: settingsMenu ? Qt.rgba(1,1,1,0.07) : "transparent"
-            component: settingsMenu ? buttonForSettings : undefined
-            Component {
-                id: buttonForSettings
-                Icon {
-                    name: "settings"
-                    height: units.gu(3)
-                    width: height
-                    color: theme.palette.normal.backgroundText
-                }
-            }
         }
     }
 
     Component {
         id: linkMenu;
 
-        Menus.StandardMenu {
+        Menus.BaseLayoutMenu {
             objectName: "linkMenu"
             property QtObject menuData: null
             property int menuIndex: -1
 
             text: menuData && menuData.label || ""
-            iconSource: menuData && menuData.icon || ""
             enabled: menuData && menuData.sensitive || false
+            backColor: Qt.rgba(1,1,1,0.07)
             highlightWhenPressed: false
 
             onTriggered: {
                 menuModel.activate(menuIndex);
             }
 
-            backColor: Qt.rgba(1,1,1,0.07)
-
-            component: menuData.icon ? icon : undefined
-            Component {
-                id: icon
-                Icon {
-                    source: menuData.icon
-                    height: units.gu(3)
-                    width: height
-                    color: theme.palette.normal.backgroundText
+            slots: Icon {
+                source: {
+                    if (menuData) {
+                        if (menuData.icon && menuData.icon != "") {
+                            return menuData.icon
+                        } else if (menuData.action.indexOf("settings") > -1) {
+                            return "image://theme/settings"
+                        }
+                    }
+                    return ""
                 }
+                height: units.gu(3)
+                width: height
+                color: theme.palette.normal.backgroundText
+                SlotsLayout.position: SlotsLayout.Trailing
             }
         }
     }
@@ -769,7 +795,6 @@ Item {
             state: getExtendedProperty(actionState, "state", "")
             enabled: menuData && menuData.sensitive || false
             highlightWhenPressed: false
-            showDivider: false
 
             onTriggered: {
                 model.activate(modelIndex);
@@ -972,115 +997,42 @@ Item {
                 menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-extra-label': 'string'});
             }
 
-            component: Component {
-                Button {
-                    objectName: "buttonSectionMenuControl"
-                    text: getExtendedProperty(extendedData, "xCanonicalExtraLabel", "")
+            slots: Button {
+                objectName: "buttonSectionMenuControl"
+                text: getExtendedProperty(extendedData, "xCanonicalExtraLabel", "")
 
-                    onClicked: {
-                        menuModel.activate(menuIndex);
-                    }
+                onClicked: {
+                    menuModel.activate(menuIndex);
                 }
             }
-        }
-    }
-
-    Component {
-        id: keymapMenu;
-
-        // FIXME this should use a "radio button" menu, once we have it in the SDK
-        ListItems.Empty {
-            id: checkItem
-            objectName: "keymapMenu"
-            property QtObject menuData: null
-            property int menuIndex: -1
-            readonly property bool serverChecked: menuData && menuData.isToggled || false
-
-            enabled: menuData && menuData.sensitive || false
-            highlightWhenPressed: false
-            __acceptEvents: !serverChecked
-
-            CheckBox {
-                id: checkbox
-                __acceptEvents: !checkItem.serverChecked
-                anchors {
-                    left: parent.left
-                    leftMargin: checkItem.__contentsMargins
-                    verticalCenter: parent.verticalCenter
-                }
-            }
-
-            ServerPropertySynchroniser {
-                objectName: "sync"
-                syncTimeout: Utils.Constants.indicatorValueTimeout
-
-                serverTarget: checkItem
-                serverProperty: "serverChecked"
-                userTarget: checkbox
-                userProperty: "checked"
-
-                onSyncTriggered: {
-                    menuModel.activate(checkItem.menuIndex);
-                }
-            }
-
-            Label {
-                id: label
-                anchors {
-                    left: checkbox.right
-                    leftMargin: checkItem.__contentsMargins
-                    right: parent.right
-                    rightMargin: checkItem.__contentsMargins
-                    verticalCenter: parent.verticalCenter
-                }
-                elide: Text.ElideRight
-                text: checkItem.menuData && checkItem.menuData.label || ""
-            }
-
-            onClicked: menuModel.activate(menuIndex);
         }
     }
 
     function load(modelData, context) {
-        // tweak indicator-session items
-        if (context === "indicator-session") {
-            if ((modelData.action === "indicator.logout" || modelData.action === "indicator.suspend" || modelData.action === "indicator.hibernate" ||
-                 modelData.action === "indicator.reboot")
-                    && !Platform.isPC) {
-                return null; // logout, suspend and hibernate hidden on devices
-            }
+        if (context && context.indexOf("fake-") == 0) {
+            context = context.substring("fake-".length)
         }
 
-        // specialize for indicator-keyboard
-        if (context === "indicator-keyboard") {
-            if (modelData.isRadio) {
-                return keymapMenu;
-            } else if (modelData.action === "indicator.map" || modelData.action === "indicator.chart") {
-                return null; // map and chart not available
-            }
+        var component = getComponentForIndicatorEntryAction(context, modelData.action)
+        if (component !== undefined) {
+            return component
         }
 
-        if (modelData.type !== undefined && modelData.type !== "") {
-            var component = undefined;
-
-            var contextComponents = _map[context];
-            if (contextComponents !== undefined) {
-                component = contextComponents[modelData.type];
-            }
-
-            if (component === undefined) {
-                component = _map["default"][modelData.type];
-            }
-            if (component !== undefined) {
-                return component;
-            }
-            console.debug("Don't know how to make " + modelData.type + " for " + context);
+        component = getComponentForIndicatorEntryType(context, modelData.type)
+        if (component !== undefined) {
+            return component;
         }
+
         if (modelData.isCheck || modelData.isRadio) {
             return checkableMenu;
         }
         if (modelData.isSeparator) {
             return separatorMenu;
+        }
+        if (modelData.action !== undefined && modelData.action.indexOf("settings") > -1) {
+            // FIXME : At the moment, the indicators aren't using
+            // com.canonical.indicators.link for settings menu. Need to fudge it.
+            return linkMenu;
         }
         return standardMenu;
     }
