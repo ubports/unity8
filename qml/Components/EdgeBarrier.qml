@@ -29,6 +29,8 @@ Item {
     // Supported values are: Qt.LeftEdge, Qt.RightEdge
     property int edge: Qt.LeftEdge
 
+    readonly property alias progress: controller.progress
+
     property Item target: parent
     function push(amount) { controller.push(amount); }
     signal passed()
