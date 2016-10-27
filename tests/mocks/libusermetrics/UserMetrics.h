@@ -57,8 +57,6 @@ public:
 
     int currentDay() const;
 
-    Q_INVOKABLE void setDay(int day);
-
     ColorTheme * secondColor() const;
 
     QAbstractItemModel *secondMonth() const;
