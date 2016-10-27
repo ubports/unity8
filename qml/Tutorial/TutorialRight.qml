@@ -24,7 +24,7 @@ TutorialPage {
     property string usageScenario
 
     // When on phone or tablet, fade out as the drag progresses
-    opacityOverride: usageScenario === "desktop" ? 1 : 1 - stage.dragProgress * 2
+    opacityOverride: usageScenario === "desktop" ? 1 : 1 - stage.rightEdgeDragProgress * 2
 
     // Else on desktop, fade out when the spread is shown
     Connections {

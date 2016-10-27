@@ -256,6 +256,7 @@ void MirSurface::updateVisibility()
 
         m_visible = newVisible;
         Q_EMIT visibleChanged(m_visible);
+        updateInputBoundsAfterResize();
     }
 }
 
