@@ -10,7 +10,6 @@ include_directories(
 
 add_definitions(-DSM_BUSNAME=sessionBus)
 add_definitions(-DSRCDIR="${CMAKE_CURRENT_SOURCE_DIR}")
-add_definitions(-DLAUNCHER_TESTING)
 
 ### LauncherModelASTest
 add_executable(launchermodelastestExec
