@@ -257,7 +257,6 @@ Item {
             }
 
             pageDelegate: PanelMenuPage {
-                id: page
                 menuModel: __applicationMenus.model
                 submenuIndex: modelIndex
 
@@ -330,7 +329,6 @@ Item {
             }
 
             pageDelegate: PanelMenuPage {
-                id: page
                 objectName: modelData.identifier + "-page"
                 submenuIndex: 0
 
