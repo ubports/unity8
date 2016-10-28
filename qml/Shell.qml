@@ -706,8 +706,16 @@ StyledItem {
         }
     }
 
+    Timer {
+        id: cursorHidingTimer
+        interval: 3000
+        running: panel.focusedSurfaceIsFullscreen && cursor.opacity > 0
+        onTriggered: cursor.opacity = 0;
+    }
+
     Cursor {
         id: cursor
+        objectName: "cursor"
         visible: shell.hasMouse
         z: itemGrabber.z + 1
         topBoundaryOffset: panel.panelHeight
@@ -781,6 +789,8 @@ StyledItem {
             mouseNeverMoved = false;
             cursor.opacity = 1;
         }
+
+        Behavior on opacity { UbuntuNumberAnimation {} }
     }
 
     // non-visual object

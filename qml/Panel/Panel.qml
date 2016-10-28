@@ -337,7 +337,13 @@ Item {
                 menuModel: delegate.menuModel
 
                 factory: IndicatorMenuItemFactory {
-                    context: modelData.identifier
+                    indicator: {
+                        var context = modelData.identifier;
+                        if (context && context.indexOf("fake-") === 0) {
+                            context = context.substring("fake-".length)
+                        }
+                        return context;
+                    }
                     rootModel: delegate.menuModel
                 }
 
