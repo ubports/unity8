@@ -47,7 +47,7 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
 
     QuickListEntry pinningAction;
     pinningAction.setActionId(QStringLiteral("pin_item"));
-    pinningAction.setText(gettext("Lock to the launcher"));
+    pinningAction.setText(gettext("Pin shortcut"));
     m_quickList->appendAction(pinningAction);
 
     m_quitAction.setActionId(QStringLiteral("stop_item"));
@@ -106,7 +106,7 @@ void LauncherItem::setPinned(bool pinned)
     // the locale has changed since we last set pinned status.
     QuickListEntry entry;
     entry.setActionId(QStringLiteral("pin_item"));
-    entry.setText(pinned ? gettext("Unlock from the launcher") : gettext("Lock to the launcher"));
+    entry.setText(pinned ? gettext("Unpin shortcut") : gettext("Pin shortcut"));
     m_quickList->updateAction(entry);
 }
 
