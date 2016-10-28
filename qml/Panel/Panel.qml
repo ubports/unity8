@@ -55,7 +55,7 @@ Item {
         id: backMouseEater
         anchors.fill: parent
         anchors.topMargin: panelHeight
-        visible: __indicators.fullyOpened || __applicationMenus.fullyOpened
+        visible: !indicators.fullyClosed || !applicationMenus.fullyClosed
         enabled: visible
         hoverEnabled: true // should also eat hover events, otherwise they will pass through
 

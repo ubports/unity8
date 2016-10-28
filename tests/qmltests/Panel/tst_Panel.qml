@@ -250,9 +250,15 @@ PanelTest {
             panel.fullscreenMode = false;
             callManager.foregroundCall = null;
 
+            PanelState.title = ""
+
             panel.indicators.hide();
             // Wait for animation to complete
             tryCompare(panel.indicators.hideAnimation, "running", false);
+
+            panel.applicationMenus.hide();
+            // Wait for animation to complete
+            tryCompare(panel.applicationMenus.hideAnimation, "running", false);
 
             // Wait for the indicators to get into position.
             // (switches between normal and fullscreen modes are animated)
@@ -273,13 +279,23 @@ PanelTest {
         }
 
         function pullDownIndicatorsMenu() {
-            var showDragHandle = findChild(panel, "showDragHandle");
+            var showDragHandle = findChild(panel.indicators, "showDragHandle");
             touchFlick(showDragHandle,
                        showDragHandle.width / 2,
                        showDragHandle.height / 2,
                        showDragHandle.width / 2,
                        showDragHandle.height / 2 + (showDragHandle.autoCompleteDragThreshold * 1.1));
             tryCompare(panel.indicators, "fullyOpened", true);
+        }
+
+        function pullDownApplicationsMenu() {
+            var showDragHandle = findChild(panel.applicationMenus, "showDragHandle");
+            touchFlick(showDragHandle,
+                       showDragHandle.width / 2,
+                       showDragHandle.height / 2,
+                       showDragHandle.width / 2,
+                       showDragHandle.height / 2 + (showDragHandle.autoCompleteDragThreshold * 1.1));
+            tryCompare(panel.applicationMenus, "fullyOpened", true);
         }
 
         function test_drag_show_data() {
@@ -448,7 +464,7 @@ PanelTest {
             }
         }
 
-        function test_darkenedAreaEatsAllEvents() {
+        function test_darkenedAreaEatsAllIndicatorEvents() {
 
             // The center of the area not covered by the indicators menu
             // Ie, the visible darkened area behind the menu
@@ -489,6 +505,50 @@ PanelTest {
             tap(panel, touchPosX, touchPosY);
             compare(backgroundPressedSpy.count, 2);
         }
+
+        function test_darkenedAreaEatsAllApplicationMenuEvents() {
+            PanelState.title = "Fake Title"
+
+            // The center of the area not covered by the indicators menu
+            // Ie, the visible darkened area behind the menu
+            var touchPosX = panel.applicationMenus.width + (panel.width - panel.applicationMenus.width) / 2
+            var touchPosY = panel.applicationMenus.minimizedPanelHeight +
+                    ((panel.height - panel.applicationMenus.minimizedPanelHeight) / 2)
+
+            // input goes through while the indicators menu is closed
+            tryCompare(panel.applicationMenus, "fullyClosed", true);
+            compare(backgroundPressedSpy.count, 0);
+            tap(panel, touchPosX, touchPosY);
+            compare(backgroundPressedSpy.count, 2);
+
+            pullDownApplicationsMenu();
+
+            // Darkened area eats input when the indicators menu is fully opened
+            tap(panel, touchPosX, touchPosY);
+            compare(backgroundPressedSpy.count, 2);
+            backgroundPressedSpy.clear();
+
+            // And should continue to eat inpunt until the indicators menu is fully closed
+            wait(10);
+            while (!panel.applicationMenus.fullyClosed) {
+                tap(panel, touchPosX, touchPosY);
+
+                // it could have got fully closed during the tap
+                // so we have to double check here
+                if (!panel.applicationMenus.fullyClosed) {
+                    compare(backgroundPressedSpy.count, 0);
+                }
+
+                // let the animation go a bit further
+                wait(50);
+            }
+
+            // Now that's fully closed, input should go through again
+            backgroundPressedSpy.clear();
+            tap(panel, touchPosX, touchPosY);
+            compare(backgroundPressedSpy.count, 2);
+        }
+
 
         /*
           Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1439318
