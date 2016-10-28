@@ -21,7 +21,7 @@ import Ubuntu.Gestures 0.1
 Item {
     id: root
 
-    readonly property rect visibleRect: surfaceItem.surface ? surfaceItem.surface.inputBounds : Qt.rect(0, 0, 0, 0)
+    readonly property rect visibleRect: surfaceItem.surface && visible ? surfaceItem.surface.inputBounds : Qt.rect(0, 0, 0, 0)
 
     MirSurfaceItem {
         id: surfaceItem

@@ -121,12 +121,6 @@ StateGroup {
             }
         }
 
-        property var shellBeingResized: Binding {
-            target: root.shell
-            property: "beingResized"
-            value: d.transitioning
-        }
-
         readonly property int fullAnimation: 0
         readonly property int indicatorsBarAnimation: 1
         readonly property int noAnimation: 2
