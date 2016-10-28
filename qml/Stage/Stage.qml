@@ -745,13 +745,6 @@ FocusScope {
                     priv.updateMainAndSideStageIndexes()
                 }
 
-                property int stage: ApplicationInfoInterface.MainStage
-                function saveStage(newStage) {
-                    appDelegate.stage = newStage;
-                    WindowStateStorage.saveStage(appId, newStage);
-                    priv.updateMainAndSideStageIndexes()
-                }
-
                 readonly property var surface: model.surface
                 readonly property alias resizeArea: resizeArea
                 readonly property alias focusedSurface: decoratedWindow.focusedSurface

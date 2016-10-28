@@ -22,7 +22,7 @@ import "../Components"
 import "../Components/PanelState"
 import "../ApplicationMenus"
 
-Item {
+MouseArea {
     id: root
 
     property Item target // appDelegate
@@ -35,35 +35,24 @@ Item {
 
     readonly property real buttonsWidth: buttons.width + row.spacing
 
+    acceptedButtons: Qt.AllButtons // prevent leaking unhandled mouse events
+    hoverEnabled: true
+
     signal closeClicked()
     signal minimizeClicked()
     signal maximizeClicked()
     signal maximizeHorizontallyClicked()
     signal maximizeVerticallyClicked()
 
-    MouseArea {
-        id: hoverArea
-        anchors.fill: parent
-
-        acceptedButtons: Qt.AllButtons // prevent leaking unhandled mouse events
-        hoverEnabled: true
-
-        onDoubleClicked: {
-            if (target.canBeMaximized && mouse.button == Qt.LeftButton) {
-                root.maximizeClicked();
-            }
-        }
-
-        // do not let unhandled wheel event pass thru the decoration
-        onWheel: wheel.accepted = true;
-
-        // We dont want touch events to fall through to parent,
-        // otherwise the containsMouse will not work.
-        MouseArea {
-            anchors.fill: parent
-            propagateComposedEvents: true
+    onClicked: mouse.accepted = true // propogated event
+    onDoubleClicked: {
+        if (target.canBeMaximized && mouse.button == Qt.LeftButton) {
+            root.maximizeClicked();
         }
     }
+
+    // do not let unhandled wheel event pass thru the decoration
+    onWheel: wheel.accepted = true;
 
     QtObject {
         id: priv
@@ -72,7 +61,14 @@ Item {
         property bool shouldShowMenus: root.enableMenus &&
                                        menuBar &&
                                        menuBar.valid &&
-                                       (menuBar.showRequested || hoverArea.containsMouse)
+                                       (menuBar.showRequested || root.containsMouse)
+    }
+
+    // We dont want touch events to fall through to parent,
+    // otherwise the containsMouse will not work.
+    MouseArea {
+        anchors.fill: parent
+        propagateComposedEvents: true
     }
 
     Rectangle {

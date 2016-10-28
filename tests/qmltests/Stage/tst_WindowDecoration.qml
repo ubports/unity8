@@ -49,6 +49,12 @@ Item {
 
     ApplicationMenuDataLoader { id: menuData }
 
+    UnityMenuModel {
+        id: menuBackend
+        modelData: menuData.generateTestData(5, 3, 3, "menu")
+        onActivated: log.text = "Activated " + action + "\n" + log.text
+    }
+
     Rectangle {
         anchors {
             left: parent.left
@@ -68,29 +74,45 @@ Item {
         }
     }
 
-    WindowDecoration {
-        id: decoration
+    MouseArea {
+        id: clickThroughTester
+        anchors.fill: parent
+        acceptedButtons: Qt.AllButtons
+        hoverEnabled: true
+    }
+
+    Loader {
+        id: decorationLoader
         anchors { left: parent.left; right: parent.right; top: parent.top }
         anchors.margins: units.gu(1)
-        target: root
-        title: "TestTitle - Doing something"
-        active: true
         height: units.gu(3)
-        menu: menuBackend
-        UnityMenuModel {
-            id: menuBackend
-            modelData: menuData.generateTestData(5, 3, 3, "menu")
-            onActivated: log.text = "Activated " + action + "\n" + log.text
-        }
 
-        onCloseClicked: { log.text = "Close\n" + log.text }
-        onMinimizeClicked: { log.text = "Minimize\n" + log.text }
-        onMaximizeClicked: { log.text = "Maximize\n" + log.text }
+        property bool itemDestroyed: false
+        sourceComponent: WindowDecoration {
+            anchors.fill: parent
+            target: root
+            title: "TestTitle - Doing something"
+            active: true
+            menu: menuBackend
+
+            onCloseClicked: { log.text = "Close\n" + log.text }
+            onMinimizeClicked: { log.text = "Minimize\n" + log.text }
+            onMaximizeClicked: { log.text = "Maximize\n" + log.text }
+
+            Component.onDestruction: {
+                decorationLoader.itemDestroyed = true;
+            }
+        }
     }
 
     SignalSpy {
         id: signalSpy
-        target: decoration
+        target: decorationLoader.item
+    }
+
+    SignalSpy {
+        id: mouseEaterSpy
+        target: clickThroughTester
     }
 
     UnityTestCase {
@@ -98,9 +120,30 @@ Item {
         name: "WindowDecoration"
         when: windowShown
 
+        property Item decoration: decorationLoader.status === Loader.Ready ? decorationLoader.item : null
+
         function init() {
+            tryCompareFunction(function() { return decoration !== null }, true);
             decoration.menu = menuBackend;
+        }
+
+        function cleanup() {
+            decorationLoader.itemDestroyed = false;
+            decorationLoader.active = false;
+
+            tryCompare(decorationLoader, "status", Loader.Null);
+            tryCompare(decorationLoader, "item", null);
+            // Loader.status might be Loader.Null and Loader.item might be null but the Loader
+            // actually took place. Likely because Loader waits until the next event loop
+            // iteration to do its work. So to ensure the reload, we will wait until the
+            // Shell instance gets destroyed.
+            tryCompare(decorationLoader, "itemDestroyed", true);
+
+            decorationLoader.active = true;
+            tryCompare(decorationLoader, "status", Loader.Ready);
+
             signalSpy.clear();
+            mouseEaterSpy.clear();
         }
 
         function test_windowControlButtons_data() {
@@ -167,6 +210,30 @@ Item {
             keyRelease(Qt.Key_Alt, Qt.NoModifier);
             tryCompare(menuLoader, "opacity", 0);
             tryCompare(titleLabel, "opacity", 1);
+        }
+
+        function test_eatMouseEvents_data() {
+            return [
+                {tag: "left mouse click", signalName: "clicked", button: Qt.LeftButton },
+                {tag: "right mouse click", signalName: "clicked", button: Qt.RightButton },
+                {tag: "middle mouse click", signalName: "clicked", button: Qt.MiddleButton },
+                {tag: "mouse wheel", signalName: "wheel", button: Qt.MiddleButton },
+                {tag: "double click (LMB)", signalName: "doubleClicked", button: Qt.LeftButton },
+                {tag: "double click (RMB)", signalName: "doubleClicked", button: Qt.RightButton },
+            ]
+        }
+
+        function test_eatMouseEvents(data) {
+            mouseEaterSpy.signalName = data.signalName;
+            if (data.signalName === "wheel") {
+                mouseWheel(decoration, decoration.width/2, decoration.height/2, 20, 20);
+            } else if (data.signalName === "clicked") {
+                mouseClick(decoration, decoration.width/2, decoration.height/2, data.button);
+            } else {
+                mouseDoubleClick(decoration, decoration.width/2, decoration.height/2, data.button);
+            }
+
+            tryCompare(mouseEaterSpy, "count", 0);
         }
     }
 }
