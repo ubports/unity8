@@ -111,7 +111,8 @@ QtObject {
             priv.mouseDownTimer.stop();
             Mir.cursorName = "grabbing";
 
-            if (target.anyMaximized) { // restore from maximized when dragging away from edges/corners
+            // restore from maximized when dragging away from edges/corners; guard against inadvertent changes when going into maximized state
+            if (target.anyMaximized && !target.windowedTransitionRunning) {
                 priv.progress = 0;
                 target.restore(false, WindowStateStorage.WindowStateNormal);
             }
