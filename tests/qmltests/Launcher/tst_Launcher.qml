@@ -261,9 +261,15 @@ Rectangle {
             // iteration to do its work. So to ensure the reload, we will wait until the
             // Shell instance gets destroyed.
             tryCompare(launcherLoader, "itemDestroyed", true);
-            launcherLoader.active = true;
         }
+
+        function initLauncher() {
+            launcherLoader.active = true;
+            tryCompare(launcherLoader, "itemDestroyed", false);
+        }
+
         function init() {
+            initLauncher();
             var panel = findChild(launcher, "launcherPanel");
             verify(!!panel);
 
@@ -279,7 +285,7 @@ Rectangle {
             // growing while populating it with icons etc.
             tryCompare(listView, "flicking", false);
 
-            compare(listView.contentY, -listView.topMargin, "Launcher did not start up with first item unfolded");
+            tryCompare(listView, "contentY", -listView.topMargin, 5000, "Launcher did not start up with first item unfolded");
 
             // Now do check that snapping is in fact enabled
             compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
@@ -534,6 +540,7 @@ Rectangle {
         }
 
         function test_clickFlick_data() {
+            initLauncher()
             var listView = findChild(launcher, "launcherListView");
             return [
                 {tag: "unfolded top", positionViewAtBeginning: true,
