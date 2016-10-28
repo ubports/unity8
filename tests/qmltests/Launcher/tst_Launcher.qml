@@ -113,6 +113,10 @@ Rectangle {
             }
             Label {
                 text: "Launcher always visible"
+                AbstractButton {
+                    anchors.fill: parent
+                    onClicked: lockedVisibleCheckBox.checked = !lockedVisibleCheckBox.checked
+                }
             }
         }
 
