@@ -42,6 +42,7 @@ Item {
     }
     property string usageScenario
     property size screenSize: Qt.size(Screen.width, Screen.height)
+    property bool hasKeyboard: false
 
     signal powerOffClicked();
 
@@ -167,6 +168,7 @@ Item {
                 onClicked: {
                     logoutDialog.hide();
                 }
+                Component.onCompleted: if (root.hasKeyboard) forceActiveFocus(Qt.TabFocusReason)
             }
         }
     }
@@ -182,6 +184,7 @@ Item {
                 onClicked: {
                     rebootDialog.hide();
                 }
+                Component.onCompleted: if (root.hasKeyboard) forceActiveFocus(Qt.TabFocusReason)
             }
             Button {
                 text: i18n.tr("Yes")
@@ -223,6 +226,7 @@ Item {
                 onClicked: {
                     powerDialog.hide();
                 }
+                Component.onCompleted: if (root.hasKeyboard) forceActiveFocus(Qt.TabFocusReason)
             }
         }
     }

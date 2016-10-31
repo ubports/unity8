@@ -34,8 +34,6 @@ Dialog {
 
     onVisibleChanged: { if (!visible && dialogLoader) { dialogLoader.active = false; } }
 
-    Keys.onEscapePressed: hide()
-
     focus: true
 
     // FIXME: this is a hack because Dialog subtheming seems broken atm

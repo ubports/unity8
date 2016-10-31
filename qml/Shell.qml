@@ -68,6 +68,7 @@ StyledItem {
         stage.updateFocusedAppOrientationAnimated();
     }
     property bool hasMouse: false
+    property bool hasKeyboard: false
 
     // to be read from outside
     readonly property int mainAppWindowOrientationAngle: stage.mainAppWindowOrientationAngle
@@ -666,11 +667,21 @@ StyledItem {
         anchors.fill: parent
         z: overlay.z + 10
         usageScenario: shell.usageScenario
+        hasKeyboard: shell.hasKeyboard
         onPowerOffClicked: {
             shutdownFadeOutRectangle.enabled = true;
             shutdownFadeOutRectangle.visible = true;
             shutdownFadeOut.start();
         }
+    }
+
+    MouseArea { // shell dialog prevents interacting with other contents
+        anchors.fill: parent
+        visible: dialogs.hasActiveDialog
+        enabled: visible
+        acceptedButtons: Qt.AllButtons
+        hoverEnabled: true
+        onWheel: wheel.accepted = true
     }
 
     Connections {
