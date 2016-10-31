@@ -701,6 +701,23 @@ var fakeMenuData = {
                         "action": "indicator.phone.open-appointment",
                         "actionState": {},
                         "ext": {
+                            "xCanonicalTime": (new Date).getTime() / 1000 + 55 * 60
+                        },
+                        "icon": "image://theme/alarm-clock",
+                        "isCheck": false,
+                        "isRadio": false,
+                        "isSeparator": false,
+                        "isToggled": false,
+                        "label": "Wake up!",
+                        "sensitive": true,
+                        "type": "com.canonical.indicator.alarm"
+                    }
+                },
+                {
+                    "rowData": {
+                        "action": "indicator.phone.open-appointment",
+                        "actionState": {},
+                        "ext": {
                             "xCanonicalColor": Qt.rgba(32,74,135,1),
                             "xCanonicalTime": (new Date).getTime() / 1000 + 35000
                         },
