@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -12,17 +12,14 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *      Michael Zanetti <michael.zanetti@canonical.com>
  */
 
 #include "launchermodel.h"
 #include "launcheritem.h"
 #include "gsettings.h"
-#include "desktopfilehandler.h"
 #include "dbusinterface.h"
 #include "asadapter.h"
+#include "ualwrapper.h"
 
 #include <unity/shell/application/ApplicationInfoInterface.h>
 #include <unity/shell/application/MirSurfaceListInterface.h>
@@ -157,16 +154,16 @@ void LauncherModel::pin(const QString &appId, int index)
             index = m_list.count();
         }
 
-        DesktopFileHandler desktopFile(appId);
-        if (!desktopFile.isValid()) {
-            qWarning() << "Can't pin this application, there is no .desktop file available.";
+        UalWrapper::AppInfo appInfo = UalWrapper::getApplicationInfo(appId);
+        if (!appInfo.valid) {
+            qWarning() << "Can't pin application, appId not found:" << appId;
             return;
         }
 
         beginInsertRows(QModelIndex(), index, index);
         LauncherItem *item = new LauncherItem(appId,
-                                              desktopFile.displayName(),
-                                              desktopFile.icon(),
+                                              appInfo.name,
+                                              appInfo.icon,
                                               this);
         item->setPinned(true);
         m_list.insert(index, item);
@@ -380,11 +377,11 @@ void LauncherModel::countVisibleChanged(const QString &appId, bool countVisible)
         }
     } else {
         // Need to create a new LauncherItem and show the highlight
-        DesktopFileHandler desktopFile(appId);
-        if (countVisible && desktopFile.isValid()) {
+        UalWrapper::AppInfo appInfo = UalWrapper::getApplicationInfo(appId);
+        if (countVisible && appInfo.valid) {
             LauncherItem *item = new LauncherItem(appId,
-                                                  desktopFile.displayName(),
-                                                  desktopFile.icon(),
+                                                  appInfo.name,
+                                                  appInfo.icon,
                                                   this);
             item->setCountVisible(true);
             beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
@@ -400,28 +397,28 @@ void LauncherModel::refresh()
     // First walk through all the existing items and see if we need to remove something
     QList<LauncherItem*> toBeRemoved;
     Q_FOREACH (LauncherItem* item, m_list) {
-        DesktopFileHandler desktopFile(item->appId());
-        if (!desktopFile.isValid()) {
-            // Desktop file not available for this app => drop it!
+        UalWrapper::AppInfo appInfo = UalWrapper::getApplicationInfo(item->appId());
+        if (!appInfo.valid) {
+            // Application no longer available => drop it!
             toBeRemoved << item;
         } else if (!m_settings->storedApplications().contains(item->appId())) {
             // Item not in settings any more => drop it!
             toBeRemoved << item;
         } else {
             int idx = m_list.indexOf(item);
-            item->setName(desktopFile.displayName());
+            item->setName(appInfo.name);
             item->setPinned(item->pinned()); // update pinned text if needed
             item->setRunning(item->running());
             Q_EMIT dataChanged(index(idx), index(idx), {RoleName, RoleRunning});
 
             const QString oldIcon = item->icon();
-            if (oldIcon == desktopFile.icon()) { // same icon file, perhaps different contents, simulate changing the icon name to force reload
+            if (oldIcon == appInfo.icon) { // same icon file, perhaps different contents, simulate changing the icon name to force reload
                 item->setIcon(QString());
                 Q_EMIT dataChanged(index(idx), index(idx), {RoleIcon});
             }
 
             // now set the icon for real
-            item->setIcon(desktopFile.icon());
+            item->setIcon(appInfo.icon);
             Q_EMIT dataChanged(index(idx), index(idx), {RoleIcon});
         }
     }
@@ -452,15 +449,14 @@ void LauncherModel::refresh()
         if (itemIndex == -1) {
             // Need to add it. Just add it into the addedIndex to keep same ordering as the list
             // in the settings.
-            DesktopFileHandler desktopFile(entry);
-            if (!desktopFile.isValid()) {
-                qWarning() << "Couldn't find a .desktop file for" << entry << ". Skipping...";
+            UalWrapper::AppInfo appInfo = UalWrapper::getApplicationInfo(entry);
+            if (!appInfo.valid) {
                 continue;
             }
 
             LauncherItem *item = new LauncherItem(entry,
-                                                  desktopFile.displayName(),
-                                                  desktopFile.icon(),
+                                                  appInfo.name,
+                                                  appInfo.icon,
                                                   this);
             item->setPinned(true);
             beginInsertRows(QModelIndex(), addedIndex, addedIndex);

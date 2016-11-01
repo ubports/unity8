@@ -16,7 +16,7 @@ usr/share/unity8/DeviceConfiguration.qml
 usr/share/unity8/OrientedShell.qml
 usr/share/unity8/DisabledScreenNotice.qml
 usr/share/unity8/Shell.qml
-usr/share/unity8/Stages
+usr/share/unity8/Stage
 usr/share/unity8/Tutorial
 usr/share/unity8/Wizard
 usr/share/url-dispatcher/urls/unity8-dash.url-dispatcher

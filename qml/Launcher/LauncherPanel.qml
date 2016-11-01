@@ -632,7 +632,7 @@ Rectangle {
         }
     }
 
-    UbuntuShapeForItem {
+    UbuntuShape {
         id: quickListShape
         objectName: "quickListShape"
         anchors.fill: quickList
@@ -645,7 +645,10 @@ Rectangle {
             UbuntuNumberAnimation {}
         }
 
-        image: quickList
+        source: ShaderEffectSource {
+            sourceItem: quickList
+            hideSource: true
+        }
 
         Image {
             anchors {

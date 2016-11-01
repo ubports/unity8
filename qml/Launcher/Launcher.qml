@@ -27,6 +27,7 @@ FocusScope {
     property bool lockedVisible: false
     property bool available: true // can be used to disable all interactions
     property alias inverted: panel.inverted
+    property Item blurSource: null
 
     property int panelWidth: units.gu(10)
     property int dragAreaWidth: units.gu(1)
@@ -278,7 +279,7 @@ FocusScope {
     InverseMouseArea {
         id: closeMouseArea
         anchors.fill: panel
-        enabled: root.state == "visible" && (!root.lockedVisible || panel.highlightIndex >= -1)
+        enabled: (root.state == "visible" || root.state == "drawer") && (!root.lockedVisible || panel.highlightIndex >= -1)
         visible: enabled
         onPressed: {
             mouse.accepted = false;
@@ -329,10 +330,41 @@ FocusScope {
         }
     }
 
+    BackgroundBlur {
+        id: backgroundBlur
+        anchors.fill: parent
+        visible: root.blurSource && drawer.x > -drawer.width
+        blurAmount: 50
+        sourceItem: root.blurSource
+        blurMask: Item {
+            width: backgroundBlur.width
+            height: backgroundBlur.height
+
+            Rectangle {
+                color: 'yellow'
+                width: parent.width - (drawer.x + drawer.width)
+                height: drawer.height
+                anchors.right: parent.right
+            }
+        }
+    }
+    Drawer {
+        id: drawer
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+        }
+        width: Math.min(root.width, units.gu(90)) * .9
+        x: -width
+        panelWidth: panel.width
+
+        onApplicationSelected: root.launcherApplicationSelected(appId)
+    }
+
     LauncherPanel {
         id: panel
         objectName: "launcherPanel"
-        enabled: root.available && root.state == "visible" || root.state == "visibleTemporary"
+        enabled: root.available && (root.state == "visible" || root.state == "visibleTemporary" || root.state == "drawer")
         width: root.panelWidth
         anchors {
             top: parent.top
@@ -410,14 +442,19 @@ FocusScope {
                 return;
 
             panel.x = -panel.width + Math.min(Math.max(0, distance), panel.width);
+            drawer.x = -drawer.width + Math.min(Math.max(0, distance), drawer.width);
         }
 
         onDraggingChanged: {
             if (!dragging) {
                 if (distance > panel.width / 2) {
-                    root.switchToNextState("visible")
-                    if (distance > minimizeDistance) {
-                        root.dash();
+                    if (distance > panel.width * 3) {
+                        root.switchToNextState("drawer")
+                    } else {
+                        root.switchToNextState("visible")
+                        if (distance > minimizeDistance) {
+                            root.dash();
+                        }
                     }
                 } else if (root.state === "") {
                     // didn't drag far enough. rollback
@@ -434,11 +471,23 @@ FocusScope {
                 target: panel
                 x: -root.panelWidth
             }
+            PropertyChanges {
+                target: drawer
+                x: -drawer.width
+            }
         },
         State {
             name: "visible"
             PropertyChanges {
                 target: panel
+                x: -root.x // so we never go past panelWidth, even when teased by tutorial
+            }
+        },
+        State {
+            name: "drawer"
+            extend: "visible"
+            PropertyChanges {
+                target: drawer
                 x: -root.x // so we never go past panelWidth, even when teased by tutorial
             }
         },
