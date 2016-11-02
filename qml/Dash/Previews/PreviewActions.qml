@@ -41,7 +41,7 @@ PreviewWidget {
             readonly property bool button: root.actions && root.actions.length == 2
             readonly property bool combo: root.actions && root.actions.length > 2
             source: button ? "PreviewActionButton.qml" : (combo ? "PreviewActionCombo.qml" : "")
-            width: Math.min(root.maxButtonWidth, implicitWidth)
+            width: Math.min(root.maxButtonWidth, implicitWidth + units.gu(2))
             onLoaded: {
                 if (button) {
                     item.data = Qt.binding(function() { return root.actions[1]; });
@@ -66,7 +66,7 @@ PreviewWidget {
             data: visible ? root.actions[0] : null
             visible: root.actions && root.actions.length > 0
             onTriggeredAction: root.triggered(root.widgetId, actionData.id, actionData)
-            width: Math.min(root.maxButtonWidth, implicitWidth)
+            width: Math.min(root.maxButtonWidth, implicitWidth + units.gu(2))
             color: root.scopeStyle ? root.scopeStyle.previewButtonColor : theme.palette.normal.positive
         }
     }
