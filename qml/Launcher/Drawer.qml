@@ -50,10 +50,10 @@ FocusScope {
                     width: parent.width
                     actions: [
                         Action {
-                            text: "A-Z"
+                            text: i18n.tr("A-Z")
                         },
                         Action {
-                            text: "Most used"
+                            text: i18n.tr("Most used")
                         }
                     ]
 

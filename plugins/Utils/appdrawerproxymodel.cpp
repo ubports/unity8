@@ -6,6 +6,7 @@ AppDrawerProxyModel::AppDrawerProxyModel(QObject *parent):
     QSortFilterProxyModel(parent)
 {
     setSortRole(AppDrawerModelInterface::RoleName);
+    setSortLocaleAware(true);
 
     connect(this, &QAbstractListModel::rowsInserted, this, &AppDrawerProxyModel::countChanged);
     connect(this, &QAbstractListModel::rowsRemoved, this, &AppDrawerProxyModel::countChanged);

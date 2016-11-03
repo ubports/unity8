@@ -291,12 +291,20 @@ FocusScope {
     InverseMouseArea {
         id: closeMouseArea
         anchors.fill: panel
-        enabled: (root.state == "visible" || root.state == "drawer") && (!root.lockedVisible || panel.highlightIndex >= -1)
+        enabled: root.state == "visible" || root.state == "drawer"
         visible: enabled
         onPressed: {
             mouse.accepted = false;
-            panel.highlightIndex = -2;
-            root.hide();
+            if (root.lockedVisible) {
+                if (root.state == "drawer") {
+                    switchToNextState("visible")
+                }
+            } else {
+                if (root.state == "visible" || root.state == "drawer") {
+                    panel.highlightIndex = -2;
+                    root.hide();
+                }
+            }
         }
     }
 
@@ -350,6 +358,22 @@ FocusScope {
         sourceItem: root.blurSource
         blurRect: Qt.rect(panel.width, root.topPanelHeight, drawer.width + drawer.x - panel.width, height - root.topPanelHeight)
         cached: drawer.moving
+    }
+
+    MouseArea {
+        anchors.fill: drawer
+        property int startX: 0
+        preventStealing: true
+
+        onPressed: {
+            print("**** mouse pressed")
+            startX = mouseX
+        }
+
+        onMouseXChanged: {
+            drawer.x += mouseX - startX
+            startX = mouseX
+        }
     }
 
     Drawer {
