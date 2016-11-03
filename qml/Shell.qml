@@ -520,7 +520,7 @@ StyledItem {
             panelWidth: units.gu(settings.launcherWidth)
             lockedVisible: shell.usageScenario == "desktop" && !settings.autohideLauncher && !panel.fullscreenMode
             blurSource: greeter.shown ? greeter : stages
-            topPanelHeight: panel.panelHeight
+            topPanelHeight: inverted ? panel.panelHeight : 0
 
             onShowDashHome: showHome()
             onDash: showDash()
