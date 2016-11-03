@@ -64,6 +64,9 @@ FocusScope {
     }
 
     onSuperPressedChanged: {
+        if (state == "drawer")
+            return;
+
         if (superPressed) {
             superPressTimer.start();
             superLongPressTimer.start();
@@ -143,6 +146,14 @@ FocusScope {
         panel.highlightIndex = -1; // The BFB
         root.focus = true;
         switchToNextState("visible")
+    }
+
+    function openDrawer() {
+        superPressTimer.stop();
+        superLongPressTimer.stop();
+        root.focus = true;
+        drawer.focus = true;
+        switchToNextState("drawer")
     }
 
     Keys.onPressed: {
@@ -353,6 +364,11 @@ FocusScope {
         panelWidth: panel.width
 
         onApplicationSelected: root.launcherApplicationSelected(appId)
+
+        Keys.onEscapePressed: {
+            switchToNextState("");
+            root.focus = false;
+        }
 
         Behavior on x {
             enabled: !dragArea.dragging && !launcherDragArea.drag.active// && panel.animate;

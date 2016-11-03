@@ -545,6 +545,12 @@ StyledItem {
             }
 
             GlobalShortcut {
+                shortcut: Qt.MetaModifier | Qt.Key_A
+                onTriggered: {
+                    launcher.openDrawer();
+                }
+            }
+            GlobalShortcut {
                 shortcut: Qt.AltModifier | Qt.Key_F1
                 onTriggered: {
                     launcher.openForKeyboardNavigation();
