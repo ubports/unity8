@@ -593,31 +593,6 @@ FocusScope {
                     color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
                 }
             }
-
-            Image {
-                visible: index != 0
-                anchors {
-                    top: parent.top
-                    left: parent.left
-                    right: parent.right
-                }
-                fillMode: Image.Stretch
-                source: "graphics/dash_divider_top_lightgrad.png"
-                z: -1
-            }
-
-            Image {
-                // FIXME Should not rely on model.count but view.count, but ListViewWithPageHeader doesn't expose it yet.
-                visible: index != categoryView.model.count - 1
-                anchors {
-                    bottom: seeAll.bottom
-                    left: parent.left
-                    right: parent.right
-                }
-                fillMode: Image.Stretch
-                source: "graphics/dash_divider_top_darkgrad.png"
-                z: -1
-            }
         }
 
         sectionProperty: "name"
@@ -787,17 +762,6 @@ FocusScope {
             fontSize: "small"
             font.weight: Font.Bold
             color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
-        }
-
-        Image {
-            anchors {
-                bottom: parent.bottom
-                left: parent.left
-                right: parent.right
-            }
-            fillMode: Image.Stretch
-            source: "graphics/dash_divider_top_darkgrad.png"
-            z: -1
         }
 
         Connections {
