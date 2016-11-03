@@ -442,19 +442,20 @@ FocusScope {
         function easeInOutCubic(t) { return t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1 }
 
         onDistanceChanged: {
-            if (!dragging || launcher.state == "visible")
-                return;
+            if (dragging && launcher.state != "visible" && launcher.state != "drawer") {
+                panel.x = -panel.width + Math.min(Math.max(0, distance), panel.width);
+            }
 
-            panel.x = -panel.width + Math.min(Math.max(0, distance), panel.width);
-
-            var drawerHintDistance = panel.width + units.gu(1)
-            if (distance < drawerHintDistance) {
-                drawer.x = -drawer.width + Math.min(Math.max(0, distance), drawer.width);
-            } else {
-                var linearDrawerX = Math.min(Math.max(0, distance - drawerHintDistance), drawer.width);
-                var linearDrawerProgress = linearDrawerX / (drawer.width)
-                var easedDrawerProgress = easeInOutCubic(linearDrawerProgress);
-                drawer.x = (-drawer.width + drawerHintDistance) + easedDrawerProgress * (drawer.width - drawerHintDistance);
+            if (dragging && launcher.state != "drawer") {
+                var drawerHintDistance = panel.width + units.gu(1)
+                if (distance < drawerHintDistance) {
+                    drawer.x = -drawer.width + Math.min(Math.max(0, distance), drawer.width);
+                } else {
+                    var linearDrawerX = Math.min(Math.max(0, distance - drawerHintDistance), drawer.width);
+                    var linearDrawerProgress = linearDrawerX / (drawer.width)
+                    var easedDrawerProgress = easeInOutCubic(linearDrawerProgress);
+                    drawer.x = (-drawer.width + drawerHintDistance) + easedDrawerProgress * (drawer.width - drawerHintDistance);
+                }
             }
         }
 
