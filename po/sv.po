@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-09-22 07:46+0000\n"
+"POT-Creation-Date: 2016-10-24 11:37+0000\n"
 "PO-Revision-Date: 2016-06-19 19:31+0000\n"
 "Last-Translator: Josef Andersson <Unknown>\n"
 "Language-Team: Swedish\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-09-27 07:05+0000\n"
-"X-Generator: Launchpad (build 18204)\n"
+"X-Launchpad-Export-Date: 2016-10-28 05:54+0000\n"
+"X-Generator: Launchpad (build 18246)\n"
 "Language: sv\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -277,12 +277,12 @@ msgstr "OK"
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
 msgid "%1:%2:%3"
-msgstr ""
+msgstr "%1:%2:%3"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:49
 #, qt-format
 msgid "%1:%2"
-msgstr ""
+msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
@@ -445,15 +445,15 @@ msgstr[1] "Vänta %1 minuter och prova sedan igen…"
 
 #: qml/Greeter/Greeter.qml:596
 msgid "Try again"
-msgstr ""
+msgstr "Försök igen"
 
 #: qml/Greeter/LoginList.qml:70
 msgid "Passphrase"
-msgstr ""
+msgstr "Lösenfras"
 
 #: qml/Greeter/LoginList.qml:71
 msgid "Passcode"
-msgstr ""
+msgstr "Lösenkod"
 
 #: qml/Greeter/LoginList.qml:98
 msgid "Retry"
@@ -465,11 +465,11 @@ msgstr "Logga in"
 
 #: qml/Greeter/NarrowView.qml:252
 msgid "Emergency"
-msgstr ""
+msgstr "Nödläge"
 
 #: qml/Greeter/SessionsList.qml:122
 msgid "Select desktop environment"
-msgstr ""
+msgstr "Välj skrivbordsmiljö"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -483,62 +483,62 @@ msgstr "Tryck för att återgå till samtal…"
 msgid "Conference"
 msgstr "Konferens"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:762
+#: qml/Panel/Indicators/MenuItemFactory.qml:788
 msgid "Nothing is playing"
 msgstr "Inget spelas"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:891
+#: qml/Panel/Indicators/MenuItemFactory.qml:916
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 timme"
 msgstr[1] "%1 timmar"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:895
+#: qml/Panel/Indicators/MenuItemFactory.qml:920
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 minut"
 msgstr[1] "%1 minuter"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:900
+#: qml/Panel/Indicators/MenuItemFactory.qml:925
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 sekund"
 msgstr[1] "%1 sekunder"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:903
+#: qml/Panel/Indicators/MenuItemFactory.qml:928
 msgid "0 seconds"
 msgstr "0 sekunder"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:905
+#: qml/Panel/Indicators/MenuItemFactory.qml:930
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 återstår"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:911
+#: qml/Panel/Indicators/MenuItemFactory.qml:936
 msgid "In queue…"
 msgstr "I kö…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:915
+#: qml/Panel/Indicators/MenuItemFactory.qml:940
 msgid "Downloading"
 msgstr "Hämtar"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:917
+#: qml/Panel/Indicators/MenuItemFactory.qml:942
 msgid "Paused, tap to resume"
 msgstr "Pausad, tryck för att fortsätta"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:919
+#: qml/Panel/Indicators/MenuItemFactory.qml:944
 msgid "Canceled"
 msgstr "Avbröt"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:921
+#: qml/Panel/Indicators/MenuItemFactory.qml:946
 msgid "Finished"
 msgstr "Klart"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:923
+#: qml/Panel/Indicators/MenuItemFactory.qml:948
 msgid "Failed, tap to retry"
 msgstr "Misslyckades, tryck för att försöka igen"
 
@@ -558,7 +558,7 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Ring upp"
 
-#: qml/Stages/SideStage.qml:76
+#: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "Dra ett program från ett fönster till det andra med tre fingrar"
 
@@ -604,15 +604,15 @@ msgstr "Nästa"
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
-msgstr ""
+msgstr "Välj tangentbord"
 
 #: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
-msgstr ""
+msgstr "Tangentbordsspråk"
 
 #: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
-msgstr ""
+msgstr "Tangentbordslayout"
 
 #: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:207
 #: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/77-system-update.qml:152
@@ -723,32 +723,34 @@ msgstr "Sekretesspolicy"
 
 #: qml/Wizard/Pages/77-system-update.qml:28
 msgid "Update Device"
-msgstr ""
+msgstr "Uppdatera enhet"
 
 #: qml/Wizard/Pages/77-system-update.qml:55
 msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
 msgstr ""
+"En systemuppdatering är tillgänglig och redo för installation. Efteråt "
+"kommer enheten att startas om automatiskt."
 
 #: qml/Wizard/Pages/77-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu system"
-msgstr ""
+msgstr "Ubuntusystem"
 
 #: qml/Wizard/Pages/77-system-update.qml:83
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
-msgstr ""
+msgstr "Version %1"
 
 #: qml/Wizard/Pages/77-system-update.qml:102
 msgid "This could take a few minutes..."
-msgstr ""
+msgstr "Det här kan ta några minuter..."
 
 #: qml/Wizard/Pages/77-system-update.qml:116
 msgid "Install and restart now"
-msgstr ""
+msgstr "Installera och starta om nu"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
@@ -884,7 +886,7 @@ msgstr "För att fortsätta utan SIM-kort, tryck Hoppa över."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr ""
+msgstr "Lösenordet för kort"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"

@@ -347,7 +347,6 @@ StyledItem {
             enabled: panel.indicators.fullyClosed // hides OSK when panel is open
             hides: [launcher, panel.indicators]
             tabletMode: shell.usageScenario != "phone"
-            launcherOffset: launcher.progress
             forcedUnlock: wizard.active || shell.mode === "full-shell"
             background: wallpaperResolver.cachedBackground
             hasCustomBackground: wallpaperResolver.hasCustomBackground
@@ -520,7 +519,8 @@ StyledItem {
             superTabPressed: physicalKeysMapper.superTabPressed
             panelWidth: units.gu(settings.launcherWidth)
             lockedVisible: shell.usageScenario == "desktop" && !settings.autohideLauncher && !panel.fullscreenMode
-            blurSource: stages
+            blurSource: greeter.shown ? greeter : stages
+            topPanelHeight: panel.panelHeight
 
             onShowDashHome: showHome()
             onDash: showDash()

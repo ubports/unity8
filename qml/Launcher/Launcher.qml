@@ -28,6 +28,7 @@ FocusScope {
     property bool available: true // can be used to disable all interactions
     property alias inverted: panel.inverted
     property Item blurSource: null
+    property int topPanelHeight: 0
 
     property int panelWidth: units.gu(10)
     property int dragAreaWidth: units.gu(1)
@@ -334,24 +335,17 @@ FocusScope {
         id: backgroundBlur
         anchors.fill: parent
         visible: root.blurSource && drawer.x > -drawer.width
-        blurAmount: 50
+        blurAmount: units.gu(6)
         sourceItem: root.blurSource
-        blurMask: Item {
-            width: backgroundBlur.width
-            height: backgroundBlur.height
-
-            Rectangle {
-                color: 'yellow'
-                width: parent.width - (drawer.x + drawer.width)
-                height: drawer.height
-                anchors.right: parent.right
-            }
-        }
+        blurRect: Qt.rect(panel.width, root.topPanelHeight, drawer.width + drawer.x - panel.width, height - root.topPanelHeight)
+        cached: drawer.moving
     }
+
     Drawer {
         id: drawer
         anchors {
             top: parent.top
+            topMargin: root.topPanelHeight
             bottom: parent.bottom
         }
         width: Math.min(root.width, units.gu(90)) * .9
@@ -359,6 +353,14 @@ FocusScope {
         panelWidth: panel.width
 
         onApplicationSelected: root.launcherApplicationSelected(appId)
+
+        Behavior on x {
+            enabled: !dragArea.dragging && !launcherDragArea.drag.active// && panel.animate;
+            NumberAnimation {
+                duration: 300
+                easing.type: Easing.OutCubic
+            }
+        }
     }
 
     LauncherPanel {
@@ -437,12 +439,23 @@ FocusScope {
         width: root.dragAreaWidth
         height: root.height
 
+        function easeInOutCubic(t) { return t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1 }
+
         onDistanceChanged: {
             if (!dragging || launcher.state == "visible")
                 return;
 
             panel.x = -panel.width + Math.min(Math.max(0, distance), panel.width);
-            drawer.x = -drawer.width + Math.min(Math.max(0, distance), drawer.width);
+
+            var drawerHintDistance = panel.width + units.gu(1)
+            if (distance < drawerHintDistance) {
+                drawer.x = -drawer.width + Math.min(Math.max(0, distance), drawer.width);
+            } else {
+                var linearDrawerX = Math.min(Math.max(0, distance - drawerHintDistance), drawer.width);
+                var linearDrawerProgress = linearDrawerX / (drawer.width)
+                var easedDrawerProgress = easeInOutCubic(linearDrawerProgress);
+                drawer.x = (-drawer.width + drawerHintDistance) + easedDrawerProgress * (drawer.width - drawerHintDistance);
+            }
         }
 
         onDraggingChanged: {
@@ -482,6 +495,10 @@ FocusScope {
                 target: panel
                 x: -root.x // so we never go past panelWidth, even when teased by tutorial
             }
+            PropertyChanges {
+                target: drawer
+                x: -drawer.width
+            }
         },
         State {
             name: "drawer"
@@ -514,6 +531,13 @@ FocusScope {
                 target: panel
                 x: 0
             }
+        }
+    ]
+    transitions: [
+        Transition {
+            from: "fromState"
+            to: "toState"
+
         }
     ]
 }
