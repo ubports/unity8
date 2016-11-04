@@ -15,7 +15,7 @@ QStringList UalWrapper::installedApps()
 {
     QStringList appIds;
     for (const std::shared_ptr<Application> &app : Registry::installedApps()) {
-        appIds << QString::fromStdString(app->appId().package) + "_" + QString::fromStdString(app->appId().appname);
+        appIds << QString::fromStdString(app->appId().package) + QStringLiteral("_") + QString::fromStdString(app->appId().appname);
     }
     return appIds;
 }
