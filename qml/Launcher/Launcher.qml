@@ -362,6 +362,7 @@ FocusScope {
         width: Math.min(root.width, units.gu(90)) * .9
         x: -width
         panelWidth: panel.width
+        visible: x > -width
 
         onApplicationSelected: root.launcherApplicationSelected(appId)
 
@@ -371,7 +372,7 @@ FocusScope {
         }
 
         onDragDistanceChanged: {
-            x -= dragDistance;
+            x = Math.min(0, x-dragDistance);
         }
         onDraggingHorizontallyChanged: {
             if (!draggingHorizontally) {
@@ -382,7 +383,6 @@ FocusScope {
                 }
             }
         }
-
 
         Behavior on x {
             enabled: !dragArea.dragging && !launcherDragArea.drag.active && !drawer.draggingHorizontally// && panel.animate;
