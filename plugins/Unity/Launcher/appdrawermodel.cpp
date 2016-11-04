@@ -2,8 +2,7 @@
 #include "ualwrapper.h"
 
 #include <QDebug>
-
-#include <ubuntu-app-launch/registry.h>
+#include <QDateTime>
 
 AppDrawerModel::AppDrawerModel(QObject *parent):
     AppDrawerModelInterface(parent)
@@ -17,6 +16,7 @@ AppDrawerModel::AppDrawerModel(QObject *parent):
         m_list.append(new LauncherItem(appId, info.name, info.icon, this));
         qDebug() << "added" << appId;
     }
+    qsrand(QDateTime::currentMSecsSinceEpoch() / 100);
 }
 
 int AppDrawerModel::rowCount(const QModelIndex &parent) const
@@ -33,6 +33,9 @@ QVariant AppDrawerModel::data(const QModelIndex &index, int role) const
         return m_list.at(index.row())->name();
     case RoleIcon:
         return m_list.at(index.row())->icon();
+    case RoleUsage:
+        // FIXME: u-a-l needs to provide API for usage stats.
+        return qrand();
     }
 
     return QVariant();

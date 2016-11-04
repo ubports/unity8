@@ -15,6 +15,12 @@ FocusScope {
     property bool draggingHorizontally: false
     property int dragDistance: 0
 
+    onFocusChanged: {
+        if (focus) {
+            searchField.selectAll();
+        }
+    }
+
     Rectangle {
         anchors.fill: parent
         color: "#BF000000"
@@ -40,6 +46,11 @@ FocusScope {
                 anchors { left: parent.left; top: parent.top; right: parent.right; margins: units.gu(1) }
                 placeholderText: i18n.tr("Search...")
                 focus: true
+                onAccepted: {
+                    if (searchField.displayText != "" && listLoader.item && listLoader.item.currentItem) {
+                        root.applicationSelected(listLoader.item.currentItem.appId);
+                    }
+                }
             }
 
             Item {
@@ -167,6 +178,8 @@ FocusScope {
                         // which messes up the ListView.
                         height: (Math.ceil(mostUsedGridView.model.count / mostUsedGridView.columns) * mostUsedGridView.delegateHeight) + units.gu(2)
 
+                        readonly property string appId: model.appId
+
                         DrawerGridView {
                             id: mostUsedGridView
                             anchors.fill: parent
@@ -208,6 +221,8 @@ FocusScope {
                         width: parent.width
                         color: "#20ffffff"
                         aspect: UbuntuShape.Flat
+
+                        readonly property string appId: model.appId
 
                         // NOTE: Cannot use gridView.rows here as it would evaluate to 0 at first and only update later,
                         // which messes up the ListView.

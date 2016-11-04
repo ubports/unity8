@@ -27,12 +27,6 @@ class GSettings;
 class DBusInterface;
 class ASAdapter;
 
-namespace ubuntu {
-    namespace app_launch {
-        class Registry;
-    }
-}
-
 using namespace unity::shell::launcher;
 using namespace unity::shell::application;
 
@@ -91,7 +85,6 @@ private:
     ASAdapter *m_asAdapter;
 
     ApplicationManagerInterface *m_appManager;
-    std::shared_ptr<ubuntu::app_launch::Registry> m_ualRegistry;
 
     friend class LauncherModelTest;
 };
