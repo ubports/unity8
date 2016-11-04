@@ -14,8 +14,7 @@ UalWrapper::UalWrapper(QObject *parent):
 QStringList UalWrapper::installedApps()
 {
     QStringList appIds;
-    Registry::installedApps();
-    for (std::shared_ptr<Application> app : Registry::installedApps()) {
+    for (const std::shared_ptr<Application> &app : Registry::installedApps()) {
         appIds << QString::fromStdString(app->appId().package) + "_" + QString::fromStdString(app->appId().appname);
     }
     return appIds;
@@ -25,7 +24,7 @@ UalWrapper::AppInfo UalWrapper::getApplicationInfo(const QString &appId)
 {
     AppInfo info;
 
-    AppID ualAppId = AppID::find(Registry::getDefault(), appId.toStdString());
+    AppID ualAppId = AppID::find(appId.toStdString());
     if (ualAppId.empty()) {
         return info;
     }
