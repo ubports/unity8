@@ -27,6 +27,7 @@ FocusScope {
             id: sortProxyModel
             source: appDrawerModel
             filterString: searchField.text
+            sortBy: AppDrawerProxyModel.SortByAToZ
         }
 
         Item {
@@ -57,6 +58,9 @@ FocusScope {
                         },
                         Action {
                             text: i18n.ctr("Most used apps", "Most used")
+                        },
+                        Action {
+                            text: "DBG"
                         }
                     ]
 
@@ -72,7 +76,13 @@ FocusScope {
             Loader {
                 id: listLoader
                 anchors { left: parent.left; top: sectionsContainer.bottom; right: parent.right; bottom: parent.bottom; leftMargin: units.gu(1); rightMargin: units.gu(1) }
-                sourceComponent: sections.selectedIndex == 0 ? aToZComponent : mostUsedComponent
+                sourceComponent: {
+                    switch (sections.selectedIndex) {
+                    case 0: return aToZComponent;
+                    case 1: return mostUsedComponent;
+                    default: return debugComponent;
+                    }
+                }
             }
 
             MouseArea {
@@ -109,6 +119,27 @@ FocusScope {
             }
 
             Component {
+                id: debugComponent
+                ListView {
+                    anchors.fill: parent
+                    topMargin: units.gu(1)
+                    bottomMargin: units.gu(1)
+                    spacing: units.gu(1)
+                    clip: true
+
+                    model: sortProxyModel
+//                    model: AppDrawerProxyModel {
+//                        source: sortProxyModel
+//                        group: AppDrawerProxyModel.GroupByAToZ
+//                        sortBy: AppDrawerProxyModel.SortByAToZ
+//                    }
+                    delegate: Label {
+                        text: model.letter + " - " + model.name
+                    }
+                }
+            }
+
+            Component {
                 id: mostUsedComponent
                 ListView {
                     anchors.fill: parent
@@ -135,7 +166,6 @@ FocusScope {
                         // NOTE: Cannot use gridView.rows here as it would evaluate to 0 at first and only update later,
                         // which messes up the ListView.
                         height: (Math.ceil(mostUsedGridView.model.count / mostUsedGridView.columns) * mostUsedGridView.delegateHeight) + units.gu(2)
-                        enabled: parent.interactive
 
                         DrawerGridView {
                             id: mostUsedGridView
@@ -170,6 +200,7 @@ FocusScope {
 
                     model: AppDrawerProxyModel {
                         source: sortProxyModel
+                        sortBy: AppDrawerProxyModel.SortByAToZ
                         group: AppDrawerProxyModel.GroupByAToZ
                     }
 
@@ -177,7 +208,6 @@ FocusScope {
                         width: parent.width
                         color: "#20ffffff"
                         aspect: UbuntuShape.Flat
-                        enabled: parent.interactive
 
                         // NOTE: Cannot use gridView.rows here as it would evaluate to 0 at first and only update later,
                         // which messes up the ListView.

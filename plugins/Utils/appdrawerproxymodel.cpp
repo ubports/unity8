@@ -7,6 +7,7 @@ AppDrawerProxyModel::AppDrawerProxyModel(QObject *parent):
 {
     setSortRole(AppDrawerModelInterface::RoleName);
     setSortLocaleAware(true);
+    sort(0);
 
     connect(this, &QAbstractListModel::rowsInserted, this, &AppDrawerProxyModel::countChanged);
     connect(this, &QAbstractListModel::rowsRemoved, this, &AppDrawerProxyModel::countChanged);
@@ -97,7 +98,7 @@ QVariant AppDrawerProxyModel::data(const QModelIndex &index, int role) const
     QModelIndex idx = mapToSource(index);
     if (role == Qt::UserRole) {
         QString name = m_source->data(idx, AppDrawerModelInterface::RoleName).toString();
-        return name.length() > 0 ? QString(name.at(0)) : QChar();
+        return name.length() > 0 ? QString(name.at(0)).toUpper() : QChar();
     }
     return m_source->data(idx, role);
 }
@@ -121,7 +122,7 @@ bool AppDrawerProxyModel::filterAcceptsRow(int source_row, const QModelIndex &so
         QChar currentLetter = currentName.length() > 0 ? currentName.at(0) : QChar();
         QString previousName = m_source->data(m_source->index(source_row - 1,0 ), AppDrawerModelInterface::RoleName).toString();
         QChar previousLetter = previousName.length() > 0 ? previousName.at(0) : QChar();
-        if (currentLetter == previousLetter) {
+        if (currentLetter.toLower() == previousLetter.toLower()) {
             return false;
         }
     } else if(m_group == GroupByAll && source_row > 0) {
@@ -130,7 +131,7 @@ bool AppDrawerProxyModel::filterAcceptsRow(int source_row, const QModelIndex &so
     if (!m_filterLetter.isEmpty()) {
         QString currentName = m_source->data(m_source->index(source_row, 0), AppDrawerModelInterface::RoleName).toString();
         QString currentLetter = currentName.length() > 0 ? QString(currentName.at(0)) : QString();
-        if (currentLetter != m_filterLetter) {
+        if (currentLetter.toLower() != m_filterLetter.toLower()) {
             return false;
         }
     }
