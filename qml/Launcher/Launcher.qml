@@ -295,16 +295,8 @@ FocusScope {
         visible: enabled
         onPressed: {
             mouse.accepted = false;
-            if (root.lockedVisible) {
-                if (root.state == "drawer") {
-                    switchToNextState("visible")
-                }
-            } else {
-                if (root.state == "visible" || root.state == "drawer") {
-                    panel.highlightIndex = -2;
-                    root.hide();
-                }
-            }
+            panel.highlightIndex = -2;
+            root.hide();
         }
     }
 
@@ -360,22 +352,6 @@ FocusScope {
         cached: drawer.moving
     }
 
-    MouseArea {
-        anchors.fill: drawer
-        property int startX: 0
-        preventStealing: true
-
-        onPressed: {
-            print("**** mouse pressed")
-            startX = mouseX
-        }
-
-        onMouseXChanged: {
-            drawer.x += mouseX - startX
-            startX = mouseX
-        }
-    }
-
     Drawer {
         id: drawer
         anchors {
@@ -394,8 +370,22 @@ FocusScope {
             root.focus = false;
         }
 
+        onDragDistanceChanged: {
+            x -= dragDistance;
+        }
+        onDraggingHorizontallyChanged: {
+            if (!draggingHorizontally) {
+                if (drawer.x < -units.gu(10)) {
+                    root.hide();
+                } else {
+                    root.openDrawer();
+                }
+            }
+        }
+
+
         Behavior on x {
-            enabled: !dragArea.dragging && !launcherDragArea.drag.active// && panel.animate;
+            enabled: !dragArea.dragging && !launcherDragArea.drag.active && !drawer.draggingHorizontally// && panel.animate;
             NumberAnimation {
                 duration: 300
                 easing.type: Easing.OutCubic

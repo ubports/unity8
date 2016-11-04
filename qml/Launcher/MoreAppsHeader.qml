@@ -1,8 +1,13 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 
-Item {
+AbstractButton {
     id: root
+
+    onClicked: {
+        // TODO: Make this point to the snappy store as soon as we stop landing to vivid
+        Qt.openUrlExternally("scope://com.canonical.scopes.clickstore")
+    }
 
     UbuntuShape {
         width: parent.width

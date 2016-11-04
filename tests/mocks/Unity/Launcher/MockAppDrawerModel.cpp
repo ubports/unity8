@@ -1,6 +1,7 @@
 #include "MockAppDrawerModel.h"
 
 #include <QDebug>
+#include <QDateTime>
 
 MockAppDrawerModel::MockAppDrawerModel(QObject *parent):
     AppDrawerModelInterface(parent)
@@ -32,6 +33,8 @@ MockAppDrawerModel::MockAppDrawerModel(QObject *parent):
     item = new MockLauncherItem("libreoffice", "/usr/share/applications/libreoffice.desktop","Libre Office", "libreoffice", this);
     m_list.append(item);
     qDebug() << "mock model created";
+
+    qsrand(QDateTime::currentMSecsSinceEpoch() / 1000);
 }
 
 int MockAppDrawerModel::rowCount(const QModelIndex &parent) const
@@ -48,6 +51,8 @@ QVariant MockAppDrawerModel::data(const QModelIndex &index, int role) const
         return m_list.at(index.row())->name();
     case RoleIcon:
         return m_list.at(index.row())->icon();
+    case RoleUsage:
+        return qrand();
     }
 
     return QVariant();

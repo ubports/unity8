@@ -23,7 +23,7 @@ void AppDrawerProxyModel::setSource(QAbstractItemModel *source)
     if (m_source != source) {
         m_source = source;
         setSourceModel(m_source);
-        sort(0);
+        setSortRole(m_sortBy == SortByAToZ ? AppDrawerModelInterface::RoleName : AppDrawerModelInterface::RoleUsage);
         connect(m_source, &QAbstractItemModel::rowsRemoved, this, &AppDrawerProxyModel::invalidateFilter);
         connect(m_source, &QAbstractItemModel::rowsInserted, this, &AppDrawerProxyModel::invalidateFilter);
         Q_EMIT sourceChanged();
@@ -69,6 +69,21 @@ void AppDrawerProxyModel::setFilterString(const QString &filterString)
         m_filterString = filterString;
         Q_EMIT filterStringChanged();
         invalidateFilter();
+    }
+}
+
+AppDrawerProxyModel::SortBy AppDrawerProxyModel::sortBy() const
+{
+    return m_sortBy;
+}
+
+void AppDrawerProxyModel::setSortBy(AppDrawerProxyModel::SortBy sortBy)
+{
+    if (m_sortBy != sortBy) {
+        m_sortBy = sortBy;
+        Q_EMIT sortByChanged();
+        setSortRole(m_sortBy == SortByAToZ ? AppDrawerModelInterface::RoleName : AppDrawerModelInterface::RoleUsage);
+        sort(0);
     }
 }
 

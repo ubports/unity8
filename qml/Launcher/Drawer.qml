@@ -12,6 +12,9 @@ FocusScope {
 
     signal applicationSelected(string appId)
 
+    property bool draggingHorizontally: false
+    property int dragDistance: 0
+
     Rectangle {
         anchors.fill: parent
         color: "#BF000000"
@@ -50,10 +53,10 @@ FocusScope {
                     width: parent.width
                     actions: [
                         Action {
-                            text: i18n.tr("A-Z")
+                            text: i18n.ctr("Apps sorted alphabetically", "A-Z")
                         },
                         Action {
-                            text: i18n.tr("Most used")
+                            text: i18n.ctr("Most used apps", "Most used")
                         }
                     ]
 
@@ -70,6 +73,39 @@ FocusScope {
                 id: listLoader
                 anchors { left: parent.left; top: sectionsContainer.bottom; right: parent.right; bottom: parent.bottom; leftMargin: units.gu(1); rightMargin: units.gu(1) }
                 sourceComponent: sections.selectedIndex == 0 ? aToZComponent : mostUsedComponent
+            }
+
+            MouseArea {
+                parent: listLoader.item ? listLoader.item : null
+                anchors.fill: parent
+                propagateComposedEvents: true
+                property int oldX: 0
+                onPressed: {
+                    oldX = mouseX;
+                }
+                onMouseXChanged: {
+                    var diff = oldX - mouseX;
+                    root.draggingHorizontally |= diff > units.gu(2);
+                    if (!root.draggingHorizontally) {
+                        return;
+                    }
+                    propagateComposedEvents = false;
+                    parent.interactive = false;
+                    root.dragDistance += diff;
+                    oldX = mouseX
+                }
+                onReleased: {
+                    if (root.draggingHorizontally) {
+                        root.draggingHorizontally = false;
+                        parent.interactive = true;
+                    }
+                    reactivateTimer.start();
+                }
+                Timer {
+                    id: reactivateTimer
+                    interval: 0
+                    onTriggered: parent.propagateComposedEvents = true;
+                }
             }
 
             Component {
@@ -89,6 +125,7 @@ FocusScope {
                     model: AppDrawerProxyModel {
                         source: sortProxyModel
                         group: AppDrawerProxyModel.GroupByAll
+                        sortBy: AppDrawerProxyModel.SortByUsage
                     }
 
                     delegate: UbuntuShape {
@@ -98,6 +135,7 @@ FocusScope {
                         // NOTE: Cannot use gridView.rows here as it would evaluate to 0 at first and only update later,
                         // which messes up the ListView.
                         height: (Math.ceil(mostUsedGridView.model.count / mostUsedGridView.columns) * mostUsedGridView.delegateHeight) + units.gu(2)
+                        enabled: parent.interactive
 
                         DrawerGridView {
                             id: mostUsedGridView
@@ -107,7 +145,6 @@ FocusScope {
                             clip: true
 
                             model: sortProxyModel
-
 
                             delegateWidth: units.gu(8)
                             delegateHeight: units.gu(10)
@@ -140,6 +177,7 @@ FocusScope {
                         width: parent.width
                         color: "#20ffffff"
                         aspect: UbuntuShape.Flat
+                        enabled: parent.interactive
 
                         // NOTE: Cannot use gridView.rows here as it would evaluate to 0 at first and only update later,
                         // which messes up the ListView.
