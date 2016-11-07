@@ -53,12 +53,12 @@ FocusScope {
     property real leftEdgeDragProgress: 0
 
     // Used by the tutorial code
-    readonly property bool spreadShown: state == "spread"
     readonly property real rightEdgeDragProgress: rightEdgeDragArea.progress // How far left the stage has been dragged
 
     // used by the snap windows (edge maximize) feature
     readonly property alias previewRectangle: fakeRectangle
 
+    readonly property bool spreadShown: state == "spread"
     readonly property var mainApp: priv.focusedAppDelegate ? priv.focusedAppDelegate.application : null
 
     // application windows never rotate independently
@@ -103,6 +103,10 @@ FocusScope {
     function updateFocusedAppOrientationAnimated() { /* TODO */}
     function pushRightEdge(amount) {
         edgeBarrier.push(amount);
+    }
+
+    function closeSpread() {
+        priv.goneToSpread = false;
     }
 
     onSpreadEnabledChanged: {
