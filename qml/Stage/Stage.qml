@@ -1052,6 +1052,7 @@ FocusScope {
                             showHighlight: spreadItem.highlightedIndex === index
                             darkening: spreadItem.highlightedIndex >= 0
                             anchors.topMargin: dragArea.distance
+                            interactive: false
                         }
                         PropertyChanges {
                             target: appDelegate
@@ -1091,6 +1092,7 @@ FocusScope {
                             scaleToPreviewSize: spreadItem.stackHeight
                             scaleToPreviewProgress: stagedRightEdgeMaths.scaleToPreviewProgress
                             shadowOpacity: .3
+                            interactive: false
                         }
                         PropertyChanges { target: windowInfoItem; opacity: stagedRightEdgeMaths.tileInfoOpacity; visible: appDelegate.visible }
                     },
