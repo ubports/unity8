@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-10-24 11:37+0000\n"
-"PO-Revision-Date: 2016-10-17 15:59+0000\n"
-"Last-Translator: Martijn Grootenboer <martijn.1987@live.nl>\n"
+"PO-Revision-Date: 2016-11-01 08:29+0000\n"
+"Last-Translator: Hannie Dumoleyn <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-10-28 05:53+0000\n"
+"X-Launchpad-Export-Date: 2016-11-02 06:51+0000\n"
 "X-Generator: Launchpad (build 18246)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -64,11 +64,11 @@ msgstr "Annuleren"
 #: qml/Components/Dialogs.qml:178
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
-msgstr "Herstarten"
+msgstr "Opnieuw opstarten"
 
 #: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
-msgstr "Weet u zeker dat u het apparaat wilt herstarten?"
+msgstr "Weet u zeker dat u het apparaat opnieuw wilt starten?"
 
 #: qml/Components/Dialogs.qml:181
 msgid "No"
@@ -81,7 +81,7 @@ msgstr "Ja"
 #: qml/Components/Dialogs.qml:202
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr "Energie"
+msgstr "Uitschakelen/Opnieuw starten"
 
 #: qml/Components/Dialogs.qml:203
 msgid ""
@@ -99,7 +99,7 @@ msgstr "Uitschakelen"
 #: qml/Components/Dialogs.qml:214
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr "Herstarten"
+msgstr "Opnieuw opstarten"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
@@ -151,7 +151,7 @@ msgstr "Super (Vasthouden)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:130
 msgid "Opens the launcher, displays shortcuts."
-msgstr "Opent de Starter; toont sneltoetsnen."
+msgstr "Opent de Starter; toont sneltoetsen."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Alt + F1"
@@ -302,7 +302,7 @@ msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
-msgstr "OK, ik zal opnieuw verbinden"
+msgstr "Ok, ik zal opnieuw verbinden"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
@@ -407,7 +407,7 @@ msgstr "Beheren"
 
 #: qml/Dash/ScopesList.qml:104
 msgid "Home"
-msgstr "Thuis"
+msgstr "Startpagina"
 
 #: qml/Dash/ScopesList.qml:105
 msgid "Also installed"
@@ -497,7 +497,7 @@ msgstr "Er wordt niets afgespeeld"
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 uur"
-msgstr[1] "%1 uren"
+msgstr[1] "%1 uur"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:920
 #, qt-format
@@ -705,7 +705,7 @@ msgstr "Een nieuw wachtwoord aanmaken"
 #: qml/Wizard/Pages/70-passwd-type.qml:104
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
-msgstr "PIN-code (alleen nummers) aanmaken"
+msgstr "Toegangscode (alleen nummers) aanmaken"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:106
 msgctxt "Label: Type of security method"
@@ -816,7 +816,7 @@ msgstr "Toegangscode bevestigen"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
-msgstr "Onjuiste PIN-code"
+msgstr "Onjuiste toegangscode"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgctxt "Enter the passcode again"
@@ -825,60 +825,62 @@ msgstr "Voer uw PIN opnieuw in."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
-msgstr "PIN-code schermvergrendeling"
+msgstr "Toegangscodecode schermvergrendeling"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:61
 msgid "Enter 4 numbers to setup your passcode"
-msgstr "Voer 4 cijfers is om uw PIN-code in te stellen"
+msgstr "Voer 4 cijfers is om uw toegangscode in te stellen"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:77
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
-msgstr "Kies uw PIN-code"
+msgstr "Kies een toegangscode"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:127
 msgid "Passcode too short"
-msgstr ""
+msgstr "Toegangscode te kort"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:129
 msgid "Passcodes match"
-msgstr ""
+msgstr "Toegangscodes komen overeen"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:131
 msgid "Passcodes do not match"
-msgstr ""
+msgstr "Toegangscodes komen noet overeen"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr ""
+msgstr "Toegangscode moet 4 tekens lang zijn"
 
 #: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
-msgstr ""
+msgstr "Wachtwoord schermvergrendeling"
 
 #: qml/Wizard/Pages/password-set.qml:62
 msgid "Enter at least 8 characters"
-msgstr ""
+msgstr "Voer tenminste 8 tekens in"
 
 #: qml/Wizard/Pages/password-set.qml:74
 msgid "Choose password"
-msgstr ""
+msgstr "Kies een wachtwoord"
 
 #: qml/Wizard/Pages/password-set.qml:104
 msgid "Confirm password"
-msgstr ""
+msgstr "Wachtwoord bevestigen"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
-msgstr ""
+msgstr "Geen SIM-kaart geïnstalleerd"
 
 #: qml/Wizard/Pages/sim.qml:54
 msgid "SIM card added"
-msgstr ""
+msgstr "SIM-kaart toegevoegd"
 
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
 msgstr ""
+"U dient het apparaat opnieuw te starten om toegang te krijgen tot het "
+"mobiele netwerk"
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
@@ -886,39 +888,39 @@ msgstr "Herstarten"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
-msgstr ""
+msgstr "U kunt niet bellen of sms'en zonder een SIM-kaart."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr ""
+msgstr "Tik op Overslaan om door te gaan zonder SIM-kaart."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr ""
+msgstr "Wachtwoord te kort"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
-msgstr ""
+msgstr "Wachtwoorden komen overeen"
 
 #: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Wachtwoorden komen niet overeen"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
-msgstr ""
+msgstr "Sterk wachtwoord"
 
 #: qml/Wizard/PasswordMeter.qml:97
 msgid "Fair password"
-msgstr ""
+msgstr "Redelijk wachtwoord"
 
 #: qml/Wizard/PasswordMeter.qml:99
 msgid "Weak password"
-msgstr ""
+msgstr "Zwak wachtwoord"
 
 #: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
-msgstr ""
+msgstr "Zeer zwak wachtwoord"
 
 #~ msgid "Confirm"
 #~ msgstr "Bevestigen"

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-10-24 11:37+0000\n"
-"PO-Revision-Date: 2016-06-21 10:21+0000\n"
+"PO-Revision-Date: 2016-10-30 17:41+0000\n"
 "Last-Translator: Åka Sikrom <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-10-28 05:54+0000\n"
+"X-Launchpad-Export-Date: 2016-10-31 06:25+0000\n"
 "X-Generator: Launchpad (build 18246)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -276,12 +276,12 @@ msgstr "OK"
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
 msgid "%1:%2:%3"
-msgstr ""
+msgstr "%1.%2.%3"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:49
 #, qt-format
 msgid "%1:%2"
-msgstr ""
+msgstr "%1: %2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
@@ -447,15 +447,15 @@ msgstr[1] "Vent i %1 minutter, og prøv deretter på nytt …"
 
 #: qml/Greeter/Greeter.qml:596
 msgid "Try again"
-msgstr ""
+msgstr "Prøv igjen"
 
 #: qml/Greeter/LoginList.qml:70
 msgid "Passphrase"
-msgstr ""
+msgstr "Passordfrase"
 
 #: qml/Greeter/LoginList.qml:71
 msgid "Passcode"
-msgstr ""
+msgstr "Kode"
 
 #: qml/Greeter/LoginList.qml:98
 msgid "Retry"
@@ -467,11 +467,11 @@ msgstr "Logg inn"
 
 #: qml/Greeter/NarrowView.qml:252
 msgid "Emergency"
-msgstr ""
+msgstr "Nødssituasjon"
 
 #: qml/Greeter/SessionsList.qml:122
 msgid "Select desktop environment"
-msgstr ""
+msgstr "Velg skrivebordsmiljø"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -605,15 +605,15 @@ msgstr "Neste"
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
-msgstr ""
+msgstr "Velg tastatur"
 
 #: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
-msgstr ""
+msgstr "Tastaturspråk"
 
 #: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
-msgstr ""
+msgstr "Tastaturoppsett"
 
 #: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:207
 #: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/77-system-update.qml:152
@@ -725,32 +725,34 @@ msgstr "Personvernregler"
 
 #: qml/Wizard/Pages/77-system-update.qml:28
 msgid "Update Device"
-msgstr ""
+msgstr "Oppdater enhet"
 
 #: qml/Wizard/Pages/77-system-update.qml:55
 msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
 msgstr ""
+"Systemoppdatering er klar for installasjon. Enheten starter til slutt på "
+"nytt for å fullføre installasjonen."
 
 #: qml/Wizard/Pages/77-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu system"
-msgstr ""
+msgstr "Ubuntu-system"
 
 #: qml/Wizard/Pages/77-system-update.qml:83
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
-msgstr ""
+msgstr "Versjon %1"
 
 #: qml/Wizard/Pages/77-system-update.qml:102
 msgid "This could take a few minutes..."
-msgstr ""
+msgstr "Dette kan ta litt tid …"
 
 #: qml/Wizard/Pages/77-system-update.qml:116
 msgid "Install and restart now"
-msgstr ""
+msgstr "Installer og start på nytt nå"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
@@ -884,7 +886,7 @@ msgstr "Trykk «Hopp over» for å fortsette uten SIM-kort"
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr ""
+msgstr "For kort passord"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
