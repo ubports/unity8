@@ -1092,6 +1092,7 @@ FocusScope {
                             scaleToPreviewProgress: stagedRightEdgeMaths.scaleToPreviewProgress
                             shadowOpacity: .3
                         }
+                        PropertyChanges { target: windowInfoItem; opacity: stagedRightEdgeMaths.tileInfoOpacity; visible: appDelegate.visible }
                     },
                     State {
                         name: "windowedRightEdge"
@@ -1350,6 +1351,7 @@ FocusScope {
                         PropertyAction { target: decoratedWindow; property: "scaleToPreviewSize" }
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
                         UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle,scaleToPreviewProgress"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: windowInfoItem; properties: "opacity"; duration: priv.animationDuration }
                     },
                     Transition {
                         from: "normal,staged"; to: "stagedWithSideStage"
