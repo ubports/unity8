@@ -64,7 +64,7 @@ FocusScope {
     // application windows never rotate independently
     property int mainAppWindowOrientationAngle: shellOrientationAngle
 
-    property bool orientationChangesEnabled: priv.focusedAppDelegate && priv.focusedAppDelegate.orientationChangesEnabled
+    property bool orientationChangesEnabled: !priv.focusedAppDelegate || priv.focusedAppDelegate.orientationChangesEnabled
 
     property int supportedOrientations: {
         if (mainApp) {
