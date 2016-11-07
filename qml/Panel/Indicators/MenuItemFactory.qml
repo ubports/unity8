@@ -508,6 +508,13 @@ Item {
             objectName: "calendarMenu"
             highlightWhenPressed: false
             focus: true
+
+            property var menuModel: menuFactory.menuModel
+            property int menuIndex: -1
+
+            onSelectedDateChanged: {
+                menuModel.activate(menuIndex, selectedDate.getTime() / 1000 | 0)
+            }
         }
     }
 
