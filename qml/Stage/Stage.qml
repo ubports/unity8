@@ -1566,7 +1566,7 @@ FocusScope {
                     maxWidth: {
                         var nextApp = appRepeater.itemAt(index + 1);
                         if (nextApp) {
-                            return nextApp.x - appDelegate.x - units.gu(1)
+                            return Math.max(iconHeight, nextApp.x - appDelegate.x - units.gu(1))
                         }
                         return appDelegate.width;
                     }
