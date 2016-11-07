@@ -1,3 +1,10 @@
+unity8 (8.14+17.04.20161027-0ubuntu1) zesty; urgency=medium
+
+  * MenuItemFactory: activate item on calendar selection change (LP:
+    #1541125)
+
+ -- Marco Trevisan (Treviño) <mail@3v1n0.net>  Thu, 27 Oct 2016 12:32:25 +0000
+
 unity8 (8.14+17.04.20161024-0ubuntu1) zesty; urgency=medium
 
   [ Albert Astals Cid ]
