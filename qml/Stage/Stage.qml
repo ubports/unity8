@@ -110,8 +110,8 @@ FocusScope {
     }
 
     onSpreadEnabledChanged: {
-        if (!spreadEnabled && root.state == "spread") {
-            priv.goneToSpread = false;
+        if (!spreadEnabled && spreadShown) {
+            closeSpread();
         }
     }
 
