@@ -1094,7 +1094,8 @@ FocusScope {
                             shadowOpacity: .3
                             interactive: false
                         }
-                        PropertyChanges { target: windowInfoItem; opacity: stagedRightEdgeMaths.tileInfoOpacity; visible: appDelegate.visible }
+                        // make sure it's visible but transparent so it fades in when we transition to spread
+                        PropertyChanges { target: windowInfoItem; opacity: 0; visible: true }
                     },
                     State {
                         name: "windowedRightEdge"
