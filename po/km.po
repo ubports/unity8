@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-09-22 07:46+0000\n"
+"POT-Creation-Date: 2016-10-24 11:37+0000\n"
 "PO-Revision-Date: 2014-08-20 02:48+0000\n"
 "Last-Translator: Sophea Sok <sksophea@gmail.com>\n"
 "Language-Team: Khmer <km@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-09-27 07:04+0000\n"
-"X-Generator: Launchpad (build 18204)\n"
+"X-Launchpad-Export-Date: 2016-10-28 05:54+0000\n"
+"X-Generator: Launchpad (build 18246)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
@@ -479,59 +479,59 @@ msgstr "ប៉ះ​ដើម្បី​ត្រឡប់​ទៅ​ការ
 msgid "Conference"
 msgstr "សន្និសីទ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:762
+#: qml/Panel/Indicators/MenuItemFactory.qml:788
 msgid "Nothing is playing"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:891
+#: qml/Panel/Indicators/MenuItemFactory.qml:916
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 ម៉ោង"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:895
+#: qml/Panel/Indicators/MenuItemFactory.qml:920
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 នាទី"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:900
+#: qml/Panel/Indicators/MenuItemFactory.qml:925
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 វិនាទី"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:903
+#: qml/Panel/Indicators/MenuItemFactory.qml:928
 msgid "0 seconds"
 msgstr "០ វិនាទី"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:905
+#: qml/Panel/Indicators/MenuItemFactory.qml:930
 #, qt-format
 msgid "%1 remaining"
 msgstr "នៅ​សល់ %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:911
+#: qml/Panel/Indicators/MenuItemFactory.qml:936
 msgid "In queue…"
 msgstr "ក្នុងជួរ…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:915
+#: qml/Panel/Indicators/MenuItemFactory.qml:940
 msgid "Downloading"
 msgstr "ទាញយក"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:917
+#: qml/Panel/Indicators/MenuItemFactory.qml:942
 msgid "Paused, tap to resume"
 msgstr "បាន​ផ្អាក, ប៉ះ ដើម្បីបន្ត"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:919
+#: qml/Panel/Indicators/MenuItemFactory.qml:944
 msgid "Canceled"
 msgstr "បាន​បោះបង់"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:921
+#: qml/Panel/Indicators/MenuItemFactory.qml:946
 msgid "Finished"
 msgstr "បាន​បញ្ចប់"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:923
+#: qml/Panel/Indicators/MenuItemFactory.qml:948
 msgid "Failed, tap to retry"
 msgstr "បាន​បរាជ័យ ប៉ះ​ ដើម្បី​ព្យាយាម​ម្ដង​ទៀត"
 
@@ -551,7 +551,7 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "ហៅ​មកវិញ"
 
-#: qml/Stages/SideStage.qml:76
+#: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr ""
 
