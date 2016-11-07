@@ -462,7 +462,7 @@ FocusScope {
             }
         },
         Transition {
-            to: "stagedRightEdge"
+            to: "stagedRightEdge,sideStagedRightEdge"
             PropertyAction { target: floatingFlickable; property: "contentX"; value: 0 }
         },
         Transition {
