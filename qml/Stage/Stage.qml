@@ -235,6 +235,12 @@ FocusScope {
         readonly property bool sideStageEnabled: root.mode === "stagedWithSideStage" &&
                                                  (root.shellOrientation == Qt.LandscapeOrientation ||
                                                  root.shellOrientation == Qt.InvertedLandscapeOrientation)
+        onSideStageEnabledChanged: {
+            for (var i = 0; i < appRepeater.count; i++) {
+                appRepeater.itemAt(i).refreshStage();
+            }
+            priv.updateMainAndSideStageIndexes();
+        }
 
         property var mainStageDelegate: null
         property var sideStageDelegate: null
@@ -705,10 +711,6 @@ FocusScope {
                             decoratedWindow.surfaceOrientationAngle = 0;
                         }
                     }
-                }
-                Connections {
-                    target: priv
-                    onSideStageEnabledChanged: refreshStage()
                 }
 
                 readonly property alias application: decoratedWindow.application
