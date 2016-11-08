@@ -593,7 +593,7 @@ FocusScope {
             }
 
             onShownChanged: {
-                if (!shown && priv.mainStageDelegate) {
+                if (!shown && priv.mainStageDelegate && !root.spreadShown) {
                     priv.mainStageDelegate.claimFocus();
                 }
             }
