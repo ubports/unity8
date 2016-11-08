@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-10-24 11:37+0000\n"
+"POT-Creation-Date: 2016-10-27 12:32+0000\n"
 "PO-Revision-Date: 2016-04-08 18:34+0000\n"
 "Last-Translator: Akerbeltz <fios@akerbeltz.org>\n"
 "Language-Team: Fòram na Gàidhlig\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2016-10-28 05:53+0000\n"
+"X-Launchpad-Export-Date: 2016-11-08 05:40+0000\n"
 "X-Generator: Launchpad (build 18246)\n"
 "Language: gd\n"
 
@@ -209,7 +209,7 @@ msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:234
 msgid "Opens the desktop spread."
-msgstr "Fosglaidh seo sgaoileadh an deasg."
+msgstr "Seallaidh seo an deasg."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Cursor Left or Right"
@@ -474,11 +474,11 @@ msgstr "Clàraich a-steach"
 
 #: qml/Greeter/NarrowView.qml:252
 msgid "Emergency"
-msgstr ""
+msgstr "Èiginneachd"
 
 #: qml/Greeter/SessionsList.qml:122
 msgid "Select desktop environment"
-msgstr ""
+msgstr "Tagh àrainneachd an deasga"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -492,11 +492,11 @@ msgstr "Gnog gus tilleadh dhan ghairm..."
 msgid "Conference"
 msgstr "Gairm co-labhairt"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:788
+#: qml/Panel/Indicators/MenuItemFactory.qml:795
 msgid "Nothing is playing"
 msgstr "Chan eil dad 'ga chluich"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:916
+#: qml/Panel/Indicators/MenuItemFactory.qml:923
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -505,7 +505,7 @@ msgstr[1] "%1 uair a thìde"
 msgstr[2] "%1 uairean a thìde"
 msgstr[3] "%1 uair a thìde"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:920
+#: qml/Panel/Indicators/MenuItemFactory.qml:927
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -514,7 +514,7 @@ msgstr[1] "%1 mhionaid"
 msgstr[2] "%1 mionaidean"
 msgstr[3] "%1 mionaid"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:925
+#: qml/Panel/Indicators/MenuItemFactory.qml:932
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -523,37 +523,37 @@ msgstr[1] "%1 dhiog"
 msgstr[2] "%1 diogan"
 msgstr[3] "%1 diog"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:928
+#: qml/Panel/Indicators/MenuItemFactory.qml:935
 msgid "0 seconds"
 msgstr "0 diog"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:930
+#: qml/Panel/Indicators/MenuItemFactory.qml:937
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 air fhàgail"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:936
+#: qml/Panel/Indicators/MenuItemFactory.qml:943
 msgid "In queue…"
 msgstr "Air a' chiudha…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:940
+#: qml/Panel/Indicators/MenuItemFactory.qml:947
 msgid "Downloading"
 msgstr "'Ga luchdadh a-nuas"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:942
+#: qml/Panel/Indicators/MenuItemFactory.qml:949
 msgid "Paused, tap to resume"
 msgstr "'Na stad, thoir gnogag gus leantainn air"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:944
+#: qml/Panel/Indicators/MenuItemFactory.qml:951
 msgid "Canceled"
 msgstr "Air a sgur dheth"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:946
+#: qml/Panel/Indicators/MenuItemFactory.qml:953
 msgid "Finished"
 msgstr "Coileanta"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:948
+#: qml/Panel/Indicators/MenuItemFactory.qml:955
 msgid "Failed, tap to retry"
 msgstr "Dh'fhàillig leis, thoir gnogag gus feuchainn a-rithist"
 
