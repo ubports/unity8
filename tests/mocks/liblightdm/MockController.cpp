@@ -98,6 +98,30 @@ void MockController::setSessionMode(const QString &sessionMode)
     }
 }
 
+QString MockController::sessionName() const
+{
+    return QString("INVALID - Please read directly from the UserModel");
+}
+
+void MockController::setSessionName(const QString &sessionName)
+{
+        // Let the user model deal with this
+        Q_EMIT sessionNameChanged(sessionName, m_currentUsername);
+}
+
+QString MockController::currentUsername() const
+{
+    return m_currentUsername;
+}
+
+void MockController::setCurrentUsername(const QString &username)
+{
+    if (m_currentUsername != username) {
+        m_currentUsername = username;
+        Q_EMIT currentUsernameChanged();
+    }
+}
+
 const QList<MockController::SessionItem> &MockController::fullSessionItems() const
 {
     return m_fullSessions;

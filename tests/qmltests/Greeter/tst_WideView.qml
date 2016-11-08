@@ -409,6 +409,20 @@ StyledItem {
             waitForRendering(view);
         }
 
+        function test_stuff() {
+            LightDM.Sessions.mock.sessionMode = "full";
+            var loginList = findChild(view, "loginList");
+
+            var currentUser = loginList.currentUser
+            var fakeSessionName = "ASessionWillNeverBeCalledThis"
+
+            compare(LightDM.Users.data(getIndexOf(currentUser), LightDM.UserRoles.SessionRole) != fakeSessionName, true);
+
+            LightDM.Users.mock.sessionName = fakeSessionName;
+
+            compare(LightDM.Users.data(getIndexOf(currentUser), LightDM.UserRoles.SessionRole) == fakeSessionName, true);
+        }
+
         function test_tease_data() {
             return [
                 {tag: "locked", x: 0, offset: 0, count: 0, locked: true},

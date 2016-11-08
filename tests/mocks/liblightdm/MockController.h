@@ -35,6 +35,11 @@ class Q_DECL_EXPORT MockController : public QObject
     // single, none, full
     Q_PROPERTY(QString sessionMode READ sessionMode WRITE setSessionMode NOTIFY sessionModeChanged)
 
+    // This would be best as a Q_INVOKABLE, but using a property allows for
+    // keeping the mock cleaner
+    Q_PROPERTY(QString sessionName READ sessionName WRITE setSessionName NOTIFY sessionNameChanged)
+    Q_PROPERTY(QString currentUsername READ currentUsername WRITE setCurrentUsername NOTIFY currentUsernameChanged)
+
     Q_PROPERTY(int numAvailableSessions READ numFullSessions CONSTANT)
     Q_PROPERTY(int numSessions READ numSessions WRITE setNumSessions NOTIFY numSessionsChanged)
 
@@ -51,6 +56,12 @@ public:
     QString sessionMode() const;
     void setSessionMode(const QString &sessionMode);
 
+    QString sessionName() const;
+    void setSessionName(const QString &sessionName);
+
+    QString currentUsername() const;
+    void setCurrentUsername(const QString &userIndex);
+
     class SessionItem
     {
     public:
@@ -64,14 +75,18 @@ public:
     void setNumSessions(int numSessions);
 
 Q_SIGNALS:
+    void currentUsernameChanged();
     void selectUserHintChanged();
     void userModeChanged();
     void sessionModeChanged();
+    void sessionNameChanged(const QString &sessionName, const QString &username);
     void numSessionsChanged();
 
 private:
     explicit MockController(QObject* parent=0);
 
+    QString m_currentUsername;
+    QString m_sessionName;
     QString m_selectUserHint;
     QString m_userMode;
     QString m_sessionMode;

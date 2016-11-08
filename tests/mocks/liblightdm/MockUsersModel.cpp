@@ -67,12 +67,29 @@ UsersModel::UsersModel(QObject *parent)
 
     connect(MockController::instance(), &MockController::userModeChanged,
             this, &UsersModel::resetEntries);
+    connect(MockController::instance(), &MockController::sessionNameChanged,
+            this, &UsersModel::setCurrentSessionName);
     resetEntries();
 }
 
 UsersModel::~UsersModel()
 {
     delete d_ptr;
+}
+
+void UsersModel::setCurrentSessionName(const QString &sessionName, const QString &username)
+{
+    Q_D(UsersModel);
+
+    for (auto &entry : d->entries) {
+        if (username == entry.username) {
+            entry.session = sessionName;
+
+            // Since the incides are mangled, there is no easy way to emit dataChanged
+            // and that doesn't matter for the limited use of this function
+            return;
+        }
+    }
 }
 
 int UsersModel::rowCount(const QModelIndex &parent) const

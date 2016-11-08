@@ -52,6 +52,8 @@ public:
     int rowCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
+    void setCurrentSessionName(const QString &sessionName, const QString &username);
+
     QObject *mock();
 
 private Q_SLOTS:

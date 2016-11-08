@@ -145,6 +145,7 @@ FocusScope {
                 LightDM.UserRoles.SessionRole);
             onResponded: root.responded(response)
             onSelected: {
+                LightDM.Users.mock.currentUsername = currentUser;
                 root.selected(index)
                 selectedUserIndex = index;
             }
