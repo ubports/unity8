@@ -119,7 +119,13 @@ Item {
                 }
             }
 
-            d.distance = tp.y - tp.startY - offset
+            if (root.closeable) {
+                d.distance = tp.y - tp.startY - offset
+            } else {
+                var value = tp.y - tp.startY - offset;
+                d.distance = Math.sqrt(Math.abs(value)) * (value < 0 ? -1 : 1) * 3
+            }
+
             d.pushDragEvent(tp);
         }
 
