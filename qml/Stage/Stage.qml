@@ -454,7 +454,7 @@ FocusScope {
         },
         State {
             name: "stagedWithSideStage"; when: root.mode === "stagedWithSideStage"
-            PropertyChanges { target: triGestureArea; enabled: true }
+            PropertyChanges { target: triGestureArea; enabled: priv.sideStageEnabled }
             PropertyChanges { target: sideStage; visible: true }
         },
         State {
@@ -555,7 +555,7 @@ FocusScope {
                 bottom: parent.bottom
             }
             width: appContainer.width - sideStage.width
-            enabled: sideStage.enabled
+            enabled: priv.sideStageEnabled
 
             onDropped: {
                 drop.source.appDelegate.saveStage(ApplicationInfoInterface.MainStage);
