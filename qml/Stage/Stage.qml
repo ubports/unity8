@@ -261,7 +261,7 @@ FocusScope {
                 priv.sideStageItemId = 0;
                 priv.sideStageAppId = "";
                 priv.mainStageDelegate = appRepeater.itemAt(0);
-                priv.mainStageAppId = topLevelSurfaceList.idAt(0);
+                priv.mainStageItemId = topLevelSurfaceList.idAt(0);
                 priv.mainStageAppId = topLevelSurfaceList.applicationAt(0) ? topLevelSurfaceList.applicationAt(0).appId : ""
                 return;
             }
