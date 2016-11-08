@@ -53,7 +53,7 @@ FocusScope {
     property real leftEdgeDragProgress: 0
 
     // Used by the tutorial code
-    readonly property real rightEdgeDragProgress: rightEdgeDragArea.progress // How far left the stage has been dragged
+    readonly property real rightEdgeDragProgress: rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0 // How far left the stage has been dragged
 
     // used by the snap windows (edge maximize) feature
     readonly property alias previewRectangle: fakeRectangle
@@ -413,12 +413,20 @@ FocusScope {
             PropertyChanges { target: hoverMouseArea; enabled: true }
             PropertyChanges { target: rightEdgeDragArea; enabled: false }
             PropertyChanges { target: cancelSpreadMouseArea; enabled: true }
+            PropertyChanges { target: blurLayer; visible: true; blurRadius: 32; brightness: .65 }
         },
         State {
             name: "stagedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "staged"
+            PropertyChanges {
+                target: blurLayer;
+                visible: true;
+                blurRadius: 32
+                brightness: MathUtils.linearAnimation(spreadItem.rightEdgeBreakPoint, 1, 0, .65, Math.max(rightEdgeDragArea.progress, edgeBarrier.progress))
+            }
         },
         State {
             name: "sideStagedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "stagedWithSideStage"
+            extend: "stagedRightEdge"
             PropertyChanges {
                 target: sideStage
                 opacity: priv.sideStageDelegate.x === sideStage.x ? 1 : 0
@@ -427,9 +435,16 @@ FocusScope {
         },
         State {
             name: "windowedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "windowed"
+            PropertyChanges {
+                target: blurLayer;
+                visible: true
+                blurRadius: MathUtils.linearAnimation(spreadItem.rightEdgeBreakPoint, 1, 0, 32, Math.max(rightEdgeDragArea.progress, edgeBarrier.progress))
+                brightness: MathUtils.linearAnimation(spreadItem.rightEdgeBreakPoint, 1, 1, .65, Math.max(rightEdgeDragArea.progress, edgeBarrier.progress))
+            }
         },
         State {
             name: "staged"; when: root.mode === "staged"
+            PropertyChanges { target: wallpaper; visible: false }
         },
         State {
             name: "stagedWithSideStage"; when: root.mode === "stagedWithSideStage"
@@ -444,6 +459,7 @@ FocusScope {
         Transition {
             from: "stagedRightEdge,sideStagedRightEdge,windowedRightEdge"; to: "spread"
             PropertyAction { target: spreadItem; property: "highlightedIndex"; value: -1 }
+            PropertyAnimation { target: blurLayer; properties: "brightness,blurRadius"; duration: priv.animationDuration }
         },
         Transition {
             to: "spread"
@@ -496,6 +512,13 @@ FocusScope {
             // Make sure it's the lowest item. Due to the left edge drag we sometimes need
             // to put the dash at -1 and we don't want it behind the Wallpaper
             z: -2
+        }
+
+        BlurLayer {
+            id: blurLayer
+            anchors.fill: parent
+            source: wallpaper
+            visible: false
         }
 
         Spread {
@@ -1739,7 +1762,7 @@ FocusScope {
         property var gesturePoints: []
         property bool cancelled: false
 
-        property real progress: dragging ? -touchPosition.x / root.width : 0
+        property real progress: -touchPosition.x / root.width
         onProgressChanged: {
             if (dragging) {
                 draggedProgress = progress;
