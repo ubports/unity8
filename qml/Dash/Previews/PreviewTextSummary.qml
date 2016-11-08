@@ -71,6 +71,7 @@ PreviewWidget {
         wrapMode: Text.Wrap
 
         Behavior on height {
+            enabled: textLabel.lineCount > textLabel.maximumCollapsedLineCount
             UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration }
         }
     }
