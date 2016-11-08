@@ -53,18 +53,18 @@ FocusScope {
     property real leftEdgeDragProgress: 0
 
     // Used by the tutorial code
-    readonly property bool spreadShown: state == "spread"
-    readonly property real rightEdgeDragProgress: rightEdgeDragArea.progress // How far left the stage has been dragged
+    readonly property real rightEdgeDragProgress: rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0 // How far left the stage has been dragged
 
     // used by the snap windows (edge maximize) feature
     readonly property alias previewRectangle: fakeRectangle
 
+    readonly property bool spreadShown: state == "spread"
     readonly property var mainApp: priv.focusedAppDelegate ? priv.focusedAppDelegate.application : null
 
     // application windows never rotate independently
     property int mainAppWindowOrientationAngle: shellOrientationAngle
 
-    property bool orientationChangesEnabled: priv.focusedAppDelegate && priv.focusedAppDelegate.orientationChangesEnabled
+    property bool orientationChangesEnabled: !priv.focusedAppDelegate || priv.focusedAppDelegate.orientationChangesEnabled
 
     property int supportedOrientations: {
         if (mainApp) {
@@ -105,9 +105,13 @@ FocusScope {
         edgeBarrier.push(amount);
     }
 
+    function closeSpread() {
+        priv.goneToSpread = false;
+    }
+
     onSpreadEnabledChanged: {
-        if (!spreadEnabled && root.state == "spread") {
-            priv.goneToSpread = false;
+        if (!spreadEnabled && spreadShown) {
+            closeSpread();
         }
     }
 
@@ -409,12 +413,20 @@ FocusScope {
             PropertyChanges { target: hoverMouseArea; enabled: true }
             PropertyChanges { target: rightEdgeDragArea; enabled: false }
             PropertyChanges { target: cancelSpreadMouseArea; enabled: true }
+            PropertyChanges { target: blurLayer; visible: true; blurRadius: 32; brightness: .65 }
         },
         State {
             name: "stagedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "staged"
+            PropertyChanges {
+                target: blurLayer;
+                visible: true;
+                blurRadius: 32
+                brightness: MathUtils.linearAnimation(spreadItem.rightEdgeBreakPoint, 1, 0, .65, Math.max(rightEdgeDragArea.progress, edgeBarrier.progress))
+            }
         },
         State {
             name: "sideStagedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "stagedWithSideStage"
+            extend: "stagedRightEdge"
             PropertyChanges {
                 target: sideStage
                 opacity: priv.sideStageDelegate.x === sideStage.x ? 1 : 0
@@ -423,9 +435,16 @@ FocusScope {
         },
         State {
             name: "windowedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "windowed"
+            PropertyChanges {
+                target: blurLayer;
+                visible: true
+                blurRadius: MathUtils.linearAnimation(spreadItem.rightEdgeBreakPoint, 1, 0, 32, Math.max(rightEdgeDragArea.progress, edgeBarrier.progress))
+                brightness: MathUtils.linearAnimation(spreadItem.rightEdgeBreakPoint, 1, 1, .65, Math.max(rightEdgeDragArea.progress, edgeBarrier.progress))
+            }
         },
         State {
             name: "staged"; when: root.mode === "staged"
+            PropertyChanges { target: wallpaper; visible: false }
         },
         State {
             name: "stagedWithSideStage"; when: root.mode === "stagedWithSideStage"
@@ -440,6 +459,7 @@ FocusScope {
         Transition {
             from: "stagedRightEdge,sideStagedRightEdge,windowedRightEdge"; to: "spread"
             PropertyAction { target: spreadItem; property: "highlightedIndex"; value: -1 }
+            PropertyAnimation { target: blurLayer; properties: "brightness,blurRadius"; duration: priv.animationDuration }
         },
         Transition {
             to: "spread"
@@ -462,7 +482,7 @@ FocusScope {
             }
         },
         Transition {
-            to: "stagedRightEdge"
+            to: "stagedRightEdge,sideStagedRightEdge"
             PropertyAction { target: floatingFlickable; property: "contentX"; value: 0 }
         },
         Transition {
@@ -492,6 +512,13 @@ FocusScope {
             // Make sure it's the lowest item. Due to the left edge drag we sometimes need
             // to put the dash at -1 and we don't want it behind the Wallpaper
             z: -2
+        }
+
+        BlurLayer {
+            id: blurLayer
+            anchors.fill: parent
+            source: wallpaper
+            visible: false
         }
 
         Spread {
@@ -1052,6 +1079,7 @@ FocusScope {
                             showHighlight: spreadItem.highlightedIndex === index
                             darkening: spreadItem.highlightedIndex >= 0
                             anchors.topMargin: dragArea.distance
+                            interactive: false
                         }
                         PropertyChanges {
                             target: appDelegate
@@ -1091,7 +1119,10 @@ FocusScope {
                             scaleToPreviewSize: spreadItem.stackHeight
                             scaleToPreviewProgress: stagedRightEdgeMaths.scaleToPreviewProgress
                             shadowOpacity: .3
+                            interactive: false
                         }
+                        // make sure it's visible but transparent so it fades in when we transition to spread
+                        PropertyChanges { target: windowInfoItem; opacity: 0; visible: true }
                     },
                     State {
                         name: "windowedRightEdge"
@@ -1350,6 +1381,7 @@ FocusScope {
                         PropertyAction { target: decoratedWindow; property: "scaleToPreviewSize" }
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
                         UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle,scaleToPreviewProgress"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: windowInfoItem; properties: "opacity"; duration: priv.animationDuration }
                     },
                     Transition {
                         from: "normal,staged"; to: "stagedWithSideStage"
@@ -1562,7 +1594,7 @@ FocusScope {
                     maxWidth: {
                         var nextApp = appRepeater.itemAt(index + 1);
                         if (nextApp) {
-                            return nextApp.x - appDelegate.x - units.gu(1)
+                            return Math.max(iconHeight, nextApp.x - appDelegate.x - units.gu(1))
                         }
                         return appDelegate.width;
                     }
@@ -1730,7 +1762,7 @@ FocusScope {
         property var gesturePoints: []
         property bool cancelled: false
 
-        property real progress: dragging ? -touchPosition.x / root.width : 0
+        property real progress: -touchPosition.x / root.width
         onProgressChanged: {
             if (dragging) {
                 draggedProgress = progress;

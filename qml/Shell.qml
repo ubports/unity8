@@ -442,9 +442,10 @@ StyledItem {
         }
 
         if (!greeter.locked && tutorial.launcherLongSwipeEnabled
-            && ApplicationManager.focusedApplicationId != "unity8-dash") {
+            && (ApplicationManager.focusedApplicationId != "unity8-dash" || stage.spreadShown)) {
             ApplicationManager.requestFocusApplication("unity8-dash")
             launcher.fadeOut();
+            stage.closeSpread();
         }
     }
 
