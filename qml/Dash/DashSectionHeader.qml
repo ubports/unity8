@@ -27,33 +27,33 @@ Item {
 
     height: units.gu(5)
 
-    RowLayout {
-        spacing: units.gu(.5)
+    Label {
+        id: label
+
         anchors {
             left: parent.left
-            right: parent.right
+            leftMargin: units.gu(2)
             verticalCenter: parent.verticalCenter
-            margins: units.gu(1)
         }
 
-        Label {
-            id: label
-            Layout.fillWidth: true
+        font.family: "Ubuntu"
+        fontSize: "medium"
+        elide: Text.ElideRight
+        maximumLineCount: 1
+        textFormat: Text.PlainText
+        width: Math.min(parent.width - units.gu(4), implicitWidth)
+    }
 
-            font.family: "Ubuntu"
-            fontSize: "medium"
-            elide: Text.ElideRight
-            maximumLineCount: 1
-            textFormat: Text.PlainText
-            width: Math.min(parent.width - units.gu(4), implicitWidth)
-        }
-
-        Icon {
-            id: icon
-            visible: name != ""
-            height: units.gu(2)
-            width: height
-            color: label.color
+    Icon {
+        id: icon
+        visible: name != ""
+        height: units.gu(1.25)
+        width: height
+        color: label.color
+        anchors {
+            left: label.right
+            leftMargin: units.gu(0.25)
+            verticalCenter: parent.verticalCenter
         }
     }
 

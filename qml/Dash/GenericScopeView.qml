@@ -22,7 +22,6 @@ import Utils 0.1
 import Unity 0.2
 import Dash 0.1
 import "../Components"
-import "../Components/ListItems" as ListItems
 import "Previews/PreviewSingleton"
 
 FocusScope {
@@ -581,14 +580,14 @@ FocusScope {
         }
 
         sectionProperty: "name"
-        sectionDelegate: ListItems.Header {
+        sectionDelegate: DashSectionHeader {
             objectName: "dashSectionHeader" + (delegate ? delegate.category : "")
             property int delegateIndex: -1
             readonly property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
             height: text != "" ? units.gu(5) : 0
             color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
-            iconName: delegate && delegate.headerLink ? "go-next" : ""
+            iconName: delegate && delegate.headerLink ? "toolkit_chevron-ltr_1gu" : ""
             onClicked: {
                 if (delegate.headerLink) scopeView.scope.performQuery(delegate.headerLink);
             }
