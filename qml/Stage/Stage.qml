@@ -419,7 +419,8 @@ FocusScope {
             PropertyChanges { target: hoverMouseArea; enabled: true }
             PropertyChanges { target: rightEdgeDragArea; enabled: false }
             PropertyChanges { target: cancelSpreadMouseArea; enabled: true }
-            PropertyChanges { target: blurLayer; visible: true; blurRadius: 32; brightness: .65 }
+            PropertyChanges { target: blurLayer; visible: true; blurRadius: 32; brightness: .65; opacity: 1 }
+            PropertyChanges { target: wallpaper; visible: false }
         },
         State {
             name: "stagedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "staged"
@@ -427,7 +428,8 @@ FocusScope {
                 target: blurLayer;
                 visible: true;
                 blurRadius: 32
-                brightness: MathUtils.linearAnimation(spreadItem.rightEdgeBreakPoint, 1, 0, .65, Math.max(rightEdgeDragArea.progress, edgeBarrier.progress))
+                brightness: .65
+                opacity: 1
             }
         },
         State {
@@ -444,8 +446,9 @@ FocusScope {
             PropertyChanges {
                 target: blurLayer;
                 visible: true
-                blurRadius: MathUtils.linearAnimation(spreadItem.rightEdgeBreakPoint, 1, 0, 32, Math.max(rightEdgeDragArea.progress, edgeBarrier.progress))
-                brightness: MathUtils.linearAnimation(spreadItem.rightEdgeBreakPoint, 1, 1, .65, Math.max(rightEdgeDragArea.progress, edgeBarrier.progress))
+                blurRadius: 32
+                brightness: .65
+                opacity: MathUtils.linearAnimation(spreadItem.rightEdgeBreakPoint, 1, 0, 1, Math.max(rightEdgeDragArea.progress, edgeBarrier.progress))
             }
         },
         State {
