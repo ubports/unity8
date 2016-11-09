@@ -510,18 +510,16 @@ Item {
 
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
+            property var actionState: menuData && menuData.actionState || null
+            property int calendarDay: getExtendedProperty(actionState, "calendar-day", 0) * 1000
             property int menuIndex: -1
 
-            showWeekNumbers: menuData && menuData.actionState["show-week-numbers"]
+            showWeekNumbers: getExtendedProperty(actionState, "show-week-numbers", false)
+            eventDays: getExtendedProperty(actionState, "appointment-days", [])
 
             Binding on currentDate {
-                when: menuData && menuData.actionState.hasOwnProperty("calendar-day") > 0
-                value: new Date(menuData.actionState["calendar-day"] * 1000)
-            }
-
-            Binding on eventDays {
-                when: menuData && menuData.actionState.hasOwnProperty("appointment-days") > 0
-                value: menuData.actionState["appointment-days"]
+                when: calendarDay > 0
+                value: new Date(calendarDay)
             }
 
             onSelectedDateChanged: {
