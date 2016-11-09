@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Canonical Ltd.
+ * Copyright 2015-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,4 +20,5 @@ Constants::Constants(QObject *parent)
    : QObject(parent)
 {
     m_indicatorValueTimeout = 5000;
+    m_defaultWallpaper = "/usr/share/backgrounds/warty-final-ubuntu.png";
 }
