@@ -85,7 +85,7 @@ Item {
         if (isAppLikeScope) {
             return isAppLikeScopeAppCategory ? "icon" : "flat";
         } else {
-            return categoryLayout === "carousel" ? "shadow" : "inset"
+            return categoryLayout === "carousel" ? "shadow" : "flat"
         }
     }
 

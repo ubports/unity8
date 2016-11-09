@@ -24,8 +24,9 @@ DashRenderer {
         if (!cardTool || !cardTool.template || typeof cardTool.template["collapsed-rows"] != "number") return 2;
         return cardTool.template["collapsed-rows"];
     }
+
                                                    // ↓ This is the ubuntu store icon
-    readonly property string backgroundShapeStyle: cardTool.isAppLikeScope && !cardTool.isAppLikeScopeAppCategory ? "shadow" : "inset"
+    readonly property string backgroundShapeStyle: cardTool.isAppLikeScope && !cardTool.isAppLikeScopeAppCategory ? "shadow" : "flat"
 
     expandedHeight: grid.totalContentHeight
     collapsedHeight: Math.min(grid.contentHeightForRows(collapsedRows, grid.cellHeight), expandedHeight)
