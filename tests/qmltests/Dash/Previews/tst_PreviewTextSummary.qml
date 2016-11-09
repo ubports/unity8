@@ -64,7 +64,7 @@ Rectangle {
         function test_optional_title() {
             // verify titleLabel is visible and textLabel is anchored below it
             compare(titleLabel.visible, true)
-            tryCompare(textLabel, "y", titleLabel.height)
+            tryCompare(textLabel, "y", titleLabel.height + textLabel.anchors.topMargin)
 
             // verify titleLabel disappears and textLabel moves up
             previewTextSummary.widgetData = widgetDataNoTitle
@@ -81,7 +81,7 @@ Rectangle {
             previewTextSummary.widgetData = widgetDataShortText
             verify(textLabel.lineCount <= textLabel.maximumCollapsedLineCount)
             tryCompare(textLabel, "height", textLabel.contentHeight)
-            tryCompare(previewTextSummary, "height", titleLabel.height + textLabel.height)
+            tryCompare(previewTextSummary, "height", titleLabel.height + textLabel.height + textLabel.anchors.topMargin)
         }
     }
 }

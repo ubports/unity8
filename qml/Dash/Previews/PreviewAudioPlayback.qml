@@ -105,7 +105,8 @@ PreviewWidget {
                             anchors { top: parent.top; left: parent.left; right: parent.right }
                             opacity: 0.9
                             color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
-                            fontSize: "small"
+                            fontSize: "medium"
+                            font.weight: Font.Light
                             horizontalAlignment: Text.AlignLeft
                             text: modelData["title"]
                             elide: Text.ElideRight
@@ -140,6 +141,7 @@ PreviewWidget {
                         opacity: 0.9
                         color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
                         fontSize: "small"
+                        font.weight: Font.Light
                         horizontalAlignment: Text.AlignRight
                         text: DashAudioPlayer.lengthToString(modelData["length"])
                     }
