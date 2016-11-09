@@ -582,8 +582,7 @@ FocusScope {
         sectionProperty: "name"
         sectionDelegate: DashSectionHeader {
             objectName: "dashSectionHeader" + (delegate ? delegate.category : "")
-            property int delegateIndex: -1
-            readonly property var delegate: categoryView.item(delegateIndex)
+            property var delegate: null
             width: categoryView.width
             height: text != "" ? units.gu(5) : 0
             color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
