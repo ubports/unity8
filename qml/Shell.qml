@@ -516,6 +516,7 @@ StyledItem {
                     && (!greeter.locked || AccountsService.enableLauncherWhileLocked)
                     && !greeter.hasLockedApp
                     && !shell.waitingOnGreeter
+                    && settings.enableLauncher
             inverted: shell.usageScenario !== "desktop"
             superPressed: physicalKeysMapper.superPressed
             superTabPressed: physicalKeysMapper.superTabPressed

@@ -43,6 +43,11 @@
       <summary>Width of the launcher in grid units.</summary>
       <description>Changes the width of the launcher in all usage modes.</description>
     </key>
+    <key type="b" name="enable-launcher">
+      <default>true</default>
+      <summary>Enable or disable the launcher</summary>
+      <description>Toggle the availability of the launcher</description>
+    </key>
   </schema>
 
   <schema path="/com/canonical/unity8/greeter/" id="com.canonical.Unity8.Greeter" gettext-domain="unity8">
