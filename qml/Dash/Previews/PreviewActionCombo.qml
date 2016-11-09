@@ -21,6 +21,7 @@ Item {
     id: root
 
     implicitHeight: childrenRect.height
+    implicitWidth: Math.max(moreButton.implicitWidth, column.maxButtonImplicitWidth)
 
     signal triggeredAction(var actionData)
 
@@ -39,14 +40,23 @@ Item {
     }
 
     Column {
+        id: column
         anchors {
             top: moreButton.bottom
             topMargin: height > 0 ? spacing : 0
         }
         objectName: "buttonColumn"
         spacing: units.gu(1)
-        width: parent.width
         height: moreButton.expanded ? implicitHeight : 0
+
+        property real maxButtonImplicitWidth: 0
+        function calculateImplicitWidth() {
+            maxButtonImplicitWidth = 0;
+            for (var i in children) {
+                maxButtonImplicitWidth = Math.max(maxButtonImplicitWidth, children[i].implicitWidth);
+            }
+        }
+
         clip: true
         Behavior on height {
             UbuntuNumberAnimation {
@@ -59,7 +69,8 @@ Item {
 
             delegate: PreviewActionButton {
                 data: modelData
-                width: implicitWidth < root.width ? root.width : implicitWidth
+                width: root.width
+                onImplicitWidthChanged: column.calculateImplicitWidth();
                 onClicked: root.triggeredAction(modelData)
                 strokeColor: moreButton.strokeColor
             }
