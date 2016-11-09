@@ -327,7 +327,6 @@ Item {
                             anchors {
                                 verticalCenter: parent.verticalCenter
                                 right: parent.right
-                                rightMargin: units.gu(2)
                                 leftMargin: units.gu(1)
                             }
                         }
