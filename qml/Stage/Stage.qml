@@ -90,7 +90,32 @@ FocusScope {
     }
 
 
-    onAltTabPressedChanged: priv.goneToSpread = altTabPressed
+    onAltTabPressedChanged: {
+        if (altTabPressed) {
+            altTabDelayTimer.start();
+        } else {
+            // Alt Tab has been released, did we already go to spread?
+            if (priv.goneToSpread) {
+                priv.goneToSpread = false;
+            } else {
+                // No we didn't, do a quick alt-tab
+                if (appRepeater.count > 1) {
+                    appRepeater.itemAt(1).claimFocus();
+                }
+            }
+        }
+    }
+
+    Timer {
+        id: altTabDelayTimer
+        interval: 140
+        repeat: false
+        onTriggered: {
+            if (root.altTabPressed) {
+                priv.goneToSpread = true;
+            }
+        }
+    }
 
     property Item itemConfiningMouseCursor: !spreadShown && priv.focusedAppDelegate && priv.focusedAppDelegate.surface &&
                               priv.focusedAppDelegate.surface.confinesMousePointer ?
