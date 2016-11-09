@@ -235,6 +235,12 @@ FocusScope {
         readonly property bool sideStageEnabled: root.mode === "stagedWithSideStage" &&
                                                  (root.shellOrientation == Qt.LandscapeOrientation ||
                                                  root.shellOrientation == Qt.InvertedLandscapeOrientation)
+        onSideStageEnabledChanged: {
+            for (var i = 0; i < appRepeater.count; i++) {
+                appRepeater.itemAt(i).refreshStage();
+            }
+            priv.updateMainAndSideStageIndexes();
+        }
 
         property var mainStageDelegate: null
         property var sideStageDelegate: null
@@ -255,7 +261,7 @@ FocusScope {
                 priv.sideStageItemId = 0;
                 priv.sideStageAppId = "";
                 priv.mainStageDelegate = appRepeater.itemAt(0);
-                priv.mainStageAppId = topLevelSurfaceList.idAt(0);
+                priv.mainStageItemId = topLevelSurfaceList.idAt(0);
                 priv.mainStageAppId = topLevelSurfaceList.applicationAt(0) ? topLevelSurfaceList.applicationAt(0).appId : ""
                 return;
             }
@@ -451,7 +457,7 @@ FocusScope {
         },
         State {
             name: "stagedWithSideStage"; when: root.mode === "stagedWithSideStage"
-            PropertyChanges { target: triGestureArea; enabled: true }
+            PropertyChanges { target: triGestureArea; enabled: priv.sideStageEnabled }
             PropertyChanges { target: sideStage; visible: true }
         },
         State {
@@ -552,7 +558,7 @@ FocusScope {
                 bottom: parent.bottom
             }
             width: appContainer.width - sideStage.width
-            enabled: sideStage.enabled
+            enabled: priv.sideStageEnabled
 
             onDropped: {
                 drop.source.appDelegate.saveStage(ApplicationInfoInterface.MainStage);
@@ -596,7 +602,7 @@ FocusScope {
             }
 
             onShownChanged: {
-                if (!shown && priv.mainStageDelegate) {
+                if (!shown && priv.mainStageDelegate && !root.spreadShown) {
                     priv.mainStageDelegate.claimFocus();
                 }
             }
@@ -708,10 +714,6 @@ FocusScope {
                             decoratedWindow.surfaceOrientationAngle = 0;
                         }
                     }
-                }
-                Connections {
-                    target: priv
-                    onSideStageEnabledChanged: refreshStage()
                 }
 
                 readonly property alias application: decoratedWindow.application
