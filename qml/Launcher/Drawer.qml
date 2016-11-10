@@ -131,12 +131,13 @@ FocusScope {
 
             Component {
                 id: debugComponent
-                ListView {
+                GridView {
                     anchors.fill: parent
                     topMargin: units.gu(1)
                     bottomMargin: units.gu(1)
-                    spacing: units.gu(1)
+//                    spacing: units.gu(1)
                     clip: true
+
 
                     model: sortProxyModel
 //                    model: AppDrawerProxyModel {
@@ -144,9 +145,7 @@ FocusScope {
 //                        group: AppDrawerProxyModel.GroupByAToZ
 //                        sortBy: AppDrawerProxyModel.SortByAToZ
 //                    }
-                    delegate: Label {
-                        text: model.letter + " - " + model.name
-                    }
+                    delegate: drawerDelegateComponent
                 }
             }
 

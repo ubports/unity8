@@ -308,7 +308,7 @@ Rectangle {
         function revealByEdgePush() {
             // Place the mouse against the window/screen edge and push beyond the barrier threshold
             mouseMove(root, 1, root.height / 2);
-            launcher.pushEdge(EdgeBarrierSettings.pushThreshold * 1.1);
+            launcher.pushEdge(EdgeBarrierSettings.pushThreshold * .6);
 
             var panel = findChild(launcher, "launcherPanel");
             verify(!!panel);

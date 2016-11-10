@@ -137,7 +137,7 @@ FocusScope {
     }
 
     function pushEdge(amount) {
-        if (root.state === "") {
+        if (root.state === "" || root.state == "visible") {
             edgeBarrier.push(amount);
         }
     }
@@ -325,7 +325,13 @@ FocusScope {
         edge: Qt.LeftEdge
         target: parent
         enabled: root.available
-        onPassed: { root.switchToNextState("visibleTemporary"); }
+        onProgressChanged: {
+            if (progress > .5 && root.state != "visibleTemporary" && root.state != "drawer" && root.state != "visible") {
+                root.switchToNextState("visibleTemporary");
+            }
+        }
+        onPassed: { root.switchToNextState("drawer"); }
+
         material: Component {
             Item {
                 Rectangle {
@@ -354,6 +360,7 @@ FocusScope {
 
     Drawer {
         id: drawer
+        objectName: "drawer"
         anchors {
             top: parent.top
             topMargin: root.topPanelHeight
