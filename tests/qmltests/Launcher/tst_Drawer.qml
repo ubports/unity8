@@ -43,6 +43,11 @@ StyledItem {
 
         lockedVisible: lockedVisibleCheckBox.checked
 
+        property string lastSelectedApplication
+        onLauncherApplicationSelected: {
+            lastSelectedApplication = appId
+        }
+
         Component.onCompleted: {
             launcher.focus = true
             edgeBarrierControls.target = testCase.findChild(this, "edgeBarrierController");
@@ -105,18 +110,24 @@ StyledItem {
 
         function revealByEdgePush() {
             // Place the mouse against the window/screen edge and push beyond the barrier threshold
+            // If the mouse did not move between two revealByEdgePush(), we need it to move out the
+            // area to make sure we're not just accumulating to the previous push
+            mouseMove(root, root.width, root.height / 2);
             mouseMove(root, 1, root.height / 2);
+
             launcher.pushEdge(EdgeBarrierSettings.pushThreshold * 1.1);
 
-            var panel = findChild(launcher, "launcherPanel");
-            verify(!!panel);
+            var drawer = findChild(launcher, "drawer");
+            verify(!!drawer);
 
             // wait until it gets fully extended
-            tryCompare(panel, "x", 0);
+            tryCompare(drawer, "x", 0);
             tryCompare(launcher, "state", "drawer");
         }
 
         function init() {
+            launcher.lastSelectedApplication = "";
+            launcher.lockedVisible = false;
             launcher.hide();
             var drawer = findChild(launcher, "drawer");
             tryCompare(drawer, "x", -drawer.width);
@@ -126,8 +137,54 @@ StyledItem {
             dragDrawerIntoView();
         }
 
-        function test_revealByEdgePush() {
+        function test_revealByEdgePush_data() {
+            return [
+                { tag: "autohide launcher", autohide: true },
+                { tag: "locked launcher", autohide: false }
+            ]
+        }
+
+        function test_revealByEdgePush(data) {
+            launcher.lockedVisible = !data.autohide;
+
+            var panel = findChild(launcher, "launcherPanel");
+            tryCompare(panel, "x", data.autohide ? -panel.width : 0);
+            tryCompare(launcher, "state", data.autohide ? "" : "visible");
+            waitForRendering(launcher)
+
             revealByEdgePush();
+        }
+
+        function test_hideByDraggingDrawer() {
+            dragDrawerIntoView();
+
+            var drawer = findChild(launcher, "drawer");
+
+            mouseFlick(drawer, drawer.width - units.gu(1), drawer.height / 2, drawer.width - units.gu(12), drawer.height / 2);
+
+            tryCompare(launcher, "state", "");
+        }
+
+        function test_hideByClickingOutside() {
+            dragDrawerIntoView();
+
+            var drawer = findChild(launcher, "drawer");
+
+            mouseClick(root, drawer.width + units.gu(1), root.height / 2);
+
+            tryCompare(launcher, "state", "");
+        }
+
+        function test_launchAppFromDrawer() {
+            dragDrawerIntoView();
+
+            var drawerList = findChild(launcher, "drawerItemList");
+            var dialerApp = findChild(drawerList, "drawerItem_dialer-app");
+            mouseClick(dialerApp, dialerApp.width / 2, dialerApp.height / 2);
+
+            tryCompare(launcher, "lastSelectedApplication", "dialer-app");
+
+            tryCompare(launcher, "state", "");
         }
     }
 }

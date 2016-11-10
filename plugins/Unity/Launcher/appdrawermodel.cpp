@@ -21,6 +21,7 @@ AppDrawerModel::AppDrawerModel(QObject *parent):
 
 int AppDrawerModel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return m_list.count();
 }
 

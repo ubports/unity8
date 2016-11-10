@@ -320,34 +320,6 @@ FocusScope {
         }
     }
 
-    EdgeBarrier {
-        id: edgeBarrier
-        edge: Qt.LeftEdge
-        target: parent
-        enabled: root.available
-        onProgressChanged: {
-            if (progress > .5 && root.state != "visibleTemporary" && root.state != "drawer" && root.state != "visible") {
-                root.switchToNextState("visibleTemporary");
-            }
-        }
-        onPassed: { root.switchToNextState("drawer"); }
-
-        material: Component {
-            Item {
-                Rectangle {
-                    width: parent.height
-                    height: parent.width
-                    rotation: -90
-                    anchors.centerIn: parent
-                    gradient: Gradient {
-                        GradientStop { position: 0.0; color: Qt.rgba(panel.color.r, panel.color.g, panel.color.b, .5)}
-                        GradientStop { position: 1.0; color: Qt.rgba(panel.color.r,panel.color.g,panel.color.b,0)}
-                    }
-                }
-            }
-        }
-    }
-
     BackgroundBlur {
         id: backgroundBlur
         anchors.fill: parent
@@ -371,7 +343,10 @@ FocusScope {
         panelWidth: panel.width
         visible: x > -width
 
-        onApplicationSelected: root.launcherApplicationSelected(appId)
+        onApplicationSelected: {
+            root.launcherApplicationSelected(appId)
+            root.hide();
+        }
 
         Keys.onEscapePressed: {
             switchToNextState("");
@@ -461,6 +436,34 @@ FocusScope {
         Behavior on opacity {
             NumberAnimation {
                 duration: UbuntuAnimation.FastDuration; easing.type: Easing.OutCubic
+            }
+        }
+    }
+
+    EdgeBarrier {
+        id: edgeBarrier
+        edge: Qt.LeftEdge
+        target: parent
+        enabled: root.available
+        onProgressChanged: {
+            if (progress > .5 && root.state != "visibleTemporary" && root.state != "drawer" && root.state != "visible") {
+                root.switchToNextState("visibleTemporary");
+            }
+        }
+        onPassed: { root.switchToNextState("drawer"); }
+
+        material: Component {
+            Item {
+                Rectangle {
+                    width: parent.height
+                    height: parent.width
+                    rotation: -90
+                    anchors.centerIn: parent
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: Qt.rgba(panel.color.r, panel.color.g, panel.color.b, .5)}
+                        GradientStop { position: 1.0; color: Qt.rgba(panel.color.r,panel.color.g,panel.color.b,0)}
+                    }
+                }
             }
         }
     }

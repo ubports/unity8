@@ -94,6 +94,11 @@ FocusScope {
                     default: return debugComponent;
                     }
                 }
+                Binding {
+                    target: listLoader.item || null
+                    property: "objectName"
+                    value: "drawerItemList"
+                }
             }
 
             MouseArea {
@@ -260,6 +265,7 @@ FocusScope {
             AbstractButton {
                 width: GridView.view.cellWidth
                 height: units.gu(10)
+                objectName: "drawerItem_" + model.appId
 
                 onClicked: root.applicationSelected(model.appId)
 
