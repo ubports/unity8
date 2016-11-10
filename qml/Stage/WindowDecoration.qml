@@ -22,7 +22,7 @@ MouseArea {
     id: root
     clip: true
 
-    property bool closeButtonVisible
+    property alias closeButtonVisible: buttons.closeButtonShown
     property alias title: titleLabel.text
     property alias maximizeButtonShown: buttons.maximizeButtonShown
     property bool active: false
@@ -79,7 +79,6 @@ MouseArea {
             onMaximizeClicked: root.maximizeClicked();
             onMaximizeHorizontallyClicked: root.maximizeHorizontallyClicked();
             onMaximizeVerticallyClicked: root.maximizeVerticallyClicked();
-            closeButtonShown: root.closeButtonVisible
         }
 
         Label {
