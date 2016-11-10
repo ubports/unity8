@@ -22,7 +22,7 @@ MouseArea {
     id: root
     clip: true
 
-    property Item target // appDelegate
+    property bool closeButtonVisible
     property alias title: titleLabel.text
     property alias maximizeButtonShown: buttons.maximizeButtonShown
     property bool active: false
@@ -40,7 +40,7 @@ MouseArea {
     signal maximizeVerticallyClicked()
 
     onDoubleClicked: {
-        if (target.canBeMaximized && mouse.button == Qt.LeftButton) {
+        if (mouse.button == Qt.LeftButton) {
             root.maximizeClicked();
         }
     }
@@ -77,9 +77,9 @@ MouseArea {
             onCloseClicked: root.closeClicked();
             onMinimizeClicked: root.minimizeClicked();
             onMaximizeClicked: root.maximizeClicked();
-            onMaximizeHorizontallyClicked: if (root.target.canBeMaximizedHorizontally) root.maximizeHorizontallyClicked();
-            onMaximizeVerticallyClicked: if (root.target.canBeMaximizedVertically) root.maximizeVerticallyClicked();
-            closeButtonShown: root.target.appId !== "unity8-dash"
+            onMaximizeHorizontallyClicked: root.maximizeHorizontallyClicked();
+            onMaximizeVerticallyClicked: root.maximizeVerticallyClicked();
+            closeButtonShown: root.closeButtonVisible
         }
 
         Label {

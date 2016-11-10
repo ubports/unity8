@@ -1467,9 +1467,21 @@ FocusScope {
                     onRequestedHeightChanged: oldRequestedHeight = requestedHeight
 
                     onCloseClicked: { appDelegate.close(); }
-                    onMaximizeClicked: appDelegate.anyMaximized ? appDelegate.restoreFromMaximized() : appDelegate.maximize();
-                    onMaximizeHorizontallyClicked: appDelegate.maximizedHorizontally ? appDelegate.restoreFromMaximized() : appDelegate.maximizeHorizontally()
-                    onMaximizeVerticallyClicked: appDelegate.maximizedVertically ? appDelegate.restoreFromMaximized() : appDelegate.maximizeVertically()
+                    onMaximizeClicked: {
+                        if (appDelegate.canBeMaximized) {
+                            appDelegate.anyMaximized ? appDelegate.restoreFromMaximized() : appDelegate.maximize();
+                        }
+                    }
+                    onMaximizeHorizontallyClicked: {
+                        if (appDelegate.canBeMaximizedHorizontally) {
+                            appDelegate.maximizedHorizontally ? appDelegate.restoreFromMaximized() : appDelegate.maximizeHorizontally()
+                        }
+                    }
+                    onMaximizeVerticallyClicked: {
+                        if (appDelegate.canBeMaximizedVertically) {
+                            appDelegate.maximizedVertically ? appDelegate.restoreFromMaximized() : appDelegate.maximizeVertically()
+                        }
+                    }
                     onMinimizeClicked: appDelegate.minimize()
                     onDecorationPressed: { appDelegate.focus = true; }
                     onDecorationReleased: fakeRectangle.commit();
