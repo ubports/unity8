@@ -91,7 +91,6 @@ FocusScope {
                     switch (sections.selectedIndex) {
                     case 0: return aToZComponent;
                     case 1: return mostUsedComponent;
-                    default: return debugComponent;
                     }
                 }
                 Binding {
@@ -131,26 +130,6 @@ FocusScope {
                     id: reactivateTimer
                     interval: 0
                     onTriggered: parent.propagateComposedEvents = true;
-                }
-            }
-
-            Component {
-                id: debugComponent
-                GridView {
-                    anchors.fill: parent
-                    topMargin: units.gu(1)
-                    bottomMargin: units.gu(1)
-//                    spacing: units.gu(1)
-                    clip: true
-
-
-                    model: sortProxyModel
-//                    model: AppDrawerProxyModel {
-//                        source: sortProxyModel
-//                        group: AppDrawerProxyModel.GroupByAToZ
-//                        sortBy: AppDrawerProxyModel.SortByAToZ
-//                    }
-                    delegate: drawerDelegateComponent
                 }
             }
 
