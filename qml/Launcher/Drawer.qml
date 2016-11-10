@@ -48,7 +48,7 @@ FocusScope {
         AppDrawerProxyModel {
             id: sortProxyModel
             source: appDrawerModel
-            filterString: searchField.text
+            filterString: searchField.displayText
             sortBy: AppDrawerProxyModel.SortByAToZ
         }
 
