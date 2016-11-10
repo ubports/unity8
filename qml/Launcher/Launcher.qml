@@ -323,10 +323,14 @@ FocusScope {
     BackgroundBlur {
         id: backgroundBlur
         anchors.fill: parent
+        anchors.topMargin: root.inverted ? 0 : -root.topPanelHeight
         visible: root.blurSource && drawer.x > -drawer.width
         blurAmount: units.gu(6)
         sourceItem: root.blurSource
-        blurRect: Qt.rect(panel.width, root.topPanelHeight, drawer.width + drawer.x - panel.width, height - root.topPanelHeight)
+        blurRect: Qt.rect(panel.width,
+                          root.topPanelHeight,
+                          drawer.width + drawer.x - panel.width,
+                          height - root.topPanelHeight)
         cached: drawer.moving
     }
 
@@ -335,7 +339,7 @@ FocusScope {
         objectName: "drawer"
         anchors {
             top: parent.top
-            topMargin: root.topPanelHeight
+            topMargin: root.inverted ? root.topPanelHeight : 0
             bottom: parent.bottom
         }
         width: Math.min(root.width, units.gu(90)) * .9
