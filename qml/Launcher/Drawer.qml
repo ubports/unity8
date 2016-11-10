@@ -85,9 +85,6 @@ FocusScope {
                         },
                         Action {
                             text: i18n.ctr("Most used apps", "Most used")
-                        },
-                        Action {
-                            text: "DBG"
                         }
                     ]
 
