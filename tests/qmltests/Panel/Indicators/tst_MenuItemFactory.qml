@@ -840,7 +840,7 @@ Item {
 
             compare(loader.item.currentDate.getFullYear(), data.calendarDay.getFullYear(), "Calendar year does not match data")
             compare(loader.item.currentDate.getMonth(), data.calendarDay.getMonth(), "Calendar month does not match data")
-            compare(loader.item.currentDate.getDay(), data.calendarDay.getDay(), "Calendar day does not match data")
+            compare(loader.item.currentDate.getDate(), data.calendarDay.getDate(), "Calendar day does not match data")
             compare(loader.item.showWeekNumbers, data.showWeekNumbers, "Week numbers visibility does not match data")
             compare(loader.item.eventDays, data.eventDays, "Event days do not match data")
         }
