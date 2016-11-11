@@ -653,7 +653,7 @@ var fakeMenuData = {
                         "actionState": {
                             "appointment-days": [10],
                             "calendar-day": (new Date).getTime() / 1000,
-                            "show-week-numbers": true,
+                            "show-week-numbers": false,
                         },
                         "ext": {},
                         "icon": "image://theme/calendar",
