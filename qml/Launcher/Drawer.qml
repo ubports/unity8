@@ -82,9 +82,10 @@ FocusScope {
                     actions: [
                         Action {
                             text: i18n.ctr("Apps sorted alphabetically", "A-Z")
-                        },
-                        Action {
-                            text: i18n.ctr("Most used apps", "Most used")
+                        // TODO: Disabling this for now as we don't get the right input from u-a-l yet.
+//                        },
+//                        Action {
+//                            text: i18n.ctr("Most used apps", "Most used")
                         }
                     ]
 
