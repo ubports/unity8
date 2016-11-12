@@ -173,9 +173,9 @@ Item {
                 for (var j=0; j<paginationRepeater.count; j++) {
                     var paginationDot = findChild(pageHeader, "paginationDots_"+j);
                     if (i==j) {
-                        compare(paginationDot.source.toString().indexOf("pagination_dot_on") > -1, true);
+                        compare(paginationDot.color, UbuntuColors.blue);
                     } else {
-                        compare(paginationDot.source.toString().indexOf("pagination_dot_off") > -1, true);
+                        compare(paginationDot.color.a, 0);
                     }
                 }
             }

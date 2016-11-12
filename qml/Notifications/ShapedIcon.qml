@@ -35,6 +35,7 @@ Item {
 
         objectName: "nonShapedIcon"
         anchors.fill: parent
+        sourceSize: Qt.size(parent.width, parent.height)
         visible: !shaped
         source: fileSource
         fillMode: Image.PreserveAspectFit

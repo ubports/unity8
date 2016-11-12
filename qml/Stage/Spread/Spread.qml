@@ -91,7 +91,7 @@ Item {
 
     readonly property real visibleItemCount: (spreadWidth / spreadItemWidth) / (1 - itemOverlap)
 
-    readonly property real spreadTotalWidth: totalItemCount * spreadWidth / visibleItemCount
+    readonly property real spreadTotalWidth: Math.max(2,totalItemCount) * spreadWidth / visibleItemCount
 
     readonly property real centeringOffset: Math.max(spreadWidth - spreadTotalWidth ,0) / (2 * spreadWidth)
 

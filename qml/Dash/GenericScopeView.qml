@@ -22,7 +22,6 @@ import Utils 0.1
 import Unity 0.2
 import Dash 0.1
 import "../Components"
-import "../Components/ListItems" as ListItems
 import "Previews/PreviewSingleton"
 
 FocusScope {
@@ -267,6 +266,8 @@ FocusScope {
                 template: model.renderer
                 components: model.components
                 viewWidth: parent.width
+                scopeId: scope ? scope.id : ""
+                categoryId: baseItem.category
             }
 
             onExpandableChanged: {
@@ -342,53 +343,12 @@ FocusScope {
                         baseItem.expand(shouldExpand, false /*animate*/);
                     }
                     updateRanges();
-                    clickScopeSizingHacks();
-                    if (scope && (scope.id === "clickscope" || scope.id === "libertine-scope.ubuntu_libertine-scope")) {
-                        if (isLibertineContainerCategory() || categoryId === "predefined" || categoryId === "local") {
-                            cardTool.artShapeSize = Qt.binding(function() { return Qt.size(units.gu(8), units.gu(7.5)) });
-                            cardTool.artShapeStyle = "icon";
-                        } else {
-                            // Should be ubuntu store icon
-                            cardTool.artShapeStyle = "flat";
-                            item.backgroundShapeStyle = "shadow";
-                        }
-                    }
                     item.cardTool = cardTool;
                 }
 
                 Component.onDestruction: {
                     if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviorOnNextCreation !== undefined) {
                         scopeView.enableHeightBehaviorOnNextCreation = item.enableHeightBehaviorOnNextCreation;
-                    }
-                }
-                // FIXME: directly connecting to onUnitsChanged cause a compile error:
-                // Cannot assign to non-existent property "onUnitsChanged"
-                // Until the units object is reworked to properly do all we need, let's go through a intermediate property
-                property int pxpgu: units.gu(1);
-                onPxpguChanged: clickScopeSizingHacks();
-
-                // Returns true if the current category pertains to a Libertine container
-                function isLibertineContainerCategory() {
-                  return scope && scope.id === "libertine-scope.ubuntu_libertine-scope" && categoryId !== "hint";
-                }
-
-                function clickScopeSizingHacks() {
-                    if (scope &&
-                        ((scope.id === "clickscope" && (categoryId === "predefined" || categoryId === "local")) ||
-                         isLibertineContainerCategory())) {
-                        // Yeah, hackish :/
-                        if (scopeView.width > units.gu(45)) {
-                            if (scopeView.width >= units.gu(70)) {
-                                cardTool.cardWidth = units.gu(11);
-                                item.minimumHorizontalSpacing = units.gu(5);
-                                return;
-                            } else {
-                                cardTool.cardWidth = units.gu(10);
-                            }
-                        } else {
-                            cardTool.cardWidth = units.gu(12);
-                        }
-                        item.minimumHorizontalSpacing = item.defaultMinimumHorizontalSpacing;
                     }
                 }
 
@@ -425,7 +385,6 @@ FocusScope {
                     target: scopeView
                     onIsCurrentChanged: rendererLoader.updateRanges();
                     onVisibleToParentChanged: rendererLoader.updateRanges();
-                    onWidthChanged: rendererLoader.clickScopeSizingHacks();
                 }
                 Connections {
                     target: holdingList
@@ -593,42 +552,16 @@ FocusScope {
                     color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
                 }
             }
-
-            Image {
-                visible: index != 0
-                anchors {
-                    top: parent.top
-                    left: parent.left
-                    right: parent.right
-                }
-                fillMode: Image.Stretch
-                source: "graphics/dash_divider_top_lightgrad.png"
-                z: -1
-            }
-
-            Image {
-                // FIXME Should not rely on model.count but view.count, but ListViewWithPageHeader doesn't expose it yet.
-                visible: index != categoryView.model.count - 1
-                anchors {
-                    bottom: seeAll.bottom
-                    left: parent.left
-                    right: parent.right
-                }
-                fillMode: Image.Stretch
-                source: "graphics/dash_divider_top_darkgrad.png"
-                z: -1
-            }
         }
 
         sectionProperty: "name"
-        sectionDelegate: ListItems.Header {
+        sectionDelegate: DashSectionHeader {
             objectName: "dashSectionHeader" + (delegate ? delegate.category : "")
-            property int delegateIndex: -1
-            readonly property var delegate: categoryView.item(delegateIndex)
+            property var delegate: null
             width: categoryView.width
             height: text != "" ? units.gu(5) : 0
             color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
-            iconName: delegate && delegate.headerLink ? "go-next" : ""
+            iconName: delegate && delegate.headerLink ? "toolkit_chevron-ltr_1gu" : ""
             onClicked: {
                 if (delegate.headerLink) scopeView.scope.performQuery(delegate.headerLink);
             }
@@ -644,6 +577,7 @@ FocusScope {
             scopeHasFilters: scopeView.scope.filters != null
             activeFiltersCount: scopeView.scope.activeFiltersCount
             showBackButton: scopeView.hasBackAction
+            showSignatureLine: !showBackButton
             searchEntryEnabled: true
             settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false
             favoriteEnabled: scopeView.scope && scopeView.scope.id !== "clickscope"
@@ -787,17 +721,6 @@ FocusScope {
             fontSize: "small"
             font.weight: Font.Bold
             color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
-        }
-
-        Image {
-            anchors {
-                bottom: parent.bottom
-                left: parent.left
-                right: parent.right
-            }
-            fillMode: Image.Stretch
-            source: "graphics/dash_divider_top_darkgrad.png"
-            z: -1
         }
 
         Connections {
