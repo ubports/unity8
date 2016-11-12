@@ -117,6 +117,7 @@ Rectangle {
             var widget = findChild(preview, "widget-21");
             var initialWidgetHeight = widget.height;
             var moreLessButton = findChild(widget, "moreLessButton");
+            waitForRendering(moreLessButton);
             mouseClick(moreLessButton);
 
             // Wait for the combo to stop growing
