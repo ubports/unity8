@@ -2815,6 +2815,15 @@ Rectangle {
             keyClick(Qt.Key_Tab);
             tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
             keyRelease(Qt.Key_Alt);
+
+            stage.closeSpread();
+            tryCompare(stage, "state", "staged");
+
+            // Try by Super+W
+            keyPress(Qt.Key_W, Qt.MetaModifier)
+            tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
+            keyRelease(Qt.Key_W, Qt.MetaModifier)
+
         }
     }
 }

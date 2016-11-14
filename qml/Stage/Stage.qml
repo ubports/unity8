@@ -172,6 +172,7 @@ FocusScope {
     GlobalShortcut {
         id: showSpreadShortcut
         shortcut: Qt.MetaModifier|Qt.Key_W
+        active: root.spreadEnabled
         onTriggered: priv.goneToSpread = true
     }
 
