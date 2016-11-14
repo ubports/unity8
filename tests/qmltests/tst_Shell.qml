@@ -2779,5 +2779,42 @@ Rectangle {
 
             GSettingsController.setEnableLauncher(true);
         }
+
+        function test_spreadDisabled_data() {
+            return [
+                { tag: "enabled", spreadEnabled: true },
+                { tag: "disabled", spreadEnabled: false }
+            ]
+        }
+        function test_spreadDisabled(data) {
+            loadShell("phone");
+            swipeAwayGreeter();
+            var stage = findChild(shell, "stage");
+            stage.spreadEnabled = data.spreadEnabled;
+
+            // Try swiping
+            touchFlick(shell, shell.width - 2, shell.height / 2, units.gu(1), shell.height / 2);
+            tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
+
+            stage.closeSpread();
+            tryCompare(stage, "state", "staged");
+
+            // Try by edge push
+            mouseMove(stage, stage.width -  1, units.gu(10));
+            for (var i = 0; i < units.gu(10); i++) {
+                stage.pushRightEdge(1);
+            }
+            mouseMove(stage, stage.width - units.gu(5), units.gu(10));
+            tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
+
+            stage.closeSpread();
+            tryCompare(stage, "state", "staged");
+
+            // Try by alt+tab
+            keyPress(Qt.Key_Alt);
+            keyClick(Qt.Key_Tab);
+            tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
+            keyRelease(Qt.Key_Alt);
+        }
     }
 }

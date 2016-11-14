@@ -92,7 +92,9 @@ FocusScope {
 
     onAltTabPressedChanged: {
         if (altTabPressed) {
-            altTabDelayTimer.start();
+            if (root.spreadEnabled) {
+                altTabDelayTimer.start();
+            }
         } else {
             // Alt Tab has been released, did we already go to spread?
             if (priv.goneToSpread) {
@@ -127,7 +129,9 @@ FocusScope {
     function updateFocusedAppOrientation() { /* TODO */ }
     function updateFocusedAppOrientationAnimated() { /* TODO */}
     function pushRightEdge(amount) {
-        edgeBarrier.push(amount);
+        if (root.spreadEnabled) {
+            edgeBarrier.push(amount);
+        }
     }
 
     function closeSpread() {
@@ -1788,6 +1792,7 @@ FocusScope {
         direction: Direction.Leftwards
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
+        enabled: root.spreadEnabled
 
         property var gesturePoints: []
         property bool cancelled: false
