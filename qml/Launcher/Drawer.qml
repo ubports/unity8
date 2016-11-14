@@ -19,6 +19,7 @@ import Ubuntu.Components 1.3
 import Unity.Launcher 0.1
 import Utils 0.1
 import "../Components"
+import Qt.labs.settings 1.0
 
 FocusScope {
     id: root
@@ -35,6 +36,10 @@ FocusScope {
         if (focus) {
             searchField.selectAll();
         }
+    }
+
+    Settings {
+        property alias selectedTab: sections.selectedIndex
     }
 
     Rectangle {
