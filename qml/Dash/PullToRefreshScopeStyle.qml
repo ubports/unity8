@@ -48,7 +48,7 @@ PullToRefreshStyle {
         anchors.horizontalCenter: parent.horizontalCenter
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        color: styledItem.scopeBackgroundLuminance < 0.3 ? UbuntuColors.porcelain : UbuntuColors.jet
+        color: styledItem.pullLabelColor
         states: [
             State {
                 name: "pulling"
