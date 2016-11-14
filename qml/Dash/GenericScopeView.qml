@@ -167,7 +167,6 @@ FocusScope {
     }
 
     Rectangle {
-        id: scopeBackground
         anchors.fill: parent
         color: scopeView.scopeStyle ? scopeView.scopeStyle.background : "transparent"
         visible: color != "transparent"
@@ -658,7 +657,7 @@ FocusScope {
             target: categoryView
 
             readonly property real contentY: categoryView.contentY - categoryView.originY
-            readonly property real scopeBackgroundLuminance: scopeBackground.visible ? Style.luminance(scopeBackground.color) : 1.0
+            readonly property color pullLabelColor: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
             y: -contentY - units.gu(5)
 
             onRefresh: {
