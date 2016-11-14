@@ -49,7 +49,6 @@ FocusScope {
 
     // Configuration
     property string mode: "staged"
-    property real leftEdgeDragProgress: 0
 
     // Used by the tutorial code
     readonly property bool spreadShown: state == "spread"
@@ -998,7 +997,6 @@ FocusScope {
                     sideStageX: sideStage.x
                     itemIndex: appDelegate.itemIndex
                     nextInStack: priv.nextInStack
-                    leftEdgeDragProgress: root.leftEdgeDragProgress
                 }
 
                 StagedRightEdgeMaths {
