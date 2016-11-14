@@ -32,7 +32,6 @@ FocusScope {
 
     property int panelWidth: units.gu(10)
     property int dragAreaWidth: units.gu(1)
-    property int minimizeDistance: units.gu(26)
     property real progress: dragArea.dragging && dragArea.touchPosition.x > panelWidth ?
                                 (width * (dragArea.touchPosition.x-panelWidth) / (width - panelWidth)) : 0
 
@@ -48,9 +47,6 @@ FocusScope {
 
     // emitted when an application is selected
     signal launcherApplicationSelected(string appId)
-
-    // emitted when the apps dash should be shown because of a swipe gesture
-    signal dash()
 
     // emitted when the dash icon in the launcher has been tapped
     signal showDashHome()
@@ -510,9 +506,6 @@ FocusScope {
                         root.switchToNextState("drawer")
                     } else {
                         root.switchToNextState("visible")
-                        if (distance > minimizeDistance) {
-                            root.dash();
-                        }
                     }
                 } else if (root.state === "") {
                     // didn't drag far enough. rollback

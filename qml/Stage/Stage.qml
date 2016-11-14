@@ -36,7 +36,6 @@ FocusScope {
     property url background
     property int dragAreaWidth
     property bool interactive
-    property bool keepDashRunning: true
     property real nativeHeight
     property real nativeWidth
     property QtObject orientations
@@ -375,7 +374,7 @@ FocusScope {
                 //       in staged mode, when it switches to Windowed mode it will suddenly
                 //       resume all those apps at once. We might want to avoid that.
                 value: root.mode === "windowed"
-                       || (isDash && root.keepDashRunning)
+                       || isDash
                        || (!root.suspended && model.application && priv.focusedAppDelegate &&
                            (priv.focusedAppDelegate.appId === model.application.appId ||
                             priv.mainStageAppId === model.application.appId ||

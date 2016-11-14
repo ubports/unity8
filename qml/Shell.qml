@@ -308,7 +308,6 @@ StyledItem {
 
             leftMargin: shell.usageScenario == "desktop" && !settings.autohideLauncher ? launcher.panelWidth: 0
             suspended: greeter.shown
-            keepDashRunning: launcher.shown || launcher.dashSwipe
             altTabPressed: physicalKeysMapper.altTabPressed
             oskEnabled: shell.oskEnabled
 
@@ -435,18 +434,6 @@ StyledItem {
         }
     }
 
-    function showDash() {
-        if (greeter.notifyShowingDashFromDrag()) {
-            launcher.fadeOut();
-        }
-
-        if (!greeter.locked && tutorial.launcherLongSwipeEnabled
-            && ApplicationManager.focusedApplicationId != "unity8-dash") {
-            ApplicationManager.requestFocusApplication("unity8-dash")
-            launcher.fadeOut();
-        }
-    }
-
     Item {
         id: overlay
         z: 10
@@ -496,15 +483,6 @@ StyledItem {
             id: launcher
             objectName: "launcher"
 
-            /*
-             * Since the Dash doesn't have the same controll over surfaces that the
-             * Shell does, it can't slowly move the scope out of the way, as the shell
-             * does  with apps, and the dash is show instantly. This allows for some
-             * leeway and prevents accidental home swipes.
-             */
-            readonly property real offset: shell.focusedApplicationId == "unity8-dash" ? units.gu(12) : 0
-            readonly property bool dashSwipe: progress > offset
-
             anchors.top: parent.top
             anchors.topMargin: inverted ? 0 : panel.panelHeight
             anchors.bottom: parent.bottom
@@ -523,12 +501,6 @@ StyledItem {
             topPanelHeight: panel.panelHeight
 
             onShowDashHome: showHome()
-            onDash: showDash()
-            onDashSwipeChanged: {
-                if (dashSwipe) {
-                    dash.setCurrentScope(0, false, true)
-                }
-            }
             onLauncherApplicationSelected: {
                 greeter.notifyUserRequestedApp();
                 shell.activateApplication(appId);
