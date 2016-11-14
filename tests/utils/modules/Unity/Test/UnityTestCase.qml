@@ -258,7 +258,7 @@ TestCase {
     // Keeps executing a given parameter-less function until it returns the given
     // expected result or the timemout is reached (in which case a test failure
     // is generated)
-    function tryCompareFunction(func, expectedResult, timeout) {
+    function tryCompareFunction(func, expectedResult, timeout, message) {
         var timeSpent = 0
         if (timeout === undefined)
             timeout = 5000;
@@ -276,7 +276,7 @@ TestCase {
         var act = qtest_results.stringify(actualResult)
         var exp = qtest_results.stringify(expectedResult)
         if (!qtest_results.compare(success,
-                                   "function returned unexpected result",
+                                   message || "function returned unexpected result",
                                    act, exp,
                                    util.callerFile(), util.callerLine())) {
             throw new Error("QtQuickTest::fail")
