@@ -133,7 +133,7 @@ FocusScope {
     }
 
     function pushEdge(amount) {
-        if (root.state === "" || root.state == "visible") {
+        if (root.state === "" || root.state == "visible" || root.state == "visibleTemporary") {
             edgeBarrier.push(amount);
         }
     }
