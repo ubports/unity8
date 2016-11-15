@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-10-24 11:37+0000\n"
+"POT-Creation-Date: 2016-11-09 15:10+0000\n"
 "PO-Revision-Date: 2016-10-02 08:06+0000\n"
 "Last-Translator: Olivier Febwin <febwin@free.fr>\n"
 "Language-Team: French <fr@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-10-28 05:53+0000\n"
-"X-Generator: Launchpad (build 18246)\n"
+"X-Launchpad-Export-Date: 2016-11-12 06:09+0000\n"
+"X-Generator: Launchpad (build 18255)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
@@ -317,26 +317,26 @@ msgstr "Tout fermer"
 msgid "Preview Share Item"
 msgstr "Aperçu de l'élément partagé"
 
-#: qml/Dash/DashPageHeader.qml:362
+#: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Logithèque"
 
-#: qml/Dash/DashPageHeader.qml:369
+#: qml/Dash/DashPageHeader.qml:368
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Rechercher"
 
-#: qml/Dash/DashPageHeader.qml:379
+#: qml/Dash/DashPageHeader.qml:378
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Paramètres"
 
-#: qml/Dash/DashPageHeader.qml:386
+#: qml/Dash/DashPageHeader.qml:385
 msgid "Remove from Favorites"
 msgstr "Retirer des favoris"
 
-#: qml/Dash/DashPageHeader.qml:386
+#: qml/Dash/DashPageHeader.qml:385
 msgid "Add to Favorites"
 msgstr "Ajouter aux favoris"
 
@@ -348,15 +348,15 @@ msgstr "Affiner vos résultats"
 msgid "Reset"
 msgstr "Réinitialiser"
 
-#: qml/Dash/GenericScopeView.qml:586 qml/Dash/GenericScopeView.qml:782
+#: qml/Dash/GenericScopeView.qml:545 qml/Dash/GenericScopeView.qml:716
 msgid "Show less"
 msgstr "Afficher plus"
 
-#: qml/Dash/GenericScopeView.qml:586
+#: qml/Dash/GenericScopeView.qml:545
 msgid "Show all"
 msgstr "Tout afficher"
 
-#: qml/Dash/GenericScopeView.qml:643
+#: qml/Dash/GenericScopeView.qml:576
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Rechercher"
@@ -369,24 +369,24 @@ msgstr "Recherches récentes"
 msgid "Clear All"
 msgstr "Tout effacer"
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:35
+#: qml/Dash/Previews/PreviewActionCombo.qml:36
 msgid "More..."
 msgstr "Plus..."
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:35
+#: qml/Dash/Previews/PreviewActionCombo.qml:36
 msgid "Less..."
 msgstr "Moins..."
 
 #: qml/Dash/Previews/PreviewCommentInput.qml:83
-#: qml/Dash/Previews/PreviewRatingInput.qml:201
+#: qml/Dash/Previews/PreviewRatingInput.qml:202
 msgid "Send"
 msgstr "Envoyer"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:108
+#: qml/Dash/Previews/PreviewRatingInput.qml:109
 msgid "Rate this"
 msgstr "Évaluez ceci"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:183
+#: qml/Dash/Previews/PreviewRatingInput.qml:184
 msgid "Add a review"
 msgstr "Ajouter un avis"
 
@@ -489,62 +489,62 @@ msgstr "Appuyez pour revenir à l'appel..."
 msgid "Conference"
 msgstr "Conférence"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:788
+#: qml/Panel/Indicators/MenuItemFactory.qml:795
 msgid "Nothing is playing"
 msgstr "Rien n'est en cours de lecture"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:916
+#: qml/Panel/Indicators/MenuItemFactory.qml:923
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 heure"
 msgstr[1] "%1 heures"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:920
+#: qml/Panel/Indicators/MenuItemFactory.qml:927
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 minute"
 msgstr[1] "%1 minutes"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:925
+#: qml/Panel/Indicators/MenuItemFactory.qml:932
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 seconde"
 msgstr[1] "%1 secondes"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:928
+#: qml/Panel/Indicators/MenuItemFactory.qml:935
 msgid "0 seconds"
 msgstr "0 seconde"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:930
+#: qml/Panel/Indicators/MenuItemFactory.qml:937
 #, qt-format
 msgid "%1 remaining"
 msgstr "Il reste %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:936
+#: qml/Panel/Indicators/MenuItemFactory.qml:943
 msgid "In queue…"
 msgstr "Dans la file d'attente..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:940
+#: qml/Panel/Indicators/MenuItemFactory.qml:947
 msgid "Downloading"
 msgstr "Téléchargement en cours"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:942
+#: qml/Panel/Indicators/MenuItemFactory.qml:949
 msgid "Paused, tap to resume"
 msgstr "En pause, appuyez pour reprendre"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:944
+#: qml/Panel/Indicators/MenuItemFactory.qml:951
 msgid "Canceled"
 msgstr "Annulé"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:946
+#: qml/Panel/Indicators/MenuItemFactory.qml:953
 msgid "Finished"
 msgstr "Terminé"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:948
+#: qml/Panel/Indicators/MenuItemFactory.qml:955
 msgid "Failed, tap to retry"
 msgstr "Échec, appuyez pour réessayer"
 

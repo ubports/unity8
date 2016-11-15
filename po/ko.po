@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-10-24 11:37+0000\n"
+"POT-Creation-Date: 2016-11-09 15:10+0000\n"
 "PO-Revision-Date: 2014-08-19 13:02+0000\n"
 "Last-Translator: MinSik CHO <Unknown>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-10-28 05:54+0000\n"
-"X-Generator: Launchpad (build 18246)\n"
+"X-Launchpad-Export-Date: 2016-11-12 06:09+0000\n"
+"X-Generator: Launchpad (build 18255)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
@@ -311,26 +311,26 @@ msgstr "모두 닫기"
 msgid "Preview Share Item"
 msgstr "공유 항목 미리 보기"
 
-#: qml/Dash/DashPageHeader.qml:362
+#: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "상점"
 
-#: qml/Dash/DashPageHeader.qml:369
+#: qml/Dash/DashPageHeader.qml:368
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "검색"
 
-#: qml/Dash/DashPageHeader.qml:379
+#: qml/Dash/DashPageHeader.qml:378
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "설정"
 
-#: qml/Dash/DashPageHeader.qml:386
+#: qml/Dash/DashPageHeader.qml:385
 msgid "Remove from Favorites"
 msgstr "즐겨찾기에서 제거"
 
-#: qml/Dash/DashPageHeader.qml:386
+#: qml/Dash/DashPageHeader.qml:385
 msgid "Add to Favorites"
 msgstr "즐겨찾기에 추가"
 
@@ -342,15 +342,15 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:586 qml/Dash/GenericScopeView.qml:782
+#: qml/Dash/GenericScopeView.qml:545 qml/Dash/GenericScopeView.qml:716
 msgid "Show less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:586
+#: qml/Dash/GenericScopeView.qml:545
 msgid "Show all"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:643
+#: qml/Dash/GenericScopeView.qml:576
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "검색"
@@ -363,24 +363,24 @@ msgstr ""
 msgid "Clear All"
 msgstr ""
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:35
+#: qml/Dash/Previews/PreviewActionCombo.qml:36
 msgid "More..."
 msgstr "더 보기..."
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:35
+#: qml/Dash/Previews/PreviewActionCombo.qml:36
 msgid "Less..."
 msgstr "간단하게..."
 
 #: qml/Dash/Previews/PreviewCommentInput.qml:83
-#: qml/Dash/Previews/PreviewRatingInput.qml:201
+#: qml/Dash/Previews/PreviewRatingInput.qml:202
 msgid "Send"
 msgstr "보내기"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:108
+#: qml/Dash/Previews/PreviewRatingInput.qml:109
 msgid "Rate this"
 msgstr "이 프로그램 평가"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:183
+#: qml/Dash/Previews/PreviewRatingInput.qml:184
 msgid "Add a review"
 msgstr "평가 추가"
 
@@ -476,59 +476,59 @@ msgstr "다시 통화하려면 두드려주십시오."
 msgid "Conference"
 msgstr "회의"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:788
+#: qml/Panel/Indicators/MenuItemFactory.qml:795
 msgid "Nothing is playing"
 msgstr "연주하는 항목 없음"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:916
+#: qml/Panel/Indicators/MenuItemFactory.qml:923
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1시간"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:920
+#: qml/Panel/Indicators/MenuItemFactory.qml:927
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1분"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:925
+#: qml/Panel/Indicators/MenuItemFactory.qml:932
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1초"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:928
+#: qml/Panel/Indicators/MenuItemFactory.qml:935
 msgid "0 seconds"
 msgstr "0초"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:930
+#: qml/Panel/Indicators/MenuItemFactory.qml:937
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 남음"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:936
+#: qml/Panel/Indicators/MenuItemFactory.qml:943
 msgid "In queue…"
 msgstr "대기 중..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:940
+#: qml/Panel/Indicators/MenuItemFactory.qml:947
 msgid "Downloading"
 msgstr "다운로드 중"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:942
+#: qml/Panel/Indicators/MenuItemFactory.qml:949
 msgid "Paused, tap to resume"
 msgstr "일시 중지하였습니다. 계속하려면 두드려주십시오."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:944
+#: qml/Panel/Indicators/MenuItemFactory.qml:951
 msgid "Canceled"
 msgstr "취소함"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:946
+#: qml/Panel/Indicators/MenuItemFactory.qml:953
 msgid "Finished"
 msgstr "완료함"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:948
+#: qml/Panel/Indicators/MenuItemFactory.qml:955
 msgid "Failed, tap to retry"
 msgstr "실패, 두드리면 다시 시도합니다."
 

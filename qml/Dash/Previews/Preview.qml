@@ -56,11 +56,12 @@ Item {
     Row {
         id: row
 
-        spacing: units.gu(1)
-        anchors { fill: parent; margins: spacing }
+        spacing: units.gu(4)
+        anchors.fill: parent
 
-        property int columns: width >= units.gu(80) ? 2 : 1
-        property real columnWidth: width / columns
+        readonly property int columns: width >= units.gu(80) ? 2 : 1
+        readonly property real columnWidth: (width - (spacing * (columns - 1))) / columns
+        readonly property int singleColumnMargin: units.gu(2)
 
         Repeater {
             model: previewModel
@@ -72,8 +73,11 @@ Item {
                     top: parent.top
                     bottom: parent.bottom
                 }
+                topMargin: units.gu(2)
                 width: row.columnWidth
-                spacing: row.spacing
+                spacing: units.gu(1)
+
+                readonly property int columnNumber: index
 
                 ListViewOSKScroller {
                     id: oskScroller
@@ -96,8 +100,16 @@ Item {
                     anchors {
                         left: parent.left
                         right: parent.right
-                        leftMargin: widgetMargins
-                        rightMargin: widgetMargins
+                        leftMargin: if (row.columns == 1) {
+                                        return singleColumnMarginless ? 0 : row.singleColumnMargin;
+                                    } else {
+                                        return column.columnNumber == 0 ? row.singleColumnMargin : 0;
+                                    }
+                        rightMargin: if (row.columns == 1) {
+                                        return singleColumnMarginless ? 0 : row.singleColumnMargin;
+                                    } else {
+                                        return column.columnNumber == 1 ? row.singleColumnMargin : 0;
+                                    }
                     }
 
                     onTriggered: {
