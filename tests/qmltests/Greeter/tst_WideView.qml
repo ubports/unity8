@@ -409,18 +409,21 @@ StyledItem {
             waitForRendering(view);
         }
 
-        function test_stuff() {
+        function test_changingSessionSticksToUser() {
             LightDM.Sessions.mock.sessionMode = "full";
             var loginList = findChild(view, "loginList");
-
-            var currentUser = loginList.currentUser
             var fakeSessionName = "ASessionWillNeverBeCalledThis"
 
-            compare(LightDM.Users.data(getIndexOf(currentUser), LightDM.UserRoles.SessionRole) != fakeSessionName, true);
+            compare(LightDM.Sessions.count > 1, true);
+            compare(loginList.currentSession != fakeSessionName, true);
 
             LightDM.Users.mock.sessionName = fakeSessionName;
+            tryCompare(loginList, "currentSession", fakeSessionName);
 
-            compare(LightDM.Users.data(getIndexOf(currentUser), LightDM.UserRoles.SessionRole) == fakeSessionName, true);
+            // Force a model reset
+            LightDM.Users.mock.userMode = "single";
+            LightDM.Users.mock.userMode = "full";
+
         }
 
         function test_tease_data() {
