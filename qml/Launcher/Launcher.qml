@@ -504,6 +504,7 @@ FocusScope {
                 if (distance > panel.width / 2) {
                     if (distance > panel.width * 3) {
                         root.switchToNextState("drawer")
+                        root.focus = true;
                     } else {
                         root.switchToNextState("visible")
                     }

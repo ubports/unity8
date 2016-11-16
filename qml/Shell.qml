@@ -299,7 +299,6 @@ StyledItem {
 
             interactive: (!greeter || !greeter.shown)
                     && panel.indicators.fullyClosed
-                    && launcher.progress == 0
                     && !notifications.useModal
 
             onInteractiveChanged: { if (interactive) { focus = true; } }
@@ -322,7 +321,7 @@ StyledItem {
             topMargin: panel.panelHeight
             leftMargin: launcher.lockedVisible ? launcher.panelWidth : 0
         }
-        z: notifications.useModal || panel.indicators.shown || wizard.active || tutorial.running || launcher.shown ? overlay.z + 1 : overlay.z - 1
+        z: notifications.useModal || panel.indicators.shown || wizard.active || tutorial.running || (greeter.shown && launcher.shown) ? overlay.z + 1 : overlay.z - 1
     }
 
     Loader {
