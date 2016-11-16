@@ -363,6 +363,35 @@ Item {
     }
 
     Component {
+        id: radioMenu;
+
+        Menus.RadioMenu {
+            id: radioItem
+            objectName: "radioMenu"
+            property QtObject menuData: null
+            property int menuIndex: -1
+            property bool serverChecked: menuData && menuData.isToggled || false
+
+            text: menuData && menuData.label || ""
+            enabled: menuData && menuData.sensitive || false
+            checked: serverChecked
+            highlightWhenPressed: false
+
+            ServerPropertySynchroniser {
+                objectName: "sync"
+                syncTimeout: Utils.Constants.indicatorValueTimeout
+
+                serverTarget: radioItem
+                serverProperty: "serverChecked"
+                userTarget: radioItem
+                userProperty: "checked"
+
+                onSyncTriggered: menuModel.activate(radioItem.menuIndex)
+            }
+        }
+    }
+
+    Component {
         id: switchMenu;
 
         Menus.SwitchMenu {
@@ -1003,7 +1032,7 @@ Item {
     Component {
         id: buttonSectionMenu;
 
-        Menus.StandardMenu {
+        Menus.ButtonMenu {
             objectName: "buttonSectionMenu"
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
@@ -1015,6 +1044,7 @@ Item {
             highlightWhenPressed: false
             text: menuData && menuData.label || ""
             foregroundColor: theme.palette.normal.backgroundText
+            buttonText: getExtendedProperty(extendedData, "xCanonicalExtraLabel", "")
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -1027,14 +1057,7 @@ Item {
                 menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-extra-label': 'string'});
             }
 
-            slots: Button {
-                objectName: "buttonSectionMenuControl"
-                text: getExtendedProperty(extendedData, "xCanonicalExtraLabel", "")
-
-                onClicked: {
-                    menuModel.activate(menuIndex);
-                }
-            }
+            onButtonClicked: menuModel.activate(menuIndex);
         }
     }
 
@@ -1053,8 +1076,11 @@ Item {
             return component;
         }
 
-        if (modelData.isCheck || modelData.isRadio) {
+        if (modelData.isCheck) {
             return checkableMenu;
+        }
+        if (modelData.isRadio) {
+            return radioMenu;
         }
         if (modelData.isSeparator) {
             return separatorMenu;
