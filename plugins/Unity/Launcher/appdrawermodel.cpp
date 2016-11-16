@@ -14,7 +14,7 @@ AppDrawerModel::AppDrawerModel(QObject *parent):
             continue;
         }
         m_list.append(new LauncherItem(appId, info.name, info.icon, this));
-        qDebug() << "added" << appId;
+        m_list.last()->setKeywords(info.keywords);
     }
     qsrand(QDateTime::currentMSecsSinceEpoch() / 100);
 }
@@ -34,6 +34,8 @@ QVariant AppDrawerModel::data(const QModelIndex &index, int role) const
         return m_list.at(index.row())->name();
     case RoleIcon:
         return m_list.at(index.row())->icon();
+    case RoleKeywords:
+        return m_list.at(index.row())->keywords();
     case RoleUsage:
         // FIXME: u-a-l needs to provide API for usage stats.
         return qrand();

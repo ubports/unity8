@@ -8,6 +8,7 @@ public:
         bool valid = false;
         QString name;
         QString icon;
+        QStringList keywords;
     };
 
     UalWrapper(QObject* parent = nullptr);
