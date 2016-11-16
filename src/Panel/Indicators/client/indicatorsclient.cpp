@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,12 +26,20 @@
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QDebug>
+#include <QTranslator>
+#include <QLibraryInfo>
+#include <QLocale>
 
 IndicatorsClient::IndicatorsClient(int &argc, char **argv)
     : QObject(0),
       m_view(0)
 {
     m_application = new QApplication(argc, argv);
+
+    QTranslator qtTranslator;
+    if (qtTranslator.load(QLocale(), QStringLiteral("qt_"), qgetenv("SNAP"), QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
+        m_application->installTranslator(&qtTranslator);
+    }
 
     QStringList args = m_application->arguments();
 
@@ -53,8 +61,7 @@ IndicatorsClient::IndicatorsClient(int &argc, char **argv)
         if (geometryArg.size() == 2) {
             m_view->resize(geometryArg.at(0).toInt(), geometryArg.at(1).toInt());
         }
-    }
-    else {
+    } else {
         //Usable size on desktop
         m_view->setMinimumSize(QSize(480, 720));
     }
@@ -67,11 +74,6 @@ IndicatorsClient::~IndicatorsClient()
     }
 
     delete m_application;
-}
-
-void IndicatorsClient::setupUI()
-{
-
 }
 
 int IndicatorsClient::run()

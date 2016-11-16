@@ -1,3 +1,86 @@
+unity8 (8.14+17.04.20161109-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make more CardTool properties readonly
+  * Make the > in Dash Section Header be after text (LP: #1508905)
+  * Rework Dash Preview column margins
+  * Improve LVWPH <-> GenericScopeView interaction (LP: #1508905,
+    #1622423)
+  * Make the PreviewButtons be of the width of the button and not half
+    the total width
+  * Fix first column of the preview table to be 25%
+
+  [ Andrea Cimitan ]
+  * Remove background under header pagination dots, update dots assets,
+    remove dash paper background, update bottom edge asset
+  * Few styling changes for cards
+  * various tweaks to fonts inside previews
+  * More visual tweaks
+
+  [ Brian Douglass ]
+  * Add a new setting to enable/disable the launcher
+
+  [ Lukáš Tinkl ]
+  * Stabilize test_doubleTapToMaximizeWindow()
+  * Enable loading the main Qt catalog which in turn allows for using
+    RTL languages
+  * Fix the pixelated notification icon by setting sourceSize (LP:
+    #1637712)
+
+  [ Michael Terry ]
+  * More path lookup fixes for running inside of a snap. (LP: #1629009)
+
+  [ Michael Zanetti ]
+  * Added blur and darkening to wallpaper while in spread
+  * Fixes in the spread after design review (LP: #1637502, #1638848)
+  * More fixes to the unified stages code (LP: #1637205, #1637249,
+    #1637258)
+  * Delay alt tab for tiny bit in order to avoid flickering on quick alt-
+    tabs
+
+  [ Tomás Tormo ]
+  * Reload Infographics userdata when the day changes (LP: #1378814)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 09 Nov 2016 15:10:32 +0000
+
+unity8 (8.14+17.04.20161027-0ubuntu1) zesty; urgency=medium
+
+  * MenuItemFactory: activate item on calendar selection change (LP:
+    #1541125)
+
+ -- Marco Trevisan (Treviño) <mail@3v1n0.net>  Thu, 27 Oct 2016 12:32:25 +0000
+
+unity8 (8.14+17.04.20161024-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make PreviewProgress be thicker again (LP: #1629382)
+  * tst_PreviewZoomableImage: Wait for LazyImage transitions on init()
+    (LP: #1630136)
+
+  [ Andrea Azzarone ]
+  * Remove UbuntuShapeForItem and replace its use with the more standard
+    Ubuntu.Components.UbuntuShape.
+
+  [ Lukáš Tinkl ]
+  * Restore the double tap decoration to maximize feature (LP: #1627281)
+  * Hide the cursor for fullscreen apps after 3 seconds of inactivity
+  * Implement moving windows by Alt + left mouse button
+
+  [ Marco Trevisan (Treviño) ]
+  * MenuItemFactory: use more features from SlotsLayout based settings
+    components
+
+  [ Michael Terry ]
+  * Grab launcher icon information from ubuntu-app-launch, not directly
+    from desktop files.
+  * Adjust root paths if we're running inside a snap. (LP: #1629009)
+
+  [ Michael Zanetti ]
+  * Merge all Stages into one single codebase. Apply new spread visuals.
+    (LP: #1489517, #1603914, #1635800)
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Mon, 24 Oct 2016 11:37:28 +0000
+
 unity8 (8.14+16.10.20160922-0ubuntu2) yakkety; urgency=medium
 
   * debian/control:

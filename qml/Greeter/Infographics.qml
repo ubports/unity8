@@ -25,6 +25,8 @@ Item {
 
     property int animDuration: 10
 
+    property int currentWeekDay
+
     QtObject {
         id: d
         objectName: "infographicPrivate"
@@ -56,6 +58,24 @@ Item {
         onDataDisappeared: startShowAnimation() // show "no data" label
     }
 
+    LiveTimer {
+        frequency: LiveTimer.Hour
+        onTrigger: handleTimerTrigger()
+    }
+
+    function handleTimerTrigger(){
+        var today = new Date().getDay()
+        if(infographic.currentWeekDay !== today){
+            infographic.currentWeekDay = today
+            reloadUserData();
+        }
+    }
+
+    function reloadUserData(){
+        d.useDotAnimation = false
+        infographic.model.nextDataSource()
+    }
+
     function startShowAnimation() {
         dotHideAnimTimer.stop()
         notification.hideAnim.stop()
@@ -81,7 +101,10 @@ Item {
 
     visible: model.username !== ""
 
-    Component.onCompleted: startShowAnimation()
+    Component.onCompleted: {
+        currentWeekDay = new Date().getDay()
+        startShowAnimation()
+    }
 
     Item {
         id: dataCircle
@@ -405,8 +428,7 @@ Item {
 
         onDoubleClicked: {
             if (!d.animating) {
-                d.useDotAnimation = false
-                infographic.model.nextDataSource()
+                reloadUserData()
             }
         }
     }
