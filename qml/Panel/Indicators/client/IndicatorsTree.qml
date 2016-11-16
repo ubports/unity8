@@ -34,6 +34,7 @@ IndicatorBase {
     TextArea {
         anchors.fill: parent
         anchors.margins: units.gu(0.5)
+        readOnly: true
         id: all_data
         text: printer.text
     }

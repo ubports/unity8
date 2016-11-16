@@ -505,15 +505,38 @@ Item {
         id: calendarMenu
 
         Menus.CalendarMenu {
+            id: calendarItem
             objectName: "calendarMenu"
-            highlightWhenPressed: false
             focus: true
 
+            property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
+            property var actionState: menuData && menuData.actionState || null
+            property real calendarDay: getExtendedProperty(actionState, "calendar-day", 0)
             property int menuIndex: -1
 
-            onSelectedDateChanged: {
-                menuModel.activate(menuIndex, selectedDate.getTime() / 1000 | 0)
+            showWeekNumbers: getExtendedProperty(actionState, "show-week-numbers", false)
+            eventDays: getExtendedProperty(actionState, "appointment-days", [])
+
+            onCalendarDayChanged: {
+                if (calendarDay > 0) {
+                    // This would trigger a selectionDateChanged signal, thus
+                    // we've to avoid that the subsequent model activation
+                    // would cause an infinite loop
+                    modelUpdateConnections.enabled = false
+                    currentDate = new Date(calendarDay * 1000)
+                    modelUpdateConnections.enabled = true
+                }
+            }
+
+            Connections {
+                id: modelUpdateConnections
+                property bool enabled: true
+                target: (enabled && calendarItem.visible) ? calendarItem : null
+
+                onSelectedDateChanged: {
+                    menuModel.activate(menuIndex, selectedDate.getTime() / 1000 | 0)
+                }
             }
         }
     }

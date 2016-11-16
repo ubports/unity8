@@ -80,9 +80,11 @@ Item {
             menuData.isCheck = false;
             menuData.isRadio = false;
             menuData.isToggled = false;
+        }
 
-            loader.sourceComponent = null;
+        function cleanup() {
             loader.data = undefined;
+            loader.sourceComponent = undefined;
 
             verify(loader.item == null);
         }
@@ -115,6 +117,8 @@ Item {
                 { tag: 'wifisection', type: "unity.widgets.systemsettings.tablet.wifisection", objectName: "wifiSection" },
                 { tag: 'accesspoint', type: "unity.widgets.systemsettings.tablet.accesspoint", objectName: "accessPoint" },
                 { tag: 'modeminfoitem', type: "com.canonical.indicator.network.modeminfoitem", objectName: "modemInfoItem" },
+
+                { tag: 'calendar', type: "com.canonical.indicator.calendar", objectName: "calendarMenu" },
 
                 { tag: 'unknown', type: "", objectName: "standardMenu"}
             ];
@@ -811,6 +815,34 @@ Item {
                        loader.item.width / 2, loader.item.height / 2);
             compare(loader.item.checked, true, "Clicking switch menu should toggle check");
             tryCompare(loader.item, "checked", false);
+        }
+
+        function test_create_calendar_data() {
+            return [
+                { calendarDay: new Date(), showWeekNumbers: false, eventDays: new Array() },
+                { calendarDay: new Date(2016, 8), showWeekNumbers: true, eventDays: [31] },
+                { calendarDay: new Date(), showWeekNumbers: false, eventDays: [1, 5, 10] },
+            ];
+        }
+
+        function test_create_calendar(data) {
+            menuData.type = "com.canonical.indicator.calendar";
+            menuData.actionState = {
+                "calendar-day": data.calendarDay.getTime() / 1000 | 0,
+                "show-week-numbers": data.showWeekNumbers,
+                "appointment-days": data.eventDays
+            }
+
+            loader.data = menuData;
+            loader.sourceComponent = factory.load(menuData);
+            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            compare(loader.item.objectName, "calendarMenu", "Should have created a calendar menu")
+
+            compare(loader.item.currentDate.getFullYear(), data.calendarDay.getFullYear(), "Calendar year does not match data")
+            compare(loader.item.currentDate.getMonth(), data.calendarDay.getMonth(), "Calendar month does not match data")
+            compare(loader.item.currentDate.getDate(), data.calendarDay.getDate(), "Calendar day does not match data")
+            compare(loader.item.showWeekNumbers, data.showWeekNumbers, "Week numbers visibility does not match data")
+            compare(loader.item.eventDays, data.eventDays, "Event days do not match data")
         }
     }
 }
