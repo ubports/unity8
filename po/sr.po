@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-09-22 07:46+0000\n"
+"POT-Creation-Date: 2016-11-09 15:10+0000\n"
 "PO-Revision-Date: 2016-08-22 20:43+0000\n"
 "Last-Translator: Bojan Bogdanović <Unknown>\n"
 "Language-Team: српски <xfce4@xfce4.org>\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2016-09-27 07:05+0000\n"
-"X-Generator: Launchpad (build 18204)\n"
+"X-Launchpad-Export-Date: 2016-11-12 06:10+0000\n"
+"X-Generator: Launchpad (build 18255)\n"
 "Language: sr\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -316,26 +316,26 @@ msgstr "Затворите све"
 msgid "Preview Share Item"
 msgstr "Преглед дељене ставке"
 
-#: qml/Dash/DashPageHeader.qml:362
+#: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Продавница"
 
-#: qml/Dash/DashPageHeader.qml:369
+#: qml/Dash/DashPageHeader.qml:368
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Тражи"
 
-#: qml/Dash/DashPageHeader.qml:379
+#: qml/Dash/DashPageHeader.qml:378
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Подешавања"
 
-#: qml/Dash/DashPageHeader.qml:386
+#: qml/Dash/DashPageHeader.qml:385
 msgid "Remove from Favorites"
 msgstr "Уклони из омиљених"
 
-#: qml/Dash/DashPageHeader.qml:386
+#: qml/Dash/DashPageHeader.qml:385
 msgid "Add to Favorites"
 msgstr "Додај у омиљене"
 
@@ -347,15 +347,15 @@ msgstr "Пречистите Ваше резултате"
 msgid "Reset"
 msgstr "Ресетуј"
 
-#: qml/Dash/GenericScopeView.qml:586 qml/Dash/GenericScopeView.qml:782
+#: qml/Dash/GenericScopeView.qml:545 qml/Dash/GenericScopeView.qml:716
 msgid "Show less"
 msgstr "Прикажи мање"
 
-#: qml/Dash/GenericScopeView.qml:586
+#: qml/Dash/GenericScopeView.qml:545
 msgid "Show all"
 msgstr "Прикажи све"
 
-#: qml/Dash/GenericScopeView.qml:643
+#: qml/Dash/GenericScopeView.qml:576
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Претрага"
@@ -368,24 +368,24 @@ msgstr "Скорашње претраге"
 msgid "Clear All"
 msgstr "Очисти све"
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:35
+#: qml/Dash/Previews/PreviewActionCombo.qml:36
 msgid "More..."
 msgstr "Више..."
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:35
+#: qml/Dash/Previews/PreviewActionCombo.qml:36
 msgid "Less..."
 msgstr "Мање..."
 
 #: qml/Dash/Previews/PreviewCommentInput.qml:83
-#: qml/Dash/Previews/PreviewRatingInput.qml:201
+#: qml/Dash/Previews/PreviewRatingInput.qml:202
 msgid "Send"
 msgstr "Пошаљи"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:108
+#: qml/Dash/Previews/PreviewRatingInput.qml:109
 msgid "Rate this"
 msgstr "Оцени"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:183
+#: qml/Dash/Previews/PreviewRatingInput.qml:184
 msgid "Add a review"
 msgstr "Напиши оцену"
 
@@ -485,11 +485,11 @@ msgstr "Лупните да се вратите на позив..."
 msgid "Conference"
 msgstr "Конференција"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:762
+#: qml/Panel/Indicators/MenuItemFactory.qml:795
 msgid "Nothing is playing"
 msgstr "Ништа се не пушта"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:891
+#: qml/Panel/Indicators/MenuItemFactory.qml:923
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -497,7 +497,7 @@ msgstr[0] "%1 сат"
 msgstr[1] "%1 сата"
 msgstr[2] "%1 сати"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:895
+#: qml/Panel/Indicators/MenuItemFactory.qml:927
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -505,7 +505,7 @@ msgstr[0] "%1 минут"
 msgstr[1] "%1 минута"
 msgstr[2] "%1 минута"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:900
+#: qml/Panel/Indicators/MenuItemFactory.qml:932
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -513,37 +513,37 @@ msgstr[0] "%1 секунда"
 msgstr[1] "%1 секунде"
 msgstr[2] "%1 секунди"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:903
+#: qml/Panel/Indicators/MenuItemFactory.qml:935
 msgid "0 seconds"
 msgstr "0 секунде"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:905
+#: qml/Panel/Indicators/MenuItemFactory.qml:937
 #, qt-format
 msgid "%1 remaining"
 msgstr "Преостаје %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:911
+#: qml/Panel/Indicators/MenuItemFactory.qml:943
 msgid "In queue…"
 msgstr "Заказано…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:915
+#: qml/Panel/Indicators/MenuItemFactory.qml:947
 msgid "Downloading"
 msgstr "Преузимање"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:917
+#: qml/Panel/Indicators/MenuItemFactory.qml:949
 msgid "Paused, tap to resume"
 msgstr "Заустављено, лупните да наставите"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:919
+#: qml/Panel/Indicators/MenuItemFactory.qml:951
 msgid "Canceled"
 msgstr "Отказано"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:921
+#: qml/Panel/Indicators/MenuItemFactory.qml:953
 msgid "Finished"
 msgstr "Завршено"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:923
+#: qml/Panel/Indicators/MenuItemFactory.qml:955
 msgid "Failed, tap to retry"
 msgstr "Неуспело, лупните да покушате поново"
 
@@ -563,7 +563,7 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Позови назад"
 
-#: qml/Stages/SideStage.qml:76
+#: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr ""
 "Превуците користећи 3 прста било који програм са једног у други прозор"

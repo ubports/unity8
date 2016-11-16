@@ -36,7 +36,7 @@ Item {
         menuObjectPath: "/com/canonical/indicator/test"
 
         factory {
-            _map: {
+            _userMap: {
                 "default": {
                     "com.canonical.indicator.test" : testMenu
                 }

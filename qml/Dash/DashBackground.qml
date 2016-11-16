@@ -15,16 +15,7 @@
  */
 
 import QtQuick 2.4
-import QtQuick.Window 2.2
-import ImageCache 0.1
 
-Image {
-    source: "image://unity8imagecache/" + Qt.resolvedUrl("graphics/paper.png")
-    fillMode: Image.PreserveAspectCrop
-    horizontalAlignment: Image.AlignRight
-    verticalAlignment: Image.AlignTop
-    // avoid CPU scaling when window size changes
-    readonly property int maxSize: Math.max(Screen.width, Screen.height)
-    sourceSize.width: maxSize
-    sourceSize.height: 0
+Rectangle {
+    color: "white"
 }

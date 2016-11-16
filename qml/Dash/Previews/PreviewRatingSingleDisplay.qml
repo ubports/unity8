@@ -30,6 +30,16 @@ Column {
     property alias urlIconHalf: ratingItem.urlIconHalf
     property alias labelColor: authorLabel.color
 
+    Label {
+        id: authorLabel
+        objectName: "authorLabel"
+        anchors { left: parent.left; right: parent.right }
+        opacity: .8
+        fontSize: "small"
+        visible: text !== ""
+        wrapMode: Text.Wrap
+    }
+
     Rating {
         id: ratingItem
         objectName: "rating"
@@ -43,20 +53,13 @@ Column {
     }
 
     Label {
-        id: authorLabel
-        objectName: "authorLabel"
-        anchors { left: parent.left; right: parent.right }
-        opacity: .8
-        visible: text !== ""
-        wrapMode: Text.Wrap
-    }
-
-    Label {
         id: reviewLabel
         objectName: "reviewLabel"
         anchors { left: parent.left; right: parent.right }
         color: authorLabel.color
         opacity: .8
+        fontSize: "x-small"
+        font.weight: Font.Light
         visible: text !== ""
         wrapMode: Text.Wrap
     }

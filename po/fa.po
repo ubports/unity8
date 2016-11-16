@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-09-22 07:46+0000\n"
-"PO-Revision-Date: 2016-07-09 07:27+0000\n"
+"POT-Creation-Date: 2016-11-09 15:10+0000\n"
+"PO-Revision-Date: 2016-10-18 07:03+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@gmail.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-09-27 07:04+0000\n"
-"X-Generator: Launchpad (build 18204)\n"
+"X-Launchpad-Export-Date: 2016-11-12 06:09+0000\n"
+"X-Generator: Launchpad (build 18255)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
@@ -314,26 +314,26 @@ msgstr "بستن همه"
 msgid "Preview Share Item"
 msgstr "پیش‌نمای مورد هم‌رسانی"
 
-#: qml/Dash/DashPageHeader.qml:362
+#: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "ذخیره"
 
-#: qml/Dash/DashPageHeader.qml:369
+#: qml/Dash/DashPageHeader.qml:368
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "جست‌وجو"
 
-#: qml/Dash/DashPageHeader.qml:379
+#: qml/Dash/DashPageHeader.qml:378
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "تنظیمات"
 
-#: qml/Dash/DashPageHeader.qml:386
+#: qml/Dash/DashPageHeader.qml:385
 msgid "Remove from Favorites"
 msgstr "برداشتن از برگزیده‌ها"
 
-#: qml/Dash/DashPageHeader.qml:386
+#: qml/Dash/DashPageHeader.qml:385
 msgid "Add to Favorites"
 msgstr "افزودن به برگزیده‌ها"
 
@@ -345,15 +345,15 @@ msgstr "نتایجتان را بهبود دهید"
 msgid "Reset"
 msgstr "بازنشانی"
 
-#: qml/Dash/GenericScopeView.qml:586 qml/Dash/GenericScopeView.qml:782
+#: qml/Dash/GenericScopeView.qml:545 qml/Dash/GenericScopeView.qml:716
 msgid "Show less"
 msgstr "نمایش کم‌تر"
 
-#: qml/Dash/GenericScopeView.qml:586
+#: qml/Dash/GenericScopeView.qml:545
 msgid "Show all"
 msgstr "نمایش همه"
 
-#: qml/Dash/GenericScopeView.qml:643
+#: qml/Dash/GenericScopeView.qml:576
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "جست‌وجو"
@@ -366,24 +366,24 @@ msgstr "جست‌وجوهای اخیر"
 msgid "Clear All"
 msgstr "پاک‌سازی همه"
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:35
+#: qml/Dash/Previews/PreviewActionCombo.qml:36
 msgid "More..."
 msgstr "بیش‌تر…"
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:35
+#: qml/Dash/Previews/PreviewActionCombo.qml:36
 msgid "Less..."
 msgstr "کم‌تر…"
 
 #: qml/Dash/Previews/PreviewCommentInput.qml:83
-#: qml/Dash/Previews/PreviewRatingInput.qml:201
+#: qml/Dash/Previews/PreviewRatingInput.qml:202
 msgid "Send"
 msgstr "ارسال"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:108
+#: qml/Dash/Previews/PreviewRatingInput.qml:109
 msgid "Rate this"
 msgstr "امتیاز دادن"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:183
+#: qml/Dash/Previews/PreviewRatingInput.qml:184
 msgid "Add a review"
 msgstr "افزودن یک بازبینی"
 
@@ -448,11 +448,11 @@ msgstr "تلاش دوباره"
 
 #: qml/Greeter/LoginList.qml:70
 msgid "Passphrase"
-msgstr ""
+msgstr "عبارت‌عبور"
 
 #: qml/Greeter/LoginList.qml:71
 msgid "Passcode"
-msgstr ""
+msgstr "رمزعبور"
 
 #: qml/Greeter/LoginList.qml:98
 msgid "Retry"
@@ -464,11 +464,11 @@ msgstr "ورود"
 
 #: qml/Greeter/NarrowView.qml:252
 msgid "Emergency"
-msgstr ""
+msgstr "اضطراری"
 
 #: qml/Greeter/SessionsList.qml:122
 msgid "Select desktop environment"
-msgstr ""
+msgstr "گزینش محیط میزکار"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -482,59 +482,59 @@ msgstr "برای بازگشت به تماس ضربه بزنید…"
 msgid "Conference"
 msgstr "کنفرانس"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:762
+#: qml/Panel/Indicators/MenuItemFactory.qml:795
 msgid "Nothing is playing"
 msgstr "هیچ چیزی در حال پخش نیست"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:891
+#: qml/Panel/Indicators/MenuItemFactory.qml:923
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 ساعت"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:895
+#: qml/Panel/Indicators/MenuItemFactory.qml:927
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 دقیقه"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:900
+#: qml/Panel/Indicators/MenuItemFactory.qml:932
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 ثانیه"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:903
+#: qml/Panel/Indicators/MenuItemFactory.qml:935
 msgid "0 seconds"
 msgstr "۰ ثانیه"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:905
+#: qml/Panel/Indicators/MenuItemFactory.qml:937
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 مانده"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:911
+#: qml/Panel/Indicators/MenuItemFactory.qml:943
 msgid "In queue…"
 msgstr "در صف…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:915
+#: qml/Panel/Indicators/MenuItemFactory.qml:947
 msgid "Downloading"
 msgstr "در حال بارگیری"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:917
+#: qml/Panel/Indicators/MenuItemFactory.qml:949
 msgid "Paused, tap to resume"
 msgstr "مکث شد، برای از سر گیری ضربه بزنید"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:919
+#: qml/Panel/Indicators/MenuItemFactory.qml:951
 msgid "Canceled"
 msgstr "لغو شد"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:921
+#: qml/Panel/Indicators/MenuItemFactory.qml:953
 msgid "Finished"
 msgstr "پایان یافت"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:923
+#: qml/Panel/Indicators/MenuItemFactory.qml:955
 msgid "Failed, tap to retry"
 msgstr "شکست خورد، برای تلاش دوباره ضربه بزنید"
 
@@ -554,7 +554,7 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "پاسخ تماس"
 
-#: qml/Stages/SideStage.qml:76
+#: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "هر پنجره‌ای را با کشیدن سه‌انگشت از پنجره‌ای به ینجرهٔ دیگر ببرید"
 
@@ -600,15 +600,15 @@ msgstr "بعدی"
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
-msgstr ""
+msgstr "گزینش صفحه‌کلید"
 
 #: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
-msgstr ""
+msgstr "زبان صفحه‌کلید"
 
 #: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
-msgstr ""
+msgstr "چینش صفحه‌کلید"
 
 #: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:207
 #: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/77-system-update.qml:152
@@ -719,32 +719,34 @@ msgstr "سیاست محرمانگی"
 
 #: qml/Wizard/Pages/77-system-update.qml:28
 msgid "Update Device"
-msgstr ""
+msgstr "به‌روز رسانی افزاره"
 
 #: qml/Wizard/Pages/77-system-update.qml:55
 msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
 msgstr ""
+"یک به‌روز رسانی سامانه‌ای موجود و آمادهٔ نصب است. پس از آن، دستگاه به صورت "
+"خودکار خاموش و روشن می‌شود."
 
 #: qml/Wizard/Pages/77-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu system"
-msgstr ""
+msgstr "سامانهٔ اوبونتو"
 
 #: qml/Wizard/Pages/77-system-update.qml:83
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
-msgstr ""
+msgstr "نگارش %1"
 
 #: qml/Wizard/Pages/77-system-update.qml:102
 msgid "This could take a few minutes..."
-msgstr ""
+msgstr "ممکن است چند دقیقه طول بکشد"
 
 #: qml/Wizard/Pages/77-system-update.qml:116
 msgid "Install and restart now"
-msgstr ""
+msgstr "هم‌اکنون نصب و خاموش و روشن شود"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
