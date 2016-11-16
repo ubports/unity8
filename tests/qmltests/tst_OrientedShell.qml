@@ -1235,7 +1235,7 @@ Rectangle {
 
             swipeAwayGreeter();
 
-            verify(isAppSurfaceFocused(primarySurfaceId))
+            tryCompareFunction(function() { return isAppSurfaceFocused(primarySurfaceId)}, true)
 
             signalSpy.clear();
             signalSpy.target = shell;
