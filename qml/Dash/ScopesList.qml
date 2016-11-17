@@ -22,6 +22,8 @@ import "../Components"
 Item {
     id: root
 
+    property alias scopesListFlickable: scopesListFlickable
+
     // Properties set by parent
     property var scope: null
 
@@ -35,10 +37,83 @@ Item {
     signal requestFavoriteMoveTo(string scopeId, int index)
     signal requestRestore(string scopeId)
 
+    Item {
+        id: autoscroller
+
+        property bool dragging: false
+        property var dragItem: new Object();
+
+        readonly property bool fuzzyAtYEnd: root.scopesListFlickable.contentY >=
+            (root.scopesListFlickable.contentHeight - root.scopesListFlickable.height) -            (autoscroller.dragItem.height)
+
+        readonly property real bottomBoundary: {
+            (
+                root.scopesListFlickable.visibleArea.heightRatio *
+                root.scopesListFlickable.contentHeight
+            )
+            - (1.5 * dragItem.height)
+            + root.scopesListFlickable.contentY
+        }
+
+        readonly property int delayMs: 32
+        readonly property real topBoundary: root.scopesListFlickable.contentY + (.5 * dragItem.height)
+
+        visible: false
+        readonly property real maxStep: units.dp(10)
+        function stepSize(scrollingUp) {
+            var delta, step;
+            if (scrollingUp) {
+                delta = dragItem.y - topBoundary;
+                delta /= (1.5 * dragItem.height);
+            } else {
+                delta = dragItem.y - bottomBoundary;
+                delta /= (1.5 * dragItem.height);
+            }
+
+            step = Math.abs(delta) * autoscroller.maxStep
+            return Math.ceil(step);
+        }
+
+
+        Timer {
+            interval: autoscroller.delayMs
+            running: autoscroller.dragging &&
+                autoscroller.dragItem.y < autoscroller.topBoundary &&
+                !root.scopesListFlickable.atYBeginning
+            repeat: true
+            onTriggered: {
+                root.scopesListFlickable.contentY -= autoscroller.stepSize(true);
+                autoscroller.dragItem.y -= autoscroller.stepSize(true);
+            }
+
+        }
+
+        Timer {
+            interval: autoscroller.delayMs
+            running: autoscroller.dragging &&
+                autoscroller.dragItem.y >= autoscroller.bottomBoundary &&
+                !autoscroller.fuzzyAtYEnd
+            repeat: true
+            onTriggered: {
+                root.scopesListFlickable.contentY += autoscroller.stepSize(false);
+                autoscroller.dragItem.y += autoscroller.stepSize(false);
+            }
+        }
+    }
+
+    function autoscroll(dragging, dragItem) {
+        if (dragging) {
+            autoscroller.dragItem = dragItem
+            autoscroller.dragging = true;
+        } else {
+            autoscroller.dragItem = null;
+            autoscroller.dragging = false
+        }
+    }
+
     state: "browse"
 
-    property var scopeStyle: ScopeStyle {
-    }
+    property var scopeStyle: ScopeStyle {}
 
     onStateChanged: {
         if (state == "edit") {
@@ -73,7 +148,8 @@ Item {
         z: 1
     }
 
-    Flickable {
+    ListView {
+        id: scopesListFlickable
         objectName: "scopesListFlickable"
         anchors {
             top: header.bottom
@@ -82,43 +158,34 @@ Item {
             right: parent.right
         }
         clip: true
-        contentWidth: root.width
-        contentHeight: column.height
-        onContentHeightChanged: returnToBounds();
-        Column {
-            id: column
-            Repeater {
-                model: scope ? scope.categories : null
+        model: scope ? scope.categories : null
+            delegate: Loader {
+                asynchronous: true
+                width: root.width
+                active: results.count > 0
+                visible: active
+                sourceComponent: ScopesListCategory {
+                    objectName: "scopesListCategory" + categoryId
 
-                delegate: Loader {
-                    asynchronous: true
-                    width: root.width
-                    active: results.count > 0
-                    visible: active
-                    sourceComponent: ScopesListCategory {
-                        objectName: "scopesListCategory" + categoryId
+                    model: results
 
-                        model: results
-
-                        title: {
-                            if (isFavoritesFeed) return i18n.tr("Home");
-                            else if (isAlsoInstalled) return i18n.tr("Also installed");
-                            else return name;
-                        }
-
-                        editMode: root.state == "edit"
-
-                        scopeStyle: root.scopeStyle
-                        isFavoritesFeed: categoryId == "favorites"
-                        isAlsoInstalled: categoryId == "other"
-
-                        onRequestFavorite: root.requestFavorite(scopeId, favorite);
-                        onRequestEditMode: root.state = "edit";
-                        onRequestScopeMoveTo: root.requestFavoriteMoveTo(scopeId, index);
-                        onRequestActivate: root.scope.activate(result, categoryId);
-                        onRequestRestore: root.requestRestore(scopeId);
+                    title: {
+                        if (isFavoritesFeed) return i18n.tr("Home");
+                        else if (isAlsoInstalled) return i18n.tr("Also installed");
+                        else return name;
                     }
-                }
+
+                    editMode: root.state == "edit"
+                    scopeStyle: root.scopeStyle
+                    isFavoritesFeed: categoryId == "favorites"
+                    isAlsoInstalled: categoryId == "other"
+
+                    onItemDragging: autoscroll(dragging, dragItem);
+                    onRequestFavorite: root.requestFavorite(scopeId, favorite);
+                    onRequestEditMode: root.state = "edit";
+                    onRequestScopeMoveTo: root.requestFavoriteMoveTo(scopeId, index);
+                    onRequestActivate: root.scope.activate(result, categoryId);
+                    onRequestRestore: root.requestRestore(scopeId);
             }
         }
     }
