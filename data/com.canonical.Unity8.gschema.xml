@@ -12,7 +12,7 @@
       <description>The usage mode chosen will affect the Window Management behaviour.</description>
     </key>
     <key type="y" name="edge-barrier-sensitivity">
-      <default>35</default>
+      <default>50</default>
       <range min="1" max="100"/>
       <summary>Sensitivity of screen edge barriers for the mouse pointer.</summary>
       <description>Some UI actions like revealing the launcher or the applications spread are triggered by pushing the mouse pointer against a screen edge. This key defines how much you have to push in order to trigger the associated action.</description>
@@ -23,7 +23,7 @@
       <description>How much you have to push  (in grid units)the mouse against an edge barrier when sensibility is 100.</description>
     </key>
     <key type="u" name="edge-barrier-max-push">
-      <default>60</default>
+      <default>120</default>
       <summary>Maximum push needed to overcome edge barrier</summary>
       <description>How much you have to push (in grid units) the mouse against an edge barrier when sensibility is 1.</description>
     </key>
