@@ -82,7 +82,7 @@ private:
         QCOMPARE(section(lvwph->m_visibleItems[visibleIndex]->sectionItem()), sectionHeader);
         if (!sectionHeader.isNull()) {
             QCOMPARE(QQuickItemPrivate::get(lvwph->m_visibleItems[visibleIndex]->sectionItem())->culled, sectionHeaderCulled);
-            QCOMPARE(sectionDelegateIndex(lvwph->m_visibleItems[visibleIndex]->sectionItem()), lvwph->m_firstVisibleIndex + visibleIndex);
+            QCOMPARE(sectionDelegate(lvwph->m_visibleItems[visibleIndex]->sectionItem()), lvwph->m_visibleItems[visibleIndex]->m_item);
         }
     }
 
@@ -151,9 +151,9 @@ private:
         return item ? item->property("text").toString() : QString();
     }
 
-    int sectionDelegateIndex(QQuickItem *item)
+    QQuickItem *sectionDelegate(QQuickItem *item)
     {
-        return item ? item->property("delegateIndex").toInt() : -1;
+        return item ? item->property("delegate").value<QQuickItem *>() : nullptr;
     }
 
 private Q_SLOTS:

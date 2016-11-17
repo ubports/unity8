@@ -1,3 +1,48 @@
+unity8 (8.14+17.04.20161109-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make more CardTool properties readonly
+  * Make the > in Dash Section Header be after text (LP: #1508905)
+  * Rework Dash Preview column margins
+  * Improve LVWPH <-> GenericScopeView interaction (LP: #1508905,
+    #1622423)
+  * Make the PreviewButtons be of the width of the button and not half
+    the total width
+  * Fix first column of the preview table to be 25%
+
+  [ Andrea Cimitan ]
+  * Remove background under header pagination dots, update dots assets,
+    remove dash paper background, update bottom edge asset
+  * Few styling changes for cards
+  * various tweaks to fonts inside previews
+  * More visual tweaks
+
+  [ Brian Douglass ]
+  * Add a new setting to enable/disable the launcher
+
+  [ Lukáš Tinkl ]
+  * Stabilize test_doubleTapToMaximizeWindow()
+  * Enable loading the main Qt catalog which in turn allows for using
+    RTL languages
+  * Fix the pixelated notification icon by setting sourceSize (LP:
+    #1637712)
+
+  [ Michael Terry ]
+  * More path lookup fixes for running inside of a snap. (LP: #1629009)
+
+  [ Michael Zanetti ]
+  * Added blur and darkening to wallpaper while in spread
+  * Fixes in the spread after design review (LP: #1637502, #1638848)
+  * More fixes to the unified stages code (LP: #1637205, #1637249,
+    #1637258)
+  * Delay alt tab for tiny bit in order to avoid flickering on quick alt-
+    tabs
+
+  [ Tomás Tormo ]
+  * Reload Infographics userdata when the day changes (LP: #1378814)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 09 Nov 2016 15:10:32 +0000
+
 unity8 (8.14+17.04.20161027-0ubuntu1) zesty; urgency=medium
 
   * MenuItemFactory: activate item on calendar selection change (LP:

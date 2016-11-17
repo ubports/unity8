@@ -58,7 +58,7 @@ PreviewWidget {
                 Row {
                     id: trackRow
 
-                    readonly property int column1Width: units.gu(3)
+                    readonly property int column1Width: units.gu(2)
                     readonly property int column2Width: width - (2 * spacing) - column1Width - column3Width
                     readonly property int column3Width: units.gu(4)
 
@@ -66,16 +66,10 @@ PreviewWidget {
                     width: parent.width
                     spacing: units.gu(1)
 
-                    Button {
+                    AbstractButton {
                         objectName: "playButton"
                         width: trackRow.column1Width
                         height: width
-                        iconSource: DashAudioPlayer.playing && trackItem.isPlayingItem ? "image://theme/media-playback-pause" : "image://theme/media-playback-start"
-                        activeFocusOnPress: false
-
-                        // Can't be "transparent" or "#00xxxxxx" as the button optimizes away the surrounding shape
-                        // FIXME when this is resolved: https://bugs.launchpad.net/ubuntu-ui-toolkit/+bug/1251685
-                        color: "#01000000"
 
                         onClicked: {
                             if (trackItem.isPlayingItem) {
@@ -92,6 +86,11 @@ PreviewWidget {
                                 DashAudioPlayer.playSource(sourceUrl, playlist);
                             }
                         }
+
+                        Icon {
+                            anchors.fill: parent
+                            source: DashAudioPlayer.playing && trackItem.isPlayingItem ? "image://theme/media-preview-pause" : "image://theme/media-preview-start"
+                        }
                     }
 
                     Item {
@@ -105,7 +104,8 @@ PreviewWidget {
                             anchors { top: parent.top; left: parent.left; right: parent.right }
                             opacity: 0.9
                             color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
-                            fontSize: "small"
+                            fontSize: "medium"
+                            font.weight: Font.Light
                             horizontalAlignment: Text.AlignLeft
                             text: modelData["title"]
                             elide: Text.ElideRight
@@ -140,6 +140,7 @@ PreviewWidget {
                         opacity: 0.9
                         color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
                         fontSize: "small"
+                        font.weight: Font.Light
                         horizontalAlignment: Text.AlignRight
                         text: DashAudioPlayer.lengthToString(modelData["length"])
                     }

@@ -87,7 +87,7 @@ Rectangle {
 
             tryCompareFunction(function () {
                 var bottomLeft = preview.mapFromItem(widget, 0, widget.height);
-                return bottomLeft.y <= preview.height
+                return bottomLeft.y <= preview.height + 1 // FIXME the +1 is to workaround https://bugreports.qt.io/browse/QTBUG-56961
             }, true);
         }
 
@@ -102,7 +102,7 @@ Rectangle {
 
             tryCompareFunction(function () {
                 var bottomLeft = preview.mapFromItem(widget, 0, widget.height);
-                return bottomLeft.y <= preview.height
+                return bottomLeft.y <= preview.height + 1 // FIXME the +1 is to workaround https://bugreports.qt.io/browse/QTBUG-56961
             }, true);
         }
 
@@ -125,7 +125,7 @@ Rectangle {
             // Make sure the combo bottom is on the viewport
             tryCompareFunction(function () {
                 var bottomLeft = preview.mapFromItem(widget, 0, widget.height);
-                return bottomLeft.y <= preview.height
+                return bottomLeft.y <= preview.height + 1 // FIXME the +1 is to workaround https://bugreports.qt.io/browse/QTBUG-56961
             }, true);
         }
     }

@@ -781,10 +781,11 @@ Item {
             verify(decoration);
 
             // simulate a double tap, with a slight erroneous move in between those 2 taps
-            tap(decoration);
-            touchPress(decoration);
-            touchMove(decoration, decoration.width/2, decoration.height/2 - 10)
+            tap(decoration); tap(decoration);
+            touchMove(decoration, decoration.width/2, decoration.height/2 - 10);
             touchRelease(decoration);
+            waitUntilTransitionsEnd(dialerAppDelegate);
+            waitUntilTransitionsEnd(stage);
 
             tryCompare(dialerAppDelegate, "state", "maximized");
         }

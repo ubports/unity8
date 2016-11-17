@@ -18,7 +18,6 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Unity.Launcher 0.1
 import Ubuntu.Components.Popups 1.3
-import "../Components/ListItems"
 import "../Components"
 
 Rectangle {
@@ -296,10 +295,11 @@ Rectangle {
                             }
                         }
 
-                        ThinDivider {
+                        Image {
                             id: dropIndicator
                             objectName: "dropIndicator"
                             anchors.centerIn: parent
+                            height: visible ? units.dp(2) : 0
                             width: parent.width + mainColumn.anchors.leftMargin + mainColumn.anchors.rightMargin
                             opacity: 0
                             source: "graphics/divider-line.png"
