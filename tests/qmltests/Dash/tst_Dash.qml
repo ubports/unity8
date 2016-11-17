@@ -588,10 +588,10 @@ Item {
 
             // Go to a temp scope
             open_manage_dash();
+            flickToYEnd(findChild(dash, "scopesListFlickable"));
 
             var nonfavScopesListCategory = findChild(dash, "scopesListCategoryother");
             var nonfavScopesListCategoryList = findChild(nonfavScopesListCategory, "scopesListCategoryInnerList");
-            flickToYEnd(findChild(dash, "scopesListFlickable"));
             tryCompare(nonfavScopesListCategoryList, "currentIndex", 0);
             mouseClick(nonfavScopesListCategoryList.currentItem);
             var dashTempScopeItem = findChild(dash, "dashTempScopeItem");
@@ -660,13 +660,14 @@ Item {
             // Go to a temp scope
             open_manage_dash();
 
+            var scopesListFlickable = findChild(dash, "scopesListFlickable");
+            flickToYEnd(scopesListFlickable);
+
             var nonfavScopesListCategory = findChild(dash, "scopesListCategoryother");
             var nonfavScopesListCategoryList = findChild(nonfavScopesListCategory, "scopesListCategoryInnerList");
-            var scopesListFlickable = findChild(dash, "scopesListFlickable");
             tryCompare(nonfavScopesListCategoryList, "currentIndex", 0);
 
             // Ensure the non-favorites, located at the bottom, are visible
-            flickToYEnd(scopesListFlickable);
             mouseClick(nonfavScopesListCategoryList.currentItem);
             var dashTempScopeItem = findChild(dash, "dashTempScopeItem");
             tryCompare(dashTempScopeItem, "x", 0);
