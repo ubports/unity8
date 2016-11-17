@@ -69,6 +69,10 @@ Categories::data(const QModelIndex& index, int role) const
             } else {
                 map["category-layout"] = "carousel";
             }
+            if (index.row() == 16) {
+                map["expandable"] = false;
+                map["collapsed-rows"] = 1;
+            }
             if (index.row() == 18) {
                 map["category-layout"] = "horizontal-list";
             }
