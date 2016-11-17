@@ -140,7 +140,7 @@ StyledItem {
         id: wallpaperResolver
         objectName: "wallpaperResolver"
 
-        readonly property url defaultBackground: "file:///usr/share/backgrounds/warty-final-ubuntu.png"
+        readonly property url defaultBackground: "file://" + Constants.defaultWallpaper
         readonly property bool hasCustomBackground: background != defaultBackground
 
         // Use a cached version of the scaled-down wallpaper (as sometimes the
@@ -442,9 +442,10 @@ StyledItem {
         }
 
         if (!greeter.locked && tutorial.launcherLongSwipeEnabled
-            && ApplicationManager.focusedApplicationId != "unity8-dash") {
+            && (ApplicationManager.focusedApplicationId != "unity8-dash" || stage.spreadShown)) {
             ApplicationManager.requestFocusApplication("unity8-dash")
             launcher.fadeOut();
+            stage.closeSpread();
         }
     }
 
@@ -515,6 +516,7 @@ StyledItem {
                     && (!greeter.locked || AccountsService.enableLauncherWhileLocked)
                     && !greeter.hasLockedApp
                     && !shell.waitingOnGreeter
+                    && settings.enableLauncher
             inverted: shell.usageScenario !== "desktop"
             superPressed: physicalKeysMapper.superPressed
             superTabPressed: physicalKeysMapper.superTabPressed

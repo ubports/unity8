@@ -772,7 +772,7 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText, b
             delete nobj;
         } else {
             sectionItem->setProperty("text", sectionText);
-            sectionItem->setProperty("delegateIndex", -1);
+            sectionItem->setProperty("delegate", QVariant());
             sectionItem->setZ(2);
             QQml_setParent_noEvent(sectionItem, m_clipItem);
             sectionItem->setParentItem(m_clipItem);
@@ -929,7 +929,7 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
                 polish();
             }
             if (listItem->sectionItem()) {
-                listItem->sectionItem()->setProperty("delegateIndex", modelIndex);
+                listItem->sectionItem()->setProperty("delegate", QVariant::fromValue(listItem->m_item));
             }
             adjustMinYExtent();
             m_contentHeightDirty = true;
@@ -1123,7 +1123,7 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
     for (int i = 0; i < m_visibleItems.count(); ++i) {
         ListItem *item = m_visibleItems[i];
         if (item->sectionItem()) {
-            item->sectionItem()->setProperty("delegateIndex", m_firstVisibleIndex + i);
+            item->sectionItem()->setProperty("delegate", QVariant::fromValue(item->m_item));
         }
     }
 
@@ -1297,15 +1297,7 @@ void ListViewWithPageHeader::layout()
 
                         QQuickItemPrivate::get(m_topSectionItem)->setCulled(false);
                         m_topSectionItem->setY(topSectionStickPos);
-                        int delegateIndex = modelIndex;
-                        // Look for the first index with this section text
-                        while (delegateIndex > 0) {
-                            const QString prevSection = m_delegateModel->stringValue(delegateIndex - 1, m_sectionProperty);
-                            if (prevSection != section)
-                                break;
-                            delegateIndex--;
-                        }
-                        m_topSectionItem->setProperty("delegateIndex", delegateIndex);
+                        m_topSectionItem->setProperty("delegate", QVariant::fromValue(item->m_item));
                         if (item->sectionItem()) {
                             QQuickItemPrivate::get(item->sectionItem())->setCulled(true);
                         }

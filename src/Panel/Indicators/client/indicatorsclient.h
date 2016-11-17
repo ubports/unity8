@@ -38,8 +38,6 @@ public:
 private:
     QApplication *m_application;
     QQuickView *m_view;
-
-    void setupUI();
 };
 
 #endif

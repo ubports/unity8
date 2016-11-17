@@ -38,15 +38,62 @@ Item {
     width: units.gu(120)
     height: units.gu(120)
 
+    Loader {
+        id: loader
+
+        active: false
+        anchors.fill: parent
+
+        property bool componentDestroyed: true
+        sourceComponent: Component {
+            Infographics {
+                id: infographic
+                width: loader.width
+                height: loader.height
+                model: infographicModel
+
+                Component.onDestruction: {
+                    loader.componentDestroyed = true
+                }
+            }
+        }
+    }
+
     UT.UnityTestCase {
         name: "Infographics"
         when: windowShown
 
-        property var dataCircle: findChild(infographic, "dataCircle")
-        property var dots: findChild(infographic, "dots")
-        property var label: findChild(infographic, "label")
-        property var presentCircles: findChild(infographic, "presentCircles")
-        property var pastCircles: findChild(infographic, "pastCircles")
+        property var dataCircle
+        property var dots
+        property var label
+        property var presentCircles
+        property var pastCircles
+        property var infographic
+
+        function reloadInfographic() {
+            loader.active = false;
+            tryCompare(loader, "status", Loader.Null);
+            tryCompare(loader, "item", null);
+            tryCompare(loader, "componentDestroyed", true);
+            loader.active = true;
+            tryCompare(loader, "status", Loader.Ready);
+            loader.componentDestroyed = false
+            infographic = loader.item
+        }
+
+        function reloadModel() {
+           infographicModel.reset()
+        }
+
+        function init() {
+            reloadModel()
+            reloadInfographic()
+            dataCircle = findChild(infographic, "dataCircle")
+            dots =  findChild(infographic, "dots")
+            label =  findChild(infographic, "label")
+            presentCircles =  findChild(infographic, "presentCircles")
+            pastCircles = findChild(infographic, "pastCircles")
+        }
 
         function test_dot_states_data() {
             return [
@@ -74,9 +121,10 @@ Item {
 
         function test_set_username_data() {
             return [
-                { username: "has-password", label: "<b>19</b> minutes talk time", visible: true },
-                { username: "two-factor", label: "", visible: true },
-                { username: "", label: "", visible: false },
+               { username: "has-password", label: "<b>19</b> minutes talk time", visible: true },
+               { username: "two-factor", label: "", visible: true },
+               { username: "", label: "", visible: false },
+
             ]
         }
 
@@ -85,13 +133,29 @@ Item {
             tryCompare(label, "text", data.label)
             compare(infographic.visible, data.visible);
         }
-    }
 
-    Infographics {
-        id: infographic
+        function test_update_userdata_when_new_day_data()
+        {
+            return [
+               { tag: "Same day", 	   currentDayOffset: 0, label: "<b>19</b> minutes talk time" },
+               { tag: "Different day", currentDayOffset: 1, label: "<b>33</b> messages today" },
+            ]
+        }
 
-        anchors.fill: parent
-        model: infographicModel
+        function test_update_userdata_when_new_day(data)
+        {
+            //Given
+            var today = new Date().getDay()
+            infographicModel.username = "single"
+            infographic.currentWeekDay = (today - data.currentDayOffset)
+
+            //When
+            infographic.handleTimerTrigger()
+
+            //Then
+            tryCompare(infographic, "currentWeekDay", today)
+            tryCompare(label, "text", data.label)
+        }
     }
 
     Dot { id: dot }

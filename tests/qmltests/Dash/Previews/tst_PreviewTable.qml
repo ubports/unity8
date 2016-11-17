@@ -31,6 +31,11 @@ Rectangle {
         "values": [ [ "Long Label 1", "Long Value 1 Long Value 2 Long Value 3 Long Value 4 Long Value 5 Long Value 6 Long Value 2 Long Value 2 Long Value 2 Long Value 2"],  [ "Label 2", "Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2"],  [ "Label 3", "Value 3"],  [ "Label 4", "Value 4"],  [ "Label 5", "Value 5"] ]
     }
 
+    property var widgetDataComplete2: {
+        "title": "Short Title here",
+        "values": [ [ "Publisher/Creator", "Unity8 team" ], [ "Label A", "Long Value 1 Long Value 2 Long Value 3 Long Value 4 Long Value 5 Long Value 6 Long Value 2 Long Value 2 Long Value 2 Long Value 2"],  [ "Author", "Best 3v3r"],  [ "Summary", "If i knew how to write summaries i'd be working somewhere else"] ]
+    }
+
     property var widgetDataNoTitle: {
         "values": [ [ "Long Label 1", "Long Value 1 Long Value 2 Long Value 3 Long Value 4 Long Value 5 Long Value 6 Long Value 2 Long Value 2 Long Value 2 Long Value 2"],  [ "Label 2", "Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2"],  [ "Label 3", "Value 3"],  [ "Label 4", "Value 4"],  [ "Label 5", "Value 5"] ]
     }
@@ -51,6 +56,22 @@ Rectangle {
         }
     }
 
+    PreviewWidgetFactory {
+        id: previewTable2
+        anchors { left: parent.left; right: parent.right; top: previewTable.bottom; topMargin: units.gu(4) }
+        widgetType: "table"
+
+        Rectangle {
+            color: "red"
+            anchors.fill: parent
+            opacity: 0.5
+        }
+
+        Component.onCompleted: {
+            previewTable2.widgetData = widgetDataComplete2
+        }
+    }
+
     UT.UnityTestCase {
         name: "PreviewTableTest"
         when: windowShown
@@ -62,7 +83,7 @@ Rectangle {
         function test_label_heights() {
             verify(findChild(previewTable, "label00").height == findChild(previewTable, "label10").height);
             verify(findChild(previewTable, "label01").height == findChild(previewTable, "label11").height);
-            verify(findChild(previewTable, "label01").height > findChild(previewTable, "label00").height * 3);
+            verify(findChild(previewTable, "label01").contentHeight > findChild(previewTable, "label00").contentHeight * 3);
             verify(findChild(previewTable, "label00").height == findChild(previewTable, "label20").height);
             verify(findChild(previewTable, "label20").height == findChild(previewTable, "label21").height);
         }

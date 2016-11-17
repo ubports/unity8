@@ -529,21 +529,6 @@ Rectangle {
             compare(mascotImage.source, Qt.resolvedUrl("artwork/checkers.png"));
         }
 
-        function test_font_weights_data() {
-            return [
-                { tag: "Title only", index: 8, weight: Font.Normal },
-                { tag: "Title, subtitle", index: 0, weight: Font.DemiBold },
-            ]
-        }
-
-        function test_font_weights(data) {
-            selector.selectedIndex = data.index;
-            waitForRendering(selector);
-            waitForRendering(card);
-
-            tryCompare(testCase.title.font, "weight", data.weight);
-        }
-
         function test_fontColor_data() {
             return [
                 { tag: "#ffffff", dark: true },
