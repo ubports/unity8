@@ -70,7 +70,7 @@ Item {
         function loadScopes() {
             scopeLoadedSpy.clear();
             scopesModel.load();
-            tryCompare(scopeLoadedSpy, "count", 8, 15000);
+            tryCompare(scopeLoadedSpy, "count", 28, 15000);
             tryCompare(scopesModel, "loaded", true);
             tryCompareFunction(function() {
                 var mockScope1Loader = findChild(shell, "scopeLoader0");
@@ -124,7 +124,7 @@ Item {
 
             loadScopes();
 
-            compare(dashContentList.count, 8);
+            compare(dashContentList.count, 28);
             verify(dashContentList.currentIndex >= 0 && dashContentList.currentIndex < dashContentList.count);
         }
 
@@ -181,7 +181,7 @@ Item {
 
             // test greater than scope count.
             var currentScopeIndex = dashContent.currentIndex;
-            dashContent.setCurrentScopeAtIndex(18, true, false);
+            dashContent.setCurrentScopeAtIndex(29, true, false);
             compare(dashContent.currentIndex, currentScopeIndex, "Scope should not change if changing to greater index than count");
         }
 
