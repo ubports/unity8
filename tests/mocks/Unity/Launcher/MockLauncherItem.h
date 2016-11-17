@@ -22,6 +22,8 @@
 
 #include <unity/shell/launcher/LauncherItemInterface.h>
 
+#include <QStringList>
+
 class MockQuickListModel;
 
 using namespace unity::shell::launcher;
