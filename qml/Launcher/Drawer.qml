@@ -38,6 +38,10 @@ FocusScope {
         }
     }
 
+    function focusInput() {
+        searchField.focus = true;
+    }
+
     Settings {
         property alias selectedTab: sections.selectedIndex
     }

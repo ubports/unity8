@@ -106,6 +106,7 @@ StyledItem {
             // is true and in this case we want exactly 0 or will have pain later on
             tryCompareFunction( function(){ return drawer.x === 0; }, true );
             tryCompare(launcher, "state", "drawer");
+            tryCompare(launcher, "drawerShown", true);
         }
 
         function revealByEdgePush() {
@@ -123,6 +124,7 @@ StyledItem {
             // wait until it gets fully extended
             tryCompare(drawer, "x", 0);
             tryCompare(launcher, "state", "drawer");
+            tryCompare(launcher, "drawerShown", true);
         }
 
         function init() {

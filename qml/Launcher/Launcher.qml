@@ -145,11 +145,15 @@ FocusScope {
         switchToNextState("visible")
     }
 
-    function openDrawer() {
+    function openDrawer(focusInputField) {
+        panel.shortcutHintsShown = false;
         superPressTimer.stop();
         superLongPressTimer.stop();
         root.focus = true;
         drawer.focus = true;
+        if (focusInputField) {
+            drawer.focusInput();
+        }
         switchToNextState("drawer")
     }
 

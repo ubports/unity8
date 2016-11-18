@@ -517,7 +517,7 @@ StyledItem {
             GlobalShortcut {
                 shortcut: Qt.MetaModifier | Qt.Key_A
                 onTriggered: {
-                    launcher.openDrawer();
+                    launcher.openDrawer(true);
                 }
             }
             GlobalShortcut {
