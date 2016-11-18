@@ -321,7 +321,7 @@ StyledItem {
             topMargin: panel.panelHeight
             leftMargin: launcher.lockedVisible ? launcher.panelWidth : 0
         }
-        z: notifications.useModal || panel.indicators.shown || wizard.active || tutorial.running || (greeter.shown && launcher.shown) ? overlay.z + 1 : overlay.z - 1
+        z: notifications.useModal || panel.indicators.shown || wizard.active || tutorial.running || launcher.drawerShown ? overlay.z + 1 : overlay.z - 1
     }
 
     Loader {

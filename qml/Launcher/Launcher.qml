@@ -44,6 +44,7 @@ FocusScope {
     readonly property alias shortcutHintsShown: panel.shortcutHintsShown
 
     readonly property bool shown: panel.x > -panel.width
+    readonly property bool drawerShown: drawer.x == 0
 
     // emitted when an application is selected
     signal launcherApplicationSelected(string appId)
