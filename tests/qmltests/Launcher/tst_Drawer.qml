@@ -188,5 +188,17 @@ StyledItem {
 
             tryCompare(launcher, "state", "");
         }
+
+        function test_launcherGivesUpFocusAfterLaunchingFromDrawer() {
+            dragDrawerIntoView();
+
+            tryCompare(launcher, "focus", true);
+
+            var drawerList = findChild(launcher, "drawerItemList");
+            var dialerApp = findChild(drawerList, "drawerItem_dialer-app");
+            mouseClick(dialerApp, dialerApp.width / 2, dialerApp.height / 2);
+
+            tryCompare(launcher, "focus", false);
+        }
     }
 }

@@ -349,8 +349,9 @@ FocusScope {
         visible: x > -width
 
         onApplicationSelected: {
-            root.launcherApplicationSelected(appId)
             root.hide();
+            root.launcherApplicationSelected(appId)
+            root.focus = false;
         }
 
         Keys.onEscapePressed: {
