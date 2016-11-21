@@ -163,9 +163,9 @@ TestCase {
             if (i === iterations - 1) {
                 // Avoid any rounding errors by making the last move be at precisely
                 // the point specified
-                mouseMove(item, toX, toY, iterations / speed)
+                mouseMove(item, toX, toY, timeStep)
             } else {
-                mouseMove(item, x + (i + 1) * diffX, y + (i + 1) * diffY, iterations / speed)
+                mouseMove(item, x + (i + 1) * diffX, y + (i + 1) * diffY, timeStep)
             }
         }
         if (releaseMouse) {
@@ -346,12 +346,12 @@ TestCase {
             if (i === iterations - 1) {
                 // Avoid any rounding errors by making the last move be at precisely
                 // the point specified
-                wait(iterations / speed)
+                wait(timeStep)
                 var event = touchEvent(item)
                 event.move(0 /* touchId */, rootTo.x, rootTo.y)
                 event.commit()
             } else {
-                wait(iterations / speed)
+                wait(timeStep)
                 var event = touchEvent(item)
                 event.move(0 /* touchId */, rootFrom.x + (i + 1) * diffX, rootFrom.y + (i + 1) * diffY)
                 event.commit()
