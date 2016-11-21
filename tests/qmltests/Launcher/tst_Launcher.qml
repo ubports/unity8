@@ -813,7 +813,7 @@ Rectangle {
 
             // Dragging a bit (> 1.5 gu)
             newMouseX -= units.gu(2)
-            mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false, 100)
+            mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false)
             currentMouseX = newMouseX
 
             // Other items need to expand and become 0.6 opaque
@@ -821,8 +821,8 @@ Rectangle {
             tryCompare(item0, "itemOpacity", 0.6)
 
             // Dragging a bit more
-            newMouseY += initialItemHeight * 1.5
-            mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false, 100)
+            newMouseY += initialItemHeight * 1.25
+            mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false)
             currentMouseY = newMouseY
 
             tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 1)
