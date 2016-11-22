@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-11-09 15:10+0000\n"
+"POT-Creation-Date: 2016-11-16 10:44+0000\n"
 "PO-Revision-Date: 2015-07-31 13:21+0000\n"
 "Last-Translator: Owen Llywelyn <owen.llywelyn@gmail.com>\n"
 "Language-Team: Welsh <cy@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 0 : n==2 ? 1 : (n != 8 && n != 11) ? "
 "2 : 3;\n"
-"X-Launchpad-Export-Date: 2016-11-12 06:10+0000\n"
-"X-Generator: Launchpad (build 18255)\n"
+"X-Launchpad-Export-Date: 2016-11-22 06:08+0000\n"
+"X-Generator: Launchpad (build 18269)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
@@ -484,11 +484,11 @@ msgstr "Tapiwch i ffonio nôl"
 msgid "Conference"
 msgstr "Cydalwad"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:795
+#: qml/Panel/Indicators/MenuItemFactory.qml:847
 msgid "Nothing is playing"
 msgstr "Dim byd yn chwarae"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:923
+#: qml/Panel/Indicators/MenuItemFactory.qml:975
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -497,7 +497,7 @@ msgstr[1] "%1 awr"
 msgstr[2] "%1 awr"
 msgstr[3] "%1 awr"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:927
+#: qml/Panel/Indicators/MenuItemFactory.qml:979
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -506,7 +506,7 @@ msgstr[1] "%1 munud"
 msgstr[2] "%1 munud"
 msgstr[3] "%1 munud"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:932
+#: qml/Panel/Indicators/MenuItemFactory.qml:984
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -515,37 +515,37 @@ msgstr[1] "%1 eiliad"
 msgstr[2] "%1 eiliad"
 msgstr[3] "%1 eiliad"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:935
+#: qml/Panel/Indicators/MenuItemFactory.qml:987
 msgid "0 seconds"
 msgstr "0 eiliad"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:937
+#: qml/Panel/Indicators/MenuItemFactory.qml:989
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 yn weddill"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:943
+#: qml/Panel/Indicators/MenuItemFactory.qml:995
 msgid "In queue…"
 msgstr "Mewn ciw..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:947
+#: qml/Panel/Indicators/MenuItemFactory.qml:999
 msgid "Downloading"
 msgstr "Yn llwytho i lawr"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:949
+#: qml/Panel/Indicators/MenuItemFactory.qml:1001
 msgid "Paused, tap to resume"
 msgstr "Seibiwyd, tapiwch i ailafael ynddi"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:951
+#: qml/Panel/Indicators/MenuItemFactory.qml:1003
 msgid "Canceled"
 msgstr "Diddymwyd"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:953
+#: qml/Panel/Indicators/MenuItemFactory.qml:1005
 msgid "Finished"
 msgstr "Wedi gorffen"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:955
+#: qml/Panel/Indicators/MenuItemFactory.qml:1007
 msgid "Failed, tap to retry"
 msgstr "Methwyd, tapiwch i geisio eto"
 
