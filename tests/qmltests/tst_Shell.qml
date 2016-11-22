@@ -2780,14 +2780,32 @@ Rectangle {
             GSettingsController.setEnableLauncher(true);
         }
 
+        function test_indicatorMenuEnabledSetting_data() {
+            return [
+                {tag: "indicator menu enabled", enabled: true},
+                {tag: "indicator menu disabled", enabled: false}
+            ]
+        }
+
+        function test_indicatorMenuEnabledSetting(data) {
+            loadShell("phone");
+
+            GSettingsController.setEnableIndicatorMenu(data.enabled);
+
+            var panel = findChild(shell, "panel");
+            compare(panel.indicators.available, data.enabled);
+
+            GSettingsController.setEnableIndicatorMenu(true);
+        }
+
         function test_spreadDisabled_data() {
             return [
                 { tag: "enabled", spreadEnabled: true },
                 { tag: "disabled", spreadEnabled: false }
-            ]
+            ];
         }
+
         function test_spreadDisabled(data) {
-            loadShell("phone");
             swipeAwayGreeter();
             var stage = findChild(shell, "stage");
             stage.spreadEnabled = data.spreadEnabled;
@@ -2823,7 +2841,6 @@ Rectangle {
             keyPress(Qt.Key_W, Qt.MetaModifier)
             tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
             keyRelease(Qt.Key_W, Qt.MetaModifier)
-
         }
     }
 }
