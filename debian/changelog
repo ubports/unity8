@@ -1,3 +1,27 @@
+unity8 (8.15+17.04.20161116.1-0ubuntu1) zesty; urgency=medium
+
+  [ Marco Trevisan (Treviño) ]
+  * MenuItemFactory: bind calendar backend properties to calendarMenu item
+
+    Adds support for showing the calendar at the requested date, marking days
+    with events properly and toggling the visibility of the week number.
+
+  * MenuItemFactory: use Menus.RadioMenu and Menus.ButtonMenu
+
+  * Bump version as USC breaks with unity8 << 8.14
+
+  [ Albert Astals Cid ]
+  * [Hopefully] Fix infinite loop in some of the GSV tests (LP:
+    #1599301)
+
+  [ Marco Trevisan (Treviño) ]
+  * testLauncher: use tryCompare to check launcher contentY
+
+  [ Michael Zanetti ]
+  * Stabilize OrientedShell tests
+
+ -- Marco Trevisan (Treviño) <mail@3v1n0.net>  Wed, 16 Nov 2016 10:44:59 +0000
+
 unity8 (8.14+17.04.20161109-0ubuntu1) zesty; urgency=medium
 
   [ Albert Astals Cid ]
