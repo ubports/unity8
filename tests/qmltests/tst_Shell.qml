@@ -2806,6 +2806,7 @@ Rectangle {
         }
 
         function test_spreadDisabled(data) {
+            loadShell("phone");
             swipeAwayGreeter();
             var stage = findChild(shell, "stage");
             stage.spreadEnabled = data.spreadEnabled;
