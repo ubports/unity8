@@ -473,7 +473,7 @@ FocusScope {
                 visible: true
                 blurRadius: 32
                 brightness: .65
-                opacity: MathUtils.linearAnimation(spreadItem.rightEdgeBreakPoint, 1, 0, 1, Math.max(rightEdgeDragArea.progress, edgeBarrier.progress))
+                opacity: MathUtils.linearAnimation(spreadItem.rightEdgeBreakPoint, 1, 0, 1, Math.max(rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0, edgeBarrier.progress))
             }
         },
         State {
@@ -1159,7 +1159,8 @@ FocusScope {
                         when: root.mode == "windowed" && (root.state == "windowedRightEdge" || rightEdgeFocusAnimation.running || hidingAnimation.running || edgeBarrier.progress > 0)
                         PropertyChanges {
                             target: windowedRightEdgeMaths
-                            progress: Math.max(rightEdgeDragArea.progress, edgeBarrier.progress)
+                            swipeProgress: rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0
+                            pushProgress: edgeBarrier.progress
                         }
                         PropertyChanges {
                             target: appDelegate
