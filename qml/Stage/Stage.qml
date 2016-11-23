@@ -707,6 +707,29 @@ FocusScope {
                 property real restoredX
                 property real restoredY
 
+                // Keeps track of the window geometry while in normal or restored state
+                // Useful when returning from some maxmized state or when saving the geometry while maximized
+                // FIXME: find a better solution
+                property real normalX: 0
+                property real normalY: 0
+                property real normalWidth: 0
+                property real normalHeight: 0
+                function updateNormalGeometry() {
+                    if (appDelegate.state == "normal" || appDelegate.state == "restored") {
+                        normalX = appDelegate.requestedX;
+                        normalY = appDelegate.requestedY;
+                        normalWidth = appDelegate.width;
+                        normalHeight = appDelegate.height;
+                    }
+                }
+                Connections {
+                    target: appDelegate
+                    onXChanged: appDelegate.updateNormalGeometry();
+                    onYChanged: appDelegate.updateNormalGeometry();
+                    onWidthChanged: appDelegate.updateNormalGeometry();
+                    onHeightChanged: appDelegate.updateNormalGeometry();
+                }
+
                 Binding {
                     target: appDelegate
                     property: "y"

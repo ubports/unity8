@@ -44,9 +44,11 @@ QtObject {
         var windowState = WindowStateStorage.getState(target.appId, WindowStateStorage.WindowStateNormal)
         target.restore(false /* animated */, windowState);
 
+        target.updateNormalGeometry();
+
         // initialize the x/y to restore to
-        target.restoredX = windowGeometry.x;
-        target.restoredY = windowGeometry.y;
+        target.restoredX = target.normalX;
+        target.restoredY = target.normalY;
     }
 
     function save() {
@@ -56,7 +58,6 @@ QtObject {
         }
 
         WindowStateStorage.saveState(target.appId, state & ~WindowStateStorage.WindowStateMinimized); // clear the minimized bit when saving
-        WindowStateStorage.saveGeometry(target.appId, Qt.rect(target.windowedX, target.windowedY,
-                                                                   target.windowedWidth, target.windowedHeight));
+        WindowStateStorage.saveGeometry(target.appId, Qt.rect(target.normalX, target.normalY, target.normalWidth, target.normalHeight));
     }
 }

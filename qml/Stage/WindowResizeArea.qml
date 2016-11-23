@@ -27,8 +27,6 @@ MouseArea {
     hoverEnabled: target && !target.maximized // don't grab the resize under the panel
 
     readonly property alias dragging: d.dragging
-    readonly property alias normalWidth: priv.normalWidth
-    readonly property alias normalHeight: priv.normalHeight
 
     // The target item managed by this. Must be a parent or a sibling
     // The area will anchor to it and manage resize events
@@ -37,37 +35,6 @@ MouseArea {
     property real minimumY: -100000000 // By default, impose no limit
     property int minWidth: 0
     property int minHeight: 0
-
-    function init() {
-        priv.updateNormalGeometry();
-    }
-
-    QtObject {
-        id: priv
-        objectName: "priv"
-
-        property int normalX: 0
-        property int normalY: 0
-        property int normalWidth: 0
-        property int normalHeight: 0
-
-        function updateNormalGeometry() {
-            if (root.target.state == "normal" || root.target.state == "restored") {
-                normalX = root.target.requestedX
-                normalY = root.target.requestedY
-                normalWidth = root.target.width
-                normalHeight = root.target.height
-            }
-        }
-    }
-
-    Connections {
-        target: root.target
-        onXChanged: priv.updateNormalGeometry();
-        onYChanged: priv.updateNormalGeometry();
-        onWidthChanged: priv.updateNormalGeometry();
-        onHeightChanged: priv.updateNormalGeometry();
-    }
 
     QtObject {
         id: d
