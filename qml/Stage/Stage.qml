@@ -892,7 +892,6 @@ FocusScope {
                     windowedY = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedY + units.gu(3) : normalZ * units.gu(3)
                     // Now load any saved state. This needs to happen *after* the cascading!
                     windowStateSaver.load();
-                    resizeArea.init();
 
                     // NB: We're differentiating if this delegate was created in response to a new entry in the model
                     //     or if the Repeater is just populating itself with delegates to match the model it received.
