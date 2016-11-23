@@ -847,6 +847,38 @@ FocusScope {
                         MirFocusController.focusedSurface = null;
                     }
                 }
+
+                function loadWindowState() {
+                    var defaultWidth = units.gu(60);
+                    var defaultHeight = units.gu(50);
+                    var windowGeometry = WindowStateStorage.getGeometry(appDelegate.appId,
+                                                                        Qt.rect(appDelegate.windowedX, appDelegate.windowedY, defaultWidth, defaultHeight));
+
+                    appDelegate.windowedWidth = Qt.binding(function() { return Math.min(Math.max(windowGeometry.width, appDelegate.minimumWidth), appContainer.width - root.leftMargin); });
+                    appDelegate.windowedHeight = Qt.binding(function() { return Math.min(Math.max(windowGeometry.height, appDelegate.minimumHeight),
+                                                                                    appContainer.height - (appDelegate.fullscreen ? 0 : PanelState.panelHeight)); });
+                    appDelegate.windowedX = Qt.binding(function() { return Math.max(Math.min(windowGeometry.x, appContainer.width - root.leftMargin - appDelegate.windowedWidth),
+                                                                       (appDelegate.fullscreen ? 0 : root.leftMargin)); });
+                    appDelegate.windowedY = Qt.binding(function() { return Math.max(Math.min(windowGeometry.y, appContainer.height - appDelegate.windowedHeight), PanelState.panelHeight); });
+
+                    var windowState = WindowStateStorage.getState(appDelegate.appId, WindowStateStorage.WindowStateNormal)
+                    appDelegate.restore(false /* animated */, windowState);
+
+                    // initialize the x/y to restore to
+                    appDelegate.restoredX = windowGeometry.x;
+                    appDelegate.restoredY = windowGeometry.y;
+                }
+                function saveWindowState() {
+                    var state = appDelegate.windowState;
+                    if (state === WindowStateStorage.WindowStateRestored) {
+                        state = WindowStateStorage.WindowStateNormal;
+                    }
+
+                    WindowStateStorage.saveState(appDelegate.appId, state & ~WindowStateStorage.WindowStateMinimized); // clear the minimized bit when saving
+                    WindowStateStorage.saveGeometry(appDelegate.appId, Qt.rect(appDelegate.windowedX, appDelegate.windowedY,
+                                                                               appDelegate.windowedWidth, appDelegate.windowedHeight));
+                }
+
                 Component.onCompleted: {
                     if (application && application.rotatesWindowContents) {
                         decoratedWindow.surfaceOrientationAngle = shellOrientationAngle;
@@ -858,7 +890,8 @@ FocusScope {
                     windowedX = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedX + units.gu(3) : (normalZ - 1) * units.gu(3)
                     windowedY = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedY + units.gu(3) : normalZ * units.gu(3)
                     // Now load any saved state. This needs to happen *after* the cascading!
-                    resizeArea.loadWindowState();
+                    loadWindowState();
+                    resizeArea.init();
 
                     // NB: We're differentiating if this delegate was created in response to a new entry in the model
                     //     or if the Repeater is just populating itself with delegates to match the model it received.
@@ -875,6 +908,8 @@ FocusScope {
                     _constructing = false;
                 }
                 Component.onDestruction: {
+                    saveWindowState();
+
                     if (!root.parent) {
                         // This stage is about to be destroyed. Don't mess up with the model at this point
                         return;
@@ -1477,26 +1512,21 @@ FocusScope {
                     id: resizeArea
                     objectName: "windowResizeArea"
 
+                    anchors.fill: appDelegate
+
                     // workaround so that it chooses the correct resize borders when you drag from a corner ResizeGrip
                     anchors.margins: touchControls.overlayShown ? borderThickness/2 : -borderThickness
 
                     target: appDelegate
+                    minimumY: PanelState.panelHeight // disallow resizing up past Panel
                     minWidth: units.gu(10)
                     minHeight: units.gu(10)
                     borderThickness: units.gu(2)
-                    windowId: model.application.appId // FIXME: Change this to point to windowId once we have such a thing
-                    screenWidth: appContainer.width
-                    screenHeight: appContainer.height
-                    leftMargin: root.leftMargin
                     enabled: false
                     visible: enabled
 
                     onPressed: {
                         appDelegate.focus = true;
-                    }
-
-                    Component.onDestruction: {
-                        saveWindowState();
                     }
                 }
 

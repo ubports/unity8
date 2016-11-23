@@ -88,22 +88,11 @@ Item {
 
             WindowResizeArea {
                 id: windowResizeArea
+                anchors.fill: parent
                 target: fakeWindow
                 borderThickness: units.gu(2)
                 minWidth: units.gu(15)
                 minHeight: units.gu(10)
-                defaultWidth: units.gu(20)
-                defaultHeight: units.gu(20)
-                windowId: "test-window-id"
-                screenWidth: root.width
-                screenHeight: root.height
-
-                Component.onCompleted: {
-                    loadWindowState();
-                }
-                Component.onDestruction: {
-                    saveWindowState();
-                }
             }
 
             Rectangle {
@@ -312,30 +301,6 @@ Item {
             compare(fakeWindow.requestedY, Math.min(initialWindowY + data.dy, initialWindowY + maxMoveY));
         }
 
-        function test_saveRestoreSize() {
-            var initialWindowX = fakeWindow.windowedX;
-            var initialWindowY = fakeWindow.windowedY;
-            var initialWindowWidth = fakeWindow.width
-            var initialWindowHeight = fakeWindow.height
-
-            var resizeDelta = units.gu(5)
-            var startDragX = initialWindowX + initialWindowWidth + 1
-            var startDragY = initialWindowY + initialWindowHeight + 1
-            mouseFlick(root, startDragX, startDragY, startDragX + resizeDelta, startDragY + resizeDelta, true, true, units.gu(.5), 10);
-
-            tryCompare(fakeWindow, "width", Math.max(initialWindowWidth + resizeDelta, fakeWindow.resizeAreaMinWidth));
-            tryCompare(fakeWindow, "height", Math.max(initialWindowHeight + resizeDelta, fakeWindow.resizeAreaMinHeight));
-
-            // This will destroy the window and recreate it
-            windowLoader.active = false;
-            waitForRendering(root);
-            windowLoader.active = true;
-
-            // Make sure its size is again the same as before
-            tryCompare(fakeWindow, "width", Math.max(initialWindowWidth + resizeDelta, fakeWindow.resizeAreaMinWidth));
-            tryCompare(fakeWindow, "height", Math.max(initialWindowHeight + resizeDelta, fakeWindow.resizeAreaMinHeight));
-        }
-
         // This tests if dragging smaller than minSize and then larger again, will keep the edge sticking
         // to the mouse, instead of immediately making the window grow again when switching direction
         function test_resizeSmallerAndLarger_data() {
@@ -359,36 +324,6 @@ Item {
             mouseFlick(root, startDragX + data.dx, startDragY + data.dy, startDragX, startDragY, false, true, units.gu(.05), 10);
             tryCompare(fakeWindow, "width", initialWindowWidth);
             tryCompare(fakeWindow, "height", initialWindowHeight);
-        }
-
-        function test_saveRestoreMaximized() {
-            var initialWindowX = fakeWindow.windowedX;
-            var initialWindowY = fakeWindow.windowedY;
-
-            var moveDelta = units.gu(5);
-
-            fakeWindow.windowedX = initialWindowX + moveDelta
-            fakeWindow.windowedY = initialWindowY + moveDelta
-
-            // Now change the state to maximized. The window should not keep updating the stored values
-            fakeWindow.maximize()
-            fakeWindow.windowedX = 31415 // 0 is too risky to pass the test even when broken
-            fakeWindow.windowedY = 31415
-
-            // This will destroy the window and recreate it
-            windowLoader.active = false;
-            waitForRendering(root);
-            windowLoader.active = true;
-
-            // Make sure it's again where we left it in normal state before destroying
-            tryCompare(fakeWindow, "x", initialWindowX + moveDelta)
-            tryCompare(fakeWindow, "y", initialWindowX + moveDelta)
-
-            // Make sure maximize() has been called after restoring
-            tryCompare(fakeWindow, "state", "maximized")
-
-            // clean up
-            fakeWindow.restoreFromMaximized()
         }
 
         function test_restoreMovesIntoBounds_data() {
