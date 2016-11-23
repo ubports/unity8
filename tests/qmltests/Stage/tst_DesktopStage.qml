@@ -861,5 +861,4 @@ Item {
             mouseClick(maximizeButton);
         }
     }
-
 }
