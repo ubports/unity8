@@ -1456,6 +1456,7 @@ Rectangle {
             mouseMove(item, item.width / 2 + 1, item.height / 2, 10);
             tryCompare(tooltipShape, "visible", true);
             tryCompare(tooltipShape, "opacity", .95);
+        }
 
         function test_launcherEnabledSetting() {
             launcher.available = true;
