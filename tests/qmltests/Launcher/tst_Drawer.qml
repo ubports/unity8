@@ -200,5 +200,23 @@ StyledItem {
 
             tryCompare(launcher, "focus", false);
         }
+
+        function test_drawerDisabled() {
+            launcher.drawerEnabled = false;
+
+            var startX = launcher.dragAreaWidth/2;
+            var startY = launcher.height/2;
+            touchFlick(launcher,
+                       startX, startY,
+                       startX+units.gu(35), startY);
+
+            var drawer = findChild(launcher, "drawer");
+            verify(!!drawer);
+
+            tryCompare(launcher, "state", "visible");
+            tryCompare(launcher, "drawerShown", false);
+
+            launcher.drawerEnabled = true;
+        }
     }
 }

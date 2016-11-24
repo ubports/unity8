@@ -29,6 +29,7 @@ FocusScope {
     property alias inverted: panel.inverted
     property Item blurSource: null
     property int topPanelHeight: 0
+    property bool drawerEnabled: true
 
     property int panelWidth: units.gu(10)
     property int dragAreaWidth: units.gu(1)
@@ -146,6 +147,10 @@ FocusScope {
     }
 
     function openDrawer(focusInputField) {
+        if (!drawerEnabled) {
+            return;
+        }
+
         panel.shortcutHintsShown = false;
         superPressTimer.stop();
         superLongPressTimer.stop();
@@ -456,7 +461,11 @@ FocusScope {
                 root.switchToNextState("visibleTemporary");
             }
         }
-        onPassed: { root.switchToNextState("drawer"); }
+        onPassed: {
+            if (root.drawerEnabled) {
+                root.switchToNextState("drawer");
+            }
+        }
 
         material: Component {
             Item {
@@ -492,7 +501,7 @@ FocusScope {
                 panel.x = -panel.width + Math.min(Math.max(0, distance), panel.width);
             }
 
-            if (dragging && launcher.state != "drawer") {
+            if (root.drawerEnabled && dragging && launcher.state != "drawer") {
                 var drawerHintDistance = panel.width + units.gu(1)
                 if (distance < drawerHintDistance) {
                     drawer.x = -drawer.width + Math.min(Math.max(0, distance), drawer.width);
@@ -508,7 +517,7 @@ FocusScope {
         onDraggingChanged: {
             if (!dragging) {
                 if (distance > panel.width / 2) {
-                    if (distance > panel.width * 3) {
+                    if (root.drawerEnabled && distance > panel.width * 3) {
                         root.switchToNextState("drawer")
                         root.focus = true;
                     } else {

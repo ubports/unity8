@@ -497,6 +497,7 @@ StyledItem {
             lockedVisible: shell.usageScenario == "desktop" && !settings.autohideLauncher && !panel.fullscreenMode
             blurSource: greeter.shown ? greeter : stages
             topPanelHeight: panel.panelHeight
+            drawerEnabled: !greeter.shown
 
             onShowDashHome: showHome()
             onLauncherApplicationSelected: {
