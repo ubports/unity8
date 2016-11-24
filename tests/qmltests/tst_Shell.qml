@@ -1998,14 +1998,11 @@ Rectangle {
             var appRepeater = findChild(shell, "appRepeater");
             var appDelegate = appRepeater.itemAt(0);
 
-            var resizeArea = findChild(appDelegate, "windowResizeArea");
-            var priv = findInvisibleChild(resizeArea, "priv");
-
             // Make sure windows are at 0,0 or greater and they have a size that's > 0
-            compare(priv.normalX >= 0, true)
-            compare(priv.normalY >= 0, true)
-            compare(priv.normalWidth > 0, true)
-            compare(priv.normalHeight > 0, true)
+            compare(appDelegate.normalX >= 0, true)
+            compare(appDelegate.normalY >= 0, true)
+            compare(appDelegate.normalWidth > 0, true)
+            compare(appDelegate.normalHeight > 0, true)
         }
 
         // bug http://pad.lv/1431566
