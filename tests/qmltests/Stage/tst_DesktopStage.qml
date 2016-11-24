@@ -772,5 +772,22 @@ Item {
 
             tryCompare(mouseEaterSpy, "count", 0);
         }
+
+        // regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1627281
+        function test_doubleTapToMaximizeWindow() {
+            var dialerAppDelegate = startApplication("dialer-app");
+            verify(dialerAppDelegate);
+            var decoration = findChild(dialerAppDelegate, "appWindowDecoration");
+            verify(decoration);
+
+            // simulate a double tap, with a slight erroneous move in between those 2 taps
+            tap(decoration); tap(decoration);
+            touchMove(decoration, decoration.width/2, decoration.height/2 - 10);
+            touchRelease(decoration);
+            waitUntilTransitionsEnd(dialerAppDelegate);
+            waitUntilTransitionsEnd(stage);
+
+            tryCompare(dialerAppDelegate, "state", "maximized");
+        }
     }
 }

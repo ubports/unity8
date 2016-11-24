@@ -60,7 +60,8 @@ PreviewWidget {
             anchors {
                 top: parent.top; left: parent.left; right: parent.right
                 margins: margins
-                leftMargin: spacing
+                topMargin: 0
+                leftMargin: 0
                 rightMargin: spacing
             }
 
@@ -83,6 +84,7 @@ PreviewWidget {
                     sourceFillMode: UbuntuShape.PreserveAspectCrop
                     sourceHorizontalAlignment: UbuntuShape.AlignHCenter
                     sourceVerticalAlignment: UbuntuShape.AlignVCenter
+                    aspect: UbuntuShape.Flat
                     source: Image {
                         source: headerRoot.mascot
                         width: source ? mascotShapeLoader.width : 0
@@ -113,8 +115,8 @@ PreviewWidget {
                             rightMargin: iconLoader.width > 0 ? units.gu(0.5) : 0
                         }
                         elide: Text.ElideRight
-                        font.weight: Font.Normal
                         fontSize: "large"
+                        font.weight: Font.Light
                         wrapMode: Text.Wrap
                         color: headerRoot.fontColor
                         text: headerRoot.title
@@ -145,7 +147,7 @@ PreviewWidget {
                         id: subtitleLabel
                         objectName: "subtitleLabel"
                         elide: Text.ElideRight
-                        fontSize: "small"
+                        fontSize: "x-small"
                         font.weight: Font.Light
                         color: headerRoot.fontColor
                         text: headerRoot.subtitle
