@@ -378,7 +378,7 @@ FocusScope {
         }
 
         Behavior on x {
-            enabled: !dragArea.dragging && !launcherDragArea.drag.active && !drawer.draggingHorizontally// && panel.animate;
+            enabled: !dragArea.dragging && !launcherDragArea.drag.active && !drawer.draggingHorizontally
             NumberAnimation {
                 duration: 300
                 easing.type: Easing.OutCubic
@@ -585,13 +585,6 @@ FocusScope {
                 target: panel
                 x: 0
             }
-        }
-    ]
-    transitions: [
-        Transition {
-            from: "fromState"
-            to: "toState"
-
         }
     ]
 }

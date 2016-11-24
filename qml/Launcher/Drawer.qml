@@ -39,11 +39,16 @@ FocusScope {
     }
 
     function focusInput() {
+        searchField.selectAll();
         searchField.focus = true;
     }
 
     Settings {
         property alias selectedTab: sections.selectedIndex
+    }
+
+    MouseArea {
+        anchors.fill: parent
     }
 
     Rectangle {
@@ -69,7 +74,7 @@ FocusScope {
             TextField {
                 id: searchField
                 anchors { left: parent.left; top: parent.top; right: parent.right; margins: units.gu(1) }
-                placeholderText: i18n.tr("Search...")
+                placeholderText: i18n.tr("Search…")
                 focus: true
                 onAccepted: {
                     if (searchField.displayText != "" && listLoader.item && listLoader.item.currentItem) {

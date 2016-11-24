@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2016 Canonical, Ltd.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <QDebug>
 
 #include "ualwrapper.h"
@@ -16,13 +32,13 @@ QStringList UalWrapper::installedApps()
     QStringList appIds;
     try {
         for (const std::shared_ptr<Application> &app : Registry::installedApps()) {
-            if (!QString::fromStdString(app->appId().package).isEmpty()) {
-                appIds << QString::fromStdString(app->appId().package) + QStringLiteral("_") + QString::fromStdString(app->appId().appname);
+            if (!app->appId().package.value().empty()) {
+                appIds << QString::fromStdString(app->appId().package.value() + "_" + app->appId().appname.value());
             } else {
                 appIds << QString::fromStdString(app->appId().appname);
             }
         }
-    } catch(std::runtime_error &e) {
+    } catch (const std::runtime_error &e) {
         qWarning() << "ubuntu-all-launch threw an exception listing apps:" << e.what();
     }
 
@@ -49,7 +65,7 @@ UalWrapper::AppInfo UalWrapper::getApplicationInfo(const QString &appId)
             info.keywords << QString::fromStdString(keyword);
         }
         info.valid = true;
-    } catch(std::runtime_error &e) {
+    } catch (const std::runtime_error &e) {
         qWarning() << "ubuntu-app-launch threw an exception getting app info for appId:" << appId << ":" << e.what();
     }
 
