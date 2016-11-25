@@ -376,14 +376,6 @@ FocusScope {
                 }
             }
         }
-
-        Behavior on x {
-            enabled: !dragArea.dragging && !launcherDragArea.drag.active && !drawer.draggingHorizontally
-            NumberAnimation {
-                duration: 300
-                easing.type: Easing.OutCubic
-            }
-        }
     }
 
     LauncherPanel {
@@ -585,6 +577,13 @@ FocusScope {
                 target: panel
                 x: 0
             }
+        }
+    ]
+    transitions: [
+        Transition {
+            from: "*"
+            to: "*"
+            UbuntuNumberAnimation { target: drawer; property: "x"; easing: Easing.OutQuad; duration: 300 }
         }
     ]
 }
