@@ -700,7 +700,7 @@ FocusScope {
 
         function updateVisibility() {
             var companionPos = companionTo.mapToItem(floatingSeeLess, 0, 0);
-            showBecausePosition = companionPos.y > 0;
+            showBecausePosition = Math.round(companionPos.y) > 0;
 
             var posToBase = floatingSeeLess.mapToItem(companionBase, 0, -yOffset).y;
             yOffset = Math.max(0, companionBase.item.collapsedHeight - posToBase);
