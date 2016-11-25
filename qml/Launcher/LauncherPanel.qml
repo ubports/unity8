@@ -419,7 +419,7 @@ Rectangle {
                         property int startX
                         property int startY
 
-                        // This is workaround for some issue in the QML ListView:
+                        // This is a workaround for some issue in the QML ListView:
                         // When calling moveToItem(0), the listview visually positions itself
                         // correctly to display the first item expanded. However, some internal
                         // state seems to not be valid, and the next time the user clicks on it,
