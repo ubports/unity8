@@ -583,7 +583,8 @@ FocusScope {
         Transition {
             from: "*"
             to: "*"
-            UbuntuNumberAnimation { target: drawer; property: "x"; easing: Easing.OutQuad; duration: 300 }
+            UbuntuNumberAnimation { target: panel; property: "x"; easing: Easing.OutQuad; duration: UbuntuAnimation.SnapDuration }
+            UbuntuNumberAnimation { target: drawer; property: "x"; easing: Easing.OutQuad; duration: UbuntuAnimation.SnapDuration }
         }
     ]
 }
