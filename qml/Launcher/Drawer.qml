@@ -49,6 +49,9 @@ FocusScope {
 
     MouseArea {
         anchors.fill: parent
+        hoverEnabled: true
+        acceptedButtons: Qt.AllButtons
+        onWheel: wheel.accepted = true
     }
 
     Rectangle {
