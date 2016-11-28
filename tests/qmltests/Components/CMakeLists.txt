@@ -14,9 +14,8 @@ include_directories(
     ${UBUNTUGESTURES_INCLUDE_DIRS}
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
-    ${UBUNTUGESTURES_INCLUDE_DIRS}
     ${UBUNTUGESTURES_INCLUDEDIR}/UbuntuGestures/${UBUNTUGESTURES_VERSION}
-)
+    )
 
 add_executable(DragHandleTestExec tst_DragHandle.cpp)
 qt5_use_modules(DragHandleTestExec Test Core Qml Gui Quick)
