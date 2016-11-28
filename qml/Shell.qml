@@ -57,7 +57,7 @@ StyledItem {
     property Orientations orientations
     property real nativeWidth
     property real nativeHeight
-    property alias indicatorAreaShowProgress: panel.indicatorAreaShowProgress
+    property alias panelAreaShowProgress: panel.panelAreaShowProgress
     property string usageScenario: "phone" // supported values: "phone", "tablet" or "desktop"
     property string mode: "full-greeter"
     property alias oskEnabled: inputMethod.enabled

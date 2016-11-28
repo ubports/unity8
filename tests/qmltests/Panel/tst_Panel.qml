@@ -262,8 +262,8 @@ PanelTest {
 
             // Wait for the indicators to get into position.
             // (switches between normal and fullscreen modes are animated)
-            var indicatorArea = findChild(panel, "indicatorArea");
-            tryCompare(indicatorArea, "y", 0);
+            var panelArea = findChild(panel, "panelArea");
+            tryCompare(panelArea, "y", 0);
 
             backgroundPressedSpy.clear();
             compare(backgroundPressedSpy.valid, true);
@@ -298,16 +298,12 @@ PanelTest {
             tryCompare(panel.applicationMenus, "fullyOpened", true);
         }
 
-        function test_drag_show_data() {
+        function test_drag_indicator_item_down_shows_menu_data() {
             return [
-                { tag: "pinned", fullscreen: false, call: null,
-                            indicatorY: 0 },
-                { tag: "fullscreen", fullscreen: true, call: null,
-                            indicatorY: -panel.indicators.minimizedPanelHeight },
-                { tag: "pinned-callActive", fullscreen: false, call: phoneCall,
-                            indicatorY: 0},
-                { tag: "fullscreen-callActive", fullscreen: true, call: phoneCall,
-                            indicatorY: -panel.indicators.minimizedPanelHeight }
+                { tag: "pinned", fullscreen: false, call: null, y: 0 },
+                { tag: "fullscreen", fullscreen: true, call: null, y: -panel.minimizedPanelHeight },
+                { tag: "pinned-callActive", fullscreen: false, call: phoneCall, y: 0},
+                { tag: "fullscreen-callActive", fullscreen: true, call: phoneCall, y: -panel.minimizedPanelHeight }
             ];
         }
 
@@ -315,7 +311,7 @@ PanelTest {
         // indicators, first by running the hint animation, then after dragging down will
         // expose more of the panel, binding it to the selected indicator and opening it's menu.
         // Tested from first Y pixel to check for swipe from offscreen.
-        function test_drag_show(data) {
+        function test_drag_indicator_item_down_shows_menu(data) {
             panel.fullscreenMode = data.fullscreen;
             callManager.foregroundCall = data.call;
 
@@ -325,12 +321,12 @@ PanelTest {
             var menuContent = findChild(panel.indicators, "menuContent");
             verify(menuContent !== null);
 
-            var indicatorArea = findChild(panel, "indicatorArea");
-            verify(indicatorArea !== null);
+            var panelArea = findChild(panel, "panelArea");
+            verify(panelArea !== null);
 
             // Wait for the indicators to get into position.
             // (switches between normal and fullscreen modes are animated)
-            tryCompareFunction(function() { return indicatorArea.y }, data.indicatorY);
+            tryCompareFunction(function() { return panelArea.y }, data.y);
 
             for (var i = 0; i < root.originalModelData.length; i++) {
                 var indicatorItem = get_indicator_item(i);
@@ -360,22 +356,112 @@ PanelTest {
             }
         }
 
-        function test_drag_hide_data() {
+        function test_drag_panel_handle_up_hides_menu_data() {
             return [
-                { tag: "pinned", fullscreen: false, call: null,
-                            indicatorY: 0 },
-                { tag: "fullscreen", fullscreen: true, call: null,
-                            indicatorY: -panel.indicators.minimizedPanelHeight },
-                { tag: "pinned-callActive", fullscreen: false, call: phoneCall,
-                            indicatorY: 0},
-                { tag: "fullscreen-callActive", fullscreen: true, call: phoneCall,
-                            indicatorY: -panel.indicators.minimizedPanelHeight }
+                { tag: "indicators-pinned", section: panel.indicators, fullscreen: false, call: null },
+                { tag: "indicators-fullscreen", section: panel.indicators, fullscreen: true, call: null },
+                { tag: "indicators-pinned-callActive", section: panel.indicators, fullscreen: false, call: phoneCall },
+                { tag: "indicators-fullscreen-callActive", section: panel.indicators, fullscreen: true, call: phoneCall },
+                { tag: "appMenus-pinned", section: panel.applicationMenus, fullscreen: false, call: null },
+                { tag: "appMenus-fullscreen", section: panel.applicationMenus, fullscreen: true, call: null },
+                { tag: "appMenus-pinned-callActive", section: panel.applicationMenus, fullscreen: false, call: phoneCall },
+                { tag: "appMenus-fullscreen-callActive", section: panel.applicationMenus, fullscreen: true, call: phoneCall }
             ];
         }
 
         // Dragging the shown indicators up from bottom of panel will hide the indicators
         // Tested from last Y pixel to check for swipe from offscreen.
-        function test_drag_hide(data) {
+        function test_drag_panel_handle_up_hides_menu(data) {
+            panel.fullscreenMode = data.fullscreen;
+            callManager.foregroundCall = data.call;
+
+            var panelRow = findChild(data.section, "panelItemRow");
+            verify(panelRow !== null);
+
+            var panelArea = findChild(panel, "panelArea");
+            verify(panelArea !== null);
+
+            // Wait for the indicators to get into position.
+            // (switches between normal and fullscreen modes are animated)
+            tryCompareFunction(function() { return panelArea.y }, data.fullscreen ? -panel.minimizedPanelHeight : 0);
+
+            data.section.show();
+            tryCompare(data.section.showAnimation, "running", false);
+            tryCompare(data.section, "unitProgress", 1);
+
+            touchFlick(data.section,
+                       data.section.width / 2, panel.height,
+                       data.section.width / 2, 0,
+                       true /* beginTouch */, false /* endTouch */, units.gu(5), 15);
+
+            // Indicators height should follow the drag, and therefore increase accordingly.
+            // They should be at least half-way through the screen
+            tryCompareFunction(
+                function() {return data.section.height <= panel.height * 0.5},
+                true);
+
+            touchRelease(data.section, data.section.width / 2, 0);
+
+            tryCompare(data.section.hideAnimation, "running", true);
+            tryCompare(data.section.hideAnimation, "running", false);
+            tryCompare(data.section, "state", "initial");
+        }
+
+        function test_hint_data() {
+            return [
+                { tag: "indicators-normal", section: panel.indicators, fullscreen: false, call: null, hintExpected: true},
+                { tag: "indicators-fullscreen", section: panel.indicators, fullscreen: true, call: null, hintExpected: false},
+                { tag: "indicators-callActive", section: panel.indicators, fullscreen: false, call: phoneCall, hintExpected: false},
+                { tag: "appMenus-normal", section: panel.applicationMenus, fullscreen: false, call: null, hintExpected: true},
+                { tag: "appMenus-fullscreen", section: panel.applicationMenus, fullscreen: true, call: null, hintExpected: false},
+                { tag: "appMenus-callActive", section: panel.applicationMenus, fullscreen: false, call: phoneCall, hintExpected: false},
+            ];
+        }
+
+        function test_hint(data) {
+            PanelState.title = "Fake Title"
+            panel.fullscreenMode = data.fullscreen;
+            callManager.foregroundCall = data.call;
+
+            if (data.fullscreen) {
+                // Wait for the indicators to get into position.
+                // (switches between normal and fullscreen modes are animated)
+                var panelArea = findChild(panel, "panelArea");
+                tryCompare(panelArea, "y", -panel.minimizedPanelHeight);
+            }
+
+            var mappedPosition = root.mapFromItem(data.section,
+                                                  data.section.barWidth / 2, data.section.minimizedPanelHeight / 2);
+
+            touchPress(panel, mappedPosition.x, panel.minimizedPanelHeight / 2);
+
+            var showDragHandle = findChild(data.section, "showDragHandle")
+            var hintingAnimation = findInvisibleChild(showDragHandle, "hintingAnimation");
+            verify(hintingAnimation);
+
+            compare(hintingAnimation.running, data.hintExpected)
+            tryCompare(hintingAnimation, "running", false); // wait till animation completes
+
+            // no hint animation when fullscreen
+            compare(data.section.partiallyOpened, data.hintExpected, "Indicator should be partialy opened");
+            compare(data.section.fullyOpened, false, "Indicator should not be fully opened");
+
+            touchRelease(panel, mappedPosition.x, panel.minimizedPanelHeight / 2);
+        }
+
+        function test_drag_applicationMenu_down_shows_menu_data() {
+            return [
+                { tag: "normal", fullscreen: false, call: null, hintExpected: true},
+                { tag: "fullscreen", fullscreen: true, call: null, hintExpected: false},
+                { tag: "callActive", fullscreen: false, call: phoneCall, hintExpected: false}
+            ];
+        }
+
+        // Dragging the application menu will gradually expose the
+        // menus, first by running the hint animation, then after dragging down will
+        // expose more of the panel. Releasing the touch will complete the show.
+        function test_drag_applicationMenu_down_shows_menu(data) {
+            PanelState.title = "Fake Title";
             panel.fullscreenMode = data.fullscreen;
             callManager.foregroundCall = data.call;
 
@@ -385,68 +471,27 @@ PanelTest {
             var menuContent = findChild(panel.indicators, "menuContent");
             verify(menuContent !== null);
 
-            var indicatorArea = findChild(panel, "indicatorArea");
-            verify(indicatorArea !== null);
+            var panelArea = findChild(panel, "panelArea");
+            verify(panelArea !== null);
 
             // Wait for the indicators to get into position.
             // (switches between normal and fullscreen modes are animated)
-            tryCompareFunction(function() { return indicatorArea.y }, data.indicatorY);
+            tryCompareFunction(function() { return panelArea.y }, data.fullscreen ? -panel.minimizedPanelHeight : 0);
 
-            panel.indicators.show();
-            tryCompare(panel.indicators.showAnimation, "running", false);
-            tryCompare(panel.indicators, "unitProgress", 1);
-
-            touchFlick(panel.indicators,
-                       panel.indicators.width / 2, panel.height,
-                       panel.indicators.width / 2, 0,
+            touchFlick(panel,
+                       units.gu(1), 0,
+                       units.gu(1), panel.height,
                        true /* beginTouch */, false /* endTouch */, units.gu(5), 15);
 
             // Indicators height should follow the drag, and therefore increase accordingly.
             // They should be at least half-way through the screen
             tryCompareFunction(
-                function() {return panel.indicators.height <= panel.height * 0.5},
+                function() {return panel.applicationMenus.height >= panel.height * 0.5},
                 true);
 
-            touchRelease(panel.indicators, panel.indicators.width / 2, 0);
+            touchRelease(panel, units.gu(1), panel.height);
 
-            tryCompare(panel.indicators.hideAnimation, "running", true);
-            tryCompare(panel.indicators.hideAnimation, "running", false);
-            tryCompare(panel.indicators, "state", "initial");
-        }
-
-        function test_hint_data() {
-            return [
-                { tag: "normal", fullscreen: false, call: null, hintExpected: true},
-                { tag: "fullscreen", fullscreen: true, call: null, hintExpected: false},
-                { tag: "call hint", fullscreen: false, call: phoneCall, hintExpected: false},
-            ];
-        }
-
-        function test_hint(data) {
-            panel.fullscreenMode = data.fullscreen;
-            callManager.foregroundCall = data.call;
-
-            if (data.fullscreen) {
-                // Wait for the indicators to get into position.
-                // (switches between normal and fullscreen modes are animated)
-                var indicatorArea = findChild(panel, "indicatorArea");
-                tryCompare(indicatorArea, "y", -panel.panelHeight);
-            }
-
-            var indicatorItem = get_indicator_item(0);
-            var mappedPosition = root.mapFromItem(indicatorItem, indicatorItem.width / 2, indicatorItem.height / 2);
-
-            touchPress(panel, mappedPosition.x, panel.indicators.minimizedPanelHeight / 2);
-
-            // Give some time for a hint animation to change things, if any
-            wait(500);
-
-            // no hint animation when fullscreen
-            compare(panel.indicators.fullyClosed, !data.hintExpected, "Indicator should be fully closed");
-            compare(panel.indicators.partiallyOpened, data.hintExpected, "Indicator should be partialy opened");
-            compare(panel.indicators.fullyOpened, false, "Indicator should not be fully opened");
-
-            touchRelease(panel, mappedPosition.x, panel.minimizedPanelHeight / 2);
+            tryCompare(panel.applicationMenus, "fullyOpened", true)
         }
 
         /* Checks that no input reaches items behind the indicator bar.
@@ -457,7 +502,7 @@ PanelTest {
             // that it doesn't have a "weak spot" from where taps pass through.
             var numTaps = 5;
             var stepLength = (panel.width / (numTaps + 1));
-            var tapY = panel.indicators.minimizedPanelHeight / 2;
+            var tapY = panel.minimizedPanelHeight / 2;
             for (var i = 1; i <= numTaps; ++i) {
                 tap(panel, stepLength * i, tapY);
                 tryCompare(panel.indicators, "fullyClosed", true);
@@ -469,8 +514,8 @@ PanelTest {
             // The center of the area not covered by the indicators menu
             // Ie, the visible darkened area behind the menu
             var touchPosX = (panel.width - panel.indicators.width) / 2
-            var touchPosY = panel.indicators.minimizedPanelHeight +
-                    ((panel.height - panel.indicators.minimizedPanelHeight) / 2)
+            var touchPosY = panel.minimizedPanelHeight +
+                    ((panel.height - panel.minimizedPanelHeight) / 2)
 
             // input goes through while the indicators menu is closed
             tryCompare(panel.indicators, "fullyClosed", true);
@@ -512,8 +557,8 @@ PanelTest {
             // The center of the area not covered by the indicators menu
             // Ie, the visible darkened area behind the menu
             var touchPosX = panel.applicationMenus.width + (panel.width - panel.applicationMenus.width) / 2
-            var touchPosY = panel.applicationMenus.minimizedPanelHeight +
-                    ((panel.height - panel.applicationMenus.minimizedPanelHeight) / 2)
+            var touchPosY = panel.minimizedPanelHeight +
+                    ((panel.height - panel.minimizedPanelHeight) / 2)
 
             // input goes through while the indicators menu is closed
             tryCompare(panel.applicationMenus, "fullyClosed", true);
@@ -557,12 +602,12 @@ PanelTest {
           panel.
          */
         function test_tapNearTopEdgeWithPanelInFullscreenMode() {
-            var indicatorArea = findChild(panel, "indicatorArea");
-            verify(indicatorArea);
+            var panelArea = findChild(panel, "panelArea");
+            verify(panelArea);
 
             panel.fullscreenMode = true;
             // wait until if finishes hiding itself
-            tryCompare(indicatorArea, "y", -panel.minimizedPanelHeight);
+            tryCompare(panelArea, "y", -panel.minimizedPanelHeight);
 
             compare(panel.indicators.shown, false);
             verify(panel.indicators.fullyClosed);
@@ -591,7 +636,7 @@ PanelTest {
 
             mouseClick(panel.indicators,
                        panel.indicators.width / 2,
-                       panel.indicators.minimizedPanelHeight / 2);
+                       panel.minimizedPanelHeight / 2);
 
             compare(panel.indicators.shown, false);
             verify(panel.indicators.fullyClosed);
@@ -603,7 +648,7 @@ PanelTest {
 
             mouseClick(panel.indicators,
                     panel.indicators.width / 2,
-                    panel.indicators.minimizedPanelHeight / 2);
+                    panel.minimizedPanelHeight / 2);
 
             compare(panel.indicators.shown, true);
             tryCompare(panel.indicators, "fullyOpened", true);

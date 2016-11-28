@@ -35,7 +35,7 @@ import "Indicators"
 
 Item {
     id: root
-    readonly property real panelHeight: indicatorArea.y + minimizedPanelHeight
+    readonly property real panelHeight: panelArea.y + minimizedPanelHeight
 
     property real minimizedPanelHeight: units.gu(3)
     property real expandedPanelHeight: units.gu(7)
@@ -45,7 +45,7 @@ Item {
     property alias applicationMenus: __applicationMenus
     property alias indicators: __indicators
     property bool fullscreenMode: false
-    property real indicatorAreaShowProgress: 1.0
+    property real panelAreaShowProgress: 1.0
     property bool locked: false
     property bool greeterShown: false
 
@@ -77,14 +77,14 @@ Item {
     }
 
     Item {
-        id: indicatorArea
-        objectName: "indicatorArea"
+        id: panelArea
+        objectName: "panelArea"
 
         anchors.fill: parent
 
         transform: Translate {
             y: indicators.state === "initial"
-                ? (1.0 - indicatorAreaShowProgress) * - minimizedPanelHeight
+                ? (1.0 - panelAreaShowProgress) * - minimizedPanelHeight
                 : 0
         }
 
@@ -239,6 +239,7 @@ Item {
             rowItemDelegate: ActionItem {
                 id: actionItem
                 property int ownIndex: index
+                objectName: "appMenuItem"+index
 
                 width: _title.width + units.gu(2)
                 height: parent.height
@@ -377,7 +378,7 @@ Item {
             name: "onscreen" //fully opaque and visible at top edge of screen
             when: !fullscreenMode
             PropertyChanges {
-                target: indicatorArea;
+                target: panelArea;
                 anchors.topMargin: 0
                 opacity: 1;
             }
@@ -386,7 +387,7 @@ Item {
             name: "offscreen" //pushed off screen
             when: fullscreenMode
             PropertyChanges {
-                target: indicatorArea;
+                target: panelArea;
                 anchors.topMargin: {
                     if (indicators.state !== "initial") return 0;
                     if (applicationMenus.state !== "initial") return 0;
@@ -408,11 +409,11 @@ Item {
     transitions: [
         Transition {
             to: "onscreen"
-            UbuntuNumberAnimation { target: indicatorArea; properties: "anchors.topMargin,opacity" }
+            UbuntuNumberAnimation { target: panelArea; properties: "anchors.topMargin,opacity" }
         },
         Transition {
             to: "offscreen"
-            UbuntuNumberAnimation { target: indicatorArea; properties: "anchors.topMargin,opacity" }
+            UbuntuNumberAnimation { target: panelArea; properties: "anchors.topMargin,opacity" }
         }
     ]
 }
