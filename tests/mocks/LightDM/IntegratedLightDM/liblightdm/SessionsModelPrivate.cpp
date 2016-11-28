@@ -22,6 +22,7 @@ namespace QLightDM
 
 SessionsModelPrivate::SessionsModelPrivate(SessionsModel* parent)
     : testScenario("singleSession")
+    , q_ptr(parent)
     , m_availableSessions(
         {
             {"ubuntu", "", "Ubuntu", ""},
@@ -36,7 +37,6 @@ SessionsModelPrivate::SessionsModelPrivate(SessionsModel* parent)
             {"xterm", "", "Recovery Console", ""},
             {"", "", "Unknown?", ""}
         })
-    , q_ptr(parent)
 {
     numSessions = numAvailableSessions();
     resetEntries();
