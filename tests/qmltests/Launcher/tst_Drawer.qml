@@ -89,6 +89,7 @@ StyledItem {
     UnityTestCase {
         id: testCase
         when: windowShown
+        name: "Drawer"
 
         function dragDrawerIntoView() {
             var startX = launcher.dragAreaWidth/2;
@@ -159,10 +160,11 @@ StyledItem {
 
         function test_hideByDraggingDrawer() {
             dragDrawerIntoView();
+            waitForRendering(launcher);
 
             var drawer = findChild(launcher, "drawer");
 
-            mouseFlick(drawer, drawer.width - units.gu(1), drawer.height / 2, drawer.width - units.gu(12), drawer.height / 2);
+            mouseFlick(root, drawer.width - units.gu(1), drawer.height / 2, 0, drawer.height / 2, true, true);
 
             tryCompare(launcher, "state", "");
         }
@@ -217,6 +219,16 @@ StyledItem {
             tryCompare(launcher, "drawerShown", false);
 
             launcher.drawerEnabled = true;
+        }
+
+        function test_search() {
+            compare(launcher.lastSelectedApplication, "");
+
+            launcher.openDrawer(true)
+            typeString("cam");
+            keyClick(Qt.Key_Enter);
+
+            compare(launcher.lastSelectedApplication, "camera-app");
         }
     }
 }

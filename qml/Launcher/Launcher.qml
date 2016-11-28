@@ -347,11 +347,19 @@ FocusScope {
             top: parent.top
             topMargin: root.inverted ? root.topPanelHeight : 0
             bottom: parent.bottom
+            right: parent.left
         }
         width: Math.min(root.width, units.gu(90)) * .9
-        x: -width
         panelWidth: panel.width
         visible: x > -width
+
+        Behavior on anchors.rightMargin {
+            enabled: !dragArea.dragging && !launcherDragArea.drag.active && panel.animate && !drawer.draggingHorizontally
+            NumberAnimation {
+                duration: 300
+                easing.type: Easing.OutCubic
+            }
+        }
 
         onApplicationSelected: {
             root.hide();
@@ -365,7 +373,7 @@ FocusScope {
         }
 
         onDragDistanceChanged: {
-            x = Math.min(0, x-dragDistance);
+            anchors.rightMargin = Math.max(-drawer.width, anchors.rightMargin + dragDistance);
         }
         onDraggingHorizontallyChanged: {
             if (!draggingHorizontally) {
@@ -496,12 +504,12 @@ FocusScope {
             if (root.drawerEnabled && dragging && launcher.state != "drawer") {
                 var drawerHintDistance = panel.width + units.gu(1)
                 if (distance < drawerHintDistance) {
-                    drawer.x = -drawer.width + Math.min(Math.max(0, distance), drawer.width);
+                    drawer.anchors.rightMargin = -Math.min(Math.max(0, distance), drawer.width);
                 } else {
                     var linearDrawerX = Math.min(Math.max(0, distance - drawerHintDistance), drawer.width);
                     var linearDrawerProgress = linearDrawerX / (drawer.width)
                     var easedDrawerProgress = easeInOutCubic(linearDrawerProgress);
-                    drawer.x = (-drawer.width + drawerHintDistance) + easedDrawerProgress * (drawer.width - drawerHintDistance);
+                    drawer.anchors.rightMargin = -(drawerHintDistance + easedDrawerProgress * (drawer.width - drawerHintDistance));
                 }
             }
         }
@@ -532,7 +540,7 @@ FocusScope {
             }
             PropertyChanges {
                 target: drawer
-                x: -drawer.width
+                anchors.rightMargin: 0
             }
         },
         State {
@@ -541,17 +549,13 @@ FocusScope {
                 target: panel
                 x: -root.x // so we never go past panelWidth, even when teased by tutorial
             }
-            PropertyChanges {
-                target: drawer
-                x: -drawer.width
-            }
         },
         State {
             name: "drawer"
             extend: "visible"
             PropertyChanges {
                 target: drawer
-                x: -root.x // so we never go past panelWidth, even when teased by tutorial
+                anchors.rightMargin: -drawer.width + root.x // so we never go past panelWidth, even when teased by tutorial
             }
         },
         State {
@@ -577,14 +581,6 @@ FocusScope {
                 target: panel
                 x: 0
             }
-        }
-    ]
-    transitions: [
-        Transition {
-            from: "*"
-            to: "*"
-            UbuntuNumberAnimation { target: panel; property: "x"; easing: Easing.OutQuad; duration: UbuntuAnimation.SnapDuration }
-            UbuntuNumberAnimation { target: drawer; property: "x"; easing: Easing.OutQuad; duration: UbuntuAnimation.SnapDuration }
         }
     ]
 }

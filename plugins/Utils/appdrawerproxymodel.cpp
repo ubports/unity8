@@ -172,12 +172,10 @@ bool AppDrawerProxyModel::filterAcceptsRow(int source_row, const QModelIndex &so
 
 QString AppDrawerProxyModel::appId(int index) const
 {
-    qDebug() << "get called:" << index << this << m_source->staticMetaObject.className() << m_source;
     if (index >= 0 && index < rowCount()) {
         QModelIndex sourceIndex = mapToSource(this->index(index, 0));
 
         AppDrawerModelInterface* adm = dynamic_cast<AppDrawerModelInterface*>(m_source);
-        qDebug() << "tried casting to ADMI:" << adm;
         if (adm) {
             return adm->data(sourceIndex, AppDrawerModelInterface::RoleAppId).toString();
         }
@@ -187,6 +185,5 @@ QString AppDrawerProxyModel::appId(int index) const
             return adpm->appId(sourceIndex.row());
         }
     }
-    qDebug() << "could nto cast source model";
     return nullptr;
 }
