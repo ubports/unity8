@@ -549,6 +549,10 @@ FocusScope {
                 target: panel
                 x: -root.x // so we never go past panelWidth, even when teased by tutorial
             }
+            PropertyChanges {
+                target: drawer
+                anchors.rightMargin: 0
+            }
         },
         State {
             name: "drawer"

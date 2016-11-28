@@ -158,15 +158,26 @@ StyledItem {
             revealByEdgePush();
         }
 
-        function test_hideByDraggingDrawer() {
+        function test_hideByDraggingDrawer_data() {
+            return [
+                {tag: "autohide", autohide: true, endState: ""},
+                {tag: "locked", autohide: false, endState: "visible"}
+            ]
+        }
+
+        function test_hideByDraggingDrawer(data) {
+            launcher.lockedVisible = !data.autohide;
+
             dragDrawerIntoView();
             waitForRendering(launcher);
 
             var drawer = findChild(launcher, "drawer");
 
-            mouseFlick(root, drawer.width - units.gu(1), drawer.height / 2, 0, drawer.height / 2, true, true);
+            mouseFlick(root, drawer.width - units.gu(1), drawer.height / 2, units.gu(2), drawer.height / 2, true, true);
 
-            tryCompare(launcher, "state", "");
+            tryCompare(drawer.anchors, "rightMargin", 0);
+            tryCompare(launcher, "state", data.endState);
+            launcher.lockedVisible = false;
         }
 
         function test_hideByClickingOutside() {
