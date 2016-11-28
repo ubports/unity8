@@ -81,7 +81,7 @@ FocusScope {
                 focus: true
                 onAccepted: {
                     if (searchField.displayText != "" && listLoader.item && listLoader.item.currentItem) {
-                        root.applicationSelected(listLoader.item.currentItem.appId);
+                        root.applicationSelected(listLoader.item.getFirstAppId());
                     }
                 }
             }
@@ -166,12 +166,7 @@ FocusScope {
 
             Component {
                 id: mostUsedComponent
-                ListView {
-                    anchors.fill: parent
-                    topMargin: units.gu(1)
-                    bottomMargin: units.gu(1)
-                    spacing: units.gu(1)
-                    clip: true
+                DrawerListView {
 
                     header: MoreAppsHeader {
                         width: parent.width
@@ -213,12 +208,7 @@ FocusScope {
 
             Component {
                 id: aToZComponent
-                ListView {
-                    anchors.fill: parent
-                    topMargin: units.gu(1)
-                    bottomMargin: units.gu(1)
-                    spacing: units.gu(1)
-                    clip: true
+                DrawerListView {
 
                     header: MoreAppsHeader {
                         width: parent.width

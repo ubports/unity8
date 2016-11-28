@@ -16,6 +16,8 @@
 
 #include "appdrawerproxymodel.h"
 
+#include <unity/shell/launcher/LauncherItemInterface.h>
+
 #include <QDebug>
 
 AppDrawerProxyModel::AppDrawerProxyModel(QObject *parent):
@@ -166,4 +168,25 @@ bool AppDrawerProxyModel::filterAcceptsRow(int source_row, const QModelIndex &so
         }
     }
     return true;
+}
+
+QString AppDrawerProxyModel::appId(int index) const
+{
+    qDebug() << "get called:" << index << this << m_source->staticMetaObject.className() << m_source;
+    if (index >= 0 && index < rowCount()) {
+        QModelIndex sourceIndex = mapToSource(this->index(index, 0));
+
+        AppDrawerModelInterface* adm = dynamic_cast<AppDrawerModelInterface*>(m_source);
+        qDebug() << "tried casting to ADMI:" << adm;
+        if (adm) {
+            return adm->data(sourceIndex, AppDrawerModelInterface::RoleAppId).toString();
+        }
+
+        AppDrawerProxyModel* adpm = qobject_cast<AppDrawerProxyModel*>(m_source);
+        if (adpm) {
+            return adpm->appId(sourceIndex.row());
+        }
+    }
+    qDebug() << "could nto cast source model";
+    return nullptr;
 }

@@ -31,6 +31,8 @@ set(QMLPLUGIN_SRC
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceListInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/Mir.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/AppDrawerModelInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
     constants.cpp
     plugin.cpp
     windowstatestorage.cpp
