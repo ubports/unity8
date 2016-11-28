@@ -1,7 +1,7 @@
 AbstractButton { 
                 id: root; 
                 property var cardData; 
-                property string backgroundShapeStyle: "inset"; 
+                property string backgroundShapeStyle: "flat"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
                 readonly property string title: cardData && cardData["title"] || ""; 
@@ -28,8 +28,8 @@ Loader  {
                                         anchors.fill: parent;
                                         source: artImage;
                                         sourceFillMode: UbuntuShape.PreserveAspectCrop;
-                                        radius: "medium";
-                                        aspect: UbuntuShape.Inset;
+                                        radius: "small";
+                                        aspect: UbuntuShape.Flat;
                                     }
                                     width: image.status !== Image.Ready ? 0 : image.width;
                                     height: image.status !== Image.Ready ? 0 : image.height;
@@ -62,7 +62,7 @@ Label {
                         visible: showHeader ; 
                         width: undefined;
                         text: root.title; 
-                        font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
+                        font.weight: Font.Normal; 
                         horizontalAlignment: Text.AlignHCenter;
                     }
 implicitHeight: titleLabel.y + titleLabel.height + units.gu(1);

@@ -57,6 +57,7 @@ class GSettingsQml: public QObject, public QQmlParserStatus
     Q_PROPERTY(QVariant autohideLauncher READ autohideLauncher WRITE setAutohideLauncher NOTIFY autohideLauncherChanged)
     Q_PROPERTY(QVariant launcherWidth READ launcherWidth WRITE setLauncherWidth NOTIFY launcherWidthChanged)
     Q_PROPERTY(QVariant edgeDragWidth READ edgeDragWidth WRITE setEdgeDragWidth NOTIFY edgeDragWidthChanged)
+    Q_PROPERTY(QVariant enableLauncher READ enableLauncher WRITE setEnableLauncher NOTIFY enableLauncherChanged)
 
 public:
     GSettingsQml(QObject *parent = nullptr);
@@ -73,6 +74,7 @@ public:
     QVariant autohideLauncher() const;
     QVariant launcherWidth() const;
     QVariant edgeDragWidth() const;
+    QVariant enableLauncher() const;
 
     void setDisableHeight(const QVariant &val);
     void setPictureUri(const QVariant &str);
@@ -82,6 +84,7 @@ public:
     void setAutohideLauncher(const QVariant &autohideLauncher);
     void setLauncherWidth(const QVariant &launcherWidth);
     void setEdgeDragWidth(const QVariant &edgeDragWidth);
+    void setEnableLauncher(const QVariant &enableLauncher);
 
 Q_SIGNALS:
     void disableHeightChanged();
@@ -93,6 +96,7 @@ Q_SIGNALS:
     void autohideLauncherChanged();
     void launcherWidthChanged();
     void edgeDragWidthChanged();
+    void enableLauncherChanged();
 
 private:
     GSettingsSchemaQml* m_schema;
@@ -133,6 +137,9 @@ public:
     uint edgeDragWidth() const;
     Q_INVOKABLE void setEdgeDragWidth(uint edgeDragWidth);
 
+    bool enableLauncher() const;
+    Q_INVOKABLE void setEnableLauncher(bool enableLauncher);
+
 Q_SIGNALS:
     void disableHeightChanged();
     void pictureUriChanged(const QString&);
@@ -142,6 +149,7 @@ Q_SIGNALS:
     void autohideLauncherChanged(bool autohideLauncher);
     void launcherWidthChanged(int launcherWidth);
     void edgeDragWidthChanged(uint edgeDragWidth);
+    void enableLauncherChanged(bool enableLauncher);
 
 private:
     GSettingsControllerQml();
@@ -154,6 +162,7 @@ private:
     bool m_autohideLauncher;
     int m_launcherWidth;
     uint m_edgeDragWidth;
+    bool m_enableLauncher;
 
     static GSettingsControllerQml* s_controllerInstance;
     QList<GSettingsQml *> m_registeredGSettings;

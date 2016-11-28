@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2015 Canonical, Ltd.
+ * Copyright (C) 2012-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,10 @@
 #include "ShellApplication.h"
 #include "qmldebuggerutils.h"
 #include "UnixSignalHandler.h"
+
+#include <QTranslator>
+#include <QLibraryInfo>
+#include <QLocale>
 
 int main(int argc, const char *argv[])
 {
@@ -39,6 +43,11 @@ int main(int argc, const char *argv[])
         QGuiApplication::exit(0);
     });
     signalHandler.setupUnixSignalHandlers();
+
+    QTranslator qtTranslator;
+    if (qtTranslator.load(QLocale(), QStringLiteral("qt_"), qgetenv("SNAP"), QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
+        application->installTranslator(&qtTranslator);
+    }
 
     int result = application->exec();
 

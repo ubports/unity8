@@ -53,18 +53,18 @@ FocusScope {
     property real leftEdgeDragProgress: 0
 
     // Used by the tutorial code
-    readonly property bool spreadShown: state == "spread"
-    readonly property real rightEdgeDragProgress: rightEdgeDragArea.progress // How far left the stage has been dragged
+    readonly property real rightEdgeDragProgress: rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0 // How far left the stage has been dragged
 
     // used by the snap windows (edge maximize) feature
     readonly property alias previewRectangle: fakeRectangle
 
+    readonly property bool spreadShown: state == "spread"
     readonly property var mainApp: priv.focusedAppDelegate ? priv.focusedAppDelegate.application : null
 
     // application windows never rotate independently
     property int mainAppWindowOrientationAngle: shellOrientationAngle
 
-    property bool orientationChangesEnabled: priv.focusedAppDelegate && priv.focusedAppDelegate.orientationChangesEnabled
+    property bool orientationChangesEnabled: !priv.focusedAppDelegate || priv.focusedAppDelegate.orientationChangesEnabled
 
     property int supportedOrientations: {
         if (mainApp) {
@@ -90,7 +90,32 @@ FocusScope {
     }
 
 
-    onAltTabPressedChanged: priv.goneToSpread = altTabPressed
+    onAltTabPressedChanged: {
+        if (altTabPressed) {
+            altTabDelayTimer.start();
+        } else {
+            // Alt Tab has been released, did we already go to spread?
+            if (priv.goneToSpread) {
+                priv.goneToSpread = false;
+            } else {
+                // No we didn't, do a quick alt-tab
+                if (appRepeater.count > 1) {
+                    appRepeater.itemAt(1).claimFocus();
+                }
+            }
+        }
+    }
+
+    Timer {
+        id: altTabDelayTimer
+        interval: 140
+        repeat: false
+        onTriggered: {
+            if (root.altTabPressed) {
+                priv.goneToSpread = true;
+            }
+        }
+    }
 
     property Item itemConfiningMouseCursor: !spreadShown && priv.focusedAppDelegate && priv.focusedAppDelegate.surface &&
                               priv.focusedAppDelegate.surface.confinesMousePointer ?
@@ -105,9 +130,13 @@ FocusScope {
         edgeBarrier.push(amount);
     }
 
+    function closeSpread() {
+        priv.goneToSpread = false;
+    }
+
     onSpreadEnabledChanged: {
-        if (!spreadEnabled && root.state == "spread") {
-            priv.goneToSpread = false;
+        if (!spreadEnabled && spreadShown) {
+            closeSpread();
         }
     }
 
@@ -231,6 +260,12 @@ FocusScope {
         readonly property bool sideStageEnabled: root.mode === "stagedWithSideStage" &&
                                                  (root.shellOrientation == Qt.LandscapeOrientation ||
                                                  root.shellOrientation == Qt.InvertedLandscapeOrientation)
+        onSideStageEnabledChanged: {
+            for (var i = 0; i < appRepeater.count; i++) {
+                appRepeater.itemAt(i).refreshStage();
+            }
+            priv.updateMainAndSideStageIndexes();
+        }
 
         property var mainStageDelegate: null
         property var sideStageDelegate: null
@@ -251,7 +286,7 @@ FocusScope {
                 priv.sideStageItemId = 0;
                 priv.sideStageAppId = "";
                 priv.mainStageDelegate = appRepeater.itemAt(0);
-                priv.mainStageAppId = topLevelSurfaceList.idAt(0);
+                priv.mainStageItemId = topLevelSurfaceList.idAt(0);
                 priv.mainStageAppId = topLevelSurfaceList.applicationAt(0) ? topLevelSurfaceList.applicationAt(0).appId : ""
                 return;
             }
@@ -423,12 +458,22 @@ FocusScope {
             PropertyChanges { target: hoverMouseArea; enabled: true }
             PropertyChanges { target: rightEdgeDragArea; enabled: false }
             PropertyChanges { target: cancelSpreadMouseArea; enabled: true }
+            PropertyChanges { target: blurLayer; visible: true; blurRadius: 32; brightness: .65; opacity: 1 }
+            PropertyChanges { target: wallpaper; visible: false }
         },
         State {
             name: "stagedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "staged"
+            PropertyChanges {
+                target: blurLayer;
+                visible: true;
+                blurRadius: 32
+                brightness: .65
+                opacity: 1
+            }
         },
         State {
             name: "sideStagedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "stagedWithSideStage"
+            extend: "stagedRightEdge"
             PropertyChanges {
                 target: sideStage
                 opacity: priv.sideStageDelegate.x === sideStage.x ? 1 : 0
@@ -437,13 +482,21 @@ FocusScope {
         },
         State {
             name: "windowedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "windowed"
+            PropertyChanges {
+                target: blurLayer;
+                visible: true
+                blurRadius: 32
+                brightness: .65
+                opacity: MathUtils.linearAnimation(spreadItem.rightEdgeBreakPoint, 1, 0, 1, Math.max(rightEdgeDragArea.progress, edgeBarrier.progress))
+            }
         },
         State {
             name: "staged"; when: root.mode === "staged"
+            PropertyChanges { target: wallpaper; visible: false }
         },
         State {
             name: "stagedWithSideStage"; when: root.mode === "stagedWithSideStage"
-            PropertyChanges { target: triGestureArea; enabled: true }
+            PropertyChanges { target: triGestureArea; enabled: priv.sideStageEnabled }
             PropertyChanges { target: sideStage; visible: true }
         },
         State {
@@ -454,6 +507,7 @@ FocusScope {
         Transition {
             from: "stagedRightEdge,sideStagedRightEdge,windowedRightEdge"; to: "spread"
             PropertyAction { target: spreadItem; property: "highlightedIndex"; value: -1 }
+            PropertyAnimation { target: blurLayer; properties: "brightness,blurRadius"; duration: priv.animationDuration }
         },
         Transition {
             to: "spread"
@@ -476,7 +530,7 @@ FocusScope {
             }
         },
         Transition {
-            to: "stagedRightEdge"
+            to: "stagedRightEdge,sideStagedRightEdge"
             PropertyAction { target: floatingFlickable; property: "contentX"; value: 0 }
         },
         Transition {
@@ -508,6 +562,13 @@ FocusScope {
             z: -2
         }
 
+        BlurLayer {
+            id: blurLayer
+            anchors.fill: parent
+            source: wallpaper
+            visible: false
+        }
+
         Spread {
             id: spreadItem
             objectName: "spreadItem"
@@ -536,7 +597,7 @@ FocusScope {
                 bottom: parent.bottom
             }
             width: appContainer.width - sideStage.width
-            enabled: sideStage.enabled
+            enabled: priv.sideStageEnabled
 
             onDropped: {
                 drop.source.appDelegate.saveStage(ApplicationInfoInterface.MainStage);
@@ -580,7 +641,7 @@ FocusScope {
             }
 
             onShownChanged: {
-                if (!shown && priv.mainStageDelegate) {
+                if (!shown && priv.mainStageDelegate && !root.spreadShown) {
                     priv.mainStageDelegate.claimFocus();
                 }
             }
@@ -692,10 +753,6 @@ FocusScope {
                             decoratedWindow.surfaceOrientationAngle = 0;
                         }
                     }
-                }
-                Connections {
-                    target: priv
-                    onSideStageEnabledChanged: refreshStage()
                 }
 
                 readonly property alias application: decoratedWindow.application
@@ -1066,6 +1123,7 @@ FocusScope {
                             showHighlight: spreadItem.highlightedIndex === index
                             darkening: spreadItem.highlightedIndex >= 0
                             anchors.topMargin: dragArea.distance
+                            interactive: false
                         }
                         PropertyChanges {
                             target: appDelegate
@@ -1105,7 +1163,10 @@ FocusScope {
                             scaleToPreviewSize: spreadItem.stackHeight
                             scaleToPreviewProgress: stagedRightEdgeMaths.scaleToPreviewProgress
                             shadowOpacity: .3
+                            interactive: false
                         }
+                        // make sure it's visible but transparent so it fades in when we transition to spread
+                        PropertyChanges { target: windowInfoItem; opacity: 0; visible: true }
                     },
                     State {
                         name: "windowedRightEdge"
@@ -1364,6 +1425,7 @@ FocusScope {
                         PropertyAction { target: decoratedWindow; property: "scaleToPreviewSize" }
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,height"; duration: priv.animationDuration }
                         UbuntuNumberAnimation { target: decoratedWindow; properties: "width,height,itemScale,angle,scaleToPreviewProgress"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: windowInfoItem; properties: "opacity"; duration: priv.animationDuration }
                     },
                     Transition {
                         from: "normal,staged"; to: "stagedWithSideStage"
@@ -1576,7 +1638,7 @@ FocusScope {
                     maxWidth: {
                         var nextApp = appRepeater.itemAt(index + 1);
                         if (nextApp) {
-                            return nextApp.x - appDelegate.x - units.gu(1)
+                            return Math.max(iconHeight, nextApp.x - appDelegate.x - units.gu(1))
                         }
                         return appDelegate.width;
                     }
@@ -1744,7 +1806,7 @@ FocusScope {
         property var gesturePoints: []
         property bool cancelled: false
 
-        property real progress: dragging ? -touchPosition.x / root.width : 0
+        property real progress: -touchPosition.x / root.width
         onProgressChanged: {
             if (dragging) {
                 draggedProgress = progress;

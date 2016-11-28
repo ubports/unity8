@@ -119,6 +119,14 @@ SessionsModel::SessionsModel(QObject* parent)
     m_roleNames = m_model->roleNames();
     m_roleNames[IconRole] = "icon_url";
 
+    // Update search locations to use $SNAP prefix if specified
+    auto snapRoot = QFile::decodeName(qgetenv("SNAP"));
+    if (!snapRoot.isEmpty()) {
+        for (int i = 0; i < m_iconSearchDirectories.size(); i++) {
+            m_iconSearchDirectories[i] = snapRoot + m_iconSearchDirectories[i].path();
+        }
+    }
+
     setModel(m_model);
     setSourceModel(m_model);
     setSortCaseSensitivity(Qt::CaseInsensitive);
