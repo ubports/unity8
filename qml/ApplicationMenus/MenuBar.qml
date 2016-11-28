@@ -35,6 +35,10 @@ Item {
     implicitWidth: row.width + units.gu(1)
     height: parent.height
 
+    function select(index) {
+        d.select(index);
+    }
+
     function dismiss() {
         d.dismissAll();
     }
@@ -77,9 +81,9 @@ Item {
 
             Item {
                 id: visualItem
-                objectName: root.objectName + "-item" + __index
+                objectName: root.objectName + "-item" + __ownIndex
 
-                readonly property int __index: index
+                readonly property int __ownIndex: index
                 property Item __popup: null;
                 property bool popupVisible: __popup && __popup.visible
 
@@ -87,15 +91,12 @@ Item {
                 implicitHeight: row.height
                 enabled: model.sensitive
 
-                Keys.forwardTo: [ root ]
-
                 function show() {
                     if (!__popup) {
                         __popup = menuComponent.createObject(root, { objectName: visualItem.objectName + "-menu" });
                     } else {
                         __popup.visible = true;
                     }
-                    __popup.forceActiveFocus();
                 }
                 function hide() {
                     if (__popup) {
@@ -119,7 +120,10 @@ Item {
                     MenuPopup {
                         x: visualItem.x - units.gu(1)
                         anchors.top: parent.bottom
-                        unityMenuModel: root.unityMenuModel.submenu(visualItem.__index)
+                        unityMenuModel: root.unityMenuModel.submenu(visualItem.__ownIndex)
+
+                        Component.onCompleted: reset();
+                        onVisibleChanged: if (visible) { reset(); }
                     }
                 }
 
@@ -210,18 +214,28 @@ Item {
         visible: d.currentItem
     }
 
-    QtObject {
+    MenuNavigator {
         id: d
         objectName: "d"
+        itemView: rowRepeater
 
         property Item currentItem: null
         property Item hoveredItem: null
         property Item prevCurrentItem: null
 
+        readonly property int currentIndex: currentItem ? currentItem.__ownIndex : -1
+
         property bool altPressed: false
         property bool longAltPressed: false
 
         signal dismissAll()
+
+        onSelect: {
+            var delegate = rowRepeater.itemAt(index);
+            if (delegate) {
+                d.currentItem = delegate;
+            }
+        }
 
         onCurrentItemChanged: {
             if (prevCurrentItem && prevCurrentItem != currentItem) {
@@ -264,75 +278,13 @@ Item {
 
     Keys.onLeftPressed: {
         if (d.currentItem) {
-            selectPrevious(d.currentItem.__index);
+            d.selectPrevious(d.currentIndex);
         }
     }
 
     Keys.onRightPressed: {
         if (d.currentItem) {
-            selectNext(d.currentItem.__index);
-        }
-    }
-
-    function select(index) {
-        var delegate = rowRepeater.itemAt(index);
-        if (delegate) {
-            d.currentItem = delegate;
-        }
-    }
-
-    function selectNext(currentIndex) {
-        var menu;
-        var newIndex = 0;
-        if (currentIndex === -1 && rowRepeater.count > 0) {
-            while (rowRepeater.count > newIndex) {
-                menu = rowRepeater.itemAt(newIndex);
-                if (!!menu["enabled"]) {
-                    select(newIndex);
-                    break;
-                }
-                newIndex++;
-            }
-        } else if (currentIndex !== -1 && rowRepeater.count > 1) {
-            var startIndex = (currentIndex + 1) % rowRepeater.count;
-            newIndex = startIndex;
-            do {
-                menu = rowRepeater.itemAt(newIndex);
-                if (!!menu["enabled"]) {
-                    select(newIndex);
-                    break;
-                }
-                newIndex = (newIndex + 1) % rowRepeater.count;
-            } while (newIndex !== startIndex)
-        }
-    }
-
-    function selectPrevious(currentIndex) {
-        var menu;
-        var newIndex = rowRepeater.count-1;
-        if (currentIndex === -1 && rowRepeater.count > 0) {
-            while (rowRepeater.count > newIndex) {
-                menu = rowRepeater.itemAt(newIndex);
-                if (!!menu["enabled"]) {
-                    select(newIndex);
-                    break;
-                }
-                newIndex--;
-            }
-        } else if (currentIndex !== -1 && rowRepeater.count > 1) {
-            var startIndex = currentIndex - 1;
-            newIndex = startIndex;
-            do {
-                if (newIndex < 0) {
-                    newIndex = rowRepeater.count - 1;
-                }
-                menu = rowRepeater.itemAt(newIndex);
-                if (!!menu["enabled"]) {
-                    select(newIndex);
-                    break;
-                }
-                newIndex--;
-            } while (newIndex !== startIndex)
+            d.selectNext(d.currentIndex);
         }
     }
 }
