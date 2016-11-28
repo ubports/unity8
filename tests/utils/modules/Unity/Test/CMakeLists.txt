@@ -5,7 +5,6 @@ add_definitions(-DQT_NO_KEYWORDS)
 pkg_check_modules(UBUNTUGESTURES REQUIRED UbuntuGestures)
 
 include_directories(
-    ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures
     ${CMAKE_SOURCE_DIR}/src
 )
 
@@ -14,6 +13,7 @@ include_directories(
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
     ${UBUNTUGESTURES_INCLUDE_DIRS}
+    ${UBUNTUGESTURES_INCLUDEDIR}/UbuntuGestures/${UBUNTUGESTURES_VERSION}
 )
 
 set(UnityTestQML_SOURCES

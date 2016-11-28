@@ -1,25 +1,25 @@
 AbstractButton { 
                 id: root; 
                 property var cardData;
-                property string backgroundShapeStyle: "inset"; 
+                property string backgroundShapeStyle: "flat"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
+                readonly property string title: cardData && cardData["title"] || "";
+                property bool showHeader: true;
+                implicitWidth: childrenRect.width;
+                enabled: true;
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
-                readonly property string title: cardData && cardData["title"] || ""; 
-                property bool showHeader: true; 
-                implicitWidth: childrenRect.width; 
-                enabled: true; 
 signal action(var actionId);
 Loader {
                                 id: backgroundLoader; 
                                 objectName: "backgroundLoader"; 
                                 anchors.fill: parent; 
                                 asynchronous: true;
-                                visible: status == Loader.Ready; 
+                                visible: status === Loader.Ready;
                                 sourceComponent: UbuntuShape { 
                                     objectName: "background"; 
-                                    radius: "medium"; 
+                                    radius: "small"; 
                                     aspect: { 
                                         switch (root.backgroundShapeStyle) { 
                                             case "inset": return UbuntuShape.Inset; 
@@ -49,7 +49,6 @@ Loader {
                                     } 
                                 } 
                             }
-readonly property size artShapeSize: Qt.size(-1, -1);
 readonly property int headerHeight: row.height;
 Row { 
                         id: row; 
@@ -90,19 +89,21 @@ left: parent.left;
                         visible: showHeader ; 
                         width: parent.width - x; 
                         text: root.title; 
-                        font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
+                        font.weight: Font.Normal; 
                         horizontalAlignment: Text.AlignLeft;
                     }
  
                                 ] 
                     }
-UbuntuShape { 
-    id: touchdown;
-    objectName: "touchdown";
+Loader {
+    active: root.pressed;
     anchors { fill: backgroundLoader }
-    visible: root.pressed;
-    radius: "medium";
-    borderSource: "radius_pressed.sci"
+    sourceComponent: UbuntuShape {
+        objectName: "touchdown";
+        anchors.fill: parent;
+        radius: "small";
+        borderSource: "radius_pressed.sci"
+    }
 }
 implicitHeight: row.y + row.height + units.gu(1);
 }

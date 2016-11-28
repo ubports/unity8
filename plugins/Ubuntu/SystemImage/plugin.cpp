@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,16 +19,10 @@
 
 #include <QtQml>
 
-static QObject *service_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-    return new SystemImage();
-}
-
 void BackendPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("Ubuntu.SystemImage"));
 
-    qmlRegisterSingletonType<SystemImage>(uri, 0, 1, "SystemImage", service_provider);
+    qmlRegisterSingletonType<SystemImage>(uri, 0, 1, "SystemImage",
+                                          [](QQmlEngine*, QJSEngine*) -> QObject* { return new SystemImage; });
 }

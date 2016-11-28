@@ -19,7 +19,6 @@
 #include <QGuiApplication>
 #include <QScopedPointer>
 #include <QStyleHints>
-
 #include <private/qquickitem_p.h>
 
 #define TOUCHDISPATCHER_DEBUG 0
@@ -222,7 +221,7 @@ void TouchDispatcher::dispatchAsMouse(
         QEvent::Type eventType;
         if (touchMouse->state() == Qt::TouchPointPressed) {
             eventType = QEvent::MouseButtonPress;
-        } if (touchMouse->state() == Qt::TouchPointReleased) {
+        } else if (touchMouse->state() == Qt::TouchPointReleased) {
             eventType = QEvent::MouseButtonRelease;
             m_touchMouseId = -1;
         } else {

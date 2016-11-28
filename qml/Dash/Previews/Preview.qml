@@ -37,12 +37,16 @@ Item {
     //! \brief The ScopeStyle component.
     property var scopeStyle: null
 
+    //! Should the orientation be locked
+    property int orientationLockCount: 0
+
     clip: true
 
     Binding {
         target: previewModel
         property: "widgetColumnCount"
         value: row.columns
+        when: root.orientationLockCount === 0
     }
 
     MouseArea {
@@ -52,11 +56,12 @@ Item {
     Row {
         id: row
 
-        spacing: units.gu(1)
-        anchors { fill: parent; margins: spacing }
+        spacing: units.gu(4)
+        anchors.fill: parent
 
-        property int columns: width >= units.gu(80) ? 2 : 1
-        property real columnWidth: width / columns
+        readonly property int columns: width >= units.gu(80) ? 2 : 1
+        readonly property real columnWidth: (width - (spacing * (columns - 1))) / columns
+        readonly property int singleColumnMargin: units.gu(2)
 
         Repeater {
             model: previewModel
@@ -68,8 +73,11 @@ Item {
                     top: parent.top
                     bottom: parent.bottom
                 }
+                topMargin: units.gu(2)
                 width: row.columnWidth
-                spacing: row.spacing
+                spacing: units.gu(1)
+
+                readonly property int columnNumber: index
 
                 ListViewOSKScroller {
                     id: oskScroller
@@ -78,6 +86,7 @@ Item {
 
                 model: columnModel
                 cacheBuffer: height
+                highlightMoveDuration: 0 // QTBUG-53460
 
                 Behavior on contentY { UbuntuNumberAnimation { } }
 
@@ -91,8 +100,16 @@ Item {
                     anchors {
                         left: parent.left
                         right: parent.right
-                        leftMargin: widgetMargins
-                        rightMargin: widgetMargins
+                        leftMargin: if (row.columns == 1) {
+                                        return singleColumnMarginless ? 0 : row.singleColumnMargin;
+                                    } else {
+                                        return column.columnNumber == 0 ? row.singleColumnMargin : 0;
+                                    }
+                        rightMargin: if (row.columns == 1) {
+                                        return singleColumnMarginless ? 0 : row.singleColumnMargin;
+                                    } else {
+                                        return column.columnNumber == 1 ? row.singleColumnMargin : 0;
+                                    }
                     }
 
                     onTriggered: {
@@ -108,6 +125,18 @@ Item {
                     onHeightChanged: if (focus) {
                         column.forceLayout();
                         column.positionViewAtIndex(index, ListView.Contain)
+                    }
+
+                    onOrientationLockChanged: {
+                        if (orientationLock)
+                            root.orientationLockCount++;
+                        else
+                            root.orientationLockCount = Math.max(0, root.orientationLockCount--);
+                    }
+
+                    Component.onDestruction: {
+                        if (orientationLock)
+                            root.orientationLockCount = Math.max(0, root.orientationLockCount--);
                     }
                 }
             }

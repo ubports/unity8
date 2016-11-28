@@ -54,8 +54,8 @@ Rectangle {
 
     property var galleryData: {
         "sources": [
-                    "../../graphics/phone_background.jpg",
-                    "../../graphics/tablet_background.jpg",
+                    "../../../tests/graphics/avatars/amanda@12.png",
+                    "../../../tests/graphics/avatars/funky@12.png",
                     "../../../tests/graphics/clock@18.png",
                     "../../graphics/borked"
                    ]
@@ -71,7 +71,7 @@ Rectangle {
     }
 
     property var imageData: {
-        "source": "../../graphics/phone_background.jpg",
+        "source": "../../../tests/graphics/avatars/amanda@12.png",
         "zoomable": false
     }
 
@@ -299,6 +299,20 @@ Rectangle {
             compare (repeater.itemAt(3).expanded, false);
         }
 
+        function waitForLazyImage(obj)
+        {
+            if (UT.Util.isInstanceOf(obj, "LazyImage")) {
+                tryCompareFunction(function() { return obj.state != "default" && obj.state != "loading"; }, true);
+                for (var i in obj.transitions) {
+                    tryCompare(obj.transitions[i], "running", false);
+                }
+            }
+
+            for (var i in obj.children) {
+                waitForLazyImage(obj.children[i]);
+            }
+        }
+
         function test_all_widgets_height() {
             previewExpandable.widgetData = allWidgetsData;
 
@@ -319,14 +333,19 @@ Rectangle {
                 previewWidgetFactory.widgetType = allWidgetsModel.get(i).type;
                 previewWidgetFactory.active = true;
 
-                // Wait for the height ot settle by waiting four times the time of the
-                // longest of the height behaviour animations
-                wait(UbuntuAnimation.SnapDuration * 4);
+                waitForRendering(repeater.itemAt(i));
+                waitForRendering(previewWidgetFactory);
+
+                waitForLazyImage(previewWidgetFactory);
+                waitForLazyImage(repeater.itemAt(i));
+
+                UT.Util.waitForBehaviors(previewWidgetFactory);
+                UT.Util.waitForBehaviors(repeater.itemAt(i));
 
                 // Check the item inside the expandable has the same height
                 // as the one straight from the factory
                 verify(repeater.itemAt(i).height > 0);
-                tryCompare(repeater.itemAt(i), "height", previewWidgetFactory.height);
+                compare(repeater.itemAt(i).height, previewWidgetFactory.height);
             }
 
             mouseClick(expandButton);

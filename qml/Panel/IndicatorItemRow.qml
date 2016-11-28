@@ -18,6 +18,10 @@ import QtQuick 2.4
 import QtQuick.Window 2.2
 import Ubuntu.Components 1.3
 
+// for indicator-keyboard
+import AccountsService 0.1
+import Unity.InputInfo 0.1
+
 Item {
     id: root
     width: row.width
@@ -127,6 +131,11 @@ Item {
         property bool forceAlignmentAnimationDisabled: false
     }
 
+    InputDeviceModel {
+        id: keyboardsModel
+        deviceFilter: InputInfo.Keyboard
+    }
+
     onCurrentItemChanged: {
         if (d.previousItem) {
             d.firstItemSwitch = false;
@@ -184,9 +193,11 @@ Item {
 
                 property int ownIndex: index
                 property bool overflow: row.width - x > overFlowWidth
-                property bool hidden: !expanded && (overflow || !indicatorVisible || hideSessionIndicator)
+                property bool hidden: !expanded && (overflow || !indicatorVisible || hideSessionIndicator || hideKeyboardIndicator)
                 // HACK for indicator-session
                 readonly property bool hideSessionIndicator: identifier == "indicator-session" && Math.min(Screen.width, Screen.height) <= units.gu(60)
+                // HACK for indicator-keyboard
+                readonly property bool hideKeyboardIndicator: identifier == "indicator-keyboard" && (AccountsService.keymaps.length < 2 || keyboardsModel.count == 0)
 
                 height: row.height
                 expanded: root.expanded
@@ -202,7 +213,7 @@ Item {
                     NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing }
                 }
 
-                width: ((expanded || indicatorVisible) && !hideSessionIndicator) ? implicitWidth : 0
+                width: ((expanded || indicatorVisible) && !hideSessionIndicator && !hideKeyboardIndicator) ? implicitWidth : 0
 
                 Behavior on width {
                     NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing }

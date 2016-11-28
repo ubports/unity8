@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -22,6 +22,7 @@
 
 #include <QQuickWindow>
 #include <QGuiApplication>
+#include <QtMath>
 
 #include <qpa/qwindowsysteminterface.h>
 
@@ -43,27 +44,81 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
         Q_EMIT mouseMoved();
     }
 
-    qreal newX = x() + movement.x();
-    if (newX < 0) {
-        Q_EMIT pushedLeftBoundary(qAbs(newX), buttons);
-        newX = 0;
-    } else if (newX > parentItem()->width()) {
-        Q_EMIT pushedRightBoundary(newX - parentItem()->width(), buttons);
-        newX = parentItem()->width();
-    }
-    setX(newX);
+    m_accumulatedMovement += movement;
+    // don't apply the fractional part
+    QPointF appliedMovement(int(m_accumulatedMovement.x()), int(m_accumulatedMovement.y()));
+    m_accumulatedMovement -= appliedMovement;
 
-    qreal newY = y() + movement.y();
-    if (newY < 0) {
-        newY = 0;
-    } else if (newY > parentItem()->height()) {
-        newY = parentItem()->height();
+    qreal newX = x() + appliedMovement.x();
+    qreal newY = y() + appliedMovement.y();
+    const qreal sceneWidth = parentItem()->width();
+    const qreal sceneHeight = parentItem()->height();
+
+    if (newX <= 0 && newY < m_topBoundaryOffset) { // top left corner
+        const auto distance = qSqrt(qPow(newX, 2) + qPow(newY-m_topBoundaryOffset, 2));
+        Q_EMIT pushedTopLeftCorner(qAbs(distance), buttons);
+        m_pushing = true;
+    } else if (newX >= sceneWidth-1 && newY < m_topBoundaryOffset) { // top right corner
+        const auto distance = qSqrt(qPow(newX-sceneWidth, 2) + qPow(newY-m_topBoundaryOffset, 2));
+        Q_EMIT pushedTopRightCorner(qAbs(distance), buttons);
+        m_pushing = true;
+    } else if (newX < 0 && newY >= sceneHeight-1) { // bottom left corner
+        const auto distance = qSqrt(qPow(newX, 2) + qPow(newY-sceneHeight, 2));
+        Q_EMIT pushedBottomLeftCorner(qAbs(distance), buttons);
+        m_pushing = true;
+    } else if (newX >= sceneWidth-1 && newY >= sceneHeight-1) { // bottom right corner
+        const auto distance = qSqrt(qPow(newX-sceneWidth, 2) + qPow(newY-sceneHeight, 2));
+        Q_EMIT pushedBottomRightCorner(qAbs(distance), buttons);
+        m_pushing = true;
+    } else if (newX < 0) { // left edge
+        Q_EMIT pushedLeftBoundary(qAbs(newX), buttons);
+        m_pushing = true;
+    } else if (newX >= sceneWidth) { // right edge
+        Q_EMIT pushedRightBoundary(newX - (sceneWidth - 1), buttons);
+        m_pushing = true;
+    } else if (newY < m_topBoundaryOffset) { // top edge
+        Q_EMIT pushedTopBoundary(qAbs(newY - m_topBoundaryOffset), buttons);
+        m_pushing = true;
+    } else if (Q_LIKELY(newX > 0 && newX < sceneWidth-1 && newY > 0 && newY < sceneHeight-1)) { // normal pos, not pushing
+        if (m_pushing) {
+            Q_EMIT pushStopped();
+            m_pushing = false;
+        }
     }
-    setY(newY);
+
+    applyItemConfinement(newX, newY);
+
+    setX(qBound(0.0, newX, sceneWidth - 1));
+    setY(qBound(0.0, newY, sceneHeight - 1));
 
     QPointF scenePosition = mapToItem(nullptr, QPointF(0, 0));
     QWindowSystemInterface::handleMouseEvent(window(), timestamp, scenePosition /*local*/, scenePosition /*global*/,
         buttons, modifiers);
+}
+
+void MousePointer::applyItemConfinement(qreal &newX, qreal &newY)
+{
+    Q_ASSERT(parentItem() != nullptr);
+
+    if (m_confiningItem.isNull()) {
+        return;
+    }
+
+    QRectF confiningItemGeometry(0, 0, m_confiningItem->width(), m_confiningItem->height());
+
+    QRectF confiningRect = m_confiningItem->mapRectToItem(parentItem(), confiningItemGeometry);
+
+    if (newX < confiningRect.x()) {
+        newX = confiningRect.x();
+    } else if (newX > confiningRect.right()) {
+        newX = confiningRect.right();
+    }
+
+    if (newY < confiningRect.y()) {
+        newY = confiningRect.y();
+    } else if (newY > confiningRect.bottom()) {
+        newY = confiningRect.bottom();
+    }
 }
 
 void MousePointer::handleWheelEvent(ulong timestamp, QPoint angleDelta, Qt::KeyboardModifiers modifiers)
@@ -75,6 +130,20 @@ void MousePointer::handleWheelEvent(ulong timestamp, QPoint angleDelta, Qt::Keyb
     QPointF scenePosition = mapToItem(nullptr, QPointF(0, 0));
     QWindowSystemInterface::handleWheelEvent(window(), timestamp, scenePosition /* local */, scenePosition /* global */,
             QPoint() /* pixelDelta */, angleDelta, modifiers, Qt::ScrollUpdate);
+}
+
+int MousePointer::topBoundaryOffset() const
+{
+    return m_topBoundaryOffset;
+}
+
+void MousePointer::setTopBoundaryOffset(int topBoundaryOffset)
+{
+    if (m_topBoundaryOffset == topBoundaryOffset)
+        return;
+
+    m_topBoundaryOffset = topBoundaryOffset;
+    Q_EMIT topBoundaryOffsetChanged(topBoundaryOffset);
 }
 
 void MousePointer::itemChange(ItemChange change, const ItemChangeData &value)
@@ -150,4 +219,17 @@ void MousePointer::setThemeName(const QString &themeName)
 void MousePointer::setCustomCursor(const QCursor &customCursor)
 {
     CursorImageProvider::instance()->setCustomCursor(customCursor);
+}
+
+QQuickItem* MousePointer::confiningItem() const
+{
+    return m_confiningItem.data();
+}
+
+void MousePointer::setConfiningItem(QQuickItem *item)
+{
+    if (item != m_confiningItem) {
+        m_confiningItem = item;
+        Q_EMIT confiningItemChanged();
+    }
 }

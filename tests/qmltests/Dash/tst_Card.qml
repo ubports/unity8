@@ -362,7 +362,7 @@ Rectangle {
             waitForRendering(card);
             tryCompare(art, "width", units.gu(8));
             tryCompare(art, "height", units.gu(4));
-            tryCompare(art, "fixedArtShapeSizeAspect", 2);
+            tryCompare(artImage, "width", artImage.height * 2);
         }
 
         function test_art_layout_data() {
@@ -529,21 +529,6 @@ Rectangle {
             compare(mascotImage.source, Qt.resolvedUrl("artwork/checkers.png"));
         }
 
-        function test_font_weights_data() {
-            return [
-                { tag: "Title only", index: 8, weight: Font.Normal },
-                { tag: "Title, subtitle", index: 0, weight: Font.DemiBold },
-            ]
-        }
-
-        function test_font_weights(data) {
-            selector.selectedIndex = data.index;
-            waitForRendering(selector);
-            waitForRendering(card);
-
-            tryCompare(testCase.title.font, "weight", data.weight);
-        }
-
         function test_fontColor_data() {
             return [
                 { tag: "#ffffff", dark: true },
@@ -618,12 +603,17 @@ Rectangle {
             waitForRendering(card);
 
             var touchdown = findChild(card, "touchdown");
+            compare(touchdown, null);
 
-            compare(touchdown.visible, false);
             mousePress(card);
+
+            touchdown = findChild(card, "touchdown");
             compare(touchdown.visible, true);
+
             mouseRelease(card);
-            compare(touchdown.visible, false);
+
+            touchdown = findChild(card, "touchdown");
+            compare(touchdown, null);
         }
 
         function test_paddings_data() {

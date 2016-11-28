@@ -7,105 +7,83 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-05-27 13:54+0000\n"
-"PO-Revision-Date: 2015-07-04 09:48+0000\n"
-"Last-Translator: David Planella <david.planella@ubuntu.com>\n"
+"POT-Creation-Date: 2016-11-16 10:44+0000\n"
+"PO-Revision-Date: 2016-11-11 06:30+0000\n"
+"Last-Translator: Walter Garcia-Fontes <walter.garcia@upf.edu>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-06-02 06:20+0000\n"
-"X-Generator: Launchpad (build 18053)\n"
+"X-Launchpad-Export-Date: 2016-11-23 06:34+0000\n"
+"X-Generator: Launchpad (build 18269)\n"
 
-#: plugins/IntegratedLightDM/Greeter.cpp:112
+#: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
 msgstr "Contrasenya: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:48
-#: plugins/Unity/Launcher/launcheritem.cpp:107
+#: plugins/Unity/Launcher/launcheritem.cpp:49
+#: plugins/Unity/Launcher/launcheritem.cpp:108
 msgid "Pin shortcut"
 msgstr "Enganxa la drecera"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:53
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Surt"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:107
+#: plugins/Unity/Launcher/launcheritem.cpp:108
 msgid "Unpin shortcut"
 msgstr "Desenganxa la drecera"
 
-#: qml/Components/DelayedLockscreen.qml:49
-msgid "Device Locked"
-msgstr "Dispositiu bloquejat"
-
-#: qml/Components/DelayedLockscreen.qml:64
-msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr ""
-"Se us ha bloquejat l'accés al dispositiu. Heu sobrepassat el nombre "
-"d'intents d'introducció de la contrasenya."
-
-#: qml/Components/DelayedLockscreen.qml:65
-msgid "You have been locked out due to too many failed passcode attempts."
-msgstr ""
-"Se us ha bloquejat l'accés al dispositiu. Heu sobrepassat el nombre "
-"d'intents d'introducció del codi d'accés."
-
-#: qml/Components/DelayedLockscreen.qml:74
-#, qt-format
-msgid "Please wait %1 minute and then try again…"
-msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Espereu %1 minut i torneu-ho a intentar..."
-msgstr[1] "Espereu %1 minuts i torneu-ho a intentar..."
-
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:149
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Surt"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:150
 msgid "Are you sure you want to log out?"
 msgstr "Segur que voleu sortir?"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:152
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Bloca"
 
-#: qml/Components/Dialogs.qml:154
+#: qml/Components/Dialogs.qml:159
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Surt"
 
-#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
-#: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
+#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
+#: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: qml/Components/Dialogs.qml:173
+#: qml/Components/Dialogs.qml:178
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Reinicia"
 
-#: qml/Components/Dialogs.qml:174
+#: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
 msgstr "Segur que voleu reiniciar?"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:181
 msgid "No"
 msgstr "No"
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:187
 msgid "Yes"
 msgstr "Sí"
 
-#: qml/Components/Dialogs.qml:197
+#: qml/Components/Dialogs.qml:202
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Energia"
 
-#: qml/Components/Dialogs.qml:198
+#: qml/Components/Dialogs.qml:203
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -113,27 +91,197 @@ msgstr ""
 "Segur que voleu\n"
 "apagar?"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:205
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Apaga"
 
-#: qml/Components/Dialogs.qml:209
+#: qml/Components/Dialogs.qml:214
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Reinicia"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/KeyboardShortcutsOverlay.qml:41
+msgid "Keyboard Shortcuts"
+msgstr "Dreceres de teclat"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:55
+msgid "Unity 8"
+msgstr "Unity 8"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:62
+msgid "PrtScr"
+msgstr "ImprPant"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:67
+msgid "Takes a screenshot."
+msgstr "Crea una captura de pantalla"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:75
+msgid "Alt + PrtScr"
+msgstr "Alt + ImprPant"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:80
+msgid "Takes a screenshot of a window."
+msgstr "Crea una captura de pantalla d'una finestra"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:88
+msgid "Super + Space"
+msgstr "Super + Espai"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:93
+msgid "Switches to next keyboard layout."
+msgstr "Canvia a la següent disposició de teclat."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:101
+msgid "Super + Shift + Space"
+msgstr "Super + Maj + Espai"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:106
+msgid "Switches to previous keyboard layout."
+msgstr "Canvia a la disposició prèvia de teclat."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:118
+msgid "Launcher"
+msgstr "Llançador"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:125
+msgid "Super (Hold)"
+msgstr "Super (Mantingut)"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:130
+msgid "Opens the launcher, displays shortcuts."
+msgstr "Obre el llançador, mostre les dreceres."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:138
+msgid "Alt + F1"
+msgstr "Alt + F1"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:143
+msgid "Opens launcher keyboard navigation mode."
+msgstr "Obre el mode de navegació de teclat del llançador."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:151
+msgid "Super + Tab"
+msgstr "Super + Tab"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:156
+msgid "Switches applications via the launcher."
+msgstr "Commuta les aplicacions mitjançant el llançador."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:164
+msgid "Super + 0 to 9"
+msgstr "Super + 0 a 9"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:169
+msgid "Same as clicking on a launcher icon."
+msgstr "El mateix que clicar sobre una icona del llançador."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:181
+msgid "Scopes"
+msgstr "Lents"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:188
+msgid "Super (Tap)"
+msgstr "Super (Toc)"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:193
+msgid "Opens the Scopes home."
+msgstr "Obre la pàgina d'inici dels lents."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:209
+msgid "Switching"
+msgstr "Commutació"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:216
+msgid "Alt + Tab"
+msgstr "Alt + Tab"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:221
+msgid "Switches between applications."
+msgstr "Commuta entre aplicacions."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:229
+msgid "Super + W"
+msgstr "Super + W"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:234
+msgid "Opens the desktop spread."
+msgstr "Obre la distribució de l'escriptori."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:242
+msgid "Cursor Left or Right"
+msgstr "Cursor dreta o esquerra"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:247
+msgid "Moves the focus."
+msgstr "Mou el focus"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:259
+msgid "Windows"
+msgstr "Finestres"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:266
+msgid "Ctrl + Super + D"
+msgstr "Ctrl + Super + D"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:271
+msgid "Minimizes all windows."
+msgstr "Minimitza totes les finestres."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:279
+msgid "Ctrl + Super + Up"
+msgstr "Ctrl + Super + Amunt"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:284
+msgid "Maximizes the current window."
+msgstr "Maximitza la finestra actual."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:292
+msgid "Ctrl + Super + Down"
+msgstr "Ctrl + Super + Avall"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:297
+msgid "Minimizes or restores the current window."
+msgstr "Minimitza o restaura la finestra actual."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:305
+msgid "Ctrl + Super + Left or Right"
+msgstr "Ctrl + Super + Esquerra o Dreta"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:310
+msgid "Semi-maximizes the current window."
+msgstr "Semi-maximitza la finestra actual."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:318
+msgid "Alt + F4"
+msgstr "Alt + F4"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:323
+msgid "Closes the current window."
+msgstr "Tanca la finestra actual."
+
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
 msgid "Return to Call"
 msgstr "Torna a la trucada"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:212
 msgid "Emergency Call"
 msgstr "Trucada d'emergència"
 
-#: qml/Components/Lockscreen.qml:263
+#: qml/Components/Lockscreen.qml:244
 msgid "OK"
 msgstr "D'acord"
+
+#: qml/Components/MediaServices/VideoPlayerControls.qml:44
+#, qt-format
+msgid "%1:%2:%3"
+msgstr "%1:%2:%3"
+
+#: qml/Components/MediaServices/VideoPlayerControls.qml:49
+#, qt-format
+msgid "%1:%2"
+msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
@@ -144,6 +292,8 @@ msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Torneu a acoblar, deseu la vostra feina i tanqueu aquestes aplicacions abans "
+"de continuar."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
@@ -161,88 +311,88 @@ msgstr "Torna a connectar"
 msgid "Close all"
 msgstr "Tanca-ho tot"
 
-#: qml/Dash/DashPageHeader.qml:333
+#: qml/Components/SharingPicker.qml:54
+msgid "Preview Share Item"
+msgstr "Previsualitzeu l'element a compartir"
+
+#: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Botiga"
 
-#: qml/Dash/DashPageHeader.qml:340
+#: qml/Dash/DashPageHeader.qml:368
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Cerca"
 
-#: qml/Dash/DashPageHeader.qml:350
+#: qml/Dash/DashPageHeader.qml:378
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Paràmetres"
 
-#: qml/Dash/DashPageHeader.qml:357
+#: qml/Dash/DashPageHeader.qml:385
 msgid "Remove from Favorites"
 msgstr "Suprimeix dels preferits"
 
-#: qml/Dash/DashPageHeader.qml:357
+#: qml/Dash/DashPageHeader.qml:385
 msgid "Add to Favorites"
 msgstr "Afegeix als preferits"
 
-#: qml/Dash/FiltersPopover.qml:60
+#: qml/Dash/FiltersPopover.qml:61
 msgid "Refine your results"
-msgstr ""
+msgstr "Refineu els resultats"
 
-#: qml/Dash/FiltersPopover.qml:69
+#: qml/Dash/FiltersPopover.qml:70
 msgid "Reset"
-msgstr ""
+msgstr "Restableix"
 
-#: qml/Dash/GenericScopeView.qml:579 qml/Dash/GenericScopeView.qml:774
+#: qml/Dash/GenericScopeView.qml:545 qml/Dash/GenericScopeView.qml:716
 msgid "Show less"
-msgstr ""
+msgstr "Mostra menys"
 
-#: qml/Dash/GenericScopeView.qml:579
+#: qml/Dash/GenericScopeView.qml:545
 msgid "Show all"
-msgstr ""
+msgstr "Mostra-ho tot"
 
-#: qml/Dash/GenericScopeView.qml:636
+#: qml/Dash/GenericScopeView.qml:576
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Cerca"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:56
+#: qml/Dash/PageHeaderExtraPanel.qml:57
 msgid "Recent Searches"
 msgstr "Cerques recents"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:67
+#: qml/Dash/PageHeaderExtraPanel.qml:68
 msgid "Clear All"
 msgstr "Neteja-ho tot"
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:35
+#: qml/Dash/Previews/PreviewActionCombo.qml:36
 msgid "More..."
 msgstr "Més..."
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:35
+#: qml/Dash/Previews/PreviewActionCombo.qml:36
 msgid "Less..."
 msgstr "Menys..."
 
-#: qml/Dash/Previews/PreviewCommentInput.qml:68
-#: qml/Dash/Previews/PreviewRatingInput.qml:175
+#: qml/Dash/Previews/PreviewCommentInput.qml:83
+#: qml/Dash/Previews/PreviewRatingInput.qml:202
 msgid "Send"
 msgstr "Envia"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:109
 msgid "Rate this"
 msgstr "Puntueu-ho"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:157
+#: qml/Dash/Previews/PreviewRatingInput.qml:184
 msgid "Add a review"
 msgstr "Afegiu una ressenya"
 
-#: qml/Dash/Previews/PreviewSharing.qml:66
-msgid "Preview Share Item"
-msgstr ""
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:55
+#: qml/Dash/PullToRefreshScopeStyle.qml:56
 msgid "Pull to refresh…"
 msgstr "Estireu per actualitzar..."
 
-#: qml/Dash/PullToRefreshScopeStyle.qml:60
+#: qml/Dash/PullToRefreshScopeStyle.qml:61
 msgid "Release to refresh…"
 msgstr "Deixeu anar per actualitzar..."
 
@@ -250,15 +400,15 @@ msgstr "Deixeu anar per actualitzar..."
 msgid "Enable location data"
 msgstr "Habilita les dades d'ubicació"
 
-#: qml/Dash/ScopesList.qml:55
+#: qml/Dash/ScopesList.qml:57
 msgid "Manage"
 msgstr "Gestiona"
 
-#: qml/Dash/ScopesList.qml:101
+#: qml/Dash/ScopesList.qml:104
 msgid "Home"
 msgstr "Inici"
 
-#: qml/Dash/ScopesList.qml:102
+#: qml/Dash/ScopesList.qml:105
 msgid "Also installed"
 msgstr "També instal·lat"
 
@@ -267,79 +417,63 @@ msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
+"El vostre dispositiu està ara connectat a un monitor extern. Useu aquesta "
+"pantalla com a ratolí tàctil per interaccionar amb el cursor."
 
-#: qml/Greeter/CoverPage.qml:118
+#: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
 msgstr "Desbloca"
 
-#: qml/Greeter/LoginList.qml:239
+#: qml/Greeter/DelayedLockscreen.qml:43
+msgid "Device Locked"
+msgstr "Dispositiu bloquejat"
+
+#: qml/Greeter/DelayedLockscreen.qml:58
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
+"Se us ha bloquejat l'accés al dispositiu. Heu sobrepassat el nombre "
+"d'intents d'introducció de la contrasenya."
+
+#: qml/Greeter/DelayedLockscreen.qml:59
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr ""
+"Se us ha bloquejat l'accés al dispositiu. Heu sobrepassat el nombre "
+"d'intents d'introducció del codi d'accés."
+
+#: qml/Greeter/DelayedLockscreen.qml:68
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "Espereu %1 minut i torneu-ho a intentar..."
+msgstr[1] "Espereu %1 minuts i torneu-ho a intentar..."
+
+#: qml/Greeter/Greeter.qml:596
+msgid "Try again"
+msgstr "Torna-ho a provar"
+
+#: qml/Greeter/LoginList.qml:70
+msgid "Passphrase"
+msgstr "Contrasenya"
+
+#: qml/Greeter/LoginList.qml:71
+msgid "Passcode"
+msgstr "Codi d'accés"
+
+#: qml/Greeter/LoginList.qml:98
 msgid "Retry"
 msgstr "Torna-ho a provar"
 
-#: qml/Greeter/LoginList.qml:240
-msgid "Tap to unlock"
-msgstr "Feu un toc per desblocar"
+#: qml/Greeter/LoginList.qml:99
+msgid "Log In"
+msgstr "Inici de sessió"
 
-#: qml/Greeter/NarrowView.qml:54
-msgid "Sorry, incorrect passphrase."
-msgstr "La contrasenya és incorrecta"
+#: qml/Greeter/NarrowView.qml:252
+msgid "Emergency"
+msgstr "Emergència"
 
-#: qml/Greeter/NarrowView.qml:55
-msgid "Sorry, incorrect passcode."
-msgstr "El codi d'accés no és correcte"
-
-#: qml/Greeter/NarrowView.qml:56
-msgid "This will be your last attempt."
-msgstr "Aquest serà el darrer intent."
-
-#: qml/Greeter/NarrowView.qml:58
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
-msgstr ""
-"Si la contrasenya s'introdueix de manera incorrecta, el telèfon es "
-"reinicialitzarà a l'estat de fàbrica i se suprimiran totes les dades "
-"personals."
-
-#: qml/Greeter/NarrowView.qml:59
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
-msgstr ""
-"Si el codi d'accés s'introdueix de manera incorrecta, el telèfon es "
-"reinicialitzarà a l'estat de fàbrica i se suprimiran totes les dades "
-"personals."
-
-#: qml/Greeter/NarrowView.qml:116
-#, qt-format
-msgid "Enter %1"
-msgstr "Introduïu: %1"
-
-#: qml/Greeter/NarrowView.qml:117
-msgid "Enter passphrase"
-msgstr "Introduïu la contrasenya"
-
-#: qml/Greeter/NarrowView.qml:118
-msgid "Enter passcode"
-msgstr "Introduïu el codi d'accés"
-
-#: qml/Greeter/NarrowView.qml:119
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "Incorrecte (%1)"
-
-#: qml/Greeter/NarrowView.qml:120
-msgid "Sorry, incorrect passphrase"
-msgstr "La contrasenya no és correcta"
-
-#: qml/Greeter/NarrowView.qml:121
-msgctxt "passphrase"
-msgid "Please re-enter"
-msgstr "Torneu-ho a introduir"
-
-#: qml/Greeter/NarrowView.qml:122
-msgid "Sorry, incorrect passcode"
-msgstr "El codi d'accés no és correcte"
+#: qml/Greeter/SessionsList.qml:122
+msgid "Select desktop environment"
+msgstr "Seleccioneu l'entorn d'escriptori"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -353,62 +487,62 @@ msgstr "Feu un toc per tornar a la trucada..."
 msgid "Conference"
 msgstr "Conferència"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:762
+#: qml/Panel/Indicators/MenuItemFactory.qml:847
 msgid "Nothing is playing"
 msgstr "No s'està reproduint res"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:891
+#: qml/Panel/Indicators/MenuItemFactory.qml:975
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 hora"
 msgstr[1] "%1 hores"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:895
+#: qml/Panel/Indicators/MenuItemFactory.qml:979
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 minut"
 msgstr[1] "%1 minuts"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:900
+#: qml/Panel/Indicators/MenuItemFactory.qml:984
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 segon"
 msgstr[1] "%1 segons"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:903
+#: qml/Panel/Indicators/MenuItemFactory.qml:987
 msgid "0 seconds"
 msgstr "0 segons"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:905
+#: qml/Panel/Indicators/MenuItemFactory.qml:989
 #, qt-format
 msgid "%1 remaining"
 msgstr "Resta %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:911
+#: qml/Panel/Indicators/MenuItemFactory.qml:995
 msgid "In queue…"
 msgstr "A la cua..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:915
+#: qml/Panel/Indicators/MenuItemFactory.qml:999
 msgid "Downloading"
 msgstr "S'està baixant"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:917
+#: qml/Panel/Indicators/MenuItemFactory.qml:1001
 msgid "Paused, tap to resume"
 msgstr "En pausa, feu un toc per continuar"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:919
+#: qml/Panel/Indicators/MenuItemFactory.qml:1003
 msgid "Canceled"
 msgstr "S'ha cancel·lat"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:921
+#: qml/Panel/Indicators/MenuItemFactory.qml:1005
 msgid "Finished"
 msgstr "S'ha finalitzat"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:923
+#: qml/Panel/Indicators/MenuItemFactory.qml:1007
 msgid "Failed, tap to retry"
 msgstr "Ha fallat, feu un toc per tornar-ho a intentar"
 
@@ -428,187 +562,219 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Retorna la trucada"
 
-#: qml/Stages/SideStage.qml:76
+#: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr ""
+"Arrossegueu usant 3 dits qualsevol aplicació d'una finestra a una altra"
 
-#: qml/Tutorial/TutorialBottom.qml:78
-msgid "Swipe up to add a contact"
-msgstr ""
-
-#: qml/Tutorial/TutorialBottom.qml:80
-msgid "Swipe up for favorite calculations"
-msgstr ""
-
-#: qml/Tutorial/TutorialBottom.qml:82
-msgid "Swipe up for recent calls"
-msgstr ""
-
-#: qml/Tutorial/TutorialBottom.qml:84
-msgid "Swipe up to create a message"
-msgstr ""
-
-#: qml/Tutorial/TutorialBottom.qml:85
-msgid "Swipe up to manage the app"
-msgstr ""
-
-#: qml/Tutorial/TutorialLeftLong.qml:47
+#: qml/Tutorial/TutorialLeftLong.qml:49
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr ""
+"Feu una lliscada llarga des de la vora esquerra per obrir l'àmbit Avui"
 
 #: qml/Tutorial/TutorialLeft.qml:47
-msgid "Swipe from the left edge to open the launcher"
+msgid "Short swipe from the left edge to open the launcher"
 msgstr ""
+"Passeu el dit breument des de la vora esquerra per obrir el llançador"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
 msgstr ""
+"Empenyeu el ratolí contra la vora dreta per veure les vostres aplicacions "
+"obertes"
 
 #: qml/Tutorial/TutorialRight.qml:56
-msgid "Short or long swipe from the right edge to view your open apps"
+msgid "Swipe from the right edge to view your open apps"
 msgstr ""
+"Passeu el dit des de la vora dreta per veure les vostres aplicacions obertes"
 
 #: qml/Tutorial/TutorialTop.qml:53
-msgid "Swipe from the top right edge to open the notification bar"
+msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
-
-#: qml/Tutorial/TutorialTop.qml:54
-msgid "Swipe from the top edge to open the notification bar"
-msgstr ""
+"Passeu el dit des de la vora superior per accedir les notificacions i les "
+"configuracions ràpides"
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Enrere"
 
-#: qml/Wizard/Pages/10-welcome.qml:27
+#: qml/Wizard/Pages/10-welcome.qml:28
 msgid "Language"
-msgstr ""
+msgstr "Llengua"
 
-#: qml/Wizard/Pages/10-welcome.qml:156 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
+#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:207 qml/Wizard/Pages/40-location.qml:271
+#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/70-passwd-type.qml:145
 #: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:124
-#: qml/Wizard/Pages/password-set.qml:141
+#: qml/Wizard/Pages/passcode-desktop.qml:142
+#: qml/Wizard/Pages/password-set.qml:142
 msgid "Next"
-msgstr ""
+msgstr "Següent"
 
-#: qml/Wizard/Pages/30-wifi.qml:29
-msgid "Connect to Wi‑Fi"
-msgstr "Connecta't a la Wi-Fi"
+#: qml/Wizard/Pages/20-keyboard.qml:31
+msgid "Select Keyboard"
+msgstr "Seleccioneu el teclat"
 
-#: qml/Wizard/Pages/30-wifi.qml:130
-msgid "Connected"
-msgstr ""
+#: qml/Wizard/Pages/20-keyboard.qml:71
+msgid "Keyboard language"
+msgstr "Llengua del teclat"
 
-#: qml/Wizard/Pages/30-wifi.qml:163
-msgid "Available Wi-Fi networks"
-msgstr ""
+#: qml/Wizard/Pages/20-keyboard.qml:93
+msgid "Keyboard layout"
+msgstr "Disposició del teclat"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
-msgid "No available Wi-Fi networks"
-msgstr ""
-
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:207
+#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/77-system-update.qml:152
 #: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Omet"
 
+#: qml/Wizard/Pages/30-wifi.qml:31
+msgid "Connect to Wi‑Fi"
+msgstr "Connecta't a la Wi-Fi"
+
+#: qml/Wizard/Pages/30-wifi.qml:132
+msgid "Connected"
+msgstr "Connectat"
+
+#: qml/Wizard/Pages/30-wifi.qml:165
+msgid "Available Wi-Fi networks"
+msgstr "Xarxes Wi-Fi disponibles"
+
+#: qml/Wizard/Pages/30-wifi.qml:166
+msgid "No available Wi-Fi networks"
+msgstr "No hi ha xarxes Wi-Fi disponibles"
+
 #: qml/Wizard/Pages/40-location.qml:27
 msgid "Location Services"
-msgstr ""
+msgstr "Serveis d'ubicació"
 
 #: qml/Wizard/Pages/40-location.qml:83
 msgid ""
 "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
 "(recommended)"
 msgstr ""
+"Usa anònimament el GPS, punts d'accés Wi-Fi i la xarxa mòbil per detectar la "
+"ubicació (recomanat)"
 
 #: qml/Wizard/Pages/40-location.qml:105
 #, qt-format
 msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr ""
+msgstr "Seleccionant aquesta opció esteu d'acord amb el Nokia HERE %1."
 
 #: qml/Wizard/Pages/40-location.qml:106
 msgctxt "part of: Nokia HERE terms and conditions"
 msgid "terms and conditions"
-msgstr ""
+msgstr "termes i condicions"
 
 #: qml/Wizard/Pages/40-location.qml:160
 msgid "GPS only"
-msgstr ""
+msgstr "Sols GPS"
 
 #: qml/Wizard/Pages/40-location.qml:214
 msgid "Don't use my location"
-msgstr ""
+msgstr "No usis la meva ubicació"
 
 #: qml/Wizard/Pages/40-location.qml:260
 msgid "You can change it later in System Settings."
-msgstr ""
+msgstr "Podeu canviar-ho més tard a Paràmetres del sistema."
 
-#: qml/Wizard/Pages/50-timezone.qml:29
+#: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
-msgstr ""
+msgstr "Fus horari"
 
-#: qml/Wizard/Pages/50-timezone.qml:181
+#: qml/Wizard/Pages/50-timezone.qml:182
 msgid "Enter your city"
-msgstr ""
+msgstr "Entreu la vostra ciutat"
 
 #: qml/Wizard/Pages/60-account.qml:24
 msgid "Personalize Your Device"
-msgstr ""
+msgstr "Personalitzeu el vostre dispositiu"
 
 #: qml/Wizard/Pages/60-account.qml:48
 msgid "Preferred Name"
-msgstr ""
+msgstr "Nom preferit"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:39
+#: qml/Wizard/Pages/70-passwd-type.qml:40
 msgid "Lock Screen"
-msgstr ""
+msgstr "Bloca la pantalla"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:101
+#: qml/Wizard/Pages/70-passwd-type.qml:102
 msgctxt "Label: Type of security method"
 msgid "Create new password"
-msgstr ""
+msgstr "Crea una contrasenya nova"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:103
+#: qml/Wizard/Pages/70-passwd-type.qml:104
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
-msgstr ""
+msgstr "Creeu un codi d'accés (sols números)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:105
+#: qml/Wizard/Pages/70-passwd-type.qml:106
 msgctxt "Label: Type of security method"
 msgid "No lock code"
-msgstr ""
+msgstr "No hi ha codi de bloqueig"
 
 #: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Política de privacitat"
 
 #: qml/Wizard/Pages/75-report-check.qml:26
 msgid "Help Us Improve"
-msgstr ""
+msgstr "Ajudeu-nos a millorar"
 
 #: qml/Wizard/Pages/75-report-check.qml:59
 msgid "Improve system performance by sending us crashes and error reports."
 msgstr ""
+"Milloreu el rendiment del sistema enviant-nos informes de fallades i errors."
 
 #: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Privacy policy"
+msgstr "Política de privacitat"
+
+#: qml/Wizard/Pages/77-system-update.qml:28
+msgid "Update Device"
+msgstr "Actualitza el dispositiu"
+
+#: qml/Wizard/Pages/77-system-update.qml:55
+msgid ""
+"There is a system update available and ready to install. Afterwards, the "
+"device will automatically restart."
 msgstr ""
+"Hi ha una actualització del sistema disponible i llesta per instal·lar. "
+"Després, el dispositiu es reiniciarà automàticament."
+
+#: qml/Wizard/Pages/77-system-update.qml:76
+msgctxt "string identifying name of the update"
+msgid "Ubuntu system"
+msgstr "Sistema de l'Ubuntu"
+
+#: qml/Wizard/Pages/77-system-update.qml:83
+#, qt-format
+msgctxt "version of the system update"
+msgid "Version %1"
+msgstr "Versió %1"
+
+#: qml/Wizard/Pages/77-system-update.qml:102
+msgid "This could take a few minutes..."
+msgstr "Això pot trigar uns pocs minuts..."
+
+#: qml/Wizard/Pages/77-system-update.qml:116
+msgid "Install and restart now"
+msgstr "Instal·la i reinicia ara"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
-msgstr ""
+msgstr "Us donem la benvinguda a l'Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:104
 msgid "You are ready to use your device now"
-msgstr ""
+msgstr "Ara ja esteu a punt per usar el vostre dispositiu"
 
 #: qml/Wizard/Pages/80-finished.qml:124
 msgid "Get Started"
-msgstr ""
+msgstr "Introducció"
 
 #: qml/Wizard/Pages/here-terms.qml:25
 msgid "Terms & Conditions"
@@ -617,6 +783,7 @@ msgstr "Condicions generals"
 #: qml/Wizard/Pages/here-terms.qml:69
 msgid "Your device uses positioning technologies provided by HERE."
 msgstr ""
+"El vostre dispositiu usa tecnologies de posicionament proveïdes per HERE."
 
 #: qml/Wizard/Pages/here-terms.qml:81
 msgid ""
@@ -624,92 +791,98 @@ msgid ""
 "collects information about nearby cell towers and Wi-Fi hotspots around your "
 "current location whenever your position is being found."
 msgstr ""
+"Per proveir-vos de serveis de posicionament i per millorar la seva qualitat, "
+"HERE recull informació sobre torres de telefonia mòbil i punts d'accés Wi-Fi "
+"al voltant de la vostra ubicació actual sempre que s'està buscant la vostra "
+"posició."
 
 #: qml/Wizard/Pages/here-terms.qml:93
 msgid ""
 "The information collected is used to analyze the service and to improve the "
 "use of service, but not to identify you personally."
 msgstr ""
+"La informació recollida s'usa per analitzar el servei i per millorar l'ús "
+"del servei, però no per identificar-vos personalment."
 
 #: qml/Wizard/Pages/here-terms.qml:106
 #, qt-format
 msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr ""
+msgstr "En continuar, esteu d'acord amb la plataforma HERE %1 i %2."
 
 #: qml/Wizard/Pages/here-terms.qml:107
 msgid "Service Terms"
-msgstr ""
+msgstr "Termes del servei"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:80
+#: qml/Wizard/Pages/passcode-desktop.qml:97
 msgid "Confirm passcode"
 msgstr "Confirmeu el codi d'accés"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
-msgstr ""
+msgstr "Codi d'accés incorrecte."
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgctxt "Enter the passcode again"
 msgid "Please re-enter."
-msgstr ""
+msgstr "Si us plau torneu a introduir-lo."
 
-#: qml/Wizard/Pages/passcode-desktop.qml:30
+#: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
-msgstr ""
+msgstr "Codi d'accés al bloqueig de pantalla"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:56
+#: qml/Wizard/Pages/passcode-desktop.qml:61
 msgid "Enter 4 numbers to setup your passcode"
-msgstr ""
+msgstr "Entreu 4 números per establir el codi d'accés"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:65
+#: qml/Wizard/Pages/passcode-desktop.qml:77
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
-msgstr ""
+msgstr "Trieu el codi d'accés"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:105
+#: qml/Wizard/Pages/passcode-desktop.qml:127
 msgid "Passcode too short"
-msgstr ""
+msgstr "El codi d'accés és massa curt"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:107
+#: qml/Wizard/Pages/passcode-desktop.qml:129
 msgid "Passcodes match"
-msgstr ""
+msgstr "Els codis d'accés concorden"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:109
+#: qml/Wizard/Pages/passcode-desktop.qml:131
 msgid "Passcodes do not match"
-msgstr ""
+msgstr "Els codis d'accés no concorden"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr ""
+msgstr "El codi d'accés ha de tenir una longitud de 4 caràcters"
 
-#: qml/Wizard/Pages/password-set.qml:30
+#: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
-msgstr ""
+msgstr "Contrasenya de bloqueig de pantalla"
 
-#: qml/Wizard/Pages/password-set.qml:61
+#: qml/Wizard/Pages/password-set.qml:62
 msgid "Enter at least 8 characters"
-msgstr ""
+msgstr "Entreu almenys 8 caràcters"
 
-#: qml/Wizard/Pages/password-set.qml:73
+#: qml/Wizard/Pages/password-set.qml:74
 msgid "Choose password"
-msgstr ""
+msgstr "Escolliu la contrasenya"
 
-#: qml/Wizard/Pages/password-set.qml:103
+#: qml/Wizard/Pages/password-set.qml:104
 msgid "Confirm password"
-msgstr ""
+msgstr "Confirmeu la contrasenya"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
-msgstr ""
+msgstr "No hi cap SIM instal·lada"
 
 #: qml/Wizard/Pages/sim.qml:54
 msgid "SIM card added"
-msgstr ""
+msgstr "S'ha afegit una targeta SIM"
 
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
-msgstr ""
+msgstr "Heu de reiniciar el dispositiu per accedir a la xarxa mòbil."
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
@@ -717,35 +890,39 @@ msgstr "Reinicia"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
-msgstr ""
+msgstr "No podreu fer trucades o usar la missatgeria de text sense una SIM."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr ""
+msgstr "Per procedir sense cap SIM toqueu Omet."
 
 #: qml/Wizard/PasswordMeter.qml:87
-msgid "Passwords match"
-msgstr ""
+msgid "Password too short"
+msgstr "La contrasenya es massa curta"
 
 #: qml/Wizard/PasswordMeter.qml:89
-msgid "Passwords do not match"
-msgstr ""
+msgid "Passwords match"
+msgstr "Les contrasenyes coincideixen"
 
-#: qml/Wizard/PasswordMeter.qml:93
-msgid "Strong password"
-msgstr ""
+#: qml/Wizard/PasswordMeter.qml:91
+msgid "Passwords do not match"
+msgstr "Les contrasenyes no coincideixen"
 
 #: qml/Wizard/PasswordMeter.qml:95
-msgid "Fair password"
-msgstr ""
+msgid "Strong password"
+msgstr "La contrasenya és forta"
 
 #: qml/Wizard/PasswordMeter.qml:97
-msgid "Weak password"
-msgstr ""
+msgid "Fair password"
+msgstr "La contrasenya és acceptable"
 
 #: qml/Wizard/PasswordMeter.qml:99
+msgid "Weak password"
+msgstr "La contrasenya és dèbil"
+
+#: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
-msgstr ""
+msgstr "La contrasenya és molt dèbil"
 
 #~ msgid "Confirm"
 #~ msgstr "Confirma"
@@ -826,11 +1003,32 @@ msgstr ""
 #~ msgid "Roaming"
 #~ msgstr "Itinerància"
 
+#~ msgid "Sorry, incorrect passphrase."
+#~ msgstr "La contrasenya és incorrecta"
+
+#~ msgid ""
+#~ "If passphrase is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
+#~ msgstr ""
+#~ "Si la contrasenya s'introdueix de manera incorrecta, el telèfon es "
+#~ "reinicialitzarà a l'estat de fàbrica i se suprimiran totes les dades "
+#~ "personals."
+
+#~ msgid "This will be your last attempt."
+#~ msgstr "Aquest serà el darrer intent."
+
 #~ msgid "Favorites"
 #~ msgstr "Preferides"
 
 #~ msgid "All"
 #~ msgstr "Totes"
+
+#, qt-format
+#~ msgid "Sorry, incorrect %1"
+#~ msgstr "Incorrecte (%1)"
+
+#~ msgid "Sorry, incorrect passphrase"
+#~ msgstr "La contrasenya no és correcta"
 
 #~ msgid "Log out"
 #~ msgstr "Surt"
@@ -844,6 +1042,9 @@ msgstr ""
 #~ msgid "Power"
 #~ msgstr "Energia"
 
+#~ msgid "Sorry, incorrect passcode"
+#~ msgstr "El codi d'accés no és correcte"
+
 #~ msgid "Power off"
 #~ msgstr "Apaga"
 
@@ -853,11 +1054,32 @@ msgstr ""
 #~ msgid "Shut down"
 #~ msgstr "Apaga"
 
+#~ msgid "Sorry, incorrect passcode."
+#~ msgstr "El codi d'accés no és correcte"
+
+#~ msgid ""
+#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
+#~ "and all personal data will be deleted."
+#~ msgstr ""
+#~ "Si el codi d'accés s'introdueix de manera incorrecta, el telèfon es "
+#~ "reinicialitzarà a l'estat de fàbrica i se suprimiran totes les dades "
+#~ "personals."
+
+#~ msgid "Enter passphrase"
+#~ msgstr "Introduïu la contrasenya"
+
 #~ msgid "Please re-enter"
 #~ msgstr "Torneu-ho a introduir"
 
+#~ msgid "Enter passcode"
+#~ msgstr "Introduïu el codi d'accés"
+
 #~ msgid "Manage Scopes"
 #~ msgstr "Gestioneu les lents"
+
+#, qt-format
+#~ msgid "Enter %1"
+#~ msgstr "Introduïu: %1"
 
 #~ msgid "Add a SIM card and restart your device"
 #~ msgstr "Afegiu una targeta SIM i reinicieu el dispositiu"
@@ -978,6 +1200,9 @@ msgstr ""
 #~ msgid "Open special menus"
 #~ msgstr "Obre els menús especials"
 
+#~ msgid "Tap to unlock"
+#~ msgstr "Feu un toc per desblocar"
+
 #~ msgid "To view open apps"
 #~ msgstr "Per veure les aplicacions obertes"
 
@@ -1071,5 +1296,42 @@ msgstr ""
 #~ msgid "%l:%M %p"
 #~ msgstr "%l∶%M %p"
 
+#~ msgctxt "passphrase"
+#~ msgid "Please re-enter"
+#~ msgstr "Torneu-ho a introduir"
+
 #~ msgid "Call back"
 #~ msgstr "Retorna la trucada"
+
+#~ msgid "Swipe up for recent calls"
+#~ msgstr "Llisqueu cap amunt per a trucades recents"
+
+#~ msgid "Swipe up for favorite calculations"
+#~ msgstr "Llisqueu cap amunt per als càlculs favorits"
+
+#~ msgid "Swipe up to create a message"
+#~ msgstr "Llisqueu cap amunt per crear un missatge"
+
+#~ msgid "Swipe from the left edge to open the launcher"
+#~ msgstr "Llisqueu des de la vora esquerra per obrir el llançador"
+
+#~ msgid "Swipe from the top right edge to open the notification bar"
+#~ msgstr ""
+#~ "Llisqueu des de la vora superior dreta per obrir la barra de notificacions"
+
+#~ msgid "Swipe from the top edge to open the notification bar"
+#~ msgstr "Llisqueu des de la vora superior per obrir la barra de notificacions"
+
+#~ msgid "Hover your mouse on the right edge to view your open apps"
+#~ msgstr "Passeu el ratolí a la vora dreta per veure les aplicacions obertes"
+
+#~ msgid "Short or long swipe from the right edge to view your open apps"
+#~ msgstr ""
+#~ "Feu una lliscada llarga o curta des de la vora dreta per veure les "
+#~ "aplicacions obertes"
+
+#~ msgid "Swipe up to manage the app"
+#~ msgstr "Llisqueu cap amunt per gestionar l'aplicació"
+
+#~ msgid "Swipe up to add a contact"
+#~ msgstr "Llisqueu per afegir un contacte"

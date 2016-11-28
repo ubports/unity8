@@ -34,22 +34,30 @@ PreviewModel::PreviewModel(QObject* parent, Scope* scope)
  , m_loaded(true)
  , m_scope(scope)
 {
-    // we have one column by default
-    PreviewWidgetModel* columnModel = new PreviewWidgetModel(this);
-    m_previewWidgetModels.append(columnModel);
+    setWidgetColumnCount(1);
     connect(this, &PreviewModel::triggered, this, &PreviewModel::triggeredSlot);
 }
 
 void PreviewModel::setWidgetColumnCount(int count)
 {
-    if (count != 1) {
-        qWarning("PreviewModel::setWidgetColumnCount != 1 not implemented");
+    if (count != widgetColumnCount()) {
+        beginResetModel();
+
+        m_previewWidgetModels.clear();
+        for (int i = 0; i < count; ++i) {
+            PreviewWidgetModel* columnModel = new PreviewWidgetModel(this);
+            m_previewWidgetModels.append(columnModel);
+        }
+
+        endResetModel();
+
+        Q_EMIT widgetColumnCountChanged();
     }
 }
 
 int PreviewModel::widgetColumnCount() const
 {
-    return 1;
+    return m_previewWidgetModels.size();
 }
 
 bool PreviewModel::loaded() const
@@ -64,7 +72,7 @@ bool PreviewModel::processingAction() const
 
 int PreviewModel::rowCount(const QModelIndex&) const
 {
-    return m_previewWidgetModels.size();
+    return widgetColumnCount();
 }
 
 QVariant PreviewModel::data(const QModelIndex& index, int role) const
@@ -87,7 +95,7 @@ void PreviewModel::setLoaded(bool loaded)
 
 void PreviewModel::triggeredSlot(QString const&, QString const&, QVariantMap const&) {
     if (m_scope) {
-        Scopes *scopes = dynamic_cast<Scopes*>(m_scope->parent());
+        Scopes *scopes = static_cast<Scopes*>(m_scope->parent());
         Scope* scope = scopes->getScopeFromAll("MockScope9");
         scopes->addTempScope(scope);
         Q_EMIT m_scope->openScope(scope);

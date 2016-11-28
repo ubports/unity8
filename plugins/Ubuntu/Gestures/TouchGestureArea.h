@@ -21,10 +21,11 @@
 
 #include <QQuickItem>
 
-#include <UbuntuGestures/Timer>
+#include <UbuntuGestures/ubuntugesturesglobal.h>
+#include <UbuntuGestures/private/timer_p.h>
 
-class TouchOwnershipEvent;
-class UnownedTouchEvent;
+UG_FORWARD_DECLARE_CLASS(TouchOwnershipEvent)
+UG_FORWARD_DECLARE_CLASS(UnownedTouchEvent)
 
 class GestureTouchPoint : public QObject
 {
@@ -75,7 +76,7 @@ public:
         return *this;
     }
 
-    bool operator=(const GestureTouchPoint& rhs) const {
+    bool operator==(const GestureTouchPoint& rhs) const {
         if (&rhs == this) return true;
         return m_id == rhs.m_id &&
                 m_pressed == rhs.m_pressed &&
@@ -83,7 +84,7 @@ public:
                 m_y == rhs.m_y &&
                 m_dragging == rhs.m_dragging;
     }
-    bool operator!=(const GestureTouchPoint& rhs) const { return !operator=(rhs); }
+    bool operator!=(const GestureTouchPoint& rhs) const { return !operator==(rhs); }
 
     void setPos(const QPointF &pos);
 
@@ -105,8 +106,8 @@ private:
 /*
  An area that detects multi-finger gestures.
 
- We can use this to detect gestures contstrained by a minimim and/or maximum number of touch points.
- This components uses the touch registry to apply for ownership of touch points.
+ We can use this to detect gestures constrained by a minimum and/or maximum number of touch points.
+ This component uses the touch registry to apply for ownership of touch points.
  This way we can use the component in conjuntion with the directional drag area to compete for ownwership
  or gestures; unlike the MultiPointTouchArea.
  */
@@ -136,12 +137,12 @@ public:
         Recognized,
         Rejected
     };
-    TouchGestureArea(QQuickItem* parent = NULL);
+    TouchGestureArea(QQuickItem* parent = nullptr);
     ~TouchGestureArea();
 
     bool event(QEvent *e) override;
 
-    void setRecognitionTimer(UbuntuGestures::AbstractTimer *timer);
+    void setRecognitionTimer(UG_PREPEND_NAMESPACE(AbstractTimer) *timer);
 
     int status() const;
     bool dragging() const;
@@ -164,10 +165,10 @@ Q_SIGNALS:
 
     void touchPointsUpdated();
     void draggingChanged(bool dragging);
-    void minimumTouchPointsChanged(bool value);
-    void maximumTouchPointsChanged(bool value);
-    void recognitionPeriodChanged(bool value);
-    void releaseRejectPeriodChanged(bool value);
+    void minimumTouchPointsChanged(int value);
+    void maximumTouchPointsChanged(int value);
+    void recognitionPeriodChanged(int value);
+    void releaseRejectPeriodChanged(int value);
 
     void pressed(const QList<QObject*>& points);
     void released(const QList<QObject*>& points);
@@ -194,7 +195,7 @@ private:
     void unownedTouchEvent_recognised(QTouchEvent *unownedTouchEvent);
     void unownedTouchEvent_rejected(QTouchEvent *unownedTouchEvent);
 
-    void touchOwnershipEvent(TouchOwnershipEvent *event);
+    void touchOwnershipEvent(UG_PREPEND_NAMESPACE(TouchOwnershipEvent) *event);
     void updateTouchPoints(QTouchEvent *event);
 
     GestureTouchPoint* addTouchPoint(const QTouchEvent::TouchPoint *tp);
@@ -209,7 +210,7 @@ private:
     uint m_status;
     QSet<int> m_candidateTouches;
     QSet<int> m_watchedTouches;
-    UbuntuGestures::AbstractTimer *m_recognitionTimer;
+    UG_PREPEND_NAMESPACE(AbstractTimer) *m_recognitionTimer;
 
     bool m_dragging;
     QHash<int, GestureTouchPoint*> m_liveTouchPoints;

@@ -18,8 +18,9 @@ import QtQuick 2.4
 import QtTest 1.0
 import ".."
 import "../../../qml/Greeter"
-import IntegratedLightDM 0.1 as LightDM
+import LightDM.IntegratedLightDM 0.1 as LightDM
 import Ubuntu.Components 1.3
+import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Test 0.1 as UT
 
 Item {
@@ -39,7 +40,7 @@ Item {
             property bool itemDestroyed: false
             sourceComponent: Component {
                 NarrowView {
-                    background: Qt.resolvedUrl("../../../qml/graphics/phone_background.jpg")
+                    background: "/usr/share/backgrounds/warty-final-ubuntu.png"
                     userModel: LightDM.Users
                     infographicModel: LightDM.Infographic
 
@@ -128,7 +129,7 @@ Item {
                         text: "Authenticated"
                         onClicked: {
                             if (successCheckBox.checked) {
-                                loader.item.notifyAuthenticationSucceeded();
+                                loader.item.notifyAuthenticationSucceeded(fakePasswordCheckBox.checked);
                             } else {
                                 loader.item.notifyAuthenticationFailed();
                             }
@@ -139,6 +140,12 @@ Item {
                     }
                     Label {
                         text: "success"
+                    }
+                    CheckBox {
+                        id: fakePasswordCheckBox
+                    }
+                    Label {
+                        text: "fake password"
                     }
                 }
                 Row {
@@ -287,6 +294,8 @@ Item {
         function init() {
             view.currentIndex = 0; // break binding with text field
 
+            telepathyHelper.ready = true;
+            telepathyHelper.emergencyCallsAvailable = true;
             selectedSpy.clear();
             respondedSpy.clear();
             teaseSpy.clear();
@@ -322,14 +331,6 @@ Item {
             waitForRendering(view);
         }
 
-        function enterPin(pin) {
-            for (var i = 0; i < pin.length; ++i) {
-                var character = pin.charAt(i);
-                var button = findChild(view, "pinPadButton" + character);
-                tap(button);
-            }
-        }
-
         function test_tease_data() {
             return [
                 {tag: "left", x: 0, offset: 0, count: 1},
@@ -344,10 +345,23 @@ Item {
             compare(teaseSpy.count, data.count);
         }
 
+        function test_customBackground() {
+            var lockscreenShade = findChild(view, "lockscreenShade");
+            var backgroundShade = findChild(view, "backgroundShade");
+
+            compare(lockscreenShade.opacity, 0);
+            verify(!backgroundShade.visible);
+
+            view.hasCustomBackground = true;
+            compare(lockscreenShade.opacity, 0.4);
+            verify(backgroundShade.visible);
+        }
+
         function test_respondedWithPin() {
             view.locked = true;
+            view.showPrompt("", true, true);
             swipeAwayCover();
-            enterPin("1234");
+            typeString("1234");
             compare(respondedSpy.count, 1);
             compare(respondedSpy.signalArguments[0][0], "1234");
         }
@@ -355,6 +369,7 @@ Item {
         function test_respondedWithPassphrase() {
             view.locked = true;
             view.alphanumeric = true;
+            view.showPrompt("", true, true);
             swipeAwayCover();
             typeString("test");
             keyClick(Qt.Key_Enter);
@@ -376,12 +391,38 @@ Item {
             compare(respondedSpy.signalArguments[0][0], "");
         }
 
-        function test_emergencyCall() {
+        function test_emergencyCall_data() {
+            return [
+                {tag: "phone", available: true},
+                {tag: "desktop", available: false},
+            ];
+        }
+        function test_emergencyCall(data) {
+            telepathyHelper.emergencyCallsAvailable = data.available;
             view.locked = true;
             swipeAwayCover();
             var emergencyCallLabel = findChild(view, "emergencyCallLabel");
             tap(emergencyCallLabel);
-            compare(emergencySpy.count, 1);
+            if (!data.available) {
+                expectFail("", "Bug 1616538 prevents us supporting conditional emergency button support");
+            }
+            compare(emergencyCallLabel.visible, data.available ? true : false);
+            compare(emergencySpy.count, data.available ? 1 : 0);
+        }
+
+        function test_emergencyCallAvailability() {
+            view.locked = true;
+            var emergencyCallLabel = findChild(view, "emergencyCallLabel");
+            verify(emergencyCallLabel.visible);
+
+            telepathyHelper.emergencyCallsAvailable = false;
+            telepathyHelper.ready = true;
+            expectFail("", "Bug 1616538 prevents us supporting conditional emergency button support");
+            verify(!emergencyCallLabel.visible);
+
+            telepathyHelper.emergencyCallsAvailable = true;
+            telepathyHelper.ready = false;
+            verify(!emergencyCallLabel.visible);
         }
 
         function test_fullyShown() {
@@ -528,6 +569,21 @@ Item {
             verify(coverPage.shown);
             mouseClick(coverPage, coverPage.width/2, coverPage.height - units.gu(2));
             verify(!coverPage.shown);
+        }
+
+        function test_showErrorMessage() {
+            var coverPage = findChild(view, "coverPage");
+            var swipeHint = findChild(coverPage, "swipeHint");
+            var errorMessageAnimation = findInvisibleChild(coverPage, "errorMessageAnimation");
+
+            view.showErrorMessage("hello");
+            compare(swipeHint.text, "《    hello    》");
+            verify(errorMessageAnimation.running);
+            verify(swipeHint.opacityAnimation.running);
+
+            errorMessageAnimation.complete();
+            swipeHint.opacityAnimation.complete();
+            tryCompare(swipeHint, "text", "《    " + i18n.tr("Unlock") + "    》");
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,8 +18,7 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Unity.Launcher 0.1
 import Ubuntu.Components.Popups 1.3
-import "../Components/ListItems"
-import "../Components/"
+import "../Components"
 
 Rectangle {
     id: root
@@ -69,7 +68,9 @@ Rectangle {
     MouseArea {
         id: mouseEventEater
         anchors.fill: parent
+        acceptedButtons: Qt.AllButtons
         hoverEnabled: true
+        onWheel: wheel.accepted = true;
     }
 
     Column {
@@ -239,6 +240,7 @@ Rectangle {
                         alerting: model.alerting
                         highlighted: root.highlightIndex == index
                         shortcutHintShown: root.shortcutHintsShown && index <= 9
+                        surfaceCount: model.surfaceCount
                         z: -Math.abs(offset)
                         maxAngle: 55
                         property bool dragging: false
@@ -271,6 +273,7 @@ Rectangle {
 
                             PropertyAction { target: launcherListViewItem; property: "clip"; value: 1 }
                             PropertyAction { target: root; property: "visible"; value: (launcher.visibleWidth === 0) ? 0 : 1 }
+                            PropertyAction { target: launcherListView; property: "peekingIndex"; value: -1 }
                         }
 
                         onAlertingChanged: {
@@ -292,10 +295,11 @@ Rectangle {
                             }
                         }
 
-                        ThinDivider {
+                        Image {
                             id: dropIndicator
                             objectName: "dropIndicator"
                             anchors.centerIn: parent
+                            height: visible ? units.dp(2) : 0
                             width: parent.width + mainColumn.anchors.leftMargin + mainColumn.anchors.rightMargin
                             opacity: 0
                             source: "graphics/divider-line.png"
@@ -628,7 +632,7 @@ Rectangle {
         }
     }
 
-    UbuntuShapeForItem {
+    UbuntuShape {
         id: quickListShape
         objectName: "quickListShape"
         anchors.fill: quickList
@@ -641,7 +645,10 @@ Rectangle {
             UbuntuNumberAnimation {}
         }
 
-        image: quickList
+        source: ShaderEffectSource {
+            sourceItem: quickList
+            hideSource: true
+        }
 
         Image {
             anchors {
@@ -754,7 +761,7 @@ Rectangle {
         }
 
         // internal
-        property int itemCenter: item ? root.mapFromItem(quickList.item).y + (item.height / 2) + quickList.item.offset : units.gu(1)
+        property int itemCenter: item ? root.mapFromItem(quickList.item, 0, 0).y + (item.height / 2) + quickList.item.offset : units.gu(1)
         property int offset: itemCenter + (height/2) + units.gu(1) > parent.height ? -itemCenter - (height/2) - units.gu(1) + parent.height :
                              itemCenter - (height/2) < units.gu(1) ? (height/2) - itemCenter + units.gu(1) : 0
 

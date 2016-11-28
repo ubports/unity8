@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ TutorialPage {
     property string usageScenario
 
     // When on phone or tablet, fade out as the drag progresses
-    opacityOverride: usageScenario === "desktop" ? 1 : 1 - stage.dragProgress * 2
+    opacityOverride: usageScenario === "desktop" ? 1 : 1 - stage.rightEdgeDragProgress * 2
 
     // Else on desktop, fade out when the spread is shown
     Connections {
@@ -53,7 +53,7 @@ TutorialPage {
     label {
         text: root.usageScenario === "desktop" ?
                     i18n.tr("Push your mouse against the right edge to view your open apps") :
-                    i18n.tr("Short or long swipe from the right edge to view your open apps")
+                    i18n.tr("Swipe from the right edge to view your open apps")
         anchors.right: arrow.left
         anchors.rightMargin: units.gu(2) - (label.width - label.contentWidth)
         anchors.verticalCenter: arrow.verticalCenter

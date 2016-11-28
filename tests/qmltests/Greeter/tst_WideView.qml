@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,14 +18,18 @@ import QtQuick 2.4
 import QtTest 1.0
 import ".."
 import "../../../qml/Greeter"
-import IntegratedLightDM 0.1 as LightDM
+import LightDM.IntegratedLightDM 0.1 as LightDM
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
 
-Item {
+StyledItem {
     id: root
+
     width: units.gu(120)
     height: units.gu(80)
+    focus: true
+
+    theme.name: "Ubuntu.Components.Themes.SuruDark"
 
     Binding {
         target: LightDM.Users
@@ -39,13 +43,14 @@ Item {
             id: loader
             width: root.width - controls.width
             height: parent.height
+            focus: true
 
             property bool itemDestroyed: false
             sourceComponent: Component {
                 WideView {
                     id: view
 
-                    background: Qt.resolvedUrl("../../../qml/graphics/tablet_background.jpg")
+                    background: "/usr/share/backgrounds/warty-final-ubuntu.png"
                     userModel: LightDM.Users
                     infographicModel: LightDM.Infographic
 
@@ -61,7 +66,8 @@ Item {
                     }
 
                     onSelected: {
-                        currentIndexField.text = index;
+                        if (index >= 0)
+                            currentIndexField.text = index;
                     }
 
                     QtObject {
@@ -103,14 +109,12 @@ Item {
 
         Rectangle {
             id: controls
-            color: "white"
+            color: theme.palette.normal.background
             width: units.gu(40)
             height: parent.height
-
             Column {
                 anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
                 spacing: units.gu(1)
-
                 Row {
                     Button {
                         text: "Show Last Chance"
@@ -168,7 +172,7 @@ Item {
                         text: "Authenticated"
                         onClicked: {
                             if (successCheckBox.checked) {
-                                loader.item.notifyAuthenticationSucceeded();
+                                loader.item.notifyAuthenticationSucceeded(false);
                             } else {
                                 loader.item.notifyAuthenticationFailed();
                             }
@@ -262,6 +266,51 @@ Item {
                     }
                 }
                 Row {
+                    id: multipleSessions
+                    CheckBox {
+                        id: multipleSessionsCheckbox
+                        onClicked: {
+                            if (checked) {
+                                LightDM.Sessions.testScenario = "multipleSessions"
+                            } else {
+                                LightDM.Sessions.testScenario = "singleSession"
+                            }
+                        }
+                        Connections {
+                            target: LightDM.Sessions
+                            onTestScenarioChanged: {
+                                if (LightDM.Sessions.testScenario === "multipleSessions") {
+                                    multipleSessionsCheckbox.checked = true;
+                                } else {
+                                    multipleSessionsCheckbox.checked = false;
+                                }
+                            }
+                        }
+                    }
+                    Label {
+                        text: "Multiple Sessions"
+                    }
+                }
+                Row {
+                    Slider {
+                        id: numSessionsSlider
+
+                        width: units.gu(10)
+                        minimumValue: 0
+                        maximumValue: LightDM.Sessions.numAvailableSessions
+                        value: LightDM.Sessions.numSessions
+                        visible: LightDM.Sessions.testScenario === "multipleSessions"
+                        Binding {
+                            target: LightDM.Sessions
+                            property: "numSessions"
+                            value: numSessionsSlider.value
+                        }
+                    }
+                    Label {
+                        text: "Available Sessions"
+                    }
+                }
+                Row {
                     Button {
                         text: "Reload View"
                         onClicked: {
@@ -311,6 +360,7 @@ Item {
         when: windowShown
 
         property Item view: loader.status === Loader.Ready ? loader.item : null
+        property url testIconDirectory: Qt.resolvedUrl("../../../qml/Greeter/graphics/session_icons")
 
         function init() {
             selectIndex(0); // break binding with text field
@@ -318,6 +368,7 @@ Item {
             respondedSpy.clear();
             teaseSpy.clear();
             emergencySpy.clear();
+            LightDM.Sessions.testScenario = "multipleSessions"
         }
 
         function cleanup() {
@@ -373,6 +424,92 @@ Item {
                 {tag: "right", x: view.width, offset: 0, count: 1, locked: false},
             ]
         }
+
+        function test_sessionIconsAreValid() {
+            LightDM.Sessions.testScenario = "multipleSessions"
+            var originalDirectories = LightDM.Sessions.iconSearchDirectories
+            LightDM.Sessions.iconSearchDirectories = [testIconDirectory]
+
+            selectUser("has-password");
+
+            // Test the login list icon is valid
+            var sessionChooserButton = findChild(view, "sessionChooserButton");
+            compare(sessionChooserButton.visible, true);
+
+            var session = String(view.sessionToStart).toLowerCase();
+            var icon = String(sessionChooserButton.icon);
+            compare(icon.indexOf(session) > -1, true);
+
+            // Test the session list icons are valid
+            var coverPage = findChild(view, "coverPage");
+            coverPage.state = "SessionsList"
+            var sessionsList = findChild(view, "sessionsList");
+            tryCompare(sessionsList, "visible", true);
+        }
+
+        function test_choosingNewSessionChangesLoginListIcon() {
+            // Ensure the default session is selected (Ubuntu)
+            loader.active = false;
+            loader.active = true;
+
+            selectUser("has-password");
+
+            LightDM.Sessions.testScenario = "multipleSessions";
+            var sessionChooserButton = findChild(view, "sessionChooserButton");
+            var icon = String(sessionChooserButton.icon);
+            compare(icon.indexOf("ubuntu") > -1, true);
+
+            tap(sessionChooserButton)
+            for(var i = 0; i < LightDM.Sessions.count; i++) {
+                var delegateName = "sessionDelegate" + String(i);
+                var currentDelegate = findChild(view, delegateName);
+                var sessionKey = LightDM.Sessions.data(i,LightDM.SessionRoles.KeyRole);
+                if (sessionKey === "gnome-classic") {
+                    tap(currentDelegate);
+                    var sessionChooserButton = findChild(view, "sessionChooserButton");
+                    waitForRendering(sessionChooserButton);
+                    var icon = String(sessionChooserButton.icon);
+                    break;
+                }
+            }
+
+            compare(icon.indexOf("gnome") > -1, true,
+                "Expected icon to contain gnome but it was " + icon);
+        }
+
+        function test_noSessionsDoesntBreakView() {
+            LightDM.Sessions.testScenario = "noSessions"
+            compare(LightDM.Sessions.count, 0)
+        }
+
+        function test_sessionIconNotShownWithOneSession() {
+            LightDM.Sessions.testScenario = "singleSession"
+            compare(LightDM.Sessions.count, 1);
+
+            var sessionChooserButton = findChild(view, "sessionChooserButton");
+            tryCompare(sessionChooserButton, "visible", false);
+        }
+
+        function test_sessionIconNotShownWithActiveUser() {
+            LightDM.Sessions.testScenario = "multipleSessions";
+            compare(LightDM.Sessions.count > 1, true);
+
+            selectUser("active");
+
+            var sessionChooserButton = findChild(view, "sessionChooserButton");
+            tryCompare(sessionChooserButton, "visible", false);
+        }
+
+        function test_sessionIconShownWithMultipleSessions() {
+            LightDM.Sessions.testScenario = "multipleSessions"
+            compare(LightDM.Sessions.count > 1, true);
+
+            selectUser("has-password");
+
+            var sessionChooserButton = findChild(view, "sessionChooserButton");
+            tryCompare(sessionChooserButton, "visible", true);
+        }
+
         function test_tease(data) {
             view.locked = data.locked;
             view.dragHandleLeftMargin = data.offset;
@@ -388,12 +525,23 @@ Item {
             compare(view.currentIndex, 0); // confirm we didn't change
         }
 
+        function test_customBackground() {
+            var coverPage = findChild(view, "coverPage");
+            var backgroundShade = findChild(coverPage, "backgroundShade");
+
+            verify(!view.hasCustomBackground);
+            verify(!backgroundShade.visible);
+
+            view.hasCustomBackground = true;
+            verify(backgroundShade.visible);
+        }
+
         function test_respondedWithPassword() {
             view.locked = true;
-            view.showPrompt("Prompt", true, true);
+            view.showPrompt("Prompt", true, false);
             var passwordInput = findChild(view, "passwordInput");
-            compare(passwordInput.placeholderText, "Prompt");
-            compare(passwordInput.echoMode, TextInput.Password);
+            compare(passwordInput.text, "Prompt");
+            verify(passwordInput.isSecret);
             tap(passwordInput);
             typeString("password");
             keyClick(Qt.Key_Enter);
@@ -405,8 +553,8 @@ Item {
             view.locked = true;
             view.showPrompt("otp", false, false);
             var passwordInput = findChild(view, "passwordInput");
-            compare(passwordInput.placeholderText, "otp");
-            compare(passwordInput.echoMode, TextInput.Normal);
+            compare(passwordInput.text, "otp");
+            verify(!passwordInput.isSecret);
             tap(passwordInput);
             typeString("foo");
             keyClick(Qt.Key_Enter);
@@ -439,7 +587,6 @@ Item {
             var infoLabel = findChild(view, "infoLabel");
             compare(infoLabel.text, "Welcome to Unity Greeter<br><font color=\"#df382c\">This is an error</font><br>You should have seen three messages and this is a really long message too. wow so long much length");
             compare(infoLabel.textFormat, Text.StyledText);
-            compare(infoLabel.clip, true);
             verify(infoLabel.contentWidth > infoLabel.width);
             verify(infoLabel.opacity < 1);
             tryCompare(infoLabel, "opacity", 1);
@@ -451,15 +598,15 @@ Item {
             selectedSpy.clear();
             view.locked = true;
             view.showPrompt("Prompt", true, true);
-            var passwordInput = findChild(view, "passwordInput");
-            tap(passwordInput);
-            compare(passwordInput.focus, true);
-            compare(passwordInput.enabled, true);
+            var promptField = findChild(view, "promptField");
+            tap(promptField);
+            verify(promptField.activeFocus);
+            compare(promptField.opacity, 1);
 
             typeString("password");
             keyClick(Qt.Key_Enter);
-            compare(passwordInput.focus, false);
-            compare(passwordInput.enabled, false);
+            verify(promptField.activeFocus);
+            compare(promptField.opacity, 0); // hidden by fakeLabel
 
             compare(selectedSpy.count, 0);
             keyClick(Qt.Key_Escape);
@@ -467,8 +614,8 @@ Item {
             compare(selectedSpy.signalArguments[0][0], 1);
 
             view.reset();
-            compare(passwordInput.focus, false);
-            compare(passwordInput.enabled, true);
+            verify(promptField.activeFocus);
+            compare(promptField.opacity, 1);
         }
 
         function test_unicode() {
@@ -477,25 +624,20 @@ Item {
             tryCompare(label, "text", "가나다라마");
         }
 
-        function test_longName() {
-            var index = selectUser("long-name");
-            var label = findChild(view, "username" + index);
-            tryCompare(label, "truncated", true);
-        }
-
         function test_promptless() {
             var passwordInput = findChild(view, "passwordInput");
 
             view.locked = true;
-            compare(passwordInput.placeholderText, "Retry");
+            compare(passwordInput.text, "Retry");
             tap(passwordInput);
             compare(respondedSpy.count, 0);
             compare(selectedSpy.count, 1);
             compare(selectedSpy.signalArguments[0][0], 0);
             selectedSpy.clear();
 
+            view.reset();
             view.locked = false;
-            compare(passwordInput.placeholderText, "Tap to unlock");
+            compare(passwordInput.text, "Log In");
             tap(passwordInput);
             compare(selectedSpy.count, 0);
             compare(respondedSpy.count, 1);
@@ -510,28 +652,106 @@ Item {
 
             keyboardVisibleCheckBox.checked = true;
 
-            tryCompare(loginList, "height", view.height - view.inputMethod.keyboardRectangle.height);
+            var halfway = (view.height - loginList.highlightedHeight) / 2;
+            var halfwayWithOsk = halfway - view.inputMethod.keyboardRectangle.height / 2;
+            tryCompare(loginList, "boxVerticalOffset", halfwayWithOsk);
+
+            var highlightItem = findChild(loginList, "highlightItem");
             tryCompareFunction( function() {
-                var loginListRect = loginList.mapToItem(view, 0, 0, loginList.width, loginList.height);
-                return loginListRect.y + loginListRect.height <= view.inputMethod.keyboardRectangle.y;
+                var highlightRect = highlightItem.mapToItem(view, 0, 0, highlightItem.width, highlightItem.height);
+                return highlightRect.y + highlightRect.height <= view.inputMethod.keyboardRectangle.y;
             }, true);
 
             // once the vkb goes away, loginList goes back to its full height
 
             keyboardVisibleCheckBox.checked = false;
 
-            tryCompare(loginList, "height", view.height);
+            tryCompare(loginList, "boxVerticalOffset", halfway);
         }
 
-        function test_alphanumeric() {
-            var passwordInput = findChild(view, "passwordInput");
+        function test_passphrase() {
+            var promptField = findChild(view, "promptField");
+            view.showPrompt("", true, true);
 
             verify(view.alphanumeric);
-            compare(passwordInput.inputMethodHints, Qt.ImhNone);
+            compare(promptField.inputMethodHints & Qt.ImhDigitsOnly, 0);
+
+            keyClick(Qt.Key_D);
+            compare(promptField.text, "d");
+        }
+
+        function test_passcode() {
+            var promptField = findChild(view, "promptField");
+            view.showPrompt("", true, true);
+
             view.alphanumeric = false;
-            compare(passwordInput.inputMethodHints, Qt.ImhDigitsOnly);
-            view.alphanumeric = true;
-            compare(passwordInput.inputMethodHints, Qt.ImhNone);
+            compare(promptField.inputMethodHints & Qt.ImhDigitsOnly, Qt.ImhDigitsOnly);
+
+            keyClick(Qt.Key_D);
+            compare(promptField.text, "");
+
+            keyClick(Qt.Key_0);
+            keyClick(Qt.Key_0);
+            keyClick(Qt.Key_0);
+            keyClick(Qt.Key_0);
+            compare(promptField.text, "0000");
+
+            compare(respondedSpy.count, 1);
+            compare(respondedSpy.signalArguments[0][0], "0000");
+
+            compare(promptField.opacity, 0);
+        }
+
+        function test_loginListMovement_data() {
+            return [
+                {tag: "up", key: Qt.Key_Up, result: -1},
+                {tag: "down", key: Qt.Key_Down, result: 1},
+            ]
+        }
+
+        function test_loginListMovement(data) {
+            keyClick(data.key);
+            compare(selectedSpy.count, 1);
+            compare(selectedSpy.signalArguments[0][0], data.result);
+        }
+
+        function test_focusStaysActive() {
+            var promptField = findChild(view, "promptField");
+            var promptButton = findChild(view, "promptButton");
+
+            verify(promptButton.activeFocus);
+            keyClick(Qt.Key_Enter);
+            compare(selectedSpy.count, 0);
+            compare(respondedSpy.count, 1);
+            compare(respondedSpy.signalArguments[0][0], "");
+            verify(promptButton.activeFocus);
+            keyClick(Qt.Key_Enter);
+            compare(respondedSpy.count, 1);
+
+            view.showPrompt("", true, true);
+            verify(promptField.activeFocus);
+            keyClick(Qt.Key_D);
+            keyClick(Qt.Key_Enter);
+            compare(selectedSpy.count, 0);
+            compare(respondedSpy.count, 2);
+            compare(respondedSpy.signalArguments[1][0], "d");
+            verify(promptField.activeFocus);
+            keyClick(Qt.Key_Enter);
+            compare(respondedSpy.count, 2);
+
+            view.reset();
+            view.locked = true;
+            verify(promptButton.activeFocus);
+            keyClick(Qt.Key_Enter);
+            compare(respondedSpy.count, 2);
+            compare(selectedSpy.count, 1);
+            compare(selectedSpy.signalArguments[0][0], 0);
+            verify(promptButton.activeFocus);
+            keyClick(Qt.Key_Enter);
+            compare(selectedSpy.count, 1);
+
+            view.showPrompt("", true, true);
+            verify(promptField.activeFocus);
         }
     }
 }

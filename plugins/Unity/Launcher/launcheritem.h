@@ -45,6 +45,7 @@ public:
     bool countVisible() const override;
     bool focused() const override;
     bool alerting() const override;
+    int surfaceCount() const override;
 
     unity::shell::launcher::QuickListModelInterface *quickList() const override;
 
@@ -59,6 +60,7 @@ private:
     void setCountVisible(bool countVisible);
     void setFocused(bool focused);
     void setAlerting(bool alerting);
+    void setSurfaceCount(int surfaceCount);
 
 private:
     QString m_appId;
@@ -72,6 +74,7 @@ private:
     bool m_countVisible;
     bool m_focused;
     bool m_alerting;
+    int m_surfaceCount;
     QuickListModel *m_quickList;
     QuickListEntry m_quitAction;
 

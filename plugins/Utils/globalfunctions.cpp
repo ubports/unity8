@@ -16,8 +16,8 @@
 
 #include "globalfunctions.h"
 
-#include <private/qquickitem_p.h>
 #include <QQmlEngine>
+#include <private/qquickitem_p.h>
 
 GlobalFunctions::GlobalFunctions(QObject *parent)
     : QObject(parent)

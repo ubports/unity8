@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -12,22 +12,24 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *      Michael Zanetti <michael.zanetti@canonical.com>
  */
 
 #include "launchermodel.h"
 #include "launcheritem.h"
 #include "gsettings.h"
-#include "desktopfilehandler.h"
 #include "dbusinterface.h"
 #include "asadapter.h"
 
+#include <ubuntu-app-launch/appid.h>
+#include <ubuntu-app-launch/application.h>
+#include <ubuntu-app-launch/registry.h>
 #include <unity/shell/application/ApplicationInfoInterface.h>
+#include <unity/shell/application/MirSurfaceListInterface.h>
 
 #include <QDesktopServices>
 #include <QDebug>
+
+namespace ual = ubuntu::app_launch;
 
 using namespace unity::shell::application;
 
@@ -36,7 +38,8 @@ LauncherModel::LauncherModel(QObject *parent):
     m_settings(new GSettings(this)),
     m_dbusIface(new DBusInterface(this)),
     m_asAdapter(new ASAdapter()),
-    m_appManager(nullptr)
+    m_appManager(nullptr),
+    m_ualRegistry(std::make_shared<ual::Registry>())
 {
     connect(m_dbusIface, &DBusInterface::countChanged, this, &LauncherModel::countChanged);
     connect(m_dbusIface, &DBusInterface::countVisibleChanged, this, &LauncherModel::countVisibleChanged);
@@ -88,24 +91,14 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
             return item->alerting();
         case RoleRunning:
             return item->running();
+        case RoleSurfaceCount:
+            return item->surfaceCount();
         default:
             qWarning() << Q_FUNC_INFO << "missing role, implement me";
             return QVariant();
     }
 
     return QVariant();
-}
-
-void LauncherModel::setAlerting(const QString &appId, bool alerting) {
-    int index = findApplication(appId);
-    if (index >= 0) {
-        QModelIndex modelIndex = this->index(index);
-        LauncherItem *item = m_list.at(index);
-        if (!item->focused()) {
-            item->setAlerting(alerting);
-            Q_EMIT dataChanged(modelIndex, modelIndex, {RoleAlerting});
-        }
-    }
 }
 
 unity::shell::launcher::LauncherItemInterface *LauncherModel::get(int index) const
@@ -166,16 +159,16 @@ void LauncherModel::pin(const QString &appId, int index)
             index = m_list.count();
         }
 
-        DesktopFileHandler desktopFile(appId);
-        if (!desktopFile.isValid()) {
-            qWarning() << "Can't pin this application, there is no .desktop file available.";
+        auto appInfo = getApplicationInfo(appId);
+        if (!appInfo.valid) {
+            qWarning() << "Can't pin application, appId not found:" << appId;
             return;
         }
 
         beginInsertRows(QModelIndex(), index, index);
         LauncherItem *item = new LauncherItem(appId,
-                                              desktopFile.displayName(),
-                                              desktopFile.icon(),
+                                              appInfo.name,
+                                              appInfo.icon,
                                               this);
         item->setPinned(true);
         m_list.insert(index, item);
@@ -342,6 +335,32 @@ int LauncherModel::findApplication(const QString &appId)
     return -1;
 }
 
+LauncherModel::AppInfo LauncherModel::getApplicationInfo(const QString &appId)
+{
+    AppInfo info;
+
+    ual::AppID ualAppId = ual::AppID::find(m_ualRegistry, appId.toStdString());
+    if (ualAppId.empty()) {
+        return info;
+    }
+
+    std::shared_ptr<ual::Application> ualApp;
+    try
+    {
+        ualApp = ual::Application::create(ualAppId, m_ualRegistry);
+    }
+    catch (std::runtime_error &e)
+    {
+        qWarning() << "Couldn't find application info for" << appId << "-" << e.what();
+        return info;
+    }
+
+    info.valid = true;
+    info.name = QString::fromStdString(ualApp->info()->name());
+    info.icon = QString::fromStdString(ualApp->info()->iconPath());
+    return info;
+}
+
 void LauncherModel::progressChanged(const QString &appId, int progress)
 {
     const int idx = findApplication(appId);
@@ -358,11 +377,13 @@ void LauncherModel::countChanged(const QString &appId, int count)
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
         item->setCount(count);
-        if (item->countVisible()) {
-            setAlerting(item->appId(), true);
+        QVector<int> changedRoles = {RoleCount};
+        if (item->countVisible() && !item->alerting() && !item->focused()) {
+            changedRoles << RoleAlerting;
+            item->setAlerting(true);
         }
         m_asAdapter->syncItems(m_list);
-        Q_EMIT dataChanged(index(idx), index(idx), {RoleCount});
+        Q_EMIT dataChanged(index(idx), index(idx), changedRoles);
     }
 }
 
@@ -372,10 +393,12 @@ void LauncherModel::countVisibleChanged(const QString &appId, bool countVisible)
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
         item->setCountVisible(countVisible);
-        if (countVisible) {
-            setAlerting(item->appId(), true);
+        QVector<int> changedRoles = {RoleCountVisible};
+        if (countVisible && !item->alerting() && !item->focused()) {
+            changedRoles << RoleAlerting;
+            item->setAlerting(true);
         }
-        Q_EMIT dataChanged(index(idx), index(idx), {RoleCountVisible});
+        Q_EMIT dataChanged(index(idx), index(idx), changedRoles);
 
         // If countVisible goes to false, and the item is neither pinned nor recent we can drop it
         if (!countVisible && !item->pinned() && !item->recent()) {
@@ -385,11 +408,11 @@ void LauncherModel::countVisibleChanged(const QString &appId, bool countVisible)
         }
     } else {
         // Need to create a new LauncherItem and show the highlight
-        DesktopFileHandler desktopFile(appId);
-        if (countVisible && desktopFile.isValid()) {
+        auto appInfo = getApplicationInfo(appId);
+        if (countVisible && appInfo.valid) {
             LauncherItem *item = new LauncherItem(appId,
-                                                  desktopFile.displayName(),
-                                                  desktopFile.icon(),
+                                                  appInfo.name,
+                                                  appInfo.icon,
                                                   this);
             item->setCountVisible(true);
             beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
@@ -405,28 +428,28 @@ void LauncherModel::refresh()
     // First walk through all the existing items and see if we need to remove something
     QList<LauncherItem*> toBeRemoved;
     Q_FOREACH (LauncherItem* item, m_list) {
-        DesktopFileHandler desktopFile(item->appId());
-        if (!desktopFile.isValid()) {
-            // Desktop file not available for this app => drop it!
+        auto appInfo = getApplicationInfo(item->appId());
+        if (!appInfo.valid) {
+            // Application no longer available => drop it!
             toBeRemoved << item;
         } else if (!m_settings->storedApplications().contains(item->appId())) {
             // Item not in settings any more => drop it!
             toBeRemoved << item;
         } else {
             int idx = m_list.indexOf(item);
-            item->setName(desktopFile.displayName());
+            item->setName(appInfo.name);
             item->setPinned(item->pinned()); // update pinned text if needed
             item->setRunning(item->running());
             Q_EMIT dataChanged(index(idx), index(idx), {RoleName, RoleRunning});
 
             const QString oldIcon = item->icon();
-            if (oldIcon == desktopFile.icon()) { // same icon file, perhaps different contents, simulate changing the icon name to force reload
+            if (oldIcon == appInfo.icon) { // same icon file, perhaps different contents, simulate changing the icon name to force reload
                 item->setIcon(QString());
                 Q_EMIT dataChanged(index(idx), index(idx), {RoleIcon});
             }
 
             // now set the icon for real
-            item->setIcon(desktopFile.icon());
+            item->setIcon(appInfo.icon);
             Q_EMIT dataChanged(index(idx), index(idx), {RoleIcon});
         }
     }
@@ -457,15 +480,14 @@ void LauncherModel::refresh()
         if (itemIndex == -1) {
             // Need to add it. Just add it into the addedIndex to keep same ordering as the list
             // in the settings.
-            DesktopFileHandler desktopFile(entry);
-            if (!desktopFile.isValid()) {
-                qWarning() << "Couldn't find a .desktop file for" << entry << ". Skipping...";
+            auto appInfo = getApplicationInfo(entry);
+            if (!appInfo.valid) {
                 continue;
             }
 
             LauncherItem *item = new LauncherItem(entry,
-                                                  desktopFile.displayName(),
-                                                  desktopFile.icon(),
+                                                  appInfo.name,
+                                                  appInfo.icon,
                                                   this);
             item->setPinned(true);
             beginInsertRows(QModelIndex(), addedIndex, addedIndex);
@@ -498,8 +520,10 @@ void LauncherModel::alert(const QString &appId)
     int idx = findApplication(appId);
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
-        setAlerting(item->appId(), true);
-        Q_EMIT dataChanged(index(idx), index(idx), {RoleAlerting});
+        if (!item->focused() && !item->alerting()) {
+            item->setAlerting(true);
+            Q_EMIT dataChanged(index(idx), index(idx), {RoleAlerting});
+        }
     }
 }
 
@@ -525,28 +549,50 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
             item->setRecent(true);
             Q_EMIT dataChanged(index(itemIndex), index(itemIndex), {RoleRecent});
         }
+        if (item->surfaceCount() != app->surfaceCount()) {
+            item->setSurfaceCount(app->surfaceCount());
+            Q_EMIT dataChanged(index(itemIndex), index(itemIndex), {RoleSurfaceCount});
+        }
+
         item->setRunning(true);
     } else {
         LauncherItem *item = new LauncherItem(app->appId(), app->name(), app->icon().toString(), this);
         item->setRecent(true);
         item->setRunning(true);
         item->setFocused(app->focused());
-
+        item->setSurfaceCount(app->surfaceCount());
         beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
         m_list.append(item);
         endInsertRows();
     }
+    connect(app, &ApplicationInfoInterface::surfaceCountChanged, this, &LauncherModel::applicationSurfaceCountChanged);
     m_asAdapter->syncItems(m_list);
     Q_EMIT dataChanged(index(itemIndex), index(itemIndex), {RoleRunning});
+}
+
+void LauncherModel::applicationSurfaceCountChanged(int count)
+{
+    ApplicationInfoInterface *app = static_cast<ApplicationInfoInterface*>(sender());
+    int idx = findApplication(app->appId());
+    if (idx < 0) {
+        qWarning() << "Received a surface count changed event from an app that's not in the Launcher model";
+        return;
+    }
+    LauncherItem *item = m_list.at(idx);
+    if (item->surfaceCount() != count) {
+        item->setSurfaceCount(count);
+        Q_EMIT dataChanged(index(idx), index(idx), {RoleSurfaceCount});
+    }
 }
 
 void LauncherModel::applicationRemoved(const QModelIndex &parent, int row)
 {
     Q_UNUSED(parent)
 
+    ApplicationInfoInterface *app = m_appManager->get(row);
     int appIndex = -1;
     for (int i = 0; i < m_list.count(); ++i) {
-        if (m_list.at(i)->appId() == m_appManager->get(row)->appId()) {
+        if (m_list.at(i)->appId() == app->appId()) {
             appIndex = i;
             break;
         }
@@ -557,17 +603,24 @@ void LauncherModel::applicationRemoved(const QModelIndex &parent, int row)
         return;
     }
 
+    disconnect(app, &ApplicationInfoInterface::surfaceCountChanged, this, &LauncherModel::applicationSurfaceCountChanged);
+
     LauncherItem * item = m_list.at(appIndex);
-    item->setRunning(false);
 
     if (!item->pinned()) {
         beginRemoveRows(QModelIndex(), appIndex, appIndex);
         m_list.takeAt(appIndex)->deleteLater();
         endRemoveRows();
         m_asAdapter->syncItems(m_list);
-        Q_EMIT dataChanged(index(appIndex), index(appIndex), {RolePinned});
+    } else {
+        QVector<int> changedRoles = {RoleRunning};
+        item->setRunning(false);
+        if (item->focused()) {
+            changedRoles << RoleFocused;
+            item->setFocused(false);
+        }
+        Q_EMIT dataChanged(index(appIndex), index(appIndex), changedRoles);
     }
-    Q_EMIT dataChanged(index(appIndex), index(appIndex), {RoleRunning});
 }
 
 void LauncherModel::focusedAppIdChanged()
@@ -576,8 +629,14 @@ void LauncherModel::focusedAppIdChanged()
     for (int i = 0; i < m_list.count(); ++i) {
         LauncherItem *item = m_list.at(i);
         if (!item->focused() && item->appId() == appId) {
+            QVector<int> changedRoles;
+            changedRoles << RoleFocused;
             item->setFocused(true);
-            Q_EMIT dataChanged(index(i), index(i), {RoleFocused});
+            if (item->alerting()) {
+                changedRoles << RoleAlerting;
+                item->setAlerting(false);
+            }
+            Q_EMIT dataChanged(index(i), index(i), changedRoles);
         } else if (item->focused() && item->appId() != appId) {
             item->setFocused(false);
             Q_EMIT dataChanged(index(i), index(i), {RoleFocused});

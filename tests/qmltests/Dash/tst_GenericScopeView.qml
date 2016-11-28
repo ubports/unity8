@@ -22,6 +22,7 @@ import "../../../qml/Dash"
 import "../../../qml/Components"
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
+import Qt.test.qtestroot 1.0
 
 Item {
     id: shell
@@ -40,7 +41,12 @@ Item {
     Scopes {
         id: scopes
         // for tryGenericScopeView
-        onLoadedChanged: if (loaded) genericScopeView.scope = scopes.getScope(2);
+        onLoadedChanged: {
+            if (loaded && UT.Util.isInstanceOf(QTestRootObject, "DummyTestRootObject")) {
+                genericScopeView.scope = scopes.getScope(2);
+                genericScopeView.isCurrent = true;
+            }
+        }
     }
 
     MockScope {
@@ -76,6 +82,7 @@ Item {
                 tryCompare(scopes, "loaded", true);
 
                 genericScopeView.scope = scopes.getScope(2);
+                genericScopeView.isCurrent = true;
                 shell.width = units.gu(120);
                 genericScopeView.categoryView.positionAtBeginning();
                 waitForRendering(genericScopeView.categoryView);
@@ -91,7 +98,7 @@ Item {
             function scrollToCategory(categoryName) {
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 tryCompareFunction(function() {
-                    var category = findChild(genericScopeView, categoryName);
+                    var category = findChild(genericScopeView, categoryName, 0 /* timeout */);
                     if (category && category.y > 0 && category.y < genericScopeView.height) return true;
                     touchFlick(genericScopeView, genericScopeView.width/2, units.gu(20),
                                genericScopeView.width/2, genericScopeView.y)
@@ -99,7 +106,7 @@ Item {
                     return false;
                 }, true);
 
-                tryCompareFunction(function() { return findChild(genericScopeView, "delegate0") !== null; }, true);
+                tryCompareFunction(function() { return findChild(genericScopeView, "delegate0", 0 /* timeout */) !== null; }, true);
                 return findChild(genericScopeView, categoryName);
             }
 
@@ -116,6 +123,7 @@ Item {
             }
 
             function test_isActive() {
+                genericScopeView.isCurrent = false
                 tryCompare(genericScopeView.scope, "isActive", false)
                 genericScopeView.isCurrent = true
                 tryCompare(genericScopeView.scope, "isActive", true)
@@ -140,6 +148,7 @@ Item {
             }
 
             function test_searchQuery() {
+                genericScopeView.isCurrent = false
                 genericScopeView.scope = scopes.getScope(0);
                 genericScopeView.scope.searchQuery = "test";
                 genericScopeView.scope = scopes.getScope(1);
@@ -151,6 +160,7 @@ Item {
             }
 
             function test_changeScope() {
+                genericScopeView.isCurrent = false;
                 genericScopeView.scope.searchQuery = "test"
                 var originalScopeId = genericScopeView.scope.id;
                 genericScopeView.scope = scopes.getScope(originalScopeId + 1)
@@ -159,7 +169,7 @@ Item {
             }
 
             function test_expand_collapse() {
-                tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader0") != null; }, true);
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader0", 0 /* timeout */) != null; }, true);
 
                 var category = findChild(genericScopeView, "dashCategory0")
                 var seeAll = findChild(category, "seeAll")
@@ -180,7 +190,7 @@ Item {
 
             function test_expand_expand_collapse() {
                 // wait for the item to be there
-                tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader2") != null; }, true);
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader2", 0 /* timeout */) != null; }, true);
 
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 categoryListView.contentY = categoryListView.height;
@@ -208,7 +218,6 @@ Item {
             }
 
             function test_headerLink() {
-                tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader1") != null; }, true);
                 var header = findChild(genericScopeView, "dashSectionHeader1");
 
                 spy.target = genericScopeView.scope;
@@ -227,7 +236,7 @@ Item {
                 categoryListView.contentY = categoryListView.height * 2;
 
                 // wait for the item to be there
-                tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader4") != null; }, true);
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader4", 0 /* timeout */) != null; }, true);
 
                 var categoryView = findChild(genericScopeView, "dashCategory4");
                 verify(categoryView, "Can't find the category view.");
@@ -239,7 +248,6 @@ Item {
             }
 
             function test_narrow_delegate_ranges_expand() {
-                tryCompareFunction(function() { return findChild(genericScopeView, "dashCategory0") !== null; }, true);
                 var category = findChild(genericScopeView, "dashCategory0")
                 tryCompare(category, "expanded", false);
 
@@ -271,7 +279,6 @@ Item {
             function test_single_category_expansion() {
                 genericScopeView.scope = scopes.getScope(3);
 
-                tryCompareFunction(function() { return findChild(genericScopeView, "dashCategory0") != undefined; }, true);
                 var category = findChild(genericScopeView, "dashCategory0")
                 compare(category.expandable, false, "Only category should not be expandable.");
 
@@ -285,9 +292,9 @@ Item {
                 if (category === undefined) category = 0;
                 if (delegate === undefined) delegate = 0;
                 tryCompareFunction(function() {
-                                        var cardGrid = findChild(genericScopeView, "dashCategory"+category);
+                                        var cardGrid = findChild(genericScopeView, "dashCategory"+category, 0 /* timeout */);
                                         if (cardGrid != null) {
-                                            var tile = findChild(cardGrid, "delegate"+delegate);
+                                            var tile = findChild(cardGrid, "delegate"+delegate, 0 /* timeout */);
                                             return tile != null;
                                         }
                                         return false;
@@ -328,9 +335,9 @@ Item {
                 genericScopeView.scope = scopes.getScope("NullPreviewScope");
 
                 tryCompareFunction(function() {
-                                        var cardGrid = findChild(genericScopeView, 0);
+                                        var cardGrid = findChild(genericScopeView, 0, 0 /* timeout */);
                                         if (cardGrid != null) {
-                                            var tile = findChild(cardGrid, 0);
+                                            var tile = findChild(cardGrid, 0, 0 /* timeout */);
                                             return tile != null;
                                         }
                                         return false;
@@ -381,7 +388,6 @@ Item {
 
                 tryCompare(testCase.subPageLoader, "open", false);
 
-                tryCompareFunction(function() { return findChild(category, "delegate1") != null; }, true);
                 var tile = findChild(category, "delegate1");
 
                 mouseClick(tile);
@@ -458,6 +464,7 @@ Item {
             function test_seeAllTwoCategoriesScenario1() {
                 mockScope.setId("mockScope");
                 mockScope.setName("Mock Scope");
+                mockScope.isActive = true;
                 mockScope.categories.setCount(2);
                 mockScope.categories.resultModel(0).setResultCount(50);
                 mockScope.categories.resultModel(1).setResultCount(25);
@@ -478,11 +485,10 @@ Item {
                 mouseClick(seeAll0);
                 verify(category0.expanded);
                 tryCompare(category0, "height", category0.item.expandedHeight + seeAll0.height);
-                tryCompare(genericScopeView.categoryView, "contentY", units.gu(8));
+                tryCompare(genericScopeView.categoryView, "contentY", units.gu(8.5));
 
                 scrollToEnd();
 
-                tryCompareFunction(function() { return findChild(genericScopeView, "dashCategory1") !== null; }, true);
                 var category1 = findChild(genericScopeView, "dashCategory1")
                 var seeAll1 = findChild(category1, "seeAll")
                 verify(category1.expandable);
@@ -501,6 +507,7 @@ Item {
             function test_seeAllTwoCategoriesScenario2() {
                 mockScope.setId("mockScope");
                 mockScope.setName("Mock Scope");
+                mockScope.isActive = true;
                 mockScope.categories.setCount(2);
                 mockScope.categories.resultModel(0).setResultCount(25);
                 mockScope.categories.resultModel(1).setResultCount(50);
@@ -564,25 +571,40 @@ Item {
                 genericScopeView.scope = !genericScopeView.scope;
             }
 
-            function test_pullToRefresh() {
-                waitForRendering(genericScopeView)
+            function test_pullToRefresh_data() {
+                return [
+                    { tag: "Tall window long flick", shellHeight: units.gu(100), flickLength: units.gu(70), refresh: true },
+                    { tag: "Tall window short flick", shellHeight: units.gu(100), flickLength: units.gu(25), refresh: false },
+                    { tag: "Short window", shellHeight: units.gu(30), flickLength: units.gu(25), refresh: true }
+                ];
+            }
+
+            function test_pullToRefresh(data) {
+                var initialHeight = shell.height;
+                shell.height = data.shellHeight;
+                waitForRendering(shell);
 
                 mouseFlick(genericScopeView,
-                           genericScopeView.width/2, units.gu(10),
-                           genericScopeView.width/2, units.gu(80),
-                           true, false)
+                           genericScopeView.width/2, units.gu(6),
+                           genericScopeView.width/2, units.gu(6) + data.flickLength,
+                           true, false);
 
-                var pullToRefresh = findChild(genericScopeView, "pullToRefresh")
-                tryCompare(pullToRefresh, "releaseToRefresh", true)
+                var pullToRefresh = findChild(genericScopeView, "pullToRefresh");
+                tryCompare(pullToRefresh, "releaseToRefresh", data.refresh);
 
-                spy.target = genericScopeView.scope
-                spy.signalName = "refreshed"
+                spy.target = genericScopeView.scope;
+                spy.signalName = "refreshed";
 
-                mouseRelease(genericScopeView)
-                tryCompare(pullToRefresh, "releaseToRefresh", false)
+                mouseRelease(genericScopeView);
+                tryCompare(pullToRefresh, "releaseToRefresh", false);
 
-                spy.wait()
-                compare(spy.count, 1)
+                if (data.refresh) {
+                    spy.wait();
+                    compare(spy.count, 1);
+                }
+
+                shell.height = initialHeight;
+                waitForRendering(shell);
             }
 
             function test_item_noninteractive() {
@@ -601,17 +623,22 @@ Item {
                 var category0 = findChild(categoryListView, "dashCategory0");
                 waitForRendering(category0);
 
+                tryCompareFunction(function() { return category0.item != null; }, true);
                 var cardGrid = category0.item;
                 compare(cardGrid.cardTool.template["non-interactive"], true);
 
                 var item0 = findChild(cardGrid, "delegate0");
                 waitForRendering(item0);
                 compare(item0.enabled, false);
-                var touchdown = findChild(item0, "touchdown");
 
-                compare(touchdown.visible, false);
+                var touchdown = findChild(item0, "touchdown");
+                compare(touchdown, null);
+
                 mousePress(item0);
-                compare(touchdown.visible, false);
+
+                touchdown = findChild(item0, "touchdown");
+                compare(touchdown, null);
+
                 mouseRelease(item0);
 
                 cardTool.template["non-interactive"] = false;
@@ -621,20 +648,25 @@ Item {
                 waitForRendering(category0);
                 item0 = findChild(cardGrid, "delegate0");
                 compare(item0.enabled, true);
-                var touchdown = findChild(item0, "touchdown");
 
-                compare(touchdown.visible, false);
+                touchdown = findChild(item0, "touchdown");
+                compare(touchdown, null);
+
                 mousePress(item0);
+
+                touchdown = findChild(item0, "touchdown");
                 compare(touchdown.visible, true);
+
                 mouseRelease(item0);
-                compare(touchdown.visible, false);
+
+                touchdown = findChild(item0, "touchdown");
+                compare(touchdown, null);
                 closePreview();
             }
 
             function test_carousel_borderSource() {
                 var category = scrollToCategory("dashCategory1");
                 var tile = findChild(category, "carouselDelegate0");
-                tryCompareFunction(function() { return findChild(tile, "artShapeLoader") !== null; }, true);
                 var artShapeLoader = findChild(tile, "artShapeLoader");
                 var shape = findChildsByType(artShapeLoader, "UCUbuntuShape");
                 compare(shape.borderSource, undefined);

@@ -122,7 +122,7 @@ private Q_SLOTS:
     {
         view = new QQuickView();
         view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/listviewwithpageheadertest.qml"));
-        lvwph = dynamic_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
+        lvwph = static_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
         model = view->rootObject()->findChild<QQmlListModel*>();
         otherDelegate = view->rootObject()->findChild<QQmlComponent*>();
         QVERIFY(lvwph);
@@ -1992,6 +1992,36 @@ private Q_SLOTS:
         verifyItem(0, 50., 150., false);
         verifyItem(1, 200., 200., false);
         verifyItem(2, 400., 350., false);
+    }
+
+    void testRemoveItemNotShowHeader()
+    {
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 6));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 90));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 1), Q_ARG(QVariant, 600));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 2);
+        scrollToBottom();
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 1), Q_ARG(QVariant, 2000));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 2), Q_ARG(QVariant, 1));
+        QTRY_COMPARE(lvwph->m_headerItem->y(), -610.);
+        QTRY_COMPARE(lvwph->m_minYExtent, 610.);
+    }
+
+    void testRemoveItemCutContents()
+    {
+        view->rootObject()->setHeight(921);
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 6));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 1000));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 1);
+        QTRY_COMPARE(lvwph->contentHeight(), 1050.);
+        scrollToBottom();
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 530));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 2);
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 1), Q_ARG(QVariant, 1));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 1);
+        verifyItem(0, 50., 530., false);
+        QTRY_COMPARE(lvwph->m_minYExtent, 530.);
     }
 
 private:

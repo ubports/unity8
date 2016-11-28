@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -12,14 +12,11 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *      Michael Zanetti <michael.zanetti@canonical.com>
  */
 
-#ifndef LAUNCHERMODEL_H
-#define LAUNCHERMODEL_H
+#pragma once
 
+#include <memory>
 #include <unity/shell/launcher/LauncherModelInterface.h>
 #include <unity/shell/application/ApplicationManagerInterface.h>
 
@@ -29,6 +26,12 @@ class LauncherItem;
 class GSettings;
 class DBusInterface;
 class ASAdapter;
+
+namespace ubuntu {
+    namespace app_launch {
+        class Registry;
+    }
+}
 
 using namespace unity::shell::launcher;
 using namespace unity::shell::application;
@@ -45,7 +48,6 @@ public:
 
     QVariant data(const QModelIndex &index, int role) const override;
 
-    Q_INVOKABLE void setAlerting(const QString &appId, bool alerting) override;
     Q_INVOKABLE unity::shell::launcher::LauncherItemInterface* get(int index) const override;
     Q_INVOKABLE void move(int oldIndex, int newIndex) override;
     Q_INVOKABLE void pin(const QString &appId, int index = -1) override;
@@ -71,6 +73,13 @@ private:
 
     void unpin(const QString &appId);
 
+    struct AppInfo {
+        bool valid = false;
+        QString name;
+        QString icon;
+    };
+    AppInfo getApplicationInfo(const QString &appId);
+
 private Q_SLOTS:
     void countChanged(const QString &appId, int count);
     void countVisibleChanged(const QString &appId, bool count);
@@ -79,6 +88,7 @@ private Q_SLOTS:
     void applicationAdded(const QModelIndex &parent, int row);
     void applicationRemoved(const QModelIndex &parent, int row);
     void focusedAppIdChanged();
+    void applicationSurfaceCountChanged(int);
 
 private:
     QList<LauncherItem*> m_list;
@@ -88,8 +98,7 @@ private:
     ASAdapter *m_asAdapter;
 
     ApplicationManagerInterface *m_appManager;
+    std::shared_ptr<ubuntu::app_launch::Registry> m_ualRegistry;
 
     friend class LauncherModelTest;
 };
-
-#endif // LAUNCHERMODEL_H

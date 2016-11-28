@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-05-27 13:54+0000\n"
+"POT-Creation-Date: 2016-11-16 10:44+0000\n"
 "PO-Revision-Date: 2016-01-31 18:34+0000\n"
 "Last-Translator: Bernard Banko <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -16,95 +16,75 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2016-06-02 06:21+0000\n"
-"X-Generator: Launchpad (build 18053)\n"
+"X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
+"X-Generator: Launchpad (build 18269)\n"
 
-#: plugins/IntegratedLightDM/Greeter.cpp:112
+#: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
 msgstr "Geslo: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:48
-#: plugins/Unity/Launcher/launcheritem.cpp:107
+#: plugins/Unity/Launcher/launcheritem.cpp:49
+#: plugins/Unity/Launcher/launcheritem.cpp:108
 msgid "Pin shortcut"
 msgstr "Pripni bližnjico"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:53
+#: plugins/Unity/Launcher/launcheritem.cpp:54
 msgid "Quit"
 msgstr "Končaj"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:107
+#: plugins/Unity/Launcher/launcheritem.cpp:108
 msgid "Unpin shortcut"
 msgstr "Odpni bližnjico"
 
-#: qml/Components/DelayedLockscreen.qml:49
-msgid "Device Locked"
-msgstr "Naprava je zaklenjena"
-
-#: qml/Components/DelayedLockscreen.qml:64
-msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr "Telefon ste zaklenili zaradi preveč napačnih vnosov gesla."
-
-#: qml/Components/DelayedLockscreen.qml:65
-msgid "You have been locked out due to too many failed passcode attempts."
-msgstr "Telefon ste zaklenili zaradi preveč napačnih vnosov gesla."
-
-#: qml/Components/DelayedLockscreen.qml:74
-#, qt-format
-msgid "Please wait %1 minute and then try again…"
-msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Počakajte %1 minut ter poskusite ponovno ..."
-msgstr[1] "Počakajte %1 minuto ter poskusite ponovno ..."
-msgstr[2] "Počakajte %1 minuti ter poskusite ponovno ..."
-msgstr[3] "Počakajte %1 minute ter poskusite ponovno ..."
-
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:149
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Odjava"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:150
 msgid "Are you sure you want to log out?"
 msgstr "Ali ste prepričani, da se želite odjaviti?"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:152
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Zakleni"
 
-#: qml/Components/Dialogs.qml:154
+#: qml/Components/Dialogs.qml:159
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Odjavi se"
 
-#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
-#: qml/Dash/DashPageHeader.qml:295 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
+#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
+#: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: qml/Components/Dialogs.qml:173
+#: qml/Components/Dialogs.qml:178
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Ponovni zagon"
 
-#: qml/Components/Dialogs.qml:174
+#: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
 msgstr "Ali ste prepričani, da želite ponovno zagnati?"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:181
 msgid "No"
 msgstr "Ne"
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:187
 msgid "Yes"
 msgstr "Da"
 
-#: qml/Components/Dialogs.qml:197
+#: qml/Components/Dialogs.qml:202
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Napajanje"
 
-#: qml/Components/Dialogs.qml:198
+#: qml/Components/Dialogs.qml:203
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -112,27 +92,197 @@ msgstr ""
 "Ali ste prepričani, da želite\n"
 "izključiti?"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:205
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Izključi"
 
-#: qml/Components/Dialogs.qml:209
+#: qml/Components/Dialogs.qml:214
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Ponovno zaženi"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/KeyboardShortcutsOverlay.qml:41
+msgid "Keyboard Shortcuts"
+msgstr "Tipkovne bližnjice"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:55
+msgid "Unity 8"
+msgstr "Unity 8"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:62
+msgid "PrtScr"
+msgstr "PrtScr"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:67
+msgid "Takes a screenshot."
+msgstr "Zajame zaslonsko sliko."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:75
+msgid "Alt + PrtScr"
+msgstr "Alt + PrtScr"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:80
+msgid "Takes a screenshot of a window."
+msgstr "Zajame zaslonsko sliko okna."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:88
+msgid "Super + Space"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:93
+msgid "Switches to next keyboard layout."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:101
+msgid "Super + Shift + Space"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:106
+msgid "Switches to previous keyboard layout."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:118
+msgid "Launcher"
+msgstr "Zaganjalnik"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:125
+msgid "Super (Hold)"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:130
+msgid "Opens the launcher, displays shortcuts."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:138
+msgid "Alt + F1"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:143
+msgid "Opens launcher keyboard navigation mode."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:151
+msgid "Super + Tab"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:156
+msgid "Switches applications via the launcher."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:164
+msgid "Super + 0 to 9"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:169
+msgid "Same as clicking on a launcher icon."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:181
+msgid "Scopes"
+msgstr "Viri"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:188
+msgid "Super (Tap)"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:193
+msgid "Opens the Scopes home."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:209
+msgid "Switching"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:216
+msgid "Alt + Tab"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:221
+msgid "Switches between applications."
+msgstr "Preklopi med programi."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:229
+msgid "Super + W"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:234
+msgid "Opens the desktop spread."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:242
+msgid "Cursor Left or Right"
+msgstr "Puščica levo ali desno"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:247
+msgid "Moves the focus."
+msgstr "Premakne žarišče."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:259
+msgid "Windows"
+msgstr "Okna"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:266
+msgid "Ctrl + Super + D"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:271
+msgid "Minimizes all windows."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:279
+msgid "Ctrl + Super + Up"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:284
+msgid "Maximizes the current window."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:292
+msgid "Ctrl + Super + Down"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:297
+msgid "Minimizes or restores the current window."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:305
+msgid "Ctrl + Super + Left or Right"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:310
+msgid "Semi-maximizes the current window."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:318
+msgid "Alt + F4"
+msgstr "Alt + F4"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:323
+msgid "Closes the current window."
+msgstr "Zapre trenutno okno."
+
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
 msgid "Return to Call"
 msgstr "Vrni se h klicu"
 
-#: qml/Components/Lockscreen.qml:231
+#: qml/Components/Lockscreen.qml:212
 msgid "Emergency Call"
 msgstr "Klic v sili"
 
-#: qml/Components/Lockscreen.qml:263
+#: qml/Components/Lockscreen.qml:244
 msgid "OK"
 msgstr "V redu"
+
+#: qml/Components/MediaServices/VideoPlayerControls.qml:44
+#, qt-format
+msgid "%1:%2:%3"
+msgstr "%1:%2:%3"
+
+#: qml/Components/MediaServices/VideoPlayerControls.qml:49
+#, qt-format
+msgid "%1:%2"
+msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
@@ -162,88 +312,88 @@ msgstr "Ponovno priključi sedaj!"
 msgid "Close all"
 msgstr "Zapri vse"
 
-#: qml/Dash/DashPageHeader.qml:333
+#: qml/Components/SharingPicker.qml:54
+msgid "Preview Share Item"
+msgstr "Preglej deljeno"
+
+#: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Trgovina"
 
-#: qml/Dash/DashPageHeader.qml:340
+#: qml/Dash/DashPageHeader.qml:368
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Iskanje"
 
-#: qml/Dash/DashPageHeader.qml:350
+#: qml/Dash/DashPageHeader.qml:378
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: qml/Dash/DashPageHeader.qml:357
+#: qml/Dash/DashPageHeader.qml:385
 msgid "Remove from Favorites"
 msgstr "Odstrani iz priljubljenih"
 
-#: qml/Dash/DashPageHeader.qml:357
+#: qml/Dash/DashPageHeader.qml:385
 msgid "Add to Favorites"
 msgstr "Dodaj med priljubljene"
 
-#: qml/Dash/FiltersPopover.qml:60
+#: qml/Dash/FiltersPopover.qml:61
 msgid "Refine your results"
 msgstr "Prečistite rezultate"
 
-#: qml/Dash/FiltersPopover.qml:69
+#: qml/Dash/FiltersPopover.qml:70
 msgid "Reset"
 msgstr "Ponastavi"
 
-#: qml/Dash/GenericScopeView.qml:579 qml/Dash/GenericScopeView.qml:774
+#: qml/Dash/GenericScopeView.qml:545 qml/Dash/GenericScopeView.qml:716
 msgid "Show less"
 msgstr "Pokaži manj"
 
-#: qml/Dash/GenericScopeView.qml:579
+#: qml/Dash/GenericScopeView.qml:545
 msgid "Show all"
 msgstr "Pokaži vse"
 
-#: qml/Dash/GenericScopeView.qml:636
+#: qml/Dash/GenericScopeView.qml:576
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Iskanje"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:56
+#: qml/Dash/PageHeaderExtraPanel.qml:57
 msgid "Recent Searches"
 msgstr "Zadnja iskanja"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:67
+#: qml/Dash/PageHeaderExtraPanel.qml:68
 msgid "Clear All"
 msgstr "Počisti vse"
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:35
+#: qml/Dash/Previews/PreviewActionCombo.qml:36
 msgid "More..."
 msgstr "Več ..."
 
-#: qml/Dash/Previews/PreviewActionCombo.qml:35
+#: qml/Dash/Previews/PreviewActionCombo.qml:36
 msgid "Less..."
 msgstr "Manj ..."
 
-#: qml/Dash/Previews/PreviewCommentInput.qml:68
-#: qml/Dash/Previews/PreviewRatingInput.qml:175
+#: qml/Dash/Previews/PreviewCommentInput.qml:83
+#: qml/Dash/Previews/PreviewRatingInput.qml:202
 msgid "Send"
 msgstr "Pošlji"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:82
+#: qml/Dash/Previews/PreviewRatingInput.qml:109
 msgid "Rate this"
 msgstr "Ocenite"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:157
+#: qml/Dash/Previews/PreviewRatingInput.qml:184
 msgid "Add a review"
 msgstr "Dodaj oceno"
 
-#: qml/Dash/Previews/PreviewSharing.qml:66
-msgid "Preview Share Item"
-msgstr "Preglej deljeno"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:55
+#: qml/Dash/PullToRefreshScopeStyle.qml:56
 msgid "Pull to refresh…"
 msgstr "Povlecite za osvežitev ..."
 
-#: qml/Dash/PullToRefreshScopeStyle.qml:60
+#: qml/Dash/PullToRefreshScopeStyle.qml:61
 msgid "Release to refresh…"
 msgstr "Spustite za osvežitev ..."
 
@@ -251,15 +401,15 @@ msgstr "Spustite za osvežitev ..."
 msgid "Enable location data"
 msgstr "Omogoči podatke o položaju"
 
-#: qml/Dash/ScopesList.qml:55
+#: qml/Dash/ScopesList.qml:57
 msgid "Manage"
 msgstr "Upravljaj"
 
-#: qml/Dash/ScopesList.qml:101
+#: qml/Dash/ScopesList.qml:104
 msgid "Home"
 msgstr "Domov"
 
-#: qml/Dash/ScopesList.qml:102
+#: qml/Dash/ScopesList.qml:105
 msgid "Also installed"
 msgstr "Tudi nameščeno"
 
@@ -271,76 +421,58 @@ msgstr ""
 "Vaša naprava je sedaj priključena na zunanji zaslon. S tem zaslonom pa lahko "
 "upravljate kazalko, kot da bi imeli sledilno ploščico."
 
-#: qml/Greeter/CoverPage.qml:118
+#: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
 msgstr "Odkleni"
 
-#: qml/Greeter/LoginList.qml:239
+#: qml/Greeter/DelayedLockscreen.qml:43
+msgid "Device Locked"
+msgstr "Naprava je zaklenjena"
+
+#: qml/Greeter/DelayedLockscreen.qml:58
+msgid "You have been locked out due to too many failed passphrase attempts."
+msgstr "Telefon ste zaklenili zaradi preveč napačnih vnosov gesla."
+
+#: qml/Greeter/DelayedLockscreen.qml:59
+msgid "You have been locked out due to too many failed passcode attempts."
+msgstr "Telefon ste zaklenili zaradi preveč napačnih vnosov gesla."
+
+#: qml/Greeter/DelayedLockscreen.qml:68
+#, qt-format
+msgid "Please wait %1 minute and then try again…"
+msgid_plural "Please wait %1 minutes and then try again…"
+msgstr[0] "Počakajte %1 minut ter poskusite ponovno ..."
+msgstr[1] "Počakajte %1 minuto ter poskusite ponovno ..."
+msgstr[2] "Počakajte %1 minuti ter poskusite ponovno ..."
+msgstr[3] "Počakajte %1 minute ter poskusite ponovno ..."
+
+#: qml/Greeter/Greeter.qml:596
+msgid "Try again"
+msgstr "Poskusite znova"
+
+#: qml/Greeter/LoginList.qml:70
+msgid "Passphrase"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:71
+msgid "Passcode"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:98
 msgid "Retry"
 msgstr "Poskusi znova"
 
-#: qml/Greeter/LoginList.qml:240
-msgid "Tap to unlock"
-msgstr "Tapnite za odklep"
+#: qml/Greeter/LoginList.qml:99
+msgid "Log In"
+msgstr "Prijava"
 
-#: qml/Greeter/NarrowView.qml:54
-msgid "Sorry, incorrect passphrase."
-msgstr "Nepravilno geslo."
-
-#: qml/Greeter/NarrowView.qml:55
-msgid "Sorry, incorrect passcode."
-msgstr "Nepravilno geslo."
-
-#: qml/Greeter/NarrowView.qml:56
-msgid "This will be your last attempt."
-msgstr "To je vaš zadnji poskus"
-
-#: qml/Greeter/NarrowView.qml:58
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
+#: qml/Greeter/NarrowView.qml:252
+msgid "Emergency"
 msgstr ""
-"Če je vneseno nepravilno šifrirno reklo, bo telefon ponastavljen na "
-"tovarniške nastavitve ter vsi osebni podatki bodo izbrisani."
 
-#: qml/Greeter/NarrowView.qml:59
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
-msgstr ""
-"Če je vneseno nepravilno geslo, bo telefon ponastavljen na tovarniške "
-"nastavitve ter vsi osebni podatki bodo izbrisani."
-
-#: qml/Greeter/NarrowView.qml:116
-#, qt-format
-msgid "Enter %1"
-msgstr "Vnesite %1"
-
-#: qml/Greeter/NarrowView.qml:117
-msgid "Enter passphrase"
-msgstr "Vnesite šifrirno reklo"
-
-#: qml/Greeter/NarrowView.qml:118
-msgid "Enter passcode"
-msgstr "Vnesite geslo"
-
-#: qml/Greeter/NarrowView.qml:119
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "Oprostite, napačen %1"
-
-#: qml/Greeter/NarrowView.qml:120
-msgid "Sorry, incorrect passphrase"
-msgstr "Oprostite, napačno šifrirno reklo"
-
-#: qml/Greeter/NarrowView.qml:121
-msgctxt "passphrase"
-msgid "Please re-enter"
-msgstr "Ponovno vnesite"
-
-#: qml/Greeter/NarrowView.qml:122
-msgid "Sorry, incorrect passcode"
-msgstr "Nepravilno geslo"
+#: qml/Greeter/SessionsList.qml:122
+msgid "Select desktop environment"
+msgstr "Izberite namizno okolje"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -354,11 +486,11 @@ msgstr "Tapnite za vrnitev v klic ..."
 msgid "Conference"
 msgstr "Konferenca"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:762
+#: qml/Panel/Indicators/MenuItemFactory.qml:847
 msgid "Nothing is playing"
 msgstr "Nič se ne predvaja"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:891
+#: qml/Panel/Indicators/MenuItemFactory.qml:975
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -367,7 +499,7 @@ msgstr[1] "%1 ura"
 msgstr[2] "%1 uri"
 msgstr[3] "%1 ure"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:895
+#: qml/Panel/Indicators/MenuItemFactory.qml:979
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -376,7 +508,7 @@ msgstr[1] "%1 minuta"
 msgstr[2] "%1 minuti"
 msgstr[3] "%1 minute"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:900
+#: qml/Panel/Indicators/MenuItemFactory.qml:984
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -385,37 +517,37 @@ msgstr[1] "%1 sekunda"
 msgstr[2] "%1 sekundi"
 msgstr[3] "%1 sekunde"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:903
+#: qml/Panel/Indicators/MenuItemFactory.qml:987
 msgid "0 seconds"
 msgstr "0 sekund"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:905
+#: qml/Panel/Indicators/MenuItemFactory.qml:989
 #, qt-format
 msgid "%1 remaining"
 msgstr "Preostalo %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:911
+#: qml/Panel/Indicators/MenuItemFactory.qml:995
 msgid "In queue…"
 msgstr "V vrsti ..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:915
+#: qml/Panel/Indicators/MenuItemFactory.qml:999
 msgid "Downloading"
 msgstr "Prejemanje"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:917
+#: qml/Panel/Indicators/MenuItemFactory.qml:1001
 msgid "Paused, tap to resume"
 msgstr "Premor, tapnite za nadaljevanje"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:919
+#: qml/Panel/Indicators/MenuItemFactory.qml:1003
 msgid "Canceled"
 msgstr "Preklicano"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:921
+#: qml/Panel/Indicators/MenuItemFactory.qml:1005
 msgid "Finished"
 msgstr "Končano"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:923
+#: qml/Panel/Indicators/MenuItemFactory.qml:1007
 msgid "Failed, tap to retry"
 msgstr "Spodletelo, tapnite za ponovni poskus"
 
@@ -435,92 +567,82 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Pokliči nazaj"
 
-#: qml/Stages/SideStage.qml:76
+#: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "S tremi prsti povlecite program iz enega v drugo okno"
 
-#: qml/Tutorial/TutorialBottom.qml:78
-msgid "Swipe up to add a contact"
-msgstr "Za dodajanje stika potegnite navzgor"
-
-#: qml/Tutorial/TutorialBottom.qml:80
-msgid "Swipe up for favorite calculations"
-msgstr "Za priljubljene izračune potegnite navzgor"
-
-#: qml/Tutorial/TutorialBottom.qml:82
-msgid "Swipe up for recent calls"
-msgstr "Za zadnje klice potegnite navzgor"
-
-#: qml/Tutorial/TutorialBottom.qml:84
-msgid "Swipe up to create a message"
-msgstr "Za ustvarjanje sporočila potegnite navzgor"
-
-#: qml/Tutorial/TutorialBottom.qml:85
-msgid "Swipe up to manage the app"
-msgstr "Za upravljanje programa potegnite navzgor"
-
-#: qml/Tutorial/TutorialLeftLong.qml:47
+#: qml/Tutorial/TutorialLeftLong.qml:49
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr "Nadolgo potegnite levi rob za odpiranje vira Danes"
 
 #: qml/Tutorial/TutorialLeft.qml:47
-msgid "Swipe from the left edge to open the launcher"
-msgstr "Potegnite levi rob za prikaz zaganjalnika"
+msgid "Short swipe from the left edge to open the launcher"
+msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
 msgstr "Za prikaz odprtih programov potisnite kazalko proti desnemu robu."
 
 #: qml/Tutorial/TutorialRight.qml:56
-msgid "Short or long swipe from the right edge to view your open apps"
-msgstr "Za prikaz odprtih programov nakratko ali nadolgo potegnite desni rob"
+msgid "Swipe from the right edge to view your open apps"
+msgstr ""
 
 #: qml/Tutorial/TutorialTop.qml:53
-msgid "Swipe from the top right edge to open the notification bar"
-msgstr "Za odpiranje obvestilne plošče potegnite desni del zgornjega roba"
-
-#: qml/Tutorial/TutorialTop.qml:54
-msgid "Swipe from the top edge to open the notification bar"
-msgstr "Za odpiranje obvestilne plošče potegnite zgornji rob"
+msgid "Swipe from the top edge to access notifications and quick settings"
+msgstr ""
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Nazaj"
 
-#: qml/Wizard/Pages/10-welcome.qml:27
+#: qml/Wizard/Pages/10-welcome.qml:28
 msgid "Language"
 msgstr "Jezik"
 
-#: qml/Wizard/Pages/10-welcome.qml:156 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:270
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
+#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:207 qml/Wizard/Pages/40-location.qml:271
+#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/70-passwd-type.qml:145
 #: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:124
-#: qml/Wizard/Pages/password-set.qml:141
+#: qml/Wizard/Pages/passcode-desktop.qml:142
+#: qml/Wizard/Pages/password-set.qml:142
 msgid "Next"
 msgstr "Naslednji"
 
-#: qml/Wizard/Pages/30-wifi.qml:29
-msgid "Connect to Wi‑Fi"
-msgstr "Poveži se z Wi-Fi-jem"
+#: qml/Wizard/Pages/20-keyboard.qml:31
+msgid "Select Keyboard"
+msgstr ""
 
-#: qml/Wizard/Pages/30-wifi.qml:130
-msgid "Connected"
-msgstr "Povezano"
+#: qml/Wizard/Pages/20-keyboard.qml:71
+msgid "Keyboard language"
+msgstr ""
 
-#: qml/Wizard/Pages/30-wifi.qml:163
-msgid "Available Wi-Fi networks"
-msgstr "Razpoložljiva omrežja Wi-Fi"
+#: qml/Wizard/Pages/20-keyboard.qml:93
+msgid "Keyboard layout"
+msgstr "Razporeditev tipk"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
-msgid "No available Wi-Fi networks"
-msgstr "Ni razpoložljivih omrežij Wi-Fi"
-
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:207
+#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/77-system-update.qml:152
 #: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Preskoči"
+
+#: qml/Wizard/Pages/30-wifi.qml:31
+msgid "Connect to Wi‑Fi"
+msgstr "Poveži se z Wi-Fi-jem"
+
+#: qml/Wizard/Pages/30-wifi.qml:132
+msgid "Connected"
+msgstr "Povezano"
+
+#: qml/Wizard/Pages/30-wifi.qml:165
+msgid "Available Wi-Fi networks"
+msgstr "Razpoložljiva omrežja Wi-Fi"
+
+#: qml/Wizard/Pages/30-wifi.qml:166
+msgid "No available Wi-Fi networks"
+msgstr "Ni razpoložljivih omrežij Wi-Fi"
 
 #: qml/Wizard/Pages/40-location.qml:27
 msgid "Location Services"
@@ -556,11 +678,11 @@ msgstr "Ne uporabljaj mojega položaja"
 msgid "You can change it later in System Settings."
 msgstr "Izbiro lahko kasneje spremenite v Sistemskih nastavitvah."
 
-#: qml/Wizard/Pages/50-timezone.qml:29
+#: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "Časovni pas"
 
-#: qml/Wizard/Pages/50-timezone.qml:181
+#: qml/Wizard/Pages/50-timezone.qml:182
 msgid "Enter your city"
 msgstr "Vnesite svoje mesto"
 
@@ -572,21 +694,21 @@ msgstr "Prilagodite si svojo napravo"
 msgid "Preferred Name"
 msgstr "Najljubše ime"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:39
+#: qml/Wizard/Pages/70-passwd-type.qml:40
 msgid "Lock Screen"
 msgstr "Zakleni zaslon"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:101
+#: qml/Wizard/Pages/70-passwd-type.qml:102
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr "Ustvari novo geslo"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:103
+#: qml/Wizard/Pages/70-passwd-type.qml:104
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr "Ustvari kodo (samo številke)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:105
+#: qml/Wizard/Pages/70-passwd-type.qml:106
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "Brez kode za zaklep"
@@ -606,6 +728,35 @@ msgstr "Izboljšajte delovanje sistema s poročanjem o sesutjih in napakah."
 #: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Privacy policy"
 msgstr "Pravila zasebnosti"
+
+#: qml/Wizard/Pages/77-system-update.qml:28
+msgid "Update Device"
+msgstr "Posodobi napravo"
+
+#: qml/Wizard/Pages/77-system-update.qml:55
+msgid ""
+"There is a system update available and ready to install. Afterwards, the "
+"device will automatically restart."
+msgstr ""
+
+#: qml/Wizard/Pages/77-system-update.qml:76
+msgctxt "string identifying name of the update"
+msgid "Ubuntu system"
+msgstr "Sistem Ubuntu"
+
+#: qml/Wizard/Pages/77-system-update.qml:83
+#, qt-format
+msgctxt "version of the system update"
+msgid "Version %1"
+msgstr "Različica %1"
+
+#: qml/Wizard/Pages/77-system-update.qml:102
+msgid "This could take a few minutes..."
+msgstr "To lahko traja nekaj minut ..."
+
+#: qml/Wizard/Pages/77-system-update.qml:116
+msgid "Install and restart now"
+msgstr "Sedaj namesti in ponovno zaženi"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
@@ -657,7 +808,7 @@ msgid "Service Terms"
 msgstr "Pogoji uporabe"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:80
+#: qml/Wizard/Pages/passcode-desktop.qml:97
 msgid "Confirm passcode"
 msgstr "Potrdite geslo"
 
@@ -670,28 +821,28 @@ msgctxt "Enter the passcode again"
 msgid "Please re-enter."
 msgstr "Vnesite ponovno."
 
-#: qml/Wizard/Pages/passcode-desktop.qml:30
+#: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
 msgstr "Koda za zaklep zaslona"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:56
+#: qml/Wizard/Pages/passcode-desktop.qml:61
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "Za določitev kode vnesite 4 številke"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:65
+#: qml/Wizard/Pages/passcode-desktop.qml:77
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "Izberite kodo"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:105
+#: qml/Wizard/Pages/passcode-desktop.qml:127
 msgid "Passcode too short"
 msgstr "Koda prekratka"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:107
+#: qml/Wizard/Pages/passcode-desktop.qml:129
 msgid "Passcodes match"
 msgstr "Kodi se ujemata"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:109
+#: qml/Wizard/Pages/passcode-desktop.qml:131
 msgid "Passcodes do not match"
 msgstr "Kodi se ne ujemata"
 
@@ -699,19 +850,19 @@ msgstr "Kodi se ne ujemata"
 msgid "Passcode must be 4 characters long"
 msgstr "Koda mora biti dolga 4 znake"
 
-#: qml/Wizard/Pages/password-set.qml:30
+#: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
 msgstr "Geslo za zaklep zaslona"
 
-#: qml/Wizard/Pages/password-set.qml:61
+#: qml/Wizard/Pages/password-set.qml:62
 msgid "Enter at least 8 characters"
 msgstr "Vnesite najmanj 8 znakov"
 
-#: qml/Wizard/Pages/password-set.qml:73
+#: qml/Wizard/Pages/password-set.qml:74
 msgid "Choose password"
 msgstr "Izberite geslo"
 
-#: qml/Wizard/Pages/password-set.qml:103
+#: qml/Wizard/Pages/password-set.qml:104
 msgid "Confirm password"
 msgstr "Potrdite geslo"
 
@@ -741,26 +892,30 @@ msgid "To proceed with no SIM tap Skip."
 msgstr "Za nadaljevanje brez kartice SIM tapnite Preskoči"
 
 #: qml/Wizard/PasswordMeter.qml:87
+msgid "Password too short"
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
 msgstr "Gesli se ujemata"
 
-#: qml/Wizard/PasswordMeter.qml:89
+#: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
 msgstr "Gesli se ne ujemata"
 
-#: qml/Wizard/PasswordMeter.qml:93
+#: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
 msgstr "Močno geslo"
 
-#: qml/Wizard/PasswordMeter.qml:95
+#: qml/Wizard/PasswordMeter.qml:97
 msgid "Fair password"
 msgstr "Sprejemljivo geslo"
 
-#: qml/Wizard/PasswordMeter.qml:97
+#: qml/Wizard/PasswordMeter.qml:99
 msgid "Weak password"
 msgstr "Šibko geslo"
 
-#: qml/Wizard/PasswordMeter.qml:99
+#: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
 msgstr "Zelo šibko geslo"
 
@@ -833,6 +988,9 @@ msgstr "Zelo šibko geslo"
 #~ msgid "Power off"
 #~ msgstr "Izklopi"
 
+#~ msgid "Sorry, incorrect passphrase."
+#~ msgstr "Nepravilno geslo."
+
 #~ msgid "All"
 #~ msgstr "Vse"
 
@@ -844,6 +1002,33 @@ msgstr "Zelo šibko geslo"
 
 #~ msgid "Favorites"
 #~ msgstr "Priljubljeni"
+
+#~ msgid "This will be your last attempt."
+#~ msgstr "To je vaš zadnji poskus"
+
+#~ msgid ""
+#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
+#~ "and all personal data will be deleted."
+#~ msgstr ""
+#~ "Če je vneseno nepravilno geslo, bo telefon ponastavljen na tovarniške "
+#~ "nastavitve ter vsi osebni podatki bodo izbrisani."
+
+#~ msgid ""
+#~ "If passphrase is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
+#~ msgstr ""
+#~ "Če je vneseno nepravilno šifrirno reklo, bo telefon ponastavljen na "
+#~ "tovarniške nastavitve ter vsi osebni podatki bodo izbrisani."
+
+#~ msgid "Sorry, incorrect passcode."
+#~ msgstr "Nepravilno geslo."
+
+#, qt-format
+#~ msgid "Sorry, incorrect %1"
+#~ msgstr "Oprostite, napačen %1"
+
+#~ msgid "Sorry, incorrect passphrase"
+#~ msgstr "Oprostite, napačno šifrirno reklo"
 
 #~ msgid "Log out"
 #~ msgstr "Odjava"
@@ -860,11 +1045,24 @@ msgstr "Zelo šibko geslo"
 #~ msgid "Power"
 #~ msgstr "Izključitev"
 
+#~ msgid "Sorry, incorrect passcode"
+#~ msgstr "Nepravilno geslo"
+
 #~ msgid "Settings"
 #~ msgstr "Nastavitve"
 
+#~ msgid "Enter passphrase"
+#~ msgstr "Vnesite šifrirno reklo"
+
 #~ msgid "Please re-enter"
 #~ msgstr "Ponovno vnesite"
+
+#~ msgid "Enter passcode"
+#~ msgstr "Vnesite geslo"
+
+#, qt-format
+#~ msgid "Enter %1"
+#~ msgstr "Vnesite %1"
 
 #~ msgid "See all"
 #~ msgstr "Pokaži vse"
@@ -1008,6 +1206,9 @@ msgstr "Zelo šibko geslo"
 #~ msgid "View all your running tasks."
 #~ msgstr "Ogled vseh izvajajočih se opravil"
 
+#~ msgid "Tap to unlock"
+#~ msgstr "Tapnite za odklep"
+
 #~ msgctxt "Button: Shut down the system"
 #~ msgid "Shut down"
 #~ msgstr "Izklopi"
@@ -1074,11 +1275,42 @@ msgstr "Zelo šibko geslo"
 #~ msgid "Tomorrow %H:%M"
 #~ msgstr "Jutri %H:%M"
 
+#~ msgctxt "passphrase"
+#~ msgid "Please re-enter"
+#~ msgstr "Ponovno vnesite"
+
 #~ msgid "%a %d %b %H:%M"
 #~ msgstr "%a %d %b %H:%M"
 
 #~ msgid "%a %d %b %l:%M %p"
 #~ msgstr "%a %d %b %l:%M %p"
 
+#~ msgid "Swipe from the left edge to open the launcher"
+#~ msgstr "Potegnite levi rob za prikaz zaganjalnika"
+
+#~ msgid "Swipe up for recent calls"
+#~ msgstr "Za zadnje klice potegnite navzgor"
+
+#~ msgid "Swipe up for favorite calculations"
+#~ msgstr "Za priljubljene izračune potegnite navzgor"
+
+#~ msgid "Swipe up to manage the app"
+#~ msgstr "Za upravljanje programa potegnite navzgor"
+
+#~ msgid "Swipe up to create a message"
+#~ msgstr "Za ustvarjanje sporočila potegnite navzgor"
+
+#~ msgid "Swipe up to add a contact"
+#~ msgstr "Za dodajanje stika potegnite navzgor"
+
+#~ msgid "Swipe from the top right edge to open the notification bar"
+#~ msgstr "Za odpiranje obvestilne plošče potegnite desni del zgornjega roba"
+
+#~ msgid "Swipe from the top edge to open the notification bar"
+#~ msgstr "Za odpiranje obvestilne plošče potegnite zgornji rob"
+
 #~ msgid "Hover your mouse on the right edge to view your open apps"
 #~ msgstr "Za prikaz odprtih programov pridržite miško na desnem robu"
+
+#~ msgid "Short or long swipe from the right edge to view your open apps"
+#~ msgstr "Za prikaz odprtih programov nakratko ali nadolgo potegnite desni rob"

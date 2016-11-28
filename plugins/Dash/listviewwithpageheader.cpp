@@ -253,6 +253,7 @@ void ListViewWithPageHeader::setHeader(QQuickItem *headerItem)
             oldHeaderHeight = m_headerItem->height();
             oldHeaderY = m_headerItem->y();
             m_headerItem->setParentItem(nullptr);
+            QQuickItemPrivate::get(m_headerItem)->removeItemChangeListener(this, QQuickItemPrivate::ImplicitHeight);
         }
         m_headerItem = headerItem;
         if (m_headerItem) {
@@ -284,9 +285,11 @@ void ListViewWithPageHeader::setSectionDelegate(QQmlComponent *delegate)
         m_sectionDelegate = delegate;
 
         m_topSectionItem = getSectionItem(QString(), false /*watchGeometry*/);
-        m_topSectionItem->setZ(3);
-        QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
-        connect(m_topSectionItem, &QQuickItem::heightChanged, this, &ListViewWithPageHeader::stickyHeaderHeightChanged);
+        if (m_topSectionItem) {
+            m_topSectionItem->setZ(3);
+            QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
+            connect(m_topSectionItem, &QQuickItem::heightChanged, this, &ListViewWithPageHeader::stickyHeaderHeightChanged);
+        }
 
         // TODO create sections for existing items
 
@@ -584,6 +587,10 @@ void ListViewWithPageHeader::adjustHeader(qreal diff)
                 } else {
                     m_headerItem->setY(-m_minYExtent);
                 }
+            } else if (m_headerItemShownHeight == 0 && m_previousContentY > m_headerItem->y() && contentY() < m_headerItem->y()) {
+                // The header was hidden but now that we've moved up (e.g. because of item removed) it's visible
+                // make sure it isn't
+                m_headerItem->setY(-m_minYExtent);
             }
             Q_EMIT headerItemShownHeightChanged();
         } else {
@@ -697,7 +704,9 @@ void ListViewWithPageHeader::reallyReleaseItem(ListItem *listItem)
     if (flags & QQmlDelegateModel::Destroyed) {
         item->setParentItem(nullptr);
     }
-    listItem->sectionItem()->deleteLater();
+    if (listItem->sectionItem()) {
+        listItem->sectionItem()->deleteLater();
+    }
     delete listItem;
 }
 
@@ -763,7 +772,7 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText, b
             delete nobj;
         } else {
             sectionItem->setProperty("text", sectionText);
-            sectionItem->setProperty("delegateIndex", -1);
+            sectionItem->setProperty("delegate", QVariant());
             sectionItem->setZ(2);
             QQml_setParent_noEvent(sectionItem, m_clipItem);
             sectionItem->setParentItem(m_clipItem);
@@ -773,7 +782,7 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText, b
     }
     m_sectionDelegate->completeCreate();
 
-    if (watchGeometry) {
+    if (watchGeometry && sectionItem) {
         QQuickItemPrivate::get(sectionItem)->addItemChangeListener(this, QQuickItemPrivate::Geometry);
     }
 
@@ -920,7 +929,7 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
                 polish();
             }
             if (listItem->sectionItem()) {
-                listItem->sectionItem()->setProperty("delegateIndex", modelIndex);
+                listItem->sectionItem()->setProperty("delegate", QVariant::fromValue(listItem->m_item));
             }
             adjustMinYExtent();
             m_contentHeightDirty = true;
@@ -973,6 +982,7 @@ void ListViewWithPageHeader::onContentWidthChanged()
 
 void ListViewWithPageHeader::onHeightChanged()
 {
+    m_clipItem->setHeight(height() - m_headerItemShownHeight);
     polish();
 }
 
@@ -1113,7 +1123,7 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
     for (int i = 0; i < m_visibleItems.count(); ++i) {
         ListItem *item = m_visibleItems[i];
         if (item->sectionItem()) {
-            item->sectionItem()->setProperty("delegateIndex", m_firstVisibleIndex + i);
+            item->sectionItem()->setProperty("delegate", QVariant::fromValue(item->m_item));
         }
     }
 
@@ -1287,15 +1297,7 @@ void ListViewWithPageHeader::layout()
 
                         QQuickItemPrivate::get(m_topSectionItem)->setCulled(false);
                         m_topSectionItem->setY(topSectionStickPos);
-                        int delegateIndex = modelIndex;
-                        // Look for the first index with this section text
-                        while (delegateIndex > 0) {
-                            const QString prevSection = m_delegateModel->stringValue(delegateIndex - 1, m_sectionProperty);
-                            if (prevSection != section)
-                                break;
-                            delegateIndex--;
-                        }
-                        m_topSectionItem->setProperty("delegateIndex", delegateIndex);
+                        m_topSectionItem->setProperty("delegate", QVariant::fromValue(item->m_item));
                         if (item->sectionItem()) {
                             QQuickItemPrivate::get(item->sectionItem())->setCulled(true);
                         }
@@ -1328,6 +1330,10 @@ void ListViewWithPageHeader::layout()
                 }
             }
         }
+    }
+    if (m_headerItem) {
+        const bool cullHeader = m_headerItem->y() + m_headerItem->height() < contentY();
+        QQuickItemPrivate::get(m_headerItem)->setCulled(cullHeader);
     }
     m_inLayout = false;
 }
@@ -1379,10 +1385,6 @@ void ListViewWithPageHeader::updatePolish()
 
         m_contentHeightDirty = false;
         adjustMinYExtent();
-        if (contentHeight + m_minYExtent < height()) {
-            // need this since in the previous call to adjustMinYExtent contentHeight is not set yet
-            m_minYExtent = 0;
-        }
         m_inContentHeightKeepHeaderShown = m_headerItem && m_headerItem->y() == contentY();
         setContentHeight(contentHeight);
         m_inContentHeightKeepHeaderShown = false;

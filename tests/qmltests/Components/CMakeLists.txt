@@ -11,6 +11,7 @@ include_directories(
 
 include_directories(
     SYSTEM
+    ${UBUNTUGESTURES_INCLUDE_DIRS}
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
     ${UBUNTUGESTURES_INCLUDE_DIRS}

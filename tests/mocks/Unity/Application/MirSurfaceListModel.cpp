@@ -66,15 +66,24 @@ void MirSurfaceListModel::appendSurface(MirSurface *surface)
     m_surfaceList.append(surface);
     connectSurface(surface);
     endInsertRows();
-    Q_EMIT countChanged();
+    Q_EMIT countChanged(m_surfaceList.count());
     if (m_surfaceList.count() == 1) {
         Q_EMIT firstChanged();
     }
 }
 
+void MirSurfaceListModel::prependSurface(MirSurface *surface)
+{
+    beginInsertRows(QModelIndex(), 0, 0);
+    m_surfaceList.prepend(surface);
+    connectSurface(surface);
+    endInsertRows();
+    Q_EMIT countChanged(m_surfaceList.count());
+    Q_EMIT firstChanged();
+}
+
 void MirSurfaceListModel::connectSurface(MirSurface *surface)
 {
-    connect(surface, &MirSurface::raiseRequested, this, [this, surface](){ this->raise(surface); });
     connect(surface, &QObject::destroyed, this, [this, surface](){ this->removeSurface(surface); });
 }
 
@@ -85,7 +94,7 @@ void MirSurfaceListModel::removeSurface(MirSurface *surface)
         beginRemoveRows(QModelIndex(), i, i);
         m_surfaceList.removeAt(i);
         endRemoveRows();
-        Q_EMIT countChanged();
+        Q_EMIT countChanged(m_surfaceList.count());
         if (m_surfaceList.count() == 0 || i == 0) {
             Q_EMIT firstChanged();
         }
@@ -143,7 +152,7 @@ MirSurfaceInterface *MirSurfaceListModel::createSurface()
             Mir::RestoredState,
             screenshotUrl);
 
-    appendSurface(surface);
+    prependSurface(surface);
 
     return surface;
 }

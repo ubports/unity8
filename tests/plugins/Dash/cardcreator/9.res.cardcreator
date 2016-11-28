@@ -1,10 +1,9 @@
 AbstractButton { 
                 id: root; 
                 property var cardData; 
-                property string backgroundShapeStyle: "inset"; 
+                property string backgroundShapeStyle: "flat"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
-                property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
                 property bool showHeader: true; 
                 implicitWidth: childrenRect.width; 
@@ -31,7 +30,7 @@ top: parent.top;
                         visible: showHeader ; 
                         width: undefined; 
                         text: root.title; 
-                        font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
+                        font.weight: Font.Normal; 
                         horizontalAlignment: Text.AlignLeft;
                     }
 Label { 
@@ -73,7 +72,7 @@ CardAudioProgress {
                             UbuntuShape { 
                                 anchors.fill: parent; 
                                 visible: parent.pressed; 
-                                radius: "medium"; 
+                                radius: "small"; 
                             } 
                             Rectangle { 
                                 color: Qt.rgba(0, 0, 0, 0.5); 
@@ -106,13 +105,5 @@ CardAudioProgress {
                             onPressAndHold: { 
                                 root.pressAndHold(); 
                             } 
-                        }UbuntuShape { 
-                        id: touchdown; 
-                        objectName: "touchdown"; 
-                        anchors { fill: root } 
-                        visible: root.pressed;
-                        radius: "medium"; 
-                        borderSource: "radius_pressed.sci" 
-                    }
-implicitHeight: audioButton.height;
+                        }implicitHeight: audioButton.height;
 }

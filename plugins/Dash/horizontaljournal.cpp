@@ -26,8 +26,8 @@
 #include "horizontaljournal.h"
 
 #include <qqmlengine.h>
-#include <private/qqmldelegatemodel_p.h>
 #include <qqmlinfo.h>
+#include <private/qqmldelegatemodel_p.h>
 #include <private/qquickitem_p.h>
 
 HorizontalJournal::HorizontalJournal()

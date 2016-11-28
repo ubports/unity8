@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2015 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -12,9 +12,6 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *      Michael Zanetti <michael.zanetti@canonical.com>
  */
 
 // unity-api
@@ -49,8 +46,6 @@ public:
     QString name() const override { return "mock"; }
     QString comment() const override { return "this is a mock"; }
     QUrl icon() const override { return QUrl(); }
-    ApplicationInfoInterface::Stage stage() const override { return ApplicationInfoInterface::MainStage; }
-    void setStage(ApplicationInfoInterface::Stage) override {}
     ApplicationInfoInterface::State state() const override { return ApplicationInfoInterface::Running; }
     bool focused() const override { return m_focused; }
     QString splashTitle() const override { return QString(); }
@@ -66,14 +61,17 @@ public:
     void setExemptFromLifecycle(bool) override {}
     QSize initialSurfaceSize() const override { return QSize(); }
     void setInitialSurfaceSize(const QSize &) override {}
-    MirSurfaceListInterface* surfaceList() override { return nullptr; }
-    MirSurfaceListInterface* promptSurfaceList() override { return nullptr; }
+    MirSurfaceListInterface* surfaceList() const override { return nullptr; }
+    MirSurfaceListInterface* promptSurfaceList() const override { return nullptr; }
+    int surfaceCount() const override { return m_surfaceCount; }
+    void setSurfaceCount(int count) { m_surfaceCount = count; Q_EMIT surfaceCountChanged(count); }
 
     // Methods used for mocking (not in the interface)
     void setFocused(bool focused) { m_focused = focused; Q_EMIT focusedChanged(focused); }
 private:
     QString m_appId;
     bool m_focused;
+    int m_surfaceCount = 0;
 };
 
 // This is a mock, specifically to test the LauncherModel
@@ -176,7 +174,7 @@ private Q_SLOTS:
         appManager->addApplication(new MockApp("abs-icon"));
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
 
-        appManager->addApplication(new MockApp("no-icon"));
+        appManager->addApplication(new MockApp("rel-icon"));
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
 
         launcherModel->m_settings->setStoredApplications(QStringList());
@@ -198,6 +196,10 @@ private Q_SLOTS:
                                                               QString::fromUtf8(g_get_user_name()));
         QVERIFY(removeReply.isValid());
         QCOMPARE(removeReply.value(), true);
+
+        // Some tests move the directory, so lets move it back if so.
+        // But this will usually fail.
+        QFile::rename("applications.old", "applications");
     }
 
     void testMove() {
@@ -330,7 +332,7 @@ private Q_SLOTS:
 
     void testApplicationRunning() {
         launcherModel->pin("abs-icon");
-        launcherModel->pin("no-icon");
+        launcherModel->pin("rel-icon");
 
         QCOMPARE(launcherModel->get(0)->running(), true);
         QCOMPARE(launcherModel->get(1)->running(), true);
@@ -339,7 +341,7 @@ private Q_SLOTS:
         QCOMPARE(launcherModel->get(0)->running(), false);
         QCOMPARE(launcherModel->get(1)->running(), true);
 
-        appManager->stopApplication("no-icon");
+        appManager->stopApplication("rel-icon");
         QCOMPARE(launcherModel->get(0)->running(), false);
         QCOMPARE(launcherModel->get(1)->running(), false);
     }
@@ -354,7 +356,7 @@ private Q_SLOTS:
         QCOMPARE(launcherModel->get(0)->focused(), true);
         QCOMPARE(launcherModel->get(1)->focused(), false);
 
-        appManager->focusApplication("no-icon");
+        appManager->focusApplication("rel-icon");
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
         QCOMPARE(launcherModel->get(0)->focused(), false);
         QCOMPARE(launcherModel->get(1)->focused(), true);
@@ -376,8 +378,8 @@ private Q_SLOTS:
         QCOMPARE(launcherModel->rowCount(), 2);
 
         // stop the second one keeping it pinned so that it doesn't go away
-        launcherModel->pin("no-icon");
-        appManager->stopApplication("no-icon");
+        launcherModel->pin("rel-icon");
+        appManager->stopApplication("rel-icon");
 
         // find the first Quit item, should be there
         QuickListModel *model = qobject_cast<QuickListModel*>(launcherModel->get(0)->quickList());
@@ -406,7 +408,7 @@ private Q_SLOTS:
         // first app should be gone...
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
         // ... the second app (now at index 0) should still be there, pinned and stopped
-        QCOMPARE(launcherModel->get(0)->appId(), QStringLiteral("no-icon"));
+        QCOMPARE(launcherModel->get(0)->appId(), QStringLiteral("rel-icon"));
         QCOMPARE(launcherModel->get(0)->pinned(), true);
         QCOMPARE(launcherModel->get(0)->running(), false);
     }
@@ -488,6 +490,31 @@ private Q_SLOTS:
 
         // Finally check, that the change to "count" implicitly also set the alerting-state to true
         QVERIFY(launcherModel->get(index)->alerting() == true);
+
+        // Check if the launcher emitted the changed signals
+        QCOMPARE(spy.count(), 2);
+
+        QVariantList countEmissionArgs = spy.takeFirst();
+        QCOMPARE(countEmissionArgs.at(0).value<QModelIndex>().row(), index);
+        QCOMPARE(countEmissionArgs.at(1).value<QModelIndex>().row(), index);
+        QVector<int> roles = countEmissionArgs.at(2).value<QVector<int> >();
+        QCOMPARE(roles.first(), (int)LauncherModel::RoleCount);
+
+        QVariantList countVisibleEmissionArgs = spy.takeFirst();
+        QCOMPARE(countVisibleEmissionArgs.at(0).value<QModelIndex>().row(), index);
+        QCOMPARE(countVisibleEmissionArgs.at(1).value<QModelIndex>().row(), index);
+        roles = countVisibleEmissionArgs.at(2).value<QVector<int> >();
+        QVERIFY(roles.contains(LauncherModel::RoleCountVisible));
+        QVERIFY(roles.contains(LauncherModel::RoleAlerting));
+
+        // Check if the values match
+        QCOMPARE(launcherModel->get(index)->countVisible(), true);
+        QCOMPARE(launcherModel->get(index)->count(), 55);
+        QCOMPARE(launcherModel->get(index)->alerting(), true);
+
+        // Focus the app, make sure the alert gets cleared
+        appManager->focusApplication("abs-icon");
+        QVERIFY(launcherModel->get(index)->alerting() == false);
     }
 
     void testCountEmblemAddsRemovesItem_data() {
@@ -559,6 +586,10 @@ private Q_SLOTS:
 
         // Check that the alerting-status is now true
         QVERIFY(launcherModel->get(index)->alerting() == true);
+
+        // Focus the app, make sure the alert gets cleared
+        appManager->focusApplication("abs-icon");
+        QVERIFY(launcherModel->get(index)->alerting() == false);
     }
 
     void testRefreshAfterDeletedDesktopFiles_data() {
@@ -572,17 +603,16 @@ private Q_SLOTS:
 
         // pin both apps
         launcherModel->pin("abs-icon");
-        launcherModel->pin("no-icon");
+        launcherModel->pin("rel-icon");
         // close both apps
         appManager->removeApplication(0);
         appManager->removeApplication(0);
 
         // "delete" the .desktop files
-        QString oldCurrent = QDir::currentPath();
         if (deleted) {
             // In testing mode, the launcher searches the current dir for the sample .desktop file
-            // We can make that fail by changing the current dir
-            QDir::setCurrent("..");
+            // We can make that fail by moving the applications dir
+            QFile::rename("applications", "applications.old");
         }
 
         // Call refresh
@@ -593,9 +623,6 @@ private Q_SLOTS:
         QCOMPARE(reply.isValid(), true);
 
         QCOMPARE(launcherModel->rowCount(), deleted ? 0 : 2);
-
-        // Restoring current dir
-        QDir::setCurrent(oldCurrent);
     }
 
     void testSettings() {
@@ -607,7 +634,7 @@ private Q_SLOTS:
 
         // pin both apps
         launcherModel->pin("abs-icon");
-        launcherModel->pin("no-icon");
+        launcherModel->pin("rel-icon");
         QCOMPARE(spy.count(), 0);
 
         // Now settings should have 2 apps
@@ -629,9 +656,9 @@ private Q_SLOTS:
         QCOMPARE(launcherModel->rowCount(), 1);
 
         // Add them back but in reverse order
-        settings->simulateDConfChanged(QStringList() << "no-icon" << "abs-icon");
+        settings->simulateDConfChanged(QStringList() << "rel-icon" << "abs-icon");
         QCOMPARE(launcherModel->rowCount(), 2);
-        QCOMPARE(launcherModel->get(0)->appId(), QString("no-icon"));
+        QCOMPARE(launcherModel->get(0)->appId(), QString("rel-icon"));
         QCOMPARE(launcherModel->get(1)->appId(), QString("abs-icon"));
         QCOMPARE(spy.count(), 2);
     }
@@ -641,7 +668,7 @@ private Q_SLOTS:
         QCOMPARE(launcherModel->rowCount(), getASConfig().count());
 
         int oldCount = launcherModel->rowCount();
-        appManager->addApplication(new MockApp("rel-icon"));
+        appManager->addApplication(new MockApp("click-icon"));
         QCOMPARE(launcherModel->rowCount(), oldCount + 1);
         QCOMPARE(launcherModel->rowCount(), getASConfig().count());
     }
@@ -691,6 +718,15 @@ private Q_SLOTS:
         // Make sure it changed to visible and 55
         QCOMPARE(getASConfig().at(index).value("countVisible").toBool(), true);
         QCOMPARE(getASConfig().at(index).value("count").toInt(), 55);
+    }
+
+    void testSurfaceCountUpdates() {
+        QString appId = launcherModel->get(0)->appId();
+
+        QCOMPARE(launcherModel->get(0)->surfaceCount(), 0);
+        MockApp *app = qobject_cast<MockApp*>(appManager->findApplication(appId));
+        app->setSurfaceCount(1);
+        QCOMPARE(launcherModel->get(0)->surfaceCount(), 1);
     }
 };
 

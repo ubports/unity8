@@ -15,7 +15,9 @@
  */
 
 import QtQuick 2.4
+import Ubuntu.Components 1.3
 import Dash 0.1
+import "../Components"
 
 Item {
     id: root
@@ -72,6 +74,7 @@ Item {
     }
 
     Flickable {
+        objectName: "scopesListFlickable"
         anchors {
             top: header.bottom
             bottom: parent.bottom

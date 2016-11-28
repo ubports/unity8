@@ -31,8 +31,11 @@ Item {
     //! Should the widget show in expanded mode (For those that support it)
     property bool expanded: true
 
-    //! Set margins width.
-    property real widgetMargins: units.gu(1)
+    //! Should the orientation be locked
+    property bool orientationLock: false
+
+    //! Should it have margins when on a single columns?
+    property bool singleColumnMarginless: false
 
     /// The parent (vertical) flickable this widget is in (if any)
     property var parentFlickable: null

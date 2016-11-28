@@ -40,6 +40,7 @@ FocusScope {
     readonly property bool dragging: dragArea.dragging
     readonly property real dragDistance: dragArea.dragging ? dragArea.touchPosition.x : 0
     readonly property real visibleWidth: panel.width + panel.x
+    readonly property alias shortcutHintsShown: panel.shortcutHintsShown
 
     readonly property bool shown: panel.x > -panel.width
 
@@ -169,6 +170,7 @@ FocusScope {
             event.accepted = true;
             break;
         case Qt.Key_Right:
+        case Qt.Key_Menu:
             panel.openQuicklist(panel.highlightIndex)
             event.accepted = true;
             break;

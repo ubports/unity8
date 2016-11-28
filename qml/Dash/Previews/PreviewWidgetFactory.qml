@@ -37,8 +37,11 @@ Loader {
     //! Should the widget show in expanded mode (For those that support it)
     property bool expanded: widgetType !== "expandable" || widgetData["expanded"] === true
 
-    //! Set margins width.
-    property real widgetMargins: status === Loader.Ready ? item.widgetMargins : units.gu(1)
+    //! Should the orientation be locked
+    readonly property bool orientationLock: status === Loader.Ready ? item.orientationLock : false
+
+    //! Should it have margins when on a single columns?
+    readonly property bool singleColumnMarginless: status === Loader.Ready ? item.singleColumnMarginless : false
 
     /// The parent (vertical) flickable this widget is in (if any)
     property var parentFlickable: null
@@ -70,7 +73,14 @@ Loader {
             case "reviews": return "PreviewRatingDisplay.qml";
             case "table": return "PreviewTable.qml";
             case "text": return "PreviewTextSummary.qml";
-            case "video": return "PreviewVideoPlayback.qml";
+            case "video": {
+                if (!widgetData) return "";
+                var source = widgetData.hasOwnProperty("source") ? widgetData["source"].toString() : "";
+                if (source.match("^https{0,1}\:") !== null) {
+                    return "PreviewVideoPlayback.qml";
+                }
+                return "PreviewInlineVideo.qml";
+            }
             default: return "";
         }
     }
