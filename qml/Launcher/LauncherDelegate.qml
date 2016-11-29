@@ -22,6 +22,7 @@ Item {
 
     property int itemIndex: 0
     property string iconName
+    property string name
     property int count: 0
     property bool countVisible: false
     property int progress: -1
