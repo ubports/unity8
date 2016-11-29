@@ -657,7 +657,7 @@ FocusScope {
             target: categoryView
 
             readonly property real contentY: categoryView.contentY - categoryView.originY
-            readonly property real headerDividerLuminance: categoryView.pageHeader.headerDividerLuminance
+            readonly property color pullLabelColor: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
             y: -contentY - units.gu(5)
 
             onRefresh: {

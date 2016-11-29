@@ -26,7 +26,6 @@ Item {
     objectName: "pageHeader"
     implicitHeight: headerContainer.height + signatureLineHeight
     readonly property real signatureLineHeight: showSignatureLine ? units.gu(2.5) : headerBottomLine.height
-    readonly property real headerDividerLuminance: Style.luminance(bottomBorder.color)
 
     property int activeFiltersCount: 0
     property bool scopeHasFilters: false
