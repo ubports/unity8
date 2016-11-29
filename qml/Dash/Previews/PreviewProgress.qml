@@ -28,7 +28,7 @@ import Ubuntu.DownloadDaemonListener 0.1
 PreviewWidget {
     id: root
 
-    implicitHeight: progressBar.implicitHeight
+    implicitHeight: progressBar.height
     implicitWidth: progressBar.implicitWidth
 
     ProgressBar {
