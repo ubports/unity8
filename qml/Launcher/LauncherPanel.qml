@@ -795,6 +795,7 @@ Rectangle {
                         highlightColor: !model.clickable ? quickList.color : undefined // make disabled items visually unclickable
                         divider.colorFrom: UbuntuColors.inkstone
                         divider.colorTo: UbuntuColors.inkstone
+                        divider.visible: model.hasSeparator
 
                         Label {
                             id: label

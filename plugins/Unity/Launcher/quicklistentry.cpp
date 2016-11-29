@@ -19,6 +19,7 @@
 #include "quicklistentry.h"
 
 QuickListEntry::QuickListEntry()
+    : m_hasSeparator(false)
 {
 }
 
@@ -55,6 +56,16 @@ void QuickListEntry::setIcon(const QString &icon)
 bool QuickListEntry::clickable() const
 {
     return !m_actionId.isEmpty();
+}
+
+void QuickListEntry::setHasSeparator(bool hasSeparator)
+{
+    m_hasSeparator = hasSeparator;
+}
+
+bool QuickListEntry::hasSeparator() const
+{
+    return m_hasSeparator;
 }
 
 bool QuickListEntry::operator==(const QuickListEntry &other)
