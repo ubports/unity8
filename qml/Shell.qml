@@ -311,8 +311,6 @@ StyledItem {
             keepDashRunning: launcher.shown || launcher.dashSwipe
             altTabPressed: physicalKeysMapper.altTabPressed
             oskEnabled: shell.oskEnabled
-
-            // TODO: This is not implemented yet in the new stage...
             spreadEnabled: tutorial.spreadEnabled && (!greeter || (!greeter.hasLockedApp && !greeter.shown))
         }
     }
