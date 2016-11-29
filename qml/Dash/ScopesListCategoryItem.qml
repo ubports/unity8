@@ -49,6 +49,7 @@ AbstractButton {
             width: units.gu(5)
             height: units.gu(5)
             visible: !hideChildren
+            aspect: UbuntuShape.Flat
             sourceFillMode: UbuntuShape.PreserveAspectCrop
             source: Image {
                 id: shapeImage
