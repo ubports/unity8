@@ -458,7 +458,7 @@ Rectangle {
                             // First/last item do the scrolling at more than 12 degrees
                             if (index == 0 || index == launcherListView.count - 1) {
                                 launcherListView.moveToIndex(index);
-                                if (pressedStartAngle < 12 && pressedStartAngle > -12) {
+                                if (pressedStartAngle <= 12 && pressedStartAngle >= -12) {
                                     root.applicationSelected(LauncherModel.get(index).appId);
                                 }
                                 return;
