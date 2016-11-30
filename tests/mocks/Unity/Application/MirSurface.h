@@ -23,30 +23,11 @@
 #include <QHash>
 
 // unity-api
-#include <unity/shell/application/MirFocusControllerInterface.h>
 #include <unity/shell/application/MirSurfaceInterface.h>
 
 #include "MirSurfaceListModel.h"
 
 class MirSurface;
-
-class MirFocusController : public unity::shell::application::MirFocusControllerInterface
-{
-    Q_OBJECT
-public:
-    MirFocusController();
-    virtual ~MirFocusController();
-    static MirFocusController* instance();
-
-    void setFocusedSurface(unity::shell::application::MirSurfaceInterface *surface) override;
-    unity::shell::application::MirSurfaceInterface* focusedSurface() const override { return m_focusedSurface; }
-    unity::shell::application::MirSurfaceInterface* previouslyFocusedSurface() { return m_previouslyFocusedSurface; }
-    void clear();
-private:
-    static MirFocusController *m_instance;
-    unity::shell::application::MirSurfaceInterface* m_previouslyFocusedSurface{nullptr};
-    unity::shell::application::MirSurfaceInterface* m_focusedSurface{nullptr};
-};
 
 class MirSurface : public unity::shell::application::MirSurfaceInterface
 {
@@ -58,6 +39,7 @@ class MirSurface : public unity::shell::application::MirSurfaceInterface
     Q_PROPERTY(int height READ height NOTIFY heightChanged)
     Q_PROPERTY(bool activeFocus READ activeFocus NOTIFY activeFocusChanged)
     Q_PROPERTY(bool slowToResize READ isSlowToResize WRITE setSlowToResize NOTIFY slowToResizeChanged)
+    Q_PROPERTY(bool exposed READ exposed NOTIFY exposedChanged)
 
 public:
     MirSurface(const QString& name,
@@ -76,13 +58,14 @@ public:
 
     QString persistentId() const override;
 
+    QPoint position() const override { return m_position; }
+
     QSize size() const override { return QSize(width(),height()); }
     void resize(int width, int height) override;
     void resize(const QSize &size) override { resize(size.width(), size.height()); }
 
 
     Mir::State state() const override;
-    Q_INVOKABLE void setState(Mir::State) override;
 
     bool live() const override;
 
@@ -108,15 +91,16 @@ public:
 
     bool confinesMousePointer() const override { return false; }
 
-    Q_INVOKABLE void requestFocus() override;
+    QPoint requestedPosition() const override { return m_requestedPosition; }
+    void setRequestedPosition(const QPoint &) override;
 
     Q_INVOKABLE void close() override;
-
-    Q_INVOKABLE void raise() override;
+    Q_INVOKABLE void activate() override;
 
     ////
     // API for tests
 
+    Q_INVOKABLE void requestFocus();
     Q_INVOKABLE void setLive(bool live);
     Q_INVOKABLE void setShellChrome(Mir::ShellChrome shellChrome);
 
@@ -125,6 +109,8 @@ public:
 
     bool isSlowToResize() const;
     void setSlowToResize(bool value);
+
+    bool exposed() const { return m_exposed; }
 
     Q_INVOKABLE void setMinimumWidth(int);
     Q_INVOKABLE void setMaximumWidth(int);
@@ -148,10 +134,17 @@ public:
 
     void registerView(qintptr viewId);
     void unregisterView(qintptr viewId);
-    void setViewVisibility(qintptr viewId, bool visible);
+    void setViewExposure(qintptr viewId, bool visible);
     int viewCount() const { return m_views.count(); }
 
     void setFocused(bool value);
+
+    void setState(Mir::State state);
+
+public Q_SLOTS:
+    ////
+    // unity.shell.application.MirSurface
+    void requestState(Mir::State) override;
 
 Q_SIGNALS:
     ////
@@ -159,13 +152,14 @@ Q_SIGNALS:
     void widthChanged();
     void heightChanged();
     void slowToResizeChanged();
+    void exposedChanged(bool exposed);
 
     ////
     // internal mock stuff
     void screenshotUrlChanged(QUrl);
     void activeFocusChanged(bool);
-    void raiseRequested();
     void closeRequested();
+    void stateRequested(Mir::State);
 
 protected:
     virtual void updateInputBoundsAfterResize();
@@ -175,7 +169,7 @@ private Q_SLOTS:
 
 private:
     void doResize(int width, int height);
-    void updateVisibility();
+    void updateExposure();
 
     const QString m_name;
     const Mir::Type m_type;
@@ -185,7 +179,7 @@ private:
     QUrl m_screenshotUrl;
     QUrl m_qmlFilePath;
     bool m_live;
-    bool m_visible;
+    bool m_focused;
     bool m_activeFocus;
     int m_width;
     int m_height;
@@ -210,10 +204,14 @@ private:
         bool visible;
     };
     QHash<qintptr, View> m_views;
+    bool m_exposed{false};
 
     QTimer m_zombieTimer;
 
     QRect m_inputBounds;
+
+    QPoint m_position;
+    QPoint m_requestedPosition;
 };
 
 #endif // MOCK_MIR_SURFACE_H

@@ -149,7 +149,7 @@ Column {
             width: height
             height: promptsLabel.height * 0.7
             anchors.verticalCenter: parent.verticalCenter
-            onClicked: d.application.promptSurfaceList.createSurface()
+            onClicked: d.application.createPromptSurface()
             Label { text: "➕"; anchors.centerIn: parent }
         }
         MouseArea {

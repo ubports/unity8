@@ -638,18 +638,17 @@ TestCase {
     }
 
     /*
-         kill all (fake) running apps but unity8-dash, bringing Unity.Application back to its initial state
+         kill all (fake) running apps, bringing Unity.Application back to its initial state
      */
     function killApps() {
-        while (ApplicationManager.count > 1) {
-            var appIndex = ApplicationManager.get(0).appId == "unity8-dash" ? 1 : 0
-            var application = ApplicationManager.get(appIndex);
+        while (ApplicationManager.count > 0) {
+            var application = ApplicationManager.get(0);
             ApplicationManager.stopApplication(application.appId);
             // wait until all zombie surfaces are gone. As MirSurfaceItems hold references over them.
             // They won't be gone until those surface items are destroyed.
             tryCompareFunction(function() { return application.surfaceList.count }, 0);
             tryCompare(application, "state", ApplicationInfo.Stopped);
         }
-        compare(ApplicationManager.count, 1);
+        compare(ApplicationManager.count, 0);
     }
 }

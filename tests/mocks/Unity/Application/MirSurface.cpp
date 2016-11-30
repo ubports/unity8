@@ -19,14 +19,18 @@
 #include <QDebug>
 #include <QQmlEngine>
 
+// local
+#include "SurfaceManager.h"
+
 #define MIRSURFACE_DEBUG 0
 
 #if MIRSURFACE_DEBUG
 #define DEBUG_MSG(params) qDebug().nospace() << "MirSurface[" << (void*)this << "," << m_name << "]::" << __func__  << " " << params
+#define XDEBUG_MSG(params) qDebug().nospace() << "MirSurface[" << (void*)this << "," << m_name << "]::" << params
 
 const char *stateToStr(Mir::State state)
 {
-    switch(state) {
+    switch (state) {
     case Mir::UnknownState:
         return "unknown";
     case Mir::RestoredState:
@@ -36,25 +40,36 @@ const char *stateToStr(Mir::State state)
     case Mir::MaximizedState:
         return "maximized";
     case Mir::VertMaximizedState:
-        return "vert-maximized";
+        return "vertMaximized";
     case Mir::FullscreenState:
         return "fullscreen";
     case Mir::HorizMaximizedState:
-        return "horiz-maximized";
+        return "horizMaximized";
+    case Mir::MaximizedLeftState:
+        return "maximizedLeft";
+    case Mir::MaximizedRightState:
+        return "maximizedRight";
+    case Mir::MaximizedTopLeftState:
+        return "maximizedTopLeft";
+    case Mir::MaximizedTopRightState:
+        return "maximizedTopRight";
+    case Mir::MaximizedBottomLeftState:
+        return "maximizedBottomLeft";
+    case Mir::MaximizedBottomRightState:
+        return "maximizedBottomRight";
     case Mir::HiddenState:
         return "hidden";
     default:
         return "???";
-    };
+    }
 }
 
 #else
 #define DEBUG_MSG(params) ((void)0)
+#define XDEBUG_MSG(params) ((void)0)
 #endif
 
 using namespace unity::shell::application;
-
-MirFocusController *MirFocusController::m_instance = nullptr;
 
 MirSurface::MirSurface(const QString& name,
         Mir::Type type,
@@ -69,7 +84,7 @@ MirSurface::MirSurface(const QString& name,
     , m_screenshotUrl(screenshot)
     , m_qmlFilePath(qmlFilePath)
     , m_live(true)
-    , m_visible(true)
+    , m_focused(false)
     , m_activeFocus(false)
     , m_width(-1)
     , m_height(-1)
@@ -95,11 +110,8 @@ MirSurface::~MirSurface()
 {
     DEBUG_MSG("");
 
-    // controller instance might have been already destroyed by QQmlEngine destructor
-    auto controller = MirFocusController::instance();
-    if (controller && controller->focusedSurface() == this) {
-        controller->clear();
-    }
+    // Early warning, while MirSurface methods can still be accessed.
+    Q_EMIT destroyed(this);
 }
 
 QString MirSurface::name() const
@@ -122,14 +134,31 @@ Mir::State MirSurface::state() const
     return m_state;
 }
 
+void MirSurface::requestState(Mir::State state)
+{
+    if (state == m_state) {
+        return;
+    }
+    DEBUG_MSG(stateToStr(state));
+    Q_EMIT stateRequested(state);
+}
+
 void MirSurface::setState(Mir::State state)
 {
-    if (state == m_state)
+    if (state == m_state) {
         return;
-
+    }
     DEBUG_MSG(stateToStr(state));
+
+    bool oldVisible = visible();
+
     m_state = state;
     Q_EMIT stateChanged(state);
+
+    if (visible() != oldVisible) {
+        XDEBUG_MSG("visibleChanged("<<visible()<<")");
+        Q_EMIT visibleChanged(visible());
+    }
 }
 
 bool MirSurface::live() const
@@ -139,7 +168,7 @@ bool MirSurface::live() const
 
 bool MirSurface::visible() const
 {
-    return m_visible;
+    return m_state != Mir::MinimizedState && m_state != Mir::HiddenState;
 }
 
 void MirSurface::setLive(bool live)
@@ -231,31 +260,30 @@ void MirSurface::unregisterView(qintptr viewId)
     if (!m_live && m_views.count() == 0) {
         deleteLater();
     }
-    updateVisibility();
+    updateExposure();
 }
 
-void MirSurface::setViewVisibility(qintptr viewId, bool visible)
+void MirSurface::setViewExposure(qintptr viewId, bool visible)
 {
     if (!m_views.contains(viewId)) return;
 
     m_views[viewId].visible = visible;
-    updateVisibility();
+    updateExposure();
 }
 
-void MirSurface::updateVisibility()
+void MirSurface::updateExposure()
 {
-    bool newVisible = false;
+    bool newExposure = false;
     QHashIterator<qintptr, View> i(m_views);
     while (i.hasNext()) {
         i.next();
-        newVisible |= i.value().visible;
+        newExposure |= i.value().visible;
     }
 
-    if (newVisible != visible()) {
-//        qDebug().nospace() << "MirSurface[" << name() << "]::updateVisibility(" << newVisible << ")";
-
-        m_visible = newVisible;
-        Q_EMIT visibleChanged(m_visible);
+    if (newExposure != m_exposed) {
+        m_exposed = newExposure;
+        DEBUG_MSG(m_exposed);
+        Q_EMIT exposedChanged(m_exposed);
         updateInputBoundsAfterResize();
     }
 }
@@ -273,6 +301,10 @@ void MirSurface::setActiveFocus(bool value)
     m_activeFocus = value;
 
     Q_EMIT activeFocusChanged(value);
+
+    if (m_activeFocus && !m_focused) {
+        requestFocus();
+    }
 }
 
 int MirSurface::width() const
@@ -332,6 +364,7 @@ void MirSurface::doResize(int width, int height)
     }
 
     if (changed) {
+        XDEBUG_MSG("sizeChanged(width="<<width<<", height="<<height<<")");
         Q_EMIT sizeChanged(QSize(width, height));
     }
 
@@ -409,11 +442,6 @@ void MirSurface::setHeightIncrement(int value)
     }
 }
 
-void MirSurface::raise()
-{
-    Q_EMIT raiseRequested();
-}
-
 void MirSurface::close()
 {
     DEBUG_MSG("");
@@ -421,6 +449,12 @@ void MirSurface::close()
         m_zombieTimer.start();
         Q_EMIT closeRequested();
     }
+}
+
+void MirSurface::activate()
+{
+    DEBUG_MSG("");
+    SurfaceManager::instance()->activate(this);
 }
 
 void MirSurface::requestFocus()
@@ -431,27 +465,18 @@ void MirSurface::requestFocus()
 
 void MirSurface::setFocused(bool value)
 {
-    DEBUG_MSG(value);
-
-    auto controller = MirFocusController::instance();
-    // controller instance might have been already destroyed by QQmlEngine destructor
-    if (!controller) {
+    if (m_focused == value)
         return;
-    }
 
-    if (value) {
-        controller->setFocusedSurface(this);
-    } else if (controller->focusedSurface() == this) {
-        controller->setFocusedSurface(nullptr);
-    }
+    DEBUG_MSG("(" << value << ")");
+
+    m_focused = value;
+    Q_EMIT focusedChanged(value);
 }
 
 bool MirSurface::focused() const
 {
-    auto controller = MirFocusController::instance();
-
-    // controller instance might have been already destroyed by QQmlEngine destructor
-    return controller ? controller->focusedSurface() == this : false;
+    return m_focused;
 }
 
 QRect MirSurface::inputBounds() const
@@ -463,58 +488,20 @@ void MirSurface::setInputBounds(const QRect &boundsRect)
 {
     if (boundsRect != m_inputBounds) {
         m_inputBounds = boundsRect;
+        DEBUG_MSG("(" << m_inputBounds << ")");
         Q_EMIT inputBoundsChanged(m_inputBounds);
     }
 }
-#if MIRSURFACE_DEBUG
-#undef DEBUG_MSG
-#define DEBUG_MSG(params) qDebug().nospace() << "MirFocusController::" << __func__  << " " << params
-#endif
 
-void MirFocusController::setFocusedSurface(MirSurfaceInterface *surface)
+void MirSurface::setRequestedPosition(const QPoint &value)
 {
-    if (m_focusedSurface == surface) {
-        return;
+    if (value != m_requestedPosition) {
+        m_requestedPosition = value;
+        Q_EMIT requestedPositionChanged(value);
+
+        // fake-miral: always comply
+        m_position = m_requestedPosition;
+        XDEBUG_MSG("positionChanged("<<m_position<<")");
+        Q_EMIT positionChanged(m_position);
     }
-    DEBUG_MSG("MirSurface[" << (void*)surface << "," << (surface?surface->name():"") << "]");
-
-    m_previouslyFocusedSurface = m_focusedSurface;
-    m_focusedSurface = surface;
-
-    if (m_previouslyFocusedSurface != m_focusedSurface) {
-        Q_EMIT focusedSurfaceChanged();
-    }
-
-    if (m_previouslyFocusedSurface) {
-        Q_EMIT m_previouslyFocusedSurface->focusedChanged(false);
-    }
-
-    if (m_focusedSurface) {
-        Q_EMIT m_focusedSurface->focusedChanged(true);
-        m_focusedSurface->raise();
-    }
-}
-
-MirFocusController* MirFocusController::instance()
-{
-    return m_instance;
-}
-
-MirFocusController::MirFocusController()
-{
-    DEBUG_MSG("");
-    Q_ASSERT(m_instance == nullptr);
-    m_instance = this;
-}
-
-MirFocusController::~MirFocusController()
-{
-    Q_ASSERT(m_instance == this);
-    m_instance = nullptr;
-}
-
-void MirFocusController::clear()
-{
-    m_focusedSurface = m_previouslyFocusedSurface = nullptr;
-    Q_EMIT focusedSurfaceChanged();
 }
