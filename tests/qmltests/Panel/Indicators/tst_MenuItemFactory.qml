@@ -369,9 +369,9 @@ Item {
 
         function test_create_switchMenu_data() {
             return [
-                {label: "testLabel1", enabled: true, checked: false, icon: "file:///testIcon1"},
-                {label: "testLabel2", enabled: false, checked: true, icon: "file:///testIcon2", subtitleAction: "action::subtitle1"},
-                {label: "testLabel2", enabled: false, checked: true, icon: "file:///testIcon3", subtitleAction: "action::subtitle2"},
+                {label: "testLabel1", enabled: true, checked: false, icon: "file:///testIcon1" },
+                {label: "testLabel2", enabled: false, checked: true, icon: "file:///testIcon2", subtitleAction: "action::subtitle1" },
+                {label: "testLabel2", enabled: false, checked: true, icon: "file:///testIcon3", subtitleAction: "action::subtitle2" },
             ];
         }
 
