@@ -102,8 +102,6 @@ QVariant ApplicationManager::data(const QModelIndex& index, int role) const {
         return app->comment();
     case RoleIcon:
         return app->icon();
-    case RoleStage:
-        return app->stage();
     case RoleState:
         return app->state();
     case RoleFocused:
@@ -165,11 +163,6 @@ bool ApplicationManager::add(ApplicationInfo *application) {
         QModelIndex appIndex = findIndex(application);
         if (!appIndex.isValid()) return;
         Q_EMIT dataChanged(appIndex, appIndex, QVector<int>() << ApplicationManager::RoleState);
-    });
-    connect(application, &ApplicationInfo::stageChanged, this, [application, this]() {
-        QModelIndex appIndex = findIndex(application);
-        if (!appIndex.isValid()) return;
-        Q_EMIT dataChanged(appIndex, appIndex, QVector<int>() << ApplicationManager::RoleStage);
     });
 
     connect(application, &ApplicationInfo::closed, this, [application, this]() {
@@ -302,6 +295,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setAppId("unity8-dash");
     application->setName("Unity 8 Mock Dash");
     application->setScreenshotId("unity8-dash");
+    application->setIconId("dash");
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
@@ -344,7 +338,6 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setScreenshotId("gallery");
     application->setIconId("gallery");
     application->setShellChrome(Mir::LowChrome);
-    application->setStage(ApplicationInfo::MainStage);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
@@ -381,7 +374,6 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("GMail");
     application->setIconId("gmail");
     application->setScreenshotId("gmail-webapp.svg");
-    application->setStage(ApplicationInfo::MainStage);
     application->setSupportedOrientations(Qt::PortraitOrientation
                                         | Qt::LandscapeOrientation
                                         | Qt::InvertedPortraitOrientation
@@ -393,7 +385,6 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("Music");
     application->setIconId("soundcloud");
     application->setScreenshotId("music");
-    application->setStage(ApplicationInfo::MainStage);
     application->setSupportedOrientations(Qt::PortraitOrientation
                                         | Qt::LandscapeOrientation
                                         | Qt::InvertedPortraitOrientation
@@ -413,6 +404,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setAppId("notes-app");
     application->setName("Notepad");
     application->setIconId("notepad");
+//    application->setStage(ApplicationInfoInterface::SideStage);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);

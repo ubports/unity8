@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014, 2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,21 +53,6 @@ Item {
             function getRaw(id) {
                 return mockNotification.createObject(mockModel)
             }
-
-            // add the default/PlaceHolder notification to the model
-            Component.onCompleted: {
-                var n = {
-                    type: Notification.PlaceHolder,
-                    hints: {},
-                    summary: "",
-                    body: "",
-                    icon: "",
-                    secondaryIcon: "",
-                    actions: []
-                }
-
-                append(n)
-            }
         }
 
         function addSwipeToActNotification() {
@@ -93,8 +78,9 @@ Item {
         }
 
         function remove1stNotification() {
-            if (mockModel.count > 0)
-                mockModel.remove(0)
+            if (mockModel.count > 0) {
+                mockModel.remove(0);
+            }
         }
 
         Rectangle {

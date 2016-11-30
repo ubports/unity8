@@ -112,8 +112,6 @@ Item {
             anchors.fill: parent
             orientation: ListView.Horizontal
             boundsBehavior: Flickable.DragAndOvershootBounds
-            flickDeceleration: units.gu(625)
-            maximumFlickVelocity: width * 5
             snapMode: ListView.SnapOneItem
             highlightMoveDuration: 250
             highlightRangeMode: ListView.StrictlyEnforceRange

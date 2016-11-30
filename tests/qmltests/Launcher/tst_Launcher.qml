@@ -113,6 +113,10 @@ Rectangle {
             }
             Label {
                 text: "Launcher always visible"
+                AbstractButton {
+                    anchors.fill: parent
+                    onClicked: lockedVisibleCheckBox.checked = !lockedVisibleCheckBox.checked
+                }
             }
         }
 
@@ -261,9 +265,15 @@ Rectangle {
             // iteration to do its work. So to ensure the reload, we will wait until the
             // Shell instance gets destroyed.
             tryCompare(launcherLoader, "itemDestroyed", true);
-            launcherLoader.active = true;
         }
+
+        function initLauncher() {
+            launcherLoader.active = true;
+            tryCompare(launcherLoader, "itemDestroyed", false);
+        }
+
         function init() {
+            initLauncher();
             var panel = findChild(launcher, "launcherPanel");
             verify(!!panel);
 
@@ -279,7 +289,7 @@ Rectangle {
             // growing while populating it with icons etc.
             tryCompare(listView, "flicking", false);
 
-            compare(listView.contentY, -listView.topMargin, "Launcher did not start up with first item unfolded");
+            tryCompare(listView, "contentY", -listView.topMargin, 5000, "Launcher did not start up with first item unfolded");
 
             // Now do check that snapping is in fact enabled
             compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
@@ -287,12 +297,16 @@ Rectangle {
             removeTimeConstraintsFromSwipeAreas(root);
         }
 
-        function dragLauncherIntoView() {
+        function dragLauncher() {
             var startX = launcher.dragAreaWidth/2;
             var startY = launcher.height/2;
             touchFlick(launcher,
                        startX, startY,
                        startX+units.gu(8), startY);
+        }
+
+        function dragLauncherIntoView() {
+            dragLauncher();
 
             var panel = findChild(launcher, "launcherPanel");
             verify(!!panel);
@@ -534,6 +548,7 @@ Rectangle {
         }
 
         function test_clickFlick_data() {
+            initLauncher()
             var listView = findChild(launcher, "launcherListView");
             return [
                 {tag: "unfolded top", positionViewAtBeginning: true,
@@ -1165,7 +1180,14 @@ Rectangle {
             tryCompare(shortCutHint0, "visible", false);
         }
 
-        function test_keyboardNavigation() {
+        function test_keyboardNavigation_data() {
+            return [
+                {tag: "right key", key: Qt.Key_Right},
+                {tag: "menu key", key: Qt.Key_Menu}
+            ]
+        }
+
+        function test_keyboardNavigation(data) {
             var bfbFocusHighlight = findChild(launcher, "bfbFocusHighlight");
             var quickList = findChild(launcher, "quickList");
             var launcherPanel = findChild(launcher, "launcherPanel");
@@ -1206,7 +1228,7 @@ Rectangle {
             assertFocusOnIndex(0); // Back to Top
 
             // Right opens the quicklist
-            keyClick(Qt.Key_Right);
+            keyClick(data.key);
             assertFocusOnIndex(0); // Navigating the quicklist... the launcher focus should not move
             tryCompare(quickList, "visible", true);
             tryCompare(quickList, "selectedIndex", 0)
@@ -1345,6 +1367,27 @@ Rectangle {
             clickThroughSpy.signalName = "clicked";
             mouseWheel(launcherPanel, launcherPanel.width/2, launcherPanel.height/2, Qt.RightButton);
             tryCompare(clickThroughSpy, "count", 0);
+        }
+
+        function test_launcherEnabledSetting() {
+            launcher.available = true;
+
+            dragLauncherIntoView();
+            var launcherPanel = findChild(launcher, "launcherPanel");
+            compare(launcherPanel.x, 0);
+
+            launcher.available = true;
+        }
+
+        function test_launcherDisabledSetting() {
+            launcher.available = false;
+
+            //We don't actually care that it's visible, so juct use dragLauncher() rather than dragLauncherIntoView()
+            dragLauncher();
+            var launcherPanel = findChild(launcher, "launcherPanel");
+            compare(launcherPanel.x, -launcherPanel.width);
+
+            launcher.available = true;
         }
     }
 }

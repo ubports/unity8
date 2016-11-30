@@ -1,7 +1,7 @@
 AbstractButton { 
                 id: root; 
                 property var cardData; 
-                property string backgroundShapeStyle: "inset"; 
+                property string backgroundShapeStyle: "flat"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null;
                 readonly property string title: cardData && cardData["title"] || "";
@@ -11,7 +11,6 @@ AbstractButton {
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
 signal action(var actionId);
-readonly property size artShapeSize: Qt.size(-1, -1);
 readonly property int headerHeight: row.height;
 Row { 
                     id: row; 
@@ -32,7 +31,7 @@ Loader {
                         objectName: "mascotShapeLoader"; 
                         asynchronous: true;
                         active: mascotImage.status === Image.Ready;
-                        visible: showHeader && active && status == Loader.Ready; 
+                        visible: showHeader && active && status === Loader.Ready;
                         width: units.gu(6); 
                         height: units.gu(5.625); 
                         sourceComponent: UbuntuShape { image: mascotImage }
@@ -73,7 +72,7 @@ Label {
                     visible: showHeader ; 
                     width: undefined;
                     text: root.title; 
-                    font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
+                    font.weight: Font.Normal; 
                     horizontalAlignment: Text.AlignLeft;
                 }
 ,Label { 
@@ -98,13 +97,15 @@ Label {
 }
 ]
 }
-UbuntuShape {
-    id: touchdown;
-    objectName: "touchdown";
+Loader {
+    active: root.pressed;
     anchors { fill: root }
-    visible: root.pressed;
-    radius: "medium";
-    borderSource: "radius_pressed.sci"
+    sourceComponent: UbuntuShape {
+        objectName: "touchdown";
+        anchors.fill: parent;
+        radius: "small";
+        borderSource: "radius_pressed.sci"
+    }
 }
 implicitHeight: row.y + row.height + units.gu(1);
 }

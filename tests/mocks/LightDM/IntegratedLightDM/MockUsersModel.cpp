@@ -19,6 +19,11 @@
 #include <QLightDM/UsersModel>
 #include <QSortFilterProxyModel>
 
+MockUsersModel::MockUsersModel(QObject* parent)
+    : UsersModel(parent)
+{
+}
+
 QString MockUsersModel::mockMode() const
 {
     QLightDM::UsersModel* qUsersModel =

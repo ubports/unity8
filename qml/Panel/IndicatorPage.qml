@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3 as Components
 import Unity.Indicators 0.1 as Indicators
+import "../Components"
 import "Indicators"
 
 IndicatorBase {

@@ -43,6 +43,7 @@ MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
     , m_qmlContentComponent(nullptr)
     , m_qmlItem(nullptr)
     , m_consumesInput(false)
+    , m_orientationAngle(nullptr)
     , m_surfaceWidth(0)
     , m_surfaceHeight(0)
     , m_touchPressCount(0)
@@ -59,15 +60,20 @@ MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
 
     connect(this, &QQuickItem::activeFocusChanged, this, &MirSurfaceItem::updateMirSurfaceActiveFocus);
     connect(this, &QQuickItem::visibleChanged, this, &MirSurfaceItem::updateMirSurfaceVisibility);
+
     connect(this, &MirSurfaceItem::consumesInputChanged, this, [this]() {
         updateMirSurfaceActiveFocus(hasActiveFocus());
     });
+
+    // We're just clipping contents in the mock. The real QtMir would copy only relevant buffer instead
+    setClip(true);
 }
 
 MirSurfaceItem::~MirSurfaceItem()
 {
     DEBUG_MSG((void*)(this) << name());
     setSurface(nullptr);
+    delete m_orientationAngle;
 }
 
 void MirSurfaceItem::printComponentErrors()
@@ -125,7 +131,10 @@ Mir::ShellChrome MirSurfaceItem::shellChrome() const
 
 Mir::OrientationAngle MirSurfaceItem::orientationAngle() const
 {
-    if (m_qmlSurface) {
+    if (m_orientationAngle) {
+        Q_ASSERT(!m_qmlSurface);
+        return *m_orientationAngle;
+    } else if (m_qmlSurface) {
         return m_qmlSurface->orientationAngle();
     } else {
         return Mir::Angle0;
@@ -134,16 +143,24 @@ Mir::OrientationAngle MirSurfaceItem::orientationAngle() const
 
 void MirSurfaceItem::setOrientationAngle(Mir::OrientationAngle angle)
 {
-    if (!m_qmlSurface)
-        return;
+    DEBUG_MSG(angle);
 
-    if (m_qmlSurface->orientationAngle() == angle)
-        return;
+    if (m_qmlSurface) {
+        Q_ASSERT(!m_orientationAngle);
+        m_qmlSurface->setOrientationAngle(angle);
+    } else if (!m_orientationAngle) {
+        m_orientationAngle = new Mir::OrientationAngle;
+        *m_orientationAngle = angle;
+        Q_EMIT orientationAngleChanged(angle);
+    } else if (*m_orientationAngle != angle) {
+        *m_orientationAngle = angle;
+        Q_EMIT orientationAngleChanged(angle);
+    }
 
-    m_qmlSurface->setOrientationAngle(angle);
-
-    QQmlProperty orientationProp(m_qmlItem, "orientationAngle");
-    orientationProp.write(QVariant::fromValue(m_qmlSurface->orientationAngle()));
+    if (m_qmlItem) {
+        QQmlProperty orientationProp(m_qmlItem, "orientationAngle");
+        orientationProp.write(QVariant::fromValue(orientationAngle()));
+    }
 }
 
 void MirSurfaceItem::updateScreenshot(QUrl screenshotUrl)
@@ -168,12 +185,20 @@ void MirSurfaceItem::createQmlContentItem()
     m_qmlItem = qobject_cast<QQuickItem*>(m_qmlContentComponent->create());
     m_qmlItem->setParentItem(this);
 
+    m_qmlItem->setWidth(m_surfaceWidth);
+    m_qmlItem->setHeight(m_surfaceHeight);
+
     setImplicitWidth(m_qmlItem->implicitWidth());
     setImplicitHeight(m_qmlItem->implicitHeight());
 
     {
         QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");
         screenshotSource.write(QVariant::fromValue(m_qmlSurface->screenshotUrl()));
+    }
+
+    {
+        QQmlProperty orientationProp(m_qmlItem, "orientationAngle");
+        orientationProp.write(QVariant::fromValue(orientationAngle()));
     }
 }
 
@@ -255,7 +280,16 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
         updateSurfaceSize();
         updateMirSurfaceVisibility();
 
-        connect(m_qmlSurface, &MirSurface::orientationAngleChanged, this, &MirSurfaceItem::orientationAngleChanged);
+        if (m_orientationAngle) {
+            m_qmlSurface->setOrientationAngle(*m_orientationAngle);
+            connect(m_qmlSurface, &MirSurfaceInterface::orientationAngleChanged, this, &MirSurfaceItem::orientationAngleChanged);
+            delete m_orientationAngle;
+            m_orientationAngle = nullptr;
+        } else {
+            connect(m_qmlSurface, &MirSurfaceInterface::orientationAngleChanged, this, &MirSurfaceItem::orientationAngleChanged);
+            Q_EMIT orientationAngleChanged(m_qmlSurface->orientationAngle());
+        }
+
         connect(m_qmlSurface, &MirSurface::screenshotUrlChanged, this, &MirSurfaceItem::updateScreenshot);
         connect(m_qmlSurface, &MirSurface::liveChanged, this, &MirSurfaceItem::liveChanged);
         connect(m_qmlSurface, &MirSurface::stateChanged, this, &MirSurfaceItem::surfaceStateChanged);
@@ -323,6 +357,7 @@ int MirSurfaceItem::surfaceWidth() const
 
 void MirSurfaceItem::setSurfaceWidth(int value)
 {
+//    qDebug() << "setSurfaceWidth called" << value;
     if (value != -1 && m_surfaceWidth != value) {
         m_surfaceWidth = value;
         Q_EMIT surfaceWidthChanged(m_surfaceWidth);
@@ -348,6 +383,11 @@ void MirSurfaceItem::updateSurfaceSize()
 {
     if (m_qmlSurface && m_surfaceWidth > 0 && m_surfaceHeight > 0) {
         m_qmlSurface->resize(m_surfaceWidth, m_surfaceHeight);
+        if (m_qmlItem) {
+            m_qmlItem->setWidth(m_surfaceWidth);
+            m_qmlItem->setHeight(m_surfaceHeight);
+        }
+        setImplicitSize(m_surfaceWidth, m_surfaceHeight);
     }
 }
 

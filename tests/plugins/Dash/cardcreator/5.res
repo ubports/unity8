@@ -1,7 +1,7 @@
 AbstractButton { 
                 id: root; 
                 property var cardData; 
-                property string backgroundShapeStyle: "inset"; 
+                property string backgroundShapeStyle: "flat"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
                 readonly property string title: cardData && cardData["title"] || "";
@@ -11,24 +11,21 @@ AbstractButton {
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
 signal action(var actionId);
-readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
-Item  { 
-                            id: artShapeHolder; 
-                            height: root.fixedArtShapeSize.height;
-                            width: root.fixedArtShapeSize.width;
-                            anchors { horizontalCenter: parent.horizontalCenter; } 
-                            Loader { 
+Loader  {
                                 id: artShapeLoader; 
+                                height: root.fixedArtShapeSize.height; 
+                                width: root.fixedArtShapeSize.width; 
+                                anchors { horizontalCenter: parent.horizontalCenter; }
                                 objectName: "artShapeLoader"; 
                                 readonly property string cardArt: cardData && cardData["art"] || "";
                                 onCardArtChanged: { if (item) { item.image.source = cardArt; } }
                                 active: cardArt != "";
                                 asynchronous: true;
-                                visible: status == Loader.Ready;
+                                visible: status === Loader.Ready;
                                 sourceComponent: Item {
                                     id: artShape;
                                     objectName: "artShape";
-                                    visible: image.status == Image.Ready;
+                                    visible: image.status === Image.Ready;
                                     readonly property alias image: artImage;
                                     width: root.fixedArtShapeSize.width;
                                     height: root.fixedArtShapeSize.height;
@@ -42,20 +39,19 @@ Item  {
                                         height: width / (root.fixedArtShapeSize.width / root.fixedArtShapeSize.height);
                                     }
                                 } 
-                            }
                         }
 Loader { 
                             id: overlayLoader; 
                             readonly property real overlayHeight: root.fixedHeaderHeight + units.gu(2);
-                            anchors.fill: artShapeHolder; 
+                            anchors.fill: artShapeLoader;
                             active: artShapeLoader.active && artShapeLoader.item && artShapeLoader.item.image.status === Image.Ready || false; 
                             asynchronous: true;
-                            visible: showHeader && status == Loader.Ready; 
+                            visible: showHeader && status === Loader.Ready;
                             sourceComponent: UbuntuShapeOverlay { 
                                 id: overlay; 
                                 property real luminance: Style.luminance(overlayColor); 
                                 aspect: UbuntuShape.Flat; 
-                                radius: "medium"; 
+                                radius: "small"; 
                                 overlayColor: cardData && cardData["overlayColor"] || "#99000000"; 
                                 overlayRect: Qt.rect(0, 1 - overlayLoader.overlayHeight / height, 1, 1); 
                             } 
@@ -80,7 +76,7 @@ Label {
                         visible: showHeader && overlayLoader.active; 
                         width: undefined;
                         text: root.title; 
-                        font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
+                        font.weight: Font.Normal; 
                         horizontalAlignment: Text.AlignLeft;
                     }
 Label { 
@@ -102,5 +98,5 @@ Label {
                             text: cardData && cardData["subtitle"] || ""; 
                             font.weight: Font.Light; 
                         }
-implicitHeight: artShapeHolder.height;
+implicitHeight: artShapeLoader.height;
 }

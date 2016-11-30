@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2015 Canonical, Ltd.
+ * Copyright (C) 2013,2015,2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,13 +18,15 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
 import Ubuntu.Components.ListItems 1.3
+import Utils 0.1
 import "../Components"
 
 Item {
     id: root
     objectName: "pageHeader"
     implicitHeight: headerContainer.height + signatureLineHeight
-    readonly property real signatureLineHeight: showSignatureLine ? units.gu(2) : 0
+    readonly property real signatureLineHeight: showSignatureLine ? units.gu(2.5) : headerBottomLine.height
+    readonly property real headerDividerLuminance: Style.luminance(bottomBorder.color)
 
     property int activeFiltersCount: 0
     property bool scopeHasFilters: false
@@ -42,7 +44,7 @@ Item {
     property ListModel searchHistory
     property alias searchQuery: searchTextField.text
     property alias searchHint: searchTextField.placeholderText
-    property bool showSignatureLine: true
+    property bool showSignatureLine: false
 
     property int paginationCount: 0
     property int paginationIndex: -1
@@ -81,7 +83,8 @@ Item {
     function closePopup(keepFocus, keepSearch) {
         if (extraPanel.visible) {
             extraPanel.visible = false;
-        } else if (!keepFocus) {
+        }
+        if (!keepFocus) {
             unfocus(keepSearch);
         }
         if (!keepSearch && !searchTextField.text && !root.navigationTag && searchHistory.count == 0) {
@@ -131,23 +134,48 @@ Item {
         anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + (extraPanel ? extraPanel.height : 0) }
         visible: headerContainer.showSearch
         onPressed: {
-            extraPanel.visible = false;
             closePopup(/* keepFocus */false);
             mouse.accepted = false;
         }
     }
 
-    Flickable {
+    Item {
         id: headerContainer
         objectName: "headerContainer"
-        clip: contentY < height
         anchors { left: parent.left; top: parent.top; right: parent.right }
         height: header.__styleInstance.contentHeight
-        contentHeight: headersColumn.height
-        interactive: false
-        contentY: showSearch ? 0 : height
 
         property bool showSearch: false
+
+        state: headerContainer.showSearch ? "search" : ""
+
+        states: State {
+            name: "search"
+
+            AnchorChanges {
+                target: headersColumn
+                anchors.top: parent.top
+                anchors.bottom: undefined
+            }
+        }
+
+        transitions: Transition {
+            id: openSearchAnimation
+            AnchorAnimation {
+                duration: UbuntuAnimation.FastDuration
+                easing: UbuntuAnimation.StandardEasing
+            }
+
+            property bool openPopup: false
+
+            onRunningChanged: {
+                headerContainer.clip = running;
+                if (!running && openSearchAnimation.openPopup) {
+                    openSearchAnimation.openPopup = false;
+                    root.openPopup();
+                }
+            }
+        }
 
         Background {
             id: background
@@ -155,23 +183,13 @@ Item {
             style: scopeStyle.headerBackground
         }
 
-        Behavior on contentY {
-            UbuntuNumberAnimation {
-                id: openSearchAnimation
-                property bool openPopup: false
-
-                onRunningChanged: {
-                    if (!running && openSearchAnimation.openPopup) {
-                        openSearchAnimation.openPopup = false;
-                        root.openPopup();
-                    }
-                }
-            }
-        }
-
         Column {
             id: headersColumn
-            anchors { left: parent.left; right: parent.right }
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+            }
 
             PageHeader {
                 id: searchHeader
@@ -186,6 +204,15 @@ Item {
 
                 contents: Item {
                     anchors.fill: parent
+
+                    Keys.onEscapePressed: { // clear the search text, dismiss the search in the second step
+                        if (searchTextField.text != "") {
+                            root.clearSearch(true);
+                        } else {
+                            root.clearSearch(false);
+                            headerContainer.showSearch = false;
+                        }
+                    }
 
                     TextField {
                         id: searchTextField
@@ -226,6 +253,8 @@ Item {
                                 anchors.fill: parent
                                 anchors.margins: units.gu(1)
                                 source: "image://theme/clear"
+                                sourceSize.width: width
+                                sourceSize.height: height
                                 opacity: parent.enabled
                                 visible: opacity > 0
                                 Behavior on opacity {
@@ -298,7 +327,6 @@ Item {
                             anchors {
                                 verticalCenter: parent.verticalCenter
                                 right: parent.right
-                                rightMargin: units.gu(2)
                                 leftMargin: units.gu(1)
                             }
                         }
@@ -385,68 +413,36 @@ Item {
     }
 
     Rectangle {
-        id: bottomBorder
-        visible: showSignatureLine
+        id: headerBottomLine
         anchors {
             top: headerContainer.bottom
             left: parent.left
             right: parent.right
-            bottom: parent.bottom
         }
-
-        color: root.scopeStyle ? root.scopeStyle.headerDividerColor : "#e0e0e0"
-
-        Rectangle {
-            anchors {
-                top: parent.top
-                left: parent.left
-                right: parent.right
-            }
-            height: units.dp(1)
-            color: Qt.darker(parent.color, 1.1)
-        }
+        height: units.dp(1)
+        color: theme.palette.normal.base
     }
 
     Row {
-        visible: bottomBorder.visible
+        anchors {
+            top: headerContainer.bottom
+            horizontalCenter: headerContainer.horizontalCenter
+            topMargin: units.gu(1)
+        }
+        visible: showSignatureLine
         spacing: units.gu(.5)
         Repeater {
             objectName: "paginationRepeater"
             model: root.paginationCount
-            Image {
+            Rectangle {
                 objectName: "paginationDots_" + index
                 height: units.gu(1)
                 width: height
-                source: (index == root.paginationIndex) ? "graphics/pagination_dot_on.png" : "graphics/pagination_dot_off.png"
+                radius: height / 2
+                color: index == root.paginationIndex ? UbuntuColors.blue : "transparent"
+                border.width: index == root.paginationIndex ? 0 : 1 // yes, one pixel and not 1dp
+                border.color: theme.palette.normal.baseText
             }
-        }
-        anchors {
-            top: headerContainer.bottom
-            horizontalCenter: headerContainer.horizontalCenter
-            topMargin: units.gu(.5)
-        }
-    }
-
-    // FIXME this doesn't work with solid scope backgrounds due to z-ordering
-    Item {
-        id: bottomHighlight
-        visible: bottomBorder.visible
-        anchors {
-            top: parent.bottom
-            left: parent.left
-            right: parent.right
-        }
-        z: 1
-        height: units.dp(1)
-        opacity: 0.6
-
-        Rectangle {
-            anchors.fill: parent
-            color: if (root.scopeStyle) {
-                       Qt.lighter(Qt.rgba(root.scopeStyle.background.r,
-                                          root.scopeStyle.background.g,
-                                          root.scopeStyle.background.b, 1.0), 1.2);
-                   } else "#CCFFFFFF"
         }
     }
 }

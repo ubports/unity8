@@ -32,6 +32,7 @@ struct MockNotificationPrivate {
     QStringList actions;
     ActionModel* actionsModel;
     QVariantMap hints;
+    bool fullscreen = false;
 };
 
 MockNotification::MockNotification(QObject *parent) : QObject(parent), p(new MockNotificationPrivate()) {
@@ -180,4 +181,18 @@ void MockNotification::invokeAction(const QString &action) {
 
 void MockNotification::close() {
     Q_EMIT completed(p->id);
+}
+
+bool MockNotification::fullscreen() const
+{
+    return p->fullscreen;
+}
+
+void MockNotification::setFullscreen(bool fullscreen)
+{
+    if (p->fullscreen == fullscreen)
+        return;
+
+    p->fullscreen = fullscreen;
+    Q_EMIT fullscreenChanged(fullscreen);
 }

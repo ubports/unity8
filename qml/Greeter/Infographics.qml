@@ -14,7 +14,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import "../Components"
 import "Gradient.js" as Gradient
 import QtQuick 2.4
 import Ubuntu.Components 1.3
@@ -26,6 +25,8 @@ Item {
 
     property int animDuration: 10
 
+    property int currentWeekDay
+
     QtObject {
         id: d
         objectName: "infographicPrivate"
@@ -34,6 +35,13 @@ Item {
         property bool animating: dotHideAnimTimer.running
                               || dotShowAnimTimer.running
                               || circleChangeAnimTimer.running
+    }
+
+    QtObject {
+        id: whiteTheme
+        property color main: "white"
+        property color start: "white"
+        property color end: "white"
     }
 
     Connections {
@@ -48,6 +56,24 @@ Item {
 
         onDataAboutToDisappear: startHideAnimation()
         onDataDisappeared: startShowAnimation() // show "no data" label
+    }
+
+    LiveTimer {
+        frequency: LiveTimer.Hour
+        onTrigger: handleTimerTrigger()
+    }
+
+    function handleTimerTrigger(){
+        var today = new Date().getDay()
+        if(infographic.currentWeekDay !== today){
+            infographic.currentWeekDay = today
+            reloadUserData();
+        }
+    }
+
+    function reloadUserData(){
+        d.useDotAnimation = false
+        infographic.model.nextDataSource()
     }
 
     function startShowAnimation() {
@@ -75,7 +101,10 @@ Item {
 
     visible: model.username !== ""
 
-    Component.onCompleted: startShowAnimation()
+    Component.onCompleted: {
+        currentWeekDay = new Date().getDay()
+        startShowAnimation()
+    }
 
     Item {
         id: dataCircle
@@ -142,9 +171,10 @@ Item {
                     width: dataCircle.width / divisor
                     height: dataCircle.height / divisor
                     opacity: 0.0
-                    scale: 0.0
+                    circleScale: 0.0
                     visible: modelData !== undefined
                     color: "transparent"
+                    centerCircle: dataCircle
 
                     SequentialAnimation {
                         id: pastCircleChangeAnim
@@ -160,7 +190,7 @@ Item {
                             }
                             PropertyAnimation {
                                 target: pastCircle
-                                property: "scale"
+                                property: "circleScale"
                                 to: modelData
                                 easing.type: Easing.OutCurve
                                 duration: circleChangeAnimTimer.interval * d.circleModifier
@@ -168,7 +198,7 @@ Item {
                             ColorAnimation {
                                 target: pastCircle
                                 property: "color"
-                                to: Gradient.threeColorByIndex(index, count, infographic.model.secondColor)
+                                to: Gradient.threeColorByIndex(index, count, whiteTheme)
                                 easing.type: Easing.OutCurve
                                 duration: circleChangeAnimTimer.interval * d.circleModifier
                             }
@@ -202,9 +232,10 @@ Item {
                     width: dataCircle.width / divisor
                     height: dataCircle.height / divisor
                     opacity: 0.0
-                    scale: 0.0
+                    circleScale: 0.0
                     visible: modelData !== undefined
                     color: "transparent"
+                    centerCircle: dataCircle
 
                     SequentialAnimation {
                         id: presentCircleChangeAnim
@@ -221,7 +252,7 @@ Item {
                             }
                             PropertyAnimation {
                                 target: presentCircle
-                                property: "scale"
+                                property: "circleScale"
                                 to: modelData
                                 easing.type: Easing.OutCurve
                                 duration: circleChangeAnimTimer.interval * d.circleModifier
@@ -229,7 +260,7 @@ Item {
                             ColorAnimation {
                                 target: presentCircle
                                 property: "color"
-                                to: Gradient.threeColorByIndex(index, infographic.model.currentDay, infographic.model.firstColor)
+                                to: Gradient.threeColorByIndex(index, infographic.model.currentDay, whiteTheme)
                                 easing.type: Easing.OutCurve
                                 duration: circleChangeAnimTimer.interval * d.circleModifier
                             }
@@ -237,15 +268,6 @@ Item {
                     }
                 }
             }
-        }
-
-        Image {
-            id: backgroundCircle
-            objectName: "backgroundCircle"
-
-            anchors.fill: parent
-
-            source: "graphics/infographic_circle_back.png"
         }
 
         Timer {
@@ -318,7 +340,7 @@ Item {
 
                 index: model.index
                 count: dots.count
-                radius: backgroundCircle.width / 2
+                radius: dataCircle.width / 2
                 halfSize: dot.width / 2
                 posOffset: radius / dot.width / 3
                 state: dot.state
@@ -327,7 +349,7 @@ Item {
                     id: dot
                     objectName: "dot" + index
 
-                    property real baseOpacity: 0.4
+                    property real baseOpacity: 1
 
                     width: units.dp(5) * parent.radius / 200
                     height: units.dp(5) * parent.radius / 200
@@ -363,10 +385,10 @@ Item {
             property alias hideAnim: decreaseOpacity
             property alias showAnim: increaseOpacity
 
-            property real baseOpacity: 0.6
+            property real baseOpacity: 1
             property real duration: dotShowAnimTimer.interval * 5
 
-            height: 0.7 * backgroundCircle.width
+            height: 0.7 * dataCircle.width
             width: notification.height
             anchors.centerIn: parent
 
@@ -406,8 +428,7 @@ Item {
 
         onDoubleClicked: {
             if (!d.animating) {
-                d.useDotAnimation = false
-                infographic.model.nextDataSource()
+                reloadUserData()
             }
         }
     }

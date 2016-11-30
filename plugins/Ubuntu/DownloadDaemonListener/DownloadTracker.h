@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 - Canonical Ltd.
+ * Copyright (C) 2013-2016 Canonical Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License, as
@@ -54,6 +54,7 @@ Q_SIGNALS:
     void error(const QString &error);
     void finished(const QString &path);
     void paused(bool success);
+    void processing(const QString &path);
     void progress(qulonglong received, qulonglong total);
     void resumed(bool success);
     void started(bool success);

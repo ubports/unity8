@@ -44,7 +44,7 @@ void ActionRootState::setActionGroup(QDBusActionGroup *actionGroup)
             connect(m_actionGroup, &QDBusActionGroup::statusChanged, this, [&](bool) { updateActionState(); });
             connect(m_actionGroup, &QDBusActionGroup::actionAppear, this, [&](const QString&) { updateActionState(); });
             connect(m_actionGroup, &QDBusActionGroup::actionVanish, this, [&](const QString&) { updateActionState(); });
-            connect(m_actionGroup, &QDBusActionGroup::actionStateChanged, this, [&](QVariant) { updateActionState(); });
+            connect(m_actionGroup, &QDBusActionGroup::actionStateChanged, this, [&](const QVariant&) { updateActionState(); });
 
             connect(m_actionGroup, &QObject::destroyed, this, [&](QObject*) { updateActionState(); });
         }

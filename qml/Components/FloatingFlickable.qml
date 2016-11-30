@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
+import "."
 
 /*
     A Flickable that can be put in front of the item to be flicked and
@@ -34,6 +35,9 @@ Item {
     property alias contentX: flickable.contentX
     property alias contentY: flickable.contentY
     property alias direction: swipeArea.direction
+    property alias leftMargin: flickable.leftMargin
+    property alias rightMargin: flickable.rightMargin
+    property alias dragging: flickable.dragging
 
     MouseEventGenerator {
         id: mouseEventGenerator

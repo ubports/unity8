@@ -26,7 +26,7 @@ Rectangle {
     color: "lightgrey"
 
     property var widgetData0: {
-        "source": "../../graphics/phone_background.jpg",
+        "source": "../../../tests/graphics/avatars/amanda@12.png",
         "zoomable": false
     }
 
@@ -36,17 +36,17 @@ Rectangle {
 
     property var widgetData2: {
         "source": "fadsasf",
-        "fallback": "../../graphics/phone_background.jpg"
+        "fallback": "../../../tests/graphics/avatars/amanda@12.png"
     }
 
     property var widgetData3: {
         "source": "",
-        "fallback": "../../graphics/phone_background.jpg"
+        "fallback": "../../../tests/graphics/avatars/amanda@12.png"
     }
 
     property var widgetData4: {
         "source": "fadsasf",
-        "fallback": "../../graphics/phone_background.jpg"
+        "fallback": "../../../tests/graphics/avatars/amanda@12.png"
     }
 
     Loader {
@@ -74,6 +74,11 @@ Rectangle {
             waitForRendering(zoomableImage);
             overlay = findChild(zoomableImage.rootItem, "overlay");
             waitForRendering(overlay);
+
+            // Make sure all the lazyImage transitions have finished
+            for (var i in lazyImage.transitions) {
+                tryCompare(lazyImage.transitions[i], "running", false);
+            }
         }
 
         function cleanup() {
@@ -123,11 +128,11 @@ Rectangle {
             waitForRendering(zoomableImage);
             waitForRendering(lazyImage);
             tryCompare(lazyImage, "state", "ready");
-            verify(lazyImage.sourceImage.source.toString().indexOf("phone_background") > -1);
-            zoomableImage.widgetData["source"] = "../../graphics/tablet_background.jpg"
+            verify(lazyImage.sourceImage.source.toString().indexOf("amanda") > -1);
+            zoomableImage.widgetData["source"] = "../../../tests/graphics/avatars/funky@12.png"
             zoomableImage.widgetDataChanged();
             tryCompare(lazyImage, "state", "ready");
-            verify(lazyImage.sourceImage.source.toString().indexOf("tablet_background") > -1);
+            verify(lazyImage.sourceImage.source.toString().indexOf("funky") > -1);
         }
     }
 }
