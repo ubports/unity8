@@ -1,3 +1,49 @@
+unity8 (8.15+17.04.20161129-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Fix PreviewProgress implicitHeight (LP: #1641943)
+  * Adapt to dummy notification being gone
+  * Fix autopilot test_lock_screen tests
+  * Autopilot: Add more applications to the list for wider screens
+  * Fix autopilot DashHelperTestCase.test_search
+  * Also install the Screens mock
+  * Give default value to gu-px size
+
+  [ Andrea Azzarone ]
+  * Set Mir.cursorName to "grabbing" on first mouse press on a window
+    decoration. Don't wait for press+motion. (LP: #1618078)
+  * Do not show a divider between each quicklist entry but just between
+    each section, similar to how unity7 does. (LP: #1637478)
+
+  [ Andrea Cimitan ]
+  * Fix white text (LP: #1644468)
+  * Make MascotLoader in CardCreator flat
+  * Make the remaining UbuntuShape flat
+  * added dropshadow from panel indicators to dash page header extra
+    panel, so there is right shadow when the extra panel is narrow
+  * Look up for expandable template dash category flag
+
+  [ Brian Douglass ]
+  * Added a setting to enable/disable the indicator dropdown menu.
+
+  [ Daniel d'Andrada ]
+  * There's no need for WindowDecoration to access the appDelegate
+
+  [ Lukáš Tinkl ]
+  * Enable brightness (laptop backlight) handling on desktop/laptop PCs
+    (LP: #1595947)
+
+  [ Michael Zanetti ]
+  * disable spread interaction while locked (LP: #1641578)
+
+  [ Andrea Azzarone, Michał Sawicz ]
+  * Implement launcher tooltips.
+
+  [ Olivier Tilloy ]
+  * Remove dependency on transitional package. (LP: #1583079)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 29 Nov 2016 09:43:33 +0000
+
 unity8 (8.15+17.04.20161116.1-0ubuntu1) zesty; urgency=medium
 
   [ Marco Trevisan (Treviño) ]

@@ -42,6 +42,7 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
     QuickListEntry nameAction;
     nameAction.setActionId(QStringLiteral("launch_item"));
     nameAction.setText(m_name);
+    nameAction.setHasSeparator(true);
     m_quickList->appendAction(nameAction);
 
     QuickListEntry pinningAction;
