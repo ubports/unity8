@@ -141,7 +141,7 @@ FocusScope {
     }
 
     onRightEdgePushProgressChanged: {
-        if (rightEdgePushProgress >= 1) {
+        if (spreadEnabled && rightEdgePushProgress >= 1) {
             priv.goneToSpread = true
         }
     }
@@ -455,7 +455,7 @@ FocusScope {
             PropertyChanges { target: wallpaper; visible: false }
         },
         State {
-            name: "stagedRightEdge"; when: (rightEdgeDragArea.dragging || rightEdgePushProgress > 0) && root.mode == "staged"
+            name: "stagedRightEdge"; when: root.spreadEnabled && (rightEdgeDragArea.dragging || rightEdgePushProgress > 0) && root.mode == "staged"
             PropertyChanges {
                 target: blurLayer;
                 visible: true;
@@ -465,7 +465,7 @@ FocusScope {
             }
         },
         State {
-            name: "sideStagedRightEdge"; when: (rightEdgeDragArea.dragging || rightEdgePushProgress > 0) && root.mode == "stagedWithSideStage"
+            name: "sideStagedRightEdge"; when: root.spreadEnabled && (rightEdgeDragArea.dragging || rightEdgePushProgress > 0) && root.mode == "stagedWithSideStage"
             extend: "stagedRightEdge"
             PropertyChanges {
                 target: sideStage
@@ -474,7 +474,7 @@ FocusScope {
             }
         },
         State {
-            name: "windowedRightEdge"; when: (rightEdgeDragArea.dragging || rightEdgePushProgress > 0) && root.mode == "windowed"
+            name: "windowedRightEdge"; when: root.spreadEnabled && (rightEdgeDragArea.dragging || rightEdgePushProgress > 0) && root.mode == "windowed"
             PropertyChanges {
                 target: blurLayer;
                 visible: true

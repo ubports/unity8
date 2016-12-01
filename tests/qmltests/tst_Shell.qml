@@ -2868,9 +2868,10 @@ Rectangle {
             tryCompare(stage, "state", "staged");
 
             // Try by edge push
+            var cursor = findChild(shell, "cursor");
             mouseMove(stage, stage.width -  1, units.gu(10));
             for (var i = 0; i < units.gu(10); i++) {
-                stage.pushRightEdge(1);
+                cursor.pushedRightBoundary(1, 0);
             }
             mouseMove(stage, stage.width - units.gu(5), units.gu(10));
             tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
