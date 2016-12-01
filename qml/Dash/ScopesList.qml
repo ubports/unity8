@@ -43,20 +43,35 @@ Item {
         property bool dragging: false
         property var dragItem: new Object();
 
-        readonly property bool fuzzyAtYEnd: root.scopesListFlickable.contentY >=
-            (root.scopesListFlickable.contentHeight - root.scopesListFlickable.height) -            (autoscroller.dragItem.height)
+        readonly property bool fuzzyAtYEnd: {
+            var contentHeight = root.scopesListFlickable.contentHeight
+            var contentY = root.scopesListFlickable.contentY
+            var dragItemHeight = dragItem ? autoscroller.dragItem.height : 0
+            var flickableHeight = root.scopesListFlickable.height
+
+            if (!dragItem) {
+                return true;
+            } else {
+                return contentY >= (contentHeight - flickableHeight) - dragItemHeight
+            }
+        }
 
         readonly property real bottomBoundary: {
-            (
-                root.scopesListFlickable.visibleArea.heightRatio *
-                root.scopesListFlickable.contentHeight
-            )
-            - (1.5 * dragItem.height)
-            + root.scopesListFlickable.contentY
+            var contentHeight = root.scopesListFlickable.contentHeight
+            var contentY = root.scopesListFlickable.contentY
+            var dragItemHeight = dragItem ? autoscroller.dragItem.height : 0
+            var heightRatio = root.scopesListFlickable.visibleArea.heightRatio
+
+            if (!dragItem) {
+                return true;
+            } else {
+                return (heightRatio * contentHeight) -
+                       (1.5 * dragItemHeight) + contentY
+            }
         }
 
         readonly property int delayMs: 32
-        readonly property real topBoundary: root.scopesListFlickable.contentY + (.5 * dragItem.height)
+        readonly property real topBoundary: dragItem ? root.scopesListFlickable.contentY + (.5 * dragItem.height) : 0
 
         visible: false
         readonly property real maxStep: units.dp(10)
@@ -77,22 +92,21 @@ Item {
 
         Timer {
             interval: autoscroller.delayMs
-            running: autoscroller.dragging &&
+            running: autoscroller.dragItem ? (autoscroller.dragging &&
                 autoscroller.dragItem.y < autoscroller.topBoundary &&
-                !root.scopesListFlickable.atYBeginning
+                !root.scopesListFlickable.atYBeginning) : false
             repeat: true
             onTriggered: {
                 root.scopesListFlickable.contentY -= autoscroller.stepSize(true);
                 autoscroller.dragItem.y -= autoscroller.stepSize(true);
             }
-
         }
 
         Timer {
             interval: autoscroller.delayMs
-            running: autoscroller.dragging &&
+            running: autoscroller.dragItem ? (autoscroller.dragging &&
                 autoscroller.dragItem.y >= autoscroller.bottomBoundary &&
-                !autoscroller.fuzzyAtYEnd
+                !autoscroller.fuzzyAtYEnd) : false
             repeat: true
             onTriggered: {
                 root.scopesListFlickable.contentY += autoscroller.stepSize(false);
