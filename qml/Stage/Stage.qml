@@ -902,6 +902,7 @@ FocusScope {
                     windowedY = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedY + units.gu(3) : normalZ * units.gu(3)
                     // Now load any saved state. This needs to happen *after* the cascading!
                     resizeArea.loadWindowState();
+                    model.window.requestState(WindowStateStorage.toMirState(windowState));
 
                     updateQmlFocusFromMirSurfaceFocus();
 
