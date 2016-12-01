@@ -54,6 +54,11 @@ QtObject {
         property bool nearBottomLeftCorner: target.maximizedBottomLeft
         property bool nearBottomRightCorner: target.maximizedBottomRight
 
+        property Timer mouseDownTimer: Timer {
+            interval: 175
+            onTriggered: Mir.cursorName = "grabbing"
+        }
+
         function resetEdges() {
             nearLeftEdge = false;
             nearRightEdge = false;
@@ -93,14 +98,17 @@ QtObject {
             }
 
             priv.dragging = true;
+            priv.mouseDownTimer.start();
         } else {
             priv.dragging = false;
+            priv.mouseDownTimer.stop();
             Mir.cursorName = "";
         }
     }
 
     function handlePositionChanged(mouse, sensingPoints) {
         if (priv.dragging) {
+            priv.mouseDownTimer.stop();
             Mir.cursorName = "grabbing";
 
             // restore from maximized when dragging away from edges/corners; guard against inadvertent changes when going into maximized state

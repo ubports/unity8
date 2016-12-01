@@ -163,9 +163,9 @@ class Dash(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
             search_button.globalRect.x + search_button.width / 2,
             search_button.globalRect.y + search_button.height / 2)
         self.pointing_device.click()
-        headerContainer = current_header.select_single(
-            objectName="headerContainer")
-        headerContainer.contentY.wait_for(0)
+        headersColumn = current_header.select_single(
+            objectName="headersColumn")
+        headersColumn.y.wait_for(0)
         keyboard.type(query)
         self.select_single(
             objectName="processingIndicator").visible.wait_for(False)

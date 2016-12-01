@@ -311,8 +311,6 @@ StyledItem {
             keepDashRunning: launcher.shown || launcher.dashSwipe
             altTabPressed: physicalKeysMapper.altTabPressed
             oskEnabled: shell.oskEnabled
-
-            // TODO: This is not implemented yet in the new stage...
             spreadEnabled: tutorial.spreadEnabled && (!greeter || (!greeter.hasLockedApp && !greeter.shown))
         }
     }
@@ -465,6 +463,7 @@ StyledItem {
                         && ((!greeter || !greeter.locked) || AccountsService.enableIndicatorsWhileLocked)
                         && (!greeter || !greeter.hasLockedApp)
                         && !shell.waitingOnGreeter
+                        && settings.enableIndicatorMenu
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
 
                 minimizedPanelHeight: units.gu(3)
@@ -786,8 +785,9 @@ StyledItem {
         Behavior on opacity { UbuntuNumberAnimation {} }
     }
 
-    // non-visual object
+    // non-visual objects
     KeymapSwitcher {}
+    BrightnessControl {}
 
     Rectangle {
         id: shutdownFadeOutRectangle
