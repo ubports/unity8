@@ -36,8 +36,7 @@ QObject* applicationManagerSingleton(QQmlEngine*, QJSEngine*)
 
 QObject* mirSingleton(QQmlEngine*, QJSEngine*)
 {
-    createUnityApplicationSharedSingletons();
-    return MirMock::instance();
+    return new MirMock;
 }
 } // anonymous namespace
 
