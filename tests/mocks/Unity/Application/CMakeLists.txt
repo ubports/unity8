@@ -5,6 +5,7 @@ set(FakeUnityApplicationQml_SOURCES
     MirSurface.cpp
     MirSurfaceItem.cpp
     MirSurfaceListModel.cpp
+    MirMock.cpp
     ObjectListModel.h
     SurfaceManager.cpp
     VirtualKeyboard.cpp
