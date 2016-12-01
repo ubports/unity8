@@ -76,7 +76,6 @@ Item {
         property bool isDrag: false
 
         onPressed: {
-            print("pressed, tutorial state", tutorial.paused, tutorial.running)
             if (tutorial.paused) {
                 tutorial.resume();
                 return;
