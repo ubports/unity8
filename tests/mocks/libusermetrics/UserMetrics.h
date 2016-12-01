@@ -61,6 +61,8 @@ public:
 
     QAbstractItemModel *secondMonth() const;
 
+    Q_INVOKABLE void reset();
+
 Q_SIGNALS:
     void labelChanged(const QString &label);
 

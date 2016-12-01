@@ -30,7 +30,7 @@ PreviewWidget {
     implicitWidth: units.gu(35)
     implicitHeight: lazyImage.height
 
-    widgetMargins: -units.gu(1)
+    singleColumnMarginless: true
     orientationLock: overlay.visible
 
     property Item rootItem: QuickUtils.rootItem(root)

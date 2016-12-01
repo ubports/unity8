@@ -60,9 +60,13 @@ MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
 
     connect(this, &QQuickItem::activeFocusChanged, this, &MirSurfaceItem::updateMirSurfaceActiveFocus);
     connect(this, &QQuickItem::visibleChanged, this, &MirSurfaceItem::updateMirSurfaceVisibility);
+
     connect(this, &MirSurfaceItem::consumesInputChanged, this, [this]() {
         updateMirSurfaceActiveFocus(hasActiveFocus());
     });
+
+    // We're just clipping contents in the mock. The real QtMir would copy only relevant buffer instead
+    setClip(true);
 }
 
 MirSurfaceItem::~MirSurfaceItem()
@@ -180,6 +184,9 @@ void MirSurfaceItem::createQmlContentItem()
 
     m_qmlItem = qobject_cast<QQuickItem*>(m_qmlContentComponent->create());
     m_qmlItem->setParentItem(this);
+
+    m_qmlItem->setWidth(m_surfaceWidth);
+    m_qmlItem->setHeight(m_surfaceHeight);
 
     setImplicitWidth(m_qmlItem->implicitWidth());
     setImplicitHeight(m_qmlItem->implicitHeight());
@@ -350,6 +357,7 @@ int MirSurfaceItem::surfaceWidth() const
 
 void MirSurfaceItem::setSurfaceWidth(int value)
 {
+//    qDebug() << "setSurfaceWidth called" << value;
     if (value != -1 && m_surfaceWidth != value) {
         m_surfaceWidth = value;
         Q_EMIT surfaceWidthChanged(m_surfaceWidth);
@@ -375,6 +383,11 @@ void MirSurfaceItem::updateSurfaceSize()
 {
     if (m_qmlSurface && m_surfaceWidth > 0 && m_surfaceHeight > 0) {
         m_qmlSurface->resize(m_surfaceWidth, m_surfaceHeight);
+        if (m_qmlItem) {
+            m_qmlItem->setWidth(m_surfaceWidth);
+            m_qmlItem->setHeight(m_surfaceHeight);
+        }
+        setImplicitSize(m_surfaceWidth, m_surfaceHeight);
     }
 }
 

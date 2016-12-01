@@ -29,4 +29,6 @@ Item {
     signal pushedBottomRightCorner(real amount, int buttons)
     signal pushStopped()
     signal mouseMoved()
+
+    onMouseMoved: opacity = 1;
 }

@@ -80,9 +80,11 @@ Item {
             menuData.isCheck = false;
             menuData.isRadio = false;
             menuData.isToggled = false;
+        }
 
-            loader.sourceComponent = null;
+        function cleanup() {
             loader.data = undefined;
+            loader.sourceComponent = undefined;
 
             verify(loader.item == null);
         }
@@ -116,6 +118,8 @@ Item {
                 { tag: 'accesspoint', type: "unity.widgets.systemsettings.tablet.accesspoint", objectName: "accessPoint" },
                 { tag: 'modeminfoitem', type: "com.canonical.indicator.network.modeminfoitem", objectName: "modemInfoItem" },
 
+                { tag: 'calendar', type: "com.canonical.indicator.calendar", objectName: "calendarMenu" },
+
                 { tag: 'unknown', type: "", objectName: "standardMenu"}
             ];
         }
@@ -140,13 +144,12 @@ Item {
         }
 
         function test_create_radio() {
-            skip("No radio component");
             menuData.isRadio = true;
 
             loader.data = menuData;
             loader.sourceComponent = factory.load(menuData);
             tryCompareFunction(function() { return loader.item != undefined; }, true);
-            compare(loader.item.objectName, "checkableMenu", "Should have created a checkable menu");
+            compare(loader.item.objectName, "radioMenu", "Should have created a radio menu");
         }
 
         function test_create_separator() {
@@ -340,6 +343,30 @@ Item {
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
         }
 
+        function test_create_radioMenu_data() {
+            return [
+                {label: "testLabel1", enabled: true, checked: false },
+                {label: "testLabel2", enabled: false, checked: true },
+            ];
+        }
+
+        function test_create_radioMenu(data) {
+            menuData.type = "";
+            menuData.label = data.label;
+            menuData.sensitive = data.enabled;
+            menuData.isRadio = true;
+            menuData.isToggled = data.checked;
+
+            loader.data = menuData;
+            loader.sourceComponent = factory.load(menuData);
+            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            compare(loader.item.objectName, "radioMenu", "Should have created a radio menu");
+
+            compare(loader.item.text, data.label, "Label does not match data");
+            compare(loader.item.checked, data.checked, "Checked does not match data");
+            compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+        }
+
         function test_create_switchMenu_data() {
             return [
                 {label: "testLabel1", enabled: true, checked: false, icon: "file:///testIcon1" },
@@ -396,7 +423,7 @@ Item {
 
         function test_create_appointmentMenu_data() {
             return [
-                {label: "testLabel1", enabled: true, icon: "file:///testIcon1", color: Qt.rgba(0, 0, 0, 0),
+                {label: "testLabel1", enabled: true, icon: "file:///testIcon1", color: Qt.rgba(1, 2, 3, 0),
                             time: new Date(2014, 04, 14), timeFormat: "%a %d %b %l:%M %p"},
                 {label: "testLabel2", enabled: false, icon: "file:///testIcon2", color: Qt.rgba(1, 0, 0, 0),
                             time: new Date(2015, 11, 31), timeFormat: "%A" },
@@ -533,9 +560,7 @@ Item {
             compare(loader.item.iconSource, data.icon, "Icon does not match data");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
 
-            var button = findChild(loader.item, "buttonSectionMenuControl");
-            verify(button !== null);
-            compare(button.text, data.buttonText, "Button text does not match data");
+            compare(loader.item.buttonText, data.buttonText, "Button text does not match data");
         }
 
         function test_create_wifiSection_data() {
@@ -594,9 +619,7 @@ Item {
             // ModemInfoItem gets all it's data through the actions.
             return [
                         {
-                            label: "",
                             enabled: true,
-                            checked: false,
                             statusLabelAction: "action::statusLabel",
                             statusIconAction: "action::statusIcon",
                             connectivityIconAction: "action::connectivityIcon",
@@ -609,9 +632,7 @@ Item {
 
         function test_create_modemInfoItem(data) {
             menuData.type = "com.canonical.indicator.network.modeminfoitem";
-            menuData.label = data.label;
             menuData.sensitive = data.enabled;
-            menuData.isToggled = data.checked;
             menuData.ext = {
                 'xCanonicalModemStatusLabelAction': data.statusLabelAction,
                 'xCanonicalModemStatusIconAction': data.statusIconAction,
@@ -625,7 +646,6 @@ Item {
             loader.sourceComponent = factory.load(menuData);
             tryCompareFunction(function() { return loader.item != undefined; }, true);
             compare(loader.item.objectName, "modemInfoItem", "Should have created a modem info item.");
-            compare(loader.item.text, data.label, "Label does not match data");
 
             compare(loader.item.statusLabelAction.name, data.statusLabelAction, "StatusLabel action incorrect");
             compare(loader.item.statusIconAction.name, data.statusIconAction, "StatusIcon action incorrect");
@@ -816,6 +836,34 @@ Item {
                        loader.item.width / 2, loader.item.height / 2);
             compare(loader.item.checked, true, "Clicking switch menu should toggle check");
             tryCompare(loader.item, "checked", false);
+        }
+
+        function test_create_calendar_data() {
+            return [
+                { calendarDay: new Date(), showWeekNumbers: false, eventDays: new Array() },
+                { calendarDay: new Date(2016, 8), showWeekNumbers: true, eventDays: [31] },
+                { calendarDay: new Date(), showWeekNumbers: false, eventDays: [1, 5, 10] },
+            ];
+        }
+
+        function test_create_calendar(data) {
+            menuData.type = "com.canonical.indicator.calendar";
+            menuData.actionState = {
+                "calendar-day": data.calendarDay.getTime() / 1000 | 0,
+                "show-week-numbers": data.showWeekNumbers,
+                "appointment-days": data.eventDays
+            }
+
+            loader.data = menuData;
+            loader.sourceComponent = factory.load(menuData);
+            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            compare(loader.item.objectName, "calendarMenu", "Should have created a calendar menu")
+
+            compare(loader.item.currentDate.getFullYear(), data.calendarDay.getFullYear(), "Calendar year does not match data")
+            compare(loader.item.currentDate.getMonth(), data.calendarDay.getMonth(), "Calendar month does not match data")
+            compare(loader.item.currentDate.getDate(), data.calendarDay.getDate(), "Calendar day does not match data")
+            compare(loader.item.showWeekNumbers, data.showWeekNumbers, "Week numbers visibility does not match data")
+            compare(loader.item.eventDays, data.eventDays, "Event days do not match data")
         }
     }
 }
