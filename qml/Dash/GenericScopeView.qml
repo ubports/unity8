@@ -243,8 +243,10 @@ FocusScope {
 
             property Item seeAllButton: seeAll
 
+            readonly property bool forceNotExpandable: cardTool.template && cardTool.template["expandable"] === false
             readonly property bool expandable: {
                 if (categoryView.model.count === 1) return false;
+                if (forceNotExpandable) return false;
                 if (cardTool.template && cardTool.template["collapsed-rows"] === 0) return false;
                 if (item && item.expandedHeight > item.collapsedHeight) return true;
                 return false;
@@ -317,7 +319,7 @@ FocusScope {
                     }
                 }
 
-                readonly property bool expanded: baseItem.expanded || !baseItem.expandable
+                readonly property bool expanded: !baseItem.forceNotExpandable && (baseItem.expanded || !baseItem.expandable)
                 height: expanded ? item.expandedHeight : item.collapsedHeight
 
                 source: {
@@ -657,7 +659,7 @@ FocusScope {
             target: categoryView
 
             readonly property real contentY: categoryView.contentY - categoryView.originY
-            readonly property real headerDividerLuminance: categoryView.pageHeader.headerDividerLuminance
+            readonly property color pullLabelColor: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
             y: -contentY - units.gu(5)
 
             onRefresh: {
