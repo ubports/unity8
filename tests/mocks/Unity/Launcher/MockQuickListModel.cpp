@@ -37,6 +37,8 @@ QVariant MockQuickListModel::data(const QModelIndex &index, int role) const
         return QLatin1String("copy.png");
     case RoleClickable:
         return index.row() == 1 ? false : true;
+    case RoleHasSeparator:
+        return index.row() <= 1 ? true : false;
     }
     return QVariant();
 }

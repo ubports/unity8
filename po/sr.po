@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-11-16 10:44+0000\n"
+"POT-Creation-Date: 2016-11-29 09:43+0000\n"
 "PO-Revision-Date: 2016-08-22 20:43+0000\n"
 "Last-Translator: Bojan Bogdanović <Unknown>\n"
 "Language-Team: српски <xfce4@xfce4.org>\n"
@@ -17,24 +17,24 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
-"X-Generator: Launchpad (build 18269)\n"
+"X-Launchpad-Export-Date: 2016-12-01 04:57+0000\n"
+"X-Generator: Launchpad (build 18282)\n"
 "Language: sr\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
 msgstr "Лозинка: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:108
+#: plugins/Unity/Launcher/launcheritem.cpp:50
+#: plugins/Unity/Launcher/launcheritem.cpp:109
 msgid "Pin shortcut"
 msgstr "Прикачи пречицу"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:54
+#: plugins/Unity/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Напусти"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:108
+#: plugins/Unity/Launcher/launcheritem.cpp:109
 msgid "Unpin shortcut"
 msgstr "Откачи пречицу"
 
@@ -347,24 +347,24 @@ msgstr "Пречистите Ваше резултате"
 msgid "Reset"
 msgstr "Ресетуј"
 
-#: qml/Dash/GenericScopeView.qml:545 qml/Dash/GenericScopeView.qml:716
+#: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
 msgid "Show less"
 msgstr "Прикажи мање"
 
-#: qml/Dash/GenericScopeView.qml:545
+#: qml/Dash/GenericScopeView.qml:547
 msgid "Show all"
 msgstr "Прикажи све"
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:578
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Претрага"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:57
+#: qml/Dash/PageHeaderExtraPanel.qml:67
 msgid "Recent Searches"
 msgstr "Скорашње претраге"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:68
+#: qml/Dash/PageHeaderExtraPanel.qml:78
 msgid "Clear All"
 msgstr "Очисти све"
 
