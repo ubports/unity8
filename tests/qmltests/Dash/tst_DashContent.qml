@@ -673,6 +673,7 @@ Item {
             compare(dashContentList.currentIndex, 0);
             compare(dashContentList.indexAt(dashContentList.width * 1.5, 0), 1);
             var nextScopeId = dashContentList.itemAt(dashContentList.width * 1.5, 0).item.scope.id;
+            waitForRendering(favoriteAction);
             mouseClick(favoriteAction);
             tryCompareFunction(function() { return dashContentList.currentItem.item.scope.id == nextScopeId; }, true);
             compare(dashContentList.currentIndex, 0);

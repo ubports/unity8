@@ -28,6 +28,7 @@ GSettingsControllerQml::GSettingsControllerQml()
     , m_launcherWidth(8)
     , m_edgeDragWidth(2)
     , m_enableLauncher(true)
+    , m_enableIndicatorMenu(true)
 {
 }
 
@@ -159,6 +160,19 @@ bool GSettingsControllerQml::enableLauncher() const
     return m_enableLauncher;
 }
 
+bool GSettingsControllerQml::enableIndicatorMenu() const
+{
+    return m_enableIndicatorMenu;
+}
+
+void GSettingsControllerQml::setEnableIndicatorMenu(bool enableIndicatorMenu)
+{
+    if (m_enableIndicatorMenu != enableIndicatorMenu) {
+        m_enableIndicatorMenu = enableIndicatorMenu;
+        Q_EMIT enableIndicatorMenuChanged(enableIndicatorMenu);
+    }
+}
+
 GSettingsSchemaQml::GSettingsSchemaQml(QObject *parent): QObject(parent) {
 }
 
@@ -225,6 +239,8 @@ void GSettingsQml::componentComplete()
             this, &GSettingsQml::edgeDragWidthChanged);
     connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::enableLauncherChanged,
             this, &GSettingsQml::enableLauncherChanged);
+    connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::enableIndicatorMenuChanged,
+            this, &GSettingsQml::enableIndicatorMenuChanged);
 
     Q_EMIT disableHeightChanged();
     Q_EMIT pictureUriChanged();
@@ -235,6 +251,7 @@ void GSettingsQml::componentComplete()
     Q_EMIT launcherWidthChanged();
     Q_EMIT edgeDragWidthChanged();
     Q_EMIT enableLauncherChanged();
+    Q_EMIT enableIndicatorMenuChanged();
 }
 
 GSettingsSchemaQml * GSettingsQml::schema() const {
@@ -350,6 +367,15 @@ QVariant GSettingsQml::enableLauncher() const
     }
 }
 
+QVariant GSettingsQml::enableIndicatorMenu() const
+{
+    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+        return GSettingsControllerQml::instance()->enableIndicatorMenu();
+    } else {
+        return QVariant();
+    }
+}
+
 void GSettingsQml::setLifecycleExemptAppids(const QVariant &appIds)
 {
     if (m_valid && m_schema->id() == "com.canonical.qtmir") {
@@ -382,5 +408,12 @@ void GSettingsQml::setEnableLauncher(const QVariant &enableLauncher)
 {
     if (m_valid && m_schema->id() == "com.canonical.Unity8") {
         GSettingsControllerQml::instance()->setEnableLauncher(enableLauncher.toBool());
+    }
+}
+
+void GSettingsQml::setEnableIndicatorMenu(const QVariant &enableIndicatorMenu)
+{
+    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+        GSettingsControllerQml::instance()->setEnableIndicatorMenu(enableIndicatorMenu.toBool());
     }
 }

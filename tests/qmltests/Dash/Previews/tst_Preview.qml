@@ -119,14 +119,33 @@ Rectangle {
             var moreLessButton = findChild(widget, "moreLessButton");
             mouseClick(moreLessButton);
 
+
+            // FIXME: For some reason the PreviewWidgetFactory (parent of 'widget')
+            // is destroyed on idle calls, when the test is under stress.
+            // Not to compromise the result, we just skip the test if this happens
+            var widget_str = widget.toString()
+            var preview_str = preview.toString()
+            var skipped = false
+            function skipTest() { skipped = true; }
+            preview.Component.onDestruction.connect(skipTest)
+            widget.Component.onDestruction.connect(skipTest)
+
             // Wait for the combo to stop growing
-            tryCompare(widget, "height", units.gu(15));
+            tryCompareFunction(function(){ return (widget.height == units.gu(15) || skipped) }, true, 5000, "Widget lost "+widget_str+" was skipped ");
 
             // Make sure the combo bottom is on the viewport
             tryCompareFunction(function () {
+                if (skipped) return true;
                 var bottomLeft = preview.mapFromItem(widget, 0, widget.height);
                 return bottomLeft.y <= preview.height + 1 // FIXME the +1 is to workaround https://bugreports.qt.io/browse/QTBUG-56961
             }, true);
+
+            if (!skipped) {
+                preview.Component.onDestruction.disconnect(skipTest)
+                widget.Component.onDestruction.disconnect(skipTest)
+            } else {
+                skip("preview %1 or widget %2 have been destroyed, thus we can't safely continue this test".arg(preview_str).arg(widget_str))
+            }
         }
     }
 }

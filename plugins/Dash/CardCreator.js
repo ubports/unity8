@@ -269,7 +269,7 @@ var kMascotShapeLoaderCode = 'Loader { \n\
                                 visible: showHeader && active && status === Loader.Ready; \n\
                                 width: units.gu(6); \n\
                                 height: units.gu(5.625); \n\
-                                sourceComponent: UbuntuShape { image: mascotImage } \n\
+                                sourceComponent: UbuntuShape { aspect: UbuntuShape.Flat; image: mascotImage } \n\
                                 anchors { %1 } \n\
                             }\n';
 

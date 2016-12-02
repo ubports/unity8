@@ -363,6 +363,35 @@ Item {
     }
 
     Component {
+        id: radioMenu;
+
+        Menus.RadioMenu {
+            id: radioItem
+            objectName: "radioMenu"
+            property QtObject menuData: null
+            property int menuIndex: -1
+            property bool serverChecked: menuData && menuData.isToggled || false
+
+            text: menuData && menuData.label || ""
+            enabled: menuData && menuData.sensitive || false
+            checked: serverChecked
+            highlightWhenPressed: false
+
+            ServerPropertySynchroniser {
+                objectName: "sync"
+                syncTimeout: Utils.Constants.indicatorValueTimeout
+
+                serverTarget: radioItem
+                serverProperty: "serverChecked"
+                userTarget: radioItem
+                userProperty: "checked"
+
+                onSyncTriggered: menuModel.activate(radioItem.menuIndex)
+            }
+        }
+    }
+
+    Component {
         id: switchMenu;
 
         Menus.SwitchMenu {
@@ -505,15 +534,38 @@ Item {
         id: calendarMenu
 
         Menus.CalendarMenu {
+            id: calendarItem
             objectName: "calendarMenu"
-            highlightWhenPressed: false
             focus: true
 
+            property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
+            property var actionState: menuData && menuData.actionState || null
+            property real calendarDay: getExtendedProperty(actionState, "calendar-day", 0)
             property int menuIndex: -1
 
-            onSelectedDateChanged: {
-                menuModel.activate(menuIndex, selectedDate.getTime() / 1000 | 0)
+            showWeekNumbers: getExtendedProperty(actionState, "show-week-numbers", false)
+            eventDays: getExtendedProperty(actionState, "appointment-days", [])
+
+            onCalendarDayChanged: {
+                if (calendarDay > 0) {
+                    // This would trigger a selectionDateChanged signal, thus
+                    // we've to avoid that the subsequent model activation
+                    // would cause an infinite loop
+                    modelUpdateConnections.enabled = false
+                    currentDate = new Date(calendarDay * 1000)
+                    modelUpdateConnections.enabled = true
+                }
+            }
+
+            Connections {
+                id: modelUpdateConnections
+                property bool enabled: true
+                target: (enabled && calendarItem.visible) ? calendarItem : null
+
+                onSelectedDateChanged: {
+                    menuModel.activate(menuIndex, selectedDate.getTime() / 1000 | 0)
+                }
             }
         }
     }
@@ -980,7 +1032,7 @@ Item {
     Component {
         id: buttonSectionMenu;
 
-        Menus.StandardMenu {
+        Menus.ButtonMenu {
             objectName: "buttonSectionMenu"
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
@@ -992,6 +1044,7 @@ Item {
             highlightWhenPressed: false
             text: menuData && menuData.label || ""
             foregroundColor: theme.palette.normal.backgroundText
+            buttonText: getExtendedProperty(extendedData, "xCanonicalExtraLabel", "")
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -1004,14 +1057,7 @@ Item {
                 menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-extra-label': 'string'});
             }
 
-            slots: Button {
-                objectName: "buttonSectionMenuControl"
-                text: getExtendedProperty(extendedData, "xCanonicalExtraLabel", "")
-
-                onClicked: {
-                    menuModel.activate(menuIndex);
-                }
-            }
+            onButtonClicked: menuModel.activate(menuIndex);
         }
     }
 
@@ -1030,8 +1076,11 @@ Item {
             return component;
         }
 
-        if (modelData.isCheck || modelData.isRadio) {
+        if (modelData.isCheck) {
             return checkableMenu;
+        }
+        if (modelData.isRadio) {
+            return radioMenu;
         }
         if (modelData.isSeparator) {
             return separatorMenu;

@@ -43,6 +43,16 @@ Item {
         dashNavigation.resetNavigation();
     }
 
+    BorderImage {
+        anchors {
+            fill: parent
+            leftMargin: -units.gu(1)
+            rightMargin: -units.gu(1)
+            bottomMargin: -units.gu(1)
+        }
+        source: "graphics/rectangular_dropshadow.sci"
+    }
+
     Rectangle {
         color: "white"
         anchors.fill: parent
@@ -187,16 +197,5 @@ Item {
 
             onSingleSelectionFilterSelected: extraPanelOptionSelected()
         }
-    }
-
-    // This is outside the item
-    Image {
-        anchors {
-            top: parent.bottom
-            left: parent.left
-            right: parent.right
-        }
-        fillMode: Image.Stretch
-        source: "graphics/navigation_shadow.png"
     }
 }

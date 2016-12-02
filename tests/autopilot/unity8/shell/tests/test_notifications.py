@@ -143,7 +143,7 @@ class InteractiveNotificationBase(NotificationsBase):
         )
 
         get_notification = lambda: notify_list.wait_select_single(
-            'Notification', objectName='notification1')
+            'Notification', objectName='notification0')
         notification = get_notification()
 
         notification.pointing_device.click_object(
@@ -185,7 +185,7 @@ class InteractiveNotificationBase(NotificationsBase):
         # verify and interact with the triggered snap-decision notification
         notify_list = self._get_notifications_list()
         get_notification = lambda: notify_list.wait_select_single(
-            'Notification', objectName='notification1')
+            'Notification', objectName='notification0')
         notification = get_notification()
         self._assert_notification(
             notification, summary, body, False, False, 1.0)
@@ -234,7 +234,7 @@ class InteractiveNotificationBase(NotificationsBase):
         # verify and interact with the triggered snap-decision notification
         notify_list = self._get_notifications_list()
         get_notification = lambda: notify_list.wait_select_single(
-            'Notification', objectName='notification1')
+            'Notification', objectName='notification0')
         notification = get_notification()
         self._assert_notification(
             notification, summary, body, True, False, 1.0)
@@ -282,7 +282,7 @@ class InteractiveNotificationBase(NotificationsBase):
         # verify and interact with the triggered snap-decision notification
         notify_list = self._get_notifications_list()
         get_notification = lambda: notify_list.wait_select_single(
-            'Notification', objectName='notification1')
+            'Notification', objectName='notification0')
         notification = get_notification()
         self._assert_notification(
             notification, summary, body, True, False, 1.0)
@@ -445,7 +445,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         notification.show()
 
         notification = lambda: notify_list.wait_select_single(
-            'Notification', objectName='notification1')
+            'Notification', objectName='notification0')
         self._assert_notification(
             notification(),
             summary,
@@ -478,7 +478,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         notification.show()
 
         notification = lambda: notify_list.wait_select_single(
-            'Notification', objectName='notification1')
+            'Notification', objectName='notification0')
         self._assert_notification(
             notification(),
             summary,
@@ -590,7 +590,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         notification.show()
 
         notification = notify_list.wait_select_single(
-            'Notification', objectName='notification1')
+            'Notification', objectName='notification0')
 
         self._assert_notification(
             notification,
@@ -614,7 +614,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         notification.show()
 
         notification = notify_list.wait_select_single(
-            'Notification', objectName='notification1')
+            'Notification', objectName='notification0')
 
         self._assert_notification(notification, summary, '', False, False, 1.0)
 
@@ -683,7 +683,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         notification.show()
 
         get_notification = lambda: notify_list.wait_select_single(
-            'Notification', objectName='notification1')
+            'Notification', objectName='notification0')
 
         self._assert_notification(
             get_notification(),

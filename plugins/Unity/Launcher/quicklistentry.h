@@ -37,12 +37,16 @@ public:
 
     bool clickable() const;
 
+    void setHasSeparator(bool hasSeparator);
+    bool hasSeparator() const;
+
     bool operator==(const QuickListEntry & other);
 
 private:
     QString m_actionId;
     QString m_text;
     QString m_icon;
+    bool m_hasSeparator;
 };
 
 #endif // QUICKLISTENTRY

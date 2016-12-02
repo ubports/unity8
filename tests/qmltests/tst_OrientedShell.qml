@@ -495,7 +495,7 @@ Rectangle {
         }
 
         function cleanup() {
-            tryCompare(shell, "waitingOnGreeter", false); // make sure greeter didn't leave us in disabled state
+            tryCompare(shell, "waitingOnGreeter", false, 10000); // make sure greeter didn't leave us in disabled state
             shell = null;
             topLevelSurfaceList = null;
 
@@ -1235,7 +1235,7 @@ Rectangle {
 
             swipeAwayGreeter();
 
-            verify(isAppSurfaceFocused(primarySurfaceId))
+            tryCompareFunction(function() { return isAppSurfaceFocused(primarySurfaceId)}, true, 10000)
 
             signalSpy.clear();
             signalSpy.target = shell;

@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.4
+import QtQml.StateMachine 1.0 as DSM
 import Ubuntu.Components 1.3
 import Unity.Launcher 0.1
 import Ubuntu.Components.Popups 1.3
@@ -31,7 +32,7 @@ Rectangle {
     property bool dragging: false
     property bool moving: launcherListView.moving || launcherListView.flicking
     property bool preventHiding: moving || dndArea.draggedIndex >= 0 || quickList.state === "open" || dndArea.pressed
-                                 || mouseEventEater.containsMouse || dashItem.hovered
+                                 || dndArea.containsMouse || dashItem.hovered
     property int highlightIndex: -2
     property bool shortcutHintsShown: false
 
@@ -40,7 +41,7 @@ Rectangle {
     signal kbdNavigationCancelled()
 
     onXChanged: {
-        if (quickList.state == "open") {
+        if (quickList.state === "open") {
             quickList.state = ""
         }
     }
@@ -69,7 +70,6 @@ Rectangle {
         id: mouseEventEater
         anchors.fill: parent
         acceptedButtons: Qt.AllButtons
-        hoverEnabled: true
         onWheel: wheel.accepted = true;
     }
 
@@ -225,6 +225,7 @@ Rectangle {
                         // the right app when running autopilot tests for
                         // multiple apps.
                         readonly property string appId: model.appId
+                        name: model.name
                         itemIndex: index
                         itemHeight: launcherListView.itemHeight
                         itemWidth: launcherListView.itemWidth
@@ -399,6 +400,7 @@ Rectangle {
                         id: dndArea
                         objectName: "dndArea"
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
+                        hoverEnabled: true
                         anchors {
                             fill: parent
                             topMargin: launcherListView.topMargin
@@ -795,6 +797,7 @@ Rectangle {
                         highlightColor: !model.clickable ? quickList.color : undefined // make disabled items visually unclickable
                         divider.colorFrom: UbuntuColors.inkstone
                         divider.colorTo: UbuntuColors.inkstone
+                        divider.visible: model.hasSeparator
 
                         Label {
                             id: label
@@ -825,6 +828,80 @@ Rectangle {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    Tooltip {
+        id: tooltipShape
+        objectName: "tooltipShape"
+
+        visible: tooltipShownState.active
+        rotation: root.rotation
+        y: itemCenter - (height / 2)
+
+        anchors {
+            left: root.inverted ? undefined : parent.right
+            right: root.inverted ? parent.left : undefined
+            margins: units.gu(1)
+        }
+
+        readonly property var hoveredItem: dndArea.containsMouse ? launcherListView.itemAt(dndArea.mouseX, dndArea.mouseY + launcherListView.realContentY) : null
+        readonly property int itemCenter: !hoveredItem ? 0 : root.mapFromItem(hoveredItem, 0, 0).y + (hoveredItem.height / 2) + hoveredItem.offset
+
+        text: !hoveredItem ? "" : hoveredItem.name
+    }
+
+    DSM.StateMachine {
+        id: tooltipStateMachine
+        initialState: tooltipHiddenState
+        running: true
+
+        DSM.State {
+            id: tooltipHiddenState
+
+            DSM.SignalTransition {
+                targetState: tooltipShownState
+                signal: tooltipShape.hoveredItemChanged
+                // !dndArea.pressed allows us to filter out touch input events
+                guard: tooltipShape.hoveredItem !== null && !dndArea.pressed && !root.moving
+            }
+        }
+
+        DSM.State {
+            id: tooltipShownState
+
+            DSM.SignalTransition {
+                targetState: tooltipHiddenState
+                signal: tooltipShape.hoveredItemChanged
+                guard: tooltipShape.hoveredItem === null
+            }
+
+            DSM.SignalTransition {
+                targetState: tooltipDismissedState
+                signal: dndArea.onPressed
+            }
+
+            DSM.SignalTransition {
+                targetState: tooltipDismissedState
+                signal: quickList.stateChanged
+                guard: quickList.state === "open"
+            }
+        }
+
+        DSM.State {
+            id: tooltipDismissedState
+
+            DSM.SignalTransition {
+                targetState: tooltipHiddenState
+                signal: dndArea.positionChanged
+                guard: quickList.state != "open" && !dndArea.pressed && !dndArea.moving
+            }
+
+            DSM.SignalTransition {
+                targetState: tooltipHiddenState
+                signal: dndArea.exited
+                guard: quickList.state != "open"
             }
         }
     }
