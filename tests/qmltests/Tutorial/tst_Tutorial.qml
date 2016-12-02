@@ -222,7 +222,7 @@ Rectangle {
                 CheckBox {
                     activeFocusOnPress: false
                     onCheckedChanged: {
-                        var surface = SurfaceManager.inputMethodSurface;
+                        var surface = topLevelSurfaceList.inputMethodSurface;
                         if (checked) {
                             surface.setState(Mir.RestoredState);
                         } else {
@@ -254,6 +254,15 @@ Rectangle {
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
         property real halfWidth: shell ?  shell.width / 2 : 0
         property real halfHeight: shell ? shell.height / 2 : 0
+
+        onShellChanged: {
+            if (shell) {
+                topLevelSurfaceList = testCase.findInvisibleChild(shell, "topLevelSurfaceList");
+            } else {
+                topLevelSurfaceList = null;
+            }
+        }
+        property var topLevelSurfaceList: null
 
         function init() {
             prepareShell();
@@ -299,7 +308,7 @@ Rectangle {
             tryCompare(shell, "waitingOnGreeter", false); // reset by greeter when ready
 
             WindowStateStorage.clear();
-            SurfaceManager.inputMethodSurface.setState(Mir.MinimizedState);
+            //topLevelSurfaceList.inputMethodSurface.setState(Mir.MinimizedState);
             callManager.foregroundCall = null;
             AccountsService.demoEdges = false;
             AccountsService.demoEdgesCompleted = [];
@@ -311,6 +320,14 @@ Rectangle {
         function loadShell(state) {
             resetLoader(state);
             prepareShell();
+        }
+
+        function ensureInputMethodSurface() {
+            var surfaceManager = findInvisibleChild(shell, "surfaceManager");
+            verify(surfaceManager);
+            surfaceManager.createInputMethodSurface();
+
+            tryCompareFunction(function() { return root.topLevelSurfaceList.inputMethodSurface !== null }, true);
         }
 
         function swipeAwayGreeter() {
@@ -711,7 +728,8 @@ Rectangle {
             var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
             verify(tutorialLeftLoader.shown);
 
-            var surface = SurfaceManager.inputMethodSurface;
+            ensureInputMethodSurface();
+            var surface = topLevelSurfaceList.inputMethodSurface;
             surface.setState(Mir.RestoredState);
 
             var inputMethod = findInvisibleChild(shell, "inputMethod");
@@ -724,7 +742,8 @@ Rectangle {
             var tutorial = findChild(shell, "tutorial");
             verify(!tutorial.delayed);
 
-            SurfaceManager.inputMethodSurface.setState(Mir.RestoredState);
+            ensureInputMethodSurface();
+            topLevelSurfaceList.inputMethodSurface.setState(Mir.RestoredState);
 
             tryCompare(tutorial, "delayed", true);
         }
