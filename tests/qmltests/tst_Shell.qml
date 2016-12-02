@@ -2717,7 +2717,9 @@ Rectangle {
             var appContainer = findChild(shell, "appContainer");
             var appDelegate = findChild(appContainer, "appDelegate_" + appSurfaceId);
             verify(appDelegate);
-            appDelegate.maximize();
+            var maximizeButton = findChild(appDelegate, "maximizeWindowButton");
+            mouseClick(maximizeButton);
+
             tryCompare(appDelegate, "state", "maximized");
 
             mouseDrag(panel, panel.width/3, panel.height/2, 0, shell.height/3, Qt.LeftButton, Qt.NoModifier, 500);
