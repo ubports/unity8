@@ -91,7 +91,7 @@ MirSurface::MirSurface(const QString& name,
     , m_slowToResize(false)
     , m_shellChrome(Mir::NormalChrome)
 {
-    DEBUG_MSG("");
+    DEBUG_MSG("state=" << stateToStr(state));
 
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 

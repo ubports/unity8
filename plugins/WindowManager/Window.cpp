@@ -156,7 +156,7 @@ void Window::setSurface(unityapi::MirSurfaceInterface *surface)
         if (m_positionRequested) {
             m_surface->setRequestedPosition(m_requestedPosition);
         }
-        if (m_stateRequested) {
+        if (m_stateRequested && m_surface->state() == Mir::RestoredState) {
             m_surface->requestState(m_state);
         }
 

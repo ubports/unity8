@@ -980,6 +980,11 @@ Rectangle {
         function test_launchLandscapeOnlyAppOverPortraitOnlyDashThenSwitchToDash() {
             loadShell("mako");
 
+            var dashSurfaceId = topLevelSurfaceList.nextId;
+            var dashApp = ApplicationManager.startApplication("unity8-dash");
+            verify(dashApp);
+            waitUntilAppWindowIsFullyLoaded(dashSurfaceId);
+
             // starts as portrait, as unity8-dash is portrait only
             tryCompare(shell, "transformRotationAngle", 0);
 
@@ -999,7 +1004,10 @@ Rectangle {
             var rotationStates = findInvisibleChild(orientedShell, "rotationStates");
             waitUntilTransitionsEnd(rotationStates);
 
-            performLeftEdgeSwipeToSwitchToDash();
+            performLeftEdgeSwipe();
+
+            // should have switched to dash
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
 
             // Should be back to portrait
             tryCompare(shell, "transformRotationAngle", 0);
@@ -1391,7 +1399,7 @@ Rectangle {
             waitUntilTransitionsEnd(rotationStates);
         }
 
-        function performLeftEdgeSwipeToSwitchToDash() {
+        function performLeftEdgeSwipe() {
             var swipeLength = shell.width * 0.7;
 
             var touchStartX = 1;
@@ -1399,8 +1407,6 @@ Rectangle {
             touchFlick(shell,
                        touchStartX, touchStartY,
                        touchStartX + swipeLength, touchStartY);
-
-            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
         }
 
         function performEdgeSwipeToSwitchToPreviousApp() {
