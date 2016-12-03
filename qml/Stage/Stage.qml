@@ -1295,7 +1295,7 @@ FocusScope {
                     },
                     State {
                         name: "maximizedLeft"; when: appDelegate.maximizedLeft && !appDelegate.minimized
-                        extend: "restored"
+                        extend: "normal"
                         PropertyChanges {
                             target: appDelegate
                             windowedX: root.leftMargin
@@ -1314,7 +1314,7 @@ FocusScope {
                     },
                     State {
                         name: "maximizedTopLeft"; when: appDelegate.maximizedTopLeft && !appDelegate.minimized
-                        extend: "restored"
+                        extend: "normal"
                         PropertyChanges {
                             target: appDelegate
                             windowedX: root.leftMargin
@@ -1333,7 +1333,7 @@ FocusScope {
                     },
                     State {
                         name: "maximizedBottomLeft"; when: appDelegate.maximizedBottomLeft && !appDelegate.minimized
-                        extend: "restored"
+                        extend: "normal"
                         PropertyChanges {
                             target: appDelegate
                             windowedX: root.leftMargin
@@ -1352,15 +1352,15 @@ FocusScope {
                     },
                     State {
                         name: "maximizedHorizontally"; when: appDelegate.maximizedHorizontally && !appDelegate.minimized
-                        extend: "restored"
-                        PropertyChanges { target: appDelegate; requestedX: root.leftMargin; requestedY: windowedY;
-                            requestedWidth: appContainer.width - root.leftMargin; requestedHeight: appDelegate.windowedHeight }
+                        extend: "normal"
+                        PropertyChanges { target: appDelegate; windowedX: root.leftMargin; windowedY: windowedY;
+                            windowedWidth: appContainer.width - root.leftMargin; windowedHeight: windowedHeight }
                     },
                     State {
                         name: "maximizedVertically"; when: appDelegate.maximizedVertically && !appDelegate.minimized
-                        extend: "restored"
-                        PropertyChanges { target: appDelegate; requestedX: windowedX; requestedY: PanelState.panelHeight;
-                            requestedWidth: appDelegate.windowedWidth; requestedHeight: appContainer.height - PanelState.panelHeight }
+                        extend: "normal"
+                        PropertyChanges { target: appDelegate; windowedX: windowedX; windowedY: PanelState.panelHeight;
+                            windowedWidth: windowedWidth; windowedHeight: appContainer.height - PanelState.panelHeight }
                     },
                     State {
                         name: "minimized"; when: appDelegate.minimized
