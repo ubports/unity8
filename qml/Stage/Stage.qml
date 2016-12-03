@@ -879,13 +879,7 @@ FocusScope {
                         } else if (model.window.state === Mir.MaximizedBottomRightState) {
                             appDelegate.maximizeBottomRight();
                         } else if (model.window.state === Mir.RestoredState) {
-                            if (decoratedWindow.dragging) {
-                                appDelegate.restore(false, WindowStateStorage.WindowStateNormal);
-                            } else if (appDelegate.anyMaximized) {
-                                appDelegate.restoreFromMaximized()
-                            } else {
-                                appDelegate.restore();
-                            }
+                            appDelegate.restore();
                         }
                     }
                 }
@@ -918,7 +912,6 @@ FocusScope {
                     if (visuallyMaximized) {
                         priv.updateForegroundMaximizedApp();
                     }
-
                 }
 
                 onVisuallyMaximizedChanged: priv.updateForegroundMaximizedApp()
@@ -981,10 +974,6 @@ FocusScope {
                 function minimize(animated) {
                     animationsEnabled = (animated === undefined) || animated;
                     windowState |= WindowStateStorage.WindowStateMinimized; // add the minimized bit
-                }
-                function restoreFromMaximized(animated) {
-                    animationsEnabled = (animated === undefined) || animated;
-                    windowState = WindowStateStorage.WindowStateRestored;
                 }
                 function restore(animated,state) {
                     animationsEnabled = (animated === undefined) || animated;
@@ -1305,14 +1294,8 @@ FocusScope {
                         }
                     },
                     State {
-                        name: "semiMaximized"
-                        PropertyChanges { target: touchControls; enabled: true }
-                        PropertyChanges { target: resizeArea; enabled: true }
-                        PropertyChanges { target: decoratedWindow; shadowOpacity: .3 }
-                    },
-                    State {
                         name: "maximizedLeft"; when: appDelegate.maximizedLeft && !appDelegate.minimized
-                        extend: "semiMaximized"
+                        extend: "restored"
                         PropertyChanges {
                             target: appDelegate
                             windowedX: root.leftMargin
@@ -1331,7 +1314,7 @@ FocusScope {
                     },
                     State {
                         name: "maximizedTopLeft"; when: appDelegate.maximizedTopLeft && !appDelegate.minimized
-                        extend: "semiMaximized"
+                        extend: "restored"
                         PropertyChanges {
                             target: appDelegate
                             windowedX: root.leftMargin
@@ -1350,7 +1333,7 @@ FocusScope {
                     },
                     State {
                         name: "maximizedBottomLeft"; when: appDelegate.maximizedBottomLeft && !appDelegate.minimized
-                        extend: "semiMaximized"
+                        extend: "restored"
                         PropertyChanges {
                             target: appDelegate
                             windowedX: root.leftMargin
@@ -1369,13 +1352,13 @@ FocusScope {
                     },
                     State {
                         name: "maximizedHorizontally"; when: appDelegate.maximizedHorizontally && !appDelegate.minimized
-                        extend: "semiMaximized"
+                        extend: "restored"
                         PropertyChanges { target: appDelegate; requestedX: root.leftMargin; requestedY: windowedY;
                             requestedWidth: appContainer.width - root.leftMargin; requestedHeight: appDelegate.windowedHeight }
                     },
                     State {
                         name: "maximizedVertically"; when: appDelegate.maximizedVertically && !appDelegate.minimized
-                        extend: "semiMaximized"
+                        extend: "restored"
                         PropertyChanges { target: appDelegate; requestedX: windowedX; requestedY: PanelState.panelHeight;
                             requestedWidth: appDelegate.windowedWidth; requestedHeight: appContainer.height - PanelState.panelHeight }
                     },
@@ -1402,14 +1385,6 @@ FocusScope {
                         from: "normal,restored,maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight";
                         to: "staged,stagedWithSideStage"
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedX,requestedY,requestedWidth,requestedHeight"; duration: priv.animationDuration}
-                    },
-                    Transition {
-                        from: "maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight,minimized";
-                        to: "normal,restored"
-                        enabled: appDelegate.animationsEnabled
-                        PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
-                        UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,windowedX,windowedY,requestedWidth,requestedHeight,windowedWidth,windowedHeight,scale";
-                            duration: priv.animationDuration }
                     },
                     Transition {
                         to: "minimized"
@@ -1470,8 +1445,8 @@ FocusScope {
                     },
                     Transition {
                         id: windowedTransition
-                        from: "normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
-                        to: "normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
+                        from: ",normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen,minimized"
+                        to: ",normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
                         enabled: appDelegate.animationsEnabled
                         SequentialAnimation {
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
