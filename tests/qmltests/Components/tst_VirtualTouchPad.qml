@@ -31,6 +31,10 @@ Rectangle {
         id: touchScreenPad
         anchors.fill: parent
         property int internalGu: units.gu(1)
+        settings: QtObject {
+            property bool touchpadTutorialHasRun: true
+            property bool oskEnabled: true
+        }
     }
 
     SignalSpy {

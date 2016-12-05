@@ -81,7 +81,7 @@ Item {
         Button {
             text: "Reset first run settings"
             onClicked: {
-                var settings = testCase.findInvisibleChild(touchScreenPad, "inputMethodState");
+                var settings = testCase.findInvisibleChild(touchScreenPad, "virtualTouchPadSettings");
                 settings.touchpadTutorialHasRun = false;
             }
         }

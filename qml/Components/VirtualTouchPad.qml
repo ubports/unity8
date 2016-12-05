@@ -30,7 +30,7 @@ Item {
     }
 
     Component.onCompleted: {
-        if (!inputMethodState.touchpadTutorialHasRun) {
+        if (!settings.touchpadTutorialHasRun) {
             root.runTutorial()
         }
     }
@@ -57,9 +57,8 @@ Item {
 
     readonly property bool pressed: point1.pressed || point2.pressed || leftButton.pressed || rightButton.pressed
 
-    Settings {
-        id: inputMethodState
-        objectName: "inputMethodState"
+    property var settings: Settings {
+        objectName: "virtualTouchPadSettings"
         property bool touchpadTutorialHasRun: false
         property bool oskEnabled: true
     }
@@ -224,7 +223,7 @@ Item {
         width: height
 
         onClicked: {
-            inputMethodState.oskEnabled = !inputMethodState.oskEnabled
+            settings.oskEnabled = !settings.oskEnabled
         }
 
         Rectangle {
@@ -247,7 +246,7 @@ Item {
     InputMethod {
         id: inputMethod
         // Don't resize when there is only one screen to avoid resize clashing with the InputMethod in the Shell.
-        enabled: screens.count > 1 && inputMethodState.oskEnabled && !tutorial.running
+        enabled: screens.count > 1 && settings.oskEnabled && !tutorial.running
         objectName: "inputMethod"
         anchors.fill: parent
     }
@@ -402,6 +401,6 @@ Item {
         UbuntuNumberAnimation { target: oskButton; property: "opacity"; to: 1 }
         PropertyAction { targets: [leftButton, rightButton, oskButton]; property: "enabled"; value: true }
 
-        PropertyAction { target: inputMethodState; property: "touchpadTutorialHasRun"; value: true }
+        PropertyAction { target: settings; property: "touchpadTutorialHasRun"; value: true }
     }
 }
