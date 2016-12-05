@@ -51,7 +51,7 @@ PreviewWidget {
     clip: reviewContainer.visible
 
     property alias ratingValue: rating.value
-    property alias reviewText: reviewTextArea.displayText
+    property alias reviewText: reviewTextArea.text
 
     function submit() {
         // checks rating-input requirements
@@ -60,9 +60,9 @@ PreviewWidget {
              rating.value < 0) ||
             ((widgetData["required"] === "both" ||
               widgetData["required"] === "review") &&
-             reviewTextArea.displayText === "")) return;
+             reviewTextArea.text === "")) return;
 
-        var data = {"rating": rating.value, "review": reviewTextArea.displayText, "author": null};
+        var data = {"rating": rating.value, "review": reviewTextArea.text, "author": null};
         triggered(root.widgetId, "rated", data);
     }
 
@@ -163,7 +163,7 @@ PreviewWidget {
 
                 readonly property bool readyToSubmit: {
                     if ((widgetData["required"] !== "review" && rating.value < 0) ||
-                        (widgetData["required"] !== "rating" && reviewTextArea.displayText === "")) return false;
+                        (widgetData["required"] !== "rating" && reviewTextArea.text === "" && !reviewTextArea.inputMethodComposing)) return false;
                     else return true;
                 }
 
