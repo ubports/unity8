@@ -164,9 +164,7 @@ void SurfaceManager::doRaise(unityapi::MirSurfaceInterface *apiSurface)
     Q_ASSERT(index != -1);
     m_surfaces.move(index, 0);
 
-    QVector<MirSurfaceInterface*> surfaces;
-    surfaces.append(surface);
-    Q_EMIT surfacesRaised(surfaces);
+    Q_EMIT surfacesRaised({surface});
 }
 
 void SurfaceManager::activate(unityapi::MirSurfaceInterface *apiSurface)
@@ -187,7 +185,11 @@ void SurfaceManager::activate(unityapi::MirSurfaceInterface *apiSurface)
     }
     if (surface) {
         if (surface->state() == Mir::HiddenState || surface->state() == Mir::MinimizedState) {
-            surface->setState(Mir::RestoredState);
+            if (surface->previousState() != Mir::UnknownState) {
+                surface->setState(surface->previousState());
+            } else {
+                surface->setState(Mir::RestoredState);
+            }
         }
         surface->setFocused(true);
         doRaise(surface);
@@ -206,6 +208,7 @@ void SurfaceManager::onStateRequested(MirSurface *surface, Mir::State state)
     Q_EMIT modificationsStarted();
     m_underModification = true;
 
+    surface->setPreviousState(surface->state());
     surface->setState(state);
 
     if ((state == Mir::MinimizedState || state == Mir::HiddenState) && surface->focused()) {

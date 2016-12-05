@@ -141,6 +141,9 @@ public:
 
     void setState(Mir::State state);
 
+    Mir::State previousState() const { return m_previousState; }
+    void setPreviousState(Mir::State state) { m_previousState = state; }
+
 public Q_SLOTS:
     ////
     // unity.shell.application.MirSurface
@@ -174,6 +177,7 @@ private:
     const QString m_name;
     const Mir::Type m_type;
     Mir::State m_state;
+    Mir::State m_previousState{Mir::UnknownState};
     Mir::OrientationAngle m_orientationAngle;
 
     QUrl m_screenshotUrl;
