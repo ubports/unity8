@@ -157,12 +157,12 @@ Item {
         target: clickThroughTester
     }
 
-    UnityTestCase {
+    StageTestCase {
         id: testCase
         name: "DesktopStage"
         when: windowShown
 
-        property Item stage: stageLoader.status === Loader.Ready ? stageLoader.item : null
+        stage: stageLoader.status === Loader.Ready ? stageLoader.item : null
 
         function init() {
             // wait until unity8-dash is up and running.
@@ -200,16 +200,6 @@ Item {
             mouseEaterSpy.clear();
         }
 
-        function waitUntilAppSurfaceShowsUp(surfaceId) {
-            var appDelegate = findChild(stage, "appDelegate_" + surfaceId);
-            verify(appDelegate);
-            var appWindow = findChild(appDelegate, "appWindow");
-            verify(appWindow);
-            var appWindowStates = findInvisibleChild(appWindow, "applicationWindowStateGroup");
-            verify(appWindowStates);
-            tryCompare(appWindowStates, "state", "surface");
-        }
-
         /*
             Returns the appDelegate of the first surface created by the app with the specified appId
          */
@@ -229,7 +219,7 @@ Item {
                 var surfaceId = topSurfaceList.nextId;
                 app = ApplicationManager.startApplication(appId);
                 verify(app);
-                waitUntilAppSurfaceShowsUp(surfaceId);
+                waitUntilAppWindowIsFullyLoaded(surfaceId);
                 compare(app.surfaceList.count, 1);
 
                 return findChild(stage, "appDelegate_" + surfaceId);

@@ -547,7 +547,7 @@ Rectangle {
         }
     }
 
-    UnityTestCase {
+    StageTestCase {
         id: testCase
         name: "Shell"
         when: windowShown
@@ -594,6 +594,8 @@ Rectangle {
 
             topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
             verify(topLevelSurfaceList);
+
+            stage = findChild(shell, "stage"); // from StageTestCase
 
             // wait until unity8-dash is fully loaded
             tryCompare(topLevelSurfaceList, "count", 1);
@@ -1040,27 +1042,6 @@ Rectangle {
 
             surface.requestState(Mir.MinimizedState);
             tryCompare(item, "visible", false);
-        }
-
-        function findAppWindowForSurfaceId(surfaceId) {
-            // for PhoneStage and TabletStage
-            var delegate = findChild(shell, "spreadDelegate_" + surfaceId, 0 /* timeout */);
-            if (!delegate) {
-                // for DesktopStage
-                delegate = findChild(shell, "appDelegate_" + surfaceId);
-            }
-            verify(delegate);
-            var appWindow = findChild(delegate, "appWindow");
-            return appWindow;
-        }
-
-        // Wait until the ApplicationWindow for the given Application object is fully loaded
-        // (ie, the real surface has replaced the splash screen)
-        function waitUntilAppWindowIsFullyLoaded(surfaceId) {
-            var appWindow = findAppWindowForSurfaceId(surfaceId);
-            var appWindowStateGroup = findInvisibleChild(appWindow, "applicationWindowStateGroup");
-            tryCompareFunction(function() { return appWindowStateGroup.state === "surface" }, true);
-            waitUntilTransitionsEnd(appWindowStateGroup);
         }
 
         function test_surfaceLosesActiveFocusWhilePanelIsOpen() {
