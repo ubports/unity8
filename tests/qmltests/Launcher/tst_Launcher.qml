@@ -295,6 +295,8 @@ Rectangle {
             compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
 
             removeTimeConstraintsFromSwipeAreas(root);
+
+            waitUntilLauncherDisappears();
         }
 
         function dragLauncher() {
