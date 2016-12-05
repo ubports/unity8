@@ -163,6 +163,7 @@ Item {
         when: windowShown
 
         stage: stageLoader.status === Loader.Ready ? stageLoader.item : null
+        topLevelSurfaceList: topSurfaceList
 
         function init() {
             // wait until unity8-dash is up and running.
@@ -198,34 +199,6 @@ Item {
             tryCompare(stageLoader, "status", Loader.Ready);
 
             mouseEaterSpy.clear();
-        }
-
-        /*
-            Returns the appDelegate of the first surface created by the app with the specified appId
-         */
-        function startApplication(appId) {
-            try {
-                var app = ApplicationManager.findApplication(appId);
-                if (app) {
-                    for (var i = 0; i < topSurfaceList.count; i++) {
-                        if (topSurfaceList.applicationAt(i).appId === appId) {
-                            var appRepeater = findChild(stage, "appRepeater");
-                            verify(appRepeater);
-                            return appRepeater.itemAt(i);
-                        }
-                    }
-                }
-
-                var surfaceId = topSurfaceList.nextId;
-                app = ApplicationManager.startApplication(appId);
-                verify(app);
-                waitUntilAppWindowIsFullyLoaded(surfaceId);
-                compare(app.surfaceList.count, 1);
-
-                return findChild(stage, "appDelegate_" + surfaceId);
-            } catch(err) {
-                throw new Error("startApplication("+appId+") called from line " +  util.callerLine(1) + " failed!");
-            }
         }
 
         function maximizeAppDelegate(appDelegate) {

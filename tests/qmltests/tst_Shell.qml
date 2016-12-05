@@ -553,7 +553,6 @@ Rectangle {
         when: windowShown
 
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
-        property QtObject topLevelSurfaceList: null
 
         function init() {
             if (shellLoader.active) {
@@ -592,10 +591,10 @@ Rectangle {
 
             waitForGreeterToStabilize();
 
+            // from StageTestCase
             topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
             verify(topLevelSurfaceList);
-
-            stage = findChild(shell, "stage"); // from StageTestCase
+            stage = findChild(shell, "stage");
 
             // wait until unity8-dash is fully loaded
             tryCompare(topLevelSurfaceList, "count", 1);
@@ -715,12 +714,9 @@ Rectangle {
             loadShell("phone");
             swipeAwayGreeter();
             var notifications = findChild(shell, "notificationList");
-            var appSurfaceId = topLevelSurfaceList.nextId;
-            var app = ApplicationManager.startApplication("camera-app");
-            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
-            var stage = findChild(shell, "stage")
+            var appDelegate = startApplication("camera-app");
 
-            var appSurface = app.surfaceList.get(0);
+            var appSurface = appDelegate.surface;
             verify(appSurface);
 
             tryCompare(appSurface, "activeFocus", true);
@@ -1047,10 +1043,8 @@ Rectangle {
         function test_surfaceLosesActiveFocusWhilePanelIsOpen() {
             loadShell("phone");
             swipeAwayGreeter();
-            var appSurfaceId = topLevelSurfaceList.nextId;
-            var app = ApplicationManager.startApplication("dialer-app");
-            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
-            var appSurface = app.surfaceList.get(0);
+            var appDelegate = startApplication("dialer-app");
+            var appSurface = appDelegate.surface;
             verify(appSurface);
 
             tryCompare(appSurface, "activeFocus", true);
@@ -1093,15 +1087,9 @@ Rectangle {
             shell.usageScenario = data.usageScenario;
             swipeAwayGreeter();
 
-            var webAppSurfaceId = topLevelSurfaceList.nextId;
-            var webApp = ApplicationManager.startApplication("webbrowser-app");
-            verify(webApp);
-            waitUntilAppWindowIsFullyLoaded(webAppSurfaceId);
+            var appDelegate = startApplication("webbrowser-app");
 
-            var webAppSurface = webApp.surfaceList.get(topLevelSurfaceList.indexForId(webAppSurfaceId));
-            verify(webAppSurface);
-
-            tryCompare(webAppSurface, "activeFocus", true);
+            tryCompare(appDelegate.surface, "activeFocus", true);
         }
 
         function test_launchedAppKeepsActiveFocusOnUsageModeChange() {

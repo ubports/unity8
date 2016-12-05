@@ -246,7 +246,7 @@ Rectangle {
         }
     }
 
-    UT.UnityTestCase {
+    UT.StageTestCase {
         id: testCase
         name: "Tutorial"
         when: windowShown
@@ -271,6 +271,8 @@ Rectangle {
             var tutorialLeftTimer = findInvisibleChild(tutorialLeft, "tutorialLeftTimer");
             tutorialLeftTimer.interval = 0;
             tryCompare(tutorialLeft, "opacity", 1);
+
+            stage = findChild(shell, "stage"); // from StageTestCase
         }
 
         function cleanup() {

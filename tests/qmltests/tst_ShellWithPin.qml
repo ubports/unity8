@@ -148,7 +148,6 @@ Item {
         when: windowShown
 
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
-        property QtObject topLevelSurfaceList: null
 
         function init() {
             tryCompare(shell, "waitingOnGreeter", false); // will be set when greeter is all ready
@@ -163,15 +162,12 @@ Item {
             verify(!!panel);
             panel.dismissTimer = fakeDismissTimer;
 
-            stage = findChild(shell, "stage"); // from StageTestCase
-
+            // from StageTestCase
+            stage = findChild(shell, "stage");
             topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
             verify(topLevelSurfaceList);
 
-            var dashSurfaceId = topLevelSurfaceList.nextId;
-            ApplicationManager.startApplication("unity8-dash");
-            tryCompare(topLevelSurfaceList, "count", 1);
-            waitUntilAppWindowIsFullyLoaded(dashSurfaceId);
+            startApplication("unity8-dash");
         }
 
         function cleanup() {
@@ -491,9 +487,7 @@ Item {
         function test_focusRequestedHidesCoverPage() {
             showGreeter();
 
-            var app = ApplicationManager.startApplication("gallery-app");
-            // wait until the app is fully loaded (ie, real surface replaces splash screen)
-            tryCompareFunction(function() { return app.session !== null && app.surfaceList.count > 0 }, true);
+            startApplication("gallery-app");
 
             // New app hides coverPage?
             var greeter = findChild(shell, "greeter");
