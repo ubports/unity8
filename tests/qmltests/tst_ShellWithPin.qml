@@ -148,6 +148,7 @@ Item {
         when: windowShown
 
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
+        property QtObject topLevelSurfaceList: null
 
         function init() {
             tryCompare(shell, "waitingOnGreeter", false); // will be set when greeter is all ready
@@ -161,10 +162,20 @@ Item {
             var panel = findChild(launcher, "launcherPanel");
             verify(!!panel);
             panel.dismissTimer = fakeDismissTimer;
+
+            topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
+            verify(topLevelSurfaceList);
+
+            var dashSurfaceId = topLevelSurfaceList.nextId;
+            ApplicationManager.startApplication("unity8-dash");
+            tryCompare(topLevelSurfaceList, "count", 1);
+            waitUntilAppWindowIsFullyLoaded(dashSurfaceId);
         }
 
         function cleanup() {
             tryCompare(shell, "waitingOnGreeter", false); // make sure greeter didn't leave us in disabled state
+
+            topLevelSurfaceList = null;
 
             shellLoader.itemDestroyed = false
 
@@ -211,6 +222,27 @@ Item {
                 var coverPage = findChild(shell, "coverPage");
                 tryCompare(coverPage, "showProgress", 0);
             }
+        }
+
+        function findAppWindowForSurfaceId(surfaceId) {
+            // for PhoneStage and TabletStage
+            var delegate = findChild(shell, "spreadDelegate_" + surfaceId, 0 /* timeout */);
+            if (!delegate) {
+                // for DesktopStage
+                delegate = findChild(shell, "appDelegate_" + surfaceId);
+            }
+            verify(delegate);
+            var appWindow = findChild(delegate, "appWindow");
+            return appWindow;
+        }
+
+        // Wait until the ApplicationWindow for the given Application object is fully loaded
+        // (ie, the real surface has replaced the splash screen)
+        function waitUntilAppWindowIsFullyLoaded(surfaceId) {
+            var appWindow = findAppWindowForSurfaceId(surfaceId);
+            var appWindowStateGroup = findInvisibleChild(appWindow, "applicationWindowStateGroup");
+            tryCompareFunction(function() { return appWindowStateGroup.state === "surface" }, true);
+            waitUntilTransitionsEnd(appWindowStateGroup);
         }
 
         function enterPin(pin) {
@@ -301,13 +333,15 @@ Item {
         }
 
         function test_emergencyCallCrash() {
+            var dialerSurfaceId = topLevelSurfaceList.nextId;
             var greeter = findChild(shell, "greeter");
             var emergencyButton = findChild(greeter, "emergencyCallLabel");
             tap(emergencyButton)
-
+            tryCompare(topLevelSurfaceList, "count", 2);
+            waitUntilAppWindowIsFullyLoaded(dialerSurfaceId);
 
             tryCompare(greeter, "shown", false);
-            killApps() // kill dialer-app, as if it crashed
+            ApplicationManager.stopApplication("dialer-app"); // kill dialer-app, as if it crashed
             tryCompare(greeter, "shown", true);
             tryCompare(findChild(greeter, "lockscreen"), "shown", true);
             tryCompare(findChild(greeter, "coverPage"), "shown", false);
@@ -406,7 +440,7 @@ Item {
             compare(stage.usageScenario, "phone");
 
             // And when we kill the app, we go back to locked tablet mode
-            killApps()
+            ApplicationManager.stopApplication("dialer-app");
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "fullyShown", true)
             compare(stage.usageScenario, "tablet");
