@@ -35,27 +35,43 @@ void DebuggingController::SetSceneGraphVisualizer(const QString &visualizer)
     Q_FOREACH (QWindow *window, QGuiApplication::allWindows()) {
         QQuickWindow* qquickWindow = qobject_cast<QQuickWindow*>(window);
         if (qquickWindow) {
-            QQuickWindowPrivate *winPriv = QQuickWindowPrivate::get(qquickWindow);
-            winPriv->customRenderMode = visualizer.toLatin1();
-            qquickWindow->update();
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
             // Qt does some performance optimizations that break custom render modes.
             // Thus the optimizations are only applied if there is no custom render mode set.
             // So we need to make the scenegraph recheck whether a custom render mode is set.
             // We do this by simply recreating the renderer.
-
-            QQuickItemPrivate *contentPriv = QQuickItemPrivate::get(qquickWindow->contentItem());
-            QSGNode *rootNode = contentPriv->itemNode();
-            while (rootNode->parent())
-                rootNode = rootNode->parent();
-
-            delete winPriv->renderer;
-            winPriv->renderer = winPriv->context->createRenderer();
-            winPriv->renderer->setRootNode(static_cast<QSGRootNode *>(rootNode));
+            QMutexLocker lock(&m_renderModeMutex);
+            m_pendingRenderMode = visualizer;
+            connect(qquickWindow, &QQuickWindow::beforeSynchronizing, this, &DebuggingController::applyRenderMode, Qt::DirectConnection);
+#else
+            QQuickWindowPrivate *winPriv = QQuickWindowPrivate::get(qquickWindow);
+            winPriv->customRenderMode = visualizer.toLatin1();
 #endif
+            qquickWindow->update();
         }
     }
+}
+
+void DebuggingController::applyRenderMode() {
+    QQuickWindow *qquickWindow = qobject_cast<QQuickWindow*>(sender());
+
+    QMutexLocker lock(&m_renderModeMutex);
+    disconnect(qquickWindow, &QQuickWindow::beforeSynchronizing, this, &DebuggingController::applyRenderMode);
+
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
+    QQuickWindowPrivate *winPriv = QQuickWindowPrivate::get(qquickWindow);
+    QQuickItemPrivate *contentPriv = QQuickItemPrivate::get(qquickWindow->contentItem());
+    QSGNode *rootNode = contentPriv->itemNode();
+    while (rootNode->parent())
+        rootNode = rootNode->parent();
+
+    winPriv->customRenderMode = m_pendingRenderMode.toLatin1();
+    delete winPriv->renderer;
+    winPriv->renderer = winPriv->context->createRenderer();
+    winPriv->renderer->setRootNode(static_cast<QSGRootNode *>(rootNode));
+#endif
 }
 
 void DebuggingController::SetSlowAnimations(bool slowAnimations)

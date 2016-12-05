@@ -22,6 +22,8 @@
 
 #include <QQmlEngine>
 #include <QQmlExtensionPlugin>
+#include <QQuickWindow>
+#include <QMutex>
 
 #include "unitydbusobject.h"
 
@@ -50,5 +52,12 @@ public Q_SLOTS:
       * Set the QLoggingCategory filter rules.
       */
     Q_SCRIPTABLE void SetLoggingFilterRules(const QString &filterRules);
+
+private Q_SLOTS:
+    void applyRenderMode();
+
+private:
+    QMutex m_renderModeMutex;
+    QString m_pendingRenderMode;
 };
 #endif // DEBUGGINGCONTROLLER_H
