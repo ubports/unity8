@@ -330,7 +330,7 @@ Item {
             tap(emergencyButton)
 
             tryCompare(greeter, "shown", false);
-            ApplicationManager.startApplication("gallery-app", ApplicationManager.NoFlag)
+            startApplication("gallery-app");
             tryCompare(greeter, "shown", true);
         }
 
@@ -468,7 +468,7 @@ Item {
             tryCompare(greeter, "shown", false);
             tryCompare(LightDM.Greeter, "active", false);
 
-            ApplicationManager.startApplication("dialer-app", ApplicationManager.NoFlag);
+            startApplication("dialer-app");
             tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
             callManager.foregroundCall = phoneCall;
 
@@ -603,7 +603,7 @@ Item {
             var coverPage = findChild(shell, "coverPage");
             var lockscreen = findChild(shell, "lockscreen");
             var launcher = findChild(shell, "launcherPanel");
-            var galleryApp = ApplicationManager.startApplication("gallery-app");
+            var galleryApp = startApplication("gallery-app").application;
             tryCompare(shell, "mainApp", galleryApp);
 
             // Show greeter
