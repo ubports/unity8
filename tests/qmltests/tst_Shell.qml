@@ -2704,7 +2704,7 @@ Rectangle {
             tryCompare(appDelegate, "state", "maximized");
 
             mouseDrag(panel, panel.width/3, panel.height/2, 0, shell.height/3, Qt.LeftButton, Qt.NoModifier, 500);
-            tryCompare(appDelegate, "state", "normal");
+            tryCompare(appDelegate, "state", "restored");
         }
 
         function test_fullShellModeHasNoInitialGreeter() {
