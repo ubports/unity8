@@ -56,9 +56,14 @@ MouseArea {
         property int normalHeight: 0
 
         function updateNormalGeometry() {
-            if (root.target.state == "normal" || root.target.state == "restored") {
+            if (root.target.state == "normal") {
                 normalX = root.target.requestedX
                 normalY = root.target.requestedY
+                normalWidth = root.target.width
+                normalHeight = root.target.height
+            } else if (root.target.state == "restored") {
+                normalX = root.target.restoredX
+                normalY = root.target.restoredY
                 normalWidth = root.target.width
                 normalHeight = root.target.height
             }
@@ -76,7 +81,6 @@ MouseArea {
     function loadWindowState() {
         var windowGeometry = windowStateStorage.getGeometry(root.windowId,
                                                             Qt.rect(target.windowedX, target.windowedY, defaultWidth, defaultHeight));
-
 
         target.windowedWidth = Qt.binding(function() { return Math.min(Math.max(windowGeometry.width, d.minimumWidth), screenWidth - root.leftMargin); });
         target.windowedHeight = Qt.binding(function() { return Math.min(Math.max(windowGeometry.height, d.minimumHeight),
