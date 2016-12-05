@@ -224,9 +224,9 @@ Rectangle {
                     onCheckedChanged: {
                         var surface = topLevelSurfaceList.inputMethodSurface;
                         if (checked) {
-                            surface.setState(Mir.RestoredState);
+                            surface.requestState(Mir.RestoredState);
                         } else {
-                            surface.setState(Mir.MinimizedState);
+                            surface.requestState(Mir.MinimizedState);
                         }
                     }
                 }
@@ -262,7 +262,6 @@ Rectangle {
                 topLevelSurfaceList = null;
             }
         }
-        property var topLevelSurfaceList: null
 
         function init() {
             prepareShell();
@@ -271,8 +270,6 @@ Rectangle {
             var tutorialLeftTimer = findInvisibleChild(tutorialLeft, "tutorialLeftTimer");
             tutorialLeftTimer.interval = 0;
             tryCompare(tutorialLeft, "opacity", 1);
-
-            stage = findChild(shell, "stage"); // from StageTestCase
         }
 
         function cleanup() {
@@ -317,6 +314,10 @@ Rectangle {
             AccountsService.demoEdges = true;
 
             LightDM.Greeter.hideGreeter();
+
+            stage = findChild(shell, "stage"); // from StageTestCase
+
+            startApplication("unity8-dash");
         }
 
         function loadShell(state) {
@@ -329,7 +330,7 @@ Rectangle {
             verify(surfaceManager);
             surfaceManager.createInputMethodSurface();
 
-            tryCompareFunction(function() { return root.topLevelSurfaceList.inputMethodSurface !== null }, true);
+            tryCompareFunction(function() { return topLevelSurfaceList.inputMethodSurface !== null }, true);
         }
 
         function swipeAwayGreeter() {
@@ -732,7 +733,7 @@ Rectangle {
 
             ensureInputMethodSurface();
             var surface = topLevelSurfaceList.inputMethodSurface;
-            surface.setState(Mir.RestoredState);
+            surface.requestState(Mir.RestoredState);
 
             var inputMethod = findInvisibleChild(shell, "inputMethod");
             tryCompare(inputMethod, "visible", true);
@@ -745,7 +746,7 @@ Rectangle {
             verify(!tutorial.delayed);
 
             ensureInputMethodSurface();
-            topLevelSurfaceList.inputMethodSurface.setState(Mir.RestoredState);
+            topLevelSurfaceList.inputMethodSurface.requestState(Mir.RestoredState);
 
             tryCompare(tutorial, "delayed", true);
         }
