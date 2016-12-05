@@ -1478,5 +1478,13 @@ Rectangle {
 
             launcher.available = true;
         }
+
+        function test_hintOnSizeChange() {
+            var oldSize = launcher.panelWidth;
+            launcher.maxPanelX = -launcher.panelWidth;
+            launcher.panelWidth = oldSize + units.gu(2);
+            tryCompare(launcher, "maxPanelX", 0);
+            launcher.panelWidth = oldSize;
+        }
     }
 }

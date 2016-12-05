@@ -102,6 +102,10 @@ FocusScope {
         }
     }
 
+    onPanelWidthChanged: {
+        hint();
+    }
+
     function hide() {
         switchToNextState("")
     }
