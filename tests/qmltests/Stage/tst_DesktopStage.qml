@@ -560,7 +560,7 @@ Item {
 
             // restore without raising
             dialerDelegate.requestRestore();
-            compare(dashDelegate.surface.exposed, true);
+            tryCompare(dashDelegate.surface, "exposed", true);
             compare(gmailDelegate.surface.exposed, true);
         }
 
