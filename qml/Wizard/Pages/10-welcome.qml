@@ -20,6 +20,7 @@ import Ubuntu.Components.ListItems 1.3
 import Ubuntu.SystemSettings.LanguagePlugin 1.0
 import Wizard 0.1
 import ".." as LocalComponents
+import "../../Components"
 
 LocalComponents.Page {
     objectName: "languagePage"
@@ -110,6 +111,7 @@ LocalComponents.Page {
 
     ListView {
         id: languagesListView
+        objectName: "languagesListView"
         clip: true
         snapMode: ListView.SnapToItem
 
@@ -124,7 +126,7 @@ LocalComponents.Page {
 
         delegate: ListItem {
             id: itemDelegate
-            objectName: "languageDelegate" + index
+            objectName: "languageDelegate_" + langLabel.text.toLowerCase().replace(/\s+/g, '_')
             highlightColor: backgroundColor
             divider.colorFrom: dividerColor
             divider.colorTo: backgroundColor

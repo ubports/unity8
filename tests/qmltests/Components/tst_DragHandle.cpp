@@ -24,12 +24,12 @@
 #include <UbuntuGestures/private/ucswipearea_p_p.h>
 
 #include <AxisVelocityCalculator.h>
-#include <Timer>
+#include <UbuntuGestures/private/timer_p.h>
 #include "Direction.h"
 
 #include <paths.h>
 
-using namespace UbuntuGestures;
+UG_USE_NAMESPACE
 
 class tst_DragHandle: public QObject
 {

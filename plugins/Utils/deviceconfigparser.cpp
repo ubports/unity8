@@ -26,7 +26,7 @@ DeviceConfigParser::DeviceConfigParser(QObject *parent): QObject(parent)
     // Local files have highest priority
     QString path;
     Q_FOREACH (const QString &standardPath, QStandardPaths::standardLocations(QStandardPaths::GenericConfigLocation)) {
-        if (QFileInfo(standardPath + "/devices.conf").exists()) {
+        if (QFileInfo::exists(standardPath + "/devices.conf")) {
             path = standardPath + "/devices.conf";
             break;
         }

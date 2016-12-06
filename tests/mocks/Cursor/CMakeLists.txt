@@ -1,1 +1,1 @@
-add_unity8_mock(Cursor 1.0 Cursor)
+add_unity8_mock(Cursor 1.1 Cursor)

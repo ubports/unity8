@@ -1,3 +1,363 @@
+unity8 (8.15+17.04.20161129-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Fix PreviewProgress implicitHeight (LP: #1641943)
+  * Adapt to dummy notification being gone
+  * Fix autopilot test_lock_screen tests
+  * Autopilot: Add more applications to the list for wider screens
+  * Fix autopilot DashHelperTestCase.test_search
+  * Also install the Screens mock
+  * Give default value to gu-px size
+
+  [ Andrea Azzarone ]
+  * Set Mir.cursorName to "grabbing" on first mouse press on a window
+    decoration. Don't wait for press+motion. (LP: #1618078)
+  * Do not show a divider between each quicklist entry but just between
+    each section, similar to how unity7 does. (LP: #1637478)
+
+  [ Andrea Cimitan ]
+  * Fix white text (LP: #1644468)
+  * Make MascotLoader in CardCreator flat
+  * Make the remaining UbuntuShape flat
+  * added dropshadow from panel indicators to dash page header extra
+    panel, so there is right shadow when the extra panel is narrow
+  * Look up for expandable template dash category flag
+
+  [ Brian Douglass ]
+  * Added a setting to enable/disable the indicator dropdown menu.
+
+  [ Daniel d'Andrada ]
+  * There's no need for WindowDecoration to access the appDelegate
+
+  [ Lukáš Tinkl ]
+  * Enable brightness (laptop backlight) handling on desktop/laptop PCs
+    (LP: #1595947)
+
+  [ Michael Zanetti ]
+  * disable spread interaction while locked (LP: #1641578)
+
+  [ Andrea Azzarone, Michał Sawicz ]
+  * Implement launcher tooltips.
+
+  [ Olivier Tilloy ]
+  * Remove dependency on transitional package. (LP: #1583079)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 29 Nov 2016 09:43:33 +0000
+
+unity8 (8.15+17.04.20161116.1-0ubuntu1) zesty; urgency=medium
+
+  [ Marco Trevisan (Treviño) ]
+  * MenuItemFactory: bind calendar backend properties to calendarMenu item
+
+    Adds support for showing the calendar at the requested date, marking days
+    with events properly and toggling the visibility of the week number.
+
+  * MenuItemFactory: use Menus.RadioMenu and Menus.ButtonMenu
+
+  * Bump version as USC breaks with unity8 << 8.14
+
+  [ Albert Astals Cid ]
+  * [Hopefully] Fix infinite loop in some of the GSV tests (LP:
+    #1599301)
+
+  [ Marco Trevisan (Treviño) ]
+  * testLauncher: use tryCompare to check launcher contentY
+
+  [ Michael Zanetti ]
+  * Stabilize OrientedShell tests
+
+ -- Marco Trevisan (Treviño) <mail@3v1n0.net>  Wed, 16 Nov 2016 10:44:59 +0000
+
+unity8 (8.14+17.04.20161109-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make more CardTool properties readonly
+  * Make the > in Dash Section Header be after text (LP: #1508905)
+  * Rework Dash Preview column margins
+  * Improve LVWPH <-> GenericScopeView interaction (LP: #1508905,
+    #1622423)
+  * Make the PreviewButtons be of the width of the button and not half
+    the total width
+  * Fix first column of the preview table to be 25%
+
+  [ Andrea Cimitan ]
+  * Remove background under header pagination dots, update dots assets,
+    remove dash paper background, update bottom edge asset
+  * Few styling changes for cards
+  * various tweaks to fonts inside previews
+  * More visual tweaks
+
+  [ Brian Douglass ]
+  * Add a new setting to enable/disable the launcher
+
+  [ Lukáš Tinkl ]
+  * Stabilize test_doubleTapToMaximizeWindow()
+  * Enable loading the main Qt catalog which in turn allows for using
+    RTL languages
+  * Fix the pixelated notification icon by setting sourceSize (LP:
+    #1637712)
+
+  [ Michael Terry ]
+  * More path lookup fixes for running inside of a snap. (LP: #1629009)
+
+  [ Michael Zanetti ]
+  * Added blur and darkening to wallpaper while in spread
+  * Fixes in the spread after design review (LP: #1637502, #1638848)
+  * More fixes to the unified stages code (LP: #1637205, #1637249,
+    #1637258)
+  * Delay alt tab for tiny bit in order to avoid flickering on quick alt-
+    tabs
+
+  [ Tomás Tormo ]
+  * Reload Infographics userdata when the day changes (LP: #1378814)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 09 Nov 2016 15:10:32 +0000
+
+unity8 (8.14+17.04.20161027-0ubuntu1) zesty; urgency=medium
+
+  * MenuItemFactory: activate item on calendar selection change (LP:
+    #1541125)
+
+ -- Marco Trevisan (Treviño) <mail@3v1n0.net>  Thu, 27 Oct 2016 12:32:25 +0000
+
+unity8 (8.14+17.04.20161024-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make PreviewProgress be thicker again (LP: #1629382)
+  * tst_PreviewZoomableImage: Wait for LazyImage transitions on init()
+    (LP: #1630136)
+
+  [ Andrea Azzarone ]
+  * Remove UbuntuShapeForItem and replace its use with the more standard
+    Ubuntu.Components.UbuntuShape.
+
+  [ Lukáš Tinkl ]
+  * Restore the double tap decoration to maximize feature (LP: #1627281)
+  * Hide the cursor for fullscreen apps after 3 seconds of inactivity
+  * Implement moving windows by Alt + left mouse button
+
+  [ Marco Trevisan (Treviño) ]
+  * MenuItemFactory: use more features from SlotsLayout based settings
+    components
+
+  [ Michael Terry ]
+  * Grab launcher icon information from ubuntu-app-launch, not directly
+    from desktop files.
+  * Adjust root paths if we're running inside a snap. (LP: #1629009)
+
+  [ Michael Zanetti ]
+  * Merge all Stages into one single codebase. Apply new spread visuals.
+    (LP: #1489517, #1603914, #1635800)
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Mon, 24 Oct 2016 11:37:28 +0000
+
+unity8 (8.14+16.10.20160922-0ubuntu2) yakkety; urgency=medium
+
+  * debian/control:
+    - Drop unity-scope-mediascanner2 to a Suggests rather than a Recommends,
+      to ease our transition to main.  It's already seeded directly in
+      Touch, so this will only affect the Desktop variant of unity8.
+
+ -- Michael Terry <mterry@ubuntu.com>  Mon, 03 Oct 2016 10:43:25 -0400
+
+unity8 (8.14+16.10.20160922-0ubuntu1) yakkety; urgency=medium
+
+  [ Albert Astals Cid ]
+  * LVWPH: update clipItem height when list height changes (LP:
+    #1606935)
+  * Put the touchdown shape inside a loader
+  * No need for the touchdown in the card for the cardtool
+  * Add bottom gradient to the Show Less floating button
+  * Remove artShapeSize from non cardtool cards
+  * LVWPH: Fix case in which header was shown incorrectly
+  * LVWPH: Fix items cut on top in the dash (or at least some instances
+    of it)
+  * Reduce calls to CardCreatorCache.getCardComponent while the
+    component is being created (LP: #1615675)
+  * Dash::test_cardIconStyle change compare into tryCompareFunction
+  * Make PreviewActionsTest::test_comboButton more stable
+  * Adapt onShiftedContentXChanged to work when the content changes very
+    abruptly
+  * Make tryGenericScopeView show the scope correctly
+  * Make sure the spinner does not get too close to the title text (LP:
+    #1597392)
+  * Show "Pull to refresh" in white when overlaid in low luminance
+    colors (LP: #1596849)
+  * Make test_Shell non ultra slow again (LP: #1597366)
+  * Improve findChild calls inside tryCompareFunction.
+
+  [ Andrea Cimitan ]
+  * override some Qt Components definitions so we can have sane default
+    values for flick speeds
+  * Elide the label text inside recent searches panel (LP: #1611796)
+  * Add a PreviewSingleton module to store some data for previews (LP:
+    #1595235)
+  * Use PreviewSingleton for PreviewRatingInput and PreviewCommentInput
+    (LP: #1595235)
+  * rework GenericScopeView PullToRefresh test
+  * use mouseFlick instead touchFlick for manage_dash_move_current
+  * add a couple of waiting tricks for a flaky dash test
+
+  [ Daniel d'Andrada ]
+  * Set progress bar indeterminate when processing signal received. (LP:
+    #1249349)
+  * Implement cursor confinement (LP: #1590099)
+
+  [ Josh Arenson ]
+  * Add a frontend to the sessions model and enable a session chooser in
+    the greeter.
+
+  [ Lukáš Tinkl ]
+  * Implement edge maximizing (aka window snapping) (LP: #1602628)
+  * On the PC platform (as opposed to running on $devices), use the
+    "mute" action instead of silent mode
+  * Respect Fitt's law wrt the window control buttons in panel (LP:
+    #1611959)
+  * Fix 2 failing color-related tests
+
+  [ Marco Trevisan (Treviño) ]
+  * Indicators, mocks: add fake indicators menuitem to populate mocks
+    with different menu types
+  * IndicatorsClient: use PageHeader and ListItemLayout's
+
+  [ Michael Terry ]
+  * Support launching apps inside a unity8 session from the greeter and
+    support emergency dialing inside the greeter.
+  * Fix tryShell to actually show appropriate backgrounds for each mock
+    user.
+  * Add an indicator to the greeter when a user is logged in (only shown
+    if we have more than one user)
+  * Hide the greeter OSK if indicators are open and don't show the edge
+    tutorial during an emergency call.
+  * Switch from lockscreen PIN pad to a passcode entry box that uses the
+    OSK.
+  * Use the default system wallpaper instead of our custom one.
+  * Update look of infographic a bit
+  * Make infographic bubbles white even on the default wallpaper.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 22 Sep 2016 07:46:57 +0000
+
+unity8 (8.14+16.10.20160831.3-0ubuntu1) yakkety; urgency=medium
+
+  [ Daniel d'Andrada ]
+  * Added implementation for MirSurfaceInterface::persistentId
+
+ -- Ken VanDine <ken.vandine@canonical.com>  Wed, 31 Aug 2016 11:56:09 +0000
+
+unity8 (8.14+16.10.20160826-0ubuntu1) yakkety; urgency=medium
+
+  * Make sure we emit sounds when taking a screenshot even after media-
+    hub (LP: #1544477)
+
+ -- Alfonso Sanchez-Beato <alfonso.sanchez-beato@canonical.com>  Fri, 26 Aug 2016 08:14:14 +0000
+
+unity8 (8.14+16.10.20160819-0ubuntu1) yakkety; urgency=medium
+
+  [ Lukáš Tinkl ]
+  * Reset topmostIsFullscreen to correctly rotate the shell when
+    dismissing SIM PIN screen (LP: #1614070)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 19 Aug 2016 14:16:54 +0000
+
+unity8 (8.14+16.10.20160811.1-0ubuntu1) yakkety; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Take into account carousel selectedItemScaleFactor when setting card
+    fixedArtShapeSize (LP: #1599238)
+  * Remove unused LimitProxyModel
+  * Do not calculate implicitHeight for Cards in a CardGrid
+  * Small clazy fixes
+
+  [ Daniel d'Andrada ]
+  * Remove stage property from Application
+
+  [ Larry Price ]
+  * Allow libertine-scope to show empty search result hint unmodified.
+    (LP: #1606693)
+
+  [ Lukáš Tinkl ]
+  * Open the quicklist (context) menu also using the Menu key (LP:
+    #1608265)
+  * Fix incorrect SIM PIN dialog position when entering a wrong PIN (LP:
+    #1596076)
+  * Apply the correct keymap also on prompt surfaces (LP: #1610124)
+  * Implement an optional system update feature during OOBE wizard (LP:
+    #1580785)
+  * Implement a page for choosing HW keyboard layout in OOBE wizard
+
+  [ Michael Zanetti ]
+  * Clean up some build script legacy
+  * Add a crossbuilder_post file to make crossbuilder restart unity8
+    after deploying
+  * fixes for the automatic switching between usage modes (LP: #1590944)
+
+  [ Omer Akram ]
+  * Add object names for setup wizard
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 11 Aug 2016 06:28:20 +0000
+
+unity8 (8.14+16.10.20160803-0ubuntu1) yakkety; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Fix DisabledScreenNotice::test_rotation
+  * Make the delegate of DashNavigationList an async Loader
+  * unity-scope-tool: Use parse instead of process
+  * VerticalJournal improvements regarding model insertions and item
+    height changes (LP: #1599754)
+  * Add math.h includes for compilation in yakkety (LP: #1605502)
+
+  [ Andrea Cimitan ]
+  * Unfocus the search text field in the dash page header when requested
+    (LP: #1590820)
+  * Use binding for filter popover contentWidth (LP: #1595116)
+  * Add few sourceSize for Image we forgot (LP: #1595113)
+  * Replace Flickable with an Item inside DashPageHeader for
+    headerContainer (LP: #1599235)
+
+  [ Albert Astals Cid, Andrea Cimitan ]
+  * Unbox the artshapeLoader
+
+  [ Daniel d'Andrada ]
+  * Fix splashscreen orientation when app rotates own contents (LP:
+    #1586050)
+  * tst_PreviewIconActions: Make test name match filename
+  * Cursor: make its size grid unit based (LP: #1604014)
+  * TouchEventSequenceWrapper: item might get deleted when touch
+    sequence is committed (LP: #1607686)
+
+  [ Lukáš Tinkl ]
+  * Implement frontend support for running keyboard indicator
+  * Provide window/surface close shortcuts across all the stages (LP:
+    #1578392, #1606528)
+  * Restart the location trust prompt service when exiting the wizard
+    (LP: #1594430)
+  * Implement clearing the search and closing the panel on pressing
+    Escape key in the dash header
+  * Fix log timestamps (LP: #1602196)
+  * Don't display the mode switch warning dialog on tablets (LP:
+    #1600290)
+
+  [ Michael Terry ]
+  * Fix indicator profile bug that caused sound indicator to say Mute
+    instead of Silent Mode. (LP: #1604205)
+  * Fix lockscreen appearing right after unlocking a locked session on
+    the desktop. (LP: #1604374)
+
+  [ Michał Sawicz ]
+  * Add arm64 support, drop unnecessary B-D on web plugin
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 03 Aug 2016 15:56:27 +0000
+
+unity8 (8.14+16.10.20160728-0ubuntu1) yakkety; urgency=medium
+
+  [ Zoltán Balogh ]
+  * Bump the version to secure UITK compatibility
+
+  [ Albert Astals Cid ]
+  * Pass the correct number of arguments to mapToItem (LP: #1606835)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 28 Jul 2016 08:17:13 +0000
+
 unity8 (8.13+16.10.20160714+fix1-0ubuntu2~1) yakkety; urgency=medium
 
   * Rebuild against Qt 5.6.

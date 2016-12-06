@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * Authors:
  *  Michael Zanetti <michael.zanetti@canonical.com>
@@ -26,6 +26,9 @@
 #include <QLibrary>
 #include <libintl.h>
 #include <QQmlApplicationEngine>
+#include <QTranslator>
+#include <QLibraryInfo>
+#include <QLocale>
 
 #include <paths.h>
 #include "../qmldebuggerutils.h"
@@ -37,7 +40,7 @@
 
 int main(int argc, const char *argv[])
 {
-    qSetMessagePattern("[%{time yyyy-mm-dd:hh:mm:ss.zzz}] %{if-category}%{category}: %{endif}%{message}");
+    qSetMessagePattern("[%{time yyyy-MM-dd:hh:mm:ss.zzz}] %{if-category}%{category}: %{endif}%{message}");
     if (enableQmlDebugger(argc, argv)) {
         QQmlDebuggingEnabler qQmlEnableDebuggingHelper(true);
     }
@@ -79,6 +82,11 @@ int main(int argc, const char *argv[])
         } else {
             qCritical("Library qttestability load failed!");
         }
+    }
+
+    QTranslator qtTranslator;
+    if (qtTranslator.load(QLocale(), QStringLiteral("qt_"), qgetenv("SNAP"), QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
+        application->installTranslator(&qtTranslator);
     }
 
     bindtextdomain("unity8", translationDirectory().toUtf8().data());

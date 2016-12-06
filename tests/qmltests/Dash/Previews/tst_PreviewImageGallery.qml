@@ -31,8 +31,8 @@ Rectangle {
 
     property var sourcesModel1: {
         "sources": [
-                    Qt.resolvedUrl("../../../../qml/graphics/phone_background.jpg"),
-                    Qt.resolvedUrl("../../../../qml/graphics/tablet_background.jpg"),
+                    Qt.resolvedUrl("../../../graphics/avatars/amanda@12.png"),
+                    Qt.resolvedUrl("../../../graphics/avatars/funky@12.png"),
                     Qt.resolvedUrl("../../../graphics/clock@18.png"),
                     Qt.resolvedUrl("../../../../qml/graphics/borked")
                    ]
@@ -40,8 +40,8 @@ Rectangle {
 
     property var sourcesModel1WithFallback: {
         "sources": [
-                    Qt.resolvedUrl("../../../../qml/graphics/phone_background.jpg"),
-                    Qt.resolvedUrl("../../../../qml/graphics/tablet_background.jpg"),
+                    Qt.resolvedUrl("../../../graphics/avatars/amanda@12.png"),
+                    Qt.resolvedUrl("../../../graphics/avatars/funky@12.png"),
                     Qt.resolvedUrl("../../../graphics/clock@18.png"),
                     Qt.resolvedUrl("../../../../qml/graphics/borked")
                    ]
@@ -50,8 +50,8 @@ Rectangle {
 
     property var sourcesModelEmptyWithFallback: {
         "sources": [
-                    Qt.resolvedUrl("../../../../qml/graphics/phone_background.jpg"),
-                    Qt.resolvedUrl("../../../../qml/graphics/tablet_background.jpg"),
+                    Qt.resolvedUrl("../../../graphics/avatars/amanda@12.png"),
+                    Qt.resolvedUrl("../../../graphics/avatars/funky@12.png"),
                     Qt.resolvedUrl("../../../graphics/clock@18.png"),
                     ""
                    ]

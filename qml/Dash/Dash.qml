@@ -329,7 +329,7 @@ Showable {
             enabled: bottomEdgeController.progress == 0
             UbuntuNumberAnimation {}
         }
-        y: parent.height - height * (1 - bottomEdgeController.progress * 4)
+        y: parent.height - height * (1 - bottomEdgeController.progress * 4) - units.gu(1)
         MouseArea {
             // Eat direct presses on the overview hint so that they do not end up in the card below
             anchors.fill: parent

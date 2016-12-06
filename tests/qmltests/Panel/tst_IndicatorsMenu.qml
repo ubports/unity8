@@ -219,8 +219,8 @@ IndicatorTest {
                            mappedPosition.x, indicatorsMenu.openedHeight / 2,
                            true /* beginTouch */, false /* endTouch */);
 
-                compare(indicatorItemRow.currentItem, indicatorItem,
-                        "Incorrect item activated at position " + i);
+                tryCompare(indicatorItemRow, "currentItem", indicatorItem, undefined /*timeout, default */,
+                           "Incorrect item activated at position " + i);
 
                 touchFlick(indicatorItemRow,
                            mappedPosition.x, indicatorsMenu.openedHeight / 2,
@@ -265,7 +265,8 @@ IndicatorTest {
                        false /* beginTouch */, false /* endTouch */,
                        units.gu(50) /* speed */, 5 /* iterations */); // more samples needed for accurate velocity
 
-            compare(indicatorItemRow.currentItem, firstItem, "First indicator should still be the current item");
+            tryCompare(indicatorItemRow, "currentItem", firstItem, undefined /* timeout, default */,
+                       "First indicator should still be the current item");
             // after waiting in the same spot with touch down, it should update to the next item.
             tryCompare(indicatorItemRow, "currentItem", nextItem);
 
@@ -284,6 +285,23 @@ IndicatorTest {
             clickThroughSpy.signalName = "clicked";
             mouseClick(indicatorsMenu, indicatorsMenu.width/2, indicatorsMenu.height/2, Qt.RightButton);
             tryCompare(clickThroughSpy, "count", 0);
+        }
+
+        function test_enableMenuSetting_data() {
+            return [
+                {tag: "menu enabled", enabled: true},
+                {tag: "menu disabled", enabled: false}
+            ]
+        }
+
+        function test_enableMenuSetting(data) {
+            indicatorsMenu.available = data.enabled;
+
+            indicatorsMenu.show();
+            tryCompare(indicatorsMenu, data.enabled ? "fullyOpened" : "fullyClosed", true);
+
+            indicatorsMenu.available = true;
+            indicatorsMenu.hide();
         }
     }
 }

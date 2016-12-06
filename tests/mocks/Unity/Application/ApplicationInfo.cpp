@@ -79,7 +79,7 @@ void ApplicationInfo::createSurface()
 {
     if (state() == ApplicationInfo::Stopped) { return; }
 
-    QString surfaceName = name();
+    QString surfaceName = name() + "s window title";
     if (m_surfaceList->count() > 0) {
         surfaceName.append(QString(" %1").arg(m_surfaceList->count()+1));
     }
@@ -171,14 +171,6 @@ void ApplicationInfo::setIcon(const QUrl &value)
     if (value != m_icon) {
         m_icon = value;
         Q_EMIT iconChanged(value);
-    }
-}
-
-void ApplicationInfo::setStage(Stage value)
-{
-    if (value != m_stage) {
-        m_stage = value;
-        Q_EMIT stageChanged(value);
     }
 }
 

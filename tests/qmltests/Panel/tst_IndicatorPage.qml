@@ -36,7 +36,7 @@ Item {
         menuObjectPath: "/com/canonical/indicator/test"
 
         factory {
-            _map: {
+            _userMap: {
                 "default": {
                     "com.canonical.indicator.test" : testMenu
                 }
@@ -177,8 +177,6 @@ Item {
             initializeMenuData(fullMenuData);
 
             var menuId = "menu"+data.remove
-
-            tryCompareFunction(function() { return findChild(page, menuId) !== null;}, true);
             var menu = findChild(page, menuId);
 
             menu.menuSelected();

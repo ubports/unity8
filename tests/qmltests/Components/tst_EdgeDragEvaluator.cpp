@@ -24,11 +24,11 @@
 // Ubuntu.Gestures plugin
 #include <AxisVelocityCalculator.h>
 #include <Direction.h>
-#include <Timer>
+#include <UbuntuGestures/private/timer_p.h>
 
 #include <paths.h>
 
-using namespace UbuntuGestures;
+UG_USE_NAMESPACE
 
 class tst_EdgeDragEvaluator: public QObject
 {

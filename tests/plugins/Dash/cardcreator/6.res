@@ -1,7 +1,7 @@
 AbstractButton {
                 id: root;
                 property var cardData;
-                property string backgroundShapeStyle: "inset"; 
+                property string backgroundShapeStyle: "flat"; 
                 property real fontScale: 1.0;
                 property var scopeStyle: null;
                 readonly property string title: cardData && cardData["title"] || "";
@@ -16,10 +16,10 @@ Loader {
                                 objectName: "backgroundLoader"; 
                                 anchors.fill: parent; 
                                 asynchronous: true;
-                                visible: status == Loader.Ready; 
+                                visible: status === Loader.Ready;
                                 sourceComponent: UbuntuShape { 
                                     objectName: "background"; 
-                                    radius: "medium"; 
+                                    radius: "small"; 
                                     aspect: { 
                                         switch (root.backgroundShapeStyle) { 
                                             case "inset": return UbuntuShape.Inset; 
@@ -49,7 +49,6 @@ Loader {
                                     } 
                                 } 
                             }
-readonly property size artShapeSize: Qt.size(-1, -1);
 readonly property int headerHeight: titleLabel.height + subtitleLabel.height + subtitleLabel.anchors.topMargin;
 Item { 
                             id: headerTitleContainer; 
@@ -77,7 +76,7 @@ Item {
                         visible: showHeader ; 
                         width: undefined;
                         text: root.title; 
-                        font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
+                        font.weight: Font.Normal; 
                         horizontalAlignment: Text.AlignLeft;
                     }
 ,Label { 
@@ -114,13 +113,15 @@ Item {
  
                             ]
                         }
-UbuntuShape {
-    id: touchdown;
-    objectName: "touchdown";
+Loader {
+    active: root.pressed;
     anchors { fill: backgroundLoader }
-    visible: root.pressed;
-    radius: "medium";
-    borderSource: "radius_pressed.sci"
+    sourceComponent: UbuntuShape {
+        objectName: "touchdown";
+        anchors.fill: parent;
+        radius: "small";
+        borderSource: "radius_pressed.sci"
+    }
 }
 implicitHeight: headerTitleContainer.y + headerTitleContainer.height + units.gu(1);
 }

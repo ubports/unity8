@@ -18,6 +18,7 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItems
 import "Filters" as Filters
+import "../Components"
 
 Item {
     id: root
@@ -40,6 +41,16 @@ Item {
 
     function resetNavigation() {
         dashNavigation.resetNavigation();
+    }
+
+    BorderImage {
+        anchors {
+            fill: parent
+            leftMargin: -units.gu(1)
+            rightMargin: -units.gu(1)
+            bottomMargin: -units.gu(1)
+        }
+        source: "graphics/rectangular_dropshadow.sci"
     }
 
     Rectangle {
@@ -123,6 +134,7 @@ Item {
                     }
                     text: query
                     color: "#888888"
+                    elide: Text.ElideRight
                 }
 
                 divider.visible: index != recentSearchesRepeater.count - 1 || (scope && scope.hasNavigation) || primaryFilter.active
@@ -185,16 +197,5 @@ Item {
 
             onSingleSelectionFilterSelected: extraPanelOptionSelected()
         }
-    }
-
-    // This is outside the item
-    Image {
-        anchors {
-            top: parent.bottom
-            left: parent.left
-            right: parent.right
-        }
-        fillMode: Image.Stretch
-        source: "graphics/navigation_shadow.png"
     }
 }

@@ -81,6 +81,53 @@ def scan_for_bad_import(file_path, all_pat, good_pats):
         print("%s: bad import version in multiple lines" % file_path)
     return bool(errors)
 
+# Flickable matches
+flickable_pat = re.compile(r'.*\s*Flickable\s*{')
+listview_pat = re.compile(r'.*\s*ListView\s*{')
+gridview_pat = re.compile(r'.*\s*GridView\s*{')
+flickable_pats = [flickable_pat, listview_pat, gridview_pat]
+unity_components_pat = re.compile(r'.*import ".*Components"')
+components_import_pat = re.compile(r'.*import "."')
+components_path = re.compile(r'.*qml/Components.*')
+skip_components_flickable_path = re.compile(r'.*qml/Components/Flickable.qml')
+skip_components_listview_path = re.compile(r'.*qml/Components/ListView.qml')
+skip_components_gridview_path = re.compile(r'.*qml/Components/GridView.qml')
+skip_mocks_path = re.compile(r'.*tests/mocks.*')
+
+def scan_for_flickable_imports(file_path, component_pats, qtquick_pat, unitycomponents_pat):
+    errors = []
+    with open(file_path, 'rt', encoding='utf-8') as ifile, open(file_path, 'rt', encoding='utf-8') as i2file:
+        flickable_found = False
+        for lino, line in enumerate(ifile, start=1):
+            for component_pat in component_pats:
+                if component_pat.match(line):
+                    flickable_found = True
+        if flickable_found:
+            qtquick_found = False
+            unitycomponents_found = False
+            for lino, line in enumerate(i2file, start=1):
+                if not qtquick_found and qtquick_pat.match(line):
+                    qtquick_found = True
+                if unitycomponents_pat.match(line):
+                    unitycomponents_found = True
+                    if not qtquick_found:
+                        errors.append(lino)
+                    else:
+                        return
+            if not unitycomponents_found:
+                errors.append(lino)
+    if 0 < len(errors) <= 10:
+        if len(errors) > 1:
+            plural = 's'
+        else:
+            plural = ''
+        print(
+            "%s: missing/wrong order of Components import in line%s %s" % (
+                file_path, plural, ", ".join((str(i) for i in errors))))
+    elif errors:
+        print("%s: missing/wrong order of Components imports in multiple lines" % file_path)
+    return bool(errors)
+
 # Parse args
 
 parser = argparse.ArgumentParser(
@@ -116,6 +163,17 @@ try:
                     found_bad_import = True
                 if scan_for_bad_import(path, ubuntu_components_pat, [ubuntu_good_components_pat]):
                     found_bad_import = True
+                if skip_mocks_path.match(path) or \
+                   skip_components_flickable_path.match(path) or \
+                   skip_components_listview_path.match(path) or \
+                   skip_components_gridview_path.match(path):
+                    break
+                if not components_path.match(path):
+                    if scan_for_flickable_imports(path, flickable_pats, quick_good_pat, unity_components_pat):
+                        found_bad_import = True
+                else:
+                    if scan_for_flickable_imports(path, flickable_pats, quick_good_pat, components_import_pat):
+                        found_bad_import = True
 
 except OSError as e:
     error("cannot create file list for \"" + dir + "\": " + e.strerror)

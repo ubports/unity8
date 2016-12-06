@@ -57,6 +57,8 @@ class GSettingsQml: public QObject, public QQmlParserStatus
     Q_PROPERTY(QVariant autohideLauncher READ autohideLauncher WRITE setAutohideLauncher NOTIFY autohideLauncherChanged)
     Q_PROPERTY(QVariant launcherWidth READ launcherWidth WRITE setLauncherWidth NOTIFY launcherWidthChanged)
     Q_PROPERTY(QVariant edgeDragWidth READ edgeDragWidth WRITE setEdgeDragWidth NOTIFY edgeDragWidthChanged)
+    Q_PROPERTY(QVariant enableLauncher READ enableLauncher WRITE setEnableLauncher NOTIFY enableLauncherChanged)
+    Q_PROPERTY(QVariant enableIndicatorMenu READ enableIndicatorMenu WRITE setEnableIndicatorMenu NOTIFY enableIndicatorMenuChanged)
 
 public:
     GSettingsQml(QObject *parent = nullptr);
@@ -73,6 +75,8 @@ public:
     QVariant autohideLauncher() const;
     QVariant launcherWidth() const;
     QVariant edgeDragWidth() const;
+    QVariant enableLauncher() const;
+    QVariant enableIndicatorMenu() const;
 
     void setDisableHeight(const QVariant &val);
     void setPictureUri(const QVariant &str);
@@ -82,6 +86,8 @@ public:
     void setAutohideLauncher(const QVariant &autohideLauncher);
     void setLauncherWidth(const QVariant &launcherWidth);
     void setEdgeDragWidth(const QVariant &edgeDragWidth);
+    void setEnableLauncher(const QVariant &enableLauncher);
+    void setEnableIndicatorMenu(const QVariant &enableIndicatorMenu);
 
 Q_SIGNALS:
     void disableHeightChanged();
@@ -93,6 +99,8 @@ Q_SIGNALS:
     void autohideLauncherChanged();
     void launcherWidthChanged();
     void edgeDragWidthChanged();
+    void enableLauncherChanged();
+    void enableIndicatorMenuChanged();
 
 private:
     GSettingsSchemaQml* m_schema;
@@ -133,6 +141,12 @@ public:
     uint edgeDragWidth() const;
     Q_INVOKABLE void setEdgeDragWidth(uint edgeDragWidth);
 
+    bool enableLauncher() const;
+    Q_INVOKABLE void setEnableLauncher(bool enableLauncher);
+
+    bool enableIndicatorMenu() const;
+    Q_INVOKABLE void setEnableIndicatorMenu(bool enableIndicatorMenu);
+
 Q_SIGNALS:
     void disableHeightChanged();
     void pictureUriChanged(const QString&);
@@ -142,6 +156,8 @@ Q_SIGNALS:
     void autohideLauncherChanged(bool autohideLauncher);
     void launcherWidthChanged(int launcherWidth);
     void edgeDragWidthChanged(uint edgeDragWidth);
+    void enableLauncherChanged(bool enableLauncher);
+    void enableIndicatorMenuChanged(bool enableIndicatorMenu);
 
 private:
     GSettingsControllerQml();
@@ -154,6 +170,8 @@ private:
     bool m_autohideLauncher;
     int m_launcherWidth;
     uint m_edgeDragWidth;
+    bool m_enableLauncher;
+    bool m_enableIndicatorMenu;
 
     static GSettingsControllerQml* s_controllerInstance;
     QList<GSettingsQml *> m_registeredGSettings;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ import Ubuntu.DownloadDaemonListener 0.1
 PreviewWidget {
     id: root
 
-    implicitHeight: progressBar.implicitHeight
+    implicitHeight: progressBar.height
     implicitWidth: progressBar.implicitWidth
 
     ProgressBar {
@@ -37,8 +37,7 @@ PreviewWidget {
         anchors.right: parent.right
         value: 0
         maximumValue: 100
-        implicitHeight: units.gu(4)
-        height: parent.height
+        height: units.gu(4)
         width: (root.width - units.gu(1)) / 2
 
         property var source: widgetData["source"]
@@ -57,6 +56,10 @@ PreviewWidget {
                     var percentage = parseInt(received * 100 / total);
                     progressBar.value = percentage;
                 }
+            }
+
+            onProcessing: {
+                progressBar.indeterminate = true;
             }
 
             onFinished: {

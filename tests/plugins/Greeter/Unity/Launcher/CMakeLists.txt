@@ -1,4 +1,4 @@
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=7)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=10)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -10,7 +10,6 @@ include_directories(
 
 add_definitions(-DSM_BUSNAME=sessionBus)
 add_definitions(-DTEST_DIR="plugins/Greeter/Unity/Launcher")
-add_definitions(-DLAUNCHER_TESTING)
 
 ### LauncherModelASTest
 add_executable(launchermodelastestExec

@@ -16,6 +16,8 @@
 
 #include "abstractdashview.h"
 
+#include <private/qquickitem_p.h>
+
 AbstractDashView::AbstractDashView()
  : m_delegateModel(nullptr)
  , m_asyncRequestedIndex(-1)
@@ -249,6 +251,7 @@ QQuickItem *AbstractDashView::createItem(int modelIndex, bool asynchronous)
         }
         return nullptr;
     } else {
+        QQuickItemPrivate::get(item)->addItemChangeListener(this, QQuickItemPrivate::Geometry);
         addItemToView(modelIndex, item);
         return item;
     }
@@ -256,6 +259,7 @@ QQuickItem *AbstractDashView::createItem(int modelIndex, bool asynchronous)
 
 void AbstractDashView::releaseItem(QQuickItem *item)
 {
+    QQuickItemPrivate::get(item)->removeItemChangeListener(this, QQuickItemPrivate::Geometry);
     QQmlDelegateModel::ReleaseFlags flags = m_delegateModel->release(item);
     if (flags & QQmlDelegateModel::Destroyed) {
         item->setParentItem(nullptr);
@@ -294,6 +298,15 @@ void AbstractDashView::onModelUpdated(const QQmlChangeSet &changeSet, bool reset
         cleanupExistingItems();
     } else {
         processModelRemoves(changeSet.removes());
+
+        // The current AbstractDashViews do not support insertions that are not at the end
+        // so reset if that happens
+        Q_FOREACH(const QQmlChangeSet::Change insert, changeSet.inserts()) {
+            if (insert.index < m_delegateModel->count() - 1) {
+                cleanupExistingItems();
+                break;
+            }
+        }
     }
     polish();
 }
