@@ -54,23 +54,30 @@ void DebuggingController::SetSceneGraphVisualizer(const QString &visualizer)
 }
 
 void DebuggingController::applyRenderMode() {
+    qDebug() << "applyRenderMode called";
     QQuickWindow *qquickWindow = qobject_cast<QQuickWindow*>(sender());
+    qDebug() << "window is" << qquickWindow;
 
     QMutexLocker lock(&m_renderModeMutex);
     disconnect(qquickWindow, &QQuickWindow::beforeSynchronizing, this, &DebuggingController::applyRenderMode);
 
-
+    qDebug() << "mutex locked";
 #if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
     QQuickWindowPrivate *winPriv = QQuickWindowPrivate::get(qquickWindow);
     QQuickItemPrivate *contentPriv = QQuickItemPrivate::get(qquickWindow->contentItem());
+    qDebug() << "winPriv is" << winPriv << "contentPriv is" << contentPriv;
     QSGNode *rootNode = contentPriv->itemNode();
     while (rootNode->parent())
         rootNode = rootNode->parent();
 
+    qDebug() << "rootnode is" << rootNode;
     winPriv->customRenderMode = m_pendingRenderMode.toLatin1();
     delete winPriv->renderer;
+    qDebug() << "renderer deleted";
     winPriv->renderer = winPriv->context->createRenderer();
+    qDebug() << "new renderer created";
     winPriv->renderer->setRootNode(static_cast<QSGRootNode *>(rootNode));
+    qDebug() << "setting back old rootNode. done";
 #endif
 }
 
