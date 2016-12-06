@@ -54,7 +54,7 @@ void DebuggingController::SetSceneGraphVisualizer(const QString &visualizer)
 }
 
 void DebuggingController::applyRenderMode() {
-    qDebug() << "applyRenderMode called";
+    qDebug() << "applyRenderMode called" << sender();
     QQuickWindow *qquickWindow = dynamic_cast<QQuickWindow*>(sender());
     qDebug() << "window is" << qquickWindow << sender() << sender()->metaObject()->className();
 
