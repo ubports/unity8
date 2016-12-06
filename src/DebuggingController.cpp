@@ -55,8 +55,8 @@ void DebuggingController::SetSceneGraphVisualizer(const QString &visualizer)
 
 void DebuggingController::applyRenderMode() {
     qDebug() << "applyRenderMode called";
-    QQuickWindow *qquickWindow = qobject_cast<QQuickWindow*>(sender());
-    qDebug() << "window is" << qquickWindow;
+    QQuickWindow *qquickWindow = dynamic_cast<QQuickWindow*>(sender());
+    qDebug() << "window is" << qquickWindow << sender() << sender()->metaObject()->className();
 
     QMutexLocker lock(&m_renderModeMutex);
     disconnect(qquickWindow, &QQuickWindow::beforeSynchronizing, this, &DebuggingController::applyRenderMode);
