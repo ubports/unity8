@@ -20,6 +20,7 @@
 #include <unity/shell/application/MirSurfaceInterface.h>
 
 #include <QQmlEngine>
+#include <QTextStream>
 
 namespace unityapi = unity::shell::application;
 
@@ -117,6 +118,7 @@ void Window::close()
 
 void Window::activate()
 {
+    DEBUG_MSG << "()";
     if (m_surface) {
         m_surface->activate();
     } else {
@@ -206,17 +208,18 @@ void Window::setFocused(bool value)
 
 QString Window::toString() const
 {
-    if (surface()) {
-    return QString("Window[0x%1, id=%2, MirSurface[0x%3,\"%4\"]]").arg(
-            QString::number((quintptr)this, 16),
-            QString::number(id()),
-            QString::number((quintptr)surface(), 16),
-            surface()->name());
-    } else {
-        return QString("Window[0x%1, id=%2, null]").arg(
-            QString::number((quintptr)this, 0, 16),
-            QString::number(id()));
+    QString result;
+    {
+        QTextStream stream(&result);
+        stream << "Window["<<(void*)this<<", id="<<id()<<", ";
+        if (surface()) {
+            stream << "MirSurface["<<(void*)surface()<<",\""<<surface()->name()<<"\"]";
+        } else {
+            stream << "null";
+        }
+        stream << "]";
     }
+    return result;
 }
 
 QDebug operator<<(QDebug dbg, const Window *window)
