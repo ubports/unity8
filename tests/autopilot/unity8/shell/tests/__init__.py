@@ -156,7 +156,10 @@ class UnityTestCase(AutopilotTestCase):
     def _setup_grid_size(self, scale_divisor):
         """Use the grid size that may be supplied or use the default."""
         if getattr(self, 'grid_unit_px', 0) == 0:
-            self.grid_size = int(os.getenv('GRID_UNIT_PX'))
+            if os.getenv('GRID_UNIT_PX') == None:
+                self.grid_size = 8
+            else:
+                self.grid_size = int(os.getenv('GRID_UNIT_PX'))
         else:
             self.grid_size = int(self.grid_unit_px / scale_divisor)
             self._environment["GRID_UNIT_PX"] = str(self.grid_size)

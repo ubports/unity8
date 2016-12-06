@@ -17,6 +17,7 @@
 #include "plugin.h"
 #include "ApplicationInfo.h"
 #include "ApplicationManager.h"
+#include "MirMock.h"
 #include "MirSurfaceItem.h"
 #include "SurfaceManager.h"
 
@@ -38,12 +39,21 @@ void createUnityApplicationSharedSingletons()
     if (!SurfaceManager::instance()) {
         new SurfaceManager;
     }
+    if (!MirMock::instance()) {
+        new MirMock;
+    }
 }
 
 QObject* applicationManagerSingleton(QQmlEngine*, QJSEngine*)
 {
     createUnityApplicationSharedSingletons();
     return new ApplicationManager;
+}
+
+QObject* mirSingleton(QQmlEngine*, QJSEngine*)
+{
+    createUnityApplicationSharedSingletons();
+    return MirMock::instance();
 }
 
 QObject* surfaceManagerSingleton(QQmlEngine*, QJSEngine*)
@@ -78,9 +88,8 @@ void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
     qmlRegisterType<ApplicationInfo>(uri, 0, 1, "ApplicationInfo");
 
     qmlRegisterSingletonType<ApplicationManager>(uri, 0, 1, "ApplicationManager", applicationManagerSingleton);
+    qmlRegisterSingletonType<MirMock>(uri, 0, 1, "Mir", mirSingleton);
     qmlRegisterSingletonType<SurfaceManager>(uri, 0, 1, "SurfaceManager", surfaceManagerSingleton);
-
-    qmlRegisterUncreatableType<Mir>(uri, 0, 1, "Mir", "Mir provides enum values, it can't be instantiated");
 }
 
 void FakeUnityApplicationQmlPlugin::initializeEngine(QQmlEngine *engine, const char *uri)

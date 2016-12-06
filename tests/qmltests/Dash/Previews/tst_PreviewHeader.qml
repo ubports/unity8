@@ -123,7 +123,7 @@ Rectangle {
 
         function test_dimensions_data() {
             return [
-                { tag: "Column width with mascot", object: column, width: previewHeader.width - mascotShapeLoader.width - outerRow.margins * 3, mascot: "artwork/avatar.png" },
+                { tag: "Column width with mascot", object: column, width: previewHeader.width - mascotShapeLoader.width - outerRow.margins * 2, mascot: "artwork/avatar.png" },
                 { tag: "Header height", object: previewHeader, height: function() { return outerRow.height + outerRow.margins * 2 } },
             ]
         }

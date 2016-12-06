@@ -1,7 +1,7 @@
 AbstractButton { 
                 id: root; 
                 property var cardData; 
-                property string backgroundShapeStyle: "inset"; 
+                property string backgroundShapeStyle: "flat"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
                 readonly property string title: cardData && cardData["title"] || "";
@@ -51,7 +51,7 @@ Loader {
                                 id: overlay; 
                                 property real luminance: Style.luminance(overlayColor); 
                                 aspect: UbuntuShape.Flat; 
-                                radius: "medium"; 
+                                radius: "small"; 
                                 overlayColor: cardData && cardData["overlayColor"] || "#99000000"; 
                                 overlayRect: Qt.rect(0, 1 - overlayLoader.overlayHeight / height, 1, 1); 
                             } 
@@ -76,7 +76,7 @@ Label {
                         visible: showHeader && overlayLoader.active; 
                         width: undefined;
                         text: root.title; 
-                        font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
+                        font.weight: Font.Normal; 
                         horizontalAlignment: Text.AlignLeft;
                     }
 Label { 

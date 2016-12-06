@@ -45,8 +45,8 @@ echo "DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS}" >"$XDG_RUNTIME_DIR/d
 
 # If touch session script (which sets up grid units and mir variables) is available, use it
 TOUCH_WRAPPER=
-if [ -x /usr/bin/ubuntu-touch-session ]; then
-    TOUCH_WRAPPER=/usr/bin/ubuntu-touch-session
+if which ubuntu-touch-session >/dev/null; then
+    TOUCH_WRAPPER=ubuntu-touch-session
 fi
 
 # Pretend that we're in an ubuntu-touch session, so that indicator-network
@@ -63,7 +63,7 @@ set_greeter_var PA_DISABLED 1
 # creates for them and don't want to start all the services that a normal
 # session would.  So it's inconvenient to live within an upstart session.
 # But... we still want to use Upstart for some services.  So launch here.
-MIR_SOCKET=$SUB_SOCKET $TOUCH_WRAPPER /sbin/upstart --user --no-startup-event &
+MIR_SOCKET=$SUB_SOCKET $TOUCH_WRAPPER upstart --user --no-startup-event &
 INIT_PID=$!
 while [ ! -e "$XDG_RUNTIME_DIR/upstart/sessions/$INIT_PID.session" ]; do sleep 0.1; done
 . "$XDG_RUNTIME_DIR/upstart/sessions/$INIT_PID.session"
@@ -72,11 +72,11 @@ export UPSTART_SESSION
 # Connect upstart to system, but do first command in a loop to avoid any
 # race condition between the session file above being written and upstart being
 # ready to handle requests.
-while ! /sbin/initctl notify-dbus-address "$DBUS_SESSION_BUS_ADDRESS"; do sleep 0.1; done
-/sbin/initctl start notify-cgmanager
+while ! initctl notify-dbus-address "$DBUS_SESSION_BUS_ADDRESS"; do sleep 0.1; done
+initctl start notify-cgmanager
 
 # Start any pre-greeter tasks if needed (like wizard)
-/sbin/initctl emit unity8-greeter-starting
+initctl emit unity8-greeter-starting
 
 # Define language here for phone if available.  When phone user switches their
 # language, they expect that to affect the greeter too.  But the user doesn't

@@ -57,6 +57,7 @@ Item {
         active: useUbuntuShape
         visible: opacity != 0
         sourceComponent: UbuntuShape {
+            aspect: UbuntuShape.Flat
             backgroundColor: "#22FFFFFF"
         }
 
@@ -92,6 +93,7 @@ Item {
         visible: opacity != 0
         sourceComponent: UbuntuShapeOverlay {
             property bool pressed: false
+            aspect: UbuntuShape.Flat
             overlayColor: Qt.rgba(0, 0, 0, pressed ? 0.1 : 0)
             overlayRect: Qt.rect(0.0, 0.0, 1.0, 1.0)
         }
