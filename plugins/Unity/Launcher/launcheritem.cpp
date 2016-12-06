@@ -42,6 +42,7 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
     QuickListEntry nameAction;
     nameAction.setActionId(QStringLiteral("launch_item"));
     nameAction.setText(m_name);
+    nameAction.setHasSeparator(true);
     m_quickList->appendAction(nameAction);
 
     QuickListEntry pinningAction;
@@ -86,6 +87,19 @@ void LauncherItem::setIcon(const QString &icon)
     if (m_icon != icon) {
         m_icon = icon;
         Q_EMIT iconChanged(icon);
+    }
+}
+
+QStringList LauncherItem::keywords() const
+{
+    return m_keywords;
+}
+
+void LauncherItem::setKeywords(const QStringList &keywords)
+{
+    if (m_keywords != keywords) {
+        m_keywords = keywords;
+        Q_EMIT keywordsChanged(keywords);
     }
 }
 

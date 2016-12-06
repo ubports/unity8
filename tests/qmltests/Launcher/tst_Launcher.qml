@@ -322,7 +322,7 @@ Rectangle {
         function revealByEdgePush() {
             // Place the mouse against the window/screen edge and push beyond the barrier threshold
             mouseMove(root, 1, root.height / 2);
-            launcher.pushEdge(EdgeBarrierSettings.pushThreshold * 1.1);
+            launcher.pushEdge(EdgeBarrierSettings.pushThreshold * .6);
 
             var panel = findChild(launcher, "launcherPanel");
             verify(!!panel);
@@ -1367,6 +1367,95 @@ Rectangle {
             clickThroughSpy.signalName = "clicked";
             mouseWheel(launcherPanel, launcherPanel.width/2, launcherPanel.height/2, Qt.RightButton);
             tryCompare(clickThroughSpy, "count", 0);
+        }
+
+        function test_tooltip() {
+            launcher.lockedVisible = true;
+            revealByEdgePush();
+
+            var item = findChild(launcher, "launcherDelegate0");
+            var tooltipShape = findChild(launcher, "tooltipShape");
+
+            // Initial state
+            tryCompare(tooltipShape, "visible", false);
+            tryCompare(tooltipShape, "opacity", .0);
+
+            // Move the mouse on the launcher icon
+            mouseMove(item, item.width / 2, item.height / 2, 10);
+            mouseMove(item, item.width / 2 + 1, item.height / 2, 10);
+            tryCompare(tooltipShape, "visible", true);
+            tryCompare(tooltipShape, "opacity", .95);
+
+            // Move the mouse away
+            mouseMove(root, root.width, root.height / 2, 10);
+            tryCompare(tooltipShape, "visible", false);
+            tryCompare(tooltipShape, "opacity", .0);
+        }
+
+        function test_quicklist_dismisses_tooltip() {
+            launcher.lockedVisible = true;
+            revealByEdgePush();
+
+            var item = findChild(launcher, "launcherDelegate0");
+            var tooltipShape = findChild(launcher, "tooltipShape");
+            var quickListShape = findChild(launcher, "quickListShape");
+
+            // Initial state
+            tryCompare(tooltipShape, "visible", false);
+            tryCompare(tooltipShape, "opacity", .0);
+
+            // Move the mouse on the launcher icon
+            mouseMove(item, item.width / 2, item.height / 2, 10);
+            mouseMove(item, item.width / 2 + 1, item.height / 2, 10);
+            tryCompare(tooltipShape, "visible", true);
+            tryCompare(tooltipShape, "opacity", .95);
+
+            // Right click to show the quicklist
+            mouseClick(item, item.width / 2, item.height / 2, Qt.RightButton);
+            tryCompare(quickListShape, "visible", true);
+            tryCompare(tooltipShape, "visible", false);
+            tryCompare(tooltipShape, "opacity", .0);
+
+            // Left click hides the quicklist, tooltip is still dismissed
+            mouseClick(item, item.width / 2, item.height / 2, Qt.LefftButton);
+            tryCompare(quickListShape, "visible", false);
+            tryCompare(tooltipShape, "visible", false);
+            tryCompare(tooltipShape, "opacity", .0);
+
+            // Mouse motion should should show tooltip again
+            mouseMove(item, item.width / 2, item.height / 2, 10);
+            mouseMove(item, item.width / 2 + 1, item.height / 2, 10);
+            tryCompare(tooltipShape, "visible", true);
+            tryCompare(tooltipShape, "opacity", .95);
+        }
+
+        function test_click_dismisses_tooltip() {
+            launcher.lockedVisible = true;
+            revealByEdgePush();
+
+            var item = findChild(launcher, "launcherDelegate0");
+            var tooltipShape = findChild(launcher, "tooltipShape");
+
+            // Initial state
+            tryCompare(tooltipShape, "visible", false);
+            tryCompare(tooltipShape, "opacity", .0);
+
+            // Move the mouse on the launcher icon
+            mouseMove(item, item.width / 2, item.height / 2, 10);
+            mouseMove(item, item.width / 2 + 1, item.height / 2, 10);
+            tryCompare(tooltipShape, "visible", true);
+            tryCompare(tooltipShape, "opacity", .95);
+
+            // Left click should dismiss the tooltip
+            mouseClick(item, item.width / 2 + 1, item.height / 2, Qt.LeftButton);
+            tryCompare(tooltipShape, "visible", false);
+            tryCompare(tooltipShape, "opacity", .0);
+
+            // Mouse motion should should show tooltip again
+            mouseMove(item, item.width / 2, item.height / 2, 10);
+            mouseMove(item, item.width / 2 + 1, item.height / 2, 10);
+            tryCompare(tooltipShape, "visible", true);
+            tryCompare(tooltipShape, "opacity", .95);
         }
 
         function test_launcherEnabledSetting() {

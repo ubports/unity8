@@ -36,7 +36,6 @@ FocusScope {
     property url background
     property int dragAreaWidth
     property bool interactive
-    property bool keepDashRunning: true
     property real nativeHeight
     property real nativeWidth
     property QtObject orientations
@@ -50,7 +49,6 @@ FocusScope {
 
     // Configuration
     property string mode: "staged"
-    property real leftEdgeDragProgress: 0
 
     // Used by the tutorial code
     readonly property real rightEdgeDragProgress: rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0 // How far left the stage has been dragged
@@ -92,7 +90,9 @@ FocusScope {
 
     onAltTabPressedChanged: {
         if (altTabPressed) {
-            altTabDelayTimer.start();
+            if (root.spreadEnabled) {
+                altTabDelayTimer.start();
+            }
         } else {
             // Alt Tab has been released, did we already go to spread?
             if (priv.goneToSpread) {
@@ -127,7 +127,9 @@ FocusScope {
     function updateFocusedAppOrientation() { /* TODO */ }
     function updateFocusedAppOrientationAnimated() { /* TODO */}
     function pushRightEdge(amount) {
-        edgeBarrier.push(amount);
+        if (root.spreadEnabled) {
+            edgeBarrier.push(amount);
+        }
     }
 
     function closeSpread() {
@@ -168,6 +170,7 @@ FocusScope {
     GlobalShortcut {
         id: showSpreadShortcut
         shortcut: Qt.MetaModifier|Qt.Key_W
+        active: root.spreadEnabled
         onTriggered: priv.goneToSpread = true
     }
 
@@ -410,7 +413,7 @@ FocusScope {
                 //       in staged mode, when it switches to Windowed mode it will suddenly
                 //       resume all those apps at once. We might want to avoid that.
                 value: root.mode === "windowed"
-                       || (isDash && root.keepDashRunning)
+                       || isDash
                        || (!root.suspended && model.application && priv.focusedAppDelegate &&
                            (priv.focusedAppDelegate.appId === model.application.appId ||
                             priv.mainStageAppId === model.application.appId ||
@@ -1056,7 +1059,6 @@ FocusScope {
                     sideStageX: sideStage.x
                     itemIndex: appDelegate.itemIndex
                     nextInStack: priv.nextInStack
-                    leftEdgeDragProgress: root.leftEdgeDragProgress
                 }
 
                 StagedRightEdgeMaths {
@@ -1530,9 +1532,21 @@ FocusScope {
                     onRequestedHeightChanged: oldRequestedHeight = requestedHeight
 
                     onCloseClicked: { appDelegate.close(); }
-                    onMaximizeClicked: appDelegate.anyMaximized ? appDelegate.restoreFromMaximized() : appDelegate.maximize();
-                    onMaximizeHorizontallyClicked: appDelegate.maximizedHorizontally ? appDelegate.restoreFromMaximized() : appDelegate.maximizeHorizontally()
-                    onMaximizeVerticallyClicked: appDelegate.maximizedVertically ? appDelegate.restoreFromMaximized() : appDelegate.maximizeVertically()
+                    onMaximizeClicked: {
+                        if (appDelegate.canBeMaximized) {
+                            appDelegate.anyMaximized ? appDelegate.restoreFromMaximized() : appDelegate.maximize();
+                        }
+                    }
+                    onMaximizeHorizontallyClicked: {
+                        if (appDelegate.canBeMaximizedHorizontally) {
+                            appDelegate.maximizedHorizontally ? appDelegate.restoreFromMaximized() : appDelegate.maximizeHorizontally()
+                        }
+                    }
+                    onMaximizeVerticallyClicked: {
+                        if (appDelegate.canBeMaximizedVertically) {
+                            appDelegate.maximizedVertically ? appDelegate.restoreFromMaximized() : appDelegate.maximizeVertically()
+                        }
+                    }
                     onMinimizeClicked: appDelegate.minimize()
                     onDecorationPressed: { appDelegate.focus = true; }
                     onDecorationReleased: fakeRectangle.commit();
@@ -1789,6 +1803,7 @@ FocusScope {
         direction: Direction.Leftwards
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
+        enabled: root.spreadEnabled
 
         property var gesturePoints: []
         property bool cancelled: false

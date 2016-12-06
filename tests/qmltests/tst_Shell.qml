@@ -605,38 +605,6 @@ Rectangle {
             compare(ApplicationManager.get(0).appId, "unity8-dash");
         }
 
-        function test_phoneLeftEdgeDrag_data() {
-            return [
-                {tag: "without launcher",
-                 revealLauncher: false, swipeLength: units.gu(30), appHides: true, focusedApp: "dialer-app",
-                 launcherHides: true, greeterShown: false},
-
-                {tag: "with launcher",
-                 revealLauncher: true, swipeLength: units.gu(30), appHides: true, focusedApp: "dialer-app",
-                 launcherHides: true, greeterShown: false},
-
-                {tag: "small swipe",
-                 revealLauncher: false, swipeLength: units.gu(25), appHides: false, focusedApp: "dialer-app",
-                 launcherHides: false, greeterShown: false},
-
-                {tag: "long swipe",
-                 revealLauncher: false, swipeLength: units.gu(30), appHides: true, focusedApp: "dialer-app",
-                 launcherHides: true, greeterShown: false},
-
-                {tag: "small swipe with greeter",
-                 revealLauncher: false, swipeLength: units.gu(25), appHides: false, focusedApp: "dialer-app",
-                 launcherHides: false, greeterShown: true},
-
-                {tag: "long swipe with greeter",
-                 revealLauncher: false, swipeLength: units.gu(30), appHides: true, focusedApp: "dialer-app",
-                 launcherHides: true, greeterShown: true},
-
-                {tag: "swipe over dash",
-                 revealLauncher: false, swipeLength: units.gu(30), appHides: true, focusedApp: "unity8-dash",
-                 launcherHides: false, greeterShown: false},
-            ];
-        }
-
         function test_snapDecisionDismissalReturnsFocus() {
             loadShell("phone");
             swipeAwayGreeter();
@@ -699,80 +667,6 @@ Rectangle {
             }
 
             mockNotificationsModel.append(n)
-        }
-
-        function test_phoneLeftEdgeDrag(data) {
-            loadShell("phone");
-            swipeAwayGreeter();
-            dragLauncherIntoView();
-            var appSurfaceId = topLevelSurfaceList.nextId;
-            tapOnAppIconInLauncher();
-            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
-
-            var greeter = findChild(shell, "greeter");
-            if (data.greeterShown) {
-                showGreeter();
-            }
-
-            if (data.revealLauncher) {
-                dragLauncherIntoView();
-            }
-
-            swipeFromLeftEdge(data.swipeLength);
-            if (data.appHides) {
-                waitUntilDashIsFocused();
-                tryCompare(greeter, "shown", false);
-            } else {
-                tryCompare(greeter, "fullyShown", data.greeterShown);
-            }
-
-            var launcher = findChild(shell, "launcherPanel");
-            tryCompare(launcher, "x", data.launcherHides ? -launcher.width : 0)
-
-            //FIXME: This check fails. Don't understand the rationale behind it.
-            /*
-            // Make sure the helper for sliding out the launcher wasn't touched. We want to fade it out here.
-            var animateTimer = findInvisibleChild(shell, "animateTimer");
-            compare(animateTimer.nextState, "visible");
-            */
-        }
-
-        function test_tabletLeftEdgeDrag_data() {
-            return [
-                {tag: "without password", user: "no-password", loggedIn: true},
-                {tag: "with password", user: "has-password", loggedIn: false},
-            ]
-        }
-
-        function test_tabletLeftEdgeDrag(data) {
-            setLightDMMockMode("full");
-            loadShell("tablet");
-
-            selectUser(data.user)
-
-            swipeFromLeftEdge(shell.width * 0.75)
-            wait(500) // to give time to handle dash() signal from Launcher
-            confirmLoggedIn(data.loggedIn)
-        }
-
-        function test_longLeftEdgeSwipeTakesToAppsAndResetSearchString() {
-            loadShell("phone");
-            swipeAwayGreeter();
-            dragLauncherIntoView();
-            dashCommunicatorSpy.clear();
-
-            var appSurfaceId = topLevelSurfaceList.nextId;
-            tapOnAppIconInLauncher();
-            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
-
-            tryCompareFunction(function() { return ApplicationManager.focusedApplicationId !== "unity8-dash"; }, true);
-
-            //Long left swipe
-            swipeFromLeftEdge(units.gu(30));
-
-            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
-
-            compare(dashCommunicatorSpy.count, 1);
         }
 
         function test_ClickUbuntuIconInLauncherTakesToAppsAndResetSearchString() {
@@ -911,39 +805,6 @@ Rectangle {
         function setLightDMMockMode(mode) {
             LightDM.Greeter.mockMode = mode;
             LightDM.Users.mockMode = mode;
-        }
-
-        /*
-          Regression test for bug https://bugs.launchpad.net/touch-preview-images/+bug/1193419
-
-          When the user minimizes an application (left-edge swipe) he should always end up in the
-          "Applications" scope view.
-
-          Steps:
-          - reveal launcher and launch an app that covers the dash
-          - perform long left edge swipe to go minimize the app and go back to the dash.
-          - verify the setCurrentScope() D-Bus call to the dash has been called for the correct scope id.
-         */
-        function test_minimizingAppTakesToDashApps() {
-            loadShell("phone");
-            swipeAwayGreeter();
-            dragLauncherIntoView();
-
-            // Launch an app from the launcher
-            var appSurfaceId = topLevelSurfaceList.nextId;
-            tapOnAppIconInLauncher();
-            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
-
-            verify(ApplicationManager.focusedApplicationId !== "unity8-dash")
-
-            dashCommunicatorSpy.clear();
-            // Minimize the application we just launched
-            swipeFromLeftEdge(shell.width * 0.75);
-
-            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
-
-            compare(dashCommunicatorSpy.count, 1);
-            compare(dashCommunicatorSpy.signalArguments[0][0], 0);
         }
 
         function test_showInputMethod() {
@@ -1166,7 +1027,7 @@ Rectangle {
 
             // Place the mouse against the window/screen edge and push beyond the barrier threshold
             mouseMove(shell, 0, shell.height / 2);
-            launcher.pushEdge(EdgeBarrierSettings.pushThreshold * 1.1);
+            launcher.pushEdge(EdgeBarrierSettings.pushThreshold * .8);
 
             var panel = findChild(launcher, "launcherPanel");
             verify(panel);
@@ -1186,9 +1047,7 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             // Minimize the application we just launched
-            swipeFromLeftEdge(shell.width * 0.75);
-
-            waitUntilDashIsFocused();
+            swipeFromLeftEdge(units.gu(15));
 
             showGreeter();
 
@@ -2778,6 +2637,70 @@ Rectangle {
             compare(launcher.available, data.enabled);
 
             GSettingsController.setEnableLauncher(true);
+        }
+
+        function test_indicatorMenuEnabledSetting_data() {
+            return [
+                {tag: "indicator menu enabled", enabled: true},
+                {tag: "indicator menu disabled", enabled: false}
+            ]
+        }
+
+        function test_indicatorMenuEnabledSetting(data) {
+            loadShell("phone");
+
+            GSettingsController.setEnableIndicatorMenu(data.enabled);
+
+            var panel = findChild(shell, "panel");
+            compare(panel.indicators.available, data.enabled);
+
+            GSettingsController.setEnableIndicatorMenu(true);
+        }
+
+        function test_spreadDisabled_data() {
+            return [
+                { tag: "enabled", spreadEnabled: true },
+                { tag: "disabled", spreadEnabled: false }
+            ];
+        }
+
+        function test_spreadDisabled(data) {
+            loadShell("phone");
+            swipeAwayGreeter();
+            var stage = findChild(shell, "stage");
+            stage.spreadEnabled = data.spreadEnabled;
+
+            // Try swiping
+            touchFlick(shell, shell.width - 2, shell.height / 2, units.gu(1), shell.height / 2);
+            tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
+
+            stage.closeSpread();
+            tryCompare(stage, "state", "staged");
+
+            // Try by edge push
+            mouseMove(stage, stage.width -  1, units.gu(10));
+            for (var i = 0; i < units.gu(10); i++) {
+                stage.pushRightEdge(1);
+            }
+            mouseMove(stage, stage.width - units.gu(5), units.gu(10));
+            tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
+
+            stage.closeSpread();
+            tryCompare(stage, "state", "staged");
+
+            // Try by alt+tab
+            keyPress(Qt.Key_Alt);
+            keyClick(Qt.Key_Tab);
+            tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
+            keyRelease(Qt.Key_Alt);
+
+            stage.closeSpread();
+            tryCompare(stage, "state", "staged");
+
+            // Try by Super+W
+            keyPress(Qt.Key_W, Qt.MetaModifier)
+            tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
+            keyRelease(Qt.Key_W, Qt.MetaModifier)
         }
     }
 }

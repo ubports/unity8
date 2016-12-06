@@ -25,6 +25,8 @@ from functools import wraps
 import ubuntuuitoolkit
 from autopilot import logging as autopilot_logging
 from autopilot import input
+import gi
+gi.require_version('Notify', '0.7')
 from gi.repository import Notify
 
 from unity8 import (
