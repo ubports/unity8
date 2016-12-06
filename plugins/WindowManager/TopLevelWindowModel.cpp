@@ -196,11 +196,7 @@ void TopLevelWindowModel::prependSurfaceHelper(unityapi::MirSurfaceInterface *su
     }
 
     if (!surface) {
-        // focus the newly added window. miral can't help with that as it doesn't know about it.
-        window->setFocused(true);
-        if (m_focusedWindow && m_focusedWindow->surface()) {
-            m_surfaceManager->activate(nullptr);
-        }
+        activateEmptyWindow(window);
     }
 
     INFO_MSG << " after " << toString();
@@ -219,19 +215,33 @@ void TopLevelWindowModel::connectWindow(Window *window)
             // Condense changes to the focused window
             // eg: Do focusedWindow=A to focusedWindow=B instead of
             // focusedWindow=A to focusedWindow=null to focusedWindow=B
-            m_focusedWindowChanged = true;
             if (focused) {
                 Q_ASSERT(m_newlyFocusedWindow == nullptr);
+                m_focusedWindowChanged = true;
                 m_newlyFocusedWindow = window;
+            } else if (m_focusedWindow == window) {
+                m_focusedWindowChanged = true;
+            } else {
+                // don't clear the focused window if you were not there in the first place
+                // happens when a filled window gets replaced with an empty one (no surface) as the focused window.
             }
         }
     });
 
     connect(window, &Window::closeRequested, this, [this, window]() {
         if (!window->surface()) {
-            int index = indexForId(window->id());
+            // do things ourselves as miral doesn't know about this window
+            int id = window->id();
+            int index = indexForId(id);
+            bool focusOther = false;
             Q_ASSERT(index >= 0);
+            if (window->focused()) {
+                focusOther = true;
+            }
             m_windowModel[index].application->close();
+            if (focusOther) {
+                activateTopMostWindowWithoutId(id);
+            }
         }
     });
 
@@ -243,6 +253,7 @@ void TopLevelWindowModel::connectWindow(Window *window)
 void TopLevelWindowModel::activateEmptyWindow(Window *window)
 {
     Q_ASSERT(!window->surface());
+    DEBUG_MSG << "(" << window << ")";
 
     // miral doesn't know about empty windows (ie, windows that are not backed up by MirSurfaces)
     // So we have to activate them ourselves (instead of asking SurfaceManager to do it for us).
@@ -561,7 +572,8 @@ void TopLevelWindowModel::raiseId(int id)
 void TopLevelWindowModel::doRaiseId(int id)
 {
     int fromIndex = indexForId(id);
-    if (fromIndex != -1) {
+    // can't raise something that doesn't exist or that it's already on top
+    if (fromIndex != -1 && fromIndex != 0) {
         auto surface = m_windowModel[fromIndex].window->surface();
         if (surface) {
             m_surfaceManager->raise(surface);
@@ -641,4 +653,16 @@ void TopLevelWindowModel::onModificationsEnded()
     // reset
     m_focusedWindowChanged = false;
     m_newlyFocusedWindow = nullptr;
+}
+
+void TopLevelWindowModel::activateTopMostWindowWithoutId(int forbiddenId)
+{
+    DEBUG_MSG << "(" << forbiddenId << ")";
+
+    for (int i = 0; i < m_windowModel.count(); ++i) {
+        Window *window = m_windowModel[i].window;
+        if (window->id() != forbiddenId) {
+            window->activate();
+        }
+    }
 }

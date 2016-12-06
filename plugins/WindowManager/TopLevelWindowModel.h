@@ -218,6 +218,8 @@ private:
 
     void activateEmptyWindow(Window *window);
 
+    void activateTopMostWindowWithoutId(int forbiddenId);
+
     struct ModelEntry {
         ModelEntry() {}
         ModelEntry(Window *window,
