@@ -41,7 +41,7 @@ QtObject {
     property real breakPoint: 0.4
 
     // internal
-    property real progress: {
+    readonly property real progress: {
         if (pushProgress > 0) {
             // we don't do the full animation when pushing, just a little bit
             return MathUtils.linearAnimation(0, 1, 0, breakPoint + .1, pushProgress)
