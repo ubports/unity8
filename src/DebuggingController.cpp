@@ -28,6 +28,7 @@
 DebuggingController::DebuggingController(QObject *parent):
     UnityDBusObject(QStringLiteral("/com/canonical/Unity8/Debugging"), QStringLiteral("com.canonical.Unity8"), true, parent)
 {
+    connect(&m_mapper, SIGNAL(mapped(QObject*)), this, SLOT(applyRenderMode(QObject*)), Qt::DirectConnection);
 }
 
 void DebuggingController::SetSceneGraphVisualizer(const QString &visualizer)
@@ -43,7 +44,9 @@ void DebuggingController::SetSceneGraphVisualizer(const QString &visualizer)
             // We do this by simply recreating the renderer.
             QMutexLocker lock(&m_renderModeMutex);
             m_pendingRenderMode = visualizer;
-            connect(qquickWindow, &QQuickWindow::beforeSynchronizing, this, &DebuggingController::applyRenderMode, Qt::DirectConnection);
+            qDebug() << "connecting to mapper";
+            connect(qquickWindow, SIGNAL(beforeSynchronizing()), &m_mapper, SLOT(map()), Qt::DirectConnection);
+            m_mapper.setMapping(qquickWindow, qquickWindow);
 #else
             QQuickWindowPrivate *winPriv = QQuickWindowPrivate::get(qquickWindow);
             winPriv->customRenderMode = visualizer.toLatin1();
@@ -53,13 +56,13 @@ void DebuggingController::SetSceneGraphVisualizer(const QString &visualizer)
     }
 }
 
-void DebuggingController::applyRenderMode() {
-    qDebug() << "applyRenderMode called" << sender();
-    QQuickWindow *qquickWindow = dynamic_cast<QQuickWindow*>(sender());
-    qDebug() << "window is" << qquickWindow << sender() << sender()->metaObject()->className();
+void DebuggingController::applyRenderMode(QObject* sender) {
+    qDebug() << "applyRenderMode called" << sender;
+    QQuickWindow *qquickWindow = dynamic_cast<QQuickWindow*>(sender);
+    qDebug() << "window is" << qquickWindow;
 
     QMutexLocker lock(&m_renderModeMutex);
-    disconnect(qquickWindow, &QQuickWindow::beforeSynchronizing, this, &DebuggingController::applyRenderMode);
+    disconnect(qquickWindow, SIGNAL(beforeSynchronizing()), &m_mapper, SLOT(map()));
 
     qDebug() << "mutex locked";
 #if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
