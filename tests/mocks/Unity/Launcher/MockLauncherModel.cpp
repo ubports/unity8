@@ -36,6 +36,9 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     item = new MockLauncherItem("camera-app2", "/usr/share/applications/camera-app2.desktop", "Camera2", "camera", this);
     item->setPinned(true);
     m_list.append(item);
+    item = new MockLauncherItem("camera-app3", "/usr/share/applications/camera-app2.desktop", "Camera2", "camera", this);
+    item->setPinned(true);
+    m_list.append(item);
     item = new MockLauncherItem("gallery-app", "/usr/share/applications/gallery-app.desktop", "Gallery", "gallery", this);
     item->setProgress(50);
     item->setCountVisible(true);
