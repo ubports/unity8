@@ -21,14 +21,20 @@ import UInput 0.1
 import "../../../qml/Components"
 
 
-Item {
+Rectangle {
     id: root
     width: units.gu(70)
     height: units.gu(70)
+    color: "black"
 
     VirtualTouchPad {
         id: touchScreenPad
         anchors.fill: parent
+        property int internalGu: units.gu(1)
+        settings: QtObject {
+            property bool touchpadTutorialHasRun: true
+            property bool oskEnabled: true
+        }
     }
 
     SignalSpy {
@@ -139,5 +145,53 @@ Item {
             event.release(1, startX2, startY + units.gu(11));
             event.commit();
         }
+
+        function test_tutorial() {
+            var oskButton = findChild(touchScreenPad, "oskButton");
+            var leftButton = findChild(touchScreenPad, "leftButton");
+            var rightButton = findChild(touchScreenPad, "rightButton");
+            var touchPad = findChild(touchScreenPad, "virtualTouchPad")
+            var tutorial = findInvisibleChild(touchScreenPad, "tutorialAnimation")
+            var tutorialFinger1 = findChild(touchScreenPad, "tutorialFinger1");
+            var tutorialFinger2 = findChild(touchScreenPad, "tutorialFinger2");
+            var tutorialLabel = findChild(touchScreenPad, "tutorialLabel");
+            var tutorialImage = findChild(touchScreenPad, "tutorialImage");
+
+            mouseEventSpy1.signalName = "mousePressed"
+            mouseEventSpy2.signalName = "mouseReleased"
+
+            mouseEventSpy1.clear();
+            mouseEventSpy2.clear();
+
+            // run the tutorial
+            touchScreenPad.runTutorial();
+            tryCompare(tutorial, "running", true)
+
+            // Wait for it to pause
+            tryCompare(tutorial, "paused", true)
+
+            // Click somewhere to make it continue
+            mouseClick(root, root.width / 2, root.height /2)
+            tryCompare(tutorial, "paused", false)
+
+            // Verify that the touchpad does NOT accept input while the tutorial is running
+            mouseClick(root, root.width / 2, root.height /2)
+            compare(mouseEventSpy1.count, 0)
+            compare(mouseEventSpy2.count, 0)
+
+            // Wait for it to finish
+            tryCompare(tutorial, "running", false, 60000)
+
+            // Make sure after the tutorial, all the visible states are proper
+            tryCompare(oskButton, "visible", true)
+            tryCompare(leftButton, "visible", true)
+            tryCompare(rightButton, "visible", true)
+
+            tryCompare(tutorialFinger1, "visible", false)
+            tryCompare(tutorialFinger2, "visible", false)
+            tryCompare(tutorialImage, "visible", false)
+            tryCompare(tutorialLabel, "visible", false)
+        }
+
     }
 }
