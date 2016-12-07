@@ -24,7 +24,6 @@
 #include <QQmlExtensionPlugin>
 #include <QQuickWindow>
 #include <QMutex>
-#include <QSignalMapper>
 
 #include "unitydbusobject.h"
 
@@ -54,12 +53,8 @@ public Q_SLOTS:
       */
     Q_SCRIPTABLE void SetLoggingFilterRules(const QString &filterRules);
 
-private Q_SLOTS:
-    void applyRenderMode(QObject *sender);
-
 private:
     QMutex m_renderModeMutex;
-    QString m_pendingRenderMode;
-    QSignalMapper m_mapper;
+    QHash<QQuickWindow*, QMetaObject::Connection> m_mapper;
 };
 #endif // DEBUGGINGCONTROLLER_H

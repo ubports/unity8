@@ -28,11 +28,16 @@
 DebuggingController::DebuggingController(QObject *parent):
     UnityDBusObject(QStringLiteral("/com/canonical/Unity8/Debugging"), QStringLiteral("com.canonical.Unity8"), true, parent)
 {
-    connect(&m_mapper, SIGNAL(mapped(QObject*)), this, SLOT(applyRenderMode(QObject*)), Qt::DirectConnection);
 }
 
 void DebuggingController::SetSceneGraphVisualizer(const QString &visualizer)
 {
+    QByteArray pendingRenderMode;
+    QStringList supportedRenderModes = {"clip", "overdraw", "changes", "batches"};
+    if (supportedRenderModes.contains(visualizer)) {
+        pendingRenderMode = visualizer.toLatin1();
+    }
+
     Q_FOREACH (QWindow *window, QGuiApplication::allWindows()) {
         QQuickWindow* qquickWindow = qobject_cast<QQuickWindow*>(window);
         if (qquickWindow) {
@@ -43,10 +48,28 @@ void DebuggingController::SetSceneGraphVisualizer(const QString &visualizer)
             // So we need to make the scenegraph recheck whether a custom render mode is set.
             // We do this by simply recreating the renderer.
             QMutexLocker lock(&m_renderModeMutex);
-            m_pendingRenderMode = visualizer;
-            qDebug() << "connecting to mapper";
-            connect(qquickWindow, SIGNAL(beforeSynchronizing()), &m_mapper, SLOT(map()), Qt::DirectConnection);
-            m_mapper.setMapping(qquickWindow, qquickWindow);
+            QMetaObject::Connection conn;
+            conn = connect(qquickWindow, &QQuickWindow::beforeSynchronizing, this, [this, qquickWindow, pendingRenderMode]() {
+                qDebug() << "Setting curstom render mode to:" << pendingRenderMode;
+                QMutexLocker lock(&m_renderModeMutex);
+                if (!m_mapper.contains(qquickWindow)) {
+                    return;
+                }
+                disconnect(m_mapper.take(qquickWindow));
+
+                QQuickWindowPrivate *winPriv = QQuickWindowPrivate::get(qquickWindow);
+                QQuickItemPrivate *contentPriv = QQuickItemPrivate::get(qquickWindow->contentItem());
+                QSGNode *rootNode = contentPriv->itemNode();
+                while (rootNode->parent())
+                    rootNode = rootNode->parent();
+
+                winPriv->customRenderMode = pendingRenderMode;
+                delete winPriv->renderer;
+                winPriv->renderer = winPriv->context->createRenderer();
+                winPriv->renderer->setRootNode(static_cast<QSGRootNode *>(rootNode));
+            }, Qt::DirectConnection);
+            m_mapper.insert(qquickWindow, conn);
+
 #else
             QQuickWindowPrivate *winPriv = QQuickWindowPrivate::get(qquickWindow);
             winPriv->customRenderMode = visualizer.toLatin1();
@@ -54,34 +77,6 @@ void DebuggingController::SetSceneGraphVisualizer(const QString &visualizer)
             qquickWindow->update();
         }
     }
-}
-
-void DebuggingController::applyRenderMode(QObject* sender) {
-    qDebug() << "applyRenderMode called" << sender;
-    QQuickWindow *qquickWindow = dynamic_cast<QQuickWindow*>(sender);
-    qDebug() << "window is" << qquickWindow;
-
-    QMutexLocker lock(&m_renderModeMutex);
-    disconnect(qquickWindow, SIGNAL(beforeSynchronizing()), &m_mapper, SLOT(map()));
-
-    qDebug() << "mutex locked";
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
-    QQuickWindowPrivate *winPriv = QQuickWindowPrivate::get(qquickWindow);
-    QQuickItemPrivate *contentPriv = QQuickItemPrivate::get(qquickWindow->contentItem());
-    qDebug() << "winPriv is" << winPriv << "contentPriv is" << contentPriv;
-    QSGNode *rootNode = contentPriv->itemNode();
-    while (rootNode->parent())
-        rootNode = rootNode->parent();
-
-    qDebug() << "rootnode is" << rootNode;
-    winPriv->customRenderMode = m_pendingRenderMode.toLatin1();
-    delete winPriv->renderer;
-    qDebug() << "renderer deleted";
-    winPriv->renderer = winPriv->context->createRenderer();
-    qDebug() << "new renderer created";
-    winPriv->renderer->setRootNode(static_cast<QSGRootNode *>(rootNode));
-    qDebug() << "setting back old rootNode. done";
-#endif
 }
 
 void DebuggingController::SetSlowAnimations(bool slowAnimations)
