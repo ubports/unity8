@@ -71,7 +71,7 @@ FocusScope {
         } else {
             superPressTimer.stop();
             superLongPressTimer.stop();
-            launcher.switchToNextState("");
+            switchToNextState("");
             panel.shortcutHintsShown = false;
         }
     }
@@ -352,6 +352,7 @@ FocusScope {
         width: Math.min(root.width, units.gu(90)) * .9
         panelWidth: panel.width
         visible: x > -width
+        focus: visible
 
         Behavior on anchors.rightMargin {
             enabled: !dragArea.dragging && !launcherDragArea.drag.active && panel.animate && !drawer.draggingHorizontally

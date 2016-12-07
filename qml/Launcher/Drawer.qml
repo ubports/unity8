@@ -43,6 +43,11 @@ FocusScope {
         searchField.focus = true;
     }
 
+    Keys.onPressed: {
+        focusInput();
+        searchField.insert(0, event.text);
+    }
+
     Settings {
         property alias selectedTab: sections.selectedIndex
     }
