@@ -1650,10 +1650,10 @@ FocusScope {
                     }
                 }
 
-                Image {
-                    id: closeImage
+                MouseArea {
+                    id: closeMouseArea
+                    objectName: "closeMouseArea"
                     anchors { left: parent.left; top: parent.top; leftMargin: -height / 2; topMargin: -height / 2 + spreadMaths.closeIconOffset }
-                    source: "graphics/window-close.svg"
                     readonly property var mousePos: hoverMouseArea.mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
                     visible: !appDelegate.isDash && dragArea.distance == 0
                              && index == spreadItem.highlightedIndex
@@ -1661,20 +1661,20 @@ FocusScope {
                              && mousePos.y > -units.gu(4)
                              && mousePos.x > -units.gu(4)
                              && mousePos.x < (decoratedWindow.width * 2 / 3)
-                    height: units.gu(2)
+                    height: units.gu(6)
                     width: height
-                    sourceSize.width: width
-                    sourceSize.height: height
 
-                    MouseArea {
-                        id: closeMouseArea
-                        objectName: "closeMouseArea"
-                        anchors.fill: closeImage
-                        anchors.margins: -units.gu(2)
-                        onClicked: {
-                            priv.closingIndex = index;
-                            appDelegate.close();
-                        }
+                    onClicked: {
+                        priv.closingIndex = index;
+                        appDelegate.close();
+                    }
+                    Image {
+                        id: closeImage
+                        source: "graphics/window-close.svg"
+                        anchors.fill: closeMouseArea
+                        anchors.margins: units.gu(2)
+                        sourceSize.width: width
+                        sourceSize.height: height
                     }
                 }
             }
@@ -1733,13 +1733,13 @@ FocusScope {
             }
 
             // Find the hovered item and mark it active
-            var mapped = mapToItem(appContainer, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
-            var itemUnder = appContainer.childAt(mapped.x, mapped.y)
-            if (itemUnder) {
-                mapped = mapToItem(itemUnder, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
-                var delegateChild = itemUnder.childAt(mapped.x, mapped.y)
-                if (delegateChild && (delegateChild.objectName === "dragArea" || delegateChild.objectName === "windowInfoItem")) {
-                    spreadItem.highlightedIndex = appRepeater.indexOf(itemUnder)
+            for (var i = appRepeater.count - 1; i >= 0; i--) {
+                var appDelegate = appRepeater.itemAt(i);
+                var mapped = mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
+                var itemUnder = appDelegate.childAt(mapped.x, mapped.y);
+                if (itemUnder && (itemUnder.objectName === "dragArea" || itemUnder.objectName === "windowInfoItem" || itemUnder.objectName == "closeMouseArea")) {
+                    spreadItem.highlightedIndex = i;
+                    break;
                 }
             }
 
