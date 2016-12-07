@@ -33,6 +33,8 @@
 
 #include <glib.h>
 
+namespace unityapi = unity::shell::application;
+
 // This is a mock, specifically to test the LauncherModel
 class MockApp: public unity::shell::application::ApplicationInfoInterface
 {
@@ -99,7 +101,7 @@ public:
         }
         return nullptr;
     }
-    unity::shell::application::ApplicationInfoInterface *findApplicationWithSurface(unity::shell::application::MirSurfaceInterface* surface) override {
+    unityapi::ApplicationInfoInterface *findApplicationWithSurface(unityapi::MirSurfaceInterface* surface) const override {
         return nullptr;
     }
     unity::shell::application::ApplicationInfoInterface *startApplication(const QString &, const QStringList &) override { return nullptr; }
