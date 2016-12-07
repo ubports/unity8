@@ -1478,5 +1478,38 @@ Rectangle {
 
             launcher.available = true;
         }
+
+        function dragDrawerIntoView() {
+            var startX = launcher.dragAreaWidth/2;
+            var startY = launcher.height/2;
+            touchFlick(launcher,
+                       startX, startY,
+                       startX+units.gu(35), startY);
+
+            var drawer = findChild(launcher, "drawer");
+            verify(!!drawer);
+
+            // wait until it gets fully extended
+            // a tryCompare doesn't work since
+            //    compare(-0.000005917593600024418, 0);
+            // is true and in this case we want exactly 0 or will have pain later on
+            tryCompareFunction( function(){ return drawer.x === 0; }, true );
+            tryCompare(launcher, "state", "drawer");
+            tryCompare(launcher, "drawerShown", true);
+
+            return drawer;
+        }
+
+        function test_directSearch() {
+            var drawer = dragDrawerIntoView();
+            verify(!!drawer);
+
+            tryCompare(drawer, "focus", true);
+
+            var searchField = findChild(drawer, "searchField");
+            verify(searchField);
+            typeString("cam");
+            tryCompare(searchField, "displayText", "cam");
+        }
     }
 }
