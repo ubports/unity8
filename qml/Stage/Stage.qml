@@ -710,6 +710,29 @@ FocusScope {
                 property real restoredX
                 property real restoredY
 
+                // Keeps track of the window geometry while in normal or restored state
+                // Useful when returning from some maxmized state or when saving the geometry while maximized
+                // FIXME: find a better solution
+                property real normalX: 0
+                property real normalY: 0
+                property real normalWidth: 0
+                property real normalHeight: 0
+                function updateNormalGeometry() {
+                    if (appDelegate.state == "normal" || appDelegate.state == "restored") {
+                        normalX = appDelegate.requestedX;
+                        normalY = appDelegate.requestedY;
+                        normalWidth = appDelegate.width;
+                        normalHeight = appDelegate.height;
+                    }
+                }
+                Connections {
+                    target: appDelegate
+                    onXChanged: appDelegate.updateNormalGeometry();
+                    onYChanged: appDelegate.updateNormalGeometry();
+                    onWidthChanged: appDelegate.updateNormalGeometry();
+                    onHeightChanged: appDelegate.updateNormalGeometry();
+                }
+
                 Binding {
                     target: appDelegate
                     property: "y"
@@ -850,6 +873,16 @@ FocusScope {
                         MirFocusController.focusedSurface = null;
                     }
                 }
+
+                WindowStateSaver {
+                    id: windowStateSaver
+                    target: appDelegate
+                    screenWidth: appContainer.width
+                    screenHeight: appContainer.height
+                    leftMargin: root.leftMargin
+                    minimumY: PanelState.panelHeight
+                }
+
                 Component.onCompleted: {
                     if (application && application.rotatesWindowContents) {
                         decoratedWindow.surfaceOrientationAngle = shellOrientationAngle;
@@ -861,7 +894,7 @@ FocusScope {
                     windowedX = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedX + units.gu(3) : (normalZ - 1) * units.gu(3)
                     windowedY = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedY + units.gu(3) : normalZ * units.gu(3)
                     // Now load any saved state. This needs to happen *after* the cascading!
-                    resizeArea.loadWindowState();
+                    windowStateSaver.load();
 
                     // NB: We're differentiating if this delegate was created in response to a new entry in the model
                     //     or if the Repeater is just populating itself with delegates to match the model it received.
@@ -878,6 +911,8 @@ FocusScope {
                     _constructing = false;
                 }
                 Component.onDestruction: {
+                    windowStateSaver.save();
+
                     if (!root.parent) {
                         // This stage is about to be destroyed. Don't mess up with the model at this point
                         return;
@@ -1480,26 +1515,21 @@ FocusScope {
                     id: resizeArea
                     objectName: "windowResizeArea"
 
+                    anchors.fill: appDelegate
+
                     // workaround so that it chooses the correct resize borders when you drag from a corner ResizeGrip
                     anchors.margins: touchControls.overlayShown ? borderThickness/2 : -borderThickness
 
                     target: appDelegate
+                    minimumY: PanelState.panelHeight // disallow resizing up past Panel
                     minWidth: units.gu(10)
                     minHeight: units.gu(10)
                     borderThickness: units.gu(2)
-                    windowId: model.application.appId // FIXME: Change this to point to windowId once we have such a thing
-                    screenWidth: appContainer.width
-                    screenHeight: appContainer.height
-                    leftMargin: root.leftMargin
                     enabled: false
                     visible: enabled
 
                     onPressed: {
                         appDelegate.focus = true;
-                    }
-
-                    Component.onDestruction: {
-                        saveWindowState();
                     }
                 }
 
