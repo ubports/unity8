@@ -114,7 +114,7 @@ ApplicationInfo *ApplicationManager::findApplication(const QString &appId) const
     return nullptr;
 }
 
-unityapi::ApplicationInfoInterface *ApplicationManager::findApplicationWithSurface(unityapi::MirSurfaceInterface* surface)
+unityapi::ApplicationInfoInterface *ApplicationManager::findApplicationWithSurface(unityapi::MirSurfaceInterface* surface) const
 {
     for (ApplicationInfo *app : m_runningApplications) {
         auto surfaceList = static_cast<MirSurfaceListModel*>(app->surfaceList());

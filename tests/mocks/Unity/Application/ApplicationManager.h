@@ -54,7 +54,7 @@ class ApplicationManager : public ApplicationManagerInterface {
     // ApplicationManagerInterface methods
     Q_INVOKABLE ApplicationInfo *get(int index) const override;
     Q_INVOKABLE ApplicationInfo *findApplication(const QString &appId) const override;
-    unity::shell::application::ApplicationInfoInterface *findApplicationWithSurface(unity::shell::application::MirSurfaceInterface* surface) override;
+    unity::shell::application::ApplicationInfoInterface *findApplicationWithSurface(unity::shell::application::MirSurfaceInterface* surface) const override;
 
     Q_INVOKABLE void move(int from, int to);
 
