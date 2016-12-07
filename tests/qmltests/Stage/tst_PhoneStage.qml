@@ -334,32 +334,6 @@ Item {
             tryCompare(firstApp, "focused", true);
         }
 
-        function test_leftEdge_data() {
-            return [
-                { tag: "normal", inSpread: false, leftEdgeDragWidth: units.gu(20), shouldMoveApp: true },
-                { tag: "inSpread", inSpread: true, leftEdgeDragWidth: units.gu(5), shouldMoveApp: false }
-            ]
-        }
-
-        function test_leftEdge(data) {
-            addApps(2);
-
-            if (data.inSpread) {
-                performEdgeSwipeToShowAppSpread();
-            }
-
-            var focusedDelegate = findChild(stage, "appDelegate_" + topLevelSurfaceList.idAt(0));
-            var currentX = focusedDelegate.x;
-
-            stage.leftEdgeDragProgress = data.leftEdgeDragWidth;
-
-            tryCompare(focusedDelegate, "x", data.shouldMoveApp ? data.leftEdgeDragWidth : currentX);
-
-            stage.leftEdgeDragProgress = 0;
-
-            tryCompare(focusedDelegate, "x", currentX);
-        }
-
         function test_focusedAppIsTheOnlyRunningApp() {
             addApps(2);
 
