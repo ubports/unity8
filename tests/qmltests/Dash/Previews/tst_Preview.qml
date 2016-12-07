@@ -37,6 +37,51 @@ Rectangle {
         id: mockPreviewModel
     }
 
+    ListModel {
+        id: tracksModel
+        Component.onCompleted:
+        {
+            tracksModel.append( { "type" : "audio1",
+                                  "widgetId" : "audiopw1",
+                                  "properties" : { "tracks" : [
+                                                                { title: "Some track name", length: "30", source: "/not/existinga/path/testsound1" }
+                                                              ]
+                                                 }
+                                }
+                              );
+            tracksModel.append(
+                                { "type" : "audio",
+                                  "widgetId" : "audiopw",
+                                  "properties" : { "tracks" : [
+                                                                { title: "Some track name", length: "30", source: "/not/existing/path/testsound1" },
+                                                                { title: "Some other track name", subtitle: "Subtitle", length: "83", source: "/not/existing/path/testsound2" },
+                                                                { title: "And another one", length: "7425", source: "/not/existing/path/testsound3" },
+                                                                { title: "And another one", length: "7425", source: "/not/existing/path/testsound4" },
+                                                                { title: "And another one", length: "7425", source: "/not/existing/path/testsound5" },
+                                                                { title: "And another one", length: "7425", source: "/not/existing/path/testsound6" },
+                                                                { title: "And another one", length: "7425", source: "/not/existing/path/testsound7" },
+                                                                { title: "And another one", length: "7425", source: "/not/existing/path/testsound8" },
+                                                                { title: "And another one", length: "7425", source: "/not/existing/path/testsound9" },
+                                                                { title: "And another one", length: "7425", source: "/not/existing/path/testsound10" },
+                                                                { title: "And another one", length: "7425", source: "/not/existing/path/testsound11" },
+                                                                { title: "And another one", length: "7425", source: "/not/existing/path/testsound12" },
+                                                                { title: "And another one", length: "7425", source: "/not/existing/path/testsound13" },
+                                                                { title: "And another one", length: "7425", source: "/not/existing/path/testsound14" },
+                                                                { title: "And another one", length: "7425", source: "/not/existing/path/testsound15" },
+                                                                { title: "And another one", length: "7425", source: "/not/existing/path/testsound16" },
+                                                                { title: "And another one", length: "7425", source: "/not/existing/path/testsound17" }
+                                                              ]
+                                                 }
+                                } );
+        }
+    }
+
+    QtObject {
+        id: audiosModel
+        property int widgetColumnCount: 1
+        property var columnModel: { tracksModel }
+    }
+
     Preview {
         id: preview
         anchors.fill: parent
@@ -57,6 +102,7 @@ Rectangle {
         function init() {
             var widget = findChild(preview, "previewListRow0");
             widget.positionViewAtBeginning();
+            preview.previewModel = mockPreviewModel;
         }
 
         function test_triggered() {
@@ -146,6 +192,23 @@ Rectangle {
             } else {
                 skip("preview %1 or widget %2 have been destroyed, thus we can't safely continue this test".arg(preview_str).arg(widget_str))
             }
+        }
+
+        function test_audios() {
+            preview.previewModel = audiosModel;
+            waitForRendering(preview);
+
+            // Scroll down
+            var previewListRow0 = findChild(preview, "previewListRow0");
+            flickToYEnd(previewListRow0);
+
+            var previewsContentY = previewListRow0.contentY;
+
+            var trackItem = findChild(preview, "trackItem16");
+            mouseClick(findChild(trackItem, "playButton"));
+
+            expectFail("", "Clicking on a track should not change contentY.");
+            tryCompareFunction(function () { return previewsContentY != previewListRow0.contentY; }, true);
         }
     }
 }
