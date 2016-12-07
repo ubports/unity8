@@ -44,8 +44,11 @@ FocusScope {
     }
 
     Keys.onPressed: {
-        focusInput();
-        searchField.insert(0, event.text);
+        if (event.text.trim() !== "") {
+            focusInput();
+            searchField.insert(0, event.text);
+            event.accepted = true;
+        }
     }
 
     Settings {
