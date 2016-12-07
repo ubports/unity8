@@ -71,6 +71,7 @@ PreviewWidget {
                     anchors.left: icon.right
                     anchors.leftMargin: visible ? units.gu(0.5) : 0
                     text: modelData.label
+                    font.weight: Font.Light
                     visible: text !== ""
                 }
 

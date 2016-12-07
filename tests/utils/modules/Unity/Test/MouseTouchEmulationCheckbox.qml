@@ -40,5 +40,9 @@ RowLayout {
         id: label
         text: "Mouse emulates touch"
         anchors.verticalCenter: parent.verticalCenter
+        AbstractButton {
+            anchors.fill: parent
+            onClicked: checkbox.checked = !checkbox.checked
+        }
     }
 }

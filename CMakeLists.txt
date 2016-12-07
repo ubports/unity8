@@ -47,6 +47,12 @@ if (ECM_FOUND)
     include("${ECM_MODULE_DIR}/ECMEnableSanitizers.cmake")
 endif()
 
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  if (NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS "5.0.0")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wsuggest-override" )
+  endif()
+endif()
+
 # Make sure we have all the needed symbols
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,defs")
 set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,-z,defs")
@@ -70,7 +76,7 @@ pkg_check_modules(GIO REQUIRED gio-2.0>=2.32)
 pkg_check_modules(GLIB REQUIRED glib-2.0>=2.32)
 pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
 pkg_check_modules(GD3 REQUIRED gnome-desktop-3.0)
-
+pkg_check_modules(UAL REQUIRED ubuntu-app-launch-2)
 pkg_check_modules(UBUNTUGESTURES REQUIRED UbuntuGestures)
 
 ### Check UbuntuGestures private headers. No pkg-config (.pc) file is provided for them
