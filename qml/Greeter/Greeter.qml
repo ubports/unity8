@@ -145,11 +145,7 @@ Showable {
             }
         }
 
-        if (loader.item.sessionToStart === LightDMService.greeter.defaultSession) {
-            return LightDMService.greeter.defaultSession;
-        } else {
-            return "ubuntu"; // The default / fallback
-        }
+        return LightDMService.greeter.defaultSession;
     }
 
     QtObject {
