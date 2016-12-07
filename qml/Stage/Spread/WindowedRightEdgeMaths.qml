@@ -25,20 +25,30 @@ QtObject {
     // Input
     property int itemIndex: 0
     property int normalZ: 0
-    property real progress: 0
     property int startWidth: 0
     property int startHeight: 0
     property int startX: 0
     property int targetX: 0
     property int startY: 0
     property int targetY: 0
-//    property real startAngle: 40
     property real targetAngle: 0
     property int targetHeight: 0
     property real targetScale: 0
+    property real swipeProgress: 0
+    property real pushProgress: 0
 
     // Config
     property real breakPoint: 0.4
+
+    // internal
+    readonly property real progress: {
+        if (pushProgress > 0) {
+            // we don't do the full animation when pushing, just a little bit
+            return MathUtils.linearAnimation(0, 1, 0, breakPoint + .1, pushProgress)
+        } else {
+            return swipeProgress;
+        }
+    }
 
     // Output
 
@@ -68,12 +78,17 @@ QtObject {
 
     readonly property int animatedZ: {
         if (progress < breakPoint + (1 - breakPoint) / 2) {
-            return itemIndex == 1 ? normalZ + 2 : normalZ
+            if (swipeProgress > 0) {
+                return itemIndex == 1 ? normalZ + 2 : normalZ
+            }
+            if (pushProgress > 0) {
+                return normalZ;
+            }
         }
         return itemIndex
     }
 
-    readonly property real opacityMask: itemIndex == 1 ? MathUtils.linearAnimation(0, breakPoint, 0, 1, progress) : 1
+    readonly property real opacityMask: (swipeProgress > 0 && itemIndex == 1) ? MathUtils.linearAnimation(0, breakPoint, 0, 1, progress) : 1
 
     readonly property real animatedScale: progress < breakPoint ? 1 : MathUtils.linearAnimation(breakPoint, 1, 1, targetScale, progress)
 

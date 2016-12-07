@@ -1161,7 +1161,8 @@ FocusScope {
                         when: root.mode == "windowed" && (root.state == "windowedRightEdge" || rightEdgeFocusAnimation.running || hidingAnimation.running || edgeBarrier.progress > 0)
                         PropertyChanges {
                             target: windowedRightEdgeMaths
-                            progress: Math.max(rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0, edgeBarrier.progress)
+                            swipeProgress: rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0
+                            pushProgress: edgeBarrier.progress
                         }
                         PropertyChanges {
                             target: appDelegate
