@@ -46,7 +46,7 @@ FocusScope {
     Keys.onPressed: {
         if (event.text.trim() !== "") {
             focusInput();
-            searchField.insert(0, event.text);
+            searchField.text = event.text;
             event.accepted = true;
         }
     }
