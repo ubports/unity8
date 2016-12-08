@@ -689,6 +689,22 @@ Item {
                 tryCompare(overlay, "visible", false);
             }
         }
+
+        function test_windowControlsOverlayMaximizeButtonReachable() {
+            var facebookAppDelegate = startApplication("facebook-webapp");
+            verify(facebookAppDelegate);
+            var overlay = findChild(facebookAppDelegate, "windowControlsOverlay");
+            verify(overlay);
+
+            multiTouchTap([0, 1, 2], facebookAppDelegate);
+            tryCompare(overlay, "visible", true);
+
+            var maxButton = findChild(facebookAppDelegate, "maximizeWindowButton");
+            tryCompare(maxButton, "visible", true);
+            mouseClick(maxButton);
+            tryCompare(facebookAppDelegate, "maximized", true);
+        }
+
         function test_dashHasNoCloseButton() {
             var dashAppDelegate = startApplication("unity8-dash");
             verify(dashAppDelegate);
