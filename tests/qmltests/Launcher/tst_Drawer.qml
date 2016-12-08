@@ -26,6 +26,7 @@ import Unity.Test 0.1
 StyledItem {
     id: root
     theme.name: "Ubuntu.Components.Themes.SuruDark"
+    focus: true
 
     width: units.gu(140)
     height: units.gu(70)
@@ -84,6 +85,12 @@ StyledItem {
             text: "Drag here to pull out launcher"
             onDragged: { launcher.pushEdge(amount); }
         }
+    }
+
+    Binding {
+        target: launcher
+        property: "panelWidth"
+        value: units.gu(Math.round(widthSlider.value))
     }
 
     UnityTestCase {
@@ -259,6 +266,19 @@ StyledItem {
             touchFlick(launcher, stopX, startY, endX, startY, false, true);
 
             tryCompare(launcher, "state", data.endState)
+        }
+
+        function test_directSearch() {
+            dragDrawerIntoView();
+            var drawer = findChild(launcher, "drawer");
+            verify(!!drawer);
+
+            tryCompare(drawer, "focus", true);
+
+            var searchField = findChild(drawer, "searchField");
+            verify(searchField);
+            typeString("cam");
+            tryCompare(searchField, "displayText", "cam");
         }
     }
 }
