@@ -352,7 +352,6 @@ FocusScope {
         width: Math.min(root.width, units.gu(90)) * .9
         panelWidth: panel.width
         visible: x > -width
-        focus: visible
 
         Behavior on anchors.rightMargin {
             enabled: !dragArea.dragging && !launcherDragArea.drag.active && panel.animate && !drawer.draggingHorizontally
@@ -465,6 +464,8 @@ FocusScope {
         onPassed: {
             if (root.drawerEnabled) {
                 root.switchToNextState("drawer");
+                root.focus = true;
+                drawer.focus = true;
             }
         }
 
@@ -521,6 +522,7 @@ FocusScope {
                     if (root.drawerEnabled && distance > panel.width * 3) {
                         root.switchToNextState("drawer")
                         root.focus = true;
+                        drawer.focus = true;
                     } else {
                         root.switchToNextState("visible")
                     }
