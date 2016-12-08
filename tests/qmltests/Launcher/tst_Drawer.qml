@@ -87,12 +87,6 @@ StyledItem {
         }
     }
 
-    Binding {
-        target: launcher
-        property: "panelWidth"
-        value: units.gu(Math.round(widthSlider.value))
-    }
-
     UnityTestCase {
         id: testCase
         when: windowShown
@@ -115,6 +109,7 @@ StyledItem {
             tryCompareFunction( function(){ return drawer.x === 0; }, true );
             tryCompare(launcher, "state", "drawer");
             tryCompare(launcher, "drawerShown", true);
+            return drawer;
         }
 
         function revealByEdgePush() {
@@ -175,10 +170,8 @@ StyledItem {
         function test_hideByDraggingDrawer(data) {
             launcher.lockedVisible = !data.autohide;
 
-            dragDrawerIntoView();
+            var drawer = dragDrawerIntoView();
             waitForRendering(launcher);
-
-            var drawer = findChild(launcher, "drawer");
 
             mouseFlick(root, drawer.width - units.gu(1), drawer.height / 2, units.gu(2), drawer.height / 2, true, true);
 
@@ -188,9 +181,7 @@ StyledItem {
         }
 
         function test_hideByClickingOutside() {
-            dragDrawerIntoView();
-
-            var drawer = findChild(launcher, "drawer");
+            var drawer = dragDrawerIntoView();
 
             mouseClick(root, drawer.width + units.gu(1), root.height / 2);
 
@@ -249,11 +240,10 @@ StyledItem {
             compare(launcher.lastSelectedApplication, "camera-app");
         }
 
-        function test_directSearch() {
-            dragDrawerIntoView();
-            var drawer = findChild(launcher, "drawer");
-            verify(!!drawer);
-
+        function test_searchDirectly() {
+            var drawer = dragDrawerIntoView();
+            waitForRendering(launcher);
+            waitUntilTransitionsEnd(launcher);
             tryCompare(drawer, "focus", true);
 
             var searchField = findChild(drawer, "searchField");
