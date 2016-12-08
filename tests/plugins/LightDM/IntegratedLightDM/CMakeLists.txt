@@ -21,10 +21,10 @@ target_include_directories(GreeterDBusTestExec PUBLIC
 set_target_properties(GreeterDBusTestExec PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/mocks/IntegratedLightDM/liblightdm")
 install(TARGETS GreeterDBusTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/LightDM/IntegratedLightDM"
-)
+    )
 install(FILES greeter.qml
     DESTINATION "${SHELL_APP_DIR}/tests/plugins/LightDM/IntegratedLightDM"
-)
+    )
 add_unity8_uitest(GreeterDBus dbus-test-runner
     ARG_PREFIX "--parameter"
     ARGS --task $<TARGET_FILE:GreeterDBusTestExec>
@@ -46,7 +46,7 @@ target_include_directories(GreeterPamTestExec PUBLIC
     )
 install(TARGETS GreeterPamTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/LightDM/IntegratedLightDM"
-)
+    )
 add_qmltest_target(testGreeterPam GreeterPamTestExec COMMAND $<TARGET_FILE:GreeterPamTestExec>)
 
 # SessionsModelTest
@@ -64,6 +64,9 @@ target_include_directories(GreeterSessionsModelTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/LightDM
     ${CMAKE_SOURCE_DIR}/plugins/Utils
     ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM/IntegratedLightDM
+    )
+install(TARGETS GreeterSessionsModelTestExec
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/LightDM/IntegratedLightDM"
     )
 add_unity8_uitest(GreeterSessions GreeterSessionsModelTestExec
     ENVIRONMENT LIBLIGHTDM_MOCK_MODE=full
@@ -91,7 +94,7 @@ target_include_directories(GreeterUsersModelTestExec PUBLIC
 set_target_properties(GreeterUsersModelTestExec PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/mocks/IntegratedLightDM/liblightdm")
 install(TARGETS GreeterUsersModelTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/LightDM/IntegratedLightDM"
-)
+    )
 add_unity8_uitest(GreeterUsers GreeterUsersModelTestExec
     ENVIRONMENT LIBLIGHTDM_MOCK_MODE=full
     DEPENDS MockLightDM
@@ -111,7 +114,7 @@ target_include_directories(GreeterIntegratedTestExec PUBLIC
     )
 install(TARGETS GreeterIntegratedTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/LightDM/IntegratedLightDM"
-)
+    )
 add_unity8_unittest(GreeterIntegrated dbus-test-runner
     ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/IntegratedLightDM/liblightdm/
     ARG_PREFIX "--parameter"

@@ -49,7 +49,7 @@ install(TARGETS launchermodeltestExec
     )
 
 add_unity8_unittest(LauncherModel dbus-test-runner
-    ENVIRONMENT "XDG_DATA_HOME=${CMAKE_CURRENT_BINARY_DIR}"
+    ENVIRONMENT "APPDIR=${CMAKE_CURRENT_BINARY_DIR}/applications"
     ARG_PREFIX "--parameter"
     ARGS
         --task $<TARGET_FILE:mock-server>
