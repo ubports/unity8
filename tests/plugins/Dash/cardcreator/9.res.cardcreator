@@ -1,7 +1,7 @@
 AbstractButton { 
                 id: root; 
                 property var cardData; 
-                property string backgroundShapeStyle: "inset"; 
+                property string backgroundShapeStyle: "flat"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
                 readonly property string title: cardData && cardData["title"] || ""; 
@@ -30,7 +30,7 @@ top: parent.top;
                         visible: showHeader ; 
                         width: undefined; 
                         text: root.title; 
-                        font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
+                        font.weight: Font.Normal; 
                         horizontalAlignment: Text.AlignLeft;
                     }
 Label { 
@@ -72,7 +72,7 @@ CardAudioProgress {
                             UbuntuShape { 
                                 anchors.fill: parent; 
                                 visible: parent.pressed; 
-                                radius: "medium"; 
+                                radius: "small"; 
                             } 
                             Rectangle { 
                                 color: Qt.rgba(0, 0, 0, 0.5); 

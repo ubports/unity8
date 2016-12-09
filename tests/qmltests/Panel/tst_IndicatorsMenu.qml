@@ -286,5 +286,22 @@ IndicatorTest {
             mouseClick(indicatorsMenu, indicatorsMenu.width/2, indicatorsMenu.height/2, Qt.RightButton);
             tryCompare(clickThroughSpy, "count", 0);
         }
+
+        function test_enableMenuSetting_data() {
+            return [
+                {tag: "menu enabled", enabled: true},
+                {tag: "menu disabled", enabled: false}
+            ]
+        }
+
+        function test_enableMenuSetting(data) {
+            indicatorsMenu.available = data.enabled;
+
+            indicatorsMenu.show();
+            tryCompare(indicatorsMenu, data.enabled ? "fullyOpened" : "fullyClosed", true);
+
+            indicatorsMenu.available = true;
+            indicatorsMenu.hide();
+        }
     }
 }

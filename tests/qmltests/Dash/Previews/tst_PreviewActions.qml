@@ -39,9 +39,27 @@ Rectangle {
     readonly property var actionDataFiveActions: {
         "actions": [{"label": "Some Label C", "id": "someid3"},
                     {"label": "Some Label D", "id": "someid4"},
-                    {"label": "Some Label E", "id": "someid5"},
+                    {"label": "Some Longer Longer Longer Longer Label E", "id": "someid5"},
                     {"label": "Some Label F", "id": "someid6"},
                     {"label": "Some Label G", "id": "someid7"}
+        ]
+    }
+
+    readonly property var actionDataFiveActions2: {
+        "actions": [{"label": "Some Label C", "id": "someid3"},
+                    {"label": "Some Label D", "id": "someid4"},
+                    {"label": "Some E", "id": "someid5"},
+                    {"label": "Some Label F", "id": "someid6"},
+                    {"label": "Some Label G", "id": "someid7"}
+        ]
+    }
+
+    readonly property var actionDataFiveActions3: {
+        "actions": [{"label": "C", "id": "someid3"},
+                    {"label": "D", "id": "someid4"},
+                    {"label": "E", "id": "someid5"},
+                    {"label": "F", "id": "someid6"},
+                    {"label": "G", "id": "someid7"}
         ]
     }
 
@@ -88,6 +106,18 @@ Rectangle {
                 color: "red"
                 opacity: 0.1
             }
+        }
+
+        PreviewActions {
+            id: buttonAndCombo2
+            widgetData: actionDataFiveActions2
+            width: units.gu(40)
+        }
+
+        PreviewActions {
+            id: buttonAndCombo3
+            widgetData: actionDataFiveActions3
+            width: units.gu(40)
         }
 
         PreviewActions {

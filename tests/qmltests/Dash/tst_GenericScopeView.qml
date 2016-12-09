@@ -168,6 +168,32 @@ Item {
                 tryCompare(genericScopeView.scope, "searchQuery", "test")
             }
 
+            function test_forceNotExpandable() {
+                // wait for the item to be there
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader14", 0 /* timeout */) != null; }, true);
+
+                var category14 = findChild(genericScopeView, "dashCategory14")
+                var seeAll14 = findChild(category14, "seeAll")
+
+                compare(category14.forceNotExpandable, false);
+                waitForRendering(seeAll14);
+                verify(category14.expandable);
+                verify(!category14.expanded);
+                compare(seeAll14.visible, true);
+
+                // wait for the item to be there
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader16", 0 /* timeout */) != null; }, true);
+
+                var category16 = findChild(genericScopeView, "dashCategory16")
+                var seeAll16 = findChild(category16, "seeAll")
+
+                compare(category16.forceNotExpandable, true);
+                waitForRendering(seeAll16);
+                verify(!category16.expandable);
+                verify(!category16.expanded);
+                compare(seeAll16.visible, false);
+            }
+
             function test_expand_collapse() {
                 tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader0", 0 /* timeout */) != null; }, true);
 
@@ -485,7 +511,7 @@ Item {
                 mouseClick(seeAll0);
                 verify(category0.expanded);
                 tryCompare(category0, "height", category0.item.expandedHeight + seeAll0.height);
-                tryCompare(genericScopeView.categoryView, "contentY", units.gu(8));
+                tryCompare(genericScopeView.categoryView, "contentY", units.gu(8.5));
 
                 scrollToEnd();
 

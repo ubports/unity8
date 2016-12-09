@@ -781,12 +781,29 @@ Item {
             verify(decoration);
 
             // simulate a double tap, with a slight erroneous move in between those 2 taps
-            tap(decoration);
-            touchPress(decoration);
-            touchMove(decoration, decoration.width/2, decoration.height/2 - 10)
+            tap(decoration); tap(decoration);
+            touchMove(decoration, decoration.width/2, decoration.height/2 - 10);
             touchRelease(decoration);
+            waitUntilTransitionsEnd(dialerAppDelegate);
+            waitUntilTransitionsEnd(stage);
 
             tryCompare(dialerAppDelegate, "state", "maximized");
+        }
+
+        function test_grabbingCursorOnDecorationPress() {
+            var appDelegate = startApplication("dialer-app");
+            verify(appDelegate);
+            var decoration = findChild(appDelegate, "appWindowDecoration");
+            verify(decoration);
+
+            mousePress(decoration, decoration.width/2, decoration.height/2, Qt.LeftButton);
+            tryCompare(Mir, "cursorName", "grabbing");
+
+            mouseMove(decoration, decoration.width/2 + 1, decoration.height/2 + 1);
+            tryCompare(Mir, "cursorName", "grabbing");
+
+            mouseRelease(decoration);
+            tryCompare(Mir, "cursorName", "");
         }
     }
 }

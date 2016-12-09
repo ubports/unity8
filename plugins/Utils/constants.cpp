@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Canonical Ltd.
+ * Copyright 2015-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,6 +16,8 @@
 
 #include "constants.h"
 
+#include <QFile>
+
 Constants::Constants(QObject *parent)
    : QObject(parent)
 {
@@ -24,4 +26,7 @@ Constants::Constants(QObject *parent)
     } else {
         m_indicatorValueTimeout = 5000;
     }
+
+    QString snapRoot = QFile::decodeName(qgetenv("SNAP"));
+    m_defaultWallpaper = snapRoot + "/usr/share/backgrounds/warty-final-ubuntu.png";
 }

@@ -28,7 +28,7 @@ var kBackgroundLoaderCode = 'Loader {\n\
                                 visible: status === Loader.Ready; \n\
                                 sourceComponent: UbuntuShape { \n\
                                     objectName: "background"; \n\
-                                    radius: "medium"; \n\
+                                    radius: "small"; \n\
                                     aspect: { \n\
                                         switch (root.backgroundShapeStyle) { \n\
                                             case "inset": return UbuntuShape.Inset; \n\
@@ -64,7 +64,7 @@ var kArtUbuntuShapeCode = 'UbuntuShape { \n\
                                 anchors.fill: parent; \n\
                                 source: artImage; \n\
                                 sourceFillMode: UbuntuShape.PreserveAspectCrop; \n\
-                                radius: "medium"; \n\
+                                radius: "small"; \n\
                                 aspect: %1; \n\
                             }';
 
@@ -166,7 +166,7 @@ var kAudioButtonCode = 'AbstractButton { \n\
                             UbuntuShape { \n\
                                 anchors.fill: parent; \n\
                                 visible: parent.pressed; \n\
-                                radius: "medium"; \n\
+                                radius: "small"; \n\
                             } \n\
                             Rectangle { \n\
                                 color: Qt.rgba(0, 0, 0, 0.5); \n\
@@ -214,7 +214,7 @@ var kOverlayLoaderCode = 'Loader { \n\
                                 id: overlay; \n\
                                 property real luminance: Style.luminance(overlayColor); \n\
                                 aspect: UbuntuShape.Flat; \n\
-                                radius: "medium"; \n\
+                                radius: "small"; \n\
                                 overlayColor: cardData && cardData["overlayColor"] || "#99000000"; \n\
                                 overlayRect: Qt.rect(0, 1 - overlayLoader.overlayHeight / height, 1, 1); \n\
                             } \n\
@@ -269,7 +269,7 @@ var kMascotShapeLoaderCode = 'Loader { \n\
                                 visible: showHeader && active && status === Loader.Ready; \n\
                                 width: units.gu(6); \n\
                                 height: units.gu(5.625); \n\
-                                sourceComponent: UbuntuShape { image: mascotImage } \n\
+                                sourceComponent: UbuntuShape { aspect: UbuntuShape.Flat; image: mascotImage } \n\
                                 anchors { %1 } \n\
                             }\n';
 
@@ -308,7 +308,7 @@ var kTitleLabelCode = 'Label { \n\
                         visible: showHeader %3; \n\
                         width: %4; \n\
                         text: root.title; \n\
-                        font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; \n\
+                        font.weight: Font.Normal; \n\
                         horizontalAlignment: %5; \n\
                     }\n';
 
@@ -337,7 +337,7 @@ var kTouchdownCode = 'Loader { \n\
                         sourceComponent: UbuntuShape { \n\
                             objectName: "touchdown"; \n\
                             anchors.fill: parent; \n\
-                            radius: "medium"; \n\
+                            radius: "small"; \n\
                             borderSource: "radius_pressed.sci" \n\
                         } \n\
                     }\n';
@@ -399,7 +399,8 @@ var kSummaryLabelCode = 'Label { \n\
                             elide: Text.ElideRight; \n\
                             text: cardData && cardData["summary"] || ""; \n\
                             height: text ? implicitHeight : 0; \n\
-                            fontSize: "small"; \n\
+                            fontSize: "x-small"; \n\
+                            font.weight: Font.Light; \n\
                             color: %3; \n\
                         }\n';
 
@@ -439,7 +440,7 @@ function cardString(template, components, isCardTool, artShapeStyle, categoryLay
     code = 'AbstractButton { \n\
                 id: root; \n\
                 property var cardData; \n\
-                property string backgroundShapeStyle: "inset"; \n\
+                property string backgroundShapeStyle: "flat"; \n\
                 property real fontScale: 1.0; \n\
                 property var scopeStyle: null; \n\
                 readonly property string title: cardData && cardData["title"] || ""; \n\
