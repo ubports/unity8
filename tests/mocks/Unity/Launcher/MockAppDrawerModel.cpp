@@ -55,6 +55,7 @@ MockAppDrawerModel::MockAppDrawerModel(QObject *parent):
 
 int MockAppDrawerModel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return m_list.count();
 }
 
