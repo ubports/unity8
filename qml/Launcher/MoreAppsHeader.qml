@@ -1,12 +1,17 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import GSettings  1.0
 
 AbstractButton {
     id: root
 
+    GSettings {
+        id: settings
+        schema.id: "com.canonical.Unity8"
+    }
+
     onClicked: {
-        // TODO: Make this point to the snappy store as soon as we stop landing to vivid
-        Qt.openUrlExternally("scope://com.canonical.scopes.clickstore")
+        Qt.openUrlExternally(settings.appstoreUri)
     }
 
     UbuntuShape {
