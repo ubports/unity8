@@ -2027,9 +2027,7 @@ Rectangle {
 
             shell.usageScenario = "phone";
             waitForRendering(shell);
-            panelButtons = findChild(shell, "panelWindowControlButtons")
-            console.log("PANEL BUTTONS", panelButtons, panelButtons.visible);
-            verify(panelButtons === null)
+            tryCompare(panelButtons, "visible", false);
         }
 
         function test_lockingGreeterHidesPanelButtons() {
