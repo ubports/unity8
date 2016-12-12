@@ -41,6 +41,8 @@ Rectangle {
         SurfaceContainer {
             anchors.fill: parent
             focus: true
+            requestedWidth: width
+            requestedHeight: height
             interactive: interactiveCheckbox.checked
             isPromptSurface: promptCheckbox.checked
             Component.onDestruction: {
@@ -48,6 +50,8 @@ Rectangle {
             }
         }
     }
+
+    SurfaceManager {}
 
     Loader {
         id: surfaceContainerLoader

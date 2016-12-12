@@ -50,7 +50,6 @@ public:
     Mir::ShellChrome shellChrome() const override;
 
     Mir::State surfaceState() const override;
-    void setSurfaceState(Mir::State) override {}
 
     Mir::OrientationAngle orientationAngle() const override;
     void setOrientationAngle(Mir::OrientationAngle angle) override;
@@ -102,7 +101,7 @@ protected:
 private Q_SLOTS:
     void onComponentStatusChanged(QQmlComponent::Status status);
     void updateScreenshot(QUrl screenshot);
-    void updateMirSurfaceVisibility();
+    void updateMirSurfaceExposure();
     void updateMirSurfaceActiveFocus(bool focused);
 
 private:
