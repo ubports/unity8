@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: po_unity8-is\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-11-16 10:44+0000\n"
+"POT-Creation-Date: 2016-11-29 09:43+0000\n"
 "PO-Revision-Date: 2014-11-13 09:32+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
@@ -17,24 +17,24 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
-"X-Generator: Launchpad (build 18269)\n"
+"X-Launchpad-Export-Date: 2016-12-01 04:57+0000\n"
+"X-Generator: Launchpad (build 18282)\n"
 "Language: is\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
 msgstr "Lykilorð: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:108
+#: plugins/Unity/Launcher/launcheritem.cpp:50
+#: plugins/Unity/Launcher/launcheritem.cpp:109
 msgid "Pin shortcut"
 msgstr "Pinna flýtilykil"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:54
+#: plugins/Unity/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:108
+#: plugins/Unity/Launcher/launcheritem.cpp:109
 msgid "Unpin shortcut"
 msgstr "Losa flýtilykil"
 
@@ -347,24 +347,24 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:545 qml/Dash/GenericScopeView.qml:716
+#: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
 msgid "Show less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:545
+#: qml/Dash/GenericScopeView.qml:547
 msgid "Show all"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:578
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr ""
 
-#: qml/Dash/PageHeaderExtraPanel.qml:57
+#: qml/Dash/PageHeaderExtraPanel.qml:67
 msgid "Recent Searches"
 msgstr ""
 
-#: qml/Dash/PageHeaderExtraPanel.qml:68
+#: qml/Dash/PageHeaderExtraPanel.qml:78
 msgid "Clear All"
 msgstr ""
 

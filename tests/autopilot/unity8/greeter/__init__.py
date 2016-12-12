@@ -94,4 +94,4 @@ class Greeter(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
 
     def get_prompt(self):
         return self.select_single(
-            ubuntuuitoolkit.TextField, objectName='passwordInput')
+            ubuntuuitoolkit.TextField, objectName='promptField')

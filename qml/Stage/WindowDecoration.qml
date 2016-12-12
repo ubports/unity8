@@ -25,7 +25,7 @@ import "../ApplicationMenus"
 MouseArea {
     id: root
 
-    property Item target // appDelegate
+    property alias closeButtonVisible: buttons.closeButtonShown
     property alias title: titleLabel.text
     property alias maximizeButtonShown: buttons.maximizeButtonShown
     property bool active: false
@@ -46,7 +46,7 @@ MouseArea {
 
     onClicked: mouse.accepted = true // propogated event
     onDoubleClicked: {
-        if (target.canBeMaximized && mouse.button == Qt.LeftButton) {
+        if (mouse.button == Qt.LeftButton) {
             root.maximizeClicked();
         }
     }
@@ -113,11 +113,8 @@ MouseArea {
             onCloseClicked: root.closeClicked();
             onMinimizeClicked: root.minimizeClicked();
             onMaximizeClicked: root.maximizeClicked();
-            onMaximizeHorizontallyClicked: if (root.target.canBeMaximizedHorizontally) root.maximizeHorizontallyClicked();
-            onMaximizeVerticallyClicked: if (root.target.canBeMaximizedVertically) root.maximizeVerticallyClicked();
-            closeButtonShown: root.target.appId !== "unity8-dash"
-
-            enabled: !PanelState.decorationsVisible
+            onMaximizeHorizontallyClicked: root.maximizeHorizontallyClicked();
+            onMaximizeVerticallyClicked: root.maximizeVerticallyClicked();
         }
 
         Item {

@@ -311,8 +311,6 @@ StyledItem {
             keepDashRunning: launcher.shown || launcher.dashSwipe
             altTabPressed: physicalKeysMapper.altTabPressed
             oskEnabled: shell.oskEnabled
-
-            // TODO: This is not implemented yet in the new stage...
             spreadEnabled: tutorial.spreadEnabled && (!greeter || (!greeter.hasLockedApp && !greeter.shown))
 
             onSpreadShownChanged: {
@@ -477,6 +475,7 @@ StyledItem {
                         && ((!greeter || !greeter.locked) || AccountsService.enableIndicatorsWhileLocked)
                         && (!greeter || !greeter.hasLockedApp)
                         && !shell.waitingOnGreeter
+                        && settings.enableIndicatorMenu
 
                 model: Indicators.IndicatorsModel {
                     // tablet and phone both use the same profile
@@ -795,8 +794,9 @@ StyledItem {
         Behavior on opacity { UbuntuNumberAnimation {} }
     }
 
-    // non-visual object
+    // non-visual objects
     KeymapSwitcher {}
+    BrightnessControl {}
 
     Rectangle {
         id: shutdownFadeOutRectangle
