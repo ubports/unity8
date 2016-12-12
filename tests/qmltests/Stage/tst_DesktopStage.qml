@@ -701,6 +701,7 @@ Item {
 
             var maxButton = findChild(facebookAppDelegate, "maximizeWindowButton");
             tryCompare(maxButton, "visible", true);
+            wait(700); // there's a lot of behaviors on different decoration elements, make sure they're all settled
             mouseClick(maxButton);
             tryCompare(facebookAppDelegate, "maximized", true);
         }
