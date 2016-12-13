@@ -121,6 +121,11 @@ Item {
         onTriggered: LightDMService.greeter.showGreeter()
     }
 
+    GlobalShortcut { // lock screen
+        shortcut: Qt.MetaModifier|Qt.Key_L
+        onTriggered: LightDMService.greeter.showGreeter()
+    }
+
     QtObject {
         id: d // private stuff
         objectName: "dialogsPrivate"
