@@ -90,7 +90,6 @@ Item {
         property bool itemDestroyed: false
         sourceComponent: WindowDecoration {
             anchors.fill: parent
-            target: root
             title: "TestTitle - Doing something"
             active: true
             menu: menuBackend
