@@ -651,7 +651,7 @@ var fakeMenuData = {
                     "rowData": {
                         "action": "indicator.calendar",
                         "actionState": {
-                            "appointment-days": "",
+                            "appointment-days": [10],
                             "calendar-day": (new Date).getTime() / 1000,
                             "show-week-numbers": false,
                         },
@@ -694,6 +694,23 @@ var fakeMenuData = {
                         "label": "Clock",
                         "sensitive": true,
                         "type": ""
+                    }
+                },
+                {
+                    "rowData": {
+                        "action": "indicator.phone.open-appointment",
+                        "actionState": {},
+                        "ext": {
+                            "xCanonicalTime": (new Date).getTime() / 1000 + 55 * 60
+                        },
+                        "icon": "image://theme/alarm-clock",
+                        "isCheck": false,
+                        "isRadio": false,
+                        "isSeparator": false,
+                        "isToggled": false,
+                        "label": "Wake up!",
+                        "sensitive": true,
+                        "type": "com.canonical.indicator.alarm"
                     }
                 },
                 {

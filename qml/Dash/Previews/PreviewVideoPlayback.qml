@@ -30,7 +30,7 @@ PreviewWidget {
     implicitWidth: units.gu(35)
     implicitHeight: childrenRect.height
 
-    widgetMargins: -units.gu(1)
+    singleColumnMarginless: true
 
     LazyImage {
         objectName: "screenshot"

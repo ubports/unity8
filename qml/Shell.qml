@@ -141,7 +141,7 @@ StyledItem {
         id: wallpaperResolver
         objectName: "wallpaperResolver"
 
-        readonly property url defaultBackground: "file:///usr/share/backgrounds/warty-final-ubuntu.png"
+        readonly property url defaultBackground: "file://" + Constants.defaultWallpaper
         readonly property bool hasCustomBackground: background != defaultBackground
 
         // Use a cached version of the scaled-down wallpaper (as sometimes the
@@ -312,8 +312,6 @@ StyledItem {
             keepDashRunning: launcher.shown || launcher.dashSwipe
             altTabPressed: physicalKeysMapper.altTabPressed
             oskEnabled: shell.oskEnabled
-
-            // TODO: This is not implemented yet in the new stage...
             spreadEnabled: tutorial.spreadEnabled && (!greeter || (!greeter.hasLockedApp && !greeter.shown))
         }
     }
@@ -443,9 +441,10 @@ StyledItem {
         }
 
         if (!greeter.locked && tutorial.launcherLongSwipeEnabled
-            && ApplicationManager.focusedApplicationId != "unity8-dash") {
+            && (ApplicationManager.focusedApplicationId != "unity8-dash" || stage.spreadShown)) {
             ApplicationManager.requestFocusApplication("unity8-dash")
             launcher.fadeOut();
+            stage.closeSpread();
         }
     }
 
@@ -465,6 +464,7 @@ StyledItem {
                         && ((!greeter || !greeter.locked) || AccountsService.enableIndicatorsWhileLocked)
                         && (!greeter || !greeter.hasLockedApp)
                         && !shell.waitingOnGreeter
+                        && settings.enableIndicatorMenu
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
 
                 minimizedPanelHeight: units.gu(3)
@@ -516,6 +516,7 @@ StyledItem {
                     && (!greeter.locked || AccountsService.enableLauncherWhileLocked)
                     && !greeter.hasLockedApp
                     && !shell.waitingOnGreeter
+                    && settings.enableLauncher
             inverted: shell.usageScenario !== "desktop"
             superPressed: physicalKeysMapper.superPressed
             superTabPressed: physicalKeysMapper.superTabPressed
@@ -795,8 +796,9 @@ StyledItem {
         Behavior on opacity { UbuntuNumberAnimation {} }
     }
 
-    // non-visual object
+    // non-visual objects
     KeymapSwitcher {}
+    BrightnessControl {}
 
     Rectangle {
         id: shutdownFadeOutRectangle
