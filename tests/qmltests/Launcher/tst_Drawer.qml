@@ -242,8 +242,8 @@ StyledItem {
 
         function test_searchDirectly() {
             var drawer = dragDrawerIntoView();
-            waitForRendering(launcher);
-            waitUntilTransitionsEnd(launcher);
+            waitForRendering(drawer);
+            waitUntilTransitionsEnd(drawer);
             tryCompare(drawer, "focus", true);
 
             var searchField = findChild(drawer, "searchField");
