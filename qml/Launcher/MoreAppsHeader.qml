@@ -1,23 +1,15 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import GSettings  1.0
 
 AbstractButton {
     id: root
 
-    GSettings {
-        id: settings
-        schema.id: "com.canonical.Unity8"
-    }
-
-    onClicked: {
-        Qt.openUrlExternally(settings.appstoreUri)
-    }
+    property bool highlighted: false
 
     UbuntuShape {
         width: parent.width
         height: parent.height - units.gu(1)
-        color: "#20ffffff"
+        color: root.highlighted ? "red" : "#20ffffff"
         aspect: UbuntuShape.Flat
 
         Row {

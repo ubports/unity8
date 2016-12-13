@@ -539,8 +539,7 @@ FocusScope {
             if (!dragging) {
                 if (distance > panel.width / 2) {
                     if (root.drawerEnabled && distance > panel.width * 3 && dragDirection() !== "left") {
-                        root.switchToNextState("drawer");
-                        root.focus = true;
+                        root.openDrawer(false)
                     } else {
                         root.switchToNextState("visible");
                     }
