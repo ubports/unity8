@@ -142,6 +142,7 @@ FocusScope {
                 KeyNavigation.down: listLoader.item
                 KeyNavigation.backtab: sections
                 KeyNavigation.tab: listLoader.item
+                activeFocusOnTab: true
 
                 GSettings {
                     id: settings
@@ -335,7 +336,7 @@ FocusScope {
                 height: units.gu(10)
                 objectName: "drawerItem_" + model.appId
 
-                property bool focused: index === GridView.view.currentIndex && GridView.view.activeFocus
+                readonly property bool focused: index === GridView.view.currentIndex && GridView.view.activeFocus
 
                 onClicked: root.applicationSelected(model.appId)
 
