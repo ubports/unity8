@@ -46,7 +46,8 @@ ActionItem {
     enabled: menuData ? menuData.sensitive : false
 
     action: Action {
-        text: menuData.label.replace("_", "&")
+        // FIXME - SDK Action:text modifies menu text with html underline for mnemonic
+        text: menuData.label.replace("_", "&").replace("<u>", "&").replace("</u>", "")
         checkable: menuData.isCheck || menuData.isRadio
         checked: menuData.isToggled
     }

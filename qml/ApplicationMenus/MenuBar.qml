@@ -157,7 +157,8 @@ Item {
                         height: _title.height
 
                         action: Action {
-                            text: model.label.replace("_", "&")
+                            // FIXME - SDK Action:text modifies menu text with html underline for mnemonic
+                            text: model.label.replace("_", "&").replace("<u>", "&").replace("</u>", "")
 
                             onTriggered: {
                                 visualItem.show();
