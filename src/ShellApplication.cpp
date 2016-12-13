@@ -34,7 +34,6 @@
 ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     : QGuiApplication(argc, argv)
 {
-
     setApplicationName(QStringLiteral("unity8"));
 
     connect(this, &QGuiApplication::screenAdded, this, &ShellApplication::onScreenAdded);
