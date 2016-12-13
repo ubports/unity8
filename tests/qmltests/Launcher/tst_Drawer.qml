@@ -26,6 +26,7 @@ import Unity.Test 0.1
 StyledItem {
     id: root
     theme.name: "Ubuntu.Components.Themes.SuruDark"
+    focus: true
 
     width: units.gu(140)
     height: units.gu(70)
@@ -108,6 +109,7 @@ StyledItem {
             tryCompareFunction( function(){ return drawer.x === 0; }, true );
             tryCompare(launcher, "state", "drawer");
             tryCompare(launcher, "drawerShown", true);
+            return drawer;
         }
 
         function revealByEdgePush() {
@@ -168,10 +170,8 @@ StyledItem {
         function test_hideByDraggingDrawer(data) {
             launcher.lockedVisible = !data.autohide;
 
-            dragDrawerIntoView();
+            var drawer = dragDrawerIntoView();
             waitForRendering(launcher);
-
-            var drawer = findChild(launcher, "drawer");
 
             mouseFlick(root, drawer.width - units.gu(1), drawer.height / 2, units.gu(2), drawer.height / 2, true, true);
 
@@ -181,9 +181,7 @@ StyledItem {
         }
 
         function test_hideByClickingOutside() {
-            dragDrawerIntoView();
-
-            var drawer = findChild(launcher, "drawer");
+            var drawer = dragDrawerIntoView();
 
             mouseClick(root, drawer.width + units.gu(1), root.height / 2);
 
@@ -259,6 +257,18 @@ StyledItem {
             touchFlick(launcher, stopX, startY, endX, startY, false, true);
 
             tryCompare(launcher, "state", data.endState)
+        }
+
+        function test_searchDirectly() {
+            var drawer = dragDrawerIntoView();
+            waitForRendering(launcher);
+            waitUntilTransitionsEnd(launcher);
+            tryCompare(drawer, "focus", true);
+
+            var searchField = findChild(drawer, "searchField");
+            verify(searchField);
+            typeString("cam");
+            tryCompare(searchField, "displayText", "cam");
         }
     }
 }

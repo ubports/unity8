@@ -45,6 +45,10 @@ FocusScope {
     }
 
     Keys.onPressed: {
+        if (event.text.trim() !== "") {
+            focusInput();
+            searchField.text = event.text;
+        }
         // Catch all presses here in case the navigation lets something through
         // We never want to end up in the launcher with focus
         event.accepted = true;
@@ -83,6 +87,7 @@ FocusScope {
 
             TextField {
                 id: searchField
+                objectName: "searchField"
                 anchors { left: parent.left; top: parent.top; right: parent.right; margins: units.gu(1) }
                 placeholderText: i18n.tr("Search…")
                 focus: true
