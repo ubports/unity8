@@ -25,6 +25,29 @@
 #include <private/qquickitem_p.h>
 #include <private/qsgrenderer_p.h>
 
+
+class ApplySceneGraphVisualizationJob : public QRunnable
+{
+public:
+    ApplySceneGraphVisualizationJob(QQuickWindow *window, QByteArray renderMode)
+        : m_window(window), m_renderMode(renderMode){}
+    void run() override
+    {
+        qDebug() << "Setting custom render mode to:" << m_renderMode;
+
+        QQuickWindowPrivate *winPriv = QQuickWindowPrivate::get(m_window);
+
+        winPriv->customRenderMode = m_renderMode;
+        delete winPriv->renderer;
+        winPriv->renderer = nullptr;
+
+        QTimer::singleShot(10, m_window, &QQuickWindow::update); // force another frame
+    }
+
+    QQuickWindow *m_window;
+    QByteArray m_renderMode;
+};
+
 DebuggingController::DebuggingController(QObject *parent):
     UnityDBusObject(QStringLiteral("/com/canonical/Unity8/Debugging"), QStringLiteral("com.canonical.Unity8"), true, parent)
 {
@@ -47,29 +70,8 @@ void DebuggingController::SetSceneGraphVisualizer(const QString &visualizer)
             // Thus the optimizations are only applied if there is no custom render mode set.
             // So we need to make the scenegraph recheck whether a custom render mode is set.
             // We do this by simply recreating the renderer.
-            QMutexLocker lock(&m_renderModeMutex);
-            QMetaObject::Connection conn;
-            conn = connect(qquickWindow, &QQuickWindow::beforeSynchronizing, this, [this, qquickWindow, pendingRenderMode]() {
-                qDebug() << "Setting curstom render mode to:" << pendingRenderMode;
-                QMutexLocker lock(&m_renderModeMutex);
-                if (!m_mapper.contains(qquickWindow)) {
-                    return;
-                }
-                disconnect(m_mapper.take(qquickWindow));
-
-                QQuickWindowPrivate *winPriv = QQuickWindowPrivate::get(qquickWindow);
-                QQuickItemPrivate *contentPriv = QQuickItemPrivate::get(qquickWindow->contentItem());
-                QSGNode *rootNode = contentPriv->itemNode();
-                while (rootNode->parent())
-                    rootNode = rootNode->parent();
-
-                winPriv->customRenderMode = pendingRenderMode;
-                delete winPriv->renderer;
-                winPriv->renderer = winPriv->context->createRenderer();
-                winPriv->renderer->setRootNode(static_cast<QSGRootNode *>(rootNode));
-            }, Qt::DirectConnection);
-            m_mapper.insert(qquickWindow, conn);
-
+            qquickWindow->scheduleRenderJob(new ApplySceneGraphVisualizationJob(qquickWindow, pendingRenderMode),
+                                            QQuickWindow::AfterSwapStage);
 #else
             QQuickWindowPrivate *winPriv = QQuickWindowPrivate::get(qquickWindow);
             winPriv->customRenderMode = visualizer.toLatin1();

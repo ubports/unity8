@@ -53,8 +53,5 @@ public Q_SLOTS:
       */
     Q_SCRIPTABLE void SetLoggingFilterRules(const QString &filterRules);
 
-private:
-    QMutex m_renderModeMutex;
-    QHash<QQuickWindow*, QMetaObject::Connection> m_mapper;
 };
 #endif // DEBUGGINGCONTROLLER_H
