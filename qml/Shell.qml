@@ -124,7 +124,7 @@ StyledItem {
         greeter.notifyAppFocusRequested(appId);
 
         panel.indicators.hide();
-        launcher.hide();
+        launcher.hide(launcher.ignoreHideIfMouseOverLauncher);
     }
 
     // For autopilot consumption
@@ -278,8 +278,6 @@ StyledItem {
 
             dragAreaWidth: shell.edgeSize
             background: wallpaperResolver.background
-            leftEdgeDragProgress: !greeter || greeter.locked || !tutorial.launcherLongSwipeEnabled ? 0 :
-                                Math.max(0, (launcher.dragDistance * (stage.width - launcher.panelWidth) / stage.width) - launcher.panelWidth)
 
             applicationManager: ApplicationManager
             topLevelSurfaceList: topLevelSurfaceList
@@ -301,14 +299,12 @@ StyledItem {
 
             interactive: (!greeter || !greeter.shown)
                     && panel.indicators.fullyClosed
-                    && launcher.progress == 0
                     && !notifications.useModal
 
             onInteractiveChanged: { if (interactive) { focus = true; } }
 
             leftMargin: shell.usageScenario == "desktop" && !settings.autohideLauncher ? launcher.panelWidth: 0
             suspended: greeter.shown
-            keepDashRunning: launcher.shown || launcher.dashSwipe
             altTabPressed: physicalKeysMapper.altTabPressed
             oskEnabled: shell.oskEnabled
             spreadEnabled: tutorial.spreadEnabled && (!greeter || (!greeter.hasLockedApp && !greeter.shown))
@@ -328,7 +324,7 @@ StyledItem {
             topMargin: panel.panelHeight
             leftMargin: launcher.lockedVisible ? launcher.panelWidth : 0
         }
-        z: notifications.useModal || panel.indicators.shown || wizard.active || tutorial.running ? overlay.z + 1 : overlay.z - 1
+        z: notifications.useModal || panel.indicators.shown || wizard.active || tutorial.running || launcher.drawerShown ? overlay.z + 1 : overlay.z - 1
     }
 
     Loader {
@@ -350,7 +346,6 @@ StyledItem {
             enabled: panel.indicators.fullyClosed // hides OSK when panel is open
             hides: [launcher, panel.indicators, panel.applicationMenus]
             tabletMode: shell.usageScenario != "phone"
-            launcherOffset: launcher.progress
             forcedUnlock: wizard.active || shell.mode === "full-shell"
             background: wallpaperResolver.cachedBackground
             hasCustomBackground: wallpaperResolver.hasCustomBackground
@@ -439,19 +434,6 @@ StyledItem {
         }
     }
 
-    function showDash() {
-        if (greeter.notifyShowingDashFromDrag()) {
-            launcher.fadeOut();
-        }
-
-        if (!greeter.locked && tutorial.launcherLongSwipeEnabled
-            && (ApplicationManager.focusedApplicationId != "unity8-dash" || stage.spreadShown)) {
-            ApplicationManager.requestFocusApplication("unity8-dash")
-            launcher.fadeOut();
-            stage.closeSpread();
-        }
-    }
-
     Item {
         id: overlay
         z: 10
@@ -506,15 +488,6 @@ StyledItem {
             id: launcher
             objectName: "launcher"
 
-            /*
-             * Since the Dash doesn't have the same controll over surfaces that the
-             * Shell does, it can't slowly move the scope out of the way, as the shell
-             * does  with apps, and the dash is show instantly. This allows for some
-             * leeway and prevents accidental home swipes.
-             */
-            readonly property real offset: shell.focusedApplicationId == "unity8-dash" ? units.gu(12) : 0
-            readonly property bool dashSwipe: progress > offset
-
             anchors.top: parent.top
             anchors.topMargin: inverted ? 0 : panel.panelHeight
             anchors.bottom: parent.bottom
@@ -530,14 +503,11 @@ StyledItem {
             superTabPressed: physicalKeysMapper.superTabPressed
             panelWidth: units.gu(settings.launcherWidth)
             lockedVisible: shell.usageScenario == "desktop" && !settings.autohideLauncher && !panel.fullscreenMode
+            blurSource: greeter.shown ? greeter : stages
+            topPanelHeight: panel.panelHeight
+            drawerEnabled: !greeter.shown
 
             onShowDashHome: showHome()
-            onDash: showDash()
-            onDashSwipeChanged: {
-                if (dashSwipe) {
-                    dash.setCurrentScope(0, false, true)
-                }
-            }
             onLauncherApplicationSelected: {
                 greeter.notifyUserRequestedApp();
                 shell.activateApplication(appId);
@@ -553,6 +523,12 @@ StyledItem {
                 }
             }
 
+            GlobalShortcut {
+                shortcut: Qt.MetaModifier | Qt.Key_A
+                onTriggered: {
+                    launcher.openDrawer(true);
+                }
+            }
             GlobalShortcut {
                 shortcut: Qt.AltModifier | Qt.Key_F1
                 onTriggered: {

@@ -165,7 +165,7 @@ StyledItem {
         }
 
         delegate: Item {
-            width: parent.width
+            width: userList.width
             height: root.cellHeight
 
             readonly property bool belowHighlight: (userList.currentIndex < 0 && index > 0) || (userList.currentIndex >= 0 && index > userList.currentIndex)

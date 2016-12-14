@@ -1,7 +1,8 @@
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=10)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=11)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/
 )
 
 set(MockLauncherModel_SOURCES
@@ -9,10 +10,13 @@ set(MockLauncherModel_SOURCES
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/QuickListModelInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/AppDrawerModelInterface.h
     plugin.cpp
     MockLauncherModel.cpp
     MockLauncherItem.cpp
     MockQuickListModel.cpp
+    MockAppDrawerModel.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/applicationsfiltermodel.cpp
 )
 
 add_library(MockLauncherPlugin MODULE ${MockLauncherModel_SOURCES})

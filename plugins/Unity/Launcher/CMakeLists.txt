@@ -1,4 +1,4 @@
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=10)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=11)
 pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
 
 add_definitions(-DSM_BUSNAME=systemBus)
@@ -25,6 +25,8 @@ set(QMLLAUNCHERPLUGIN_SRC
     dbusinterface.cpp
     gsettings.cpp
     asadapter.cpp
+    appdrawermodel.cpp
+    ualwrapper.cpp
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsServiceDBusAdaptor.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
@@ -32,6 +34,7 @@ set(QMLLAUNCHERPLUGIN_SRC
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/QuickListModelInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/AppDrawerModelInterface.h
     )
 
 add_library(UnityLauncher-qml MODULE

@@ -70,6 +70,7 @@ PreviewWidget {
                         objectName: "playButton"
                         width: trackRow.column1Width
                         height: width
+                        activeFocusOnPress: false
 
                         onClicked: {
                             if (trackItem.isPlayingItem) {
