@@ -17,11 +17,7 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures
-)
-
-include_directories(
-    SYSTEM
-    ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
+    ${libunity8-private_SOURCE_DIR}
 )
 
 if (NOT "${XCB_INCLUDE_DIRS}" STREQUAL "")
