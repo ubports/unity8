@@ -790,6 +790,77 @@ Item {
             tryCompare(dialerAppDelegate, "state", "maximized");
         }
 
+        function test_saveRestoreSize() {
+            var originalWindowCount = topSurfaceList.count;
+            var appDelegate = startApplication("dialer-app");
+            compare(topSurfaceList.count, originalWindowCount + 1);
+
+            var initialWindowX = appDelegate.windowedX;
+            var initialWindowY = appDelegate.windowedY;
+            var initialWindowWidth = appDelegate.width
+            var initialWindowHeight = appDelegate.height
+
+            var resizeDelta = units.gu(5)
+            var startDragX = initialWindowX + initialWindowWidth + 1
+            var startDragY = initialWindowY + initialWindowHeight + 1
+            mouseFlick(root, startDragX, startDragY, startDragX + resizeDelta, startDragY + resizeDelta, true, true, units.gu(.5), 10);
+
+            tryCompare(appDelegate, "width", initialWindowWidth + resizeDelta);
+            tryCompare(appDelegate, "height", initialWindowHeight + resizeDelta);
+
+            // Close the window and restart the application
+            var closeButton = findChild(appDelegate, "closeWindowButton");
+            appDelegate = null;
+            verify(closeButton);
+            mouseClick(closeButton);
+            tryCompare(topSurfaceList, "count", originalWindowCount);
+            wait(100); // plus some spare room
+            appDelegate = startApplication("dialer-app");
+
+            // Make sure its size is again the same as before
+            tryCompare(appDelegate, "width", initialWindowWidth + resizeDelta);
+            tryCompare(appDelegate, "height", initialWindowHeight + resizeDelta);
+        }
+
+        function test_saveRestoreMaximized() {
+            var originalWindowCount = topSurfaceList.count;
+            var appDelegate = startApplication("dialer-app");
+            compare(topSurfaceList.count, originalWindowCount + 1);
+
+            var initialWindowX = appDelegate.windowedX;
+            var initialWindowY = appDelegate.windowedY;
+
+            var moveDelta = units.gu(5);
+
+            appDelegate.windowedX = initialWindowX + moveDelta
+            appDelegate.windowedY = initialWindowY + moveDelta
+
+            // Now change the state to maximized. The window should not keep updating the stored values
+            maximizeAppDelegate(appDelegate);
+
+            // Close the window and restart the application
+            var closeButton = findChild(appDelegate, "closeWindowButton");
+            appDelegate = null;
+            verify(closeButton);
+            mouseClick(closeButton);
+            closeButton = null;
+            tryCompare(topSurfaceList, "count", originalWindowCount);
+            wait(100); // plus some spare room
+            appDelegate = startApplication("dialer-app");
+
+            // Make sure it's again where we left it in normal state before destroying
+            tryCompare(appDelegate, "windowedX", initialWindowX + moveDelta)
+            tryCompare(appDelegate, "windowedY", initialWindowY + moveDelta)
+
+            // Make sure maximize() has been called after restoring
+            tryCompare(appDelegate, "state", "maximized")
+
+            // clean up
+            // click on restore button (same one as maximize)
+            var maximizeButton = findChild(appDelegate, "maximizeWindowButton");
+            mouseClick(maximizeButton);
+        }
+
         function test_grabbingCursorOnDecorationPress() {
             var appDelegate = startApplication("dialer-app");
             verify(appDelegate);

@@ -25,14 +25,15 @@ class FakeElapsedTimer : public AbstractElapsedTimer {
 public:
     static qint64 msecsSinceEpoch;
 
-    FakeElapsedTimer() { start(); }
+    FakeElapsedTimer() {}
 
-    void start() override { m_msecsSinceReference = msecsSinceEpoch; }
+    void start() override { m_msecsSinceReference = msecsSinceEpoch; m_valid = true; }
     qint64 msecsSinceReference() const override { return m_msecsSinceReference; }
-    qint64 elapsed() const override { return msecsSinceEpoch - m_msecsSinceReference; }
+    qint64 elapsed() const override { return m_valid ? msecsSinceEpoch - m_msecsSinceReference : qrand(); }
 
 private:
     qint64 m_msecsSinceReference;
+    bool m_valid{false};
 };
 qint64 FakeElapsedTimer::msecsSinceEpoch = 0;
 
@@ -48,11 +49,14 @@ public:
     int interval() const override;
     void setInterval(int msecs) override;
     void start() override;
+    void stop() override;
+    bool isRunning() const override;
     bool isSingleShot() const override;
     void setSingleShot(bool value) override;
 private:
     int m_interval;
     bool m_singleShot;
+    bool m_isRunning;
     qint64 m_nextTimeoutTime;
 };
 
@@ -85,6 +89,8 @@ private Q_SLOTS:
     void tapWhileTouching();
     void multipleHomeKeys();
 
+    void repeatedSuperPress();
+
 private:
     void passTime(qint64 timeSpanMs);
 
@@ -98,10 +104,9 @@ void WindowInputMonitorTest::init()
 
 void WindowInputMonitorTest::cleanup()
 {
-     delete m_fakeTimerFactory;
+    delete m_fakeTimerFactory;
     m_fakeTimerFactory = nullptr;
 }
-
 
 void WindowInputMonitorTest::passTime(qint64 timeSpanMs)
 {
@@ -133,7 +138,7 @@ void WindowInputMonitorTest::touchTapTouch()
     QFETCH(int, silenceAfterTap);
     QFETCH(int, expectedActivatedCount);
     QFETCH(Qt::Key, key);
-    WindowInputMonitor homeKeyWatcher(m_fakeTimerFactory->create(), new FakeElapsedTimer);
+    WindowInputMonitor homeKeyWatcher(m_fakeTimerFactory->create(this), new FakeElapsedTimer);
     QSignalSpy activatedSpy(&homeKeyWatcher, &WindowInputMonitor::homeKeyActivated);
     QVERIFY(activatedSpy.isValid());
 
@@ -194,7 +199,7 @@ void WindowInputMonitorTest::touchTapTouch()
 
 void WindowInputMonitorTest::tapWhileTouching()
 {
-    WindowInputMonitor homeKeyWatcher(m_fakeTimerFactory->create(), new FakeElapsedTimer);
+    WindowInputMonitor homeKeyWatcher(m_fakeTimerFactory->create(this), new FakeElapsedTimer);
     QSignalSpy activatedSpy(&homeKeyWatcher, &WindowInputMonitor::homeKeyActivated);
     QVERIFY(activatedSpy.isValid());
 
@@ -229,7 +234,7 @@ void WindowInputMonitorTest::tapWhileTouching()
  */
 void WindowInputMonitorTest::multipleHomeKeys()
 {
-    WindowInputMonitor homeKeyWatcher(m_fakeTimerFactory->create(), new FakeElapsedTimer);
+    WindowInputMonitor homeKeyWatcher(m_fakeTimerFactory->create(this), new FakeElapsedTimer);
     QSignalSpy activatedSpy(&homeKeyWatcher, &WindowInputMonitor::homeKeyActivated);
     QVERIFY(activatedSpy.isValid());
 
@@ -258,12 +263,64 @@ void WindowInputMonitorTest::multipleHomeKeys()
     QCOMPARE(activatedSpy.count(), 1);
 }
 
+// regression test for lp:1607427
+void WindowInputMonitorTest::repeatedSuperPress()
+{
+    WindowInputMonitor homeKeyWatcher(m_fakeTimerFactory->create(this), new FakeElapsedTimer);
+    QSignalSpy activatedSpy(&homeKeyWatcher, &WindowInputMonitor::homeKeyActivated);
+    QVERIFY(activatedSpy.isValid());
+
+    // 1st try
+    passTime(1000);
+    {
+        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Super_L, Qt::NoModifier);
+        homeKeyWatcher.update(&keyEvent);
+    }
+    passTime(50);
+    {
+        QKeyEvent keyEvent(QEvent::KeyRelease, Qt::Key_Super_L, Qt::NoModifier);
+        homeKeyWatcher.update(&keyEvent);
+    }
+    passTime(1000);
+    QCOMPARE(activatedSpy.count(), 1);
+
+    // a touch event in between
+    {
+        QTouchEvent touchEvent(QEvent::TouchBegin);
+        homeKeyWatcher.update(&touchEvent);
+    }
+    {
+        QTouchEvent touchEvent(QEvent::TouchUpdate);
+        homeKeyWatcher.update(&touchEvent);
+    }
+    {
+        QTouchEvent touchEvent(QEvent::TouchEnd);
+        homeKeyWatcher.update(&touchEvent);
+    }
+
+    passTime(1000);
+    // 2nd try
+    activatedSpy.clear();
+    {
+        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Super_L, Qt::NoModifier);
+        homeKeyWatcher.update(&keyEvent);
+    }
+    passTime(50);
+    {
+        QKeyEvent keyEvent(QEvent::KeyRelease, Qt::Key_Super_L, Qt::NoModifier);
+        homeKeyWatcher.update(&keyEvent);
+    }
+    passTime(1000);
+    QCOMPARE(activatedSpy.count(), 1);
+}
+
 /////////////////////////////////// FakeTimer //////////////////////////////////
 
 FakeTimer::FakeTimer(QObject *parent)
     : UnityUtil::AbstractTimer(parent)
     , m_interval(0)
     , m_singleShot(true)
+    , m_isRunning(false)
 {
 }
 
@@ -285,8 +342,18 @@ void FakeTimer::update()
 
 void FakeTimer::start()
 {
-    AbstractTimer::start();
+    m_isRunning = true;
     m_nextTimeoutTime = FakeElapsedTimer::msecsSinceEpoch + (qint64)interval();
+}
+
+void FakeTimer::stop()
+{
+    m_isRunning = false;
+}
+
+bool FakeTimer::isRunning() const
+{
+    return m_isRunning;
 }
 
 int FakeTimer::interval() const

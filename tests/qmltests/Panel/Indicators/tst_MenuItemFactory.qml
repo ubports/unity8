@@ -370,7 +370,8 @@ Item {
         function test_create_switchMenu_data() {
             return [
                 {label: "testLabel1", enabled: true, checked: false, icon: "file:///testIcon1" },
-                {label: "testLabel2", enabled: false, checked: true, icon: "file:///testIcon2" },
+                {label: "testLabel2", enabled: false, checked: true, icon: "file:///testIcon2", subtitleAction: "action::subtitle1" },
+                {label: "testLabel2", enabled: false, checked: true, icon: "file:///testIcon3", subtitleAction: "action::subtitle2" },
             ];
         }
 
@@ -380,6 +381,9 @@ Item {
             menuData.sensitive = data.enabled;
             menuData.icon = data.icon;
             menuData.isToggled = data.checked;
+            menuData.ext = {
+                'xCanonicalSubtitleAction': data.subtitleAction,
+            };
 
             loader.data = menuData;
             loader.sourceComponent = factory.load(menuData);
@@ -390,6 +394,7 @@ Item {
             compare(loader.item.iconSource, data.icon, "Icon does not match data");
             compare(loader.item.checked, data.checked, "Checked does not match data");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+            compare(loader.item.subtitleAction.name, data.subtitleAction === undefined ? "" : data.subtitleAction, "Subtitle action does not match data");
         }
 
         function test_create_alarmMenu_data() {
