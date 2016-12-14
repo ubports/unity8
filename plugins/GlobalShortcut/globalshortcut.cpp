@@ -71,6 +71,8 @@ void GlobalShortcut::keyPressEvent(QKeyEvent * event)
 
 void GlobalShortcut::keyReleaseEvent(QKeyEvent * event)
 {
+    if (!m_active) return;
+
     event->accept();
     Q_EMIT released(m_shortcut.toString());
 }
