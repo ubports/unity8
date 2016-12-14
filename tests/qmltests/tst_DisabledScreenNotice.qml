@@ -32,6 +32,12 @@ Item {
         anchors.fill: parent
         anchors.rightMargin: units.gu(40)
 
+        // Mock some things here
+        property int internalGu: units.gu(1)
+        property var applicationArguments: QtObject {
+            property string deviceName: "mako"
+        }
+
         screen: QtObject {
             property int orientation: {
                 switch (orientationSelector.selectedIndex) {
@@ -52,8 +58,9 @@ Item {
     }
 
     Column {
-        anchors.fill: parent
-        anchors.leftMargin: units.gu(40)
+        anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
+        width: units.gu(40)
+        spacing: units.gu(1)
 
         ItemSelector {
             id: orientationSelector
@@ -71,19 +78,26 @@ Item {
                 Layout.fillWidth: true
             }
         }
+        Button {
+            text: "Reset first run settings"
+            onClicked: {
+                var settings = testCase.findInvisibleChild(touchScreenPad, "virtualTouchPadSettings");
+                settings.touchpadTutorialHasRun = false;
+            }
+        }
+        Button {
+            text: "Run tutorial now"
+            onClicked: {
+                var touchPad = testCase.findChild(touchScreenPad, "virtualTouchPad")
+                touchPad.runTutorial();
+            }
+        }
     }
 
     UnityTestCase {
         id: testCase
         name: "DisabledScreenNotice"
         when: windowShown
-
-        function test_mouseAreaHidesOnFirstTap() {
-            var noticeArea = findChild(touchScreenPad, "infoNoticeArea")
-            compare(noticeArea.visible, true)
-            tap(root)
-            tryCompare(noticeArea, "visible", false)
-        }
 
         function test_rotation_data() {
             return [
