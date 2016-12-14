@@ -27,12 +27,6 @@ class GSettings;
 class DBusInterface;
 class ASAdapter;
 
-namespace ubuntu {
-    namespace app_launch {
-        class Registry;
-    }
-}
-
 using namespace unity::shell::launcher;
 using namespace unity::shell::application;
 
@@ -73,13 +67,6 @@ private:
 
     void unpin(const QString &appId);
 
-    struct AppInfo {
-        bool valid = false;
-        QString name;
-        QString icon;
-    };
-    AppInfo getApplicationInfo(const QString &appId);
-
 private Q_SLOTS:
     void countChanged(const QString &appId, int count);
     void countVisibleChanged(const QString &appId, bool count);
@@ -98,7 +85,6 @@ private:
     ASAdapter *m_asAdapter;
 
     ApplicationManagerInterface *m_appManager;
-    std::shared_ptr<ubuntu::app_launch::Registry> m_ualRegistry;
 
     friend class LauncherModelTest;
 };

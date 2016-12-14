@@ -37,6 +37,7 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
 {
 
     setApplicationName(QStringLiteral("unity8"));
+    setOrganizationName(QStringLiteral("Canonical"));
 
     connect(this, &QGuiApplication::screenAdded, this, &ShellApplication::onScreenAdded);
 
