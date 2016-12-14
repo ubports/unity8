@@ -11,6 +11,9 @@ include_directories(
 include_directories(
     SYSTEM
     ${GLIB_INCLUDE_DIRS}
+)
+include_directories(
+    SYSTEM
     ${GIO_INCLUDE_DIRS}
     ${QMENUMODEL_INCLUDE_DIRS}
 )

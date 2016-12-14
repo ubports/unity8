@@ -710,6 +710,29 @@ FocusScope {
                 property real restoredX
                 property real restoredY
 
+                // Keeps track of the window geometry while in normal or restored state
+                // Useful when returning from some maxmized state or when saving the geometry while maximized
+                // FIXME: find a better solution
+                property real normalX: 0
+                property real normalY: 0
+                property real normalWidth: 0
+                property real normalHeight: 0
+                function updateNormalGeometry() {
+                    if (appDelegate.state == "normal" || appDelegate.state == "restored") {
+                        normalX = appDelegate.requestedX;
+                        normalY = appDelegate.requestedY;
+                        normalWidth = appDelegate.width;
+                        normalHeight = appDelegate.height;
+                    }
+                }
+                Connections {
+                    target: appDelegate
+                    onXChanged: appDelegate.updateNormalGeometry();
+                    onYChanged: appDelegate.updateNormalGeometry();
+                    onWidthChanged: appDelegate.updateNormalGeometry();
+                    onHeightChanged: appDelegate.updateNormalGeometry();
+                }
+
                 Binding {
                     target: appDelegate
                     property: "y"
@@ -850,6 +873,16 @@ FocusScope {
                         MirFocusController.focusedSurface = null;
                     }
                 }
+
+                WindowStateSaver {
+                    id: windowStateSaver
+                    target: appDelegate
+                    screenWidth: appContainer.width
+                    screenHeight: appContainer.height
+                    leftMargin: root.leftMargin
+                    minimumY: PanelState.panelHeight
+                }
+
                 Component.onCompleted: {
                     if (application && application.rotatesWindowContents) {
                         decoratedWindow.surfaceOrientationAngle = shellOrientationAngle;
@@ -861,7 +894,7 @@ FocusScope {
                     windowedX = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedX + units.gu(3) : (normalZ - 1) * units.gu(3)
                     windowedY = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedY + units.gu(3) : normalZ * units.gu(3)
                     // Now load any saved state. This needs to happen *after* the cascading!
-                    resizeArea.loadWindowState();
+                    windowStateSaver.load();
 
                     // NB: We're differentiating if this delegate was created in response to a new entry in the model
                     //     or if the Repeater is just populating itself with delegates to match the model it received.
@@ -878,6 +911,8 @@ FocusScope {
                     _constructing = false;
                 }
                 Component.onDestruction: {
+                    windowStateSaver.save();
+
                     if (!root.parent) {
                         // This stage is about to be destroyed. Don't mess up with the model at this point
                         return;
@@ -1161,7 +1196,8 @@ FocusScope {
                         when: root.mode == "windowed" && (root.state == "windowedRightEdge" || rightEdgeFocusAnimation.running || hidingAnimation.running || edgeBarrier.progress > 0)
                         PropertyChanges {
                             target: windowedRightEdgeMaths
-                            progress: Math.max(rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0, edgeBarrier.progress)
+                            swipeProgress: rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0
+                            pushProgress: edgeBarrier.progress
                         }
                         PropertyChanges {
                             target: appDelegate
@@ -1479,26 +1515,21 @@ FocusScope {
                     id: resizeArea
                     objectName: "windowResizeArea"
 
+                    anchors.fill: appDelegate
+
                     // workaround so that it chooses the correct resize borders when you drag from a corner ResizeGrip
                     anchors.margins: touchControls.overlayShown ? borderThickness/2 : -borderThickness
 
                     target: appDelegate
+                    minimumY: PanelState.panelHeight // disallow resizing up past Panel
                     minWidth: units.gu(10)
                     minHeight: units.gu(10)
                     borderThickness: units.gu(2)
-                    windowId: model.application.appId // FIXME: Change this to point to windowId once we have such a thing
-                    screenWidth: appContainer.width
-                    screenHeight: appContainer.height
-                    leftMargin: root.leftMargin
                     enabled: false
                     visible: enabled
 
                     onPressed: {
                         appDelegate.focus = true;
-                    }
-
-                    Component.onDestruction: {
-                        saveWindowState();
                     }
                 }
 
@@ -1649,10 +1680,10 @@ FocusScope {
                     }
                 }
 
-                Image {
-                    id: closeImage
+                MouseArea {
+                    id: closeMouseArea
+                    objectName: "closeMouseArea"
                     anchors { left: parent.left; top: parent.top; leftMargin: -height / 2; topMargin: -height / 2 + spreadMaths.closeIconOffset }
-                    source: "graphics/window-close.svg"
                     readonly property var mousePos: hoverMouseArea.mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
                     visible: !appDelegate.isDash && dragArea.distance == 0
                              && index == spreadItem.highlightedIndex
@@ -1660,20 +1691,20 @@ FocusScope {
                              && mousePos.y > -units.gu(4)
                              && mousePos.x > -units.gu(4)
                              && mousePos.x < (decoratedWindow.width * 2 / 3)
-                    height: units.gu(2)
+                    height: units.gu(6)
                     width: height
-                    sourceSize.width: width
-                    sourceSize.height: height
 
-                    MouseArea {
-                        id: closeMouseArea
-                        objectName: "closeMouseArea"
-                        anchors.fill: closeImage
-                        anchors.margins: -units.gu(2)
-                        onClicked: {
-                            priv.closingIndex = index;
-                            appDelegate.close();
-                        }
+                    onClicked: {
+                        priv.closingIndex = index;
+                        appDelegate.close();
+                    }
+                    Image {
+                        id: closeImage
+                        source: "graphics/window-close.svg"
+                        anchors.fill: closeMouseArea
+                        anchors.margins: units.gu(2)
+                        sourceSize.width: width
+                        sourceSize.height: height
                     }
                 }
             }
@@ -1732,13 +1763,13 @@ FocusScope {
             }
 
             // Find the hovered item and mark it active
-            var mapped = mapToItem(appContainer, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
-            var itemUnder = appContainer.childAt(mapped.x, mapped.y)
-            if (itemUnder) {
-                mapped = mapToItem(itemUnder, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
-                var delegateChild = itemUnder.childAt(mapped.x, mapped.y)
-                if (delegateChild && (delegateChild.objectName === "dragArea" || delegateChild.objectName === "windowInfoItem")) {
-                    spreadItem.highlightedIndex = appRepeater.indexOf(itemUnder)
+            for (var i = appRepeater.count - 1; i >= 0; i--) {
+                var appDelegate = appRepeater.itemAt(i);
+                var mapped = mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
+                var itemUnder = appDelegate.childAt(mapped.x, mapped.y);
+                if (itemUnder && (itemUnder.objectName === "dragArea" || itemUnder.objectName === "windowInfoItem" || itemUnder.objectName == "closeMouseArea")) {
+                    spreadItem.highlightedIndex = i;
+                    break;
                 }
             }
 

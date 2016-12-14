@@ -19,9 +19,12 @@ import "../Components"
 import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
+import Utils 0.1 as Utils
 
 FocusScope {
     id: root
+
+    readonly property int ignoreHideIfMouseOverLauncher: 1
 
     property bool autohideEnabled: false
     property bool lockedVisible: false
@@ -105,7 +108,10 @@ FocusScope {
         }
     }
 
-    function hide() {
+    function hide(flags) {
+        if ((flags & ignoreHideIfMouseOverLauncher) && Utils.Functions.itemUnderMouse(panel)) {
+            return;
+        }
         switchToNextState("")
     }
 
@@ -416,11 +422,11 @@ FocusScope {
         property bool animate: true
 
         onApplicationSelected: {
-            root.hide();
+            root.hide(ignoreHideIfMouseOverLauncher);
             launcherApplicationSelected(appId)
         }
         onShowDashHome: {
-            root.hide();
+            root.hide(ignoreHideIfMouseOverLauncher);
             root.showDashHome();
         }
 
@@ -498,12 +504,33 @@ FocusScope {
 
         function easeInOutCubic(t) { return t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1 }
 
+        property var lastDragPoints: []
+
+        function dragDirection() {
+            if (lastDragPoints.length < 5) {
+                return "unknown";
+            }
+
+            var toRight = true;
+            var toLeft = true;
+            for (var i = lastDragPoints.length - 5; i < lastDragPoints.length; i++) {
+                if (toRight && lastDragPoints[i] < lastDragPoints[i-1]) {
+                    toRight = false;
+                }
+                if (toLeft && lastDragPoints[i] > lastDragPoints[i-1]) {
+                    toLeft = false;
+                }
+            }
+            return toRight ? "right" : toLeft ? "left" : "unknown";
+        }
+
         onDistanceChanged: {
             if (dragging && launcher.state != "visible" && launcher.state != "drawer") {
                 panel.x = -panel.width + Math.min(Math.max(0, distance), panel.width);
             }
 
             if (root.drawerEnabled && dragging && launcher.state != "drawer") {
+                lastDragPoints.push(distance)
                 var drawerHintDistance = panel.width + units.gu(1)
                 if (distance < drawerHintDistance) {
                     drawer.anchors.rightMargin = -Math.min(Math.max(0, distance), drawer.width);
@@ -519,18 +546,19 @@ FocusScope {
         onDraggingChanged: {
             if (!dragging) {
                 if (distance > panel.width / 2) {
-                    if (root.drawerEnabled && distance > panel.width * 3) {
-                        root.switchToNextState("drawer")
+                    if (root.drawerEnabled && distance > panel.width * 3 && dragDirection() !== "left") {
+                        root.switchToNextState("drawer");
                         root.focus = true;
                         drawer.focus = true;
                     } else {
-                        root.switchToNextState("visible")
+                        root.switchToNextState("visible");
                     }
                 } else if (root.state === "") {
                     // didn't drag far enough. rollback
-                    root.switchToNextState("")
+                    root.switchToNextState("");
                 }
             }
+            lastDragPoints = [];
         }
     }
 
