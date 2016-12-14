@@ -6,8 +6,12 @@ add_definitions(-DFULL_LIGHTDM)
 
 include_directories(
     ../
-    ${LIBLIGHTDM_INCLUDE_DIRS}
     ${CMAKE_CURRENT_BINARY_DIR}
+    )
+
+include_directories(
+    SYSTEM
+    ${LIBLIGHTDM_INCLUDE_DIRS}
     )
 
 foreach(source_file ${QMLPLUGIN_SRC})

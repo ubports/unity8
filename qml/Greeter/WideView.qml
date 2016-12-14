@@ -125,6 +125,8 @@ FocusScope {
             id: loginList
             objectName: "loginList"
 
+            property int selectedUserIndex: 0
+
             width: units.gu(40)
             anchors {
                 left: parent.left
@@ -139,9 +141,12 @@ FocusScope {
             Behavior on boxVerticalOffset { UbuntuNumberAnimation {} }
 
             model: root.userModel
-            currentSession: LightDMService.greeter.defaultSession
+            currentSession: LightDMService.users.data(selectedUserIndex, LightDMService.userRoles.SessionRole);
             onResponded: root.responded(response)
-            onSelected: root.selected(index)
+            onSelected: {
+                root.selected(index)
+                loginList.selectedUserIndex = index;
+            }
             onSessionChooserButtonClicked: parent.state = "SessionsList"
 
             Keys.forwardTo: [sessionChooserLoader.item]

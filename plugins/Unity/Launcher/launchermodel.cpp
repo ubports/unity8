@@ -19,17 +19,13 @@
 #include "gsettings.h"
 #include "dbusinterface.h"
 #include "asadapter.h"
+#include "ualwrapper.h"
 
-#include <ubuntu-app-launch/appid.h>
-#include <ubuntu-app-launch/application.h>
-#include <ubuntu-app-launch/registry.h>
 #include <unity/shell/application/ApplicationInfoInterface.h>
 #include <unity/shell/application/MirSurfaceListInterface.h>
 
 #include <QDesktopServices>
 #include <QDebug>
-
-namespace ual = ubuntu::app_launch;
 
 using namespace unity::shell::application;
 
@@ -38,8 +34,7 @@ LauncherModel::LauncherModel(QObject *parent):
     m_settings(new GSettings(this)),
     m_dbusIface(new DBusInterface(this)),
     m_asAdapter(new ASAdapter()),
-    m_appManager(nullptr),
-    m_ualRegistry(std::make_shared<ual::Registry>())
+    m_appManager(nullptr)
 {
     connect(m_dbusIface, &DBusInterface::countChanged, this, &LauncherModel::countChanged);
     connect(m_dbusIface, &DBusInterface::countVisibleChanged, this, &LauncherModel::countVisibleChanged);
@@ -159,7 +154,7 @@ void LauncherModel::pin(const QString &appId, int index)
             index = m_list.count();
         }
 
-        auto appInfo = getApplicationInfo(appId);
+        UalWrapper::AppInfo appInfo = UalWrapper::getApplicationInfo(appId);
         if (!appInfo.valid) {
             qWarning() << "Can't pin application, appId not found:" << appId;
             return;
@@ -335,32 +330,6 @@ int LauncherModel::findApplication(const QString &appId)
     return -1;
 }
 
-LauncherModel::AppInfo LauncherModel::getApplicationInfo(const QString &appId)
-{
-    AppInfo info;
-
-    ual::AppID ualAppId = ual::AppID::find(m_ualRegistry, appId.toStdString());
-    if (ualAppId.empty()) {
-        return info;
-    }
-
-    std::shared_ptr<ual::Application> ualApp;
-    try
-    {
-        ualApp = ual::Application::create(ualAppId, m_ualRegistry);
-    }
-    catch (std::runtime_error &e)
-    {
-        qWarning() << "Couldn't find application info for" << appId << "-" << e.what();
-        return info;
-    }
-
-    info.valid = true;
-    info.name = QString::fromStdString(ualApp->info()->name());
-    info.icon = QString::fromStdString(ualApp->info()->iconPath());
-    return info;
-}
-
 void LauncherModel::progressChanged(const QString &appId, int progress)
 {
     const int idx = findApplication(appId);
@@ -408,7 +377,7 @@ void LauncherModel::countVisibleChanged(const QString &appId, bool countVisible)
         }
     } else {
         // Need to create a new LauncherItem and show the highlight
-        auto appInfo = getApplicationInfo(appId);
+        UalWrapper::AppInfo appInfo = UalWrapper::getApplicationInfo(appId);
         if (countVisible && appInfo.valid) {
             LauncherItem *item = new LauncherItem(appId,
                                                   appInfo.name,
@@ -428,7 +397,7 @@ void LauncherModel::refresh()
     // First walk through all the existing items and see if we need to remove something
     QList<LauncherItem*> toBeRemoved;
     Q_FOREACH (LauncherItem* item, m_list) {
-        auto appInfo = getApplicationInfo(item->appId());
+        UalWrapper::AppInfo appInfo = UalWrapper::getApplicationInfo(item->appId());
         if (!appInfo.valid) {
             // Application no longer available => drop it!
             toBeRemoved << item;
@@ -480,7 +449,7 @@ void LauncherModel::refresh()
         if (itemIndex == -1) {
             // Need to add it. Just add it into the addedIndex to keep same ordering as the list
             // in the settings.
-            auto appInfo = getApplicationInfo(entry);
+            UalWrapper::AppInfo appInfo = UalWrapper::getApplicationInfo(entry);
             if (!appInfo.valid) {
                 continue;
             }
