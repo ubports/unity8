@@ -1,3 +1,36 @@
+unity8 (8.15+17.04.20161207.1-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Add the Wsuggest-override flag to gcc
+  * Add support for compiler sanitizers via ECM
+  * Use timeStep as delay time (LP: #1642919)
+  * Bring back fix for 1517830 (LP: #1517830)
+  * Fix compile warnings in mocks
+  * Do not hide panel when launching an application if the mouse is on
+    the panel (LP: #1591311)
+
+  [ Daniel d'Andrada ]
+  * Fix "make tryApplicationWindow"
+  * Take save/restore functions out of WindowResizeArea
+
+  [ Josh Arenson ]
+  * Enable the greeter to remember which session the user last logged
+    into (LP: #1631365)
+
+  [ Lukáš Tinkl ]
+  * Fix the Super key not invoking the dash scope home (LP: #1607427)
+
+  [ Michael Zanetti ]
+  * Add the ApplicationDrawer
+  * tune right edge push (LP: #1646094)
+  * improve close button visiblity when hovering with the mouse
+  * Update virtual touchpad visuals and add a tutorial. (LP: #1585220)
+
+  [ Pete Woods ]
+  * MenuItemFactory: Add subtitle support to SwitchItem widget
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 07 Dec 2016 13:49:24 +0000
+
 unity8 (8.15+17.04.20161129-0ubuntu1) zesty; urgency=medium
 
   [ Albert Astals Cid ]
