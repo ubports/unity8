@@ -12,7 +12,6 @@ QtObject {
     property int sideStageWidth: 0
     property int sideStageX: sceneWidth
     property bool animateX: false
-    property int leftEdgeDragProgress: 0
 
     property int stage: ApplicationInfoInterface.MainStage
     property var thisDelegate: null
@@ -26,10 +25,6 @@ QtObject {
     // of the last focused order.
     readonly property int itemZ: {
         // only shuffle when we've got a main and side stage
-        if (thisDelegate.isDash && thisDelegate != mainStageDelegate && leftEdgeDragProgress > 0) {
-            return -1; // Keep the dash behind all other apps for the left edge gesture
-        }
-
         if (!sideStageDelegate) return itemIndex;
 
         // don't shuffle indexes greater than "actives or next"
@@ -64,12 +59,12 @@ QtObject {
 
     property int itemX: {
         if (mainStageDelegate == thisDelegate) {
-            return thisDelegate.isDash ? 0 : leftEdgeDragProgress;
+            return 0
         }
         if (sideStageDelegate == thisDelegate) {
             return sideStageX;
         }
-        return thisDelegate.isDash && leftEdgeDragProgress > 0 ? 0 : sceneWidth;
+        return sceneWidth;
     }
     Behavior on itemX { enabled: root.animateX; UbuntuNumberAnimation {} }
 

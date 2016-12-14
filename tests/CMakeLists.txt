@@ -1,17 +1,14 @@
 include(QmlTest)
 
 # QML tests that do not require graphical capabilities.
-add_custom_target(unittests)
+add_meta_test(unittests)
 
 # QML tests that require graphical capabilities.
-add_custom_target(uitests)
-add_custom_target(xvfbuitests)
+add_meta_test(uitests)
+add_meta_test(xvfbuitests)
 
-add_custom_target(alltests)
-add_dependencies(alltests unittests uitests)
-
-add_custom_target(xvfballtests)
-add_dependencies(xvfballtests unittests xvfbuitests)
+add_meta_test(alltests DEPENDS unittests uitests)
+add_meta_test(xvfballtests DEPENDS unittests xvfbuitests)
 
 # Support libraries and plugins
 add_subdirectory(mocks)
@@ -121,12 +118,23 @@ function(add_unity8_qmlbenchmark PATH COMPONENT_NAME ITERATIONS)
     add_unity8_qmltest(${PATH} ${COMPONENT_NAME} ITERATIONS ${ITERATIONS} ${ARGN})
 endfunction()
 
+# add files needed for qml tests, just here for better alignment with add_unity8_qmltest
+function(add_unity8_qmltest_data PATH COMPONENT_NAME)
+    add_qml_test_data("${PATH}" "${COMPONENT_NAME}")
+endfunction()
+
 # used to make dbus adaptor classes from xml to mock system services
 if(DEFINED ENV{DEB_BUILD_MULTIARCH})
   set(QDBUSXML2CPP_EXECUTABLE "/usr/lib/$ENV{DEB_BUILD_MULTIARCH}/qt5/bin/qdbusxml2cpp")
 else()
   FIND_PROGRAM(QDBUSXML2CPP_EXECUTABLE qdbusxml2cpp)
 endif()
+
+
+install(DIRECTORY data graphics
+    DESTINATION "${SHELL_APP_DIR}/tests"
+)
+
 
 # Actual test definitions
 add_subdirectory(plugins)

@@ -24,6 +24,8 @@
 #include <time.h>
 #include <utime.h>
 
+#include <paths.h>
+
 Q_DECLARE_METATYPE(QQuickImage::Status)
 
 class ImageCacheTest : public QObject
@@ -52,7 +54,7 @@ private:
 
     QString sourceFile(const QString &name)
     {
-        return CURRENT_SOURCE_DIR "/graphics/" + name;
+        return testDataDir() + "/" TEST_DIR "/graphics/" + name;
     }
 
     QString cachedFile(bool isPath, const QString &name)
@@ -93,7 +95,7 @@ private Q_SLOTS:
         qputenv("HOME", home->path().toUtf8());
 
         view = new QQuickView();
-        view->setSource(QUrl::fromLocalFile(CURRENT_SOURCE_DIR "/test.qml"));
+        view->setSource(QUrl::fromLocalFile(testDataDir() + "/" TEST_DIR "/test.qml"));
         image = view->rootObject();
 
         view->show();

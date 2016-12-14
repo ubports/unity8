@@ -29,6 +29,9 @@ add_executable(LightDMServer
     server.cpp
 )
 qt5_use_modules(LightDMServer Core DBus)
+install(TARGETS LightDMServer
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Session"
+    )
 
 ### SessionBackendTest
 add_executable(sessionbackendtestExec
@@ -40,6 +43,9 @@ target_link_libraries(sessionbackendtestExec
     ${GLIB_LIBRARIES}
     )
 qt5_use_modules(sessionbackendtestExec Test Core Qml DBus)
+install(TARGETS sessionbackendtestExec
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Session"
+)
 
 add_unity8_unittest(SessionBackend dbus-test-runner
     ENVIRONMENT XDG_SESSION_PATH=/session

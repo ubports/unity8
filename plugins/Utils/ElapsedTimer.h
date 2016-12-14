@@ -41,7 +41,7 @@ class ElapsedTimer : public AbstractElapsedTimer {
 public:
     void start() override { m_timer.start(); }
     qint64 msecsSinceReference() const override { return m_timer.msecsSinceReference(); }
-    qint64 elapsed() const override { return m_timer.elapsed(); }
+    qint64 elapsed() const override { return m_timer.isValid() ? m_timer.elapsed() : 0; }
 private:
     QElapsedTimer m_timer;
 };
