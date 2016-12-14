@@ -322,7 +322,7 @@ Rectangle {
         function revealByEdgePush() {
             // Place the mouse against the window/screen edge and push beyond the barrier threshold
             mouseMove(root, 1, root.height / 2);
-            launcher.pushEdge(EdgeBarrierSettings.pushThreshold * 1.1);
+            launcher.pushEdge(EdgeBarrierSettings.pushThreshold * .6);
 
             var panel = findChild(launcher, "launcherPanel");
             verify(!!panel);
@@ -824,7 +824,7 @@ Rectangle {
 
             // Dragging a bit (> 1.5 gu)
             newMouseX -= units.gu(2)
-            mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false, 100)
+            mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false)
             currentMouseX = newMouseX
 
             // Other items need to expand and become 0.6 opaque
@@ -832,8 +832,8 @@ Rectangle {
             tryCompare(item0, "itemOpacity", 0.6)
 
             // Dragging a bit more
-            newMouseY += initialItemHeight * 1.5
-            mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false, 100)
+            newMouseY += initialItemHeight * 1.25
+            mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false)
             currentMouseY = newMouseY
 
             tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 1)

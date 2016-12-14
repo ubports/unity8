@@ -53,6 +53,8 @@ Rectangle {
                 surfaceOrientationAngle: 0
                 interactive: true
                 focus: true
+                requestedWidth: width
+                requestedHeight: height
                 Component.onDestruction: {
                     applicationWindowLoader.itemDestroyed = true;
                 }
@@ -150,26 +152,6 @@ Rectangle {
                     }
                 }
             }
-
-            Button {
-                anchors { left: parent.left; right: parent.right }
-                activeFocusOnPress: false
-                text: "Rotate device \u27F3"
-                onClicked: {
-                    var orientation = applicationWindowLoader.item.orientation
-                    if (orientation == Qt.PortraitOrientation) {
-                        orientation = Qt.LandscapeOrientation;
-                    } else if (orientation == Qt.LandscapeOrientation) {
-                        orientation = Qt.InvertedPortraitOrientation;
-                    } else if (orientation == Qt.InvertedPortraitOrientation) {
-                        orientation = Qt.InvertedLandscapeOrientation;
-                    } else {
-                        orientation = Qt.PortraitOrientation;
-                    }
-                    applicationWindowLoader.item.orientation = orientation;
-                }
-            }
-
         }
     }
 

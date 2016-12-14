@@ -67,6 +67,11 @@ QString MockLauncherItem::icon() const
     return m_icon;
 }
 
+QStringList MockLauncherItem::keywords() const
+{
+    return m_keywords;
+}
+
 bool MockLauncherItem::pinned() const
 {
     return m_pinned;
@@ -199,4 +204,12 @@ void MockLauncherItem::setSurfaceCount(int surfaceCount)
 unity::shell::launcher::QuickListModelInterface *MockLauncherItem::quickList() const
 {
     return m_quickList;
+}
+
+void MockLauncherItem::setKeywords(const QStringList &keywords)
+{
+    if (m_keywords != keywords) {
+        m_keywords = keywords;
+        Q_EMIT keywordsChanged(keywords);
+    }
 }
