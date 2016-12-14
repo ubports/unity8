@@ -240,6 +240,25 @@ StyledItem {
             compare(launcher.lastSelectedApplication, "camera-app");
         }
 
+        function test_dragDirectionOnLeftEdgeDrag_data() {
+            return [
+                { tag: "reveal", direction: "right", endState: "drawer" },
+                { tag: "cancel", direction: "left", endState: "visible" },
+            ]
+        }
+
+        function test_dragDirectionOnLeftEdgeDrag(data) {
+            var startX = launcher.dragAreaWidth/2;
+            var startY = launcher.height/2;
+            var stopX = startX + units.gu(35);
+            var endX = stopX + (units.gu(4) * (data.direction === "left" ? -1 : 1))
+
+            touchFlick(launcher, startX, startY, stopX, startY, true, false);
+            touchFlick(launcher, stopX, startY, endX, startY, false, true);
+
+            tryCompare(launcher, "state", data.endState)
+        }
+
         function test_searchDirectly() {
             var drawer = dragDrawerIntoView();
             waitForRendering(drawer);
