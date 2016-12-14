@@ -32,6 +32,7 @@
 #include <QDomDocument>
 
 #include <glib.h>
+#include <paths.h>
 
 // This is a mock, specifically to test the LauncherModel
 class MockApp: public unity::shell::application::ApplicationInfoInterface
@@ -139,6 +140,7 @@ class LauncherModelTest : public QObject
 private:
     LauncherModel *launcherModel;
     MockAppManager *appManager;
+    QTemporaryDir tmpDir;
 
     QList<QVariantMap> getASConfig() {
         AccountsServiceDBusAdaptor *as = launcherModel->m_asAdapter->m_accounts;
@@ -148,10 +150,22 @@ private:
         return qdbus_cast<QList<QVariantMap>>(reply.value().value<QDBusArgument>());
     }
 
+    // Link our app data from a tempdir & tell glib/UAL to look there.
+    // We do this because we want to be able to delete the applications dir
+    // during testing, but that dir may be read-only (installed on system).
+    void setUpAppDir() {
+        QFile appDir(qgetenv("APPDIR"));
+        appDir.link(tmpDir.path() + "/applications");
+
+        qputenv("XDG_DATA_HOME", tmpDir.path().toUtf8());
+    }
+
 private Q_SLOTS:
 
     void initTestCase() {
         qDBusRegisterMetaType<QList<QVariantMap>>();
+
+        setUpAppDir();
 
         launcherModel = new LauncherModel(this);
         QCoreApplication::processEvents(); // to let the model register on DBus
@@ -163,6 +177,9 @@ private Q_SLOTS:
 
     // Adding 2 apps to the mock appmanager. Both should appear in the launcher.
     void init() {
+        // Switching to tmpDir makes manipulating our appdir symlink easier.
+        QDir::setCurrent(tmpDir.path());
+
         QDBusInterface accountsInterface(QStringLiteral("org.freedesktop.Accounts"),
                                          QStringLiteral("/org/freedesktop/Accounts"),
                                          QStringLiteral("org.freedesktop.Accounts"));

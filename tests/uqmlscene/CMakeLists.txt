@@ -23,3 +23,7 @@ target_link_libraries(uqmlscene
     ${XCB_LDFLAGS}
     UbuntuGestures
     )
+
+install(TARGETS uqmlscene
+    RUNTIME DESTINATION ${SHELL_PRIVATE_LIBDIR}
+    )

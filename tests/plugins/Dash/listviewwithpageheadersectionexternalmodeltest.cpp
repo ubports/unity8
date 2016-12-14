@@ -26,6 +26,8 @@
 #include <private/qquickanimation_p.h>
 #include <private/qquickitem_p.h>
 
+#include <paths.h>
+
 class StringListModel : public QAbstractListModel
 {
 public:
@@ -165,7 +167,7 @@ private Q_SLOTS:
     void init()
     {
         view = new QQuickView();
-        view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/listviewwithpageheadertestsectionexternalmodel.qml"));
+        view->setSource(QUrl::fromLocalFile(testDataDir() + "/" TEST_DIR "/listviewwithpageheadertestsectionexternalmodel.qml"));
         lvwph = static_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
         QVERIFY(lvwph);
         view->show();
