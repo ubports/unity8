@@ -30,18 +30,16 @@ class AbstractTimer : public QObject
 {
     Q_OBJECT
 public:
-    AbstractTimer(QObject *parent) : QObject(parent), m_isRunning(false) {}
+    AbstractTimer(QObject *parent) : QObject(parent) {}
     virtual int interval() const = 0;
     virtual void setInterval(int msecs) = 0;
-    virtual void start() { m_isRunning = true; }
-    virtual void stop() { m_isRunning = false; }
-    bool isRunning() const { return m_isRunning; }
+    virtual void start() = 0;
+    virtual void stop() = 0;
+    virtual bool isRunning() const = 0;
     virtual bool isSingleShot() const = 0;
     virtual void setSingleShot(bool value) = 0;
 Q_SIGNALS:
     void timeout();
-private:
-    bool m_isRunning;
 };
 
 /** A QTimer wrapper */
@@ -55,6 +53,7 @@ public:
     void setInterval(int msecs) override;
     void start() override;
     void stop() override;
+    bool isRunning() const override;
     bool isSingleShot() const override;
     void setSingleShot(bool value) override;
 private:

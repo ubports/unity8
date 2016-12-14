@@ -22,6 +22,8 @@
 
 #include <unity/shell/launcher/LauncherItemInterface.h>
 
+#include <QStringList>
+
 class MockQuickListModel;
 
 using namespace unity::shell::launcher;
@@ -37,6 +39,7 @@ public:
     QString desktopFile() const;
     QString name() const override;
     QString icon() const override;
+    QStringList keywords() const override;
 
     bool pinned() const override;
     bool running() const override;
@@ -51,6 +54,7 @@ public:
     unity::shell::launcher::QuickListModelInterface *quickList() const override;
 
 private:
+    void setKeywords(const QStringList &keywords);
     void setPinned(bool pinned);
     void setRunning(bool running);
     void setRecent(bool recent);
@@ -65,6 +69,7 @@ private:
     QString m_desktopFile;
     QString m_name;
     QString m_icon;
+    QStringList m_keywords;
     bool m_pinned;
     bool m_running;
     bool m_recent;
@@ -77,6 +82,7 @@ private:
     MockQuickListModel *m_quickList;
 
     friend class MockLauncherModel;
+    friend class MockAppDrawerModel;
 };
 
 #endif // MOCKLAUNCHERITEM_H

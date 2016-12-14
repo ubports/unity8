@@ -310,8 +310,9 @@ Item {
             var stopX = units.gu(1)
             var stopY = startY;
             waitForRendering(dashContentList)
-            mouseFlick(dash, startX, startY, stopX, stopY);
-            mouseFlick(dash, startX, startY, stopX, stopY);
+            mouseFlick(dash, startX, startY, stopX, stopY, true, true, units.gu(200));
+            compare(dashContentList.currentIndex, 1, "Could not flick to scope id 1");
+            mouseFlick(dash, startX, startY, stopX, stopY, units.gu(200));
             compare(dashContentList.currentIndex, 2, "Could not flick to scope id 2");
             var dashCommunicatorService = findInvisibleChild(dash, "dashCommunicatorService");
             dashCommunicatorService.mockSetCurrentScope(0, true, false);
@@ -411,7 +412,7 @@ Item {
             compare(dashContentList.currentItem.scopeId, "clickscope");
 
             // Move to second scope
-            mouseFlick(dash, dash.width / 2, units.gu(2), dash.width / 5, units.gu(2));
+            mouseFlick(dash, dash.width / 2, units.gu(2), dash.width / 5, units.gu(2), true, true, units.gu(20));
             tryCompare(dashContentList, "currentIndex", 1);
             compare(dashContentList.currentItem.scopeId, "MockScope1");
         }

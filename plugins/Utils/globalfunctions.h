@@ -37,6 +37,8 @@ public:
                                           int x,
                                           int y,
                                           QJSValue matcher);
+
+    static Q_INVOKABLE bool itemUnderMouse(QQuickItem* item);
 };
 
 #endif // GLOBALFUNCTIONS_H

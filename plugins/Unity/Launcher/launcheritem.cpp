@@ -90,6 +90,19 @@ void LauncherItem::setIcon(const QString &icon)
     }
 }
 
+QStringList LauncherItem::keywords() const
+{
+    return m_keywords;
+}
+
+void LauncherItem::setKeywords(const QStringList &keywords)
+{
+    if (m_keywords != keywords) {
+        m_keywords = keywords;
+        Q_EMIT keywordsChanged(keywords);
+    }
+}
+
 bool LauncherItem::pinned() const
 {
     return m_pinned;
