@@ -51,7 +51,7 @@ public:
     virtual ~ApplicationMenuRegistry();
 
     // for qml
-    Q_INVOKABLE QList<QObject*> getMenusForSurface(const QString &surfaceId);
+    Q_INVOKABLE QList<QObject*> getMenusForSurface(const QString &surfaceId) const;
 
     // for dbus
     void RegisterAppMenu(pid_t processId,
