@@ -18,91 +18,23 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Utils 0.1
 import Unity.Application 0.1 // for Mir.cursorName
-import "../Components/PanelState"
 
 MouseArea {
     id: root
 
-    anchors.fill: target
     anchors.margins: -borderThickness
 
     hoverEnabled: target && !target.maximized // don't grab the resize under the panel
 
-    property var windowStateStorage: WindowStateStorage
     readonly property alias dragging: d.dragging
-    readonly property alias normalWidth: priv.normalWidth
-    readonly property alias normalHeight: priv.normalHeight
 
     // The target item managed by this. Must be a parent or a sibling
     // The area will anchor to it and manage resize events
     property Item target: null
-    property string windowId: ""
     property int borderThickness: 0
+    property real minimumY: -100000000 // By default, impose no limit
     property int minWidth: 0
     property int minHeight: 0
-    property int defaultWidth: units.gu(60)
-    property int defaultHeight: units.gu(50)
-    property int screenWidth: 0
-    property int screenHeight: 0
-    property int leftMargin: 0
-
-    QtObject {
-        id: priv
-        objectName: "priv"
-
-        property int normalX: 0
-        property int normalY: 0
-        property int normalWidth: 0
-        property int normalHeight: 0
-
-        function updateNormalGeometry() {
-            if (root.target.state == "normal" || root.target.state == "restored") {
-                normalX = root.target.requestedX
-                normalY = root.target.requestedY
-                normalWidth = root.target.width
-                normalHeight = root.target.height
-            }
-        }
-    }
-
-    Connections {
-        target: root.target
-        onXChanged: priv.updateNormalGeometry();
-        onYChanged: priv.updateNormalGeometry();
-        onWidthChanged: priv.updateNormalGeometry();
-        onHeightChanged: priv.updateNormalGeometry();
-    }
-
-    function loadWindowState() {
-        var windowGeometry = windowStateStorage.getGeometry(root.windowId,
-                                                            Qt.rect(target.windowedX, target.windowedY, defaultWidth, defaultHeight));
-
-
-        target.windowedWidth = Qt.binding(function() { return Math.min(Math.max(windowGeometry.width, d.minimumWidth), screenWidth - root.leftMargin); });
-        target.windowedHeight = Qt.binding(function() { return Math.min(Math.max(windowGeometry.height, d.minimumHeight),
-                                                                         root.screenHeight - (target.fullscreen ? 0 : PanelState.panelHeight)); });
-        target.windowedX = Qt.binding(function() { return Math.max(Math.min(windowGeometry.x, root.screenWidth - root.leftMargin - target.windowedWidth),
-                                                           (target.fullscreen ? 0 : root.leftMargin)); });
-        target.windowedY = Qt.binding(function() { return Math.max(Math.min(windowGeometry.y, root.screenHeight - target.windowedHeight), PanelState.panelHeight); });
-
-        var windowState = windowStateStorage.getState(root.windowId, WindowStateStorage.WindowStateNormal)
-        target.restore(false /* animated */, windowState);
-
-        priv.updateNormalGeometry();
-
-        // initialize the x/y to restore to
-        target.restoredX = priv.normalX;
-        target.restoredY = priv.normalY;
-    }
-
-    function saveWindowState() {
-        var state = target.windowState;
-        if (state === WindowStateStorage.WindowStateRestored) {
-            state = WindowStateStorage.WindowStateNormal;
-        }
-        windowStateStorage.saveState(root.windowId, state & ~WindowStateStorage.WindowStateMinimized); // clear the minimized bit when saving
-        windowStateStorage.saveGeometry(root.windowId, Qt.rect(priv.normalX, priv.normalY, priv.normalWidth, priv.normalHeight));
-    }
 
     QtObject {
         id: d
@@ -311,7 +243,7 @@ MouseArea {
         }
 
         if (d.topBorder) {
-            var newTargetY = Math.max(d.startY + deltaY, PanelState.panelHeight); // disallow resizing up past Panel
+            var newTargetY = Math.max(d.startY + deltaY, root.minimumY);
             var bottomBorderY = target.windowedY + target.height;
             if (bottomBorderY > newTargetY + d.minimumHeight) {
                 if (bottomBorderY < newTargetY + d.maximumHeight) {

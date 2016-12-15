@@ -1,5 +1,5 @@
 pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=10)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=11)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -30,6 +30,7 @@ add_executable(launchermodeltestExec
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/quicklistmodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/dbusinterface.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/quicklistentry.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/ualwrapper.cpp
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/QuickListModelInterface.h

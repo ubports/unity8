@@ -106,7 +106,7 @@ Item {
         }
 
         if (component === undefined) {
-            console.debug("Don't know how to make " + modelData.type + " for " + indicator);
+            console.debug("Don't know how to make " + type + " for " + indicator);
         }
 
         return component
@@ -398,7 +398,9 @@ Item {
             id: switchItem
             objectName: "switchMenu"
             property QtObject menuData: null
+            property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
+            property var extendedData: menuData && menuData.ext || undefined
             property bool serverChecked: menuData && menuData.isToggled || false
 
             text: menuData && menuData.label || ""
@@ -406,6 +408,25 @@ Item {
             enabled: menuData && menuData.sensitive || false
             checked: serverChecked
             highlightWhenPressed: false
+
+            property var subtitleAction: UnityMenuAction {
+                model: menuModel
+                index: menuIndex
+                name: getExtendedProperty(extendedData, "xCanonicalSubtitleAction", "")
+            }
+            subtitle.text: subtitleAction.valid ? subtitleAction.state : ""
+
+            onMenuModelChanged: {
+                loadAttributes();
+            }
+            onMenuIndexChanged: {
+                loadAttributes();
+            }
+
+            function loadAttributes() {
+                if (!menuModel || menuIndex == -1) return;
+                menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-subtitle-action': 'string'});
+            }
 
             ServerPropertySynchroniser {
                 objectName: "sync"

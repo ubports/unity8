@@ -37,6 +37,7 @@ public:
     QString appId() const override;
     QString name() const override;
     QString icon() const override;
+    QStringList keywords() const override;
     bool pinned() const override;
     bool running() const override;
     bool recent() const override;
@@ -52,6 +53,7 @@ public:
 private:
     void setName(const QString &name);
     void setIcon(const QString &icon);
+    void setKeywords(const QStringList &keywords);
     void setPinned(bool pinned);
     void setRunning(bool running);
     void setRecent(bool recent);
@@ -66,6 +68,7 @@ private:
     QString m_appId;
     QString m_name;
     QString m_icon;
+    QStringList m_keywords;
     bool m_pinned;
     bool m_running;
     bool m_recent;
@@ -79,6 +82,7 @@ private:
     QuickListEntry m_quitAction;
 
     friend class LauncherModel;
+    friend class AppDrawerModel;
 };
 
 #endif // LAUNCHERITEM_H
