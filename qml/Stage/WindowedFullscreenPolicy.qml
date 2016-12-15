@@ -33,7 +33,7 @@ QtObject {
         _firstTimeSurface = false;
 
         if (surface.state === Mir.FullscreenState && surface.shellChrome === Mir.LowChrome) {
-            surface.state = Mir.RestoredState;
+            surface.requestState(Mir.RestoredState);
         }
     }
 }
