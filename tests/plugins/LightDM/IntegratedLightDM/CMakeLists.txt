@@ -4,6 +4,7 @@ add_definitions(
 include_directories(
     ${GLIB_INCLUDE_DIRS}
     ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_SOURCE_DIR}/plugins/LightDM/IntegratedLightDM
     )
 
 add_executable(GreeterDBusTestExec
@@ -25,7 +26,6 @@ add_unity8_uitest(GreeterDBus dbus-test-runner
     ARG_PREFIX "--parameter"
     ARGS --task $<TARGET_FILE:GreeterDBusTestExec>
     DEPENDS MockLightDM
-    IMPORT_PATHS  ${UNITY_MOCKPATH}
     )
 
 add_executable(GreeterPamTestExec
@@ -60,7 +60,6 @@ target_include_directories(GreeterSessionsModelTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM/IntegratedLightDM
     )
 add_unity8_uitest(GreeterSessions GreeterSessionsModelTestExec
-    ENVIRONMENT LIBLIGHTDM_MOCK_MODE=full
     DEPENDS MockLightDM
     )
 
@@ -83,7 +82,6 @@ target_include_directories(GreeterUsersModelTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM/IntegratedLightDM
     )
 add_unity8_uitest(GreeterUsers GreeterUsersModelTestExec
-    ENVIRONMENT LIBLIGHTDM_MOCK_MODE=full
     DEPENDS MockLightDM
     )
 

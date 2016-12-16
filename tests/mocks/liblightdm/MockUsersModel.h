@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  * Copyright (C) 2010-2011 David Edmundson.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -15,13 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_MOCK_USERSMODEL_H
-#define UNITY_MOCK_USERSMODEL_H
+#pragma once
 
-#include <QtCore/QString>
-#include <QtCore/QSharedDataPointer>
 #include <QAbstractListModel>
-
+#include <QList>
+#include <QString>
 
 namespace QLightDM
 {
@@ -33,11 +31,7 @@ class Q_DECL_EXPORT UsersModel : public QAbstractListModel
 
     Q_ENUMS(UserModelRoles)
 
-    //Mock-only API for testing purposes
-    Q_PROPERTY(QString mockMode READ mockMode WRITE setMockMode NOTIFY mockModeChanged)
-
-Q_SIGNALS:
-    void mockModeChanged(QString mode);
+    Q_PROPERTY(QObject *mock READ mock CONSTANT) // only in mock
 
 public:
     explicit UsersModel(QObject *parent = 0);
@@ -57,8 +51,10 @@ public:
     int rowCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
-    QString mockMode() const;
-    void setMockMode(QString mockMode);
+    QObject *mock();
+
+private Q_SLOTS:
+    void resetEntries();
 
 private:
     UsersModelPrivate * const d_ptr;
@@ -66,5 +62,3 @@ private:
 };
 
 }
-
-#endif // UNITY_MOCK_USERSMODEL_H

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013,2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -66,6 +66,13 @@ UsersModel::UsersModel(QObject* parent)
     setSortLocaleAware(true);
     setSortRole(QLightDM::UsersModel::RealNameRole);
     sort(0);
+}
+
+QObject *UsersModel::mock()
+{
+    // get through MangleModel down to QLightDM::UsersModel
+    MangleModel *mangleModel = static_cast<MangleModel*>(sourceModel());
+    return mangleModel->sourceModel()->property("mock").value<QObject*>();
 }
 
 #include "UsersModel.moc"

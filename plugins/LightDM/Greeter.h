@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013,2015 Canonical, Ltd.
+ * Copyright (C) 2012-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,8 +21,7 @@
    such edits in the future, and by inserting ourselves here, we have more
    control. */
 
-#ifndef UNITY_GREETER_H
-#define UNITY_GREETER_H
+#pragma once
 
 #include <QLightDM/Greeter>
 #include <QtCore/QObject>
@@ -40,6 +39,8 @@ class Greeter : public QObject
     Q_PROPERTY(bool promptless READ promptless NOTIFY promptlessChanged)
     Q_PROPERTY(QString selectUser READ selectUser CONSTANT)
 
+    Q_PROPERTY(QObject *mock READ mock CONSTANT) // for testing
+
 public:
     explicit Greeter(QObject* parent=0);
 
@@ -49,6 +50,8 @@ public:
     QString defaultSessionHint() const;
     bool promptless() const;
     QString selectUser() const;
+
+    QObject *mock();
 
 public Q_SLOTS:
     void authenticate(const QString &username=QString());
@@ -81,5 +84,3 @@ private Q_SLOTS:
     void showPromptFilter(const QString &text, QLightDM::Greeter::PromptType type);
     void authenticationCompleteFilter();
 };
-
-#endif

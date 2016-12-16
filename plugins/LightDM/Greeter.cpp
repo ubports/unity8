@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, 2015 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -146,4 +146,10 @@ void Greeter::authenticationCompleteFilter()
 
     Q_EMIT isAuthenticatedChanged();
     Q_EMIT authenticationComplete();
+}
+
+QObject *Greeter::mock()
+{
+    Q_D(Greeter);
+    return d->m_greeter->property("mock").value<QObject*>();
 }

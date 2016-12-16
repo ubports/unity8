@@ -45,8 +45,8 @@ macro(unity8_parse_arguments)
 
     set(ld_paths)
     list(APPEND ld_paths
+        ${UNITY_MOCKPATH}/liblightdm
         ${UNITY_MOCKPATH}/libusermetrics
-        ${UNITY_MOCKPATH}/LightDM/IntegratedLightDM/liblightdm
     )
 
     string(REPLACE ";" ":" ld_library_path "${ld_paths}")
