@@ -36,7 +36,7 @@ inline QString sanitiseString(QString string) {
 WindowStateStorage::WindowStateStorage(QObject *parent):
     QObject(parent)
 {
-    const QString dbPath = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    const QString dbPath = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QStringLiteral("/unity8/");
     m_db = QSqlDatabase::addDatabase(QStringLiteral("QSQLITE"));
     QDir dir;
     dir.mkpath(dbPath);
