@@ -78,7 +78,11 @@ WindowStateStorage::WindowState WindowStateStorage::getState(const QString &wind
 void WindowStateStorage::saveGeometry(const QString &windowId, const QRect &rect)
 {
     const QString queryString = QStringLiteral("INSERT OR REPLACE INTO geometry (windowId, x, y, width, height) values ('%1', '%2', '%3', '%4', '%5');")
-            .arg(sanitiseString(windowId), rect.x(), rect.y(), rect.width(), rect.height());
+            .arg(sanitiseString(windowId))
+            .arg(rect.x())
+            .arg(rect.y())
+            .arg(rect.width())
+            .arg(rect.height());
 
     saveValue(queryString);
 }
