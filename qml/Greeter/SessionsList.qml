@@ -137,12 +137,24 @@ Item {
             headerPositioning: ListView.OverlayHeader
             highlightFollowsCurrentItem: false
 
+            highlight: Rectangle {
+                height: sessionsList.currentItem.height
+                width: sessionsList.currentItem.width
+                color: theme.palette.normal.selection
+
+                visible: y > sessionsList.headerItem.y
+                + sessionsList.headerItem.height
+                - sessionsList.anchors.margins
+
+            }
+
             delegate: ListItem {
                 id: delegate
                 objectName: "sessionDelegate" + index
 
-                divider.visible: false
+                property alias currentTitle: layout
 
+                divider.visible: false
                 visible: y > sessionsList.headerItem.y
                 + sessionsList.headerItem.height
                 - sessionsList.anchors.margins
@@ -171,15 +183,16 @@ Item {
                 ListItemLayout {
                     id: layout
 
+                    property color itemColor: theme.palette.normal.raisedText
                     SessionIcon {
                         id: sessionIcon
                         source: icon_url
                         SlotsLayout.position: SlotsLayout.Leading
-                        color: theme.palette.normal.raisedSecondaryText
+                        color: parent.itemColor
                     }
 
                     title.text: display
-                    title.color: theme.palette.normal.raisedText
+                    title.color: itemColor
                 }
             }
         }
