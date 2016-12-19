@@ -363,6 +363,7 @@ StyledItem {
             teaseSpy.clear();
             emergencySpy.clear();
             LightDM.Sessions.mock.sessionMode = "full";
+            LightDM.Sessions.iconSearchDirectories = [testIconDirectory];
         }
 
         function cleanup() {
@@ -420,9 +421,6 @@ StyledItem {
         }
 
         function test_sessionIconsAreValid() {
-            var originalDirectories = LightDM.Sessions.iconSearchDirectories
-            LightDM.Sessions.iconSearchDirectories = [testIconDirectory]
-
             selectUser("has-password");
 
             // Test the login list icon is valid
@@ -442,8 +440,7 @@ StyledItem {
 
         function test_choosingNewSessionChangesLoginListIcon() {
             // Ensure the default session is selected (Ubuntu)
-            loader.active = false;
-            loader.active = true;
+            cleanup();
 
             selectUser("has-password");
 
@@ -457,14 +454,14 @@ StyledItem {
                 var currentDelegate = findChild(view, delegateName);
                 var sessionKey = LightDM.Sessions.data(i,LightDM.SessionRoles.KeyRole);
                 if (sessionKey === "gnome-classic") {
+                    waitForRendering(currentDelegate);
                     tap(currentDelegate);
-                    var sessionChooserButton = findChild(view, "sessionChooserButton");
                     waitForRendering(sessionChooserButton);
-                    var icon = String(sessionChooserButton.icon);
                     break;
                 }
             }
 
+            icon = String(sessionChooserButton.icon);
             compare(icon.indexOf("gnome") > -1, true,
                 "Expected icon to contain gnome but it was " + icon);
         }
