@@ -32,5 +32,12 @@ class UsersModel : public UnitySortFilterProxyModelQML
 public:
     explicit UsersModel(QObject* parent=0);
 
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+
     QObject *mock();
+
+private:
+    int guestRow() const;
 };

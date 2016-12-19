@@ -42,7 +42,8 @@ class Greeter : public QObject
     Q_PROPERTY(QObject *mock READ mock CONSTANT) // for testing
 
 public:
-    explicit Greeter(QObject* parent=0);
+    static Greeter *instance();
+    virtual ~Greeter();
 
     bool isActive() const;
     bool isAuthenticated() const;
@@ -50,6 +51,7 @@ public:
     QString defaultSessionHint() const;
     bool promptless() const;
     QString selectUser() const;
+    bool hasGuestAccount() const;
 
     QObject *mock();
 
@@ -63,7 +65,7 @@ Q_SIGNALS:
     void showMessage(const QString &text, bool isError);
     void showPrompt(const QString &text, bool isSecret, bool isDefaultPrompt);
     void authenticationComplete();
-    void authenticationUserChanged(const QString &user);
+    void authenticationUserChanged();
     void isActiveChanged();
     void isAuthenticatedChanged();
     void promptlessChanged();
@@ -75,6 +77,8 @@ Q_SIGNALS:
     void requestAuthenticationUser(const QString &user);
 
 protected:
+    explicit Greeter(QObject* parent=0);
+
     GreeterPrivate * const d_ptr;
 
     Q_DECLARE_PRIVATE(Greeter)

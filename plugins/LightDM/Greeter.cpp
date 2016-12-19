@@ -19,6 +19,8 @@
 #include "GreeterPrivate.h"
 #include <libintl.h>
 
+static Greeter *singleton = nullptr;
+
 GreeterPrivate::GreeterPrivate(Greeter* parent)
   : m_greeter(new QLightDM::Greeter(parent)),
     m_active(false),
@@ -42,6 +44,19 @@ Greeter::Greeter(QObject* parent)
             this, &Greeter::authenticationCompleteFilter);
 
     d->m_greeter->connectSync();
+}
+
+Greeter::~Greeter()
+{
+    singleton = nullptr;
+}
+
+Greeter *Greeter::instance()
+{
+    if (!singleton) {
+        singleton = new Greeter;
+    }
+    return singleton;
 }
 
 bool Greeter::isActive() const
@@ -86,7 +101,17 @@ bool Greeter::promptless() const
 QString Greeter::selectUser() const
 {
     Q_D(const Greeter);
-    return d->m_greeter->selectUserHint();
+    if (hasGuestAccount() && d->m_greeter->selectGuestHint()) {
+        return QStringLiteral("*guest");
+    } else {
+        return d->m_greeter->selectUserHint();
+    }
+}
+
+bool Greeter::hasGuestAccount() const
+{
+    Q_D(const Greeter);
+    return d->m_greeter->hasGuestAccountHint();
 }
 
 void Greeter::authenticate(const QString &username)
@@ -98,9 +123,14 @@ void Greeter::authenticate(const QString &username)
         Q_EMIT promptlessChanged();
     }
 
-    d->m_greeter->authenticate(username);
+    if (username == QStringLiteral("*guest")) {
+        d->m_greeter->authenticateAsGuest();
+    } else {
+        d->m_greeter->authenticate(username);
+    }
+
     Q_EMIT isAuthenticatedChanged();
-    Q_EMIT authenticationUserChanged(username);
+    Q_EMIT authenticationUserChanged();
 }
 
 void Greeter::respond(const QString &response)

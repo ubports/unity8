@@ -16,9 +16,12 @@
  * Author: Michael Terry <michael.terry@canonical.com>
  */
 
+#include "Greeter.h"
 #include "UsersModel.h"
 #include <QLightDM/UsersModel>
 #include <QtCore/QSortFilterProxyModel>
+
+#include <libintl.h>
 
 // First, we define an internal class that wraps LightDM's UsersModel.  This
 // class will modify some of the data coming from LightDM.  For example, we
@@ -66,6 +69,44 @@ UsersModel::UsersModel(QObject* parent)
     setSortLocaleAware(true);
     setSortRole(QLightDM::UsersModel::RealNameRole);
     sort(0);
+}
+
+int UsersModel::guestRow() const
+{
+    return Greeter::instance()->hasGuestAccount() ?
+           UnitySortFilterProxyModelQML::rowCount() : -1;
+}
+
+int UsersModel::rowCount(const QModelIndex &parent) const
+{
+    auto count = UnitySortFilterProxyModelQML::rowCount(parent);
+
+    if (Greeter::instance()->hasGuestAccount() && !parent.isValid())
+        count++;
+
+    return count;
+}
+
+QModelIndex UsersModel::index(int row, int column, const QModelIndex &parent) const
+{
+    if (row == guestRow() && !parent.isValid()) {
+        return createIndex(row, column);
+    } else {
+        return UnitySortFilterProxyModelQML::index(row, column, parent);
+    }
+}
+
+QVariant UsersModel::data(const QModelIndex &index, int role) const
+{
+    if (index.row() == guestRow() && index.column() == 0) {
+        switch (role) {
+        case QLightDM::UsersModel::NameRole:       return QStringLiteral("*guest");
+        case QLightDM::UsersModel::RealNameRole:   return gettext("Guest Session");
+        default:                                   return QVariant();
+        }
+    }
+
+    return QSortFilterProxyModel::data(index, role);
 }
 
 QObject *UsersModel::mock()

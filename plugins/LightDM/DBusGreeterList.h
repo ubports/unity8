@@ -47,7 +47,7 @@ Q_SIGNALS:
     void entryIsLockedChanged();
 
 private Q_SLOTS:
-    void authenticationUserChangedHandler(const QString &user);
+    void authenticationUserChangedHandler();
     void promptlessChangedHandler();
 
 private:

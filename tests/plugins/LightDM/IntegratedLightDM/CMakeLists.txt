@@ -66,6 +66,7 @@ add_unity8_uitest(GreeterSessions GreeterSessionsModelTestExec
 # UsersModelTest
 add_executable(GreeterUsersModelTestExec
     usersmodel.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/LightDM/Greeter.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/UsersModel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/unitysortfilterproxymodelqml.cpp
     )

@@ -81,6 +81,7 @@ private Q_SLOTS:
     void cleanup()
     {
         delete view;
+        delete greeter; // reset singleton
     }
 
     void testGetActiveEntry()

@@ -23,6 +23,8 @@ namespace QLightDM
 
 MockController::MockController(QObject *parent)
     : QObject(parent)
+    , m_selectGuestHint(false)
+    , m_hasGuestAccountHint(false)
     , m_fullSessions(
         {
             {"ubuntu", "Ubuntu"},
@@ -59,6 +61,15 @@ MockController *MockController::instance()
     return m_instance;
 }
 
+void MockController::reset()
+{
+    setSelectUserHint("");
+    setSelectGuestHint(false);
+    setHasGuestAccountHint(false);
+    setUserMode("full");
+    setSessionMode("full");
+}
+
 QString MockController::selectUserHint() const
 {
     return m_selectUserHint;
@@ -69,6 +80,32 @@ void MockController::setSelectUserHint(const QString &selectUserHint)
     if (m_selectUserHint != selectUserHint) {
         m_selectUserHint = selectUserHint;
         Q_EMIT selectUserHintChanged();
+    }
+}
+
+bool MockController::selectGuestHint() const
+{
+    return m_selectGuestHint;
+}
+
+void MockController::setSelectGuestHint(bool selectGuestHint)
+{
+    if (m_selectGuestHint != selectGuestHint) {
+        m_selectGuestHint = selectGuestHint;
+        Q_EMIT selectGuestHintChanged();
+    }
+}
+
+bool MockController::hasGuestAccountHint() const
+{
+    return m_hasGuestAccountHint;
+}
+
+void MockController::setHasGuestAccountHint(bool hasGuestAccountHint)
+{
+    if (m_hasGuestAccountHint != hasGuestAccountHint) {
+        m_hasGuestAccountHint = hasGuestAccountHint;
+        Q_EMIT hasGuestAccountHintChanged();
     }
 }
 

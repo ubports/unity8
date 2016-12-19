@@ -143,7 +143,7 @@ Item {
 
         function init() {
             greeterSettings.lockedOutTime = 0;
-            LightDM.Greeter.mock.selectUserHint = "";
+            LightDM.Greeter.mock.reset();
             greeter.failedLoginsDelayAttempts = 7;
             greeter.failedLoginsDelayMinutes = 5;
             teaseSpy.clear();
@@ -200,7 +200,10 @@ Item {
             var i = getIndexOf(name);
             compare(view.currentIndex, i);
             compare(AccountsService.user, name);
-            compare(LightDM.Greeter.authenticationUser, name);
+            if (name === "*guest") // guest has no authenticationUser set
+                compare(LightDM.Greeter.authenticationUser, "");
+            else
+                compare(LightDM.Greeter.authenticationUser, name);
             return i;
         }
 
@@ -583,6 +586,29 @@ Item {
             LightDM.Greeter.mock.selectUserHint = "not-a-real-user";
             resetLoader();
             verifySelected(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+        }
+
+        function test_selectUserHintGuest() {
+            LightDM.Greeter.mock.hasGuestAccountHint = true;
+            LightDM.Greeter.mock.selectGuestHint = true;
+            LightDM.Greeter.mock.selectUserHint = "info-prompt";
+            resetLoader();
+            verifySelected("*guest");
+        }
+
+        function test_selectUserHintGuestWithNoGuest() {
+            LightDM.Greeter.mock.selectGuestHint = true;
+            LightDM.Greeter.mock.selectUserHint = "info-prompt";
+            resetLoader();
+            verifySelected("info-prompt");
+        }
+
+        function test_hasGuestAccountHint() {
+            LightDM.Greeter.mock.hasGuestAccountHint = true;
+            resetLoader();
+            var i = selectUser("*guest");
+            compare(i, LightDM.Users.count - 1); // guest should be last
+            verify(!view.locked);
         }
 
         function test_fingerprintSuccess() {

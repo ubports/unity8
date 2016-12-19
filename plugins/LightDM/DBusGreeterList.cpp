@@ -43,10 +43,10 @@ bool DBusGreeterList::entryIsLocked() const
     return !m_greeter->promptless();
 }
 
-void DBusGreeterList::authenticationUserChangedHandler(const QString &user)
+void DBusGreeterList::authenticationUserChangedHandler()
 {
-    notifyPropertyChanged(QStringLiteral("ActiveEntry"), user);
-    Q_EMIT EntrySelected(user);
+    notifyPropertyChanged(QStringLiteral("ActiveEntry"), m_greeter->authenticationUser());
+    Q_EMIT EntrySelected(m_greeter->authenticationUser());
 }
 
 void DBusGreeterList::promptlessChangedHandler()
