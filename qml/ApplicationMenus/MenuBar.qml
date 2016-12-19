@@ -32,7 +32,7 @@ Item {
 
     readonly property bool showRequested: d.longAltPressed || d.currentItem != null
 
-    implicitWidth: row.width + units.gu(1)
+    implicitWidth: row.width
     height: parent.height
 
     function select(index) {
@@ -66,7 +66,6 @@ Item {
 
     Row {
         id: row
-        anchors.left: parent.left
         height: parent.height
         spacing: units.gu(2)
 

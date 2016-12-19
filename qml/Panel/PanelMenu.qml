@@ -84,7 +84,6 @@ Showable {
     // eater
     MouseArea {
         anchors.fill: content
-        hoverEnabled: true
         acceptedButtons: Qt.AllButtons
         onWheel: wheel.accepted = true;
         enabled: root.state != "initial"

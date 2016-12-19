@@ -153,52 +153,52 @@ Item {
                 }
             }
 
-            property bool showWindowControls: (PanelState.decorationsVisible && (containsMouse || menuBarLoader.menusRequested)) || PanelState.decorationsAlwaysVisible
+            property bool showWindowControls: containsMouse || menuBarLoader.menusRequested
 
-            // WindowControlButtons inside the mouse area, otherwise QML doesn't grok nested hover events :/
-            // cf. https://bugreports.qt.io/browse/QTBUG-32909
-            WindowControlButtons {
-                id: windowControlButtons
-                objectName: "panelWindowControlButtons"
-                anchors {
-                    left: parent.left
-                    top: parent.top
+            Row {
+                anchors.fill: parent
+                spacing: units.gu(2)
+
+                // WindowControlButtons inside the mouse area, otherwise QML doesn't grok nested hover events :/
+                // cf. https://bugreports.qt.io/browse/QTBUG-32909
+                WindowControlButtons {
+                    id: windowControlButtons
+                    objectName: "panelWindowControlButtons"
+                    height: indicators.minimizedPanelHeight
+                    opacity: (PanelState.decorationsVisible && decorationMouseArea.showWindowControls) || PanelState.decorationsAlwaysVisible ? 1 : 0
+                    visible: opacity != 0
+                    Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+
+                    active: PanelState.decorationsVisible || PanelState.decorationsAlwaysVisible
+                    windowIsMaximized: true
+                    onCloseClicked: PanelState.closeClicked()
+                    onMinimizeClicked: PanelState.minimizeClicked()
+                    onMaximizeClicked: PanelState.restoreClicked()
+                    closeButtonShown: PanelState.closeButtonShown
                 }
-                height: indicators.minimizedPanelHeight
-                opacity: decorationMouseArea.showWindowControls ? 1 : 0
-                visible: opacity != 0
-                Behavior on opacity { UbuntuNumberAnimation {} }
 
-                active: PanelState.decorationsVisible || PanelState.decorationsAlwaysVisible
-                windowIsMaximized: true
-                onCloseClicked: PanelState.closeClicked()
-                onMinimizeClicked: PanelState.minimizeClicked()
-                onMaximizeClicked: PanelState.restoreClicked()
-                closeButtonShown: PanelState.closeButtonShown
-            }
+                Loader {
+                    id: menuBarLoader
+                    height: parent.height
+                    opacity: decorationMouseArea.showWindowControls || PanelState.decorationsAlwaysVisible ? 1 : 0
+                    visible: opacity != 0
+                    Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+                    active: __applicationMenus.model
 
-            Loader {
-                id: menuBarLoader
-                anchors {
-                    left: windowControlButtons.right
-                    leftMargin: units.gu(3)
-                }
-                height: parent.height
-                opacity: windowControlButtons.opacity
-                visible: opacity != 0
-                active: __applicationMenus.model
+                    property bool menusRequested: menuBarLoader.item ? menuBarLoader.item.showRequested : false
 
-                property bool menusRequested: menuBarLoader.item ? menuBarLoader.item.showRequested : false
+                    sourceComponent: MenuBar {
+                        id: bar
+                        anchors.left: parent.left
+                        anchors.margins: units.gu(1)
+                        height: menuBarLoader.height
+                        enableKeyFilter: valid && PanelState.decorationsVisible
+                        unityMenuModel: __applicationMenus.model
 
-                sourceComponent: MenuBar {
-                    id: bar
-                    height: menuBarLoader.height
-                    enableKeyFilter: valid && PanelState.decorationsVisible
-                    unityMenuModel: registeredMenuModel.model
-
-                    Connections {
-                        target: __applicationMenus
-                        onHide: bar.dismiss();
+                        Connections {
+                            target: __applicationMenus
+                            onHide: bar.dismiss();
+                        }
                     }
                 }
             }
@@ -267,7 +267,7 @@ Item {
             }
 
             enabled: !root.locked && model
-            opacity: !decorationMouseArea.showWindowControls && !indicators.expanded ? 1 : 0
+            opacity: decorationMouseArea.showWindowControls || PanelState.decorationsAlwaysVisible ? 0 : 1
             visible: opacity != 0
             Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
 
