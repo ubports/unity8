@@ -409,7 +409,23 @@ StyledItem {
             waitForRendering(view);
         }
 
-        function test_tease_data() {
+        function test_changingSessionSticksToUser() {
+            LightDM.Sessions.mock.sessionMode = "full";
+            var loginList = findChild(view, "loginList");
+            var fakeSessionName = "ASessionWillNeverBeCalledThis";
+
+            compare(LightDM.Sessions.count > 1, true);
+            compare(loginList.currentSession != fakeSessionName, true);
+
+            LightDM.Users.mock.sessionName = fakeSessionName;
+            tryCompare(loginList, "currentSession", fakeSessionName);
+
+            // Force a model reset
+            LightDM.Users.mock.userMode = "single";
+            LightDM.Users.mock.userMode = "full";
+        }
+
+        /*function test_tease_data() {
             return [
                 {tag: "locked", x: 0, offset: 0, count: 0, locked: true},
                 {tag: "left", x: 0, offset: 0, count: 1, locked: false},
@@ -744,6 +760,6 @@ StyledItem {
 
             view.showPrompt("", true, true);
             verify(promptField.activeFocus);
-        }
+        }*/
     }
 }
