@@ -20,8 +20,8 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
 import Unity.Application 0.1
 import Unity.Test 0.1
-import WindowManager 0.1
 import Utils 0.1
+import WindowManager 1.0
 
 import ".." // For EdgeBarrierControls
 import "../../../qml/Stage"
@@ -57,9 +57,11 @@ Item {
         }
     }
 
-    TopLevelSurfaceList {
+    SurfaceManager { id: sMgr }
+    TopLevelWindowModel {
         id: topSurfaceList
-        applicationsModel: ApplicationManager
+        applicationManager: ApplicationManager
+        surfaceManager: sMgr
     }
 
     Loader {
@@ -80,6 +82,7 @@ Item {
 
                 Component.onCompleted: {
                     edgeBarrierControls.target = testCase.findChild(this, "edgeBarrierController");
+                    ApplicationManager.startApplication("unity8-dash");
                 }
                 Component.onDestruction: {
                     stageLoader.itemDestroyed = true;
@@ -154,12 +157,13 @@ Item {
         target: clickThroughTester
     }
 
-    UnityTestCase {
+    StageTestCase {
         id: testCase
         name: "DesktopStage"
         when: windowShown
 
-        property Item stage: stageLoader.status === Loader.Ready ? stageLoader.item : null
+        stage: stageLoader.status === Loader.Ready ? stageLoader.item : null
+        topLevelSurfaceList: topSurfaceList
 
         function init() {
             // wait until unity8-dash is up and running.
@@ -170,8 +174,9 @@ Item {
             tryCompare(dashApp, "state", ApplicationInfoInterface.Running);
 
             tryCompare(topSurfaceList, "count", 1);
-            tryCompareFunction(function(){return topSurfaceList.surfaceAt(0) != null;}, true);
-            compare(MirFocusController.focusedSurface, topSurfaceList.surfaceAt(0));
+            tryCompareFunction(function(){return topSurfaceList.windowAt(0) != null;}, true);
+            topSurfaceList.windowAt(0).activate();
+            tryCompare(topSurfaceList, "focusedWindow", topSurfaceList.windowAt(0));
         }
 
         function cleanup() {
@@ -194,44 +199,6 @@ Item {
             tryCompare(stageLoader, "status", Loader.Ready);
 
             mouseEaterSpy.clear();
-        }
-
-        function waitUntilAppSurfaceShowsUp(surfaceId) {
-            var appDelegate = findChild(stage, "appDelegate_" + surfaceId);
-            verify(appDelegate);
-            var appWindow = findChild(appDelegate, "appWindow");
-            verify(appWindow);
-            var appWindowStates = findInvisibleChild(appWindow, "applicationWindowStateGroup");
-            verify(appWindowStates);
-            tryCompare(appWindowStates, "state", "surface");
-        }
-
-        /*
-            Returns the appDelegate of the first surface created by the app with the specified appId
-         */
-        function startApplication(appId) {
-            try {
-                var app = ApplicationManager.findApplication(appId);
-                if (app) {
-                    for (var i = 0; i < topSurfaceList.count; i++) {
-                        if (topSurfaceList.applicationAt(i).appId === appId) {
-                            var appRepeater = findChild(stage, "appRepeater");
-                            verify(appRepeater);
-                            return appRepeater.itemAt(i);
-                        }
-                    }
-                }
-
-                var surfaceId = topSurfaceList.nextId;
-                app = ApplicationManager.startApplication(appId);
-                verify(app);
-                waitUntilAppSurfaceShowsUp(surfaceId);
-                compare(app.surfaceList.count, 1);
-
-                return findChild(stage, "appDelegate_" + surfaceId);
-            } catch(err) {
-                throw new Error("startApplication("+appId+") called from line " +  util.callerLine(1) + " failed!");
-            }
         }
 
         function maximizeAppDelegate(appDelegate) {
@@ -284,13 +251,13 @@ Item {
             verify(fromAppWindow);
             tap(fromAppWindow);
             compare(fromDelegate.surface.activeFocus, true);
-            compare(MirFocusController.focusedSurface, fromDelegate.surface);
+            compare(topSurfaceList.focusedWindow, fromDelegate.window);
 
             var toAppWindow = findChild(toDelegate, "appWindow");
             verify(toAppWindow);
             tap(toAppWindow);
             compare(toDelegate.surface.activeFocus, true);
-            compare(MirFocusController.focusedSurface, toDelegate.surface);
+            compare(topSurfaceList.focusedWindow, toDelegate.window);
         }
 
         function test_clickingOnWindowChangesFocusedApp_data() {
@@ -309,13 +276,13 @@ Item {
             verify(fromAppWindow);
             mouseClick(fromAppWindow);
             compare(fromDelegate.surface.activeFocus, true);
-            compare(MirFocusController.focusedSurface, fromDelegate.surface);
+            compare(topSurfaceList.focusedWindow, fromDelegate.window);
 
             var toAppWindow = findChild(toDelegate, "appWindow");
             verify(toAppWindow);
             mouseClick(toAppWindow);
             compare(toDelegate.surface.activeFocus, true);
-            compare(MirFocusController.focusedSurface, toDelegate.surface);
+            compare(topSurfaceList.focusedWindow, toDelegate.window);
         }
 
         function test_tappingOnDecorationFocusesApplication_data() {
@@ -341,6 +308,13 @@ Item {
                 return null;
             }
             return findChild(appDelegate, "appWindowDecoration");
+        }
+
+        function maximizeDelegate(appDelegate) {
+            var maximizeButton = findChild(appDelegate, "maximizeWindowButton");
+            verify(maximizeButton);
+            mouseClick(maximizeButton);
+            tryCompare(appDelegate, "visuallyMaximized", true);
         }
 
         function test_tappingOnDecorationFocusesApplication(data) {
@@ -398,7 +372,7 @@ Item {
             startApplication("camera-app");
 
             tryCompareFunction(function(){ return dialerDelegate.surface !== null; }, true);
-            dialerDelegate.surface.requestFocus();
+            dialerDelegate.surface.activate();
             tryCompare(dialerDelegate, "focus", true);
 
             keyClick(Qt.Key_Up, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+Up shortcut to maximize
@@ -411,7 +385,7 @@ Item {
             startApplication("camera-app");
 
             tryCompareFunction(function(){ return dialerDelegate.surface !== null; }, true);
-            dialerDelegate.surface.requestFocus();
+            dialerDelegate.surface.activate();
             tryCompare(dialerDelegate, "focus", true);
 
             keyClick(Qt.Key_Left, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+Left shortcut to maximizeLeft
@@ -426,7 +400,7 @@ Item {
             startApplication("camera-app");
 
             tryCompareFunction(function(){ return dialerDelegate.surface !== null; }, true);
-            dialerDelegate.surface.requestFocus();
+            dialerDelegate.surface.activate();
             tryCompare(dialerDelegate, "focus", true);
 
             keyClick(Qt.Key_Right, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+Right shortcut to maximizeRight
@@ -441,7 +415,7 @@ Item {
             startApplication("camera-app");
 
             tryCompareFunction(function(){ return dialerDelegate.surface !== null; }, true);
-            dialerDelegate.surface.requestFocus();
+            dialerDelegate.surface.activate();
             tryCompare(dialerDelegate, "focus", true);
 
             keyClick(Qt.Key_Down, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+Down shortcut to minimize
@@ -512,11 +486,11 @@ Item {
             apps.forEach(startApplication);
             verify(topSurfaceList.count == 3);
             keyClick(Qt.Key_D, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+D shortcut to minimize all
-            tryCompare(MirFocusController, "focusedSurface", null); // verify no surface is focused
+            tryCompare(topSurfaceList, "focusedWindow", null); // verify no window is focused
 
             // now try pressing all 4 arrow keys + ctrl + meta
             keyClick(Qt.Key_Up | Qt.Key_Down | Qt.Key_Left | Qt.Key_Right, Qt.MetaModifier|Qt.ControlModifier); // smash it!!!
-            tryCompare(MirFocusController, "focusedSurface", null); // verify still no surface is focused
+            tryCompare(topSurfaceList, "focusedWindow", null); // verify still no window is focused
         }
 
         function test_minimizeApplicationHidesSurface() {
@@ -527,9 +501,12 @@ Item {
             var decoratedWindow = findDecoratedWindow(dashSurfaceId);
             verify(decoratedWindow);
 
-            tryCompare(dashSurface, "visible", true);
-            decoratedWindow.minimizeClicked();
-            tryCompare(dashSurface, "visible", false);
+            var minimizeButton = findChild(decoratedWindow, "minimizeWindowButton");
+            verify(minimizeButton);
+
+            tryCompare(dashSurface, "exposed", true);
+            mouseClick(minimizeButton);
+            tryCompare(dashSurface, "exposed", false);
         }
 
         function test_maximizeApplicationHidesSurfacesBehindIt() {
@@ -538,16 +515,16 @@ Item {
             var gmailDelegate = startApplication("gmail-webapp");
 
             // maximize without raising
-            dialerDelegate.maximize();
+            dialerDelegate.requestMaximize();
             tryCompare(dialerDelegate, "visuallyMaximized", true);
 
-            tryCompare(dashDelegate.surface, "visible", false);
-            compare(gmailDelegate.surface.visible, true);
+            tryCompare(dashDelegate.surface, "exposed", false);
+            compare(gmailDelegate.surface.exposed, true);
 
             // restore without raising
-            dialerDelegate.restoreFromMaximized();
-            compare(dashDelegate.surface.visible, true);
-            compare(gmailDelegate.surface.visible, true);
+            dialerDelegate.requestRestore();
+            tryCompare(dashDelegate.surface, "exposed", true);
+            compare(gmailDelegate.surface.exposed, true);
         }
 
         function test_applicationsBecomeVisibleWhenOccludingAppRemoved() {
@@ -580,26 +557,22 @@ Item {
             tryCompare(dialerDelegate, "visuallyMaximized", true);
             tryCompare(gmailDelegate, "visuallyMaximized", true);
 
-            tryCompare(dashApp.surfaceList.get(0), "visible", false);
-            tryCompare(dialerApp.surfaceList.get(0), "visible", false);
-            tryCompare(mapApp.surfaceList.get(0), "visible", false);
+            tryCompare(dashApp.surfaceList.get(0), "exposed", false);
+            tryCompare(dialerApp.surfaceList.get(0), "exposed", false);
+            tryCompare(mapApp.surfaceList.get(0), "exposed", false);
 
             ApplicationManager.stopApplication("gmail-webapp");
             wait(2000)
 
-            tryCompare(mapApp.surfaceList.get(0), "visible", true);
-            tryCompare(dialerApp.surfaceList.get(0), "visible", true);
-            tryCompare(dashApp.surfaceList.get(0), "visible", false); // still occluded by maximised dialer
+            tryCompare(mapApp.surfaceList.get(0), "exposed", true);
+            tryCompare(dialerApp.surfaceList.get(0), "exposed", true);
+            tryCompare(dashApp.surfaceList.get(0), "exposed", false); // still occluded by maximised dialer
         }
 
         function test_maximisedAppStaysVisibleWhenAppStarts() {
             var dashDelegate = startApplication("unity8-dash");
 
-            // maximize
-            var dashMaximizeButton = findChild(dashDelegate, "maximizeWindowButton");
-            verify(dashMaximizeButton);
-            mouseClick(dashMaximizeButton);
-            tryCompare(dashDelegate, "visuallyMaximized", true);
+            maximizeDelegate(dashDelegate);
 
             var dialerDelegate = startApplication("dialer-app");
             verify(dialerDelegate);
@@ -621,25 +594,25 @@ Item {
             tryCompare(facebookAppDelegate, "visible", true);
 
             // Maximize the topmost and make sure the other two are hidden
-            facebookAppDelegate.maximize();
+            maximizeDelegate(facebookAppDelegate);
             tryCompare(dashAppDelegate, "visible", false);
             tryCompare(dialerAppDelegate, "visible", false);
             tryCompare(facebookAppDelegate, "visible", true);
 
             // Bring dash to front. make sure dash and the maximized facebook are visible, the restored one behind is hidden
-            dashAppDelegate.focus = true;
+            dashAppDelegate.activate();
             tryCompare(dashAppDelegate, "visible", true);
             tryCompare(dialerAppDelegate, "visible", false);
             tryCompare(facebookAppDelegate, "visible", true);
 
             // Now focus the dialer app. all 3 should be visible again
-            dialerAppDelegate.focus = true;
+            dialerAppDelegate.activate();
             tryCompare(dashAppDelegate, "visible", true);
             tryCompare(dialerAppDelegate, "visible", true);
             tryCompare(facebookAppDelegate, "visible", true);
 
             // Maximize the dialer app. The other 2 should hide
-            dialerAppDelegate.maximize();
+            maximizeDelegate(dialerAppDelegate);
             tryCompare(dashAppDelegate, "visible", false);
             tryCompare(dialerAppDelegate, "visible", true);
             tryCompare(facebookAppDelegate, "visible", false);
@@ -648,7 +621,7 @@ Item {
         function test_dropShadow() {
             // start an app, maximize it
             var facebookAppDelegate = startApplication("facebook-webapp");
-            facebookAppDelegate.maximize();
+            maximizeDelegate(facebookAppDelegate);
 
             // verify the drop shadow is still not visible
             verify(PanelState.dropShadow == false);
