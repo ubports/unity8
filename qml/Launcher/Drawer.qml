@@ -110,6 +110,7 @@ FocusScope {
 
                 Sections {
                     id: sections
+                    objectName: "drawerSections"
                     width: parent.width
 
                     KeyNavigation.up: searchField
@@ -138,6 +139,7 @@ FocusScope {
 
             FocusScope {
                 id: headerFocusScope
+                objectName: "headerFocusScope"
                 KeyNavigation.up: sections
                 KeyNavigation.down: listLoader.item
                 KeyNavigation.backtab: sections
@@ -166,6 +168,7 @@ FocusScope {
 
             Loader {
                 id: listLoader
+                objectName: "drawerListLoader"
                 anchors { left: parent.left; top: sectionsContainer.bottom; right: parent.right; bottom: parent.bottom; leftMargin: units.gu(1); rightMargin: units.gu(1) }
 
                 KeyNavigation.up: headerFocusScope

@@ -136,6 +136,8 @@ StyledItem {
             launcher.hide();
             var drawer = findChild(launcher, "drawer");
             tryCompare(drawer, "x", -drawer.width);
+            var searchField = findChild(drawer, "searchField");
+            searchField.text = "";
         }
 
         function test_revealByEdgeDrag() {
@@ -173,7 +175,7 @@ StyledItem {
             var drawer = dragDrawerIntoView();
             waitForRendering(launcher);
 
-            mouseFlick(root, drawer.width - units.gu(1), drawer.height / 2, units.gu(2), drawer.height / 2, true, true);
+            mouseFlick(root, drawer.width - units.gu(1), drawer.height / 2, units.gu(10), drawer.height / 2, true, true);
 
             tryCompare(drawer.anchors, "rightMargin", 0);
             tryCompare(launcher, "state", data.endState);
@@ -269,6 +271,43 @@ StyledItem {
             verify(searchField);
             typeString("cam");
             tryCompare(searchField, "displayText", "cam");
+        }
+
+        function test_kbdNavigation() {
+            launcher.openDrawer(true);
+            waitForRendering(launcher);
+            waitUntilTransitionsEnd(launcher);
+            compare(launcher.lastSelectedApplication, "");
+
+            var drawer = findChild(launcher, "drawer");
+            var searchField = findChild(drawer, "searchField");
+            var sections = findChild(drawer, "drawerSections");
+            var header = findChild(drawer, "headerFocusScope");
+            var listLoader = findChild(drawer, "drawerListLoader");
+
+            tryCompare(searchField, "activeFocus", true);
+            // for some reason, even when the searchField has activeFocus already,
+            // it won't react on key down events if they're coming in too early...
+            // let's repeat the press for a bit before giving up
+            tryCompareFunction(function() {
+                wait(10)
+                keyClick(Qt.Key_Down);
+                return sections.activeFocus;
+            }, true)
+
+            keyClick(Qt.Key_Down);
+            tryCompare(header, "activeFocus", true);
+
+            keyClick(Qt.Key_Down);
+            tryCompare(listLoader, "activeFocus", true);
+
+            keyClick(Qt.Key_Down);
+            keyClick(Qt.Key_Left);
+            tryCompare(listLoader, "activeFocus", true);
+
+            keyClick(Qt.Key_Enter);
+
+            compare(launcher.lastSelectedApplication, "calendar-app");
         }
     }
 }
