@@ -272,7 +272,7 @@ StyledItem {
                             }
                         }
                         Connections {
-                            target: LightDM.Sessions.mock
+                            target: LightDMController
                             onSessionModeChanged: {
                                 if (LightDMController.sessionMode === "full") {
                                     multipleSessionsCheckbox.checked = true;
@@ -296,7 +296,7 @@ StyledItem {
                         value: LightDMController.numSessions
                         visible: LightDMController.sessionMode === "full"
                         Binding {
-                            target: LightDM.Sessions.mock
+                            target: LightDMController
                             property: "numSessions"
                             value: numSessionsSlider.value
                         }

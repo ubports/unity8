@@ -20,6 +20,7 @@ import "../../../qml/Dash"
 import "../../../qml/"
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
+import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
 
 Item {
@@ -28,7 +29,7 @@ Item {
     height: units.gu(80)
 
     Binding {
-        target: LightDM.Users.mock
+        target: LightDMController
         property: "userMode"
         value: "single"
     }
