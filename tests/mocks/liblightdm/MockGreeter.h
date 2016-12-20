@@ -42,8 +42,6 @@ class Q_DECL_EXPORT Greeter : public QObject
 
     Q_ENUMS(PromptType MessageType)
 
-    Q_PROPERTY(QObject *mock READ mock CONSTANT) // only in mock
-
 public:
     enum PromptType {
         PromptTypeQuestion,
@@ -74,8 +72,6 @@ public:
     bool isAuthenticated() const;
     QString authenticationUser() const;
     QString hostname() const;
-
-    QObject *mock();
 
 public Q_SLOTS:
     bool connectSync();

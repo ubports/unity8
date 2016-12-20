@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtTest 1.0
 import ".."
 import "../../../qml/Greeter"
+import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
@@ -265,15 +266,15 @@ StyledItem {
                         id: multipleSessionsCheckbox
                         onClicked: {
                             if (checked) {
-                                LightDM.Sessions.mock.sessionMode = "full";
+                                LightDMController.sessionMode = "full";
                             } else {
-                                LightDM.Sessions.mock.sessionMode = "single";
+                                LightDMController.sessionMode = "single";
                             }
                         }
                         Connections {
                             target: LightDM.Sessions.mock
                             onSessionModeChanged: {
-                                if (LightDM.Sessions.mock.sessionMode === "full") {
+                                if (LightDMController.sessionMode === "full") {
                                     multipleSessionsCheckbox.checked = true;
                                 } else {
                                     multipleSessionsCheckbox.checked = false;
@@ -291,9 +292,9 @@ StyledItem {
 
                         width: units.gu(10)
                         minimumValue: 0
-                        maximumValue: LightDM.Sessions.mock.numAvailableSessions
-                        value: LightDM.Sessions.mock.numSessions
-                        visible: LightDM.Sessions.mock.sessionMode === "full"
+                        maximumValue: LightDMController.numAvailableSessions
+                        value: LightDMController.numSessions
+                        visible: LightDMController.sessionMode === "full"
                         Binding {
                             target: LightDM.Sessions.mock
                             property: "numSessions"
@@ -362,7 +363,7 @@ StyledItem {
             respondedSpy.clear();
             teaseSpy.clear();
             emergencySpy.clear();
-            LightDM.Sessions.mock.sessionMode = "full";
+            LightDMController.sessionMode = "full";
             LightDM.Sessions.iconSearchDirectories = [testIconDirectory];
         }
 
@@ -467,12 +468,12 @@ StyledItem {
         }
 
         function test_noSessionsDoesntBreakView() {
-            LightDM.Sessions.mock.sessionMode = "none";
+            LightDMController.sessionMode = "none";
             compare(LightDM.Sessions.count, 0)
         }
 
         function test_sessionIconNotShownWithOneSession() {
-            LightDM.Sessions.mock.sessionMode = "single";
+            LightDMController.sessionMode = "single";
             compare(LightDM.Sessions.count, 1);
 
             var sessionChooserButton = findChild(view, "sessionChooserButton");
@@ -480,7 +481,7 @@ StyledItem {
         }
 
         function test_sessionIconNotShownWithActiveUser() {
-            LightDM.Sessions.mock.sessionMode = "full";
+            LightDMController.sessionMode = "full";
             compare(LightDM.Sessions.count > 1, true);
 
             selectUser("active");
@@ -490,7 +491,7 @@ StyledItem {
         }
 
         function test_sessionIconShownWithMultipleSessions() {
-            LightDM.Sessions.mock.sessionMode = "full";
+            LightDMController.sessionMode = "full";
             compare(LightDM.Sessions.count > 1, true);
 
             selectUser("has-password");

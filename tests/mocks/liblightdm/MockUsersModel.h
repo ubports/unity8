@@ -31,8 +31,6 @@ class Q_DECL_EXPORT UsersModel : public QAbstractListModel
 
     Q_ENUMS(UserModelRoles)
 
-    Q_PROPERTY(QObject *mock READ mock CONSTANT) // only in mock
-
 public:
     explicit UsersModel(QObject *parent = 0);
     virtual ~UsersModel();
@@ -50,8 +48,6 @@ public:
 
     int rowCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;
-
-    QObject *mock();
 
 private Q_SLOTS:
     void resetEntries();

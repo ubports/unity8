@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import QtTest 1.0
 import AccountsService 0.1
+import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
@@ -85,7 +86,7 @@ Rectangle {
 
     Component.onCompleted: {
         // must set the mock mode before loading the Shell
-        LightDM.Users.mock.userMode = "single-pin";
+        LightDMController.userMode = "single-pin";
         shellLoader.active = true;
     }
 

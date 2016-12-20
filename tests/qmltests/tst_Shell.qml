@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtTest 1.0
 import AccountsService 0.1
 import GSettings 1.0
+import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
 import SessionBroadcast 0.1
 import Ubuntu.Components 1.3
@@ -46,7 +47,7 @@ Rectangle {
 
     Component.onCompleted: {
         // must set the mock mode before loading the Shell
-        LightDM.Users.mock.userMode = "single";
+        LightDMController.userMode = "single";
         shellLoader.active = true;
     }
 
@@ -227,7 +228,7 @@ Rectangle {
                     model: ["single", "single-passphrase", "single-pin", "full"]
                     onSelectedIndexChanged: {
                         shellLoader.active = false;
-                        LightDM.Users.mock.userMode = model[selectedIndex];
+                        LightDMController.userMode = model[selectedIndex];
                         shellLoader.active = true;
                     }
                 }
@@ -801,7 +802,7 @@ Rectangle {
         }
 
         function setLightDMMockMode(mode) {
-            LightDM.Users.mock.userMode = mode;
+            LightDMController.userMode = mode;
         }
 
         function test_showInputMethod() {

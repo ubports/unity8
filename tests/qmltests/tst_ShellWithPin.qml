@@ -19,6 +19,7 @@ import Ubuntu.Components 1.3
 import QtTest 1.0
 import AccountsService 0.1
 import GSettings 1.0
+import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
 import Ubuntu.SystemImage 0.1
 import Ubuntu.Telephony 0.1 as Telephony
@@ -35,7 +36,7 @@ Item {
 
     Component.onCompleted: {
         // must set the mock mode before loading the Shell
-        LightDM.Users.mock.userMode = "single-pin";
+        LightDMController.userMode = "single-pin";
         shellLoader.active = true;
     }
 
