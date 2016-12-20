@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-11-29 09:43+0000\n"
+"POT-Creation-Date: 2016-12-07 13:49+0000\n"
 "PO-Revision-Date: 2015-07-06 05:33+0000\n"
 "Last-Translator: ☠Jay ZDLin☠ <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -16,15 +16,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2016-12-01 04:57+0000\n"
-"X-Generator: Launchpad (build 18282)\n"
+"X-Launchpad-Export-Date: 2016-12-15 04:57+0000\n"
+"X-Generator: Launchpad (build 18293)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
 msgstr "Пароль: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:50
-#: plugins/Unity/Launcher/launcheritem.cpp:109
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "Закрепить ярлык"
 
@@ -32,7 +32,7 @@ msgstr "Закрепить ярлык"
 msgid "Quit"
 msgstr "Завершить"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:109
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Открепить ярлык"
 
@@ -176,87 +176,95 @@ msgstr "Super + число от 0 до 9"
 msgid "Same as clicking on a launcher icon."
 msgstr "Аналог нажатия на значок запуска."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:181
+#: qml/Components/KeyboardShortcutsOverlay.qml:177
+msgid "Super + A"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:182
+msgid "Opens the Application Drawer."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:194
 msgid "Scopes"
 msgstr "Линзы"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:188
+#: qml/Components/KeyboardShortcutsOverlay.qml:201
 msgid "Super (Tap)"
 msgstr "Super (короткое нажатие)"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:193
+#: qml/Components/KeyboardShortcutsOverlay.qml:206
 msgid "Opens the Scopes home."
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:209
+#: qml/Components/KeyboardShortcutsOverlay.qml:222
 msgid "Switching"
 msgstr "Переключение"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:216
+#: qml/Components/KeyboardShortcutsOverlay.qml:229
 msgid "Alt + Tab"
 msgstr "Alt + Tab"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:221
+#: qml/Components/KeyboardShortcutsOverlay.qml:234
 msgid "Switches between applications."
 msgstr "Переключение между приложениями."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:229
+#: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Super + W"
 msgstr "Super + W"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:234
+#: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Opens the desktop spread."
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:242
+#: qml/Components/KeyboardShortcutsOverlay.qml:255
 msgid "Cursor Left or Right"
 msgstr "← →"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:247
+#: qml/Components/KeyboardShortcutsOverlay.qml:260
 msgid "Moves the focus."
 msgstr "Переместить фокус."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:259
+#: qml/Components/KeyboardShortcutsOverlay.qml:272
 msgid "Windows"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:266
+#: qml/Components/KeyboardShortcutsOverlay.qml:279
 msgid "Ctrl + Super + D"
 msgstr "Ctrl + Super + D"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:271
+#: qml/Components/KeyboardShortcutsOverlay.qml:284
 msgid "Minimizes all windows."
 msgstr "Свернуть все окна."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:279
+#: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + Up"
 msgstr "Ctrl + Super + вверх"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:284
+#: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Maximizes the current window."
 msgstr "Развернуть текущее окно."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:292
+#: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Down"
 msgstr "Ctrl + Super + вниз"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:297
+#: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Minimizes or restores the current window."
 msgstr "Свернуть или восстановить текущее окно."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:305
+#: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Ctrl + Super + Left or Right"
 msgstr "Ctrl + Super + влево или вправо"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:310
+#: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Semi-maximizes the current window."
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:318
+#: qml/Components/KeyboardShortcutsOverlay.qml:331
 msgid "Alt + F4"
 msgstr "Alt + F4"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:323
+#: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Closes the current window."
 msgstr "Закрыть текущее окно."
 
@@ -311,6 +319,30 @@ msgstr "Закрыть все"
 #: qml/Components/SharingPicker.qml:54
 msgid "Preview Share Item"
 msgstr "Предпросмотр"
+
+#: qml/Components/VirtualTouchPad.qml:317
+msgid ""
+"Your device is now connected to an external display. Use this screen as a "
+"touch pad to interact with the pointer."
+msgstr ""
+"Ваше устройство подключено к внешнему дисплею. Используйте этот экран как "
+"сенсорную панель для управления указателем."
+
+#: qml/Components/VirtualTouchPad.qml:327
+msgid "Tap left button to click."
+msgstr ""
+
+#: qml/Components/VirtualTouchPad.qml:339
+msgid "Tap right button to right click."
+msgstr ""
+
+#: qml/Components/VirtualTouchPad.qml:351
+msgid "Swipe with two fingers to scroll."
+msgstr ""
+
+#: qml/Components/VirtualTouchPad.qml:396
+msgid "Find more settings in the system settings."
+msgstr ""
 
 #: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
@@ -409,14 +441,6 @@ msgstr "Домой"
 msgid "Also installed"
 msgstr "Также установлено"
 
-#: qml/DisabledScreenNotice.qml:109
-msgid ""
-"Your device is now connected to an external display. Use this screen as a "
-"touch pad to interact with the pointer."
-msgstr ""
-"Ваше устройство подключено к внешнему дисплею. Используйте этот экран как "
-"сенсорную панель для управления указателем."
-
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
 msgstr "Разблокировать"
@@ -445,7 +469,7 @@ msgstr[0] "Подождите %1 минуту и попытайтесь снов
 msgstr[1] "Подождите %1 минуты и попытайтесь снова…"
 msgstr[2] "Подождите %1 минут и попытайтесь снова…"
 
-#: qml/Greeter/Greeter.qml:596
+#: qml/Greeter/Greeter.qml:592
 msgid "Try again"
 msgstr "Повторите снова"
 
@@ -473,6 +497,19 @@ msgstr ""
 msgid "Select desktop environment"
 msgstr ""
 
+#: qml/Launcher/Drawer.qml:80
+msgid "Search…"
+msgstr ""
+
+#: qml/Launcher/Drawer.qml:101
+msgctxt "Apps sorted alphabetically"
+msgid "A-Z"
+msgstr ""
+
+#: qml/Launcher/MoreAppsHeader.qml:32
+msgid "More apps in the store"
+msgstr ""
+
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
 msgstr "Показать пароль"
@@ -485,11 +522,11 @@ msgstr "Нажмите для возврата к вызову..."
 msgid "Conference"
 msgstr "Конференция"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:847
+#: qml/Panel/Indicators/MenuItemFactory.qml:868
 msgid "Nothing is playing"
 msgstr "Ничего не воспроизводится"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:975
+#: qml/Panel/Indicators/MenuItemFactory.qml:996
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -497,7 +534,7 @@ msgstr[0] "%1 час"
 msgstr[1] "%1 часа"
 msgstr[2] "%1 часов"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:979
+#: qml/Panel/Indicators/MenuItemFactory.qml:1000
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -505,7 +542,7 @@ msgstr[0] "%1 минута"
 msgstr[1] "%1 минуты"
 msgstr[2] "%1 минут"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:984
+#: qml/Panel/Indicators/MenuItemFactory.qml:1005
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -513,37 +550,37 @@ msgstr[0] "%1 секунда"
 msgstr[1] "%1 секунды"
 msgstr[2] "%1 секунд"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:987
+#: qml/Panel/Indicators/MenuItemFactory.qml:1008
 msgid "0 seconds"
 msgstr "0 секунд"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:989
+#: qml/Panel/Indicators/MenuItemFactory.qml:1010
 #, qt-format
 msgid "%1 remaining"
 msgstr "Осталось %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:995
+#: qml/Panel/Indicators/MenuItemFactory.qml:1016
 msgid "In queue…"
 msgstr "В очереди..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:999
+#: qml/Panel/Indicators/MenuItemFactory.qml:1020
 msgid "Downloading"
 msgstr "Загрузка"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1001
+#: qml/Panel/Indicators/MenuItemFactory.qml:1022
 msgid "Paused, tap to resume"
 msgstr "Приостановлено, нажмите для возобновления"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1003
+#: qml/Panel/Indicators/MenuItemFactory.qml:1024
 msgid "Canceled"
 msgstr "Отменено"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1005
+#: qml/Panel/Indicators/MenuItemFactory.qml:1026
 msgid "Finished"
 msgstr "Завершено"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1007
+#: qml/Panel/Indicators/MenuItemFactory.qml:1028
 msgid "Failed, tap to retry"
 msgstr "Сбой, нажмите для повтора"
 

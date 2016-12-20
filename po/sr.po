@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-11-29 09:43+0000\n"
+"POT-Creation-Date: 2016-12-07 13:49+0000\n"
 "PO-Revision-Date: 2016-08-22 20:43+0000\n"
 "Last-Translator: Bojan Bogdanović <Unknown>\n"
 "Language-Team: српски <xfce4@xfce4.org>\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2016-12-01 04:57+0000\n"
-"X-Generator: Launchpad (build 18282)\n"
+"X-Launchpad-Export-Date: 2016-12-15 04:57+0000\n"
+"X-Generator: Launchpad (build 18293)\n"
 "Language: sr\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -26,7 +26,7 @@ msgid "Password: "
 msgstr "Лозинка: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:50
-#: plugins/Unity/Launcher/launcheritem.cpp:109
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "Прикачи пречицу"
 
@@ -34,7 +34,7 @@ msgstr "Прикачи пречицу"
 msgid "Quit"
 msgstr "Напусти"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:109
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Откачи пречицу"
 
@@ -180,87 +180,95 @@ msgstr "Super + 0 до 9"
 msgid "Same as clicking on a launcher icon."
 msgstr "Исто као и клик на икону покретача."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:181
+#: qml/Components/KeyboardShortcutsOverlay.qml:177
+msgid "Super + A"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:182
+msgid "Opens the Application Drawer."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:194
 msgid "Scopes"
 msgstr "Опсези"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:188
+#: qml/Components/KeyboardShortcutsOverlay.qml:201
 msgid "Super (Tap)"
 msgstr "Super (Тапни)"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:193
+#: qml/Components/KeyboardShortcutsOverlay.qml:206
 msgid "Opens the Scopes home."
 msgstr "Отвара почетну страницу Опсега."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:209
+#: qml/Components/KeyboardShortcutsOverlay.qml:222
 msgid "Switching"
 msgstr "Пребацивање"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:216
+#: qml/Components/KeyboardShortcutsOverlay.qml:229
 msgid "Alt + Tab"
 msgstr "Alt + Tab"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:221
+#: qml/Components/KeyboardShortcutsOverlay.qml:234
 msgid "Switches between applications."
 msgstr "Пребацује између програма."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:229
+#: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Super + W"
 msgstr "Super + W"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:234
+#: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Opens the desktop spread."
 msgstr "Отвара раширени декстоп."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:242
+#: qml/Components/KeyboardShortcutsOverlay.qml:255
 msgid "Cursor Left or Right"
 msgstr "Показивач лево или десно"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:247
+#: qml/Components/KeyboardShortcutsOverlay.qml:260
 msgid "Moves the focus."
 msgstr "Премешта усмерење."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:259
+#: qml/Components/KeyboardShortcutsOverlay.qml:272
 msgid "Windows"
 msgstr "Прозори"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:266
+#: qml/Components/KeyboardShortcutsOverlay.qml:279
 msgid "Ctrl + Super + D"
 msgstr "Ctrl + Super + Д"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:271
+#: qml/Components/KeyboardShortcutsOverlay.qml:284
 msgid "Minimizes all windows."
 msgstr "Умањује све прозоре."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:279
+#: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + Up"
 msgstr "Ctrl + Super + Нагоре"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:284
+#: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Maximizes the current window."
 msgstr "Увећава све прозоре."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:292
+#: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Down"
 msgstr "Ctrl + Super + Надоле"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:297
+#: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Minimizes or restores the current window."
 msgstr "Умањује или враћа тренутни прозор."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:305
+#: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Ctrl + Super + Left or Right"
 msgstr "Ctrl + Super + Лево или Десно"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:310
+#: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Semi-maximizes the current window."
 msgstr "Полу-увећава тренутни прозор."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:318
+#: qml/Components/KeyboardShortcutsOverlay.qml:331
 msgid "Alt + F4"
 msgstr "Alt + F4"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:323
+#: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Closes the current window."
 msgstr "Затвара тренутни прозор."
 
@@ -315,6 +323,30 @@ msgstr "Затворите све"
 #: qml/Components/SharingPicker.qml:54
 msgid "Preview Share Item"
 msgstr "Преглед дељене ставке"
+
+#: qml/Components/VirtualTouchPad.qml:317
+msgid ""
+"Your device is now connected to an external display. Use this screen as a "
+"touch pad to interact with the pointer."
+msgstr ""
+"Ваш уређај је сада повезан на спољни монитор. користите овај екран као "
+"додирну плочицу да покрећете показивач."
+
+#: qml/Components/VirtualTouchPad.qml:327
+msgid "Tap left button to click."
+msgstr ""
+
+#: qml/Components/VirtualTouchPad.qml:339
+msgid "Tap right button to right click."
+msgstr ""
+
+#: qml/Components/VirtualTouchPad.qml:351
+msgid "Swipe with two fingers to scroll."
+msgstr ""
+
+#: qml/Components/VirtualTouchPad.qml:396
+msgid "Find more settings in the system settings."
+msgstr ""
 
 #: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
@@ -413,14 +445,6 @@ msgstr "Почетна"
 msgid "Also installed"
 msgstr "Такође инсталиран"
 
-#: qml/DisabledScreenNotice.qml:109
-msgid ""
-"Your device is now connected to an external display. Use this screen as a "
-"touch pad to interact with the pointer."
-msgstr ""
-"Ваш уређај је сада повезан на спољни монитор. користите овај екран као "
-"додирну плочицу да покрећете показивач."
-
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
 msgstr "Откључај"
@@ -445,7 +469,7 @@ msgstr[0] "Сачекајте %1 минут, па покушајте понов�
 msgstr[1] "Сачекајте %1 минута, па покушајте поново…"
 msgstr[2] "Сачекајте %1 минута, па покушајте поново…"
 
-#: qml/Greeter/Greeter.qml:596
+#: qml/Greeter/Greeter.qml:592
 msgid "Try again"
 msgstr "Покушајте поново"
 
@@ -473,6 +497,19 @@ msgstr ""
 msgid "Select desktop environment"
 msgstr ""
 
+#: qml/Launcher/Drawer.qml:80
+msgid "Search…"
+msgstr ""
+
+#: qml/Launcher/Drawer.qml:101
+msgctxt "Apps sorted alphabetically"
+msgid "A-Z"
+msgstr ""
+
+#: qml/Launcher/MoreAppsHeader.qml:32
+msgid "More apps in the store"
+msgstr ""
+
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
 msgstr "Прикажи лозинку"
@@ -485,11 +522,11 @@ msgstr "Лупните да се вратите на позив..."
 msgid "Conference"
 msgstr "Конференција"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:847
+#: qml/Panel/Indicators/MenuItemFactory.qml:868
 msgid "Nothing is playing"
 msgstr "Ништа се не пушта"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:975
+#: qml/Panel/Indicators/MenuItemFactory.qml:996
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -497,7 +534,7 @@ msgstr[0] "%1 сат"
 msgstr[1] "%1 сата"
 msgstr[2] "%1 сати"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:979
+#: qml/Panel/Indicators/MenuItemFactory.qml:1000
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -505,7 +542,7 @@ msgstr[0] "%1 минут"
 msgstr[1] "%1 минута"
 msgstr[2] "%1 минута"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:984
+#: qml/Panel/Indicators/MenuItemFactory.qml:1005
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -513,37 +550,37 @@ msgstr[0] "%1 секунда"
 msgstr[1] "%1 секунде"
 msgstr[2] "%1 секунди"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:987
+#: qml/Panel/Indicators/MenuItemFactory.qml:1008
 msgid "0 seconds"
 msgstr "0 секунде"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:989
+#: qml/Panel/Indicators/MenuItemFactory.qml:1010
 #, qt-format
 msgid "%1 remaining"
 msgstr "Преостаје %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:995
+#: qml/Panel/Indicators/MenuItemFactory.qml:1016
 msgid "In queue…"
 msgstr "Заказано…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:999
+#: qml/Panel/Indicators/MenuItemFactory.qml:1020
 msgid "Downloading"
 msgstr "Преузимање"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1001
+#: qml/Panel/Indicators/MenuItemFactory.qml:1022
 msgid "Paused, tap to resume"
 msgstr "Заустављено, лупните да наставите"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1003
+#: qml/Panel/Indicators/MenuItemFactory.qml:1024
 msgid "Canceled"
 msgstr "Отказано"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1005
+#: qml/Panel/Indicators/MenuItemFactory.qml:1026
 msgid "Finished"
 msgstr "Завршено"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1007
+#: qml/Panel/Indicators/MenuItemFactory.qml:1028
 msgid "Failed, tap to retry"
 msgstr "Неуспело, лупните да покушате поново"
 
