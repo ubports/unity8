@@ -33,6 +33,8 @@
 
 #include <glib.h>
 
+namespace unityapi = unity::shell::application;
+
 // This is a mock, specifically to test the LauncherModel
 class MockApp: public unity::shell::application::ApplicationInfoInterface
 {
@@ -65,6 +67,7 @@ public:
     MirSurfaceListInterface* promptSurfaceList() const override { return nullptr; }
     int surfaceCount() const override { return m_surfaceCount; }
     void setSurfaceCount(int count) { m_surfaceCount = count; Q_EMIT surfaceCountChanged(count); }
+    void close() override {}
 
     // Methods used for mocking (not in the interface)
     void setFocused(bool focused) { m_focused = focused; Q_EMIT focusedChanged(focused); }
@@ -96,6 +99,9 @@ public:
                 return app;
             }
         }
+        return nullptr;
+    }
+    unityapi::ApplicationInfoInterface *findApplicationWithSurface(unityapi::MirSurfaceInterface* surface) const override {
         return nullptr;
     }
     unity::shell::application::ApplicationInfoInterface *startApplication(const QString &, const QStringList &) override { return nullptr; }
