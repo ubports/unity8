@@ -149,6 +149,7 @@ Item {
             title: i18n.ctr("Title: Lock/Log out dialog", "Log out")
             text: i18n.tr("Are you sure you want to log out?")
             Button {
+                width: parent.width
                 text: i18n.ctr("Button: Lock the system", "Lock")
                 onClicked: {
                     LightDMService.greeter.showGreeter()
@@ -156,6 +157,7 @@ Item {
                 }
             }
             Button {
+                width: parent.width
                 focus: true
                 text: i18n.ctr("Button: Log out from the system", "Log Out")
                 onClicked: {
@@ -164,6 +166,7 @@ Item {
                 }
             }
             Button {
+                width: parent.width
                 text: i18n.tr("Cancel")
                 onClicked: {
                     logoutDialog.hide();
@@ -179,12 +182,14 @@ Item {
             title: i18n.ctr("Title: Reboot dialog", "Reboot")
             text: i18n.tr("Are you sure you want to reboot?")
             Button {
+                width: parent.width
                 text: i18n.tr("No")
                 onClicked: {
                     rebootDialog.hide();
                 }
             }
             Button {
+                width: parent.width
                 focus: true
                 text: i18n.tr("Yes")
                 onClicked: {
@@ -204,6 +209,7 @@ Item {
             title: i18n.ctr("Title: Power off/Restart dialog", "Power")
             text: i18n.tr("Are you sure you would like\nto power off?")
             Button {
+                width: parent.width
                 focus: true
                 text: i18n.ctr("Button: Power off the system", "Power off")
                 onClicked: {
@@ -214,6 +220,7 @@ Item {
                 color: theme.palette.normal.negative
             }
             Button {
+                width: parent.width
                 text: i18n.ctr("Button: Restart the system", "Restart")
                 onClicked: {
                     root.closeAllApps();
@@ -222,6 +229,7 @@ Item {
                 }
             }
             Button {
+                width: parent.width
                 text: i18n.tr("Cancel")
                 onClicked: {
                     powerDialog.hide();

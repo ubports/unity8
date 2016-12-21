@@ -240,8 +240,10 @@ Showable {
             property var dialogLoader // dummy to satisfy ShellDialog's context dependent prop
 
             Button {
+                width: parent.width
                 objectName: "infoPopupOkButton"
                 text: i18n.tr("OK")
+                focus: true
                 onClicked: {
                     PopupUtils.close(dialog)
                     root.infoPopupConfirmed();

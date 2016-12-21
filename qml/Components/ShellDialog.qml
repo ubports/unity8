@@ -19,6 +19,7 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Themes 1.3
 import Ubuntu.Components.Popups 1.3
+import Utils 0.1
 
 /*
     A Dialog configured for use as a proper in-scene Dialog
@@ -31,6 +32,8 @@ Dialog {
 
     // NB: PopupBase, Dialog's superclass, will check for the existence of this property
     property bool reparentToRootItem: false
+
+    default property alias columnContents: column.data
 
     onVisibleChanged: { if (!visible && dialogLoader) { dialogLoader.active = false; } }
 
@@ -49,5 +52,16 @@ Dialog {
         themeHack.palette.normal.overlayText = UbuntuColors.slate;
         __foreground.theme = themeHack
         show();
+    }
+
+    TabFocusFence {
+        width: parent.width
+        height: column.height
+        focus: true
+        Column {
+            id: column
+            width: parent.width
+            spacing: units.gu(2)
+        }
     }
 }
