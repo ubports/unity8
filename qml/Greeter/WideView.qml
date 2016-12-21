@@ -144,27 +144,12 @@ FocusScope {
             currentSession: LightDMService.users.data(selectedUserIndex, LightDMService.userRoles.SessionRole);
             onResponded: root.responded(response)
             onSelected: {
-                if (LightDMService.users.mock) {
-                    LightDMService.users.mock.currentUsername = currentUser;
-                }
-
-                loginList.selectedUserIndex = index;
                 root.selected(index)
-                currentSession = LightDMService.users.data(index, LightDMService.userRoles.SessionRole);
+                loginList.selectedUserIndex = index;
             }
             onSessionChooserButtonClicked: parent.state = "SessionsList"
 
             Keys.forwardTo: [sessionChooserLoader.item]
-
-            // This is only for testing
-            Connections {
-                // TODO when Qt 5.7
-                //enabled: LightDM.Users.mock
-                target: LightDMService.users
-                onModelReset: {
-                    loginList.currentSession = LightDMService.users.data(loginList.selectedUserIndex, LightDMService.userRoles.SessionRole);
-                 }
-            }
         }
 
         Loader {
