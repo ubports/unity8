@@ -152,8 +152,6 @@ Item {
                 id: delegate
                 objectName: "sessionDelegate" + index
 
-                property alias currentTitle: layout
-
                 divider.visible: false
                 visible: y > sessionsList.headerItem.y
                 + sessionsList.headerItem.height
