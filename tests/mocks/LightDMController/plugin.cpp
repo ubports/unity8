@@ -14,18 +14,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "WindowManagerPlugin.h"
+#include "plugin.h"
 
-#include "TopLevelWindowModel.h"
-#include "Window.h"
+#include "MockController.h"
 
-#include <QtQml>
+#include <QtQml/qqml.h>
 
-void WindowManagerPlugin::registerTypes(const char *uri)
+static QObject *mock_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
-    qmlRegisterType<TopLevelWindowModel>(uri, 1, 0, "TopLevelWindowModel");
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return QLightDM::MockController::instance();
+}
 
-    qRegisterMetaType<Window*>("Window*");
-
-    qRegisterMetaType<QAbstractListModel*>("QAbstractListModel*");
+void LightDMControllerPlugin::registerTypes(const char *uri)
+{
+    Q_ASSERT(uri == QLatin1String("LightDMController"));
+    qmlRegisterSingletonType<QLightDM::MockController>(uri, 0, 1, "LightDMController", mock_provider);
 }

@@ -22,6 +22,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
 import Unity.Test 0.1
+import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
 import Powerd 0.1
 import Unity.InputInfo 0.1
@@ -39,7 +40,7 @@ Rectangle {
     height: units.gu(100)
 
     Binding {
-        target: LightDM.Users.mock
+        target: LightDMController
         property: "userMode"
         value: "single"
     }
@@ -985,6 +986,11 @@ Rectangle {
 
         function test_launchLandscapeOnlyAppOverPortraitOnlyDashThenSwitchToDash() {
             loadShell("mako");
+
+            var dashSurfaceId = topLevelSurfaceList.nextId;
+            var dashApp = ApplicationManager.startApplication("unity8-dash");
+            verify(dashApp);
+            waitUntilAppWindowIsFullyLoaded(dashSurfaceId);
 
             // starts as portrait, as unity8-dash is portrait only
             tryCompare(shell, "transformRotationAngle", 0);

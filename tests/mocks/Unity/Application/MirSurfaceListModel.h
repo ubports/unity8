@@ -38,18 +38,13 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role) const override;
 
-    void appendSurface(MirSurface *surface);
+    void addSurface(MirSurface *surface);
     void removeSurface(MirSurface *surface);
 
     bool contains(MirSurface *surface) const { return m_surfaceList.contains(surface); }
 
-    ////
-    // API for tests
-
-    Q_INVOKABLE unity::shell::application::MirSurfaceInterface *createSurface();
-
 private:
-    void prependSurface(MirSurface *surface);
+    void appendSurface(MirSurface *surface);
     void raise(MirSurface *surface);
     void moveSurface(int from, int to);
     void connectSurface(MirSurface *surface);

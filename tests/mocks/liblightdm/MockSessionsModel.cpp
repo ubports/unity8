@@ -114,9 +114,4 @@ void SessionsModel::resetEntries()
     endResetModel();
 }
 
-QObject *SessionsModel::mock()
-{
-    return MockController::instance();
-}
-
 } // namespace QLightDM

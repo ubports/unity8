@@ -16,6 +16,8 @@
 
 #include "SessionsModel.h"
 
+#include "MockController.h"
+
 #include <QLightDM/SessionsModel>
 #include <QtCore/QModelIndex>
 #include <QtTest>
@@ -31,7 +33,7 @@ private Q_SLOTS:
     {
         model = new SessionsModel();
         QVERIFY(model);
-        mock = model->mock();
+        mock = QLightDM::MockController::instance();
         QVERIFY(mock);
     }
 

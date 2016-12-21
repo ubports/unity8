@@ -14,18 +14,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "WindowManagerPlugin.h"
+#pragma once
 
-#include "TopLevelWindowModel.h"
-#include "Window.h"
+#include <QQmlEngine>
+#include <QQmlExtensionPlugin>
 
-#include <QtQml>
-
-void WindowManagerPlugin::registerTypes(const char *uri)
+class LightDMControllerPlugin : public QQmlExtensionPlugin
 {
-    qmlRegisterType<TopLevelWindowModel>(uri, 1, 0, "TopLevelWindowModel");
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
-    qRegisterMetaType<Window*>("Window*");
-
-    qRegisterMetaType<QAbstractListModel*>("QAbstractListModel*");
-}
+public:
+    void registerTypes(const char *uri) override;
+};
