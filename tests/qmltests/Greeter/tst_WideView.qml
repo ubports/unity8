@@ -425,7 +425,7 @@ StyledItem {
             LightDM.Users.mock.userMode = "full";
         }
 
-        /*function test_tease_data() {
+        function test_tease_data() {
             return [
                 {tag: "locked", x: 0, offset: 0, count: 0, locked: true},
                 {tag: "left", x: 0, offset: 0, count: 1, locked: false},
@@ -760,6 +760,6 @@ StyledItem {
 
             view.showPrompt("", true, true);
             verify(promptField.activeFocus);
-        }*/
+        }
     }
 }
