@@ -36,7 +36,6 @@ StyledItem {
     readonly property int cellHeight: units.gu(5)
     readonly property int highlightedHeight: units.gu(15)
     readonly property int moveDuration: UbuntuAnimation.FastDuration
-    property string selectedSession
     property string currentSession
     readonly property string currentUser: userList.currentItem.username
     property bool wasPrompted: false

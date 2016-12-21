@@ -125,8 +125,6 @@ FocusScope {
             id: loginList
             objectName: "loginList"
 
-            property int selectedUserIndex: 0
-
             width: units.gu(40)
             anchors {
                 left: parent.left
@@ -141,15 +139,29 @@ FocusScope {
             Behavior on boxVerticalOffset { UbuntuNumberAnimation {} }
 
             model: root.userModel
-            currentSession: LightDMService.users.data(selectedUserIndex, LightDMService.userRoles.SessionRole);
             onResponded: root.responded(response)
             onSelected: {
-                root.selected(index)
+                if (LightDMService.users.mock) {
+                    LightDMService.users.mock.currentUsername = currentUser;
+                }
+
                 loginList.selectedUserIndex = index;
+                root.selected(index)
+                currentSession = LightDMService.users.data(index, LightDMService.userRoles.SessionRole);
             }
             onSessionChooserButtonClicked: parent.state = "SessionsList"
 
             Keys.forwardTo: [sessionChooserLoader.item]
+
+            // This is only for testing
+            Connections {
+                // TODO when Qt 5.7
+                //enabled: LightDM.Users.mock
+                target: LightDMService.users
+                onModelReset: {
+                    loginList.currentSession = LightDMService.users.data(loginList.selectedUserIndex, LightDMService.userRoles.SessionRole);
+                 }
+            }
         }
 
         Loader {
