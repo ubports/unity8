@@ -131,6 +131,19 @@ Showable {
         color: panelColor
     }
 
+    Keys.onPressed: {
+        if (event.key === Qt.Key_Left) {
+            bar.setCurrentItemIndex(bar.currentItemIndex - 1);
+            event.accepted = true;
+        } else if (event.key === Qt.Key_Right) {
+            bar.setCurrentItemIndex(bar.currentItemIndex + 1);
+            event.accepted = true;
+        } else if (event.key === Qt.Key_Escape) {
+            root.hide();
+            event.accepted = true;
+        }
+    }
+
     IndicatorsBar {
         id: bar
         objectName: "indicatorsBar"
