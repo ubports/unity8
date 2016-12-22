@@ -303,5 +303,30 @@ IndicatorTest {
             indicatorsMenu.available = true;
             indicatorsMenu.hide();
         }
+
+        function test_keyboardNavigation() {
+            var indicatorsBar = findChild(indicatorsMenu, "indicatorsBar");
+
+            indicatorsMenu.show();
+            indicatorsBar.setCurrentItemIndex(0);
+            tryCompare(indicatorsMenu, "fullyOpened", true);
+
+            keyClick(Qt.Key_Tab);
+
+            keyClick(Qt.Key_Right);
+            tryCompare(indicatorsBar, "currentItemIndex", 1);
+
+            keyClick(Qt.Key_Right);
+            tryCompare(indicatorsBar, "currentItemIndex", 2);
+
+            keyClick(Qt.Key_Left);
+            tryCompare(indicatorsBar, "currentItemIndex", 1);
+
+            keyClick(Qt.Key_Left);
+            tryCompare(indicatorsBar, "currentItemIndex", 0);
+
+            keyClick(Qt.Key_Escape);
+            tryCompare(indicatorsMenu, "fullyClosed", true);
+        }
     }
 }
