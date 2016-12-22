@@ -93,19 +93,29 @@ Item {
                 function show() {
                     if (!__popup) {
                         __popup = menuComponent.createObject(root, { objectName: visualItem.objectName + "-menu" });
+                        // force the current item to be the newly popped up menu
                     } else {
                         __popup.visible = true;
                     }
+                    d.currentItem = visualItem;
                 }
                 function hide() {
                     if (__popup) {
                         __popup.visible = false;
+
+                        if (d.currentItem === visualItem) {
+                            d.currentItem = null;
+                        }
                     }
                 }
                 function dismiss() {
                     if (__popup) {
                         __popup.destroy();
                         __popup = null;
+
+                        if (d.currentItem === visualItem) {
+                            d.currentItem = null;
+                        }
                     }
                 }
 
@@ -123,14 +133,6 @@ Item {
 
                         Component.onCompleted: reset();
                         onVisibleChanged: if (visible) { reset(); }
-                    }
-                }
-
-                onPopupVisibleChanged: {
-                    if (popupVisible) {
-                        d.currentItem = visualItem;
-                    } else if (d.currentItem === visualItem) {
-                        d.currentItem = null;
                     }
                 }
 
