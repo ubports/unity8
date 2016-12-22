@@ -1553,5 +1553,25 @@ Rectangle {
             verify(surface);
             return surface.activeFocus;
         }
+
+        function test_tabCyclyingInShutdownDialog() {
+            loadShell("mako");
+
+            testCase.showPowerDialog();
+
+            var dialogs = findChild(orientedShell, "dialogs");
+            var buttons = findChildsByType(dialogs, "Button");
+
+            tryCompare(buttons[0], "activeFocus", true);
+
+            keyClick(Qt.Key_Tab);
+            tryCompare(buttons[1], "activeFocus", true);
+
+            keyClick(Qt.Key_Tab);
+            tryCompare(buttons[2], "activeFocus", true);
+
+            keyClick(Qt.Key_Tab);
+            tryCompare(buttons[0], "activeFocus", true);
+        }
     }
 }
