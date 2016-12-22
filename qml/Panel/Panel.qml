@@ -46,7 +46,6 @@ Item {
     property alias indicators: __indicators
     property bool fullscreenMode: false
     property real panelAreaShowProgress: 1.0
-    property bool locked: false
     property bool greeterShown: false
 
     property string mode: "staged"
@@ -74,6 +73,26 @@ Item {
     RegisteredApplicationMenuModel {
         id: registeredMenuModel
         persistentSurfaceId: PanelState.focusedPersistentSurfaceId
+    }
+
+    QtObject {
+        id: d
+
+        property bool __revealControls: (decorationMouseArea.containsMouse || menuBarLoader.menusRequested) &&
+                                      !applicationMenus.shown &&
+                                      !indicators.shown
+
+        property bool showWindowDecorationControls: (__revealControls && PanelState.decorationsVisible) ||
+                                                    PanelState.decorationsAlwaysVisible
+
+        property bool enablePointerMenu: __revealControls &&
+                                         (PanelState.decorationsVisible || mode == "staged") &&
+                                         applicationMenus.available &&
+                                         applicationMenus.model
+
+        property bool enableTouchMenus: !enablePointerMenu &&
+                                        applicationMenus.available &&
+                                        applicationMenus.model
     }
 
     Item {
@@ -153,8 +172,6 @@ Item {
                 }
             }
 
-            property bool showWindowControls: containsMouse || menuBarLoader.menusRequested
-
             Row {
                 anchors.fill: parent
                 spacing: units.gu(2)
@@ -165,7 +182,7 @@ Item {
                     id: windowControlButtons
                     objectName: "panelWindowControlButtons"
                     height: indicators.minimizedPanelHeight
-                    opacity: (PanelState.decorationsVisible && decorationMouseArea.showWindowControls) || PanelState.decorationsAlwaysVisible ? 1 : 0
+                    opacity: d.showWindowDecorationControls ? 1 : 0
                     visible: opacity != 0
                     Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
 
@@ -180,7 +197,8 @@ Item {
                 Loader {
                     id: menuBarLoader
                     height: parent.height
-                    opacity: decorationMouseArea.showWindowControls || PanelState.decorationsAlwaysVisible ? 1 : 0
+                    enabled: d.enablePointerMenu
+                    opacity: d.enablePointerMenu ? 1 : 0
                     visible: opacity != 0
                     Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
                     active: __applicationMenus.model
@@ -197,7 +215,12 @@ Item {
 
                         Connections {
                             target: __applicationMenus
-                            onHide: bar.dismiss();
+                            onShownChanged: bar.dismiss();
+                        }
+
+                        Connections {
+                            target: __indicators
+                            onShownChanged: bar.dismiss();
                         }
                     }
                 }
@@ -210,7 +233,7 @@ Item {
                 anchors.centerIn: parent
                 height: minimizedPanelHeight
 
-                visible: active && indicators.state == "initial"
+                visible: active && indicators.state == "initial" && __applicationMenus.state == "initial"
                 greeterShown: root.greeterShown
             }
         }
@@ -225,7 +248,7 @@ Item {
             openedHeight: root.height
             alignment: Qt.AlignLeft
             enableHint: !callHint.active && !fullscreenMode
-            showOnClick: !callHint.visible
+            showOnClick: false
             panelColor: panelAreaBackground.color
 
             onShowTapped: {
@@ -266,8 +289,8 @@ Item {
                 }
             }
 
-            enabled: !root.locked && model
-            opacity: decorationMouseArea.showWindowControls || PanelState.decorationsAlwaysVisible ? 0 : 1
+            enabled: d.enableTouchMenus
+            opacity: d.enableTouchMenus ? 1 : 0
             visible: opacity != 0
             Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
 

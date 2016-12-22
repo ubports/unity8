@@ -473,6 +473,8 @@ StyledItem {
 
             applicationMenus {
                 hides: [launcher]
+                available: (!greeter || !greeter.shown)
+                        && !shell.waitingOnGreeter
             }
 
             readonly property bool focusedSurfaceIsFullscreen: MirFocusController.focusedSurface
@@ -480,7 +482,6 @@ StyledItem {
                 : false
             fullscreenMode: (focusedSurfaceIsFullscreen && !LightDMService.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
-            locked: greeter && greeter.active
             greeterShown: greeter && greeter.shown
         }
 
