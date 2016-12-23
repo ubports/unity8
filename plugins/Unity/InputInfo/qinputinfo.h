@@ -57,7 +57,6 @@ class QInputDeviceManager;
 class QInputDevice : public QObject
 {
     Q_OBJECT
-    Q_FLAGS(InputType InputTypeFlags)
     friend class QInputDeviceManagerPrivate;
 
 public:
@@ -71,8 +70,9 @@ public:
         Keyboard = 16,
         Switch = 32
     };
-    Q_ENUM(InputType)
+    Q_FLAG(InputType)
     Q_DECLARE_FLAGS(InputTypeFlags, InputType)
+    Q_FLAG(InputTypeFlags)
 
     explicit QInputDevice(QObject *parent = 0);
     QString name() const;
