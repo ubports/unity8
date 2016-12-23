@@ -101,7 +101,7 @@ public:
         }
         return nullptr;
     }
-    unityapi::ApplicationInfoInterface *findApplicationWithSurface(unityapi::MirSurfaceInterface* surface) const override {
+    unityapi::ApplicationInfoInterface *findApplicationWithSurface(unityapi::MirSurfaceInterface* /*surface*/) const override {
         return nullptr;
     }
     unity::shell::application::ApplicationInfoInterface *startApplication(const QString &, const QStringList &) override { return nullptr; }
