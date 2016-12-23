@@ -59,7 +59,7 @@ MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
         Qt::ExtraButton12 | Qt::ExtraButton13);
 
     connect(this, &QQuickItem::activeFocusChanged, this, &MirSurfaceItem::updateMirSurfaceActiveFocus);
-    connect(this, &QQuickItem::visibleChanged, this, &MirSurfaceItem::updateMirSurfaceVisibility);
+    connect(this, &QQuickItem::visibleChanged, this, &MirSurfaceItem::updateMirSurfaceExposure);
 
     connect(this, &MirSurfaceItem::consumesInputChanged, this, [this]() {
         updateMirSurfaceActiveFocus(hasActiveFocus());
@@ -278,7 +278,7 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
         m_qmlSurface->registerView((qintptr)this);
 
         updateSurfaceSize();
-        updateMirSurfaceVisibility();
+        updateMirSurfaceExposure();
 
         if (m_orientationAngle) {
             m_qmlSurface->setOrientationAngle(*m_orientationAngle);
@@ -335,11 +335,11 @@ void MirSurfaceItem::updateMirSurfaceActiveFocus(bool focused)
     }
 }
 
-void MirSurfaceItem::updateMirSurfaceVisibility()
+void MirSurfaceItem::updateMirSurfaceExposure()
 {
     if (!m_qmlSurface) return;
 
-    m_qmlSurface->setViewVisibility((qintptr)this, isVisible());
+    m_qmlSurface->setViewExposure((qintptr)this, isVisible());
 }
 
 void MirSurfaceItem::setConsumesInput(bool value)
