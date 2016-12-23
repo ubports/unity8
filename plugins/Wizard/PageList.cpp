@@ -71,12 +71,8 @@ PageList::PageList(QObject *parent)
     // If there was a system update installed, skip until the last page to just greet the user
     QSettings settings;
     if (settings.value(QStringLiteral("Wizard/SkipUntilFinishedPage")).toBool()) {
-        const QString lastPage = m_pages.lastKey();
-        for (auto it = m_pages.begin(); it != m_pages.end(); ++it) {
-            const QString page = it.key();
-            if (Q_UNLIKELY(page != lastPage)) {
-                m_pages.remove(page);
-            }
+        while (m_pages.count() > 1) {
+            m_pages.erase(m_pages.begin());
         }
 
         // ... and reset it again for the next run
