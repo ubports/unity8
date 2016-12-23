@@ -25,7 +25,6 @@
 class FakeIndicatorsModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_ENUMS(Roles)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(QString profile READ profile WRITE setProfile NOTIFY profileChanged)
     Q_PROPERTY(QVariant modelData READ modelData WRITE setModelData NOTIFY modelDataChanged)

@@ -112,7 +112,7 @@ public:
 
     //////
     // internal mock stuff
-    void close();
+    void close() override;
     void requestFocus();
 
 Q_SIGNALS:

@@ -25,7 +25,6 @@ class Screen;
 class Screens : public QAbstractListModel
 {
     Q_OBJECT
-    Q_ENUMS(OutputTypes)
 
     Q_PROPERTY(int count READ count NOTIFY countChanged)
 
@@ -52,6 +51,7 @@ public:
         TV,
         EDP
     };
+    Q_ENUM(OutputTypes)
 
     explicit Screens(QObject *parent = 0);
     virtual ~Screens() noexcept;

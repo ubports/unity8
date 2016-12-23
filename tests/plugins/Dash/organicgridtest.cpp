@@ -28,6 +28,7 @@
 #include "organicgrid.h"
 
 class DummyModel : public QAbstractListModel {
+    Q_OBJECT
 public:
     DummyModel() : m_count(0) {}
 

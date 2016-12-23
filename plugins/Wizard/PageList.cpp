@@ -72,7 +72,8 @@ PageList::PageList(QObject *parent)
     QSettings settings;
     if (settings.value(QStringLiteral("Wizard/SkipUntilFinishedPage")).toBool()) {
         const QString lastPage = m_pages.lastKey();
-        Q_FOREACH(const QString &page, m_pages.keys()) {
+        for (auto it = m_pages.begin(); it != m_pages.end(); ++it) {
+            const QString page = it.key();
             if (Q_UNLIKELY(page != lastPage)) {
                 m_pages.remove(page);
             }

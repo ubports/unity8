@@ -29,7 +29,6 @@ class QDBusInterface;
 class AccountsService: public QObject
 {
     Q_OBJECT
-    Q_ENUMS(PasswordDisplayHint)
     Q_PROPERTY (QString user
                 READ user
                 WRITE setUser
@@ -86,6 +85,7 @@ public:
         Keyboard,
         Numeric,
     };
+    Q_ENUM(PasswordDisplayHint)
 
     explicit AccountsService(QObject *parent = 0, const QString & user = QString());
     ~AccountsService() = default;

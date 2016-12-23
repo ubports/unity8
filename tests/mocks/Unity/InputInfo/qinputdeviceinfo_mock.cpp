@@ -43,7 +43,8 @@ QInputDevice *QInputDeviceManagerPrivate::addMockDevice(const QString &devicePat
 
 void QInputDeviceManagerPrivate::removeDevice(const QString &path)
 {
-    Q_FOREACH (const QString devicePath, deviceMap.keys()) {
+    for (auto it = deviceMap.begin(); it != deviceMap.end(); ++it) {
+        const QString devicePath = it.key();
         if (devicePath.contains(path)) {
             deviceMap.remove(devicePath);
             Q_EMIT deviceRemoved(devicePath);

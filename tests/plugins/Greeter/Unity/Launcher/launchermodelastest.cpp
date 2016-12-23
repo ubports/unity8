@@ -34,7 +34,6 @@ class LauncherModelASTest : public QObject
     Q_OBJECT
 
 private:
-    LauncherModel *launcherModel;
     QStringList users;
     QHash<QString, QList<QVariantMap>> mockProperties;
 
