@@ -90,8 +90,8 @@ QtObject {
             if (target.anyMaximized) {
                 // keep distanceX relative to the normal window width minus the window control buttons (+spacing)
                 // so that dragging it back doesn't make the window jump around to weird positions, away from the mouse pointer
-                priv.distanceX = MathUtils.clampAndProject(pos.x, 0, target.width, buttonsWidth, target.resizeArea.normalWidth);
-                priv.distanceY = MathUtils.clampAndProject(pos.y, 0, target.height, 0, target.resizeArea.normalHeight);
+                priv.distanceX = MathUtils.clampAndProject(pos.x, 0, target.width, buttonsWidth, target.normalWidth);
+                priv.distanceY = MathUtils.clampAndProject(pos.y, 0, target.height, 0, target.normalHeight);
             } else {
                 priv.distanceX = pos.x;
                 priv.distanceY = pos.y;
@@ -114,7 +114,7 @@ QtObject {
             // restore from maximized when dragging away from edges/corners; guard against inadvertent changes when going into maximized state
             if (target.anyMaximized && !target.windowedTransitionRunning) {
                 priv.progress = 0;
-                target.restore(false, WindowStateStorage.WindowStateNormal);
+                target.requestRestore();
             }
 
             var pos = mapToItem(target.parent, mouse.x, mouse.y);

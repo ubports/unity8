@@ -31,7 +31,7 @@ public:
     QObject *source() const { return m_source.data(); }
     void setSource(QObject *source);
 
-    void itemChange(ItemChange change, const ItemChangeData & value);
+    void itemChange(ItemChange change, const ItemChangeData & value) override;
 
 Q_SIGNALS:
     void sourceChanged();

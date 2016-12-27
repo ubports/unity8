@@ -57,7 +57,7 @@ Item {
                                                 touchPoints.length <= maximumTouchPoints
         onRecognizedPressChanged: {
             if (recognizedPress) {
-                target.focus = true;
+                target.activate();
                 overlayTimer.start();
             }
         }

@@ -40,6 +40,19 @@ if(cmake_build_type_lower MATCHES coverage)
   ENABLE_COVERAGE_REPORT(TARGETS ${SHELL_APP} FILTER /usr/include ${CMAKE_SOURCE_DIR}/tests/* ${CMAKE_BINARY_DIR}/*)
 endif()
 
+find_package (ECM 1.7.0 QUIET NO_MODULE)
+if (ECM_FOUND)
+    # Provides us with -DECM_ENABLE_SANITIZERS='X'
+    # Where X can be address, thread, memory, leak, undefined
+    include("${ECM_MODULE_DIR}/ECMEnableSanitizers.cmake")
+endif()
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  if (NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS "5.0.0")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wsuggest-override" )
+  endif()
+endif()
+
 # Make sure we have all the needed symbols
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,defs")
 set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,-z,defs")
@@ -57,7 +70,7 @@ find_package(Qt5DBus 5.4 REQUIRED)
 find_package(Qt5Concurrent 5.4 REQUIRED)
 find_package(Qt5Sql 5.4 REQUIRED)
 
-pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=22)
+pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=23)
 pkg_check_modules(GEONAMES REQUIRED geonames>=0.2)
 pkg_check_modules(GIO REQUIRED gio-2.0>=2.32)
 pkg_check_modules(GLIB REQUIRED glib-2.0>=2.32)

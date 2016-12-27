@@ -32,7 +32,7 @@ QtObject {
     onSurfaceChanged: {
         if (!active || !surface) return;
         if (surface.shellChrome === Mir.LowChrome) {
-            surface.state = Mir.FullscreenState;
+            surface.requestState(Mir.FullscreenState);
         }
     }
 
@@ -41,15 +41,15 @@ QtObject {
         onShellChromeChanged: {
             if (!active || !surface) return;
             if (surface.shellChrome === Mir.LowChrome) {
-                surface.state = Mir.FullscreenState;
+                surface.requestState(Mir.FullscreenState);
             } else {
-                surface.state = Mir.RestoredState;
+                surface.requestState(Mir.RestoredState);
             }
         }
         onStateChanged: {
             if (!active) return;
             if (surface.state === Mir.RestoredState && surface.shellChrome === Mir.LowChrome) {
-                surface.state = Mir.FullscreenState;
+                surface.requestState(Mir.FullscreenState);
             }
         }
     }

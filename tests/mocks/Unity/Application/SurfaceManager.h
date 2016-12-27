@@ -19,15 +19,16 @@
 
 #include <QObject>
 
+#include <unity/shell/application/SurfaceManagerInterface.h>
+
 #include "MirSurface.h"
 #include "VirtualKeyboard.h"
 
 class ApplicationInfo;
 
-class SurfaceManager : public QObject
+class SurfaceManager : public unity::shell::application::SurfaceManagerInterface
 {
     Q_OBJECT
-    Q_PROPERTY(MirSurface* inputMethodSurface READ inputMethodSurface NOTIFY inputMethodSurfaceChanged)
     Q_PROPERTY(int newSurfaceMinimumWidth READ newSurfaceMinimumWidth WRITE setNewSurfaceMinimumWidth NOTIFY newSurfaceMinimumWidthChanged)
     Q_PROPERTY(int newSurfaceMaximumWidth READ newSurfaceMaximumWidth WRITE setNewSurfaceMaximumWidth NOTIFY newSurfaceMaximumWidthChanged)
     Q_PROPERTY(int newSurfaceMinimumHeight READ newSurfaceMinimumHeight WRITE setNewSurfaceMinimumHeight NOTIFY newSurfaceMinimumHeightChanged)
@@ -41,12 +42,17 @@ public:
 
     static SurfaceManager *instance();
 
+    // SurfaceManagerInterface
+    void raise(unity::shell::application::MirSurfaceInterface *surface) override;
+    void activate(unity::shell::application::MirSurfaceInterface *surface) override;
+
     Q_INVOKABLE MirSurface* createSurface(const QString& name,
                                   Mir::Type type,
                                   Mir::State state,
                                   const QUrl& screenshot);
 
-    MirSurface* inputMethodSurface() const;
+
+    void notifySurfaceCreated(unity::shell::application::MirSurfaceInterface *);
 
     int newSurfaceMinimumWidth() const { return m_newSurfaceMinimumWidth; }
     void setNewSurfaceMinimumWidth(int value);
@@ -66,12 +72,10 @@ public:
     int newSurfaceHeightIncrement() const { return m_newSurfaceHeightIncrement; }
     void setNewSurfaceHeightIncrement(int);
 
-Q_SIGNALS:
-    void inputMethodSurfaceChanged();
-    void countChanged();
-    void surfaceCreated(MirSurface *surface);
-    void surfaceDestroyed(MirSurface*surface);
+public Q_SLOTS:
+    void createInputMethodSurface();
 
+Q_SIGNALS:
     void newSurfaceMinimumWidthChanged(int value);
     void newSurfaceMaximumWidthChanged(int value);
     void newSurfaceMinimumHeightChanged(int value);
@@ -79,9 +83,16 @@ Q_SIGNALS:
     void newSurfaceWidthIncrementChanged(int value);
     void newSurfaceHeightIncrementChanged(int value);
 
+private Q_SLOTS:
+    void onStateRequested(MirSurface *surface, Mir::State state);
+    void onSurfaceDestroyed(MirSurface *surface);
+
 private:
-    static SurfaceManager *the_surface_manager;
-    VirtualKeyboard *m_virtualKeyboard;
+    void doRaise(unity::shell::application::MirSurfaceInterface *surface);
+    void focusFirstAvailableSurface();
+    void registerSurface(MirSurface *surface);
+
+    static SurfaceManager *m_instance;
 
     int m_newSurfaceMinimumWidth{0};
     int m_newSurfaceMaximumWidth{0};
@@ -89,6 +100,13 @@ private:
     int m_newSurfaceMaximumHeight{0};
     int m_newSurfaceWidthIncrement{1};
     int m_newSurfaceHeightIncrement{1};
+
+    MirSurface *m_focusedSurface{nullptr};
+    bool m_underModification{false};
+
+    QList<MirSurface*> m_surfaces;
+
+    VirtualKeyboard *m_virtualKeyboard{nullptr};
 };
 
 #endif // SURFACEMANAGER_H
