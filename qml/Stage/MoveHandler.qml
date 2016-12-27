@@ -114,7 +114,7 @@ QtObject {
             // restore from maximized when dragging away from edges/corners; guard against inadvertent changes when going into maximized state
             if (target.anyMaximized && !target.windowedTransitionRunning) {
                 priv.progress = 0;
-                target.restore(false, WindowStateStorage.WindowStateNormal);
+                target.requestRestore();
             }
 
             var pos = mapToItem(target.parent, mouse.x, mouse.y);

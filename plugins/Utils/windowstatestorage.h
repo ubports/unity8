@@ -19,6 +19,9 @@
 #include <QMutex>
 #include <QFuture>
 
+// unity-api
+#include <unity/shell/application/Mir.h>
+
 class WindowStateStorage: public QObject
 {
     Q_OBJECT
@@ -55,6 +58,8 @@ public:
 
     Q_INVOKABLE void saveStage(const QString &appId, int stage);
     Q_INVOKABLE int getStage(const QString &appId, int defaultValue) const;
+
+    Q_INVOKABLE Mir::State toMirState(WindowState state) const;
 
 private:
     void initdb();
