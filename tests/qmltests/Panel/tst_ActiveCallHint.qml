@@ -41,6 +41,8 @@ Item {
         elapsedTimerRunning: true
     }
 
+    SurfaceManager {}
+
     ActiveCallHint {
         id: callHint
         anchors {
@@ -95,18 +97,30 @@ Item {
 
         function test_activeHint(data) {
             if (data.dialer) {
+                var dashApp = ApplicationManager.startApplication("unity8-dash");
+                tryCompare(dashApp.surfaceList, "count", 1);
+
                 var application = ApplicationManager.startApplication("dialer-app");
                 tryCompare(application.surfaceList, "count", 1);
-                MirFocusController.focusedSurface = application.surfaceList.get(0);
                 tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
                 tryCompare(application, "state", ApplicationInfoInterface.Running);
 
-                if (!data.focused) { MirFocusController.focusedSurface = null; }
+                if (!data.focused) {
+                    dashApp.surfaceList.get(0).activate();
+                    tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+                }
             }
             callManager.foregroundCall = data.call;
             callManager.callIndicatorVisible = data.visible;
 
             compare(callHint.active, data.expected, "Call hint should be active when callIndicatorVisible=true");
+
+            if (data.dialer) {
+                // clean up
+                ApplicationManager.stopApplication("dialer-app");
+                ApplicationManager.stopApplication("unity8-dash");
+                tryCompare(ApplicationManager, "count", 0);
+            }
         }
 
         function test_currentCall_data() {
