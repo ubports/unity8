@@ -23,6 +23,9 @@ import Unity.Application 0.1
 QtObject {
     id: root
 
+    // to be set from outside
+    property var focusedSurface: null
+
     property GlobalShortcut shortcutNext: GlobalShortcut {
         shortcut: Qt.MetaModifier|Qt.Key_Space
         onTriggered: root.nextKeymap()
@@ -66,7 +69,7 @@ QtObject {
     }
 
     property Binding surfaceKeymapBinding: Binding { // NB: needed mainly for xmir & libertine apps
-        target: MirFocusController.focusedSurface
+        target: root.focusedSurface
         property: "keymap"
         value: root.currentKeymap
     }

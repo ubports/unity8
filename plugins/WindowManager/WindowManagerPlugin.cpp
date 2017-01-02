@@ -16,13 +16,16 @@
 
 #include "WindowManagerPlugin.h"
 
-#include "TopLevelSurfaceList.h"
+#include "TopLevelWindowModel.h"
+#include "Window.h"
 
 #include <QtQml>
 
 void WindowManagerPlugin::registerTypes(const char *uri)
 {
-    qmlRegisterType<TopLevelSurfaceList>(uri, 0, 1, "TopLevelSurfaceList");
+    qmlRegisterType<TopLevelWindowModel>(uri, 1, 0, "TopLevelWindowModel");
+
+    qRegisterMetaType<Window*>("Window*");
 
     qRegisterMetaType<QAbstractListModel*>("QAbstractListModel*");
 }

@@ -142,7 +142,7 @@ Item {
         }
     }
 
-    UT.UnityTestCase {
+    UT.StageTestCase {
         id: testCase
         name: "ShellWithPin"
         when: windowShown
@@ -161,10 +161,19 @@ Item {
             var panel = findChild(launcher, "launcherPanel");
             verify(!!panel);
             panel.dismissTimer = fakeDismissTimer;
+
+            // from StageTestCase
+            stage = findChild(shell, "stage");
+            topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
+            verify(topLevelSurfaceList);
+
+            startApplication("unity8-dash");
         }
 
         function cleanup() {
             tryCompare(shell, "waitingOnGreeter", false); // make sure greeter didn't leave us in disabled state
+
+            topLevelSurfaceList = null;
 
             shellLoader.itemDestroyed = false
 
@@ -301,13 +310,15 @@ Item {
         }
 
         function test_emergencyCallCrash() {
+            var dialerSurfaceId = topLevelSurfaceList.nextId;
             var greeter = findChild(shell, "greeter");
             var emergencyButton = findChild(greeter, "emergencyCallLabel");
             tap(emergencyButton)
-
+            tryCompare(topLevelSurfaceList, "count", 2);
+            waitUntilAppWindowIsFullyLoaded(dialerSurfaceId);
 
             tryCompare(greeter, "shown", false);
-            killApps() // kill dialer-app, as if it crashed
+            ApplicationManager.stopApplication("dialer-app"); // kill dialer-app, as if it crashed
             tryCompare(greeter, "shown", true);
             tryCompare(findChild(greeter, "lockscreen"), "shown", true);
             tryCompare(findChild(greeter, "coverPage"), "shown", false);
@@ -319,7 +330,7 @@ Item {
             tap(emergencyButton)
 
             tryCompare(greeter, "shown", false);
-            ApplicationManager.startApplication("gallery-app", ApplicationManager.NoFlag)
+            startApplication("gallery-app");
             tryCompare(greeter, "shown", true);
         }
 
@@ -406,7 +417,7 @@ Item {
             compare(stage.usageScenario, "phone");
 
             // And when we kill the app, we go back to locked tablet mode
-            killApps()
+            ApplicationManager.stopApplication("dialer-app");
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "fullyShown", true)
             compare(stage.usageScenario, "tablet");
@@ -457,7 +468,7 @@ Item {
             tryCompare(greeter, "shown", false);
             tryCompare(LightDM.Greeter, "active", false);
 
-            ApplicationManager.startApplication("dialer-app", ApplicationManager.NoFlag);
+            startApplication("dialer-app");
             tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
             callManager.foregroundCall = phoneCall;
 
@@ -476,9 +487,7 @@ Item {
         function test_focusRequestedHidesCoverPage() {
             showGreeter();
 
-            var app = ApplicationManager.startApplication("gallery-app");
-            // wait until the app is fully loaded (ie, real surface replaces splash screen)
-            tryCompareFunction(function() { return app.session !== null && app.surfaceList.count > 0 }, true);
+            startApplication("gallery-app");
 
             // New app hides coverPage?
             var greeter = findChild(shell, "greeter");
