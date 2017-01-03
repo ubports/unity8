@@ -33,6 +33,8 @@ IndicatorTest {
 
     Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark"
 
+    SurfaceManager {}
+
     Binding {
         target: mouseEmulation
         property: "checked"
@@ -470,7 +472,9 @@ IndicatorTest {
 
             callManager.foregroundCall = phoneCall;
 
-            MirFocusController.focusedSurface = ApplicationManager.findApplication("unity8-dash").surfaceList.get(0);
+            var dashApp = ApplicationManager.startApplication("unity8-dash");
+            tryCompare(dashApp.surfaceList, "count", 1);
+            dashApp.surfaceList.get(0).activate();
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
 
             mouseClick(panel.indicators,
@@ -479,6 +483,9 @@ IndicatorTest {
 
             compare(panel.indicators.shown, false);
             verify(panel.indicators.fullyClosed);
+
+            // clean up
+            ApplicationManager.stopApplication("unity8-dash");
         }
 
         function test_openAndClosePanelWithMouseClicks() {

@@ -23,6 +23,8 @@ Item {
 
     readonly property rect visibleRect: surfaceItem.surface && visible ? surfaceItem.surface.inputBounds : Qt.rect(0, 0, 0, 0)
 
+    property var surface
+
     MirSurfaceItem {
         id: surfaceItem
         anchors.fill: parent
@@ -31,7 +33,7 @@ Item {
 
         surfaceWidth: root.enabled ? width : -1
         surfaceHeight: root.enabled ? height : -1
-        surface: SurfaceManager.inputMethodSurface
+        surface: root.surface
 
         onLiveChanged: {
             if (surface !== null && !live) {
@@ -50,7 +52,6 @@ Item {
     }
 
     visible: surfaceItem.surface &&
-              surfaceItem.surfaceState != Mir.HiddenState &&
-              surfaceItem.surfaceState != Mir.MinimizedState &&
-              root.enabled
+             surfaceItem.surface.visible &&
+             root.enabled
 }
