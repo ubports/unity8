@@ -42,7 +42,11 @@ Item {
         value: false
     }
 
-    ApplicationMenuDataLoader { id: appMenuData }
+    SurfaceManager { id: sMgr }
+    ApplicationMenuDataLoader {
+        id: appMenuData
+        surfaceManager: sMgr
+    }
 
     Rectangle {
         anchors {

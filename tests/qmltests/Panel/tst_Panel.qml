@@ -42,9 +42,11 @@ PanelTest {
         value: keyboardAttached.checked
     }
 
-    ApplicationMenuDataLoader { id: appMenuData }
-
-    SurfaceManager {}
+    SurfaceManager { id: sMgr }
+    ApplicationMenuDataLoader {
+        id: appMenuData
+        surfaceManager: sMgr
+    }
 
     Component.onCompleted: {
         theme.name = "Ubuntu.Components.Themes.SuruDark"

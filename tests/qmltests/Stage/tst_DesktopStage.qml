@@ -60,10 +60,11 @@ Item {
         }
     }
 
-
-    ApplicationMenuDataLoader { }
-
     SurfaceManager { id: sMgr }
+    ApplicationMenuDataLoader {
+        id: appMenuData
+        surfaceManager: sMgr
+    }
 
     TopLevelWindowModel {
         id: topSurfaceList
@@ -150,11 +151,6 @@ Item {
                 SurfaceManagerControls { }
             }
         }
-    }
-
-    SignalSpy {
-        id: mouseEaterSpy
-        target: clickThroughTester
     }
 
     StageTestCase {

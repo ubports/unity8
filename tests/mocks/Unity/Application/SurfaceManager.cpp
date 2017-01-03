@@ -83,7 +83,7 @@ void SurfaceManager::registerSurface(MirSurface *surface)
         this->onStateRequested(surface, state);
     });
 
-    const QString persistentId = m_virtualKeyboard->persistentId();
+    const QString persistentId = surface->persistentId();
     connect(surface, &QObject::destroyed, this, [=]() {
         this->onSurfaceDestroyed(surface, persistentId);
     });
@@ -225,7 +225,7 @@ void SurfaceManager::onStateRequested(MirSurface *surface, Mir::State state)
     DEBUG_MSG("("<<surface<<","<<state<<") ended");
 }
 
-void SurfaceManager::onSurfaceDestroyed(const QString& persistentId, MirSurface *surface)
+void SurfaceManager::onSurfaceDestroyed(MirSurface *surface, const QString& persistentId)
 {
     m_surfaces.removeAll(surface);
     if (m_focusedSurface == surface) {

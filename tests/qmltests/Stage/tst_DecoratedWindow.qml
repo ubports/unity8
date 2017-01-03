@@ -46,7 +46,11 @@ Rectangle {
         value: false
     }
 
-    ApplicationMenuDataLoader { }
+    SurfaceManager { id: sMgr }
+    ApplicationMenuDataLoader {
+        id: appMenuData
+        surfaceManager: sMgr
+    }
 
     Item {
         id: fakeShell

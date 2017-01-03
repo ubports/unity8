@@ -53,7 +53,11 @@ Rectangle {
         shellLoader.active = true;
     }
 
-    ApplicationMenuDataLoader {}
+    SurfaceManager { id: sMgr }
+    ApplicationMenuDataLoader {
+        id: appMenuData
+        surfaceManager: sMgr
+    }
 
     property var shell: shellLoader.item ? shellLoader.item : null
     onShellChanged: {

@@ -47,7 +47,11 @@ Item {
         property string name: "webbrowser"
     }
 
-    ApplicationMenuDataLoader { id: menuData }
+    SurfaceManager { id: sMgr }
+    ApplicationMenuDataLoader {
+        id: appMenuData
+        surfaceManager: sMgr
+    }
 
     UnityMenuModel {
         id: menuBackend

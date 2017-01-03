@@ -31,9 +31,11 @@ Item {
 
     property var greeter: { fullyShown: true }
 
-    ApplicationMenuDataLoader { }
-
     SurfaceManager { id: sMgr }
+    ApplicationMenuDataLoader {
+        id: appMenuData
+        surfaceManager: sMgr
+    }
 
     Stage {
         id: stage
