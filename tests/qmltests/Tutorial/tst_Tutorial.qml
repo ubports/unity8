@@ -222,11 +222,11 @@ Rectangle {
                 CheckBox {
                     activeFocusOnPress: false
                     onCheckedChanged: {
-                        var surface = SurfaceManager.inputMethodSurface;
+                        var surface = topLevelSurfaceList.inputMethodSurface;
                         if (checked) {
-                            surface.setState(Mir.RestoredState);
+                            surface.requestState(Mir.RestoredState);
                         } else {
-                            surface.setState(Mir.MinimizedState);
+                            surface.requestState(Mir.MinimizedState);
                         }
                     }
                 }
@@ -246,7 +246,7 @@ Rectangle {
         }
     }
 
-    UT.UnityTestCase {
+    UT.StageTestCase {
         id: testCase
         name: "Tutorial"
         when: windowShown
@@ -254,6 +254,14 @@ Rectangle {
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
         property real halfWidth: shell ?  shell.width / 2 : 0
         property real halfHeight: shell ? shell.height / 2 : 0
+
+        onShellChanged: {
+            if (shell) {
+                topLevelSurfaceList = testCase.findInvisibleChild(shell, "topLevelSurfaceList");
+            } else {
+                topLevelSurfaceList = null;
+            }
+        }
 
         function init() {
             prepareShell();
@@ -299,18 +307,30 @@ Rectangle {
             tryCompare(shell, "waitingOnGreeter", false); // reset by greeter when ready
 
             WindowStateStorage.clear();
-            SurfaceManager.inputMethodSurface.setState(Mir.MinimizedState);
+            //topLevelSurfaceList.inputMethodSurface.setState(Mir.MinimizedState);
             callManager.foregroundCall = null;
             AccountsService.demoEdges = false;
             AccountsService.demoEdgesCompleted = [];
             AccountsService.demoEdges = true;
 
             LightDM.Greeter.hideGreeter();
+
+            stage = findChild(shell, "stage"); // from StageTestCase
+
+            startApplication("unity8-dash");
         }
 
         function loadShell(state) {
             resetLoader(state);
             prepareShell();
+        }
+
+        function ensureInputMethodSurface() {
+            var surfaceManager = findInvisibleChild(shell, "surfaceManager");
+            verify(surfaceManager);
+            surfaceManager.createInputMethodSurface();
+
+            tryCompareFunction(function() { return topLevelSurfaceList.inputMethodSurface !== null }, true);
         }
 
         function swipeAwayGreeter() {
@@ -711,8 +731,9 @@ Rectangle {
             var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
             verify(tutorialLeftLoader.shown);
 
-            var surface = SurfaceManager.inputMethodSurface;
-            surface.setState(Mir.RestoredState);
+            ensureInputMethodSurface();
+            var surface = topLevelSurfaceList.inputMethodSurface;
+            surface.requestState(Mir.RestoredState);
 
             var inputMethod = findInvisibleChild(shell, "inputMethod");
             tryCompare(inputMethod, "visible", true);
@@ -724,7 +745,8 @@ Rectangle {
             var tutorial = findChild(shell, "tutorial");
             verify(!tutorial.delayed);
 
-            SurfaceManager.inputMethodSurface.setState(Mir.RestoredState);
+            ensureInputMethodSurface();
+            topLevelSurfaceList.inputMethodSurface.requestState(Mir.RestoredState);
 
             tryCompare(tutorial, "delayed", true);
         }

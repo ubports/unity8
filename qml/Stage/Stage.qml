@@ -118,8 +118,7 @@ FocusScope {
         }
     }
 
-    property Item itemConfiningMouseCursor: !spreadShown && priv.focusedAppDelegate && priv.focusedAppDelegate.surface &&
-                              priv.focusedAppDelegate.surface.confinesMousePointer ?
+    property Item itemConfiningMouseCursor: !spreadShown && priv.focusedAppDelegate && priv.focusedAppDelegate.window.confinesMousePointer ?
                               priv.focusedAppDelegate.clientAreaItem : null;
 
     signal itemSnapshotRequested(Item item)
@@ -186,29 +185,34 @@ FocusScope {
     GlobalShortcut {
         id: maximizeWindowShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Up
-        onTriggered: priv.focusedAppDelegate.maximize()
+        onTriggered: priv.focusedAppDelegate.requestMaximize()
         active: root.state == "windowed" && priv.focusedAppDelegate && priv.focusedAppDelegate.canBeMaximized
     }
 
     GlobalShortcut {
         id: maximizeWindowLeftShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Left
-        onTriggered: priv.focusedAppDelegate.maximizeLeft()
+        onTriggered: priv.focusedAppDelegate.requestMaximizeLeft()
         active: root.state == "windowed" && priv.focusedAppDelegate && priv.focusedAppDelegate.canBeMaximizedLeftRight
     }
 
     GlobalShortcut {
         id: maximizeWindowRightShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Right
-        onTriggered: priv.focusedAppDelegate.maximizeRight()
+        onTriggered: priv.focusedAppDelegate.requestMaximizeRight()
         active: root.state == "windowed" && priv.focusedAppDelegate && priv.focusedAppDelegate.canBeMaximizedLeftRight
     }
 
     GlobalShortcut {
         id: minimizeRestoreShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Down
-        onTriggered: priv.focusedAppDelegate.anyMaximized
-                     ? priv.focusedAppDelegate.restoreFromMaximized() : priv.focusedAppDelegate.minimize()
+        onTriggered: {
+            if (priv.focusedAppDelegate.anyMaximized) {
+                priv.focusedAppDelegate.requestRestore();
+            } else {
+                priv.focusedAppDelegate.requestMinimize();
+            }
+        }
         active: root.state == "windowed" && priv.focusedAppDelegate
     }
 
@@ -244,20 +248,10 @@ FocusScope {
         }
 
         function minimizeAllWindows() {
-            for (var i = 0; i < appRepeater.count; i++) {
+            for (var i = appRepeater.count - 1; i >= 0; i--) {
                 var appDelegate = appRepeater.itemAt(i);
                 if (appDelegate && !appDelegate.minimized) {
-                    appDelegate.minimize();
-                }
-            }
-        }
-
-        function focusNext() {
-            for (var i = 0; i < appRepeater.count; i++) {
-                var appDelegate = appRepeater.itemAt(i);
-                if (appDelegate && !appDelegate.minimized) {
-                    appDelegate.focus = true;
-                    return;
+                    appDelegate.requestMinimize();
                 }
             }
         }
@@ -358,8 +352,8 @@ FocusScope {
     Connections {
         target: PanelState
         onCloseClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.close(); } }
-        onMinimizeClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.minimize(); } }
-        onRestoreClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.restoreFromMaximized(); } }
+        onMinimizeClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.requestMinimize(); } }
+        onRestoreClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.requestRestore(); } }
     }
 
     Binding {
@@ -432,13 +426,6 @@ FocusScope {
                             : false
             }
         }
-    }
-
-    Binding {
-        target: MirFocusController
-        property: "focusedSurface"
-        value: priv.focusedAppDelegate ? priv.focusedAppDelegate.focusedSurface : null
-        when: !appRepeater.startingUp && root.parent
     }
 
     states: [
@@ -633,7 +620,7 @@ FocusScope {
 
             onShownChanged: {
                 if (!shown && priv.mainStageDelegate && !root.spreadShown) {
-                    priv.mainStageDelegate.claimFocus();
+                    priv.mainStageDelegate.activate();
                 }
             }
 
@@ -666,14 +653,23 @@ FocusScope {
             }
         }
 
-        TopLevelSurfaceRepeater {
+        Repeater {
             id: appRepeater
             model: topLevelSurfaceList
             objectName: "appRepeater"
 
+            function indexOf(delegateItem) {
+                for (var i = 0; i < count; i++) {
+                    if (itemAt(i) === delegateItem) {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+
             delegate: FocusScope {
                 id: appDelegate
-                objectName: "appDelegate_" + model.id
+                objectName: "appDelegate_" + model.window.id
                 property int itemIndex: index // We need this from outside the repeater
                 // z might be overriden in some cases by effects, but we need z ordering
                 // to calculate occlusion detection
@@ -685,11 +681,11 @@ FocusScope {
                 }
                 z: normalZ
 
-                // Normally we want x/y where we request it to be. Width/height of our delegate will
+                // Normally we want x/y where the surface thinks it is. Width/height of our delegate will
                 // match what the actual surface size is.
                 // Don't write to those, they will be set by states
-                x: requestedX
-                y: requestedY
+                x: model.window.position.x - clientAreaItem.x
+                y: model.window.position.y - clientAreaItem.y
                 width: decoratedWindow.implicitWidth
                 height: decoratedWindow.implicitHeight
 
@@ -699,6 +695,12 @@ FocusScope {
                 property real requestedY: windowedY
                 property real requestedWidth: windowedWidth
                 property real requestedHeight: windowedHeight
+                Binding {
+                    target: model.window; property: "requestedPosition"
+                    // miral doesn't know about our window decorations. So we have to deduct them
+                    value: Qt.point(appDelegate.requestedX + appDelegate.clientAreaItem.x,
+                                    appDelegate.requestedY + appDelegate.clientAreaItem.y)
+                }
 
                 // In those are for windowed mode. Those values basically store the window's properties
                 // when having a floating window. If you want to move/resize a window in normal mode, this is what you want to write to.
@@ -790,7 +792,7 @@ FocusScope {
                                                      maximizedTopLeft || maximizedTopRight || maximizedBottomLeft || maximizedBottomRight
 
                 readonly property bool minimized: windowState & WindowStateStorage.WindowStateMinimized
-                readonly property bool fullscreen: surface ? surface.state === Mir.FullscreenState : application.fullscreen
+                readonly property bool fullscreen: window.state === Mir.FullscreenState
 
                 readonly property bool canBeMaximized: canBeMaximizedHorizontally && canBeMaximizedVertically
                 readonly property bool canBeMaximizedLeftRight: (maximumWidth == 0 || maximumWidth >= appContainer.width/2) &&
@@ -816,7 +818,9 @@ FocusScope {
                     priv.updateMainAndSideStageIndexes()
                 }
 
-                readonly property var surface: model.surface
+                readonly property var surface: model.window.surface
+                readonly property var window: model.window
+
                 readonly property alias resizeArea: resizeArea
                 readonly property alias focusedSurface: decoratedWindow.focusedSurface
                 readonly property bool dragging: touchControls.overlayShown ? touchControls.dragging : decoratedWindow.dragging
@@ -824,6 +828,25 @@ FocusScope {
                 readonly property string appId: model.application.appId
                 readonly property bool isDash: appId == "unity8-dash"
                 readonly property alias clientAreaItem: decoratedWindow.clientAreaItem
+
+                function activate() {
+                    if (model.window.focused) {
+                        updateQmlFocusFromMirSurfaceFocus();
+                    } else {
+                        model.window.activate();
+                    }
+                }
+                function requestMaximize() { model.window.requestState(Mir.MaximizedState); }
+                function requestMaximizeVertically() { model.window.requestState(Mir.VertMaximizedState); }
+                function requestMaximizeHorizontally() { model.window.requestState(Mir.HorizMaximizedState); }
+                function requestMaximizeLeft() { model.window.requestState(Mir.MaximizedLeftState); }
+                function requestMaximizeRight() { model.window.requestState(Mir.MaximizedRightState); }
+                function requestMaximizeTopLeft() { model.window.requestState(Mir.MaximizedTopLeftState); }
+                function requestMaximizeTopRight() { model.window.requestState(Mir.MaximizedTopRightState); }
+                function requestMaximizeBottomLeft() { model.window.requestState(Mir.MaximizedBottomLeftState); }
+                function requestMaximizeBottomRight() { model.window.requestState(Mir.MaximizedBottomRightState); }
+                function requestMinimize() { model.window.requestState(Mir.MinimizedState); }
+                function requestRestore() { model.window.requestState(Mir.RestoredState); }
 
                 function claimFocus() {
                     if (root.state == "spread") {
@@ -836,43 +859,16 @@ FocusScope {
                         }
                         priv.updateMainAndSideStageIndexes();
                     }
-
                     if (root.mode == "windowed") {
                         appDelegate.restore(true /* animated */, appDelegate.windowState);
-                    } else {
-                        appDelegate.focus = true;
                     }
+                    appDelegate.focus = true;
                 }
-                Connections {
-                    target: model.surface
-                    onFocusRequested: {
+
+                function updateQmlFocusFromMirSurfaceFocus() {
+                    if (model.window.focused) {
                         claimFocus();
-                    }
-                }
-                Connections {
-                    target: model.application
-                    onFocusRequested: {
-                        if (!model.surface) {
-                            // when an app has no surfaces, we assume there's only one entry representing it:
-                            // this delegate.
-                            claimFocus();
-                        } else {
-                            // if the application has surfaces, focus request should be at surface-level.
-                        }
-                    }
-                }
-
-                onFocusChanged: {
-                    if (appRepeater.startingUp)
-                        return;
-
-                    if (focus) {
-                        topLevelSurfaceList.raiseId(model.id);
                         priv.focusedAppDelegate = appDelegate;
-                    } else if (!focus && priv.focusedAppDelegate === appDelegate && root.state != "spread") {
-                        priv.focusedAppDelegate = null;
-                        // FIXME: No idea why the Binding{} doens't update when focusedAppDelegate turns null
-                        MirFocusController.focusedSurface = null;
                     }
                 }
 
@@ -883,6 +879,41 @@ FocusScope {
                     screenHeight: appContainer.height
                     leftMargin: root.leftMargin
                     minimumY: PanelState.panelHeight
+                }
+
+                Connections {
+                    target: model.window
+                    onFocusedChanged: {
+                        updateQmlFocusFromMirSurfaceFocus();
+                    }
+                    onFocusRequested: {
+                        appDelegate.activate();
+                    }
+                    onStateChanged: {
+                        if (model.window.state === Mir.MinimizedState) {
+                            appDelegate.minimize();
+                        } else if (model.window.state === Mir.MaximizedState) {
+                            appDelegate.maximize();
+                        } else if (model.window.state === Mir.VertMaximizedState) {
+                            appDelegate.maximizeVertically();
+                        } else if (model.window.state === Mir.HorizMaximizedState) {
+                            appDelegate.maximizeHorizontally();
+                        } else if (model.window.state === Mir.MaximizedLeftState) {
+                            appDelegate.maximizeLeft();
+                        } else if (model.window.state === Mir.MaximizedRightState) {
+                            appDelegate.maximizeRight();
+                        } else if (model.window.state === Mir.MaximizedTopLeftState) {
+                            appDelegate.maximizeTopLeft();
+                        } else if (model.window.state === Mir.MaximizedTopRightState) {
+                            appDelegate.maximizeTopRight();
+                        } else if (model.window.state === Mir.MaximizedBottomLeftState) {
+                            appDelegate.maximizeBottomLeft();
+                        } else if (model.window.state === Mir.MaximizedBottomRightState) {
+                            appDelegate.maximizeBottomRight();
+                        } else if (model.window.state === Mir.RestoredState) {
+                            appDelegate.restore();
+                        }
+                    }
                 }
 
                 Component.onCompleted: {
@@ -897,17 +928,9 @@ FocusScope {
                     windowedY = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedY + units.gu(3) : normalZ * units.gu(3)
                     // Now load any saved state. This needs to happen *after* the cascading!
                     windowStateSaver.load();
+                    model.window.requestState(WindowStateStorage.toMirState(windowState));
 
-                    // NB: We're differentiating if this delegate was created in response to a new entry in the model
-                    //     or if the Repeater is just populating itself with delegates to match the model it received.
-                    if (!appRepeater.startingUp) {
-                        // a top level window is always the focused one when it first appears, unfocusing
-                        // any preexisting one
-                        if (root.state == "spread") {
-                            spreadItem.highlightedIndex = index;
-                        }
-                        claimFocus();
-                    }
+                    updateQmlFocusFromMirSurfaceFocus();
 
                     refreshStage();
                     _constructing = false;
@@ -922,17 +945,6 @@ FocusScope {
 
                     if (visuallyMaximized) {
                         priv.updateForegroundMaximizedApp();
-                    }
-
-                    if (focus) {
-                        // focus some other window
-                        for (var i = 0; i < appRepeater.count; i++) {
-                            var appDelegate = appRepeater.itemAt(i);
-                            if (appDelegate && !appDelegate.minimized && i != index) {
-                                appDelegate.focus = true;
-                                return;
-                            }
-                        }
                     }
                 }
 
@@ -954,7 +966,7 @@ FocusScope {
                          || focusAnimation.running || rightEdgeFocusAnimation.running || hidingAnimation.running
 
                 function close() {
-                    model.surface.close();
+                    model.window.close();
                 }
 
                 function maximize(animated) {
@@ -997,15 +1009,10 @@ FocusScope {
                     animationsEnabled = (animated === undefined) || animated;
                     windowState |= WindowStateStorage.WindowStateMinimized; // add the minimized bit
                 }
-                function restoreFromMaximized(animated) {
-                    animationsEnabled = (animated === undefined) || animated;
-                    windowState = WindowStateStorage.WindowStateRestored;
-                }
                 function restore(animated,state) {
                     animationsEnabled = (animated === undefined) || animated;
                     windowState = state || WindowStateStorage.WindowStateRestored;
                     windowState &= ~WindowStateStorage.WindowStateMinimized; // clear the minimized bit
-                    focus = true;
                 }
 
                 function playFocusAnimation() {
@@ -1019,7 +1026,7 @@ FocusScope {
                             rightEdgeFocusAnimation.start()
                         }
                     } else if (state == "windowedRightEdge" || state == "windowed") {
-                        claimFocus();
+                        activate();
                     } else {
                         focusAnimation.start()
                     }
@@ -1057,10 +1064,10 @@ FocusScope {
                     to: 1
                     duration: UbuntuAnimation.SnapDuration
                     onStarted: {
-                        topLevelSurfaceList.raiseId(model.id);
+                        topLevelSurfaceList.raiseId(model.window.id);
                     }
                     onStopped: {
-                        appDelegate.claimFocus();
+                        appDelegate.activate();
                     }
                 }
                 ParallelAnimation {
@@ -1070,7 +1077,7 @@ FocusScope {
                     UbuntuNumberAnimation { target: decoratedWindow; properties: "angle"; to: 0; duration: priv.animationDuration }
                     UbuntuNumberAnimation { target: decoratedWindow; properties: "itemScale"; to: 1; duration: priv.animationDuration }
                     onStopped: {
-                        appDelegate.focus = true
+                        appDelegate.activate();
                     }
                 }
                 ParallelAnimation {
@@ -1321,14 +1328,8 @@ FocusScope {
                         }
                     },
                     State {
-                        name: "semiMaximized"
-                        PropertyChanges { target: touchControls; enabled: true }
-                        PropertyChanges { target: resizeArea; enabled: true }
-                        PropertyChanges { target: decoratedWindow; shadowOpacity: .3 }
-                    },
-                    State {
                         name: "maximizedLeft"; when: appDelegate.maximizedLeft && !appDelegate.minimized
-                        extend: "semiMaximized"
+                        extend: "normal"
                         PropertyChanges {
                             target: appDelegate
                             windowedX: root.leftMargin
@@ -1347,7 +1348,7 @@ FocusScope {
                     },
                     State {
                         name: "maximizedTopLeft"; when: appDelegate.maximizedTopLeft && !appDelegate.minimized
-                        extend: "semiMaximized"
+                        extend: "normal"
                         PropertyChanges {
                             target: appDelegate
                             windowedX: root.leftMargin
@@ -1366,7 +1367,7 @@ FocusScope {
                     },
                     State {
                         name: "maximizedBottomLeft"; when: appDelegate.maximizedBottomLeft && !appDelegate.minimized
-                        extend: "semiMaximized"
+                        extend: "normal"
                         PropertyChanges {
                             target: appDelegate
                             windowedX: root.leftMargin
@@ -1385,15 +1386,15 @@ FocusScope {
                     },
                     State {
                         name: "maximizedHorizontally"; when: appDelegate.maximizedHorizontally && !appDelegate.minimized
-                        extend: "semiMaximized"
-                        PropertyChanges { target: appDelegate; requestedX: root.leftMargin; requestedY: windowedY;
-                            requestedWidth: appContainer.width - root.leftMargin; requestedHeight: appDelegate.windowedHeight }
+                        extend: "normal"
+                        PropertyChanges { target: appDelegate; windowedX: root.leftMargin; windowedY: windowedY;
+                            windowedWidth: appContainer.width - root.leftMargin; windowedHeight: windowedHeight }
                     },
                     State {
                         name: "maximizedVertically"; when: appDelegate.maximizedVertically && !appDelegate.minimized
-                        extend: "semiMaximized"
-                        PropertyChanges { target: appDelegate; requestedX: windowedX; requestedY: PanelState.panelHeight;
-                            requestedWidth: appDelegate.windowedWidth; requestedHeight: appContainer.height - PanelState.panelHeight }
+                        extend: "normal"
+                        PropertyChanges { target: appDelegate; windowedX: windowedX; windowedY: PanelState.panelHeight;
+                            windowedWidth: windowedWidth; windowedHeight: appContainer.height - PanelState.panelHeight }
                     },
                     State {
                         name: "minimized"; when: appDelegate.minimized
@@ -1420,28 +1421,12 @@ FocusScope {
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedX,requestedY,requestedWidth,requestedHeight"; duration: priv.animationDuration}
                     },
                     Transition {
-                        from: "maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight,minimized";
-                        to: "normal,restored"
-                        enabled: appDelegate.animationsEnabled
-                        PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
-                        UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,windowedX,windowedY,requestedWidth,requestedHeight,windowedWidth,windowedHeight,scale";
-                            duration: priv.animationDuration }
-                    },
-                    Transition {
                         to: "minimized"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         SequentialAnimation {
                             UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,opacity,scale,requestedWidth,requestedHeight" }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
-                            ScriptAction {
-                                script: {
-                                    if (appDelegate.minimized) {
-                                        appDelegate.focus = false;
-                                        priv.focusNext();
-                                    }
-                                }
-                            }
                         }
                     },
                     Transition {
@@ -1494,8 +1479,8 @@ FocusScope {
                     },
                     Transition {
                         id: windowedTransition
-                        from: "normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
-                        to: "normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
+                        from: ",normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen,minimized"
+                        to: ",normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
                         enabled: appDelegate.animationsEnabled
                         SequentialAnimation {
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
@@ -1531,7 +1516,7 @@ FocusScope {
                     visible: enabled
 
                     onPressed: {
-                        appDelegate.focus = true;
+                        appDelegate.activate();
                     }
                 }
 
@@ -1541,7 +1526,7 @@ FocusScope {
                     anchors.left: appDelegate.left
                     anchors.top: appDelegate.top
                     application: model.application
-                    surface: model.surface
+                    surface: model.window.surface
                     active: appDelegate.focus
                     focus: true
                     interactive: root.interactive
@@ -1566,21 +1551,21 @@ FocusScope {
                     onCloseClicked: { appDelegate.close(); }
                     onMaximizeClicked: {
                         if (appDelegate.canBeMaximized) {
-                            appDelegate.anyMaximized ? appDelegate.restoreFromMaximized() : appDelegate.maximize();
+                            appDelegate.anyMaximized ? appDelegate.requestRestore() : appDelegate.requestMaximize();
                         }
                     }
                     onMaximizeHorizontallyClicked: {
                         if (appDelegate.canBeMaximizedHorizontally) {
-                            appDelegate.maximizedHorizontally ? appDelegate.restoreFromMaximized() : appDelegate.maximizeHorizontally()
+                            appDelegate.maximizedHorizontally ? appDelegate.requestRestore() : appDelegate.requestMaximizeHorizontally()
                         }
                     }
                     onMaximizeVerticallyClicked: {
                         if (appDelegate.canBeMaximizedVertically) {
-                            appDelegate.maximizedVertically ? appDelegate.restoreFromMaximized() : appDelegate.maximizeVertically()
+                            appDelegate.maximizedVertically ? appDelegate.requestRestore() : appDelegate.requestMaximizeVertically()
                         }
                     }
-                    onMinimizeClicked: appDelegate.minimize()
-                    onDecorationPressed: { appDelegate.focus = true; }
+                    onMinimizeClicked: { appDelegate.requestMinimize(); }
+                    onDecorationPressed: { appDelegate.activate(); }
                     onDecorationReleased: fakeRectangle.commit();
 
                     property real angle: 0
@@ -1627,12 +1612,12 @@ FocusScope {
                 WindowedFullscreenPolicy {
                     id: windowedFullscreenPolicy
                     active: root.mode == "windowed"
-                    surface: model.surface
+                    surface: model.window.surface
                 }
                 StagedFullscreenPolicy {
                     id: stagedFullscreenPolicy
                     active: root.mode == "staged" || root.mode == "stagedWithSideStage"
-                    surface: model.surface
+                    surface: model.window.surface
                 }
 
                 SpreadDelegateInputArea {
@@ -1645,16 +1630,13 @@ FocusScope {
                     onClicked: {
                         spreadItem.highlightedIndex = index;
                         if (distance == 0) {
+                            model.window.activate();
                             priv.goneToSpread = false;
                         }
                     }
                     onClose: {
                         priv.closingIndex = index
-                        if (model.surface) { // could be stopped by OOM
-                            model.surface.close()
-                        } else if (model.application) {
-                            root.applicationManager.stopApplication(model.application.appId);
-                        }
+                        model.window.close();
                     }
                 }
 
