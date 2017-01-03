@@ -98,19 +98,19 @@ Rectangle {
     function commit() {
         if (progress > hintThreshold && edge != -1) {
             if (edge == Item.Top) {
-                target.maximize();
+                target.requestMaximize();
             } else if (edge == Item.Left) {
-                target.maximizeLeft();
+                target.requestMaximizeLeft();
             } else if (edge == Item.Right) {
-                target.maximizeRight();
+                target.requestMaximizeRight();
             } else if (edge == Item.TopLeft) {
-                target.maximizeTopLeft();
+                target.requestMaximizeTopLeft();
             } else if (edge == Item.TopRight) {
-                target.maximizeTopRight();
+                target.requestMaximizeTopRight();
             } else if (edge == Item.BottomLeft) {
-                target.maximizeBottomLeft();
+                target.requestMaximizeBottomLeft();
             } else if (edge == Item.BottomRight) {
-                target.maximizeBottomRight();
+                target.requestMaximizeBottomRight();
             }
         } else {
             stop();
