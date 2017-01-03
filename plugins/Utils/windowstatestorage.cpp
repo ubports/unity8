@@ -33,9 +33,10 @@ inline QString sanitiseString(QString string) {
                  .remove(QLatin1Char('\\'));
 }
 
-WindowStateStorage::WindowStateStorage(QObject *parent):
+WindowStateStorage::WindowStateStorage(QObject *parent, bool testMode):
     QObject(parent)
 {
+    QStandardPaths::setTestModeEnabled(testMode);
     const QString dbPath = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QStringLiteral("/unity8/");
     m_db = QSqlDatabase::addDatabase(QStringLiteral("QSQLITE"));
     QDir dir;

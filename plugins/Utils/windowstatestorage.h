@@ -47,7 +47,7 @@ public:
     Q_FLAG(WindowStates)
 #endif
 
-    WindowStateStorage(QObject *parent = nullptr);
+    WindowStateStorage(QObject *parent = nullptr, bool testMode = false);
     virtual ~WindowStateStorage();
 
     Q_INVOKABLE void saveState(const QString &windowId, WindowState state);
