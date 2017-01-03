@@ -40,4 +40,3 @@ void TabFocusFenceItem::keyReleaseEvent(QKeyEvent *event)
         event->accept();
     }
 }
-
