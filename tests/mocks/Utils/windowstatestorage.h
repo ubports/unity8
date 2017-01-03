@@ -18,6 +18,9 @@
 #include <QVariantMap>
 #include <QRect>
 
+// unity-api
+#include <unity/shell/application/Mir.h>
+
 class WindowStateStorage: public QObject
 {
     Q_OBJECT
@@ -57,6 +60,8 @@ public:
 
     // Only in the mock, to easily restore a fresh state
     Q_INVOKABLE void clear();
+
+    Q_INVOKABLE Mir::State toMirState(WindowState state) const;
 
 Q_SIGNALS:
     void geometryChanged(const QVariantMap& geometry);

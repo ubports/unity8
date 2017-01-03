@@ -1,3 +1,10 @@
+unity8 (8.15+17.04.20161215-0ubuntu1) zesty; urgency=medium
+
+  * Let the model deal with some window management decisions (LP:
+    #1346633)
+
+ -- Daniel d'Andrada <daniel.dandrada@canonical.com>  Thu, 15 Dec 2016 16:17:29 +0000
+
 unity8 (8.15+17.04.20161207.1-0ubuntu1) zesty; urgency=medium
 
   [ Albert Astals Cid ]
