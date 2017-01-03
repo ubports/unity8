@@ -21,7 +21,7 @@ import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
 import Unity.Test 0.1
 import Utils 0.1
-import WindowManager 0.1
+import WindowManager 1.0
 
 import ".."
 import "../../../qml/Stage"
@@ -35,6 +35,7 @@ Rectangle {
 
     property var greeter: { fullyShown: true }
 
+    SurfaceManager { id: sMgr }
     Stage {
         id: stage
         anchors { fill: parent; rightMargin: units.gu(30) }
@@ -50,9 +51,13 @@ Rectangle {
         focus: true
         mode: "stagedWithSideStage"
         applicationManager: ApplicationManager
-        topLevelSurfaceList: TopLevelSurfaceList {
+        topLevelSurfaceList: TopLevelWindowModel {
             id: topLevelSurfaceList
-            applicationsModel: ApplicationManager
+            applicationManager: ApplicationManager
+            surfaceManager: sMgr
+        }
+        Component.onCompleted: {
+            ApplicationManager.startApplication("unity8-dash");
         }
     }
 
@@ -129,6 +134,7 @@ Rectangle {
         function init() {
             stageSaver.clear();
 
+            ApplicationManager.startApplication("unity8-dash");
             tryCompare(topSurfaceList, "count", 1);
             compare(topSurfaceList.applicationAt(0).appId, "unity8-dash");
 
@@ -143,6 +149,11 @@ Rectangle {
                 }
             }
 
+            // wait for Stage to stabilize back into its initial state
+            var appRepeater = findChild(stage, "appRepeater");
+            tryCompare(appRepeater, "count", 1);
+            tryCompare(appRepeater.itemAt(0), "x", 0);
+
             waitUntilAppSurfaceShowsUp(topSurfaceList.idAt(0));
             sideStage.hideNow()
             tryCompare(sideStage, "x", stage.width)
@@ -155,11 +166,6 @@ Rectangle {
             waitForRendering(stage);
 
             killApps();
-
-            // wait for Stage to stabilize back into its initial state
-            var appRepeater = findChild(stage, "appRepeater");
-            tryCompare(appRepeater, "count", 1);
-            tryCompare(appRepeater.itemAt(0), "x", 0);
 
             sideStage.hideNow();
             tryCompare(sideStage, "x", stage.width)
@@ -628,7 +634,7 @@ Rectangle {
         function test_selectSuspendedAppWithoutSurface() {
             compare(topSurfaceList.applicationAt(0).appId, "unity8-dash");
             var dashSurfaceId = topSurfaceList.idAt(0);
-            var dashSurface = topSurfaceList.surfaceAt(0);
+            var dashWindow = topSurfaceList.windowAt(0);
 
             var webbrowserSurfaceId = topSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
@@ -637,7 +643,7 @@ Rectangle {
 
             switchToSurface(dashSurfaceId);
 
-            tryCompare(MirFocusController, "focusedSurface", dashSurface);
+            tryCompare(topLevelSurfaceList, "focusedWindow", dashWindow);
             tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Suspended);
 
             compare(webbrowserApp.surfaceList.count, 1);

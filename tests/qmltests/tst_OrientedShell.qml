@@ -980,6 +980,11 @@ Rectangle {
         function test_launchLandscapeOnlyAppOverPortraitOnlyDashThenSwitchToDash() {
             loadShell("mako");
 
+            var dashSurfaceId = topLevelSurfaceList.nextId;
+            var dashApp = ApplicationManager.startApplication("unity8-dash");
+            verify(dashApp);
+            waitUntilAppWindowIsFullyLoaded(dashSurfaceId);
+
             // starts as portrait, as unity8-dash is portrait only
             tryCompare(shell, "transformRotationAngle", 0);
 
