@@ -17,15 +17,20 @@
 #include "windowstatestorage.h"
 
 #include <QTest>
+#include <QStandardPaths>
 
 class WindowStateStorageTest : public QObject
 {
     Q_OBJECT
 
 private Q_SLOTS:
+    void initTestCase() {
+        QStandardPaths::setTestModeEnabled(true);
+    }
+
     void init()
     {
-        storage = new WindowStateStorage(this, true /* testMode */);
+        storage = new WindowStateStorage(this);
     }
 
     void cleanup()
