@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-12-07 13:49+0000\n"
-"PO-Revision-Date: 2016-05-24 01:36+0000\n"
+"POT-Creation-Date: 2016-12-15 16:17+0000\n"
+"PO-Revision-Date: 2016-12-20 14:02+0000\n"
 "Last-Translator: abuyop <Unknown>\n"
 "Language-Team: Malay <ms@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-12-15 04:57+0000\n"
-"X-Generator: Launchpad (build 18293)\n"
+"X-Launchpad-Export-Date: 2016-12-23 04:59+0000\n"
+"X-Generator: Launchpad (build 18298)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
@@ -101,171 +101,171 @@ msgstr "Mula Semula"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "Pintasan Papan Kekunci"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Unity 8"
-msgstr ""
+msgstr "Unity 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
-msgstr ""
+msgstr "PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr ""
+msgstr "Tangkap cekupan skrin."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
-msgstr ""
+msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of a window."
-msgstr ""
+msgstr "Ambil cekupan skrin bagi tetingkap."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
-msgstr ""
+msgstr "Super + Space"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr ""
+msgstr "Tukar ke bentangan papan kekunci berikutnya."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
-msgstr ""
+msgstr "Super + Shift + Space"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr ""
+msgstr "Tukar ke bentangan papan kekunci terdahulu."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:118
 msgid "Launcher"
-msgstr ""
+msgstr "Pelancar"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:125
 msgid "Super (Hold)"
-msgstr ""
+msgstr "Super (Tahan)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:130
 msgid "Opens the launcher, displays shortcuts."
-msgstr ""
+msgstr "Buka pelancar, papar pintasan."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Alt + F1"
-msgstr ""
+msgstr "Alt + F1"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens launcher keyboard navigation mode."
-msgstr ""
+msgstr "Buka mod navigasi pelancar papan kekunci."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Super + Tab"
-msgstr ""
+msgstr "Super + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Switches applications via the launcher."
-msgstr ""
+msgstr "Tukar aplikasi melalui pelancar."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + 0 to 9"
-msgstr ""
+msgstr "Super + 0 hingga 9"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Same as clicking on a launcher icon."
-msgstr ""
+msgstr "Sama seperti mengklik pada ikon pelancar."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + A"
-msgstr ""
+msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Opens the Application Drawer."
-msgstr ""
+msgstr "Buka Bekas Aplikasi."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:194
 msgid "Scopes"
-msgstr ""
+msgstr "Skop"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:201
 msgid "Super (Tap)"
-msgstr ""
+msgstr "Super (Ketik)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:206
 msgid "Opens the Scopes home."
-msgstr ""
+msgstr "Buka rumah Skop."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:222
 msgid "Switching"
-msgstr ""
+msgstr "Pertukaran"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:229
 msgid "Alt + Tab"
-msgstr ""
+msgstr "Alt + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:234
 msgid "Switches between applications."
-msgstr ""
+msgstr "Tukar diantara aplikasi."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Super + W"
-msgstr ""
+msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Opens the desktop spread."
-msgstr ""
+msgstr "Buka hamparan desktop."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:255
 msgid "Cursor Left or Right"
-msgstr ""
+msgstr "Kursor Kiri atau Kanan"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:260
 msgid "Moves the focus."
-msgstr ""
+msgstr "Alihkan fokus."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:272
 msgid "Windows"
-msgstr ""
+msgstr "Tetingkap"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:279
 msgid "Ctrl + Super + D"
-msgstr ""
+msgstr "Ctrl + Super + D"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:284
 msgid "Minimizes all windows."
-msgstr ""
+msgstr "Minimumkan semua tetingkap."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + Up"
-msgstr ""
+msgstr "Ctrl + Super + Atas"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Maximizes the current window."
-msgstr ""
+msgstr "Maksimumkan tetingkap semasa."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Down"
-msgstr ""
+msgstr "Ctrl + Super + Bawah"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Minimizes or restores the current window."
-msgstr ""
+msgstr "Minimumkan atau pulihkan tetingkap semasa."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Ctrl + Super + Left or Right"
-msgstr ""
+msgstr "Ctrl + Super + Kiri atau Kanan"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Semi-maximizes the current window."
-msgstr ""
+msgstr "Separa-maksimum tetingkap semasa."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:331
 msgid "Alt + F4"
-msgstr ""
+msgstr "Alt + F4"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Closes the current window."
-msgstr ""
+msgstr "Tutup tetingkap semasa."
 
 #: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
 msgid "Return to Call"
@@ -282,12 +282,12 @@ msgstr "OK"
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
 msgid "%1:%2:%3"
-msgstr ""
+msgstr "%1:%2:%3"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:49
 #, qt-format
 msgid "%1:%2"
-msgstr ""
+msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
@@ -329,19 +329,19 @@ msgstr ""
 
 #: qml/Components/VirtualTouchPad.qml:327
 msgid "Tap left button to click."
-msgstr ""
+msgstr "Ketik butang kiri untuk mengklik."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "Ketik butang kanan untuk mengklik kanan."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "Leret dengan dua jari untuk menatal."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "Cari lagi tetapan dalam tetapan sistem."
 
 #: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
@@ -467,15 +467,15 @@ msgstr[1] "Sila tunggu %1 minit kemudian cuba lagi..."
 
 #: qml/Greeter/Greeter.qml:592
 msgid "Try again"
-msgstr ""
+msgstr "Cuba lagi"
 
 #: qml/Greeter/LoginList.qml:70
 msgid "Passphrase"
-msgstr ""
+msgstr "Frasa laluan"
 
 #: qml/Greeter/LoginList.qml:71
 msgid "Passcode"
-msgstr ""
+msgstr "Kod laluan"
 
 #: qml/Greeter/LoginList.qml:98
 msgid "Retry"
@@ -483,28 +483,28 @@ msgstr "Cuba Lagi"
 
 #: qml/Greeter/LoginList.qml:99
 msgid "Log In"
-msgstr ""
+msgstr "Daftar Masuk"
 
 #: qml/Greeter/NarrowView.qml:252
 msgid "Emergency"
-msgstr ""
+msgstr "Kecemasan"
 
 #: qml/Greeter/SessionsList.qml:122
 msgid "Select desktop environment"
-msgstr ""
+msgstr "Pilih persekitaran desktop"
 
 #: qml/Launcher/Drawer.qml:80
 msgid "Search…"
-msgstr ""
+msgstr "Gelintar..."
 
 #: qml/Launcher/Drawer.qml:101
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: qml/Launcher/MoreAppsHeader.qml:32
 msgid "More apps in the store"
-msgstr ""
+msgstr "Lagi apl di dalam kedai"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -605,7 +605,7 @@ msgstr "Leret panjang dari pinggir kiri untuk membuka skop Hari Ini"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
-msgstr ""
+msgstr "Leret pendek dari pinggir kiri untuk membuka pelancar"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
@@ -615,11 +615,13 @@ msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:56
 msgid "Swipe from the right edge to view your open apps"
-msgstr ""
+msgstr "Leret dari pinggir kanan untuk melihat apl yang dibuka"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
+"Leret dari pinggir atas untuk mencapai tetapan pemberitahuan dan tetapan "
+"pantas"
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
@@ -642,15 +644,15 @@ msgstr "Berikutnya"
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
-msgstr ""
+msgstr "Pilih Papan Kekuci"
 
 #: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
-msgstr ""
+msgstr "Bahasa papan kekunci"
 
 #: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
-msgstr ""
+msgstr "Bentangan papan kekunci"
 
 #: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:207
 #: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/77-system-update.qml:152
@@ -762,32 +764,34 @@ msgstr "Dasar kerahsiaan"
 
 #: qml/Wizard/Pages/77-system-update.qml:28
 msgid "Update Device"
-msgstr ""
+msgstr "Kemaskini Peranti"
 
 #: qml/Wizard/Pages/77-system-update.qml:55
 msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
 msgstr ""
+"Terdapat kemaskini sistem tersedia dan sedia dipasangkan. Selepas itu, "
+"peranti akan dimulakan semula secara automatik."
 
 #: qml/Wizard/Pages/77-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu system"
-msgstr ""
+msgstr "Sistem Ubuntu"
 
 #: qml/Wizard/Pages/77-system-update.qml:83
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
-msgstr ""
+msgstr "Versi %1"
 
 #: qml/Wizard/Pages/77-system-update.qml:102
 msgid "This could take a few minutes..."
-msgstr ""
+msgstr "Ia mengambil masa beberapa minit..."
 
 #: qml/Wizard/Pages/77-system-update.qml:116
 msgid "Install and restart now"
-msgstr ""
+msgstr "Pasang dan mula semula sekarang"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
@@ -926,7 +930,7 @@ msgstr "Untuk teruskan tanpa SIM ketik Langkau."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr ""
+msgstr "Kata laluan terlalu pendek"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
