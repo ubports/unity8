@@ -48,7 +48,7 @@ void ApplicationMenuRegistry::RegisterAppMenu(pid_t processId,
               << ", actionPath="  << actionObjectPath.path()
               << ", service=" << service;
 
-    QMultiMap<pid_t, MenuServicePath*>::iterator i = m_appMenus.find(processId);
+    auto i = m_appMenus.find(processId);
     while (i != m_appMenus.end() && i.key() == processId) {
         if (i.value()->m_menuPath == menuObjectPath.path().toUtf8()) {
             WARNING_MSG << "Already have a menu for application (pid= " << processId
@@ -71,7 +71,7 @@ void ApplicationMenuRegistry::UnregisterAppMenu(pid_t processId, const QDBusObje
     DEBUG_MSG << "(pid=" << processId
               << ", menuPath=" << menuObjectPath.path();
 
-    QMultiMap<pid_t, MenuServicePath*>::iterator i = m_appMenus.find(processId);
+    auto i = m_appMenus.find(processId);
     while (i != m_appMenus.end() && i.key() == processId) {
         if (i.value()->m_menuPath == menuObjectPath.path().toUtf8()) {
             i.value()->deleteLater();
@@ -93,7 +93,7 @@ void ApplicationMenuRegistry::RegisterSurfaceMenu(const QString &surfaceId,
               << ", actionPath="  << actionObjectPath.path()
               << ", service=" << service;
 
-    QMultiMap<QString, MenuServicePath*>::iterator i = m_surfaceMenus.find(surfaceId);
+    auto i = m_surfaceMenus.find(surfaceId);
     while (i != m_surfaceMenus.end() && i.key() == surfaceId) {
         if (i.value()->m_menuPath == menuObjectPath.path().toUtf8()) {
             WARNING_MSG << "Already have a menu for surface (surfaceId= " << surfaceId
@@ -116,7 +116,7 @@ void ApplicationMenuRegistry::UnregisterSurfaceMenu(const QString &surfaceId, co
     DEBUG_MSG << "(surfaceId=" << surfaceId
               << ", menuPath=" << menuObjectPath.path();
 
-    QMultiMap<QString, MenuServicePath*>::iterator i = m_surfaceMenus.find(surfaceId);
+    auto i = m_surfaceMenus.find(surfaceId);
     while (i != m_surfaceMenus.end() && i.key() == surfaceId) {
         if (i.value()->m_menuPath == menuObjectPath.path().toUtf8()) {
             i.value()->deleteLater();
@@ -128,12 +128,12 @@ void ApplicationMenuRegistry::UnregisterSurfaceMenu(const QString &surfaceId, co
     }
 }
 
-QList<QObject*> ApplicationMenuRegistry::getMenusForSurface(const QString &surfaceId)
+QList<QObject*> ApplicationMenuRegistry::getMenusForSurface(const QString &surfaceId) const
 {
     QList<QObject*> list;
 
-    QMultiMap<QString, MenuServicePath*>::iterator i = m_surfaceMenus.find(surfaceId);
-    while (i != m_surfaceMenus.end() && i.key() == surfaceId) {
+    auto i = m_surfaceMenus.find(surfaceId);
+    while (i != m_surfaceMenus.constEnd() && i.key() == surfaceId) {
         list << i.value();
         ++i;
     }

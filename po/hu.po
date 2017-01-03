@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-11-29 09:43+0000\n"
+"POT-Creation-Date: 2016-12-07 13:49+0000\n"
 "PO-Revision-Date: 2016-08-17 10:53+0000\n"
 "Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -15,15 +15,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-12-01 04:57+0000\n"
-"X-Generator: Launchpad (build 18282)\n"
+"X-Launchpad-Export-Date: 2016-12-15 04:56+0000\n"
+"X-Generator: Launchpad (build 18293)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
 msgstr "Jelszó: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:50
-#: plugins/Unity/Launcher/launcheritem.cpp:109
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Pin shortcut"
 msgstr "Indító rögzítése"
 
@@ -31,7 +31,7 @@ msgstr "Indító rögzítése"
 msgid "Quit"
 msgstr "Kilépés"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:109
+#: plugins/Unity/Launcher/launcheritem.cpp:122
 msgid "Unpin shortcut"
 msgstr "Indító feloldása"
 
@@ -177,87 +177,95 @@ msgstr "Super + 0-9"
 msgid "Same as clicking on a launcher icon."
 msgstr "Az adott számú alkalmazás indítása."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:181
+#: qml/Components/KeyboardShortcutsOverlay.qml:177
+msgid "Super + A"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:182
+msgid "Opens the Application Drawer."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:194
 msgid "Scopes"
 msgstr "Lencsék"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:188
+#: qml/Components/KeyboardShortcutsOverlay.qml:201
 msgid "Super (Tap)"
 msgstr "Super (Tap)"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:193
+#: qml/Components/KeyboardShortcutsOverlay.qml:206
 msgid "Opens the Scopes home."
 msgstr "Lencsék kezdőlapjának megnyitása"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:209
+#: qml/Components/KeyboardShortcutsOverlay.qml:222
 msgid "Switching"
 msgstr "Váltás"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:216
+#: qml/Components/KeyboardShortcutsOverlay.qml:229
 msgid "Alt + Tab"
 msgstr "Alt + Tab"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:221
+#: qml/Components/KeyboardShortcutsOverlay.qml:234
 msgid "Switches between applications."
 msgstr "Váltás az alkalmazások között."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:229
+#: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Super + W"
 msgstr "Super + W"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:234
+#: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Opens the desktop spread."
 msgstr "Az asztal ablakainak szétterítése."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:242
+#: qml/Components/KeyboardShortcutsOverlay.qml:255
 msgid "Cursor Left or Right"
 msgstr "Balra/jobbra nyíl"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:247
+#: qml/Components/KeyboardShortcutsOverlay.qml:260
 msgid "Moves the focus."
 msgstr "Fókusz mozgatása."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:259
+#: qml/Components/KeyboardShortcutsOverlay.qml:272
 msgid "Windows"
 msgstr "Ablakok"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:266
+#: qml/Components/KeyboardShortcutsOverlay.qml:279
 msgid "Ctrl + Super + D"
 msgstr "Ctrl + Szuper + D"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:271
+#: qml/Components/KeyboardShortcutsOverlay.qml:284
 msgid "Minimizes all windows."
 msgstr "Minden ablak minimalizálása."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:279
+#: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + Up"
 msgstr "Ctrl + Szuper + Fel"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:284
+#: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Maximizes the current window."
 msgstr "Aktuális ablak maximalizálása."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:292
+#: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Down"
 msgstr "Ctrl + Szuper + Le"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:297
+#: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Minimizes or restores the current window."
 msgstr "Az aktuális ablak visszaállítása vagy minimalizálása."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:305
+#: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Ctrl + Super + Left or Right"
 msgstr "Ctrl + Szuper + Bal vagy Jobb"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:310
+#: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Semi-maximizes the current window."
 msgstr "Az aktuális ablak balra vagy jobbra igazítása."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:318
+#: qml/Components/KeyboardShortcutsOverlay.qml:331
 msgid "Alt + F4"
 msgstr "Alt + F4"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:323
+#: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Closes the current window."
 msgstr "Az aktuális ablak bezárása."
 
@@ -314,6 +322,30 @@ msgstr "Minden bezárása"
 #: qml/Components/SharingPicker.qml:54
 msgid "Preview Share Item"
 msgstr "Megosztandó elem előnézete"
+
+#: qml/Components/VirtualTouchPad.qml:317
+msgid ""
+"Your device is now connected to an external display. Use this screen as a "
+"touch pad to interact with the pointer."
+msgstr ""
+"Az eszköz jelenleg egy külső kijelzőhöz van csatlakoztatva. Használja ezt a "
+"kijelzőt érintőtáblaként, melynek segítéségével irányíthatja a mutatót."
+
+#: qml/Components/VirtualTouchPad.qml:327
+msgid "Tap left button to click."
+msgstr ""
+
+#: qml/Components/VirtualTouchPad.qml:339
+msgid "Tap right button to right click."
+msgstr ""
+
+#: qml/Components/VirtualTouchPad.qml:351
+msgid "Swipe with two fingers to scroll."
+msgstr ""
+
+#: qml/Components/VirtualTouchPad.qml:396
+msgid "Find more settings in the system settings."
+msgstr ""
 
 #: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
@@ -412,14 +444,6 @@ msgstr "Kezdőlapon"
 msgid "Also installed"
 msgstr "Telepítve"
 
-#: qml/DisabledScreenNotice.qml:109
-msgid ""
-"Your device is now connected to an external display. Use this screen as a "
-"touch pad to interact with the pointer."
-msgstr ""
-"Az eszköz jelenleg egy külső kijelzőhöz van csatlakoztatva. Használja ezt a "
-"kijelzőt érintőtáblaként, melynek segítéségével irányíthatja a mutatót."
-
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
 msgstr "Feloldás"
@@ -443,7 +467,7 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Várjon %1 percet és próbálja újra…"
 msgstr[1] "Várjon %1 percet és próbálja újra…"
 
-#: qml/Greeter/Greeter.qml:596
+#: qml/Greeter/Greeter.qml:592
 msgid "Try again"
 msgstr "Próbálja újra"
 
@@ -471,6 +495,19 @@ msgstr "Segélyhívás"
 msgid "Select desktop environment"
 msgstr "Asztali-környezet kiválasztása"
 
+#: qml/Launcher/Drawer.qml:80
+msgid "Search…"
+msgstr ""
+
+#: qml/Launcher/Drawer.qml:101
+msgctxt "Apps sorted alphabetically"
+msgid "A-Z"
+msgstr ""
+
+#: qml/Launcher/MoreAppsHeader.qml:32
+msgid "More apps in the store"
+msgstr ""
+
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
 msgstr "Jelszó megjelenítése"
@@ -483,62 +520,62 @@ msgstr "Ide koppintva visszatérhet a híváshoz"
 msgid "Conference"
 msgstr "Konferencia"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:847
+#: qml/Panel/Indicators/MenuItemFactory.qml:868
 msgid "Nothing is playing"
 msgstr "Nincs lejátszás"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:975
+#: qml/Panel/Indicators/MenuItemFactory.qml:996
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 óra"
 msgstr[1] "%1 óra"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:979
+#: qml/Panel/Indicators/MenuItemFactory.qml:1000
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 perc"
 msgstr[1] "%1 perc"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:984
+#: qml/Panel/Indicators/MenuItemFactory.qml:1005
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 másodperc"
 msgstr[1] "%1 másodperc"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:987
+#: qml/Panel/Indicators/MenuItemFactory.qml:1008
 msgid "0 seconds"
 msgstr "0 másodperc"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:989
+#: qml/Panel/Indicators/MenuItemFactory.qml:1010
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 van hátra"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:995
+#: qml/Panel/Indicators/MenuItemFactory.qml:1016
 msgid "In queue…"
 msgstr "Sorban…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:999
+#: qml/Panel/Indicators/MenuItemFactory.qml:1020
 msgid "Downloading"
 msgstr "Letöltés"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1001
+#: qml/Panel/Indicators/MenuItemFactory.qml:1022
 msgid "Paused, tap to resume"
 msgstr "Szüneteltetve, koppintson a folytatáshoz"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1003
+#: qml/Panel/Indicators/MenuItemFactory.qml:1024
 msgid "Canceled"
 msgstr "Megszakítva"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1005
+#: qml/Panel/Indicators/MenuItemFactory.qml:1026
 msgid "Finished"
 msgstr "Befejeződött"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1007
+#: qml/Panel/Indicators/MenuItemFactory.qml:1028
 msgid "Failed, tap to retry"
 msgstr "Sikertelen, koppintson az újrapróbáláshoz"
 
