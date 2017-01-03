@@ -37,6 +37,8 @@ Rectangle {
     }
     property QtObject fakeApplication: null
 
+    SurfaceManager{}
+
     Loader {
         id: applicationWindowLoader
         focus: true
@@ -105,17 +107,17 @@ Rectangle {
             RowLayout {
                 property var promptSurfaceList: root.fakeApplication ? root.fakeApplication.promptSurfaceList : null
                 Button {
-                    enabled: parent.promptSurfaceList !== null && parent.promptSurfaceList.count > 0
+                    enabled: root.fakeApplication && root.fakeApplication.promptSurfaceList.count > 0
                     activeFocusOnPress: false
                     text: "Remove"
-                    onClicked: { parent.promptSurfaceList.get(0).close(); }
+                    onClicked: { root.fakeApplication.promptSurfaceList.get(0).close(); }
                 }
 
                 Button {
-                    enabled: parent.promptSurfaceList !== null
+                    enabled: root.fakeApplication
                     activeFocusOnPress: false
                     text: "Add Prompt Surface"
-                    onClicked: { parent.promptSurfaceList.createSurface(); }
+                    onClicked: { root.fakeApplication.createPromptSurface(); }
                 }
             }
 
@@ -427,7 +429,7 @@ Rectangle {
             var i;
             // 3 surfaces should cover all edge cases
             for (i = 0; i < 3; i++) {
-                promptSurfaceList.createSurface();
+                root.fakeApplication.createPromptSurface();
                 compare(promptSurfaces.count, i+1);
                 waitUntilSurfaceContainerStopsAnimating(promptSurfaces.itemAt(0));
             }
@@ -452,9 +454,7 @@ Rectangle {
         }
 
         function test_promptSurfaceAdjustsForParentSize() {
-            var promptSurfaceList = root.fakeApplication.promptSurfaceList;
-
-            promptSurfaceList.createSurface();
+            root.fakeApplication.createPromptSurface();
 
             var promptSurfaces = testCase.findChild(applicationWindow, "promptSurfacesRepeater");
 
@@ -487,10 +487,10 @@ Rectangle {
             var promptSurfaceList = root.fakeApplication.promptSurfaceList;
             var promptSurfaces = testCase.findChild(applicationWindow, "promptSurfacesRepeater");
 
-            promptSurfaceList.createSurface();
+            root.fakeApplication.createPromptSurface();
 
             for (var i = 2; i <= 3; i++) {
-                promptSurfaceList.createSurface();
+                root.fakeApplication.createPromptSurface();
                 tryCompare(promptSurfaces, "count", i);
                 waitUntilSurfaceContainerStopsAnimating(promptSurfaces.itemAt(0));
 

@@ -26,7 +26,7 @@ include_directories(
 
 remove_definitions(-DQT_NO_KEYWORDS)
 
-add_definitions(-DDASHVIEWSTEST_FOLDER="${CMAKE_CURRENT_SOURCE_DIR}")
+add_definitions(-DTEST_DIR="plugins/Dash")
 
 macro(add_lvwph_test FILENAME TESTNAME)
     add_executable(${TESTNAME}TestExec
@@ -34,6 +34,9 @@ macro(add_lvwph_test FILENAME TESTNAME)
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/Dash/listviewwithpageheader.cpp)
     qt5_use_modules(${TESTNAME}TestExec Test Core Qml)
     target_link_libraries(${TESTNAME}TestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
+    install(TARGETS ${TESTNAME}TestExec
+        DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Dash"
+    )
 
     add_unity8_uitest(${TESTNAME} ${TESTNAME}TestExec DEPENDS Dash-qml)
 endmacro()
@@ -50,6 +53,9 @@ macro(add_dashview_try_test FILENAME TESTNAME)
     )
     qt5_use_modules(${TESTNAME}TestExec Test Core Qml)
     target_link_libraries(${TESTNAME}TestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
+    install(TARGETS ${TESTNAME}TestExec
+        DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Dash"
+    )
 
     add_unity8_uitest(${TESTNAME} ${TESTNAME}TestExec DEPENDS Dash-qml)
 
@@ -60,6 +66,9 @@ macro(add_dashview_try_test FILENAME TESTNAME)
     )
     qt5_use_modules(${TESTNAME}TryExec Test Core Qml)
     target_link_libraries(${TESTNAME}TryExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
+    install(TARGETS ${TESTNAME}TryExec
+        DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Dash"
+    )
     add_manual_test(${TESTNAME} ${TESTNAME}TryExec DEPENDS Dash-qml)
 endmacro()
 
@@ -67,11 +76,27 @@ add_dashview_try_test(verticaljournal VerticalJournal)
 add_dashview_try_test(horizontaljournal HorizontalJournal)
 add_dashview_try_test(organicgrid OrganicGrid)
 
+# Install data files needed for tests
+file(GLOB qml_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" *.qml)
+foreach(qml_file ${qml_files})
+    add_qml_test_data(. "${qml_file}")
+endforeach()
+
 # CardCreator test
 add_executable(CardCreatorTestExec cardcreatortest.cpp)
 qt5_use_modules(CardCreatorTestExec Test Core Qml)
 target_link_libraries(CardCreatorTestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
+install(TARGETS CardCreatorTestExec
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Dash"
+)
 add_unity8_uitest(CardCreator CardCreatorTestExec DEPENDS Dash-qml)
+add_qml_test_data(. cardcreator)
+
+# This one qml file imports a file in an arch-specific directory, so to make its
+# import line relative, we install it into an arch-specific directory too.
+add_qml_test_data(. cardcreatortest.qml
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Dash"
+)
 
 # plain qml test
 foreach(dash_test ScopeStyle ListViewWithPageHeaderQML CardAttributes CroppedImageMinimumSourceSize)

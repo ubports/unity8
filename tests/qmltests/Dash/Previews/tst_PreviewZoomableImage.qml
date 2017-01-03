@@ -26,7 +26,7 @@ Rectangle {
     color: "lightgrey"
 
     property var widgetData0: {
-        "source": "../../../tests/graphics/avatars/amanda@12.png",
+        "source": Qt.resolvedUrl("../../../graphics/avatars/amanda@12.png"),
         "zoomable": false
     }
 
@@ -36,17 +36,17 @@ Rectangle {
 
     property var widgetData2: {
         "source": "fadsasf",
-        "fallback": "../../../tests/graphics/avatars/amanda@12.png"
+        "fallback": Qt.resolvedUrl("../../../graphics/avatars/amanda@12.png")
     }
 
     property var widgetData3: {
         "source": "",
-        "fallback": "../../../tests/graphics/avatars/amanda@12.png"
+        "fallback": Qt.resolvedUrl("../../../graphics/avatars/amanda@12.png")
     }
 
     property var widgetData4: {
         "source": "fadsasf",
-        "fallback": "../../../tests/graphics/avatars/amanda@12.png"
+        "fallback": Qt.resolvedUrl("../../../graphics/avatars/amanda@12.png")
     }
 
     Loader {
@@ -129,7 +129,7 @@ Rectangle {
             waitForRendering(lazyImage);
             tryCompare(lazyImage, "state", "ready");
             verify(lazyImage.sourceImage.source.toString().indexOf("amanda") > -1);
-            zoomableImage.widgetData["source"] = "../../../tests/graphics/avatars/funky@12.png"
+            zoomableImage.widgetData["source"] = Qt.resolvedUrl("../../../graphics/avatars/funky@12.png")
             zoomableImage.widgetDataChanged();
             tryCompare(lazyImage, "state", "ready");
             verify(lazyImage.sourceImage.source.toString().indexOf("funky") > -1);

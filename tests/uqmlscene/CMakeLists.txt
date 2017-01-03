@@ -31,3 +31,7 @@ target_link_libraries(uqmlscene
     UbuntuGestures
     unity8-private
     )
+
+install(TARGETS uqmlscene
+    RUNTIME DESTINATION ${SHELL_PRIVATE_LIBDIR}
+    )
