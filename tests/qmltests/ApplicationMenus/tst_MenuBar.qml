@@ -61,6 +61,7 @@ Item {
         MenuBar {
             id: menuBar
             anchors.fill: parent
+            enableKeyFilter: true
 
             unityMenuModel: UnityMenuModel {
                 id: menuBackend

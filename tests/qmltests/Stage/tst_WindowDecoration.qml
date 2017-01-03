@@ -55,7 +55,7 @@ Item {
 
     UnityMenuModel {
         id: menuBackend
-        modelData: menuData.generateTestData(5, 3, 3, "menu")
+        modelData: appMenuData.generateTestData(5, 3, 3, "menu")
         onActivated: log.text = "Activated " + action + "\n" + log.text
     }
 
