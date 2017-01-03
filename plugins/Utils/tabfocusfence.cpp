@@ -30,6 +30,8 @@ void TabFocusFenceItem::keyPressEvent(QKeyEvent *event)
     // Needed so we eat Tab keys when there's only one item inside the fence
     if (event->key() == Qt::Key_Tab) {
         event->accept();
+    } else {
+        QQuickItem::keyPressEvent(event);
     }
 }
 
@@ -38,5 +40,7 @@ void TabFocusFenceItem::keyReleaseEvent(QKeyEvent *event)
     // Needed so we eat Tab keys when there's only one item inside the fence
     if (event->key() == Qt::Key_Tab) {
         event->accept();
+    } else {
+        QQuickItem::keyReleaseEvent(event);
     }
 }

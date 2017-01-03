@@ -1577,6 +1577,24 @@ Rectangle {
 
             keyClick(Qt.Key_Tab);
             tryCompare(buttons[0], "activeFocus", true);
+
+            keyClick(Qt.Key_Escape);
+
+            var dialogLoader = findChild(orientedShell, "dialogLoader");
+            tryCompare(dialogLoader, "item", null);
+        }
+
+        function test_escColosesShutdownDialog() {
+            loadShell("mako");
+
+            testCase.showPowerDialog();
+
+            var dialogLoader = findChild(orientedShell, "dialogLoader");
+            tryCompareFunction(function() { return dialogLoader.item !== null }, true);
+
+            keyClick(Qt.Key_Escape);
+
+            tryCompare(dialogLoader, "item", null);
         }
     }
 }
