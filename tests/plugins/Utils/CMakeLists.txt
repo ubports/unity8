@@ -17,7 +17,7 @@ foreach(util_test
     qt5_use_modules(${util_test}TestExec Test Core Qml)
     target_link_libraries(${util_test}TestExec Utils-qml)
     add_unity8_unittest(${util_test} ${util_test}TestExec ADD_TEST
-        ENVIRONMENT XDG_CONFIG_HOME=${CMAKE_CURRENT_BINARY_DIR}
+        ENVIRONMENT XDG_CONFIG_HOME=${CMAKE_CURRENT_BINARY_DIR} XDG_DATA_HOME=${CMAKE_CURRENT_BINARY_DIR} XDG_CACHE_HOME=${CMAKE_CURRENT_BINARY_DIR}
     )
 
 endforeach()
