@@ -30,7 +30,7 @@ MouseArea {
     hoverEnabled: true
     onWheel: wheel.accepted = true
 
-    readonly property alias hasActiveDialog: dialogLoader.active
+    readonly property bool hasActiveDialog: dialogLoader.active || d.modeSwitchWarningPopup
 
     // to be set from outside, useful mostly for testing purposes
     property var unitySessionService: DBusUnitySessionService

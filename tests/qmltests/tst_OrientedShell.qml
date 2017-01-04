@@ -1584,7 +1584,7 @@ Rectangle {
             tryCompare(dialogLoader, "item", null);
         }
 
-        function test_escColosesShutdownDialog() {
+        function test_escClosesShutdownDialog() {
             loadShell("mako");
 
             testCase.showPowerDialog();
