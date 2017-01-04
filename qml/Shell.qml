@@ -648,6 +648,7 @@ StyledItem {
         id: dialogs
         objectName: "dialogs"
         anchors.fill: parent
+        visible: hasActiveDialog
         z: overlay.z + 10
         usageScenario: shell.usageScenario
         hasKeyboard: shell.hasKeyboard
