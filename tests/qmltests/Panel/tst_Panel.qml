@@ -350,7 +350,7 @@ PanelTest {
 
                 touchRelease(panel, startXPosition, panel.height);
 
-                compare(panelRow.currentItemIndex, i,  "Indicator item should be activated at position " + i);
+                tryCompare(panelRow, "currentItemIndex", i, undefined, "Indicator item should be activated at position " + i);
                 compare(menuContent.currentMenuIndex, i, "Menu conetent should be activated for item at position " + i);
 
                 // init for next indicatorItem

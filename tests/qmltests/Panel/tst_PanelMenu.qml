@@ -127,7 +127,7 @@ PanelTest {
 
     UT.UnityTestCase {
         id: testCase
-        name: "IndicatorsMenu"
+        name: "PanelMenu"
         when: windowShown
 
         function init() {
