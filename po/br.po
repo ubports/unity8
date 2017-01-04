@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-12-07 13:49+0000\n"
+"POT-Creation-Date: 2016-12-15 16:17+0000\n"
 "PO-Revision-Date: 2016-08-29 11:37+0000\n"
 "Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-12-15 04:56+0000\n"
-"X-Generator: Launchpad (build 18293)\n"
+"X-Launchpad-Export-Date: 2016-12-23 04:58+0000\n"
+"X-Generator: Launchpad (build 18298)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
@@ -267,7 +267,7 @@ msgstr "Erl + F4"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Closes the current window."
-msgstr ""
+msgstr "Serriñ ar prenestr a vremañ"
 
 #: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
 msgid "Return to Call"
@@ -496,7 +496,7 @@ msgstr ""
 
 #: qml/Greeter/SessionsList.qml:122
 msgid "Select desktop environment"
-msgstr ""
+msgstr "Diuzañ endro ar burev"
 
 #: qml/Launcher/Drawer.qml:80
 msgid "Search…"
@@ -768,6 +768,8 @@ msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
 msgstr ""
+"Un hizivadenn eus ar reizhiad zo da gaout. Prest eo da vezañ staliet. Goude-"
+"se e adloc'ho ho penveg e-unan."
 
 #: qml/Wizard/Pages/77-system-update.qml:76
 msgctxt "string identifying name of the update"
@@ -806,7 +808,7 @@ msgstr "Penndivizoù implij"
 
 #: qml/Wizard/Pages/here-terms.qml:69
 msgid "Your device uses positioning technologies provided by HERE."
-msgstr ""
+msgstr "Ho penveg a implij teknologiezhoù lec'hiañ pourchaset gant HERE."
 
 #: qml/Wizard/Pages/here-terms.qml:81
 msgid ""
