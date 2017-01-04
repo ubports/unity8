@@ -24,8 +24,11 @@ import Unity.Platform 1.0
 import Utils 0.1
 import "../Greeter"
 
-Item {
+MouseArea {
     id: root
+    acceptedButtons: Qt.AllButtons
+    hoverEnabled: true
+    onWheel: wheel.accepted = true
 
     readonly property alias hasActiveDialog: dialogLoader.active
 

@@ -658,15 +658,6 @@ StyledItem {
         }
     }
 
-    MouseArea { // shell dialog prevents interacting with other contents
-        anchors.fill: parent
-        visible: dialogs.hasActiveDialog
-        enabled: visible
-        acceptedButtons: Qt.AllButtons
-        hoverEnabled: true
-        onWheel: wheel.accepted = true
-    }
-
     Connections {
         target: SessionBroadcast
         onShowHome: if (shell.mode !== "greeter") showHome()
