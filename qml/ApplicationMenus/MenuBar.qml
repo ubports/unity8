@@ -64,156 +64,164 @@ Item {
         onPressed: d.dismissAll()
     }
 
-    Row {
-        id: row
-        height: parent.height
-        spacing: units.gu(2)
+    Item {
+        id: clippingItem
 
-        ActionContext {
-            id: menuBarContext
-            objectName: "barContext"
-            active: !d.currentItem && enableKeyFilter
-        }
+        height: root.height
+        width: root.width
+        clip: true
 
-        Repeater {
-            id: rowRepeater
+        Row {
+            id: row
+            spacing: units.gu(2)
+            height: parent.height
 
-            Item {
-                id: visualItem
-                objectName: root.objectName + "-item" + __ownIndex
+            ActionContext {
+                id: menuBarContext
+                objectName: "barContext"
+                active: !d.currentItem && enableKeyFilter
+            }
 
-                readonly property int __ownIndex: index
-                property Item __popup: null;
-                property bool popupVisible: __popup && __popup.visible
+            Repeater {
+                id: rowRepeater
 
-                implicitWidth: column.implicitWidth
-                implicitHeight: row.height
-                enabled: model.sensitive
+                Item {
+                    id: visualItem
+                    objectName: root.objectName + "-item" + __ownIndex
 
-                function show() {
-                    if (!__popup) {
-                        __popup = menuComponent.createObject(root, { objectName: visualItem.objectName + "-menu" });
-                        // force the current item to be the newly popped up menu
-                    } else {
-                        __popup.visible = true;
-                    }
-                    d.currentItem = visualItem;
-                }
-                function hide() {
-                    if (__popup) {
-                        __popup.visible = false;
+                    readonly property int __ownIndex: index
+                    property Item __popup: null;
+                    property bool popupVisible: __popup && __popup.visible
 
-                        if (d.currentItem === visualItem) {
-                            d.currentItem = null;
+                    implicitWidth: column.implicitWidth
+                    implicitHeight: row.height
+                    enabled: model.sensitive
+
+                    function show() {
+                        if (!__popup) {
+                            __popup = menuComponent.createObject(root, { objectName: visualItem.objectName + "-menu" });
+                            // force the current item to be the newly popped up menu
+                        } else {
+                            __popup.visible = true;
                         }
+                        d.currentItem = visualItem;
                     }
-                }
-                function dismiss() {
-                    if (__popup) {
-                        __popup.destroy();
-                        __popup = null;
+                    function hide() {
+                        if (__popup) {
+                            __popup.visible = false;
 
-                        if (d.currentItem === visualItem) {
-                            d.currentItem = null;
-                        }
-                    }
-                }
-
-                Connections {
-                    target: d
-                    onDismissAll: visualItem.dismiss()
-                }
-
-                Component {
-                    id: menuComponent
-                    MenuPopup {
-                        x: visualItem.x - units.gu(1)
-                        anchors.top: parent.bottom
-                        unityMenuModel: root.unityMenuModel.submenu(visualItem.__ownIndex)
-
-                        Component.onCompleted: reset();
-                        onVisibleChanged: if (visible) { reset(); }
-                    }
-                }
-
-                RowLayout {
-                    id: column
-                    spacing: units.gu(1)
-                    anchors {
-                        centerIn: parent
-                    }
-
-                    Icon {
-                        Layout.preferredWidth: units.gu(2)
-                        Layout.preferredHeight: units.gu(2)
-                        Layout.alignment: Qt.AlignVCenter
-
-                        visible: model.icon || false
-                        source: model.icon || ""
-                    }
-
-                    ActionItem {
-                        id: actionItem
-                        width: _title.width
-                        height: _title.height
-
-                        action: Action {
-                            // FIXME - SDK Action:text modifies menu text with html underline for mnemonic
-                            text: model.label.replace("_", "&").replace("<u>", "&").replace("</u>", "")
-
-                            onTriggered: {
-                                visualItem.show();
+                            if (d.currentItem === visualItem) {
+                                d.currentItem = null;
                             }
                         }
+                    }
+                    function dismiss() {
+                        if (__popup) {
+                            __popup.destroy();
+                            __popup = null;
 
-                        Label {
-                            id: _title
-                            text: actionItem.text
-                            horizontalAlignment: Text.AlignLeft
-                            color: enabled ? "white" : "#5d5d5d"
+                            if (d.currentItem === visualItem) {
+                                d.currentItem = null;
+                            }
                         }
                     }
+
+                    Connections {
+                        target: d
+                        onDismissAll: visualItem.dismiss()
+                    }
+
+                    Component {
+                        id: menuComponent
+                        MenuPopup {
+                            x: visualItem.x - units.gu(1)
+                            anchors.top: parent.bottom
+                            unityMenuModel: root.unityMenuModel.submenu(visualItem.__ownIndex)
+
+                            Component.onCompleted: reset();
+                            onVisibleChanged: if (visible) { reset(); }
+                        }
+                    }
+
+                    RowLayout {
+                        id: column
+                        spacing: units.gu(1)
+                        anchors {
+                            centerIn: parent
+                        }
+
+                        Icon {
+                            Layout.preferredWidth: units.gu(2)
+                            Layout.preferredHeight: units.gu(2)
+                            Layout.alignment: Qt.AlignVCenter
+
+                            visible: model.icon || false
+                            source: model.icon || ""
+                        }
+
+                        ActionItem {
+                            id: actionItem
+                            width: _title.width
+                            height: _title.height
+
+                            action: Action {
+                                // FIXME - SDK Action:text modifies menu text with html underline for mnemonic
+                                text: model.label.replace("_", "&").replace("<u>", "&").replace("</u>", "")
+
+                                onTriggered: {
+                                    visualItem.show();
+                                }
+                            }
+
+                            Label {
+                                id: _title
+                                text: actionItem.text
+                                horizontalAlignment: Text.AlignLeft
+                                color: enabled ? "white" : "#5d5d5d"
+                            }
+                        }
+                    }
+                } // Item ( delegate )
+            } // Repeater
+        } // Row
+
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: d.currentItem
+
+            onPositionChanged: {
+                if (d.currentItem) {
+                    updateCurrentItemFromPosition(mouse)
                 }
-            } // Item ( delegate )
-        } // Repeater
-    } // Row
+            }
+            onClicked: updateCurrentItemFromPosition(mouse)
 
-    MouseArea {
-        anchors.fill: parent
-        hoverEnabled: d.currentItem
+            function updateCurrentItemFromPosition(point) {
+                var pos = mapToItem(row, point.x, point.y);
 
-        onPositionChanged: {
-            if (d.currentItem) {
-                updateCurrentItemFromPosition(mouse)
+                if (!d.hoveredItem || !d.currentItem || !d.hoveredItem.contains(Qt.point(pos.x - d.currentItem.x, pos.y - d.currentItem.y))) {
+                    d.hoveredItem = row.childAt(pos.x, pos.y);
+                    if (!d.hoveredItem || !d.hoveredItem.enabled)
+                        return false;
+                    if (d.currentItem != d.hoveredItem) {
+                        d.currentItem = d.hoveredItem;
+                    }
+                }
+                return true;
             }
         }
-        onClicked: updateCurrentItemFromPosition(mouse)
 
-        function updateCurrentItemFromPosition(point) {
-            var pos = mapToItem(row, point.x, point.y);
-
-            if (!d.hoveredItem || !d.currentItem || !d.hoveredItem.contains(Qt.point(pos.x - d.currentItem.x, pos.y - d.currentItem.y))) {
-                d.hoveredItem = row.childAt(pos.x, pos.y);
-                if (!d.hoveredItem || !d.hoveredItem.enabled)
-                    return false;
-                if (d.currentItem != d.hoveredItem) {
-                    d.currentItem = d.hoveredItem;
-                }
+        Rectangle {
+            id: underline
+            anchors {
+                bottom: row.bottom
             }
-            return true;
+            x: d.currentItem ? row.x + d.currentItem.x - units.gu(1) : 0
+            width: d.currentItem ? d.currentItem.width + units.gu(2) : 0
+            height: units.dp(4)
+            color: UbuntuColors.orange
+            visible: d.currentItem
         }
-    }
-
-    Rectangle {
-        id: underline
-        anchors {
-            bottom: row.bottom
-        }
-        x: d.currentItem ? row.x + d.currentItem.x - units.gu(1) : 0
-        width: d.currentItem ? d.currentItem.width + units.gu(2) : 0
-        height: units.dp(4)
-        color: UbuntuColors.orange
-        visible: d.currentItem
     }
 
     MenuNavigator {
