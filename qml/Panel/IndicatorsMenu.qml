@@ -369,6 +369,7 @@ Showable {
         State {
             name: "commit"
             extend: "locked"
+            PropertyChanges { target: root; focus: true }
             PropertyChanges { target: bar; interactive: true }
             PropertyChanges {
                 target: d;

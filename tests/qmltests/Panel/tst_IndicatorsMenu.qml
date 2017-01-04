@@ -304,14 +304,23 @@ IndicatorTest {
             indicatorsMenu.hide();
         }
 
-        function test_keyboardNavigation() {
+        function test_keyboardNavigation_data() {
+            return [
+                {tag: "tab to start", doTab: false},
+                {tag: "no tab to start", doTab: true}
+            ]
+        }
+
+        function test_keyboardNavigation(data) {
             var indicatorsBar = findChild(indicatorsMenu, "indicatorsBar");
 
             indicatorsMenu.show();
             indicatorsBar.setCurrentItemIndex(0);
             tryCompare(indicatorsMenu, "fullyOpened", true);
 
-            keyClick(Qt.Key_Tab);
+            if (data.doTab) {
+                keyClick(Qt.Key_Tab);
+            }
 
             keyClick(Qt.Key_Right);
             tryCompare(indicatorsBar, "currentItemIndex", 1);
