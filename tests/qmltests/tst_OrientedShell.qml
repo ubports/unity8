@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2016 Canonical, Ltd.
+ * Copyright (C) 2015-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1557,6 +1557,44 @@ Rectangle {
             var surface = topLevelSurfaceList.surfaceAt(index);
             verify(surface);
             return surface.activeFocus;
+        }
+
+        function test_tabCyclyingInShutdownDialog() {
+            loadShell("mako");
+
+            testCase.showPowerDialog();
+
+            var dialogs = findChild(orientedShell, "dialogs");
+            var buttons = findChildsByType(dialogs, "Button");
+
+            tryCompare(buttons[0], "activeFocus", true);
+
+            keyClick(Qt.Key_Tab);
+            tryCompare(buttons[1], "activeFocus", true);
+
+            keyClick(Qt.Key_Tab);
+            tryCompare(buttons[2], "activeFocus", true);
+
+            keyClick(Qt.Key_Tab);
+            tryCompare(buttons[0], "activeFocus", true);
+
+            keyClick(Qt.Key_Escape);
+
+            var dialogLoader = findChild(orientedShell, "dialogLoader");
+            tryCompare(dialogLoader, "item", null);
+        }
+
+        function test_escColosesShutdownDialog() {
+            loadShell("mako");
+
+            testCase.showPowerDialog();
+
+            var dialogLoader = findChild(orientedShell, "dialogLoader");
+            tryCompareFunction(function() { return dialogLoader.item !== null }, true);
+
+            keyClick(Qt.Key_Escape);
+
+            tryCompare(dialogLoader, "item", null);
         }
     }
 }

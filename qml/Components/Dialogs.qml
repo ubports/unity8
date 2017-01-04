@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2016 Canonical, Ltd.
+ * Copyright (C) 2014-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -155,6 +155,7 @@ Item {
             title: i18n.ctr("Title: Lock/Log out dialog", "Log out")
             text: i18n.tr("Are you sure you want to log out?")
             Button {
+                width: parent.width
                 text: i18n.ctr("Button: Lock the system", "Lock")
                 onClicked: {
                     LightDMService.greeter.showGreeter()
@@ -162,6 +163,8 @@ Item {
                 }
             }
             Button {
+                width: parent.width
+                focus: true
                 text: i18n.ctr("Button: Log out from the system", "Log Out")
                 onClicked: {
                     unitySessionService.logout();
@@ -169,6 +172,7 @@ Item {
                 }
             }
             Button {
+                width: parent.width
                 text: i18n.tr("Cancel")
                 onClicked: {
                     logoutDialog.hide();
@@ -185,6 +189,7 @@ Item {
             title: i18n.ctr("Title: Reboot dialog", "Reboot")
             text: i18n.tr("Are you sure you want to reboot?")
             Button {
+                width: parent.width
                 text: i18n.tr("No")
                 onClicked: {
                     rebootDialog.hide();
@@ -192,6 +197,8 @@ Item {
                 Component.onCompleted: if (root.hasKeyboard) forceActiveFocus(Qt.TabFocusReason)
             }
             Button {
+                width: parent.width
+                focus: true
                 text: i18n.tr("Yes")
                 onClicked: {
                     root.closeAllApps();
@@ -210,6 +217,8 @@ Item {
             title: i18n.ctr("Title: Power off/Restart dialog", "Power")
             text: i18n.tr("Are you sure you would like\nto power off?")
             Button {
+                width: parent.width
+                focus: true
                 text: i18n.ctr("Button: Power off the system", "Power off")
                 onClicked: {
                     root.closeAllApps();
@@ -219,6 +228,7 @@ Item {
                 color: theme.palette.normal.negative
             }
             Button {
+                width: parent.width
                 text: i18n.ctr("Button: Restart the system", "Restart")
                 onClicked: {
                     root.closeAllApps();
@@ -227,6 +237,7 @@ Item {
                 }
             }
             Button {
+                width: parent.width
                 text: i18n.tr("Cancel")
                 onClicked: {
                     powerDialog.hide();
