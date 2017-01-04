@@ -164,6 +164,7 @@ MouseArea {
                     LightDMService.greeter.showGreeter()
                     logoutDialog.hide();
                 }
+                Component.onCompleted: if (root.hasKeyboard) forceActiveFocus(Qt.TabFocusReason)
             }
             Button {
                 width: parent.width
@@ -180,7 +181,6 @@ MouseArea {
                 onClicked: {
                     logoutDialog.hide();
                 }
-                Component.onCompleted: if (root.hasKeyboard) forceActiveFocus(Qt.TabFocusReason)
             }
         }
     }
@@ -197,7 +197,6 @@ MouseArea {
                 onClicked: {
                     rebootDialog.hide();
                 }
-                Component.onCompleted: if (root.hasKeyboard) forceActiveFocus(Qt.TabFocusReason)
             }
             Button {
                 width: parent.width
@@ -209,6 +208,7 @@ MouseArea {
                     rebootDialog.hide();
                 }
                 color: theme.palette.normal.negative
+                Component.onCompleted: if (root.hasKeyboard) forceActiveFocus(Qt.TabFocusReason)
             }
         }
     }
@@ -229,6 +229,7 @@ MouseArea {
                     root.powerOffClicked();
                 }
                 color: theme.palette.normal.negative
+                Component.onCompleted: if (root.hasKeyboard) forceActiveFocus(Qt.TabFocusReason)
             }
             Button {
                 width: parent.width
@@ -245,7 +246,6 @@ MouseArea {
                 onClicked: {
                     powerDialog.hide();
                 }
-                Component.onCompleted: if (root.hasKeyboard) forceActiveFocus(Qt.TabFocusReason)
             }
         }
     }
