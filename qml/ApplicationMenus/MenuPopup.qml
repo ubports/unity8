@@ -40,26 +40,31 @@ UbuntuShape {
     readonly property real __maximumWidth: Screen.width * 0.7
     readonly property real __maximumHeight: Screen.height * 0.7
 
+    function show() {
+        visible = true;
+        focusScope.forceActiveFocus();
+    }
+
+    function hide() {
+        visible = false;
+        d.currentItem = null;
+    }
+
     function select(index) {
         d.select(index)
     }
 
     function reset() {
         d.currentItem = null;
+        dismiss();
     }
 
     function dismiss() {
-        d.dismissAll()
+        d.dismissAll();
     }
 
     implicitWidth: container.width
     implicitHeight: MathUtils.clamp(listView.contentHeight, __ajustedMinimumHeight, __maximumHeight)
-
-    onVisibleChanged: {
-        if (!visible) {
-            d.currentItem = null;
-        }
-    }
 
     MenuNavigator {
         id: d
@@ -85,7 +90,7 @@ UbuntuShape {
         }
     }
 
-    FocusScope {
+    Item {
         id: focusScope
         anchors.fill: parent
         focus: visible
@@ -250,7 +255,7 @@ UbuntuShape {
                                     } else if (popup) {
                                         popup.visible = true;
                                     }
-                                    popup.dismiss.connect(function() {
+                                    popup.retreat.connect(function() {
                                         popup.destroy();
                                         popup = null;
                                         menuItem.forceActiveFocus();
@@ -265,6 +270,12 @@ UbuntuShape {
                                 onCurrentIndexChanged: {
                                     if (popup && d.currentIndex != __ownIndex) {
                                         popup.visible = false;
+                                    }
+                                }
+                                onDismissAll: {
+                                    if (popup) {
+                                        popup.destroy();
+                                        popup = null;
                                     }
                                 }
                             }
@@ -325,7 +336,7 @@ UbuntuShape {
                 source: "MenuPopup.qml"
 
                 property var unityMenuModel: null
-                signal dismiss()
+                signal retreat()
 
                 Binding {
                     target: item
@@ -339,12 +350,7 @@ UbuntuShape {
                     value: submenuLoader.objectName + "menu"
                 }
 
-                Connections {
-                    target: d
-                    onDismissAll: submenuLoader.dismiss()
-                }
-
-                Keys.onLeftPressed: dismiss()
+                Keys.onLeftPressed: retreat()
 
                 Component.onCompleted: item.select(0);
                 onVisibleChanged: if (visible) { item.select(0); }

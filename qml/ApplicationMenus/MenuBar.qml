@@ -102,13 +102,13 @@ Item {
                             __popup = menuComponent.createObject(root, { objectName: visualItem.objectName + "-menu" });
                             // force the current item to be the newly popped up menu
                         } else {
-                            __popup.visible = true;
+                            __popup.show();
                         }
                         d.currentItem = visualItem;
                     }
                     function hide() {
                         if (__popup) {
-                            __popup.visible = false;
+                            __popup.hide();
 
                             if (d.currentItem === visualItem) {
                                 d.currentItem = null;
@@ -139,7 +139,6 @@ Item {
                             unityMenuModel: root.unityMenuModel.submenu(visualItem.__ownIndex)
 
                             Component.onCompleted: reset();
-                            onVisibleChanged: if (visible) { reset(); }
                         }
                     }
 

@@ -41,7 +41,6 @@ Item {
 
     MenuPopup {
         id: page
-        focus: true
 
         anchors {
             left: parent.left
@@ -68,7 +67,11 @@ Item {
         when: windowShown
 
         function init() {
-            page.dismiss();
+            page.show();
+        }
+
+        function cleanup() {
+            page.reset();
             wait(100); // let the page dismiss
             activatedSpy.clear();
         }
