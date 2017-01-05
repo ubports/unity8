@@ -2744,5 +2744,33 @@ Rectangle {
             tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
             keyRelease(Qt.Key_W, Qt.MetaModifier)
         }
+
+        function test_fourFingerTapOpensDrawer_data() {
+            return [
+                { tag: "1 finger", touchIds: [0], shown: false },
+                { tag: "2 finger", touchIds: [0, 1], shown: false },
+                { tag: "3 finger", touchIds: [0, 1, 2], shown: false },
+                { tag: "4 finger", touchIds: [0, 1, 2, 3], shown: true }
+            ];
+        }
+
+        function test_fourFingerTapOpensDrawer(data) {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var stage = findChild(shell, "stage");
+            var drawer = findChild(shell, "drawer")
+            verify(stage && drawer);
+
+            multiTouchTap(data.touchIds, stage);
+
+            if (data.shown) { // if shown, try to also hide it by clicking outside
+                tryCompareFunction(function() { return drawer.visible; }, true);
+                mouseClick(stage);
+            }
+            tryCompareFunction(function() { return drawer.visible; }, false);
+        }
     }
 }

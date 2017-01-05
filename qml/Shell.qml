@@ -316,7 +316,6 @@ StyledItem {
         }
 
         TouchGestureArea {
-            objectName: "fourFingerGestureArea"
             anchors.fill: stage
 
             minimumTouchPoints: 4
