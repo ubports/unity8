@@ -29,7 +29,7 @@ bool TabFocusFenceItem::focusNext()
 {
     QQuickItem * current = scopedFocusItem();
     if (current) {
-        QQuickItem * next = scopedFocusItem()->nextItemInFocusChain(true);
+        QQuickItem * next = current->nextItemInFocusChain(true);
         if (next) {
             next->setFocus(true, Qt::TabFocusReason);
             return true;
@@ -42,7 +42,7 @@ bool TabFocusFenceItem::focusPrev()
 {
     QQuickItem * current = scopedFocusItem();
     if (current) {
-        QQuickItem * prev = scopedFocusItem()->nextItemInFocusChain(false);
+        QQuickItem * prev = current->nextItemInFocusChain(false);
         if (prev) {
             prev->setFocus(true, Qt::BacktabFocusReason);
             return true;
