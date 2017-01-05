@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-12-07 13:49+0000\n"
-"PO-Revision-Date: 2016-09-28 13:40+0000\n"
-"Last-Translator: Xuacu Saturio <xuacusk8@gmail.com>\n"
+"POT-Creation-Date: 2016-12-15 16:17+0000\n"
+"PO-Revision-Date: 2016-12-16 02:13+0000\n"
+"Last-Translator: enolp <enolp@softastur.org>\n"
 "Language-Team: Asturian <ast@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-12-15 04:56+0000\n"
-"X-Generator: Launchpad (build 18293)\n"
+"X-Launchpad-Export-Date: 2016-12-23 04:58+0000\n"
+"X-Generator: Launchpad (build 18298)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
@@ -183,7 +183,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Opens the Application Drawer."
-msgstr ""
+msgstr "Abre'l caxón d'aplicaciones."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:194
 msgid "Scopes"
@@ -331,19 +331,19 @@ msgstr ""
 
 #: qml/Components/VirtualTouchPad.qml:327
 msgid "Tap left button to click."
-msgstr ""
+msgstr "Calca nel botón esquierdu pa facer clic."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "Calca nel botón drechu pa facer clic."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "Esliza con dos deos pa desplazate."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "Alcuentra más axustes nos Axustes del Sistema."
 
 #: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
@@ -496,16 +496,16 @@ msgstr "Esbillar entornu d'escritoriu"
 
 #: qml/Launcher/Drawer.qml:80
 msgid "Search…"
-msgstr ""
+msgstr "Guetar..."
 
 #: qml/Launcher/Drawer.qml:101
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: qml/Launcher/MoreAppsHeader.qml:32
 msgid "More apps in the store"
-msgstr ""
+msgstr "Más aplicaciones na tienda"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
