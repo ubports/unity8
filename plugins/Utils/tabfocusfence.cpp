@@ -25,26 +25,30 @@ TabFocusFenceItem::TabFocusFenceItem(QQuickItem *parent) : QQuickItem(parent)
     setFlag(ItemIsFocusScope);
 }
 
-void TabFocusFenceItem::focusNext()
+bool TabFocusFenceItem::focusNext()
 {
     QQuickItem * current = scopedFocusItem();
     if (current) {
         QQuickItem * next = scopedFocusItem()->nextItemInFocusChain(true);
         if (next) {
             next->setFocus(true, Qt::TabFocusReason);
+            return true;
         }
     }
+    return false;
 }
 
-void TabFocusFenceItem::focusPrev()
+bool TabFocusFenceItem::focusPrev()
 {
     QQuickItem * current = scopedFocusItem();
     if (current) {
         QQuickItem * prev = scopedFocusItem()->nextItemInFocusChain(false);
         if (prev) {
             prev->setFocus(true, Qt::BacktabFocusReason);
+            return true;
         }
     }
+    return false;
 }
 
 void TabFocusFenceItem::keyPressEvent(QKeyEvent *event)

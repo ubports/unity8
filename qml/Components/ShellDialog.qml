@@ -62,10 +62,10 @@ Dialog {
             spacing: units.gu(2)
         }
         Keys.onDownPressed: {
-            focusNext();
+            event.accepted = focusNext();
         }
         Keys.onUpPressed: {
-            focusPrev();
+            event.accepted = focusPrev();
         }
     }
 }
