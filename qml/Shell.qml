@@ -314,6 +314,20 @@ StyledItem {
             oskEnabled: shell.oskEnabled
             spreadEnabled: tutorial.spreadEnabled && (!greeter || (!greeter.hasLockedApp && !greeter.shown))
         }
+
+        TouchGestureArea {
+            objectName: "fourFingerGestureArea"
+            anchors.fill: stage
+
+            minimumTouchPoints: 4
+            maximumTouchPoints: minimumTouchPoints
+
+            onStatusChanged: {
+                if (status == TouchGestureArea.Recognized) {
+                    launcher.openDrawer(true);
+                }
+            }
+        }
     }
 
     InputMethod {
