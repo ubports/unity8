@@ -25,6 +25,28 @@ TabFocusFenceItem::TabFocusFenceItem(QQuickItem *parent) : QQuickItem(parent)
     setFlag(ItemIsFocusScope);
 }
 
+void TabFocusFenceItem::focusNext()
+{
+    QQuickItem * current = scopedFocusItem();
+    if (current) {
+        QQuickItem * next = scopedFocusItem()->nextItemInFocusChain(true);
+        if (next) {
+            next->setFocus(true, Qt::TabFocusReason);
+        }
+    }
+}
+
+void TabFocusFenceItem::focusPrev()
+{
+    QQuickItem * current = scopedFocusItem();
+    if (current) {
+        QQuickItem * prev = scopedFocusItem()->nextItemInFocusChain(false);
+        if (prev) {
+            prev->setFocus(true, Qt::BacktabFocusReason);
+        }
+    }
+}
+
 void TabFocusFenceItem::keyPressEvent(QKeyEvent *event)
 {
     // Needed so we eat Tab keys when there's only one item inside the fence

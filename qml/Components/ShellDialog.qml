@@ -61,5 +61,11 @@ Dialog {
             width: parent.width
             spacing: units.gu(2)
         }
+        Keys.onDownPressed: {
+            focusNext();
+        }
+        Keys.onUpPressed: {
+            focusPrev();
+        }
     }
 }
