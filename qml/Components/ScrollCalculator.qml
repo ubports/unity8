@@ -20,7 +20,7 @@ import Ubuntu.Components 1.3
 Item {
     id: scrollArea
 
-    readonly property bool areaActive: lateralPosition >= 0 && progressThreshold * width
+    readonly property bool areaActive: lateralPosition >= 0
     property real stopScrollThreshold: units.gu(2)
     property real progressThreshold: units.dp(4)
     property int direction: Qt.LeftToRight
@@ -41,6 +41,9 @@ Item {
         scrollTimer.restart();
         d.init = true;
         d.passedProgressThreshold = false;
+
+        d.progression = 0;
+        d.startingProgression = 0;
     }
 
     function handleExit() {
