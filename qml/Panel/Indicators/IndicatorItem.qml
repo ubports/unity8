@@ -156,6 +156,8 @@ IndicatorDelegate {
     }
 
     StateGroup {
+        objectName: "indicatorItemState"
+
         states: [
             State {
                 name: "minimised"

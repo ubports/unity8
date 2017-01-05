@@ -256,14 +256,6 @@ PanelTest {
 
             PanelState.title = ""
 
-            panel.indicators.hide();
-            // Wait for animation to complete
-            tryCompare(panel.indicators.hideAnimation, "running", false);
-
-            panel.applicationMenus.hide();
-            // Wait for animation to complete
-            tryCompare(panel.applicationMenus.hideAnimation, "running", false);
-
             // Wait for the indicators to get into position.
             // (switches between normal and fullscreen modes are animated)
             var panelArea = findChild(panel, "panelArea");
@@ -275,11 +267,36 @@ PanelTest {
             compare(windowControlButtonsSpy.valid, true);
         }
 
+        function cleanup() {
+            panel.indicators.hide();
+            panel.applicationMenus.hide();
+            waitForAllAnimationToComplete("initial");
+        }
+
         function get_indicator_item(index) {
             var indicatorItem = findChild(panel, root.originalModelData[index]["identifier"]+"-panelItem");
             verify(indicatorItem !== null);
 
             return indicatorItem;
+        }
+
+        function waitForAllAnimationToComplete(state) {
+
+            tryCompare(panel.indicators.hideAnimation, "running", false);
+            tryCompare(panel.indicators .showAnimation, "running", false);
+            tryCompare(panel.indicators, "state", state);
+
+            for (var i = 0; i < root.originalModelData.length; i++) {
+                var indicatorItem = get_indicator_item(i);
+
+                var itemState = findInvisibleChild(indicatorItem, "indicatorItemState");
+                verify(itemState !== null);
+
+                waitUntilTransitionsEnd(itemState);
+            }
+
+            tryCompare(panel.applicationMenus.hideAnimation, "running", false);
+            tryCompare(panel.applicationMenus, "state", state);
         }
 
         function pullDownIndicatorsMenu() {
@@ -340,7 +357,7 @@ PanelTest {
                 touchFlick(panel,
                            startXPosition, 0,
                            startXPosition, panel.height,
-                           true /* beginTouch */, false /* endTouch */, units.gu(5), 15);
+                           true /* beginTouch */, false /* endTouch */, 1, 15);
 
                 // Indicators height should follow the drag, and therefore increase accordingly.
                 // They should be at least half-way through the screen
@@ -355,8 +372,7 @@ PanelTest {
 
                 // init for next indicatorItem
                 panel.indicators.hide();
-                tryCompare(panel.indicators.hideAnimation, "running", false);
-                tryCompare(panel.indicators, "state", "initial");
+                waitForAllAnimationToComplete("initial");
             }
         }
 
