@@ -152,21 +152,21 @@ MouseArea {
         onActiveChanged: {
             if (!active) {
                 previousSourceComponent = undefined;
-                if (previousFocusedComponent) {
-                    previousFocusedComponent.forceActiveFocus(Qt.OtherFocusReason);
-                    previousFocusedComponent = undefined;
+                if (previousFocusedItem) {
+                    previousFocusedItem.forceActiveFocus(Qt.OtherFocusReason);
+                    previousFocusedItem = undefined;
                 }
             }
         }
         onSourceComponentChanged: {
             if (previousSourceComponent !== sourceComponent) {
                 previousSourceComponent = sourceComponent;
-                previousFocusedComponent = window.activeFocusItem;
+                previousFocusedItem = window.activeFocusItem;
             }
         }
 
         property var previousSourceComponent: undefined
-        property var previousFocusedComponent: undefined
+        property var previousFocusedItem: undefined
     }
 
     Component {
