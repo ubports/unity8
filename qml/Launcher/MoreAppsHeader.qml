@@ -4,15 +4,12 @@ import Ubuntu.Components 1.3
 AbstractButton {
     id: root
 
-    onClicked: {
-        // TODO: Make this point to the snappy store as soon as we stop landing to vivid
-        Qt.openUrlExternally("scope://com.canonical.scopes.clickstore")
-    }
+    property bool highlighted: false
 
     UbuntuShape {
         width: parent.width
         height: parent.height - units.gu(1)
-        color: "#20ffffff"
+        color: root.highlighted ? "red" : "#20ffffff"
         aspect: UbuntuShape.Flat
 
         Row {
