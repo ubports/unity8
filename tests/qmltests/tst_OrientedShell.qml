@@ -1365,12 +1365,7 @@ Rectangle {
         }
 
         function findAppWindowForSurfaceId(surfaceId) {
-            // for PhoneStage and TabletStage
-            var delegate = findChild(shell, "spreadDelegate_" + surfaceId);
-            if (!delegate) {
-                // for DesktopStage
-                delegate = findChild(shell, "appDelegate_" + surfaceId);
-            }
+            var delegate = findChild(shell, "appDelegate_" + surfaceId);
             verify(delegate);
             var appWindow = findChild(delegate, "appWindow");
             return appWindow;
