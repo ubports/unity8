@@ -1596,5 +1596,30 @@ Rectangle {
 
             tryCompare(dialogLoader, "item", null);
         }
+
+        function test_focusOnShutdownDialogClose() {
+            loadShell("manta");
+            usageModeSelector.selectWindowed();
+
+            var surfaceId = topLevelSurfaceList.nextId;
+            var app = ApplicationManager.startApplication("twitter-webapp");
+            waitUntilAppWindowIsFullyLoaded(surfaceId);
+
+            var primaryAppWindow = findAppWindowForSurfaceId(surfaceId);
+            var surface = app.surfaceList.get(0);
+            var surfaceItem = findSurfaceItem(primaryAppWindow, surface);
+
+            compare(window.activeFocusItem, surfaceItem);
+
+            testCase.showPowerDialog();
+
+            var dialogLoader = findChild(orientedShell, "dialogLoader");
+            tryCompareFunction(function() { return dialogLoader.item !== null }, true);
+
+            keyClick(Qt.Key_Escape);
+
+            tryCompare(dialogLoader, "item", null);
+            compare(window.activeFocusItem, surfaceItem);
+        }
     }
 }
