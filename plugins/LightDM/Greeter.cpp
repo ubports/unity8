@@ -177,9 +177,3 @@ void Greeter::authenticationCompleteFilter()
     Q_EMIT isAuthenticatedChanged();
     Q_EMIT authenticationComplete();
 }
-
-QObject *Greeter::mock()
-{
-    Q_D(Greeter);
-    return d->m_greeter->property("mock").value<QObject*>();
-}

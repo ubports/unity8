@@ -23,8 +23,6 @@ namespace QLightDM
 
 MockController::MockController(QObject *parent)
     : QObject(parent)
-    , m_selectGuestHint(false)
-    , m_hasGuestAccountHint(false)
     , m_fullSessions(
         {
             {"ubuntu", "Ubuntu"},
@@ -40,12 +38,7 @@ MockController::MockController(QObject *parent)
             {"", "Unknown?"}
         })
 {
-    m_userMode = qgetenv("LIBLIGHTDM_MOCK_MODE");
-    if (m_userMode.isEmpty()) {
-        m_userMode = "full";
-    }
-    m_sessionMode = "full";
-    m_numSessions = numFullSessions();
+    reset();
 }
 
 MockController::~MockController()
@@ -63,11 +56,17 @@ MockController *MockController::instance()
 
 void MockController::reset()
 {
+    auto userMode = qgetenv("LIBLIGHTDM_MOCK_MODE");
+    if (userMode.isEmpty()) {
+        userMode = "full";
+    }
+
     setSelectUserHint("");
     setSelectGuestHint(false);
     setHasGuestAccountHint(false);
-    setUserMode("full");
+    setUserMode(userMode);
     setSessionMode("full");
+    setNumSessions(numFullSessions());
 }
 
 QString MockController::selectUserHint() const

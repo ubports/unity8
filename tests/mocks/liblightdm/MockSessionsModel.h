@@ -30,8 +30,6 @@ class Q_DECL_EXPORT SessionsModel : public QAbstractListModel
     {
         Q_OBJECT
 
-        Q_PROPERTY(QObject *mock READ mock CONSTANT) // only in mock
-
         Q_ENUMS(SessionModelRoles SessionType)
 
     public:
@@ -55,8 +53,6 @@ class Q_DECL_EXPORT SessionsModel : public QAbstractListModel
         QHash<int, QByteArray> roleNames() const override;
         int rowCount(const QModelIndex& parent) const override;
         QVariant data(const QModelIndex& index, int role) const override;
-
-        QObject *mock();
 
     private Q_SLOTS:
         void resetEntries();

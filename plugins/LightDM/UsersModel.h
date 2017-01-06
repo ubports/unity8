@@ -21,13 +21,11 @@
 #pragma once
 
 #include <unitysortfilterproxymodelqml.h>
-#include <QtCore/QObject>
+#include <QObject>
 
 class UsersModel : public UnitySortFilterProxyModelQML
 {
     Q_OBJECT
-
-    Q_PROPERTY(QObject *mock READ mock CONSTANT) // for testing
 
 public:
     explicit UsersModel(QObject* parent=0);
@@ -35,8 +33,6 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-
-    QObject *mock();
 
 private:
     int guestRow() const;

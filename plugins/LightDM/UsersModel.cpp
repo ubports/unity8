@@ -109,11 +109,4 @@ QVariant UsersModel::data(const QModelIndex &index, int role) const
     return QSortFilterProxyModel::data(index, role);
 }
 
-QObject *UsersModel::mock()
-{
-    // get through MangleModel down to QLightDM::UsersModel
-    MangleModel *mangleModel = static_cast<MangleModel*>(sourceModel());
-    return mangleModel->sourceModel()->property("mock").value<QObject*>();
-}
-
 #include "UsersModel.moc"

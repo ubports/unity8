@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtTest 1.0
 import ".."
 import "../../../qml/Greeter"
+import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
 import Ubuntu.Components 1.3
 import Ubuntu.Telephony 0.1 as Telephony
@@ -31,7 +32,7 @@ Item {
     Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark" // use the same theme as the real shell
 
     Binding {
-        target: LightDM.Users.mock
+        target: LightDMController
         property: "userMode"
         value: "single"
     }

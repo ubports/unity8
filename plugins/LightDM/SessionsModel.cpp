@@ -111,11 +111,6 @@ QVariant SessionsModel::data(const QModelIndex& index, int role) const
     }
 }
 
-QObject *SessionsModel::mock()
-{
-    return m_model->property("mock").value<QObject*>();
-}
-
 SessionsModel::SessionsModel(QObject* parent)
   : UnitySortFilterProxyModelQML(parent)
 {

@@ -183,9 +183,4 @@ void UsersModel::resetEntries()
     endResetModel();
 }
 
-QObject *UsersModel::mock()
-{
-    return MockController::instance();
-}
-
 }

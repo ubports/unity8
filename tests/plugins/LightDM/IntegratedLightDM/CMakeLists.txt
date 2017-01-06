@@ -58,6 +58,7 @@ target_include_directories(GreeterSessionsModelTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/LightDM
     ${CMAKE_SOURCE_DIR}/plugins/Utils
     ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM/IntegratedLightDM
+    ${CMAKE_SOURCE_DIR}/tests/mocks/liblightdm/
     )
 add_unity8_uitest(GreeterSessions GreeterSessionsModelTestExec
     DEPENDS MockLightDM

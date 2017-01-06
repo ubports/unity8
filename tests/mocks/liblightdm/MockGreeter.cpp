@@ -255,9 +255,4 @@ void Greeter::sendAuthenticationComplete()
     }
 }
 
-QObject *Greeter::mock()
-{
-    return MockController::instance();
-}
-
 }
