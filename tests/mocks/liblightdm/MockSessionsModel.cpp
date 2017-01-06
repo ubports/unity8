@@ -43,6 +43,7 @@ SessionsModel::SessionsModel(QObject* parent)
     d->roleNames = QAbstractListModel::roleNames();
     d->roleNames[KeyRole] = "key";
     d->roleNames[TypeRole] = "type";
+    setRoleNames(d->roleNames);
 
     connect(MockController::instance(), &MockController::sessionModeChanged,
             this, &SessionsModel::resetEntries);
