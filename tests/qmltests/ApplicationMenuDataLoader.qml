@@ -6,10 +6,10 @@ import Unity.Indicators 0.1 as Indicators
 
 Object {
 
-    property var surfaceManager: null
+    property alias surfaceManager: sMgrHandler.target
 
     Connections {
-        target: surfaceManager
+        id: sMgrHandler
         onSurfaceCreated: {
             var fakeMenuPath = "/" + surface.persistentId.replace(/\W+/g, "");
 

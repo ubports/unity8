@@ -53,18 +53,18 @@ Rectangle {
         shellLoader.active = true;
     }
 
-    SurfaceManager { id: sMgr }
     ApplicationMenuDataLoader {
         id: appMenuData
-        surfaceManager: sMgr
     }
 
     property var shell: shellLoader.item ? shellLoader.item : null
     onShellChanged: {
         if (shell) {
             topLevelSurfaceList = testCase.findInvisibleChild(shell, "topLevelSurfaceList");
+            appMenuData.surfaceManager = testCase.findInvisibleChild(shell, "surfaceManager");
         } else {
             topLevelSurfaceList = null;
+            appMenuData.surfaceManager = null;
         }
     }
 
