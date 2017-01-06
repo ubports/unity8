@@ -78,19 +78,25 @@ Item {
     QtObject {
         id: d
 
-        property bool __revealControls: (decorationMouseArea.containsMouse || menuBarLoader.menusRequested) &&
+        property bool revealControls: !greeterShown &&
                                       !applicationMenus.shown &&
-                                      !indicators.shown
+                                      !indicators.shown &&
+                                      (decorationMouseArea.containsMouse || menuBarLoader.menusRequested)
 
-        property bool showWindowDecorationControls: (__revealControls && PanelState.decorationsVisible) ||
+        property bool showWindowDecorationControls: (revealControls && PanelState.decorationsVisible) ||
                                                     PanelState.decorationsAlwaysVisible
 
-        property bool enablePointerMenu: __revealControls &&
-                                         (PanelState.decorationsVisible || mode == "staged") &&
+        property bool showPointerMenu: revealControls &&
+                                       (PanelState.decorationsVisible || mode == "staged")
+
+        property bool enablePointerMenu: revealControls &&
                                          applicationMenus.available &&
                                          applicationMenus.model
 
-        property bool enableTouchMenus: !enablePointerMenu &&
+        property bool showTouchMenu: !greeterShown &&
+                                     !showPointerMenu
+
+        property bool enableTouchMenus: showTouchMenu &&
                                         applicationMenus.available &&
                                         applicationMenus.model
     }
@@ -198,7 +204,7 @@ Item {
                     id: menuBarLoader
                     height: parent.height
                     enabled: d.enablePointerMenu
-                    opacity: d.enablePointerMenu ? 1 : 0
+                    opacity: d.showPointerMenu ? 1 : 0
                     visible: opacity != 0
                     Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
                     active: __applicationMenus.model
@@ -290,7 +296,7 @@ Item {
             }
 
             enabled: d.enableTouchMenus
-            opacity: d.enableTouchMenus ? 1 : 0
+            opacity: d.showTouchMenu ? 1 : 0
             visible: opacity != 0
             Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
 
