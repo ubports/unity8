@@ -590,22 +590,22 @@ Item {
         }
 
         function test_selectUserHintGuest() {
-            LightDM.Greeter.mock.hasGuestAccountHint = true;
-            LightDM.Greeter.mock.selectGuestHint = true;
-            LightDM.Greeter.mock.selectUserHint = "info-prompt";
+            LightDMController.hasGuestAccountHint = true;
+            LightDMController.selectGuestHint = true;
+            LightDMController.selectUserHint = "info-prompt";
             resetLoader();
             verifySelected("*guest");
         }
 
         function test_selectUserHintGuestWithNoGuest() {
-            LightDM.Greeter.mock.selectGuestHint = true;
-            LightDM.Greeter.mock.selectUserHint = "info-prompt";
+            LightDMController.selectGuestHint = true;
+            LightDMController.selectUserHint = "info-prompt";
             resetLoader();
             verifySelected("info-prompt");
         }
 
         function test_hasGuestAccountHint() {
-            LightDM.Greeter.mock.hasGuestAccountHint = true;
+            LightDMController.hasGuestAccountHint = true;
             resetLoader();
             var i = selectUser("*guest");
             compare(i, LightDM.Users.count - 1); // guest should be last
