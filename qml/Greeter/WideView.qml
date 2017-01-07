@@ -141,11 +141,6 @@ FocusScope {
             model: root.userModel
             onResponded: root.responded(response)
             onSelected: {
-                if (LightDMService.users.mock) {
-                    LightDMService.users.mock.currentUsername = currentUser;
-                }
-
-                loginList.selectedUserIndex = index;
                 root.selected(index)
                 currentSession = LightDMService.users.data(index, LightDMService.userRoles.SessionRole);
             }
@@ -159,7 +154,7 @@ FocusScope {
                 //enabled: LightDM.Users.mock
                 target: LightDMService.users
                 onModelReset: {
-                    loginList.currentSession = LightDMService.users.data(loginList.selectedUserIndex, LightDMService.userRoles.SessionRole);
+                    loginList.currentSession = LightDMService.users.data(loginList.currentIndex, LightDMService.userRoles.SessionRole);
                  }
             }
         }

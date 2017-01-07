@@ -412,19 +412,24 @@ StyledItem {
         }
 
         function test_changingSessionSticksToUser() {
-            LightDM.Sessions.mock.sessionMode = "full";
+            LightDMController.sessionMode = "full";
+            // For this test to work, a user has to be selected and the
+            // mock must be made aware of that user
+            selectUser("has-password")
+            LightDMController.currentUsername = "has-password"
+
             var loginList = findChild(view, "loginList");
             var fakeSessionName = "ASessionWillNeverBeCalledThis";
 
             compare(LightDM.Sessions.count > 1, true);
             compare(loginList.currentSession != fakeSessionName, true);
 
-            LightDM.Users.mock.sessionName = fakeSessionName;
+            LightDMController.sessionName = fakeSessionName;
             tryCompare(loginList, "currentSession", fakeSessionName);
 
             // Force a model reset
-            LightDM.Users.mock.userMode = "single";
-            LightDM.Users.mock.userMode = "full";
+            LightDMController.userMode = "single";
+            LightDMController.userMode = "full";
         }
 
         function test_tease_data() {
