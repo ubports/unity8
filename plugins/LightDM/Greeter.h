@@ -50,6 +50,8 @@ public:
     bool promptless() const;
     QString selectUser() const;
     bool hasGuestAccount() const;
+    bool showManualLoginHint() const;
+    bool hideUsersHint() const;
 
 public Q_SLOTS:
     void authenticate(const QString &username=QString());

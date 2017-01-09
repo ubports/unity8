@@ -35,5 +35,10 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
 private:
+    int manualRow() const;
     int guestRow() const;
+
+    void updateShowManual();
+
+    bool m_showManual;
 };

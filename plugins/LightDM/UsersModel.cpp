@@ -63,24 +63,70 @@ QVariant MangleModel::data(const QModelIndex &index, int role) const
 
 UsersModel::UsersModel(QObject* parent)
   : UnitySortFilterProxyModelQML(parent)
+  , m_showManual(false)
 {
-    setModel(new MangleModel(this));
+    if (!Greeter::instance()->hideUsersHint()) {
+        setModel(new MangleModel(this));
+    }
     setSortCaseSensitivity(Qt::CaseInsensitive);
     setSortLocaleAware(true);
     setSortRole(QLightDM::UsersModel::RealNameRole);
     sort(0);
+
+    connect(this, &UnitySortFilterProxyModelQML::countChanged,
+            this, &UsersModel::updateShowManual);
+    updateShowManual();
+}
+
+void UsersModel::updateShowManual()
+{
+    // Show manual login if we are asked to OR if no other entry exists
+    bool showManual = Greeter::instance()->showManualLoginHint() ||
+                      (QSortFilterProxyModel::rowCount() == 0 &&
+                       !Greeter::instance()->hasGuestAccount());
+
+    if (m_showManual != showManual) {
+        int row = QSortFilterProxyModel::rowCount();
+        if (showManual)
+            beginInsertRows(QModelIndex(), row, row);
+        else
+            beginRemoveRows(QModelIndex(), row, row);
+
+        m_showManual = showManual;
+
+        if (showManual)
+            endInsertRows();
+        else
+            endRemoveRows();
+    }
+}
+
+int UsersModel::manualRow() const
+{
+    if (!m_showManual)
+        return -1;
+
+    return QSortFilterProxyModel::rowCount();
 }
 
 int UsersModel::guestRow() const
 {
-    return Greeter::instance()->hasGuestAccount() ?
-           UnitySortFilterProxyModelQML::rowCount() : -1;
+    if (!Greeter::instance()->hasGuestAccount())
+        return -1;
+
+    int row = QSortFilterProxyModel::rowCount();
+    if (m_showManual)
+        row++;
+
+    return row;
 }
 
 int UsersModel::rowCount(const QModelIndex &parent) const
 {
     auto count = UnitySortFilterProxyModelQML::rowCount(parent);
 
+    if (m_showManual && !parent.isValid())
+        count++;
     if (Greeter::instance()->hasGuestAccount() && !parent.isValid())
         count++;
 
@@ -89,7 +135,7 @@ int UsersModel::rowCount(const QModelIndex &parent) const
 
 QModelIndex UsersModel::index(int row, int column, const QModelIndex &parent) const
 {
-    if (row == guestRow() && !parent.isValid()) {
+    if ((row == manualRow() || row == guestRow()) && !parent.isValid()) {
         return createIndex(row, column);
     } else {
         return UnitySortFilterProxyModelQML::index(row, column, parent);
@@ -98,7 +144,15 @@ QModelIndex UsersModel::index(int row, int column, const QModelIndex &parent) co
 
 QVariant UsersModel::data(const QModelIndex &index, int role) const
 {
-    if (index.row() == guestRow() && index.column() == 0) {
+    if (index.row() == manualRow() && index.column() == 0) {
+        switch (role) {
+        case QLightDM::UsersModel::NameRole:       return QStringLiteral("*other");
+        case QLightDM::UsersModel::RealNameRole:   return gettext("Login");
+        case QLightDM::UsersModel::LoggedInRole:   return false;
+        case QLightDM::UsersModel::SessionRole:    return Greeter::instance()->defaultSessionHint();
+        default:                                   return QVariant();
+        }
+    } else if (index.row() == guestRow() && index.column() == 0) {
         switch (role) {
         case QLightDM::UsersModel::NameRole:       return QStringLiteral("*guest");
         case QLightDM::UsersModel::RealNameRole:   return gettext("Guest Session");

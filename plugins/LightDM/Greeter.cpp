@@ -114,6 +114,18 @@ bool Greeter::hasGuestAccount() const
     return d->m_greeter->hasGuestAccountHint();
 }
 
+bool Greeter::showManualLoginHint() const
+{
+    Q_D(const Greeter);
+    return d->m_greeter->showManualLoginHint();
+}
+
+bool Greeter::hideUsersHint() const
+{
+    Q_D(const Greeter);
+    return d->m_greeter->hideUsersHint();
+}
+
 void Greeter::authenticate(const QString &username)
 {
     Q_D(Greeter);
@@ -125,6 +137,8 @@ void Greeter::authenticate(const QString &username)
 
     if (username == QStringLiteral("*guest")) {
         d->m_greeter->authenticateAsGuest();
+    } else if (username == QStringLiteral("*other")) {
+        d->m_greeter->authenticate(nullptr);
     } else {
         d->m_greeter->authenticate(username);
     }
