@@ -151,7 +151,6 @@ void Greeter::respond(const QString &response)
 {
     Q_D(Greeter);
     d->m_greeter->respond(response);
-    Q_EMIT authenticationUserChanged(); // may have changed in liblightdm
 }
 
 bool Greeter::startSessionSync(const QString &session)
@@ -164,6 +163,8 @@ void Greeter::showPromptFilter(const QString &text, QLightDM::Greeter::PromptTyp
 {
     Q_D(Greeter);
     d->wasPrompted = true;
+
+    Q_EMIT authenticationUserChanged(); // may have changed in liblightdm
 
     bool isDefaultPrompt = (text == dgettext("Linux-PAM", "Password: "));
 
@@ -184,6 +185,7 @@ void Greeter::showPromptFilter(const QString &text, QLightDM::Greeter::PromptTyp
 
 void Greeter::showMessageFilter(const QString &text, QLightDM::Greeter::MessageType type)
 {
+    Q_EMIT authenticationUserChanged(); // may have changed in liblightdm
     Q_EMIT showMessage(text, type == QLightDM::Greeter::MessageTypeError);
 }
 
