@@ -445,7 +445,6 @@ StyledItem {
                 launcher.openDrawer(false);
             } else {
                 greeterLoader.openDrawerAfterUnlock = true;
-//                greeter.notifyUserRequestedApp();
             }
         }
     }
