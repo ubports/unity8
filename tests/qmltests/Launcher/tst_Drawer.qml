@@ -268,9 +268,9 @@ StyledItem {
             tryCompare(drawer, "focus", true);
 
             var searchField = findChild(drawer, "searchField");
-            verify(searchField);
+            tryCompareFunction(function() { return !!searchField }, true);
             typeString("cam");
-            tryCompare(searchField, "displayText", "cam");
+            tryCompareFunction(function() { return searchField.displayText }, "cam");
         }
 
         function test_kbdNavigation() {

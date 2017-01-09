@@ -154,7 +154,6 @@ FocusScope {
 
     function openDrawer(focusInputField) {
         if (!drawerEnabled) {
-            print("bam!")
             return;
         }
 
