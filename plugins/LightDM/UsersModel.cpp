@@ -102,6 +102,8 @@ QVariant UsersModel::data(const QModelIndex &index, int role) const
         switch (role) {
         case QLightDM::UsersModel::NameRole:       return QStringLiteral("*guest");
         case QLightDM::UsersModel::RealNameRole:   return gettext("Guest Session");
+        case QLightDM::UsersModel::LoggedInRole:   return false;
+        case QLightDM::UsersModel::SessionRole:    return Greeter::instance()->defaultSessionHint();
         default:                                   return QVariant();
         }
     }
