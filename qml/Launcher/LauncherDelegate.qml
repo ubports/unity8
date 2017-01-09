@@ -124,15 +124,14 @@ Item {
         height: parent.itemHeight + units.gu(1)
         anchors.centerIn: parent
 
-        Image {
-            objectName: "focusRing"
-            anchors.centerIn: iconShape
-            height: width * 15 / 16
-            width: iconShape.width + units.gu(1)
-            source: "graphics/launcher-app-focus-ring.svg"
-            sourceSize.width: width
-            sourceSize.height: height
-            visible: root.highlighted
+        StyledItem {
+            styleName: "FocusShape"
+            anchors.fill: iconShape
+            activeFocusOnTab: true
+            StyleHints {
+                visible: root.highlighted
+                radius: units.gu(2.55)
+            }
         }
 
         ProportionalShape {
