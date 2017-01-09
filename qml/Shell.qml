@@ -342,9 +342,7 @@ StyledItem {
         Connections {
             target: greeter
             onActiveChanged: {
-                print("active changed", greeter.active, greeterLoader.openDrawerAfterUnlock)
                 if (!greeter.active && greeterLoader.openDrawerAfterUnlock) {
-                    print("should open drawer")
                     launcher.openDrawer(false);
                     greeterLoader.openDrawerAfterUnlock = false;
                 }
