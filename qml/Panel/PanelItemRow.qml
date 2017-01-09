@@ -135,11 +135,12 @@ Item {
         if (d.previousItem) {
             d.firstItemSwitch = false;
         }
-        d.previousItem = currentItem;
+        d.previousItem = currentItem;\
     }
 
     Label {
         id: rowLabel
+        objectName: "panelTitle"
         anchors {
             left: parent.left
             leftMargin: units.gu(1)
@@ -152,14 +153,17 @@ Item {
         font.weight: Font.Medium
         color: Theme.palette.selected.backgroundText
         opacity: showRowTitle ? 1 : 0
+        visible: opacity != 0
         Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
     }
 
     ListView {
         id: row
+        objectName: "panelRow"
         orientation: ListView.Horizontal
         model: root.model
         opacity: showRowTitle ? 0 : 1
+        // dont set visible on basis of opacity; otherwise width will not be calculated correctly
         anchors {
             top: parent.top
             bottom: parent.bottom

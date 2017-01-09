@@ -213,6 +213,7 @@ Item {
 
                     sourceComponent: MenuBar {
                         id: bar
+                        objectName: "menuBar"
                         anchors.left: parent.left
                         anchors.margins: units.gu(1)
                         height: menuBarLoader.height

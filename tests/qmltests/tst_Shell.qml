@@ -2753,5 +2753,25 @@ Rectangle {
             tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
             keyRelease(Qt.Key_W, Qt.MetaModifier)
         }
+
+        function test_panelTitleShowsWhenGreeterNotShown_data() {
+            return [
+                {tag: "phone" },
+                {tag: "tablet" },
+                {tag: "desktop" }
+            ]
+        }
+
+        function test_panelTitleShowsWhenGreeterNotShown(data) {
+            loadShell(data.tag);
+
+            var panel = findChild(shell, "panel"); verify(panel);
+            var panelTitle = findChild(panel.applicationMenus, "panelTitle"); verify(panelTitle);
+            compare(panelTitle.visible, false, "Panel title should not be visible when greeter is shown");
+
+            swipeAwayGreeter();
+
+            tryCompare(panelTitle, "visible", true, undefined, "Panel title should be visible when greeter not shown");
+        }
     }
 }

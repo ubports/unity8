@@ -251,10 +251,12 @@ PanelTest {
 
         function init() {
             panel.mode = "staged";
+            mouseEmulation.checked = true;
             panel.fullscreenMode = false;
             callManager.foregroundCall = null;
 
-            PanelState.title = ""
+            PanelState.title = "";
+            PanelState.decorationsVisible = false;
 
             // Wait for the indicators to get into position.
             // (switches between normal and fullscreen modes are animated)
@@ -693,13 +695,11 @@ PanelTest {
             var windowControlArea = findChild(panel, "windowControlArea");
             verify(windowControlArea, "Window control area should have been created in windowed mode")
 
-            var buttonsVisible = PanelState.decorationsVisible;
             PanelState.decorationsVisible = true;
             // click in very topleft corner and verify the close button got clicked too
             mouseMove(panel, 0, 0);
             mouseClick(panel, 0, 0, undefined /*button*/, undefined /*modifiers*/, 100 /*short delay*/);
             compare(windowControlButtonsSpy.count, 1);
-            PanelState.decorationsVisible = buttonsVisible;
         }
 
         function test_hidingKeyboardIndicator_data() {
@@ -753,6 +753,47 @@ PanelTest {
                 tryCompareFunction(function() { return dataItem.opacity > 0.0; }, true);
                 tryCompareFunction(function() { return dataItem.width > 0.0; }, true);
             }
+        }
+
+        function test_stagedApplicationMenuBarShowOnMouseHover() {
+            PanelState.title = "Fake Title";
+            panel.mode = "staged";
+            mouseEmulation.checked = false;
+
+            var appTitle = findChild(panel.applicationMenus, "panelTitle"); verify(appTitle);
+            var appMenuRow = findChild(panel.applicationMenus, "panelRow"); verify(appMenuRow);
+            var appMenuBar = findChild(panel, "menuBar"); verify(appMenuBar);
+
+            tryCompare(appTitle, "visible", true, undefined, "App title should be visible");
+            tryCompare(appMenuBar, "visible", false, undefined, "App menu bar should not be visible");
+
+            mouseMove(panel, panel.width/2, panel.panelHeight);
+
+            tryCompare(appTitle, "visible", false, undefined, "App title should not be visible on mouse hover");
+            tryCompare(appMenuBar, "visible", true, undefined, "App menu bar should be visible on mouse hover");
+        }
+
+        function test_windowedApplicationMenuShowOnMouseHoverWhenDecorationsShown() {
+            PanelState.title = "Fake Title";
+            panel.mode = "windowed";
+            mouseEmulation.checked = false;
+
+            var appTitle = findChild(panel.applicationMenus, "panelTitle"); verify(appTitle);
+            var appMenuRow = findChild(panel.applicationMenus, "panelRow"); verify(appMenuRow);
+            var appMenuBar = findChild(panel, "menuBar"); verify(appMenuBar);
+
+            tryCompare(appTitle, "visible", true, undefined, "App title should be visible");
+            tryCompare(appMenuBar, "visible", false, undefined, "App menu bar should not be visible");
+
+            mouseMove(panel, panel.width/2, panel.panelHeight);
+
+            tryCompare(appTitle, "visible", true, undefined, "App title should still be visible on mouse hover when panel decorations are not visible");
+            tryCompare(appMenuBar, "visible", false, undefined, "App menu bar should be visible on mouse hover when panel decorations are not visible");
+
+            PanelState.decorationsVisible = true;
+
+            tryCompare(appTitle, "visible", false, undefined, "App title should still be visible on mouse hover when panel decorations are visible");
+            tryCompare(appMenuBar, "visible", true, undefined, "App menu bar should be visible on mouse hover when panel decorations not visible");
         }
     }
 }
