@@ -151,6 +151,7 @@ void Greeter::respond(const QString &response)
 {
     Q_D(Greeter);
     d->m_greeter->respond(response);
+    Q_EMIT authenticationUserChanged(); // may have changed in liblightdm
 }
 
 bool Greeter::startSessionSync(const QString &session)

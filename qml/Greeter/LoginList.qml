@@ -205,8 +205,8 @@ StyledItem {
                 }
                 text: userList.currentIndex === index
                       && name === "*other"
-                      && LightDM.Greeter.authenticationUser !== ""
-                      ?  LightDM.Greeter.authenticationUser : realName
+                      && LightDMService.greeter.authenticationUser !== ""
+                      ?  LightDMService.greeter.authenticationUser : realName
                 color: userList.currentIndex !== index ? theme.palette.normal.raised
                                                        : theme.palette.normal.raisedText
 
