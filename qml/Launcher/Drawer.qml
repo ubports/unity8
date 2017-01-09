@@ -169,7 +169,7 @@ FocusScope {
             Loader {
                 id: listLoader
                 objectName: "drawerListLoader"
-                anchors { left: parent.left; top: sectionsContainer.bottom; right: parent.right; bottom: parent.bottom; leftMargin: units.gu(1); rightMargin: units.gu(1) }
+                anchors { left: parent.left; top: sectionsContainer.bottom; right: parent.right; bottom: parent.bottom }
 
                 KeyNavigation.up: headerFocusScope
                 KeyNavigation.down: searchField
@@ -241,7 +241,8 @@ FocusScope {
                     }
 
                     delegate: UbuntuShape {
-                        width: parent.width
+                        width: parent.width - units.gu(2)
+                        anchors.horizontalCenter: parent.horizontalCenter
                         color: "#20ffffff"
                         aspect: UbuntuShape.Flat
                         // NOTE: Cannot use gridView.rows here as it would evaluate to 0 at first and only update later,
@@ -289,7 +290,8 @@ FocusScope {
                     }
 
                     delegate: UbuntuShape {
-                        width: parent.width
+                        width: parent.width - units.gu(2)
+                        anchors.horizontalCenter: parent.horizontalCenter
                         color: "#20ffffff"
                         aspect: UbuntuShape.Flat
 
@@ -365,15 +367,13 @@ FocusScope {
                         }
                         sourceFillMode: UbuntuShape.PreserveAspectCrop
 
-                        Image {
-                            objectName: "focusRing"
-                            anchors.centerIn: parent
-                            height: width * 15 / 16
-                            width: parent.width + units.gu(1)
-                            source: "graphics/launcher-app-focus-ring.svg"
-                            sourceSize.width: width
-                            sourceSize.height: height
-                            visible: drawerDelegate.focused
+                        StyledItem {
+                            styleName: "FocusShape"
+                            anchors.fill: parent
+                            StyleHints {
+                                visible: drawerDelegate.focused
+                                radius: units.gu(2.55)
+                            }
                         }
                     }
 

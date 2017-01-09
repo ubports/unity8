@@ -7,10 +7,20 @@ AbstractButton {
     property bool highlighted: false
 
     UbuntuShape {
-        width: parent.width
+        width: parent.width - units.gu(2)
+        anchors.horizontalCenter: parent.horizontalCenter
         height: parent.height - units.gu(1)
-        color: root.highlighted ? "red" : "#20ffffff"
+        color: "#20ffffff"
         aspect: UbuntuShape.Flat
+
+        StyledItem {
+            styleName: "FocusShape"
+            anchors.fill: parent
+            activeFocusOnTab: true
+            StyleHints {
+                visible: root.highlighted
+            }
+        }
 
         Row {
             anchors.fill: parent
