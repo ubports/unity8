@@ -129,7 +129,6 @@ Item {
             anchors.fill: iconShape
             activeFocusOnTab: true
             StyleHints {
-                objectName: "focusRing"
                 visible: root.highlighted
                 radius: units.gu(2.55)
             }

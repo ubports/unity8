@@ -107,7 +107,6 @@ Rectangle {
                 anchors.fill: parent
                 anchors.margins: units.gu(.5)
                 StyleHints {
-                    objectName: "bfbFocusHighlight"
                     visible: bfb.highlighted
                     radius: 0
                 }

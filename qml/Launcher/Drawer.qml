@@ -315,9 +315,6 @@ FocusScope {
 
                             interactive: true
                             focus: index == aToZListView.currentIndex
-                            onFocusChanged: print("drawer grid", index, "has focus", focus)
-
-                            onCurrentIndexChanged: print("grid currentIndex changed", currentIndex)
 
                             model: AppDrawerProxyModel {
                                 id: categoryModel
