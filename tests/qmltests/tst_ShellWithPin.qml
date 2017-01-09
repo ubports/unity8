@@ -565,7 +565,6 @@ Item {
             tryCompare(launcher, "state", "visible");
 
             waitForRendering(shell)
-            wait(1000)
 
             var bfb = findChild(launcher, "buttonShowDashHome");
             mouseClick(bfb, bfb.width / 2, bfb.height / 2);
@@ -573,7 +572,7 @@ Item {
 
             enterPin("1234")
 
-            wait(2000)
+            tryCompare(launcher, "state", "drawer");
         }
     }    
 }
