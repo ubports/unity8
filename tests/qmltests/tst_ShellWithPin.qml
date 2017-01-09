@@ -573,5 +573,5 @@ Item {
 
             tryCompare(launcher, "state", "drawer");
         }
-    }    
+    }
 }
