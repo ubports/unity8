@@ -151,11 +151,12 @@ MouseArea {
         active: false
         onActiveChanged: {
             if (!active) {
-                previousSourceComponent = undefined;
                 if (previousFocusedItem) {
                     previousFocusedItem.forceActiveFocus(Qt.OtherFocusReason);
                     previousFocusedItem = undefined;
                 }
+                previousSourceComponent = undefined;
+                sourceComponent = undefined;
             }
         }
         onSourceComponentChanged: {

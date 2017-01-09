@@ -1620,6 +1620,16 @@ Rectangle {
 
             tryCompare(dialogLoader, "item", null);
             compare(window.activeFocusItem, surfaceItem);
+
+            // Do it twice, our previous solution failed the second time ^_^
+            testCase.showPowerDialog();
+
+            tryCompareFunction(function() { return dialogLoader.item !== null }, true);
+
+            keyClick(Qt.Key_Escape);
+
+            tryCompare(dialogLoader, "item", null);
+            compare(window.activeFocusItem, surfaceItem);
         }
     }
 }
