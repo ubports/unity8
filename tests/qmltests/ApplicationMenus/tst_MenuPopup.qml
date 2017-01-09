@@ -63,7 +63,7 @@ Item {
 
     UnityTestCase {
         id: testCase
-        name: "MenuPage"
+        name: "MenuPopup"
         when: windowShown
 
         function init() {
@@ -105,14 +105,14 @@ Item {
             }
         }
 
-        function test_clickNavigation_data() {
+        function test_mouseNavigation_data() {
             return [
                 { tag: "long", testData: appMenuData.generateTestData(4, 2, 1, 0, "menu", false) },
                 { tag: "deep", testData: appMenuData.generateTestData(2, 4, 1, 0, "menu", false) }
             ]
         }
 
-        function test_clickNavigation(data) {
+        function test_mouseNavigation(data) {
             menuBackend.modelData = data.testData;
 
             recurseMenuConstruction(data.testData, page);

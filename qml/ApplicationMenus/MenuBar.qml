@@ -188,12 +188,17 @@ Item {
             anchors.fill: parent
             hoverEnabled: d.currentItem
 
-            onPositionChanged: {
+            onEntered: {
                 if (d.currentItem) {
-                    updateCurrentItemFromPosition(mouse)
+                    updateCurrentItemFromPosition(Qt.point(mouseX, mouseY))
                 }
             }
-            onClicked: updateCurrentItemFromPosition(mouse)
+            onPositionChanged: {
+                if (d.currentItem) {
+                    updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
+                }
+            }
+            onClicked: updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
 
             function updateCurrentItemFromPosition(point) {
                 var pos = mapToItem(row, point.x, point.y);

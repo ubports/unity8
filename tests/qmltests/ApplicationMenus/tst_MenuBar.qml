@@ -81,12 +81,36 @@ Item {
         name: "MenuBar"
         when: windowShown
 
-        property bool clickNavigate: true
-
         function init() {
             menuBar.dismiss();
             menuBackend.modelData = appMenuData.generateTestData(5,5,2,3,"menu")
             activatedSpy.clear();
+        }
+
+        function test_mouseNavigation() {
+            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0,"menu");
+            wait(50) // wait for row to build
+            var priv = findInvisibleChild(menuBar, "d");
+
+            var menuItem0 = findChild(menuBar, "menuBar-item0"); verify(menuItem0);
+            var menuItem1 = findChild(menuBar, "menuBar-item1"); verify(menuItem1);
+            var menuItem2 = findChild(menuBar, "menuBar-item2"); verify(menuItem2);
+
+            menuItem0.show();
+            compare(priv.currentItem, menuItem0, "CurrentItem should be set to item 0");
+            compare(priv.currentItem.popupVisible, true, "Popup should be visible");
+
+            mouseMove(menuItem1, menuItem1.width/2, menuItem1.height/2);
+            tryCompare(priv, "currentItem", menuItem1, undefined, "CurrentItem should have moved to item 1");
+            compare(menuItem1.popupVisible, true, "Popup should be visible");
+
+            mouseMove(menuItem2, menuItem2.width/2, menuItem2.height/2);
+            tryCompare(priv, "currentItem", menuItem2, undefined, "CurrentItem should have moved to item 2");
+            compare(menuItem2.popupVisible, true, "Popup should be visible");
+
+            mouseMove(menuItem0, menuItem0.width/2, menuItem0.height/2);
+            tryCompare(priv, "currentItem", menuItem0, undefined, "CurrentItem should have moved to item 0");
+            compare(menuItem0.popupVisible, true, "Popup should be visible");
         }
 
         function test_keyboardNavigation_RightKeySelectsNextMenuItem(data) {

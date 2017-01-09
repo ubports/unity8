@@ -183,11 +183,12 @@ UbuntuShape {
 
                 MouseArea {
                     id: menuMouseArea
-                    anchors.fill: parent
+                    anchors.fill: listView
                     hoverEnabled: true
-                    z: -1
-
-                    onPositionChanged: updateCurrentItemFromPosition(mouse)
+                    propagateComposedEvents: true // propogate events so we send clicks to children.
+                    z: 1 // on top so we override any other hovers
+                    onEntered: updateCurrentItemFromPosition(Qt.point(mouseX, mouseY))
+                    onPositionChanged: updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
 
                     function updateCurrentItemFromPosition(point) {
                         var pos = mapToItem(listView.contentItem, point.x, point.y);
