@@ -172,6 +172,12 @@ void Greeter::showPromptFilter(const QString &text, QLightDM::Greeter::PromptTyp
         trimmedText.chop(1);
     }
 
+    if (trimmedText == "login") {
+        // 'login' is provided untranslated by LightDM when asking for a manual
+        // login username.
+        trimmedText = gettext("Username");
+    }
+
     Q_EMIT showPrompt(trimmedText, type == QLightDM::Greeter::PromptTypeSecret, isDefaultPrompt);
 }
 
