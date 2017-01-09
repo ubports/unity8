@@ -569,7 +569,6 @@ Item {
             var bfb = findChild(launcher, "buttonShowDashHome");
             mouseClick(bfb, bfb.width / 2, bfb.height / 2);
 
-
             enterPin("1234")
 
             tryCompare(launcher, "state", "drawer");
