@@ -284,8 +284,9 @@ PanelTest {
 
         function waitForAllAnimationToComplete(state) {
 
+            waitUntilTransitionsEnd(panel);
             tryCompare(panel.indicators.hideAnimation, "running", false);
-            tryCompare(panel.indicators .showAnimation, "running", false);
+            tryCompare(panel.indicators.showAnimation, "running", false);
             tryCompare(panel.indicators, "state", state);
 
             for (var i = 0; i < root.originalModelData.length; i++) {
@@ -352,6 +353,8 @@ PanelTest {
             tryCompareFunction(function() { return panelArea.y }, data.y);
 
             for (var i = 0; i < root.originalModelData.length; i++) {
+                waitForAllAnimationToComplete("initial");
+
                 var indicatorItem = get_indicator_item(i);
 
                 var startXPosition = panel.mapFromItem(indicatorItem, indicatorItem.width / 2, 0).x;
@@ -374,7 +377,6 @@ PanelTest {
 
                 // init for next indicatorItem
                 panel.indicators.hide();
-                waitForAllAnimationToComplete("initial");
             }
         }
 
