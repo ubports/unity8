@@ -1,3 +1,9 @@
+unity8 (8.15+17.04.20161215-0ubuntu2~1) zesty; urgency=medium
+
+  * No change rebuild
+
+ -- Timo Jyrinki <timo-jyrinki@ubuntu.com>  Wed, 04 Jan 2017 10:54:32 +0200
+
 unity8 (8.15+17.04.20161215-0ubuntu1) zesty; urgency=medium
 
   * Let the model deal with some window management decisions (LP:
