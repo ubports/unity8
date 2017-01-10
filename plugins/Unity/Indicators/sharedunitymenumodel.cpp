@@ -81,12 +81,16 @@ void SharedUnityMenuModel::initialize()
         }
     } else {
         QSharedPointer<UnityMenuModel> model = UnityMenuModelCache::singleton()->model(m_menuObjectPath);
+
         if (model != m_model) {
             if (model->busName() != m_busName) model->setBusName(m_busName);
             if (model->actions() != m_actions) model->setActions(m_actions);
 
             m_model = model;
             Q_EMIT modelChanged();
+        } else if (m_model) {
+            if (m_model->busName() != m_busName) m_model->setBusName(m_busName);
+            if (m_model->actions() != m_actions) m_model->setActions(m_actions);
         }
     }
 }

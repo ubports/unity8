@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2016 Canonical, Ltd.
+ * Copyright (C) 2013-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,23 +14,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-pragma Singleton
 import QtQuick 2.4
 
 QtObject {
-    id: root
+    property list<QtObject> hides
+    property QtObject model: null
+    property bool expanded: false
 
-    property string title: ""
-    property bool decorationsVisible: false
-    property bool decorationsAlwaysVisible: false
-    property bool closeButtonShown: true
-    property bool dropShadow: false
-    property int panelHeight: 0
-
-    signal closeClicked()
-    signal minimizeClicked()
-    signal restoreClicked()
-
-    property string focusedPersistentSurfaceId: ""
-    property bool focusedSurfaceMaximized: false
+    signal hide()
+    signal show()
 }

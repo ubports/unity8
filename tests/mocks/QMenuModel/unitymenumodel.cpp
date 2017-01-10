@@ -29,7 +29,9 @@ enum MenuRoles {
     ActionStateRole,
     IsCheckRole,
     IsRadioRole,
-    IsToggledRole
+    IsToggledRole,
+    ShortcutRole,
+    HasSubmenuRole
 };
 
 UnityMenuModel::UnityMenuModel(QObject *parent)
@@ -141,7 +143,29 @@ int UnityMenuModel::columnCount(const QModelIndex&) const
 
 QVariant UnityMenuModel::data(const QModelIndex &index, int role) const
 {
-    return rowData(index.row())[roleNames()[role]];
+    QVariantMap v = rowData(index.row());
+    QString roleName = roleNames()[role];
+
+    if (v.contains(roleName)) return v[roleName];
+
+    // defaults
+    switch (role) {
+        case LabelRole: return QString();
+        case SensitiveRole: return true;
+        case IsSeparatorRole: return false;
+        case IconRole: return QString();
+        case TypeRole: return QString();
+        case ExtendedAttributesRole: return QVariantMap();
+        case ActionRole: return QString();
+        case ActionStateRole: return QVariant();
+        case IsCheckRole: return false;
+        case IsRadioRole: return false;
+        case IsToggledRole: return false;
+        case ShortcutRole: return QString();
+        case HasSubmenuRole: return subMenuData(index.row()).isValid();
+        default: break;
+    }
+    return QVariant();
 }
 
 QVariantMap UnityMenuModel::rowData(int row) const
@@ -149,12 +173,14 @@ QVariantMap UnityMenuModel::rowData(int row) const
     if (m_modelData.count() <= row) {
         return QVariantMap();
     }
-    return m_modelData[row].toMap()["rowData"].toMap();
+    QVariantMap vRow = m_modelData.value(row, QVariantMap()).toMap();
+    return vRow["rowData"].toMap();
 }
 
 QVariant UnityMenuModel::subMenuData(int row) const
 {
-    return m_modelData[row].toMap()["submenu"];
+    QVariantMap v = m_modelData.value(row, QVariantMap()).toMap();
+    return v.value("submenu", QVariant());
 }
 
 QModelIndex UnityMenuModel::index(int row, int column, const QModelIndex&) const
@@ -182,6 +208,8 @@ QHash<int, QByteArray> UnityMenuModel::roleNames() const
     names[IsCheckRole] = "isCheck";
     names[IsRadioRole] = "isRadio";
     names[IsToggledRole] = "isToggled";
+    names[ShortcutRole] = "shortcut";
+    names[HasSubmenuRole] = "hasSubmenu";
 
     return names;
 }
@@ -201,6 +229,7 @@ QObject * UnityMenuModel::submenu(int position, QQmlComponent*)
         UnityMenuModel*& model = submenus[position];
         if (!model) {
             model = new UnityMenuModel(this);
+            connect(model, &UnityMenuModel::activated, this, &UnityMenuModel::activated);
         }
         if (model->modelData() != submenuData) {
             model->setModelData(submenuData);
@@ -225,11 +254,23 @@ QVariant UnityMenuModel::get(int row, const QByteArray &role)
             roles.insert(names[role], role);
     }
 
-    return this->data(this->index(row, 0), roles[role]);
+    return data(index(row, 0), roles[role]);
 }
 
-void UnityMenuModel::activate(int, const QVariant&)
+void UnityMenuModel::activate(int row, const QVariant&)
 {
+    QVariantMap vModelData = m_modelData.value(row, QVariantMap()).toMap();
+    QVariantMap rd = vModelData["rowData"].toMap();
+
+    bool isCheckable = rd[roleNames()[IsCheckRole]].toBool() || rd[roleNames()[IsRadioRole]].toBool();
+    if (isCheckable) {
+        rd[roleNames()[IsToggledRole]] = !rd[roleNames()[IsToggledRole]].toBool();
+        vModelData["rowData"] = rd;
+        m_modelData[row] = vModelData;
+
+        dataChanged(index(row, 0), index(row, 0),  QVector<int>() << IsToggledRole);
+    }
+    Q_EMIT activated(rd[roleNames()[ActionRole]].toString());
 }
 
 void UnityMenuModel::changeState(int, const QVariant&)

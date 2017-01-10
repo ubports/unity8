@@ -22,22 +22,30 @@ import "Indicators"
 
 Showable {
     id: root
-    property alias indicatorsModel: bar.indicatorsModel
+    property alias model: bar.model
     property alias showDragHandle: __showDragHandle
     property alias hideDragHandle: __hideDragHandle
     property alias overFlowWidth: bar.overFlowWidth
     property alias verticalVelocityThreshold: yVelocityCalculator.velocityThreshold
-    property alias currentIndicator: bar.currentIndicator
     property int minimizedPanelHeight: units.gu(3)
     property int expandedPanelHeight: units.gu(7)
     property real openedHeight: units.gu(71)
+    property bool enableHint: true
+    property bool showOnClick: true
+    property color panelColor: theme.palette.normal.background
+
+    property alias alignment: bar.alignment
+    property alias rowTitle: bar.rowTitle
+    property alias showRowTitle: bar.showRowTitle
+    property alias rowItemDelegate: bar.rowItemDelegate
+    property alias pageDelegate: content.pageDelegate
+
     readonly property real unitProgress: Math.max(0, (height - minimizedPanelHeight) / (openedHeight - minimizedPanelHeight))
     readonly property bool fullyOpened: unitProgress >= 1
     readonly property bool partiallyOpened: unitProgress > 0 && unitProgress < 1.0
     readonly property bool fullyClosed: unitProgress == 0
-    property bool enableHint: true
-    property bool showOnClick: true
-    property color panelColor: theme.palette.normal.background
+    readonly property alias expanded: bar.expanded
+    readonly property int barWidth: Math.min(bar.width, bar.implicitWidth)
 
     signal showTapped()
 
@@ -67,21 +75,20 @@ Showable {
         ScriptAction { script: root.height = Qt.binding( function(){ return root.minimizedPanelHeight; } ) }
     }
 
+    shown: false
     height: minimizedPanelHeight
-
-    onUnitProgressChanged: d.updateState()
     clip: root.partiallyOpened
 
-    IndicatorsLight {
-        id: indicatorLights
-    }
+    onUnitProgressChanged: d.updateState()
 
     // eater
     MouseArea {
-        anchors.fill: parent
+        anchors.fill: content
         hoverEnabled: true
         acceptedButtons: Qt.AllButtons
         onWheel: wheel.accepted = true;
+        enabled: root.state != "initial"
+        visible: content.visible
     }
 
     MenuContent {
@@ -94,7 +101,7 @@ Showable {
             top: bar.bottom
         }
         height: openedHeight - bar.height - handle.height
-        indicatorsModel: root.indicatorsModel
+        model: root.model
         visible: root.unitProgress > 0
         currentMenuIndex: bar.currentItemIndex
     }
@@ -109,6 +116,7 @@ Showable {
         }
         height: units.gu(2)
         active: d.activeDragHandle ? true : false
+        visible: !root.fullyClosed
 
         //small shadow gradient at bottom of menu
         Rectangle {
@@ -129,9 +137,10 @@ Showable {
     Rectangle {
         anchors.fill: bar
         color: panelColor
+        visible: !root.fullyClosed
     }
 
-    IndicatorsBar {
+    PanelBar {
         id: bar
         objectName: "indicatorsBar"
 
@@ -178,12 +187,14 @@ Showable {
 
     MouseArea {
         anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
+        anchors.left: alignment == Qt.AlignLeft ? parent.left : undefined
+        anchors.right: alignment == Qt.AlignRight ? parent.right : undefined
+        width: root.barWidth // show handle should only cover panel items.
         height: minimizedPanelHeight
         enabled: __showDragHandle.enabled && showOnClick
         onClicked: {
-            bar.selectItemAt(mouseX)
+            var barPosition = mapToItem(bar, mouseX, mouseY);
+            bar.selectItemAt(barPosition.x)
             root.show()
         }
     }
@@ -192,8 +203,9 @@ Showable {
         id: __showDragHandle
         objectName: "showDragHandle"
         anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
+        anchors.left: alignment == Qt.AlignLeft ? parent.left : undefined
+        anchors.right: alignment == Qt.AlignRight ? parent.right : undefined
+        width: root.barWidth // show handle should only cover panel items.
         height: minimizedPanelHeight
         direction: Direction.Downwards
         enabled: !root.shown && root.available
@@ -311,7 +323,7 @@ Showable {
                 script: {
                     yVelocityCalculator.reset();
                     // initial item selection
-                    if (!d.hasCommitted) bar.selectItemAt(d.activeDragHandle ? d.activeDragHandle.touchPosition.x : -1);
+                    if (!d.hasCommitted) bar.selectItemAt(d.rowMappedLateralPosition);
                     d.hasCommitted = false;
                 }
             }

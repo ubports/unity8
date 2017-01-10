@@ -15,28 +15,28 @@
  */
 
 import QtQuick 2.4
-import QtQuick.Window 2.2
 import Ubuntu.Components 1.3
-
-// for indicator-keyboard
-import AccountsService 0.1
-import Unity.InputInfo 0.1
+import "../Components"
 
 Item {
     id: root
-    width: row.width
-    height: units.gu(3)
+    implicitWidth: showRowTitle && !expanded ? rowTitle != "" ? rowLabel.width : 0 : row.width
+    implicitHeight: units.gu(3)
 
-    property QtObject indicatorsModel: null
+    property bool showRowTitle: false
+    property alias rowTitle: rowLabel.text
+    property QtObject model: null
     property real overFlowWidth: width
     property bool expanded: false
-    property var currentItem
-    readonly property int currentItemIndex: currentItem ? currentItem.ownIndex : -1
+    readonly property alias currentItem: row.currentItem
+    readonly property alias currentItemIndex: row.currentIndex
 
     property real unitProgress: 0.0
     property real selectionChangeBuffer: units.gu(2)
     property bool enableLateralChanges: false
     property color hightlightColor: "#ffffff"
+
+    property alias delegate: row.delegate
 
     property real lateralPosition: -1
     onLateralPositionChanged: {
@@ -86,21 +86,21 @@ Item {
     }
 
     function indicatorAt(x, y) {
-        var item = row.childAt(x, y);
+        var item = row.itemAt(x, y);
         return item && item.hasOwnProperty("ownIndex") ? item : null;
     }
 
     function resetCurrentItem() {
         d.firstItemSwitch = true;
-        d.previousItem = undefined;
-        currentItem = undefined;
+        d.previousItem = null;
+        row.currentIndex = -1;
     }
 
     function setCurrentItemIndex(index) {
-        for (var i = 0; i < row.children.length; i++) {
-            var item = row.children[i];
+        for (var i = 0; i < row.contentItem.children.length; i++) {
+            var item = row.contentItem.children[i];
             if (item.hasOwnProperty("ownIndex") && item.ownIndex === index) {
-                if (currentItem !== item) currentItem = item;
+                if (currentItem !== item) row.currentIndex = index;
                 break;
             }
         }
@@ -109,18 +109,18 @@ Item {
     function selectItemAt(lateralPosition) {
         var item = indicatorAt(lateralPosition, 0);
         if (item && item.opacity > 0) {
-            currentItem = item;
+            row.currentIndex = item.ownIndex;
         } else {
             // Select default item.
-            var searchIndex = lateralPosition > width ? repeater.count - 1 : 0;
+            var searchIndex = lateralPosition >= width ? row.count - 1 : 0;
 
-            for (var i = 0; i < row.children.length; i++) {
-                if (row.children[i].hasOwnProperty("ownIndex") && row.children[i].ownIndex === searchIndex) {
-                    item = row.children[i];
+            for (var i = 0; i < row.contentItem.children.length; i++) {
+                if (row.contentItem.children[i].hasOwnProperty("ownIndex") && row.contentItem.children[i].ownIndex === searchIndex) {
+                    item = row.contentItem.children[i];
                     break;
                 }
             }
-            if (currentItem !== item) currentItem = item;
+            if (currentItem !== item) row.currentIndex = item ? item.ownIndex : -1;
         }
     }
 
@@ -131,11 +131,6 @@ Item {
         property bool forceAlignmentAnimationDisabled: false
     }
 
-    InputDeviceModel {
-        id: keyboardsModel
-        deviceFilter: InputInfo.Keyboard
-    }
-
     onCurrentItemChanged: {
         if (d.previousItem) {
             d.firstItemSwitch = false;
@@ -143,8 +138,32 @@ Item {
         d.previousItem = currentItem;
     }
 
-    Row {
+    Label {
+        id: rowLabel
+        objectName: "panelTitle"
+        anchors {
+            left: parent.left
+            leftMargin: units.gu(1)
+            verticalCenter: parent.verticalCenter
+        }
+        width: implicitWidth + units.gu(2)
+        elide: Text.ElideRight
+        maximumLineCount: 1
+        fontSize: "medium"
+        font.weight: Font.Medium
+        color: Theme.palette.selected.backgroundText
+        opacity: showRowTitle ? 1 : 0
+        visible: opacity != 0
+        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+    }
+
+    ListView {
         id: row
+        objectName: "panelRow"
+        orientation: ListView.Horizontal
+        model: root.model
+        opacity: showRowTitle ? 0 : 1
+        // dont set visible on basis of opacity; otherwise width will not be calculated correctly
         anchors {
             top: parent.top
             bottom: parent.bottom
@@ -153,7 +172,7 @@ Item {
         // TODO: make this better
         // when the width changes, the highlight will lag behind due to animation, so we need to disable the animation
         // and adjust the highlight X immediately.
-        width: implicitWidth
+        width: childrenRect.width
         Behavior on width {
             SequentialAnimation {
                 ScriptAction {
@@ -166,75 +185,7 @@ Item {
             }
         }
 
-        Repeater {
-            id: repeater
-            model: indicatorsModel
-            visible: false
-
-            onItemRemoved: {
-                // current item removed.
-                if (currentItem === item) {
-                    var i = 0;
-                    while (i < row.children.length) {
-                        var childItem = row.children[i];
-                        if (childItem !== item) {
-                            setCurrentItemIndex(i);
-                            break;
-                        }
-                        i++;
-                    }
-                }
-            }
-
-
-            delegate: IndicatorItem {
-                id: indicatorItem
-                objectName: identifier+"-panelItem"
-
-                property int ownIndex: index
-                property bool overflow: row.width - x > overFlowWidth
-                property bool hidden: !expanded && (overflow || !indicatorVisible || hideSessionIndicator || hideKeyboardIndicator)
-                // HACK for indicator-session
-                readonly property bool hideSessionIndicator: identifier == "indicator-session" && Math.min(Screen.width, Screen.height) <= units.gu(60)
-                // HACK for indicator-keyboard
-                readonly property bool hideKeyboardIndicator: identifier == "indicator-keyboard" && (AccountsService.keymaps.length < 2 || keyboardsModel.count == 0)
-
-                height: row.height
-                expanded: root.expanded
-                selected: currentItem === this
-
-                identifier: model.identifier
-                busName: indicatorProperties.busName
-                actionsObjectPath: indicatorProperties.actionsObjectPath
-                menuObjectPath: indicatorProperties.menuObjectPath
-
-                opacity: hidden ? 0.0 : 1.0
-                Behavior on opacity {
-                    NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing }
-                }
-
-                width: ((expanded || indicatorVisible) && !hideSessionIndicator && !hideKeyboardIndicator) ? implicitWidth : 0
-
-                Behavior on width {
-                    NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing }
-                }
-
-                Component.onDestruction: {
-                    // current item removed.
-                    if (currentItem === this) {
-                        var i = 0;
-                        while (i < row.children.length) {
-                            var childItem = row.children[i];
-                            if (childItem !== this) {
-                                setCurrentItemIndex(i);
-                                break;
-                            }
-                            i++;
-                        }
-                    }
-                }
-            }
-        }
+        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
     }
 
     Rectangle {
@@ -244,7 +195,7 @@ Item {
         anchors.bottom: row.bottom
         height: units.dp(2)
         color: root.hightlightColor
-        visible: currentItem !== undefined
+        visible: currentItem !== null
         opacity: 0.0
 
         width: currentItem ? currentItem.width : 0
@@ -269,7 +220,7 @@ Item {
 
             if (currentItem && currentItem.ownIndex === 0 && distanceFromCenter < 0) {
                 return 0;
-            } else if (currentItem && currentItem.ownIndex === repeater.count-1 & distanceFromCenter > 0) {
+            } else if (currentItem && currentItem.ownIndex === row.count-1 & distanceFromCenter > 0) {
                 return 0;
             }
             return (distanceFromCenter / (currentItem.width / 4)) * units.gu(1);

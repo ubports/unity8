@@ -17,14 +17,13 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
-import "../../../qml/Panel"
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
-import Unity.Indicators 0.1 as Indicators
 import AccountsService 0.1
 import Unity.InputInfo 0.1
+import "../../../qml/Panel"
 
-IndicatorTest {
+PanelTest {
     id: root
     width: units.gu(120)
     height: units.gu(40)
@@ -45,17 +44,34 @@ IndicatorTest {
                 anchors.fill: indicatorsRow
             }
 
-            IndicatorItemRow {
+            PanelItemRow {
                 id: indicatorsRow
                 height: expanded ? units.gu(7) : units.gu(3)
                 anchors.centerIn: parent
-                indicatorsModel: root.indicatorsModel
+                model: root.indicatorsModel
                 enableLateralChanges: ma.pressed
 
                 Behavior on height {
                     NumberAnimation {
                         id: heightAnimation
                         duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing
+                    }
+                }
+
+                delegate: Item {
+                    property int ownIndex: index
+                    objectName: model.identifier + "-panelItem"
+
+                    implicitWidth: indicatorsRow.expanded ? units.gu(6) : units.gu(3)
+                    height: parent.height
+
+                    Rectangle {
+                        anchors {
+                            fill: parent
+                            margins: 2
+                        }
+                        color: "red"
+                        Label { anchors.centerIn: parent; text: ownIndex }
                     }
                 }
 
@@ -116,7 +132,7 @@ IndicatorTest {
     }
 
     UT.UnityTestCase {
-        name: "IndicatorItemRow"
+        name: "PanelItemRow"
         when: windowShown
 
         function init() {
@@ -161,25 +177,36 @@ IndicatorTest {
             for (i = data.remove.length-1; i >= 0; i--) {
                 removeIndicator(data.remove[i]);
             }
+            wait(50);
 
             // test removals
             for (i = 0; i < root.originalModelData.length; i++) {
-                item = findChild(indicatorsRow, root.originalModelData[i]["identifier"] + "-panelItem");
+                item = findChild(indicatorsRow, root.originalModelData[i]["identifier"] + "-panelItem", 0);
+                console.log(item, i, root.originalModelData[i]["identifier"])
 
-                verify(data.remove.indexOf(i) !== -1 ? (item === null) : (item !== null));
+                if (data.remove.indexOf(i) !== -1) {
+                    verify(item === null, "removed item should not be present");
+                } else {
+                    verify(item !== null, "items not removed item should still be present");
+                }
             }
+            console.log("2")
 
             // test insertion
             for (i = 0; i < data.remove.length; i++) {
                 insertIndicator(data.remove[i]);
             }
 
+            console.log("3")
+
             for (i = 0; i < root.originalModelData.length; i++) {
-                item = findChild(indicatorsRow, root.originalModelData[i]["identifier"] + "-panelItem");
+                item = findChild(indicatorsRow, root.originalModelData[i]["identifier"] + "-panelItem", 100);
                 verify(item);
 
                 compare(item.ownIndex, i, "Item at incorrect index");
             }
+
+            console.log("4")
         }
 
         function test_validCurrentItem_data() {
@@ -286,29 +313,6 @@ IndicatorTest {
 
             // should go back to 0
             tryCompare(findChild(indicatorsRow, "highlight"), "highlightCenterOffset", 0);
-        }
-
-        function test_hidingKeyboardIndicator_data() {
-            return [
-                { tag: "No keyboard, no keymap", keyboard: false, keymaps: [], hidden: true },
-                { tag: "No keyboard, one keymap", keyboard: false, keymaps: ["us"], hidden: true },
-                { tag: "No keyboard, 2 keymaps", keyboard: false, keymaps: ["us", "cs"], hidden: true },
-                { tag: "Keyboard, no keymap", keyboard: true, keymaps: [], hidden: true },
-                { tag: "Keyboard, one keymap", keyboard: true, keymaps: ["us"], hidden: true },
-                { tag: "Keyboard, 2 keymaps", keyboard: true, keymaps: ["us", "cs"], hidden: false }
-            ];
-        }
-
-        function test_hidingKeyboardIndicator(data) {
-            var item = findChild(indicatorsRow, "indicator-keyboard-panelItem");
-            AccountsService.keymaps = data.keymaps;
-            if (data.keyboard) {
-                MockInputDeviceBackend.addMockDevice("/indicator_kbd0", InputInfo.Keyboard);
-            } else {
-                MockInputDeviceBackend.removeDevice("/indicator_kbd0");
-            }
-
-            compare(item.hidden, data.hidden);
         }
     }
 }

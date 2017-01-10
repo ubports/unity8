@@ -25,9 +25,10 @@ import Ubuntu.Components 1.3
 import Unity.Session 0.1
 import Unity.Platform 1.0
 
-Item {
+Object {
     id: menuFactory
 
+    property string indicator
     property var rootModel: null
     property var menuModel: null
 
@@ -88,7 +89,7 @@ Item {
         }
     }
 
-    function getComponentForIndicatorEntryType(indicator, type) {
+    function getComponentForIndicatorEntryType(type) {
         var component = undefined;
         var map = _userMap || _typeToComponent
         var indicatorComponents = map[indicator];
@@ -112,7 +113,7 @@ Item {
         return component
     }
 
-    function getComponentForIndicatorEntryAction(indicator, action) {
+    function getComponentForIndicatorEntryAction(action) {
         var component = undefined;
         var indicatorFilter = _action_filter_map[indicator]
 
@@ -1082,17 +1083,13 @@ Item {
         }
     }
 
-    function load(modelData, context) {
-        if (context && context.indexOf("fake-") == 0) {
-            context = context.substring("fake-".length)
-        }
-
-        var component = getComponentForIndicatorEntryAction(context, modelData.action)
+    function load(modelData) {
+        var component = getComponentForIndicatorEntryAction(modelData.action)
         if (component !== undefined) {
             return component
         }
 
-        component = getComponentForIndicatorEntryType(context, modelData.type)
+        component = getComponentForIndicatorEntryType(modelData.type)
         if (component !== undefined) {
             return component;
         }

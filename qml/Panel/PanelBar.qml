@@ -22,13 +22,19 @@ Item {
     id: root
     property alias expanded: row.expanded
     property alias interactive: flickable.interactive
-    property alias indicatorsModel: row.indicatorsModel
+    property alias model: row.model
     property alias unitProgress: row.unitProgress
     property alias enableLateralChanges: row.enableLateralChanges
     property alias overFlowWidth: row.overFlowWidth
     readonly property alias currentItemIndex: row.currentItemIndex
     property real lateralPosition: -1
-    readonly property string currentIndicator: row.currentItem ? row.currentItem.identifier : ""
+    property int alignment: Qt.AlignRight
+
+    property alias showRowTitle: row.showRowTitle
+    property alias rowTitle: row.rowTitle
+    property alias rowItemDelegate: row.delegate
+
+    implicitWidth: flickable.contentWidth
 
     function selectItemAt(lateralPosition) {
         if (!expanded) {
@@ -46,15 +52,21 @@ Item {
     }
 
     function addScrollOffset(scrollAmmout) {
+        if (root.alignment == Qt.AlignLeft) {
+            scrollAmmout = -scrollAmmout;
+        }
+
         if (scrollAmmout < 0) { // left scroll
             if (flickable.contentX + flickable.width > row.width) return; // already off the left.
 
-            if (flickable.contentX + flickable.width - scrollAmmout > row.width) { // going to be off the right
+            if (flickable.contentX + flickable.width - scrollAmmout > row.width) { // going to be off the left
                 scrollAmmout = (flickable.contentX + flickable.width) - row.width;
             }
         } else { // right scroll
             if (flickable.contentX < 0) return; // already off the right.
-            if (flickable.contentX - scrollAmmout < 0) scrollAmmout = flickable.contentX; // going to be off the right
+            if (flickable.contentX - scrollAmmout < 0) { // going to be off the right
+                scrollAmmout = flickable.contentX;
+            }
         }
         d.scrollOffset = d.scrollOffset + scrollAmmout;
     }
@@ -62,14 +74,19 @@ Item {
     QtObject {
         id: d
         property var initialItem
-        // the non-expanded distance from row offset to center of initial item
-        property real originalDistanceFromRight: -1
+        // the non-expanded distance from alignment edge to center of initial item
+        property real originalDistanceFromEdge: -1
 
-        // calculate the distance from row offset to center of initial item
-        property real distanceFromRight: {
-            if (originalDistanceFromRight == -1) return 0;
+        // calculate the distance from row alignment edge edge to center of initial item
+        property real distanceFromEdge: {
+            if (originalDistanceFromEdge == -1) return 0;
             if (!initialItem) return 0;
-            return row.width - initialItem.x - initialItem.width /2;
+
+            if (root.alignment == Qt.AlignLeft) {
+                return initialItem.x - initialItem.width / 2;
+            } else {
+                return row.width - initialItem.x - initialItem.width / 2;
+            }
         }
 
         // offset to the intially selected expanded item
@@ -82,7 +99,11 @@ Item {
         onScrollOffsetChanged: root.lateralPositionChanged()
 
         onInitialItemChanged: {
-            originalDistanceFromRight = initialItem ? (row.width - initialItem.x - initialItem.width/2) : -1;
+            if (root.alignment == Qt.AlignLeft) {
+                originalDistanceFromEdge = initialItem ? (initialItem.x - initialItem.width/2) : -1;
+            } else {
+                originalDistanceFromEdge = initialItem ? (row.width - initialItem.x - initialItem.width/2) : -1;
+            }
         }
 
         Behavior on alignmentAdjustment {
@@ -93,26 +114,38 @@ Item {
             flickable.resetContentXComponents();
 
             if (expanded && !flickable.moving) {
-                // gap between left and row?
-                if (flickable.contentX + flickable.width > row.width) {
-                    // row width is less than flickable
-                    if (row.width < flickable.width) {
-                        d.alignmentAdjustment -= flickable.contentX;
-                    } else {
-                        d.alignmentAdjustment -= ((flickable.contentX + flickable.width) - row.width);
+
+                if (root.alignment == Qt.AlignLeft) {
+                    // current item overlap on left
+                    if (row.currentItem && flickable.contentX > row.currentItem.x) {
+                        d.alignmentAdjustment -= (flickable.contentX - row.currentItem.x);
+
+                    // current item overlap on right
+                    } else if (row.currentItem && flickable.contentX + flickable.width < row.currentItem.x + row.currentItem.width) {
+                        d.alignmentAdjustment += (row.currentItem.x + row.currentItem.width) - (flickable.contentX + flickable.width);
                     }
+                } else {
+                    // gap between left and row?
+                    if (flickable.contentX + flickable.width > row.width) {
+                        // row width is less than flickable
+                        if (row.width < flickable.width) {
+                            d.alignmentAdjustment -= flickable.contentX;
+                        } else {
+                            d.alignmentAdjustment -= ((flickable.contentX + flickable.width) - row.width);
+                        }
 
-                    // gap between right and row?
-                } else if (flickable.contentX < 0) {
-                    d.alignmentAdjustment -= flickable.contentX;
+                        // gap between right and row?
+                    } else if (flickable.contentX < 0) {
+                        d.alignmentAdjustment -= flickable.contentX;
 
-                // current item overlap on left
-                } else if (row.currentItem && (flickable.contentX + flickable.width) < (row.width - row.currentItem.x)) {
-                    d.alignmentAdjustment += ((row.width - row.currentItem.x) - (flickable.contentX + flickable.width));
+                    // current item overlap on left
+                    } else if (row.currentItem && (flickable.contentX + flickable.width) < (row.width - row.currentItem.x)) {
+                        d.alignmentAdjustment += ((row.width - row.currentItem.x) - (flickable.contentX + flickable.width));
 
-                // current item overlap on right
-                } else if (row.currentItem && flickable.contentX > (row.width - row.currentItem.x - row.currentItem.width)) {
-                    d.alignmentAdjustment -= flickable.contentX - (row.width - row.currentItem.x - row.currentItem.width);
+                    // current item overlap on right
+                    } else if (row.currentItem && flickable.contentX > (row.width - row.currentItem.x - row.currentItem.width)) {
+                        d.alignmentAdjustment -= flickable.contentX - (row.width - row.currentItem.x - row.currentItem.width);
+                    }
                 }
             }
         }
@@ -140,7 +173,7 @@ Item {
 
             // we rotate it because we want the Flickable to align its content item
             // on the right instead of on the left
-            rotation: 180
+            rotation: root.alignment != Qt.AlignRight ? 0 : 180
 
             anchors.fill: parent
             contentWidth: row.width
@@ -161,16 +194,16 @@ Item {
                 }
             }
 
-            IndicatorItemRow {
+            PanelItemRow {
                 id: row
-                objectName: "indicatorItemRow"
+                objectName: "panelItemRow"
                 anchors {
                     top: parent.top
                     bottom: parent.bottom
                 }
 
                 // Compensate for the Flickable rotation (ie, counter-rotate)
-                rotation: 180
+                rotation: root.alignment != Qt.AlignRight ? 0 : 180
 
                 lateralPosition: {
                     if (root.lateralPosition == -1) return -1;
@@ -230,15 +263,15 @@ Item {
                 target: d
                 rowOffset: {
                     if (!initialItem) return 0;
-                    if (distanceFromRight - initialItem.width <= 0) return 0;
+                    if (distanceFromEdge - initialItem.width <= 0) return 0;
 
-                    var rowOffset = distanceFromRight - originalDistanceFromRight;
+                    var rowOffset = distanceFromEdge - originalDistanceFromEdge;
                     return rowOffset;
                 }
                 restoreEntryValues: false
             }
-        }
-        , State {
+        },
+        State {
             name: "interactive"
             when: expanded && interactive
 

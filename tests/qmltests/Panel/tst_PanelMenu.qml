@@ -20,9 +20,8 @@ import QtTest 1.0
 import "../../../qml/Panel"
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
-import Unity.Indicators 0.1 as Indicators
 
-IndicatorTest {
+PanelTest {
     id: root
     width: units.gu(80)
     height: units.gu(71)
@@ -48,7 +47,7 @@ IndicatorTest {
             id: itemArea
             color: "blue"
 
-            IndicatorsMenu {
+            PanelMenu {
                 id: indicatorsMenu
                 width: units.gu(40)
                 anchors {
@@ -58,8 +57,25 @@ IndicatorTest {
                 minimizedPanelHeight: units.gu(3)
                 expandedPanelHeight: units.gu(7)
                 openedHeight: parent.height
-                indicatorsModel: root.indicatorsModel
+                model: root.indicatorsModel
                 shown: false
+
+                rowItemDelegate: Item {
+                    property int ownIndex: index
+                    objectName: model.identifier + "-panelItem"
+
+                    implicitWidth: indicatorsMenu.expanded ? units.gu(5) : units.gu(3)
+                    height: parent.height
+
+                    Rectangle {
+                        anchors {
+                            fill: parent
+                            margins: 2
+                        }
+                        color: "red"
+                        Label { anchors.centerIn: parent; text: ownIndex }
+                    }
+                }
             }
         }
 
@@ -111,7 +127,7 @@ IndicatorTest {
 
     UT.UnityTestCase {
         id: testCase
-        name: "IndicatorsMenu"
+        name: "PanelMenu"
         when: windowShown
 
         function init() {
@@ -206,8 +222,8 @@ IndicatorTest {
         // tests swiping on an indicator item activates the correct item.
         function test_swipeForCurrentItem()
         {
-            var indicatorItemRow = findChild(indicatorsMenu, "indicatorItemRow");
-            verify(indicatorItemRow !== null);
+            var panelItemRow = findChild(indicatorsMenu, "panelItemRow");
+            verify(panelItemRow !== null);
 
             for (var i = 0; i < root.originalModelData.length; i++) {
                 var indicatorItem = get_indicator_item(i);
@@ -219,10 +235,10 @@ IndicatorTest {
                            mappedPosition.x, indicatorsMenu.openedHeight / 2,
                            true /* beginTouch */, false /* endTouch */);
 
-                tryCompare(indicatorItemRow, "currentItem", indicatorItem, undefined /*timeout, default */,
+                tryCompare(panelItemRow, "currentItem", indicatorItem, undefined /*timeout, default */,
                            "Incorrect item activated at position " + i);
 
-                touchFlick(indicatorItemRow,
+                touchFlick(panelItemRow,
                            mappedPosition.x, indicatorsMenu.openedHeight / 2,
                            mappedPosition.x, mappedPosition.y,
                            false /* beginTouch */, true /* endTouch */);
@@ -239,8 +255,8 @@ IndicatorTest {
             indicatorsMenu.verticalVelocityThreshold = 0;
             verify(root.originalModelData.length >= 2);
 
-            var indicatorItemRow = findChild(indicatorsMenu, "indicatorItemRow");
-            verify(indicatorItemRow !== null);
+            var panelItemRow = findChild(indicatorsMenu, "panelItemRow");
+            verify(panelItemRow !== null);
 
             // Get the first indicator
             var firstItem = get_indicator_item(0);
@@ -252,11 +268,13 @@ IndicatorTest {
                        firstItemMappedPosition.x, indicatorsMenu.minimizedPanelHeight * 2,
                        true /* beginTouch */, false /* endTouch */);
 
-            tryCompare(indicatorItemRow, "currentItem", firstItem)
+            tryCompare(panelItemRow, "currentItem", firstItem)
 
             // next time position will have moved.
             var nextItem = get_indicator_item(1);
             var nextItemMappedPositionX = firstItemMappedPosition.x + firstItem.width;
+
+            firstItemMappedPosition = indicatorsMenu.mapFromItem(firstItem, firstItem.width/2, firstItem.height/2);
 
             // 1) Flick mouse down to bottom
             touchFlick(indicatorsMenu,
@@ -265,10 +283,10 @@ IndicatorTest {
                        false /* beginTouch */, false /* endTouch */,
                        units.gu(50) /* speed */, 5 /* iterations */); // more samples needed for accurate velocity
 
-            tryCompare(indicatorItemRow, "currentItem", firstItem, undefined /* timeout, default */,
+            tryCompare(panelItemRow, "currentItem", firstItem, undefined /* timeout, default */,
                        "First indicator should still be the current item");
             // after waiting in the same spot with touch down, it should update to the next item.
-            tryCompare(indicatorItemRow, "currentItem", nextItem);
+            tryCompare(panelItemRow, "currentItem", nextItem);
 
             touchRelease(indicatorsMenu, nextItemMappedPositionX, indicatorsMenu.openedHeight / 3);
         }

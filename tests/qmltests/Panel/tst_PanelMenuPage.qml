@@ -16,41 +16,45 @@
 
 import QtQuick 2.4
 import QtTest 1.0
+import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
-import Unity.Indicators 0.1 as Indicators
+import QMenuModel 0.1
 import Ubuntu.Settings.Menus 0.1 as Menus
 import "../../../qml/Panel"
+import "../../../qml/Panel/Indicators"
 
 Item {
     id: testView
     width: units.gu(40)
     height: units.gu(70)
 
-    IndicatorPage {
+    UnityMenuModel {
+        id: unityMenuModel
+        modelData: fullMenuData
+    }
+
+    PanelMenuPage {
         id: page
         anchors.fill: parent
 
-        identifier: "test-indicator"
-        busName: "com.caninical.indicator.test"
-        actionsObjectPath: "/com/canonical/indicator/test"
-        menuObjectPath: "/com/canonical/indicator/test"
+        menuModel: unityMenuModel
+        submenuIndex: 0
 
-        factory {
-            _userMap: {
-                "default": {
-                    "com.canonical.indicator.test" : testMenu
+        factory: Object {
+            function load(model) {
+               return standardMenuComponent;
+            }
+
+            Component {
+                id: standardMenuComponent
+
+                Menus.StandardMenu {
+                    signal menuSelected
+                    signal menuDeselected
                 }
             }
         }
     }
-
-   Component {
-       id: testMenu
-       Menus.StandardMenu {
-           signal menuSelected
-           signal menuDeselected
-       }
-   }
 
     property var fullMenuData: [{
             "rowData": {                // 1
@@ -126,43 +130,43 @@ Item {
             "submenu": []
         }]; // end row 1
 
-    function initializeMenuData(data) {
-        Indicators.UnityMenuModelCache.setCachedModelData("/com/canonical/indicator/test",
-                                                          data);
-    }
-
     UT.UnityTestCase {
         name: "IndicatorPage"
 
         function init() {
-            initializeMenuData([]);
+            page.submenuIndex = 0;
+            unityMenuModel.modelData = [];
+            tryCompareFunction(function() { return page.currentPage == null }, true);
         }
 
-        function test_reloadData() {
-            var mainMenu = findChild(page, "mainMenu");
+        function test_loadData() {
+            unityMenuModel.modelData = fullMenuData;
 
-            tryCompare(mainMenu, "count", 0);
+            tryCompareFunction(function() { return page.currentPage != null }, true);
+            var listView = findChild(page.currentPage, "listView", 50);
+            verify(listView);
+            tryCompare(listView, "count", 3);
 
-            initializeMenuData(fullMenuData);
-            tryCompare(mainMenu, "count", 3);
-
-            initializeMenuData([]);
-            tryCompare(mainMenu, "count", 0);
+            unityMenuModel.modelData = [];
+            tryCompareFunction(function() { return page.currentPage == null }, true);
         }
 
-        function test_traverse_rootMenuType_data() {
-            return [
-                { tag: "Incorrect", rootMenuType: "com.canonical.indicator", expectedCount: 0},
-                { tag: "Correct", rootMenuType: "com.canonical.indicator.root", expectedCount: 3},
+        function test_traverse_submenuIndex_data() {
+            return [,
+                { tag: "Correct", submenuIndex: 0, expectedCount: 3},
+                { tag: "Incorrect", submenuIndex: 1, expectedCount: 0}
             ]
         }
 
-        function test_traverse_rootMenuType(data) {
-            page.rootMenuType = data.rootMenuType;
-            initializeMenuData(fullMenuData);
+        function test_traverse_submenuIndex(data) {
+            page.submenuIndex = data.submenuIndex;
+            unityMenuModel.modelData = fullMenuData;
 
-            var mainMenu = findChild(page, "mainMenu");
-            tryCompare(mainMenu, "count", data.expectedCount);
+            tryCompareFunction(function() { return page.currentPage != null }, data.expectedCount > 0);
+            if (data.expectedCount > 0) {
+                var listView = findChild(page.currentPage, "listView", 50);
+                tryCompare(listView, "count", data.expectedCount);
+            }
         }
 
         function test_remove_selected_item_data() {
@@ -173,20 +177,22 @@ Item {
         }
 
         function test_remove_selected_item(data) {
-            var mainMenu = findChild(page, "mainMenu");
-            initializeMenuData(fullMenuData);
+            unityMenuModel.modelData = fullMenuData;
+            var listView = findChild(page.currentPage, "listView", 50);
 
             var menuId = "menu"+data.remove
-            var menu = findChild(page, menuId);
+            var menu = findChild(listView, menuId);
+            verify(menu);
 
             menu.menuSelected();
-            compare(mainMenu.currentIndex, data.remove, "Incorrect index selected");
-            mainMenu.model.removeRow(data.remove);
+            compare(listView.currentIndex, data.remove, "Incorrect index selected");
+            listView.model.removeRow(data.remove);
 
-            compare(mainMenu.currentIndex, -1, "Current index should be reset after current item removal");
+            compare(listView.currentIndex, -1, "Current index should be reset after current item removal");
 
             // now make sure selecting a new menu works.
             var menu1 = findChild(page, "menu1");
+            verify(menu1);
             menu1.menuSelected();
             compare(menu1.selected, true, "Item not selected");
         }

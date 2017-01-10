@@ -19,7 +19,7 @@ import QtQuick.Layouts 1.1
 import QtTest 1.0
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
-import "../../../qml/Panel"
+import "../../../../qml/Panel/Indicators"
 
 Rectangle {
     width: units.gu(80)
