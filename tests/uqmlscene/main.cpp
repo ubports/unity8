@@ -63,6 +63,8 @@
 #include <QtCore/QTranslator>
 #include <QtCore/QLibraryInfo>
 
+#include "DebuggingController.h"
+
 #ifdef QML_RUNTIME_TESTING
 class RenderStatistics
 {
@@ -465,6 +467,8 @@ int main(int argc, char ** argv)
 #endif
 
     int exitCode = 0;
+
+    new DebuggingController(&app);
 
     if (!options.file.isEmpty()) {
         if (!options.versionDetection || checkVersion(options.file)) {
