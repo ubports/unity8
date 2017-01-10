@@ -128,6 +128,8 @@ Item {
         function init() {
             tryCompareFunction(function() { return decoration !== null }, true);
             decoration.menu = menuBackend;
+
+            waitForRendering(decoration);
         }
 
         function cleanup() {

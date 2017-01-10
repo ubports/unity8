@@ -267,6 +267,8 @@ PanelTest {
             compare(backgroundPressedSpy.valid, true);
             windowControlButtonsSpy.clear();
             compare(windowControlButtonsSpy.valid, true);
+
+            waitForRendering(panel);
         }
 
         function cleanup() {
