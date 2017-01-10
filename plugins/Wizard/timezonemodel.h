@@ -27,7 +27,6 @@ class TimeZoneLocationModel: public QAbstractListModel
     Q_PROPERTY(bool listUpdating READ listUpdating NOTIFY listUpdatingChanged)
     Q_PROPERTY(QString filter READ filter WRITE setFilter NOTIFY filterChanged)
     Q_PROPERTY(QString country READ country WRITE setCountry NOTIFY countryChanged)
-    Q_ENUMS(Roles)
 
 public:
     explicit TimeZoneLocationModel(QObject *parent = nullptr);
@@ -42,6 +41,7 @@ public:
         LatitudeRole,
         LongitudeRole
     };
+    Q_ENUM(Roles)
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;

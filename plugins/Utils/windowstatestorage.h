@@ -25,7 +25,6 @@
 class WindowStateStorage: public QObject
 {
     Q_OBJECT
-    Q_ENUMS(WindowState)
 public:
     enum WindowState {
         WindowStateNormal = 1 << 0,
@@ -42,10 +41,9 @@ public:
         WindowStateMaximizedBottomRight = 1 << 11,
         WindowStateRestored = 1 << 12
     };
+    Q_ENUM(WindowState)
     Q_DECLARE_FLAGS(WindowStates, WindowState)
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
     Q_FLAG(WindowStates)
-#endif
 
     WindowStateStorage(QObject *parent = 0);
     virtual ~WindowStateStorage();

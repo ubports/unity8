@@ -30,6 +30,7 @@
 
 class StringListModel : public QAbstractListModel
 {
+    Q_OBJECT
 public:
     StringListModel()
     {

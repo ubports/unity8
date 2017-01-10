@@ -42,8 +42,6 @@ class Q_DECL_EXPORT Greeter : public QObject
     Q_PROPERTY(QString hostname READ hostname CONSTANT)
     Q_PROPERTY(bool hasGuestAccount READ hasGuestAccountHint CONSTANT)
 
-    Q_ENUMS(PromptType MessageType)
-
     //Mock-only API for testing purposes
     Q_PROPERTY(QString mockMode READ mockMode WRITE setMockMode NOTIFY mockModeChanged)
 
@@ -52,11 +50,13 @@ public:
         PromptTypeQuestion,
         PromptTypeSecret
     };
+    Q_ENUM(PromptType)
 
     enum MessageType {
         MessageTypeInfo,
         MessageTypeError
     };
+    Q_ENUM(MessageType)
 
     explicit Greeter(QObject* parent=0);
     virtual ~Greeter();

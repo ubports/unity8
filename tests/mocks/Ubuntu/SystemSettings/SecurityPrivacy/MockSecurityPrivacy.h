@@ -22,7 +22,6 @@
 class MockSecurityPrivacy : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(SecurityType)
     Q_PROPERTY (SecurityType securityType
                 READ getSecurityType
                 NOTIFY securityTypeChanged)
@@ -33,6 +32,7 @@ public:
          Passcode,
          Passphrase,
     };
+    Q_ENUM(SecurityType)
 
     MockSecurityPrivacy(QObject *parent = 0);
 

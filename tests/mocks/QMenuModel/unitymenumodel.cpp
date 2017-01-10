@@ -249,9 +249,9 @@ QVariant UnityMenuModel::get(int row, const QByteArray &role)
 {
     static QHash<QByteArray, int> roles;
     if (roles.isEmpty()) {
-        QHash<int, QByteArray> names = roleNames();
-        Q_FOREACH (int role, names.keys())
-            roles.insert(names[role], role);
+        const QHash<int, QByteArray> names = roleNames();
+        for(auto it = names.begin(); it != names.end(); ++it)
+            roles.insert(it.value(), it.key());
     }
 
     return data(index(row, 0), roles[role]);
