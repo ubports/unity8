@@ -87,14 +87,14 @@ FocusScope {
             superPressTimer.stop();
             superLongPressTimer.stop();
         } else {
+            switchToNextState("");
+            root.focus = false;
             if (panel.highlightIndex == -1) {
-                showDashHome();
+                root.showDashHome();
             } else if (panel.highlightIndex >= 0){
                 launcherApplicationSelected(LauncherModel.get(panel.highlightIndex).appId);
             }
             panel.highlightIndex = -2;
-            switchToNextState("");
-            root.focus = false;
         }
     }
 
@@ -206,7 +206,7 @@ FocusScope {
         case Qt.Key_Return:
         case Qt.Key_Space:
             if (panel.highlightIndex == -1) {
-                showDashHome();
+                root.showDashHome();
             } else if (panel.highlightIndex >= 0) {
                 launcherApplicationSelected(LauncherModel.get(panel.highlightIndex).appId);
             }

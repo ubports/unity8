@@ -777,6 +777,8 @@ Rectangle {
             quickList.model = launcherListView.model.get(index).quickList;
             quickList.appId = launcherListView.model.get(index).appId;
             quickList.state = "open";
+            root.highlightIndex = index;
+            quickList.forceActiveFocus();
         }
 
         Item {
