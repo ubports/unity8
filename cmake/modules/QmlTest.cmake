@@ -307,6 +307,7 @@ function(install_test_script TARGET_NAME)
     foreach(ONE_CMD ${TEST_COMMAND})
         set(script "${script}'${ONE_CMD}' ")
     endforeach()
+    set(script "${script}\"\$@\"") # Allow passing arguments if desired
 
     set(filename "${CMAKE_BINARY_DIR}/tests/scripts/${TARGET_NAME}.sh")
 
@@ -370,7 +371,7 @@ function(add_meta_dependencies UPSTREAM_TARGET)
         # add depend to the meta test script that we will install on system
         set(filename "${CMAKE_BINARY_DIR}/tests/scripts/${UPSTREAM_TARGET}.sh")
         if (EXISTS "${filename}")
-            file(APPEND "${filename}" "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/tests/scripts/${depend}.sh\n")
+            file(APPEND "${filename}" "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/tests/scripts/${depend}.sh \"\$@\" 2>&1\n")
         endif()
     endforeach()
 endfunction()
