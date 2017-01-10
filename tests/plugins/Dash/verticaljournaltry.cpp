@@ -26,6 +26,8 @@
 
 #include "verticaljournal.h"
 
+#include <paths.h>
+
 class QHeightModel : public QStringListModel {
     Q_OBJECT
 public:
@@ -75,7 +77,7 @@ int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("listModel", &listModel);
     view->rootContext()->setContextProperty("vjModel", &model);
 
-    view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/verticaljournaltry.qml"));
+    view->setSource(QUrl::fromLocalFile(testDataDir() + "/" TEST_DIR "/verticaljournaltry.qml"));
 
     view->show();
     view->resize(530, 400);
