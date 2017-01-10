@@ -1,3 +1,0 @@
-module Ubuntu.Payments
-plugin FakeUbuntuPaymentsQml
-typeinfo Payments.qmltypes
