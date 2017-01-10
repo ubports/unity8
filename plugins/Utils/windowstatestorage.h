@@ -45,7 +45,7 @@ public:
     Q_DECLARE_FLAGS(WindowStates, WindowState)
     Q_FLAG(WindowStates)
 
-    WindowStateStorage(QObject *parent = 0);
+    WindowStateStorage(QObject *parent = nullptr);
     virtual ~WindowStateStorage();
 
     Q_INVOKABLE void saveState(const QString &windowId, WindowState state);
@@ -71,5 +71,5 @@ private:
     // NB: This is accessed from threads. Make sure to mutex it.
     QSqlDatabase m_db;
 
-    QList< QFuture<void> > m_asyncQueries;
+    QList<QFuture<void>> m_asyncQueries;
 };

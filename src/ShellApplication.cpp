@@ -35,7 +35,6 @@
 ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     : QGuiApplication(argc, argv)
 {
-
     setApplicationName(QStringLiteral("unity8"));
     setOrganizationName(QStringLiteral("Canonical"));
 
