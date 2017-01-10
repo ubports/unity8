@@ -1187,13 +1187,13 @@ Rectangle {
         }
 
         function test_keyboardNavigation(data) {
-            var bfbFocusHighlight = findChild(launcher, "bfbFocusHighlight");
+            var bfb = findChild(launcher, "buttonShowDashHome");
             var quickList = findChild(launcher, "quickList");
             var launcherPanel = findChild(launcher, "launcherPanel");
             var launcherListView = findChild(launcher, "launcherListView");
             var last = launcherListView.count - 1;
 
-            compare(bfbFocusHighlight.visible, false);
+            compare(bfb.highlighted, false);
             launcher.openForKeyboardNavigation();
             tryCompare(launcherPanel, "x", 0);
             waitForRendering(launcher);
