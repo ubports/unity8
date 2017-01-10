@@ -135,7 +135,7 @@ Item {
         if (d.previousItem) {
             d.firstItemSwitch = false;
         }
-        d.previousItem = currentItem;\
+        d.previousItem = currentItem;
     }
 
     Label {
