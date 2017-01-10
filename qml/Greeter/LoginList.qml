@@ -108,11 +108,15 @@ StyledItem {
     }
 
     Keys.onUpPressed: {
-        selected(currentIndex - 1);
+        if (currentIndex > 0) {
+            selected(currentIndex - 1);
+        }
         event.accepted = true;
     }
     Keys.onDownPressed: {
-        selected(currentIndex + 1);
+        if (currentIndex + 1 < model.count) {
+            selected(currentIndex + 1);
+        }
         event.accepted = true;
     }
     Keys.onEscapePressed: {
