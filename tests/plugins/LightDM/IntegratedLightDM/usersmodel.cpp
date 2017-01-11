@@ -124,7 +124,7 @@ private Q_SLOTS:
 
     void testHideUsersWithGuest()
     {
-        QLightDM::MockController::instance()->setHideUsersHint(true);        
+        QLightDM::MockController::instance()->setHideUsersHint(true);
         QLightDM::MockController::instance()->setHasGuestAccountHint(true);
 
         QCOMPARE(model->count(), 1);
@@ -133,7 +133,7 @@ private Q_SLOTS:
     }
 
     void testCustomEntriesAreLast()
-    {  
+    {
         QLightDM::MockController::instance()->setHasGuestAccountHint(true);
         QLightDM::MockController::instance()->setShowManualLoginHint(true);
 
