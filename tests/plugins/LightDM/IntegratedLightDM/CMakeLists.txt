@@ -20,7 +20,6 @@ target_link_libraries(GreeterDBusTestExec
     )
 target_include_directories(GreeterDBusTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/LightDM
-    ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM/IntegratedLightDM
     )
 add_unity8_uitest(GreeterDBus dbus-test-runner
     ARG_PREFIX "--parameter"
@@ -57,7 +56,6 @@ target_link_libraries(GreeterSessionsModelTestExec
 target_include_directories(GreeterSessionsModelTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/LightDM
     ${CMAKE_SOURCE_DIR}/plugins/Utils
-    ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM/IntegratedLightDM
     ${CMAKE_SOURCE_DIR}/tests/mocks/liblightdm/
     )
 add_unity8_uitest(GreeterSessions GreeterSessionsModelTestExec
@@ -81,7 +79,7 @@ target_link_libraries(GreeterUsersModelTestExec
 target_include_directories(GreeterUsersModelTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/LightDM
     ${CMAKE_SOURCE_DIR}/plugins/Utils
-    ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM/IntegratedLightDM
+    ${CMAKE_SOURCE_DIR}/tests/mocks/liblightdm
     )
 add_unity8_uitest(GreeterUsers GreeterUsersModelTestExec
     DEPENDS MockLightDM
