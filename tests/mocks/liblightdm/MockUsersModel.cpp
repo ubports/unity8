@@ -65,6 +65,8 @@ UsersModel::UsersModel(QObject *parent)
     roles[UidRole] = "uid";
     setRoleNames(roles);
 
+    connect(MockController::instance(), &MockController::hasGuestAccountHintChanged,
+            this, &UsersModel::resetEntries);
     connect(MockController::instance(), &MockController::userModeChanged,
             this, &UsersModel::resetEntries);
     resetEntries();

@@ -121,8 +121,8 @@ QString AccountsService::backgroundFile() const
 
     // Check if our mock user has a background set in liblightdm
     for (int i = 0; i < m_usersModel->count(); i++) {
-        if (m_usersModel->data(m_usersModel->index(i, 0), QLightDM::UsersModel::NameRole) == m_user) {
-            return m_usersModel->data(m_usersModel->index(i, 0), QLightDM::UsersModel::BackgroundPathRole).toString();
+        if (m_usersModel->data(i, QLightDM::UsersModel::NameRole) == m_user) {
+            return m_usersModel->data(i, QLightDM::UsersModel::BackgroundPathRole).toString();
         }
     }
 
