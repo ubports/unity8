@@ -81,16 +81,16 @@ void UsersModel::setCurrentSessionName(const QString &sessionName, const QString
 {
     Q_D(UsersModel);
 
-    beginResetModel();
-
+    int usersIndex = 0;
     for (auto &entry : d->entries) {
         if (username == entry.username) {
             entry.session = sessionName;
             break;
         }
+        usersIndex++;
     }
 
-    endResetModel();
+    dataChanged(index(usersIndex, 0), index(usersIndex, 0), QVector<int>(SessionRole));
 }
 
 int UsersModel::rowCount(const QModelIndex &parent) const

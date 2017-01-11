@@ -153,9 +153,9 @@ FocusScope {
                 // TODO when Qt 5.7
                 //enabled: LightDM.Users.mock
                 target: LightDMService.users
-                onModelReset: {
+                onDataChanged: {
                     loginList.currentSession = LightDMService.users.data(loginList.currentIndex, LightDMService.userRoles.SessionRole);
-                 }
+                }
             }
         }
 
