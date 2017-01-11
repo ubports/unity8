@@ -44,9 +44,7 @@ private:
 
     void recreateModel()
     {
-        if (model) {
-            delete model;
-        }
+        delete model;
         model = new UsersModel();
         QVERIFY(model);
     }
