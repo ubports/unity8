@@ -39,54 +39,54 @@ public:
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
 
 private:
-    int manualRow() const;
-    int guestRow() const;
+    struct CustomRow {
+        QString name;
+        QString realName;
+    };
 
-    void updateShowManual();
+    void addCustomRow(const CustomRow &newRow);
+    void removeCustomRow(const QString &rowName);
+    void updateGuestRow();
+    void updateManualRow();
 
-    bool m_showManual;
+    QList<CustomRow> m_customRows;
 };
 
 MangleModel::MangleModel(QObject* parent)
   : QIdentityProxyModel(parent)
-  , m_showManual(false)
 {
     if (!Greeter::instance()->hideUsersHint()) {
         setSourceModel(new QLightDM::UsersModel(this));
     }
 
-    updateShowManual();
+    updateGuestRow();
+    updateManualRow();
 
+    // Would be nice if there were a rowCountChanged signal in the base class
     connect(this, &QIdentityProxyModel::modelReset,
-            this, &MangleModel::updateShowManual);
+            this, &MangleModel::updateManualRow);
     connect(this, &QIdentityProxyModel::rowsInserted,
-            this, &MangleModel::updateShowManual);
+            this, &MangleModel::updateManualRow);
     connect(this, &QIdentityProxyModel::rowsRemoved,
-            this, &MangleModel::updateShowManual);
+            this, &MangleModel::updateManualRow);
 }
 
 QVariant MangleModel::data(const QModelIndex &index, int role) const
 {
     QVariant variantData;
 
-    if (index.row() == manualRow() && index.column() == 0) {
-        switch (role) {
-        case QLightDM::UsersModel::NameRole:       return QStringLiteral("*other");
-        case QLightDM::UsersModel::RealNameRole:   return gettext("Login");
-        case QLightDM::UsersModel::LoggedInRole:   return false;
-        case QLightDM::UsersModel::SessionRole:    return Greeter::instance()->defaultSessionHint();
-        default:                                   return QVariant();
-        }
-    } else if (index.row() == guestRow() && index.column() == 0) {
-        switch (role) {
-        case QLightDM::UsersModel::NameRole:
-            variantData = QStringLiteral("*guest"); break;
-        case QLightDM::UsersModel::RealNameRole:
-            variantData = gettext("Guest Session"); break;
-        case QLightDM::UsersModel::LoggedInRole:
-            variantData = false; break;
-        case QLightDM::UsersModel::SessionRole:
-            variantData = Greeter::instance()->defaultSessionHint(); break;
+    bool isCustomRow = index.row() >= sourceModel()->rowCount() &&
+                       index.row() < rowCount();
+    if (isCustomRow && index.column() == 0) {
+        int customIndex = index.row() - sourceModel()->rowCount();
+        if (role == QLightDM::UsersModel::NameRole) {
+            variantData = m_customRows[customIndex].name;
+        } else if (role == QLightDM::UsersModel::RealNameRole) {
+            variantData = m_customRows[customIndex].realName;
+        } else if (role == QLightDM::UsersModel::LoggedInRole) {
+            variantData = false;
+        } else if (role == QLightDM::UsersModel::SessionRole) {
+            variantData = Greeter::instance()->defaultSessionHint();
         }
     } else {
         variantData = QIdentityProxyModel::data(index, role);
@@ -94,7 +94,7 @@ QVariant MangleModel::data(const QModelIndex &index, int role) const
 
     // If user's real name is empty, switch to unix name
     if (role == QLightDM::UsersModel::RealNameRole && variantData.toString().isEmpty()) {
-        variantData = QIdentityProxyModel::data(index, QLightDM::UsersModel::NameRole);
+        variantData = data(index, QLightDM::UsersModel::NameRole);
     } else if (role == QLightDM::UsersModel::BackgroundPathRole && variantData.toString().startsWith('#')) {
         const QString stringData = "data:image/svg+xml,<svg><rect width='100%' height='100%' fill='" + variantData.toString() + "'/></svg>";
         variantData = stringData;
@@ -103,64 +103,67 @@ QVariant MangleModel::data(const QModelIndex &index, int role) const
     return variantData;
 }
 
-void MangleModel::updateShowManual()
+void MangleModel::addCustomRow(const CustomRow &newRow)
 {
-    // Show manual login if we are asked to OR if no other entry exists
-    bool showManual = Greeter::instance()->showManualLoginHint() ||
-                      (QIdentityProxyModel::rowCount() == 0 &&
-                       !Greeter::instance()->hasGuestAccount());
+    for (int i = 0; i < m_customRows.size(); i++) {
+        if (m_customRows[i].name == newRow.name) {
+            return; // we don't have custom rows that change content yet
+        }
+    }
 
-    if (m_showManual != showManual) {
-        int row = QIdentityProxyModel::rowCount();
-        if (showManual)
-            beginInsertRows(QModelIndex(), row, row);
-        else
-            beginRemoveRows(QModelIndex(), row, row);
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    m_customRows << newRow;
+    endInsertRows();
+}
 
-        m_showManual = showManual;
-
-        if (showManual)
-            endInsertRows();
-        else
+void MangleModel::removeCustomRow(const QString &rowName)
+{
+    for (int i = 0; i < m_customRows.size(); i++) {
+        if (m_customRows[i].name == rowName) {
+            int rowNum = sourceModel()->rowCount() + i;
+            beginRemoveRows(QModelIndex(), rowNum, rowNum);
+            m_customRows.removeAt(i);
             endRemoveRows();
+            break;
+        }
     }
 }
 
-int MangleModel::manualRow() const
+void MangleModel::updateManualRow()
 {
-    if (!m_showManual)
-        return -1;
+    bool hasAnotherEntry = sourceModel()->rowCount() > 0;
+    for (int i = 0; !hasAnotherEntry && i < m_customRows.size(); i++) {
+        if (m_customRows[i].name != QStringLiteral("*other")) {
+            hasAnotherEntry = true;
+        }
+    }
 
-    return QIdentityProxyModel::rowCount();
+    // Show manual login if we are asked to OR if no other entry exists
+    if (Greeter::instance()->showManualLoginHint() || !hasAnotherEntry)
+        addCustomRow({QStringLiteral("*other"), gettext("Login")});
+    else
+        removeCustomRow(QStringLiteral("*other"));
 }
 
-int MangleModel::guestRow() const
+void MangleModel::updateGuestRow()
 {
-    if (!Greeter::instance()->hasGuestAccount())
-        return -1;
-
-    int row = QIdentityProxyModel::rowCount();
-    if (m_showManual)
-        row++;
-
-    return row;
+    if (Greeter::instance()->hasGuestAccount())
+        addCustomRow({QStringLiteral("*guest"), gettext("Guest Session")});
+    else
+        removeCustomRow(QStringLiteral("*guest"));
 }
 
 int MangleModel::rowCount(const QModelIndex &parent) const
 {
-    auto count = QIdentityProxyModel::rowCount(parent);
-
-    if (m_showManual && !parent.isValid())
-        count++;
-    if (Greeter::instance()->hasGuestAccount() && !parent.isValid())
-        count++;
-
-    return count;
+    return QIdentityProxyModel::rowCount(parent) +
+           (parent.isValid() ? 0 : m_customRows.size());
 }
 
 QModelIndex MangleModel::index(int row, int column, const QModelIndex &parent) const
 {
-    if ((row == manualRow() || row == guestRow()) && !parent.isValid()) {
+    bool isCustomRow = row >= sourceModel()->rowCount() &&
+                       row < rowCount();
+    if (isCustomRow && !parent.isValid()) {
         return createIndex(row, column);
     } else {
         return QIdentityProxyModel::index(row, column, parent);
@@ -187,6 +190,10 @@ bool UsersModel::lessThan(const QModelIndex &source_left, const QModelIndex &sou
     if (leftName == QStringLiteral("*guest"))
         return false;
     if (rightName == QStringLiteral("*guest"))
+        return true;
+    if (leftName == QStringLiteral("*other"))
+        return false;
+    if (rightName == QStringLiteral("*other"))
         return true;
 
     return UnitySortFilterProxyModelQML::lessThan(source_left, source_right);

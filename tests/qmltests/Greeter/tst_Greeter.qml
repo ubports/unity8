@@ -612,6 +612,14 @@ Item {
             verify(!view.locked);
         }
 
+        function test_hasManualLoginHint() {
+            LightDMController.showManualLoginHint = true;
+            resetLoader();
+            var i = selectUser("*other");
+            compare(i, LightDM.Users.count - 1); // manual should be last
+            verify(view.locked);
+        }
+
         function test_fingerprintSuccess() {
             var index = selectUser("has-password");
             unlockAndShowGreeter(); // turn on lockscreen mode
