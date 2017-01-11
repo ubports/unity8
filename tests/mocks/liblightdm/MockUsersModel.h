@@ -51,8 +51,6 @@ public:
 
     void setCurrentSessionName(const QString &sessionName, const QString &username);
 
-    QObject *mock();
-
 private Q_SLOTS:
     void resetEntries();
 
