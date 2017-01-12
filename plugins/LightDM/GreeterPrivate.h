@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2015-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,10 +14,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_GREETER_PRIVATE_H
-#define UNITY_GREETER_PRIVATE_H
+#pragma once
 
-#include <QLightDM/Greeter>
+#include <QObject>
+
+namespace QLightDM {
+    class Greeter;
+}
 
 class GreeterPrivate
 {
@@ -28,6 +31,7 @@ public:
     bool m_active;
     bool wasPrompted;
     bool promptless;
+    QString cachedAuthUser;
 
 protected:
     Greeter * const q_ptr;
@@ -35,5 +39,3 @@ protected:
 private:
     Q_DECLARE_PUBLIC(Greeter)
 };
-
-#endif // UNITY_GREETER_PRIVATE_H

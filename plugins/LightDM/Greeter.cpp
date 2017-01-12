@@ -83,7 +83,16 @@ bool Greeter::isAuthenticated() const
 QString Greeter::authenticationUser() const
 {
     Q_D(const Greeter);
-    return d->m_greeter->authenticationUser();
+    return d->cachedAuthUser;
+}
+
+void Greeter::checkAuthenticationUser()
+{
+    Q_D(Greeter);
+    if (d->cachedAuthUser != d->m_greeter->authenticationUser()) {
+        d->cachedAuthUser = d->m_greeter->authenticationUser();
+        Q_EMIT authenticationUserChanged();
+    }
 }
 
 QString Greeter::defaultSessionHint() const
@@ -144,7 +153,7 @@ void Greeter::authenticate(const QString &username)
     }
 
     Q_EMIT isAuthenticatedChanged();
-    Q_EMIT authenticationUserChanged();
+    checkAuthenticationUser();
 }
 
 void Greeter::respond(const QString &response)
@@ -164,7 +173,7 @@ void Greeter::showPromptFilter(const QString &text, QLightDM::Greeter::PromptTyp
     Q_D(Greeter);
     d->wasPrompted = true;
 
-    Q_EMIT authenticationUserChanged(); // may have changed in liblightdm
+    checkAuthenticationUser(); // may have changed in liblightdm
 
     bool isDefaultPrompt = (text == dgettext("Linux-PAM", "Password: "));
 
@@ -185,7 +194,7 @@ void Greeter::showPromptFilter(const QString &text, QLightDM::Greeter::PromptTyp
 
 void Greeter::showMessageFilter(const QString &text, QLightDM::Greeter::MessageType type)
 {
-    Q_EMIT authenticationUserChanged(); // may have changed in liblightdm
+    checkAuthenticationUser(); // may have changed in liblightdm
     Q_EMIT showMessage(text, type == QLightDM::Greeter::MessageTypeError);
 }
 
