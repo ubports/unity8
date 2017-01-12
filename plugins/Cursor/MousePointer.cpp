@@ -16,84 +16,57 @@
 
 #include "MousePointer.h"
 #include "CursorImageProvider.h"
+#include "InputDispatcherFilter.h"
+
+#include <QQuickWindow>
 
 // Unity API
 #include <unity/shell/application/MirPlatformCursor.h>
-
-#include <QQuickWindow>
-#include <QGuiApplication>
-#include <QtMath>
-
-#include <qpa/qwindowsysteminterface.h>
 
 MousePointer::MousePointer(QQuickItem *parent)
     : MirMousePointerInterface(parent)
     , m_cursorName(QStringLiteral("left_ptr"))
     , m_themeName(QStringLiteral("default"))
 {
+    InputDispatcherFilter::instance()->registerPointer(this);
+
+    auto mouseMovedFunc = [this]() {
+        if (!isEnabled() || !window()) return;
+        QPointF globalPosition =  mapToItem(nullptr, QPointF(0, 0));
+        InputDispatcherFilter::instance()->setPosition(globalPosition);
+        Q_EMIT mouseMoved();
+    };
+    connect(this, &QQuickItem::xChanged, this, mouseMovedFunc);
+    connect(this, &QQuickItem::yChanged, this, mouseMovedFunc);
+
+    connect(this, &QQuickItem::enabledChanged, this, [this]() {
+        if (!isEnabled()) setVisible(false);
+    });
+
+    connect(InputDispatcherFilter::instance(), &InputDispatcherFilter::pushedLeftBoundary,
+            this, [this](QScreen* screen, qreal amount, Qt::MouseButtons buttons) {
+        if (window() && window()->screen() == screen) {
+            Q_EMIT pushedLeftBoundary(amount, buttons);
+        }
+    });
+
+    connect(InputDispatcherFilter::instance(), &InputDispatcherFilter::pushedRightBoundary,
+            this, [this](QScreen* screen, qreal amount, Qt::MouseButtons buttons) {
+        if (window() && window()->screen() == screen) {
+            Q_EMIT pushedRightBoundary(amount, buttons);
+        }
+    });
 }
 
-void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::MouseButtons buttons,
-        Qt::KeyboardModifiers modifiers)
+MousePointer::~MousePointer()
 {
-    if (!parentItem()) {
-        return;
-    }
+    registerScreen(nullptr);
+    InputDispatcherFilter::instance()->unregisterPointer(this);
+}
 
-    if (!movement.isNull()) {
-        Q_EMIT mouseMoved();
-    }
-
-    m_accumulatedMovement += movement;
-    // don't apply the fractional part
-    QPointF appliedMovement(int(m_accumulatedMovement.x()), int(m_accumulatedMovement.y()));
-    m_accumulatedMovement -= appliedMovement;
-
-    qreal newX = x() + appliedMovement.x();
-    qreal newY = y() + appliedMovement.y();
-    const qreal sceneWidth = parentItem()->width();
-    const qreal sceneHeight = parentItem()->height();
-
-    if (newX <= 0 && newY < m_topBoundaryOffset) { // top left corner
-        const auto distance = qSqrt(qPow(newX, 2) + qPow(newY-m_topBoundaryOffset, 2));
-        Q_EMIT pushedTopLeftCorner(qAbs(distance), buttons);
-        m_pushing = true;
-    } else if (newX >= sceneWidth-1 && newY < m_topBoundaryOffset) { // top right corner
-        const auto distance = qSqrt(qPow(newX-sceneWidth, 2) + qPow(newY-m_topBoundaryOffset, 2));
-        Q_EMIT pushedTopRightCorner(qAbs(distance), buttons);
-        m_pushing = true;
-    } else if (newX < 0 && newY >= sceneHeight-1) { // bottom left corner
-        const auto distance = qSqrt(qPow(newX, 2) + qPow(newY-sceneHeight, 2));
-        Q_EMIT pushedBottomLeftCorner(qAbs(distance), buttons);
-        m_pushing = true;
-    } else if (newX >= sceneWidth-1 && newY >= sceneHeight-1) { // bottom right corner
-        const auto distance = qSqrt(qPow(newX-sceneWidth, 2) + qPow(newY-sceneHeight, 2));
-        Q_EMIT pushedBottomRightCorner(qAbs(distance), buttons);
-        m_pushing = true;
-    } else if (newX < 0) { // left edge
-        Q_EMIT pushedLeftBoundary(qAbs(newX), buttons);
-        m_pushing = true;
-    } else if (newX >= sceneWidth) { // right edge
-        Q_EMIT pushedRightBoundary(newX - (sceneWidth - 1), buttons);
-        m_pushing = true;
-    } else if (newY < m_topBoundaryOffset) { // top edge
-        Q_EMIT pushedTopBoundary(qAbs(newY - m_topBoundaryOffset), buttons);
-        m_pushing = true;
-    } else if (Q_LIKELY(newX > 0 && newX < sceneWidth-1 && newY > 0 && newY < sceneHeight-1)) { // normal pos, not pushing
-        if (m_pushing) {
-            Q_EMIT pushStopped();
-            m_pushing = false;
-        }
-    }
-
-    applyItemConfinement(newX, newY);
-
-    setX(qBound(0.0, newX, sceneWidth - 1));
-    setY(qBound(0.0, newY, sceneHeight - 1));
-
-    QPointF scenePosition = mapToItem(nullptr, QPointF(0, 0));
-    QWindowSystemInterface::handleMouseEvent(window(), timestamp, scenePosition /*local*/, scenePosition /*global*/,
-        buttons, modifiers);
+void MousePointer::handleMouseEvent(ulong /*timestamp*/, QPointF /*movement*/, Qt::MouseButtons /*buttons*/,
+        Qt::KeyboardModifiers /*modifiers*/)
+{
 }
 
 void MousePointer::applyItemConfinement(qreal &newX, qreal &newY)
@@ -121,15 +94,8 @@ void MousePointer::applyItemConfinement(qreal &newX, qreal &newY)
     }
 }
 
-void MousePointer::handleWheelEvent(ulong timestamp, QPoint angleDelta, Qt::KeyboardModifiers modifiers)
+void MousePointer::handleWheelEvent(ulong /*timestamp*/, QPoint /*angleDelta*/, Qt::KeyboardModifiers /*modifiers*/)
 {
-    if (!parentItem()) {
-        return;
-    }
-
-    QPointF scenePosition = mapToItem(nullptr, QPointF(0, 0));
-    QWindowSystemInterface::handleWheelEvent(window(), timestamp, scenePosition /* local */, scenePosition /* global */,
-            QPoint() /* pixelDelta */, angleDelta, modifiers, Qt::ScrollUpdate);
 }
 
 int MousePointer::topBoundaryOffset() const
@@ -182,7 +148,7 @@ void MousePointer::registerScreen(QScreen *screen)
     if (m_registeredScreen) {
         auto previousCursor = dynamic_cast<MirPlatformCursor*>(m_registeredScreen->handle()->cursor());
         if (previousCursor) {
-            previousCursor->setMousePointer(nullptr);
+            previousCursor->unregisterMousePointer(this);
         } else {
             qCritical("QPlatformCursor is not a MirPlatformCursor! Cursor module only works in a Mir server.");
         }
@@ -193,7 +159,7 @@ void MousePointer::registerScreen(QScreen *screen)
     if (m_registeredScreen) {
         auto cursor = dynamic_cast<MirPlatformCursor*>(m_registeredScreen->handle()->cursor());
         if (cursor) {
-            cursor->setMousePointer(this);
+            cursor->registerMousePointer(this);
         } else {
             qCritical("QPlaformCursor is not a MirPlatformCursor! Cursor module only works in Mir.");
         }
@@ -233,3 +199,4 @@ void MousePointer::setConfiningItem(QQuickItem *item)
         Q_EMIT confiningItemChanged();
     }
 }
+

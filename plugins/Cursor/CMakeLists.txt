@@ -15,6 +15,7 @@ set(QMLPLUGIN_SRC
     CursorImageInfo.cpp
     CursorImageProvider.cpp
     MousePointer.cpp
+    InputDispatcherFilter.cpp
     # We need to run moc on this header
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirMousePointerInterface.h
     )

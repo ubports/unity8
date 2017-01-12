@@ -249,7 +249,6 @@ StyledItem {
             var mappedCoords = mapFromItem(null, pos.x, pos.y);
             cursor.x = mappedCoords.x;
             cursor.y = mappedCoords.y;
-            cursor.mouseNeverMoved = false;
         }
     }
 
@@ -689,22 +688,12 @@ StyledItem {
 
     Cursor {
         id: cursor
-        objectName: "cursor"
         visible: shell.hasMouse
         z: itemGrabber.z + 1
+        opacity: 0
         topBoundaryOffset: panel.panelHeight
 
         confiningItem: stage.itemConfiningMouseCursor
-
-        property bool mouseNeverMoved: true
-        Binding {
-            target: cursor; property: "x"; value: shell.width / 2
-            when: cursor.mouseNeverMoved && cursor.visible
-        }
-        Binding {
-            target: cursor; property: "y"; value: shell.height / 2
-            when: cursor.mouseNeverMoved && cursor.visible
-        }
 
         height: units.gu(3)
 
@@ -760,7 +749,6 @@ StyledItem {
         }
 
         onMouseMoved: {
-            mouseNeverMoved = false;
             cursor.opacity = 1;
         }
 

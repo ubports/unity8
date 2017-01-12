@@ -31,6 +31,7 @@ class MousePointer : public MirMousePointerInterface {
     Q_PROPERTY(int topBoundaryOffset READ topBoundaryOffset WRITE setTopBoundaryOffset NOTIFY topBoundaryOffsetChanged)
 public:
     MousePointer(QQuickItem *parent = nullptr);
+    ~MousePointer();
 
     void setCursorName(const QString &qtCursorName) override;
     QString cursorName() const override { return m_cursorName; }
@@ -45,6 +46,8 @@ public:
 
     int topBoundaryOffset() const;
     void setTopBoundaryOffset(int topBoundaryOffset);
+
+    QScreen* screen() const { return m_registeredScreen; }
 
 public Q_SLOTS:
     void handleMouseEvent(ulong timestamp, QPointF movement, Qt::MouseButtons buttons,
@@ -90,3 +93,4 @@ private:
 };
 
 #endif // MOUSEPOINTER_H
+
