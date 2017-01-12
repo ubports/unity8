@@ -18,7 +18,7 @@
 #define SHELLAPPLICATION_H
 
 #include <QGuiApplication>
-#include <QQmlEngine>
+#include <QQmlApplicationEngine>
 #include <QQuickView>
 #include <QScopedPointer>
 
@@ -28,9 +28,6 @@
 #include "MouseTouchAdaptor.h"
 #endif
 
-#include "SecondaryWindow.h"
-#include "ShellView.h"
-
 class ShellApplication : public QGuiApplication
 {
     Q_OBJECT
@@ -39,25 +36,16 @@ public:
     virtual ~ShellApplication();
 
     void destroyResources();
-public Q_SLOTS:
-    // called by qtmir
-    void onScreenAboutToBeRemoved(QScreen *screen);
-
-private Q_SLOTS:
-    void onScreenAdded(QScreen*);
 
 private:
     void setupQmlEngine(bool isMirServer);
-    QString m_deviceName;
     ApplicationArguments m_qmlArgs;
-    ShellView *m_shellView{nullptr};
-    SecondaryWindow *m_secondaryWindow{nullptr};
 
     #ifdef UNITY8_ENABLE_TOUCH_EMULATION
     MouseTouchAdaptor *m_mouseTouchAdaptor{nullptr};
     #endif
 
-    QQmlEngine *m_qmlEngine{nullptr};
+    QQmlApplicationEngine *m_qmlEngine{nullptr};
 };
 
 #endif // SHELLAPPLICATION_H

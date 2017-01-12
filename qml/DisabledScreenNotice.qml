@@ -28,8 +28,9 @@ Item {
     property var screen: Screen
     property var orientationLock: OrientationLock
 
+    property alias deviceConfiguration: _deviceConfiguration
     DeviceConfiguration {
-        id: deviceConfiguration
+        id: _deviceConfiguration
         name: applicationArguments.deviceName
     }
 

@@ -25,14 +25,13 @@ import "../Components"
 Item {
     id: root
 
-    Component.onCompleted: UInput.createMouse()
-    Component.onDestruction: UInput.removeMouse()
-
     Component.onCompleted: {
+        UInput.createMouse();
         if (!settings.touchpadTutorialHasRun) {
             root.runTutorial()
         }
     }
+    Component.onDestruction: UInput.removeMouse()
 
     function runTutorial() {
         // If the tutorial animation is started too early, e.g. in Component.onCompleted,
@@ -238,14 +237,10 @@ Item {
         }
     }
 
-    Screens {
-        id: screens
-    }
-
     InputMethod {
         id: inputMethod
         // Don't resize when there is only one screen to avoid resize clashing with the InputMethod in the Shell.
-        enabled: screens.count > 1 && settings.oskEnabled && !tutorial.running
+        enabled: Screens.count > 1 && settings.oskEnabled && !tutorial.running
         objectName: "inputMethod"
         anchors.fill: parent
     }

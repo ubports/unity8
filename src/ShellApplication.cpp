@@ -20,6 +20,7 @@
 #include <QLibrary>
 #include <QProcess>
 #include <QScreen>
+#include <QQmlContext>
 
 #include <libintl.h>
 
@@ -33,31 +34,23 @@
 
 ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     : QGuiApplication(argc, argv)
+    , m_qmlArgs(this)
 {
 
     setApplicationName(QStringLiteral("unity8"));
     setOrganizationName(QStringLiteral("Canonical"));
 
-    connect(this, &QGuiApplication::screenAdded, this, &ShellApplication::onScreenAdded);
-
     setupQmlEngine(isMirServer);
 
-    UnityCommandLineParser parser(*this);
-
-    if (!parser.deviceName().isEmpty()) {
-        m_deviceName = parser.deviceName();
-    } else {
+    if (m_qmlArgs.deviceName().isEmpty()) {
         char buffer[200];
         property_get("ro.product.device", buffer /* value */, "desktop" /* default_value*/);
-        m_deviceName = QString(buffer);
+        m_qmlArgs.setDeviceName(QString(buffer));
     }
-    m_qmlArgs.setDeviceName(m_deviceName);
-
-    m_qmlArgs.setMode(parser.mode());
 
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
     // However, QApplication depends on QWidget which would add some unneeded overhead => Let's load the testability driver on our own.
-    if (parser.hasTestability() || getenv("QT_LOAD_TESTABILITY")) {
+    if (m_qmlArgs.hasTestability() || getenv("QT_LOAD_TESTABILITY")) {
         QLibrary testLib(QStringLiteral("qttestability"));
         if (testLib.load()) {
             typedef void (*TasInitialize)(void);
@@ -75,57 +68,39 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     bindtextdomain("unity8", translationDirectory().toUtf8().data());
     textdomain("unity8");
 
-    m_shellView = new ShellView(m_qmlEngine, &m_qmlArgs);
+    m_qmlEngine->rootContext()->setContextProperty(QStringLiteral("applicationArguments"), &m_qmlArgs);
 
-    if (parser.windowGeometry().isValid()) {
-        m_shellView->setWidth(parser.windowGeometry().width());
-        m_shellView->setHeight(parser.windowGeometry().height());
+    QByteArray pxpguEnv = qgetenv("GRID_UNIT_PX");
+    bool ok;
+    int pxpgu = pxpguEnv.toInt(&ok);
+    if (!ok) {
+        pxpgu = 8;
     }
-
-    if (parser.hasFrameless()) {
-        m_shellView->setFlags(Qt::FramelessWindowHint);
-    }
-
+    m_qmlEngine->rootContext()->setContextProperty("internalGu", pxpgu);
+    m_qmlEngine->load(::qmlDirectory() + "/ShellApplication.qml");
 
     #ifdef UNITY8_ENABLE_TOUCH_EMULATION
     // You will need this if you want to interact with touch-only components using a mouse
     // Needed only when manually testing on a desktop.
-    if (parser.hasMouseToTouch()) {
+    if (m_qmlArgs.hasMouseToTouch()) {
         m_mouseTouchAdaptor = MouseTouchAdaptor::instance();
     }
     #endif
 
-
-    // Some hard-coded policy for now.
-    // NB: We don't support more than two screens at the moment
-    //
-    // TODO: Support an arbitrary number of screens and different policies
-    //       (eg cloned desktop, several desktops, etc)
-    if (isMirServer && screens().count() == 2) {
-        m_shellView->setScreen(screens().at(1));
-        m_qmlArgs.setDeviceName(QStringLiteral("desktop"));
-
-        m_secondaryWindow = new SecondaryWindow(m_qmlEngine);
-        m_secondaryWindow->setScreen(screens().at(0));
-        // QWindow::showFullScreen() also calls QWindow::requestActivate() and we don't want that!
-        m_secondaryWindow->setWindowState(Qt::WindowFullScreen);
-        m_secondaryWindow->setVisible(true);
-    }
-
-    if (parser.mode().compare("greeter") == 0) {
-        QSize primaryScreenSize = this->primaryScreen()->size();
-        m_shellView->setHeight(primaryScreenSize.height());
-        m_shellView->setWidth(primaryScreenSize.width());
-        m_shellView->show();
-        m_shellView->requestActivate();
-        if (!QProcess::startDetached("initctl emit --no-wait unity8-greeter-started")) {
-            qDebug() << "Unable to send unity8-greeter-started event to Upstart";
-        }
-    } else if (isMirServer || parser.hasFullscreen()) {
-        m_shellView->showFullScreen();
-    } else {
-        m_shellView->show();
-    }
+//    if (parser.mode().compare("greeter") == 0) {
+//        QSize primaryScreenSize = this->primaryScreen()->size();
+//        m_shellView->setHeight(primaryScreenSize.height());
+//        m_shellView->setWidth(primaryScreenSize.width());
+//        m_shellView->show();
+//        m_shellView->requestActivate();
+//        if (!QProcess::startDetached("/sbin/initctl emit --no-wait unity8-greeter-started")) {
+//            qDebug() << "Unable to send unity8-greeter-started event to Upstart";
+//        }
+//    } else if (isMirServer || parser.hasFullscreen()) {
+//        m_shellView->showFullScreen();
+//    } else {
+//        m_shellView->show();
+//    }
 }
 
 ShellApplication::~ShellApplication()
@@ -135,14 +110,6 @@ ShellApplication::~ShellApplication()
 
 void ShellApplication::destroyResources()
 {
-    // Deletion order is important. Don't use QScopedPointers and the like
-    // Otherwise the process will hang on shutdown (bug somewhere I guess).
-    delete m_shellView;
-    m_shellView = nullptr;
-
-    delete m_secondaryWindow;
-    m_secondaryWindow = nullptr;
-
     #ifdef UNITY8_ENABLE_TOUCH_EMULATION
     delete m_mouseTouchAdaptor;
     m_mouseTouchAdaptor = nullptr;
@@ -154,7 +121,7 @@ void ShellApplication::destroyResources()
 
 void ShellApplication::setupQmlEngine(bool isMirServer)
 {
-    m_qmlEngine = new QQmlEngine(this);
+    m_qmlEngine = new QQmlApplicationEngine(this);
 
     m_qmlEngine->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
 
@@ -167,49 +134,4 @@ void ShellApplication::setupQmlEngine(bool isMirServer)
     m_qmlEngine->setNetworkAccessManagerFactory(new CachingNetworkManagerFactory);
 
     QObject::connect(m_qmlEngine, &QQmlEngine::quit, this, &QGuiApplication::quit);
-}
-
-void ShellApplication::onScreenAdded(QScreen * /*screen*/)
-{
-    // TODO: Support an arbitrary number of screens and different policies
-    //       (eg cloned desktop, several desktops, etc)
-    if (screens().count() == 2) {
-        m_shellView->setScreen(screens().at(1));
-        m_qmlArgs.setDeviceName(QStringLiteral("desktop"));
-        // Changing the QScreen where a QWindow is drawn makes it also lose focus (besides having
-        // its backing QPlatformWindow recreated). So lets refocus it.
-        m_shellView->requestActivate();
-        // QWindow::destroy() is called when it changes between screens. We have to manually make it visible again
-        // <dandrader> This bug is supposedly fixed in Qt 5.5.1, although I can still reproduce it there. :-/
-        m_shellView->setVisible(true);
-
-        m_secondaryWindow = new SecondaryWindow(m_qmlEngine);
-        m_secondaryWindow->setScreen(screens().at(0));
-
-        // QWindow::showFullScreen() also calls QWindow::requestActivate() and we don't want that!
-        m_secondaryWindow->setWindowState(Qt::WindowFullScreen);
-        m_secondaryWindow->setVisible(true);
-    }
-}
-
-void ShellApplication::onScreenAboutToBeRemoved(QScreen *screen)
-{
-    // TODO: Support an arbitrary number of screens and different policies
-    //       (eg cloned desktop, several desktops, etc)
-    if (screen == m_shellView->screen()) {
-        const QList<QScreen *> allScreens = screens();
-        Q_ASSERT(allScreens.count() > 1);
-        Q_ASSERT(allScreens.at(0) != screen);
-        Q_ASSERT(m_secondaryWindow);
-        delete m_secondaryWindow;
-        m_secondaryWindow = nullptr;
-        m_shellView->setScreen(allScreens.first());
-        m_qmlArgs.setDeviceName(m_deviceName);
-        // Changing the QScreen where a QWindow is drawn makes it also lose focus (besides having
-        // its backing QPlatformWindow recreated). So lets refocus it.
-        m_shellView->requestActivate();
-        // QWindow::destroy() is called when it changes between screens. We have to manually make it visible again
-        // <dandrader> This bug is supposedly fixed in Qt 5.5.1, although I can still reproduce it there. :-/
-        m_shellView->setVisible(true);
-    }
 }

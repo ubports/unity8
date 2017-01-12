@@ -36,8 +36,8 @@ public:
     bool hasFullscreen() const { return m_hasFullscreen; }
     QString deviceName() const { return m_deviceName; }
     QString mode() const { return m_mode; }
-private:
 
+protected:
     int parsePixelsValue(const QString &str);
     static float getenvFloat(const char* name, float defaultValue);
     void resolveMode(QCommandLineParser &parser, QCommandLineOption &modeOption);

@@ -18,10 +18,11 @@
 
 #include "qinputdeviceinfo_mock_p.h"
 
+#include <QQuickView>
+
 MockController::MockController(QObject *parent):
     QObject(parent)
 {
-
 }
 
 MockController *MockController::instance()

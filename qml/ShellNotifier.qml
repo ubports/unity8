@@ -23,9 +23,8 @@ import QtQuick 2.4
 
 QtObject {
     property var greeter: QtObject {
-        signal show()
         signal hide(bool now)
 
-        property bool shown: false
+        property bool shown: true
     }
 }

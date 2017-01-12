@@ -74,6 +74,12 @@ Rectangle {
         deviceFilter: InputInfo.Keyboard
     }
 
+    QtObject {
+        id: _screenWindow
+        property bool primary: true
+    }
+    property alias screenWindow: _screenWindow
+
     property int physicalOrientation0
     property int physicalOrientation90
     property int physicalOrientation180
@@ -442,7 +448,7 @@ Rectangle {
 
         onOrientedShellChanged: {
             if (orientedShell) {
-                panelState = findInvisibleChild(shell, "panelState");
+                panelState = findInvisibleChild(orientedShell, "panelState");
             } else {
                 panelState = undefined;
             }

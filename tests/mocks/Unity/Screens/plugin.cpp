@@ -20,13 +20,21 @@
 
 #include <QScreen>
 
+namespace {
+QObject* screensSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
+    Q_UNUSED(engine);
+    Q_UNUSED(scriptEngine);
+    return new Screens();
+}
+}
+
 void UnityScreensPlugin::registerTypes(const char* uri)
 {
     Q_ASSERT(QLatin1String(uri) == QLatin1String("Unity.Screens"));
 
     qRegisterMetaType<QScreen*>("QScreen*");
 
-    qmlRegisterType<Screens>(uri, 0, 1, "Screens");
+    qmlRegisterSingletonType<Screens>(uri, 0, 1, "Screens", screensSingleton);
     qmlRegisterType<ScreenWindow>(uri, 0, 1, "ScreenWindow");
     qmlRegisterRevision<QWindow,1>(uri, 0, 1);
 }

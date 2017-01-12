@@ -23,31 +23,32 @@
 #include <QSize>
 #include <QString>
 
-class ApplicationArguments : public QObject
+#include "UnityCommandLineParser.h"
+
+class ApplicationArguments : public QObject,
+                             public UnityCommandLineParser
 {
     Q_OBJECT
     Q_PROPERTY(QString deviceName READ deviceName NOTIFY deviceNameChanged)
     Q_PROPERTY(QString mode READ mode CONSTANT)
+
+    Q_PROPERTY(bool hasGeometry READ hasGeometry CONSTANT)
+    Q_PROPERTY(QSize windowGeometry READ windowGeometry CONSTANT)
+    Q_PROPERTY(bool hasTestability READ hasTestability CONSTANT)
+    Q_PROPERTY(bool hasFrameless READ hasFrameless CONSTANT)
+#ifdef UNITY8_ENABLE_TOUCH_EMULATION
+    Q_PROPERTY(bool hasMouseToTouch READ hasMouseToTouch CONSTANT)
+#endif
+
 public:
-    ApplicationArguments(QObject *parent = nullptr);
+    ApplicationArguments(QCoreApplication *app);
 
-    void setDeviceName(const QString &deviceName) {
-        if (deviceName != m_deviceName) {
-            m_deviceName = deviceName;
-            Q_EMIT deviceNameChanged(m_deviceName);
-        }
-    }
-    QString deviceName() const { return m_deviceName; }
+    void setDeviceName(const QString &deviceName);
 
-    void setMode(const QString &mode) { m_mode = mode; }
-    QString mode() const { return m_mode; }
+    bool hasGeometry() const { return m_windowGeometry.isValid(); }
 
 Q_SIGNALS:
     void deviceNameChanged(const QString&);
-
-private:
-    QString m_deviceName;
-    QString m_mode;
 };
 
 #endif // APPLICATION_ARGUMENTS_H

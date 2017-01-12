@@ -65,6 +65,12 @@ Rectangle {
     property var topLevelSurfaceList: null
     property var panelState: undefined
 
+    QtObject {
+        id: _screenWindow
+        property bool primary: false
+    }
+    property alias screenWindow: _screenWindow
+
     Item {
         id: shellContainer
         anchors.left: root.left

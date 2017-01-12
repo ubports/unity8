@@ -20,9 +20,7 @@ set(SOURCE_FILES
     ApplicationArguments.cpp
     main.cpp
     CachingNetworkManagerFactory.cpp
-    SecondaryWindow.cpp
     ShellApplication.cpp
-    ShellView.cpp
     UnityCommandLineParser.cpp
     UnixSignalHandler.cpp
     ${QML_FILES} # This is to make qml and image files appear in the IDE's project tree
