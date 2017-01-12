@@ -18,6 +18,7 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Unity.Application 0.1
 import "Spread/MathUtils.js" as MathUtils
+import "../Components/PanelState"
 
 FocusScope {
     id: root
@@ -69,6 +70,8 @@ FocusScope {
     readonly property alias dragging: moveHandler.dragging
 
     readonly property Item clientAreaItem: applicationWindow
+
+    property PanelState panelState
 
     signal closeClicked()
     signal maximizeClicked()
@@ -179,6 +182,7 @@ FocusScope {
         objectName: "moveHandler"
         target: root.parent
         buttonsWidth: decoration.buttonsWidth
+        panelState: root.panelState
     }
 
     ApplicationWindow {

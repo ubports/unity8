@@ -33,8 +33,8 @@ Showable {
     property string lockedApp: ""
 
     function forceShow() { show(); }
-    property var notifyAboutToFocusApp: (function(appId) { return; })
-    property var notifyAppFocused: (function(appId) { return; })
+    property var notifyAppFocusRequested: (function(appId) { return; })
+    property var notifyUserRequestedApp: (function(appId) { return; })
     property var notifyShowingDashFromDrag: (function(appId) { return false; })
 
     showAnimation: StandardAnimation { property: "opacity"; to: 1 }

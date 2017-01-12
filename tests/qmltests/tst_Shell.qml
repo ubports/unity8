@@ -55,12 +55,15 @@ Rectangle {
     onShellChanged: {
         if (shell) {
             topLevelSurfaceList = testCase.findInvisibleChild(shell, "topLevelSurfaceList");
+            panelState = testCase.findInvisibleChild(shell, "panelState");
         } else {
             topLevelSurfaceList = null;
+            panelState = undefined;
         }
     }
 
     property var topLevelSurfaceList: null
+    property var panelState: undefined
 
     Item {
         id: shellContainer
@@ -1878,21 +1881,21 @@ Rectangle {
             var maximizeButton = findChild(appDelegate, "maximizeWindowButton");
 
             tryCompare(appDelegate, "state", "normal");
-            tryCompare(PanelState, "buttonsVisible", false)
+            tryCompare(panelState, "buttonsVisible", false)
 
             mouseClick(maximizeButton, maximizeButton.width / 2, maximizeButton.height / 2);
             tryCompare(appDelegate, "state", "maximized");
-            tryCompare(PanelState, "buttonsVisible", true)
+            tryCompare(panelState, "buttonsVisible", true)
 
             ApplicationManager.stopApplication(application.appId);
-            tryCompare(PanelState, "buttonsVisible", false)
+            tryCompare(panelState, "buttonsVisible", false)
 
             // wait until all zombie surfaces are gone. As MirSurfaceItems hold references over them.
             // They won't be gone until those surface items are destroyed.
             tryCompareFunction(function() { return application.surfaceList.count }, 0);
 
             ApplicationManager.startApplication(application.appId);
-            tryCompare(PanelState, "buttonsVisible", true)
+            tryCompare(panelState, "buttonsVisible", true)
         }
 
         function test_newAppHasValidGeometry() {
@@ -1948,7 +1951,7 @@ Rectangle {
             mousePress(appDelegate, appDelegate.width / 2, units.gu(1))
             mouseMove(appDelegate, appDelegate.width / 2, -units.gu(100))
 
-            compare(appDelegate.y >= PanelState.panelHeight, true);
+            compare(appDelegate.y >= panelState.panelHeight, true);
         }
 
         function test_cantResizeWindowUnderPanel() {
@@ -1976,7 +1979,7 @@ Rectangle {
             mouseMove(decoration, decoration.width/2, -units.gu(100));
 
             // verify we don't go past the panel
-            compare(appDelegate.y >= PanelState.panelHeight, true);
+            compare(appDelegate.y >= panelState.panelHeight, true);
         }
 
         function test_restoreWindowStateFixesIfUnderPanel() {
@@ -2000,7 +2003,7 @@ Rectangle {
             tryCompareFunction(function () { return topLevelSurfaceList.applicationAt(0).appId; }, application.appId);
 
             appDelegate = appRepeater.itemAt(0);
-            compare(appDelegate.y >= PanelState.panelHeight, true);
+            compare(appDelegate.y >= panelState.panelHeight, true);
         }
 
         function test_lifecyclePolicyForNonTouchApp_data() {
@@ -2601,7 +2604,7 @@ Rectangle {
         function test_oskDisplacesWindow_data() {
             return [
                 {tag: "no need to displace", windowHeight: units.gu(10), windowY: units.gu(5), targetDisplacement: units.gu(5), oskEnabled: true},
-                {tag: "displace to top", windowHeight: units.gu(50), windowY: units.gu(10), targetDisplacement: PanelState.panelHeight, oskEnabled: true},
+                {tag: "displace to top", windowHeight: units.gu(50), windowY: units.gu(10), targetDisplacement: panelState.panelHeight, oskEnabled: true},
                 {tag: "osk not on this screen", windowHeight: units.gu(40), windowY: units.gu(10), targetDisplacement: units.gu(10), oskEnabled: false},
             ]
         }
@@ -2624,8 +2627,8 @@ Rectangle {
             dashAppDelegate.windowedY = data.windowY;
             topLevelSurfaceList.inputMethodSurface.setInputBounds(Qt.rect(0, 0, 0, 0));
             var initialY = dashAppDelegate.y;
-            print("intial", initialY, "panel", PanelState.panelHeight);
-            verify(initialY > PanelState.panelHeight);
+            print("intial", initialY, "panel", panelState.panelHeight);
+            verify(initialY > panelState.panelHeight);
 
             topLevelSurfaceList.inputMethodSurface.setInputBounds(Qt.rect(0, root.height / 2, root.width, root.height / 2));
             tryCompare(dashAppDelegate, "y", data.targetDisplacement);

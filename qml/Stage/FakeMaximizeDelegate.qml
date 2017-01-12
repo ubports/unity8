@@ -35,6 +35,7 @@ Rectangle {
     property int leftMargin
     property real appContainerWidth
     property real appContainerHeight
+    property PanelState panelState
 
     readonly property real hintThreshold: 0.1
 
@@ -178,7 +179,7 @@ Rectangle {
     ParallelAnimation {
         id: fakeMaximizeAnimation
         UbuntuNumberAnimation { target: fakeRectangle; properties: "x"; duration: UbuntuAnimation.BriskDuration; to: leftMargin }
-        UbuntuNumberAnimation { target: fakeRectangle; properties: "y"; duration: UbuntuAnimation.BriskDuration; to: PanelState.panelHeight }
+        UbuntuNumberAnimation { target: fakeRectangle; properties: "y"; duration: UbuntuAnimation.BriskDuration; to: panelState.panelHeight }
         UbuntuNumberAnimation { target: fakeRectangle; properties: "width"; duration: UbuntuAnimation.BriskDuration; to: appContainerWidth - leftMargin }
         UbuntuNumberAnimation { target: fakeRectangle; properties: "height"; duration: UbuntuAnimation.BriskDuration; to: appContainerHeight }
     }
@@ -186,39 +187,39 @@ Rectangle {
     ParallelAnimation {
         id: fakeMaximizeLeftAnimation
         UbuntuNumberAnimation { target: fakeRectangle; properties: "x"; duration: UbuntuAnimation.BriskDuration; to: leftMargin }
-        UbuntuNumberAnimation { target: fakeRectangle; properties: "y"; duration: UbuntuAnimation.BriskDuration; to: PanelState.panelHeight }
+        UbuntuNumberAnimation { target: fakeRectangle; properties: "y"; duration: UbuntuAnimation.BriskDuration; to: panelState.panelHeight }
         UbuntuNumberAnimation { target: fakeRectangle; properties: "width"; duration: UbuntuAnimation.BriskDuration; to: (appContainerWidth - leftMargin)/2 }
-        UbuntuNumberAnimation { target: fakeRectangle; properties: "height"; duration: UbuntuAnimation.BriskDuration; to: appContainerHeight - PanelState.panelHeight }
+        UbuntuNumberAnimation { target: fakeRectangle; properties: "height"; duration: UbuntuAnimation.BriskDuration; to: appContainerHeight - panelState.panelHeight }
     }
 
     ParallelAnimation {
         id: fakeMaximizeRightAnimation
         UbuntuNumberAnimation { target: fakeRectangle; properties: "x"; duration: UbuntuAnimation.BriskDuration; to: (appContainerWidth + leftMargin)/2 }
-        UbuntuNumberAnimation { target: fakeRectangle; properties: "y"; duration: UbuntuAnimation.BriskDuration; to: PanelState.panelHeight }
+        UbuntuNumberAnimation { target: fakeRectangle; properties: "y"; duration: UbuntuAnimation.BriskDuration; to: panelState.panelHeight }
         UbuntuNumberAnimation { target: fakeRectangle; properties: "width"; duration: UbuntuAnimation.BriskDuration; to: (appContainerWidth - leftMargin)/2 }
-        UbuntuNumberAnimation { target: fakeRectangle; properties: "height"; duration: UbuntuAnimation.BriskDuration; to: appContainerHeight - PanelState.panelHeight }
+        UbuntuNumberAnimation { target: fakeRectangle; properties: "height"; duration: UbuntuAnimation.BriskDuration; to: appContainerHeight - panelState.panelHeight }
     }
 
     ParallelAnimation {
         id: fakeMaximizeTopLeftAnimation
         UbuntuNumberAnimation { target: fakeRectangle; properties: "x"; duration: UbuntuAnimation.BriskDuration; to: leftMargin }
-        UbuntuNumberAnimation { target: fakeRectangle; properties: "y"; duration: UbuntuAnimation.BriskDuration; to: PanelState.panelHeight }
+        UbuntuNumberAnimation { target: fakeRectangle; properties: "y"; duration: UbuntuAnimation.BriskDuration; to: panelState.panelHeight }
         UbuntuNumberAnimation { target: fakeRectangle; properties: "width"; duration: UbuntuAnimation.BriskDuration; to: (appContainerWidth - leftMargin)/2 }
-        UbuntuNumberAnimation { target: fakeRectangle; properties: "height"; duration: UbuntuAnimation.BriskDuration; to: (appContainerHeight - PanelState.panelHeight)/2 }
+        UbuntuNumberAnimation { target: fakeRectangle; properties: "height"; duration: UbuntuAnimation.BriskDuration; to: (appContainerHeight - panelState.panelHeight)/2 }
     }
 
     ParallelAnimation {
         id: fakeMaximizeTopRightAnimation
         UbuntuNumberAnimation { target: fakeRectangle; properties: "x"; duration: UbuntuAnimation.BriskDuration; to: (appContainerWidth + leftMargin)/2 }
-        UbuntuNumberAnimation { target: fakeRectangle; properties: "y"; duration: UbuntuAnimation.BriskDuration; to: PanelState.panelHeight }
+        UbuntuNumberAnimation { target: fakeRectangle; properties: "y"; duration: UbuntuAnimation.BriskDuration; to: panelState.panelHeight }
         UbuntuNumberAnimation { target: fakeRectangle; properties: "width"; duration: UbuntuAnimation.BriskDuration; to: (appContainerWidth - leftMargin)/2 }
-        UbuntuNumberAnimation { target: fakeRectangle; properties: "height"; duration: UbuntuAnimation.BriskDuration; to: (appContainerHeight - PanelState.panelHeight)/2 }
+        UbuntuNumberAnimation { target: fakeRectangle; properties: "height"; duration: UbuntuAnimation.BriskDuration; to: (appContainerHeight - panelState.panelHeight)/2 }
     }
 
     ParallelAnimation {
         id: fakeMaximizeBottomLeftAnimation
         UbuntuNumberAnimation { target: fakeRectangle; properties: "x"; duration: UbuntuAnimation.BriskDuration; to: leftMargin }
-        UbuntuNumberAnimation { target: fakeRectangle; properties: "y"; duration: UbuntuAnimation.BriskDuration; to: (appContainerHeight + PanelState.panelHeight)/2 }
+        UbuntuNumberAnimation { target: fakeRectangle; properties: "y"; duration: UbuntuAnimation.BriskDuration; to: (appContainerHeight + panelState.panelHeight)/2 }
         UbuntuNumberAnimation { target: fakeRectangle; properties: "width"; duration: UbuntuAnimation.BriskDuration; to: (appContainerWidth - leftMargin)/2 }
         UbuntuNumberAnimation { target: fakeRectangle; properties: "height"; duration: UbuntuAnimation.BriskDuration; to: appContainerHeight/2 }
     }
@@ -226,7 +227,7 @@ Rectangle {
     ParallelAnimation {
         id: fakeMaximizeBottomRightAnimation
         UbuntuNumberAnimation { target: fakeRectangle; properties: "x"; duration: UbuntuAnimation.BriskDuration; to: (appContainerWidth + leftMargin)/2 }
-        UbuntuNumberAnimation { target: fakeRectangle; properties: "y"; duration: UbuntuAnimation.BriskDuration; to: (appContainerHeight + PanelState.panelHeight)/2 }
+        UbuntuNumberAnimation { target: fakeRectangle; properties: "y"; duration: UbuntuAnimation.BriskDuration; to: (appContainerHeight + panelState.panelHeight)/2 }
         UbuntuNumberAnimation { target: fakeRectangle; properties: "width"; duration: UbuntuAnimation.BriskDuration; to: (appContainerWidth - leftMargin)/2 }
         UbuntuNumberAnimation { target: fakeRectangle; properties: "height"; duration: UbuntuAnimation.BriskDuration; to: appContainerHeight/2 }
     }

@@ -27,6 +27,7 @@ Item {
 
     // to be set from outside
     property Item target // appDelegate
+    property PanelState panelState
     property alias stageWidth: moveHandler.stageWidth
     property alias stageHeight: moveHandler.stageHeight
 
@@ -161,6 +162,7 @@ Item {
                 id: moveHandler
                 objectName: "moveHandler"
                 target: root.target
+                panelState: root.panelState
 
                 onFakeMaximizeAnimationRequested: root.fakeMaximizeAnimationRequested(amount)
                 onFakeMaximizeLeftAnimationRequested: root.fakeMaximizeLeftAnimationRequested(amount)

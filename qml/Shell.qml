@@ -38,6 +38,7 @@ import "Notifications"
 import "Stage"
 import "Tutorial"
 import "Wizard"
+import "Components/PanelState"
 import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
@@ -257,6 +258,11 @@ StyledItem {
         schema.id: "com.canonical.Unity8"
     }
 
+    PanelState {
+        id: panelState
+        objectName: "panelState"
+    }
+
     Item {
         id: stages
         objectName: "stages"
@@ -312,6 +318,7 @@ StyledItem {
             altTabPressed: physicalKeysMapper.altTabPressed
             oskEnabled: shell.oskEnabled
             spreadEnabled: tutorial.spreadEnabled && (!greeter || (!greeter.hasLockedApp && !greeter.shown))
+            panelState: panelState
         }
     }
 
@@ -490,6 +497,7 @@ StyledItem {
             fullscreenMode: (focusedSurfaceIsFullscreen && !LightDMService.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
             locked: greeter && greeter.active
+            panelState: panelState
         }
 
         Launcher {

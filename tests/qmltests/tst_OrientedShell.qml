@@ -29,7 +29,6 @@ import Utils 0.1
 
 import "../../qml"
 import "../../qml/Components"
-import "../../qml/Components/PanelState"
 import "Stage"
 
 Rectangle {
@@ -439,6 +438,15 @@ Rectangle {
         property Item orientedShell: orientedShellLoader.status === Loader.Ready ? orientedShellLoader.item : null
         property Item shell
         property QtObject topLevelSurfaceList
+        property var panelState: undefined
+
+        onOrientedShellChanged: {
+            if (orientedShell) {
+                panelState = findInvisibleChild(shell, "panelState");
+            } else {
+                panelState = undefined;
+            }
+        }
 
         SignalSpy { id: signalSpy }
         SignalSpy { id: signalSpy2 }
@@ -1507,13 +1515,13 @@ Rectangle {
             print("exptectedAngle", expectedAngle, point.x, point.y)
             switch (expectedAngle) {
             case 0:
-                return point.x === 0 && point.y === PanelState.panelHeight;
+                return point.x === 0 && point.y === panelState.panelHeight;
             case 90:
-                return point.x === orientedShell.width - PanelState.panelHeight && point.y === 0;
+                return point.x === orientedShell.width - panelState.panelHeight && point.y === 0;
             case 180:
-                return point.x === orientedShell.width && point.y === orientedShell.height - PanelState.panelHeight;
+                return point.x === orientedShell.width && point.y === orientedShell.height - panelState.panelHeight;
             default: // 270
-                return point.x === PanelState.panelHeight && point.y === orientedShell.height;
+                return point.x === panelState.panelHeight && point.y === orientedShell.height;
             }
         }
 

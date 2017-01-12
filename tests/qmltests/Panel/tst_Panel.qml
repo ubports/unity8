@@ -23,7 +23,6 @@ import Unity.Application 0.1
 import Unity.Indicators 0.1 as Indicators
 import Ubuntu.Telephony 0.1 as Telephony
 import "../../../qml/Panel"
-import "../../../qml/Components/PanelState"
 
 IndicatorTest {
     id: root
@@ -32,6 +31,8 @@ IndicatorTest {
     color: "black"
 
     Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark"
+
+    readonly property alias panelState: panel.panelState
 
     SurfaceManager {}
 
@@ -109,7 +110,7 @@ IndicatorTest {
                 Layout.fillWidth: true
                 CheckBox {
                     id: windowControlsCB
-                    onClicked: PanelState.buttonsVisible = checked
+                    onClicked: panelState.buttonsVisible = checked
                 }
                 Label {
                     text: "Show window controls"
@@ -121,9 +122,9 @@ IndicatorTest {
                 CheckBox {
                     onClicked: {
                         if (checked)
-                            PanelState.title = "Fake window title"
+                            panelState.title = "Fake window title"
                         else
-                            PanelState.title = ""
+                            panelState.title = ""
                     }
                 }
                 Label {
@@ -186,7 +187,7 @@ IndicatorTest {
 
         SignalSpy {
             id: windowControlButtonsSpy
-            target: PanelState
+            target: panelState
             signalName: "closeClicked"
         }
 
@@ -510,13 +511,13 @@ IndicatorTest {
 
         // https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1611959
         function test_windowControlButtonsFittsLaw() {
-            var buttonsVisible = PanelState.buttonsVisible;
-            PanelState.buttonsVisible = true;
+            var buttonsVisible = panelState.buttonsVisible;
+            panelState.buttonsVisible = true;
             // click in very topleft corner and verify the close button got clicked too
             mouseMove(panel, 0, 0);
             mouseClick(panel, 0, 0, undefined /*button*/, undefined /*modifiers*/, 100 /*short delay*/);
             compare(windowControlButtonsSpy.count, 1);
-            PanelState.buttonsVisible = buttonsVisible;
+            panelState.buttonsVisible = buttonsVisible;
         }
     }
 }

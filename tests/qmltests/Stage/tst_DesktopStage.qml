@@ -41,6 +41,10 @@ Item {
         value: false
     }
 
+    PanelState {
+        id: panelState
+    }
+
     Component.onCompleted: {
         theme.name = "Ubuntu.Components.Themes.SuruDark";
         resetGeometry();
@@ -92,6 +96,7 @@ Item {
                 topLevelSurfaceList: topSurfaceList
                 interactive: true
                 mode: "windowed"
+                panelState: panelState
             }
         }
 
@@ -624,19 +629,19 @@ Item {
             maximizeDelegate(facebookAppDelegate);
 
             // verify the drop shadow is still not visible
-            verify(PanelState.dropShadow == false);
+            verify(panelState.dropShadow == false);
 
             // start a foreground app, not maximized
             var dialerAppDelegate = startApplication("dialer-app");
 
             // verify the drop shadow becomes visible
-            verify(PanelState.dropShadow == true);
+            verify(panelState.dropShadow == true);
 
             // close the maximized app
             ApplicationManager.stopApplication("facebook-webapp");
 
             // verify the drop shadow is gone
-            tryCompare(PanelState, "dropShadow", false);
+            tryCompare(panelState, "dropShadow", false);
         }
 
         function test_threeFingerTapShowsWindowControls_data() {

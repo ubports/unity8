@@ -29,6 +29,7 @@ Item {
     property bool fullscreenMode: false
     property real indicatorAreaShowProgress: 1.0
     property bool locked: false
+    property PanelState panelState
 
     MouseArea {
         anchors.fill: parent
@@ -40,7 +41,7 @@ Item {
     }
 
     Binding {
-        target: PanelState
+        target: panelState
         property: "panelHeight"
         value: indicators.minimizedPanelHeight
     }
@@ -74,7 +75,7 @@ Item {
                 fill: indicatorAreaBackground
                 bottomMargin: -units.gu(1)
             }
-            visible: PanelState.dropShadow && !callHint.visible
+            visible: panelState.dropShadow && !callHint.visible
             source: "graphics/rectangular_dropshadow.sci"
         }
 
@@ -120,14 +121,14 @@ Item {
                 }
                 height: indicators.minimizedPanelHeight
 
-                visible: ((PanelState.buttonsVisible && parent.containsMouse) || PanelState.buttonsAlwaysVisible)
+                visible: ((panelState.buttonsVisible && parent.containsMouse) || panelState.buttonsAlwaysVisible)
                          && !root.locked && !callHint.visible
-                active: PanelState.buttonsVisible || PanelState.buttonsAlwaysVisible
+                active: panelState.buttonsVisible || panelState.buttonsAlwaysVisible
                 windowIsMaximized: true
-                onCloseClicked: PanelState.closeClicked()
-                onMinimizeClicked: PanelState.minimizeClicked()
-                onMaximizeClicked: PanelState.restoreClicked()
-                closeButtonShown: PanelState.closeButtonShown
+                onCloseClicked: panelState.closeClicked()
+                onMinimizeClicked: panelState.minimizeClicked()
+                onMaximizeClicked: panelState.restoreClicked()
+                closeButtonShown: panelState.closeButtonShown
             }
         }
 
@@ -181,8 +182,8 @@ Item {
             visible: opacity != 0
             verticalAlignment: Text.AlignVCenter
             fontSize: "medium"
-            font.weight: PanelState.buttonsVisible ? Font.Light : Font.Medium
-            text: PanelState.title
+            font.weight: panelState.buttonsVisible ? Font.Light : Font.Medium
+            text: panelState.title
             elide: Text.ElideRight
             maximumLineCount: 1
             Behavior on opacity { UbuntuNumberAnimation {} }
