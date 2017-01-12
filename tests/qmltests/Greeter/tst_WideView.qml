@@ -112,26 +112,14 @@ StyledItem {
                 spacing: units.gu(1)
                 Row {
                     Button {
-                        text: "Show Last Chance"
-                        onClicked: loader.item.showLastChance()
-                    }
-                }
-                Row {
-                    Button {
                         text: "Hide"
                         onClicked: loader.item.hide()
                     }
                 }
                 Row {
                     Button {
-                        text: "Reset"
-                        onClicked: loader.item.reset()
-                    }
-                }
-                Row {
-                    Button {
                         text: "Show Message"
-                        onClicked: loader.item.showMessage(messageField.text)
+                        onClicked: LightDMService.prompts.append(messageField.text, LightDMService.prompts.Message)
                     }
                     TextField {
                         id: messageField
@@ -142,7 +130,7 @@ StyledItem {
                 Row {
                     Button {
                         text: "Show Prompt"
-                        onClicked: loader.item.showPrompt(promptField.text, isSecretCheckBox.checked, isDefaultPromptCheckBox.checked)
+                        onClicked: LightDMService.prompts.append(promptField.text, isSecretCheckBox.checked ? LightDMService.prompts.Secret : LightDMService.prompts.Question)
                     }
                     TextField {
                         id: promptField
@@ -155,29 +143,13 @@ StyledItem {
                     Label {
                         text: "secret"
                     }
-                    CheckBox {
-                        id: isDefaultPromptCheckBox
-                    }
-                    Label {
-                        text: "default"
-                    }
                 }
                 Row {
                     Button {
-                        text: "Authenticated"
+                        text: "Notify Auth Failure"
                         onClicked: {
-                            if (successCheckBox.checked) {
-                                loader.item.notifyAuthenticationSucceeded(false);
-                            } else {
-                                loader.item.notifyAuthenticationFailed();
-                            }
+                            loader.item.notifyAuthenticationFailed();
                         }
-                    }
-                    CheckBox {
-                        id: successCheckBox
-                    }
-                    Label {
-                        text: "success"
                     }
                 }
                 Row {
@@ -359,6 +331,7 @@ StyledItem {
 
         function init() {
             selectIndex(0); // break binding with text field
+            tryCompare(LightDMService.prompts, "count", 1);
             selectedSpy.clear();
             respondedSpy.clear();
             teaseSpy.clear();
@@ -391,8 +364,17 @@ StyledItem {
         }
 
         function selectIndex(i) {
-            view.currentIndex = i;
+            var user = LightDM.Users.data(i, LightDM.UserRoles.NameRole);
+            LightDM.Greeter.authenticate(user);
+
+            if (view.currentIndex == i)
+                return;
+
             var userList = findChild(view, "userList");
+            var promptList = findChild(view, "promptList");
+
+            view.currentIndex = i;
+            tryCompare(promptList, "opacity", 1);
             tryCompare(userList, "movingInternally", false);
         }
 
@@ -527,12 +509,9 @@ StyledItem {
         }
 
         function test_respondedWithPassword() {
-            view.locked = true;
-            view.showPrompt("Prompt", true, false);
-            var passwordInput = findChild(view, "passwordInput");
-            compare(passwordInput.text, "Prompt");
-            verify(passwordInput.isSecret);
-            tap(passwordInput);
+            selectUser("has-password");
+            var greeterPrompt = findChild(view, "greeterPrompt0");
+            verify(greeterPrompt.isSecret);
             typeString("password");
             keyClick(Qt.Key_Enter);
             compare(respondedSpy.count, 1);
@@ -540,12 +519,9 @@ StyledItem {
         }
 
         function test_respondedWithNonSecret() {
-            view.locked = true;
-            view.showPrompt("otp", false, false);
-            var passwordInput = findChild(view, "passwordInput");
-            compare(passwordInput.text, "otp");
-            verify(!passwordInput.isSecret);
-            tap(passwordInput);
+            selectUser("question-prompt");
+            var greeterPrompt = findChild(view, "greeterPrompt0");
+            verify(!greeterPrompt.isSecret);
             typeString("foo");
             keyClick(Qt.Key_Enter);
             compare(respondedSpy.count, 1);
@@ -570,24 +546,47 @@ StyledItem {
             tryCompare(view, "required", false);
         }
 
-        function test_showMessage() {
-            view.showMessage("Welcome to Unity Greeter");
-            view.showMessage("<font color=\"#df382c\">This is an error</font>");
-            view.showMessage("You should have seen three messages and this is a really long message too. wow so long much length");
-            var infoLabel = findChild(view, "infoLabel");
-            compare(infoLabel.text, "Welcome to Unity Greeter<br><font color=\"#df382c\">This is an error</font><br>You should have seen three messages and this is a really long message too. wow so long much length");
-            compare(infoLabel.textFormat, Text.StyledText);
+        function test_infoPrompt() {
+            selectUser("info-prompt");
+
+            var infoLabel = findChild(view, "infoLabel0");
+            compare(infoLabel.text, "Welcome to Unity Greeter");
+            compare(infoLabel.textFormat, Text.PlainText);
+
+            verify(findChild(view, "greeterPrompt1") != null);
+        }
+
+        function test_longInfoPrompt() {
+            selectUser("long-info-prompt");
+
+            var infoLabel = findChild(view, "infoLabel0");
+            compare(infoLabel.text, "Welcome to Unity Greeter\n\nWe like to annoy you with super ridiculously long messages.\nLike this one\n\nThis is the last line of a multiple line message.");
             verify(infoLabel.contentWidth > infoLabel.width);
-            verify(infoLabel.opacity < 1);
-            tryCompare(infoLabel, "opacity", 1);
+
+            verify(findChild(view, "greeterPrompt1") != null);
+        }
+
+        function test_multiInfoPrompt() {
+            selectUser("multi-info-prompt");
+
+            var infoLabel0 = findChild(view, "infoLabel0");
+            compare(infoLabel0.text, "Welcome to Unity Greeter");
+
+            var infoLabel1 = findChild(view, "infoLabel1");
+            compare(infoLabel1.text, "This is an error");
+            compare(infoLabel1.color, theme.palette.normal.negative);
+
+            var infoLabel2 = findChild(view, "infoLabel2");
+            compare(infoLabel2.text, "You should have seen three messages");
+
+            verify(findChild(view, "greeterPrompt3") != null);
         }
 
         // Escape is used to reset the authentication, especially if PAM is unresponsive
         function test_escape() {
-            selectIndex(1);
+            var index = selectUser("has-password");
             selectedSpy.clear();
             view.locked = true;
-            view.showPrompt("Prompt", true, true);
             var promptField = findChild(view, "promptField");
             tap(promptField);
             verify(promptField.activeFocus);
@@ -601,9 +600,10 @@ StyledItem {
             compare(selectedSpy.count, 0);
             keyClick(Qt.Key_Escape);
             compare(selectedSpy.count, 1);
-            compare(selectedSpy.signalArguments[0][0], 1);
+            compare(selectedSpy.signalArguments[0][0], index);
 
-            view.reset();
+            selectIndex(index);
+            var promptField = findChild(view, "promptField");
             verify(promptField.activeFocus);
             compare(promptField.opacity, 1);
         }
@@ -614,21 +614,22 @@ StyledItem {
             tryCompare(label, "text", "가나다라마");
         }
 
-        function test_promptless() {
-            var passwordInput = findChild(view, "passwordInput");
-
+        function test_authError() {
+            var index = selectUser("auth-error");
+            var greeterPrompt = findChild(view, "greeterPrompt1"); // after error message
             view.locked = true;
-            compare(passwordInput.text, "Retry");
-            tap(passwordInput);
+            compare(greeterPrompt.text, "Retry");
+            tap(greeterPrompt);
             compare(respondedSpy.count, 0);
             compare(selectedSpy.count, 1);
-            compare(selectedSpy.signalArguments[0][0], 0);
-            selectedSpy.clear();
+            compare(selectedSpy.signalArguments[0][0], index);
+        }
 
-            view.reset();
-            view.locked = false;
-            compare(passwordInput.text, "Log In");
-            tap(passwordInput);
+        function test_noPassword() {
+            selectUser("no-password");
+            var greeterPrompt = findChild(view, "greeterPrompt0");
+            compare(greeterPrompt.text, "Log In");
+            tap(greeterPrompt);
             compare(selectedSpy.count, 0);
             compare(respondedSpy.count, 1);
             compare(respondedSpy.signalArguments[0][0], "");
@@ -660,8 +661,8 @@ StyledItem {
         }
 
         function test_passphrase() {
+            var index = selectUser("has-password");
             var promptField = findChild(view, "promptField");
-            view.showPrompt("", true, true);
 
             verify(view.alphanumeric);
             compare(promptField.inputMethodHints & Qt.ImhDigitsOnly, 0);
@@ -671,8 +672,8 @@ StyledItem {
         }
 
         function test_passcode() {
+            var index = selectUser("has-pin");
             var promptField = findChild(view, "promptField");
-            view.showPrompt("", true, true);
 
             view.alphanumeric = false;
             compare(promptField.inputMethodHints & Qt.ImhDigitsOnly, Qt.ImhDigitsOnly);
@@ -706,42 +707,44 @@ StyledItem {
         }
 
         function test_focusStaysActive() {
-            var promptField = findChild(view, "promptField");
-            var promptButton = findChild(view, "promptButton");
-
-            verify(promptButton.activeFocus);
+            selectUser("no-password");
+            var greeterPrompt = findChild(view, "greeterPrompt0");
+            verify(greeterPrompt.activeFocus);
             keyClick(Qt.Key_Enter);
             compare(selectedSpy.count, 0);
             compare(respondedSpy.count, 1);
             compare(respondedSpy.signalArguments[0][0], "");
-            verify(promptButton.activeFocus);
+            verify(greeterPrompt.activeFocus);
             keyClick(Qt.Key_Enter);
             compare(respondedSpy.count, 1);
 
-            view.showPrompt("", true, true);
-            verify(promptField.activeFocus);
+            selectUser("has-password");
+            var greeterPrompt = findChild(view, "greeterPrompt0");
+            verify(greeterPrompt.activeFocus);
             keyClick(Qt.Key_D);
             keyClick(Qt.Key_Enter);
             compare(selectedSpy.count, 0);
             compare(respondedSpy.count, 2);
             compare(respondedSpy.signalArguments[1][0], "d");
-            verify(promptField.activeFocus);
+            verify(greeterPrompt.activeFocus);
             keyClick(Qt.Key_Enter);
             compare(respondedSpy.count, 2);
 
-            view.reset();
+            var index = selectUser("no-password");
+            var greeterPrompt = findChild(view, "greeterPrompt0");
             view.locked = true;
-            verify(promptButton.activeFocus);
+            verify(greeterPrompt.activeFocus);
             keyClick(Qt.Key_Enter);
             compare(respondedSpy.count, 2);
             compare(selectedSpy.count, 1);
-            compare(selectedSpy.signalArguments[0][0], 0);
-            verify(promptButton.activeFocus);
+            compare(selectedSpy.signalArguments[0][0], index);
+            verify(greeterPrompt.activeFocus);
             keyClick(Qt.Key_Enter);
             compare(selectedSpy.count, 1);
 
-            view.showPrompt("", true, true);
-            verify(promptField.activeFocus);
+            selectUser("no-password");
+            var greeterPrompt = findChild(view, "greeterPrompt0");
+            verify(greeterPrompt.activeFocus);
         }
     }
 }

@@ -75,6 +75,12 @@ Item {
         signalName: "activeChanged"
     }
 
+    SignalSpy {
+        id: authUserChangedSpy
+        target: LightDM.Greeter
+        signalName: "authenticationUserChanged"
+    }
+
     GSettings {
         id: greeterSettings
         schema.id: "com.canonical.Unity8.Greeter"
@@ -89,18 +95,6 @@ Item {
         property Item view
 
         SignalSpy {
-            id: viewShowMessageSpy
-            target: testCase.view
-            signalName: "_showMessageCalled"
-        }
-
-        SignalSpy {
-            id: viewShowPromptSpy
-            target: testCase.view
-            signalName: "_showPromptCalled"
-        }
-
-        SignalSpy {
             id: viewShowLastChanceSpy
             target: testCase.view
             signalName: "_showLastChanceCalled"
@@ -113,9 +107,9 @@ Item {
         }
 
         SignalSpy {
-            id: viewAuthenticationSucceededSpy
+            id: viewShowFakePasswordSpy
             target: testCase.view
-            signalName: "_notifyAuthenticationSucceededCalled"
+            signalName: "_showFakePasswordCalled"
         }
 
         SignalSpy {
@@ -131,9 +125,9 @@ Item {
         }
 
         SignalSpy {
-            id: viewResetSpy
+            id: viewForceShowSpy
             target: testCase.view
-            signalName: "_resetCalled"
+            signalName: "_forceShowCalled"
         }
 
         SignalSpy {
@@ -153,16 +147,15 @@ Item {
             Biometryd.available = true;
             AccountsService.enableFingerprintIdentification = true;
             AccountsService.failedFingerprintLogins = 0;
-            viewShowMessageSpy.clear();
-            viewShowPromptSpy.clear();
             viewShowLastChanceSpy.clear();
             viewHideSpy.clear();
-            viewAuthenticationSucceededSpy.clear();
+            viewShowFakePasswordSpy.clear();
             viewAuthenticationFailedSpy.clear();
             viewShowErrorMessageSpy.clear();
-            viewResetSpy.clear();
+            viewForceShowSpy.clear();
             viewTryToUnlockSpy.clear();
             resetLoader();
+            authUserChangedSpy.clear();
         }
 
         function resetLoader() {
@@ -210,7 +203,6 @@ Item {
 
         function verifyLoggedIn() {
             tryCompare(sessionStartedSpy, "count", 1);
-            verify(viewAuthenticationSucceededSpy.count > 0);
             compare(LightDM.Greeter.authenticated, true);
             compare(greeter.shown, false);
         }
@@ -225,107 +217,52 @@ Item {
 
         function test_unlockPass() {
             selectUser("has-password");
-            tryCompare(viewShowPromptSpy, "count", 1);
-            compare(viewShowPromptSpy.signalArguments[0][0], "Password");
-            compare(viewShowPromptSpy.signalArguments[0][1], true);
-            compare(viewShowPromptSpy.signalArguments[0][2], true);
-
             view.responded("password");
             verifyLoggedIn();
         }
 
         function test_unlockFail() {
             selectUser("has-password");
-            tryCompare(viewShowPromptSpy, "count", 1);
-            compare(viewShowPromptSpy.signalArguments[0][0], "Password");
-            compare(viewShowPromptSpy.signalArguments[0][1], true);
-            compare(viewShowPromptSpy.signalArguments[0][2], true);
+            tryCompare(authUserChangedSpy, "count", 1);
 
             view.responded("wr0ng p4ssw0rd");
             tryCompare(viewAuthenticationFailedSpy, "count", 1);
 
-            tryCompare(viewShowPromptSpy, "count", 2);
-            compare(viewShowPromptSpy.signalArguments[0][0], "Password");
-            compare(viewShowPromptSpy.signalArguments[0][1], true);
-            compare(viewShowPromptSpy.signalArguments[0][2], true);
+            tryCompare(authUserChangedSpy, "count", 2);
         }
 
         function test_promptless() {
             selectUser("no-password");
             tryCompare(view, "locked", false);
-            compare(viewShowPromptSpy.count, 0);
             compare(viewHideSpy.count, 0);
         }
 
         function test_twoFactorPass() {
             selectUser("two-factor");
-            tryCompare(viewShowPromptSpy, "count", 1);
-            compare(viewShowPromptSpy.signalArguments[0][0], "Password");
-            compare(viewShowPromptSpy.signalArguments[0][1], true);
-            compare(viewShowPromptSpy.signalArguments[0][2], true);
-
             view.responded("password");
-            tryCompare(viewShowPromptSpy, "count", 2);
-            compare(viewShowPromptSpy.signalArguments[1][0], "otp");
-            compare(viewShowPromptSpy.signalArguments[1][1], false);
-            compare(viewShowPromptSpy.signalArguments[1][2], false);
-
             view.responded("otp");
             verifyLoggedIn();
         }
 
         function test_twoFactorFailOnFirst() {
             selectUser("two-factor");
-            tryCompare(viewShowPromptSpy, "count", 1);
-            compare(viewShowPromptSpy.signalArguments[0][0], "Password");
-            compare(viewShowPromptSpy.signalArguments[0][1], true);
-            compare(viewShowPromptSpy.signalArguments[0][2], true);
+            tryCompare(authUserChangedSpy, "count", 1);
 
             view.responded("wr0ng p4ssw0rd");
             tryCompare(viewAuthenticationFailedSpy, "count", 1);
 
-            tryCompare(viewShowPromptSpy, "count", 2);
-            compare(viewShowPromptSpy.signalArguments[0][0], "Password");
-            compare(viewShowPromptSpy.signalArguments[0][1], true);
-            compare(viewShowPromptSpy.signalArguments[0][2], true);
+            tryCompare(authUserChangedSpy, "count", 2);
         }
 
         function test_twoFactorFailOnSecond() {
             selectUser("two-factor");
-            tryCompare(viewShowPromptSpy, "count", 1);
-            compare(viewShowPromptSpy.signalArguments[0][0], "Password");
-            compare(viewShowPromptSpy.signalArguments[0][1], true);
-            compare(viewShowPromptSpy.signalArguments[0][2], true);
+            tryCompare(authUserChangedSpy, "count", 1);
 
             view.responded("password");
-            tryCompare(viewShowPromptSpy, "count", 2);
-            compare(viewShowPromptSpy.signalArguments[1][0], "otp");
-            compare(viewShowPromptSpy.signalArguments[1][1], false);
-            compare(viewShowPromptSpy.signalArguments[1][2], false);
-
             view.responded("wr0ng p4ssw0rd");
             tryCompare(viewAuthenticationFailedSpy, "count", 1);
 
-            tryCompare(viewShowPromptSpy, "count", 3);
-            compare(viewShowPromptSpy.signalArguments[0][0], "Password");
-            compare(viewShowPromptSpy.signalArguments[0][1], true);
-            compare(viewShowPromptSpy.signalArguments[0][2], true);
-        }
-
-        function test_htmlInfoPrompt() {
-            selectUser("html-info-prompt");
-            tryCompare(viewShowPromptSpy, "count", 1);
-            compare(viewShowMessageSpy.count, 1);
-            compare(viewShowMessageSpy.signalArguments[0][0], "&lt;b&gt;&amp;&lt;/b&gt;");
-        }
-
-        function test_multiInfoPrompt() {
-            selectUser("multi-info-prompt");
-            tryCompare(viewShowPromptSpy, "count", 1);
-            compare(viewShowMessageSpy.count, 3);
-            compare(viewShowMessageSpy.signalArguments[0][0], "Welcome to Unity Greeter");
-            compare(viewShowMessageSpy.signalArguments[1][0], "<font color=\"#df382c\">This is an error</font>");
-            compare(viewShowMessageSpy.signalArguments[2][0], "You should have seen three messages");
+            tryCompare(authUserChangedSpy, "count", 2);
         }
 
         function test_locked() {
@@ -435,18 +372,9 @@ Item {
             compare(view.backgroundTopMargin, -5);
         }
 
-        function test_differentPrompt() {
-            selectUser("different-prompt");
-            tryCompare(viewShowPromptSpy, "count", 1);
-            compare(viewShowPromptSpy.signalArguments[0][0], "Secret word");
-            compare(viewShowPromptSpy.signalArguments[0][1], true);
-            compare(viewShowPromptSpy.signalArguments[0][2], false);
-        }
-
         function test_authError() {
             selectUser("auth-error");
             tryCompare(viewAuthenticationFailedSpy, "count", 1);
-            compare(viewShowPromptSpy.count, 0);
             compare(view.locked, true);
         }
 
@@ -464,7 +392,6 @@ Item {
             greeter.failedLoginsDelayAttempts = 1;
             greeter.failedLoginsDelayMinutes = 1;
             selectUser("has-password");
-            tryCompare(viewShowPromptSpy, "count", 1);
             compare(greeterSettings.lockedOutTime, 0);
             view.responded("wr0ng p4ssw0rd");
 
@@ -498,7 +425,6 @@ Item {
             greeter.failedLoginsDelayMinutes = 0.001; // make delay very short
 
             selectUser("has-password");
-            tryCompare(viewShowPromptSpy, "count", 1);
 
             compare(view.delayMinutes, 0);
             view.responded("wr0ng p4ssw0rd");
@@ -558,16 +484,10 @@ Item {
 
         function test_dbusShowGreeterFromShownState() {
             selectUser("has-password");
-            compare(viewResetSpy.count, 1);
-            tryCompare(viewShowPromptSpy, "count", 1);
 
-            viewResetSpy.clear();
-            viewShowPromptSpy.clear();
-
+            compare(viewForceShowSpy.count, 0);
             LightDM.Greeter.showGreeter();
-            compare(viewResetSpy.count, 1);
-            compare(viewResetSpy.signalArguments[0][0], true);
-            tryCompare(viewShowPromptSpy, "count", 1);
+            compare(viewForceShowSpy.count, 1);
         }
 
         function test_selectUserHint() {

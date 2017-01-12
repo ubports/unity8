@@ -17,6 +17,7 @@
 #ifndef UNITY_GREETER_PRIVATE_H
 #define UNITY_GREETER_PRIVATE_H
 
+#include "PromptsModel.h"
 #include <QLightDM/Greeter>
 
 class GreeterPrivate
@@ -26,8 +27,10 @@ public:
 
     QLightDM::Greeter *m_greeter;
     bool m_active;
-    bool wasPrompted;
-    bool promptless;
+    PromptsModel prompts;
+    PromptsModel leftovers; // prompts to show during next auth for same user
+    bool responded;
+    bool everResponded;
 
 protected:
     Greeter * const q_ptr;

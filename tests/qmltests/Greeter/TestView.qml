@@ -46,23 +46,13 @@ Item {
     signal tease()
     signal emergencyCall()
 
-    signal _showMessageCalled(string html)
-    signal _showPromptCalled(string text, bool isSecret, bool isDefaultPrompt)
     signal _showLastChanceCalled()
     signal _hideCalled()
-    signal _notifyAuthenticationSucceededCalled(bool showFakePassword)
+    signal _showFakePasswordCalled()
     signal _notifyAuthenticationFailedCalled()
     signal _showErrorMessageCalled(string msg)
-    signal _resetCalled(bool forceShow)
+    signal _forceShowCalled()
     signal _tryToUnlockCalled(bool toTheRight)
-
-    function showMessage(html) {
-        _showMessageCalled(html);
-    }
-
-    function showPrompt(text, isSecret, isDefaultPrompt) {
-        _showPromptCalled(text, isSecret, isDefaultPrompt);
-    }
 
     function showLastChance() {
         _showLastChanceCalled();
@@ -74,8 +64,8 @@ Item {
         _fullyShown = false;
     }
 
-    function notifyAuthenticationSucceeded(showFakePassword) {
-        _notifyAuthenticationSucceededCalled(showFakePassword);
+    function showFakePassword() {
+        _showFakePasswordCalled();
     }
 
     function notifyAuthenticationFailed() {
@@ -86,8 +76,8 @@ Item {
         _showErrorMessageCalled(msg);
     }
 
-    function reset(forceShow) {
-        _resetCalled(forceShow);
+    function forceShow() {
+        _forceShowCalled();
     }
 
     function tryToUnlock(toTheRight) {

@@ -52,16 +52,8 @@ FocusScope {
         loginList.showError();
     }
 
-    function reset(forceShow) {
-        loginList.reset();
-    }
-
-    function showMessage(html) {
-        loginList.showMessage(html);
-    }
-
-    function showPrompt(text, isSecret, isDefaultPrompt) {
-        loginList.showPrompt(text, isSecret, isDefaultPrompt);
+    function forceShow() {
+        // Nothing to do, we are always fully shown
     }
 
     function tryToUnlock(toTheRight) {
@@ -84,10 +76,8 @@ FocusScope {
         coverPage.hide();
     }
 
-    function notifyAuthenticationSucceeded(showFakePassword) {
-        if (showFakePassword) {
-            loginList.showFakePassword();
-        }
+    function showFakePassword() {
+        loginList.showFakePassword();
     }
 
     function showLastChance() {
@@ -177,7 +167,7 @@ FocusScope {
                 onSessionSelected: loginList.currentSession = sessionKey
                 onShowLoginList: {
                     coverPage.state = "LoginList"
-                    loginList.passwordInput.forceActiveFocus();
+                    loginList.tryToUnlock();
                 }
                 ignoreUnknownSignals: true
             }
