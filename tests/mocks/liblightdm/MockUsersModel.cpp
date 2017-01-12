@@ -69,6 +69,8 @@ UsersModel::UsersModel(QObject *parent)
             this, &UsersModel::resetEntries);
     connect(MockController::instance(), &MockController::showManualLoginHintChanged,
             this, &UsersModel::resetEntries);
+    connect(MockController::instance(), &MockController::hideUsersHintChanged,
+            this, &UsersModel::resetEntries);
     connect(MockController::instance(), &MockController::userModeChanged,
             this, &UsersModel::resetEntries);
     resetEntries();

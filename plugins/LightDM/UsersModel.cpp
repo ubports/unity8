@@ -44,41 +44,50 @@ private:
         QString realName;
     };
 
-    void addCustomRow(const CustomRow &newRow);
-    void removeCustomRow(const QString &rowName);
+    int sourceRowCount() const;
+
     void updateGuestRow();
     void updateManualRow();
+    void updateCustomRows();
+
+    void addCustomRow(const CustomRow &newRow);
+    void removeCustomRow(const QString &rowName);
 
     QList<CustomRow> m_customRows;
+    bool m_updatingCustomRows;
 };
 
 MangleModel::MangleModel(QObject* parent)
   : QIdentityProxyModel(parent)
+  , m_updatingCustomRows(false)
 {
-    if (!Greeter::instance()->hideUsersHint()) {
-        setSourceModel(new QLightDM::UsersModel(this));
-    }
+    setSourceModel(new QLightDM::UsersModel(this));
 
-    updateGuestRow();
-    updateManualRow();
+    updateCustomRows();
 
-    // Would be nice if there were a rowCountChanged signal in the base class
+    // Would be nice if there were a rowCountChanged signal in the base class.
+    // We redo all custom rows on any row count change, because (A) some of
+    // custom rows (manual login) use row count information and (B) when
+    // testing, we use a modelReset signal as a way to indicate that a custom
+    // row has been toggled off or on.
     connect(this, &QIdentityProxyModel::modelReset,
-            this, &MangleModel::updateManualRow);
+            this, &MangleModel::updateCustomRows);
     connect(this, &QIdentityProxyModel::rowsInserted,
-            this, &MangleModel::updateManualRow);
+            this, &MangleModel::updateCustomRows);
     connect(this, &QIdentityProxyModel::rowsRemoved,
-            this, &MangleModel::updateManualRow);
+            this, &MangleModel::updateCustomRows);
 }
 
 QVariant MangleModel::data(const QModelIndex &index, int role) const
 {
     QVariant variantData;
 
-    bool isCustomRow = index.row() >= sourceModel()->rowCount() &&
-                       index.row() < rowCount();
+    if (index.row() >= rowCount())
+        return QVariant();
+
+    bool isCustomRow = index.row() >= sourceRowCount();
     if (isCustomRow && index.column() == 0) {
-        int customIndex = index.row() - sourceModel()->rowCount();
+        int customIndex = index.row() - sourceRowCount();
         if (role == QLightDM::UsersModel::NameRole) {
             variantData = m_customRows[customIndex].name;
         } else if (role == QLightDM::UsersModel::RealNameRole) {
@@ -120,7 +129,7 @@ void MangleModel::removeCustomRow(const QString &rowName)
 {
     for (int i = 0; i < m_customRows.size(); i++) {
         if (m_customRows[i].name == rowName) {
-            int rowNum = sourceModel()->rowCount() + i;
+            int rowNum = sourceRowCount() + i;
             beginRemoveRows(QModelIndex(), rowNum, rowNum);
             m_customRows.removeAt(i);
             endRemoveRows();
@@ -131,7 +140,7 @@ void MangleModel::removeCustomRow(const QString &rowName)
 
 void MangleModel::updateManualRow()
 {
-    bool hasAnotherEntry = sourceModel()->rowCount() > 0;
+    bool hasAnotherEntry = sourceRowCount() > 0;
     for (int i = 0; !hasAnotherEntry && i < m_customRows.size(); i++) {
         if (m_customRows[i].name != QStringLiteral("*other")) {
             hasAnotherEntry = true;
@@ -153,16 +162,38 @@ void MangleModel::updateGuestRow()
         removeCustomRow(QStringLiteral("*guest"));
 }
 
+void MangleModel::updateCustomRows()
+{
+    // We update when rowCount changes, but we also insert/remove rows here.
+    // So guard this function to avoid recursion.
+    if (m_updatingCustomRows)
+        return;
+
+    m_updatingCustomRows = true;
+    updateGuestRow();
+    updateManualRow();
+    m_updatingCustomRows = false;
+}
+
 int MangleModel::rowCount(const QModelIndex &parent) const
 {
-    return QIdentityProxyModel::rowCount(parent) +
-           (parent.isValid() ? 0 : m_customRows.size());
+    if (parent.isValid())
+        return 0;
+    else
+        return sourceRowCount() + m_customRows.size();
+}
+
+int MangleModel::sourceRowCount() const
+{
+    return Greeter::instance()->hideUsersHint() ? 0 : sourceModel()->rowCount();
 }
 
 QModelIndex MangleModel::index(int row, int column, const QModelIndex &parent) const
 {
-    bool isCustomRow = row >= sourceModel()->rowCount() &&
-                       row < rowCount();
+    if (row >= rowCount())
+        return QModelIndex();
+
+    bool isCustomRow = row >= sourceRowCount();
     if (isCustomRow && !parent.isValid()) {
         return createIndex(row, column);
     } else {
