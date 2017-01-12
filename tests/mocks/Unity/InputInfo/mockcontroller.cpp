@@ -19,15 +19,30 @@
 #include "qinputdeviceinfo_mock_p.h"
 
 #include <QQuickView>
+#include <QQmlComponent>
+#include <QQuickItem>
+#include <paths.h>
 
-MockController::MockController(QObject *parent):
-    QObject(parent)
+MockController::MockController(QQmlEngine *engine)
 {
+    QQmlComponent component(engine);
+    component.setData("import QtQuick 2.4; import Unity.InputInfo 0.1; InputWindow { }", ::qmlDirectory());
+    QObject *myObject = component.create();
+    QQuickItem *item = qobject_cast<QQuickItem*>(myObject);
+    if (item) {
+        auto window = new QQuickView();
+        window->setTitle("Input");
+        item->setParentItem(window->contentItem());
+        window->setResizeMode(QQuickView::SizeRootObjectToView);
+        window->setWidth(200);
+        window->setHeight(100);
+        window->show();
+    }
 }
 
-MockController *MockController::instance()
+MockController *MockController::instance(QQmlEngine *engine)
 {
-    static MockController* controller = new MockController;
+    static MockController* controller = new MockController(engine);
     return controller;
 }
 
