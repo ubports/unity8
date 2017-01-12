@@ -18,6 +18,8 @@
 #include "fake_gsettings.h"
 
 #include <QtQml/qqml.h>
+#include <QQmlEngine>
+#include <QQmlContext>
 
 static QObject* controllerProvider(QQmlEngine* /* engine */, QJSEngine* /* scriptEngine */)
 {
@@ -30,4 +32,14 @@ void FakeGSettingsQmlPlugin::registerTypes(const char *uri)
     qmlRegisterType<GSettingsQml>(uri, 1, 0, "GSettings");
     qmlRegisterUncreatableType<GSettingsSchemaQml>(uri, 1, 0, "GSettingsSchema",
                                                    "GSettingsSchema can only be used inside of a GSettings component");
+}
+
+void FakeGSettingsQmlPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
+{
+    QQmlExtensionPlugin::initializeEngine(engine, uri);
+
+    QString usageType = qgetenv("UNITY_MOCK_DESKTOP");
+    if (!usageType.isEmpty()) {
+        GSettingsControllerQml::instance()->setUsageMode("Windowed");
+    }
 }

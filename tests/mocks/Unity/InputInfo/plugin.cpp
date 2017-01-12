@@ -28,7 +28,7 @@ static QObject *backendProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
-    return new MockController(engine);
+    return MockController::instance();
 }
 
 void InputInfoPlugin::registerTypes(const char *uri)
@@ -43,4 +43,14 @@ void InputInfoPlugin::registerTypes(const char *uri)
     // This leads to a double-free on shutdown. So let's add a proxy to control the MockBackend through QML:
     // MockController
     qmlRegisterSingletonType<MockController>(uri, major, minor, "MockInputDeviceBackend", backendProvider);
+}
+
+void InputInfoPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
+{
+    QQmlExtensionPlugin::initializeEngine(engine, uri);
+
+    if (qEnvironmentVariableIsSet("UNITY_MOCK_DESKTOP")) {
+        MockController::instance()->addMockDevice("/mouse0", QInputDevice::Mouse);
+        MockController::instance()->addMockDevice("/kbd0", QInputDevice::Keyboard);
+    }
 }

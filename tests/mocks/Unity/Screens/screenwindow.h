@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2016 Canonical, Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -14,19 +14,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "plugin.h"
-#include "screens.h"
-#include "screenwindow.h"
+#ifndef SCREENWINDOW_H
+#define SCREENWINDOW_H
 
-#include <QScreen>
+#include <QQuickWindow>
 
-void UnityScreensPlugin::registerTypes(const char* uri)
+class ScreenWindow : public QQuickWindow
 {
-    Q_ASSERT(QLatin1String(uri) == QLatin1String("Unity.Screens"));
+    Q_OBJECT
+    Q_PROPERTY(QScreen *screen READ screen WRITE setScreen NOTIFY screenChanged)
+public:
+    ScreenWindow(QWindow *parent = 0);
 
-    qRegisterMetaType<QScreen*>("QScreen*");
+    QScreen *screen() const;
+    void setScreen(QScreen *screen);
 
-    qmlRegisterType<Screens>(uri, 0, 1, "Screens");
-    qmlRegisterType<ScreenWindow>(uri, 0, 1, "ScreenWindow");
-    qmlRegisterRevision<QWindow,1>(uri, 0, 1);
-}
+Q_SIGNALS:
+    void screenChanged(QScreen *screen);
+};
+
+#endif // SCREENWINDOW_H

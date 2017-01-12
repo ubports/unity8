@@ -24,6 +24,12 @@ MockController::MockController(QObject *parent):
 
 }
 
+MockController *MockController::instance()
+{
+    static MockController* controller = new MockController;
+    return controller;
+}
+
 QInputDevice *MockController::addMockDevice(const QString &devicePath, QInputDevice::InputType type)
 {
     return QInputDeviceManagerPrivate::instance()->addMockDevice(devicePath, type);

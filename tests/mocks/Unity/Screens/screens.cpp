@@ -26,8 +26,12 @@ Q_DECLARE_METATYPE(QScreen*)
 Screens::Screens(QObject *parent) :
     QAbstractListModel(parent)
 {
-    // start with one screen attached
-    m_screenList.append(new Screen());
+    bool ok = false;
+    int screenCount = qEnvironmentVariableIntValue("UNITY_MOCK_SCREEN_COUNT", &ok);
+    if (!ok) screenCount = 1;
+    for (int i = 0; i < screenCount; ++i) {
+        m_screenList.append(new Screen());
+    }
 }
 
 Screens::~Screens()
