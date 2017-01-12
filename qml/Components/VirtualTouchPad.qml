@@ -24,10 +24,9 @@ import "../Components"
 
 Item {
     id: root
-    property var uinput: UInput {
-        Component.onCompleted: createMouse();
-        Component.onDestruction: removeMouse();
-    }
+
+    Component.onCompleted: UInput.createMouse()
+    Component.onDestruction: UInput.removeMouse()
 
     Component.onCompleted: {
         if (!settings.touchpadTutorialHasRun) {
@@ -85,7 +84,7 @@ Item {
             if (((point1.pressed && !point2.pressed) || (!point1.pressed && point2.pressed))
                     && clickTimer.running) {
                 clickTimer.stop();
-                uinput.pressMouse(UInput.ButtonLeft)
+                UInput.pressMouse(UInput.ButtonLeft)
                 isDoubleClick = true;
             }
             isClick = true;
@@ -104,7 +103,7 @@ Item {
 
         onReleased: {
             if (isDoubleClick || isDrag) {
-                uinput.releaseMouse(UInput.ButtonLeft)
+                UInput.releaseMouse(UInput.ButtonLeft)
                 isDoubleClick = false;
             }
             if (isClick) {
@@ -120,8 +119,8 @@ Item {
             interval: 200
             property int button: UInput.ButtonLeft
             onTriggered: {
-                uinput.pressMouse(button);
-                uinput.releaseMouse(button);
+                UInput.pressMouse(button);
+                UInput.releaseMouse(button);
             }
             function scheduleClick(button) {
                 clickTimer.button = button;
@@ -138,7 +137,7 @@ Item {
                 isDrag = true;
             }
 
-            uinput.moveMouse(tp.x - tp.previousX, tp.y - tp.previousY);
+            UInput.moveMouse(tp.x - tp.previousX, tp.y - tp.previousY);
         }
 
         function scroll(touchPoints) {
@@ -166,7 +165,7 @@ Item {
             dh /= 2;
             dv /= 2;
 
-            uinput.scrollMouse(dh, dv);
+            UInput.scrollMouse(dh, dv);
         }
 
         touchPoints: [
@@ -189,8 +188,8 @@ Item {
             objectName: "leftButton"
             Layout.fillWidth: true
             Layout.fillHeight: true
-            onPressed: uinput.pressMouse(UInput.ButtonLeft);
-            onReleased: uinput.releaseMouse(UInput.ButtonLeft);
+            onPressed: UInput.pressMouse(UInput.ButtonLeft);
+            onReleased: UInput.releaseMouse(UInput.ButtonLeft);
             property bool highlight: false
             UbuntuShape {
                 anchors.fill: parent
@@ -204,8 +203,8 @@ Item {
             objectName: "rightButton"
             Layout.fillWidth: true
             Layout.fillHeight: true
-            onPressed: uinput.pressMouse(UInput.ButtonRight);
-            onReleased: uinput.releaseMouse(UInput.ButtonRight);
+            onPressed: UInput.pressMouse(UInput.ButtonRight);
+            onReleased: UInput.releaseMouse(UInput.ButtonRight);
             property bool highlight: false
             UbuntuShape {
                 anchors.fill: parent
