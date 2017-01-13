@@ -23,6 +23,8 @@ namespace QLightDM
 
 MockController::MockController(QObject *parent)
     : QObject(parent)
+    , m_selectGuestHint(false)
+    , m_hasGuestAccountHint(false)
     , m_fullSessions(
         {
             {"ubuntu", "Ubuntu"},
@@ -37,6 +39,7 @@ MockController::MockController(QObject *parent)
             {"xterm", "Recovery Console"},
             {"", "Unknown?"}
         })
+    , m_numSessions(0)
 {
     reset();
 }
