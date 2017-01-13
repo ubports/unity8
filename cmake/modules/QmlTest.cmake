@@ -264,12 +264,16 @@ endfunction()
 # installed system.
 
 function(add_meta_test TARGET_NAME)
-    cmake_parse_arguments(TEST "" "" "DEPENDS" ${ARGN})
+    cmake_parse_arguments(TEST "SERIAL" "" "DEPENDS" ${ARGN})
 
     add_custom_target(${TARGET_NAME})
 
     set(filename "${CMAKE_BINARY_DIR}/tests/scripts/${TARGET_NAME}.sh")
-    file(WRITE "${filename}" "#!/usr/bin/parallel --shebang --no-notice\n\n")
+    if(TEST_SERIAL)
+        file(WRITE "${filename}" "#!/bin/sh\n\n")
+    else()
+        file(WRITE "${filename}" "#!/usr/bin/parallel --shebang --no-notice\n\n")
+    endif()
 
     add_meta_dependencies(${TARGET_NAME} DEPENDS ${TEST_DEPENDS})
     # else we will write the rest of the script as we add cmake targets
