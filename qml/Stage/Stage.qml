@@ -1537,6 +1537,7 @@ FocusScope {
                     highlightSize: windowInfoItem.iconMargin / 2
                     stageWidth: appContainer.width
                     stageHeight: appContainer.height
+                    panelState: root.panelState
 
                     requestedWidth: appDelegate.requestedWidth
                     requestedHeight: appDelegate.requestedHeight
@@ -1596,6 +1597,7 @@ FocusScope {
                     visible: enabled
                     stageWidth: appContainer.width
                     stageHeight: appContainer.height
+                    panelState: root.panelState
 
                     onFakeMaximizeAnimationRequested: if (!appDelegate.maximized) fakeRectangle.maximize(amount, true)
                     onFakeMaximizeLeftAnimationRequested: if (!appDelegate.maximizedLeft) fakeRectangle.maximizeLeft(amount, true)
