@@ -30,10 +30,6 @@ FocusScope {
     signal clicked()
     signal canceled()
 
-    Behavior on opacity {
-        NumberAnimation { duration: 100 }
-    }
-
     function showFakePassword() {
         for (var i = 0; i < repeater.count; i++) {
             var item = repeater.itemAt(i).item;
@@ -81,6 +77,7 @@ FocusScope {
                             break;
                         }
                     }
+                    loader.item.opacity = 1;
                 }
 
                 Binding {
@@ -107,6 +104,9 @@ FocusScope {
             fontSize: "small"
             textFormat: Text.PlainText
             text: model.text
+
+            Behavior on opacity { UbuntuNumberAnimation {} }
+            opacity: 0
         }
     }
 
@@ -140,6 +140,9 @@ FocusScope {
                 d.sendResponse();
             }
             onCanceled: root.canceled()
+
+            Behavior on opacity { UbuntuNumberAnimation {} }
+            opacity: 0
         }
     }
 }

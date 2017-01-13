@@ -266,7 +266,6 @@ StyledItem {
             margins: units.gu(2)
         }
         width: highlightItem.width - anchors.margins * 2
-        opacity: userList.movingInternally ? 0 : 1
 
         onClicked: {
             interactive = false;

@@ -29,12 +29,18 @@ public:
     bool authenticated = false;
     QString authenticationUser;
     bool twoFactorDone = false;
+    QTimer authCallbackTimer;
 };
 
 Greeter::Greeter(QObject *parent)
   : QObject(parent)
   , d_ptr(new GreeterPrivate)
 {
+    Q_D(Greeter);
+
+    d->authCallbackTimer.setSingleShot(true);
+    connect(&d->authCallbackTimer, &QTimer::timeout,
+            this, &QLightDM::Greeter::handleAuthenticate);
 }
 
 Greeter::~Greeter()
@@ -134,7 +140,7 @@ void Greeter::authenticate(const QString &username)
     d->authenticated = false;
     d->authenticationUser = username;
     d->twoFactorDone = false;
-    QTimer::singleShot(0, this, &Greeter::handleAuthenticate);
+    d->authCallbackTimer.start();
 }
 
 void Greeter::handleAuthenticate()
@@ -190,7 +196,7 @@ void Greeter::authenticateAsGuest()
     d->authenticated = true;
     d->authenticationUser = QString(); // this is what the real liblightdm does
     d->twoFactorDone = false;
-    QTimer::singleShot(0, this, &Greeter::authenticationComplete);
+    d->authCallbackTimer.start();
 }
 
 void Greeter::authenticateAutologin()
@@ -203,7 +209,10 @@ void Greeter::authenticateRemote(const QString &session, const QString &username
 }
 
 void Greeter::cancelAuthentication()
-{}
+{
+    Q_D(Greeter);
+    d->authCallbackTimer.stop();
+}
 
 void Greeter::setLanguage (const QString &language)
 {
