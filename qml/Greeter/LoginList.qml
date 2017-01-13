@@ -40,7 +40,6 @@ StyledItem {
     readonly property string currentUser: userList.currentItem.username
     property bool wasPrompted: false
 
-    signal loginListSessionChanged(string session)
     signal responded(string response)
     signal selected(int index)
     signal sessionChooserButtonClicked()
