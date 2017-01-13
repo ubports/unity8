@@ -147,16 +147,6 @@ FocusScope {
             onSessionChooserButtonClicked: parent.state = "SessionsList"
 
             Keys.forwardTo: [sessionChooserLoader.item]
-
-            // This is only for testing
-            Connections {
-                // TODO when Qt 5.7
-                //enabled: LightDM.Users.mock
-                target: LightDMService.users
-                onDataChanged: {
-                    loginList.currentSession = LightDMService.users.data(loginList.currentIndex, LightDMService.userRoles.SessionRole);
-                }
-            }
         }
 
         Loader {
