@@ -72,32 +72,35 @@ bool InputDispatcherFilter::eventFilter(QObject *o, QEvent *e)
         case QEvent::MouseButtonPress:
         case QEvent::MouseButtonRelease:
         {
-            QMouseEvent* me = static_cast<QMouseEvent*>(e);
+            // FIXME - removed all input filtering for now - this was for extended display
+            return false;
 
-            // Local position gives relative change of mouse pointer.
-            QPointF localPos = me->localPos();
-            QPointF globalPos = me->screenPos();
+//            QMouseEvent* me = static_cast<QMouseEvent*>(e);
 
-            // Adjust the position
-            QPointF oldPos(mousePosition.isNull() ? globalPos : mousePosition);
-            QPointF newPos = adjustedPositionForMovement(oldPos, localPos);
+//            // Local position gives relative change of mouse pointer.
+//            QPointF localPos = me->localPos();
+//            QPointF globalPos = me->screenPos();
 
-            QScreen* currentScreen = screenAt(newPos);
-            if (currentScreen) {
-                QRect screenRect = currentScreen->geometry();
-                qreal unadjustedX = (oldPos + localPos).x();
-                if (unadjustedX < screenRect.left()) {
-                    Q_EMIT pushedLeftBoundary(currentScreen, qAbs(unadjustedX - screenRect.left()), me->buttons());
-                } else if (unadjustedX > screenRect.right()) {
-                    Q_EMIT pushedRightBoundary(currentScreen, qAbs(unadjustedX - screenRect.right()), me->buttons());
-                }
-            }
+//            // Adjust the position
+//            QPointF oldPos(mousePosition.isNull() ? globalPos : mousePosition);
+//            QPointF newPos = adjustedPositionForMovement(oldPos, localPos);
 
-            // Send the event
-            QMouseEvent eCopy(me->type(), me->localPos(), newPos, me->button(), me->buttons(), me->modifiers());
-            eCopy.setTimestamp(me->timestamp());
-            o->event(&eCopy);
-            return true;
+//            QScreen* currentScreen = screenAt(newPos);
+//            if (currentScreen) {
+//                QRect screenRect = currentScreen->geometry();
+//                qreal unadjustedX = (oldPos + localPos).x();
+//                if (unadjustedX < screenRect.left()) {
+//                    Q_EMIT pushedLeftBoundary(currentScreen, qAbs(unadjustedX - screenRect.left()), me->buttons());
+//                } else if (unadjustedX > screenRect.right()) {
+//                    Q_EMIT pushedRightBoundary(currentScreen, qAbs(unadjustedX - screenRect.right()), me->buttons());
+//                }
+//            }
+
+//            // Send the event
+//            QMouseEvent eCopy(me->type(), me->localPos(), newPos, me->button(), me->buttons(), me->modifiers());
+//            eCopy.setTimestamp(me->timestamp());
+//            o->event(&eCopy);
+//            return true;
         }
         default:
             break;
