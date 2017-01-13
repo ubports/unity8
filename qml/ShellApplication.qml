@@ -17,10 +17,13 @@
 import QtQuick 2.4
 import QtQuick.Window 2.2
 import Unity.Screens 0.1
+import Unity.Application 0.1
 
 Instantiator {
     id: root
     model: Screens
+
+    property QtObject surfaceMan: SurfaceManager {}
 
     ShellScreen {
         id: screen
@@ -28,6 +31,7 @@ Instantiator {
         screen: model.screen
         visibility:  applicationArguments.hasFullscreen ? Window.FullScreen : Window.Windowed
         flags: applicationArguments.hasFrameless ? Qt.FramelessWindowHint : 0
+        surfaceManager: surfaceMan
 
         Binding {
             when: applicationArguments.hasGeometry

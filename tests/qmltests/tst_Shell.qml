@@ -144,6 +144,11 @@ Rectangle {
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }
+
+                    SurfaceManager {
+                        id: surfaceMan
+                    }
+                    surfaceManager: surfaceMan
                 }
             }
         }
@@ -680,7 +685,7 @@ Rectangle {
         }
 
         function ensureInputMethodSurface() {
-            var surfaceManager = findInvisibleChild(shell, "surfaceManager");
+            var surfaceManager = shell.surfaceManager;
             verify(surfaceManager);
             surfaceManager.createInputMethodSurface();
 

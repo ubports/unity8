@@ -172,6 +172,11 @@ Rectangle {
                 Component.onDestruction: {
                     orientedShellLoader.itemDestroyed = true;
                 }
+
+                SurfaceManager {
+                    id: surfaceMan
+                }
+                surfaceManager: surfaceMan
             }
         }
     }

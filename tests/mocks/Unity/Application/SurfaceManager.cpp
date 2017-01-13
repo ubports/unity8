@@ -21,7 +21,7 @@
 
 #include <paths.h>
 
-#define SURFACEMANAGER_DEBUG 0
+#define SURFACEMANAGER_DEBUG 1
 
 #if SURFACEMANAGER_DEBUG
 #define DEBUG_MSG(params) qDebug().nospace() << "SurfaceManager[" << (void*)this << "]::" << __func__  << params

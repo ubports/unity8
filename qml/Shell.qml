@@ -53,6 +53,7 @@ StyledItem {
     theme.name: "Ubuntu.Components.Themes.SuruDark"
 
     // to be set from outside
+    property alias surfaceManager: topLevelSurfaceList.surfaceManager
     property int orientationAngle: 0
     property int orientation
     property Orientations orientations
@@ -269,15 +270,10 @@ StyledItem {
         width: parent.width
         height: parent.height
 
-        SurfaceManager {
-            id: surfaceMan
-            objectName: "surfaceManager"
-        }
         TopLevelWindowModel {
             id: topLevelSurfaceList
             objectName: "topLevelSurfaceList"
             applicationManager: ApplicationManager // it's a singleton
-            surfaceManager: surfaceMan
         }
 
         Stage {
