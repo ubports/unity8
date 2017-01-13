@@ -1,4 +1,4 @@
-file(GLOB QML_JS_FILES *.qml *.js)
+file(GLOB QML_JS_FILES *.qml *.js qmldir)
 
 install(FILES ${QML_JS_FILES}
     DESTINATION ${SHELL_APP_DIR}
