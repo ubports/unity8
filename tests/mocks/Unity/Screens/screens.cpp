@@ -70,6 +70,7 @@ QVariant Screens::data(const QModelIndex &index, int role) const
 
     switch(role) {
     case ScreenRole:
+        qDebug() << "returning" << m_screenList.at(index.row())->qScreen;
         return QVariant::fromValue(m_screenList.at(index.row())->qScreen);
     case OutputTypeRole:
         return m_screenList.at(index.row())->outputTypes;

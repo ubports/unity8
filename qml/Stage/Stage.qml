@@ -469,7 +469,7 @@ FocusScope {
         },
         State {
             name: "staged"; when: root.mode === "staged"
-            PropertyChanges { target: wallpaper; visible: false }
+            PropertyChanges { target: wallpaper; visible: priv.focusedAppDelegate && priv.focusedAppDelegate.x === 0 }
         },
         State {
             name: "stagedWithSideStage"; when: root.mode === "stagedWithSideStage"
@@ -546,10 +546,16 @@ FocusScope {
             visible: false
         }
 
+        ScreensAndWorkspaces {
+            id: screensAndWorkspaces
+            anchors { left: parent.left; top: parent.top; right: parent.right }
+            height: parent.height / 3
+        }
+
         Spread {
             id: spreadItem
             objectName: "spreadItem"
-            anchors.fill: appContainer
+            anchors { left: parent.left; bottom: parent.bottom; right: parent.right; top: screensAndWorkspaces.bottom }
             leftMargin: root.leftMargin
             model: root.topLevelSurfaceList
             spreadFlickable: floatingFlickable

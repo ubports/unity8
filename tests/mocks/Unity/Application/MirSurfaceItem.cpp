@@ -293,6 +293,10 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
         connect(m_qmlSurface, &MirSurface::screenshotUrlChanged, this, &MirSurfaceItem::updateScreenshot);
         connect(m_qmlSurface, &MirSurface::liveChanged, this, &MirSurfaceItem::liveChanged);
         connect(m_qmlSurface, &MirSurface::stateChanged, this, &MirSurfaceItem::surfaceStateChanged);
+        connect(m_qmlSurface, &MirSurface::sizeChanged, this, [this] () {
+            m_qmlItem->setSize(m_qmlSurface->size());
+            setImplicitSize(m_qmlSurface->width(), m_qmlSurface->height());
+        });
 
         QUrl qmlComponentFilePath;
         if (!m_qmlSurface->qmlFilePath().isEmpty()) {
@@ -387,6 +391,7 @@ void MirSurfaceItem::updateSurfaceSize()
             m_qmlItem->setWidth(m_surfaceWidth);
             m_qmlItem->setHeight(m_surfaceHeight);
         }
+        qDebug() << this << "setting implicitsize" << m_surfaceWidth << m_surfaceHeight;
         setImplicitSize(m_surfaceWidth, m_surfaceHeight);
     }
 }

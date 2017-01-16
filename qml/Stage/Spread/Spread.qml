@@ -28,10 +28,10 @@ Item {
     property var spreadFlickable
 
     // some config options
-    property real contentMargin: 0.16 * root.height
-    property real contentTopMargin: contentMargin
-    property real contentBottomMargin: 0.35 * contentMargin
-    property real windowTitleTopMargin: 3/4 * (contentTopMargin - windowTitle.height)
+    property real contentMargin: 0.1 * root.height
+    property real contentTopMargin: contentMargin + root.y + windowTitle.height
+    property real contentBottomMargin: contentMargin
+    property real windowTitleTopMargin: contentMargin - windowTitle.height
     property int stackItemCount: 3
     property real leftRotationAngle: 22
     property real rightRotationAngle: 32
@@ -51,7 +51,7 @@ Item {
 
     readonly property real spreadWidth: rightStackXPos - leftStackXPos
     readonly property real spreadHeight: root.height
-    readonly property real spreadItemHeight: spreadHeight - contentTopMargin - contentBottomMargin
+    readonly property real spreadItemHeight: spreadHeight - contentMargin * 2
     readonly property real spreadItemWidth: stackHeight
 
     readonly property real dynamicLeftRotationAngle: leftRotationAngle * rotationAngleFactor
