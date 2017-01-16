@@ -31,12 +31,12 @@
 #include <paths.h>
 #include "CachingNetworkManagerFactory.h"
 #include "UnityCommandLineParser.h"
+#include "DebuggingController.h"
 
 ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     : QGuiApplication(argc, argv)
     , m_qmlArgs(this)
 {
-
     setApplicationName(QStringLiteral("unity8"));
     setOrganizationName(QStringLiteral("Canonical"));
 
@@ -87,13 +87,15 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     }
     #endif
 
+    new DebuggingController(this);
+
 //    if (parser.mode().compare("greeter") == 0) {
 //        QSize primaryScreenSize = this->primaryScreen()->size();
 //        m_shellView->setHeight(primaryScreenSize.height());
 //        m_shellView->setWidth(primaryScreenSize.width());
 //        m_shellView->show();
 //        m_shellView->requestActivate();
-//        if (!QProcess::startDetached("/sbin/initctl emit --no-wait unity8-greeter-started")) {
+//        if (!QProcess::startDetached("initctl emit --no-wait unity8-greeter-started")) {
 //            qDebug() << "Unable to send unity8-greeter-started event to Upstart";
 //        }
 //    } else if (isMirServer || parser.hasFullscreen()) {

@@ -25,8 +25,6 @@ class Screen;
 class Screens : public QAbstractListModel
 {
     Q_OBJECT
-    Q_ENUMS(OutputTypes)
-    Q_ENUMS(FormFactor)
 
     Q_PROPERTY(int count READ count NOTIFY countChanged)
 
@@ -59,6 +57,7 @@ public:
         TV,
         EDP
     };
+    Q_ENUM(OutputTypes)
 
     enum FormFactor {
         FormFactorUnknown,

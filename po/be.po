@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-12-15 16:17+0000\n"
+"POT-Creation-Date: 2017-01-10 14:48+0000\n"
 "PO-Revision-Date: 2015-12-13 13:12+0000\n"
 "Last-Translator: Mikhail_SaTuRn <mikhail_saturn@tut.by>\n"
 "Language-Team: Belarusian <be@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Launchpad-Export-Date: 2016-12-23 04:58+0000\n"
-"X-Generator: Launchpad (build 18298)\n"
+"X-Launchpad-Export-Date: 2017-01-16 05:47+0000\n"
+"X-Generator: Launchpad (build 18302)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
@@ -50,41 +50,41 @@ msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Заблакаваць"
 
-#: qml/Components/Dialogs.qml:159
+#: qml/Components/Dialogs.qml:160
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Выйсці"
 
-#: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
+#: qml/Components/Dialogs.qml:167 qml/Components/Dialogs.qml:225
 #: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
 #: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Скасаваць"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:179
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Перазагрузіць"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:180
 msgid "Are you sure you want to reboot?"
 msgstr "Вы ўпэўнены, што жадаеце перазагрузіць?"
 
-#: qml/Components/Dialogs.qml:181
+#: qml/Components/Dialogs.qml:182
 msgid "No"
 msgstr "Не"
 
-#: qml/Components/Dialogs.qml:187
+#: qml/Components/Dialogs.qml:189
 msgid "Yes"
 msgstr "Так"
 
-#: qml/Components/Dialogs.qml:202
+#: qml/Components/Dialogs.qml:204
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Сілкаванне"
 
-#: qml/Components/Dialogs.qml:203
+#: qml/Components/Dialogs.qml:205
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -92,12 +92,12 @@ msgstr ""
 "Вы ўпэўнены, што хочаце\n"
 "выключыць камп'ютэр?"
 
-#: qml/Components/Dialogs.qml:205
+#: qml/Components/Dialogs.qml:208
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Выключыць"
 
-#: qml/Components/Dialogs.qml:214
+#: qml/Components/Dialogs.qml:217
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Перазапуск"
@@ -429,15 +429,15 @@ msgstr "Адпусціце для абнаўлення..."
 msgid "Enable location data"
 msgstr "Уключыць дадзеныя аб месцазнаходжанні"
 
-#: qml/Dash/ScopesList.qml:57
+#: qml/Dash/ScopesList.qml:146
 msgid "Manage"
 msgstr "Кіраванне"
 
-#: qml/Dash/ScopesList.qml:104
+#: qml/Dash/ScopesList.qml:187
 msgid "Home"
 msgstr "Хатняя папка"
 
-#: qml/Dash/ScopesList.qml:105
+#: qml/Dash/ScopesList.qml:188
 msgid "Also installed"
 msgstr "Таксама ўсталявана"
 
@@ -521,11 +521,11 @@ msgstr "Націсніце, каб вярнуцца да выкліку..."
 msgid "Conference"
 msgstr "Канферэнцыя"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:868
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:869
 msgid "Nothing is playing"
 msgstr "Нічога не грае"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:996
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:997
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -533,7 +533,7 @@ msgstr[0] "%1 гадзіна"
 msgstr[1] "%1 гадзіны"
 msgstr[2] "%1 гадзінаў"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1000
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1001
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -541,7 +541,7 @@ msgstr[0] "%1 хвіліна"
 msgstr[1] "%1 хвіліны"
 msgstr[2] "%1 хвілінаў"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1005
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1006
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -549,37 +549,37 @@ msgstr[0] "%1 секунда"
 msgstr[1] "%1 секунды"
 msgstr[2] "%1 секундаў"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1008
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1009
 msgid "0 seconds"
 msgstr "0 секунд"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:1010
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1011
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 засталося"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1016
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1017
 msgid "In queue…"
 msgstr "У чарзе..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1020
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1021
 msgid "Downloading"
 msgstr "Запампоўка"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1022
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1023
 msgid "Paused, tap to resume"
 msgstr "Прыпынена, націсніце для працягу"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1024
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1025
 msgid "Canceled"
 msgstr "Скасавана"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1026
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1027
 msgid "Finished"
 msgstr "Скончана"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1028
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1029
 msgid "Failed, tap to retry"
 msgstr "Не атрымалася, націсніце, каб паўтарыць спробу"
 

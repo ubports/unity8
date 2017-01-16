@@ -1,3 +1,49 @@
+unity8 (8.15+17.04.20170110.4-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Give focus to one of the buttons of the dialog
+  * tst_WindowResizeArea: Use default values for mouseFlick speed and
+    iterations (LP: #1651580)
+  * Require Qt 5.6 & misc fixes
+
+  [ Daniel van Vugt ]
+  * Deprecate usage of Mir's input resampling, instead opting for: (LP:
+    #1497105, #1591328)
+
+  [ Josh Arenson ]
+  * Allow the scopes list to automatically scroll when a scope is being
+    dragged past the bounds of the screen. (LP: #1575319)
+
+  [ Lukáš Tinkl ]
+  * Fix touch window controls being unreachable when the overlay is
+    being displayed (LP: #1648167)
+  * Fixup paths for window state storage in snappy environment
+  * Add Unity.Platform mock for our tests (LP: #1655336)
+
+  [ Michael Zanetti ]
+  * PreviewRatingInput: Use displayText instead of text to
+    enable/disable the Send button (LP: #1595910)
+  * Add a D-Bus interface to control some debug facilities on the fly
+  * some launcher workarounds for the snapping
+
+  [ Michał Sawicz ]
+  * Nuke leftover Platform in IndicatorsManager
+
+  [ Nick Dedekind ]
+  * Added registry for application menus
+
+  [ Michael Terry, Nick Dedekind ]
+  * Run the qmluitests.sh autopkg test against the installed package.
+
+  [ Michał Sawicz, Nick Dedekind ]
+  * Application menus
+
+  [ Rodney Dawes ]
+  * Remove the payments widget and dependency on libpay as no longer
+    needed.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 10 Jan 2017 14:48:42 +0000
+
 unity8 (8.15+17.04.20161215-0ubuntu2~1) zesty; urgency=medium
 
   * No change rebuild

@@ -156,6 +156,7 @@ Item {
                 }
             }
             Button {
+                focus: true
                 text: i18n.ctr("Button: Log out from the system", "Log Out")
                 onClicked: {
                     unitySessionService.logout();
@@ -184,6 +185,7 @@ Item {
                 }
             }
             Button {
+                focus: true
                 text: i18n.tr("Yes")
                 onClicked: {
                     root.closeAllApps();
@@ -202,6 +204,7 @@ Item {
             title: i18n.ctr("Title: Power off/Restart dialog", "Power")
             text: i18n.tr("Are you sure you would like\nto power off?")
             Button {
+                focus: true
                 text: i18n.ctr("Button: Power off the system", "Power off")
                 onClicked: {
                     root.closeAllApps();

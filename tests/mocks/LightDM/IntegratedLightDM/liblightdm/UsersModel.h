@@ -31,8 +31,6 @@ class Q_DECL_EXPORT UsersModel : public QAbstractListModel
 {
     Q_OBJECT
 
-    Q_ENUMS(UserModelRoles)
-
     //Mock-only API for testing purposes
     Q_PROPERTY(QString mockMode READ mockMode WRITE setMockMode NOTIFY mockModeChanged)
 
@@ -53,6 +51,7 @@ public:
                          BackgroundPathRole,
                          UidRole
     };
+    Q_ENUM(UserModelRoles)
 
     int rowCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;

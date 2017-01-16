@@ -42,7 +42,7 @@ Screens::Screens(QObject *parent) :
     }
 }
 
-Screens::~Screens()
+Screens::~Screens() noexcept
 {
     qDeleteAll(m_screenList);
     m_screenList.clear();
