@@ -27,7 +27,6 @@
 class MockUInput : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(Button)
 
 public:
     enum Button {
@@ -35,6 +34,7 @@ public:
         ButtonRight,
         ButtonMiddle
     };
+    Q_ENUM(Button)
 
     explicit MockUInput(QObject *parent = nullptr);
     ~MockUInput();

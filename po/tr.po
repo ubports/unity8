@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-12-15 16:17+0000\n"
+"POT-Creation-Date: 2017-01-10 14:48+0000\n"
 "PO-Revision-Date: 2015-03-22 15:56+0000\n"
 "Last-Translator: Arda Ünlü <aarda.uunlu@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-12-23 05:00+0000\n"
-"X-Generator: Launchpad (build 18298)\n"
+"X-Launchpad-Export-Date: 2017-01-16 05:48+0000\n"
+"X-Generator: Launchpad (build 18302)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
@@ -49,52 +49,52 @@ msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Kilitle"
 
-#: qml/Components/Dialogs.qml:159
+#: qml/Components/Dialogs.qml:160
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Oturumu Kapat"
 
-#: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
+#: qml/Components/Dialogs.qml:167 qml/Components/Dialogs.qml:225
 #: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
 #: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "İptal"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:179
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Yeniden başlat"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:180
 msgid "Are you sure you want to reboot?"
 msgstr "Bilgisayarı yeniden başlatmak istediğinize emin misiniz?"
 
-#: qml/Components/Dialogs.qml:181
+#: qml/Components/Dialogs.qml:182
 msgid "No"
 msgstr "Hayır"
 
-#: qml/Components/Dialogs.qml:187
+#: qml/Components/Dialogs.qml:189
 msgid "Yes"
 msgstr "Evet"
 
-#: qml/Components/Dialogs.qml:202
+#: qml/Components/Dialogs.qml:204
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Güç"
 
-#: qml/Components/Dialogs.qml:203
+#: qml/Components/Dialogs.qml:205
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr "Bilgisayarı kapatmak istediğinize emin misiniz?"
 
-#: qml/Components/Dialogs.qml:205
+#: qml/Components/Dialogs.qml:208
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Sistemi Kapat"
 
-#: qml/Components/Dialogs.qml:214
+#: qml/Components/Dialogs.qml:217
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Yeniden başlat"
@@ -430,15 +430,15 @@ msgstr "Yenilemek için bırakın..."
 msgid "Enable location data"
 msgstr "Konum bilgisi aktif"
 
-#: qml/Dash/ScopesList.qml:57
+#: qml/Dash/ScopesList.qml:146
 msgid "Manage"
 msgstr "Yönet"
 
-#: qml/Dash/ScopesList.qml:104
+#: qml/Dash/ScopesList.qml:187
 msgid "Home"
 msgstr "Ev"
 
-#: qml/Dash/ScopesList.qml:105
+#: qml/Dash/ScopesList.qml:188
 msgid "Also installed"
 msgstr "Ayrıca kurulan"
 
@@ -518,62 +518,62 @@ msgstr "Çağrıya dönmek için dokunun..."
 msgid "Conference"
 msgstr "Konferans"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:868
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:869
 msgid "Nothing is playing"
 msgstr "Hiçbir şey çalmıyor"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:996
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:997
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 saat"
 msgstr[1] "%1 saat"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1000
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1001
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 dakika"
 msgstr[1] "%1 dakika"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1005
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1006
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 saniye"
 msgstr[1] "%1 saniye"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1008
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1009
 msgid "0 seconds"
 msgstr "0 saniye"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:1010
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1011
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 kaldı"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1016
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1017
 msgid "In queue…"
 msgstr "Beklemede..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1020
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1021
 msgid "Downloading"
 msgstr "İndiriliyor"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1022
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1023
 msgid "Paused, tap to resume"
 msgstr "Duraklatıldı, devam etmek için dokunun"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1024
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1025
 msgid "Canceled"
 msgstr "İptal edildi"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1026
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1027
 msgid "Finished"
 msgstr "Bitti"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1028
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1029
 msgid "Failed, tap to retry"
 msgstr "Başarısız, yeniden denemek için dokunun"
 

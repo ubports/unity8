@@ -26,9 +26,6 @@ class Q_DECL_EXPORT NetworkingStatus : public QObject
     Q_OBJECT
     Q_DISABLE_COPY(NetworkingStatus)
 
-    Q_ENUMS(Limitations)
-    Q_ENUMS(Status)
-
     Q_PROPERTY(QVector<Limitations> limitations READ limitations NOTIFY limitationsChanged)
     Q_PROPERTY(Status status READ status NOTIFY statusChanged)
     Q_PROPERTY(bool online READ online NOTIFY onlineChanged)
@@ -41,12 +38,14 @@ public:
     enum Limitations {
         Bandwith
     };
+    Q_ENUM(Limitations)
 
     enum Status {
         Offline,
         Connecting,
         Online
     };
+    Q_ENUM(Status)
 
     QVector<Limitations> limitations() const;
     Status status() const;

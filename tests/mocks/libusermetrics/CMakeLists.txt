@@ -10,6 +10,7 @@ qt5_use_modules(MockUserMetrics Gui)
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/Utils
+    ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 set_target_properties(MockUserMetrics PROPERTIES

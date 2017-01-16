@@ -38,7 +38,6 @@ SessionsModel::SessionsModel(QObject* parent) :
     QAbstractListModel(parent),
     d_ptr(new SessionsModelPrivate(this))
 {
-    Q_D(SessionsModel);
     m_roleNames = QAbstractListModel::roleNames();
     m_roleNames[KeyRole] = "key";
     m_roleNames[TypeRole] = "type";

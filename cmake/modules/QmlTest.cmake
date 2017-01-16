@@ -55,6 +55,55 @@ function(add_qml_test PATH COMPONENT_NAME)
 endfunction()
 
 
+# add_qml_test_data(path component_name
+#     [...]
+# )
+#
+# Install file called ${component_name} (or ${component_name}.qml) under
+# ${path}.
+
+function(add_qml_test_data PATH COMPONENT_NAME)
+    cmake_parse_arguments(TEST "" "DESTINATION" "" ${ARGN})
+
+    set(filename "${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/${COMPONENT_NAME}")
+
+    if (IS_DIRECTORY "${filename}")
+        # As a convenience, allow specifying a directory and we will install
+        # all files in the dir.  We do it this way rather than passing
+        # DIRECTORY to install() because we want to process any qml files.
+        file(GLOB subfiles RELATIVE "${filename}" "${filename}/*")
+        foreach(subfile ${subfiles})
+            add_qml_test_data("${PATH}/${COMPONENT_NAME}" "${subfile}")
+        endforeach()
+        return()
+    endif()
+
+    if (NOT EXISTS "${filename}")
+        set(filename "${filename}.qml")
+        set(COMPONENT_NAME "${COMPONENT_NAME}.qml")
+    endif()
+
+    if ("${filename}" MATCHES "\\.qml$")
+        file(READ "${filename}" contents)
+        string(REGEX REPLACE "(\"[./]*)/qml(/|\")" "\\1\\2" contents "${contents}")
+        # this is for (at least) cardcreatortest which pulls in an architecture-specific
+        # import into the plugins directory (which is a 'qml' once installed).
+        string(REGEX REPLACE "(import \"[./]*)/plugins(/|\")" "\\1/qml\\2" contents "${contents}")
+        set(filename "${CMAKE_CURRENT_BINARY_DIR}/${PATH}/${COMPONENT_NAME}")
+        file(WRITE "${filename}" "${contents}")
+    endif()
+
+    if (TEST_DESTINATION)
+        set(DESTINATION "${TEST_DESTINATION}")
+    else()
+        file(RELATIVE_PATH relcurpath "${CMAKE_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+        set(DESTINATION "${SHELL_APP_DIR}/${relcurpath}/${PATH}")
+    endif()
+
+    install(FILES "${filename}" DESTINATION "${DESTINATION}")
+endfunction()
+
+
 # add_qml_unittest(path component_name
 #     [...]
 # )
@@ -71,6 +120,10 @@ function(add_qml_unittest PATH COMPONENT_NAME)
         ${ARGN}
         ARGS -input ${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/tst_${COMPONENT_NAME}.qml ${QMLTEST_ARGS}
     )
+
+    if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/tst_${COMPONENT_NAME}.qml")
+        add_qml_test_data("${PATH}" "tst_${COMPONENT_NAME}.qml")
+    endif()
 endfunction()
 
 
@@ -91,6 +144,10 @@ function(add_manual_qml_test PATH COMPONENT_NAME)
         ${ARGN}
         ARGS ${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/tst_${COMPONENT_NAME}.qml ${QMLTEST_ARGS}
     )
+
+    if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/tst_${COMPONENT_NAME}.qml")
+        add_qml_test_data("${PATH}" "tst_${COMPONENT_NAME}.qml")
+    endif()
 endfunction()
 
 
@@ -108,8 +165,7 @@ endfunction()
 #
 # Logging options in the standard form of "-o filename,format"
 # will be appended to the arguments list, prefixed with ARG_PREFIX.
-# XUnitXML files will be stored in current binary dir or under
-# ARTIFACTS_DIR, if set.
+# XUnitXML files will be stored in current binary dir.
 #
 # Three targets will be created:
 #   - test${component_name} - Runs the test
@@ -122,14 +178,8 @@ function(add_executable_test COMPONENT_NAME TARGET)
     cmake_parse_arguments(QMLTEST "${QMLTEST_OPTIONS}" "${QMLTEST_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
     mangle_arguments()
 
-    if(ARTIFACTS_DIR)
-        file(RELATIVE_PATH path ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-        file(MAKE_DIRECTORY ${ARTIFACTS_DIR}/${path})
-        set(file_logger -o ${ARTIFACTS_DIR}/${path}/test${COMPONENT_NAME}.xml,xunitxml)
-    else()
-        file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-        set(file_logger -o ${CMAKE_CURRENT_BINARY_DIR}/test${COMPONENT_NAME}.xml,xunitxml)
-    endif()
+    file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+    set(file_logger -o ${CMAKE_CURRENT_BINARY_DIR}/test${COMPONENT_NAME}.xml,xunitxml)
 
     bake_arguments("${QMLTEST_ARG_PREFIX}" args ${iterations} ${file_logger} ${STDOUT_LOGGER})
 
@@ -207,7 +257,123 @@ function(add_manual_test COMPONENT_NAME TARGET)
 endfunction()
 
 
+# add_meta_test(target)
+#
+# Adds a test target that will run one of our "meta" test targets, like
+# xvfbuitests.  This script will run the specified suite of tests on an
+# installed system.
+
+function(add_meta_test TARGET_NAME)
+    cmake_parse_arguments(TEST "" "" "DEPENDS" ${ARGN})
+
+    add_custom_target(${TARGET_NAME})
+
+    set(filename "${CMAKE_BINARY_DIR}/tests/scripts/${TARGET_NAME}.sh")
+    file(WRITE "${filename}" "#!/usr/bin/parallel --shebang --no-notice\n\n")
+
+    add_meta_dependencies(${TARGET_NAME} DEPENDS ${TEST_DEPENDS})
+    # else we will write the rest of the script as we add cmake targets
+
+    install(FILES "${filename}"
+        PERMISSIONS OWNER_EXECUTE OWNER_READ OWNER_WRITE
+                    GROUP_EXECUTE GROUP_READ
+                    WORLD_EXECUTE WORLD_READ
+        DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/scripts"
+    )
+endfunction()
+
+
 ################### INTERNAL ####################
+
+function(install_test_script TARGET_NAME)
+    cmake_parse_arguments(TEST "" "" "COMMAND;ENVIRONMENT" ${ARGN})
+
+    # Now write the above test into a shell script that we can run on an
+    # installed system.
+    set(script "#!/bin/sh\n\nset -x\n\n")
+    foreach(ONE_ENV ${TEST_ENVIRONMENT})
+        set(script "${script}export ${ONE_ENV}\n")
+    endforeach()
+    set(script "${script}export UNITY_TESTING_DATADIR=\"${CMAKE_INSTALL_PREFIX}/${SHELL_APP_DIR}\"\n")
+    set(script "${script}export UNITY_TESTING_LIBDIR=\"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}\"\n")
+    set(script "${script}\n")
+    set(script "${script}XML_ARGS=\n")
+    set(script "${script}if [ -n \"\$ARTIFACTS_DIR\" ]; then\n")
+    set(script "${script}    XML_ARGS=\"@XML_ARGS@\"\n")
+    set(script "${script}    mkdir -p \"@XML_DIR@\"\n")
+    set(script "${script}    touch \"@XML_FILE@\"\n")
+    set(script "${script}fi\n")
+    set(script "${script}\n")
+    foreach(ONE_CMD ${TEST_COMMAND})
+        set(script "${script}'${ONE_CMD}' ")
+    endforeach()
+
+    set(filename "${CMAKE_BINARY_DIR}/tests/scripts/${TARGET_NAME}.sh")
+
+    # Generate script to file then read it back to resolve any generator
+    # expressions before we try to replace paths.
+    file(GENERATE
+         OUTPUT "${filename}"
+         CONTENT "${script}"
+    )
+
+    # Do replacement at install time to save needless work and to make sure
+    # we are modifying file after generate step above (which doesn't happen
+    # immediately).  We can't use a custom-defined function or macro here...
+    # So instead we use a giant ugly code block.
+
+    # START OF CODE BLOCK --------------------------------------------------
+    install(CODE "
+    file(READ \"${filename}\" replacestr)
+
+    # Now some replacements...
+    # tests like to write xml output to our builddir; we don't need that, but we do want them in ARTIFACTS_DIR
+    string(REGEX MATCH \"( '--parameter')? '-o'( '--parameter')? '[^']*,xunitxml' \" xmlargs \"\${replacestr}\")
+    string(REGEX REPLACE \"( '--parameter')? '-o'( '--parameter')? '[^']*,xunitxml' \" \" \\\$XML_ARGS \" replacestr \"\${replacestr}\")
+    string(REGEX REPLACE \"'[^']*/tests/\" \"'\\\$ARTIFACTS_DIR/tests/\" xmlargs \"\${xmlargs}\")
+    string(REGEX REPLACE \".*'([^']*),xunitxml'.*\" \"\\\\1\" xmlfile \"\${xmlargs}\")
+    string(REGEX REPLACE \"(.*)/[^/]*\" \"\\\\1\" xmldir \"\${xmlfile}\")
+    string(REGEX REPLACE \"'\" \"\" xmlargs \"\${xmlargs}\") # strip single quotes
+    string(REGEX REPLACE \"@XML_ARGS@\" \"\${xmlargs}\" replacestr \"\${replacestr}\")
+    string(REGEX REPLACE \"@XML_DIR@\" \"\${xmldir}\" replacestr \"\${replacestr}\")
+    string(REGEX REPLACE \"@XML_FILE@\" \"\${xmlfile}\" replacestr \"\${replacestr}\")
+    # replace build/source roots with their install paths
+    string(REPLACE \"${CMAKE_BINARY_DIR}/libs\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_BINARY_DIR}/plugins\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_BINARY_DIR}/tests/libs\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/tests/libs\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_BINARY_DIR}/tests/mocks\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/mocks\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_BINARY_DIR}/tests/plugins\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/tests/plugins\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_BINARY_DIR}/tests/qmltests\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/tests/qmltests\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_BINARY_DIR}/tests/uqmlscene\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_BINARY_DIR}/tests/utils/modules\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/utils\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_SOURCE_DIR}/tests/plugins\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_APP_DIR}/tests/plugins\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_SOURCE_DIR}/tests/qmltests\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_APP_DIR}/tests/qmltests\" replacestr \"\${replacestr}\")
+
+    file(WRITE \"${filename}\" \"\${replacestr}\")
+    ")
+    # END OF CODE BLOCK --------------------------------------------------
+
+    install(FILES "${filename}"
+        PERMISSIONS OWNER_EXECUTE OWNER_READ OWNER_WRITE
+                    GROUP_EXECUTE GROUP_READ
+                    WORLD_EXECUTE WORLD_READ
+        DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/scripts"
+    )
+endfunction()
+
+function(add_meta_dependencies UPSTREAM_TARGET)
+    cmake_parse_arguments(TEST "" "" "DEPENDS" ${ARGN})
+
+    foreach(depend ${TEST_DEPENDS})
+        add_dependencies(${UPSTREAM_TARGET} ${depend})
+
+        # add depend to the meta test script that we will install on system
+        set(filename "${CMAKE_BINARY_DIR}/tests/scripts/${UPSTREAM_TARGET}.sh")
+        if (EXISTS "${filename}")
+            file(APPEND "${filename}" "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/tests/scripts/${depend}.sh\n")
+        endif()
+    endforeach()
+endfunction()
 
 # add_qmltest_target(target_name target
 #    COMMAND test_exe [arg1 [...]]       # execute this test with arguments
@@ -231,6 +397,11 @@ function(add_qmltest_target TARGET_NAME TARGET)
         DEPENDS ${TARGET} ${QMLTEST_DEPENDS}
     )
 
+    install_test_script(${TARGET_NAME}
+        ENVIRONMENT ${QMLTEST_ENVIRONMENT}
+        COMMAND ${QMLTEST_COMMAND}
+    )
+
     if(QMLTEST_ADD_TEST)
         add_test(
             NAME ${TARGET_NAME}
@@ -248,7 +419,7 @@ function(add_qmltest_target TARGET_NAME TARGET)
     endif()
 
     foreach(UPSTREAM_TARGET ${QMLTEST_TARGETS})
-        add_dependencies(${UPSTREAM_TARGET} ${TARGET_NAME})
+        add_meta_dependencies(${UPSTREAM_TARGET} DEPENDS ${TARGET_NAME})
     endforeach()
 endfunction()
 

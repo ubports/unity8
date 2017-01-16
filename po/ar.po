@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-12-15 16:17+0000\n"
-"PO-Revision-Date: 2015-07-29 09:41+0000\n"
+"POT-Creation-Date: 2017-01-10 14:48+0000\n"
+"PO-Revision-Date: 2017-01-14 05:20+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
 "3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2016-12-23 04:58+0000\n"
-"X-Generator: Launchpad (build 18298)\n"
+"X-Launchpad-Export-Date: 2017-01-16 05:47+0000\n"
+"X-Generator: Launchpad (build 18302)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
@@ -50,41 +50,41 @@ msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "أوصِد"
 
-#: qml/Components/Dialogs.qml:159
+#: qml/Components/Dialogs.qml:160
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "خروج"
 
-#: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
+#: qml/Components/Dialogs.qml:167 qml/Components/Dialogs.qml:225
 #: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
 #: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "إلغاء"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:179
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "إعادة التشغيل"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:180
 msgid "Are you sure you want to reboot?"
 msgstr "هل أنت متأكد من رغبتك في إعادة تشغيل الجهاز؟"
 
-#: qml/Components/Dialogs.qml:181
+#: qml/Components/Dialogs.qml:182
 msgid "No"
 msgstr "لا"
 
-#: qml/Components/Dialogs.qml:187
+#: qml/Components/Dialogs.qml:189
 msgid "Yes"
 msgstr "نعم"
 
-#: qml/Components/Dialogs.qml:202
+#: qml/Components/Dialogs.qml:204
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "الطاقة"
 
-#: qml/Components/Dialogs.qml:203
+#: qml/Components/Dialogs.qml:205
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -92,71 +92,71 @@ msgstr ""
 "هل أنت متأكد من رغبتك\n"
 "في إيقاف التشغيل؟"
 
-#: qml/Components/Dialogs.qml:205
+#: qml/Components/Dialogs.qml:208
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "إيقاف التشغيل"
 
-#: qml/Components/Dialogs.qml:214
+#: qml/Components/Dialogs.qml:217
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "إعادة التشغيل"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "اختصارات لوحة المفاتيح"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Unity 8"
-msgstr ""
+msgstr "يونتي 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
-msgstr ""
+msgstr "PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr ""
+msgstr "أخذ لقطة للشاشة"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
-msgstr ""
+msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of a window."
-msgstr ""
+msgstr "أخذ لقطة شاشة للنافذة"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
-msgstr ""
+msgstr "Super + Space"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr ""
+msgstr "للتحويل إلى مخطط لوحة المفاتيح التالي."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
-msgstr ""
+msgstr "Super + Shift + Space"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr ""
+msgstr "للتحويل إلى مخطط لوحة المفاتيح السابق."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:118
 msgid "Launcher"
-msgstr ""
+msgstr "شريط بدء التطبيقات"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:125
 msgid "Super (Hold)"
-msgstr ""
+msgstr "Super (Hold)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:130
 msgid "Opens the launcher, displays shortcuts."
-msgstr ""
+msgstr "لفتح شريط بدء التطبيقات، وإظهار الاختصارات."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Alt + F1"
-msgstr ""
+msgstr "Alt + F1"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens launcher keyboard navigation mode."
@@ -164,23 +164,23 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Super + Tab"
-msgstr ""
+msgstr "Super + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Switches applications via the launcher."
-msgstr ""
+msgstr "للتحويل بين التطبيقات عبر شريط بدء التطبيقات."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + 0 to 9"
-msgstr ""
+msgstr "Super + 0 to 9"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Same as clicking on a launcher icon."
-msgstr ""
+msgstr "نفس إجراء الضغط على أيقونة في الشريط."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + A"
-msgstr ""
+msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Opens the Application Drawer."
@@ -200,15 +200,15 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:222
 msgid "Switching"
-msgstr ""
+msgstr "التبديل"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:229
 msgid "Alt + Tab"
-msgstr ""
+msgstr "Alt + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:234
 msgid "Switches between applications."
-msgstr ""
+msgstr "للتبديل بين التطبيقات المفتوحة."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Super + W"
@@ -224,35 +224,35 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:260
 msgid "Moves the focus."
-msgstr ""
+msgstr "لنقل التركيز."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:272
 msgid "Windows"
-msgstr ""
+msgstr "النوافذ"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:279
 msgid "Ctrl + Super + D"
-msgstr ""
+msgstr "Ctrl + Super + D"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:284
 msgid "Minimizes all windows."
-msgstr ""
+msgstr "لتصغير جميع النوافذ."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + Up"
-msgstr ""
+msgstr "Ctrl + Super + Up"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Maximizes the current window."
-msgstr ""
+msgstr "لتكبير النافذة الحالية."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Down"
-msgstr ""
+msgstr "Ctrl + Super + Down"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Minimizes or restores the current window."
-msgstr ""
+msgstr "لتصغير او استعادة النافذة الحالية."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Ctrl + Super + Left or Right"
@@ -304,7 +304,7 @@ msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
-msgstr ""
+msgstr "أو أغلق إجباريا الآن (ستفقد أي بيانات غير محفوظة)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
@@ -330,11 +330,11 @@ msgstr ""
 
 #: qml/Components/VirtualTouchPad.qml:327
 msgid "Tap left button to click."
-msgstr ""
+msgstr "اضغط الزر الأيسر للنقر."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "اضغط الزر الأيمن للنقر الأيمن."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
@@ -342,7 +342,7 @@ msgstr ""
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "اعثر على مزيد من الإعدادات في إعدادات النظام."
 
 #: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
@@ -377,11 +377,11 @@ msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
 msgid "Show less"
-msgstr ""
+msgstr "عرض أقل"
 
 #: qml/Dash/GenericScopeView.qml:547
 msgid "Show all"
-msgstr ""
+msgstr "عرض الكل"
 
 #: qml/Dash/GenericScopeView.qml:578
 msgctxt "Label: Hint for dash search line edit"
@@ -429,15 +429,15 @@ msgstr "حرّر للتحديث..."
 msgid "Enable location data"
 msgstr "تفعيل بيانات الموقع"
 
-#: qml/Dash/ScopesList.qml:57
+#: qml/Dash/ScopesList.qml:146
 msgid "Manage"
 msgstr "إدارة"
 
-#: qml/Dash/ScopesList.qml:104
+#: qml/Dash/ScopesList.qml:187
 msgid "Home"
 msgstr "الرئيسية"
 
-#: qml/Dash/ScopesList.qml:105
+#: qml/Dash/ScopesList.qml:188
 msgid "Also installed"
 msgstr "أيضا تم تثبيت"
 
@@ -523,11 +523,11 @@ msgstr "انقر للعودة إلى المكالمة..."
 msgid "Conference"
 msgstr "مؤتمر"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:868
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:869
 msgid "Nothing is playing"
 msgstr "لا شيء مُشغّل"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:996
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:997
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -538,7 +538,7 @@ msgstr[3] "%1 ساعات"
 msgstr[4] "%1 ساعة"
 msgstr[5] "%1 ساعة"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1000
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1001
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -549,7 +549,7 @@ msgstr[3] "%1 دقائق"
 msgstr[4] "%1 دقيقة"
 msgstr[5] "%1 دقيقة"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1005
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1006
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -560,37 +560,37 @@ msgstr[3] "%1 ثوان"
 msgstr[4] "%1 ثانية"
 msgstr[5] "%1 ثانية"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1008
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1009
 msgid "0 seconds"
 msgstr "أقل من ثانية"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:1010
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1011
 #, qt-format
 msgid "%1 remaining"
 msgstr "باق %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1016
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1017
 msgid "In queue…"
 msgstr "في الانتظار..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1020
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1021
 msgid "Downloading"
 msgstr "التنزيل"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1022
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1023
 msgid "Paused, tap to resume"
 msgstr "مُلبث، انقر للاستئناف"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1024
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1025
 msgid "Canceled"
 msgstr "تم إلغائه"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1026
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1027
 msgid "Finished"
 msgstr "انتهى"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1028
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1029
 msgid "Failed, tap to retry"
 msgstr "فشل، انقل لإعادة المحاولة"
 

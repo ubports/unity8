@@ -1,0 +1,3 @@
+module Unity.ApplicationMenu
+plugin ApplicationMenu-qml
+typeinfo ApplicationMenu.qmltypes
