@@ -199,4 +199,3 @@ void MousePointer::setConfiningItem(QQuickItem *item)
         Q_EMIT confiningItemChanged();
     }
 }
-
