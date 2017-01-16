@@ -240,6 +240,8 @@ StyledItem {
             keyClick(Qt.Key_Enter);
 
             compare(launcher.lastSelectedApplication, "camera-app");
+            waitForRendering(launcher);
+            tryCompare(launcher, "drawerShown", false);
         }
 
         function test_dragDirectionOnLeftEdgeDrag_data() {

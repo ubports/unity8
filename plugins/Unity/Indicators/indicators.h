@@ -27,13 +27,13 @@ class UNITYINDICATORS_EXPORT ActionState : public QObject
 {
     Q_OBJECT
 public:
-    Q_ENUMS(ActionStates)
     enum ActionStates {
       Label           = 0x00,
       IconSource      = 0x01,
       AccessableName  = 0x02,
       Visible         = 0x03,
     };
+    Q_ENUM(ActionStates)
 
     ActionState(QObject*parent=0):QObject(parent) {}
 };
@@ -42,11 +42,11 @@ class UNITYINDICATORS_EXPORT NetworkActionState : public QObject
 {
     Q_OBJECT
 public:
-    Q_ENUMS(NetworkActionStates)
     enum NetworkActionStates {
       Connection      = 0x01,
       SignalStrength  = 0x02,
     };
+    Q_ENUM(NetworkActionStates)
 
     NetworkActionState(QObject*parent=0):QObject(parent) {}
 };
@@ -55,13 +55,13 @@ class UNITYINDICATORS_EXPORT NetworkConnection : public QObject
 {
     Q_OBJECT
 public:
-    Q_ENUMS(NetworkConnectionStates)
     enum NetworkConnectionStates {
       Initial         = 0x00,
       Activating      = 0x01,
       Activated       = 0x02,
       Deactivating    = 0x03,
     };
+    Q_ENUM(NetworkConnectionStates)
 
     NetworkConnection(QObject*parent=0):QObject(parent) {}
 };
@@ -70,12 +70,12 @@ class UNITYINDICATORS_EXPORT IndicatorsModelRole : public QObject
 {
     Q_OBJECT
 public:
-    Q_ENUMS(Roles)
     enum Roles {
         Identifier = 0,
         Position,
         IndicatorProperties
     };
+    Q_ENUM(Roles)
 
     IndicatorsModelRole(QObject*parent=0):QObject(parent) {}
 };
@@ -84,7 +84,6 @@ class UNITYINDICATORS_EXPORT FlatMenuProxyModelRole : public QObject
 {
     Q_OBJECT
 public:
-    Q_ENUMS(Roles)
     enum Roles {
         Action  = Qt::DisplayRole + 1,
         Label,
@@ -93,6 +92,7 @@ public:
         hasSection,
         hasSubMenu
     };
+    Q_ENUM(Roles)
 
     FlatMenuProxyModelRole(QObject*parent=0):QObject(parent) {}
 };

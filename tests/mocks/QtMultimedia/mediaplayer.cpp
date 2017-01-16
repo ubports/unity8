@@ -58,7 +58,7 @@ MediaPlayer::MediaPlayer(QObject* parent)
 {
     qsrand(time(nullptr));
     m_timer.setInterval(100);
-    connect(&m_timer, &QTimer::timeout, this, &MediaPlayer::timerEvent);
+    connect(&m_timer, &QTimer::timeout, this, &MediaPlayer::processTimer);
 
     connect(MediaPlayerDataController::instance(), &MediaPlayerDataController::sourceAboutToBeRemoved,
             this, [this](const QUrl& source) {
@@ -188,7 +188,7 @@ void MediaPlayer::seek(int position)
     }
 }
 
-void MediaPlayer::timerEvent()
+void MediaPlayer::processTimer()
 {
     if (m_position + m_timer.interval() < duration()) {
         m_position +=  m_timer.interval();

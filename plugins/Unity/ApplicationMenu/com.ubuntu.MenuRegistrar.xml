@@ -1,0 +1,83 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node xmlns:dox="http://www.ayatana.org/dbus/dox.dtd">
+        <dox:d><![CDATA[
+          @mainpage
+
+          An interface to register menus that are associated with a window in an application.  The
+          main interface is documented here: @ref com::ubuntu::MenuRegistrar.
+
+          The actual menus are transported using the gmenumodel protocol
+        ]]></dox:d>
+        <interface name="com.ubuntu.MenuRegistrar" xmlns:dox="http://www.ayatana.org/dbus/dox.dtd">
+                <dox:d>
+                  An interface to register a menu from an application to be displayed in another
+                  window.  This manages that association between processes and/or Mir surface IDs and the dbus
+                  address and object that provides the menus using the  org.gtk.Menus interface.
+                </dox:d>
+                <method name="RegisterAppMenu">
+                        <dox:d><![CDATA[
+                          Associates a gmenumodel with an application
+
+                          /note this method assumes that the connection from the caller is the DBus connection
+                            to use for the object.  Applications that use multiple DBus connections will need to
+                            ensure this method is called with the same connection that implements the object.
+                        ]]></dox:d>
+                        <arg name="pid" type="u" direction="in">
+                                <dox:d>The process ID of the application for which the menu is associated</dox:d>
+                        </arg>
+                        <arg name="menuObjectPath" type="o" direction="in">
+                                <dox:d>The dbus path where the gmenumodel interface for the application menu has been exported</dox:d>
+                        </arg>
+                        <arg name="actionObjectPath" type="o" direction="in">
+                                <dox:d>The dbus path where the gactionmenu interface for the application menu actions has been exported</dox:d>
+                        </arg>
+                        <arg name="service" type="s" direction="in">
+                            <dox:d>The dbus conection name of the client application to be registered (e.g. :1.23 or org.example.service)</dox:d>
+                        </arg>
+                </method>
+                <method name="UnregisterAppMenu">
+                        <dox:d>
+                          A method to allow removing an application menu from the database.
+                        </dox:d>
+                        <arg name="pid" type="u" direction="in">
+                                <dox:d>The process id of the application</dox:d>
+                        </arg>
+                        <arg name="menuObjectPath" type="o" direction="in">
+                                <dox:d>The dbus path for the registered application menu to be unregistered</dox:d>
+                        </arg>
+                </method>
+
+                <method name="RegisterSurfaceMenu">
+                        <dox:d><![CDATA[
+                          Associates a gmenumodel with a surface
+
+                          /note this method assumes that the connection from the caller is the DBus connection
+                            to use for the object.  Applications that use multiple DBus connections will need to
+                            ensure this method is called with the same connection that implements the object.
+                        ]]></dox:d>
+                        <arg name="surface" type="s" direction="in">
+                                <dox:d>The surface ID of the surface</dox:d>
+                        </arg>
+                        <arg name="menuObjectPath" type="o" direction="in">
+                                <dox:d>The dbus path where the gmenumodel interface for the surface menu has been exported</dox:d>
+                        </arg>
+                        <arg name="actionObjectPath" type="o" direction="in">
+                                <dox:d>The dbus path where the gactionmenu interface for the surface menu actions has been exported</dox:d>
+                        </arg>
+                        <arg name="service" type="s" direction="in">
+                            <dox:d>The dbus conection name of the client application to be registered (e.g. :1.23 or org.example.service)</dox:d>
+                        </arg>
+                </method>
+                <method name="UnregisterSurfaceMenu">
+                        <dox:d>
+                          A method to allow removing a surface menu from the database.
+                        </dox:d>
+                        <arg name="surfaceId" type="s" direction="in">
+                                <dox:d>The surface id of the surface</dox:d>
+                        </arg>
+                        <arg name="menuObjectPath" type="o" direction="in">
+                                <dox:d>The dbus path for the registered surface menu to be unregistered</dox:d>
+                        </arg>
+                </method>
+        </interface>
+</node>

@@ -27,6 +27,8 @@
 
 #include <limits>
 
+#include <paths.h>
+
 // TODO Think on how doing a test for lost items
 // particullary making sure that lost items are culled
 // and then removed in the next updatePolish cycle
@@ -121,7 +123,7 @@ private Q_SLOTS:
     void init()
     {
         view = new QQuickView();
-        view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/listviewwithpageheadertest.qml"));
+        view->setSource(QUrl::fromLocalFile(testDataDir() + "/" TEST_DIR "/listviewwithpageheadertest.qml"));
         lvwph = static_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
         model = view->rootObject()->findChild<QQmlListModel*>();
         otherDelegate = view->rootObject()->findChild<QQmlComponent*>();

@@ -13,7 +13,8 @@ add_library(MockLightDM SHARED ${LibLightDM_SOURCES})
 qt5_use_modules(MockLightDM Gui)
 
 set_target_properties(MockLightDM PROPERTIES
-                      OUTPUT_NAME lightdm-qt5-3)
+                      OUTPUT_NAME lightdm-qt5-3
+                      SOVERSION 0)
 
 install(TARGETS MockLightDM
     DESTINATION ${SHELL_INSTALL_QML}/mocks/LightDM/IntegratedLightDM/liblightdm

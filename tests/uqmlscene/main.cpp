@@ -63,6 +63,8 @@
 #include <QtCore/QTranslator>
 #include <QtCore/QLibraryInfo>
 
+#include "DebuggingController.h"
+
 #ifdef QML_RUNTIME_TESTING
 class RenderStatistics
 {
@@ -243,7 +245,7 @@ static int displayOptionsDialog(Options *options)
 
 static bool checkVersion(const QUrl &url)
 {
-    if (!qgetenv("QMLSCENE_IMPORT_NAME").isEmpty())
+    if (!qEnvironmentVariableIsEmpty("QMLSCENE_IMPORT_NAME"))
         qWarning("QMLSCENE_IMPORT_NAME is no longer supported.");
 
     QString fileName = url.toLocalFile();
@@ -387,9 +389,9 @@ int main(int argc, char ** argv)
     Options options;
 
     QStringList imports;
-    QList<QPair<QString, QString> > bundles;
+    QVector<QPair<QString, QString> > bundles;
     for (int i = 1; i < argc; ++i) {
-        if (*argv[i] != '-' && QFileInfo(QFile::decodeName(argv[i])).exists()) {
+        if (*argv[i] != '-' && QFileInfo::exists(QFile::decodeName(argv[i]))) {
             options.file = QUrl::fromLocalFile(argv[i]);
         } else {
             const QString lowerArgument = QString::fromLatin1(argv[i]).toLower();
@@ -465,6 +467,8 @@ int main(int argc, char ** argv)
 #endif
 
     int exitCode = 0;
+
+    new DebuggingController(&app);
 
     if (!options.file.isEmpty()) {
         if (!options.versionDetection || checkVersion(options.file)) {
