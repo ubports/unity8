@@ -30,7 +30,6 @@ struct MockNotificationPrivate;
 
 class MockNotification : public QObject {
     Q_OBJECT
-    Q_ENUMS(Type Urgency)
     Q_PROPERTY(QString summary READ getSummary WRITE setSummary NOTIFY summaryChanged)
     Q_PROPERTY(QString body READ getBody WRITE setBody NOTIFY bodyChanged)
     Q_PROPERTY(int nid READ getID WRITE setID NOTIFY idChanged)
@@ -48,7 +47,9 @@ private:
 
 public:
     enum Urgency { Low, Normal, Critical };
+    Q_ENUM(Urgency)
     enum Type { PlaceHolder, Confirmation, Ephemeral, Interactive, SnapDecision };
+    Q_ENUM(Type)
 
 Q_SIGNALS:
     void summaryChanged(const QString &summary);

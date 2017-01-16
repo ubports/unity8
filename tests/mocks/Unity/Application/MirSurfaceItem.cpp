@@ -216,7 +216,7 @@ void MirSurfaceItem::touchEvent(QTouchEvent * event)
         Q_EMIT touchReleaseCountChanged(m_touchReleaseCount);
     }
 
-    Q_FOREACH(QTouchEvent::TouchPoint touchPoint, event->touchPoints()) {
+    Q_FOREACH(const QTouchEvent::TouchPoint &touchPoint, event->touchPoints()) {
         QString id(touchPoint.id());
         QVariantList list =  m_touchTrail[id].toList();
         list.append(QVariant::fromValue(touchPoint.pos()));

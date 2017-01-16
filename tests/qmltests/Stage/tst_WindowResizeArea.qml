@@ -264,7 +264,7 @@ Item {
 
             var startDragX = initialWindowX + initialWindowWidth + 1
             var startDragY = initialWindowY + initialWindowHeight + 1
-            mouseFlick(root, startDragX, startDragY, startDragX + data.dx, startDragY + data.dy, true, true, units.gu(.5), 10);
+            mouseFlick(root, startDragX, startDragY, startDragX + data.dx, startDragY + data.dy);
 
             tryCompare(fakeWindow, "width", Math.max(initialWindowWidth + data.dx, fakeWindow.resizeAreaMinWidth));
             tryCompare(fakeWindow, "height", Math.max(initialWindowHeight + data.dy, fakeWindow.resizeAreaMinHeight));
@@ -290,7 +290,7 @@ Item {
 
             var startDragX = initialWindowX - 1
             var startDragY = initialWindowY - 1
-            mouseFlick(root, startDragX, startDragY, startDragX + data.dx, startDragY + data.dy, true, true, units.gu(.5), 10);
+            mouseFlick(root, startDragX, startDragY, startDragX + data.dx, startDragY + data.dy);
 
             tryCompare(fakeWindow, "width", Math.max(initialWindowWidth - data.dx, fakeWindow.resizeAreaMinWidth));
             tryCompare(fakeWindow, "height", Math.max(initialWindowHeight - data.dy, fakeWindow.resizeAreaMinHeight));
@@ -318,10 +318,10 @@ Item {
 
             var startDragX = initialWindowX + data.startX
             var startDragY = initialWindowY + data.startY
-            mouseFlick(root, startDragX, startDragY, startDragX + data.dx, startDragY + data.dy, true, false, units.gu(.05), 10);
+            mouseFlick(root, startDragX, startDragY, startDragX + data.dx, startDragY + data.dy, true, false);
             tryCompare(fakeWindow, "width", Math.max(initialWindowWidth - Math.abs(data.dx), fakeWindow.resizeAreaMinWidth));
             tryCompare(fakeWindow, "height", Math.max(initialWindowHeight - Math.abs(data.dy), fakeWindow.resizeAreaMinHeight));
-            mouseFlick(root, startDragX + data.dx, startDragY + data.dy, startDragX, startDragY, false, true, units.gu(.05), 10);
+            mouseFlick(root, startDragX + data.dx, startDragY + data.dy, startDragX, startDragY, false, true);
             tryCompare(fakeWindow, "width", initialWindowWidth);
             tryCompare(fakeWindow, "height", initialWindowHeight);
         }
@@ -385,7 +385,7 @@ Item {
             windowRequestedHeightSpy.clear();
             verify(windowRequestedHeightSpy.valid);
 
-            mouseFlick(root, startDragX, startDragY, startDragX + deltaX, startDragY + deltaY, true, true, units.gu(.5), 10);
+            mouseFlick(root, startDragX, startDragY, startDragX + deltaX, startDragY + deltaY);
 
             compare(windowRequestedWidthSpy.count, 1);
             compare(fakeWindow.width, initialWindowWidth + fakeWindow.widthIncrement);
@@ -416,8 +416,7 @@ Item {
             var endDragX = (fakeWindow.maximumWidth * 2) + 1;
             var endDragY = (fakeWindow.maximumHeight * 2) + 1;
 
-            mouseFlick(fakeWindow, startDragX, startDragY, endDragX, endDragY,
-                    true/*pressMouse*/, true/*releaseMouse*/, units.gu(.5)/*speed*/, 20/*iterations*/);
+            mouseFlick(fakeWindow, startDragX, startDragY, endDragX, endDragY);
 
             compare(fakeWindow.requestedWidth, fakeWindow.maximumWidth);
             compare(fakeWindow.requestedHeight, fakeWindow.maximumHeight);
@@ -446,8 +445,7 @@ Item {
             var endDragX = (fakeWindow.minimumWidth * 0.5) + 1;
             var endDragY = (fakeWindow.minimumHeight * 0.5) + 1;
 
-            mouseFlick(fakeWindow, startDragX, startDragY, endDragX, endDragY,
-                    true/*pressMouse*/, true/*releaseMouse*/, units.gu(.5)/*speed*/, 20/*iterations*/);
+            mouseFlick(fakeWindow, startDragX, startDragY, endDragX, endDragY);
 
             compare(fakeWindow.requestedWidth, fakeWindow.minimumWidth);
             compare(fakeWindow.requestedHeight, fakeWindow.minimumHeight);

@@ -45,17 +45,13 @@ class MediaPlayer: public QObject
     Q_PROPERTY(QObject *metaData READ metaData CONSTANT)
     Q_PROPERTY(DeclarativePlaylist *playlist READ playlist WRITE setPlaylist NOTIFY playlistChanged)
 
-    Q_ENUMS(PlaybackState)
-    Q_ENUMS(AudioRole)
-    Q_ENUMS(Availability)
-    Q_ENUMS(Status)
-    Q_ENUMS(Error)
 public:
     enum PlaybackState {
         PlayingState,
         PausedState,
         StoppedState
     };
+    Q_ENUM(PlaybackState)
 
     enum AudioRole {
         UnknownRole,
@@ -69,6 +65,7 @@ public:
         SonificationRole,
         GameRole
     };
+    Q_ENUM(AudioRole)
 
     enum Availability {
         Available,
@@ -76,6 +73,7 @@ public:
         Unavailable,
         ResourceMissing
     };
+    Q_ENUM(Availability)
 
     enum Status {
         UnknownStatus,
@@ -88,6 +86,7 @@ public:
         EndOfMedia,
         InvalidMedia
     };
+    Q_ENUM(Status)
 
     enum Error {
         NoError,
@@ -97,6 +96,7 @@ public:
         AccessDeniedError,
         ServiceMissingError
     };
+    Q_ENUM(Error)
 
     explicit MediaPlayer(QObject *parent = nullptr);
 
@@ -145,7 +145,7 @@ Q_SIGNALS:
     void error(Error error, const QString &errorString);
 
 private Q_SLOTS:
-    void timerEvent();
+    void processTimer();
 
 private:
     QUrl m_source;

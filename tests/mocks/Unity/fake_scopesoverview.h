@@ -34,6 +34,8 @@ public:
     void setSearchQuery(const QString& search_query) override;
     Q_INVOKABLE void activate(QVariant const& result, QString const& categoryId) override;
 
+    using Scope::setFavorite;
+
     // This is implementation detail
     void setFavorite(Scope *scope, bool favorite);
     void moveFavoriteTo(Scope *scope, int index);
