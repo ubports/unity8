@@ -6,6 +6,8 @@ include_directories(
 
 add_definitions(-DCONFIG_TESTING)
 
+execute_process(COMMAND mktemp -d OUTPUT_VARIABLE TMPDIR)
+
 foreach(util_test
     QLimitProxyModel
     UnitySortFilterProxyModel
@@ -20,7 +22,7 @@ foreach(util_test
         DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Utils"
     )
     add_unity8_unittest(${util_test} ${util_test}TestExec ADD_TEST
-        ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/Utils XDG_CONFIG_HOME=${CMAKE_CURRENT_BINARY_DIR} HOME=${CMAKE_CURRENT_BINARY_DIR}
+        ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/Utils HOME=$TMPDIR
     )
 
 endforeach()
