@@ -76,6 +76,8 @@ public Q_SLOTS:
     void createInputMethodSurface();
 
 Q_SIGNALS:
+    void surfaceDestroyed(const QString& persistentSurfaceId);
+
     void newSurfaceMinimumWidthChanged(int value);
     void newSurfaceMaximumWidthChanged(int value);
     void newSurfaceMinimumHeightChanged(int value);
@@ -85,7 +87,7 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void onStateRequested(MirSurface *surface, Mir::State state);
-    void onSurfaceDestroyed(MirSurface *surface);
+    void onSurfaceDestroyed(MirSurface *surface, const QString& persistentId);
 
 private:
     void doRaise(unity::shell::application::MirSurfaceInterface *surface);

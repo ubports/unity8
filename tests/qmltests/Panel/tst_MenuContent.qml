@@ -20,7 +20,7 @@ import Unity.Test 0.1 as UT
 import "../../../qml/Panel"
 import Unity.Indicators 0.1 as Indicators
 
-IndicatorTest {
+PanelTest {
     id: root
     width: units.gu(40)
     height: units.gu(70)
@@ -31,8 +31,20 @@ IndicatorTest {
 
     MenuContent {
         id: menuContent
-        indicatorsModel: root.indicatorsModel
+        model: root.indicatorsModel
         height: parent.height - 50
+
+        pageDelegate: Rectangle {
+
+            function reset() {
+            }
+
+            Binding {
+                target: parent
+                property: "objectName"
+                value: modelData ? modelData.identifier : ""
+            }
+        }
     }
 
     Rectangle {

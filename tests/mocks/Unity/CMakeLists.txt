@@ -1,4 +1,5 @@
 add_subdirectory(Application)
+add_subdirectory(ApplicationMenu)
 add_subdirectory(Connectivity)
 add_subdirectory(Indicators)
 add_subdirectory(InputInfo)
@@ -6,6 +7,7 @@ add_subdirectory(Launcher)
 add_subdirectory(Notifications)
 add_subdirectory(DashCommunicator)
 add_subdirectory(Screens)
+add_subdirectory(Platform)
 
 pkg_search_module(GOBJECT gobject-2.0 REQUIRED)
 pkg_check_modules(SCOPES_API REQUIRED unity-shell-scopes=12)
@@ -67,4 +69,7 @@ target_link_libraries(FakeUnityQml
 
 qt5_use_modules(FakeUnityQml Qml)
 
+add_unity8_mock(Unity 0.2 Unity TARGETS FakeUnityQml)
+
+# and one copy in a separate directory for autopilot
 add_unity8_mock(Unity 0.2 Unity PREFIX scopefakes TARGETS FakeUnityQml)

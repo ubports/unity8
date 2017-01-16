@@ -55,6 +55,7 @@ public:
 protected:
     void componentComplete() override;
     void keyPressEvent(QKeyEvent * event) override;
+    void keyReleaseEvent(QKeyEvent * event) override;
 
 Q_SIGNALS:
     void shortcutChanged(const QVariant &shortcut);
@@ -62,6 +63,10 @@ Q_SIGNALS:
      * Emitted when a global keypress of @p shortcut is detected
      */
     void triggered(const QString &shortcut);
+    /**
+     * Emitted when a global keypress of @p shortcut is released
+     */
+    void released(const QString &shortcut);
     void activeChanged(bool active);
 
 private Q_SLOTS:
