@@ -321,39 +321,5 @@ PanelTest {
             indicatorsMenu.available = true;
             indicatorsMenu.hide();
         }
-
-        function test_keyboardNavigation_data() {
-            return [
-                {tag: "tab to start", doTab: false},
-                {tag: "no tab to start", doTab: true}
-            ]
-        }
-
-        function test_keyboardNavigation(data) {
-            var indicatorsBar = findChild(indicatorsMenu, "indicatorsBar");
-
-            indicatorsMenu.show();
-            indicatorsBar.setCurrentItemIndex(0);
-            tryCompare(indicatorsMenu, "fullyOpened", true);
-
-            if (data.doTab) {
-                keyClick(Qt.Key_Tab);
-            }
-
-            keyClick(Qt.Key_Right);
-            tryCompare(indicatorsBar, "currentItemIndex", 1);
-
-            keyClick(Qt.Key_Right);
-            tryCompare(indicatorsBar, "currentItemIndex", 2);
-
-            keyClick(Qt.Key_Left);
-            tryCompare(indicatorsBar, "currentItemIndex", 1);
-
-            keyClick(Qt.Key_Left);
-            tryCompare(indicatorsBar, "currentItemIndex", 0);
-
-            keyClick(Qt.Key_Escape);
-            tryCompare(indicatorsMenu, "fullyClosed", true);
-        }
     }
 }
