@@ -6,7 +6,7 @@ include_directories(
 
 add_definitions(-DCONFIG_TESTING)
 
-execute_process(COMMAND mktemp -d OUTPUT_VARIABLE TMPDIR)
+execute_process(COMMAND mktemp -d OUTPUT_VARIABLE TMPDIR OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 foreach(util_test
     QLimitProxyModel
@@ -22,7 +22,7 @@ foreach(util_test
         DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Utils"
     )
     add_unity8_unittest(${util_test} ${util_test}TestExec ADD_TEST
-        ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/Utils HOME=$TMPDIR
+        ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/Utils HOME=${TMPDIR}
     )
 
 endforeach()
