@@ -564,6 +564,7 @@ FocusScope {
             id: screensAndWorkspaces
             anchors { left: parent.left; top: parent.top; right: parent.right }
             height: parent.height / 3
+            background: root.background
         }
 
         Spread {

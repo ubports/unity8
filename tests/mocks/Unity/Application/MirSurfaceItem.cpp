@@ -185,8 +185,13 @@ void MirSurfaceItem::createQmlContentItem()
     m_qmlItem = qobject_cast<QQuickItem*>(m_qmlContentComponent->create());
     m_qmlItem->setParentItem(this);
 
-    m_qmlItem->setWidth(m_surfaceWidth);
-    m_qmlItem->setHeight(m_surfaceHeight);
+    if (m_fillMode == FillMode::Stretch) {
+        m_qmlItem->setWidth(width());
+        m_qmlItem->setHeight(height());
+    } else {
+        m_qmlItem->setWidth(m_surfaceWidth);
+        m_qmlItem->setHeight(m_surfaceHeight);
+    }
 
     setImplicitWidth(m_qmlItem->implicitWidth());
     setImplicitHeight(m_qmlItem->implicitHeight());
@@ -294,7 +299,11 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
         connect(m_qmlSurface, &MirSurface::liveChanged, this, &MirSurfaceItem::liveChanged);
         connect(m_qmlSurface, &MirSurface::stateChanged, this, &MirSurfaceItem::surfaceStateChanged);
         connect(m_qmlSurface, &MirSurface::sizeChanged, this, [this] () {
-            m_qmlItem->setSize(m_qmlSurface->size());
+            if (m_fillMode == FillMode::Stretch) {
+                m_qmlItem->setSize(QSize(this->width(), this->height()));
+            } else {
+                m_qmlItem->setSize(m_qmlSurface->size());
+            }
             setImplicitSize(m_qmlSurface->width(), m_qmlSurface->height());
         });
 
@@ -388,8 +397,13 @@ void MirSurfaceItem::updateSurfaceSize()
     if (m_qmlSurface && m_surfaceWidth > 0 && m_surfaceHeight > 0) {
         m_qmlSurface->resize(m_surfaceWidth, m_surfaceHeight);
         if (m_qmlItem) {
-            m_qmlItem->setWidth(m_surfaceWidth);
-            m_qmlItem->setHeight(m_surfaceHeight);
+            if (m_fillMode == FillMode::Stretch) {
+                m_qmlItem->setWidth(width());
+                m_qmlItem->setHeight(height());
+            } else {
+                m_qmlItem->setWidth(m_surfaceWidth);
+                m_qmlItem->setHeight(m_surfaceHeight);
+            }
         }
         qDebug() << this << "setting implicitsize" << m_surfaceWidth << m_surfaceHeight;
         setImplicitSize(m_surfaceWidth, m_surfaceHeight);

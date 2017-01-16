@@ -33,6 +33,11 @@ Screens::Screens(QObject *parent) :
     for (int i = 0; i < screenCount; ++i) {
         auto screen = new Screen();
         screen->enabled = i == 0;
+        if (i == 0) {
+            screen->outputTypes = OutputTypes::LVDS;
+        } else {
+            screen->outputTypes = OutputTypes::HDMIA;
+        }
         screen->name = QString("Monitor %1").arg(i);
         screen->sizes = { QSize(640,480), QSize(1024,748), QSize(1280,1024), QSize(1440,900), QSize(1920,1080) };
         screen->geometry = QRect(lastPoint.x(), lastPoint.y(), 1024, 786 );
@@ -70,7 +75,6 @@ QVariant Screens::data(const QModelIndex &index, int role) const
 
     switch(role) {
     case ScreenRole:
-        qDebug() << "returning" << m_screenList.at(index.row())->qScreen;
         return QVariant::fromValue(m_screenList.at(index.row())->qScreen);
     case OutputTypeRole:
         return m_screenList.at(index.row())->outputTypes;

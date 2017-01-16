@@ -6,9 +6,7 @@ import ".."
 
 Item {
     id: root
-
-
-    Rectangle { anchors.fill: parent; color: "blue"; opacity: .3 }
+    property string background
 
     Row {
         anchors.bottom: parent.bottom
@@ -21,6 +19,7 @@ Item {
 
             delegate: WorkspacePreview {
                 height: root.height - units.gu(6)
+                background: root.background
             }
         }
     }
