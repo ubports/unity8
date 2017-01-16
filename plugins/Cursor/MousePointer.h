@@ -93,4 +93,3 @@ private:
 };
 
 #endif // MOUSEPOINTER_H
-
