@@ -62,13 +62,13 @@ add_custom_target(cppcheck COMMAND cppcheck --enable=all -q --error-exitcode=2
                                        ${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/tests)
 
 include(FindPkgConfig)
-find_package(Qt5Core 5.4 REQUIRED)
-find_package(Qt5Qml 5.4 REQUIRED)
-find_package(Qt5Quick 5.4 REQUIRED)
-find_package(Qt5Gui 5.4 REQUIRED)
-find_package(Qt5DBus 5.4 REQUIRED)
-find_package(Qt5Concurrent 5.4 REQUIRED)
-find_package(Qt5Sql 5.4 REQUIRED)
+find_package(Qt5Core 5.6 REQUIRED)
+find_package(Qt5Qml 5.6 REQUIRED)
+find_package(Qt5Quick 5.6 REQUIRED)
+find_package(Qt5Gui 5.6 REQUIRED)
+find_package(Qt5DBus 5.6 REQUIRED)
+find_package(Qt5Concurrent 5.6 REQUIRED)
+find_package(Qt5Sql 5.6 REQUIRED)
 
 pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=23)
 pkg_check_modules(GEONAMES REQUIRED geonames>=0.2)
@@ -150,8 +150,6 @@ include_directories(
     ${CMAKE_BINARY_DIR}/include
     ${APPLICATION_API_INCLUDE_DIRS}
 )
-
-set(ARTIFACTS_DIR "" CACHE PATH "Store test artifacts in this directory.")
 
 # Quiet logger
 set(QUIET_LOGGER OFF CACHE BOOL "Disable test output on stdout.")

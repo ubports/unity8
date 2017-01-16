@@ -46,18 +46,18 @@ class Q_DECL_EXPORT Greeter : public QObject
     Q_PROPERTY(QString hostname READ hostname CONSTANT)
     Q_PROPERTY(bool hasGuestAccount READ hasGuestAccountHint CONSTANT)
 
-    Q_ENUMS(PromptType MessageType)
-
 public:
     enum PromptType {
         PromptTypeQuestion,
         PromptTypeSecret
     };
+    Q_ENUM(PromptType)
 
     enum MessageType {
         MessageTypeInfo,
         MessageTypeError
     };
+    Q_ENUM(MessageType)
 
     explicit Greeter(QObject* parent=0);
     virtual ~Greeter();

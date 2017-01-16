@@ -67,7 +67,6 @@ Loader {
             case "icon-actions": return "PreviewIconActions.qml";
             case "image": return "PreviewZoomableImage.qml";
             case "progress": return "PreviewProgress.qml";
-            case "payments": return "PreviewPayments.qml";
             case "rating-input": return "PreviewRatingInput.qml";
             case "rating-edit": return "PreviewRatingEdit.qml";
             case "reviews": return "PreviewRatingDisplay.qml";

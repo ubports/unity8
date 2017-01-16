@@ -52,7 +52,7 @@ MockAppDrawerModel::MockAppDrawerModel(QObject *parent):
     qsrand(QDateTime::currentMSecsSinceEpoch() / 1000);
 }
 
-int MockAppDrawerModel::rowCount(const QModelIndex &parent) const
+int MockAppDrawerModel::rowCount(const QModelIndex & /*parent*/) const
 {
     return m_list.count();
 }
