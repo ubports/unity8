@@ -22,6 +22,8 @@
 #include <QDebug>
 #include <QTemporaryFile>
 
+#include <paths.h>
+
 class CardCreatorTest : public QObject
 {
     Q_OBJECT
@@ -35,7 +37,10 @@ private Q_SLOTS:
     void init()
     {
         view = new QQuickView();
-        view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/cardcreatortest.qml"));
+        if (isRunningInstalled())
+            view->setSource(QUrl::fromLocalFile(testLibDir() + "/" TEST_DIR "/cardcreatortest.qml"));
+        else
+            view->setSource(QUrl::fromLocalFile(testDataDir() + "/" TEST_DIR "/cardcreatortest.qml"));
         view->show();
         QTest::qWaitForWindowExposed(view);
     }
@@ -76,7 +81,7 @@ private Q_SLOTS:
         const QString artShapeStyleString("artShapeStyle: ");
         const QString resultString("result: ");
 
-        const QString testDirPath = DASHVIEWSTEST_FOLDER "/cardcreator/";
+        const QString testDirPath = testDataDir() + "/" TEST_DIR "/cardcreator/";
         QDir d(testDirPath);
         const QStringList testFiles = d.entryList(QStringList() << "*.tst");
         foreach(const QString &testFileName, testFiles) {

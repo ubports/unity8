@@ -34,8 +34,6 @@ UsersModel::UsersModel(QObject *parent) :
     QAbstractListModel(parent),
     d_ptr(new UsersModelPrivate(this))
 {
-    Q_D(UsersModel);
-
     // Extend roleNames (we want to keep the "display" role)
     QHash<int, QByteArray> roles = roleNames();
     roles[NameRole] = "name";

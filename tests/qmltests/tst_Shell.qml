@@ -24,6 +24,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
+import Unity.ApplicationMenu 0.1
 import Unity.Connectivity 0.1
 import Unity.Indicators 0.1
 import Unity.Notifications 1.0
@@ -32,6 +33,7 @@ import Unity.Test 0.1
 import Powerd 0.1
 import Wizard 0.1 as Wizard
 import Utils 0.1
+import Unity.Indicators 0.1 as Indicators
 
 import "../../qml"
 import "../../qml/Components"
@@ -51,12 +53,18 @@ Rectangle {
         shellLoader.active = true;
     }
 
+    ApplicationMenuDataLoader {
+        id: appMenuData
+    }
+
     property var shell: shellLoader.item ? shellLoader.item : null
     onShellChanged: {
         if (shell) {
             topLevelSurfaceList = testCase.findInvisibleChild(shell, "topLevelSurfaceList");
+            appMenuData.surfaceManager = testCase.findInvisibleChild(shell, "surfaceManager");
         } else {
             topLevelSurfaceList = null;
+            appMenuData.surfaceManager = null;
         }
     }
 
@@ -727,8 +735,8 @@ Rectangle {
                 hints: {"x-canonical-private-affirmative-tint": "true"},
                 summary: "Tom Ato",
                 body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
-                icon: "../../tests/graphics/avatars/funky.png",
-                secondaryIcon: "../../tests/graphics/applicationIcons/facebook.png",
+                icon: Qt.resolvedUrl("../graphics/avatars/funky.png"),
+                secondaryIcon: Qt.resolvedUrl("../graphics/applicationIcons/facebook.png"),
                 actions: [{ id: "ok_id", label: "Ok"},
                     { id: "cancel_id", label: "Cancel"},
                     { id: "notreally_id", label: "Not really"},
@@ -1878,21 +1886,21 @@ Rectangle {
             var maximizeButton = findChild(appDelegate, "maximizeWindowButton");
 
             tryCompare(appDelegate, "state", "normal");
-            tryCompare(PanelState, "buttonsVisible", false)
+            tryCompare(PanelState, "decorationsVisible", false)
 
             mouseClick(maximizeButton, maximizeButton.width / 2, maximizeButton.height / 2);
             tryCompare(appDelegate, "state", "maximized");
-            tryCompare(PanelState, "buttonsVisible", true)
+            tryCompare(PanelState, "decorationsVisible", true)
 
             ApplicationManager.stopApplication(application.appId);
-            tryCompare(PanelState, "buttonsVisible", false)
+            tryCompare(PanelState, "decorationsVisible", false)
 
             // wait until all zombie surfaces are gone. As MirSurfaceItems hold references over them.
             // They won't be gone until those surface items are destroyed.
             tryCompareFunction(function() { return application.surfaceList.count }, 0);
 
             ApplicationManager.startApplication(application.appId);
-            tryCompare(PanelState, "buttonsVisible", true)
+            tryCompare(PanelState, "decorationsVisible", true)
         }
 
         function test_newAppHasValidGeometry() {
@@ -1913,6 +1921,7 @@ Rectangle {
             var appRepeater = findChild(shell, "appRepeater")
             var appDelegate = appRepeater.itemAt(0);
             var panelButtons = findChild(shell, "panelWindowControlButtons")
+            verify(panelButtons)
 
             tryCompare(appDelegate, "state", "normal");
             tryCompare(panelButtons, "visible", false);
@@ -2547,7 +2556,7 @@ Rectangle {
 
             tryCompare(appDelegate, "state", "maximized");
 
-            mouseDrag(panel, panel.width/3, panel.height/2, 0, shell.height/3, Qt.LeftButton, Qt.NoModifier, 500);
+            mouseDrag(panel, panel.width/2, panel.height/2, 0, shell.height/3, Qt.LeftButton, Qt.NoModifier, 500);
             tryCompare(appDelegate, "state", "restored");
         }
 
@@ -2743,6 +2752,26 @@ Rectangle {
             keyPress(Qt.Key_W, Qt.MetaModifier)
             tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
             keyRelease(Qt.Key_W, Qt.MetaModifier)
+        }
+
+        function test_panelTitleShowsWhenGreeterNotShown_data() {
+            return [
+                {tag: "phone" },
+                {tag: "tablet" },
+                {tag: "desktop" }
+            ]
+        }
+
+        function test_panelTitleShowsWhenGreeterNotShown(data) {
+            loadShell(data.tag);
+
+            var panel = findChild(shell, "panel"); verify(panel);
+            var panelTitle = findChild(panel.applicationMenus, "panelTitle"); verify(panelTitle);
+            compare(panelTitle.visible, false, "Panel title should not be visible when greeter is shown");
+
+            swipeAwayGreeter();
+
+            tryCompare(panelTitle, "visible", true, undefined, "Panel title should be visible when greeter not shown");
         }
     }
 }

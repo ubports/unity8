@@ -20,6 +20,5 @@ target_link_libraries(MockAccountsService-qml
     )
 
 add_unity8_mock(AccountsService 0.1 AccountsService
-    PREFIX mocks
     TARGETS MockAccountsService-qml
     )

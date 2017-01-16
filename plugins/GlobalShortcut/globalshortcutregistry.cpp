@@ -73,20 +73,30 @@ bool GlobalShortcutRegistry::eventFilter(QObject *obj, QEvent *event)
     Q_ASSERT(m_filteredWindow);
     Q_ASSERT(obj == static_cast<QObject*>(m_filteredWindow.data()));
 
-    if (event->type() == QEvent::KeyPress) {
+    if (event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease) {
+
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+
+        // Make a copy of the event so we don't alter it for passing on.
+        QKeyEvent eCopy(keyEvent->type(),
+                        keyEvent->key(),
+                        keyEvent->modifiers(),
+                        keyEvent->text(),
+                        keyEvent->isAutoRepeat(),
+                        keyEvent->count());
+        eCopy.ignore();
+
         int seq = keyEvent->key() + keyEvent->modifiers();
         if (m_shortcuts.contains(seq)) {
             const auto shortcuts = m_shortcuts.value(seq);
             Q_FOREACH(const auto &shortcut, shortcuts) {
                 if (shortcut) {
-                    qApp->sendEvent(shortcut, keyEvent);
-                    event->accept();
+                    qApp->sendEvent(shortcut, &eCopy);
                 }
             }
         }
 
-        return event->isAccepted();
+        return eCopy.isAccepted();
     }
 
     return QObject::eventFilter(obj, event);
