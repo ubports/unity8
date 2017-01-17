@@ -340,7 +340,7 @@ StyledItem {
             onStatusChanged: {
                 if (status !== TouchGestureArea.Recognized) {
                     if (status === TouchGestureArea.WaitingForTouch) {
-                        if (wasPressed) {
+                        if (wasPressed && !dragging) {
                             launcher.openDrawer(true);
                         }
                     }
