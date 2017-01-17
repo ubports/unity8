@@ -326,9 +326,25 @@ StyledItem {
             minimumTouchPoints: 4
             maximumTouchPoints: minimumTouchPoints
 
+            readonly property bool recognisedPress: status == TouchGestureArea.Recognized &&
+                                                    touchPoints.length >= minimumTouchPoints &&
+                                                    touchPoints.length <= maximumTouchPoints
+            property bool wasPressed: false
+
+            onRecognisedPressChanged: {
+                if (recognisedPress) {
+                    wasPressed = true;
+                }
+            }
+
             onStatusChanged: {
-                if (status == TouchGestureArea.Recognized) {
-                    launcher.openDrawer(true);
+                if (status !== TouchGestureArea.Recognized) {
+                    if (status === TouchGestureArea.WaitingForTouch) {
+                        if (wasPressed) {
+                            launcher.openDrawer(true);
+                        }
+                    }
+                    wasPressed = false;
                 }
             }
         }
