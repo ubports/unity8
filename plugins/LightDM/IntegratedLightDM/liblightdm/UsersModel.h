@@ -37,8 +37,6 @@ class Q_DECL_EXPORT UsersModel : public QAbstractListModel
 {
     Q_OBJECT
 
-    Q_ENUMS(UserModelRoles)
-
 public:
     explicit UsersModel(QObject *parent = 0);
     virtual ~UsersModel() = default;
@@ -53,6 +51,7 @@ public:
                          BackgroundPathRole,
                          UidRole
     };
+    Q_ENUM(UserModelRoles)
 
     int rowCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;

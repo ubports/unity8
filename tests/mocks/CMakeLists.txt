@@ -11,21 +11,20 @@ macro(add_unity8_mock PLUGIN VERSION PATH)
     set(single PREFIX)
     cmake_parse_arguments(MOCK "" "${single}" "" ${ARGN})
 
-    if(MOCK_PREFIX)
-        export_qmlfiles(${PLUGIN} ${PATH}
-            DESTINATION ${SHELL_INSTALL_QML}/${MOCK_PREFIX}
-            TARGET_PREFIX ${MOCK_PREFIX}-Mock
-            ${MOCK_UNPARSED_ARGUMENTS}
-        )
-        export_qmlplugin(${PLUGIN} ${VERSION} ${PATH}
-            DESTINATION ${SHELL_INSTALL_QML}/${MOCK_PREFIX}
-            TARGET_PREFIX ${MOCK_PREFIX}-Mock
-            ${MOCK_UNPARSED_ARGUMENTS}
-        )
-    else()
-        export_qmlfiles(${PLUGIN} ${PATH} TARGET_PREFIX Mock ${MOCK_UNPARSED_ARGUMENTS})
-        export_qmlplugin(${PLUGIN} ${VERSION} ${PATH} TARGET_PREFIX Mock ${MOCK_UNPARSED_ARGUMENTS})
+    if (NOT MOCK_PREFIX)
+        set(MOCK_PREFIX mocks)
     endif()
+
+    export_qmlfiles(${PLUGIN} ${PATH}
+        DESTINATION ${SHELL_INSTALL_QML}/${MOCK_PREFIX}
+        TARGET_PREFIX ${MOCK_PREFIX}-Mock
+        ${MOCK_UNPARSED_ARGUMENTS}
+    )
+    export_qmlplugin(${PLUGIN} ${VERSION} ${PATH}
+        DESTINATION ${SHELL_INSTALL_QML}/${MOCK_PREFIX}
+        TARGET_PREFIX ${MOCK_PREFIX}-Mock
+        ${MOCK_UNPARSED_ARGUMENTS}
+    )
 endmacro()
 
 add_subdirectory(AccountsService)

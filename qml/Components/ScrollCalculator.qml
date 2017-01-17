@@ -22,6 +22,7 @@ Item {
 
     readonly property bool areaActive: lateralPosition >= 0
     property real stopScrollThreshold: units.gu(2)
+    property real progressThreshold: units.dp(4)
     property int direction: Qt.LeftToRight
     property real baseScrollAmount: units.dp(3)
     property real maximumScrollAmount: units.dp(8)
@@ -38,6 +39,11 @@ Item {
     function handleEnter() {
         d.thresholdAreaX = -scrollArea.stopScrollThreshold;
         scrollTimer.restart();
+        d.init = true;
+        d.passedProgressThreshold = false;
+
+        d.progression = 0;
+        d.startingProgression = 0;
     }
 
     function handleExit() {
@@ -59,6 +65,10 @@ Item {
             }
 
             d.progression = lateralPosition / width;
+            if (d.init) {
+                d.startingProgression = d.progression;
+                d.init = false;
+            }
         }
     }
 
@@ -68,14 +78,23 @@ Item {
         repeat: true
 
         onTriggered: {
-            var scrollAmount = scrollArea.baseScrollAmount + scrollArea.maximumScrollAmount * d.progression;
-            scrollArea.scroll(scrollAmount);
+            if (d.passedProgressThreshold ||
+                Math.abs(d.progression - d.startingProgression) * scrollArea.width > scrollArea.progressThreshold) {
+                d.passedProgressThreshold = true;
+
+                var scrollAmount = scrollArea.baseScrollAmount + scrollArea.maximumScrollAmount * d.progression;
+                scrollArea.scroll(scrollAmount);
+            }
         }
     }
 
     QtObject {
         id: d
+        property real startingProgression: 0
+        property bool init: true
+
         property real progression: 0
         property real thresholdAreaX: -scrollArea.stopScrollThreshold
+        property bool passedProgressThreshold: false
     }
 }

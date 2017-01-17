@@ -23,8 +23,6 @@ using namespace unity::shell::launcher;
 class AppDrawerProxyModel: public QSortFilterProxyModel
 {
     Q_OBJECT
-    Q_ENUMS(GroupBy)
-    Q_ENUMS(SortBy)
     Q_PROPERTY(QAbstractItemModel* source READ source WRITE setSource NOTIFY sourceChanged)
     Q_PROPERTY(GroupBy group READ group WRITE setGroup NOTIFY groupChanged)
     Q_PROPERTY(QString filterLetter READ filterLetter WRITE setFilterLetter NOTIFY filterLetterChanged)
@@ -38,10 +36,12 @@ public:
         GroupByAll,
         GroupByAToZ
     };
+    Q_ENUM(GroupBy)
     enum SortBy {
         SortByAToZ,
         SortByUsage
     };
+    Q_ENUM(SortBy)
 
     AppDrawerProxyModel(QObject* parent = nullptr);
 

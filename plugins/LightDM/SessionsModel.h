@@ -27,8 +27,6 @@ class SessionsModel : public UnitySortFilterProxyModelQML
 {
     Q_OBJECT
 
-    Q_ENUMS(SessionModelRoles)
-
     Q_PROPERTY(QList<QUrl> iconSearchDirectories READ iconSearchDirectories
             WRITE setIconSearchDirectories NOTIFY iconSearchDirectoriesChanged)
 
@@ -45,6 +43,7 @@ public:
         TypeRole = QLightDM::SessionsModel::SessionModelRoles::TypeRole,
         IconRole
     };
+    Q_ENUM(SessionModelRoles)
 
     explicit SessionsModel(QObject* parent=nullptr);
 

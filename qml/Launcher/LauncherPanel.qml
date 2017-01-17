@@ -145,19 +145,23 @@ Rectangle {
                     // destroyed when dragging them outside the list. This needs to be at least
                     // itemHeight to prevent folded items from disappearing and DragArea limits
                     // need to be smaller than this size to avoid breakage.
-                    property int extensionSize: 0
+                    property int extensionSize: itemHeight * 3
 
-                    // Setting extensionSize after the list has been populated because it has
-                    // the potential to mess up with the intial positioning in combination
-                    // with snapping to the center of the list. This catches all the cases
-                    // where the item would be outside the list for more than itemHeight / 2.
-                    // For the rest, give it a flick to scroll to the beginning. Note that
-                    // the flicking alone isn't enough because in some cases it's not strong
-                    // enough to overcome the snapping.
+                    // Workaround: The snap settings in the launcher, will always try to
+                    // snap to what we told it to do. However, we want the initial position
+                    // of the launcher to not be centered, but instead start with the topmost
+                    // item unfolded completely. Lets wait for the ListView to settle after
+                    // creation and then reposition it to 0.
                     // https://bugreports.qt-project.org/browse/QTBUG-32251
                     Component.onCompleted: {
-                        extensionSize = itemHeight * 3
-                        flick(0, clickFlickSpeed)
+                        initTimer.start();
+                    }
+                    Timer {
+                        id: initTimer
+                        interval: 1
+                        onTriggered: {
+                            launcherListView.moveToIndex(0)
+                        }
                     }
 
                     // The height of the area where icons start getting folded
@@ -417,7 +421,18 @@ Rectangle {
                         property int startX
                         property int startY
 
+                        // This is a workaround for some issue in the QML ListView:
+                        // When calling moveToItem(0), the listview visually positions itself
+                        // correctly to display the first item expanded. However, some internal
+                        // state seems to not be valid, and the next time the user clicks on it,
+                        // it snaps back to the snap boundries before executing the onClicked handler.
+                        // This can cause the listview getting stuck in a snapped position where you can't
+                        // launch things without first dragging the launcher manually. So lets read the item
+                        // angle before that happens and use that angle instead of the one we get in onClicked.
+                        property real pressedStartAngle: 0
                         onPressed: {
+                            var clickedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
+                            pressedStartAngle = clickedItem.angle;
                             processPress(mouse);
                         }
 
@@ -444,9 +459,8 @@ Rectangle {
 
                             // First/last item do the scrolling at more than 12 degrees
                             if (index == 0 || index == launcherListView.count - 1) {
-                                if (clickedItem.angle > 12 || clickedItem.angle < -12) {
-                                    launcherListView.moveToIndex(index);
-                                } else {
+                                launcherListView.moveToIndex(index);
+                                if (pressedStartAngle <= 12 && pressedStartAngle >= -12) {
                                     root.applicationSelected(LauncherModel.get(index).appId);
                                 }
                                 return;

@@ -36,6 +36,7 @@ class UserMetricsPrivate;
 
 class Q_DECL_EXPORT UserMetricsData: public QObject
 {
+    Q_OBJECT
 public:
     explicit UserMetricsData(QObject *parent);
 
@@ -64,6 +65,7 @@ private:
 
 class UserMetricsPrivate: QObject
 {
+    Q_OBJECT
 public:
     explicit UserMetricsPrivate(UserMetrics *parent);
 
@@ -106,6 +108,7 @@ private:
 
 class UserMetricsDataPrivate: QObject
 {
+    Q_OBJECT
 public:
     explicit UserMetricsDataPrivate(UserMetricsData *parent);
 
@@ -492,3 +495,5 @@ UserMetrics * UserMetrics::getInstance()
 {
     return new UserMetrics();
 }
+
+#include "UserMetrics.moc"

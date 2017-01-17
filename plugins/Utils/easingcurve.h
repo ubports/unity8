@@ -36,7 +36,6 @@
 class EasingCurve: public QObject
 {
     Q_OBJECT
-    Q_ENUMS(QEasingCurve::Type)
     Q_PROPERTY(QEasingCurve::Type type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(qreal period READ period WRITE setPeriod NOTIFY periodChanged)
     Q_PROPERTY(qreal progress READ progress WRITE setProgress NOTIFY progressChanged)

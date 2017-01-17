@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,9 +22,10 @@
 
 static QObject *mock_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
-    Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
-    return QLightDM::MockController::instance();
+    auto controller = QLightDM::MockController::instance();
+    engine->setObjectOwnership(controller, QQmlEngine::CppOwnership);
+    return controller;
 }
 
 void LightDMControllerPlugin::registerTypes(const char *uri)
