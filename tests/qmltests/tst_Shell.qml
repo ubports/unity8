@@ -864,15 +864,13 @@ Rectangle {
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "fullyShown", true);
 
-            var passwordInput = findChild(shell, "greeterPrompt0");
-
-            var promptButton = findChild(passwordInput, "promptButton");
+            var promptButton = findChild(greeter, "promptButton");
             tryCompare(promptButton, "visible", isButton);
 
-            var promptField = findChild(passwordInput, "promptField");
+            var promptField = findChild(greeter, "promptField");
             tryCompare(promptField, "visible", !isButton);
 
-            mouseClick(passwordInput)
+            mouseClick(promptButton);
         }
 
         function confirmLoggedIn(loggedIn) {
@@ -1475,7 +1473,7 @@ Rectangle {
             confirmLoggedIn(data.loggedIn)
 
             if (data.passwordFocus) {
-                var passwordInput = findChild(greeter, "greeterPrompt0");
+                var passwordInput = findChild(greeter, "promptField");
                 tryCompare(passwordInput, "focus", true)
             }
         }
