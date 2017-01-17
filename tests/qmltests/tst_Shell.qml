@@ -825,13 +825,15 @@ Rectangle {
                 keyClick(Qt.Key_Escape) // Reset state if we're not moving
             while (userlist.currentIndex != i) {
                 var next = userlist.currentIndex + 1
+                var key = Qt.Key_Down;
                 if (userlist.currentIndex > i) {
                     next = userlist.currentIndex - 1
+                    key = Qt.Key_Up;
                 }
-                tap(findChild(greeter, "username"+next));
+                keyPress(key);
                 tryCompare(userlist, "currentIndex", next)
-                tryCompare(userlist, "movingInternally", false)
             }
+            tryCompare(userlist, "movingInternally", false);
             tryCompare(shell, "waitingOnGreeter", false); // wait for PAM to settle
         }
 
@@ -854,7 +856,7 @@ Rectangle {
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "fullyShown", true);
 
-            var passwordInput = findChild(shell, "passwordInput");
+            var passwordInput = findChild(shell, "greeterPrompt0");
 
             var promptButton = findChild(passwordInput, "promptButton");
             tryCompare(promptButton, "visible", isButton);
@@ -1465,7 +1467,7 @@ Rectangle {
             confirmLoggedIn(data.loggedIn)
 
             if (data.passwordFocus) {
-                var passwordInput = findChild(greeter, "passwordInput")
+                var passwordInput = findChild(greeter, "greeterPrompt0");
                 tryCompare(passwordInput, "focus", true)
             }
         }

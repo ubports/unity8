@@ -292,6 +292,7 @@ StyledItem {
 
     WrongPasswordAnimation {
         id: wrongPasswordAnimation
+        objectName: "wrongPasswordAnimation"
         target: promptList
     }
 }
