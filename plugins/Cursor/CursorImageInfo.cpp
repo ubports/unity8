@@ -108,8 +108,7 @@ int CursorImageInfo::frameDuration() const
 QUrl CursorImageInfo::imageSource() const
 {
     auto urlString = QString("image://cursor/%1/%2/%3")
-        .arg(m_themeName)
-        .arg(m_cursorName)
+        .arg(m_themeName, m_cursorName)
         .arg(m_cursorHeight);
 
     return QUrl(urlString);

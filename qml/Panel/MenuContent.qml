@@ -25,8 +25,10 @@ import "Indicators"
 Rectangle {
     id: content
 
-    property QtObject indicatorsModel: null
+    property QtObject model: null
     property int currentMenuIndex: -1
+    property Component pageDelegate
+
     color: theme.palette.normal.background
 
     width: units.gu(40)
@@ -40,7 +42,7 @@ Rectangle {
         id: listViewContent
         objectName: "indicatorsContentListView"
         anchors.fill: parent
-        model: content.indicatorsModel
+        model: content.model
 
         highlightFollowsCurrentItem: true
         interactive: false
@@ -59,18 +61,13 @@ Rectangle {
 
             width: ListView.view.width
             height: ListView.view.height
-            objectName: identifier
             asynchronous: true
             visible: ListView.isCurrentItem
 
-            sourceComponent: IndicatorPage {
-                objectName: identifier + "-page"
+            property var modelData: model
+            property var modelIndex: index
 
-                identifier: model.identifier
-                busName: indicatorProperties.busName
-                actionsObjectPath: indicatorProperties.actionsObjectPath
-                menuObjectPath: indicatorProperties.menuObjectPath
-            }
+            sourceComponent: pageDelegate
 
             onVisibleChanged: {
                 // Reset the indicator states

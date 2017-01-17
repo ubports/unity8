@@ -30,6 +30,7 @@
 #include <paths.h>
 
 class HeightModel : public QAbstractListModel {
+    Q_OBJECT
 public:
     QHash<int, QByteArray> roleNames() const override
     {
@@ -102,7 +103,7 @@ private:
         QTRY_COMPARE(item.m_modelIndex, modelIndex);
         QTRY_COMPARE(item.x(), x);
         QTRY_COMPARE(item.y(), y);
-        QTRY_COMPARE(item.height(), model->stringList()[modelIndex].toDouble());
+        QTRY_COMPARE(item.height(), model->stringList().at(modelIndex).toDouble());
         QTRY_COMPARE(QQuickItemPrivate::get(item.m_item)->culled, !visible);
     }
 

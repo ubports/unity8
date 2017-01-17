@@ -19,6 +19,8 @@ import QtTest 1.0
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
 import Unity.Application 0.1
+import Unity.ApplicationMenu 0.1
+import Unity.Indicators 0.1 as Indicators
 import Unity.Test 0.1
 import Utils 0.1
 import WindowManager 1.0
@@ -42,6 +44,7 @@ Item {
     }
 
     Component.onCompleted: {
+        QuickUtils.keyboardAttached = true;
         theme.name = "Ubuntu.Components.Themes.SuruDark";
         resetGeometry();
     }
@@ -58,6 +61,11 @@ Item {
     }
 
     SurfaceManager { id: sMgr }
+    ApplicationMenuDataLoader {
+        id: appMenuData
+        surfaceManager: sMgr
+    }
+
     TopLevelWindowModel {
         id: topSurfaceList
         applicationManager: ApplicationManager
@@ -93,13 +101,6 @@ Item {
                 interactive: true
                 mode: "windowed"
             }
-        }
-
-        MouseArea {
-            id: clickThroughTester
-            anchors.fill: stageLoader.item
-            acceptedButtons: Qt.AllButtons
-            hoverEnabled: true
         }
     }
 
@@ -152,11 +153,6 @@ Item {
         }
     }
 
-    SignalSpy {
-        id: mouseEaterSpy
-        target: clickThroughTester
-    }
-
     StageTestCase {
         id: testCase
         name: "DesktopStage"
@@ -197,8 +193,6 @@ Item {
 
             stageLoader.active = true;
             tryCompare(stageLoader, "status", Loader.Ready);
-
-            mouseEaterSpy.clear();
         }
 
         function maximizeAppDelegate(appDelegate) {
@@ -662,6 +656,23 @@ Item {
                 tryCompare(overlay, "visible", false);
             }
         }
+
+        function test_windowControlsOverlayMaximizeButtonReachable() {
+            var facebookAppDelegate = startApplication("facebook-webapp");
+            verify(facebookAppDelegate);
+            var overlay = findChild(facebookAppDelegate, "windowControlsOverlay");
+            verify(overlay);
+
+            multiTouchTap([0, 1, 2], facebookAppDelegate);
+            tryCompare(overlay, "visible", true);
+
+            var maxButton = findChild(facebookAppDelegate, "maximizeWindowButton");
+            tryCompare(maxButton, "visible", true);
+            wait(700); // there's a lot of behaviors on different decoration elements, make sure they're all settled
+            mouseClick(maxButton);
+            tryCompare(facebookAppDelegate, "maximized", true);
+        }
+
         function test_dashHasNoCloseButton() {
             var dashAppDelegate = startApplication("unity8-dash");
             verify(dashAppDelegate);
@@ -709,41 +720,11 @@ Item {
 
             var posBefore = Qt.point(appDelegate.x, appDelegate.y);
 
-            mousePress(appDelegate, appDelegate.width / 2, units.gu(1), data.button);
-            mouseMove(appDelegate, appDelegate.width / 2, -units.gu(100), undefined /* delay */, data.button);
+            mouseDrag(appDelegate, appDelegate.width / 2, units.gu(1), 0, appDelegate.height / 2, data.button, Qt.NoModifier, 200)
 
             var posAfter = Qt.point(appDelegate.x, appDelegate.y);
 
             tryCompareFunction(function(){return posBefore == posAfter;}, data.button !== Qt.LeftButton ? true : false);
-        }
-
-        function test_eatWindowDecorationMouseEvents_data() {
-            return [
-                {tag: "left mouse click", signalName: "clicked", button: Qt.LeftButton },
-                {tag: "right mouse click", signalName: "clicked", button: Qt.RightButton },
-                {tag: "middle mouse click", signalName: "clicked", button: Qt.MiddleButton },
-                {tag: "mouse wheel", signalName: "wheel", button: Qt.MiddleButton },
-                {tag: "double click (RMB)", signalName: "doubleClicked", button: Qt.RightButton },
-            ]
-        }
-
-        function test_eatWindowDecorationMouseEvents(data) {
-            var dialerAppDelegate = startApplication("dialer-app");
-            verify(dialerAppDelegate);
-            var decoration = findChild(dialerAppDelegate, "appWindowDecoration");
-            verify(decoration);
-
-            mouseEaterSpy.signalName = data.signalName;
-            if (data.signalName === "wheel") {
-                mouseWheel(decoration, decoration.width/2, decoration.height/2, 20, 20);
-            } else if (data.signalName === "clicked") {
-                mouseClick(decoration, decoration.width/2, decoration.height/2, data.button);
-            } else {
-                mouseDoubleClick(decoration, decoration.width/2, decoration.height/2, data.button);
-                tryCompare(dialerAppDelegate, "maximized", false);
-            }
-
-            tryCompare(mouseEaterSpy, "count", 0);
         }
 
         // regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1627281

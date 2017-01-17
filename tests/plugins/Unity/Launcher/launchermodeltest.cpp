@@ -102,7 +102,7 @@ public:
         }
         return nullptr;
     }
-    unityapi::ApplicationInfoInterface *findApplicationWithSurface(unityapi::MirSurfaceInterface* surface) const override {
+    unityapi::ApplicationInfoInterface *findApplicationWithSurface(unityapi::MirSurfaceInterface* /*surface*/) const override {
         return nullptr;
     }
     unity::shell::application::ApplicationInfoInterface *startApplication(const QString &, const QStringList &) override { return nullptr; }
@@ -518,14 +518,14 @@ private Q_SLOTS:
         QCOMPARE(spy.count(), 2);
 
         QVariantList countEmissionArgs = spy.takeFirst();
-        QCOMPARE(countEmissionArgs.at(0).value<QModelIndex>().row(), index);
-        QCOMPARE(countEmissionArgs.at(1).value<QModelIndex>().row(), index);
+        QCOMPARE(countEmissionArgs.at(0).toModelIndex().row(), index);
+        QCOMPARE(countEmissionArgs.at(1).toModelIndex().row(), index);
         QVector<int> roles = countEmissionArgs.at(2).value<QVector<int> >();
         QCOMPARE(roles.first(), (int)LauncherModel::RoleCount);
 
         QVariantList countVisibleEmissionArgs = spy.takeFirst();
-        QCOMPARE(countVisibleEmissionArgs.at(0).value<QModelIndex>().row(), index);
-        QCOMPARE(countVisibleEmissionArgs.at(1).value<QModelIndex>().row(), index);
+        QCOMPARE(countVisibleEmissionArgs.at(0).toModelIndex().row(), index);
+        QCOMPARE(countVisibleEmissionArgs.at(1).toModelIndex().row(), index);
         roles = countVisibleEmissionArgs.at(2).value<QVector<int> >();
         QVERIFY(roles.contains(LauncherModel::RoleCountVisible));
         QVERIFY(roles.contains(LauncherModel::RoleAlerting));

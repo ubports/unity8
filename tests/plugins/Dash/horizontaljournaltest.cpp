@@ -30,6 +30,7 @@
 #include <paths.h>
 
 class WidthModel : public QAbstractListModel {
+    Q_OBJECT
 public:
     QHash<int, QByteArray> roleNames() const override
     {
@@ -87,7 +88,7 @@ private:
     {
         QTRY_COMPARE(item->x(), x);
         QTRY_COMPARE(item->y(), y);
-        QTRY_COMPARE(item->width(), model->stringList()[modelIndex].toDouble());
+        QTRY_COMPARE(item->width(), model->stringList().at(modelIndex).toDouble());
         QTRY_COMPARE(QQuickItemPrivate::get(item)->culled, !visible);
     }
 

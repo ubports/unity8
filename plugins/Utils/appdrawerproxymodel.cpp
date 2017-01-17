@@ -157,8 +157,8 @@ bool AppDrawerProxyModel::filterAcceptsRow(int source_row, const QModelIndex &so
         QStringList allWords = m_source->data(m_source->index(source_row, 0), AppDrawerModelInterface::RoleKeywords).toStringList();
         allWords.prepend(m_source->data(m_source->index(source_row, 0), AppDrawerModelInterface::RoleName).toString());
         bool found = false;
-        Q_FOREACH (const QString currentWord, allWords) {
-            if (currentWord.toLower().startsWith(m_filterString.toLower())) {
+        Q_FOREACH (const QString &currentWord, allWords) {
+            if (currentWord.startsWith(m_filterString, Qt::CaseInsensitive)) {
                 found = true;
                 break;
             }

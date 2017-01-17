@@ -83,9 +83,11 @@ void SurfaceManager::registerSurface(MirSurface *surface)
         this->onStateRequested(surface, state);
     });
 
+    const QString persistentId = surface->persistentId();
     connect(surface, &QObject::destroyed, this, [=]() {
-        this->onSurfaceDestroyed(surface);
+        this->onSurfaceDestroyed(surface, persistentId);
     });
+
 }
 
 void SurfaceManager::notifySurfaceCreated(unityapi::MirSurfaceInterface *surface)
@@ -223,7 +225,7 @@ void SurfaceManager::onStateRequested(MirSurface *surface, Mir::State state)
     DEBUG_MSG("("<<surface<<","<<state<<") ended");
 }
 
-void SurfaceManager::onSurfaceDestroyed(MirSurface *surface)
+void SurfaceManager::onSurfaceDestroyed(MirSurface *surface, const QString& persistentId)
 {
     m_surfaces.removeAll(surface);
     if (m_focusedSurface == surface) {
@@ -237,6 +239,7 @@ void SurfaceManager::onSurfaceDestroyed(MirSurface *surface)
         m_underModification = false;
         Q_EMIT modificationsEnded();
     }
+    Q_EMIT surfaceDestroyed(persistentId);
 }
 
 void SurfaceManager::focusFirstAvailableSurface()
