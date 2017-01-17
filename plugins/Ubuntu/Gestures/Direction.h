@@ -26,7 +26,6 @@
  */
 class UBUNTUGESTURESQML_EXPORT Direction : public QObject {
     Q_OBJECT
-    Q_ENUMS(Type)
 
 public:
     // Make sure it is kept synchronized with SDK UCSwipeArea::Direction
@@ -38,6 +37,7 @@ public:
         Horizontal, // Along the X axis, in any direction
         Vertical // Along the Y axis, in any direction
     };
+    Q_ENUM(Type)
 
     Q_INVOKABLE static bool isHorizontal(Direction::Type type);
     Q_INVOKABLE static bool isVertical(Direction::Type type);

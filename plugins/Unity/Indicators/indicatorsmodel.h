@@ -32,7 +32,6 @@ class IndicatorsManager;
 class UNITYINDICATORS_EXPORT IndicatorsModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_ENUMS(Roles)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(QString profile READ profile WRITE setProfile NOTIFY profileChanged)
 

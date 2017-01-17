@@ -1,6 +1,0 @@
-data/unity-mock-indicator-service.conf usr/share/upstart/sessions/
-usr/bin/unity-mock-indicator-service
-usr/lib/*/unity8/qml/mocks
-usr/lib/*/unity8/qml/nonmirplugins
-usr/lib/*/unity8/qml/scopefakes
-usr/share/unity8/mocks

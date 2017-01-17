@@ -11,7 +11,7 @@ qt5_use_modules(MockLightDM DBus Gui)
 
 set_target_properties(MockLightDM PROPERTIES
                       OUTPUT_NAME lightdm-qt5-3
-                      VERSION 0)
+                      SOVERSION 0)
 
 install(TARGETS MockLightDM
     DESTINATION ${SHELL_INSTALL_QML}/mocks/liblightdm

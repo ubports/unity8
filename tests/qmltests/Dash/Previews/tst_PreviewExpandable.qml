@@ -75,10 +75,6 @@ Rectangle {
         "zoomable": false
     }
 
-    property var paymentsData: {
-        "source": { "price" : 0.99, "currency": "USD", "store_item_id": "com.example.package" }
-    }
-
     property var progressData: {
         "type": "progress",
         "source": { "dbus-name" : "somename", "dbus-object": "somestring" }
@@ -155,7 +151,6 @@ Rectangle {
         allWidgetsModel.append({"type": "header", "widgetId": "header1", "properties": headerData });
         allWidgetsModel.append({"type": "icon-actions", "widgetId": "icon-actions1", "properties": iconActionsData } );
         allWidgetsModel.append({"type": "image", "widgetId": "image1", "properties": imageData });
-        allWidgetsModel.append({"type": "payments", "widgetId": "payments1", "properties": paymentsData });
         allWidgetsModel.append({"type": "progress", "widgetId": "progress1", "properties": progressData });
         allWidgetsModel.append({"type": "rating-input", "widgetId": "rating-input1", "properties": ratingInputData });
         allWidgetsModel.append({"type": "rating-edit", "widgetId": "rating-edit1", "properties": ratingEditData });

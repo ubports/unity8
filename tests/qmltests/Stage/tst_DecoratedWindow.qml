@@ -19,10 +19,13 @@ import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
 import "../../../qml/Components"
+import "../../../qml/Components/PanelState"
 import "../../../qml/Stage"
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
+import Unity.ApplicationMenu 0.1
+import Unity.Indicators 0.1 as Indicators
 
 Rectangle {
     color: "red"
@@ -30,7 +33,24 @@ Rectangle {
     width: fakeShell.shortestDimension + controls.width
     height: fakeShell.longestDimension
 
+    Component.onCompleted: {
+        QuickUtils.keyboardAttached = true;
+        theme.name = "Ubuntu.Components.Themes.SuruDark"
+    }
+
     property QtObject fakeApplication: null
+
+    Binding {
+        target: UT.MouseTouchAdaptor
+        property: "enabled"
+        value: false
+    }
+
+    SurfaceManager { id: sMgr }
+    ApplicationMenuDataLoader {
+        id: appMenuData
+        surfaceManager: sMgr
+    }
 
     Item {
         id: fakeShell
@@ -49,6 +69,11 @@ Rectangle {
 
         rotation: orientationAngle
 
+        WindowResizeArea {
+            target: loader
+            borderThickness: units.gu(2)
+        }
+
         Loader {
             id: loader
             property int windowedX: units.gu(1)
@@ -64,11 +89,20 @@ Rectangle {
             property bool itemDestroyed: false
 
             sourceComponent: DecoratedWindow {
+                id: decoratedWindow
+
                 anchors.fill: parent
                 application: fakeApplication
                 requestedWidth: loader.windowedWidth
                 requestedHeight: loader.windowedHeight
+                active: true
                 surface: fakeApplication && fakeApplication.surfaceList.count > 0 ? fakeApplication.surfaceList.get(0) : null
+
+                Binding {
+                    target: PanelState
+                    property: "focusedPersistentSurfaceId"
+                    value: decoratedWindow.surface ? decoratedWindow.surface.persistentId : "x"
+                }
 
                 Component.onDestruction: {
                     loader.itemDestroyed = true;
@@ -80,16 +114,12 @@ Rectangle {
 
             Rectangle { anchors.fill: parent; color: "green"; opacity: 1 }
         }
-        WindowResizeArea {
-            target: loader
-            borderThickness: units.gu(2)
-        }
     }
 
 
     Rectangle {
         id: controls
-        color: "white"
+        color: theme.palette.normal.background
         width: units.gu(30)
         anchors {
             top: parent.top
@@ -100,6 +130,11 @@ Rectangle {
         Column {
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
             spacing: units.gu(1)
+            Button {
+                id: loadWidthDialerApp
+                text: "Load with dialer-app"
+                onClicked: { testCase.restartWithApp("dialer-app"); }
+            }
             Button {
                 id: loadWithWeatherApp
                 text: "Load with ubuntu-weather-app"
