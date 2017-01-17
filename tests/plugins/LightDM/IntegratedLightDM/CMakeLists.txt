@@ -1,6 +1,3 @@
-add_definitions(
-    -DCURRENT_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
-    )
 include_directories(
     ${GLIB_INCLUDE_DIRS}
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -21,6 +18,13 @@ target_link_libraries(GreeterDBusTestExec
 target_include_directories(GreeterDBusTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/LightDM
     )
+set_target_properties(GreeterDBusTestExec PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/mocks/IntegratedLightDM/liblightdm")
+install(TARGETS GreeterDBusTestExec
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/LightDM/IntegratedLightDM"
+    )
+install(FILES greeter.qml
+    DESTINATION "${SHELL_APP_DIR}/tests/plugins/LightDM/IntegratedLightDM"
+    )
 add_unity8_uitest(GreeterDBus dbus-test-runner
     ARG_PREFIX "--parameter"
     ARGS --task $<TARGET_FILE:GreeterDBusTestExec>
@@ -40,6 +44,9 @@ target_include_directories(GreeterPamTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/IntegratedLightDM
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/IntegratedLightDM/liblightdm
     )
+install(TARGETS GreeterPamTestExec
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/LightDM/IntegratedLightDM"
+    )
 add_qmltest_target(testGreeterPam GreeterPamTestExec COMMAND $<TARGET_FILE:GreeterPamTestExec>)
 
 # SessionsModelTest
@@ -57,6 +64,9 @@ target_include_directories(GreeterSessionsModelTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/LightDM
     ${CMAKE_SOURCE_DIR}/plugins/Utils
     ${CMAKE_SOURCE_DIR}/tests/mocks/liblightdm/
+    )
+install(TARGETS GreeterSessionsModelTestExec
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/LightDM/IntegratedLightDM"
     )
 add_unity8_uitest(GreeterSessions GreeterSessionsModelTestExec
     DEPENDS MockLightDM
@@ -81,6 +91,10 @@ target_include_directories(GreeterUsersModelTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/Utils
     ${CMAKE_SOURCE_DIR}/tests/mocks/liblightdm
     )
+set_target_properties(GreeterUsersModelTestExec PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/mocks/IntegratedLightDM/liblightdm")
+install(TARGETS GreeterUsersModelTestExec
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/LightDM/IntegratedLightDM"
+    )
 add_unity8_uitest(GreeterUsers GreeterUsersModelTestExec
     DEPENDS MockLightDM
     )
@@ -96,6 +110,9 @@ target_link_libraries(GreeterIntegratedTestExec
 target_include_directories(GreeterIntegratedTestExec PUBLIC
     ${GLIB_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/IntegratedLightDM/liblightdm
+    )
+install(TARGETS GreeterIntegratedTestExec
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/LightDM/IntegratedLightDM"
     )
 add_unity8_unittest(GreeterIntegrated dbus-test-runner
     ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/IntegratedLightDM/liblightdm/

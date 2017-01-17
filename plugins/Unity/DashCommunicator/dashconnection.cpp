@@ -32,6 +32,7 @@
  */
 class AsyncDBusInterface : public QDBusAbstractInterface
 {
+    Q_OBJECT
 public:
     AsyncDBusInterface(const QString &service, const QString &path,
                        const QString &interface, const QDBusConnection &connection,
@@ -61,3 +62,5 @@ void DashConnection::setCurrentScope(int index, bool animate, bool isSwipe)
         dbusInterface()->asyncCall(QStringLiteral("SetCurrentScope"), index, animate, isSwipe);
     }
 }
+
+#include "dashconnection.moc"

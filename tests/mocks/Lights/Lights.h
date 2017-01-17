@@ -23,7 +23,6 @@
 class Lights: public QObject
 {
     Q_OBJECT
-    Q_ENUMS(State)
     Q_PROPERTY(State state READ state  WRITE setState NOTIFY stateChanged)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(int onMillisec READ onMillisec WRITE setOnMillisec NOTIFY onMillisecChanged)
@@ -34,6 +33,7 @@ public:
         Off,
         On,
     };
+    Q_ENUM(State)
 
     explicit Lights(QObject *parent = 0);
     ~Lights();

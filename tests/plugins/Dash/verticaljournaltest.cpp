@@ -27,7 +27,10 @@
 
 #include "verticaljournal.h"
 
+#include <paths.h>
+
 class HeightModel : public QAbstractListModel {
+    Q_OBJECT
 public:
     QHash<int, QByteArray> roleNames() const override
     {
@@ -100,7 +103,7 @@ private:
         QTRY_COMPARE(item.m_modelIndex, modelIndex);
         QTRY_COMPARE(item.x(), x);
         QTRY_COMPARE(item.y(), y);
-        QTRY_COMPARE(item.height(), model->stringList()[modelIndex].toDouble());
+        QTRY_COMPARE(item.height(), model->stringList().at(modelIndex).toDouble());
         QTRY_COMPARE(QQuickItemPrivate::get(item.m_item)->culled, !visible);
     }
 
@@ -142,7 +145,7 @@ private Q_SLOTS:
         heightList << "100" << "50" << "125" << "10" << "40" << "70" << "200" << "110" << "160" << "20" << "20" << "65" << "80" << "200" << "300" << "130" << "400" << "300" << "500" << "10";
         model->setStringList(heightList);
 
-        view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/verticaljournaltest.qml"));
+        view->setSource(QUrl::fromLocalFile(testDataDir() + "/" TEST_DIR "/verticaljournaltest.qml"));
 
         view->show();
         QTest::qWaitForWindowExposed(view);

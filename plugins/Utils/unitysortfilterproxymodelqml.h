@@ -38,6 +38,11 @@ public:
     Q_INVOKABLE int mapRowToSource(int row);
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 
+    // Make the QSortFilterProxyModel variants also accessible
+    using QSortFilterProxyModel::data;
+    using QSortFilterProxyModel::mapFromSource;
+    using QSortFilterProxyModel::mapToSource;
+
     /* getters */
     int totalCount() const;
     bool invertMatch() const;
