@@ -87,7 +87,7 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     }
     #endif
 
-    new DebuggingController(this);
+    m_qmlEngine->rootContext()->setContextProperty("DebuggingController", new DebuggingController(this));
 
 //    if (parser.mode().compare("greeter") == 0) {
 //        QSize primaryScreenSize = this->primaryScreen()->size();

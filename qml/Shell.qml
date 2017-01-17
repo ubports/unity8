@@ -45,6 +45,7 @@ import Unity.DashCommunicator 0.1
 import Unity.Indicators 0.1 as Indicators
 import Cursor 1.1
 import WindowManager 1.0
+import Unity.Debug 0.1 as Debug
 
 
 StyledItem {
@@ -319,6 +320,11 @@ StyledItem {
             onSpreadShownChanged: {
                 panel.indicators.hide();
                 panel.applicationMenus.hide();
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "oskEnabled"
+                value: shell.oskEnabled
             }
         }
     }
@@ -803,6 +809,22 @@ StyledItem {
                 if (shutdownFadeOutRectangle.enabled && shutdownFadeOutRectangle.visible) {
                     DBusUnitySessionService.shutdown();
                 }
+            }
+        }
+    }
+
+    Loader {
+        z: shutdownFadeOutRectangle.z + 1
+        active: DebuggingController.logOverlay
+
+        sourceComponent: Text {
+            width: shell.width
+            height: shell.height
+
+            text: consoleLog.out
+            Debug.ConsoleLog {
+                id: consoleLog
+                enabled: true
             }
         }
     }

@@ -479,6 +479,8 @@ int main(int argc, char ** argv)
             // TODO: as soon as the engine construction completes, the debug service is
             // listening for connections.  But actually we aren't ready to debug anything.
             QQmlEngine engine;
+            engine.rootContext()->setContextProperty("DebuggingController", new DebuggingController(&app));
+
             QQmlComponent *component = new QQmlComponent(&engine);
             for (int i = 0; i < imports.size(); ++i)
                 engine.addImportPath(imports.at(i));
