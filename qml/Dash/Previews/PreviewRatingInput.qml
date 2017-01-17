@@ -190,7 +190,7 @@ PreviewWidget {
 
                 readonly property bool readyToSubmit: {
                     if ((widgetData["required"] !== "review" && rating.value < 0) ||
-                        (widgetData["required"] !== "rating" && reviewTextArea.text === "")) return false;
+                        (widgetData["required"] !== "rating" && reviewTextArea.text === "" && !reviewTextArea.inputMethodComposing)) return false;
                     else return true;
                 }
 

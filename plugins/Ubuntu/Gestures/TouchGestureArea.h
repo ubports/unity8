@@ -114,7 +114,6 @@ private:
 class UBUNTUGESTURESQML_EXPORT TouchGestureArea : public QQuickItem
 {
     Q_OBJECT
-    Q_ENUMS(Status)
 
     Q_PROPERTY(int status READ status NOTIFY statusChanged)
     Q_PROPERTY(bool dragging READ dragging NOTIFY draggingChanged)
@@ -137,6 +136,7 @@ public:
         Recognized,
         Rejected
     };
+    Q_ENUM(Status)
     TouchGestureArea(QQuickItem* parent = nullptr);
     ~TouchGestureArea();
 

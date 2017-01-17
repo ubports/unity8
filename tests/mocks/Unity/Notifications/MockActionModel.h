@@ -36,11 +36,11 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    Q_ENUMS(ActionsRoles)
     enum ActionsRoles {
         RoleActionLabel = Qt::UserRole + 1,
         RoleActionId    = Qt::UserRole + 2
     };
+    Q_ENUM(ActionsRoles)
     Q_INVOKABLE QVariant data(int row, int role) const;
 
     Q_INVOKABLE void append(const QString &id, const QString &label);
