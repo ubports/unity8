@@ -2738,7 +2738,7 @@ Rectangle {
 
             if (data.shown) { // if shown, try to also hide it by clicking outside
                 tryCompareFunction(function() { return drawer.visible; }, true);
-                mouseClick(stage, undefined, undefined, undefined, undefined, 100);
+                mouseClick(stage, stage.width-10, stage.height/2, undefined, undefined, 100);
             }
             tryCompareFunction(function() { return drawer.visible; }, false);
         }
