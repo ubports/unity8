@@ -28,21 +28,6 @@ MousePointer::MousePointer(QQuickItem *parent)
     , m_cursorName(QStringLiteral("left_ptr"))
     , m_themeName(QStringLiteral("default"))
 {
-    InputDispatcherFilter::instance()->registerPointer(this);
-
-    auto mouseMovedFunc = [this]() {
-        if (!isEnabled() || !window()) return;
-        QPointF globalPosition =  mapToItem(nullptr, QPointF(0, 0));
-        InputDispatcherFilter::instance()->setPosition(globalPosition);
-        Q_EMIT mouseMoved();
-    };
-    connect(this, &QQuickItem::xChanged, this, mouseMovedFunc);
-    connect(this, &QQuickItem::yChanged, this, mouseMovedFunc);
-
-    connect(this, &QQuickItem::enabledChanged, this, [this]() {
-        if (!isEnabled()) setVisible(false);
-    });
-
     connect(InputDispatcherFilter::instance(), &InputDispatcherFilter::pushedLeftBoundary,
             this, [this](QScreen* screen, qreal amount, Qt::MouseButtons buttons) {
         if (window() && window()->screen() == screen) {
@@ -56,17 +41,14 @@ MousePointer::MousePointer(QQuickItem *parent)
             Q_EMIT pushedRightBoundary(amount, buttons);
         }
     });
+
+    InputDispatcherFilter::instance()->registerPointer(this);
 }
 
 MousePointer::~MousePointer()
 {
     registerScreen(nullptr);
     InputDispatcherFilter::instance()->unregisterPointer(this);
-}
-
-void MousePointer::handleMouseEvent(ulong /*timestamp*/, QPointF /*movement*/, Qt::MouseButtons /*buttons*/,
-        Qt::KeyboardModifiers /*modifiers*/)
-{
 }
 
 void MousePointer::applyItemConfinement(qreal &newX, qreal &newY)
@@ -92,10 +74,6 @@ void MousePointer::applyItemConfinement(qreal &newX, qreal &newY)
     } else if (newY > confiningRect.bottom()) {
         newY = confiningRect.bottom();
     }
-}
-
-void MousePointer::handleWheelEvent(ulong /*timestamp*/, QPoint /*angleDelta*/, Qt::KeyboardModifiers /*modifiers*/)
-{
 }
 
 int MousePointer::topBoundaryOffset() const
@@ -182,6 +160,12 @@ void MousePointer::setThemeName(const QString &themeName)
     }
 }
 
+void MousePointer::moveTo(const QPoint &position)
+{
+    setPosition(position);
+    Q_EMIT mouseMoved();
+}
+
 void MousePointer::setCustomCursor(const QCursor &customCursor)
 {
     CursorImageProvider::instance()->setCustomCursor(customCursor);
@@ -199,3 +183,4 @@ void MousePointer::setConfiningItem(QQuickItem *item)
         Q_EMIT confiningItemChanged();
     }
 }
+
