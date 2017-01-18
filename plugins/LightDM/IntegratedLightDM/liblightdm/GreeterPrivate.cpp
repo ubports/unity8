@@ -18,6 +18,7 @@
 
 #include "Greeter.h"
 #include "GreeterPrivate.h"
+#include <QCoreApplication>
 #include <QFuture>
 #include <QFutureInterface>
 #include <QFutureWatcher>
@@ -49,6 +50,10 @@ public:
           pamHandle(nullptr)
     {
         qRegisterMetaType<QLightDM::GreeterImpl::ResponseFuture>("QLightDM::GreeterImpl::ResponseFuture");
+
+        // Don't get stuck waiting for PAM as we shut down.
+        connect(QCoreApplication::instance(), &QCoreApplication::aboutToQuit,
+                this, &GreeterImpl::cancelPam);
 
         connect(&futureWatcher, &QFutureWatcher<int>::finished, this, &GreeterImpl::finishPam);
         connect(this, SIGNAL(showMessage(pam_handle *, QString, QLightDM::Greeter::MessageType)),
@@ -246,7 +251,6 @@ private Q_SLOTS:
         Q_EMIT greeter->showPrompt(text, type);
     }
 
-private:
     void cancelPam()
     {
         if (pamHandle != nullptr) {
@@ -269,6 +273,7 @@ private:
         }
     }
 
+private:
     Greeter *greeter;
     GreeterPrivate *greeterPrivate;
     pam_handle* pamHandle;
