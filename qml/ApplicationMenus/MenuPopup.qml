@@ -28,18 +28,6 @@ UbuntuShape {
 
     property alias unityMenuModel: repeater.model
 
-    readonly property real __ajustedMinimumHeight: {
-        if (listView.contentHeight > __minimumHeight) {
-            return __minimumHeight;
-        }
-        return Math.max(listView.contentHeight, units.gu(2));
-    }
-
-    readonly property real __minimumWidth: units.gu(20)
-    readonly property real __maximumWidth: Screen.width * 0.7
-    readonly property real __minimumHeight: units.gu(30)
-    readonly property real __maximumHeight: Screen.height * 0.7
-
     function show() {
         visible = true;
         focusScope.forceActiveFocus();
@@ -74,6 +62,11 @@ UbuntuShape {
         property Item currentItem: null
         property Item hoveredItem: null
         readonly property int currentIndex: currentItem ? currentItem.__ownIndex : -1
+
+        property real __minimumWidth: units.gu(20)
+        property real __maximumWidth: Screen.width * 0.7
+        property real __minimumHeight: units.gu(2)
+        property real __maximumHeight: Screen.height * 0.7
 
         signal dismissAll()
 
@@ -121,7 +114,7 @@ UbuntuShape {
             id: container
             objectName: "container"
 
-            height: MathUtils.clamp(listView.contentHeight, __ajustedMinimumHeight, __maximumHeight)
+            height: MathUtils.clamp(listView.contentHeight, d.__minimumHeight, d.__maximumHeight)
             width: menuColumn.width
             spacing: 0
 
@@ -221,6 +214,8 @@ UbuntuShape {
                     id: menuColumn
                     spacing: 0
 
+                    width: MathUtils.clamp(implicitWidth, d.__minimumWidth, d.__maximumWidth)
+
                     Repeater {
                         id: repeater
 
@@ -251,7 +246,7 @@ UbuntuShape {
                                     menuData: model
                                     objectName: loader.objectName + "-actionItem"
 
-                                    width: MathUtils.clamp(implicitWidth, __minimumWidth, __maximumWidth)
+                                    width: MathUtils.clamp(implicitWidth, d.__minimumWidth, d.__maximumWidth)
 
                                     action.onTriggered: {
                                         d.currentItem = loader;
