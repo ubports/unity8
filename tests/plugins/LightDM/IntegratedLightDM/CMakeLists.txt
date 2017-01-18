@@ -120,6 +120,9 @@ target_include_directories(GreeterPromptsModelTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/Utils
     ${CMAKE_SOURCE_DIR}/tests/mocks/liblightdm
     )
+install(TARGETS GreeterPromptsModelTestExec
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/LightDM/IntegratedLightDM"
+    )
 add_unity8_uitest(GreeterPrompts GreeterPromptsModelTestExec
     DEPENDS MockLightDM
     )
