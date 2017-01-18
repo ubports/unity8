@@ -25,6 +25,7 @@
 #include <qpa/qplatformscreen.h>
 
 #include <QTimer>
+#include <QtMath>
 
 InputDispatcherFilter *InputDispatcherFilter::instance()
 {
@@ -34,6 +35,7 @@ InputDispatcherFilter *InputDispatcherFilter::instance()
 
 InputDispatcherFilter::InputDispatcherFilter(QObject *parent)
     : QObject(parent)
+    , m_pushing(false)
 {
     QPlatformNativeInterface *ni = QGuiApplication::platformNativeInterface();
     m_inputDispatcher = static_cast<QObject*>(ni->nativeResourceForIntegration("InputDispatcher"));
@@ -92,11 +94,39 @@ bool InputDispatcherFilter::eventFilter(QObject *o, QEvent *e)
             QScreen* currentScreen = screenAt(newPos);
             if (currentScreen) {
                 QRect screenRect = currentScreen->geometry();
-                qreal unadjustedX = (oldPos + movement).x();
-                if (unadjustedX < screenRect.left()) {
-                    Q_EMIT pushedLeftBoundary(currentScreen, qAbs(unadjustedX - screenRect.left()), me->buttons());
-                } else if (unadjustedX > screenRect.right()) {
-                    Q_EMIT pushedRightBoundary(currentScreen, qAbs(unadjustedX - screenRect.right()), me->buttons());
+                qreal newX = (oldPos + movement).x();
+                qreal newY = (oldPos + movement).y();
+
+                if (newX <= screenRect.left() && newY < screenRect.top() + pointer->topBoundaryOffset()) { // top left corner
+                    const auto distance = qSqrt(qPow(newX, 2) + qPow(newY- screenRect.top() - pointer->topBoundaryOffset(), 2));
+                    Q_EMIT pushedTopLeftCorner(currentScreen, qAbs(distance), me->buttons());
+                    m_pushing = true;
+                } else if (newX >= screenRect.right()-1 && newY < screenRect.top() + pointer->topBoundaryOffset()) { // top right corner
+                    const auto distance = qSqrt(qPow(newX-screenRect.right(), 2) + qPow(newY - screenRect.top() - pointer->topBoundaryOffset(), 2));
+                    Q_EMIT pushedTopRightCorner(currentScreen, qAbs(distance), me->buttons());
+                    m_pushing = true;
+                } else if (newX < 0 && newY >= screenRect.bottom()-1) { // bottom left corner
+                    const auto distance = qSqrt(qPow(newX, 2) + qPow(newY-screenRect.bottom(), 2));
+                    Q_EMIT pushedBottomLeftCorner(currentScreen, qAbs(distance), me->buttons());
+                    m_pushing = true;
+                } else if (newX >= screenRect.right()-1 && newY >= screenRect.bottom()-1) { // bottom right corner
+                    const auto distance = qSqrt(qPow(newX-screenRect.right(), 2) + qPow(newY-screenRect.bottom(), 2));
+                    Q_EMIT pushedBottomRightCorner(currentScreen, qAbs(distance), me->buttons());
+                    m_pushing = true;
+                } else if (newX <  screenRect.left()) { // left edge
+                    Q_EMIT pushedLeftBoundary(currentScreen, qAbs(newX), me->buttons());
+                    m_pushing = true;
+                } else if (newX >=  screenRect.right()) { // right edge
+                    Q_EMIT pushedRightBoundary(currentScreen, newX - (screenRect.right() - 1), me->buttons());
+                    m_pushing = true;
+                } else if (newY < screenRect.top() + pointer->topBoundaryOffset()) { // top edge
+                    Q_EMIT pushedTopBoundary(currentScreen, qAbs(newY - screenRect.top() - pointer->topBoundaryOffset()), me->buttons());
+                    m_pushing = true;
+                } else if (Q_LIKELY(newX > 0 && newX < screenRect.right()-1 && newY > 0 && newY < screenRect.bottom()-1)) { // normal pos, not pushing
+                    if (m_pushing) {
+                        Q_EMIT pushStopped(currentScreen);
+                        m_pushing = false;
+                    }
                 }
             }
 

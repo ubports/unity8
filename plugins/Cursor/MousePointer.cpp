@@ -34,11 +34,46 @@ MousePointer::MousePointer(QQuickItem *parent)
             Q_EMIT pushedLeftBoundary(amount, buttons);
         }
     });
-
     connect(InputDispatcherFilter::instance(), &InputDispatcherFilter::pushedRightBoundary,
             this, [this](QScreen* screen, qreal amount, Qt::MouseButtons buttons) {
         if (window() && window()->screen() == screen) {
             Q_EMIT pushedRightBoundary(amount, buttons);
+        }
+    });
+    connect(InputDispatcherFilter::instance(), &InputDispatcherFilter::pushedTopBoundary,
+            this, [this](QScreen* screen, qreal amount, Qt::MouseButtons buttons) {
+        if (window() && window()->screen() == screen) {
+            Q_EMIT pushedTopBoundary(amount, buttons);
+        }
+    });
+    connect(InputDispatcherFilter::instance(), &InputDispatcherFilter::pushedTopLeftCorner,
+            this, [this](QScreen* screen, qreal amount, Qt::MouseButtons buttons) {
+        if (window() && window()->screen() == screen) {
+            Q_EMIT pushedTopLeftCorner(amount, buttons);
+        }
+    });
+    connect(InputDispatcherFilter::instance(), &InputDispatcherFilter::pushedTopRightCorner,
+            this, [this](QScreen* screen, qreal amount, Qt::MouseButtons buttons) {
+        if (window() && window()->screen() == screen) {
+            Q_EMIT pushedTopRightCorner(amount, buttons);
+        }
+    });
+    connect(InputDispatcherFilter::instance(), &InputDispatcherFilter::pushedBottomLeftCorner,
+            this, [this](QScreen* screen, qreal amount, Qt::MouseButtons buttons) {
+        if (window() && window()->screen() == screen) {
+            Q_EMIT pushedBottomLeftCorner(amount, buttons);
+        }
+    });
+    connect(InputDispatcherFilter::instance(), &InputDispatcherFilter::pushedBottomRightCorner,
+            this, [this](QScreen* screen, qreal amount, Qt::MouseButtons buttons) {
+        if (window() && window()->screen() == screen) {
+            Q_EMIT pushedBottomRightCorner(amount, buttons);
+        }
+    });
+    connect(InputDispatcherFilter::instance(), &InputDispatcherFilter::pushStopped,
+            this, [this](QScreen* screen) {
+        if (window() && window()->screen() == screen) {
+            Q_EMIT pushStopped();
         }
     });
 
