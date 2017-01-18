@@ -1478,5 +1478,18 @@ Rectangle {
 
             launcher.available = true;
         }
+
+        function test_hoverOnEdgeBarrerPreventsHiding() {
+            revealByEdgePush();
+
+            // Make sure the mouse is on the very left edge (on top of the barrier)
+            mouseMove(root, 1, root.height / 2);
+
+            // trigger the hide timer
+            compare(fakeDismissTimer.running, true);
+            fakeDismissTimer.triggered();
+
+            compare(launcher.state, "visibleTemporary");
+        }
     }
 }
