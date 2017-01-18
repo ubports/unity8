@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2017-01-10 14:48+0000\n"
-"PO-Revision-Date: 2016-04-01 17:32+0000\n"
+"PO-Revision-Date: 2017-01-17 10:58+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2017-01-16 05:48+0000\n"
+"X-Launchpad-Export-Date: 2017-01-18 05:46+0000\n"
 "X-Generator: Launchpad (build 18302)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -180,11 +180,11 @@ msgstr "Те саме, що натискання піктограми засоб
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + A"
-msgstr ""
+msgstr "Win + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Opens the Application Drawer."
-msgstr ""
+msgstr "Відкриває висувне меню програм."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:194
 msgid "Scopes"
@@ -334,19 +334,19 @@ msgstr ""
 
 #: qml/Components/VirtualTouchPad.qml:327
 msgid "Tap left button to click."
-msgstr ""
+msgstr "Торнніться лівої кнопки для клацання лівою."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "Торкніться правої кнопки для клацання правою."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "Проведіть двома пальцями для гортання."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "Додаткові параметри можна знайти у «Системних параметрах»"
 
 #: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
@@ -503,16 +503,16 @@ msgstr "Виберіть стільничне середовище"
 
 #: qml/Launcher/Drawer.qml:80
 msgid "Search…"
-msgstr ""
+msgstr "Пошук…"
 
 #: qml/Launcher/Drawer.qml:101
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
-msgstr ""
+msgstr "А-Я"
 
 #: qml/Launcher/MoreAppsHeader.qml:32
 msgid "More apps in the store"
-msgstr ""
+msgstr "Інші програми можна знайти у крамниці"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
