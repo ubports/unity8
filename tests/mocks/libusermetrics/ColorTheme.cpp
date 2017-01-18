@@ -30,6 +30,8 @@ namespace UserMetricsOutput
 
 class ColorThemePrivate: QObject
 {
+    Q_OBJECT
+
 public:
     explicit ColorThemePrivate(ColorTheme *parent = 0);
 
@@ -126,3 +128,5 @@ QColor ColorTheme::end() const
 {
     return d_ptr->m_end;
 }
+
+#include "ColorTheme.moc"

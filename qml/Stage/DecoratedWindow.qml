@@ -18,6 +18,9 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Unity.Application 0.1
 import "Spread/MathUtils.js" as MathUtils
+import Unity.ApplicationMenu 0.1
+import Unity.Indicators 0.1 as Indicators
+import "../Components/PanelState"
 
 FocusScope {
     id: root
@@ -147,46 +150,12 @@ FocusScope {
         opacity: root.shadowOpacity
     }
 
-    WindowDecoration {
-        id: decoration
-        closeButtonVisible: root.application.appId !== "unity8-dash"
-        objectName: "appWindowDecoration"
-        anchors { left: parent.left; top: parent.top; right: parent.right }
-        height: units.gu(3)
-        width: root.width
-        title: applicationWindow.title
-        opacity: root.hasDecoration ? Math.min(1, root.showDecoration) : 0
-
-        Behavior on opacity { UbuntuNumberAnimation { } }
-
-        onCloseClicked: root.closeClicked();
-        onMaximizeClicked: { root.decorationPressed(); root.maximizeClicked(); }
-        onMaximizeHorizontallyClicked: { root.decorationPressed(); root.maximizeHorizontallyClicked(); }
-        onMaximizeVerticallyClicked: { root.decorationPressed(); root.maximizeVerticallyClicked(); }
-        onMinimizeClicked: root.minimizeClicked();
-        onPressed: root.decorationPressed();
-
-        onPressedChanged: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
-        onPositionChanged: moveHandler.handlePositionChanged(mouse)
-        onReleased: {
-            root.decorationReleased();
-            moveHandler.handleReleased();
-        }
-    }
-
-    MoveHandler {
-        id: moveHandler
-        objectName: "moveHandler"
-        target: root.parent
-        buttonsWidth: decoration.buttonsWidth
-    }
-
     ApplicationWindow {
         id: applicationWindow
         objectName: "appWindow"
-        anchors.left: parent.left
         anchors.top: parent.top
         anchors.topMargin: root.decorationHeight * Math.min(1, root.showDecoration)
+        anchors.left: parent.left
         width: implicitWidth
         height: implicitHeight
         requestedHeight: !counterRotate ? root.requestedHeight - d.requestedDecorationHeight : root.requestedWidth
@@ -228,6 +197,72 @@ FocusScope {
     }
 
     MouseArea {
+        anchors { left: parent.left; top: parent.top; right: parent.right }
+        height: units.gu(3)
+
+        opacity: root.hasDecoration ? Math.min(1, root.showDecoration) : 0
+
+        Behavior on opacity { UbuntuNumberAnimation { } }
+
+        drag.target: Item {}
+        drag.filterChildren: true
+        drag.threshold: 0
+
+        onPressed: root.decorationPressed();
+        onPressedChanged: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
+        onPositionChanged: moveHandler.handlePositionChanged(mouse)
+        onReleased: {
+            root.decorationReleased();
+            moveHandler.handleReleased();
+        }
+
+        WindowDecoration {
+            id: decoration
+            closeButtonVisible: root.application.appId !== "unity8-dash"
+            objectName: "appWindowDecoration"
+            anchors.fill: parent
+            title: applicationWindow.title
+
+            onCloseClicked: root.closeClicked();
+            onMaximizeClicked: { root.decorationPressed(); root.maximizeClicked(); }
+            onMaximizeHorizontallyClicked: { root.decorationPressed(); root.maximizeHorizontallyClicked(); }
+            onMaximizeVerticallyClicked: { root.decorationPressed(); root.maximizeVerticallyClicked(); }
+            onMinimizeClicked: root.minimizeClicked();
+
+            enableMenus: {
+                return active &&
+                         surface &&
+                          (PanelState.focusedPersistentSurfaceId === surface.persistentId && !PanelState.decorationsVisible)
+            }
+            menu: sharedAppModel.model
+
+            Indicators.SharedUnityMenuModel {
+                id: sharedAppModel
+                property var menus: surface ? ApplicationMenuRegistry.getMenusForSurface(surface.persistentId) : []
+                property var menuService: menus.length > 0 ? menus[0] : undefined
+
+                busName: menuService ? menuService.service : ""
+                menuObjectPath: menuService && menuService.menuPath ? menuService.menuPath : ""
+                actions: menuService && menuService.actionPath ? { "unity": menuService.actionPath } : {}
+            }
+
+            Connections {
+                target: ApplicationMenuRegistry
+                onSurfaceMenuRegistered: {
+                    if (surface && surfaceId === surface.persistentId) {
+                        sharedAppModel.menus = Qt.binding(function() { return surface ? ApplicationMenuRegistry.getMenusForSurface(surface.persistentId) : [] });
+                    }
+                }
+                onSurfaceMenuUnregistered: {
+                    if (surface && surfaceId === surface.persistentId) {
+                        sharedAppModel.menus = Qt.binding(function() { return surface ? ApplicationMenuRegistry.getMenusForSurface(surface.persistentId) : [] });
+                    }
+                }
+            }
+        }
+    }
+
+    MouseArea {
         anchors.fill: applicationWindow
         acceptedButtons: Qt.LeftButton
         property bool dragging: false
@@ -255,6 +290,13 @@ FocusScope {
                 dragging = false;
             }
         }
+    }
+
+    MoveHandler {
+        id: moveHandler
+        objectName: "moveHandler"
+        target: root.parent
+        buttonsWidth: decoration.buttonsWidth
     }
 
     Rectangle {

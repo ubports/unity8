@@ -32,6 +32,11 @@ Item {
     property var greeter: { fullyShown: true }
 
     SurfaceManager { id: sMgr }
+    ApplicationMenuDataLoader {
+        id: appMenuData
+        surfaceManager: sMgr
+    }
+
     Stage {
         id: stage
         anchors { fill: parent; rightMargin: units.gu(30) }

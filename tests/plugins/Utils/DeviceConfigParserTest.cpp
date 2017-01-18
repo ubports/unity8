@@ -21,6 +21,7 @@
 #include <QTest>
 #include <QDebug>
 #include <QSettings>
+#include <QTemporaryDir>
 
 class DeviceConfigParserTest : public QObject
 {
@@ -45,13 +46,15 @@ private Q_SLOTS:
     }
 
     void testCustomFile() {
-        QSettings s("./devices.conf", QSettings::IniFormat);
+        QTemporaryDir dir;
+        QSettings s(dir.path() + "/devices.conf", QSettings::IniFormat);
         s.beginGroup("fakedevice");
 
         s.setValue("SupportedOrientations", QStringList() << "Portrait" << "Landscape" << "InvertedLandscape");
         s.setValue("PrimaryOrientation", "InvertedLandscape");
         s.sync();
 
+        qputenv("XDG_CONFIG_HOME", dir.path().toUtf8());
         DeviceConfigParser p;
         p.setName("fakedevice");
 

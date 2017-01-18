@@ -98,6 +98,12 @@ Item {
         deviceFilter: InputInfo.TouchScreen
     }
 
+    Binding {
+        target: QuickUtils
+        property: "keyboardAttached"
+        value: keyboardsModel.count > 0
+    }
+
     readonly property int pointerInputDevices: miceModel.count + touchPadModel.count
     onPointerInputDevicesChanged: calculateUsageMode()
 

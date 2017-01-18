@@ -24,8 +24,6 @@
 class Powerd: public QObject
 {
     Q_OBJECT
-    Q_ENUMS(Status)
-    Q_ENUMS(DisplayStateChangeReason)
     Q_PROPERTY(Status status READ status NOTIFY statusChanged)
 
 public:
@@ -35,11 +33,13 @@ public:
         PowerKey        = 2, // Display changed state due to user pressing power key
         Proximity       = 3, // Display changed state due to proximity events
     };
+    Q_ENUM(DisplayStateChangeReason)
 
     enum Status {
         Off,
         On,
     };
+    Q_ENUM(Status)
 
     explicit Powerd(QObject *parent = 0);
 

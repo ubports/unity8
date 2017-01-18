@@ -31,31 +31,31 @@ Rectangle {
 
     property var sourcesModel1: {
         "sources": [
-                    "../../../tests/graphics/avatars/amanda@12.png",
-                    "../../../tests/graphics/avatars/funky@12.png",
-                    "../../../tests/graphics/clock@18.png",
-                    "../../graphics/borked"
+                    Qt.resolvedUrl("../../../graphics/avatars/amanda@12.png"),
+                    Qt.resolvedUrl("../../../graphics/avatars/funky@12.png"),
+                    Qt.resolvedUrl("../../../graphics/clock@18.png"),
+                    Qt.resolvedUrl("../../../../qml/graphics/borked")
                    ]
     }
 
     property var sourcesModel1WithFallback: {
         "sources": [
-                    "../../../tests/graphics/avatars/amanda@12.png",
-                    "../../../tests/graphics/avatars/funky@12.png",
-                    "../../../tests/graphics/clock@18.png",
-                    "../../graphics/borked"
+                    Qt.resolvedUrl("../../../graphics/avatars/amanda@12.png"),
+                    Qt.resolvedUrl("../../../graphics/avatars/funky@12.png"),
+                    Qt.resolvedUrl("../../../graphics/clock@18.png"),
+                    Qt.resolvedUrl("../../../../qml/graphics/borked")
                    ]
-        , "fallback": "../../../tests/graphics/clock@18.png"
+        , "fallback": Qt.resolvedUrl("../../../graphics/clock@18.png")
     }
 
     property var sourcesModelEmptyWithFallback: {
         "sources": [
-                    "../../../tests/graphics/avatars/amanda@12.png",
-                    "../../../tests/graphics/avatars/funky@12.png",
-                    "../../../tests/graphics/clock@18.png",
+                    Qt.resolvedUrl("../../../graphics/avatars/amanda@12.png"),
+                    Qt.resolvedUrl("../../../graphics/avatars/funky@12.png"),
+                    Qt.resolvedUrl("../../../graphics/clock@18.png"),
                     ""
                    ]
-        , "fallback": "../../../tests/graphics/clock@18.png"
+        , "fallback": Qt.resolvedUrl("../../../graphics/clock@18.png")
     }
 
     PreviewImageGallery {

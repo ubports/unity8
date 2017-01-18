@@ -103,7 +103,7 @@ TouchEventSequenceWrapper *TestUtil::touchEvent(QQuickItem *item)
 void TestUtil::ensureTargetWindow()
 {
     if (!m_targetWindow && !QGuiApplication::topLevelWindows().isEmpty())
-        m_targetWindow = QGuiApplication::topLevelWindows()[0];
+        m_targetWindow = QGuiApplication::topLevelWindows().at(0);
 }
 
 void TestUtil::ensureTouchDevice()
