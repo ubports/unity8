@@ -10,6 +10,7 @@ Object {
 
     Connections {
         id: sMgrHandler
+        target: null
         onSurfaceCreated: {
             var fakeMenuPath = "/" + surface.persistentId.replace(/\W+/g, "");
 
@@ -25,21 +26,28 @@ Object {
         var data = [];
         if (root === undefined) root = true;
 
-        if (prefix === undefined) prefix = "menu"
-
         for (var i = 0; i < length; i++) {
+
+            var menuName = prefix;
+            if (menuName === undefined) {
+                var chars = Math.random() * 20;
+                menuName = "";
+                for (var x = 0; x < chars; x++) {
+                    menuName += String.fromCharCode((Math.random() * 26) + 65);
+                }
+            }
 
             var menuCode = String.fromCharCode(i+65);
 
             var isSeparator = !root && separatorInterval > 0 && ((i+1) % separatorInterval == 0);
             var row = {
                 "rowData": {                // 1
-                    "label": prefix + "&" + menuCode,
+                    "label": menuName + "&" + menuCode,
                     "sensitive": true,
                     "isSeparator": isSeparator,
                     "icon": "",
                     "ext": {},
-                    "action": prefix + menuCode,
+                    "action": menuName + menuCode,
                     "actionState": {},
                     "isCheck": false,
                     "isRadio": false,
@@ -49,7 +57,7 @@ Object {
             }
             var isSubmenu = root === undefined || root === true || (submenuInterval > 0 && ((i+1) % submenuInterval == 0));
             if (isSubmenu && !isSeparator && depth > 1) {
-                row["submenu"] = generateTestData(length, depth-1, submenuInterval, separatorInterval, prefix + menuCode + ".", false);
+                row["submenu"] = generateTestData(length, depth-1, submenuInterval, separatorInterval,prefix, false);
             }
             data[i] = row;
         }
