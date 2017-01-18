@@ -18,7 +18,6 @@
 
 #include "Greeter.h"
 #include "GreeterPrivate.h"
-#include <QCoreApplication>
 #include <QFuture>
 #include <QFutureInterface>
 #include <QFutureWatcher>
@@ -50,10 +49,6 @@ public:
           pamHandle(nullptr)
     {
         qRegisterMetaType<QLightDM::GreeterImpl::ResponseFuture>("QLightDM::GreeterImpl::ResponseFuture");
-
-        // Don't get stuck waiting for PAM as we shut down.
-        connect(QCoreApplication::instance(), &QCoreApplication::aboutToQuit,
-                this, &GreeterImpl::cancelPam);
 
         connect(&futureWatcher, &QFutureWatcher<int>::finished, this, &GreeterImpl::finishPam);
         connect(this, SIGNAL(showMessage(pam_handle *, QString, QLightDM::Greeter::MessageType)),
@@ -211,6 +206,28 @@ public Q_SLOTS:
         }
     }
 
+    void cancelPam()
+    {
+        if (pamHandle != nullptr) {
+            QFuture<int> pamFuture = futureWatcher.future();
+            pam_handle *handle = pamHandle;
+            pamHandle = nullptr; // to disable normal finishPam() handling
+            pamFuture.cancel();
+
+            // Note the empty loop, we just want to clear the futures queue.
+            // Any further prompts from the pam thread will be immediately
+            // responded to/dismissed in handlePrompt().
+            while (respond(QString()));
+
+            // Now let signal/slot handling happen so the thread can finish
+            while (!pamFuture.isFinished()) {
+                QCoreApplication::processEvents();
+            }
+
+            pam_end(handle, PAM_CONV_ERR);
+        }
+    }
+
 Q_SIGNALS:
     void showMessage(pam_handle *handle, QString text, QLightDM::Greeter::MessageType type);
     void showPrompt(pam_handle *handle, QString text, QLightDM::Greeter::PromptType type, QLightDM::GreeterImpl::ResponseFuture response);
@@ -251,28 +268,6 @@ private Q_SLOTS:
         Q_EMIT greeter->showPrompt(text, type);
     }
 
-    void cancelPam()
-    {
-        if (pamHandle != nullptr) {
-            QFuture<int> pamFuture = futureWatcher.future();
-            pam_handle *handle = pamHandle;
-            pamHandle = nullptr; // to disable normal finishPam() handling
-            pamFuture.cancel();
-
-            // Note the empty loop, we just want to clear the futures queue.
-            // Any further prompts from the pam thread will be immediately
-            // responded to/dismissed in handlePrompt().
-            while (respond(QString()));
-
-            // Now let signal/slot handling happen so the thread can finish
-            while (!pamFuture.isFinished()) {
-                QCoreApplication::processEvents();
-            }
-
-            pam_end(handle, PAM_CONV_ERR);
-        }
-    }
-
 private:
     Greeter *greeter;
     GreeterPrivate *greeterPrivate;
@@ -302,6 +297,11 @@ void GreeterPrivate::handleAuthenticate()
 void GreeterPrivate::handleRespond(const QString &response)
 {
     m_impl->respond(response);
+}
+
+void GreeterPrivate::cancelAuthentication()
+{
+    m_impl->cancelPam();
 }
 
 }

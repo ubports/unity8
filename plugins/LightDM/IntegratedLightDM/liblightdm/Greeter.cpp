@@ -146,7 +146,10 @@ void Greeter::authenticateRemote(const QString &session, const QString &username
 }
 
 void Greeter::cancelAuthentication()
-{}
+{
+    Q_D(Greeter);
+    d->cancelAuthentication();
+}
 
 void Greeter::setLanguage (const QString &language)
 {
