@@ -35,11 +35,9 @@ StyledItem {
     readonly property int cellHeight: units.gu(5)
     readonly property int highlightedHeight: highlightItem.height
     readonly property int moveDuration: UbuntuAnimation.FastDuration
-    property string selectedSession
     property string currentSession
     readonly property string currentUser: userList.currentItem.username
 
-    signal loginListSessionChanged(string session)
     signal responded(string response)
     signal selected(int index)
     signal sessionChooserButtonClicked()
