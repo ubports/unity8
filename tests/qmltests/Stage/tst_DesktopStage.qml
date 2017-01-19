@@ -695,15 +695,44 @@ Item {
             var sizeBefore = Qt.size(dialerDelegate.width, dialerDelegate.height);
             var deco = findChild(dialerDelegate, "appWindowDecoration");
             verify(deco);
-            tryCompare(deco, "maximizeButtonShown", false);
-            mouseDoubleClick(deco);
-            var sizeAfter = Qt.size(dialerDelegate.width, dialerDelegate.height);
-            tryCompareFunction(function(){ return sizeBefore; }, sizeAfter);
+            mouseMove(deco, deco.width - units.gu(1), deco.height/2);
+            var menuBarLoader = findChild(deco, "menuBarLoader");
+            tryCompare(menuBarLoader.item, "visible", true);
+            mouseDoubleClick(deco, deco.width - units.gu(1), deco.height/2);
+            expectFail("", "Double click should not maximize ina a size restricted window");
+            tryCompareFunction(function() {
+                    var sizeAfter = Qt.size(dialerDelegate.width, dialerDelegate.height);
+                    return sizeAfter.width > sizeBefore.width && sizeAfter.height > sizeBefore.height;
+                },
+                true
+            );
 
             // remove restrictions, the maximize button should again be visible
             dialerDelegate.surface.setMaximumWidth(0);
             dialerDelegate.surface.setMaximumHeight(0);
             tryCompare(dialerMaximizeButton, "visible", true);
+        }
+
+        function test_doubleClickMaximizes() {
+            var dialerDelegate = startApplication("dialer-app");
+
+            var dialerMaximizeButton = findChild(dialerDelegate, "maximizeWindowButton");
+            tryCompare(dialerMaximizeButton, "visible", true);
+
+            // try double clicking the decoration, shoul maximize it
+            var sizeBefore = Qt.size(dialerDelegate.width, dialerDelegate.height);
+            var deco = findChild(dialerDelegate, "appWindowDecoration");
+            verify(deco);
+            mouseMove(deco, deco.width - units.gu(1), deco.height/2);
+            var menuBarLoader = findChild(deco, "menuBarLoader");
+            tryCompare(menuBarLoader.item, "visible", true);
+            mouseDoubleClick(deco, deco.width - units.gu(1), deco.height/2);
+            tryCompareFunction(function() {
+                    var sizeAfter = Qt.size(dialerDelegate.width, dialerDelegate.height);
+                    return sizeAfter.width > sizeBefore.width && sizeAfter.height > sizeBefore.height;
+                },
+                true
+            );
         }
 
         function test_canMoveWindowWithLeftMouseButtonOnly_data() {

@@ -188,6 +188,8 @@ Item {
             anchors.fill: parent
             hoverEnabled: d.currentItem
 
+            propagateComposedEvents: true
+
             onEntered: {
                 if (d.currentItem) {
                     updateCurrentItemFromPosition(Qt.point(mouseX, mouseY))
