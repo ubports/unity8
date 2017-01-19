@@ -23,8 +23,6 @@ class PromptsModel : public QAbstractListModel
 {
     Q_OBJECT
 
-    Q_ENUMS(PromptsModelRoles PromptType)
-
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 
 public:
@@ -32,6 +30,7 @@ public:
         TypeRole = Qt::UserRole,
         TextRole,
     };
+    Q_ENUM(PromptsModelRoles)
 
     enum PromptType {
         Message,
@@ -40,6 +39,7 @@ public:
         Question,
         Button,
     };
+    Q_ENUM(PromptType)
 
     explicit PromptsModel(QObject* parent=0);
 
@@ -68,5 +68,3 @@ private:
     QList<PromptInfo> m_prompts;
     QHash<int, QByteArray> m_roleNames;
 };
-
-Q_DECLARE_METATYPE(PromptsModel::PromptType)
