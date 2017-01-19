@@ -17,6 +17,7 @@
 
 #include "Greeter.h"
 #include "GreeterPrivate.h"
+#include <QCoreApplication>
 #include <libintl.h>
 
 static Greeter *singleton = nullptr;
@@ -42,6 +43,10 @@ Greeter::Greeter(QObject* parent)
             this, &Greeter::showPromptFilter);
     connect(d->m_greeter, &QLightDM::Greeter::authenticationComplete,
             this, &Greeter::authenticationCompleteFilter);
+
+    // Don't get stuck waiting for PAM as we shut down.
+    connect(QCoreApplication::instance(), &QCoreApplication::aboutToQuit,
+            d->m_greeter, &QLightDM::Greeter::cancelAuthentication);
 
     d->m_greeter->connectSync();
 }
