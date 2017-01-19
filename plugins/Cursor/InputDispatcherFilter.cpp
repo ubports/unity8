@@ -21,11 +21,9 @@
 #include <QGuiApplication>
 #include <QQuickWindow>
 #include <QScreen>
+#include <QtMath>
 #include <qpa/qplatformnativeinterface.h>
 #include <qpa/qplatformscreen.h>
-
-#include <QTimer>
-#include <QtMath>
 
 InputDispatcherFilter *InputDispatcherFilter::instance()
 {
@@ -42,20 +40,6 @@ InputDispatcherFilter::InputDispatcherFilter(QObject *parent)
     if (m_inputDispatcher) {
         m_inputDispatcher->installEventFilter(this);
     }
-
-    QTimer* timer(new QTimer());
-    connect(timer, &QTimer::timeout, this, []() {
-        static int i = 0;
-        auto allWindows = QGuiApplication::topLevelWindows();
-        if (allWindows.count()) {
-            QWindow* window = QGuiApplication::topLevelWindows()[i++ % QGuiApplication::topLevelWindows().count()];
-            if (window) {
-                window->requestActivate();
-            }
-        }
-    });
-    timer->setInterval(5000);
-    timer->start();
 }
 
 void InputDispatcherFilter::registerPointer(MousePointer *pointer)
