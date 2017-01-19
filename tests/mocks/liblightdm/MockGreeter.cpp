@@ -147,6 +147,12 @@ void Greeter::handleAuthenticate()
 {
     Q_D(Greeter);
 
+    if (d->authenticated) {
+        // This can happen from the guest authentication flow
+        Q_EMIT authenticationComplete();
+        return;
+    }
+
     if (d->authenticationUser.isEmpty()) {
         Q_EMIT showPrompt("Username: ", Greeter::PromptTypeQuestion);
         return;

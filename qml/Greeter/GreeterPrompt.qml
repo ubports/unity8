@@ -79,6 +79,7 @@ FocusScope {
         objectName: "promptButton"
         anchors.fill: parent
         visible: !root.isPrompt
+        activeFocusOnTab: true
 
         styleName: "FocusShape"
 
@@ -98,6 +99,7 @@ FocusScope {
             }
         }
 
+        Keys.onSpacePressed: triggered();
         Keys.onReturnPressed: triggered();
         Keys.onEnterPressed: triggered();
         MouseArea {
