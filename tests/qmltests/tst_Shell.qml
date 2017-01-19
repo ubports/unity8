@@ -655,7 +655,8 @@ Rectangle {
             // Shell instance gets destroyed.
             tryCompare(shellLoader, "itemDestroyed", true);
 
-            setLightDMMockMode("single"); // back to the default value
+            LightDMController.reset();
+            setLightDMMockMode("single"); // these tests default to "single"
 
             AccountsService.demoEdges = false;
             AccountsService.demoEdgesCompleted = [];
@@ -1476,6 +1477,33 @@ Rectangle {
                 var passwordInput = findChild(greeter, "promptField");
                 tryCompare(passwordInput, "focus", true)
             }
+        }
+
+        function test_manualLoginFlow() {
+            LightDMController.showManualLoginHint = true;
+            setLightDMMockMode("full");
+            loadShell("desktop");
+
+            var i = selectUser("*other");
+            var greeter = findChild(shell, "greeter");
+            var username = findChild(greeter, "username" + i);
+            var promptField = findChild(greeter, "promptField");
+            var promptHint = findChild(greeter, "promptHint");
+
+            compare(username.text, "Login");
+            compare(promptHint.text, "Username");
+
+            tryCompare(promptField, "activeFocus", true);
+            typeString("has-password");
+            keyClick(Qt.Key_Enter);
+
+            tryCompare(username, "text", "has-password");
+            tryCompare(promptHint, "text", "Passphrase");
+
+            typeString("password");
+            keyClick(Qt.Key_Enter);
+
+            confirmLoggedIn(true);
         }
 
         function test_launcherInverted_data() {

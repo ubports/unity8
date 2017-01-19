@@ -49,6 +49,8 @@ public:
     QString defaultSessionHint() const;
     QString selectUser() const;
     bool hasGuestAccount() const;
+    bool showManualLoginHint() const;
+    bool hideUsersHint() const;
 
     PromptsModel *promptsModel();
 
@@ -82,4 +84,5 @@ private Q_SLOTS:
     void showMessageFilter(const QString &text, QLightDM::Greeter::MessageType type);
     void showPromptFilter(const QString &text, QLightDM::Greeter::PromptType type);
     void authenticationCompleteFilter();
+    void checkAuthenticationUser();
 };

@@ -151,7 +151,10 @@ StyledItem {
                     // Add an offset to bottomMargin for any items below the highlight
                     bottomMargin: -(units.gu(4) + (parent.belowHighlight ? parent.belowOffset : 0))
                 }
-                text: realName
+                text: userList.currentIndex === index
+                      && name === "*other"
+                      && LightDMService.greeter.authenticationUser !== ""
+                      ?  LightDMService.greeter.authenticationUser : realName
                 color: userList.currentIndex !== index ? theme.palette.normal.raised
                                                        : theme.palette.normal.raisedText
 

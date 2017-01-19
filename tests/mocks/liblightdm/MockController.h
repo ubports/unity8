@@ -29,6 +29,8 @@ class Q_DECL_EXPORT MockController : public QObject
     Q_PROPERTY(QString selectUserHint READ selectUserHint WRITE setSelectUserHint NOTIFY selectUserHintChanged)
     Q_PROPERTY(bool selectGuestHint READ selectGuestHint WRITE setSelectGuestHint NOTIFY selectGuestHintChanged)
     Q_PROPERTY(bool hasGuestAccountHint READ hasGuestAccountHint WRITE setHasGuestAccountHint NOTIFY hasGuestAccountHintChanged)
+    Q_PROPERTY(bool showManualLoginHint READ showManualLoginHint WRITE setShowManualLoginHint NOTIFY showManualLoginHintChanged)
+    Q_PROPERTY(bool hideUsersHint READ hideUsersHint WRITE setHideUsersHint NOTIFY hideUsersHintChanged)
 
     // single, single-pin, single-passphrase, full
     Q_PROPERTY(QString userMode READ userMode WRITE setUserMode NOTIFY userModeChanged)
@@ -54,6 +56,12 @@ public:
     bool hasGuestAccountHint() const;
     void setHasGuestAccountHint(bool hasGuestAccountHint);
 
+    bool showManualLoginHint() const;
+    void setShowManualLoginHint(bool showManualLoginHint);
+
+    bool hideUsersHint() const;
+    void setHideUsersHint(bool hideUsersHint);
+
     QString userMode() const;
     void setUserMode(const QString &userMode);
 
@@ -76,6 +84,8 @@ Q_SIGNALS:
     void selectUserHintChanged();
     void selectGuestHintChanged();
     void hasGuestAccountHintChanged();
+    void showManualLoginHintChanged();
+    void hideUsersHintChanged();
     void userModeChanged();
     void sessionModeChanged();
     void numSessionsChanged();
@@ -86,6 +96,8 @@ private:
     QString m_selectUserHint;
     bool m_selectGuestHint;
     bool m_hasGuestAccountHint;
+    bool m_showManualLoginHint;
+    bool m_hideUsersHint;
     QString m_userMode;
     QString m_sessionMode;
     QList<SessionItem> m_fullSessions;

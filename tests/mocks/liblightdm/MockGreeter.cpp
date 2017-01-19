@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2016 Canonical, Ltd.
+ * Copyright (C) 2014-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -73,17 +73,17 @@ QString Greeter::defaultSessionHint() const
 
 bool Greeter::hideUsersHint() const
 {
-    return false;
+    return MockController::instance()->hideUsersHint();
 }
 
 bool Greeter::showManualLoginHint() const
 {
-    return true;
+    return MockController::instance()->showManualLoginHint();
 }
 
 bool Greeter::showRemoteLoginHint() const
 {
-    return true;
+    return false;
 }
 
 QString Greeter::selectUserHint() const
@@ -146,6 +146,11 @@ void Greeter::authenticate(const QString &username)
 void Greeter::handleAuthenticate()
 {
     Q_D(Greeter);
+
+    if (d->authenticationUser.isEmpty()) {
+        Q_EMIT showPrompt("Username: ", Greeter::PromptTypeQuestion);
+        return;
+    }
 
     // Send out any messages we need to
     if (d->authenticationUser == "info-prompt")
@@ -238,6 +243,13 @@ bool Greeter::startSessionSync(const QString &session)
 void Greeter::respond(const QString &response)
 {
     Q_D(Greeter);
+
+    if (d->authenticationUser.isEmpty()) {
+        // A manual login, our first question was which username
+        d->authenticationUser = response;
+        handleAuthenticate();
+        return;
+    }
 
     if (d->authenticationUser == "no-response") {
         return;
