@@ -76,9 +76,9 @@ Item {
     }
 
     SignalSpy {
-        id: authUserChangedSpy
+        id: authStartedSpy
         target: LightDM.Greeter
-        signalName: "authenticationUserChanged"
+        signalName: "authenticationStarted"
     }
 
     GSettings {
@@ -155,7 +155,7 @@ Item {
             viewForceShowSpy.clear();
             viewTryToUnlockSpy.clear();
             resetLoader();
-            authUserChangedSpy.clear();
+            authStartedSpy.clear();
         }
 
         function resetLoader() {
@@ -223,12 +223,12 @@ Item {
 
         function test_unlockFail() {
             selectUser("has-password");
-            tryCompare(authUserChangedSpy, "count", 1);
+            tryCompare(authStartedSpy, "count", 1);
 
             view.responded("wr0ng p4ssw0rd");
             tryCompare(viewAuthenticationFailedSpy, "count", 1);
 
-            tryCompare(authUserChangedSpy, "count", 2);
+            tryCompare(authStartedSpy, "count", 2);
         }
 
         function test_promptless() {
@@ -246,23 +246,23 @@ Item {
 
         function test_twoFactorFailOnFirst() {
             selectUser("two-factor");
-            tryCompare(authUserChangedSpy, "count", 1);
+            tryCompare(authStartedSpy, "count", 1);
 
             view.responded("wr0ng p4ssw0rd");
             tryCompare(viewAuthenticationFailedSpy, "count", 1);
 
-            tryCompare(authUserChangedSpy, "count", 2);
+            tryCompare(authStartedSpy, "count", 2);
         }
 
         function test_twoFactorFailOnSecond() {
             selectUser("two-factor");
-            tryCompare(authUserChangedSpy, "count", 1);
+            tryCompare(authStartedSpy, "count", 1);
 
             view.responded("password");
             view.responded("wr0ng p4ssw0rd");
             tryCompare(viewAuthenticationFailedSpy, "count", 1);
 
-            tryCompare(authUserChangedSpy, "count", 2);
+            tryCompare(authStartedSpy, "count", 2);
         }
 
         function test_locked() {

@@ -1497,6 +1497,7 @@ Rectangle {
             typeString("has-password");
             keyClick(Qt.Key_Enter);
 
+            promptHint = findChild(greeter, "promptHint");
             tryCompare(username, "text", "has-password");
             tryCompare(promptHint, "text", "Passphrase");
 

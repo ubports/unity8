@@ -160,6 +160,7 @@ void Greeter::authenticate(const QString &username)
         d->m_greeter->authenticate(username);
     }
 
+    Q_EMIT authenticationStarted();
     Q_EMIT isAuthenticatedChanged();
     checkAuthenticationUser();
 }

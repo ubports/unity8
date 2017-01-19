@@ -68,6 +68,7 @@ Q_SIGNALS:
     void hideGreeter();
     void loginError(bool automatic);
     void loginSuccess(bool automatic);
+    void authenticationStarted(); // useful for testing
 
     // This signal is emitted by external agents like indicators, and the UI
     // should switch to this user if possible.
