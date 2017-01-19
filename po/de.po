@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2017-01-10 14:48+0000\n"
-"PO-Revision-Date: 2016-09-29 12:06+0000\n"
-"Last-Translator: Matthias Seidel <matthias.seidel@hamburg.de>\n"
+"PO-Revision-Date: 2017-01-18 22:45+0000\n"
+"Last-Translator: Torsten Franz <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-01-16 05:47+0000\n"
+"X-Launchpad-Export-Date: 2017-01-19 05:58+0000\n"
 "X-Generator: Launchpad (build 18302)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -179,7 +179,7 @@ msgstr "Entspricht dem Anklicken eines Startersymbols."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + A"
-msgstr ""
+msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Opens the Application Drawer."
@@ -345,7 +345,7 @@ msgstr ""
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "Weitere Einstellungen finden Sie in den Systemeinstellungen."
 
 #: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
@@ -501,12 +501,12 @@ msgstr "Arbeitsumgebung auswählen"
 
 #: qml/Launcher/Drawer.qml:80
 msgid "Search…"
-msgstr ""
+msgstr "Suchen …"
 
 #: qml/Launcher/Drawer.qml:101
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: qml/Launcher/MoreAppsHeader.qml:32
 msgid "More apps in the store"
