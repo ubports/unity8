@@ -130,11 +130,12 @@ FocusScope {
 
             model: root.userModel
             onResponded: root.responded(response)
-            onSelected: {
-                root.selected(index)
-                currentSession = LightDMService.users.data(index, LightDMService.userRoles.SessionRole);
-            }
+            onSelected: root.selected(index)
             onSessionChooserButtonClicked: parent.state = "SessionsList"
+
+            onCurrentIndexChanged: {
+                currentSession = LightDMService.users.data(currentIndex, LightDMService.userRoles.SessionRole);
+            }
 
             Keys.forwardTo: [sessionChooserLoader.item]
         }

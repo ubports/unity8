@@ -336,7 +336,7 @@ StyledItem {
             respondedSpy.clear();
             teaseSpy.clear();
             emergencySpy.clear();
-            LightDMController.sessionMode = "full";
+            LightDMController.reset();
             LightDM.Sessions.iconSearchDirectories = [testIconDirectory];
         }
 
@@ -394,34 +394,16 @@ StyledItem {
         }
 
         function test_changingSessionSticksToUser() {
-            LightDMController.sessionMode = "full";
-
             var loginList = findChild(view, "loginList");
-            var fakeSession1 = "ASessionWillNeverBeCalledThis";
-            var fakeSession2 = "ASessionWillAlsoNeverBeCalledThis";
 
-            // For this test to work, a user has to be selected and the
-            // mock must be made aware of that user
-            selectUser("has-password")
-            LightDMController.currentUsername = "has-password"
-            compare(LightDM.Sessions.count > 1, true);
-            compare(loginList.currentSession != fakeSession1, true);
-            LightDMController.sessionName = fakeSession1;
+            selectUser("invalid-session");
+            tryCompare(loginList, "currentSession", "invalid");
 
-            selectUser("has-pin")
-            LightDMController.currentUsername = "has-pin"
-            compare(loginList.currentSession != fakeSession2, true);
-            LightDMController.sessionName = fakeSession2;
+            selectUser("has-password");
+            tryCompare(loginList, "currentSession", "ubuntu");
 
-            selectUser("has-password")
-            tryCompare(loginList, "currentSession", fakeSession1);
-
-            selectUser("has-pin")
-            tryCompare(loginList, "currentSession", fakeSession2);
-
-            // Force a model reset
-            LightDMController.userMode = "single";
-            LightDMController.userMode = "full";
+            selectUser("invalid-session")
+            tryCompare(loginList, "currentSession", "invalid");
         }
 
         function test_tease_data() {
@@ -494,9 +476,6 @@ StyledItem {
         }
 
         function test_sessionIconNotShownWithActiveUser() {
-            LightDMController.sessionMode = "full";
-            compare(LightDM.Sessions.count > 1, true);
-
             selectUser("active");
 
             var sessionChooserButton = findChild(view, "sessionChooserButton");
@@ -504,9 +483,6 @@ StyledItem {
         }
 
         function test_sessionIconShownWithMultipleSessions() {
-            LightDMController.sessionMode = "full";
-            compare(LightDM.Sessions.count > 1, true);
-
             selectUser("has-password");
 
             var sessionChooserButton = findChild(view, "sessionChooserButton");
