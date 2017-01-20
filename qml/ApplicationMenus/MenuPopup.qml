@@ -309,7 +309,7 @@ UbuntuShape {
                 Rectangle {
                     color: "transparent"
                     border.width: units.dp(1)
-                    border.color: UbuntuColors.orange
+                    border.color: theme.palette.normal.activity
                     z: 1
 
                     width: listView.width
