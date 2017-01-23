@@ -695,11 +695,12 @@ Item {
             var sizeBefore = Qt.size(dialerDelegate.width, dialerDelegate.height);
             var deco = findChild(dialerDelegate, "appWindowDecoration");
             verify(deco);
+            // deco.width - units.gu(1) to make sure we're outside the "menu" area of the decoration
             mouseMove(deco, deco.width - units.gu(1), deco.height/2);
             var menuBarLoader = findChild(deco, "menuBarLoader");
             tryCompare(menuBarLoader.item, "visible", true);
-            mouseDoubleClick(deco, deco.width - units.gu(1), deco.height/2);
-            expectFail("", "Double click should not maximize ina a size restricted window");
+            mouseDoubleClick(deco, deco.width - units.gu(1), deco.height/2)
+            expectFail("", "Double click should not maximize in a size restricted window");
             tryCompareFunction(function() {
                     var sizeAfter = Qt.size(dialerDelegate.width, dialerDelegate.height);
                     return sizeAfter.width > sizeBefore.width && sizeAfter.height > sizeBefore.height;
@@ -723,6 +724,7 @@ Item {
             var sizeBefore = Qt.size(dialerDelegate.width, dialerDelegate.height);
             var deco = findChild(dialerDelegate, "appWindowDecoration");
             verify(deco);
+            // deco.width - units.gu(1) to make sure we're outside the "menu" area of the decoration
             mouseMove(deco, deco.width - units.gu(1), deco.height/2);
             var menuBarLoader = findChild(deco, "menuBarLoader");
             tryCompare(menuBarLoader.item, "visible", true);
