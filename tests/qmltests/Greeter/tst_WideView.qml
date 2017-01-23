@@ -338,6 +338,10 @@ StyledItem {
             emergencySpy.clear();
             LightDMController.reset();
             LightDM.Sessions.iconSearchDirectories = [testIconDirectory];
+
+            waitForRendering(view);
+            var userList = findChild(view, "userList");
+            tryCompare(userList, "movingInternally", false);
         }
 
         function cleanup() {
