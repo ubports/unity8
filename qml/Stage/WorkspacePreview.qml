@@ -94,14 +94,14 @@ UbuntuShape {
         id: mouseArea
         anchors.centerIn: parent
         anchors.verticalCenterOffset: header.height / 2
-        width: units.gu(10)
+        width: units.gu(8)
         height: width
         hoverEnabled: true
         opacity: containsMouse ? 1 : 0
 
         Rectangle {
             anchors.fill: parent
-            color: "#55000000"
+            color: "#80000000"
             radius: height / 2
         }
 
@@ -138,7 +138,7 @@ UbuntuShape {
 
                 ctx.lineWidth = lineWidth;
 
-                ctx.strokeStyle = "#55ffffff"
+                ctx.strokeStyle = "#3bffffff"
                 ctx.beginPath();
                 ctx.arc(canvas.width/2,canvas.height/2, (canvas.height - ctx.lineWidth) / 2, 0, (Math.PI*2),false);
                 ctx.stroke();
@@ -152,6 +152,13 @@ UbuntuShape {
 
                 ctx.restore();
             }
+        }
+
+        Icon {
+            source: "graphics/multi-monitor_leave.png"
+            height: units.gu(4)
+            width: height
+            anchors.centerIn: parent
         }
     }
 }
