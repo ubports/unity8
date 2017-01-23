@@ -111,3 +111,7 @@ int Screens::count() const
 {
     return m_screenList.size();
 }
+
+void Screens::activateScreen(int)
+{
+}

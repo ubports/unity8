@@ -123,7 +123,7 @@ UbuntuShape {
             property real progress: 0.5
             property int lineWidth: units.dp(4)
             onProgressChanged: {
-                requestPaint()
+                requestPaint();
             }
 
             rotation: -90
