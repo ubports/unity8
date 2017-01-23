@@ -185,10 +185,8 @@ Item {
         } // Row
 
         MouseArea {
-            anchors.fill: parent
+            anchors.fill: row
             hoverEnabled: d.currentItem
-
-            propagateComposedEvents: true
 
             onEntered: {
                 if (d.currentItem) {
