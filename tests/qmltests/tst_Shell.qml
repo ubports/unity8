@@ -1374,6 +1374,17 @@ Rectangle {
             verify(coverPage.shown);
         }
 
+        function test_physicalHomeKeyPressFocusesDash() {
+            loadShell("phone");
+
+            var galleryApp = ApplicationManager.startApplication("gallery-app");
+            tryCompare(ApplicationManager, "focusedApplicationId", "gallery-app");
+
+            var windowInputMonitor = findInvisibleChild(shell, "windowInputMonitor");
+            windowInputMonitor.homeKeyActivated();
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+        }
+
         function test_tabletLogin_data() {
             return [
                 {tag: "auth error", user: "auth-error", loggedIn: false, password: ""},
