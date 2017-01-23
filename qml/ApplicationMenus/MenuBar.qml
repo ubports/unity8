@@ -25,12 +25,13 @@ Item {
     id: root
     objectName: "menuBar"
 
+    // set from outside
     property alias unityMenuModel: rowRepeater.model
-
-    readonly property bool valid: rowRepeater.count > 0
-
     property bool enableKeyFilter: false
+    property real overflowWidth: width
 
+    // read from outside
+    readonly property bool valid: rowRepeater.count > 0
     readonly property bool showRequested: d.longAltPressed || d.currentItem != null
 
     implicitWidth: row.width
@@ -65,168 +66,185 @@ Item {
         onPressed: d.dismissAll()
     }
 
-    Item {
-        id: clippingItem
+    Rectangle {
+        anchors.fill: row
+        color: Qt.rgba(1,0,0,0.4)
+    }
 
-        height: root.height
-        width: root.width
-        clip: true
+    Row {
+        id: row
+        spacing: units.gu(2)
+        height: parent.height
 
-        Row {
-            id: row
-            spacing: units.gu(2)
-            height: parent.height
-
-            ActionContext {
-                id: menuBarContext
-                objectName: "barContext"
-                active: !d.currentItem && enableKeyFilter
-            }
-
-            Repeater {
-                id: rowRepeater
-
-                Item {
-                    id: visualItem
-                    objectName: root.objectName + "-item" + __ownIndex
-
-                    readonly property int __ownIndex: index
-                    property Item __popup: null;
-                    property bool popupVisible: __popup && __popup.visible
-
-                    implicitWidth: column.implicitWidth
-                    implicitHeight: row.height
-                    enabled: model.sensitive
-
-                    function show() {
-                        if (!__popup) {
-                            __popup = menuComponent.createObject(root, { objectName: visualItem.objectName + "-menu" });
-                            // force the current item to be the newly popped up menu
-                        } else {
-                            __popup.show();
-                        }
-                        d.currentItem = visualItem;
-                    }
-                    function hide() {
-                        if (__popup) {
-                            __popup.hide();
-
-                            if (d.currentItem === visualItem) {
-                                d.currentItem = null;
-                            }
-                        }
-                    }
-                    function dismiss() {
-                        if (__popup) {
-                            __popup.destroy();
-                            __popup = null;
-
-                            if (d.currentItem === visualItem) {
-                                d.currentItem = null;
-                            }
-                        }
-                    }
-
-                    Connections {
-                        target: d
-                        onDismissAll: visualItem.dismiss()
-                    }
-
-                    Component {
-                        id: menuComponent
-                        MenuPopup {
-                            x: visualItem.x - units.gu(1)
-                            anchors.top: parent.bottom
-                            unityMenuModel: root.unityMenuModel.submenu(visualItem.__ownIndex)
-
-                            Component.onCompleted: reset();
-                        }
-                    }
-
-                    RowLayout {
-                        id: column
-                        spacing: units.gu(1)
-                        anchors {
-                            centerIn: parent
-                        }
-
-                        Icon {
-                            Layout.preferredWidth: units.gu(2)
-                            Layout.preferredHeight: units.gu(2)
-                            Layout.alignment: Qt.AlignVCenter
-
-                            visible: model.icon || false
-                            source: model.icon || ""
-                        }
-
-                        ActionItem {
-                            id: actionItem
-                            width: _title.width
-                            height: _title.height
-
-                            action: Action {
-                                // FIXME - SDK Action:text modifies menu text with html underline for mnemonic
-                                text: model.label.replace("_", "&").replace("<u>", "&").replace("</u>", "")
-
-                                onTriggered: {
-                                    visualItem.show();
-                                }
-                            }
-
-                            Label {
-                                id: _title
-                                text: actionItem.text
-                                horizontalAlignment: Text.AlignLeft
-                                color: enabled ? theme.palette.normal.overlayText : theme.palette.disabled.overlayText
-                            }
-                        }
-                    }
-                } // Item ( delegate )
-            } // Repeater
-        } // Row
-
-        MouseArea {
-            anchors.fill: parent
-            hoverEnabled: d.currentItem
-
-            onEntered: {
-                if (d.currentItem) {
-                    updateCurrentItemFromPosition(Qt.point(mouseX, mouseY))
-                }
-            }
-            onPositionChanged: {
-                if (d.currentItem) {
-                    updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
-                }
-            }
-            onClicked: updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
-
-            function updateCurrentItemFromPosition(point) {
-                var pos = mapToItem(row, point.x, point.y);
-
-                if (!d.hoveredItem || !d.currentItem || !d.hoveredItem.contains(Qt.point(pos.x - d.currentItem.x, pos.y - d.currentItem.y))) {
-                    d.hoveredItem = row.childAt(pos.x, pos.y);
-                    if (!d.hoveredItem || !d.hoveredItem.enabled)
-                        return false;
-                    if (d.currentItem != d.hoveredItem) {
-                        d.currentItem = d.hoveredItem;
-                    }
-                }
-                return true;
-            }
+        ActionContext {
+            id: menuBarContext
+            objectName: "barContext"
+            active: !d.currentItem && enableKeyFilter
         }
 
-        Rectangle {
-            id: underline
-            anchors {
-                bottom: row.bottom
-            }
-            x: d.currentItem ? row.x + d.currentItem.x - units.gu(1) : 0
-            width: d.currentItem ? d.currentItem.width + units.gu(2) : 0
-            height: units.dp(4)
-            color: theme.palette.normal.activity
-            visible: d.currentItem
+        Repeater {
+            id: rowRepeater
+
+            Item {
+                id: visualItem
+                objectName: root.objectName + "-item" + __ownIndex
+
+                readonly property int __ownIndex: index
+                property Item __popup: null;
+                property bool popupVisible: __popup && __popup.visible
+                property bool shouldDisplay: x + width + ((index < rowRepeater.count-1) ? units.gu(1) : 0) <
+                                                (root.overflowWidth - (overflowButton.visible ? overflowButton.width : 0))
+
+                implicitWidth: column.implicitWidth
+                implicitHeight: row.height
+                enabled: model.sensitive && shouldDisplay
+                opacity: shouldDisplay ? 1 : 0
+
+                function show() {
+                    if (!__popup) {
+                        __popup = menuComponent.createObject(root, { objectName: visualItem.objectName + "-menu" });
+                        // force the current item to be the newly popped up menu
+                    } else {
+                        __popup.show();
+                    }
+                    d.currentItem = visualItem;
+                }
+                function hide() {
+                    if (__popup) {
+                        __popup.hide();
+
+                        if (d.currentItem === visualItem) {
+                            d.currentItem = null;
+                        }
+                    }
+                }
+                function dismiss() {
+                    if (__popup) {
+                        __popup.destroy();
+                        __popup = null;
+
+                        if (d.currentItem === visualItem) {
+                            d.currentItem = null;
+                        }
+                    }
+                }
+
+                Connections {
+                    target: d
+                    onDismissAll: visualItem.dismiss()
+                }
+
+                Component {
+                    id: menuComponent
+                    MenuPopup {
+                        x: visualItem.x - units.gu(1)
+                        anchors.top: parent.bottom
+                        unityMenuModel: root.unityMenuModel.submenu(visualItem.__ownIndex)
+
+                        Component.onCompleted: reset();
+                    }
+                }
+
+                RowLayout {
+                    id: column
+                    spacing: units.gu(1)
+                    anchors {
+                        centerIn: parent
+                    }
+
+                    Icon {
+                        Layout.preferredWidth: units.gu(2)
+                        Layout.preferredHeight: units.gu(2)
+                        Layout.alignment: Qt.AlignVCenter
+
+                        visible: model.icon || false
+                        source: model.icon || ""
+                    }
+
+                    ActionItem {
+                        id: actionItem
+                        width: _title.width
+                        height: _title.height
+
+                        action: Action {
+                            // FIXME - SDK Action:text modifies menu text with html underline for mnemonic
+                            text: model.label.replace("_", "&").replace("<u>", "&").replace("</u>", "")
+
+                            onTriggered: {
+                                visualItem.show();
+                            }
+                        }
+
+                        Label {
+                            id: _title
+                            text: actionItem.text
+                            horizontalAlignment: Text.AlignLeft
+                            color: enabled ? theme.palette.normal.overlayText : theme.palette.disabled.overlayText
+                        }
+                    }
+                }
+            } // Item ( delegate )
+        } // Repeater
+    } // Row
+
+    MouseArea {
+        id: overflowButton
+        visible: root.implicitWidth > root.width
+        height: parent.height
+        width: units.gu(4)
+        anchors.right: parent.right
+
+        Icon {
+            id: icon
+            width: units.gu(2)
+            height: units.gu(2)
+            anchors.centerIn: parent
+            color: theme.palette.normal.overlayText
+            name: "toolkit_chevron-down_2gu"
         }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: d.currentItem
+
+        onEntered: {
+            if (d.currentItem) {
+                updateCurrentItemFromPosition(Qt.point(mouseX, mouseY))
+            }
+        }
+        onPositionChanged: {
+            if (d.currentItem) {
+                updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
+            }
+        }
+        onClicked: updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
+
+        function updateCurrentItemFromPosition(point) {
+            var pos = mapToItem(row, point.x, point.y);
+
+            if (!d.hoveredItem || !d.currentItem || !d.hoveredItem.contains(Qt.point(pos.x - d.currentItem.x, pos.y - d.currentItem.y))) {
+                d.hoveredItem = row.childAt(pos.x, pos.y);
+                if (!d.hoveredItem || !d.hoveredItem.enabled)
+                    return false;
+                if (d.currentItem != d.hoveredItem) {
+                    d.currentItem = d.hoveredItem;
+                }
+            }
+            return true;
+        }
+    }
+
+    Rectangle {
+        id: underline
+        anchors {
+            bottom: row.bottom
+        }
+        x: d.currentItem ? row.x + d.currentItem.x - units.gu(1) : 0
+        width: d.currentItem ? d.currentItem.width + units.gu(2) : 0
+        height: units.dp(4)
+        color: theme.palette.normal.activity
+        visible: d.currentItem
     }
 
     MenuNavigator {

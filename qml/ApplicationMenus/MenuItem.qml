@@ -137,7 +137,7 @@ ActionItem {
                              theme.palette.disabled.backgroundSecondaryText
 
             visible: root.hasSubmenu
-            name: "chevron"
+            name: "toolkit_chevron-ltr_2gu"
         }
     }
 
