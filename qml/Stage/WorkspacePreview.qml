@@ -124,6 +124,9 @@ UbuntuShape {
             property int lineWidth: units.dp(4)
             onProgressChanged: {
                 requestPaint();
+                if (progress == 1) {
+                    Screens.activateScreen(index);
+                }
             }
 
             rotation: -90
