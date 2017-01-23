@@ -50,7 +50,7 @@ public:
 
 DebuggingController::DebuggingController(QObject *parent):
     UnityDBusObject(QStringLiteral("/com/canonical/Unity8/Debugging"), QStringLiteral("com.canonical.Unity8"), true, parent),
-     m_logOverlay(true)
+     m_logOverlay(false)
 {
 }
 
