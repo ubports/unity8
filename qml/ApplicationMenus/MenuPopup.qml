@@ -66,7 +66,7 @@ UbuntuShape {
         property real __minimumWidth: units.gu(20)
         property real __maximumWidth: Screen.width * 0.7
         property real __minimumHeight: units.gu(2)
-        property real __maximumHeight: Screen.height * 0.7
+        property real __maximumHeight: Screen.height - mapToItem(null, 0, y).y
 
         signal dismissAll()
 
@@ -147,8 +147,20 @@ UbuntuShape {
                 }
 
                 MouseArea {
+                    id: previousMA
                     anchors.fill: parent
-                    onPressed: {
+                    hoverEnabled: enabled
+                    onPressed: progress()
+
+                    Timer {
+                        running: previousMA.containsMouse && !listView.atYBeginning
+                        interval: 1000
+                        repeat: true
+                        onTriggered: previousMA.progress()
+                    }
+
+                    function progress() {
+                        console.log("progress!")
                         var item = menuColumn.childAt(0, listView.contentY);
                         if (item) {
                             var previousItem = item;
@@ -349,8 +361,19 @@ UbuntuShape {
                 }
 
                 MouseArea {
+                    id: nextMA
                     anchors.fill: parent
-                    onPressed: {
+                    hoverEnabled: enabled
+                    onPressed: progress()
+
+                    Timer {
+                        running: nextMA.containsMouse && !listView.atYEnd
+                        interval: 1000
+                        repeat: true
+                        onTriggered: nextMA.progress()
+                    }
+
+                    function progress() {
                         var item = menuColumn.childAt(0, listView.contentY + listView.height);
                         if (item) {
                             var nextItem = item;
