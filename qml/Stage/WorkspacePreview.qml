@@ -147,7 +147,6 @@ UbuntuShape {
                 ctx.stroke();
                 ctx.closePath();
 
-
                 ctx.restore();
             }
         }
