@@ -367,9 +367,6 @@ StyledItem {
             var user = LightDM.Users.data(i, LightDM.UserRoles.NameRole);
             LightDM.Greeter.authenticate(user);
 
-            if (view.currentIndex == i)
-                return;
-
             var userList = findChild(view, "userList");
             var promptList = findChild(view, "promptList");
 
