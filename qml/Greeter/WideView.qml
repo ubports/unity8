@@ -132,12 +132,15 @@ FocusScope {
             onResponded: root.responded(response)
             onSelected: root.selected(index)
             onSessionChooserButtonClicked: parent.state = "SessionsList"
-
-            onCurrentIndexChanged: {
-                currentSession = LightDMService.users.data(currentIndex, LightDMService.userRoles.SessionRole);
-            }
+            onCurrentIndexChanged: setCurrentSession()
 
             Keys.forwardTo: [sessionChooserLoader.item]
+
+            Component.onCompleted: setCurrentSession()
+
+            function setCurrentSession() {
+                currentSession = LightDMService.users.data(currentIndex, LightDMService.userRoles.SessionRole);
+            }
         }
 
         Loader {
