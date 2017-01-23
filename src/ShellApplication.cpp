@@ -69,6 +69,7 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     textdomain("unity8");
 
     m_qmlEngine->rootContext()->setContextProperty(QStringLiteral("applicationArguments"), &m_qmlArgs);
+    m_qmlEngine->rootContext()->setContextProperty("DebuggingController", new DebuggingController(this));
 
     QByteArray pxpguEnv = qgetenv("GRID_UNIT_PX");
     bool ok;
@@ -87,22 +88,20 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     }
     #endif
 
-    m_qmlEngine->rootContext()->setContextProperty("DebuggingController", new DebuggingController(this));
-
-//    if (parser.mode().compare("greeter") == 0) {
+    if (m_qmlArgs.mode().compare("greeter") == 0) {
 //        QSize primaryScreenSize = this->primaryScreen()->size();
 //        m_shellView->setHeight(primaryScreenSize.height());
 //        m_shellView->setWidth(primaryScreenSize.width());
 //        m_shellView->show();
 //        m_shellView->requestActivate();
-//        if (!QProcess::startDetached("initctl emit --no-wait unity8-greeter-started")) {
-//            qDebug() << "Unable to send unity8-greeter-started event to Upstart";
-//        }
+        if (!QProcess::startDetached("initctl emit --no-wait unity8-greeter-started")) {
+            qDebug() << "Unable to send unity8-greeter-started event to Upstart";
+        }
 //    } else if (isMirServer || parser.hasFullscreen()) {
 //        m_shellView->showFullScreen();
 //    } else {
 //        m_shellView->show();
-//    }
+    }
 }
 
 ShellApplication::~ShellApplication()
