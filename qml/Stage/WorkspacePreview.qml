@@ -52,7 +52,7 @@ UbuntuShape {
 
         Repeater {
             id: topLevelSurfaceRepeater
-            model: topLevelSurfaceList
+            model: visible ? topLevelSurfaceList : null
             delegate: Rectangle {
                 width: surfaceItem.width
                 height: surfaceItem.height + decorationHeight * previewScale
@@ -86,6 +86,69 @@ UbuntuShape {
                     onImplicitHeightChanged: print("item", surfaceItem, "height changed", implicitHeight)
                     surface: model.window.surface
                 }
+            }
+        }
+    }
+
+    MouseArea {
+        id: mouseArea
+        anchors.centerIn: parent
+        anchors.verticalCenterOffset: header.height / 2
+        width: units.gu(10)
+        height: width
+        hoverEnabled: true
+        opacity: containsMouse ? 1 : 0
+
+        Rectangle {
+            anchors.fill: parent
+            color: "#55000000"
+            radius: height / 2
+        }
+
+        NumberAnimation {
+            target: canvas
+            property: "progress"
+            duration: 2000
+            running: mouseArea.containsMouse
+            from: 0
+            to: 1
+        }
+
+        Canvas {
+            id: canvas
+            height: parent.height
+            width: height
+            anchors.centerIn: parent
+
+            property real progress: 0.5
+            property int lineWidth: units.dp(4)
+            onProgressChanged: {
+                requestPaint()
+            }
+
+            rotation: -90
+
+            onPaint: {
+                var ctx = canvas.getContext("2d");
+                ctx.save();
+                ctx.reset();
+
+                ctx.lineWidth = lineWidth;
+
+                ctx.strokeStyle = "#55ffffff"
+                ctx.beginPath();
+                ctx.arc(canvas.width/2,canvas.height/2, (canvas.height - ctx.lineWidth) / 2, 0, (Math.PI*2),false);
+                ctx.stroke();
+                ctx.closePath();
+
+                ctx.strokeStyle = "white"
+                ctx.beginPath();
+                ctx.arc(canvas.width/2,canvas.height/2, (canvas.height - ctx.lineWidth) / 2, 0, (Math.PI*2*(progress)),false);
+                ctx.stroke();
+                ctx.closePath();
+
+
+                ctx.restore();
             }
         }
     }

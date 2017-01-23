@@ -185,7 +185,7 @@ void MirSurfaceItem::createQmlContentItem()
     m_qmlItem = qobject_cast<QQuickItem*>(m_qmlContentComponent->create());
     m_qmlItem->setParentItem(this);
 
-    if (m_fillMode == FillMode::Stretch) {
+    if (m_fillMode == FillMode::Stretch && width() != 0 && height() != 0) {
         m_qmlItem->setWidth(width());
         m_qmlItem->setHeight(height());
     } else {
@@ -193,6 +193,7 @@ void MirSurfaceItem::createQmlContentItem()
         m_qmlItem->setHeight(m_surfaceHeight);
     }
 
+        qDebug() << "set size to" << m_surfaceWidth;
     setImplicitWidth(m_qmlItem->implicitWidth());
     setImplicitHeight(m_qmlItem->implicitHeight());
 
@@ -306,6 +307,8 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
             }
             setImplicitSize(m_qmlSurface->width(), m_qmlSurface->height());
         });
+        m_surfaceWidth = surface->size().width();
+        m_surfaceHeight = surface->size().height();
 
         QUrl qmlComponentFilePath;
         if (!m_qmlSurface->qmlFilePath().isEmpty()) {
@@ -319,6 +322,7 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
         switch (m_qmlContentComponent->status()) {
             case QQmlComponent::Ready:
                 createQmlContentItem();
+                qDebug() << "content created" << m_surfaceWidth << implicitWidth() << width();
                 break;
             case QQmlComponent::Loading:
                 connect(m_qmlContentComponent, &QQmlComponent::statusChanged,

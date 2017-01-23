@@ -451,6 +451,7 @@ FocusScope {
             PropertyChanges { target: cancelSpreadMouseArea; enabled: true }
             PropertyChanges { target: blurLayer; visible: true; blurRadius: 32; brightness: .65; opacity: 1 }
             PropertyChanges { target: wallpaper; visible: false }
+            PropertyChanges { target: screensAndWorkspaces; opacity: 1 }
         },
         State {
             name: "stagedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "staged"
@@ -499,11 +500,13 @@ FocusScope {
             from: "stagedRightEdge,sideStagedRightEdge,windowedRightEdge"; to: "spread"
             PropertyAction { target: spreadItem; property: "highlightedIndex"; value: -1 }
             PropertyAnimation { target: blurLayer; properties: "brightness,blurRadius"; duration: priv.animationDuration }
+            UbuntuNumberAnimation { target: screensAndWorkspaces; property: "opacity"; duration: priv.animationDuration }
         },
         Transition {
             to: "spread"
             PropertyAction { target: spreadItem; property: "highlightedIndex"; value: appRepeater.count > 1 ? 1 : 0 }
             PropertyAction { target: floatingFlickable; property: "contentX"; value: 0 }
+            UbuntuNumberAnimation { target: screensAndWorkspaces; property: "opacity"; duration: priv.animationDuration }
         },
         Transition {
             from: "spread"
@@ -565,6 +568,8 @@ FocusScope {
             anchors { left: parent.left; top: parent.top; right: parent.right }
             height: parent.height / 3
             background: root.background
+            opacity: 0
+            visible: opacity > 0
         }
 
         Spread {
@@ -578,6 +583,83 @@ FocusScope {
 
             onLeaveSpread: {
                 priv.goneToSpread = false;
+            }
+
+            FloatingFlickable {
+                id: floatingFlickable
+                objectName: "spreadFlickable"
+                anchors.fill: parent
+                enabled: false
+                contentWidth: spreadItem.spreadTotalWidth
+
+                function snap(toIndex) {
+                    var delegate = appRepeater.itemAt(toIndex)
+                    var targetContentX = floatingFlickable.contentWidth / spreadItem.totalItemCount * toIndex;
+                    if (targetContentX - floatingFlickable.contentX > spreadItem.rightStackXPos - (spreadItem.spreadItemWidth / 2)) {
+                        var offset = (spreadItem.rightStackXPos - (spreadItem.spreadItemWidth / 2)) - (targetContentX - floatingFlickable.contentX)
+                        snapAnimation.to = floatingFlickable.contentX - offset;
+                        snapAnimation.start();
+                    } else if (targetContentX - floatingFlickable.contentX < spreadItem.leftStackXPos + units.gu(1)) {
+                        var offset = (spreadItem.leftStackXPos + units.gu(1)) - (targetContentX - floatingFlickable.contentX);
+                        snapAnimation.to = floatingFlickable.contentX - offset;
+                        snapAnimation.start();
+                    }
+                }
+                UbuntuNumberAnimation {id: snapAnimation; target: floatingFlickable; property: "contentX"}
+            }
+
+            MouseArea {
+                id: hoverMouseArea
+                objectName: "hoverMouseArea"
+                anchors.fill: parent
+                propagateComposedEvents: true
+                hoverEnabled: true
+                enabled: false
+                visible: enabled
+
+                property int scrollAreaWidth: width / 3
+                property bool progressiveScrollingEnabled: false
+
+                onMouseXChanged: {
+                    mouse.accepted = false
+
+                    if (hoverMouseArea.pressed) {
+                        return;
+                    }
+
+                    // Find the hovered item and mark it active
+                    for (var i = appRepeater.count - 1; i >= 0; i--) {
+                        var appDelegate = appRepeater.itemAt(i);
+                        var mapped = mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
+                        var itemUnder = appDelegate.childAt(mapped.x, mapped.y);
+                        if (itemUnder && (itemUnder.objectName === "dragArea" || itemUnder.objectName === "windowInfoItem" || itemUnder.objectName == "closeMouseArea")) {
+                            spreadItem.highlightedIndex = i;
+                            break;
+                        }
+                    }
+
+                    if (floatingFlickable.contentWidth > floatingFlickable.width) {
+                        var margins = floatingFlickable.width * 0.05;
+
+                        if (!progressiveScrollingEnabled && mouseX < floatingFlickable.width - scrollAreaWidth) {
+                            progressiveScrollingEnabled = true
+                        }
+
+                        // do we need to scroll?
+                        if (mouseX < scrollAreaWidth + margins) {
+                            var progress = Math.min(1, (scrollAreaWidth + margins - mouseX) / (scrollAreaWidth - margins));
+                            var contentX = (1 - progress) * (floatingFlickable.contentWidth - floatingFlickable.width)
+                            floatingFlickable.contentX = Math.max(0, Math.min(floatingFlickable.contentX, contentX))
+                        }
+                        if (mouseX > floatingFlickable.width - scrollAreaWidth && progressiveScrollingEnabled) {
+                            var progress = Math.min(1, (mouseX - (floatingFlickable.width - scrollAreaWidth)) / (scrollAreaWidth - margins))
+                            var contentX = progress * (floatingFlickable.contentWidth - floatingFlickable.width)
+                            floatingFlickable.contentX = Math.min(floatingFlickable.contentWidth - floatingFlickable.width, Math.max(floatingFlickable.contentX, contentX))
+                        }
+                    }
+                }
+
+                onPressed: mouse.accepted = false
             }
         }
 
@@ -1748,83 +1830,6 @@ FocusScope {
                 }
             }
         }
-    }
-
-    MouseArea {
-        id: hoverMouseArea
-        objectName: "hoverMouseArea"
-        anchors.fill: appContainer
-        propagateComposedEvents: true
-        hoverEnabled: true
-        enabled: false
-        visible: enabled
-
-        property int scrollAreaWidth: width / 3
-        property bool progressiveScrollingEnabled: false
-
-        onMouseXChanged: {
-            mouse.accepted = false
-
-            if (hoverMouseArea.pressed) {
-                return;
-            }
-
-            // Find the hovered item and mark it active
-            for (var i = appRepeater.count - 1; i >= 0; i--) {
-                var appDelegate = appRepeater.itemAt(i);
-                var mapped = mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
-                var itemUnder = appDelegate.childAt(mapped.x, mapped.y);
-                if (itemUnder && (itemUnder.objectName === "dragArea" || itemUnder.objectName === "windowInfoItem" || itemUnder.objectName == "closeMouseArea")) {
-                    spreadItem.highlightedIndex = i;
-                    break;
-                }
-            }
-
-            if (floatingFlickable.contentWidth > floatingFlickable.width) {
-                var margins = floatingFlickable.width * 0.05;
-
-                if (!progressiveScrollingEnabled && mouseX < floatingFlickable.width - scrollAreaWidth) {
-                    progressiveScrollingEnabled = true
-                }
-
-                // do we need to scroll?
-                if (mouseX < scrollAreaWidth + margins) {
-                    var progress = Math.min(1, (scrollAreaWidth + margins - mouseX) / (scrollAreaWidth - margins));
-                    var contentX = (1 - progress) * (floatingFlickable.contentWidth - floatingFlickable.width)
-                    floatingFlickable.contentX = Math.max(0, Math.min(floatingFlickable.contentX, contentX))
-                }
-                if (mouseX > floatingFlickable.width - scrollAreaWidth && progressiveScrollingEnabled) {
-                    var progress = Math.min(1, (mouseX - (floatingFlickable.width - scrollAreaWidth)) / (scrollAreaWidth - margins))
-                    var contentX = progress * (floatingFlickable.contentWidth - floatingFlickable.width)
-                    floatingFlickable.contentX = Math.min(floatingFlickable.contentWidth - floatingFlickable.width, Math.max(floatingFlickable.contentX, contentX))
-                }
-            }
-        }
-
-        onPressed: mouse.accepted = false
-    }
-
-    FloatingFlickable {
-        id: floatingFlickable
-        objectName: "spreadFlickable"
-        anchors.fill: appContainer
-        enabled: false
-        contentWidth: spreadItem.spreadTotalWidth
-
-        function snap(toIndex) {
-            var delegate = appRepeater.itemAt(toIndex)
-            var targetContentX = floatingFlickable.contentWidth / spreadItem.totalItemCount * toIndex;
-            if (targetContentX - floatingFlickable.contentX > spreadItem.rightStackXPos - (spreadItem.spreadItemWidth / 2)) {
-                var offset = (spreadItem.rightStackXPos - (spreadItem.spreadItemWidth / 2)) - (targetContentX - floatingFlickable.contentX)
-                snapAnimation.to = floatingFlickable.contentX - offset;
-                snapAnimation.start();
-            } else if (targetContentX - floatingFlickable.contentX < spreadItem.leftStackXPos + units.gu(1)) {
-                var offset = (spreadItem.leftStackXPos + units.gu(1)) - (targetContentX - floatingFlickable.contentX);
-                snapAnimation.to = floatingFlickable.contentX - offset;
-                snapAnimation.start();
-            }
-        }
-        UbuntuNumberAnimation {id: snapAnimation; target: floatingFlickable; property: "contentX"}
     }
 
     PropertyAnimation {
