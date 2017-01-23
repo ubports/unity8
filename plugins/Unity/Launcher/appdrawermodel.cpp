@@ -43,6 +43,10 @@ int AppDrawerModel::rowCount(const QModelIndex &parent) const
 
 QVariant AppDrawerModel::data(const QModelIndex &index, int role) const
 {
+    if (!index.isValid() || m_list.count() <= index.row()) {
+        return QVariant();
+    }
+
     switch (role) {
     case RoleAppId:
         return m_list.at(index.row())->appId();
