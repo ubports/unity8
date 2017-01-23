@@ -78,6 +78,9 @@ public:
 
     int count() const;
 
+public Q_SLOTS:
+    void activateScreen(int index);
+
 Q_SIGNALS:
     void countChanged();
     void screenAdded(QScreen *screen);
