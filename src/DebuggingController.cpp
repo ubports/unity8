@@ -49,7 +49,8 @@ public:
 };
 
 DebuggingController::DebuggingController(QObject *parent):
-    UnityDBusObject(QStringLiteral("/com/canonical/Unity8/Debugging"), QStringLiteral("com.canonical.Unity8"), true, parent)
+    UnityDBusObject(QStringLiteral("/com/canonical/Unity8/Debugging"), QStringLiteral("com.canonical.Unity8"), true, parent),
+     m_logOverlay(true)
 {
 }
 
@@ -89,4 +90,14 @@ void DebuggingController::SetSlowAnimations(bool slowAnimations)
 void DebuggingController::SetLoggingFilterRules(const QString &filterRules)
 {
     QLoggingCategory::setFilterRules(filterRules);
+}
+
+void DebuggingController::SetLogOverlay(bool logOverlay)
+{
+    if (logOverlay == m_logOverlay) {
+        return;
+    }
+
+    m_logOverlay = logOverlay;
+    Q_EMIT logOverlayChanged(m_logOverlay);
 }

@@ -39,6 +39,8 @@ public:
     void setThemeName(const QString &themeName) override;
     QString themeName() const override { return m_themeName; }
 
+    void moveTo(const QPoint& position) override;
+
     void setCustomCursor(const QCursor &) override;
 
     QQuickItem* confiningItem() const;
@@ -48,11 +50,6 @@ public:
     void setTopBoundaryOffset(int topBoundaryOffset);
 
     QScreen* screen() const { return m_registeredScreen; }
-
-public Q_SLOTS:
-    void handleMouseEvent(ulong timestamp, QPointF movement, Qt::MouseButtons buttons,
-            Qt::KeyboardModifiers modifiers) override;
-    void handleWheelEvent(ulong timestamp, QPoint angleDelta, Qt::KeyboardModifiers modifiers) override;
 
 Q_SIGNALS:
     void pushedLeftBoundary(qreal amount, Qt::MouseButtons buttons);
@@ -82,6 +79,7 @@ private:
     QPointer<QScreen> m_registeredScreen;
     QString m_cursorName;
     QString m_themeName;
+    bool m_active;
 
     // Accumulated, unapplied, mouse movement.
     QPointF m_accumulatedMovement;

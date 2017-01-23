@@ -45,6 +45,7 @@ import Unity.DashCommunicator 0.1
 import Unity.Indicators 0.1 as Indicators
 import Cursor 1.1
 import WindowManager 1.0
+import Unity.Debug 0.1 as Debug
 
 
 StyledItem {
@@ -251,6 +252,7 @@ StyledItem {
             var mappedCoords = mapFromItem(null, pos.x, pos.y);
             cursor.x = mappedCoords.x;
             cursor.y = mappedCoords.y;
+            cursor.mouseNeverMoved = false;
         }
     }
 
@@ -319,6 +321,11 @@ StyledItem {
             onSpreadShownChanged: {
                 panel.indicators.hide();
                 panel.applicationMenus.hide();
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "oskEnabled"
+                value: shell.oskEnabled
             }
         }
     }
@@ -714,10 +721,23 @@ StyledItem {
 
     Cursor {
         id: cursor
-        visible: shell.hasMouse
+        objectName: "Pointer-"+screenWindow.objectName
+
         z: itemGrabber.z + 1
         opacity: 0
         topBoundaryOffset: panel.panelHeight
+        enabled: shell.hasMouse && screenWindow.active
+        visible: enabled
+
+        property bool mouseNeverMoved: true
+        Binding {
+            target: cursor; property: "x"; value: shell.width / 2
+            when: cursor.mouseNeverMoved && cursor.visible
+        }
+        Binding {
+            target: cursor; property: "y"; value: shell.height / 2
+            when: cursor.mouseNeverMoved && cursor.visible
+        }
 
         confiningItem: stage.itemConfiningMouseCursor
 
@@ -775,6 +795,7 @@ StyledItem {
         }
 
         onMouseMoved: {
+            mouseNeverMoved = false;
             cursor.opacity = 1;
         }
 
@@ -803,6 +824,22 @@ StyledItem {
                 if (shutdownFadeOutRectangle.enabled && shutdownFadeOutRectangle.visible) {
                     DBusUnitySessionService.shutdown();
                 }
+            }
+        }
+    }
+
+    Loader {
+        z: shutdownFadeOutRectangle.z + 1
+        active: DebuggingController.logOverlay
+
+        sourceComponent: Text {
+            width: shell.width
+            height: shell.height
+
+            text: consoleLog.out
+            Debug.ConsoleLog {
+                id: consoleLog
+                enabled: true
             }
         }
     }

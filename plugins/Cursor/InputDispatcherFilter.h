@@ -31,14 +31,17 @@ public:
     static InputDispatcherFilter *instance();
 
     void registerPointer(MousePointer* pointer);
-
     void unregisterPointer(MousePointer* pointer);
-
-    void setPosition(const QPointF &pos);
 
 Q_SIGNALS:
     void pushedLeftBoundary(QScreen* screen, qreal amount, Qt::MouseButtons buttons);
     void pushedRightBoundary(QScreen* screen, qreal amount, Qt::MouseButtons buttons);
+    void pushedTopBoundary(QScreen* screen, qreal amount, Qt::MouseButtons buttons);
+    void pushedTopLeftCorner(QScreen* screen, qreal amount, Qt::MouseButtons buttons);
+    void pushedTopRightCorner(QScreen* screen, qreal amount, Qt::MouseButtons buttons);
+    void pushedBottomLeftCorner(QScreen* screen, qreal amount, Qt::MouseButtons buttons);
+    void pushedBottomRightCorner(QScreen* screen, qreal amount, Qt::MouseButtons buttons);
+    void pushStopped(QScreen* screen);
 
 protected:
     InputDispatcherFilter(QObject* parent = nullptr);
@@ -48,10 +51,12 @@ protected:
     QPointF adjustedPositionForMovement(const QPointF& pt, const QPointF& movement) const;
     QScreen* screenAt(const QPointF& pt) const;
 
+    MousePointer* currentPointer() const;
+
 private:
     QObject* m_inputDispatcher;
     QSet<MousePointer*> m_pointers;
-    QPointF mousePosition;
+    bool m_pushing;
 };
 
 #endif // INPUTDISPATCHERFILTER_H
