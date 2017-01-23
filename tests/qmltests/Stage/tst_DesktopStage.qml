@@ -720,7 +720,7 @@ Item {
             var dialerMaximizeButton = findChild(dialerDelegate, "maximizeWindowButton");
             tryCompare(dialerMaximizeButton, "visible", true);
 
-            // try double clicking the decoration, shoul maximize it
+            // try double clicking the decoration, should maximize it
             var sizeBefore = Qt.size(dialerDelegate.width, dialerDelegate.height);
             var deco = findChild(dialerDelegate, "appWindowDecoration");
             verify(deco);
