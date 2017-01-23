@@ -322,11 +322,6 @@ StyledItem {
                 panel.indicators.hide();
                 panel.applicationMenus.hide();
             }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "oskEnabled"
-                value: shell.oskEnabled
-            }
         }
     }
 
