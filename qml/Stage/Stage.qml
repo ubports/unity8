@@ -100,7 +100,9 @@ FocusScope {
             } else {
                 // No we didn't, do a quick alt-tab
                 if (appRepeater.count > 1) {
-                    appRepeater.itemAt(1).claimFocus();
+                    appRepeater.itemAt(1).activate();
+                } else if (appRepeater.count > 0) {
+                    appRepeater.itemAt(0).activate(); // quick alt-tab to the only (minimized) window should still activate it
                 }
             }
         }
@@ -870,9 +872,6 @@ FocusScope {
                             sideStage.show();
                         }
                         priv.updateMainAndSideStageIndexes();
-                    }
-                    if (root.mode == "windowed") {
-                        appDelegate.restore(true /* animated */, appDelegate.windowState);
                     }
                     appDelegate.focus = true;
                 }
