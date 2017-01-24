@@ -108,6 +108,10 @@ FocusScope {
         }
     }
 
+    onPanelWidthChanged: {
+        hint();
+    }
+
     function hide(flags) {
         if ((flags & ignoreHideIfMouseOverLauncher) && Utils.Functions.itemUnderMouse(panel)) {
             return;
