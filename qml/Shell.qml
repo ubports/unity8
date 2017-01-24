@@ -241,7 +241,7 @@ StyledItem {
             // Ignore when greeter is active, to avoid pocket presses
             if (!greeter.active) {
                 launcher.fadeOut();
-                shell.showHome();
+                ApplicationManager.requestFocusApplication("unity8-dash");
             }
         }
         onTouchBegun: { cursor.opacity = 0; }
