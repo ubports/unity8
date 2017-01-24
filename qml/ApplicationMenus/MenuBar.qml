@@ -18,7 +18,6 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Utils 0.1
 import Ubuntu.Components 1.3
-import Ubuntu.Components.Themes 1.3
 import GlobalShortcut 1.0
 
 Item {
@@ -195,7 +194,7 @@ Item {
                             id: _title
                             text: actionItem.text
                             horizontalAlignment: Text.AlignLeft
-                            color: enabled ? theme.palette.normal.overlayText : theme.palette.disabled.overlayText
+                            color: enabled ? "white" : "#5d5d5d"
                         }
                     }
                 }
@@ -339,7 +338,7 @@ Item {
         x: d.currentItem ? row.x + d.currentItem.x - units.gu(1) : 0
         width: d.currentItem ? d.currentItem.width + units.gu(2) : 0
         height: units.dp(4)
-        color: theme.palette.normal.activity
+        color: UbuntuColors.orange
         visible: d.currentItem
     }
 
