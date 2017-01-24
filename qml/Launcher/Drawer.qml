@@ -43,6 +43,14 @@ FocusScope {
         searchField.focus = true;
     }
 
+    Keys.onPressed: {
+        if (event.text.trim() !== "") {
+            focusInput();
+            searchField.text = event.text;
+            event.accepted = true;
+        }
+    }
+
     Settings {
         property alias selectedTab: sections.selectedIndex
     }
@@ -76,6 +84,7 @@ FocusScope {
 
             TextField {
                 id: searchField
+                objectName: "searchField"
                 anchors { left: parent.left; top: parent.top; right: parent.right; margins: units.gu(1) }
                 placeholderText: i18n.tr("Search…")
                 focus: true

@@ -74,7 +74,7 @@ FocusScope {
         } else {
             superPressTimer.stop();
             superLongPressTimer.stop();
-            launcher.switchToNextState("");
+            switchToNextState("");
             panel.shortcutHintsShown = false;
         }
     }
@@ -474,6 +474,8 @@ FocusScope {
         onPassed: {
             if (root.drawerEnabled) {
                 root.switchToNextState("drawer");
+                root.focus = true;
+                drawer.focus = true;
             }
         }
 
@@ -551,6 +553,7 @@ FocusScope {
                     if (root.drawerEnabled && distance > panel.width * 3 && dragDirection() !== "left") {
                         root.switchToNextState("drawer");
                         root.focus = true;
+                        drawer.focus = true;
                     } else {
                         root.switchToNextState("visible");
                     }
