@@ -703,12 +703,15 @@ StyledItem {
 
         function test_loginListMovement_data() {
             return [
-                {tag: "up", key: Qt.Key_Up, result: -1},
-                {tag: "down", key: Qt.Key_Down, result: 1},
+                {tag: "up", key: Qt.Key_Up, result: 1},
+                {tag: "down", key: Qt.Key_Down, result: 3},
             ]
         }
 
         function test_loginListMovement(data) {
+            selectIndex(2);
+            selectedSpy.clear();
+
             keyClick(data.key);
             compare(selectedSpy.count, 1);
             compare(selectedSpy.signalArguments[0][0], data.result);
