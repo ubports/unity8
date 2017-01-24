@@ -65,7 +65,7 @@ Item {
 
             unityMenuModel: UnityMenuModel {
                 id: menuBackend
-                modelData: appMenuData.generateTestData(7,5,2,3,"menu")
+                modelData: appMenuData.generateTestData(17,5,2,3)
             }
         }
     }
@@ -83,12 +83,12 @@ Item {
 
         function init() {
             menuBar.dismiss();
-            menuBackend.modelData = appMenuData.generateTestData(5,5,2,3,"menu")
+            menuBackend.modelData = appMenuData.generateTestData(5,5,2,3)
             activatedSpy.clear();
         }
 
         function test_mouseNavigation() {
-            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0,"menu");
+            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0);
             wait(50) // wait for row to build
             var priv = findInvisibleChild(menuBar, "d");
 
@@ -114,7 +114,7 @@ Item {
         }
 
         function test_keyboardNavigation_RightKeySelectsNextMenuItem(data) {
-            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0,"menu");
+            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0);
             var priv = findInvisibleChild(menuBar, "d");
 
             var menuItem0 = findChild(menuBar, "menuBar-item0"); verify(menuItem0);
@@ -139,7 +139,7 @@ Item {
         }
 
         function test_keyboardNavigation_LeftKeySelectsPreviousMenuItem(data) {
-            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0,"menu");
+            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0);
             var priv = findInvisibleChild(menuBar, "d");
 
             var menuItem0 = findChild(menuBar, "menuBar-item0"); verify(menuItem0);
