@@ -168,6 +168,7 @@ Item {
             top: parent.top
             bottom: parent.bottom
         }
+        interactive: false
 
         // TODO: make this better
         // when the width changes, the highlight will lag behind due to animation, so we need to disable the animation
