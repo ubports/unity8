@@ -27,6 +27,7 @@ Loader {
 
     property var greeter: d.valid ? loader.item.greeter : null
     property var infographic: d.valid ? loader.item.infographic : null
+    property var prompts: d.valid ? loader.item.prompts : null
     property var sessions: d.valid ? loader.item.sessions : null
     property var sessionRoles: d.valid ? loader.item.sessionRoles : null
     property var users: d.valid ? loader.item.users : null

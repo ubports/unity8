@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2016 Canonical, Ltd.
+ * Copyright (C) 2014-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,12 +29,18 @@ public:
     bool authenticated = false;
     QString authenticationUser;
     bool twoFactorDone = false;
+    QTimer authCallbackTimer;
 };
 
 Greeter::Greeter(QObject *parent)
   : QObject(parent)
   , d_ptr(new GreeterPrivate)
 {
+    Q_D(Greeter);
+
+    d->authCallbackTimer.setSingleShot(true);
+    connect(&d->authCallbackTimer, &QTimer::timeout,
+            this, &QLightDM::Greeter::handleAuthenticate);
 }
 
 Greeter::~Greeter()
@@ -134,12 +140,18 @@ void Greeter::authenticate(const QString &username)
     d->authenticated = false;
     d->authenticationUser = username;
     d->twoFactorDone = false;
-    QTimer::singleShot(0, this, &Greeter::handleAuthenticate);
+    d->authCallbackTimer.start();
 }
 
 void Greeter::handleAuthenticate()
 {
     Q_D(Greeter);
+
+    if (d->authenticated) {
+        // This can happen from the guest authentication flow
+        Q_EMIT authenticationComplete();
+        return;
+    }
 
     if (d->authenticationUser.isEmpty()) {
         Q_EMIT showPrompt("Username: ", Greeter::PromptTypeQuestion);
@@ -165,13 +177,24 @@ void Greeter::handleAuthenticate()
     if (d->authenticationUser == "no-password") {
         d->authenticated = true;
         Q_EMIT authenticationComplete();
-    } else if (d->authenticationUser == "has-pin"){
+    } else if (d->authenticationUser == "has-pin") {
         Q_EMIT showPrompt("Password: ", Greeter::PromptTypeSecret);
     } else if (d->authenticationUser == "auth-error") {
         d->authenticated = false;
         Q_EMIT authenticationComplete();
     } else if (d->authenticationUser == "different-prompt") {
         Q_EMIT showPrompt("Secret word： ", Greeter::PromptTypeSecret);
+    } else if (d->authenticationUser == "question-prompt") {
+        Q_EMIT showPrompt("Favorite Color (blue): ", Greeter::PromptTypeQuestion);
+    } else if (d->authenticationUser == "two-prompts") {
+        Q_EMIT showPrompt("Favorite Color (blue):", Greeter::PromptTypeQuestion);
+        Q_EMIT showPrompt("Password: ", Greeter::PromptTypeSecret);
+    } else if (d->authenticationUser == "wacky-prompts") {
+        Q_EMIT showMessage("First message", Greeter::MessageTypeInfo);
+        Q_EMIT showPrompt("Favorite Color (blue)", Greeter::PromptTypeQuestion);
+        Q_EMIT showMessage("Second message", Greeter::MessageTypeError);
+        Q_EMIT showPrompt("Password: ", Greeter::PromptTypeSecret);
+        Q_EMIT showMessage("Last message", Greeter::MessageTypeInfo);
     } else {
         Q_EMIT showPrompt("Password: ", Greeter::PromptTypeSecret);
     }
@@ -184,7 +207,7 @@ void Greeter::authenticateAsGuest()
     d->authenticated = true;
     d->authenticationUser = QString(); // this is what the real liblightdm does
     d->twoFactorDone = false;
-    QTimer::singleShot(0, this, &Greeter::authenticationComplete);
+    d->authCallbackTimer.start();
 }
 
 void Greeter::authenticateAutologin()
@@ -197,7 +220,10 @@ void Greeter::authenticateRemote(const QString &session, const QString &username
 }
 
 void Greeter::cancelAuthentication()
-{}
+{
+    Q_D(Greeter);
+    d->authCallbackTimer.stop();
+}
 
 void Greeter::setLanguage (const QString &language)
 {
@@ -231,9 +257,13 @@ void Greeter::respond(const QString &response)
         return;
     }
 
-    if (d->authenticationUser == "no-response")
+    if (d->authenticationUser == "no-response") {
         return;
-    else if (d->authenticationUser == "two-factor") {
+    } else if (d->authenticationUser == "locked") {
+        Q_EMIT showMessage("Account is locked", Greeter::MessageTypeError);
+        sendAuthenticationComplete();
+        return;
+    } else if (d->authenticationUser == "two-factor") {
         if (!d->twoFactorDone) {
             if (response == "password") {
                 d->twoFactorDone = true;
@@ -247,13 +277,29 @@ void Greeter::respond(const QString &response)
             sendAuthenticationComplete();
         }
         return;
+    } else if (d->authenticationUser == "two-prompts" || d->authenticationUser == "wacky-prompts") {
+        if (!d->twoFactorDone) {
+            d->authenticated = (response == "blue");
+            d->twoFactorDone = true;
+        } else {
+            d->authenticated = d->authenticated && (response == "password");
+            sendAuthenticationComplete();
+        }
+        return;
     }
 
     if (d->authenticationUser == "has-pin") {
         d->authenticated = (response == "1234");
+    } else if (d->authenticationUser == "question-prompt") {
+        d->authenticated = (response == "blue");
     } else {
         d->authenticated = (response == "password");
     }
+
+    if (d->authenticationUser == "info-after-login" && d->authenticated) {
+        Q_EMIT showMessage("Congratulations on logging in!", Greeter::MessageTypeInfo);
+    }
+
     sendAuthenticationComplete();
 }
 

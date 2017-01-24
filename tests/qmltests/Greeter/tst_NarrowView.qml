@@ -81,26 +81,14 @@ Item {
 
                 Row {
                     Button {
-                        text: "Show Last Chance"
-                        onClicked: loader.item.showLastChance()
-                    }
-                }
-                Row {
-                    Button {
                         text: "Hide"
                         onClicked: loader.item.hide()
                     }
                 }
                 Row {
                     Button {
-                        text: "Reset"
-                        onClicked: loader.item.reset()
-                    }
-                }
-                Row {
-                    Button {
                         text: "Show Message"
-                        onClicked: loader.item.showMessage(messageField.text)
+                        onClicked: LightDMService.prompts.append(messageField.text, LightDMService.prompts.Message)
                     }
                     TextField {
                         id: messageField
@@ -111,7 +99,7 @@ Item {
                 Row {
                     Button {
                         text: "Show Prompt"
-                        onClicked: loader.item.showPrompt(promptField.text, isSecretCheckBox.checked, isDefaultPromptCheckBox.checked)
+                        onClicked: LightDMService.prompts.append(promptField.text, isSecretCheckBox.checked ? LightDMService.prompts.Secret : LightDMService.prompts.Question)
                     }
                     TextField {
                         id: promptField
@@ -124,35 +112,13 @@ Item {
                     Label {
                         text: "secret"
                     }
-                    CheckBox {
-                        id: isDefaultPromptCheckBox
-                    }
-                    Label {
-                        text: "default"
-                    }
                 }
                 Row {
                     Button {
-                        text: "Authenticated"
+                        text: "Notify Auth Failure"
                         onClicked: {
-                            if (successCheckBox.checked) {
-                                loader.item.notifyAuthenticationSucceeded(fakePasswordCheckBox.checked);
-                            } else {
-                                loader.item.notifyAuthenticationFailed();
-                            }
+                            loader.item.notifyAuthenticationFailed();
                         }
-                    }
-                    CheckBox {
-                        id: successCheckBox
-                    }
-                    Label {
-                        text: "success"
-                    }
-                    CheckBox {
-                        id: fakePasswordCheckBox
-                    }
-                    Label {
-                        text: "fake password"
                     }
                 }
                 Row {
@@ -218,6 +184,7 @@ Item {
                 Row {
                     CheckBox {
                         id: alphanumericCheckBox
+                        checked: true
                     }
                     Label {
                         text: "alphanumeric"
@@ -301,6 +268,9 @@ Item {
         function init() {
             view.currentIndex = 0; // break binding with text field
 
+            LightDM.Greeter.authenticate("no-password");
+            tryCompare(LightDMService.prompts, "count", 1);
+
             telepathyHelper.ready = true;
             telepathyHelper.emergencyCallsAvailable = true;
             selectedSpy.clear();
@@ -365,8 +335,9 @@ Item {
         }
 
         function test_respondedWithPin() {
+            LightDM.Greeter.authenticate("has-pin");
             view.locked = true;
-            view.showPrompt("", true, true);
+            view.alphanumeric = false;
             swipeAwayCover();
             typeString("1234");
             compare(respondedSpy.count, 1);
@@ -374,9 +345,8 @@ Item {
         }
 
         function test_respondedWithPassphrase() {
+            LightDM.Greeter.authenticate("has-password");
             view.locked = true;
-            view.alphanumeric = true;
-            view.showPrompt("", true, true);
             swipeAwayCover();
             typeString("test");
             keyClick(Qt.Key_Enter);

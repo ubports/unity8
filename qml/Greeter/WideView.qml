@@ -52,16 +52,8 @@ FocusScope {
         loginList.showError();
     }
 
-    function reset(forceShow) {
-        loginList.reset();
-    }
-
-    function showMessage(html) {
-        loginList.showMessage(html);
-    }
-
-    function showPrompt(text, isSecret, isDefaultPrompt) {
-        loginList.showPrompt(text, isSecret, isDefaultPrompt);
+    function forceShow() {
+        // Nothing to do, we are always fully shown
     }
 
     function tryToUnlock(toTheRight) {
@@ -84,10 +76,8 @@ FocusScope {
         coverPage.hide();
     }
 
-    function notifyAuthenticationSucceeded(showFakePassword) {
-        if (showFakePassword) {
-            loginList.showFakePassword();
-        }
+    function showFakePassword() {
+        loginList.showFakePassword();
     }
 
     function showLastChance() {
@@ -140,13 +130,17 @@ FocusScope {
 
             model: root.userModel
             onResponded: root.responded(response)
-            onSelected: {
-                root.selected(index)
-                currentSession = LightDMService.users.data(index, LightDMService.userRoles.SessionRole);
-            }
+            onSelected: root.selected(index)
             onSessionChooserButtonClicked: parent.state = "SessionsList"
+            onCurrentIndexChanged: setCurrentSession()
 
             Keys.forwardTo: [sessionChooserLoader.item]
+
+            Component.onCompleted: setCurrentSession()
+
+            function setCurrentSession() {
+                currentSession = LightDMService.users.data(currentIndex, LightDMService.userRoles.SessionRole);
+            }
         }
 
         Loader {
@@ -174,7 +168,7 @@ FocusScope {
                 onSessionSelected: loginList.currentSession = sessionKey
                 onShowLoginList: {
                     coverPage.state = "LoginList"
-                    loginList.passwordInput.forceActiveFocus();
+                    loginList.tryToUnlock();
                 }
                 ignoreUnknownSignals: true
             }

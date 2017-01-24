@@ -48,14 +48,6 @@ FocusScope {
     signal tease()
     signal emergencyCall()
 
-    function showMessage(html) {
-        loginList.showMessage(html);
-    }
-
-    function showPrompt(text, isSecret, isDefaultPrompt) {
-        loginList.showPrompt(text, isSecret, isDefaultPrompt);
-    }
-
     function showLastChance() {
         /* TODO: when we finish support for resetting device after too many
                  failed logins, we should re-add this popup.
@@ -75,10 +67,8 @@ FocusScope {
         coverPage.hide();
     }
 
-    function notifyAuthenticationSucceeded(showFakePassword) {
-        if (showFakePassword) {
-            loginList.showFakePassword();
-        }
+    function showFakePassword() {
+        loginList.showFakePassword();
     }
 
     function notifyAuthenticationFailed() {
@@ -89,11 +79,8 @@ FocusScope {
         coverPage.showErrorMessage(msg);
     }
 
-    function reset(forceShow) {
-        loginList.reset();
-        if (forceShow) {
-            coverPage.show();
-        }
+    function forceShow() {
+        coverPage.show();
     }
 
     function tryToUnlock(toTheRight) {
@@ -120,6 +107,7 @@ FocusScope {
         objectName: "lockscreen"
         anchors.fill: parent
         shown: false
+        opacity: 0
 
         showAnimation: StandardAnimation { property: "opacity"; to: 1 }
         hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
@@ -195,10 +183,12 @@ FocusScope {
         onClicked: hide()
 
         onShowProgressChanged: {
-            if (showProgress === 1) {
-                loginList.reset();
-            } else if (showProgress === 0) {
-                loginList.tryToUnlock();
+            if (showProgress === 0) {
+                if (lockscreen.shown) {
+                    loginList.tryToUnlock();
+                } else {
+                    root.responded("");
+                }
             }
         }
 

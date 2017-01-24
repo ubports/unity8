@@ -117,12 +117,6 @@ Item {
         signalName: "resettingDevice"
     }
 
-    SignalSpy {
-        id: promptSpy
-        target: LightDM.Greeter
-        signalName: "showPrompt"
-    }
-
     Telephony.CallEntry {
         id: phoneCall
         phoneNumber: "+447812221111"
@@ -539,22 +533,20 @@ Item {
             shellLoader.itemDestroyed = false;
             shellLoader.active = false;
             tryCompare(shellLoader, "itemDestroyed", true);
-            LightDM.Greeter.authenticate(""); // reset greeter
 
             // Create new shell
-            promptSpy.clear();
             shellLoader.active = true;
             tryCompareFunction(function() {return shell !== null}, true);
 
             // Confirm that we start disabled
-            compare(promptSpy.count, 0);
+            compare(LightDM.Prompts.count, 0);
             verify(shell.waitingOnGreeter);
             var coverPageDragHandle = findChild(shell, "coverPageDragHandle");
             verify(!coverPageDragHandle.enabled);
 
             // And that we only become enabled once the lockscreen is up
             tryCompare(shell, "waitingOnGreeter", false);
-            verify(promptSpy.count > 0);
+            verify(LightDM.Prompts.count > 0);
             var lockscreen = findChild(shell, "lockscreen");
             verify(lockscreen.shown);
         }

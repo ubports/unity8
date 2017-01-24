@@ -833,13 +833,15 @@ Rectangle {
                 keyClick(Qt.Key_Escape) // Reset state if we're not moving
             while (userlist.currentIndex != i) {
                 var next = userlist.currentIndex + 1
+                var key = Qt.Key_Down;
                 if (userlist.currentIndex > i) {
                     next = userlist.currentIndex - 1
+                    key = Qt.Key_Up;
                 }
-                tap(findChild(greeter, "username"+next));
+                keyPress(key);
                 tryCompare(userlist, "currentIndex", next)
-                tryCompare(userlist, "movingInternally", false)
             }
+            tryCompare(userlist, "movingInternally", false);
             tryCompare(shell, "waitingOnGreeter", false); // wait for PAM to settle
         }
 
@@ -862,15 +864,13 @@ Rectangle {
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "fullyShown", true);
 
-            var passwordInput = findChild(shell, "passwordInput");
-
-            var promptButton = findChild(passwordInput, "promptButton");
+            var promptButton = findChild(greeter, "promptButton");
             tryCompare(promptButton, "visible", isButton);
 
-            var promptField = findChild(passwordInput, "promptField");
+            var promptField = findChild(greeter, "promptField");
             tryCompare(promptField, "visible", !isButton);
 
-            mouseClick(passwordInput)
+            mouseClick(promptButton);
         }
 
         function confirmLoggedIn(loggedIn) {
@@ -1473,7 +1473,7 @@ Rectangle {
             confirmLoggedIn(data.loggedIn)
 
             if (data.passwordFocus) {
-                var passwordInput = findChild(greeter, "passwordInput")
+                var passwordInput = findChild(greeter, "promptField");
                 tryCompare(passwordInput, "focus", true)
             }
         }
@@ -1496,6 +1496,7 @@ Rectangle {
             typeString("has-password");
             keyClick(Qt.Key_Enter);
 
+            promptHint = findChild(greeter, "promptHint");
             tryCompare(username, "text", "has-password");
             tryCompare(promptHint, "text", "Passphrase");
 

@@ -73,8 +73,6 @@ UsersModel::UsersModel(QObject *parent)
             this, &UsersModel::resetEntries);
     connect(MockController::instance(), &MockController::userModeChanged,
             this, &UsersModel::resetEntries);
-    connect(MockController::instance(), &MockController::sessionNameChanged,
-            this, &UsersModel::setCurrentSessionName);
     resetEntries();
 }
 
@@ -177,18 +175,24 @@ void UsersModel::resetEntries()
             { "has-password",      "Has Password", 0, 0, false, false, "ubuntu", 0 },
             { "has-pin",           "Has PIN",      0, 0, false, false, "ubuntu", 0 },
             { "html-info-prompt",  "HTML Info Prompt", 0, 0, false, false, "ubuntu", 0 },
+            { "info-after-login",  "Info After Login", 0, 0, false, false, "ubuntu", 0 },
             { "info-prompt",       "Info Prompt", 0, 0, false, false, "ubuntu", 0 },
+            { "wacky-prompts",     "Interspersed Prompts", 0, 0, false, false, "ubuntu", 0 },
+            { "invalid-session",   "Invalid Session", 0, 0, false, false, "invalid", 0 },
+            { "locked",            "Locked", 0, 0, false, false, "ubuntu", 0 },
             { "long-info-prompt",  "Long Info Prompt", 0, 0, false, false, "ubuntu", 0 },
             { "long-name",         "Long name (far far too long to fit, seriously this would never fit on the screen, you will never see this part of the name)", 0, 0, false, false, "ubuntu", 0 },
             { "multi-info-prompt", "Multi Info Prompt", 0, 0, false, false, "ubuntu", 0 },
             { "no-background",     "No Background", "", 0, false, false, "ubuntu", 0 },
             { "no-password",       "No Password", 0, 0, false, false, "ubuntu", 0 },
             { "no-response",       "No Response", 0, 0, false, false, "ubuntu", 0 },
+            { "question-prompt",   "Question Prompt", 0, 0, false, false, "ubuntu", 0 },
             { "two-factor",        "Two Factor", 0, 0, false, false, "ubuntu", 0 },
-            { "unicode",           "가나다라마", 0, 0, false, false, "ubuntu", 0 },
+            { "two-prompts",       "Two Prompts", 0, 0, false, false, "ubuntu", 0 },
             // white and black are a bit redundant, but useful for manually testing if UI is still readable
             { "white-background",  "White Background", "#ffffff", 0, false, false, "ubuntu", 0 },
-            { "wide-info-prompt",  "Wide Info Prompt", 0, 0, false, false, "ubuntu", 0 }
+            { "wide-info-prompt",  "Wide Info Prompt", 0, 0, false, false, "ubuntu", 0 },
+            { "unicode",           "가나다라마", 0, 0, false, false, "ubuntu", 0 }
         };
     }
 

@@ -7,6 +7,7 @@ include_directories(
 add_executable(GreeterDBusTestExec
     dbus.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/Greeter.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/LightDM/PromptsModel.cpp
     )
 # This add_dependencies is needed since we're linking with with -L and -l below
 # make seems to work but ninja breaks without it
@@ -76,6 +77,7 @@ add_unity8_uitest(GreeterSessions GreeterSessionsModelTestExec
 add_executable(GreeterUsersModelTestExec
     usersmodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/Greeter.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/LightDM/PromptsModel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/UsersModel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/unitysortfilterproxymodelqml.cpp
     )
@@ -99,6 +101,33 @@ add_unity8_uitest(GreeterUsers GreeterUsersModelTestExec
     DEPENDS MockLightDM
     )
 
+# PromptsModelTest
+add_executable(GreeterPromptsModelTestExec
+    promptsmodel.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/LightDM/Greeter.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/LightDM/PromptsModel.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/unitysortfilterproxymodelqml.cpp
+    )
+# This add_dependencies is needed since we're linking with with -L and -l below
+# make seems to work but ninja breaks without it
+add_dependencies(GreeterPromptsModelTestExec MockLightDM)
+qt5_use_modules(GreeterPromptsModelTestExec Core Test)
+target_link_libraries(GreeterPromptsModelTestExec
+    MockLightDM
+    )
+target_include_directories(GreeterPromptsModelTestExec PUBLIC
+    ${CMAKE_SOURCE_DIR}/plugins/LightDM
+    ${CMAKE_SOURCE_DIR}/plugins/Utils
+    ${CMAKE_SOURCE_DIR}/tests/mocks/liblightdm
+    )
+install(TARGETS GreeterPromptsModelTestExec
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/LightDM/IntegratedLightDM"
+    )
+add_unity8_uitest(GreeterPrompts GreeterPromptsModelTestExec
+    DEPENDS MockLightDM
+    )
+
+# IntegratedTest
 add_executable(GreeterIntegratedTestExec
     integrated.cpp
     )

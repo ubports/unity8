@@ -17,6 +17,7 @@ set(QMLPLUGIN_SRC
     DBusGreeterList.cpp
     Greeter.cpp
     plugin.cpp
+    PromptsModel.cpp
     SessionsModel.cpp
     UsersModel.cpp
     )

@@ -27,6 +27,7 @@
 #include <QtCore/QObject>
 
 class GreeterPrivate;
+class PromptsModel;
 
 class Greeter : public QObject
 {
@@ -36,7 +37,6 @@ class Greeter : public QObject
     Q_PROPERTY(bool authenticated READ isAuthenticated NOTIFY isAuthenticatedChanged)
     Q_PROPERTY(QString authenticationUser READ authenticationUser NOTIFY authenticationUserChanged)
     Q_PROPERTY(QString defaultSession READ defaultSessionHint CONSTANT)
-    Q_PROPERTY(bool promptless READ promptless NOTIFY promptlessChanged)
     Q_PROPERTY(QString selectUser READ selectUser CONSTANT)
 
 public:
@@ -47,11 +47,12 @@ public:
     bool isAuthenticated() const;
     QString authenticationUser() const;
     QString defaultSessionHint() const;
-    bool promptless() const;
     QString selectUser() const;
     bool hasGuestAccount() const;
     bool showManualLoginHint() const;
     bool hideUsersHint() const;
+
+    PromptsModel *promptsModel();
 
 public Q_SLOTS:
     void authenticate(const QString &username=QString());
@@ -60,15 +61,14 @@ public Q_SLOTS:
     void setIsActive(bool isActive);
 
 Q_SIGNALS:
-    void showMessage(const QString &text, bool isError);
-    void showPrompt(const QString &text, bool isSecret, bool isDefaultPrompt);
-    void authenticationComplete();
     void authenticationUserChanged();
     void isActiveChanged();
     void isAuthenticatedChanged();
-    void promptlessChanged();
     void showGreeter();
     void hideGreeter();
+    void loginError(bool automatic);
+    void loginSuccess(bool automatic);
+    void authenticationStarted(); // useful for testing
 
     // This signal is emitted by external agents like indicators, and the UI
     // should switch to this user if possible.
