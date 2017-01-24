@@ -32,6 +32,7 @@ Item {
     property bool alphanumeric
     property var userModel
     property var infographicModel
+    property bool waiting
     readonly property bool fullyShown: _fullyShown
     readonly property bool required: _required
     readonly property bool animating: _animating

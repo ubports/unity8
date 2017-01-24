@@ -35,10 +35,9 @@ Loader {
     // This trickery handles cases where applicationArguments aren't provided
     // such as during testing
     property var fullLightDM: {
-        if (typeof applicationArguments !== "undefined") {
-            if (applicationArguments.mode === "greeter") {
-                return true;
-            }
+        if (typeof applicationArguments === "undefined" ||
+                applicationArguments.mode === "greeter") {
+            return true;
         }
         return false;
     }

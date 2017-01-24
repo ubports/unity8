@@ -22,7 +22,8 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
 import Unity.Test 0.1
-import LightDM.IntegratedLightDM 0.1 as LightDM
+import LightDMController 0.1
+import LightDM.FullLightDM 0.1 as LightDM
 import Powerd 0.1
 import Unity.InputInfo 0.1
 import Utils 0.1
@@ -37,6 +38,12 @@ Rectangle {
     color: "grey"
     width:  units.gu(160) + controls.width
     height: units.gu(100)
+
+    Binding {
+        target: LightDMController
+        property: "userMode"
+        value: "single"
+    }
 
     QtObject {
         id: applicationArguments

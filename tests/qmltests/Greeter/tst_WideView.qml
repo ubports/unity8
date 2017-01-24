@@ -18,7 +18,8 @@ import QtQuick 2.4
 import QtTest 1.0
 import ".."
 import "../../../qml/Greeter"
-import LightDM.IntegratedLightDM 0.1 as LightDM
+import LightDMController 0.1
+import LightDM.FullLightDM 0.1 as LightDM
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
 
@@ -30,12 +31,6 @@ StyledItem {
     focus: true
 
     theme.name: "Ubuntu.Components.Themes.SuruDark"
-
-    Binding {
-        target: LightDM.Users
-        property: "mockMode"
-        value: "full"
-    }
 
     Row {
         anchors.fill: parent
@@ -271,15 +266,15 @@ StyledItem {
                         id: multipleSessionsCheckbox
                         onClicked: {
                             if (checked) {
-                                LightDM.Sessions.testScenario = "multipleSessions"
+                                LightDMController.sessionMode = "full";
                             } else {
-                                LightDM.Sessions.testScenario = "singleSession"
+                                LightDMController.sessionMode = "single";
                             }
                         }
                         Connections {
-                            target: LightDM.Sessions
-                            onTestScenarioChanged: {
-                                if (LightDM.Sessions.testScenario === "multipleSessions") {
+                            target: LightDMController
+                            onSessionModeChanged: {
+                                if (LightDMController.sessionMode === "full") {
                                     multipleSessionsCheckbox.checked = true;
                                 } else {
                                     multipleSessionsCheckbox.checked = false;
@@ -297,11 +292,11 @@ StyledItem {
 
                         width: units.gu(10)
                         minimumValue: 0
-                        maximumValue: LightDM.Sessions.numAvailableSessions
-                        value: LightDM.Sessions.numSessions
-                        visible: LightDM.Sessions.testScenario === "multipleSessions"
+                        maximumValue: LightDMController.numAvailableSessions
+                        value: LightDMController.numSessions
+                        visible: LightDMController.sessionMode === "full"
                         Binding {
-                            target: LightDM.Sessions
+                            target: LightDMController
                             property: "numSessions"
                             value: numSessionsSlider.value
                         }
@@ -368,7 +363,8 @@ StyledItem {
             respondedSpy.clear();
             teaseSpy.clear();
             emergencySpy.clear();
-            LightDM.Sessions.testScenario = "multipleSessions"
+            LightDMController.sessionMode = "full";
+            LightDM.Sessions.iconSearchDirectories = [testIconDirectory];
         }
 
         function cleanup() {
@@ -426,10 +422,6 @@ StyledItem {
         }
 
         function test_sessionIconsAreValid() {
-            LightDM.Sessions.testScenario = "multipleSessions"
-            var originalDirectories = LightDM.Sessions.iconSearchDirectories
-            LightDM.Sessions.iconSearchDirectories = [testIconDirectory]
-
             selectUser("has-password");
 
             // Test the login list icon is valid
@@ -449,12 +441,10 @@ StyledItem {
 
         function test_choosingNewSessionChangesLoginListIcon() {
             // Ensure the default session is selected (Ubuntu)
-            loader.active = false;
-            loader.active = true;
+            cleanup();
 
             selectUser("has-password");
 
-            LightDM.Sessions.testScenario = "multipleSessions";
             var sessionChooserButton = findChild(view, "sessionChooserButton");
             var icon = String(sessionChooserButton.icon);
             compare(icon.indexOf("ubuntu") > -1, true);
@@ -465,25 +455,25 @@ StyledItem {
                 var currentDelegate = findChild(view, delegateName);
                 var sessionKey = LightDM.Sessions.data(i,LightDM.SessionRoles.KeyRole);
                 if (sessionKey === "gnome-classic") {
+                    waitForRendering(currentDelegate);
                     tap(currentDelegate);
-                    var sessionChooserButton = findChild(view, "sessionChooserButton");
                     waitForRendering(sessionChooserButton);
-                    var icon = String(sessionChooserButton.icon);
                     break;
                 }
             }
 
+            icon = String(sessionChooserButton.icon);
             compare(icon.indexOf("gnome") > -1, true,
                 "Expected icon to contain gnome but it was " + icon);
         }
 
         function test_noSessionsDoesntBreakView() {
-            LightDM.Sessions.testScenario = "noSessions"
+            LightDMController.sessionMode = "none";
             compare(LightDM.Sessions.count, 0)
         }
 
         function test_sessionIconNotShownWithOneSession() {
-            LightDM.Sessions.testScenario = "singleSession"
+            LightDMController.sessionMode = "single";
             compare(LightDM.Sessions.count, 1);
 
             var sessionChooserButton = findChild(view, "sessionChooserButton");
@@ -491,7 +481,7 @@ StyledItem {
         }
 
         function test_sessionIconNotShownWithActiveUser() {
-            LightDM.Sessions.testScenario = "multipleSessions";
+            LightDMController.sessionMode = "full";
             compare(LightDM.Sessions.count > 1, true);
 
             selectUser("active");
@@ -501,7 +491,7 @@ StyledItem {
         }
 
         function test_sessionIconShownWithMultipleSessions() {
-            LightDM.Sessions.testScenario = "multipleSessions"
+            LightDMController.sessionMode = "full";
             compare(LightDM.Sessions.count > 1, true);
 
             selectUser("has-password");
