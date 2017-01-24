@@ -523,12 +523,13 @@ StyledItem {
                 hides: [launcher]
                 available: (!greeter || !greeter.shown)
                         && !shell.waitingOnGreeter
+                        && !stage.spreadShown
             }
 
             readonly property bool focusedSurfaceIsFullscreen: topLevelSurfaceList.focusedWindow
                 ? topLevelSurfaceList.focusedWindow.state === Mir.FullscreenState
                 : false
-            fullscreenMode: (focusedSurfaceIsFullscreen && !LightDMService.greeter.active && launcher.progress == 0)
+            fullscreenMode: (focusedSurfaceIsFullscreen && !LightDMService.greeter.active && launcher.progress == 0 && !stage.spreadShown)
                             || greeter.hasLockedApp
             greeterShown: greeter && greeter.shown
         }
