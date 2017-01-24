@@ -29,6 +29,7 @@ import ".." // For EdgeBarrierControls
 import "../../../qml/Stage"
 import "../../../qml/Components"
 import "../../../qml/Components/PanelState"
+import "../../../qml/ApplicationMenus"
 
 Item {
     id: root
@@ -44,6 +45,8 @@ Item {
     }
 
     Component.onCompleted: {
+        ApplicationMenusLimits.screenWidth = Qt.binding( function() { return stageLoader.width; } );
+        ApplicationMenusLimits.screenHeight = Qt.binding( function() { return stageLoader.height; } );
         QuickUtils.keyboardAttached = true;
         theme.name = "Ubuntu.Components.Themes.SuruDark";
         resetGeometry();
@@ -829,6 +832,57 @@ Item {
 
             mouseRelease(decoration);
             tryCompare(Mir, "cursorName", "");
+        }
+
+        function test_menuPositioning_data() {
+            return [
+                {tag: "good",            windowPosition: Qt.point(units.gu(10),  units.gu(10)), expectedMenuCoordinates: Qt.point(units.gu(21.5), units.gu(3)) },
+                {tag: "collides right",  windowPosition: Qt.point(units.gu(100), units.gu(10)), expectedMenuCoordinates: Qt.point(units.gu(12),   units.gu(3)) },
+                {tag: "collides bottom", windowPosition: Qt.point(units.gu(10),  units.gu(80)), expectedMenuCoordinates: Qt.point(units.gu(21.5), units.gu(-5.25)) },
+            ]
+        }
+
+        function test_menuPositioning(data) {
+            var appDelegate = startApplication("dialer-app");
+            appDelegate.windowedX = data.windowPosition.x;
+            appDelegate.windowedY = data.windowPosition.y;
+
+            var menuItem = findChild(appDelegate, "menuBar-item3");
+            menuItem.show();
+
+            var menu = findChild(appDelegate, "menuBar-item3-menu");
+
+            tryCompare(menu, "x", data.expectedMenuCoordinates.x);
+            tryCompare(menu, "y", data.expectedMenuCoordinates.y);
+        }
+
+        function test_submenuPositioning_data() {
+            return [
+                {tag: "good",            windowPosition: Qt.point(units.gu(10),  units.gu(10)), expectedMenuCoordinates: Qt.point(units.gu(20),  units.gu(10.25)) },
+                {tag: "collides right",  windowPosition: Qt.point(units.gu(100), units.gu(10)), expectedMenuCoordinates: Qt.point(units.gu(-20), units.gu(10.25)) },
+                {tag: "collides bottom", windowPosition: Qt.point(units.gu(10),  units.gu(80)), expectedMenuCoordinates: Qt.point(units.gu(20),  units.gu(0)) },
+            ]
+        }
+
+        function test_submenuPositioning(data) {
+            var appDelegate = startApplication("dialer-app");
+            appDelegate.windowedX = data.windowPosition.x;
+            appDelegate.windowedY = data.windowPosition.y;
+
+            var menuItem = findChild(appDelegate, "menuBar-item3");
+            menuItem.show();
+
+            var menu = findChild(appDelegate, "menuBar-item3-menu");
+            menuItem = findChild(menu, "menuBar-item3-menu-item3-actionItem");
+            tryCompare(menuItem, "visible", true);
+            mouseMove(menuItem);
+            mouseClick(menuItem);
+
+            menu = findChild(appDelegate, "menuBar-item3-menu-item3-menu");
+
+            console.log(menu, menu.x);
+            tryCompare(menu, "x", data.expectedMenuCoordinates.x);
+            tryCompare(menu, "y", data.expectedMenuCoordinates.y);
         }
     }
 }
