@@ -27,6 +27,7 @@ Item {
     // set from outside
     property alias unityMenuModel: rowRepeater.model
     property bool enableKeyFilter: false
+    property real overflowWidth: width
 
     // read from outside
     readonly property bool valid: rowRepeater.count > 0
@@ -94,7 +95,7 @@ Item {
                 property Item __popup: null;
                 property bool popupVisible: __popup && __popup.visible
                 property bool shouldDisplay: x + width + ((__ownIndex < rowRepeater.count-1) ? units.gu(2) : 0) <
-                                                root.width - ((__ownIndex < rowRepeater.count-1) ? overflowButton.width : 0)
+                                                root.overflowWidth - ((__ownIndex < rowRepeater.count-1) ? overflowButton.width : 0)
 
                 implicitWidth: column.implicitWidth
                 implicitHeight: row.height
@@ -130,8 +131,8 @@ Item {
                     }
                 }
 
-                onShouldDisplayChanged: {
-                    if (!shouldDisplay && __popup) dismiss();
+                onVisibleChanged: {
+                    if (!visible && __popup) dismiss();
                 }
 
                 Component.onCompleted: {
