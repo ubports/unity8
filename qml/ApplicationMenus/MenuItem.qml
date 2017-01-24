@@ -113,6 +113,7 @@ ActionItem {
                 elide: Text.ElideNone
                 wrapMode: Text.NoWrap
                 clip: true
+                color: enabled ? theme.palette.normal.overlayText : theme.palette.disabled.overlayText
                 Layout.fillWidth: true
 
                 text: root.text ? root.text : ""
@@ -123,8 +124,8 @@ ActionItem {
                 elide: Text.ElideNone
                 wrapMode: Text.NoWrap
                 clip: true
-                color: enabled ? theme.palette.normal.backgroundSecondaryText :
-                                 theme.palette.disabled.backgroundSecondaryText
+                color: enabled ? theme.palette.normal.overlaySecondaryText :
+                                 theme.palette.disabled.overlaySecondaryText
 
                 visible: menuData.shortcut != undefined && !root.hasSubmenu && QuickUtils.keyboardAttached
                 text: menuData.shortcut ? menuData.shortcut : ""
@@ -135,8 +136,8 @@ ActionItem {
             id: chevronIcon
             width: units.gu(2)
             height: units.gu(2)
-            color: enabled ? theme.palette.normal.backgroundSecondaryText :
-                             theme.palette.disabled.backgroundSecondaryText
+            color: enabled ? theme.palette.normal.overlayText :
+                             theme.palette.disabled.overlayText
 
             visible: root.hasSubmenu
             name: "toolkit_chevron-ltr_2gu"
