@@ -149,6 +149,25 @@ MouseArea {
         objectName: "dialogLoader"
         anchors.fill: parent
         active: false
+        onActiveChanged: {
+            if (!active) {
+                if (previousFocusedItem) {
+                    previousFocusedItem.forceActiveFocus(Qt.OtherFocusReason);
+                    previousFocusedItem = undefined;
+                }
+                previousSourceComponent = undefined;
+                sourceComponent = undefined;
+            }
+        }
+        onSourceComponentChanged: {
+            if (previousSourceComponent !== sourceComponent) {
+                previousSourceComponent = sourceComponent;
+                previousFocusedItem = window.activeFocusItem;
+            }
+        }
+
+        property var previousSourceComponent: undefined
+        property var previousFocusedItem: undefined
     }
 
     Component {
