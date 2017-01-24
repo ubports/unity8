@@ -550,5 +550,22 @@ Item {
             var lockscreen = findChild(shell, "lockscreen");
             verify(lockscreen.shown);
         }
+
+        function test_bfbOnLockedDevice() {
+            var launcher = findChild(shell, "launcher");
+            touchFlick(shell, units.gu(.5), shell.height / 2, units.gu(10), shell.height / 2);
+
+            tryCompare(launcher, "x", 0);
+            tryCompare(launcher, "state", "visible");
+
+            waitForRendering(shell)
+
+            var bfb = findChild(launcher, "buttonShowDashHome");
+            mouseClick(bfb, bfb.width / 2, bfb.height / 2);
+
+            enterPin("1234")
+
+            tryCompare(launcher, "state", "drawer");
+        }
     }
 }

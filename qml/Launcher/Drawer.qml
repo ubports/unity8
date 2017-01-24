@@ -20,6 +20,7 @@ import Unity.Launcher 0.1
 import Utils 0.1
 import "../Components"
 import Qt.labs.settings 1.0
+import GSettings  1.0
 
 FocusScope {
     id: root
@@ -47,8 +48,10 @@ FocusScope {
         if (event.text.trim() !== "") {
             focusInput();
             searchField.text = event.text;
-            event.accepted = true;
         }
+        // Catch all presses here in case the navigation lets something through
+        // We never want to end up in the launcher with focus
+        event.accepted = true;
     }
 
     Settings {
@@ -88,6 +91,9 @@ FocusScope {
                 anchors { left: parent.left; top: parent.top; right: parent.right; margins: units.gu(1) }
                 placeholderText: i18n.tr("Search…")
                 focus: true
+
+                KeyNavigation.down: sections
+
                 onAccepted: {
                     if (searchField.displayText != "" && listLoader.item && listLoader.item.currentItem) {
                         root.applicationSelected(listLoader.item.getFirstAppId());
@@ -104,7 +110,14 @@ FocusScope {
 
                 Sections {
                     id: sections
+                    objectName: "drawerSections"
                     width: parent.width
+
+                    KeyNavigation.up: searchField
+                    KeyNavigation.down: headerFocusScope
+                    KeyNavigation.backtab: searchField
+                    KeyNavigation.tab: headerFocusScope
+
                     actions: [
                         Action {
                             text: i18n.ctr("Apps sorted alphabetically", "A-Z")
@@ -124,9 +137,45 @@ FocusScope {
                 }
             }
 
+            FocusScope {
+                id: headerFocusScope
+                objectName: "headerFocusScope"
+                KeyNavigation.up: sections
+                KeyNavigation.down: listLoader.item
+                KeyNavigation.backtab: sections
+                KeyNavigation.tab: listLoader.item
+                activeFocusOnTab: true
+
+                GSettings {
+                    id: settings
+                    schema.id: "com.canonical.Unity8"
+                }
+
+                Keys.onPressed: {
+                    switch (event.key) {
+                    case Qt.Key_Return:
+                    case Qt.Key_Enter:
+                    case Qt.Key_Space:
+                        trigger();
+                        event.accepted = true;
+                    }
+                }
+
+                function trigger() {
+                    Qt.openUrlExternally(settings.appstoreUri)
+                }
+            }
+
             Loader {
                 id: listLoader
-                anchors { left: parent.left; top: sectionsContainer.bottom; right: parent.right; bottom: parent.bottom; leftMargin: units.gu(1); rightMargin: units.gu(1) }
+                objectName: "drawerListLoader"
+                anchors { left: parent.left; top: sectionsContainer.bottom; right: parent.right; bottom: parent.bottom }
+
+                KeyNavigation.up: headerFocusScope
+                KeyNavigation.down: searchField
+                KeyNavigation.backtab: headerFocusScope
+                KeyNavigation.tab: searchField
+
                 sourceComponent: {
                     switch (sections.selectedIndex) {
                     case 0: return aToZComponent;
@@ -176,10 +225,13 @@ FocusScope {
             Component {
                 id: mostUsedComponent
                 DrawerListView {
+                    id: mostUsedListView
 
                     header: MoreAppsHeader {
                         width: parent.width
                         height: units.gu(6)
+                        highlighted: headerFocusScope.activeFocus
+                        onClicked: headerFocusScope.trigger();
                     }
 
                     model: AppDrawerProxyModel {
@@ -189,7 +241,8 @@ FocusScope {
                     }
 
                     delegate: UbuntuShape {
-                        width: parent.width
+                        width: parent.width - units.gu(2)
+                        anchors.horizontalCenter: parent.horizontalCenter
                         color: "#20ffffff"
                         aspect: UbuntuShape.Flat
                         // NOTE: Cannot use gridView.rows here as it would evaluate to 0 at first and only update later,
@@ -205,6 +258,9 @@ FocusScope {
                             bottomMargin: units.gu(1)
                             clip: true
 
+                            interactive: true
+                            focus: index == mostUsedListView.currentIndex
+
                             model: sortProxyModel
 
                             delegateWidth: units.gu(8)
@@ -218,10 +274,13 @@ FocusScope {
             Component {
                 id: aToZComponent
                 DrawerListView {
+                    id: aToZListView
 
                     header: MoreAppsHeader {
                         width: parent.width
                         height: units.gu(6)
+                        highlighted: headerFocusScope.activeFocus
+                        onClicked: headerFocusScope.trigger();
                     }
 
                     model: AppDrawerProxyModel {
@@ -231,7 +290,8 @@ FocusScope {
                     }
 
                     delegate: UbuntuShape {
-                        width: parent.width
+                        width: parent.width - units.gu(2)
+                        anchors.horizontalCenter: parent.horizontalCenter
                         color: "#20ffffff"
                         aspect: UbuntuShape.Flat
 
@@ -253,7 +313,8 @@ FocusScope {
                             anchors { left: parent.left; top: categoryNameLabel.bottom; right: parent.right; topMargin: units.gu(1) }
                             height: rows * delegateHeight
 
-                            interactive: false
+                            interactive: true
+                            focus: index == aToZListView.currentIndex
 
                             model: AppDrawerProxyModel {
                                 id: categoryModel
@@ -272,9 +333,12 @@ FocusScope {
         Component {
             id: drawerDelegateComponent
             AbstractButton {
+                id: drawerDelegate
                 width: GridView.view.cellWidth
                 height: units.gu(10)
                 objectName: "drawerItem_" + model.appId
+
+                readonly property bool focused: index === GridView.view.currentIndex && GridView.view.activeFocus
 
                 onClicked: root.applicationSelected(model.appId)
 
@@ -299,6 +363,15 @@ FocusScope {
                             source: model.icon
                         }
                         sourceFillMode: UbuntuShape.PreserveAspectCrop
+
+                        StyledItem {
+                            styleName: "FocusShape"
+                            anchors.fill: parent
+                            StyleHints {
+                                visible: drawerDelegate.focused
+                                radius: units.gu(2.55)
+                            }
+                        }
                     }
 
                     Label {

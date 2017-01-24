@@ -87,14 +87,14 @@ FocusScope {
             superPressTimer.stop();
             superLongPressTimer.stop();
         } else {
+            switchToNextState("");
+            root.focus = false;
             if (panel.highlightIndex == -1) {
-                showDashHome();
+                root.showDashHome();
             } else if (panel.highlightIndex >= 0){
                 launcherApplicationSelected(LauncherModel.get(panel.highlightIndex).appId);
             }
             panel.highlightIndex = -2;
-            switchToNextState("");
-            root.focus = false;
         }
     }
 
@@ -210,7 +210,7 @@ FocusScope {
         case Qt.Key_Return:
         case Qt.Key_Space:
             if (panel.highlightIndex == -1) {
-                showDashHome();
+                root.showDashHome();
             } else if (panel.highlightIndex >= 0) {
                 launcherApplicationSelected(LauncherModel.get(panel.highlightIndex).appId);
             }
@@ -473,9 +473,7 @@ FocusScope {
         }
         onPassed: {
             if (root.drawerEnabled) {
-                root.switchToNextState("drawer");
-                root.focus = true;
-                drawer.focus = true;
+                root.openDrawer()
             }
         }
 
@@ -551,9 +549,7 @@ FocusScope {
             if (!dragging) {
                 if (distance > panel.width / 2) {
                     if (root.drawerEnabled && distance > panel.width * 3 && dragDirection() !== "left") {
-                        root.switchToNextState("drawer");
-                        root.focus = true;
-                        drawer.focus = true;
+                        root.openDrawer(false)
                     } else {
                         root.switchToNextState("visible");
                     }

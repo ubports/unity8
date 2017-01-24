@@ -344,6 +344,16 @@ StyledItem {
         onLoaded: {
             item.objectName = "greeter"
         }
+        property bool openDrawerAfterUnlock: false
+        Connections {
+            target: greeter
+            onActiveChanged: {
+                if (!greeter.active && greeterLoader.openDrawerAfterUnlock) {
+                    launcher.openDrawer(false);
+                    greeterLoader.openDrawerAfterUnlock = false;
+                }
+            }
+        }
     }
 
     Component {
@@ -435,9 +445,11 @@ StyledItem {
         if (shell.mode === "greeter") {
             SessionBroadcast.requestHomeShown(AccountsService.user);
         } else {
-            var animate = !LightDMService.greeter.active && !stages.shown;
-            dash.setCurrentScope(0, animate, false);
-            ApplicationManager.requestFocusApplication("unity8-dash");
+            if (!greeter.active) {
+                launcher.openDrawer(false);
+            } else {
+                greeterLoader.openDrawerAfterUnlock = true;
+            }
         }
     }
 
@@ -513,7 +525,7 @@ StyledItem {
             lockedVisible: shell.usageScenario == "desktop" && !settings.autohideLauncher && !panel.fullscreenMode
             blurSource: greeter.shown ? greeter : stages
             topPanelHeight: panel.panelHeight
-            drawerEnabled: !greeter.shown
+            drawerEnabled: !greeter.active
 
             onShowDashHome: showHome()
             onLauncherApplicationSelected: {

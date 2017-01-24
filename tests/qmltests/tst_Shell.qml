@@ -746,22 +746,6 @@ Rectangle {
             mockNotificationsModel.append(n)
         }
 
-        function test_ClickUbuntuIconInLauncherTakesToAppsAndResetSearchString() {
-            loadShell("phone");
-            swipeAwayGreeter();
-            dragLauncherIntoView();
-            dashCommunicatorSpy.clear();
-
-            var launcher = findChild(shell, "launcher");
-            var dashIcon = findChild(launcher, "dashItem");
-            verify(dashIcon != undefined);
-            mouseClick(dashIcon);
-
-            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
-
-            compare(dashCommunicatorSpy.count, 1);
-        }
-
         function test_suspend() {
             loadShell("phone");
             swipeAwayGreeter();
@@ -1378,47 +1362,6 @@ Rectangle {
             tryCompare(stage, "state", "spread");
         }
 
-        function test_tapUbuntuIconInLauncherOverAppSpread() {
-            launcherShowDashHomeSpy.clear();
-
-            loadShell("phone");
-            swipeAwayGreeter();
-
-            waitUntilFocusedApplicationIsShowingItsSurface();
-
-            swipeFromRightEdgeToShowAppSpread();
-
-            var launcher = findChild(shell, "launcher");
-
-            dragLauncherIntoView();
-
-            // Emulate a tap with a finger, where the touch position drifts during the tap.
-            // This is to test the touch ownership changes. The tap is happening on the button
-            // area but then drifting into the left edge drag area. This test makes sure
-            // the touch ownership stays with the button and doesn't move over to the
-            // left edge drag area.
-            {
-                var buttonShowDashHome = findChild(launcher, "buttonShowDashHome");
-                touchFlick(buttonShowDashHome,
-                    buttonShowDashHome.width * 0.2,  /* startPos.x */
-                    buttonShowDashHome.height * 0.8, /* startPos.y */
-                    buttonShowDashHome.width * 0.8,  /* endPos.x */
-                    buttonShowDashHome.height * 0.2  /* endPos.y */);
-            }
-
-            compare(launcherShowDashHomeSpy.count, 1);
-
-            // check that the stage has left spread mode.
-            {
-                var stage = findChild(shell, "stage");
-                tryCompare(stage, "state", "staged");
-            }
-
-            // check that the launcher got dismissed
-            var launcherPanel = findChild(shell, "launcherPanel");
-            tryCompare(launcherPanel, "x", -launcherPanel.width);
-        }
-
         function test_physicalHomeKeyPressDoesNothingWithActiveGreeter() {
             loadShell("phone");
 
@@ -1873,7 +1816,7 @@ Rectangle {
             loadDesktopShellWithApps()
             var launcher = findChild(shell, "launcher");
             var stage = findChild(shell, "stage");
-            var bfb = findChild(launcher, "buttonShowDashHome");
+            var app1 = findChild(launcher, "launcherDelegate0");
 
             GSettingsController.setAutohideLauncher(!data.launcherLocked);
             waitForRendering(shell);
@@ -1886,17 +1829,17 @@ Rectangle {
             if (!data.launcherLocked) {
                 revealLauncherByEdgePushWithMouse();
                 tryCompare(launcher, "x", 0);
-                mouseMove(bfb, bfb.width / 2, bfb.height / 2)
+                mouseMove(app1, app1.width / 2, app1.height / 2)
                 waitForRendering(shell)
             }
 
-            mouseClick(bfb, bfb.width / 2, bfb.height / 2)
+            mouseClick(app1, app1.width / 2, app1.height / 2)
             if (!data.launcherLocked) {
                 tryCompare(launcher, "state", "")
             }
             tryCompare(stage, "state", "windowed")
 
-            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash")
+            tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app")
 
             keyRelease(Qt.Key_Alt);
         }
@@ -2220,10 +2163,8 @@ Rectangle {
             tryCompare(launcher, "state", "visible");
             tryCompare(launcherPanel, "highlightIndex", -1);
             keyRelease(Qt.Key_Super_L, Qt.MetaModifier);
-            tryCompare(launcher, "state", data.launcherLocked ? "visible" : "");
+            tryCompare(launcher, "state", "drawer");
             tryCompare(launcherPanel, "highlightIndex", -2);
-            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
-            tryCompare(stage, "focus", true)
         }
 
         function test_longpressSuperOpensLauncherAndShortcutsOverlay() {
