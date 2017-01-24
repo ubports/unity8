@@ -27,7 +27,7 @@ Canvas {
     onCenterCircleChanged: requestPaint()
 
     onPaint: {
-        if (circleScale <= 0) {
+        if (circleScale <= 0 || width <= 0 || height <= 0) {
             return;
         }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, 2015 Canonical, Ltd.
+ * Copyright (C) 2013-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,13 +17,16 @@
 
 #include "Greeter.h"
 #include "GreeterPrivate.h"
+#include <QCoreApplication>
 #include <libintl.h>
+
+static Greeter *singleton = nullptr;
 
 GreeterPrivate::GreeterPrivate(Greeter* parent)
   : m_greeter(new QLightDM::Greeter(parent)),
     m_active(false),
-    wasPrompted(false),
-    promptless(false),
+    responded(false),
+    everResponded(false),
     q_ptr(parent)
 {
 }
@@ -41,7 +44,30 @@ Greeter::Greeter(QObject* parent)
     connect(d->m_greeter, &QLightDM::Greeter::authenticationComplete,
             this, &Greeter::authenticationCompleteFilter);
 
+    // Don't get stuck waiting for PAM as we shut down.
+    connect(QCoreApplication::instance(), &QCoreApplication::aboutToQuit,
+            d->m_greeter, &QLightDM::Greeter::cancelAuthentication);
+
     d->m_greeter->connectSync();
+}
+
+Greeter::~Greeter()
+{
+    singleton = nullptr;
+}
+
+Greeter *Greeter::instance()
+{
+    if (!singleton) {
+        singleton = new Greeter;
+    }
+    return singleton;
+}
+
+PromptsModel *Greeter::promptsModel()
+{
+    Q_D(Greeter);
+    return &d->prompts;
 }
 
 bool Greeter::isActive() const
@@ -68,7 +94,16 @@ bool Greeter::isAuthenticated() const
 QString Greeter::authenticationUser() const
 {
     Q_D(const Greeter);
-    return d->m_greeter->authenticationUser();
+    return d->cachedAuthUser;
+}
+
+void Greeter::checkAuthenticationUser()
+{
+    Q_D(Greeter);
+    if (d->cachedAuthUser != d->m_greeter->authenticationUser()) {
+        d->cachedAuthUser = d->m_greeter->authenticationUser();
+        Q_EMIT authenticationUserChanged();
+    }
 }
 
 QString Greeter::defaultSessionHint() const
@@ -77,35 +112,64 @@ QString Greeter::defaultSessionHint() const
     return d->m_greeter->defaultSessionHint();
 }
 
-bool Greeter::promptless() const
-{
-    Q_D(const Greeter);
-    return d->promptless;
-}
-
 QString Greeter::selectUser() const
 {
     Q_D(const Greeter);
-    return d->m_greeter->selectUserHint();
+    if (hasGuestAccount() && d->m_greeter->selectGuestHint()) {
+        return QStringLiteral("*guest");
+    } else {
+        return d->m_greeter->selectUserHint();
+    }
+}
+
+bool Greeter::hasGuestAccount() const
+{
+    Q_D(const Greeter);
+    return d->m_greeter->hasGuestAccountHint();
+}
+
+bool Greeter::showManualLoginHint() const
+{
+    Q_D(const Greeter);
+    return d->m_greeter->showManualLoginHint();
+}
+
+bool Greeter::hideUsersHint() const
+{
+    Q_D(const Greeter);
+    return d->m_greeter->hideUsersHint();
 }
 
 void Greeter::authenticate(const QString &username)
 {
     Q_D(Greeter);
-    d->wasPrompted = false;
-    if (d->promptless) {
-        d->promptless = false;
-        Q_EMIT promptlessChanged();
+    d->prompts.clear();
+    d->responded = false;
+    d->everResponded = false;
+
+    if (authenticationUser() == username) {
+        d->prompts = d->leftovers;
+    }
+    d->leftovers.clear();
+
+    if (username == QStringLiteral("*guest")) {
+        d->m_greeter->authenticateAsGuest();
+    } else if (username == QStringLiteral("*other")) {
+        d->m_greeter->authenticate(nullptr);
+    } else {
+        d->m_greeter->authenticate(username);
     }
 
-    d->m_greeter->authenticate(username);
+    Q_EMIT authenticationStarted();
     Q_EMIT isAuthenticatedChanged();
-    Q_EMIT authenticationUserChanged(username);
+    checkAuthenticationUser();
 }
 
 void Greeter::respond(const QString &response)
 {
     Q_D(Greeter);
+    d->responded = true;
+    d->everResponded = true;
     d->m_greeter->respond(response);
 }
 
@@ -118,32 +182,82 @@ bool Greeter::startSessionSync(const QString &session)
 void Greeter::showPromptFilter(const QString &text, QLightDM::Greeter::PromptType type)
 {
     Q_D(Greeter);
-    d->wasPrompted = true;
+
+    checkAuthenticationUser(); // may have changed in liblightdm
 
     bool isDefaultPrompt = (text == dgettext("Linux-PAM", "Password: "));
+    bool isSecret = type == QLightDM::Greeter::PromptTypeSecret;
+
+    QString trimmedText;
+    if (!isDefaultPrompt)
+        trimmedText = text.trimmed();
 
     // Strip prompt of any colons at the end
-    QString trimmedText = text.trimmed();
     if (trimmedText.endsWith(':') || trimmedText.endsWith(QStringLiteral("："))) {
         trimmedText.chop(1);
     }
 
-    Q_EMIT showPrompt(trimmedText, type == QLightDM::Greeter::PromptTypeSecret, isDefaultPrompt);
+    if (trimmedText == "login") {
+        // 'login' is provided untranslated by LightDM when asking for a manual
+        // login username.
+        trimmedText = gettext("Username");
+    }
+
+    if (d->responded) {
+        d->prompts.clear();
+        d->responded = false;
+    }
+
+    d->prompts.append(trimmedText, isSecret ? PromptsModel::Secret : PromptsModel::Question);
 }
 
 void Greeter::showMessageFilter(const QString &text, QLightDM::Greeter::MessageType type)
 {
-    Q_EMIT showMessage(text, type == QLightDM::Greeter::MessageTypeError);
+    Q_D(Greeter);
+
+    checkAuthenticationUser(); // may have changed in liblightdm
+
+    bool isError = type == QLightDM::Greeter::MessageTypeError;
+
+    if (d->responded) {
+        d->prompts.clear();
+        d->responded = false;
+    }
+    d->prompts.append(text, isError? PromptsModel::Error : PromptsModel::Message);
 }
 
 void Greeter::authenticationCompleteFilter()
 {
     Q_D(Greeter);
-    if (!d->wasPrompted) {
-        d->promptless = true;
-        Q_EMIT promptlessChanged();
-    }
 
     Q_EMIT isAuthenticatedChanged();
-    Q_EMIT authenticationComplete();
+
+    bool automatic = !d->everResponded;
+    bool pamHasLeftoverMessages = !d->prompts.hasPrompt() && d->prompts.rowCount() > 0;
+
+    if (!isAuthenticated()) {
+        if (pamHasLeftoverMessages) {
+            d->leftovers = d->prompts; // Prefer PAM's messages
+        } else if (automatic) {
+            d->leftovers.append(gettext("Failed to authenticate"), PromptsModel::Error);
+        } else {
+            d->leftovers.append(gettext("Invalid password, please try again"), PromptsModel::Error);
+        }
+    } else if (pamHasLeftoverMessages) {
+        automatic = true; // treat this successful login as automatic, so user sees message
+        d->leftovers = d->prompts;
+    }
+
+    if (automatic) {
+        d->prompts = d->leftovers; // OK, we'll just use these now
+        d->leftovers.clear();
+        d->prompts.append(isAuthenticated() ? gettext("Log In") : gettext("Retry"),
+                          PromptsModel::Button);
+    }
+
+    if (isAuthenticated()) {
+        Q_EMIT loginSuccess(automatic);
+    } else {
+        Q_EMIT loginError(automatic);
+    }
 }

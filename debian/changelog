@@ -1,3 +1,54 @@
+unity8 (8.15+17.04.20170124-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Limit tab-focus travelling on dialogs with a fence
+  * Restore focus to where it was when our ShellDialogs get unloaded
+  * Update current session after changing the user
+  * Add keyboard navigation for Indicators
+  * a window -> the current window
+  * There's no spreadDelegate_ anymore
+
+  [ Daniel d'Andrada ]
+  * Simplify DecoratedWindow
+  * Remove unnecessary warning message
+
+  [ Josh Arenson ]
+  * Add a test for the session chooser icon in the greeter's sessions
+    list
+
+  [ Lukáš Tinkl ]
+  * Fix keymap not being applied on the shell itself (LP: #1626435)
+  * Shell dialog improvements (kbd focus, mouse eater)
+  * Start searching directly as you type, w/o having to first
+    focus/click the search field.
+  * Add a test for the real implementation of WindowStateStorage
+  * Use a four finger gesture to open the drawer, much like in u7
+
+  [ Michael Terry ]
+  * Simplify the lightdm mock to make future greeter improvements easier
+    to test.
+  * Add support for guest sessions in unity8-greeter.
+  * Use a model for PAM prompts, supporting more possible interactions.
+  * Fix grouping of autopkg output and allow optionally passing
+    arguments to installed test scripts.
+  * Add support for LightDM hints for manual logins and hiding normal
+    users.
+
+  [ Michael Zanetti ]
+  * hint the launcher to indicate a successful size change to the user
+    (LP: #1646457)
+  * Improvements for the appdrawer (LP: #1648173)
+  * Adjust home key to still focus the dash instead of messing with the
+    drawer
+  * allow 4 finger simulation with mousetouchadaptor
+
+  [ Nick Dedekind ]
+  * Added Alt+F10 shortcut to open app menus. (LP: #1656896)
+  * Fixed menu layout width calculations. (LP: #1657050)
+  * Skip Panel::test_drag_indicator_item_down_shows_menu
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 24 Jan 2017 07:46:58 +0000
+
 unity8 (8.15+17.04.20170110.4-0ubuntu1) zesty; urgency=medium
 
   [ Albert Astals Cid ]

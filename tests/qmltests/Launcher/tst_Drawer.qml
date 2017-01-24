@@ -26,6 +26,7 @@ import Unity.Test 0.1
 StyledItem {
     id: root
     theme.name: "Ubuntu.Components.Themes.SuruDark"
+    focus: true
 
     width: units.gu(140)
     height: units.gu(70)
@@ -108,6 +109,7 @@ StyledItem {
             tryCompareFunction( function(){ return drawer.x === 0; }, true );
             tryCompare(launcher, "state", "drawer");
             tryCompare(launcher, "drawerShown", true);
+            return drawer;
         }
 
         function revealByEdgePush() {
@@ -134,6 +136,8 @@ StyledItem {
             launcher.hide();
             var drawer = findChild(launcher, "drawer");
             tryCompare(drawer, "x", -drawer.width);
+            var searchField = findChild(drawer, "searchField");
+            searchField.text = "";
         }
 
         function test_revealByEdgeDrag() {
@@ -168,12 +172,10 @@ StyledItem {
         function test_hideByDraggingDrawer(data) {
             launcher.lockedVisible = !data.autohide;
 
-            dragDrawerIntoView();
+            var drawer = dragDrawerIntoView();
             waitForRendering(launcher);
 
-            var drawer = findChild(launcher, "drawer");
-
-            mouseFlick(root, drawer.width - units.gu(1), drawer.height / 2, units.gu(2), drawer.height / 2, true, true);
+            mouseFlick(root, drawer.width - units.gu(1), drawer.height / 2, units.gu(10), drawer.height / 2, true, true);
 
             tryCompare(drawer.anchors, "rightMargin", 0);
             tryCompare(launcher, "state", data.endState);
@@ -181,9 +183,7 @@ StyledItem {
         }
 
         function test_hideByClickingOutside() {
-            dragDrawerIntoView();
-
-            var drawer = findChild(launcher, "drawer");
+            var drawer = dragDrawerIntoView();
 
             mouseClick(root, drawer.width + units.gu(1), root.height / 2);
 
@@ -240,6 +240,8 @@ StyledItem {
             keyClick(Qt.Key_Enter);
 
             compare(launcher.lastSelectedApplication, "camera-app");
+            waitForRendering(launcher);
+            tryCompare(launcher, "drawerShown", false);
         }
 
         function test_dragDirectionOnLeftEdgeDrag_data() {
@@ -259,6 +261,55 @@ StyledItem {
             touchFlick(launcher, stopX, startY, endX, startY, false, true);
 
             tryCompare(launcher, "state", data.endState)
+        }
+
+        function test_searchDirectly() {
+            var drawer = dragDrawerIntoView();
+            waitForRendering(launcher);
+            waitUntilTransitionsEnd(launcher);
+            tryCompare(drawer, "focus", true);
+
+            var searchField = findChild(drawer, "searchField");
+            tryCompareFunction(function() { return !!searchField }, true);
+            typeString("cam");
+            tryCompareFunction(function() { return searchField.displayText }, "cam");
+        }
+
+        function test_kbdNavigation() {
+            launcher.openDrawer(true);
+            waitForRendering(launcher);
+            waitUntilTransitionsEnd(launcher);
+            compare(launcher.lastSelectedApplication, "");
+
+            var drawer = findChild(launcher, "drawer");
+            var searchField = findChild(drawer, "searchField");
+            var sections = findChild(drawer, "drawerSections");
+            var header = findChild(drawer, "headerFocusScope");
+            var listLoader = findChild(drawer, "drawerListLoader");
+
+            tryCompare(searchField, "activeFocus", true);
+            // for some reason, even when the searchField has activeFocus already,
+            // it won't react on key down events if they're coming in too early...
+            // let's repeat the press for a bit before giving up
+            tryCompareFunction(function() {
+                wait(10)
+                keyClick(Qt.Key_Down);
+                return sections.activeFocus;
+            }, true)
+
+            keyClick(Qt.Key_Down);
+            tryCompare(header, "activeFocus", true);
+
+            keyClick(Qt.Key_Down);
+            tryCompare(listLoader, "activeFocus", true);
+
+            keyClick(Qt.Key_Down);
+            keyClick(Qt.Key_Left);
+            tryCompare(listLoader, "activeFocus", true);
+
+            keyClick(Qt.Key_Enter);
+
+            compare(launcher.lastSelectedApplication, "calendar-app");
         }
     }
 }
