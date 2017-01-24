@@ -568,7 +568,6 @@ Rectangle {
                 // is loaded by default
                 tearDown();
             }
-
         }
 
         function cleanup() {

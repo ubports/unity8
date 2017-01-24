@@ -37,8 +37,6 @@ Dialog {
 
     onVisibleChanged: { if (!visible && dialogLoader) { dialogLoader.active = false; } }
 
-    Keys.onEscapePressed: hide()
-
     focus: true
 
     // FIXME: this is a hack because Dialog subtheming seems broken atm
@@ -62,6 +60,12 @@ Dialog {
             id: column
             width: parent.width
             spacing: units.gu(2)
+        }
+        Keys.onDownPressed: {
+            event.accepted = focusNext();
+        }
+        Keys.onUpPressed: {
+            event.accepted = focusPrev();
         }
     }
 }

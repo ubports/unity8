@@ -28,6 +28,9 @@ Q_OBJECT
 public:
     TabFocusFenceItem(QQuickItem *parent = nullptr);
 
+    Q_INVOKABLE bool focusNext();
+    Q_INVOKABLE bool focusPrev();
+
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
 };

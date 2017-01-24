@@ -24,10 +24,13 @@ import Unity.Platform 1.0
 import Utils 0.1
 import "../Greeter"
 
-Item {
+MouseArea {
     id: root
+    acceptedButtons: Qt.AllButtons
+    hoverEnabled: true
+    onWheel: wheel.accepted = true
 
-    readonly property alias hasActiveDialog: dialogLoader.active
+    readonly property bool hasActiveDialog: dialogLoader.active || d.modeSwitchWarningPopup
 
     // to be set from outside, useful mostly for testing purposes
     property var unitySessionService: DBusUnitySessionService
@@ -42,6 +45,7 @@ Item {
     }
     property string usageScenario
     property size screenSize: Qt.size(Screen.width, Screen.height)
+    property bool hasKeyboard: false
 
     signal powerOffClicked();
 
@@ -120,6 +124,11 @@ Item {
         onTriggered: LightDMService.greeter.showGreeter()
     }
 
+    GlobalShortcut { // lock screen
+        shortcut: Qt.MetaModifier|Qt.Key_L
+        onTriggered: LightDMService.greeter.showGreeter()
+    }
+
     QtObject {
         id: d // private stuff
         objectName: "dialogsPrivate"
@@ -155,6 +164,7 @@ Item {
                     LightDMService.greeter.showGreeter()
                     logoutDialog.hide();
                 }
+                Component.onCompleted: if (root.hasKeyboard) forceActiveFocus(Qt.TabFocusReason)
             }
             Button {
                 width: parent.width
@@ -198,6 +208,7 @@ Item {
                     rebootDialog.hide();
                 }
                 color: theme.palette.normal.negative
+                Component.onCompleted: if (root.hasKeyboard) forceActiveFocus(Qt.TabFocusReason)
             }
         }
     }
@@ -218,6 +229,7 @@ Item {
                     root.powerOffClicked();
                 }
                 color: theme.palette.normal.negative
+                Component.onCompleted: if (root.hasKeyboard) forceActiveFocus(Qt.TabFocusReason)
             }
             Button {
                 width: parent.width

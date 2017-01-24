@@ -68,6 +68,7 @@ StyledItem {
         stage.updateFocusedAppOrientationAnimated();
     }
     property bool hasMouse: false
+    property bool hasKeyboard: false
 
     // to be read from outside
     readonly property int mainAppWindowOrientationAngle: stage.mainAppWindowOrientationAngle
@@ -657,8 +658,10 @@ StyledItem {
         id: dialogs
         objectName: "dialogs"
         anchors.fill: parent
+        visible: hasActiveDialog
         z: overlay.z + 10
         usageScenario: shell.usageScenario
+        hasKeyboard: shell.hasKeyboard
         onPowerOffClicked: {
             shutdownFadeOutRectangle.enabled = true;
             shutdownFadeOutRectangle.visible = true;

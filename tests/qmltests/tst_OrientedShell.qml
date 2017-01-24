@@ -1559,7 +1559,14 @@ Rectangle {
             return surface.activeFocus;
         }
 
-        function test_tabCyclyingInShutdownDialog() {
+        function test_tabCyclyingInShutdownDialog_data() {
+            return [
+                {tag: "TAB", key: Qt.Key_Tab},
+                {tag: "DOWN", key: Qt.Key_Down}
+            ];
+        }
+
+        function test_tabCyclyingInShutdownDialog(data) {
             loadShell("mako");
 
             testCase.showPowerDialog();
@@ -1569,13 +1576,13 @@ Rectangle {
 
             tryCompare(buttons[0], "activeFocus", true);
 
-            keyClick(Qt.Key_Tab);
+            keyClick(data.key);
             tryCompare(buttons[1], "activeFocus", true);
 
-            keyClick(Qt.Key_Tab);
+            keyClick(data.key);
             tryCompare(buttons[2], "activeFocus", true);
 
-            keyClick(Qt.Key_Tab);
+            keyClick(data.key);
             tryCompare(buttons[0], "activeFocus", true);
 
             keyClick(Qt.Key_Escape);
@@ -1584,7 +1591,7 @@ Rectangle {
             tryCompare(dialogLoader, "item", null);
         }
 
-        function test_escColosesShutdownDialog() {
+        function test_escClosesShutdownDialog() {
             loadShell("mako");
 
             testCase.showPowerDialog();
