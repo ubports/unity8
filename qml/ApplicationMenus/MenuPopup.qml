@@ -203,10 +203,9 @@ UbuntuShape {
                                 !d.hoveredItem.contains(Qt.point(pos.x - d.currentItem.x, pos.y - d.currentItem.y))) {
                             d.hoveredItem = menuColumn.childAt(pos.x, pos.y)
                             if (!d.hoveredItem || !d.hoveredItem.enabled)
-                                return false;
+                                return;
                             d.currentItem = d.hoveredItem;
                         }
-                        return true;
                     }
                 }
 

@@ -66,11 +66,6 @@ Item {
         onPressed: d.dismissAll()
     }
 
-    Rectangle {
-        anchors.fill: row
-        color: Qt.rgba(1,0,0,0.4)
-    }
-
     Row {
         id: row
         spacing: units.gu(2)
@@ -82,8 +77,16 @@ Item {
             active: !d.currentItem && enableKeyFilter
         }
 
+        Connections {
+            target: root.unityMenuModel
+            onModelReset: d.firstInvisibleIndex = undefined
+        }
+
         Repeater {
             id: rowRepeater
+
+            onItemAdded: d.recalcFirstInvisibleIndexAdded(index, item)
+            onCountChanged: d.recalcFirstInvisibleIndex()
 
             Item {
                 id: visualItem
@@ -92,8 +95,8 @@ Item {
                 readonly property int __ownIndex: index
                 property Item __popup: null;
                 property bool popupVisible: __popup && __popup.visible
-                property bool shouldDisplay: x + width + ((index < rowRepeater.count-1) ? units.gu(1) : 0) <
-                                                (root.overflowWidth - (overflowButton.visible ? overflowButton.width : 0))
+                property bool shouldDisplay: x + width + ((__ownIndex < rowRepeater.count-1) ? units.gu(2) : 0) <
+                                                root.overflowWidth - ((__ownIndex < rowRepeater.count-1) ? overflowButton.width : 0)
 
                 implicitWidth: column.implicitWidth
                 implicitHeight: row.height
@@ -127,6 +130,18 @@ Item {
                             d.currentItem = null;
                         }
                     }
+                }
+
+                onVisibleChanged: {
+                    if (!visible && __popup) dismiss();
+                }
+
+                Component.onCompleted: {
+                    shouldDisplayChanged.connect(function() {
+                        if ((!shouldDisplay && d.firstInvisibleIndex == undefined) || __ownIndex <= d.firstInvisibleIndex) {
+                            d.recalcFirstInvisibleIndex();
+                        }
+                    });
                 }
 
                 Connections {
@@ -167,6 +182,7 @@ Item {
                         height: _title.height
 
                         action: Action {
+                            enabled: visualItem.enabled
                             // FIXME - SDK Action:text modifies menu text with html underline for mnemonic
                             text: model.label.replace("_", "&").replace("<u>", "&").replace("</u>", "")
 
@@ -186,23 +202,6 @@ Item {
             } // Item ( delegate )
         } // Repeater
     } // Row
-
-    MouseArea {
-        id: overflowButton
-        visible: root.implicitWidth > root.width
-        height: parent.height
-        width: units.gu(4)
-        anchors.right: parent.right
-
-        Icon {
-            id: icon
-            width: units.gu(2)
-            height: units.gu(2)
-            anchors.centerIn: parent
-            color: theme.palette.normal.overlayText
-            name: "toolkit_chevron-down_2gu"
-        }
-    }
 
     MouseArea {
         anchors.fill: parent
@@ -226,12 +225,109 @@ Item {
             if (!d.hoveredItem || !d.currentItem || !d.hoveredItem.contains(Qt.point(pos.x - d.currentItem.x, pos.y - d.currentItem.y))) {
                 d.hoveredItem = row.childAt(pos.x, pos.y);
                 if (!d.hoveredItem || !d.hoveredItem.enabled)
-                    return false;
+                    return;
                 if (d.currentItem != d.hoveredItem) {
                     d.currentItem = d.hoveredItem;
                 }
             }
-            return true;
+        }
+    }
+
+    MouseArea {
+        id: overflowButton
+        objectName: "overflow"
+
+        hoverEnabled: d.currentItem
+        onEntered: d.currentItem = this
+        onPositionChanged: d.currentItem = this
+        onClicked: d.currentItem = this
+
+        property Item __popup: null;
+        property bool popupVisible: __popup && __popup.visible
+        property Item firstInvisibleItem: d.firstInvisibleIndex !== undefined ? rowRepeater.itemAt(d.firstInvisibleIndex) : null
+
+        visible: d.firstInvisibleIndex != undefined
+        x: firstInvisibleItem ? firstInvisibleItem.x : 0
+
+        height: parent.height
+        width: units.gu(4)
+
+        onVisibleChanged: {
+            if (!visible && __popup) dismiss();
+        }
+
+        Icon {
+            id: icon
+            width: units.gu(2)
+            height: units.gu(2)
+            anchors.centerIn: parent
+            color: theme.palette.normal.overlayText
+            name: "toolkit_chevron-down_2gu"
+        }
+
+        function show() {
+            if (!__popup) {
+                __popup = overflowComponent.createObject(root, { objectName: overflowButton.objectName + "-menu" });
+                // force the current item to be the newly popped up menu
+            } else {
+                __popup.show();
+            }
+            d.currentItem = overflowButton;
+        }
+        function hide() {
+            if (__popup) {
+                __popup.hide();
+
+                if (d.currentItem === overflowButton) {
+                    d.currentItem = null;
+                }
+            }
+        }
+        function dismiss() {
+            if (__popup) {
+                __popup.destroy();
+                __popup = null;
+
+                if (d.currentItem === overflowButton) {
+                    d.currentItem = null;
+                }
+            }
+        }
+
+        Connections {
+            target: d
+            onDismissAll: overflowButton.dismiss()
+        }
+
+        Component {
+            id: overflowComponent
+            MenuPopup {
+                id: overflowPopup
+                x: overflowButton.x - units.gu(1)
+                anchors.top: parent.bottom
+                unityMenuModel: overflowModel
+
+                ExpressionFilterModel {
+                    id: overflowModel
+                    sourceModel: root.unityMenuModel
+                    matchExpression: function(index) {
+                        if (d.firstInvisibleIndex === undefined) return false;
+                        return index >= d.firstInvisibleIndex;
+                    }
+
+                    function submenu(index) {
+                        return sourceModel.submenu(mapRowToSource(index));
+                    }
+                    function activate(index) {
+                        return sourceModel.activate(mapRowToSource(index));
+                    }
+                }
+
+                Connections {
+                    target: d
+                    onFirstInvisibleIndexChanged: overflowModel.invalidate()
+                }
+            }
         }
     }
 
@@ -251,23 +347,52 @@ Item {
         id: d
         objectName: "d"
         itemView: rowRepeater
+        hasOverflow: overflowButton.visible
 
         property Item currentItem: null
         property Item hoveredItem: null
         property Item prevCurrentItem: null
-
-        readonly property int currentIndex: currentItem ? currentItem.__ownIndex : -1
-
         property bool altPressed: false
         property bool longAltPressed: false
+        property var firstInvisibleIndex: undefined
+
+        readonly property int currentIndex: currentItem && currentItem.hasOwnProperty("__ownIndex") ? currentItem.__ownIndex : -1
 
         signal dismissAll()
+
+        function recalcFirstInvisibleIndexAdded(index, item) {
+            if (firstInvisibleIndex === undefined) {
+                if (!item.shouldDisplay) {
+                    firstInvisibleIndex = index;
+                }
+            } else if (index <= firstInvisibleIndex) {
+                if (!item.shouldDisplay) {
+                    firstInvisibleIndex = index;
+                } else {
+                    firstInvisibleIndex++;
+                }
+            }
+        }
+
+        function recalcFirstInvisibleIndex() {
+            for (var i = 0; i < rowRepeater.count; i++) {
+                if (!rowRepeater.itemAt(i).shouldDisplay) {
+                    firstInvisibleIndex = i;
+                    return;
+                }
+            }
+            firstInvisibleIndex = undefined;
+        }
 
         onSelect: {
             var delegate = rowRepeater.itemAt(index);
             if (delegate) {
                 d.currentItem = delegate;
             }
+        }
+
+        onOverflow: {
+            d.currentItem = overflowButton;
         }
 
         onCurrentItemChanged: {

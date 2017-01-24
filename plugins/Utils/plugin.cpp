@@ -40,6 +40,7 @@
 #include "globalfunctions.h"
 #include "URLDispatcher.h"
 #include "appdrawerproxymodel.h"
+#include "expressionfiltermodel.h"
 
 static QObject *createWindowStateStorage(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
@@ -84,4 +85,5 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<GlobalFunctions>(uri, 0, 1, "Functions", createGlobalFunctions);
     qmlRegisterType<URLDispatcher>(uri, 0, 1, "URLDispatcher");
     qmlRegisterType<AppDrawerProxyModel>(uri, 0, 1, "AppDrawerProxyModel");
+    qmlRegisterType<ExpressionFilterModel>(uri, 0, 1, "ExpressionFilterModel");
 }
