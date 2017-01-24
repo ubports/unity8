@@ -201,7 +201,7 @@ Item {
             var i = getIndexOf(name);
             compare(view.currentIndex, i);
             compare(AccountsService.user, name);
-            if (name === "*guest") // guest has no authenticationUser set
+            if (name[0] === "*") // custom rows have no authenticationUser set
                 compare(LightDM.Greeter.authenticationUser, "");
             else
                 compare(LightDM.Greeter.authenticationUser, name);
@@ -610,6 +610,14 @@ Item {
             var i = selectUser("*guest");
             compare(i, LightDM.Users.count - 1); // guest should be last
             verify(!view.locked);
+        }
+
+        function test_showManualLoginHint() {
+            LightDMController.showManualLoginHint = true;
+            resetLoader();
+            var i = selectUser("*other");
+            compare(i, LightDM.Users.count - 1); // manual should be last
+            verify(view.locked);
         }
 
         function test_fingerprintSuccess() {

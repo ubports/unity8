@@ -50,6 +50,8 @@ public:
     bool promptless() const;
     QString selectUser() const;
     bool hasGuestAccount() const;
+    bool showManualLoginHint() const;
+    bool hideUsersHint() const;
 
 public Q_SLOTS:
     void authenticate(const QString &username=QString());
@@ -83,4 +85,5 @@ private Q_SLOTS:
     void showMessageFilter(const QString &text, QLightDM::Greeter::MessageType type);
     void showPromptFilter(const QString &text, QLightDM::Greeter::PromptType type);
     void authenticationCompleteFilter();
+    void checkAuthenticationUser();
 };

@@ -194,6 +194,7 @@ FocusScope {
         // palette color, whereas we want raisedSecondaryText.
         Label {
             id: hint
+            objectName: "promptHint"
             anchors {
                 left: parent.left
                 right: parent.right

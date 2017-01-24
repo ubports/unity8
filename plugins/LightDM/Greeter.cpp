@@ -88,7 +88,16 @@ bool Greeter::isAuthenticated() const
 QString Greeter::authenticationUser() const
 {
     Q_D(const Greeter);
-    return d->m_greeter->authenticationUser();
+    return d->cachedAuthUser;
+}
+
+void Greeter::checkAuthenticationUser()
+{
+    Q_D(Greeter);
+    if (d->cachedAuthUser != d->m_greeter->authenticationUser()) {
+        d->cachedAuthUser = d->m_greeter->authenticationUser();
+        Q_EMIT authenticationUserChanged();
+    }
 }
 
 QString Greeter::defaultSessionHint() const
@@ -119,6 +128,18 @@ bool Greeter::hasGuestAccount() const
     return d->m_greeter->hasGuestAccountHint();
 }
 
+bool Greeter::showManualLoginHint() const
+{
+    Q_D(const Greeter);
+    return d->m_greeter->showManualLoginHint();
+}
+
+bool Greeter::hideUsersHint() const
+{
+    Q_D(const Greeter);
+    return d->m_greeter->hideUsersHint();
+}
+
 void Greeter::authenticate(const QString &username)
 {
     Q_D(Greeter);
@@ -130,12 +151,14 @@ void Greeter::authenticate(const QString &username)
 
     if (username == QStringLiteral("*guest")) {
         d->m_greeter->authenticateAsGuest();
+    } else if (username == QStringLiteral("*other")) {
+        d->m_greeter->authenticate(nullptr);
     } else {
         d->m_greeter->authenticate(username);
     }
 
     Q_EMIT isAuthenticatedChanged();
-    Q_EMIT authenticationUserChanged();
+    checkAuthenticationUser();
 }
 
 void Greeter::respond(const QString &response)
@@ -155,6 +178,8 @@ void Greeter::showPromptFilter(const QString &text, QLightDM::Greeter::PromptTyp
     Q_D(Greeter);
     d->wasPrompted = true;
 
+    checkAuthenticationUser(); // may have changed in liblightdm
+
     bool isDefaultPrompt = (text == dgettext("Linux-PAM", "Password: "));
 
     // Strip prompt of any colons at the end
@@ -163,11 +188,18 @@ void Greeter::showPromptFilter(const QString &text, QLightDM::Greeter::PromptTyp
         trimmedText.chop(1);
     }
 
+    if (trimmedText == "login") {
+        // 'login' is provided untranslated by LightDM when asking for a manual
+        // login username.
+        trimmedText = gettext("Username");
+    }
+
     Q_EMIT showPrompt(trimmedText, type == QLightDM::Greeter::PromptTypeSecret, isDefaultPrompt);
 }
 
 void Greeter::showMessageFilter(const QString &text, QLightDM::Greeter::MessageType type)
 {
+    checkAuthenticationUser(); // may have changed in liblightdm
     Q_EMIT showMessage(text, type == QLightDM::Greeter::MessageTypeError);
 }
 
