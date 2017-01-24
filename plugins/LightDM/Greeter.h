@@ -40,7 +40,8 @@ class Greeter : public QObject
     Q_PROPERTY(QString selectUser READ selectUser CONSTANT)
 
 public:
-    explicit Greeter(QObject* parent=0);
+    static Greeter *instance();
+    virtual ~Greeter();
 
     bool isActive() const;
     bool isAuthenticated() const;
@@ -48,6 +49,7 @@ public:
     QString defaultSessionHint() const;
     bool promptless() const;
     QString selectUser() const;
+    bool hasGuestAccount() const;
 
 public Q_SLOTS:
     void authenticate(const QString &username=QString());
@@ -59,7 +61,7 @@ Q_SIGNALS:
     void showMessage(const QString &text, bool isError);
     void showPrompt(const QString &text, bool isSecret, bool isDefaultPrompt);
     void authenticationComplete();
-    void authenticationUserChanged(const QString &user);
+    void authenticationUserChanged();
     void isActiveChanged();
     void isAuthenticatedChanged();
     void promptlessChanged();
@@ -71,6 +73,8 @@ Q_SIGNALS:
     void requestAuthenticationUser(const QString &user);
 
 protected:
+    explicit Greeter(QObject* parent=0);
+
     GreeterPrivate * const d_ptr;
 
     Q_DECLARE_PRIVATE(Greeter)

@@ -14,6 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "Greeter.h"
+#include "MockController.h"
 #include "UsersModel.h"
 
 #include <QLightDM/UsersModel>
@@ -40,17 +42,23 @@ private:
         return model->data(model->index(i, 0), role).toString();
     }
 
-private Q_SLOTS:
-
-    void init()
+    void recreateModel()
     {
+        delete model;
         model = new UsersModel();
         QVERIFY(model);
     }
 
+private Q_SLOTS:
+
+    void init()
+    {
+        recreateModel();
+    }
+
     void cleanup()
     {
-        delete model;
+        QLightDM::MockController::instance()->reset();
     }
 
     void testMangleColor()
@@ -65,8 +73,30 @@ private Q_SLOTS:
         QVERIFY(name == "empty-name");
     }
 
+    void testHasGuest()
+    {
+        // sanity check that it doesn't start already present
+        QCOMPARE(findName(model, QStringLiteral("*guest")), -1);
+
+        QLightDM::MockController::instance()->setHasGuestAccountHint(true);
+        recreateModel();
+
+        int i = findName(model, QStringLiteral("*guest"));
+        QVERIFY(i >= 0);
+        QCOMPARE(i, model->count() - 1);
+
+        auto realName = model->data(i, QLightDM::UsersModel::RealNameRole).toString();
+        QCOMPARE(realName, QStringLiteral("Guest Session"));
+
+        auto loggedIn = model->data(i, QLightDM::UsersModel::LoggedInRole).toBool();
+        QVERIFY(!loggedIn);
+
+        auto session = model->data(i, QLightDM::UsersModel::SessionRole).toString();
+        QCOMPARE(session, Greeter::instance()->defaultSessionHint());
+    }
+
 private:
-    UsersModel *model;
+    UsersModel *model = nullptr;
 };
 
 QTEST_MAIN(GreeterUsersModelTest)

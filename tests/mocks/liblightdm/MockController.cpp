@@ -23,6 +23,8 @@ namespace QLightDM
 
 MockController::MockController(QObject *parent)
     : QObject(parent)
+    , m_selectGuestHint(false)
+    , m_hasGuestAccountHint(false)
     , m_fullSessions(
         {
             {"ubuntu", "Ubuntu"},
@@ -37,13 +39,9 @@ MockController::MockController(QObject *parent)
             {"xterm", "Recovery Console"},
             {"", "Unknown?"}
         })
+    , m_numSessions(0)
 {
-    m_userMode = qgetenv("LIBLIGHTDM_MOCK_MODE");
-    if (m_userMode.isEmpty()) {
-        m_userMode = "full";
-    }
-    m_sessionMode = "full";
-    m_numSessions = numFullSessions();
+    reset();
 }
 
 MockController::~MockController()
@@ -59,6 +57,21 @@ MockController *MockController::instance()
     return m_instance;
 }
 
+void MockController::reset()
+{
+    auto userMode = qgetenv("LIBLIGHTDM_MOCK_MODE");
+    if (userMode.isEmpty()) {
+        userMode = "full";
+    }
+
+    setSelectUserHint("");
+    setSelectGuestHint(false);
+    setHasGuestAccountHint(false);
+    setUserMode(userMode);
+    setSessionMode("full");
+    setNumSessions(numFullSessions());
+}
+
 QString MockController::selectUserHint() const
 {
     return m_selectUserHint;
@@ -69,6 +82,32 @@ void MockController::setSelectUserHint(const QString &selectUserHint)
     if (m_selectUserHint != selectUserHint) {
         m_selectUserHint = selectUserHint;
         Q_EMIT selectUserHintChanged();
+    }
+}
+
+bool MockController::selectGuestHint() const
+{
+    return m_selectGuestHint;
+}
+
+void MockController::setSelectGuestHint(bool selectGuestHint)
+{
+    if (m_selectGuestHint != selectGuestHint) {
+        m_selectGuestHint = selectGuestHint;
+        Q_EMIT selectGuestHintChanged();
+    }
+}
+
+bool MockController::hasGuestAccountHint() const
+{
+    return m_hasGuestAccountHint;
+}
+
+void MockController::setHasGuestAccountHint(bool hasGuestAccountHint)
+{
+    if (m_hasGuestAccountHint != hasGuestAccountHint) {
+        m_hasGuestAccountHint = hasGuestAccountHint;
+        Q_EMIT hasGuestAccountHintChanged();
     }
 }
 

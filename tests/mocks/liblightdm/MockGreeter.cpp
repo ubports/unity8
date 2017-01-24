@@ -51,7 +51,7 @@ QString Greeter::authenticationUser() const
 
 bool Greeter::hasGuestAccountHint() const
 {
-    return true;
+    return MockController::instance()->hasGuestAccountHint();
 }
 
 QString Greeter::getHint(const QString &name) const
@@ -87,7 +87,7 @@ QString Greeter::selectUserHint() const
 
 bool Greeter::selectGuestHint() const
 {
-    return false;
+    return MockController::instance()->selectGuestHint();
 }
 
 QString Greeter::autologinUserHint() const
@@ -173,7 +173,14 @@ void Greeter::handleAuthenticate()
 }
 
 void Greeter::authenticateAsGuest()
-{}
+{
+    Q_D(Greeter);
+
+    d->authenticated = true;
+    d->authenticationUser = QString(); // this is what the real liblightdm does
+    d->twoFactorDone = false;
+    QTimer::singleShot(0, this, &Greeter::authenticationComplete);
+}
 
 void Greeter::authenticateAutologin()
 {}

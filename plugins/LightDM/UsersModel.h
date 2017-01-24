@@ -21,7 +21,7 @@
 #pragma once
 
 #include <unitysortfilterproxymodelqml.h>
-#include <QtCore/QObject>
+#include <QObject>
 
 class UsersModel : public UnitySortFilterProxyModelQML
 {
@@ -29,4 +29,7 @@ class UsersModel : public UnitySortFilterProxyModelQML
 
 public:
     explicit UsersModel(QObject* parent=0);
+
+protected:
+    bool lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const override;
 };
