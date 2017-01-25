@@ -107,7 +107,7 @@ Item {
                 margins: units.gu(2)
             }
 
-            height: parent.height - headerItem.height
+            height: parent.height
 
             boundsBehavior: Flickable.StopAtBounds
 
