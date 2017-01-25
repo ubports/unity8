@@ -28,9 +28,6 @@ class DBusEnums : public QObject
 {
     Q_OBJECT
 
-    Q_ENUMS(BusType)
-    Q_ENUMS(ConnectionStatus)
-
 public:
     enum BusType {
         None = 0,
@@ -38,12 +35,14 @@ public:
         SystemBus,
         LastBusType
     };
+    Q_ENUM(BusType)
 
     enum ConnectionStatus {
         Disconnected = 0,
         Connecting,
         Connected
     };
+    Q_ENUM(ConnectionStatus)
 
 private:
     DBusEnums() {}

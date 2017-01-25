@@ -23,7 +23,7 @@
 #include <QSharedPointer>
 #include <QVariantMap>
 
-class PreviewData;
+struct PreviewData;
 
 class PreviewWidgetModel : public unity::shell::scopes::PreviewWidgetModelInterface
 {

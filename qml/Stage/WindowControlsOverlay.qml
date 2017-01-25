@@ -57,7 +57,7 @@ Item {
                                                 touchPoints.length <= maximumTouchPoints
         onRecognizedPressChanged: {
             if (recognizedPress) {
-                target.focus = true;
+                target.activate();
                 overlayTimer.start();
             }
         }
@@ -184,7 +184,7 @@ Item {
                     }
 
                     overlayTimer.stop();
-                    mouse.accepted = root.contains(mapToItem(root.target, mouse.x, mouse.y));
+                    mouse.accepted = root.contains(mapToItem(root.target.clientAreaItem, mouse.x, mouse.y));
                 }
                 propagateComposedEvents: true
             }

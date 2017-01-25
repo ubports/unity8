@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Canonical Ltd.
+ * Copyright 2015-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -36,7 +36,7 @@ inline QString sanitiseString(QString string) {
 WindowStateStorage::WindowStateStorage(QObject *parent):
     QObject(parent)
 {
-    QString dbPath = QDir::homePath() + "/.cache/unity8/";
+    const QString dbPath = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QStringLiteral("/unity8/");
     m_db = QSqlDatabase::addDatabase(QStringLiteral("QSQLITE"));
     QDir dir;
     dir.mkpath(dbPath);
@@ -65,7 +65,7 @@ void WindowStateStorage::saveState(const QString &windowId, WindowStateStorage::
 
 WindowStateStorage::WindowState WindowStateStorage::getState(const QString &windowId, WindowStateStorage::WindowState defaultValue) const
 {
-    const QString queryString = QStringLiteral("SELECT * FROM state WHERE windowId = '%1';")
+    const QString queryString = QStringLiteral("SELECT state FROM state WHERE windowId = '%1';")
             .arg(sanitiseString(windowId));
 
     QSqlQuery query = getValue(queryString);
@@ -99,7 +99,7 @@ void WindowStateStorage::saveStage(const QString &appId, int stage)
 
 int WindowStateStorage::getStage(const QString &appId, int defaultValue) const
 {
-    const QString queryString = QStringLiteral("SELECT * FROM stage WHERE appId = '%1';")
+    const QString queryString = QStringLiteral("SELECT stage FROM stage WHERE appId = '%1';")
             .arg(sanitiseString(appId));
 
     QSqlQuery query = getValue(queryString);
@@ -188,4 +188,27 @@ QSqlQuery WindowStateStorage::getValue(const QString &queryString) const
                    << "Database error:" << query.lastError().databaseText();
     }
     return query;
+}
+
+Mir::State WindowStateStorage::toMirState(WindowState state) const
+{
+    // assumes a single state (not an OR of several)
+    switch (state) {
+        case WindowStateMaximized:             return Mir::MaximizedState;
+        case WindowStateMinimized:             return Mir::MinimizedState;
+        case WindowStateFullscreen:            return Mir::FullscreenState;
+        case WindowStateMaximizedLeft:         return Mir::MaximizedLeftState;
+        case WindowStateMaximizedRight:        return Mir::MaximizedRightState;
+        case WindowStateMaximizedHorizontally: return Mir::HorizMaximizedState;
+        case WindowStateMaximizedVertically:   return Mir::VertMaximizedState;
+        case WindowStateMaximizedTopLeft:      return Mir::MaximizedTopLeftState;
+        case WindowStateMaximizedTopRight:     return Mir::MaximizedTopRightState;
+        case WindowStateMaximizedBottomLeft:   return Mir::MaximizedBottomLeftState;
+        case WindowStateMaximizedBottomRight:  return Mir::MaximizedBottomRightState;
+
+        case WindowStateNormal:
+        case WindowStateRestored:
+        default:
+            return Mir::RestoredState;
+    }
 }

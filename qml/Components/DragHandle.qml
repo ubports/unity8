@@ -67,6 +67,7 @@ SwipeArea {
     SmoothedAnimation {
         id: hintingAnimation
         target: hintingAnimation
+        objectName: "hintingAnimation"
         property: "targetValue"
         duration: 150
         velocity: -1

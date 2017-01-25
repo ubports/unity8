@@ -51,6 +51,8 @@ public:
     ApplicationInfo(const QString &appId, QObject *parent = nullptr);
     ~ApplicationInfo();
 
+    Q_INVOKABLE void createPromptSurface();
+
     RequestedState requestedState() const override;
     void setRequestedState(RequestedState) override;
 
@@ -108,11 +110,9 @@ public:
     MirSurfaceListInterface* promptSurfaceList() const override { return m_promptSurfaceList; }
     int surfaceCount() const override { return m_surfaceList->count(); }
 
-    void setFocused(bool value);
-
     //////
     // internal mock stuff
-    void close();
+    void close() override;
     void requestFocus();
 
 Q_SIGNALS:

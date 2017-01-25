@@ -32,6 +32,9 @@
 #include <QDomDocument>
 
 #include <glib.h>
+#include <paths.h>
+
+namespace unityapi = unity::shell::application;
 
 // This is a mock, specifically to test the LauncherModel
 class MockApp: public unity::shell::application::ApplicationInfoInterface
@@ -65,6 +68,7 @@ public:
     MirSurfaceListInterface* promptSurfaceList() const override { return nullptr; }
     int surfaceCount() const override { return m_surfaceCount; }
     void setSurfaceCount(int count) { m_surfaceCount = count; Q_EMIT surfaceCountChanged(count); }
+    void close() override {}
 
     // Methods used for mocking (not in the interface)
     void setFocused(bool focused) { m_focused = focused; Q_EMIT focusedChanged(focused); }
@@ -96,6 +100,9 @@ public:
                 return app;
             }
         }
+        return nullptr;
+    }
+    unityapi::ApplicationInfoInterface *findApplicationWithSurface(unityapi::MirSurfaceInterface* /*surface*/) const override {
         return nullptr;
     }
     unity::shell::application::ApplicationInfoInterface *startApplication(const QString &, const QStringList &) override { return nullptr; }
@@ -139,6 +146,7 @@ class LauncherModelTest : public QObject
 private:
     LauncherModel *launcherModel;
     MockAppManager *appManager;
+    QTemporaryDir tmpDir;
 
     QList<QVariantMap> getASConfig() {
         AccountsServiceDBusAdaptor *as = launcherModel->m_asAdapter->m_accounts;
@@ -148,10 +156,22 @@ private:
         return qdbus_cast<QList<QVariantMap>>(reply.value().value<QDBusArgument>());
     }
 
+    // Link our app data from a tempdir & tell glib/UAL to look there.
+    // We do this because we want to be able to delete the applications dir
+    // during testing, but that dir may be read-only (installed on system).
+    void setUpAppDir() {
+        QFile appDir(qgetenv("APPDIR"));
+        appDir.link(tmpDir.path() + "/applications");
+
+        qputenv("XDG_DATA_HOME", tmpDir.path().toUtf8());
+    }
+
 private Q_SLOTS:
 
     void initTestCase() {
         qDBusRegisterMetaType<QList<QVariantMap>>();
+
+        setUpAppDir();
 
         launcherModel = new LauncherModel(this);
         QCoreApplication::processEvents(); // to let the model register on DBus
@@ -163,6 +183,9 @@ private Q_SLOTS:
 
     // Adding 2 apps to the mock appmanager. Both should appear in the launcher.
     void init() {
+        // Switching to tmpDir makes manipulating our appdir symlink easier.
+        QDir::setCurrent(tmpDir.path());
+
         QDBusInterface accountsInterface(QStringLiteral("org.freedesktop.Accounts"),
                                          QStringLiteral("/org/freedesktop/Accounts"),
                                          QStringLiteral("org.freedesktop.Accounts"));
@@ -495,14 +518,14 @@ private Q_SLOTS:
         QCOMPARE(spy.count(), 2);
 
         QVariantList countEmissionArgs = spy.takeFirst();
-        QCOMPARE(countEmissionArgs.at(0).value<QModelIndex>().row(), index);
-        QCOMPARE(countEmissionArgs.at(1).value<QModelIndex>().row(), index);
+        QCOMPARE(countEmissionArgs.at(0).toModelIndex().row(), index);
+        QCOMPARE(countEmissionArgs.at(1).toModelIndex().row(), index);
         QVector<int> roles = countEmissionArgs.at(2).value<QVector<int> >();
         QCOMPARE(roles.first(), (int)LauncherModel::RoleCount);
 
         QVariantList countVisibleEmissionArgs = spy.takeFirst();
-        QCOMPARE(countVisibleEmissionArgs.at(0).value<QModelIndex>().row(), index);
-        QCOMPARE(countVisibleEmissionArgs.at(1).value<QModelIndex>().row(), index);
+        QCOMPARE(countVisibleEmissionArgs.at(0).toModelIndex().row(), index);
+        QCOMPARE(countVisibleEmissionArgs.at(1).toModelIndex().row(), index);
         roles = countVisibleEmissionArgs.at(2).value<QVector<int> >();
         QVERIFY(roles.contains(LauncherModel::RoleCountVisible));
         QVERIFY(roles.contains(LauncherModel::RoleAlerting));

@@ -34,29 +34,23 @@
 
 #if APPLICATIONMANAGER_DEBUG
 #define DEBUG_MSG(params) qDebug().nospace() << "ApplicationManager::" << __func__  << " " << params
+#define XDEBUG_MSG(params) qDebug().nospace() << "ApplicationManager::" << params
 #else
 #define DEBUG_MSG(params) ((void)0)
+#define XDEBUG_MSG(params) ((void)0)
 #endif
 
 namespace unityapi = unity::shell::application;
+
 
 ApplicationManager::ApplicationManager(QObject *parent)
     : ApplicationManagerInterface(parent)
 {
     DEBUG_MSG("");
+
+    ApplicationManagerNotifier::instance()->setApplicationManager(this);
+
     buildListOfAvailableApplications();
-
-    // polling to find out when the toplevel window has been created as there's
-    // no signal telling us that
-    connect(&m_windowCreatedTimer, &QTimer::timeout,
-            this, &ApplicationManager::onWindowCreatedTimerTimeout);
-    m_windowCreatedTimer.setSingleShot(false);
-    m_windowCreatedTimer.start(200);
-
-    Q_ASSERT(MirFocusController::instance());
-    connect(MirFocusController::instance(), &MirFocusController::focusedSurfaceChanged,
-        this, &ApplicationManager::updateFocusedApplication, Qt::QueuedConnection);
-
 
     // Emit signal to notify Upstart that Mir is ready to receive client connections
     // see http://upstart.ubuntu.com/cookbook/#expect-stop
@@ -69,19 +63,7 @@ ApplicationManager::ApplicationManager(QObject *parent)
 
 ApplicationManager::~ApplicationManager()
 {
-}
-
-void ApplicationManager::onWindowCreatedTimerTimeout()
-{
-    if (QGuiApplication::topLevelWindows().count() > 0) {
-        m_windowCreatedTimer.stop();
-        onWindowCreated();
-    }
-}
-
-void ApplicationManager::onWindowCreated()
-{
-    startApplication("unity8-dash");
+    ApplicationManagerNotifier::instance()->setApplicationManager(nullptr);
 }
 
 int ApplicationManager::rowCount(const QModelIndex& parent) const {
@@ -132,6 +114,17 @@ ApplicationInfo *ApplicationManager::findApplication(const QString &appId) const
     return nullptr;
 }
 
+unityapi::ApplicationInfoInterface *ApplicationManager::findApplicationWithSurface(unityapi::MirSurfaceInterface* surface) const
+{
+    for (ApplicationInfo *app : m_runningApplications) {
+        auto surfaceList = static_cast<MirSurfaceListModel*>(app->surfaceList());
+        if (surfaceList->contains(static_cast<MirSurface*>(surface))) {
+            return app;
+        }
+    }
+    return nullptr;
+}
+
 QModelIndex ApplicationManager::findIndex(ApplicationInfo* application)
 {
     for (int i = 0; i < m_runningApplications.size(); ++i) {
@@ -158,6 +151,11 @@ bool ApplicationManager::add(ApplicationInfo *application) {
         QModelIndex appIndex = findIndex(application);
         if (!appIndex.isValid()) return;
         Q_EMIT dataChanged(appIndex, appIndex, QVector<int>() << ApplicationManager::RoleFocused);
+        XDEBUG_MSG("focusedApplicationId = " << focusedApplicationId());
+        Q_EMIT focusedApplicationIdChanged();
+        if (application->focused()) {
+            raiseApp(application->appId());
+        }
     });
     connect(application, &ApplicationInfo::stateChanged, this, [application, this]() {
         QModelIndex appIndex = findIndex(application);
@@ -181,15 +179,40 @@ bool ApplicationManager::add(ApplicationInfo *application) {
 
 void ApplicationManager::remove(ApplicationInfo *application) {
     int i = m_runningApplications.indexOf(application);
+    application->disconnect(this);
     if (i != -1) {
         DEBUG_MSG(application->appId());
+        Q_ASSERT(!m_modelBusy);
+        m_modelBusy = true;
         beginRemoveRows(QModelIndex(), i, i);
         m_runningApplications.removeAt(i);
         endRemoveRows();
+        m_modelBusy = false;
         Q_EMIT countChanged();
         if (isEmpty()) Q_EMIT emptyChanged(isEmpty());
+        DEBUG_MSG(application->appId() << " after: " << qPrintable(toString()));
     }
-    application->disconnect(this);
+}
+
+void ApplicationManager::raiseApp(const QString &appId)
+{
+
+    int index = -1;
+    for (int i = 0; i < m_runningApplications.count() && index == -1; ++i) {
+        if (m_runningApplications[i]->appId() == appId) {
+            index = i;
+        }
+    }
+
+    if (index >= 0) {
+        if (m_modelBusy) {
+            DEBUG_MSG(appId << " - model busy. Try again later.");
+            QMetaObject::invokeMethod(this, "raiseApp", Qt::QueuedConnection, Q_ARG(QString, appId));
+        } else {
+            DEBUG_MSG(appId);
+            move(index, 0);
+        }
+    }
 }
 
 void ApplicationManager::move(int from, int to) {
@@ -197,12 +220,15 @@ void ApplicationManager::move(int from, int to) {
 
     if (from >= 0 && from < m_runningApplications.size() && to >= 0 && to < m_runningApplications.size()) {
         QModelIndex parent;
+        Q_ASSERT(!m_modelBusy);
+        m_modelBusy = true;
         /* When moving an item down, the destination index needs to be incremented
          * by one, as explained in the documentation:
          * http://qt-project.org/doc/qt-5.0/qtcore/qabstractitemmodel.html#beginMoveRows */
         beginMoveRows(parent, from, from, parent, to + (to > from ? 1 : 0));
         m_runningApplications.move(from, to);
         endMoveRows();
+        m_modelBusy = false;
     }
 }
 
@@ -223,8 +249,6 @@ ApplicationInfo* ApplicationManager::startApplication(const QString &appId,
     // most likely not among the available ones
     if (!application)
         return nullptr;
-
-    Q_EMIT application->focusRequested(); // we assume that an application that's starting up wants focus
 
     return application;
 }
@@ -473,40 +497,6 @@ bool ApplicationManager::isEmpty() const
     return m_runningApplications.isEmpty();
 }
 
-void ApplicationManager::updateFocusedApplication()
-{
-    ApplicationInfo *focusedApplication = nullptr;
-    ApplicationInfo *previouslyFocusedApplication = nullptr;
-
-    auto controller = MirFocusController::instance();
-    if (!controller) {
-        return;
-    }
-
-    MirSurface *surface = static_cast<MirSurface*>(controller->focusedSurface());
-    if (surface) {
-        focusedApplication = findApplication(surface);
-    }
-
-    surface = static_cast<MirSurface*>(controller->previouslyFocusedSurface());
-    if (surface) {
-        previouslyFocusedApplication = findApplication(surface);
-    }
-
-    if (focusedApplication != previouslyFocusedApplication) {
-        if (focusedApplication) {
-            DEBUG_MSG("focused " << focusedApplication->appId());
-            Q_EMIT focusedApplication->focusedChanged(true);
-            this->move(this->m_runningApplications.indexOf(focusedApplication), 0);
-        }
-        if (previouslyFocusedApplication) {
-            DEBUG_MSG("unfocused " << previouslyFocusedApplication->appId());
-            Q_EMIT previouslyFocusedApplication->focusedChanged(false);
-        }
-        Q_EMIT focusedApplicationIdChanged();
-    }
-}
-
 ApplicationInfo *ApplicationManager::findApplication(MirSurface* surface)
 {
     for (ApplicationInfo *app : m_runningApplications) {
@@ -516,4 +506,43 @@ ApplicationInfo *ApplicationManager::findApplication(MirSurface* surface)
         }
     }
     return nullptr;
+}
+
+QString ApplicationManager::toString()
+{
+    QString str;
+    for (int i = 0; i < m_runningApplications.count(); ++i) {
+        auto *application = m_runningApplications.at(i);
+
+        QString itemStr = QString("(index=%1,appId=%2)")
+            .arg(i)
+            .arg(application->appId());
+
+        if (i > 0) {
+            str.append(",");
+        }
+        str.append(itemStr);
+    }
+    return str;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ApplicationManagerNotifier
+
+ApplicationManagerNotifier *ApplicationManagerNotifier::m_instance = nullptr;
+
+ApplicationManagerNotifier *ApplicationManagerNotifier::instance()
+{
+    if (!m_instance) {
+        m_instance = new ApplicationManagerNotifier;
+    }
+    return m_instance;
+}
+
+void ApplicationManagerNotifier::setApplicationManager(ApplicationManager *appMan)
+{
+    if (appMan != m_applicationManager) {
+        m_applicationManager = appMan;
+        Q_EMIT applicationManagerChanged(m_applicationManager);
+    }
 }

@@ -43,7 +43,7 @@ import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
 import Unity.Indicators 0.1 as Indicators
 import Cursor 1.1
-import WindowManager 0.1
+import WindowManager 1.0
 
 
 StyledItem {
@@ -57,7 +57,7 @@ StyledItem {
     property Orientations orientations
     property real nativeWidth
     property real nativeHeight
-    property alias indicatorAreaShowProgress: panel.indicatorAreaShowProgress
+    property alias panelAreaShowProgress: panel.panelAreaShowProgress
     property string usageScenario: "phone" // supported values: "phone", "tablet" or "desktop"
     property string mode: "full-greeter"
     property alias oskEnabled: inputMethod.enabled
@@ -264,10 +264,15 @@ StyledItem {
         width: parent.width
         height: parent.height
 
-        TopLevelSurfaceList {
+        SurfaceManager {
+            id: surfaceMan
+            objectName: "surfaceManager"
+        }
+        TopLevelWindowModel {
             id: topLevelSurfaceList
             objectName: "topLevelSurfaceList"
-            applicationsModel: ApplicationManager
+            applicationManager: ApplicationManager // it's a singleton
+            surfaceManager: surfaceMan
         }
 
         Stage {
@@ -308,12 +313,18 @@ StyledItem {
             altTabPressed: physicalKeysMapper.altTabPressed
             oskEnabled: shell.oskEnabled
             spreadEnabled: tutorial.spreadEnabled && (!greeter || (!greeter.hasLockedApp && !greeter.shown))
+
+            onSpreadShownChanged: {
+                panel.indicators.hide();
+                panel.applicationMenus.hide();
+            }
         }
     }
 
     InputMethod {
         id: inputMethod
         objectName: "inputMethod"
+        surface: topLevelSurfaceList.inputMethodSurface
         anchors {
             fill: parent
             topMargin: panel.panelHeight
@@ -339,7 +350,7 @@ StyledItem {
         Greeter {
 
             enabled: panel.indicators.fullyClosed // hides OSK when panel is open
-            hides: [launcher, panel.indicators]
+            hides: [launcher, panel.indicators, panel.applicationMenus]
             tabletMode: shell.usageScenario != "phone"
             forcedUnlock: wizard.active || shell.mode === "full-shell"
             background: wallpaperResolver.cachedBackground
@@ -439,6 +450,13 @@ StyledItem {
             id: panel
             objectName: "panel"
             anchors.fill: parent //because this draws indicator menus
+
+            mode: shell.usageScenario == "desktop" ? "windowed" : "staged"
+            minimizedPanelHeight: units.gu(3)
+            expandedPanelHeight: units.gu(7)
+            indicatorMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
+            applicationMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
+
             indicators {
                 hides: [launcher]
                 available: tutorial.panelEnabled
@@ -446,12 +464,8 @@ StyledItem {
                         && (!greeter || !greeter.hasLockedApp)
                         && !shell.waitingOnGreeter
                         && settings.enableIndicatorMenu
-                width: parent.width > units.gu(60) ? units.gu(40) : parent.width
 
-                minimizedPanelHeight: units.gu(3)
-                expandedPanelHeight: units.gu(7)
-
-                indicatorsModel: Indicators.IndicatorsModel {
+                model: Indicators.IndicatorsModel {
                     // tablet and phone both use the same profile
                     // FIXME: use just "phone" for greeter too, but first fix
                     // greeter app launching to either load the app inside the
@@ -463,16 +477,18 @@ StyledItem {
                 }
             }
 
-            callHint {
-                greeterShown: greeter.shown
+            applicationMenus {
+                hides: [launcher]
+                available: (!greeter || !greeter.shown)
+                        && !shell.waitingOnGreeter
             }
 
-            readonly property bool focusedSurfaceIsFullscreen: MirFocusController.focusedSurface
-                ? MirFocusController.focusedSurface.state === Mir.FullscreenState
+            readonly property bool focusedSurfaceIsFullscreen: topLevelSurfaceList.focusedWindow
+                ? topLevelSurfaceList.focusedWindow.state === Mir.FullscreenState
                 : false
             fullscreenMode: (focusedSurfaceIsFullscreen && !LightDMService.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
-            locked: greeter && greeter.active
+            greeterShown: greeter && greeter.shown
         }
 
         Launcher {
@@ -762,7 +778,9 @@ StyledItem {
     }
 
     // non-visual objects
-    KeymapSwitcher {}
+    KeymapSwitcher {
+        focusedSurface: topLevelSurfaceList.focusedWindow ? topLevelSurfaceList.focusedWindow.surface : null
+    }
     BrightnessControl {}
 
     Rectangle {
