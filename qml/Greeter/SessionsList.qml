@@ -181,7 +181,7 @@ Item {
                 ListItemLayout {
                     id: layout
 
-                    property color itemColor: theme.palette.normal.raisedText
+                    readonly property color itemColor: theme.palette.normal.raisedText
                     SessionIcon {
                         id: sessionIcon
                         source: icon_url
