@@ -238,6 +238,7 @@ FocusScope {
                         source: sortProxyModel
                         group: AppDrawerProxyModel.GroupByAll
                         sortBy: AppDrawerProxyModel.SortByUsage
+                        dynamicSortFilter: false
                     }
 
                     delegate: UbuntuShape {
@@ -287,6 +288,7 @@ FocusScope {
                         source: sortProxyModel
                         sortBy: AppDrawerProxyModel.SortByAToZ
                         group: AppDrawerProxyModel.GroupByAToZ
+                        dynamicSortFilter: false
                     }
 
                     delegate: UbuntuShape {
@@ -320,6 +322,7 @@ FocusScope {
                                 id: categoryModel
                                 source: sortProxyModel
                                 filterLetter: model.letter
+                                dynamicSortFilter: false
                             }
                             delegateWidth: units.gu(8)
                             delegateHeight: units.gu(10)
