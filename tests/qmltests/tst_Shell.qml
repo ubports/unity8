@@ -335,6 +335,8 @@ Rectangle {
                 Row {
                     CheckBox {
                         id: fullscreeAppCheck
+                        activeFocusOnPress: false
+                        activeFocusOnTab: false
 
                         onTriggered: {
                             if (!topLevelSurfaceList.focusedWindow) return;

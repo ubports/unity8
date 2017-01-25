@@ -806,7 +806,7 @@ FocusScope {
                                                      maximizedTopLeft || maximizedTopRight || maximizedBottomLeft || maximizedBottomRight
 
                 readonly property bool minimized: windowState & WindowStateStorage.WindowStateMinimized
-                readonly property bool fullscreen: window.state === Mir.FullscreenState
+                readonly property bool fullscreen: windowState === WindowStateStorage.WindowStateFullscreen
 
                 readonly property bool canBeMaximized: canBeMaximizedHorizontally && canBeMaximizedVertically
                 readonly property bool canBeMaximizedLeftRight: (maximumWidth == 0 || maximumWidth >= appContainer.width/2) &&
@@ -818,6 +818,7 @@ FocusScope {
                 readonly property alias orientationChangesEnabled: decoratedWindow.orientationChangesEnabled
 
                 property int windowState: WindowStateStorage.WindowStateNormal
+                property int prevWindowState: WindowStateStorage.WindowStateRestored
                 property bool animationsEnabled: true
                 property alias title: decoratedWindow.title
                 readonly property string appName: model.application ? model.application.name : ""
@@ -922,7 +923,14 @@ FocusScope {
                         } else if (model.window.state === Mir.MaximizedBottomRightState) {
                             appDelegate.maximizeBottomRight();
                         } else if (model.window.state === Mir.RestoredState) {
-                            appDelegate.restore();
+                            if (appDelegate.fullscreen && appDelegate.prevWindowState != WindowStateStorage.WindowStateRestored) {
+                                model.window.requestState(WindowStateStorage.toMirState(appDelegate.prevWindowState));
+                            } else {
+                                appDelegate.restore();
+                            }
+                        } else if (model.window.state === Mir.FullscreenState) {
+                            appDelegate.prevWindowState = appDelegate.windowState;
+                            appDelegate.windowState = WindowStateStorage.WindowStateFullscreen;
                         }
                     }
                 }
@@ -1024,6 +1032,7 @@ FocusScope {
                     animationsEnabled = (animated === undefined) || animated;
                     windowState = state || WindowStateStorage.WindowStateRestored;
                     windowState &= ~WindowStateStorage.WindowStateMinimized; // clear the minimized bit
+                    prevWindowState = windowState;
                 }
 
                 function playFocusAnimation() {
