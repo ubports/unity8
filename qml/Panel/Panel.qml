@@ -257,7 +257,7 @@ Item {
             openedHeight: root.height
             alignment: Qt.AlignLeft
             enableHint: !callHint.active && !fullscreenMode
-            showOnClick: !callHint.visible
+            showOnClick: false
             panelColor: panelAreaBackground.color
 
             onShowTapped: {
