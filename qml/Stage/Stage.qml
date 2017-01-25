@@ -1659,7 +1659,6 @@ FocusScope {
                     onClicked: {
                         spreadItem.highlightedIndex = index;
                         if (distance == 0) {
-                            model.window.activate();
                             priv.goneToSpread = false;
                         }
                     }
