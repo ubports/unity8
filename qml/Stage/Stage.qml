@@ -817,8 +817,10 @@ FocusScope {
                 readonly property bool canBeMaximizedVertically: maximumHeight == 0 || maximumHeight >= appContainer.height
                 readonly property alias orientationChangesEnabled: decoratedWindow.orientationChangesEnabled
 
+                // TODO drop our own windowType once Mir/Miral/Qtmir gets in sync with ours
                 property int windowState: WindowStateStorage.WindowStateNormal
                 property int prevWindowState: WindowStateStorage.WindowStateRestored
+
                 property bool animationsEnabled: true
                 property alias title: decoratedWindow.title
                 readonly property string appName: model.application ? model.application.name : ""
