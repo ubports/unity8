@@ -77,9 +77,8 @@ Item {
         return layout;
     }
 
-    readonly property bool isAppLikeScope: scopeId === "clickscope" || scopeId === "libertine-scope.ubuntu_libertine-scope"
-    readonly property bool isAppLikeScopeAppCategory: ((scopeId === "clickscope" && (categoryId === "predefined" || categoryId === "local"))
-                                                      || (scopeId === "libertine-scope.ubuntu_libertine-scope" && categoryId !== "hint"))
+    readonly property bool isAppLikeScope: scopeId === "libertine-scope.ubuntu_libertine-scope"
+    readonly property bool isAppLikeScopeAppCategory: (scopeId === "libertine-scope.ubuntu_libertine-scope" && categoryId !== "hint")
 
     readonly property string artShapeStyle: {
         if (isAppLikeScope) {
