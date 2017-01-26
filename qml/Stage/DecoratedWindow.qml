@@ -67,8 +67,7 @@ FocusScope {
     readonly property int heightIncrement: !counterRotate ? applicationWindow.heightIncrement : applicationWindow.widthIncrement
 
     property alias overlayShown: decoration.overlayShown
-    property alias stageWidth: moveHandler.stageWidth
-    property alias stageHeight: moveHandler.stageHeight
+    property alias boundsItem: moveHandler.boundsItem
     readonly property alias dragging: moveHandler.dragging
 
     readonly property Item clientAreaItem: applicationWindow

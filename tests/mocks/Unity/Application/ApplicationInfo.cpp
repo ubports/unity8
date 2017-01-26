@@ -94,6 +94,7 @@ void ApplicationInfo::createPromptSurface()
     auto surface = surfaceManager->createSurface(QString("prompt foo"),
             Mir::NormalType,
             Mir::RestoredState,
+            nullptr, /* parentSurface */
             screenshotUrl);
     surfaceManager->notifySurfaceCreated(surface);
 
@@ -122,7 +123,9 @@ void ApplicationInfo::createSurface()
     auto surface = surfaceManager->createSurface(surfaceName,
            Mir::NormalType,
            fullscreen() ? Mir::FullscreenState : Mir::RestoredState,
-           m_screenshotFileName);
+           nullptr, /* parentSurface */
+           m_screenshotFileName,
+           m_qmlFilePath);
 
     surface->setShellChrome(m_shellChrome);
 
@@ -199,6 +202,11 @@ void ApplicationInfo::setScreenshotId(const QString &screenshotId)
     if (screenshotFileName != m_screenshotFileName) {
         m_screenshotFileName = screenshotFileName;
     }
+}
+
+void ApplicationInfo::setQmlFilename(const QString &qmlFilename)
+{
+    m_qmlFilePath = QString("qrc:///Unity/Application/%1").arg(qmlFilename);
 }
 
 void ApplicationInfo::setName(const QString &value)
