@@ -38,6 +38,7 @@ public:
 
     void handleAuthenticate();
     void handleRespond(const QString &response);
+    void cancelAuthentication();
 
 protected:
     GreeterImpl *m_impl; // if the backend needs more private data

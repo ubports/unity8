@@ -295,6 +295,8 @@ Rectangle {
             compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
 
             removeTimeConstraintsFromSwipeAreas(root);
+
+            waitUntilLauncherDisappears();
         }
 
         function dragLauncher() {
@@ -369,18 +371,17 @@ Rectangle {
         function assertFocusOnIndex(index) {
             var launcherPanel = findChild(launcher, "launcherPanel");
             var launcherListView = findChild(launcher, "launcherListView");
-            var bfbFocusHighlight = findChild(launcher, "bfbFocusHighlight");
+            var bfb = findChild(launcher, "buttonShowDashHome");
 
             waitForRendering(launcher);
             tryCompare(launcherPanel, "highlightIndex", index);
-            compare(bfbFocusHighlight.visible, index === -1);
+            compare(bfb.highlighted, index === -1);
             for (var i = 0; i < launcherListView.count; i++) {
                 var item = findChild(launcher, "launcherDelegate" + i);
                 // Delegates might be destroyed when not visible. We can't check if they paint a focus highlight.
                 // Make sure the requested index does have focus. for the others, try best effort to check if they don't
                 if (index === i || item) {
-                    var focusRing = findChild(item, "focusRing")
-                    tryCompare(focusRing, "visible", index === i);
+                    tryCompare(item, "highlighted", index === i);
                 }
             }
         }
@@ -1188,13 +1189,13 @@ Rectangle {
         }
 
         function test_keyboardNavigation(data) {
-            var bfbFocusHighlight = findChild(launcher, "bfbFocusHighlight");
+            var bfb = findChild(launcher, "buttonShowDashHome");
             var quickList = findChild(launcher, "quickList");
             var launcherPanel = findChild(launcher, "launcherPanel");
             var launcherListView = findChild(launcher, "launcherListView");
             var last = launcherListView.count - 1;
 
-            compare(bfbFocusHighlight.visible, false);
+            compare(bfb.highlighted, false);
             launcher.openForKeyboardNavigation();
             tryCompare(launcherPanel, "x", 0);
             waitForRendering(launcher);
@@ -1477,6 +1478,14 @@ Rectangle {
             compare(launcherPanel.x, -launcherPanel.width);
 
             launcher.available = true;
+        }
+
+        function test_hintOnSizeChange() {
+            var oldSize = launcher.panelWidth;
+            launcher.maxPanelX = -launcher.panelWidth;
+            launcher.panelWidth = oldSize + units.gu(2);
+            tryCompare(launcher, "maxPanelX", 0);
+            launcher.panelWidth = oldSize;
         }
     }
 }
