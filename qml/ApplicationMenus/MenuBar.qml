@@ -58,6 +58,20 @@ Item {
         onReleased: d.stopSHortcutTimer()
     }
 
+    GlobalShortcut {
+        shortcut: Qt.AltModifier | Qt.Key_F10
+        active: enableKeyFilter && d.currentItem == null
+        onTriggered: {
+            for (var i = 0; i < rowRepeater.count; i++) {
+                var item = rowRepeater.itemAt(i);
+                if (item.enabled) {
+                    item.show();
+                    break;
+                }
+            }
+        }
+    }
+
     InverseMouseArea {
         acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
         anchors.fill: parent

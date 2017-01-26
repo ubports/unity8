@@ -34,6 +34,7 @@ set(QMLPLUGIN_SRC
     deviceconfigparser.cpp
     globalfunctions.cpp
     URLDispatcher.cpp
+    tabfocusfence.cpp
     expressionfiltermodel.cpp
     plugin.cpp
     )

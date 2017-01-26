@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2016 Canonical, Ltd.
+ * Copyright (C) 2014-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,10 +24,13 @@ import Unity.Platform 1.0
 import Utils 0.1
 import "../Greeter"
 
-Item {
+MouseArea {
     id: root
+    acceptedButtons: Qt.AllButtons
+    hoverEnabled: true
+    onWheel: wheel.accepted = true
 
-    readonly property alias hasActiveDialog: dialogLoader.active
+    readonly property bool hasActiveDialog: dialogLoader.active || d.modeSwitchWarningPopup
 
     // to be set from outside, useful mostly for testing purposes
     property var unitySessionService: DBusUnitySessionService
@@ -42,6 +45,7 @@ Item {
     }
     property string usageScenario
     property size screenSize: Qt.size(Screen.width, Screen.height)
+    property bool hasKeyboard: false
 
     signal powerOffClicked();
 
@@ -120,6 +124,11 @@ Item {
         onTriggered: LightDMService.greeter.showGreeter()
     }
 
+    GlobalShortcut { // lock screen
+        shortcut: Qt.MetaModifier|Qt.Key_L
+        onTriggered: LightDMService.greeter.showGreeter()
+    }
+
     QtObject {
         id: d // private stuff
         objectName: "dialogsPrivate"
@@ -140,6 +149,25 @@ Item {
         objectName: "dialogLoader"
         anchors.fill: parent
         active: false
+        onActiveChanged: {
+            if (!active) {
+                if (previousFocusedItem) {
+                    previousFocusedItem.forceActiveFocus(Qt.OtherFocusReason);
+                    previousFocusedItem = undefined;
+                }
+                previousSourceComponent = undefined;
+                sourceComponent = undefined;
+            }
+        }
+        onSourceComponentChanged: {
+            if (previousSourceComponent !== sourceComponent) {
+                previousSourceComponent = sourceComponent;
+                previousFocusedItem = window.activeFocusItem;
+            }
+        }
+
+        property var previousSourceComponent: undefined
+        property var previousFocusedItem: undefined
     }
 
     Component {
@@ -149,13 +177,16 @@ Item {
             title: i18n.ctr("Title: Lock/Log out dialog", "Log out")
             text: i18n.tr("Are you sure you want to log out?")
             Button {
+                width: parent.width
                 text: i18n.ctr("Button: Lock the system", "Lock")
                 onClicked: {
                     LightDMService.greeter.showGreeter()
                     logoutDialog.hide();
                 }
+                Component.onCompleted: if (root.hasKeyboard) forceActiveFocus(Qt.TabFocusReason)
             }
             Button {
+                width: parent.width
                 focus: true
                 text: i18n.ctr("Button: Log out from the system", "Log Out")
                 onClicked: {
@@ -164,6 +195,7 @@ Item {
                 }
             }
             Button {
+                width: parent.width
                 text: i18n.tr("Cancel")
                 onClicked: {
                     logoutDialog.hide();
@@ -179,12 +211,14 @@ Item {
             title: i18n.ctr("Title: Reboot dialog", "Reboot")
             text: i18n.tr("Are you sure you want to reboot?")
             Button {
+                width: parent.width
                 text: i18n.tr("No")
                 onClicked: {
                     rebootDialog.hide();
                 }
             }
             Button {
+                width: parent.width
                 focus: true
                 text: i18n.tr("Yes")
                 onClicked: {
@@ -193,6 +227,7 @@ Item {
                     rebootDialog.hide();
                 }
                 color: theme.palette.normal.negative
+                Component.onCompleted: if (root.hasKeyboard) forceActiveFocus(Qt.TabFocusReason)
             }
         }
     }
@@ -204,6 +239,7 @@ Item {
             title: i18n.ctr("Title: Power off/Restart dialog", "Power")
             text: i18n.tr("Are you sure you would like\nto power off?")
             Button {
+                width: parent.width
                 focus: true
                 text: i18n.ctr("Button: Power off the system", "Power off")
                 onClicked: {
@@ -212,8 +248,10 @@ Item {
                     root.powerOffClicked();
                 }
                 color: theme.palette.normal.negative
+                Component.onCompleted: if (root.hasKeyboard) forceActiveFocus(Qt.TabFocusReason)
             }
             Button {
+                width: parent.width
                 text: i18n.ctr("Button: Restart the system", "Restart")
                 onClicked: {
                     root.closeAllApps();
@@ -222,6 +260,7 @@ Item {
                 }
             }
             Button {
+                width: parent.width
                 text: i18n.tr("Cancel")
                 onClicked: {
                     powerDialog.hide();

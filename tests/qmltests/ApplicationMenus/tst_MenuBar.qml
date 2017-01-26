@@ -180,6 +180,18 @@ Item {
             tryCompare(priv, "currentItem", menuItem);
         }
 
+        function test_openAppMenuShortcut() {
+            var priv = findInvisibleChild(menuBar, "d");
+
+            var menuItem0 = findChild(menuBar, "menuBar-item0"); verify(menuItem0);
+            menuItem0.enabled = false;
+
+            var menuItem1 = findChild(menuBar, "menuBar-item1"); verify(menuItem1);
+            verify(priv.currentItem === null);
+
+            keyClick(Qt.Key_F10, Qt.AltModifier);
+            compare(priv.currentItem, menuItem1, "First enabled item should be opened");
+        }
 
         function test_overfow() {
             menuBackend.modelData = appMenuData.generateTestData(5,2,0,0,"menu");
