@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013,2015-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,13 +15,8 @@
  */
 
 import QtQuick 2.4
-import LightDM.IntegratedLightDM 0.1 as LightDM
+import LightDM.FullLightDM 0.1 as LightDM
 
 Item {
     property var greeter: LightDM.Greeter
-    Binding {
-        target: LightDM.Greeter
-        property: "mockMode"
-        value: "full"
-    }
 }

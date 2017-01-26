@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import "../Components"
 
-Item {
+FocusScope {
     id: root
 
     property int delegateWidth: units.gu(10)
@@ -25,6 +25,7 @@ Item {
     property alias delegate: gridView.delegate
     property alias model: gridView.model
     property alias interactive: gridView.interactive
+    property alias currentIndex: gridView.currentIndex
 
     property alias header: gridView.header
     property alias topMargin: gridView.topMargin
@@ -37,6 +38,7 @@ Item {
         id: gridView
         anchors.fill: parent
         leftMargin: spacing
+        focus: true
 
         readonly property int overflow: width - (root.columns * root.delegateWidth)
         readonly property real spacing: overflow / (root.columns)

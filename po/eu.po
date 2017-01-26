@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-01-10 14:48+0000\n"
+"POT-Creation-Date: 2017-01-24 07:46+0000\n"
 "PO-Revision-Date: 2015-07-13 23:29+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
@@ -15,12 +15,40 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-01-16 05:47+0000\n"
-"X-Generator: Launchpad (build 18302)\n"
+"X-Launchpad-Export-Date: 2017-01-26 06:19+0000\n"
+"X-Generator: Launchpad (build 18315)\n"
 
-#: plugins/LightDM/Greeter.cpp:123
+#: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
 msgstr "Pasahitza: "
+
+#: plugins/LightDM/Greeter.cpp:203
+msgid "Username"
+msgstr ""
+
+#: plugins/LightDM/Greeter.cpp:242
+msgid "Failed to authenticate"
+msgstr ""
+
+#: plugins/LightDM/Greeter.cpp:244
+msgid "Invalid password, please try again"
+msgstr ""
+
+#: plugins/LightDM/Greeter.cpp:254
+msgid "Log In"
+msgstr ""
+
+#: plugins/LightDM/Greeter.cpp:254
+msgid "Retry"
+msgstr "Saiatu berriz"
+
+#: plugins/LightDM/UsersModel.cpp:152
+msgid "Login"
+msgstr ""
+
+#: plugins/LightDM/UsersModel.cpp:160
+msgid "Guest Session"
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:50
 #: plugins/Unity/Launcher/launcheritem.cpp:122
@@ -35,66 +63,66 @@ msgstr "Irten"
 msgid "Unpin shortcut"
 msgstr "Askatu lasterbidea"
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:177
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Amaitu saioa"
 
-#: qml/Components/Dialogs.qml:150
+#: qml/Components/Dialogs.qml:178
 msgid "Are you sure you want to log out?"
 msgstr "Ziur saioa amaitu nahi duzula?"
 
-#: qml/Components/Dialogs.qml:152
+#: qml/Components/Dialogs.qml:181
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Blokeatu"
 
-#: qml/Components/Dialogs.qml:160
+#: qml/Components/Dialogs.qml:191
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Amaitu saioa"
 
-#: qml/Components/Dialogs.qml:167 qml/Components/Dialogs.qml:225
-#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:264
+#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:222
 #: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Utzi"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:211
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Berrabiarazi"
 
-#: qml/Components/Dialogs.qml:180
+#: qml/Components/Dialogs.qml:212
 msgid "Are you sure you want to reboot?"
 msgstr "Ziur berrabiarazi nahi duzula?"
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:215
 msgid "No"
 msgstr "Ez"
 
-#: qml/Components/Dialogs.qml:189
+#: qml/Components/Dialogs.qml:223
 msgid "Yes"
 msgstr "Bai"
 
-#: qml/Components/Dialogs.qml:204
+#: qml/Components/Dialogs.qml:239
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Itzali"
 
-#: qml/Components/Dialogs.qml:205
+#: qml/Components/Dialogs.qml:240
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr "Ziur itzali nahi duzula?"
 
-#: qml/Components/Dialogs.qml:208
+#: qml/Components/Dialogs.qml:244
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Itzali"
 
-#: qml/Components/Dialogs.qml:217
+#: qml/Components/Dialogs.qml:255
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Berrabiarazi"
@@ -120,7 +148,7 @@ msgid "Alt + PrtScr"
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
-msgid "Takes a screenshot of a window."
+msgid "Takes a screenshot of the current window."
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
@@ -267,7 +295,7 @@ msgstr ""
 msgid "Closes the current window."
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:242
 msgid "Return to Call"
 msgstr "Itzuli deira"
 
@@ -275,7 +303,7 @@ msgstr "Itzuli deira"
 msgid "Emergency Call"
 msgstr "Larrialdi-deia"
 
-#: qml/Components/Lockscreen.qml:244
+#: qml/Components/Lockscreen.qml:245
 msgid "OK"
 msgstr "Ados"
 
@@ -289,29 +317,29 @@ msgstr ""
 msgid "%1:%2"
 msgstr ""
 
-#: qml/Components/ModeSwitchWarningDialog.qml:32
+#: qml/Components/ModeSwitchWarningDialog.qml:33
 msgid "Apps may have unsaved data:"
 msgstr ""
 
-#: qml/Components/ModeSwitchWarningDialog.qml:57
+#: qml/Components/ModeSwitchWarningDialog.qml:60
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
 
-#: qml/Components/ModeSwitchWarningDialog.qml:63
+#: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
 msgstr ""
 
-#: qml/Components/ModeSwitchWarningDialog.qml:75
+#: qml/Components/ModeSwitchWarningDialog.qml:80
 msgid "OK, I will reconnect"
 msgstr ""
 
-#: qml/Components/ModeSwitchWarningDialog.qml:76
+#: qml/Components/ModeSwitchWarningDialog.qml:81
 msgid "Reconnect now!"
 msgstr ""
 
-#: qml/Components/ModeSwitchWarningDialog.qml:88
+#: qml/Components/ModeSwitchWarningDialog.qml:94
 msgid "Close all"
 msgstr ""
 
@@ -464,44 +492,44 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Itxaron minutu %1ez eta saiatu berriro…"
 msgstr[1] "Itxaron %1 minutuz eta saiatu berriro…"
 
-#: qml/Greeter/Greeter.qml:592
+#: qml/Greeter/Greeter.qml:561
 msgid "Try again"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:70
+#: qml/Greeter/Greeter.qml:562
+msgid "Enter passphrase to unlock"
+msgstr ""
+
+#: qml/Greeter/Greeter.qml:563
+msgid "Enter passcode to unlock"
+msgstr ""
+
+#: qml/Greeter/NarrowView.qml:242
+msgid "Emergency"
+msgstr ""
+
+#: qml/Greeter/PromptList.qml:126
 msgid "Passphrase"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:71
+#: qml/Greeter/PromptList.qml:126
 msgid "Passcode"
-msgstr ""
-
-#: qml/Greeter/LoginList.qml:98
-msgid "Retry"
-msgstr "Saiatu berriz"
-
-#: qml/Greeter/LoginList.qml:99
-msgid "Log In"
-msgstr ""
-
-#: qml/Greeter/NarrowView.qml:252
-msgid "Emergency"
 msgstr ""
 
 #: qml/Greeter/SessionsList.qml:122
 msgid "Select desktop environment"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:80
+#: qml/Launcher/Drawer.qml:92
 msgid "Search…"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:101
+#: qml/Launcher/Drawer.qml:123
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""
 
-#: qml/Launcher/MoreAppsHeader.qml:32
+#: qml/Launcher/MoreAppsHeader.qml:39
 msgid "More apps in the store"
 msgstr ""
 

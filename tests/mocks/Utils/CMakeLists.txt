@@ -25,6 +25,7 @@ set(QMLPLUGIN_SRC
     ${CMAKE_SOURCE_DIR}/plugins/Utils/deviceconfigparser.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/globalfunctions.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/appdrawerproxymodel.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/tabfocusfence.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceInterface.h

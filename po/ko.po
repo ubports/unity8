@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-01-10 14:48+0000\n"
+"POT-Creation-Date: 2017-01-24 07:46+0000\n"
 "PO-Revision-Date: 2014-08-19 13:02+0000\n"
 "Last-Translator: MinSik CHO <Unknown>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -15,12 +15,40 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2017-01-16 05:47+0000\n"
-"X-Generator: Launchpad (build 18302)\n"
+"X-Launchpad-Export-Date: 2017-01-26 06:20+0000\n"
+"X-Generator: Launchpad (build 18315)\n"
 
-#: plugins/LightDM/Greeter.cpp:123
+#: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
 msgstr "암호: "
+
+#: plugins/LightDM/Greeter.cpp:203
+msgid "Username"
+msgstr ""
+
+#: plugins/LightDM/Greeter.cpp:242
+msgid "Failed to authenticate"
+msgstr ""
+
+#: plugins/LightDM/Greeter.cpp:244
+msgid "Invalid password, please try again"
+msgstr ""
+
+#: plugins/LightDM/Greeter.cpp:254
+msgid "Log In"
+msgstr ""
+
+#: plugins/LightDM/Greeter.cpp:254
+msgid "Retry"
+msgstr "다시 시도"
+
+#: plugins/LightDM/UsersModel.cpp:152
+msgid "Login"
+msgstr ""
+
+#: plugins/LightDM/UsersModel.cpp:160
+msgid "Guest Session"
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:50
 #: plugins/Unity/Launcher/launcheritem.cpp:122
@@ -35,66 +63,66 @@ msgstr "끝내기"
 msgid "Unpin shortcut"
 msgstr "바로 가기를 고정 해제"
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:177
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "로그아웃"
 
-#: qml/Components/Dialogs.qml:150
+#: qml/Components/Dialogs.qml:178
 msgid "Are you sure you want to log out?"
 msgstr "정말 로그아웃하시겠습니까?"
 
-#: qml/Components/Dialogs.qml:152
+#: qml/Components/Dialogs.qml:181
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "잠그기"
 
-#: qml/Components/Dialogs.qml:160
+#: qml/Components/Dialogs.qml:191
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "로그아웃"
 
-#: qml/Components/Dialogs.qml:167 qml/Components/Dialogs.qml:225
-#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:264
+#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:222
 #: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "취소"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:211
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "다시 시작"
 
-#: qml/Components/Dialogs.qml:180
+#: qml/Components/Dialogs.qml:212
 msgid "Are you sure you want to reboot?"
 msgstr "정말 컴퓨터를 다시 시작하시겠습니까?"
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:215
 msgid "No"
 msgstr "아니요"
 
-#: qml/Components/Dialogs.qml:189
+#: qml/Components/Dialogs.qml:223
 msgid "Yes"
 msgstr "예"
 
-#: qml/Components/Dialogs.qml:204
+#: qml/Components/Dialogs.qml:239
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "전원"
 
-#: qml/Components/Dialogs.qml:205
+#: qml/Components/Dialogs.qml:240
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr "정말 컴퓨터를 끄시겠습니까?"
 
-#: qml/Components/Dialogs.qml:208
+#: qml/Components/Dialogs.qml:244
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "컴퓨터 끄기"
 
-#: qml/Components/Dialogs.qml:217
+#: qml/Components/Dialogs.qml:255
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "다시 시작"
@@ -120,7 +148,7 @@ msgid "Alt + PrtScr"
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
-msgid "Takes a screenshot of a window."
+msgid "Takes a screenshot of the current window."
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
@@ -267,7 +295,7 @@ msgstr ""
 msgid "Closes the current window."
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:242
 msgid "Return to Call"
 msgstr "다시 전화하기"
 
@@ -275,7 +303,7 @@ msgstr "다시 전화하기"
 msgid "Emergency Call"
 msgstr "긴급 통화"
 
-#: qml/Components/Lockscreen.qml:244
+#: qml/Components/Lockscreen.qml:245
 msgid "OK"
 msgstr "확인"
 
@@ -289,29 +317,29 @@ msgstr ""
 msgid "%1:%2"
 msgstr ""
 
-#: qml/Components/ModeSwitchWarningDialog.qml:32
+#: qml/Components/ModeSwitchWarningDialog.qml:33
 msgid "Apps may have unsaved data:"
 msgstr "프로그램에 저장하지 않은 데이터가 있을 때:"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:57
+#: qml/Components/ModeSwitchWarningDialog.qml:60
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr "다시 연결합니다. 계속 진행하려면 작업을 저장한 후 앱을 닫아주십시오."
 
-#: qml/Components/ModeSwitchWarningDialog.qml:63
+#: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
 msgstr "강제로 지금 끝냅니다.(저장하지 않은 데이터를 잃게 됩니다.)"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:75
+#: qml/Components/ModeSwitchWarningDialog.qml:80
 msgid "OK, I will reconnect"
 msgstr "다시 접속합니다."
 
-#: qml/Components/ModeSwitchWarningDialog.qml:76
+#: qml/Components/ModeSwitchWarningDialog.qml:81
 msgid "Reconnect now!"
 msgstr "지급 다시 접속!"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:88
+#: qml/Components/ModeSwitchWarningDialog.qml:94
 msgid "Close all"
 msgstr "모두 닫기"
 
@@ -460,44 +488,44 @@ msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "%1분 정도 기다린 후 다시 시독해주십시오..."
 
-#: qml/Greeter/Greeter.qml:592
+#: qml/Greeter/Greeter.qml:561
 msgid "Try again"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:70
+#: qml/Greeter/Greeter.qml:562
+msgid "Enter passphrase to unlock"
+msgstr ""
+
+#: qml/Greeter/Greeter.qml:563
+msgid "Enter passcode to unlock"
+msgstr ""
+
+#: qml/Greeter/NarrowView.qml:242
+msgid "Emergency"
+msgstr ""
+
+#: qml/Greeter/PromptList.qml:126
 msgid "Passphrase"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:71
+#: qml/Greeter/PromptList.qml:126
 msgid "Passcode"
-msgstr ""
-
-#: qml/Greeter/LoginList.qml:98
-msgid "Retry"
-msgstr "다시 시도"
-
-#: qml/Greeter/LoginList.qml:99
-msgid "Log In"
-msgstr ""
-
-#: qml/Greeter/NarrowView.qml:252
-msgid "Emergency"
 msgstr ""
 
 #: qml/Greeter/SessionsList.qml:122
 msgid "Select desktop environment"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:80
+#: qml/Launcher/Drawer.qml:92
 msgid "Search…"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:101
+#: qml/Launcher/Drawer.qml:123
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""
 
-#: qml/Launcher/MoreAppsHeader.qml:32
+#: qml/Launcher/MoreAppsHeader.qml:39
 msgid "More apps in the store"
 msgstr ""
 
