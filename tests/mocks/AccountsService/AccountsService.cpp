@@ -15,7 +15,7 @@
  */
 
 #include "AccountsService.h"
-#include "MockUsersModel.h"
+#include "UsersModel.h"
 
 #include <QLightDM/UsersModel>
 #include <paths.h>
@@ -33,9 +33,8 @@ AccountsService::AccountsService(QObject* parent)
     m_demoEdgesCompleted(),
     m_hereEnabled(false),
     m_hereLicensePath(""),
-    m_usersModel(new MockUsersModel(this))
+    m_usersModel(new UsersModel(this))
 {
-    m_usersModel->setMockMode("full");
 }
 
 QString AccountsService::user() const

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-01-10 14:48+0000\n"
+"POT-Creation-Date: 2017-01-24 07:46+0000\n"
 "PO-Revision-Date: 2016-08-29 11:37+0000\n"
 "Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
@@ -15,12 +15,40 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2017-01-16 05:47+0000\n"
-"X-Generator: Launchpad (build 18302)\n"
+"X-Launchpad-Export-Date: 2017-01-26 06:19+0000\n"
+"X-Generator: Launchpad (build 18315)\n"
 
-#: plugins/LightDM/Greeter.cpp:123
+#: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
 msgstr "Ger-tremen : "
+
+#: plugins/LightDM/Greeter.cpp:203
+msgid "Username"
+msgstr ""
+
+#: plugins/LightDM/Greeter.cpp:242
+msgid "Failed to authenticate"
+msgstr ""
+
+#: plugins/LightDM/Greeter.cpp:244
+msgid "Invalid password, please try again"
+msgstr ""
+
+#: plugins/LightDM/Greeter.cpp:254
+msgid "Log In"
+msgstr "Kevreañ"
+
+#: plugins/LightDM/Greeter.cpp:254
+msgid "Retry"
+msgstr "Esaeañ en-dro"
+
+#: plugins/LightDM/UsersModel.cpp:152
+msgid "Login"
+msgstr ""
+
+#: plugins/LightDM/UsersModel.cpp:160
+msgid "Guest Session"
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:50
 #: plugins/Unity/Launcher/launcheritem.cpp:122
@@ -35,55 +63,55 @@ msgstr "Mont kuit"
 msgid "Unpin shortcut"
 msgstr "Dispilhennañ ar verradenn"
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:177
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Digevreañ"
 
-#: qml/Components/Dialogs.qml:150
+#: qml/Components/Dialogs.qml:178
 msgid "Are you sure you want to log out?"
 msgstr "Ha sur oc'h e fell deoc'h digevreañ ?"
 
-#: qml/Components/Dialogs.qml:152
+#: qml/Components/Dialogs.qml:181
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Prennañ"
 
-#: qml/Components/Dialogs.qml:160
+#: qml/Components/Dialogs.qml:191
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Digevreañ"
 
-#: qml/Components/Dialogs.qml:167 qml/Components/Dialogs.qml:225
-#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:264
+#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:222
 #: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Nullañ"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:211
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Adloc'hañ"
 
-#: qml/Components/Dialogs.qml:180
+#: qml/Components/Dialogs.qml:212
 msgid "Are you sure you want to reboot?"
 msgstr "Ha sur oc'h e fell deoc'h adloc'hañ ?"
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:215
 msgid "No"
 msgstr "N'on ket"
 
-#: qml/Components/Dialogs.qml:189
+#: qml/Components/Dialogs.qml:223
 msgid "Yes"
 msgstr "Ya"
 
-#: qml/Components/Dialogs.qml:204
+#: qml/Components/Dialogs.qml:239
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Enaouiñ"
 
-#: qml/Components/Dialogs.qml:205
+#: qml/Components/Dialogs.qml:240
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -91,12 +119,12 @@ msgstr ""
 "Ha sur oc'h e fell deoc'h\n"
 "troc'hañ an tredan ?"
 
-#: qml/Components/Dialogs.qml:208
+#: qml/Components/Dialogs.qml:244
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Lazhañ"
 
-#: qml/Components/Dialogs.qml:217
+#: qml/Components/Dialogs.qml:255
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Adloc'hañ"
@@ -122,8 +150,8 @@ msgid "Alt + PrtScr"
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
-msgid "Takes a screenshot of a window."
-msgstr "Tapout ur skeudenn eus ur prenestr"
+msgid "Takes a screenshot of the current window."
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -131,7 +159,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr ""
+msgstr "Mont d'ar fichadur klavir war-lerc'h"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
@@ -139,7 +167,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr ""
+msgstr "Mont d'ar fichadur klavier kent"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:118
 msgid "Launcher"
@@ -159,7 +187,7 @@ msgstr "Erl + F1"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens launcher keyboard navigation mode."
-msgstr ""
+msgstr "Digeriñ ar mod merdeiñ gant lañser ar c'hlavier"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Super + Tab"
@@ -167,7 +195,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Switches applications via the launcher."
-msgstr ""
+msgstr "Mont d'un arload all dre al lañser."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + 0 to 9"
@@ -207,7 +235,7 @@ msgstr "Erl + Taolenn"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:234
 msgid "Switches between applications."
-msgstr ""
+msgstr "Mont da arloadoù all."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Super + W"
@@ -215,15 +243,15 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Opens the desktop spread."
-msgstr ""
+msgstr "Digeriñ ar burev astennet"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:255
 msgid "Cursor Left or Right"
-msgstr ""
+msgstr "Reti kleiz pe dehoù"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:260
 msgid "Moves the focus."
-msgstr ""
+msgstr "Cheñch an dibab."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:272
 msgid "Windows"
@@ -269,7 +297,7 @@ msgstr "Erl + F4"
 msgid "Closes the current window."
 msgstr "Serriñ ar prenestr a vremañ"
 
-#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:242
 msgid "Return to Call"
 msgstr "Distreiñ d'ar bellgomzadenn"
 
@@ -277,7 +305,7 @@ msgstr "Distreiñ d'ar bellgomzadenn"
 msgid "Emergency Call"
 msgstr "Pellgomzadenn vallus"
 
-#: qml/Components/Lockscreen.qml:244
+#: qml/Components/Lockscreen.qml:245
 msgid "OK"
 msgstr "Mat eo"
 
@@ -291,11 +319,11 @@ msgstr "%1:%2:%3"
 msgid "%1:%2"
 msgstr "%1:%2"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:32
+#: qml/Components/ModeSwitchWarningDialog.qml:33
 msgid "Apps may have unsaved data:"
 msgstr "Roadennoù ha n'int ket enrollet a c'hall bezañ gant an arloadoù :"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:57
+#: qml/Components/ModeSwitchWarningDialog.qml:60
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
@@ -303,20 +331,20 @@ msgstr ""
 "Adkevreit ouzh ar savlec'h degemer, enrollot ho labour ha serrit an arloadoù-"
 "mañ evit kenderc'hel."
 
-#: qml/Components/ModeSwitchWarningDialog.qml:63
+#: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
 msgstr ""
 "Pe rediañ da serriñ bremañ (kollet e vo ar roadennoù n'int ket bet enrollet)."
 
-#: qml/Components/ModeSwitchWarningDialog.qml:75
+#: qml/Components/ModeSwitchWarningDialog.qml:80
 msgid "OK, I will reconnect"
 msgstr "Mat eo, ez an da adkevreañ"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:76
+#: qml/Components/ModeSwitchWarningDialog.qml:81
 msgid "Reconnect now!"
 msgstr "Adkevreañ bremañ !"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:88
+#: qml/Components/ModeSwitchWarningDialog.qml:94
 msgid "Close all"
 msgstr "Serriñ pep tra"
 
@@ -329,6 +357,8 @@ msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
+"Kevreet eo ho penveg ouzh ur skramm diavaez bremañ. Implijit ar skramm-mañ "
+"da bavez-touch evit ober gant ar reti."
 
 #: qml/Components/VirtualTouchPad.qml:327
 msgid "Tap left button to click."
@@ -470,44 +500,44 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Gortozit %1 vunutenn, mar plij, hag esaeit en-dro..."
 msgstr[1] "Gortozit %1 a vunutoù, mar plij, hag esaeit en-dro..."
 
-#: qml/Greeter/Greeter.qml:592
+#: qml/Greeter/Greeter.qml:561
 msgid "Try again"
 msgstr "Esaeañ adarre"
 
-#: qml/Greeter/LoginList.qml:70
+#: qml/Greeter/Greeter.qml:562
+msgid "Enter passphrase to unlock"
+msgstr ""
+
+#: qml/Greeter/Greeter.qml:563
+msgid "Enter passcode to unlock"
+msgstr ""
+
+#: qml/Greeter/NarrowView.qml:242
+msgid "Emergency"
+msgstr "Mall"
+
+#: qml/Greeter/PromptList.qml:126
 msgid "Passphrase"
 msgstr "Lavarenn-dremen"
 
-#: qml/Greeter/LoginList.qml:71
+#: qml/Greeter/PromptList.qml:126
 msgid "Passcode"
 msgstr "Kod-tremen"
-
-#: qml/Greeter/LoginList.qml:98
-msgid "Retry"
-msgstr "Esaeañ en-dro"
-
-#: qml/Greeter/LoginList.qml:99
-msgid "Log In"
-msgstr "Kevreañ"
-
-#: qml/Greeter/NarrowView.qml:252
-msgid "Emergency"
-msgstr "Mall"
 
 #: qml/Greeter/SessionsList.qml:122
 msgid "Select desktop environment"
 msgstr "Diuzañ endro ar burev"
 
-#: qml/Launcher/Drawer.qml:80
+#: qml/Launcher/Drawer.qml:92
 msgid "Search…"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:101
+#: qml/Launcher/Drawer.qml:123
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""
 
-#: qml/Launcher/MoreAppsHeader.qml:32
+#: qml/Launcher/MoreAppsHeader.qml:39
 msgid "More apps in the store"
 msgstr ""
 
@@ -600,15 +630,16 @@ msgstr "Gervel en-dro"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
-msgstr ""
+msgstr "Riklit forzh peseurt arload gant tri biz eus an eil prenestr d'egile"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr ""
+"Rikladenn hir adalek ar bord kleiz evit digeriñ ar c'heflusker enklask Hiziv"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
-msgstr ""
+msgstr "Rikladenn verr adalek ar bord kleiz evit digeriñ al lañser"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
@@ -617,11 +648,12 @@ msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:56
 msgid "Swipe from the right edge to view your open apps"
-msgstr ""
+msgstr "Riklañ adalek ar bord dehoù evit gwelet hoc'h arloadoù digor"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
+"Riklañ adalek an nec'h evit gwelet ar c'hemennoù hag an arventennoù prim"
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
@@ -753,7 +785,7 @@ msgstr "Sikourit ac'hanomp da wellaat"
 
 #: qml/Wizard/Pages/75-report-check.qml:59
 msgid "Improve system performance by sending us crashes and error reports."
-msgstr ""
+msgstr "Gwellait ar reizhiad en ur gas deomp an danevelloù fazi."
 
 #: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Privacy policy"
@@ -822,6 +854,8 @@ msgid ""
 "The information collected is used to analyze the service and to improve the "
 "use of service, but not to identify you personally."
 msgstr ""
+"Implijet e vez an titouroù dastumet evit dielfennañ ar servij ha gwellaat an "
+"implij anezhañ, ha neket evit anavezout ac'hanoc'h."
 
 #: qml/Wizard/Pages/here-terms.qml:106
 #, qt-format
@@ -1323,3 +1357,6 @@ msgstr "Ger-tremen diasur-kenañ"
 
 #~ msgid "Swipe up to create a message"
 #~ msgstr "Riklit d'an nec'h evit krouiñ ur gemennadenn"
+
+#~ msgid "Takes a screenshot of a window."
+#~ msgstr "Tapout ur skeudenn eus ur prenestr"
