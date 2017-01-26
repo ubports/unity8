@@ -114,6 +114,7 @@ Item {
                     function show() {
                         if (!__popup) {
                             __popup = menuComponent.createObject(root, { objectName: visualItem.objectName + "-menu" });
+                            __popup.childActivated.connect(dismiss);
                             // force the current item to be the newly popped up menu
                         } else {
                             __popup.show();
@@ -212,7 +213,13 @@ Item {
                     updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
                 }
             }
-            onClicked: updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
+            onClicked: {
+                var prevItem = d.currentItem;
+                updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
+                if (prevItem && d.currentItem == prevItem) {
+                    prevItem.hide();
+                }
+            }
 
             function updateCurrentItemFromPosition(point) {
                 var pos = mapToItem(row, point.x, point.y);
