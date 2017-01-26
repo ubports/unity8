@@ -25,7 +25,7 @@ DBusGreeterList::DBusGreeterList(Greeter *greeter, const QString &path)
    m_greeter(greeter)
 {
     connect(m_greeter, &Greeter::authenticationUserChanged, this, &DBusGreeterList::authenticationUserChangedHandler);
-    connect(m_greeter, &Greeter::promptlessChanged, this, &DBusGreeterList::promptlessChangedHandler);
+    connect(m_greeter, &Greeter::isAuthenticatedChanged, this, &DBusGreeterList::authenticatedChangedHandler);
 }
 
 QString DBusGreeterList::GetActiveEntry() const
@@ -40,16 +40,16 @@ void DBusGreeterList::SetActiveEntry(const QString &entry)
 
 bool DBusGreeterList::entryIsLocked() const
 {
-    return !m_greeter->promptless();
+    return !m_greeter->isAuthenticated();
 }
 
-void DBusGreeterList::authenticationUserChangedHandler(const QString &user)
+void DBusGreeterList::authenticationUserChangedHandler()
 {
-    notifyPropertyChanged(QStringLiteral("ActiveEntry"), user);
-    Q_EMIT EntrySelected(user);
+    notifyPropertyChanged(QStringLiteral("ActiveEntry"), m_greeter->authenticationUser());
+    Q_EMIT EntrySelected(m_greeter->authenticationUser());
 }
 
-void DBusGreeterList::promptlessChangedHandler()
+void DBusGreeterList::authenticatedChangedHandler()
 {
     notifyPropertyChanged(QStringLiteral("EntryIsLocked"), entryIsLocked());
     Q_EMIT entryIsLockedChanged();

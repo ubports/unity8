@@ -68,6 +68,7 @@ StyledItem {
         stage.updateFocusedAppOrientationAnimated();
     }
     property bool hasMouse: false
+    property bool hasKeyboard: false
 
     // to be read from outside
     readonly property int mainAppWindowOrientationAngle: stage.mainAppWindowOrientationAngle
@@ -317,6 +318,35 @@ StyledItem {
             onSpreadShownChanged: {
                 panel.indicators.hide();
                 panel.applicationMenus.hide();
+            }
+        }
+
+        TouchGestureArea {
+            anchors.fill: stage
+
+            minimumTouchPoints: 4
+            maximumTouchPoints: minimumTouchPoints
+
+            readonly property bool recognisedPress: status == TouchGestureArea.Recognized &&
+                                                    touchPoints.length >= minimumTouchPoints &&
+                                                    touchPoints.length <= maximumTouchPoints
+            property bool wasPressed: false
+
+            onRecognisedPressChanged: {
+                if (recognisedPress) {
+                    wasPressed = true;
+                }
+            }
+
+            onStatusChanged: {
+                if (status !== TouchGestureArea.Recognized) {
+                    if (status === TouchGestureArea.WaitingForTouch) {
+                        if (wasPressed && !dragging) {
+                            launcher.openDrawer(true);
+                        }
+                    }
+                    wasPressed = false;
+                }
             }
         }
     }
@@ -669,8 +699,10 @@ StyledItem {
         id: dialogs
         objectName: "dialogs"
         anchors.fill: parent
+        visible: hasActiveDialog
         z: overlay.z + 10
         usageScenario: shell.usageScenario
+        hasKeyboard: shell.hasKeyboard
         onPowerOffClicked: {
             shutdownFadeOutRectangle.enabled = true;
             shutdownFadeOutRectangle.visible = true;

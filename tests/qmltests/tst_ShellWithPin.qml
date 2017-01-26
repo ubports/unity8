@@ -19,7 +19,8 @@ import Ubuntu.Components 1.3
 import QtTest 1.0
 import AccountsService 0.1
 import GSettings 1.0
-import LightDM.IntegratedLightDM 0.1 as LightDM
+import LightDMController 0.1
+import LightDM.FullLightDM 0.1 as LightDM
 import Ubuntu.SystemImage 0.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
@@ -35,8 +36,7 @@ Item {
 
     Component.onCompleted: {
         // must set the mock mode before loading the Shell
-        LightDM.Greeter.mockMode = "single-pin";
-        LightDM.Users.mockMode = "single-pin";
+        LightDMController.userMode = "single-pin";
         shellLoader.active = true;
     }
 
@@ -115,12 +115,6 @@ Item {
         id: resetSpy
         target: SystemImage
         signalName: "resettingDevice"
-    }
-
-    SignalSpy {
-        id: promptSpy
-        target: LightDM.Greeter
-        signalName: "showPrompt"
     }
 
     Telephony.CallEntry {
@@ -539,22 +533,20 @@ Item {
             shellLoader.itemDestroyed = false;
             shellLoader.active = false;
             tryCompare(shellLoader, "itemDestroyed", true);
-            LightDM.Greeter.authenticate(""); // reset greeter
 
             // Create new shell
-            promptSpy.clear();
             shellLoader.active = true;
             tryCompareFunction(function() {return shell !== null}, true);
 
             // Confirm that we start disabled
-            compare(promptSpy.count, 0);
+            compare(LightDM.Prompts.count, 0);
             verify(shell.waitingOnGreeter);
             var coverPageDragHandle = findChild(shell, "coverPageDragHandle");
             verify(!coverPageDragHandle.enabled);
 
             // And that we only become enabled once the lockscreen is up
             tryCompare(shell, "waitingOnGreeter", false);
-            verify(promptSpy.count > 0);
+            verify(LightDM.Prompts.count > 0);
             var lockscreen = findChild(shell, "lockscreen");
             verify(lockscreen.shown);
         }

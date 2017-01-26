@@ -295,6 +295,8 @@ Rectangle {
             compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
 
             removeTimeConstraintsFromSwipeAreas(root);
+
+            waitUntilLauncherDisappears();
         }
 
         function dragLauncher() {
@@ -1476,6 +1478,14 @@ Rectangle {
             compare(launcherPanel.x, -launcherPanel.width);
 
             launcher.available = true;
+        }
+
+        function test_hintOnSizeChange() {
+            var oldSize = launcher.panelWidth;
+            launcher.maxPanelX = -launcher.panelWidth;
+            launcher.panelWidth = oldSize + units.gu(2);
+            tryCompare(launcher, "maxPanelX", 0);
+            launcher.panelWidth = oldSize;
         }
     }
 }

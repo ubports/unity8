@@ -18,7 +18,8 @@ import QtQuick 2.4
 import QtTest 1.0
 import AccountsService 0.1
 import GSettings 1.0
-import LightDM.IntegratedLightDM 0.1 as LightDM
+import LightDMController 0.1
+import LightDM.FullLightDM 0.1 as LightDM
 import SessionBroadcast 0.1
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
@@ -48,8 +49,7 @@ Rectangle {
 
     Component.onCompleted: {
         // must set the mock mode before loading the Shell
-        LightDM.Greeter.mockMode = "single";
-        LightDM.Users.mockMode = "single";
+        LightDMController.userMode = "single";
         shellLoader.active = true;
     }
 
@@ -248,8 +248,7 @@ Rectangle {
                     model: ["single", "single-passphrase", "single-pin", "full"]
                     onSelectedIndexChanged: {
                         testCase.tearDown();
-                        LightDM.Greeter.mockMode = model[selectedIndex];
-                        LightDM.Users.mockMode = model[selectedIndex];
+                        LightDMController.userMode = model[selectedIndex];
                         shellLoader.active = true;
                     }
                 }
@@ -568,7 +567,6 @@ Rectangle {
                 // is loaded by default
                 tearDown();
             }
-
         }
 
         function cleanup() {
@@ -656,7 +654,8 @@ Rectangle {
             // Shell instance gets destroyed.
             tryCompare(shellLoader, "itemDestroyed", true);
 
-            setLightDMMockMode("single"); // back to the default value
+            LightDMController.reset();
+            setLightDMMockMode("single"); // these tests default to "single"
 
             AccountsService.demoEdges = false;
             AccountsService.demoEdgesCompleted = [];
@@ -818,13 +817,15 @@ Rectangle {
                 keyClick(Qt.Key_Escape) // Reset state if we're not moving
             while (userlist.currentIndex != i) {
                 var next = userlist.currentIndex + 1
+                var key = Qt.Key_Down;
                 if (userlist.currentIndex > i) {
                     next = userlist.currentIndex - 1
+                    key = Qt.Key_Up;
                 }
-                tap(findChild(greeter, "username"+next));
+                keyPress(key);
                 tryCompare(userlist, "currentIndex", next)
-                tryCompare(userlist, "movingInternally", false)
             }
+            tryCompare(userlist, "movingInternally", false);
             tryCompare(shell, "waitingOnGreeter", false); // wait for PAM to settle
         }
 
@@ -847,15 +848,13 @@ Rectangle {
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "fullyShown", true);
 
-            var passwordInput = findChild(shell, "passwordInput");
-
-            var promptButton = findChild(passwordInput, "promptButton");
+            var promptButton = findChild(greeter, "promptButton");
             tryCompare(promptButton, "visible", isButton);
 
-            var promptField = findChild(passwordInput, "promptField");
+            var promptField = findChild(greeter, "promptField");
             tryCompare(promptField, "visible", !isButton);
 
-            mouseClick(passwordInput)
+            mouseClick(promptButton);
         }
 
         function confirmLoggedIn(loggedIn) {
@@ -865,8 +864,7 @@ Rectangle {
         }
 
         function setLightDMMockMode(mode) {
-            LightDM.Greeter.mockMode = mode;
-            LightDM.Users.mockMode = mode;
+            LightDMController.userMode = mode;
         }
 
         function test_showInputMethod() {
@@ -1429,9 +1427,37 @@ Rectangle {
             confirmLoggedIn(data.loggedIn)
 
             if (data.passwordFocus) {
-                var passwordInput = findChild(greeter, "passwordInput")
+                var passwordInput = findChild(greeter, "promptField");
                 tryCompare(passwordInput, "focus", true)
             }
+        }
+
+        function test_manualLoginFlow() {
+            LightDMController.showManualLoginHint = true;
+            setLightDMMockMode("full");
+            loadShell("desktop");
+
+            var i = selectUser("*other");
+            var greeter = findChild(shell, "greeter");
+            var username = findChild(greeter, "username" + i);
+            var promptField = findChild(greeter, "promptField");
+            var promptHint = findChild(greeter, "promptHint");
+
+            compare(username.text, "Login");
+            compare(promptHint.text, "Username");
+
+            tryCompare(promptField, "activeFocus", true);
+            typeString("has-password");
+            keyClick(Qt.Key_Enter);
+
+            promptHint = findChild(greeter, "promptHint");
+            tryCompare(username, "text", "has-password");
+            tryCompare(promptHint, "text", "Passphrase");
+
+            typeString("password");
+            keyClick(Qt.Key_Enter);
+
+            confirmLoggedIn(true);
         }
 
         function test_launcherInverted_data() {
@@ -2724,6 +2750,34 @@ Rectangle {
             swipeAwayGreeter();
 
             tryCompare(panelTitle, "visible", true, undefined, "Panel title should be visible when greeter not shown");
+        }
+
+        function test_fourFingerTapOpensDrawer_data() {
+            return [
+                        { tag: "1 finger", touchIds: [0], shown: false },
+                        { tag: "2 finger", touchIds: [0, 1], shown: false },
+                        { tag: "3 finger", touchIds: [0, 1, 2], shown: false },
+                        { tag: "4 finger", touchIds: [0, 1, 2, 3], shown: true }
+                    ];
+        }
+
+        function test_fourFingerTapOpensDrawer(data) {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var stage = findChild(shell, "stage");
+            var drawer = findChild(shell, "drawer")
+            verify(stage && drawer);
+
+            multiTouchTap(data.touchIds, stage);
+
+            if (data.shown) { // if shown, try to also hide it by clicking outside
+                tryCompareFunction(function() { return drawer.visible; }, true);
+                mouseClick(stage, stage.width-10, stage.height/2, undefined, undefined, 100);
+            }
+            tryCompareFunction(function() { return drawer.visible; }, false);
         }
     }
 }
