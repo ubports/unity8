@@ -2781,5 +2781,34 @@ Rectangle {
             }
             tryCompareFunction(function() { return drawer.visible; }, false);
         }
+
+        function test_restoreFromFullscreen() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var appSurfaceId = topLevelSurfaceList.nextId;
+            var app = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            // start dialer
+            var appContainer = findChild(shell, "appContainer");
+            var appDelegate = findChild(appContainer, "appDelegate_" + appSurfaceId);
+            verify(appDelegate);
+            tryCompare(appDelegate, "state", "normal");
+
+            // now maximize to right
+            appDelegate.requestMaximizeRight();
+            tryCompare(appDelegate, "state", "maximizedRight");
+
+            // switch to fullscreen
+            app.surfaceList.get(0).requestState(Mir.FullscreenState);
+            tryCompare(appDelegate, "state", "fullscreen");
+
+            // restore, should go back to maximizedRight, not restored
+            appDelegate.requestRestore();
+            tryCompare(appDelegate, "state", "maximizedRight");
+        }
     }
 }
