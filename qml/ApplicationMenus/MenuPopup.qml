@@ -110,6 +110,8 @@ UbuntuShape {
             } else {
                 hoveredItem = null;
             }
+
+            submenuHoverTimer.stop();
         }
 
         onSelect: {
@@ -235,7 +237,7 @@ UbuntuShape {
                                 return;
                             d.currentItem = d.hoveredItem;
 
-                            if (!d.currentItem.__isSeparator && d.currentItem.item.hasSubmenu) {
+                            if (!d.currentItem.__isSeparator && d.currentItem.item.hasSubmenu && d.currentItem.item.enabled) {
                                 submenuHoverTimer.start();
                             }
                         }
@@ -301,6 +303,8 @@ UbuntuShape {
                                     width: MathUtils.clamp(implicitWidth, d.__minimumWidth, d.__maximumWidth)
 
                                     action.onTriggered: {
+                                        submenuHoverTimer.stop();
+
                                         d.currentItem = loader;
 
                                         if (hasSubmenu) {
