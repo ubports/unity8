@@ -217,7 +217,6 @@ UbuntuShape {
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
-                    propagateComposedEvents: true // propogate events so we send clicks to children.
                     z: 1 // on top so we override any other hovers
                     onEntered: updateCurrentItemFromPosition(Qt.point(mouseX, mouseY))
                     onPositionChanged: updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
@@ -237,6 +236,14 @@ UbuntuShape {
                             if (!d.currentItem.__isSeparator && d.currentItem.item.hasSubmenu) {
                                 submenuHoverTimer.start();
                             }
+                        }
+                    }
+
+                    onClicked: {
+                        var pos = mapToItem(listView.contentItem, mouse.x, mouse.y);
+                        var clickedItem = menuColumn.childAt(pos.x, pos.y);
+                        if (clickedItem.enabled && !clickedItem.__isSeparator) {
+                            clickedItem.item.trigger();
                         }
                     }
                 }
