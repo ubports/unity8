@@ -59,6 +59,7 @@ class GSettingsQml: public QObject, public QQmlParserStatus
     Q_PROPERTY(QVariant edgeDragWidth READ edgeDragWidth WRITE setEdgeDragWidth NOTIFY edgeDragWidthChanged)
     Q_PROPERTY(QVariant enableLauncher READ enableLauncher WRITE setEnableLauncher NOTIFY enableLauncherChanged)
     Q_PROPERTY(QVariant enableIndicatorMenu READ enableIndicatorMenu WRITE setEnableIndicatorMenu NOTIFY enableIndicatorMenuChanged)
+    Q_PROPERTY(QVariant appstoreUri READ appstoreUri NOTIFY appstoreUriChanged)
 
 public:
     GSettingsQml(QObject *parent = nullptr);
@@ -77,6 +78,7 @@ public:
     QVariant edgeDragWidth() const;
     QVariant enableLauncher() const;
     QVariant enableIndicatorMenu() const;
+    QVariant appstoreUri() const;
 
     void setDisableHeight(const QVariant &val);
     void setPictureUri(const QVariant &str);
@@ -101,6 +103,7 @@ Q_SIGNALS:
     void edgeDragWidthChanged();
     void enableLauncherChanged();
     void enableIndicatorMenuChanged();
+    void appstoreUriChanged();
 
 private:
     GSettingsSchemaQml* m_schema;
@@ -147,6 +150,8 @@ public:
     bool enableIndicatorMenu() const;
     Q_INVOKABLE void setEnableIndicatorMenu(bool enableIndicatorMenu);
 
+    QString appstoreUri() const;
+
 Q_SIGNALS:
     void disableHeightChanged();
     void pictureUriChanged(const QString&);
@@ -158,6 +163,7 @@ Q_SIGNALS:
     void edgeDragWidthChanged(uint edgeDragWidth);
     void enableLauncherChanged(bool enableLauncher);
     void enableIndicatorMenuChanged(bool enableIndicatorMenu);
+    void appstoreUriChanged(const QString &appstoreUri);
 
 private:
     GSettingsControllerQml();
@@ -172,6 +178,7 @@ private:
     uint m_edgeDragWidth;
     bool m_enableLauncher;
     bool m_enableIndicatorMenu;
+    QString m_appstoreUri;
 
     static GSettingsControllerQml* s_controllerInstance;
     QList<GSettingsQml *> m_registeredGSettings;

@@ -18,7 +18,8 @@ import QtQuick 2.4
 import QtTest 1.0
 import ".."
 import "../../../qml/Greeter"
-import LightDM.IntegratedLightDM 0.1 as LightDM
+import LightDMController 0.1
+import LightDM.FullLightDM 0.1 as LightDM
 import Ubuntu.Components 1.3
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Test 0.1 as UT
@@ -29,6 +30,12 @@ Item {
     height: units.gu(80)
 
     Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark" // use the same theme as the real shell
+
+    Binding {
+        target: LightDMController
+        property: "userMode"
+        value: "single"
+    }
 
     Row {
         anchors.fill: parent
@@ -74,26 +81,14 @@ Item {
 
                 Row {
                     Button {
-                        text: "Show Last Chance"
-                        onClicked: loader.item.showLastChance()
-                    }
-                }
-                Row {
-                    Button {
                         text: "Hide"
                         onClicked: loader.item.hide()
                     }
                 }
                 Row {
                     Button {
-                        text: "Reset"
-                        onClicked: loader.item.reset()
-                    }
-                }
-                Row {
-                    Button {
                         text: "Show Message"
-                        onClicked: loader.item.showMessage(messageField.text)
+                        onClicked: LightDMService.prompts.append(messageField.text, LightDMService.prompts.Message)
                     }
                     TextField {
                         id: messageField
@@ -104,7 +99,7 @@ Item {
                 Row {
                     Button {
                         text: "Show Prompt"
-                        onClicked: loader.item.showPrompt(promptField.text, isSecretCheckBox.checked, isDefaultPromptCheckBox.checked)
+                        onClicked: LightDMService.prompts.append(promptField.text, isSecretCheckBox.checked ? LightDMService.prompts.Secret : LightDMService.prompts.Question)
                     }
                     TextField {
                         id: promptField
@@ -117,35 +112,13 @@ Item {
                     Label {
                         text: "secret"
                     }
-                    CheckBox {
-                        id: isDefaultPromptCheckBox
-                    }
-                    Label {
-                        text: "default"
-                    }
                 }
                 Row {
                     Button {
-                        text: "Authenticated"
+                        text: "Notify Auth Failure"
                         onClicked: {
-                            if (successCheckBox.checked) {
-                                loader.item.notifyAuthenticationSucceeded(fakePasswordCheckBox.checked);
-                            } else {
-                                loader.item.notifyAuthenticationFailed();
-                            }
+                            loader.item.notifyAuthenticationFailed();
                         }
-                    }
-                    CheckBox {
-                        id: successCheckBox
-                    }
-                    Label {
-                        text: "success"
-                    }
-                    CheckBox {
-                        id: fakePasswordCheckBox
-                    }
-                    Label {
-                        text: "fake password"
                     }
                 }
                 Row {
@@ -211,6 +184,7 @@ Item {
                 Row {
                     CheckBox {
                         id: alphanumericCheckBox
+                        checked: true
                     }
                     Label {
                         text: "alphanumeric"
@@ -252,7 +226,7 @@ Item {
     Binding {
         target: LightDM.Infographic
         property: "username"
-        value: "single"
+        value: "has-password"
     }
 
     SignalSpy {
@@ -293,6 +267,9 @@ Item {
 
         function init() {
             view.currentIndex = 0; // break binding with text field
+
+            LightDM.Greeter.authenticate("no-password");
+            tryCompare(LightDMService.prompts, "count", 1);
 
             telepathyHelper.ready = true;
             telepathyHelper.emergencyCallsAvailable = true;
@@ -358,8 +335,9 @@ Item {
         }
 
         function test_respondedWithPin() {
+            LightDM.Greeter.authenticate("has-pin");
             view.locked = true;
-            view.showPrompt("", true, true);
+            view.alphanumeric = false;
             swipeAwayCover();
             typeString("1234");
             compare(respondedSpy.count, 1);
@@ -367,9 +345,8 @@ Item {
         }
 
         function test_respondedWithPassphrase() {
+            LightDM.Greeter.authenticate("has-password");
             view.locked = true;
-            view.alphanumeric = true;
-            view.showPrompt("", true, true);
             swipeAwayCover();
             typeString("test");
             keyClick(Qt.Key_Enter);

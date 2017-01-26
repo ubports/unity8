@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ ShellDialog {
     signal forceClose();
 
     Label {
+        width: parent.width
         text: i18n.tr("Apps may have unsaved data:")
         fontSize: "large"
         color: "#5D5D5D"
@@ -37,6 +38,7 @@ ShellDialog {
     Repeater {
         id: appRepeater
         RowLayout {
+            width: parent.width
             spacing: units.gu(2)
             Image {
                 Layout.preferredHeight: units.gu(2)
@@ -54,20 +56,23 @@ ShellDialog {
     }
 
     Label {
+        width: parent.width
         text: i18n.ctr("Re-dock means connect the device again to an external screen/mouse/keyboard", "Re-dock, save your work and close these apps to continue.")
         wrapMode: Text.WordWrap
         color: "#888888"
     }
 
     Label {
+        width: parent.width
         text: i18n.tr("Or force close now (unsaved data will be lost).")
         wrapMode: Text.WordWrap
         color: "#888888"
     }
 
-    ThinDivider {}
+    ThinDivider { width: parent.width }
 
     RowLayout {
+        width: parent.width
         Label {
             objectName: "reconnectLabel"
             Layout.fillWidth: true
@@ -84,6 +89,7 @@ ShellDialog {
         }
 
         Button {
+            focus: true
             objectName: "forceCloseButton"
             text: i18n.tr("Close all")
             color: theme.palette.normal.negative

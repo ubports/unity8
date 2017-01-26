@@ -57,6 +57,20 @@ Item {
         onReleased: d.stopSHortcutTimer()
     }
 
+    GlobalShortcut {
+        shortcut: Qt.AltModifier | Qt.Key_F10
+        active: enableKeyFilter && d.currentItem == null
+        onTriggered: {
+            for (var i = 0; i < rowRepeater.count; i++) {
+                var item = rowRepeater.itemAt(i);
+                if (item.enabled) {
+                    item.show();
+                    break;
+                }
+            }
+        }
+    }
+
     InverseMouseArea {
         acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
         anchors.fill: parent
@@ -100,6 +114,7 @@ Item {
                     function show() {
                         if (!__popup) {
                             __popup = menuComponent.createObject(root, { objectName: visualItem.objectName + "-menu" });
+                            __popup.childActivated.connect(dismiss);
                             // force the current item to be the newly popped up menu
                         } else {
                             __popup.show();
@@ -198,7 +213,13 @@ Item {
                     updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
                 }
             }
-            onClicked: updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
+            onClicked: {
+                var prevItem = d.currentItem;
+                updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
+                if (prevItem && d.currentItem == prevItem) {
+                    prevItem.hide();
+                }
+            }
 
             function updateCurrentItemFromPosition(point) {
                 var pos = mapToItem(row, point.x, point.y);

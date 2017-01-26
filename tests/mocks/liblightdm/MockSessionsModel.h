@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,11 +15,12 @@
  *
  */
 
-#ifndef UNITY_MOCK_SESSIONSMODEL_H
-#define UNITY_MOCK_SESSIONSMODEL_H
+#pragma once
 
-#include <QtCore/QAbstractListModel>
-#include <QtCore/QString>
+#include <QAbstractListModel>
+#include <QByteArray>
+#include <QHash>
+#include <QString>
 
 namespace QLightDM
 {
@@ -30,7 +31,6 @@ class Q_DECL_EXPORT SessionsModel : public QAbstractListModel
         Q_OBJECT
 
     public:
-
         enum SessionModelRoles {
             //name is exposed as Qt::DisplayRole
             //comment is exposed as Qt::TooltipRole
@@ -54,19 +54,11 @@ class Q_DECL_EXPORT SessionsModel : public QAbstractListModel
         int rowCount(const QModelIndex& parent) const override;
         QVariant data(const QModelIndex& index, int role) const override;
 
-        int numSessions() const;
-        int numAvailableSessions() const;
-        QString testScenario() const;
-        void setNumSessions(int numSessions);
-        void setTestScenario(QString testScenario);
-
-    protected:
-        SessionsModelPrivate* const d_ptr;
+    private Q_SLOTS:
+        void resetEntries();
 
     private:
-        QHash<int, QByteArray> m_roleNames;
+        SessionsModelPrivate *d_ptr;
         Q_DECLARE_PRIVATE(SessionsModel)
     };
 }
-
-#endif // UNITY_MOCK_SESSIONSMODEL_H

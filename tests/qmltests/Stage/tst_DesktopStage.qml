@@ -836,9 +836,17 @@ Item {
 
         function test_menuPositioning_data() {
             return [
-                {tag: "good",            windowPosition: Qt.point(units.gu(10),  units.gu(10)), expectedMenuCoordinates: Qt.point(units.gu(21.5), units.gu(3)) },
-                {tag: "collides right",  windowPosition: Qt.point(units.gu(100), units.gu(10)), expectedMenuCoordinates: Qt.point(units.gu(12),   units.gu(3)) },
-                {tag: "collides bottom", windowPosition: Qt.point(units.gu(10),  units.gu(80)), expectedMenuCoordinates: Qt.point(units.gu(21.5), units.gu(-5.25)) },
+                {tag: "good",
+                    windowPosition: Qt.point(units.gu(10),  units.gu(10))
+                },
+                {tag: "collides right",
+                    windowPosition: Qt.point(units.gu(100), units.gu(10)),
+                    minimumXDifference: units.gu(8)
+                },
+                {tag: "collides bottom",
+                    windowPosition: Qt.point(units.gu(10),  units.gu(80)),
+                    minimumYDifference: units.gu(7)
+                },
             ]
         }
 
@@ -851,16 +859,40 @@ Item {
             menuItem.show();
 
             var menu = findChild(appDelegate, "menuBar-item3-menu");
+            tryCompare(menu, "visible", true);
 
-            tryCompare(menu, "x", data.expectedMenuCoordinates.x);
-            tryCompare(menu, "y", data.expectedMenuCoordinates.y);
+            var normalPositioningX = menuItem.x - units.gu(1);
+            var normalPositioningY = menuItem.height;
+
+            // We do this fuzzy checking because otherwise we would be duplicating the code
+            // that calculates the coordinates and any bug it may have, what we want is really
+            // to check that on collision with the border the menu is shifted substantially
+            if (data.minimumXDifference) {
+                verify(menu.x < normalPositioningX - data.minimumXDifference);
+            } else {
+                compare(menu.x, normalPositioningX);
+            }
+
+            if (data.minimumYDifference) {
+                verify(menu.y < normalPositioningY - data.minimumYDifference);
+            } else {
+                compare(menu.y, normalPositioningY);
+            }
         }
 
         function test_submenuPositioning_data() {
             return [
-                {tag: "good",            windowPosition: Qt.point(units.gu(10),  units.gu(10)), expectedMenuCoordinates: Qt.point(units.gu(20),  units.gu(10.25)) },
-                {tag: "collides right",  windowPosition: Qt.point(units.gu(100), units.gu(10)), expectedMenuCoordinates: Qt.point(units.gu(-20), units.gu(10.25)) },
-                {tag: "collides bottom", windowPosition: Qt.point(units.gu(10),  units.gu(80)), expectedMenuCoordinates: Qt.point(units.gu(20),  units.gu(0)) },
+                {tag: "good",
+                    windowPosition: Qt.point(units.gu(10),  units.gu(10))
+                },
+                {tag: "collides right",
+                    windowPosition: Qt.point(units.gu(100), units.gu(10)),
+                    minimumXDifference: units.gu(35)
+                },
+                {tag: "collides bottom",
+                    windowPosition: Qt.point(units.gu(10),  units.gu(80)),
+                    minimumYDifference: units.gu(8)
+                },
             ]
         }
 
@@ -880,9 +912,23 @@ Item {
 
             menu = findChild(appDelegate, "menuBar-item3-menu-item3-menu");
 
-            console.log(menu, menu.x);
-            tryCompare(menu, "x", data.expectedMenuCoordinates.x);
-            tryCompare(menu, "y", data.expectedMenuCoordinates.y);
+            var normalPositioningX = menuItem.width;
+            var normalPositioningY = menuItem.parent.y;
+
+            // We do this fuzzy checking because otherwise we would be duplicating the code
+            // that calculates the coordinates and any bug it may have, what we want is really
+            // to check that on collision with the border the menu is shifted substantially
+            if (data.minimumXDifference) {
+                verify(menu.x < normalPositioningX - data.minimumXDifference);
+            } else {
+                compare(menu.x, normalPositioningX);
+            }
+
+            if (data.minimumYDifference) {
+                verify(menu.y < normalPositioningY - data.minimumYDifference);
+            } else {
+                compare(menu.y, normalPositioningY);
+            }
         }
 
         function test_menuDoubleClickNoMaximizeWindowBehind() {

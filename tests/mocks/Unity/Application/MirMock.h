@@ -31,9 +31,13 @@ public:
     void setCursorName(const QString &cursorName) override;
     QString cursorName() const override;
 
+    QString currentKeymap() const override;
+    void setCurrentKeymap(const QString &keymap) override;
+
 private:
     static MirMock *the_mir;
     QString m_cursorName;
+    QString m_keymap;
 };
 
 #endif

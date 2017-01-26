@@ -53,6 +53,11 @@
       <summary>Enable or disable the indicator pull down menus</summary>
       <description>Toggle the availability of the indicator pull down menus</description>
     </key>
+    <key type="s" name="appstore-uri">
+      <default>'scope://com.canonical.scopes.clickstore'</default>
+      <summary>The uri to the app store</summary>
+      <description>This will be used whenever the user triggers an action to open the app store.</description>
+    </key>
   </schema>
 
   <schema path="/com/canonical/unity8/greeter/" id="com.canonical.Unity8.Greeter" gettext-domain="unity8">
