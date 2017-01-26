@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-01-10 14:48+0000\n"
+"POT-Creation-Date: 2017-01-24 07:46+0000\n"
 "PO-Revision-Date: 2015-12-01 20:06+0000\n"
 "Last-Translator: Kenan Gutić <Unknown>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -16,12 +16,40 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2017-01-16 05:47+0000\n"
-"X-Generator: Launchpad (build 18302)\n"
+"X-Launchpad-Export-Date: 2017-01-26 06:19+0000\n"
+"X-Generator: Launchpad (build 18315)\n"
 
-#: plugins/LightDM/Greeter.cpp:123
+#: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
 msgstr "Šifra: "
+
+#: plugins/LightDM/Greeter.cpp:203
+msgid "Username"
+msgstr ""
+
+#: plugins/LightDM/Greeter.cpp:242
+msgid "Failed to authenticate"
+msgstr ""
+
+#: plugins/LightDM/Greeter.cpp:244
+msgid "Invalid password, please try again"
+msgstr ""
+
+#: plugins/LightDM/Greeter.cpp:254
+msgid "Log In"
+msgstr ""
+
+#: plugins/LightDM/Greeter.cpp:254
+msgid "Retry"
+msgstr "Ponovi"
+
+#: plugins/LightDM/UsersModel.cpp:152
+msgid "Login"
+msgstr ""
+
+#: plugins/LightDM/UsersModel.cpp:160
+msgid "Guest Session"
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:50
 #: plugins/Unity/Launcher/launcheritem.cpp:122
@@ -36,55 +64,55 @@ msgstr "Napusti"
 msgid "Unpin shortcut"
 msgstr "Otkačite prečicu"
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:177
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Odjavite se"
 
-#: qml/Components/Dialogs.qml:150
+#: qml/Components/Dialogs.qml:178
 msgid "Are you sure you want to log out?"
 msgstr "Da li ste sigurni da se želite odjaviti?"
 
-#: qml/Components/Dialogs.qml:152
+#: qml/Components/Dialogs.qml:181
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Zaključaj"
 
-#: qml/Components/Dialogs.qml:160
+#: qml/Components/Dialogs.qml:191
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Odjavi se"
 
-#: qml/Components/Dialogs.qml:167 qml/Components/Dialogs.qml:225
-#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:264
+#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:222
 #: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Otkaži"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:211
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Ponovo pokreni"
 
-#: qml/Components/Dialogs.qml:180
+#: qml/Components/Dialogs.qml:212
 msgid "Are you sure you want to reboot?"
 msgstr "Da li ste sigurni da želite ponovo pokrenuti?"
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:215
 msgid "No"
 msgstr "Ne"
 
-#: qml/Components/Dialogs.qml:189
+#: qml/Components/Dialogs.qml:223
 msgid "Yes"
 msgstr "Da"
 
-#: qml/Components/Dialogs.qml:204
+#: qml/Components/Dialogs.qml:239
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Napajanje"
 
-#: qml/Components/Dialogs.qml:205
+#: qml/Components/Dialogs.qml:240
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -92,12 +120,12 @@ msgstr ""
 "Da li ste sigurni da želite\n"
 "isključiti?"
 
-#: qml/Components/Dialogs.qml:208
+#: qml/Components/Dialogs.qml:244
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Isključi"
 
-#: qml/Components/Dialogs.qml:217
+#: qml/Components/Dialogs.qml:255
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Restartuj"
@@ -123,7 +151,7 @@ msgid "Alt + PrtScr"
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
-msgid "Takes a screenshot of a window."
+msgid "Takes a screenshot of the current window."
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
@@ -270,7 +298,7 @@ msgstr ""
 msgid "Closes the current window."
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:242
 msgid "Return to Call"
 msgstr "Povratak na Poziv"
 
@@ -278,7 +306,7 @@ msgstr "Povratak na Poziv"
 msgid "Emergency Call"
 msgstr "Hitan Poziv"
 
-#: qml/Components/Lockscreen.qml:244
+#: qml/Components/Lockscreen.qml:245
 msgid "OK"
 msgstr "U redu"
 
@@ -292,31 +320,31 @@ msgstr ""
 msgid "%1:%2"
 msgstr ""
 
-#: qml/Components/ModeSwitchWarningDialog.qml:32
+#: qml/Components/ModeSwitchWarningDialog.qml:33
 msgid "Apps may have unsaved data:"
 msgstr "Aplikacije možda imaju podataka koji nisu sačuvani:"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:57
+#: qml/Components/ModeSwitchWarningDialog.qml:60
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
 
-#: qml/Components/ModeSwitchWarningDialog.qml:63
+#: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
 msgstr ""
 "Ili zatvori aplikaciju na silu (podaci koji nisu sačuvani će biti "
 "izgubljeni)."
 
-#: qml/Components/ModeSwitchWarningDialog.qml:75
+#: qml/Components/ModeSwitchWarningDialog.qml:80
 msgid "OK, I will reconnect"
 msgstr "Uredu, ponovno ću se povezati"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:76
+#: qml/Components/ModeSwitchWarningDialog.qml:81
 msgid "Reconnect now!"
 msgstr "Ponovo poveži sada"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:88
+#: qml/Components/ModeSwitchWarningDialog.qml:94
 msgid "Close all"
 msgstr "Zatvori sve"
 
@@ -467,44 +495,44 @@ msgstr[0] "Molim pričekajte %1 minutu i onda pokušajte ponovo..."
 msgstr[1] "Molim pričekajte %1 minute i onda pokušajte ponovo..."
 msgstr[2] "Molim pričekajte %1 minuta i onda pokušajte ponovo"
 
-#: qml/Greeter/Greeter.qml:592
+#: qml/Greeter/Greeter.qml:561
 msgid "Try again"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:70
+#: qml/Greeter/Greeter.qml:562
+msgid "Enter passphrase to unlock"
+msgstr ""
+
+#: qml/Greeter/Greeter.qml:563
+msgid "Enter passcode to unlock"
+msgstr ""
+
+#: qml/Greeter/NarrowView.qml:242
+msgid "Emergency"
+msgstr ""
+
+#: qml/Greeter/PromptList.qml:126
 msgid "Passphrase"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:71
+#: qml/Greeter/PromptList.qml:126
 msgid "Passcode"
-msgstr ""
-
-#: qml/Greeter/LoginList.qml:98
-msgid "Retry"
-msgstr "Ponovi"
-
-#: qml/Greeter/LoginList.qml:99
-msgid "Log In"
-msgstr ""
-
-#: qml/Greeter/NarrowView.qml:252
-msgid "Emergency"
 msgstr ""
 
 #: qml/Greeter/SessionsList.qml:122
 msgid "Select desktop environment"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:80
+#: qml/Launcher/Drawer.qml:92
 msgid "Search…"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:101
+#: qml/Launcher/Drawer.qml:123
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""
 
-#: qml/Launcher/MoreAppsHeader.qml:32
+#: qml/Launcher/MoreAppsHeader.qml:39
 msgid "More apps in the store"
 msgstr ""
 
