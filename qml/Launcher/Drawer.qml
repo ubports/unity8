@@ -95,11 +95,11 @@ FocusScope {
                 KeyNavigation.down: sections
 
                 onAccepted: {
-                    // In case there is no currentItem (it might have been filtered away) lets reset it to the first item
-                    if (listLoader.item && !listLoader.item.currentItem) {
-                        listLoader.item.currentIndex = 0;
-                    }
-                    if (searchField.displayText != "" && listLoader.item && listLoader.item.currentItem) {
+                    if (searchField.displayText != "" && listLoader.item) {
+                        // In case there is no currentItem (it might have been filtered away) lets reset it to the first item
+                        if (!listLoader.item.currentItem) {
+                            listLoader.item.currentIndex = 0;
+                        }
                         root.applicationSelected(listLoader.item.getFirstAppId());
                     }
                 }
