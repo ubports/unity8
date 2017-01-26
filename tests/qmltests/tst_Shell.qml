@@ -2810,5 +2810,33 @@ Rectangle {
             appDelegate.requestRestore();
             tryCompare(appDelegate, "state", "maximizedRight");
         }
+
+        function test_altTabToMinimizedApp() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var appSurfaceId = topLevelSurfaceList.nextId;
+            var app = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            // start dialer
+            var appContainer = findChild(shell, "appContainer");
+            var appDelegate = findChild(appContainer, "appDelegate_" + appSurfaceId);
+            verify(appDelegate);
+            tryCompare(appDelegate, "state", "normal");
+
+            // minimize dialer
+            appDelegate.requestMinimize();
+            tryCompare(appDelegate, "state", "minimized");
+
+            // try to bring dialer back from minimized by doing alt-tab
+            keyClick(Qt.Key_Tab, Qt.AltModifier);
+            tryCompare(appDelegate, "visible", true);
+            tryCompare(appDelegate, "focus", true);
+            tryCompare(topLevelSurfaceList.focusedWindow, "surface", appDelegate.surface);
+            tryCompare(topLevelSurfaceList.applicationAt(0), "appId", "dialer-app");
+        }
     }
 }
