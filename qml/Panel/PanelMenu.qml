@@ -140,6 +140,19 @@ Showable {
         visible: !root.fullyClosed
     }
 
+    Keys.onPressed: {
+        if (event.key === Qt.Key_Left) {
+            bar.setCurrentItemIndex(bar.currentItemIndex - 1);
+            event.accepted = true;
+        } else if (event.key === Qt.Key_Right) {
+            bar.setCurrentItemIndex(bar.currentItemIndex + 1);
+            event.accepted = true;
+        } else if (event.key === Qt.Key_Escape) {
+            root.hide();
+            event.accepted = true;
+        }
+    }
+
     PanelBar {
         id: bar
         objectName: "indicatorsBar"
@@ -368,6 +381,7 @@ Showable {
         State {
             name: "commit"
             extend: "locked"
+            PropertyChanges { target: root; focus: true }
             PropertyChanges { target: bar; interactive: true }
             PropertyChanges {
                 target: d;

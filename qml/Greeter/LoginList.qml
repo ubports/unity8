@@ -25,95 +25,50 @@ StyledItem {
     focus: true
 
     property alias model: userList.model
-    property bool alphanumeric: true
+    property alias alphanumeric: promptList.alphanumeric
     property int currentIndex
     property bool locked
     property bool waiting
     property alias boxVerticalOffset: highlightItem.y
 
-    readonly property alias passwordInput: passwordInput
     readonly property int numAboveBelow: 4
     readonly property int cellHeight: units.gu(5)
-    readonly property int highlightedHeight: units.gu(15)
+    readonly property int highlightedHeight: highlightItem.height
     readonly property int moveDuration: UbuntuAnimation.FastDuration
-    property string selectedSession
     property string currentSession
     readonly property string currentUser: userList.currentItem.username
-    property bool wasPrompted: false
 
-    signal loginListSessionChanged(string session)
     signal responded(string response)
     signal selected(int index)
     signal sessionChooserButtonClicked()
 
     function tryToUnlock() {
-        if (wasPrompted) {
-            passwordInput.forceActiveFocus();
-        } else {
-            if (root.locked) {
-                root.selected(currentIndex);
-            } else {
-                root.responded("");
-            }
-        }
-    }
-
-    function showMessage(html) {
-        if (infoLabel.text === "") {
-            infoLabel.text = html;
-        } else {
-            infoLabel.text += "<br>" + html;
-        }
-    }
-
-    function showPrompt(text, isSecret, isDefaultPrompt) {
-        passwordInput.text = isDefaultPrompt ? alphanumeric ? i18n.tr("Passphrase")
-                                                            : i18n.tr("Passcode")
-                                             : text;
-        passwordInput.isPrompt = true;
-        passwordInput.isSecret = isSecret;
-        passwordInput.reset();
-        wasPrompted = true;
+        promptList.forceActiveFocus();
     }
 
     function showError() {
         wrongPasswordAnimation.start();
-        root.resetAuthentication();
-    }
-
-    function reset() {
-        root.resetAuthentication();
     }
 
     function showFakePassword() {
-        passwordInput.showFakePassword();
+        promptList.interactive = false;
+        promptList.showFakePassword();
     }
-
-    QtObject {
-        id: d
-
-        function checkIfPromptless() {
-            if (!waiting && !wasPrompted) {
-                passwordInput.isPrompt = false;
-                passwordInput.text = root.locked ? i18n.tr("Retry")
-                                                 : i18n.tr("Log In")
-            }
-        }
-    }
-
-    onWaitingChanged: d.checkIfPromptless()
-    onLockedChanged: d.checkIfPromptless()
 
     theme: ThemeSettings {
         name: "Ubuntu.Components.Themes.Ambiance"
     }
 
     Keys.onUpPressed: {
-        selected(currentIndex - 1);
+        if (currentIndex > 0) {
+            selected(currentIndex - 1);
+        }
         event.accepted = true;
     }
     Keys.onDownPressed: {
-        selected(currentIndex + 1);
+        if (currentIndex + 1 < model.count) {
+            selected(currentIndex + 1);
+        }
         event.accepted = true;
     }
     Keys.onEscapePressed: {
@@ -135,7 +90,8 @@ StyledItem {
             rightMargin: units.gu(2)
         }
 
-        height: root.highlightedHeight
+        height: Math.max(units.gu(15), promptList.height + units.gu(8))
+        Behavior on height { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
     }
 
     ListView {
@@ -153,14 +109,8 @@ StyledItem {
         interactive: count > 1
 
         readonly property bool movingInternally: moveTimer.running || userList.moving
-        onMovingInternallyChanged: {
-            if (!movingInternally) {
-                root.selected(currentIndex);
-            }
-        }
 
         onCurrentIndexChanged: {
-            root.resetAuthentication();
             moveTimer.start();
         }
 
@@ -203,7 +153,10 @@ StyledItem {
                     // Add an offset to bottomMargin for any items below the highlight
                     bottomMargin: -(units.gu(4) + (parent.belowHighlight ? parent.belowOffset : 0))
                 }
-                text: realName
+                text: userList.currentIndex === index
+                      && name === "*other"
+                      && LightDMService.greeter.authenticationUser !== ""
+                      ?  LightDMService.greeter.authenticationUser : realName
                 color: userList.currentIndex !== index ? theme.palette.normal.raised
                                                        : theme.palette.normal.raisedText
 
@@ -309,64 +262,42 @@ StyledItem {
         }
     }
 
-    FadingLabel {
-        id: infoLabel
-        objectName: "infoLabel"
-        anchors {
-            bottom: passwordInput.top
-            left: highlightItem.left
-            topMargin: units.gu(1)
-            bottomMargin: units.gu(1)
-            leftMargin: units.gu(2)
-            rightMargin: units.gu(1)
-        }
-
-        color: theme.palette.normal.raisedText
-        width: root.width - anchors.leftMargin - anchors.rightMargin
-        fontSize: "small"
-        textFormat: Text.StyledText
-
-        opacity: (userList.movingInternally || text == "") ? 0 : 1
-        Behavior on opacity {
-            NumberAnimation { duration: 100 }
-        }
-    }
-
-    GreeterPrompt {
-        id: passwordInput
-        objectName: "passwordInput"
+    PromptList {
+        id: promptList
+        objectName: "promptList"
         anchors {
             bottom: highlightItem.bottom
             horizontalCenter: highlightItem.horizontalCenter
             margins: units.gu(2)
         }
         width: highlightItem.width - anchors.margins * 2
-        opacity: userList.movingInternally ? 0 : 1
 
-        activeFocusOnTab: true
-        isAlphanumeric: root.alphanumeric
-
-        onClicked: root.tryToUnlock()
-        onResponded: root.responded(text)
-        onCanceled: root.selected(currentIndex)
-
-        Behavior on opacity {
-            NumberAnimation { duration: 100 }
+        onClicked: {
+            interactive = false;
+            if (root.locked) {
+                root.selected(currentIndex);
+            } else {
+                root.responded("");
+            }
+        }
+        onResponded: {
+            interactive = false;
+            root.responded(text);
+        }
+        onCanceled: {
+            interactive = false;
+            root.selected(currentIndex);
         }
 
-        WrongPasswordAnimation {
-            id: wrongPasswordAnimation
-            objectName: "wrongPasswordAnimation"
-            target: passwordInput
+        Connections {
+            target: LightDMService.prompts
+            onModelReset: promptList.interactive = true
         }
     }
 
-    function resetAuthentication() {
-        if (!userList.currentItem) {
-            return;
-        }
-        infoLabel.text = "";
-        passwordInput.reset();
-        root.wasPrompted = false;
+    WrongPasswordAnimation {
+        id: wrongPasswordAnimation
+        objectName: "wrongPasswordAnimation"
+        target: promptList
     }
 }
