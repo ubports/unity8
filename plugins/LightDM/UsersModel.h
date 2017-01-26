@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013 Canonical, Ltd.
+ * Copyright (C) 2012-2013,2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,19 +12,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors: Michael Terry <michael.terry@canonical.com>
  */
 
 /* This class is a really tiny filter around QLightDM::UsersModel.  There are
    some operations that we want to edit a bit for the benefit of Qml.
    Specifically, we want to sort users according to realName. */
 
-#ifndef UNITY_USERSMODEL_H
-#define UNITY_USERSMODEL_H
+#pragma once
 
 #include <unitysortfilterproxymodelqml.h>
-#include <QtCore/QObject>
+#include <QObject>
 
 class UsersModel : public UnitySortFilterProxyModelQML
 {
@@ -32,6 +29,7 @@ class UsersModel : public UnitySortFilterProxyModelQML
 
 public:
     explicit UsersModel(QObject* parent=0);
-};
 
-#endif
+protected:
+    bool lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const override;
+};

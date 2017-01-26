@@ -25,6 +25,12 @@ ListView {
     bottomMargin: units.gu(1)
     spacing: units.gu(1)
     clip: true
+    focus: true
+
+    onActiveFocusChanged: {
+        currentIndex = -1;
+        currentIndex = 0;
+    }
 
     function getFirstAppId() {
         return model.appId(0);
