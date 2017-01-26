@@ -257,9 +257,10 @@ void SurfaceManager::focusFirstAvailableSurface()
     if (m_focusedSurface) {
         m_focusedSurface->setFocused(false);
     }
-    if (chosenSurface) {
-        chosenSurface->setFocused(true);
-    }
+
+    chosenSurface->setFocused(true);
+    doRaise(chosenSurface);
+
     m_focusedSurface = chosenSurface;
 }
 
