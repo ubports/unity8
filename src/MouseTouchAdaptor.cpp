@@ -72,6 +72,7 @@ namespace {
 MouseTouchAdaptor *g_instance = nullptr;
 
 const Qt::KeyboardModifiers TRI_PRESS_MODIFIER = Qt::ShiftModifier|Qt::ControlModifier|Qt::AltModifier;
+const Qt::KeyboardModifiers QUAD_PRESS_MODIFIER = TRI_PRESS_MODIFIER|Qt::MetaModifier;
 
 Qt::MouseButton translateMouseButton(xcb_button_t detail)
 {
@@ -91,7 +92,7 @@ Qt::KeyboardModifiers translateMofidier(uint32_t mod)
     if (mod & 0x01) qtMod |= Qt::ShiftModifier;
     if (mod & 0x04) qtMod |= Qt::ControlModifier;
     if (mod & 0x08) qtMod |= Qt::AltModifier;
-    if (mod & 0x80) qtMod |= Qt::MetaModifier;
+    if (mod & 0x40) qtMod |= Qt::MetaModifier;
 
     return qtMod;
 }
@@ -101,6 +102,7 @@ MouseTouchAdaptor::MouseTouchAdaptor()
     : QObject(nullptr)
     , m_leftButtonIsPressed(false)
     , m_triPressModifier(false)
+    , m_quadPressModifier(false)
     , m_enabled(true)
 {
     QCoreApplication::instance()->installNativeEventFilter(this);
@@ -297,6 +299,13 @@ bool MouseTouchAdaptor::handleButtonPress(WId windowId, uint32_t detail, uint32_
         touchEvent.press(2, windowPos);
         m_triPressModifier = true;
     }
+    if (qtMod == QUAD_PRESS_MODIFIER) {
+        touchEvent.press(1, windowPos);
+        touchEvent.press(2, windowPos);
+        touchEvent.press(3, windowPos);
+        m_quadPressModifier = true;
+    }
+
     touchEvent.commit(false /* processEvents */);
 
     m_leftButtonIsPressed = true;
@@ -322,10 +331,16 @@ bool MouseTouchAdaptor::handleButtonRelease(WId windowId, uint32_t detail, uint3
         touchEvent.release(1, windowPos);
         touchEvent.release(2, windowPos);
     }
+    if (m_quadPressModifier) {
+        touchEvent.release(1, windowPos);
+        touchEvent.release(2, windowPos);
+        touchEvent.release(3, windowPos);
+    }
     touchEvent.commit(false /* processEvents */);
 
     m_leftButtonIsPressed = false;
     m_triPressModifier = false;
+    m_quadPressModifier = false;
     return true;
 }
 
@@ -352,6 +367,18 @@ bool MouseTouchAdaptor::handleMotionNotify(WId windowId, uint32_t modifiers, int
             touchEvent.release(1, windowPos);
             touchEvent.release(2, windowPos);
             m_triPressModifier = false;
+        }
+    }
+    if (m_quadPressModifier) {
+        if (qtMod == QUAD_PRESS_MODIFIER) {
+            touchEvent.move(1, windowPos);
+            touchEvent.move(2, windowPos);
+            touchEvent.move(3, windowPos);
+        } else {
+            touchEvent.release(1, windowPos);
+            touchEvent.release(2, windowPos);
+            touchEvent.release(3, windowPos);
+            m_quadPressModifier = false;
         }
     }
     touchEvent.commit(false /* processEvents */);

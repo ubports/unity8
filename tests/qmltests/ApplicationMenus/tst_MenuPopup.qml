@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (C) 2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -28,8 +28,8 @@ import ".."
 
 Item {
     id: root
-    width:  Math.max(units.gu(100), page.width + units.gu(6))
-    height:  Math.max(units.gu(50), page.height + units.gu(6))
+    width:  Math.max(units.gu(100), loader.width + units.gu(6))
+    height:  Math.max(units.gu(50), loader.height + units.gu(6))
 
     Binding {
         target: MouseTouchAdaptor
@@ -39,25 +39,37 @@ Item {
 
     ApplicationMenuDataLoader { id: appMenuData }
 
-    MenuPopup {
-        id: page
+    Loader {
+        id: loader
+        sourceComponent: MenuPopup {
+            anchors {
+                left: parent ? parent.left : undefined
+                top: parent ? parent.top : undefined
+                leftMargin: units.gu(3)
+                topMargin: units.gu(3)
+            }
 
-        anchors {
-            left: parent.left
-            top: parent.top
-            leftMargin: units.gu(3)
-            topMargin: units.gu(3)
-        }
+            unityMenuModel: UnityMenuModel {
+                modelData: [{
+                        "rowData": {
+                            "label": "Short",
+                        }}, {
+                       "rowData": {
+                           "label": "This is a long menu item which tests width",
+                       }}
+                    ]
+            }
 
-        unityMenuModel: UnityMenuModel {
-            id: menuBackend
-            modelData: appMenuData.generateTestData(7,5,2,3,"menu")
+            Binding {
+                target: activatedSpy
+                property: "target"
+                value: unityMenuModel
+            }
         }
     }
 
     SignalSpy {
         id: activatedSpy
-        target: menuBackend
         signalName: "activated"
     }
 
@@ -66,14 +78,20 @@ Item {
         name: "MenuPopup"
         when: windowShown
 
+        property var menu: loader.status === Loader.Ready ? loader.item : null
+
         function init() {
-            page.show();
+            loader.active = true;
+            menu.show();
         }
 
         function cleanup() {
-            page.reset();
+            menu.reset();
             wait(100); // let the page dismiss
             activatedSpy.clear();
+
+            loader.active = false;
+            tryCompare(loader, "item", null);
         }
 
         // visit and verify that all the backend menus have been created
@@ -90,6 +108,7 @@ Item {
                 // recurse into submenu
                 var submenu = rows[i]["submenu"];
                 if (submenu) {
+                    waitForRendering(menuItem);
                     mouseClick(menuItem, menuItem.width/2, menuItem.height/2);
                     tryCompare(menuPriv, "currentItem", menuItem);
 
@@ -113,15 +132,15 @@ Item {
         }
 
         function test_mouseNavigation(data) {
-            menuBackend.modelData = data.testData;
+            menu.unityMenuModel.modelData = data.testData;
 
-            recurseMenuConstruction(data.testData, page);
+            recurseMenuConstruction(data.testData, menu);
         }
 
         function test_checkableMenuTogglesOnClick() {
-            menuBackend.modelData = appMenuData.singleCheckable;
+            menu.unityMenuModel.modelData = appMenuData.singleCheckable;
 
-            var menuItem = findChild(page, "menu-item0-actionItem");
+            var menuItem = findChild(menu, "menu-item0-actionItem");
             verify(menuItem);
             compare(menuItem.action.checkable, true, "Menu item should be checkable");
             compare(menuItem.action.checked, false, "Menu item should not be checked");
@@ -132,13 +151,13 @@ Item {
         }
 
         function test_keyboardNavigation_DownKeySelectsAndOpensNextMenuItemAndRotates() {
-            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0,"menu",false);
+            menu.unityMenuModel.modelData = appMenuData.generateTestData(3,3,0,0,"menu",false);
 
-            var item0 = findChild(page, "menu-item0"); verify(item0);
-            var item1 = findChild(page, "menu-item1"); verify(item1);
-            var item2 = findChild(page, "menu-item2"); verify(item2);
+            var item0 = findChild(menu, "menu-item0"); verify(item0);
+            var item1 = findChild(menu, "menu-item1"); verify(item1);
+            var item2 = findChild(menu, "menu-item2"); verify(item2);
 
-            var priv = findInvisibleChild(page, "d");
+            var priv = findInvisibleChild(menu, "d");
 
             keyClick(Qt.Key_Down, Qt.NoModifier);
             compare(priv.currentItem, item0, "CurrentItem should have moved to item 0");
@@ -154,13 +173,13 @@ Item {
         }
 
         function test_keyboardNavigation_UpKeySelectsAndOpensPreviousMenuItemAndRotates() {
-            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0,"menu",false);
+            menu.unityMenuModel.modelData = appMenuData.generateTestData(3,3,0,0,"menu",false);
 
-            var item0 = findChild(page, "menu-item0"); verify(item0);
-            var item1 = findChild(page, "menu-item1"); verify(item1);
-            var item2 = findChild(page, "menu-item2"); verify(item2);
+            var item0 = findChild(menu, "menu-item0"); verify(item0);
+            var item1 = findChild(menu, "menu-item1"); verify(item1);
+            var item2 = findChild(menu, "menu-item2"); verify(item2);
 
-            var priv = findInvisibleChild(page, "d");
+            var priv = findInvisibleChild(menu, "d");
 
             keyClick(Qt.Key_Down, Qt.NoModifier);
             compare(priv.currentItem, item0, "CurrentItem should have moved to item 2");
@@ -176,17 +195,17 @@ Item {
         }
 
         function test_keyboardNavigation_RightKeyEntersSubMenu() {
-            menuBackend.modelData = appMenuData.generateTestData(3,3,1,0,"menu",false);
+            menu.unityMenuModel.modelData = appMenuData.generateTestData(3,3,1,0,"menu",false);
 
-            var menuItem = findChild(page, "menu-item0");
+            var menuItem = findChild(menu, "menu-item0");
 
-            var priv = findInvisibleChild(page, "d");
+            var priv = findInvisibleChild(menu, "d");
             priv.currentItem = menuItem;
 
             keyClick(Qt.Key_Right, Qt.NoModifier);
             tryCompareFunction(function() { return menuItem.popup !== null && menuItem.popup.visible }, true);
 
-            var submenu0 = findChild(page, "menu-item0-menu"); verify(submenu0);
+            var submenu0 = findChild(menu, "menu-item0-menu"); verify(submenu0);
             var submenu0item0 = findChild(submenu0, "menu-item0-menu-item0"); verify(submenu0item0);
 
             var submenu0Priv = findInvisibleChild(submenu0, "d"); verify(submenu0Priv);
@@ -194,14 +213,106 @@ Item {
         }
 
         function test_keyboardNavigation_LeftKeyClosesSubMenu() {
-            menuBackend.modelData = appMenuData.generateTestData(3,3,1,0,"menu",false);
+            menu.unityMenuModel.modelData = appMenuData.generateTestData(3,3,1,0,"menu",false);
 
-            var menuItem = findChild(page, "menu-item0"); verify(menuItem);
+            var menuItem = findChild(menu, "menu-item0"); verify(menuItem);
             mouseClick(menuItem, menuItem.width/2, menuItem.height/2);
             tryCompareFunction(function() { return menuItem.popup !== null && menuItem.popup.visible }, true);
 
             keyClick(Qt.Key_Left, Qt.NoModifier);
             tryCompareFunction(function() { return menuItem.popup !== null && menuItem.popup.visible }, false);
+        }
+
+        function test_differentSizes() {
+            var differentSizesMenu = [{
+                "rowData": { "label": "Short" }}, {
+                "rowData": { "label": "This is a long menu item which tests width" }
+            }];
+
+            menu.unityMenuModel.modelData = differentSizesMenu;
+
+            waitForRendering(menu);
+            var longWidth = menu.width;
+            differentSizesMenu.pop();
+            menu.unityMenuModel.modelData = differentSizesMenu;
+
+            waitForRendering(menu);
+            verify(menu.width < longWidth);
+        }
+
+        function test_minimumWidth() {
+            var shortMenu = [{
+                "rowData": { "label": "Short" }
+            }];
+            menu.unityMenuModel.modelData = shortMenu;
+
+            var priv = findInvisibleChild(menu, "d");
+            priv.__minimumWidth = 0;
+            priv.__maximumWidth = 1000;
+            tryCompareFunction(function() { return menu.width > priv.__minimumWidth; }, true);
+
+            priv.__minimumWidth = 300;
+            tryCompare(menu, "width", priv.__minimumWidth);
+        }
+
+        function test_maximumWidth() {
+            var longMenu = [{
+                "rowData": { "label": "This is a long menu item which tests width" }
+            }];
+
+            var priv = findInvisibleChild(menu, "d");
+            priv.__minimumWidth = 0;
+            priv.__maximumWidth = 100;
+
+            menu.unityMenuModel.modelData = longMenu;
+            tryCompare(menu, "width", priv.__maximumWidth);
+
+            priv.__maximumWidth = 200;
+            tryCompare(menu, "width", priv.__maximumWidth);
+
+            priv.__maximumWidth = 1200;
+            tryCompareFunction(function() { return menu.width < priv.__maximumWidth; }, true);
+        }
+
+        function test_minimumHeight() {
+            var shortMenu = [{
+                "rowData": { "label": "menu1" }
+            }];
+            menu.unityMenuModel.modelData = shortMenu;
+
+            var priv = findInvisibleChild(menu, "d");
+            priv.__minimumHeight = 0;
+            priv.__maximumHeight = 1000;
+            tryCompareFunction(function() { return menu.height > priv.__minimumHeight; }, true);
+
+            priv.__minimumHeight = 300;
+            tryCompare(menu, "height", priv.__minimumHeight);
+        }
+
+        function test_maximumHeight() {
+            var shortMenu = [{
+                "rowData": { "label": "menu1" }}, {
+                "rowData": { "label": "menu2" }}, {
+                "rowData": { "label": "menu3" }}, {
+                "rowData": { "label": "menu4" }}, {
+                "rowData": { "label": "menu5" }}, {
+                "rowData": { "label": "menu6" }}, {
+                "rowData": { "label": "menu7" }}, {
+                "rowData": { "label": "menu8" }}, {
+                "rowData": { "label": "menu9" }
+            }];
+            menu.unityMenuModel.modelData = shortMenu;
+
+            var priv = findInvisibleChild(menu, "d");
+            priv.__minimumHeight = 0;
+            priv.__maximumHeight = 100;
+            tryCompare(menu, "height", priv.__maximumHeight);
+
+            priv.__maximumHeight = 200;
+            tryCompare(menu, "height", priv.__maximumHeight);
+
+            priv.__maximumHeight = 1200;
+            tryCompareFunction(function() { return menu.height < priv.__maximumHeight; }, true);
         }
     }
 }

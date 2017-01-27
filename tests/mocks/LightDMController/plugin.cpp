@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,28 +12,24 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
-#ifndef MOCK_UNITY_USERSMODEL_H
-#define MOCK_UNITY_USERSMODEL_H
+#include "plugin.h"
 
-#include <UsersModel.h>
+#include "MockController.h"
 
-class MockUsersModel : public UsersModel
+#include <QtQml/qqml.h>
+
+static QObject *mock_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
-    Q_OBJECT
+    Q_UNUSED(scriptEngine)
+    auto controller = QLightDM::MockController::instance();
+    engine->setObjectOwnership(controller, QQmlEngine::CppOwnership);
+    return controller;
+}
 
-    Q_PROPERTY(QString mockMode READ mockMode WRITE setMockMode NOTIFY mockModeChanged)
-
-public:
-    explicit MockUsersModel(QObject* parent=0);
-
-    QString mockMode() const;
-    void setMockMode(QString mockMode);
-
-Q_SIGNALS:
-    void mockModeChanged(QString mode);
-};
-
-#endif // MOCK_UNITY_USERSMODEL_H
+void LightDMControllerPlugin::registerTypes(const char *uri)
+{
+    Q_ASSERT(uri == QLatin1String("LightDMController"));
+    qmlRegisterSingletonType<QLightDM::MockController>(uri, 0, 1, "LightDMController", mock_provider);
+}

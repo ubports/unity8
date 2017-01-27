@@ -77,7 +77,7 @@ Rectangle {
                     font.weight: Font.Medium
                 }
                 Label {
-                    text: i18n.tr("Takes a screenshot of a window.")
+                    text: i18n.tr("Takes a screenshot of the current window.")
                     fontSize: "small"
                     font.weight: Font.Light
                     wrapMode: Text.Wrap

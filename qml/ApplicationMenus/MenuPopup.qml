@@ -26,19 +26,7 @@ UbuntuShape {
     objectName: "menu"
     backgroundColor: theme.palette.normal.overlay
 
-    property alias unityMenuModel: listView.model
-
-    readonly property real __ajustedMinimumHeight: {
-        if (listView.contentHeight > __minimumHeight) {
-            return units.gu(30);
-        }
-        return Math.max(listView.contentHeight, units.gu(2));
-    }
-
-    readonly property real __minimumWidth: units.gu(20)
-    readonly property real __minimumHeight: units.gu(30)
-    readonly property real __maximumWidth: Screen.width * 0.7
-    readonly property real __maximumHeight: Screen.height * 0.7
+    property alias unityMenuModel: repeater.model
 
     function show() {
         visible = true;
@@ -63,17 +51,22 @@ UbuntuShape {
         d.dismissAll();
     }
 
-    implicitWidth: container.width
-    implicitHeight: MathUtils.clamp(listView.contentHeight, __ajustedMinimumHeight, __maximumHeight)
+    implicitWidth: focusScope.width
+    implicitHeight: focusScope.height
 
     MenuNavigator {
         id: d
         objectName: "d"
-        itemView: listView
+        itemView: repeater
 
         property Item currentItem: null
         property Item hoveredItem: null
         readonly property int currentIndex: currentItem ? currentItem.__ownIndex : -1
+
+        property real __minimumWidth: units.gu(20)
+        property real __maximumWidth: Screen.width * 0.7
+        property real __minimumHeight: units.gu(2)
+        property real __maximumHeight: Screen.height * 0.7
 
         signal dismissAll()
 
@@ -86,13 +79,26 @@ UbuntuShape {
         }
 
         onSelect: {
-            currentItem = listView.itemAt(index);
+            currentItem = repeater.itemAt(index);
+            if (currentItem) {
+                if (currentItem.y < listView.contentY) {
+                    listView.contentY = currentItem.y;
+                } else if (currentItem.y + currentItem.height > listView.contentY + listView.height) {
+                    listView.contentY = currentItem.y + currentItem.height - listView.height;
+                }
+            }
         }
+    }
+
+    MouseArea {
+        // Eat events.
+        anchors.fill: parent
     }
 
     Item {
         id: focusScope
-        anchors.fill: parent
+        width: container.width
+        height: container.height
         focus: visible
 
         Keys.onUpPressed: d.selectPrevious(d.currentIndex)
@@ -108,17 +114,17 @@ UbuntuShape {
             id: container
             objectName: "container"
 
-            width: listView.contentWidth
-            height: parent.height
+            height: MathUtils.clamp(listView.contentHeight, d.__minimumHeight, d.__maximumHeight)
+            width: menuColumn.width
             spacing: 0
 
-            // FIXME use ListView.header - tried but was flaky with positionViewAtIndex.
+            // Header - scroll up
             Item {
-                Layout.fillWidth: true;
-                Layout.maximumHeight: units.gu(3)
-                Layout.minimumHeight: units.gu(3)
+                Layout.fillWidth: true
+                height: units.gu(3)
                 visible: listView.contentHeight > root.height
                 enabled: !listView.atYBeginning
+                z: 1
 
                 Rectangle {
                     color: enabled ? theme.palette.normal.overlayText :
@@ -143,47 +149,35 @@ UbuntuShape {
                 MouseArea {
                     anchors.fill: parent
                     onPressed: {
-                        var index = listView.indexAt(0, listView.contentY);
-                        listView.positionViewAtIndex(index-1, ListView.Beginning);
+                        var item = menuColumn.childAt(0, listView.contentY);
+                        if (item) {
+                            var previousItem = item;
+                            do {
+                                previousItem = repeater.itemAt(previousItem.__ownIndex-1);
+                                if (!previousItem) {
+                                    listView.contentY = 0;
+                                    return;
+                                }
+                            } while (previousItem.__isSeparator);
+
+                            listView.contentY = previousItem.y
+                        }
                     }
                 }
             }
 
-            ListView {
+            // Menu Items
+            Flickable {
                 id: listView
-                objectName: "listView"
+                clip: interactive
+
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                contentWidth: MathUtils.clamp(contentItem.childrenRect.width,
-                                              __minimumWidth,
-                                              __maximumWidth)
-
-                orientation: Qt.Vertical
-                interactive: contentHeight > height
-                clip: interactive
-                highlightFollowsCurrentItem: false
-
-                highlight: Rectangle {
-                    color: "transparent"
-                    border.width: units.dp(1)
-                    border.color: UbuntuColors.orange
-                    z: 1
-
-                    width: listView.width
-                    height:  d.currentItem ? d.currentItem.height : 0
-                    y:  d.currentItem ? d.currentItem.y : 0
-                    visible: d.currentItem
-                }
-
-                function itemAt(index) {
-                    if (index > count || index < 0) return null;
-                    currentIndex = index;
-                    return currentItem;
-                }
+                contentHeight: menuColumn.height
+                interactive: height < contentHeight
 
                 MouseArea {
-                    id: menuMouseArea
-                    anchors.fill: listView
+                    anchors.fill: parent
                     hoverEnabled: true
                     propagateComposedEvents: true // propogate events so we send clicks to children.
                     z: 1 // on top so we override any other hovers
@@ -195,7 +189,7 @@ UbuntuShape {
 
                         if (!d.hoveredItem || !d.currentItem ||
                                 !d.hoveredItem.contains(Qt.point(pos.x - d.currentItem.x, pos.y - d.currentItem.y))) {
-                            d.hoveredItem = listView.itemAt(listView.indexAt(pos.x, pos.y));
+                            d.hoveredItem = menuColumn.childAt(pos.x, pos.y)
                             if (!d.hoveredItem || !d.hoveredItem.enabled)
                                 return false;
                             d.currentItem = d.hoveredItem;
@@ -216,89 +210,123 @@ UbuntuShape {
                     }
                 }
 
-                delegate: Loader {
-                    id: loader
-                    objectName: root.objectName + "-item" + __ownIndex
+                ColumnLayout {
+                    id: menuColumn
+                    spacing: 0
 
-                    property int __ownIndex: index
+                    width: MathUtils.clamp(implicitWidth, d.__minimumWidth, d.__maximumWidth)
 
-                    width: root.width
-                    enabled: model.isSeparator ? false : model.sensitive
+                    Repeater {
+                        id: repeater
 
-                    sourceComponent: {
-                        if (model.isSeparator) {
-                            return separatorComponent;
-                        }
-                        return menuItemComponent;
-                    }
+                        Loader {
+                            id: loader
+                            objectName: root.objectName + "-item" + __ownIndex
 
-                    property Item popup: null
+                            property int __ownIndex: index
+                            property bool __isSeparator: model.isSeparator
 
-                    Component {
-                        id: menuItemComponent
-                        MenuItem {
-                            id: menuItem
-                            menuData: model
-                            objectName: loader.objectName + "-actionItem"
+                            enabled: __isSeparator ? false : model.sensitive
 
-                            action.onTriggered: {
-                                d.currentItem = loader;
+                            sourceComponent: {
+                                if (model.isSeparator) {
+                                    return separatorComponent;
+                                }
+                                return menuItemComponent;
+                            }
 
-                                if (hasSubmenu) {
-                                    if (!popup) {
-                                        var model = root.unityMenuModel.submenu(__ownIndex);
-                                        popup = submenuComponent.createObject(focusScope, {
-                                                                                  objectName: loader.objectName + "-",
-                                                                                  unityMenuModel: model,
-                                                                                  x: Qt.binding(function() { return root.width }),
-                                                                                  y: Qt.binding(function() { return loader.y })
-                                                                              });
-                                    } else if (popup) {
-                                        popup.visible = true;
+                            property Item popup: null
+
+                            Layout.fillWidth: true
+
+                            Component {
+                                id: menuItemComponent
+                                MenuItem {
+                                    id: menuItem
+                                    menuData: model
+                                    objectName: loader.objectName + "-actionItem"
+
+                                    width: MathUtils.clamp(implicitWidth, d.__minimumWidth, d.__maximumWidth)
+
+                                    action.onTriggered: {
+                                        d.currentItem = loader;
+
+                                        if (hasSubmenu) {
+                                            if (!popup) {
+                                                var model = root.unityMenuModel.submenu(__ownIndex);
+                                                popup = submenuComponent.createObject(focusScope, {
+                                                                                          objectName: loader.objectName + "-",
+                                                                                          unityMenuModel: model,
+                                                                                          x: Qt.binding(function() { return root.width }),
+                                                                                          y: Qt.binding(function() {
+                                                                                              var dummy = listView.contentY; // force a recalc on contentY change.
+                                                                                              return mapToItem(container, 0, y).y;
+                                                                                          })
+                                                                                      });
+                                            } else if (popup) {
+                                                popup.visible = true;
+                                            }
+                                            popup.retreat.connect(function() {
+                                                popup.destroy();
+                                                popup = null;
+                                                menuItem.forceActiveFocus();
+                                            })
+                                        } else {
+                                            root.unityMenuModel.activate(__ownIndex);
+                                        }
                                     }
-                                    popup.retreat.connect(function() {
-                                        popup.destroy();
-                                        popup = null;
-                                        menuItem.forceActiveFocus();
-                                    })
-                                } else {
-                                    root.unityMenuModel.activate(__ownIndex);
+
+                                    Connections {
+                                        target: d
+                                        onCurrentIndexChanged: {
+                                            if (popup && d.currentIndex != __ownIndex) {
+                                                popup.visible = false;
+                                            }
+                                        }
+                                        onDismissAll: {
+                                            if (popup) {
+                                                popup.destroy();
+                                                popup = null;
+                                            }
+                                        }
+                                    }
                                 }
                             }
 
-                            Connections {
-                                target: d
-                                onCurrentIndexChanged: {
-                                    if (popup && d.currentIndex != __ownIndex) {
-                                        popup.visible = false;
-                                    }
-                                }
-                                onDismissAll: {
-                                    if (popup) {
-                                        popup.destroy();
-                                        popup = null;
-                                    }
+                            Component {
+                                id: separatorComponent
+                                ListItems.ThinDivider {
+                                    objectName: loader.objectName + "-separator"
+                                    implicitHeight: units.dp(2)
                                 }
                             }
                         }
-                    }
 
-                    Component {
-                        id: separatorComponent
-                        ListItems.ThinDivider {
-                            objectName: loader.objectName + "-separator"
-                        }
                     }
                 }
-            } // ListView
 
-            // FIXME use ListView.footer - tried but was flaky with positionViewAtIndex.
+                // Highlight
+                Rectangle {
+                    color: "transparent"
+                    border.width: units.dp(1)
+                    border.color: UbuntuColors.orange
+                    z: 1
+
+                    width: listView.width
+                    height:  d.currentItem ? d.currentItem.height : 0
+                    y:  d.currentItem ? d.currentItem.y : 0
+                    visible: d.currentItem
+                }
+
+            } // Flickable
+
+            // Header - scroll down
             Item {
-                Layout.fillWidth: true;
-                Layout.maximumHeight: units.gu(3)
-                Layout.minimumHeight: units.gu(3)
+                Layout.fillWidth: true
+                height: units.gu(3)
                 visible: listView.contentHeight > root.height
                 enabled: !listView.atYEnd
+                z: 1
 
                 Rectangle {
                     color: enabled ? theme.palette.normal.overlayText :
@@ -323,8 +351,19 @@ UbuntuShape {
                 MouseArea {
                     anchors.fill: parent
                     onPressed: {
-                        var index = listView.indexAt(0, listView.contentY);
-                        listView.positionViewAtIndex(index+1, ListView.Beginning);
+                        var item = menuColumn.childAt(0, listView.contentY + listView.height);
+                        if (item) {
+                            var nextItem = item;
+                            do {
+                                nextItem = repeater.itemAt(nextItem.__ownIndex+1);
+                                if (!nextItem) {
+                                    listView.contentY = listView.contentHeight - listView.height;
+                                    return;
+                                }
+                            } while (nextItem.__isSeparator);
+
+                            listView.contentY = nextItem.y - listView.height
+                        }
                     }
                 }
             }

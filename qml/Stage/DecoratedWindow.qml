@@ -198,17 +198,18 @@ FocusScope {
         ]
     }
 
-    MouseArea {
+    WindowDecoration {
+        id: decoration
+        closeButtonVisible: root.application.appId !== "unity8-dash"
+        objectName: "appWindowDecoration"
+
         anchors { left: parent.left; top: parent.top; right: parent.right }
         height: units.gu(3)
 
+        title: applicationWindow.title
+
         opacity: root.hasDecoration ? Math.min(1, root.showDecoration) : 0
-
         Behavior on opacity { UbuntuNumberAnimation { } }
-
-        drag.target: Item {}
-        drag.filterChildren: true
-        drag.threshold: 0
 
         onPressed: root.decorationPressed();
         onPressedChanged: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
@@ -218,47 +219,39 @@ FocusScope {
             moveHandler.handleReleased();
         }
 
-        WindowDecoration {
-            id: decoration
-            closeButtonVisible: root.application.appId !== "unity8-dash"
-            objectName: "appWindowDecoration"
-            anchors.fill: parent
-            title: applicationWindow.title
+        onCloseClicked: root.closeClicked();
+        onMaximizeClicked: { root.decorationPressed(); root.maximizeClicked(); }
+        onMaximizeHorizontallyClicked: { root.decorationPressed(); root.maximizeHorizontallyClicked(); }
+        onMaximizeVerticallyClicked: { root.decorationPressed(); root.maximizeVerticallyClicked(); }
+        onMinimizeClicked: root.minimizeClicked();
 
-            onCloseClicked: root.closeClicked();
-            onMaximizeClicked: { root.decorationPressed(); root.maximizeClicked(); }
-            onMaximizeHorizontallyClicked: { root.decorationPressed(); root.maximizeHorizontallyClicked(); }
-            onMaximizeVerticallyClicked: { root.decorationPressed(); root.maximizeVerticallyClicked(); }
-            onMinimizeClicked: root.minimizeClicked();
+        enableMenus: {
+            return active &&
+                     surface &&
+                      (panelState.focusedPersistentSurfaceId === surface.persistentId && !panelState.decorationsVisible)
+        }
+        menu: sharedAppModel.model
 
-            enableMenus: {
-                return active &&
-                         surface &&
-                          (panelState.focusedPersistentSurfaceId === surface.persistentId && !panelState.decorationsVisible)
-            }
-            menu: sharedAppModel.model
+        Indicators.SharedUnityMenuModel {
+            id: sharedAppModel
+            property var menus: surface ? ApplicationMenuRegistry.getMenusForSurface(surface.persistentId) : []
+            property var menuService: menus.length > 0 ? menus[0] : undefined
 
-            Indicators.SharedUnityMenuModel {
-                id: sharedAppModel
-                property var menus: surface ? ApplicationMenuRegistry.getMenusForSurface(surface.persistentId) : []
-                property var menuService: menus.length > 0 ? menus[0] : undefined
+            busName: menuService ? menuService.service : ""
+            menuObjectPath: menuService && menuService.menuPath ? menuService.menuPath : ""
+            actions: menuService && menuService.actionPath ? { "unity": menuService.actionPath } : {}
+        }
 
-                busName: menuService ? menuService.service : ""
-                menuObjectPath: menuService && menuService.menuPath ? menuService.menuPath : ""
-                actions: menuService && menuService.actionPath ? { "unity": menuService.actionPath } : {}
-            }
-
-            Connections {
-                target: ApplicationMenuRegistry
-                onSurfaceMenuRegistered: {
-                    if (surface && surfaceId === surface.persistentId) {
-                        sharedAppModel.menus = Qt.binding(function() { return surface ? ApplicationMenuRegistry.getMenusForSurface(surface.persistentId) : [] });
-                    }
+        Connections {
+            target: ApplicationMenuRegistry
+            onSurfaceMenuRegistered: {
+                if (surface && surfaceId === surface.persistentId) {
+                    sharedAppModel.menus = Qt.binding(function() { return surface ? ApplicationMenuRegistry.getMenusForSurface(surface.persistentId) : [] });
                 }
-                onSurfaceMenuUnregistered: {
-                    if (surface && surfaceId === surface.persistentId) {
-                        sharedAppModel.menus = Qt.binding(function() { return surface ? ApplicationMenuRegistry.getMenusForSurface(surface.persistentId) : [] });
-                    }
+            }
+            onSurfaceMenuUnregistered: {
+                if (surface && surfaceId === surface.persistentId) {
+                    sharedAppModel.menus = Qt.binding(function() { return surface ? ApplicationMenuRegistry.getMenusForSurface(surface.persistentId) : [] });
                 }
             }
         }

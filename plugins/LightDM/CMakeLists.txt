@@ -7,7 +7,6 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/Utils
-    ${CMAKE_BINARY_DIR}/tests/mocks/LightDM/IntegratedLightDM
     ${libunity8-private_SOURCE_DIR}
     ${LIBUSERMETRICSOUTPUT_INCLUDE_DIRS}
 )
@@ -18,6 +17,7 @@ set(QMLPLUGIN_SRC
     DBusGreeterList.cpp
     Greeter.cpp
     plugin.cpp
+    PromptsModel.cpp
     SessionsModel.cpp
     UsersModel.cpp
     )
