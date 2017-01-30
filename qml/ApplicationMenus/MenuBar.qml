@@ -119,7 +119,6 @@ Item {
                 function show() {
                     if (!__popup) {
                         __popup = menuComponent.createObject(root, { objectName: visualItem.objectName + "-menu" });
-                        __popup.childActivated.connect(dismiss);
                         // force the current item to be the newly popped up menu
                     } else {
                         __popup.show();

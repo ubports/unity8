@@ -26,8 +26,6 @@ UbuntuShape {
     objectName: "menu"
     backgroundColor: theme.palette.normal.overlay
 
-    signal childActivated()
-
     property alias unityMenuModel: repeater.model
 
     function show() {
@@ -276,22 +274,16 @@ UbuntuShape {
                                                                                               return mapToItem(container, 0, y).y;
                                                                                           })
                                                                                       });
-                                                popup.retreat.connect(function() {
-                                                    popup.destroy();
-                                                    popup = null;
-                                                    menuItem.forceActiveFocus();
-                                                });
-                                                popup.childActivated.connect(function() {
-                                                    popup.destroy();
-                                                    popup = null;
-                                                    root.childActivated();
-                                                });
                                             } else if (popup) {
                                                 popup.visible = true;
                                             }
+                                            popup.retreat.connect(function() {
+                                                popup.destroy();
+                                                popup = null;
+                                                menuItem.forceActiveFocus();
+                                            })
                                         } else {
                                             root.unityMenuModel.activate(__ownIndex);
-                                            root.childActivated();
                                         }
                                     }
 
@@ -407,7 +399,6 @@ UbuntuShape {
 
                 property var unityMenuModel: null
                 signal retreat()
-                signal childActivated()
 
                 Binding {
                     target: item
@@ -422,11 +413,6 @@ UbuntuShape {
                 }
 
                 Keys.onLeftPressed: retreat()
-
-                Connections {
-                    target: item
-                    onChildActivated: childActivated();
-                }
 
                 Component.onCompleted: item.select(0);
                 onVisibleChanged: if (visible) { item.select(0); }
