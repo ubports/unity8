@@ -16,15 +16,49 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import QtQuick.Window 2.2
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItems
 import "../Components"
+import "."
 
 UbuntuShape {
     id: root
     objectName: "menu"
     backgroundColor: theme.palette.normal.overlay
+
+    signal childActivated()
+
+    // true for submenus that need to show on the other side of their parent
+    // if they don't fit when growing right
+    property bool substractWidth: false
+
+    property real desiredX
+    x: {
+        var dummy = visible; // force recalc when shown/hidden
+        var parentTopLeft = parent.mapToItem(null, 0, 0);
+        var farX = ApplicationMenusLimits.screenWidth;
+        if (parentTopLeft.x + width + desiredX <= farX) {
+            return desiredX;
+        } else {
+            if (substractWidth) {
+                return -width;
+            } else {
+                return farX - parentTopLeft.x - width;
+            }
+        }
+    }
+
+    property real desiredY
+    y: {
+        var dummy = visible; // force recalc when shown/hidden
+        var parentTopLeft = parent.mapToItem(null, 0, 0);
+        var bottomY = ApplicationMenusLimits.screenHeight;
+        if (parentTopLeft.y + height + desiredY <= bottomY) {
+            return desiredY;
+        } else {
+            return bottomY - parentTopLeft.y - height;
+        }
+    }
 
     property alias unityMenuModel: repeater.model
 
@@ -64,9 +98,9 @@ UbuntuShape {
         readonly property int currentIndex: currentItem ? currentItem.__ownIndex : -1
 
         property real __minimumWidth: units.gu(20)
-        property real __maximumWidth: Screen.width * 0.7
+        property real __maximumWidth: ApplicationMenusLimits.screenWidth * 0.7
         property real __minimumHeight: units.gu(2)
-        property real __maximumHeight: Screen.height - mapToItem(null, 0, y).y
+        property real __maximumHeight: ApplicationMenusLimits.screenHeight - mapToItem(null, 0, y).y
 
         signal dismissAll()
 
@@ -76,6 +110,8 @@ UbuntuShape {
             } else {
                 hoveredItem = null;
             }
+
+            submenuHoverTimer.stop();
         }
 
         onSelect: {
@@ -188,10 +224,15 @@ UbuntuShape {
                 contentHeight: menuColumn.height
                 interactive: height < contentHeight
 
+                Timer {
+                    id: submenuHoverTimer
+                    interval: 225 // GTK MENU_POPUP_DELAY, Qt SH_Menu_SubMenuPopupDelay in QCommonStyle is 256
+                    onTriggered: d.currentItem.item.trigger();
+                }
+
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
-                    propagateComposedEvents: true // propogate events so we send clicks to children.
                     z: 1 // on top so we override any other hovers
                     onEntered: updateCurrentItemFromPosition(Qt.point(mouseX, mouseY))
                     onPositionChanged: updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
@@ -201,10 +242,24 @@ UbuntuShape {
 
                         if (!d.hoveredItem || !d.currentItem ||
                                 !d.hoveredItem.contains(Qt.point(pos.x - d.currentItem.x, pos.y - d.currentItem.y))) {
+                            submenuHoverTimer.stop();
+
                             d.hoveredItem = menuColumn.childAt(pos.x, pos.y)
                             if (!d.hoveredItem || !d.hoveredItem.enabled)
                                 return;
                             d.currentItem = d.hoveredItem;
+
+                            if (!d.currentItem.__isSeparator && d.currentItem.item.hasSubmenu && d.currentItem.item.enabled) {
+                                submenuHoverTimer.start();
+                            }
+                        }
+                    }
+
+                    onClicked: {
+                        var pos = mapToItem(listView.contentItem, mouse.x, mouse.y);
+                        var clickedItem = menuColumn.childAt(pos.x, pos.y);
+                        if (clickedItem.enabled && !clickedItem.__isSeparator) {
+                            clickedItem.item.trigger();
                         }
                     }
                 }
@@ -260,6 +315,8 @@ UbuntuShape {
                                     width: MathUtils.clamp(implicitWidth, d.__minimumWidth, d.__maximumWidth)
 
                                     action.onTriggered: {
+                                        submenuHoverTimer.stop();
+
                                         d.currentItem = loader;
 
                                         if (hasSubmenu) {
@@ -268,22 +325,29 @@ UbuntuShape {
                                                 popup = submenuComponent.createObject(focusScope, {
                                                                                           objectName: loader.objectName + "-",
                                                                                           unityMenuModel: model,
-                                                                                          x: Qt.binding(function() { return root.width }),
-                                                                                          y: Qt.binding(function() {
+                                                                                          substractWidth: true,
+                                                                                          desiredX: Qt.binding(function() { return root.width }),
+                                                                                          desiredY: Qt.binding(function() {
                                                                                               var dummy = listView.contentY; // force a recalc on contentY change.
                                                                                               return mapToItem(container, 0, y).y;
                                                                                           })
                                                                                       });
+                                                popup.retreat.connect(function() {
+                                                    popup.destroy();
+                                                    popup = null;
+                                                    menuItem.forceActiveFocus();
+                                                });
+                                                popup.childActivated.connect(function() {
+                                                    popup.destroy();
+                                                    popup = null;
+                                                    root.childActivated();
+                                                });
                                             } else if (popup) {
                                                 popup.visible = true;
                                             }
-                                            popup.retreat.connect(function() {
-                                                popup.destroy();
-                                                popup = null;
-                                                menuItem.forceActiveFocus();
-                                            })
                                         } else {
                                             root.unityMenuModel.activate(__ownIndex);
+                                            root.childActivated();
                                         }
                                     }
 
@@ -397,22 +461,27 @@ UbuntuShape {
                 id: submenuLoader
                 source: "MenuPopup.qml"
 
+                property real desiredX
+                property real desiredY
+                property bool substractWidth
                 property var unityMenuModel: null
                 signal retreat()
+                signal childActivated()
 
-                Binding {
-                    target: item
-                    property: "unityMenuModel"
-                    value: submenuLoader.unityMenuModel
-                }
-
-                Binding {
-                    target: item
-                    property: "objectName"
-                    value: submenuLoader.objectName + "menu"
+                onLoaded: {
+                    item.unityMenuModel = Qt.binding(function() { return submenuLoader.unityMenuModel; });
+                    item.objectName = Qt.binding(function() { return submenuLoader.objectName + "menu"; });
+                    item.desiredX = Qt.binding(function() { return submenuLoader.desiredX; });
+                    item.desiredY = Qt.binding(function() { return submenuLoader.desiredY; });
+                    item.substractWidth = Qt.binding(function() { return submenuLoader.substractWidth; });
                 }
 
                 Keys.onLeftPressed: retreat()
+
+                Connections {
+                    target: item
+                    onChildActivated: childActivated();
+                }
 
                 Component.onCompleted: item.select(0);
                 onVisibleChanged: if (visible) { item.select(0); }

@@ -76,6 +76,7 @@ Item {
         acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
         anchors.fill: parent
         enabled: d.currentItem != null
+        hoverEnabled: enabled && d.currentItem && d.currentItem.__popup != null
         onPressed: d.dismissAll()
     }
 
@@ -119,6 +120,7 @@ Item {
                 function show() {
                     if (!__popup) {
                         __popup = menuComponent.createObject(root, { objectName: visualItem.objectName + "-menu" });
+                        __popup.childActivated.connect(dismiss);
                         // force the current item to be the newly popped up menu
                     } else {
                         __popup.show();
@@ -165,8 +167,8 @@ Item {
                 Component {
                     id: menuComponent
                     MenuPopup {
-                        x: visualItem.x - units.gu(1)
-                        anchors.top: parent.bottom
+                        desiredX: visualItem.x - units.gu(1)
+                        desiredY: parent.height
                         unityMenuModel: root.unityMenuModel.submenu(visualItem.__ownIndex)
 
                         Component.onCompleted: reset();
@@ -230,7 +232,13 @@ Item {
                 updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
             }
         }
-        onClicked: updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
+        onClicked: {
+            var prevItem = d.currentItem;
+            updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
+            if (prevItem && d.currentItem == prevItem) {
+                prevItem.hide();
+            }
+        }
 
         function updateCurrentItemFromPosition(point) {
             var pos = mapToItem(row, point.x, point.y);
@@ -281,6 +289,7 @@ Item {
         function show() {
             if (!__popup) {
                 __popup = overflowComponent.createObject(root, { objectName: overflowButton.objectName + "-menu" });
+                __popup.childActivated.connect(dismiss);
                 // force the current item to be the newly popped up menu
             } else {
                 __popup.show();
@@ -316,8 +325,8 @@ Item {
             id: overflowComponent
             MenuPopup {
                 id: overflowPopup
-                x: overflowButton.x - units.gu(1)
-                anchors.top: parent.bottom
+                desiredX: overflowButton.x - units.gu(1)
+                desiredY: parent.height
                 unityMenuModel: overflowModel
 
                 ExpressionFilterModel {

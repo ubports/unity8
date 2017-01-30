@@ -142,11 +142,4 @@ ActionItem {
             name: "toolkit_chevron-ltr_2gu"
         }
     }
-
-    MouseArea {
-        anchors.fill: parent
-        onClicked: {
-            root.trigger(action && action.checkable ? !action.checked : undefined);
-        }
-    }
 }
