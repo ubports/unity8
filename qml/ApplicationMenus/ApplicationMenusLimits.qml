@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014, 2015 Canonical, Ltd.
+ * Copyright (C) 2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,19 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MOCK_LIGHTDM_PLUGIN_H
-#define MOCK_LIGHTDM_PLUGIN_H
+pragma Singleton
+import QtQuick 2.4
+import QtQuick.Window 2.2
 
-#include <QtQml/QQmlEngine>
-#include <QtQml/QQmlExtensionPlugin>
-
-class LightDMPlugin : public QQmlExtensionPlugin
-{
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
-
-public:
-    void registerTypes(const char *uri) override;
-};
-
-#endif
+QtObject {
+    property real screenWidth: Screen.width
+    property real screenHeight: Screen.height
+}

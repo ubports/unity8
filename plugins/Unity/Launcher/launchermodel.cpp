@@ -214,7 +214,6 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
 void LauncherModel::setUser(const QString &username)
 {
     Q_UNUSED(username)
-    qWarning() << "This backend doesn't support multiple users";
 }
 
 QString LauncherModel::getUrlForAppId(const QString &appId) const

@@ -20,11 +20,19 @@ import "../../../qml/Dash"
 import "../../../qml/"
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
+import LightDMController 0.1
+import LightDM.FullLightDM 0.1 as LightDM
 
 Item {
     id: root
     width: units.gu(80)
     height: units.gu(80)
+
+    Binding {
+        target: LightDMController
+        property: "userMode"
+        value: "single"
+    }
 
     Shell {
         id: shell
@@ -71,46 +79,6 @@ Item {
                 return mockScope1Loader && mockScope1Loader.status === Loader.Ready; },
                 true, 15000);
             waitForRendering(findChild(dash, "scopeLoader0").item);
-        }
-
-        function test_setShellHome() {
-            var dashContentList = findChild(dash, "dashContentList");
-            var startX = dash.width - units.gu(1);
-            var startY = dash.height / 2;
-            var stopX = units.gu(1)
-            var stopY = startY;
-            waitForRendering(dashContentList);
-            touchFlick(dash, startX, startY, stopX, stopY);
-            touchFlick(dash, startX, startY, stopX, stopY);
-            compare(dashContentList.currentIndex, 2, "Could not flick to scope id 2");
-
-            // Flick the greeter away
-            var startX = shell.width - units.gu(1);
-            var startY = shell.height / 2;
-            var stopX = units.gu(1)
-            var stopY = startY;
-            touchFlick(shell, startX, startY, stopX, stopY);
-
-            var greeter = findChild(shell, "greeter");
-            tryCompare(greeter, "shown", false);
-
-            // bring in the launcher
-            var startX = units.gu(1);
-            var startY = shell.height / 2;
-            var stopX = shell.width / 3;
-            var stopY = startY;
-            touchFlick(shell, startX, startY, stopX, stopY);
-
-            var launcher = findChild(shell, "launcher");
-            var buttonShowDashHome = findChild(launcher, "buttonShowDashHome");
-            tryCompare(buttonShowDashHome, "enabled", true);
-            tryCompare(launcher, "visibleWidth", launcher.panelWidth);
-
-            // Make sure that opening the launcher doesn't change the scope
-            compare(dashContentList.currentIndex, 2, "Opening the launcher changed the current scope");
-
-            mouseClick(buttonShowDashHome);
-            tryCompare(dashContentList, "currentIndex", 0);
         }
     }
 }

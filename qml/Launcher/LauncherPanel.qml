@@ -80,6 +80,7 @@ Rectangle {
         }
 
         Rectangle {
+            id: bfb
             objectName: "buttonShowDashHome"
             width: parent.width
             height: width * .9
@@ -100,13 +101,15 @@ Rectangle {
                 activeFocusOnPress: false
                 onClicked: root.showDashHome()
             }
-            Rectangle {
-                objectName: "bfbFocusHighlight"
+
+            StyledItem {
+                styleName: "FocusShape"
                 anchors.fill: parent
-                border.color: "white"
-                border.width: units.dp(1)
-                color: "transparent"
-                visible: parent.highlighted
+                anchors.margins: units.gu(.5)
+                StyleHints {
+                    visible: bfb.highlighted
+                    radius: 0
+                }
             }
         }
 
@@ -788,6 +791,8 @@ Rectangle {
             quickList.model = launcherListView.model.get(index).quickList;
             quickList.appId = launcherListView.model.get(index).appId;
             quickList.state = "open";
+            root.highlightIndex = index;
+            quickList.forceActiveFocus();
         }
 
         Item {

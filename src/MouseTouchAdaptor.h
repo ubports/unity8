@@ -59,6 +59,7 @@ private:
     QTouchDevice *m_touchDevice;
     bool m_leftButtonIsPressed;
     bool m_triPressModifier;
+    bool m_quadPressModifier;
 
 
     bool m_enabled;
