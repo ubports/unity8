@@ -99,12 +99,6 @@ class DashHelperTestCase(tests.DashBaseTestCase):
         self._assert_scope_is_opened(scope, scope_id)
         self.assertIsInstance(scope, dash_helpers.GenericScopeView)
 
-    def test_open_applications_scope(self):
-        scope_id = 'clickscope'
-        scope = self.dash.open_scope(scope_id)
-        self._assert_scope_is_opened(scope, scope_id)
-        self.assertIsInstance(scope, dash_helpers.GenericScopeView)
-
 
 class GenericScopeViewHelperTestCase(tests.DashBaseTestCase):
 
@@ -122,46 +116,3 @@ class GenericScopeViewHelperTestCase(tests.DashBaseTestCase):
         """Open an item that requires swiping to make it visible."""
         preview = self.generic_scope.open_preview('2', 'Title.2.0')
         self.assertIsInstance(preview, dash_helpers.Preview)
-
-
-class DashAppsHelperTestCase(tests.DashBaseTestCase):
-
-    available_applications = [
-        'Title.2.0', 'Title.2.1', 'Title.2.2',  'Title.2.3', 'Title.2.4',
-        'Title.2.5', 'Title.2.6', 'Title.2.7',  'Title.2.8', 'Title.2.9',
-        'Title.2.10', 'Title.2.11', 'Title.2.12', 'Title.2.13', 'Title.2.14',
-        'Title.2.15', 'Title.2.16', 'Title.2.17', 'Title.2.18']
-
-    def setUp(self):
-        # Set up the fake scopes before launching unity.
-        self.useFixture(fixture_setup.FakeScopes())
-        super().setUp()
-        self.applications_scope = self.dash.open_scope('clickscope')
-
-    def test_get_applications_should_return_correct_applications(self):
-        category = '2'
-        category_element = self.applications_scope._get_category_element(
-            category)
-        list_view = self.dash.get_scope('clickscope')\
-            .select_single(dash_helpers.ListViewWithPageHeader)
-        expected_apps_count = self._get_number_of_application_slots(category)
-        expected_applications = self.available_applications[
-            :expected_apps_count]
-        x_center = list_view.globalRect.x + list_view.width / 2
-        y_center = list_view.globalRect.y + list_view.height / 2
-        y_diff = (
-            category_element.y - list_view.height + category_element.height
-        )
-        list_view._slow_drag(x_center, x_center, y_center, y_center - y_diff)
-        applications = self.applications_scope.get_applications(category)
-        self.assertEqual(expected_applications, applications)
-
-    def _get_number_of_application_slots(self, category):
-        category_element = self.applications_scope._get_category_element(
-            category)
-        cardgrid = category_element.select_single('CardGrid')
-        if (category_element.expanded):
-            return cardgrid.select_single('QQuickGridView').count
-        else:
-            return cardgrid.collapsedRows \
-                * cardgrid.select_single('ResponsiveGridView').columns
