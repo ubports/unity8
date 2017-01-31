@@ -19,6 +19,7 @@ import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItems
 import "../Components"
+import "../Components/PanelState"
 import "."
 
 UbuntuShape {
@@ -100,7 +101,7 @@ UbuntuShape {
         property real __minimumWidth: units.gu(20)
         property real __maximumWidth: ApplicationMenusLimits.screenWidth * 0.7
         property real __minimumHeight: units.gu(2)
-        property real __maximumHeight: ApplicationMenusLimits.screenHeight
+        property real __maximumHeight: ApplicationMenusLimits.screenHeight - PanelState.panelHeight
 
         signal dismissAll()
 
