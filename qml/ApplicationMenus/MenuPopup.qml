@@ -100,7 +100,7 @@ UbuntuShape {
         property real __minimumWidth: units.gu(20)
         property real __maximumWidth: ApplicationMenusLimits.screenWidth * 0.7
         property real __minimumHeight: units.gu(2)
-        property real __maximumHeight: ApplicationMenusLimits.screenHeight - mapToItem(null, 0, y).y
+        property real __maximumHeight: ApplicationMenusLimits.screenHeight
 
         signal dismissAll()
 
