@@ -151,12 +151,10 @@ Item {
                     if (!visible && __popup) dismiss();
                 }
 
-                Component.onCompleted: {
-                    shouldDisplayChanged.connect(function() {
-                        if ((!shouldDisplay && d.firstInvisibleIndex == undefined) || __ownIndex <= d.firstInvisibleIndex) {
-                            d.recalcFirstInvisibleIndex();
-                        }
-                    });
+                onShouldDisplayChanged: {
+                    if ((!shouldDisplay && d.firstInvisibleIndex == undefined) || __ownIndex <= d.firstInvisibleIndex) {
+                        d.recalcFirstInvisibleIndex();
+                    }
                 }
 
                 Connections {
