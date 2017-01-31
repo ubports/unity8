@@ -108,8 +108,8 @@ Item {
 
                 readonly property int __ownIndex: index
                 property Item __popup: null;
-                property bool popupVisible: __popup && __popup.visible
-                property bool shouldDisplay: x + width + ((__ownIndex < rowRepeater.count-1) ? units.gu(2) : 0) <
+                readonly property bool popupVisible: __popup && __popup.visible
+                readonly property bool shouldDisplay: x + width + ((__ownIndex < rowRepeater.count-1) ? units.gu(2) : 0) <
                                                 root.overflowWidth - ((__ownIndex < rowRepeater.count-1) ? overflowButton.width : 0)
 
                 implicitWidth: column.implicitWidth
@@ -262,8 +262,8 @@ Item {
         onClicked: d.currentItem = this
 
         property Item __popup: null;
-        property bool popupVisible: __popup && __popup.visible
-        property Item firstInvisibleItem: d.firstInvisibleIndex !== undefined ? rowRepeater.itemAt(d.firstInvisibleIndex) : null
+        readonly property bool popupVisible: __popup && __popup.visible
+        readonly property Item firstInvisibleItem: d.firstInvisibleIndex !== undefined ? rowRepeater.itemAt(d.firstInvisibleIndex) : null
 
         visible: d.firstInvisibleIndex != undefined
         x: firstInvisibleItem ? firstInvisibleItem.x : 0

@@ -197,7 +197,6 @@ UbuntuShape {
                     }
 
                     function progress() {
-                        console.log("progress!")
                         var item = menuColumn.childAt(0, listView.contentY);
                         if (item) {
                             var previousItem = item;
