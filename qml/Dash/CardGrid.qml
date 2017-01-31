@@ -25,7 +25,6 @@ DashRenderer {
         return cardTool.template["collapsed-rows"];
     }
 
-                                                   // ↓ This is the ubuntu store icon
     readonly property string backgroundShapeStyle: "flat"
 
     expandedHeight: grid.totalContentHeight
