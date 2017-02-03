@@ -276,6 +276,7 @@ Rectangle {
                     anchors { left: parent.left; right: parent.right }
                     activeFocusOnPress: false
                     model: ["phone", "tablet", "desktop"]
+                    selectedIndex: 2
                     onSelectedIndexChanged: {
                         shellLoader.state = model[selectedIndex];
                     }
@@ -289,6 +290,7 @@ Rectangle {
                     anchors { left: parent.left; right: parent.right }
                     activeFocusOnPress: false
                     model: ["phone", "tablet", "desktop"]
+                    selectedIndex: 2
                 }
                 MouseTouchEmulationCheckbox {
                     id: mouseEmulation
