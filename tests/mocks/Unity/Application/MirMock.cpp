@@ -47,3 +47,16 @@ QString MirMock::cursorName() const
 {
     return m_cursorName;
 }
+
+QString MirMock::currentKeymap() const
+{
+    return m_keymap;
+}
+
+void MirMock::setCurrentKeymap(const QString &keymap)
+{
+    if (keymap != m_keymap) {
+        m_keymap = keymap;
+        Q_EMIT currentKeymapChanged(m_keymap);
+    }
+}

@@ -19,6 +19,7 @@
 #include "DBusGreeter.h"
 #include "DBusGreeterList.h"
 #include "Greeter.h"
+#include "PromptsModel.h"
 #include "SessionsModel.h"
 #include "UsersModel.h"
 #include <libusermetricsoutput/ColorTheme.h>
@@ -32,14 +33,22 @@
 
 static QObject *greeter_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
-    Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
 
-    Greeter *greeter = new Greeter();
+    Greeter *greeter = Greeter::instance();
     new DBusGreeter(greeter, QStringLiteral("/"));
     new DBusGreeterList(greeter, QStringLiteral("/list"));
 
+    engine->setObjectOwnership(greeter, QQmlEngine::CppOwnership);
+
     return greeter;
+}
+
+static QObject *prompts_provider(QQmlEngine *engine, QJSEngine *)
+{
+    auto model = Greeter::instance()->promptsModel();
+    engine->setObjectOwnership(model, QQmlEngine::CppOwnership);
+    return model;
 }
 
 static QObject *sessions_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -78,8 +87,7 @@ void PLUGIN_CLASSNAME::registerTypes(const char *uri)
     #error No library defined in LightDM plugin
 #endif
 
-    qRegisterMetaType<QLightDM::Greeter::MessageType>("QLightDM::Greeter::MessageType");
-    qRegisterMetaType<QLightDM::Greeter::PromptType>("QLightDM::Greeter::PromptType");
+    qmlRegisterSingletonType<PromptsModel>(uri, 0, 1, "Prompts", prompts_provider);
 
     qmlRegisterSingletonType<SessionsModel>(uri, 0, 1, "Sessions", sessions_provider);
     qmlRegisterUncreatableType<QLightDM::SessionsModel>(uri, 0, 1, "SessionRoles", QStringLiteral("Type is not instantiable"));

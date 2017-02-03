@@ -185,5 +185,5 @@ QString AppDrawerProxyModel::appId(int index) const
             return adpm->appId(sourceIndex.row());
         }
     }
-    return nullptr;
+    return QString();
 }

@@ -206,6 +206,28 @@ public Q_SLOTS:
         }
     }
 
+    void cancelPam()
+    {
+        if (pamHandle != nullptr) {
+            QFuture<int> pamFuture = futureWatcher.future();
+            pam_handle *handle = pamHandle;
+            pamHandle = nullptr; // to disable normal finishPam() handling
+            pamFuture.cancel();
+
+            // Note the empty loop, we just want to clear the futures queue.
+            // Any further prompts from the pam thread will be immediately
+            // responded to/dismissed in handlePrompt().
+            while (respond(QString()));
+
+            // Now let signal/slot handling happen so the thread can finish
+            while (!pamFuture.isFinished()) {
+                QCoreApplication::processEvents();
+            }
+
+            pam_end(handle, PAM_CONV_ERR);
+        }
+    }
+
 Q_SIGNALS:
     void showMessage(pam_handle *handle, QString text, QLightDM::Greeter::MessageType type);
     void showPrompt(pam_handle *handle, QString text, QLightDM::Greeter::PromptType type, QLightDM::GreeterImpl::ResponseFuture response);
@@ -247,28 +269,6 @@ private Q_SLOTS:
     }
 
 private:
-    void cancelPam()
-    {
-        if (pamHandle != nullptr) {
-            QFuture<int> pamFuture = futureWatcher.future();
-            pam_handle *handle = pamHandle;
-            pamHandle = nullptr; // to disable normal finishPam() handling
-            pamFuture.cancel();
-
-            // Note the empty loop, we just want to clear the futures queue.
-            // Any further prompts from the pam thread will be immediately
-            // responded to/dismissed in handlePrompt().
-            while (respond(QString()));
-
-            // Now let signal/slot handling happen so the thread can finish
-            while (!pamFuture.isFinished()) {
-                QCoreApplication::processEvents();
-            }
-
-            pam_end(handle, PAM_CONV_ERR);
-        }
-    }
-
     Greeter *greeter;
     GreeterPrivate *greeterPrivate;
     pam_handle* pamHandle;
@@ -297,6 +297,11 @@ void GreeterPrivate::handleAuthenticate()
 void GreeterPrivate::handleRespond(const QString &response)
 {
     m_impl->respond(response);
+}
+
+void GreeterPrivate::cancelAuthentication()
+{
+    m_impl->cancelPam();
 }
 
 }
