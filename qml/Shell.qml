@@ -69,6 +69,7 @@ StyledItem {
     }
     property bool hasMouse: false
     property bool hasKeyboard: false
+    property bool hasTouchscreen: false
 
     // to be read from outside
     readonly property int mainAppWindowOrientationAngle: stage.mainAppWindowOrientationAngle
@@ -625,6 +626,8 @@ StyledItem {
             objectName: "tutorial"
             anchors.fill: parent
 
+            enabled: shell.hasTouchscreen
+            visible: enabled
             paused: callManager.hasCalls || !greeter || greeter.active ||
                     wizard.active
             delayed: dialogs.hasActiveDialog || notifications.hasNotification ||

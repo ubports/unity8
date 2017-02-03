@@ -268,6 +268,7 @@ Item {
         mode: applicationArguments.mode
         hasMouse: pointerInputDevices > 0
         hasKeyboard: keyboardsModel.count > 0
+        hasTouchscreen: touchScreensModel.count > 0
         // TODO: Factor in if the current screen is a touch screen and if the user wants to
         //       have multiple keyboards around. For now we only enable one keyboard at a time
         //       thus hiding it here if there is a physical one around or if we have a second
