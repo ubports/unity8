@@ -21,12 +21,15 @@ ScreenWindow::ScreenWindow(QWindow *parent)
 {
 }
 
-QScreen *ScreenWindow::screen() const
+Screen *ScreenWindow::screenWrapper() const
 {
-    return QQuickWindow::screen();
+    return m_screen.data();
 }
 
-void ScreenWindow::setScreen(QScreen *screen)
+void ScreenWindow::setScreenWrapper(Screen *screen)
 {
-    QQuickWindow::setScreen(screen);
+    if (m_screen != screen) {
+        m_screen = screen;
+        Q_EMIT screenWrapperChanged();
+    }
 }
