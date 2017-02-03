@@ -1,11 +1,13 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import "MathUtils.js" as MathUtils
 
 Item {
     id: root
     implicitWidth: listView.count * (height * 16/9)
 
     property var screen: null
+    property var background // TODO: should be stored in the workspace data
 
     ListView {
         id: listView
@@ -29,7 +31,7 @@ Item {
         delegate: Item {
             objectName: "delegate" + index
             height: parent.height
-            width: dndArea.draggedIndex == index ? units.gu(5) : listView.itemWidth
+            width: /*dndArea.draggedIndex == index ? units.gu(5) : */listView.itemWidth
             Behavior on width { UbuntuNumberAnimation {} }
 
             property int itemX: -listView.contentX - listView.leftMargin + index * (listView.itemWidth + listView.spacing)
@@ -42,14 +44,14 @@ Item {
                 if (index == 0) {
                     if (distanceFromLeft < 0) {
                         var progress = (distanceFromLeft + listView.foldingAreaWidth) / listView.foldingAreaWidth
-                        return linearAnimation(1, -1, 0, maxAngle, Math.max(-1, Math.min(1, progress)));
+                        return MathUtils.linearAnimation(1, -1, 0, maxAngle, Math.max(-1, Math.min(1, progress)));
                     }
                     return 0
                 }
                 if (index == listView.count - 1) {
                     if (distanceFromRight < 0) {
                         var progress = (distanceFromRight + listView.foldingAreaWidth) / listView.foldingAreaWidth
-                        return linearAnimation(1, -1, 0, -maxAngle, Math.max(-1, Math.min(1, progress)));
+                        return MathUtils.linearAnimation(1, -1, 0, -maxAngle, Math.max(-1, Math.min(1, progress)));
                     }
                     return 0
                 }
@@ -57,11 +59,11 @@ Item {
                 if (distanceFromLeft < listView.foldingAreaWidth) {
                     // itemX : 10gu = p : 100
                     var progress = distanceFromLeft / listView.foldingAreaWidth
-                    return linearAnimation(1, -1, 0, maxAngle, Math.max(-1, Math.min(1, progress)));
+                    return MathUtils.linearAnimation(1, -1, 0, maxAngle, Math.max(-1, Math.min(1, progress)));
                 }
                 if (distanceFromRight < listView.foldingAreaWidth) {
                     var progress = distanceFromRight / listView.foldingAreaWidth
-                    return linearAnimation(1, -1, 0, -maxAngle, Math.max(-1, Math.min(1, progress)));
+                    return MathUtils.linearAnimation(1, -1, 0, -maxAngle, Math.max(-1, Math.min(1, progress)));
                 }
                 return 0
             }
@@ -116,9 +118,11 @@ Item {
             ]
 
             WorkspacePreview {
-
+                height: listView.height
+                width: listView.itemWidth
+                background: root.background
+                screenHeight: screen.physicalSize.height
             }
-
         }
     }
 }

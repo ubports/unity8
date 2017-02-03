@@ -18,19 +18,25 @@
 #define SCREENWINDOW_H
 
 #include <QQuickWindow>
+#include <QPointer>
+
+#include "screens.h"
 
 class ScreenWindow : public QQuickWindow
 {
     Q_OBJECT
-    Q_PROPERTY(QScreen *screen READ screen WRITE setScreen NOTIFY screenChanged)
+    Q_PROPERTY(Screen *screen READ screenWrapper WRITE setScreenWrapper NOTIFY screenWrapperChanged)
 public:
     ScreenWindow(QWindow *parent = 0);
 
-    QScreen *screen() const;
-    void setScreen(QScreen *screen);
+    Screen *screenWrapper() const;
+    void setScreenWrapper(Screen *screen);
 
 Q_SIGNALS:
-    void screenChanged(QScreen *screen);
+    void screenWrapperChanged();
+
+private:
+    QPointer<Screen> m_screen;
 };
 
 #endif // SCREENWINDOW_H

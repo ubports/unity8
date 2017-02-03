@@ -19,6 +19,7 @@
 
 #include <QAbstractListModel>
 #include <QScreen>
+#include <QQmlListProperty>
 
 class Screen;
 
@@ -90,17 +91,72 @@ private:
     QList<Screen *> m_screenList;
 };
 
-class Screen
+class ScreenMode : public QObject
 {
+    Q_OBJECT
+    Q_PROPERTY(qreal refreshRate MEMBER refreshRate CONSTANT)
+    Q_PROPERTY(QSize size MEMBER size CONSTANT)
 public:
-    Screens::OutputTypes outputTypes = Screens::Unknown;
-    QScreen *qScreen = nullptr;
-    bool enabled = false;
-    QString name = QString();
-    float scale = 1.0;
-    Screens::FormFactor formFactor = Screens::FormFactorMonitor;
-    QRect geometry;
-    QList<QSize> sizes;
+    ScreenMode() {}
+    ScreenMode(qreal refreshRate, QSize size):refreshRate(refreshRate),size(size) {}
+    ScreenMode(const ScreenMode& other)
+        : QObject(nullptr),
+          refreshRate{other.refreshRate},size{other.size}
+    {}
+
+    qreal refreshRate;
+    QSize size;
 };
+
+class Screen : public QObject
+{
+    Q_OBJECT
+
+    Q_PROPERTY(bool active MEMBER m_active NOTIFY activeChanged)
+
+    Q_PROPERTY(bool used MEMBER m_used NOTIFY usedChanged)
+    Q_PROPERTY(QString name MEMBER m_name NOTIFY nameChanged)
+    Q_PROPERTY(Screens::OutputTypes outputType MEMBER m_outputType NOTIFY outputTypeChanged)
+    Q_PROPERTY(float scale MEMBER m_scale NOTIFY scaleChanged)
+    Q_PROPERTY(Screens::FormFactor formFactor MEMBER m_formFactor NOTIFY formFactorChanged)
+    Q_PROPERTY(QPoint position MEMBER m_position NOTIFY positionChanged)
+    Q_PROPERTY(uint currentModeIndex MEMBER m_currentModeIndex NOTIFY currentModeIndexChanged)
+    Q_PROPERTY(QQmlListProperty<ScreenMode> availableModes READ availableModes NOTIFY availableModesChanged)
+    Q_PROPERTY(QSizeF physicalSize MEMBER m_physicalSize NOTIFY physicalSizeChanged)
+public:
+    Screen(QObject* parent = 0);
+    ~Screen();
+
+    QQmlListProperty<ScreenMode> availableModes();
+
+    Q_INVOKABLE Screen* beginConfiguration();
+    Q_INVOKABLE void applyConfiguration();
+
+Q_SIGNALS:
+    void activeChanged();
+    void usedChanged();
+    void nameChanged();
+    void outputTypeChanged();
+    void scaleChanged();
+    void formFactorChanged();
+    void positionChanged();
+    void currentModeIndexChanged();
+    void availableModesChanged();
+    void physicalSizeChanged();
+
+public:
+    bool m_active{false};
+    bool m_used{true};
+    QString m_name;
+    Screens::OutputTypes m_outputType{Screens::Unknown};
+    float m_scale{1.0};
+    Screens::FormFactor m_formFactor{Screens::FormFactorMonitor};
+    QPoint m_position;
+    uint m_currentModeIndex{0};
+    QList<ScreenMode*> m_sizes;
+    QSizeF m_physicalSize;
+};
+
+Q_DECLARE_METATYPE(ScreenMode)
 
 #endif // SCREENS_H

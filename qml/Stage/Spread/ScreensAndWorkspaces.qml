@@ -20,34 +20,31 @@ Item {
 
             delegate: Item {
                 height: root.height - units.gu(6)
-                width: workspaces.implicitWidth
+                width: workspaces.width
 
-
-                Rectangle { anchors.fill: parent; color: "blue" }
-
-                Rectangle {
+                UbuntuShape {
                     id: header
                     anchors { left: parent.left; top: parent.top; right: parent.right }
                     height: units.gu(7)
-                    color: "white"
+                    backgroundColor: "white"
 
                     Column {
                         anchors.fill: parent
                         anchors.margins: units.gu(1)
 
                         Label {
-                            text: model.name
+                            text: model.screen.name
                             color: "black"
                         }
 
                         Label {
-                            text: model.outputType === Screens.LVDS ? "Built-in" : "Clone"
+                            text: model.screen.outputType === Screens.LVDS ? "Built-in" : "Clone"
                             color: "black"
                             fontSize: "x-small"
                         }
 
                         Label {
-                            text: model.geometry.width + "x" + model.geometry.height
+                            text: model.screen.physicalSize.width + "x" + model.screen.physicalSize.height
                             color: "black"
                             fontSize: "x-small"
                         }
@@ -57,14 +54,12 @@ Item {
 
                 Workspaces {
                     id: workspaces
-                    height: parent.height - header.height
+                    height: parent.height - header.height - units.gu(2)
+                    width: Math.min(implicitWidth, units.gu(80), root.width)
                     anchors.bottom: parent.bottom
+                    screen: model.screen
+                    background: root.background
                 }
-
-//                WorkspacePreview {
-//                    height: root.height - units.gu(6)
-//                    background: root.background
-//                }
             }
         }
     }

@@ -33,6 +33,8 @@ void UnityScreensPlugin::registerTypes(const char* uri)
     Q_ASSERT(QLatin1String(uri) == QLatin1String("Unity.Screens"));
 
     qRegisterMetaType<QScreen*>("QScreen*");
+    qRegisterMetaType<ScreenMode*>("ScreenMode*");
+    qmlRegisterUncreatableType<ScreenMode>(uri, 0, 1, "ScreenMode", "ScreenMode is not creatable.");
 
     qmlRegisterSingletonType<Screens>(uri, 0, 1, "Screens", screensSingleton);
     qmlRegisterType<ScreenWindow>(uri, 0, 1, "ScreenWindow");
