@@ -26,7 +26,7 @@ Instantiator {
     property QtObject surfaceMan: SurfaceManager {}
 
     ShellScreen {
-        id: screen
+        id: window
         objectName: "screen"+index
         screen: model.screen
         visibility:  applicationArguments.hasFullscreen ? Window.FullScreen : Window.Windowed
@@ -35,17 +35,18 @@ Instantiator {
 
         Binding {
             when: applicationArguments.hasGeometry
-            target: screen
+            target: window
             property: "width"
             value: applicationArguments.windowGeometry.width
         }
         Binding {
             when: applicationArguments.hasGeometry
-            target: screen
+            target: window
             property: "height"
             value: applicationArguments.windowGeometry.height
         }
 
+        Component.onCompleted: screen.active = primary
         primary: index == 0
     }
 }
