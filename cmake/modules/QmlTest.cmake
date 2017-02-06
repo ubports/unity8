@@ -264,12 +264,16 @@ endfunction()
 # installed system.
 
 function(add_meta_test TARGET_NAME)
-    cmake_parse_arguments(TEST "" "" "DEPENDS" ${ARGN})
+    cmake_parse_arguments(TEST "SERIAL" "" "DEPENDS" ${ARGN})
 
     add_custom_target(${TARGET_NAME})
 
     set(filename "${CMAKE_BINARY_DIR}/tests/scripts/${TARGET_NAME}.sh")
-    file(WRITE "${filename}" "#!/usr/bin/parallel --shebang --no-notice\n\n")
+    if(TEST_SERIAL)
+        file(WRITE "${filename}" "#!/bin/sh\n\n")
+    else()
+        file(WRITE "${filename}" "#!/usr/bin/parallel --shebang --no-notice\n\n")
+    endif()
 
     add_meta_dependencies(${TARGET_NAME} DEPENDS ${TEST_DEPENDS})
     # else we will write the rest of the script as we add cmake targets
@@ -307,6 +311,7 @@ function(install_test_script TARGET_NAME)
     foreach(ONE_CMD ${TEST_COMMAND})
         set(script "${script}'${ONE_CMD}' ")
     endforeach()
+    set(script "${script}\"\$@\"") # Allow passing arguments if desired
 
     set(filename "${CMAKE_BINARY_DIR}/tests/scripts/${TARGET_NAME}.sh")
 
@@ -370,7 +375,7 @@ function(add_meta_dependencies UPSTREAM_TARGET)
         # add depend to the meta test script that we will install on system
         set(filename "${CMAKE_BINARY_DIR}/tests/scripts/${UPSTREAM_TARGET}.sh")
         if (EXISTS "${filename}")
-            file(APPEND "${filename}" "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/tests/scripts/${depend}.sh\n")
+            file(APPEND "${filename}" "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/tests/scripts/${depend}.sh \"\$@\" 2>&1\n")
         endif()
     endforeach()
 endfunction()

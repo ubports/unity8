@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  * Copyright (C) 2010-2011 David Edmundson.
  * Copyright (C) 2010-2011 Robert Ancell
  *
@@ -18,16 +18,14 @@
  * Author: David Edmundson <kde@davidedmundson.co.uk>
  */
 
-#ifndef UNITY_MOCK_GREETER_H
-#define UNITY_MOCK_GREETER_H
+#pragma once
 
-#include <QtCore/QObject>
-#include <QtCore/QVariant>
-
+#include <QObject>
+#include <QVariant>
 
 namespace QLightDM
 {
-    class GreeterPrivate;
+class GreeterPrivate;
 
 class Q_DECL_EXPORT Greeter : public QObject
 {
@@ -41,9 +39,6 @@ class Q_DECL_EXPORT Greeter : public QObject
 
     Q_PROPERTY(QString hostname READ hostname CONSTANT)
     Q_PROPERTY(bool hasGuestAccount READ hasGuestAccountHint CONSTANT)
-
-    //Mock-only API for testing purposes
-    Q_PROPERTY(QString mockMode READ mockMode WRITE setMockMode NOTIFY mockModeChanged)
 
 public:
     enum PromptType {
@@ -68,7 +63,6 @@ public:
     bool showRemoteLoginHint() const;
     bool hasGuestAccountHint() const;
     QString selectUserHint() const;
-    void setSelectUserHint(const QString &selectUserHint); // only in mock
     bool selectGuestHint() const;
     QString autologinUserHint() const;
     bool autologinGuestHint() const;
@@ -78,9 +72,6 @@ public:
     bool isAuthenticated() const;
     QString authenticationUser() const;
     QString hostname() const;
-
-    QString mockMode() const;
-    void setMockMode(QString mockMode);
 
 public Q_SLOTS:
     bool connectSync();
@@ -98,18 +89,14 @@ Q_SIGNALS:
     void showPrompt(QString text, QLightDM::Greeter::PromptType type);
     void authenticationComplete();
     void autologinTimerExpired();
-    void mockModeChanged(QString mode);
-
-protected:
-    void sendAuthenticationComplete();
 
 private Q_SLOTS:
-    void delayedAuthentication();
+    void handleAuthenticate();
 
 private:
+    void sendAuthenticationComplete();
+
     GreeterPrivate *d_ptr;
     Q_DECLARE_PRIVATE(Greeter)
 };
 }
-
-#endif // UNITY_MOCK_GREETER_H

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2015 Canonical, Ltd.
+ * Copyright (C) 2012-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,6 +40,7 @@
 #include "globalfunctions.h"
 #include "URLDispatcher.h"
 #include "appdrawerproxymodel.h"
+#include "tabfocusfence.h"
 
 static QObject *createWindowStateStorage(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
@@ -84,4 +85,5 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<GlobalFunctions>(uri, 0, 1, "Functions", createGlobalFunctions);
     qmlRegisterType<URLDispatcher>(uri, 0, 1, "URLDispatcher");
     qmlRegisterType<AppDrawerProxyModel>(uri, 0, 1, "AppDrawerProxyModel");
+    qmlRegisterType<TabFocusFenceItem>(uri, 0, 1, "TabFocusFence");
 }
