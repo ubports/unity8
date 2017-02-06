@@ -162,7 +162,7 @@ Column {
         }
     }
 
-    // Rows of application surfaces
+    // Rows of top-level application surfaces
     Repeater {
         model: d.application ? d.application.surfaceList : null
         RowLayout {

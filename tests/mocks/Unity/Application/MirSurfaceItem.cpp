@@ -159,7 +159,9 @@ void MirSurfaceItem::setOrientationAngle(Mir::OrientationAngle angle)
 
     if (m_qmlItem) {
         QQmlProperty orientationProp(m_qmlItem, "orientationAngle");
-        orientationProp.write(QVariant::fromValue(orientationAngle()));
+        if (orientationProp.isValid()) {
+            orientationProp.write(QVariant::fromValue(orientationAngle()));
+        }
     }
 }
 
@@ -167,7 +169,9 @@ void MirSurfaceItem::updateScreenshot(QUrl screenshotUrl)
 {
     if (m_qmlItem) {
         QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");
-        screenshotSource.write(QVariant::fromValue(screenshotUrl));
+        if (screenshotSource.isValid()) {
+            screenshotSource.write(QVariant::fromValue(screenshotUrl));
+        }
     }
 }
 
@@ -193,12 +197,23 @@ void MirSurfaceItem::createQmlContentItem()
 
     {
         QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");
-        screenshotSource.write(QVariant::fromValue(m_qmlSurface->screenshotUrl()));
+        if (screenshotSource.isValid()) {
+            screenshotSource.write(QVariant::fromValue(m_qmlSurface->screenshotUrl()));
+        }
     }
 
     {
         QQmlProperty orientationProp(m_qmlItem, "orientationAngle");
-        orientationProp.write(QVariant::fromValue(orientationAngle()));
+        if (orientationProp.isValid()) {
+            orientationProp.write(QVariant::fromValue(orientationAngle()));
+        }
+    }
+
+    {
+        QQmlProperty surfaceProperty(m_qmlItem, "surface");
+        if (surfaceProperty.isValid()) {
+            surfaceProperty.write(QVariant::fromValue(m_qmlSurface));
+        }
     }
 }
 

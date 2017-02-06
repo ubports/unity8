@@ -220,6 +220,8 @@ private:
 
     void activateTopMostWindowWithoutId(int forbiddenId);
 
+    Window *createWindow(unity::shell::application::MirSurfaceInterface *surface);
+
     struct ModelEntry {
         ModelEntry() {}
         ModelEntry(Window *window,
