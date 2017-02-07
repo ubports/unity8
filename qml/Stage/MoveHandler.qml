@@ -19,15 +19,14 @@ import Unity.Application 0.1 // For Mir singleton
 import Ubuntu.Components 1.3
 import Utils 0.1
 import "../Components"
-import "../Components/PanelState"
 
 QtObject {
     id: root
 
     property Item target // appDelegate
-    property int stageWidth
-    property int stageHeight
     property real buttonsWidth: 0
+    property Item boundsItem
+    property real boundsTopMargin: 0
 
     readonly property bool dragging: priv.dragging
 
@@ -79,7 +78,10 @@ QtObject {
             // length of the triggerArea square diagonal
             var diagLength = Math.sqrt(2 * priv.triggerArea * priv.triggerArea);
             var ratio = 1 - (distance / diagLength);
-            return bx > 0 && bx <= stageWidth && by > 0 && by <= stageHeight ? ratio : 1; // everything "outside" of our square from the center is 1
+
+            // everything "outside" of our square from the center is 1
+            var mousePosBoundsCoords = target.mapToItem(root.boundsItem, bx, by);
+            return root.boundsItem.contains(mousePosBoundsCoords) ? ratio : 1;
         }
         property real progress: 0
     }
@@ -117,35 +119,38 @@ QtObject {
                 target.requestRestore();
             }
 
-            var pos = mapToItem(target.parent, mouse.x, mouse.y);
+            var pos = mapToItem(target.parent, mouse.x, mouse.y); // How can that work if we're just a QtObject (not an Item)?
+            var bounds = boundsItem.mapToItem(target.parent, 0, 0, boundsItem.width, boundsItem.height);
+            bounds.y += boundsTopMargin;
+            bounds.height -= boundsTopMargin;
             // Use integer coordinate values to ensure that target is left in a pixel-aligned
             // position. Mouse movement could have subpixel precision, yielding a fractional
             // mouse position.
             target.windowedX = Math.round(pos.x - priv.distanceX);
-            target.windowedY = Math.round(Math.max(pos.y - priv.distanceY, PanelState.panelHeight));
+            target.windowedY = Math.round(Math.max(pos.y - priv.distanceY, bounds.top));
 
             if (sensingPoints) { // edge/corner detection when dragging via the touch overlay
-                if (sensingPoints.topLeft.x < priv.triggerArea && sensingPoints.topLeft.y < PanelState.panelHeight + priv.triggerArea
+                if (sensingPoints.topLeft.x < priv.triggerArea && sensingPoints.topLeft.y < bounds.top + priv.triggerArea
                         && target.canBeCornerMaximized) { // top left
-                    priv.progress = priv.progressInCorner(0, PanelState.panelHeight, sensingPoints.topLeft.x, sensingPoints.topLeft.y);
+                    priv.progress = priv.progressInCorner(bounds.left, bounds.top, sensingPoints.topLeft.x, sensingPoints.topLeft.y);
                     priv.resetEdges();
                     priv.nearTopLeftCorner = true;
                     root.fakeMaximizeTopLeftAnimationRequested(priv.progress);
-                } else if (sensingPoints.topRight.x > stageWidth - priv.triggerArea && sensingPoints.topRight.y < PanelState.panelHeight + priv.triggerArea
+                } else if (sensingPoints.topRight.x > bounds.right - priv.triggerArea && sensingPoints.topRight.y < bounds.top + priv.triggerArea
                            && target.canBeCornerMaximized) { // top right
-                    priv.progress = priv.progressInCorner(stageWidth, PanelState.panelHeight, sensingPoints.topRight.x, sensingPoints.topRight.y);
+                    priv.progress = priv.progressInCorner(bounds.right, bounds.top, sensingPoints.topRight.x, sensingPoints.topRight.y);
                     priv.resetEdges();
                     priv.nearTopRightCorner = true;
                     root.fakeMaximizeTopRightAnimationRequested(priv.progress);
-                } else if (sensingPoints.bottomLeft.x < priv.triggerArea && sensingPoints.bottomLeft.y > stageHeight - priv.triggerArea
+                } else if (sensingPoints.bottomLeft.x < priv.triggerArea && sensingPoints.bottomLeft.y > bounds.bottom - priv.triggerArea
                            && target.canBeCornerMaximized) { // bottom left
-                    priv.progress = priv.progressInCorner(0, stageHeight, sensingPoints.bottomLeft.x, sensingPoints.bottomLeft.y);
+                    priv.progress = priv.progressInCorner(bounds.left, bounds.bottom, sensingPoints.bottomLeft.x, sensingPoints.bottomLeft.y);
                     priv.resetEdges();
                     priv.nearBottomLeftCorner = true;
                     root.fakeMaximizeBottomLeftAnimationRequested(priv.progress);
-                } else if (sensingPoints.bottomRight.x > stageWidth - priv.triggerArea && sensingPoints.bottomRight.y > stageHeight - priv.triggerArea
+                } else if (sensingPoints.bottomRight.x > bounds.right - priv.triggerArea && sensingPoints.bottomRight.y > bounds.bottom - priv.triggerArea
                            && target.canBeCornerMaximized) { // bottom right
-                    priv.progress = priv.progressInCorner(stageWidth, stageHeight, sensingPoints.bottomRight.x, sensingPoints.bottomRight.y);
+                    priv.progress = priv.progressInCorner(bounds.right, bounds.bottom, sensingPoints.bottomRight.x, sensingPoints.bottomRight.y);
                     priv.resetEdges();
                     priv.nearBottomRightCorner = true;
                     root.fakeMaximizeBottomRightAnimationRequested(priv.progress);
@@ -154,13 +159,13 @@ QtObject {
                     priv.resetEdges();
                     priv.nearLeftEdge = true;
                     root.fakeMaximizeLeftAnimationRequested(priv.progress);
-                } else if (sensingPoints.right.x > stageWidth - priv.triggerArea && target.canBeMaximizedLeftRight) { // right
-                    priv.progress = MathUtils.clampAndProject(sensingPoints.right.x, stageWidth - priv.triggerArea, stageWidth, 0, 1);
+                } else if (sensingPoints.right.x > bounds.right - priv.triggerArea && target.canBeMaximizedLeftRight) { // right
+                    priv.progress = MathUtils.clampAndProject(sensingPoints.right.x, bounds.right - priv.triggerArea, bounds.right, 0, 1);
                     priv.resetEdges();
                     priv.nearRightEdge = true;
                     root.fakeMaximizeRightAnimationRequested(priv.progress);
-                } else if (sensingPoints.top.y < PanelState.panelHeight + priv.triggerArea && target.canBeMaximized) { // top
-                    priv.progress = MathUtils.clampAndProject(sensingPoints.top.y, PanelState.panelHeight + priv.triggerArea, 0, 0, 1);
+                } else if (sensingPoints.top.y < bounds.top + priv.triggerArea && target.canBeMaximized) { // top
+                    priv.progress = MathUtils.clampAndProject(sensingPoints.top.y, bounds.top + priv.triggerArea, 0, 0, 1);
                     priv.resetEdges();
                     priv.nearTopEdge = true;
                     root.fakeMaximizeAnimationRequested(priv.progress);

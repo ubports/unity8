@@ -44,7 +44,6 @@ public:
     bool contains(MirSurface *surface) const { return m_surfaceList.contains(surface); }
 
 private:
-    void appendSurface(MirSurface *surface);
     void raise(MirSurface *surface);
     void moveSurface(int from, int to);
     void connectSurface(MirSurface *surface);
