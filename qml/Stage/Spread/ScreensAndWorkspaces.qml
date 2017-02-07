@@ -57,6 +57,7 @@ Item {
                     height: parent.height - header.height - units.gu(2)
                     width: Math.min(implicitWidth, units.gu(80), root.width)
                     anchors.bottom: parent.bottom
+                    anchors.horizontalCenter: parent.horizontalCenter
                     screen: model.screen
                     background: root.background
                 }
