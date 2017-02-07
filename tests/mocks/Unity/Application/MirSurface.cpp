@@ -74,6 +74,7 @@ using namespace unity::shell::application;
 MirSurface::MirSurface(const QString& name,
         Mir::Type type,
         Mir::State state,
+        MirSurface *parentSurface,
         const QUrl& screenshot,
         const QUrl &qmlFilePath)
     : unity::shell::application::MirSurfaceInterface(nullptr)
@@ -90,6 +91,8 @@ MirSurface::MirSurface(const QString& name,
     , m_height(-1)
     , m_slowToResize(false)
     , m_shellChrome(Mir::NormalChrome)
+    , m_parentSurface(parentSurface)
+    , m_childSurfaceList(new MirSurfaceListModel(this))
 {
     DEBUG_MSG("state=" << stateToStr(state));
 
@@ -493,6 +496,36 @@ void MirSurface::setInputBounds(const QRect &boundsRect)
     }
 }
 
+void MirSurface::openMenu(qreal x, qreal y, qreal width, qreal height)
+{
+    auto *menu = SurfaceManager::instance()->createSurface("menu", Mir::MenuType, Mir::HiddenState,
+            this /* parentSurface */,
+            QUrl() /* screenshot */,
+            QUrl("qrc:///Unity/Application/KateMenu.qml"));
+
+    menu->setRequestedPosition(QPoint(x,y));
+    menu->resize(width, height);
+    menu->requestState(Mir::RestoredState);
+
+    SurfaceManager::instance()->notifySurfaceCreated(menu);
+}
+
+void MirSurface::openDialog(qreal x, qreal y, qreal width, qreal height)
+{
+    auto *dialog = SurfaceManager::instance()->createSurface("dialog", Mir::DialogType, Mir::HiddenState,
+            this /* parentSurface */,
+            QUrl() /* screenshot */,
+            QUrl("qrc:///Unity/Application/KateDialog.qml"));
+
+    dialog->setRequestedPosition(QPoint(x,y));
+    dialog->resize(width, height);
+    dialog->requestState(Mir::RestoredState);
+
+    SurfaceManager::instance()->notifySurfaceCreated(dialog);
+
+    dialog->requestFocus();
+}
+
 void MirSurface::setRequestedPosition(const QPoint &value)
 {
     if (value != m_requestedPosition) {
@@ -504,4 +537,14 @@ void MirSurface::setRequestedPosition(const QPoint &value)
         XDEBUG_MSG("positionChanged("<<m_position<<")");
         Q_EMIT positionChanged(m_position);
     }
+}
+
+MirSurfaceInterface* MirSurface::parentSurface() const
+{
+    return m_parentSurface;
+}
+
+MirSurfaceListInterface* MirSurface::childSurfaceList() const
+{
+    return m_childSurfaceList;
 }

@@ -29,6 +29,7 @@ Row {
     property bool windowIsMaximized: false
     property bool closeButtonShown: true
     property bool maximizeButtonShown: true
+    property bool minimizeButtonVisible: true
     property bool overlayShown
 
     signal closeClicked()
@@ -75,6 +76,7 @@ Row {
         height: parent.height
         width: height
         onClicked: root.minimizeClicked()
+        visible: root.minimizeButtonVisible
 
         // We dont want touch events to fall through to parent,
         // otherwise the containsMouse will not work.
