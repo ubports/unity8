@@ -24,10 +24,11 @@
 
 VirtualKeyboard::VirtualKeyboard()
     : MirSurface("input-method",
-                     Mir::InputMethodType,
-                     Mir::MinimizedState,
-                     QUrl("qrc:///Unity/Application/vkb_portrait.png"),
-                     QUrl("qrc:///Unity/Application/VirtualKeyboard.qml"))
+                 Mir::InputMethodType,
+                 Mir::MinimizedState,
+                 nullptr, /* parentSurface */
+                 QUrl("qrc:///Unity/Application/vkb_portrait.png"),
+                 QUrl("qrc:///Unity/Application/VirtualKeyboard.qml"))
 {
 }
 

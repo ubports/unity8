@@ -28,6 +28,7 @@ MouseArea {
     property alias closeButtonVisible: buttons.closeButtonShown
     property alias title: titleLabel.text
     property alias maximizeButtonShown: buttons.maximizeButtonShown
+    property alias minimizeButtonVisible: buttons.minimizeButtonVisible
     property bool active: false
     property alias overlayShown: buttons.overlayShown
     property var menu: undefined

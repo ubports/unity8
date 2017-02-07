@@ -1,3 +1,18 @@
+unity8 (8.15+17.04.20170206-0ubuntu1) zesty; urgency=medium
+
+  [ Daniel d'Andrada ]
+  * Initial support for child windows (menus, dialogs, tooltips) (LP:
+    #1543467, #1591384, #1656727)
+
+ -- Albert Astals Cid <albert.astals@canonical.com>  Mon, 06 Feb 2017 09:12:23 +0000
+
+unity8 (8.15+17.04.20170131.1-0ubuntu1) zesty; urgency=medium
+
+  [ Rodney Dawes ]
+  * Remove dependencies on clickscope.
+
+ -- Albert Astals Cid <albert.astals@canonical.com>  Tue, 31 Jan 2017 14:40:33 +0000
+
 unity8 (8.15+17.04.20170124-0ubuntu1) zesty; urgency=medium
 
   [ Albert Astals Cid ]
