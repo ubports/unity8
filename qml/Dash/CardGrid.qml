@@ -25,8 +25,7 @@ DashRenderer {
         return cardTool.template["collapsed-rows"];
     }
 
-                                                   // ↓ This is the ubuntu store icon
-    readonly property string backgroundShapeStyle: cardTool.isAppLikeScope && !cardTool.isAppLikeScopeAppCategory ? "shadow" : "flat"
+    readonly property string backgroundShapeStyle: "flat"
 
     expandedHeight: grid.totalContentHeight
     collapsedHeight: Math.min(grid.contentHeightForRows(collapsedRows, grid.cellHeight), expandedHeight)
@@ -46,7 +45,7 @@ DashRenderer {
     ResponsiveGridView {
         id: grid
         anchors.fill: parent
-        minimumHorizontalSpacing: (cardTool.isAppLikeScopeAppCategory && cardTool.isWideView) ? units.gu(5) : units.gu(1)
+        minimumHorizontalSpacing: cardTool.isWideView ? units.gu(5) : units.gu(1)
         delegateWidth: cardTool.cardWidth
         delegateHeight: cardTool.cardHeight
         verticalSpacing: units.gu(1)

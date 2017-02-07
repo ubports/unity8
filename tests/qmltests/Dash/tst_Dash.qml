@@ -58,7 +58,7 @@ Item {
             tryCompare(dashContentList, "count", 0);
             scopes.load();
             tryCompare(dashContentList, "currentIndex", 0);
-            tryCompare(dashContentList, "count", 28);
+            tryCompare(dashContentList, "count", 27);
             tryCompare(scopes, "loaded", true);
             tryCompareFunction(function() {
                 var mockScope1Loader = findChild(dash, "scopeLoader0");
@@ -190,24 +190,6 @@ Item {
             tryCompare(optionsRepeater.itemAt(0), "visible", true)
             mouseClick(optionsRepeater.itemAt(0))
             tryCompare(expandingItem, "visible", false)
-        }
-
-        function test_manage_dash_clickscope_unfavoritable() {
-            open_manage_dash();
-
-            // Click scope star area is not visible (i.e. can't be unfavorited)
-            var favScopesListCategoryList = findChild(findChild(dash, "scopesListCategoryfavorites"), "scopesListCategoryInnerList");
-            var clickScope = findChild(favScopesListCategoryList, "delegateclickscope");
-            var starArea = findChild(clickScope, "starArea");
-            compare(starArea.visible, false);
-
-            // Go back
-            var bottomEdgeController = findInvisibleChild(dash, "bottomEdgeController");
-            var scopesList = findChild(dash, "scopesList");
-            var scopesListPageHeader = findChild(scopesList, "pageHeader");
-            var backButton = findChild(scopesListPageHeader, "innerPageHeader").leadingActionBar;
-            mouseClick(backButton);
-            tryCompare(bottomEdgeController, "progress", 0);
         }
 
         function test_manage_dash_select_same_favorite() {
@@ -625,35 +607,6 @@ Item {
             tryCompare(dashTempScopeItem, "x", dash.width);
             tryCompare(dashTempScopeItem, "visible", false);
             tryCompare(dashContent, "x", 0);
-        }
-
-        function test_cardIconStyle()
-        {
-            dash.setCurrentScope("clickscope");
-            var dashContent = findChild(dash, "dashContent");
-            tryCompare(dashContent.currentScope, "id", "clickscope");
-
-            scrollToCategory("dashCategorypredefined");
-            tryCompareFunction(function() {
-                    var tile = getCategoryDelegate("predefined", 2);
-                    var proportionalShape = findChildsByType(tile, "UCProportionalShape");
-                    return proportionalShape.length === 1;
-                },
-                true
-            );
-
-            dash.setCurrentScope("libertine-scope.ubuntu_libertine-scope");
-            var dashContent = findChild(dash, "dashContent");
-            tryCompare(dashContent.currentScope, "id", "libertine-scope.ubuntu_libertine-scope");
-
-            scrollToCategory("dashCategory2");
-            tryCompareFunction(function() {
-                    var tile = getCategoryDelegate("2", 2);
-                    var proportionalShape = findChildsByType(tile, "UCProportionalShape");
-                    return proportionalShape.length === 1;
-                },
-                true
-            );
         }
 
         function test_tempScopeItemXOnResize()
