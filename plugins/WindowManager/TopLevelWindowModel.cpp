@@ -176,17 +176,12 @@ void TopLevelWindowModel::prependSurfaceHelper(unityapi::MirSurfaceInterface *su
         // No point in signaling anything if we're resetting the whole model
     }
 
-    int id = generateId();
-    Window *window = new Window(id, this);
-    if (surface) {
-        window->setSurface(surface);
-    }
+    Window *window = createWindow(surface);
+
     m_windowModel.prepend(ModelEntry(window, application));
     if (surface) {
         connectSurface(surface);
     }
-
-    connectWindow(window);
 
     if (m_modelState == InsertingState) {
         endInsertRows();
@@ -322,34 +317,47 @@ void TopLevelWindowModel::onSurfaceDestroyed(unityapi::MirSurfaceInterface *surf
     }
 }
 
+Window *TopLevelWindowModel::createWindow(unityapi::MirSurfaceInterface *surface)
+{
+    int id = generateId();
+    Window *qmlWindow = new Window(id, this);
+    connectWindow(qmlWindow);
+    if (surface) {
+        qmlWindow->setSurface(surface);
+    }
+    return qmlWindow;
+}
+
 void TopLevelWindowModel::onSurfaceCreated(unityapi::MirSurfaceInterface *surface)
 {
     DEBUG_MSG << "(" << surface << ")";
-    if (surface->type() == Mir::InputMethodType) {
-        int id = generateId();
-        Window *qmlWindow = new Window(id, this);
-        connectWindow(qmlWindow);
-        qmlWindow->setSurface(surface);
-        setInputMethodWindow(qmlWindow);
+
+    if (surface->parentSurface()) {
+        // Wrap it in a Window so that we keep focusedWindow() up to date.
+        Window *window = createWindow(surface);
+        connect(surface, &QObject::destroyed, window, [=](){
+            window->setSurface(nullptr);
+            window->deleteLater();
+        });
     } else {
-        auto application = m_applicationManager->findApplicationWithSurface(surface);
-        if (application) {
-            prependSurface(surface, application);
+        if (surface->type() == Mir::InputMethodType) {
+            setInputMethodWindow(createWindow(surface));
         } else {
-            // Must be a prompt session. No need to do add it as a prompt surface is not top-level.
-            // It will show up in the ApplicationInfoInterface::promptSurfaceList of some application.
-            // Still wrap it in a Window though, so that we keep focusedWindow() up to date.
-            int id = generateId();
-            Window *promptWindow = new Window(id, this);
-            connectWindow(promptWindow);
-            promptWindow->setSurface(surface);
-            connect(surface, &QObject::destroyed, promptWindow, [=](){
-                promptWindow->setSurface(nullptr);
-                promptWindow->deleteLater();
-            });
+            auto *application = m_applicationManager->findApplicationWithSurface(surface);
+            if (application) {
+                prependSurface(surface, application);
+            } else {
+                // Must be a prompt session. No need to do add it as a prompt surface is not top-level.
+                // It will show up in the ApplicationInfoInterface::promptSurfaceList of some application.
+                // Still wrap it in a Window though, so that we keep focusedWindow() up to date.
+                Window *promptWindow = createWindow(surface);
+                connect(surface, &QObject::destroyed, promptWindow, [=](){
+                    promptWindow->setSurface(nullptr);
+                    promptWindow->deleteLater();
+                });
+            }
         }
     }
-    // TODO: handle surfaces that are neither top-level windows nor input method. eg: child dialogs, popups, menus
 }
 
 void TopLevelWindowModel::removeAt(int index)

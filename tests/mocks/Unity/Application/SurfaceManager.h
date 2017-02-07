@@ -49,7 +49,9 @@ public:
     Q_INVOKABLE MirSurface* createSurface(const QString& name,
                                   Mir::Type type,
                                   Mir::State state,
-                                  const QUrl& screenshot);
+                                  MirSurface *parentSurface,
+                                  const QUrl &screenshot,
+                                  const QUrl &qmlFilePath = QUrl());
 
 
     void notifySurfaceCreated(unity::shell::application::MirSurfaceInterface *);
