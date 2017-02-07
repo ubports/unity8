@@ -70,7 +70,7 @@ Item {
         function loadScopes() {
             scopeLoadedSpy.clear();
             scopesModel.load();
-            tryCompare(scopeLoadedSpy, "count", 28, 15000);
+            tryCompare(scopeLoadedSpy, "count", 27, 15000);
             tryCompare(scopesModel, "loaded", true);
             tryCompareFunction(function() {
                 var mockScope1Loader = findChild(shell, "scopeLoader0");
@@ -120,11 +120,11 @@ Item {
             scopesModel.clear();
             compare(dashContentList.count, 0, "DashContent should have 0 items after clearing");
             // pretend we're running after a model reset
-            dashContentList.currentIndex = 27;
+            dashContentList.currentIndex = 26;
 
             loadScopes();
 
-            compare(dashContentList.count, 28);
+            compare(dashContentList.count, 27);
             verify(dashContentList.currentIndex >= 0 && dashContentList.currentIndex < dashContentList.count);
         }
 
