@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-01-24 07:46+0000\n"
-"PO-Revision-Date: 2016-12-16 00:21+0000\n"
+"POT-Creation-Date: 2017-01-31 14:40+0000\n"
+"PO-Revision-Date: 2017-02-02 07:25+0000\n"
 "Last-Translator: Marcos Lans <Unknown>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-01-27 06:12+0000\n"
-"X-Generator: Launchpad (build 18315)\n"
+"X-Launchpad-Export-Date: 2017-02-04 05:55+0000\n"
+"X-Generator: Launchpad (build 18322)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -24,15 +24,15 @@ msgstr "Contrasinal : "
 
 #: plugins/LightDM/Greeter.cpp:203
 msgid "Username"
-msgstr ""
+msgstr "Nome do usuario"
 
 #: plugins/LightDM/Greeter.cpp:242
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "Produciuse un fallo na autenticación"
 
 #: plugins/LightDM/Greeter.cpp:244
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "O contrasinal é incorrecto, ténteo de novo"
 
 #: plugins/LightDM/Greeter.cpp:254
 msgid "Log In"
@@ -44,11 +44,11 @@ msgstr "Reintentar"
 
 #: plugins/LightDM/UsersModel.cpp:152
 msgid "Login"
-msgstr ""
+msgstr "Iniciar sesión"
 
 #: plugins/LightDM/UsersModel.cpp:160
 msgid "Guest Session"
-msgstr ""
+msgstr "Sesión de convidado"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:50
 #: plugins/Unity/Launcher/launcheritem.cpp:122
@@ -149,7 +149,7 @@ msgstr "Alt + ImpPant"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of the current window."
-msgstr ""
+msgstr "Fai unha foto da xanela actual."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -499,11 +499,11 @@ msgstr "Tentar de novo"
 
 #: qml/Greeter/Greeter.qml:562
 msgid "Enter passphrase to unlock"
-msgstr ""
+msgstr "Escriba a frase secreta de desbloqueo"
 
 #: qml/Greeter/Greeter.qml:563
 msgid "Enter passcode to unlock"
-msgstr ""
+msgstr "Escriba a clave de desbloqueo"
 
 #: qml/Greeter/NarrowView.qml:242
 msgid "Emergency"

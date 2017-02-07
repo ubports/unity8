@@ -18,17 +18,14 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 import Unity.Application 0.1
-import "../Components/PanelState"
 
 Item {
     id: root
-    enabled: target && !target.fullscreen
-    anchors.fill: target
 
     // to be set from outside
     property Item target // appDelegate
-    property alias stageWidth: moveHandler.stageWidth
-    property alias stageHeight: moveHandler.stageHeight
+    property WindowResizeArea resizeArea
+    property Item boundsItem
 
     // to be read from outside
     readonly property alias overlayShown: overlay.visible
@@ -90,9 +87,7 @@ Item {
 
     QtObject {
         id: priv
-        readonly property var resizeArea: root.target && root.target.resizeArea ? root.target.resizeArea : null
-        readonly property bool ensureWindow: root.target.state == "normal" || root.target.state == "restored"
-        readonly property bool dragging: moveHandler.dragging || (resizeArea && resizeArea.dragging)
+        readonly property bool dragging: moveHandler.dragging || (root.resizeArea && root.resizeArea.dragging)
 
         function getSensingPoints() {
             var xPoints = [];
@@ -162,6 +157,8 @@ Item {
                 objectName: "moveHandler"
                 target: root.target
 
+                boundsItem: root.boundsItem
+
                 onFakeMaximizeAnimationRequested: root.fakeMaximizeAnimationRequested(amount)
                 onFakeMaximizeLeftAnimationRequested: root.fakeMaximizeLeftAnimationRequested(amount)
                 onFakeMaximizeRightAnimationRequested: root.fakeMaximizeRightAnimationRequested(amount)
@@ -193,65 +190,65 @@ Item {
         ResizeGrip { // top left
             anchors.horizontalCenter: parent.left
             anchors.verticalCenter: parent.top
-            visible: priv.ensureWindow || target.maximizedBottomRight
-            resizeTarget: priv.resizeArea
+            visible: root.enabled || target.maximizedBottomRight
+            resizeTarget: root.resizeArea
         }
 
         ResizeGrip { // top center
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.top
             rotation: 45
-            visible: priv.ensureWindow || target.maximizedHorizontally || target.maximizedBottomLeft || target.maximizedBottomRight
-            resizeTarget: priv.resizeArea
+            visible: root.enabled || target.maximizedHorizontally || target.maximizedBottomLeft || target.maximizedBottomRight
+            resizeTarget: root.resizeArea
         }
 
         ResizeGrip { // top right
             anchors.horizontalCenter: parent.right
             anchors.verticalCenter: parent.top
             rotation: 90
-            visible: priv.ensureWindow || target.maximizedBottomLeft
-            resizeTarget: priv.resizeArea
+            visible: root.enabled || target.maximizedBottomLeft
+            resizeTarget: root.resizeArea
         }
 
         ResizeGrip { // right
             anchors.horizontalCenter: parent.right
             anchors.verticalCenter: parent.verticalCenter
             rotation: 135
-            visible: priv.ensureWindow || target.maximizedVertically || target.maximizedLeft ||
+            visible: root.enabled || target.maximizedVertically || target.maximizedLeft ||
                      target.maximizedTopLeft || target.maximizedBottomLeft
-            resizeTarget: priv.resizeArea
+            resizeTarget: root.resizeArea
         }
 
         ResizeGrip { // bottom right
             anchors.horizontalCenter: parent.right
             anchors.verticalCenter: parent.bottom
-            visible: priv.ensureWindow || target.maximizedTopLeft
-            resizeTarget: priv.resizeArea
+            visible: root.enabled || target.maximizedTopLeft
+            resizeTarget: root.resizeArea
         }
 
         ResizeGrip { // bottom center
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.bottom
             rotation: 45
-            visible: priv.ensureWindow || target.maximizedHorizontally || target.maximizedTopLeft || target.maximizedTopRight
-            resizeTarget: priv.resizeArea
+            visible: root.enabled || target.maximizedHorizontally || target.maximizedTopLeft || target.maximizedTopRight
+            resizeTarget: root.resizeArea
         }
 
         ResizeGrip { // bottom left
             anchors.horizontalCenter: parent.left
             anchors.verticalCenter: parent.bottom
             rotation: 90
-            visible: priv.ensureWindow || target.maximizedTopRight
-            resizeTarget: priv.resizeArea
+            visible: root.enabled || target.maximizedTopRight
+            resizeTarget: root.resizeArea
         }
 
         ResizeGrip { // left
             anchors.horizontalCenter: parent.left
             anchors.verticalCenter: parent.verticalCenter
             rotation: 135
-            visible: priv.ensureWindow || target.maximizedVertically || target.maximizedRight ||
+            visible: root.enabled || target.maximizedVertically || target.maximizedRight ||
                      target.maximizedTopRight || target.maximizedBottomRight
-            resizeTarget: priv.resizeArea
+            resizeTarget: root.resizeArea
         }
     }
 }

@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-01-24 07:46+0000\n"
-"PO-Revision-Date: 2016-12-17 14:32+0000\n"
-"Last-Translator: Anne017 <anneonyme017@openmailbox.org>\n"
+"POT-Creation-Date: 2017-01-31 14:40+0000\n"
+"PO-Revision-Date: 2017-02-06 20:38+0000\n"
+"Last-Translator: Jean-Marc <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2017-01-27 06:12+0000\n"
-"X-Generator: Launchpad (build 18315)\n"
+"X-Launchpad-Export-Date: 2017-02-07 05:56+0000\n"
+"X-Generator: Launchpad (build 18326)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -24,15 +24,15 @@ msgstr "Mot de passe : "
 
 #: plugins/LightDM/Greeter.cpp:203
 msgid "Username"
-msgstr ""
+msgstr "Nom d’utilisateur"
 
 #: plugins/LightDM/Greeter.cpp:242
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "Échec de l'authentification"
 
 #: plugins/LightDM/Greeter.cpp:244
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "Mot de passe non valide, veuillez réessayer"
 
 #: plugins/LightDM/Greeter.cpp:254
 msgid "Log In"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: plugins/LightDM/UsersModel.cpp:160
 msgid "Guest Session"
-msgstr ""
+msgstr "Session d'invité"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:50
 #: plugins/Unity/Launcher/launcheritem.cpp:122
@@ -151,7 +151,7 @@ msgstr "Alt + Impécr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of the current window."
-msgstr ""
+msgstr "Prend une capture d'écran de la fenêtre actuelle."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -507,7 +507,7 @@ msgstr "Réessayer"
 
 #: qml/Greeter/Greeter.qml:562
 msgid "Enter passphrase to unlock"
-msgstr ""
+msgstr "Saisir la phrase de passe pour déverrouiller"
 
 #: qml/Greeter/Greeter.qml:563
 msgid "Enter passcode to unlock"
