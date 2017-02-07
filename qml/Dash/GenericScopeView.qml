@@ -582,7 +582,7 @@ FocusScope {
             showSignatureLine: !showBackButton
             searchEntryEnabled: true
             settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false
-            favoriteEnabled: scopeView.scope && scopeView.scope.id !== "clickscope"
+            favoriteEnabled: scopeView.scope
             favorite: scopeView.scope && scopeView.scope.favorite
             navigationTag: scopeView.scope ? scopeView.scope.primaryNavigationTag : ""
             scopeStyle: scopeView.scopeStyle

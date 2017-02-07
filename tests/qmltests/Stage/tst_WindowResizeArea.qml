@@ -90,6 +90,7 @@ Item {
                 id: windowResizeArea
                 anchors.fill: parent
                 target: fakeWindow
+                boundsItem: bounds
                 borderThickness: units.gu(2)
                 minWidth: units.gu(15)
                 minHeight: units.gu(10)
@@ -121,7 +122,16 @@ Item {
         active: windowLoaderCheckbox.checked
     }
 
+    Item {
+        id: bounds
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.right: controls.left
+        anchors.bottom: parent.bottom
+    }
+
     Rectangle {
+        id: controls
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
