@@ -32,7 +32,7 @@ MouseArea {
     // The area will anchor to it and manage resize events
     property Item target: null
     property int borderThickness: 0
-    property real minimumY: -100000000 // By default, impose no limit
+    property Item boundsItem
     property int minWidth: 0
     property int minHeight: 0
 
@@ -243,7 +243,8 @@ MouseArea {
         }
 
         if (d.topBorder) {
-            var newTargetY = Math.max(d.startY + deltaY, root.minimumY);
+            var bounds = boundsItem.mapToItem(target.parent, 0, 0, boundsItem.width, boundsItem.height);
+            var newTargetY = Math.max(d.startY + deltaY, bounds.y);
             var bottomBorderY = target.windowedY + target.height;
             if (bottomBorderY > newTargetY + d.minimumHeight) {
                 if (bottomBorderY < newTargetY + d.maximumHeight) {

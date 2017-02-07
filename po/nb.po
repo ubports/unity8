@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-01-24 07:46+0000\n"
-"PO-Revision-Date: 2016-10-30 17:41+0000\n"
+"POT-Creation-Date: 2017-01-31 14:40+0000\n"
+"PO-Revision-Date: 2017-01-27 07:01+0000\n"
 "Last-Translator: Åka Sikrom <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-01-26 06:20+0000\n"
-"X-Generator: Launchpad (build 18315)\n"
+"X-Launchpad-Export-Date: 2017-02-04 05:55+0000\n"
+"X-Generator: Launchpad (build 18322)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -207,11 +207,11 @@ msgstr "Tilsvarer å trykke på et oppstarterikon."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + A"
-msgstr ""
+msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Opens the Application Drawer."
-msgstr ""
+msgstr "Åpner programmeny."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:194
 msgid "Scopes"
@@ -361,19 +361,19 @@ msgstr ""
 
 #: qml/Components/VirtualTouchPad.qml:327
 msgid "Tap left button to click."
-msgstr ""
+msgstr "Trykk på venstre knapp for å klikke."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "Trykk på høyre knapp for å høyreklikke."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "Dra med to fingre for å rulle."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "Finn flere instillinger i systeminstillinger."
 
 #: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
@@ -527,16 +527,16 @@ msgstr "Velg skrivebordsmiljø"
 
 #: qml/Launcher/Drawer.qml:92
 msgid "Search…"
-msgstr ""
+msgstr "Søk …"
 
 #: qml/Launcher/Drawer.qml:123
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
-msgstr ""
+msgstr "A-Å"
 
 #: qml/Launcher/MoreAppsHeader.qml:39
 msgid "More apps in the store"
-msgstr ""
+msgstr "Flere programmer i butikken"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"

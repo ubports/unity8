@@ -480,6 +480,15 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("Primary Oriented");
     application->setSupportedOrientations(Qt::PrimaryOrientation);
     m_availableApplications.append(application);
+
+    application = new ApplicationInfo(this);
+    application->setAppId("kate");
+    application->setName("Kate");
+    application->setIconId("libreoffice");
+    application->setScreenshotId("libreoffice");
+    application->setQmlFilename("Kate.qml");
+    application->setIsTouchApp(false);
+    m_availableApplications.append(application);
 }
 
 
