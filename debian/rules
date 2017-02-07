@@ -40,4 +40,4 @@ override_dh_makeshlibs:
 override_dh_shlibdeps:
 	# Some mock libraries link against liblightdm-qt5-3.so which we want to
 	# avoid, since we only really link against our mock one, not the system one.
-	dh_shlibdeps -XlibMockLightDM-qml.so -XlibMockAccountsService-qml.so -Lunity8-private
+	dh_shlibdeps -XlibMockAccountsService-qml.so -Lunity8-private

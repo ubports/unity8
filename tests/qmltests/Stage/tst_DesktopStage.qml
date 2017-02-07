@@ -29,6 +29,7 @@ import ".." // For EdgeBarrierControls
 import "../../../qml/Stage"
 import "../../../qml/Components"
 import "../../../qml/Components/PanelState"
+import "../../../qml/ApplicationMenus"
 
 Item {
     id: root
@@ -44,6 +45,8 @@ Item {
     }
 
     Component.onCompleted: {
+        ApplicationMenusLimits.screenWidth = Qt.binding( function() { return stageLoader.width; } );
+        ApplicationMenusLimits.screenHeight = Qt.binding( function() { return stageLoader.height; } );
         QuickUtils.keyboardAttached = true;
         theme.name = "Ubuntu.Components.Themes.SuruDark";
         resetGeometry();
@@ -829,6 +832,145 @@ Item {
 
             mouseRelease(decoration);
             tryCompare(Mir, "cursorName", "");
+        }
+
+        function test_menuPositioning_data() {
+            return [
+                {tag: "good",
+                    windowPosition: Qt.point(units.gu(10),  units.gu(10))
+                },
+                {tag: "collides right",
+                    windowPosition: Qt.point(units.gu(100), units.gu(10)),
+                    minimumXDifference: units.gu(8)
+                },
+                {tag: "collides bottom",
+                    windowPosition: Qt.point(units.gu(10),  units.gu(80)),
+                    minimumYDifference: units.gu(7)
+                },
+            ]
+        }
+
+        function test_menuPositioning(data) {
+            var appDelegate = startApplication("dialer-app");
+            appDelegate.windowedX = data.windowPosition.x;
+            appDelegate.windowedY = data.windowPosition.y;
+
+            var menuItem = findChild(appDelegate, "menuBar-item3");
+            menuItem.show();
+
+            var menu = findChild(appDelegate, "menuBar-item3-menu");
+            tryCompare(menu, "visible", true);
+
+            var normalPositioningX = menuItem.x - units.gu(1);
+            var normalPositioningY = menuItem.height;
+
+            // We do this fuzzy checking because otherwise we would be duplicating the code
+            // that calculates the coordinates and any bug it may have, what we want is really
+            // to check that on collision with the border the menu is shifted substantially
+            if (data.minimumXDifference) {
+                verify(menu.x < normalPositioningX - data.minimumXDifference);
+            } else {
+                compare(menu.x, normalPositioningX);
+            }
+
+            if (data.minimumYDifference) {
+                verify(menu.y < normalPositioningY - data.minimumYDifference);
+            } else {
+                compare(menu.y, normalPositioningY);
+            }
+        }
+
+        function test_submenuPositioning_data() {
+            return [
+                {tag: "good",
+                    windowPosition: Qt.point(units.gu(10),  units.gu(10))
+                },
+                {tag: "collides right",
+                    windowPosition: Qt.point(units.gu(100), units.gu(10)),
+                    minimumXDifference: units.gu(35)
+                },
+                {tag: "collides bottom",
+                    windowPosition: Qt.point(units.gu(10),  units.gu(80)),
+                    minimumYDifference: units.gu(8)
+                },
+            ]
+        }
+
+        function test_submenuPositioning(data) {
+            var appDelegate = startApplication("dialer-app");
+            appDelegate.windowedX = data.windowPosition.x;
+            appDelegate.windowedY = data.windowPosition.y;
+
+            var menuItem = findChild(appDelegate, "menuBar-item3");
+            menuItem.show();
+
+            var menu = findChild(appDelegate, "menuBar-item3-menu");
+            menuItem = findChild(menu, "menuBar-item3-menu-item3-actionItem");
+            tryCompare(menuItem, "visible", true);
+            mouseMove(menuItem);
+            mouseClick(menuItem);
+
+            menu = findChild(appDelegate, "menuBar-item3-menu-item3-menu");
+
+            var normalPositioningX = menuItem.width;
+            var normalPositioningY = menuItem.parent.y;
+
+            // We do this fuzzy checking because otherwise we would be duplicating the code
+            // that calculates the coordinates and any bug it may have, what we want is really
+            // to check that on collision with the border the menu is shifted substantially
+            if (data.minimumXDifference) {
+                verify(menu.x < normalPositioningX - data.minimumXDifference);
+            } else {
+                compare(menu.x, normalPositioningX);
+            }
+
+            if (data.minimumYDifference) {
+                verify(menu.y < normalPositioningY - data.minimumYDifference);
+            } else {
+                compare(menu.y, normalPositioningY);
+            }
+        }
+
+        function test_menuDoubleClickNoMaximizeWindowBehind() {
+            var appDelegate1 = startApplication("dialer-app");
+            var appDelegate2 = startApplication("gmail-webapp");
+
+            // Open menu
+            var menuItem = findChild(appDelegate2, "menuBar-item3");
+            menuItem.show();
+            var menu = findChild(appDelegate2, "menuBar-item3-menu");
+            menuItem = findChild(menu, "menuBar-item3-menu-item3-actionItem");
+            tryCompare(menuItem, "visible", true);
+
+            // Place the other application window decoration under the menu
+            var pos = menuItem.mapToItem(null, menuItem.width / 2, menuItem.height / 2);
+            appDelegate1.windowedX = pos.x - appDelegate1.width / 2;
+            appDelegate1.windowedY = pos.y - units.gu(1);
+
+            var previousWindowState = appDelegate1.windowState;
+
+            mouseMove(menuItem);
+            mouseDoubleClickSequence(menuItem);
+
+            expectFail("", "Double clicking a menu should not change the window below");
+            tryCompareFunction(function() { return appDelegate1.windowState != previousWindowState; }, true);
+        }
+
+        function test_openMenuEatsHoverOutsideIt() {
+            var appDelegate = startApplication("gmail-webapp");
+
+            var wd = findChild(appDelegate, "appWindowDecoration");
+            var closeButton = findChild(wd, "closeWindowButton");
+
+            // Open menu
+            var menuItem = findChild(appDelegate, "menuBar-item3");
+            menuItem.show();
+            var menu = findChild(appDelegate, "menuBar-item3-menu");
+            tryCompare(menu, "visible", true);
+
+            mouseMove(closeButton, closeButton.width/2, closeButton.height/2);
+            expectFail("", "Hovering the window controls should be ignored when the menu is open");
+            tryCompare(closeButton, "containsMouse", true);
         }
     }
 }

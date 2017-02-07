@@ -14,6 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "Greeter.h"
+#include "MockController.h"
 #include "UsersModel.h"
 
 #include <QLightDM/UsersModel>
@@ -40,43 +42,112 @@ private:
         return model->data(model->index(i, 0), role).toString();
     }
 
+    void recreateModel()
+    {
+        delete model;
+        model = new UsersModel();
+        QVERIFY(model);
+    }
+
 private Q_SLOTS:
 
     void init()
     {
-        model = new UsersModel();
-        QVERIFY(model);
-        sourceModel = new QLightDM::UsersModel();
-        QVERIFY(sourceModel);
+        recreateModel();
     }
 
     void cleanup()
     {
-        delete model;
-        delete sourceModel;
+        QLightDM::MockController::instance()->reset();
     }
 
     void testMangleColor()
     {
-        QString background = getStringValue(sourceModel, "color-background", QLightDM::UsersModel::BackgroundPathRole);
-        QVERIFY(background == "#E95420");
-
-        background = getStringValue(model, "color-background", QLightDM::UsersModel::BackgroundPathRole);
+        auto background = getStringValue(model, "color-background", QLightDM::UsersModel::BackgroundPathRole);
         QVERIFY(background == "data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#E95420'/></svg>");
     }
 
     void testMangleEmptyName()
     {
-        QString name = getStringValue(sourceModel, "empty-name", QLightDM::UsersModel::RealNameRole);
-        QVERIFY(name == "");
-
-        name = getStringValue(model, "empty-name", QLightDM::UsersModel::RealNameRole);
+        auto name = getStringValue(model, "empty-name", QLightDM::UsersModel::RealNameRole);
         QVERIFY(name == "empty-name");
     }
 
+    void testHasGuest()
+    {
+        // sanity check that it doesn't start already present
+        QCOMPARE(findName(model, QStringLiteral("*guest")), -1);
+
+        QLightDM::MockController::instance()->setHasGuestAccountHint(true);
+
+        int i = findName(model, QStringLiteral("*guest"));
+        QVERIFY(i >= 0);
+
+        auto realName = model->data(i, QLightDM::UsersModel::RealNameRole).toString();
+        QCOMPARE(realName, QStringLiteral("Guest Session"));
+
+        auto loggedIn = model->data(i, QLightDM::UsersModel::LoggedInRole).toBool();
+        QVERIFY(!loggedIn);
+
+        auto session = model->data(i, QLightDM::UsersModel::SessionRole).toString();
+        QCOMPARE(session, Greeter::instance()->defaultSessionHint());
+    }
+
+    void testHasManual()
+    {
+        // sanity check that it doesn't start already present
+        QCOMPARE(findName(model, QStringLiteral("*other")), -1);
+
+        QLightDM::MockController::instance()->setShowManualLoginHint(true);
+
+        int i = findName(model, QStringLiteral("*other"));
+        QVERIFY(i >= 0);
+
+        auto realName = model->data(i, QLightDM::UsersModel::RealNameRole).toString();
+        QCOMPARE(realName, QStringLiteral("Login"));
+
+        auto loggedIn = model->data(i, QLightDM::UsersModel::LoggedInRole).toBool();
+        QVERIFY(!loggedIn);
+
+        auto session = model->data(i, QLightDM::UsersModel::SessionRole).toString();
+        QCOMPARE(session, Greeter::instance()->defaultSessionHint());
+    }
+
+    void testHideUsers()
+    {
+        QLightDM::MockController::instance()->setHideUsersHint(true);
+
+        QCOMPARE(model->count(), 1);
+        auto name = model->data(0, QLightDM::UsersModel::NameRole).toString();
+        QCOMPARE(name, QStringLiteral("*other"));
+    }
+
+    void testHideUsersWithGuest()
+    {
+        QLightDM::MockController::instance()->setHideUsersHint(true);
+        QLightDM::MockController::instance()->setHasGuestAccountHint(true);
+
+        QCOMPARE(model->count(), 1);
+        auto name = model->data(0, QLightDM::UsersModel::NameRole).toString();
+        QCOMPARE(name, QStringLiteral("*guest"));
+    }
+
+    void testCustomEntriesAreLast()
+    {
+        QLightDM::MockController::instance()->setHasGuestAccountHint(true);
+        QLightDM::MockController::instance()->setShowManualLoginHint(true);
+
+        QVERIFY(model->count() > 2);
+
+        int manualIndex = findName(model, QStringLiteral("*other"));
+        QCOMPARE(manualIndex, model->count() - 2);
+
+        int guestIndex = findName(model, QStringLiteral("*guest"));
+        QCOMPARE(guestIndex, model->count() - 1);
+    }
+
 private:
-    UsersModel *model;
-    QLightDM::UsersModel *sourceModel;
+    UsersModel *model = nullptr;
 };
 
 QTEST_MAIN(GreeterUsersModelTest)

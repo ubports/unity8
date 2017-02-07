@@ -80,7 +80,7 @@ QtObject {
         } else if (currentIndex !== -1 && itemView.count > 1) {
             var startIndex = currentIndex - 1;
             newIndex = startIndex;
-            do {                
+            do {
                 if (newIndex < 0) {
                     if (hasOverflow) {
                         overflow();

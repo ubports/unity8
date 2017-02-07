@@ -180,6 +180,68 @@ Item {
             tryCompare(priv, "currentItem", menuItem);
         }
 
+        function test_menuActivateClosesMenu() {
+            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0,"menu");
+            var priv = findInvisibleChild(menuBar, "d");
+
+            var menuItem = findChild(menuBar, "menuBar-item0");
+            menuItem.show();
+            compare(priv.currentItem, menuItem, "CurrentItem should be set to item 0");
+            compare(priv.currentItem.popupVisible, true, "Popup should be visible");
+
+            var actionItem = findChild(menuBar, "menuBar-item0-menu-item0-actionItem");
+            mouseClick(actionItem);
+            compare(priv.currentItem, null, "CurrentItem should be null");
+        }
+
+        function test_subMenuActivateClosesMenu() {
+            menuBackend.modelData = appMenuData.generateTestData(3,4,1,0,"menu");
+            var priv = findInvisibleChild(menuBar, "d");
+
+            var menuItem = findChild(menuBar, "menuBar-item0");
+            menuItem.show();
+            compare(priv.currentItem, menuItem, "CurrentItem should be set to item 0");
+            compare(priv.currentItem.popupVisible, true, "Popup should be visible");
+
+            var actionItem = findChild(menuBar, "menuBar-item0-menu-item0-actionItem");
+            mouseClick(actionItem);
+
+            actionItem = findChild(menuBar, "menuBar-item0-menu-item0-menu-item0-actionItem");
+            mouseClick(actionItem);
+
+            actionItem = findChild(menuBar, "menuBar-item0-menu-item0-menu-item0-menu-item0-actionItem");
+            mouseClick(actionItem);
+
+            compare(priv.currentItem, null, "CurrentItem should be null");
+        }
+
+        function test_openAppMenuShortcut() {
+            var priv = findInvisibleChild(menuBar, "d");
+
+            var menuItem0 = findChild(menuBar, "menuBar-item0"); verify(menuItem0);
+            menuItem0.enabled = false;
+
+            var menuItem1 = findChild(menuBar, "menuBar-item1"); verify(menuItem1);
+            verify(priv.currentItem === null);
+
+            keyClick(Qt.Key_F10, Qt.AltModifier);
+            compare(priv.currentItem, menuItem1, "First enabled item should be opened");
+        }
+
+        function test_clickOpenMenuClosesMenu() {
+            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0,"menu");
+            var priv = findInvisibleChild(menuBar, "d");
+
+            var menuItem = findChild(menuBar, "menuBar-item0");
+            waitForRendering(menuItem);
+            mouseClick(menuItem);
+            compare(priv.currentItem, menuItem, "CurrentItem should be set to item 0");
+            compare(priv.currentItem.popupVisible, true, "Popup should be visible");
+
+            waitForRendering(menuItem);
+            mouseClick(menuItem);
+            compare(priv.currentItem, null, "CurrentItem should be null");
+        }
 
         function test_overfow() {
             menuBackend.modelData = appMenuData.generateTestData(5,2,0,0,"menu");
