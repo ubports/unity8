@@ -2,34 +2,52 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import "MathUtils.js" as MathUtils
 
-Rectangle {
+Item {
     id: root
-    implicitWidth: listView.count * (height * 16/9)
-    color: "blue"
+    implicitWidth: listView.count * (height * 16/9 + listView.spacing) - listView.spacing
+//    color: "blue"
 
-    property var screen: null
+    property QtObject screen: null
+    property alias workspaceModel: listView.model
     property var background // TODO: should be stored in the workspace data
 
-//    Rectangle { anchors.fill: parent; color: "green" }
+    DropArea {
+        anchors.fill: root
+
+        keys: ['workspace']
+
+        onEntered: {
+            var index = listView.getDropIndex(drag);
+            listView.model.insert(index, {text: drag.source.text})
+            listView.dropItemIndex = index;
+            drag.source.inDropArea = true;
+        }
+
+        onPositionChanged: {
+            var index = listView.getDropIndex(drag);
+            if (listView.dropItemIndex == index) return;
+            listView.model.move(listView.dropItemIndex, index, 1);
+            listView.dropItemIndex = index;
+        }
+
+        onExited: {
+            listView.model.remove(listView.dropItemIndex, 1);
+            listView.dropItemIndex = -1;
+            drag.source.inDropArea = false;
+        }
+
+        onDropped: {
+            listView.dropItemIndex = -1;
+            drag.source.inDropArea = false;
+        }
+    }
+
     ListView {
         id: listView
         anchors.fill: parent
         anchors.leftMargin: -itemWidth
         anchors.rightMargin: -itemWidth
         interactive: false
-
-        model: ListModel {
-            ListElement {text: "1"}
-            ListElement {text: "2"}
-            ListElement {text: "3"}
-            ListElement {text: "4"}
-            ListElement {text: "5"}
-            ListElement {text: "6"}
-            ListElement {text: "7"}
-            ListElement {text: "8"}
-            ListElement {text: "9"}
-        }
-
 
         orientation: ListView.Horizontal
         spacing: units.gu(1)
@@ -39,14 +57,25 @@ Rectangle {
         property int itemWidth: height * 16 / 9
         property int foldingAreaWidth: units.gu(10)
         property real realContentX: contentX - originX + leftMargin
+        property int dropItemIndex: -1
+
+        function getDropIndex(drag) {
+            var coords = mapToItem(listView.contentItem, drag.x, drag.y)
+            var index = Math.floor((drag.x + listView.realContentX) / (listView.itemWidth + listView.spacing));
+            if (index < 0) index = 0;
+            var upperLimit = dropItemIndex == -1 ? listView.count : listView.count - 1
+            if (index > upperLimit) index = upperLimit;
+            return index;
+        }
 
         displaced: Transition { UbuntuNumberAnimation { properties: "x" } }
 
         delegate: Item {
             objectName: "delegate" + index
             height: parent.height
-            width: /*dndArea.draggedIndex == index ? units.gu(5) :*/ listView.itemWidth
+            width: listView.itemWidth
             Behavior on width { UbuntuNumberAnimation {} }
+            visible: listView.dropItemIndex !== index
 
             property int itemX: -listView.realContentX + index * (listView.itemWidth + listView.spacing)
             property int distanceFromLeft: itemX //- listView.leftMargin
@@ -83,34 +112,33 @@ Rectangle {
             }
 
             property int itemOffset: {
+                var rotationOffset = (1 - Math.cos(itemAngle * Math.PI / 360)) * listView.itemWidth
                 if (index == 0) {
                     if (distanceFromLeft < 0) {
-                        return -distanceFromLeft
+                        return -distanceFromLeft - rotationOffset
                     }
                     return 0
                 }
                 if (index == listView.count - 1) {
                     if (distanceFromRight < 0) {
-                        return distanceFromRight
+                        return distanceFromRight + rotationOffset
                     }
                     return 0
                 }
 
                 if (itemX < -listView.foldingAreaWidth) {
-                    return -itemX
+                    return -itemX - rotationOffset
                 }
                 if (distanceFromLeft < listView.foldingAreaWidth) {
-                    var progress = distanceFromLeft / listView.foldingAreaWidth
-                    return (listView.foldingAreaWidth - distanceFromLeft) / 2
+                    return (listView.foldingAreaWidth - distanceFromLeft) / 2 - rotationOffset
                 }
 
                 if (distanceFromRight < -listView.foldingAreaWidth) {
-                    return distanceFromRight
+                    return distanceFromRight + rotationOffset
                 }
 
                 if (distanceFromRight < listView.foldingAreaWidth) {
-                    var progress = distanceFromRight / listView.foldingAreaWidth;
-                    return -(listView.foldingAreaWidth - distanceFromRight) / 2
+                    return -(listView.foldingAreaWidth - distanceFromRight) / 2 + rotationOffset
                 }
 
                 return 0
@@ -123,37 +151,35 @@ Rectangle {
                 Rotation {
                     angle: itemAngle
                     axis { x: 0; y: 1; z: 0 }
-                    origin { x: /*itemAngle > 0 ? 0 : listView.itemWidth*/ listView.itemWidth / 2; y: height / 2 }
+                    origin { x: listView.itemWidth / 2; y: height / 2 }
                 },
                 Translate {
                     x: itemOffset
                 }
-
             ]
 
             WorkspacePreview {
                 height: listView.height
                 width: listView.itemWidth
                 background: root.background
-                screenHeight: screen.physicalSize.height
-            }
+                screenHeight: root.screen.physicalSize.height
 
-            Label {
-                anchors.centerIn: parent
-                text: model.text
-                fontSize: "large"
-                color: "red"
+                Label {
+                    anchors.centerIn: parent
+                    text: model.text
+                    color: "red"
+                    fontSize: "large"
+                }
             }
         }
 
         MouseArea {
-            id: dndArea
+            id: mouseArea
             anchors.fill: parent
             hoverEnabled: true
             preventStealing: true
             anchors.leftMargin: listView.leftMargin
             anchors.rightMargin: listView.rightMargin
-
 
             property int draggedIndex: -1
 
@@ -162,54 +188,89 @@ Rectangle {
 //                var progress = mouseX / width
 //                print("p:", progress)
                 listView.contentX = listView.originX + (listView.contentWidth - listView.width + listView.leftMargin + listView.rightMargin) * progress - listView.leftMargin
-
-
-                if (draggedIndex == -1) {
-                    return;
-                }
-
-//                var newIndex = (listView.realContentX) / listView.itemWidth
-                var coords = mapToItem(listView.contentItem, mouseX + listView.itemWidth, mouseY)
-                var newIndex = (coords.x + listView.leftMargin) / (listView.itemWidth + listView.spacing)
-                print("newIndex", newIndex)
-//                var newIndex = listView.indexAt(coords.x, coords.y)
-//                if (newIndex == -1) return;
-
-                if (newIndex > draggedIndex + 1) {
-                    newIndex = draggedIndex + 1
-                } else if (newIndex < draggedIndex) {
-                    newIndex = draggedIndex - 1
-                } else {
-                    return
-                }
-
-                if (newIndex >= 0 && newIndex < listView.count) {
-                    listView.model.move(draggedIndex, newIndex, 1)
-                    draggedIndex = newIndex
-                }
             }
 
             onReleased: {
-                draggedIndex = -1
+                fakeDragItem.Drag.drop();
+                drag.target = null;
             }
 
-            onPressAndHold: {
-//                var clickedItem = listView.itemAt(mouseX /*+ listView.realContentX*/, mouseY)
-//                var clickedIndex = listView.indexAt(mouseX /*- listView.realContentX*/, mouseY)
-
-                for (var i = 0; i < listView.count; i++) {
-                    var x = -listView.leftMargin + i * listView.itemWidth - units.gu(1);
-                    print("x:", x, "index:", listView.indexAt(x, listView.height / 2))
+            property bool dragging: drag.active
+            onDraggingChanged: {
+                if (drag.active) {
+                    print("drai", draggedIndex)
+                    listView.model.remove(draggedIndex, 1)
                 }
+            }
+
+            onPressed: {
+                if (listView.model.count < 2) return;
 
                 var coords = mapToItem(listView.contentItem, mouseX, mouseY)
-                var clickedIndex = listView.indexAt(coords.x, coords.y)
+                draggedIndex = listView.indexAt(coords.x, coords.y)
+                var clickedItem = listView.itemAt(coords.x, coords.y)
 
-                draggedIndex = clickedIndex
+                var itemCoords = clickedItem.mapToItem(listView, -listView.leftMargin, 0);
+                fakeDragItem.x = itemCoords.x
+                fakeDragItem.y = itemCoords.y
+                fakeDragItem.text = listView.model.get(draggedIndex).text
 
-                print("index:", mouseX, clickedIndex)
+                var mouseCoordsInItem = mapToItem(clickedItem, mouseX, mouseY);
+                fakeDragItem.Drag.hotSpot.x = mouseCoordsInItem.x
+                fakeDragItem.Drag.hotSpot.y = mouseCoordsInItem.y
+
+                drag.target = fakeDragItem;
             }
 
+            WorkspacePreview {
+                id: fakeDragItem
+                height: listView.height
+                width: listView.itemWidth
+                background: root.background
+                screenHeight: root.screen.physicalSize.height
+                visible: Drag.active
+
+                Drag.active: mouseArea.drag.active
+                Drag.keys: ['workspace']
+
+                property string text
+                property bool inDropArea: false
+                Label {
+                    anchors.centerIn: parent
+                    text: parent.text
+                    color: "red"
+                    fontSize: "large"
+                }
+
+                Rectangle {
+                    anchors.fill: parent
+                    color: "#33000000"
+                    opacity: parent.inDropArea ? 0 : 1
+                    Behavior on opacity { UbuntuNumberAnimation { } }
+                    Rectangle {
+                        anchors.centerIn: parent
+                        width: units.gu(6)
+                        height: units.gu(6)
+                        radius: width / 2
+                        color: "#aa000000"
+                    }
+
+                    Icon {
+                        height: units.gu(3)
+                        width: height
+                        anchors.centerIn: parent
+                        name: "edit-delete"
+                        color: "white"
+                    }
+                }
+
+                states: [
+                    State {
+                        when: fakeDragItem.Drag.active
+                        ParentChange { target: fakeDragItem; parent: shell }
+                    }
+                ]
+            }
         }
     }
 }
