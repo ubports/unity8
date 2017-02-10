@@ -7,6 +7,7 @@ import "../../Components"
 
 Item {
     id: previewSpace
+    clip: true
 
     property string background
     property int screenHeight

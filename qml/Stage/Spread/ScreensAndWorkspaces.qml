@@ -81,7 +81,7 @@ Item {
                 Workspaces {
                     id: workspaces
                     height: parent.height - header.height - units.gu(2)
-                    width: Math.min(implicitWidth, units.gu(80), root.width)
+                    width: Math.min(implicitWidth, index == 0 ? units.gu(80) : units.gu(40), root.width)
                     Behavior on width { UbuntuNumberAnimation {} }
                     anchors.bottom: parent.bottom
                     anchors.bottomMargin: units.gu(1)
