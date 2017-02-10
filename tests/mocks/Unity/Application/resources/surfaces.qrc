@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/Unity/Application">
+        <file>Kate.qml</file>
+        <file>KateDialog.qml</file>
+        <file>KateMenu.qml</file>
         <file>VirtualKeyboard.qml</file>
         <file>MirSurfaceItem.qml</file>
         <file>vkb_portrait.png</file>

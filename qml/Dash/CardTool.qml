@@ -77,16 +77,8 @@ Item {
         return layout;
     }
 
-    readonly property bool isAppLikeScope: scopeId === "clickscope" || scopeId === "libertine-scope.ubuntu_libertine-scope"
-    readonly property bool isAppLikeScopeAppCategory: ((scopeId === "clickscope" && (categoryId === "predefined" || categoryId === "local"))
-                                                      || (scopeId === "libertine-scope.ubuntu_libertine-scope" && categoryId !== "hint"))
-
     readonly property string artShapeStyle: {
-        if (isAppLikeScope) {
-            return isAppLikeScopeAppCategory ? "icon" : "flat";
-        } else {
-            return categoryLayout === "carousel" ? "shadow" : "flat"
-        }
+        return categoryLayout === "carousel" ? "shadow" : "flat"
     }
 
     // FIXME ? This seems like it should not be needed, but on Qt 5.4 + phone
@@ -121,18 +113,6 @@ Item {
      If -1, should use implicit width of the actual card.
      */
     readonly property real cardWidth: {
-        if (isAppLikeScopeAppCategory) {
-            if (!isNarrowView) {
-                if (isWideView) {
-                    return units.gu(11);
-                } else {
-                    return units.gu(10);
-                }
-            } else {
-                return units.gu(12);
-            }
-        }
-
         switch (categoryLayout) {
             case "grid":
             case "vertical-journal":
@@ -191,11 +171,7 @@ Item {
     readonly property int headerHeight: cardLoader.item ? cardLoader.item.headerHeight : 0
 
     readonly property size artShapeSize: {
-        if (isAppLikeScopeAppCategory) {
-            return Qt.size(units.gu(8), units.gu(7.5));
-        } else {
-            return cardLoader.item ? cardLoader.item.artShapeSize : Qt.size(0, 0)
-        }
+        return cardLoader.item ? cardLoader.item.artShapeSize : Qt.size(0, 0)
     }
 
     QtObject {
