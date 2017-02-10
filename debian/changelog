@@ -1,9 +1,3 @@
-unity8 (8.15+17.04.20170206-0ubuntu2) UNRELEASED; urgency=medium
-
-  * Handle ubuntu-app-launch API change
-
- -- Ken VanDine <ken.vandine@canonical.com>  Wed, 08 Feb 2017 14:47:17 -0500
-
 unity8 (8.15+17.04.20170206-0ubuntu1) zesty; urgency=medium
 
   [ Daniel d'Andrada ]
