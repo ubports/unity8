@@ -29,6 +29,7 @@ class MirSurface;
 
 #include <QList>
 #include <QTimer>
+#include <QUrl>
 
 using namespace unity::shell::application;
 
@@ -58,6 +59,7 @@ public:
 
     void setIconId(const QString &iconId);
     void setScreenshotId(const QString &screenshotId);
+    void setQmlFilename(const QString &);
 
     void setAppId(const QString &value) { m_appId = value; }
     QString appId() const override { return m_appId; }
@@ -112,7 +114,7 @@ public:
 
     //////
     // internal mock stuff
-    void close();
+    void close() override;
     void requestFocus();
 
 Q_SIGNALS:
@@ -152,6 +154,7 @@ private:
     QList<MirSurface*> m_closingSurfaces;
     bool m_manualSurfaceCreation{false};
     Mir::ShellChrome m_shellChrome{Mir::NormalChrome};
+    QUrl m_qmlFilePath;
 };
 
 Q_DECLARE_METATYPE(ApplicationInfo*)

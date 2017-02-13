@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -240,8 +240,10 @@ Showable {
             property var dialogLoader // dummy to satisfy ShellDialog's context dependent prop
 
             Button {
+                width: parent.width
                 objectName: "infoPopupOkButton"
                 text: i18n.tr("OK")
+                focus: true
                 onClicked: {
                     PopupUtils.close(dialog)
                     root.infoPopupConfirmed();

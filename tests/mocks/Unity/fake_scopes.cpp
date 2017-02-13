@@ -60,7 +60,6 @@ void Scopes::updateScopes()
     addScope(new Scope("MockScope7", "MS7", false, this));
     addScope(new Scope("MockScope8", "MS8", false, this));
     addScope(new Scope("MockScope9", "MS9", false, this));
-    addScope(new Scope("libertine-scope.ubuntu_libertine-scope", "Libertine", true, this));
 
     Scope *longNavigationScope = new Scope(
             "LongPrimaryNavigation", "LongPrimaryNavigation", true, this, 1, false,
@@ -73,6 +72,13 @@ void Scopes::updateScopes()
     addScope(longNavigationScope);
 
     addScope(new Scope("NullPreviewScope", "NPS", false, this, 1, true));
+
+    // Add enough scopes to test autoscrolling on the scopes managment page
+    for (int i = 0; i < 20; i++) {
+        addScope(new Scope("UselessScope" + QString::number(i),
+                           "US" + QString::number(i), true, this));
+    }
+
     m_scopesOverview = new ScopesOverview(this);
 
     if (!m_loaded) {
@@ -272,7 +278,7 @@ void Scopes::addScope(Scope* scope)
         beginInsertRows(QModelIndex(), index, index);
         m_scopes.append(scope);
         endInsertRows();
-        connect(scope, &Scope::favoriteChanged, [this, scope]{
+        connect(scope, &Scope::favoriteChanged, this, [this, scope]{
             setFavorite(scope->id(), scope->favorite());
         });
     }

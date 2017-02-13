@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2016 Canonical, Ltd.
+ * Copyright (C) 2015-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,8 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
 import Unity.Test 0.1
-import LightDM.IntegratedLightDM 0.1 as LightDM
+import LightDMController 0.1
+import LightDM.FullLightDM 0.1 as LightDM
 import Powerd 0.1
 import Unity.InputInfo 0.1
 import Utils 0.1
@@ -37,6 +38,12 @@ Rectangle {
     color: "grey"
     width:  units.gu(160) + controls.width
     height: units.gu(100)
+
+    Binding {
+        target: LightDMController
+        property: "userMode"
+        value: "single"
+    }
 
     QtObject {
         id: applicationArguments
@@ -1365,12 +1372,7 @@ Rectangle {
         }
 
         function findAppWindowForSurfaceId(surfaceId) {
-            // for PhoneStage and TabletStage
-            var delegate = findChild(shell, "spreadDelegate_" + surfaceId);
-            if (!delegate) {
-                // for DesktopStage
-                delegate = findChild(shell, "appDelegate_" + surfaceId);
-            }
+            var delegate = findChild(shell, "appDelegate_" + surfaceId);
             verify(delegate);
             var appWindow = findChild(delegate, "appWindow");
             return appWindow;
@@ -1557,6 +1559,86 @@ Rectangle {
             var surface = topLevelSurfaceList.surfaceAt(index);
             verify(surface);
             return surface.activeFocus;
+        }
+
+        function test_tabCyclyingInShutdownDialog_data() {
+            return [
+                {tag: "TAB", key: Qt.Key_Tab},
+                {tag: "DOWN", key: Qt.Key_Down}
+            ];
+        }
+
+        function test_tabCyclyingInShutdownDialog(data) {
+            loadShell("mako");
+
+            testCase.showPowerDialog();
+
+            var dialogs = findChild(orientedShell, "dialogs");
+            var buttons = findChildsByType(dialogs, "Button");
+
+            tryCompare(buttons[0], "activeFocus", true);
+
+            keyClick(data.key);
+            tryCompare(buttons[1], "activeFocus", true);
+
+            keyClick(data.key);
+            tryCompare(buttons[2], "activeFocus", true);
+
+            keyClick(data.key);
+            tryCompare(buttons[0], "activeFocus", true);
+
+            keyClick(Qt.Key_Escape);
+
+            var dialogLoader = findChild(orientedShell, "dialogLoader");
+            tryCompare(dialogLoader, "item", null);
+        }
+
+        function test_escClosesShutdownDialog() {
+            loadShell("mako");
+
+            testCase.showPowerDialog();
+
+            var dialogLoader = findChild(orientedShell, "dialogLoader");
+            tryCompareFunction(function() { return dialogLoader.item !== null }, true);
+
+            keyClick(Qt.Key_Escape);
+
+            tryCompare(dialogLoader, "item", null);
+        }
+
+        function test_focusOnShutdownDialogClose() {
+            loadShell("manta");
+            usageModeSelector.selectWindowed();
+
+            var surfaceId = topLevelSurfaceList.nextId;
+            var app = ApplicationManager.startApplication("twitter-webapp");
+            waitUntilAppWindowIsFullyLoaded(surfaceId);
+
+            var primaryAppWindow = findAppWindowForSurfaceId(surfaceId);
+            var surface = app.surfaceList.get(0);
+            var surfaceItem = findSurfaceItem(primaryAppWindow, surface);
+
+            compare(window.activeFocusItem, surfaceItem);
+
+            testCase.showPowerDialog();
+
+            var dialogLoader = findChild(orientedShell, "dialogLoader");
+            tryCompareFunction(function() { return dialogLoader.item !== null }, true);
+
+            keyClick(Qt.Key_Escape);
+
+            tryCompare(dialogLoader, "item", null);
+            compare(window.activeFocusItem, surfaceItem);
+
+            // Do it twice, our previous solution failed the second time ^_^
+            testCase.showPowerDialog();
+
+            tryCompareFunction(function() { return dialogLoader.item !== null }, true);
+
+            keyClick(Qt.Key_Escape);
+
+            tryCompare(dialogLoader, "item", null);
+            compare(window.activeFocusItem, surfaceItem);
         }
     }
 }

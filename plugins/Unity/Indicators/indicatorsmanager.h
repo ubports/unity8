@@ -76,8 +76,6 @@ private:
     QSharedPointer<QFileSystemWatcher> m_fsWatcher;
     bool m_loaded;
     QString m_profile;
-
-    Platform m_platform;
 };
 
 #endif // INDICATORS_MANAGER_H

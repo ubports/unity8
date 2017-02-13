@@ -7,20 +7,48 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-12-15 16:17+0000\n"
-"PO-Revision-Date: 2016-08-13 14:45+0000\n"
+"POT-Creation-Date: 2017-02-06 09:12+0000\n"
+"PO-Revision-Date: 2017-01-26 15:04+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-12-23 04:58+0000\n"
-"X-Generator: Launchpad (build 18298)\n"
+"X-Launchpad-Export-Date: 2017-02-08 04:58+0000\n"
+"X-Generator: Launchpad (build 18326)\n"
 
-#: plugins/LightDM/Greeter.cpp:123
+#: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
 msgstr "የ መግቢያ ቃል: "
+
+#: plugins/LightDM/Greeter.cpp:203
+msgid "Username"
+msgstr "የ ተጠቃሚ ስም"
+
+#: plugins/LightDM/Greeter.cpp:242
+msgid "Failed to authenticate"
+msgstr "ማረጋገጥ አልተቻለም"
+
+#: plugins/LightDM/Greeter.cpp:244
+msgid "Invalid password, please try again"
+msgstr "እባክዎን እንደገና ይሞክሩ ዋጋ የሌለው የመግቢያ ቃል"
+
+#: plugins/LightDM/Greeter.cpp:254
+msgid "Log In"
+msgstr "መግቢያ"
+
+#: plugins/LightDM/Greeter.cpp:254
+msgid "Retry"
+msgstr "እንደገና ይሞክሩ"
+
+#: plugins/LightDM/UsersModel.cpp:152
+msgid "Login"
+msgstr "መግቢያ"
+
+#: plugins/LightDM/UsersModel.cpp:160
+msgid "Guest Session"
+msgstr "የ እንግዳ ክፍለ ጊዜ"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:50
 #: plugins/Unity/Launcher/launcheritem.cpp:122
@@ -35,55 +63,55 @@ msgstr "ማጥፊያ"
 msgid "Unpin shortcut"
 msgstr "አቋራጭ መለያያ"
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:177
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "መውጫ"
 
-#: qml/Components/Dialogs.qml:150
+#: qml/Components/Dialogs.qml:178
 msgid "Are you sure you want to log out?"
 msgstr "በእርግጥ መውጣት ይፈልጋሉ?"
 
-#: qml/Components/Dialogs.qml:152
+#: qml/Components/Dialogs.qml:181
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "መቆለፊያ"
 
-#: qml/Components/Dialogs.qml:159
+#: qml/Components/Dialogs.qml:191
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "መውጫ"
 
-#: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
-#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:264
+#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:222
 #: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "መሰረዣ"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:211
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "እንደገና ማስነሻ"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:212
 msgid "Are you sure you want to reboot?"
 msgstr "በእርግጥ እንደገና ማስነሳት ይፈልጋሉ?"
 
-#: qml/Components/Dialogs.qml:181
+#: qml/Components/Dialogs.qml:215
 msgid "No"
 msgstr "አይ"
 
-#: qml/Components/Dialogs.qml:187
+#: qml/Components/Dialogs.qml:223
 msgid "Yes"
 msgstr "አዎ"
 
-#: qml/Components/Dialogs.qml:202
+#: qml/Components/Dialogs.qml:239
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "ሐይል"
 
-#: qml/Components/Dialogs.qml:203
+#: qml/Components/Dialogs.qml:240
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -91,12 +119,12 @@ msgstr ""
 "በእርግጥ ሐይሉን ማጥፋት\n"
 "ይፈልጋሉ?"
 
-#: qml/Components/Dialogs.qml:205
+#: qml/Components/Dialogs.qml:244
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "ሐይል ማጥፊያ"
 
-#: qml/Components/Dialogs.qml:214
+#: qml/Components/Dialogs.qml:255
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "እንደገና ማስጀመሪያ"
@@ -122,8 +150,8 @@ msgid "Alt + PrtScr"
 msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
-msgid "Takes a screenshot of a window."
-msgstr "የ መስኮት መመልከቻ ፎቶ ማንሻ"
+msgid "Takes a screenshot of the current window."
+msgstr "የ አሁኑን መስኮት ፎቶ ማንሻ"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -179,11 +207,11 @@ msgstr "ተመሳሳይ በ ማስጀመሪያ ምልክት ላይ እንደ መ
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + A"
-msgstr ""
+msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Opens the Application Drawer."
-msgstr ""
+msgstr "መተግበሪያ መክፈቻ"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:194
 msgid "Scopes"
@@ -269,7 +297,7 @@ msgstr "Alt + F4"
 msgid "Closes the current window."
 msgstr "የ አሁኑን መስኮት መዝጊያ"
 
-#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:242
 msgid "Return to Call"
 msgstr "ወደ ጥሪ መመለሻ"
 
@@ -277,7 +305,7 @@ msgstr "ወደ ጥሪ መመለሻ"
 msgid "Emergency Call"
 msgstr "የ ድንገተኛ ጥሪ"
 
-#: qml/Components/Lockscreen.qml:244
+#: qml/Components/Lockscreen.qml:245
 msgid "OK"
 msgstr "እሺ"
 
@@ -291,29 +319,29 @@ msgstr "%1:%2:%3"
 msgid "%1:%2"
 msgstr "%1:%2"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:32
+#: qml/Components/ModeSwitchWarningDialog.qml:33
 msgid "Apps may have unsaved data:"
 msgstr "መተግበሪያው ያልተቀመጠ ዳታ ይዟል:"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:57
+#: qml/Components/ModeSwitchWarningDialog.qml:60
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr "እንደገና-ማሳረፊያ: ስራዎትን ያስቀምጡ እና ይዝጉ መተግበሪያው እንዲቀጥል"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:63
+#: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
 msgstr "ወይንም አሁን አስገድዶ ማጥፊያ (ያልተቀመጠ ዳታ ይጠፋል)"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:75
+#: qml/Components/ModeSwitchWarningDialog.qml:80
 msgid "OK, I will reconnect"
 msgstr "እሺ: እኔ አሁን እንደገና እገናኛለሁ"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:76
+#: qml/Components/ModeSwitchWarningDialog.qml:81
 msgid "Reconnect now!"
 msgstr "አሁን እንደገና መገናኛ!"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:88
+#: qml/Components/ModeSwitchWarningDialog.qml:94
 msgid "Close all"
 msgstr "ሁሉንም መዝጊያ"
 
@@ -329,19 +357,19 @@ msgstr "የ እርስዎ አካል አሁን ከ ውጪ ማሳያ ጋር ተገ�
 
 #: qml/Components/VirtualTouchPad.qml:327
 msgid "Tap left button to click."
-msgstr ""
+msgstr "መታ ያድርጉ በ ግራ ቁልፍ ላይ ለ መጫን"
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "መታ ያድርጉ በ ቀኝ ቁልፍ ላይ ለ መጫን"
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "ለ መሽብለል በ ሁለት ጣት ይጥረጉ"
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "ተጨማሪ ማሰናጃዎችን ያግኙ በ ስርአት ማሰናጃ ውስጥ"
 
 #: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
@@ -428,15 +456,15 @@ msgstr "ይልቀቁ ለማነቃቃት…"
 msgid "Enable location data"
 msgstr "የአካባቢ ዳታ ማስቻያ"
 
-#: qml/Dash/ScopesList.qml:57
+#: qml/Dash/ScopesList.qml:146
 msgid "Manage"
 msgstr "አስተዳዳሪ"
 
-#: qml/Dash/ScopesList.qml:104
+#: qml/Dash/ScopesList.qml:187
 msgid "Home"
 msgstr "ቤት"
 
-#: qml/Dash/ScopesList.qml:105
+#: qml/Dash/ScopesList.qml:188
 msgid "Also installed"
 msgstr "እንዲሁም የተገጠሙ"
 
@@ -463,46 +491,46 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "እባክዎን ይቆዩ %1 ደቂቃ እና ከዛ እንደ ገና ይምክሩ…"
 msgstr[1] "እባክዎን ይቆዩ %1 ደቂቃዎች እና ከዛ እንደ ገና ይምክሩ…"
 
-#: qml/Greeter/Greeter.qml:592
+#: qml/Greeter/Greeter.qml:561
 msgid "Try again"
 msgstr "እንደገና ይሞክሩ"
 
-#: qml/Greeter/LoginList.qml:70
+#: qml/Greeter/Greeter.qml:562
+msgid "Enter passphrase to unlock"
+msgstr "የ ማለፊያ ሀረግ ያስገቡ ለ መክፈት"
+
+#: qml/Greeter/Greeter.qml:563
+msgid "Enter passcode to unlock"
+msgstr "የ ማለፊያ ኮድ ያስገቡ ለ መክፈት"
+
+#: qml/Greeter/NarrowView.qml:242
+msgid "Emergency"
+msgstr "ድንገተኛ"
+
+#: qml/Greeter/PromptList.qml:126
 msgid "Passphrase"
 msgstr "የማለፊያ ሐረግ"
 
-#: qml/Greeter/LoginList.qml:71
+#: qml/Greeter/PromptList.qml:126
 msgid "Passcode"
 msgstr "ማለፊያ ኮድ"
-
-#: qml/Greeter/LoginList.qml:98
-msgid "Retry"
-msgstr "እንደገና ይሞክሩ"
-
-#: qml/Greeter/LoginList.qml:99
-msgid "Log In"
-msgstr "መግቢያ"
-
-#: qml/Greeter/NarrowView.qml:252
-msgid "Emergency"
-msgstr "ድንገተኛ"
 
 #: qml/Greeter/SessionsList.qml:122
 msgid "Select desktop environment"
 msgstr "የ ዴስክቶፕ አይነት ይምረጡ"
 
-#: qml/Launcher/Drawer.qml:80
+#: qml/Launcher/Drawer.qml:92
 msgid "Search…"
-msgstr ""
+msgstr "መፈለጊያ..."
 
-#: qml/Launcher/Drawer.qml:101
+#: qml/Launcher/Drawer.qml:123
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
-#: qml/Launcher/MoreAppsHeader.qml:32
+#: qml/Launcher/MoreAppsHeader.qml:39
 msgid "More apps in the store"
-msgstr ""
+msgstr "ተጨማሪ መተግበሪያ በ ሱቅ ውስጥ"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -516,62 +544,62 @@ msgstr "ወደ ጥሪው ለመመለስ መታ ያድርጉ..."
 msgid "Conference"
 msgstr "ስብሰባ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:868
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:869
 msgid "Nothing is playing"
 msgstr "ምንም አይጫወትም"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:996
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:997
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 ሰአት"
 msgstr[1] "%1 ሰአቶች"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1000
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1001
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 ደቂቃ"
 msgstr[1] "%1 ደቂቃዎች"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1005
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1006
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 ሰከንድ"
 msgstr[1] "%1 ሰከንዶች"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1008
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1009
 msgid "0 seconds"
 msgstr "0 ሰከንዶች"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:1010
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1011
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 የቀረው"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1016
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1017
 msgid "In queue…"
 msgstr "ወረፋ በመጠበቅ ላይ…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1020
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1021
 msgid "Downloading"
 msgstr "በማውረድ ላይ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1022
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1023
 msgid "Paused, tap to resume"
 msgstr "ማስቆሚያ: ለመቀጠል መታ ያድርጉ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1024
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1025
 msgid "Canceled"
 msgstr "ተሰርዟል"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1026
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1027
 msgid "Finished"
 msgstr "ጨርሷል"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1028
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1029
 msgid "Failed, tap to retry"
 msgstr "አልተቻለም: እንደገና ለመሞከር መታ ያድርጉ"
 
@@ -1328,3 +1356,6 @@ msgstr "በጣም ደካማ የ መግቢያ ቃል"
 
 #~ msgid "Hover your mouse on the right edge to view your open apps"
 #~ msgstr "የ እርስዎን አይጥ ወደ ቀኝ ጠርዝ በኩል ሲያደርጉ የ ተከፈቱ መተግበሪያዎች መመልከቻ"
+
+#~ msgid "Takes a screenshot of a window."
+#~ msgstr "የ መስኮት መመልከቻ ፎቶ ማንሻ"

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,8 +15,7 @@
  *
  */
 
-#ifndef UNITY_SESSIONSMODEL_H
-#define UNITY_SESSIONSMODEL_H
+#pragma once
 
 #include <unitysortfilterproxymodelqml.h>
 #include <QLightDM/SessionsModel>
@@ -28,10 +27,9 @@ class SessionsModel : public UnitySortFilterProxyModelQML
 {
     Q_OBJECT
 
-    Q_ENUMS(SessionModelRoles)
-
     Q_PROPERTY(QList<QUrl> iconSearchDirectories READ iconSearchDirectories
             WRITE setIconSearchDirectories NOTIFY iconSearchDirectoriesChanged)
+
 Q_SIGNALS:
     void iconSearchDirectoriesChanged();
 
@@ -45,6 +43,7 @@ public:
         TypeRole = QLightDM::SessionsModel::SessionModelRoles::TypeRole,
         IconRole
     };
+    Q_ENUM(SessionModelRoles)
 
     explicit SessionsModel(QObject* parent=nullptr);
 
@@ -55,6 +54,7 @@ public:
     Q_INVOKABLE QUrl iconUrl(const QString sessionName) const;
 
     void setIconSearchDirectories(const QList<QUrl> searchDirectories);
+
 private:
     QLightDM::SessionsModel* m_model;
     QHash<int, QByteArray> m_roleNames;
@@ -64,5 +64,3 @@ private:
         QUrl("/usr/share/unity-greeter/")};
 
 };
-
-#endif // UNITY_SESSIONSMODEL_H

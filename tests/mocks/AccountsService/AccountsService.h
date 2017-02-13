@@ -14,20 +14,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_MOCK_ACCOUNTSSERVICE_H
-#define UNITY_MOCK_ACCOUNTSSERVICE_H
+#pragma once
 
 #include <QObject>
 #include <QString>
 #include <QStringList>
 #include <QVariant>
 
-class MockUsersModel;
+class UsersModel;
 
 class AccountsService: public QObject
 {
     Q_OBJECT
-    Q_ENUMS(PasswordDisplayHint)
     Q_PROPERTY (QString user
                 READ user
                 WRITE setUser
@@ -94,6 +92,7 @@ public:
         Keyboard,
         Numeric
     };
+    Q_ENUM(PasswordDisplayHint)
 
     explicit AccountsService(QObject *parent = 0);
 
@@ -165,7 +164,5 @@ private:
     QString m_realName;
     QStringList m_kbdMap;
     QString m_email;
-    MockUsersModel *m_usersModel;
+    UsersModel *m_usersModel;
 };
-
-#endif

@@ -57,7 +57,7 @@ StyledItem {
     property Orientations orientations
     property real nativeWidth
     property real nativeHeight
-    property alias indicatorAreaShowProgress: panel.indicatorAreaShowProgress
+    property alias panelAreaShowProgress: panel.panelAreaShowProgress
     property string usageScenario: "phone" // supported values: "phone", "tablet" or "desktop"
     property string mode: "full-greeter"
     property alias oskEnabled: inputMethod.enabled
@@ -68,6 +68,7 @@ StyledItem {
         stage.updateFocusedAppOrientationAnimated();
     }
     property bool hasMouse: false
+    property bool hasKeyboard: false
 
     // to be read from outside
     readonly property int mainAppWindowOrientationAngle: stage.mainAppWindowOrientationAngle
@@ -240,7 +241,7 @@ StyledItem {
             // Ignore when greeter is active, to avoid pocket presses
             if (!greeter.active) {
                 launcher.fadeOut();
-                shell.showHome();
+                ApplicationManager.requestFocusApplication("unity8-dash");
             }
         }
         onTouchBegun: { cursor.opacity = 0; }
@@ -314,6 +315,40 @@ StyledItem {
             altTabPressed: physicalKeysMapper.altTabPressed
             oskEnabled: shell.oskEnabled
             spreadEnabled: tutorial.spreadEnabled && (!greeter || (!greeter.hasLockedApp && !greeter.shown))
+
+            onSpreadShownChanged: {
+                panel.indicators.hide();
+                panel.applicationMenus.hide();
+            }
+        }
+
+        TouchGestureArea {
+            anchors.fill: stage
+
+            minimumTouchPoints: 4
+            maximumTouchPoints: minimumTouchPoints
+
+            readonly property bool recognisedPress: status == TouchGestureArea.Recognized &&
+                                                    touchPoints.length >= minimumTouchPoints &&
+                                                    touchPoints.length <= maximumTouchPoints
+            property bool wasPressed: false
+
+            onRecognisedPressChanged: {
+                if (recognisedPress) {
+                    wasPressed = true;
+                }
+            }
+
+            onStatusChanged: {
+                if (status !== TouchGestureArea.Recognized) {
+                    if (status === TouchGestureArea.WaitingForTouch) {
+                        if (wasPressed && !dragging) {
+                            launcher.openDrawer(true);
+                        }
+                    }
+                    wasPressed = false;
+                }
+            }
         }
     }
 
@@ -339,6 +374,16 @@ StyledItem {
         onLoaded: {
             item.objectName = "greeter"
         }
+        property bool openDrawerAfterUnlock: false
+        Connections {
+            target: greeter
+            onActiveChanged: {
+                if (!greeter.active && greeterLoader.openDrawerAfterUnlock) {
+                    launcher.openDrawer(false);
+                    greeterLoader.openDrawerAfterUnlock = false;
+                }
+            }
+        }
     }
 
     Component {
@@ -346,7 +391,7 @@ StyledItem {
         Greeter {
 
             enabled: panel.indicators.fullyClosed // hides OSK when panel is open
-            hides: [launcher, panel.indicators]
+            hides: [launcher, panel.indicators, panel.applicationMenus]
             tabletMode: shell.usageScenario != "phone"
             forcedUnlock: wizard.active || shell.mode === "full-shell"
             background: wallpaperResolver.cachedBackground
@@ -430,9 +475,11 @@ StyledItem {
         if (shell.mode === "greeter") {
             SessionBroadcast.requestHomeShown(AccountsService.user);
         } else {
-            var animate = !LightDMService.greeter.active && !stages.shown;
-            dash.setCurrentScope(0, animate, false);
-            ApplicationManager.requestFocusApplication("unity8-dash");
+            if (!greeter.active) {
+                launcher.openDrawer(false);
+            } else {
+                greeterLoader.openDrawerAfterUnlock = true;
+            }
         }
     }
 
@@ -446,6 +493,13 @@ StyledItem {
             id: panel
             objectName: "panel"
             anchors.fill: parent //because this draws indicator menus
+
+            mode: shell.usageScenario == "desktop" ? "windowed" : "staged"
+            minimizedPanelHeight: units.gu(3)
+            expandedPanelHeight: units.gu(7)
+            indicatorMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
+            applicationMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
+
             indicators {
                 hides: [launcher]
                 available: tutorial.panelEnabled
@@ -453,12 +507,8 @@ StyledItem {
                         && (!greeter || !greeter.hasLockedApp)
                         && !shell.waitingOnGreeter
                         && settings.enableIndicatorMenu
-                width: parent.width > units.gu(60) ? units.gu(40) : parent.width
 
-                minimizedPanelHeight: units.gu(3)
-                expandedPanelHeight: units.gu(7)
-
-                indicatorsModel: Indicators.IndicatorsModel {
+                model: Indicators.IndicatorsModel {
                     // tablet and phone both use the same profile
                     // FIXME: use just "phone" for greeter too, but first fix
                     // greeter app launching to either load the app inside the
@@ -470,8 +520,10 @@ StyledItem {
                 }
             }
 
-            callHint {
-                greeterShown: greeter.shown
+            applicationMenus {
+                hides: [launcher]
+                available: (!greeter || !greeter.shown)
+                        && !shell.waitingOnGreeter
             }
 
             readonly property bool focusedSurfaceIsFullscreen: topLevelSurfaceList.focusedWindow
@@ -479,7 +531,7 @@ StyledItem {
                 : false
             fullscreenMode: (focusedSurfaceIsFullscreen && !LightDMService.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
-            locked: greeter && greeter.active
+            greeterShown: greeter && greeter.shown
         }
 
         Launcher {
@@ -503,7 +555,7 @@ StyledItem {
             lockedVisible: shell.usageScenario == "desktop" && !settings.autohideLauncher && !panel.fullscreenMode
             blurSource: greeter.shown ? greeter : stages
             topPanelHeight: panel.panelHeight
-            drawerEnabled: !greeter.shown
+            drawerEnabled: !greeter.active
 
             onShowDashHome: showHome()
             onLauncherApplicationSelected: {
@@ -675,8 +727,10 @@ StyledItem {
         id: dialogs
         objectName: "dialogs"
         anchors.fill: parent
+        visible: hasActiveDialog
         z: overlay.z + 10
         usageScenario: shell.usageScenario
+        hasKeyboard: shell.hasKeyboard
         onPowerOffClicked: {
             shutdownFadeOutRectangle.enabled = true;
             shutdownFadeOutRectangle.visible = true;

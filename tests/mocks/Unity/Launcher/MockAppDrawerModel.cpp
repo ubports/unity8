@@ -48,12 +48,11 @@ MockAppDrawerModel::MockAppDrawerModel(QObject *parent):
     m_list.append(item);
     item = new MockLauncherItem("libreoffice", "/usr/share/applications/libreoffice.desktop","Libre Office", "libreoffice", this);
     m_list.append(item);
-    qDebug() << "mock model created";
 
     qsrand(QDateTime::currentMSecsSinceEpoch() / 1000);
 }
 
-int MockAppDrawerModel::rowCount(const QModelIndex &parent) const
+int MockAppDrawerModel::rowCount(const QModelIndex & /*parent*/) const
 {
     return m_list.count();
 }

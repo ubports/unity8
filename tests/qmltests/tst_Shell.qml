@@ -18,12 +18,14 @@ import QtQuick 2.4
 import QtTest 1.0
 import AccountsService 0.1
 import GSettings 1.0
-import LightDM.IntegratedLightDM 0.1 as LightDM
+import LightDMController 0.1
+import LightDM.FullLightDM 0.1 as LightDM
 import SessionBroadcast 0.1
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
+import Unity.ApplicationMenu 0.1
 import Unity.Connectivity 0.1
 import Unity.Indicators 0.1
 import Unity.Notifications 1.0
@@ -32,6 +34,7 @@ import Unity.Test 0.1
 import Powerd 0.1
 import Wizard 0.1 as Wizard
 import Utils 0.1
+import Unity.Indicators 0.1 as Indicators
 
 import "../../qml"
 import "../../qml/Components"
@@ -46,17 +49,22 @@ Rectangle {
 
     Component.onCompleted: {
         // must set the mock mode before loading the Shell
-        LightDM.Greeter.mockMode = "single";
-        LightDM.Users.mockMode = "single";
+        LightDMController.userMode = "single";
         shellLoader.active = true;
+    }
+
+    ApplicationMenuDataLoader {
+        id: appMenuData
     }
 
     property var shell: shellLoader.item ? shellLoader.item : null
     onShellChanged: {
         if (shell) {
             topLevelSurfaceList = testCase.findInvisibleChild(shell, "topLevelSurfaceList");
+            appMenuData.surfaceManager = testCase.findInvisibleChild(shell, "surfaceManager");
         } else {
             topLevelSurfaceList = null;
+            appMenuData.surfaceManager = null;
         }
     }
 
@@ -240,8 +248,7 @@ Rectangle {
                     model: ["single", "single-passphrase", "single-pin", "full"]
                     onSelectedIndexChanged: {
                         testCase.tearDown();
-                        LightDM.Greeter.mockMode = model[selectedIndex];
-                        LightDM.Users.mockMode = model[selectedIndex];
+                        LightDMController.userMode = model[selectedIndex];
                         shellLoader.active = true;
                     }
                 }
@@ -560,7 +567,6 @@ Rectangle {
                 // is loaded by default
                 tearDown();
             }
-
         }
 
         function cleanup() {
@@ -648,7 +654,8 @@ Rectangle {
             // Shell instance gets destroyed.
             tryCompare(shellLoader, "itemDestroyed", true);
 
-            setLightDMMockMode("single"); // back to the default value
+            LightDMController.reset();
+            setLightDMMockMode("single"); // these tests default to "single"
 
             AccountsService.demoEdges = false;
             AccountsService.demoEdgesCompleted = [];
@@ -727,8 +734,8 @@ Rectangle {
                 hints: {"x-canonical-private-affirmative-tint": "true"},
                 summary: "Tom Ato",
                 body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
-                icon: "../../tests/graphics/avatars/funky.png",
-                secondaryIcon: "../../tests/graphics/applicationIcons/facebook.png",
+                icon: Qt.resolvedUrl("../graphics/avatars/funky.png"),
+                secondaryIcon: Qt.resolvedUrl("../graphics/applicationIcons/facebook.png"),
                 actions: [{ id: "ok_id", label: "Ok"},
                     { id: "cancel_id", label: "Cancel"},
                     { id: "notreally_id", label: "Not really"},
@@ -737,22 +744,6 @@ Rectangle {
             }
 
             mockNotificationsModel.append(n)
-        }
-
-        function test_ClickUbuntuIconInLauncherTakesToAppsAndResetSearchString() {
-            loadShell("phone");
-            swipeAwayGreeter();
-            dragLauncherIntoView();
-            dashCommunicatorSpy.clear();
-
-            var launcher = findChild(shell, "launcher");
-            var dashIcon = findChild(launcher, "dashItem");
-            verify(dashIcon != undefined);
-            mouseClick(dashIcon);
-
-            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
-
-            compare(dashCommunicatorSpy.count, 1);
         }
 
         function test_suspend() {
@@ -826,13 +817,15 @@ Rectangle {
                 keyClick(Qt.Key_Escape) // Reset state if we're not moving
             while (userlist.currentIndex != i) {
                 var next = userlist.currentIndex + 1
+                var key = Qt.Key_Down;
                 if (userlist.currentIndex > i) {
                     next = userlist.currentIndex - 1
+                    key = Qt.Key_Up;
                 }
-                tap(findChild(greeter, "username"+next));
+                keyPress(key);
                 tryCompare(userlist, "currentIndex", next)
-                tryCompare(userlist, "movingInternally", false)
             }
+            tryCompare(userlist, "movingInternally", false);
             tryCompare(shell, "waitingOnGreeter", false); // wait for PAM to settle
         }
 
@@ -855,15 +848,13 @@ Rectangle {
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "fullyShown", true);
 
-            var passwordInput = findChild(shell, "passwordInput");
-
-            var promptButton = findChild(passwordInput, "promptButton");
+            var promptButton = findChild(greeter, "promptButton");
             tryCompare(promptButton, "visible", isButton);
 
-            var promptField = findChild(passwordInput, "promptField");
+            var promptField = findChild(greeter, "promptField");
             tryCompare(promptField, "visible", !isButton);
 
-            mouseClick(passwordInput)
+            mouseClick(promptButton);
         }
 
         function confirmLoggedIn(loggedIn) {
@@ -873,8 +864,7 @@ Rectangle {
         }
 
         function setLightDMMockMode(mode) {
-            LightDM.Greeter.mockMode = mode;
-            LightDM.Users.mockMode = mode;
+            LightDMController.userMode = mode;
         }
 
         function test_showInputMethod() {
@@ -1372,47 +1362,6 @@ Rectangle {
             tryCompare(stage, "state", "spread");
         }
 
-        function test_tapUbuntuIconInLauncherOverAppSpread() {
-            launcherShowDashHomeSpy.clear();
-
-            loadShell("phone");
-            swipeAwayGreeter();
-
-            waitUntilFocusedApplicationIsShowingItsSurface();
-
-            swipeFromRightEdgeToShowAppSpread();
-
-            var launcher = findChild(shell, "launcher");
-
-            dragLauncherIntoView();
-
-            // Emulate a tap with a finger, where the touch position drifts during the tap.
-            // This is to test the touch ownership changes. The tap is happening on the button
-            // area but then drifting into the left edge drag area. This test makes sure
-            // the touch ownership stays with the button and doesn't move over to the
-            // left edge drag area.
-            {
-                var buttonShowDashHome = findChild(launcher, "buttonShowDashHome");
-                touchFlick(buttonShowDashHome,
-                    buttonShowDashHome.width * 0.2,  /* startPos.x */
-                    buttonShowDashHome.height * 0.8, /* startPos.y */
-                    buttonShowDashHome.width * 0.8,  /* endPos.x */
-                    buttonShowDashHome.height * 0.2  /* endPos.y */);
-            }
-
-            compare(launcherShowDashHomeSpy.count, 1);
-
-            // check that the stage has left spread mode.
-            {
-                var stage = findChild(shell, "stage");
-                tryCompare(stage, "state", "staged");
-            }
-
-            // check that the launcher got dismissed
-            var launcherPanel = findChild(shell, "launcherPanel");
-            tryCompare(launcherPanel, "x", -launcherPanel.width);
-        }
-
         function test_physicalHomeKeyPressDoesNothingWithActiveGreeter() {
             loadShell("phone");
 
@@ -1421,6 +1370,17 @@ Rectangle {
 
             windowInputMonitor.homeKeyActivated();
             verify(coverPage.shown);
+        }
+
+        function test_physicalHomeKeyPressFocusesDash() {
+            loadShell("phone");
+
+            var galleryApp = ApplicationManager.startApplication("gallery-app");
+            tryCompare(ApplicationManager, "focusedApplicationId", "gallery-app");
+
+            var windowInputMonitor = findInvisibleChild(shell, "windowInputMonitor");
+            windowInputMonitor.homeKeyActivated();
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
         }
 
         function test_tabletLogin_data() {
@@ -1467,9 +1427,37 @@ Rectangle {
             confirmLoggedIn(data.loggedIn)
 
             if (data.passwordFocus) {
-                var passwordInput = findChild(greeter, "passwordInput")
+                var passwordInput = findChild(greeter, "promptField");
                 tryCompare(passwordInput, "focus", true)
             }
+        }
+
+        function test_manualLoginFlow() {
+            LightDMController.showManualLoginHint = true;
+            setLightDMMockMode("full");
+            loadShell("desktop");
+
+            var i = selectUser("*other");
+            var greeter = findChild(shell, "greeter");
+            var username = findChild(greeter, "username" + i);
+            var promptField = findChild(greeter, "promptField");
+            var promptHint = findChild(greeter, "promptHint");
+
+            compare(username.text, "Login");
+            compare(promptHint.text, "Username");
+
+            tryCompare(promptField, "activeFocus", true);
+            typeString("has-password");
+            keyClick(Qt.Key_Enter);
+
+            promptHint = findChild(greeter, "promptHint");
+            tryCompare(username, "text", "has-password");
+            tryCompare(promptHint, "text", "Passphrase");
+
+            typeString("password");
+            keyClick(Qt.Key_Enter);
+
+            confirmLoggedIn(true);
         }
 
         function test_launcherInverted_data() {
@@ -1839,7 +1827,7 @@ Rectangle {
             loadDesktopShellWithApps()
             var launcher = findChild(shell, "launcher");
             var stage = findChild(shell, "stage");
-            var bfb = findChild(launcher, "buttonShowDashHome");
+            var app1 = findChild(launcher, "launcherDelegate0");
 
             GSettingsController.setAutohideLauncher(!data.launcherLocked);
             waitForRendering(shell);
@@ -1852,17 +1840,17 @@ Rectangle {
             if (!data.launcherLocked) {
                 revealLauncherByEdgePushWithMouse();
                 tryCompare(launcher, "x", 0);
-                mouseMove(bfb, bfb.width / 2, bfb.height / 2)
+                mouseMove(app1, app1.width / 2, app1.height / 2)
                 waitForRendering(shell)
             }
 
-            mouseClick(bfb, bfb.width / 2, bfb.height / 2)
+            mouseClick(app1, app1.width / 2, app1.height / 2)
             if (!data.launcherLocked) {
                 tryCompare(launcher, "state", "")
             }
             tryCompare(stage, "state", "windowed")
 
-            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash")
+            tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app")
 
             keyRelease(Qt.Key_Alt);
         }
@@ -1878,21 +1866,21 @@ Rectangle {
             var maximizeButton = findChild(appDelegate, "maximizeWindowButton");
 
             tryCompare(appDelegate, "state", "normal");
-            tryCompare(PanelState, "buttonsVisible", false)
+            tryCompare(PanelState, "decorationsVisible", false)
 
             mouseClick(maximizeButton, maximizeButton.width / 2, maximizeButton.height / 2);
             tryCompare(appDelegate, "state", "maximized");
-            tryCompare(PanelState, "buttonsVisible", true)
+            tryCompare(PanelState, "decorationsVisible", true)
 
             ApplicationManager.stopApplication(application.appId);
-            tryCompare(PanelState, "buttonsVisible", false)
+            tryCompare(PanelState, "decorationsVisible", false)
 
             // wait until all zombie surfaces are gone. As MirSurfaceItems hold references over them.
             // They won't be gone until those surface items are destroyed.
             tryCompareFunction(function() { return application.surfaceList.count }, 0);
 
             ApplicationManager.startApplication(application.appId);
-            tryCompare(PanelState, "buttonsVisible", true)
+            tryCompare(PanelState, "decorationsVisible", true)
         }
 
         function test_newAppHasValidGeometry() {
@@ -1913,6 +1901,7 @@ Rectangle {
             var appRepeater = findChild(shell, "appRepeater")
             var appDelegate = appRepeater.itemAt(0);
             var panelButtons = findChild(shell, "panelWindowControlButtons")
+            verify(panelButtons)
 
             tryCompare(appDelegate, "state", "normal");
             tryCompare(panelButtons, "visible", false);
@@ -2185,10 +2174,8 @@ Rectangle {
             tryCompare(launcher, "state", "visible");
             tryCompare(launcherPanel, "highlightIndex", -1);
             keyRelease(Qt.Key_Super_L, Qt.MetaModifier);
-            tryCompare(launcher, "state", data.launcherLocked ? "visible" : "");
+            tryCompare(launcher, "state", "drawer");
             tryCompare(launcherPanel, "highlightIndex", -2);
-            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
-            tryCompare(stage, "focus", true)
         }
 
         function test_longpressSuperOpensLauncherAndShortcutsOverlay() {
@@ -2547,7 +2534,7 @@ Rectangle {
 
             tryCompare(appDelegate, "state", "maximized");
 
-            mouseDrag(panel, panel.width/3, panel.height/2, 0, shell.height/3, Qt.LeftButton, Qt.NoModifier, 500);
+            mouseDrag(panel, panel.width/2, panel.height/2, 0, shell.height/3, Qt.LeftButton, Qt.NoModifier, 500);
             tryCompare(appDelegate, "state", "restored");
         }
 
@@ -2793,6 +2780,54 @@ Rectangle {
             keyPress(Qt.Key_W, Qt.MetaModifier)
             tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
             keyRelease(Qt.Key_W, Qt.MetaModifier)
+        }
+
+        function test_panelTitleShowsWhenGreeterNotShown_data() {
+            return [
+                {tag: "phone" },
+                {tag: "tablet" },
+                {tag: "desktop" }
+            ]
+        }
+
+        function test_panelTitleShowsWhenGreeterNotShown(data) {
+            loadShell(data.tag);
+
+            var panel = findChild(shell, "panel"); verify(panel);
+            var panelTitle = findChild(panel.applicationMenus, "panelTitle"); verify(panelTitle);
+            compare(panelTitle.visible, false, "Panel title should not be visible when greeter is shown");
+
+            swipeAwayGreeter();
+
+            tryCompare(panelTitle, "visible", true, undefined, "Panel title should be visible when greeter not shown");
+        }
+
+        function test_fourFingerTapOpensDrawer_data() {
+            return [
+                        { tag: "1 finger", touchIds: [0], shown: false },
+                        { tag: "2 finger", touchIds: [0, 1], shown: false },
+                        { tag: "3 finger", touchIds: [0, 1, 2], shown: false },
+                        { tag: "4 finger", touchIds: [0, 1, 2, 3], shown: true }
+                    ];
+        }
+
+        function test_fourFingerTapOpensDrawer(data) {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var stage = findChild(shell, "stage");
+            var drawer = findChild(shell, "drawer")
+            verify(stage && drawer);
+
+            multiTouchTap(data.touchIds, stage);
+
+            if (data.shown) { // if shown, try to also hide it by clicking outside
+                tryCompareFunction(function() { return drawer.visible; }, true);
+                mouseClick(stage, stage.width-10, stage.height/2, undefined, undefined, 100);
+            }
+            tryCompareFunction(function() { return drawer.visible; }, false);
         }
     }
 }
