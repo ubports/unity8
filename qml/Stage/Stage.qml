@@ -101,7 +101,7 @@ FocusScope {
             } else {
                 // No we didn't, do a quick alt-tab
                 if (appRepeater.count > 1) {
-                    appRepeater.itemAt(1).claimFocus();
+                    appRepeater.itemAt(1).activate();
                 }
             }
         }
@@ -755,6 +755,13 @@ FocusScope {
             }
         }
 
+        Item {
+            id: boundariesForWindowPlacement
+            anchors.fill: parent
+            anchors.topMargin: PanelState.panelHeight
+            visible: false
+        }
+
         Repeater {
             id: appRepeater
             model: topLevelSurfaceList
@@ -923,7 +930,6 @@ FocusScope {
                 readonly property var surface: model.window.surface
                 readonly property var window: model.window
 
-                readonly property alias resizeArea: resizeArea
                 readonly property alias focusedSurface: decoratedWindow.focusedSurface
                 readonly property bool dragging: touchControls.overlayShown ? touchControls.dragging : decoratedWindow.dragging
 
@@ -980,7 +986,7 @@ FocusScope {
                     screenWidth: appContainer.width
                     screenHeight: appContainer.height
                     leftMargin: root.leftMargin
-                    minimumY: panelState.panelHeight
+                    minimumY: boundariesForWindowPlacement.y
                 }
 
                 Connections {
@@ -1610,7 +1616,7 @@ FocusScope {
                     anchors.margins: touchControls.overlayShown ? borderThickness/2 : -borderThickness
 
                     target: appDelegate
-                    minimumY: panelState.panelHeight // disallow resizing up past Panel
+                    boundsItem: boundariesForWindowPlacement
                     minWidth: units.gu(10)
                     minHeight: units.gu(10)
                     borderThickness: units.gu(2)
@@ -1629,7 +1635,7 @@ FocusScope {
                     anchors.top: appDelegate.top
                     application: model.application
                     surface: model.window.surface
-                    active: appDelegate.focus
+                    active: model.window.focused
                     focus: true
                     interactive: root.interactive
                     showDecoration: 1
@@ -1638,9 +1644,7 @@ FocusScope {
                     width: implicitWidth
                     height: implicitHeight
                     highlightSize: windowInfoItem.iconMargin / 2
-                    stageWidth: appContainer.width
-                    stageHeight: appContainer.height
-                    panelState: root.panelState
+                    boundsItem: boundariesForWindowPlacement
 
                     requestedWidth: appDelegate.requestedWidth
                     requestedHeight: appDelegate.requestedHeight
@@ -1695,12 +1699,12 @@ FocusScope {
 
                 WindowControlsOverlay {
                     id: touchControls
+                    anchors.fill: appDelegate
                     target: appDelegate
+                    resizeArea: resizeArea
                     enabled: false
                     visible: enabled
-                    stageWidth: appContainer.width
-                    stageHeight: appContainer.height
-                    panelState: root.panelState
+                    boundsItem: boundariesForWindowPlacement
 
                     onFakeMaximizeAnimationRequested: if (!appDelegate.maximized) fakeRectangle.maximize(amount, true)
                     onFakeMaximizeLeftAnimationRequested: if (!appDelegate.maximizedLeft) fakeRectangle.maximizeLeft(amount, true)
@@ -1793,6 +1797,41 @@ FocusScope {
                         anchors.margins: units.gu(2)
                         sourceSize.width: width
                         sourceSize.height: height
+                    }
+                }
+
+                Item {
+                    // Group all child windows in this item so that we can fade them out together when going to the spread
+                    // (and fade them in back again when returning from it)
+                    readonly property bool stageOnProperState: root.state === "windowed"
+                                                            || root.state === "staged"
+                                                            || root.state === "stagedWithSideStage"
+
+                    // TODO: Is it worth the extra cost of layering to avoid the opacity artifacts of intersecting children?
+                    //       Btw, will involve more than uncommenting the line below as children won't necessarily fit this item's
+                    //       geometry. This is just a reference.
+                    //layer.enabled: opacity !== 0.0 && opacity !== 1.0
+
+                    opacity: stageOnProperState ? 1.0 : 0.0
+                    visible: opacity !== 0.0 // make it transparent to input as well
+                    Behavior on opacity { UbuntuNumberAnimation {} }
+
+                    Repeater {
+                        id: childWindowRepeater
+                        model: appDelegate.surface ? appDelegate.surface.childSurfaceList : null
+
+                        delegate: ChildWindowTree {
+                            surface: model.surface
+
+                            // Account for the displacement caused by window decoration in the top-level surface
+                            // Ie, the top-level surface is not positioned at (0,0) of this ChildWindow's parent (appDelegate)
+                            displacementX: appDelegate.clientAreaItem.x
+                            displacementY: appDelegate.clientAreaItem.y
+
+                            boundsItem: boundariesForWindowPlacement
+
+                            z: childWindowRepeater.count - model.index
+                        }
                     }
                 }
             }

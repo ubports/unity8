@@ -84,6 +84,7 @@ Item {
                 genericScopeView.scope = scopes.getScope(2);
                 genericScopeView.isCurrent = true;
                 shell.width = units.gu(120);
+                shell.height = units.gu(100);
                 genericScopeView.categoryView.positionAtBeginning();
                 waitForRendering(genericScopeView.categoryView);
             }
@@ -195,6 +196,8 @@ Item {
             }
 
             function test_expand_collapse() {
+                shell.height = units.gu(120);
+
                 tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader0", 0 /* timeout */) != null; }, true);
 
                 var category = findChild(genericScopeView, "dashCategory0")
@@ -531,6 +534,8 @@ Item {
             }
 
             function test_seeAllTwoCategoriesScenario2() {
+                shell.height = units.gu(120);
+
                 mockScope.setId("mockScope");
                 mockScope.setName("Mock Scope");
                 mockScope.isActive = true;
@@ -587,7 +592,6 @@ Item {
                 var innerHeader = findChild(header, "innerPageHeader");
                 verify(innerHeader, "Could not find the inner header");
 
-                expectFail("Apps", "Click scope should not have a favorite button");
                 var favoriteAction = findChild(innerHeader, "favorite_button");
                 verify(favoriteAction, "Could not find the favorite action.");
                 mouseClick(favoriteAction);
@@ -696,26 +700,6 @@ Item {
                 var artShapeLoader = findChild(tile, "artShapeLoader");
                 var shape = findChildsByType(artShapeLoader, "UCUbuntuShape");
                 compare(shape.borderSource, undefined);
-            }
-
-            function test_clickScopeSizing() {
-                genericScopeView.scope = scopes.getScopeFromAll("clickscope");
-                waitForRendering(genericScopeView);
-
-                var categoryListView = findChild(genericScopeView, "categoryListView");
-                waitForRendering(categoryListView);
-
-                var categorypredefined = findChild(categoryListView, "dashCategorypredefined");
-                waitForRendering(categorypredefined);
-
-                var cardTool = findChild(categorypredefined, "cardTool");
-
-                compare(cardTool.cardWidth, units.gu(11));
-                shell.width = units.gu(46);
-                waitForRendering(genericScopeView);
-                compare(cardTool.cardWidth, units.gu(10));
-
-                shell.width = units.gu(120)
             }
         }
     }

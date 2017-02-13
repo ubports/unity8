@@ -45,6 +45,7 @@ public:
     MirSurface(const QString& name,
             Mir::Type type,
             Mir::State state,
+            MirSurface *parentSurface,
             const QUrl& screenshot,
             const QUrl &qmlFilePath = QUrl());
     virtual ~MirSurface();
@@ -94,6 +95,9 @@ public:
     QPoint requestedPosition() const override { return m_requestedPosition; }
     void setRequestedPosition(const QPoint &) override;
 
+    unity::shell::application::MirSurfaceInterface* parentSurface() const override;
+    unity::shell::application::MirSurfaceListInterface* childSurfaceList() const override;
+
     Q_INVOKABLE void close() override;
     Q_INVOKABLE void activate() override;
 
@@ -120,6 +124,9 @@ public:
     Q_INVOKABLE void setHeightIncrement(int);
 
     Q_INVOKABLE virtual void setInputBounds(const QRect &boundsRect);
+
+    Q_INVOKABLE void openMenu(qreal x, qreal y, qreal width, qreal height);
+    Q_INVOKABLE void openDialog(qreal x, qreal y, qreal width, qreal height);
 
     /////
     // internal mock stuff
@@ -216,6 +223,10 @@ private:
 
     QPoint m_position;
     QPoint m_requestedPosition;
+
+    unity::shell::application::MirSurfaceInterface* m_parentSurface;
+
+    MirSurfaceListModel *m_childSurfaceList;
 };
 
 #endif // MOCK_MIR_SURFACE_H
