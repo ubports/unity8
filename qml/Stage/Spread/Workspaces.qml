@@ -184,9 +184,9 @@ Item {
             property int draggedIndex: -1
 
             onMouseXChanged: {
-                var progress = Math.max(0, Math.min(1, (mouseX - listView.foldingAreaWidth*2) / (width - listView.foldingAreaWidth * 4)))
+                var progress = Math.max(0, Math.min(1, (mouseX - listView.foldingAreaWidth) / (width - listView.foldingAreaWidth * 2)))
 //                var progress = mouseX / width
-//                print("p:", progress)
+                print("p:", progress)
                 listView.contentX = listView.originX + (listView.contentWidth - listView.width + listView.leftMargin + listView.rightMargin) * progress - listView.leftMargin
             }
 

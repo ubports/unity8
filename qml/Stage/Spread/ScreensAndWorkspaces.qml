@@ -11,8 +11,10 @@ Item {
     property string background
 
     Row {
+        id: row
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
+        Behavior on anchors.horizontalCenterOffset { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
 //        anchors.left: parent.left
         spacing: units.gu(1)
 
@@ -70,7 +72,7 @@ Item {
                             actions: ActionList {
                                 Action {
                                     text: "Add workspace"
-                                    onTriggered: workspaces.workspaceModel.append({text: "" + workspaces.workspaceModel.count})
+                                    onTriggered: workspaces.workspaceModel.append({text: "" + (workspaces.workspaceModel.count + 1)})
                                 }
                             }
                         }
@@ -92,17 +94,56 @@ Item {
                     workspaceModel: ListModel {
                         onCountChanged: print("model count changed to", count)
                         ListElement {text: "1"}
-//                        ListElement {text: "2"}
-//                        ListElement {text: "3"}
-//                        ListElement {text: "4"}
-//                        ListElement {text: "5"}
-//                        ListElement {text: "6"}
+                        ListElement {text: "2"}
+                        ListElement {text: "3"}
+                        ListElement {text: "4"}
+                        ListElement {text: "5"}
+                        ListElement {text: "6"}
 //                        ListElement {text: "7"}
 //                        ListElement {text: "8"}
 //                        ListElement {text: "9"}
                     }
                 }
             }
+        }
+    }
+
+    Rectangle {
+        anchors { left: parent.left; top: parent.top; bottom: parent.bottom; topMargin: units.gu(6); bottomMargin: units.gu(1) }
+        width: units.gu(5)
+        color: "#33000000"
+        MouseArea {
+            id: leftScrollArea
+            anchors.fill: parent
+            hoverEnabled: true
+            onPressed: mouse.accepted = false;
+        }
+    }
+    Rectangle {
+        anchors { right: parent.right; top: parent.top; bottom: parent.bottom; topMargin: units.gu(6); bottomMargin: units.gu(1) }
+        width: units.gu(5)
+        color: "#33000000"
+        MouseArea {
+            id: rightScrollArea
+            anchors.fill: parent
+            hoverEnabled: true
+            onPressed: mouse.accepted = false;
+        }
+    }
+    Timer {
+        repeat: true
+        running: leftScrollArea.containsMouse || rightScrollArea.containsMouse
+        interval: UbuntuAnimation.SlowDuration
+        onTriggered: {
+            var newOffset = row.anchors.horizontalCenterOffset;
+            var maxOffset = Math.max((row.width - root.width) / 2, 0);
+            if (leftScrollArea.containsMouse) {
+                newOffset += units.gu(20)
+            } else {
+                newOffset -= units.gu(20)
+            }
+            newOffset = Math.max(-maxOffset, Math.min(maxOffset, newOffset));
+            row.anchors.horizontalCenterOffset = newOffset;
         }
     }
 }
