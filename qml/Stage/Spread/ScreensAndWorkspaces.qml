@@ -14,7 +14,7 @@ Item {
         id: row
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
-        Behavior on anchors.horizontalCenterOffset { UbuntuNumberAnimation { duration: UbuntuAnimation.SlowDuration } }
+        Behavior on anchors.horizontalCenterOffset { NumberAnimation { duration: UbuntuAnimation.SlowDuration } }
 //        anchors.left: parent.left
         spacing: units.gu(1)
 
@@ -112,6 +112,7 @@ Item {
         anchors { left: parent.left; top: parent.top; bottom: parent.bottom; topMargin: units.gu(6); bottomMargin: units.gu(1) }
         width: units.gu(5)
         color: "#33000000"
+        visible: (row.width - root.width + units.gu(10)) / 2 - row.anchors.horizontalCenterOffset > units.gu(5)
         MouseArea {
             id: leftScrollArea
             anchors.fill: parent
@@ -123,6 +124,7 @@ Item {
         anchors { right: parent.right; top: parent.top; bottom: parent.bottom; topMargin: units.gu(6); bottomMargin: units.gu(1) }
         width: units.gu(5)
         color: "#33000000"
+        visible: (row.width - root.width + units.gu(10)) / 2 + row.anchors.horizontalCenterOffset > units.gu(5)
         MouseArea {
             id: rightScrollArea
             anchors.fill: parent
@@ -134,9 +136,10 @@ Item {
         repeat: true
         running: leftScrollArea.containsMouse || rightScrollArea.containsMouse
         interval: UbuntuAnimation.SlowDuration
+        triggeredOnStart: true
         onTriggered: {
             var newOffset = row.anchors.horizontalCenterOffset;
-            var maxOffset = Math.max((row.width - root.width) / 2, 0);
+            var maxOffset = Math.max((row.width - root.width + units.gu(10)) / 2, 0);
             if (leftScrollArea.containsMouse) {
                 newOffset += units.gu(20)
             } else {
