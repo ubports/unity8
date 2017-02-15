@@ -46,6 +46,7 @@ ShellView::ShellView(QQmlEngine *engine, QObject *qmlArgs)
                     errorsString += e.toString() + "\n";
                 }
                 QQuickText *text = new QQuickText(rect);
+                text->setColor(Qt::black);
                 text->setWrapMode(QQuickText::Wrap);
                 text->setText(QString("There was an error loading Unity8:\n%1").arg(errorsString));
                 QQuickItemPrivate::get(text)->anchors()->setFill(rect);
