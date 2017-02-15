@@ -25,7 +25,6 @@ import Unity.ApplicationMenu 0.1
 import QtQuick.Window 2.2
 // for indicator-keyboard
 import AccountsService 0.1
-import Unity.InputInfo 0.1
 
 import "../ApplicationMenus"
 import "../Components"
@@ -47,6 +46,7 @@ Item {
     property bool fullscreenMode: false
     property real panelAreaShowProgress: 1.0
     property bool greeterShown: false
+    property bool hasKeyboard: false
 
     property string mode: "staged"
 
@@ -340,7 +340,7 @@ Item {
                 // HACK for indicator-session
                 readonly property bool hideSessionIndicator: identifier == "indicator-session" && Math.min(Screen.width, Screen.height) <= units.gu(60)
                 // HACK for indicator-keyboard
-                readonly property bool hideKeyboardIndicator: identifier == "indicator-keyboard" && (AccountsService.keymaps.length < 2 || keyboardsModel.count == 0)
+                readonly property bool hideKeyboardIndicator: identifier == "indicator-keyboard" && (AccountsService.keymaps.length < 2 || !hasKeyboard)
 
                 height: parent.height
                 expanded: indicators.expanded
@@ -392,11 +392,6 @@ Item {
                 if (!enabled) hide();
             }
         }
-    }
-
-    InputDeviceModel {
-        id: keyboardsModel
-        deviceFilter: InputInfo.Keyboard
     }
 
     IndicatorsLight {

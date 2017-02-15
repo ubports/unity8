@@ -58,6 +58,16 @@
       <summary>The uri to the app store</summary>
       <description>This will be used whenever the user triggers an action to open the app store.</description>
     </key>
+    <key type="b" name="always-show-osk">
+      <default>true</default>
+      <summary>Force showing/hiding the OSK</summary>
+      <description>Toggle the visibility of the On Screen Keyboard unconditionally</description>
+    </key>
+    <key type="b" name="osk-switch-visible">
+      <default>false</default>
+      <summary>Whether the OSK switch should be visible</summary>
+      <description>Toggle the visibility of the OSK switch</description>
+    </key>
   </schema>
 
   <schema path="/com/canonical/unity8/greeter/" id="com.canonical.Unity8.Greeter" gettext-domain="unity8">

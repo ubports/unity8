@@ -531,6 +531,7 @@ StyledItem {
             fullscreenMode: (focusedSurfaceIsFullscreen && !LightDMService.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
             greeterShown: greeter && greeter.shown
+            hasKeyboard: shell.hasKeyboard
         }
 
         Launcher {
