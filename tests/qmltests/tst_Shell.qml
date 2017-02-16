@@ -2587,6 +2587,55 @@ Rectangle {
             tryCompareFunction(function() { return ApplicationManager.focusedApplicationId; }, "calendar-app");
         }
 
+        function test_rightEdgePushWithOpenIndicators() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var stage = findChild(shell, "stage");
+            var cursor = findChild(shell, "cursor");
+            var indicators = findChild(shell, "indicators");
+
+            // Open indicators
+            var touchX = shell.width - units.gu(5);
+            touchFlick(shell,
+                    touchX /* fromX */, indicators.minimizedPanelHeight * 0.5 /* fromY */,
+                    touchX /* toX */, shell.height * 0.9 /* toY */,
+                    true /* beginTouch */, true /* endTouch */);
+            tryCompare(indicators, "fullyOpened", true);
+
+            // push the right edge
+            mouseMove(shell, shell.width -  1, units.gu(10));
+            for (var i = 0; i < units.gu(10); i++) {
+                cursor.pushedRightBoundary(1, 0);
+            }
+            tryCompare(stage, "rightEdgePushProgress", 1);
+            tryCompare(stage, "state", "spread");
+            tryCompare(indicators, "fullyOpened", false);
+
+            mouseMove(shell, shell.width - units.gu(5), units.gu(10));
+
+            tryCompare(stage, "rightEdgePushProgress", 0);
+        }
+
+        function test_rightEdgePushOnGreeter() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+
+            var stage = findChild(shell, "stage");
+            var cursor = findChild(shell, "cursor");
+
+            // push the right edge, but verify it doesn't emit any progress
+            mouseMove(shell, shell.width -  1, units.gu(10));
+            for (var i = 0; i < units.gu(10); i++) {
+                cursor.pushedRightBoundary(1, 0);
+                compare(stage.rightEdgePushProgress, 0);
+            }
+            compare(stage.rightEdgePushProgress, 0);
+        }
+
         function test_oskDisplacesWindow_data() {
             return [
                 {tag: "no need to displace", windowHeight: units.gu(10), windowY: units.gu(5), targetDisplacement: units.gu(5), oskEnabled: true},
@@ -2709,9 +2758,10 @@ Rectangle {
             tryCompare(stage, "state", "staged");
 
             // Try by edge push
+            var cursor = findChild(shell, "cursor");
             mouseMove(stage, stage.width -  1, units.gu(10));
             for (var i = 0; i < units.gu(10); i++) {
-                stage.pushRightEdge(1);
+                cursor.pushedRightBoundary(1, 0);
             }
             mouseMove(stage, stage.width - units.gu(5), units.gu(10));
             tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");

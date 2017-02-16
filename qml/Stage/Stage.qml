@@ -46,6 +46,7 @@ FocusScope {
     property int leftMargin: 0
     property bool oskEnabled: false
     property rect inputMethodRect
+    property real rightEdgePushProgress: 0
 
     // Configuration
     property string mode: "staged"
@@ -127,11 +128,6 @@ FocusScope {
     // functions to be called from outside
     function updateFocusedAppOrientation() { /* TODO */ }
     function updateFocusedAppOrientationAnimated() { /* TODO */}
-    function pushRightEdge(amount) {
-        if (root.spreadEnabled) {
-            edgeBarrier.push(amount);
-        }
-    }
 
     function closeSpread() {
         priv.goneToSpread = false;
@@ -140,6 +136,12 @@ FocusScope {
     onSpreadEnabledChanged: {
         if (!spreadEnabled && spreadShown) {
             closeSpread();
+        }
+    }
+
+    onRightEdgePushProgressChanged: {
+        if (spreadEnabled && rightEdgePushProgress >= 1) {
+            priv.goneToSpread = true
         }
     }
 
@@ -454,7 +456,7 @@ FocusScope {
             PropertyChanges { target: wallpaper; visible: false }
         },
         State {
-            name: "stagedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "staged"
+            name: "stagedRightEdge"; when: root.spreadEnabled && (rightEdgeDragArea.dragging || rightEdgePushProgress > 0) && root.mode == "staged"
             PropertyChanges {
                 target: blurLayer;
                 visible: true;
@@ -464,7 +466,7 @@ FocusScope {
             }
         },
         State {
-            name: "sideStagedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "stagedWithSideStage"
+            name: "sideStagedRightEdge"; when: root.spreadEnabled && (rightEdgeDragArea.dragging || rightEdgePushProgress > 0) && root.mode == "stagedWithSideStage"
             extend: "stagedRightEdge"
             PropertyChanges {
                 target: sideStage
@@ -473,13 +475,13 @@ FocusScope {
             }
         },
         State {
-            name: "windowedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "windowed"
+            name: "windowedRightEdge"; when: root.spreadEnabled && (rightEdgeDragArea.dragging || rightEdgePushProgress > 0) && root.mode == "windowed"
             PropertyChanges {
                 target: blurLayer;
                 visible: true
                 blurRadius: 32
                 brightness: .65
-                opacity: MathUtils.linearAnimation(spreadItem.rightEdgeBreakPoint, 1, 0, 1, Math.max(rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0, edgeBarrier.progress))
+                opacity: MathUtils.linearAnimation(spreadItem.rightEdgeBreakPoint, 1, 0, 1, Math.max(rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0, rightEdgePushProgress))
             }
         },
         State {
@@ -1203,7 +1205,7 @@ FocusScope {
                         when: (root.mode == "staged" || root.mode == "stagedWithSideStage") && (root.state == "sideStagedRightEdge" || root.state == "stagedRightEdge" || rightEdgeFocusAnimation.running || hidingAnimation.running)
                         PropertyChanges {
                             target: stagedRightEdgeMaths
-                            progress: Math.max(edgeBarrier.progress, rightEdgeDragArea.draggedProgress)
+                            progress: Math.max(rightEdgePushProgress, rightEdgeDragArea.draggedProgress)
                         }
                         PropertyChanges {
                             target: appDelegate
@@ -1230,11 +1232,11 @@ FocusScope {
                     },
                     State {
                         name: "windowedRightEdge"
-                        when: root.mode == "windowed" && (root.state == "windowedRightEdge" || rightEdgeFocusAnimation.running || hidingAnimation.running || edgeBarrier.progress > 0)
+                        when: root.mode == "windowed" && (root.state == "windowedRightEdge" || rightEdgeFocusAnimation.running || hidingAnimation.running || rightEdgePushProgress > 0)
                         PropertyChanges {
                             target: windowedRightEdgeMaths
                             swipeProgress: rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0
-                            pushProgress: edgeBarrier.progress
+                            pushProgress: rightEdgePushProgress
                         }
                         PropertyChanges {
                             target: appDelegate
@@ -1764,30 +1766,6 @@ FocusScope {
         leftMargin: root.leftMargin
         appContainerWidth: appContainer.width
         appContainerHeight: appContainer.height
-    }
-
-    EdgeBarrier {
-        id: edgeBarrier
-
-        // NB: it does its own positioning according to the specified edge
-        edge: Qt.RightEdge
-
-        onPassed: priv.goneToSpread = true;
-
-        material: Component {
-            Item {
-                Rectangle {
-                    width: parent.height
-                    height: parent.width
-                    rotation: 90
-                    anchors.centerIn: parent
-                    gradient: Gradient {
-                        GradientStop { position: 0.0; color: Qt.rgba(0.16,0.16,0.16,0.5)}
-                        GradientStop { position: 1.0; color: Qt.rgba(0.16,0.16,0.16,0)}
-                    }
-                }
-            }
-        }
     }
 
     MouseArea {

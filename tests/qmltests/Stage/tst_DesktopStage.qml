@@ -92,7 +92,6 @@ Item {
                 focus: true
 
                 Component.onCompleted: {
-                    edgeBarrierControls.target = testCase.findChild(this, "edgeBarrierController");
                     ApplicationManager.startApplication("unity8-dash");
                 }
                 Component.onDestruction: {
@@ -135,11 +134,22 @@ Item {
                     }
                 }
 
-                EdgeBarrierControls {
-                    id: edgeBarrierControls
-                    text: "Drag here to pull out spread"
-                    backgroundColor: "blue"
-                    onDragged: { stageLoader.item.pushRightEdge(amount); }
+                Label {
+                    text: "Right edge push progress"
+                }
+
+                Slider {
+                    id: rightEdgePushSlider
+                    width: parent.width
+                    live: true
+                    minimumValue: 0.0
+                    maximumValue: 1.0
+                    onPressedChanged: {
+                        if (!pressed) {
+                            value = 0;
+                        }
+                    }
+                    Binding { target: stageLoader.item; property: "rightEdgePushProgress"; value: rightEdgePushSlider.value }
                 }
 
                 Divider {}
