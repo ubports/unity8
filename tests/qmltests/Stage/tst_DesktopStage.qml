@@ -930,5 +930,30 @@ Item {
                 compare(menu.y, normalPositioningY);
             }
         }
+
+        function test_menuDoubleClickNoMaximizeWindowBehind() {
+            var appDelegate1 = startApplication("dialer-app");
+            var appDelegate2 = startApplication("gmail-webapp");
+
+            // Open menu
+            var menuItem = findChild(appDelegate2, "menuBar-item3");
+            menuItem.show();
+            var menu = findChild(appDelegate2, "menuBar-item3-menu");
+            menuItem = findChild(menu, "menuBar-item3-menu-item3-actionItem");
+            tryCompare(menuItem, "visible", true);
+
+            // Place the other application window decoration under the menu
+            var pos = menuItem.mapToItem(null, menuItem.width / 2, menuItem.height / 2);
+            appDelegate1.windowedX = pos.x - appDelegate1.width / 2;
+            appDelegate1.windowedY = pos.y - units.gu(1);
+
+            var previousWindowState = appDelegate1.windowState;
+
+            mouseMove(menuItem);
+            mouseDoubleClickSequence(menuItem);
+
+            expectFail("", "Double clicking a menu should not change the window below");
+            tryCompareFunction(function() { return appDelegate1.windowState != previousWindowState; }, true);
+        }
     }
 }

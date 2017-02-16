@@ -140,11 +140,4 @@ ActionItem {
             name: "chevron"
         }
     }
-
-    MouseArea {
-        anchors.fill: parent
-        onClicked: {
-            root.trigger(action && action.checkable ? !action.checked : undefined);
-        }
-    }
 }
