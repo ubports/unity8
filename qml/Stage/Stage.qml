@@ -1430,11 +1430,12 @@ FocusScope {
                         name: "minimized"; when: appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate
-                            requestedX: -appDelegate.width / 2
                             scale: units.gu(5) / appDelegate.width
                             opacity: 0;
                             visuallyMinimized: true
                             visuallyMaximized: false
+                            x: -appDelegate.width / 2
+                            y: root.height / 2
                         }
                     }
                 ]
@@ -1449,15 +1450,6 @@ FocusScope {
                         from: "normal,restored,maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight";
                         to: "staged,stagedWithSideStage"
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedX,requestedY,requestedWidth,requestedHeight"; duration: priv.animationDuration}
-                    },
-                    Transition {
-                        to: "minimized"
-                        enabled: appDelegate.animationsEnabled
-                        PropertyAction { target: appDelegate; property: "visuallyMaximized" }
-                        SequentialAnimation {
-                            UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,opacity,scale,requestedWidth,requestedHeight" }
-                            PropertyAction { target: appDelegate; property: "visuallyMinimized" }
-                        }
                     },
                     Transition {
                         to: "spread"
@@ -1505,6 +1497,31 @@ FocusScope {
                             // We need to release scaleToPreviewSize at last
                             PropertyAction { target: decoratedWindow; property: "scaleToPreviewSize" }
                             PropertyAction { target: appDelegate; property: "visible" }
+                        }
+                    },
+                    Transition {
+                        from: ",normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
+                        to: "minimized"
+                        SequentialAnimation {
+                            ScriptAction { script: print("transitioning:", appDelegate.x, appDelegate.y, appDelegate.scale) }
+                            ScriptAction { script: { fakeRectangle.stop(); } }
+                            PropertyAction { target: appDelegate; property: "visuallyMaximized" }
+                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,scale,opacity"; duration: priv.animationDuration }
+                            PropertyAction { target: appDelegate; property: "visuallyMinimized" }
+                        }
+                    },
+                    Transition {
+                        from: "minimized"
+                        to: ",normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
+                        SequentialAnimation {
+                            ScriptAction { script: print("transitioning:", appDelegate.x, appDelegate.y, appDelegate.scale) }
+                            PropertyAction { target: appDelegate; property: "visuallyMinimized,z" }
+                            ParallelAnimation {
+                                UbuntuNumberAnimation { target: appDelegate; properties: "x"; from: -appDelegate.width / 2; duration: priv.animationDuration }
+                                UbuntuNumberAnimation { target: appDelegate; properties: "y,opacity"; duration: priv.animationDuration }
+                                UbuntuNumberAnimation { target: appDelegate; properties: "scale"; from: 0; duration: priv.animationDuration }
+                            }
+                            PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         }
                     },
                     Transition {
@@ -1660,7 +1677,6 @@ FocusScope {
                     onClicked: {
                         spreadItem.highlightedIndex = index;
                         if (distance == 0) {
-                            model.window.activate();
                             priv.goneToSpread = false;
                         }
                     }
