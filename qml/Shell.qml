@@ -626,10 +626,8 @@ StyledItem {
             objectName: "tutorial"
             anchors.fill: parent
 
-            enabled: shell.hasTouchscreen
-            visible: enabled
-            paused: callManager.hasCalls || !greeter || greeter.active ||
-                    wizard.active
+            paused: callManager.hasCalls || !greeter || greeter.active || wizard.active
+                    || !hasTouchscreen // TODO #1661557 something better for a touchscreen
             delayed: dialogs.hasActiveDialog || notifications.hasNotification ||
                      inputMethod.visible ||
                      (launcher.shown && !launcher.lockedVisible) ||

@@ -1647,10 +1647,10 @@ Rectangle {
 
             MockInputDeviceBackend.addMockDevice("/touchscreen", InputInfo.TouchScreen);
             var tutorial = findChild(shell, "tutorial");
-            tryCompare(tutorial, "enabled", true);
+            tryCompare(tutorial, "paused", false);
 
             MockInputDeviceBackend.removeDevice("/touchscreen");
-            tryCompare(tutorial, "enabled", false);
+            tryCompare(tutorial, "paused", true);
         }
     }
 }
