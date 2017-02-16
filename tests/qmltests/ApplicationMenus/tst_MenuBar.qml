@@ -180,6 +180,41 @@ Item {
             tryCompare(priv, "currentItem", menuItem);
         }
 
+        function test_menuActivateClosesMenu() {
+            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0,"menu");
+            var priv = findInvisibleChild(menuBar, "d");
+
+            var menuItem = findChild(menuBar, "menuBar-item0");
+            menuItem.show();
+            compare(priv.currentItem, menuItem, "CurrentItem should be set to item 0");
+            compare(priv.currentItem.popupVisible, true, "Popup should be visible");
+
+            var actionItem = findChild(menuBar, "menuBar-item0-menu-item0-actionItem");
+            mouseClick(actionItem);
+            compare(priv.currentItem, null, "CurrentItem should be null");
+        }
+
+        function test_subMenuActivateClosesMenu() {
+            menuBackend.modelData = appMenuData.generateTestData(3,4,1,0,"menu");
+            var priv = findInvisibleChild(menuBar, "d");
+
+            var menuItem = findChild(menuBar, "menuBar-item0");
+            menuItem.show();
+            compare(priv.currentItem, menuItem, "CurrentItem should be set to item 0");
+            compare(priv.currentItem.popupVisible, true, "Popup should be visible");
+
+            var actionItem = findChild(menuBar, "menuBar-item0-menu-item0-actionItem");
+            mouseClick(actionItem);
+
+            actionItem = findChild(menuBar, "menuBar-item0-menu-item0-menu-item0-actionItem");
+            mouseClick(actionItem);
+
+            actionItem = findChild(menuBar, "menuBar-item0-menu-item0-menu-item0-menu-item0-actionItem");
+            mouseClick(actionItem);
+
+            compare(priv.currentItem, null, "CurrentItem should be null");
+        }
+
         function test_openAppMenuShortcut() {
             var priv = findInvisibleChild(menuBar, "d");
 
