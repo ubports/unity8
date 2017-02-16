@@ -75,6 +75,7 @@ Item {
         acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
         anchors.fill: parent
         enabled: d.currentItem != null
+        hoverEnabled: enabled && d.currentItem.__popup != null
         onPressed: d.dismissAll()
     }
 

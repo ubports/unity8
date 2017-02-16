@@ -955,5 +955,22 @@ Item {
             expectFail("", "Double clicking a menu should not change the window below");
             tryCompareFunction(function() { return appDelegate1.windowState != previousWindowState; }, true);
         }
+
+        function test_openMenuEatsHoverOutsideIt() {
+            var appDelegate = startApplication("gmail-webapp");
+
+            var wd = findChild(appDelegate, "appWindowDecoration");
+            var closeButton = findChild(wd, "closeWindowButton");
+
+            // Open menu
+            var menuItem = findChild(appDelegate, "menuBar-item3");
+            menuItem.show();
+            var menu = findChild(appDelegate, "menuBar-item3-menu");
+            tryCompare(menu, "visible", true);
+
+            mouseMove(closeButton, closeButton.width/2, closeButton.height/2);
+            expectFail("", "Hovering the window controls should be ignored when the menu is open");
+            tryCompare(closeButton, "containsMouse", true);
+        }
     }
 }
