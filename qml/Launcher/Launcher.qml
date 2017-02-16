@@ -414,7 +414,7 @@ FocusScope {
             target: panel.dismissTimer
             onTriggered: {
                 if (root.autohideEnabled && !root.lockedVisible) {
-                    if (!panel.preventHiding) {
+                    if (!edgeBarrier.containsMouse && !panel.preventHiding) {
                         root.state = ""
                     } else {
                         panel.dismissTimer.restart()
