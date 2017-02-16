@@ -110,6 +110,8 @@ UbuntuShape {
             } else {
                 hoveredItem = null;
             }
+
+            submenuHoverTimer.stop();
         }
 
         onSelect: {
@@ -210,6 +212,12 @@ UbuntuShape {
                 contentHeight: menuColumn.height
                 interactive: height < contentHeight
 
+                Timer {
+                    id: submenuHoverTimer
+                    interval: 225 // GTK MENU_POPUP_DELAY, Qt SH_Menu_SubMenuPopupDelay in QCommonStyle is 256
+                    onTriggered: d.currentItem.item.trigger();
+                }
+
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -223,12 +231,17 @@ UbuntuShape {
 
                         if (!d.hoveredItem || !d.currentItem ||
                                 !d.hoveredItem.contains(Qt.point(pos.x - d.currentItem.x, pos.y - d.currentItem.y))) {
+                            submenuHoverTimer.stop();
+
                             d.hoveredItem = menuColumn.childAt(pos.x, pos.y)
                             if (!d.hoveredItem || !d.hoveredItem.enabled)
-                                return false;
+                                return;
                             d.currentItem = d.hoveredItem;
+
+                            if (!d.currentItem.__isSeparator && d.currentItem.item.hasSubmenu && d.currentItem.item.enabled) {
+                                submenuHoverTimer.start();
+                            }
                         }
-                        return true;
                     }
                 }
 
@@ -283,6 +296,8 @@ UbuntuShape {
                                     width: MathUtils.clamp(implicitWidth, d.__minimumWidth, d.__maximumWidth)
 
                                     action.onTriggered: {
+                                        submenuHoverTimer.stop();
+
                                         d.currentItem = loader;
 
                                         if (hasSubmenu) {
