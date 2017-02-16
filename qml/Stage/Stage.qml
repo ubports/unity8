@@ -1615,7 +1615,10 @@ FocusScope {
                     onDecorationReleased: fakeRectangle.commit();
 
                     property real angle: 0
+                    Behavior on angle { enabled: priv.closingIndex >= 0; UbuntuNumberAnimation {} }
                     property real itemScale: 1
+                    Behavior on itemScale { enabled: priv.closingIndex >= 0; UbuntuNumberAnimation {} }
+
                     transform: [
                         Scale {
                             origin.x: 0
