@@ -137,6 +137,7 @@ Rectangle {
                         primary: shellLoader.primaryOrientation
                     }
                     mode: shellLoader.mode
+                    hasTouchscreen: true
                     Component.onCompleted: {
                         ApplicationManager.startApplication("unity8-dash");
                     }
