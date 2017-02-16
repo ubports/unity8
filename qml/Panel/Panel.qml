@@ -340,7 +340,7 @@ Item {
                 // HACK for indicator-session
                 readonly property bool hideSessionIndicator: identifier == "indicator-session" && Math.min(Screen.width, Screen.height) <= units.gu(60)
                 // HACK for indicator-keyboard
-                readonly property bool hideKeyboardIndicator: identifier == "indicator-keyboard" && (AccountsService.keymaps.length < 2 || !hasKeyboard)
+                readonly property bool hideKeyboardIndicator: identifier == "indicator-keyboard" && AccountsService.keymaps.length < 2 && !hasKeyboard
 
                 height: parent.height
                 expanded: indicators.expanded
