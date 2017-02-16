@@ -506,7 +506,6 @@ FocusScope {
         Transition {
             to: "spread"
             PropertyAction { target: spreadItem; property: "highlightedIndex"; value: appRepeater.count > 1 ? 1 : 0 }
-            PropertyAction { target: floatingFlickable; property: "contentX"; value: 0 }
         },
         Transition {
             from: "spread"
@@ -521,6 +520,7 @@ FocusScope {
                     }
                 }
                 PropertyAction { target: spreadItem; property: "highlightedIndex"; value: -1 }
+                PropertyAction { target: floatingFlickable; property: "contentX"; value: 0 }
             }
         },
         Transition {
@@ -1850,11 +1850,11 @@ FocusScope {
             var targetContentX = floatingFlickable.contentWidth / spreadItem.totalItemCount * toIndex;
             if (targetContentX - floatingFlickable.contentX > spreadItem.rightStackXPos - (spreadItem.spreadItemWidth / 2)) {
                 var offset = (spreadItem.rightStackXPos - (spreadItem.spreadItemWidth / 2)) - (targetContentX - floatingFlickable.contentX)
-                snapAnimation.to = floatingFlickable.contentX - offset;
+                snapAnimation.to = Math.max(0, floatingFlickable.contentX - offset);
                 snapAnimation.start();
             } else if (targetContentX - floatingFlickable.contentX < spreadItem.leftStackXPos + units.gu(1)) {
                 var offset = (spreadItem.leftStackXPos + units.gu(1)) - (targetContentX - floatingFlickable.contentX);
-                snapAnimation.to = floatingFlickable.contentX - offset;
+                snapAnimation.to = Math.max(0, floatingFlickable.contentX - offset);
                 snapAnimation.start();
             }
         }
