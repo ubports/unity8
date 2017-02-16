@@ -149,8 +149,8 @@ Item {
                     Component {
                         id: menuComponent
                         MenuPopup {
-                            x: visualItem.x - units.gu(1)
-                            anchors.top: parent.bottom
+                            desiredX: visualItem.x - units.gu(1)
+                            desiredY: parent.height
                             unityMenuModel: root.unityMenuModel.submenu(visualItem.__ownIndex)
 
                             Component.onCompleted: reset();
