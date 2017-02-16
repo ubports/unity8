@@ -35,6 +35,7 @@ Rectangle {
                                  || dndArea.containsMouse || dashItem.hovered
     property int highlightIndex: -2
     property bool shortcutHintsShown: false
+    readonly property bool quickListOpen: quickList.state === "open"
 
     signal applicationSelected(string appId)
     signal showDashHome()
@@ -686,6 +687,8 @@ Rectangle {
     InverseMouseArea {
         anchors.fill: quickListShape
         enabled: quickList.state == "open" || pressed
+        hoverEnabled: enabled
+        visible: enabled
 
         onClicked: {
             quickList.state = "";

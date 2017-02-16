@@ -2784,6 +2784,28 @@ Rectangle {
             keyRelease(Qt.Key_W, Qt.MetaModifier)
         }
 
+        function test_launcherWindowResizeInteraction()
+        {
+            loadShell("desktop");
+            waitForRendering(shell)
+            shell.usageScenario = "desktop"
+            waitForRendering(shell)
+            swipeAwayGreeter();
+
+            var app1SurfaceId = topLevelSurfaceList.nextId;
+            var app1 = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(app1SurfaceId);
+
+            var launcherDelegate1 = findChild(shell, "launcherDelegate1");
+            mouseClick(launcherDelegate1, launcherDelegate1.width / 2, launcherDelegate1.height / 2, Qt.RightButton);
+
+            var appDelegate = findChild(shell, "appDelegate_" + app1SurfaceId);
+            mouseMove(shell, appDelegate.mapToItem(shell, 0, 0).x, launcherDelegate1.mapToItem(shell, 0, 0).y);
+
+            expectFail("", "Cursor should not change while launcher menu is open");
+            tryCompare(Mir, "cursorName", "left_side");
+        }
+
         function test_panelTitleShowsWhenGreeterNotShown_data() {
             return [
                 {tag: "phone" },

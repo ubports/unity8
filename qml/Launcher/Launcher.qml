@@ -307,7 +307,8 @@ FocusScope {
     InverseMouseArea {
         id: closeMouseArea
         anchors.fill: panel
-        enabled: root.state == "visible" || root.state == "drawer"
+        enabled: (root.state == "visible" && !root.lockedVisible) || root.state == "drawer" || hoverEnabled
+        hoverEnabled: panel.quickListOpen
         visible: enabled
         onPressed: {
             mouse.accepted = false;
