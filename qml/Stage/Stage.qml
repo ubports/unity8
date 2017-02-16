@@ -101,6 +101,8 @@ FocusScope {
                 // No we didn't, do a quick alt-tab
                 if (appRepeater.count > 1) {
                     appRepeater.itemAt(1).activate();
+                } else if (appRepeater.count > 0) {
+                    appRepeater.itemAt(0).activate(); // quick alt-tab to the only (minimized) window should still activate it
                 }
             }
         }
@@ -811,7 +813,7 @@ FocusScope {
                                                      maximizedTopLeft || maximizedTopRight || maximizedBottomLeft || maximizedBottomRight
 
                 readonly property bool minimized: windowState & WindowStateStorage.WindowStateMinimized
-                readonly property bool fullscreen: window.state === Mir.FullscreenState
+                readonly property bool fullscreen: windowState === WindowStateStorage.WindowStateFullscreen
 
                 readonly property bool canBeMaximized: canBeMaximizedHorizontally && canBeMaximizedVertically
                 readonly property bool canBeMaximizedLeftRight: (maximumWidth == 0 || maximumWidth >= appContainer.width/2) &&
@@ -822,7 +824,10 @@ FocusScope {
                 readonly property bool canBeMaximizedVertically: maximumHeight == 0 || maximumHeight >= appContainer.height
                 readonly property alias orientationChangesEnabled: decoratedWindow.orientationChangesEnabled
 
+                // TODO drop our own windowType once Mir/Miral/Qtmir gets in sync with ours
                 property int windowState: WindowStateStorage.WindowStateNormal
+                property int prevWindowState: WindowStateStorage.WindowStateRestored
+
                 property bool animationsEnabled: true
                 property alias title: decoratedWindow.title
                 readonly property string appName: model.application ? model.application.name : ""
@@ -877,9 +882,6 @@ FocusScope {
                         }
                         priv.updateMainAndSideStageIndexes();
                     }
-                    if (root.mode == "windowed") {
-                        appDelegate.restore(true /* animated */, appDelegate.windowState);
-                    }
                     appDelegate.focus = true;
                 }
 
@@ -929,7 +931,14 @@ FocusScope {
                         } else if (model.window.state === Mir.MaximizedBottomRightState) {
                             appDelegate.maximizeBottomRight();
                         } else if (model.window.state === Mir.RestoredState) {
-                            appDelegate.restore();
+                            if (appDelegate.fullscreen && appDelegate.prevWindowState != WindowStateStorage.WindowStateRestored) {
+                                model.window.requestState(WindowStateStorage.toMirState(appDelegate.prevWindowState));
+                            } else {
+                                appDelegate.restore();
+                            }
+                        } else if (model.window.state === Mir.FullscreenState) {
+                            appDelegate.prevWindowState = appDelegate.windowState;
+                            appDelegate.windowState = WindowStateStorage.WindowStateFullscreen;
                         }
                     }
                 }
@@ -1031,6 +1040,7 @@ FocusScope {
                     animationsEnabled = (animated === undefined) || animated;
                     windowState = state || WindowStateStorage.WindowStateRestored;
                     windowState &= ~WindowStateStorage.WindowStateMinimized; // clear the minimized bit
+                    prevWindowState = windowState;
                 }
 
                 function playFocusAnimation() {

@@ -335,6 +335,8 @@ Rectangle {
                 Row {
                     CheckBox {
                         id: fullscreeAppCheck
+                        activeFocusOnPress: false
+                        activeFocusOnTab: false
 
                         onTriggered: {
                             if (!topLevelSurfaceList.focusedWindow) return;
@@ -2778,6 +2780,63 @@ Rectangle {
                 mouseClick(stage, stage.width-10, stage.height/2, undefined, undefined, 100);
             }
             tryCompareFunction(function() { return drawer.visible; }, false);
+        }
+
+        function test_restoreFromFullscreen() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var appSurfaceId = topLevelSurfaceList.nextId;
+            var app = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            // start dialer
+            var appContainer = findChild(shell, "appContainer");
+            var appDelegate = findChild(appContainer, "appDelegate_" + appSurfaceId);
+            verify(appDelegate);
+            tryCompare(appDelegate, "state", "normal");
+
+            // now maximize to right
+            appDelegate.requestMaximizeRight();
+            tryCompare(appDelegate, "state", "maximizedRight");
+
+            // switch to fullscreen
+            app.surfaceList.get(0).requestState(Mir.FullscreenState);
+            tryCompare(appDelegate, "state", "fullscreen");
+
+            // restore, should go back to maximizedRight, not restored
+            appDelegate.requestRestore();
+            tryCompare(appDelegate, "state", "maximizedRight");
+        }
+
+        function test_altTabToMinimizedApp() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var appSurfaceId = topLevelSurfaceList.nextId;
+            var app = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            // start dialer
+            var appContainer = findChild(shell, "appContainer");
+            var appDelegate = findChild(appContainer, "appDelegate_" + appSurfaceId);
+            verify(appDelegate);
+            tryCompare(appDelegate, "state", "normal");
+
+            // minimize dialer
+            appDelegate.requestMinimize();
+            tryCompare(appDelegate, "state", "minimized");
+
+            // try to bring dialer back from minimized by doing alt-tab
+            keyClick(Qt.Key_Tab, Qt.AltModifier);
+            tryCompare(appDelegate, "visible", true);
+            tryCompare(appDelegate, "focus", true);
+            tryCompare(topLevelSurfaceList.focusedWindow, "surface", appDelegate.surface);
+            tryCompare(topLevelSurfaceList.applicationAt(0), "appId", "dialer-app");
         }
     }
 }
