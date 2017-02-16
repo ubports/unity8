@@ -56,7 +56,7 @@ Item {
         }
         height: units.gu(3)
         width: parent.width * 2/3
-        color: "grey"
+        color: theme.palette.normal.background
 
         MenuBar {
             id: menuBar

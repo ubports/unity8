@@ -285,7 +285,7 @@ Item {
                     anchors.centerIn: parent
                     text: actionItem.text
                     horizontalAlignment: Text.AlignLeft
-                    color: enabled ? "white" : "#5d5d5d"
+                    color: enabled ? theme.palette.normal.backgroundText : theme.palette.disabled.backgroundText
                 }
             }
 

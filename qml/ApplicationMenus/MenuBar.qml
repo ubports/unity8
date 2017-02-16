@@ -208,7 +208,7 @@ Item {
                             id: _title
                             text: actionItem.text
                             horizontalAlignment: Text.AlignLeft
-                            color: enabled ? "white" : "#5d5d5d"
+                            color: enabled ? theme.palette.normal.backgroundText : theme.palette.disabled.backgroundText
                         }
                     }
                 }
@@ -280,7 +280,7 @@ Item {
             width: units.gu(2)
             height: units.gu(2)
             anchors.centerIn: parent
-            color: theme.palette.normal.overlayText
+            color: theme.palette.normal.backgroundText
             name: "toolkit_chevron-down_2gu"
         }
 
