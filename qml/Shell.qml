@@ -627,7 +627,7 @@ StyledItem {
             anchors.fill: parent
 
             paused: callManager.hasCalls || !greeter || greeter.active || wizard.active
-                    || !hasTouchscreen // TODO #1661557 something better for a touchscreen
+                    || !hasTouchscreen // TODO #1661557 something better for no touchscreen
             delayed: dialogs.hasActiveDialog || notifications.hasNotification ||
                      inputMethod.visible ||
                      (launcher.shown && !launcher.lockedVisible) ||
