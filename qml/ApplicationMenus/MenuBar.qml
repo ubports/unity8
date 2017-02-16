@@ -213,7 +213,13 @@ Item {
                     updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
                 }
             }
-            onClicked: updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
+            onClicked: {
+                var prevItem = d.currentItem;
+                updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
+                if (prevItem && d.currentItem == prevItem) {
+                    prevItem.hide();
+                }
+            }
 
             function updateCurrentItemFromPosition(point) {
                 var pos = mapToItem(row, point.x, point.y);

@@ -227,5 +227,20 @@ Item {
             keyClick(Qt.Key_F10, Qt.AltModifier);
             compare(priv.currentItem, menuItem1, "First enabled item should be opened");
         }
+
+        function test_clickOpenMenuClosesMenu() {
+            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0,"menu");
+            var priv = findInvisibleChild(menuBar, "d");
+
+            var menuItem = findChild(menuBar, "menuBar-item0");
+            waitForRendering(menuItem);
+            mouseClick(menuItem);
+            compare(priv.currentItem, menuItem, "CurrentItem should be set to item 0");
+            compare(priv.currentItem.popupVisible, true, "Popup should be visible");
+
+            waitForRendering(menuItem);
+            mouseClick(menuItem);
+            compare(priv.currentItem, null, "CurrentItem should be null");
+        }
     }
 }
