@@ -1,11 +1,15 @@
 include_directories(
+    ${CMAKE_SOURCE_DIR}/plugins/WindowManager
+)
+
+include_directories(
     SYSTEM
     ${QTMIRSERVER_INCLUDE_DIRS}
 )
 
 set(WINDOWMANAGER_SRC
-    TopLevelWindowModel.cpp
-    Window.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/WindowManager/TopLevelWindowModel.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Window.cpp
     WindowManagerPlugin.cpp
     Screens.cpp
     Screen.cpp
@@ -17,12 +21,12 @@ set(WINDOWMANAGER_SRC
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/SurfaceManagerInterface.h
 )
 
-add_library(windowmanager-qml SHARED ${WINDOWMANAGER_SRC})
+add_library(MockWindowManager-qml SHARED ${WINDOWMANAGER_SRC})
 
-target_link_libraries(windowmanager-qml
+target_link_libraries(MockWindowManager-qml
     ${QTMIRSERVER_LDFLAGS}
 )
 
-qt5_use_modules(windowmanager-qml Qml Quick Gui)
+qt5_use_modules(MockWindowManager-qml Qml Quick Gui)
 
-add_unity8_plugin(WindowManager 1.0 WindowManager TARGETS windowmanager-qml)
+add_unity8_mock(WindowManager 1.0 WindowManager TARGETS MockWindowManager-qml)

@@ -18,7 +18,7 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import Qt.labs.settings 1.0
-import Unity.Screens 0.1
+import WindowManager 1.0
 import UInput 0.1
 import "../Components"
 

@@ -16,7 +16,7 @@
 
 import QtQuick 2.4
 import QtQuick.Window 2.2
-import Unity.Screens 0.1
+import WindowManager 1.0
 import Unity.Application 0.1
 
 Instantiator {

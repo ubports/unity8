@@ -33,14 +33,16 @@
 #include "UnityCommandLineParser.h"
 #include "DebuggingController.h"
 
-ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
-    : QGuiApplication(argc, argv)
+#include <QDebug>
+
+ShellApplication::ShellApplication(int & argc, char ** argv)
+    : qtmir::GuiServerApplication(argc, argv, {})
     , m_qmlArgs(this)
 {
     setApplicationName(QStringLiteral("unity8"));
     setOrganizationName(QStringLiteral("Canonical"));
 
-    setupQmlEngine(isMirServer);
+    setupQmlEngine();
 
     if (m_qmlArgs.deviceName().isEmpty()) {
         char buffer[200];
@@ -89,18 +91,9 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     #endif
 
     if (m_qmlArgs.mode().compare("greeter") == 0) {
-//        QSize primaryScreenSize = this->primaryScreen()->size();
-//        m_shellView->setHeight(primaryScreenSize.height());
-//        m_shellView->setWidth(primaryScreenSize.width());
-//        m_shellView->show();
-//        m_shellView->requestActivate();
         if (!QProcess::startDetached("initctl emit --no-wait unity8-greeter-started")) {
             qDebug() << "Unable to send unity8-greeter-started event to Upstart";
         }
-//    } else if (isMirServer || parser.hasFullscreen()) {
-//        m_shellView->showFullScreen();
-//    } else {
-//        m_shellView->show();
     }
 }
 
@@ -120,16 +113,13 @@ void ShellApplication::destroyResources()
     m_qmlEngine = nullptr;
 }
 
-void ShellApplication::setupQmlEngine(bool isMirServer)
+void ShellApplication::setupQmlEngine()
 {
     m_qmlEngine = new QQmlApplicationEngine(this);
 
     m_qmlEngine->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
 
     prependImportPaths(m_qmlEngine, ::overrideImportPaths());
-    if (!isMirServer) {
-        prependImportPaths(m_qmlEngine, ::nonMirImportPaths());
-    }
     appendImportPaths(m_qmlEngine, ::fallbackImportPaths());
 
     m_qmlEngine->setNetworkAccessManagerFactory(new CachingNetworkManagerFactory);
