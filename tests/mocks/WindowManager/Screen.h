@@ -1,12 +1,15 @@
-#ifndef SCREEN_H
-#define SCREEN_H
+#ifndef MOCK_SCREEN_H
+#define MOCK_SCREEN_H
 
 #include <qtmir/screen.h>
 #include <QScopedPointer>
 
+class WorkspaceModel;
+
 class Screen : public qtmir::Screen
 {
     Q_OBJECT
+    Q_PROPERTY(WorkspaceModel* workspaces READ workspaces CONSTANT)
 
 public:
     Screen();
@@ -31,6 +34,8 @@ public:
     qtmir::ScreenConfiguration *beginConfiguration() const override;
     bool applyConfiguration(qtmir::ScreenConfiguration *configuration) override;
 
+    WorkspaceModel* workspaces() const { return m_workspaces.data(); }
+
 public:
     qtmir::OutputId m_id{0};
     bool m_active{false};
@@ -45,6 +50,7 @@ public:
     uint m_currentModeIndex{0};
     QList<qtmir::ScreenMode*> m_sizes;
     QSizeF m_physicalSize;
+    const QScopedPointer<WorkspaceModel> m_workspaces;
 };
 
-#endif // SCREEN_H
+#endif // MOCK_SCREEN_H

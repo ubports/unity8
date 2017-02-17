@@ -15,9 +15,15 @@
  */
 
 #include "Screen.h"
+#include "WorkspaceModel.h"
+#include "WorkspaceManager.h"
+#include "Workspace.h"
 
 Screen::Screen()
+    : m_workspaces(new WorkspaceModel)
 {
+    WorkspaceManager::instance()->createWorkspace()->assign(m_workspaces.data());
+    WorkspaceManager::instance()->createWorkspace()->assign(m_workspaces.data());
 }
 
 QQmlListProperty<qtmir::ScreenMode> Screen::availableModes()

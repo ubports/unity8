@@ -4,9 +4,12 @@
 #include <qtmir/screen.h>
 #include <QScopedPointer>
 
+class WorkspaceModel;
+
 class Screen : public qtmir::Screen
 {
     Q_OBJECT
+    Q_PROPERTY(WorkspaceModel* workspaces READ workspaces CONSTANT)
 
 public:
     explicit Screen(qtmir::Screen*const wrapped);
@@ -33,8 +36,11 @@ public:
 
     qtmir::Screen* wrapped() const { return m_wrapped; }
 
+    WorkspaceModel* workspaces() const { return m_workspaces.data(); }
+
 private:
     qtmir::Screen*const m_wrapped;
+    const QScopedPointer<WorkspaceModel> m_workspaces;
 };
 
 #endif // SCREEN_H

@@ -10,6 +10,9 @@ include_directories(
 set(WINDOWMANAGER_SRC
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/TopLevelWindowModel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Window.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Workspace.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/WindowManager/WorkspaceManager.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/WindowManager/WorkspaceModel.cpp
     WindowManagerPlugin.cpp
     Screens.cpp
     Screen.cpp

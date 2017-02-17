@@ -15,9 +15,13 @@
  */
 
 #include "Screen.h"
+#include "WorkspaceModel.h"
+#include "WorkspaceManager.h"
+#include "Workspace.h"
 
 Screen::Screen(qtmir::Screen* screen)
     : m_wrapped(screen)
+    , m_workspaces(new WorkspaceModel)
 {
     connect(m_wrapped, &qtmir::Screen::usedChanged, this, &Screen::usedChanged);
     connect(m_wrapped, &qtmir::Screen::nameChanged, this, &Screen::nameChanged);
@@ -29,6 +33,9 @@ Screen::Screen(qtmir::Screen* screen)
     connect(m_wrapped, &qtmir::Screen::activeChanged, this, &Screen::activeChanged);
     connect(m_wrapped, &qtmir::Screen::currentModeIndexChanged, this, &Screen::currentModeIndexChanged);
     connect(m_wrapped, &qtmir::Screen::availableModesChanged, this, &Screen::availableModesChanged);
+
+    WorkspaceManager::instance()->createWorkspace()->assign(m_workspaces.data());
+    WorkspaceManager::instance()->createWorkspace()->assign(m_workspaces.data());
 }
 
 qtmir::OutputId Screen::outputId() const
