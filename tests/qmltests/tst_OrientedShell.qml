@@ -1045,7 +1045,6 @@ Rectangle {
 
             tryCompare(shell, "usageScenario", "phone");
             tryCompare(inputMethod, "enabled", true);
-            tryCompare(oskSettings, "disableHeight", false);
 
             if (data.kbd) {
                 MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
@@ -1056,7 +1055,6 @@ Rectangle {
 
             tryCompare(shell, "usageScenario", data.expectedMode);
             tryCompare(inputMethod, "enabled", data.oskExpected);
-            tryCompare(oskSettings, "disableHeight", data.expectedMode == "desktop" || data.kbd);
 
             // Restore width
             orientedShellLoader.width = oldWidth;

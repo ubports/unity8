@@ -23,8 +23,6 @@ import Utils 0.1
 import Unity.ApplicationMenu 0.1
 
 import QtQuick.Window 2.2
-// for indicator-keyboard
-import AccountsService 0.1
 
 import "../ApplicationMenus"
 import "../Components"
@@ -335,12 +333,12 @@ Item {
                 objectName: identifier+"-panelItem"
 
                 property int ownIndex: index
-                property bool overflow: parent.width - x > __indicators.overFlowWidth
-                property bool hidden: !expanded && (overflow || !indicatorVisible || hideSessionIndicator || hideKeyboardIndicator)
+                readonly property bool overflow: parent.width - x > __indicators.overFlowWidth
+                readonly property bool hidden: !expanded && (overflow || !indicatorVisible || hideSessionIndicator || hideKeyboardIndicator)
                 // HACK for indicator-session
                 readonly property bool hideSessionIndicator: identifier == "indicator-session" && Math.min(Screen.width, Screen.height) <= units.gu(60)
                 // HACK for indicator-keyboard
-                readonly property bool hideKeyboardIndicator: identifier == "indicator-keyboard" && AccountsService.keymaps.length < 2 && !hasKeyboard
+                readonly property bool hideKeyboardIndicator: identifier == "indicator-keyboard" && !hasKeyboard
 
                 height: parent.height
                 expanded: indicators.expanded
