@@ -736,11 +736,12 @@ PanelTest {
         function test_visibleIndicators_data() {
             return [
                 { visible: [true, false, true, false, true, true, false, true] },
-                { visible: [false, false, false, false, false, false, true, false] }
+                { visible: [true, false, false, false, false, false, true, false] }
             ];
         }
 
         function test_visibleIndicators(data) {
+            panel.hasKeyboard = true;
             for (var i = 0; i < data.visible.length; i++) {
                 var visible = data.visible[i];
                 root.setIndicatorVisible(i, visible);
