@@ -85,15 +85,15 @@ Item {
     }
 
     // Event eater
-    MouseArea {
-        anchors.fill: parent
-        onClicked: root.clicked()
-        onWheel: wheel.accepted = true
-    }
+//    MouseArea {
+//        anchors.fill: parent
+//        onClicked: root.clicked()
+//        onWheel: wheel.accepted = true
+//    }
 
     MultiPointTouchArea {
         anchors.fill: parent
-        mouseEnabled: false
+//        mouseEnabled: false
         maximumTouchPoints: 1
         property int offset: 0
 
@@ -109,7 +109,7 @@ Item {
         }
 
         onTouchUpdated: {
-            if (!d.moving) {
+            if (!d.moving || !tp.pressed) {
                 if (Math.abs(tp.startY - tp.y) > d.threshold) {
                     d.moving = true;
                     d.dragEvents = []
@@ -119,17 +119,30 @@ Item {
                 }
             }
 
-            if (root.closeable) {
-                d.distance = tp.y - tp.startY - offset
+
+            var value = tp.y - tp.startY - offset;
+            if (value < 0) {
+                var coords = mapToItem(shell, tp.x, tp.y);
+                fakeDragItem.x = coords.x
+                fakeDragItem.y = coords.y
+                fakeDragItem.Drag.active = true;
+                fakeDragItem.surface = model.window.surface;
+
             } else {
-                var value = tp.y - tp.startY - offset;
-                d.distance = Math.sqrt(Math.abs(value)) * (value < 0 ? -1 : 1) * 3
+                if (root.closeable) {
+                    d.distance = value
+                } else {
+                    d.distance = Math.sqrt(Math.abs(value)) * (value < 0 ? -1 : 1) * 3
+                }
             }
 
             d.pushDragEvent(tp);
         }
 
         onReleased: {
+            print("released!")
+            fakeDragItem.surface = null;
+
             if (!d.moving) {
                 root.clicked()
             }

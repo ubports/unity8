@@ -48,7 +48,7 @@ Item {
         anchors.fill: parent
         anchors.leftMargin: -itemWidth
         anchors.rightMargin: -itemWidth
-        interactive: false
+//        interactive: false
 
         orientation: ListView.Horizontal
         spacing: units.gu(1)
@@ -178,17 +178,25 @@ Item {
             id: mouseArea
             anchors.fill: parent
             hoverEnabled: true
-            preventStealing: true
+            propagateComposedEvents: true
             anchors.leftMargin: listView.leftMargin
             anchors.rightMargin: listView.rightMargin
 
             property int draggedIndex: -1
 
+            property int startX: 0
+            property int startY: 0
+
             onMouseXChanged: {
-                var progress = Math.max(0, Math.min(1, (mouseX - listView.foldingAreaWidth) / (width - listView.foldingAreaWidth * 2)))
-//                var progress = mouseX / width
-                print("p:", progress)
-                listView.contentX = listView.originX + (listView.contentWidth - listView.width + listView.leftMargin + listView.rightMargin) * progress - listView.leftMargin
+                if (!pressed || dragging) {
+                    var progress = Math.max(0, Math.min(1, (mouseX - listView.foldingAreaWidth) / (width - listView.foldingAreaWidth * 2)))
+                    listView.contentX = listView.originX + (listView.contentWidth - listView.width + listView.leftMargin + listView.rightMargin) * progress - listView.leftMargin
+                }
+            }
+            onMouseYChanged: {
+                if (Math.abs(mouseY - startY) > units.gu(3)) {
+                    drag.axis = Drag.XAndYAxis;
+                }
             }
 
             onReleased: {
@@ -205,6 +213,8 @@ Item {
             }
 
             onPressed: {
+                startX = mouseX;
+                startY = mouseY;
                 if (listView.model.count < 2) return;
 
                 var coords = mapToItem(listView.contentItem, mouseX, mouseY)
@@ -220,6 +230,7 @@ Item {
                 fakeDragItem.Drag.hotSpot.x = mouseCoordsInItem.x
                 fakeDragItem.Drag.hotSpot.y = mouseCoordsInItem.y
 
+                drag.axis = Drag.YAxis;
                 drag.target = fakeDragItem;
             }
 

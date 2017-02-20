@@ -620,6 +620,8 @@ FocusScope {
                 property int scrollAreaWidth: width / 3
                 property bool progressiveScrollingEnabled: false
 
+                onPressed: mouse.accepted = false
+
                 onMouseXChanged: {
                     mouse.accepted = false
 
@@ -658,8 +660,6 @@ FocusScope {
                         }
                     }
                 }
-
-                onPressed: mouse.accepted = false
             }
         }
 
@@ -755,6 +755,25 @@ FocusScope {
             }
         }
 
+        MirSurfaceItem {
+            id: fakeDragItem
+            property real previewScale: .5
+            width: implicitWidth * previewScale
+            height: implicitHeight * previewScale
+            surfaceWidth: -1
+            surfaceHeight: -1
+//            surface: model.window.surface
+            onSurfaceChanged: print("surface changed", surface)
+            opacity: surface != null ? 1 : 0
+            Behavior on opacity { UbuntuNumberAnimation {} }
+            visible: opacity > 0
+
+            Drag.active: surface != null
+            Drag.keys: ["application"]
+
+            z: 1000
+        }
+
         Item {
             id: boundariesForWindowPlacement
             anchors.fill: parent
@@ -789,6 +808,9 @@ FocusScope {
                     }
                 }
                 z: normalZ
+
+                opacity: fakeDragItem.surface == model.window.surface && fakeDragItem.Drag.active ? 0 : 1
+                Behavior on opacity { UbuntuNumberAnimation {} }
 
                 // Normally we want x/y where the surface thinks it is. Width/height of our delegate will
                 // match what the actual surface size is.

@@ -33,6 +33,25 @@ Item {
                     backgroundColor: "white"
                     z: 1
 
+                    DropArea {
+                        anchors.fill: parent
+                        keys: ["workspace"]
+
+                        onEntered: {
+                            workspaces.workspaceModel.insert(workspaces.workspaceModel.count, {text: drag.source.text})
+                            drag.source.inDropArea = true;
+                        }
+
+                        onExited: {
+                            workspaces.workspaceModel.remove(workspaces.workspaceModel.count - 1, 1)
+                            drag.source.inDropArea = false;
+                        }
+
+                        onDropped: {
+                            drag.source.inDropArea = false;
+                        }
+                    }
+
                     Column {
                         anchors.fill: parent
                         anchors.margins: units.gu(1)

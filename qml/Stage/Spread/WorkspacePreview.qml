@@ -14,9 +14,18 @@ Item {
 
     property real previewScale: previewSpace.height / previewSpace.screenHeight
 
-    Wallpaper {
+    DropArea {
+        anchors.fill: parent
+        keys: ["application"]
+
+        onEntered: print("yehaaaa")
+    }
+
+    Image {
         source: previewSpace.background
         anchors.fill: parent
+        sourceSize.width: width
+        sourceSize.height: height
 
         Repeater {
             id: topLevelSurfaceRepeater
