@@ -18,14 +18,14 @@ Item {
         keys: ['workspace']
 
         onEntered: {
-            var index = listView.getDropIndex(drag);
+            var index = listView.getWorkspaceDropIndex(drag);
             listView.model.insert(index, {text: drag.source.text})
             listView.dropItemIndex = index;
             drag.source.inDropArea = true;
         }
 
         onPositionChanged: {
-            var index = listView.getDropIndex(drag);
+            var index = listView.getWorkspaceDropIndex(drag);
             if (listView.dropItemIndex == index) return;
             listView.model.move(listView.dropItemIndex, index, 1);
             listView.dropItemIndex = index;
@@ -40,6 +40,18 @@ Item {
         onDropped: {
             listView.dropItemIndex = -1;
             drag.source.inDropArea = false;
+        }
+    }
+    DropArea {
+        anchors.fill: parent
+        keys: ["application"]
+
+        onPositionChanged: {
+            listView.progressiveScroll(drag.x)
+            listView.hoveredWorkspaceIndex = listView.getApplicationDropIndex(drag)
+        }
+        onExited: {
+            listView.hoveredWorkspaceIndex = -1
         }
     }
 
@@ -59,14 +71,30 @@ Item {
         property int foldingAreaWidth: units.gu(10)
         property real realContentX: contentX - originX + leftMargin
         property int dropItemIndex: -1
+        property int hoveredWorkspaceIndex: -1
 
-        function getDropIndex(drag) {
+        function getWorkspaceDropIndex(drag) {
             var coords = mapToItem(listView.contentItem, drag.x, drag.y)
             var index = Math.floor((drag.x + listView.realContentX) / (listView.itemWidth + listView.spacing));
             if (index < 0) index = 0;
             var upperLimit = dropItemIndex == -1 ? listView.count : listView.count - 1
             if (index > upperLimit) index = upperLimit;
             return index;
+        }
+
+        function getApplicationDropIndex(drag) {
+            var coords = mapToItem(listView.contentItem, drag.x, drag.y)
+            var index = Math.floor((drag.x + listView.realContentX) / (listView.itemWidth + listView.spacing));
+            if (index < 0) index = 0;
+            var upperLimit = dropItemIndex == -1 ? listView.count : listView.count - 1
+            if (index > upperLimit) index = upperLimit;
+            return index;
+        }
+
+        function progressiveScroll(mouseX) {
+            var progress = Math.max(0, Math.min(1, (mouseX - listView.foldingAreaWidth) / (width - listView.leftMargin * 2 - listView.foldingAreaWidth * 2)))
+            print("p", progress, mouseX)
+            listView.contentX = listView.originX + (listView.contentWidth - listView.width + listView.leftMargin + listView.rightMargin) * progress - listView.leftMargin
         }
 
         displaced: Transition { UbuntuNumberAnimation { properties: "x" } }
@@ -164,6 +192,7 @@ Item {
                 width: listView.itemWidth
                 background: root.background
                 screenHeight: root.screen.physicalSize.height
+                containsDrag: listView.hoveredWorkspaceIndex == index
 
                 Label {
                     anchors.centerIn: parent
@@ -189,8 +218,7 @@ Item {
 
             onMouseXChanged: {
                 if (!pressed || dragging) {
-                    var progress = Math.max(0, Math.min(1, (mouseX - listView.foldingAreaWidth) / (width - listView.foldingAreaWidth * 2)))
-                    listView.contentX = listView.originX + (listView.contentWidth - listView.width + listView.leftMargin + listView.rightMargin) * progress - listView.leftMargin
+                    listView.progressiveScroll(mouseX)
                 }
             }
             onMouseYChanged: {

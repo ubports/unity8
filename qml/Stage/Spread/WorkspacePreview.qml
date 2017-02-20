@@ -14,12 +14,7 @@ Item {
 
     property real previewScale: previewSpace.height / previewSpace.screenHeight
 
-    DropArea {
-        anchors.fill: parent
-        keys: ["application"]
-
-        onEntered: print("yehaaaa")
-    }
+    property bool containsDrag: false
 
     Image {
         source: previewSpace.background
@@ -66,6 +61,14 @@ Item {
             }
         }
 
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        border.color: UbuntuColors.blue
+        border.width: units.gu(.5)
+        color: "transparent"
+        visible: previewSpace.containsDrag
     }
 }
 

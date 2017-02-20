@@ -138,6 +138,11 @@ Item {
             hoverEnabled: true
             onPressed: mouse.accepted = false;
         }
+        DropArea {
+            id: leftFakeDropArea
+            anchors.fill: parent
+            keys: ["application", "workspace"]
+        }
     }
     Rectangle {
         anchors { right: parent.right; top: parent.top; bottom: parent.bottom; topMargin: units.gu(6); bottomMargin: units.gu(1) }
@@ -150,16 +155,21 @@ Item {
             hoverEnabled: true
             onPressed: mouse.accepted = false;
         }
+        DropArea {
+            id: rightFakeDropArea
+            anchors.fill: parent
+            keys: ["application", "workspace"]
+        }
     }
     Timer {
         repeat: true
-        running: leftScrollArea.containsMouse || rightScrollArea.containsMouse
+        running: leftScrollArea.containsMouse || rightScrollArea.containsMouse || leftFakeDropArea.containsDrag || rightFakeDropArea.containsDrag
         interval: UbuntuAnimation.SlowDuration
         triggeredOnStart: true
         onTriggered: {
             var newOffset = row.anchors.horizontalCenterOffset;
             var maxOffset = Math.max((row.width - root.width + units.gu(10)) / 2, 0);
-            if (leftScrollArea.containsMouse) {
+            if (leftScrollArea.containsMouse || leftFakeDropArea.containsDrag) {
                 newOffset += units.gu(20)
             } else {
                 newOffset -= units.gu(20)

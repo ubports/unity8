@@ -762,8 +762,6 @@ FocusScope {
             height: implicitHeight * previewScale
             surfaceWidth: -1
             surfaceHeight: -1
-//            surface: model.window.surface
-            onSurfaceChanged: print("surface changed", surface)
             opacity: surface != null ? 1 : 0
             Behavior on opacity { UbuntuNumberAnimation {} }
             visible: opacity > 0
