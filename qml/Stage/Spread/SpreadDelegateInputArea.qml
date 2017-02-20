@@ -123,8 +123,10 @@ Item {
             var value = tp.y - tp.startY - offset;
             if (value < 0) {
                 var coords = mapToItem(shell, tp.x, tp.y);
-                fakeDragItem.x = coords.x
-                fakeDragItem.y = coords.y
+                fakeDragItem.x = coords.x - units.gu(5)
+                fakeDragItem.y = coords.y - units.gu(5)
+                fakeDragItem.Drag.hotSpot.x = units.gu(5)
+                fakeDragItem.Drag.hotSpot.y = units.gu(5)
                 fakeDragItem.Drag.active = true;
                 fakeDragItem.surface = model.window.surface;
 

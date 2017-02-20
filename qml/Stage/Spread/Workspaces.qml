@@ -18,14 +18,14 @@ Item {
         keys: ['workspace']
 
         onEntered: {
-            var index = listView.getWorkspaceDropIndex(drag);
+            var index = listView.getDropIndex(drag);
             listView.model.insert(index, {text: drag.source.text})
             listView.dropItemIndex = index;
             drag.source.inDropArea = true;
         }
 
         onPositionChanged: {
-            var index = listView.getWorkspaceDropIndex(drag);
+            var index = listView.getDropIndex(drag);
             if (listView.dropItemIndex == index) return;
             listView.model.move(listView.dropItemIndex, index, 1);
             listView.dropItemIndex = index;
@@ -48,7 +48,7 @@ Item {
 
         onPositionChanged: {
             listView.progressiveScroll(drag.x)
-            listView.hoveredWorkspaceIndex = listView.getApplicationDropIndex(drag)
+            listView.hoveredWorkspaceIndex = listView.getDropIndex(drag)
         }
         onExited: {
             listView.hoveredWorkspaceIndex = -1
@@ -73,16 +73,7 @@ Item {
         property int dropItemIndex: -1
         property int hoveredWorkspaceIndex: -1
 
-        function getWorkspaceDropIndex(drag) {
-            var coords = mapToItem(listView.contentItem, drag.x, drag.y)
-            var index = Math.floor((drag.x + listView.realContentX) / (listView.itemWidth + listView.spacing));
-            if (index < 0) index = 0;
-            var upperLimit = dropItemIndex == -1 ? listView.count : listView.count - 1
-            if (index > upperLimit) index = upperLimit;
-            return index;
-        }
-
-        function getApplicationDropIndex(drag) {
+        function getDropIndex(drag) {
             var coords = mapToItem(listView.contentItem, drag.x, drag.y)
             var index = Math.floor((drag.x + listView.realContentX) / (listView.itemWidth + listView.spacing));
             if (index < 0) index = 0;
