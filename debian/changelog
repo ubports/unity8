@@ -1,3 +1,9 @@
+unity8 (8.15+17.04.20170221-0ubuntu1) zesty; urgency=medium
+
+  * Handle ubuntu-app-launch API/ABI break
+
+ -- Ken VanDine <ken.vandine@canonical.com>  Tue, 21 Feb 2017 13:23:23 +0000
+
 unity8 (8.15+17.04.20170216.1-0ubuntu1) zesty; urgency=medium
 
   [ Albert Astals Cid ]
