@@ -1,3 +1,51 @@
+unity8 (8.15+17.04.20170216.1-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make menus items close the menu when clicking on them (LP: #1657082,
+    #1657399)
+  * Clicking on an open menu closes it + test
+  * Make the menus and submenus do not go outside the screen when
+    popping out
+  * Auto open submenus on hover (LP: #1657085)
+  * Make the double click on a menu not be maximize the window below
+    (LP: #1657079)
+  * Make the MenuBar InverseMouseArea eat hover events when there's a
+    popup open (LP: #1657763)
+  * Make double click on the window decoration maximize (LP: #1657758)
+  * Eat hover events when the launcher quicklist is open (LP: #1640776)
+  * Remove TODO now that we require Qt > 5.5
+  * Serialize two make targets that want to cp to the same target file
+    (LP: #1660576)
+  * Remove variable that is always false (LP: #1585910)
+
+  [ Daniel d'Andrada ]
+  * Consolidate launcher API checks
+
+  [ Lukáš Tinkl ]
+  * Fixes for activating minimized windows and restoring fullscreen ones
+    (LP: #1656808, #1658937, #1658938)
+
+  [ Michael Zanetti ]
+  * move right edge push area up some levels so it can be used on top of
+    the indicators
+  * fix minimizing/restoring transitions (LP: #1658936)
+  * fix some glitches with spread positioning
+  * fix jumpy animation when closing an item from the spread
+  * Show the wallpaper while the focused app is moving in staged mode
+    (LP: #1648251)
+  * Update the tutorial to mention the app drawer instead of the dash on
+    long left edge swipe (LP: #1658932)
+  * prevent hiding the launcher when the mouse hover event is eaten by
+    the EdgePushArea (LP: #1657045)
+  * properly invalidate the whole model (LP: #1658190)
+  * stabilize OrientedShell test (LP: #1658994)
+
+  [ Nick Dedekind ]
+  * Added overflow support to application menus.
+  * Updated menu colors
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 16 Feb 2017 13:49:18 +0000
+
 unity8 (8.15+17.04.20170206-0ubuntu1) zesty; urgency=medium
 
   [ Daniel d'Andrada ]

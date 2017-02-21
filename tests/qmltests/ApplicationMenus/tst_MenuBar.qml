@@ -28,8 +28,8 @@ import ".."
 
 Item {
     id: root
-    width:  units.gu(100)
-    height:  units.gu(50)
+    width:  units.gu(120)
+    height:  units.gu(70)
 
     Component.onCompleted: {
         QuickUtils.keyboardAttached = true;
@@ -51,12 +51,12 @@ Item {
     Rectangle {
         anchors {
             left: parent.left
-            right: parent.right
             top: parent.top
             margins: units.gu(1)
         }
         height: units.gu(3)
-        color: "grey"
+        width: parent.width * 2/3
+        color: theme.palette.normal.background
 
         MenuBar {
             id: menuBar
@@ -65,7 +65,7 @@ Item {
 
             unityMenuModel: UnityMenuModel {
                 id: menuBackend
-                modelData: appMenuData.generateTestData(17,5,2,3)
+                modelData: appMenuData.generateTestData(10,5,2,3)
             }
         }
     }
@@ -83,12 +83,12 @@ Item {
 
         function init() {
             menuBar.dismiss();
-            menuBackend.modelData = appMenuData.generateTestData(5,5,2,3)
+            menuBackend.modelData = appMenuData.generateTestData(5,5,2,3, "menu")
             activatedSpy.clear();
         }
 
         function test_mouseNavigation() {
-            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0);
+            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0, "menu");
             wait(50) // wait for row to build
             var priv = findInvisibleChild(menuBar, "d");
 
@@ -114,7 +114,7 @@ Item {
         }
 
         function test_keyboardNavigation_RightKeySelectsNextMenuItem(data) {
-            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0);
+            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0, "menu");
             var priv = findInvisibleChild(menuBar, "d");
 
             var menuItem0 = findChild(menuBar, "menuBar-item0"); verify(menuItem0);
@@ -139,7 +139,7 @@ Item {
         }
 
         function test_keyboardNavigation_LeftKeySelectsPreviousMenuItem(data) {
-            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0);
+            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0, "menu");
             var priv = findInvisibleChild(menuBar, "d");
 
             var menuItem0 = findChild(menuBar, "menuBar-item0"); verify(menuItem0);
@@ -180,6 +180,41 @@ Item {
             tryCompare(priv, "currentItem", menuItem);
         }
 
+        function test_menuActivateClosesMenu() {
+            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0,"menu");
+            var priv = findInvisibleChild(menuBar, "d");
+
+            var menuItem = findChild(menuBar, "menuBar-item0");
+            menuItem.show();
+            compare(priv.currentItem, menuItem, "CurrentItem should be set to item 0");
+            compare(priv.currentItem.popupVisible, true, "Popup should be visible");
+
+            var actionItem = findChild(menuBar, "menuBar-item0-menu-item0-actionItem");
+            mouseClick(actionItem);
+            compare(priv.currentItem, null, "CurrentItem should be null");
+        }
+
+        function test_subMenuActivateClosesMenu() {
+            menuBackend.modelData = appMenuData.generateTestData(3,4,1,0,"menu");
+            var priv = findInvisibleChild(menuBar, "d");
+
+            var menuItem = findChild(menuBar, "menuBar-item0");
+            menuItem.show();
+            compare(priv.currentItem, menuItem, "CurrentItem should be set to item 0");
+            compare(priv.currentItem.popupVisible, true, "Popup should be visible");
+
+            var actionItem = findChild(menuBar, "menuBar-item0-menu-item0-actionItem");
+            mouseClick(actionItem);
+
+            actionItem = findChild(menuBar, "menuBar-item0-menu-item0-menu-item0-actionItem");
+            mouseClick(actionItem);
+
+            actionItem = findChild(menuBar, "menuBar-item0-menu-item0-menu-item0-menu-item0-actionItem");
+            mouseClick(actionItem);
+
+            compare(priv.currentItem, null, "CurrentItem should be null");
+        }
+
         function test_openAppMenuShortcut() {
             var priv = findInvisibleChild(menuBar, "d");
 
@@ -191,6 +226,47 @@ Item {
 
             keyClick(Qt.Key_F10, Qt.AltModifier);
             compare(priv.currentItem, menuItem1, "First enabled item should be opened");
+        }
+
+        function test_clickOpenMenuClosesMenu() {
+            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0,"menu");
+            var priv = findInvisibleChild(menuBar, "d");
+
+            var menuItem = findChild(menuBar, "menuBar-item0");
+            waitForRendering(menuItem);
+            mouseClick(menuItem);
+            compare(priv.currentItem, menuItem, "CurrentItem should be set to item 0");
+            compare(priv.currentItem.popupVisible, true, "Popup should be visible");
+
+            waitForRendering(menuItem);
+            mouseClick(menuItem);
+            compare(priv.currentItem, null, "CurrentItem should be null");
+        }
+
+        function test_overfow() {
+            menuBackend.modelData = appMenuData.generateTestData(5,2,0,0,"menu");
+
+            var overflow = findChild(menuBar, "overflow");
+            compare(overflow.visible, false, "Overflow should not be visible");
+
+            var menu = { "rowData": { "label": "Short" } };
+            tryCompareFunction(function() {
+                menuBackend.insertRow(0, menu);
+                wait(1);
+                if (overflow.visible) {
+                    return true;
+                }
+                return false;
+            }, true);
+
+            tryCompareFunction(function() {
+                menuBackend.removeRow(0);
+                wait(1);
+                if (!overflow.visible) {
+                    return true;
+                }
+                return false;
+            }, true);
         }
     }
 }

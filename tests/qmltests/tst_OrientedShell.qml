@@ -1433,8 +1433,9 @@ Rectangle {
         function swipeAwayGreeter() {
             var greeter = findChild(shell, "greeter");
             tryCompare(greeter, "fullyShown", true);
+            waitForRendering(greeter)
 
-            var touchX = shell.width - (shell.edgeSize / 2);
+            var touchX = shell.width * .75;
             var touchY = shell.height / 2;
             touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY);
 

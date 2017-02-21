@@ -289,6 +289,7 @@ StyledItem {
             applicationManager: ApplicationManager
             topLevelSurfaceList: topLevelSurfaceList
             inputMethodRect: inputMethod.visibleRect
+            rightEdgePushProgress: rightEdgeBarrier.progress
 
             property string usageScenario: shell.usageScenario === "phone" || greeter.hasLockedApp
                                                        ? "phone"
@@ -524,12 +525,13 @@ StyledItem {
                 hides: [launcher]
                 available: (!greeter || !greeter.shown)
                         && !shell.waitingOnGreeter
+                        && !stage.spreadShown
             }
 
             readonly property bool focusedSurfaceIsFullscreen: topLevelSurfaceList.focusedWindow
                 ? topLevelSurfaceList.focusedWindow.state === Mir.FullscreenState
                 : false
-            fullscreenMode: (focusedSurfaceIsFullscreen && !LightDMService.greeter.active && launcher.progress == 0)
+            fullscreenMode: (focusedSurfaceIsFullscreen && !LightDMService.greeter.active && launcher.progress == 0 && !stage.spreadShown)
                             || greeter.hasLockedApp
             greeterShown: greeter && greeter.shown
         }
@@ -694,6 +696,33 @@ StyledItem {
                 }
             ]
         }
+
+        EdgeBarrier {
+            id: rightEdgeBarrier
+            enabled: !greeter.shown
+
+            // NB: it does its own positioning according to the specified edge
+            edge: Qt.RightEdge
+
+            onPassed: {
+                panel.indicators.hide()
+            }
+
+            material: Component {
+                Item {
+                    Rectangle {
+                        width: parent.height
+                        height: parent.width
+                        rotation: 90
+                        anchors.centerIn: parent
+                        gradient: Gradient {
+                            GradientStop { position: 0.0; color: Qt.rgba(0.16,0.16,0.16,0.5)}
+                            GradientStop { position: 1.0; color: Qt.rgba(0.16,0.16,0.16,0)}
+                        }
+                    }
+                }
+            }
+        }
     }
 
     Dialogs {
@@ -777,7 +806,7 @@ StyledItem {
 
         onPushedRightBoundary: {
             if (buttons === Qt.NoButton) {
-                stage.pushRightEdge(amount);
+                rightEdgeBarrier.push(amount);
             } else if (buttons === Qt.LeftButton && previewRectangle && previewRectangle.target.canBeMaximizedLeftRight) {
                 previewRectangle.maximizeRight(amount);
             }

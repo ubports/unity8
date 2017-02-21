@@ -735,7 +735,6 @@ void TouchGestureArea::resyncCachedTouchPoints()
     bool added = false;
     bool ended = false;
     bool moved = false;
-    bool wantsDrag = false;
 
     // list of deletes
     QMutableHashIterator<int, GestureTouchPoint*> removeIter(m_cachedTouchPoints);
@@ -763,10 +762,6 @@ void TouchGestureArea::resyncCachedTouchPoints()
             m_pressedTouchPoints.append(touchPoint);
             added = true;
         }
-    }
-
-    if (wantsDrag && !dragging()) {
-        setDragging(true);
     }
 
     if (ended) {

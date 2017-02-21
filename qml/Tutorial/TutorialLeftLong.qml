@@ -46,7 +46,7 @@ TutorialPage {
     }
 
     label {
-        text: i18n.tr("Long swipe from the left edge to open the Today scope")
+        text: i18n.tr("Long swipe from the left edge to open the Application Drawer")
         anchors.left: arrow.right
         anchors.leftMargin: units.gu(3)
         anchors.right: root.right
