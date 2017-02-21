@@ -183,7 +183,7 @@ Item {
 
         // We need to manually update this on startup as the binding
         // below doesn't seem to have any effect at that stage
-        oskSettings.disableHeight = !shell.oskEnabled || shell.usageScenario == "desktop"
+        oskSettings.disableHeight = !shell.oskEnabled
     }
 
     // we must rotate to a supported orientation regardless of shell's preference
@@ -194,7 +194,13 @@ Item {
     Binding {
         target: oskSettings
         property: "disableHeight"
-        value: !shell.oskEnabled || shell.usageScenario == "desktop"
+        value: !shell.oskEnabled
+    }
+
+    Binding {
+        target: unity8Settings
+        property: "oskSwitchVisible"
+        value: shell.hasKeyboard
     }
 
     readonly property int supportedOrientations: shell.supportedOrientations
@@ -269,12 +275,7 @@ Item {
         hasMouse: pointerInputDevices > 0
         hasKeyboard: keyboardsModel.count > 0
         hasTouchscreen: touchScreensModel.count > 0
-        // TODO: Factor in if the current screen is a touch screen and if the user wants to
-        //       have multiple keyboards around. For now we only enable one keyboard at a time
-        //       thus hiding it here if there is a physical one around or if we have a second
-        //       screen (the virtual touchpad & osk on the phone) attached.
-        oskEnabled: (keyboardsModel.count === 0 && screens.count === 1) ||
-                    forceOSKEnabled
+        oskEnabled: unity8Settings.alwaysShowOsk || !hasKeyboard || forceOSKEnabled
 
         usageScenario: {
             if (unity8Settings.usageMode === "Windowed") {
