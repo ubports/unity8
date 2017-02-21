@@ -89,6 +89,8 @@ private Q_SLOTS:
     void tapWhileTouching();
     void multipleHomeKeys();
 
+    void keyComboInvolvingHome();
+
     void repeatedSuperPress();
 
 private:
@@ -195,6 +197,38 @@ void WindowInputMonitorTest::touchTapTouch()
     passTime(1000);
 
     QCOMPARE(activatedSpy.count(), expectedActivatedCount);
+}
+
+void WindowInputMonitorTest::keyComboInvolvingHome()
+{
+    WindowInputMonitor homeKeyWatcher(m_fakeTimerFactory->create(this), new FakeElapsedTimer);
+    QSignalSpy activatedSpy(&homeKeyWatcher, &WindowInputMonitor::homeKeyActivated);
+    QVERIFY(activatedSpy.isValid());
+
+    passTime(1000);
+    {
+        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Super_L, Qt::NoModifier);
+        homeKeyWatcher.update(&keyEvent);
+    }
+    passTime(100);
+
+    {
+        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_A, Qt::NoModifier);
+        homeKeyWatcher.update(&keyEvent);
+    }
+    passTime(100);
+    {
+        QKeyEvent keyEvent(QEvent::KeyRelease, Qt::Key_A, Qt::NoModifier);
+        homeKeyWatcher.update(&keyEvent);
+    }
+    passTime(100);
+    {
+        QKeyEvent keyEvent(QEvent::KeyRelease, Qt::Key_Super_L, Qt::NoModifier);
+        homeKeyWatcher.update(&keyEvent);
+    }
+    passTime(1000);
+
+    QCOMPARE(activatedSpy.count(), 0);
 }
 
 void WindowInputMonitorTest::tapWhileTouching()
