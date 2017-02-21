@@ -43,8 +43,8 @@ void AppDrawerProxyModel::setSource(QAbstractItemModel *source)
         m_source = source;
         setSourceModel(m_source);
         setSortRole(m_sortBy == SortByAToZ ? AppDrawerModelInterface::RoleName : AppDrawerModelInterface::RoleUsage);
-        connect(m_source, &QAbstractItemModel::rowsRemoved, this, &AppDrawerProxyModel::invalidateFilter);
-        connect(m_source, &QAbstractItemModel::rowsInserted, this, &AppDrawerProxyModel::invalidateFilter);
+        connect(m_source, &QAbstractItemModel::rowsRemoved, this, &AppDrawerProxyModel::invalidate);
+        connect(m_source, &QAbstractItemModel::rowsInserted, this, &AppDrawerProxyModel::invalidate);
         Q_EMIT sourceChanged();
     }
 }
