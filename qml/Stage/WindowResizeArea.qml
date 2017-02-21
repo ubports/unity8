@@ -152,6 +152,9 @@ MouseArea {
         onCursorNameChanged: {
             Mir.cursorName = cursorName;
         }
+        Component.onDestruction: {
+            Mir.cursorName = "";
+        }
 
         function updateBorders() {
             leftBorder = mouseX <= borderThickness;
