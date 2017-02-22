@@ -96,6 +96,11 @@ Item {
             onModelReset: d.firstInvisibleIndex = undefined
         }
 
+        Component {
+            id: menuComponent
+            MenuPopup { }
+        }
+
         Repeater {
             id: rowRepeater
 
@@ -119,7 +124,14 @@ Item {
 
                 function show() {
                     if (!__popup) {
-                        __popup = menuComponent.createObject(root, { objectName: visualItem.objectName + "-menu" });
+                        __popup = menuComponent.createObject(root,
+                                                             {
+                                                                 objectName: visualItem.objectName + "-menu",
+                                                                 desiredX: visualItem.x - units.gu(1),
+                                                                 desiredY: root.height,
+                                                                 unityMenuModel: root.unityMenuModel.submenu(visualItem.__ownIndex)
+                                                             });
+                        __popup.reset();
                         __popup.childActivated.connect(dismiss);
                         // force the current item to be the newly popped up menu
                     } else {
@@ -160,17 +172,6 @@ Item {
                 Connections {
                     target: d
                     onDismissAll: visualItem.dismiss()
-                }
-
-                Component {
-                    id: menuComponent
-                    MenuPopup {
-                        desiredX: visualItem.x - units.gu(1)
-                        desiredY: parent.height
-                        unityMenuModel: root.unityMenuModel.submenu(visualItem.__ownIndex)
-
-                        Component.onCompleted: reset();
-                    }
                 }
 
                 RowLayout {

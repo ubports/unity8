@@ -34,7 +34,7 @@ ActionItem {
         val += units.gu(1) + title.contentWidth;
         if (hasSubmenu) {
             val += units.gu(1) + chevronIcon.width;
-        } else if (shortcut != undefined) {
+        } else if (menuData.shortcut != undefined) {
             val += units.gu(3) + shortcutLabel.contentWidth;
         }
         return val + units.gu(1);
