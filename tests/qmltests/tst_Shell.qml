@@ -2290,7 +2290,6 @@ Rectangle {
             return [
                 { tag: "phone" },
                 { tag: "tablet" },
-                { tag: "desktop" },
             ]
         }
 
@@ -2670,8 +2669,8 @@ Rectangle {
         }
 
         function test_cursorHidingWithFullscreenApp() {
-            loadShell("desktop");
-            shell.usageScenario = "desktop";
+            loadShell("phone");
+            shell.usageScenario = "phone";
             waitForRendering(shell);
             swipeAwayGreeter();
 

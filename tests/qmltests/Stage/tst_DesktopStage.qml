@@ -637,7 +637,7 @@ Item {
             var dialerAppDelegate = startApplication("dialer-app");
 
             // verify the drop shadow becomes visible
-            verify(PanelState.dropShadow == true);
+            tryCompare(PanelState, "dropShadow", true);
 
             // close the maximized app
             ApplicationManager.stopApplication("facebook-webapp");
