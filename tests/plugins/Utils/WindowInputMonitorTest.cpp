@@ -210,18 +210,14 @@ void WindowInputMonitorTest::keyComboInvolvingHome()
         QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Super_L, Qt::NoModifier);
         homeKeyWatcher.update(&keyEvent);
     }
-    passTime(100);
-
     {
         QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_A, Qt::NoModifier);
         homeKeyWatcher.update(&keyEvent);
     }
-    passTime(100);
     {
         QKeyEvent keyEvent(QEvent::KeyRelease, Qt::Key_A, Qt::NoModifier);
         homeKeyWatcher.update(&keyEvent);
     }
-    passTime(100);
     {
         QKeyEvent keyEvent(QEvent::KeyRelease, Qt::Key_Super_L, Qt::NoModifier);
         homeKeyWatcher.update(&keyEvent);
