@@ -35,7 +35,7 @@ StyledItem {
     readonly property int cellHeight: units.gu(5)
     readonly property int highlightedHeight: highlightItem.height
     readonly property int moveDuration: UbuntuAnimation.FastDuration
-    property string currentSession
+    property string currentSession // Initially set by LightDM
     readonly property string currentUser: userList.currentItem.username
 
     signal responded(string response)

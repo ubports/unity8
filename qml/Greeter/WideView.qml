@@ -32,7 +32,6 @@ FocusScope {
     property int delayMinutes // TODO
     property alias alphanumeric: loginList.alphanumeric
     property alias locked: loginList.locked
-    property alias sessionToStart: loginList.currentSession
     property alias waiting: loginList.waiting
     property var userModel // Set from outside
 
@@ -148,6 +147,7 @@ FocusScope {
 
             height: loginList.height
             width: loginList.width
+
             anchors {
                 left: parent.left
                 leftMargin: Math.min(parent.width * 0.16, units.gu(20))

@@ -30,7 +30,12 @@ Item {
 
     onInitiallySelectedSessionChanged: {
         sessionsList.currentIndex = getSelectedIndex();
+
+        // A workaround to get the initial highlight correct
+        sessionsList.highlightFollowsCurrentItem = true;
+        console.log("CurrentIndex->" + sessionsList.currentIndex)
         sessionsList.positionViewAtIndex(sessionsList.currentIndex, ListView.Contain);
+        sessionsList.highlightFollowsCurrentItem = false;
     }
 
     function getSelectedIndex() {
@@ -49,7 +54,8 @@ Item {
     }
 
     Keys.onEnterPressed: {
-        showLoginList(); // Session is already selected
+        sessionSelected(currentKey());
+        showLoginList();
         event.accepted = true;
     }
 
@@ -59,6 +65,7 @@ Item {
     }
 
     Keys.onReturnPressed: {
+        sessionSelected(currentKey());
         showLoginList();
         event.accepted = true;
     }
@@ -66,14 +73,12 @@ Item {
     Keys.onDownPressed: {
         if (sessionsList.currentIndex < sessionsList.model.count - 1)
             sessionsList.currentIndex++;
-        sessionSelected(currentKey());
         event.accepted = true;
     }
 
     Keys.onUpPressed: {
         if (sessionsList.currentIndex > 0)
             sessionsList.currentIndex--;
-        sessionSelected(currentKey());
         event.accepted = true;
     }
 
@@ -145,7 +150,6 @@ Item {
                 visible: y > sessionsList.headerItem.y
                 + sessionsList.headerItem.height
                 - sessionsList.anchors.margins
-
             }
 
             delegate: ListItem {
