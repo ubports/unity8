@@ -101,6 +101,13 @@ private:
     QByteArray m_busName;
     QVariantMap m_actions;
     QByteArray m_menuObjectPath;
+
+    enum RowCountStatus {
+        NoRequestMade,
+        TimerRunning,
+        TimerFinished
+    };
+    RowCountStatus m_rowCountStatus;
 };
 
 #endif // MOCK_UNITYMENUMODEL_H

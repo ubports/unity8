@@ -285,6 +285,12 @@ UbuntuShape {
                     Repeater {
                         id: repeater
 
+                        onCountChanged: {
+                            if (!d.currentItem && count > 0) {
+                                root.select(0);
+                            }
+                        }
+
                         Loader {
                             id: loader
                             objectName: root.objectName + "-item" + __ownIndex
@@ -483,7 +489,6 @@ UbuntuShape {
                     onChildActivated: childActivated();
                 }
 
-                Component.onCompleted: item.select(0);
                 onVisibleChanged: if (visible) { item.select(0); }
             }
         }

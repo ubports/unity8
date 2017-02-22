@@ -36,10 +36,6 @@ Item {
     implicitWidth: row.width
     height: parent.height
 
-    function select(index) {
-        d.select(index);
-    }
-
     function dismiss() {
         d.dismissAll();
     }
