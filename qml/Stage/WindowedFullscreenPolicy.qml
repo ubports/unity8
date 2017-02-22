@@ -23,17 +23,11 @@ import Unity.Application 0.1
 // state of the window is returned to restored.
 QtObject {
     property bool active: true
-    property QtObject surface: null
 
-    property bool _firstTimeSurface: true
-
-    onSurfaceChanged: {
-        if (!active || !surface) return;
-        if (!_firstTimeSurface) return;
-        _firstTimeSurface = false;
-
-        if (surface.state === Mir.FullscreenState && surface.shellChrome === Mir.LowChrome) {
-            surface.requestState(Mir.RestoredState);
+    function applyPolicy(surfaceState, surfaceChrome) {
+        if (surfaceState === Mir.FullscreenState && surfaceChrome === Mir.LowChrome) {
+            return Mir.RestoredState;
         }
+        return surfaceState;
     }
 }

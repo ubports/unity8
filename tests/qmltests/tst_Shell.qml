@@ -334,7 +334,7 @@ Rectangle {
 
                 Row {
                     CheckBox {
-                        id: fullscreeAppCheck
+                        id: fullscreenAppCheck
                         activeFocusOnPress: false
                         activeFocusOnTab: false
 
@@ -348,13 +348,10 @@ Rectangle {
                         }
 
                         Binding {
-                            target: fullscreeAppCheck
+                            target: fullscreenAppCheck
                             when: topLevelSurfaceList && topLevelSurfaceList.focusedWindow
                             property: "checked"
-                            value: {
-                                if (!topLevelSurfaceList || !topLevelSurfaceList.focusedWindow) return false;
-                                return topLevelSurfaceList.focusedWindow.state === Mir.FullscreenState
-                            }
+                            value: topLevelSurfaceList.focusedWindow.state === Mir.FullscreenState
                         }
                     }
                     Label {
@@ -365,6 +362,8 @@ Rectangle {
                 Row {
                     CheckBox {
                         id: chromeAppCheck
+                        activeFocusOnPress: false
+                        activeFocusOnTab: false
 
                         onTriggered: {
                             if (!topLevelSurfaceList.focusedWindow || !topLevelSurfaceList.focusedWindow.surface) return;
@@ -380,10 +379,7 @@ Rectangle {
                             target: chromeAppCheck
                             when: topLevelSurfaceList && topLevelSurfaceList.focusedWindow !== null && topLevelSurfaceList.focusedWindow.surface !== null
                             property: "checked"
-                            value: {
-                                if (!topLevelSurfaceList || !topLevelSurfaceList.focusedWindow || !topLevelSurfaceList.focusedWindow.surface) return false;
-                                topLevelSurfaceList.focusedWindow.surface.shellChrome === Mir.LowChrome
-                            }
+                            value: topLevelSurfaceList.focusedWindow.surface.shellChrome === Mir.LowChrome
                         }
                     }
                     Label {

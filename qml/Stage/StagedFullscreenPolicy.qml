@@ -28,11 +28,13 @@ import Unity.Application 0.1
 QtObject {
     property bool active: true
 
+    signal stateRequested(int requestedState)
+
     property var surface: null
     onSurfaceChanged: {
         if (!active || !surface) return;
         if (surface.shellChrome === Mir.LowChrome) {
-            surface.requestState(Mir.FullscreenState);
+            stateRequested(Mir.FullscreenState);
         }
     }
 
@@ -41,15 +43,15 @@ QtObject {
         onShellChromeChanged: {
             if (!active || !surface) return;
             if (surface.shellChrome === Mir.LowChrome) {
-                surface.requestState(Mir.FullscreenState);
+                stateRequested(Mir.FullscreenState);
             } else {
-                surface.requestState(Mir.RestoredState);
+                stateRequested(Mir.RestoredState);
             }
         }
         onStateChanged: {
-            if (!active) return;
+            if (!active || !surface) return;
             if (surface.state === Mir.RestoredState && surface.shellChrome === Mir.LowChrome) {
-                surface.requestState(Mir.FullscreenState);
+                stateRequested(Mir.FullscreenState);
             }
         }
     }
