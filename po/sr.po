@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-01-31 14:40+0000\n"
+"POT-Creation-Date: 2017-02-16 13:49+0000\n"
 "PO-Revision-Date: 2016-08-22 20:43+0000\n"
 "Last-Translator: Bojan Bogdanović <Unknown>\n"
 "Language-Team: српски <xfce4@xfce4.org>\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2017-02-04 05:55+0000\n"
-"X-Generator: Launchpad (build 18322)\n"
+"X-Launchpad-Export-Date: 2017-02-22 06:05+0000\n"
+"X-Generator: Launchpad (build 18326)\n"
 "Language: sr\n"
 
 #: plugins/LightDM/Greeter.cpp:188
@@ -529,7 +529,7 @@ msgstr ""
 msgid "Search…"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:123
+#: qml/Launcher/Drawer.qml:127
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""
@@ -634,8 +634,8 @@ msgstr ""
 "Превуците користећи 3 прста било који програм са једног у други прозор"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Today scope"
-msgstr "Дуго превлачење са леве ивице да отворите опсег Данас"
+msgid "Long swipe from the left edge to open the Application Drawer"
+msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -1375,6 +1375,9 @@ msgstr "Веома слаба лозинка"
 #~ msgid "Short or long swipe from the right edge to view your open apps"
 #~ msgstr ""
 #~ "Каратко или дуго превлачење са десне ивице да видите ваше отворене програме"
+
+#~ msgid "Long swipe from the left edge to open the Today scope"
+#~ msgstr "Дуго превлачење са леве ивице да отворите опсег Данас"
 
 #~ msgid "Swipe from the left edge to open the launcher"
 #~ msgstr "Превуците са леве ивице да отворите покретач"

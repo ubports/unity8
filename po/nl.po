@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-01-31 14:40+0000\n"
+"POT-Creation-Date: 2017-02-16 13:49+0000\n"
 "PO-Revision-Date: 2016-11-01 08:29+0000\n"
 "Last-Translator: Hannie Dumoleyn <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-02-04 05:55+0000\n"
-"X-Generator: Launchpad (build 18322)\n"
+"X-Launchpad-Export-Date: 2017-02-22 06:04+0000\n"
+"X-Generator: Launchpad (build 18326)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -532,7 +532,7 @@ msgstr "Bureaubladomgeving selecteren"
 msgid "Search…"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:123
+#: qml/Launcher/Drawer.qml:127
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""
@@ -634,8 +634,8 @@ msgstr ""
 "Een toepassing met 3 vingers slepen van het ene venster naar het andere"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Today scope"
-msgstr "Lang vanaf de linkerkant vegen om de Vandaag-scope te openen"
+msgid "Long swipe from the left edge to open the Application Drawer"
+msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -1384,6 +1384,9 @@ msgstr "Zeer zwak wachtwoord"
 
 #~ msgid "Swipe up to manage the app"
 #~ msgstr "Omhoog vegen om de app te beheren"
+
+#~ msgid "Long swipe from the left edge to open the Today scope"
+#~ msgstr "Lang vanaf de linkerkant vegen om de Vandaag-scope te openen"
 
 #~ msgid "Takes a screenshot of a window."
 #~ msgstr "Maakt een schermafdruk van een venster."

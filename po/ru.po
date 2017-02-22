@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-01-31 14:40+0000\n"
+"POT-Creation-Date: 2017-02-16 13:49+0000\n"
 "PO-Revision-Date: 2015-07-06 05:33+0000\n"
 "Last-Translator: ☠Jay ZDLin☠ <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2017-02-04 05:55+0000\n"
-"X-Generator: Launchpad (build 18322)\n"
+"X-Launchpad-Export-Date: 2017-02-22 06:05+0000\n"
+"X-Generator: Launchpad (build 18326)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -49,7 +49,7 @@ msgstr ""
 
 #: plugins/LightDM/UsersModel.cpp:160
 msgid "Guest Session"
-msgstr ""
+msgstr "Гостевой сеанс"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:50
 #: plugins/Unity/Launcher/launcheritem.cpp:122
@@ -150,7 +150,7 @@ msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of the current window."
-msgstr ""
+msgstr "Сделать снимок текущего окна."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -254,7 +254,7 @@ msgstr "Переместить фокус."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:272
 msgid "Windows"
-msgstr ""
+msgstr "Окна"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:279
 msgid "Ctrl + Super + D"
@@ -529,7 +529,7 @@ msgstr ""
 msgid "Search…"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:123
+#: qml/Launcher/Drawer.qml:127
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""
@@ -633,7 +633,7 @@ msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "Передвигайте любое приложение с помощью трёх пальцев"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Today scope"
+msgid "Long swipe from the left edge to open the Application Drawer"
 msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:47

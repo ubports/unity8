@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-01-31 14:40+0000\n"
-"PO-Revision-Date: 2016-09-11 10:40+0000\n"
-"Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
+"POT-Creation-Date: 2017-02-16 13:49+0000\n"
+"PO-Revision-Date: 2017-02-14 10:03+0000\n"
+"Last-Translator: Milo Casagrande <milo.casagrande@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-02-04 05:55+0000\n"
-"X-Generator: Launchpad (build 18322)\n"
+"X-Launchpad-Export-Date: 2017-02-22 06:05+0000\n"
+"X-Generator: Launchpad (build 18326)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -24,15 +24,15 @@ msgstr "Password: "
 
 #: plugins/LightDM/Greeter.cpp:203
 msgid "Username"
-msgstr ""
+msgstr "Nome utente"
 
 #: plugins/LightDM/Greeter.cpp:242
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "Autenticazione non riuscita"
 
 #: plugins/LightDM/Greeter.cpp:244
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "Password non valida, riprovare"
 
 #: plugins/LightDM/Greeter.cpp:254
 msgid "Log In"
@@ -44,11 +44,11 @@ msgstr "Riprova"
 
 #: plugins/LightDM/UsersModel.cpp:152
 msgid "Login"
-msgstr ""
+msgstr "Accesso"
 
 #: plugins/LightDM/UsersModel.cpp:160
 msgid "Guest Session"
-msgstr ""
+msgstr "Sessione ospite"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:50
 #: plugins/Unity/Launcher/launcheritem.cpp:122
@@ -151,7 +151,7 @@ msgstr "Alt + Stamp"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of the current window."
-msgstr ""
+msgstr "Cattura una schermata della finestra corrente"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -207,7 +207,7 @@ msgstr "Come fare clic su un'icona del Launcher"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + A"
-msgstr ""
+msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Opens the Application Drawer."
@@ -531,7 +531,7 @@ msgstr ""
 msgid "Search…"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:123
+#: qml/Launcher/Drawer.qml:127
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""
@@ -633,8 +633,8 @@ msgstr ""
 "Trascinare con 3 dita qualsiasi applicazione da una finestra all'altra"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Today scope"
-msgstr "Scorrere lentamente dal bordo sinistro per aprire la scope Oggi"
+msgid "Long swipe from the left edge to open the Application Drawer"
+msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -1389,6 +1389,9 @@ msgstr "Password molto fragile"
 
 #~ msgid "Swipe up to add a contact"
 #~ msgstr "Scorrere verso l'alto per aggiungere un contatto"
+
+#~ msgid "Long swipe from the left edge to open the Today scope"
+#~ msgstr "Scorrere lentamente dal bordo sinistro per aprire la scope Oggi"
 
 #~ msgid "Hover your mouse on the right edge to view your open apps"
 #~ msgstr ""

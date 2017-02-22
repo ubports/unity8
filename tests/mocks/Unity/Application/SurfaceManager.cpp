@@ -61,10 +61,15 @@ SurfaceManager::~SurfaceManager()
 MirSurface *SurfaceManager::createSurface(const QString& name,
                                           Mir::Type type,
                                           Mir::State state,
-                                          const QUrl& screenshot)
+                                          MirSurface *parentSurface,
+                                          const QUrl &screenshot,
+                                          const QUrl &qmlFilePath)
 {
-    MirSurface* surface = new MirSurface(name, type, state, screenshot);
+    MirSurface* surface = new MirSurface(name, type, state, parentSurface, screenshot, qmlFilePath);
     registerSurface(surface);
+    if (parentSurface) {
+        static_cast<MirSurfaceListModel*>(parentSurface->childSurfaceList())->addSurface(surface);
+    }
     return surface;
 }
 
@@ -72,12 +77,14 @@ void SurfaceManager::registerSurface(MirSurface *surface)
 {
     m_surfaces.prepend(surface);
 
-    surface->setMinimumWidth(m_newSurfaceMinimumWidth);
-    surface->setMaximumWidth(m_newSurfaceMaximumWidth);
-    surface->setMinimumHeight(m_newSurfaceMinimumHeight);
-    surface->setMaximumHeight(m_newSurfaceMaximumHeight);
-    surface->setWidthIncrement(m_newSurfaceWidthIncrement);
-    surface->setHeightIncrement(m_newSurfaceHeightIncrement);
+    if (!surface->parentSurface()) {
+        surface->setMinimumWidth(m_newSurfaceMinimumWidth);
+        surface->setMaximumWidth(m_newSurfaceMaximumWidth);
+        surface->setMinimumHeight(m_newSurfaceMinimumHeight);
+        surface->setMaximumHeight(m_newSurfaceMaximumHeight);
+        surface->setWidthIncrement(m_newSurfaceWidthIncrement);
+        surface->setHeightIncrement(m_newSurfaceHeightIncrement);
+    }
 
     connect(surface, &MirSurface::stateRequested, this, [=](Mir::State state) {
         this->onStateRequested(surface, state);
@@ -204,8 +211,6 @@ void SurfaceManager::activate(unityapi::MirSurfaceInterface *apiSurface)
 
 void SurfaceManager::onStateRequested(MirSurface *surface, Mir::State state)
 {
-    Q_ASSERT(!m_underModification);
-
     DEBUG_MSG("("<<surface<<","<<state<<") started");
     Q_EMIT modificationsStarted();
     m_underModification = true;
@@ -259,9 +264,10 @@ void SurfaceManager::focusFirstAvailableSurface()
     if (m_focusedSurface) {
         m_focusedSurface->setFocused(false);
     }
-    if (chosenSurface) {
-        chosenSurface->setFocused(true);
-    }
+
+    chosenSurface->setFocused(true);
+    doRaise(chosenSurface);
+
     m_focusedSurface = chosenSurface;
 }
 

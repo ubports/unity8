@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-01-31 14:40+0000\n"
+"POT-Creation-Date: 2017-02-16 13:49+0000\n"
 "PO-Revision-Date: 2016-12-20 14:02+0000\n"
 "Last-Translator: abuyop <Unknown>\n"
 "Language-Team: Malay <ms@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-02-04 05:55+0000\n"
-"X-Generator: Launchpad (build 18322)\n"
+"X-Launchpad-Export-Date: 2017-02-22 06:05+0000\n"
+"X-Generator: Launchpad (build 18326)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -525,7 +525,7 @@ msgstr "Pilih persekitaran desktop"
 msgid "Search…"
 msgstr "Gelintar..."
 
-#: qml/Launcher/Drawer.qml:123
+#: qml/Launcher/Drawer.qml:127
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr "A-Z"
@@ -628,8 +628,8 @@ msgstr ""
 "tetingkap yang lain"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Today scope"
-msgstr "Leret panjang dari pinggir kiri untuk membuka skop Hari Ini"
+msgid "Long swipe from the left edge to open the Application Drawer"
+msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -1382,6 +1382,9 @@ msgstr "Kata laluan sangat lemah"
 
 #~ msgid "Swipe up to create a message"
 #~ msgstr "Leret ke atas untuk cipta satu mesej"
+
+#~ msgid "Long swipe from the left edge to open the Today scope"
+#~ msgstr "Leret panjang dari pinggir kiri untuk membuka skop Hari Ini"
 
 #~ msgid "Hover your mouse on the right edge to view your open apps"
 #~ msgstr ""

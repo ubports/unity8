@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-01-31 14:40+0000\n"
+"POT-Creation-Date: 2017-02-16 13:49+0000\n"
 "PO-Revision-Date: 2016-03-25 12:02+0000\n"
 "Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-02-04 05:56+0000\n"
-"X-Generator: Launchpad (build 18322)\n"
+"X-Launchpad-Export-Date: 2017-02-22 06:05+0000\n"
+"X-Generator: Launchpad (build 18326)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -530,7 +530,7 @@ msgstr "Seleccionar entorno de escritorio"
 msgid "Search…"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:123
+#: qml/Launcher/Drawer.qml:127
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""
@@ -632,8 +632,8 @@ msgstr ""
 "Arrastrar con tres dedos cualquier aplicación desde una ventana a la otra"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Today scope"
-msgstr "Deslice largo desde el borde izquierdo para ver el scope Hoy"
+msgid "Long swipe from the left edge to open the Application Drawer"
+msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -1386,6 +1386,9 @@ msgstr "Contraseña muy débil"
 
 #~ msgid "Short or long swipe from the right edge to view your open apps"
 #~ msgstr "Deslice desde el borde derecho para ver las aplis abiertas"
+
+#~ msgid "Long swipe from the left edge to open the Today scope"
+#~ msgstr "Deslice largo desde el borde izquierdo para ver el scope Hoy"
 
 #~ msgid "Takes a screenshot of a window."
 #~ msgstr "Captura una ventana."

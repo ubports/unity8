@@ -32,7 +32,6 @@ namespace unity {
     }
 }
 
-
 Q_DECLARE_LOGGING_CATEGORY(UNITY_WINDOW)
 
 /**
