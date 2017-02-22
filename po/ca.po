@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-06 09:12+0000\n"
+"POT-Creation-Date: 2017-02-16 13:49+0000\n"
 "PO-Revision-Date: 2016-11-11 06:30+0000\n"
 "Last-Translator: Walter Garcia-Fontes <walter.garcia@upf.edu>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-02-08 04:58+0000\n"
+"X-Launchpad-Export-Date: 2017-02-22 06:04+0000\n"
 "X-Generator: Launchpad (build 18326)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
@@ -531,7 +531,7 @@ msgstr "Seleccioneu l'entorn d'escriptori"
 msgid "Search…"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:123
+#: qml/Launcher/Drawer.qml:127
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""
@@ -633,9 +633,8 @@ msgstr ""
 "Arrossegueu usant 3 dits qualsevol aplicació d'una finestra a una altra"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Today scope"
+msgid "Long swipe from the left edge to open the Application Drawer"
 msgstr ""
-"Feu una lliscada llarga des de la vora esquerra per obrir l'àmbit Avui"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -1397,6 +1396,10 @@ msgstr "La contrasenya és molt dèbil"
 
 #~ msgid "Swipe up to manage the app"
 #~ msgstr "Llisqueu cap amunt per gestionar l'aplicació"
+
+#~ msgid "Long swipe from the left edge to open the Today scope"
+#~ msgstr ""
+#~ "Feu una lliscada llarga des de la vora esquerra per obrir l'àmbit Avui"
 
 #~ msgid "Swipe up to add a contact"
 #~ msgstr "Llisqueu per afegir un contacte"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-06 09:12+0000\n"
+"POT-Creation-Date: 2017-02-16 13:49+0000\n"
 "PO-Revision-Date: 2017-02-07 18:31+0000\n"
 "Last-Translator: Anne017 <anneonyme017@openmailbox.org>\n"
 "Language-Team: French <fr@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2017-02-08 04:59+0000\n"
+"X-Launchpad-Export-Date: 2017-02-22 06:04+0000\n"
 "X-Generator: Launchpad (build 18326)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
@@ -533,7 +533,7 @@ msgstr "Sélectionner l'environnement de bureau"
 msgid "Search…"
 msgstr "Rechercher..."
 
-#: qml/Launcher/Drawer.qml:123
+#: qml/Launcher/Drawer.qml:127
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr "A-Z"
@@ -636,10 +636,10 @@ msgstr ""
 "l'autre"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Today scope"
+msgid "Long swipe from the left edge to open the Application Drawer"
 msgstr ""
-"Faites glisser à partir du bord gauche jusqu'au bord droit pour ouvrir le "
-"moteur de recherche Aujourd'hui"
+"Faites un glissement long à partir du bord gauche pour ouvrir le tiroir des "
+"applications"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -1415,6 +1415,11 @@ msgstr "Mot de passe très faible"
 
 #~ msgid "Swipe up for favorite calculations"
 #~ msgstr "Faites glisser vers le haut pour afficher les calculs favoris"
+
+#~ msgid "Long swipe from the left edge to open the Today scope"
+#~ msgstr ""
+#~ "Faites glisser à partir du bord gauche jusqu'au bord droit pour ouvrir le "
+#~ "moteur de recherche Aujourd'hui"
 
 #~ msgid "Takes a screenshot of a window."
 #~ msgstr "Prends une capture d'écran d'une fenêtre."
