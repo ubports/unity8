@@ -35,8 +35,31 @@
 
 #include <QDebug>
 
+#include <qtmir/windowmanagementpolicy.h>
+
+class WindowManagementPolicy : public qtmir::WindowManagementPolicy
+{
+public:
+    WindowManagementPolicy(const miral::WindowManagerTools &tools, qtmir::WindowManagementPolicyPrivate& dd)
+        : qtmir::WindowManagementPolicy(tools, dd)
+    {}
+
+//    virtual void advise_adding_to_workspace(
+//        std::shared_ptr<miral::Workspace> const& workspace,
+//        std::vector<miral::Window> const& windows) override
+//    {
+//    }
+
+//    virtual void advise_removing_from_workspace(
+//        std::shared_ptr<miral::Workspace> const& workspace,
+//        std::vector<miral::Window> const& windows) override
+//    {
+//    }
+};
+
+
 ShellApplication::ShellApplication(int & argc, char ** argv)
-    : qtmir::GuiServerApplication(argc, argv, {})
+    : qtmir::MirServerApplication(argc, argv, {})
     , m_qmlArgs(this)
 {
     setApplicationName(QStringLiteral("unity8"));

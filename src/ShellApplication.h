@@ -28,9 +28,9 @@
 #include "MouseTouchAdaptor.h"
 #endif
 
-#include <qtmir/guiserverapplication.h>
+#include <qtmir/mirserverapplication.h>
 
-class ShellApplication : public qtmir::GuiServerApplication
+class ShellApplication : public qtmir::MirServerApplication
 {
     Q_OBJECT
 public:
