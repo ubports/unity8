@@ -6,7 +6,6 @@ add_subdirectory(InputInfo)
 add_subdirectory(Launcher)
 add_subdirectory(Notifications)
 add_subdirectory(DashCommunicator)
-add_subdirectory(Screens)
 add_subdirectory(Platform)
 
 pkg_search_module(GOBJECT gobject-2.0 REQUIRED)

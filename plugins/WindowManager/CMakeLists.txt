@@ -1,16 +1,31 @@
+include_directories(
+    SYSTEM
+    ${QTMIRSERVER_INCLUDE_DIRS}
+)
+
 set(WINDOWMANAGER_SRC
     TopLevelWindowModel.cpp
     Window.cpp
     WindowManagerPlugin.cpp
+    Screens.cpp
+    Screen.cpp
+    ScreenWindow.cpp
+    Workspace.cpp
+    WorkspaceManager.cpp
+    WorkspaceModel.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/Mir.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceListInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/SurfaceManagerInterface.h
-   )
+)
 
 add_library(windowmanager-qml SHARED ${WINDOWMANAGER_SRC})
 
+target_link_libraries(windowmanager-qml
+    ${QTMIRSERVER_LDFLAGS}
+)
+
 qt5_use_modules(windowmanager-qml Qml Quick Gui)
 
-add_unity8_plugin(WindowManager 0.1 WindowManager TARGETS windowmanager-qml)
+add_unity8_plugin(WindowManager 1.0 WindowManager TARGETS windowmanager-qml)

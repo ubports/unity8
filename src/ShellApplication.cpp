@@ -33,14 +33,39 @@
 #include "UnityCommandLineParser.h"
 #include "DebuggingController.h"
 
-ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
-    : QGuiApplication(argc, argv)
+#include <QDebug>
+
+#include <qtmir/windowmanagementpolicy.h>
+
+class WindowManagementPolicy : public qtmir::WindowManagementPolicy
+{
+public:
+    WindowManagementPolicy(const miral::WindowManagerTools &tools, qtmir::WindowManagementPolicyPrivate& dd)
+        : qtmir::WindowManagementPolicy(tools, dd)
+    {}
+
+//    virtual void advise_adding_to_workspace(
+//        std::shared_ptr<miral::Workspace> const& workspace,
+//        std::vector<miral::Window> const& windows) override
+//    {
+//    }
+
+//    virtual void advise_removing_from_workspace(
+//        std::shared_ptr<miral::Workspace> const& workspace,
+//        std::vector<miral::Window> const& windows) override
+//    {
+//    }
+};
+
+
+ShellApplication::ShellApplication(int & argc, char ** argv)
+    : qtmir::MirServerApplication(argc, argv, {})
     , m_qmlArgs(this)
 {
     setApplicationName(QStringLiteral("unity8"));
     setOrganizationName(QStringLiteral("Canonical"));
 
-    setupQmlEngine(isMirServer);
+    setupQmlEngine();
 
     if (m_qmlArgs.deviceName().isEmpty()) {
         char buffer[200];
@@ -89,18 +114,9 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     #endif
 
     if (m_qmlArgs.mode().compare("greeter") == 0) {
-//        QSize primaryScreenSize = this->primaryScreen()->size();
-//        m_shellView->setHeight(primaryScreenSize.height());
-//        m_shellView->setWidth(primaryScreenSize.width());
-//        m_shellView->show();
-//        m_shellView->requestActivate();
         if (!QProcess::startDetached("initctl emit --no-wait unity8-greeter-started")) {
             qDebug() << "Unable to send unity8-greeter-started event to Upstart";
         }
-//    } else if (isMirServer || parser.hasFullscreen()) {
-//        m_shellView->showFullScreen();
-//    } else {
-//        m_shellView->show();
     }
 }
 
@@ -120,16 +136,13 @@ void ShellApplication::destroyResources()
     m_qmlEngine = nullptr;
 }
 
-void ShellApplication::setupQmlEngine(bool isMirServer)
+void ShellApplication::setupQmlEngine()
 {
     m_qmlEngine = new QQmlApplicationEngine(this);
 
     m_qmlEngine->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
 
     prependImportPaths(m_qmlEngine, ::overrideImportPaths());
-    if (!isMirServer) {
-        prependImportPaths(m_qmlEngine, ::nonMirImportPaths());
-    }
     appendImportPaths(m_qmlEngine, ::fallbackImportPaths());
 
     m_qmlEngine->setNetworkAccessManagerFactory(new CachingNetworkManagerFactory);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2016-2017 Canonical, Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -14,20 +14,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SCREENWINDOW_H
-#define SCREENWINDOW_H
+#ifndef UNITY_SCREENWINDOW_H
+#define UNITY_SCREENWINDOW_H
 
 #include <QQuickWindow>
 #include <QPointer>
 
-#include "screens.h"
+#include "Screen.h"
 
+class ScreenAdapter;
+
+/*
+ * ScreenWindow - wrapper of QQuickWindow to enable QML to specify destination screen.
+**/
 class ScreenWindow : public QQuickWindow
 {
     Q_OBJECT
     Q_PROPERTY(Screen *screen READ screenWrapper WRITE setScreenWrapper NOTIFY screenWrapperChanged)
+    Q_PROPERTY(int winId READ winId CONSTANT)
 public:
-    ScreenWindow(QWindow *parent = 0);
+    explicit ScreenWindow(QQuickWindow *parent = 0);
+    ~ScreenWindow();
 
     Screen *screenWrapper() const;
     void setScreenWrapper(Screen *screen);
@@ -39,4 +46,4 @@ private:
     QPointer<Screen> m_screen;
 };
 
-#endif // SCREENWINDOW_H
+#endif // UNITY_SCREENWINDOW_H

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2016-2017 Canonical, Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -14,14 +14,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "screens.h"
+#include "Screens.h"
+#include "Screen.h"
+
+// qtmirserver
+#include <qtmir/qtmir.h>
+#include <qtmir/screens.h>
+#include <QGuiApplication>
 
 // Qt
-#include <QGuiApplication>
-#include <QDebug>
+#include <QScreen>
+#include <QWindow>
 
-Screens::Screens(QObject *parent) :
-    QAbstractListModel(parent)
+Screens::Screens(QObject *parent)
+    : QAbstractListModel(parent)
 {
     bool ok = false;
     int screenCount = qEnvironmentVariableIntValue("UNITY_MOCK_SCREEN_COUNT", &ok);
@@ -29,25 +35,20 @@ Screens::Screens(QObject *parent) :
     QPoint lastPoint(0,0);
     for (int i = 0; i < screenCount; ++i) {
         auto screen = new Screen();
+        screen->m_id = qtmir::OutputId{i};
         screen->m_active = i == 0;
         screen->m_name = QString("Monitor %1").arg(i);
         screen->m_position = QPoint(lastPoint.x(), lastPoint.y());
-        screen->m_sizes.append(new ScreenMode(50, QSize(640,480)));
-        screen->m_sizes.append(new ScreenMode(60, QSize(1280,1024)));
-        screen->m_sizes.append(new ScreenMode(60, QSize(1440,900)));
-        screen->m_sizes.append(new ScreenMode(60, QSize(1920,1080)));
+        screen->m_sizes.append(new qtmir::ScreenMode(50, QSize(640,480)));
+        screen->m_sizes.append(new qtmir::ScreenMode(60, QSize(1280,1024)));
+        screen->m_sizes.append(new qtmir::ScreenMode(60, QSize(1440,900)));
+        screen->m_sizes.append(new qtmir::ScreenMode(60, QSize(1920,1080)));
         screen->m_currentModeIndex = 3;
         screen->m_physicalSize = QSize(800,568);
         m_screenList.append(screen);
 
         lastPoint.rx() += screen->m_sizes[screen->m_currentModeIndex]->size.width();
     }
-}
-
-Screens::~Screens() noexcept
-{
-    qDeleteAll(m_screenList);
-    m_screenList.clear();
 }
 
 QHash<int, QByteArray> Screens::roleNames() const
@@ -66,7 +67,7 @@ QVariant Screens::data(const QModelIndex &index, int role) const
     switch(role) {
     case ScreenRole:
         return QVariant::fromValue(m_screenList.at(index.row()));
-    }
+    } // switch
 
     return QVariant();
 }
@@ -81,34 +82,20 @@ int Screens::count() const
     return m_screenList.size();
 }
 
-void Screens::activateScreen(int)
+QVariant Screens::activeScreen() const
 {
-    qWarning("Not Implemented");
+    for (int i = 0; i < m_screenList.count(); i++) {
+        if (m_screenList[i]->isActive()) return i;
+    }
+    return QVariant();
 }
 
-Screen::Screen(QObject* parent)
-    : QObject(parent)
+void Screens::activateScreen(const QVariant& vindex)
 {
-}
+    bool ok = false;
+    int index = vindex.toInt(&ok);
+    if (!ok || index < 0 || m_screenList.count() <= index) return;
 
-Screen::~Screen()
-{
-    qDeleteAll(m_sizes);
-    m_sizes.clear();
-}
-
-QQmlListProperty<ScreenMode> Screen::availableModes()
-{
-    return QQmlListProperty<ScreenMode>(this, m_sizes);
-}
-
-Screen *Screen::beginConfiguration()
-{
-    qWarning("Not Implemented");
-    return nullptr;
-}
-
-void Screen::applyConfiguration()
-{
-    qWarning("Not Implemented");
+    auto screen = m_screenList.at(index);
+    screen->setActive(true);
 }

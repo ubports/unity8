@@ -28,17 +28,19 @@
 #include "MouseTouchAdaptor.h"
 #endif
 
-class ShellApplication : public QGuiApplication
+#include <qtmir/mirserverapplication.h>
+
+class ShellApplication : public qtmir::MirServerApplication
 {
     Q_OBJECT
 public:
-    ShellApplication(int & argc, char ** argv, bool isMirServer);
+    ShellApplication(int & argc, char ** argv);
     virtual ~ShellApplication();
 
     void destroyResources();
 
 private:
-    void setupQmlEngine(bool isMirServer);
+    void setupQmlEngine();
     ApplicationArguments m_qmlArgs;
 
     #ifdef UNITY8_ENABLE_TOUCH_EMULATION
