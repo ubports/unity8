@@ -127,9 +127,9 @@ Item {
                         __popup = menuComponent.createObject(root,
                                                              {
                                                                  objectName: visualItem.objectName + "-menu",
-                                                                 desiredX: visualItem.x - units.gu(1),
-                                                                 desiredY: root.height,
-                                                                 unityMenuModel: root.unityMenuModel.submenu(visualItem.__ownIndex)
+                                                                 desiredX: Qt.binding(function() { return visualItem.x - units.gu(1); }),
+                                                                 desiredY: Qt.binding(function() { return root.height; }),
+                                                                 unityMenuModel: Qt.binding(function() { return root.unityMenuModel.submenu(visualItem.__ownIndex); })
                                                              });
                         __popup.reset();
                         __popup.childActivated.connect(dismiss);
