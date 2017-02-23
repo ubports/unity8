@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-06 09:12+0000\n"
+"POT-Creation-Date: 2017-02-16 13:49+0000\n"
 "PO-Revision-Date: 2016-04-25 16:24+0000\n"
 "Last-Translator: Aggelos Arnaoutis <angelosarn@hotmail.com>\n"
 "Language-Team: Greek <el@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-02-08 04:59+0000\n"
+"X-Launchpad-Export-Date: 2017-02-22 06:04+0000\n"
 "X-Generator: Launchpad (build 18326)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
@@ -531,7 +531,7 @@ msgstr "Επιλέξτε περιβάλλον εργασίας"
 msgid "Search…"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:123
+#: qml/Launcher/Drawer.qml:127
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""
@@ -634,9 +634,8 @@ msgstr ""
 "άλλο"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Today scope"
+msgid "Long swipe from the left edge to open the Application Drawer"
 msgstr ""
-"Παρατεταμμένο σύρσιμο από την αριστερή άκρη εμφανίζει το scope \"Σήμερα\""
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -1364,3 +1363,7 @@ msgstr "Πολύ αδύμανος κωδικός"
 #~ msgstr ""
 #~ "Εάν το συνθηματικό που θα εισάγετε είναι μη έγκυρο, το τηλέφωνο σας θα κάνει "
 #~ "επαναφορά των εργοστασιακών ρυθμίσεων και όλα τα δεδομένα σας θα διαγραφούν."
+
+#~ msgid "Long swipe from the left edge to open the Today scope"
+#~ msgstr ""
+#~ "Παρατεταμμένο σύρσιμο από την αριστερή άκρη εμφανίζει το scope \"Σήμερα\""

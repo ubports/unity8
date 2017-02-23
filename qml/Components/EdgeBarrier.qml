@@ -30,6 +30,7 @@ Item {
     property int edge: Qt.LeftEdge
 
     readonly property alias progress: controller.progress
+    readonly property alias containsMouse: controller.containsMouse
 
     property Item target: parent
     function push(amount) { controller.push(amount); }

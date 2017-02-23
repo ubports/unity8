@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-06 09:12+0000\n"
+"POT-Creation-Date: 2017-02-16 13:49+0000\n"
 "PO-Revision-Date: 2016-12-16 02:13+0000\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
 "Language-Team: Asturian <ast@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-02-08 04:58+0000\n"
+"X-Launchpad-Export-Date: 2017-02-22 06:04+0000\n"
 "X-Generator: Launchpad (build 18326)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
@@ -526,7 +526,7 @@ msgstr "Esbillar entornu d'escritoriu"
 msgid "Search…"
 msgstr "Guetar..."
 
-#: qml/Launcher/Drawer.qml:123
+#: qml/Launcher/Drawer.qml:127
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr "A-Z"
@@ -627,8 +627,8 @@ msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "Abasnar cualquier aplicación d'una ventana a otra usando 3 deos"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Today scope"
-msgstr "Eslizamientu llargu dende'l berbesu izquierdu pa ver el scope Güei"
+msgid "Long swipe from the left edge to open the Application Drawer"
+msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -1376,6 +1376,9 @@ msgstr "Contraseña feble enforma"
 
 #~ msgid "Swipe up to create a message"
 #~ msgstr "Eslizar pa crear un mensaxe"
+
+#~ msgid "Long swipe from the left edge to open the Today scope"
+#~ msgstr "Eslizamientu llargu dende'l berbesu izquierdu pa ver el scope Güei"
 
 #~ msgid "Takes a screenshot of a window."
 #~ msgstr "Saca una imaxe d'una ventana."

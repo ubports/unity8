@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-06 09:12+0000\n"
+"POT-Creation-Date: 2017-02-16 13:49+0000\n"
 "PO-Revision-Date: 2016-11-01 15:06+0000\n"
 "Last-Translator: Krzysztof Tataradziński <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2017-02-08 04:59+0000\n"
+"X-Launchpad-Export-Date: 2017-02-22 06:05+0000\n"
 "X-Generator: Launchpad (build 18326)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
@@ -526,7 +526,7 @@ msgstr "Wybierz środowisko graficzne"
 msgid "Search…"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:123
+#: qml/Launcher/Drawer.qml:127
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""
@@ -631,8 +631,8 @@ msgstr ""
 "Przeciągnij 3 palcami jakąkolwiek aplikację z jednego okna do drugiego"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Today scope"
-msgstr "Długie przeciągnięcie od lewej krawędzi otwiera aplikacje soczewek"
+msgid "Long swipe from the left edge to open the Application Drawer"
+msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -1360,6 +1360,9 @@ msgstr "Bardzo słabe hasło"
 
 #~ msgid "Swipe up to add a contact"
 #~ msgstr "Przeciągnij w górę, by dodać kontakt"
+
+#~ msgid "Long swipe from the left edge to open the Today scope"
+#~ msgstr "Długie przeciągnięcie od lewej krawędzi otwiera aplikacje soczewek"
 
 #~ msgid "Swipe from the top right edge to open the notification bar"
 #~ msgstr "Przeciągnij z prawego, górnego rogu, by otworzyć menu powiadomień"

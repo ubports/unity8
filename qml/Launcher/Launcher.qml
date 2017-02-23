@@ -307,7 +307,8 @@ FocusScope {
     InverseMouseArea {
         id: closeMouseArea
         anchors.fill: panel
-        enabled: root.state == "visible" || root.state == "drawer"
+        enabled: (root.state == "visible" && !root.lockedVisible) || root.state == "drawer" || hoverEnabled
+        hoverEnabled: panel.quickListOpen
         visible: enabled
         onPressed: {
             mouse.accepted = false;
@@ -414,7 +415,7 @@ FocusScope {
             target: panel.dismissTimer
             onTriggered: {
                 if (root.autohideEnabled && !root.lockedVisible) {
-                    if (!panel.preventHiding) {
+                    if (!edgeBarrier.containsMouse && !panel.preventHiding) {
                         root.state = ""
                     } else {
                         panel.dismissTimer.restart()

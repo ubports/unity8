@@ -719,9 +719,9 @@ Rectangle {
             ApplicationManager.startApplication("facebook-webapp");
             tryCompare(tutorialRightLoader, "shown", true);
 
-            var stage = findChild(shell, "stage");
+            var cursor = findChild(shell, "cursor");
             mouseMove(shell, shell.width, shell.height / 2);
-            stage.pushRightEdge(units.gu(8));
+            cursor.pushedRightBoundary(units.gu(8), 0);
             tryCompare(tutorialRightLoader, "shown", false);
 
             tryCompare(AccountsService, "demoEdges", false);
