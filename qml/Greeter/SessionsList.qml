@@ -111,8 +111,8 @@ Item {
                 margins: units.gu(2)
             }
 
-            height: parent.height
-
+            clip: true
+            height: parent.height - units.gu(2.5)
             boundsBehavior: Flickable.StopAtBounds
 
             model: LightDMService.sessions
