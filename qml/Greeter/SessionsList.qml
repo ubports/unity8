@@ -33,7 +33,6 @@ Item {
 
         // A workaround to get the initial highlight correct
         sessionsList.highlightFollowsCurrentItem = true;
-        console.log("CurrentIndex->" + sessionsList.currentIndex)
         sessionsList.positionViewAtIndex(sessionsList.currentIndex, ListView.Contain);
         sessionsList.highlightFollowsCurrentItem = false;
     }
@@ -84,7 +83,7 @@ Item {
 
     LoginAreaContainer {
         readonly property real margins: sessionsList.anchors.margins
-        readonly property real prefferedHeight: {
+        readonly property real preferredHeight: {
             if (sessionsList.currentItem) {
                 return (sessionsList.currentItem.height *
                        (1 + sessionsList.model.count)) + 2 * margins
@@ -93,7 +92,7 @@ Item {
             }
         }
 
-        height: prefferedHeight < parent.height ? prefferedHeight : parent.height - units.gu(4)
+        height: preferredHeight < parent.height ? preferredHeight : parent.height - units.gu(4)
         width: parent.width
 
         anchors {
