@@ -211,8 +211,6 @@ void SurfaceManager::activate(unityapi::MirSurfaceInterface *apiSurface)
 
 void SurfaceManager::onStateRequested(MirSurface *surface, Mir::State state)
 {
-    Q_ASSERT(!m_underModification);
-
     DEBUG_MSG("("<<surface<<","<<state<<") started");
     Q_EMIT modificationsStarted();
     m_underModification = true;
@@ -266,9 +264,10 @@ void SurfaceManager::focusFirstAvailableSurface()
     if (m_focusedSurface) {
         m_focusedSurface->setFocused(false);
     }
-    if (chosenSurface) {
-        chosenSurface->setFocused(true);
-    }
+
+    chosenSurface->setFocused(true);
+    doRaise(chosenSurface);
+
     m_focusedSurface = chosenSurface;
 }
 

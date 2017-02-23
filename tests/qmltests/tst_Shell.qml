@@ -351,6 +351,8 @@ Rectangle {
                 Row {
                     CheckBox {
                         id: fullscreeAppCheck
+                        activeFocusOnPress: false
+                        activeFocusOnTab: false
 
                         onTriggered: {
                             if (!topLevelSurfaceList.focusedWindow) return;
@@ -2601,6 +2603,55 @@ Rectangle {
             tryCompareFunction(function() { return ApplicationManager.focusedApplicationId; }, "calendar-app");
         }
 
+        function test_rightEdgePushWithOpenIndicators() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var stage = findChild(shell, "stage");
+            var cursor = findChild(shell, "cursor");
+            var indicators = findChild(shell, "indicators");
+
+            // Open indicators
+            var touchX = shell.width - units.gu(5);
+            touchFlick(shell,
+                    touchX /* fromX */, indicators.minimizedPanelHeight * 0.5 /* fromY */,
+                    touchX /* toX */, shell.height * 0.9 /* toY */,
+                    true /* beginTouch */, true /* endTouch */);
+            tryCompare(indicators, "fullyOpened", true);
+
+            // push the right edge
+            mouseMove(shell, shell.width -  1, units.gu(10));
+            for (var i = 0; i < units.gu(10); i++) {
+                cursor.pushedRightBoundary(1, 0);
+            }
+            tryCompare(stage, "rightEdgePushProgress", 1);
+            tryCompare(stage, "state", "spread");
+            tryCompare(indicators, "fullyOpened", false);
+
+            mouseMove(shell, shell.width - units.gu(5), units.gu(10));
+
+            tryCompare(stage, "rightEdgePushProgress", 0);
+        }
+
+        function test_rightEdgePushOnGreeter() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+
+            var stage = findChild(shell, "stage");
+            var cursor = findChild(shell, "cursor");
+
+            // push the right edge, but verify it doesn't emit any progress
+            mouseMove(shell, shell.width -  1, units.gu(10));
+            for (var i = 0; i < units.gu(10); i++) {
+                cursor.pushedRightBoundary(1, 0);
+                compare(stage.rightEdgePushProgress, 0);
+            }
+            compare(stage.rightEdgePushProgress, 0);
+        }
+
         function test_oskDisplacesWindow_data() {
             return [
                 {tag: "no need to displace", windowHeight: units.gu(10), windowY: units.gu(5), targetDisplacement: units.gu(5), oskEnabled: true},
@@ -2723,9 +2774,10 @@ Rectangle {
             tryCompare(stage, "state", "staged");
 
             // Try by edge push
+            var cursor = findChild(shell, "cursor");
             mouseMove(stage, stage.width -  1, units.gu(10));
             for (var i = 0; i < units.gu(10); i++) {
-                stage.pushRightEdge(1);
+                cursor.pushedRightBoundary(1, 0);
             }
             mouseMove(stage, stage.width - units.gu(5), units.gu(10));
             tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
@@ -2746,6 +2798,28 @@ Rectangle {
             keyPress(Qt.Key_W, Qt.MetaModifier)
             tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
             keyRelease(Qt.Key_W, Qt.MetaModifier)
+        }
+
+        function test_launcherWindowResizeInteraction()
+        {
+            loadShell("desktop");
+            waitForRendering(shell)
+            shell.usageScenario = "desktop"
+            waitForRendering(shell)
+            swipeAwayGreeter();
+
+            var app1SurfaceId = topLevelSurfaceList.nextId;
+            var app1 = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(app1SurfaceId);
+
+            var launcherDelegate1 = findChild(shell, "launcherDelegate1");
+            mouseClick(launcherDelegate1, launcherDelegate1.width / 2, launcherDelegate1.height / 2, Qt.RightButton);
+
+            var appDelegate = findChild(shell, "appDelegate_" + app1SurfaceId);
+            mouseMove(shell, appDelegate.mapToItem(shell, 0, 0).x, launcherDelegate1.mapToItem(shell, 0, 0).y);
+
+            expectFail("", "Cursor should not change while launcher menu is open");
+            tryCompare(Mir, "cursorName", "left_side");
         }
 
         function test_panelTitleShowsWhenGreeterNotShown_data() {
@@ -2794,6 +2868,63 @@ Rectangle {
                 mouseClick(stage, stage.width-10, stage.height/2, undefined, undefined, 100);
             }
             tryCompareFunction(function() { return drawer.visible; }, false);
+        }
+
+        function test_restoreFromFullscreen() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var appSurfaceId = topLevelSurfaceList.nextId;
+            var app = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            // start dialer
+            var appContainer = findChild(shell, "appContainer");
+            var appDelegate = findChild(appContainer, "appDelegate_" + appSurfaceId);
+            verify(appDelegate);
+            tryCompare(appDelegate, "state", "normal");
+
+            // now maximize to right
+            appDelegate.requestMaximizeRight();
+            tryCompare(appDelegate, "state", "maximizedRight");
+
+            // switch to fullscreen
+            app.surfaceList.get(0).requestState(Mir.FullscreenState);
+            tryCompare(appDelegate, "state", "fullscreen");
+
+            // restore, should go back to maximizedRight, not restored
+            appDelegate.requestRestore();
+            tryCompare(appDelegate, "state", "maximizedRight");
+        }
+
+        function test_altTabToMinimizedApp() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var appSurfaceId = topLevelSurfaceList.nextId;
+            var app = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            // start dialer
+            var appContainer = findChild(shell, "appContainer");
+            var appDelegate = findChild(appContainer, "appDelegate_" + appSurfaceId);
+            verify(appDelegate);
+            tryCompare(appDelegate, "state", "normal");
+
+            // minimize dialer
+            appDelegate.requestMinimize();
+            tryCompare(appDelegate, "state", "minimized");
+
+            // try to bring dialer back from minimized by doing alt-tab
+            keyClick(Qt.Key_Tab, Qt.AltModifier);
+            tryCompare(appDelegate, "visible", true);
+            tryCompare(appDelegate, "focus", true);
+            tryCompare(topLevelSurfaceList.focusedWindow, "surface", appDelegate.surface);
+            tryCompare(topLevelSurfaceList.applicationAt(0), "appId", "dialer-app");
         }
     }
 }

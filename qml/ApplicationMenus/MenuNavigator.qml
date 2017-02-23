@@ -18,8 +18,10 @@ import QtQuick 2.4
 
 QtObject {
     property Item itemView: null
+    property bool hasOverflow: false
 
     signal select(int index)
+    signal overflow()
 
     function selectNext(currentIndex) {
         var menu;
@@ -32,6 +34,11 @@ QtObject {
                     break;
                 }
                 newIndex++;
+
+                if (hasOverflow && newIndex === itemView.count) {
+                    overflow()
+                    break;
+                }
             }
         } else if (currentIndex !== -1 && itemView.count > 1) {
             var startIndex = (currentIndex + 1) % itemView.count;
@@ -42,6 +49,12 @@ QtObject {
                     select(newIndex);
                     break;
                 }
+
+                if (hasOverflow && newIndex + 1 === itemView.count) {
+                    overflow()
+                    break;
+                }
+
                 newIndex = (newIndex + 1) % itemView.count;
             } while (newIndex !== startIndex)
         }
@@ -58,12 +71,21 @@ QtObject {
                     break;
                 }
                 newIndex--;
+
+                if (hasOverflow && newIndex < 0 ) {
+                    overflow();
+                    break;
+                }
             }
         } else if (currentIndex !== -1 && itemView.count > 1) {
             var startIndex = currentIndex - 1;
             newIndex = startIndex;
             do {
                 if (newIndex < 0) {
+                    if (hasOverflow) {
+                        overflow();
+                        break;
+                    }
                     newIndex = itemView.count - 1;
                 }
                 menu = itemView.itemAt(newIndex);
@@ -72,6 +94,7 @@ QtObject {
                     break;
                 }
                 newIndex--;
+
             } while (newIndex !== startIndex)
         }
     }

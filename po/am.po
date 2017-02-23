@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-06 09:12+0000\n"
+"POT-Creation-Date: 2017-02-16 13:49+0000\n"
 "PO-Revision-Date: 2017-01-26 15:04+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2017-02-08 04:58+0000\n"
+"X-Launchpad-Export-Date: 2017-02-22 06:04+0000\n"
 "X-Generator: Launchpad (build 18326)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
@@ -523,7 +523,7 @@ msgstr "የ ዴስክቶፕ አይነት ይምረጡ"
 msgid "Search…"
 msgstr "መፈለጊያ..."
 
-#: qml/Launcher/Drawer.qml:123
+#: qml/Launcher/Drawer.qml:127
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr "A-Z"
@@ -624,8 +624,8 @@ msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "መጎተቻ 3 ጣቶች በ መጠቀም ማንኛውንም መተግበሪያ ከ አንድ መስኮት ወደ ሌላ"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Today scope"
-msgstr "በ ረጅሙ ከ ግራ ጠርዝ በኩል ይጥረጉ የ ዛሬን ክልል ለ መክፈት"
+msgid "Long swipe from the left edge to open the Application Drawer"
+msgstr "በረጅሙ ይጥረጉ ከ ግራ ጠርዝ በኩል መተግበሪያ ለ መክፈት ከ መሳቢያ ውስጥ"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -1350,6 +1350,9 @@ msgstr "በጣም ደካማ የ መግቢያ ቃል"
 
 #~ msgid "Short or long swipe from the right edge to view your open apps"
 #~ msgstr "በ አጭሩ ወይንም በ ረጅሙ ይጥረጉ ከ ቀኝ ጠረዝ በኩል የ ተከፈቱ መተግበሪያዎችን ለማየት"
+
+#~ msgid "Long swipe from the left edge to open the Today scope"
+#~ msgstr "በ ረጅሙ ከ ግራ ጠርዝ በኩል ይጥረጉ የ ዛሬን ክልል ለ መክፈት"
 
 #~ msgid "Swipe from the left edge to open the launcher"
 #~ msgstr "ከ ግራ ጠርዝ በኩል ይጥረጉ ማስጀመሪያውን ለ መክፈት"

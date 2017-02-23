@@ -34,6 +34,7 @@ MouseArea {
 
     function push(amount) {
         if (!root._containsMouse) {
+            console.warn("pushing right edge without mouse actually being at right edge!")
             return;
         }
 

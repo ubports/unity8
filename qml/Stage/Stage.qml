@@ -46,6 +46,7 @@ FocusScope {
     property int leftMargin: 0
     property bool oskEnabled: false
     property rect inputMethodRect
+    property real rightEdgePushProgress: 0
     property PanelState panelState
 
     // Configuration
@@ -102,6 +103,8 @@ FocusScope {
                 // No we didn't, do a quick alt-tab
                 if (appRepeater.count > 1) {
                     appRepeater.itemAt(1).activate();
+                } else if (appRepeater.count > 0) {
+                    appRepeater.itemAt(0).activate(); // quick alt-tab to the only (minimized) window should still activate it
                 }
             }
         }
@@ -126,11 +129,6 @@ FocusScope {
     // functions to be called from outside
     function updateFocusedAppOrientation() { /* TODO */ }
     function updateFocusedAppOrientationAnimated() { /* TODO */}
-    function pushRightEdge(amount) {
-        if (root.spreadEnabled) {
-            edgeBarrier.push(amount);
-        }
-    }
 
     function closeSpread() {
         priv.goneToSpread = false;
@@ -139,6 +137,12 @@ FocusScope {
     onSpreadEnabledChanged: {
         if (!spreadEnabled && spreadShown) {
             closeSpread();
+        }
+    }
+
+    onRightEdgePushProgressChanged: {
+        if (spreadEnabled && rightEdgePushProgress >= 1) {
+            priv.goneToSpread = true
         }
     }
 
@@ -454,7 +458,7 @@ FocusScope {
             PropertyChanges { target: screensAndWorkspaces; opacity: 1 }
         },
         State {
-            name: "stagedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "staged"
+            name: "stagedRightEdge"; when: root.spreadEnabled && (rightEdgeDragArea.dragging || rightEdgePushProgress > 0) && root.mode == "staged"
             PropertyChanges {
                 target: blurLayer;
                 visible: true;
@@ -464,7 +468,7 @@ FocusScope {
             }
         },
         State {
-            name: "sideStagedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "stagedWithSideStage"
+            name: "sideStagedRightEdge"; when: root.spreadEnabled && (rightEdgeDragArea.dragging || rightEdgePushProgress > 0) && root.mode == "stagedWithSideStage"
             extend: "stagedRightEdge"
             PropertyChanges {
                 target: sideStage
@@ -473,18 +477,18 @@ FocusScope {
             }
         },
         State {
-            name: "windowedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "windowed"
+            name: "windowedRightEdge"; when: root.spreadEnabled && (rightEdgeDragArea.dragging || rightEdgePushProgress > 0) && root.mode == "windowed"
             PropertyChanges {
                 target: blurLayer;
                 visible: true
                 blurRadius: 32
                 brightness: .65
-                opacity: MathUtils.linearAnimation(spreadItem.rightEdgeBreakPoint, 1, 0, 1, Math.max(rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0, edgeBarrier.progress))
+                opacity: MathUtils.linearAnimation(spreadItem.rightEdgeBreakPoint, 1, 0, 1, Math.max(rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0, rightEdgePushProgress))
             }
         },
         State {
             name: "staged"; when: root.mode === "staged"
-            PropertyChanges { target: wallpaper; visible: priv.focusedAppDelegate && priv.focusedAppDelegate.x === 0 }
+            PropertyChanges { target: wallpaper; visible: !priv.focusedAppDelegate || priv.focusedAppDelegate.x !== 0 }
         },
         State {
             name: "stagedWithSideStage"; when: root.mode === "stagedWithSideStage"
@@ -521,6 +525,7 @@ FocusScope {
                     }
                 }
                 PropertyAction { target: spreadItem; property: "highlightedIndex"; value: -1 }
+                PropertyAction { target: floatingFlickable; property: "contentX"; value: 0 }
             }
         },
         Transition {
@@ -775,7 +780,7 @@ FocusScope {
         Item {
             id: boundariesForWindowPlacement
             anchors.fill: parent
-            anchors.topMargin: PanelState.panelHeight
+            anchors.topMargin: panelState.panelHeight
             visible: false
         }
 
@@ -921,7 +926,7 @@ FocusScope {
                                                      maximizedTopLeft || maximizedTopRight || maximizedBottomLeft || maximizedBottomRight
 
                 readonly property bool minimized: windowState & WindowStateStorage.WindowStateMinimized
-                readonly property bool fullscreen: window.state === Mir.FullscreenState
+                readonly property bool fullscreen: windowState === WindowStateStorage.WindowStateFullscreen
 
                 readonly property bool canBeMaximized: canBeMaximizedHorizontally && canBeMaximizedVertically
                 readonly property bool canBeMaximizedLeftRight: (maximumWidth == 0 || maximumWidth >= appContainer.width/2) &&
@@ -932,7 +937,10 @@ FocusScope {
                 readonly property bool canBeMaximizedVertically: maximumHeight == 0 || maximumHeight >= appContainer.height
                 readonly property alias orientationChangesEnabled: decoratedWindow.orientationChangesEnabled
 
+                // TODO drop our own windowType once Mir/Miral/Qtmir gets in sync with ours
                 property int windowState: WindowStateStorage.WindowStateNormal
+                property int prevWindowState: WindowStateStorage.WindowStateRestored
+
                 property bool animationsEnabled: true
                 property alias title: decoratedWindow.title
                 readonly property string appName: model.application ? model.application.name : ""
@@ -987,9 +995,6 @@ FocusScope {
                         }
                         priv.updateMainAndSideStageIndexes();
                     }
-                    if (root.mode == "windowed") {
-                        appDelegate.restore(true /* animated */, appDelegate.windowState);
-                    }
                     appDelegate.focus = true;
                 }
 
@@ -1039,7 +1044,14 @@ FocusScope {
                         } else if (model.window.state === Mir.MaximizedBottomRightState) {
                             appDelegate.maximizeBottomRight();
                         } else if (model.window.state === Mir.RestoredState) {
-                            appDelegate.restore();
+                            if (appDelegate.fullscreen && appDelegate.prevWindowState != WindowStateStorage.WindowStateRestored) {
+                                model.window.requestState(WindowStateStorage.toMirState(appDelegate.prevWindowState));
+                            } else {
+                                appDelegate.restore();
+                            }
+                        } else if (model.window.state === Mir.FullscreenState) {
+                            appDelegate.prevWindowState = appDelegate.windowState;
+                            appDelegate.windowState = WindowStateStorage.WindowStateFullscreen;
                         }
                     }
                 }
@@ -1141,6 +1153,7 @@ FocusScope {
                     animationsEnabled = (animated === undefined) || animated;
                     windowState = state || WindowStateStorage.WindowStateRestored;
                     windowState &= ~WindowStateStorage.WindowStateMinimized; // clear the minimized bit
+                    prevWindowState = windowState;
                 }
 
                 function playFocusAnimation() {
@@ -1303,7 +1316,7 @@ FocusScope {
                         when: (root.mode == "staged" || root.mode == "stagedWithSideStage") && (root.state == "sideStagedRightEdge" || root.state == "stagedRightEdge" || rightEdgeFocusAnimation.running || hidingAnimation.running)
                         PropertyChanges {
                             target: stagedRightEdgeMaths
-                            progress: Math.max(edgeBarrier.progress, rightEdgeDragArea.draggedProgress)
+                            progress: Math.max(rightEdgePushProgress, rightEdgeDragArea.draggedProgress)
                         }
                         PropertyChanges {
                             target: appDelegate
@@ -1330,11 +1343,11 @@ FocusScope {
                     },
                     State {
                         name: "windowedRightEdge"
-                        when: root.mode == "windowed" && (root.state == "windowedRightEdge" || rightEdgeFocusAnimation.running || hidingAnimation.running || edgeBarrier.progress > 0)
+                        when: root.mode == "windowed" && (root.state == "windowedRightEdge" || rightEdgeFocusAnimation.running || hidingAnimation.running || rightEdgePushProgress > 0)
                         PropertyChanges {
                             target: windowedRightEdgeMaths
                             swipeProgress: rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0
-                            pushProgress: edgeBarrier.progress
+                            pushProgress: rightEdgePushProgress
                         }
                         PropertyChanges {
                             target: appDelegate
@@ -1528,11 +1541,12 @@ FocusScope {
                         name: "minimized"; when: appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate
-                            requestedX: -appDelegate.width / 2
                             scale: units.gu(5) / appDelegate.width
                             opacity: 0;
                             visuallyMinimized: true
                             visuallyMaximized: false
+                            x: -appDelegate.width / 2
+                            y: root.height / 2
                         }
                     }
                 ]
@@ -1547,15 +1561,6 @@ FocusScope {
                         from: "normal,restored,maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight";
                         to: "staged,stagedWithSideStage"
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedX,requestedY,requestedWidth,requestedHeight"; duration: priv.animationDuration}
-                    },
-                    Transition {
-                        to: "minimized"
-                        enabled: appDelegate.animationsEnabled
-                        PropertyAction { target: appDelegate; property: "visuallyMaximized" }
-                        SequentialAnimation {
-                            UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,opacity,scale,requestedWidth,requestedHeight" }
-                            PropertyAction { target: appDelegate; property: "visuallyMinimized" }
-                        }
                     },
                     Transition {
                         to: "spread"
@@ -1603,6 +1608,31 @@ FocusScope {
                             // We need to release scaleToPreviewSize at last
                             PropertyAction { target: decoratedWindow; property: "scaleToPreviewSize" }
                             PropertyAction { target: appDelegate; property: "visible" }
+                        }
+                    },
+                    Transition {
+                        from: ",normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
+                        to: "minimized"
+                        SequentialAnimation {
+                            ScriptAction { script: print("transitioning:", appDelegate.x, appDelegate.y, appDelegate.scale) }
+                            ScriptAction { script: { fakeRectangle.stop(); } }
+                            PropertyAction { target: appDelegate; property: "visuallyMaximized" }
+                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,scale,opacity"; duration: priv.animationDuration }
+                            PropertyAction { target: appDelegate; property: "visuallyMinimized" }
+                        }
+                    },
+                    Transition {
+                        from: "minimized"
+                        to: ",normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
+                        SequentialAnimation {
+                            ScriptAction { script: print("transitioning:", appDelegate.x, appDelegate.y, appDelegate.scale) }
+                            PropertyAction { target: appDelegate; property: "visuallyMinimized,z" }
+                            ParallelAnimation {
+                                UbuntuNumberAnimation { target: appDelegate; properties: "x"; from: -appDelegate.width / 2; duration: priv.animationDuration }
+                                UbuntuNumberAnimation { target: appDelegate; properties: "y,opacity"; duration: priv.animationDuration }
+                                UbuntuNumberAnimation { target: appDelegate; properties: "scale"; from: 0; duration: priv.animationDuration }
+                            }
+                            PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         }
                     },
                     Transition {
@@ -1696,7 +1726,10 @@ FocusScope {
                     onDecorationReleased: fakeRectangle.commit();
 
                     property real angle: 0
+                    Behavior on angle { enabled: priv.closingIndex >= 0; UbuntuNumberAnimation {} }
                     property real itemScale: 1
+                    Behavior on itemScale { enabled: priv.closingIndex >= 0; UbuntuNumberAnimation {} }
+
                     transform: [
                         Scale {
                             origin.x: 0
@@ -1758,7 +1791,6 @@ FocusScope {
                     onClicked: {
                         spreadItem.highlightedIndex = index;
                         if (distance == 0) {
-                            model.window.activate();
                             priv.goneToSpread = false;
                         }
                     }
@@ -1865,30 +1897,6 @@ FocusScope {
         appContainerWidth: appContainer.width
         appContainerHeight: appContainer.height
         panelState: root.panelState
-    }
-
-    EdgeBarrier {
-        id: edgeBarrier
-
-        // NB: it does its own positioning according to the specified edge
-        edge: Qt.RightEdge
-
-        onPassed: priv.goneToSpread = true;
-
-        material: Component {
-            Item {
-                Rectangle {
-                    width: parent.height
-                    height: parent.width
-                    rotation: 90
-                    anchors.centerIn: parent
-                    gradient: Gradient {
-                        GradientStop { position: 0.0; color: Qt.rgba(0.16,0.16,0.16,0.5)}
-                        GradientStop { position: 1.0; color: Qt.rgba(0.16,0.16,0.16,0)}
-                    }
-                }
-            }
-        }
     }
 
     PropertyAnimation {
