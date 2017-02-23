@@ -1,7 +1,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
-import Unity.Screens 0.1
+import WindowManager 1.0
 import Unity.Application 0.1
 import ".."
 
@@ -91,7 +91,10 @@ Item {
                             actions: ActionList {
                                 Action {
                                     text: "Add workspace"
-                                    onTriggered: workspaces.workspaceModel.append({text: "" + (workspaces.workspaceModel.count + 1)})
+                                    onTriggered: {
+                                        var workspace = WorkspaceManager.createWorkspace();
+                                        workspaces.workspaceModel.append(workspace);
+                                    }
                                 }
                             }
                         }
@@ -110,18 +113,7 @@ Item {
                     screen: model.screen
                     background: root.background
 
-                    workspaceModel: ListModel {
-                        onCountChanged: print("model count changed to", count)
-                        ListElement {text: "1"}
-                        ListElement {text: "2"}
-                        ListElement {text: "3"}
-                        ListElement {text: "4"}
-                        ListElement {text: "5"}
-                        ListElement {text: "6"}
-//                        ListElement {text: "7"}
-//                        ListElement {text: "8"}
-//                        ListElement {text: "9"}
-                    }
+                    workspaceModel: model.screen.workspaces
                 }
             }
         }

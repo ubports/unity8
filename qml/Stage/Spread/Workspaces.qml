@@ -19,7 +19,7 @@ Item {
 
         onEntered: {
             var index = listView.getDropIndex(drag);
-            listView.model.insert(index, {text: drag.source.text})
+            listView.model.insert(index, drag.source.workspace)
             listView.dropItemIndex = index;
             drag.source.inDropArea = true;
         }
@@ -243,7 +243,7 @@ Item {
                 var itemCoords = clickedItem.mapToItem(listView, -listView.leftMargin, 0);
                 fakeDragItem.x = itemCoords.x
                 fakeDragItem.y = itemCoords.y
-                fakeDragItem.text = listView.model.get(draggedIndex).text
+                fakeDragItem.workspace = model.workspace
 
                 var mouseCoordsInItem = mapToItem(clickedItem, mouseX, mouseY);
                 fakeDragItem.Drag.hotSpot.x = mouseCoordsInItem.x
@@ -264,14 +264,8 @@ Item {
                 Drag.active: mouseArea.drag.active
                 Drag.keys: ['workspace']
 
-                property string text
+                property var workspace
                 property bool inDropArea: false
-                Label {
-                    anchors.centerIn: parent
-                    text: parent.text
-                    color: "red"
-                    fontSize: "large"
-                }
 
                 Rectangle {
                     anchors.fill: parent

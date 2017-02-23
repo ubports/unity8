@@ -40,10 +40,10 @@ public:
 
     explicit WorkspaceModel(QObject *parent = 0);
 
-    void append(Workspace* workspace);
-    void insert(int index, Workspace* workspace);
-    void remove(Workspace* workspace);
-    void move(int from, int to);
+    Q_INVOKABLE void append(Workspace* workspace);
+    Q_INVOKABLE void insert(int index, Workspace* workspace);
+    Q_INVOKABLE void remove(Workspace* workspace);
+    Q_INVOKABLE void move(int from, int to);
 
     // From QAbstractItemModel
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
