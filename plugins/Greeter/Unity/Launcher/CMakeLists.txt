@@ -1,4 +1,3 @@
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=11)
 pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
 
 add_definitions(-DSM_BUSNAME=systemBus)

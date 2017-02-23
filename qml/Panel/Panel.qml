@@ -209,6 +209,8 @@ Item {
                     Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
                     active: __applicationMenus.model
 
+                    width: parent.width - windowControlButtons.width - units.gu(2) - __indicators.barWidth
+
                     property bool menusRequested: menuBarLoader.item ? menuBarLoader.item.showRequested : false
 
                     sourceComponent: MenuBar {
@@ -283,7 +285,7 @@ Item {
                     anchors.centerIn: parent
                     text: actionItem.text
                     horizontalAlignment: Text.AlignLeft
-                    color: enabled ? "white" : "#5d5d5d"
+                    color: enabled ? theme.palette.normal.backgroundText : theme.palette.disabled.backgroundText
                 }
             }
 
@@ -385,7 +387,7 @@ Item {
             }
 
             enabled: !applicationMenus.expanded
-            opacity: !applicationMenus.expanded ? 1 : 0
+            opacity: !callHint.visible && !applicationMenus.expanded ? 1 : 0
             Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
 
             onEnabledChanged: {

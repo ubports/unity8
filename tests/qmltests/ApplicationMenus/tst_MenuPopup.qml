@@ -223,6 +223,20 @@ Item {
             tryCompareFunction(function() { return menuItem.popup !== null && menuItem.popup.visible }, false);
         }
 
+        function test_mouseHoverOpensSubMenu() {
+            menu.unityMenuModel.modelData = appMenuData.generateTestData(3,3,1,0,"menu",false);
+
+            var menuItem = findChild(menu, "menu-item0");
+
+            var priv = findInvisibleChild(menu, "d");
+            priv.currentItem = menuItem;
+
+            mouseMove(menuItem, menuItem.width/2, menuItem.height/2);
+            verify(!menuItem.popup);
+
+            tryCompareFunction(function() { return menuItem.popup != null; }, true);
+        }
+
         function test_differentSizes() {
             var differentSizesMenu = [{
                 "rowData": { "label": "Short" }}, {

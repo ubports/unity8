@@ -1,5 +1,3 @@
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=11)
-
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/

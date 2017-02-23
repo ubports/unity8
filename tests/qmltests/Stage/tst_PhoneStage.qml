@@ -418,11 +418,10 @@ Item {
 
         function test_mouseEdgePush() {
             addApps(1);
-            mouseMove(stage, stage.width -  1, units.gu(10));
-            for (var i = 0; i < units.gu(10); i++) {
-                stage.pushRightEdge(1);
-            }
-            mouseMove(stage, stage.width - units.gu(5), units.gu(10));
+            // When progress goes to 1 it should switch to spread, but stay there even if progress goes back
+            stage.rightEdgePushProgress = 1;
+            compare(stage.state, "spread");
+            stage.rightEdgePushProgress = 0;
             compare(stage.state, "spread");
         }
 

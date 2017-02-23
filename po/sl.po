@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-06 09:12+0000\n"
+"POT-Creation-Date: 2017-02-16 13:49+0000\n"
 "PO-Revision-Date: 2016-01-31 18:34+0000\n"
 "Last-Translator: Bernard Banko <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2017-02-08 04:59+0000\n"
+"X-Launchpad-Export-Date: 2017-02-22 06:05+0000\n"
 "X-Generator: Launchpad (build 18326)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
@@ -530,7 +530,7 @@ msgstr "Izberite namizno okolje"
 msgid "Search…"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:123
+#: qml/Launcher/Drawer.qml:127
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""
@@ -637,8 +637,8 @@ msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "S tremi prsti povlecite program iz enega v drugo okno"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Today scope"
-msgstr "Nadolgo potegnite levi rob za odpiranje vira Danes"
+msgid "Long swipe from the left edge to open the Application Drawer"
+msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -1367,6 +1367,9 @@ msgstr "Zelo šibko geslo"
 
 #~ msgid "Swipe up to add a contact"
 #~ msgstr "Za dodajanje stika potegnite navzgor"
+
+#~ msgid "Long swipe from the left edge to open the Today scope"
+#~ msgstr "Nadolgo potegnite levi rob za odpiranje vira Danes"
 
 #~ msgid "Swipe from the top right edge to open the notification bar"
 #~ msgstr "Za odpiranje obvestilne plošče potegnite desni del zgornjega roba"

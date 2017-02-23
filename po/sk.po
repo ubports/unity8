@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-06 09:12+0000\n"
+"POT-Creation-Date: 2017-02-16 13:49+0000\n"
 "PO-Revision-Date: 2016-09-28 04:43+0000\n"
 "Last-Translator: P_E_T_O <Unknown>\n"
 "Language-Team: Slovak <sk@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Launchpad-Export-Date: 2017-02-08 04:59+0000\n"
+"X-Launchpad-Export-Date: 2017-02-22 06:05+0000\n"
 "X-Generator: Launchpad (build 18326)\n"
 "Language: sk\n"
 
@@ -532,7 +532,7 @@ msgstr "Vybrať pracovné prostredie"
 msgid "Search…"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:123
+#: qml/Launcher/Drawer.qml:127
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""
@@ -637,8 +637,8 @@ msgstr ""
 "Potiahnite pomocou 3 prstov ľubovoľnú aplikáciu z jedného okna do druhého"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Today scope"
-msgstr "Dlhé potiahnutie od ľavého okraja pre otvorenie scope Dnes"
+msgid "Long swipe from the left edge to open the Application Drawer"
+msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -1274,6 +1274,9 @@ msgstr "Heslo je veľmi slabé"
 #~ msgstr ""
 #~ "Krátke alebo dlhé potiahnutie od pravého okraja pre zobrazenie otvorených "
 #~ "aplikácií"
+
+#~ msgid "Long swipe from the left edge to open the Today scope"
+#~ msgstr "Dlhé potiahnutie od ľavého okraja pre otvorenie scope Dnes"
 
 #~ msgid "Log out"
 #~ msgstr "Odhlásiť sa"

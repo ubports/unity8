@@ -73,3 +73,9 @@ add_unity8_mock(Unity 0.2 Unity TARGETS FakeUnityQml)
 
 # and one copy in a separate directory for autopilot
 add_unity8_mock(Unity 0.2 Unity PREFIX scopefakes TARGETS FakeUnityQml)
+
+# Since on build both copy the same file to the same location (not great)
+# make sure one depends on the other, otherwise when running with make -jX
+# we can get errors of cp complaining the file has been created while it
+# was trying to create it
+add_dependencies(scopefakes-MockUnity-qmlfiles mocks-MockUnity-qmlfiles)
