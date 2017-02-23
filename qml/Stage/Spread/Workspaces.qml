@@ -1,5 +1,6 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import WindowManager 1.0
 import "MathUtils.js" as MathUtils
 import "../../Components"
 
@@ -38,6 +39,7 @@ Item {
         }
 
         onDropped: {
+            drop.accept(Qt.MoveAction);
             listView.dropItemIndex = -1;
             drag.source.inDropArea = false;
         }
@@ -219,7 +221,10 @@ Item {
             }
 
             onReleased: {
-                fakeDragItem.Drag.drop();
+                var result = fakeDragItem.Drag.drop();
+                if (result == Qt.IgnoreAction) {
+                    WorkspaceManager.destroyWorkspace(fakeDragItem.workspace);
+                }
                 drag.target = null;
             }
 
