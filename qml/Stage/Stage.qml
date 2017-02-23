@@ -977,6 +977,9 @@ FocusScope {
                         // Now load any saved state. This needs to happen *after* the cascading!
                         delayedStateTimer.windowState = WindowStateStorage.toMirState(windowStateSaver.load());
                         delayedStateTimer.restart();
+                    } else {
+                        // just load and init the windowedX/Y/Width/Height values
+                        windowStateSaver.load();
                     }
 
                     updateQmlFocusFromMirSurfaceFocus();
