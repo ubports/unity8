@@ -183,7 +183,7 @@ Item {
 
         // We need to manually update this on startup as the binding
         // below doesn't seem to have any effect at that stage
-        oskSettings.disableHeight = !shell.oskEnabled
+        oskSettings.disableHeight = !shell.oskEnabled || shell.usageScenario == "desktop"
     }
 
     // we must rotate to a supported orientation regardless of shell's preference
@@ -194,7 +194,7 @@ Item {
     Binding {
         target: oskSettings
         property: "disableHeight"
-        value: !shell.oskEnabled
+        value: !shell.oskEnabled || shell.usageScenario == "desktop"
     }
 
     Binding {
