@@ -19,6 +19,7 @@ import QtQml.StateMachine 1.0 as DSM
 import Ubuntu.Components 1.3
 import Unity.Launcher 0.1
 import Ubuntu.Components.Popups 1.3
+import Utils 0.1
 import "../Components"
 
 Rectangle {
@@ -29,6 +30,7 @@ Rectangle {
 
     property var model
     property bool inverted: false
+    property bool privateMode: false
     property bool dragging: false
     property bool moving: launcherListView.moving || launcherListView.flicking
     property bool preventHiding: moving || dndArea.draggedIndex >= 0 || quickList.state === "open" || dndArea.pressed
@@ -809,7 +811,12 @@ Rectangle {
 
                 Repeater {
                     id: popoverRepeater
-                    model: quickList.model
+                    objectName: "popoverRepeater"
+                    model: UnitySortFilterProxyModel {
+                        model: quickList.model
+                        filterRole: QuickListModelInterface.RoleIsPrivate
+                        filterRegExp: root.privateMode ? RegExp(false) : RegExp()
+                    }
 
                     ListItem {
                         objectName: "quickListEntry" + index
