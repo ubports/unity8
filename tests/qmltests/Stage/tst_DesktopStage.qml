@@ -321,7 +321,7 @@ Item {
             var maximizeButton = findChild(appDelegate, "maximizeWindowButton");
             verify(maximizeButton);
             mouseClick(maximizeButton);
-            tryCompare(appDelegate, "visuallyMaximized", true);
+            tryCompare(appDelegate, "maximized", true);
         }
 
         function test_tappingOnDecorationFocusesApplication(data) {
@@ -637,7 +637,7 @@ Item {
             var dialerAppDelegate = startApplication("dialer-app");
 
             // verify the drop shadow becomes visible
-            verify(PanelState.dropShadow == true);
+            tryCompareFunction(function() { return PanelState.dropShadow; }, true);
 
             // close the maximized app
             ApplicationManager.stopApplication("facebook-webapp");
