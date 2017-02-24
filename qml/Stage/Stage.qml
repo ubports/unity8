@@ -947,19 +947,17 @@ FocusScope {
                 }
 
                 readonly property bool windowReady: clientAreaItem.surfaceInitialized
+                property int requestedWindowState: Mir.RestoredState
                 onWindowReadyChanged: {
                     if (windowReady) {
-                        // First, cascade the newly created window, relative to the currently/old focused window.
-                        windowedX = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedX + units.gu(3) : (normalZ - 1) * units.gu(3)
-                        windowedY = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedY + units.gu(3) : normalZ * units.gu(3)
-
                         // Now load any saved state. This needs to happen *after* the cascading!
-                        var ws = WindowStateStorage.toMirState(windowStateSaver.load());
                         if (root.mode == "windowed") {
+                            var ws = requestedWindowState;
+
                             // need to apply the windowed shell chrome policy on top the saved window state
                             ws = windowedFullscreenPolicy.applyPolicy(ws, surface.shellChrome);
+                            window.requestState(ws);
                         }
-                        window.requestState(ws);
                     }
                 }
 
@@ -969,6 +967,12 @@ FocusScope {
                     } else {
                         decoratedWindow.surfaceOrientationAngle = 0;
                     }
+
+                    // First, cascade the newly created window, relative to the currently/old focused window.
+                    windowedX = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedX + units.gu(3) : (normalZ - 1) * units.gu(3)
+                    windowedY = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedY + units.gu(3) : normalZ * units.gu(3)
+
+                    requestedWindowState = WindowStateStorage.toMirState(windowStateSaver.load());
 
                     updateQmlFocusFromMirSurfaceFocus();
 
@@ -1003,7 +1007,6 @@ FocusScope {
                           !visuallyMinimized
                           && !greeter.fullyShown
                           && (priv.foregroundMaximizedAppDelegate === null || priv.foregroundMaximizedAppDelegate.normalZ <= z)
-                          //&& windowReady
                          )
                          || appDelegate.fullscreen
                          || focusAnimation.running || rightEdgeFocusAnimation.running || hidingAnimation.running

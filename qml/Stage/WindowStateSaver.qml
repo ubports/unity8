@@ -41,15 +41,13 @@ QtObject {
                                                            (target.fullscreen ? 0 : root.leftMargin)); });
         target.windowedY = Qt.binding(function() { return Math.max(Math.min(windowGeometry.y, screenHeight - target.windowedHeight), minimumY); });
 
-        var windowState = WindowStateStorage.getState(target.appId, WindowStateStorage.WindowStateNormal)
-
         target.updateNormalGeometry();
 
         // initialize the x/y to restore to
         target.restoredX = target.normalX;
         target.restoredY = target.normalY;
 
-        return windowState;
+        return WindowStateStorage.getState(target.appId, WindowStateStorage.WindowStateNormal);
     }
 
     function save() {

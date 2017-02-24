@@ -125,6 +125,7 @@ FocusScope {
         target: root.application
         property: "initialSurfaceSize"
         value: Qt.size(root.requestedWidth, root.requestedHeight)
+        when: d.surfaceInitialized
     }
 
     Timer {
