@@ -43,7 +43,7 @@ public:
     void append(Workspace* workspace);
     void insert(int index, Workspace* workspace);
     void remove(Workspace* workspace);
-    void move(int from, int to);
+    Q_INVOKABLE void move(int from, int to);
 
     // From QAbstractItemModel
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -53,8 +53,12 @@ public:
         return roleNames;
     }
 
+    Workspace* activeWorkspace() const;
+    void setActiveWorkspace(Workspace* workspace);
+
 Q_SIGNALS:
     void countChanged();
+    void activeWorkspaceChanged();
 
 protected:
     QVector<Workspace*> m_workspaces;

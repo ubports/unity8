@@ -46,6 +46,7 @@ void WindowManagerPlugin::registerTypes(const char *uri)
     qmlRegisterUncreatableType<WorkspaceModel>(uri, 1, 0, "WorkspaceModel", "Not a creatable type");
     qmlRegisterSingletonType<Screens>(uri, 1, 0, "Screens", screensSingleton);
     qmlRegisterUncreatableType<qtmir::ScreenMode>(uri, 1, 0, "ScreenMode", "ScreenMode is not creatable.");
+    qmlRegisterUncreatableType<Workspace>(uri, 1, 0, "Workspace", "Workspace is not creatable.");
 
     qRegisterMetaType<Window*>("Window*");
     qRegisterMetaType<Workspace*>("Workspace*");

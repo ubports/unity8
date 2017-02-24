@@ -14,12 +14,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef WINDOWMANAGER_WORKSPACE_H
-#define WINDOWMANAGER_WORKSPACE_H
+#ifndef WORKSPACE_H
+#define WORKSPACE_H
 
 #include <QObject>
-#include <QVariant>
-
 #include <memory>
 
 class WorkspaceModel;
@@ -35,13 +33,13 @@ class Workspace : public QObject
 public:
     ~Workspace();
 
-    Q_INVOKABLE void assign(WorkspaceModel* model, const QVariant& index = QVariant());
+    Q_INVOKABLE void assign(WorkspaceModel* model);
 
     bool isActive() const { return m_active; }
 
     TopLevelWindowModel *windowModel() const;
 
-public Q_SLOTS:
+public Q_SLOT:
     void activate();
     void unassign();
 
@@ -49,17 +47,16 @@ Q_SIGNALS:
     void assigned();
     void unassigned();
 
-    void activeChanged(bool);
+    void activeChanged();
 
 private:
     explicit Workspace(QObject *parent = 0);
 
-    std::shared_ptr<miral::Workspace> m_workspace;
-    QScopedPointer<TopLevelWindowModel> m_windowModel;
     WorkspaceModel* m_model;
+    QScopedPointer<TopLevelWindowModel> m_windowModel;
     bool m_active;
 
     friend class WorkspaceManager;
 };
 
-#endif // WINDOWMANAGER_WORKSPACE_H
+#endif // WORKSPACE_H

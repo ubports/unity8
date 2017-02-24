@@ -39,10 +39,12 @@ namespace unityapi = unity::shell::application;
 
 TopLevelWindowModel::TopLevelWindowModel()
 {
+    DEBUG_MSG << "\n\nPLOP\n\n";
 }
 
 void TopLevelWindowModel::setApplicationManager(unityapi::ApplicationManagerInterface* value)
 {
+    qDebug() << "\n\nPLOP2\n\n";
     if (m_applicationManager == value) {
         return;
     }
@@ -90,6 +92,7 @@ void TopLevelWindowModel::setApplicationManager(unityapi::ApplicationManagerInte
 
 void TopLevelWindowModel::setSurfaceManager(unityapi::SurfaceManagerInterface *surfaceManager)
 {
+    qDebug() << "\n\nPLOP3\n\n";
     if (surfaceManager == m_surfaceManager) {
         return;
     }

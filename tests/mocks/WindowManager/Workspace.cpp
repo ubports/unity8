@@ -23,9 +23,8 @@
 
 Workspace::Workspace(QObject *parent)
     : QObject(parent)
-    , m_workspace(WindowManagementPolicy::instance()->create_workspace())
-    , m_windowModel(new TopLevelWindowModel)
     , m_model(nullptr)
+    , m_windowModel(new TopLevelWindowModel)
     , m_active(false)
 {
     connect(WorkspaceManager::instance(), &WorkspaceManager::activeWorkspaceChanged, this, [this]() {
@@ -35,6 +34,7 @@ Workspace::Workspace(QObject *parent)
             Q_EMIT activeChanged(m_active);
         }
     });
+    connect(this, &Workspace::activeChanged, m_windowModel.data(), &TopLevelWindowModel::setActive);
 }
 
 Workspace::~Workspace()
@@ -42,7 +42,7 @@ Workspace::~Workspace()
     unassign();
 }
 
-void Workspace::assign(WorkspaceModel *model, const QVariant& vIndex)
+void Workspace::assign(WorkspaceModel *model)
 {
     if (m_model == model) return;
 
@@ -54,11 +54,7 @@ void Workspace::assign(WorkspaceModel *model, const QVariant& vIndex)
     m_model = model ? model : WorkspaceManager::instance();
 
     if (m_model) {
-        int index = m_model->rowCount();
-        if (vIndex.isValid() && vIndex.canConvert(QVariant::Int)) {
-            index = vIndex.toInt();
-        }
-        m_model->insert(index, this);
+        m_model->append(this);
 
         connect(m_model, &QObject::destroyed, this, [this]() {
             m_model->remove(this);

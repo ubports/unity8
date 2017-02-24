@@ -36,7 +36,7 @@ Screens::Screens(QObject *parent)
 
     connect(m_wrapped.data(), &qtmir::Screens::screenAdded, this, &Screens::onScreenAdded);
     connect(m_wrapped.data(), &qtmir::Screens::screenRemoved, this, &Screens::onScreenRemoved);
-    connect(qGuiApp, &QGuiApplication::focusWindowChanged, this, &Screens::activeScreenChanged);
+    connect(m_wrapped.data(), &qtmir::Screens::activeScreenChanged, this, &Screens::activeScreenChanged);
 
     Q_FOREACH(qtmir::Screen* screen, m_wrapped->screens()) {
         m_screenList.push_back(new Screen(screen));

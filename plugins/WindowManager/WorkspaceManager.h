@@ -24,18 +24,26 @@ class Workspace;
 class WorkspaceManager : public WorkspaceModel
 {
     Q_OBJECT
+    Q_PROPERTY(Workspace* activeWorkspace READ activeWorkspace WRITE setActiveWorkspace NOTIFY activeWorkspaceChanged)
+
 public:
     static WorkspaceManager* instance();
 
-private:
-    WorkspaceManager();
+    Workspace* activeWorkspace() const;
+    void setActiveWorkspace(Workspace* workspace);
 
 public Q_SLOTS:
     Workspace* createWorkspace();
     void destroyWorkspace(Workspace* workspace);
 
+Q_SIGNALS:
+    void activeWorkspaceChanged();
+
 private:
+    WorkspaceManager();
+
     QVector<Workspace*> m_allWorkspaces;
+    Workspace* m_activeWorkspace;
 };
 
 #endif // WORKSPACEMANAGER_H
