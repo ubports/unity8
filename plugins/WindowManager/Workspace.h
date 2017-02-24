@@ -31,15 +31,12 @@ class Workspace : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool active READ isActive NOTIFY activeChanged)
-    Q_PROPERTY(TopLevelWindowModel* windowModel READ windowModel CONSTANT)
 public:
     ~Workspace();
 
     Q_INVOKABLE void assign(WorkspaceModel* model, const QVariant& index = QVariant());
 
     bool isActive() const { return m_active; }
-
-    TopLevelWindowModel *windowModel() const;
 
 public Q_SLOTS:
     void activate();
@@ -55,7 +52,6 @@ private:
     explicit Workspace(QObject *parent = 0);
 
     std::shared_ptr<miral::Workspace> m_workspace;
-    QScopedPointer<TopLevelWindowModel> m_windowModel;
     WorkspaceModel* m_model;
     bool m_active;
 

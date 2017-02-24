@@ -24,7 +24,6 @@
 Workspace::Workspace(QObject *parent)
     : QObject(parent)
     , m_workspace(WindowManagementPolicy::instance()->create_workspace())
-    , m_windowModel(new TopLevelWindowModel)
     , m_model(nullptr)
     , m_active(false)
 {
@@ -76,9 +75,4 @@ void Workspace::activate()
 void Workspace::unassign()
 {
     assign(nullptr);
-}
-
-TopLevelWindowModel *Workspace::windowModel() const
-{
-    return m_windowModel.data();
 }
