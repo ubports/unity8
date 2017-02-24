@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ShellApplication.h"
+#include "UnityApplication.h"
 
 // Qt
 #include <QLibrary>
@@ -32,34 +32,14 @@
 #include "CachingNetworkManagerFactory.h"
 #include "UnityCommandLineParser.h"
 #include "DebuggingController.h"
+#include "windowmanagementpolicy.h"
 
 #include <QDebug>
 
-#include <qtmir/windowmanagementpolicy.h>
-
-class WindowManagementPolicy : public qtmir::WindowManagementPolicy
-{
-public:
-    WindowManagementPolicy(const miral::WindowManagerTools &tools, qtmir::WindowManagementPolicyPrivate& dd)
-        : qtmir::WindowManagementPolicy(tools, dd)
-    {}
-
-//    virtual void advise_adding_to_workspace(
-//        std::shared_ptr<miral::Workspace> const& workspace,
-//        std::vector<miral::Window> const& windows) override
-//    {
-//    }
-
-//    virtual void advise_removing_from_workspace(
-//        std::shared_ptr<miral::Workspace> const& workspace,
-//        std::vector<miral::Window> const& windows) override
-//    {
-//    }
-};
 
 
-ShellApplication::ShellApplication(int & argc, char ** argv)
-    : qtmir::MirServerApplication(argc, argv, {})
+UnityApplication::UnityApplication(int & argc, char ** argv)
+    : qtmir::MirServerApplication(argc, argv, { qtmir::SetWindowManagementPolicy<WindowManagementPolicy>() })
     , m_qmlArgs(this)
 {
     setApplicationName(QStringLiteral("unity8"));
@@ -103,7 +83,7 @@ ShellApplication::ShellApplication(int & argc, char ** argv)
         pxpgu = 8;
     }
     m_qmlEngine->rootContext()->setContextProperty("internalGu", pxpgu);
-    m_qmlEngine->load(::qmlDirectory() + "/ShellApplication.qml");
+    m_qmlEngine->load(m_qmlArgs.qmlfie());
 
     #ifdef UNITY8_ENABLE_TOUCH_EMULATION
     // You will need this if you want to interact with touch-only components using a mouse
@@ -120,12 +100,12 @@ ShellApplication::ShellApplication(int & argc, char ** argv)
     }
 }
 
-ShellApplication::~ShellApplication()
+UnityApplication::~UnityApplication()
 {
     destroyResources();
 }
 
-void ShellApplication::destroyResources()
+void UnityApplication::destroyResources()
 {
     #ifdef UNITY8_ENABLE_TOUCH_EMULATION
     delete m_mouseTouchAdaptor;
@@ -136,7 +116,7 @@ void ShellApplication::destroyResources()
     m_qmlEngine = nullptr;
 }
 
-void ShellApplication::setupQmlEngine()
+void UnityApplication::setupQmlEngine()
 {
     m_qmlEngine = new QQmlApplicationEngine(this);
 

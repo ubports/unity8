@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SHELLAPPLICATION_H
-#define SHELLAPPLICATION_H
+#ifndef UNITYAPPLICATION_H
+#define UNITYAPPLICATION_H
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -30,12 +30,12 @@
 
 #include <qtmir/mirserverapplication.h>
 
-class ShellApplication : public qtmir::MirServerApplication
+class UnityApplication : public qtmir::MirServerApplication
 {
     Q_OBJECT
 public:
-    ShellApplication(int & argc, char ** argv);
-    virtual ~ShellApplication();
+    UnityApplication(int & argc, char ** argv);
+    virtual ~UnityApplication();
 
     void destroyResources();
 
@@ -50,4 +50,4 @@ private:
     QQmlApplicationEngine *m_qmlEngine{nullptr};
 };
 
-#endif // SHELLAPPLICATION_H
+#endif // UNITYAPPLICATION_H

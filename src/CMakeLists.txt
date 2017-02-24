@@ -28,7 +28,7 @@ set(SOURCE_FILES
     ApplicationArguments.cpp
     main.cpp
     CachingNetworkManagerFactory.cpp
-    ShellApplication.cpp
+    UnityApplication.cpp
     UnityCommandLineParser.cpp
     UnixSignalHandler.cpp
     DebuggingController.cpp
@@ -46,7 +46,13 @@ qt5_use_modules(${SHELL_APP} DBus Gui Qml Quick Test)
 if (NOT "${ANDROID_PROPERTIES_INCLUDE_DIRS}" STREQUAL "")
     set_target_properties(${SHELL_APP} PROPERTIES INCLUDE_DIRECTORIES ${ANDROID_PROPERTIES_INCLUDE_DIRS})
 endif()
-target_link_libraries(${SHELL_APP} ${ANDROID_PROPERTIES_LDFLAGS} UbuntuGestures connectivity-qt1 unity8-private qtmirserver)
+target_link_libraries(${SHELL_APP}
+    ${ANDROID_PROPERTIES_LDFLAGS}
+    ${QTMIRSERVER_LDFLAGS}
+    UbuntuGestures
+    connectivity-qt1
+    unity8-private
+)
 
 if (ENABLE_TOUCH_EMULATION)
     target_link_libraries(${SHELL_APP} ${MOUSETOUCHADAPTOR_LIBS_LDFLAGS})
