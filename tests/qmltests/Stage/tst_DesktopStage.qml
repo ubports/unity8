@@ -785,7 +785,7 @@ Item {
             waitUntilTransitionsEnd(dialerAppDelegate);
             waitUntilTransitionsEnd(stage);
 
-            tryCompare(dialerAppDelegate, "state", "maximized");
+            tryCompare(dialerAppDelegate, "maximized", true);
         }
 
         function test_saveRestoreSize() {
