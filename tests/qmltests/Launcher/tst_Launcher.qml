@@ -134,7 +134,7 @@ Rectangle {
                 text: "Private mode (lockscreen locked)"
                 AbstractButton {
                     anchors.fill: parent
-                    onClicked: lockedVisibleCheckBox.checked = !lockedVisibleCheckBox.checked
+                    onClicked: privateModeCheckBox.checked = !privateModeCheckBox.checked
                 }
             }
         }
