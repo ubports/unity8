@@ -41,7 +41,7 @@ QtObject {
         onShellChromeChanged: {
             if (!active || !surface) return;
             if (surface.shellChrome === Mir.LowChrome) {
-                urface.requestState(Mir.FullscreenState);
+                surface.requestState(Mir.FullscreenState);
             } else {
                 surface.requestState(Mir.RestoredState);
             }
