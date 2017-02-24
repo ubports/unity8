@@ -947,16 +947,17 @@ FocusScope {
                 }
 
                 readonly property bool windowReady: clientAreaItem.surfaceInitialized
-                property int requestedWindowState: Mir.RestoredState
                 onWindowReadyChanged: {
                     if (windowReady) {
+                        var loadedMirState = WindowStateStorage.toMirState(windowStateSaver.loadedState);
                         // need to apply the shell chrome policy on top the saved window state
+                        var policy;
                         if (root.mode == "windowed") {
-                            requestedWindowState = windowedFullscreenPolicy.applyPolicy(requestedWindowState, surface.shellChrome);
+                            policy = windowedFullscreenPolicy;
                         } else {
-                            requestedWindowState = stagedFullscreenPolicy.applyPolicy(requestedWindowState, surface.shellChrome);
+                            policy = stagedFullscreenPolicy
                         }
-                        window.requestState(requestedWindowState);
+                        window.requestState(policy.applyPolicy(loadedMirState, surface.shellChrome));
                     }
                 }
 
@@ -971,7 +972,7 @@ FocusScope {
                     windowedX = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedX + units.gu(3) : (normalZ - 1) * units.gu(3)
                     windowedY = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedY + units.gu(3) : normalZ * units.gu(3)
                     // Now load any saved state. This needs to happen *after* the cascading!
-                    requestedWindowState = WindowStateStorage.toMirState(windowStateSaver.load());
+                    windowStateSaver.load();
 
                     updateQmlFocusFromMirSurfaceFocus();
 
