@@ -28,6 +28,8 @@ QtObject {
     property int leftMargin: 0
     property int minimumY: 0
 
+    property int loadedState
+
     function load() {
         var defaultWidth = units.gu(60);
         var defaultHeight = units.gu(50);
@@ -47,7 +49,7 @@ QtObject {
         target.restoredX = target.normalX;
         target.restoredY = target.normalY;
 
-        return WindowStateStorage.getState(target.appId, WindowStateStorage.WindowStateNormal);
+        loadedState = WindowStateStorage.getState(target.appId, WindowStateStorage.WindowStateNormal);
     }
 
     function save() {
