@@ -949,9 +949,13 @@ FocusScope {
                 readonly property bool windowReady: clientAreaItem.surfaceInitialized
                 property int requestedWindowState: Mir.RestoredState
                 onWindowReadyChanged: {
-                    if (windowReady && root.mode == "windowed") {
-                        // need to apply the windowed shell chrome policy on top the saved window state
-                        requestedWindowState = windowedFullscreenPolicy.applyPolicy(requestedWindowState, surface.shellChrome);
+                    if (windowReady) {
+                        // need to apply the shell chrome policy on top the saved window state
+                        if (root.mode == "windowed") {
+                            requestedWindowState = windowedFullscreenPolicy.applyPolicy(requestedWindowState, surface.shellChrome);
+                        } else {
+                            requestedWindowState = stagedFullscreenPolicy.applyPolicy(requestedWindowState, surface.shellChrome);
+                        }
                         window.requestState(requestedWindowState);
                     }
                 }
