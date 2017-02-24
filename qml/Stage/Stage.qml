@@ -946,19 +946,20 @@ FocusScope {
                     }
                 }
 
-                // queue the requests to change the window/surface state
-                Timer {
-                    id: delayedStateTimer
-                    property int windowState: -1 // Mir::State
-                    interval: 1000
-                    onTriggered: {
-                        if (delayedStateTimer.windowState != -1) {
-                            if (windowedFullscreenPolicy.active) { // need to apply the windowed shell chrome policy on top the saved window state
-                                delayedStateTimer.windowState = windowedFullscreenPolicy.applyPolicy(delayedStateTimer.windowState, appDelegate.surface.shellChrome);
-                            }
-                            appDelegate.window.requestState(delayedStateTimer.windowState);
-                            delayedStateTimer.windowState = -1;
+                readonly property bool windowReady: clientAreaItem.surfaceInitialized
+                onWindowReadyChanged: {
+                    if (windowReady) {
+                        // First, cascade the newly created window, relative to the currently/old focused window.
+                        windowedX = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedX + units.gu(3) : (normalZ - 1) * units.gu(3)
+                        windowedY = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedY + units.gu(3) : normalZ * units.gu(3)
+
+                        // Now load any saved state. This needs to happen *after* the cascading!
+                        var ws = WindowStateStorage.toMirState(windowStateSaver.load());
+                        if (root.mode == "windowed") {
+                            // need to apply the windowed shell chrome policy on top the saved window state
+                            ws = windowedFullscreenPolicy.applyPolicy(ws, surface.shellChrome);
                         }
+                        window.requestState(ws);
                     }
                 }
 
@@ -967,19 +968,6 @@ FocusScope {
                         decoratedWindow.surfaceOrientationAngle = shellOrientationAngle;
                     } else {
                         decoratedWindow.surfaceOrientationAngle = 0;
-                    }
-
-                    // First, cascade the newly created window, relative to the currently/old focused window.
-                    windowedX = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedX + units.gu(3) : (normalZ - 1) * units.gu(3)
-                    windowedY = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedY + units.gu(3) : normalZ * units.gu(3)
-
-                    if (root.mode == "windowed") {
-                        // Now load any saved state. This needs to happen *after* the cascading!
-                        delayedStateTimer.windowState = WindowStateStorage.toMirState(windowStateSaver.load());
-                        delayedStateTimer.restart();
-                    } else {
-                        // just load and init the windowedX/Y/Width/Height values
-                        windowStateSaver.load();
                     }
 
                     updateQmlFocusFromMirSurfaceFocus();
@@ -1015,6 +1003,7 @@ FocusScope {
                           !visuallyMinimized
                           && !greeter.fullyShown
                           && (priv.foregroundMaximizedAppDelegate === null || priv.foregroundMaximizedAppDelegate.normalZ <= z)
+                          //&& windowReady
                          )
                          || appDelegate.fullscreen
                          || focusAnimation.running || rightEdgeFocusAnimation.running || hidingAnimation.running
@@ -1683,16 +1672,11 @@ FocusScope {
 
                 WindowedFullscreenPolicy {
                     id: windowedFullscreenPolicy
-                    active: root.mode == "windowed"
                 }
                 StagedFullscreenPolicy {
                     id: stagedFullscreenPolicy
                     active: root.mode == "staged" || root.mode == "stagedWithSideStage"
                     surface: model.window.surface
-                    onStateRequested: {
-                        delayedStateTimer.windowState = requestedState;
-                        delayedStateTimer.restart();
-                    }
                 }
 
                 SpreadDelegateInputArea {

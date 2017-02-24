@@ -22,8 +22,6 @@ import Unity.Application 0.1
 // On first surface load; if the surface is set to low chrome & fullscreen, the
 // state of the window is returned to restored.
 QtObject {
-    property bool active: true
-
     function applyPolicy(surfaceState, surfaceChrome) {
         if (surfaceState === Mir.FullscreenState && surfaceChrome === Mir.LowChrome) {
             return Mir.RestoredState;
