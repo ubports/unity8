@@ -39,17 +39,12 @@ MouseArea {
     acceptedButtons: Qt.AllButtons // prevent leaking unhandled mouse events
     hoverEnabled: true
 
-    drag.target: Item {}
-    drag.filterChildren: true
-    drag.threshold: 0
-
     signal closeClicked()
     signal minimizeClicked()
     signal maximizeClicked()
     signal maximizeHorizontallyClicked()
     signal maximizeVerticallyClicked()
 
-    onClicked: mouse.accepted = true // propogated event
     onDoubleClicked: {
         if (mouse.button == Qt.LeftButton) {
             root.maximizeClicked();
@@ -67,13 +62,6 @@ MouseArea {
                                        menuBar &&
                                        menuBar.valid &&
                                        (menuBar.showRequested || root.containsMouse)
-    }
-
-    // We dont want touch events to fall through to parent as it expect some child MouseArea to have them
-    // If not some MouseArea in the menu bar, it will be this one.
-    MouseArea {
-        anchors.fill: parent
-        propagateComposedEvents: true
     }
 
     Rectangle {

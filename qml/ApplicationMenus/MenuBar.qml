@@ -77,7 +77,7 @@ Item {
         anchors.fill: parent
         enabled: d.currentItem != null
         hoverEnabled: enabled && d.currentItem && d.currentItem.__popup != null
-        onPressed: d.dismissAll()
+        onPressed: { d.dismissAll(); mouse.accepted = false; }
     }
 
     Row {
@@ -229,13 +229,15 @@ Item {
             if (d.currentItem) {
                 updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
             }
+            mouse.accepted = false;
         }
-        onClicked: {
+        onPressed: {
             var prevItem = d.currentItem;
             updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
             if (prevItem && d.currentItem == prevItem) {
                 prevItem.hide();
             }
+            mouse.accepted = false;
         }
 
         function updateCurrentItemFromPosition(point) {
@@ -258,8 +260,8 @@ Item {
 
         hoverEnabled: d.currentItem
         onEntered: d.currentItem = this
-        onPositionChanged: d.currentItem = this
-        onClicked: d.currentItem = this
+        onPositionChanged: { d.currentItem = this; mouse.accepted = false; }
+        onPressed: { d.currentItem = this; mouse.accepted = false; }
 
         property Item __popup: null;
         readonly property bool popupVisible: __popup && __popup.visible
