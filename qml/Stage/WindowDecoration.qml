@@ -33,6 +33,7 @@ MouseArea {
     property alias overlayShown: buttons.overlayShown
     property var menu: undefined
     property bool enableMenus: true
+    property bool windowMoving: false
 
     readonly property real buttonsWidth: buttons.width + row.spacing
 
@@ -142,6 +143,7 @@ MouseArea {
                     height: menuBarLoader.height
                     enableKeyFilter: valid && root.active && root.enableMenus
                     unityMenuModel: root.menu
+                    windowMoving: root.windowMoving
                 }
 
                 opacity: !overlayShown && priv.shouldShowMenus ? 1 : 0

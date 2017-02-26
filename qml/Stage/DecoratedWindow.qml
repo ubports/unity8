@@ -204,6 +204,7 @@ FocusScope {
         height: units.gu(3)
 
         title: applicationWindow.title
+        windowMoving: moveHandler.moving
 
         opacity: root.hasDecoration ? Math.min(1, root.showDecoration) : 0
         Behavior on opacity { UbuntuNumberAnimation { } }
@@ -225,7 +226,6 @@ FocusScope {
         enableMenus: {
             return active &&
                      surface &&
-                     !moveHandler.moving &&
                       (PanelState.focusedPersistentSurfaceId === surface.persistentId && !PanelState.decorationsVisible)
         }
         menu: sharedAppModel.model

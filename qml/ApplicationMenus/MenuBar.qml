@@ -28,6 +28,7 @@ Item {
     property alias unityMenuModel: rowRepeater.model
     property bool enableKeyFilter: false
     property real overflowWidth: width
+    property bool windowMoving: false
 
     // read from outside
     readonly property bool valid: rowRepeater.count > 0
@@ -42,6 +43,12 @@ Item {
 
     function dismiss() {
         d.dismissAll();
+    }
+
+    onWindowMovingChanged: {
+        if (windowMoving) {
+            dismiss();
+        }
     }
 
     GlobalShortcut {
@@ -217,8 +224,22 @@ Item {
     } // Row
 
     MouseArea {
+        id: mouseArea
         anchors.fill: row
         hoverEnabled: d.currentItem
+
+        Timer {
+            id: delayedPopupTimer
+            interval: 100
+            onTriggered: {
+                if (root.windowMoving) return;
+                var prevItem = d.currentItem;
+                mouseArea.updateCurrentItemFromPosition(Qt.point(mouseArea.mouseX, mouseArea.mouseY));
+                if (prevItem && d.currentItem == prevItem) {
+                    prevItem.hide();
+                }
+            }
+        }
 
         onEntered: {
             if (d.currentItem) {
@@ -229,13 +250,11 @@ Item {
             if (d.currentItem) {
                 updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
             }
-            mouse.accepted = false;
         }
+
         onPressed: {
-            var prevItem = d.currentItem;
-            updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
-            if (prevItem && d.currentItem == prevItem) {
-                prevItem.hide();
+            if (containsPress && !root.windowMoving) {
+                delayedPopupTimer.start();
             }
             mouse.accepted = false;
         }
