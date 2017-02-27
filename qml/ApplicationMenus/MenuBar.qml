@@ -279,8 +279,8 @@ Item {
 
         hoverEnabled: d.currentItem
         onEntered: d.currentItem = this
-        onPositionChanged: { d.currentItem = this; mouse.accepted = false; }
-        onPressed: { d.currentItem = this; mouse.accepted = false; }
+        onPositionChanged: d.currentItem = this;
+        onPressed: d.currentItem = this;
 
         property Item __popup: null;
         readonly property bool popupVisible: __popup && __popup.visible
