@@ -980,9 +980,7 @@ FocusScope {
                     _constructing = false;
                 }
                 Component.onDestruction: {
-                    if (root.mode == "windowed") {
-                        windowStateSaver.save();
-                    }
+                    windowStateSaver.save();
 
                     if (!root.parent) {
                         // This stage is about to be destroyed. Don't mess up with the model at this point
