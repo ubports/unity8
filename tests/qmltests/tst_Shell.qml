@@ -379,7 +379,8 @@ Rectangle {
                             target: chromeAppCheck
                             when: topLevelSurfaceList && topLevelSurfaceList.focusedWindow !== null && topLevelSurfaceList.focusedWindow.surface !== null
                             property: "checked"
-                            value: topLevelSurfaceList.focusedWindow.surface.shellChrome === Mir.LowChrome
+                            value: topLevelSurfaceList.focusedWindow.surface &&
+                                   topLevelSurfaceList.focusedWindow.surface.shellChrome === Mir.LowChrome
                         }
                     }
                     Label {
