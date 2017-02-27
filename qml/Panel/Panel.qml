@@ -306,7 +306,6 @@ Item {
             onEnabledChanged: {
                 if (!enabled) hide();
             }
-
         }
 
         PanelMenu {
