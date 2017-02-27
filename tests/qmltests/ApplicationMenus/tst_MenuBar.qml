@@ -235,12 +235,12 @@ Item {
             var menuItem = findChild(menuBar, "menuBar-item0");
             waitForRendering(menuItem);
             mouseClick(menuItem);
-            compare(priv.currentItem, menuItem, "CurrentItem should be set to item 0");
-            compare(priv.currentItem.popupVisible, true, "Popup should be visible");
+            tryCompare(priv, "currentItem", menuItem, undefined /* timeout */, "CurrentItem should be set to item 0");
+            tryCompare(priv.currentItem, "popupVisible", true, undefined /* timeout */, "Popup should be visible");
 
             waitForRendering(menuItem);
             mouseClick(menuItem);
-            compare(priv.currentItem, null, "CurrentItem should be null");
+            tryCompare(priv, "currentItem", null, undefined /* timeout */, "CurrentItem should be null");
         }
 
         function test_overfow() {
