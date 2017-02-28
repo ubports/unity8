@@ -253,10 +253,10 @@ Item {
         }
 
         onPressed: {
+            mouse.accepted = false;
             if (containsPress && !root.windowMoving) {
                 delayedPopupTimer.start();
             }
-            mouse.accepted = false;
         }
 
         function updateCurrentItemFromPosition(point) {
