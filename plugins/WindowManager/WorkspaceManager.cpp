@@ -38,7 +38,7 @@ Workspace *WorkspaceManager::createWorkspace()
 {
     auto workspace = new Workspace(this);
     QQmlEngine::setObjectOwnership(workspace, QQmlEngine::CppOwnership);
-    m_allWorkspaces.append(workspace);
+    m_allWorkspaces.insert(workspace);
     workspace->assign(this);
 
     if (m_allWorkspaces.count() == 0 && m_activeWorkspace) {
@@ -56,17 +56,16 @@ void WorkspaceManager::destroyWorkspace(Workspace *workspace)
 {
     if (!workspace) return;
 
-    int index = m_workspaces.indexOf(workspace);
-    if (index > 0) {
-        if (workspace == m_activeWorkspace) {
-            int newIndex = qMax(index, m_allWorkspaces.count()-1);
-            m_activeWorkspace = newIndex > 0 ? m_allWorkspaces[newIndex] : nullptr;
-            Q_EMIT activeWorkspaceChanged();
+    m_allWorkspaces.remove(workspace);
+    workspace->assign(nullptr);
+
+    if (m_activeWorkspace == workspace) {
+        m_activeWorkspace = m_allWorkspaces.count() > 0 ? *m_allWorkspaces.begin() : nullptr;
+        if (m_activeWorkspace) {
+            workspace->moveWindowsTo(m_activeWorkspace);
         }
-//        if (m_activeWorkspace) {
-//            m_activeWorkspace->windowModel()->transferWindowsFrom(workspace->windowModel());
-//        }
     }
+
     workspace->deleteLater();
 }
 

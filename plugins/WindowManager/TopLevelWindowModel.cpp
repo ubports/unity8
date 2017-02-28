@@ -24,11 +24,16 @@
 #include <unity/shell/application/SurfaceManagerInterface.h>
 
 // Qt
-#include <QGuiApplication>
 #include <QDebug>
 
 // local
 #include "Window.h"
+#include "Workspace.h"
+#include "windowmanagementpolicy.h"
+
+// qtmir
+#include <qtmir/mirserverapplication.h>
+#include <qtmir/windowmodelnotifier.h>
 
 Q_LOGGING_CATEGORY(TOPLEVELWINDOWMODEL, "toplevelwindowmodel", QtInfoMsg)
 
@@ -39,12 +44,10 @@ namespace unityapi = unity::shell::application;
 
 TopLevelWindowModel::TopLevelWindowModel()
 {
-    DEBUG_MSG << "\n\nPLOP\n\n";
 }
 
 void TopLevelWindowModel::setApplicationManager(unityapi::ApplicationManagerInterface* value)
 {
-    qDebug() << "\n\nPLOP2\n\n";
     if (m_applicationManager == value) {
         return;
     }
@@ -57,34 +60,23 @@ void TopLevelWindowModel::setApplicationManager(unityapi::ApplicationManagerInte
     beginResetModel();
 
     if (m_applicationManager) {
-        m_windowModel.clear();
         disconnect(m_applicationManager, 0, this, 0);
     }
 
     m_applicationManager = value;
 
-    if (m_applicationManager) {
-        connect(m_applicationManager, &QAbstractItemModel::rowsInserted,
-                this, [this](const QModelIndex &/*parent*/, int first, int last) {
-                    for (int i = first; i <= last; ++i) {
-                        auto application = m_applicationManager->get(i);
-                        addApplication(application);
-                    }
-                });
+    if (m_applicationManager && m_workspace) {
 
-        connect(m_applicationManager, &QAbstractItemModel::rowsAboutToBeRemoved,
-                this, [this](const QModelIndex &/*parent*/, int first, int last) {
-                    for (int i = first; i <= last; ++i) {
-                        auto application = m_applicationManager->get(i);
-                        removeApplication(application);
-                    }
-                });
+        if (m_workspace->isActive()) {
+            connectApplicationManager();
+        }
 
-        for (int i = 0; i < m_applicationManager->rowCount(); ++i) {
-            auto application = m_applicationManager->get(i);
-            addApplication(application);
+        if (m_surfaceManager) {
+            refreshWindows();
         }
     }
+
+    Q_EMIT applicationManagerChanged(m_applicationManager);
 
     endResetModel();
     m_modelState = IdleState;
@@ -92,12 +84,16 @@ void TopLevelWindowModel::setApplicationManager(unityapi::ApplicationManagerInte
 
 void TopLevelWindowModel::setSurfaceManager(unityapi::SurfaceManagerInterface *surfaceManager)
 {
-    qDebug() << "\n\nPLOP3\n\n";
     if (surfaceManager == m_surfaceManager) {
         return;
     }
 
     DEBUG_MSG << "(" << surfaceManager << ")";
+
+    Q_ASSERT(m_modelState == IdleState);
+    m_modelState = ResettingState;
+
+    beginResetModel();
 
     if (m_surfaceManager) {
         disconnect(m_surfaceManager, 0, this, 0);
@@ -110,9 +106,68 @@ void TopLevelWindowModel::setSurfaceManager(unityapi::SurfaceManagerInterface *s
         connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::surfacesRaised, this, &TopLevelWindowModel::onSurfacesRaised);
         connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::modificationsStarted, this, &TopLevelWindowModel::onModificationsStarted);
         connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::modificationsEnded, this, &TopLevelWindowModel::onModificationsEnded);
+
+        connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::surfacesAddedToWorkspace,
+                this, &TopLevelWindowModel::onSurfacesAddedToWorkspace);
+
+        if (m_workspace && m_applicationManager) {
+            refreshWindows();
+        }
     }
 
     Q_EMIT surfaceManagerChanged(m_surfaceManager);
+
+    endResetModel();
+    m_modelState = IdleState;
+}
+
+void TopLevelWindowModel::setWorkspace(Workspace *workspace)
+{
+    if (workspace == m_workspace) {
+        return;
+    }
+
+    DEBUG_MSG << "(" << workspace << ")";
+
+    Q_ASSERT(m_modelState == IdleState);
+    m_modelState = ResettingState;
+
+    beginResetModel();
+
+    if (m_workspace) {
+        m_windowModel.clear();
+        if (m_applicationManager) {
+            disconnect(m_applicationManager, 0, this, 0);
+        }
+    }
+
+    disconnect(m_applicationManager, 0 ,this, 0);
+
+    m_workspace = workspace;
+
+    if (m_workspace) {
+        connect(m_workspace, &Workspace::activeChanged, this, [this](bool active) {
+            if (m_applicationManager) {
+                if (!active) disconnect(m_applicationManager, 0, this, 0);
+                else {
+                    connectApplicationManager();
+                }
+            }
+        });
+
+        if (m_applicationManager && m_workspace->isActive()) {
+            connectApplicationManager();
+        }
+
+        if (m_surfaceManager && m_applicationManager) {
+            refreshWindows();
+        }
+    }
+
+    Q_EMIT workspaceChanged(workspace);
+
+    endResetModel();
+    m_modelState = IdleState;
 }
 
 void TopLevelWindowModel::addApplication(unityapi::ApplicationInfoInterface *application)
@@ -331,33 +386,43 @@ Window *TopLevelWindowModel::createWindow(unityapi::MirSurfaceInterface *surface
     return qmlWindow;
 }
 
-void TopLevelWindowModel::onSurfaceCreated(unityapi::MirSurfaceInterface *surface)
-{
-    DEBUG_MSG << "(" << surface << ")";
 
-    if (surface->parentSurface()) {
-        // Wrap it in a Window so that we keep focusedWindow() up to date.
-        Window *window = createWindow(surface);
-        connect(surface, &QObject::destroyed, window, [=](){
-            window->setSurface(nullptr);
-            window->deleteLater();
-        });
-    } else {
-        if (surface->type() == Mir::InputMethodType) {
-            setInputMethodWindow(createWindow(surface));
+void TopLevelWindowModel::onSurfaceCreated(unityapi::MirSurfaceInterface */*surface*/)
+{
+}
+
+void TopLevelWindowModel::onSurfacesAddedToWorkspace(const std::shared_ptr<miral::Workspace>& workspace,
+                                                     const QVector<unity::shell::application::MirSurfaceInterface*> surfaces)
+{
+    if (workspace != m_workspace->workspace()) return;
+
+    Q_FOREACH(auto surface, surfaces) {
+        DEBUG_MSG << "(" << surface << ")";
+
+        if (surface->parentSurface()) {
+            // Wrap it in a Window so that we keep focusedWindow() up to date.
+            Window *window = createWindow(surface);
+            connect(surface, &QObject::destroyed, window, [=](){
+                window->setSurface(nullptr);
+                window->deleteLater();
+            });
         } else {
-            auto *application = m_applicationManager->findApplicationWithSurface(surface);
-            if (application) {
-                prependSurface(surface, application);
+            if (surface->type() == Mir::InputMethodType) {
+                setInputMethodWindow(createWindow(surface));
             } else {
-                // Must be a prompt session. No need to do add it as a prompt surface is not top-level.
-                // It will show up in the ApplicationInfoInterface::promptSurfaceList of some application.
-                // Still wrap it in a Window though, so that we keep focusedWindow() up to date.
-                Window *promptWindow = createWindow(surface);
-                connect(surface, &QObject::destroyed, promptWindow, [=](){
-                    promptWindow->setSurface(nullptr);
-                    promptWindow->deleteLater();
-                });
+                auto *application = m_applicationManager->findApplicationWithSurface(surface);
+                if (application) {
+                    prependSurface(surface, application);
+                } else {
+                    // Must be a prompt session. No need to do add it as a prompt surface is not top-level.
+                    // It will show up in the ApplicationInfoInterface::promptSurfaceList of some application.
+                    // Still wrap it in a Window though, so that we keep focusedWindow() up to date.
+                    Window *promptWindow = createWindow(surface);
+                    connect(surface, &QObject::destroyed, promptWindow, [=](){
+                        promptWindow->setSurface(nullptr);
+                        promptWindow->deleteLater();
+                    });
+                }
             }
         }
     }
@@ -446,6 +511,26 @@ QVariant TopLevelWindowModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 }
+
+void TopLevelWindowModel::connectApplicationManager()
+{
+    connect(m_applicationManager, &QAbstractItemModel::rowsInserted,
+            this, [this](const QModelIndex &/*parent*/, int first, int last) {
+                for (int i = first; i <= last; ++i) {
+                    auto application = m_applicationManager->get(i);
+                    addApplication(application);
+                }
+            });
+
+    connect(m_applicationManager, &QAbstractItemModel::rowsAboutToBeRemoved,
+            this, [this](const QModelIndex &/*parent*/, int first, int last) {
+                for (int i = first; i <= last; ++i) {
+                    auto application = m_applicationManager->get(i);
+                    removeApplication(application);
+                }
+            });
+}
+
 
 int TopLevelWindowModel::findIndexOf(const unityapi::MirSurfaceInterface *surface) const
 {
@@ -676,4 +761,40 @@ void TopLevelWindowModel::activateTopMostWindowWithoutId(int forbiddenId)
             window->activate();
         }
     }
+}
+
+void TopLevelWindowModel::refreshWindows()
+{
+    m_windowModel.clear();
+    WindowManagementPolicy::instance()->forEachWindowInWorkspace(m_workspace->workspace(), [this](const miral::Window &window) {
+        auto surface = m_surfaceManager->surfaceFor(window);
+        if (surface) {
+            if (surface->parentSurface()) {
+                // Wrap it in a Window so that we keep focusedWindow() up to date.
+                Window *window = createWindow(surface);
+                connect(surface, &QObject::destroyed, window, [=](){
+                    window->setSurface(nullptr);
+                    window->deleteLater();
+                });
+            } else {
+                if (surface->type() == Mir::InputMethodType) {
+                    setInputMethodWindow(createWindow(surface));
+                } else {
+                    auto *application = m_applicationManager->findApplicationWithSurface(surface);
+                    if (application) {
+                        prependSurface(surface, application);
+                    } else {
+                        // Must be a prompt session. No need to do add it as a prompt surface is not top-level.
+                        // It will show up in the ApplicationInfoInterface::promptSurfaceList of some application.
+                        // Still wrap it in a Window though, so that we keep focusedWindow() up to date.
+                        Window *promptWindow = createWindow(surface);
+                        connect(surface, &QObject::destroyed, promptWindow, [=](){
+                            promptWindow->setSurface(nullptr);
+                            promptWindow->deleteLater();
+                        });
+                    }
+                }
+            }
+        }
+    });
 }

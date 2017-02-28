@@ -40,10 +40,12 @@ public:
 
     explicit WorkspaceModel(QObject *parent = 0);
 
-    void append(Workspace* workspace);
-    void insert(int index, Workspace* workspace);
+    void append(Workspace *workspace);
+    void insert(int index, Workspace *workspace);
     void remove(Workspace* workspace);
     Q_INVOKABLE void move(int from, int to);
+
+    int indexOf(Workspace *workspace) const;
 
     // From QAbstractItemModel
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -53,12 +55,11 @@ public:
         return roleNames;
     }
 
-    Workspace* activeWorkspace() const;
-    void setActiveWorkspace(Workspace* workspace);
-
 Q_SIGNALS:
     void countChanged();
-    void activeWorkspaceChanged();
+
+    void workspaceAdded(Workspace *workspace);
+    void workspaceRemoved(Workspace *workspace);
 
 protected:
     QVector<Workspace*> m_workspaces;

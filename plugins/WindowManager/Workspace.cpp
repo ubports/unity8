@@ -23,7 +23,7 @@
 
 Workspace::Workspace(QObject *parent)
     : QObject(parent)
-    , m_workspace(WindowManagementPolicy::instance()->create_workspace())
+    , m_workspace(WindowManagementPolicy::instance()->createWorkspace())
     , m_model(nullptr)
     , m_active(false)
 {
@@ -32,13 +32,20 @@ Workspace::Workspace(QObject *parent)
         if (newActive != m_active) {
             m_active = newActive;
             Q_EMIT activeChanged(m_active);
+
+            if (m_active) {
+                WindowManagementPolicy::instance()->setActiveWorkspace(m_workspace);
+            }
         }
     });
 }
 
 Workspace::~Workspace()
 {
-    unassign();
+    WindowManagementPolicy::instance()->destroyWorkspace(m_workspace);
+    if (m_model) {
+        m_model->remove(this);
+    }
 }
 
 void Workspace::assign(WorkspaceModel *model, const QVariant& vIndex)
@@ -50,9 +57,9 @@ void Workspace::assign(WorkspaceModel *model, const QVariant& vIndex)
         m_model->remove(this);
     }
 
-    m_model = model ? model : WorkspaceManager::instance();
+    m_model = model;
 
-    if (m_model) {
+    if (model) {
         int index = m_model->rowCount();
         if (vIndex.isValid() && vIndex.canConvert(QVariant::Int)) {
             index = vIndex.toInt();
@@ -67,6 +74,11 @@ void Workspace::assign(WorkspaceModel *model, const QVariant& vIndex)
     }
 }
 
+void Workspace::moveWindowsTo(Workspace *workspace)
+{
+    WindowManagementPolicy::instance()->moveWorkspaceContentToWorkspace(workspace->m_workspace, m_workspace);
+}
+
 void Workspace::activate()
 {
     WorkspaceManager::instance()->setActiveWorkspace(this);
@@ -74,5 +86,5 @@ void Workspace::activate()
 
 void Workspace::unassign()
 {
-    assign(nullptr);
+    assign(WorkspaceManager::instance());
 }

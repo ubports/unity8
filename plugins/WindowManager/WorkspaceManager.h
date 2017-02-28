@@ -42,7 +42,7 @@ Q_SIGNALS:
 private:
     WorkspaceManager();
 
-    QVector<Workspace*> m_allWorkspaces;
+    QSet<Workspace*> m_allWorkspaces;
     Workspace* m_activeWorkspace;
 };
 

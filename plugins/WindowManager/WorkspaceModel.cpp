@@ -35,8 +35,12 @@ void WorkspaceModel::append(Workspace *workspace)
 void WorkspaceModel::insert(int index, Workspace *workspace)
 {
     beginInsertRows(QModelIndex(), index, index);
+
     m_workspaces.append(workspace);
+
     endInsertRows();
+
+    Q_EMIT workspaceAdded(workspace);
     Q_EMIT countChanged();
 }
 
@@ -46,8 +50,13 @@ void WorkspaceModel::remove(Workspace *workspace)
     if (index < 0) return;
 
     beginRemoveRows(QModelIndex(), index, index);
+
     m_workspaces.removeAt(index);
+    disconnect(workspace);
+
     endRemoveRows();
+
+    Q_EMIT workspaceRemoved(workspace);
     Q_EMIT countChanged();
 }
 
@@ -69,6 +78,11 @@ void WorkspaceModel::move(int from, int to)
         endMoveRows();
         Q_EMIT countChanged();
     }
+}
+
+int WorkspaceModel::indexOf(Workspace *workspace) const
+{
+    return m_workspaces.indexOf(workspace);
 }
 
 int WorkspaceModel::rowCount(const QModelIndex &) const

@@ -38,6 +38,9 @@ public:
 
     WorkspaceModel* workspaces() const { return m_workspaces.data(); }
 
+public Q_SLOTS:
+    void activate();
+
 private:
     qtmir::Screen*const m_wrapped;
     const QScopedPointer<WorkspaceModel> m_workspaces;

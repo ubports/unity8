@@ -21,11 +21,20 @@
 #include <QVariant>
 
 #include <memory>
+#include <functional>
 
 class WorkspaceModel;
 class TopLevelWindowModel;
 
 namespace miral { class Workspace; }
+
+namespace unity {
+    namespace shell {
+        namespace application {
+            class MirSurfaceInterface;
+        }
+    }
+}
 
 class Workspace : public QObject
 {
@@ -38,17 +47,21 @@ public:
 
     bool isActive() const { return m_active; }
 
+    std::shared_ptr<miral::Workspace> workspace() const { return m_workspace; }
+
+    WorkspaceModel* model() const { return m_model; }
+    void moveWindowsTo(Workspace* workspace);
+
 public Q_SLOTS:
     void activate();
     void unassign();
 
 Q_SIGNALS:
     void assigned();
-    void unassigned();
 
     void activeChanged(bool);
 
-private:
+protected:
     explicit Workspace(QObject *parent = 0);
 
     std::shared_ptr<miral::Workspace> m_workspace;

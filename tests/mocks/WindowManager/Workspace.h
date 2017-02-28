@@ -18,6 +18,8 @@
 #define WORKSPACE_H
 
 #include <QObject>
+#include <QVariant>
+
 #include <memory>
 
 class WorkspaceModel;
@@ -29,15 +31,12 @@ class Workspace : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool active READ isActive NOTIFY activeChanged)
-    Q_PROPERTY(TopLevelWindowModel* windowModel READ windowModel CONSTANT)
 public:
     ~Workspace();
 
-    Q_INVOKABLE void assign(WorkspaceModel* model);
+    Q_INVOKABLE void assign(WorkspaceModel* model, const QVariant& index = QVariant());
 
     bool isActive() const { return m_active; }
-
-    TopLevelWindowModel *windowModel() const;
 
 public Q_SLOT:
     void activate();
@@ -47,13 +46,12 @@ Q_SIGNALS:
     void assigned();
     void unassigned();
 
-    void activeChanged();
+    void activeChanged(bool);
 
 private:
     explicit Workspace(QObject *parent = 0);
 
     WorkspaceModel* m_model;
-    QScopedPointer<TopLevelWindowModel> m_windowModel;
     bool m_active;
 
     friend class WorkspaceManager;

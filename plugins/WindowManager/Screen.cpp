@@ -34,6 +34,17 @@ Screen::Screen(qtmir::Screen* screen)
     connect(m_wrapped, &qtmir::Screen::currentModeIndexChanged, this, &Screen::currentModeIndexChanged);
     connect(m_wrapped, &qtmir::Screen::availableModesChanged, this, &Screen::availableModesChanged);
 
+    // Connect the active workspace to activate the screen.
+    connect(m_workspaces.data(), &WorkspaceModel::workspaceAdded, this, [this](Workspace* workspace) {
+        connect(workspace, &Workspace::activeChanged, this, [this](bool active) {
+            if (active) activate();
+        });
+        if (workspace->isActive()) activate();
+    });
+    connect(m_workspaces.data(), &WorkspaceModel::workspaceRemoved, this, [this](Workspace* workspace) {
+        disconnect(workspace, &Workspace::activeChanged, this, 0);
+    });
+
     WorkspaceManager::instance()->createWorkspace()->assign(m_workspaces.data());
     WorkspaceManager::instance()->createWorkspace()->assign(m_workspaces.data());
 }
@@ -111,6 +122,11 @@ qtmir::ScreenConfiguration *Screen::beginConfiguration() const
 bool Screen::applyConfiguration(qtmir::ScreenConfiguration *configuration)
 {
     return m_wrapped->applyConfiguration(configuration);
+}
+
+void Screen::activate()
+{
+    setActive(true);
 }
 
 void Screen::setActive(bool active)
