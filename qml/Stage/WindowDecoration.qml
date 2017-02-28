@@ -125,7 +125,7 @@ MouseArea {
                 fontSize: "medium"
                 font.weight: root.active ? Font.Light : Font.Medium
                 elide: Text.ElideRight
-                opacity: (overlayShown || priv.shouldShowMenus) && !root.windowMoving ? 0 : 1
+                opacity: overlayShown || priv.shouldShowMenus ? 0 : 1
                 visible: opacity != 0
                 Behavior on opacity { UbuntuNumberAnimation {} }
             }
@@ -146,7 +146,7 @@ MouseArea {
                     windowMoving: root.windowMoving
                 }
 
-                opacity: !overlayShown && priv.shouldShowMenus && !root.windowMoving ? 1 : 0
+                opacity: !overlayShown && priv.shouldShowMenus ? 1 : 0
                 visible: opacity == 1
                 Behavior on opacity { UbuntuNumberAnimation {} }
             }

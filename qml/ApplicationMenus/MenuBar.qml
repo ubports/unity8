@@ -84,7 +84,7 @@ Item {
         anchors.fill: parent
         enabled: d.currentItem != null
         hoverEnabled: enabled && d.currentItem && d.currentItem.__popup != null
-        onPressed: { d.dismissAll(); mouse.accepted = false; }
+        onPressed: { mouse.accepted = false; d.dismissAll(); }
     }
 
     Row {
@@ -225,12 +225,12 @@ Item {
 
     MouseArea {
         id: mouseArea
-        anchors.fill: row
+        anchors.fill: parent
         hoverEnabled: d.currentItem
 
         Timer {
             id: delayedPopupTimer
-            interval: 100
+            interval: 150
             onTriggered: {
                 if (root.windowMoving) return;
                 var prevItem = d.currentItem;
