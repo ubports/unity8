@@ -350,6 +350,7 @@ UbuntuShape {
                                                 });
                                             } else if (popup) {
                                                 popup.visible = true;
+                                                popup.item.selectFirstIndex();
                                             }
                                         } else {
                                             root.unityMenuModel.activate(__ownIndex);
@@ -488,8 +489,6 @@ UbuntuShape {
                     target: item
                     onChildActivated: childActivated();
                 }
-
-                onVisibleChanged: if (visible) { item.selectFirstIndex(); }
             }
         }
     }
