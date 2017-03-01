@@ -26,10 +26,11 @@ int nextWorkspace = 0;
 Workspace::Workspace(QObject *parent)
     : QObject(parent)
     , m_workspace(WindowManagementPolicy::instance()->createWorkspace())
-    , m_uid(QString("W%1").arg(nextWorkspace++))
     , m_model(nullptr)
     , m_active(false)
 {
+    setObjectName((QString("Wks%1").arg(nextWorkspace++)));
+
     connect(WorkspaceManager::instance(), &WorkspaceManager::activeWorkspaceChanged, this, [this]() {
         bool newActive = WorkspaceManager::instance()->activeWorkspace() == this;
         if (newActive != m_active) {
@@ -46,10 +47,11 @@ Workspace::Workspace(QObject *parent)
 Workspace::Workspace(const Workspace &other)
     : QObject(nullptr)
     , m_workspace(other.m_workspace)
-    , m_uid(other.m_uid)
     , m_model(nullptr)
     , m_active(other.m_active)
 {
+    setObjectName(other.objectName());
+
     connect(&other, &Workspace::activeChanged, this, [this](bool active) {
         m_active = active;
         Q_EMIT activeChanged(m_active);

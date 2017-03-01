@@ -76,6 +76,7 @@ class WorkspaceModelProxy : public WorkspaceModel
 {
 public:
     WorkspaceModelProxy(WorkspaceModel*const model);
+    ~WorkspaceModelProxy();
 
 private:
     const QPointer<WorkspaceModel> m_original;

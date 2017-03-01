@@ -40,12 +40,9 @@ namespace unity {
 class Workspace : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString uid READ uid CONSTANT)
     Q_PROPERTY(bool active READ isActive NOTIFY activeChanged)
 public:
     ~Workspace();
-
-    QString uid() const { return m_uid; }
 
     virtual void assign(WorkspaceModel* model, const QVariant& index = QVariant());
     virtual void unassign();
@@ -73,7 +70,6 @@ protected:
     Workspace(Workspace const& other);
 
     std::shared_ptr<miral::Workspace> m_workspace;
-    QString m_uid;
     WorkspaceModel* m_model;
     bool m_active;
 

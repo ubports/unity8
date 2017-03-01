@@ -27,6 +27,7 @@ WorkspaceModel::WorkspaceModel(QObject *parent)
     : QAbstractListModel(parent)
 {
 }
+
 void WorkspaceModel::append(Workspace *workspace)
 {
     insert(m_workspaces.count(), workspace);
@@ -172,4 +173,10 @@ WorkspaceModelProxy::WorkspaceModelProxy(WorkspaceModel * const model)
     Q_FOREACH(auto workspace, model->list()) {
         (new WorkspaceProxy(workspace))->assign(this);
     }
+}
+
+WorkspaceModelProxy::~WorkspaceModelProxy()
+{
+    qDeleteAll(m_workspaces);
+    m_workspaces.clear();
 }

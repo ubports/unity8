@@ -42,7 +42,7 @@ public:
     };
 
     explicit Screens(QObject *parent = 0);
-    virtual ~Screens() noexcept = default;
+    ~Screens();
 
     Q_INVOKABLE ScreensProxy *createProxy();
     Q_INVOKABLE void sync(Screens *proxy);
@@ -84,7 +84,7 @@ public:
     ScreensProxy(Screens*const screens);
 
 private:
-    const QScopedPointer<Screens> m_original;
+    const QPointer<Screens> m_original;
 };
 
 #endif // SCREENS_H

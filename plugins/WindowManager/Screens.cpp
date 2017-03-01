@@ -44,6 +44,12 @@ Screens::Screens(QObject *parent)
     }
 }
 
+Screens::~Screens()
+{
+    qDeleteAll(m_screens);
+    m_screens.clear();
+}
+
 Screens::Screens(const Screens &other)
     : QAbstractListModel(nullptr)
     , m_wrapped(other.m_wrapped)
