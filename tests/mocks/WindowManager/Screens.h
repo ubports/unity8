@@ -40,6 +40,9 @@ public:
     explicit Screens(QObject *parent = 0);
     virtual ~Screens() noexcept = default;
 
+    Q_INVOKABLE Screens* createProxy() { return this; }
+    Q_INVOKABLE void sync(Screens *) {}
+
     /* QAbstractItemModel */
     QHash<int, QByteArray> roleNames() const override;
     QVariant data(const QModelIndex &index, int role = ScreenRole) const override;

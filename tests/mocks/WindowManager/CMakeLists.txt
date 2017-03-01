@@ -4,8 +4,8 @@ include_directories(
 )
 
 include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager
-    ${libunity8-private_SOURCE_DIR}
 )
 
 set(WINDOWMANAGER_SRC
@@ -13,11 +13,12 @@ set(WINDOWMANAGER_SRC
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Window.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/WorkspaceManager.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/WorkspaceModel.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Workspace.cpp
     Screens.cpp
     Screen.cpp
     ScreenWindow.cpp
-    Workspace.cpp
     WindowManagerPlugin.cpp
+    windowmanagementpolicy.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/Mir.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceInterface.h
