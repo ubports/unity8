@@ -786,7 +786,7 @@ Item {
             tryCompare(stage, "state", "spread");
 
             // try to drag the window
-            mouseMove(decoration, 10, 10);
+            mouseMove(decoration, 10, 10, 200);
 
             // verify it hasn't moved
             var posAfter = Qt.point(appDelegate.x, appDelegate.y);
