@@ -34,6 +34,12 @@ Item {
     readonly property bool valid: rowRepeater.count > 0
     readonly property bool showRequested: d.longAltPressed || d.currentItem != null
 
+    // MoveHandler API for DecoratedWindow
+    signal pressed(var mouse)
+    signal pressedChangedEx(bool pressed, var pressedButtons, real mouseX, real mouseY)
+    signal positionChanged(var mouse)
+    signal released(var mouse)
+
     implicitWidth: row.width
     height: parent.height
 
@@ -43,12 +49,6 @@ Item {
 
     function dismiss() {
         d.dismissAll();
-    }
-
-    onWindowMovingChanged: {
-        if (windowMoving) {
-            dismiss();
-        }
     }
 
     GlobalShortcut {
@@ -228,18 +228,7 @@ Item {
         anchors.fill: parent
         hoverEnabled: d.currentItem
 
-        Timer {
-            id: delayedPopupTimer
-            interval: 150
-            onTriggered: {
-                if (root.windowMoving) return;
-                var prevItem = d.currentItem;
-                mouseArea.updateCurrentItemFromPosition(Qt.point(mouseArea.mouseX, mouseArea.mouseY));
-                if (prevItem && d.currentItem == prevItem) {
-                    prevItem.hide();
-                }
-            }
-        }
+        property bool moved: false
 
         onEntered: {
             if (d.currentItem) {
@@ -247,17 +236,28 @@ Item {
             }
         }
         onPositionChanged: {
+            root.positionChanged(mouse);
+            moved = root.windowMoving;
             if (d.currentItem) {
                 updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
             }
         }
 
-        onPressed: {
-            mouse.accepted = false;
-            if (containsPress && !root.windowMoving) {
-                delayedPopupTimer.start();
+        onClicked: {
+            if (!moved) {
+                var prevItem = d.currentItem;
+                mouseArea.updateCurrentItemFromPosition(Qt.point(mouseArea.mouseX, mouseArea.mouseY));
+                if (prevItem && d.currentItem == prevItem) {
+                    prevItem.hide();
+                }
             }
+            moved = false;
         }
+
+        // for the MoveHandler
+        onPressed: root.pressed(mouse)
+        onPressedChanged: root.pressedChangedEx(pressed, pressedButtons, mouseX, mouseY)
+        onReleased: root.released(mouse);
 
         function updateCurrentItemFromPosition(point) {
             var pos = mapToItem(row, point.x, point.y);

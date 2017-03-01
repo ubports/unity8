@@ -46,6 +46,8 @@ MouseArea {
     signal maximizeHorizontallyClicked()
     signal maximizeVerticallyClicked()
 
+    signal pressedChangedEx(bool pressed, var pressedButtons, real mouseX, real mouseY)
+
     onDoubleClicked: {
         if (mouse.button == Qt.LeftButton) {
             root.maximizeClicked();
@@ -144,6 +146,11 @@ MouseArea {
                     enableKeyFilter: valid && root.active && root.enableMenus
                     unityMenuModel: root.menu
                     windowMoving: root.windowMoving
+
+                    onPressed: root.onPressed(mouse)
+                    onPressedChangedEx: root.pressedChangedEx(pressed, pressedButtons, mouseX, mouseY)
+                    onPositionChanged: root.onPositionChanged(mouse)
+                    onReleased: root.onReleased(mouse)
                 }
 
                 opacity: (!overlayShown && priv.shouldShowMenus) || (active && priv.menuBar.valid && root.windowMoving) ? 1 : 0

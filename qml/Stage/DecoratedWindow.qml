@@ -211,6 +211,7 @@ FocusScope {
 
         onPressed: root.decorationPressed();
         onPressedChanged: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
+        onPressedChangedEx: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
         onPositionChanged: moveHandler.handlePositionChanged(mouse)
         onReleased: {
             root.decorationReleased();
