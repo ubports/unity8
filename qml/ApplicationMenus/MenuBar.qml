@@ -39,6 +39,7 @@ Item {
     signal pressedChangedEx(bool pressed, var pressedButtons, real mouseX, real mouseY)
     signal positionChanged(var mouse)
     signal released(var mouse)
+    signal doubleClicked(var mouse)
 
     implicitWidth: row.width
     height: parent.height
@@ -256,7 +257,8 @@ Item {
         // for the MoveHandler
         onPressed: root.pressed(mouse)
         onPressedChanged: root.pressedChangedEx(pressed, pressedButtons, mouseX, mouseY)
-        onReleased: root.released(mouse);
+        onReleased: root.released(mouse)
+        onDoubleClicked: root.doubleClicked(mouse)
 
         function updateCurrentItemFromPosition(point) {
             var pos = mapToItem(row, point.x, point.y);

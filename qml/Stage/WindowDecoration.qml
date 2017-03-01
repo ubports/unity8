@@ -151,6 +151,7 @@ MouseArea {
                     onPressedChangedEx: root.pressedChangedEx(pressed, pressedButtons, mouseX, mouseY)
                     onPositionChanged: root.onPositionChanged(mouse)
                     onReleased: root.onReleased(mouse)
+                    onDoubleClicked: root.onDoubleClicked(mouse)
                 }
 
                 opacity: (!overlayShown && priv.shouldShowMenus) || (active && priv.menuBar.valid && root.windowMoving) ? 1 : 0
