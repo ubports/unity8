@@ -73,8 +73,8 @@ UbuntuShape {
         d.currentItem = null;
     }
 
-    function select(index) {
-        d.select(index)
+    function selectFirstIndex() {
+        d.selectNext(-1);
     }
 
     function reset() {
@@ -287,7 +287,7 @@ UbuntuShape {
 
                         onCountChanged: {
                             if (!d.currentItem && count > 0) {
-                                root.select(0);
+                                root.selectFirstIndex();
                             }
                         }
 
@@ -489,7 +489,7 @@ UbuntuShape {
                     onChildActivated: childActivated();
                 }
 
-                onVisibleChanged: if (visible) { item.select(0); }
+                onVisibleChanged: if (visible) { item.selectFirstIndex(); }
             }
         }
     }
