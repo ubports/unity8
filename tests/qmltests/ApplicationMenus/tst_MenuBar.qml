@@ -268,5 +268,38 @@ Item {
                 return false;
             }, true);
         }
+
+        function test_firstDisabled() {
+            var data = appMenuData.generateTestData(10,5,2,3);
+            data[0].submenu[1].submenu[0].rowData.sensitive = false;
+            menuBackend.modelData = data;
+
+            var menuItem = findChild(menuBar, "menuBar-item0");
+            menuItem.show();
+
+            // waits for item to be created so the keyclick actually works
+            findChild(menuBar, "menuBar-item0-menu-item1-actionItem");
+
+            keyClick(Qt.Key_Down);
+            keyClick(Qt.Key_Right);
+
+            var submenu = findChild(menuBar, "menuBar-item0-menu-item1-menu");
+            var priv = findInvisibleChild(submenu, "d");
+            var subActionItem1 = findChild(submenu, "menuBar-item0-menu-item1-menu-item1-actionItem");
+            compare(priv.currentItem.item, subActionItem1);
+
+            keyClick(Qt.Key_Down);
+            var subActionItem3 = findChild(submenu, "menuBar-item0-menu-item1-menu-item3-actionItem");
+            compare(priv.currentItem.item, subActionItem3);
+
+            // now move mouse over to a different item and back to exercise a different codepath
+            var actionItem0 = findChild(menuBar, "menuBar-item0-menu-item0-actionItem");
+            mouseMove(actionItem0, actionItem0.width/2, actionItem0.height/2);
+
+            var actionItem1 = findChild(menuBar, "menuBar-item0-menu-item1-actionItem");
+            mouseMove(actionItem1, actionItem1.width/2, actionItem1.height/2);
+
+            tryCompareFunction(function() { return priv.currentItem.item == subActionItem1; }, true);
+        }
     }
 }
