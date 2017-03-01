@@ -224,7 +224,6 @@ Item {
     } // Row
 
     MouseArea {
-        id: mouseArea
         anchors.fill: parent
         hoverEnabled: d.currentItem
 
@@ -246,7 +245,7 @@ Item {
         onClicked: {
             if (!moved) {
                 var prevItem = d.currentItem;
-                mouseArea.updateCurrentItemFromPosition(Qt.point(mouseArea.mouseX, mouseArea.mouseY));
+                updateCurrentItemFromPosition(Qt.point(mouseX, mouseY));
                 if (prevItem && d.currentItem == prevItem) {
                     prevItem.hide();
                 }
