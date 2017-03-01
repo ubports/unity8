@@ -5,17 +5,19 @@ include_directories(
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager
 )
 
 set(WINDOWMANAGER_SRC
+    ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Screen.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Screens.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/TopLevelWindowModel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Window.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/WorkspaceManager.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/WorkspaceModel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Workspace.cpp
-    Screens.cpp
-    Screen.cpp
+    MockScreens.cpp
     ScreenWindow.cpp
     WindowManagerPlugin.cpp
     windowmanagementpolicy.h

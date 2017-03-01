@@ -26,6 +26,7 @@
 #include "WorkspaceModel.h"
 
 #include <QtQml>
+#include <qtmir/qtmir.h>
 
 static QObject *workspace_manager(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
@@ -36,7 +37,7 @@ static QObject *workspace_manager(QQmlEngine *engine, QJSEngine *scriptEngine)
 QObject* screensSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
     Q_UNUSED(engine);
     Q_UNUSED(scriptEngine);
-    return new Screens();
+    return new Screens(qtmir::get_screen_model());
 }
 
 void WindowManagerPlugin::registerTypes(const char *uri)

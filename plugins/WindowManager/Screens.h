@@ -21,13 +21,13 @@
 #include <QSharedPointer>
 #include <QPointer>
 
-class Screen;
 namespace qtmir
 {
 class Screen;
 class Screens;
 }
 
+class Screen;
 class ScreensProxy;
 
 class Screens : public QAbstractListModel
@@ -41,7 +41,7 @@ public:
         ScreenRole = Qt::UserRole + 1
     };
 
-    explicit Screens(QObject *parent = 0);
+    explicit Screens(const QSharedPointer<qtmir::Screens>& model);
     ~Screens();
 
     Q_INVOKABLE ScreensProxy *createProxy();

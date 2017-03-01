@@ -19,7 +19,6 @@
 #include "WorkspaceManager.h"
 
 // qtmirserver
-#include <qtmir/qtmir.h>
 #include <qtmir/screens.h>
 #include <QGuiApplication>
 
@@ -27,9 +26,8 @@
 #include <QScreen>
 #include <QWindow>
 
-Screens::Screens(QObject *parent)
-    : QAbstractListModel(parent)
-    , m_wrapped(qtmir::get_screen_model())
+Screens::Screens(const QSharedPointer<qtmir::Screens>& model)
+    : m_wrapped(model)
 {
     if (qGuiApp->platformName() != QLatin1String("mirserver")) {
         qCritical("Not using 'mirserver' QPA plugin. Using qGuiApp may produce unknown results.");
