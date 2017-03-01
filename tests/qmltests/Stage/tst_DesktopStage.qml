@@ -778,7 +778,6 @@ Item {
             verify(decoration);
 
             // grab the decoration
-            var posBefore = Qt.point(appDelegate.x, appDelegate.y);
             mousePress(decoration);
 
             // enter the spread
@@ -788,9 +787,8 @@ Item {
             // try to drag the window
             mouseMove(decoration, 10, 10, 200);
 
-            // verify it hasn't moved
-            var posAfter = Qt.point(appDelegate.x, appDelegate.y);
-            tryCompareFunction(function(){return posBefore == posAfter;}, true);
+            // verify it's not moving even before we release the decoration drag
+            tryCompare(appDelegate, "dragging", false);
 
             // cleanup
             mouseRelease(decoration);
