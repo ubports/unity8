@@ -771,6 +771,34 @@ Item {
             tryCompareFunction(function(){return posBefore == posAfter;}, data.button !== Qt.LeftButton ? true : false);
         }
 
+        function test_spreadDisablesWindowDrag() {
+            var appDelegate = startApplication("dialer-app");
+            verify(appDelegate);
+            var decoration = findChild(appDelegate, "appWindowDecoration");
+            verify(decoration);
+
+            // grab the decoration
+            var posBefore = Qt.point(appDelegate.x, appDelegate.y);
+            mousePress(decoration);
+
+            // enter the spread
+            keyPress(Qt.Key_W, Qt.MetaModifier)
+            tryCompare(stage, "state", "spread");
+
+            // try to drag the window
+            mouseMove(decoration, 10, 10);
+
+            // verify it hasn't moved
+            var posAfter = Qt.point(appDelegate.x, appDelegate.y);
+            tryCompareFunction(function(){return posBefore == posAfter;}, true);
+
+            // cleanup
+            mouseRelease(decoration);
+            keyRelease(Qt.Key_W, Qt.MetaModifier);
+            stage.closeSpread();
+            tryCompare(stage, "state", "windowed");
+        }
+
         // regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1627281
         function test_doubleTapToMaximizeWindow() {
             var dialerAppDelegate = startApplication("dialer-app");
