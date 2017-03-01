@@ -42,6 +42,8 @@ public:
 
     static SurfaceManager *instance();
 
+    unity::shell::application::MirSurfaceInterface *surfaceFor(const miral::Window& window) override;
+
     // SurfaceManagerInterface
     void raise(unity::shell::application::MirSurfaceInterface *surface) override;
     void activate(unity::shell::application::MirSurfaceInterface *surface) override;

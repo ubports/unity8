@@ -67,16 +67,14 @@ Item {
         }
     }
 
-    SurfaceManager { id: sMgr }
     ApplicationMenuDataLoader {
         id: appMenuData
-        surfaceManager: sMgr
     }
 
     TopLevelWindowModel {
         id: topSurfaceList
         applicationManager: ApplicationManager
-        surfaceManager: sMgr
+        surfaceManager: SurfaceManager
     }
 
     Loader {

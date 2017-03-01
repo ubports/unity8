@@ -44,10 +44,8 @@ PanelTest {
 
     readonly property alias panelState: panel.panelState
 
-    SurfaceManager { id: sMgr }
     ApplicationMenuDataLoader {
         id: appMenuData
-        surfaceManager: sMgr
     }
 
     Component.onCompleted: {

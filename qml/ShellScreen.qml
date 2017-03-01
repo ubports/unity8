@@ -26,7 +26,6 @@ ScreenWindow {
     color: "black"
     title: "Unity8 Shell"
     property bool primary: false
-    property QtObject surfaceManager: null
 
     DeviceConfiguration {
         id: deviceConfiguration
@@ -50,7 +49,6 @@ ScreenWindow {
         OrientedShell {
             implicitWidth: screenWindow.width
             implicitHeight: screenWindow.height
-            surfaceManager: screenWindow.surfaceManager
 
             deviceConfiguration {
                 name: Screens.count > 1 ? "desktop" : applicationArguments.deviceName

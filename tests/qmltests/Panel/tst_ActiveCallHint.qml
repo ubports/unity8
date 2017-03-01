@@ -41,8 +41,6 @@ Item {
         elapsedTimerRunning: true
     }
 
-    SurfaceManager {}
-
     ActiveCallHint {
         id: callHint
         anchors {
