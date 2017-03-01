@@ -204,7 +204,7 @@ FocusScope {
         height: units.gu(3)
 
         title: applicationWindow.title
-        windowMoving: moveHandler.moving
+        windowMoving: moveHandler.moving && !altDragHandler.dragging
 
         opacity: root.hasDecoration ? Math.min(1, root.showDecoration) : 0
         Behavior on opacity { UbuntuNumberAnimation { } }
@@ -256,6 +256,7 @@ FocusScope {
     }
 
     MouseArea {
+        id: altDragHandler
         anchors.fill: applicationWindow
         acceptedButtons: Qt.LeftButton
         property bool dragging: false
