@@ -19,6 +19,7 @@
 
 #include <QObject>
 #include <QVariant>
+#include <QPointer>
 
 #include <memory>
 #include <functional>
@@ -39,36 +40,65 @@ namespace unity {
 class Workspace : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString uid READ uid CONSTANT)
     Q_PROPERTY(bool active READ isActive NOTIFY activeChanged)
 public:
     ~Workspace();
 
-    Q_INVOKABLE void assign(WorkspaceModel* model, const QVariant& index = QVariant());
+    QString uid() const { return m_uid; }
 
-    bool isActive() const { return m_active; }
+    virtual void assign(WorkspaceModel* model, const QVariant& index = QVariant());
+    virtual void unassign();
+    void release();
+
+    virtual bool isActive() const { return m_active; }
+    bool isAssigned() const;
+
+    void moveWindowsTo(Workspace* workspace);
 
     std::shared_ptr<miral::Workspace> workspace() const { return m_workspace; }
 
-    WorkspaceModel* model() const { return m_model; }
-    void moveWindowsTo(Workspace* workspace);
 
 public Q_SLOTS:
-    void activate();
-    void unassign();
+    virtual void activate();
 
 Q_SIGNALS:
     void assigned();
+    void unassigned();
 
     void activeChanged(bool);
 
 protected:
-    explicit Workspace(QObject *parent = 0);
+    Workspace(QObject *parent = 0);
+    Workspace(Workspace const& other);
 
     std::shared_ptr<miral::Workspace> m_workspace;
+    QString m_uid;
     WorkspaceModel* m_model;
     bool m_active;
 
     friend class WorkspaceManager;
+};
+
+class WorkspaceProxy : public Workspace
+{
+    Q_OBJECT
+public:
+    WorkspaceProxy(Workspace*const workspace);
+
+    Q_INVOKABLE void assign(WorkspaceModel* model, const QVariant& index = QVariant()) override;
+
+    bool isActive() const override;
+
+    void activate() override;
+
+    Workspace* proxyObject() const { return m_original.data(); }
+
+public Q_SLOTS:
+    void unassign() override;
+
+private:
+    const QPointer<Workspace> m_original;
 };
 
 #endif // WINDOWMANAGER_WORKSPACE_H

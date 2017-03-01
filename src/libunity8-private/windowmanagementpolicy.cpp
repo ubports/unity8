@@ -22,11 +22,11 @@ WindowManagementPolicy* WindowManagementPolicy::m_self = nullptr;
 
 WindowManagementPolicy::WindowManagementPolicy(const miral::WindowManagerTools &tools, qtmir::WindowManagementPolicyPrivate &dd)
     : qtmir::WindowManagementPolicy(tools, dd)
+    , m_dummyWorkspace(this->tools.create_workspace())
 {
     m_self = this;
 
     // we must always have a active workspace.
-    m_dummyWorkspace = this->tools.create_workspace();
     m_activeWorkspace = m_dummyWorkspace;
 }
 
@@ -50,14 +50,14 @@ std::shared_ptr<miral::Workspace> WindowManagementPolicy::createWorkspace()
     auto workspace = tools.create_workspace();
     m_workspaces.insert(workspace);
 
-    if (m_activeWorkspace = m_dummyWorkspace) {
+    if (m_activeWorkspace == m_dummyWorkspace) {
         tools.move_workspace_content_to_workspace(workspace, m_dummyWorkspace);
         m_activeWorkspace = workspace;
     }
     return workspace;
 }
 
-void WindowManagementPolicy::destroyWorkspace(const std::shared_ptr<miral::Workspace> &workspace)
+void WindowManagementPolicy::releaseWorkspace(const std::shared_ptr<miral::Workspace> &workspace)
 {
     auto iter = m_workspaces.find(workspace);
     if (iter != m_workspaces.end()) m_workspaces.erase(iter);

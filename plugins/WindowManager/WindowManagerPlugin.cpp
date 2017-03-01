@@ -48,11 +48,12 @@ void WindowManagerPlugin::registerTypes(const char *uri)
     qmlRegisterUncreatableType<qtmir::ScreenMode>(uri, 1, 0, "ScreenMode", "ScreenMode is not creatable.");
     qmlRegisterUncreatableType<Workspace>(uri, 1, 0, "Workspace", "Workspace is not creatable.");
 
-    qRegisterMetaType<Window*>("Window*");
+    qRegisterMetaType<Screen*>("Screen*");
+    qRegisterMetaType<ScreensProxy*>("ScreensProxy*");
     qRegisterMetaType<Workspace*>("Workspace*");
 
+    qRegisterMetaType<Window*>("Window*");
     qRegisterMetaType<QAbstractListModel*>("QAbstractListModel*");
-    qRegisterMetaType<Screen*>("Screen*");
 
     qmlRegisterType<ScreenWindow>(uri, 1, 0, "ScreenWindow");
     qmlRegisterRevision<QWindow,1>(uri, 1, 0);

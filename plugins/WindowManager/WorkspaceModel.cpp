@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -15,6 +15,7 @@
  */
 
 #include "WorkspaceModel.h"
+#include "WorkspaceManager.h"
 #include "Workspace.h"
 
 Q_LOGGING_CATEGORY(WORKSPACES, "Workspaces", QtInfoMsg)
@@ -26,7 +27,6 @@ WorkspaceModel::WorkspaceModel(QObject *parent)
     : QAbstractListModel(parent)
 {
 }
-
 void WorkspaceModel::append(Workspace *workspace)
 {
     insert(m_workspaces.count(), workspace);
@@ -36,7 +36,7 @@ void WorkspaceModel::insert(int index, Workspace *workspace)
 {
     beginInsertRows(QModelIndex(), index, index);
 
-    m_workspaces.append(workspace);
+    m_workspaces.insert(index, workspace);
 
     endInsertRows();
 
@@ -52,7 +52,6 @@ void WorkspaceModel::remove(Workspace *workspace)
     beginRemoveRows(QModelIndex(), index, index);
 
     m_workspaces.removeAt(index);
-    disconnect(workspace);
 
     endRemoveRows();
 
@@ -85,6 +84,12 @@ int WorkspaceModel::indexOf(Workspace *workspace) const
     return m_workspaces.indexOf(workspace);
 }
 
+Workspace *WorkspaceModel::get(int index) const
+{
+    if (index < 0 || index >= rowCount()) return nullptr;
+    return m_workspaces.at(index);
+}
+
 int WorkspaceModel::rowCount(const QModelIndex &) const
 {
     return m_workspaces.count();
@@ -100,5 +105,71 @@ QVariant WorkspaceModel::data(const QModelIndex &index, int role) const
         return QVariant::fromValue(workspace);
     } else {
         return QVariant();
+    }
+}
+
+void WorkspaceModel::sync(WorkspaceModel *proxy)
+{
+    if (!proxy) return;
+    const auto& proxyList = proxy->list();
+
+    // check for removals
+    int removedIndexWhichWasActive = -1;
+    QVector<Workspace*> dpCpy(this->list());
+    Q_FOREACH(auto workspace, dpCpy) {
+
+        bool found = false;
+        Q_FOREACH(auto p, proxyList) {
+            auto workspaceProxy = static_cast<WorkspaceProxy*>(p);
+            if (workspaceProxy->proxyObject() == workspace) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            if (workspace->isActive()) {
+                removedIndexWhichWasActive = indexOf(workspace);
+            }
+            workspace->unassign();
+        }
+    }
+
+    // existing
+    QSet<Workspace*> newWorkspaces;
+    for (int i = 0; i < proxyList.count(); i++) {
+        auto workspaceProxy = static_cast<WorkspaceProxy*>(proxyList[i]);
+        auto workspace = workspaceProxy->proxyObject();
+
+        int oldIndex = this->indexOf(workspace);
+
+        if (oldIndex < 0) {
+            workspace->assign(this, QVariant(i));
+        } else if (oldIndex != i) {
+            this->move(oldIndex, i);
+        }
+        newWorkspaces.insert(workspace);
+    }
+
+    // Make sure we have at least one workspace in the model.
+    if (rowCount() == 0) {
+        Workspace* workspace = WorkspaceManager::instance()->createWorkspace();
+        workspace->assign(this);
+        (new WorkspaceProxy(workspace))->assign(proxy);
+    }
+
+    if (removedIndexWhichWasActive != -1) {
+        int newActiveIndex = qMin(removedIndexWhichWasActive, this->rowCount()-1);
+        Workspace* newActiveWorkspace = newActiveIndex >= 0 ? this->get(newActiveIndex) : nullptr;
+
+        WorkspaceManager::instance()->setActiveWorkspace(newActiveWorkspace);
+    }
+}
+
+
+WorkspaceModelProxy::WorkspaceModelProxy(WorkspaceModel * const model)
+    : m_original(model)
+{
+    Q_FOREACH(auto workspace, model->list()) {
+        (new WorkspaceProxy(workspace))->assign(this);
     }
 }

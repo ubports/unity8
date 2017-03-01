@@ -34,7 +34,7 @@ public:
     void advise_new_window(miral::WindowInfo const& window_info) override;
 
     std::shared_ptr<miral::Workspace> createWorkspace();
-    void destroyWorkspace(const std::shared_ptr<miral::Workspace> &workspace);
+    void releaseWorkspace(const std::shared_ptr<miral::Workspace> &workspace);
 
     void forEachWindowInWorkspace(
         std::shared_ptr<miral::Workspace> const& workspace,
@@ -51,7 +51,7 @@ private:
     std::shared_ptr<miral::Workspace> m_activeWorkspace;
 
     std::unordered_set<std::shared_ptr<miral::Workspace>> m_workspaces;
-    std::shared_ptr<miral::Workspace> m_dummyWorkspace;
+    const std::shared_ptr<miral::Workspace> m_dummyWorkspace;
 };
 
 #endif // UNITY_WINDOWMANAGEMENTPOLICY_H
