@@ -49,6 +49,20 @@ Item {
         }
 
         Rectangle {
+            width: 50
+            height: 50
+            anchors.centerIn: parent
+            color: "gray"
+            rotation: 45
+            Timer {
+                interval: 20
+                running: true
+                repeat: true
+                onTriggered: parent.rotation = parent.rotation+1
+            }
+        }
+
+        Rectangle {
             color: "green"
             anchors.bottom: parent.bottom
             anchors.right: parent.right
