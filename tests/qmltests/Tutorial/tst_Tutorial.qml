@@ -326,9 +326,7 @@ Rectangle {
         }
 
         function ensureInputMethodSurface() {
-            var surfaceManager = findInvisibleChild(shell, "surfaceManager");
-            verify(surfaceManager);
-            surfaceManager.createInputMethodSurface();
+            SurfaceManager.createInputMethodSurface();
 
             tryCompareFunction(function() { return topLevelSurfaceList.inputMethodSurface !== null }, true);
         }

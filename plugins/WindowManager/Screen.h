@@ -3,8 +3,11 @@
 
 #include <qtmir/screen.h>
 #include <QScopedPointer>
+#include <QPointer>
 
-class WorkspaceModel;
+#include "WorkspaceModel.h"
+
+class ScreenProxy;
 
 class Screen : public qtmir::Screen
 {
@@ -36,11 +39,33 @@ public:
 
     qtmir::Screen* wrapped() const { return m_wrapped; }
 
-    WorkspaceModel* workspaces() const { return m_workspaces.data(); }
+    WorkspaceModel* workspaces() const;
 
-private:
+    void sync(Screen* proxy);
+
+public Q_SLOTS:
+    void activate();
+
+protected:
+    Screen(Screen const& other);
+
     qtmir::Screen*const m_wrapped;
     const QScopedPointer<WorkspaceModel> m_workspaces;
+};
+
+class ScreenProxy : public Screen
+{
+    Q_OBJECT
+public:
+    explicit ScreenProxy(Screen*const screen);
+
+    Screen* proxyObject() const { return m_original.data(); }
+
+public Q_SLOTS:
+    void addWorkspace();
+
+private:
+    const QPointer<Screen> m_original;
 };
 
 #endif // SCREEN_H

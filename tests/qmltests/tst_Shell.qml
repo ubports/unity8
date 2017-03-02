@@ -61,11 +61,9 @@ Rectangle {
     onShellChanged: {
         if (shell) {
             topLevelSurfaceList = testCase.findInvisibleChild(shell, "topLevelSurfaceList");
-            appMenuData.surfaceManager = testCase.findInvisibleChild(shell, "surfaceManager");
             panelState = testCase.findInvisibleChild(shell, "panelState");
         } else {
             topLevelSurfaceList = null;
-            appMenuData.surfaceManager = null;
             panelState = undefined;
         }
     }
@@ -152,11 +150,6 @@ Rectangle {
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }
-
-                    SurfaceManager {
-                        id: surfaceMan
-                    }
-                    surfaceManager: surfaceMan
                 }
             }
         }
@@ -696,9 +689,7 @@ Rectangle {
         }
 
         function ensureInputMethodSurface() {
-            var surfaceManager = shell.surfaceManager;
-            verify(surfaceManager);
-            surfaceManager.createInputMethodSurface();
+            SurfaceManager.createInputMethodSurface();
 
             tryCompareFunction(function() { return root.topLevelSurfaceList.inputMethodSurface !== null }, true);
         }

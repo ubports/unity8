@@ -37,8 +37,6 @@ Rectangle {
     }
     property QtObject fakeApplication: null
 
-    SurfaceManager{}
-
     Loader {
         id: applicationWindowLoader
         focus: true

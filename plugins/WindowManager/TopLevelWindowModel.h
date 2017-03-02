@@ -20,9 +20,14 @@
 #include <QAbstractListModel>
 #include <QLoggingCategory>
 
+#include <memory>
+
 Q_DECLARE_LOGGING_CATEGORY(TOPLEVELWINDOWMODEL)
 
 class Window;
+class Workspace;
+
+namespace miral { class Workspace; }
 
 namespace unity {
     namespace shell {
@@ -70,6 +75,11 @@ class TopLevelWindowModel : public QAbstractListModel
      */
     Q_PROPERTY(Window* focusedWindow READ focusedWindow NOTIFY focusedWindowChanged)
 
+    Q_PROPERTY(Workspace* workspace
+               READ workspace
+               WRITE setWorkspace
+               NOTIFY workspaceChanged)
+
     Q_PROPERTY(unity::shell::application::SurfaceManagerInterface* surfaceManager
             READ surfaceManager
             WRITE setSurfaceManager
@@ -110,6 +120,9 @@ public:
     }
 
     // Own API
+
+    Workspace* workspace() const { return m_workspace; }
+    void setWorkspace(Workspace* workspace);
 
     unity::shell::application::MirSurfaceInterface* inputMethodSurface() const;
     Window* focusedWindow() const;
@@ -178,8 +191,11 @@ Q_SIGNALS:
 
     void nextIdChanged();
 
+    void workspaceChanged(Workspace*);
+
 private Q_SLOTS:
     void onSurfaceCreated(unity::shell::application::MirSurfaceInterface *surface);
+    void onSurfacesAddedToWorkspace(const std::shared_ptr<miral::Workspace>& workspace, const QVector<unity::shell::application::MirSurfaceInterface*> surfaces);
     void onSurfacesRaised(const QVector<unity::shell::application::MirSurfaceInterface*> &surfaces);
 
     void onModificationsStarted();
@@ -208,6 +224,7 @@ private:
     void prependSurfaceHelper(unity::shell::application::MirSurfaceInterface *surface,
                               unity::shell::application::ApplicationInfoInterface *application);
 
+    void connectApplicationManager();
     void connectWindow(Window *window);
     void connectSurface(unity::shell::application::MirSurfaceInterface *surface);
 
@@ -219,6 +236,7 @@ private:
     void activateEmptyWindow(Window *window);
 
     void activateTopMostWindowWithoutId(int forbiddenId);
+    void refreshWindows();
 
     Window *createWindow(unity::shell::application::MirSurfaceInterface *surface);
 
@@ -232,6 +250,7 @@ private:
         bool removeOnceSurfaceDestroyed{false};
     };
 
+    Workspace* m_workspace{nullptr};
     QVector<ModelEntry> m_windowModel;
     Window* m_inputMethodWindow{nullptr};
     Window* m_focusedWindow{nullptr};

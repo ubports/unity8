@@ -15,9 +15,10 @@
  */
 
 // local
-#include "ShellApplication.h"
+#include "UnityApplication.h"
 #include "qmldebuggerutils.h"
 #include "UnixSignalHandler.h"
+#include <paths.h>
 
 #include <QTranslator>
 #include <QLibraryInfo>
@@ -31,7 +32,8 @@ int main(int argc, const char *argv[])
         QQmlDebuggingEnabler qQmlEnableDebuggingHelper(true);
     }
 
-    ShellApplication *application = new ShellApplication(argc, (char**)argv);
+    auto *application = new UnityApplication(argc,
+                                             (char**)argv);
 
     UnixSignalHandler signalHandler([]{
         QGuiApplication::exit(0);

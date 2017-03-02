@@ -31,10 +31,8 @@ Item {
 
     property var greeter: { fullyShown: true }
 
-    SurfaceManager { id: sMgr }
     ApplicationMenuDataLoader {
         id: appMenuData
-        surfaceManager: sMgr
     }
 
     Stage {
@@ -50,7 +48,7 @@ Item {
         topLevelSurfaceList: TopLevelWindowModel {
             id: topLevelSurfaceList
             applicationManager: ApplicationManager
-            surfaceManager: sMgr
+            surfaceManager: SurfaceManager
         }
         Component.onCompleted: {
             ApplicationManager.startApplication("unity8-dash");

@@ -18,24 +18,39 @@
 #define WORKSPACEMANAGER_H
 
 #include "WorkspaceModel.h"
+#include <QQmlListProperty>
 
 class Workspace;
+class ScreensProxy;
 
-class WorkspaceManager : public WorkspaceModel
+class WorkspaceManager : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(Workspace* activeWorkspace READ activeWorkspace WRITE setActiveWorkspace NOTIFY activeWorkspaceChanged)
+    Q_PROPERTY(QQmlListProperty<Workspace> floatingWorkspaces READ floatingWorkspaces NOTIFY floatingWorkspacesChanged)
+
 public:
     static WorkspaceManager* instance();
+
+    Workspace* activeWorkspace() const;
+    void setActiveWorkspace(Workspace* workspace);
+
+    Workspace* createWorkspace();
+    void destroyWorkspace(Workspace* workspace);
+
+    QQmlListProperty<Workspace> floatingWorkspaces();
+    void destroyFloatingWorkspaces();
+
+Q_SIGNALS:
+    void activeWorkspaceChanged();
+    void floatingWorkspacesChanged();
 
 private:
     WorkspaceManager();
 
-public Q_SLOTS:
-    Workspace* createWorkspace();
-    void destroyWorkspace(Workspace* workspace);
-
-private:
-    QVector<Workspace*> m_allWorkspaces;
+    QSet<Workspace*> m_allWorkspaces;
+    QList<Workspace*> m_floatingWorkspaces;
+    Workspace* m_activeWorkspace;
 };
 
 #endif // WORKSPACEMANAGER_H

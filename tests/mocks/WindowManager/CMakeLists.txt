@@ -1,22 +1,26 @@
 include_directories(
-    ${CMAKE_SOURCE_DIR}/plugins/WindowManager
-)
-
-include_directories(
     SYSTEM
     ${QTMIRSERVER_INCLUDE_DIRS}
 )
 
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_SOURCE_DIR}/plugins/WindowManager
+)
+
 set(WINDOWMANAGER_SRC
+    ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Screen.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Screens.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/TopLevelWindowModel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Window.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Workspace.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/WorkspaceManager.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/WorkspaceModel.cpp
-    WindowManagerPlugin.cpp
-    Screens.cpp
-    Screen.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Workspace.cpp
+    MockScreens.cpp
     ScreenWindow.cpp
+    WindowManagerPlugin.cpp
+    windowmanagementpolicy.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/Mir.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceInterface.h

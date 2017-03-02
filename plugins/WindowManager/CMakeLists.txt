@@ -3,6 +3,11 @@ include_directories(
     ${QTMIRSERVER_INCLUDE_DIRS}
 )
 
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${libunity8-private_SOURCE_DIR}
+)
+
 set(WINDOWMANAGER_SRC
     TopLevelWindowModel.cpp
     Window.cpp
@@ -24,6 +29,7 @@ add_library(windowmanager-qml SHARED ${WINDOWMANAGER_SRC})
 
 target_link_libraries(windowmanager-qml
     ${QTMIRSERVER_LDFLAGS}
+    unity8-private
 )
 
 qt5_use_modules(windowmanager-qml Qml Quick Gui)

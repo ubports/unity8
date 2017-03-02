@@ -19,10 +19,12 @@
 
 #include <QAbstractListModel>
 #include <QLoggingCategory>
+#include <QPointer>
 
 Q_DECLARE_LOGGING_CATEGORY(WORKSPACES)
 
 class Workspace;
+class WorkspaceModelProxy;
 
 class WorkspaceModel : public QAbstractListModel
 {
@@ -40,10 +42,13 @@ public:
 
     explicit WorkspaceModel(QObject *parent = 0);
 
-    Q_INVOKABLE void append(Workspace* workspace);
-    Q_INVOKABLE void insert(int index, Workspace* workspace);
-    Q_INVOKABLE void remove(Workspace* workspace);
-    Q_INVOKABLE void move(int from, int to);
+    void append(Workspace *workspace);
+    void insert(int index, Workspace *workspace);
+    void remove(Workspace* workspace);
+    void move(int from, int to);
+
+    int indexOf(Workspace *workspace) const;
+    Workspace* get(int index) const;
 
     // From QAbstractItemModel
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -53,11 +58,28 @@ public:
         return roleNames;
     }
 
+    const QVector<Workspace*>& list() const { return m_workspaces; }
+
+    void sync(WorkspaceModel* proxy);
+
 Q_SIGNALS:
     void countChanged();
 
+    void workspaceAdded(Workspace *workspace);
+    void workspaceRemoved(Workspace *workspace);
+
 protected:
     QVector<Workspace*> m_workspaces;
+};
+
+class WorkspaceModelProxy : public WorkspaceModel
+{
+public:
+    WorkspaceModelProxy(WorkspaceModel*const model);
+    ~WorkspaceModelProxy();
+
+private:
+    const QPointer<WorkspaceModel> m_original;
 };
 
 #endif // WORKSPACEMODEL_H

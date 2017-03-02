@@ -19,13 +19,16 @@
 
 #include <QAbstractListModel>
 #include <QSharedPointer>
+#include <QPointer>
 
-class Screen;
 namespace qtmir
 {
 class Screen;
 class Screens;
 }
+
+class Screen;
+class ScreensProxy;
 
 class Screens : public QAbstractListModel
 {
@@ -38,8 +41,11 @@ public:
         ScreenRole = Qt::UserRole + 1
     };
 
-    explicit Screens(QObject *parent = 0);
-    virtual ~Screens() noexcept = default;
+    explicit Screens(const QSharedPointer<qtmir::Screens>& model);
+    ~Screens();
+
+    Q_INVOKABLE ScreensProxy *createProxy();
+    Q_INVOKABLE void sync(Screens *proxy);
 
     /* QAbstractItemModel */
     QHash<int, QByteArray> roleNames() const override;
@@ -48,6 +54,8 @@ public:
 
     int count() const;
     QVariant activeScreen() const;
+
+    const QVector<Screen*>& list() const { return m_screens; }
 
 public Q_SLOTS:
     void activateScreen(const QVariant& index);
@@ -63,9 +71,20 @@ private Q_SLOTS:
     void onScreenAdded(qtmir::Screen *screen);
     void onScreenRemoved(qtmir::Screen *screen);
 
-private:
-    QList<Screen*> m_screenList;
+protected:
+    Screens(const Screens& other);
+
+    QVector<Screen*> m_screens;
     QSharedPointer<qtmir::Screens> m_wrapped;
+};
+
+class ScreensProxy : public Screens
+{
+public:
+    ScreensProxy(Screens*const screens);
+
+private:
+    const QPointer<Screens> m_original;
 };
 
 #endif // SCREENS_H

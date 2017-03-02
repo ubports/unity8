@@ -46,10 +46,8 @@ Rectangle {
         value: false
     }
 
-    SurfaceManager { id: sMgr }
     ApplicationMenuDataLoader {
         id: appMenuData
-        surfaceManager: sMgr
     }
 
     PanelState {

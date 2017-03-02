@@ -38,6 +38,11 @@ SurfaceManager *SurfaceManager::instance()
     return m_instance;
 }
 
+MirSurfaceInterface *SurfaceManager::surfaceFor(const miral::Window&)
+{
+    return nullptr;
+}
+
 SurfaceManager::SurfaceManager(QObject *)
 {
     DEBUG_MSG("");

@@ -15,7 +15,6 @@
  */
 
 #include "Screen.h"
-#include "WorkspaceModel.h"
 #include "WorkspaceManager.h"
 #include "Workspace.h"
 
@@ -34,8 +33,36 @@ Screen::Screen(qtmir::Screen* screen)
     connect(m_wrapped, &qtmir::Screen::currentModeIndexChanged, this, &Screen::currentModeIndexChanged);
     connect(m_wrapped, &qtmir::Screen::availableModesChanged, this, &Screen::availableModesChanged);
 
+    // Connect the active workspace to activate the screen.
+    connect(m_workspaces.data(), &WorkspaceModel::workspaceAdded, this, [this](Workspace* workspace) {
+        connect(workspace, &Workspace::activeChanged, this, [this](bool active) {
+            if (active) activate();
+        });
+        if (workspace->isActive()) activate();
+    });
+    connect(m_workspaces.data(), &WorkspaceModel::workspaceRemoved, this, [this](Workspace* workspace) {
+        disconnect(workspace, &Workspace::activeChanged, this, 0);
+    });
+
     WorkspaceManager::instance()->createWorkspace()->assign(m_workspaces.data());
     WorkspaceManager::instance()->createWorkspace()->assign(m_workspaces.data());
+}
+
+Screen::Screen(const Screen &other)
+    : qtmir::Screen(nullptr)
+    , m_wrapped(other.m_wrapped)
+    , m_workspaces(new WorkspaceModelProxy(other.m_workspaces.data()))
+{
+    connect(m_wrapped, &qtmir::Screen::usedChanged, this, &Screen::usedChanged);
+    connect(m_wrapped, &qtmir::Screen::nameChanged, this, &Screen::nameChanged);
+    connect(m_wrapped, &qtmir::Screen::outputTypeChanged, this, &Screen::outputTypeChanged);
+    connect(m_wrapped, &qtmir::Screen::scaleChanged, this, &Screen::scaleChanged);
+    connect(m_wrapped, &qtmir::Screen::formFactorChanged, this, &Screen::formFactorChanged);
+    connect(m_wrapped, &qtmir::Screen::physicalSizeChanged, this, &Screen::physicalSizeChanged);
+    connect(m_wrapped, &qtmir::Screen::positionChanged, this, &Screen::positionChanged);
+    connect(m_wrapped, &qtmir::Screen::activeChanged, this, &Screen::activeChanged);
+    connect(m_wrapped, &qtmir::Screen::currentModeIndexChanged, this, &Screen::currentModeIndexChanged);
+    connect(m_wrapped, &qtmir::Screen::availableModesChanged, this, &Screen::availableModesChanged);
 }
 
 qtmir::OutputId Screen::outputId() const
@@ -113,6 +140,23 @@ bool Screen::applyConfiguration(qtmir::ScreenConfiguration *configuration)
     return m_wrapped->applyConfiguration(configuration);
 }
 
+WorkspaceModel *Screen::workspaces() const
+{
+    return m_workspaces.data();
+}
+
+void Screen::sync(Screen *proxy)
+{
+    if (!proxy) return;
+
+    workspaces()->sync(proxy->workspaces());
+}
+
+void Screen::activate()
+{
+    setActive(true);
+}
+
 void Screen::setActive(bool active)
 {
     m_wrapped->setActive(active);
@@ -121,4 +165,15 @@ void Screen::setActive(bool active)
 QScreen *Screen::qscreen() const
 {
     return m_wrapped->qscreen();
+}
+
+ScreenProxy::ScreenProxy(ScreenProxy::Screen *const screen)
+    : Screen(*screen)
+    , m_original(screen)
+{
+}
+
+void ScreenProxy::addWorkspace()
+{
+    (new WorkspaceProxy(WorkspaceManager::instance()->createWorkspace()))->assign(workspaces());
 }
