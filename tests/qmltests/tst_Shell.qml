@@ -2775,7 +2775,7 @@ Rectangle {
             tryCompare(stage, "state", "staged");
 
             // Try by Super+W
-            keyPress(Qt.Key_W, Qt.MetaModifier)
+            keyPress(Qt.Key_W, Qt.MetaModifier, 200);
             tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
             keyRelease(Qt.Key_W, Qt.MetaModifier)
         }
