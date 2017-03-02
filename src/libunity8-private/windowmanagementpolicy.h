@@ -17,15 +17,12 @@
 #ifndef UNITY_WINDOWMANAGEMENTPOLICY_H
 #define UNITY_WINDOWMANAGEMENTPOLICY_H
 
-#include <QObject>
 #include <qtmir/windowmanagementpolicy.h>
 
 #include <unordered_set>
 
-class Q_DECL_EXPORT WindowManagementPolicy : public QObject,
-                                             public qtmir::WindowManagementPolicy
+class Q_DECL_EXPORT WindowManagementPolicy : public qtmir::WindowManagementPolicy
 {
-    Q_OBJECT
 public:
     WindowManagementPolicy(const miral::WindowManagerTools &tools, qtmir::WindowManagementPolicyPrivate& dd);
 
@@ -43,12 +40,11 @@ public:
     void moveWorkspaceContentToWorkspace(const std::shared_ptr<miral::Workspace> &toWorkspace,
                                          const std::shared_ptr<miral::Workspace> &fromWorkspace);
 
-public Q_SLOTS:
     void setActiveWorkspace(const std::shared_ptr<miral::Workspace>& workspace);
 
 private:
     static WindowManagementPolicy* m_self;
-    std::shared_ptr<miral::Workspace> m_activeWorkspace;
+    std::weak_ptr<miral::Workspace> m_activeWorkspace;
 
     std::unordered_set<std::shared_ptr<miral::Workspace>> m_workspaces;
     const std::shared_ptr<miral::Workspace> m_dummyWorkspace;

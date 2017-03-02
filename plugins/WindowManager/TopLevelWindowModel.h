@@ -250,10 +250,12 @@ private:
         bool removeOnceSurfaceDestroyed{false};
     };
 
-    Workspace* m_workspace{nullptr};
     QVector<ModelEntry> m_windowModel;
     Window* m_inputMethodWindow{nullptr};
     Window* m_focusedWindow{nullptr};
+    Workspace* m_workspace{nullptr};
+    // track all the surfaces we've been told about.
+    QSet<unity::shell::application::MirSurfaceInterface*> m_allSurfaces;
 
     int m_nextId{1};
     // Just something big enough that we don't risk running out of unused id numbers.

@@ -94,7 +94,6 @@ void Workspace::assign(WorkspaceModel *model, const QVariant& vIndex)
         m_model->insert(index, this);
 
         connect(m_model, &QObject::destroyed, this, [this]() {
-            m_model->remove(this);
             m_model = nullptr;
             Q_EMIT unassigned();
         });

@@ -35,7 +35,7 @@
 #include <qtmir/mirserverapplication.h>
 #include <qtmir/windowmodelnotifier.h>
 
-Q_LOGGING_CATEGORY(TOPLEVELWINDOWMODEL, "toplevelwindowmodel", QtInfoMsg)
+Q_LOGGING_CATEGORY(TOPLEVELWINDOWMODEL, "toplevelwindowmodel")
 
 #define DEBUG_MSG qCDebug(TOPLEVELWINDOWMODEL).nospace().noquote() << __func__
 #define INFO_MSG qCInfo(TOPLEVELWINDOWMODEL).nospace().noquote() << __func__
@@ -136,6 +136,7 @@ void TopLevelWindowModel::setWorkspace(Workspace *workspace)
 
     if (m_workspace) {
         m_windowModel.clear();
+        m_allSurfaces.clear();
         if (m_applicationManager) {
             disconnect(m_applicationManager, 0, this, 0);
         }
@@ -237,6 +238,7 @@ void TopLevelWindowModel::prependSurfaceHelper(unityapi::MirSurfaceInterface *su
     Window *window = createWindow(surface);
 
     m_windowModel.prepend(ModelEntry(window, application));
+    m_allSurfaces.insert(surface);
     if (surface) {
         connectSurface(surface);
     }
@@ -371,6 +373,7 @@ void TopLevelWindowModel::onSurfaceDestroyed(unityapi::MirSurfaceInterface *surf
         auto window = m_windowModel[i].window;
         window->setSurface(nullptr);
         window->setFocused(false);
+        m_allSurfaces.remove(surface);
         INFO_MSG << " Removed surface from entry. After: " << toString();
     }
 }
@@ -397,7 +400,7 @@ void TopLevelWindowModel::onSurfacesAddedToWorkspace(const std::shared_ptr<miral
     if (workspace != m_workspace->workspace()) return;
 
     Q_FOREACH(auto surface, surfaces) {
-        DEBUG_MSG << "(" << surface << ")";
+        if (m_allSurfaces.contains(surface)) continue;
 
         if (surface->parentSurface()) {
             // Wrap it in a Window so that we keep focusedWindow() up to date.
@@ -444,6 +447,7 @@ void TopLevelWindowModel::removeAt(int index)
     window->setFocused(false);
 
     m_windowModel.removeAt(index);
+    m_allSurfaces.remove(window->surface());
 
     if (m_modelState == RemovingState) {
         endRemoveRows();
@@ -765,7 +769,11 @@ void TopLevelWindowModel::activateTopMostWindowWithoutId(int forbiddenId)
 
 void TopLevelWindowModel::refreshWindows()
 {
+    DEBUG_MSG << "()";
+
     m_windowModel.clear();
+    m_allSurfaces.clear();
+
     WindowManagementPolicy::instance()->forEachWindowInWorkspace(m_workspace->workspace(), [this](const miral::Window &window) {
         auto surface = m_surfaceManager->surfaceFor(window);
         if (surface) {

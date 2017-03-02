@@ -45,7 +45,7 @@ public:
     void append(Workspace *workspace);
     void insert(int index, Workspace *workspace);
     void remove(Workspace* workspace);
-    void move(int from, int to);
+    virtual void move(int from, int to);
 
     int indexOf(Workspace *workspace) const;
     Workspace* get(int index) const;
@@ -74,9 +74,12 @@ protected:
 
 class WorkspaceModelProxy : public WorkspaceModel
 {
+    Q_OBJECT
 public:
     WorkspaceModelProxy(WorkspaceModel*const model);
     ~WorkspaceModelProxy();
+
+    Q_INVOKABLE void move(int from, int to) override;
 
 private:
     const QPointer<WorkspaceModel> m_original;

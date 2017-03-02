@@ -18,8 +18,10 @@
 
 #include "ApplicationInfo.h"
 #include "VirtualKeyboard.h"
+#include "../../WindowManager/windowmanagementpolicy.h"
 
 #include <paths.h>
+#include <mirtest/mir/test/doubles/stub_surface.h>
 
 #define SURFACEMANAGER_DEBUG 1
 
@@ -31,16 +33,17 @@
 
 namespace unityapi = unity::shell::application;
 
+uint qHash(const WindowWrapper &key, uint)
+{
+    std::shared_ptr<mir::scene::Surface> surface = key.window;
+    return (quintptr)surface.get();
+}
+
 SurfaceManager *SurfaceManager::m_instance = nullptr;
 
 SurfaceManager *SurfaceManager::instance()
 {
     return m_instance;
-}
-
-MirSurfaceInterface *SurfaceManager::surfaceFor(const miral::Window&)
-{
-    return nullptr;
 }
 
 SurfaceManager::SurfaceManager(QObject *)
@@ -49,6 +52,21 @@ SurfaceManager::SurfaceManager(QObject *)
 
     Q_ASSERT(m_instance == nullptr);
     m_instance = this;
+
+    connect(WindowManagementPolicy::instance(), &WindowManagementPolicy::windowAdded,
+            this, [this](const miral::Window& window) {
+        Q_EMIT surfaceCreated(surfaceFor(window));
+    });
+
+    connect(WindowManagementPolicy::instance(), &WindowManagementPolicy::windowsAddedToWorkspace,
+            this, [this](const std::shared_ptr<miral::Workspace> &workspace, const std::vector<miral::Window> &windows) {
+        Q_EMIT surfacesAddedToWorkspace(workspace, find(windows));
+    });
+
+    connect(WindowManagementPolicy::instance(), &WindowManagementPolicy::windowsAboutToBeRemovedFromWorkspace,
+            this, [this](const std::shared_ptr<miral::Workspace> &workspace, const std::vector<miral::Window> &windows) {
+        Q_EMIT surfacesAboutToBeRemovedFromWorkspace(workspace, find(windows));
+    });
 }
 
 SurfaceManager::~SurfaceManager()
@@ -61,6 +79,29 @@ SurfaceManager::~SurfaceManager()
 
     Q_ASSERT(m_instance == this);
     m_instance = nullptr;
+}
+
+
+
+QVector<MirSurfaceInterface*> SurfaceManager::find(const std::vector<miral::Window> &windows) const
+{
+    QVector<unityapi::MirSurfaceInterface*> surfaces;
+    for (size_t i = 0; i < windows.size(); i++) {
+        auto mirSurface = surfaceFor(windows[i]);
+        if (mirSurface) {
+            surfaces.push_back(mirSurface);
+        }
+    }
+    return surfaces;
+}
+
+MirSurfaceInterface *SurfaceManager::surfaceFor(const miral::Window& window) const
+{
+    auto iter = m_windowToSurface.find({window});
+    if (iter != m_windowToSurface.end()) {
+        return *iter;
+    }
+    return nullptr;
 }
 
 MirSurface *SurfaceManager::createSurface(const QString& name,
@@ -80,7 +121,12 @@ MirSurface *SurfaceManager::createSurface(const QString& name,
 
 void SurfaceManager::registerSurface(MirSurface *surface)
 {
+    auto fakeSurface = std::make_shared<mir::test::doubles::StubSurface>();
+    WindowWrapper window{miral::Window(nullptr, fakeSurface), fakeSurface};
+
     m_surfaces.prepend(surface);
+    m_windowToSurface.insert(window, surface);
+    m_surfaceToWindow.insert(surface, window);
 
     if (!surface->parentSurface()) {
         surface->setMinimumWidth(m_newSurfaceMinimumWidth);
@@ -97,6 +143,8 @@ void SurfaceManager::registerSurface(MirSurface *surface)
 
     const QString persistentId = surface->persistentId();
     connect(surface, &QObject::destroyed, this, [=]() {
+        WindowWrapper key = m_surfaceToWindow.take(surface);
+        m_windowToSurface.remove(key);
         this->onSurfaceDestroyed(surface, persistentId);
     });
 
@@ -104,7 +152,12 @@ void SurfaceManager::registerSurface(MirSurface *surface)
 
 void SurfaceManager::notifySurfaceCreated(unityapi::MirSurfaceInterface *surface)
 {
-    Q_EMIT surfaceCreated(surface);
+    if (Q_UNLIKELY(!m_surfaceToWindow.contains(surface))) {
+        Q_EMIT surfaceCreated(surface);
+        return;
+    }
+
+    WindowManagementPolicy::instance()->addWindow(m_surfaceToWindow[surface].window);
 }
 
 void SurfaceManager::setNewSurfaceMinimumWidth(int value)

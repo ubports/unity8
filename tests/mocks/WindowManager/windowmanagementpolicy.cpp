@@ -16,39 +16,21 @@
 
 #include "windowmanagementpolicy.h"
 
-#include <QDebug>
-
-WindowManagementPolicy* WindowManagementPolicy::m_self = nullptr;
-
-WindowManagementPolicy::WindowManagementPolicy(const miral::WindowManagerTools &tools, qtmir::WindowManagementPolicyPrivate &dd)
-    : qtmir::WindowManagementPolicy(tools, dd)
-    , m_dummyWorkspace(this->tools.create_workspace())
-{
-    m_self = this;
-
-    // we must always have a active workspace.
-    m_activeWorkspace = m_dummyWorkspace;
-}
-
 WindowManagementPolicy *WindowManagementPolicy::instance()
 {
-    return m_self;
+    static WindowManagementPolicy* inst(new WindowManagementPolicy());
+    return inst;
 }
 
-void WindowManagementPolicy::advise_new_window(miral::WindowInfo const& window_info)
+WindowManagementPolicy::WindowManagementPolicy()
+    : m_dummyWorkspace(std::shared_ptr<miral::Workspace>())
 {
-    qtmir::WindowManagementPolicy::advise_new_window(window_info);
-
-    auto const parent = window_info.parent();
-
-    auto activeWorkspace = m_activeWorkspace.lock();
-    if (!parent && activeWorkspace)
-        tools.add_tree_to_workspace(window_info.window(), activeWorkspace);
+    m_activeWorkspace = m_dummyWorkspace;
 }
 
 std::shared_ptr<miral::Workspace> WindowManagementPolicy::createWorkspace()
 {
-    auto workspace = tools.create_workspace();
+    auto workspace = std::make_shared<miral::Workspace>();
     m_workspaces.insert(workspace);
 
     if (m_activeWorkspace.lock() == m_dummyWorkspace) {
@@ -71,12 +53,41 @@ void WindowManagementPolicy::releaseWorkspace(const std::shared_ptr<miral::Works
 
 void WindowManagementPolicy::forEachWindowInWorkspace(const std::shared_ptr<miral::Workspace> &workspace, const std::function<void (const miral::Window &)> &callback)
 {
-    tools.for_each_window_in_workspace(workspace, callback);
+    QMultiMap<miral::Workspace*, miral::Window>::iterator i = m_windows.find(workspace.get());
+    while (i != m_windows.end() && i.key() == workspace.get()) {
+        callback(i.value());
+        ++i;
+    }
 }
 
-void WindowManagementPolicy::moveWorkspaceContentToWorkspace(const std::shared_ptr<miral::Workspace> &toWorkspace, const std::shared_ptr<miral::Workspace> &fromWorkspace)
+void WindowManagementPolicy::moveWorkspaceContentToWorkspace(const std::shared_ptr<miral::Workspace> &to, const std::shared_ptr<miral::Workspace> &from)
 {
-    tools.move_workspace_content_to_workspace(toWorkspace, fromWorkspace);
+    std::vector<miral::Window> windows;
+
+    QMultiMap<miral::Workspace*, miral::Window>::iterator i = m_windows.find(from.get());
+    while (i != m_windows.end() && i.key() == from.get()) {
+        windows.push_back(i.value());
+        ++i;
+    }
+    Q_EMIT windowsAboutToBeRemovedFromWorkspace(from, windows);
+    m_windows.remove(from.get());
+
+    Q_FOREACH(miral::Window window, windows) {
+        m_windows.insert(to.get(), window);
+    }
+    Q_EMIT windowsAddedToWorkspace(to, windows);
+}
+
+void WindowManagementPolicy::addWindow(const miral::Window &window)
+{
+    Q_EMIT windowAdded(window);
+
+    auto activeWorkspace = m_activeWorkspace.lock();
+    if (activeWorkspace) {
+        m_windows.insert(activeWorkspace.get(), window);
+
+        Q_EMIT windowsAddedToWorkspace(activeWorkspace, {window});
+    }
 }
 
 void WindowManagementPolicy::setActiveWorkspace(const std::shared_ptr<miral::Workspace> &workspace)

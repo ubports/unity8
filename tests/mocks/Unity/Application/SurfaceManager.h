@@ -20,11 +20,19 @@
 #include <QObject>
 
 #include <unity/shell/application/SurfaceManagerInterface.h>
+#include <miral/window.h>
 
 #include "MirSurface.h"
 #include "VirtualKeyboard.h"
 
 class ApplicationInfo;
+
+struct WindowWrapper {
+    miral::Window window;
+    std::shared_ptr<mir::scene::Surface> session{nullptr}; // Keeps the window surface alive.
+    bool operator==(const WindowWrapper& other) const {  return window==other.window; }
+};
+uint qHash(const WindowWrapper &key, uint seed = 0);
 
 class SurfaceManager : public unity::shell::application::SurfaceManagerInterface
 {
@@ -42,7 +50,7 @@ public:
 
     static SurfaceManager *instance();
 
-    unity::shell::application::MirSurfaceInterface *surfaceFor(const miral::Window& window) override;
+    unity::shell::application::MirSurfaceInterface *surfaceFor(const miral::Window& window) const override;
 
     // SurfaceManagerInterface
     void raise(unity::shell::application::MirSurfaceInterface *surface) override;
@@ -97,6 +105,7 @@ private:
     void doRaise(unity::shell::application::MirSurfaceInterface *surface);
     void focusFirstAvailableSurface();
     void registerSurface(MirSurface *surface);
+    QVector<unity::shell::application::MirSurfaceInterface*> find(const std::vector<miral::Window> &windows) const;
 
     static SurfaceManager *m_instance;
 
@@ -111,6 +120,9 @@ private:
     bool m_underModification{false};
 
     QList<MirSurface*> m_surfaces;
+
+    QHash<WindowWrapper, unity::shell::application::MirSurfaceInterface*> m_windowToSurface;
+    QHash<unity::shell::application::MirSurfaceInterface*, WindowWrapper> m_surfaceToWindow;
 
     VirtualKeyboard *m_virtualKeyboard{nullptr};
 };

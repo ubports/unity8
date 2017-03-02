@@ -18,37 +18,49 @@
 #define MOCKWINDOMANAGEMENTPOLICY_H
 
 #include <QObject>
+#include <QMultiMap>
+#include <QVector>
+
+#include <miral/window.h>
+#include <memory>
+#include <unordered_set>
 
 namespace miral {
-class Window;
 class Workspace {};
 }
 
 // A Fake window management policy for the mock.
-class WindowManagementPolicy : public QObject
+class Q_DECL_EXPORT WindowManagementPolicy : public QObject
 {
     Q_OBJECT
 public:
-    WindowManagementPolicy() {}
+    WindowManagementPolicy();
 
-    static WindowManagementPolicy *instance() {
-        static WindowManagementPolicy* inst(new WindowManagementPolicy());
-        return inst;
-    }
+    static WindowManagementPolicy *instance();
 
-    std::shared_ptr<miral::Workspace> createWorkspace() { return std::make_shared<miral::Workspace>(); }
-    void releaseWorkspace(const std::shared_ptr<miral::Workspace>&) {}
+    std::shared_ptr<miral::Workspace> createWorkspace();
+    void releaseWorkspace(const std::shared_ptr<miral::Workspace>& workspace);
 
-    void forEachWindowInWorkspace(
-        std::shared_ptr<miral::Workspace> const&,
-        std::function<void(miral::Window const&)> const&) {}
+    void forEachWindowInWorkspace(std::shared_ptr<miral::Workspace> const& workspace,
+                                  std::function<void(miral::Window const&)> const& callback);
 
-    void moveWorkspaceContentToWorkspace(const std::shared_ptr<miral::Workspace>&,
-                                         const std::shared_ptr<miral::Workspace>&)
-    {}
+    void moveWorkspaceContentToWorkspace(const std::shared_ptr<miral::Workspace>& to,
+                                         const std::shared_ptr<miral::Workspace>& from);
 
-public Q_SLOTS:
-    void setActiveWorkspace(const std::shared_ptr<miral::Workspace>&) {}
+    void addWindow(const miral::Window& window);
+
+    void setActiveWorkspace(const std::shared_ptr<miral::Workspace>& workspace);
+
+Q_SIGNALS:
+    void windowAdded(const miral::Window& window);
+    void windowsAddedToWorkspace(const std::shared_ptr<miral::Workspace> &workspace, const std::vector<miral::Window> &windows);
+    void windowsAboutToBeRemovedFromWorkspace(const std::shared_ptr<miral::Workspace> &workspace, const std::vector<miral::Window> &windows);
+
+private:
+    std::weak_ptr<miral::Workspace> m_activeWorkspace;
+    std::shared_ptr<miral::Workspace> m_dummyWorkspace;
+    std::unordered_set<std::shared_ptr<miral::Workspace>> m_workspaces;
+
+    QMultiMap<miral::Workspace*, miral::Window> m_windows;
 };
-
 #endif // UNITY_WINDOWMANAGEMENTPOLICY_H
