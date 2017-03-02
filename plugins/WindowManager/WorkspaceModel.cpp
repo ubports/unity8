@@ -180,3 +180,8 @@ WorkspaceModelProxy::~WorkspaceModelProxy()
     qDeleteAll(m_workspaces.toList()); // make a copy so the list doesnt edit itself during delete.
     m_workspaces.clear();
 }
+
+void WorkspaceModelProxy::move(int from, int to)
+{
+    WorkspaceModel::move(from, to);
+}
