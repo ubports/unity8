@@ -235,13 +235,6 @@ Item {
                 updateCurrentItemFromPosition(Qt.point(mouseX, mouseY))
             }
         }
-        onPositionChanged: {
-            root.positionChanged(mouse);
-            moved = root.windowMoving;
-            if (d.currentItem) {
-                updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
-            }
-        }
 
         onClicked: {
             if (!moved) {
@@ -259,6 +252,15 @@ Item {
         onPressedChanged: root.pressedChangedEx(pressed, pressedButtons, mouseX, mouseY)
         onReleased: root.released(mouse)
         onDoubleClicked: root.doubleClicked(mouse)
+
+        Mouse.ignoreSynthesizedEvents: true
+        Mouse.onPositionChanged: {
+            root.positionChanged(mouse);
+            moved = root.windowMoving;
+            if (d.currentItem) {
+                updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
+            }
+        }
 
         function updateCurrentItemFromPosition(point) {
             var pos = mapToItem(row, point.x, point.y);
