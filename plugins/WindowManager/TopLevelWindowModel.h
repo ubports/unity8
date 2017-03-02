@@ -195,7 +195,10 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void onSurfaceCreated(unity::shell::application::MirSurfaceInterface *surface);
-    void onSurfacesAddedToWorkspace(const std::shared_ptr<miral::Workspace>& workspace, const QVector<unity::shell::application::MirSurfaceInterface*> surfaces);
+    void onSurfacesAddedToWorkspace(const std::shared_ptr<miral::Workspace>& workspace,
+                                    const QVector<unity::shell::application::MirSurfaceInterface*> surfaces);
+    void onSurfacesAboutToBeRemovedFromWorkspace(const std::shared_ptr<miral::Workspace>& workspace,
+                                                 const QVector<unity::shell::application::MirSurfaceInterface*> surfaces);
     void onSurfacesRaised(const QVector<unity::shell::application::MirSurfaceInterface*> &surfaces);
 
     void onModificationsStarted();

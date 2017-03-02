@@ -35,7 +35,7 @@
 #include <qtmir/mirserverapplication.h>
 #include <qtmir/windowmodelnotifier.h>
 
-Q_LOGGING_CATEGORY(TOPLEVELWINDOWMODEL, "toplevelwindowmodel")
+Q_LOGGING_CATEGORY(TOPLEVELWINDOWMODEL, "toplevelwindowmodel", QtInfoMsg)
 
 #define DEBUG_MSG qCDebug(TOPLEVELWINDOWMODEL).nospace().noquote() << __func__
 #define INFO_MSG qCInfo(TOPLEVELWINDOWMODEL).nospace().noquote() << __func__
@@ -109,6 +109,8 @@ void TopLevelWindowModel::setSurfaceManager(unityapi::SurfaceManagerInterface *s
 
         connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::surfacesAddedToWorkspace,
                 this, &TopLevelWindowModel::onSurfacesAddedToWorkspace);
+        connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::surfacesAboutToBeRemovedFromWorkspace,
+                this, &TopLevelWindowModel::onSurfacesAboutToBeRemovedFromWorkspace);
 
         if (m_workspace && m_applicationManager) {
             refreshWindows();
@@ -427,6 +429,59 @@ void TopLevelWindowModel::onSurfacesAddedToWorkspace(const std::shared_ptr<miral
                     });
                 }
             }
+        }
+    }
+}
+
+void TopLevelWindowModel::onSurfacesAboutToBeRemovedFromWorkspace(const std::shared_ptr<miral::Workspace> &workspace,
+                                                                  const QVector<unity::shell::application::MirSurfaceInterface *> surfaces)
+{
+    if (workspace != m_workspace->workspace()) return;
+
+    int start = -1;
+    int end = -1;
+    for (auto iter = surfaces.constBegin(); iter != surfaces.constEnd();) {
+        auto surface = *iter;
+        iter++;
+
+        // Do removals in adjacent blocks.
+        start = end = indexOf(surface);
+        if (start == -1) {
+            // probably a child surface
+            m_allSurfaces.remove(surface);
+            continue;
+        }
+            while(iter != surfaces.constEnd()) {
+            int index = indexOf(*iter);
+            if (index != end+1) {
+                break;
+            }
+            end++;
+            iter++;
+        }
+
+        if (m_modelState == IdleState) {
+            beginRemoveRows(QModelIndex(), start, end);
+            m_modelState = RemovingState;
+        } else {
+            Q_ASSERT(m_modelState == ResettingState);
+            // No point in signaling anything if we're resetting the whole model
+        }
+
+        for (int index = start; index <= end; index++) {
+            auto window = m_windowModel[start].window;
+            window->setSurface(nullptr);
+            window->setFocused(false);
+
+            m_windowModel.removeAt(start);
+            m_allSurfaces.remove(window->surface());
+        }
+
+        if (m_modelState == RemovingState) {
+            endRemoveRows();
+            Q_EMIT countChanged();
+            Q_EMIT listChanged();
+            m_modelState = IdleState;
         }
     }
 }
