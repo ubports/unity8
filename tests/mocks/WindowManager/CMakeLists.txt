@@ -9,6 +9,14 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager
 )
 
+add_library(mockwindowmanagmentpolicy SHARED
+    windowmanagementpolicy.cpp
+)
+target_link_libraries(mockwindowmanagmentpolicy
+    ${MIRAL_LDFLAGS}
+)
+qt5_use_modules(mockwindowmanagmentpolicy Core)
+
 set(WINDOWMANAGER_SRC
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Screen.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Screens.cpp
@@ -20,7 +28,6 @@ set(WINDOWMANAGER_SRC
     MockScreens.cpp
     ScreenWindow.cpp
     WindowManagerPlugin.cpp
-    windowmanagementpolicy.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/Mir.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceInterface.h
@@ -32,6 +39,7 @@ add_library(MockWindowManager-qml SHARED ${WINDOWMANAGER_SRC})
 
 target_link_libraries(MockWindowManager-qml
     ${QTMIRSERVER_LDFLAGS}
+    mockwindowmanagmentpolicy
 )
 
 qt5_use_modules(MockWindowManager-qml Qml Quick Gui)
