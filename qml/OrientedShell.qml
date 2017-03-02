@@ -34,7 +34,6 @@ Item {
 
     property alias deviceConfiguration: _deviceConfiguration
     property alias orientations: d.orientations
-    property alias surfaceManager: shell.surfaceManager
 
     onWidthChanged: calculateUsageMode();
 
