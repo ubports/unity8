@@ -81,10 +81,10 @@ Item {
         name: "MenuBar"
         when: windowShown
 
-        function cleanup() {
+        function init() {
             menuBar.dismiss();
             activatedSpy.clear();
-            menuBackend.modelData = null;
+            waitForRendering(menuBar);
         }
 
         function test_mouseNavigation() {
