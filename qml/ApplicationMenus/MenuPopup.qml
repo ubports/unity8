@@ -33,6 +33,8 @@ UbuntuShape {
     // if they don't fit when growing right
     property bool substractWidth: false
 
+    property bool selectFirstOnCountChange: true
+
     property real desiredX
     x: {
         var dummy = visible; // force recalc when shown/hidden
@@ -286,7 +288,7 @@ UbuntuShape {
                         id: repeater
 
                         onCountChanged: {
-                            if (!d.currentItem && count > 0) {
+                            if (root.selectFirstOnCountChange && !d.currentItem && count > 0) {
                                 root.selectFirstIndex();
                             }
                         }

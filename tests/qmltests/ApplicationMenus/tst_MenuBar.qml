@@ -281,6 +281,7 @@ Item {
             findChild(menuBar, "menuBar-item0-menu-item1-actionItem");
 
             keyClick(Qt.Key_Down);
+            keyClick(Qt.Key_Down);
             keyClick(Qt.Key_Right);
 
             var submenu = findChild(menuBar, "menuBar-item0-menu-item1-menu");

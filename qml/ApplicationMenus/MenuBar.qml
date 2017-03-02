@@ -164,6 +164,7 @@ Item {
                         desiredX: visualItem.x - units.gu(1)
                         desiredY: parent.height
                         unityMenuModel: root.unityMenuModel.submenu(visualItem.__ownIndex)
+                        selectFirstOnCountChange: false
 
                         Component.onCompleted: reset();
                     }
