@@ -399,6 +399,7 @@ void TopLevelWindowModel::onSurfaceCreated(unityapi::MirSurfaceInterface */*surf
 void TopLevelWindowModel::onSurfacesAddedToWorkspace(const std::shared_ptr<miral::Workspace>& workspace,
                                                      const QVector<unity::shell::application::MirSurfaceInterface*> surfaces)
 {
+    if (!m_workspace || !m_applicationManager) return;
     if (workspace != m_workspace->workspace()) return;
 
     Q_FOREACH(auto surface, surfaces) {
@@ -829,6 +830,7 @@ void TopLevelWindowModel::refreshWindows()
     m_windowModel.clear();
     m_allSurfaces.clear();
 
+    if (!m_workspace || !m_applicationManager) return;
     WindowManagementPolicy::instance()->forEachWindowInWorkspace(m_workspace->workspace(), [this](const miral::Window &window) {
         auto surface = m_surfaceManager->surfaceFor(window);
         if (surface) {
