@@ -83,6 +83,7 @@ Item {
 
         function init() {
             menuBar.dismiss();
+            menuBackend.modelData = appMenuData.generateTestData(5,5,2,3, "menu")
             activatedSpy.clear();
             waitForRendering(menuBar);
         }
@@ -218,7 +219,6 @@ Item {
         }
 
         function test_openAppMenuShortcut() {
-            menuBackend.modelData = appMenuData.generateTestData(5,5,2,3, "menu")
             var priv = findInvisibleChild(menuBar, "d");
 
             var menuItem0 = findChild(menuBar, "menuBar-item0"); verify(menuItem0);
