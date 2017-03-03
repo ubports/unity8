@@ -35,12 +35,20 @@ Item {
         actions: { "unity": "/com/ubuntu/Menu/0" }
     }
 
+    readonly property bool hasMenus: repeater.count > 0
+    Repeater {
+        id: repeater
+        model: menuModel
+        delegate: Item {}
+    }
+
     Panel {
         id: panel
 
         height: parent.height
         width: parent.width / 2
         minimizedPanelHeight: units.gu(6)
+        visible: hasMenus
 
         mode: "windowed"
 
@@ -86,6 +94,7 @@ Item {
         height: parent.height
         width: parent.width / 2
         x: width
+        visible: hasMenus
 
         MenuBar {
             id: menuBar
@@ -99,5 +108,11 @@ Item {
     Component.onCompleted: {
         theme.name = "Ubuntu.Components.Themes.SuruDark";
         PanelState.title = "Drag here to open touch menu";
+    }
+
+    Text {
+        anchors.centerIn: parent
+        text: "The dbus address you gave has no menus. Make sure you read the README file."
+        visible: !hasMenus
     }
 }
