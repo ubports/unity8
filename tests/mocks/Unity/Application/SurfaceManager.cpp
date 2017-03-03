@@ -18,7 +18,7 @@
 
 #include "ApplicationInfo.h"
 #include "VirtualKeyboard.h"
-#include "../../WindowManager/windowmanagementpolicy.h"
+#include "../../WindowManager/WindowManagementPolicy.h"
 
 #include <paths.h>
 #include <mirtest/mir/test/doubles/stub_surface.h>

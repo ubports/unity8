@@ -32,6 +32,7 @@ set(SOURCE_FILES
     UnityCommandLineParser.cpp
     UnixSignalHandler.cpp
     DebuggingController.cpp
+    WindowManagementPolicy.cpp
     ${QML_FILES} # This is to make qml and image files appear in the IDE's project tree
 )
 

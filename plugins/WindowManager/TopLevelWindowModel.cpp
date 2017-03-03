@@ -29,7 +29,7 @@
 // local
 #include "Window.h"
 #include "Workspace.h"
-#include "windowmanagementpolicy.h"
+#include "wmpolicyinterface.h"
 
 // qtmir
 #include <qtmir/mirserverapplication.h>
@@ -831,7 +831,7 @@ void TopLevelWindowModel::refreshWindows()
     m_allSurfaces.clear();
 
     if (!m_workspace || !m_applicationManager) return;
-    WindowManagementPolicy::instance()->forEachWindowInWorkspace(m_workspace->workspace(), [this](const miral::Window &window) {
+    WMPolicyInterface::instance()->forEachWindowInWorkspace(m_workspace->workspace(), [this](const miral::Window &window) {
         auto surface = m_surfaceManager->surfaceFor(window);
         if (surface) {
             if (surface->parentSurface()) {

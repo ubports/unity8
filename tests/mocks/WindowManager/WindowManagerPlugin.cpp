@@ -25,6 +25,7 @@
 #include "WorkspaceManager.h"
 #include "Workspace.h"
 #include "WorkspaceModel.h"
+#include "WindowManagementPolicy.h"
 
 #include <QtQml>
 
@@ -59,4 +60,12 @@ void WindowManagerPlugin::registerTypes(const char *uri)
 
     qmlRegisterType<ScreenWindow>(uri, 1, 0, "ScreenWindow");
     qmlRegisterRevision<QWindow,1>(uri, 1, 0);
+}
+
+void WindowManagerPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
+{
+    QQmlExtensionPlugin::initializeEngine(engine, uri);
+
+    // Make sure we've initialized the wm policy.
+    WindowManagementPolicy::instance();
 }

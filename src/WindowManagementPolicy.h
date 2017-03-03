@@ -18,32 +18,33 @@
 #define UNITY_WINDOWMANAGEMENTPOLICY_H
 
 #include <qtmir/windowmanagementpolicy.h>
+#include "wmpolicyinterface.h"
 
 #include <unordered_set>
 
-class Q_DECL_EXPORT WindowManagementPolicy : public qtmir::WindowManagementPolicy
+class Q_DECL_EXPORT WindowManagementPolicy : public qtmir::WindowManagementPolicy,
+                                             public WMPolicyInterface
 {
 public:
     WindowManagementPolicy(const miral::WindowManagerTools &tools, qtmir::WindowManagementPolicyPrivate& dd);
 
-    static WindowManagementPolicy *instance();
-
     void advise_new_window(miral::WindowInfo const& window_info) override;
 
-    std::shared_ptr<miral::Workspace> createWorkspace();
-    void releaseWorkspace(const std::shared_ptr<miral::Workspace> &workspace);
+    // From WMPolicyInterface
+    std::shared_ptr<miral::Workspace> createWorkspace() override;
+
+    void releaseWorkspace(const std::shared_ptr<miral::Workspace> &workspace) override;
 
     void forEachWindowInWorkspace(
         std::shared_ptr<miral::Workspace> const& workspace,
-        std::function<void(miral::Window const& window)> const& callback);
+        std::function<void(miral::Window const& window)> const& callback) override;
 
     void moveWorkspaceContentToWorkspace(const std::shared_ptr<miral::Workspace> &toWorkspace,
-                                         const std::shared_ptr<miral::Workspace> &fromWorkspace);
+                                         const std::shared_ptr<miral::Workspace> &fromWorkspace) override;
 
-    void setActiveWorkspace(const std::shared_ptr<miral::Workspace>& workspace);
+    void setActiveWorkspace(const std::shared_ptr<miral::Workspace>& workspace) override;
 
 private:
-    static WindowManagementPolicy* m_self;
     std::weak_ptr<miral::Workspace> m_activeWorkspace;
 
     std::unordered_set<std::shared_ptr<miral::Workspace>> m_workspaces;
