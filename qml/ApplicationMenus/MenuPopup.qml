@@ -320,6 +320,7 @@ UbuntuShape {
                                         d.currentItem = loader;
 
                                         if (hasSubmenu) {
+                                            root.unityMenuModel.aboutToShow(__ownIndex);
                                             if (!popup) {
                                                 var model = root.unityMenuModel.submenu(__ownIndex);
                                                 popup = submenuComponent.createObject(focusScope, {

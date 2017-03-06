@@ -118,6 +118,7 @@ Item {
                 opacity: shouldDisplay ? 1 : 0
 
                 function show() {
+                    root.unityMenuModel.aboutToShow(visualItem.__ownIndex);
                     if (!__popup) {
                         __popup = menuComponent.createObject(root, { objectName: visualItem.objectName + "-menu" });
                         __popup.childActivated.connect(dismiss);
