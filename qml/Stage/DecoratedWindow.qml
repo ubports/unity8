@@ -207,8 +207,7 @@ FocusScope {
 
         opacity: root.hasDecoration ? Math.min(1, root.showDecoration) : 0
         Behavior on opacity { UbuntuNumberAnimation { } }
-        // don't eat clicks when decoration is not wanted (nor visible to the user)
-        visible: root.hasDecoration || opacity > 0
+        visible: opacity > 0 // don't eat input when decoration is fully translucent
 
         onPressed: root.decorationPressed();
         onPressedChanged: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
