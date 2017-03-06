@@ -116,7 +116,14 @@ FocusScope {
         if ((flags & ignoreHideIfMouseOverLauncher) && Utils.Functions.itemUnderMouse(panel)) {
             return;
         }
-        switchToNextState("")
+        if (root.lockedVisible) {
+            // Due to binding updates when switching between modes
+            // it could happen that our request to show will be overwritten
+            // with a hide request. Rewrite it when we know hiding is not allowed.
+            switchToNextState("visible")
+        } else {
+            switchToNextState("")
+        }
     }
 
     function fadeOut() {
@@ -254,13 +261,6 @@ FocusScope {
         interval: 1
         property string nextState: ""
         onTriggered: {
-            if (root.lockedVisible && nextState == "") {
-                // Due to binding updates when switching between modes
-                // it could happen that our request to show will be overwritten
-                // with a hide request. Rewrite it when we know hiding is not allowed.
-                nextState = "visible"
-            }
-
             // switching to an intermediate state here to make sure all the
             // values are restored, even if we were already in the target state
             root.state = "tmp"
@@ -379,8 +379,7 @@ FocusScope {
         }
 
         Keys.onEscapePressed: {
-            switchToNextState("");
-            root.focus = false;
+            root.hide()
         }
 
         onDragDistanceChanged: {
