@@ -18,10 +18,14 @@
 #include "WorkspaceManager.h"
 #include "Workspace.h"
 
+#include <QQmlEngine>
+
 Screen::Screen(qtmir::Screen* screen)
     : m_wrapped(screen)
     , m_workspaces(new WorkspaceModel)
 {
+    QQmlEngine::setObjectOwnership(m_workspaces.data(), QQmlEngine::CppOwnership);
+
     connect(m_wrapped, &qtmir::Screen::usedChanged, this, &Screen::usedChanged);
     connect(m_wrapped, &qtmir::Screen::nameChanged, this, &Screen::nameChanged);
     connect(m_wrapped, &qtmir::Screen::outputTypeChanged, this, &Screen::outputTypeChanged);
@@ -53,6 +57,8 @@ Screen::Screen(const Screen &other)
     , m_wrapped(other.m_wrapped)
     , m_workspaces(new WorkspaceModelProxy(other.m_workspaces.data()))
 {
+    QQmlEngine::setObjectOwnership(m_workspaces.data(), QQmlEngine::CppOwnership);
+
     connect(m_wrapped, &qtmir::Screen::usedChanged, this, &Screen::usedChanged);
     connect(m_wrapped, &qtmir::Screen::nameChanged, this, &Screen::nameChanged);
     connect(m_wrapped, &qtmir::Screen::outputTypeChanged, this, &Screen::outputTypeChanged);

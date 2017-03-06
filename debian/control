@@ -46,6 +46,7 @@ Build-Depends: cmake,
                libxcb1-dev[!arm64 !armhf],
                libxi-dev[!arm64 !armhf],
 # End of X11 libs
+               mirtest-dev,
                pkg-config,
                python3-all:any,
                python3-setuptools,

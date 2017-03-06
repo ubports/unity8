@@ -21,6 +21,7 @@
 // qtmirserver
 #include <qtmir/screens.h>
 #include <QGuiApplication>
+#include <QQmlEngine>
 
 // Qt
 #include <QScreen>
@@ -34,7 +35,9 @@ Screens::Screens(const QSharedPointer<qtmir::Screens>& model)
     connect(m_wrapped.data(), &qtmir::Screens::activeScreenChanged, this, &Screens::activeScreenChanged);
 
     Q_FOREACH(qtmir::Screen* screen, m_wrapped->screens()) {
-        m_screens.push_back(new Screen(screen));
+        auto screenWrapper(new Screen(screen));
+        QQmlEngine::setObjectOwnership(screenWrapper, QQmlEngine::CppOwnership);
+        m_screens.push_back(screenWrapper);
     }
 }
 
@@ -125,6 +128,7 @@ void Screens::onScreenAdded(qtmir::Screen *added)
 
     beginInsertRows(QModelIndex(), count(), count());
     auto screenWrapper(new Screen(added));
+    QQmlEngine::setObjectOwnership(screenWrapper, QQmlEngine::CppOwnership);
     m_screens.push_back(screenWrapper);
     endInsertRows();
     Q_EMIT screenAdded(screenWrapper);
@@ -165,13 +169,14 @@ ScreensProxy::ScreensProxy(Screens * const screens)
 
         beginInsertRows(QModelIndex(), count(), count());
         auto screenWrapper(new ScreenProxy(added));
+        QQmlEngine::setObjectOwnership(screenWrapper, QQmlEngine::CppOwnership);
         m_screens.push_back(screenWrapper);
         endInsertRows();
         Q_EMIT screenAdded(screenWrapper);
         Q_EMIT countChanged();
     });
 
-    connect(screens, &Screens::screenAdded, this, [this](Screen *removed) {
+    connect(screens, &Screens::screenRemoved, this, [this](Screen *removed) {
         int index = 0;
         QMutableVectorIterator<Screen*> iter(m_screens);
         while(iter.hasNext()) {
@@ -193,6 +198,8 @@ ScreensProxy::ScreensProxy(Screens * const screens)
     });
 
     Q_FOREACH(Screen* screen, screens->list()) {
+        auto screenWrapper(new ScreenProxy(screen));
+        QQmlEngine::setObjectOwnership(screenWrapper, QQmlEngine::CppOwnership);
         m_screens.push_back(new ScreenProxy(screen));
     }
 }
