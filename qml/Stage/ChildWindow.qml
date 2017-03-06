@@ -100,7 +100,6 @@ Item {
                 height: units.gu(3)
                 title: root.surface ? root.surface.name : ""
                 active: root.surface ? root.surface.focused : false
-                closeButtonVisible: false
                 minimizeButtonVisible: false
                 maximizeButtonShown: false
                 onPressed: root.surface.activate();
@@ -109,6 +108,7 @@ Item {
                     d.moveHandler.handlePositionChanged(mouse);
                 }
                 onReleased: if (d.moveHandler) { d.moveHandler.handleReleased(); }
+                onCloseClicked: root.surface.close();
             }
         }
     }
