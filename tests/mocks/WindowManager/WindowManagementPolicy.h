@@ -17,6 +17,8 @@
 #ifndef MOCKWINDOMANAGEMENTPOLICY_H
 #define MOCKWINDOMANAGEMENTPOLICY_H
 
+#include "wmpolicyinterface.h"
+
 #include <QObject>
 #include <QMultiMap>
 #include <QVector>
@@ -30,26 +32,30 @@ class Workspace {};
 }
 
 // A Fake window management policy for the mock.
-class Q_DECL_EXPORT WindowManagementPolicy : public QObject
+class Q_DECL_EXPORT WindowManagementPolicy : public QObject,
+                                             public WMPolicyInterface
 {
     Q_OBJECT
 public:
     WindowManagementPolicy();
 
+    // for use in mocks
     static WindowManagementPolicy *instance();
 
-    std::shared_ptr<miral::Workspace> createWorkspace();
-    void releaseWorkspace(const std::shared_ptr<miral::Workspace>& workspace);
+    // From WMPolicyInterface
+    std::shared_ptr<miral::Workspace> createWorkspace() override;
+
+    void releaseWorkspace(const std::shared_ptr<miral::Workspace>& workspace) override;
 
     void forEachWindowInWorkspace(std::shared_ptr<miral::Workspace> const& workspace,
-                                  std::function<void(miral::Window const&)> const& callback);
+                                  std::function<void(miral::Window const&)> const& callback) override;
 
     void moveWorkspaceContentToWorkspace(const std::shared_ptr<miral::Workspace>& to,
-                                         const std::shared_ptr<miral::Workspace>& from);
+                                         const std::shared_ptr<miral::Workspace>& from) override;
+
+    void setActiveWorkspace(const std::shared_ptr<miral::Workspace>& workspace) override;
 
     void addWindow(const miral::Window& window);
-
-    void setActiveWorkspace(const std::shared_ptr<miral::Workspace>& workspace);
 
 Q_SIGNALS:
     void windowAdded(const miral::Window& window);

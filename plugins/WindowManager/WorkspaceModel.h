@@ -48,7 +48,7 @@ public:
     virtual void move(int from, int to);
 
     int indexOf(Workspace *workspace) const;
-    Workspace* get(int index) const;
+    Q_INVOKABLE Workspace* get(int index) const;
 
     // From QAbstractItemModel
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;

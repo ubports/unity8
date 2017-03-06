@@ -4,6 +4,7 @@ include_directories(
     SYSTEM
     ${MIRTEST_INCLUDE_DIRS}
     ${MIRAL_INCLUDE_DIRS}
+    ${libunity8-private_SOURCE_DIR}
 )
 
 set(FakeUnityApplicationQml_SOURCES

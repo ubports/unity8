@@ -29,10 +29,6 @@
 Screens::Screens(const QSharedPointer<qtmir::Screens>& model)
     : m_wrapped(model)
 {
-    if (qGuiApp->platformName() != QLatin1String("mirserver")) {
-        qCritical("Not using 'mirserver' QPA plugin. Using qGuiApp may produce unknown results.");
-    }
-
     connect(m_wrapped.data(), &qtmir::Screens::screenAdded, this, &Screens::onScreenAdded);
     connect(m_wrapped.data(), &qtmir::Screens::screenRemoved, this, &Screens::onScreenRemoved);
     connect(m_wrapped.data(), &qtmir::Screens::activeScreenChanged, this, &Screens::activeScreenChanged);

@@ -7,13 +7,15 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager
+    ${libunity8-private_SOURCE_DIR}
 )
 
 add_library(mockwindowmanagmentpolicy SHARED
-    windowmanagementpolicy.cpp
+    WindowManagementPolicy.cpp
 )
 target_link_libraries(mockwindowmanagmentpolicy
     ${MIRAL_LDFLAGS}
+    unity8-private
 )
 qt5_use_modules(mockwindowmanagmentpolicy Core)
 

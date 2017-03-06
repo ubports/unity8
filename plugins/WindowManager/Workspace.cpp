@@ -19,13 +19,13 @@
 #include "WorkspaceManager.h"
 #include "TopLevelWindowModel.h"
 
-#include "windowmanagementpolicy.h"
+#include "wmpolicyinterface.h"
 
 int nextWorkspace = 0;
 
 Workspace::Workspace(QObject *parent)
     : QObject(parent)
-    , m_workspace(WindowManagementPolicy::instance()->createWorkspace())
+    , m_workspace(WMPolicyInterface::instance()->createWorkspace())
     , m_model(nullptr)
     , m_active(false)
 {
@@ -38,7 +38,7 @@ Workspace::Workspace(QObject *parent)
             Q_EMIT activeChanged(m_active);
 
             if (m_active) {
-                WindowManagementPolicy::instance()->setActiveWorkspace(m_workspace);
+                WMPolicyInterface::instance()->setActiveWorkspace(m_workspace);
             }
         }
     });
@@ -67,7 +67,7 @@ Workspace::~Workspace()
 
 void Workspace::moveWindowsTo(Workspace *workspace)
 {
-    WindowManagementPolicy::instance()->moveWorkspaceContentToWorkspace(workspace->m_workspace, m_workspace);
+    WMPolicyInterface::instance()->moveWorkspaceContentToWorkspace(workspace->m_workspace, m_workspace);
 }
 
 void Workspace::activate()
@@ -110,7 +110,7 @@ void Workspace::unassign()
 
 void Workspace::release()
 {
-    WindowManagementPolicy::instance()->releaseWorkspace(m_workspace);
+    WMPolicyInterface::instance()->releaseWorkspace(m_workspace);
     deleteLater();
 }
 

@@ -10,6 +10,8 @@ Item {
 
     property string background
 
+    property var screensProxy: Screens.createProxy();
+
     Row {
         id: row
         anchors.bottom: parent.bottom
@@ -19,7 +21,7 @@ Item {
         spacing: units.gu(1)
 
         Repeater {
-            model: Screens
+            model: screensProxy
 
             delegate: Item {
                 height: root.height - units.gu(6)
@@ -92,8 +94,7 @@ Item {
                                 Action {
                                     text: "Add workspace"
                                     onTriggered: {
-                                        var workspace = WorkspaceManager.createWorkspace();
-                                        workspaces.workspaceModel.append(workspace);
+                                        screen.addWorkspace();
                                     }
                                 }
                             }
@@ -114,6 +115,8 @@ Item {
                     background: root.background
 
                     workspaceModel: model.screen.workspaces
+
+                    onCommitScreenSetup: Screens.sync(root.screensProxy)
                 }
             }
         }

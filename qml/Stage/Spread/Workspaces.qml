@@ -13,6 +13,8 @@ Item {
     property alias workspaceModel: listView.model
     property var background // TODO: should be stored in the workspace data
 
+    signal commitScreenSetup();
+
     DropArea {
         anchors.fill: root
 
@@ -20,7 +22,7 @@ Item {
 
         onEntered: {
             var index = listView.getDropIndex(drag);
-            listView.model.insert(index, drag.source.workspace)
+            drag.source.workspace.assign(workspaceModel, index)
             listView.dropItemIndex = index;
             drag.source.inDropArea = true;
         }
@@ -33,7 +35,7 @@ Item {
         }
 
         onExited: {
-            listView.model.remove(listView.dropItemIndex, 1);
+            drag.source.workspace.unassign()
             listView.dropItemIndex = -1;
             drag.source.inDropArea = false;
         }
@@ -86,7 +88,6 @@ Item {
 
         function progressiveScroll(mouseX) {
             var progress = Math.max(0, Math.min(1, (mouseX - listView.foldingAreaWidth) / (width - listView.leftMargin * 2 - listView.foldingAreaWidth * 2)))
-            print("p", progress, mouseX)
             listView.contentX = listView.originX + (listView.contentWidth - listView.width + listView.leftMargin + listView.rightMargin) * progress - listView.leftMargin
         }
 
@@ -222,9 +223,10 @@ Item {
 
             onReleased: {
                 var result = fakeDragItem.Drag.drop();
-                if (result == Qt.IgnoreAction) {
-                    WorkspaceManager.destroyWorkspace(fakeDragItem.workspace);
-                }
+//                if (result == Qt.IgnoreAction) {
+//                    WorkspaceManager.destroyWorkspace(fakeDragItem.workspace);
+//                }
+                root.commitScreenSetup();
                 drag.target = null;
             }
 
@@ -232,7 +234,10 @@ Item {
             onDraggingChanged: {
                 if (drag.active) {
                     print("drai", draggedIndex)
-                    listView.model.remove(draggedIndex, 1)
+                    var ws = listView.model.get(draggedIndex);
+                    print("ws:", ws)
+                    ws.unassign();
+//                    listView.model.remove(draggedIndex, 1)
                 }
             }
 
@@ -248,7 +253,7 @@ Item {
                 var itemCoords = clickedItem.mapToItem(listView, -listView.leftMargin, 0);
                 fakeDragItem.x = itemCoords.x
                 fakeDragItem.y = itemCoords.y
-                fakeDragItem.workspace = model.workspace
+                fakeDragItem.workspace = listView.model.get(draggedIndex)
 
                 var mouseCoordsInItem = mapToItem(clickedItem, mouseX, mouseY);
                 fakeDragItem.Drag.hotSpot.x = mouseCoordsInItem.x
@@ -256,6 +261,10 @@ Item {
 
                 drag.axis = Drag.YAxis;
                 drag.target = fakeDragItem;
+            }
+
+            onClicked: {
+                WorkspaceManager.activeWorkspace = fakeDragItem.workspace
             }
 
             WorkspacePreview {

@@ -187,6 +187,7 @@ StyledItem {
         if (ApplicationManager.findApplication(appId)) {
             ApplicationManager.requestFocusApplication(appId);
         } else {
+            print("calling startApplication. active workspace is", WorkspaceManager.activeWorkspace)
             ApplicationManager.startApplication(appId);
         }
     }
@@ -277,6 +278,7 @@ StyledItem {
             objectName: "topLevelSurfaceList"
             applicationManager: ApplicationManager // it's a singleton
             surfaceManager: SurfaceManager
+            workspace: WorkspaceManager.activeWorkspace
         }
 
         Stage {

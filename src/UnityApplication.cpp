@@ -32,7 +32,7 @@
 #include "CachingNetworkManagerFactory.h"
 #include "UnityCommandLineParser.h"
 #include "DebuggingController.h"
-#include "windowmanagementpolicy.h"
+#include "WindowManagementPolicy.h"
 
 #include <QDebug>
 
