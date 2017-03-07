@@ -292,8 +292,8 @@ Item {
             pageDelegate: PanelMenuPage {
                 property bool isCurrent: modelIndex == __applicationMenus.currentMenuIndexChanged
                 onIsCurrentChanged: {
-                    if (isCurrent && menuModel && submenuIndex) {
-                        menuModel.aboutToShow(submenuIndex);
+                    if (isCurrent && menuModel) {
+                        menuModel.aboutToShow(modelIndex);
                     }
                 }
 
