@@ -292,6 +292,7 @@ Item {
             pageDelegate: PanelMenuPage {
                 menuModel: __applicationMenus.model
                 submenuIndex: modelIndex
+                isCurrent: modelIndex == __applicationMenus.currentMenuIndexChanged
 
                 factory: ApplicationMenuItemFactory {
                     rootModel: __applicationMenus.model

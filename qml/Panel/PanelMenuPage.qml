@@ -27,6 +27,13 @@ PageStack {
     property var submenuIndex: undefined
     property QtObject menuModel: null
     property Component factory
+    property bool isCurrent: false
+
+    onIsCurrentChanged: {
+        if (isCurrent && menuModel && submenuIndex) {
+            menuModel.aboutToShow(submenuIndex);
+        }
+    }
 
     Connections {
         id: dynamicChanges
