@@ -752,6 +752,14 @@ FocusScope {
                         normalHeight = appDelegate.height;
                     }
                 }
+                function updateRestoredGeometry() {
+                    if (appDelegate.state == "normal" || appDelegate.state == "restored") {
+                        // save the x/y to restore to
+                        restoredX = appDelegate.x;
+                        restoredY = appDelegate.y;
+                    }
+                }
+
                 Connections {
                     target: appDelegate
                     onXChanged: appDelegate.updateNormalGeometry();
@@ -1612,7 +1620,7 @@ FocusScope {
                     }
                     onMinimizeClicked: { appDelegate.requestMinimize(); }
                     onDecorationPressed: { appDelegate.activate(); }
-                    onDecorationReleased: fakeRectangle.commit();
+                    onDecorationReleased: fakeRectangle.visible ? fakeRectangle.commit() : appDelegate.updateRestoredGeometry()
 
                     property real angle: 0
                     Behavior on angle { enabled: priv.closingIndex >= 0; UbuntuNumberAnimation {} }
@@ -1656,7 +1664,7 @@ FocusScope {
                     onFakeMaximizeBottomLeftAnimationRequested: if (!appDelegate.maximizedBottomLeft) fakeRectangle.maximizeBottomLeft(amount, true);
                     onFakeMaximizeBottomRightAnimationRequested: if (!appDelegate.maximizedBottomRight) fakeRectangle.maximizeBottomRight(amount, true);
                     onStopFakeAnimation: fakeRectangle.stop();
-                    onDragReleased: fakeRectangle.commit();
+                    onDragReleased: fakeRectangle.visible ? fakeRectangle.commit() : appDelegate.updateRestoredGeometry()
                 }
 
                 WindowedFullscreenPolicy {
