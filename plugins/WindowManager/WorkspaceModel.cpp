@@ -18,6 +18,8 @@
 #include "WorkspaceManager.h"
 #include "Workspace.h"
 
+#include <QQmlEngine>
+
 Q_LOGGING_CATEGORY(WORKSPACES, "Workspaces", QtInfoMsg)
 
 #define DEBUG_MSG qCDebug(WORKSPACES).nospace().noquote() << __func__
@@ -171,7 +173,9 @@ WorkspaceModelProxy::WorkspaceModelProxy(WorkspaceModel * const model)
     : m_original(model)
 {
     Q_FOREACH(auto workspace, model->list()) {
-        (new WorkspaceProxy(workspace))->assign(this);
+        auto proxy = new WorkspaceProxy(workspace);
+        QQmlEngine::setObjectOwnership(proxy, QQmlEngine::CppOwnership);
+        proxy->assign(this);
     }
 }
 

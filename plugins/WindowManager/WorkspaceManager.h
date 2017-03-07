@@ -26,7 +26,7 @@ class ScreensProxy;
 class WorkspaceManager : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(Workspace* activeWorkspace READ activeWorkspace WRITE setActiveWorkspace NOTIFY activeWorkspaceChanged)
+    Q_PROPERTY(Workspace* activeWorkspace READ activeWorkspace WRITE setActiveWorkspace2 NOTIFY activeWorkspaceChanged)
     Q_PROPERTY(QQmlListProperty<Workspace> floatingWorkspaces READ floatingWorkspaces NOTIFY floatingWorkspacesChanged)
 
 public:
@@ -47,6 +47,8 @@ Q_SIGNALS:
 
 private:
     WorkspaceManager();
+
+    void setActiveWorkspace2(Workspace* workspace);
 
     QSet<Workspace*> m_allWorkspaces;
     QList<Workspace*> m_floatingWorkspaces;

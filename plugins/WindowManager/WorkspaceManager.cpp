@@ -109,3 +109,9 @@ void WorkspaceManager::setActiveWorkspace(Workspace *workspace)
         Q_EMIT activeWorkspaceChanged();
     }
 }
+
+void WorkspaceManager::setActiveWorkspace2(Workspace *workspace)
+{
+    if (!workspace) return;
+    workspace->activate();
+}
