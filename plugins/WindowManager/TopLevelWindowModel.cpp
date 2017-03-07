@@ -65,18 +65,29 @@ void TopLevelWindowModel::setApplicationManager(unityapi::ApplicationManagerInte
 
     m_applicationManager = value;
 
-    if (m_applicationManager && m_workspace) {
+    if (m_applicationManager) {
+        connect(m_applicationManager, &QAbstractItemModel::rowsInserted,
+                this, [this](const QModelIndex &/*parent*/, int first, int last) {
+            if (!m_workspace || !m_workspace->isActive())
+                return;
 
-        if (m_workspace->isActive()) {
-            connectApplicationManager();
-        }
+            for (int i = first; i <= last; ++i) {
+                auto application = m_applicationManager->get(i);
+                addApplication(application);
+            }
+        });
 
-        if (m_surfaceManager) {
-            refreshWindows();
-        }
+        connect(m_applicationManager, &QAbstractItemModel::rowsAboutToBeRemoved,
+                this, [this](const QModelIndex &/*parent*/, int first, int last) {
+            for (int i = first; i <= last; ++i) {
+                auto application = m_applicationManager->get(i);
+                removeApplication(application);
+            }
+        });
     }
 
     Q_EMIT applicationManagerChanged(m_applicationManager);
+    refreshWindows();
 
     endResetModel();
     m_modelState = IdleState;
@@ -111,12 +122,9 @@ void TopLevelWindowModel::setSurfaceManager(unityapi::SurfaceManagerInterface *s
                 this, &TopLevelWindowModel::onSurfacesAddedToWorkspace);
         connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::surfacesAboutToBeRemovedFromWorkspace,
                 this, &TopLevelWindowModel::onSurfacesAboutToBeRemovedFromWorkspace);
-
-        if (m_workspace && m_applicationManager) {
-            refreshWindows();
-        }
     }
 
+    refreshWindows();
     Q_EMIT surfaceManagerChanged(m_surfaceManager);
 
     endResetModel();
@@ -137,36 +145,12 @@ void TopLevelWindowModel::setWorkspace(Workspace *workspace)
     beginResetModel();
 
     if (m_workspace) {
-        m_windowModel.clear();
-        m_allSurfaces.clear();
-        if (m_applicationManager) {
-            disconnect(m_applicationManager, 0, this, 0);
-        }
+        disconnect(m_workspace, 0, this, 0);
     }
-
-    disconnect(m_applicationManager, 0 ,this, 0);
 
     m_workspace = workspace;
 
-    if (m_workspace) {
-        connect(m_workspace, &Workspace::activeChanged, this, [this](bool active) {
-            if (m_applicationManager) {
-                if (!active) disconnect(m_applicationManager, 0, this, 0);
-                else {
-                    connectApplicationManager();
-                }
-            }
-        });
-
-        if (m_applicationManager && m_workspace->isActive()) {
-            connectApplicationManager();
-        }
-
-        if (m_surfaceManager && m_applicationManager) {
-            refreshWindows();
-        }
-    }
-
+    refreshWindows();
     Q_EMIT workspaceChanged(workspace);
 
     endResetModel();
@@ -571,26 +555,6 @@ QVariant TopLevelWindowModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 }
-
-void TopLevelWindowModel::connectApplicationManager()
-{
-    connect(m_applicationManager, &QAbstractItemModel::rowsInserted,
-            this, [this](const QModelIndex &/*parent*/, int first, int last) {
-                for (int i = first; i <= last; ++i) {
-                    auto application = m_applicationManager->get(i);
-                    addApplication(application);
-                }
-            });
-
-    connect(m_applicationManager, &QAbstractItemModel::rowsAboutToBeRemoved,
-            this, [this](const QModelIndex &/*parent*/, int first, int last) {
-                for (int i = first; i <= last; ++i) {
-                    auto application = m_applicationManager->get(i);
-                    removeApplication(application);
-                }
-            });
-}
-
 
 int TopLevelWindowModel::findIndexOf(const unityapi::MirSurfaceInterface *surface) const
 {
