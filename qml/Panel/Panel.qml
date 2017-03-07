@@ -290,9 +290,15 @@ Item {
             }
 
             pageDelegate: PanelMenuPage {
+                property bool isCurrent: modelIndex == __applicationMenus.currentMenuIndexChanged
+                onIsCurrentChanged: {
+                    if (isCurrent && menuModel && submenuIndex) {
+                        menuModel.aboutToShow(submenuIndex);
+                    }
+                }
+
                 menuModel: __applicationMenus.model
                 submenuIndex: modelIndex
-                isCurrent: modelIndex == __applicationMenus.currentMenuIndexChanged
 
                 factory: ApplicationMenuItemFactory {
                     rootModel: __applicationMenus.model
