@@ -85,6 +85,7 @@ Item {
             menuBar.dismiss();
             menuBackend.modelData = appMenuData.generateTestData(5,5,2,3, "menu")
             activatedSpy.clear();
+            waitForRendering(menuBar);
         }
 
         function test_mouseNavigation() {
