@@ -32,7 +32,7 @@ public:
     qint64 elapsed() const override { return m_valid ? msecsSinceEpoch - m_msecsSinceReference : qrand(); }
 
 private:
-    qint64 m_msecsSinceReference;
+    qint64 m_msecsSinceReference{0};
     bool m_valid{false};
 };
 qint64 FakeElapsedTimer::msecsSinceEpoch = 0;
