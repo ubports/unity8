@@ -1,0 +1,11 @@
+This tool can be used to browse the menus of another application
+
+How to use:
+ * Start application that exports menus
+    e.g. QT_QPA_PLATFORMTHEME=ubuntuappmenu kate
+ * Figure out which is the dbus address
+   * This is a bit tricky, but using qdbusviewer to see the addresses
+     that appear when starting the app and looking for one that
+     contains com/Ubuntu/Menu/0 should be enough
+ * Start tool passing the dbus address
+    builddir/menutool/menutool :1.293
