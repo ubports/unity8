@@ -72,6 +72,9 @@ Build-Depends: cmake,
                qtdeclarative5-ubuntu-settings-components (>= 0.11),
                ttf-ubuntu-font-family,
                xvfb,
+# mirtest pkgconfig requires these, but doesn't have a deb dependency. Bug lp:1633537
+               libboost-filesystem-dev,
+               libboost-system-dev,
 Standards-Version: 3.9.4
 Homepage: http://launchpad.net/unity
 # If you aren't a member of ~unity-team but need to upload
