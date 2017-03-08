@@ -227,7 +227,6 @@ private:
     void prependSurfaceHelper(unity::shell::application::MirSurfaceInterface *surface,
                               unity::shell::application::ApplicationInfoInterface *application);
 
-    void connectApplicationManager();
     void connectWindow(Window *window);
     void connectSurface(unity::shell::application::MirSurfaceInterface *surface);
 
