@@ -114,7 +114,7 @@ Item {
 
                 implicitWidth: column.implicitWidth
                 implicitHeight: row.height
-                enabled: model.sensitive && shouldDisplay
+                enabled: (model.sensitive === true) && shouldDisplay
                 opacity: shouldDisplay ? 1 : 0
 
                 function show() {
