@@ -2734,14 +2734,14 @@ Rectangle {
             GSettingsController.setEnableIndicatorMenu(true);
         }
 
-        function test_spreadDisabled_data() {
+        function test_spreadDisabled_WithSwipe_data() {
             return [
                 { tag: "enabled", spreadEnabled: true },
                 { tag: "disabled", spreadEnabled: false }
             ];
         }
 
-        function test_spreadDisabled(data) {
+        function test_spreadDisabled_WithSwipe(data) {
             loadShell("phone");
             swipeAwayGreeter();
             var stage = findChild(shell, "stage");
@@ -2750,9 +2750,20 @@ Rectangle {
             // Try swiping
             touchFlick(shell, shell.width - 2, shell.height / 2, units.gu(1), shell.height / 2);
             tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
+        }
 
-            stage.closeSpread();
-            tryCompare(stage, "state", "staged");
+        function test_spreadDisabled_WithEdgePush_data() {
+            return [
+                { tag: "enabled", spreadEnabled: true },
+                { tag: "disabled", spreadEnabled: false }
+            ];
+        }
+
+        function test_spreadDisabled_WithEdgePush(data) {
+            loadShell("phone");
+            swipeAwayGreeter();
+            var stage = findChild(shell, "stage");
+            stage.spreadEnabled = data.spreadEnabled;
 
             // Try by edge push
             var cursor = findChild(shell, "cursor");
@@ -2762,18 +2773,40 @@ Rectangle {
             }
             mouseMove(stage, stage.width - units.gu(5), units.gu(10));
             tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
+        }
 
-            stage.closeSpread();
-            tryCompare(stage, "state", "staged");
+        function test_spreadDisabled_WithAltTab_data() {
+            return [
+                { tag: "enabled", spreadEnabled: true },
+                { tag: "disabled", spreadEnabled: false }
+            ];
+        }
+
+        function test_spreadDisabled_WithAltTab(data) {
+            loadShell("phone");
+            swipeAwayGreeter();
+            var stage = findChild(shell, "stage");
+            stage.spreadEnabled = data.spreadEnabled;
 
             // Try by alt+tab
             keyPress(Qt.Key_Alt);
             keyClick(Qt.Key_Tab);
             tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
             keyRelease(Qt.Key_Alt);
+        }
 
-            stage.closeSpread();
-            tryCompare(stage, "state", "staged");
+        function test_spreadDisabled_WithSuperW_data() {
+            return [
+                { tag: "enabled", spreadEnabled: true },
+                { tag: "disabled", spreadEnabled: false }
+            ];
+        }
+
+        function test_spreadDisabled_WithSuperW(data) {
+            loadShell("phone");
+            swipeAwayGreeter();
+            var stage = findChild(shell, "stage");
+            stage.spreadEnabled = data.spreadEnabled;
 
             // Try by Super+W
             keyPress(Qt.Key_W, Qt.MetaModifier, 200);
