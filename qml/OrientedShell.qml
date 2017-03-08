@@ -274,7 +274,7 @@ Item {
         mode: applicationArguments.mode
         hasMouse: pointerInputDevices > 0
         hasKeyboard: keyboardsModel.count > 0
-
+        hasTouchscreen: touchScreensModel.count > 0
         oskEnabled: unity8Settings.alwaysShowOsk || !hasKeyboard || forceOSKEnabled
 
         usageScenario: {

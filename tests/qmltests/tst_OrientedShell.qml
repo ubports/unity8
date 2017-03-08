@@ -1641,5 +1641,17 @@ Rectangle {
             tryCompare(dialogLoader, "item", null);
             compare(window.activeFocusItem, surfaceItem);
         }
+
+        function test_tutorialDisabledWithNoTouchscreen() {
+            loadShell("desktop");
+            usageModeSelector.selectWindowed();
+
+            MockInputDeviceBackend.addMockDevice("/touchscreen", InputInfo.TouchScreen);
+            var tutorial = findChild(shell, "tutorial");
+            tryCompare(tutorial, "paused", false);
+
+            MockInputDeviceBackend.removeDevice("/touchscreen");
+            tryCompare(tutorial, "paused", true);
+        }
     }
 }
