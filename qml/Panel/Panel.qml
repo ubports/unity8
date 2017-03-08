@@ -272,6 +272,7 @@ Item {
                 id: actionItem
                 property int ownIndex: index
                 objectName: "appMenuItem"+index
+                enabled: model.sensitive
 
                 width: _title.width + units.gu(2)
                 height: parent.height

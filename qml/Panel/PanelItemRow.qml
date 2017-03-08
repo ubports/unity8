@@ -96,31 +96,57 @@ Item {
         row.currentIndex = -1;
     }
 
+    function selectPreviousItem() {
+        var indexToSelect = currentItemIndex - 1;
+        while (indexToSelect >= 0) {
+            if (setCurrentItemIndex(indexToSelect))
+                return;
+            indexToSelect = indexToSelect - 1;
+        }
+    }
+
+    function selectNextItem() {
+        var indexToSelect = currentItemIndex + 1;
+        while (indexToSelect < row.contentItem.children.length) {
+            if (setCurrentItemIndex(indexToSelect))
+                return;
+            indexToSelect = indexToSelect + 1;
+        }
+    }
+
     function setCurrentItemIndex(index) {
         for (var i = 0; i < row.contentItem.children.length; i++) {
             var item = row.contentItem.children[i];
-            if (item.hasOwnProperty("ownIndex") && item.ownIndex === index) {
-                if (currentItem !== item) row.currentIndex = index;
-                break;
+            if (item.hasOwnProperty("ownIndex") && item.ownIndex === index && item.enabled) {
+                if (currentItem !== item) {
+                    row.currentIndex = index;
+                }
+                return true;
             }
         }
+        return false;
     }
 
     function selectItemAt(lateralPosition) {
         var item = indicatorAt(lateralPosition, 0);
-        if (item && item.opacity > 0) {
+        if (item && item.opacity > 0 && item.enabled) {
             row.currentIndex = item.ownIndex;
         } else {
             // Select default item.
             var searchIndex = lateralPosition >= width ? row.count - 1 : 0;
 
             for (var i = 0; i < row.contentItem.children.length; i++) {
-                if (row.contentItem.children[i].hasOwnProperty("ownIndex") && row.contentItem.children[i].ownIndex === searchIndex) {
+                if (row.contentItem.children[i].hasOwnProperty("ownIndex") &&
+                    row.contentItem.children[i].ownIndex === searchIndex &&
+                    row.contentItem.children[i].enabled)
+                {
                     item = row.contentItem.children[i];
                     break;
                 }
             }
-            if (currentItem !== item) row.currentIndex = item ? item.ownIndex : -1;
+            if (item && currentItem !== item) {
+                row.currentIndex = item.ownIndex;
+            }
         }
     }
 

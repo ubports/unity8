@@ -44,6 +44,22 @@ Item {
         row.selectItemAt(mapped.x);
     }
 
+    function selectPreviousItem() {
+        if (!expanded) {
+            row.resetCurrentItem();
+        }
+        row.selectPreviousItem();
+        d.alignIndicators();
+    }
+
+    function selectNextItem() {
+        if (!expanded) {
+            row.resetCurrentItem();
+        }
+        row.selectNextItem();
+        d.alignIndicators();
+    }
+
     function setCurrentItemIndex(index) {
         if (!expanded) {
             row.resetCurrentItem();

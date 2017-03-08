@@ -63,7 +63,7 @@ PageStack {
             if (model) {
                 push(pageComponent, { "menuModel": model });
             }
-        } else {
+        } else if (root.currentPage) {
             root.currentPage.reset();
         }
     }
