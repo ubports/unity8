@@ -335,7 +335,7 @@ Rectangle {
 
                 Row {
                     CheckBox {
-                        id: fullscreeAppCheck
+                        id: fullscreenAppCheck
                         activeFocusOnPress: false
                         activeFocusOnTab: false
 
@@ -349,13 +349,10 @@ Rectangle {
                         }
 
                         Binding {
-                            target: fullscreeAppCheck
+                            target: fullscreenAppCheck
                             when: topLevelSurfaceList && topLevelSurfaceList.focusedWindow
                             property: "checked"
-                            value: {
-                                if (!topLevelSurfaceList || !topLevelSurfaceList.focusedWindow) return false;
-                                return topLevelSurfaceList.focusedWindow.state === Mir.FullscreenState
-                            }
+                            value: topLevelSurfaceList.focusedWindow.state === Mir.FullscreenState
                         }
                     }
                     Label {
@@ -366,6 +363,8 @@ Rectangle {
                 Row {
                     CheckBox {
                         id: chromeAppCheck
+                        activeFocusOnPress: false
+                        activeFocusOnTab: false
 
                         onTriggered: {
                             if (!topLevelSurfaceList.focusedWindow || !topLevelSurfaceList.focusedWindow.surface) return;
@@ -381,10 +380,8 @@ Rectangle {
                             target: chromeAppCheck
                             when: topLevelSurfaceList && topLevelSurfaceList.focusedWindow !== null && topLevelSurfaceList.focusedWindow.surface !== null
                             property: "checked"
-                            value: {
-                                if (!topLevelSurfaceList || !topLevelSurfaceList.focusedWindow || !topLevelSurfaceList.focusedWindow.surface) return false;
-                                topLevelSurfaceList.focusedWindow.surface.shellChrome === Mir.LowChrome
-                            }
+                            value: topLevelSurfaceList.focusedWindow.surface &&
+                                   topLevelSurfaceList.focusedWindow.surface.shellChrome === Mir.LowChrome
                         }
                     }
                     Label {
@@ -2295,7 +2292,6 @@ Rectangle {
             return [
                 { tag: "phone" },
                 { tag: "tablet" },
-                { tag: "desktop" },
             ]
         }
 
@@ -2675,8 +2671,8 @@ Rectangle {
         }
 
         function test_cursorHidingWithFullscreenApp() {
-            loadShell("desktop");
-            shell.usageScenario = "desktop";
+            loadShell("phone");
+            shell.usageScenario = "phone";
             waitForRendering(shell);
             swipeAwayGreeter();
 
@@ -2780,7 +2776,7 @@ Rectangle {
             tryCompare(stage, "state", "staged");
 
             // Try by Super+W
-            keyPress(Qt.Key_W, Qt.MetaModifier)
+            keyPress(Qt.Key_W, Qt.MetaModifier, 200);
             tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
             keyRelease(Qt.Key_W, Qt.MetaModifier)
         }
