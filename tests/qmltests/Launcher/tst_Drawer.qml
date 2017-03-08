@@ -311,5 +311,26 @@ StyledItem {
 
             compare(launcher.lastSelectedApplication, "calendar-app");
         }
+
+        function test_focusMovesCorrectlyBetweenLauncherAndDrawer() {
+            var panel = findChild(launcher, "launcherPanel");
+            var drawer = findChild(launcher, "drawer");
+            var searchField = findChild(drawer, "searchField");
+
+            launcher.openForKeyboardNavigation();
+            tryCompare(panel, "highlightIndex", -1);
+            keyClick(Qt.Key_Down);
+            tryCompare(panel, "highlightIndex", 0);
+
+            launcher.openDrawer(true);
+            tryCompare(searchField, "focus", true);
+
+            keyClick(Qt.Key_Escape);
+
+            launcher.openForKeyboardNavigation();
+            tryCompare(panel, "highlightIndex", -1);
+            keyClick(Qt.Key_Down);
+            tryCompare(panel, "highlightIndex", 0);
+        }
     }
 }

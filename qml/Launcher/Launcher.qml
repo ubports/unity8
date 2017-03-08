@@ -152,6 +152,7 @@ FocusScope {
 
     function openForKeyboardNavigation() {
         panel.highlightIndex = -1; // The BFB
+        drawer.focus = false;
         root.focus = true;
         switchToNextState("visible")
     }
