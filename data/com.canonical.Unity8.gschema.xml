@@ -33,7 +33,7 @@
       <description>How big (in grid units) the edge-drag sensitive area should be.</description>
     </key>
     <key type="b" name="autohide-launcher">
-      <default>true</default>
+      <default>false</default>
       <summary>Autohide the launcher</summary>
       <description>This will only be applied in windowed mode. In staged mode, the launcher will always hide.</description>
     </key>
