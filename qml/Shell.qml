@@ -277,7 +277,7 @@ StyledItem {
             objectName: "topLevelSurfaceList"
             applicationManager: ApplicationManager // it's a singleton
             surfaceManager: SurfaceManager
-            workspace: WorkspaceManager.activeWorkspace
+            workspace: screenWindow.screen.currentWorkspace
         }
 
         Stage {

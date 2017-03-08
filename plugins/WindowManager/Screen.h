@@ -13,6 +13,7 @@ class Screen : public qtmir::Screen
 {
     Q_OBJECT
     Q_PROPERTY(WorkspaceModel* workspaces READ workspaces CONSTANT)
+    Q_PROPERTY(Workspace* currentWorkspace READ currentWorkspace WRITE setCurrentWorkspace NOTIFY currentWorkspaceChanged)
 
 public:
     explicit Screen(qtmir::Screen*const wrapped);
@@ -41,16 +42,25 @@ public:
 
     WorkspaceModel* workspaces() const;
 
+    Workspace *currentWorkspace() const;
+    void setCurrentWorkspace(Workspace* workspace);
+
     void sync(Screen* proxy);
 
 public Q_SLOTS:
     void activate();
 
+Q_SIGNALS:
+    void currentWorkspaceChanged(Workspace*);
+
 protected:
     Screen(Screen const& other);
 
+    void resetCurrentWorkspace();
+
     qtmir::Screen*const m_wrapped;
     const QScopedPointer<WorkspaceModel> m_workspaces;
+    QPointer<Workspace> m_currentWorspace;
 };
 
 class ScreenProxy : public Screen
