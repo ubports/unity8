@@ -25,6 +25,7 @@ Item {
 
     property bool showRowTitle: false
     property alias rowTitle: rowLabel.text
+    property real shiftLeftTitle: 0
     property QtObject model: null
     property real overFlowWidth: width
     property bool expanded: false
@@ -143,7 +144,7 @@ Item {
         objectName: "panelTitle"
         anchors {
             left: parent.left
-            leftMargin: units.gu(1)
+            leftMargin: units.gu(1) - root.shiftLeftTitle
             verticalCenter: parent.verticalCenter
         }
         width: implicitWidth + units.gu(2)

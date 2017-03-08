@@ -41,6 +41,7 @@ Item {
     property real expandedPanelHeight: units.gu(7)
     property real indicatorMenuWidth: width
     property real applicationMenuWidth: width
+    property alias applicationMenuContentX: __applicationMenus.menuContentX
 
     property alias applicationMenus: __applicationMenus
     property alias indicators: __indicators
@@ -250,6 +251,7 @@ Item {
         PanelMenu {
             id: __applicationMenus
 
+            x: root.applicationMenuContentX
             model: registeredMenuModel.model
             width: root.applicationMenuWidth
             minimizedPanelHeight: root.minimizedPanelHeight

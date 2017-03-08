@@ -33,6 +33,7 @@ Showable {
     property bool enableHint: true
     property bool showOnClick: true
     property color panelColor: theme.palette.normal.background
+    property real menuContentX: 0
 
     property alias alignment: bar.alignment
     property alias rowTitle: bar.rowTitle
@@ -77,33 +78,42 @@ Showable {
 
     shown: false
     height: minimizedPanelHeight
-    clip: root.partiallyOpened
 
     onUnitProgressChanged: d.updateState()
 
-    // eater
-    MouseArea {
-        anchors.fill: content
-        hoverEnabled: true
-        acceptedButtons: Qt.AllButtons
-        onWheel: wheel.accepted = true;
-        enabled: root.state != "initial"
-        visible: content.visible
-    }
-
-    MenuContent {
-        id: content
-        objectName: "menuContent"
-
+    Item {
         anchors {
             left: parent.left
             right: parent.right
             top: bar.bottom
+            bottom: parent.bottom
         }
-        height: openedHeight - bar.height - handle.height
-        model: root.model
-        visible: root.unitProgress > 0
-        currentMenuIndex: bar.currentItemIndex
+        clip: root.partiallyOpened
+
+        // eater
+        MouseArea {
+            anchors.fill: content
+            hoverEnabled: true
+            acceptedButtons: Qt.AllButtons
+            onWheel: wheel.accepted = true;
+            enabled: root.state != "initial"
+            visible: content.visible
+        }
+
+        MenuContent {
+            id: content
+            objectName: "menuContent"
+
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: parent.top
+            }
+            height: openedHeight - bar.height - handle.height
+            model: root.model
+            visible: root.unitProgress > 0
+            currentMenuIndex: bar.currentItemIndex
+        }
     }
 
     Handle {
@@ -165,6 +175,7 @@ Showable {
         enableLateralChanges: false
         lateralPosition: -1
         unitProgress: root.unitProgress
+        shiftLeftTitle: root.menuContentX
 
         height: expanded ? expandedPanelHeight : minimizedPanelHeight
         Behavior on height { NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing } }
@@ -217,6 +228,7 @@ Showable {
         objectName: "showDragHandle"
         anchors.bottom: parent.bottom
         anchors.left: alignment == Qt.AlignLeft ? parent.left : undefined
+        anchors.leftMargin: -root.menuContentX
         anchors.right: alignment == Qt.AlignRight ? parent.right : undefined
         width: root.barWidth // show handle should only cover panel items.
         height: minimizedPanelHeight
