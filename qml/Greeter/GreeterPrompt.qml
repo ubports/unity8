@@ -16,6 +16,7 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import GSettings 1.0
 import "../Components"
 
 FocusScope {
@@ -41,6 +42,11 @@ FocusScope {
         if (isSecret && isPrompt && !isAlphanumeric) {
             passwordInput.text = "...."; // actual text doesn't matter
         }
+    }
+
+    GSettings {
+        id: unity8Settings
+        schema.id: "com.canonical.Unity8"
     }
 
     StyledItem {
@@ -154,14 +160,27 @@ FocusScope {
         }
 
         secondaryItem: [
-            Icon {
-                id: capsIcon
-                name: "keyboard-caps-enabled"
-                height: units.gu(3)
-                width: units.gu(3)
-                color: d.textColor
-                visible: root.isSecret && false // TODO: detect when caps lock is on
-                readonly property real visibleWidth: visible ? width + passwordInput.frameSpacing : 0
+            Row {
+                id: extraIcons
+                spacing: passwordInput.frameSpacing
+                Icon {
+                    name: "keyboard-caps-enabled"
+                    height: units.gu(3)
+                    width: units.gu(3)
+                    color: d.textColor
+                    visible: root.isSecret && false // TODO: detect when caps lock is on
+                }
+                Icon {
+                    name: "input-keyboard-symbolic"
+                    height: units.gu(3)
+                    width: units.gu(3)
+                    color: d.textColor
+                    visible: !unity8Settings.alwaysShowOsk
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: unity8Settings.alwaysShowOsk = true
+                    }
+                }
             }
         ]
 
@@ -199,7 +218,7 @@ FocusScope {
                 right: parent.right
                 verticalCenter: parent.verticalCenter
                 leftMargin: units.gu(1.5)
-                rightMargin: anchors.leftMargin + capsIcon.visibleWidth
+                rightMargin: anchors.leftMargin + extraIcons.width
             }
             text: root.text
             visible: passwordInput.text == "" && !passwordInput.inputMethodComposing
@@ -221,7 +240,7 @@ FocusScope {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.leftMargin: passwordInput.frameSpacing * 2
-        anchors.rightMargin: passwordInput.frameSpacing * 2 + capsIcon.visibleWidth
+        anchors.rightMargin: passwordInput.frameSpacing * 2 + extraIcons.width
         color: d.drawColor
         text: passwordInput.displayText
         visible: root.isPrompt && !root.interactive
