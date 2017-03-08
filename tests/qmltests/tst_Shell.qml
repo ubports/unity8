@@ -2907,5 +2907,29 @@ Rectangle {
             tryCompare(topLevelSurfaceList.focusedWindow, "surface", appDelegate.surface);
             tryCompare(topLevelSurfaceList.applicationAt(0), "appId", "dialer-app");
         }
+
+        function test_doubleClickPanelRestoresWindow() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            // start dialer
+            var appDelegate = startApplication("dialer-app")
+            verify(appDelegate);
+            tryCompare(appDelegate, "state", "normal");
+
+            // maximize dialer
+            var decoration = findChild(appDelegate, "appWindowDecoration");
+            verify(decoration);
+            mouseDoubleClickSequence(decoration);
+            tryCompare(appDelegate, "state", "maximized");
+
+            // double click the panel
+            var panel = findChild(shell, "panel");
+            verify(panel);
+            mouseDoubleClickSequence(panel, panel.width/2, PanelState.panelHeight/2, Qt.LeftButton, Qt.NoModifier, 300);
+            tryCompare(appDelegate, "state", "restored");
+        }
     }
 }

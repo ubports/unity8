@@ -229,6 +229,8 @@ Item {
                             target: __indicators
                             onShownChanged: bar.dismiss();
                         }
+
+                        onDoubleClicked: PanelState.restoreClicked()
                     }
                 }
             }

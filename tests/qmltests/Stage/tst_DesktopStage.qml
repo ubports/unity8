@@ -1039,5 +1039,23 @@ Item {
             expectFail("", "Hovering the window controls should be ignored when the menu is open");
             tryCompare(closeButton, "containsMouse", true);
         }
+
+        function test_windowControlsTouchInteractionWithMenu() {
+            var appDelegate = startApplication("gmail-webapp");
+
+            var wd = findChild(appDelegate, "appWindowDecoration");
+            var maxButton = findChild(wd, "maximizeWindowButton");
+            var menuBarLoader = findChild(wd, "menuBarLoader");
+            var menuNav = findInvisibleChild(menuBarLoader, "d");
+
+            // make the menubar active and visible, select first item
+            menuBarLoader.active = true;
+            menuNav.select(0);
+            tryCompare(menuBarLoader.item, "visible", true);
+
+            // verify the maximized button can still be tapped
+            tap(maxButton);
+            tryCompare(appDelegate, "state", "maximized");
+        }
     }
 }

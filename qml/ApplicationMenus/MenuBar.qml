@@ -28,10 +28,18 @@ Item {
     property alias unityMenuModel: rowRepeater.model
     property bool enableKeyFilter: false
     property real overflowWidth: width
+    property bool windowMoving: false
 
     // read from outside
     readonly property bool valid: rowRepeater.count > 0
     readonly property bool showRequested: d.longAltPressed || d.currentItem != null
+
+    // MoveHandler API for DecoratedWindow
+    signal pressed(var mouse)
+    signal pressedChangedEx(bool pressed, var pressedButtons, real mouseX, real mouseY)
+    signal positionChanged(var mouse)
+    signal released(var mouse)
+    signal doubleClicked(var mouse)
 
     implicitWidth: row.width
     height: parent.height
@@ -77,7 +85,7 @@ Item {
         anchors.fill: parent
         enabled: d.currentItem != null
         hoverEnabled: enabled && d.currentItem && d.currentItem.__popup != null
-        onPressed: d.dismissAll()
+        onPressed: { mouse.accepted = false; d.dismissAll(); }
     }
 
     Row {
@@ -218,24 +226,40 @@ Item {
     } // Row
 
     MouseArea {
-        anchors.fill: row
+        anchors.fill: parent
         hoverEnabled: d.currentItem
+
+        property bool moved: false
 
         onEntered: {
             if (d.currentItem) {
                 updateCurrentItemFromPosition(Qt.point(mouseX, mouseY))
             }
         }
-        onPositionChanged: {
+
+        onClicked: {
+            if (!moved) {
+                var prevItem = d.currentItem;
+                updateCurrentItemFromPosition(Qt.point(mouseX, mouseY));
+                if (prevItem && d.currentItem == prevItem) {
+                    prevItem.hide();
+                }
+            }
+            moved = false;
+        }
+
+        // for the MoveHandler
+        onPressed: root.pressed(mouse)
+        onPressedChanged: root.pressedChangedEx(pressed, pressedButtons, mouseX, mouseY)
+        onReleased: root.released(mouse)
+        onDoubleClicked: root.doubleClicked(mouse)
+
+        Mouse.ignoreSynthesizedEvents: true
+        Mouse.onPositionChanged: {
+            root.positionChanged(mouse);
+            moved = root.windowMoving;
             if (d.currentItem) {
                 updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
-            }
-        }
-        onClicked: {
-            var prevItem = d.currentItem;
-            updateCurrentItemFromPosition(Qt.point(mouse.x, mouse.y))
-            if (prevItem && d.currentItem == prevItem) {
-                prevItem.hide();
             }
         }
 
@@ -260,7 +284,7 @@ Item {
         hoverEnabled: d.currentItem
         onEntered: d.currentItem = this
         onPositionChanged: d.currentItem = this
-        onClicked: d.currentItem = this
+        onPressed: d.currentItem = this
 
         property Item __popup: null;
         readonly property bool popupVisible: __popup && __popup.visible
