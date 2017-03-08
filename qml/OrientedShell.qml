@@ -62,9 +62,6 @@ Item {
     GSettings {
         id: unity8Settings
         schema.id: "com.canonical.Unity8"
-        Component.onCompleted: {
-            schema.reset("alwaysShowOsk");
-        }
     }
 
     GSettings {
