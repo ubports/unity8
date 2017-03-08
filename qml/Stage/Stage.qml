@@ -1188,6 +1188,7 @@ FocusScope {
                 states: [
                     State {
                         name: "spread"; when: root.state == "spread"
+                        StateChangeScript { script: { decoratedWindow.cancelDrag(); } }
                         PropertyChanges {
                             target: decoratedWindow;
                             showDecoration: false;
@@ -1214,6 +1215,7 @@ FocusScope {
                         }
                         PropertyChanges { target: dragArea; enabled: true }
                         PropertyChanges { target: windowInfoItem; opacity: spreadMaths.tileInfoOpacity; visible: spreadMaths.itemVisible }
+                        PropertyChanges { target: touchControls; enabled: false }
                     },
                     State {
                         name: "stagedRightEdge"

@@ -190,4 +190,13 @@ QtObject {
             target.restoredY = target.y;
         }
     }
+
+    function cancelDrag() {
+        priv.dragging = false;
+        root.stopFakeAnimation();
+        priv.mouseDownTimer.stop();
+        Mir.cursorName = "";
+        priv.progress = 0;
+        priv.resetEdges();
+    }
 }
