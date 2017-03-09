@@ -251,7 +251,7 @@ Item {
         PanelMenu {
             id: __applicationMenus
 
-            x: root.applicationMenuContentX
+            x: menuContentX
             model: registeredMenuModel.model
             width: root.applicationMenuWidth
             minimizedPanelHeight: root.minimizedPanelHeight

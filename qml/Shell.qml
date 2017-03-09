@@ -572,6 +572,7 @@ StyledItem {
             }
             onDrawerShownChanged: {
                 if (drawerShown) {
+                    panel.indicators.hide();
                     panel.applicationMenus.hide();
                 }
             }
