@@ -2910,5 +2910,28 @@ Rectangle {
             tryCompare(topLevelSurfaceList.focusedWindow, "surface", appDelegate.surface);
             tryCompare(topLevelSurfaceList.applicationAt(0), "appId", "dialer-app");
         }
+
+        function test_touchMenuPosition_data() {
+            return [
+                        { tag: "launcher locked", lockLauncher: true },
+                        { tag: "launcher not locked", lockLauncher: false }
+                    ];
+        }
+
+        function test_touchMenuPosition(data) {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var panel = findChild(shell, "panel");
+            var launcher = testCase.findChild(shell, "launcher");
+            launcher.lockedVisible = data.lockLauncher;
+            if (data.lockLauncher) {
+                compare(panel.applicationMenus.x, launcher.panelWidth);
+            } else {
+                compare(panel.applicationMenus.x, 0);
+            }
+        }
     }
 }
