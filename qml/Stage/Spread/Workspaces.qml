@@ -63,7 +63,7 @@ Item {
         anchors.fill: parent
         anchors.leftMargin: -itemWidth
         anchors.rightMargin: -itemWidth
-//        interactive: false
+        boundsBehavior: Flickable.StopAtBounds
 
         orientation: ListView.Horizontal
         spacing: units.gu(1)
@@ -93,6 +93,7 @@ Item {
         displaced: Transition { UbuntuNumberAnimation { properties: "x" } }
 
         delegate: Item {
+            id: workspaceDelegate
             objectName: "delegate" + index
             height: parent.height
             width: listView.itemWidth
@@ -173,7 +174,7 @@ Item {
                 Rotation {
                     angle: itemAngle
                     axis { x: 0; y: 1; z: 0 }
-                    origin { x: listView.itemWidth / 2; y: height / 2 }
+                    origin { x: itemAngle < 0 ? listView.itemWidth : 0; y: height / 2 }
                 },
                 Translate {
                     x: itemOffset
@@ -186,18 +187,49 @@ Item {
                 background: root.background
                 screenHeight: root.screen.physicalSize.height
                 containsDrag: listView.hoveredWorkspaceIndex == index
+            }
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    screenWindow.screen.currentWorkspace = model.workspace
+                }
+            }
 
-                Label {
-                    anchors.centerIn: parent
-                    text: model.text
-                    color: "red"
-                    fontSize: "large"
+            MouseArea {
+                id: closeMouseArea
+                objectName: "closeMouseArea"
+                anchors { left: parent.left; top: parent.top; leftMargin: -height / 2; topMargin: -height / 2 }
+                hoverEnabled: true
+                height: units.gu(4)
+                width: height
+
+                onClicked: {
+                    model.workspace.unassign();
+                    root.commitScreenSetup();
+                }
+                Image {
+                    id: closeImage
+                    source: "../graphics/window-close.svg"
+                    anchors.fill: closeMouseArea
+                    anchors.margins: units.gu(1)
+                    sourceSize.width: width
+                    sourceSize.height: height
+                    readonly property var mousePos: hoverMouseArea.mapToItem(workspaceDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
+                    readonly property bool shown: (hoverMouseArea.containsMouse || parent.containsMouse)
+                                             && mousePos.y < workspaceDelegate.width / 4
+                                             && mousePos.y > -units.gu(2)
+                                             && mousePos.x > -units.gu(2)
+                                             && mousePos.x < workspaceDelegate.height / 4
+                    opacity: shown ? 1 : 0
+                    visible: opacity > 0
+                    Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+
                 }
             }
         }
 
         MouseArea {
-            id: mouseArea
+            id: hoverMouseArea
             anchors.fill: parent
             hoverEnabled: true
             propagateComposedEvents: true
@@ -262,10 +294,6 @@ Item {
                 drag.target = fakeDragItem;
             }
 
-            onClicked: {
-                screenWindow.screen.currentWorkspace = fakeDragItem.workspace
-            }
-
             WorkspacePreview {
                 id: fakeDragItem
                 height: listView.height
@@ -274,7 +302,7 @@ Item {
                 screenHeight: root.screen.physicalSize.height
                 visible: Drag.active
 
-                Drag.active: mouseArea.drag.active
+                Drag.active: hoverMouseArea.drag.active
                 Drag.keys: ['workspace']
 
                 property var workspace

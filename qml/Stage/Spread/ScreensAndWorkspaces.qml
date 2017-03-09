@@ -26,7 +26,7 @@ Item {
             delegate: Item {
                 height: root.height - units.gu(6)
                 width: workspaces.width
-                clip: true
+//                clip: true
 
                 UbuntuShape {
                     id: header
@@ -108,7 +108,7 @@ Item {
                     id: workspaces
                     height: parent.height - header.height - units.gu(2)
                     width: {
-                        if (screensProxy.count == 0) {
+                        if (screensProxy.count == 1) {
                             return Math.min(implicitWidth, root.width - units.gu(8));
                         }
                         return Math.min(implicitWidth, model.screen.active ? root.width - units.gu(48) : units.gu(40))
