@@ -2951,6 +2951,8 @@ Rectangle {
             var launcher = testCase.findChild(shell, "launcher");
             launcher.lockedVisible = data.lockLauncher;
 
+            waitForRendering(panel.applicationMenus);
+
             if (data.lockLauncher) {
                 panel.applicationMenus.show();
                 tryCompare(panel.applicationMenus, "fullyOpened", true);
