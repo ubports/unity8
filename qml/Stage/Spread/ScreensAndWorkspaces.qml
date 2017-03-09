@@ -95,6 +95,7 @@ Item {
                                     text: "Add workspace"
                                     onTriggered: {
                                         screen.addWorkspace();
+                                        Screens.sync(root.screensProxy)
                                     }
                                 }
                             }
@@ -110,8 +111,7 @@ Item {
                         if (screensProxy.count == 0) {
                             return Math.min(implicitWidth, root.width - units.gu(8));
                         }
-                        // TODO: needs better logic: If this is the active/current screen, make it wide, otherwise narrow
-                        return Math.min(implicitWidth, index == 0 ? units.gu(80) : units.gu(40), root.width)
+                        return Math.min(implicitWidth, model.screen.active ? root.width - units.gu(48) : units.gu(40))
                     }
 
                     Behavior on width { UbuntuNumberAnimation {} }

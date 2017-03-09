@@ -93,7 +93,7 @@ Item {
 
     readonly property real spreadTotalWidth: Math.max(2,totalItemCount) * spreadWidth / visibleItemCount
 
-    readonly property real centeringOffset: Math.max(spreadWidth - spreadTotalWidth + leftStackXPos * 2, 0) / (2 * spreadWidth)
+    readonly property real centeringOffset: Math.max(spreadWidth - spreadTotalWidth + (leftStackXPos - leftMargin) * 2, 0) / (2 * spreadWidth)
 
     readonly property var curve: BezierCurve {
         controlPoint2: {'x': 0.19, 'y': 0.00}

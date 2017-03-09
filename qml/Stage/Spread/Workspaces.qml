@@ -263,7 +263,7 @@ Item {
             }
 
             onClicked: {
-                screenWindow.screen.activeWorkspace = fakeDragItem.workspace
+                screenWindow.screen.currentWorkspace = fakeDragItem.workspace
             }
 
             WorkspacePreview {
