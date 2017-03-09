@@ -2933,5 +2933,35 @@ Rectangle {
                 compare(panel.applicationMenus.x, 0);
             }
         }
+
+        function test_touchMenuHidesOnLauncherAppDrawer_data() {
+            return [
+                        { tag: "launcher locked", lockLauncher: true },
+                        { tag: "launcher not locked", lockLauncher: false }
+                    ];
+        }
+
+        function test_touchMenuHidesOnLauncherAppDrawer(data) {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var panel = findChild(shell, "panel");
+            var launcher = testCase.findChild(shell, "launcher");
+            launcher.lockedVisible = data.lockLauncher;
+
+            if (data.lockLauncher) {
+                panel.applicationMenus.show();
+                tryCompare(panel.applicationMenus, "fullyOpened", true);
+                launcher.openDrawer();
+            } else {
+                tryCompare(launcher, "shown", false);
+                panel.applicationMenus.show();
+                tryCompare(panel.applicationMenus, "fullyOpened", true);
+                launcher.switchToNextState("visible");
+            }
+            tryCompare(panel.applicationMenus, "fullyClosed", true);
+        }
     }
 }
