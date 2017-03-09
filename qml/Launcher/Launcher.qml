@@ -359,6 +359,9 @@ FocusScope {
             topMargin: root.inverted ? root.topPanelHeight : 0
             bottom: parent.bottom
             right: parent.left
+            onRightMarginChanged: {
+                drawer.searchTextField.focus = false;
+            }
         }
         width: Math.min(root.width, units.gu(90)) * .9
         panelWidth: panel.width
