@@ -6,8 +6,7 @@ import "../../Components"
 
 Item {
     id: root
-    implicitWidth: listView.count * (height * 16/9 + listView.spacing) - listView.spacing
-//    color: "blue"
+    implicitWidth: listView.contentWidth
 
     property QtObject screen: null
     property alias workspaceModel: listView.model
@@ -71,7 +70,7 @@ Item {
         leftMargin: itemWidth
         rightMargin: itemWidth
 
-        property int itemWidth: height * 16 / 9
+        property int itemWidth: height * screen.physicalSize.width / screen.physicalSize.height
         property int foldingAreaWidth: units.gu(10)
         property real realContentX: contentX - originX + leftMargin
         property int dropItemIndex: -1
@@ -264,7 +263,7 @@ Item {
             }
 
             onClicked: {
-                WorkspaceManager.activeWorkspace = fakeDragItem.workspace
+                screenWindow.screen.activeWorkspace = fakeDragItem.workspace
             }
 
             WorkspacePreview {

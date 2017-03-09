@@ -106,7 +106,14 @@ Item {
                 Workspaces {
                     id: workspaces
                     height: parent.height - header.height - units.gu(2)
-                    width: Math.min(implicitWidth, index == 0 ? units.gu(80) : units.gu(40), root.width)
+                    width: {
+                        if (screensProxy.count == 0) {
+                            return Math.min(implicitWidth, root.width - units.gu(8));
+                        }
+                        // TODO: needs better logic: If this is the active/current screen, make it wide, otherwise narrow
+                        return Math.min(implicitWidth, index == 0 ? units.gu(80) : units.gu(40), root.width)
+                    }
+
                     Behavior on width { UbuntuNumberAnimation {} }
                     anchors.bottom: parent.bottom
                     anchors.bottomMargin: units.gu(1)
