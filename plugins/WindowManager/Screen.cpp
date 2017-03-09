@@ -39,13 +39,30 @@ Screen::Screen(qtmir::Screen* screen)
 
     // Connect the active workspace to activate the screen.
     connect(m_workspaces.data(), &WorkspaceModel::workspaceAdded, this, [this](Workspace* workspace) {
-        connect(workspace, &Workspace::activeChanged, this, [this](bool active) {
-            if (active) activate();
+        connect(workspace, &Workspace::activeChanged, this, [this, workspace](bool active) {
+            if (active) {
+                setCurrentWorkspace(workspace);
+                activate();
+            }
         });
-        if (workspace->isActive()) activate();
+        if (workspace->isActive()) {
+            activate();
+            setCurrentWorkspace(workspace);
+        }
+        if (!m_currentWorspace) {
+            setCurrentWorkspace(workspace);
+        }
     });
     connect(m_workspaces.data(), &WorkspaceModel::workspaceRemoved, this, [this](Workspace* workspace) {
         disconnect(workspace, &Workspace::activeChanged, this, 0);
+        if (workspace == m_currentWorspace) {
+            resetCurrentWorkspace();
+        }
+    });
+    connect(this, &Screen::activeChanged, this, [this](bool active) {
+        if (active && m_currentWorspace) {
+            m_currentWorspace->activate();
+        }
     });
 
     WorkspaceManager::instance()->createWorkspace()->assign(m_workspaces.data());
@@ -69,6 +86,15 @@ Screen::Screen(const Screen &other)
     connect(m_wrapped, &qtmir::Screen::activeChanged, this, &Screen::activeChanged);
     connect(m_wrapped, &qtmir::Screen::currentModeIndexChanged, this, &Screen::currentModeIndexChanged);
     connect(m_wrapped, &qtmir::Screen::availableModesChanged, this, &Screen::availableModesChanged);
+}
+
+void Screen::resetCurrentWorkspace()
+{
+    auto newCurrent = m_workspaces->rowCount() > 0 ? m_workspaces->get(0) : nullptr;
+    if (m_currentWorspace != newCurrent) {
+        m_currentWorspace = newCurrent;
+        Q_EMIT currentWorkspaceChanged(newCurrent);
+    }
 }
 
 qtmir::OutputId Screen::outputId() const
@@ -149,6 +175,19 @@ bool Screen::applyConfiguration(qtmir::ScreenConfiguration *configuration)
 WorkspaceModel *Screen::workspaces() const
 {
     return m_workspaces.data();
+}
+
+Workspace *Screen::currentWorkspace() const
+{
+    return m_currentWorspace.data();
+}
+
+void Screen::setCurrentWorkspace(Workspace *workspace)
+{
+    if (m_currentWorspace != workspace) {
+        m_currentWorspace = workspace;
+        Q_EMIT currentWorkspaceChanged(workspace);
+    }
 }
 
 void Screen::sync(Screen *proxy)
