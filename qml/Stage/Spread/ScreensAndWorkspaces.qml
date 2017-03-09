@@ -26,7 +26,6 @@ Item {
             delegate: Item {
                 height: root.height - units.gu(6)
                 width: workspaces.width
-//                clip: true
 
                 UbuntuShape {
                     id: header
@@ -70,7 +69,7 @@ Item {
                         }
 
                         Label {
-                            text: model.screen.physicalSize.width + "x" + model.screen.physicalSize.height
+                            text: screen.availableModes[screen.currentModeIndex].size.width + "x" + screen.availableModes[screen.currentModeIndex].size.height
                             color: "black"
                             fontSize: "x-small"
                         }
@@ -78,11 +77,8 @@ Item {
 
                     MouseArea {
                         anchors.fill: parent
-//                        acceptedButtons: Qt.RightButton
-
 
                         onClicked: {
-                            print("should open popup")
                             PopupUtils.open(contextMenu)
                         }
                     }

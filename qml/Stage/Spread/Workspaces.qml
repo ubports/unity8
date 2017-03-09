@@ -70,7 +70,8 @@ Item {
         leftMargin: itemWidth
         rightMargin: itemWidth
 
-        property int itemWidth: height * screen.physicalSize.width / screen.physicalSize.height
+        property var screenSize: screen.availableModes[screen.currentModeIndex].size
+        property int itemWidth: height * screenSize.width / screenSize.height
         property int foldingAreaWidth: units.gu(10)
         property real realContentX: contentX - originX + leftMargin
         property int dropItemIndex: -1
@@ -185,7 +186,7 @@ Item {
                 height: listView.height
                 width: listView.itemWidth
                 background: root.background
-                screenHeight: root.screen.physicalSize.height
+                screenHeight: screen.availableModes[screen.currentModeIndex].size.height
                 containsDrag: listView.hoveredWorkspaceIndex == index
             }
             MouseArea {
@@ -299,7 +300,7 @@ Item {
                 height: listView.height
                 width: listView.itemWidth
                 background: root.background
-                screenHeight: root.screen.physicalSize.height
+                screenHeight: screen.availableModes[screen.currentModeIndex].size.height
                 visible: Drag.active
 
                 Drag.active: hoverMouseArea.drag.active
