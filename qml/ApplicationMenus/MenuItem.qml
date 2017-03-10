@@ -34,7 +34,7 @@ ActionItem {
         val += units.gu(1) + title.contentWidth;
         if (hasSubmenu) {
             val += units.gu(1) + chevronIcon.width;
-        } else if (shortcut != undefined) {
+        } else if (menuData && menuData.shortcut != undefined) {
             val += units.gu(3) + shortcutLabel.contentWidth;
         }
         return val + units.gu(1);
@@ -49,9 +49,9 @@ ActionItem {
         enabled: root.enabled
 
         // FIXME - SDK Action:text modifies menu text with html underline for mnemonic
-        text: menuData.label.replace("_", "&").replace("<u>", "&").replace("</u>", "")
-        checkable: menuData.isCheck || menuData.isRadio
-        checked: menuData.isToggled
+        text: menuData ? menuData.label.replace("_", "&").replace("<u>", "&").replace("</u>", "") : ""
+        checkable: menuData && (menuData.isCheck || menuData.isRadio)
+        checked: menuData && menuData.isToggled
     }
 
     width: {
@@ -127,8 +127,8 @@ ActionItem {
                 color: enabled ? theme.palette.normal.overlaySecondaryText :
                                  theme.palette.disabled.overlaySecondaryText
 
-                visible: menuData.shortcut != undefined && !root.hasSubmenu && QuickUtils.keyboardAttached
-                text: menuData.shortcut ? menuData.shortcut : ""
+                visible: menuData && menuData.shortcut != undefined && !root.hasSubmenu && QuickUtils.keyboardAttached
+                text: menuData && menuData.shortcut ? menuData.shortcut : ""
             }
         }
 

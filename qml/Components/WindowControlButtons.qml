@@ -47,13 +47,6 @@ Row {
         onClicked: root.closeClicked()
         visible: root.closeButtonShown
 
-        // We dont want touch events to fall through to parent,
-        // otherwise the containsMouse will not work.
-        MouseArea {
-            anchors.fill: parent
-            propagateComposedEvents: true
-        }
-
         Rectangle {
             anchors.fill: parent
             anchors.margins: windowIsMaximized ? units.dp(3) : 0
@@ -77,13 +70,6 @@ Row {
         width: height
         onClicked: root.minimizeClicked()
         visible: root.minimizeButtonVisible
-
-        // We dont want touch events to fall through to parent,
-        // otherwise the containsMouse will not work.
-        MouseArea {
-            anchors.fill: parent
-            propagateComposedEvents: true
-        }
 
         Rectangle {
             anchors.fill: parent
@@ -116,13 +102,6 @@ Row {
             } else if (mouse.button == Qt.MiddleButton) {
                 root.maximizeVerticallyClicked();
             }
-        }
-
-        // We dont want touch events to fall through to parent,
-        // otherwise the containsMouse will not work.
-        MouseArea {
-            anchors.fill: parent
-            propagateComposedEvents: true
         }
 
         Rectangle {
