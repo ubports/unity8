@@ -207,7 +207,7 @@ Item {
                     opacity: d.showPointerMenu ? 1 : 0
                     visible: opacity != 0
                     Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
-                    active: __applicationMenus.model
+                    active: __applicationMenus.model && !callHint.visible
 
                     width: parent.width - windowControlButtons.width - units.gu(2) - __indicators.barWidth
 
@@ -233,6 +233,7 @@ Item {
                         }
 
                         onDoubleClicked: PanelState.restoreClicked()
+                        onPressed: decorationMouseArea.onPressed(mouse)
                     }
                 }
             }
