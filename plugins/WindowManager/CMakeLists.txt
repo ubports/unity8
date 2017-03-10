@@ -12,8 +12,9 @@ set(WINDOWMANAGER_SRC
     TopLevelWindowModel.cpp
     Window.cpp
     WindowManagerPlugin.cpp
-    Screens.cpp
     Screen.cpp
+    ScreenAttached.cpp
+    Screens.cpp
     ScreenWindow.cpp
     Workspace.cpp
     WorkspaceManager.cpp

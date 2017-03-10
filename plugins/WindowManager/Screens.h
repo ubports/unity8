@@ -27,7 +27,7 @@ class Screen;
 class Screens;
 }
 
-class Screen;
+class ScreenInterface;
 class ScreensProxy;
 
 class Screens : public QAbstractListModel
@@ -55,7 +55,9 @@ public:
     int count() const;
     QVariant activeScreen() const;
 
-    const QVector<Screen*>& list() const { return m_screens; }
+    const QVector<ScreenInterface*>& list() const { return m_screens; }
+
+    static Screens *self();
 
 public Q_SLOTS:
     void activateScreen(const QVariant& index);
@@ -64,8 +66,8 @@ Q_SIGNALS:
     void countChanged();
     void activeScreenChanged();
 
-    void screenAdded(Screen* screen);
-    void screenRemoved(Screen* screen);
+    void screenAdded(ScreenInterface* screen);
+    void screenRemoved(ScreenInterface* screen);
 
 private Q_SLOTS:
     void onScreenAdded(qtmir::Screen *screen);
@@ -74,8 +76,9 @@ private Q_SLOTS:
 protected:
     Screens(const Screens& other);
 
-    QVector<Screen*> m_screens;
+    QVector<ScreenInterface*> m_screens;
     QSharedPointer<qtmir::Screens> m_wrapped;
+    static Screens* m_self;
 };
 
 class ScreensProxy : public Screens

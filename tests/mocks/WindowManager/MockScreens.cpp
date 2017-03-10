@@ -15,11 +15,18 @@
  */
 
 #include "MockScreens.h"
+#include "ScreenWindow.h"
 
 // qtmirserver
 #include <qtmir/screen.h>
 
+#include <QGuiApplication>
+#include <QWindow>
+#include <QWeakPointer>
+
 namespace {
+
+QWeakPointer<MockScreens> m_screens;
 
 class MockScreen : public qtmir::Screen
 {
@@ -32,6 +39,37 @@ public:
         m_sizes.append(new qtmir::ScreenMode(60, QSize(1440,900)));
         m_sizes.append(new qtmir::ScreenMode(60, QSize(1920,1080)));
         m_physicalSize = QSize(800,568);
+    }
+    ~MockScreen() {
+        qDeleteAll(m_sizes);
+        m_sizes.clear();
+    }
+
+    void connectToWindow(QWindow* w)
+    {
+        if (m_connectedWindow == w) return;
+
+        if (m_connectedWindow) {
+            disconnect(m_connectedWindow.data());
+            m_sizes.takeFirst()->deleteLater();
+        }
+
+        m_connectedWindow = w;
+
+        if (w) {
+            connect(w, &ScreenWindow::heightChanged, this, [this](int height) {
+                m_sizes.first()->size.rheight() = height;
+                Q_EMIT availableModesChanged();
+
+            });
+            connect(w, &ScreenWindow::widthChanged, this, [this](int width) {
+                m_sizes.first()->size.rwidth() = width;
+                Q_EMIT availableModesChanged();
+            });
+
+            m_sizes.push_front(new qtmir::ScreenMode(50, w->size()));
+            Q_EMIT availableModesChanged();
+        }
     }
 
     qtmir::OutputId outputId() const override { return m_id; }
@@ -58,7 +96,12 @@ public:
         }
     }
 
-    QScreen* qscreen() const override { return nullptr; }
+    QScreen* qscreen() const override {
+        if (qGuiApp->topLevelWindows().count() > 0) {
+            return qGuiApp->topLevelWindows()[0]->screen();
+        }
+        return qGuiApp->primaryScreen();
+    }
 
     qtmir::ScreenConfiguration *beginConfiguration() const override {
         auto config = new qtmir::ScreenConfiguration;
@@ -97,6 +140,8 @@ public:
     uint m_currentModeIndex{0};
     QList<qtmir::ScreenMode*> m_sizes;
     QSizeF m_physicalSize;
+
+    QPointer<QWindow> m_connectedWindow;
 };
 }
 
@@ -122,6 +167,7 @@ MockScreens::MockScreens()
 MockScreens::~MockScreens()
 {
     qDeleteAll(m_mocks);
+    m_mocks.clear();
 }
 
 QVector<qtmir::Screen *> MockScreens::screens() const
@@ -135,6 +181,28 @@ qtmir::Screen *MockScreens::activeScreen() const
         if (screen->isActive()) return screen;
     }
     return nullptr;
+}
+
+QSharedPointer<MockScreens> MockScreens::instance()
+{
+    if (!m_screens) {
+        QSharedPointer<MockScreens> screens(new MockScreens());
+        m_screens = screens.toWeakRef();
+        return screens;
+    } else {
+        return m_screens.lock();
+    }
+}
+
+void MockScreens::connectWindow(ScreenWindow *w)
+{
+    Screen* screen = w->screenWrapper();
+    if (!screen) return;
+
+    auto mockScreen = qobject_cast<MockScreen*>(screen->wrapped());
+    if (mockScreen) {
+        mockScreen->connectToWindow(w);
+    }
 }
 
 #include "MockScreens.moc"

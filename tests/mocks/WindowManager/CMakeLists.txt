@@ -21,14 +21,16 @@ qt5_use_modules(mockwindowmanagmentpolicy Core)
 
 set(WINDOWMANAGER_SRC
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Screen.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/WindowManager/ScreenAttached.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Screens.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/WindowManager/ScreenWindow.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/TopLevelWindowModel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Window.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/WorkspaceManager.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/WorkspaceModel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Workspace.cpp
     MockScreens.cpp
-    ScreenWindow.cpp
+    MockScreenWindow.cpp
     WindowManagerPlugin.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/Mir.h

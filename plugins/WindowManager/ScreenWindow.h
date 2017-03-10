@@ -40,7 +40,7 @@ public:
     void setScreenWrapper(Screen *screen);
 
 Q_SIGNALS:
-    void screenWrapperChanged();
+    void screenWrapperChanged(Screen* screen);
 
 private:
     QPointer<Screen> m_screen;

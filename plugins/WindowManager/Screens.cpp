@@ -27,9 +27,12 @@
 #include <QScreen>
 #include <QWindow>
 
+Screens* Screens::m_self{nullptr};
+
 Screens::Screens(const QSharedPointer<qtmir::Screens>& model)
     : m_wrapped(model)
 {
+    m_self = this;
     connect(m_wrapped.data(), &qtmir::Screens::screenAdded, this, &Screens::onScreenAdded);
     connect(m_wrapped.data(), &qtmir::Screens::screenRemoved, this, &Screens::onScreenRemoved);
     connect(m_wrapped.data(), &qtmir::Screens::activeScreenChanged, this, &Screens::activeScreenChanged);
@@ -92,6 +95,11 @@ QVariant Screens::activeScreen() const
     return QVariant();
 }
 
+Screens *Screens::self()
+{
+    return Screens::m_self;
+}
+
 ScreensProxy *Screens::createProxy()
 {
     return new ScreensProxy(this);
@@ -138,7 +146,7 @@ void Screens::onScreenAdded(qtmir::Screen *added)
 void Screens::onScreenRemoved(qtmir::Screen *removed)
 {
     int index = 0;
-    QMutableVectorIterator<Screen*> iter(m_screens);
+    QMutableVectorIterator<ScreenInterface*> iter(m_screens);
     while(iter.hasNext()) {
         auto screenWrapper = iter.next();
         if (screenWrapper->wrapped() == removed) {
@@ -161,7 +169,7 @@ ScreensProxy::ScreensProxy(Screens * const screens)
     : Screens(*screens)
     , m_original(screens)
 {
-    connect(screens, &Screens::screenAdded, this, [this](Screen *added) {
+    connect(screens, &Screens::screenAdded, this, [this](ScreenInterface *added) {
         Q_FOREACH(auto screen, m_screens) {
             auto proxy = static_cast<ScreenProxy*>(screen);
             if (proxy->proxyObject() == added) return;
@@ -176,9 +184,9 @@ ScreensProxy::ScreensProxy(Screens * const screens)
         Q_EMIT countChanged();
     });
 
-    connect(screens, &Screens::screenRemoved, this, [this](Screen *removed) {
+    connect(screens, &Screens::screenRemoved, this, [this](ScreenInterface *removed) {
         int index = 0;
-        QMutableVectorIterator<Screen*> iter(m_screens);
+        QMutableVectorIterator<ScreenInterface*> iter(m_screens);
         while(iter.hasNext()) {
             auto proxy = static_cast<ScreenProxy*>(iter.next());
             if (proxy->proxyObject() == removed) {
@@ -197,7 +205,7 @@ ScreensProxy::ScreensProxy(Screens * const screens)
         }
     });
 
-    Q_FOREACH(Screen* screen, screens->list()) {
+    Q_FOREACH(ScreenInterface* screen, screens->list()) {
         auto screenWrapper(new ScreenProxy(screen));
         QQmlEngine::setObjectOwnership(screenWrapper, QQmlEngine::CppOwnership);
         m_screens.push_back(new ScreenProxy(screen));

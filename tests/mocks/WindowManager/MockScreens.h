@@ -22,11 +22,13 @@
 
 #include <qtmir/screens.h>
 
-class Screen;
 namespace qtmir
 {
 class Screens;
 }
+
+class Screen;
+class ScreenWindow;
 
 class MockScreens : public qtmir::Screens
 {
@@ -39,8 +41,14 @@ public:
 
     qtmir::Screen *activeScreen() const override;
 
+    static QSharedPointer<MockScreens> instance();
+
+public Q_SLOTS:
+    void connectWindow(ScreenWindow *w);
+
 private:
     QVector<qtmir::Screen*> m_mocks;
 };
+
 
 #endif // MOCK_SCREENS_H

@@ -16,10 +16,11 @@
 
 #include "WindowManagerPlugin.h"
 
-#include "Screens.h"
-#include "Screen.h"
 #include "MockScreens.h"
-#include "ScreenWindow.h"
+#include "MockScreenWindow.h"
+#include "Screen.h"
+#include "ScreenAttached.h"
+#include "Screens.h"
 #include "TopLevelWindowModel.h"
 #include "Window.h"
 #include "WorkspaceManager.h"
@@ -28,6 +29,8 @@
 #include "WindowManagementPolicy.h"
 
 #include <QtQml>
+
+static const QString notInstantiatable = QStringLiteral("Not instantiatable");
 
 static QObject *workspace_manager(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
@@ -38,18 +41,17 @@ static QObject *workspace_manager(QQmlEngine *engine, QJSEngine *scriptEngine)
 QObject* screensSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
     Q_UNUSED(engine);
     Q_UNUSED(scriptEngine);
-    QSharedPointer<qtmir::Screens> mockScreens(new MockScreens());
-    return new Screens(mockScreens);
+    return new Screens(MockScreens::instance());
 }
 
 void WindowManagerPlugin::registerTypes(const char *uri)
 {
     qmlRegisterType<TopLevelWindowModel>(uri, 1, 0, "TopLevelWindowModel");
     qmlRegisterSingletonType<WorkspaceManager>(uri, 1, 0, "WorkspaceManager", workspace_manager);
-    qmlRegisterUncreatableType<WorkspaceModel>(uri, 1, 0, "WorkspaceModel", "Not a creatable type");
+    qmlRegisterUncreatableType<WorkspaceModel>(uri, 1, 0, "WorkspaceModel", notInstantiatable);
     qmlRegisterSingletonType<Screens>(uri, 1, 0, "Screens", screensSingleton);
-    qmlRegisterUncreatableType<qtmir::ScreenMode>(uri, 1, 0, "ScreenMode", "ScreenMode is not creatable.");
-    qmlRegisterUncreatableType<Workspace>(uri, 1, 0, "Workspace", "Workspace is not creatable.");
+    qmlRegisterUncreatableType<qtmir::ScreenMode>(uri, 1, 0, "ScreenMode", notInstantiatable);
+    qmlRegisterUncreatableType<Workspace>(uri, 1, 0, "Workspace", notInstantiatable);
 
     qRegisterMetaType<Screen*>("Screen*");
     qRegisterMetaType<ScreensProxy*>("ScreensProxy*");
@@ -58,8 +60,10 @@ void WindowManagerPlugin::registerTypes(const char *uri)
     qRegisterMetaType<Window*>("Window*");
     qRegisterMetaType<QAbstractListModel*>("QAbstractListModel*");
 
-    qmlRegisterType<ScreenWindow>(uri, 1, 0, "ScreenWindow");
+    qmlRegisterType<MockScreenWindow>(uri, 1, 0, "ScreenWindow");
     qmlRegisterRevision<QWindow,1>(uri, 1, 0);
+
+    qmlRegisterUncreatableType<WMScreen>(uri, 1, 0, "WMScreen", notInstantiatable);
 }
 
 void WindowManagerPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
