@@ -2516,27 +2516,40 @@ Rectangle {
             tryCompare(app2Surface, "keymap", "fr");
         }
 
-        function test_dragPanelToRestoreMaximizedWindow() {
+        function test_dragPanelToRestoreMaximizedWindow_data() {
+            return [
+                        { tag: "with mouse", mouse: true },
+                        { tag: "with touch", mouse: false }
+                    ]
+        }
+
+        function test_dragPanelToRestoreMaximizedWindow(data) {
             loadShell("desktop");
             shell.usageScenario = "desktop";
             waitForRendering(shell);
             var panel = findChild(shell, "windowControlArea");
             verify(panel);
 
-            var appSurfaceId = topLevelSurfaceList.nextId;
-            var app = ApplicationManager.startApplication("dialer-app")
-            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
-
             // start dialer, maximize it
-            var appContainer = findChild(shell, "appContainer");
-            var appDelegate = findChild(appContainer, "appDelegate_" + appSurfaceId);
+            var appDelegate = startApplication("dialer-app");
             verify(appDelegate);
+
             var maximizeButton = findChild(appDelegate, "maximizeWindowButton");
-            mouseClick(maximizeButton);
+            if (data.mouse) {
+                mouseClick(maximizeButton);
+            } else {
+                tap(maximizeButton);
+            }
 
             tryCompare(appDelegate, "state", "maximized");
 
-            mouseDrag(panel, panel.width/2, panel.height/2, 0, shell.height/3, Qt.LeftButton, Qt.NoModifier, 500);
+            if (data.mouse) {
+                mouseMove(panel, panel.width/2, panel.panelHeight/2, 200 /* delay */); // to reveal the menus
+                mouseDrag(panel, panel.width/2, panel.height/2, 0, shell.height/3, Qt.LeftButton, Qt.NoModifier, 500);
+            } else {
+                touchFlick(panel, panel.width/2, panel.height/2, panel.width/2, shell.height/3);
+            }
+
             tryCompare(appDelegate, "state", "restored");
         }
 
