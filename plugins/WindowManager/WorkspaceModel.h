@@ -61,15 +61,18 @@ public:
     const QVector<Workspace*>& list() const { return m_workspaces; }
 
     void sync(WorkspaceModel* proxy);
+    bool isSyncingWith(WorkspaceModel*);
 
 Q_SIGNALS:
     void countChanged();
 
-    void workspaceAdded(Workspace *workspace);
+    void workspaceInserted(int index, Workspace *workspace);
     void workspaceRemoved(Workspace *workspace);
+    void workspaceMoved(int from, int to);
 
 protected:
     QVector<Workspace*> m_workspaces;
+    WorkspaceModel* m_syncing;
 };
 
 class WorkspaceModelProxy : public WorkspaceModel
@@ -81,7 +84,7 @@ public:
 
     Q_INVOKABLE void move(int from, int to) override;
 
-private:
+protected:
     const QPointer<WorkspaceModel> m_original;
 };
 

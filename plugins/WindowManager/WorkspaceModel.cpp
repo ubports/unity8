@@ -43,7 +43,7 @@ void WorkspaceModel::insert(int index, Workspace *workspace)
 
     endInsertRows();
 
-    Q_EMIT workspaceAdded(workspace);
+    Q_EMIT workspaceInserted(index, workspace);
     Q_EMIT countChanged();
 }
 
@@ -78,7 +78,8 @@ void WorkspaceModel::move(int from, int to)
         m_workspaces.move(from, to);
 #endif
         endMoveRows();
-        Q_EMIT countChanged();
+
+        Q_EMIT workspaceMoved(from, to);
     }
 }
 
@@ -114,6 +115,7 @@ QVariant WorkspaceModel::data(const QModelIndex &index, int role) const
 void WorkspaceModel::sync(WorkspaceModel *proxy)
 {
     if (!proxy) return;
+    m_syncing = proxy;
     const auto& proxyList = proxy->list();
 
     // check for removals
@@ -123,7 +125,7 @@ void WorkspaceModel::sync(WorkspaceModel *proxy)
 
         bool found = false;
         Q_FOREACH(auto p, proxyList) {
-            auto workspaceProxy = static_cast<WorkspaceProxy*>(p);
+            auto workspaceProxy = qobject_cast<WorkspaceProxy*>(p);
             if (workspaceProxy->proxyObject() == workspace) {
                 found = true;
                 break;
@@ -140,7 +142,7 @@ void WorkspaceModel::sync(WorkspaceModel *proxy)
     // existing
     QSet<Workspace*> newWorkspaces;
     for (int i = 0; i < proxyList.count(); i++) {
-        auto workspaceProxy = static_cast<WorkspaceProxy*>(proxyList[i]);
+        auto workspaceProxy = qobject_cast<WorkspaceProxy*>(proxyList[i]);
         auto workspace = workspaceProxy->proxyObject();
 
         int oldIndex = this->indexOf(workspace);
@@ -166,8 +168,13 @@ void WorkspaceModel::sync(WorkspaceModel *proxy)
 
         WorkspaceManager::instance()->setActiveWorkspace(newActiveWorkspace);
     }
+    m_syncing = nullptr;
 }
 
+bool WorkspaceModel::isSyncingWith(WorkspaceModel *m)
+{
+    return m_syncing == m;
+}
 
 WorkspaceModelProxy::WorkspaceModelProxy(WorkspaceModel * const model)
     : m_original(model)
@@ -177,6 +184,28 @@ WorkspaceModelProxy::WorkspaceModelProxy(WorkspaceModel * const model)
         QQmlEngine::setObjectOwnership(proxy, QQmlEngine::CppOwnership);
         proxy->assign(this);
     }
+    connect(m_original, &WorkspaceModel::workspaceInserted, this, [this](int index, Workspace* inserted) {
+        if (m_original->isSyncingWith(this)) return;
+
+        (new WorkspaceProxy(inserted))->assign(this, index);
+    });
+    connect(m_original, &WorkspaceModel::workspaceRemoved, this, [this](Workspace* removed) {
+        if (m_original->isSyncingWith(this)) return;
+
+        for (int i = 0; i < rowCount(); i++) {
+            auto workspaceProxy = qobject_cast<WorkspaceProxy*>(get(i));
+            auto w = workspaceProxy->proxyObject();
+            if (w == removed) {
+                remove(workspaceProxy);
+                break;
+            }
+        }
+    });
+    connect(m_original, &WorkspaceModel::workspaceMoved, this, [this](int from, int to) {
+        if (m_original->isSyncingWith(this)) return;
+
+        move(from, to);
+    });
 }
 
 WorkspaceModelProxy::~WorkspaceModelProxy()

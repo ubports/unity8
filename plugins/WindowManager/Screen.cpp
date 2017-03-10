@@ -158,7 +158,7 @@ Screen::Screen(qtmir::Screen* wrapped)
     connectToScreen(wrapped);
 
     // Connect the active workspace to activate the screen.
-    connect(m_workspaces.data(), &WorkspaceModel::workspaceAdded, this, [this](Workspace* workspace) {
+    connect(m_workspaces.data(), &WorkspaceModel::workspaceInserted, this, [this](int, Workspace* workspace) {
         connect(workspace, &Workspace::activeChanged, this, [this, workspace](bool active) {
             if (active) {
                 setCurrentWorkspace(workspace);
