@@ -24,6 +24,7 @@ namespace {
 class MockScreen : public qtmir::Screen
 {
     Q_OBJECT
+    Q_PROPERTY(QString outputTypeName READ outputTypeName NOTIFY outputTypeNameChanged)
 public:
     MockScreen()
     {
@@ -41,6 +42,7 @@ public:
     QSizeF physicalSize() const override { return m_physicalSize; }
     qtmir::FormFactor formFactor() const override { return m_formFactor; }
     qtmir::OutputTypes outputType() const override { return m_outputType; }
+    QString outputTypeName() const { return QStringLiteral("Internal"); }
     MirPowerMode powerMode() const override { return m_powerMode; }
     Qt::ScreenOrientation orientation() const override { return m_orientation; }
     QPoint position() const override { return m_position; }
@@ -82,6 +84,9 @@ public:
         m_formFactor = configuration->formFactor;
         return true;
     }
+
+Q_SIGNALS:
+    void outputTypeNameChanged();
 
 public:
     qtmir::OutputId m_id{0};

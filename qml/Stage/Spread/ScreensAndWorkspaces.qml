@@ -63,7 +63,7 @@ Item {
                         }
 
                         Label {
-                            text: model.screen.outputType === Screens.LVDS ? "Built-in" : "Clone"
+                            text: model.screen.outputTypeName
                             color: "black"
                             fontSize: "x-small"
                         }

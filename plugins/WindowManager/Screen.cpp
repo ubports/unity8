@@ -36,6 +36,7 @@ Screen::Screen(qtmir::Screen* screen)
     connect(m_wrapped, &qtmir::Screen::activeChanged, this, &Screen::activeChanged);
     connect(m_wrapped, &qtmir::Screen::currentModeIndexChanged, this, &Screen::currentModeIndexChanged);
     connect(m_wrapped, &qtmir::Screen::availableModesChanged, this, &Screen::availableModesChanged);
+    connect(m_wrapped, &qtmir::Screen::outputTypeChanged, this, &Screen::outputTypeNameChanged);
 
     // Connect the active workspace to activate the screen.
     connect(m_workspaces.data(), &WorkspaceModel::workspaceAdded, this, [this](Workspace* workspace) {
@@ -130,6 +131,37 @@ qtmir::FormFactor Screen::formFactor() const
 qtmir::OutputTypes Screen::outputType() const
 {
     return m_wrapped->outputType();
+}
+
+QString Screen::outputTypeName() const
+{
+    switch (m_wrapped->outputType()) {
+    case qtmir::Unknown:
+        return tr("Unknown");
+    case qtmir::VGA:
+        return tr("VGA");
+    case qtmir::DVII:
+    case qtmir::DVID:
+    case qtmir::DVIA:
+        return tr("DVI");
+    case qtmir::Composite:
+        return tr("Composite");
+    case qtmir::SVideo:
+        return tr("S-Video");
+    case qtmir::LVDS:
+    case qtmir::NinePinDIN:
+    case qtmir::EDP:
+        return tr("Internal");
+    case qtmir::Component:
+        return tr("Component");
+    case qtmir::DisplayPort:
+        return tr("DisplayPort");
+    case qtmir::HDMIA:
+    case qtmir::HDMIB:
+        return tr("HDMI");
+    case qtmir::TV:
+        return tr("TV");
+    }
 }
 
 MirPowerMode Screen::powerMode() const

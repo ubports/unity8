@@ -14,6 +14,7 @@ class Screen : public qtmir::Screen
     Q_OBJECT
     Q_PROPERTY(WorkspaceModel* workspaces READ workspaces CONSTANT)
     Q_PROPERTY(Workspace* currentWorkspace READ currentWorkspace WRITE setCurrentWorkspace NOTIFY currentWorkspaceChanged)
+    Q_PROPERTY(QString outputTypeName READ outputTypeName NOTIFY outputTypeNameChanged)
 
 public:
     explicit Screen(qtmir::Screen*const wrapped);
@@ -25,6 +26,7 @@ public:
     QSizeF physicalSize() const override;
     qtmir::FormFactor formFactor() const override;
     qtmir::OutputTypes outputType() const override;
+    QString outputTypeName() const;
     MirPowerMode powerMode() const override;
     Qt::ScreenOrientation orientation() const override;
     QPoint position() const override;
@@ -52,6 +54,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void currentWorkspaceChanged(Workspace*);
+    void outputTypeNameChanged();
 
 protected:
     Screen(Screen const& other);
