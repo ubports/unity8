@@ -2947,5 +2947,39 @@ Rectangle {
             mouseDoubleClickSequence(panel, panel.width/2, PanelState.panelHeight/2, Qt.LeftButton, Qt.NoModifier, 300);
             tryCompare(appDelegate, "state", "restored");
         }
+
+        function test_noMenusWithActiveCall() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            // start dialer, maximize it
+            var appDelegate = startApplication("music-app")
+            verify(appDelegate);
+            appDelegate.requestMaximize();
+
+            // move the mouse over panel to reveal the menus
+            var panel = findChild(shell, "panel");
+            verify(panel);
+            mouseMove(panel, panel.width/2, panel.panelHeight/2, 200 /* delay */); // to reveal the menus
+            var menuBarLoader = findInvisibleChild(panel, "menuBarLoader");
+            verify(menuBarLoader);
+            tryCompare(menuBarLoader.item, "visible", true);
+
+            // place a phone call
+            callManager.foregroundCall = phoneCall;
+
+            // menu bar should be hidden
+            tryCompare(menuBarLoader, "active", false);
+            tryCompare(menuBarLoader, "item", null);
+
+            // remove call
+            callManager.foregroundCall = null;
+
+            // menu bar should be revealed
+            tryCompare(menuBarLoader, "active", true);
+            tryCompare(menuBarLoader.item, "visible", true);
+        }
     }
 }

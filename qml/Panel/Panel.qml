@@ -202,6 +202,7 @@ Item {
 
                 Loader {
                     id: menuBarLoader
+                    objectName: "menuBarLoader"
                     height: parent.height
                     enabled: d.enablePointerMenu
                     opacity: d.showPointerMenu ? 1 : 0
