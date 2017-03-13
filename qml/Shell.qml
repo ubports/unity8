@@ -69,6 +69,7 @@ StyledItem {
     }
     property bool hasMouse: false
     property bool hasKeyboard: false
+    property bool hasTouchscreen: false
 
     // to be read from outside
     readonly property int mainAppWindowOrientationAngle: stage.mainAppWindowOrientationAngle
@@ -533,6 +534,7 @@ StyledItem {
             fullscreenMode: (focusedSurfaceIsFullscreen && !LightDMService.greeter.active && launcher.progress == 0 && !stage.spreadShown)
                             || greeter.hasLockedApp
             greeterShown: greeter && greeter.shown
+            hasKeyboard: shell.hasKeyboard
         }
 
         Launcher {
@@ -627,8 +629,8 @@ StyledItem {
             objectName: "tutorial"
             anchors.fill: parent
 
-            paused: callManager.hasCalls || !greeter || greeter.active ||
-                    wizard.active
+            paused: callManager.hasCalls || !greeter || greeter.active || wizard.active
+                    || !hasTouchscreen // TODO #1661557 something better for no touchscreen
             delayed: dialogs.hasActiveDialog || notifications.hasNotification ||
                      inputMethod.visible ||
                      (launcher.shown && !launcher.lockedVisible) ||

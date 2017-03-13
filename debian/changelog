@@ -1,3 +1,59 @@
+unity8 (8.15+17.04.20170308-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Let's follow the keyboard order
+  * Enable the license check (LP: #1590044)
+  * Show a barebones error message if loading the QML doesn't work
+  * Make sure cursor is back to normal when closing the window (LP:
+    #1666158)
+  * Fix small warning when sensitive is undefined
+  * Remove unused member variable
+  * Initialize m_msecsSinceReference
+  * Add warning if registerService fails
+  * Move menus Component {} out of the repeater
+  * Add tool to browse menus of a running app
+
+  [ Daniel d'Andrada ]
+  * Drag child windows with Alt+LeftMouseButton (LP: #1664947)
+
+  [ Gerry Boland ]
+  * TopLevelWindowModel: connect to the OSK surface to know when it goes
+    away so we can clean up after it. (LP: #1670681)
+
+  [ Josh Arenson ]
+  * Initialize sessionMode to single when mock is reset (LP: #1667463)
+
+  [ Lukáš Tinkl ]
+  * Make the menu string "Back" translatable
+  * Let the OSK be driven by a switch in indicator-keyboard (LP:
+    #1521518)
+  * Disable the tutorial when there's no touchscreen (LP: #1661557)
+  * Shell chrome fixes (LP: #1658117, #1665723, #1665724, #1669010)
+  * Cancel the drag as soon as we're entering the spread (LP: #1668642)
+  * Fix being unable to use window control buttons or menus with touch
+    (LP: #1667604, #1668387)
+
+  [ Michael Terry ]
+  * Set QT_IM_MODULE in the greeter so that the OSK can come up. (LP:
+    #1670383)
+  * Simplify our startup handling of Mir environment variables and set
+    the right socket path in snappy.
+
+  [ Michael Zanetti ]
+  * Cancel the home key activation if something else is pressed along
+    with Meta (LP: #1670678)
+  * close the drawer when something is launched from the launcher (LP:
+    #1660367)
+  * use a svg instead of a png for the Launcher's BFB (LP: #1668057)
+  * change the default setting for the launcher autohiding (LP:
+    #1670655)
+
+  [ Nick Dedekind ]
+  * Split up Shell::test_spreadDisabled to ensure initial state for each
+    test.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 08 Mar 2017 09:56:46 +0000
+
 unity8 (8.15+17.04.20170221-0ubuntu1) zesty; urgency=medium
 
   * Handle ubuntu-app-launch API/ABI break

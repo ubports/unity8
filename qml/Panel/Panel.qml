@@ -23,9 +23,6 @@ import Utils 0.1
 import Unity.ApplicationMenu 0.1
 
 import QtQuick.Window 2.2
-// for indicator-keyboard
-import AccountsService 0.1
-import Unity.InputInfo 0.1
 
 import "../ApplicationMenus"
 import "../Components"
@@ -47,6 +44,7 @@ Item {
     property bool fullscreenMode: false
     property real panelAreaShowProgress: 1.0
     property bool greeterShown: false
+    property bool hasKeyboard: false
 
     property string mode: "staged"
 
@@ -231,6 +229,8 @@ Item {
                             target: __indicators
                             onShownChanged: bar.dismiss();
                         }
+
+                        onDoubleClicked: PanelState.restoreClicked()
                     }
                 }
             }
@@ -337,12 +337,12 @@ Item {
                 objectName: identifier+"-panelItem"
 
                 property int ownIndex: index
-                property bool overflow: parent.width - x > __indicators.overFlowWidth
-                property bool hidden: !expanded && (overflow || !indicatorVisible || hideSessionIndicator || hideKeyboardIndicator)
+                readonly property bool overflow: parent.width - x > __indicators.overFlowWidth
+                readonly property bool hidden: !expanded && (overflow || !indicatorVisible || hideSessionIndicator || hideKeyboardIndicator)
                 // HACK for indicator-session
                 readonly property bool hideSessionIndicator: identifier == "indicator-session" && Math.min(Screen.width, Screen.height) <= units.gu(60)
                 // HACK for indicator-keyboard
-                readonly property bool hideKeyboardIndicator: identifier == "indicator-keyboard" && (AccountsService.keymaps.length < 2 || keyboardsModel.count == 0)
+                readonly property bool hideKeyboardIndicator: identifier == "indicator-keyboard" && !hasKeyboard
 
                 height: parent.height
                 expanded: indicators.expanded
@@ -394,11 +394,6 @@ Item {
                 if (!enabled) hide();
             }
         }
-    }
-
-    InputDeviceModel {
-        id: keyboardsModel
-        deviceFilter: InputInfo.Keyboard
     }
 
     IndicatorsLight {
