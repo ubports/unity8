@@ -2954,7 +2954,7 @@ Rectangle {
             waitForRendering(shell);
             swipeAwayGreeter();
 
-            // start dialer, maximize it
+            // start music-app, maximize it
             var appDelegate = startApplication("music-app")
             verify(appDelegate);
             appDelegate.requestMaximize();
@@ -2962,7 +2962,7 @@ Rectangle {
             // move the mouse over panel to reveal the menus
             var panel = findChild(shell, "panel");
             verify(panel);
-            mouseMove(panel, panel.width/2, panel.panelHeight/2, 200 /* delay */); // to reveal the menus
+            mouseMove(panel, panel.width/2, panel.panelHeight/2); // to reveal the menus
             var menuBarLoader = findInvisibleChild(panel, "menuBarLoader");
             verify(menuBarLoader);
             tryCompare(menuBarLoader.item, "visible", true);
