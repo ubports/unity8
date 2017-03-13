@@ -152,6 +152,18 @@ MouseArea {
         onCursorNameChanged: {
             Mir.cursorName = cursorName;
         }
+        Component.onDestruction: {
+            // TODO Qt 5.8 has fixed the problem with containsMouse
+            // not being updated when the MouseArea that had containsMouse
+            // is hidden/removed. When we start using Qt 5.8 we should
+            // try to fix this scenario
+            // two windows side by side
+            // cursor in the resize left area of the right one
+            // close window by Alt+F4
+            // cursor should change to resize right of the left one
+            // currently changes to ""
+            Mir.cursorName = "";
+        }
 
         function updateBorders() {
             leftBorder = mouseX <= borderThickness;

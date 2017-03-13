@@ -25,6 +25,7 @@ MockController::MockController(QObject *parent)
     : QObject(parent)
     , m_selectGuestHint(false)
     , m_hasGuestAccountHint(false)
+    , m_sessionMode("single")
     , m_fullSessions(
         {
             {"ubuntu", "Ubuntu"},
@@ -68,7 +69,7 @@ void MockController::reset()
     setSelectGuestHint(false);
     setHasGuestAccountHint(false);
     setUserMode(userMode);
-    setSessionMode("full");
+    setSessionMode("single");
     setNumSessions(numFullSessions());
     setShowManualLoginHint(false);
     setHideUsersHint(false);

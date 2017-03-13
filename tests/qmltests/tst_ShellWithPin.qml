@@ -69,6 +69,7 @@ Item {
             property bool itemDestroyed: false
             sourceComponent: Component {
                 Shell {
+                    hasTouchscreen: true
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true
                     }

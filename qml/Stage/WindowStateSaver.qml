@@ -28,6 +28,8 @@ QtObject {
     property int leftMargin: 0
     property int minimumY: 0
 
+    property int loadedState
+
     function load() {
         var defaultWidth = units.gu(60);
         var defaultHeight = units.gu(50);
@@ -41,14 +43,13 @@ QtObject {
                                                            (target.fullscreen ? 0 : root.leftMargin)); });
         target.windowedY = Qt.binding(function() { return Math.max(Math.min(windowGeometry.y, screenHeight - target.windowedHeight), minimumY); });
 
-        var windowState = WindowStateStorage.getState(target.appId, WindowStateStorage.WindowStateNormal)
-        target.restore(false /* animated */, windowState);
-
         target.updateNormalGeometry();
 
         // initialize the x/y to restore to
         target.restoredX = target.normalX;
         target.restoredY = target.normalY;
+
+        loadedState = WindowStateStorage.getState(target.appId, WindowStateStorage.WindowStateNormal);
     }
 
     function save() {
