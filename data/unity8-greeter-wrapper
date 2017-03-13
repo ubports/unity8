@@ -49,9 +49,12 @@ if which ubuntu-touch-session >/dev/null; then
     TOUCH_WRAPPER=ubuntu-touch-session
 fi
 
-# Pretend that we're in an ubuntu-touch session, so that indicator-network
-# will start.
-export DESKTOP_SESSION=ubuntu-touch
+# Advertise as a unity8 session, so that indicator-network will start.
+export XDG_SESSION_DESKTOP=unity8
+export DESKTOP_SESSION=$XDG_SESSION_DESKTOP
+
+set_greeter_var QT_IM_MODULE maliitphablet
+set_greeter_var QT_QPA_PLATFORM ubuntumirclient
 
 # We disable ofono using pulse.  It causes problems with racing with the user's
 # pulse.  We need to come up with a better long-term fix for this, because we
@@ -100,7 +103,7 @@ if [ "$(id -u phablet 2>/dev/null)" = "32011" ]; then
 fi
 
 # And finally actually start the greeter
-exec env QT_QPA_PLATFORM=ubuntumirclient MIR_SERVER_FILE=$SUB_SOCKET $TOUCH_WRAPPER $@ &
+exec env MIR_SERVER_FILE=$SUB_SOCKET $TOUCH_WRAPPER $@ &
 CMD_PID=$!
 wait $CMD_PID
 CMD_PID=

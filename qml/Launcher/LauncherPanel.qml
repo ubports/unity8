@@ -92,8 +92,10 @@ Rectangle {
                 objectName: "dashItem"
                 width: parent.width * .6
                 height: width
+                sourceSize.width: width
+                sourceSize.height: height
                 anchors.centerIn: parent
-                source: "graphics/home.png"
+                source: "graphics/home.svg"
                 rotation: root.rotation
             }
             AbstractButton {

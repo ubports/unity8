@@ -35,17 +35,39 @@ Item {
         actions: { "unity": "/com/ubuntu/Menu/0" }
     }
 
+    readonly property bool hasMenus: repeater.count > 0
+    Repeater {
+        id: repeater
+        model: menuModel
+        delegate: Item {}
+    }
+
     Panel {
         id: panel
 
         height: parent.height
         width: parent.width / 2
         minimizedPanelHeight: units.gu(6)
+        visible: hasMenus
 
         mode: "windowed"
 
         applicationMenus {
             model: menuModel
+        }
+
+        Rectangle {
+            width: 50
+            height: 50
+            anchors.centerIn: parent
+            color: "gray"
+            rotation: 45
+            Timer {
+                interval: 20
+                running: true
+                repeat: true
+                onTriggered: parent.rotation = parent.rotation+1
+            }
         }
 
         Rectangle {
@@ -72,6 +94,7 @@ Item {
         height: parent.height
         width: parent.width / 2
         x: width
+        visible: hasMenus
 
         MenuBar {
             id: menuBar
@@ -85,5 +108,11 @@ Item {
     Component.onCompleted: {
         theme.name = "Ubuntu.Components.Themes.SuruDark";
         PanelState.title = "Drag here to open touch menu";
+    }
+
+    Text {
+        anchors.centerIn: parent
+        text: "The dbus address you gave has no menus. Make sure you read the README file."
+        visible: !hasMenus
     }
 }
