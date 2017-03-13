@@ -312,6 +312,23 @@ StyledItem {
             compare(launcher.lastSelectedApplication, "calendar-app");
         }
 
+        function test_focusAppFromLauncherWhileDrawerIsOpen() {
+            // FIXME: Skipping this test because of a bug in Qt. Please enable
+            // once https://codereview.qt-project.org/#/c/184942/ is accepted
+            skip();
+
+            launcher.openDrawer(true);
+            waitForRendering(launcher);
+            waitUntilTransitionsEnd(launcher);
+
+            var appIcon = findChild(launcher, "launcherDelegate4")
+
+            mouseMove(launcher, units.gu(4), launcher.height / 2)
+            mouseClick(appIcon, appIcon.width / 2, appIcon.height / 2);
+
+            tryCompare(launcher, "state", "visibleTemporary");
+        }
+
         function test_focusMovesCorrectlyBetweenLauncherAndDrawer() {
             var panel = findChild(launcher, "launcherPanel");
             var drawer = findChild(launcher, "drawer");
