@@ -192,7 +192,7 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    screenWindow.screen.currentWorkspace = model.workspace
+                    model.workspace.activate()
                 }
             }
 
