@@ -33,15 +33,12 @@ MouseArea {
     property alias overlayShown: buttons.overlayShown
     property var menu: undefined
     property bool enableMenus: true
+    property bool windowMoving: false
 
     readonly property real buttonsWidth: buttons.width + row.spacing
 
     acceptedButtons: Qt.AllButtons // prevent leaking unhandled mouse events
     hoverEnabled: true
-
-    drag.target: Item {}
-    drag.filterChildren: true
-    drag.threshold: 0
 
     signal closeClicked()
     signal minimizeClicked()
@@ -49,7 +46,8 @@ MouseArea {
     signal maximizeHorizontallyClicked()
     signal maximizeVerticallyClicked()
 
-    onClicked: mouse.accepted = true // propogated event
+    signal pressedChangedEx(bool pressed, var pressedButtons, real mouseX, real mouseY)
+
     onDoubleClicked: {
         if (mouse.button == Qt.LeftButton) {
             root.maximizeClicked();
@@ -67,13 +65,6 @@ MouseArea {
                                        menuBar &&
                                        menuBar.valid &&
                                        (menuBar.showRequested || root.containsMouse)
-    }
-
-    // We dont want touch events to fall through to parent as it expect some child MouseArea to have them
-    // If not some MouseArea in the menu bar, it will be this one.
-    MouseArea {
-        anchors.fill: parent
-        propagateComposedEvents: true
     }
 
     Rectangle {
@@ -136,7 +127,7 @@ MouseArea {
                 fontSize: "medium"
                 font.weight: root.active ? Font.Light : Font.Medium
                 elide: Text.ElideRight
-                opacity: overlayShown || priv.shouldShowMenus ? 0 : 1
+                opacity: overlayShown || menuBarLoader.visible ? 0 : 1
                 visible: opacity != 0
                 Behavior on opacity { UbuntuNumberAnimation {} }
             }
@@ -154,9 +145,16 @@ MouseArea {
                     height: menuBarLoader.height
                     enableKeyFilter: valid && root.active && root.enableMenus
                     unityMenuModel: root.menu
+                    windowMoving: root.windowMoving
+
+                    onPressed: root.onPressed(mouse)
+                    onPressedChangedEx: root.pressedChangedEx(pressed, pressedButtons, mouseX, mouseY)
+                    onPositionChanged: root.onPositionChanged(mouse)
+                    onReleased: root.onReleased(mouse)
+                    onDoubleClicked: root.onDoubleClicked(mouse)
                 }
 
-                opacity: !overlayShown && priv.shouldShowMenus ? 1 : 0
+                opacity: (!overlayShown && priv.shouldShowMenus) || (active && priv.menuBar.valid && root.windowMoving) ? 1 : 0
                 visible: opacity == 1
                 Behavior on opacity { UbuntuNumberAnimation {} }
             }

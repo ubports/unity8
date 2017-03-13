@@ -137,6 +137,7 @@ Rectangle {
                         primary: shellLoader.primaryOrientation
                     }
                     mode: shellLoader.mode
+                    hasTouchscreen: true
                     Component.onCompleted: {
                         ApplicationManager.startApplication("unity8-dash");
                     }
@@ -334,7 +335,7 @@ Rectangle {
 
                 Row {
                     CheckBox {
-                        id: fullscreeAppCheck
+                        id: fullscreenAppCheck
                         activeFocusOnPress: false
                         activeFocusOnTab: false
 
@@ -348,13 +349,10 @@ Rectangle {
                         }
 
                         Binding {
-                            target: fullscreeAppCheck
+                            target: fullscreenAppCheck
                             when: topLevelSurfaceList && topLevelSurfaceList.focusedWindow
                             property: "checked"
-                            value: {
-                                if (!topLevelSurfaceList || !topLevelSurfaceList.focusedWindow) return false;
-                                return topLevelSurfaceList.focusedWindow.state === Mir.FullscreenState
-                            }
+                            value: topLevelSurfaceList.focusedWindow.state === Mir.FullscreenState
                         }
                     }
                     Label {
@@ -365,6 +363,8 @@ Rectangle {
                 Row {
                     CheckBox {
                         id: chromeAppCheck
+                        activeFocusOnPress: false
+                        activeFocusOnTab: false
 
                         onTriggered: {
                             if (!topLevelSurfaceList.focusedWindow || !topLevelSurfaceList.focusedWindow.surface) return;
@@ -380,10 +380,8 @@ Rectangle {
                             target: chromeAppCheck
                             when: topLevelSurfaceList && topLevelSurfaceList.focusedWindow !== null && topLevelSurfaceList.focusedWindow.surface !== null
                             property: "checked"
-                            value: {
-                                if (!topLevelSurfaceList || !topLevelSurfaceList.focusedWindow || !topLevelSurfaceList.focusedWindow.surface) return false;
-                                topLevelSurfaceList.focusedWindow.surface.shellChrome === Mir.LowChrome
-                            }
+                            value: topLevelSurfaceList.focusedWindow.surface &&
+                                   topLevelSurfaceList.focusedWindow.surface.shellChrome === Mir.LowChrome
                         }
                     }
                     Label {
@@ -2294,7 +2292,6 @@ Rectangle {
             return [
                 { tag: "phone" },
                 { tag: "tablet" },
-                { tag: "desktop" },
             ]
         }
 
@@ -2674,8 +2671,8 @@ Rectangle {
         }
 
         function test_cursorHidingWithFullscreenApp() {
-            loadShell("desktop");
-            shell.usageScenario = "desktop";
+            loadShell("phone");
+            shell.usageScenario = "phone";
             waitForRendering(shell);
             swipeAwayGreeter();
 
@@ -2737,14 +2734,14 @@ Rectangle {
             GSettingsController.setEnableIndicatorMenu(true);
         }
 
-        function test_spreadDisabled_data() {
+        function test_spreadDisabled_WithSwipe_data() {
             return [
                 { tag: "enabled", spreadEnabled: true },
                 { tag: "disabled", spreadEnabled: false }
             ];
         }
 
-        function test_spreadDisabled(data) {
+        function test_spreadDisabled_WithSwipe(data) {
             loadShell("phone");
             swipeAwayGreeter();
             var stage = findChild(shell, "stage");
@@ -2753,9 +2750,20 @@ Rectangle {
             // Try swiping
             touchFlick(shell, shell.width - 2, shell.height / 2, units.gu(1), shell.height / 2);
             tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
+        }
 
-            stage.closeSpread();
-            tryCompare(stage, "state", "staged");
+        function test_spreadDisabled_WithEdgePush_data() {
+            return [
+                { tag: "enabled", spreadEnabled: true },
+                { tag: "disabled", spreadEnabled: false }
+            ];
+        }
+
+        function test_spreadDisabled_WithEdgePush(data) {
+            loadShell("phone");
+            swipeAwayGreeter();
+            var stage = findChild(shell, "stage");
+            stage.spreadEnabled = data.spreadEnabled;
 
             // Try by edge push
             var cursor = findChild(shell, "cursor");
@@ -2765,21 +2773,43 @@ Rectangle {
             }
             mouseMove(stage, stage.width - units.gu(5), units.gu(10));
             tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
+        }
 
-            stage.closeSpread();
-            tryCompare(stage, "state", "staged");
+        function test_spreadDisabled_WithAltTab_data() {
+            return [
+                { tag: "enabled", spreadEnabled: true },
+                { tag: "disabled", spreadEnabled: false }
+            ];
+        }
+
+        function test_spreadDisabled_WithAltTab(data) {
+            loadShell("phone");
+            swipeAwayGreeter();
+            var stage = findChild(shell, "stage");
+            stage.spreadEnabled = data.spreadEnabled;
 
             // Try by alt+tab
             keyPress(Qt.Key_Alt);
             keyClick(Qt.Key_Tab);
             tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
             keyRelease(Qt.Key_Alt);
+        }
 
-            stage.closeSpread();
-            tryCompare(stage, "state", "staged");
+        function test_spreadDisabled_WithSuperW_data() {
+            return [
+                { tag: "enabled", spreadEnabled: true },
+                { tag: "disabled", spreadEnabled: false }
+            ];
+        }
+
+        function test_spreadDisabled_WithSuperW(data) {
+            loadShell("phone");
+            swipeAwayGreeter();
+            var stage = findChild(shell, "stage");
+            stage.spreadEnabled = data.spreadEnabled;
 
             // Try by Super+W
-            keyPress(Qt.Key_W, Qt.MetaModifier)
+            keyPress(Qt.Key_W, Qt.MetaModifier, 200);
             tryCompare(stage, "state", data.spreadEnabled ? "spread" : "staged");
             keyRelease(Qt.Key_W, Qt.MetaModifier)
         }
@@ -2909,6 +2939,30 @@ Rectangle {
             tryCompare(appDelegate, "focus", true);
             tryCompare(topLevelSurfaceList.focusedWindow, "surface", appDelegate.surface);
             tryCompare(topLevelSurfaceList.applicationAt(0), "appId", "dialer-app");
+        }
+
+        function test_doubleClickPanelRestoresWindow() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            // start dialer
+            var appDelegate = startApplication("dialer-app")
+            verify(appDelegate);
+            tryCompare(appDelegate, "state", "normal");
+
+            // maximize dialer
+            var decoration = findChild(appDelegate, "appWindowDecoration");
+            verify(decoration);
+            mouseDoubleClickSequence(decoration);
+            tryCompare(appDelegate, "state", "maximized");
+
+            // double click the panel
+            var panel = findChild(shell, "panel");
+            verify(panel);
+            mouseDoubleClickSequence(panel, panel.width/2, PanelState.panelHeight/2, Qt.LeftButton, Qt.NoModifier, 300);
+            tryCompare(appDelegate, "state", "restored");
         }
     }
 }
