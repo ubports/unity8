@@ -360,7 +360,9 @@ FocusScope {
             bottom: parent.bottom
             right: parent.left
             onRightMarginChanged: {
+                var hadFocus = drawer.searchTextField.focus;
                 drawer.searchTextField.focus = false;
+                drawer.searchTextField.focus = hadFocus;
             }
         }
         width: Math.min(root.width, units.gu(90)) * .9
