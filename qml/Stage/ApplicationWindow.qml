@@ -28,6 +28,7 @@ FocusScope {
     property bool orientationChangesEnabled: d.supportsSurfaceResize ? d.surfaceOldEnoughToBeResized : true
     readonly property string title: surface && surface.name !== "" ? surface.name : d.name
     readonly property QtObject focusedSurface: d.focusedSurface.surface
+    readonly property alias surfaceInitialized: d.surfaceInitialized
 
     // to be set from outside
     property QtObject surface
