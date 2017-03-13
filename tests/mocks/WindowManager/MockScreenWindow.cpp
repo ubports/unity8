@@ -14,35 +14,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ScreenWindow.h"
-#include "Screen.h"
+#include "MockScreenWindow.h"
+#include "MockScreens.h"
 
 // Qt
 #include <QGuiApplication>
 #include <QDebug>
 
-ScreenWindow::ScreenWindow(QQuickWindow *parent)
-    : QQuickWindow(parent)
+MockScreenWindow::MockScreenWindow(QQuickWindow *parent)
+    : ScreenWindow(parent)
 {
-    if (qGuiApp->platformName() != QLatin1String("mirserver")) {
-        qCritical("Not using 'mirserver' QPA plugin. Using ScreenWindow may produce unknown results.");
-    }
+    connect(this, &ScreenWindow::screenWrapperChanged, this, [this]() {
+        MockScreens::instance()->connectWindow(this);
+    });
 }
 
-ScreenWindow::~ScreenWindow()
+MockScreenWindow::~MockScreenWindow()
 {
-}
-
-Screen *ScreenWindow::screenWrapper() const
-{
-    return m_screen.data();
-}
-
-void ScreenWindow::setScreenWrapper(Screen *screen)
-{
-    if (m_screen != screen) {
-        m_screen = screen;
-        Q_EMIT screenWrapperChanged();
-    }
-    QQuickWindow::setScreen(screen->qscreen());
 }

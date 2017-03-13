@@ -8,77 +8,126 @@
 #include "WorkspaceModel.h"
 
 class ScreenProxy;
+class ScreenAttached;
 
-class Screen : public qtmir::Screen
+class ScreenInterface: public QObject
 {
     Q_OBJECT
+
+    Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged)
+
+    Q_PROPERTY(bool used READ used NOTIFY usedChanged)
+    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
+    Q_PROPERTY(qtmir::OutputTypes outputType READ outputType NOTIFY outputTypeChanged)
+    Q_PROPERTY(float scale READ scale NOTIFY scaleChanged)
+    Q_PROPERTY(qtmir::FormFactor formFactor READ formFactor NOTIFY formFactorChanged)
+    Q_PROPERTY(MirPowerMode powerMode READ powerMode NOTIFY powerModeChanged)
+    Q_PROPERTY(Qt::ScreenOrientation orientation READ orientation NOTIFY orientationChanged)
+    Q_PROPERTY(QPoint position READ position NOTIFY positionChanged)
+    Q_PROPERTY(uint currentModeIndex READ currentModeIndex NOTIFY currentModeIndexChanged)
+    Q_PROPERTY(QQmlListProperty<qtmir::ScreenMode> availableModes READ availableModes NOTIFY availableModesChanged)
+    Q_PROPERTY(QSizeF physicalSize READ physicalSize NOTIFY physicalSizeChanged)
+    Q_PROPERTY(QString outputTypeName READ outputTypeName NOTIFY outputTypeChanged)
+
     Q_PROPERTY(WorkspaceModel* workspaces READ workspaces CONSTANT)
     Q_PROPERTY(Workspace* currentWorkspace READ currentWorkspace WRITE setCurrentWorkspace NOTIFY currentWorkspaceChanged)
-    Q_PROPERTY(QString outputTypeName READ outputTypeName NOTIFY outputTypeNameChanged)
-
 public:
-    explicit Screen(qtmir::Screen*const wrapped);
-
-    qtmir::OutputId outputId() const override;
-    bool used() const override;
-    QString name() const override;
-    float scale() const override;
-    QSizeF physicalSize() const override;
-    qtmir::FormFactor formFactor() const override;
-    qtmir::OutputTypes outputType() const override;
+    // From qtmir::Screen
+    qtmir::OutputId outputId() const;
+    bool used() const;
+    QString name() const;
+    float scale() const;
+    QSizeF physicalSize() const;
+    qtmir::FormFactor formFactor() const;
+    qtmir::OutputTypes outputType() const;
+    MirPowerMode powerMode() const;
+    Qt::ScreenOrientation orientation() const;
+    QPoint position() const;
+    QQmlListProperty<qtmir::ScreenMode> availableModes();
+    uint currentModeIndex() const;
+    bool isActive() const;
+    void setActive(bool active);
+    QScreen* qscreen() const;
+    qtmir::ScreenConfiguration *beginConfiguration() const;
+    bool applyConfiguration(qtmir::ScreenConfiguration *configuration);
     QString outputTypeName() const;
-    MirPowerMode powerMode() const override;
-    Qt::ScreenOrientation orientation() const override;
-    QPoint position() const override;
-    QQmlListProperty<qtmir::ScreenMode> availableModes() override;
-    uint currentModeIndex() const override;
-    bool isActive() const override;
-    void setActive(bool active) override;
 
-    QScreen* qscreen() const override;
+    virtual WorkspaceModel* workspaces() const = 0;
+    virtual Workspace *currentWorkspace() const = 0;
+    virtual void setCurrentWorkspace(Workspace* workspace) = 0;
 
-    qtmir::ScreenConfiguration *beginConfiguration() const override;
-    bool applyConfiguration(qtmir::ScreenConfiguration *configuration) override;
+    void sync(ScreenInterface* proxy);
 
     qtmir::Screen* wrapped() const { return m_wrapped; }
-
-    WorkspaceModel* workspaces() const;
-
-    Workspace *currentWorkspace() const;
-    void setCurrentWorkspace(Workspace* workspace);
-
-    void sync(Screen* proxy);
 
 public Q_SLOTS:
     void activate();
 
 Q_SIGNALS:
+    void usedChanged();
+    void nameChanged();
+    void outputTypeChanged();
+    void scaleChanged();
+    void formFactorChanged();
+    void powerModeChanged();
+    void orientationChanged();
+    void positionChanged();
+    void currentModeIndexChanged();
+    void physicalSizeChanged();
+    void availableModesChanged();
+    void activeChanged(bool active);
     void currentWorkspaceChanged(Workspace*);
-    void outputTypeNameChanged();
 
 protected:
-    Screen(Screen const& other);
+    ScreenInterface(QObject* parent = 0);
 
+    void connectToScreen(qtmir::Screen* screen);
+
+protected:
+    QPointer<qtmir::Screen> m_wrapped;
+};
+
+
+class Screen : public ScreenInterface
+{
+    Q_OBJECT
+public:
+    explicit Screen(qtmir::Screen*const wrapped);
+
+    // From qtmir::Screen
+    WorkspaceModel* workspaces() const override;
+    Workspace *currentWorkspace() const override;
+    void setCurrentWorkspace(Workspace* workspace) override;
+
+    static ScreenAttached *qmlAttachedProperties(QObject *owner);
+
+protected:
     void resetCurrentWorkspace();
 
-    qtmir::Screen*const m_wrapped;
     const QScopedPointer<WorkspaceModel> m_workspaces;
     QPointer<Workspace> m_currentWorspace;
 };
 
-class ScreenProxy : public Screen
+class ScreenProxy : public ScreenInterface
 {
     Q_OBJECT
 public:
-    explicit ScreenProxy(Screen*const screen);
+    explicit ScreenProxy(ScreenInterface*const screen);
 
-    Screen* proxyObject() const { return m_original.data(); }
+    // From qtmir::Screen
+    WorkspaceModel* workspaces() const override;
+    Workspace *currentWorkspace() const override;
+    void setCurrentWorkspace(Workspace* workspace) override;
+
+    ScreenInterface* proxyObject() const { return m_original.data(); }
 
 public Q_SLOTS:
     void addWorkspace();
 
 private:
-    const QPointer<Screen> m_original;
+    const QScopedPointer<WorkspaceModel> m_workspaces;
+    const QPointer<ScreenInterface> m_original;
+    QPointer<Workspace> m_currentWorspace;
 };
 
 #endif // SCREEN_H

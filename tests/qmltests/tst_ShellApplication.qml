@@ -22,6 +22,7 @@ import Unity.Application 0.1
 import Unity.Test 0.1
 
 import "../../qml"
+import "../../qml/Components"
 import "Stage"
 
 Rectangle {

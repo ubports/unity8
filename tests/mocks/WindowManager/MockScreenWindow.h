@@ -14,36 +14,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_SCREENWINDOW_H
-#define UNITY_SCREENWINDOW_H
+#ifndef MOCK_SCREENWINDOW_H
+#define MOCK_SCREENWINDOW_H
 
-#include <QQuickWindow>
-#include <QPointer>
+#include "ScreenWindow.h"
 
-#include "Screen.h"
-
-class ScreenAdapter;
-
-/*
- * ScreenWindow - wrapper of QQuickWindow to enable QML to specify destination screen.
-**/
-class ScreenWindow : public QQuickWindow
+class MockScreenWindow : public ScreenWindow
 {
     Q_OBJECT
-    Q_PROPERTY(Screen *screen READ screenWrapper WRITE setScreenWrapper NOTIFY screenWrapperChanged)
-    Q_PROPERTY(int winId READ winId CONSTANT)
 public:
-    explicit ScreenWindow(QQuickWindow *parent = 0);
-    ~ScreenWindow();
-
-    Screen *screenWrapper() const;
-    void setScreenWrapper(Screen *screen);
-
-Q_SIGNALS:
-    void screenWrapperChanged();
-
-private:
-    QPointer<Screen> m_screen;
+    explicit MockScreenWindow(QQuickWindow *parent = 0);
+    ~MockScreenWindow();
 };
 
-#endif // UNITY_SCREENWINDOW_H
+#endif // MOCK_SCREENWINDOW_H

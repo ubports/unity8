@@ -24,9 +24,6 @@
 ScreenWindow::ScreenWindow(QQuickWindow *parent)
     : QQuickWindow(parent)
 {
-    if (qGuiApp->platformName() != QLatin1String("mirserver")) {
-        qCritical("Not using 'mirserver' QPA plugin. Using ScreenWindow may produce unknown results.");
-    }
 }
 
 ScreenWindow::~ScreenWindow()
@@ -42,7 +39,7 @@ void ScreenWindow::setScreenWrapper(Screen *screen)
 {
     if (m_screen != screen) {
         m_screen = screen;
-        Q_EMIT screenWrapperChanged();
+        Q_EMIT screenWrapperChanged(screen);
     }
     QQuickWindow::setScreen(screen->qscreen());
 }
