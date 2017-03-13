@@ -176,6 +176,10 @@ Item {
                     // let it fall through to the window decoration of the maximized window behind, if any
                     mouse.accepted = false;
                 }
+                var menubar = menuBarLoader.item;
+                if (menubar) {
+                    menubar.invokeMenu(mouse);
+                }
             }
 
             Row {
@@ -212,7 +216,7 @@ Item {
 
                     width: parent.width - windowControlButtons.width - units.gu(2) - __indicators.barWidth
 
-                    property bool menusRequested: menuBarLoader.item ? menuBarLoader.item.showRequested : false
+                    readonly property bool menusRequested: menuBarLoader.item ? menuBarLoader.item.showRequested : false
 
                     sourceComponent: MenuBar {
                         id: bar
@@ -234,7 +238,7 @@ Item {
                         }
 
                         onDoubleClicked: PanelState.restoreClicked()
-                        onPressed: decorationMouseArea.onPressed(mouse)
+                        onPressed: mouse.accepted = false // let the parent mouse area handle this, so it can both unsnap window and show menu
                     }
                 }
             }
