@@ -360,6 +360,8 @@ FocusScope {
             bottom: parent.bottom
             right: parent.left
             onRightMarginChanged: {
+                // Remove (and put back) the focus for the searchfield in
+                // order to hide the copy/paste popover when we move the drawer
                 var hadFocus = drawer.searchTextField.focus;
                 drawer.searchTextField.focus = false;
                 drawer.searchTextField.focus = hadFocus;
