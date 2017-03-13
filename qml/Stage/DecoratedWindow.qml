@@ -80,6 +80,10 @@ FocusScope {
     signal decorationPressed()
     signal decorationReleased()
 
+    function cancelDrag() {
+        moveHandler.cancelDrag();
+    }
+
     QtObject {
         id: d
         property int requestedDecorationHeight: root.hasDecoration ? decoration.height : 0
