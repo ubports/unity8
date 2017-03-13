@@ -2544,7 +2544,10 @@ Rectangle {
             tryCompare(appDelegate, "state", "maximized");
 
             if (data.mouse) {
-                mouseMove(panel, panel.width/2, panel.panelHeight/2, 200 /* delay */); // to reveal the menus
+                mouseMove(panel, panel.width/2, panel.panelHeight/2); // to reveal the menus
+                var menuBarLoader = findInvisibleChild(panel, "menuBarLoader");
+                verify(menuBarLoader);
+                tryCompare(menuBarLoader.item, "visible", true);
                 mouseDrag(panel, panel.width/2, panel.height/2, 0, shell.height/3, Qt.LeftButton, Qt.NoModifier, 500);
             } else {
                 touchFlick(panel, panel.width/2, panel.height/2, panel.width/2, shell.height/3);
