@@ -51,8 +51,6 @@ public:
     virtual bool isActive() const { return m_active; }
     bool isAssigned() const;
 
-    void moveWindowsTo(Workspace* workspace);
-
     std::shared_ptr<miral::Workspace> workspace() const { return m_workspace; }
 
 

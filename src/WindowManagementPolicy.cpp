@@ -33,8 +33,9 @@ void WindowManagementPolicy::advise_new_window(miral::WindowInfo const& window_i
     auto const parent = window_info.parent();
 
     auto activeWorkspace = m_activeWorkspace.lock();
-    if (!parent && activeWorkspace)
+    if (!parent && activeWorkspace) {
         tools.add_tree_to_workspace(window_info.window(), activeWorkspace);
+    }
 }
 
 std::shared_ptr<miral::Workspace> WindowManagementPolicy::createWorkspace()
@@ -43,7 +44,7 @@ std::shared_ptr<miral::Workspace> WindowManagementPolicy::createWorkspace()
     m_workspaces.insert(workspace);
 
     if (m_activeWorkspace.lock() == m_dummyWorkspace) {
-        moveWorkspaceContentToWorkspace(workspace, m_dummyWorkspace);
+        tools.move_workspace_content_to_workspace(workspace, m_dummyWorkspace);
         m_activeWorkspace = workspace;
     }
     return workspace;
@@ -56,18 +57,8 @@ void WindowManagementPolicy::releaseWorkspace(const std::shared_ptr<miral::Works
 
     if (m_workspaces.size() == 0) {
         m_activeWorkspace = m_dummyWorkspace;
-        moveWorkspaceContentToWorkspace(m_dummyWorkspace, workspace);
+        tools.move_workspace_content_to_workspace(m_dummyWorkspace, workspace);
     }
-}
-
-void WindowManagementPolicy::forEachWindowInWorkspace(const std::shared_ptr<miral::Workspace> &workspace, const std::function<void (const miral::Window &)> &callback)
-{
-    tools.for_each_window_in_workspace(workspace, callback);
-}
-
-void WindowManagementPolicy::moveWorkspaceContentToWorkspace(const std::shared_ptr<miral::Workspace> &toWorkspace, const std::shared_ptr<miral::Workspace> &fromWorkspace)
-{
-    tools.move_workspace_content_to_workspace(toWorkspace, fromWorkspace);
 }
 
 void WindowManagementPolicy::setActiveWorkspace(const std::shared_ptr<miral::Workspace> &workspace)

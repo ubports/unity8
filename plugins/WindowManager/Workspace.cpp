@@ -65,11 +65,6 @@ Workspace::~Workspace()
     }
 }
 
-void Workspace::moveWindowsTo(Workspace *workspace)
-{
-    WMPolicyInterface::instance()->moveWorkspaceContentToWorkspace(workspace->m_workspace, m_workspace);
-}
-
 void Workspace::activate()
 {
     WorkspaceManager::instance()->setActiveWorkspace(this);
