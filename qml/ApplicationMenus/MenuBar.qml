@@ -221,6 +221,13 @@ Item {
                         }
                     }
                 }
+
+                Component.onDestruction: {
+                    if (__popup) {
+                        __popup.destroy();
+                        __popup = null;
+                    }
+                }
             } // Item ( delegate )
         } // Repeater
     } // Row
