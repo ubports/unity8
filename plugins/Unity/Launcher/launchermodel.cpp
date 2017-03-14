@@ -558,7 +558,7 @@ void LauncherModel::applicationSurfaceCountChanged(int count)
     QList<QPair<QString, QString> > surfaces;
     for (int i = 0; i < app->surfaceList()->count(); ++i) {
         MirSurfaceInterface* iface = app->surfaceList()->get(i);
-        surfaces.append(qMakePair<QString, QString>(iface->persistentId(), iface->name()));
+        surfaces.append({iface->persistentId(), iface->name()});
     }
     item->setSurfaces(surfaces);
     Q_EMIT dataChanged(index(idx), index(idx), {RoleSurfaceCount});
