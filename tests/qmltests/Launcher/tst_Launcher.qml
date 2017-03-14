@@ -1531,7 +1531,6 @@ Rectangle {
             tryCompare(quickListShape, "visible", true)
 
             var repeater = findChild(launcher, "popoverRepeater");
-            print("model is", LauncherModel)
             tryCompare(repeater, "count", LauncherModel.get(4).quickList.count - (data.private ? 1 : 0))
         }
 
