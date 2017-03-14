@@ -45,4 +45,10 @@ Instantiator {
         Component.onCompleted: screen.active = primary
         primary: index == 0
     }
+
+    property var workspaceManagerSurfaceManagerBinding: Binding {
+        target: WorkspaceManager
+        property: "surfaceManager"
+        value: SurfaceManager
+    }
 }

@@ -56,6 +56,15 @@ Item {
         onExited: {
             listView.hoveredWorkspaceIndex = -1
         }
+        onDropped: {
+            var surface = drag.source.surface;
+            var workspace = listView.model.get(listView.hoveredWorkspaceIndex);
+            print("dropping surface", surface, "on workspace", workspace)
+            WorkspaceManager.moveSurfaceToWorkspace(surface, workspace);
+            drop.accept(Qt.MoveAction)
+            listView.hoveredWorkspaceIndex = -1
+            root.commitScreenSetup();
+        }
     }
 
     ListView {
