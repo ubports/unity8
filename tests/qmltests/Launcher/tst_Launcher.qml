@@ -1261,6 +1261,7 @@ Rectangle {
             keyClick(Qt.Key_Down);
             keyClick(Qt.Key_Down);
             keyClick(Qt.Key_Down);
+            keyClick(Qt.Key_Down);
             tryCompare(quickList, "selectedIndex", 0)
 
             // Left gets us back to the launcher
