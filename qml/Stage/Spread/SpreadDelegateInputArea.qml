@@ -144,7 +144,6 @@ Item {
         onReleased: {
             print("released!")
             var result = fakeDragItem.Drag.drop();
-            fakeDragItem.surface = null;
 
             if (!d.moving) {
                 root.clicked()

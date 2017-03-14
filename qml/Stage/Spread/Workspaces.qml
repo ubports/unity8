@@ -58,6 +58,7 @@ Item {
         }
         onDropped: {
             var surface = drag.source.surface;
+            drag.source.surface = null;
             var workspace = listView.model.get(listView.hoveredWorkspaceIndex);
             print("dropping surface", surface, "on workspace", workspace)
             WorkspaceManager.moveSurfaceToWorkspace(surface, workspace);
