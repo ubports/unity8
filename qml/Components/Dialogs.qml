@@ -22,7 +22,6 @@ import GlobalShortcut 1.0
 import Ubuntu.Components 1.3
 import Unity.Platform 1.0
 import Utils 0.1
-import "../Greeter"
 
 MouseArea {
     id: root
