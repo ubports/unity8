@@ -144,6 +144,39 @@ Item {
     }
 
     Loader {
+        active: d.moveable
+        anchors.fill: parent
+        sourceComponent: Component {
+            MouseArea {
+                acceptedButtons: Qt.LeftButton
+                property bool dragging: false
+                cursorShape: undefined // don't interfere with the cursor shape set by the underlying MirSurfaceItem
+                onPressed: {
+                    if (mouse.button == Qt.LeftButton && mouse.modifiers == Qt.AltModifier) {
+                        d.moveHandler.handlePressedChanged(true, Qt.LeftButton, mouse.x, mouse.y);
+                        dragging = true;
+                        mouse.accepted = true;
+                    } else {
+                        mouse.accepted = false;
+                    }
+                }
+                onPositionChanged: {
+                    if (dragging) {
+                        d.moveHandler.handlePositionChanged(mouse);
+                    }
+                }
+                onReleased: {
+                    if (dragging) {
+                        d.moveHandler.handlePressedChanged(false, Qt.LeftButton);
+                        d.moveHandler.handleReleased();
+                        dragging = false;
+                    }
+                }
+            }
+        }
+    }
+
+    Loader {
         id: touchOverlayLoader
         active: d.resizeable || d.moveable
         anchors.top: decorationLoader.top

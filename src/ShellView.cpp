@@ -19,6 +19,9 @@
 // Qt
 #include <QQmlContext>
 #include <QQuickItem>
+#include <QtQuick/private/qquickitem_p.h>
+#include <QtQuick/private/qquickrectangle_p.h>
+#include <QtQuick/private/qquicktext_p.h>
 
 // local
 #include <paths.h>
@@ -31,6 +34,25 @@ ShellView::ShellView(QQmlEngine *engine, QObject *qmlArgs)
     setTitle(QStringLiteral("Unity8"));
 
     rootContext()->setContextProperty(QStringLiteral("applicationArguments"), qmlArgs);
+
+    connect(this, &QQuickView::statusChanged, this, [this] {
+            if (status() == QQuickView::Error) {
+                QQuickRectangle *rect = new QQuickRectangle(contentItem());
+                rect->setColor(Qt::white);
+                QQuickItemPrivate::get(rect)->anchors()->setFill(contentItem());
+
+                QString errorsString;
+                for(const QQmlError &e: errors()) {
+                    errorsString += e.toString() + "\n";
+                }
+                QQuickText *text = new QQuickText(rect);
+                text->setColor(Qt::black);
+                text->setWrapMode(QQuickText::Wrap);
+                text->setText(QString("There was an error loading Unity8:\n%1").arg(errorsString));
+                QQuickItemPrivate::get(text)->anchors()->setFill(rect);
+            }
+        }
+    );
 
     QUrl source(::qmlDirectory() + "/OrientedShell.qml");
     setSource(source);

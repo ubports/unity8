@@ -161,7 +161,7 @@ Rectangle {
                 }
 
                 Label {
-                    text: i18n.tr("Super + 0 to 9")
+                    text: i18n.tr("Super + 1 to 0")
                     fontSize: "small"
                     font.weight: Font.Medium
                 }
