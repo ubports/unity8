@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-21 13:23+0000\n"
+"POT-Creation-Date: 2017-03-08 09:56+0000\n"
 "PO-Revision-Date: 2017-02-02 07:25+0000\n"
 "Last-Translator: Marcos Lans <Unknown>\n"
 "Language-Team: Galician <gl@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-02-25 06:03+0000\n"
-"X-Generator: Launchpad (build 18328)\n"
+"X-Launchpad-Export-Date: 2017-03-14 07:13+0000\n"
+"X-Generator: Launchpad (build 18331)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -196,8 +196,8 @@ msgid "Switches applications via the launcher."
 msgstr "Cambia entre aplicativos co Iniciador."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
-msgid "Super + 0 to 9"
-msgstr "Super + 0 a 9"
+msgid "Super + 1 to 0"
+msgstr "Super + 1 a 0"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Same as clicking on a launcher icon."
@@ -367,7 +367,7 @@ msgstr "Toque no botón dereito para clic dereito."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr "Esvare dous dedos para desprazar."
+msgstr "Esvarar con dous dedos para desprazar."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
@@ -530,7 +530,7 @@ msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: qml/Launcher/MoreAppsHeader.qml:39
+#: qml/Launcher/MoreAppsHeader.qml:55
 msgid "More apps in the store"
 msgstr "Máis aplicativos na tenda"
 
@@ -621,6 +621,10 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Chamar de volta"
 
+#: qml/Panel/PanelMenuPage.qml:92
+msgid "Back"
+msgstr "Atrás"
+
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "Arrastre con 3 dedos calquera aplicativo dunha xanela á outra"
@@ -628,6 +632,7 @@ msgstr "Arrastre con 3 dedos calquera aplicativo dunha xanela á outra"
 #: qml/Tutorial/TutorialLeftLong.qml:49
 msgid "Long swipe from the left edge to open the Application Drawer"
 msgstr ""
+"Esvarar longo desde o bordo esquerdo para abrir o caixón dos aplicativos"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -1384,3 +1389,6 @@ msgstr "O contrasinal é moi feble"
 
 #~ msgid "Takes a screenshot of a window."
 #~ msgstr "Capturar unha xanela da pantalla."
+
+#~ msgid "Super + 0 to 9"
+#~ msgstr "Super + 0 a 9"

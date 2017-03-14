@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-21 13:23+0000\n"
+"POT-Creation-Date: 2017-03-08 09:56+0000\n"
 "PO-Revision-Date: 2014-01-15 01:49+0000\n"
 "Last-Translator: Siddhanathan Shanmugam <Unknown>\n"
 "Language-Team: Hindi <hi@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-02-25 06:03+0000\n"
-"X-Generator: Launchpad (build 18328)\n"
+"X-Launchpad-Export-Date: 2017-03-14 07:13+0000\n"
+"X-Generator: Launchpad (build 18331)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -196,7 +196,7 @@ msgid "Switches applications via the launcher."
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
-msgid "Super + 0 to 9"
+msgid "Super + 1 to 0"
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
@@ -526,7 +526,7 @@ msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""
 
-#: qml/Launcher/MoreAppsHeader.qml:39
+#: qml/Launcher/MoreAppsHeader.qml:55
 msgid "More apps in the store"
 msgstr ""
 
@@ -615,6 +615,10 @@ msgstr ""
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:209
 msgctxt "Button: Call back on phone"
 msgid "Call back"
+msgstr ""
+
+#: qml/Panel/PanelMenuPage.qml:92
+msgid "Back"
 msgstr ""
 
 #: qml/Stage/SideStage.qml:76
