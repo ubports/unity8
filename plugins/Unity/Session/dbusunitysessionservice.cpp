@@ -18,6 +18,7 @@
 #include "dbusunitysessionservice.h"
 
 // system
+#include <grp.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <pwd.h>
@@ -211,6 +212,23 @@ public:
         QDBusConnection::SM_BUSNAME().asyncCall(msg);
     }
 
+    bool isUserInGroup(const QString &user, const QString &groupName) const
+    {
+        auto group = getgrnam(groupName.toUtf8().data());
+
+        if (group && group->gr_mem)
+        {
+            for (int i = 0; group->gr_mem[i]; ++i)
+            {
+                if (g_strcmp0(group->gr_mem[i], user.toUtf8().data()) == 0) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
 private Q_SLOTS:
     void onPropertiesChanged(const QString &iface, const QVariantMap &changedProps, const QStringList &invalidatedProps)
     {
@@ -297,7 +315,13 @@ bool DBusUnitySessionService::CanShutdown() const
 
 bool DBusUnitySessionService::CanLock() const
 {
-    return true; // FIXME
+    auto user = UserName();
+    if (user.startsWith(QStringLiteral("guest-")) ||
+        d->isUserInGroup(user, QStringLiteral("nopasswdlogin"))) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 QString DBusUnitySessionService::UserName() const
@@ -335,8 +359,10 @@ void DBusUnitySessionService::PromptLock()
     // Prompt as in quick.  No locking animation needed.  Usually used by
     // indicator-session in combination with a switch to greeter or other
     // user session.
-    Q_EMIT LockRequested();
-    Q_EMIT lockRequested();
+    if (CanLock()) {
+        Q_EMIT LockRequested();
+        Q_EMIT lockRequested();
+    }
 }
 
 void DBusUnitySessionService::Lock()
