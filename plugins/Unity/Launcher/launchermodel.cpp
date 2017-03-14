@@ -198,13 +198,13 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
             } else {
                 pin(appId);
             }
-        } else if (actionId == QLatin1String("launch_item")) {
+        } else if (actionId == QStringLiteral("launch_item")) {
             QDesktopServices::openUrl(getUrlForAppId(appId));
-        } else if (actionId == QLatin1String("stop_item")) { // Quit
+        } else if (actionId == QStringLiteral("stop_item")) { // Quit
             if (m_appManager) {
                 m_appManager->stopApplication(appId);
             }
-        } else if (actionId.startsWith("surface_")){
+        } else if (actionId.startsWith(QStringLiteral("surface_"))){
             ApplicationInfoInterface *appInfo = m_appManager->findApplication(appId);
             if (!appInfo) {
                 qWarning() << "App for" << appId << "not found in launcher. Cannot invoke quicklist action";
