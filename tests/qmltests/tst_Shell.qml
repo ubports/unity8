@@ -3025,6 +3025,7 @@ Rectangle {
             var appDelegate = startApplication("music-app")
             verify(appDelegate);
             appDelegate.requestMaximize();
+            tryCompare(appDelegate, "state", "maximized");
 
             // move the mouse over panel to reveal the menus
             var panel = findChild(shell, "panel");
@@ -3036,8 +3037,10 @@ Rectangle {
 
             // check that the menu popup appears
             var priv = findInvisibleChild(menuBar, "d");
-            var menuItem0 = findChild(menuBar, "menuBar-item0"); verify(menuItem0);
-            mouseMove(menuItem0);
+            var menuItem0 = findChild(menuBar, "menuBar-item0");
+            verify(menuItem0);
+            mouseMove(menuItem0, menuItem0.width/2, menuItem0.height/2, 200);
+            tryCompare(menuItem0, "visible", true);
             mouseClick(menuItem0);
             tryCompare(priv, "currentItem", menuItem0);
             tryCompare(priv.currentItem, "popupVisible", true);
