@@ -3014,5 +3014,33 @@ Rectangle {
             tryCompare(menuBarLoader, "active", true);
             tryCompare(menuBarLoader.item, "visible", true);
         }
+
+        function test_maximizedWindowAndMenuInPanel() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            // start music-app, maximize it
+            var appDelegate = startApplication("music-app")
+            verify(appDelegate);
+            appDelegate.requestMaximize();
+
+            // move the mouse over panel to reveal the menus
+            var panel = findChild(shell, "panel");
+            verify(panel);
+            mouseMove(panel, panel.width/2, panel.panelHeight/2); // to reveal the menus
+            var menuBar = findChild(panel, "menuBar");
+            verify(menuBar);
+            tryCompare(menuBar, "visible", true);
+
+            // check that the menu popup appears
+            var priv = findInvisibleChild(menuBar, "d");
+            var menuItem0 = findChild(menuBar, "menuBar-item0"); verify(menuItem0);
+            mouseMove(menuItem0);
+            mouseClick(menuItem0);
+            tryCompare(priv, "currentItem", menuItem0);
+            tryCompare(priv.currentItem, "popupVisible", true);
+        }
     }
 }
