@@ -341,6 +341,7 @@ void TopLevelWindowModel::onSurfaceCreated(unityapi::MirSurfaceInterface *surfac
         });
     } else {
         if (surface->type() == Mir::InputMethodType) {
+            connectSurface(surface);
             setInputMethodWindow(createWindow(surface));
         } else {
             auto *application = m_applicationManager->findApplicationWithSurface(surface);

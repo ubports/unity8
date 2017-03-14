@@ -73,6 +73,9 @@ void WindowInputMonitor::update(QEvent *event)
                 && m_windowLastTouchedTimer->elapsed() >= msecsWithoutTouches) {
             m_pressedHomeKey = keyEvent->key();
             m_activationTimer->start();
+        } else if (m_pressedHomeKey != 0 && !m_homeKeys.contains(keyEvent->key())) {
+            // something else came in... cancel activation
+            m_activationTimer->stop();
         }
 
     } else if (event->type() == QEvent::KeyRelease) {
