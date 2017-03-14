@@ -50,11 +50,16 @@ public:
 
     static SurfaceManager *instance();
 
-    unity::shell::application::MirSurfaceInterface *surfaceFor(const miral::Window& window) const override;
-
     // SurfaceManagerInterface
     void raise(unity::shell::application::MirSurfaceInterface *surface) override;
     void activate(unity::shell::application::MirSurfaceInterface *surface) override;
+
+    void forEachSurfaceInWorkspace(const std::shared_ptr<miral::Workspace> &workspace,
+                                   const std::function<void(unity::shell::application::MirSurfaceInterface*)> &callback) override;
+    void moveSurfaceToWorkspace(unity::shell::application::MirSurfaceInterface* surface,
+                                const std::shared_ptr<miral::Workspace> &workspace) override;
+    void moveWorkspaceContentToWorkspace(const std::shared_ptr<miral::Workspace> &to,
+                                         const std::shared_ptr<miral::Workspace> &from) override;
 
     Q_INVOKABLE MirSurface* createSurface(const QString& name,
                                   Mir::Type type,
@@ -105,7 +110,9 @@ private:
     void doRaise(unity::shell::application::MirSurfaceInterface *surface);
     void focusFirstAvailableSurface();
     void registerSurface(MirSurface *surface);
-    QVector<unity::shell::application::MirSurfaceInterface*> find(const std::vector<miral::Window> &windows) const;
+    unity::shell::application::MirSurfaceInterface* surfaceFor(const miral::Window &window) const;
+    QVector<unity::shell::application::MirSurfaceInterface*> surfacesFor(const std::vector<miral::Window> &windows) const;
+    miral::Window windowFor(unity::shell::application::MirSurfaceInterface* surface) const;
 
     static SurfaceManager *m_instance;
 

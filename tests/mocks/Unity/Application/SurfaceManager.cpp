@@ -60,12 +60,12 @@ SurfaceManager::SurfaceManager(QObject *)
 
     connect(WindowManagementPolicy::instance(), &WindowManagementPolicy::windowsAddedToWorkspace,
             this, [this](const std::shared_ptr<miral::Workspace> &workspace, const std::vector<miral::Window> &windows) {
-        Q_EMIT surfacesAddedToWorkspace(workspace, find(windows));
+        Q_EMIT surfacesAddedToWorkspace(workspace, surfacesFor(windows));
     });
 
     connect(WindowManagementPolicy::instance(), &WindowManagementPolicy::windowsAboutToBeRemovedFromWorkspace,
             this, [this](const std::shared_ptr<miral::Workspace> &workspace, const std::vector<miral::Window> &windows) {
-        Q_EMIT surfacesAboutToBeRemovedFromWorkspace(workspace, find(windows));
+        Q_EMIT surfacesAboutToBeRemovedFromWorkspace(workspace, surfacesFor(windows));
     });
 }
 
@@ -81,9 +81,16 @@ SurfaceManager::~SurfaceManager()
     m_instance = nullptr;
 }
 
+MirSurfaceInterface *SurfaceManager::surfaceFor(const miral::Window& window) const
+{
+    auto iter = m_windowToSurface.find({window});
+    if (iter != m_windowToSurface.end()) {
+        return *iter;
+    }
+    return nullptr;
+}
 
-
-QVector<MirSurfaceInterface*> SurfaceManager::find(const std::vector<miral::Window> &windows) const
+QVector<MirSurfaceInterface*> SurfaceManager::surfacesFor(const std::vector<miral::Window> &windows) const
 {
     QVector<unityapi::MirSurfaceInterface*> surfaces;
     for (size_t i = 0; i < windows.size(); i++) {
@@ -95,13 +102,13 @@ QVector<MirSurfaceInterface*> SurfaceManager::find(const std::vector<miral::Wind
     return surfaces;
 }
 
-MirSurfaceInterface *SurfaceManager::surfaceFor(const miral::Window& window) const
+miral::Window SurfaceManager::windowFor(MirSurfaceInterface *surface) const
 {
-    auto iter = m_windowToSurface.find({window});
-    if (iter != m_windowToSurface.end()) {
-        return *iter;
+    auto iter = m_surfaceToWindow.find(surface);
+    if (iter != m_surfaceToWindow.end()) {
+        return iter->window;
     }
-    return nullptr;
+    return miral::Window();
 }
 
 MirSurface *SurfaceManager::createSurface(const QString& name,
@@ -265,6 +272,32 @@ void SurfaceManager::activate(unityapi::MirSurfaceInterface *apiSurface)
     m_underModification = false;
     Q_EMIT modificationsEnded();
     DEBUG_MSG("("<<surface<<") ended");
+}
+
+void SurfaceManager::forEachSurfaceInWorkspace(const std::shared_ptr<miral::Workspace> &workspace,
+                                               const std::function<void(unity::shell::application::MirSurfaceInterface*)> &callback)
+{
+    WindowManagementPolicy::instance()->forEachWindowInWorkspace(workspace, [&](const miral::Window &window) {
+        auto surface = surfaceFor(window);
+        if (surface) {
+            callback(surface);
+        }
+    });
+}
+
+void SurfaceManager::moveSurfaceToWorkspace(unity::shell::application::MirSurfaceInterface* surface,
+                                            const std::shared_ptr<miral::Workspace> &workspace)
+{
+    auto window = windowFor(surface);
+    if (window) {
+        WindowManagementPolicy::instance()->moveWindowToWorkspace(window, workspace);
+    }
+}
+
+void SurfaceManager::moveWorkspaceContentToWorkspace(const std::shared_ptr<miral::Workspace> &to,
+                                                     const std::shared_ptr<miral::Workspace> &from)
+{
+    WindowManagementPolicy::instance()->moveWorkspaceContentToWorkspace(to, from);
 }
 
 void SurfaceManager::onStateRequested(MirSurface *surface, Mir::State state)

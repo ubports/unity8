@@ -35,13 +35,6 @@ public:
 
     void releaseWorkspace(const std::shared_ptr<miral::Workspace> &workspace) override;
 
-    void forEachWindowInWorkspace(
-        std::shared_ptr<miral::Workspace> const& workspace,
-        std::function<void(miral::Window const& window)> const& callback) override;
-
-    void moveWorkspaceContentToWorkspace(const std::shared_ptr<miral::Workspace> &toWorkspace,
-                                         const std::shared_ptr<miral::Workspace> &fromWorkspace) override;
-
     void setActiveWorkspace(const std::shared_ptr<miral::Workspace>& workspace) override;
 
 private:

@@ -23,11 +23,24 @@
 class Workspace;
 class ScreensProxy;
 
+namespace unity {
+    namespace shell {
+        namespace application {
+            class MirSurfaceInterface;
+            class SurfaceManagerInterface;
+        }
+    }
+}
+
 class WorkspaceManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Workspace* activeWorkspace READ activeWorkspace WRITE setActiveWorkspace2 NOTIFY activeWorkspaceChanged)
-    Q_PROPERTY(QQmlListProperty<Workspace> floatingWorkspaces READ floatingWorkspaces NOTIFY floatingWorkspacesChanged)
+
+    Q_PROPERTY(unity::shell::application::SurfaceManagerInterface* surfaceManager
+            READ surfaceManager
+            WRITE setSurfaceManager
+            NOTIFY surfaceManagerChanged)
 
 public:
     static WorkspaceManager* instance();
@@ -41,9 +54,18 @@ public:
     QQmlListProperty<Workspace> floatingWorkspaces();
     void destroyFloatingWorkspaces();
 
+    unity::shell::application::SurfaceManagerInterface *surfaceManager() const { return m_surfaceManager; }
+    void setSurfaceManager(unity::shell::application::SurfaceManagerInterface*);
+
+    Q_INVOKABLE void moveSurfaceToWorkspace(unity::shell::application::MirSurfaceInterface* surface,
+                                            Workspace* workspace);
+
+    Q_INVOKABLE void moveWorkspaceContentToWorkspace(Workspace* from, Workspace* to);
+
 Q_SIGNALS:
     void activeWorkspaceChanged();
     void floatingWorkspacesChanged();
+    void surfaceManagerChanged();
 
 private:
     WorkspaceManager();
@@ -53,6 +75,7 @@ private:
     QSet<Workspace*> m_allWorkspaces;
     QList<Workspace*> m_floatingWorkspaces;
     Workspace* m_activeWorkspace;
+    unity::shell::application::SurfaceManagerInterface* m_surfaceManager;
 };
 
 #endif // WORKSPACEMANAGER_H

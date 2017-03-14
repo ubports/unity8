@@ -17,6 +17,7 @@
 #include "WorkspaceManager.h"
 #include "Workspace.h"
 #include "TopLevelWindowModel.h"
+#include <unity/shell/application/SurfaceManagerInterface.h>
 
 // Qt
 #include <QGuiApplication>
@@ -31,6 +32,7 @@ WorkspaceManager *WorkspaceManager::instance()
 
 WorkspaceManager::WorkspaceManager()
     : m_activeWorkspace(nullptr)
+    , m_surfaceManager(nullptr)
 {
 }
 
@@ -77,7 +79,7 @@ void WorkspaceManager::destroyWorkspace(Workspace *workspace)
         setActiveWorkspace(m_allWorkspaces.count() ? *m_allWorkspaces.begin() : nullptr);
     }
     if (m_activeWorkspace) {
-        workspace->moveWindowsTo(m_activeWorkspace);
+        moveWorkspaceContentToWorkspace(workspace, m_activeWorkspace);
     }
 
     disconnect(workspace, 0, this, 0);
@@ -94,6 +96,28 @@ void WorkspaceManager::destroyFloatingWorkspaces()
     QList<Workspace*> dpCpy(m_floatingWorkspaces);
     Q_FOREACH(auto workspace, dpCpy) {
         destroyWorkspace(workspace);
+    }
+}
+
+void WorkspaceManager::setSurfaceManager(unity::shell::application::SurfaceManagerInterface *surfaceManager)
+{
+    if (m_surfaceManager == surfaceManager) return;
+
+    m_surfaceManager = surfaceManager;
+    Q_EMIT surfaceManagerChanged();
+}
+
+void WorkspaceManager::moveSurfaceToWorkspace(unity::shell::application::MirSurfaceInterface *surface, Workspace *workspace)
+{
+    if (m_surfaceManager) {
+        m_surfaceManager->moveSurfaceToWorkspace(surface, workspace->workspace());
+    }
+}
+
+void WorkspaceManager::moveWorkspaceContentToWorkspace(Workspace *from, Workspace *to)
+{
+    if (m_surfaceManager) {
+        m_surfaceManager->moveWorkspaceContentToWorkspace(from->workspace(), to->workspace());
     }
 }
 

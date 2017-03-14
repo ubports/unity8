@@ -44,18 +44,18 @@ public:
 
     // From WMPolicyInterface
     std::shared_ptr<miral::Workspace> createWorkspace() override;
-
     void releaseWorkspace(const std::shared_ptr<miral::Workspace>& workspace) override;
-
-    void forEachWindowInWorkspace(std::shared_ptr<miral::Workspace> const& workspace,
-                                  std::function<void(miral::Window const&)> const& callback) override;
-
-    void moveWorkspaceContentToWorkspace(const std::shared_ptr<miral::Workspace>& to,
-                                         const std::shared_ptr<miral::Workspace>& from) override;
-
     void setActiveWorkspace(const std::shared_ptr<miral::Workspace>& workspace) override;
 
     void addWindow(const miral::Window& window);
+
+    void forEachWindowInWorkspace(std::shared_ptr<miral::Workspace> const& workspace,
+                                  std::function<void(miral::Window const&)> const& callback);
+
+    void moveWindowToWorkspace(const miral::Window &window, const std::shared_ptr<miral::Workspace> &workspace);
+
+    void moveWorkspaceContentToWorkspace(const std::shared_ptr<miral::Workspace>& to,
+                                         const std::shared_ptr<miral::Workspace>& from);
 
 Q_SIGNALS:
     void windowAdded(const miral::Window& window);
@@ -67,6 +67,7 @@ private:
     std::shared_ptr<miral::Workspace> m_dummyWorkspace;
     std::unordered_set<std::shared_ptr<miral::Workspace>> m_workspaces;
 
-    QMultiMap<miral::Workspace*, miral::Window> m_windows;
+    typedef QMultiMap<std::shared_ptr<miral::Workspace>, miral::Window> WorkspaceWindows;
+    WorkspaceWindows m_windows;
 };
 #endif // UNITY_WINDOWMANAGEMENTPOLICY_H

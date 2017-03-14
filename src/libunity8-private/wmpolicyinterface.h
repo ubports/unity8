@@ -36,13 +36,6 @@ public:
 
     virtual void releaseWorkspace(const std::shared_ptr<miral::Workspace> &workspace) = 0;
 
-    virtual void forEachWindowInWorkspace(
-        std::shared_ptr<miral::Workspace> const& workspace,
-        std::function<void(miral::Window const& window)> const& callback) = 0;
-
-    virtual void moveWorkspaceContentToWorkspace(const std::shared_ptr<miral::Workspace> &toWorkspace,
-                                                 const std::shared_ptr<miral::Workspace> &fromWorkspace) = 0;
-
     virtual void setActiveWorkspace(const std::shared_ptr<miral::Workspace>& workspace) = 0;
 };
 
