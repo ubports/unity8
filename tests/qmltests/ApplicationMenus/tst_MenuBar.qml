@@ -271,5 +271,31 @@ Item {
                 return false;
             }, true);
         }
+
+        function test_stray_submenus() {
+            menuBackend.modelData = appMenuData.generateTestData(3,4,1,0,"menu");
+            var priv = findInvisibleChild(menuBar, "d");
+
+            var menuItem = findChild(menuBar, "menuBar-item0");
+            menuItem.show();
+            compare(priv.currentItem, menuItem, "CurrentItem should be set to item 0");
+            compare(priv.currentItem.popupVisible, true, "Popup should be visible");
+
+            var actionItem = findChild(menuBar, "menuBar-item0-menu-item0-actionItem");
+            mouseClick(actionItem);
+
+            actionItem = findChild(menuBar, "menuBar-item0-menu-item0-menu-item0-actionItem");
+            mouseClick(actionItem);
+
+            actionItem = findChild(menuBar, "menuBar-item0-menu-item0-menu-item0-menu-item0-actionItem");
+
+            // There's one popup
+            tryCompareFunction(function() { return findChildsByType(root, "MenuPopup").length; }, 3);
+
+            menuBackend.modelData = null;
+
+            tryCompareFunction(function() { return findChildsByType(root, "MenuPopup").length; }, 0);
+
+        }
     }
 }
