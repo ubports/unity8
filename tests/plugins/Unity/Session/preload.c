@@ -37,6 +37,9 @@ struct group *getgrnam(const char *group_name)
     rv.gr_name = g_strdup(group_name);
     rv.gr_passwd = NULL;
     rv.gr_gid = 9999;
-    rv.gr_mem = g_strsplit(g_getenv("TEST_NOPASSWD_USERS"), ",", 0);
+    rv.gr_mem = NULL;
+    if (g_strcmp0(group_name, "nopasswdlogin") == 0) {
+        rv.gr_mem = g_strsplit(g_getenv("TEST_NOPASSWD_USERS"), ",", 0);
+    }
     return &rv;
 }
