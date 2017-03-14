@@ -29,10 +29,8 @@ struct group *getgrnam(const char *group_name)
 {
     static struct group rv = {NULL, NULL, 0, NULL};
 
-    if (rv.gr_name) {
-        g_free(rv.gr_name);
-        g_strfreev(rv.gr_mem);
-    }
+    g_free(rv.gr_name);
+    g_strfreev(rv.gr_mem);
 
     rv.gr_name = g_strdup(group_name);
     rv.gr_passwd = NULL;
