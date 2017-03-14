@@ -15,6 +15,7 @@ Item {
     property real previewScale: previewSpace.height / previewSpace.screenHeight
 
     property bool containsDrag: false
+    property bool isActive: false
 
     Image {
         source: previewSpace.background
@@ -68,6 +69,14 @@ Item {
             }
         }
 
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        border.color: UbuntuColors.ash
+        border.width: units.gu(.5)
+        color: "transparent"
+        visible: previewSpace.isActive
     }
 
     Rectangle {

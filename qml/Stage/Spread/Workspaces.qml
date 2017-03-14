@@ -60,11 +60,9 @@ Item {
             var surface = drag.source.surface;
             drag.source.surface = null;
             var workspace = listView.model.get(listView.hoveredWorkspaceIndex);
-            print("dropping surface", surface, "on workspace", workspace)
             WorkspaceManager.moveSurfaceToWorkspace(surface, workspace);
             drop.accept(Qt.MoveAction)
             listView.hoveredWorkspaceIndex = -1
-            root.commitScreenSetup();
         }
     }
 
@@ -198,6 +196,7 @@ Item {
                 background: root.background
                 screenHeight: screen.availableModes[screen.currentModeIndex].size.height
                 containsDrag: listView.hoveredWorkspaceIndex == index
+                isActive: model.workspace.active
             }
             MouseArea {
                 anchors.fill: parent
