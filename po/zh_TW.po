@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-16 13:49+0000\n"
+"POT-Creation-Date: 2017-03-08 09:56+0000\n"
 "PO-Revision-Date: 2016-02-24 04:40+0000\n"
 "Last-Translator: Po-Hsu Lin <po-hsu.lin@canonical.com>\n"
 "Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2017-02-22 06:06+0000\n"
-"X-Generator: Launchpad (build 18326)\n"
+"X-Launchpad-Export-Date: 2017-03-14 07:14+0000\n"
+"X-Generator: Launchpad (build 18331)\n"
 "Language: zh_TW\n"
 
 #: plugins/LightDM/Greeter.cpp:188
@@ -25,15 +25,15 @@ msgstr "密碼： "
 
 #: plugins/LightDM/Greeter.cpp:203
 msgid "Username"
-msgstr ""
+msgstr "使用者名稱"
 
 #: plugins/LightDM/Greeter.cpp:242
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "身分核對失敗"
 
 #: plugins/LightDM/Greeter.cpp:244
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "密碼錯誤，請再試一次"
 
 #: plugins/LightDM/Greeter.cpp:254
 msgid "Log In"
@@ -45,11 +45,11 @@ msgstr "重試"
 
 #: plugins/LightDM/UsersModel.cpp:152
 msgid "Login"
-msgstr ""
+msgstr "登入"
 
 #: plugins/LightDM/UsersModel.cpp:160
 msgid "Guest Session"
-msgstr ""
+msgstr "訪客作業階段"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:50
 #: plugins/Unity/Launcher/launcheritem.cpp:122
@@ -197,8 +197,8 @@ msgid "Switches applications via the launcher."
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
-msgid "Super + 0 to 9"
-msgstr "Super + 0 到 9"
+msgid "Super + 1 to 0"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Same as clicking on a launcher icon."
@@ -206,7 +206,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + A"
-msgstr ""
+msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Opens the Application Drawer."
@@ -218,7 +218,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:201
 msgid "Super (Tap)"
-msgstr ""
+msgstr "Super (輕觸)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:206
 msgid "Opens the Scopes home."
@@ -282,7 +282,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Ctrl + Super + Left or Right"
-msgstr ""
+msgstr "Ctrl + Super + 左或右"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Semi-maximizes the current window."
@@ -519,14 +519,14 @@ msgstr ""
 
 #: qml/Launcher/Drawer.qml:92
 msgid "Search…"
-msgstr ""
+msgstr "搜尋..."
 
 #: qml/Launcher/Drawer.qml:127
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
-#: qml/Launcher/MoreAppsHeader.qml:39
+#: qml/Launcher/MoreAppsHeader.qml:55
 msgid "More apps in the store"
 msgstr ""
 
@@ -614,6 +614,10 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "回撥"
 
+#: qml/Panel/PanelMenuPage.qml:92
+msgid "Back"
+msgstr ""
+
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr ""
@@ -659,15 +663,15 @@ msgstr "下一個"
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
-msgstr ""
+msgstr "選取鍵盤"
 
 #: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
-msgstr ""
+msgstr "鍵盤語言"
 
 #: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
-msgstr ""
+msgstr "鍵盤配置"
 
 #: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:207
 #: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/77-system-update.qml:152
@@ -776,7 +780,7 @@ msgstr "隱私權政策"
 
 #: qml/Wizard/Pages/77-system-update.qml:28
 msgid "Update Device"
-msgstr ""
+msgstr "更新裝置"
 
 #: qml/Wizard/Pages/77-system-update.qml:55
 msgid ""
@@ -787,7 +791,7 @@ msgstr ""
 #: qml/Wizard/Pages/77-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu system"
-msgstr ""
+msgstr "Ubuntu 系統"
 
 #: qml/Wizard/Pages/77-system-update.qml:83
 #, qt-format
@@ -801,7 +805,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/77-system-update.qml:116
 msgid "Install and restart now"
-msgstr ""
+msgstr "馬上安裝並重新啟動"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
@@ -843,7 +847,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/here-terms.qml:107
 msgid "Service Terms"
-msgstr ""
+msgstr "服務條款"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:97
@@ -894,7 +898,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/password-set.qml:62
 msgid "Enter at least 8 characters"
-msgstr ""
+msgstr "輸入至少 8 個字元"
 
 #: qml/Wizard/Pages/password-set.qml:74
 msgid "Choose password"
@@ -1311,3 +1315,6 @@ msgstr "密碼強度極弱"
 
 #~ msgid "%a %d %b %l:%M %p"
 #~ msgstr "(%a) %d月%b日 %p %l:%M"
+
+#~ msgid "Super + 0 to 9"
+#~ msgstr "Super + 0 到 9"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-16 13:49+0000\n"
+"POT-Creation-Date: 2017-03-08 09:56+0000\n"
 "PO-Revision-Date: 2015-07-04 18:32+0000\n"
 "Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-02-22 06:04+0000\n"
-"X-Generator: Launchpad (build 18326)\n"
+"X-Launchpad-Export-Date: 2017-03-14 07:12+0000\n"
+"X-Generator: Launchpad (build 18331)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -24,15 +24,15 @@ msgstr "Salasana: "
 
 #: plugins/LightDM/Greeter.cpp:203
 msgid "Username"
-msgstr ""
+msgstr "Käyttäjätunnus"
 
 #: plugins/LightDM/Greeter.cpp:242
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "Tunnistautuminen epäonnistui"
 
 #: plugins/LightDM/Greeter.cpp:244
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "Virheellinen salasana, yritä uudelleen"
 
 #: plugins/LightDM/Greeter.cpp:254
 msgid "Log In"
@@ -44,11 +44,11 @@ msgstr "Yritä uudelleen"
 
 #: plugins/LightDM/UsersModel.cpp:152
 msgid "Login"
-msgstr ""
+msgstr "Kirjaudu"
 
 #: plugins/LightDM/UsersModel.cpp:160
 msgid "Guest Session"
-msgstr ""
+msgstr "Vierasistunto"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:50
 #: plugins/Unity/Launcher/launcheritem.cpp:122
@@ -151,7 +151,7 @@ msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of the current window."
-msgstr ""
+msgstr "Ottaa kuvakaappauksen nykyisestä ikkunasta."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -198,8 +198,8 @@ msgid "Switches applications via the launcher."
 msgstr "Vaihtaa sovellusten välillä käynnistimessä."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
-msgid "Super + 0 to 9"
-msgstr "Super + 0-9"
+msgid "Super + 1 to 0"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Same as clicking on a launcher icon."
@@ -207,7 +207,7 @@ msgstr "Sama kuin käynnistimen painikkeen napsauttaminen."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + A"
-msgstr ""
+msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Opens the Application Drawer."
@@ -373,7 +373,7 @@ msgstr ""
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "Lisää asetuksia on esillä järjestelmän asetuksissa."
 
 #: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
@@ -503,11 +503,11 @@ msgstr "Yritä uudelleen"
 
 #: qml/Greeter/Greeter.qml:562
 msgid "Enter passphrase to unlock"
-msgstr ""
+msgstr "Anna tunnuslause avataksesi lukituksen"
 
 #: qml/Greeter/Greeter.qml:563
 msgid "Enter passcode to unlock"
-msgstr ""
+msgstr "Anna suojakoodi avataksesi lukituksen"
 
 #: qml/Greeter/NarrowView.qml:242
 msgid "Emergency"
@@ -527,16 +527,16 @@ msgstr "Valitse työpöytäympäristö"
 
 #: qml/Launcher/Drawer.qml:92
 msgid "Search…"
-msgstr ""
+msgstr "Etsi…"
 
 #: qml/Launcher/Drawer.qml:127
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
-msgstr ""
+msgstr "A-Ö"
 
-#: qml/Launcher/MoreAppsHeader.qml:39
+#: qml/Launcher/MoreAppsHeader.qml:55
 msgid "More apps in the store"
-msgstr ""
+msgstr "Lisää sovelluksia kaupassa"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -624,6 +624,10 @@ msgstr "Vastaa"
 msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Soita takaisin"
+
+#: qml/Panel/PanelMenuPage.qml:92
+msgid "Back"
+msgstr ""
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
@@ -1387,3 +1391,6 @@ msgstr "Erittäin heikko salasana"
 
 #~ msgid "Takes a screenshot of a window."
 #~ msgstr "Ottaa kuvakaappauksen ikkunasta."
+
+#~ msgid "Super + 0 to 9"
+#~ msgstr "Super + 0-9"
