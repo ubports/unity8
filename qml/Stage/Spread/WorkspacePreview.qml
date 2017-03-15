@@ -85,18 +85,40 @@ Item {
         anchors.rightMargin: parent.width / 2
         color: "#55000000"
         visible: previewSpace.containsDragLeft
+
+        Column {
+            anchors.centerIn: parent
+            spacing: units.gu(1)
+            Icon {
+                source: "../graphics/multi-monitor_leave.png"
+                height: units.gu(4)
+                width: height
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Label {
+                text: qsTr("Drop")
+            }
+        }
     }
+
     Rectangle {
         anchors.fill: parent
         anchors.leftMargin: parent.width / 2
         color: "#55000000"
         visible: previewSpace.containsDragRight
 
-        Icon {
-            source: "../graphics/multi-monitor_leave.png"
-            height: units.gu(4)
-            width: height
+        Column {
             anchors.centerIn: parent
+            spacing: units.gu(1)
+            Icon {
+                source: "../graphics/multi-monitor_leave.png"
+                height: units.gu(4)
+                width: height
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Label {
+                text: qsTr("Drop and go")
+            }
         }
     }
 }
