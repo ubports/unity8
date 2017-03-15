@@ -872,5 +872,29 @@ PanelTest {
             keyClick(Qt.Key_Enter);
             compare(aboutToShowCalledSpy.count, 1);
         }
+
+        function test_disabledTopLevel() {
+            var modelData = appMenuData.generateTestData(3,3,0,0,"menu");
+            modelData[1].rowData.sensitive = false;
+            panel.applicationMenus.model.modelData = modelData;
+
+            waitForRendering(panel);
+
+            aboutToShowCalledSpy.target = panel.applicationMenus.model
+            aboutToShowCalledSpy.clear();
+
+            var indicatorsBar = findChild(panel.applicationMenus, "indicatorsBar");
+
+            PanelState.title = "Fake Title"
+            pullDownApplicationsMenu();
+
+            tryCompare(indicatorsBar, "currentItemIndex", 0);
+
+            keyClick(Qt.Key_Right);
+            tryCompare(indicatorsBar, "currentItemIndex", 2);
+
+            keyClick(Qt.Key_Left);
+            tryCompare(indicatorsBar, "currentItemIndex", 0);
+        }
     }
 }
