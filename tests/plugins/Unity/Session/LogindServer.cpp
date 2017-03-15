@@ -27,6 +27,16 @@ QDBusObjectPath LogindServer::GetSessionByPID(quint32)
     return QDBusObjectPath("/logindsession");
 }
 
+void LogindServer::Reboot(bool interactive)
+{
+    Q_EMIT RebootCalled(interactive);
+}
+
+void LogindServer::PowerOff(bool interactive)
+{
+    Q_EMIT PowerOffCalled(interactive);
+}
+
 void LogindServer::MockEmitUnlock()
 {
     Q_EMIT Unlock();
