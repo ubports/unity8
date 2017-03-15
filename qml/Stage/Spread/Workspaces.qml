@@ -13,6 +13,7 @@ Item {
     property var background // TODO: should be stored in the workspace data
 
     signal commitScreenSetup();
+    signal closeSpread();
 
     DropArea {
         anchors.fill: root
@@ -20,15 +21,14 @@ Item {
         keys: ['workspace']
 
         onEntered: {
-            var index = listView.getDropIndex(drag);
-            drag.source.workspace.assign(workspaceModel, index)
-            listView.dropItemIndex = index;
+            listView.updateDropProperties(drag);
+            drag.source.workspace.assign(workspaceModel, listView.hoveredWorkspaceIndex)
             drag.source.inDropArea = true;
         }
 
         onPositionChanged: {
-            var index = listView.getDropIndex(drag);
-            if (listView.dropItemIndex == index) return;
+            listView.updateDropProperties(drag);
+            if (listView.dropItemIndex == listView.hoveredWorkspaceIndex) return;
             listView.model.move(listView.dropItemIndex, index, 1);
             listView.dropItemIndex = index;
         }
@@ -36,6 +36,7 @@ Item {
         onExited: {
             drag.source.workspace.unassign()
             listView.dropItemIndex = -1;
+            listView.hoveredWorkspaceIndex = -1;
             drag.source.inDropArea = false;
         }
 
@@ -51,7 +52,7 @@ Item {
 
         onPositionChanged: {
             listView.progressiveScroll(drag.x)
-            listView.hoveredWorkspaceIndex = listView.getDropIndex(drag)
+            listView.updateDropProperties(drag)
         }
         onExited: {
             listView.hoveredWorkspaceIndex = -1
@@ -62,6 +63,10 @@ Item {
             var workspace = listView.model.get(listView.hoveredWorkspaceIndex);
             WorkspaceManager.moveSurfaceToWorkspace(surface, workspace);
             drop.accept(Qt.MoveAction)
+            if (listView.hoveredHalf == "right") {
+                workspace.activate();
+                root.closeSpread();
+            }
             listView.hoveredWorkspaceIndex = -1
         }
     }
@@ -84,6 +89,7 @@ Item {
         property real realContentX: contentX - originX + leftMargin
         property int dropItemIndex: -1
         property int hoveredWorkspaceIndex: -1
+        property string hoveredHalf: ""   // left or right
 
         function getDropIndex(drag) {
             var coords = mapToItem(listView.contentItem, drag.x, drag.y)
@@ -92,6 +98,23 @@ Item {
             var upperLimit = dropItemIndex == -1 ? listView.count : listView.count - 1
             if (index > upperLimit) index = upperLimit;
             return index;
+        }
+
+        function updateDropProperties(drag) {
+            var coords = mapToItem(listView.contentItem, drag.x, drag.y)
+            var index = Math.floor(drag.x + listView.realContentX) / (listView.itemWidth + listView.spacing);
+            if (index < 0) {
+                listView.hoveredWorkspaceIndex = -1;
+                listView.hoveredHalf = "";
+                return;
+            }
+
+            var upperLimit = dropItemIndex == -1 ? listView.count : listView.count - 1
+            if (index > upperLimit) index = upperLimit;
+            listView.hoveredWorkspaceIndex = index;
+            print("updating drag:", (drag.x + listView.realContentX) % (listView.itemWidth + listView.spacing))
+            var pixelsInTile = (drag.x + listView.realContentX) % (listView.itemWidth + listView.spacing);
+            listView.hoveredHalf = (pixelsInTile / listView.itemWidth) < .5 ? "left" : "right";
         }
 
         function progressiveScroll(mouseX) {
@@ -195,13 +218,18 @@ Item {
                 width: listView.itemWidth
                 background: root.background
                 screenHeight: screen.availableModes[screen.currentModeIndex].size.height
-                containsDrag: listView.hoveredWorkspaceIndex == index
+                containsDragLeft: listView.hoveredWorkspaceIndex == index && listView.hoveredHalf == "left"
+                containsDragRight: listView.hoveredWorkspaceIndex == index && listView.hoveredHalf == "right"
                 isActive: model.workspace.active
             }
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    model.workspace.activate()
+                    model.workspace.activate();
+                }
+                onDoubleClicked: {
+                    model.workspace.activate();
+                    root.closeSpread();
                 }
             }
 

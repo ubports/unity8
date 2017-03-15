@@ -12,6 +12,8 @@ Item {
 
     property var screensProxy: Screens.createProxy();
 
+    signal closeSpread();
+
     Row {
         id: row
         anchors.bottom: parent.bottom
@@ -120,6 +122,7 @@ Item {
                     workspaceModel: model.screen.workspaces
 
                     onCommitScreenSetup: Screens.sync(root.screensProxy)
+                    onCloseSpread: root.closeSpread();
                 }
             }
         }

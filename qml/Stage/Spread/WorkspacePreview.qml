@@ -14,7 +14,8 @@ Item {
 
     property real previewScale: previewSpace.height / previewSpace.screenHeight
 
-    property bool containsDrag: false
+    property bool containsDragLeft: false
+    property bool containsDragRight: false
     property bool isActive: false
 
     Image {
@@ -81,10 +82,22 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        border.color: UbuntuColors.blue
-        border.width: units.gu(.5)
-        color: "transparent"
-        visible: previewSpace.containsDrag
+        anchors.rightMargin: parent.width / 2
+        color: "#55000000"
+        visible: previewSpace.containsDragLeft
+    }
+    Rectangle {
+        anchors.fill: parent
+        anchors.leftMargin: parent.width / 2
+        color: "#55000000"
+        visible: previewSpace.containsDragRight
+
+        Icon {
+            source: "../graphics/multi-monitor_leave.png"
+            height: units.gu(4)
+            width: height
+            anchors.centerIn: parent
+        }
     }
 }
 

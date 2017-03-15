@@ -571,10 +571,12 @@ FocusScope {
         ScreensAndWorkspaces {
             id: screensAndWorkspaces
             anchors { left: parent.left; top: parent.top; right: parent.right; leftMargin: root.leftMargin }
-            height: parent.height / 3
+            height: parent.height * .3
             background: root.background
             opacity: 0
             visible: opacity > 0
+
+            onCloseSpread: priv.goneToSpread = false;
         }
 
         Spread {
@@ -763,8 +765,9 @@ FocusScope {
         MirSurfaceItem {
             id: fakeDragItem
             property real previewScale: .5
-            width: implicitWidth * previewScale
-            height: implicitHeight * previewScale
+            height: (screensAndWorkspaces.height - units.gu(8)) / 2
+            // w : h = iw : ih
+            width: implicitWidth * height / implicitHeight
             surfaceWidth: -1
             surfaceHeight: -1
             opacity: surface != null ? 1 : 0
@@ -987,7 +990,6 @@ FocusScope {
                 function claimFocus() {
                     if (root.state == "spread") {
                         spreadItem.highlightedIndex = index
-                        priv.goneToSpread = false;
                     }
                     if (root.mode == "stagedWithSideStage") {
                         if (appDelegate.stage == ApplicationInfoInterface.SideStage && !sideStage.shown) {
