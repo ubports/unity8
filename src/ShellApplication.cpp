@@ -21,6 +21,7 @@
 #include <QProcess>
 #include <QScreen>
 #include <QQmlContext>
+#include <QQmlComponent>
 
 #include <libintl.h>
 
@@ -78,7 +79,18 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
         pxpgu = 8;
     }
     m_qmlEngine->rootContext()->setContextProperty("internalGu", pxpgu);
-    m_qmlEngine->load(::qmlDirectory() + "/ShellApplication.qml");
+
+    auto component(new QQmlComponent(m_qmlEngine,
+                                     QUrl::fromLocalFile(::qmlDirectory() + "/ShellApplication.qml")));
+    component->create();
+    if (component->status() == QQmlComponent::Error) {
+        m_qmlEngine->rootContext()->setContextProperty(QStringLiteral("errorString"), component->errorString());
+        auto errorComponent(new QQmlComponent(m_qmlEngine,
+                                         QUrl::fromLocalFile(::qmlDirectory() + "/ErrorApplication.qml")));
+        errorComponent->create();
+        qDebug() << errorComponent->errorString();
+        return;
+    }
 
     #ifdef UNITY8_ENABLE_TOUCH_EMULATION
     // You will need this if you want to interact with touch-only components using a mouse
@@ -89,18 +101,9 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     #endif
 
     if (m_qmlArgs.mode().compare("greeter") == 0) {
-//        QSize primaryScreenSize = this->primaryScreen()->size();
-//        m_shellView->setHeight(primaryScreenSize.height());
-//        m_shellView->setWidth(primaryScreenSize.width());
-//        m_shellView->show();
-//        m_shellView->requestActivate();
         if (!QProcess::startDetached("initctl emit --no-wait unity8-greeter-started")) {
             qDebug() << "Unable to send unity8-greeter-started event to Upstart";
         }
-//    } else if (isMirServer || parser.hasFullscreen()) {
-//        m_shellView->showFullScreen();
-//    } else {
-//        m_shellView->show();
     }
 }
 
@@ -122,7 +125,7 @@ void ShellApplication::destroyResources()
 
 void ShellApplication::setupQmlEngine(bool isMirServer)
 {
-    m_qmlEngine = new QQmlApplicationEngine(this);
+    m_qmlEngine = new QQmlEngine(this);
 
     m_qmlEngine->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
 

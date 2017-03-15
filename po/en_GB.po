@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-16 13:49+0000\n"
+"POT-Creation-Date: 2017-03-08 09:56+0000\n"
 "PO-Revision-Date: 2016-07-05 00:37+0000\n"
 "Last-Translator: Andi Chandler <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-02-22 06:06+0000\n"
-"X-Generator: Launchpad (build 18326)\n"
+"X-Launchpad-Export-Date: 2017-03-14 07:14+0000\n"
+"X-Generator: Launchpad (build 18331)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -198,8 +198,8 @@ msgid "Switches applications via the launcher."
 msgstr "Switches applications via the launcher."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
-msgid "Super + 0 to 9"
-msgstr "Super + 0 to 9"
+msgid "Super + 1 to 0"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Same as clicking on a launcher icon."
@@ -530,7 +530,7 @@ msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: qml/Launcher/MoreAppsHeader.qml:39
+#: qml/Launcher/MoreAppsHeader.qml:55
 msgid "More apps in the store"
 msgstr "More apps in the store"
 
@@ -621,13 +621,17 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Call back"
 
+#: qml/Panel/PanelMenuPage.qml:92
+msgid "Back"
+msgstr ""
+
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "Drag using 3 fingers any application from one window to the other"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
 msgid "Long swipe from the left edge to open the Application Drawer"
-msgstr ""
+msgstr "Long swipe from the left edge to open the Application Drawer"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -1375,3 +1379,6 @@ msgstr "Very weak password"
 
 #~ msgid "Takes a screenshot of a window."
 #~ msgstr "Takes a screenshot of a window."
+
+#~ msgid "Super + 0 to 9"
+#~ msgstr "Super + 0 to 9"

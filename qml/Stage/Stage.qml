@@ -471,7 +471,7 @@ FocusScope {
             extend: "stagedRightEdge"
             PropertyChanges {
                 target: sideStage
-                opacity: priv.sideStageDelegate.x === sideStage.x ? 1 : 0
+                opacity: priv.sideStageDelegate && priv.sideStageDelegate.x === sideStage.x ? 1 : 0
                 visible: true
             }
         },
@@ -724,6 +724,7 @@ FocusScope {
                     // miral doesn't know about our window decorations. So we have to deduct them
                     value: Qt.point(appDelegate.requestedX + appDelegate.clientAreaItem.x,
                                     appDelegate.requestedY + appDelegate.clientAreaItem.y)
+                    when: root.mode == "windowed"
                 }
 
                 // In those are for windowed mode. Those values basically store the window's properties
@@ -769,7 +770,6 @@ FocusScope {
                                     Math.max(0, priv.virtualKeyboardHeight - (appContainer.height - (appDelegate.requestedY + appDelegate.height))))
                     when: root.oskEnabled && appDelegate.focus && (appDelegate.state == "normal" || appDelegate.state == "restored")
                           && root.inputMethodRect.height > 0
-
                 }
 
                 Behavior on x { id: xBehavior; enabled: priv.closingIndex >= 0; UbuntuNumberAnimation { onRunningChanged: if (!running) priv.closingIndex = -1} }
@@ -934,7 +934,8 @@ FocusScope {
                         } else if (model.window.state === Mir.MaximizedBottomRightState) {
                             appDelegate.maximizeBottomRight();
                         } else if (model.window.state === Mir.RestoredState) {
-                            if (appDelegate.fullscreen && appDelegate.prevWindowState != WindowStateStorage.WindowStateRestored) {
+                            if (appDelegate.fullscreen && appDelegate.prevWindowState != WindowStateStorage.WindowStateRestored
+                                    && appDelegate.prevWindowState != WindowStateStorage.WindowStateNormal) {
                                 model.window.requestState(WindowStateStorage.toMirState(appDelegate.prevWindowState));
                             } else {
                                 appDelegate.restore();
@@ -943,6 +944,21 @@ FocusScope {
                             appDelegate.prevWindowState = appDelegate.windowState;
                             appDelegate.windowState = WindowStateStorage.WindowStateFullscreen;
                         }
+                    }
+                }
+
+                readonly property bool windowReady: clientAreaItem.surfaceInitialized
+                onWindowReadyChanged: {
+                    if (windowReady) {
+                        var loadedMirState = WindowStateStorage.toMirState(windowStateSaver.loadedState);
+                        // need to apply the shell chrome policy on top the saved window state
+                        var policy;
+                        if (root.mode == "windowed") {
+                            policy = windowedFullscreenPolicy;
+                        } else {
+                            policy = stagedFullscreenPolicy
+                        }
+                        window.requestState(policy.applyPolicy(loadedMirState, surface.shellChrome));
                     }
                 }
 
@@ -958,7 +974,6 @@ FocusScope {
                     windowedY = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedY + units.gu(3) : normalZ * units.gu(3)
                     // Now load any saved state. This needs to happen *after* the cascading!
                     windowStateSaver.load();
-                    model.window.requestState(WindowStateStorage.toMirState(windowState));
 
                     updateQmlFocusFromMirSurfaceFocus();
 
@@ -1174,6 +1189,7 @@ FocusScope {
                 states: [
                     State {
                         name: "spread"; when: root.state == "spread"
+                        StateChangeScript { script: { decoratedWindow.cancelDrag(); } }
                         PropertyChanges {
                             target: decoratedWindow;
                             showDecoration: false;
@@ -1200,6 +1216,7 @@ FocusScope {
                         }
                         PropertyChanges { target: dragArea; enabled: true }
                         PropertyChanges { target: windowInfoItem; opacity: spreadMaths.tileInfoOpacity; visible: spreadMaths.itemVisible }
+                        PropertyChanges { target: touchControls; enabled: false }
                     },
                     State {
                         name: "stagedRightEdge"
@@ -1442,7 +1459,7 @@ FocusScope {
                 ]
                 transitions: [
                     Transition {
-                        from: "staged,stagedWithSideStage"; to: "normal"
+                        from: "staged,stagedWithSideStage"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedX,requestedY,opacity,requestedWidth,requestedHeight,scale"; duration: priv.animationDuration }
@@ -1463,8 +1480,7 @@ FocusScope {
                     },
                     Transition {
                         from: "normal,staged"; to: "stagedWithSideStage"
-                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y"; duration: priv.animationDuration }
-                        UbuntuNumberAnimation { target: appDelegate; properties: "requestedWidth,requestedHeight"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedWidth,requestedHeight"; duration: priv.animationDuration }
                     },
                     Transition {
                         to: "windowedRightEdge"
@@ -1504,7 +1520,6 @@ FocusScope {
                         from: ",normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
                         to: "minimized"
                         SequentialAnimation {
-                            ScriptAction { script: print("transitioning:", appDelegate.x, appDelegate.y, appDelegate.scale) }
                             ScriptAction { script: { fakeRectangle.stop(); } }
                             PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                             UbuntuNumberAnimation { target: appDelegate; properties: "x,y,scale,opacity"; duration: priv.animationDuration }
@@ -1515,7 +1530,6 @@ FocusScope {
                         from: "minimized"
                         to: ",normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
                         SequentialAnimation {
-                            ScriptAction { script: print("transitioning:", appDelegate.x, appDelegate.y, appDelegate.scale) }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized,z" }
                             ParallelAnimation {
                                 UbuntuNumberAnimation { target: appDelegate; properties: "x"; from: -appDelegate.width / 2; duration: priv.animationDuration }
@@ -1662,8 +1676,6 @@ FocusScope {
 
                 WindowedFullscreenPolicy {
                     id: windowedFullscreenPolicy
-                    active: root.mode == "windowed"
-                    surface: model.window.surface
                 }
                 StagedFullscreenPolicy {
                     id: stagedFullscreenPolicy

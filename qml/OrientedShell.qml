@@ -195,6 +195,12 @@ Item {
         value: !shell.oskEnabled || shell.usageScenario == "desktop"
     }
 
+    Binding {
+        target: unity8Settings
+        property: "oskSwitchVisible"
+        value: shell.hasKeyboard
+    }
+
     readonly property int supportedOrientations: shell.supportedOrientations
         & (deviceConfiguration.supportedOrientations == deviceConfiguration.useNativeOrientation
                 ? orientations.native_
@@ -266,12 +272,8 @@ Item {
         mode: applicationArguments.mode
         hasMouse: pointerInputDevices > 0
         hasKeyboard: keyboardsModel.count > 0
-        // TODO: Factor in if the current screen is a touch screen and if the user wants to
-        //       have multiple keyboards around. For now we only enable one keyboard at a time
-        //       thus hiding it here if there is a physical one around or if we have a second
-        //       screen (the virtual touchpad & osk on the phone) attached.
-        oskEnabled: (keyboardsModel.count === 0 && Screens.count === 1) ||
-                    forceOSKEnabled
+        hasTouchscreen: touchScreensModel.count > 0
+        oskEnabled: unity8Settings.alwaysShowOsk || !hasKeyboard || forceOSKEnabled
 
         usageScenario: {
             if (unity8Settings.usageMode === "Windowed") {

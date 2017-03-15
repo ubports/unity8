@@ -114,6 +114,9 @@ FocusScope {
 
     function hide(flags) {
         if ((flags & ignoreHideIfMouseOverLauncher) && Utils.Functions.itemUnderMouse(panel)) {
+            if (state == "drawer") {
+                switchToNextState("visibleTemporary");
+            }
             return;
         }
         switchToNextState("")
