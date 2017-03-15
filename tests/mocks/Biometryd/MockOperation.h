@@ -40,7 +40,6 @@ Q_SIGNALS:
 
 private:
     QObject *m_observer;
-    bool m_running;
 };
 
 Q_DECLARE_METATYPE(MockOperation*)

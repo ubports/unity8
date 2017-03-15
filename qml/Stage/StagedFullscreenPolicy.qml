@@ -28,14 +28,14 @@ import Unity.Application 0.1
 QtObject {
     property bool active: true
 
-    property var surface: null
-    onSurfaceChanged: {
-        if (!active || !surface) return;
-        if (surface.shellChrome === Mir.LowChrome) {
-            surface.requestState(Mir.FullscreenState);
+    function applyPolicy(surfaceState, surfaceChrome) {
+        if (surfaceChrome === Mir.LowChrome) {
+            return Mir.FullscreenState;
         }
+        return surfaceState;
     }
 
+    property var surface: null
     property var _connections: Connections {
         target: surface
         onShellChromeChanged: {
@@ -44,12 +44,6 @@ QtObject {
                 surface.requestState(Mir.FullscreenState);
             } else {
                 surface.requestState(Mir.RestoredState);
-            }
-        }
-        onStateChanged: {
-            if (!active) return;
-            if (surface.state === Mir.RestoredState && surface.shellChrome === Mir.LowChrome) {
-                surface.requestState(Mir.FullscreenState);
             }
         }
     }

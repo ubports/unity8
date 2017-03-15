@@ -89,7 +89,7 @@ PageStack {
                 leadingActionBar.actions: [
                     Action {
                         iconName: "back"
-                        text: "Back"
+                        text: i18n.tr("Back")
                         onTriggered: {
                             root.pop();
                         }

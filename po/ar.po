@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-16 13:49+0000\n"
+"POT-Creation-Date: 2017-03-08 09:56+0000\n"
 "PO-Revision-Date: 2017-01-14 05:20+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
 "3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2017-02-22 06:04+0000\n"
-"X-Generator: Launchpad (build 18326)\n"
+"X-Launchpad-Export-Date: 2017-03-14 07:12+0000\n"
+"X-Generator: Launchpad (build 18331)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -199,8 +199,8 @@ msgid "Switches applications via the launcher."
 msgstr "للتحويل بين التطبيقات عبر شريط بدء التطبيقات."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
-msgid "Super + 0 to 9"
-msgstr "Super + 0 to 9"
+msgid "Super + 1 to 0"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Same as clicking on a launcher icon."
@@ -535,7 +535,7 @@ msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""
 
-#: qml/Launcher/MoreAppsHeader.qml:39
+#: qml/Launcher/MoreAppsHeader.qml:55
 msgid "More apps in the store"
 msgstr ""
 
@@ -636,6 +636,10 @@ msgstr "رد"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:209
 msgctxt "Button: Call back on phone"
 msgid "Call back"
+msgstr ""
+
+#: qml/Panel/PanelMenuPage.qml:92
+msgid "Back"
 msgstr ""
 
 #: qml/Stage/SideStage.qml:76
@@ -1301,3 +1305,6 @@ msgstr ""
 
 #~ msgid "Takes a screenshot of a window."
 #~ msgstr "أخذ لقطة شاشة للنافذة"
+
+#~ msgid "Super + 0 to 9"
+#~ msgstr "Super + 0 to 9"
