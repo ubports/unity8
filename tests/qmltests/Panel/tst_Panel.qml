@@ -769,7 +769,7 @@ PanelTest {
             panel.mode = "staged";
             mouseEmulation.checked = false;
 
-            var appTitle = findChild(panel.applicationMenus, "panelTitle"); verify(appTitle);
+            var appTitle = findChild(panel, "panelTitle"); verify(appTitle);
             var appMenuRow = findChild(panel.applicationMenus, "panelRow"); verify(appMenuRow);
             var appMenuBar = findChild(panel, "menuBar"); verify(appMenuBar);
 
@@ -787,7 +787,7 @@ PanelTest {
             panel.mode = "windowed";
             mouseEmulation.checked = false;
 
-            var appTitle = findChild(panel.applicationMenus, "panelTitle"); verify(appTitle);
+            var appTitle = findChild(panel, "panelTitle"); verify(appTitle);
             var appMenuRow = findChild(panel.applicationMenus, "panelRow"); verify(appMenuRow);
             var appMenuBar = findChild(panel, "menuBar"); verify(appMenuBar);
 
