@@ -814,10 +814,9 @@ Rectangle {
                 Repeater {
                     id: popoverRepeater
                     objectName: "popoverRepeater"
-                    model: UnitySortFilterProxyModel {
-                        model: quickList.model
-                        filterRole: QuickListModelInterface.RoleIsPrivate
-                        filterRegExp: root.privateMode ? RegExp(false) : RegExp()
+                    model: QuickListProxyModel {
+                        source: quickList.model
+                        privateMode: root.privateMode
                     }
 
                     ListItem {
