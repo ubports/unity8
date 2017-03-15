@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-16 13:49+0000\n"
-"PO-Revision-Date: 2016-03-25 12:02+0000\n"
+"POT-Creation-Date: 2017-03-08 09:56+0000\n"
+"PO-Revision-Date: 2017-03-05 14:59+0000\n"
 "Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-02-22 06:05+0000\n"
-"X-Generator: Launchpad (build 18326)\n"
+"X-Launchpad-Export-Date: 2017-03-14 07:13+0000\n"
+"X-Generator: Launchpad (build 18331)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -24,15 +24,15 @@ msgstr "Contraseña: "
 
 #: plugins/LightDM/Greeter.cpp:203
 msgid "Username"
-msgstr ""
+msgstr "Nombre de usuario"
 
 #: plugins/LightDM/Greeter.cpp:242
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "No se pudo autenticar"
 
 #: plugins/LightDM/Greeter.cpp:244
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "Contraseña incorrecta; inténtelo de nuevo"
 
 #: plugins/LightDM/Greeter.cpp:254
 msgid "Log In"
@@ -44,11 +44,11 @@ msgstr "Reintentar"
 
 #: plugins/LightDM/UsersModel.cpp:152
 msgid "Login"
-msgstr ""
+msgstr "Acceder"
 
 #: plugins/LightDM/UsersModel.cpp:160
 msgid "Guest Session"
-msgstr ""
+msgstr "Sesión de invitado"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:50
 #: plugins/Unity/Launcher/launcheritem.cpp:122
@@ -70,7 +70,7 @@ msgstr "Cerrar la sesión"
 
 #: qml/Components/Dialogs.qml:178
 msgid "Are you sure you want to log out?"
-msgstr "¿Seguro que quiere cerrar la sesión?"
+msgstr "¿Confirma que quiere cerrar la sesión?"
 
 #: qml/Components/Dialogs.qml:181
 msgctxt "Button: Lock the system"
@@ -96,7 +96,7 @@ msgstr "Reiniciar"
 
 #: qml/Components/Dialogs.qml:212
 msgid "Are you sure you want to reboot?"
-msgstr "¿Seguro que quiere reiniciar?"
+msgstr "¿Confirma que quiere reiniciar?"
 
 #: qml/Components/Dialogs.qml:215
 msgid "No"
@@ -116,7 +116,7 @@ msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
-"¿Seguro que quiere\n"
+"¿Confirma que quiere\n"
 "apagar?"
 
 #: qml/Components/Dialogs.qml:244
@@ -151,7 +151,7 @@ msgstr "Alt + ImprPant"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of the current window."
-msgstr ""
+msgstr "Toma una captura de la ventana actual."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -198,8 +198,8 @@ msgid "Switches applications via the launcher."
 msgstr "Recorre las aplicaciones del Lanzador."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
-msgid "Super + 0 to 9"
-msgstr "Super + 0 a 9"
+msgid "Super + 1 to 0"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Same as clicking on a launcher icon."
@@ -207,11 +207,11 @@ msgstr "Lo mismo que hacer clic en un icono del Lanzador."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + A"
-msgstr ""
+msgstr "Súper + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Opens the Application Drawer."
-msgstr ""
+msgstr "Abre el cajón de aplicaciones."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:194
 msgid "Scopes"
@@ -360,19 +360,19 @@ msgstr ""
 
 #: qml/Components/VirtualTouchPad.qml:327
 msgid "Tap left button to click."
-msgstr ""
+msgstr "Presione el botón izquierdo para una pulsación."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "Presione el botón derecho para una pulsación secundaria."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "Deslice con dos dedos para desplazarse."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "Encuentre más opciones en Configuración del sistema."
 
 #: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
@@ -528,16 +528,16 @@ msgstr "Seleccionar entorno de escritorio"
 
 #: qml/Launcher/Drawer.qml:92
 msgid "Search…"
-msgstr ""
+msgstr "Buscar…"
 
 #: qml/Launcher/Drawer.qml:127
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
-#: qml/Launcher/MoreAppsHeader.qml:39
+#: qml/Launcher/MoreAppsHeader.qml:55
 msgid "More apps in the store"
-msgstr ""
+msgstr "Más aplicaciones en la tienda"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -626,6 +626,10 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Devolver llamada"
 
+#: qml/Panel/PanelMenuPage.qml:92
+msgid "Back"
+msgstr ""
+
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr ""
@@ -634,6 +638,8 @@ msgstr ""
 #: qml/Tutorial/TutorialLeftLong.qml:49
 msgid "Long swipe from the left edge to open the Application Drawer"
 msgstr ""
+"Deslice prolongadamente desde el borde izquierdo para abrir el cajón de "
+"aplicaciones"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -1392,3 +1398,6 @@ msgstr "Contraseña muy débil"
 
 #~ msgid "Takes a screenshot of a window."
 #~ msgstr "Captura una ventana."
+
+#~ msgid "Super + 0 to 9"
+#~ msgstr "Super + 0 a 9"

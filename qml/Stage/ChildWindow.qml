@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2016-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -141,6 +141,39 @@ Item {
         // TODO ChildWindow parent will probably want to control those
         interactive: true
         consumesInput: true
+    }
+
+    Loader {
+        active: d.moveable
+        anchors.fill: parent
+        sourceComponent: Component {
+            MouseArea {
+                acceptedButtons: Qt.LeftButton
+                property bool dragging: false
+                cursorShape: undefined // don't interfere with the cursor shape set by the underlying MirSurfaceItem
+                onPressed: {
+                    if (mouse.button == Qt.LeftButton && mouse.modifiers == Qt.AltModifier) {
+                        d.moveHandler.handlePressedChanged(true, Qt.LeftButton, mouse.x, mouse.y);
+                        dragging = true;
+                        mouse.accepted = true;
+                    } else {
+                        mouse.accepted = false;
+                    }
+                }
+                onPositionChanged: {
+                    if (dragging) {
+                        d.moveHandler.handlePositionChanged(mouse);
+                    }
+                }
+                onReleased: {
+                    if (dragging) {
+                        d.moveHandler.handlePressedChanged(false, Qt.LeftButton);
+                        d.moveHandler.handleReleased();
+                        dragging = false;
+                    }
+                }
+            }
+        }
     }
 
     Loader {

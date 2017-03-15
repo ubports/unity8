@@ -149,6 +149,7 @@ Rectangle {
                         native_: shellLoader.nativeOrientation
                         primary: shellLoader.primaryOrientation
                     }
+                    hasTouchscreen: true
 
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;

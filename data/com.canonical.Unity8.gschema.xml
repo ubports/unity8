@@ -33,7 +33,7 @@
       <description>How big (in grid units) the edge-drag sensitive area should be.</description>
     </key>
     <key type="b" name="autohide-launcher">
-      <default>true</default>
+      <default>false</default>
       <summary>Autohide the launcher</summary>
       <description>This will only be applied in windowed mode. In staged mode, the launcher will always hide.</description>
     </key>
@@ -57,6 +57,16 @@
       <default>'scope://com.canonical.scopes.clickstore'</default>
       <summary>The uri to the app store</summary>
       <description>This will be used whenever the user triggers an action to open the app store.</description>
+    </key>
+    <key type="b" name="always-show-osk">
+      <default>false</default>
+      <summary>Force showing/hiding the OSK</summary>
+      <description>Toggle the visibility of the On Screen Keyboard unconditionally</description>
+    </key>
+    <key type="b" name="osk-switch-visible">
+      <default>false</default>
+      <summary>Whether the OSK switch should be visible</summary>
+      <description>Toggle the visibility of the OSK switch</description>
     </key>
   </schema>
 

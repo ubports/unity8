@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# Copyright (C) 2013 Canonical Ltd
+# Copyright (C) 2017 Canonical Ltd
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License version 3 as
@@ -14,8 +14,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-# Authored by: Michi Henning <michi.henning@canonical.com>
 #
 
 #
@@ -33,7 +31,38 @@ usage()
 [ $# -lt 1 ] && usage
 [ $# -gt 2 ] && usage
 
-ignore_pat="\\.sci$"
+# image files
+ignore_pat="\\.sci$|\\.svg$|\\.png$|\\.jpg$"
+# git/bzr files
+ignore_pat="$ignore_pat|/\\.bzr/|\\.bzrignore$|\\.gitignore$|/\\.bazaar/Makefile$|/\\.bzr-builddeb/default\\.conf$"
+# info files
+ignore_pat="$ignore_pat|/README$|/CODING$|/LGPL_EXCEPTION\\.txt$"
+# cmake files
+ignore_pat="$ignore_pat|/CMakeLists\\.txt$|\\.cmake$"
+# card creator test files
+ignore_pat="$ignore_pat|/cardcreator/.*\\.res$|/cardcreator/.*\\.res\\.cardcreator$|/cardcreator/.*\\.tst$"
+# project files
+ignore_pat="$ignore_pat|/\\.project$|/\\.pydevproject$|/\\.settings/|/\\.crossbuilder/"
+# test desktop files
+ignore_pat="$ignore_pat|/tests/.*/.*\\.desktop$"
+# xml files
+ignore_pat="$ignore_pat|\\.xml$"
+# /data/ files
+ignore_pat="$ignore_pat|/data/.*\\.conf$|/data/.*\\.in|/data/.*\\.url-dispatcher$|/data/.*\\.pkla$"
+# polkit files
+ignore_pat="$ignore_pat|\\.pkla$"
+# /debian/ files
+ignore_pat="$ignore_pat|/debian/"
+# qmldir files
+ignore_pat="$ignore_pat|/qmldir$"
+# Doxygen files
+ignore_pat="$ignore_pat|/Doxyfile.in$"
+# Wizard license files
+ignore_pat="$ignore_pat|/Wizard/licenses/.*\\.html$"
+# qrc files
+ignore_pat="$ignore_pat|\\.qrc$"
+# the doc devices.conf file
+ignore_pat="$ignore_pat|/doc/devices\\.conf$"
 
 #
 # We don't use the -i option of licensecheck to add ignore_dir to the pattern because Jenkins creates directories

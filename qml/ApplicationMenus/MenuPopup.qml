@@ -276,6 +276,79 @@ UbuntuShape {
                     }
                 }
 
+                Component {
+                    id: separatorComponent
+                    ListItems.ThinDivider {
+                        // Parent will be loader
+                        objectName: parent.objectName + "-separator"
+                        implicitHeight: units.dp(2)
+                    }
+                }
+
+                Component {
+                    id: menuItemComponent
+                    MenuItem {
+                        // Parent will be loader
+                        id: menuItem
+                        menuData: parent.__menuData
+                        objectName: parent.objectName + "-actionItem"
+
+                        width: MathUtils.clamp(implicitWidth, d.__minimumWidth, d.__maximumWidth)
+
+                        action.onTriggered: {
+                            submenuHoverTimer.stop();
+
+                            d.currentItem = parent;
+
+                            if (hasSubmenu) {
+                                if (!popup) {
+                                    var model = root.unityMenuModel.submenu(__ownIndex);
+                                    popup = submenuComponent.createObject(focusScope, {
+                                                                                objectName: parent.objectName + "-",
+                                                                                unityMenuModel: model,
+                                                                                substractWidth: true,
+                                                                                desiredX: Qt.binding(function() { return root.width }),
+                                                                                desiredY: Qt.binding(function() {
+                                                                                    var dummy = listView.contentY; // force a recalc on contentY change.
+                                                                                    return mapToItem(container, 0, y).y;
+                                                                                })
+                                                                            });
+                                    popup.retreat.connect(function() {
+                                        popup.destroy();
+                                        popup = null;
+                                        menuItem.forceActiveFocus();
+                                    });
+                                    popup.childActivated.connect(function() {
+                                        popup.destroy();
+                                        popup = null;
+                                        root.childActivated();
+                                    });
+                                } else if (popup) {
+                                    popup.visible = true;
+                                }
+                            } else {
+                                root.unityMenuModel.activate(__ownIndex);
+                                root.childActivated();
+                            }
+                        }
+
+                        Connections {
+                            target: d
+                            onCurrentIndexChanged: {
+                                if (popup && d.currentIndex != __ownIndex) {
+                                    popup.visible = false;
+                                }
+                            }
+                            onDismissAll: {
+                                if (popup) {
+                                    popup.destroy();
+                                    popup = null;
+                                }
+                            }
+                        }
+                    }
+                }
+
                 ColumnLayout {
                     id: menuColumn
                     spacing: 0
@@ -289,6 +362,8 @@ UbuntuShape {
                             id: loader
                             objectName: root.objectName + "-item" + __ownIndex
 
+                            property Item popup: null
+                            property var __menuData: model
                             property int __ownIndex: index
                             property bool __isSeparator: model.isSeparator
 
@@ -301,80 +376,7 @@ UbuntuShape {
                                 return menuItemComponent;
                             }
 
-                            property Item popup: null
-
                             Layout.fillWidth: true
-
-                            Component {
-                                id: menuItemComponent
-                                MenuItem {
-                                    id: menuItem
-                                    menuData: model
-                                    objectName: loader.objectName + "-actionItem"
-
-                                    width: MathUtils.clamp(implicitWidth, d.__minimumWidth, d.__maximumWidth)
-
-                                    action.onTriggered: {
-                                        submenuHoverTimer.stop();
-
-                                        d.currentItem = loader;
-
-                                        if (hasSubmenu) {
-                                            if (!popup) {
-                                                var model = root.unityMenuModel.submenu(__ownIndex);
-                                                popup = submenuComponent.createObject(focusScope, {
-                                                                                          objectName: loader.objectName + "-",
-                                                                                          unityMenuModel: model,
-                                                                                          substractWidth: true,
-                                                                                          desiredX: Qt.binding(function() { return root.width }),
-                                                                                          desiredY: Qt.binding(function() {
-                                                                                              var dummy = listView.contentY; // force a recalc on contentY change.
-                                                                                              return mapToItem(container, 0, y).y;
-                                                                                          })
-                                                                                      });
-                                                popup.retreat.connect(function() {
-                                                    popup.destroy();
-                                                    popup = null;
-                                                    menuItem.forceActiveFocus();
-                                                });
-                                                popup.childActivated.connect(function() {
-                                                    popup.destroy();
-                                                    popup = null;
-                                                    root.childActivated();
-                                                });
-                                            } else if (popup) {
-                                                popup.visible = true;
-                                            }
-                                        } else {
-                                            root.unityMenuModel.activate(__ownIndex);
-                                            root.childActivated();
-                                        }
-                                    }
-
-                                    Connections {
-                                        target: d
-                                        onCurrentIndexChanged: {
-                                            if (popup && d.currentIndex != __ownIndex) {
-                                                popup.visible = false;
-                                            }
-                                        }
-                                        onDismissAll: {
-                                            if (popup) {
-                                                popup.destroy();
-                                                popup = null;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            Component {
-                                id: separatorComponent
-                                ListItems.ThinDivider {
-                                    objectName: loader.objectName + "-separator"
-                                    implicitHeight: units.dp(2)
-                                }
-                            }
                         }
 
                     }

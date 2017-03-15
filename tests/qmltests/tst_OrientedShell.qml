@@ -709,9 +709,11 @@ Rectangle {
             // false -> true -> false
             compare(transitionSpy.count, 2);
 
-            // It should retain native dimensions regardless of its rotation/orientation
-            compare(cameraSurface.width, orientedShell.width);
-            compare(cameraSurface.height, orientedShell.height);
+            if (!data.windowed) { // subject to shell-chrome policies
+                // It should retain native dimensions regardless of its rotation/orientation
+                compare(cameraSurface.width, orientedShell.width);
+                compare(cameraSurface.height, orientedShell.height);
+            }
 
             // Surface focus shouldn't have been touched because of the rotation
             compare(focusChangedSpy.count, 0);
@@ -1654,6 +1656,18 @@ Rectangle {
 
             tryCompare(dialogLoader, "item", null);
             compare(window.activeFocusItem, surfaceItem);
+        }
+
+        function test_tutorialDisabledWithNoTouchscreen() {
+            loadShell("desktop");
+            usageModeSelector.selectWindowed();
+
+            MockInputDeviceBackend.addMockDevice("/touchscreen", InputInfo.TouchScreen);
+            var tutorial = findChild(shell, "tutorial");
+            tryCompare(tutorial, "paused", false);
+
+            MockInputDeviceBackend.removeDevice("/touchscreen");
+            tryCompare(tutorial, "paused", true);
         }
     }
 }

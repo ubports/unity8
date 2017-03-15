@@ -82,6 +82,10 @@ FocusScope {
     signal decorationPressed()
     signal decorationReleased()
 
+    function cancelDrag() {
+        moveHandler.cancelDrag();
+    }
+
     QtObject {
         id: d
         property int requestedDecorationHeight: root.hasDecoration ? decoration.height : 0
@@ -206,12 +210,14 @@ FocusScope {
         height: units.gu(3)
 
         title: applicationWindow.title
+        windowMoving: moveHandler.moving && !altDragHandler.dragging
 
         opacity: root.hasDecoration ? Math.min(1, root.showDecoration) : 0
         Behavior on opacity { UbuntuNumberAnimation { } }
 
         onPressed: root.decorationPressed();
         onPressedChanged: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
+        onPressedChangedEx: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
         onPositionChanged: moveHandler.handlePositionChanged(mouse)
         onReleased: {
             root.decorationReleased();
@@ -257,6 +263,7 @@ FocusScope {
     }
 
     MouseArea {
+        id: altDragHandler
         anchors.fill: applicationWindow
         acceptedButtons: Qt.LeftButton
         property bool dragging: false

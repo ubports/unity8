@@ -78,7 +78,7 @@ pkg_check_modules(GLIB REQUIRED glib-2.0>=2.32)
 pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=11)
 pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
 pkg_check_modules(GD3 REQUIRED gnome-desktop-3.0)
-pkg_check_modules(UAL REQUIRED ubuntu-app-launch-2)
+pkg_check_modules(UAL REQUIRED ubuntu-app-launch-3)
 pkg_check_modules(UBUNTUGESTURES REQUIRED UbuntuGestures)
 pkg_check_modules(MIRAL REQUIRED miral)
 
