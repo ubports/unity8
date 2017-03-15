@@ -258,7 +258,6 @@ void TopLevelWindowModel::connectWindow(Window *window)
             // eg: Do focusedWindow=A to focusedWindow=B instead of
             // focusedWindow=A to focusedWindow=null to focusedWindow=B
             if (focused) {
-                Q_ASSERT(m_newlyFocusedWindow == nullptr);
                 m_focusedWindowChanged = true;
                 m_newlyFocusedWindow = window;
             } else if (m_focusedWindow == window) {
@@ -501,6 +500,10 @@ void TopLevelWindowModel::removeAt(int index)
     disconnect(window, 0, this, 0);
     if (m_focusedWindow == window) {
         setFocusedWindow(nullptr);
+    }
+    if (m_newlyFocusedWindow == window) {
+        m_focusedWindowChanged = false;
+        m_newlyFocusedWindow = nullptr;
     }
     delete window;
 
@@ -792,9 +795,7 @@ void TopLevelWindowModel::activateTopMostWindowWithoutId(int forbiddenId)
 void TopLevelWindowModel::refreshWindows()
 {
     DEBUG_MSG << "()";
-
-    m_windowModel.clear();
-    m_allSurfaces.clear();
+    clear();
 
     if (!m_workspace || !m_applicationManager || !m_surfaceManager) return;
 
@@ -826,4 +827,19 @@ void TopLevelWindowModel::refreshWindows()
             }
         }
     });
+}
+
+void TopLevelWindowModel::clear()
+{
+    DEBUG_MSG << "()";
+
+    while(m_windowModel.count() > 0) {
+        ModelEntry entry = m_windowModel.takeAt(0);
+        disconnect(entry.window, 0, this, 0);
+        delete entry.window;
+    }
+    m_allSurfaces.clear();
+    setFocusedWindow(nullptr);
+    m_focusedWindowChanged = false;
+    m_newlyFocusedWindow = nullptr;
 }

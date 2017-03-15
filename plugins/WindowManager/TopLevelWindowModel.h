@@ -239,6 +239,7 @@ private:
 
     void activateTopMostWindowWithoutId(int forbiddenId);
     void refreshWindows();
+    void clear();
 
     Window *createWindow(unity::shell::application::MirSurfaceInterface *surface);
 
