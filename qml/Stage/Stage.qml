@@ -361,7 +361,7 @@ FocusScope {
     Binding {
         target: PanelState
         property: "decorationsVisible"
-        value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.maximized // FIXME for Locally integrated menus
+        value: mode == "windowed" && priv.focusedAppDelegate && priv.focusedAppDelegate.maximized
     }
 
     Binding {
