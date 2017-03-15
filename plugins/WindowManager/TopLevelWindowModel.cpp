@@ -254,14 +254,14 @@ void TopLevelWindowModel::connectWindow(Window *window)
 
     connect(window, &Window::focusedChanged, this, [this, window](bool focused) {
         if (window->surface()) {
-            // Condense changes to the focused window
-            // eg: Do focusedWindow=A to focusedWindow=B instead of
-            // focusedWindow=A to focusedWindow=null to focusedWindow=B
             if (focused) {
-                m_focusedWindowChanged = true;
-                m_newlyFocusedWindow = window;
+                setFocusedWindow(window);
+                m_focusedWindowCleared = false;
             } else if (m_focusedWindow == window) {
-                m_focusedWindowChanged = true;
+                // Condense changes to the focused window
+                // eg: Do focusedWindow=A to focusedWindow=B instead of
+                // focusedWindow=A to focusedWindow=null to focusedWindow=B
+                m_focusedWindowCleared = true;
             } else {
                 // don't clear the focused window if you were not there in the first place
                 // happens when a filled window gets replaced with an empty one (no surface) as the focused window.
@@ -500,10 +500,7 @@ void TopLevelWindowModel::removeAt(int index)
     disconnect(window, 0, this, 0);
     if (m_focusedWindow == window) {
         setFocusedWindow(nullptr);
-    }
-    if (m_newlyFocusedWindow == window) {
-        m_focusedWindowChanged = false;
-        m_newlyFocusedWindow = nullptr;
+        m_focusedWindowCleared = false;
     }
     delete window;
 
@@ -772,12 +769,11 @@ void TopLevelWindowModel::onModificationsStarted()
 
 void TopLevelWindowModel::onModificationsEnded()
 {
-    if (m_focusedWindowChanged) {
-        setFocusedWindow(m_newlyFocusedWindow);
+    if (m_focusedWindowCleared) {
+        setFocusedWindow(nullptr);
     }
     // reset
-    m_focusedWindowChanged = false;
-    m_newlyFocusedWindow = nullptr;
+    m_focusedWindowCleared = false;
 }
 
 void TopLevelWindowModel::activateTopMostWindowWithoutId(int forbiddenId)
@@ -840,6 +836,5 @@ void TopLevelWindowModel::clear()
     }
     m_allSurfaces.clear();
     setFocusedWindow(nullptr);
-    m_focusedWindowChanged = false;
-    m_newlyFocusedWindow = nullptr;
+    m_focusedWindowCleared = false;
 }
