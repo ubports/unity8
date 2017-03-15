@@ -279,8 +279,7 @@ private:
     ModelState m_modelState{IdleState};
 
     // Valid between modificationsStarted and modificationsEnded
-    bool m_focusedWindowChanged{false};
-    Window *m_newlyFocusedWindow{nullptr};
+    bool m_focusedWindowCleared{false};
 };
 
 #endif // TOPLEVELWINDOWMODEL_H
