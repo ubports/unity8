@@ -88,6 +88,7 @@ Q_SIGNALS:
 
     // Internal mock usage
     void modelDataChanged();
+    void aboutToShowCalled(int index);
 
     void activated(const QString& action);
 

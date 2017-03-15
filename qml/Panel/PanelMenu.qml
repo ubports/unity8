@@ -46,7 +46,7 @@ Showable {
     readonly property bool fullyClosed: unitProgress == 0
     readonly property alias expanded: bar.expanded
     readonly property int barWidth: Math.min(bar.width, bar.implicitWidth)
-    readonly property alias currentMenuIndexChanged: bar.currentItemIndex
+    readonly property alias currentMenuIndex: bar.currentItemIndex
 
     signal showTapped()
 

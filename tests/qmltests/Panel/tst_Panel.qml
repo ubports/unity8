@@ -57,6 +57,11 @@ PanelTest {
         color: "darkgrey"
     }
 
+    SignalSpy {
+        id: aboutToShowCalledSpy
+        signalName: "aboutToShowCalled"
+    }
+
     RowLayout {
         anchors.fill: parent
         anchors.margins: units.gu(1)
@@ -837,6 +842,35 @@ PanelTest {
 
             keyClick(Qt.Key_Escape);
             tryCompare(panel.indicators, "fullyClosed", true);
+        }
+
+        function test_aboutToShowMenu() {
+            waitForRendering(panel);
+
+            aboutToShowCalledSpy.target = panel.applicationMenus.model
+            aboutToShowCalledSpy.clear();
+
+            var indicatorsBar = findChild(panel.applicationMenus, "indicatorsBar");
+
+            PanelState.title = "Fake Title"
+            pullDownApplicationsMenu();
+            compare(aboutToShowCalledSpy.count, 1);
+
+            keyClick(Qt.Key_Right);
+            tryCompare(indicatorsBar, "currentItemIndex", 1);
+            compare(aboutToShowCalledSpy.count, 2);
+
+            compare(aboutToShowCalledSpy.signalArguments[0][0], 0);
+            compare(aboutToShowCalledSpy.signalArguments[1][0], 1);
+
+            keyClick(Qt.Key_Tab);
+            keyClick(Qt.Key_Tab);
+
+            aboutToShowCalledSpy.target = panel.applicationMenus.model.submenu(1);
+            aboutToShowCalledSpy.clear();
+
+            keyClick(Qt.Key_Enter);
+            compare(aboutToShowCalledSpy.count, 1);
         }
     }
 }

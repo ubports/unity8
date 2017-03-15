@@ -59,18 +59,13 @@ Item {
                        }}
                     ]
             }
-
-            Binding {
-                target: activatedSpy
-                property: "target"
-                value: unityMenuModel
-            }
         }
     }
 
     SignalSpy {
-        id: activatedSpy
-        signalName: "activated"
+        id: aboutToShowCalledSpy
+        target: loader.item ? loader.item.unityMenuModel : undefined
+        signalName: "aboutToShowCalled"
     }
 
     UnityTestCase {
@@ -88,7 +83,6 @@ Item {
         function cleanup() {
             menu.reset();
             wait(100); // let the page dismiss
-            activatedSpy.clear();
 
             loader.active = false;
             tryCompare(loader, "item", null);
@@ -192,6 +186,37 @@ Item {
 
             keyClick(Qt.Key_Down, Qt.NoModifier);
             compare(priv.currentItem, item0, "CurrentItem should have moved to item 2");
+        }
+
+        function test_aboutToShow() {
+            menu.unityMenuModel.modelData = appMenuData.generateTestData(3,3,1,0,"menu",false);
+
+            var item0 = findChild(menu, "menu-item0");
+            var item1 = findChild(menu, "menu-item1");
+            var item2 = findChild(menu, "menu-item2");
+
+            aboutToShowCalledSpy.clear();
+
+            mouseMove(item0, item0.width/2, item0.height/2);
+            tryCompare(aboutToShowCalledSpy, "count", 1);
+
+            mouseMove(item1, item0.width/2, item0.height/2);
+            tryCompare(aboutToShowCalledSpy, "count", 2);
+
+            mouseMove(item2, item0.width/2, item0.height/2);
+            tryCompare(aboutToShowCalledSpy, "count", 3);
+
+            mouseMove(item0, item0.width/2, item0.height/2);
+            tryCompare(aboutToShowCalledSpy, "count", 4);
+
+            item0.item.trigger();
+            // it's already visible
+            tryCompare(aboutToShowCalledSpy, "count", 4);
+
+            compare(aboutToShowCalledSpy.signalArguments[0][0], 0);
+            compare(aboutToShowCalledSpy.signalArguments[1][0], 1);
+            compare(aboutToShowCalledSpy.signalArguments[2][0], 2);
+            compare(aboutToShowCalledSpy.signalArguments[3][0], 0);
         }
 
         function test_keyboardNavigation_RightKeyEntersSubMenu() {

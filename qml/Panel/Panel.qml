@@ -291,7 +291,7 @@ Item {
             }
 
             pageDelegate: PanelMenuPage {
-                readonly property bool isCurrent: modelIndex == __applicationMenus.currentMenuIndexChanged
+                readonly property bool isCurrent: modelIndex == __applicationMenus.currentMenuIndex
                 onIsCurrentChanged: {
                     if (isCurrent && menuModel) {
                         menuModel.aboutToShow(modelIndex);
