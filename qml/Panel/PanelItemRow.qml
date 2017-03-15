@@ -20,12 +20,10 @@ import "../Components"
 
 Item {
     id: root
-    implicitWidth: showRowTitle && !expanded ? rowTitle != "" ? rowLabel.width : 0 : row.width
+    implicitWidth: row.width
     implicitHeight: units.gu(3)
 
-    property bool showRowTitle: false
-    property alias rowTitle: rowLabel.text
-    property real shiftLeftTitle: 0
+    property bool hideRow: false
     property QtObject model: null
     property real overFlowWidth: width
     property bool expanded: false
@@ -139,31 +137,12 @@ Item {
         d.previousItem = currentItem;
     }
 
-    Label {
-        id: rowLabel
-        objectName: "panelTitle"
-        anchors {
-            left: parent.left
-            leftMargin: units.gu(1) - root.shiftLeftTitle
-            verticalCenter: parent.verticalCenter
-        }
-        width: implicitWidth + units.gu(2)
-        elide: Text.ElideRight
-        maximumLineCount: 1
-        fontSize: "medium"
-        font.weight: Font.Medium
-        color: Theme.palette.selected.backgroundText
-        opacity: showRowTitle ? 1 : 0
-        visible: opacity != 0
-        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
-    }
-
     ListView {
         id: row
         objectName: "panelRow"
         orientation: ListView.Horizontal
         model: root.model
-        opacity: showRowTitle ? 0 : 1
+        opacity: hideRow ? 0 : 1
         // dont set visible on basis of opacity; otherwise width will not be calculated correctly
         anchors {
             top: parent.top

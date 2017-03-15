@@ -260,6 +260,7 @@ Item {
             alignment: Qt.AlignLeft
             enableHint: !callHint.active && !fullscreenMode
             showOnClick: false
+            adjustDragHandleSizeToContents: false
             panelColor: panelAreaBackground.color
 
             onShowTapped: {
@@ -268,8 +269,7 @@ Item {
                 }
             }
 
-            showRowTitle: !expanded
-            rowTitle: PanelState.title
+            hideRow: !expanded
             rowItemDelegate: ActionItem {
                 id: actionItem
                 property int ownIndex: index
@@ -308,6 +308,28 @@ Item {
             onEnabledChanged: {
                 if (!enabled) hide();
             }
+        }
+
+        Label {
+            id: rowLabel
+            objectName: "panelTitle"
+            anchors {
+                left: parent.left
+                leftMargin: units.gu(1)
+                right: __indicators.left
+                rightMargin: units.gu(1)
+            }
+            height: root.minimizedPanelHeight
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideRight
+            maximumLineCount: 1
+            fontSize: "medium"
+            font.weight: Font.Medium
+            color: Theme.palette.selected.backgroundText
+            opacity: __applicationMenus.visible && !__applicationMenus.expanded ? 1 : 0
+            visible: opacity != 0
+            Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+            text: PanelState.title
         }
 
         PanelMenu {

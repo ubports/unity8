@@ -32,12 +32,12 @@ Showable {
     property real openedHeight: units.gu(71)
     property bool enableHint: true
     property bool showOnClick: true
+    property bool adjustDragHandleSizeToContents: true
     property color panelColor: theme.palette.normal.background
     property real menuContentX: 0
 
     property alias alignment: bar.alignment
-    property alias rowTitle: bar.rowTitle
-    property alias showRowTitle: bar.showRowTitle
+    property alias hideRow: bar.hideRow
     property alias rowItemDelegate: bar.rowItemDelegate
     property alias pageDelegate: content.pageDelegate
 
@@ -46,7 +46,7 @@ Showable {
     readonly property bool partiallyOpened: unitProgress > 0 && unitProgress < 1.0
     readonly property bool fullyClosed: unitProgress == 0
     readonly property alias expanded: bar.expanded
-    readonly property int barWidth: Math.min(bar.width, bar.implicitWidth)
+    readonly property int barWidth: adjustDragHandleSizeToContents ? Math.min(bar.width, bar.implicitWidth) : bar.width
 
     signal showTapped()
 
@@ -175,7 +175,6 @@ Showable {
         enableLateralChanges: false
         lateralPosition: -1
         unitProgress: root.unitProgress
-        shiftLeftTitle: root.menuContentX
 
         height: expanded ? expandedPanelHeight : minimizedPanelHeight
         Behavior on height { NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing } }
@@ -230,7 +229,7 @@ Showable {
         anchors.left: alignment == Qt.AlignLeft ? parent.left : undefined
         anchors.leftMargin: -root.menuContentX
         anchors.right: alignment == Qt.AlignRight ? parent.right : undefined
-        width: root.barWidth // show handle should only cover panel items.
+        width: root.barWidth + root.menuContentX // show handle should only cover panel items.
         height: minimizedPanelHeight
         direction: Direction.Downwards
         enabled: !root.shown && root.available
