@@ -17,9 +17,11 @@
 #include "platform.h"
 
 #include <QDBusConnection>
+#include <QSet>
+#include <QString>
 
 Platform::Platform(QObject *parent)
-    : QObject(parent)
+    : QObject(parent), m_isPC(true), m_isMultiSession(true)
 {
     QMetaObject::invokeMethod(this, "init");
 }
@@ -31,8 +33,13 @@ void Platform::init()
     QDBusInterface seatIface("org.freedesktop.login1", "/org/freedesktop/login1/seat/self", "org.freedesktop.login1.Seat",
                              QDBusConnection::systemBus(), this);
 
+    // From the docs at https://www.freedesktop.org/wiki/Software/systemd/hostnamed/
+    // the options are "desktop", "laptop", "server", "tablet", "handset", as well
+    // as the special chassis types "vm" and "container".
     m_chassis = iface.property("Chassis").toString();
-    m_isPC = (m_chassis == "desktop" || m_chassis == "laptop" || m_chassis == "server");
+
+    // A PC is not a phone or tablet.
+    m_isPC = !QSet<QString>{"handset", "tablet"}.contains(m_chassis);
     m_isMultiSession = seatIface.property("CanMultiSession").toBool() && seatIface.property("CanGraphical").toBool();
 }
 
