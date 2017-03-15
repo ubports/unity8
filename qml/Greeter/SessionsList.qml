@@ -24,26 +24,26 @@ Item {
     id: root
     objectName: "sessionsList"
 
-    property string initiallySelectedSession
     signal sessionSelected(string sessionKey)
     signal showLoginList()
 
-    onInitiallySelectedSessionChanged: {
-        sessionsList.currentIndex = getSelectedIndex();
+    // Sets the position of the background highlight
+    function updateHighlight(session) {
+        sessionsList.currentIndex = getIndexOfSession(session);
 
-        // A workaround to get the initial highlight correct
-        sessionsList.highlightFollowsCurrentItem = true;
-        sessionsList.positionViewAtIndex(sessionsList.currentIndex, ListView.Contain);
-        sessionsList.highlightFollowsCurrentItem = false;
+        var newY = sessionsList.currentItem.y + sessionsList.headerItem.height
+        sessionsList.backgroundHighlight.y = newY;
     }
 
-    function getSelectedIndex() {
+    function getIndexOfSession(session) {
         for (var i = 0; i < sessionsList.model.count; i++) {
-            var key = sessionsList.model.get(i).key
-            if (key === initiallySelectedSession) {
+            var key = sessionsList.model.get(i).key;
+            if (key === session) {
                 return i;
             }
         }
+
+        return 0; // Just choose the first session
     }
 
     function currentKey() {
@@ -104,6 +104,8 @@ Item {
         UbuntuListView {
             id: sessionsList
 
+            readonly property alias backgroundHighlight: backgroundHighlight
+
             anchors {
                 top: parent.top
                 left: parent.left
@@ -139,9 +141,14 @@ Item {
             }
 
             headerPositioning: ListView.OverlayHeader
-            highlightFollowsCurrentItem: false
 
-            highlight: Rectangle {
+            // The highlighting is all self-managed, so account for that
+            highlightFollowsCurrentItem: false
+            highlight: QtObject {}
+
+            Rectangle {
+                id: backgroundHighlight
+
                 height: sessionsList.currentItem.height
                 width: sessionsList.currentItem.width
                 color: theme.palette.normal.selection

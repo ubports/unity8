@@ -157,10 +157,9 @@ FocusScope {
             active: false
 
             onLoaded: sessionChooserLoader.item.forceActiveFocus();
-            Binding {
-                target: sessionChooserLoader.item
-                property: "initiallySelectedSession"
-                value: loginList.currentSession
+            onActiveChanged: {
+                if (!active) return;
+                item.updateHighlight(loginList.currentSession);
             }
 
             Connections {
