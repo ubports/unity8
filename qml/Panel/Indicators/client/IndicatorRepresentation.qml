@@ -85,13 +85,7 @@ Page {
                 menuModel: delegate.menuModel
 
                 factory: IndicatorMenuItemFactory {
-                    indicator: {
-                        var context = model.identifier;
-                        if (context && context.indexOf("fake-") === 0) {
-                            context = context.substring("fake-".length)
-                        }
-                        return context;
-                    }
+                    indicator: model.identifier
                     rootModel: delegate.menuModel
                 }
 
