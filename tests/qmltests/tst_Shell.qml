@@ -2848,7 +2848,7 @@ Rectangle {
             loadShell(data.tag);
 
             var panel = findChild(shell, "panel"); verify(panel);
-            var panelTitle = findChild(panel.applicationMenus, "panelTitle"); verify(panelTitle);
+            var panelTitle = findChild(panel, "panelTitle"); verify(panelTitle);
             compare(panelTitle.visible, false, "Panel title should not be visible when greeter is shown");
 
             swipeAwayGreeter();
