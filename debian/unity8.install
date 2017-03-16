@@ -16,6 +16,7 @@ usr/share/unity8/Rotation
 usr/share/unity8/DeviceConfiguration.qml
 usr/share/unity8/OrientedShell.qml
 usr/share/unity8/DisabledScreenNotice.qml
+usr/share/unity8/ErrorApplication.qml
 usr/share/unity8/qmldir
 usr/share/unity8/Shell.qml
 usr/share/unity8/ShellApplication.qml
