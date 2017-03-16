@@ -104,6 +104,9 @@ Item {
         ]
 
         onCanceled: {
+            print("****************** cancelled")
+            fakeDragItem.Drag.active = true;
+            fakeDragItem.surface = null;
             d.moving = false
             animation.animate("center");
         }
