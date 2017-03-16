@@ -106,10 +106,13 @@ Item {
                     id: workspaces
                     height: parent.height - header.height - units.gu(2)
                     width: {
+                        var width = 0;
                         if (screensProxy.count == 1) {
-                            return Math.min(implicitWidth, root.width - units.gu(8));
+                            width = Math.min(implicitWidth, root.width - units.gu(8));
+                        } else {
+                            width = Math.min(implicitWidth, model.screen.active ? root.width - units.gu(48) : units.gu(40))
                         }
-                        return Math.min(implicitWidth, model.screen.active ? root.width - units.gu(48) : units.gu(40))
+                        return Math.max(workspaces.minimumWidth, width);
                     }
 
                     Behavior on width { UbuntuNumberAnimation {} }
