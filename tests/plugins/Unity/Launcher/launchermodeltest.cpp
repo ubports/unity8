@@ -42,10 +42,11 @@ class MockSurface: public unity::shell::application::MirSurfaceInterface
 {
     Q_OBJECT
 public:
-    MockSurface(const QString &id, QObject* parent): unityapi::MirSurfaceInterface(parent), m_id(id) {}
+    MockSurface(const QString &id, const QString &appId, QObject* parent): unityapi::MirSurfaceInterface(parent), m_id(id), m_appId(appId) {}
     Mir::Type type() const override { return Mir::NormalType;}
     QString name() const override { return QStringLiteral("mock surface"); }
     QString persistentId() const override { return m_id; }
+    QString appId() const override { return m_appId; }
     QPoint position() const override { return QPoint(); }
     QSize size() const override { return QSize(); }
     void resize(const QSize &size) override { Q_UNUSED(size) }
@@ -77,6 +78,7 @@ public:
 
 private:
     QString m_id;
+    QString m_appId;
 };
 
 class MockSurfaceList: public unity::shell::application::MirSurfaceListInterface
@@ -811,7 +813,7 @@ private Q_SLOTS:
         QCOMPARE(launcherModel->get(0)->surfaceCount(), 0);
         MockApp *app = qobject_cast<MockApp*>(appManager->findApplication(appId));
         MockSurfaceList* surfaces = new MockSurfaceList(appManager);
-        surfaces->append(new MockSurface("foobar", surfaces));
+        surfaces->append(new MockSurface("foobar", "foobar", surfaces));
         app->setSurfaces(surfaces);
         QCOMPARE(launcherModel->get(0)->surfaceCount(), 1);
 

@@ -841,6 +841,7 @@ Rectangle {
                             fontSize: index == 0 ? "medium" : "small"
                             font.weight: index == 0 ? Font.Medium : Font.Light
                             color: model.clickable ? theme.palette.normal.backgroundText : theme.palette.disabled.backgroundText
+                            elide: Text.ElideRight
                         }
 
                         onClicked: {
