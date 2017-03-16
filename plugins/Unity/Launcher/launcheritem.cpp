@@ -122,6 +122,7 @@ void LauncherItem::setPinned(bool pinned)
     QuickListEntry entry;
     entry.setActionId(QStringLiteral("pin_item"));
     entry.setText(pinned ? gettext("Unpin shortcut") : gettext("Pin shortcut"));
+    entry.setIsPrivate(true);
     m_quickList->updateAction(entry);
 }
 
