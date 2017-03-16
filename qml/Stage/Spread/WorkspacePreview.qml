@@ -90,13 +90,13 @@ Item {
             anchors.centerIn: parent
             spacing: units.gu(1)
             Icon {
-                source: "../graphics/multi-monitor_leave.png"
+                source: "../graphics/multi-monitor_drop-here.png"
                 height: units.gu(4)
                 width: height
                 anchors.horizontalCenter: parent.horizontalCenter
             }
             Label {
-                text: qsTr("Drop")
+                text: qsTr("Drop here")
             }
         }
     }

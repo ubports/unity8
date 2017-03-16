@@ -105,7 +105,7 @@ Item {
 
         onCanceled: {
             print("****************** cancelled")
-            fakeDragItem.Drag.active = true;
+            fakeDragItem.Drag.active = false;
             fakeDragItem.surface = null;
             d.moving = false
             animation.animate("center");
@@ -147,6 +147,7 @@ Item {
         onReleased: {
             print("released!")
             var result = fakeDragItem.Drag.drop();
+            fakeDragItem.surface = null;
 
             if (!d.moving) {
                 root.clicked()
