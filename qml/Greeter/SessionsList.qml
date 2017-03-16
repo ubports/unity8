@@ -30,9 +30,7 @@ Item {
     // Sets the position of the background highlight
     function updateHighlight(session) {
         sessionsList.currentIndex = getIndexOfSession(session);
-
-        var newY = sessionsList.currentItem.y + sessionsList.headerItem.height
-        sessionsList.backgroundHighlight.y = newY;
+        sessionsList.currentItem.initialSession = session;
     }
 
     function getIndexOfSession(session) {
@@ -104,8 +102,6 @@ Item {
         UbuntuListView {
             id: sessionsList
 
-            readonly property alias backgroundHighlight: backgroundHighlight
-
             anchors {
                 top: parent.top
                 left: parent.left
@@ -146,21 +142,11 @@ Item {
             highlightFollowsCurrentItem: false
             highlight: QtObject {}
 
-            Rectangle {
-                id: backgroundHighlight
-
-                height: sessionsList.currentItem.height
-                width: sessionsList.currentItem.width
-                color: theme.palette.normal.selection
-
-                visible: y > sessionsList.headerItem.y
-                + sessionsList.headerItem.height
-                - sessionsList.anchors.margins
-            }
-
             delegate: ListItem {
                 id: delegate
                 objectName: "sessionDelegate" + index
+
+                property string initialSession: ""
 
                 divider.visible: false
                 visible: y > sessionsList.headerItem.y
@@ -174,6 +160,16 @@ Item {
                         sessionSelected(key)
                         showLoginList()
                     }
+                }
+
+                Rectangle {
+                    id: backgroundHighlight
+
+                    height: sessionsList.currentItem.height
+                    width: sessionsList.currentItem.width
+                    color: theme.palette.normal.selection
+
+                    visible: initialSession === key && key.length
                 }
 
                 Rectangle {
