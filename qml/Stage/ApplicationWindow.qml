@@ -234,172 +234,172 @@ FocusScope {
         property Item first: null
     }
 
-    StateGroup {
-        id: stateGroup
-        objectName: "applicationWindowStateGroup"
-        states: [
-            State {
-                name: "void"
-                when:
-                     d.hadSurface && (!root.surface || !d.surfaceInitialized)
-                     &&
-                     screenshotImage.status !== Image.Ready
-            },
-            State {
-                name: "splashScreen"
-                when:
-                     !d.hadSurface && (!root.surface || !d.surfaceInitialized)
-                     &&
-                     screenshotImage.status !== Image.Ready
-            },
-            State {
-                name: "surface"
-                when:
-                      (root.surface && d.surfaceInitialized)
-                      &&
-                      (d.liveSurface ||
-                       (d.applicationState !== ApplicationInfoInterface.Running
-                        && screenshotImage.status !== Image.Ready))
-                PropertyChanges {
-                    target: root
-                    implicitWidth: surfaceContainer.implicitWidth
-                    implicitHeight: surfaceContainer.implicitHeight
-                }
-            },
-            State {
-                name: "screenshot"
-                when:
-                      screenshotImage.status === Image.Ready
-                      &&
-                      (d.applicationState !== ApplicationInfoInterface.Running
-                       || !root.surface || !d.surfaceInitialized)
-            },
-            State {
-                // This is a dead end. From here we expect the surface to be removed from the model
-                // shortly after we stop referencing to it in our SurfaceContainer.
-                name: "closed"
-                when:
-                      // The surface died while the application is running. It must have been closed
-                      // by the shell or the application decided to destroy it by itself
-                      root.surface && d.surfaceInitialized && !d.liveSurface
-                      && d.applicationState === ApplicationInfoInterface.Running
-            }
-        ]
+//    StateGroup {
+//        id: stateGroup
+//        objectName: "applicationWindowStateGroup"
+//        states: [
+//            State {
+//                name: "void"
+//                when:
+//                     d.hadSurface && (!root.surface || !d.surfaceInitialized)
+//                     &&
+//                     screenshotImage.status !== Image.Ready
+//            },
+//            State {
+//                name: "splashScreen"
+//                when:
+//                     !d.hadSurface && (!root.surface || !d.surfaceInitialized)
+//                     &&
+//                     screenshotImage.status !== Image.Ready
+//            },
+//            State {
+//                name: "surface"
+//                when:
+//                      (root.surface && d.surfaceInitialized)
+//                      &&
+//                      (d.liveSurface ||
+//                       (d.applicationState !== ApplicationInfoInterface.Running
+//                        && screenshotImage.status !== Image.Ready))
+//                PropertyChanges {
+//                    target: root
+//                    implicitWidth: surfaceContainer.implicitWidth
+//                    implicitHeight: surfaceContainer.implicitHeight
+//                }
+//            },
+//            State {
+//                name: "screenshot"
+//                when:
+//                      screenshotImage.status === Image.Ready
+//                      &&
+//                      (d.applicationState !== ApplicationInfoInterface.Running
+//                       || !root.surface || !d.surfaceInitialized)
+//            },
+//            State {
+//                // This is a dead end. From here we expect the surface to be removed from the model
+//                // shortly after we stop referencing to it in our SurfaceContainer.
+//                name: "closed"
+//                when:
+//                      // The surface died while the application is running. It must have been closed
+//                      // by the shell or the application decided to destroy it by itself
+//                      root.surface && d.surfaceInitialized && !d.liveSurface
+//                      && d.applicationState === ApplicationInfoInterface.Running
+//            }
+//        ]
 
-        transitions: [
-            Transition {
-                from: ""; to: "splashScreen"
-                PropertyAction { target: splashLoader; property: "active"; value: true }
-                PropertyAction { target: surfaceContainer
-                                 property: "visible"; value: false }
-            },
-            Transition {
-                from: "splashScreen"; to: "surface"
-                SequentialAnimation {
-                    PropertyAction { target: surfaceContainer
-                                     property: "opacity"; value: 0.0 }
-                    PropertyAction { target: surfaceContainer
-                                     property: "visible"; value: true }
-                    UbuntuNumberAnimation { target: surfaceContainer; property: "opacity";
-                                            from: 0.0; to: 1.0
-                                            duration: UbuntuAnimation.BriskDuration }
-                    ScriptAction { script: {
-                        splashLoader.active = false;
-                        surfaceIsOldTimer.start();
-                    } }
-                }
-            },
-            Transition {
-                from: "surface"; to: "splashScreen"
-                SequentialAnimation {
-                    ScriptAction { script: {
-                        surfaceIsOldTimer.stop();
-                        d.surfaceOldEnoughToBeResized = false;
-                        splashLoader.active = true;
-                        surfaceContainer.visible = true;
-                    } }
-                    UbuntuNumberAnimation { target: splashLoader; property: "opacity";
-                                            from: 0.0; to: 1.0
-                                            duration: UbuntuAnimation.BriskDuration }
-                    PropertyAction { target: surfaceContainer
-                                     property: "visible"; value: false }
-                }
-            },
-            Transition {
-                from: "surface"; to: "screenshot"
-                SequentialAnimation {
-                    ScriptAction { script: {
-                        surfaceIsOldTimer.stop();
-                        d.surfaceOldEnoughToBeResized = false;
-                        screenshotImage.visible = true;
-                    } }
-                    UbuntuNumberAnimation { target: screenshotImage; property: "opacity";
-                                            from: 0.0; to: 1.0
-                                            duration: UbuntuAnimation.BriskDuration }
-                    ScriptAction { script: {
-                        surfaceContainer.visible = false;
-                        surfaceContainer.surface = null;
-                        d.hadSurface = true;
-                    } }
-                }
-            },
-            Transition {
-                from: "screenshot"; to: "surface"
-                SequentialAnimation {
-                    PropertyAction { target: surfaceContainer
-                                     property: "visible"; value: true }
-                    UbuntuNumberAnimation { target: screenshotImage; property: "opacity";
-                                            from: 1.0; to: 0.0
-                                            duration: UbuntuAnimation.BriskDuration }
-                    ScriptAction { script: {
-                        screenshotImage.visible = false;
-                        screenshotImage.source = "";
-                        surfaceIsOldTimer.start();
-                    } }
-                }
-            },
-            Transition {
-                from: "splashScreen"; to: "screenshot"
-                SequentialAnimation {
-                    PropertyAction { target: screenshotImage
-                                     property: "visible"; value: true }
-                    UbuntuNumberAnimation { target: screenshotImage; property: "opacity";
-                                            from: 0.0; to: 1.0
-                                            duration: UbuntuAnimation.BriskDuration }
-                    PropertyAction { target: splashLoader; property: "active"; value: false }
-                }
-            },
-            Transition {
-                from: "surface"; to: "void"
-                ScriptAction { script: {
-                    surfaceIsOldTimer.stop();
-                    d.surfaceOldEnoughToBeResized = false;
-                    surfaceContainer.visible = false;
-                } }
-            },
-            Transition {
-                from: "void"; to: "surface"
-                SequentialAnimation {
-                    PropertyAction { target: surfaceContainer; property: "opacity"; value: 0.0 }
-                    PropertyAction { target: surfaceContainer; property: "visible"; value: true }
-                    UbuntuNumberAnimation { target: surfaceContainer; property: "opacity";
-                                            from: 0.0; to: 1.0
-                                            duration: UbuntuAnimation.BriskDuration }
-                    ScriptAction { script: {
-                        surfaceIsOldTimer.start();
-                    } }
-                }
-            },
-            Transition {
-                to: "closed"
-                SequentialAnimation {
-                    ScriptAction { script: {
-                        surfaceContainer.visible = false;
-                        surfaceContainer.surface = null;
-                        d.hadSurface = true;
-                    } }
-                }
-            }
-        ]
-    }
+//        transitions: [
+//            Transition {
+//                from: ""; to: "splashScreen"
+//                PropertyAction { target: splashLoader; property: "active"; value: true }
+//                PropertyAction { target: surfaceContainer
+//                                 property: "visible"; value: false }
+//            },
+//            Transition {
+//                from: "splashScreen"; to: "surface"
+//                SequentialAnimation {
+//                    PropertyAction { target: surfaceContainer
+//                                     property: "opacity"; value: 0.0 }
+//                    PropertyAction { target: surfaceContainer
+//                                     property: "visible"; value: true }
+//                    UbuntuNumberAnimation { target: surfaceContainer; property: "opacity";
+//                                            from: 0.0; to: 1.0
+//                                            duration: UbuntuAnimation.BriskDuration }
+//                    ScriptAction { script: {
+//                        splashLoader.active = false;
+//                        surfaceIsOldTimer.start();
+//                    } }
+//                }
+//            },
+//            Transition {
+//                from: "surface"; to: "splashScreen"
+//                SequentialAnimation {
+//                    ScriptAction { script: {
+//                        surfaceIsOldTimer.stop();
+//                        d.surfaceOldEnoughToBeResized = false;
+//                        splashLoader.active = true;
+//                        surfaceContainer.visible = true;
+//                    } }
+//                    UbuntuNumberAnimation { target: splashLoader; property: "opacity";
+//                                            from: 0.0; to: 1.0
+//                                            duration: UbuntuAnimation.BriskDuration }
+//                    PropertyAction { target: surfaceContainer
+//                                     property: "visible"; value: false }
+//                }
+//            },
+//            Transition {
+//                from: "surface"; to: "screenshot"
+//                SequentialAnimation {
+//                    ScriptAction { script: {
+//                        surfaceIsOldTimer.stop();
+//                        d.surfaceOldEnoughToBeResized = false;
+//                        screenshotImage.visible = true;
+//                    } }
+//                    UbuntuNumberAnimation { target: screenshotImage; property: "opacity";
+//                                            from: 0.0; to: 1.0
+//                                            duration: UbuntuAnimation.BriskDuration }
+//                    ScriptAction { script: {
+//                        surfaceContainer.visible = false;
+//                        surfaceContainer.surface = null;
+//                        d.hadSurface = true;
+//                    } }
+//                }
+//            },
+//            Transition {
+//                from: "screenshot"; to: "surface"
+//                SequentialAnimation {
+//                    PropertyAction { target: surfaceContainer
+//                                     property: "visible"; value: true }
+//                    UbuntuNumberAnimation { target: screenshotImage; property: "opacity";
+//                                            from: 1.0; to: 0.0
+//                                            duration: UbuntuAnimation.BriskDuration }
+//                    ScriptAction { script: {
+//                        screenshotImage.visible = false;
+//                        screenshotImage.source = "";
+//                        surfaceIsOldTimer.start();
+//                    } }
+//                }
+//            },
+//            Transition {
+//                from: "splashScreen"; to: "screenshot"
+//                SequentialAnimation {
+//                    PropertyAction { target: screenshotImage
+//                                     property: "visible"; value: true }
+//                    UbuntuNumberAnimation { target: screenshotImage; property: "opacity";
+//                                            from: 0.0; to: 1.0
+//                                            duration: UbuntuAnimation.BriskDuration }
+//                    PropertyAction { target: splashLoader; property: "active"; value: false }
+//                }
+//            },
+//            Transition {
+//                from: "surface"; to: "void"
+//                ScriptAction { script: {
+//                    surfaceIsOldTimer.stop();
+//                    d.surfaceOldEnoughToBeResized = false;
+//                    surfaceContainer.visible = false;
+//                } }
+//            },
+//            Transition {
+//                from: "void"; to: "surface"
+//                SequentialAnimation {
+//                    PropertyAction { target: surfaceContainer; property: "opacity"; value: 0.0 }
+//                    PropertyAction { target: surfaceContainer; property: "visible"; value: true }
+//                    UbuntuNumberAnimation { target: surfaceContainer; property: "opacity";
+//                                            from: 0.0; to: 1.0
+//                                            duration: UbuntuAnimation.BriskDuration }
+//                    ScriptAction { script: {
+//                        surfaceIsOldTimer.start();
+//                    } }
+//                }
+//            },
+//            Transition {
+//                to: "closed"
+//                SequentialAnimation {
+//                    ScriptAction { script: {
+//                        surfaceContainer.visible = false;
+//                        surfaceContainer.surface = null;
+//                        d.hadSurface = true;
+//                    } }
+//                }
+//            }
+//        ]
+//    }
 }

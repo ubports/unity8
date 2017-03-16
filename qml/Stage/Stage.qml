@@ -1569,6 +1569,10 @@ FocusScope {
                         }
                     }
                 ]
+                onStateChanged: {
+                    print("item", index, "state changed", state)
+                }
+
                 transitions: [
                     Transition {
                         from: "staged,stagedWithSideStage"
@@ -1582,6 +1586,7 @@ FocusScope {
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedX,requestedY,requestedWidth,requestedHeight"; duration: priv.animationDuration}
                     },
                     Transition {
+                        from: "normal,restored,maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight,staged,stagedWithSideStage,windowedRightEdge,stagedRightEdge";
                         to: "spread"
                         // DecoratedWindow wants the scaleToPreviewSize set before enabling scaleToPreview
                         PropertyAction { target: appDelegate; properties: "z,visible" }
