@@ -178,6 +178,12 @@ void Window::setSurface(unityapi::MirSurfaceInterface *surface)
             }
         });
 
+        connect(surface, &unityapi::MirSurfaceInterface::liveChanged, this, &Window::liveChanged);
+
+        connect(surface, &QObject::destroyed, this, [this]() {
+            setSurface(nullptr);
+        });
+
         // bring it up to speed
         if (m_positionRequested) {
             m_surface->setRequestedPosition(m_requestedPosition);
