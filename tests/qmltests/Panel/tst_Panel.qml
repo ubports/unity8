@@ -272,6 +272,7 @@ PanelTest {
         }
 
         function cleanup() {
+            panel.hasKeyboard = false;
             panel.indicators.hide();
             panel.applicationMenus.hide();
             waitForAllAnimationToComplete("initial");
@@ -713,8 +714,8 @@ PanelTest {
                 { tag: "No keyboard, no keymap", keyboard: false, keymaps: [], hidden: true },
                 { tag: "No keyboard, one keymap", keyboard: false, keymaps: ["us"], hidden: true },
                 { tag: "No keyboard, 2 keymaps", keyboard: false, keymaps: ["us", "cs"], hidden: true },
-                { tag: "Keyboard, no keymap", keyboard: true, keymaps: [], hidden: true },
-                { tag: "Keyboard, one keymap", keyboard: true, keymaps: ["us"], hidden: true },
+                { tag: "Keyboard, no keymap", keyboard: true, keymaps: [], hidden: false },
+                { tag: "Keyboard, one keymap", keyboard: true, keymaps: ["us"], hidden: false },
                 { tag: "Keyboard, 2 keymaps", keyboard: true, keymaps: ["us", "cs"], hidden: false }
             ];
         }
@@ -722,6 +723,7 @@ PanelTest {
         function test_hidingKeyboardIndicator(data) {
             var item = findChild(panel, "indicator-keyboard-panelItem");
             AccountsService.keymaps = data.keymaps;
+            panel.hasKeyboard = data.keyboard;
             if (data.keyboard) {
                 MockInputDeviceBackend.addMockDevice("/indicator_kbd0", InputInfo.Keyboard);
             } else {
@@ -734,11 +736,12 @@ PanelTest {
         function test_visibleIndicators_data() {
             return [
                 { visible: [true, false, true, false, true, true, false, true] },
-                { visible: [false, false, false, false, false, false, true, false] }
+                { visible: [true, false, false, false, false, false, true, false] }
             ];
         }
 
         function test_visibleIndicators(data) {
+            panel.hasKeyboard = true;
             for (var i = 0; i < data.visible.length; i++) {
                 var visible = data.visible[i];
                 root.setIndicatorVisible(i, visible);

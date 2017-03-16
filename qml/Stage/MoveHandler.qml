@@ -29,6 +29,7 @@ QtObject {
     property real boundsTopMargin: 0
 
     readonly property bool dragging: priv.dragging
+    readonly property bool moving: priv.moving
 
     signal fakeMaximizeAnimationRequested(real amount)
     signal fakeMaximizeLeftAnimationRequested(real amount)
@@ -43,6 +44,7 @@ QtObject {
         property real distanceX
         property real distanceY
         property bool dragging
+        property bool moving
 
         readonly property int triggerArea: units.gu(8)
         property bool nearLeftEdge: target.maximizedLeft
@@ -110,6 +112,7 @@ QtObject {
 
     function handlePositionChanged(mouse, sensingPoints) {
         if (priv.dragging) {
+            priv.moving = true;
             priv.mouseDownTimer.stop();
             Mir.cursorName = "grabbing";
 
@@ -180,6 +183,7 @@ QtObject {
     }
 
     function handleReleased(touchMode) {
+        priv.moving = false;
         if (touchMode) {
             priv.progress = 0;
             priv.resetEdges();
@@ -189,5 +193,14 @@ QtObject {
             target.restoredX = target.x;
             target.restoredY = target.y;
         }
+    }
+
+    function cancelDrag() {
+        priv.dragging = false;
+        root.stopFakeAnimation();
+        priv.mouseDownTimer.stop();
+        Mir.cursorName = "";
+        priv.progress = 0;
+        priv.resetEdges();
     }
 }

@@ -398,6 +398,7 @@ void TopLevelWindowModel::onSurfacesAddedToWorkspace(const std::shared_ptr<miral
             });
         } else {
             if (surface->type() == Mir::InputMethodType) {
+                connectSurface(surface);
                 setInputMethodWindow(createWindow(surface));
             } else {
                 auto *application = m_applicationManager->findApplicationWithSurface(surface);

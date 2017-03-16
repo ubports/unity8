@@ -83,6 +83,7 @@ Item {
             menuBar.dismiss();
             menuBackend.modelData = appMenuData.generateTestData(5,5,2,3, "menu")
             activatedSpy.clear();
+            waitForRendering(menuBar);
         }
 
         function test_mouseNavigation() {
@@ -95,6 +96,7 @@ Item {
             var menuItem2 = findChild(menuBar, "menuBar-item2"); verify(menuItem2);
 
             menuItem0.show();
+            mouseMove(menuItem0, menuItem0.width/2, menuItem0.height/2);
             compare(priv.currentItem, menuItem0, "CurrentItem should be set to item 0");
             compare(priv.currentItem.popupVisible, true, "Popup should be visible");
 
@@ -176,6 +178,7 @@ Item {
 
             keyPress(data.tag, Qt.AltModifier, 100);
             tryCompare(priv, "currentItem", menuItem);
+            keyRelease(data.tag, Qt.AltModifier, 100);
         }
 
         function test_menuActivateClosesMenu() {

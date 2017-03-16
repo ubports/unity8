@@ -33,6 +33,7 @@ ScreenWindow {
     }
 
     Loader {
+        id: loader
         width: screenWindow.width
         height: screenWindow.height
 

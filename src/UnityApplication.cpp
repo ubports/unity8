@@ -21,6 +21,7 @@
 #include <QProcess>
 #include <QScreen>
 #include <QQmlContext>
+#include <QQmlComponent>
 
 #include <libintl.h>
 
@@ -83,7 +84,17 @@ UnityApplication::UnityApplication(int & argc, char ** argv)
         pxpgu = 8;
     }
     m_qmlEngine->rootContext()->setContextProperty("internalGu", pxpgu);
-    m_qmlEngine->load(m_qmlArgs.qmlfie());
+
+    auto component(new QQmlComponent(m_qmlEngine, m_qmlArgs.qmlfie()));
+    component->create();
+    if (component->status() == QQmlComponent::Error) {
+        m_qmlEngine->rootContext()->setContextProperty(QStringLiteral("errorString"), component->errorString());
+        auto errorComponent(new QQmlComponent(m_qmlEngine,
+                                         QUrl::fromLocalFile(::qmlDirectory() + "/ErrorApplication.qml")));
+        errorComponent->create();
+        qDebug() << errorComponent->errorString();
+        return;
+    }
 
     #ifdef UNITY8_ENABLE_TOUCH_EMULATION
     // You will need this if you want to interact with touch-only components using a mouse
@@ -118,7 +129,7 @@ void UnityApplication::destroyResources()
 
 void UnityApplication::setupQmlEngine()
 {
-    m_qmlEngine = new QQmlApplicationEngine(this);
+    m_qmlEngine = new QQmlEngine(this);
 
     m_qmlEngine->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
 

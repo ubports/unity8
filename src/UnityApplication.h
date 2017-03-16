@@ -47,7 +47,7 @@ private:
     MouseTouchAdaptor *m_mouseTouchAdaptor{nullptr};
     #endif
 
-    QQmlApplicationEngine *m_qmlEngine{nullptr};
+    QQmlEngine *m_qmlEngine{nullptr};
 };
 
 #endif // UNITYAPPLICATION_H
