@@ -483,7 +483,7 @@ void DBusGnomeSessionManagerWrapper::Logout(quint32 mode)
         call = QStringLiteral("Logout");
     if (mode & 2) // without dialog, ignoring inhibitors (which we don't have)
         call = QStringLiteral("Logout");
-    
+
     performAsyncUnityCall(call);
 }
 
