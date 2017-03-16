@@ -302,6 +302,7 @@ UbuntuShape {
 
                             if (hasSubmenu) {
                                 if (!popup) {
+                                    root.unityMenuModel.aboutToShow(__ownIndex);
                                     var model = root.unityMenuModel.submenu(__ownIndex);
                                     popup = submenuComponent.createObject(focusScope, {
                                                                                 objectName: parent.objectName + "-",
@@ -323,7 +324,8 @@ UbuntuShape {
                                         popup = null;
                                         root.childActivated();
                                     });
-                                } else if (popup) {
+                                } else if (!popup.visible) {
+                                    root.unityMenuModel.aboutToShow(__ownIndex);
                                     popup.visible = true;
                                 }
                             } else {

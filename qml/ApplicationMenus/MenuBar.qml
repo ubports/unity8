@@ -132,6 +132,7 @@ Item {
 
                 function show() {
                     if (!__popup) {
+                        root.unityMenuModel.aboutToShow(visualItem.__ownIndex);
                         __popup = menuComponent.createObject(root,
                                                              {
                                                                  objectName: visualItem.objectName + "-menu",
@@ -142,7 +143,8 @@ Item {
                         __popup.reset();
                         __popup.childActivated.connect(dismiss);
                         // force the current item to be the newly popped up menu
-                    } else {
+                    } else if (!__popup.visible) {
+                        root.unityMenuModel.aboutToShow(visualItem.__ownIndex);
                         __popup.show();
                     }
                     d.currentItem = visualItem;

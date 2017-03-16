@@ -47,6 +47,7 @@ Showable {
     readonly property bool fullyClosed: unitProgress == 0
     readonly property alias expanded: bar.expanded
     readonly property int barWidth: adjustDragHandleSizeToContents ? Math.min(bar.width, bar.implicitWidth) : bar.width
+    readonly property alias currentMenuIndex: bar.currentItemIndex
 
     signal showTapped()
 
@@ -152,10 +153,10 @@ Showable {
 
     Keys.onPressed: {
         if (event.key === Qt.Key_Left) {
-            bar.setCurrentItemIndex(bar.currentItemIndex - 1);
+            bar.selectPreviousItem();
             event.accepted = true;
         } else if (event.key === Qt.Key_Right) {
-            bar.setCurrentItemIndex(bar.currentItemIndex + 1);
+            bar.selectNextItem();
             event.accepted = true;
         } else if (event.key === Qt.Key_Escape) {
             root.hide();

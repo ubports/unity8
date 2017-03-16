@@ -274,6 +274,7 @@ Item {
                 id: actionItem
                 property int ownIndex: index
                 objectName: "appMenuItem"+index
+                enabled: model.sensitive
 
                 width: _title.width + units.gu(2)
                 height: parent.height
@@ -292,6 +293,13 @@ Item {
             }
 
             pageDelegate: PanelMenuPage {
+                readonly property bool isCurrent: modelIndex == __applicationMenus.currentMenuIndex
+                onIsCurrentChanged: {
+                    if (isCurrent && menuModel) {
+                        menuModel.aboutToShow(modelIndex);
+                    }
+                }
+
                 menuModel: __applicationMenus.model
                 submenuIndex: modelIndex
 
