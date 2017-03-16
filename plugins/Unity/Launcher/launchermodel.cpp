@@ -23,6 +23,7 @@
 
 #include <unity/shell/application/ApplicationInfoInterface.h>
 #include <unity/shell/application/MirSurfaceListInterface.h>
+#include <unity/shell/application/MirSurfaceInterface.h>
 
 #include <QDesktopServices>
 #include <QDebug>
@@ -198,11 +199,24 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
             } else {
                 pin(appId);
             }
-        } else if (actionId == QLatin1String("launch_item")) {
+        } else if (actionId == QStringLiteral("launch_item")) {
             QDesktopServices::openUrl(getUrlForAppId(appId));
-        } else if (actionId == QLatin1String("stop_item")) { // Quit
+        } else if (actionId == QStringLiteral("stop_item")) { // Quit
             if (m_appManager) {
                 m_appManager->stopApplication(appId);
+            }
+        } else if (actionId.startsWith(QStringLiteral("surface_"))){
+            ApplicationInfoInterface *appInfo = m_appManager->findApplication(appId);
+            if (!appInfo) {
+                qWarning() << "App for" << appId << "not found in launcher. Cannot invoke quicklist action";
+            }
+            for (int i = 0; i < appInfo->surfaceList()->count(); ++i) {
+                MirSurfaceInterface *iface = appInfo->surfaceList()->get(i);
+                QString id = actionId;
+                id.remove(QRegExp("^surface_"));
+                if (id == iface->persistentId()) {
+                    iface->activate();
+                }
             }
         // Nope, we don't know this action, let the backend forward it to the application
         } else {
@@ -517,40 +531,59 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
             item->setRecent(true);
             Q_EMIT dataChanged(index(itemIndex), index(itemIndex), {RoleRecent});
         }
-        if (item->surfaceCount() != app->surfaceCount()) {
-            item->setSurfaceCount(app->surfaceCount());
-            Q_EMIT dataChanged(index(itemIndex), index(itemIndex), {RoleSurfaceCount});
-        }
-
         item->setRunning(true);
     } else {
         LauncherItem *item = new LauncherItem(app->appId(), app->name(), app->icon().toString(), this);
         item->setRecent(true);
         item->setRunning(true);
         item->setFocused(app->focused());
-        item->setSurfaceCount(app->surfaceCount());
         beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
         m_list.append(item);
         endInsertRows();
     }
-    connect(app, &ApplicationInfoInterface::surfaceCountChanged, this, &LauncherModel::applicationSurfaceCountChanged);
+    connect(app, &ApplicationInfoInterface::surfaceCountChanged, this, &LauncherModel::updateSurfaceList);
     m_asAdapter->syncItems(m_list);
     Q_EMIT dataChanged(index(itemIndex), index(itemIndex), {RoleRunning});
 }
 
-void LauncherModel::applicationSurfaceCountChanged(int count)
+void LauncherModel::updateSurfaceList()
 {
     ApplicationInfoInterface *app = static_cast<ApplicationInfoInterface*>(sender());
+    updateSurfaceListForApp(app);
+}
+
+void LauncherModel::updateSurfaceListForSurface()
+{
+    MirSurfaceInterface *iface = static_cast<MirSurfaceInterface*>(sender());
+    ApplicationInfoInterface* app = m_appManager->findApplication(iface->appId());
+    if (!app) {
+        return;
+    }
+    updateSurfaceListForApp(app);
+}
+
+void LauncherModel::updateSurfaceListForApp(ApplicationInfoInterface* app)
+{
     int idx = findApplication(app->appId());
     if (idx < 0) {
         qWarning() << "Received a surface count changed event from an app that's not in the Launcher model";
         return;
     }
     LauncherItem *item = m_list.at(idx);
-    if (item->surfaceCount() != count) {
-        item->setSurfaceCount(count);
-        Q_EMIT dataChanged(index(idx), index(idx), {RoleSurfaceCount});
+    QList<QPair<QString, QString> > surfaces;
+    for (int i = 0; i < app->surfaceList()->count(); ++i) {
+        MirSurfaceInterface* iface = app->surfaceList()->get(i);
+        // Avoid duplicate connections, so let's just disconnect first to be sure
+        disconnect(iface, &MirSurfaceInterface::nameChanged, this, &LauncherModel::updateSurfaceListForSurface);
+        connect(iface, &MirSurfaceInterface::nameChanged, this, &LauncherModel::updateSurfaceListForSurface);
+        QString name = iface->name();
+        if (name.isEmpty()) {
+            name = app->name();
+        }
+        surfaces.append({iface->persistentId(), name});
     }
+    item->setSurfaces(surfaces);
+    Q_EMIT dataChanged(index(idx), index(idx), {RoleSurfaceCount});
 }
 
 void LauncherModel::applicationRemoved(const QModelIndex &parent, int row)
@@ -571,7 +604,7 @@ void LauncherModel::applicationRemoved(const QModelIndex &parent, int row)
         return;
     }
 
-    disconnect(app, &ApplicationInfoInterface::surfaceCountChanged, this, &LauncherModel::applicationSurfaceCountChanged);
+    disconnect(app, &ApplicationInfoInterface::surfaceCountChanged, this, &LauncherModel::updateSurfaceList);
 
     LauncherItem * item = m_list.at(appIndex);
 

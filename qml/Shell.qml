@@ -559,6 +559,7 @@ StyledItem {
             blurSource: greeter.shown ? greeter : stages
             topPanelHeight: panel.panelHeight
             drawerEnabled: !greeter.active
+            privateMode: greeter.active
 
             onShowDashHome: showHome()
             onLauncherApplicationSelected: {
