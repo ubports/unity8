@@ -426,7 +426,8 @@ StyledItem {
             var sessionChooserButton = findChild(view, "sessionChooserButton");
             compare(sessionChooserButton.visible, true);
 
-            var session = String(view.sessionToStart).toLowerCase();
+            var loginList = findChild(view, "loginList");
+            var session = String(loginList.currentSession).toLowerCase();
             var icon = String(sessionChooserButton.icon);
             compare(icon.indexOf(session) > -1, true);
 
