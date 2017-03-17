@@ -81,7 +81,6 @@ Item {
                         anchors.fill: parent
 
                         onClicked: {
-//                            PopupUtils.open(contextMenu)
                             var obj = screensMenuComponent.createObject(header)
                             obj.open(mouseX, mouseY)
                         }

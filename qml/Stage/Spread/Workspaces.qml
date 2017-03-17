@@ -25,14 +25,14 @@ Item {
         keys: ['workspace']
 
         onEntered: {
-            listView.updateDropProperties(drag);
-            drag.source.workspace.assign(workspaceModel, listView.hoveredWorkspaceIndex)
+            var index = listView.getDropIndex(drag);
+            drag.source.workspace.assign(workspaceModel, index)
             drag.source.inDropArea = true;
         }
 
         onPositionChanged: {
-            listView.updateDropProperties(drag);
-            if (listView.dropItemIndex == listView.hoveredWorkspaceIndex) return;
+            var index = listView.getDropIndex(drag);
+            if (listView.dropItemIndex == index) return;
             listView.model.move(listView.dropItemIndex, index, 1);
             listView.dropItemIndex = index;
         }
