@@ -33,13 +33,20 @@ void Platform::init()
     QDBusInterface seatIface("org.freedesktop.login1", "/org/freedesktop/login1/seat/self", "org.freedesktop.login1.Seat",
                              QDBusConnection::systemBus(), this);
 
-    // From the docs at https://www.freedesktop.org/wiki/Software/systemd/hostnamed/
-    // the options are "desktop", "laptop", "server", "tablet", "handset", as well
-    // as the special chassis types "vm" and "container".
+    // From the source at https://cgit.freedesktop.org/systemd/systemd/tree/src/hostname/hostnamed.c#n130
+    // "vm\0"
+    // "container\0"
+    // "desktop\0"
+    // "laptop\0"
+    // "server\0"
+    // "tablet\0"
+    // "handset\0"
+    // "watch\0"
+    // "embedded\0",
     m_chassis = iface.property("Chassis").toString();
 
-    // A PC is not a phone or tablet.
-    m_isPC = !QSet<QString>{"handset", "tablet"}.contains(m_chassis);
+    // A PC is not a handset, tablet or watch.
+    m_isPC = !QSet<QString>{"handset", "tablet", "watch"}.contains(m_chassis);
     m_isMultiSession = seatIface.property("CanMultiSession").toBool() && seatIface.property("CanGraphical").toBool();
 }
 

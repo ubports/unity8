@@ -86,13 +86,15 @@ private Q_SLOTS:
         QTest::addColumn<QString>("chassis");
         QTest::addColumn<bool>("result");
 
+        QTest::newRow("vm") << "vm" << true;
+        QTest::newRow("container") << "container" << true;
         QTest::newRow("desktop") << "desktop" << true;
         QTest::newRow("laptop") << "laptop" << true;
         QTest::newRow("server") << "server" << true;
         QTest::newRow("tablet") << "tablet" << false;
         QTest::newRow("handset") << "handset" << false;
-        QTest::newRow("vm") << "vm" << true;
-        QTest::newRow("container") << "container" << true;
+        QTest::newRow("watch") << "watch" << false;
+        QTest::newRow("embedded") << "embedded" << true;
     }
 
     void testIsPC()
