@@ -37,11 +37,6 @@ class WorkspaceManager : public QObject
     Q_OBJECT
     Q_PROPERTY(Workspace* activeWorkspace READ activeWorkspace WRITE setActiveWorkspace2 NOTIFY activeWorkspaceChanged)
 
-    Q_PROPERTY(unity::shell::application::SurfaceManagerInterface* surfaceManager
-            READ surfaceManager
-            WRITE setSurfaceManager
-            NOTIFY surfaceManagerChanged)
-
 public:
     static WorkspaceManager* instance();
 
@@ -54,9 +49,6 @@ public:
     QQmlListProperty<Workspace> floatingWorkspaces();
     void destroyFloatingWorkspaces();
 
-    unity::shell::application::SurfaceManagerInterface *surfaceManager() const { return m_surfaceManager; }
-    void setSurfaceManager(unity::shell::application::SurfaceManagerInterface*);
-
     Q_INVOKABLE void moveSurfaceToWorkspace(unity::shell::application::MirSurfaceInterface* surface,
                                             Workspace* workspace);
 
@@ -65,7 +57,6 @@ public:
 Q_SIGNALS:
     void activeWorkspaceChanged();
     void floatingWorkspacesChanged();
-    void surfaceManagerChanged();
 
 private:
     WorkspaceManager();

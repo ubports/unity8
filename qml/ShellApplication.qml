@@ -47,9 +47,14 @@ Instantiator {
         primary: index == 0
     }
 
-    property var workspaceManagerSurfaceManagerBinding: Binding {
-        target: WorkspaceManager
+    property var windowManagerSurfaceManagerBinding: Binding {
+        target: WindowManagerObjects
         property: "surfaceManager"
         value: SurfaceManager
+    }
+    property var windowManagerApplicationManagerBinding: Binding {
+        target: WindowManagerObjects
+        property: "applicationManager"
+        value: ApplicationManager
     }
 }

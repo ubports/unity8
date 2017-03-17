@@ -243,6 +243,7 @@ Item {
                     containsDragLeft: listView.hoveredWorkspaceIndex == index && listView.hoveredHalf == "left"
                     containsDragRight: listView.hoveredWorkspaceIndex == index && listView.hoveredHalf == "right"
                     isActive: model.workspace.active
+                    workspace: model.workspace
                 }
                 MouseArea {
                     anchors.fill: parent
@@ -366,7 +367,6 @@ Item {
                     Drag.active: hoverMouseArea.drag.active
                     Drag.keys: ['workspace']
 
-                    property var workspace
                     property bool inDropArea: false
 
                     Rectangle {

@@ -9,6 +9,8 @@ Item {
     id: previewSpace
     clip: true
 
+    property var workspace
+
     property string background
     property int screenHeight
 
@@ -26,16 +28,9 @@ Item {
         sourceSize.width: width
         sourceSize.height: height
 
-        TopLevelWindowModel {
-            id: windowModel
-            applicationManager: ApplicationManager
-            surfaceManager: SurfaceManager
-            workspace: model.workspace
-        }
-
         Repeater {
             id: topLevelSurfaceRepeater
-            model: visible ? windowModel : null
+            model: visible ? workspace.windowModel : null
             delegate: Rectangle {
                 width: surfaceItem.width
                 height: surfaceItem.height + decorationHeight * previewScale

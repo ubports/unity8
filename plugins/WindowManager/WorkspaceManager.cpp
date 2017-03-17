@@ -17,6 +17,7 @@
 #include "WorkspaceManager.h"
 #include "Workspace.h"
 #include "TopLevelWindowModel.h"
+#include "WindowManagerObjects.h"
 #include <unity/shell/application/SurfaceManagerInterface.h>
 
 // Qt
@@ -32,7 +33,6 @@ WorkspaceManager *WorkspaceManager::instance()
 
 WorkspaceManager::WorkspaceManager()
     : m_activeWorkspace(nullptr)
-    , m_surfaceManager(nullptr)
 {
 }
 
@@ -99,25 +99,19 @@ void WorkspaceManager::destroyFloatingWorkspaces()
     }
 }
 
-void WorkspaceManager::setSurfaceManager(unity::shell::application::SurfaceManagerInterface *surfaceManager)
-{
-    if (m_surfaceManager == surfaceManager) return;
-
-    m_surfaceManager = surfaceManager;
-    Q_EMIT surfaceManagerChanged();
-}
-
 void WorkspaceManager::moveSurfaceToWorkspace(unity::shell::application::MirSurfaceInterface *surface, Workspace *workspace)
 {
-    if (m_surfaceManager) {
-        m_surfaceManager->moveSurfaceToWorkspace(surface, workspace->workspace());
+    auto surfaceManager = WindowManagerObjects::instance()->surfaceManager();
+    if (surfaceManager) {
+        surfaceManager->moveSurfaceToWorkspace(surface, workspace->workspace());
     }
 }
 
 void WorkspaceManager::moveWorkspaceContentToWorkspace(Workspace *from, Workspace *to)
 {
-    if (m_surfaceManager) {
-        m_surfaceManager->moveWorkspaceContentToWorkspace(from->workspace(), to->workspace());
+    auto surfaceManager = WindowManagerObjects::instance()->surfaceManager();
+    if (surfaceManager) {
+        surfaceManager->moveWorkspaceContentToWorkspace(from->workspace(), to->workspace());
     }
 }
 

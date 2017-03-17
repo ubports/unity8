@@ -22,6 +22,7 @@
 #include "ScreenWindow.h"
 #include "TopLevelWindowModel.h"
 #include "Window.h"
+#include "WindowManagerObjects.h"
 #include "WorkspaceManager.h"
 #include "Workspace.h"
 #include "WorkspaceModel.h"
@@ -42,19 +43,25 @@ QObject* screensSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
     Q_UNUSED(scriptEngine);
     return new Screens(qtmir::get_screen_model());
 }
+QObject* objectsSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
+    Q_UNUSED(engine);
+    Q_UNUSED(scriptEngine);
+    return WindowManagerObjects::instance();
+}
 
 void WindowManagerPlugin::registerTypes(const char *uri)
 {
-    qmlRegisterType<TopLevelWindowModel>(uri, 1, 0, "TopLevelWindowModel");
     qmlRegisterSingletonType<WorkspaceManager>(uri, 1, 0, "WorkspaceManager", workspace_manager);
     qmlRegisterUncreatableType<WorkspaceModel>(uri, 1, 0, "WorkspaceModel", notInstantiatable);
     qmlRegisterSingletonType<Screens>(uri, 1, 0, "Screens", screensSingleton);
     qmlRegisterUncreatableType<qtmir::ScreenMode>(uri, 1, 0, "ScreenMode", notInstantiatable);
     qmlRegisterUncreatableType<Workspace>(uri, 1, 0, "Workspace", notInstantiatable);
+    qmlRegisterSingletonType<WindowManagerObjects>(uri, 1, 0, "WindowManagerObjects", objectsSingleton);
 
     qRegisterMetaType<Screen*>("Screen*");
     qRegisterMetaType<ScreensProxy*>("ScreensProxy*");
     qRegisterMetaType<Workspace*>("Workspace*");
+    qRegisterMetaType<TopLevelWindowModel*>("TopLevelWindowModel*");
 
     qRegisterMetaType<Window*>("Window*");
     qRegisterMetaType<QAbstractListModel*>("QAbstractListModel*");

@@ -15,6 +15,7 @@
  */
 
 #include "TopLevelWindowModel.h"
+#include "WindowManagerObjects.h"
 
 // unity-api
 #include <unity/shell/application/ApplicationInfoInterface.h>
@@ -42,8 +43,16 @@ Q_LOGGING_CATEGORY(TOPLEVELWINDOWMODEL, "toplevelwindowmodel", QtInfoMsg)
 
 namespace unityapi = unity::shell::application;
 
-TopLevelWindowModel::TopLevelWindowModel()
+TopLevelWindowModel::TopLevelWindowModel(Workspace* workspace)
+    : m_workspace(workspace)
 {
+    connect(WindowManagerObjects::instance(), &WindowManagerObjects::applicationManagerChanged,
+            this,                             &TopLevelWindowModel::setApplicationManager);
+    connect(WindowManagerObjects::instance(), &WindowManagerObjects::surfaceManagerChanged,
+            this,                             &TopLevelWindowModel::setSurfaceManager);
+
+    setApplicationManager(WindowManagerObjects::instance()->applicationManager());
+    setSurfaceManager(WindowManagerObjects::instance()->surfaceManager());
 }
 
 void TopLevelWindowModel::setApplicationManager(unityapi::ApplicationManagerInterface* value)
@@ -86,7 +95,6 @@ void TopLevelWindowModel::setApplicationManager(unityapi::ApplicationManagerInte
         });
     }
 
-    Q_EMIT applicationManagerChanged(m_applicationManager);
     refreshWindows();
 
     endResetModel();
@@ -125,33 +133,6 @@ void TopLevelWindowModel::setSurfaceManager(unityapi::SurfaceManagerInterface *s
     }
 
     refreshWindows();
-    Q_EMIT surfaceManagerChanged(m_surfaceManager);
-
-    endResetModel();
-    m_modelState = IdleState;
-}
-
-void TopLevelWindowModel::setWorkspace(Workspace *workspace)
-{
-    if (workspace == m_workspace) {
-        return;
-    }
-
-    DEBUG_MSG << "(" << workspace << ")";
-
-    Q_ASSERT(m_modelState == IdleState);
-    m_modelState = ResettingState;
-
-    beginResetModel();
-
-    if (m_workspace) {
-        disconnect(m_workspace, 0, this, 0);
-    }
-
-    m_workspace = workspace;
-
-    refreshWindows();
-    Q_EMIT workspaceChanged(workspace);
 
     endResetModel();
     m_modelState = IdleState;
