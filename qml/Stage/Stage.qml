@@ -1598,6 +1598,7 @@ FocusScope {
                     height: implicitHeight
                     highlightSize: windowInfoItem.iconMargin / 2
                     boundsItem: boundariesForWindowPlacement
+                    altDragEnabled: root.mode == "windowed"
 
                     requestedWidth: appDelegate.requestedWidth
                     requestedHeight: appDelegate.requestedHeight
