@@ -52,7 +52,7 @@ public:
     Q_INVOKABLE void moveSurfaceToWorkspace(unity::shell::application::MirSurfaceInterface* surface,
                                             Workspace* workspace);
 
-    Q_INVOKABLE void moveWorkspaceContentToWorkspace(Workspace* from, Workspace* to);
+    Q_INVOKABLE void moveWorkspaceContentToWorkspace(Workspace* to, Workspace* from);
 
 Q_SIGNALS:
     void activeWorkspaceChanged();
