@@ -320,12 +320,15 @@ PanelTest {
             tryCompare(panel.indicators, "fullyOpened", true);
         }
 
-        function pullDownApplicationsMenu() {
+        function pullDownApplicationsMenu(xPos) {
             var showDragHandle = findChild(panel.applicationMenus, "showDragHandle");
+            if (xPos === undefined) {
+                xPos = showDragHandle.width / 2;
+            }
             touchFlick(showDragHandle,
-                       showDragHandle.width / 2,
+                       xPos,
                        showDragHandle.height / 2,
-                       showDragHandle.width / 2,
+                       xPos,
                        showDragHandle.height / 2 + (showDragHandle.autoCompleteDragThreshold * 1.1));
             tryCompare(panel.applicationMenus, "fullyOpened", true);
         }
@@ -853,7 +856,7 @@ PanelTest {
             var indicatorsBar = findChild(panel.applicationMenus, "indicatorsBar");
 
             PanelState.title = "Fake Title"
-            pullDownApplicationsMenu();
+            pullDownApplicationsMenu(0 /*xPos*/);
             compare(aboutToShowCalledSpy.count, 1);
 
             keyClick(Qt.Key_Right);
@@ -886,7 +889,7 @@ PanelTest {
             var indicatorsBar = findChild(panel.applicationMenus, "indicatorsBar");
 
             PanelState.title = "Fake Title"
-            pullDownApplicationsMenu();
+            pullDownApplicationsMenu(0 /*xPos*/);
 
             tryCompare(indicatorsBar, "currentItemIndex", 0);
 
