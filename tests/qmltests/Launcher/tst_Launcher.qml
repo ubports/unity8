@@ -1235,11 +1235,11 @@ Rectangle {
             tryCompare(quickList, "selectedIndex", 0)
 
             // Down should move down the quicklist
+            // Because item 1 is not selectable
             keyClick(Qt.Key_Down);
-            tryCompare(quickList, "selectedIndex", 1)
+            tryCompare(quickList, "selectedIndex", 2)
 
             // The quicklist should wrap around too
-            keyClick(Qt.Key_Down);
             keyClick(Qt.Key_Down);
             keyClick(Qt.Key_Down);
             tryCompare(quickList, "selectedIndex", 0)
@@ -1266,14 +1266,14 @@ Rectangle {
 
             keyClick(Qt.Key_Down); // Down to launcher item 0
             keyClick(Qt.Key_Down); // Down to launcher item 1
-            keyClick(Qt.Key_Right); // Into quicklist
-            keyClick(Qt.Key_Down); // Down to quicklist item 1
-            keyClick(Qt.Key_Down); // Down to quicklist item 2
+            keyClick(Qt.Key_Right); // Into quicklist, item 0 is selected
+            keyClick(Qt.Key_Down); // Down to quicklist item 2 (because 1 is not selectable)
+            keyClick(Qt.Key_Down); // Down to quicklist item 3
             keyClick(Qt.Key_Enter); // Trigger it
 
             compare(signalSpy.count, 1, "Quicklist signal wasn't triggered")
             compare(signalSpy.signalArguments[0][0], LauncherModel.get(1).appId)
-            compare(signalSpy.signalArguments[0][1], 2)
+            compare(signalSpy.signalArguments[0][1], 3)
             assertFocusOnIndex(-2);
         }
 
@@ -1499,6 +1499,26 @@ Rectangle {
             launcher.panelWidth = oldSize + units.gu(2);
             tryCompare(launcher, "maxPanelX", 0);
             launcher.panelWidth = oldSize;
+        }
+
+        function test_mouseHoverSelectQuickList() {
+            dragLauncherIntoView();
+            var clickedItem = findChild(launcher, "launcherDelegate5")
+            var quickList = findChild(launcher, "quickList")
+
+            // Initial state
+            tryCompare(quickList, "state", "")
+
+            // Doing longpress
+            mouseClick(clickedItem, clickedItem.width / 2, clickedItem.height / 2, Qt.RightButton)
+            verify(quickList, "state", "open")
+            compare(quickList.selectedIndex, -1)
+
+            var qEntry = findChild(launcher, "quickListEntry0");
+            mouseMove(qEntry, qEntry.width / 2    , qEntry.height / 2, 10);
+            mouseMove(qEntry, qEntry.width / 2 + 1, qEntry.height / 2, 10);
+
+            tryCompare(quickList, "selectedIndex", 0)
         }
     }
 }
