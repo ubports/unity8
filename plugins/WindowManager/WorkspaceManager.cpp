@@ -79,7 +79,7 @@ void WorkspaceManager::destroyWorkspace(Workspace *workspace)
         setActiveWorkspace(m_allWorkspaces.count() ? *m_allWorkspaces.begin() : nullptr);
     }
     if (m_activeWorkspace) {
-        moveWorkspaceContentToWorkspace(workspace, m_activeWorkspace);
+        moveWorkspaceContentToWorkspace(m_activeWorkspace, workspace);
     }
 
     disconnect(workspace, 0, this, 0);
@@ -107,11 +107,11 @@ void WorkspaceManager::moveSurfaceToWorkspace(unity::shell::application::MirSurf
     }
 }
 
-void WorkspaceManager::moveWorkspaceContentToWorkspace(Workspace *from, Workspace *to)
+void WorkspaceManager::moveWorkspaceContentToWorkspace(Workspace *to, Workspace *from)
 {
     auto surfaceManager = WindowManagerObjects::instance()->surfaceManager();
     if (surfaceManager) {
-        surfaceManager->moveWorkspaceContentToWorkspace(from->workspace(), to->workspace());
+        surfaceManager->moveWorkspaceContentToWorkspace(to->workspace(), from->workspace());
     }
 }
 
