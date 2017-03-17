@@ -81,26 +81,53 @@ Item {
                         anchors.fill: parent
 
                         onClicked: {
-                            PopupUtils.open(contextMenu)
+//                            PopupUtils.open(contextMenu)
+                            var obj = screensMenuComponent.createObject(header)
+                            obj.open(mouseX, mouseY)
                         }
                     }
 
                     Component {
-                        id: contextMenu
-                        ActionSelectionPopover {
-                            actions: ActionList {
-                                Action {
-                                    text: "Add workspace"
-                                    onTriggered: {
+                        id: screensMenuComponent
+                        UbuntuShape {
+                            id: screensMenu
+                            width: units.gu(20)
+                            height: contentColumn.childrenRect.height
+                            backgroundColor: "white"
+
+                            function open(mouseX, mouseY) {
+                                x = Math.max(0, Math.min(mouseX - width / 2, parent.width - width))
+                                y = mouseY + units.gu(1)
+                            }
+
+                            InverseMouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    screensMenu.destroy()
+                                }
+                            }
+
+                            Column {
+                                id: contentColumn
+                                width: parent.width
+                                ListItem {
+                                    height: layout.height
+                                    highlightColor: "transparent"
+                                    ListItemLayout {
+                                        id: layout
+                                        title.text: qsTr("Add workspace")
+                                        title.color: "black"
+                                    }
+                                    onClicked: {
                                         screen.addWorkspace();
-                                        Screens.sync(root.screensProxy)
+                                        Screens.sync(root.screensProxy);
+                                        screensMenu.destroy();
                                     }
                                 }
                             }
                         }
                     }
                 }
-
 
                 Workspaces {
                     id: workspaces
