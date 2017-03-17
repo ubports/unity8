@@ -50,10 +50,10 @@ private:
     void registerLogin1(bool canMultiSession, bool canGraphical)
     {
         m_data->mock.registerLogin1({{"DefaultSeat", QVariantMap
-			{
-				{"CanMultiSession", canMultiSession},
-				{"CanGraphical", canGraphical}
-			}}}
+            {
+                {"CanMultiSession", canMultiSession},
+                {"CanGraphical", canGraphical}
+            }}}
         );
     }
 
