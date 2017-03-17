@@ -350,7 +350,7 @@ FocusScope {
         readonly property real virtualKeyboardHeight: root.inputMethodRect.height
     }
 
-    Component.onCompleted: {priv.updateMainAndSideStageIndexes(); print("size", root.width, root.height)}
+    Component.onCompleted: priv.updateMainAndSideStageIndexes()
 
     Connections {
         target: panelState

@@ -35,7 +35,7 @@ class MockScreen : public qtmir::Screen
 public:
     MockScreen()
     {
-        m_sizes.append(new qtmir::ScreenMode(50, QSize(640,480)));
+        m_sizes.append(new qtmir::ScreenMode(50, QSize(800,568)));
         m_sizes.append(new qtmir::ScreenMode(60, QSize(1280,1024)));
         m_sizes.append(new qtmir::ScreenMode(60, QSize(1440,900)));
         m_sizes.append(new qtmir::ScreenMode(60, QSize(1920,1080)));
@@ -73,7 +73,6 @@ public:
                 Q_EMIT availableModesChanged();
             });
 
-            m_sizes.push_front(new qtmir::ScreenMode(50, w->size()));
             Q_EMIT availableModesChanged();
         }
     }

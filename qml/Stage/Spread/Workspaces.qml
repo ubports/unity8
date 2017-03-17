@@ -104,6 +104,13 @@ Item {
             leftMargin: itemWidth
             rightMargin: itemWidth
 
+            Connections {
+                target: screen
+                onAvailableModesChanged: {
+                    print("blabla", screen.availableModes[screen.currentModeIndex].size.width, screen.availableModes[screen.currentModeIndex].size.height)
+                }
+            }
+
             property int screenWidth: screen.availableModes[screen.currentModeIndex].size.width
             property int screenHeight: screen.availableModes[screen.currentModeIndex].size.height
             property int itemWidth: height * screenWidth / screenHeight
