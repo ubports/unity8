@@ -796,12 +796,15 @@ Rectangle {
 
         function test_greeterStartsCorrectSession() {
             loadShell("desktop");
+            setLightDMMockMode("full");
+
             LightDMController.sessionMode = "full"
             LightDMController.numSessions = LightDMController.numAvailableSessions;
             var greeter = findChild(shell, "greeter");
             var view = findChild(greeter, "WideView");
-            var loginList = findChild(view, "loginList");
             verify(view, "This test requires WideView to be loaded");
+
+            var loginList = findChild(view, "loginList");
 
             compare(view.sessionToStart, greeter.sessionToStart());
 
