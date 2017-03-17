@@ -20,6 +20,8 @@ import "." 0.1
 
 FocusScope {
     id: root
+    objectName: "WideView"
+
     focus: true
 
     property alias background: coverPage.background

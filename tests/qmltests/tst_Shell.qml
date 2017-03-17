@@ -794,6 +794,26 @@ Rectangle {
             tryCompare(ApplicationManager, "focusedApplicationId", mainAppId);
         }
 
+        function test_greeterStartsCorrectSession() {
+            loadShell("desktop");
+            LightDMController.sessionMode = "full"
+            LightDMController.numSessions = LightDMController.numAvailableSessions;
+            var greeter = findChild(shell, "greeter");
+            var view = findChild(greeter, "WideView");
+            var loginList = findChild(view, "loginList");
+            verify(view, "This test requires WideView to be loaded");
+
+            compare(view.sessionToStart, greeter.sessionToStart());
+
+            // Ensure another session can actually be selected
+            compare(LightDMController.numSessions > 1, true);
+            loginList.currentSession = LightDM.Sessions.data(1, LightDM.SessionRoles.KeyRole);
+
+            compare(view.sessionToStart, greeter.sessionToStart());
+
+        }
+
+
         function swipeAwayGreeter() {
             var greeter = findChild(shell, "greeter");
             tryCompare(greeter, "fullyShown", true);
