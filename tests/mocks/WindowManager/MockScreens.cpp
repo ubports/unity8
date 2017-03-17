@@ -52,18 +52,23 @@ public:
 
         if (m_connectedWindow) {
             disconnect(m_connectedWindow.data());
-            m_sizes.takeFirst()->deleteLater();
         }
 
         m_connectedWindow = w;
 
         if (w) {
             connect(w, &ScreenWindow::heightChanged, this, [this](int height) {
+                if (height == 0 || height == m_sizes.first()->size.rheight()) {
+                    return;
+                }
                 m_sizes.first()->size.rheight() = height;
                 Q_EMIT availableModesChanged();
 
             });
             connect(w, &ScreenWindow::widthChanged, this, [this](int width) {
+                if (width == 0 || width == m_sizes.first()->size.rwidth()) {
+                    return;
+                }
                 m_sizes.first()->size.rwidth() = width;
                 Q_EMIT availableModesChanged();
             });
@@ -162,7 +167,7 @@ MockScreens::MockScreens()
         screen->m_active = i == 0;
         screen->m_name = QString("Monitor %1").arg(i);
         screen->m_position = QPoint(lastPoint.x(), lastPoint.y());
-        screen->m_currentModeIndex = 3;
+        screen->m_currentModeIndex = 0;
         m_mocks.append(screen);
 
         lastPoint.rx() += screen->m_sizes[screen->m_currentModeIndex]->size.width();

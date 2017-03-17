@@ -104,8 +104,9 @@ Item {
             leftMargin: itemWidth
             rightMargin: itemWidth
 
-            property var screenSize: screen.availableModes[screen.currentModeIndex].size
-            property int itemWidth: height * screenSize.width / screenSize.height
+            property int screenWidth: screen.availableModes[screen.currentModeIndex].size.width
+            property int screenHeight: screen.availableModes[screen.currentModeIndex].size.height
+            property int itemWidth: height * screenWidth / screenHeight
             property int foldingAreaWidth: itemWidth / 2
             property int maxAngle: 40
 
@@ -234,10 +235,11 @@ Item {
                 ]
 
                 WorkspacePreview {
+                    id: workspacePreview
                     height: listView.height
                     width: listView.itemWidth
                     background: root.background
-                    screenHeight: screen.availableModes[screen.currentModeIndex].size.height
+                    screenHeight: listView.screenHeight
                     containsDragLeft: listView.hoveredWorkspaceIndex == index && listView.hoveredHalf == "left"
                     containsDragRight: listView.hoveredWorkspaceIndex == index && listView.hoveredHalf == "right"
                     isActive: model.workspace.active

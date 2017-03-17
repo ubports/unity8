@@ -12,6 +12,8 @@ Item {
     property string background
     property int screenHeight
 
+    onScreenHeightChanged: print("screen height changed", screenHeight)
+
     property real previewScale: previewSpace.height / previewSpace.screenHeight
 
     property bool containsDragLeft: false
