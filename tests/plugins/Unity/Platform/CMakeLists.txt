@@ -12,7 +12,7 @@ add_executable(platformtest
     platformtest.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Platform/platform.cpp
     )
-    
+
 target_link_libraries(platformtest
     Qt5::Core
     Qt5::DBus
@@ -20,6 +20,6 @@ target_link_libraries(platformtest
     ${QTDBUSTEST_LDFLAGS}
     )
 
-add_unity8_unittest(platformtest qdbus-simple-test-runner
-    ARGS "${CMAKE_BINARY_DIR}/platformtest"
+add_unity8_unittest(Platform qdbus-simple-test-runner
+    ARGS "${CMAKE_CURRENT_BINARY_DIR}/platformtest"
     )
