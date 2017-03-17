@@ -41,6 +41,7 @@ class Workspace : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool active READ isActive NOTIFY activeChanged)
+    Q_PROPERTY(TopLevelWindowModel* windowModel READ windowModel NOTIFY windowModelChanged)
 public:
     ~Workspace();
 
@@ -49,10 +50,10 @@ public:
     void release();
 
     virtual bool isActive() const { return m_active; }
-    bool isAssigned() const;
 
+    TopLevelWindowModel *windowModel() const { return m_windowModel; }
     std::shared_ptr<miral::Workspace> workspace() const { return m_workspace; }
-
+    bool isAssigned() const;
 
 public Q_SLOTS:
     virtual void activate();
@@ -62,6 +63,7 @@ Q_SIGNALS:
     void unassigned();
 
     void activeChanged(bool);
+    void windowModelChanged();
 
 protected:
     Workspace(QObject *parent = 0);
@@ -69,6 +71,7 @@ protected:
 
     std::shared_ptr<miral::Workspace> m_workspace;
     WorkspaceModel* m_model;
+    TopLevelWindowModel* m_windowModel;
     bool m_active;
 
     friend class WorkspaceManager;
@@ -83,7 +86,6 @@ public:
     Q_INVOKABLE void assign(WorkspaceModel* model, const QVariant& index = QVariant()) override;
 
     bool isActive() const override;
-
     void activate() override;
 
     Workspace* proxyObject() const { return m_original.data(); }

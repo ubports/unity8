@@ -27,7 +27,6 @@ class ScreenInterface: public QObject
     Q_PROPERTY(uint currentModeIndex READ currentModeIndex NOTIFY currentModeIndexChanged)
     Q_PROPERTY(QQmlListProperty<qtmir::ScreenMode> availableModes READ availableModes NOTIFY availableModesChanged)
     Q_PROPERTY(QSizeF physicalSize READ physicalSize NOTIFY physicalSizeChanged)
-
     Q_PROPERTY(WorkspaceModel* workspaces READ workspaces CONSTANT)
     Q_PROPERTY(Workspace* currentWorkspace READ currentWorkspace WRITE setCurrentWorkspace NOTIFY currentWorkspaceChanged)
 public:
@@ -80,6 +79,7 @@ protected:
     ScreenInterface(QObject* parent = 0);
 
     void connectToScreen(qtmir::Screen* screen);
+    void connectToScreen(ScreenInterface* screen);
 
 protected:
     QPointer<qtmir::Screen> m_wrapped;

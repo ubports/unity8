@@ -75,21 +75,6 @@ class TopLevelWindowModel : public QAbstractListModel
      */
     Q_PROPERTY(Window* focusedWindow READ focusedWindow NOTIFY focusedWindowChanged)
 
-    Q_PROPERTY(Workspace* workspace
-               READ workspace
-               WRITE setWorkspace
-               NOTIFY workspaceChanged)
-
-    Q_PROPERTY(unity::shell::application::SurfaceManagerInterface* surfaceManager
-            READ surfaceManager
-            WRITE setSurfaceManager
-            NOTIFY surfaceManagerChanged)
-
-    Q_PROPERTY(unity::shell::application::ApplicationManagerInterface* applicationManager
-            READ applicationManager
-            WRITE setApplicationManager
-            NOTIFY applicationManagerChanged)
-
     /**
       The id to be used on the next entry created
       Useful for tests
@@ -108,7 +93,7 @@ public:
         ApplicationRole = Qt::UserRole + 1,
     };
 
-    TopLevelWindowModel();
+    TopLevelWindowModel(Workspace* workspace);
 
     // From QAbstractItemModel
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -119,19 +104,10 @@ public:
         return roleNames;
     }
 
-    // Own API
-
-    Workspace* workspace() const { return m_workspace; }
-    void setWorkspace(Workspace* workspace);
+    // Own API;
 
     unity::shell::application::MirSurfaceInterface* inputMethodSurface() const;
     Window* focusedWindow() const;
-
-    unity::shell::application::ApplicationManagerInterface *applicationManager() const { return m_applicationManager; }
-    void setApplicationManager(unity::shell::application::ApplicationManagerInterface*);
-
-    unity::shell::application::SurfaceManagerInterface *surfaceManager() const { return m_surfaceManager; }
-    void setSurfaceManager(unity::shell::application::SurfaceManagerInterface*);
 
     int nextId() const { return m_nextId; }
 
@@ -179,8 +155,6 @@ Q_SIGNALS:
     void countChanged();
     void inputMethodSurfaceChanged(unity::shell::application::MirSurfaceInterface* inputMethodSurface);
     void focusedWindowChanged(Window *focusedWindow);
-    void applicationManagerChanged(unity::shell::application::ApplicationManagerInterface*);
-    void surfaceManagerChanged(unity::shell::application::SurfaceManagerInterface*);
 
     /**
      * @brief Emitted when the list changes
@@ -191,9 +165,10 @@ Q_SIGNALS:
 
     void nextIdChanged();
 
-    void workspaceChanged(Workspace*);
-
 private Q_SLOTS:
+    void setApplicationManager(unity::shell::application::ApplicationManagerInterface*);
+    void setSurfaceManager(unity::shell::application::SurfaceManagerInterface*);
+
     void onSurfaceCreated(unity::shell::application::MirSurfaceInterface *surface);
     void onSurfacesAddedToWorkspace(const std::shared_ptr<miral::Workspace>& workspace,
                                     const QVector<unity::shell::application::MirSurfaceInterface*> surfaces);

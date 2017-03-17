@@ -39,6 +39,12 @@ void ScreenInterface::connectToScreen(qtmir::Screen *screen)
     connect(screen, &qtmir::Screen::availableModesChanged, this, &ScreenInterface::availableModesChanged);
 }
 
+void ScreenInterface::connectToScreen(ScreenInterface *screen)
+{
+    connectToScreen(screen->wrapped());
+    connect(screen, &ScreenInterface::currentWorkspaceChanged, this, &ScreenInterface::currentWorkspaceChanged);
+}
+
 qtmir::OutputId ScreenInterface::outputId() const
 {
     if (!m_wrapped) return qtmir::OutputId(-1);
@@ -221,7 +227,7 @@ ScreenProxy::ScreenProxy(ScreenInterface *const screen)
     : m_workspaces(new WorkspaceModelProxy(screen->workspaces()))
     , m_original(screen)
 {
-    connectToScreen(screen->wrapped());
+    connectToScreen(screen);
 
     auto updateCurrentWorkspaceFn = [this](Workspace* realWorkspace) {
         Q_FOREACH(Workspace* workspace, m_workspaces->list()) {

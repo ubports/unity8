@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import QtQuick.Window 2.2
 import WindowManager 1.0
+import Unity.Application 0.1
 
 Instantiator {
     id: root
@@ -44,5 +45,16 @@ Instantiator {
 
         Component.onCompleted: screen.active = primary
         primary: index == 0
+    }
+
+    property var windowManagerSurfaceManagerBinding: Binding {
+        target: WindowManagerObjects
+        property: "surfaceManager"
+        value: SurfaceManager
+    }
+    property var windowManagerApplicationManagerBinding: Binding {
+        target: WindowManagerObjects
+        property: "applicationManager"
+        value: ApplicationManager
     }
 }

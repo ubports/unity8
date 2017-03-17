@@ -140,7 +140,7 @@ void ScreenAttached::screenChanged2(ScreenInterface* screen)
         Q_EMIT availableModesChanged();
     }
 
-    connectToScreen(screen->wrapped());
+    connectToScreen(screen);
 }
 
 ScreenAttached *WMScreen::qmlAttachedProperties(QObject *owner)

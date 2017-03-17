@@ -27,6 +27,7 @@ Workspace::Workspace(QObject *parent)
     : QObject(parent)
     , m_workspace(WMPolicyInterface::instance()->createWorkspace())
     , m_model(nullptr)
+    , m_windowModel(new TopLevelWindowModel(this))
     , m_active(false)
 {
     setObjectName((QString("Wks%1").arg(nextWorkspace++)));
@@ -48,6 +49,7 @@ Workspace::Workspace(const Workspace &other)
     : QObject(nullptr)
     , m_workspace(other.m_workspace)
     , m_model(nullptr)
+    , m_windowModel(other.m_windowModel)
     , m_active(other.m_active)
 {
     setObjectName(other.objectName());

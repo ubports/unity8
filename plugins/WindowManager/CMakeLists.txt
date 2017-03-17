@@ -16,10 +16,12 @@ set(WINDOWMANAGER_SRC
     ScreenAttached.cpp
     Screens.cpp
     ScreenWindow.cpp
+    WindowManagerObjects.cpp
     Workspace.cpp
     WorkspaceManager.cpp
     WorkspaceModel.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/Mir.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceListInterface.h
