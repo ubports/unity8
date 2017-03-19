@@ -224,6 +224,21 @@ FocusScope {
         active: priv.focusedAppDelegate !== null
     }
 
+    GlobalShortcut {
+        shortcut: Qt.ControlModifier|Qt.AltModifier|Qt.Key_T
+        onTriggered: {
+            const termAppName = "ubuntu-terminal-app";
+            var termInfo = root.applicationManager.findApplication(termAppName);
+            if (termInfo) {
+                if (!termInfo.focused) {
+                    root.applicationManager.requestFocusApplication(termAppName);
+                }
+            } else {
+                root.applicationManager.startApplication(termAppName);
+            }
+        }
+    }
+
     QtObject {
         id: priv
         objectName: "DesktopStagePrivate"
