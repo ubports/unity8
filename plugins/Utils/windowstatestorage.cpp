@@ -133,8 +133,15 @@ QRect WindowStateStorage::getGeometry(const QString &windowId, const QRect &defa
     if (!query.first()) {
         return defaultValue;
     }
-    return QRect(query.value(QStringLiteral("x")).toInt(), query.value(QStringLiteral("y")).toInt(),
-                 query.value(QStringLiteral("width")).toInt(), query.value(QStringLiteral("height")).toInt());
+
+    const QRect result(query.value(QStringLiteral("x")).toInt(), query.value(QStringLiteral("y")).toInt(),
+                       query.value(QStringLiteral("width")).toInt(), query.value(QStringLiteral("height")).toInt());
+
+    if (result.isValid()) {
+        return result;
+    }
+
+    return defaultValue;
 }
 
 void WindowStateStorage::initdb()
