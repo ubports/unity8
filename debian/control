@@ -208,6 +208,7 @@ Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends},
 Depends: dbus-test-runner,
          parallel,
+         qtdbustest-runner,
          qt5-default,
          qtdeclarative5-dev-tools,
          unity8 (= ${source:Version}),
