@@ -1509,7 +1509,7 @@ Rectangle {
             // Initial state
             tryCompare(quickList, "state", "")
 
-            // Doing longpress
+            // Open quickList
             mouseClick(clickedItem, clickedItem.width / 2, clickedItem.height / 2, Qt.RightButton)
             verify(quickList, "state", "open")
             compare(quickList.selectedIndex, -1)
@@ -1519,6 +1519,12 @@ Rectangle {
             mouseMove(qEntry, qEntry.width / 2 + 1, qEntry.height / 2, 10);
 
             tryCompare(quickList, "selectedIndex", 0)
+
+            qEntry = findChild(launcher, "quickListEntry1");
+            mouseMove(qEntry, qEntry.width / 2    , qEntry.height / 2, 10);
+            mouseMove(qEntry, qEntry.width / 2 + 1, qEntry.height / 2, 10);
+
+            tryCompare(quickList, "selectedIndex", -1)
         }
     }
 }

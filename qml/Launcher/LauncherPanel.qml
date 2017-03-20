@@ -813,6 +813,8 @@ Rectangle {
                     var item = quickListColumn.childAt(mouseX, mouseY);
                     if (item.clickable) {
                         quickList.selectedIndex = item.index;
+                    } else {
+                        quickList.selectedIndex = -1;
                     }
                 }
             }
