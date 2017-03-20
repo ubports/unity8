@@ -20,6 +20,11 @@ target_link_libraries(platformtest
     ${QTDBUSTEST_LDFLAGS}
     )
 
+
+install(TARGETS platformtest
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Platform"
+)
+
 add_unity8_unittest(Platform qdbus-simple-test-runner
-    ARGS "${CMAKE_CURRENT_BINARY_DIR}/platformtest"
+    ARGS $<TARGET_FILE:platformtest>
     )
