@@ -30,11 +30,6 @@
 // local
 #include "Window.h"
 #include "Workspace.h"
-#include "wmpolicyinterface.h"
-
-// qtmir
-#include <qtmir/mirserverapplication.h>
-#include <qtmir/windowmodelnotifier.h>
 
 Q_LOGGING_CATEGORY(TOPLEVELWINDOWMODEL, "toplevelwindowmodel", QtInfoMsg)
 
