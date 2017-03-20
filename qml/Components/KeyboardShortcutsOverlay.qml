@@ -116,7 +116,7 @@ Rectangle {
                     font.weight: Font.Medium
                 }
                 Label {
-                    text: i18n.tr("Starts the terminal application.")
+                    text: i18n.tr("Starts the Terminal application.")
                     fontSize: "small"
                     font.weight: Font.Light
                     wrapMode: Text.Wrap
