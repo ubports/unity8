@@ -43,6 +43,11 @@ QtObject {
                                                            (target.fullscreen ? 0 : root.leftMargin)); });
         target.windowedY = Qt.binding(function() { return Math.max(Math.min(windowGeometry.y, screenHeight - target.windowedHeight), minimumY); });
 
+        target.normalWidth = target.windowedWidth;
+        target.normalHeight = target.windowedHeight;
+        target.normalX = target.windowedX;
+        target.normalY = target.windowedY;
+
         target.updateNormalGeometry();
 
         // initialize the x/y to restore to
