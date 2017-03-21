@@ -73,6 +73,7 @@ public:
     Q_INVOKABLE QVariant get(int row, const QByteArray &role);
 
     Q_INVOKABLE void activate(int index, const QVariant& parameter = QVariant());
+    Q_INVOKABLE void aboutToShow(int index);
     Q_INVOKABLE void changeState(int index, const QVariant& parameter);
 
     void registerAction(UnityMenuAction* action);
@@ -87,6 +88,7 @@ Q_SIGNALS:
 
     // Internal mock usage
     void modelDataChanged();
+    void aboutToShowCalled(int index);
 
     void activated(const QString& action);
 

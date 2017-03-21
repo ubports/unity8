@@ -192,6 +192,7 @@ PageStack {
                         if (item.hasOwnProperty("clicked")) {
                             item.clicked.connect(function() {
                                 if (model.hasSubmenu) {
+                                    page.menuModel.aboutToShow(modelIndex);
                                     root.push(pageComponent, {
                                              "isSubmenu": true,
                                              "title": model.label.replace(/_|&/, ""),

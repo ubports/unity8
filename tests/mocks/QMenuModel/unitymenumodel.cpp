@@ -273,6 +273,11 @@ void UnityMenuModel::activate(int row, const QVariant&)
     Q_EMIT activated(rd[roleNames()[ActionRole]].toString());
 }
 
+void UnityMenuModel::aboutToShow(int index)
+{
+    Q_EMIT aboutToShowCalled(index);
+}
+
 void UnityMenuModel::changeState(int, const QVariant&)
 {
 }
