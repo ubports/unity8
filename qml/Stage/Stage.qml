@@ -1322,8 +1322,6 @@ FocusScope {
                             y: spreadMaths.targetY
                             z: index
                             height: spreadItem.spreadItemHeight
-                            requestedWidth: decoratedWindow.oldRequestedWidth
-                            requestedHeight: decoratedWindow.oldRequestedHeight
                             visible: spreadMaths.itemVisible
                         }
                         PropertyChanges { target: dragArea; enabled: true }
@@ -1343,8 +1341,6 @@ FocusScope {
                             y: stagedRightEdgeMaths.animatedY
                             z: stagedRightEdgeMaths.animatedZ
                             height: stagedRightEdgeMaths.animatedHeight
-                            requestedWidth: decoratedWindow.oldRequestedWidth
-                            requestedHeight: decoratedWindow.oldRequestedHeight
                             visible: appDelegate.x < root.width
                         }
                         PropertyChanges {
@@ -1374,8 +1370,6 @@ FocusScope {
                             y: windowedRightEdgeMaths.animatedY
                             z: windowedRightEdgeMaths.animatedZ
                             height: stagedRightEdgeMaths.animatedHeight
-                            requestedWidth: decoratedWindow.oldRequestedWidth
-                            requestedHeight: decoratedWindow.oldRequestedHeight
                         }
                         PropertyChanges {
                             target: decoratedWindow
@@ -1398,10 +1392,14 @@ FocusScope {
                             target: appDelegate
                             x: stageMaths.itemX
                             y: appDelegate.fullscreen ? 0 : panelState.panelHeight
-                            requestedWidth: appContainer.width
-                            requestedHeight: appDelegate.fullscreen ? appContainer.height : appContainer.height - panelState.panelHeight
                             visuallyMaximized: true
                             visible: appDelegate.x < root.width
+                        }
+                        PropertyChanges {
+                            target: appDelegate
+                            requestedWidth: appContainer.width
+                            requestedHeight: appDelegate.fullscreen ? appContainer.height : appContainer.height - panelState.panelHeight
+                            restoreEntryValues: false
                         }
                         PropertyChanges {
                             target: decoratedWindow
@@ -1427,10 +1425,14 @@ FocusScope {
                             x: stageMaths.itemX
                             y: appDelegate.fullscreen ? 0 : panelState.panelHeight
                             z: stageMaths.itemZ
-                            requestedWidth: stageMaths.itemWidth
-                            requestedHeight: appDelegate.fullscreen ? appContainer.height : appContainer.height - panelState.panelHeight
                             visuallyMaximized: true
                             visible: appDelegate.x < root.width
+                        }
+                        PropertyChanges {
+                            target: appDelegate
+                            requestedWidth: stageMaths.itemWidth
+                            requestedHeight: appDelegate.fullscreen ? appContainer.height : appContainer.height - panelState.panelHeight
+                            restoreEntryValues: false
                         }
                         PropertyChanges {
                             target: decoratedWindow
@@ -1449,8 +1451,12 @@ FocusScope {
                             requestedY: 0;
                             visuallyMinimized: false;
                             visuallyMaximized: true
-                            requestedWidth: appContainer.width - root.leftMargin;
-                            requestedHeight: appContainer.height;
+                        }
+                        PropertyChanges {
+                            target: appDelegate
+                            requestedWidth: appContainer.width - root.leftMargin
+                            requestedHeight: appContainer.height
+                            restoreEntryValues: false
                         }
                         PropertyChanges { target: touchControls; enabled: true }
                     },
@@ -1460,8 +1466,12 @@ FocusScope {
                             target: appDelegate;
                             requestedX: 0
                             requestedY: 0
-                            requestedWidth: appContainer.width;
-                            requestedHeight: appContainer.height;
+                        }
+                        PropertyChanges {
+                            target: appDelegate
+                            requestedWidth: appContainer.width
+                            requestedHeight: appContainer.height
+                            restoreEntryValues: false
                         }
                         PropertyChanges { target: decoratedWindow; hasDecoration: false }
                     },
@@ -1476,6 +1486,12 @@ FocusScope {
                         PropertyChanges { target: touchControls; enabled: true }
                         PropertyChanges { target: resizeArea; enabled: true }
                         PropertyChanges { target: decoratedWindow; shadowOpacity: .3}
+                        PropertyChanges {
+                            target: appDelegate
+                            requestedWidth: windowedWidth
+                            requestedHeight: windowedHeight
+                            restoreEntryValues: false
+                        }
                     },
                     State {
                         name: "restored";
@@ -1693,6 +1709,7 @@ FocusScope {
                     borderThickness: units.gu(2)
                     enabled: false
                     visible: enabled
+                    readyToAssesBounds: !appDelegate._constructing
 
                     onPressed: {
                         appDelegate.activate();
@@ -1719,12 +1736,6 @@ FocusScope {
 
                     requestedWidth: appDelegate.requestedWidth
                     requestedHeight: appDelegate.requestedHeight
-
-                    property int oldRequestedWidth: -1
-                    property int oldRequestedHeight: -1
-
-                    onRequestedWidthChanged: oldRequestedWidth = requestedWidth
-                    onRequestedHeightChanged: oldRequestedHeight = requestedHeight
 
                     onCloseClicked: { appDelegate.close(); }
                     onMaximizeClicked: {

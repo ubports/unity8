@@ -48,8 +48,6 @@ QtObject {
         target.normalX = target.windowedX;
         target.normalY = target.windowedY;
 
-        target.updateNormalGeometry();
-
         // initialize the x/y to restore to
         target.restoredX = target.normalX;
         target.restoredY = target.normalY;

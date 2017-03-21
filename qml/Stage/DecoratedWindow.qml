@@ -118,15 +118,15 @@ FocusScope {
                 name: "preview"; when: root.scaleToPreviewProgress > 0
                 PropertyChanges {
                     target: root
-                    implicitWidth: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedWidth, root.scaleToPreviewSize, root.scaleToPreviewProgress)
-                    implicitHeight: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedHeight, root.scaleToPreviewSize, root.scaleToPreviewProgress)
+                    implicitWidth: MathUtils.linearAnimation(0, 1, applicationWindow.requestedWidth, root.scaleToPreviewSize, root.scaleToPreviewProgress)
+                    implicitHeight: MathUtils.linearAnimation(0, 1, applicationWindow.requestedHeight, root.scaleToPreviewSize, root.scaleToPreviewProgress)
                 }
                 PropertyChanges {
                     target: applicationWindow;
-                    requestedWidth: applicationWindow.oldRequestedWidth
-                    requestedHeight: applicationWindow.oldRequestedHeight
-                    width: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedWidth, applicationWindow.minSize, root.scaleToPreviewProgress)
-                    height: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedHeight, applicationWindow.minSize, root.scaleToPreviewProgress)
+//                    requestedWidth: applicationWindow.oldRequestedWidth
+//                    requestedHeight: applicationWindow.oldRequestedHeight
+                    width: MathUtils.linearAnimation(0, 1, applicationWindow.requestedWidth, applicationWindow.minSize, root.scaleToPreviewProgress)
+                    height: MathUtils.linearAnimation(0, 1, applicationWindow.requestedHeight, applicationWindow.minSize, root.scaleToPreviewProgress)
                     itemScale: root.implicitWidth / width
                 }
             }
@@ -165,10 +165,10 @@ FocusScope {
         height: implicitHeight
         requestedHeight: !counterRotate ? root.requestedHeight - d.requestedDecorationHeight : root.requestedWidth
         requestedWidth: !counterRotate ? root.requestedWidth : root.requestedHeight - d.requestedDecorationHeight
-        property int oldRequestedWidth: requestedWidth
-        property int oldRequestedHeight: requestedHeight
-        onRequestedWidthChanged: oldRequestedWidth = requestedWidth
-        onRequestedHeightChanged: oldRequestedHeight = requestedHeight
+//        property int oldRequestedWidth: requestedWidth
+//        property int oldRequestedHeight: requestedHeight
+//        onRequestedWidthChanged: oldRequestedWidth = requestedWidth
+//        onRequestedHeightChanged: oldRequestedHeight = requestedHeight
         focus: true
 
         property real itemScale: 1
