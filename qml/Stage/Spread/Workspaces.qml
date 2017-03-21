@@ -271,6 +271,7 @@ Item {
                     hoverEnabled: true
                     height: units.gu(4)
                     width: height
+                    visible: listView.count > 1
 
                     onClicked: {
                         model.workspace.unassign();
