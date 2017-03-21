@@ -364,6 +364,13 @@ FocusScope {
             topMargin: root.inverted ? root.topPanelHeight : 0
             bottom: parent.bottom
             right: parent.left
+            onRightMarginChanged: {
+                // Remove (and put back) the focus for the searchfield in
+                // order to hide the copy/paste popover when we move the drawer
+                var hadFocus = drawer.searchTextField.focus;
+                drawer.searchTextField.focus = false;
+                drawer.searchTextField.focus = hadFocus;
+            }
         }
         width: Math.min(root.width, units.gu(90)) * .9
         panelWidth: panel.width

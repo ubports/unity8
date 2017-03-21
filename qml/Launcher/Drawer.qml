@@ -27,6 +27,7 @@ FocusScope {
 
     property int panelWidth: 0
     readonly property bool moving: listLoader.item && listLoader.item.moving
+    readonly property Item searchTextField: searchField
 
     signal applicationSelected(string appId)
 
