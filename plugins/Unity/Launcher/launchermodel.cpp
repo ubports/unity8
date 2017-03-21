@@ -584,10 +584,8 @@ void LauncherModel::updateSurfaceListForApp(ApplicationInfoInterface* app)
             surfaces.append({iface->persistentId(), name});
         }
     }
-    if (!surfaces.isEmpty()) {
-        item->setSurfaces(surfaces);
-        Q_EMIT dataChanged(index(idx), index(idx), {RoleSurfaceCount});
-    }
+    item->setSurfaces(surfaces);
+    Q_EMIT dataChanged(index(idx), index(idx), {RoleSurfaceCount});
 }
 
 void LauncherModel::applicationRemoved(const QModelIndex &parent, int row)
