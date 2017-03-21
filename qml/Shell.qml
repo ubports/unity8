@@ -426,7 +426,9 @@ StyledItem {
         id: showGreeterDelayed
         interval: 1
         onTriggered: {
-            greeter.forceShow();
+            // Go through the dbus service, because it has checks for whether
+            // we are even allowed to lock or not.
+            DBusUnitySessionService.PromptLock();
         }
     }
 

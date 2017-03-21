@@ -33,6 +33,17 @@ install(TARGETS LightDMServer
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Session"
     )
 
+### Preload
+add_library(SessionBackendTestPreload SHARED
+    preload.c
+)
+target_link_libraries(SessionBackendTestPreload
+    ${GLIB_LIBRARIES}
+    )
+install(TARGETS SessionBackendTestPreload
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Session"
+    )
+
 ### SessionBackendTest
 add_executable(sessionbackendtestExec
     sessionbackendtest.cpp
@@ -48,7 +59,8 @@ install(TARGETS sessionbackendtestExec
 )
 
 add_unity8_unittest(SessionBackend dbus-test-runner
-    ENVIRONMENT XDG_SESSION_PATH=/session
+    ENVIRONMENT LD_PRELOAD=$<TARGET_FILE:SessionBackendTestPreload>
+                XDG_SESSION_PATH=/session
     ARG_PREFIX "--parameter"
     ARGS
         --task $<TARGET_FILE:LightDMServer>

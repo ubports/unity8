@@ -53,6 +53,11 @@ private Q_SLOTS:
                                                QDBusConnection::sessionBus());
     }
 
+    void init() {
+        qputenv("TEST_USER", "testuser");
+        qputenv("TEST_NOPASSWD_USERS", "");
+    }
+
     void testUnitySessionLogoutRequested_data() {
         QTest::addColumn<QString>("method");
         QTest::addColumn<QString>("signal");
@@ -230,14 +235,7 @@ private Q_SLOTS:
 
     void testUserName() {
         DBusUnitySessionService dbusUnitySessionService;
-        QCoreApplication::processEvents(); // to let the service register on DBus
-
-        QProcess * proc = new QProcess(this);
-        proc->start("id -un", QProcess::ReadOnly);
-        proc->waitForFinished();
-        const QByteArray out = proc->readAll().trimmed();
-
-        QCOMPARE(dbusUnitySessionService.UserName(), QString::fromUtf8(out));
+        QCOMPARE(dbusUnitySessionService.UserName(), QString("testuser"));
     }
 
     void testRealName() {
@@ -252,6 +250,35 @@ private Q_SLOTS:
                 QCOMPARE(dbusUnitySessionService.RealName(), userAccIface.property("RealName").toString());
             }
         }
+    }
+
+    void testCanLock() {
+        DBusUnitySessionService dbusUnitySessionService;
+
+        qputenv("TEST_USER", "testuser");
+        QVERIFY(dbusUnitySessionService.CanLock());
+
+        qputenv("TEST_USER", "guest-abcdef"); // guest-* can't lock
+        QVERIFY(!dbusUnitySessionService.CanLock());
+
+        qputenv("TEST_USER", "testuser");
+        qputenv("TEST_NOPASSWD_USERS", "testuser"); // nopasswdlogin can't lock
+        QVERIFY(!dbusUnitySessionService.CanLock());
+    }
+
+    void testPromptLockRespectsCanLock() {
+        DBusUnitySessionService dbusUnitySessionService;
+
+        QSignalSpy spy(&dbusUnitySessionService, SIGNAL(lockRequested()));
+        QVERIFY(dbusUnitySessionService.CanLock());
+        dbusUnitySessionService.PromptLock();
+        QCOMPARE(spy.count(), 1);
+
+        spy.clear();
+        qputenv("TEST_USER", "guest-abcdef");
+        QVERIFY(!dbusUnitySessionService.CanLock());
+        dbusUnitySessionService.PromptLock();
+        QCOMPARE(spy.count(), 0);
     }
 
 private:

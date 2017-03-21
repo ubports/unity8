@@ -22,7 +22,6 @@ import GlobalShortcut 1.0
 import Ubuntu.Components 1.3
 import Unity.Platform 1.0
 import Utils 0.1
-import "../Greeter"
 
 MouseArea {
     id: root
@@ -116,17 +115,17 @@ MouseArea {
 
     GlobalShortcut { // lock screen
         shortcut: Qt.Key_ScreenSaver
-        onTriggered: LightDMService.greeter.showGreeter()
+        onTriggered: root.unitySessionService.PromptLock()
     }
 
     GlobalShortcut { // lock screen
         shortcut: Qt.ControlModifier|Qt.AltModifier|Qt.Key_L
-        onTriggered: LightDMService.greeter.showGreeter()
+        onTriggered: root.unitySessionService.PromptLock()
     }
 
     GlobalShortcut { // lock screen
         shortcut: Qt.MetaModifier|Qt.Key_L
-        onTriggered: LightDMService.greeter.showGreeter()
+        onTriggered: root.unitySessionService.PromptLock()
     }
 
     QtObject {
@@ -179,8 +178,9 @@ MouseArea {
             Button {
                 width: parent.width
                 text: i18n.ctr("Button: Lock the system", "Lock")
+                visible: root.unitySessionService.CanLock()
                 onClicked: {
-                    LightDMService.greeter.showGreeter()
+                    root.unitySessionService.PromptLock();
                     logoutDialog.hide();
                 }
                 Component.onCompleted: if (root.hasKeyboard) forceActiveFocus(Qt.TabFocusReason)
