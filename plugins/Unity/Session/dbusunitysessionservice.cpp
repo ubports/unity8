@@ -468,11 +468,56 @@ void performAsyncUnityCall(const QString &method)
 
 
 DBusGnomeSessionManagerWrapper::DBusGnomeSessionManagerWrapper()
+    : UnityDBusObject(QStringLiteral("/org/gnome/SessionManager"), QStringLiteral("org.gnome.SessionManager"))
+{
+}
+
+void DBusGnomeSessionManagerWrapper::Logout(quint32 mode)
+{
+    auto call = QStringLiteral("RequestLogout");
+
+    // These modes are documented as bitwise flags, not an enum, even though
+    // they only ever seem to be used as enums.
+
+    if (mode & 1) // without dialog
+        call = QStringLiteral("Logout");
+    if (mode & 2) // without dialog, ignoring inhibitors (which we don't have)
+        call = QStringLiteral("Logout");
+
+    performAsyncUnityCall(call);
+}
+
+void DBusGnomeSessionManagerWrapper::Reboot()
+{
+    // GNOME's Reboot means with dialog (they use Request differently than us).
+    performAsyncUnityCall(QStringLiteral("RequestReboot"));
+}
+
+void DBusGnomeSessionManagerWrapper::RequestReboot()
+{
+    // GNOME's RequestReboot means no dialog (they use Request differently than us).
+    performAsyncUnityCall(QStringLiteral("Reboot"));
+}
+
+void DBusGnomeSessionManagerWrapper::RequestShutdown()
+{
+    // GNOME's RequestShutdown means no dialog (they use Request differently than us).
+    performAsyncUnityCall(QStringLiteral("Shutdown"));
+}
+
+void DBusGnomeSessionManagerWrapper::Shutdown()
+{
+    // GNOME's Shutdown means with dialog (they use Request differently than us).
+    performAsyncUnityCall(QStringLiteral("RequestShutdown"));
+}
+
+
+DBusGnomeSessionManagerDialogWrapper::DBusGnomeSessionManagerDialogWrapper()
     : UnityDBusObject(QStringLiteral("/org/gnome/SessionManager/EndSessionDialog"), QStringLiteral("com.canonical.Unity"))
 {
 }
 
-void DBusGnomeSessionManagerWrapper::Open(const unsigned type, const unsigned arg_1, const unsigned max_wait, const QList<QDBusObjectPath> &inhibitors)
+void DBusGnomeSessionManagerDialogWrapper::Open(const unsigned type, const unsigned arg_1, const unsigned max_wait, const QList<QDBusObjectPath> &inhibitors)
 {
     Q_UNUSED(arg_1);
     Q_UNUSED(max_wait);
