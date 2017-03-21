@@ -28,7 +28,7 @@ using namespace unity::shell::launcher;
 
 class MockLauncherModel: public LauncherModelInterface
 {
-   Q_OBJECT
+    Q_OBJECT
 
 public:
     MockLauncherModel(QObject* parent = 0);

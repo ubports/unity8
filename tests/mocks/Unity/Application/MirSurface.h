@@ -58,6 +58,7 @@ public:
     QString name() const override;
 
     QString persistentId() const override;
+    QString appId() const override;
 
     QPoint position() const override { return m_position; }
 
