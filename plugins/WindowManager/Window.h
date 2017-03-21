@@ -24,6 +24,8 @@
 // Unity API
 #include <unity/shell/application/Mir.h>
 
+#include "WindowManagerGlobal.h"
+
 namespace unity {
     namespace shell {
         namespace application {
@@ -42,7 +44,7 @@ Q_DECLARE_LOGGING_CATEGORY(UNITY_WINDOW)
    was killed to free up memory, as it should still remain in the window list since the user
    did not explicitly close it).
  */
-class Window : public QObject
+class WINDOWMANAGERQML_EXPORT Window : public QObject
 {
     Q_OBJECT
 
@@ -144,6 +146,7 @@ Q_SIGNALS:
     void confinesMousePointerChanged(bool value);
     void surfaceChanged(unity::shell::application::MirSurfaceInterface *surface);
     void allowClientResizeChanged(bool value);
+    void liveChanged(bool value);
 
     /**
      * @brief Emitted when focus for this window is requested by an external party
