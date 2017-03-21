@@ -17,6 +17,7 @@
 // unity-api
 #include <unity/shell/launcher/LauncherModelInterface.h>
 #include <unity/shell/application/ApplicationInfoInterface.h>
+#include <unity/shell/application/MirSurfaceListInterface.h>
 
 #include "launcheritem.h"
 #include "launchermodel.h"
@@ -37,11 +38,74 @@
 namespace unityapi = unity::shell::application;
 
 // This is a mock, specifically to test the LauncherModel
+class MockSurface: public unity::shell::application::MirSurfaceInterface
+{
+    Q_OBJECT
+public:
+    MockSurface(const QString &id, const QString &appId, QObject* parent): unityapi::MirSurfaceInterface(parent), m_id(id), m_appId(appId) {}
+    Mir::Type type() const override { return Mir::NormalType;}
+    QString name() const override { return QStringLiteral("mock surface"); }
+    QString persistentId() const override { return m_id; }
+    QString appId() const override { return m_appId; }
+    QPoint position() const override { return QPoint(); }
+    QSize size() const override { return QSize(); }
+    void resize(const QSize &size) override { Q_UNUSED(size) }
+    void resize(int width, int height) override { Q_UNUSED(width); Q_UNUSED(height) }
+    Mir::State state() const override { return Mir::RestoredState; }
+    bool live() const override { return true; }
+    bool visible() const override { return true; }
+    Mir::OrientationAngle orientationAngle() const override { return Mir::Angle0; }
+    void setOrientationAngle(Mir::OrientationAngle angle) override { Q_UNUSED(angle); }
+    int minimumWidth() const override { return 0; }
+    int minimumHeight() const override { return 0; }
+    int maximumWidth() const override { return 0; }
+    int maximumHeight() const override { return 0; }
+    int widthIncrement() const override { return 0; }
+    int heightIncrement() const override { return 0; }
+    void setKeymap(const QString &) override {}
+    Mir::ShellChrome shellChrome() const override { return Mir::NormalChrome; }
+    QString keymap() const override { return QStringLiteral("de_DE"); }
+    bool focused() const override { return true; }
+    QRect inputBounds() const override { return QRect(); }
+    bool confinesMousePointer() const override { return false; }
+    QPoint requestedPosition() const override { return QPoint(); }
+    void setRequestedPosition(const QPoint &) override {}
+    MirSurfaceInterface* parentSurface() const override { return nullptr; }
+    MirSurfaceListInterface* childSurfaceList() const override { return nullptr; }
+    void close() override {}
+    void activate() override {}
+    void requestState(Mir::State) override {}
+
+private:
+    QString m_id;
+    QString m_appId;
+};
+
+class MockSurfaceList: public unity::shell::application::MirSurfaceListInterface
+{
+    Q_OBJECT
+public:
+    MockSurfaceList(QObject *parent): unityapi::MirSurfaceListInterface(parent) {}
+    int rowCount(const QModelIndex & = QModelIndex()) const override { return m_list.count(); }
+    QVariant data(const QModelIndex &, int) const override { return QVariant(); }
+    Q_INVOKABLE MirSurfaceInterface* get(int index) override { return m_list.at(index); }
+    void append(MirSurfaceInterface* surface) {
+        beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+        m_list.append(surface);
+        endInsertRows();
+    }
+private:
+    QList<MirSurfaceInterface*> m_list;
+
+};
+
 class MockApp: public unity::shell::application::ApplicationInfoInterface
 {
     Q_OBJECT
 public:
-    MockApp(const QString &appId, QObject *parent = 0): ApplicationInfoInterface(appId, parent), m_appId(appId), m_focused(false) { }
+    MockApp(const QString &appId, QObject *parent = 0): ApplicationInfoInterface(appId, parent), m_appId(appId), m_focused(false) {
+        m_surfaces = new MockSurfaceList(this);
+    }
 
     RequestedState requestedState() const override { return RequestedRunning; }
     void setRequestedState(RequestedState) override {}
@@ -64,10 +128,10 @@ public:
     void setExemptFromLifecycle(bool) override {}
     QSize initialSurfaceSize() const override { return QSize(); }
     void setInitialSurfaceSize(const QSize &) override {}
-    MirSurfaceListInterface* surfaceList() const override { return nullptr; }
+    MirSurfaceListInterface* surfaceList() const override { return m_surfaces; }
     MirSurfaceListInterface* promptSurfaceList() const override { return nullptr; }
-    int surfaceCount() const override { return m_surfaceCount; }
-    void setSurfaceCount(int count) { m_surfaceCount = count; Q_EMIT surfaceCountChanged(count); }
+    int surfaceCount() const override { return m_surfaces->count(); }
+    void setSurfaces(MockSurfaceList* surfaces) { m_surfaces = surfaces; Q_EMIT surfaceCountChanged(m_surfaces->count()); }
     void close() override {}
 
     // Methods used for mocking (not in the interface)
@@ -75,7 +139,7 @@ public:
 private:
     QString m_appId;
     bool m_focused;
-    int m_surfaceCount = 0;
+    MockSurfaceList *m_surfaces;
 };
 
 // This is a mock, specifically to test the LauncherModel
@@ -748,8 +812,20 @@ private Q_SLOTS:
 
         QCOMPARE(launcherModel->get(0)->surfaceCount(), 0);
         MockApp *app = qobject_cast<MockApp*>(appManager->findApplication(appId));
-        app->setSurfaceCount(1);
+        MockSurfaceList* surfaces = new MockSurfaceList(appManager);
+        surfaces->append(new MockSurface("foobar", "foobar", surfaces));
+        app->setSurfaces(surfaces);
         QCOMPARE(launcherModel->get(0)->surfaceCount(), 1);
+
+        // Make sure the new surface appears in the quicklist
+        QuickListModel *quickList = qobject_cast<QuickListModel*>(launcherModel->get(0)->quickList());
+        bool found = false;
+        for (int i = 0; i < quickList->rowCount(); ++i) {
+            if (quickList->get(i).actionId() == "surface_foobar") {
+                found = true;
+            }
+        }
+        QCOMPARE(found, true);
     }
 };
 
