@@ -72,6 +72,8 @@ FocusScope {
 
     readonly property Item clientAreaItem: applicationWindow
 
+    property alias altDragEnabled: altDragHandler.enabled
+
     signal closeClicked()
     signal maximizeClicked()
     signal maximizeHorizontallyClicked()
@@ -267,6 +269,7 @@ FocusScope {
         acceptedButtons: Qt.LeftButton
         property bool dragging: false
         cursorShape: undefined // don't interfere with the cursor shape set by the underlying MirSurfaceItem
+        visible: enabled
         onPressed: {
             if (mouse.button == Qt.LeftButton && mouse.modifiers == Qt.AltModifier) {
                 root.decorationPressed(); // to raise it
