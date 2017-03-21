@@ -328,5 +328,23 @@ StyledItem {
 
             tryCompare(launcher, "state", "visibleTemporary");
         }
+
+        function test_closeWhileDragging() {
+            launcher.openDrawer(true);
+            waitForRendering(launcher);
+            waitUntilTransitionsEnd(launcher);
+
+            var drawer = findChild(launcher, "drawer");
+            tryCompare(drawer.anchors, "rightMargin", -drawer.width);
+
+            mousePress(drawer, drawer.width / 2, drawer.height / 2);
+            mouseMove(drawer, drawer.width / 4, drawer.height / 2);
+            tryCompare(drawer, "draggingHorizontally", true);
+
+            keyPress(Qt.Key_Escape);
+
+            tryCompare(launcher, "state", "");
+            tryCompare(drawer, "draggingHorizontally", false);
+        }
     }
 }
