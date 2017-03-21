@@ -186,6 +186,7 @@ void UsersModel::resetEntries()
             { "no-background",     "No Background", "", 0, false, false, "ubuntu", 0 },
             { "no-password",       "No Password", 0, 0, false, false, "ubuntu", 0 },
             { "no-response",       "No Response", 0, 0, false, false, "ubuntu", 0 },
+            { "no-session",        "No Session", 0, 0, false, false, "", 0 },
             { "question-prompt",   "Question Prompt", 0, 0, false, false, "ubuntu", 0 },
             { "two-factor",        "Two Factor", 0, 0, false, false, "ubuntu", 0 },
             { "two-prompts",       "Two Prompts", 0, 0, false, false, "ubuntu", 0 },

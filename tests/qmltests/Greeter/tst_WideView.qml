@@ -395,6 +395,15 @@ StyledItem {
             waitForRendering(view);
         }
 
+        function test_sessionless_user_is_still_valid() {
+            var loginList = findChild(view, "loginList")
+
+            selectUser("no-session");
+            compare(LightDM.Users.data(loginList.currentIndex, LightDM.UserRoles.SessionRole), "");
+
+            tryCompare(loginList, "currentSession", LightDM.Greeter.defaultSession);
+        }
+
         function test_changingSessionSticksToUser() {
             var loginList = findChild(view, "loginList");
 
