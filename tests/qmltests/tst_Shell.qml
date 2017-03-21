@@ -2538,6 +2538,7 @@ Rectangle {
                 tap(maximizeButton);
             }
 
+            waitUntilTransitionsEnd(appDelegate);
             tryCompare(appDelegate, "state", "maximized");
 
             if (data.mouse) {
@@ -2547,7 +2548,7 @@ Rectangle {
                 tryCompare(menuBarLoader.item, "visible", true);
                 mouseDrag(panel, panel.width/2, panel.height/2, 0, shell.height/3, Qt.LeftButton, Qt.NoModifier, 500);
             } else {
-                touchFlick(panel, panel.width/2, panel.height/2, panel.width/2, shell.height/3);
+                touchFlick(panel, panel.width/2, panel.panelHeight/2, panel.width/2, shell.height/3);
             }
 
             tryCompare(appDelegate, "state", "restored");
