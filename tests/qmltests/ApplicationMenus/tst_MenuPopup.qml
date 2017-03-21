@@ -154,9 +154,6 @@ Item {
             var priv = findInvisibleChild(menu, "d");
 
             keyClick(Qt.Key_Down, Qt.NoModifier);
-            compare(priv.currentItem, item0, "CurrentItem should have moved to item 0");
-
-            keyClick(Qt.Key_Down, Qt.NoModifier);
             compare(priv.currentItem, item1, "CurrentItem should have moved to item 1");
 
             keyClick(Qt.Key_Down, Qt.NoModifier);
@@ -164,6 +161,9 @@ Item {
 
             keyClick(Qt.Key_Down, Qt.NoModifier);
             compare(priv.currentItem, item0, "CurrentItem should have moved to item 0");
+
+            keyClick(Qt.Key_Down, Qt.NoModifier);
+            compare(priv.currentItem, item1, "CurrentItem should have moved to item 1");
         }
 
         function test_keyboardNavigation_UpKeySelectsAndOpensPreviousMenuItemAndRotates() {
@@ -175,17 +175,17 @@ Item {
 
             var priv = findInvisibleChild(menu, "d");
 
-            keyClick(Qt.Key_Down, Qt.NoModifier);
-            compare(priv.currentItem, item0, "CurrentItem should have moved to item 2");
+            keyClick(Qt.Key_Up, Qt.NoModifier);
+            compare(priv.currentItem, item2, "CurrentItem should have moved to item 2");
 
-            keyClick(Qt.Key_Down, Qt.NoModifier);
+            keyClick(Qt.Key_Up, Qt.NoModifier);
             compare(priv.currentItem, item1, "CurrentItem should have moved to item 1");
 
-            keyClick(Qt.Key_Down, Qt.NoModifier);
-            compare(priv.currentItem, item2, "CurrentItem should have moved to item 0");
+            keyClick(Qt.Key_Up, Qt.NoModifier);
+            compare(priv.currentItem, item0, "CurrentItem should have moved to item 0");
 
-            keyClick(Qt.Key_Down, Qt.NoModifier);
-            compare(priv.currentItem, item0, "CurrentItem should have moved to item 2");
+            keyClick(Qt.Key_Up, Qt.NoModifier);
+            compare(priv.currentItem, item2, "CurrentItem should have moved to item 2");
         }
 
         function test_aboutToShow() {
@@ -242,7 +242,7 @@ Item {
 
             var menuItem = findChild(menu, "menu-item0"); verify(menuItem);
             mouseClick(menuItem, menuItem.width/2, menuItem.height/2);
-            tryCompareFunction(function() { return menuItem.popup !== null && menuItem.popup.visible }, true);
+            tryCompareFunction(function() { return menuItem.popup !== null && findInvisibleChild(menuItem.popup, "d").currentItem !== null }, true);
 
             keyClick(Qt.Key_Left, Qt.NoModifier);
             tryCompareFunction(function() { return menuItem.popup !== null && menuItem.popup.visible }, false);
@@ -270,13 +270,16 @@ Item {
 
             menu.unityMenuModel.modelData = differentSizesMenu;
 
-            waitForRendering(menu);
+            // Wait for the two items to be there
+            tryCompareFunction(function() { return findChild(menu, "menu-item1") !== null; }, true);
             var longWidth = menu.width;
+
+            // Now pop one item and make sure it's smaller
             differentSizesMenu.pop();
             menu.unityMenuModel.modelData = differentSizesMenu;
 
-            waitForRendering(menu);
-            verify(menu.width < longWidth);
+            tryCompareFunction(function() { return findChild(menu, "menu-item0") !== null; }, true);
+            tryCompareFunction(function() { return menu.width < longWidth; }, true);
         }
 
         function test_minimumWidth() {

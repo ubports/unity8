@@ -44,10 +44,6 @@ Item {
     implicitWidth: row.width
     height: parent.height
 
-    function select(index) {
-        d.select(index);
-    }
-
     function dismiss() {
         d.dismissAll();
     }
@@ -142,7 +138,8 @@ Item {
                                                                  objectName: visualItem.objectName + "-menu",
                                                                  desiredX: Qt.binding(function() { return visualItem.x - units.gu(1); }),
                                                                  desiredY: Qt.binding(function() { return root.height; }),
-                                                                 unityMenuModel: Qt.binding(function() { return root.unityMenuModel.submenu(visualItem.__ownIndex); })
+                                                                 unityMenuModel: Qt.binding(function() { return root.unityMenuModel.submenu(visualItem.__ownIndex); }),
+                                                                 selectFirstOnCountChange: false
                                                              });
                         __popup.reset();
                         __popup.childActivated.connect(dismiss);
