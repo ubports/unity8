@@ -226,6 +226,30 @@ Item {
             keyRelease(data.tag, Qt.AltModifier, 100);
         }
 
+        function test_disabledTopLevel() {
+            var modelData = appMenuData.generateTestData(3,3,0,0,"menu");
+            modelData[1].rowData.sensitive = false;
+            menuBackend.modelData = modelData;
+
+            var priv = findInvisibleChild(menuBar, "d");
+
+            var menuItem0 = findChild(menuBar, "menuBar-item0"); verify(menuItem0);
+            var menuItem2 = findChild(menuBar, "menuBar-item2"); verify(menuItem2);
+
+            menuItem0.show();
+            compare(menuItem0.popupVisible, true, "Popup should be visible");
+
+            keyClick(Qt.Key_Right);
+            compare(priv.currentItem, menuItem2);
+            compare(menuItem2.popupVisible, true);
+            compare(menuItem0.popupVisible, false);
+
+            keyClick(Qt.Key_Left);
+            compare(priv.currentItem, menuItem0);
+            compare(menuItem2.popupVisible, false);
+            compare(menuItem0.popupVisible, true);
+        }
+
         function test_menuActivateClosesMenu() {
             menuBackend.modelData = appMenuData.generateTestData(3,3,0,0,"menu");
             var priv = findInvisibleChild(menuBar, "d");
