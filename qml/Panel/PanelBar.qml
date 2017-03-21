@@ -30,8 +30,7 @@ Item {
     property real lateralPosition: -1
     property int alignment: Qt.AlignRight
 
-    property alias showRowTitle: row.showRowTitle
-    property alias rowTitle: row.rowTitle
+    property alias hideRow: row.hideRow
     property alias rowItemDelegate: row.delegate
 
     implicitWidth: flickable.contentWidth

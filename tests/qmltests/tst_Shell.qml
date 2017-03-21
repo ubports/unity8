@@ -2865,7 +2865,7 @@ Rectangle {
             loadShell(data.tag);
 
             var panel = findChild(shell, "panel"); verify(panel);
-            var panelTitle = findChild(panel.applicationMenus, "panelTitle"); verify(panelTitle);
+            var panelTitle = findChild(panel, "panelTitle"); verify(panelTitle);
             compare(panelTitle.visible, false, "Panel title should not be visible when greeter is shown");
 
             swipeAwayGreeter();
@@ -3036,6 +3036,61 @@ Rectangle {
             tryCompare(appDelegate, "focus", true);
             tryCompare(topLevelSurfaceList.focusedWindow, "surface", appDelegate.surface);
             tryCompare(topLevelSurfaceList.applicationAt(0), "appId", "dialer-app");
+        }
+
+        function test_touchMenuPosition_data() {
+            return [
+                        { tag: "launcher locked", lockLauncher: true },
+                        { tag: "launcher not locked", lockLauncher: false }
+                    ];
+        }
+
+        function test_touchMenuPosition(data) {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var panel = findChild(shell, "panel");
+            var launcher = testCase.findChild(shell, "launcher");
+            launcher.lockedVisible = data.lockLauncher;
+            if (data.lockLauncher) {
+                compare(panel.applicationMenus.x, launcher.panelWidth);
+            } else {
+                compare(panel.applicationMenus.x, 0);
+            }
+        }
+
+        function test_touchMenuHidesOnLauncherAppDrawer_data() {
+            return [
+                        { tag: "launcher locked", lockLauncher: true },
+                        { tag: "launcher not locked", lockLauncher: false }
+                    ];
+        }
+
+        function test_touchMenuHidesOnLauncherAppDrawer(data) {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var panel = findChild(shell, "panel");
+            var launcher = testCase.findChild(shell, "launcher");
+            launcher.lockedVisible = data.lockLauncher;
+
+            waitForRendering(panel.applicationMenus);
+
+            if (data.lockLauncher) {
+                panel.applicationMenus.show();
+                tryCompare(panel.applicationMenus, "fullyOpened", true);
+                launcher.openDrawer();
+            } else {
+                tryCompare(launcher, "shown", false);
+                panel.applicationMenus.show();
+                tryCompare(panel.applicationMenus, "fullyOpened", true);
+                launcher.switchToNextState("visible");
+            }
+            tryCompare(panel.applicationMenus, "fullyClosed", true);
         }
 
         function test_doubleClickPanelRestoresWindow() {

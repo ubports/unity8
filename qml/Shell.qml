@@ -502,6 +502,7 @@ StyledItem {
             expandedPanelHeight: units.gu(7)
             indicatorMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
             applicationMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
+            applicationMenuContentX: launcher.lockedVisible ? launcher.panelWidth : 0
 
             indicators {
                 hides: [launcher]
@@ -570,7 +571,14 @@ StyledItem {
             }
             onShownChanged: {
                 if (shown) {
-                    panel.indicators.hide()
+                    panel.indicators.hide();
+                    panel.applicationMenus.hide();
+                }
+            }
+            onDrawerShownChanged: {
+                if (drawerShown) {
+                    panel.indicators.hide();
+                    panel.applicationMenus.hide();
                 }
             }
             onFocusChanged: {
