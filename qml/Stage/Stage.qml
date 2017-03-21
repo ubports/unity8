@@ -1316,6 +1316,10 @@ FocusScope {
                             target: stageMaths
                             animateX: !focusAnimation.running && itemIndex !== spreadItem.highlightedIndex
                         }
+                        PropertyChanges {
+                            target: appDelegate.window
+                            allowClientResize: false
+                        }
                     },
                     State {
                         name: "stagedWithSideStage"; when: root.state == "stagedWithSideStage"
@@ -1340,6 +1344,10 @@ FocusScope {
                         PropertyChanges {
                             target: resizeArea
                             enabled: false
+                        }
+                        PropertyChanges {
+                            target: appDelegate.window
+                            allowClientResize: false
                         }
                     },
                     State {

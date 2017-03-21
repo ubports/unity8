@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2016 Canonical Ltd.
+ * Copyright 2013-2017 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -68,6 +68,8 @@ public:
     bool focused() const override { return true; }
     QRect inputBounds() const override { return QRect(); }
     bool confinesMousePointer() const override { return false; }
+    bool allowClientResize() const override { return true; }
+    void setAllowClientResize(bool) override {}
     QPoint requestedPosition() const override { return QPoint(); }
     void setRequestedPosition(const QPoint &) override {}
     MirSurfaceInterface* parentSurface() const override { return nullptr; }
