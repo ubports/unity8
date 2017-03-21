@@ -81,6 +81,8 @@ QVariant QuickListModel::data(const QModelIndex &index, int role) const
         return m_list.at(index.row()).clickable();
     case RoleHasSeparator:
         return m_list.at(index.row()).hasSeparator();
+    case RoleIsPrivate:
+        return m_list.at(index.row()).isPrivate();
     }
     return QVariant();
 }

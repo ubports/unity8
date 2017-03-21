@@ -27,6 +27,8 @@ using namespace unity::shell::launcher;
 class MockQuickListModel: public QuickListModelInterface
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ rowCount)
+
 public:
     MockQuickListModel(QObject *parent = 0);
 

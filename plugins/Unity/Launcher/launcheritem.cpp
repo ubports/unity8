@@ -48,11 +48,13 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
     QuickListEntry pinningAction;
     pinningAction.setActionId(QStringLiteral("pin_item"));
     pinningAction.setText(gettext("Pin shortcut"));
+    pinningAction.setIsPrivate(true);
     m_quickList->appendAction(pinningAction);
 
     m_quitAction.setActionId(QStringLiteral("stop_item"));
     m_quitAction.setIcon(QStringLiteral("application-exit"));
     m_quitAction.setText(gettext("Quit"));
+    m_quitAction.setIsPrivate(true);
 }
 
 QString LauncherItem::appId() const
@@ -120,6 +122,7 @@ void LauncherItem::setPinned(bool pinned)
     QuickListEntry entry;
     entry.setActionId(QStringLiteral("pin_item"));
     entry.setText(pinned ? gettext("Unpin shortcut") : gettext("Pin shortcut"));
+    entry.setIsPrivate(true);
     m_quickList->updateAction(entry);
 }
 
