@@ -2513,27 +2513,44 @@ Rectangle {
             tryCompare(app2Surface, "keymap", "fr");
         }
 
-        function test_dragPanelToRestoreMaximizedWindow() {
+        function test_dragPanelToRestoreMaximizedWindow_data() {
+            return [
+                        { tag: "with mouse", mouse: true },
+                        { tag: "with touch", mouse: false }
+                    ]
+        }
+
+        function test_dragPanelToRestoreMaximizedWindow(data) {
             loadShell("desktop");
             shell.usageScenario = "desktop";
             waitForRendering(shell);
             var panel = findChild(shell, "windowControlArea");
             verify(panel);
 
-            var appSurfaceId = topLevelSurfaceList.nextId;
-            var app = ApplicationManager.startApplication("dialer-app")
-            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
-
             // start dialer, maximize it
-            var appContainer = findChild(shell, "appContainer");
-            var appDelegate = findChild(appContainer, "appDelegate_" + appSurfaceId);
+            var appDelegate = startApplication("dialer-app");
             verify(appDelegate);
-            var maximizeButton = findChild(appDelegate, "maximizeWindowButton");
-            mouseClick(maximizeButton);
 
+            var maximizeButton = findChild(appDelegate, "maximizeWindowButton");
+            if (data.mouse) {
+                mouseClick(maximizeButton);
+            } else {
+                tap(maximizeButton);
+            }
+
+            waitUntilTransitionsEnd(appDelegate);
             tryCompare(appDelegate, "state", "maximized");
 
-            mouseDrag(panel, panel.width/2, panel.height/2, 0, shell.height/3, Qt.LeftButton, Qt.NoModifier, 500);
+            if (data.mouse) {
+                mouseMove(panel, panel.width/2, panel.panelHeight/2); // to reveal the menus
+                var menuBarLoader = findInvisibleChild(panel, "menuBarLoader");
+                verify(menuBarLoader);
+                tryCompare(menuBarLoader.item, "visible", true);
+                mouseDrag(panel, panel.width/2, panel.height/2, 0, shell.height/3, Qt.LeftButton, Qt.NoModifier, 500);
+            } else {
+                touchFlick(panel, panel.width/2, panel.panelHeight/2, panel.width/2, shell.height/3);
+            }
+
             tryCompare(appDelegate, "state", "restored");
         }
 
@@ -3043,6 +3060,71 @@ Rectangle {
             verify(panel);
             mouseDoubleClickSequence(panel, panel.width/2, PanelState.panelHeight/2, Qt.LeftButton, Qt.NoModifier, 300);
             tryCompare(appDelegate, "state", "restored");
+        }
+
+        function test_noMenusWithActiveCall() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            // start music-app, maximize it
+            var appDelegate = startApplication("music-app")
+            verify(appDelegate);
+            appDelegate.requestMaximize();
+
+            // move the mouse over panel to reveal the menus
+            var panel = findChild(shell, "panel");
+            verify(panel);
+            mouseMove(panel, panel.width/2, panel.panelHeight/2); // to reveal the menus
+            var menuBarLoader = findInvisibleChild(panel, "menuBarLoader");
+            verify(menuBarLoader);
+            tryCompare(menuBarLoader.item, "visible", true);
+
+            // place a phone call
+            callManager.foregroundCall = phoneCall;
+
+            // menu bar should be hidden
+            tryCompare(menuBarLoader, "active", false);
+            tryCompare(menuBarLoader, "item", null);
+
+            // remove call
+            callManager.foregroundCall = null;
+
+            // menu bar should be revealed
+            tryCompare(menuBarLoader, "active", true);
+            tryCompare(menuBarLoader.item, "visible", true);
+        }
+
+        function test_maximizedWindowAndMenuInPanel() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            // start music-app, maximize it
+            var appDelegate = startApplication("music-app")
+            verify(appDelegate);
+            appDelegate.requestMaximize();
+            tryCompare(appDelegate, "state", "maximized");
+
+            // move the mouse over panel to reveal the menus
+            var panel = findChild(shell, "panel");
+            verify(panel);
+            mouseMove(panel, panel.width/2, panel.panelHeight/2); // to reveal the menus
+            var menuBar = findChild(panel, "menuBar");
+            verify(menuBar);
+            tryCompare(menuBar, "visible", true);
+
+            // check that the menu popup appears
+            var priv = findInvisibleChild(menuBar, "d");
+            var menuItem0 = findChild(menuBar, "menuBar-item0");
+            verify(menuItem0);
+            mouseMove(menuItem0, menuItem0.width/2, menuItem0.height/2, 200);
+            tryCompare(menuItem0, "visible", true);
+            mouseClick(menuItem0);
+            tryCompare(priv, "currentItem", menuItem0);
+            tryCompare(priv.currentItem, "popupVisible", true);
         }
     }
 }

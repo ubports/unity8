@@ -52,6 +52,10 @@ Item {
         d.dismissAll();
     }
 
+    function invokeMenu(mouseEvent) {
+        mouseArea.onClicked(mouseEvent);
+    }
+
     GlobalShortcut {
         shortcut: Qt.Key_Alt|Qt.AltModifier
         active: enableKeyFilter
@@ -226,6 +230,7 @@ Item {
     } // Row
 
     MouseArea {
+        id: mouseArea
         anchors.fill: parent
         hoverEnabled: d.currentItem
 
