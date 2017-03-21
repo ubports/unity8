@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2016 Canonical, Ltd.
+ * Copyright (C) 2015-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -761,6 +761,38 @@ Rectangle {
             tryCompare(appDelegate, "stage", ApplicationInfoInterface.SideStage);
         }
 
+        /*
+            Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1670361
 
+            Clicks near the top window edge (but still inside the window boundaries) should go to
+            the window (and not get eaten by some translucent decoration like in that bug).
+         */
+        function test_clickNearTopEdgeGoesToWindow() {
+            compare(topLevelSurfaceList.count, 1); // assume unity8-dash is already there
+
+            var appDelegate = findChild(stage, "appDelegate_" + topLevelSurfaceList.idAt(0));
+            verify(appDelegate);
+
+            var surfaceItem = findChild(appDelegate, "surfaceItem");
+            verify(surfaceItem);
+
+            compare(surfaceItem.mousePressCount, 0);
+            compare(surfaceItem.mouseReleaseCount, 0);
+
+            mouseClick(appDelegate, 1, 1); // near top left
+
+            compare(surfaceItem.mousePressCount, 1);
+            compare(surfaceItem.mouseReleaseCount, 1);
+
+            mouseClick(appDelegate, appDelegate.width / 2, 1); // near top
+
+            compare(surfaceItem.mousePressCount, 2);
+            compare(surfaceItem.mouseReleaseCount, 2);
+
+            mouseClick(appDelegate, appDelegate.width - 1, 1); // near top right
+
+            compare(surfaceItem.mousePressCount, 3);
+            compare(surfaceItem.mouseReleaseCount, 3);
+        }
     }
 }
