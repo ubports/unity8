@@ -84,18 +84,13 @@ Item {
         }
     }
 
-    // Event eater
-//    MouseArea {
-//        anchors.fill: parent
-//        onClicked: root.clicked()
-//        onWheel: wheel.accepted = true
-//    }
-
     MultiPointTouchArea {
         anchors.fill: parent
-//        mouseEnabled: false
         maximumTouchPoints: 1
         property int offset: 0
+
+        // tp.startY seems to be broken for mouse interaction... lets track it ourselves
+        property int startY: 0
 
         touchPoints: [
             TouchPoint {
@@ -103,17 +98,13 @@ Item {
             }
         ]
 
-        onCanceled: {
-            print("****************** cancelled")
-            fakeDragItem.Drag.active = false;
-            fakeDragItem.surface = null;
-            d.moving = false
-            animation.animate("center");
+        onPressed: {
+            startY = tp.y
         }
 
         onTouchUpdated: {
             if (!d.moving || !tp.pressed) {
-                if (Math.abs(tp.startY - tp.y) > d.threshold) {
+                if (Math.abs(startY - tp.y) > d.threshold) {
                     d.moving = true;
                     d.dragEvents = []
                     offset = tp.y - tp.startY;
@@ -126,10 +117,10 @@ Item {
             var value = tp.y - tp.startY - offset;
             if (value < 0) {
                 var coords = mapToItem(shell, tp.x, tp.y);
-                fakeDragItem.x = coords.x - units.gu(5)
-                fakeDragItem.y = coords.y - units.gu(5)
-                fakeDragItem.Drag.hotSpot.x = units.gu(5)
-                fakeDragItem.Drag.hotSpot.y = units.gu(5)
+                fakeDragItem.Drag.hotSpot.x = fakeDragItem.width / 2
+                fakeDragItem.Drag.hotSpot.y = units.gu(2)
+                fakeDragItem.x = coords.x - fakeDragItem.Drag.hotSpot.x
+                fakeDragItem.y = coords.y - fakeDragItem.Drag.hotSpot.y
                 fakeDragItem.Drag.active = true;
                 fakeDragItem.surface = model.window.surface;
 
@@ -145,7 +136,6 @@ Item {
         }
 
         onReleased: {
-            print("released!")
             var result = fakeDragItem.Drag.drop();
             fakeDragItem.surface = null;
 
@@ -167,6 +157,13 @@ Item {
             } else {
                 animation.animate("center")
             }
+        }
+
+        onCanceled: {
+            fakeDragItem.Drag.active = false;
+            fakeDragItem.surface = null;
+            d.moving = false
+            animation.animate("center");
         }
     }
 

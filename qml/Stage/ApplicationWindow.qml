@@ -121,12 +121,6 @@ FocusScope {
         }
     }
 
-    Timer {
-        id: surfaceIsOldTimer
-        interval: 1000
-        onTriggered: { if (stateGroup.state === "surface") { d.surfaceOldEnoughToBeResized = true; } }
-    }
-
     Loader {
         id: splashLoader
         visible: active
