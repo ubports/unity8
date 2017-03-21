@@ -575,6 +575,12 @@ FocusScope {
             onLeaveSpread: {
                 priv.goneToSpread = false;
             }
+
+            onCloseCurrentApp: {
+                if (!appRepeater.itemAt(highlightedIndex).isDash) {
+                    appRepeater.itemAt(highlightedIndex).close();
+                }
+            }
         }
 
         Connections {

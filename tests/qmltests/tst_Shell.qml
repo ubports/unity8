@@ -2913,6 +2913,86 @@ Rectangle {
             tryCompare(appDelegate, "state", "maximizedRight");
         }
 
+
+        function test_closeAppsInSpreadWithQ() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var appSurfaceId = topLevelSurfaceList.nextId;
+            var app = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            appSurfaceId = topLevelSurfaceList.nextId;
+            app = ApplicationManager.startApplication("calendar-app")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            keyPress(Qt.Key_Alt);
+            keyClick(Qt.Key_Tab);
+
+            var stage = findChild(shell, "stage");
+            var spread = findChild(stage, "spreadItem");
+            var appRepeater = findChild(stage, "appRepeater");
+
+            tryCompare(stage, "state", "spread");
+
+            tryCompare(ApplicationManager, "count", 3);
+            tryCompareFunction(function() {return appRepeater.itemAt(spread.highlightedIndex).appId == "dialer-app"}, true);
+
+            // Close one app with Q while in spread
+            keyClick(Qt.Key_Q);
+
+            tryCompare(ApplicationManager, "count", 2);
+
+            // Now the dash should be highlighted
+            tryCompareFunction(function() {return appRepeater.itemAt(spread.highlightedIndex).appId == "unity8-dash"}, true);
+
+            keyClick(Qt.Key_Q);
+
+            // Dash is not closeable, should still be 2
+            tryCompare(ApplicationManager, "count", 2);
+
+            // Move to the next one, should be closable again
+            keyClick(Qt.Key_Tab);
+            tryCompareFunction(function() {return appRepeater.itemAt(spread.highlightedIndex).appId == "calendar-app"}, true);
+
+            // close it
+            keyClick(Qt.Key_Q);
+            tryCompare(ApplicationManager, "count", 1);
+
+            keyRelease(Qt.Key_Alt);
+
+            // Now start the apps again
+            appSurfaceId = topLevelSurfaceList.nextId;
+            app = ApplicationManager.startApplication("dialer-app");
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            appSurfaceId = topLevelSurfaceList.nextId;
+            app = ApplicationManager.startApplication("calendar-app");
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            // First focus the dash so it'll be the leftmost in the spread
+            ApplicationManager.requestFocusApplication("unity8-dash");
+
+            keyPress(Qt.Key_Alt);
+            keyClick(Qt.Key_Tab);
+            tryCompare(stage, "state", "spread");
+
+            // Move to the last one
+            keyClick(Qt.Key_Tab);
+
+            // Close the last one, make sure the highlight fixes itself to stick within the list
+            tryCompare(spread, "highlightedIndex", ApplicationManager.count - 1);
+            var oldHighlighted = spread.highlightedIndex;
+
+            keyClick(Qt.Key_Q);
+            tryCompare(spread, "highlightedIndex", oldHighlighted - 1);
+
+            keyRelease(Qt.Key_Alt);
+
+        }
+
         function test_altTabToMinimizedApp() {
             loadShell("desktop");
             shell.usageScenario = "desktop";
