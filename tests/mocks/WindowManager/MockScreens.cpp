@@ -97,6 +97,7 @@ public:
     }
 
     QScreen* qscreen() const override {
+        qDebug() << "GET SCREEN" << qGuiApp->topLevelWindows();
         if (qGuiApp->topLevelWindows().count() > 0) {
             return qGuiApp->topLevelWindows()[0]->screen();
         }
@@ -196,7 +197,7 @@ QSharedPointer<MockScreens> MockScreens::instance()
 
 void MockScreens::connectWindow(ScreenWindow *w)
 {
-    Screen* screen = w->screenWrapper();
+    ConcreteScreen* screen = w->screenWrapper();
     if (!screen) return;
 
     auto mockScreen = qobject_cast<MockScreen*>(screen->wrapped());

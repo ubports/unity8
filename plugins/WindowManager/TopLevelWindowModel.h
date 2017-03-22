@@ -94,6 +94,7 @@ public:
     };
 
     TopLevelWindowModel(Workspace* workspace);
+    ~TopLevelWindowModel();
 
     // From QAbstractItemModel
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;

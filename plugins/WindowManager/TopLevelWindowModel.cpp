@@ -50,6 +50,10 @@ TopLevelWindowModel::TopLevelWindowModel(Workspace* workspace)
     setSurfaceManager(WindowManagerObjects::instance()->surfaceManager());
 }
 
+TopLevelWindowModel::~TopLevelWindowModel()
+{
+}
+
 void TopLevelWindowModel::setApplicationManager(unityapi::ApplicationManagerInterface* value)
 {
     if (m_applicationManager == value) {
@@ -398,6 +402,7 @@ void TopLevelWindowModel::onSurfacesAddedToWorkspace(const std::shared_ptr<miral
 void TopLevelWindowModel::onSurfacesAboutToBeRemovedFromWorkspace(const std::shared_ptr<miral::Workspace> &workspace,
                                                                   const QVector<unity::shell::application::MirSurfaceInterface *> surfaces)
 {
+    qDebug() << "SURFACE ABOUT TO BE REMOVED" << this;
     if (!m_workspace || workspace != m_workspace->workspace()) return;
 
     int start = -1;

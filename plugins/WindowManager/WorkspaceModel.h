@@ -24,7 +24,7 @@
 Q_DECLARE_LOGGING_CATEGORY(WORKSPACES)
 
 class Workspace;
-class WorkspaceModelProxy;
+class ProxyWorkspaceModel;
 
 class WorkspaceModel : public QAbstractListModel
 {
@@ -60,8 +60,11 @@ public:
 
     const QVector<Workspace*>& list() const { return m_workspaces; }
 
+    void setSyncing(bool);
     void sync(WorkspaceModel* proxy);
-    bool isSyncingWith(WorkspaceModel*);
+    void finishSync();
+
+    bool isSyncing() { return m_syncing; }
 
 Q_SIGNALS:
     void countChanged();
@@ -72,15 +75,16 @@ Q_SIGNALS:
 
 protected:
     QVector<Workspace*> m_workspaces;
-    WorkspaceModel* m_syncing;
+    QSet<Workspace*> m_unassignedWorkspaces;
+    bool m_syncing;
 };
 
-class WorkspaceModelProxy : public WorkspaceModel
+class ProxyWorkspaceModel : public WorkspaceModel
 {
     Q_OBJECT
 public:
-    WorkspaceModelProxy(WorkspaceModel*const model);
-    ~WorkspaceModelProxy();
+    explicit ProxyWorkspaceModel(WorkspaceModel*const model);
+    ~ProxyWorkspaceModel();
 
     Q_INVOKABLE void move(int from, int to) override;
 

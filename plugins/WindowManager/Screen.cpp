@@ -19,146 +19,184 @@
 #include "WorkspaceManager.h"
 #include "Workspace.h"
 
-ScreenInterface::ScreenInterface(QObject *parent)
+Screen::Screen(QObject *parent)
     : QObject(parent)
 {
 }
 
-void ScreenInterface::connectToScreen(qtmir::Screen *screen)
+void Screen::connectToScreen(qtmir::Screen *screen)
 {
     m_wrapped = screen;
-    connect(screen, &qtmir::Screen::usedChanged, this, &ScreenInterface::usedChanged);
-    connect(screen, &qtmir::Screen::nameChanged, this, &ScreenInterface::nameChanged);
-    connect(screen, &qtmir::Screen::outputTypeChanged, this, &ScreenInterface::outputTypeChanged);
-    connect(screen, &qtmir::Screen::scaleChanged, this, &ScreenInterface::scaleChanged);
-    connect(screen, &qtmir::Screen::formFactorChanged, this, &ScreenInterface::formFactorChanged);
-    connect(screen, &qtmir::Screen::physicalSizeChanged, this, &ScreenInterface::physicalSizeChanged);
-    connect(screen, &qtmir::Screen::positionChanged, this, &ScreenInterface::positionChanged);
-    connect(screen, &qtmir::Screen::activeChanged, this, &ScreenInterface::activeChanged);
-    connect(screen, &qtmir::Screen::currentModeIndexChanged, this, &ScreenInterface::currentModeIndexChanged);
-    connect(screen, &qtmir::Screen::availableModesChanged, this, &ScreenInterface::availableModesChanged);
+    connect(screen, &qtmir::Screen::usedChanged, this, &Screen::usedChanged);
+    connect(screen, &qtmir::Screen::nameChanged, this, &Screen::nameChanged);
+    connect(screen, &qtmir::Screen::outputTypeChanged, this, &Screen::outputTypeChanged);
+    connect(screen, &qtmir::Screen::outputTypeChanged, this, &Screen::outputTypeNameChanged);
+    connect(screen, &qtmir::Screen::scaleChanged, this, &Screen::scaleChanged);
+    connect(screen, &qtmir::Screen::formFactorChanged, this, &Screen::formFactorChanged);
+    connect(screen, &qtmir::Screen::physicalSizeChanged, this, &Screen::physicalSizeChanged);
+    connect(screen, &qtmir::Screen::positionChanged, this, &Screen::positionChanged);
+    connect(screen, &qtmir::Screen::activeChanged, this, &Screen::activeChanged);
+    connect(screen, &qtmir::Screen::currentModeIndexChanged, this, &Screen::currentModeIndexChanged);
+    connect(screen, &qtmir::Screen::availableModesChanged, this, &Screen::availableModesChanged);
 }
 
-void ScreenInterface::connectToScreen(ScreenInterface *screen)
+void Screen::connectToScreen(Screen *screen)
 {
     connectToScreen(screen->wrapped());
-    connect(screen, &ScreenInterface::currentWorkspaceChanged, this, &ScreenInterface::currentWorkspaceChanged);
+    connect(screen, &Screen::currentWorkspaceChanged, this, &Screen::currentWorkspaceChanged);
 }
 
-qtmir::OutputId ScreenInterface::outputId() const
+qtmir::OutputId Screen::outputId() const
 {
     if (!m_wrapped) return qtmir::OutputId(-1);
     return m_wrapped->outputId();
 }
 
-bool ScreenInterface::used() const
+bool Screen::used() const
 {
     if (!m_wrapped) return false;
     return m_wrapped->used();
 }
 
-QString ScreenInterface::name() const
+QString Screen::name() const
 {
     if (!m_wrapped) return QString();
     return m_wrapped->name();
 }
 
-float ScreenInterface::scale() const
+float Screen::scale() const
 {
     if (!m_wrapped) return 1.0;
     return m_wrapped->scale();
 }
 
-QSizeF ScreenInterface::physicalSize() const
+QSizeF Screen::physicalSize() const
 {
     if (!m_wrapped) return QSizeF();
     return m_wrapped->physicalSize();
 }
 
-qtmir::FormFactor ScreenInterface::formFactor() const
+qtmir::FormFactor Screen::formFactor() const
 {
     if (!m_wrapped) return qtmir::FormFactorUnknown;
     return m_wrapped->formFactor();
 }
 
-qtmir::OutputTypes ScreenInterface::outputType() const
+qtmir::OutputTypes Screen::outputType() const
 {
     if (!m_wrapped) return qtmir::Unknown;
     return m_wrapped->outputType();
 }
 
-MirPowerMode ScreenInterface::powerMode() const
+MirPowerMode Screen::powerMode() const
 {
     if (!m_wrapped) return mir_power_mode_on;
     return m_wrapped->powerMode();
 }
 
-Qt::ScreenOrientation ScreenInterface::orientation() const
+Qt::ScreenOrientation Screen::orientation() const
 {
     if (!m_wrapped) return Qt::PrimaryOrientation;
     return m_wrapped->orientation();
 }
 
-QPoint ScreenInterface::position() const
+QPoint Screen::position() const
 {
     if (!m_wrapped) return QPoint();
     return m_wrapped->position();
 }
 
-QQmlListProperty<qtmir::ScreenMode> ScreenInterface::availableModes()
+QQmlListProperty<qtmir::ScreenMode> Screen::availableModes()
 {
     if (!m_wrapped) return QQmlListProperty<qtmir::ScreenMode>();
     return m_wrapped->availableModes();
 }
 
-uint ScreenInterface::currentModeIndex() const
+uint Screen::currentModeIndex() const
 {
     if (!m_wrapped) return -1;
     return m_wrapped->currentModeIndex();
 }
 
-bool ScreenInterface::isActive() const
+bool Screen::isActive() const
 {
     if (!m_wrapped) return false;
     return m_wrapped->isActive();
 }
 
-void ScreenInterface::activate()
+void Screen::activate()
 {
     setActive(true);
 }
 
-void ScreenInterface::setActive(bool active)
+void Screen::setActive(bool active)
 {
     if (!m_wrapped) return;
     m_wrapped->setActive(active);
 }
 
-QScreen *ScreenInterface::qscreen() const
+QScreen *Screen::qscreen() const
 {
     if (!m_wrapped) return nullptr;
     return m_wrapped->qscreen();
 }
 
-qtmir::ScreenConfiguration *ScreenInterface::beginConfiguration() const
+qtmir::ScreenConfiguration *Screen::beginConfiguration() const
 {
     if (!m_wrapped) return nullptr;
     return m_wrapped->beginConfiguration();
 }
 
-bool ScreenInterface::applyConfiguration(qtmir::ScreenConfiguration *configuration)
+bool Screen::applyConfiguration(qtmir::ScreenConfiguration *configuration)
 {
     if (!m_wrapped) return false;
     return m_wrapped->applyConfiguration(configuration);
 }
 
-void ScreenInterface::sync(ScreenInterface *proxy)
+QString Screen::outputTypeName() const
+{
+    switch (m_wrapped->outputType()) {
+    case qtmir::Unknown:
+        return tr("Unknown");
+    case qtmir::VGA:
+        return tr("VGA");
+    case qtmir::DVII:
+    case qtmir::DVID:
+    case qtmir::DVIA:
+        return tr("DVI");
+    case qtmir::Composite:
+        return tr("Composite");
+    case qtmir::SVideo:
+        return tr("S-Video");
+    case qtmir::LVDS:
+    case qtmir::NinePinDIN:
+    case qtmir::EDP:
+        return tr("Internal");
+    case qtmir::Component:
+        return tr("Component");
+    case qtmir::DisplayPort:
+        return tr("DisplayPort");
+    case qtmir::HDMIA:
+    case qtmir::HDMIB:
+        return tr("HDMI");
+    case qtmir::TV:
+        return tr("TV");
+    }
+    return QString();
+}
+
+void Screen::setSyncing(bool syncing)
+{
+    workspaces()->setSyncing(syncing);
+}
+
+void Screen::sync(Screen *proxy)
 {
     if (!proxy) return;
     workspaces()->sync(proxy->workspaces());
 }
 
-Screen::Screen(qtmir::Screen* wrapped)
+ConcreteScreen::ConcreteScreen(qtmir::Screen* wrapped)
     : m_workspaces(new WorkspaceModel)
 {
     connectToScreen(wrapped);
@@ -185,7 +223,7 @@ Screen::Screen(qtmir::Screen* wrapped)
             resetCurrentWorkspace();
         }
     });
-    connect(this, &Screen::activeChanged, this, [this](bool active) {
+    connect(this, &ConcreteScreen::activeChanged, this, [this](bool active) {
         if (active && m_currentWorspace) {
             m_currentWorspace->activate();
         }
@@ -195,7 +233,7 @@ Screen::Screen(qtmir::Screen* wrapped)
     WorkspaceManager::instance()->createWorkspace()->assign(m_workspaces.data());
 }
 
-void Screen::resetCurrentWorkspace()
+void ConcreteScreen::resetCurrentWorkspace()
 {
     auto newCurrent = m_workspaces->rowCount() > 0 ? m_workspaces->get(0) : nullptr;
     if (m_currentWorspace != newCurrent) {
@@ -205,17 +243,17 @@ void Screen::resetCurrentWorkspace()
 }
 
 
-WorkspaceModel *Screen::workspaces() const
+WorkspaceModel *ConcreteScreen::workspaces() const
 {
     return m_workspaces.data();
 }
 
-Workspace *Screen::currentWorkspace() const
+Workspace *ConcreteScreen::currentWorkspace() const
 {
     return m_currentWorspace.data();
 }
 
-void Screen::setCurrentWorkspace(Workspace *workspace)
+void ConcreteScreen::setCurrentWorkspace(Workspace *workspace)
 {
     if (m_currentWorspace != workspace) {
         m_currentWorspace = workspace;
@@ -223,15 +261,15 @@ void Screen::setCurrentWorkspace(Workspace *workspace)
     }
 }
 
-ScreenProxy::ScreenProxy(ScreenInterface *const screen)
-    : m_workspaces(new WorkspaceModelProxy(screen->workspaces()))
+ProxyScreen::ProxyScreen(Screen *const screen)
+    : m_workspaces(new ProxyWorkspaceModel(screen->workspaces()))
     , m_original(screen)
 {
     connectToScreen(screen);
 
     auto updateCurrentWorkspaceFn = [this](Workspace* realWorkspace) {
         Q_FOREACH(Workspace* workspace, m_workspaces->list()) {
-            auto p = qobject_cast<WorkspaceProxy*>(workspace);
+            auto p = qobject_cast<ProxyWorkspace*>(workspace);
             if (p && p->proxyObject() == realWorkspace) {
                if (m_currentWorspace != p) {
                    m_currentWorspace = p;
@@ -240,29 +278,29 @@ ScreenProxy::ScreenProxy(ScreenInterface *const screen)
             }
         }
     };
-    connect(screen, &ScreenInterface::currentWorkspaceChanged, this, updateCurrentWorkspaceFn);
+    connect(screen, &Screen::currentWorkspaceChanged, this, updateCurrentWorkspaceFn);
     updateCurrentWorkspaceFn(screen->currentWorkspace());
 }
 
-WorkspaceModel *ScreenProxy::workspaces() const
+WorkspaceModel *ProxyScreen::workspaces() const
 {
     return m_workspaces.data();
 }
 
-Workspace *ScreenProxy::currentWorkspace() const
+Workspace *ProxyScreen::currentWorkspace() const
 {
     return m_currentWorspace.data();
 }
 
-void ScreenProxy::setCurrentWorkspace(Workspace *workspace)
+void ProxyScreen::setCurrentWorkspace(Workspace *workspace)
 {
-    auto p = qobject_cast<WorkspaceProxy*>(workspace);
+    auto p = qobject_cast<ProxyWorkspace*>(workspace);
     if (p) {
         m_original->setCurrentWorkspace(p->proxyObject());
     }
 }
 
-void ScreenProxy::addWorkspace()
+void ProxyScreen::addWorkspace()
 {
-    (new WorkspaceProxy(WorkspaceManager::instance()->createWorkspace()))->assign(workspaces());
+    (new ProxyWorkspace(WorkspaceManager::instance()->createWorkspace()))->assign(workspaces());
 }

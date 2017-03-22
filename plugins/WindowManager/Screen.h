@@ -7,10 +7,10 @@
 
 #include "WorkspaceModel.h"
 
-class ScreenProxy;
+class ProxyScreen;
 class ScreenAttached;
 
-class ScreenInterface: public QObject
+class Screen: public QObject
 {
     Q_OBJECT
 
@@ -27,6 +27,7 @@ class ScreenInterface: public QObject
     Q_PROPERTY(uint currentModeIndex READ currentModeIndex NOTIFY currentModeIndexChanged)
     Q_PROPERTY(QQmlListProperty<qtmir::ScreenMode> availableModes READ availableModes NOTIFY availableModesChanged)
     Q_PROPERTY(QSizeF physicalSize READ physicalSize NOTIFY physicalSizeChanged)
+    Q_PROPERTY(QString outputTypeName READ outputTypeName NOTIFY outputTypeChanged)
     Q_PROPERTY(WorkspaceModel* workspaces READ workspaces CONSTANT)
     Q_PROPERTY(Workspace* currentWorkspace READ currentWorkspace WRITE setCurrentWorkspace NOTIFY currentWorkspaceChanged)
 public:
@@ -46,6 +47,8 @@ public:
     bool isActive() const;
     void setActive(bool active);
     QScreen* qscreen() const;
+    QString outputTypeName() const;
+
     qtmir::ScreenConfiguration *beginConfiguration() const;
     bool applyConfiguration(qtmir::ScreenConfiguration *configuration);
 
@@ -53,7 +56,8 @@ public:
     virtual Workspace *currentWorkspace() const = 0;
     virtual void setCurrentWorkspace(Workspace* workspace) = 0;
 
-    void sync(ScreenInterface* proxy);
+    void setSyncing(bool);
+    void sync(Screen* proxy);
 
     qtmir::Screen* wrapped() const { return m_wrapped; }
 
@@ -64,6 +68,7 @@ Q_SIGNALS:
     void usedChanged();
     void nameChanged();
     void outputTypeChanged();
+    void outputTypeNameChanged();
     void scaleChanged();
     void formFactorChanged();
     void powerModeChanged();
@@ -76,21 +81,21 @@ Q_SIGNALS:
     void currentWorkspaceChanged(Workspace*);
 
 protected:
-    ScreenInterface(QObject* parent = 0);
+    Screen(QObject* parent = 0);
 
     void connectToScreen(qtmir::Screen* screen);
-    void connectToScreen(ScreenInterface* screen);
+    void connectToScreen(Screen* screen);
 
 protected:
     QPointer<qtmir::Screen> m_wrapped;
 };
 
 
-class Screen : public ScreenInterface
+class ConcreteScreen : public Screen
 {
     Q_OBJECT
 public:
-    explicit Screen(qtmir::Screen*const wrapped);
+    explicit ConcreteScreen(qtmir::Screen*const wrapped);
 
     // From qtmir::Screen
     WorkspaceModel* workspaces() const override;
@@ -106,25 +111,25 @@ protected:
     QPointer<Workspace> m_currentWorspace;
 };
 
-class ScreenProxy : public ScreenInterface
+class ProxyScreen : public Screen
 {
     Q_OBJECT
 public:
-    explicit ScreenProxy(ScreenInterface*const screen);
+    explicit ProxyScreen(Screen*const screen);
 
     // From qtmir::Screen
     WorkspaceModel* workspaces() const override;
     Workspace *currentWorkspace() const override;
     void setCurrentWorkspace(Workspace* workspace) override;
 
-    ScreenInterface* proxyObject() const { return m_original.data(); }
+    Screen* proxyObject() const { return m_original.data(); }
 
 public Q_SLOTS:
     void addWorkspace();
 
 private:
     const QScopedPointer<WorkspaceModel> m_workspaces;
-    const QPointer<ScreenInterface> m_original;
+    const QPointer<Screen> m_original;
     QPointer<Workspace> m_currentWorspace;
 };
 
