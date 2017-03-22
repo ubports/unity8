@@ -20,6 +20,7 @@
 #include "Screen.h"
 
 #include <QQmlEngine>
+#include <QtQml>
 
 class QQuickWindow;
 
