@@ -27,7 +27,7 @@ namespace qtmir
 class Screens;
 }
 
-class Screen;
+class ConcreteScreen;
 class ScreenWindow;
 
 class MockScreens : public qtmir::Screens

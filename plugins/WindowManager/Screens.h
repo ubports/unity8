@@ -27,8 +27,8 @@ class Screen;
 class Screens;
 }
 
-class ScreenInterface;
-class ScreensProxy;
+class Screen;
+class ProxyScreens;
 
 class Screens : public QAbstractListModel
 {
@@ -41,11 +41,7 @@ public:
         ScreenRole = Qt::UserRole + 1
     };
 
-    explicit Screens(const QSharedPointer<qtmir::Screens>& model);
     ~Screens();
-
-    Q_INVOKABLE ScreensProxy *createProxy();
-    Q_INVOKABLE void sync(Screens *proxy);
 
     /* QAbstractItemModel */
     QHash<int, QByteArray> roleNames() const override;
@@ -55,9 +51,9 @@ public:
     int count() const;
     QVariant activeScreen() const;
 
-    const QVector<ScreenInterface*>& list() const { return m_screens; }
+    bool isSyncing() const { return m_syncing; }
 
-    static Screens *self();
+    const QVector<Screen*>& list() const { return m_screens; }
 
 public Q_SLOTS:
     void activateScreen(const QVariant& index);
@@ -66,25 +62,42 @@ Q_SIGNALS:
     void countChanged();
     void activeScreenChanged();
 
-    void screenAdded(ScreenInterface* screen);
-    void screenRemoved(ScreenInterface* screen);
+    void screenAdded(Screen* screen);
+    void screenRemoved(Screen* screen);
 
-private Q_SLOTS:
+protected:
+    Screens(const QSharedPointer<qtmir::Screens>& model);
+
+    QVector<Screen*> m_screens;
+    const QSharedPointer<qtmir::Screens> m_wrapped;
+    bool m_syncing;
+
+    friend class ProxyScreens;
+};
+
+class ConcreteScreens : public Screens
+{
+    Q_OBJECT
+public:
+    explicit ConcreteScreens(const QSharedPointer<qtmir::Screens>& model);
+
+    Q_INVOKABLE ProxyScreens *createProxy();
+    Q_INVOKABLE void sync(Screens *proxy);
+
+    static ConcreteScreens *self();
+
+protected Q_SLOTS:
     void onScreenAdded(qtmir::Screen *screen);
     void onScreenRemoved(qtmir::Screen *screen);
 
-protected:
-    Screens(const Screens& other);
-
-    QVector<ScreenInterface*> m_screens;
-    QSharedPointer<qtmir::Screens> m_wrapped;
-    static Screens* m_self;
+private:
+    static ConcreteScreens* m_self;
 };
 
-class ScreensProxy : public Screens
+class ProxyScreens : public Screens
 {
 public:
-    ScreensProxy(Screens*const screens);
+    explicit ProxyScreens(Screens*const screens);
 
 private:
     const QPointer<Screens> m_original;

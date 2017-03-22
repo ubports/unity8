@@ -20,6 +20,7 @@
 #include <QObject>
 #include <QVariant>
 #include <QPointer>
+#include <QSharedPointer>
 
 #include <memory>
 #include <functional>
@@ -41,51 +42,62 @@ class Workspace : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool active READ isActive NOTIFY activeChanged)
-    Q_PROPERTY(TopLevelWindowModel* windowModel READ windowModel NOTIFY windowModelChanged)
+    Q_PROPERTY(TopLevelWindowModel* windowModel READ windowModel CONSTANT)
 public:
-    ~Workspace();
+    virtual ~Workspace();
 
     virtual void assign(WorkspaceModel* model, const QVariant& index = QVariant());
     virtual void unassign();
-    void release();
 
-    virtual bool isActive() const { return m_active; }
+    virtual bool isActive() const = 0;
+    virtual TopLevelWindowModel *windowModel() const = 0;
 
-    TopLevelWindowModel *windowModel() const { return m_windowModel; }
     std::shared_ptr<miral::Workspace> workspace() const { return m_workspace; }
     bool isAssigned() const;
 
 public Q_SLOTS:
-    virtual void activate();
+    virtual void activate() = 0;
 
 Q_SIGNALS:
     void assigned();
     void unassigned();
 
     void activeChanged(bool);
-    void windowModelChanged();
 
 protected:
-    Workspace(QObject *parent = 0);
+    Workspace(QObject *parent = nullptr);
     Workspace(Workspace const& other);
 
     std::shared_ptr<miral::Workspace> m_workspace;
     WorkspaceModel* m_model;
-    TopLevelWindowModel* m_windowModel;
-    bool m_active;
-
-    friend class WorkspaceManager;
 };
 
-class WorkspaceProxy : public Workspace
+class ConcreteWorkspace : public Workspace
+{
+public:
+    explicit ConcreteWorkspace(QObject *parent = nullptr);
+    ~ConcreteWorkspace();
+
+    bool isActive() const override { return m_active; }
+    TopLevelWindowModel *windowModel() const override;
+    void activate() override;
+
+private:
+    bool m_active;
+    const QScopedPointer<TopLevelWindowModel> m_windowModel;
+};
+
+class ProxyWorkspace : public Workspace
 {
     Q_OBJECT
 public:
-    WorkspaceProxy(Workspace*const workspace);
+    explicit ProxyWorkspace(Workspace*const workspace);
+    ~ProxyWorkspace() = default;
 
     Q_INVOKABLE void assign(WorkspaceModel* model, const QVariant& index = QVariant()) override;
 
     bool isActive() const override;
+    TopLevelWindowModel *windowModel() const override;
     void activate() override;
 
     Workspace* proxyObject() const { return m_original.data(); }

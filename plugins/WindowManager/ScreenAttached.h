@@ -24,7 +24,7 @@
 
 class QQuickWindow;
 
-class ScreenAttached : public ScreenInterface
+class ScreenAttached : public Screen
 {
     Q_OBJECT
 public:
@@ -37,10 +37,10 @@ public:
 private Q_SLOTS:
     void windowChanged(QQuickWindow*);
     void screenChanged(QScreen*);
-    void screenChanged2(ScreenInterface* screen);
+    void screenChanged2(Screen* screen);
 
 private:
-    QPointer<ScreenInterface> m_screen;
+    QPointer<Screen> m_screen;
     QQuickWindow* m_window;
 };
 

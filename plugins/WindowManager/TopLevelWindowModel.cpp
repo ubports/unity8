@@ -50,6 +50,10 @@ TopLevelWindowModel::TopLevelWindowModel(Workspace* workspace)
     setSurfaceManager(WindowManagerObjects::instance()->surfaceManager());
 }
 
+TopLevelWindowModel::~TopLevelWindowModel()
+{
+}
+
 void TopLevelWindowModel::setApplicationManager(unityapi::ApplicationManagerInterface* value)
 {
     if (m_applicationManager == value) {

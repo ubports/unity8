@@ -30,12 +30,12 @@ ScreenWindow::~ScreenWindow()
 {
 }
 
-Screen *ScreenWindow::screenWrapper() const
+ConcreteScreen *ScreenWindow::screenWrapper() const
 {
     return m_screen.data();
 }
 
-void ScreenWindow::setScreenWrapper(Screen *screen)
+void ScreenWindow::setScreenWrapper(ConcreteScreen *screen)
 {
     if (m_screen != screen) {
         m_screen = screen;

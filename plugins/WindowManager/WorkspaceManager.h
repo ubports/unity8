@@ -21,7 +21,6 @@
 #include <QQmlListProperty>
 
 class Workspace;
-class ScreensProxy;
 
 namespace unity {
     namespace shell {
@@ -46,7 +45,6 @@ public:
     Workspace* createWorkspace();
     void destroyWorkspace(Workspace* workspace);
 
-    QQmlListProperty<Workspace> floatingWorkspaces();
     void destroyFloatingWorkspaces();
 
     Q_INVOKABLE void moveSurfaceToWorkspace(unity::shell::application::MirSurfaceInterface* surface,
@@ -55,8 +53,7 @@ public:
     Q_INVOKABLE void moveWorkspaceContentToWorkspace(Workspace* to, Workspace* from);
 
 Q_SIGNALS:
-    void activeWorkspaceChanged();
-    void floatingWorkspacesChanged();
+    void activeWorkspaceChanged(Workspace*);
 
 private:
     WorkspaceManager();
@@ -64,7 +61,6 @@ private:
     void setActiveWorkspace2(Workspace* workspace);
 
     QSet<Workspace*> m_allWorkspaces;
-    QList<Workspace*> m_floatingWorkspaces;
     Workspace* m_activeWorkspace;
     unity::shell::application::SurfaceManagerInterface* m_surfaceManager;
 };
