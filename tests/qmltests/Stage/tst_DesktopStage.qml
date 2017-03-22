@@ -71,11 +71,7 @@ Item {
         id: appMenuData
     }
 
-    TopLevelWindowModel {
-        id: topSurfaceList
-        applicationManager: ApplicationManager
-        surfaceManager: SurfaceManager
-    }
+    readonly property var topSurfaceList: WorkspaceManager.activeWorkspace.windowModel
 
     Loader {
         id: stageLoader

@@ -27,33 +27,17 @@
 #include <QScreen>
 #include <QWindow>
 
-Screens* Screens::m_self{nullptr};
+ConcreteScreens* ConcreteScreens::m_self{nullptr};
 
 Screens::Screens(const QSharedPointer<qtmir::Screens>& model)
     : m_wrapped(model)
 {
-    m_self = this;
-    connect(m_wrapped.data(), &qtmir::Screens::screenAdded, this, &Screens::onScreenAdded);
-    connect(m_wrapped.data(), &qtmir::Screens::screenRemoved, this, &Screens::onScreenRemoved);
-    connect(m_wrapped.data(), &qtmir::Screens::activeScreenChanged, this, &Screens::activeScreenChanged);
-
-    Q_FOREACH(qtmir::Screen* screen, m_wrapped->screens()) {
-        auto screenWrapper(new Screen(screen));
-        QQmlEngine::setObjectOwnership(screenWrapper, QQmlEngine::CppOwnership);
-        m_screens.push_back(screenWrapper);
-    }
 }
 
 Screens::~Screens()
 {
     qDeleteAll(m_screens);
     m_screens.clear();
-}
-
-Screens::Screens(const Screens &other)
-    : QAbstractListModel(nullptr)
-    , m_wrapped(other.m_wrapped)
-{
 }
 
 QHash<int, QByteArray> Screens::roleNames() const
@@ -95,29 +79,6 @@ QVariant Screens::activeScreen() const
     return QVariant();
 }
 
-Screens *Screens::self()
-{
-    return Screens::m_self;
-}
-
-ScreensProxy *Screens::createProxy()
-{
-    return new ScreensProxy(this);
-}
-
-void Screens::sync(Screens *proxy)
-{
-    if (!proxy) return;
-
-    const auto& proxyList = proxy->list();
-    for (int i = 0; i < m_screens.count() && i < proxyList.count(); ++i) {
-        m_screens[i]->sync(proxyList[i]);
-    }
-
-    // need to clean up all the workspaces we unassigned.
-    WorkspaceManager::instance()->destroyFloatingWorkspaces();
-}
-
 void Screens::activateScreen(const QVariant& vindex)
 {
     bool ok = false;
@@ -128,14 +89,58 @@ void Screens::activateScreen(const QVariant& vindex)
     screen->setActive(true);
 }
 
-void Screens::onScreenAdded(qtmir::Screen *added)
+
+ConcreteScreens::ConcreteScreens(const QSharedPointer<qtmir::Screens> &model)
+    : Screens(model)
+{
+    m_self = this;
+    connect(m_wrapped.data(), &qtmir::Screens::screenAdded, this, &ConcreteScreens::onScreenAdded);
+    connect(m_wrapped.data(), &qtmir::Screens::screenRemoved, this, &ConcreteScreens::onScreenRemoved);
+    connect(m_wrapped.data(), &qtmir::Screens::activeScreenChanged, this, &ConcreteScreens::activeScreenChanged);
+
+    Q_FOREACH(qtmir::Screen* screen, m_wrapped->screens()) {
+        auto screenWrapper(new ConcreteScreen(screen));
+        QQmlEngine::setObjectOwnership(screenWrapper, QQmlEngine::CppOwnership);
+        m_screens.push_back(screenWrapper);
+    }
+}
+
+ConcreteScreens *ConcreteScreens::self()
+{
+    return ConcreteScreens::m_self;
+}
+
+ProxyScreens *ConcreteScreens::createProxy()
+{
+    return new ProxyScreens(this);
+}
+
+void ConcreteScreens::sync(Screens *proxy)
+{
+    if (!proxy) return;
+
+    for (auto screen : m_screens) {
+        screen->setSyncing(true);
+    }
+
+    const auto& proxyList = proxy->list();
+    for (int i = 0; i < m_screens.count() && i < proxyList.count(); ++i) {
+        m_screens[i]->sync(proxyList[i]);
+    }
+
+    for (auto screen : m_screens) {
+        screen->setSyncing(false);
+    }
+}
+
+void ConcreteScreens::onScreenAdded(qtmir::Screen *added)
 {
     Q_FOREACH(auto screenWrapper, m_screens) {
         if (screenWrapper->wrapped() == added) return;
     }
 
     beginInsertRows(QModelIndex(), count(), count());
-    auto screenWrapper(new Screen(added));
+    auto screenWrapper(new ConcreteScreen(added));
     QQmlEngine::setObjectOwnership(screenWrapper, QQmlEngine::CppOwnership);
     m_screens.push_back(screenWrapper);
     endInsertRows();
@@ -143,10 +148,10 @@ void Screens::onScreenAdded(qtmir::Screen *added)
     Q_EMIT countChanged();
 }
 
-void Screens::onScreenRemoved(qtmir::Screen *removed)
+void ConcreteScreens::onScreenRemoved(qtmir::Screen *removed)
 {
     int index = 0;
-    QMutableVectorIterator<ScreenInterface*> iter(m_screens);
+    QMutableVectorIterator<Screen*> iter(m_screens);
     while(iter.hasNext()) {
         auto screenWrapper = iter.next();
         if (screenWrapper->wrapped() == removed) {
@@ -165,18 +170,19 @@ void Screens::onScreenRemoved(qtmir::Screen *removed)
     }
 }
 
-ScreensProxy::ScreensProxy(Screens * const screens)
-    : Screens(*screens)
+
+ProxyScreens::ProxyScreens(Screens * const screens)
+    : Screens(screens->m_wrapped)
     , m_original(screens)
 {
-    connect(screens, &Screens::screenAdded, this, [this](ScreenInterface *added) {
+    connect(screens, &Screens::screenAdded, this, [this](Screen *added) {
         Q_FOREACH(auto screen, m_screens) {
-            auto proxy = static_cast<ScreenProxy*>(screen);
+            auto proxy = static_cast<ProxyScreen*>(screen);
             if (proxy->proxyObject() == added) return;
         }
 
         beginInsertRows(QModelIndex(), count(), count());
-        auto screenWrapper(new ScreenProxy(added));
+        auto screenWrapper(new ProxyScreen(added));
         QQmlEngine::setObjectOwnership(screenWrapper, QQmlEngine::CppOwnership);
         m_screens.push_back(screenWrapper);
         endInsertRows();
@@ -184,11 +190,11 @@ ScreensProxy::ScreensProxy(Screens * const screens)
         Q_EMIT countChanged();
     });
 
-    connect(screens, &Screens::screenRemoved, this, [this](ScreenInterface *removed) {
+    connect(screens, &Screens::screenRemoved, this, [this](Screen *removed) {
         int index = 0;
-        QMutableVectorIterator<ScreenInterface*> iter(m_screens);
+        QMutableVectorIterator<Screen*> iter(m_screens);
         while(iter.hasNext()) {
-            auto proxy = static_cast<ScreenProxy*>(iter.next());
+            auto proxy = static_cast<ProxyScreen*>(iter.next());
             if (proxy->proxyObject() == removed) {
 
                 beginRemoveRows(QModelIndex(), index, index);
@@ -205,9 +211,9 @@ ScreensProxy::ScreensProxy(Screens * const screens)
         }
     });
 
-    Q_FOREACH(ScreenInterface* screen, screens->list()) {
-        auto screenWrapper(new ScreenProxy(screen));
+    Q_FOREACH(Screen* screen, screens->list()) {
+        auto screenWrapper(new ProxyScreen(screen));
         QQmlEngine::setObjectOwnership(screenWrapper, QQmlEngine::CppOwnership);
-        m_screens.push_back(new ScreenProxy(screen));
+        m_screens.push_back(new ProxyScreen(screen));
     }
 }

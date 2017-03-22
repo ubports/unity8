@@ -30,20 +30,20 @@ class ScreenAdapter;
 class ScreenWindow : public QQuickWindow
 {
     Q_OBJECT
-    Q_PROPERTY(Screen *screen READ screenWrapper WRITE setScreenWrapper NOTIFY screenWrapperChanged)
+    Q_PROPERTY(ConcreteScreen *screen READ screenWrapper WRITE setScreenWrapper NOTIFY screenWrapperChanged)
     Q_PROPERTY(int winId READ winId CONSTANT)
 public:
     explicit ScreenWindow(QQuickWindow *parent = 0);
     ~ScreenWindow();
 
-    Screen *screenWrapper() const;
-    void setScreenWrapper(Screen *screen);
+    ConcreteScreen *screenWrapper() const;
+    void setScreenWrapper(ConcreteScreen *screen);
 
 Q_SIGNALS:
-    void screenWrapperChanged(Screen* screen);
+    void screenWrapperChanged(ConcreteScreen* screen);
 
 private:
-    QPointer<Screen> m_screen;
+    QPointer<ConcreteScreen> m_screen;
 };
 
 #endif // UNITY_SCREENWINDOW_H

@@ -27,37 +27,18 @@ Workspace::Workspace(QObject *parent)
     : QObject(parent)
     , m_workspace(WMPolicyInterface::instance()->createWorkspace())
     , m_model(nullptr)
-    , m_windowModel(new TopLevelWindowModel(this))
-    , m_active(false)
 {
     setObjectName((QString("Wks%1").arg(nextWorkspace++)));
-
-    connect(WorkspaceManager::instance(), &WorkspaceManager::activeWorkspaceChanged, this, [this]() {
-        bool newActive = WorkspaceManager::instance()->activeWorkspace() == this;
-        if (newActive != m_active) {
-            m_active = newActive;
-            Q_EMIT activeChanged(m_active);
-
-            if (m_active) {
-                WMPolicyInterface::instance()->setActiveWorkspace(m_workspace);
-            }
-        }
-    });
 }
 
 Workspace::Workspace(const Workspace &other)
     : QObject(nullptr)
     , m_workspace(other.m_workspace)
     , m_model(nullptr)
-    , m_windowModel(other.m_windowModel)
-    , m_active(other.m_active)
 {
     setObjectName(other.objectName());
 
-    connect(&other, &Workspace::activeChanged, this, [this](bool active) {
-        m_active = active;
-        Q_EMIT activeChanged(m_active);
-    });
+    connect(&other, &Workspace::activeChanged, this, &Workspace::activeChanged);
 }
 
 Workspace::~Workspace()
@@ -65,11 +46,6 @@ Workspace::~Workspace()
     if (m_model) {
         m_model->remove(this);
     }
-}
-
-void Workspace::activate()
-{
-    WorkspaceManager::instance()->setActiveWorkspace(this);
 }
 
 void Workspace::assign(WorkspaceModel *model, const QVariant& vIndex)
@@ -105,39 +81,76 @@ void Workspace::unassign()
     assign(nullptr);
 }
 
-void Workspace::release()
-{
-    WMPolicyInterface::instance()->releaseWorkspace(m_workspace);
-    deleteLater();
-}
-
 bool Workspace::isAssigned() const
 {
     return m_model != nullptr;
 }
 
-WorkspaceProxy::WorkspaceProxy(Workspace * const workspace)
+
+ConcreteWorkspace::ConcreteWorkspace(QObject *parent)
+    : Workspace(parent)
+    , m_active(false)
+    , m_windowModel(new TopLevelWindowModel(this))
+{
+    connect(WorkspaceManager::instance(), &WorkspaceManager::activeWorkspaceChanged, this, [this](Workspace* activeWorkspace) {
+        bool newActive = activeWorkspace == this;
+        if (newActive != m_active) {
+            m_active = newActive;
+            Q_EMIT activeChanged(m_active);
+
+            if (m_active) {
+                WMPolicyInterface::instance()->setActiveWorkspace(m_workspace);
+            }
+        }
+    });
+}
+
+ConcreteWorkspace::~ConcreteWorkspace()
+{
+    WorkspaceManager::instance()->destroyWorkspace(this);
+    WMPolicyInterface::instance()->releaseWorkspace(m_workspace);
+}
+
+TopLevelWindowModel *ConcreteWorkspace::windowModel() const
+{
+    return m_windowModel.data();
+}
+
+void ConcreteWorkspace::activate()
+{
+    WorkspaceManager::instance()->setActiveWorkspace(this);
+}
+
+
+ProxyWorkspace::ProxyWorkspace(Workspace * const workspace)
     : Workspace(*workspace)
     , m_original(workspace)
 {
 }
 
-void WorkspaceProxy::assign(WorkspaceModel *model, const QVariant &index)
+void ProxyWorkspace::assign(WorkspaceModel *model, const QVariant &index)
 {
     Workspace::assign(model, index);
 }
 
-void WorkspaceProxy::unassign()
+void ProxyWorkspace::unassign()
 {
     Workspace::unassign();
 }
 
-bool WorkspaceProxy::isActive() const
+bool ProxyWorkspace::isActive() const
 {
     return m_original ? m_original->isActive() : false;
 }
 
-void WorkspaceProxy::activate()
+TopLevelWindowModel *ProxyWorkspace::windowModel() const
 {
-    if (m_original) m_original->activate();
+    return m_original ? m_original->windowModel() : nullptr;
+}
+
+void ProxyWorkspace::activate()
+{
+    if (m_original) {
+        m_original->activate();
+    }
 }

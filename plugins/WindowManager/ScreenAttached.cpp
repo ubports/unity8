@@ -22,7 +22,7 @@
 #include <QScreen>
 
 ScreenAttached::ScreenAttached(QObject *owner)
-    : ScreenInterface(owner)
+    : Screen(owner)
     , m_window(nullptr)
 {
     if (auto item = qobject_cast<QQuickItem*>(owner)) {
@@ -75,8 +75,8 @@ void ScreenAttached::screenChanged(QScreen *qscreen)
 {
     // Find a screen that matches.
     // Should only get here in mocks if we don't have a ScreenWindow
-    ScreenInterface* screen{nullptr};
-    Q_FOREACH(auto s, Screens::self()->list()) {
+    Screen* screen{nullptr};
+    Q_FOREACH(auto s, ConcreteScreens::self()->list()) {
         if (s->qscreen() == qscreen) {
             screen = s;
         }
@@ -84,11 +84,11 @@ void ScreenAttached::screenChanged(QScreen *qscreen)
     screenChanged2(screen);
 }
 
-void ScreenAttached::screenChanged2(ScreenInterface* screen)
+void ScreenAttached::screenChanged2(Screen* screen)
 {
     if (screen == m_screen) return;
 
-    ScreenInterface* oldScreen = m_screen;
+    Screen* oldScreen = m_screen;
     m_screen = screen;
 
     if (oldScreen)
@@ -119,6 +119,8 @@ void ScreenAttached::screenChanged2(ScreenInterface* screen)
         Q_EMIT currentModeIndexChanged();
     if (!oldScreen || screen->physicalSize() != oldScreen->physicalSize())
         Q_EMIT physicalSizeChanged();
+    if (!oldScreen || screen->currentWorkspace() != oldScreen->currentWorkspace())
+        Q_EMIT currentWorkspaceChanged(currentWorkspace());
 
     if (oldScreen) {
         QVector<qtmir::ScreenMode*> oldModes;
