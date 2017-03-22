@@ -110,7 +110,7 @@ QVariant MangleModel::data(const QModelIndex &index, int role) const
     }
 
     // Workaround for liblightdm returning "" when a user has no default session
-    if (Q_UNLIKELY(role == QLightDM::UsersModel::SessionRole && variantData.toString().length() == 0)) {
+    if (Q_UNLIKELY(role == QLightDM::UsersModel::SessionRole && variantData.toString().isEmpty())) {
         variantData = Greeter::instance()->defaultSessionHint();
     }
 
