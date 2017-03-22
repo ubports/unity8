@@ -20,7 +20,6 @@ import Biometryd 0.0
 import GSettings 1.0
 import Powerd 0.1
 import Ubuntu.Components 1.3
-import Ubuntu.SystemImage 0.1
 import Unity.Launcher 0.1
 import Unity.Session 0.1
 
@@ -473,8 +472,6 @@ Showable {
                 if (maxFailedLogins >= 2) { // require at least a warning
                     if (AccountsService.failedLogins === maxFailedLogins - 1) {
                         loader.item.showLastChance();
-                    } else if (AccountsService.failedLogins >= maxFailedLogins) {
-                        SystemImage.factoryReset(); // Ouch!
                     }
                 }
 

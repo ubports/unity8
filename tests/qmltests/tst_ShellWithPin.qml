@@ -21,7 +21,6 @@ import AccountsService 0.1
 import GSettings 1.0
 import LightDMController 0.1
 import LightDM.FullLightDM 0.1 as LightDM
-import Ubuntu.SystemImage 0.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Test 0.1 as UT
@@ -110,12 +109,6 @@ Item {
     SignalSpy {
         id: sessionSpy
         signalName: "sessionStarted"
-    }
-
-    SignalSpy {
-        id: resetSpy
-        target: SystemImage
-        signalName: "resettingDevice"
     }
 
     Telephony.CallEntry {
@@ -371,25 +364,6 @@ Item {
             tryCompare(delayedLockscreen, "delayMinutes", 0);
             enterPin("1111")
             tryCompare(delayedLockscreen, "delayMinutes", greeter.failedLoginsDelayMinutes);
-        }
-
-        function test_factoryReset() {
-            skip("Factory reset support is not finished")
-
-            maxRetriesTextField.text = "3"
-            resetSpy.clear()
-
-            enterPin("1111")
-            enterPin("1111")
-
-            var dialog = findChild(root, "infoPopup")
-            var button = findChild(dialog, "infoPopupOkButton")
-            tap(button)
-            tryCompareFunction(function() {return findChild(root, "infoPopup", 0 /* timeout */)}, null)
-
-            tryCompare(resetSpy, "count", 0)
-            enterPin("1111")
-            tryCompare(resetSpy, "count", 1)
         }
 
         function test_emergencyDialerLockOut() {
