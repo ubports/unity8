@@ -142,12 +142,6 @@ FocusScope {
 
             function setCurrentSession() {
                 currentSession = LightDMService.users.data(currentIndex, LightDMService.userRoles.SessionRole);
-
-                // If the user has never selected a session
-                // LightDM returns an empty string
-                if (!currentSession.length) {
-                    currentSession = LightDMService.greeter.defaultSession
-                }
             }
         }
 
