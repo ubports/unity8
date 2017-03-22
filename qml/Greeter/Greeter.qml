@@ -55,7 +55,6 @@ Showable {
     property bool tabletMode
     property url viewSource // only used for testing
 
-    property int maxFailedLogins: -1 // disabled by default for now, will enable via settings in future
     property int failedLoginsDelayAttempts: 7 // number of failed logins
     property real failedLoginsDelayMinutes: 5 // minutes of forced waiting
     property int failedFingerprintLoginsDisableAttempts: 3 // number of failed fingerprint logins
@@ -467,13 +466,6 @@ Showable {
 
             if (!automatic) {
                 AccountsService.failedLogins++;
-
-                // Check if we should initiate a factory reset
-                if (maxFailedLogins >= 2) { // require at least a warning
-                    if (AccountsService.failedLogins === maxFailedLogins - 1) {
-                        loader.item.showLastChance();
-                    }
-                }
 
                 // Check if we should initiate a forced login delay
                 if (failedLoginsDelayAttempts > 0

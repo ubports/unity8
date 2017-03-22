@@ -89,19 +89,6 @@ Item {
                     text: "Show Greeter"
                     onClicked: LightDM.Greeter.showGreeter()
                 }
-
-                Label {
-                    text: "Max retries:"
-                    color: "black"
-                }
-                TextField {
-                    id: maxRetriesTextField
-                    text: "-1"
-                    onTextChanged: {
-                        var greeter = testCase.findChild(shellLoader.item, "greeter");
-                        greeter.maxFailedLogins = text;
-                    }
-                }
             }
         }
     }
@@ -143,7 +130,6 @@ Item {
             sessionSpy.target = greeter;
             swipeAwayGreeter(true);
             greeter.failedLoginsDelayAttempts = -1;
-            greeter.maxFailedLogins = -1;
 
             var launcher = findChild(shell, "launcher");
             var panel = findChild(launcher, "launcherPanel");
