@@ -172,7 +172,6 @@ bool ApplicationManager::add(ApplicationInfo *application) {
 
     endInsertRows();
     Q_EMIT countChanged();
-    if (count() == 1) Q_EMIT emptyChanged(isEmpty()); // was empty but not anymore
 
     return true;
 }
@@ -189,7 +188,6 @@ void ApplicationManager::remove(ApplicationInfo *application) {
         endRemoveRows();
         m_modelBusy = false;
         Q_EMIT countChanged();
-        if (isEmpty()) Q_EMIT emptyChanged(isEmpty());
         DEBUG_MSG(application->appId() << " after: " << qPrintable(toString()));
     }
 }
@@ -500,11 +498,6 @@ QStringList ApplicationManager::availableApplications()
         appIds << app->appId();
     }
     return appIds;
-}
-
-bool ApplicationManager::isEmpty() const
-{
-    return m_runningApplications.isEmpty();
 }
 
 ApplicationInfo *ApplicationManager::findApplication(MirSurface* surface)
