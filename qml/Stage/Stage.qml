@@ -225,6 +225,21 @@ FocusScope {
         active: priv.focusedAppDelegate !== null
     }
 
+    GlobalShortcut {
+        id: showWorkspaceSwitcherShortcutLeft
+        shortcut: Qt.AltModifier|Qt.ControlModifier|Qt.Key_Left
+        onTriggered: {
+            workspaceSwitcher.left()
+        }
+    }
+    GlobalShortcut {
+        id: showWorkspaceSwitcherShortcutRight
+        shortcut: Qt.AltModifier|Qt.ControlModifier|Qt.Key_Right
+        onTriggered: {
+            workspaceSwitcher.right()
+        }
+    }
+
     QtObject {
         id: priv
         objectName: "DesktopStagePrivate"
@@ -1930,6 +1945,33 @@ FocusScope {
         appContainerWidth: appContainer.width
         appContainerHeight: appContainer.height
         panelState: root.panelState
+    }
+
+    WorkspaceSwitcher {
+        id: workspaceSwitcher
+        anchors.centerIn: parent
+        height: units.gu(20)
+        background: root.background
+        opacity: shown ? 1 : 0
+        visible: opacity > 0
+        Behavior on opacity { UbuntuNumberAnimation {} }
+        property bool shown: false
+        function show() {
+            shown = true;
+            hideTimer.start();
+        }
+        Timer {
+            id: hideTimer
+            interval: 3000
+            onTriggered: workspaceSwitcher.shown = false;
+        }
+
+        function left() {
+            show()
+        }
+        function right() {
+            show();
+        }
     }
 
     PropertyAnimation {
