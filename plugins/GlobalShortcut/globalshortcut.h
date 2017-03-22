@@ -53,7 +53,6 @@ public:
     void setActive(bool active);
 
 protected:
-    void componentComplete() override;
     void keyPressEvent(QKeyEvent * event) override;
     void keyReleaseEvent(QKeyEvent * event) override;
 
@@ -68,9 +67,6 @@ Q_SIGNALS:
      */
     void released(const QString &shortcut);
     void activeChanged(bool active);
-
-private Q_SLOTS:
-    void setupFilterOnWindow(QQuickWindow* window);
 
 private:
     QVariant m_shortcut;
