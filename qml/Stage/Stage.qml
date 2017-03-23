@@ -1599,6 +1599,7 @@ FocusScope {
                     height: implicitHeight
                     highlightSize: windowInfoItem.iconMargin / 2
                     boundsItem: boundariesForWindowPlacement
+                    panelState: root.panelState
 
                     requestedWidth: appDelegate.requestedWidth
                     requestedHeight: appDelegate.requestedHeight

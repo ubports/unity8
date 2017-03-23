@@ -45,7 +45,7 @@ Item {
     }
 
     PanelState {
-        id: panelState
+        id: panelStateObj
     }
 
     Component.onCompleted: {
@@ -100,7 +100,7 @@ Item {
                 topLevelSurfaceList: topSurfaceList
                 interactive: true
                 mode: "windowed"
-                panelState: panelState
+                panelState: panelStateObj
             }
         }
     }
