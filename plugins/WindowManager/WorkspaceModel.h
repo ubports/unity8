@@ -74,6 +74,8 @@ Q_SIGNALS:
     void workspaceMoved(int from, int to);
 
 protected:
+    void insertUnassigned(Workspace* workspace);
+
     QVector<Workspace*> m_workspaces;
     QSet<Workspace*> m_unassignedWorkspaces;
     bool m_syncing;
