@@ -190,16 +190,12 @@ void MirSurfaceItem::createQmlContentItem()
     m_qmlItem->setParentItem(this);
 
     if (m_fillMode == FillMode::Stretch && width() != 0 && height() != 0) {
-        m_qmlItem->setWidth(width());
-        m_qmlItem->setHeight(height());
+        m_qmlItem->setSize(QSize(this->width(), this->height()));
     } else {
-        m_qmlItem->setWidth(m_surfaceWidth);
-        m_qmlItem->setHeight(m_surfaceHeight);
+        m_qmlItem->setSize(m_qmlSurface->size());
     }
-
-        qDebug() << "set size to" << m_surfaceWidth;
-    setImplicitWidth(m_qmlItem->implicitWidth());
-    setImplicitHeight(m_qmlItem->implicitHeight());
+    setImplicitWidth(m_qmlItem->width());
+    setImplicitHeight(m_qmlItem->height());
 
     {
         QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");
@@ -315,12 +311,12 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
         connect(m_qmlSurface, &MirSurface::liveChanged, this, &MirSurfaceItem::liveChanged);
         connect(m_qmlSurface, &MirSurface::stateChanged, this, &MirSurfaceItem::surfaceStateChanged);
         connect(m_qmlSurface, &MirSurface::sizeChanged, this, [this] () {
+            setImplicitSize(m_qmlSurface->width(), m_qmlSurface->height());
             if (m_fillMode == FillMode::Stretch) {
                 m_qmlItem->setSize(QSize(this->width(), this->height()));
             } else {
                 m_qmlItem->setSize(m_qmlSurface->size());
             }
-            setImplicitSize(m_qmlSurface->width(), m_qmlSurface->height());
         });
         m_surfaceWidth = surface->size().width();
         m_surfaceHeight = surface->size().height();
