@@ -227,14 +227,9 @@ FocusScope {
     GlobalShortcut {
         shortcut: Qt.ControlModifier|Qt.AltModifier|Qt.Key_T
         onTriggered: {
-            const termAppName = "ubuntu-terminal-app";
-            var termInfo = root.applicationManager.findApplication(termAppName);
-            if (termInfo) {
-                if (!termInfo.focused) {
-                    root.applicationManager.requestFocusApplication(termAppName);
-                }
-            } else {
-                root.applicationManager.startApplication(termAppName);
+            // Try snap first, then deb package
+            if (!priv.startApp("ubuntu-terminal-app_ubuntu-terminal-app")) {
+                priv.startApp("ubuntu-terminal-app");
             }
         }
     }
@@ -242,6 +237,14 @@ FocusScope {
     QtObject {
         id: priv
         objectName: "DesktopStagePrivate"
+
+        function startApp(appId) {
+            if (root.applicationManager.findApplication(appId)) {
+                return root.applicationManager.requestFocusApplication(appId);
+            } else {
+                return root.applicationManager.startApplication(appId) !== null;
+            }
+        }
 
         property var focusedAppDelegate: null
         property var foregroundMaximizedAppDelegate: null // for stuff like drop shadow and focusing maximized app by clicking panel
