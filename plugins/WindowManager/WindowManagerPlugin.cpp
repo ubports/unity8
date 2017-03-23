@@ -19,6 +19,7 @@
 #include "Screen.h"
 #include "ScreenAttached.h"
 #include "Screens.h"
+#include "ScreensConfiguration.h"
 #include "ScreenWindow.h"
 #include "TopLevelWindowModel.h"
 #include "Window.h"
@@ -80,5 +81,5 @@ void WindowManagerPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
     QQmlExtensionPlugin::initializeEngine(engine, uri);
 
     // Create Screens
-    new ConcreteScreens(qtmir::get_screen_model());
+    new ConcreteScreens(qtmir::get_screen_model(), new ScreensConfiguration());
 }

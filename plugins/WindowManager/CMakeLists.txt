@@ -15,6 +15,7 @@ set(WINDOWMANAGER_SRC
     Screen.cpp
     ScreenAttached.cpp
     Screens.cpp
+    ScreensConfiguration.cpp
     ScreenWindow.cpp
     WindowManagerObjects.cpp
     Workspace.cpp

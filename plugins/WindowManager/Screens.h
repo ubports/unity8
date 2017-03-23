@@ -29,6 +29,7 @@ class Screens;
 
 class Screen;
 class ProxyScreens;
+class ScreensConfiguration;
 
 class Screens : public QAbstractListModel
 {
@@ -41,7 +42,7 @@ public:
         ScreenRole = Qt::UserRole + 1
     };
 
-    ~Screens();
+    virtual ~Screens();
 
     /* QAbstractItemModel */
     QHash<int, QByteArray> roleNames() const override;
@@ -79,7 +80,8 @@ class ConcreteScreens : public Screens
 {
     Q_OBJECT
 public:
-    explicit ConcreteScreens(const QSharedPointer<qtmir::Screens>& model);
+    explicit ConcreteScreens(const QSharedPointer<qtmir::Screens>& model, ScreensConfiguration* config);
+    ~ConcreteScreens();
 
     Q_INVOKABLE ProxyScreens *createProxy();
     Q_INVOKABLE void sync(Screens *proxy);
@@ -91,6 +93,8 @@ protected Q_SLOTS:
     void onScreenRemoved(qtmir::Screen *screen);
 
 private:
+    ScreensConfiguration* m_config;
+
     static ConcreteScreens* m_self;
 };
 

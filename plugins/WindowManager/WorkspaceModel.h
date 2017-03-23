@@ -77,6 +77,8 @@ protected:
     QVector<Workspace*> m_workspaces;
     QSet<Workspace*> m_unassignedWorkspaces;
     bool m_syncing;
+
+    friend class ProxyWorkspaceModel;
 };
 
 class ProxyWorkspaceModel : public WorkspaceModel
@@ -87,6 +89,9 @@ public:
     ~ProxyWorkspaceModel();
 
     Q_INVOKABLE void move(int from, int to) override;
+
+public Q_SLOTS:
+    void addWorkspace();
 
 protected:
     const QPointer<WorkspaceModel> m_original;

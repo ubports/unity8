@@ -124,9 +124,6 @@ public:
 
     Screen* proxyObject() const { return m_original.data(); }
 
-public Q_SLOTS:
-    void addWorkspace();
-
 private:
     const QScopedPointer<WorkspaceModel> m_workspaces;
     const QPointer<Screen> m_original;

@@ -128,7 +128,6 @@ void WorkspaceModel::setSyncing(bool syncing)
 
 void WorkspaceModel::sync(WorkspaceModel *proxy)
 {
-    qDebug() << "SYNC" << this << proxy;
     if (!proxy) return;
     const auto& proxyList = proxy->list();
 
@@ -237,4 +236,12 @@ ProxyWorkspaceModel::~ProxyWorkspaceModel()
 void ProxyWorkspaceModel::move(int from, int to)
 {
     WorkspaceModel::move(from, to);
+}
+
+void ProxyWorkspaceModel::addWorkspace()
+{
+    auto newWorkspace = WorkspaceManager::instance()->createWorkspace();
+    m_original->m_unassignedWorkspaces.insert(newWorkspace);
+
+    (new ProxyWorkspace(newWorkspace))->assign(this);
 }

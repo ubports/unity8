@@ -15,6 +15,7 @@
  */
 
 #include "Screens.h"
+#include "ScreensConfiguration.h"
 #include "Screen.h"
 #include "WorkspaceManager.h"
 
@@ -90,8 +91,9 @@ void Screens::activateScreen(const QVariant& vindex)
 }
 
 
-ConcreteScreens::ConcreteScreens(const QSharedPointer<qtmir::Screens> &model)
+ConcreteScreens::ConcreteScreens(const QSharedPointer<qtmir::Screens> &model, ScreensConfiguration* config)
     : Screens(model)
+    , m_config(config)
 {
     m_self = this;
     connect(m_wrapped.data(), &qtmir::Screens::screenAdded, this, &ConcreteScreens::onScreenAdded);
@@ -100,9 +102,19 @@ ConcreteScreens::ConcreteScreens(const QSharedPointer<qtmir::Screens> &model)
 
     Q_FOREACH(qtmir::Screen* screen, m_wrapped->screens()) {
         auto screenWrapper(new ConcreteScreen(screen));
+        m_config->load(screenWrapper);
+
         QQmlEngine::setObjectOwnership(screenWrapper, QQmlEngine::CppOwnership);
         m_screens.push_back(screenWrapper);
     }
+}
+
+ConcreteScreens::~ConcreteScreens()
+{
+    Q_FOREACH(Screen* screen, m_screens) {
+        m_config->save(screen);
+    }
+    delete m_config;
 }
 
 ConcreteScreens *ConcreteScreens::self()
@@ -141,6 +153,8 @@ void ConcreteScreens::onScreenAdded(qtmir::Screen *added)
 
     beginInsertRows(QModelIndex(), count(), count());
     auto screenWrapper(new ConcreteScreen(added));
+    m_config->load(screenWrapper);
+
     QQmlEngine::setObjectOwnership(screenWrapper, QQmlEngine::CppOwnership);
     m_screens.push_back(screenWrapper);
     endInsertRows();
@@ -155,6 +169,7 @@ void ConcreteScreens::onScreenRemoved(qtmir::Screen *removed)
     while(iter.hasNext()) {
         auto screenWrapper = iter.next();
         if (screenWrapper->wrapped() == removed) {
+            m_config->save(screenWrapper);
 
             beginRemoveRows(QModelIndex(), index, index);
             iter.remove();

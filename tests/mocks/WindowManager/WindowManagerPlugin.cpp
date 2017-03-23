@@ -28,6 +28,7 @@
 #include "WorkspaceModel.h"
 #include "WindowManagementPolicy.h"
 #include "WindowManagerObjects.h"
+#include "ScreensConfiguration.h"
 
 #include <QtQml>
 
@@ -79,5 +80,5 @@ void WindowManagerPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
     // Make sure we've initialized the wm policy.
     WindowManagementPolicy::instance();
     // Create Screens
-    new ConcreteScreens(MockScreens::instance());
+    new ConcreteScreens(MockScreens::instance(), new ScreensConfiguration());
 }

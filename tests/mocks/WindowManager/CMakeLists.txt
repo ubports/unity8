@@ -32,6 +32,7 @@ set(WINDOWMANAGER_SRC
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Workspace.cpp
     MockScreens.cpp
     MockScreenWindow.cpp
+    MockScreensConfiguration.cpp
     WindowManagerPlugin.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
