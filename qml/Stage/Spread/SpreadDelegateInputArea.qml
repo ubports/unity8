@@ -28,6 +28,9 @@ Item {
 
     readonly property alias distance: d.distance
 
+    property var stage: null
+    property var dragDelegate: null
+
     signal clicked()
     signal close()
 
@@ -116,13 +119,13 @@ Item {
 
             var value = tp.y - tp.startY - offset;
             if (value < 0) {
-                var coords = mapToItem(shell, tp.x, tp.y);
-                fakeDragItem.Drag.hotSpot.x = fakeDragItem.width / 2
-                fakeDragItem.Drag.hotSpot.y = units.gu(2)
-                fakeDragItem.x = coords.x - fakeDragItem.Drag.hotSpot.x
-                fakeDragItem.y = coords.y - fakeDragItem.Drag.hotSpot.y
-                fakeDragItem.Drag.active = true;
-                fakeDragItem.surface = model.window.surface;
+                var coords = mapToItem(stage, tp.x, tp.y);
+                dragDelegate.Drag.hotSpot.x = dragDelegate.width / 2
+                dragDelegate.Drag.hotSpot.y = units.gu(2)
+                dragDelegate.x = coords.x - dragDelegate.Drag.hotSpot.x
+                dragDelegate.y = coords.y - dragDelegate.Drag.hotSpot.y
+                dragDelegate.Drag.active = true;
+                dragDelegate.surface = model.window.surface;
 
             } else {
                 if (root.closeable) {
@@ -136,8 +139,8 @@ Item {
         }
 
         onReleased: {
-            var result = fakeDragItem.Drag.drop();
-            fakeDragItem.surface = null;
+            var result = dragDelegate.Drag.drop();
+            dragDelegate.surface = null;
 
             if (!d.moving) {
                 root.clicked()
@@ -160,8 +163,8 @@ Item {
         }
 
         onCanceled: {
-            fakeDragItem.Drag.active = false;
-            fakeDragItem.surface = null;
+            dragDelegate.Drag.active = false;
+            dragDelegate.surface = null;
             d.moving = false
             animation.animate("center");
         }

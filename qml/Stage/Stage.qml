@@ -1832,6 +1832,8 @@ FocusScope {
                     anchors.fill: decoratedWindow
                     enabled: false
                     closeable: !appDelegate.isDash
+                    stage: root
+                    dragDelegate: fakeDragItem
 
                     onClicked: {
                         spreadItem.highlightedIndex = index;
