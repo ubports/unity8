@@ -29,6 +29,7 @@ Item {
     property bool enableKeyFilter: false
     property real overflowWidth: width
     property bool windowMoving: false
+    property var panelState: null
 
     // read from outside
     readonly property bool valid: rowRepeater.count > 0
@@ -106,7 +107,7 @@ Item {
 
         Component {
             id: menuComponent
-            MenuPopup { }
+            MenuPopup { panelState: root.panelState }
         }
 
         Repeater {
