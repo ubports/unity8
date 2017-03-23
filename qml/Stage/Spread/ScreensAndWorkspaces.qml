@@ -118,7 +118,7 @@ Item {
                                         title.color: "black"
                                     }
                                     onClicked: {
-                                        screen.addWorkspace();
+                                        screen.workspaces.addWorkspace();
                                         Screens.sync(root.screensProxy);
                                         screensMenu.destroy();
                                     }

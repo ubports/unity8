@@ -228,9 +228,6 @@ ConcreteScreen::ConcreteScreen(qtmir::Screen* wrapped)
             m_currentWorspace->activate();
         }
     });
-
-    WorkspaceManager::instance()->createWorkspace()->assign(m_workspaces.data());
-    WorkspaceManager::instance()->createWorkspace()->assign(m_workspaces.data());
 }
 
 void ConcreteScreen::resetCurrentWorkspace()
@@ -298,9 +295,4 @@ void ProxyScreen::setCurrentWorkspace(Workspace *workspace)
     if (p) {
         m_original->setCurrentWorkspace(p->proxyObject());
     }
-}
-
-void ProxyScreen::addWorkspace()
-{
-    (new ProxyWorkspace(WorkspaceManager::instance()->createWorkspace()))->assign(workspaces());
 }
