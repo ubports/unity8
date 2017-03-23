@@ -41,6 +41,7 @@ public:
     };
 
     explicit WorkspaceModel(QObject *parent = 0);
+    ~WorkspaceModel();
 
     void append(Workspace *workspace);
     void insert(int index, Workspace *workspace);
@@ -88,7 +89,6 @@ class ProxyWorkspaceModel : public WorkspaceModel
     Q_OBJECT
 public:
     explicit ProxyWorkspaceModel(WorkspaceModel*const model);
-    ~ProxyWorkspaceModel();
 
     Q_INVOKABLE void move(int from, int to) override;
 

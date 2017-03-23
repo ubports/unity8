@@ -30,6 +30,12 @@ WorkspaceModel::WorkspaceModel(QObject *parent)
 {
 }
 
+WorkspaceModel::~WorkspaceModel()
+{
+    qDeleteAll(m_workspaces.toList()); // make a copy so the list doesnt edit itself during delete.
+    m_workspaces.clear();
+}
+
 void WorkspaceModel::append(Workspace *workspace)
 {
     insert(m_workspaces.count(), workspace);
@@ -230,12 +236,6 @@ ProxyWorkspaceModel::ProxyWorkspaceModel(WorkspaceModel * const model)
 
         move(from, to);
     });
-}
-
-ProxyWorkspaceModel::~ProxyWorkspaceModel()
-{
-    qDeleteAll(m_workspaces.toList()); // make a copy so the list doesnt edit itself during delete.
-    m_workspaces.clear();
 }
 
 void ProxyWorkspaceModel::move(int from, int to)

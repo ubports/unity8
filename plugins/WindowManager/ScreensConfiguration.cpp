@@ -62,7 +62,7 @@ void ScreensConfiguration::load(Screen *screen)
         QJsonObject jsonScreen = (*iter).toObject();
         if (jsonScreen["name"] == screen->name()) {
             QJsonValue jsonWorkspaces = jsonScreen["workspaces"];
-            workspaces = jsonWorkspaces.toInt(workspaces);
+            workspaces = qMax(jsonWorkspaces.toInt(workspaces), 1);
             break;
         }
     }
@@ -76,7 +76,7 @@ void ScreensConfiguration::save(Screen *screen)
 {
     QJsonObject newJsonScreen;
     newJsonScreen["name"] = screen->name();
-    newJsonScreen["workspaces"] = screen->workspaces()->rowCount();
+    newJsonScreen["workspaces"] = qMax(screen->workspaces()->rowCount(), 1);
 
     auto iter = jsonScreens.begin();
     for (; iter != jsonScreens.end(); ++iter) {
