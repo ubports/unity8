@@ -77,7 +77,7 @@ void WindowManagerPlugin::registerTypes(const char *uri)
 
 void WindowManagerPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
 {
-    WindowManagerPlugin::initializeEngine(engine, uri);
+    QQmlExtensionPlugin::initializeEngine(engine, uri);
 
     // Create Screens
     new ConcreteScreens(qtmir::get_screen_model());
