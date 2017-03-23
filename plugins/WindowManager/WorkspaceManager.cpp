@@ -61,8 +61,6 @@ void WorkspaceManager::destroyWorkspace(Workspace *workspace)
     m_allWorkspaces.remove(workspace);
 
     if (m_activeWorkspace == workspace) {
-        Q_ASSERT(false); // Shouldn't happen, should have chosen something by now.
-        // just choose anything.
         setActiveWorkspace(m_allWorkspaces.count() ? *m_allWorkspaces.begin() : nullptr);
     }
     if (m_activeWorkspace) {

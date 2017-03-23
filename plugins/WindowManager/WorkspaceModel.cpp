@@ -30,6 +30,12 @@ WorkspaceModel::WorkspaceModel(QObject *parent)
 {
 }
 
+WorkspaceModel::~WorkspaceModel()
+{
+    qDeleteAll(m_workspaces.toList()); // make a copy so the list doesnt edit itself during delete.
+    m_workspaces.clear();
+}
+
 void WorkspaceModel::append(Workspace *workspace)
 {
     insert(m_workspaces.count(), workspace);
@@ -55,17 +61,9 @@ void WorkspaceModel::remove(Workspace *workspace)
     beginRemoveRows(QModelIndex(), index, index);
 
     m_workspaces.removeAt(index);
+    insertUnassigned(workspace);
 
     endRemoveRows();
-
-    m_unassignedWorkspaces.insert(workspace);
-    connect(workspace, &Workspace::assigned, this, [=]() {
-        m_unassignedWorkspaces.remove(workspace);
-        disconnect(workspace, &Workspace::assigned, this, 0);
-    });
-    connect(workspace, &QObject::destroyed, this, [=]() {
-        m_unassignedWorkspaces.remove(workspace);
-    });
 
     Q_EMIT workspaceRemoved(workspace);
     Q_EMIT countChanged();
@@ -195,6 +193,19 @@ void WorkspaceModel::finishSync()
     m_unassignedWorkspaces.clear();
 }
 
+void WorkspaceModel::insertUnassigned(Workspace *workspace)
+{
+    m_unassignedWorkspaces.insert(workspace);
+    connect(workspace, &Workspace::assigned, this, [=]() {
+        m_unassignedWorkspaces.remove(workspace);
+        disconnect(workspace, &Workspace::assigned, this, 0);
+    });
+    connect(workspace, &QObject::destroyed, this, [=]() {
+        m_unassignedWorkspaces.remove(workspace);
+    });
+}
+
+
 ProxyWorkspaceModel::ProxyWorkspaceModel(WorkspaceModel * const model)
     : m_original(model)
 {
@@ -227,12 +238,6 @@ ProxyWorkspaceModel::ProxyWorkspaceModel(WorkspaceModel * const model)
     });
 }
 
-ProxyWorkspaceModel::~ProxyWorkspaceModel()
-{
-    qDeleteAll(m_workspaces.toList()); // make a copy so the list doesnt edit itself during delete.
-    m_workspaces.clear();
-}
-
 void ProxyWorkspaceModel::move(int from, int to)
 {
     WorkspaceModel::move(from, to);
@@ -241,7 +246,7 @@ void ProxyWorkspaceModel::move(int from, int to)
 void ProxyWorkspaceModel::addWorkspace()
 {
     auto newWorkspace = WorkspaceManager::instance()->createWorkspace();
-    m_original->m_unassignedWorkspaces.insert(newWorkspace);
+    m_original->insertUnassigned(newWorkspace);
 
     (new ProxyWorkspace(newWorkspace))->assign(this);
 }

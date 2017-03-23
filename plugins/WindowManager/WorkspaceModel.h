@@ -41,6 +41,7 @@ public:
     };
 
     explicit WorkspaceModel(QObject *parent = 0);
+    ~WorkspaceModel();
 
     void append(Workspace *workspace);
     void insert(int index, Workspace *workspace);
@@ -74,6 +75,8 @@ Q_SIGNALS:
     void workspaceMoved(int from, int to);
 
 protected:
+    void insertUnassigned(Workspace* workspace);
+
     QVector<Workspace*> m_workspaces;
     QSet<Workspace*> m_unassignedWorkspaces;
     bool m_syncing;
@@ -86,7 +89,6 @@ class ProxyWorkspaceModel : public WorkspaceModel
     Q_OBJECT
 public:
     explicit ProxyWorkspaceModel(WorkspaceModel*const model);
-    ~ProxyWorkspaceModel();
 
     Q_INVOKABLE void move(int from, int to) override;
 
