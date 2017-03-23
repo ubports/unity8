@@ -67,6 +67,16 @@ int Screens::rowCount(const QModelIndex &) const
     return count();
 }
 
+int Screens::indexOf(Screen *screen) const
+{
+    return m_screens.indexOf(screen);
+}
+
+Screen *Screens::get(int index) const
+{
+    return m_screens.at(index);
+}
+
 int Screens::count() const
 {
     return m_screens.size();

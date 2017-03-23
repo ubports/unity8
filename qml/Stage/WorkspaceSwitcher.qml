@@ -25,9 +25,103 @@ UbuntuShape {
 
     backgroundColor: "#F2111111"
     width: screensRow.childrenRect.width + units.gu(4)
+    opacity: d.shown ? 1 : 0
+    visible: opacity > 0
+    Behavior on opacity { UbuntuNumberAnimation {} }
 
     property var screensProxy: Screens.createProxy();
     property string background
+
+    readonly property alias active: d.active
+
+    function showLeft() {
+        show();
+        d.decreaseHighlight();
+    }
+    function showRight() {
+        show();
+        d.increaseHighlight();
+    }
+
+    function show() {
+        hideTimer.stop();
+        d.altPressed = true;
+        d.ctrlPressed = true;
+        d.active = true;
+        d.shown = true;
+        focus = true;
+
+        d.highlightedScreenIndex = screensProxy.activeScreen;
+        var activeScreen = screensProxy.get(screensProxy.activeScreen);
+        d.highlightedWorkspaceIndex = activeScreen.workspaces.indexOf(activeScreen.currentWorkspace)
+    }
+
+    QtObject {
+        id: d
+
+        property bool active: false
+        property bool shown: false
+        property bool altPressed: false
+        property bool ctrlPressed: false
+
+        property int highlightedScreenIndex: -1
+        property int highlightedWorkspaceIndex: -1
+
+        function increaseHighlight() {
+            var screen = screensProxy.get(highlightedScreenIndex);
+            highlightedWorkspaceIndex++
+            if (highlightedWorkspaceIndex >= screen.workspaces.count) {
+                highlightedScreenIndex = (highlightedScreenIndex + 1) % screensProxy.count;
+                highlightedWorkspaceIndex = 0;
+            }
+        }
+        function decreaseHighlight() {
+            highlightedWorkspaceIndex--;
+            if (highlightedWorkspaceIndex < 0) {
+                highlightedScreenIndex--;
+                if (highlightedScreenIndex < 0) {
+                    highlightedScreenIndex = screensProxy.count - 1
+                }
+                var screen = screensProxy.get(highlightedScreenIndex);
+                highlightedWorkspaceIndex = screen.workspaces.count -1;
+            }
+        }
+    }
+
+    Timer {
+        id: hideTimer
+        interval: 1000
+        onTriggered: d.shown = false;
+    }
+
+    Keys.onPressed: {
+        hideTimer.restart();
+        switch (event.key) {
+        case Qt.Key_Left:
+            d.decreaseHighlight();
+            break;
+        case Qt.Key_Right:
+            d.increaseHighlight();
+            break;
+        }
+    }
+    Keys.onReleased: {
+        switch (event.key) {
+        case Qt.Key_Alt:
+            d.altPressed = false;
+            break;
+        case Qt.Key_Control:
+            d.ctrlPressed = false;
+            break;
+        }
+        if (!d.altPressed && !d.ctrlPressed) {
+            print("starting hidetimer")
+            d.active = false;
+            hideTimer.start();
+            focus = false;
+            screensProxy.get(d.highlightedScreenIndex).workspaces.get(d.highlightedWorkspaceIndex).activate();
+        }
+    }
 
     Row {
         id: screensRow
@@ -75,6 +169,7 @@ UbuntuShape {
                     anchors.horizontalCenter: parent.horizontalCenter
                     screen: model.screen
                     background: root.background
+                    selectedIndex: d.highlightedScreenIndex == index ? d.highlightedWorkspaceIndex : -1
 
                     workspaceModel: model.screen.workspaces
                 }

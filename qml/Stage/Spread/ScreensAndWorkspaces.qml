@@ -149,6 +149,7 @@ Item {
                     background: root.background
 
                     workspaceModel: model.screen.workspaces
+                    readOnly: false
 
                     onCommitScreenSetup: Screens.sync(root.screensProxy)
                     onCloseSpread: root.closeSpread();

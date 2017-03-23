@@ -47,7 +47,7 @@ public:
     void remove(Workspace* workspace);
     virtual void move(int from, int to);
 
-    int indexOf(Workspace *workspace) const;
+    Q_INVOKABLE int indexOf(Workspace *workspace) const;
     Q_INVOKABLE Workspace* get(int index) const;
 
     // From QAbstractItemModel

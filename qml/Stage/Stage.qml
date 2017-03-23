@@ -228,15 +228,17 @@ FocusScope {
     GlobalShortcut {
         id: showWorkspaceSwitcherShortcutLeft
         shortcut: Qt.AltModifier|Qt.ControlModifier|Qt.Key_Left
+        active: !workspaceSwitcher.active
         onTriggered: {
-            workspaceSwitcher.left()
+            workspaceSwitcher.showLeft()
         }
     }
     GlobalShortcut {
         id: showWorkspaceSwitcherShortcutRight
         shortcut: Qt.AltModifier|Qt.ControlModifier|Qt.Key_Right
+        active: !workspaceSwitcher.active
         onTriggered: {
-            workspaceSwitcher.right()
+            workspaceSwitcher.showRight()
         }
     }
 
@@ -1955,25 +1957,10 @@ FocusScope {
         anchors.centerIn: parent
         height: units.gu(20)
         background: root.background
-        opacity: shown ? 1 : 0
-        visible: opacity > 0
-        Behavior on opacity { UbuntuNumberAnimation {} }
-        property bool shown: false
-        function show() {
-            shown = true;
-            hideTimer.start();
-        }
-        Timer {
-            id: hideTimer
-            interval: 3000
-            onTriggered: workspaceSwitcher.shown = false;
-        }
-
-        function left() {
-            show()
-        }
-        function right() {
-            show();
+        onActiveChanged: {
+            if (!active) {
+                appContainer.focus = true;
+            }
         }
     }
 

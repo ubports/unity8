@@ -15,6 +15,8 @@ Item {
     property QtObject screen: null
     property alias workspaceModel: listView.model
     property var background // TODO: should be stored in the workspace data
+    property int selectedIndex: -1
+    property bool readOnly: true
 
     signal commitScreenSetup();
     signal closeSpread();
@@ -250,12 +252,12 @@ Item {
                     containsDragLeft: listView.hoveredWorkspaceIndex == index && listView.hoveredHalf == "left"
                     containsDragRight: listView.hoveredWorkspaceIndex == index && listView.hoveredHalf == "right"
                     isActive: model.workspace.active
+                    isSelected: index === root.selectedIndex
                     workspace: model.workspace
                 }
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        print("clickkkked!")
                         model.workspace.activate();
                     }
                     onDoubleClicked: {
@@ -271,7 +273,7 @@ Item {
                     hoverEnabled: true
                     height: units.gu(4)
                     width: height
-                    visible: listView.count > 1
+                    visible: !root.readOnly && listView.count > 1
 
                     onClicked: {
                         model.workspace.unassign();
@@ -305,6 +307,7 @@ Item {
                 propagateComposedEvents: true
                 anchors.leftMargin: listView.leftMargin
                 anchors.rightMargin: listView.rightMargin
+                enabled: !root.readOnly
 
                 property int draggedIndex: -1
 

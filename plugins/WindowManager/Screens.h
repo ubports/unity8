@@ -49,6 +49,9 @@ public:
     QVariant data(const QModelIndex &index, int role = ScreenRole) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
+    Q_INVOKABLE int indexOf(Screen*) const;
+    Q_INVOKABLE Screen* get(int index) const;
+
     int count() const;
     QVariant activeScreen() const;
 

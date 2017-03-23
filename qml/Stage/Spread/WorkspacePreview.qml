@@ -19,6 +19,7 @@ Item {
     property bool containsDragLeft: false
     property bool containsDragRight: false
     property bool isActive: false
+    property bool isSelected: false
 
     Image {
         source: previewSpace.background
@@ -73,6 +74,14 @@ Item {
         border.width: units.gu(.5)
         color: "transparent"
         visible: previewSpace.isActive
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        border.color: UbuntuColors.blue
+        border.width: units.gu(.5)
+        color: "transparent"
+        visible: previewSpace.isSelected
     }
 
     Rectangle {
