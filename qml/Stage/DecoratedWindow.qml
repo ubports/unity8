@@ -211,6 +211,7 @@ FocusScope {
 
         title: applicationWindow.title
         windowMoving: moveHandler.moving && !altDragHandler.dragging
+        panelState: root.panelState
 
         opacity: root.hasDecoration ? Math.min(1, root.showDecoration) : 0
         Behavior on opacity { UbuntuNumberAnimation { } }

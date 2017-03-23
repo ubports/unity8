@@ -26,6 +26,7 @@ UbuntuShape {
     id: root
     objectName: "menu"
     backgroundColor: theme.palette.normal.overlay
+    property PanelState panelState
 
     signal childActivated()
 
@@ -101,7 +102,7 @@ UbuntuShape {
         property real __minimumWidth: units.gu(20)
         property real __maximumWidth: ApplicationMenusLimits.screenWidth * 0.7
         property real __minimumHeight: units.gu(2)
-        property real __maximumHeight: ApplicationMenusLimits.screenHeight - PanelState.panelHeight
+        property real __maximumHeight: ApplicationMenusLimits.screenHeight - panelState.panelHeight
 
         signal dismissAll()
 
@@ -476,6 +477,7 @@ UbuntuShape {
                     item.desiredX = Qt.binding(function() { return submenuLoader.desiredX; });
                     item.desiredY = Qt.binding(function() { return submenuLoader.desiredY; });
                     item.substractWidth = Qt.binding(function() { return submenuLoader.substractWidth; });
+                    item.panelState = Qt.binding(function() { return root.panelState; });
                 }
 
                 Keys.onLeftPressed: retreat()

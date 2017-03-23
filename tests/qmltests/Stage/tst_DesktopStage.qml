@@ -630,19 +630,19 @@ Item {
             maximizeDelegate(facebookAppDelegate);
 
             // verify the drop shadow is still not visible
-            verify(panelState.dropShadow == false);
+            verify(panelStateObj.dropShadow == false);
 
             // start a foreground app, not maximized
             var dialerAppDelegate = startApplication("dialer-app");
 
             // verify the drop shadow becomes visible
-            tryCompareFunction(function() { return panelState.dropShadow; }, true);
+            tryCompareFunction(function() { return panelStateObj.dropShadow; }, true);
 
             // close the maximized app
             ApplicationManager.stopApplication("facebook-webapp");
 
             // verify the drop shadow is gone
-            tryCompare(panelState, "dropShadow", false);
+            tryCompare(panelStateObj, "dropShadow", false);
         }
 
         function test_threeFingerTapShowsWindowControls_data() {

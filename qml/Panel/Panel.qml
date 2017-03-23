@@ -220,6 +220,7 @@ Item {
                         height: menuBarLoader.height
                         enableKeyFilter: valid && panelState.decorationsVisible
                         unityMenuModel: __applicationMenus.model
+                        panelState: root.panelState
 
                         Connections {
                             target: __applicationMenus
