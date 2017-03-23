@@ -165,7 +165,7 @@ void WindowStateStorage::saveValue(const QString &queryString)
 {
     QMutexLocker mutexLocker(&s_mutex);
 
-    QFuture<void> future = QtConcurrent::run(executeAsyncQuery, queryString);
+    QFuture<void> future = QtConcurrent::run(&m_threadPool, executeAsyncQuery, queryString);
     m_asyncQueries.append(future);
 
     QFutureWatcher<void> *futureWatcher = new QFutureWatcher<void>();
