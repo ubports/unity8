@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-21 13:23+0000\n"
+"POT-Creation-Date: 2017-03-21 10:58+0000\n"
 "PO-Revision-Date: 2013-06-26 22:35+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Indonesian <id@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2017-02-25 06:03+0000\n"
-"X-Generator: Launchpad (build 18328)\n"
+"X-Launchpad-Export-Date: 2017-03-24 06:13+0000\n"
+"X-Generator: Launchpad (build 18334)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -50,8 +50,8 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:50
-#: plugins/Unity/Launcher/launcheritem.cpp:122
+#: plugins/Unity/Launcher/launcheritem.cpp:49
+#: plugins/Unity/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Paku pintasan"
 
@@ -59,20 +59,20 @@ msgstr "Paku pintasan"
 msgid "Quit"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:122
+#: plugins/Unity/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Lepas pintasan"
 
-#: qml/Components/Dialogs.qml:177
+#: qml/Components/Dialogs.qml:176
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:177
 msgid "Are you sure you want to log out?"
 msgstr "Anda yakin ingin log keluar?"
 
-#: qml/Components/Dialogs.qml:181
+#: qml/Components/Dialogs.qml:180
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr ""
@@ -198,7 +198,7 @@ msgid "Switches applications via the launcher."
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
-msgid "Super + 0 to 9"
+msgid "Super + 1 to 0"
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
@@ -520,16 +520,16 @@ msgstr ""
 msgid "Select desktop environment"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:92
+#: qml/Launcher/Drawer.qml:93
 msgid "Search…"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:127
+#: qml/Launcher/Drawer.qml:128
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""
 
-#: qml/Launcher/MoreAppsHeader.qml:39
+#: qml/Launcher/MoreAppsHeader.qml:55
 msgid "More apps in the store"
 msgstr ""
 
@@ -618,6 +618,10 @@ msgstr ""
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:209
 msgctxt "Button: Call back on phone"
 msgid "Call back"
+msgstr ""
+
+#: qml/Panel/PanelMenuPage.qml:92
+msgid "Back"
 msgstr ""
 
 #: qml/Stage/SideStage.qml:76

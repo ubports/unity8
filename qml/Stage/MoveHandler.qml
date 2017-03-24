@@ -188,11 +188,6 @@ QtObject {
             priv.progress = 0;
             priv.resetEdges();
         }
-        if ((target.state == "normal" || target.state == "restored") && priv.progress == 0) {
-            // save the x/y to restore to
-            target.restoredX = target.x;
-            target.restoredY = target.y;
-        }
     }
 
     function cancelDrag() {

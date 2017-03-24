@@ -35,7 +35,6 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
     m_countVisible(false),
     m_focused(false),
     m_alerting(false),
-    m_surfaceCount(0),
     m_quickList(new QuickListModel(this))
 {
     Q_ASSERT(parent != nullptr);
@@ -48,11 +47,13 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
     QuickListEntry pinningAction;
     pinningAction.setActionId(QStringLiteral("pin_item"));
     pinningAction.setText(gettext("Pin shortcut"));
+    pinningAction.setIsPrivate(true);
     m_quickList->appendAction(pinningAction);
 
     m_quitAction.setActionId(QStringLiteral("stop_item"));
     m_quitAction.setIcon(QStringLiteral("application-exit"));
     m_quitAction.setText(gettext("Quit"));
+    m_quitAction.setIsPrivate(true);
 }
 
 QString LauncherItem::appId() const
@@ -120,6 +121,7 @@ void LauncherItem::setPinned(bool pinned)
     QuickListEntry entry;
     entry.setActionId(QStringLiteral("pin_item"));
     entry.setText(pinned ? gettext("Unpin shortcut") : gettext("Pin shortcut"));
+    entry.setIsPrivate(true);
     m_quickList->updateAction(entry);
 }
 
@@ -221,14 +223,36 @@ void LauncherItem::setAlerting(bool alerting)
 
 int LauncherItem::surfaceCount() const
 {
-    return m_surfaceCount;
+    return m_surfaces.count();
 }
 
-void LauncherItem::setSurfaceCount(int surfaceCount)
+void LauncherItem::setSurfaces(const QList<QPair<QString, QString> > &surfaces)
 {
-    if (m_surfaceCount != surfaceCount) {
-        m_surfaceCount = surfaceCount;
-        Q_EMIT surfaceCountChanged(surfaceCount);
+    if (m_surfaces != surfaces) {
+        m_surfaces = surfaces;
+
+        QList<QuickListEntry> removedEntries;
+        for (int i = 0; i < m_quickList->rowCount(); ++i) {
+            QuickListEntry entry = m_quickList->get(i);
+            if (entry.actionId().startsWith(QStringLiteral("surface_"))) {
+                removedEntries.append(entry);
+            }
+        }
+        Q_FOREACH (const QuickListEntry &entry, removedEntries) {
+            m_quickList->removeAction(entry);
+        }
+        for (int i = 0; i < surfaces.count(); ++i) {
+            QuickListEntry entry;
+            entry.setActionId(QStringLiteral("surface_") + surfaces.at(i).first);
+            entry.setText(surfaces.at(i).second);
+            entry.setIsPrivate(true);
+            if (i == surfaces.count() - 1) {
+                entry.setHasSeparator(true);
+            }
+            m_quickList->insertAction(entry, i + 1);
+        }
+
+        Q_EMIT surfaceCountChanged(m_surfaces.count());
     }
 }
 

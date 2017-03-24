@@ -76,6 +76,12 @@ Item {
         signalName: "activated"
     }
 
+    SignalSpy {
+        id: aboutToShowCalledSpy
+        target: menuBackend
+        signalName: "aboutToShowCalled"
+    }
+
     UnityTestCase {
         id: testCase
         name: "MenuBar"
@@ -113,6 +119,43 @@ Item {
             mouseMove(menuItem0, menuItem0.width/2, menuItem0.height/2);
             tryCompare(priv, "currentItem", menuItem0, undefined, "CurrentItem should have moved to item 0");
             compare(menuItem0.popupVisible, true, "Popup should be visible");
+        }
+
+        function test_aboutToShow() {
+            menuBackend.modelData = appMenuData.generateTestData(3,3,0,0, "menu");
+            wait(50) // wait for row to build
+            var priv = findInvisibleChild(menuBar, "d");
+
+            var menuItem0 = findChild(menuBar, "menuBar-item0");
+            var menuItem1 = findChild(menuBar, "menuBar-item1");
+
+            aboutToShowCalledSpy.clear();
+            menuItem0.show();
+            compare(aboutToShowCalledSpy.count, 1);
+
+            menuItem0.show();
+            // It's already shown so nothing happens
+            compare(aboutToShowCalledSpy.count, 1);
+
+            menuItem0.hide();
+            menuItem0.show();
+            compare(aboutToShowCalledSpy.count, 2);
+
+            menuItem0.dismiss();
+            menuItem0.show();
+            compare(aboutToShowCalledSpy.count, 3);
+
+            menuItem1.show();
+            compare(aboutToShowCalledSpy.count, 4);
+
+            menuItem0.show();
+            compare(aboutToShowCalledSpy.count, 5);
+
+            compare(aboutToShowCalledSpy.signalArguments[0][0], 0);
+            compare(aboutToShowCalledSpy.signalArguments[1][0], 0);
+            compare(aboutToShowCalledSpy.signalArguments[2][0], 0);
+            compare(aboutToShowCalledSpy.signalArguments[3][0], 1);
+            compare(aboutToShowCalledSpy.signalArguments[4][0], 0);
         }
 
         function test_keyboardNavigation_RightKeySelectsNextMenuItem(data) {
@@ -181,6 +224,30 @@ Item {
             keyPress(data.tag, Qt.AltModifier, 100);
             tryCompare(priv, "currentItem", menuItem);
             keyRelease(data.tag, Qt.AltModifier, 100);
+        }
+
+        function test_disabledTopLevel() {
+            var modelData = appMenuData.generateTestData(3,3,0,0,"menu");
+            modelData[1].rowData.sensitive = false;
+            menuBackend.modelData = modelData;
+
+            var priv = findInvisibleChild(menuBar, "d");
+
+            var menuItem0 = findChild(menuBar, "menuBar-item0"); verify(menuItem0);
+            var menuItem2 = findChild(menuBar, "menuBar-item2"); verify(menuItem2);
+
+            menuItem0.show();
+            compare(menuItem0.popupVisible, true, "Popup should be visible");
+
+            keyClick(Qt.Key_Right);
+            compare(priv.currentItem, menuItem2);
+            compare(menuItem2.popupVisible, true);
+            compare(menuItem0.popupVisible, false);
+
+            keyClick(Qt.Key_Left);
+            compare(priv.currentItem, menuItem0);
+            compare(menuItem2.popupVisible, false);
+            compare(menuItem0.popupVisible, true);
         }
 
         function test_menuActivateClosesMenu() {
@@ -295,7 +362,40 @@ Item {
             menuBackend.modelData = null;
 
             tryCompareFunction(function() { return findChildsByType(root, "MenuPopup").length; }, 0);
+        }
 
+        function test_firstDisabled() {
+            var data = appMenuData.generateTestData(10,5,2,3);
+            data[0].submenu[1].submenu[0].rowData.sensitive = false;
+            menuBackend.modelData = data;
+
+            var menuItem = findChild(menuBar, "menuBar-item0");
+            menuItem.show();
+
+            // waits for item to be created so the keyclick actually works
+            findChild(menuBar, "menuBar-item0-menu-item1-actionItem");
+
+            keyClick(Qt.Key_Down);
+            keyClick(Qt.Key_Down);
+            keyClick(Qt.Key_Right);
+
+            var submenu = findChild(menuBar, "menuBar-item0-menu-item1-menu");
+            var priv = findInvisibleChild(submenu, "d");
+            var subActionItem1 = findChild(submenu, "menuBar-item0-menu-item1-menu-item1-actionItem");
+            compare(priv.currentItem.item, subActionItem1);
+
+            keyClick(Qt.Key_Down);
+            var subActionItem3 = findChild(submenu, "menuBar-item0-menu-item1-menu-item3-actionItem");
+            compare(priv.currentItem.item, subActionItem3);
+
+            // now move mouse over to a different item and back to exercise a different codepath
+            var actionItem0 = findChild(menuBar, "menuBar-item0-menu-item0-actionItem");
+            mouseMove(actionItem0, actionItem0.width/2, actionItem0.height/2);
+
+            var actionItem1 = findChild(menuBar, "menuBar-item0-menu-item1-actionItem");
+            mouseMove(actionItem1, actionItem1.width/2, actionItem1.height/2);
+
+            tryCompareFunction(function() { return priv.currentItem.item == subActionItem1; }, true);
         }
     }
 }
