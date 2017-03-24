@@ -270,17 +270,31 @@ private:
 class DBusGnomeSessionManagerWrapper : public UnityDBusObject
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.gnome.SessionManager.EndSessionDialog")
+    Q_CLASSINFO("D-Bus Interface", "org.gnome.SessionManager")
 
 public:
     DBusGnomeSessionManagerWrapper();
     ~DBusGnomeSessionManagerWrapper() = default;
 
 public Q_SLOTS:
-    Q_SCRIPTABLE void Open(const unsigned int type, const unsigned int arg_1, const unsigned int max_wait, const QList<QDBusObjectPath> &inhibitors);
+    Q_SCRIPTABLE void Logout(quint32 mode);
+    Q_SCRIPTABLE void Reboot();
+    Q_SCRIPTABLE void RequestReboot();
+    Q_SCRIPTABLE void RequestShutdown();
+    Q_SCRIPTABLE void Shutdown();
+};
 
-private:
-    void performAsyncCall(const QString &method);
+class DBusGnomeSessionManagerDialogWrapper : public UnityDBusObject
+{
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.gnome.SessionManager.EndSessionDialog")
+
+public:
+    DBusGnomeSessionManagerDialogWrapper();
+    ~DBusGnomeSessionManagerDialogWrapper() = default;
+
+public Q_SLOTS:
+    Q_SCRIPTABLE void Open(const unsigned int type, const unsigned int arg_1, const unsigned int max_wait, const QList<QDBusObjectPath> &inhibitors);
 };
 
 class DBusGnomeScreensaverWrapper: public UnityDBusObject

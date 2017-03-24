@@ -31,6 +31,8 @@ public:
 
 public Q_SLOTS:
     QDBusObjectPath GetSessionByPID(quint32 pid);
+    void Reboot(bool interactive);
+    void PowerOff(bool interactive);
 
     void MockEmitUnlock(); // only in mock
 
@@ -38,6 +40,9 @@ Q_SIGNALS:
     void Lock();
     void Unlock();
     void PrepareForSleep();
+
+    void RebootCalled(bool interactive); // only in mock
+    void PowerOffCalled(bool interactive); // only in mock
 };
 
 #endif

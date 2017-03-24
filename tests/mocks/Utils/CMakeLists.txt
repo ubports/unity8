@@ -27,6 +27,7 @@ set(QMLPLUGIN_SRC
     ${CMAKE_SOURCE_DIR}/plugins/Utils/appdrawerproxymodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/tabfocusfence.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/expressionfiltermodel.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/quicklistproxymodel.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceInterface.h
@@ -35,6 +36,7 @@ set(QMLPLUGIN_SRC
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/AppDrawerModelInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/QuickListModelInterface.h
     constants.cpp
     plugin.cpp
     windowstatestorage.cpp

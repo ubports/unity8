@@ -2532,27 +2532,44 @@ Rectangle {
             tryCompare(app2Surface, "keymap", "fr");
         }
 
-        function test_dragPanelToRestoreMaximizedWindow() {
+        function test_dragPanelToRestoreMaximizedWindow_data() {
+            return [
+                        { tag: "with mouse", mouse: true },
+                        { tag: "with touch", mouse: false }
+                    ]
+        }
+
+        function test_dragPanelToRestoreMaximizedWindow(data) {
             loadShell("desktop");
             shell.usageScenario = "desktop";
             waitForRendering(shell);
             var panel = findChild(shell, "windowControlArea");
             verify(panel);
 
-            var appSurfaceId = topLevelSurfaceList.nextId;
-            var app = ApplicationManager.startApplication("dialer-app")
-            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
-
             // start dialer, maximize it
-            var appContainer = findChild(shell, "appContainer");
-            var appDelegate = findChild(appContainer, "appDelegate_" + appSurfaceId);
+            var appDelegate = startApplication("dialer-app");
             verify(appDelegate);
-            var maximizeButton = findChild(appDelegate, "maximizeWindowButton");
-            mouseClick(maximizeButton);
 
+            var maximizeButton = findChild(appDelegate, "maximizeWindowButton");
+            if (data.mouse) {
+                mouseClick(maximizeButton);
+            } else {
+                tap(maximizeButton);
+            }
+
+            waitUntilTransitionsEnd(appDelegate);
             tryCompare(appDelegate, "state", "maximized");
 
-            mouseDrag(panel, panel.width/2, panel.height/2, 0, shell.height/3, Qt.LeftButton, Qt.NoModifier, 500);
+            if (data.mouse) {
+                mouseMove(panel, panel.width/2, panel.panelHeight/2); // to reveal the menus
+                var menuBarLoader = findInvisibleChild(panel, "menuBarLoader");
+                verify(menuBarLoader);
+                tryCompare(menuBarLoader.item, "visible", true);
+                mouseDrag(panel, panel.width/2, panel.height/2, 0, shell.height/3, Qt.LeftButton, Qt.NoModifier, 500);
+            } else {
+                touchFlick(panel, panel.width/2, panel.panelHeight/2, panel.width/2, shell.height/3);
+            }
+
             tryCompare(appDelegate, "state", "restored");
         }
 
@@ -2867,7 +2884,7 @@ Rectangle {
             loadShell(data.tag);
 
             var panel = findChild(shell, "panel"); verify(panel);
-            var panelTitle = findChild(panel.applicationMenus, "panelTitle"); verify(panelTitle);
+            var panelTitle = findChild(panel, "panelTitle"); verify(panelTitle);
             compare(panelTitle.visible, false, "Panel title should not be visible when greeter is shown");
 
             swipeAwayGreeter();
@@ -2932,6 +2949,86 @@ Rectangle {
             tryCompare(appDelegate, "state", "maximizedRight");
         }
 
+
+        function test_closeAppsInSpreadWithQ() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var appSurfaceId = topLevelSurfaceList.nextId;
+            var app = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            appSurfaceId = topLevelSurfaceList.nextId;
+            app = ApplicationManager.startApplication("calendar-app")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            keyPress(Qt.Key_Alt);
+            keyClick(Qt.Key_Tab);
+
+            var stage = findChild(shell, "stage");
+            var spread = findChild(stage, "spreadItem");
+            var appRepeater = findChild(stage, "appRepeater");
+
+            tryCompare(stage, "state", "spread");
+
+            tryCompare(ApplicationManager, "count", 3);
+            tryCompareFunction(function() {return appRepeater.itemAt(spread.highlightedIndex).appId == "dialer-app"}, true);
+
+            // Close one app with Q while in spread
+            keyClick(Qt.Key_Q);
+
+            tryCompare(ApplicationManager, "count", 2);
+
+            // Now the dash should be highlighted
+            tryCompareFunction(function() {return appRepeater.itemAt(spread.highlightedIndex).appId == "unity8-dash"}, true);
+
+            keyClick(Qt.Key_Q);
+
+            // Dash is not closeable, should still be 2
+            tryCompare(ApplicationManager, "count", 2);
+
+            // Move to the next one, should be closable again
+            keyClick(Qt.Key_Tab);
+            tryCompareFunction(function() {return appRepeater.itemAt(spread.highlightedIndex).appId == "calendar-app"}, true);
+
+            // close it
+            keyClick(Qt.Key_Q);
+            tryCompare(ApplicationManager, "count", 1);
+
+            keyRelease(Qt.Key_Alt);
+
+            // Now start the apps again
+            appSurfaceId = topLevelSurfaceList.nextId;
+            app = ApplicationManager.startApplication("dialer-app");
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            appSurfaceId = topLevelSurfaceList.nextId;
+            app = ApplicationManager.startApplication("calendar-app");
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            // First focus the dash so it'll be the leftmost in the spread
+            ApplicationManager.requestFocusApplication("unity8-dash");
+
+            keyPress(Qt.Key_Alt);
+            keyClick(Qt.Key_Tab);
+            tryCompare(stage, "state", "spread");
+
+            // Move to the last one
+            keyClick(Qt.Key_Tab);
+
+            // Close the last one, make sure the highlight fixes itself to stick within the list
+            tryCompare(spread, "highlightedIndex", ApplicationManager.count - 1);
+            var oldHighlighted = spread.highlightedIndex;
+
+            keyClick(Qt.Key_Q);
+            tryCompare(spread, "highlightedIndex", oldHighlighted - 1);
+
+            keyRelease(Qt.Key_Alt);
+
+        }
+
         function test_altTabToMinimizedApp() {
             loadShell("desktop");
             shell.usageScenario = "desktop";
@@ -2960,6 +3057,61 @@ Rectangle {
             tryCompare(topLevelSurfaceList.applicationAt(0), "appId", "dialer-app");
         }
 
+        function test_touchMenuPosition_data() {
+            return [
+                        { tag: "launcher locked", lockLauncher: true },
+                        { tag: "launcher not locked", lockLauncher: false }
+                    ];
+        }
+
+        function test_touchMenuPosition(data) {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var panel = findChild(shell, "panel");
+            var launcher = testCase.findChild(shell, "launcher");
+            launcher.lockedVisible = data.lockLauncher;
+            if (data.lockLauncher) {
+                compare(panel.applicationMenus.x, launcher.panelWidth);
+            } else {
+                compare(panel.applicationMenus.x, 0);
+            }
+        }
+
+        function test_touchMenuHidesOnLauncherAppDrawer_data() {
+            return [
+                        { tag: "launcher locked", lockLauncher: true },
+                        { tag: "launcher not locked", lockLauncher: false }
+                    ];
+        }
+
+        function test_touchMenuHidesOnLauncherAppDrawer(data) {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var panel = findChild(shell, "panel");
+            var launcher = testCase.findChild(shell, "launcher");
+            launcher.lockedVisible = data.lockLauncher;
+
+            waitForRendering(panel.applicationMenus);
+
+            if (data.lockLauncher) {
+                panel.applicationMenus.show();
+                tryCompare(panel.applicationMenus, "fullyOpened", true);
+                launcher.openDrawer();
+            } else {
+                tryCompare(launcher, "shown", false);
+                panel.applicationMenus.show();
+                tryCompare(panel.applicationMenus, "fullyOpened", true);
+                launcher.switchToNextState("visible");
+            }
+            tryCompare(panel.applicationMenus, "fullyClosed", true);
+        }
+
         function test_doubleClickPanelRestoresWindow() {
             loadShell("desktop");
             shell.usageScenario = "desktop";
@@ -2982,6 +3134,71 @@ Rectangle {
             verify(panel);
             mouseDoubleClickSequence(panel, panel.width/2, PanelState.panelHeight/2, Qt.LeftButton, Qt.NoModifier, 300);
             tryCompare(appDelegate, "state", "restored");
+        }
+
+        function test_noMenusWithActiveCall() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            // start music-app, maximize it
+            var appDelegate = startApplication("music-app")
+            verify(appDelegate);
+            appDelegate.requestMaximize();
+
+            // move the mouse over panel to reveal the menus
+            var panel = findChild(shell, "panel");
+            verify(panel);
+            mouseMove(panel, panel.width/2, panel.panelHeight/2); // to reveal the menus
+            var menuBarLoader = findInvisibleChild(panel, "menuBarLoader");
+            verify(menuBarLoader);
+            tryCompare(menuBarLoader.item, "visible", true);
+
+            // place a phone call
+            callManager.foregroundCall = phoneCall;
+
+            // menu bar should be hidden
+            tryCompare(menuBarLoader, "active", false);
+            tryCompare(menuBarLoader, "item", null);
+
+            // remove call
+            callManager.foregroundCall = null;
+
+            // menu bar should be revealed
+            tryCompare(menuBarLoader, "active", true);
+            tryCompare(menuBarLoader.item, "visible", true);
+        }
+
+        function test_maximizedWindowAndMenuInPanel() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            // start music-app, maximize it
+            var appDelegate = startApplication("music-app")
+            verify(appDelegate);
+            appDelegate.requestMaximize();
+            tryCompare(appDelegate, "state", "maximized");
+
+            // move the mouse over panel to reveal the menus
+            var panel = findChild(shell, "panel");
+            verify(panel);
+            mouseMove(panel, panel.width/2, panel.panelHeight/2); // to reveal the menus
+            var menuBar = findChild(panel, "menuBar");
+            verify(menuBar);
+            tryCompare(menuBar, "visible", true);
+
+            // check that the menu popup appears
+            var priv = findInvisibleChild(menuBar, "d");
+            var menuItem0 = findChild(menuBar, "menuBar-item0");
+            verify(menuItem0);
+            mouseMove(menuItem0, menuItem0.width/2, menuItem0.height/2, 200);
+            tryCompare(menuItem0, "visible", true);
+            mouseClick(menuItem0);
+            tryCompare(priv, "currentItem", menuItem0);
+            tryCompare(priv.currentItem, "popupVisible", true);
         }
     }
 }

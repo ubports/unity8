@@ -328,5 +328,44 @@ StyledItem {
 
             tryCompare(launcher, "state", "visibleTemporary");
         }
+
+        function test_focusMovesCorrectlyBetweenLauncherAndDrawer() {
+            var panel = findChild(launcher, "launcherPanel");
+            var drawer = findChild(launcher, "drawer");
+            var searchField = findChild(drawer, "searchField");
+
+            launcher.openForKeyboardNavigation();
+            tryCompare(panel, "highlightIndex", -1);
+            keyClick(Qt.Key_Down);
+            tryCompare(panel, "highlightIndex", 0);
+
+            launcher.openDrawer(true);
+            tryCompare(searchField, "focus", true);
+
+            keyClick(Qt.Key_Escape);
+
+            launcher.openForKeyboardNavigation();
+            tryCompare(panel, "highlightIndex", -1);
+            keyClick(Qt.Key_Down);
+            tryCompare(panel, "highlightIndex", 0);
+        }
+
+        function test_closeWhileDragging() {
+            launcher.openDrawer(true);
+            waitForRendering(launcher);
+            waitUntilTransitionsEnd(launcher);
+
+            var drawer = findChild(launcher, "drawer");
+            tryCompare(drawer.anchors, "rightMargin", -drawer.width);
+
+            mousePress(drawer, drawer.width / 2, drawer.height / 2);
+            mouseMove(drawer, drawer.width / 4, drawer.height / 2);
+            tryCompare(drawer, "draggingHorizontally", true);
+
+            keyPress(Qt.Key_Escape);
+
+            tryCompare(launcher, "state", "");
+            tryCompare(drawer, "draggingHorizontally", false);
+        }
     }
 }
