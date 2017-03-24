@@ -44,12 +44,12 @@ Item {
     implicitWidth: row.width
     height: parent.height
 
-    function select(index) {
-        d.select(index);
-    }
-
     function dismiss() {
         d.dismissAll();
+    }
+
+    function invokeMenu(mouseEvent) {
+        mouseArea.onClicked(mouseEvent);
     }
 
     GlobalShortcut {
@@ -132,17 +132,20 @@ Item {
 
                 function show() {
                     if (!__popup) {
+                        root.unityMenuModel.aboutToShow(visualItem.__ownIndex);
                         __popup = menuComponent.createObject(root,
                                                              {
                                                                  objectName: visualItem.objectName + "-menu",
                                                                  desiredX: Qt.binding(function() { return visualItem.x - units.gu(1); }),
                                                                  desiredY: Qt.binding(function() { return root.height; }),
-                                                                 unityMenuModel: Qt.binding(function() { return root.unityMenuModel.submenu(visualItem.__ownIndex); })
+                                                                 unityMenuModel: Qt.binding(function() { return root.unityMenuModel.submenu(visualItem.__ownIndex); }),
+                                                                 selectFirstOnCountChange: false
                                                              });
                         __popup.reset();
                         __popup.childActivated.connect(dismiss);
                         // force the current item to be the newly popped up menu
-                    } else {
+                    } else if (!__popup.visible) {
+                        root.unityMenuModel.aboutToShow(visualItem.__ownIndex);
                         __popup.show();
                     }
                     d.currentItem = visualItem;
@@ -226,6 +229,7 @@ Item {
     } // Row
 
     MouseArea {
+        id: mouseArea
         anchors.fill: parent
         hoverEnabled: d.currentItem
 

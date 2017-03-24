@@ -60,10 +60,6 @@ Item {
     property real windowedX: x
     property real windowedY: y
 
-
-    property real restoredX
-    property real restoredY
-
     state: "restored"
     // end of API expected by MoveHandler
     ////

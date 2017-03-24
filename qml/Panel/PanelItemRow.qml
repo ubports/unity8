@@ -20,11 +20,10 @@ import "../Components"
 
 Item {
     id: root
-    implicitWidth: showRowTitle && !expanded ? rowTitle != "" ? rowLabel.width : 0 : row.width
+    implicitWidth: row.width
     implicitHeight: units.gu(3)
 
-    property bool showRowTitle: false
-    property alias rowTitle: rowLabel.text
+    property bool hideRow: false
     property QtObject model: null
     property real overFlowWidth: width
     property bool expanded: false
@@ -96,31 +95,57 @@ Item {
         row.currentIndex = -1;
     }
 
+    function selectPreviousItem() {
+        var indexToSelect = currentItemIndex - 1;
+        while (indexToSelect >= 0) {
+            if (setCurrentItemIndex(indexToSelect))
+                return;
+            indexToSelect = indexToSelect - 1;
+        }
+    }
+
+    function selectNextItem() {
+        var indexToSelect = currentItemIndex + 1;
+        while (indexToSelect < row.contentItem.children.length) {
+            if (setCurrentItemIndex(indexToSelect))
+                return;
+            indexToSelect = indexToSelect + 1;
+        }
+    }
+
     function setCurrentItemIndex(index) {
         for (var i = 0; i < row.contentItem.children.length; i++) {
             var item = row.contentItem.children[i];
-            if (item.hasOwnProperty("ownIndex") && item.ownIndex === index) {
-                if (currentItem !== item) row.currentIndex = index;
-                break;
+            if (item.hasOwnProperty("ownIndex") && item.ownIndex === index && item.enabled) {
+                if (currentItem !== item) {
+                    row.currentIndex = index;
+                }
+                return true;
             }
         }
+        return false;
     }
 
     function selectItemAt(lateralPosition) {
         var item = indicatorAt(lateralPosition, 0);
-        if (item && item.opacity > 0) {
+        if (item && item.opacity > 0 && item.enabled) {
             row.currentIndex = item.ownIndex;
         } else {
             // Select default item.
             var searchIndex = lateralPosition >= width ? row.count - 1 : 0;
 
             for (var i = 0; i < row.contentItem.children.length; i++) {
-                if (row.contentItem.children[i].hasOwnProperty("ownIndex") && row.contentItem.children[i].ownIndex === searchIndex) {
+                if (row.contentItem.children[i].hasOwnProperty("ownIndex") &&
+                    row.contentItem.children[i].ownIndex === searchIndex &&
+                    row.contentItem.children[i].enabled)
+                {
                     item = row.contentItem.children[i];
                     break;
                 }
             }
-            if (currentItem !== item) row.currentIndex = item ? item.ownIndex : -1;
+            if (item && currentItem !== item) {
+                row.currentIndex = item.ownIndex;
+            }
         }
     }
 
@@ -138,31 +163,12 @@ Item {
         d.previousItem = currentItem;
     }
 
-    Label {
-        id: rowLabel
-        objectName: "panelTitle"
-        anchors {
-            left: parent.left
-            leftMargin: units.gu(1)
-            verticalCenter: parent.verticalCenter
-        }
-        width: implicitWidth + units.gu(2)
-        elide: Text.ElideRight
-        maximumLineCount: 1
-        fontSize: "medium"
-        font.weight: Font.Medium
-        color: Theme.palette.selected.backgroundText
-        opacity: showRowTitle ? 1 : 0
-        visible: opacity != 0
-        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
-    }
-
     ListView {
         id: row
         objectName: "panelRow"
         orientation: ListView.Horizontal
         model: root.model
-        opacity: showRowTitle ? 0 : 1
+        opacity: hideRow ? 0 : 1
         // dont set visible on basis of opacity; otherwise width will not be calculated correctly
         anchors {
             top: parent.top
