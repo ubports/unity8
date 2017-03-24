@@ -9,6 +9,8 @@ set(WINDOWMANAGER_SRC
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/SurfaceManagerInterface.h
    )
 
+add_definitions(-DWINDOWMANAGERQML_LIBRARY)
+
 add_library(windowmanager-qml SHARED ${WINDOWMANAGER_SRC})
 
 qt5_use_modules(windowmanager-qml Qml Quick Gui)
