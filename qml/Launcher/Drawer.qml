@@ -27,6 +27,7 @@ FocusScope {
 
     property int panelWidth: 0
     readonly property bool moving: listLoader.item && listLoader.item.moving
+    readonly property Item searchTextField: searchField
 
     signal applicationSelected(string appId)
 
@@ -212,13 +213,16 @@ FocusScope {
                     root.dragDistance += diff;
                     oldX = mouseX
                 }
-                onReleased: {
+                onReleased: reset();
+                onCanceled: reset();
+                function reset() {
                     if (root.draggingHorizontally) {
                         root.draggingHorizontally = false;
                         parent.interactive = true;
                     }
                     reactivateTimer.start();
                 }
+
                 Timer {
                     id: reactivateTimer
                     interval: 0

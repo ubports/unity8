@@ -93,6 +93,9 @@ public:
 
     bool confinesMousePointer() const override { return false; }
 
+    bool allowClientResize() const override { return true; }
+    void setAllowClientResize(bool) override {}
+
     QPoint requestedPosition() const override { return m_requestedPosition; }
     void setRequestedPosition(const QPoint &) override;
 

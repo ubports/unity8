@@ -21,6 +21,8 @@
 #include <QProcess>
 #include <QScreen>
 
+#include <QGSettings>
+
 #include <libintl.h>
 
 // libandroid-properties
@@ -74,6 +76,9 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
 
     bindtextdomain("unity8", translationDirectory().toUtf8().data());
     textdomain("unity8");
+
+    QScopedPointer<QGSettings> gSettings(new QGSettings("com.canonical.Unity8"));
+    gSettings->reset(QStringLiteral("alwaysShowOsk"));
 
     m_shellView = new ShellView(m_qmlEngine, &m_qmlArgs);
 
