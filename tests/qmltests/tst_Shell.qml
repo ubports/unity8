@@ -2538,6 +2538,7 @@ Rectangle {
                 tap(maximizeButton);
             }
 
+            waitUntilTransitionsEnd(appDelegate);
             tryCompare(appDelegate, "state", "maximized");
 
             if (data.mouse) {
@@ -2547,7 +2548,7 @@ Rectangle {
                 tryCompare(menuBarLoader.item, "visible", true);
                 mouseDrag(panel, panel.width/2, panel.height/2, 0, shell.height/3, Qt.LeftButton, Qt.NoModifier, 500);
             } else {
-                touchFlick(panel, panel.width/2, panel.height/2, panel.width/2, shell.height/3);
+                touchFlick(panel, panel.width/2, panel.panelHeight/2, panel.width/2, shell.height/3);
             }
 
             tryCompare(appDelegate, "state", "restored");
@@ -2864,7 +2865,7 @@ Rectangle {
             loadShell(data.tag);
 
             var panel = findChild(shell, "panel"); verify(panel);
-            var panelTitle = findChild(panel.applicationMenus, "panelTitle"); verify(panelTitle);
+            var panelTitle = findChild(panel, "panelTitle"); verify(panelTitle);
             compare(panelTitle.visible, false, "Panel title should not be visible when greeter is shown");
 
             swipeAwayGreeter();
@@ -2929,6 +2930,86 @@ Rectangle {
             tryCompare(appDelegate, "state", "maximizedRight");
         }
 
+
+        function test_closeAppsInSpreadWithQ() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var appSurfaceId = topLevelSurfaceList.nextId;
+            var app = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            appSurfaceId = topLevelSurfaceList.nextId;
+            app = ApplicationManager.startApplication("calendar-app")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            keyPress(Qt.Key_Alt);
+            keyClick(Qt.Key_Tab);
+
+            var stage = findChild(shell, "stage");
+            var spread = findChild(stage, "spreadItem");
+            var appRepeater = findChild(stage, "appRepeater");
+
+            tryCompare(stage, "state", "spread");
+
+            tryCompare(ApplicationManager, "count", 3);
+            tryCompareFunction(function() {return appRepeater.itemAt(spread.highlightedIndex).appId == "dialer-app"}, true);
+
+            // Close one app with Q while in spread
+            keyClick(Qt.Key_Q);
+
+            tryCompare(ApplicationManager, "count", 2);
+
+            // Now the dash should be highlighted
+            tryCompareFunction(function() {return appRepeater.itemAt(spread.highlightedIndex).appId == "unity8-dash"}, true);
+
+            keyClick(Qt.Key_Q);
+
+            // Dash is not closeable, should still be 2
+            tryCompare(ApplicationManager, "count", 2);
+
+            // Move to the next one, should be closable again
+            keyClick(Qt.Key_Tab);
+            tryCompareFunction(function() {return appRepeater.itemAt(spread.highlightedIndex).appId == "calendar-app"}, true);
+
+            // close it
+            keyClick(Qt.Key_Q);
+            tryCompare(ApplicationManager, "count", 1);
+
+            keyRelease(Qt.Key_Alt);
+
+            // Now start the apps again
+            appSurfaceId = topLevelSurfaceList.nextId;
+            app = ApplicationManager.startApplication("dialer-app");
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            appSurfaceId = topLevelSurfaceList.nextId;
+            app = ApplicationManager.startApplication("calendar-app");
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            // First focus the dash so it'll be the leftmost in the spread
+            ApplicationManager.requestFocusApplication("unity8-dash");
+
+            keyPress(Qt.Key_Alt);
+            keyClick(Qt.Key_Tab);
+            tryCompare(stage, "state", "spread");
+
+            // Move to the last one
+            keyClick(Qt.Key_Tab);
+
+            // Close the last one, make sure the highlight fixes itself to stick within the list
+            tryCompare(spread, "highlightedIndex", ApplicationManager.count - 1);
+            var oldHighlighted = spread.highlightedIndex;
+
+            keyClick(Qt.Key_Q);
+            tryCompare(spread, "highlightedIndex", oldHighlighted - 1);
+
+            keyRelease(Qt.Key_Alt);
+
+        }
+
         function test_altTabToMinimizedApp() {
             loadShell("desktop");
             shell.usageScenario = "desktop";
@@ -2955,6 +3036,61 @@ Rectangle {
             tryCompare(appDelegate, "focus", true);
             tryCompare(topLevelSurfaceList.focusedWindow, "surface", appDelegate.surface);
             tryCompare(topLevelSurfaceList.applicationAt(0), "appId", "dialer-app");
+        }
+
+        function test_touchMenuPosition_data() {
+            return [
+                        { tag: "launcher locked", lockLauncher: true },
+                        { tag: "launcher not locked", lockLauncher: false }
+                    ];
+        }
+
+        function test_touchMenuPosition(data) {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var panel = findChild(shell, "panel");
+            var launcher = testCase.findChild(shell, "launcher");
+            launcher.lockedVisible = data.lockLauncher;
+            if (data.lockLauncher) {
+                compare(panel.applicationMenus.x, launcher.panelWidth);
+            } else {
+                compare(panel.applicationMenus.x, 0);
+            }
+        }
+
+        function test_touchMenuHidesOnLauncherAppDrawer_data() {
+            return [
+                        { tag: "launcher locked", lockLauncher: true },
+                        { tag: "launcher not locked", lockLauncher: false }
+                    ];
+        }
+
+        function test_touchMenuHidesOnLauncherAppDrawer(data) {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var panel = findChild(shell, "panel");
+            var launcher = testCase.findChild(shell, "launcher");
+            launcher.lockedVisible = data.lockLauncher;
+
+            waitForRendering(panel.applicationMenus);
+
+            if (data.lockLauncher) {
+                panel.applicationMenus.show();
+                tryCompare(panel.applicationMenus, "fullyOpened", true);
+                launcher.openDrawer();
+            } else {
+                tryCompare(launcher, "shown", false);
+                panel.applicationMenus.show();
+                tryCompare(panel.applicationMenus, "fullyOpened", true);
+                launcher.switchToNextState("visible");
+            }
+            tryCompare(panel.applicationMenus, "fullyClosed", true);
         }
 
         function test_doubleClickPanelRestoresWindow() {

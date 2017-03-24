@@ -42,11 +42,15 @@ public:
 
     bool operator==(const QuickListEntry & other);
 
+    bool isPrivate() const;
+    void setIsPrivate(bool isPrivate);
+
 private:
     QString m_actionId;
     QString m_text;
     QString m_icon;
     bool m_hasSeparator;
+    bool m_isPrivate;
 };
 
 #endif // QUICKLISTENTRY

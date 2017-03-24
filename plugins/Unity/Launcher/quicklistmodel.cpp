@@ -37,6 +37,13 @@ void QuickListModel::appendAction(const QuickListEntry &entry)
     endInsertRows();
 }
 
+void QuickListModel::insertAction(const QuickListEntry &entry, int index)
+{
+    beginInsertRows(QModelIndex(), index, index);
+    m_list.insert(index, entry);
+    endInsertRows();
+}
+
 void QuickListModel::updateAction(const QuickListEntry &entry)
 {
     for (int i = 0; i < m_list.count(); ++i) {
@@ -81,6 +88,8 @@ QVariant QuickListModel::data(const QModelIndex &index, int role) const
         return m_list.at(index.row()).clickable();
     case RoleHasSeparator:
         return m_list.at(index.row()).hasSeparator();
+    case RoleIsPrivate:
+        return m_list.at(index.row()).isPrivate();
     }
     return QVariant();
 }

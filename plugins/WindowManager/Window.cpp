@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2016-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -64,6 +64,23 @@ void Window::setRequestedPosition(const QPoint &value)
             m_position = m_requestedPosition;
             Q_EMIT positionChanged(m_position);
         }
+    }
+}
+
+bool Window::allowClientResize() const
+{
+    return m_allowClientResize;
+}
+
+void Window::setAllowClientResize(bool value)
+{
+    if (value != m_allowClientResize) {
+        DEBUG_MSG << "("<<value<<")";
+        m_allowClientResize = value;
+        if (m_surface) {
+            m_surface->setAllowClientResize(value);
+        }
+        Q_EMIT allowClientResizeChanged(m_allowClientResize);
     }
 }
 
@@ -154,6 +171,19 @@ void Window::setSurface(unityapi::MirSurfaceInterface *surface)
             updateFocused();
         });
 
+        connect(surface, &unityapi::MirSurfaceInterface::allowClientResizeChanged, this, [this]() {
+            if (m_surface->allowClientResize() != m_allowClientResize) {
+                m_allowClientResize = m_surface->allowClientResize();
+                Q_EMIT allowClientResizeChanged(m_allowClientResize);
+            }
+        });
+
+        connect(surface, &unityapi::MirSurfaceInterface::liveChanged, this, &Window::liveChanged);
+
+        connect(surface, &QObject::destroyed, this, [this]() {
+            setSurface(nullptr);
+        });
+
         // bring it up to speed
         if (m_positionRequested) {
             m_surface->setRequestedPosition(m_requestedPosition);
@@ -161,6 +191,7 @@ void Window::setSurface(unityapi::MirSurfaceInterface *surface)
         if (m_stateRequested && m_surface->state() == Mir::RestoredState) {
             m_surface->requestState(m_state);
         }
+        m_surface->setAllowClientResize(m_allowClientResize);
 
         // and sync with surface
         updatePosition();

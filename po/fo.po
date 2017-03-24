@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-03-08 09:56+0000\n"
+"POT-Creation-Date: 2017-03-21 10:58+0000\n"
 "PO-Revision-Date: 2014-01-14 20:08+0000\n"
 "Last-Translator: Jógvan Olsen <jo@jebster.net>\n"
 "Language-Team: Faroese <fo@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-03-14 07:12+0000\n"
-"X-Generator: Launchpad (build 18331)\n"
+"X-Launchpad-Export-Date: 2017-03-24 06:13+0000\n"
+"X-Generator: Launchpad (build 18334)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -50,8 +50,8 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:50
-#: plugins/Unity/Launcher/launcheritem.cpp:122
+#: plugins/Unity/Launcher/launcheritem.cpp:49
+#: plugins/Unity/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Heft snarveg"
 
@@ -59,20 +59,20 @@ msgstr "Heft snarveg"
 msgid "Quit"
 msgstr "Gevst"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:122
+#: plugins/Unity/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Óheft snarveg"
 
-#: qml/Components/Dialogs.qml:177
+#: qml/Components/Dialogs.qml:176
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Útrita"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:177
 msgid "Are you sure you want to log out?"
 msgstr "Ert tú vísur ið tú vilt rita út?"
 
-#: qml/Components/Dialogs.qml:181
+#: qml/Components/Dialogs.qml:180
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Læs"
@@ -521,11 +521,11 @@ msgstr ""
 msgid "Select desktop environment"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:92
+#: qml/Launcher/Drawer.qml:93
 msgid "Search…"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:127
+#: qml/Launcher/Drawer.qml:128
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""

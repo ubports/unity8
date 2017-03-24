@@ -44,9 +44,9 @@ Rectangle {
         anchors.fill: parent
         model: content.model
 
-        highlightFollowsCurrentItem: true
+        highlightFollowsCurrentItem: false
+        contentX: currentIndex * width
         interactive: false
-        highlightMoveDuration: 0
         orientation: ListView.Horizontal
         // Load all the indicator menus (a big number)
         cacheBuffer: 1073741823
