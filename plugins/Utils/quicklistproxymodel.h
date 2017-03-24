@@ -48,5 +48,5 @@ Q_SIGNALS:
 
 private:
     QAbstractItemModel* m_source = nullptr;
-    bool m_privateMode;
+    bool m_privateMode = false;
 };
