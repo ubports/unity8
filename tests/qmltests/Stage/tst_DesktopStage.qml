@@ -1057,5 +1057,15 @@ Item {
             tap(maxButton);
             tryCompare(appDelegate, "state", "maximized");
         }
+
+        function test_childWindowGetsActiveFocus() {
+            var appDelegate = startApplication("kate");
+            appDelegate.surface.openDialog(units.gu(5), units.gu(5), units.gu(30), units.gu(30));
+            var childWindow = findChild(appDelegate, "childWindow");
+            verify(childWindow);
+            var surfaceItem = findChild(childWindow, "surfaceItem");
+            verify(surfaceItem);
+            tryCompare(surfaceItem, "activeFocus", true);
+        }
     }
 }

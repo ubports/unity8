@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2016-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,8 +21,19 @@ Repeater {
     id: root
     property Item boundsItem
     delegate: ChildWindowTree {
+        id: childWindowTree
         surface: model.surface
         z: root.count - model.index
         boundsItem: root.boundsItem
+        Connections {
+            target: childWindowTree.surface
+            onFocusedChanged: {
+                if (childWindowTree.surface.focused) {
+                    childWindowTree.focus = true;
+                    // focus the Loader
+                    childWindowTree.parent.focus = true;
+                }
+            }
+        }
     }
 }
