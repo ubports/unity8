@@ -174,6 +174,8 @@ CursorImageProvider::CursorImageProvider()
     m_fallbackNames[QStringLiteral("forbidden")].append(QStringLiteral("not-allowed"));
     m_fallbackNames[QStringLiteral("forbidden")].append(QStringLiteral("circle"));
 
+    m_fallbackNames[QStringLiteral("grabbing")].append(QStringLiteral("closedhand")); // Breeze
+
     m_fallbackNames[QStringLiteral("hand")].append(QStringLiteral("pointing_hand"));
     m_fallbackNames[QStringLiteral("hand")].append(QStringLiteral("pointer"));
 

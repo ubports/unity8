@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2016-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,8 +23,6 @@
 #include <QAbstractListModel>
 #include <QList>
 
-class MirSurface;
-
 class MirSurfaceListModel : public unity::shell::application::MirSurfaceListInterface
 {
     Q_OBJECT
@@ -38,17 +36,17 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role) const override;
 
-    void addSurface(MirSurface *surface);
-    void removeSurface(MirSurface *surface);
+    void addSurface(unity::shell::application::MirSurfaceInterface *surface);
+    void removeSurface(unity::shell::application::MirSurfaceInterface *surface);
 
-    bool contains(MirSurface *surface) const { return m_surfaceList.contains(surface); }
+    bool contains(unity::shell::application::MirSurfaceInterface *surface) const { return m_surfaceList.contains(surface); }
 
 private:
-    void raise(MirSurface *surface);
+    void raise(unity::shell::application::MirSurfaceInterface *surface);
     void moveSurface(int from, int to);
-    void connectSurface(MirSurface *surface);
+    void connectSurface(unity::shell::application::MirSurfaceInterface *surface);
 
-    QList<MirSurface*> m_surfaceList;
+    QList<unity::shell::application::MirSurfaceInterface*> m_surfaceList;
 };
 
 Q_DECLARE_METATYPE(MirSurfaceListModel*)

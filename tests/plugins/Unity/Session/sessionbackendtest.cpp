@@ -53,6 +53,11 @@ private Q_SLOTS:
                                                QDBusConnection::sessionBus());
     }
 
+    void init() {
+        qputenv("TEST_USER", "testuser");
+        qputenv("TEST_NOPASSWD_USERS", "");
+    }
+
     void testUnitySessionLogoutRequested_data() {
         QTest::addColumn<QString>("method");
         QTest::addColumn<QString>("signal");
@@ -81,7 +86,99 @@ private Q_SLOTS:
         QTRY_COMPARE(spy.count(), 1);
     }
 
-    void testGnomeSessionWrapper_data() {
+    void testGnomeSessionWrapperWithoutConfirmation_data() {
+        QTest::addColumn<QString>("method");
+        QTest::addColumn<QString>("signal");
+
+        QTest::newRow("Reboot") << "RequestReboot" << SIGNAL(RebootCalled(bool));
+        QTest::newRow("Shutdown") << "RequestShutdown" << SIGNAL(PowerOffCalled(bool));
+    }
+
+    void testGnomeSessionWrapperWithoutConfirmation() {
+        QFETCH(QString, method);
+        QFETCH(QString, signal);
+
+        DBusUnitySessionService dbusUnitySessionService;
+        DBusGnomeSessionManagerWrapper dbusGnomeSessionManagerWrapper;
+        QCoreApplication::processEvents(); // to let the services register on DBus
+
+        QDBusInterface login1Interface("org.freedesktop.login1",
+                                      "/logindsession",
+                                      "org.freedesktop.login1.Manager");
+        QSignalSpy spy(&login1Interface, signal.toUtf8().data());
+
+        QDBusInterface dbusGnomeSessionWrapper("org.gnome.SessionManager",
+                                               "/org/gnome/SessionManager",
+                                               "org.gnome.SessionManager",
+                                               QDBusConnection::sessionBus());
+        QVERIFY(dbusGnomeSessionWrapper.isValid());
+
+        QDBusReply<void> reply = dbusGnomeSessionWrapper.call(method);
+        QVERIFY(reply.isValid());
+        QTRY_COMPARE(spy.count(), 1);
+    }
+
+    void testGnomeSessionWrapperWithConfirmation_data() {
+        QTest::addColumn<QString>("method");
+        QTest::addColumn<QString>("signal");
+
+        QTest::newRow("Reboot") << "Reboot" << SIGNAL(RebootRequested(bool));
+        QTest::newRow("Shutdown") << "Shutdown" << SIGNAL(ShutdownRequested(bool));
+    }
+
+    void testGnomeSessionWrapperWithConfirmation() {
+        QFETCH(QString, method);
+        QFETCH(QString, signal);
+
+        DBusUnitySessionService dbusUnitySessionService;
+        DBusGnomeSessionManagerWrapper dbusGnomeSessionManagerWrapper;
+        QCoreApplication::processEvents(); // to let the services register on DBus
+
+        QSignalSpy spy(&dbusUnitySessionService, signal.toUtf8().data());
+
+        QDBusInterface dbusGnomeSessionWrapper("org.gnome.SessionManager",
+                                               "/org/gnome/SessionManager",
+                                               "org.gnome.SessionManager",
+                                               QDBusConnection::sessionBus());
+        QVERIFY(dbusGnomeSessionWrapper.isValid());
+
+        QDBusReply<void> reply = dbusGnomeSessionWrapper.call(method);
+        QVERIFY(reply.isValid());
+        QCOMPARE(spy.count(), 1);
+    }
+
+    void testGnomeSessionWrapperLogout_data() {
+        QTest::addColumn<int>("mode");
+        QTest::addColumn<QString>("signal");
+
+        QTest::newRow("Logout") << 0 << SIGNAL(LogoutRequested(bool));
+        QTest::newRow("LogoutNoDialog") << 1 << SIGNAL(LogoutReady());
+        QTest::newRow("LogoutNoInhibits") << 2 << SIGNAL(LogoutReady());
+        QTest::newRow("LogoutNoDialogNoInhibits") << 3 << SIGNAL(LogoutReady());
+    }
+
+    void testGnomeSessionWrapperLogout() {
+        QFETCH(int, mode);
+        QFETCH(QString, signal);
+
+        DBusUnitySessionService dbusUnitySessionService;
+        DBusGnomeSessionManagerWrapper dbusGnomeSessionManagerWrapper;
+        QCoreApplication::processEvents(); // to let the services register on DBus
+
+        QSignalSpy spy(&dbusUnitySessionService, signal.toUtf8().data());
+
+        QDBusInterface dbusGnomeSessionWrapper("org.gnome.SessionManager",
+                                               "/org/gnome/SessionManager",
+                                               "org.gnome.SessionManager",
+                                               QDBusConnection::sessionBus());
+        QVERIFY(dbusGnomeSessionWrapper.isValid());
+
+        QDBusReply<void> reply = dbusGnomeSessionWrapper.call("Logout", (quint32)mode);
+        QVERIFY(reply.isValid());
+        QCOMPARE(spy.count(), 1);
+    }
+
+    void testGnomeSessionDialogWrapper_data() {
         QTest::addColumn<uint>("method");
         QTest::addColumn<QString>("signal");
 
@@ -90,7 +187,7 @@ private Q_SLOTS:
         QTest::newRow("Reboot") << (uint)Action::REBOOT << "RebootRequested(bool)";
     }
 
-    void testGnomeSessionWrapper() {
+    void testGnomeSessionDialogWrapper() {
         QFETCH(uint, method);
         QFETCH(QString, signal);
 
@@ -102,7 +199,7 @@ private Q_SLOTS:
         // .. because QSignalSpy checks the signal signature like this: "if (((aSignal[0] - '0') & 0x03) != QSIGNAL_CODE)"
         QSignalSpy spy(&dbusUnitySessionService, qPrintable(signal.prepend(QSIGNAL_CODE)));
 
-        DBusGnomeSessionManagerWrapper dbusGnomeSessionManagerWrapper;
+        DBusGnomeSessionManagerDialogWrapper dbusGnomeSessionManagerDialogWrapper;
         QCoreApplication::processEvents(); // to let the service register on DBus
 
         QDBusInterface dbusGnomeSessionWrapper("com.canonical.Unity",
@@ -138,14 +235,7 @@ private Q_SLOTS:
 
     void testUserName() {
         DBusUnitySessionService dbusUnitySessionService;
-        QCoreApplication::processEvents(); // to let the service register on DBus
-
-        QProcess * proc = new QProcess(this);
-        proc->start("id -un", QProcess::ReadOnly);
-        proc->waitForFinished();
-        const QByteArray out = proc->readAll().trimmed();
-
-        QCOMPARE(dbusUnitySessionService.UserName(), QString::fromUtf8(out));
+        QCOMPARE(dbusUnitySessionService.UserName(), QString("testuser"));
     }
 
     void testRealName() {
@@ -160,6 +250,35 @@ private Q_SLOTS:
                 QCOMPARE(dbusUnitySessionService.RealName(), userAccIface.property("RealName").toString());
             }
         }
+    }
+
+    void testCanLock() {
+        DBusUnitySessionService dbusUnitySessionService;
+
+        qputenv("TEST_USER", "testuser");
+        QVERIFY(dbusUnitySessionService.CanLock());
+
+        qputenv("TEST_USER", "guest-abcdef"); // guest-* can't lock
+        QVERIFY(!dbusUnitySessionService.CanLock());
+
+        qputenv("TEST_USER", "testuser");
+        qputenv("TEST_NOPASSWD_USERS", "testuser"); // nopasswdlogin can't lock
+        QVERIFY(!dbusUnitySessionService.CanLock());
+    }
+
+    void testPromptLockRespectsCanLock() {
+        DBusUnitySessionService dbusUnitySessionService;
+
+        QSignalSpy spy(&dbusUnitySessionService, SIGNAL(lockRequested()));
+        QVERIFY(dbusUnitySessionService.CanLock());
+        dbusUnitySessionService.PromptLock();
+        QCOMPARE(spy.count(), 1);
+
+        spy.clear();
+        qputenv("TEST_USER", "guest-abcdef");
+        QVERIFY(!dbusUnitySessionService.CanLock());
+        dbusUnitySessionService.PromptLock();
+        QCOMPARE(spy.count(), 0);
     }
 
 private:

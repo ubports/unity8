@@ -33,6 +33,7 @@ FocusScope {
     property Item blurSource: null
     property int topPanelHeight: 0
     property bool drawerEnabled: true
+    property alias privateMode: panel.privateMode
 
     property int panelWidth: units.gu(10)
     property int dragAreaWidth: units.gu(1)
@@ -119,7 +120,14 @@ FocusScope {
             }
             return;
         }
-        switchToNextState("")
+        if (root.lockedVisible) {
+            // Due to binding updates when switching between modes
+            // it could happen that our request to show will be overwritten
+            // with a hide request. Rewrite it when we know hiding is not allowed.
+            switchToNextState("visible")
+        } else {
+            switchToNextState("")
+        }
     }
 
     function fadeOut() {
@@ -155,6 +163,7 @@ FocusScope {
 
     function openForKeyboardNavigation() {
         panel.highlightIndex = -1; // The BFB
+        drawer.focus = false;
         root.focus = true;
         switchToNextState("visible")
     }
@@ -257,13 +266,6 @@ FocusScope {
         interval: 1
         property string nextState: ""
         onTriggered: {
-            if (root.lockedVisible && nextState == "") {
-                // Due to binding updates when switching between modes
-                // it could happen that our request to show will be overwritten
-                // with a hide request. Rewrite it when we know hiding is not allowed.
-                nextState = "visible"
-            }
-
             // switching to an intermediate state here to make sure all the
             // values are restored, even if we were already in the target state
             root.state = "tmp"
@@ -362,6 +364,13 @@ FocusScope {
             topMargin: root.inverted ? root.topPanelHeight : 0
             bottom: parent.bottom
             right: parent.left
+            onRightMarginChanged: {
+                // Remove (and put back) the focus for the searchfield in
+                // order to hide the copy/paste popover when we move the drawer
+                var hadFocus = drawer.searchTextField.focus;
+                drawer.searchTextField.focus = false;
+                drawer.searchTextField.focus = hadFocus;
+            }
         }
         width: Math.min(root.width, units.gu(90)) * .9
         panelWidth: panel.width
@@ -382,8 +391,7 @@ FocusScope {
         }
 
         Keys.onEscapePressed: {
-            switchToNextState("");
-            root.focus = false;
+            root.hide()
         }
 
         onDragDistanceChanged: {

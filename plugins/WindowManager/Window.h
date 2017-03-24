@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2016-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,8 @@
 // Unity API
 #include <unity/shell/application/Mir.h>
 
+#include "WindowManagerGlobal.h"
+
 namespace unity {
     namespace shell {
         namespace application {
@@ -42,7 +44,7 @@ Q_DECLARE_LOGGING_CATEGORY(UNITY_WINDOW)
    was killed to free up memory, as it should still remain in the window list since the user
    did not explicitly close it).
  */
-class Window : public QObject
+class WINDOWMANAGERQML_EXPORT Window : public QObject
 {
     Q_OBJECT
 
@@ -89,6 +91,13 @@ class Window : public QObject
      */
     Q_PROPERTY(unity::shell::application::MirSurfaceInterface* surface READ surface NOTIFY surfaceChanged)
 
+    /**
+     * @brief Whether to comply to resize requests coming from the client side
+     *
+     * It's true by default
+     */
+    Q_PROPERTY(bool allowClientResize READ allowClientResize WRITE setAllowClientResize NOTIFY allowClientResizeChanged)
+
 public:
     Window(int id, QObject *parent = nullptr);
     virtual ~Window();
@@ -103,6 +112,9 @@ public:
 
     void setSurface(unity::shell::application::MirSurfaceInterface *surface);
     void setFocused(bool value);
+
+    bool allowClientResize() const;
+    void setAllowClientResize(bool);
 
     QString toString() const;
 
@@ -133,6 +145,8 @@ Q_SIGNALS:
     void focusedChanged(bool value);
     void confinesMousePointerChanged(bool value);
     void surfaceChanged(unity::shell::application::MirSurfaceInterface *surface);
+    void allowClientResizeChanged(bool value);
+    void liveChanged(bool value);
 
     /**
      * @brief Emitted when focus for this window is requested by an external party
@@ -152,6 +166,8 @@ private:
     Mir::State m_state{Mir::RestoredState};
     bool m_stateRequested{false};
     unity::shell::application::MirSurfaceInterface *m_surface{nullptr};
+
+    bool m_allowClientResize{true};
 };
 
 QDebug operator<<(QDebug dbg, const Window *window);

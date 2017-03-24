@@ -36,6 +36,7 @@ public:
     ~QuickListModel();
 
     void appendAction(const QuickListEntry &entry);
+    void insertAction(const QuickListEntry &entry, int index);
 
     /**
      * @brief Update an existing action
