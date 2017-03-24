@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-03-08 09:56+0000\n"
+"POT-Creation-Date: 2017-03-21 10:58+0000\n"
 "PO-Revision-Date: 2016-01-31 18:34+0000\n"
 "Last-Translator: Bernard Banko <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2017-03-14 07:13+0000\n"
-"X-Generator: Launchpad (build 18331)\n"
+"X-Launchpad-Export-Date: 2017-03-24 06:14+0000\n"
+"X-Generator: Launchpad (build 18334)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -51,8 +51,8 @@ msgstr ""
 msgid "Guest Session"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:50
-#: plugins/Unity/Launcher/launcheritem.cpp:122
+#: plugins/Unity/Launcher/launcheritem.cpp:49
+#: plugins/Unity/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Pripni bližnjico"
 
@@ -60,20 +60,20 @@ msgstr "Pripni bližnjico"
 msgid "Quit"
 msgstr "Končaj"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:122
+#: plugins/Unity/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Odpni bližnjico"
 
-#: qml/Components/Dialogs.qml:177
+#: qml/Components/Dialogs.qml:176
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Odjava"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:177
 msgid "Are you sure you want to log out?"
 msgstr "Ali ste prepričani, da se želite odjaviti?"
 
-#: qml/Components/Dialogs.qml:181
+#: qml/Components/Dialogs.qml:180
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Zakleni"
@@ -526,11 +526,11 @@ msgstr ""
 msgid "Select desktop environment"
 msgstr "Izberite namizno okolje"
 
-#: qml/Launcher/Drawer.qml:92
+#: qml/Launcher/Drawer.qml:93
 msgid "Search…"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:127
+#: qml/Launcher/Drawer.qml:128
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""
