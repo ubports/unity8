@@ -39,6 +39,8 @@ QVariant MockQuickListModel::data(const QModelIndex &index, int role) const
         return index.row() == 1 ? false : true;
     case RoleHasSeparator:
         return index.row() <= 1 ? true : false;
+    case RoleIsPrivate:
+        return index.row() == 4 ? true : false;
     }
     return QVariant();
 }
@@ -46,5 +48,5 @@ QVariant MockQuickListModel::data(const QModelIndex &index, int role) const
 int MockQuickListModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return 4;
+    return 5;
 }

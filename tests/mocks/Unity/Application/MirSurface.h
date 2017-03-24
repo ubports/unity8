@@ -58,6 +58,7 @@ public:
     QString name() const override;
 
     QString persistentId() const override;
+    QString appId() const override;
 
     QPoint position() const override { return m_position; }
 
@@ -91,6 +92,9 @@ public:
     QRect inputBounds() const override;
 
     bool confinesMousePointer() const override { return false; }
+
+    bool allowClientResize() const override { return true; }
+    void setAllowClientResize(bool) override {}
 
     QPoint requestedPosition() const override { return m_requestedPosition; }
     void setRequestedPosition(const QPoint &) override;

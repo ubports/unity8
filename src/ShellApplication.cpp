@@ -23,6 +23,8 @@
 #include <QQmlContext>
 #include <QQmlComponent>
 
+#include <QGSettings>
+
 #include <libintl.h>
 
 // libandroid-properties
@@ -69,8 +71,9 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     bindtextdomain("unity8", translationDirectory().toUtf8().data());
     textdomain("unity8");
 
-    m_qmlEngine->rootContext()->setContextProperty(QStringLiteral("applicationArguments"), &m_qmlArgs);
-    m_qmlEngine->rootContext()->setContextProperty("DebuggingController", new DebuggingController(this));
+    QScopedPointer<QGSettings> gSettings(new QGSettings("com.canonical.Unity8"));
+    gSettings->reset(QStringLiteral("alwaysShowOsk"));
+
 
     QByteArray pxpguEnv = qgetenv("GRID_UNIT_PX");
     bool ok;
@@ -79,6 +82,8 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
         pxpgu = 8;
     }
     m_qmlEngine->rootContext()->setContextProperty("internalGu", pxpgu);
+    m_qmlEngine->rootContext()->setContextProperty(QStringLiteral("applicationArguments"), &m_qmlArgs);
+    m_qmlEngine->rootContext()->setContextProperty("DebuggingController", new DebuggingController(this));
 
     auto component(new QQmlComponent(m_qmlEngine,
                                      QUrl::fromLocalFile(::qmlDirectory() + "/ShellApplication.qml")));

@@ -576,6 +576,12 @@ FocusScope {
             onLeaveSpread: {
                 priv.goneToSpread = false;
             }
+
+            onCloseCurrentApp: {
+                if (!appRepeater.itemAt(highlightedIndex).isDash) {
+                    appRepeater.itemAt(highlightedIndex).close();
+                }
+            }
         }
 
         Connections {
@@ -754,6 +760,14 @@ FocusScope {
                         normalHeight = appDelegate.height;
                     }
                 }
+                function updateRestoredGeometry() {
+                    if (appDelegate.state == "normal" || appDelegate.state == "restored") {
+                        // save the x/y to restore to
+                        restoredX = appDelegate.x;
+                        restoredY = appDelegate.y;
+                    }
+                }
+
                 Connections {
                     target: appDelegate
                     onXChanged: appDelegate.updateNormalGeometry();
@@ -1303,6 +1317,10 @@ FocusScope {
                             target: stageMaths
                             animateX: !focusAnimation.running && itemIndex !== spreadItem.highlightedIndex
                         }
+                        PropertyChanges {
+                            target: appDelegate.window
+                            allowClientResize: false
+                        }
                     },
                     State {
                         name: "stagedWithSideStage"; when: root.state == "stagedWithSideStage"
@@ -1327,6 +1345,10 @@ FocusScope {
                         PropertyChanges {
                             target: resizeArea
                             enabled: false
+                        }
+                        PropertyChanges {
+                            target: appDelegate.window
+                            allowClientResize: false
                         }
                     },
                     State {
@@ -1599,6 +1621,7 @@ FocusScope {
                     height: implicitHeight
                     highlightSize: windowInfoItem.iconMargin / 2
                     boundsItem: boundariesForWindowPlacement
+                    altDragEnabled: root.mode == "windowed"
 
                     requestedWidth: appDelegate.requestedWidth
                     requestedHeight: appDelegate.requestedHeight
@@ -1627,7 +1650,7 @@ FocusScope {
                     }
                     onMinimizeClicked: { appDelegate.requestMinimize(); }
                     onDecorationPressed: { appDelegate.activate(); }
-                    onDecorationReleased: fakeRectangle.commit();
+                    onDecorationReleased: fakeRectangle.visible ? fakeRectangle.commit() : appDelegate.updateRestoredGeometry()
 
                     property real angle: 0
                     Behavior on angle { enabled: priv.closingIndex >= 0; UbuntuNumberAnimation {} }
@@ -1671,7 +1694,7 @@ FocusScope {
                     onFakeMaximizeBottomLeftAnimationRequested: if (!appDelegate.maximizedBottomLeft) fakeRectangle.maximizeBottomLeft(amount, true);
                     onFakeMaximizeBottomRightAnimationRequested: if (!appDelegate.maximizedBottomRight) fakeRectangle.maximizeBottomRight(amount, true);
                     onStopFakeAnimation: fakeRectangle.stop();
-                    onDragReleased: fakeRectangle.commit();
+                    onDragReleased: fakeRectangle.visible ? fakeRectangle.commit() : appDelegate.updateRestoredGeometry()
                 }
 
                 WindowedFullscreenPolicy {

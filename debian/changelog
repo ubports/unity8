@@ -1,3 +1,52 @@
+unity8 (8.15+17.04.20170321-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Signal aboutToShow (LP: #1664578)
+  * Support Panel top level items to be disabled (LP: #1670694)
+  * Improve Launcher ←→ touch menu interaction (LP: #1667620, #1671069)
+  * Fix real world submenus (e.g. kate) not getting their first item
+    selected on open (LP: #1666859)
+
+  [ Daniel d'Andrada ]
+  * Really disable the window decoration when in staged mode (LP:
+    #1670361)
+  * Don't let clients resize their surfaces while in staged
+    (phone/tablet) mode (LP: #1670390)
+  * TopLevelWindowModel: don't put hidden windows in the model (LP:
+    #1665286)
+
+  [ Lukáš Tinkl ]
+  * Reset always-show-osk gsetting on startup to default value (false
+    atm)
+  * Fix the restored-to position with Miral due to the state changes
+    being async (LP: #1669819)
+  * Add a cursor name fallback mapping "grabbing" -> "closedhand" for
+    Breeze
+  * Fix unsnapping a maximized window from the panel (LP: #1671721)
+  * Disable altDrag feature outside windowed mode
+
+  [ Michael Terry ]
+  * Don't lock the screen for guest users or users in the nopasswdlogin
+    group. (LP: #1644237)
+  * Support GNOME-style logout DBus API (making the Logout, Reboot, and
+    Shutdown launcher commands work) (LP: #1673229)
+
+  [ Michael Zanetti ]
+  * Add support for closing apps from the spread with "Q" (LP: #1670327)
+  * hide "private" launcher quicklist entries when the greeter is locked
+    (LP: #1667649)
+  * add surface titles to launcher's quicklist (LP: #1661668)
+  * properly reset the drawer state when cancelling a horizontal drag
+    (LP: #1669536)
+  * fix the focus moving correctly between launcher and drawer (LP:
+    #1669880)
+  * unfocus the drawer's textfield when it is moved (LP: #1669839)
+
+  [ Pete Woods ]
+  * Fix up indicators-client after refactoring (LP: #1672797)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 21 Mar 2017 10:58:13 +0000
+
 unity8 (8.15+17.04.20170308-0ubuntu1) zesty; urgency=medium
 
   [ Albert Astals Cid ]
