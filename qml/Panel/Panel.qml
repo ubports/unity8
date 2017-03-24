@@ -38,6 +38,7 @@ Item {
     property real expandedPanelHeight: units.gu(7)
     property real indicatorMenuWidth: width
     property real applicationMenuWidth: width
+    property alias applicationMenuContentX: __applicationMenus.menuContentX
 
     property alias applicationMenus: __applicationMenus
     property alias indicators: __indicators
@@ -175,6 +176,10 @@ Item {
                     // let it fall through to the window decoration of the maximized window behind, if any
                     mouse.accepted = false;
                 }
+                var menubar = menuBarLoader.item;
+                if (menubar) {
+                    menubar.invokeMenu(mouse);
+                }
             }
 
             Row {
@@ -201,16 +206,17 @@ Item {
 
                 Loader {
                     id: menuBarLoader
+                    objectName: "menuBarLoader"
                     height: parent.height
                     enabled: d.enablePointerMenu
                     opacity: d.showPointerMenu ? 1 : 0
                     visible: opacity != 0
                     Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
-                    active: __applicationMenus.model
+                    active: __applicationMenus.model && !callHint.visible
 
                     width: parent.width - windowControlButtons.width - units.gu(2) - __indicators.barWidth
 
-                    property bool menusRequested: menuBarLoader.item ? menuBarLoader.item.showRequested : false
+                    readonly property bool menusRequested: menuBarLoader.item ? menuBarLoader.item.showRequested : false
 
                     sourceComponent: MenuBar {
                         id: bar
@@ -233,6 +239,7 @@ Item {
                         }
 
                         onDoubleClicked: panelState.restoreClicked()
+                        onPressed: mouse.accepted = false // let the parent mouse area handle this, so it can both unsnap window and show menu
                     }
                 }
             }
@@ -252,6 +259,7 @@ Item {
         PanelMenu {
             id: __applicationMenus
 
+            x: menuContentX
             model: registeredMenuModel.model
             width: root.applicationMenuWidth
             minimizedPanelHeight: root.minimizedPanelHeight
@@ -260,6 +268,7 @@ Item {
             alignment: Qt.AlignLeft
             enableHint: !callHint.active && !fullscreenMode
             showOnClick: false
+            adjustDragHandleSizeToContents: false
             panelColor: panelAreaBackground.color
 
             onShowTapped: {
@@ -268,12 +277,12 @@ Item {
                 }
             }
 
-            showRowTitle: !expanded
-            rowTitle: panelState.title
+            hideRow: !expanded
             rowItemDelegate: ActionItem {
                 id: actionItem
                 property int ownIndex: index
                 objectName: "appMenuItem"+index
+                enabled: model.sensitive
 
                 width: _title.width + units.gu(2)
                 height: parent.height
@@ -292,6 +301,13 @@ Item {
             }
 
             pageDelegate: PanelMenuPage {
+                readonly property bool isCurrent: modelIndex == __applicationMenus.currentMenuIndex
+                onIsCurrentChanged: {
+                    if (isCurrent && menuModel) {
+                        menuModel.aboutToShow(modelIndex);
+                    }
+                }
+
                 menuModel: __applicationMenus.model
                 submenuIndex: modelIndex
 
@@ -308,6 +324,28 @@ Item {
             onEnabledChanged: {
                 if (!enabled) hide();
             }
+        }
+
+        Label {
+            id: rowLabel
+            objectName: "panelTitle"
+            anchors {
+                left: parent.left
+                leftMargin: units.gu(1)
+                right: __indicators.left
+                rightMargin: units.gu(1)
+            }
+            height: root.minimizedPanelHeight
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideRight
+            maximumLineCount: 1
+            fontSize: "medium"
+            font.weight: Font.Medium
+            color: Theme.palette.selected.backgroundText
+            opacity: __applicationMenus.visible && !__applicationMenus.expanded ? 1 : 0
+            visible: opacity != 0
+            Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+            text: PanelState.title
         }
 
         PanelMenu {

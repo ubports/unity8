@@ -35,7 +35,7 @@ public:
 
     void releaseWorkspace(const std::shared_ptr<miral::Workspace> &workspace) override;
 
-    void setActiveWorkspace(const std::shared_ptr<miral::Workspace>& workspace) override;
+    void setActiveWorkspace(const std::shared_ptr<miral::Workspace> &workspace) override;
 
 private:
     std::weak_ptr<miral::Workspace> m_activeWorkspace;

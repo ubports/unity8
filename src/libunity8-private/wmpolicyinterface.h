@@ -30,13 +30,15 @@ class Window;
 class Q_DECL_EXPORT WMPolicyInterface
 {
 public:
+    virtual ~WMPolicyInterface() {}
+
     static WMPolicyInterface *instance();
 
     virtual std::shared_ptr<miral::Workspace> createWorkspace() = 0;
 
     virtual void releaseWorkspace(const std::shared_ptr<miral::Workspace> &workspace) = 0;
 
-    virtual void setActiveWorkspace(const std::shared_ptr<miral::Workspace>& workspace) = 0;
+    virtual void setActiveWorkspace(const std::shared_ptr<miral::Workspace> &workspace) = 0;
 };
 
 extern Q_DECL_EXPORT WMPolicyInterface* wmPolicyInterface;

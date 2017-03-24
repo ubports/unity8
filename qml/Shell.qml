@@ -441,7 +441,9 @@ StyledItem {
         id: showGreeterDelayed
         interval: 1
         onTriggered: {
-            greeter.forceShow();
+            // Go through the dbus service, because it has checks for whether
+            // we are even allowed to lock or not.
+            DBusUnitySessionService.PromptLock();
         }
     }
 
@@ -515,6 +517,7 @@ StyledItem {
             expandedPanelHeight: units.gu(7)
             indicatorMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
             applicationMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
+            applicationMenuContentX: launcher.lockedVisible ? launcher.panelWidth : 0
 
             indicators {
                 hides: [launcher]
@@ -575,6 +578,7 @@ StyledItem {
             blurSource: greeter.shown ? greeter : stages
             topPanelHeight: panel.panelHeight
             drawerEnabled: !greeter.active
+            privateMode: greeter.active
 
             onShowDashHome: showHome()
             onLauncherApplicationSelected: {
@@ -583,7 +587,14 @@ StyledItem {
             }
             onShownChanged: {
                 if (shown) {
-                    panel.indicators.hide()
+                    panel.indicators.hide();
+                    panel.applicationMenus.hide();
+                }
+            }
+            onDrawerShownChanged: {
+                if (drawerShown) {
+                    panel.indicators.hide();
+                    panel.applicationMenus.hide();
                 }
             }
             onFocusChanged: {

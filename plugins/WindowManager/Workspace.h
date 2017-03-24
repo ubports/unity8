@@ -25,6 +25,8 @@
 #include <memory>
 #include <functional>
 
+#include "WindowManagerGlobal.h"
+
 class WorkspaceModel;
 class TopLevelWindowModel;
 
@@ -38,7 +40,7 @@ namespace unity {
     }
 }
 
-class Workspace : public QObject
+class WINDOWMANAGERQML_EXPORT Workspace : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool active READ isActive NOTIFY activeChanged)
@@ -72,10 +74,9 @@ protected:
     WorkspaceModel* m_model;
 };
 
-class ConcreteWorkspace : public Workspace
+class WINDOWMANAGERQML_EXPORT ConcreteWorkspace : public Workspace
 {
 public:
-    explicit ConcreteWorkspace(QObject *parent = nullptr);
     ~ConcreteWorkspace();
 
     bool isActive() const override { return m_active; }
@@ -83,8 +84,12 @@ public:
     void activate() override;
 
 private:
+    explicit ConcreteWorkspace(QObject *parent = nullptr);
+
     bool m_active;
     const QScopedPointer<TopLevelWindowModel> m_windowModel;
+
+    friend class WorkspaceManager;
 };
 
 class ProxyWorkspace : public Workspace

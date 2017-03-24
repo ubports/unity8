@@ -17,8 +17,10 @@
 #ifndef WORKSPACEMANAGER_H
 #define WORKSPACEMANAGER_H
 
-#include "WorkspaceModel.h"
 #include <QQmlListProperty>
+
+#include "WindowManagerGlobal.h"
+#include "WorkspaceModel.h"
 
 class Workspace;
 
@@ -31,12 +33,13 @@ namespace unity {
     }
 }
 
-class WorkspaceManager : public QObject
+class WINDOWMANAGERQML_EXPORT WorkspaceManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Workspace* activeWorkspace READ activeWorkspace WRITE setActiveWorkspace2 NOTIFY activeWorkspaceChanged)
 
 public:
+    WorkspaceManager();
     static WorkspaceManager* instance();
 
     Workspace* activeWorkspace() const;
@@ -56,8 +59,6 @@ Q_SIGNALS:
     void activeWorkspaceChanged(Workspace*);
 
 private:
-    WorkspaceManager();
-
     void setActiveWorkspace2(Workspace* workspace);
 
     QSet<Workspace*> m_allWorkspaces;

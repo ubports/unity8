@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2016-2017 Canonical, Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -21,6 +21,8 @@
 #include <QLoggingCategory>
 
 #include <memory>
+
+#include "WindowManagerGlobal.h"
 
 Q_DECLARE_LOGGING_CATEGORY(TOPLEVELWINDOWMODEL)
 
@@ -52,7 +54,7 @@ namespace unity {
  * As applications can have multiple surfaces and you can also have entries without surfaces at all,
  * the only way to unambiguously refer to an entry in this model is through its id.
  */
-class TopLevelWindowModel : public QAbstractListModel
+class WINDOWMANAGERQML_EXPORT TopLevelWindowModel : public QAbstractListModel
 {
     Q_OBJECT
 
@@ -152,6 +154,9 @@ public:
      */
     Q_INVOKABLE void raiseId(int id);
 
+    void setApplicationManager(unity::shell::application::ApplicationManagerInterface*);
+    void setSurfaceManager(unity::shell::application::SurfaceManagerInterface*);
+
 Q_SIGNALS:
     void countChanged();
     void inputMethodSurfaceChanged(unity::shell::application::MirSurfaceInterface* inputMethodSurface);
@@ -167,10 +172,6 @@ Q_SIGNALS:
     void nextIdChanged();
 
 private Q_SLOTS:
-    void setApplicationManager(unity::shell::application::ApplicationManagerInterface*);
-    void setSurfaceManager(unity::shell::application::SurfaceManagerInterface*);
-
-    void onSurfaceCreated(unity::shell::application::MirSurfaceInterface *surface);
     void onSurfacesAddedToWorkspace(const std::shared_ptr<miral::Workspace>& workspace,
                                     const QVector<unity::shell::application::MirSurfaceInterface*> surfaces);
     void onSurfacesAboutToBeRemovedFromWorkspace(const std::shared_ptr<miral::Workspace>& workspace,
@@ -192,6 +193,7 @@ private:
     void setFocusedWindow(Window *window);
     void removeInputMethodWindow();
     int findIndexOf(const unity::shell::application::MirSurfaceInterface *surface) const;
+    void deleteAt(int index);
     void removeAt(int index);
 
     void addApplication(unity::shell::application::ApplicationInfoInterface *application);
@@ -202,6 +204,7 @@ private:
                         unity::shell::application::ApplicationInfoInterface *application);
     void prependSurfaceHelper(unity::shell::application::MirSurfaceInterface *surface,
                               unity::shell::application::ApplicationInfoInterface *application);
+    void prependWindow(Window *window, unity::shell::application::ApplicationInfoInterface *application);
 
     void connectWindow(Window *window);
     void connectSurface(unity::shell::application::MirSurfaceInterface *surface);

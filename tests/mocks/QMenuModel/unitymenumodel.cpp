@@ -18,6 +18,8 @@
 
 #include "unitymenumodel.h"
 
+#include <QTimer>
+
 enum MenuRoles {
     LabelRole  = Qt::DisplayRole + 1,
     SensitiveRole,
@@ -35,7 +37,8 @@ enum MenuRoles {
 };
 
 UnityMenuModel::UnityMenuModel(QObject *parent)
-:   QAbstractListModel(parent)
+ : QAbstractListModel(parent)
+ , m_rowCountStatus(NoRequestMade)
 {
 }
 
@@ -60,7 +63,7 @@ void UnityMenuModel::setModelData(const QVariant& data)
 
 void UnityMenuModel::insertRow(int row, const QVariant& data)
 {
-    row = qMin(row, rowCount());
+    row = qMin(row, m_modelData.count());
 
     beginInsertRows(QModelIndex(), row, row);
 
@@ -71,12 +74,12 @@ void UnityMenuModel::insertRow(int row, const QVariant& data)
 
 void UnityMenuModel::appendRow(const QVariant& data)
 {
-    insertRow(rowCount(), data);
+    insertRow(m_modelData.count(), data);
 }
 
 void UnityMenuModel::removeRow(int row)
 {
-    if (row < 0 || rowCount() <= row) {
+    if (row < 0 || m_modelData.count() <= row) {
         return;
     }
 
@@ -133,6 +136,22 @@ QString UnityMenuModel::nameOwner() const
 
 int UnityMenuModel::rowCount(const QModelIndex&) const
 {
+    // Fake the rowCount to be 0 for a while (100ms)
+    // This emulates menus in real world that don't load immediately
+    if (m_rowCountStatus == TimerRunning)
+        return 0;
+
+    if (m_rowCountStatus == NoRequestMade) {
+        UnityMenuModel *that = const_cast<UnityMenuModel*>(this);
+        that->m_rowCountStatus = TimerRunning;
+        QTimer::singleShot(100, that, [that] {
+            that->beginInsertRows(QModelIndex(), 0, that->m_modelData.count() - 1);
+            that->m_rowCountStatus = TimerFinished;
+            that->endInsertRows();
+        });
+        return 0;
+    }
+
     return m_modelData.count();
 }
 
@@ -271,6 +290,11 @@ void UnityMenuModel::activate(int row, const QVariant&)
         dataChanged(index(row, 0), index(row, 0),  QVector<int>() << IsToggledRole);
     }
     Q_EMIT activated(rd[roleNames()[ActionRole]].toString());
+}
+
+void UnityMenuModel::aboutToShow(int index)
+{
+    Q_EMIT aboutToShowCalled(index);
 }
 
 void UnityMenuModel::changeState(int, const QVariant&)

@@ -44,18 +44,18 @@ public:
 
     // From WMPolicyInterface
     std::shared_ptr<miral::Workspace> createWorkspace() override;
-    void releaseWorkspace(const std::shared_ptr<miral::Workspace>& workspace) override;
-    void setActiveWorkspace(const std::shared_ptr<miral::Workspace>& workspace) override;
+    void releaseWorkspace(const std::shared_ptr<miral::Workspace> &workspace) override;
+    void setActiveWorkspace(const std::shared_ptr<miral::Workspace> &workspace) override;
 
     void addWindow(const miral::Window& window);
 
-    void forEachWindowInWorkspace(std::shared_ptr<miral::Workspace> const& workspace,
-                                  std::function<void(miral::Window const&)> const& callback);
+    void forEachWindowInWorkspace(std::shared_ptr<miral::Workspace> const &workspace,
+                                  std::function<void(miral::Window const&)> const &callback);
 
     void moveWindowToWorkspace(const miral::Window &window, const std::shared_ptr<miral::Workspace> &workspace);
 
-    void moveWorkspaceContentToWorkspace(const std::shared_ptr<miral::Workspace>& to,
-                                         const std::shared_ptr<miral::Workspace>& from);
+    void moveWorkspaceContentToWorkspace(const std::shared_ptr<miral::Workspace> &to,
+                                         const std::shared_ptr<miral::Workspace> &from);
 
 Q_SIGNALS:
     void windowAdded(const miral::Window& window);

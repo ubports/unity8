@@ -30,8 +30,7 @@ Item {
     property real lateralPosition: -1
     property int alignment: Qt.AlignRight
 
-    property alias showRowTitle: row.showRowTitle
-    property alias rowTitle: row.rowTitle
+    property alias hideRow: row.hideRow
     property alias rowItemDelegate: row.delegate
 
     implicitWidth: flickable.contentWidth
@@ -42,6 +41,22 @@ Item {
         }
         var mapped = root.mapToItem(row, lateralPosition, 0);
         row.selectItemAt(mapped.x);
+    }
+
+    function selectPreviousItem() {
+        if (!expanded) {
+            row.resetCurrentItem();
+        }
+        row.selectPreviousItem();
+        d.alignIndicators();
+    }
+
+    function selectNextItem() {
+        if (!expanded) {
+            row.resetCurrentItem();
+        }
+        row.selectNextItem();
+        d.alignIndicators();
     }
 
     function setCurrentItemIndex(index) {

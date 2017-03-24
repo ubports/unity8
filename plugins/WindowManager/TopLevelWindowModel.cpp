@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2016-2017 Canonical, Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -120,7 +120,6 @@ void TopLevelWindowModel::setSurfaceManager(unityapi::SurfaceManagerInterface *s
     m_surfaceManager = surfaceManager;
 
     if (m_surfaceManager) {
-        connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::surfaceCreated, this, &TopLevelWindowModel::onSurfaceCreated);
         connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::surfacesRaised, this, &TopLevelWindowModel::onSurfacesRaised);
         connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::modificationsStarted, this, &TopLevelWindowModel::onModificationsStarted);
         connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::modificationsEnded, this, &TopLevelWindowModel::onModificationsEnded);
@@ -155,7 +154,7 @@ void TopLevelWindowModel::removeApplication(unityapi::ApplicationInfoInterface *
     int i = 0;
     while (i < m_windowModel.count()) {
         if (m_windowModel.at(i).application == application) {
-            removeAt(i);
+            deleteAt(i);
         } else {
             ++i;
         }
@@ -173,13 +172,14 @@ void TopLevelWindowModel::prependSurface(unityapi::MirSurfaceInterface *surface,
 {
     Q_ASSERT(surface != nullptr);
 
+    connectSurface(surface);
+    m_allSurfaces.insert(surface);
+
     bool filledPlaceholder = false;
     for (int i = 0; i < m_windowModel.count() && !filledPlaceholder; ++i) {
         ModelEntry &entry = m_windowModel[i];
         if (entry.application == application && entry.window->surface() == nullptr) {
             entry.window->setSurface(surface);
-            m_allSurfaces.insert(surface);
-            connectSurface(surface);
             INFO_MSG << " appId=" << application->appId() << " surface=" << surface
                       << ", filling out placeholder. after: " << toString();
             filledPlaceholder = true;
@@ -194,6 +194,34 @@ void TopLevelWindowModel::prependSurface(unityapi::MirSurfaceInterface *surface,
 
 void TopLevelWindowModel::prependSurfaceHelper(unityapi::MirSurfaceInterface *surface, unityapi::ApplicationInfoInterface *application)
 {
+
+    Window *window = createWindow(surface);
+
+    connect(window, &Window::stateChanged, this, [=](Mir::State newState) {
+        if (newState == Mir::HiddenState) {
+            // Comply, removing it from our model. Just as if it didn't exist anymore.
+            removeAt(indexForId(window->id()));
+        } else {
+            if (indexForId(window->id()) == -1) {
+                // was probably hidden before. put it back on the list
+                auto *application = m_applicationManager->findApplicationWithSurface(window->surface());
+                Q_ASSERT(application);
+                prependWindow(window, application);
+            }
+        }
+    });
+
+    prependWindow(window, application);
+
+    if (!surface) {
+        activateEmptyWindow(window);
+    }
+
+    INFO_MSG << " after " << toString();
+}
+
+void TopLevelWindowModel::prependWindow(Window *window, unityapi::ApplicationInfoInterface *application)
+{
     if (m_modelState == IdleState) {
         m_modelState = InsertingState;
         beginInsertRows(QModelIndex(), 0 /*first*/, 0 /*last*/);
@@ -202,13 +230,7 @@ void TopLevelWindowModel::prependSurfaceHelper(unityapi::MirSurfaceInterface *su
         // No point in signaling anything if we're resetting the whole model
     }
 
-    Window *window = createWindow(surface);
-
     m_windowModel.prepend(ModelEntry(window, application));
-    if (surface) {
-        m_allSurfaces.insert(surface);
-        connectSurface(surface);
-    }
 
     if (m_modelState == InsertingState) {
         endInsertRows();
@@ -216,12 +238,6 @@ void TopLevelWindowModel::prependSurfaceHelper(unityapi::MirSurfaceInterface *su
         Q_EMIT listChanged();
         m_modelState = IdleState;
     }
-
-    if (!surface) {
-        activateEmptyWindow(window);
-    }
-
-    INFO_MSG << " after " << toString();
 }
 
 void TopLevelWindowModel::connectWindow(Window *window)
@@ -268,6 +284,13 @@ void TopLevelWindowModel::connectWindow(Window *window)
 
     connect(window, &Window::emptyWindowActivated, this, [this, window]() {
         activateEmptyWindow(window);
+    });
+
+    connect(window, &Window::liveChanged, this, [this, window](bool isAlive) {
+        if (!isAlive && window->state() == Mir::HiddenState) {
+            // Hidden windows are not in the model. So just delete it right away.
+            delete window;
+        }
     });
 }
 
@@ -334,7 +357,7 @@ void TopLevelWindowModel::onSurfaceDestroyed(unityapi::MirSurfaceInterface *surf
     }
 
     if (m_windowModel[i].removeOnceSurfaceDestroyed) {
-        removeAt(i);
+        deleteAt(i);
     } else {
         auto window = m_windowModel[i].window;
         window->setSurface(nullptr);
@@ -353,11 +376,6 @@ Window *TopLevelWindowModel::createWindow(unityapi::MirSurfaceInterface *surface
         qmlWindow->setSurface(surface);
     }
     return qmlWindow;
-}
-
-
-void TopLevelWindowModel::onSurfaceCreated(unityapi::MirSurfaceInterface */*surface*/)
-{
 }
 
 void TopLevelWindowModel::onSurfacesAddedToWorkspace(const std::shared_ptr<miral::Workspace>& workspace,
@@ -383,7 +401,16 @@ void TopLevelWindowModel::onSurfacesAddedToWorkspace(const std::shared_ptr<miral
             } else {
                 auto *application = m_applicationManager->findApplicationWithSurface(surface);
                 if (application) {
-                    prependSurface(surface, application);
+                    if (surface->state() == Mir::HiddenState) {
+                        // Ignore it until it's finally shown
+                        connect(surface, &unityapi::MirSurfaceInterface::stateChanged, this, [=](Mir::State newState) {
+                            Q_ASSERT(newState != Mir::HiddenState);
+                            disconnect(surface, &unityapi::MirSurfaceInterface::stateChanged, this, 0);
+                            prependSurface(surface, application);
+                        });
+                    } else {
+                        prependSurface(surface, application);
+                    }
                 } else {
                     // Must be a prompt session. No need to do add it as a prompt surface is not top-level.
                     // It will show up in the ApplicationInfoInterface::promptSurfaceList of some application.
@@ -452,6 +479,17 @@ void TopLevelWindowModel::onSurfacesAboutToBeRemovedFromWorkspace(const std::sha
     }
 }
 
+void TopLevelWindowModel::deleteAt(int index)
+{
+    auto window = m_windowModel[index].window;
+
+    removeAt(index);
+
+    window->setSurface(nullptr);
+
+    delete window;
+}
+
 void TopLevelWindowModel::removeAt(int index)
 {
     if (m_modelState == IdleState) {
@@ -465,8 +503,9 @@ void TopLevelWindowModel::removeAt(int index)
     auto window = m_windowModel[index].window;
     auto surface = window->surface();
 
-    window->setSurface(nullptr);
-    window->setFocused(false);
+    if (!window->surface()) {
+        window->setFocused(false);
+    }
 
     m_windowModel.removeAt(index);
     m_allSurfaces.remove(surface);
@@ -478,12 +517,10 @@ void TopLevelWindowModel::removeAt(int index)
         m_modelState = IdleState;
     }
 
-    disconnect(window, 0, this, 0);
     if (m_focusedWindow == window) {
         setFocusedWindow(nullptr);
         m_focusedWindowCleared = false;
     }
-    delete window;
 
     INFO_MSG << " after " << toString();
 }
