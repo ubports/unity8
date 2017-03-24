@@ -57,6 +57,11 @@ PanelTest {
         color: "darkgrey"
     }
 
+    SignalSpy {
+        id: aboutToShowCalledSpy
+        signalName: "aboutToShowCalled"
+    }
+
     RowLayout {
         anchors.fill: parent
         anchors.margins: units.gu(1)
@@ -315,12 +320,15 @@ PanelTest {
             tryCompare(panel.indicators, "fullyOpened", true);
         }
 
-        function pullDownApplicationsMenu() {
+        function pullDownApplicationsMenu(xPos) {
             var showDragHandle = findChild(panel.applicationMenus, "showDragHandle");
+            if (xPos === undefined) {
+                xPos = showDragHandle.width / 2;
+            }
             touchFlick(showDragHandle,
-                       showDragHandle.width / 2,
+                       xPos,
                        showDragHandle.height / 2,
-                       showDragHandle.width / 2,
+                       xPos,
                        showDragHandle.height / 2 + (showDragHandle.autoCompleteDragThreshold * 1.1));
             tryCompare(panel.applicationMenus, "fullyOpened", true);
         }
@@ -769,7 +777,7 @@ PanelTest {
             panel.mode = "staged";
             mouseEmulation.checked = false;
 
-            var appTitle = findChild(panel.applicationMenus, "panelTitle"); verify(appTitle);
+            var appTitle = findChild(panel, "panelTitle"); verify(appTitle);
             var appMenuRow = findChild(panel.applicationMenus, "panelRow"); verify(appMenuRow);
             var appMenuBar = findChild(panel, "menuBar"); verify(appMenuBar);
 
@@ -787,7 +795,7 @@ PanelTest {
             panel.mode = "windowed";
             mouseEmulation.checked = false;
 
-            var appTitle = findChild(panel.applicationMenus, "panelTitle"); verify(appTitle);
+            var appTitle = findChild(panel, "panelTitle"); verify(appTitle);
             var appMenuRow = findChild(panel.applicationMenus, "panelRow"); verify(appMenuRow);
             var appMenuBar = findChild(panel, "menuBar"); verify(appMenuBar);
 
@@ -837,6 +845,59 @@ PanelTest {
 
             keyClick(Qt.Key_Escape);
             tryCompare(panel.indicators, "fullyClosed", true);
+        }
+
+        function test_aboutToShowMenu() {
+            waitForRendering(panel);
+
+            aboutToShowCalledSpy.target = panel.applicationMenus.model
+            aboutToShowCalledSpy.clear();
+
+            var indicatorsBar = findChild(panel.applicationMenus, "indicatorsBar");
+
+            PanelState.title = "Fake Title"
+            pullDownApplicationsMenu(0 /*xPos*/);
+            compare(aboutToShowCalledSpy.count, 1);
+
+            keyClick(Qt.Key_Right);
+            tryCompare(indicatorsBar, "currentItemIndex", 1);
+            compare(aboutToShowCalledSpy.count, 2);
+
+            compare(aboutToShowCalledSpy.signalArguments[0][0], 0);
+            compare(aboutToShowCalledSpy.signalArguments[1][0], 1);
+
+            keyClick(Qt.Key_Tab);
+            keyClick(Qt.Key_Tab);
+
+            aboutToShowCalledSpy.target = panel.applicationMenus.model.submenu(1);
+            aboutToShowCalledSpy.clear();
+
+            keyClick(Qt.Key_Enter);
+            compare(aboutToShowCalledSpy.count, 1);
+        }
+
+        function test_disabledTopLevel() {
+            var modelData = appMenuData.generateTestData(3,3,0,0,"menu");
+            modelData[1].rowData.sensitive = false;
+            panel.applicationMenus.model.modelData = modelData;
+
+            waitForRendering(panel);
+
+            aboutToShowCalledSpy.target = panel.applicationMenus.model
+            aboutToShowCalledSpy.clear();
+
+            var indicatorsBar = findChild(panel.applicationMenus, "indicatorsBar");
+
+            PanelState.title = "Fake Title"
+            pullDownApplicationsMenu(0 /*xPos*/);
+
+            tryCompare(indicatorsBar, "currentItemIndex", 0);
+
+            keyClick(Qt.Key_Right);
+            tryCompare(indicatorsBar, "currentItemIndex", 2);
+
+            keyClick(Qt.Key_Left);
+            tryCompare(indicatorsBar, "currentItemIndex", 0);
         }
     }
 }

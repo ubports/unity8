@@ -1,11 +1,13 @@
 add_subdirectory(libunity8-private)
 
 pkg_check_modules(CONNECTIVITY REQUIRED connectivity-qt1)
+pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
 
 include_directories(
     SYSTEM
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
+    ${GSETTINGS_QT_INCLUDE_DIRS}
     ${CONNECTIVITY_INCLUDE_DIRS}
     ${QTMIRSERVER_INCLUDE_DIRS}
 )
@@ -49,6 +51,7 @@ if (NOT "${ANDROID_PROPERTIES_INCLUDE_DIRS}" STREQUAL "")
 endif()
 target_link_libraries(${SHELL_APP}
     ${ANDROID_PROPERTIES_LDFLAGS}
+    ${GSETTINGS_QT_LDFLAGS}
     ${QTMIRSERVER_LDFLAGS}
     UbuntuGestures
     connectivity-qt1

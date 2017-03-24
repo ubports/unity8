@@ -19,6 +19,8 @@
 
 #include <QObject>
 
+#include "WindowManagerGlobal.h"
+
 namespace unity {
     namespace shell {
         namespace application {
@@ -28,7 +30,7 @@ namespace unity {
     }
 }
 
-class WindowManagerObjects : public QObject
+class WINDOWMANAGERQML_EXPORT WindowManagerObjects : public QObject
 {
     Q_OBJECT
 

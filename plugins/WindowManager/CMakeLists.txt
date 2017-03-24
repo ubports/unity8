@@ -29,6 +29,8 @@ set(WINDOWMANAGER_SRC
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/SurfaceManagerInterface.h
 )
 
+add_definitions(-DWINDOWMANAGERQML_LIBRARY)
+
 add_library(windowmanager-qml SHARED ${WINDOWMANAGER_SRC})
 
 target_link_libraries(windowmanager-qml

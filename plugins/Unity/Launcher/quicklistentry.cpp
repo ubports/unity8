@@ -20,6 +20,7 @@
 
 QuickListEntry::QuickListEntry()
     : m_hasSeparator(false)
+    , m_isPrivate(false)
 {
 }
 
@@ -71,4 +72,14 @@ bool QuickListEntry::hasSeparator() const
 bool QuickListEntry::operator==(const QuickListEntry &other)
 {
     return !other.actionId().isEmpty() && other.actionId() == m_actionId;
+}
+
+bool QuickListEntry::isPrivate() const
+{
+    return m_isPrivate;
+}
+
+void QuickListEntry::setIsPrivate(bool isPrivate)
+{
+    m_isPrivate = isPrivate;
 }
