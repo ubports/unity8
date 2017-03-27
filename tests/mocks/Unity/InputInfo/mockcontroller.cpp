@@ -23,26 +23,14 @@
 #include <QQuickItem>
 #include <paths.h>
 
-MockController::MockController(QQmlEngine *engine)
+MockController::MockController(QObject *parent):
+    QObject(parent)
 {
-    QQmlComponent component(engine);
-    component.setData("import QtQuick 2.4; import Unity.InputInfo 0.1; InputWindow { }", ::qmlDirectory());
-    QObject *myObject = component.create();
-    QQuickItem *item = qobject_cast<QQuickItem*>(myObject);
-    if (item) {
-        auto window = new QQuickView();
-        window->setTitle("Input");
-        item->setParentItem(window->contentItem());
-        window->setResizeMode(QQuickView::SizeRootObjectToView);
-        window->setWidth(200);
-        window->setHeight(100);
-        window->show();
-    }
 }
 
-MockController *MockController::instance(QQmlEngine *engine)
+MockController *MockController::instance()
 {
-    static MockController* controller = new MockController(engine);
+    static MockController* controller = new MockController();
     return controller;
 }
 

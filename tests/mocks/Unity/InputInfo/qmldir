@@ -1,4 +1,2 @@
 module Unity.InputInfo
 plugin MockInputInfo
-
-InputWindow 0.1 InputWindow.qml
