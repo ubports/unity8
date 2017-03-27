@@ -75,7 +75,7 @@ Rectangle {
 
     QtObject {
         id: _screenWindow
-        property bool primary: false
+        property bool primary: true
     }
     property alias screenWindow: _screenWindow
 

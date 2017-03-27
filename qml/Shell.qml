@@ -908,20 +908,4 @@ StyledItem {
             }
         }
     }
-
-    Loader {
-        z: shutdownFadeOutRectangle.z + 1
-        active: DebuggingController.logOverlay
-
-        sourceComponent: Text {
-            width: shell.width
-            height: shell.height
-
-            text: consoleLog.out
-            Debug.ConsoleLog {
-                id: consoleLog
-                enabled: true
-            }
-        }
-    }
 }
