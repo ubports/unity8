@@ -329,6 +329,14 @@ Item {
                 return false;
             }, true);
 
+            mouseClick(overflow);
+            verify(overflow.__popup);
+            var menuItem = findChild(menuBar, "overflow-menu-item0-actionItem");
+            waitForRendering(menuItem);
+            mouseClick(menuItem);
+
+            verify(findChild(menuBar, "overflow-menu-item0-menu-item0-actionItem"));
+
             tryCompareFunction(function() {
                 menuBackend.removeRow(0);
                 wait(1);

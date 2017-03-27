@@ -370,6 +370,9 @@ Item {
                     function activate(index) {
                         return sourceModel.activate(mapRowToSource(index));
                     }
+                    function aboutToShow(index) {
+                        return sourceModel.aboutToShow(mapRowToSource(index));
+                    }
                 }
 
                 Connections {
