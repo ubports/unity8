@@ -227,9 +227,10 @@ FocusScope {
     GlobalShortcut {
         shortcut: Qt.ControlModifier|Qt.AltModifier|Qt.Key_T
         onTriggered: {
-            // Try snap first, then deb package
-            if (!priv.startApp("ubuntu-terminal-app_ubuntu-terminal-app")) {
-                priv.startApp("ubuntu-terminal-app");
+            var candidates = ["ubuntu-terminal-app_ubuntu-terminal-app", "ubuntu-terminal-app", "com.ubuntu.terminal"];
+            for (var i = 0; i < candidates.length; i++) {
+                if (priv.startApp(candidates[i]))
+                    break;
             }
         }
     }
