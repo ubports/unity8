@@ -35,6 +35,8 @@ Rectangle {
 
     property var greeter: { fullyShown: true }
 
+    readonly property var topLevelSurfaceList: WorkspaceManager.activeWorkspace.windowModel
+
     ApplicationMenuDataLoader {
         id: appMenuData
     }
@@ -54,12 +56,10 @@ Rectangle {
         focus: true
         mode: "stagedWithSideStage"
         applicationManager: ApplicationManager
-        topLevelSurfaceList: TopLevelWindowModel {
-            id: topLevelSurfaceList
-            applicationManager: ApplicationManager
-            surfaceManager: SurfaceManager
-        }
+        topLevelSurfaceList: root.topLevelSurfaceList
+
         Component.onCompleted: {
+            print("starting dash")
             ApplicationManager.startApplication("unity8-dash");
         }
     }
@@ -131,21 +131,21 @@ Rectangle {
         name: "TabletStage"
         when: windowShown
 
-        readonly property alias topSurfaceList: stage.topLevelSurfaceList
+        readonly property alias topLevelSurfaceList: root.topLevelSurfaceList
         property Item sideStage: stage ? findChild(stage, "sideStage") : null
 
         function init() {
             stageSaver.clear();
 
             ApplicationManager.startApplication("unity8-dash");
-            tryCompare(topSurfaceList, "count", 1);
-            compare(topSurfaceList.applicationAt(0).appId, "unity8-dash");
+            tryCompare(topLevelSurfaceList, "count", 1);
+            compare(topLevelSurfaceList.applicationAt(0).appId, "unity8-dash");
 
             // this is very strange, but sometimes the test starts without
             // Stage components having finished loading themselves
             var appWindow = null
             while (!appWindow) {
-                appWindow = findAppWindowForSurfaceId(topSurfaceList.idAt(0));
+                appWindow = findAppWindowForSurfaceId(topLevelSurfaceList.idAt(0));
                 if (!appWindow) {
                     console.log("didn't find unity8-dash appWindow in Stage. Trying again...");
                     wait(50);
@@ -157,7 +157,7 @@ Rectangle {
             tryCompare(appRepeater, "count", 1);
             tryCompare(appRepeater.itemAt(0), "x", 0);
 
-            waitUntilAppSurfaceShowsUp(topSurfaceList.idAt(0));
+            waitUntilAppSurfaceShowsUp(topLevelSurfaceList.idAt(0));
             sideStage.hideNow()
             tryCompare(sideStage, "x", stage.width)
         }
@@ -272,7 +272,7 @@ Rectangle {
         function test_tappingSwitchesFocusBetweenStages() {
             WindowStateStorage.saveStage(dialerCheckBox.appId, ApplicationInfoInterface.SideStage)
 
-            var webbrowserSurfaceId = topSurfaceList.nextId;
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
             var webbrowserDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
@@ -283,7 +283,7 @@ Rectangle {
 
             tryCompare(webbrowserWindow.surface, "activeFocus", true);
 
-            var dialerSurfaceId = topSurfaceList.nextId;
+            var dialerSurfaceId = topLevelSurfaceList.nextId;
             dialerCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(dialerSurfaceId);
 
@@ -315,7 +315,7 @@ Rectangle {
         function test_closeAppInSideStage() {
             WindowStateStorage.saveStage(dialerCheckBox.appId, ApplicationInfoInterface.SideStage)
 
-            var dialerSurfaceId = topSurfaceList.nextId;
+            var dialerSurfaceId = topLevelSurfaceList.nextId;
             dialerCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(dialerSurfaceId);
 
@@ -341,7 +341,7 @@ Rectangle {
         }
 
         function test_suspendsAndResumesAppsInMainStage() {
-            var webbrowserSurfaceId = topSurfaceList.nextId;
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
@@ -350,7 +350,7 @@ Rectangle {
 
             tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Running);
 
-            var gallerySurfaceId = topSurfaceList.nextId;
+            var gallerySurfaceId = topLevelSurfaceList.nextId;
             galleryCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(gallerySurfaceId);
             var galleryApp = ApplicationManager.findApplication(galleryCheckBox.appId);
@@ -381,7 +381,7 @@ Rectangle {
             // launch two main stage apps
             // gallery will be on foreground and webbrowser on background
 
-            var webbrowserSurfaceId = topSurfaceList.nextId;
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
             var webbrowserDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
@@ -389,7 +389,7 @@ Rectangle {
             compare(webbrowserDelegate.stage, ApplicationInfoInterface.MainStage);
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
 
-            var gallerySurfaceId = topSurfaceList.nextId;
+            var gallerySurfaceId = topLevelSurfaceList.nextId;
             galleryCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(gallerySurfaceId);
             var galleryApp = ApplicationManager.findApplication(galleryCheckBox.appId);
@@ -401,14 +401,14 @@ Rectangle {
             // then launch two side stage apps
             // facebook will be on foreground and dialer on background
 
-            var dialerSurfaceId = topSurfaceList.nextId;
+            var dialerSurfaceId = topLevelSurfaceList.nextId;
             dialerCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(dialerSurfaceId);
             var dialerApp = ApplicationManager.findApplication(dialerCheckBox.appId);
             var dialerDelegate = findChild(stage, "appDelegate_" + dialerSurfaceId);
             compare(dialerDelegate.stage, ApplicationInfoInterface.SideStage);
 
-            var facebookSurfaceId = topSurfaceList.nextId;
+            var facebookSurfaceId = topLevelSurfaceList.nextId;
             facebookCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(facebookSurfaceId);
             var facebookApp = ApplicationManager.findApplication(facebookCheckBox.appId);
@@ -443,14 +443,14 @@ Rectangle {
         function test_foregroundAppsAreSuspendedWhenStageIsSuspended() {
             WindowStateStorage.saveStage(dialerCheckBox.appId, ApplicationInfoInterface.SideStage)
 
-            var webbrowserSurfaceId = topSurfaceList.nextId;
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
             var webbrowserDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             compare(webbrowserDelegate.stage, ApplicationInfoInterface.MainStage);
 
-            var dialerSurfaceId = topSurfaceList.nextId;
+            var dialerSurfaceId = topLevelSurfaceList.nextId;
             dialerCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(dialerSurfaceId);
             var dialerApp = ApplicationManager.findApplication(dialerCheckBox.appId);
@@ -524,7 +524,7 @@ Rectangle {
             tryCompare(stagesPriv, "mainStageAppId", "unity8-dash");
             tryCompare(stagesPriv, "sideStageAppId", "");
 
-            var appSurfaceId = topSurfaceList.nextId;
+            var appSurfaceId = topLevelSurfaceList.nextId;
             var app = ApplicationManager.startApplication(data.appId);
             waitUntilAppSurfaceShowsUp(appSurfaceId);
 
@@ -548,7 +548,7 @@ Rectangle {
             tryCompare(stagesPriv, "mainStageAppId", "unity8-dash");
             tryCompare(stagesPriv, "sideStageAppId", "");
 
-            var webbrowserSurfaceId = topSurfaceList.nextId;
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
@@ -573,7 +573,7 @@ Rectangle {
             tryCompare(stagesPriv, "mainStageAppId", "unity8-dash");
             tryCompare(stagesPriv, "sideStageAppId", "");
 
-            var webbrowserSurfaceId = topSurfaceList.nextId;
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
@@ -591,7 +591,7 @@ Rectangle {
         function test_loadSideStageByDraggingFromMainStage() {
             sideStage.showNow();
             print("sidestage now shown. launching browser")
-            var webbrowserSurfaceId = topSurfaceList.nextId;
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
@@ -612,7 +612,7 @@ Rectangle {
             tryCompareFunction(function() {
                 return WindowStateStorage.getStage(webbrowserCheckBox.appId, ApplicationInfoInterface.MainStage) === ApplicationInfoInterface.SideStage
             }, true);
-            var webbrowserSurfaceId = topSurfaceList.nextId;
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
@@ -628,7 +628,7 @@ Rectangle {
 
         /*
             1- Suspended app gets killed behind the scenes, causing its surface to go zombie.
-            2- Surface gets screenshotted and removed. Its slot in the topSurfaceList remains,
+            2- Surface gets screenshotted and removed. Its slot in the topLevelSurfaceList remains,
                though (so ApplicationWindow can display the screenshot in its place).
             3- User taps on the screenshot of the long-gone surface.
 
@@ -636,11 +636,11 @@ Rectangle {
             Application gets relaunched. Its new surface will seamlessly replace the screenshot.
          */
         function test_selectSuspendedAppWithoutSurface() {
-            compare(topSurfaceList.applicationAt(0).appId, "unity8-dash");
-            var dashSurfaceId = topSurfaceList.idAt(0);
-            var dashWindow = topSurfaceList.windowAt(0);
+            compare(topLevelSurfaceList.applicationAt(0).appId, "unity8-dash");
+            var dashSurfaceId = topLevelSurfaceList.idAt(0);
+            var dashWindow = topLevelSurfaceList.windowAt(0);
 
-            var webbrowserSurfaceId = topSurfaceList.nextId;
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
@@ -657,22 +657,22 @@ Rectangle {
 
             // wait until the surface is gone
             tryCompare(webbrowserApp.surfaceList, "count", 0);
-            compare(topSurfaceList.surfaceAt(topSurfaceList.indexForId(webbrowserSurfaceId)), null);
+            compare(topLevelSurfaceList.surfaceAt(topLevelSurfaceList.indexForId(webbrowserSurfaceId)), null);
 
             switchToSurface(webbrowserSurfaceId);
 
             // webbrowser should have been brought to front
-            tryCompareFunction(function(){return topSurfaceList.idAt(0);}, webbrowserSurfaceId);
+            tryCompareFunction(function(){return topLevelSurfaceList.idAt(0);}, webbrowserSurfaceId);
 
             // and it should eventually get a new surface and get resumed
-            tryCompareFunction(function(){return topSurfaceList.surfaceAt(0) !== null;}, true);
-            compare(topSurfaceList.count, 2); // still two top-level items
+            tryCompareFunction(function(){return topLevelSurfaceList.surfaceAt(0) !== null;}, true);
+            compare(topLevelSurfaceList.count, 2); // still two top-level items
             tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Running);
             compare(webbrowserApp.surfaceList.count, 1);
         }
 
         function test_draggingSurfaceKeepsSurfaceFocus() {
-            var webbrowserSurfaceId = topSurfaceList.nextId;
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
@@ -690,8 +690,8 @@ Rectangle {
 
         function test_dashDoesNotDragToSidestage() {
             sideStage.showNow();
-            compare(topSurfaceList.applicationAt(0).appId, "unity8-dash");
-            var dashSurfaceId = topSurfaceList.idAt(0);
+            compare(topLevelSurfaceList.applicationAt(0).appId, "unity8-dash");
+            var dashSurfaceId = topLevelSurfaceList.idAt(0);
 
             var appDelegate = findChild(stage, "appDelegate_" + dashSurfaceId);
             verify(appDelegate);
@@ -713,7 +713,7 @@ Rectangle {
 
         function test_switchRestoreStageOnRotation() {
             WindowStateStorage.saveStage(webbrowserCheckBox.appId, ApplicationInfoInterface.SideStage)
-            var webbrowserSurfaceId = topSurfaceList.nextId;
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
@@ -732,7 +732,7 @@ Rectangle {
         }
 
         function test_restoreSavedStageOnCloseReopen() {
-            var webbrowserSurfaceId = topSurfaceList.nextId;
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
@@ -750,7 +750,7 @@ Rectangle {
             // back to landscape
             stage.shellOrientation = Qt.LandscapeOrientation;
 
-            webbrowserSurfaceId = topSurfaceList.nextId;
+            webbrowserSurfaceId = topLevelSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 

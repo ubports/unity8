@@ -8,7 +8,7 @@
 #include "WorkspaceModel.h"
 
 class ProxyScreen;
-class ScreenAttached;
+class ProxyScreens;
 
 class Screen: public QObject
 {
@@ -55,7 +55,6 @@ public:
     virtual Workspace *currentWorkspace() const = 0;
     virtual void setCurrentWorkspace(Workspace* workspace) = 0;
 
-    void setSyncing(bool);
     void sync(Screen* proxy);
 
     qtmir::Screen* wrapped() const { return m_wrapped; }
@@ -101,8 +100,6 @@ public:
     Workspace *currentWorkspace() const override;
     void setCurrentWorkspace(Workspace* workspace) override;
 
-    static ScreenAttached *qmlAttachedProperties(QObject *owner);
-
 protected:
     void resetCurrentWorkspace();
 
@@ -114,7 +111,7 @@ class ProxyScreen : public Screen
 {
     Q_OBJECT
 public:
-    explicit ProxyScreen(Screen*const screen);
+    explicit ProxyScreen(Screen*const screen, ProxyScreens* screens);
 
     // From qtmir::Screen
     WorkspaceModel* workspaces() const override;
@@ -123,9 +120,12 @@ public:
 
     Screen* proxyObject() const { return m_original.data(); }
 
+    bool isSyncing() const;
+
 private:
     const QScopedPointer<WorkspaceModel> m_workspaces;
     const QPointer<Screen> m_original;
+    const ProxyScreens* m_screens;
     QPointer<Workspace> m_currentWorspace;
 };
 
