@@ -61,7 +61,7 @@ Rectangle {
     onShellChanged: {
         if (shell) {
             topLevelSurfaceList = testCase.findInvisibleChild(shell, "topLevelSurfaceList");
-            appMenuData.surfaceManager = testCase.findInvisibleChild(shell, "surfaceManager");
+            appMenuData.surfaceManager = shell.surfaceManager;
             panelState = testCase.findInvisibleChild(shell, "panelState");
         } else {
             topLevelSurfaceList = null;
