@@ -1542,5 +1542,17 @@ Rectangle {
             tryCompare(launcher, "maxPanelX", 0);
             launcher.panelWidth = oldSize;
         }
+
+        function test_doesntHideOnSuperWhenLockedVisible() {
+            launcher.lockedVisible = true;
+
+            waitForRendering(launcher);
+            launcher.superPressed = true;
+            wait(400); // Longpress
+            launcher.superPressed = false;
+            waitForRendering(launcher);
+
+            verify(launcher.state, "visible");
+        }
     }
 }

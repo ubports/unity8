@@ -75,7 +75,7 @@ FocusScope {
         } else {
             superPressTimer.stop();
             superLongPressTimer.stop();
-            switchToNextState("");
+            switchToNextState(root.lockedVisible ? "visible" : "");
             panel.shortcutHintsShown = false;
         }
     }
@@ -88,7 +88,7 @@ FocusScope {
             superPressTimer.stop();
             superLongPressTimer.stop();
         } else {
-            switchToNextState("");
+            switchToNextState(root.lockedVisible ? "visible" : "");
             root.focus = false;
             if (panel.highlightIndex == -1) {
                 root.showDashHome();
