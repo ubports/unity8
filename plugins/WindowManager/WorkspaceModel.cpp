@@ -17,6 +17,7 @@
 #include "WorkspaceModel.h"
 #include "WorkspaceManager.h"
 #include "Workspace.h"
+#include "Screen.h"
 
 #include <QQmlEngine>
 
@@ -119,11 +120,6 @@ QVariant WorkspaceModel::data(const QModelIndex &index, int role) const
     }
 }
 
-void WorkspaceModel::setSyncing(bool syncing)
-{
-    m_syncing = syncing;
-}
-
 void WorkspaceModel::sync(WorkspaceModel *proxy)
 {
     if (!proxy) return;
@@ -206,8 +202,9 @@ void WorkspaceModel::insertUnassigned(Workspace *workspace)
 }
 
 
-ProxyWorkspaceModel::ProxyWorkspaceModel(WorkspaceModel * const model)
+ProxyWorkspaceModel::ProxyWorkspaceModel(WorkspaceModel * const model, ProxyScreen* screen)
     : m_original(model)
+    , m_screen(screen)
 {
     Q_FOREACH(auto workspace, model->list()) {
         auto proxy = new ProxyWorkspace(workspace);
@@ -215,12 +212,12 @@ ProxyWorkspaceModel::ProxyWorkspaceModel(WorkspaceModel * const model)
         proxy->assign(this);
     }
     connect(m_original, &WorkspaceModel::workspaceInserted, this, [this](int index, Workspace* inserted) {
-        if (m_original->isSyncing()) return;
+        if (isSyncing()) return;
 
         (new ProxyWorkspace(inserted))->assign(this, index);
     });
     connect(m_original, &WorkspaceModel::workspaceRemoved, this, [this](Workspace* removed) {
-        if (m_original->isSyncing()) return;
+        if (isSyncing()) return;
 
         for (int i = 0; i < rowCount(); i++) {
             auto workspaceProxy = qobject_cast<ProxyWorkspace*>(get(i));
@@ -232,7 +229,7 @@ ProxyWorkspaceModel::ProxyWorkspaceModel(WorkspaceModel * const model)
         }
     });
     connect(m_original, &WorkspaceModel::workspaceMoved, this, [this](int from, int to) {
-        if (m_original->isSyncing()) return;
+        if (isSyncing()) return;
 
         move(from, to);
     });
@@ -241,6 +238,11 @@ ProxyWorkspaceModel::ProxyWorkspaceModel(WorkspaceModel * const model)
 void ProxyWorkspaceModel::move(int from, int to)
 {
     WorkspaceModel::move(from, to);
+}
+
+bool ProxyWorkspaceModel::isSyncing() const
+{
+    return m_screen->isSyncing();
 }
 
 void ProxyWorkspaceModel::addWorkspace()

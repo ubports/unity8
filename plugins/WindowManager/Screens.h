@@ -52,8 +52,6 @@ public:
     int count() const;
     QVariant activeScreen() const;
 
-    bool isSyncing() const { return m_syncing; }
-
     const QVector<Screen*>& list() const { return m_screens; }
 
 public Q_SLOTS:
@@ -71,7 +69,6 @@ protected:
 
     QVector<Screen*> m_screens;
     const QSharedPointer<qtmir::Screens> m_wrapped;
-    bool m_syncing;
 
     friend class ProxyScreens;
 };
@@ -84,7 +81,7 @@ public:
     ~ConcreteScreens();
 
     Q_INVOKABLE ProxyScreens *createProxy();
-    Q_INVOKABLE void sync(Screens *proxy);
+    Q_INVOKABLE void sync(ProxyScreens *proxy);
 
     static ConcreteScreens *self();
 
@@ -103,8 +100,12 @@ class ProxyScreens : public Screens
 public:
     explicit ProxyScreens(Screens*const screens);
 
+    void setSyncing(bool syncing);
+    bool isSyncing() const { return m_syncing; }
+
 private:
     const QPointer<Screens> m_original;
+    bool m_syncing;
 };
 
 #endif // SCREENS_H

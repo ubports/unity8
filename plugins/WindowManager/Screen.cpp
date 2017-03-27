@@ -185,11 +185,6 @@ QString Screen::outputTypeName() const
     return QString();
 }
 
-void Screen::setSyncing(bool syncing)
-{
-    workspaces()->setSyncing(syncing);
-}
-
 void Screen::sync(Screen *proxy)
 {
     if (!proxy) return;
@@ -258,9 +253,10 @@ void ConcreteScreen::setCurrentWorkspace(Workspace *workspace)
     }
 }
 
-ProxyScreen::ProxyScreen(Screen *const screen)
-    : m_workspaces(new ProxyWorkspaceModel(screen->workspaces()))
+ProxyScreen::ProxyScreen(Screen *const screen, ProxyScreens* screens)
+    : m_workspaces(new ProxyWorkspaceModel(screen->workspaces(), this))
     , m_original(screen)
+    , m_screens(screens)
 {
     connectToScreen(screen);
 
@@ -295,4 +291,9 @@ void ProxyScreen::setCurrentWorkspace(Workspace *workspace)
     if (p) {
         m_original->setCurrentWorkspace(p->proxyObject());
     }
+}
+
+bool ProxyScreen::isSyncing() const
+{
+    return m_screens->isSyncing();
 }

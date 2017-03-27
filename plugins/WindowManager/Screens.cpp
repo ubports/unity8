@@ -127,22 +127,17 @@ ProxyScreens *ConcreteScreens::createProxy()
     return new ProxyScreens(this);
 }
 
-void ConcreteScreens::sync(Screens *proxy)
+void ConcreteScreens::sync(ProxyScreens *proxy)
 {
     if (!proxy) return;
-
-    for (auto screen : m_screens) {
-        screen->setSyncing(true);
-    }
+    proxy->setSyncing(true);
 
     const auto& proxyList = proxy->list();
     for (int i = 0; i < m_screens.count() && i < proxyList.count(); ++i) {
         m_screens[i]->sync(proxyList[i]);
     }
 
-    for (auto screen : m_screens) {
-        screen->setSyncing(false);
-    }
+    proxy->setSyncing(true);
 }
 
 void ConcreteScreens::onScreenAdded(qtmir::Screen *added)
@@ -189,6 +184,7 @@ void ConcreteScreens::onScreenRemoved(qtmir::Screen *removed)
 ProxyScreens::ProxyScreens(Screens * const screens)
     : Screens(screens->m_wrapped)
     , m_original(screens)
+    , m_syncing(false)
 {
     connect(screens, &Screens::screenAdded, this, [this](Screen *added) {
         Q_FOREACH(auto screen, m_screens) {
@@ -197,7 +193,7 @@ ProxyScreens::ProxyScreens(Screens * const screens)
         }
 
         beginInsertRows(QModelIndex(), count(), count());
-        auto screenWrapper(new ProxyScreen(added));
+        auto screenWrapper(new ProxyScreen(added, this));
         QQmlEngine::setObjectOwnership(screenWrapper, QQmlEngine::CppOwnership);
         m_screens.push_back(screenWrapper);
         endInsertRows();
@@ -227,8 +223,13 @@ ProxyScreens::ProxyScreens(Screens * const screens)
     });
 
     Q_FOREACH(Screen* screen, screens->list()) {
-        auto screenWrapper(new ProxyScreen(screen));
+        auto screenWrapper(new ProxyScreen(screen, this));
         QQmlEngine::setObjectOwnership(screenWrapper, QQmlEngine::CppOwnership);
-        m_screens.push_back(new ProxyScreen(screen));
+        m_screens.push_back(screenWrapper);
     }
+}
+
+void ProxyScreens::setSyncing(bool syncing)
+{
+    m_syncing = syncing;
 }
