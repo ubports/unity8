@@ -230,6 +230,7 @@ FocusScope {
         shortcut: Qt.AltModifier|Qt.ControlModifier|Qt.Key_Left
         active: !workspaceSwitcher.active
         onTriggered: {
+            root.focus = true;
             workspaceSwitcher.showLeft()
         }
     }
@@ -238,6 +239,7 @@ FocusScope {
         shortcut: Qt.AltModifier|Qt.ControlModifier|Qt.Key_Right
         active: !workspaceSwitcher.active
         onTriggered: {
+            root.focus = true;
             workspaceSwitcher.showRight()
         }
     }

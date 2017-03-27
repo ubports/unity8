@@ -70,9 +70,10 @@ Item {
             WorkspaceManager.moveSurfaceToWorkspace(surface, workspace);
             drop.accept(Qt.MoveAction)
             if (listView.hoveredHalf == "right") {
-                workspace.activate();
                 root.closeSpread();
+                workspace.activate();
             }
+            surface.activate();
             listView.hoveredWorkspaceIndex = -1
         }
     }

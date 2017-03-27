@@ -114,6 +114,7 @@ UbuntuShape {
             d.ctrlPressed = false;
             break;
         }
+
         if (!d.altPressed && !d.ctrlPressed) {
             print("starting hidetimer")
             d.active = false;
