@@ -101,6 +101,8 @@ PanelTest {
                         model: root.indicatorsModel
                         hides: [ panel.applicationMenus ]
                     }
+
+                    panelState: PanelState {}
                 }
             }
         }
@@ -857,7 +859,7 @@ PanelTest {
 
             var indicatorsBar = findChild(panel.applicationMenus, "indicatorsBar");
 
-            PanelState.title = "Fake Title"
+            panelState.title = "Fake Title"
             pullDownApplicationsMenu(0 /*xPos*/);
             compare(aboutToShowCalledSpy.count, 1);
 
@@ -890,7 +892,7 @@ PanelTest {
 
             var indicatorsBar = findChild(panel.applicationMenus, "indicatorsBar");
 
-            PanelState.title = "Fake Title"
+            panelState.title = "Fake Title"
             pullDownApplicationsMenu(0 /*xPos*/);
 
             tryCompare(indicatorsBar, "currentItemIndex", 0);
