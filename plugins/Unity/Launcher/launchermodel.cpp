@@ -207,16 +207,17 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
             }
         } else if (actionId.startsWith(QStringLiteral("surface_"))){
             ApplicationInfoInterface *appInfo = m_appManager->findApplication(appId);
-            if (!appInfo) {
-                qWarning() << "App for" << appId << "not found in launcher. Cannot invoke quicklist action";
-            }
-            for (int i = 0; i < appInfo->surfaceList()->count(); ++i) {
-                MirSurfaceInterface *iface = appInfo->surfaceList()->get(i);
-                QString id = actionId;
-                id.remove(QRegExp("^surface_"));
-                if (id == iface->persistentId()) {
-                    iface->activate();
+            if (appInfo) {
+                for (int i = 0; i < appInfo->surfaceList()->count(); ++i) {
+                    MirSurfaceInterface *iface = appInfo->surfaceList()->get(i);
+                    QString id = actionId;
+                    id.remove(QRegExp("^surface_"));
+                    if (id == iface->persistentId()) {
+                        iface->activate();
+                    }
                 }
+            } else {
+                qWarning() << "App for" << appId << "not found in launcher. Cannot invoke quicklist action";
             }
         // Nope, we don't know this action, let the backend forward it to the application
         } else {
