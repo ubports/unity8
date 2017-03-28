@@ -45,7 +45,7 @@ Object {
 
             Action {
                 id: action
-                text: menuData.label.replace("_", "&")
+                text: menuData && menuData.label.replace("_", "&") || ""
             }
 
             ListItemLayout {
@@ -59,8 +59,8 @@ Object {
                 }
 
                 Label {
-                    text: menuData.shortcut
-                    visible: menuData.shortcut && QuickUtils.keyboardAttached
+                    text: menuData && menuData.shortcut || ""
+                    visible: menuData && menuData.shortcut && QuickUtils.keyboardAttached
                     SlotsLayout.position: SlotsLayout.Trailing
                     color: enabled ? theme.palette.normal.backgroundSecondaryText :
                                      theme.palette.disabled.backgroundSecondaryText
@@ -86,7 +86,7 @@ Object {
 
             Action {
                 id: action
-                text: menuData.label.replace("_", "&")
+                text: menuData && menuData.label.replace("_", "&") || ""
             }
 
             ListItemLayout {

@@ -64,6 +64,7 @@ UbuntuShape {
     }
 
     property alias unityMenuModel: repeater.model
+    property PanelState panelState
 
     function show() {
         visible = true;
@@ -103,7 +104,7 @@ UbuntuShape {
         property real __minimumWidth: units.gu(20)
         property real __maximumWidth: ApplicationMenusLimits.screenWidth * 0.7
         property real __minimumHeight: units.gu(2)
-        property real __maximumHeight: ApplicationMenusLimits.screenHeight - PanelState.panelHeight
+        property real __maximumHeight: ApplicationMenusLimits.screenHeight - panelState.panelHeight
 
         signal dismissAll()
 
@@ -293,6 +294,7 @@ UbuntuShape {
                         // Parent will be loader
                         id: menuItem
                         menuData: parent.__menuData
+                        panelState: root.panelState
                         objectName: parent.objectName + "-actionItem"
 
                         width: MathUtils.clamp(implicitWidth, d.__minimumWidth, d.__maximumWidth)
@@ -483,6 +485,7 @@ UbuntuShape {
 
                 onLoaded: {
                     item.unityMenuModel = Qt.binding(function() { return submenuLoader.unityMenuModel; });
+                    item.panelState = Qt.binding(function() { return root.panelState; });
                     item.objectName = Qt.binding(function() { return submenuLoader.objectName + "menu"; });
                     item.desiredX = Qt.binding(function() { return submenuLoader.desiredX; });
                     item.desiredY = Qt.binding(function() { return submenuLoader.desiredY; });

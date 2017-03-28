@@ -801,10 +801,9 @@ StyledItem {
 
     Cursor {
         id: cursor
-        objectName: "Pointer-"+screenWindow.objectName
+        objectName: "cursor"
 
         z: itemGrabber.z + 1
-        opacity: 0
         topBoundaryOffset: panel.panelHeight
         enabled: shell.hasMouse && screenWindow.active
         visible: enabled
