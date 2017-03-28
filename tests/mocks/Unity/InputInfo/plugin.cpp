@@ -27,7 +27,7 @@
 static QObject *backendProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(scriptEngine)
-    return MockController::instance(engine);
+    return MockController::instance();
 }
 
 void InputInfoPlugin::registerTypes(const char *uri)

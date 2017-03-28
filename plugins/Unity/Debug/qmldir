@@ -1,3 +1,0 @@
-module Unity.Debug
-plugin Debug-qml
-typeinfo Debug.qmltypes

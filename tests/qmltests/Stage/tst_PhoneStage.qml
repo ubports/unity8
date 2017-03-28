@@ -31,6 +31,8 @@ Item {
 
     property var greeter: { fullyShown: true }
 
+    readonly property var topLevelSurfaceList: WorkspaceManager.activeWorkspace.windowModel
+
     ApplicationMenuDataLoader {
         id: appMenuData
     }
@@ -45,11 +47,8 @@ Item {
         orientations: Orientations {}
         applicationManager: ApplicationManager
         mode: "staged"
-        topLevelSurfaceList: TopLevelWindowModel {
-            id: topLevelSurfaceList
-            applicationManager: ApplicationManager
-            surfaceManager: SurfaceManager
-        }
+        topLevelSurfaceList: root.topLevelSurfaceList
+
         Component.onCompleted: {
             ApplicationManager.startApplication("unity8-dash");
         }

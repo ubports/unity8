@@ -60,7 +60,7 @@ Rectangle {
     property var shell: shellLoader.item ? shellLoader.item : null
     onShellChanged: {
         if (shell) {
-            topLevelSurfaceList = testCase.findInvisibleChild(shell, "topLevelSurfaceList");
+            topLevelSurfaceList = shell.topLevelSurfaceList;
             panelState = testCase.findInvisibleChild(shell, "panelState");
         } else {
             topLevelSurfaceList = null;
@@ -607,7 +607,7 @@ Rectangle {
             waitForGreeterToStabilize();
 
             // from StageTestCase
-            topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
+            topLevelSurfaceList = shell.topLevelSurfaceList;
             verify(topLevelSurfaceList);
             stage = findChild(shell, "stage");
 

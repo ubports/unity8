@@ -19,6 +19,10 @@ target_link_libraries(mockwindowmanagmentpolicy
 )
 qt5_use_modules(mockwindowmanagmentpolicy Core)
 
+install(TARGETS mockwindowmanagmentpolicy
+    DESTINATION ${SHELL_INSTALL_QML}/mocks/WindowManager
+    )
+
 set(WINDOWMANAGER_SRC
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Screen.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/ScreenAttached.cpp

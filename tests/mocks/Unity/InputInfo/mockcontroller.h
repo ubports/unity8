@@ -20,16 +20,14 @@
 #include <QObject>
 #include "qinputinfo.h"
 
-class QQmlEngine;
-
 class MockController: public QObject
 {
     Q_OBJECT
 public:
-    MockController(QQmlEngine *engine);
+    MockController(QObject *parent = nullptr);
     ~MockController() = default;
 
-    static MockController *instance(QQmlEngine *engine);
+    static MockController *instance();
 
     Q_INVOKABLE QInputDevice* addMockDevice(const QString &devicePath, QInputDevice::InputType type);
     Q_INVOKABLE void removeDevice(const QString &devicePath);
