@@ -19,6 +19,7 @@ import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
 import "../../../qml/Components"
+import "../../../qml/Components/PanelState"
 import "../../../qml/Stage"
 import Ubuntu.Components 1.3
 import Unity.Application 0.1
@@ -55,6 +56,7 @@ Item {
         Component.onCompleted: {
             ApplicationManager.startApplication("unity8-dash");
         }
+        panelState: PanelState {}
     }
 
     Flickable {
