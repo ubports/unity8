@@ -44,10 +44,6 @@ Item {
         value: false
     }
 
-    PanelState {
-        id: panelState
-    }
-
     Component.onCompleted: {
         ApplicationMenusLimits.screenWidth = Qt.binding( function() { return stageLoader.width; } );
         ApplicationMenusLimits.screenHeight = Qt.binding( function() { return stageLoader.height; } );
@@ -106,7 +102,7 @@ Item {
                 topLevelSurfaceList: topSurfaceList
                 interactive: true
                 mode: "windowed"
-                panelState: panelState
+                panelState: PanelState {}
             }
         }
     }
@@ -178,6 +174,7 @@ Item {
 
         stage: stageLoader.status === Loader.Ready ? stageLoader.item : null
         topLevelSurfaceList: topSurfaceList
+        property var panelState: stage ? stage.panelState : null
 
         function init() {
             // wait until unity8-dash is up and running.
