@@ -42,7 +42,9 @@ PanelTest {
         value: keyboardAttached.checked
     }
 
-    readonly property alias panelState: panel.panelState
+    readonly property var panelState: PanelState {
+
+    }
 
     ApplicationMenuDataLoader {
         id: appMenuData
@@ -86,6 +88,7 @@ PanelTest {
 
                     indicatorMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
                     applicationMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
+                    panelState: root.panelState
 
                     applicationMenus {
                         model: UnityMenuModel {
@@ -855,7 +858,7 @@ PanelTest {
 
             var indicatorsBar = findChild(panel.applicationMenus, "indicatorsBar");
 
-            PanelState.title = "Fake Title"
+            root.panelState.title = "Fake Title"
             pullDownApplicationsMenu(0 /*xPos*/);
             compare(aboutToShowCalledSpy.count, 1);
 
@@ -888,7 +891,7 @@ PanelTest {
 
             var indicatorsBar = findChild(panel.applicationMenus, "indicatorsBar");
 
-            PanelState.title = "Fake Title"
+            panelState.title = "Fake Title"
             pullDownApplicationsMenu(0 /*xPos*/);
 
             tryCompare(indicatorsBar, "currentItemIndex", 0);
