@@ -44,6 +44,7 @@ FocusScope {
         readonly property bool decorated:  surface ? surface.type === Mir.UtilityType
                                                        || surface.type === Mir.DialogType
                                                        || surface.type === Mir.NormalType
+                                                       || surface.type === Mir.SatelliteType
                                                    : false
 
         readonly property bool moveable: decorated
@@ -101,7 +102,10 @@ FocusScope {
                 height: units.gu(3)
                 title: root.surface ? root.surface.name : ""
                 active: root.surface ? root.surface.focused : false
-                closeButtonVisible: false
+                closeButtonVisible: root.surface ? root.surface.type === Mir.SatelliteType
+                                                || root.surface.type === Mir.NormalType
+                                                || root.surface.type === Mir.UtilityType
+                                                 : false
                 minimizeButtonVisible: false
                 maximizeButtonShown: false
                 onPressed: root.surface.activate();
@@ -110,6 +114,7 @@ FocusScope {
                     d.moveHandler.handlePositionChanged(mouse);
                 }
                 onReleased: if (d.moveHandler) { d.moveHandler.handleReleased(); }
+                onCloseClicked: root.surface.close();
             }
         }
     }
