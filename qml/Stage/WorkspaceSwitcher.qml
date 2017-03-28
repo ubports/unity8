@@ -90,7 +90,7 @@ UbuntuShape {
 
     Timer {
         id: hideTimer
-        interval: 1000
+        interval: 300
         onTriggered: d.shown = false;
     }
 
