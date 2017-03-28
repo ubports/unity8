@@ -573,14 +573,16 @@ void LauncherModel::updateSurfaceListForApp(ApplicationInfoInterface* app)
     QList<QPair<QString, QString> > surfaces;
     for (int i = 0; i < app->surfaceList()->count(); ++i) {
         MirSurfaceInterface* iface = app->surfaceList()->get(i);
-        // Avoid duplicate connections, so let's just disconnect first to be sure
-        disconnect(iface, &MirSurfaceInterface::nameChanged, this, &LauncherModel::updateSurfaceListForSurface);
-        connect(iface, &MirSurfaceInterface::nameChanged, this, &LauncherModel::updateSurfaceListForSurface);
-        QString name = iface->name();
-        if (name.isEmpty()) {
-            name = app->name();
+        if (iface->type() == Mir::NormalType || iface->type() == Mir::DialogType) {
+            // Avoid duplicate connections, so let's just disconnect first to be sure
+            disconnect(iface, &MirSurfaceInterface::nameChanged, this, &LauncherModel::updateSurfaceListForSurface);
+            connect(iface, &MirSurfaceInterface::nameChanged, this, &LauncherModel::updateSurfaceListForSurface);
+            QString name = iface->name();
+            if (name.isEmpty()) {
+                name = app->name();
+            }
+            surfaces.append({iface->persistentId(), name});
         }
-        surfaces.append({iface->persistentId(), name});
     }
     item->setSurfaces(surfaces);
     Q_EMIT dataChanged(index(idx), index(idx), {RoleSurfaceCount});
