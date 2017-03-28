@@ -919,12 +919,13 @@ FocusScope {
                         priv.updateMainAndSideStageIndexes();
                     }
                     appDelegate.focus = true;
+                    priv.focusedAppDelegate = appDelegate;
                 }
 
                 function updateQmlFocusFromMirSurfaceFocus() {
                     if (model.window.focused) {
                         claimFocus();
-                        priv.focusedAppDelegate = appDelegate;
+                        decoratedWindow.focus = true;
                     }
                 }
 
@@ -1828,6 +1829,14 @@ FocusScope {
                             boundsItem: boundariesForWindowPlacement
 
                             z: childWindowRepeater.count - model.index
+
+                            onFocusChanged: {
+                                if (focus) {
+                                    // some child surface in this tree got focus.
+                                    // Ensure we also have it at the top-level hierarchy
+                                    appDelegate.claimFocus();
+                                }
+                            }
                         }
                     }
                 }
