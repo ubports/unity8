@@ -336,8 +336,6 @@ Item {
             // now finish up
             page = waitForPage("reportingPage");
             tap(findChild(page, "forwardButton"));
-            page = waitForPage("systemUpdatePage");
-            tap(findChild(page, "forwardButton"));
             page = waitForPage("finishedPage");
             waitUntilTransitionsEnd(page);
             tap(findChild(page, "finishButton"));
@@ -378,8 +376,6 @@ Item {
             // now finish up
             page = waitForPage("reportingPage");
             tap(findChild(page, "forwardButton"));
-            page = waitForPage("systemUpdatePage");
-            tap(findChild(page, "forwardButton"));
             page = waitForPage("finishedPage");
             waitUntilTransitionsEnd(page);
             tap(findChild(page, "finishButton"));
@@ -397,8 +393,6 @@ Item {
             // now finish up
             tap(findChild(page, "forwardButton"));
             page = waitForPage("reportingPage");
-            tap(findChild(page, "forwardButton"));
-            page = waitForPage("systemUpdatePage");
             tap(findChild(page, "forwardButton"));
             page = waitForPage("finishedPage");
             waitUntilTransitionsEnd(page);
