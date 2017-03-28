@@ -45,7 +45,6 @@ import Unity.DashCommunicator 0.1
 import Unity.Indicators 0.1 as Indicators
 import Cursor 1.1
 import WindowManager 1.0
-import Unity.Debug 0.1 as Debug
 
 
 StyledItem {
