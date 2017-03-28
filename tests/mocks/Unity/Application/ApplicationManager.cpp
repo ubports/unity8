@@ -475,6 +475,11 @@ void ApplicationManager::buildListOfAvailableApplications()
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
+    application->setAppId("ubuntu-terminal-app");
+    application->setName("Terminal");
+    m_availableApplications.append(application);
+
+    application = new ApplicationInfo(this);
     application->setAppId("primary-oriented-app");
     application->setName("Primary Oriented");
     application->setSupportedOrientations(Qt::PrimaryOrientation);
