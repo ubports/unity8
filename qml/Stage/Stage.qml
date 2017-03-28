@@ -1391,6 +1391,7 @@ FocusScope {
                         when: appDelegate.windowState == WindowStateStorage.WindowStateRestored
                         extend: "normal"
                         PropertyChanges {
+                            restoreEntryValues: false
                             target: appDelegate;
                             windowedX: restoredX;
                             windowedY: restoredY;
