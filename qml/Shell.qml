@@ -255,6 +255,13 @@ StyledItem {
         }
     }
 
+    AvailableDesktopArea {
+        id: availableDesktopAreaItem
+        anchors.fill: parent
+        anchors.topMargin: panel.fullscreenMode ? 0 : panel.minimizedPanelHeight
+        anchors.leftMargin: launcher.lockedVisible ? launcher.panelWidth : 0
+    }
+
     GSettings {
         id: settings
         schema.id: "com.canonical.Unity8"
@@ -290,6 +297,7 @@ StyledItem {
             topLevelSurfaceList: topLevelSurfaceList
             inputMethodRect: inputMethod.visibleRect
             rightEdgePushProgress: rightEdgeBarrier.progress
+            availableDesktopArea: availableDesktopAreaItem
 
             property string usageScenario: shell.usageScenario === "phone" || greeter.hasLockedApp
                                                        ? "phone"
@@ -311,7 +319,6 @@ StyledItem {
 
             onInteractiveChanged: { if (interactive) { focus = true; } }
 
-            leftMargin: shell.usageScenario == "desktop" && !settings.autohideLauncher ? launcher.panelWidth: 0
             suspended: greeter.shown
             altTabPressed: physicalKeysMapper.altTabPressed
             oskEnabled: shell.oskEnabled

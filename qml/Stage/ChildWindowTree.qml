@@ -25,6 +25,7 @@ FocusScope {
     property real displacementX: 0
     property real displacementY: 0
     property alias boundsItem: childWindow.boundsItem
+    property alias decorationHeight: childWindow.decorationHeight
 
     x: surface ? surface.position.x + displacementX : 0
     y: surface ? surface.position.y + displacementY : 0
