@@ -20,6 +20,7 @@ add_subdirectory(uqmlscene)
 # Use our custom implementation of qmlscene and import dbus-test-runner
 add_executable(qmlscene ALIAS uqmlscene)
 import_executables(dbus-test-runner)
+import_executables(qdbus-simple-test-runner)
 
 set(UNITY_PLUGINPATH "${CMAKE_BINARY_DIR}/plugins" CACHE PATH "Path to pre-built unity8 plugin dir.")
 set(UNITY_MOCKPATH "${CMAKE_BINARY_DIR}/tests/mocks" CACHE PATH "Path to pre-built unity8 mock dir.")
