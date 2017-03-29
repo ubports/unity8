@@ -33,6 +33,8 @@ UbuntuShape {
     // if they don't fit when growing right
     property bool substractWidth: false
 
+    property bool selectFirstOnCountChange: true
+
     property real desiredX
     x: {
         var dummy = visible; // force recalc when shown/hidden
@@ -73,8 +75,8 @@ UbuntuShape {
         d.currentItem = null;
     }
 
-    function select(index) {
-        d.select(index)
+    function selectFirstIndex() {
+        d.selectNext(-1);
     }
 
     function reset() {
@@ -302,6 +304,7 @@ UbuntuShape {
 
                             if (hasSubmenu) {
                                 if (!popup) {
+                                    root.unityMenuModel.aboutToShow(__ownIndex);
                                     var model = root.unityMenuModel.submenu(__ownIndex);
                                     popup = submenuComponent.createObject(focusScope, {
                                                                                 objectName: parent.objectName + "-",
@@ -323,8 +326,10 @@ UbuntuShape {
                                         popup = null;
                                         root.childActivated();
                                     });
-                                } else if (popup) {
+                                } else if (!popup.visible) {
+                                    root.unityMenuModel.aboutToShow(__ownIndex);
                                     popup.visible = true;
+                                    popup.item.selectFirstIndex();
                                 }
                             } else {
                                 root.unityMenuModel.activate(__ownIndex);
@@ -357,6 +362,12 @@ UbuntuShape {
 
                     Repeater {
                         id: repeater
+
+                        onCountChanged: {
+                            if (root.selectFirstOnCountChange && !d.currentItem && count > 0) {
+                                root.selectFirstIndex();
+                            }
+                        }
 
                         Loader {
                             id: loader
@@ -484,9 +495,6 @@ UbuntuShape {
                     target: item
                     onChildActivated: childActivated();
                 }
-
-                Component.onCompleted: item.select(0);
-                onVisibleChanged: if (visible) { item.select(0); }
             }
         }
     }

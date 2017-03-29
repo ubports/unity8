@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2016-2017 Canonical, Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -19,6 +19,8 @@
 
 #include <QAbstractListModel>
 #include <QLoggingCategory>
+
+#include "WindowManagerGlobal.h"
 
 Q_DECLARE_LOGGING_CATEGORY(TOPLEVELWINDOWMODEL)
 
@@ -47,7 +49,7 @@ namespace unity {
  * As applications can have multiple surfaces and you can also have entries without surfaces at all,
  * the only way to unambiguously refer to an entry in this model is through its id.
  */
-class TopLevelWindowModel : public QAbstractListModel
+class WINDOWMANAGERQML_EXPORT TopLevelWindowModel : public QAbstractListModel
 {
     Q_OBJECT
 
@@ -197,6 +199,7 @@ private:
     void setFocusedWindow(Window *window);
     void removeInputMethodWindow();
     int findIndexOf(const unity::shell::application::MirSurfaceInterface *surface) const;
+    void deleteAt(int index);
     void removeAt(int index);
 
     void addApplication(unity::shell::application::ApplicationInfoInterface *application);
@@ -207,6 +210,7 @@ private:
                         unity::shell::application::ApplicationInfoInterface *application);
     void prependSurfaceHelper(unity::shell::application::MirSurfaceInterface *surface,
                               unity::shell::application::ApplicationInfoInterface *application);
+    void prependWindow(Window *window, unity::shell::application::ApplicationInfoInterface *application);
 
     void connectWindow(Window *window);
     void connectSurface(unity::shell::application::MirSurfaceInterface *surface);

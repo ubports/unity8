@@ -36,6 +36,7 @@ set(QMLPLUGIN_SRC
     URLDispatcher.cpp
     tabfocusfence.cpp
     expressionfiltermodel.cpp
+    quicklistproxymodel.cpp
     plugin.cpp
     )
 

@@ -40,6 +40,7 @@ Item {
     property real rightEdgeBreakPoint: Math.min(units.gu(40) / root.width, .35)
 
     signal leaveSpread()
+    signal closeCurrentApp();
 
     // Calculated stuff
     readonly property int totalItemCount: model.count
@@ -118,6 +119,13 @@ Item {
         Behavior on opacity { UbuntuNumberAnimation { } }
     }
 
+    readonly property int itemCount: root.model.count
+    onItemCountChanged: {
+        if (highlightedIndex >= itemCount) {
+            highlightedIndex = itemCount - 1
+        }
+    }
+
     Keys.onPressed: {
         switch (event.key) {
         case Qt.Key_Left:
@@ -129,6 +137,9 @@ Item {
         case Qt.Key_Tab:
             selectNext(event.isAutoRepeat)
             event.accepted = true;
+            break;
+        case Qt.Key_Q:
+            closeCurrentApp();
             break;
         case Qt.Key_Escape:
             highlightedIndex = -1

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2016-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 #include "MirSurfaceListModel.h"
 #include "ApplicationInfo.h"
 
-#include "MirSurface.h"
+#include <unity/shell/application/MirSurfaceInterface.h>
 
 #define MIRSURFACELISTMODEL_DEBUG 0
 
@@ -46,14 +46,14 @@ QVariant MirSurfaceListModel::data(const QModelIndex& index, int role) const
         return QVariant();
 
     if (role == SurfaceRole) {
-        MirSurface *surface = m_surfaceList.at(index.row());
+        MirSurfaceInterface *surface = m_surfaceList.at(index.row());
         return QVariant::fromValue(static_cast<unity::shell::application::MirSurfaceInterface*>(surface));
     } else {
         return QVariant();
     }
 }
 
-void MirSurfaceListModel::raise(MirSurface *surface)
+void MirSurfaceListModel::raise(MirSurfaceInterface *surface)
 {
     DEBUG_MSG("(" << surface << ")");
     int i = m_surfaceList.indexOf(surface);
@@ -62,7 +62,7 @@ void MirSurfaceListModel::raise(MirSurface *surface)
     }
 }
 
-void MirSurfaceListModel::addSurface(MirSurface *surface)
+void MirSurfaceListModel::addSurface(MirSurfaceInterface *surface)
 {
     DEBUG_MSG("(" << surface << ")");
     beginInsertRows(QModelIndex(), 0, 0);
@@ -73,7 +73,7 @@ void MirSurfaceListModel::addSurface(MirSurface *surface)
     Q_EMIT firstChanged();
 }
 
-void MirSurfaceListModel::connectSurface(MirSurface *surface)
+void MirSurfaceListModel::connectSurface(MirSurfaceInterface *surface)
 {
     connect(surface, &QObject::destroyed, this, [this, surface](){ this->removeSurface(surface); });
     connect(surface, &MirSurfaceInterface::focusedChanged, this, [this, surface](bool surfaceFocused){
@@ -83,7 +83,7 @@ void MirSurfaceListModel::connectSurface(MirSurface *surface)
     });
 }
 
-void MirSurfaceListModel::removeSurface(MirSurface *surface)
+void MirSurfaceListModel::removeSurface(MirSurfaceInterface *surface)
 {
     int i = m_surfaceList.indexOf(surface);
     if (i != -1) {
