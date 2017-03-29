@@ -1,6 +1,7 @@
 var/lib/unity8/version
 data/unity8-filewatcher.conf usr/share/upstart/sessions/
-data/unity8.conf usr/share/upstart/sessions/
+data/unity8.service usr/lib/systemd/user
+data/unity8-session usr/bin
 data/devices.conf etc/ubuntu/
 data/test.sensors etc/ubuntusensors/
 usr/bin/unity8

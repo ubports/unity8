@@ -22,11 +22,6 @@ LogindServer::LogindServer(QObject *parent)
 {
 }
 
-QDBusObjectPath LogindServer::GetSessionByPID(quint32)
-{
-    return QDBusObjectPath("/logindsession");
-}
-
 void LogindServer::Reboot(bool interactive)
 {
     Q_EMIT RebootCalled(interactive);

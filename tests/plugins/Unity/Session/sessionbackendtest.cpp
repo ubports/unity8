@@ -103,8 +103,8 @@ private Q_SLOTS:
         QCoreApplication::processEvents(); // to let the services register on DBus
 
         QDBusInterface login1Interface("org.freedesktop.login1",
-                                      "/logindsession",
-                                      "org.freedesktop.login1.Manager");
+                                       "/org/freedesktop/login1/session/testing",
+                                       "org.freedesktop.login1.Manager");
         QSignalSpy spy(&login1Interface, signal.toUtf8().data());
 
         QDBusInterface dbusGnomeSessionWrapper("org.gnome.SessionManager",
@@ -225,7 +225,9 @@ private Q_SLOTS:
         DBusUnitySessionService dbusUnitySessionService;
         QCoreApplication::processEvents(); // to let the service register on DBus
 
-        QDBusInterface iface("org.freedesktop.login1", "/logindsession", "org.freedesktop.login1.Session");
+        QDBusInterface iface("org.freedesktop.login1",
+                             "/org/freedesktop/login1/session/testing",
+                             "org.freedesktop.login1.Session");
         QVERIFY(iface.isValid());
 
         QSignalSpy spy(&dbusUnitySessionService, SIGNAL(Unlocked()));

@@ -60,6 +60,7 @@ install(TARGETS sessionbackendtestExec
 
 add_unity8_unittest(SessionBackend dbus-test-runner
     ENVIRONMENT LD_PRELOAD=$<TARGET_FILE:SessionBackendTestPreload>
+                XDG_SESSION_ID=testing
                 XDG_SESSION_PATH=/session
     ARG_PREFIX "--parameter"
     ARGS
