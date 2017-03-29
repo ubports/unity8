@@ -368,8 +368,11 @@ FocusScope {
                 // Remove (and put back) the focus for the searchfield in
                 // order to hide the copy/paste popover when we move the drawer
                 var hadFocus = drawer.searchTextField.focus;
+                var oldSelectionStart = drawer.searchTextField.selectionStart;
+                var oldSelectionEnd = drawer.searchTextField.selectionEnd;
                 drawer.searchTextField.focus = false;
                 drawer.searchTextField.focus = hadFocus;
+                drawer.searchTextField.select(oldSelectionStart, oldSelectionEnd);
             }
         }
         width: Math.min(root.width, units.gu(90)) * .9
