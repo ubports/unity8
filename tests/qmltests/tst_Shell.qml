@@ -3151,6 +3151,38 @@ Rectangle {
             tryCompare(menuBarLoader.item, "visible", true);
         }
 
+        function test_enforceFocusOnStageOnAltTab() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var appDelegate = startApplication("music-app")
+            verify(appDelegate);
+            waitForRendering(shell);
+
+            var launcher = findChild(shell, "launcher");
+            launcher.focus = true;
+
+            var stage = findChild(shell, "stage");
+
+            var spreadItem = findChild(shell, "spreadItem");
+
+            compare(spreadItem.highlightedIndex, -1);
+
+            keyPress(Qt.Key_Alt);
+            keyClick(Qt.Key_Tab);
+
+            tryCompare(spreadItem, "highlightedIndex", 1);
+            tryCompare(stage, "focus", true);
+
+            keyClick(Qt.Key_Tab);
+
+            tryCompare(spreadItem, "highlightedIndex", 0);
+
+            keyRelease(Qt.Key_Alt);
+        }
+
         function test_maximizedWindowAndMenuInPanel() {
             loadShell("desktop");
             shell.usageScenario = "desktop";
