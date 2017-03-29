@@ -37,20 +37,10 @@ Rectangle {
     height: units.gu(71)
 
     QtObject {
-        id: applicationArguments
-
-        function hasGeometry() {
-            return false;
-        }
-
-        function width() {
-            return 0;
-        }
-
-        function height() {
-            return 0;
-        }
+        id: _screenWindow
+        property bool primary: true
     }
+    property alias screenWindow: _screenWindow
 
     Telephony.CallEntry {
         id: phoneCall
@@ -154,6 +144,10 @@ Rectangle {
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }
+                    SurfaceManager {
+                        id: surfaceMan
+                    }
+                    surfaceManager: surfaceMan
                 }
             }
         }
@@ -238,7 +232,7 @@ Rectangle {
             }
 
             ItemSelector {
-                id: modeSelector
+                    id: modeSelector
                 anchors { left: parent.left; right: parent.right }
                 activeFocusOnPress: false
                 text: "Mode"
@@ -327,9 +321,7 @@ Rectangle {
         }
 
         function ensureInputMethodSurface() {
-            var surfaceManager = findInvisibleChild(shell, "surfaceManager");
-            verify(surfaceManager);
-            surfaceManager.createInputMethodSurface();
+            shell.surfaceManager.createInputMethodSurface();
 
             tryCompareFunction(function() { return topLevelSurfaceList.inputMethodSurface !== null }, true);
         }

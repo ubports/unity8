@@ -1482,6 +1482,7 @@ Rectangle {
             removeTimeConstraintsFromSwipeAreas(orientedShellLoader.item);
 
             shell = findChild(orientedShell, "shell");
+            verify(shell);
 
             topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
             verify(topLevelSurfaceList);
