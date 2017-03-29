@@ -38,6 +38,7 @@ private Q_SLOTS:
         m_inactiveShortcut = dynamic_cast<GlobalShortcut*>(m_view->rootObject()->property("inactiveShortcut").value<QObject*>());
         QVERIFY(m_inactiveShortcut);
         m_view->show();
+        m_view->requestActivate();
         QTest::qWaitForWindowExposed(m_view);
     }
 
