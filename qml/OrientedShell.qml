@@ -261,7 +261,7 @@ Item {
 
     Shell {
         id: shell
-        objectName: "shell-"+screenWindow.objectName
+        objectName: "shell"
         width: root.width
         height: root.height
         orientation: root.angleToOrientation(orientationAngle)

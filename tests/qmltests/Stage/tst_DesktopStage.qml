@@ -44,10 +44,6 @@ Item {
         value: false
     }
 
-    PanelState {
-        id: panelStateObj
-    }
-
     Component.onCompleted: {
         ApplicationMenusLimits.screenWidth = Qt.binding( function() { return stageLoader.width; } );
         ApplicationMenusLimits.screenHeight = Qt.binding( function() { return stageLoader.height; } );
@@ -100,7 +96,7 @@ Item {
                 topLevelSurfaceList: topSurfaceList
                 interactive: true
                 mode: "windowed"
-                panelState: panelStateObj
+                panelState: PanelState {}
             }
         }
     }
@@ -172,6 +168,7 @@ Item {
 
         stage: stageLoader.status === Loader.Ready ? stageLoader.item : null
         topLevelSurfaceList: topSurfaceList
+        property var panelState: stage ? stage.panelState : null
 
         function init() {
             // wait until unity8-dash is up and running.
@@ -630,19 +627,19 @@ Item {
             maximizeDelegate(facebookAppDelegate);
 
             // verify the drop shadow is still not visible
-            verify(panelStateObj.dropShadow == false);
+            verify(panelState.dropShadow == false);
 
             // start a foreground app, not maximized
             var dialerAppDelegate = startApplication("dialer-app");
 
             // verify the drop shadow becomes visible
-            tryCompareFunction(function() { return panelStateObj.dropShadow; }, true);
+            tryCompareFunction(function() { return panelState.dropShadow; }, true);
 
             // close the maximized app
             ApplicationManager.stopApplication("facebook-webapp");
 
             // verify the drop shadow is gone
-            tryCompare(panelStateObj, "dropShadow", false);
+            tryCompare(panelState, "dropShadow", false);
         }
 
         function test_threeFingerTapShowsWindowControls_data() {

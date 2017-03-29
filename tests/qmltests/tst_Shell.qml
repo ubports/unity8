@@ -38,7 +38,6 @@ import Unity.Indicators 0.1 as Indicators
 
 import "../../qml"
 import "../../qml/Components"
-import "../../qml/Components/PanelState"
 import "Stage"
 
 Rectangle {
@@ -64,12 +63,12 @@ Rectangle {
             panelState = testCase.findInvisibleChild(shell, "panelState");
         } else {
             topLevelSurfaceList = null;
-            panelState = undefined;
+            panelState = null;
         }
     }
 
     property var topLevelSurfaceList: null
-    property var panelState: undefined
+    property var panelState: null
 
     QtObject {
         id: _screenWindow
@@ -2657,9 +2656,9 @@ Rectangle {
 
         function test_oskDisplacesWindow_data() {
             return [
-                {tag: "no need to displace", windowHeight: units.gu(10), windowY: units.gu(5), targetDisplacement: units.gu(5), oskEnabled: true},
-                {tag: "displace to top", windowHeight: units.gu(50), windowY: units.gu(10), targetDisplacement: panelState.panelHeight, oskEnabled: true},
-                {tag: "osk not on this screen", windowHeight: units.gu(40), windowY: units.gu(10), targetDisplacement: units.gu(10), oskEnabled: false},
+                {tag: "no need to displace", windowHeight: units.gu(10), windowY: units.gu(5), targetDisplacement: function() { return units.gu(5); }, oskEnabled: true},
+                {tag: "displace to top", windowHeight: units.gu(50), windowY: units.gu(10), targetDisplacement: function() { return panelState.panelHeight; }, oskEnabled: true},
+                {tag: "osk not on this screen", windowHeight: units.gu(40), windowY: units.gu(10), targetDisplacement: function() { return units.gu(10); }, oskEnabled: false},
             ]
         }
 
@@ -2685,7 +2684,7 @@ Rectangle {
             verify(initialY > panelState.panelHeight);
 
             topLevelSurfaceList.inputMethodSurface.setInputBounds(Qt.rect(0, root.height / 2, root.width, root.height / 2));
-            tryCompare(dashAppDelegate, "y", data.targetDisplacement);
+            tryCompare(dashAppDelegate, "y", data.targetDisplacement());
 
             topLevelSurfaceList.inputMethodSurface.setInputBounds(Qt.rect(0, 0, 0, 0));
             tryCompare(dashAppDelegate, "y", initialY);
@@ -3118,7 +3117,7 @@ Rectangle {
             // double click the panel
             var panel = findChild(shell, "panel");
             verify(panel);
-            mouseDoubleClickSequence(panel, panel.width/2, PanelState.panelHeight/2, Qt.LeftButton, Qt.NoModifier, 300);
+            mouseDoubleClickSequence(panel, panel.width/2, panelState.panelHeight/2, Qt.LeftButton, Qt.NoModifier, 300);
             tryCompare(appDelegate, "state", "restored");
         }
 

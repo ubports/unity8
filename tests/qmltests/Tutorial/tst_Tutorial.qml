@@ -37,20 +37,10 @@ Rectangle {
     height: units.gu(71)
 
     QtObject {
-        id: applicationArguments
-
-        function hasGeometry() {
-            return false;
-        }
-
-        function width() {
-            return 0;
-        }
-
-        function height() {
-            return 0;
-        }
+        id: _screenWindow
+        property bool primary: true
     }
+    property alias screenWindow: _screenWindow
 
     Telephony.CallEntry {
         id: phoneCall
@@ -154,6 +144,10 @@ Rectangle {
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }
+                    SurfaceManager {
+                        id: surfaceMan
+                    }
+                    surfaceManager: surfaceMan
                 }
             }
         }

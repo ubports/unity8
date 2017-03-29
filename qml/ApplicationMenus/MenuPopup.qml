@@ -26,7 +26,6 @@ UbuntuShape {
     id: root
     objectName: "menu"
     backgroundColor: theme.palette.normal.overlay
-    property PanelState panelState
 
     signal childActivated()
 
@@ -65,6 +64,7 @@ UbuntuShape {
     }
 
     property alias unityMenuModel: repeater.model
+    property PanelState panelState
 
     function show() {
         visible = true;
@@ -484,11 +484,11 @@ UbuntuShape {
 
                 onLoaded: {
                     item.unityMenuModel = Qt.binding(function() { return submenuLoader.unityMenuModel; });
+                    item.panelState = Qt.binding(function() { return root.panelState; });
                     item.objectName = Qt.binding(function() { return submenuLoader.objectName + "menu"; });
                     item.desiredX = Qt.binding(function() { return submenuLoader.desiredX; });
                     item.desiredY = Qt.binding(function() { return submenuLoader.desiredY; });
                     item.substractWidth = Qt.binding(function() { return submenuLoader.substractWidth; });
-                    item.panelState = Qt.binding(function() { return root.panelState; });
                 }
 
                 Keys.onLeftPressed: retreat()
