@@ -448,6 +448,7 @@ FocusScope {
         State {
             name: "spread"; when: priv.goneToSpread
             PropertyChanges { target: floatingFlickable; enabled: true }
+            PropertyChanges { target: root; focus: true }
             PropertyChanges { target: spreadItem; focus: true }
             PropertyChanges { target: hoverMouseArea; enabled: true }
             PropertyChanges { target: rightEdgeDragArea; enabled: false }
