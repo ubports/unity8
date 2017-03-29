@@ -56,19 +56,16 @@ Rectangle {
         id: appMenuData
     }
 
-    property var shell: shellLoader.item ? shellLoader.item : null
+    readonly property var shell: shellLoader.item ? shellLoader.item : null
     onShellChanged: {
         if (shell) {
-            topLevelSurfaceList = shell.topLevelSurfaceList;
             panelState = testCase.findInvisibleChild(shell, "panelState");
         } else {
-            topLevelSurfaceList = null;
             panelState = null;
         }
     }
-
-    property var topLevelSurfaceList: null
     property var panelState: null
+    readonly property alias topLevelSurfaceList: testCase.topLevelSurfaceList
 
     QtObject {
         id: _screenWindow
@@ -566,6 +563,7 @@ Rectangle {
         when: windowShown
 
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
+        topLevelSurfaceList: shell ? shell.topLevelSurfaceList : null
 
         function init() {
             if (shellLoader.active) {
@@ -604,7 +602,6 @@ Rectangle {
             waitForGreeterToStabilize();
 
             // from StageTestCase
-            topLevelSurfaceList = shell.topLevelSurfaceList;
             verify(topLevelSurfaceList);
             stage = findChild(shell, "stage");
 

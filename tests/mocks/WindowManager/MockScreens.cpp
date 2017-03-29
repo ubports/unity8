@@ -97,7 +97,6 @@ public:
     }
 
     QScreen* qscreen() const override {
-        qDebug() << "GET SCREEN" << qGuiApp->topLevelWindows();
         if (qGuiApp->topLevelWindows().count() > 0) {
             return qGuiApp->topLevelWindows()[0]->screen();
         }

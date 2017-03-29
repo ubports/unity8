@@ -159,4 +159,10 @@ Rectangle {
 
     ShellApplication {
     }
+
+    UnityTestCase {
+        id: testCase
+        name: "ShellApplication"
+        when: windowShown
+    }
 }

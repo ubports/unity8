@@ -62,7 +62,7 @@ UnityTestCase {
 
             return findChild(stage, "appDelegate_" + surfaceId);
         } catch(err) {
-            throw new Error("startApplication("+appId+") called from line " +  util.callerLine(1) + " failed!");
+            throw new Error("startApplication("+appId+") called from line " +  util.callerLine(1) + " failed! - " + err);
         }
     }
 }

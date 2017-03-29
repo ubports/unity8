@@ -367,6 +367,7 @@ void SurfaceManager::createInputMethodSurface()
     if (!m_virtualKeyboard) {
         m_virtualKeyboard = new VirtualKeyboard;
         registerSurface(m_virtualKeyboard);
-        Q_EMIT surfaceCreated(m_virtualKeyboard);
+
+        WindowManagementPolicy::instance()->addWindow(m_surfaceToWindow[m_virtualKeyboard].window);
     }
 }
