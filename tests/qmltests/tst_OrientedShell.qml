@@ -449,8 +449,8 @@ Rectangle {
         when: windowShown
 
         property Item orientedShell: orientedShellLoader.status === Loader.Ready ? orientedShellLoader.item : null
-        property Item shell
-        property QtObject topLevelSurfaceList
+        property Item shell: null
+        property QtObject topLevelSurfaceList : shell ? shell.topLevelSurfaceList : null
         property var panelState: undefined
 
         onOrientedShellChanged: {
@@ -518,7 +518,6 @@ Rectangle {
         function cleanup() {
             tryCompare(shell, "waitingOnGreeter", false, 10000); // make sure greeter didn't leave us in disabled state
             shell = null;
-            topLevelSurfaceList = null;
 
             tearDown();
         }
@@ -1477,8 +1476,7 @@ Rectangle {
             removeTimeConstraintsFromSwipeAreas(orientedShellLoader.item);
 
             shell = findChild(orientedShell, "shell");
-
-            topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
+            verify(shell);
             verify(topLevelSurfaceList);
 
             tryCompare(shell, "waitingOnGreeter", false); // reset by greeter when ready

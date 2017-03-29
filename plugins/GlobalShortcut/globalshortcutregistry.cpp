@@ -21,6 +21,20 @@
 
 #include "globalshortcutregistry.h"
 
+namespace {
+QWindow* windowForShortcut(GlobalShortcut *sc) {
+    QObject* parent= sc;
+    while(parent) {
+        if (auto item = qobject_cast<QQuickItem*>(parent)) {
+            auto window = item->window();
+            if (window) return window;
+        }
+        parent = parent->parent();
+    }
+    return nullptr;
+}
+} // namespace
+
 GlobalShortcutRegistry::GlobalShortcutRegistry(QObject *parent)
     : QObject(parent)
 {
@@ -90,8 +104,11 @@ bool GlobalShortcutRegistry::eventFilter(QObject *obj, QEvent *event)
         if (m_shortcuts.contains(seq)) {
             const auto shortcuts = m_shortcuts.value(seq);
             Q_FOREACH(const auto &shortcut, shortcuts) {
-                if (shortcut && shortcut->window() == obj) {
-                    qApp->sendEvent(shortcut, &eCopy);
+                if (shortcut) {
+                    auto window = windowForShortcut(shortcut);
+                    if (!window || window == obj) { // accept shortcut if it's not attached to a window or it's window is active.
+                        qApp->sendEvent(shortcut, &eCopy);
+                    }
                 }
             }
         }

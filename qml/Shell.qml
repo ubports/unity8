@@ -45,7 +45,6 @@ import Unity.DashCommunicator 0.1
 import Unity.Indicators 0.1 as Indicators
 import Cursor 1.1
 import WindowManager 1.0
-import Unity.Debug 0.1 as Debug
 
 
 StyledItem {
@@ -801,10 +800,9 @@ StyledItem {
 
     Cursor {
         id: cursor
-        objectName: "Pointer-"+screenWindow.objectName
+        objectName: "cursor"
 
         z: itemGrabber.z + 1
-        opacity: 0
         topBoundaryOffset: panel.panelHeight
         enabled: shell.hasMouse && screenWindow.active
         visible: enabled

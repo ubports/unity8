@@ -221,7 +221,7 @@ Item {
                     sourceComponent: MenuBar {
                         id: bar
                         objectName: "menuBar"
-                        anchors.left: parent.left
+                        anchors.left: menuBarLoader.left
                         anchors.margins: units.gu(1)
                         height: menuBarLoader.height
                         enableKeyFilter: valid && panelState.decorationsVisible
@@ -345,7 +345,7 @@ Item {
             opacity: __applicationMenus.visible && !__applicationMenus.expanded ? 1 : 0
             visible: opacity != 0
             Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
-            text: PanelState.title
+            text: panelState.title
         }
 
         PanelMenu {
