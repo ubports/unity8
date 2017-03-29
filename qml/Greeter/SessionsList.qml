@@ -169,7 +169,7 @@ Item {
                     width: sessionsList.currentItem.width
                     color: theme.palette.normal.selection
 
-                    visible: initialSession === key && key.length
+                    visible: initialSession === key && !!key
                 }
 
                 Rectangle {
