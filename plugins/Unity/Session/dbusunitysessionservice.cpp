@@ -36,6 +36,7 @@
 
 #define LOGIN1_SERVICE QStringLiteral("org.freedesktop.login1")
 #define LOGIN1_PATH QStringLiteral("/org/freedesktop/login1")
+#define LOGIN1_SESSION_ROOT QStringLiteral("/org/freedesktop/login1/session/")
 #define LOGIN1_IFACE QStringLiteral("org.freedesktop.login1.Manager")
 #define LOGIN1_SESSION_IFACE QStringLiteral("org.freedesktop.login1.Session")
 
@@ -58,16 +59,9 @@ public:
 
     void init()
     {
-        // get our logind session path
-        QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE,
-                                                          LOGIN1_PATH,
-                                                          LOGIN1_IFACE,
-                                                          QStringLiteral("GetSessionByPID"));
-        msg << (quint32) getpid();
-
-        QDBusReply<QDBusObjectPath> reply = QDBusConnection::SM_BUSNAME().call(msg);
-        if (reply.isValid()) {
-            logindSessionPath = reply.value().path();
+        QString sessionID = QString::fromLocal8Bit(qgetenv("XDG_SESSION_ID"));
+        if (!sessionID.isEmpty()) {
+            logindSessionPath = LOGIN1_SESSION_ROOT + sessionID;
 
             // start watching the Active property
             QDBusConnection::SM_BUSNAME().connect(LOGIN1_SERVICE, logindSessionPath, QStringLiteral("org.freedesktop.DBus.Properties"), QStringLiteral("PropertiesChanged"),
@@ -79,7 +73,7 @@ public:
             QDBusConnection::SM_BUSNAME().connect(LOGIN1_SERVICE, LOGIN1_PATH, LOGIN1_IFACE, QStringLiteral("PrepareForSleep"),
                                                   this, SLOT(onResuming(bool)));
         } else {
-            qWarning() << "Failed to get logind session path" << reply.error().message();
+            qWarning() << "Failed to get logind session: XDG_SESSION_ID is not set";
         }
     }
 
