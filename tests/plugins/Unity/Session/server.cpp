@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     auto connection = QDBusConnection::sessionBus();
     if (!connection.registerObject("/org/freedesktop/login1", logind))
         return 1;
-    if (!connection.registerObject("/logindsession", logind))
+    if (!connection.registerObject("/org/freedesktop/login1/session/testing", logind))
         return 1;
     if (!connection.registerService("org.freedesktop.login1"))
         return 1;
