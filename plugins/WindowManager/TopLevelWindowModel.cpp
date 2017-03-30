@@ -120,14 +120,10 @@ void TopLevelWindowModel::setSurfaceManager(unityapi::SurfaceManagerInterface *s
     m_surfaceManager = surfaceManager;
 
     if (m_surfaceManager) {
+        connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::surfacesAddedToWorkspace, this, &TopLevelWindowModel::onSurfacesAddedToWorkspace);
         connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::surfacesRaised, this, &TopLevelWindowModel::onSurfacesRaised);
         connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::modificationsStarted, this, &TopLevelWindowModel::onModificationsStarted);
         connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::modificationsEnded, this, &TopLevelWindowModel::onModificationsEnded);
-
-        connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::surfacesAddedToWorkspace,
-                this, &TopLevelWindowModel::onSurfacesAddedToWorkspace);
-        connect(m_surfaceManager, &unityapi::SurfaceManagerInterface::surfacesAboutToBeRemovedFromWorkspace,
-                this, &TopLevelWindowModel::onSurfacesAboutToBeRemovedFromWorkspace);
     }
 
     refreshWindows();
@@ -382,7 +378,10 @@ void TopLevelWindowModel::onSurfacesAddedToWorkspace(const std::shared_ptr<miral
                                                      const QVector<unity::shell::application::MirSurfaceInterface*> surfaces)
 {
     if (!m_workspace || !m_applicationManager) return;
-    if (workspace != m_workspace->workspace()) return;
+    if (workspace != m_workspace->workspace()) {
+        removeSurfaces(surfaces);
+        return;
+    }
 
     Q_FOREACH(auto surface, surfaces) {
         if (m_allSurfaces.contains(surface)) continue;
@@ -426,11 +425,8 @@ void TopLevelWindowModel::onSurfacesAddedToWorkspace(const std::shared_ptr<miral
     }
 }
 
-void TopLevelWindowModel::onSurfacesAboutToBeRemovedFromWorkspace(const std::shared_ptr<miral::Workspace> &workspace,
-                                                                  const QVector<unity::shell::application::MirSurfaceInterface *> surfaces)
+void TopLevelWindowModel::removeSurfaces(const QVector<unity::shell::application::MirSurfaceInterface *> surfaces)
 {
-    if (!m_workspace || workspace != m_workspace->workspace()) return;
-
     int start = -1;
     int end = -1;
     for (auto iter = surfaces.constBegin(); iter != surfaces.constEnd();) {
@@ -440,7 +436,7 @@ void TopLevelWindowModel::onSurfacesAboutToBeRemovedFromWorkspace(const std::sha
         // Do removals in adjacent blocks.
         start = end = indexOf(surface);
         if (start == -1) {
-            // probably a child surface
+            // could be a child surface
             m_allSurfaces.remove(surface);
             continue;
         }
@@ -538,6 +534,15 @@ void TopLevelWindowModel::setInputMethodWindow(Window *window)
 void TopLevelWindowModel::removeInputMethodWindow()
 {
     if (m_inputMethodWindow) {
+        auto surface = m_inputMethodWindow->surface();
+        if (surface) {
+            m_allSurfaces.remove(surface);
+        }
+        if (m_focusedWindow == m_inputMethodWindow) {
+            setFocusedWindow(nullptr);
+            m_focusedWindowCleared = false;
+        }
+
         delete m_inputMethodWindow;
         m_inputMethodWindow = nullptr;
         Q_EMIT inputMethodSurfaceChanged(nullptr);
@@ -549,7 +554,7 @@ void TopLevelWindowModel::onSurfacesRaised(const QVector<unityapi::MirSurfaceInt
     DEBUG_MSG << "(" << surfaces << ")";
     const int raiseCount = surfaces.size();
     for (int i = 0; i < raiseCount; i++) {
-        int fromIndex = findIndexOf(surfaces[i]);
+        int fromIndex = indexOf(surfaces[i]);
         if (fromIndex != -1) {
             move(fromIndex, 0);
         }
@@ -574,16 +579,6 @@ QVariant TopLevelWindowModel::data(const QModelIndex& index, int role) const
     } else {
         return QVariant();
     }
-}
-
-int TopLevelWindowModel::findIndexOf(const unityapi::MirSurfaceInterface *surface) const
-{
-    for (int i=0; i<m_windowModel.count(); i++) {
-        if (m_windowModel[i].window->surface() == surface) {
-            return i;
-        }
-    }
-    return -1;
 }
 
 int TopLevelWindowModel::generateId()

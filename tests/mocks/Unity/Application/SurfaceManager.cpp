@@ -73,9 +73,7 @@ SurfaceManager::~SurfaceManager()
 {
     DEBUG_MSG("");
 
-    if (m_virtualKeyboard) {
-        m_virtualKeyboard->setLive(false);
-    }
+    releaseInputMethodSurface();
 
     Q_ASSERT(m_instance == this);
     m_instance = nullptr;
@@ -148,13 +146,14 @@ void SurfaceManager::registerSurface(MirSurface *surface)
         this->onStateRequested(surface, state);
     });
 
-    const QString persistentId = surface->persistentId();
     connect(surface, &QObject::destroyed, this, [=]() {
-        WindowWrapper key = m_surfaceToWindow.take(surface);
-        m_windowToSurface.remove(key);
-        this->onSurfaceDestroyed(surface, persistentId);
+        auto iter = m_surfaceToWindow.find(surface);
+        if (iter != m_surfaceToWindow.end()) {
+            WindowWrapper key = m_surfaceToWindow.value(surface);
+            WindowManagementPolicy::instance()->removeWindow(key.window);
+            this->onSurfaceDestroyed(surface);
+        }
     });
-
 }
 
 void SurfaceManager::notifySurfaceCreated(unityapi::MirSurfaceInterface *surface)
@@ -321,9 +320,17 @@ void SurfaceManager::onStateRequested(MirSurface *surface, Mir::State state)
     DEBUG_MSG("("<<surface<<","<<state<<") ended");
 }
 
-void SurfaceManager::onSurfaceDestroyed(MirSurface *surface, const QString& persistentId)
+void SurfaceManager::onSurfaceDestroyed(MirSurface *surface)
 {
     m_surfaces.removeAll(surface);
+
+    auto iter = m_surfaceToWindow.find(surface);
+    if (iter != m_surfaceToWindow.end()) {
+        WindowWrapper key = iter.value();
+        m_windowToSurface.remove(key);
+        m_surfaceToWindow.erase(iter);
+    }
+
     if (m_focusedSurface == surface) {
         m_focusedSurface = nullptr;
 
@@ -335,7 +342,7 @@ void SurfaceManager::onSurfaceDestroyed(MirSurface *surface, const QString& pers
         m_underModification = false;
         Q_EMIT modificationsEnded();
     }
-    Q_EMIT surfaceDestroyed(persistentId);
+    Q_EMIT surfaceRemoved(surface);
 }
 
 void SurfaceManager::focusFirstAvailableSurface()
@@ -369,5 +376,13 @@ void SurfaceManager::createInputMethodSurface()
         registerSurface(m_virtualKeyboard);
 
         WindowManagementPolicy::instance()->addWindow(m_surfaceToWindow[m_virtualKeyboard].window);
+    }
+}
+
+void SurfaceManager::releaseInputMethodSurface()
+{
+    if (m_virtualKeyboard) {
+        m_virtualKeyboard->setLive(false);
+        m_virtualKeyboard = nullptr;
     }
 }

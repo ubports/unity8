@@ -26,6 +26,7 @@ import WindowManager 1.0
 import ".."
 import "../../../qml/Stage"
 import "../../../qml/Components"
+import "../../../qml/Components/PanelState"
 
 Rectangle {
     id: root
@@ -57,6 +58,7 @@ Rectangle {
         mode: "stagedWithSideStage"
         applicationManager: ApplicationManager
         topLevelSurfaceList: root.topLevelSurfaceList
+        panelState: PanelState {}
 
         Component.onCompleted: {
             print("starting dash")

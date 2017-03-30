@@ -30,8 +30,8 @@ Object {
             ApplicationMenuRegistry.RegisterSurfaceMenu(surface.persistentId, fakeMenuPath, fakeMenuPath, ":1");
             Indicators.UnityMenuModelCache.setCachedModelData(fakeMenuPath, generateTestData(4, 3, 2, 3, "menu"));
         }
-        onSurfaceDestroyed: {
-            ApplicationMenuRegistry.UnregisterSurfaceMenu(persistentSurfaceId, "/app");
+        onSurfaceRemoved: {
+            ApplicationMenuRegistry.UnregisterSurfaceMenu(surface.persistentId, "/app");
         }
     }
 

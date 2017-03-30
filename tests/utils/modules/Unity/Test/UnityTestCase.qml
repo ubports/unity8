@@ -654,5 +654,6 @@ TestCase {
             tryCompare(application, "state", ApplicationInfo.Stopped);
         }
         compare(ApplicationManager.count, 0);
+        SurfaceManager.releaseInputMethodSurface();
     }
 }
