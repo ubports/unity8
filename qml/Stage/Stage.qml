@@ -347,6 +347,8 @@ FocusScope {
         }
 
         readonly property real virtualKeyboardHeight: root.inputMethodRect.height
+
+        property bool anyWindowAnimating: false
     }
 
     Component.onCompleted: priv.updateMainAndSideStageIndexes();
@@ -1022,6 +1024,7 @@ FocusScope {
                          )
                          || appDelegate.fullscreen
                          || focusAnimation.running || rightEdgeFocusAnimation.running || hidingAnimation.running
+                         || priv.anyWindowAnimating          // bug #1666363
 
                 function close() {
                     model.window.close();
@@ -1566,11 +1569,12 @@ FocusScope {
                         to: ",normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
                         enabled: appDelegate.animationsEnabled
                         SequentialAnimation {
+                            ScriptAction { script: { priv.anyWindowAnimating = true; } }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                             UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,windowedX,windowedY,opacity,scale,requestedWidth,requestedHeight,windowedWidth,windowedHeight";
                                 duration: priv.animationDuration }
                             PropertyAction { target: appDelegate; property: "visuallyMaximized" }
-                            ScriptAction { script: { fakeRectangle.stop(); } }
+                            ScriptAction { script: { fakeRectangle.stop(); priv.anyWindowAnimating = false; } }
                         }
                     }
                 ]
