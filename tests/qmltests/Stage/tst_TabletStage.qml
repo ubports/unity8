@@ -26,6 +26,7 @@ import WindowManager 1.0
 import ".."
 import "../../../qml/Stage"
 import "../../../qml/Components"
+import "../../../qml/Components/PanelState"
 
 Rectangle {
     id: root
@@ -57,6 +58,7 @@ Rectangle {
         mode: "stagedWithSideStage"
         applicationManager: ApplicationManager
         topLevelSurfaceList: root.topLevelSurfaceList
+        panelState: PanelState {}
 
         Component.onCompleted: {
             print("starting dash")
@@ -131,14 +133,15 @@ Rectangle {
         name: "TabletStage"
         when: windowShown
 
-        readonly property alias topLevelSurfaceList: root.topLevelSurfaceList
         property Item sideStage: stage ? findChild(stage, "sideStage") : null
 
         function init() {
             stageSaver.clear();
 
+            print("blllaaaaaaaaa")
             ApplicationManager.startApplication("unity8-dash");
             tryCompare(topLevelSurfaceList, "count", 1);
+            print("have", topLevelSurfaceList.count, "surfaces")
             compare(topLevelSurfaceList.applicationAt(0).appId, "unity8-dash");
 
             // this is very strange, but sometimes the test starts without
@@ -160,6 +163,8 @@ Rectangle {
             waitUntilAppSurfaceShowsUp(topLevelSurfaceList.idAt(0));
             sideStage.hideNow()
             tryCompare(sideStage, "x", stage.width)
+            print("still have", topLevelSurfaceList.count, "surfaces")
+
         }
 
         function cleanup() {
@@ -221,7 +226,7 @@ Rectangle {
             tryCompare(stage, "state", "spread");
         }
 
-        function swipeSurfaceUpwards(surfaceId) {
+        function swipeSurfaceDownwards(surfaceId) {
             var appWindow = findAppWindowForSurfaceId(surfaceId);
             verify(appWindow);
 
@@ -229,7 +234,7 @@ Rectangle {
             // to not be covered by other surfaces when they're all being shown in the spread
             touchFlick(appWindow,
                     appWindow.width * 0.1, appWindow.height / 2,
-                    appWindow.width * 0.1, -appWindow.height / 2);
+                    appWindow.width * 0.1, appWindow.height * 1.5);
         }
 
         function dragToSideStage(surfaceId) {
@@ -327,7 +332,7 @@ Rectangle {
             compare(appDelegate.stage, ApplicationInfoInterface.SideStage);
             tryCompare(dragArea, "closeable", true);
 
-            swipeSurfaceUpwards(dialerSurfaceId);
+            swipeSurfaceDownwards(dialerSurfaceId);
 
             // Check that dialer-app has been closed
 
@@ -338,6 +343,8 @@ Rectangle {
             tryCompareFunction(function() {
                 return ApplicationManager.findApplication(dialerCheckBox.appId);
             }, null);
+
+            stage.closeSpread();
         }
 
         function test_suspendsAndResumesAppsInMainStage() {
@@ -654,10 +661,6 @@ Rectangle {
 
             // simulate the suspended app being killed by the out-of-memory daemon
             webbrowserApp.surfaceList.get(0).setLive(false);
-
-            // wait until the surface is gone
-            tryCompare(webbrowserApp.surfaceList, "count", 0);
-            compare(topLevelSurfaceList.surfaceAt(topLevelSurfaceList.indexForId(webbrowserSurfaceId)), null);
 
             switchToSurface(webbrowserSurfaceId);
 
