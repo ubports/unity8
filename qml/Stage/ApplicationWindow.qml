@@ -197,6 +197,10 @@ FocusScope {
         id: stateGroup
         objectName: "applicationWindowStateGroup"
         states: [
+            State{
+                name: "surface"
+                when: (root.surface && d.surfaceInitialized) || d.hadSurface
+            },
             State {
                 name: "splash"
                 when: !root.surface && !d.surfaceInitialized && !d.hadSurface

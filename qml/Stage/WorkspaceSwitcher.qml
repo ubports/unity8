@@ -130,6 +130,7 @@ UbuntuShape {
             top: parent.top; topMargin: units.gu(2)
             left: parent.left; leftMargin: units.gu(2)
         }
+        spacing: units.gu(2)
 
         Repeater {
             model: screensProxy
