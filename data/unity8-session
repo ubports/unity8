@@ -34,12 +34,18 @@ dbus-update-activation-environment --systemd MIR_SOCKET=$MIR_SERVER_FILE
 # systemd when we are done starting up.
 export UNITY_MIR_EMITS_SIGSTOP=1
 
-trap 'exit 0' USR1
+${BINARY:-unity8} --mode=$MODE "$@" &
+child=$!
 
-(trap 'kill -CONT $$; kill -USR1 $(jobs -p)' STOP;
- exec ${BINARY:-unity8} --mode=$MODE "$@") &
+count=0
+while [ $count -lt 2000 ]; do # 20 seconds
+    sleep 0.01
+    if [ $(ps --no-headers -o state $child) = "T" ]; then
+        kill -CONT $child
+        exit 0
+    fi
+    count=`expr $count + 1`
+done
 
-#FIXME -- we keep hitting this timeout
-sleep 30 # timeout for u8 startup (change to 'infinity' to disable timeout)
 echo "Aborting unity8 launch: didn't hear back from Mir"
 exit 100
