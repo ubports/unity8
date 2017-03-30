@@ -48,6 +48,7 @@ public:
     void setActiveWorkspace(const std::shared_ptr<miral::Workspace> &workspace) override;
 
     void addWindow(const miral::Window& window);
+    void removeWindow(const miral::Window& window);
 
     void forEachWindowInWorkspace(std::shared_ptr<miral::Workspace> const &workspace,
                                   std::function<void(miral::Window const&)> const &callback);
@@ -59,6 +60,7 @@ public:
 
 Q_SIGNALS:
     void windowAdded(const miral::Window& window);
+    void windowRemoved(const miral::Window& window);
     void windowsAddedToWorkspace(const std::shared_ptr<miral::Workspace> &workspace, const std::vector<miral::Window> &windows);
     void windowsAboutToBeRemovedFromWorkspace(const std::shared_ptr<miral::Workspace> &workspace, const std::vector<miral::Window> &windows);
 

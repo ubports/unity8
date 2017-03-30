@@ -73,6 +73,20 @@ void WindowManagementPolicy::addWindow(const miral::Window &window)
     }
 }
 
+void WindowManagementPolicy::removeWindow(const miral::Window &window)
+{
+    WorkspaceWindows::iterator i = m_windows.begin();
+    while (i != m_windows.end()) {
+        if (i.value() == window) {
+            Q_EMIT windowsAboutToBeRemovedFromWorkspace(i.key(), { window });
+            i = m_windows.erase(i);
+        } else {
+            ++i;
+        }
+    }
+    Q_EMIT windowRemoved(window);
+}
+
 void WindowManagementPolicy::forEachWindowInWorkspace(const std::shared_ptr<miral::Workspace> &workspace, const std::function<void(const miral::Window &)> &callback)
 {
     WorkspaceWindows::iterator i = m_windows.find(workspace);

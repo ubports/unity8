@@ -555,6 +555,7 @@ Item {
             performEdgeSwipeToShowAppSpread();
 
             var appDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
+            verify(appDelegate);
             var dragArea = findChild(appDelegate, "dragArea");
             verify(dragArea);
             tryCompare(dragArea, "closeable", true);
