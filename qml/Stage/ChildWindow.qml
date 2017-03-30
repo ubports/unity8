@@ -18,8 +18,9 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Unity.Application 0.1
 
-Item {
+FocusScope {
     id: root
+    objectName: "childWindow"
 
     // Set from outside.
     property var surface
@@ -43,6 +44,7 @@ Item {
         readonly property bool decorated:  surface ? surface.type === Mir.UtilityType
                                                        || surface.type === Mir.DialogType
                                                        || surface.type === Mir.NormalType
+                                                       || surface.type === Mir.SatelliteType
                                                    : false
 
         readonly property bool moveable: decorated
@@ -100,6 +102,7 @@ Item {
                 height: units.gu(3)
                 title: root.surface ? root.surface.name : ""
                 active: root.surface ? root.surface.focused : false
+                closeButtonVisible: d.decorated
                 minimizeButtonVisible: false
                 maximizeButtonShown: false
                 onPressed: root.surface.activate();
@@ -141,6 +144,8 @@ Item {
         // TODO ChildWindow parent will probably want to control those
         interactive: true
         consumesInput: true
+
+        focus: true
     }
 
     Loader {
