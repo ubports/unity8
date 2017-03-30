@@ -189,12 +189,12 @@ StyledItem {
     }
 
     function startApp(appId) {
-        if (ApplicationManager.findApplication(appId)) {
-            ApplicationManager.requestFocusApplication(appId);
-        } else {
-            print("calling startApplication. active workspace is", WorkspaceManager.activeWorkspace)
+        stage.closeSpread();
+        if (!ApplicationManager.findApplication(appId)) {
             ApplicationManager.startApplication(appId);
         }
+        print("focusing", appId)
+        ApplicationManager.requestFocusApplication(appId);
     }
 
     function startLockedApp(app) {

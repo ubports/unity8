@@ -1693,9 +1693,9 @@ Rectangle {
             var spreadDelegate2 = appRepeater.itemAt(2);
             var closeMouseArea = findChild(spreadDelegate2, "closeMouseArea");
 
-            // Move the mosue over tile 2 and verify the close button becomes visible
+            // Move the mouse over tile 2 and verify the close button becomes visible
             var x = 0;
-            var y = shell.height * .5;
+            var y = shell.height * .6;
             mouseMove(shell, x, y)
             while (spreadItem.highlightedIndex !== 2 && x <= 4000) {
                 x+=10;
