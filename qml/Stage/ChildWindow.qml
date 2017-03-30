@@ -102,7 +102,6 @@ FocusScope {
                 height: units.gu(3)
                 title: root.surface ? root.surface.name : ""
                 active: root.surface ? root.surface.focused : false
-                closeButtonVisible: d.decorated
                 minimizeButtonVisible: false
                 maximizeButtonShown: false
                 onPressed: root.surface.activate();
