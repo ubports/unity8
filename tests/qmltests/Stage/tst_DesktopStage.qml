@@ -551,8 +551,6 @@ Item {
             var gmailDelegate = startApplication("gmail-webapp");
             verify(gmailDelegate);
 
-            wait(2000)
-
             var gmailMaximizeButton = findChild(gmailDelegate, "maximizeWindowButton");
             verify(gmailMaximizeButton);
             mouseClick(gmailMaximizeButton);

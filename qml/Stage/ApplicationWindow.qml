@@ -53,7 +53,6 @@ FocusScope {
         print("AAA surface changed,", surface)
         if (surface) {
             surfaceContainer.surface = surface;
-            d.hadSurface = true;
             surfaceInitTimer.start();
         } else {
             d.surfaceInitialized = false;
@@ -117,7 +116,10 @@ FocusScope {
         id: surfaceInitTimer
         interval: 100
         onTriggered: {
-            if (root.surface && root.surface.live) {d.surfaceInitialized = true;}
+            if (root.surface && root.surface.live) {
+                d.surfaceInitialized = true;
+                d.hadSurface = true;
+            }
         }
     }
 
