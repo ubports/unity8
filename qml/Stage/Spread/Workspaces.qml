@@ -17,9 +17,11 @@ Item {
     property var background // TODO: should be stored in the workspace data
     property int selectedIndex: -1
     property bool readOnly: true
+    property var activeWorkspace: null
 
     signal commitScreenSetup();
     signal closeSpread();
+    signal clicked(var workspace);
 
     DropArea {
         anchors.fill: root
@@ -87,6 +89,7 @@ Item {
         anchors.margins: -units.gu(2)
         clip: true
 
+
         ListView {
             id: listView
             anchors {
@@ -101,6 +104,8 @@ Item {
             Behavior on contentX {
                 SmoothedAnimation { duration: 200 }
             }
+
+            property var clickedWorkspace: null
 
             orientation: ListView.Horizontal
             spacing: units.gu(1)
@@ -252,14 +257,14 @@ Item {
                     screenHeight: listView.screenHeight
                     containsDragLeft: listView.hoveredWorkspaceIndex == index && listView.hoveredHalf == "left"
                     containsDragRight: listView.hoveredWorkspaceIndex == index && listView.hoveredHalf == "right"
-                    isActive: model.workspace.active
+                    isActive: workspace == root.activeWorkspace
                     isSelected: index === root.selectedIndex
                     workspace: model.workspace
                 }
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        model.workspace.activate();
+                        root.clicked(model.workspace)
                     }
                     onDoubleClicked: {
                         model.workspace.activate();

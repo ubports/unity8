@@ -25,6 +25,7 @@ import GlobalShortcut 1.0
 import GSettings 1.0
 import "Spread"
 import "Spread/MathUtils.js" as MathUtils
+import WindowManager 1.0
 
 FocusScope {
     id: root
@@ -48,6 +49,8 @@ FocusScope {
     property rect inputMethodRect
     property real rightEdgePushProgress: 0
     property PanelState panelState
+
+    readonly property var temporarySelectedWorkspace: state == "spread" ? screensAndWorkspaces.lastClickedWorkspace : null
 
     // Configuration
     property string mode: "staged"
@@ -522,11 +525,15 @@ FocusScope {
         Transition {
             from: "stagedRightEdge,sideStagedRightEdge,windowedRightEdge"; to: "spread"
             PropertyAction { target: spreadItem; property: "highlightedIndex"; value: -1 }
+            PropertyAction { target: screensAndWorkspaces; property: "activeWorkspace"; value: WMScreen.currentWorkspace }
+            ScriptAction { script: { print("blabal***********************", WMScreen.currentWorkspace) } }
             PropertyAnimation { target: blurLayer; properties: "brightness,blurRadius"; duration: priv.animationDuration }
             UbuntuNumberAnimation { target: screensAndWorkspaces; property: "opacity"; duration: priv.animationDuration }
         },
         Transition {
             to: "spread"
+            PropertyAction { target: screensAndWorkspaces; property: "activeWorkspace"; value: WMScreen.currentWorkspace }
+            ScriptAction { script: { print("blabal***********************", WMScreen.currentWorkspace) } }
             PropertyAction { target: spreadItem; property: "highlightedIndex"; value: appRepeater.count > 1 ? 1 : 0 }
             PropertyAction { target: floatingFlickable; property: "contentX"; value: 0 }
             UbuntuNumberAnimation { target: screensAndWorkspaces; property: "opacity"; duration: priv.animationDuration }
@@ -545,6 +552,7 @@ FocusScope {
                 }
                 PropertyAction { target: spreadItem; property: "highlightedIndex"; value: -1 }
                 PropertyAction { target: floatingFlickable; property: "contentX"; value: 0 }
+                PropertyAction { target: screensAndWorkspaces; property: "lastClickedWorkspace"; value: null }
             }
         },
         Transition {
@@ -594,8 +602,8 @@ FocusScope {
             background: root.background
             opacity: 0
             visible: opacity > 0
-
             onCloseSpread: priv.goneToSpread = false;
+            onLastClickedWorkspaceChanged: activeWorkspace = lastClickedWorkspace
         }
 
         Spread {

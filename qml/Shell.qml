@@ -99,8 +99,9 @@ StyledItem {
 
     readonly property var topLevelSurfaceList: {
         if (!WMScreen.currentWorkspace) return null;
-        return WMScreen.currentWorkspace.windowModel
+        return stage.temporarySelectedWorkspace ? stage.temporarySelectedWorkspace.windowModel : WMScreen.currentWorkspace.windowModel
     }
+    onTopLevelSurfaceListChanged: print("**********************  have new TLSL", topLevelSurfaceList)
 
     onMainAppChanged: {
         if (mainApp) {

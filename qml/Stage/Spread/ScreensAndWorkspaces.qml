@@ -12,6 +12,10 @@ Item {
 
     property var screensProxy: Screens.createProxy();
 
+    property var lastClickedWorkspace: null
+    property var activeWorkspace: null
+    onActiveWorkspaceChanged: print("********************* active workspace changed:", activeWorkspace)
+
     signal closeSpread();
 
     Row {
@@ -21,6 +25,7 @@ Item {
         Behavior on anchors.horizontalCenterOffset { NumberAnimation { duration: UbuntuAnimation.SlowDuration } }
 //        anchors.left: parent.left
         spacing: units.gu(1)
+
 
         Repeater {
             model: screensProxy
@@ -149,10 +154,15 @@ Item {
                     background: root.background
 
                     workspaceModel: model.screen.workspaces
+                    activeWorkspace: root.activeWorkspace
                     readOnly: false
 
                     onCommitScreenSetup: Screens.sync(root.screensProxy)
                     onCloseSpread: root.closeSpread();
+
+                    onClicked: {
+                        root.lastClickedWorkspace = workspace;
+                    }
                 }
             }
         }
