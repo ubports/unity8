@@ -40,7 +40,6 @@ using namespace unity::shell::application;
 class ApplicationManager : public ApplicationManagerInterface {
     Q_OBJECT
 
-    Q_PROPERTY(bool empty READ isEmpty NOTIFY emptyChanged)
     Q_PROPERTY(QStringList availableApplications READ availableApplications NOTIFY availableApplicationsChanged)
 
  public:
@@ -56,8 +55,6 @@ class ApplicationManager : public ApplicationManagerInterface {
     Q_INVOKABLE ApplicationInfo *findApplication(const QString &appId) const override;
     unity::shell::application::ApplicationInfoInterface *findApplicationWithSurface(unity::shell::application::MirSurfaceInterface* surface) const override;
 
-    Q_INVOKABLE void move(int from, int to);
-
     // Application control methods
     Q_INVOKABLE bool requestFocusApplication(const QString &appId) override;
     Q_INVOKABLE ApplicationInfo *startApplication(const QString &appId, const QStringList &arguments = QStringList()) override;
@@ -71,17 +68,15 @@ class ApplicationManager : public ApplicationManagerInterface {
 
     QModelIndex findIndex(ApplicationInfo* application);
 
-    bool isEmpty() const;
-
  Q_SIGNALS:
     void focusRequested(const QString &appId);
-    void emptyChanged(bool empty);
     void availableApplicationsChanged(QStringList list);
 
  private Q_SLOTS:
     void raiseApp(const QString &appId);
 
  private:
+    void move(int from, int to);
     bool add(ApplicationInfo *application);
     void remove(ApplicationInfo* application);
     void buildListOfAvailableApplications();

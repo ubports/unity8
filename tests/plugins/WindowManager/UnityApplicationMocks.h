@@ -95,7 +95,14 @@ class Application : public ApplicationInfoInterface
 {
     Q_OBJECT
 public:
-    Application(QString appId) : ApplicationInfoInterface(appId, nullptr), m_appId(std::move(appId)) {}
+    Application(QString appId)
+     : ApplicationInfoInterface(appId, nullptr)
+     , m_appId(std::move(appId))
+     , m_state(Starting)
+     , m_requestedState(RequestedRunning)
+    {
+
+    }
 
     void close() override {}
     QString appId() const override { return m_appId;}

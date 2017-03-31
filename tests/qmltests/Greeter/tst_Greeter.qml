@@ -95,12 +95,6 @@ Item {
         property Item view
 
         SignalSpy {
-            id: viewShowLastChanceSpy
-            target: testCase.view
-            signalName: "_showLastChanceCalled"
-        }
-
-        SignalSpy {
             id: viewHideSpy
             target: testCase.view
             signalName: "_hideCalled"
@@ -147,7 +141,6 @@ Item {
             Biometryd.available = true;
             AccountsService.enableFingerprintIdentification = true;
             AccountsService.failedFingerprintLogins = 0;
-            viewShowLastChanceSpy.clear();
             viewHideSpy.clear();
             viewShowFakePasswordSpy.clear();
             viewAuthenticationFailedSpy.clear();

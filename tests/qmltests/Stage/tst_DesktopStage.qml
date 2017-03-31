@@ -100,8 +100,15 @@ Item {
                 orientations: Orientations {}
                 applicationManager: ApplicationManager
                 topLevelSurfaceList: topSurfaceList
+                availableDesktopArea: availableDesktopAreaItem
                 interactive: true
                 mode: "windowed"
+
+                Item {
+                    id: availableDesktopAreaItem
+                    anchors.fill: parent
+                    anchors.topMargin: PanelState.panelHeight
+                }
             }
         }
     }
@@ -1056,6 +1063,16 @@ Item {
             // verify the maximized button can still be tapped
             tap(maxButton);
             tryCompare(appDelegate, "state", "maximized");
+        }
+
+        function test_childWindowGetsActiveFocus() {
+            var appDelegate = startApplication("kate");
+            appDelegate.surface.openDialog(units.gu(5), units.gu(5), units.gu(30), units.gu(30));
+            var childWindow = findChild(appDelegate, "childWindow");
+            verify(childWindow);
+            var surfaceItem = findChild(childWindow, "surfaceItem");
+            verify(surfaceItem);
+            tryCompare(surfaceItem, "activeFocus", true);
         }
     }
 }
