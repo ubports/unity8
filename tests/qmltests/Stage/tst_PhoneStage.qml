@@ -53,6 +53,11 @@ Item {
             applicationManager: ApplicationManager
             surfaceManager: sMgr
         }
+        availableDesktopArea: availableDesktopAreaItem
+        Item {
+            id: availableDesktopAreaItem
+            anchors.fill: parent
+        }
         Component.onCompleted: {
             ApplicationManager.startApplication("unity8-dash");
         }

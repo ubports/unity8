@@ -299,6 +299,8 @@ UbuntuShape {
 
                         width: MathUtils.clamp(implicitWidth, d.__minimumWidth, d.__maximumWidth)
 
+                        property Item popup: null
+
                         action.onTriggered: {
                             submenuHoverTimer.stop();
 
@@ -353,6 +355,13 @@ UbuntuShape {
                                 }
                             }
                         }
+
+                        Component.onDestruction: {
+                            if (popup) {
+                                popup.destroy();
+                                popup = null;
+                            }
+                        }
                     }
                 }
 
@@ -375,7 +384,7 @@ UbuntuShape {
                             id: loader
                             objectName: root.objectName + "-item" + __ownIndex
 
-                            property Item popup: null
+                            readonly property var popup: item ? item.popup : null
                             property var __menuData: model
                             property int __ownIndex: index
                             property bool __isSeparator: model.isSeparator
