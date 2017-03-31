@@ -30,13 +30,13 @@ Item {
         Repeater {
             id: topLevelSurfaceRepeater
             model: visible ? workspace.windowModel : null
-            delegate: Rectangle {
+            delegate: Item {
                 width: surfaceItem.width
                 height: surfaceItem.height + decorationHeight * previewScale
                 x: model.window.position.x * previewScale
                 y: (model.window.position.y - decorationHeight) * previewScale
-                color: "blue"
                 z: topLevelSurfaceRepeater.count - index
+                visible: model.window.state !== Mir.MinimizedState && model.window.state !== Mir.HiddenState
 
                 property int decorationHeight: units.gu(3)
 
