@@ -20,6 +20,7 @@ import LightDM.FullLightDM 0.1 as LightDM
 import LightDMController 0.1
 import Unity.Application 0.1
 import Unity.Test 0.1
+import Unity.InputInfo 0.1
 
 import "../../qml"
 import "../../qml/Components"
@@ -84,6 +85,23 @@ Rectangle {
                             LightDM.Greeter.hideGreeter()
                         }
                     }
+                }
+                Button {
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                    }
+                    action: addMouseAction
+                    color: addMouseAction.checked ? UbuntuColors.red : UbuntuColors.green
+                }
+
+                Button {
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                    }
+                    action: addKBAction
+                    color: addKBAction.checked ? UbuntuColors.red : UbuntuColors.green
                 }
 
                 MouseTouchEmulationCheckbox {
@@ -155,6 +173,38 @@ Rectangle {
                 }
             }
         }
+    }
+
+    Action {
+        id: addMouseAction
+        text: checked ? "Remove Mouse" : "Add Mouse"
+        onTriggered: {
+            if (checked) {
+                console.log("ADD")
+                MockInputDeviceBackend.addMockDevice("/mouse0", InputInfo.Mouse);
+            } else {
+                console.log("REMOVE")
+                MockInputDeviceBackend.removeDevice("/mouse0");
+            }
+        }
+        iconName: "input-mouse-symbolic"
+        checkable: true
+        checked: false
+    }
+
+    Action {
+        id: addKBAction
+        text: checked ? "Remove Keyboard" : "Add Keyboard"
+        onTriggered: {
+            if (checked) {
+                MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
+            } else {
+                MockInputDeviceBackend.removeDevice("/kbd0");
+            }
+        }
+        iconName: "input-keyboard-symbolic"
+        checkable: true
+        checked: false
     }
 
     ShellApplication {
