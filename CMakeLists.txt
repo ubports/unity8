@@ -69,6 +69,7 @@ find_package(Qt5Gui 5.6 REQUIRED)
 find_package(Qt5DBus 5.6 REQUIRED)
 find_package(Qt5Concurrent 5.6 REQUIRED)
 find_package(Qt5Sql 5.6 REQUIRED)
+find_package(Qt5Test 5.6 REQUIRED)
 
 pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=27)
 pkg_check_modules(GEONAMES REQUIRED geonames>=0.2)
@@ -79,6 +80,10 @@ pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
 pkg_check_modules(GD3 REQUIRED gnome-desktop-3.0)
 pkg_check_modules(UAL REQUIRED ubuntu-app-launch-3)
 pkg_check_modules(UBUNTUGESTURES REQUIRED UbuntuGestures)
+pkg_check_modules(QTDBUSTEST REQUIRED
+    libqtdbustest-1
+    libqtdbusmock-1
+    )
 
 ### Check UbuntuGestures private headers. No pkg-config (.pc) file is provided for them
 find_path(UBUNTUGESTUREPRIV

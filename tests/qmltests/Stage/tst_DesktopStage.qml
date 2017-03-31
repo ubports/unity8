@@ -100,8 +100,15 @@ Item {
                 orientations: Orientations {}
                 applicationManager: ApplicationManager
                 topLevelSurfaceList: topSurfaceList
+                availableDesktopArea: availableDesktopAreaItem
                 interactive: true
                 mode: "windowed"
+
+                Item {
+                    id: availableDesktopAreaItem
+                    anchors.fill: parent
+                    anchors.topMargin: PanelState.panelHeight
+                }
             }
         }
     }
