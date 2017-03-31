@@ -59,6 +59,11 @@ Rectangle {
         applicationManager: ApplicationManager
         topLevelSurfaceList: root.topLevelSurfaceList
         panelState: PanelState {}
+        availableDesktopArea: availableDesktopAreaItem
+        Item {
+            id: availableDesktopAreaItem
+            anchors.fill: parent
+        }
 
         Component.onCompleted: {
             print("starting dash")

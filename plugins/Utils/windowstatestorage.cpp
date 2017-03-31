@@ -133,8 +133,15 @@ QRect WindowStateStorage::getGeometry(const QString &windowId, const QRect &defa
     if (!query.first()) {
         return defaultValue;
     }
-    return QRect(query.value(QStringLiteral("x")).toInt(), query.value(QStringLiteral("y")).toInt(),
-                 query.value(QStringLiteral("width")).toInt(), query.value(QStringLiteral("height")).toInt());
+
+    const QRect result(query.value(QStringLiteral("x")).toInt(), query.value(QStringLiteral("y")).toInt(),
+                       query.value(QStringLiteral("width")).toInt(), query.value(QStringLiteral("height")).toInt());
+
+    if (result.isValid()) {
+        return result;
+    }
+
+    return defaultValue;
 }
 
 void WindowStateStorage::initdb()
@@ -165,7 +172,7 @@ void WindowStateStorage::saveValue(const QString &queryString)
 {
     QMutexLocker mutexLocker(&s_mutex);
 
-    QFuture<void> future = QtConcurrent::run(executeAsyncQuery, queryString);
+    QFuture<void> future = QtConcurrent::run(&m_threadPool, executeAsyncQuery, queryString);
     m_asyncQueries.append(future);
 
     QFutureWatcher<void> *futureWatcher = new QFutureWatcher<void>();

@@ -1,6 +1,7 @@
 include_directories(
     SYSTEM
     ${QTMIRSERVER_INCLUDE_DIRS}
+    ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
 )
 
 include_directories(
@@ -24,12 +25,14 @@ install(TARGETS mockwindowmanagmentpolicy
     )
 
 set(WINDOWMANAGER_SRC
+    ${CMAKE_SOURCE_DIR}/plugins/WindowManager/AvailableDesktopArea.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Screen.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/ScreenAttached.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Screens.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/ScreenWindow.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/TopLevelWindowModel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Window.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/WindowManager/WindowMargins.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/WindowManagerObjects.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/WorkspaceManager.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/WorkspaceModel.cpp

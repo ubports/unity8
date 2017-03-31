@@ -48,20 +48,6 @@ FocusScope {
     signal tease()
     signal emergencyCall()
 
-    function showLastChance() {
-        /* TODO: when we finish support for resetting device after too many
-                 failed logins, we should re-add this popup.
-        var title = lockscreen.alphaNumeric ?
-                    i18n.tr("Sorry, incorrect passphrase.") :
-                    i18n.tr("Sorry, incorrect passcode.");
-        var text = i18n.tr("This will be your last attempt.") + " " +
-                   (lockscreen.alphaNumeric ?
-                    i18n.tr("If passphrase is entered incorrectly, your phone will conduct a factory reset and all personal data will be deleted.") :
-                    i18n.tr("If passcode is entered incorrectly, your phone will conduct a factory reset and all personal data will be deleted."));
-        lockscreen.showInfoPopup(title, text);
-        */
-    }
-
     function hide() {
         lockscreen.hide();
         coverPage.hide();

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2016-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
 
 #include "WindowManagerPlugin.h"
 
+#include "AvailableDesktopArea.h"
 #include "Screen.h"
 #include "ScreenAttached.h"
 #include "Screens.h"
@@ -24,6 +25,7 @@
 #include "TopLevelWindowModel.h"
 #include "Window.h"
 #include "WindowManagerObjects.h"
+#include "WindowMargins.h"
 #include "WorkspaceManager.h"
 #include "Workspace.h"
 #include "WorkspaceModel.h"
@@ -56,6 +58,8 @@ QObject* objectsSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
 
 void WindowManagerPlugin::registerTypes(const char *uri)
 {
+    qmlRegisterType<AvailableDesktopArea>(uri, 1, 0, "AvailableDesktopArea");
+    qmlRegisterType<WindowMargins>(uri, 1, 0, "WindowMargins");
     qmlRegisterSingletonType<WorkspaceManager>(uri, 1, 0, "WorkspaceManager", workspace_manager);
     qmlRegisterUncreatableType<WorkspaceModel>(uri, 1, 0, "WorkspaceModel", notInstantiatable);
     qmlRegisterSingletonType<ConcreteScreens>(uri, 1, 0, "Screens", screensSingleton);

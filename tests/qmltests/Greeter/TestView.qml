@@ -46,17 +46,12 @@ Item {
     signal tease()
     signal emergencyCall()
 
-    signal _showLastChanceCalled()
     signal _hideCalled()
     signal _showFakePasswordCalled()
     signal _notifyAuthenticationFailedCalled()
     signal _showErrorMessageCalled(string msg)
     signal _forceShowCalled()
     signal _tryToUnlockCalled(bool toTheRight)
-
-    function showLastChance() {
-        _showLastChanceCalled();
-    }
 
     function hide() {
         _hideCalled();
