@@ -52,12 +52,6 @@ void Screen::setCurrentWorkspace2(Workspace *workspace)
     workspace->setCurrentOn(this);
 }
 
-qtmir::OutputId Screen::outputId() const
-{
-    if (!m_wrapped) return qtmir::OutputId(-1);
-    return m_wrapped->outputId();
-}
-
 bool Screen::used() const
 {
     if (!m_wrapped) return false;
@@ -147,16 +141,16 @@ QScreen *Screen::qscreen() const
     return m_wrapped->qscreen();
 }
 
-qtmir::ScreenConfiguration *Screen::beginConfiguration() const
+ScreenConfig *Screen::beginConfiguration() const
 {
     if (!m_wrapped) return nullptr;
-    return m_wrapped->beginConfiguration();
+    return new ScreenConfig(m_wrapped->beginConfiguration());
 }
 
-bool Screen::applyConfiguration(qtmir::ScreenConfiguration *configuration)
+bool Screen::applyConfiguration(ScreenConfig *configuration)
 {
     if (!m_wrapped) return false;
-    return m_wrapped->applyConfiguration(configuration);
+    return m_wrapped->applyConfiguration(configuration->m_config);
 }
 
 QString Screen::outputTypeName() const
@@ -302,4 +296,14 @@ void ProxyScreen::setCurrentWorkspace(Workspace *workspace)
 bool ProxyScreen::isSyncing() const
 {
     return m_screens->isSyncing();
+}
+
+ScreenConfig::ScreenConfig(qtmir::ScreenConfiguration *config)
+    : m_config(config)
+{
+}
+
+ScreenConfig::~ScreenConfig()
+{
+    delete m_config;
 }
