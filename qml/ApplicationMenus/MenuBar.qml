@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Canonical Ltd.
+ * Copyright 2016, 2017 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -90,7 +90,7 @@ Item {
 
     Row {
         id: row
-        spacing: units.gu(2)
+        spacing: 0
         height: parent.height
 
         ActionContext {
@@ -125,7 +125,11 @@ Item {
                 readonly property bool shouldDisplay: x + width + ((__ownIndex < rowRepeater.count-1) ? units.gu(2) : 0) <
                                                 root.overflowWidth - ((__ownIndex < rowRepeater.count-1) ? overflowButton.width : 0)
 
-                implicitWidth: column.implicitWidth
+                // First item is not centered, it has 0 gu on the left and 1 on the right
+                // so needs different width and anchors
+                readonly property bool isFirstItem: __ownIndex == 0
+
+                implicitWidth: column.implicitWidth + (isFirstItem ? units.gu(1) : units.gu(2))
                 implicitHeight: row.height
                 enabled: (model.sensitive === true) && shouldDisplay
                 opacity: shouldDisplay ? 1 : 0
@@ -189,7 +193,9 @@ Item {
                     id: column
                     spacing: units.gu(1)
                     anchors {
-                        centerIn: parent
+                        verticalCenter: parent.verticalCenter
+                        horizontalCenter: !visualItem.isFirstItem ? parent.horizontalCenter : undefined
+                        left: visualItem.isFirstItem ? parent.left : undefined
                     }
 
                     Icon {
@@ -222,6 +228,13 @@ Item {
                             horizontalAlignment: Text.AlignLeft
                             color: enabled ? theme.palette.normal.backgroundText : theme.palette.disabled.backgroundText
                         }
+                    }
+                }
+
+                Component.onDestruction: {
+                    if (__popup) {
+                        __popup.destroy();
+                        __popup = null;
                     }
                 }
             } // Item ( delegate )
@@ -370,6 +383,9 @@ Item {
                     function activate(index) {
                         return sourceModel.activate(mapRowToSource(index));
                     }
+                    function aboutToShow(index) {
+                        return sourceModel.aboutToShow(mapRowToSource(index));
+                    }
                 }
 
                 Connections {
@@ -385,8 +401,8 @@ Item {
         anchors {
             bottom: row.bottom
         }
-        x: d.currentItem ? row.x + d.currentItem.x - units.gu(1) : 0
-        width: d.currentItem ? d.currentItem.width + units.gu(2) : 0
+        x: d.currentItem ? row.x + d.currentItem.x : 0
+        width: d.currentItem ? d.currentItem.width : 0
         height: units.dp(4)
         color: UbuntuColors.orange
         visible: d.currentItem

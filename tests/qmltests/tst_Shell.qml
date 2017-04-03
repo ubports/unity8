@@ -1460,6 +1460,25 @@ Rectangle {
             confirmLoggedIn(true);
         }
 
+        function test_terminalShortcut() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            // not running, should start
+            keyClick(Qt.Key_T, Qt.ControlModifier|Qt.AltModifier);
+            tryCompare(ApplicationManager, "focusedApplicationId", "ubuntu-terminal-app");
+
+            // start something else
+            ApplicationManager.startApplication("dialer-app");
+            tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
+
+            // terminal running in background, should get focused
+            keyClick(Qt.Key_T, Qt.ControlModifier|Qt.AltModifier);
+            tryCompare(ApplicationManager, "focusedApplicationId", "ubuntu-terminal-app");
+        }
+
         function test_launcherInverted_data() {
             return [
                 {tag: "phone", formFactor: "phone", usageScenario: "phone", launcherInverted: true},

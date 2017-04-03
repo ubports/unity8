@@ -110,6 +110,19 @@ Rectangle {
                     Layout.maximumWidth: maxTextSize
                 }
 
+                Label {
+                    text: i18n.tr("Ctrl + Alt + T")
+                    fontSize: "small"
+                    font.weight: Font.Medium
+                }
+                Label {
+                    text: i18n.tr("Starts the Terminal application.")
+                    fontSize: "small"
+                    font.weight: Font.Light
+                    wrapMode: Text.Wrap
+                    Layout.maximumWidth: maxTextSize
+                }
+
 
                 // Launcher section
                 Item { Layout.columnSpan: 2; height: units.gu(2) }

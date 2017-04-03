@@ -18,6 +18,7 @@
 #include <QSqlDatabase>
 #include <QMutex>
 #include <QFuture>
+#include <QThreadPool>
 
 // unity-api
 #include <unity/shell/application/Mir.h>
@@ -72,4 +73,5 @@ private:
     QSqlDatabase m_db;
 
     QList<QFuture<void>> m_asyncQueries;
+    QThreadPool m_threadPool;
 };

@@ -20,7 +20,6 @@ import Biometryd 0.0
 import GSettings 1.0
 import Powerd 0.1
 import Ubuntu.Components 1.3
-import Ubuntu.SystemImage 0.1
 import Unity.Launcher 0.1
 import Unity.Session 0.1
 
@@ -56,7 +55,6 @@ Showable {
     property bool tabletMode
     property url viewSource // only used for testing
 
-    property int maxFailedLogins: -1 // disabled by default for now, will enable via settings in future
     property int failedLoginsDelayAttempts: 7 // number of failed logins
     property real failedLoginsDelayMinutes: 5 // minutes of forced waiting
     property int failedFingerprintLoginsDisableAttempts: 3 // number of failed fingerprint logins
@@ -468,15 +466,6 @@ Showable {
 
             if (!automatic) {
                 AccountsService.failedLogins++;
-
-                // Check if we should initiate a factory reset
-                if (maxFailedLogins >= 2) { // require at least a warning
-                    if (AccountsService.failedLogins === maxFailedLogins - 1) {
-                        loader.item.showLastChance();
-                    } else if (AccountsService.failedLogins >= maxFailedLogins) {
-                        SystemImage.factoryReset(); // Ouch!
-                    }
-                }
 
                 // Check if we should initiate a forced login delay
                 if (failedLoginsDelayAttempts > 0

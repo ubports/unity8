@@ -1,3 +1,47 @@
+unity8 (8.15+17.04.20170328.3-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * mock: Remove empty property and move invokable
+  * Tune quicklist item selection
+  * Fix unminimizing going to the wrong position the second time (LP:
+    #1671458)
+  * Remove unclickable gaps on the menubar (LP: #1672722)
+  * indicators client is a tool
+  * Make sure we destroy the popups when the item goes away (LP:
+    #1670338)
+  * UnityApplicationMocks: Initialize m_state and m_requestedState
+  * Don't use appInfo after checking it if is null
+  * Initialize m_privateMode
+  * Hook up aboutToShow for overflow menus (LP: #1676016)
+
+  [ Daniel d'Andrada ]
+  * Give active focus to child surface qml items (LP: #1671072)
+  * Satellite child windows (LP: #1673415)
+  * Tell qtmir/miral about the available desktop area
+
+  [ Florian Boucault ]
+  * WindowStateStorage: use a private QThreadPool to ensure that
+    WindowStateStorage::saveValue always has a thread available to
+    execute the query in. (LP: #1675424)
+
+  [ Lukáš Tinkl ]
+  * Protect against loading invalid window geometry (LP: #1674262)
+  * Remove usage of the deprecated (and non-functional) system-image-
+    dbus service.
+  * Implement Ctrl+Alt+T to launch the terminal app (LP: #1673500)
+  * Only take normal and dialog surface types into account for launcher
+    items (LP: #1669047)
+  * Fix the shutdown dialog after recent refactoring in
+    DBusUnitySessionService (LP: #1676426)
+
+  [ Michael Zanetti ]
+  * drop the grey background behind icons in the drawer (LP: #1675688)
+
+  [ Pete Woods ]
+  * Fix Unity/Platform::isPC, and add tests (LP: #1670657)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 28 Mar 2017 21:50:20 +0000
+
 unity8 (8.15+17.04.20170321-0ubuntu1) zesty; urgency=medium
 
   [ Albert Astals Cid ]
