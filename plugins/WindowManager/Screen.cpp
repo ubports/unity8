@@ -46,6 +46,12 @@ void Screen::connectToScreen(Screen *screen)
     connect(screen, &Screen::currentWorkspaceChanged, this, &Screen::currentWorkspaceChanged);
 }
 
+void Screen::setCurrentWorkspace2(Workspace *workspace)
+{
+    // Make sure we use the correct concrete class. Don't want to use a Proxy.
+    workspace->setCurrentOn(this);
+}
+
 qtmir::OutputId Screen::outputId() const
 {
     if (!m_wrapped) return qtmir::OutputId(-1);

@@ -18,6 +18,7 @@
 #include "WorkspaceModel.h"
 #include "WorkspaceManager.h"
 #include "TopLevelWindowModel.h"
+#include "Screen.h"
 
 #include "wmpolicyinterface.h"
 
@@ -86,6 +87,12 @@ bool Workspace::isAssigned() const
     return m_model != nullptr;
 }
 
+bool Workspace::isSameAs(Workspace *wks) const
+{
+    if (wks == this) return true;
+    return wks->workspace() == workspace();
+}
+
 
 ConcreteWorkspace::ConcreteWorkspace(QObject *parent)
     : Workspace(parent)
@@ -121,6 +128,13 @@ void ConcreteWorkspace::activate()
     WorkspaceManager::instance()->setActiveWorkspace(this);
 }
 
+void ConcreteWorkspace::setCurrentOn(Screen *screen)
+{
+    if (screen) {
+        screen->setCurrentWorkspace(this);
+    }
+}
+
 
 ProxyWorkspace::ProxyWorkspace(Workspace * const workspace)
     : Workspace(*workspace)
@@ -152,5 +166,12 @@ void ProxyWorkspace::activate()
 {
     if (m_original) {
         m_original->activate();
+    }
+}
+
+void ProxyWorkspace::setCurrentOn(Screen *screen)
+{
+    if (screen && m_original) {
+        screen->setCurrentWorkspace(m_original);
     }
 }

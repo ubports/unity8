@@ -29,6 +29,7 @@
 
 class WorkspaceModel;
 class TopLevelWindowModel;
+class Screen;
 
 namespace miral { class Workspace; }
 
@@ -53,9 +54,11 @@ public:
 
     virtual bool isActive() const = 0;
     virtual TopLevelWindowModel *windowModel() const = 0;
+    virtual void setCurrentOn(Screen*) = 0;
 
     std::shared_ptr<miral::Workspace> workspace() const { return m_workspace; }
     bool isAssigned() const;
+    Q_INVOKABLE bool isSameAs(Workspace*) const;
 
 public Q_SLOTS:
     virtual void activate() = 0;
@@ -82,6 +85,7 @@ public:
     bool isActive() const override { return m_active; }
     TopLevelWindowModel *windowModel() const override;
     void activate() override;
+    void setCurrentOn(Screen*) override;
 
 private:
     explicit ConcreteWorkspace(QObject *parent = nullptr);
@@ -104,6 +108,7 @@ public:
     bool isActive() const override;
     TopLevelWindowModel *windowModel() const override;
     void activate() override;
+    void setCurrentOn(Screen*) override;
 
     Workspace* proxyObject() const { return m_original.data(); }
 
