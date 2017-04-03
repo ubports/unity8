@@ -37,15 +37,10 @@ export UNITY_MIR_EMITS_SIGSTOP=1
 ${BINARY:-unity8} --mode=$MODE "$@" &
 child=$!
 
-count=0
-while [ $count -lt 2000 ]; do # 20 seconds
-    sleep 0.01
-    if [ $(ps --no-headers -o state $child) = "T" ]; then
-        kill -CONT $child
-        exit 0
-    fi
-    count=`expr $count + 1`
+# Wait for SIGSTOP in child
+while [ $(ps --no-headers -o state $child) != "T" ]; do
+  sleep 0.1
 done
 
-echo "Aborting unity8 launch: didn't hear back from Mir"
-exit 100
+kill -CONT $child
+exit 0

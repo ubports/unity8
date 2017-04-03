@@ -39,6 +39,8 @@ QString DBusInterface::introspect(const QString &path) const
         QString nodes;
 
         // Add Refresh to introspect
+        // TODO: Confirm this is still used anywhere and remove if not.
+        //       It used to be used in an upstart job when desktop fles changed.
         nodes = QStringLiteral("<interface name=\"com.canonical.Unity.Launcher\">"
                 "<method name=\"Refresh\"/>"
                 "</interface>");

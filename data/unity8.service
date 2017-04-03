@@ -3,9 +3,13 @@ Description=Unity Shell v8
 PartOf=graphical-session.target
 Requires=dbus.socket
 After=dbus.socket
+Before=indicators.target
+Wants=unity8-dash.service
+Wants=indicators.target
 
 [Service]
 Type=forking
 ExecStart=/usr/bin/unity8-session
 ExecStopPost=/usr/bin/dbus-update-activation-environment --systemd MIR_SOCKET=
 Restart=on-failure
+TimeoutStartSec=120

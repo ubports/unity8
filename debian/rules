@@ -9,7 +9,7 @@ export DPKG_GENSYMBOLS_CHECK_LEVEL=4
 export NO_PNG_PKG_MANGLE=1
 
 %:
-	dh $@ --parallel --fail-missing --with python3
+	dh $@ --parallel --fail-missing --with python3,systemd
 
 override_dh_auto_configure:
 	# Debian defines CMAKE_INSTALL_LOCALSTATEDIR as /usr/var, which is wrong.
