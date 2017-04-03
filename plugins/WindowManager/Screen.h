@@ -9,6 +9,7 @@
 
 class ProxyScreen;
 class ProxyScreens;
+class ScreenConfig;
 
 class Screen: public QObject
 {
@@ -47,8 +48,8 @@ public:
     QScreen* qscreen() const;
     QString outputTypeName() const;
 
-    qtmir::ScreenConfiguration *beginConfiguration() const;
-    bool applyConfiguration(qtmir::ScreenConfiguration *configuration);
+    Q_INVOKABLE ScreenConfig *beginConfiguration() const;
+    Q_INVOKABLE bool applyConfiguration(ScreenConfig *configuration);
 
     virtual WorkspaceModel* workspaces() const = 0;
     virtual Workspace *currentWorkspace() const = 0;
@@ -129,6 +130,23 @@ private:
     const QPointer<Screen> m_original;
     const ProxyScreens* m_screens;
     QPointer<Workspace> m_currentWorspace;
+};
+
+class ScreenConfig: public QObject
+{
+    Q_OBJECT
+    Q_PRIVATE_PROPERTY(m_config, bool valid MEMBER used CONSTANT)
+    Q_PRIVATE_PROPERTY(m_config, bool used MEMBER used)
+    Q_PRIVATE_PROPERTY(m_config, float scale MEMBER scale)
+    Q_PRIVATE_PROPERTY(m_config, qtmir::FormFactor formFactor MEMBER formFactor)
+    Q_PRIVATE_PROPERTY(m_config, uint currentModeIndex MEMBER currentModeIndex)
+    Q_PRIVATE_PROPERTY(m_config, QPoint position MEMBER topLeft)
+
+public:
+    ScreenConfig(qtmir::ScreenConfiguration*);
+    ~ScreenConfig();
+
+    qtmir::ScreenConfiguration* m_config;
 };
 
 #endif // SCREEN_H
