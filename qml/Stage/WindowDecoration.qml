@@ -34,6 +34,7 @@ MouseArea {
     property var menu: undefined
     property bool enableMenus: true
     property bool windowMoving: false
+    property alias windowControlButtonsVisible: buttons.visible
 
     readonly property real buttonsWidth: buttons.width + row.spacing
 

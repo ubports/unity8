@@ -1385,6 +1385,7 @@ FocusScope {
                             requestedHeight: appContainer.height;
                         }
                         PropertyChanges { target: touchControls; enabled: true }
+                        PropertyChanges { target: decoratedWindow; windowControlButtonsVisible: false }
                     },
                     State {
                         name: "fullscreen"; when: appDelegate.fullscreen && !appDelegate.minimized
