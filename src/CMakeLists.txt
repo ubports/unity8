@@ -30,6 +30,7 @@ set(SOURCE_FILES
     ApplicationArguments.cpp
     main.cpp
     CachingNetworkManagerFactory.cpp
+    DisplayConfigurationStorage.cpp
     UnityApplication.cpp
     UnityCommandLineParser.cpp
     UnixSignalHandler.cpp
