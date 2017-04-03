@@ -26,7 +26,7 @@ class Q_DECL_EXPORT WindowManagementPolicy : public qtmir::WindowManagementPolic
                                              public WMPolicyInterface
 {
 public:
-    WindowManagementPolicy(const miral::WindowManagerTools &tools, qtmir::WindowManagementPolicyPrivate& dd);
+    WindowManagementPolicy(const miral::WindowManagerTools &tools, std::shared_ptr<qtmir::WindowManagementPolicyPrivate> dd);
 
     void advise_new_window(miral::WindowInfo const& window_info) override;
 

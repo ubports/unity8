@@ -16,7 +16,7 @@
 
 #include "WindowManagementPolicy.h"
 
-WindowManagementPolicy::WindowManagementPolicy(const miral::WindowManagerTools &tools, qtmir::WindowManagementPolicyPrivate &dd)
+WindowManagementPolicy::WindowManagementPolicy(const miral::WindowManagerTools &tools, std::shared_ptr<qtmir::WindowManagementPolicyPrivate> dd)
     : qtmir::WindowManagementPolicy(tools, dd)
     , m_dummyWorkspace(this->tools.create_workspace())
 {
