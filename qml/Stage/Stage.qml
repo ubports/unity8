@@ -374,7 +374,7 @@ FocusScope {
         }
 
         readonly property real virtualKeyboardHeight: root.inputMethodRect.height
-        property bool anyWindowAnimating: false
+
         readonly property real windowDecorationHeight: units.gu(3)
     }
 
@@ -1045,7 +1045,6 @@ FocusScope {
                          )
                          || appDelegate.fullscreen
                          || focusAnimation.running || rightEdgeFocusAnimation.running || hidingAnimation.running
-                         || priv.anyWindowAnimating          // bug #1666363
 
                 function close() {
                     model.window.close();
@@ -1381,7 +1380,6 @@ FocusScope {
                             requestedX: root.availableDesktopArea.x;
                             requestedY: 0;
                             visuallyMinimized: false;
-                            visuallyMaximized: true
                             requestedWidth: root.availableDesktopArea.width;
                             requestedHeight: appContainer.height;
                         }
@@ -1404,7 +1402,6 @@ FocusScope {
                         PropertyChanges {
                             target: appDelegate
                             visuallyMinimized: false
-                            visuallyMaximized: false
                         }
                         PropertyChanges { target: touchControls; enabled: true }
                         PropertyChanges { target: resizeArea; enabled: true }
@@ -1597,12 +1594,18 @@ FocusScope {
                         to: ",normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
                         enabled: appDelegate.animationsEnabled
                         SequentialAnimation {
-                            ScriptAction { script: { priv.anyWindowAnimating = true; } }
+                            ScriptAction { script: {
+                                    if (appDelegate.visuallyMaximized) visuallyMaximized = false; // maximized before -> going to restored
+                                }
+                            }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                             UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,windowedX,windowedY,opacity,scale,requestedWidth,requestedHeight,windowedWidth,windowedHeight";
                                 duration: priv.animationDuration }
-                            PropertyAction { target: appDelegate; property: "visuallyMaximized" }
-                            ScriptAction { script: { fakeRectangle.stop(); priv.anyWindowAnimating = false; } }
+                            ScriptAction { script: {
+                                    fakeRectangle.stop();
+                                    appDelegate.visuallyMaximized = appDelegate.maximized; // reflect the target state
+                                }
+                            }
                         }
                     }
                 ]
