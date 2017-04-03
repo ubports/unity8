@@ -1,0 +1,15 @@
+[Unit]
+Description=Unity Shell v8 Dash
+PartOf=graphical-session.target
+BindsTo=unity8.service
+After=unity8.service
+
+[Service]
+ExecStart=/usr/bin/unity8-dash --desktop_file_hint=unity8-dash
+Restart=always
+TimeoutStartSec=120
+Environment=APP_ID=unity8-dash
+
+# Focused app is 100 so we want to be less likely to get
+# killed than the focused app but more than Unity8
+OOMScoreAdjust=50
