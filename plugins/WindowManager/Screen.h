@@ -28,7 +28,7 @@ class Screen: public QObject
     Q_PROPERTY(QSizeF physicalSize READ physicalSize NOTIFY physicalSizeChanged)
     Q_PROPERTY(QString outputTypeName READ outputTypeName NOTIFY outputTypeChanged)
     Q_PROPERTY(WorkspaceModel* workspaces READ workspaces CONSTANT)
-    Q_PROPERTY(Workspace* currentWorkspace READ currentWorkspace WRITE setCurrentWorkspace NOTIFY currentWorkspaceChanged)
+    Q_PROPERTY(Workspace* currentWorkspace READ currentWorkspace WRITE setCurrentWorkspace2 NOTIFY currentWorkspaceChanged)
 public:
     // From qtmir::Screen
     qtmir::OutputId outputId() const;
@@ -83,6 +83,9 @@ protected:
 
     void connectToScreen(qtmir::Screen* screen);
     void connectToScreen(Screen* screen);
+
+private:
+    void setCurrentWorkspace2(Workspace* workspace);
 
 protected:
     QPointer<qtmir::Screen> m_wrapped;

@@ -1,3 +1,4 @@
+add_subdirectory(indicatorsclient)
 add_subdirectory(menutool)
 add_subdirectory(scopetool)
 

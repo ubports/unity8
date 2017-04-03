@@ -364,8 +364,6 @@ FocusScope {
                         width: units.gu(6)
                         height: 7.5 / 8 * width
                         anchors.horizontalCenter: parent.horizontalCenter
-                        backgroundMode: UbuntuShape.SolidColor
-                        backgroundColor: UbuntuColors.lightGrey
                         radius: "medium"
                         borderSource: 'undefined'
                         source: Image {

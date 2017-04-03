@@ -1,6 +1,7 @@
 include_directories(
     SYSTEM
     ${QTMIRSERVER_INCLUDE_DIRS}
+    ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
 )
 
 include_directories(
@@ -9,9 +10,11 @@ include_directories(
 )
 
 set(WINDOWMANAGER_SRC
+    AvailableDesktopArea.cpp
     TopLevelWindowModel.cpp
     Window.cpp
     WindowManagerPlugin.cpp
+    WindowMargins.cpp
     Screen.cpp
     ScreenAttached.cpp
     Screens.cpp

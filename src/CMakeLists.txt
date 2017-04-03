@@ -67,5 +67,4 @@ install(TARGETS ${SHELL_APP}
      RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
      )
 
-add_subdirectory(Panel)
 add_subdirectory(Dash)

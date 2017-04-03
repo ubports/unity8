@@ -80,10 +80,6 @@ FocusScope {
         loginList.showFakePassword();
     }
 
-    function showLastChance() {
-        // TODO
-    }
-
     Rectangle {
         anchors.fill: parent
         color: "black"

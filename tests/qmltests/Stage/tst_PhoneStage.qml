@@ -49,6 +49,11 @@ Item {
         applicationManager: ApplicationManager
         mode: "staged"
         topLevelSurfaceList: root.topLevelSurfaceList
+        availableDesktopArea: availableDesktopAreaItem
+        Item {
+            id: availableDesktopAreaItem
+            anchors.fill: parent
+        }
 
         Component.onCompleted: {
             ApplicationManager.startApplication("unity8-dash");

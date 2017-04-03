@@ -56,6 +56,15 @@ private Q_SLOTS:
         QTRY_COMPARE(storage->getStage(QTest::currentTestFunction(), 0), stage);
     }
 
+    void testProtectAgainstInvalidGeometry() {
+        const QRect geometry{10, 20, 0, 10}; // zero-width (invalid) rectangle
+        storage->saveGeometry(QTest::currentTestFunction(), geometry);
+        const QRect defaultGeometry{10, 20, 30, 40};
+        const QRect loadedGeometry = storage->getGeometry(QTest::currentTestFunction(), defaultGeometry);
+        // ensure we don't load a broken geometry, instead we fall back to the default one
+        QCOMPARE(loadedGeometry, defaultGeometry);
+    }
+
 private:
     WindowStateStorage * storage{nullptr};
 };
