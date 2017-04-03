@@ -52,12 +52,6 @@ void Screen::setCurrentWorkspace2(Workspace *workspace)
     workspace->setCurrentOn(this);
 }
 
-qtmir::OutputId Screen::outputId() const
-{
-    if (!m_wrapped) return qtmir::OutputId(-1);
-    return m_wrapped->outputId();
-}
-
 bool Screen::used() const
 {
     if (!m_wrapped) return false;

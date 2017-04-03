@@ -31,8 +31,6 @@ class Screen: public QObject
     Q_PROPERTY(WorkspaceModel* workspaces READ workspaces CONSTANT)
     Q_PROPERTY(Workspace* currentWorkspace READ currentWorkspace WRITE setCurrentWorkspace2 NOTIFY currentWorkspaceChanged)
 public:
-    // From qtmir::Screen
-    qtmir::OutputId outputId() const;
     bool used() const;
     QString name() const;
     float scale() const;

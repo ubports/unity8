@@ -72,7 +72,7 @@ public:
         }
     }
 
-    qtmir::OutputId outputId() const override { return m_id; }
+    miral::DisplayId displayId() const override { return m_id; }
     bool used() const override { return m_used; }
     QString name() const override { return m_name; }
     float scale() const override { return m_scale; }
@@ -106,7 +106,7 @@ public:
     qtmir::ScreenConfiguration *beginConfiguration() const override {
         auto config = new qtmir::ScreenConfiguration;
         config->valid = true;
-        config->id = m_id;
+        config->id = m_id.output_id;
         config->used = m_used;
         config->topLeft = m_position;
         config->currentModeIndex = m_currentModeIndex;
@@ -127,7 +127,7 @@ public:
     }
 
 public:
-    qtmir::OutputId m_id{0};
+    miral::DisplayId m_id;
     bool m_active{false};
     bool m_used{true};
     QString m_name;
@@ -153,7 +153,7 @@ MockScreens::MockScreens()
     QPoint lastPoint(0,0);
     for (int i = 0; i < screenCount; ++i) {
         auto screen = new MockScreen();
-        screen->m_id = qtmir::OutputId{i};
+        screen->m_id.output_id = miral::OutputId{i};
         screen->m_active = i == 0;
         screen->m_name = QString("Monitor %1").arg(i);
         screen->m_position = QPoint(lastPoint.x(), lastPoint.y());
