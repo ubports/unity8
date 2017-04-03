@@ -147,7 +147,7 @@ void ConcreteScreens::sync(ProxyScreens *proxy)
         m_screens[i]->sync(proxyList[i]);
     }
 
-    proxy->setSyncing(true);
+    proxy->setSyncing(false);
 }
 
 void ConcreteScreens::onScreenAdded(qtmir::Screen *added)
