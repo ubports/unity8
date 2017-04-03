@@ -30,19 +30,24 @@
 // libandroid-properties
 #include <hybris/properties/properties.h>
 
+// qtmir
+#include <qtmir/displayconfigurationstorage.h>
+
 // local
 #include <paths.h>
 #include "CachingNetworkManagerFactory.h"
 #include "UnityCommandLineParser.h"
 #include "DebuggingController.h"
 #include "WindowManagementPolicy.h"
+#include "DisplayConfigurationStorage.h"
 
 #include <QDebug>
 
 
 
 UnityApplication::UnityApplication(int & argc, char ** argv)
-    : qtmir::MirServerApplication(argc, argv, { qtmir::SetWindowManagementPolicy<WindowManagementPolicy>() })
+    : qtmir::MirServerApplication(argc, argv, { qtmir::SetWindowManagementPolicy<WindowManagementPolicy>(),
+                                                qtmir::SetDisplayConfigurationStorage<DisplayConfigurationStorage>() })
     , m_qmlArgs(this)
 {
     setApplicationName(QStringLiteral("unity8"));

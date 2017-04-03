@@ -72,7 +72,7 @@ void WindowManagerPlugin::registerTypes(const char *uri)
     qRegisterMetaType<Window*>("Window*");
     qRegisterMetaType<QAbstractListModel*>("QAbstractListModel*");
 
-    qmlRegisterType<ScreenWindow>(uri, 1, 0, "ScreenWindow");
+    qmlRegisterType<MockScreenWindow>(uri, 1, 0, "ScreenWindow");
     qmlRegisterRevision<QWindow,1>(uri, 1, 0);
 
     qmlRegisterUncreatableType<WMScreen>(uri, 1, 0, "WMScreen", notInstantiatable);
