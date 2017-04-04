@@ -391,7 +391,7 @@ FocusScope {
     Binding {
         target: PanelState
         property: "decorationsVisible"
-        value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.maximized // FIXME for Locally integrated menus
+        value: mode == "windowed" && priv.focusedAppDelegate && priv.focusedAppDelegate.maximized && !root.spreadShown
     }
 
     Binding {
@@ -1393,6 +1393,7 @@ FocusScope {
                             requestedHeight: appContainer.height;
                         }
                         PropertyChanges { target: touchControls; enabled: true }
+                        PropertyChanges { target: decoratedWindow; windowControlButtonsVisible: false }
                     },
                     State {
                         name: "fullscreen"; when: appDelegate.fullscreen && !appDelegate.minimized
@@ -1415,7 +1416,7 @@ FocusScope {
                         }
                         PropertyChanges { target: touchControls; enabled: true }
                         PropertyChanges { target: resizeArea; enabled: true }
-                        PropertyChanges { target: decoratedWindow; shadowOpacity: .3}
+                        PropertyChanges { target: decoratedWindow; shadowOpacity: .3; windowControlButtonsVisible: true}
                     },
                     State {
                         name: "restored";
