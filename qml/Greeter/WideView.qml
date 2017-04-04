@@ -20,6 +20,8 @@ import "." 0.1
 
 FocusScope {
     id: root
+    objectName: "WideView"
+
     focus: true
 
     property alias background: coverPage.background
@@ -32,13 +34,13 @@ FocusScope {
     property int delayMinutes // TODO
     property alias alphanumeric: loginList.alphanumeric
     property alias locked: loginList.locked
-    property alias sessionToStart: loginList.currentSession
     property alias waiting: loginList.waiting
     property var userModel // Set from outside
 
     readonly property bool animating: coverPage.showAnimation.running || coverPage.hideAnimation.running
     readonly property bool fullyShown: coverPage.showProgress === 1
     readonly property bool required: coverPage.required
+    readonly property alias sessionToStart: loginList.currentSession
 
     // so that it can be replaced in tests with a mock object
     property var inputMethod: Qt.inputMethod
@@ -144,6 +146,7 @@ FocusScope {
 
             height: loginList.height
             width: loginList.width
+
             anchors {
                 left: parent.left
                 leftMargin: Math.min(parent.width * 0.16, units.gu(20))
@@ -153,10 +156,9 @@ FocusScope {
             active: false
 
             onLoaded: sessionChooserLoader.item.forceActiveFocus();
-            Binding {
-                target: sessionChooserLoader.item
-                property: "initiallySelectedSession"
-                value: loginList.currentSession
+            onActiveChanged: {
+                if (!active) return;
+                item.updateHighlight(loginList.currentSession);
             }
 
             Connections {
