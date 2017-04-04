@@ -271,8 +271,22 @@ StyledItem {
 
             var searchField = findChild(drawer, "searchField");
             tryCompareFunction(function() { return !!searchField }, true);
+            tryCompare(searchField, "selectedText", searchField.displayText);
             typeString("cam");
             tryCompareFunction(function() { return searchField.displayText }, "cam");
+
+            // Try again to make sure it cleaned and everything
+            keyClick(Qt.Key_Escape);
+            waitForRendering(launcher);
+            waitUntilTransitionsEnd(launcher);
+            launcher.openDrawer(true);
+            waitForRendering(launcher);
+            waitUntilTransitionsEnd(launcher);
+
+            tryCompare(searchField, "selectedText", searchField.displayText);
+            typeString("terminal");
+            tryCompareFunction(function() { return searchField.displayText }, "terminal");
+
         }
 
         function test_kbdNavigation() {
