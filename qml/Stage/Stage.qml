@@ -91,6 +91,7 @@ FocusScope {
 
 
     onAltTabPressedChanged: {
+        root.focus = true;
         if (altTabPressed) {
             if (root.spreadEnabled) {
                 altTabDelayTimer.start();
@@ -517,14 +518,20 @@ FocusScope {
         State {
             name: "staged"; when: root.mode === "staged"
             PropertyChanges { target: wallpaper; visible: !priv.focusedAppDelegate || priv.focusedAppDelegate.x !== 0 }
+            PropertyChanges { target: root; focus: true }
+            PropertyChanges { target: appContainer; focus: true }
         },
         State {
             name: "stagedWithSideStage"; when: root.mode === "stagedWithSideStage"
             PropertyChanges { target: triGestureArea; enabled: priv.sideStageEnabled }
             PropertyChanges { target: sideStage; visible: true }
+            PropertyChanges { target: root; focus: true }
+            PropertyChanges { target: appContainer; focus: true }
         },
         State {
             name: "windowed"; when: root.mode === "windowed"
+            PropertyChanges { target: root; focus: true }
+            PropertyChanges { target: appContainer; focus: true }
         }
     ]
     transitions: [

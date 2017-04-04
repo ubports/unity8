@@ -3218,6 +3218,8 @@ Rectangle {
             var appDelegate = startApplication("gmail-webapp");
             var appDelegate2 = startApplication("dialer-app");
 
+            tryCompare(appDelegate2.surface, "activeFocus", true);
+
             var maximizeButton = findChild(appDelegate2, "maximizeWindowButton");
             mouseClick(maximizeButton);
             tryCompare(appDelegate2, "state", "maximized");
@@ -3242,7 +3244,7 @@ Rectangle {
             if (data.showSpread) {
                 tryCompare(stage, "spreadShown", true);
             }
-            tryCompareFunction(function() { return menuBarLoader.active === false; }, true);
+            tryCompare(panelMenuItem, "__popup", null);
             keyRelease(Qt.Key_Alt)
 
             tryCompare(appDelegate.surface, "activeFocus", true);
