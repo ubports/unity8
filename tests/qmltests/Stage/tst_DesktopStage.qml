@@ -856,8 +856,6 @@ Item {
         function test_saveRestoreMaximized() {
             var originalWindowCount = topSurfaceList.count;
             var appDelegate = startApplication("dialer-app");
-            var decoratedWindow = findChild(appDelegate, "decoratedWindow");
-            verify(decoratedWindow);
             compare(topSurfaceList.count, originalWindowCount + 1);
 
             var initialWindowX = appDelegate.windowedX;
@@ -870,14 +868,9 @@ Item {
 
             // Now change the state to maximized. The window should not keep updating the stored values
             maximizeAppDelegate(appDelegate);
-            decoratedWindow.windowControlButtonsVisible = true;
 
             // Close the window and restart the application
-            var closeButton = findChild(appDelegate, "closeWindowButton");
-            appDelegate = null;
-            verify(closeButton);
-            mouseClick(closeButton);
-            closeButton = null;
+            appDelegate.close();
             tryCompare(topSurfaceList, "count", originalWindowCount);
             wait(100); // plus some spare room
             appDelegate = startApplication("dialer-app");
