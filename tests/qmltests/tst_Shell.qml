@@ -3193,6 +3193,92 @@ Rectangle {
             tryCompare(menuBarLoader.item, "visible", true);
         }
 
+        function test_enforceFocusOnStageOnAltTab() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var appDelegate = startApplication("music-app")
+            verify(appDelegate);
+            waitForRendering(shell);
+
+            var launcher = findChild(shell, "launcher");
+            launcher.focus = true;
+
+            var stage = findChild(shell, "stage");
+
+            var spreadItem = findChild(shell, "spreadItem");
+
+            compare(spreadItem.highlightedIndex, -1);
+
+            keyPress(Qt.Key_Alt);
+            keyClick(Qt.Key_Tab);
+
+            tryCompare(spreadItem, "highlightedIndex", 1);
+            tryCompare(stage, "focus", true);
+
+            keyClick(Qt.Key_Tab);
+
+            tryCompare(spreadItem, "highlightedIndex", 0);
+
+            keyRelease(Qt.Key_Alt);
+        }
+
+        function test_maximizedWindowMenuThenAltTab_data() {
+            return [
+                { tag: "show spread", showSpread: true },
+                { tag: "do not show spread", showSpread: false },
+            ];
+        }
+
+        function test_maximizedWindowMenuThenAltTab(data) {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            var appDelegate = startApplication("gmail-webapp");
+            var appDelegate2 = startApplication("dialer-app");
+
+            tryCompare(appDelegate2.surface, "activeFocus", true);
+
+            var maximizeButton = findChild(appDelegate2, "maximizeWindowButton");
+            mouseClick(maximizeButton);
+            tryCompare(appDelegate2, "state", "maximized");
+
+            var panel = findChild(shell, "panel");
+            var panelMouse = findChild(panel, "windowControlArea");
+            mouseMove(panelMouse);
+            var panelMenu = findChild(panel, "menuBar");
+            var menuBarLoader = findChild(panel, "menuBarLoader");
+            mouseMove(panelMenu);
+            var panelMenuItem = findChild(panelMenu, "menuBar-item0");
+            tryCompare(panelMenuItem, "visible", true);
+            Util.waitForBehaviors(shell);
+            mouseClick(panelMenuItem);
+            var panelMenuItemItem = findChild(panelMenu, "menuBar-item0-menu-item0-actionItem");
+            mouseMove(panelMenuItemItem, panelMenuItemItem.width/2, panelMenuItemItem.height/2);
+            verify(panelMenuItemItem.activeFocus);
+            verify(panelMenuItem.__popup);
+
+            keyPress(Qt.Key_Alt);
+            keyClick(Qt.Key_Tab);
+            if (data.showSpread) {
+                tryCompare(stage, "spreadShown", true);
+            }
+            tryCompareFunction(function() { return menuBarLoader.active === false; }, true);
+            keyRelease(Qt.Key_Alt)
+
+            tryCompare(appDelegate.surface, "activeFocus", true);
+
+            keyPress(Qt.Key_Alt);
+            keyClick(Qt.Key_Tab);
+            keyRelease(Qt.Key_Alt)
+
+            tryCompare(appDelegate2.surface, "activeFocus", true);
+        }
+
         function test_maximizedWindowAndMenuInPanel() {
             loadShell("desktop");
             shell.usageScenario = "desktop";
