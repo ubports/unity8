@@ -172,7 +172,7 @@ FocusScope {
         id: closeFocusedShortcut
         shortcut: Qt.AltModifier|Qt.Key_F4
         onTriggered: {
-            if (priv.focusedAppDelegate && !priv.focusedAppDelegate.isDash) {
+            if (priv.focusedAppDelegate) {
                 priv.focusedAppDelegate.close();
             }
         }
@@ -432,7 +432,7 @@ FocusScope {
     Binding {
         target: PanelState
         property: "closeButtonShown"
-        value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized && !priv.focusedAppDelegate.isDash
+        value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized
     }
 
     Component.onDestruction: {
@@ -614,9 +614,7 @@ FocusScope {
             }
 
             onCloseCurrentApp: {
-                if (!appRepeater.itemAt(highlightedIndex).isDash) {
-                    appRepeater.itemAt(highlightedIndex).close();
-                }
+                appRepeater.itemAt(highlightedIndex).close();
             }
         }
 
@@ -1755,7 +1753,7 @@ FocusScope {
                     objectName: "dragArea"
                     anchors.fill: decoratedWindow
                     enabled: false
-                    closeable: !appDelegate.isDash
+                    closeable: true
 
                     onClicked: {
                         spreadItem.highlightedIndex = index;
@@ -1798,7 +1796,7 @@ FocusScope {
                     objectName: "closeMouseArea"
                     anchors { left: parent.left; top: parent.top; leftMargin: -height / 2; topMargin: -height / 2 + spreadMaths.closeIconOffset }
                     readonly property var mousePos: hoverMouseArea.mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
-                    visible: !appDelegate.isDash && dragArea.distance == 0
+                    visible: dragArea.distance == 0
                              && index == spreadItem.highlightedIndex
                              && mousePos.y < (decoratedWindow.height / 3)
                              && mousePos.y > -units.gu(4)

@@ -693,13 +693,6 @@ Item {
             tryCompare(facebookAppDelegate, "maximized", true);
         }
 
-        function test_dashHasNoCloseButton() {
-            var dashAppDelegate = startApplication("unity8-dash");
-            verify(dashAppDelegate);
-            var closeButton = findChild(dashAppDelegate, "closeWindowButton");
-            tryCompare(closeButton, "visible", false);
-        }
-
         function test_hideMaximizeButtonWhenSizeConstrained() {
             var dialerDelegate = startApplication("dialer-app");
 
