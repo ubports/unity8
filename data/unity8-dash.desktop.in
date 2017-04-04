@@ -5,5 +5,4 @@ Comment=An interface for using the Scopes system
 Exec=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/unity8-dash
 Terminal=false
 Icon=@CMAKE_INSTALL_PREFIX@/@SHELL_APP_DIR@/Dash/unity8-dash.png
-NoDisplay=true
 X-Ubuntu-Touch=true
