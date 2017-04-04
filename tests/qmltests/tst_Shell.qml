@@ -3244,7 +3244,7 @@ Rectangle {
             if (data.showSpread) {
                 tryCompare(stage, "spreadShown", true);
             }
-            tryCompare(panelMenuItem, "__popup", null);
+            tryCompareFunction(function() { return menuBarLoader.active === false; }, true);
             keyRelease(Qt.Key_Alt)
 
             tryCompare(appDelegate.surface, "activeFocus", true);
