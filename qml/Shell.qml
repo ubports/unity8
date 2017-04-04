@@ -110,7 +110,7 @@ StyledItem {
         }
     }
     function _onMainAppChanged(appId) {
-        if (wizard.active && appId != "" && appId != "unity8-dash") {
+        if (wizard.active && appId != "") {
             // If this happens on first boot, we may be in the
             // wizard while receiving a call.  But a call is more
             // important than the wizard so just bail out of it.
@@ -241,8 +241,7 @@ StyledItem {
         onHomeKeyActivated: {
             // Ignore when greeter is active, to avoid pocket presses
             if (!greeter.active) {
-                launcher.fadeOut();
-                ApplicationManager.requestFocusApplication("unity8-dash");
+                launcher.openDrawer(false);
             }
         }
         onTouchBegun: { cursor.opacity = 0; }
