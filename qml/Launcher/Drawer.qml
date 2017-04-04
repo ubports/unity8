@@ -411,7 +411,7 @@ FocusScope {
                                 return aux;
                             }
                             y: -units.gu(0.5)
-                            active: label.truncated && drawerDelegate.hovered
+                            active: label.truncated && (drawerDelegate.hovered || drawerDelegate.focused)
                             sourceComponent: Rectangle {
                                 color: UbuntuColors.jet
                                 width: fullLabel.contentWidth + units.gu(1)
