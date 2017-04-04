@@ -171,7 +171,7 @@ FocusScope {
         id: closeFocusedShortcut
         shortcut: Qt.AltModifier|Qt.Key_F4
         onTriggered: {
-            if (priv.focusedAppDelegate && !priv.focusedAppDelegate.isDash) {
+            if (priv.focusedAppDelegate) {
                 priv.focusedAppDelegate.close();
             }
         }
@@ -431,7 +431,7 @@ FocusScope {
     Binding {
         target: PanelState
         property: "closeButtonShown"
-        value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized && !priv.focusedAppDelegate.isDash
+        value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized
     }
 
     Component.onDestruction: {
