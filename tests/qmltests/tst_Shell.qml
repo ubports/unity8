@@ -138,9 +138,6 @@ Rectangle {
                     }
                     mode: shellLoader.mode
                     hasTouchscreen: true
-                    Component.onCompleted: {
-                        ApplicationManager.startApplication("unity8-dash");
-                    }
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }
@@ -601,10 +598,6 @@ Rectangle {
             topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
             verify(topLevelSurfaceList);
             stage = findChild(shell, "stage");
-
-            // wait until unity8-dash is fully loaded
-            tryCompare(topLevelSurfaceList, "count", 1);
-            waitUntilAppWindowIsFullyLoaded(topLevelSurfaceList.idAt(0));
         }
 
         function loadDesktopShellWithApps() {
@@ -612,6 +605,7 @@ Rectangle {
             waitForRendering(shell)
             shell.usageScenario = "desktop"
             waitForRendering(shell)
+            var app0 = ApplicationManager.startApplication("unity8-dash")
             var app1 = ApplicationManager.startApplication("dialer-app")
             var app2 = ApplicationManager.startApplication("webbrowser-app")
             var app3 = ApplicationManager.startApplication("camera-app")
@@ -796,6 +790,12 @@ Rectangle {
 
         function swipeAwayGreeter() {
             var greeter = findChild(shell, "greeter");
+
+            if (!greeter.shown) {
+                console.log("Greeter not shown. Not swiping.");
+                return;
+            }
+
             tryCompare(greeter, "fullyShown", true);
             waitForGreeterToStabilize();
             removeTimeConstraintsFromSwipeAreas(greeter);
@@ -1222,26 +1222,11 @@ Rectangle {
 
             var wizard = findChild(shell, "wizard");
             tryCompare(wizard, "active", true);
-            tryCompareFunction(function() { return topLevelSurfaceList.applicationAt(0).appId; }, "unity8-dash");
-
-            // Make sure we stay running when there's no top level window (can happen for
-            // a moment when we restart the dash after switching language)
-            var dashApplication = ApplicationManager.findApplication("unity8-dash");
-            ApplicationManager.stopApplication(dashApplication.appId);
-            // wait until all zombie surfaces are gone. As MirSurfaceItems hold references over them.
-            // They won't be gone until those surface items are destroyed.
-            tryCompareFunction(function() { return dashApplication.surfaceList.count }, 0);
 
             tryCompare(topLevelSurfaceList, "count", 0);
             compare(wizard.shown, true);
 
-            // And make sure we stay running when dash comes back again
-            var dashSurfaceId = topLevelSurfaceList.nextId;
-            ApplicationManager.startApplication(dashApplication.appId);
-            waitUntilAppWindowIsFullyLoaded(dashSurfaceId);
-            compare(wizard.shown, true);
-
-            // And make sure we stop when some other surface shows app
+            // And make sure we stop when some surface shows app
             var gallerySurfaceId = topLevelSurfaceList.nextId;
             var galleryApp = ApplicationManager.startApplication("gallery-app");
             waitUntilAppWindowIsFullyLoaded(gallerySurfaceId);
@@ -1320,6 +1305,11 @@ Rectangle {
         function test_rightEdgeDragDoesNotReachApplicationSurface() {
             loadShell("phone");
             swipeAwayGreeter();
+
+            var appSurfaceId = topLevelSurfaceList.nextId;
+            var app = ApplicationManager.startApplication("unity8-dash")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
             var topmostSpreadDelegate = findChild(shell, "appDelegate_" + topLevelSurfaceList.idAt(0));
             var topmostSurfaceItem = findChild(topmostSpreadDelegate, "surfaceItem");
             var rightEdgeDragArea = findChild(shell, "rightEdgeDragArea");
@@ -1372,15 +1362,15 @@ Rectangle {
             verify(coverPage.shown);
         }
 
-        function test_physicalHomeKeyPressFocusesDash() {
+        function test_physicalHomeKeyPressOpensDrawer() {
             loadShell("phone");
-
-            var galleryApp = ApplicationManager.startApplication("gallery-app");
-            tryCompare(ApplicationManager, "focusedApplicationId", "gallery-app");
+            swipeAwayGreeter();
 
             var windowInputMonitor = findInvisibleChild(shell, "windowInputMonitor");
             windowInputMonitor.homeKeyActivated();
-            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+
+            var launcher = findChild(shell, "launcher");
+            tryCompare(launcher, "drawerShown", true);
         }
 
         function test_tabletLogin_data() {
@@ -1499,6 +1489,10 @@ Rectangle {
             loadShell("tablet");
             shell.usageScenario = "desktop";
 
+            var appSurfaceId = topLevelSurfaceList.nextId;
+            var app = ApplicationManager.startApplication("unity8-dash")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
             var webBrowserSurfaceId = topLevelSurfaceList.nextId;
             var webBrowserApp = ApplicationManager.startApplication("webbrowser-app");
             waitUntilAppWindowIsFullyLoaded(webBrowserSurfaceId);
@@ -1522,6 +1516,10 @@ Rectangle {
         function test_unfocusedAppsAreResumedWhenEnteringWindowedMode() {
             loadShell("tablet");
             shell.usageScenario = "tablet";
+
+            var appSurfaceId = topLevelSurfaceList.nextId;
+            var app = ApplicationManager.startApplication("unity8-dash")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             var webBrowserSurfaceId = topLevelSurfaceList.nextId;
             var webBrowserApp = ApplicationManager.startApplication("webbrowser-app");
@@ -2415,7 +2413,7 @@ Rectangle {
 
             tryCompare(broadcastUrlSpy, "count", 1);
             compare(broadcastUrlSpy.signalArguments[0][0], "application:///" + appIcon.appId + ".desktop");
-            compare(ApplicationManager.count, 1); // confirm only dash is open, we didn't start new app
+            compare(ApplicationManager.count, 0); // confirm no app is open, we didn't start new app
 
             var coverPage = findChild(shell, "coverPage");
             tryCompare(coverPage, "showProgress", 0);
@@ -2456,7 +2454,7 @@ Rectangle {
 
             tryCompare(broadcastUrlSpy, "count", 1);
             compare(broadcastUrlSpy.signalArguments[0][0], "test:");
-            compare(ApplicationManager.count, 1); // confirm only dash is open, we didn't start new app
+            compare(ApplicationManager.count, 0); // confirm no app is open, we didn't start new app
 
             var coverPage = findChild(shell, "coverPage");
             tryCompare(coverPage, "showProgress", 0);
@@ -2684,6 +2682,10 @@ Rectangle {
             swipeAwayGreeter();
             ensureInputMethodSurface();
             shell.oskEnabled = data.oskEnabled;
+
+            var appSurfaceId = topLevelSurfaceList.nextId;
+            var app = ApplicationManager.startApplication("unity8-dash")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             var oldOSKState = topLevelSurfaceList.inputMethodSurface.state;
             topLevelSurfaceList.inputMethodSurface.requestState(Mir.RestoredState);
@@ -2957,7 +2959,11 @@ Rectangle {
             swipeAwayGreeter();
 
             var appSurfaceId = topLevelSurfaceList.nextId;
-            var app = ApplicationManager.startApplication("dialer-app")
+            var app = ApplicationManager.startApplication("unity8-dash")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            appSurfaceId = topLevelSurfaceList.nextId;
+            app = ApplicationManager.startApplication("dialer-app")
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             appSurfaceId = topLevelSurfaceList.nextId;
@@ -2984,12 +2990,6 @@ Rectangle {
             // Now the dash should be highlighted
             tryCompareFunction(function() {return appRepeater.itemAt(spread.highlightedIndex).appId == "unity8-dash"}, true);
 
-            keyClick(Qt.Key_Q);
-
-            // Dash is not closeable, should still be 2
-            tryCompare(ApplicationManager, "count", 2);
-
-            // Move to the next one, should be closable again
             keyClick(Qt.Key_Tab);
             tryCompareFunction(function() {return appRepeater.itemAt(spread.highlightedIndex).appId == "calendar-app"}, true);
 
