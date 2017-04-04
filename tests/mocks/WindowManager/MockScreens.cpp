@@ -57,18 +57,29 @@ public:
         m_connectedWindow = w;
 
         if (w) {
-            connect(w, &ScreenWindow::heightChanged, this, [this](int height) {
+            connect(w, &QWindow::heightChanged, this, [this](int height) {
+                if (height == 0 || height == m_sizes.first()->size.rheight()) {
+                    return;
+                }
                 m_sizes.first()->size.rheight() = height;
                 Q_EMIT availableModesChanged();
 
             });
-            connect(w, &ScreenWindow::widthChanged, this, [this](int width) {
+            connect(w, &QWindow::widthChanged, this, [this](int width) {
+                if (width == 0 || width == m_sizes.first()->size.rwidth()) {
+                    return;
+                }
                 m_sizes.first()->size.rwidth() = width;
                 Q_EMIT availableModesChanged();
             });
+            connect(w, &QWindow::activeChanged, this, [w, this]() {
+                if (w->isActive()) setActive(true);
+            });
+            if (w->isActive()) setActive(true);
 
             m_sizes.push_front(new qtmir::ScreenMode(50, w->size()));
             Q_EMIT availableModesChanged();
+
         }
     }
 
@@ -161,6 +172,14 @@ MockScreens::MockScreens()
         m_mocks.append(screen);
 
         lastPoint.rx() += screen->m_sizes[screen->m_currentModeIndex]->size.width();
+
+        connect(screen, &qtmir::Screen::activeChanged, this, [=](bool active) {
+            Q_FOREACH(auto otherScreen, m_mocks) {
+                if (active && otherScreen != screen) {
+                    otherScreen->setActive(false);
+                }
+            }
+        });
     }
 }
 
