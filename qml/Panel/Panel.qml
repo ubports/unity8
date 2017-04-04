@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2016 Canonical, Ltd.
+ * Copyright (C) 2013-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -85,15 +85,15 @@ Item {
         property bool showWindowDecorationControls: (revealControls && PanelState.decorationsVisible) ||
                                                     PanelState.decorationsAlwaysVisible
 
-        property bool showPointerMenu: revealControls &&
+        property bool showPointerMenu: revealControls && enablePointerMenu &&
                                        (PanelState.decorationsVisible || mode == "staged")
 
-        property bool enablePointerMenu: revealControls &&
-                                         applicationMenus.available &&
+        property bool enablePointerMenu: applicationMenus.available &&
                                          applicationMenus.model
 
         property bool showTouchMenu: !greeterShown &&
-                                     !showPointerMenu
+                                     !showPointerMenu &&
+                                     !showWindowDecorationControls
 
         property bool enableTouchMenus: showTouchMenu &&
                                         applicationMenus.available &&
@@ -211,7 +211,7 @@ Item {
                     opacity: d.showPointerMenu ? 1 : 0
                     visible: opacity != 0
                     Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
-                    active: __applicationMenus.model && !callHint.visible
+                    active: d.showPointerMenu && !callHint.visible
 
                     width: parent.width - windowControlButtons.width - units.gu(2) - __indicators.barWidth
 
@@ -220,7 +220,7 @@ Item {
                     sourceComponent: MenuBar {
                         id: bar
                         objectName: "menuBar"
-                        anchors.left: parent.left
+                        anchors.left: parent ? parent.left : undefined
                         anchors.margins: units.gu(1)
                         height: menuBarLoader.height
                         enableKeyFilter: valid && PanelState.decorationsVisible
@@ -339,7 +339,7 @@ Item {
             maximumLineCount: 1
             fontSize: "medium"
             font.weight: Font.Medium
-            color: Theme.palette.selected.backgroundText
+            color: theme.palette.selected.backgroundText
             opacity: __applicationMenus.visible && !__applicationMenus.expanded ? 1 : 0
             visible: opacity != 0
             Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
