@@ -751,16 +751,18 @@ Rectangle {
         Keys.onPressed: {
             switch (event.key) {
             case Qt.Key_Down:
-                selectedIndex++;
-                if (selectedIndex >= popoverRepeater.count) {
-                    selectedIndex = 0;
+                var prevIndex = selectedIndex;
+                selectedIndex = (selectedIndex + 1 < popoverRepeater.count) ? selectedIndex + 1 : 0;
+                while (!popoverRepeater.itemAt(selectedIndex).clickable && selectedIndex != prevIndex) {
+                    selectedIndex = (selectedIndex + 1 < popoverRepeater.count) ? selectedIndex + 1 : 0;
                 }
                 event.accepted = true;
                 break;
             case Qt.Key_Up:
-                selectedIndex--;
-                if (selectedIndex < 0) {
-                    selectedIndex = popoverRepeater.count - 1;
+                var prevIndex = selectedIndex;
+                selectedIndex = (selectedIndex > 0) ? selectedIndex - 1 : popoverRepeater.count - 1;
+                while (!popoverRepeater.itemAt(selectedIndex).clickable && selectedIndex != prevIndex) {
+                    selectedIndex = (selectedIndex > 0) ? selectedIndex - 1 : popoverRepeater.count - 1;
                 }
                 event.accepted = true;
                 break;
@@ -806,6 +808,19 @@ Rectangle {
             width: parent.width
             height: quickListColumn.height
 
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                onPositionChanged: {
+                    var item = quickListColumn.childAt(mouseX, mouseY);
+                    if (item.clickable) {
+                        quickList.selectedIndex = item.index;
+                    } else {
+                        quickList.selectedIndex = -1;
+                    }
+                }
+            }
+
             Column {
                 id: quickListColumn
                 width: parent.width
@@ -820,6 +835,9 @@ Rectangle {
                     }
 
                     ListItem {
+                        readonly property bool clickable: model.clickable
+                        readonly property int index: model.index
+
                         objectName: "quickListEntry" + index
                         selected: index === quickList.selectedIndex
                         height: label.implicitHeight + label.anchors.topMargin + label.anchors.bottomMargin

@@ -26,6 +26,7 @@
 
 static QObject *dbusunitysessionservice_provider(QQmlEngine */*engine*/, QJSEngine */*jsEngine*/)
 {
+    new DBusGnomeSessionManagerDialogWrapper();
     new DBusGnomeSessionManagerWrapper();
     new DBusGnomeScreensaverWrapper();
     new DBusScreensaverWrapper();
