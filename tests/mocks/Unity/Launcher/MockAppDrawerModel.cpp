@@ -46,7 +46,7 @@ MockAppDrawerModel::MockAppDrawerModel(QObject *parent):
     m_list.append(item);
     item = new MockLauncherItem("calendar-app", "/usr/share/applications/calendar-app.desktop","Calendar", "calendar", this);
     m_list.append(item);
-    item = new MockLauncherItem("libreoffice", "/usr/share/applications/libreoffice.desktop","Libre Office", "libreoffice", this);
+    item = new MockLauncherItem("libreoffice", "/usr/share/applications/libreoffice.desktop","Libre Office Writer", "libreoffice", this);
     m_list.append(item);
 
     qsrand(QDateTime::currentMSecsSinceEpoch() / 1000);

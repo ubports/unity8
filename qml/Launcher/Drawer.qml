@@ -28,6 +28,7 @@ FocusScope {
     property int panelWidth: 0
     readonly property bool moving: listLoader.item && listLoader.item.moving
     readonly property Item searchTextField: searchField
+    readonly property real delegateWidth: units.gu(10)
 
     signal applicationSelected(string appId)
 
@@ -272,7 +273,7 @@ FocusScope {
 
                             model: sortProxyModel
 
-                            delegateWidth: units.gu(8)
+                            delegateWidth: root.delegateWidth
                             delegateHeight: units.gu(10)
                             delegate: drawerDelegateComponent
                         }
@@ -332,7 +333,7 @@ FocusScope {
                                 filterLetter: model.letter
                                 dynamicSortFilter: false
                             }
-                            delegateWidth: units.gu(8)
+                            delegateWidth: root.delegateWidth
                             delegateHeight: units.gu(10)
                             delegate: drawerDelegateComponent
                         }
@@ -352,6 +353,7 @@ FocusScope {
                 readonly property bool focused: index === GridView.view.currentIndex && GridView.view.activeFocus
 
                 onClicked: root.applicationSelected(model.appId)
+                z: loader.active ? 1 : 0
 
                 Column {
                     width: units.gu(8)
@@ -384,11 +386,50 @@ FocusScope {
                     }
 
                     Label {
+                        id: label
                         text: model.name
                         width: parent.width
                         horizontalAlignment: Text.AlignHCenter
                         fontSize: "small"
                         elide: Text.ElideRight
+
+                        Loader {
+                            id: loader
+                            x: {
+                                var aux = 0;
+                                if (item) {
+                                    aux = label.width / 2 - item.width / 2;
+                                    var containerXMap = mapToItem(contentContainer, aux, 0).x
+                                    if (containerXMap < 0) {
+                                        aux = aux - containerXMap;
+                                        containerXMap = 0;
+                                    }
+                                    if (containerXMap + item.width > contentContainer.width) {
+                                        aux = aux - (containerXMap + item.width - contentContainer.width);
+                                    }
+                                }
+                                return aux;
+                            }
+                            y: -units.gu(0.5)
+                            active: label.truncated && (drawerDelegate.hovered || drawerDelegate.focused)
+                            sourceComponent: Rectangle {
+                                color: UbuntuColors.jet
+                                width: fullLabel.contentWidth + units.gu(1)
+                                height: fullLabel.height + units.gu(1)
+                                radius: units.dp(4)
+                                Label {
+                                    id: fullLabel
+                                    width: Math.min(root.delegateWidth * 2, implicitWidth)
+                                    wrapMode: Text.Wrap
+                                    horizontalAlignment: Text.AlignHCenter
+                                    maximumLineCount: 3
+                                    elide: Text.ElideRight
+                                    anchors.centerIn: parent
+                                    text: model.name
+                                    fontSize: "small"
+                                }
+                            }
+                        }
                     }
                 }
             }
