@@ -1276,6 +1276,11 @@ Rectangle {
         function test_tapOnRightEdgeReachesApplicationSurface() {
             loadShell("phone");
             swipeAwayGreeter();
+
+            var appSurfaceId = topLevelSurfaceList.nextId;
+            var app = ApplicationManager.startApplication("unity8-dash")
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
             var topmostSpreadDelegate = findChild(shell, "appDelegate_" + topLevelSurfaceList.idAt(0));
             verify(topmostSpreadDelegate);
 
