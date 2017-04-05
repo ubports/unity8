@@ -50,7 +50,7 @@ FocusScope {
     property Item availableDesktopArea
     property PanelState panelState
 
-    readonly property var temporarySelectedWorkspace: state == "spread" ? screensAndWorkspaces.lastClickedWorkspace : null
+    readonly property var temporarySelectedWorkspace: state == "spread" ? screensAndWorkspaces.activeWorkspace : null
 
     // Configuration
     property string mode: "staged"
@@ -580,7 +580,6 @@ FocusScope {
                 }
                 PropertyAction { target: spreadItem; property: "highlightedIndex"; value: -1 }
                 PropertyAction { target: floatingFlickable; property: "contentX"; value: 0 }
-                PropertyAction { target: screensAndWorkspaces; property: "lastClickedWorkspace"; value: null }
             }
         },
         Transition {
@@ -631,7 +630,6 @@ FocusScope {
             opacity: 0
             visible: opacity > 0
             onCloseSpread: priv.goneToSpread = false;
-            onLastClickedWorkspaceChanged: activeWorkspace = lastClickedWorkspace
         }
 
         Spread {

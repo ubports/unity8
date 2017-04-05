@@ -12,7 +12,6 @@ Item {
 
     property var screensProxy: Screens.createProxy();
 
-    property QtObject lastClickedWorkspace: null
     property QtObject activeWorkspace: null
     onActiveWorkspaceChanged: print("********************* active workspace changed:", activeWorkspace)
 
@@ -202,7 +201,7 @@ Item {
                     onCloseSpread: root.closeSpread();
 
                     onClicked: {
-                        root.lastClickedWorkspace = workspace;
+                        root.activeWorkspace = workspace;
                     }
                 }
             }
