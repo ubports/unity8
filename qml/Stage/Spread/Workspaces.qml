@@ -80,6 +80,10 @@ Item {
         }
     }
 
+    onSelectedIndexChanged: {
+        listView.positionViewAtIndex(selectedIndex, ListView.Center);
+    }
+
     Item {
         // We need to clip the listview as it has left/right margins and it would
         // overlap with items next to it and eat mouse input. However, we can't

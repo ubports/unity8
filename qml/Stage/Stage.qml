@@ -265,6 +265,24 @@ FocusScope {
             workspaceSwitcher.showRight()
         }
     }
+    GlobalShortcut {
+        id: showWorkspaceSwitcherShortcutUp
+        shortcut: Qt.AltModifier|Qt.ControlModifier|Qt.Key_Up
+        active: !workspaceSwitcher.active
+        onTriggered: {
+            root.focus = true;
+            workspaceSwitcher.showUp()
+        }
+    }
+    GlobalShortcut {
+        id: showWorkspaceSwitcherShortcutDown
+        shortcut: Qt.AltModifier|Qt.ControlModifier|Qt.Key_Down
+        active: !workspaceSwitcher.active
+        onTriggered: {
+            root.focus = true;
+            workspaceSwitcher.showDown()
+        }
+    }
 
     QtObject {
         id: priv
@@ -2027,6 +2045,7 @@ FocusScope {
         id: workspaceSwitcher
         anchors.centerIn: parent
         height: units.gu(20)
+        width: root.width - units.gu(8)
         background: root.background
         onActiveChanged: {
             if (!active) {

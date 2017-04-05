@@ -20,11 +20,9 @@ import "Spread"
 import WindowManager 1.0
 import Unity.Application 0.1
 
-UbuntuShape {
+Item {
     id: root
 
-    backgroundColor: "#F2111111"
-    width: screensRow.childrenRect.width + units.gu(4)
     opacity: d.shown ? 1 : 0
     visible: opacity > 0
     Behavior on opacity { UbuntuNumberAnimation {} }
@@ -36,11 +34,19 @@ UbuntuShape {
 
     function showLeft() {
         show();
-        d.decreaseHighlight();
+        d.previousWorkspace();
     }
     function showRight() {
         show();
-        d.increaseHighlight();
+        d.nextWorkspace();
+    }
+    function showUp() {
+        show();
+        d.previousScreen();
+    }
+    function showDown() {
+        show();
+        d.nextScreen();
     }
 
     function show() {
@@ -64,27 +70,27 @@ UbuntuShape {
         property bool altPressed: false
         property bool ctrlPressed: false
 
+        property int rowHeight: root.height - units.gu(4)
+
         property int highlightedScreenIndex: -1
         property int highlightedWorkspaceIndex: -1
 
-        function increaseHighlight() {
-            var screen = screensProxy.get(highlightedScreenIndex);
-            highlightedWorkspaceIndex++
-            if (highlightedWorkspaceIndex >= screen.workspaces.count) {
-                highlightedScreenIndex = (highlightedScreenIndex + 1) % screensProxy.count;
-                highlightedWorkspaceIndex = 0;
-            }
+        function previousWorkspace() {
+            highlightedWorkspaceIndex = Math.max(highlightedWorkspaceIndex - 1, 0);
         }
-        function decreaseHighlight() {
-            highlightedWorkspaceIndex--;
-            if (highlightedWorkspaceIndex < 0) {
-                highlightedScreenIndex--;
-                if (highlightedScreenIndex < 0) {
-                    highlightedScreenIndex = screensProxy.count - 1
-                }
-                var screen = screensProxy.get(highlightedScreenIndex);
-                highlightedWorkspaceIndex = screen.workspaces.count -1;
-            }
+        function nextWorkspace() {
+            var screen = screensProxy.get(highlightedScreenIndex);
+            highlightedWorkspaceIndex = Math.min(highlightedWorkspaceIndex + 1, screen.workspaces.count - 1);
+        }
+        function previousScreen() {
+            highlightedScreenIndex = Math.max(highlightedScreenIndex - 1, 0);
+            var screen = screensProxy.get(highlightedScreenIndex);
+            highlightedWorkspaceIndex = Math.min(highlightedWorkspaceIndex, screen.workspaces.count - 1)
+        }
+        function nextScreen() {
+            highlightedScreenIndex = Math.min(highlightedScreenIndex + 1, screensProxy.count - 1);
+            var screen = screensProxy.get(highlightedScreenIndex);
+            highlightedWorkspaceIndex = Math.min(highlightedWorkspaceIndex, screen.workspaces.count - 1)
         }
     }
 
@@ -95,14 +101,18 @@ UbuntuShape {
     }
 
     Keys.onPressed: {
-        hideTimer.restart();
         switch (event.key) {
         case Qt.Key_Left:
-            d.decreaseHighlight();
+            d.previousWorkspace();
             break;
         case Qt.Key_Right:
-            d.increaseHighlight();
+            d.nextWorkspace()
             break;
+        case Qt.Key_Up:
+            d.previousScreen();
+            break;
+        case Qt.Key_Down:
+            d.nextScreen();
         }
     }
     Keys.onReleased: {
@@ -116,7 +126,6 @@ UbuntuShape {
         }
 
         if (!d.altPressed && !d.ctrlPressed) {
-            print("starting hidetimer")
             d.active = false;
             hideTimer.start();
             focus = false;
@@ -124,56 +133,62 @@ UbuntuShape {
         }
     }
 
-    Row {
-        id: screensRow
-        anchors {
-            top: parent.top; topMargin: units.gu(2)
-            left: parent.left; leftMargin: units.gu(2)
-        }
-        spacing: units.gu(2)
+    UbuntuShape {
+        backgroundColor: "#F2111111"
+        clip: true
+        width: Math.min(parent.width, screensColumn.width + units.gu(4))
+        anchors.horizontalCenter: parent.horizontalCenter
+        height: parent.height
 
-        Repeater {
-            model: screensProxy
+        Column {
+            id: screensColumn
+            anchors {
+                top: parent.top; topMargin: units.gu(2) - d.highlightedScreenIndex * (d.rowHeight + screensColumn.spacing)
+                left: parent.left; leftMargin: units.gu(2)
+            }
+            width: screensRepeater.itemAt(d.highlightedScreenIndex).width
+            spacing: units.gu(2)
+            Behavior on anchors.topMargin { UbuntuNumberAnimation {} }
+            Behavior on width { UbuntuNumberAnimation {} }
 
-            delegate: Item {
-                height: root.height - units.gu(4)
-                width: workspaces.width
+            Repeater {
+                id: screensRepeater
+                model: screensProxy
 
-                UbuntuShape {
-                    id: header
-                    anchors { left: parent.left; top: parent.top; right: parent.right }
-                    height: units.gu(4)
-                    backgroundColor: "white"
-
-                    Label {
-                        anchors { left: parent.left; top: parent.top; right: parent.right; margins: units.gu(1) }
-                        text: model.screen.name
-                        color: UbuntuColors.ash
-                    }
-                }
-
-                Workspaces {
-                    id: workspaces
-                    height: parent.height - header.height - units.gu(2)
-                    width: {
-                        var width = 0;
-                        if (screensProxy.count == 1) {
-                            width = Math.min(implicitWidth, root.width - units.gu(8));
-                        } else {
-                            width = Math.min(implicitWidth, model.screen.active ? root.width - units.gu(48) : units.gu(40))
-                        }
-                        return Math.max(workspaces.minimumWidth, width);
-                    }
-
-                    Behavior on width { UbuntuNumberAnimation {} }
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: units.gu(1)
+                delegate: Item {
+                    height: d.rowHeight
+                    width: workspaces.width
                     anchors.horizontalCenter: parent.horizontalCenter
-                    screen: model.screen
-                    background: root.background
-                    selectedIndex: d.highlightedScreenIndex == index ? d.highlightedWorkspaceIndex : -1
+                    opacity: d.highlightedScreenIndex == index ? 1 : 0
+                    Behavior on opacity { UbuntuNumberAnimation {} }
 
-                    workspaceModel: model.screen.workspaces
+                    UbuntuShape {
+                        id: header
+                        anchors { left: parent.left; top: parent.top; right: parent.right }
+                        height: units.gu(4)
+                        backgroundColor: "white"
+
+                        Label {
+                            anchors { left: parent.left; top: parent.top; right: parent.right; margins: units.gu(1) }
+                            text: model.screen.name
+                            color: UbuntuColors.ash
+                        }
+                    }
+
+                    Workspaces {
+                        id: workspaces
+                        height: parent.height - header.height - units.gu(2)
+                        width: Math.min(implicitWidth, root.width - units.gu(4))
+
+                        anchors.bottom: parent.bottom
+                        anchors.bottomMargin: units.gu(1)
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        screen: model.screen
+                        background: root.background
+                        selectedIndex: d.highlightedScreenIndex == index ? d.highlightedWorkspaceIndex : -1
+
+                        workspaceModel: model.screen.workspaces
+                    }
                 }
             }
         }
