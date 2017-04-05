@@ -12,8 +12,7 @@ Item {
 
     property var screensProxy: Screens.createProxy();
 
-    property var lastClickedWorkspace: null
-    property var activeWorkspace: null
+    property QtObject activeWorkspace: null
     onActiveWorkspaceChanged: print("********************* active workspace changed:", activeWorkspace)
 
     signal closeSpread();
@@ -23,9 +22,9 @@ Item {
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         Behavior on anchors.horizontalCenterOffset { NumberAnimation { duration: UbuntuAnimation.SlowDuration } }
-//        anchors.left: parent.left
         spacing: units.gu(1)
 
+        property var selectedIndex: undefined
 
         Repeater {
             model: screensProxy
@@ -34,12 +33,38 @@ Item {
                 height: root.height - units.gu(6)
                 width: workspaces.width
 
-                UbuntuShape {
+                Item {
                     id: header
                     anchors { left: parent.left; top: parent.top; right: parent.right }
                     height: units.gu(7)
-                    backgroundColor: "white"
                     z: 1
+
+                    property bool isCurrent: {
+                        // another screen is selected.
+                        if (row.selectedIndex != undefined && row.selectedIndex != index) return false;
+
+                        // this screen is active.
+                        if (WMScreen.active && WMScreen.isSameAs(model.screen) && WMScreen.currentWorkspace.isSameAs(activeWorkspace)) return true;
+                        if (model.screen.workspaces.indexOf(activeWorkspace) >= 0) return true;
+
+                        // not active.
+                        return false;
+                    }
+
+                    property bool isSelected: screenMA.containsMouse
+                    onIsSelectedChanged: {
+                        if (isSelected) {
+                            row.selectedIndex = Qt.binding(function() { return index; });
+                        } else if (row.selectedIndex === index) {
+                            row.selectedIndex = undefined;
+                        }
+                    }
+
+                    UbuntuShape {
+                        anchors.fill: parent
+                        backgroundColor: "white"
+                        opacity: header.isCurrent || header.isSelected ? 1.0 : 0.5
+                    }
 
                     DropArea {
                         anchors.fill: parent
@@ -66,23 +91,38 @@ Item {
 
                         Label {
                             text: model.screen.name
-                            color: "black"
+                            color: header.isCurrent || header.isSelected ? "black" : "white"
                         }
 
                         Label {
                             text: model.screen.outputTypeName
-                            color: "black"
+                            color: header.isCurrent || header.isSelected ? "black" : "white"
                             fontSize: "x-small"
                         }
 
                         Label {
                             text: screen.availableModes[screen.currentModeIndex].size.width + "x" + screen.availableModes[screen.currentModeIndex].size.height
-                            color: "black"
+                            color: header.isCurrent || header.isSelected ? "black" : "white"
                             fontSize: "x-small"
                         }
                     }
 
+                    Icon {
+                        anchors {
+                            top: parent.top
+                            right: parent.right
+                            margins: units.gu(1)
+                        }
+                        width: units.gu(3)
+                        height: width
+                        source: "image://theme/select"
+                        color: header.isCurrent || header.isSelected ? "black" : "white"
+                        visible: model.screen.active
+                    }
+
                     MouseArea {
+                        id: screenMA
+                        hoverEnabled: true
                         anchors.fill: parent
 
                         onClicked: {
@@ -161,7 +201,7 @@ Item {
                     onCloseSpread: root.closeSpread();
 
                     onClicked: {
-                        root.lastClickedWorkspace = workspace;
+                        root.activeWorkspace = workspace;
                     }
                 }
             }
