@@ -257,7 +257,7 @@ Item {
                     screenHeight: listView.screenHeight
                     containsDragLeft: listView.hoveredWorkspaceIndex == index && listView.hoveredHalf == "left"
                     containsDragRight: listView.hoveredWorkspaceIndex == index && listView.hoveredHalf == "right"
-                    isActive: workspace == root.activeWorkspace
+                    isActive: workspace.isSameAs(root.activeWorkspace)
                     isSelected: index === root.selectedIndex
                     workspace: model.workspace
                 }
