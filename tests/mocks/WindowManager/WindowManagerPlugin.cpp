@@ -58,16 +58,16 @@ void WindowManagerPlugin::registerTypes(const char *uri)
     qmlRegisterType<AvailableDesktopArea>(uri, 1, 0, "AvailableDesktopArea");
     qmlRegisterType<WindowMargins>(uri, 1, 0, "WindowMargins");
     qmlRegisterSingletonType<WorkspaceManager>(uri, 1, 0, "WorkspaceManager", workspace_manager);
-    qmlRegisterUncreatableType<WorkspaceModel>(uri, 1, 0, "WorkspaceModel", notInstantiatable);
     qmlRegisterSingletonType<ConcreteScreens>(uri, 1, 0, "Screens", screensSingleton);
     qmlRegisterUncreatableType<qtmir::ScreenMode>(uri, 1, 0, "ScreenMode", notInstantiatable);
-    qmlRegisterUncreatableType<ScreenConfig>(uri, 1, 0, "ScreenConfig", notInstantiatable);
     qmlRegisterSingletonType<WindowManagerObjects>(uri, 1, 0, "WindowManagerObjects", objectsSingleton);
 
     qRegisterMetaType<ConcreteScreen*>("ConcreteScreen*");
     qRegisterMetaType<ProxyScreens*>("ProxyScreens*");
     qRegisterMetaType<Workspace*>("Workspace*");
     qRegisterMetaType<TopLevelWindowModel*>("TopLevelWindowModel*");
+    qRegisterMetaType<ScreenConfig*>("ScreenConfig*");
+    qRegisterMetaType<WorkspaceModel*>("WorkspaceModel*");
 
     qRegisterMetaType<Window*>("Window*");
     qRegisterMetaType<QAbstractListModel*>("QAbstractListModel*");

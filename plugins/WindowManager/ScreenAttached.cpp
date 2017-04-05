@@ -21,11 +21,24 @@
 #include <QQuickItem>
 #include <QScreen>
 
+namespace
+{
+QQuickItem* itemForOwner(QObject* obj) {
+    QObject* parent = obj;
+    while(parent) {
+        auto item = qobject_cast<QQuickItem*>(parent);
+        if (item) return item;
+        parent = parent->parent();
+    }
+    return nullptr;
+}
+} // namesapce
+
 ScreenAttached::ScreenAttached(QObject *owner)
     : Screen(owner)
     , m_window(nullptr)
 {
-    if (auto item = qobject_cast<QQuickItem*>(owner)) {
+    if (auto item = itemForOwner(owner)) {
         connect(item, &QQuickItem::windowChanged, this, &ScreenAttached::windowChanged);
         windowChanged(item->window());
     } else if (auto window = qobject_cast<QQuickWindow*>(owner)) {

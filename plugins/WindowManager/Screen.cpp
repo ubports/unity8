@@ -185,6 +185,13 @@ QString Screen::outputTypeName() const
     return QString();
 }
 
+bool Screen::isSameAs(Screen *screen) const
+{
+    if (!screen) return false;
+    if (screen == this) return true;
+    return wrapped() == screen->wrapped();
+}
+
 void Screen::sync(Screen *proxy)
 {
     if (!proxy) return;

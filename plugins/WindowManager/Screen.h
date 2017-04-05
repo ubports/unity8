@@ -47,6 +47,8 @@ public:
     QScreen* qscreen() const;
     QString outputTypeName() const;
 
+    Q_INVOKABLE bool isSameAs(Screen*) const;
+
     Q_INVOKABLE ScreenConfig *beginConfiguration() const;
     Q_INVOKABLE bool applyConfiguration(ScreenConfig *configuration);
 

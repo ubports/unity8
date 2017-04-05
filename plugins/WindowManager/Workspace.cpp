@@ -89,6 +89,7 @@ bool Workspace::isAssigned() const
 
 bool Workspace::isSameAs(Workspace *wks) const
 {
+    if (!wks) return false;
     if (wks == this) return true;
     return wks->workspace() == workspace();
 }
