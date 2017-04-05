@@ -140,6 +140,7 @@ FocusScope {
     function updateFocusedAppOrientationAnimated() { /* TODO */}
 
     function closeSpread() {
+        spreadItem.highlightedIndex = -1;
         priv.goneToSpread = false;
     }
 

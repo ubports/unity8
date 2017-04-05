@@ -1722,6 +1722,7 @@ Rectangle {
                 wait(0); // spin the loop so bindings get evaluated
             }
             tryCompare(closeMouseArea, "enabled", true)
+            waitForRendering(shell)
 
             var countBeforeClickingCloseButton = topLevelSurfaceList.count;
             verify(topLevelSurfaceList.indexForId(surfaceId) === 2);

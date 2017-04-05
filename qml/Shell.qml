@@ -190,12 +190,12 @@ StyledItem {
     }
 
     function startApp(appId) {
-        stage.closeSpread();
         if (!ApplicationManager.findApplication(appId)) {
             ApplicationManager.startApplication(appId);
         }
         print("focusing", appId)
         ApplicationManager.requestFocusApplication(appId);
+        stage.closeSpread();
     }
 
     function startLockedApp(app) {
