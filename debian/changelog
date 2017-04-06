@@ -1,3 +1,10 @@
+unity8 (8.15+17.04.20170404.7-0ubuntu2) zesty; urgency=medium
+
+  [ Michael Zanetti  ]
+  * Make the default store uri point to gnome software center
+
+ -- Timo Jyrinki <timo-jyrinki@ubuntu.com>  Thu, 06 Apr 2017 10:49:29 +0300
+
 unity8 (8.15+17.04.20170404.7-0ubuntu1) zesty; urgency=medium
 
   [ Albert Astals Cid ]
@@ -8149,3 +8156,8 @@ qml-phone-shell (0.1) quantal; urgency=low
   * Initial release
 
  -- Bill Filler <bill.filler@canonical.com>  Wed, 10 Oct 2012 10:19:53 -0400
+unity8 (8.15+17.04.20170404.7-0ubuntu2) zesty; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make the default store uri point to gnome software center
+
