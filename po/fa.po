@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-03-21 10:58+0000\n"
+"POT-Creation-Date: 2017-03-28 21:50+0000\n"
 "PO-Revision-Date: 2016-10-18 07:03+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@gmail.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2017-03-24 06:13+0000\n"
-"X-Generator: Launchpad (build 18334)\n"
+"X-Launchpad-Export-Date: 2017-04-05 07:23+0000\n"
+"X-Generator: Launchpad (build 18335)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -83,7 +83,7 @@ msgid "Log Out"
 msgstr "خروج"
 
 #: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:264
-#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:222
+#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:208
 #: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -169,135 +169,143 @@ msgstr "سوپر + تبدیل + فاصله"
 msgid "Switches to previous keyboard layout."
 msgstr "تعویض به چینش صفحه‌کلید پیشین"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:118
+#: qml/Components/KeyboardShortcutsOverlay.qml:114
+msgid "Ctrl + Alt + T"
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:119
+msgid "Starts the Terminal application."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
 msgstr "اجراگر"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:125
+#: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Super (Hold)"
 msgstr "سوپر (نگه داشتن)"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:130
+#: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens the launcher, displays shortcuts."
 msgstr "گشودن اجراگر، نمایش میان‌برها"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:138
+#: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Alt + F1"
 msgstr "دگرساز ‌+ F1"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:143
+#: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Opens launcher keyboard navigation mode."
 msgstr "گشودن حالت ناوبری با صفحه‌کلید در اجراگر."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:151
+#: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + Tab"
 msgstr "سوپر + جهش"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:156
+#: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Switches applications via the launcher."
 msgstr "تعویض بین برنامه‌ها از طریق اجراگر"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:164
+#: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + 1 to 0"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:169
+#: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
 msgstr "مشابه کلیک روی یک نقشک در اجراگر"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:177
+#: qml/Components/KeyboardShortcutsOverlay.qml:190
 msgid "Super + A"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:182
+#: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:194
+#: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
 msgstr "حوزه‌ها"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:201
+#: qml/Components/KeyboardShortcutsOverlay.qml:214
 msgid "Super (Tap)"
 msgstr "سوپر (ضربه)"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:206
+#: qml/Components/KeyboardShortcutsOverlay.qml:219
 msgid "Opens the Scopes home."
 msgstr "گشودن خانهٔ حوزه‌ها"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:222
+#: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
 msgstr "تعویض کردن"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:229
+#: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Alt + Tab"
 msgstr "دگرساز + جهش"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:234
+#: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Switches between applications."
 msgstr "تعویض بین برنامه‌های کاربردی"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:242
+#: qml/Components/KeyboardShortcutsOverlay.qml:255
 msgid "Super + W"
 msgstr "سوپر + W"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:247
+#: qml/Components/KeyboardShortcutsOverlay.qml:260
 msgid "Opens the desktop spread."
 msgstr "گستردن میزکار"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:255
+#: qml/Components/KeyboardShortcutsOverlay.qml:268
 msgid "Cursor Left or Right"
 msgstr "راست یا چپ مکان‌نما"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:260
+#: qml/Components/KeyboardShortcutsOverlay.qml:273
 msgid "Moves the focus."
 msgstr "جابه‌جایی تمرکز"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:272
+#: qml/Components/KeyboardShortcutsOverlay.qml:285
 msgid "Windows"
 msgstr "پنجره‌ها"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:279
+#: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + D"
 msgstr "مهار + سوپر + D"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:284
+#: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes all windows."
 msgstr "کمینه کردن تمام پنجره‌ها"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:292
+#: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Up"
 msgstr "مهار + سوپر + بالا"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:297
+#: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Maximizes the current window."
 msgstr "بیشینه کردن پنجرهٔ جاری"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:305
+#: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Ctrl + Super + Down"
 msgstr "مهار + سوپر + پایین"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:310
+#: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Minimizes or restores the current window."
 msgstr "کمینه کردن یا بازگردانی پنجرهٔ جاری"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:318
+#: qml/Components/KeyboardShortcutsOverlay.qml:331
 msgid "Ctrl + Super + Left or Right"
 msgstr "مهار + سوپر + راست یا چپ"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:323
+#: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Semi-maximizes the current window."
 msgstr "شبه بیشینه کردن پنجرهٔ جاری"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:331
+#: qml/Components/KeyboardShortcutsOverlay.qml:344
 msgid "Alt + F4"
 msgstr "دگرساز + F4"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:336
+#: qml/Components/KeyboardShortcutsOverlay.qml:349
 msgid "Closes the current window."
 msgstr "بستن پنجرهٔ جاری."
 
-#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:242
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:228
 msgid "Return to Call"
 msgstr "بازگشت به تماس"
 
@@ -494,19 +502,19 @@ msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "لطفاُ %1 دقیقه صبر نموده و سپس مجدّداً تلاش نمایید…"
 
-#: qml/Greeter/Greeter.qml:561
+#: qml/Greeter/Greeter.qml:550
 msgid "Try again"
 msgstr "تلاش دوباره"
 
-#: qml/Greeter/Greeter.qml:562
+#: qml/Greeter/Greeter.qml:551
 msgid "Enter passphrase to unlock"
 msgstr ""
 
-#: qml/Greeter/Greeter.qml:563
+#: qml/Greeter/Greeter.qml:552
 msgid "Enter passcode to unlock"
 msgstr ""
 
-#: qml/Greeter/NarrowView.qml:242
+#: qml/Greeter/NarrowView.qml:228
 msgid "Emergency"
 msgstr "اضطراری"
 
@@ -658,7 +666,7 @@ msgid "Language"
 msgstr "زبان"
 
 #: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:207 qml/Wizard/Pages/40-location.qml:271
+#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
 #: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
 #: qml/Wizard/Pages/70-passwd-type.qml:145
 #: qml/Wizard/Pages/75-report-check.qml:84
@@ -679,25 +687,24 @@ msgstr "زبان صفحه‌کلید"
 msgid "Keyboard layout"
 msgstr "چینش صفحه‌کلید"
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:207
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/77-system-update.qml:152
-#: qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:206
+#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "پرش"
 
-#: qml/Wizard/Pages/30-wifi.qml:31
+#: qml/Wizard/Pages/30-wifi.qml:30
 msgid "Connect to Wi‑Fi"
 msgstr "اتّصال به بی‌سیم"
 
-#: qml/Wizard/Pages/30-wifi.qml:132
+#: qml/Wizard/Pages/30-wifi.qml:131
 msgid "Connected"
 msgstr "وصل شده"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:164
 msgid "Available Wi-Fi networks"
 msgstr "شبکه‌های وای‌فای موجود"
 
-#: qml/Wizard/Pages/30-wifi.qml:166
+#: qml/Wizard/Pages/30-wifi.qml:165
 msgid "No available Wi-Fi networks"
 msgstr "هیج شبکهٔ وای‌فایی موجود نیست"
 
@@ -785,37 +792,6 @@ msgstr "کارایی سامانه با ارسال گزارش‌های خطا ب�
 #: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Privacy policy"
 msgstr "سیاست محرمانگی"
-
-#: qml/Wizard/Pages/77-system-update.qml:28
-msgid "Update Device"
-msgstr "به‌روز رسانی افزاره"
-
-#: qml/Wizard/Pages/77-system-update.qml:55
-msgid ""
-"There is a system update available and ready to install. Afterwards, the "
-"device will automatically restart."
-msgstr ""
-"یک به‌روز رسانی سامانه‌ای موجود و آمادهٔ نصب است. پس از آن، دستگاه به صورت "
-"خودکار خاموش و روشن می‌شود."
-
-#: qml/Wizard/Pages/77-system-update.qml:76
-msgctxt "string identifying name of the update"
-msgid "Ubuntu system"
-msgstr "سامانهٔ اوبونتو"
-
-#: qml/Wizard/Pages/77-system-update.qml:83
-#, qt-format
-msgctxt "version of the system update"
-msgid "Version %1"
-msgstr "نگارش %1"
-
-#: qml/Wizard/Pages/77-system-update.qml:102
-msgid "This could take a few minutes..."
-msgstr "ممکن است چند دقیقه طول بکشد"
-
-#: qml/Wizard/Pages/77-system-update.qml:116
-msgid "Install and restart now"
-msgstr "هم‌اکنون نصب و خاموش و روشن شود"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
@@ -1386,3 +1362,28 @@ msgstr "گذرواژهٔ خیلی ضعیف"
 
 #~ msgid "Super + 0 to 9"
 #~ msgstr "سوپر + ۰ تا ۹"
+
+#~ msgctxt "string identifying name of the update"
+#~ msgid "Ubuntu system"
+#~ msgstr "سامانهٔ اوبونتو"
+
+#~ msgid "Update Device"
+#~ msgstr "به‌روز رسانی افزاره"
+
+#~ msgid ""
+#~ "There is a system update available and ready to install. Afterwards, the "
+#~ "device will automatically restart."
+#~ msgstr ""
+#~ "یک به‌روز رسانی سامانه‌ای موجود و آمادهٔ نصب است. پس از آن، دستگاه به صورت "
+#~ "خودکار خاموش و روشن می‌شود."
+
+#~ msgid "Install and restart now"
+#~ msgstr "هم‌اکنون نصب و خاموش و روشن شود"
+
+#, qt-format
+#~ msgctxt "version of the system update"
+#~ msgid "Version %1"
+#~ msgstr "نگارش %1"
+
+#~ msgid "This could take a few minutes..."
+#~ msgstr "ممکن است چند دقیقه طول بکشد"
