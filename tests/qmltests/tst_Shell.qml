@@ -2708,7 +2708,6 @@ Rectangle {
             dashAppDelegate.windowedY = data.windowY;
             topLevelSurfaceList.inputMethodSurface.setInputBounds(Qt.rect(0, 0, 0, 0));
             var initialY = dashAppDelegate.y;
-            print("intial", initialY, "panel", panelState.panelHeight);
             verify(initialY > panelState.panelHeight);
 
             topLevelSurfaceList.inputMethodSurface.setInputBounds(Qt.rect(0, root.height / 2, root.width, root.height / 2));

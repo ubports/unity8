@@ -573,14 +573,12 @@ FocusScope {
             from: "stagedRightEdge,sideStagedRightEdge,windowedRightEdge"; to: "spread"
             PropertyAction { target: spreadItem; property: "highlightedIndex"; value: -1 }
             PropertyAction { target: screensAndWorkspaces; property: "activeWorkspace"; value: WMScreen.currentWorkspace }
-            ScriptAction { script: { print("blabal***********************", WMScreen.currentWorkspace) } }
             PropertyAnimation { target: blurLayer; properties: "brightness,blurRadius"; duration: priv.animationDuration }
             UbuntuNumberAnimation { target: screensAndWorkspaces; property: "opacity"; duration: priv.animationDuration }
         },
         Transition {
             to: "spread"
             PropertyAction { target: screensAndWorkspaces; property: "activeWorkspace"; value: WMScreen.currentWorkspace }
-            ScriptAction { script: { print("blabal***********************", WMScreen.currentWorkspace) } }
             PropertyAction { target: spreadItem; property: "highlightedIndex"; value: appRepeater.count > 1 ? 1 : 0 }
             PropertyAction { target: floatingFlickable; property: "contentX"; value: 0 }
             UbuntuNumberAnimation { target: screensAndWorkspaces; property: "opacity"; duration: priv.animationDuration }
@@ -1680,9 +1678,6 @@ FocusScope {
                         }
                     }
                 ]
-                onStateChanged: {
-                    print("item", index, "state changed", state)
-                }
 
                 transitions: [
                     Transition {

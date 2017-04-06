@@ -66,7 +66,6 @@ Rectangle {
         }
 
         Component.onCompleted: {
-            print("starting dash")
             ApplicationManager.startApplication("unity8-dash");
         }
     }
@@ -143,10 +142,8 @@ Rectangle {
         function init() {
             stageSaver.clear();
 
-            print("blllaaaaaaaaa")
             ApplicationManager.startApplication("unity8-dash");
             tryCompare(topLevelSurfaceList, "count", 1);
-            print("have", topLevelSurfaceList.count, "surfaces")
             compare(topLevelSurfaceList.applicationAt(0).appId, "unity8-dash");
 
             // this is very strange, but sometimes the test starts without
@@ -168,7 +165,6 @@ Rectangle {
             waitUntilAppSurfaceShowsUp(topLevelSurfaceList.idAt(0));
             sideStage.hideNow()
             tryCompare(sideStage, "x", stage.width)
-            print("still have", topLevelSurfaceList.count, "surfaces")
 
         }
 
@@ -602,7 +598,6 @@ Rectangle {
 
         function test_loadSideStageByDraggingFromMainStage() {
             sideStage.showNow();
-            print("sidestage now shown. launching browser")
             var webbrowserSurfaceId = topLevelSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);

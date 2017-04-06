@@ -66,8 +66,6 @@ FocusScope {
         fillMode: MirSurfaceItem.PadOrCrop
         consumesInput: true
 
-        onSurfaceChanged: print("surface changed", surface, implicitWidth, implicitHeight)
-
         surfaceWidth: root.requestedWidth
         surfaceHeight: root.requestedHeight
 

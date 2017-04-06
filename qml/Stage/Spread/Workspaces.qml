@@ -116,13 +116,6 @@ Item {
             leftMargin: itemWidth
             rightMargin: itemWidth
 
-            Connections {
-                target: screen
-                onAvailableModesChanged: {
-                    print("blabla", screen.availableModes[screen.currentModeIndex].size.width, screen.availableModes[screen.currentModeIndex].size.height)
-                }
-            }
-
             property int screenWidth: screen.availableModes[screen.currentModeIndex].size.width
             property int screenHeight: screen.availableModes[screen.currentModeIndex].size.height
             property int itemWidth: height * screenWidth / screenHeight
@@ -155,7 +148,6 @@ Item {
                 var upperLimit = dropItemIndex == -1 ? listView.count : listView.count - 1
                 if (index > upperLimit) index = upperLimit;
                 listView.hoveredWorkspaceIndex = index;
-                print("updating drag:", (drag.x + listView.realContentX) % (listView.itemWidth + listView.spacing))
                 var pixelsInTile = (drag.x + listView.realContentX) % (listView.itemWidth + listView.spacing);
                 listView.hoveredHalf = (pixelsInTile / listView.itemWidth) < .5 ? "left" : "right";
             }
@@ -238,8 +230,6 @@ Item {
 
                     return 0
                 }
-
-    //            onItemXChanged: if (index == 1) print("x", itemX, listView.contentX)
 
                 z: itemOffset < 0 ? itemOffset : -itemOffset
                 transform: [
@@ -347,11 +337,8 @@ Item {
                 property bool dragging: drag.active
                 onDraggingChanged: {
                     if (drag.active) {
-                        print("drai", draggedIndex)
                         var ws = listView.model.get(draggedIndex);
-                        print("ws:", ws)
-                        ws.unassign();
-    //                    listView.model.remove(draggedIndex, 1)
+                        if (ws) ws.unassign();
                     }
                 }
 

@@ -13,7 +13,6 @@ Item {
     property var screensProxy: Screens.createProxy();
 
     property QtObject activeWorkspace: null
-    onActiveWorkspaceChanged: print("********************* active workspace changed:", activeWorkspace)
 
     signal closeSpread();
 

@@ -50,7 +50,6 @@ FocusScope {
         // transitions in stateGroup take place.
         // More specifically, the moment surfaceContainer.surface gets updated relative to the
         // other instructions.
-        print("AAA surface changed,", surface)
         if (surface) {
             surfaceContainer.surface = surface;
             surfaceInitTimer.start();
@@ -60,12 +59,8 @@ FocusScope {
         }
     }
 
-    Component.onCompleted: print("AAA completed")
     QtObject {
         id: d
-
-        onHadSurfaceChanged: print("AAA had surface changed,", hadSurface)
-        onSurfaceInitializedChanged: print("AAA surface initialized changed", surfaceInitialized)
 
         // helpers so that we don't have to check for the existence of an application everywhere
         // (in order to avoid breaking qml binding due to a javascript exception)

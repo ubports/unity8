@@ -101,7 +101,6 @@ StyledItem {
         if (!WMScreen.currentWorkspace) return null;
         return stage.temporarySelectedWorkspace ? stage.temporarySelectedWorkspace.windowModel : WMScreen.currentWorkspace.windowModel
     }
-    onTopLevelSurfaceListChanged: print("**********************  have new TLSL", topLevelSurfaceList)
 
     onMainAppChanged: {
         if (mainApp) {
@@ -193,7 +192,6 @@ StyledItem {
         if (!ApplicationManager.findApplication(appId)) {
             ApplicationManager.startApplication(appId);
         }
-        print("focusing", appId)
         ApplicationManager.requestFocusApplication(appId);
         stage.closeSpread();
     }

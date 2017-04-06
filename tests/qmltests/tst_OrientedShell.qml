@@ -1521,7 +1521,6 @@ Rectangle {
             }
             var point = surfaceItem.mapToItem(orientedShell, 0, 0);
 
-            print("exptectedAngle", expectedAngle, point.x, point.y)
             switch (expectedAngle) {
             case 0:
                 return point.x === 0 && point.y === panelState.panelHeight;
