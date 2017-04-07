@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-03-28 21:50+0000\n"
+"POT-Creation-Date: 2017-04-04 22:56+0000\n"
 "PO-Revision-Date: 2015-07-06 05:33+0000\n"
 "Last-Translator: ☠Jay ZDLin☠ <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2017-04-05 07:23+0000\n"
-"X-Generator: Launchpad (build 18335)\n"
+"X-Launchpad-Export-Date: 2017-04-07 06:30+0000\n"
+"X-Generator: Launchpad (build 18343)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -43,11 +43,11 @@ msgstr "Войти"
 msgid "Retry"
 msgstr "Повторить"
 
-#: plugins/LightDM/UsersModel.cpp:152
+#: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
 msgstr ""
 
-#: plugins/LightDM/UsersModel.cpp:160
+#: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
 msgstr "Гостевой сеанс"
 
@@ -529,15 +529,15 @@ msgstr "Идентификационная фраза"
 msgid "Passcode"
 msgstr "Секретный код"
 
-#: qml/Greeter/SessionsList.qml:122
+#: qml/Greeter/SessionsList.qml:124
 msgid "Select desktop environment"
 msgstr "Выберите окружение рабочего стола"
 
-#: qml/Launcher/Drawer.qml:93
+#: qml/Launcher/Drawer.qml:94
 msgid "Search…"
 msgstr "Найти..."
 
-#: qml/Launcher/Drawer.qml:128
+#: qml/Launcher/Drawer.qml:129
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""
