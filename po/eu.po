@@ -2,19 +2,20 @@
 # Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
 # This file is distributed under the same license as the unity8 package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+# Aitzol Berasategi <aitzol76@gmail.com>, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2017-03-28 21:50+0000\n"
-"PO-Revision-Date: 2017-06-21 22:01+0000\n"
+"PO-Revision-Date: 2017-06-22 19:34+0200\n"
 "Last-Translator: Aitzol Berasategi <aitzol76@gmail.com>\n"
-"Language-Team: Euskara, Basque <aitzol76@gmail.com>\n"
+"Language-Team: Euskara <aitzol76@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Launchpad-Export-Date: 2017-04-05 07:22+0000\n"
 "X-Generator: Poedit 1.8.7.1\n"
 "Language: eu\n"
@@ -334,10 +335,11 @@ msgstr "Aplikazioak gorde gabeko datuak izan ditzake:"
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
-msgstr "Birkonektatu, gorde zure lana eta jarraitzeko itxi aplikazio hauek.
+msgstr "Birkonektatu, gorde zure lana eta jarraitzeko itxi aplikazio hauek."
+
 #: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
-msgstr "Edo behartu orain ixtera(gorde gabeko datuak galduko dira)."
+msgstr "Edo behartu orain ixtera(gorde gabeko datuak galdu egingo dira)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:80
 msgid "OK, I will reconnect"
@@ -360,8 +362,8 @@ msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
-"Orain zure gailua kanpoko monitore bati konektaturik dago. Zure gailuaren pantaila "
-"touch pad moduan erabili punteroa gidatu ahal izateko."
+"Orain zure gailua kanpoko monitore bati konektaturik dago. Zure gailuaren "
+"pantaila touch pad moduan erabili punteroa gidatu ahal izateko."
 
 #: qml/Components/VirtualTouchPad.qml:327
 msgid "Tap left button to click."
@@ -648,13 +650,11 @@ msgstr "Irristatze laburra ezkerreko ertzetik abiarazlea irekitzeko"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
-msgstr "Irekitako aplikazioak ikusteko bultza sagua eskuineko ertzaren "
-"aurka"
+msgstr "Irekitako aplikazioak ikusteko bultza sagua eskuineko ertzaren aurka"
 
 #: qml/Tutorial/TutorialRight.qml:56
 msgid "Swipe from the right edge to view your open apps"
-msgstr "Irristatu eskuineko ertzetik irekitako aplikazioak "
-"ikusteko"
+msgstr "Irristatu eskuineko ertzetik irekitako aplikazioak ikusteko"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
@@ -710,8 +710,7 @@ msgstr "Wi-Fi sare erabilgarriak"
 
 #: qml/Wizard/Pages/30-wifi.qml:165
 msgid "No available Wi-Fi networks"
-msgstr "Ez dago Wi-Fi sare "
-"erabilgarririk"
+msgstr "Ez dago Wi-Fi sare erabilgarririk"
 
 #: qml/Wizard/Pages/40-location.qml:27
 msgid "Location Services"
@@ -804,8 +803,7 @@ msgstr "Ongi etorri Ubuntu-ra"
 
 #: qml/Wizard/Pages/80-finished.qml:104
 msgid "You are ready to use your device now"
-msgstr "Orain zure gailua erabiltzeko "
-"prest zaude"
+msgstr "Orain zure gailua erabiltzeko prest zaude"
 
 #: qml/Wizard/Pages/80-finished.qml:124
 msgid "Get Started"
@@ -817,8 +815,8 @@ msgstr "Baldintzak"
 
 #: qml/Wizard/Pages/here-terms.qml:69
 msgid "Your device uses positioning technologies provided by HERE."
-msgstr "Zure gailuak HERE-ek eskeinitako posizionamendu teknologiak "
-"darabiltza."
+msgstr ""
+"Zure gailuak HERE-ek eskeinitako posizionamendu teknologiak darabiltza."
 
 #: qml/Wizard/Pages/here-terms.qml:81
 msgid ""
@@ -888,8 +886,7 @@ msgstr "Pasakodeak ez dira berdinak"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr "Pasakodeak 4 karakterreko luzera "
-"izan behar du"
+msgstr "Pasakodeak 4 karakterreko luzera izan behar du"
 
 #: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
@@ -909,8 +906,7 @@ msgstr "Baieztatu pasahitza"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
-msgstr "Ez dago SIM txartelik "
-"instalaturik"
+msgstr "Ez dago SIM txartelik instalaturik"
 
 #: qml/Wizard/Pages/sim.qml:54
 msgid "SIM card added"
@@ -1056,8 +1052,8 @@ msgstr "Pasahitz oso ahula"
 #~ msgstr "Ziur itzali nahi duzula?"
 
 #~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
-#~ "and all personal data will be deleted."
+#~ "If passcode is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
 #~ msgstr ""
 #~ "Okerreko pasakodea sartzen baduzu, telefonoaren jatorrizko ezarpenak "
 #~ "berrezarri eta datu pertsonal guztiak ezabatuko dira."
@@ -1077,8 +1073,8 @@ msgstr "Pasahitz oso ahula"
 
 #~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
 #~ msgstr ""
-#~ "Pasatu hatza ezkerretik abiarazlea erakutsi eta aplikazioak berehala eskura "
-#~ "izateko"
+#~ "Pasatu hatza ezkerretik abiarazlea erakutsi eta aplikazioak berehala "
+#~ "eskura izateko"
 
 #~ msgid "Confirm"
 #~ msgstr "Berretsi"
@@ -1086,7 +1082,6 @@ msgstr "Pasahitz oso ahula"
 #~ msgid "Manage Scopes"
 #~ msgstr "Kudeatu eremuak"
 
-#, qt-format
 #~ msgid "Enter %1"
 #~ msgstr "Sartu %1"
 
@@ -1105,7 +1100,6 @@ msgstr "Pasahitz oso ahula"
 #~ msgid "Sorry, incorrect passcode."
 #~ msgstr "Sentitzen dugu, pasakodea okerra da."
 
-#, qt-format
 #~ msgid "Sorry, incorrect %1"
 #~ msgstr "Sentitzen dugu, %1 okerra da"
 
@@ -1143,8 +1137,8 @@ msgstr "Pasahitz oso ahula"
 #~ msgstr "Geroago ere alda dezakezu <b>Sistemaren ezarpenetan</b>."
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
+#~ "and conditions</a>."
 #~ msgstr ""
 #~ "Aukera hau hautatuz, Nokia HERE(r)en <a href='#'>baldintzak</a> onartzen "
 #~ "dituzu."
@@ -1204,11 +1198,9 @@ msgstr "Pasahitz oso ahula"
 #~ msgid "Confirm passphrase"
 #~ msgstr "Berretsi pasaesaldia"
 
-#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
-#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
