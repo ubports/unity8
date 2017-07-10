@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2017-03-28 21:50+0000\n"
-"PO-Revision-Date: 2016-06-20 11:37+0000\n"
+"PO-Revision-Date: 2017-06-23 10:07+0000\n"
 "Last-Translator: Ivo Xavier <ivoxavier.8@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -171,11 +171,11 @@ msgstr "Troca para o anterior layout do teclado."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
 msgid "Ctrl + Alt + T"
-msgstr ""
+msgstr "Ctrl + Alt + T"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
 msgid "Starts the Terminal application."
-msgstr ""
+msgstr "Inicia o terminal."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"

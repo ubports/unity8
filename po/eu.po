@@ -2,21 +2,23 @@
 # Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
 # This file is distributed under the same license as the unity8 package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+# Aitzol Berasategi <aitzol76@gmail.com>, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2017-03-28 21:50+0000\n"
-"PO-Revision-Date: 2015-07-13 23:29+0000\n"
-"Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
-"Language-Team: Basque <eu@li.org>\n"
+"PO-Revision-Date: 2017-06-22 19:34+0200\n"
+"Last-Translator: Aitzol Berasategi <aitzol76@gmail.com>\n"
+"Language-Team: Euskara <aitzol76@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Launchpad-Export-Date: 2017-04-05 07:22+0000\n"
-"X-Generator: Launchpad (build 18335)\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"Language: eu\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -24,19 +26,19 @@ msgstr "Pasahitza: "
 
 #: plugins/LightDM/Greeter.cpp:203
 msgid "Username"
-msgstr ""
+msgstr "Erabiltzailea"
 
 #: plugins/LightDM/Greeter.cpp:242
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "Autentikazioak huts egin du"
 
 #: plugins/LightDM/Greeter.cpp:244
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "Pasahitz okerra, saiatu zaitez berriro"
 
 #: plugins/LightDM/Greeter.cpp:254
 msgid "Log In"
-msgstr ""
+msgstr "Saioa hasi"
 
 #: plugins/LightDM/Greeter.cpp:254
 msgid "Retry"
@@ -44,11 +46,11 @@ msgstr "Saiatu berriz"
 
 #: plugins/LightDM/UsersModel.cpp:152
 msgid "Login"
-msgstr ""
+msgstr "Saioa hasi"
 
 #: plugins/LightDM/UsersModel.cpp:160
 msgid "Guest Session"
-msgstr ""
+msgstr "Gonbidatu saioa"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
@@ -109,7 +111,7 @@ msgstr "Bai"
 #: qml/Components/Dialogs.qml:239
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr "Itzali"
+msgstr "Hornidura"
 
 #: qml/Components/Dialogs.qml:240
 msgid ""
@@ -129,7 +131,7 @@ msgstr "Berrabiarazi"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "Teklatuaren Lasterbideak"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Unity 8"
@@ -141,15 +143,15 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr ""
+msgstr "Pantaila argazkia bat egin."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
-msgstr ""
+msgstr "Alt + ImprPant"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of the current window."
-msgstr ""
+msgstr "Uneko lehioaren argazki bat egin."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -157,7 +159,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr ""
+msgstr "Hurrengo teklatu eremura igaro."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
@@ -165,7 +167,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr ""
+msgstr "Aurreko teklatu eremura igaro."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
 msgid "Ctrl + Alt + T"
@@ -173,11 +175,11 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
 msgid "Starts the Terminal application."
-msgstr ""
+msgstr "Terminal aplikazioa abiarazi."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
-msgstr ""
+msgstr "Abiarazlea"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Super (Hold)"
@@ -185,7 +187,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens the launcher, displays shortcuts."
-msgstr ""
+msgstr "Abiarazlea ireki eta lasterbideak erakutsi."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Alt + F1"
@@ -193,7 +195,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Opens launcher keyboard navigation mode."
-msgstr ""
+msgstr "Abiarazlea ireki teklatu nabigazio moduan."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + Tab"
@@ -201,7 +203,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Switches applications via the launcher."
-msgstr ""
+msgstr "Aplikazioz aldatu abiarazlearen bidez."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + 1 to 0"
@@ -209,7 +211,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
-msgstr ""
+msgstr "Abiarazlearen ikono bat sakatzea bezala."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
 msgid "Super + A"
@@ -217,11 +219,11 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
-msgstr ""
+msgstr "Aplikazioen kutxa ireki."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
-msgstr ""
+msgstr "Eremuak"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:214
 msgid "Super (Tap)"
@@ -229,11 +231,11 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:219
 msgid "Opens the Scopes home."
-msgstr ""
+msgstr "Eremuen hasiera ireki."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
-msgstr ""
+msgstr "Aldatzea"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Alt + Tab"
@@ -241,7 +243,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Switches between applications."
-msgstr ""
+msgstr "Aplikazio artean aldatu."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:255
 msgid "Super + W"
@@ -249,19 +251,19 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:260
 msgid "Opens the desktop spread."
-msgstr ""
+msgstr "Mahaigaineko leihoak erakutsi."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:268
 msgid "Cursor Left or Right"
-msgstr ""
+msgstr "Ezker edo Eskuin kurtsorea."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:273
 msgid "Moves the focus."
-msgstr ""
+msgstr "Fokua mugitu"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:285
 msgid "Windows"
-msgstr ""
+msgstr "Lehioak"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + D"
@@ -269,7 +271,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes all windows."
-msgstr ""
+msgstr "Lehio guztiak minimizatu"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Up"
@@ -277,7 +279,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Maximizes the current window."
-msgstr ""
+msgstr "Uneko leihoa maximizatu."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Ctrl + Super + Down"
@@ -285,7 +287,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Minimizes or restores the current window."
-msgstr ""
+msgstr "Uneko leihoa minimizatu edo berrezarri."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:331
 msgid "Ctrl + Super + Left or Right"
@@ -293,7 +295,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Semi-maximizes the current window."
-msgstr ""
+msgstr "Uneko leihoa erdi-maximizatu."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:344
 msgid "Alt + F4"
@@ -301,7 +303,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:349
 msgid "Closes the current window."
-msgstr ""
+msgstr "Uneko leihoa itxi."
 
 #: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:228
 msgid "Return to Call"
@@ -327,55 +329,57 @@ msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:33
 msgid "Apps may have unsaved data:"
-msgstr ""
+msgstr "Aplikazioak gorde gabeko datuak izan ditzake:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:60
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
-msgstr ""
+msgstr "Birkonektatu, gorde zure lana eta jarraitzeko itxi aplikazio hauek."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
-msgstr ""
+msgstr "Edo behartu orain ixtera(gorde gabeko datuak galdu egingo dira)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:80
 msgid "OK, I will reconnect"
-msgstr ""
+msgstr "Ados, birkonektatu egingo naiz"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:81
 msgid "Reconnect now!"
-msgstr ""
+msgstr "Orain birkonektatu!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:94
 msgid "Close all"
-msgstr ""
+msgstr "Itxi dena"
 
 #: qml/Components/SharingPicker.qml:54
 msgid "Preview Share Item"
-msgstr ""
+msgstr "Aurreikusi Elkarbanatutako Elementua"
 
 #: qml/Components/VirtualTouchPad.qml:317
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
+"Orain zure gailua kanpoko monitore bati konektaturik dago. Zure gailuaren "
+"pantaila touch pad moduan erabili punteroa gidatu ahal izateko."
 
 #: qml/Components/VirtualTouchPad.qml:327
 msgid "Tap left button to click."
-msgstr ""
+msgstr "klikatzeko sakatu ezkerreko botoia."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "Eskuin-klika egiteko sakatu eskuineko botoia."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "Mugitzeko bi hatzez irristatu."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "Aurkitu aukera gehiago sistemako ezarpenetan."
 
 #: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
@@ -402,19 +406,19 @@ msgstr "Gehitu gogokoetara"
 
 #: qml/Dash/FiltersPopover.qml:61
 msgid "Refine your results"
-msgstr ""
+msgstr "Zure emaitzak findu"
 
 #: qml/Dash/FiltersPopover.qml:70
 msgid "Reset"
-msgstr ""
+msgstr "Berrezarri"
 
 #: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
 msgid "Show less"
-msgstr ""
+msgstr "Gutxiago erakutsi"
 
 #: qml/Dash/GenericScopeView.qml:547
 msgid "Show all"
-msgstr ""
+msgstr "Denak erakutsi"
 
 #: qml/Dash/GenericScopeView.qml:578
 msgctxt "Label: Hint for dash search line edit"
@@ -423,11 +427,11 @@ msgstr "Bilatu"
 
 #: qml/Dash/PageHeaderExtraPanel.qml:67
 msgid "Recent Searches"
-msgstr ""
+msgstr "Azken bilaketak"
 
 #: qml/Dash/PageHeaderExtraPanel.qml:78
 msgid "Clear All"
-msgstr ""
+msgstr "Garbitu dena"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:36
 msgid "More..."
@@ -444,11 +448,11 @@ msgstr "Bidali"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:109
 msgid "Rate this"
-msgstr "Puntuatu hau"
+msgstr "Balioztatu hau"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:184
 msgid "Add a review"
-msgstr "Gehitu kritika"
+msgstr "Berrikuspena gehitu"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:56
 msgid "Pull to refresh…"
@@ -502,35 +506,35 @@ msgstr[1] "Itxaron %1 minutuz eta saiatu berriro…"
 
 #: qml/Greeter/Greeter.qml:550
 msgid "Try again"
-msgstr ""
+msgstr "Saiatu berriro"
 
 #: qml/Greeter/Greeter.qml:551
 msgid "Enter passphrase to unlock"
-msgstr ""
+msgstr "Sartu pasaesaldia desblokeatzeko"
 
 #: qml/Greeter/Greeter.qml:552
 msgid "Enter passcode to unlock"
-msgstr ""
+msgstr "Sartu pasakodea desblokeatzeko"
 
 #: qml/Greeter/NarrowView.qml:228
 msgid "Emergency"
-msgstr ""
+msgstr "Larrialdia"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passphrase"
-msgstr ""
+msgstr "Pasaesaldia"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passcode"
-msgstr ""
+msgstr "Pasakodea"
 
 #: qml/Greeter/SessionsList.qml:122
 msgid "Select desktop environment"
-msgstr ""
+msgstr "Hautatu Mahaigain ingurunea"
 
 #: qml/Launcher/Drawer.qml:93
 msgid "Search…"
-msgstr ""
+msgstr "Bilatu…"
 
 #: qml/Launcher/Drawer.qml:128
 msgctxt "Apps sorted alphabetically"
@@ -539,7 +543,7 @@ msgstr ""
 
 #: qml/Launcher/MoreAppsHeader.qml:55
 msgid "More apps in the store"
-msgstr ""
+msgstr "Aplikazio gehiago dendan"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -616,7 +620,7 @@ msgstr "Huts egin du, sakatu berriro saiatzeko"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:210
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "Bidali"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:152
 msgctxt "Label: Hint in message indicator line edit"
@@ -626,35 +630,35 @@ msgstr "Erantzun"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:209
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr ""
+msgstr "Deia itzuli"
 
 #: qml/Panel/PanelMenuPage.qml:92
 msgid "Back"
-msgstr ""
+msgstr "Itzuli"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
-msgstr ""
+msgstr "Arrastratu 3 hatzez edozein aplikazio lehio batetik beste batetara"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
 msgid "Long swipe from the left edge to open the Application Drawer"
-msgstr ""
+msgstr "Irristatze luzea ezkerreko ertzetik Aplikazio Kutxa irekitzeko"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
-msgstr ""
+msgstr "Irristatze laburra ezkerreko ertzetik abiarazlea irekitzeko"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
-msgstr ""
+msgstr "Irekitako aplikazioak ikusteko bultza sagua eskuineko ertzaren aurka"
 
 #: qml/Tutorial/TutorialRight.qml:56
 msgid "Swipe from the right edge to view your open apps"
-msgstr ""
+msgstr "Irristatu eskuineko ertzetik irekitako aplikazioak ikusteko"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
-msgstr ""
+msgstr "Irristatu goiko ertzetik jakinarazpenak eta ezarpenak kudeatzeko"
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
@@ -663,7 +667,7 @@ msgstr "Atzera"
 
 #: qml/Wizard/Pages/10-welcome.qml:28
 msgid "Language"
-msgstr ""
+msgstr "Hizkuntza"
 
 #: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
 #: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
@@ -673,19 +677,19 @@ msgstr ""
 #: qml/Wizard/Pages/passcode-desktop.qml:142
 #: qml/Wizard/Pages/password-set.qml:142
 msgid "Next"
-msgstr ""
+msgstr "Hurrengoa"
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
-msgstr ""
+msgstr "Teklatua hautatu"
 
 #: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
-msgstr ""
+msgstr "Teklatu hizkuntza"
 
 #: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
-msgstr ""
+msgstr "Teklatu diseinua"
 
 #: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:206
 #: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/sim.qml:101
@@ -698,110 +702,112 @@ msgstr "Konektatu wifira"
 
 #: qml/Wizard/Pages/30-wifi.qml:131
 msgid "Connected"
-msgstr ""
+msgstr "Konektatuta"
 
 #: qml/Wizard/Pages/30-wifi.qml:164
 msgid "Available Wi-Fi networks"
-msgstr ""
+msgstr "Wi-Fi sare erabilgarriak"
 
 #: qml/Wizard/Pages/30-wifi.qml:165
 msgid "No available Wi-Fi networks"
-msgstr ""
+msgstr "Ez dago Wi-Fi sare erabilgarririk"
 
 #: qml/Wizard/Pages/40-location.qml:27
 msgid "Location Services"
-msgstr ""
+msgstr "Kokapen Zerbitzuak"
 
 #: qml/Wizard/Pages/40-location.qml:83
 msgid ""
 "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
 "(recommended)"
 msgstr ""
+"Erabili GPS-a, Wi-Fi sarbide puntuak eta mugikor sareak anonimoki kokapena "
+"zehazteko (gomendatua)"
 
 #: qml/Wizard/Pages/40-location.qml:105
 #, qt-format
 msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr ""
+msgstr "Aukera hau hautatuz Nokia HERE-en %1-ak onartzen dituzu."
 
 #: qml/Wizard/Pages/40-location.qml:106
 msgctxt "part of: Nokia HERE terms and conditions"
 msgid "terms and conditions"
-msgstr ""
+msgstr "zehaztapen eta baldintzak"
 
 #: qml/Wizard/Pages/40-location.qml:160
 msgid "GPS only"
-msgstr ""
+msgstr "GPS-a soilik"
 
 #: qml/Wizard/Pages/40-location.qml:214
 msgid "Don't use my location"
-msgstr ""
+msgstr "Ez erabili nere kokapena"
 
 #: qml/Wizard/Pages/40-location.qml:260
 msgid "You can change it later in System Settings."
-msgstr ""
+msgstr "Beranduago alda dezakezu Sistemako Ezarpenetan."
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
-msgstr ""
+msgstr "Ordu Eremua"
 
 #: qml/Wizard/Pages/50-timezone.qml:182
 msgid "Enter your city"
-msgstr ""
+msgstr "Sartu zure hiria"
 
 #: qml/Wizard/Pages/60-account.qml:24
 msgid "Personalize Your Device"
-msgstr ""
+msgstr "Pertsonalizatu Zure Gailua"
 
 #: qml/Wizard/Pages/60-account.qml:48
 msgid "Preferred Name"
-msgstr ""
+msgstr "Gogoko Izena"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:40
 msgid "Lock Screen"
-msgstr ""
+msgstr "Pantaila Blokeatu"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:102
 msgctxt "Label: Type of security method"
 msgid "Create new password"
-msgstr ""
+msgstr "Pasahitz berria sortu"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:104
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
-msgstr ""
+msgstr "Pasakodea sortu (zenbakiak soilik)"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:106
 msgctxt "Label: Type of security method"
 msgid "No lock code"
-msgstr ""
+msgstr "Blokeo koderik gabe"
 
 #: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Pribatasun Politika"
 
 #: qml/Wizard/Pages/75-report-check.qml:26
 msgid "Help Us Improve"
-msgstr ""
+msgstr "Lagundu Hobetzen"
 
 #: qml/Wizard/Pages/75-report-check.qml:59
 msgid "Improve system performance by sending us crashes and error reports."
-msgstr ""
+msgstr "Lagundu sistema hobetzen hutsegiteak eta akatsen txostenak bidaliz."
 
 #: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Privacy policy"
-msgstr ""
+msgstr "Pribatasun politika"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
-msgstr ""
+msgstr "Ongi etorri Ubuntu-ra"
 
 #: qml/Wizard/Pages/80-finished.qml:104
 msgid "You are ready to use your device now"
-msgstr ""
+msgstr "Orain zure gailua erabiltzeko prest zaude"
 
 #: qml/Wizard/Pages/80-finished.qml:124
 msgid "Get Started"
-msgstr ""
+msgstr "Hasi ba"
 
 #: qml/Wizard/Pages/here-terms.qml:25
 msgid "Terms & Conditions"
@@ -810,6 +816,7 @@ msgstr "Baldintzak"
 #: qml/Wizard/Pages/here-terms.qml:69
 msgid "Your device uses positioning technologies provided by HERE."
 msgstr ""
+"Zure gailuak HERE-ek eskeinitako posizionamendu teknologiak darabiltza."
 
 #: qml/Wizard/Pages/here-terms.qml:81
 msgid ""
@@ -817,21 +824,26 @@ msgid ""
 "collects information about nearby cell towers and Wi-Fi hotspots around your "
 "current location whenever your position is being found."
 msgstr ""
+"Kokapen zerbitzu hobea eskeintzeko eta kalitatea hobetzeko, HERE-ek zure "
+"inguruko telefonia antenak eta Wi-Fi sarbide puntuak erabiltzen ditu zure "
+"kokapena bilatzen duenean."
 
 #: qml/Wizard/Pages/here-terms.qml:93
 msgid ""
 "The information collected is used to analyze the service and to improve the "
 "use of service, but not to identify you personally."
 msgstr ""
+"Bildutako informazioa zerbitzua aztertzeko eta zerbitzuaren erabilpena "
+"hobetzeko erabiltzen da, baina ez zu pertsonalki identifikatzeko."
 
 #: qml/Wizard/Pages/here-terms.qml:106
 #, qt-format
 msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr ""
+msgstr "Jarraituz gero, HERE plataformaren %1 eta %2 onartzen dituzu."
 
 #: qml/Wizard/Pages/here-terms.qml:107
 msgid "Service Terms"
-msgstr ""
+msgstr "Zerbitzuaren Baldintzak"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:97
@@ -840,69 +852,69 @@ msgstr "Berretsi pasakodea"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
-msgstr ""
+msgstr "Pasakode Okerra"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgctxt "Enter the passcode again"
 msgid "Please re-enter."
-msgstr ""
+msgstr "Mesedez sartu berriro."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
-msgstr ""
+msgstr "Pantaila Blokeo Pasakodea"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:61
 msgid "Enter 4 numbers to setup your passcode"
-msgstr ""
+msgstr "Sartu 4 zenbaki pasakodea zehazteko"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:77
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
-msgstr ""
+msgstr "Aukeratu pasakodea"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:127
 msgid "Passcode too short"
-msgstr ""
+msgstr "Pasakode motzegia"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:129
 msgid "Passcodes match"
-msgstr ""
+msgstr "Paskode berdinak"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:131
 msgid "Passcodes do not match"
-msgstr ""
+msgstr "Pasakodeak ez dira berdinak"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr ""
+msgstr "Pasakodeak 4 karakterreko luzera izan behar du"
 
 #: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
-msgstr ""
+msgstr "Pantaila Blokeo Pasahitza"
 
 #: qml/Wizard/Pages/password-set.qml:62
 msgid "Enter at least 8 characters"
-msgstr ""
+msgstr "Sartu gutxienez 8 karaktere"
 
 #: qml/Wizard/Pages/password-set.qml:74
 msgid "Choose password"
-msgstr ""
+msgstr "Aukeratu pasahitza"
 
 #: qml/Wizard/Pages/password-set.qml:104
 msgid "Confirm password"
-msgstr ""
+msgstr "Baieztatu pasahitza"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
-msgstr ""
+msgstr "Ez dago SIM txartelik instalaturik"
 
 #: qml/Wizard/Pages/sim.qml:54
 msgid "SIM card added"
-msgstr ""
+msgstr "SIM txartela gehitu da"
 
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
-msgstr ""
+msgstr "Gailua berrabiarazi behar duzu sare mugikorra erabiltzeko."
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
@@ -910,39 +922,39 @@ msgstr "Berrabiarazi"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
-msgstr ""
+msgstr "Ezin izango duzu deirik egin eta SMS-rik bidali SIM txartelik gabe."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr ""
+msgstr "SIM gabe jarraitzeko sakatu Saltatu."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr ""
+msgstr "Pasahitz motzegia"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
-msgstr ""
+msgstr "Pasahitz berdinak"
 
 #: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Pasahitzak ez dira berdinak"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
-msgstr ""
+msgstr "Pasahitz indartsua"
 
 #: qml/Wizard/PasswordMeter.qml:97
 msgid "Fair password"
-msgstr ""
+msgstr "Pasahitza onargarria"
 
 #: qml/Wizard/PasswordMeter.qml:99
 msgid "Weak password"
-msgstr ""
+msgstr "Pasahitz ahula"
 
 #: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
-msgstr ""
+msgstr "Pasahitz oso ahula"
 
 #~ msgid "Top edge"
 #~ msgstr "Goiko ertza"
@@ -1040,8 +1052,8 @@ msgstr ""
 #~ msgstr "Ziur itzali nahi duzula?"
 
 #~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
-#~ "and all personal data will be deleted."
+#~ "If passcode is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
 #~ msgstr ""
 #~ "Okerreko pasakodea sartzen baduzu, telefonoaren jatorrizko ezarpenak "
 #~ "berrezarri eta datu pertsonal guztiak ezabatuko dira."
@@ -1061,8 +1073,8 @@ msgstr ""
 
 #~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
 #~ msgstr ""
-#~ "Pasatu hatza ezkerretik abiarazlea erakutsi eta aplikazioak berehala eskura "
-#~ "izateko"
+#~ "Pasatu hatza ezkerretik abiarazlea erakutsi eta aplikazioak berehala "
+#~ "eskura izateko"
 
 #~ msgid "Confirm"
 #~ msgstr "Berretsi"
@@ -1070,7 +1082,6 @@ msgstr ""
 #~ msgid "Manage Scopes"
 #~ msgstr "Kudeatu eremuak"
 
-#, qt-format
 #~ msgid "Enter %1"
 #~ msgstr "Sartu %1"
 
@@ -1089,7 +1100,6 @@ msgstr ""
 #~ msgid "Sorry, incorrect passcode."
 #~ msgstr "Sentitzen dugu, pasakodea okerra da."
 
-#, qt-format
 #~ msgid "Sorry, incorrect %1"
 #~ msgstr "Sentitzen dugu, %1 okerra da"
 
@@ -1127,10 +1137,10 @@ msgstr ""
 #~ msgstr "Geroago ere alda dezakezu <b>Sistemaren ezarpenetan</b>."
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
+#~ "and conditions</a>."
 #~ msgstr ""
-#~ "Aukera hau hautatuz, Nokia HERE(r)en <a href='#'>baldintzak</a> onartzeko "
+#~ "Aukera hau hautatuz, Nokia HERE(r)en <a href='#'>baldintzak</a> onartzen "
 #~ "dituzu."
 
 #~ msgid "Not at all"
@@ -1188,11 +1198,9 @@ msgstr ""
 #~ msgid "Confirm passphrase"
 #~ msgstr "Berretsi pasaesaldia"
 
-#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
-#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
