@@ -16,6 +16,7 @@
 
 import QtQuick 2.4
 import Utils 0.1
+import GSettings 1.0
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Themes 1.3
 
@@ -27,17 +28,22 @@ import Ubuntu.Components.Themes 1.3
  */
 
 QtObject {
+
+    property var gsettings: GSettings {
+          schema.id: "com.ubuntu.touch.system-settings"
+      }
+
     /// Style object passed from the scope
     property var style: Object()
 
     /// Color used for text and symbolic icons
-    readonly property color foreground: "white"
+    property color foreground: gsettings.dashBackground ? "white" : d.defaultDark
 
     /// Luminance of the foreground color
     readonly property real foregroundLuminance: foreground ? Style.luminance(foreground) : Style.luminance(d.defaultDark)
 
     /// Color used for the overall background
-    readonly property color background: "background-color" in style ? style["background-color"] : "transparent"
+    property color background: "background-color" in style ? style["background-color"] : gsettings.dashBackground ? "transparent" : "#00f5f5f5"
 
     /// Luminance of the background color
     readonly property real backgroundLuminance: background ? Style.luminance(background) : Style.luminance(d.defaultLight)
@@ -59,16 +65,16 @@ QtObject {
     readonly property url headerLogo: "logo" in d.headerStyle ? d.headerStyle["logo"] : ""
 
     /// Background style for the header
-    readonly property url headerBackground: "background" in d.headerStyle ? d.headerStyle["background"] : "color:///transparent"
+    property url headerBackground: "background" in d.headerStyle ? d.headerStyle["background"] : gsettings.dashBackground ? "color:///transparent" : "color:///#ffffff"
 
     /// Foreground color for the header
-    readonly property color headerForeground: "foreground-color" in d.headerStyle ? d.headerStyle["foreground-color"] : "white"
+    property color headerForeground: "foreground-color" in d.headerStyle ? d.headerStyle["foreground-color"] : gsettings.dashBackground ? "white" : foreground
 
     /// Color of the header divider
-    readonly property color headerDividerColor: "divider-color" in d.headerStyle ? d.headerStyle["divider-color"] : "transparent"
+    property color headerDividerColor: "divider-color" in d.headerStyle ? d.headerStyle["divider-color"] : gsettings.dashBackground ? "transparent" : "#e0e0e0"
 
     /// Background style for the navigation
-    readonly property url navigationBackground: "navigation-background" in d.headerStyle ? d.headerStyle["navigation-background"] : "color:///white"
+    property url navigationBackground: "navigation-background" in d.headerStyle ? d.headerStyle["navigation-background"] : gsettings.dashBackground ? "color:///white" : "color:///#f5f5f5"
 
     /// Color of the primary preview button
     readonly property color previewButtonColor: "preview-button-color" in style ? style["preview-button-color"] : theme.palette.normal.positive
