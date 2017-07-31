@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import Utils 0.1
 import Ubuntu.Components 1.3
+import Ubuntu.Components.Themes 1.3
 
 /*! \brief Helper for processing scope customization options.
 
@@ -30,13 +31,13 @@ QtObject {
     property var style: Object()
 
     /// Color used for text and symbolic icons
-    readonly property color foreground: "foreground-color" in style ? style["foreground-color"] : d.defaultDark
+    readonly property color foreground: "white"
 
     /// Luminance of the foreground color
     readonly property real foregroundLuminance: foreground ? Style.luminance(foreground) : Style.luminance(d.defaultDark)
 
     /// Color used for the overall background
-    readonly property color background: "background-color" in style ? style["background-color"] : "#00f5f5f5"
+    readonly property color background: "background-color" in style ? style["background-color"] : "transparent"
 
     /// Luminance of the background color
     readonly property real backgroundLuminance: background ? Style.luminance(background) : Style.luminance(d.defaultLight)
@@ -58,16 +59,16 @@ QtObject {
     readonly property url headerLogo: "logo" in d.headerStyle ? d.headerStyle["logo"] : ""
 
     /// Background style for the header
-    readonly property url headerBackground: "background" in d.headerStyle ? d.headerStyle["background"] : "color:///#ffffff"
+    readonly property url headerBackground: "background" in d.headerStyle ? d.headerStyle["background"] : "color:///transparent"
 
     /// Foreground color for the header
-    readonly property color headerForeground: "foreground-color" in d.headerStyle ? d.headerStyle["foreground-color"] : foreground
+    readonly property color headerForeground: "foreground-color" in d.headerStyle ? d.headerStyle["foreground-color"] : "white"
 
     /// Color of the header divider
-    readonly property color headerDividerColor: "divider-color" in d.headerStyle ? d.headerStyle["divider-color"] : "#e0e0e0"
+    readonly property color headerDividerColor: "divider-color" in d.headerStyle ? d.headerStyle["divider-color"] : "transparent"
 
     /// Background style for the navigation
-    readonly property url navigationBackground: "navigation-background" in d.headerStyle ? d.headerStyle["navigation-background"] : "color:///#f5f5f5"
+    readonly property url navigationBackground: "navigation-background" in d.headerStyle ? d.headerStyle["navigation-background"] : "color:///white"
 
     /// Color of the primary preview button
     readonly property color previewButtonColor: "preview-button-color" in style ? style["preview-button-color"] : theme.palette.normal.positive

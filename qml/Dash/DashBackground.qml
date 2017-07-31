@@ -15,7 +15,17 @@
  */
 
 import QtQuick 2.4
+import QtQuick.Window 2.2
+import AccountsService 0.1
+import ImageCache 0.1
 
 Rectangle {
-    color: "white"
+	color: "black"
+
+	Image {
+		source: AccountsService.backgroundFile
+		anchors.fill: parent
+		fillMode: Image.PreserveAspectCrop
+		opacity: 0.6
+	}
 }
