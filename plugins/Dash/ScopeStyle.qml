@@ -37,7 +37,7 @@ QtObject {
     property var style: Object()
 
     /// Color used for text and symbolic icons
-    property color foreground: gsettings.dashBackground ? "white" : d.defaultDark
+    property color foreground: gsettings.dashBackground ? "white" : ("foreground-color" in style ? style["foreground-color"] : d.defaultDark)
 
     /// Luminance of the foreground color
     readonly property real foregroundLuminance: foreground ? Style.luminance(foreground) : Style.luminance(d.defaultDark)
