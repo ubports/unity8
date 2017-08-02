@@ -15,7 +15,22 @@
  */
 
 import QtQuick 2.4
+import AccountsService 0.1
+import GSettings 1.0
 
 Rectangle {
-    color: "white"
+    GSettings {
+        id: settings
+        schema.id: "com.ubuntu.touch.system-settings"
+    }
+
+    color: settings.dashBackground ? "black" : "white"
+
+    Image {
+        visible: settings.dashBackground
+        source: AccountsService.backgroundFile
+        anchors.fill: parent
+        fillMode: Image.PreserveAspectCrop
+        opacity: 0.6
+    }
 }
