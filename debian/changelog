@@ -822,7 +822,7 @@ unity8 (8.12+16.04.20160330-0ubuntu1) xenial; urgency=medium
 unity8 (8.12+16.04.20160323.2-0ubuntu1) xenial; urgency=medium
 
   [ Michael Terry ]
-  * 
+  *
   * Fix setting OSK layout in OOBE wizard
   * Stop the left edge tutorial from being shown when the bottom edge
     tutorial wants to be shown after receiving a call.
@@ -3534,7 +3534,7 @@ unity8 (8.00+14.10.20140729-0ubuntu1) utopic; urgency=medium
   * Re-architecture unity8 to use the QtMirCompositor library so that
     the Qt scenegraph renderer is used as the Mir compositor, and
     application surfaces are added to the QML scene as items.
-    
+
   [ Michael Zanetti ]
   * Port phone right-edge spread code to use QtCompositor
   * Add right-edge spread animation for tablet
@@ -3808,8 +3808,8 @@ unity8 (7.90+14.10.20140703.1-0ubuntu1) utopic; urgency=low
 
 unity8 (7.90+14.10.20140701.2-0ubuntu2) utopic; urgency=medium
 
-  * debian/control: 
-    list qtdeclarative5-ubuntu-ui-toolkit-plugin-gles as an alternative 
+  * debian/control:
+    list qtdeclarative5-ubuntu-ui-toolkit-plugin-gles as an alternative
     choice, since provides are not versionned, should restore installability
     on amd64 and i386
 
@@ -6911,7 +6911,7 @@ unity8 (7.81.2) saucy; urgency=low
   [ Michał Sawicz ]
   * Fix icons in ApplicationsFilterGrid.qml.
   * Support flipped image in run_on_device.
-  
+
   [ Michael Zanetti ]
   * Don't clear lockscreen when it's fading out.
   * Reworked Launcher folding.
@@ -6996,7 +6996,7 @@ qml-phone-shell (1.79) raring; urgency=low
 
   [ Michael Terry ]
   * Make greeter look like the desktop one
-  
+
   [ Gerry Boland ]
   * Fix a bug where a minimized app gets focus after closing another app
   * Applied a workaround to reduce flickering when launching apps
@@ -7012,7 +7012,7 @@ qml-phone-shell (1.79) raring; urgency=low
 qml-phone-shell (1.78) raring; urgency=low
 
   [ Sergio Schvezov ]
-  * Replacing the music and ski safari mock apps with calendar and weather in 
+  * Replacing the music and ski safari mock apps with calendar and weather in
     the launcher (LP: #1178262).
 
   [ Daniel d'Andrada ]
@@ -7054,7 +7054,7 @@ qml-phone-shell (1.77) raring; urgency=low
   [ Mathieu Trudel-Lapierre ]
   * debian/control:
     - Drop indicators-client-plugin* Depends for qml-phone-shell to Recommends.
-    - Add/update Vcs-Browser, Vcs-Bzr and add a notice to uploaders. 
+    - Add/update Vcs-Browser, Vcs-Bzr and add a notice to uploaders.
   * debian/copyright: fix syntax.
 
   [ Michał Sawicz ]
@@ -7064,7 +7064,7 @@ qml-phone-shell (1.77) raring; urgency=low
   * Renamed Media player files to match with new application name.
 
   [ Daniel d'Andrada ]
-  * New: DirectionalDragArea component. An area that detects axis-aligned 
+  * New: DirectionalDragArea component. An area that detects axis-aligned
     single-finger drag gestures.
   * Make it possible to send touch events from within QML test code.
 
@@ -7501,7 +7501,7 @@ qml-phone-shell (1.39) quantal; urgency=low
 
 qml-phone-shell (1.38) quantal; urgency=low
 
-  * fix launching of notepad 
+  * fix launching of notepad
 
  -- Bill Filler <bill.filler@canonical.com>  Fri, 01 Feb 2013 03:21:29 -0500
 
@@ -7514,14 +7514,14 @@ qml-phone-shell (1.37) quantal; urgency=low
 
 qml-phone-shell (1.36) quantal; urgency=low
 
-  * launch real notepad app 
+  * launch real notepad app
   * fix launching of mock apps
 
  -- Bill Filler <bill.filler@canonical.com>  Thu, 31 Jan 2013 21:36:05 -0500
 
 qml-phone-shell (1.35) quantal; urgency=low
 
-  * integrate ubuntu-browser instead of snowshoe 
+  * integrate ubuntu-browser instead of snowshoe
 
  -- Bill Filler <bill.filler@canonical.com>  Thu, 31 Jan 2013 17:33:37 -0500
 
@@ -7605,7 +7605,7 @@ qml-phone-shell (1.22) quantal; urgency=low
 
 qml-phone-shell (1.21) quantal; urgency=low
 
-  * New release with fullscreen launcher fixes 
+  * New release with fullscreen launcher fixes
 
  -- Bill Filler <bill.filler@canonical.com>  Fri, 07 Dec 2012 09:36:37 +0000
 
@@ -7617,7 +7617,7 @@ qml-phone-shell (1.20) quantal; urgency=low
 
 qml-phone-shell (1.19) quantal; urgency=low
 
-  * enable multi-threaded render for apps 
+  * enable multi-threaded render for apps
 
  -- Bill Filler <bill.filler@canonical.com>  Wed, 05 Dec 2012 17:34:09 +0000
 
@@ -7625,7 +7625,7 @@ qml-phone-shell (1.18) quantal; urgency=low
 
   [ Bill Filler ]
   * update launcher to use wk2-render (chromeless webkit) for facebook
-    and twitter 
+    and twitter
 
  -- Florian Boucault <florian.boucault@canonical.com>  Wed, 05 Dec 2012 12:20:50 +0000
 
@@ -7637,7 +7637,7 @@ qml-phone-shell (1.17) quantal; urgency=low
 
 qml-phone-shell (1.16) quantal; urgency=low
 
-  * fix to launch new gallery with correct args 
+  * fix to launch new gallery with correct args
 
  -- Bill Filler <bill.filler@canonical.com>  Thu, 29 Nov 2012 17:04:36 -0500
 
@@ -7699,7 +7699,7 @@ qml-phone-shell (1.2) quantal; urgency=low
 
 qml-phone-shell (1.1) quantal; urgency=low
 
-  * comment out console.log() to prevent crash 
+  * comment out console.log() to prevent crash
 
  -- Bill Filler <bill.filler@canonical.com>  Sun, 28 Oct 2012 22:18:36 +0100
 
@@ -7727,19 +7727,19 @@ qml-phone-shell (0.7) quantal; urgency=low
   * qml-phone-shell.conf: better setup of env vars and launch
     via dbus-luanch to properly setup session bus
   * shellapplication.cpp: don't setup custom env before launching
-    processes 
+    processes
 
  -- Bill Filler <bill.filler@canonical.com>  Sun, 21 Oct 2012 11:32:42 +0200
 
 qml-phone-shell (0.6) quantal; urgency=low
 
-  * added additional Android env vars to upstart script 
+  * added additional Android env vars to upstart script
 
  -- Bill Filler <bill.filler@canonical.com>  Fri, 19 Oct 2012 09:35:25 -0400
 
 qml-phone-shell (0.5) quantal; urgency=low
 
-  * added support to launch telephony-app 
+  * added support to launch telephony-app
 
  -- Bill Filler <bill.filler@canonical.com>  Thu, 18 Oct 2012 13:45:25 -0400
 
