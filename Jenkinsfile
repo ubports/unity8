@@ -30,7 +30,7 @@ build-binary.sh'''
     export SKIP_ARCH_BUILD=false
     export SKIP_SOURCE_REMOVAL=true
     build-binary.sh'''
-              stash(includes: '*.gz,*.bz2,*.xz,*.deb,*.dsc,*.changes,*.buildinfo,lintian.txt', name: 'build')
+              stash(includes: '*.gz,*.bz2,*.xz,*.deb,*.dsc,*.changes,*.buildinfo,lintian.txt', name: 'build-all')
               cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true)
             }
           }
@@ -40,6 +40,7 @@ build-binary.sh'''
     stage('Results') {
       steps {
         unstash 'build'
+        unstash 'build-all'
         archiveArtifacts(artifacts: '*.gz,*.bz2,*.xz,*.deb,*.dsc,*.changes,*.buildinfo', fingerprint: true, onlyIfSuccessful: true)
         sh '''export architecture="armhf"
 /usr/bin/build-repo.sh'''
