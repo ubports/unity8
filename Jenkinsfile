@@ -10,13 +10,30 @@ pipeline {
     }
     stage('Build binary - armhf') {
       steps {
-        node(label: 'xenial-arm64') {
-          unstash 'source'
-          sh '''export architecture="armhf"
+        parallel(
+          "Build binary - armhf": {
+            node(label: 'xenial-arm64') {
+              unstash 'source'
+              sh '''export architecture="armhf"
 build-binary.sh'''
-          stash(includes: '*.gz,*.bz2,*.xz,*.deb,*.dsc,*.changes,*.buildinfo,lintian.txt', name: 'build')
-          cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true)
-        }
+              stash(includes: '*.gz,*.bz2,*.xz,*.deb,*.dsc,*.changes,*.buildinfo,lintian.txt', name: 'build')
+              cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true)
+            }
+            
+            
+          },
+          "Build binary - all": {
+            node(label: 'xenial-arm64') {
+              unstash 'source'
+              sh '''export architecture="all"
+build-binary.sh'''
+              stash(name: 'build', includes: '*.gz,*.bz2,*.xz,*.deb,*.dsc,*.changes,*.buildinfo,lintian.txt')
+            }
+            
+            cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true)
+            
+          }
+        )
       }
     }
     stage('Results') {
