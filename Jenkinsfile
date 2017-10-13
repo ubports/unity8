@@ -19,19 +19,18 @@ build-binary.sh'''
               stash(includes: '*.gz,*.bz2,*.xz,*.deb,*.dsc,*.changes,*.buildinfo,lintian.txt', name: 'build')
               cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true)
             }
-            
-            
+
+
           },
           "Build binary - all": {
             node(label: 'xenial-arm64') {
               unstash 'source'
-              sh '''export architecture="all"
-build-binary.sh'''
-              stash(name: 'build', includes: '*.gz,*.bz2,*.xz,*.deb,*.dsc,*.changes,*.buildinfo,lintian.txt')
+              sh '''export architecture="armhf"
+    export DEBBUILDOPTS="-A"
+    build-binary.sh'''
+              stash(includes: '*.gz,*.bz2,*.xz,*.deb,*.dsc,*.changes,*.buildinfo,lintian.txt', name: 'build')
+              cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true)
             }
-            
-            cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true)
-            
           }
         )
       }
