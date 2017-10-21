@@ -4,6 +4,7 @@ data/unity8-dash.conf usr/share/upstart/sessions/
 data/unity8-filewatcher.conf usr/share/upstart/sessions/
 data/unity8.conf usr/share/upstart/sessions/
 data/devices.conf etc/ubuntu/
+data/test.sensors etc/ubuntusensors/
 usr/bin/unity8
 usr/bin/unity8-dash
 usr/share/applications/unity8-dash.desktop

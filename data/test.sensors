@@ -1,0 +1,12 @@
+create light 0 10 1
+create accel 0 1000 0.1
+create proximity
+
+200 proximity near
+500 light 5
+# simulate crash on the ground
+500 accel 0.2 0.1 10
+100 accel 0.2 0.2 1000
+20 accel 0 0 0
+10 proximity far
+10 light 10  
