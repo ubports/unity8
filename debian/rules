@@ -14,7 +14,7 @@ export NO_PNG_PKG_MANGLE=1
 override_dh_auto_configure:
 	# Debian defines CMAKE_INSTALL_LOCALSTATEDIR as /usr/var, which is wrong.
 	# So until Debian bug 719148 is fixed, do it ourselves.
-	dh_auto_configure -- -DCMAKE_INSTALL_LOCALSTATEDIR="/var"
+	dh_auto_configure -- -DCMAKE_INSTALL_LOCALSTATEDIR="/var" -DCMAKE_BUILD_TYPE=Debug
 
 override_dh_auto_build:
 	# doc is not a default target
