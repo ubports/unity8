@@ -1141,6 +1141,7 @@ void ListViewWithPageHeader::contentYAnimationRunningChanged(bool running)
     }
 }
 
+/*
 void ListViewWithPageHeader::itemGeometryChanged(QQuickItem *item, const QRectF &newGeometry, const QRectF &oldGeometry)
 {
     const qreal heightDiff = newGeometry.height() - oldGeometry.height();
@@ -1165,6 +1166,7 @@ void ListViewWithPageHeader::itemGeometryChanged(QQuickItem *item, const QRectF 
         m_contentHeightDirty = true;
     }
 }
+*/
 
 void ListViewWithPageHeader::itemImplicitHeightChanged(QQuickItem *item)
 {
