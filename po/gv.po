@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-03-28 21:50+0000\n"
+"POT-Creation-Date: 2017-04-04 22:56+0000\n"
 "PO-Revision-Date: 2015-04-02 14:24+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Manx <gv@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : (n == 2 ? 1 : 2);\n"
-"X-Launchpad-Export-Date: 2017-04-05 07:22+0000\n"
-"X-Generator: Launchpad (build 18335)\n"
+"X-Launchpad-Export-Date: 2017-04-07 06:30+0000\n"
+"X-Generator: Launchpad (build 18343)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -42,11 +42,11 @@ msgstr ""
 msgid "Retry"
 msgstr ""
 
-#: plugins/LightDM/UsersModel.cpp:152
+#: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
 msgstr ""
 
-#: plugins/LightDM/UsersModel.cpp:160
+#: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
 msgstr ""
 
@@ -528,15 +528,15 @@ msgstr ""
 msgid "Passcode"
 msgstr ""
 
-#: qml/Greeter/SessionsList.qml:122
+#: qml/Greeter/SessionsList.qml:124
 msgid "Select desktop environment"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:93
+#: qml/Launcher/Drawer.qml:94
 msgid "Search…"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:128
+#: qml/Launcher/Drawer.qml:129
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr ""

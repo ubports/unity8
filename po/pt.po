@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-04-05 07:23+0000\n"
-"X-Generator: Launchpad (build 18335)\n"
+"X-Launchpad-Export-Date: 2017-04-07 06:30+0000\n"
+"X-Generator: Launchpad (build 18343)\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -42,11 +42,11 @@ msgstr "Iniciar a sessão"
 msgid "Retry"
 msgstr "Tentar novamente"
 
-#: plugins/LightDM/UsersModel.cpp:152
+#: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
 msgstr "Iniciar a sessão"
 
-#: plugins/LightDM/UsersModel.cpp:160
+#: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
 msgstr "Sessão de convidado"
 
@@ -530,15 +530,15 @@ msgstr "Palavra-passe"
 msgid "Passcode"
 msgstr "Código"
 
-#: qml/Greeter/SessionsList.qml:122
+#: qml/Greeter/SessionsList.qml:124
 msgid "Select desktop environment"
 msgstr "Selecione o ambiente de trabalho"
 
-#: qml/Launcher/Drawer.qml:93
+#: qml/Launcher/Drawer.qml:94
 msgid "Search…"
 msgstr "Procurar..."
 
-#: qml/Launcher/Drawer.qml:128
+#: qml/Launcher/Drawer.qml:129
 msgctxt "Apps sorted alphabetically"
 msgid "A-Z"
 msgstr "A-Z"

@@ -24,22 +24,24 @@ Item {
     id: root
     objectName: "sessionsList"
 
-    property string initiallySelectedSession
     signal sessionSelected(string sessionKey)
     signal showLoginList()
 
-    onInitiallySelectedSessionChanged: {
-        sessionsList.currentIndex = getSelectedIndex();
-        sessionsList.positionViewAtIndex(sessionsList.currentIndex, ListView.Contain);
+    // Sets the position of the background highlight
+    function updateHighlight(session) {
+        sessionsList.currentIndex = getIndexOfSession(session);
+        sessionsList.currentItem.initialSession = session;
     }
 
-    function getSelectedIndex() {
+    function getIndexOfSession(session) {
         for (var i = 0; i < sessionsList.model.count; i++) {
-            var key = sessionsList.model.get(i).key
-            if (key === initiallySelectedSession) {
+            var key = sessionsList.model.get(i).key;
+            if (key === session) {
                 return i;
             }
         }
+
+        return 0; // Just choose the first session
     }
 
     function currentKey() {
@@ -49,7 +51,8 @@ Item {
     }
 
     Keys.onEnterPressed: {
-        showLoginList(); // Session is already selected
+        sessionSelected(currentKey());
+        showLoginList();
         event.accepted = true;
     }
 
@@ -59,6 +62,7 @@ Item {
     }
 
     Keys.onReturnPressed: {
+        sessionSelected(currentKey());
         showLoginList();
         event.accepted = true;
     }
@@ -66,20 +70,18 @@ Item {
     Keys.onDownPressed: {
         if (sessionsList.currentIndex < sessionsList.model.count - 1)
             sessionsList.currentIndex++;
-        sessionSelected(currentKey());
         event.accepted = true;
     }
 
     Keys.onUpPressed: {
         if (sessionsList.currentIndex > 0)
             sessionsList.currentIndex--;
-        sessionSelected(currentKey());
         event.accepted = true;
     }
 
     LoginAreaContainer {
         readonly property real margins: sessionsList.anchors.margins
-        readonly property real prefferedHeight: {
+        readonly property real preferredHeight: {
             if (sessionsList.currentItem) {
                 return (sessionsList.currentItem.height *
                        (1 + sessionsList.model.count)) + 2 * margins
@@ -88,7 +90,7 @@ Item {
             }
         }
 
-        height: prefferedHeight < parent.height ? prefferedHeight : parent.height - units.gu(4)
+        height: preferredHeight < parent.height ? preferredHeight : parent.height - units.gu(4)
         width: parent.width
 
         anchors {
@@ -107,8 +109,8 @@ Item {
                 margins: units.gu(2)
             }
 
-            height: parent.height - headerItem.height
-
+            clip: true
+            height: parent.height - units.gu(2.5)
             boundsBehavior: Flickable.StopAtBounds
 
             model: LightDMService.sessions
@@ -135,14 +137,18 @@ Item {
             }
 
             headerPositioning: ListView.OverlayHeader
+
+            // The highlighting is all self-managed, so account for that
             highlightFollowsCurrentItem: false
+            highlight: QtObject {}
 
             delegate: ListItem {
                 id: delegate
                 objectName: "sessionDelegate" + index
 
-                divider.visible: false
+                property string initialSession: ""
 
+                divider.visible: false
                 visible: y > sessionsList.headerItem.y
                 + sessionsList.headerItem.height
                 - sessionsList.anchors.margins
@@ -154,6 +160,16 @@ Item {
                         sessionSelected(key)
                         showLoginList()
                     }
+                }
+
+                Rectangle {
+                    id: backgroundHighlight
+
+                    height: sessionsList.currentItem.height
+                    width: sessionsList.currentItem.width
+                    color: theme.palette.normal.selection
+
+                    visible: initialSession === key && !!key
                 }
 
                 Rectangle {
@@ -171,15 +187,16 @@ Item {
                 ListItemLayout {
                     id: layout
 
+                    readonly property color itemColor: theme.palette.normal.raisedText
                     SessionIcon {
                         id: sessionIcon
                         source: icon_url
                         SlotsLayout.position: SlotsLayout.Leading
-                        color: theme.palette.normal.raisedSecondaryText
+                        color: parent.itemColor
                     }
 
                     title.text: display
-                    title.color: theme.palette.normal.raisedText
+                    title.color: itemColor
                 }
             }
         }

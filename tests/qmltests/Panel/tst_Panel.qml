@@ -779,38 +779,16 @@ PanelTest {
 
             var appTitle = findChild(panel, "panelTitle"); verify(appTitle);
             var appMenuRow = findChild(panel.applicationMenus, "panelRow"); verify(appMenuRow);
-            var appMenuBar = findChild(panel, "menuBar"); verify(appMenuBar);
+            var menuBarLoader = findChild(panel, "menuBarLoader"); verify(menuBarLoader);
 
             tryCompare(appTitle, "visible", true, undefined, "App title should be visible");
-            tryCompare(appMenuBar, "visible", false, undefined, "App menu bar should not be visible");
+            tryCompare(menuBarLoader, "visible", false, undefined, "App menu bar should not be visible");
 
             mouseMove(panel, panel.width/2, panel.panelHeight);
 
+            var appMenuBar = findChild(panel, "menuBar"); verify(appMenuBar);
             tryCompare(appTitle, "visible", false, undefined, "App title should not be visible on mouse hover");
             tryCompare(appMenuBar, "visible", true, undefined, "App menu bar should be visible on mouse hover");
-        }
-
-        function test_windowedApplicationMenuShowOnMouseHoverWhenDecorationsShown() {
-            PanelState.title = "Fake Title";
-            panel.mode = "windowed";
-            mouseEmulation.checked = false;
-
-            var appTitle = findChild(panel, "panelTitle"); verify(appTitle);
-            var appMenuRow = findChild(panel.applicationMenus, "panelRow"); verify(appMenuRow);
-            var appMenuBar = findChild(panel, "menuBar"); verify(appMenuBar);
-
-            tryCompare(appTitle, "visible", true, undefined, "App title should be visible");
-            tryCompare(appMenuBar, "visible", false, undefined, "App menu bar should not be visible");
-
-            mouseMove(panel, panel.width/2, panel.panelHeight);
-
-            tryCompare(appTitle, "visible", true, undefined, "App title should still be visible on mouse hover when panel decorations are not visible");
-            tryCompare(appMenuBar, "visible", false, undefined, "App menu bar should be visible on mouse hover when panel decorations are not visible");
-
-            PanelState.decorationsVisible = true;
-
-            tryCompare(appTitle, "visible", false, undefined, "App title should still be visible on mouse hover when panel decorations are visible");
-            tryCompare(appMenuBar, "visible", true, undefined, "App menu bar should be visible on mouse hover when panel decorations not visible");
         }
 
         function test_keyboardNavigation_data() {

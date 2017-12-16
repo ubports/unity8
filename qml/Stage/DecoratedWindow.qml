@@ -38,6 +38,7 @@ FocusScope {
     property alias maximizeButtonShown: decoration.maximizeButtonShown
     property alias interactive: applicationWindow.interactive
     readonly property alias orientationChangesEnabled: applicationWindow.orientationChangesEnabled
+    property alias windowControlButtonsVisible: decoration.windowControlButtonsVisible
 
     // Changing this will actually add/remove a decoration, meaning, requestedHeight will take the decoration into account.
     property bool hasDecoration: true
@@ -210,7 +211,7 @@ FocusScope {
 
     WindowDecoration {
         id: decoration
-        closeButtonVisible: root.application.appId !== "unity8-dash"
+        closeButtonVisible: true
         objectName: "appWindowDecoration"
 
         anchors { left: parent.left; top: parent.top; right: parent.right }

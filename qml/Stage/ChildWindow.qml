@@ -104,10 +104,6 @@ FocusScope {
                 height: root.decorationHeight
                 title: root.surface ? root.surface.name : ""
                 active: root.surface ? root.surface.focused : false
-                closeButtonVisible: root.surface ? root.surface.type === Mir.SatelliteType
-                                                || root.surface.type === Mir.NormalType
-                                                || root.surface.type === Mir.UtilityType
-                                                 : false
                 minimizeButtonVisible: false
                 maximizeButtonShown: false
                 onPressed: root.surface.activate();

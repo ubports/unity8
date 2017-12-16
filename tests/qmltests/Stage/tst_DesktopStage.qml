@@ -693,13 +693,6 @@ Item {
             tryCompare(facebookAppDelegate, "maximized", true);
         }
 
-        function test_dashHasNoCloseButton() {
-            var dashAppDelegate = startApplication("unity8-dash");
-            verify(dashAppDelegate);
-            var closeButton = findChild(dashAppDelegate, "closeWindowButton");
-            tryCompare(closeButton, "visible", false);
-        }
-
         function test_hideMaximizeButtonWhenSizeConstrained() {
             var dialerDelegate = startApplication("dialer-app");
 
@@ -870,11 +863,7 @@ Item {
             maximizeAppDelegate(appDelegate);
 
             // Close the window and restart the application
-            var closeButton = findChild(appDelegate, "closeWindowButton");
-            appDelegate = null;
-            verify(closeButton);
-            mouseClick(closeButton);
-            closeButton = null;
+            appDelegate.close();
             tryCompare(topSurfaceList, "count", originalWindowCount);
             wait(100); // plus some spare room
             appDelegate = startApplication("dialer-app");

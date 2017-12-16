@@ -1,8 +1,37 @@
-unity8 (8.15+ubports1) xenial; urgency=medium
+unity8 (8.15+17.04.20170404.7-0ubuntu2) zesty; urgency=medium
 
-  * Backport to xenial
+  [ Michael Zanetti  ]
+  * Make the default store uri point to gnome software center
 
- -- Marius Gripsgard <mariogrip@ubports.com>  Mon, 10 Jul 2017 23:14:41 +0200
+ -- Timo Jyrinki <timo-jyrinki@ubuntu.com>  Thu, 06 Apr 2017 10:49:29 +0300
+
+unity8 (8.15+17.04.20170404.7-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Tweak app drawer a bit (LP: #1667570)
+
+  [ Josh Arenson ]
+  * Make some small changes to the greeter's session list
+  * Handle a user in the greeter having never selected a session better
+    (LP: #1673199)
+
+  [ Lukáš Tinkl ]
+  * Do not occlude windows with an ongoing unmaximize transition (LP:
+    #1666363)
+  * Show and implement close buttons for child windows (LP: #1668053)
+  * Sanitize the logic for pointer vs. touch menus, fixes hiding the
+    window title in staged mode, when hovering the panel with mouse and
+    no menus available.
+
+  [ Michael Zanetti ]
+  * Don't hide the launcher on super press if it's locked visible (LP:
+    #1675373)
+  * fix searchfield selection in drawer (LP: #1677259)
+  * make sure the stage has focus when going to spread (LP: #1672053,
+    #1672673, #1676995)
+  * don't autostart the dash app, but show its .desktop file instead
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 04 Apr 2017 22:56:06 +0000
 
 unity8 (8.15+17.04.20170328.3-0ubuntu1) zesty; urgency=medium
 
@@ -8127,3 +8156,8 @@ qml-phone-shell (0.1) quantal; urgency=low
   * Initial release
 
  -- Bill Filler <bill.filler@canonical.com>  Wed, 10 Oct 2012 10:19:53 -0400
+unity8 (8.15+17.04.20170404.7-0ubuntu2) zesty; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make the default store uri point to gnome software center
+

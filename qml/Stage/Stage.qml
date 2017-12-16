@@ -91,6 +91,7 @@ FocusScope {
 
 
     onAltTabPressedChanged: {
+        root.focus = true;
         if (altTabPressed) {
             if (root.spreadEnabled) {
                 altTabDelayTimer.start();
@@ -171,7 +172,7 @@ FocusScope {
         id: closeFocusedShortcut
         shortcut: Qt.AltModifier|Qt.Key_F4
         onTriggered: {
-            if (priv.focusedAppDelegate && !priv.focusedAppDelegate.isDash) {
+            if (priv.focusedAppDelegate) {
                 priv.focusedAppDelegate.close();
             }
         }
@@ -390,7 +391,7 @@ FocusScope {
     Binding {
         target: PanelState
         property: "decorationsVisible"
-        value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.maximized // FIXME for Locally integrated menus
+        value: mode == "windowed" && priv.focusedAppDelegate && priv.focusedAppDelegate.maximized && !root.spreadShown
     }
 
     Binding {
@@ -431,7 +432,7 @@ FocusScope {
     Binding {
         target: PanelState
         property: "closeButtonShown"
-        value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized && !priv.focusedAppDelegate.isDash
+        value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized
     }
 
     Component.onDestruction: {
@@ -477,6 +478,7 @@ FocusScope {
         State {
             name: "spread"; when: priv.goneToSpread
             PropertyChanges { target: floatingFlickable; enabled: true }
+            PropertyChanges { target: root; focus: true }
             PropertyChanges { target: spreadItem; focus: true }
             PropertyChanges { target: hoverMouseArea; enabled: true }
             PropertyChanges { target: rightEdgeDragArea; enabled: false }
@@ -516,14 +518,20 @@ FocusScope {
         State {
             name: "staged"; when: root.mode === "staged"
             PropertyChanges { target: wallpaper; visible: !priv.focusedAppDelegate || priv.focusedAppDelegate.x !== 0 }
+            PropertyChanges { target: root; focus: true }
+            PropertyChanges { target: appContainer; focus: true }
         },
         State {
             name: "stagedWithSideStage"; when: root.mode === "stagedWithSideStage"
             PropertyChanges { target: triGestureArea; enabled: priv.sideStageEnabled }
             PropertyChanges { target: sideStage; visible: true }
+            PropertyChanges { target: root; focus: true }
+            PropertyChanges { target: appContainer; focus: true }
         },
         State {
             name: "windowed"; when: root.mode === "windowed"
+            PropertyChanges { target: root; focus: true }
+            PropertyChanges { target: appContainer; focus: true }
         }
     ]
     transitions: [
@@ -606,9 +614,7 @@ FocusScope {
             }
 
             onCloseCurrentApp: {
-                if (!appRepeater.itemAt(highlightedIndex).isDash) {
-                    appRepeater.itemAt(highlightedIndex).close();
-                }
+                appRepeater.itemAt(highlightedIndex).close();
             }
         }
 
@@ -1380,11 +1386,11 @@ FocusScope {
                             requestedX: root.availableDesktopArea.x;
                             requestedY: 0;
                             visuallyMinimized: false;
-                            visuallyMaximized: true
                             requestedWidth: root.availableDesktopArea.width;
                             requestedHeight: appContainer.height;
                         }
                         PropertyChanges { target: touchControls; enabled: true }
+                        PropertyChanges { target: decoratedWindow; windowControlButtonsVisible: false }
                     },
                     State {
                         name: "fullscreen"; when: appDelegate.fullscreen && !appDelegate.minimized
@@ -1403,11 +1409,10 @@ FocusScope {
                         PropertyChanges {
                             target: appDelegate
                             visuallyMinimized: false
-                            visuallyMaximized: false
                         }
                         PropertyChanges { target: touchControls; enabled: true }
                         PropertyChanges { target: resizeArea; enabled: true }
-                        PropertyChanges { target: decoratedWindow; shadowOpacity: .3}
+                        PropertyChanges { target: decoratedWindow; shadowOpacity: .3; windowControlButtonsVisible: true}
                     },
                     State {
                         name: "restored";
@@ -1596,11 +1601,18 @@ FocusScope {
                         to: ",normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
                         enabled: appDelegate.animationsEnabled
                         SequentialAnimation {
+                            ScriptAction { script: {
+                                    if (appDelegate.visuallyMaximized) visuallyMaximized = false; // maximized before -> going to restored
+                                }
+                            }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                             UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,windowedX,windowedY,opacity,scale,requestedWidth,requestedHeight,windowedWidth,windowedHeight";
                                 duration: priv.animationDuration }
-                            PropertyAction { target: appDelegate; property: "visuallyMaximized" }
-                            ScriptAction { script: { fakeRectangle.stop(); } }
+                            ScriptAction { script: {
+                                    fakeRectangle.stop();
+                                    appDelegate.visuallyMaximized = appDelegate.maximized; // reflect the target state
+                                }
+                            }
                         }
                     }
                 ]
@@ -1741,7 +1753,7 @@ FocusScope {
                     objectName: "dragArea"
                     anchors.fill: decoratedWindow
                     enabled: false
-                    closeable: !appDelegate.isDash
+                    closeable: true
 
                     onClicked: {
                         spreadItem.highlightedIndex = index;
@@ -1784,7 +1796,7 @@ FocusScope {
                     objectName: "closeMouseArea"
                     anchors { left: parent.left; top: parent.top; leftMargin: -height / 2; topMargin: -height / 2 + spreadMaths.closeIconOffset }
                     readonly property var mousePos: hoverMouseArea.mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
-                    visible: !appDelegate.isDash && dragArea.distance == 0
+                    visible: dragArea.distance == 0
                              && index == spreadItem.highlightedIndex
                              && mousePos.y < (decoratedWindow.height / 3)
                              && mousePos.y > -units.gu(4)

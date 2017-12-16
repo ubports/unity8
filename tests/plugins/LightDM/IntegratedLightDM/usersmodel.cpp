@@ -113,6 +113,19 @@ private Q_SLOTS:
         QCOMPARE(session, Greeter::instance()->defaultSessionHint());
     }
 
+
+    void testEmptySession()
+    {
+        int i = findName(model, QStringLiteral("no-session"));
+        QVERIFY(i >= 0);
+
+        // A valid test as 'no-session' is instantiated with it's
+        // SessionRole as an empty string. This ensures something,
+        // hopefully sensical, is returned.
+        auto session = model->data(i, QLightDM::UsersModel::SessionRole);
+        QCOMPARE(session.toString().isEmpty(), false);
+    }
+
     void testHideUsers()
     {
         QLightDM::MockController::instance()->setHideUsersHint(true);

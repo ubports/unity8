@@ -395,6 +395,20 @@ StyledItem {
             waitForRendering(view);
         }
 
+        function test_sessionless_user_is_still_valid() {
+            var loginList = findChild(view, "loginList")
+
+            /*
+             * If a user has never logged in before, or, for some reason
+             * has no sessionHint, ensure that the model returns the default
+             * session and that the view respects this
+             */
+            selectUser("no-session");
+            compare(LightDM.Users.data(loginList.currentIndex, LightDM.UserRoles.SessionRole), LightDM.Greeter.defaultSession);
+
+            tryCompare(loginList, "currentSession", LightDM.Greeter.defaultSession);
+        }
+
         function test_changingSessionSticksToUser() {
             var loginList = findChild(view, "loginList");
 
@@ -426,7 +440,8 @@ StyledItem {
             var sessionChooserButton = findChild(view, "sessionChooserButton");
             compare(sessionChooserButton.visible, true);
 
-            var session = String(view.sessionToStart).toLowerCase();
+            var loginList = findChild(view, "loginList");
+            var session = String(loginList.currentSession).toLowerCase();
             var icon = String(sessionChooserButton.icon);
             compare(icon.indexOf(session) > -1, true);
 
