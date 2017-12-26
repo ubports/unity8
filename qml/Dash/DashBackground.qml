@@ -31,6 +31,6 @@ Rectangle {
         source: AccountsService.backgroundFile
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
-        opacity: 0.6
+        opacity: settings.backgroundOpacity
     }
 }
