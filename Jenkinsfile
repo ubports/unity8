@@ -13,7 +13,8 @@ pipeline {
         node(label: 'xenial-arm64') {
           unstash 'source'
           sh '''export architecture="armhf"
-build-binary.sh'''
+export BUILD_ONLY=true
+/usr/bin/build-and-provide-package'''
           stash(includes: '*.gz,*.bz2,*.xz,*.deb,*.dsc,*.changes,*.buildinfo,lintian.txt', name: 'build')
           cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true)
         }
