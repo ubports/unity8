@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2016 Canonical, Ltd.
+ * Copyright (C) 2015-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
 import Unity.Test 0.1
 import Utils 0.1
-import WindowManager 0.1
+import WindowManager 1.0
 
 import ".."
 import "../../../qml/Stage"
@@ -34,6 +34,12 @@ Rectangle {
     height: units.gu(100*0.7)
 
     property var greeter: { fullyShown: true }
+
+    SurfaceManager { id: sMgr }
+    ApplicationMenuDataLoader {
+        id: appMenuData
+        surfaceManager: sMgr
+    }
 
     Stage {
         id: stage
@@ -50,9 +56,18 @@ Rectangle {
         focus: true
         mode: "stagedWithSideStage"
         applicationManager: ApplicationManager
-        topLevelSurfaceList: TopLevelSurfaceList {
+        topLevelSurfaceList: TopLevelWindowModel {
             id: topLevelSurfaceList
-            applicationsModel: ApplicationManager
+            applicationManager: ApplicationManager
+            surfaceManager: sMgr
+        }
+        availableDesktopArea: availableDesktopAreaItem
+        Item {
+            id: availableDesktopAreaItem
+            anchors.fill: parent
+        }
+        Component.onCompleted: {
+            ApplicationManager.startApplication("unity8-dash");
         }
     }
 
@@ -129,6 +144,7 @@ Rectangle {
         function init() {
             stageSaver.clear();
 
+            ApplicationManager.startApplication("unity8-dash");
             tryCompare(topSurfaceList, "count", 1);
             compare(topSurfaceList.applicationAt(0).appId, "unity8-dash");
 
@@ -143,6 +159,11 @@ Rectangle {
                 }
             }
 
+            // wait for Stage to stabilize back into its initial state
+            var appRepeater = findChild(stage, "appRepeater");
+            tryCompare(appRepeater, "count", 1);
+            tryCompare(appRepeater.itemAt(0), "x", 0);
+
             waitUntilAppSurfaceShowsUp(topSurfaceList.idAt(0));
             sideStage.hideNow()
             tryCompare(sideStage, "x", stage.width)
@@ -155,11 +176,6 @@ Rectangle {
             waitForRendering(stage);
 
             killApps();
-
-            // wait for Stage to stabilize back into its initial state
-            var appRepeater = findChild(stage, "appRepeater");
-            tryCompare(appRepeater, "count", 1);
-            tryCompare(appRepeater.itemAt(0), "x", 0);
 
             sideStage.hideNow();
             tryCompare(sideStage, "x", stage.width)
@@ -581,6 +597,7 @@ Rectangle {
 
         function test_loadSideStageByDraggingFromMainStage() {
             sideStage.showNow();
+            print("sidestage now shown. launching browser")
             var webbrowserSurfaceId = topSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
@@ -628,7 +645,7 @@ Rectangle {
         function test_selectSuspendedAppWithoutSurface() {
             compare(topSurfaceList.applicationAt(0).appId, "unity8-dash");
             var dashSurfaceId = topSurfaceList.idAt(0);
-            var dashSurface = topSurfaceList.surfaceAt(0);
+            var dashWindow = topSurfaceList.windowAt(0);
 
             var webbrowserSurfaceId = topSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
@@ -637,7 +654,7 @@ Rectangle {
 
             switchToSurface(dashSurfaceId);
 
-            tryCompare(MirFocusController, "focusedSurface", dashSurface);
+            tryCompare(topLevelSurfaceList, "focusedWindow", dashWindow);
             tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Suspended);
 
             compare(webbrowserApp.surfaceList.count, 1);
@@ -749,6 +766,38 @@ Rectangle {
             tryCompare(appDelegate, "stage", ApplicationInfoInterface.SideStage);
         }
 
+        /*
+            Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1670361
 
+            Clicks near the top window edge (but still inside the window boundaries) should go to
+            the window (and not get eaten by some translucent decoration like in that bug).
+         */
+        function test_clickNearTopEdgeGoesToWindow() {
+            compare(topLevelSurfaceList.count, 1); // assume unity8-dash is already there
+
+            var appDelegate = findChild(stage, "appDelegate_" + topLevelSurfaceList.idAt(0));
+            verify(appDelegate);
+
+            var surfaceItem = findChild(appDelegate, "surfaceItem");
+            verify(surfaceItem);
+
+            compare(surfaceItem.mousePressCount, 0);
+            compare(surfaceItem.mouseReleaseCount, 0);
+
+            mouseClick(appDelegate, 1, 1); // near top left
+
+            compare(surfaceItem.mousePressCount, 1);
+            compare(surfaceItem.mouseReleaseCount, 1);
+
+            mouseClick(appDelegate, appDelegate.width / 2, 1); // near top
+
+            compare(surfaceItem.mousePressCount, 2);
+            compare(surfaceItem.mouseReleaseCount, 2);
+
+            mouseClick(appDelegate, appDelegate.width - 1, 1); // near top right
+
+            compare(surfaceItem.mousePressCount, 3);
+            compare(surfaceItem.mouseReleaseCount, 3);
+        }
     }
 }

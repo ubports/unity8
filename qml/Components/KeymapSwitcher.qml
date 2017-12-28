@@ -23,6 +23,9 @@ import Unity.Application 0.1
 QtObject {
     id: root
 
+    // to be set from outside
+    property var focusedSurface: null
+
     property GlobalShortcut shortcutNext: GlobalShortcut {
         shortcut: Qt.MetaModifier|Qt.Key_Space
         onTriggered: root.nextKeymap()
@@ -48,6 +51,9 @@ QtObject {
             nextIndex = currentKeymapIndex + 1;
         }
         currentKeymapIndex = nextIndex;
+        if (actionGroup.currentAction.valid) {
+            actionGroup.currentAction.updateState(currentKeymapIndex);
+        }
     }
 
     function previousKeymap() {
@@ -57,11 +63,20 @@ QtObject {
             prevIndex = currentKeymapIndex - 1;
         }
         currentKeymapIndex = prevIndex;
+        if (actionGroup.currentAction.valid) {
+            actionGroup.currentAction.updateState(currentKeymapIndex);
+        }
     }
 
-    property Binding surfaceKeymapBinding: Binding {
-        target: MirFocusController.focusedSurface
+    property Binding surfaceKeymapBinding: Binding { // NB: needed mainly for xmir & libertine apps
+        target: root.focusedSurface
         property: "keymap"
+        value: root.currentKeymap
+    }
+
+    property Binding unityKeymapBinding: Binding {
+        target: Mir
+        property: "currentKeymap"
         value: root.currentKeymap
     }
 
@@ -71,14 +86,10 @@ QtObject {
         busName: "com.canonical.indicator.keyboard"
         objectPath: "/com/canonical/indicator/keyboard"
 
-        property variant currentAction: action("current")
-        property variant activeAction: action("active")
+        property variant currentAction: action("current") // the one that's checked by the indicator
+        property variant activeAction: action("active")   // the one that we clicked
 
         Component.onCompleted: actionGroup.start();
-    }
-
-    onCurrentKeymapIndexChanged: {
-        actionGroup.currentAction.updateState(currentKeymapIndex);
     }
 
     readonly property int activeActionState: actionGroup.activeAction.valid ? actionGroup.activeAction.state : -1

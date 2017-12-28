@@ -21,60 +21,85 @@
 
 #include <paths.h>
 
-SurfaceManager *SurfaceManager::the_surface_manager = nullptr;
+#define SURFACEMANAGER_DEBUG 0
+
+#if SURFACEMANAGER_DEBUG
+#define DEBUG_MSG(params) qDebug().nospace() << "SurfaceManager[" << (void*)this << "]::" << __func__  << params
+#else
+#define DEBUG_MSG(params) ((void)0)
+#endif
+
+namespace unityapi = unity::shell::application;
+
+SurfaceManager *SurfaceManager::m_instance = nullptr;
 
 SurfaceManager *SurfaceManager::instance()
 {
-    return the_surface_manager;
+    return m_instance;
 }
 
-SurfaceManager::SurfaceManager(QObject *parent) :
-    QObject(parent)
-    , m_virtualKeyboard(nullptr)
+SurfaceManager::SurfaceManager(QObject *)
 {
-    Q_ASSERT(the_surface_manager == nullptr);
-    the_surface_manager = this;
+    DEBUG_MSG("");
 
-    m_virtualKeyboard = new VirtualKeyboard;
-    connect(m_virtualKeyboard, &QObject::destroyed, this, [this](QObject *obj) {
-        MirSurface* surface = qobject_cast<MirSurface*>(obj);
-        m_virtualKeyboard = nullptr;
-        Q_EMIT inputMethodSurfaceChanged();
-        Q_EMIT surfaceDestroyed(surface);
-    });
+    Q_ASSERT(m_instance == nullptr);
+    m_instance = this;
 }
 
 SurfaceManager::~SurfaceManager()
 {
-    Q_ASSERT(the_surface_manager == this);
-    the_surface_manager = nullptr;
+    DEBUG_MSG("");
+
+    if (m_virtualKeyboard) {
+        m_virtualKeyboard->setLive(false);
+    }
+
+    Q_ASSERT(m_instance == this);
+    m_instance = nullptr;
 }
 
 MirSurface *SurfaceManager::createSurface(const QString& name,
                                           Mir::Type type,
                                           Mir::State state,
-                                          const QUrl& screenshot)
+                                          MirSurface *parentSurface,
+                                          const QUrl &screenshot,
+                                          const QUrl &qmlFilePath)
 {
-    MirSurface* surface = new MirSurface(name, type, state, screenshot);
-    connect(surface, &QObject::destroyed, this, [this](QObject *obj) {
-        MirSurface* surface = qobject_cast<MirSurface*>(obj);
-        Q_EMIT surfaceDestroyed(surface);
-    });
-
-    surface->setMinimumWidth(m_newSurfaceMinimumWidth);
-    surface->setMaximumWidth(m_newSurfaceMaximumWidth);
-    surface->setMinimumHeight(m_newSurfaceMinimumHeight);
-    surface->setMaximumHeight(m_newSurfaceMaximumHeight);
-    surface->setWidthIncrement(m_newSurfaceWidthIncrement);
-    surface->setHeightIncrement(m_newSurfaceHeightIncrement);
-
-    Q_EMIT surfaceCreated(surface);
+    MirSurface* surface = new MirSurface(name, type, state, parentSurface, screenshot, qmlFilePath);
+    registerSurface(surface);
+    if (parentSurface) {
+        static_cast<MirSurfaceListModel*>(parentSurface->childSurfaceList())->addSurface(surface);
+    }
     return surface;
 }
 
-MirSurface *SurfaceManager::inputMethodSurface() const
+void SurfaceManager::registerSurface(MirSurface *surface)
 {
-    return m_virtualKeyboard;
+    m_surfaces.prepend(surface);
+
+    if (!surface->parentSurface()) {
+        surface->setMinimumWidth(m_newSurfaceMinimumWidth);
+        surface->setMaximumWidth(m_newSurfaceMaximumWidth);
+        surface->setMinimumHeight(m_newSurfaceMinimumHeight);
+        surface->setMaximumHeight(m_newSurfaceMaximumHeight);
+        surface->setWidthIncrement(m_newSurfaceWidthIncrement);
+        surface->setHeightIncrement(m_newSurfaceHeightIncrement);
+    }
+
+    connect(surface, &MirSurface::stateRequested, this, [=](Mir::State state) {
+        this->onStateRequested(surface, state);
+    });
+
+    const QString persistentId = surface->persistentId();
+    connect(surface, &QObject::destroyed, this, [=]() {
+        this->onSurfaceDestroyed(surface, persistentId);
+    });
+
+}
+
+void SurfaceManager::notifySurfaceCreated(unityapi::MirSurfaceInterface *surface)
+{
+    Q_EMIT surfaceCreated(surface);
 }
 
 void SurfaceManager::setNewSurfaceMinimumWidth(int value)
@@ -122,5 +147,135 @@ void SurfaceManager::setNewSurfaceHeightIncrement(int value)
     if (m_newSurfaceHeightIncrement != value) {
         m_newSurfaceHeightIncrement = value;
         Q_EMIT newSurfaceHeightIncrementChanged(m_newSurfaceHeightIncrement);
+    }
+}
+
+void SurfaceManager::raise(unityapi::MirSurfaceInterface *surface)
+{
+    if (m_underModification)
+        return;
+
+    DEBUG_MSG("("<<surface<<") started");
+    Q_EMIT modificationsStarted();
+    m_underModification = true;
+
+    doRaise(surface);
+
+    m_underModification = false;
+    Q_EMIT modificationsEnded();
+    DEBUG_MSG("("<<surface<<") ended");
+}
+
+void SurfaceManager::doRaise(unityapi::MirSurfaceInterface *apiSurface)
+{
+    auto surface = static_cast<MirSurface*>(apiSurface);
+    int index = m_surfaces.indexOf(surface);
+    Q_ASSERT(index != -1);
+    m_surfaces.move(index, 0);
+
+    Q_EMIT surfacesRaised({surface});
+}
+
+void SurfaceManager::activate(unityapi::MirSurfaceInterface *apiSurface)
+{
+    auto surface = static_cast<MirSurface*>(apiSurface);
+
+    if (surface == m_focusedSurface) {
+        return;
+    }
+
+    Q_ASSERT(!m_underModification);
+
+    DEBUG_MSG("("<<surface<<") started");
+    Q_EMIT modificationsStarted();
+    m_underModification = true;
+    if (m_focusedSurface) {
+        m_focusedSurface->setFocused(false);
+    }
+    if (surface) {
+        if (surface->state() == Mir::HiddenState || surface->state() == Mir::MinimizedState) {
+            if (surface->previousState() != Mir::UnknownState) {
+                surface->setState(surface->previousState());
+            } else {
+                surface->setState(Mir::RestoredState);
+            }
+        }
+        surface->setFocused(true);
+        doRaise(surface);
+    }
+    m_focusedSurface = surface;
+    m_underModification = false;
+    Q_EMIT modificationsEnded();
+    DEBUG_MSG("("<<surface<<") ended");
+}
+
+void SurfaceManager::onStateRequested(MirSurface *surface, Mir::State state)
+{
+    DEBUG_MSG("("<<surface<<","<<state<<") started");
+    Q_EMIT modificationsStarted();
+    m_underModification = true;
+
+    surface->setPreviousState(surface->state());
+    surface->setState(state);
+
+    if ((state == Mir::MinimizedState || state == Mir::HiddenState) && surface->focused()) {
+        Q_ASSERT(m_focusedSurface == surface);
+        surface->setFocused(false);
+        m_focusedSurface = nullptr;
+        focusFirstAvailableSurface();
+    }
+
+    m_underModification = false;
+    Q_EMIT modificationsEnded();
+    DEBUG_MSG("("<<surface<<","<<state<<") ended");
+}
+
+void SurfaceManager::onSurfaceDestroyed(MirSurface *surface, const QString& persistentId)
+{
+    m_surfaces.removeAll(surface);
+    if (m_focusedSurface == surface) {
+        m_focusedSurface = nullptr;
+
+        Q_EMIT modificationsStarted();
+        m_underModification = true;
+
+        focusFirstAvailableSurface();
+
+        m_underModification = false;
+        Q_EMIT modificationsEnded();
+    }
+    Q_EMIT surfaceDestroyed(persistentId);
+}
+
+void SurfaceManager::focusFirstAvailableSurface()
+{
+    MirSurface *chosenSurface = nullptr;
+    for (int i = 0; i < m_surfaces.count() && !chosenSurface; ++i) {
+        auto *surface = m_surfaces[i];
+        if (surface->state() != Mir::HiddenState && surface->state() != Mir::MinimizedState) {
+            chosenSurface = surface;
+        }
+    }
+
+    if (!chosenSurface) {
+        return;
+    }
+
+    if (m_focusedSurface) {
+        m_focusedSurface->setFocused(false);
+    }
+
+    chosenSurface->setFocused(true);
+    doRaise(chosenSurface);
+
+    m_focusedSurface = chosenSurface;
+}
+
+void SurfaceManager::createInputMethodSurface()
+{
+    if (!m_virtualKeyboard) {
+        m_virtualKeyboard = new VirtualKeyboard;
+        registerSurface(m_virtualKeyboard);
+        Q_EMIT surfaceCreated(m_virtualKeyboard);
     }
 }

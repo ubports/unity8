@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2016-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,12 +17,13 @@
 #include "MirSurfaceListModel.h"
 #include "ApplicationInfo.h"
 
-#include "MirSurface.h"
+#include <unity/shell/application/MirSurfaceInterface.h>
 
 #define MIRSURFACELISTMODEL_DEBUG 0
 
-#ifdef MIRSURFACELISTMODEL_DEBUG
-#define DEBUG_MSG(params) qDebug().nospace() << "MirSurfaceListModel::" << __func__  << " " << params
+#if MIRSURFACELISTMODEL_DEBUG
+#include <QDebug>
+#define DEBUG_MSG(params) qDebug().nospace() << "MirSurfaceListModel::" << __func__  <<  params
 #else
 #define DEBUG_MSG(params) ((void)0)
 #endif
@@ -45,35 +46,25 @@ QVariant MirSurfaceListModel::data(const QModelIndex& index, int role) const
         return QVariant();
 
     if (role == SurfaceRole) {
-        MirSurface *surface = m_surfaceList.at(index.row());
+        MirSurfaceInterface *surface = m_surfaceList.at(index.row());
         return QVariant::fromValue(static_cast<unity::shell::application::MirSurfaceInterface*>(surface));
     } else {
         return QVariant();
     }
 }
 
-void MirSurfaceListModel::raise(MirSurface *surface)
+void MirSurfaceListModel::raise(MirSurfaceInterface *surface)
 {
+    DEBUG_MSG("(" << surface << ")");
     int i = m_surfaceList.indexOf(surface);
     if (i != -1) {
         moveSurface(i, 0);
     }
 }
 
-void MirSurfaceListModel::appendSurface(MirSurface *surface)
+void MirSurfaceListModel::addSurface(MirSurfaceInterface *surface)
 {
-    beginInsertRows(QModelIndex(), m_surfaceList.size(), m_surfaceList.size());
-    m_surfaceList.append(surface);
-    connectSurface(surface);
-    endInsertRows();
-    Q_EMIT countChanged(m_surfaceList.count());
-    if (m_surfaceList.count() == 1) {
-        Q_EMIT firstChanged();
-    }
-}
-
-void MirSurfaceListModel::prependSurface(MirSurface *surface)
-{
+    DEBUG_MSG("(" << surface << ")");
     beginInsertRows(QModelIndex(), 0, 0);
     m_surfaceList.prepend(surface);
     connectSurface(surface);
@@ -82,12 +73,17 @@ void MirSurfaceListModel::prependSurface(MirSurface *surface)
     Q_EMIT firstChanged();
 }
 
-void MirSurfaceListModel::connectSurface(MirSurface *surface)
+void MirSurfaceListModel::connectSurface(MirSurfaceInterface *surface)
 {
     connect(surface, &QObject::destroyed, this, [this, surface](){ this->removeSurface(surface); });
+    connect(surface, &MirSurfaceInterface::focusedChanged, this, [this, surface](bool surfaceFocused){
+        if (surfaceFocused) {
+            raise(surface);
+        }
+    });
 }
 
-void MirSurfaceListModel::removeSurface(MirSurface *surface)
+void MirSurfaceListModel::removeSurface(MirSurfaceInterface *surface)
 {
     int i = m_surfaceList.indexOf(surface);
     if (i != -1) {
@@ -137,22 +133,4 @@ const MirSurfaceInterface *MirSurfaceListModel::get(int index) const
     } else {
         return nullptr;
     }
-}
-
-MirSurfaceInterface *MirSurfaceListModel::createSurface()
-{
-    QStringList screenshotIds = {"gallery", "map", "facebook", "camera", "browser", "music", "twitter"};
-    int i = rand() % screenshotIds.count();
-
-    QUrl screenshotUrl = QString("qrc:///Unity/Application/screenshots/%1@12.png")
-            .arg(screenshotIds[i]);
-
-    auto surface = new MirSurface(QString("prompt foo"),
-            Mir::NormalType,
-            Mir::RestoredState,
-            screenshotUrl);
-
-    prependSurface(surface);
-
-    return surface;
 }

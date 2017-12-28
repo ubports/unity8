@@ -25,7 +25,7 @@ TutorialPage {
 
     // Unlike other tutorials, this one can't be skipped before we show it, so
     // only set opacityOverride if we're already shown.
-    opacityOverride: shown ? 1 - launcher.dragDistance / launcher.minimizeDistance : 1
+    opacityOverride: shown ? 1 - launcher.dragDistance / (launcher.panelWidth * 3) : 1
 
     mouseArea {
         anchors.leftMargin: launcher.dragAreaWidth
@@ -46,7 +46,7 @@ TutorialPage {
     }
 
     label {
-        text: i18n.tr("Long swipe from the left edge to open the Today scope")
+        text: i18n.tr("Long swipe from the left edge to open the Application Drawer")
         anchors.left: arrow.right
         anchors.leftMargin: units.gu(3)
         anchors.right: root.right

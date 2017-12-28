@@ -32,6 +32,7 @@ Item {
 
     visible: !editMode || isFavoritesFeed
 
+    signal itemDragging(bool dragging, var dragItem)
     signal requestFavorite(string scopeId, bool favorite)
     signal requestEditMode()
     signal requestScopeMoveTo(string scopeId, int index)
@@ -88,7 +89,7 @@ Item {
                 icon: model.art || model.mascot || ""
                 text: model.title || ""
                 subtext: model.subtitle || ""
-                showStar: model.scopeId !== "clickscope" && (root.isFavoritesFeed || root.isAlsoInstalled)
+                showStar: root.isFavoritesFeed || root.isAlsoInstalled
                 isFavorite: root.isFavoritesFeed
 
                 hideChildren: dragItem.loaderToShrink == loader
@@ -109,6 +110,7 @@ Item {
                 onRequestFavorite: root.requestFavorite(model.scopeId, favorite);
                 onHandlePressed: {
                     if (editMode) {
+                        root.itemDragging(true, dragItem);
                         handle.drag.target = dragItem;
                         handle.drag.maximumX = units.gu(1);
                         handle.drag.minimumX = units.gu(1);
@@ -126,6 +128,7 @@ Item {
                     }
                 }
                 onHandleReleased: {
+                    root.itemDragging(false, dragItem);
                     if (dragItem.visible) {
                         handle.drag.target = undefined;
                         dragItem.visible = false;

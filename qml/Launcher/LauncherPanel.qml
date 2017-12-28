@@ -19,6 +19,7 @@ import QtQml.StateMachine 1.0 as DSM
 import Ubuntu.Components 1.3
 import Unity.Launcher 0.1
 import Ubuntu.Components.Popups 1.3
+import Utils 0.1
 import "../Components"
 
 Rectangle {
@@ -29,12 +30,14 @@ Rectangle {
 
     property var model
     property bool inverted: false
+    property bool privateMode: false
     property bool dragging: false
     property bool moving: launcherListView.moving || launcherListView.flicking
     property bool preventHiding: moving || dndArea.draggedIndex >= 0 || quickList.state === "open" || dndArea.pressed
                                  || dndArea.containsMouse || dashItem.hovered
     property int highlightIndex: -2
     property bool shortcutHintsShown: false
+    readonly property bool quickListOpen: quickList.state === "open"
 
     signal applicationSelected(string appId)
     signal showDashHome()
@@ -80,6 +83,7 @@ Rectangle {
         }
 
         Rectangle {
+            id: bfb
             objectName: "buttonShowDashHome"
             width: parent.width
             height: width * .9
@@ -90,8 +94,10 @@ Rectangle {
                 objectName: "dashItem"
                 width: parent.width * .6
                 height: width
+                sourceSize.width: width
+                sourceSize.height: height
                 anchors.centerIn: parent
-                source: "graphics/home.png"
+                source: "graphics/home.svg"
                 rotation: root.rotation
             }
             AbstractButton {
@@ -100,13 +106,15 @@ Rectangle {
                 activeFocusOnPress: false
                 onClicked: root.showDashHome()
             }
-            Rectangle {
-                objectName: "bfbFocusHighlight"
+
+            StyledItem {
+                styleName: "FocusShape"
                 anchors.fill: parent
-                border.color: "white"
-                border.width: units.dp(1)
-                color: "transparent"
-                visible: parent.highlighted
+                anchors.margins: units.gu(.5)
+                StyleHints {
+                    visible: bfb.highlighted
+                    radius: 0
+                }
             }
         }
 
@@ -145,19 +153,23 @@ Rectangle {
                     // destroyed when dragging them outside the list. This needs to be at least
                     // itemHeight to prevent folded items from disappearing and DragArea limits
                     // need to be smaller than this size to avoid breakage.
-                    property int extensionSize: 0
+                    property int extensionSize: itemHeight * 3
 
-                    // Setting extensionSize after the list has been populated because it has
-                    // the potential to mess up with the intial positioning in combination
-                    // with snapping to the center of the list. This catches all the cases
-                    // where the item would be outside the list for more than itemHeight / 2.
-                    // For the rest, give it a flick to scroll to the beginning. Note that
-                    // the flicking alone isn't enough because in some cases it's not strong
-                    // enough to overcome the snapping.
+                    // Workaround: The snap settings in the launcher, will always try to
+                    // snap to what we told it to do. However, we want the initial position
+                    // of the launcher to not be centered, but instead start with the topmost
+                    // item unfolded completely. Lets wait for the ListView to settle after
+                    // creation and then reposition it to 0.
                     // https://bugreports.qt-project.org/browse/QTBUG-32251
                     Component.onCompleted: {
-                        extensionSize = itemHeight * 3
-                        flick(0, clickFlickSpeed)
+                        initTimer.start();
+                    }
+                    Timer {
+                        id: initTimer
+                        interval: 1
+                        onTriggered: {
+                            launcherListView.moveToIndex(0)
+                        }
                     }
 
                     // The height of the area where icons start getting folded
@@ -417,7 +429,18 @@ Rectangle {
                         property int startX
                         property int startY
 
+                        // This is a workaround for some issue in the QML ListView:
+                        // When calling moveToItem(0), the listview visually positions itself
+                        // correctly to display the first item expanded. However, some internal
+                        // state seems to not be valid, and the next time the user clicks on it,
+                        // it snaps back to the snap boundries before executing the onClicked handler.
+                        // This can cause the listview getting stuck in a snapped position where you can't
+                        // launch things without first dragging the launcher manually. So lets read the item
+                        // angle before that happens and use that angle instead of the one we get in onClicked.
+                        property real pressedStartAngle: 0
                         onPressed: {
+                            var clickedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
+                            pressedStartAngle = clickedItem.angle;
                             processPress(mouse);
                         }
 
@@ -444,9 +467,8 @@ Rectangle {
 
                             // First/last item do the scrolling at more than 12 degrees
                             if (index == 0 || index == launcherListView.count - 1) {
-                                if (clickedItem.angle > 12 || clickedItem.angle < -12) {
-                                    launcherListView.moveToIndex(index);
-                                } else {
+                                launcherListView.moveToIndex(index);
+                                if (pressedStartAngle <= 12 && pressedStartAngle >= -12) {
                                     root.applicationSelected(LauncherModel.get(index).appId);
                                 }
                                 return;
@@ -669,6 +691,8 @@ Rectangle {
     InverseMouseArea {
         anchors.fill: quickListShape
         enabled: quickList.state == "open" || pressed
+        hoverEnabled: enabled
+        visible: enabled
 
         onClicked: {
             quickList.state = "";
@@ -727,16 +751,18 @@ Rectangle {
         Keys.onPressed: {
             switch (event.key) {
             case Qt.Key_Down:
-                selectedIndex++;
-                if (selectedIndex >= popoverRepeater.count) {
-                    selectedIndex = 0;
+                var prevIndex = selectedIndex;
+                selectedIndex = (selectedIndex + 1 < popoverRepeater.count) ? selectedIndex + 1 : 0;
+                while (!popoverRepeater.itemAt(selectedIndex).clickable && selectedIndex != prevIndex) {
+                    selectedIndex = (selectedIndex + 1 < popoverRepeater.count) ? selectedIndex + 1 : 0;
                 }
                 event.accepted = true;
                 break;
             case Qt.Key_Up:
-                selectedIndex--;
-                if (selectedIndex < 0) {
-                    selectedIndex = popoverRepeater.count - 1;
+                var prevIndex = selectedIndex;
+                selectedIndex = (selectedIndex > 0) ? selectedIndex - 1 : popoverRepeater.count - 1;
+                while (!popoverRepeater.itemAt(selectedIndex).clickable && selectedIndex != prevIndex) {
+                    selectedIndex = (selectedIndex > 0) ? selectedIndex - 1 : popoverRepeater.count - 1;
                 }
                 event.accepted = true;
                 break;
@@ -774,11 +800,26 @@ Rectangle {
             quickList.model = launcherListView.model.get(index).quickList;
             quickList.appId = launcherListView.model.get(index).appId;
             quickList.state = "open";
+            root.highlightIndex = index;
+            quickList.forceActiveFocus();
         }
 
         Item {
             width: parent.width
             height: quickListColumn.height
+
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                onPositionChanged: {
+                    var item = quickListColumn.childAt(mouseX, mouseY);
+                    if (item.clickable) {
+                        quickList.selectedIndex = item.index;
+                    } else {
+                        quickList.selectedIndex = -1;
+                    }
+                }
+            }
 
             Column {
                 id: quickListColumn
@@ -787,9 +828,16 @@ Rectangle {
 
                 Repeater {
                     id: popoverRepeater
-                    model: quickList.model
+                    objectName: "popoverRepeater"
+                    model: QuickListProxyModel {
+                        source: quickList.model
+                        privateMode: root.privateMode
+                    }
 
                     ListItem {
+                        readonly property bool clickable: model.clickable
+                        readonly property int index: model.index
+
                         objectName: "quickListEntry" + index
                         selected: index === quickList.selectedIndex
                         height: label.implicitHeight + label.anchors.topMargin + label.anchors.bottomMargin
@@ -811,6 +859,7 @@ Rectangle {
                             fontSize: index == 0 ? "medium" : "small"
                             font.weight: index == 0 ? Font.Medium : Font.Light
                             color: model.clickable ? theme.palette.normal.backgroundText : theme.palette.disabled.backgroundText
+                            elide: Text.ElideRight
                         }
 
                         onClicked: {

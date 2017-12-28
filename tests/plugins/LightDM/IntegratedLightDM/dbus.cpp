@@ -23,6 +23,7 @@
 #include <QQuickItem>
 #include <QQuickView>
 #include <QtTestGui>
+#include <paths.h>
 
 class GreeterDBusTest : public QObject
 {
@@ -58,7 +59,7 @@ private Q_SLOTS:
     void init()
     {
         view = new QQuickView();
-        view->setSource(QUrl::fromLocalFile(CURRENT_SOURCE_DIR "/greeter.qml"));
+        view->setSource(QUrl::fromLocalFile(testDataDir() + "/plugins/LightDM/IntegratedLightDM/greeter.qml"));
         greeter = dynamic_cast<Greeter*>(view->rootObject()->property("greeter").value<QObject*>());
         QVERIFY(greeter);
         QVERIFY(greeter->authenticationUser() == "");
@@ -81,6 +82,7 @@ private Q_SLOTS:
     void cleanup()
     {
         delete view;
+        delete greeter; // reset singleton
     }
 
     void testGetActiveEntry()
@@ -136,10 +138,10 @@ private Q_SLOTS:
     {
         QSignalSpy spy(this, &GreeterDBusTest::PropertiesChangedRelay);
         greeter->authenticate("has-password");
-        spy.wait();
 
-        QVERIFY(spy.count() > 0);
-        QList<QVariant> arguments = spy.takeFirst();
+        QTRY_COMPARE(spy.count(), 2); // EntryIsLocked then ActiveEntry
+
+        QList<QVariant> arguments = spy[1];
         QVERIFY(arguments.at(0).toString() == "com.canonical.UnityGreeter.List");
         QVERIFY(arguments.at(1).toMap().contains("ActiveEntry"));
         QVERIFY(arguments.at(1).toMap()["ActiveEntry"] == "has-password");
@@ -161,15 +163,10 @@ private Q_SLOTS:
         QSignalSpy spy(this, &GreeterDBusTest::PropertiesChangedRelay);
         greeter->authenticate("no-password");
 
-        // Two property changed signals will be emitted, one for the IsLocked
-        // property, one for the ActiveEntry; the first will be IsLocked.
-        spy.wait();
-        if (spy.count() < 2) {
-            spy.wait();
-        }
-        QCOMPARE(spy.count(), 2);
+        // EntryIsLocked=true, ActiveEntry, then EntryIsLocked=false
+        QTRY_COMPARE(spy.count(), 3);
 
-        QList<QVariant> arguments = spy.takeLast();
+        QList<QVariant> arguments = spy[2];
         QVERIFY(arguments.at(0).toString() == "com.canonical.UnityGreeter.List");
         QVERIFY(arguments.at(1).toMap().contains("EntryIsLocked"));
         QVERIFY(arguments.at(1).toMap()["EntryIsLocked"] == false);

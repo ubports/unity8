@@ -23,6 +23,7 @@
 #include "quicklistmodel.h"
 
 #include <unity/shell/launcher/LauncherItemInterface.h>
+#include <unity/shell/application/MirSurfaceInterface.h>
 
 class QuickListModel;
 
@@ -37,6 +38,7 @@ public:
     QString appId() const override;
     QString name() const override;
     QString icon() const override;
+    QStringList keywords() const override;
     bool pinned() const override;
     bool running() const override;
     bool recent() const override;
@@ -52,6 +54,7 @@ public:
 private:
     void setName(const QString &name);
     void setIcon(const QString &icon);
+    void setKeywords(const QStringList &keywords);
     void setPinned(bool pinned);
     void setRunning(bool running);
     void setRecent(bool recent);
@@ -60,12 +63,13 @@ private:
     void setCountVisible(bool countVisible);
     void setFocused(bool focused);
     void setAlerting(bool alerting);
-    void setSurfaceCount(int surfaceCount);
+    void setSurfaces(const QList<QPair<QString, QString >> &surfaces);
 
 private:
     QString m_appId;
     QString m_name;
     QString m_icon;
+    QStringList m_keywords;
     bool m_pinned;
     bool m_running;
     bool m_recent;
@@ -74,11 +78,12 @@ private:
     bool m_countVisible;
     bool m_focused;
     bool m_alerting;
-    int m_surfaceCount;
+    QList<QPair<QString, QString> > m_surfaces;
     QuickListModel *m_quickList;
     QuickListEntry m_quitAction;
 
     friend class LauncherModel;
+    friend class AppDrawerModel;
 };
 
 #endif // LAUNCHERITEM_H

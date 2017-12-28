@@ -22,7 +22,7 @@ import "../../../qml/Components"
 import "../../../qml/Stage"
 import Ubuntu.Components 1.3
 import Unity.Application 0.1
-import WindowManager 0.1
+import WindowManager 1.0
 
 Item {
     id: root
@@ -30,6 +30,12 @@ Item {
     height: units.gu(70)
 
     property var greeter: { fullyShown: true }
+
+    SurfaceManager { id: sMgr }
+    ApplicationMenuDataLoader {
+        id: appMenuData
+        surfaceManager: sMgr
+    }
 
     Stage {
         id: stage
@@ -41,9 +47,18 @@ Item {
         orientations: Orientations {}
         applicationManager: ApplicationManager
         mode: "staged"
-        topLevelSurfaceList: TopLevelSurfaceList {
+        topLevelSurfaceList: TopLevelWindowModel {
             id: topLevelSurfaceList
-            applicationsModel: ApplicationManager
+            applicationManager: ApplicationManager
+            surfaceManager: sMgr
+        }
+        availableDesktopArea: availableDesktopAreaItem
+        Item {
+            id: availableDesktopAreaItem
+            anchors.fill: parent
+        }
+        Component.onCompleted: {
+            ApplicationManager.startApplication("unity8-dash");
         }
     }
 
@@ -86,11 +101,16 @@ Item {
 
         function init() {
             // wait until unity8-dash is up and running.
-            // it's started automatically by ApplicationManager mock implementation
+            ApplicationManager.startApplication("unity8-dash");
             tryCompare(ApplicationManager, "count", 1);
             var dashApp = ApplicationManager.findApplication("unity8-dash");
             verify(dashApp);
             tryCompare(dashApp, "state", ApplicationInfoInterface.Running);
+
+            // wait for Stage to stabilize back into its initial state
+            var appRepeater = findChild(stage, "appRepeater");
+            tryCompare(appRepeater, "count", 1);
+            tryCompare(appRepeater.itemAt(0), "x", 0);
         }
 
         function cleanup() {
@@ -100,10 +120,6 @@ Item {
             waitForRendering(stage);
 
             killApps();
-            // wait for Stage to stabilize back into its initial state
-            var appRepeater = findChild(stage, "appRepeater");
-            tryCompare(appRepeater, "count", 1);
-            tryCompare(appRepeater.itemAt(0), "x", 0);
 
             stage.shellOrientationAngle = 0;
 
@@ -334,32 +350,6 @@ Item {
             tryCompare(firstApp, "focused", true);
         }
 
-        function test_leftEdge_data() {
-            return [
-                { tag: "normal", inSpread: false, leftEdgeDragWidth: units.gu(20), shouldMoveApp: true },
-                { tag: "inSpread", inSpread: true, leftEdgeDragWidth: units.gu(5), shouldMoveApp: false }
-            ]
-        }
-
-        function test_leftEdge(data) {
-            addApps(2);
-
-            if (data.inSpread) {
-                performEdgeSwipeToShowAppSpread();
-            }
-
-            var focusedDelegate = findChild(stage, "appDelegate_" + topLevelSurfaceList.idAt(0));
-            var currentX = focusedDelegate.x;
-
-            stage.leftEdgeDragProgress = data.leftEdgeDragWidth;
-
-            tryCompare(focusedDelegate, "x", data.shouldMoveApp ? data.leftEdgeDragWidth : currentX);
-
-            stage.leftEdgeDragProgress = 0;
-
-            tryCompare(focusedDelegate, "x", currentX);
-        }
-
         function test_focusedAppIsTheOnlyRunningApp() {
             addApps(2);
 
@@ -433,11 +423,10 @@ Item {
 
         function test_mouseEdgePush() {
             addApps(1);
-            mouseMove(stage, stage.width -  1, units.gu(10));
-            for (var i = 0; i < units.gu(10); i++) {
-                stage.pushRightEdge(1);
-            }
-            mouseMove(stage, stage.width - units.gu(5), units.gu(10));
+            // When progress goes to 1 it should switch to spread, but stay there even if progress goes back
+            stage.rightEdgePushProgress = 1;
+            compare(stage.state, "spread");
+            stage.rightEdgePushProgress = 0;
             compare(stage.state, "spread");
         }
 
@@ -505,7 +494,7 @@ Item {
         function test_selectSuspendedAppWithoutSurface() {
             compare(topLevelSurfaceList.applicationAt(0).appId, "unity8-dash");
             var dashSurfaceId = topLevelSurfaceList.idAt(0);
-            var dashSurface = topLevelSurfaceList.surfaceAt(0);
+            var dashWindow = topLevelSurfaceList.windowAt(0);
 
             var webbrowserSurfaceId = topLevelSurfaceList.nextId;
             var webbrowserApp  = ApplicationManager.startApplication("webbrowser-app");
@@ -513,7 +502,7 @@ Item {
 
             switchToSurface(dashSurfaceId);
 
-            tryCompare(MirFocusController, "focusedSurface", dashSurface);
+            tryCompare(topLevelSurfaceList, "focusedWindow", dashWindow);
             tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Suspended);
 
             compare(webbrowserApp.surfaceList.count, 1);
@@ -549,7 +538,7 @@ Item {
         {
             compare(topLevelSurfaceList.applicationAt(0).appId, "unity8-dash");
             var dashSurfaceId = topLevelSurfaceList.idAt(0);
-            var dashSurface = topLevelSurfaceList.surfaceAt(0);
+            var dashWindow = topLevelSurfaceList.windowAt(0);
 
             var webbrowserSurfaceId = topLevelSurfaceList.nextId;
             var webbrowserApp  = ApplicationManager.startApplication("webbrowser-app");
@@ -557,7 +546,7 @@ Item {
 
             switchToSurface(dashSurfaceId);
 
-            tryCompare(MirFocusController, "focusedSurface", dashSurface);
+            tryCompare(topLevelSurfaceList, "focusedWindow", dashWindow);
             tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Suspended);
 
             compare(webbrowserApp.surfaceList.count, 1);

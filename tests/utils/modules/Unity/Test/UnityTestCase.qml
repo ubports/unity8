@@ -163,9 +163,9 @@ TestCase {
             if (i === iterations - 1) {
                 // Avoid any rounding errors by making the last move be at precisely
                 // the point specified
-                mouseMove(item, toX, toY, iterations / speed)
+                mouseMove(item, toX, toY, timeStep)
             } else {
-                mouseMove(item, x + (i + 1) * diffX, y + (i + 1) * diffY, iterations / speed)
+                mouseMove(item, x + (i + 1) * diffX, y + (i + 1) * diffY, timeStep)
             }
         }
         if (releaseMouse) {
@@ -346,12 +346,12 @@ TestCase {
             if (i === iterations - 1) {
                 // Avoid any rounding errors by making the last move be at precisely
                 // the point specified
-                wait(iterations / speed)
+                wait(timeStep)
                 var event = touchEvent(item)
                 event.move(0 /* touchId */, rootTo.x, rootTo.y)
                 event.commit()
             } else {
-                wait(iterations / speed)
+                wait(timeStep)
                 var event = touchEvent(item)
                 event.move(0 /* touchId */, rootFrom.x + (i + 1) * diffX, rootFrom.y + (i + 1) * diffY)
                 event.commit()
@@ -617,15 +617,6 @@ TestCase {
         }
     }
 
-    // TODO This function can be removed altogether once we use Qt 5.5 which has the same feature
-    function waitForRendering(item, timeout) {
-        if (timeout === undefined)
-            timeout = 5000;
-        if (!item)
-            qtest_fail("No item given to waitForRendering", 1);
-        return qtest_results.waitForRendering(item, timeout);
-    }
-
     /*
       Wait until any transition animation has finished for the given StateGroup or Item
      */
@@ -638,18 +629,17 @@ TestCase {
     }
 
     /*
-         kill all (fake) running apps but unity8-dash, bringing Unity.Application back to its initial state
+         kill all (fake) running apps, bringing Unity.Application back to its initial state
      */
     function killApps() {
-        while (ApplicationManager.count > 1) {
-            var appIndex = ApplicationManager.get(0).appId == "unity8-dash" ? 1 : 0
-            var application = ApplicationManager.get(appIndex);
+        while (ApplicationManager.count > 0) {
+            var application = ApplicationManager.get(0);
             ApplicationManager.stopApplication(application.appId);
             // wait until all zombie surfaces are gone. As MirSurfaceItems hold references over them.
             // They won't be gone until those surface items are destroyed.
             tryCompareFunction(function() { return application.surfaceList.count }, 0);
             tryCompare(application, "state", ApplicationInfo.Stopped);
         }
-        compare(ApplicationManager.count, 1);
+        compare(ApplicationManager.count, 0);
     }
 }

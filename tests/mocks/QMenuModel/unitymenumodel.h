@@ -61,7 +61,7 @@ public:
 
     QString nameOwner() const;
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    Q_INVOKABLE int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QModelIndex index(int row, int column = 0, const QModelIndex &parent = QModelIndex()) const override;
@@ -73,6 +73,7 @@ public:
     Q_INVOKABLE QVariant get(int row, const QByteArray &role);
 
     Q_INVOKABLE void activate(int index, const QVariant& parameter = QVariant());
+    Q_INVOKABLE void aboutToShow(int index);
     Q_INVOKABLE void changeState(int index, const QVariant& parameter);
 
     void registerAction(UnityMenuAction* action);
@@ -87,6 +88,9 @@ Q_SIGNALS:
 
     // Internal mock usage
     void modelDataChanged();
+    void aboutToShowCalled(int index);
+
+    void activated(const QString& action);
 
 private:
     QVariantMap rowData(int row) const;
@@ -99,6 +103,13 @@ private:
     QByteArray m_busName;
     QVariantMap m_actions;
     QByteArray m_menuObjectPath;
+
+    enum RowCountStatus {
+        NoRequestMade,
+        TimerRunning,
+        TimerFinished
+    };
+    RowCountStatus m_rowCountStatus;
 };
 
 #endif // MOCK_UNITYMENUMODEL_H

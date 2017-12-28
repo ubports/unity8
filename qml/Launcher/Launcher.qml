@@ -19,18 +19,24 @@ import "../Components"
 import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
+import Utils 0.1 as Utils
 
 FocusScope {
     id: root
+
+    readonly property int ignoreHideIfMouseOverLauncher: 1
 
     property bool autohideEnabled: false
     property bool lockedVisible: false
     property bool available: true // can be used to disable all interactions
     property alias inverted: panel.inverted
+    property Item blurSource: null
+    property int topPanelHeight: 0
+    property bool drawerEnabled: true
+    property alias privateMode: panel.privateMode
 
     property int panelWidth: units.gu(10)
     property int dragAreaWidth: units.gu(1)
-    property int minimizeDistance: units.gu(26)
     property real progress: dragArea.dragging && dragArea.touchPosition.x > panelWidth ?
                                 (width * (dragArea.touchPosition.x-panelWidth) / (width - panelWidth)) : 0
 
@@ -43,12 +49,10 @@ FocusScope {
     readonly property alias shortcutHintsShown: panel.shortcutHintsShown
 
     readonly property bool shown: panel.x > -panel.width
+    readonly property bool drawerShown: drawer.x == 0
 
     // emitted when an application is selected
     signal launcherApplicationSelected(string appId)
-
-    // emitted when the apps dash should be shown because of a swipe gesture
-    signal dash()
 
     // emitted when the dash icon in the launcher has been tapped
     signal showDashHome()
@@ -62,13 +66,16 @@ FocusScope {
     }
 
     onSuperPressedChanged: {
+        if (state == "drawer")
+            return;
+
         if (superPressed) {
             superPressTimer.start();
             superLongPressTimer.start();
         } else {
             superPressTimer.stop();
             superLongPressTimer.stop();
-            launcher.switchToNextState("");
+            switchToNextState(root.lockedVisible ? "visible" : "");
             panel.shortcutHintsShown = false;
         }
     }
@@ -81,14 +88,14 @@ FocusScope {
             superPressTimer.stop();
             superLongPressTimer.stop();
         } else {
+            switchToNextState(root.lockedVisible ? "visible" : "");
+            root.focus = false;
             if (panel.highlightIndex == -1) {
-                showDashHome();
+                root.showDashHome();
             } else if (panel.highlightIndex >= 0){
                 launcherApplicationSelected(LauncherModel.get(panel.highlightIndex).appId);
             }
             panel.highlightIndex = -2;
-            switchToNextState("");
-            root.focus = false;
         }
     }
 
@@ -102,8 +109,25 @@ FocusScope {
         }
     }
 
-    function hide() {
-        switchToNextState("")
+    onPanelWidthChanged: {
+        hint();
+    }
+
+    function hide(flags) {
+        if ((flags & ignoreHideIfMouseOverLauncher) && Utils.Functions.itemUnderMouse(panel)) {
+            if (state == "drawer") {
+                switchToNextState("visibleTemporary");
+            }
+            return;
+        }
+        if (root.lockedVisible) {
+            // Due to binding updates when switching between modes
+            // it could happen that our request to show will be overwritten
+            // with a hide request. Rewrite it when we know hiding is not allowed.
+            switchToNextState("visible")
+        } else {
+            switchToNextState("")
+        }
     }
 
     function fadeOut() {
@@ -132,15 +156,32 @@ FocusScope {
     }
 
     function pushEdge(amount) {
-        if (root.state === "") {
+        if (root.state === "" || root.state == "visible" || root.state == "visibleTemporary") {
             edgeBarrier.push(amount);
         }
     }
 
     function openForKeyboardNavigation() {
         panel.highlightIndex = -1; // The BFB
+        drawer.focus = false;
         root.focus = true;
         switchToNextState("visible")
+    }
+
+    function openDrawer(focusInputField) {
+        if (!drawerEnabled) {
+            return;
+        }
+
+        panel.shortcutHintsShown = false;
+        superPressTimer.stop();
+        superLongPressTimer.stop();
+        root.focus = true;
+        drawer.focus = true;
+        if (focusInputField) {
+            drawer.focusInput();
+        }
+        switchToNextState("drawer")
     }
 
     Keys.onPressed: {
@@ -181,7 +222,7 @@ FocusScope {
         case Qt.Key_Return:
         case Qt.Key_Space:
             if (panel.highlightIndex == -1) {
-                showDashHome();
+                root.showDashHome();
             } else if (panel.highlightIndex >= 0) {
                 launcherApplicationSelected(LauncherModel.get(panel.highlightIndex).appId);
             }
@@ -225,13 +266,6 @@ FocusScope {
         interval: 1
         property string nextState: ""
         onTriggered: {
-            if (root.lockedVisible && nextState == "") {
-                // Due to binding updates when switching between modes
-                // it could happen that our request to show will be overwritten
-                // with a hide request. Rewrite it when we know hiding is not allowed.
-                nextState = "visible"
-            }
-
             // switching to an intermediate state here to make sure all the
             // values are restored, even if we were already in the target state
             root.state = "tmp"
@@ -278,7 +312,8 @@ FocusScope {
     InverseMouseArea {
         id: closeMouseArea
         anchors.fill: panel
-        enabled: root.state == "visible" && (!root.lockedVisible || panel.highlightIndex >= -1)
+        enabled: (root.state == "visible" && !root.lockedVisible) || root.state == "drawer" || hoverEnabled
+        hoverEnabled: panel.quickListOpen
         visible: enabled
         onPressed: {
             mouse.accepted = false;
@@ -307,23 +342,70 @@ FocusScope {
         }
     }
 
-    EdgeBarrier {
-        id: edgeBarrier
-        edge: Qt.LeftEdge
-        target: parent
-        enabled: root.available
-        onPassed: { root.switchToNextState("visibleTemporary"); }
-        material: Component {
-            Item {
-                Rectangle {
-                    width: parent.height
-                    height: parent.width
-                    rotation: -90
-                    anchors.centerIn: parent
-                    gradient: Gradient {
-                        GradientStop { position: 0.0; color: Qt.rgba(panel.color.r, panel.color.g, panel.color.b, .5)}
-                        GradientStop { position: 1.0; color: Qt.rgba(panel.color.r,panel.color.g,panel.color.b,0)}
-                    }
+    BackgroundBlur {
+        id: backgroundBlur
+        anchors.fill: parent
+        anchors.topMargin: root.inverted ? 0 : -root.topPanelHeight
+        visible: root.blurSource && drawer.x > -drawer.width
+        blurAmount: units.gu(6)
+        sourceItem: root.blurSource
+        blurRect: Qt.rect(panel.width,
+                          root.topPanelHeight,
+                          drawer.width + drawer.x - panel.width,
+                          height - root.topPanelHeight)
+        cached: drawer.moving
+    }
+
+    Drawer {
+        id: drawer
+        objectName: "drawer"
+        anchors {
+            top: parent.top
+            topMargin: root.inverted ? root.topPanelHeight : 0
+            bottom: parent.bottom
+            right: parent.left
+            onRightMarginChanged: {
+                // Remove (and put back) the focus for the searchfield in
+                // order to hide the copy/paste popover when we move the drawer
+                var hadFocus = drawer.searchTextField.focus;
+                var oldSelectionStart = drawer.searchTextField.selectionStart;
+                var oldSelectionEnd = drawer.searchTextField.selectionEnd;
+                drawer.searchTextField.focus = false;
+                drawer.searchTextField.focus = hadFocus;
+                drawer.searchTextField.select(oldSelectionStart, oldSelectionEnd);
+            }
+        }
+        width: Math.min(root.width, units.gu(90)) * .9
+        panelWidth: panel.width
+        visible: x > -width
+
+        Behavior on anchors.rightMargin {
+            enabled: !dragArea.dragging && !launcherDragArea.drag.active && panel.animate && !drawer.draggingHorizontally
+            NumberAnimation {
+                duration: 300
+                easing.type: Easing.OutCubic
+            }
+        }
+
+        onApplicationSelected: {
+            root.hide();
+            root.launcherApplicationSelected(appId)
+            root.focus = false;
+        }
+
+        Keys.onEscapePressed: {
+            root.hide()
+        }
+
+        onDragDistanceChanged: {
+            anchors.rightMargin = Math.max(-drawer.width, anchors.rightMargin + dragDistance);
+        }
+        onDraggingHorizontallyChanged: {
+            if (!draggingHorizontally) {
+                if (drawer.x < -units.gu(10)) {
+                    root.hide();
+                } else {
+                    root.openDrawer();
                 }
             }
         }
@@ -332,7 +414,7 @@ FocusScope {
     LauncherPanel {
         id: panel
         objectName: "launcherPanel"
-        enabled: root.available && root.state == "visible" || root.state == "visibleTemporary"
+        enabled: root.available && (root.state == "visible" || root.state == "visibleTemporary" || root.state == "drawer")
         width: root.panelWidth
         anchors {
             top: parent.top
@@ -347,7 +429,7 @@ FocusScope {
             target: panel.dismissTimer
             onTriggered: {
                 if (root.autohideEnabled && !root.lockedVisible) {
-                    if (!panel.preventHiding) {
+                    if (!edgeBarrier.containsMouse && !panel.preventHiding) {
                         root.state = ""
                     } else {
                         panel.dismissTimer.restart()
@@ -359,11 +441,11 @@ FocusScope {
         property bool animate: true
 
         onApplicationSelected: {
-            root.hide();
+            root.hide(ignoreHideIfMouseOverLauncher);
             launcherApplicationSelected(appId)
         }
         onShowDashHome: {
-            root.hide();
+            root.hide(ignoreHideIfMouseOverLauncher);
             root.showDashHome();
         }
 
@@ -394,6 +476,38 @@ FocusScope {
         }
     }
 
+    EdgeBarrier {
+        id: edgeBarrier
+        edge: Qt.LeftEdge
+        target: parent
+        enabled: root.available
+        onProgressChanged: {
+            if (progress > .5 && root.state != "visibleTemporary" && root.state != "drawer" && root.state != "visible") {
+                root.switchToNextState("visibleTemporary");
+            }
+        }
+        onPassed: {
+            if (root.drawerEnabled) {
+                root.openDrawer()
+            }
+        }
+
+        material: Component {
+            Item {
+                Rectangle {
+                    width: parent.height
+                    height: parent.width
+                    rotation: -90
+                    anchors.centerIn: parent
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: Qt.rgba(panel.color.r, panel.color.g, panel.color.b, .5)}
+                        GradientStop { position: 1.0; color: Qt.rgba(panel.color.r,panel.color.g,panel.color.b,0)}
+                    }
+                }
+            }
+        }
+    }
+
     SwipeArea {
         id: dragArea
         objectName: "launcherDragArea"
@@ -405,25 +519,61 @@ FocusScope {
         width: root.dragAreaWidth
         height: root.height
 
-        onDistanceChanged: {
-            if (!dragging || launcher.state == "visible")
-                return;
+        function easeInOutCubic(t) { return t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1 }
 
-            panel.x = -panel.width + Math.min(Math.max(0, distance), panel.width);
+        property var lastDragPoints: []
+
+        function dragDirection() {
+            if (lastDragPoints.length < 5) {
+                return "unknown";
+            }
+
+            var toRight = true;
+            var toLeft = true;
+            for (var i = lastDragPoints.length - 5; i < lastDragPoints.length; i++) {
+                if (toRight && lastDragPoints[i] < lastDragPoints[i-1]) {
+                    toRight = false;
+                }
+                if (toLeft && lastDragPoints[i] > lastDragPoints[i-1]) {
+                    toLeft = false;
+                }
+            }
+            return toRight ? "right" : toLeft ? "left" : "unknown";
+        }
+
+        onDistanceChanged: {
+            if (dragging && launcher.state != "visible" && launcher.state != "drawer") {
+                panel.x = -panel.width + Math.min(Math.max(0, distance), panel.width);
+            }
+
+            if (root.drawerEnabled && dragging && launcher.state != "drawer") {
+                lastDragPoints.push(distance)
+                var drawerHintDistance = panel.width + units.gu(1)
+                if (distance < drawerHintDistance) {
+                    drawer.anchors.rightMargin = -Math.min(Math.max(0, distance), drawer.width);
+                } else {
+                    var linearDrawerX = Math.min(Math.max(0, distance - drawerHintDistance), drawer.width);
+                    var linearDrawerProgress = linearDrawerX / (drawer.width)
+                    var easedDrawerProgress = easeInOutCubic(linearDrawerProgress);
+                    drawer.anchors.rightMargin = -(drawerHintDistance + easedDrawerProgress * (drawer.width - drawerHintDistance));
+                }
+            }
         }
 
         onDraggingChanged: {
             if (!dragging) {
                 if (distance > panel.width / 2) {
-                    root.switchToNextState("visible")
-                    if (distance > minimizeDistance) {
-                        root.dash();
+                    if (root.drawerEnabled && distance > panel.width * 3 && dragDirection() !== "left") {
+                        root.openDrawer(false)
+                    } else {
+                        root.switchToNextState("visible");
                     }
                 } else if (root.state === "") {
                     // didn't drag far enough. rollback
-                    root.switchToNextState("")
+                    root.switchToNextState("");
                 }
             }
+            lastDragPoints = [];
         }
     }
 
@@ -434,12 +584,28 @@ FocusScope {
                 target: panel
                 x: -root.panelWidth
             }
+            PropertyChanges {
+                target: drawer
+                anchors.rightMargin: 0
+            }
         },
         State {
             name: "visible"
             PropertyChanges {
                 target: panel
                 x: -root.x // so we never go past panelWidth, even when teased by tutorial
+            }
+            PropertyChanges {
+                target: drawer
+                anchors.rightMargin: 0
+            }
+        },
+        State {
+            name: "drawer"
+            extend: "visible"
+            PropertyChanges {
+                target: drawer
+                anchors.rightMargin: -drawer.width + root.x // so we never go past panelWidth, even when teased by tutorial
             }
         },
         State {

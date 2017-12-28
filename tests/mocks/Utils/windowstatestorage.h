@@ -18,11 +18,13 @@
 #include <QVariantMap>
 #include <QRect>
 
+// unity-api
+#include <unity/shell/application/Mir.h>
+
 class WindowStateStorage: public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QVariantMap geometry READ geometry WRITE setGeometry NOTIFY geometryChanged)
-    Q_ENUMS(WindowState)
 public:
     enum WindowState {
         WindowStateNormal = 1 << 0,
@@ -39,10 +41,9 @@ public:
         WindowStateMaximizedBottomRight = 1 << 11,
         WindowStateRestored = 1 << 12
     };
+    Q_ENUM(WindowState)
     Q_DECLARE_FLAGS(WindowStates, WindowState)
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
     Q_FLAG(WindowStates)
-#endif
 
     WindowStateStorage(QObject *parent = 0);
 
@@ -57,6 +58,8 @@ public:
 
     // Only in the mock, to easily restore a fresh state
     Q_INVOKABLE void clear();
+
+    Q_INVOKABLE Mir::State toMirState(WindowState state) const;
 
 Q_SIGNALS:
     void geometryChanged(const QVariantMap& geometry);

@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2017 Canonical, Ltd.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 var usageScenario = (typeof shell != 'undefined') ? shell.usageScenario : "desktop";
 
 var fakeMenuData = {
@@ -567,7 +583,7 @@ var fakeMenuData = {
                             "state": "Stopped"
                         },
                         "ext": {},
-                        "icon": "file:///usr/share/mediaplayer-app/mediaplayer-app.png",
+                        "icon": "image://theme/mediaplayer-app",
                         "isCheck": false,
                         "isRadio": false,
                         "isSeparator": false,
@@ -863,7 +879,7 @@ var fakeMenuData = {
                         "ext": {
                             "xCanonicalUid": 1003
                         },
-                        "icon": "file:///usr/share/webbrowser-app/webbrowser-app.png",
+                        "icon": "image://theme/webbrowser-app",
                         "isCheck": false,
                         "isRadio": false,
                         "isSeparator": false,
@@ -912,7 +928,7 @@ var fakeMenuData = {
                         "ext": {
                             "xCanonicalUid": 1002
                         },
-                        "icon": "file:///usr/share/webbrowser-app/webbrowser-app.png",
+                        "icon": "image://theme/webbrowser-app",
                         "isCheck": false,
                         "isRadio": false,
                         "isSeparator": false,
@@ -929,7 +945,7 @@ var fakeMenuData = {
                         "ext": {
                             "xCanonicalUid": 1001
                         },
-                        "icon": "file:///usr/share/webbrowser-app/webbrowser-app.png",
+                        "icon": "image://theme/webbrowser-app",
                         "isCheck": false,
                         "isRadio": false,
                         "isSeparator": false,

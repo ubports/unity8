@@ -16,6 +16,7 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import GSettings 1.0
 import "../Components"
 
 FocusScope {
@@ -27,31 +28,30 @@ FocusScope {
     property bool isAlphanumeric
     property string text
     property bool isSecret
+    property bool interactive: true
+    readonly property alias enteredText: passwordInput.text
 
     signal clicked()
     signal canceled()
-    signal responded(string text)
-
-    function reset() {
-        passwordInput.text = "";
-        fakeLabel.text = "";
-        d.enabled = true;
-    }
+    signal accepted()
 
     function showFakePassword() {
         // Just a silly hack for looking like 4 pin numbers got entered, if
         // a fingerprint was used and we happen to be using a pin.  This was
         // a request from Design.
         if (isSecret && isPrompt && !isAlphanumeric) {
-            d.enabled = false;
-            text = "...."; // actual text doesn't matter
+            passwordInput.text = "...."; // actual text doesn't matter
         }
+    }
+
+    GSettings {
+        id: unity8Settings
+        schema.id: "com.canonical.Unity8"
     }
 
     StyledItem {
         id: d
 
-        property bool enabled: true
         readonly property color textColor: passwordInput.enabled ? theme.palette.normal.raisedText
                                                                  : theme.palette.disabled.raisedText
         readonly property color selectedColor: passwordInput.enabled ? theme.palette.normal.raised
@@ -60,12 +60,6 @@ FocusScope {
                                                                  : theme.palette.disabled.raisedSecondaryText
         readonly property color errorColor: passwordInput.enabled ? theme.palette.normal.negative
                                                                   : theme.palette.disabled.negative
-
-        onEnabledChanged: {
-            if (!enabled) {
-                fakeLabel.text = passwordInput.displayText;
-            }
-        }
     }
 
     Rectangle {
@@ -86,15 +80,17 @@ FocusScope {
         }
     }
 
-    Rectangle {
+    StyledItem {
         id: promptButton
         objectName: "promptButton"
         anchors.fill: parent
         visible: !root.isPrompt
+        activeFocusOnTab: true
+
+        styleName: "FocusShape"
 
         function triggered() {
-            if (d.enabled) {
-                d.enabled = false;
+            if (root.interactive) {
                 root.clicked();
             }
         }
@@ -109,6 +105,7 @@ FocusScope {
             }
         }
 
+        Keys.onSpacePressed: triggered();
         Keys.onReturnPressed: triggered();
         Keys.onEnterPressed: triggered();
         MouseArea {
@@ -129,6 +126,7 @@ FocusScope {
         anchors.fill: parent
         visible: root.isPrompt
         opacity: fakeLabel.visible ? 0 : 1
+        activeFocusOnTab: true
 
         validator: RegExpValidator {
             regExp: root.isAlphanumeric ? /^.*$/ : /^\d{4}$/
@@ -142,26 +140,47 @@ FocusScope {
 
         readonly property real frameSpacing: units.gu(0.5)
 
-        style: Item {
-            property color color: d.textColor
-            property color selectedTextColor: d.selectedColor
-            property color selectionColor: d.textColor
-            property color borderColor: "transparent"
-            property color backgroundColor: "transparent"
-            property color errorColor: d.errorColor
-            property real frameSpacing: passwordInput.frameSpacing
+        style: StyledItem {
             anchors.fill: parent
+            styleName: "FocusShape"
+
+            // Properties needed by TextField
+            readonly property color color: d.textColor
+            readonly property color selectedTextColor: d.selectedColor
+            readonly property color selectionColor: d.textColor
+            readonly property color borderColor: "transparent"
+            readonly property color backgroundColor: "transparent"
+            readonly property color errorColor: d.errorColor
+            readonly property real frameSpacing: styledItem.frameSpacing
+
+            // Properties needed by FocusShape
+            readonly property bool enabled: styledItem.enabled
+            readonly property bool keyNavigationFocus: styledItem.keyNavigationFocus
+            property bool activeFocusOnTab
         }
 
         secondaryItem: [
-            Icon {
-                id: capsIcon
-                name: "keyboard-caps-enabled"
-                height: units.gu(3)
-                width: units.gu(3)
-                color: d.textColor
-                visible: root.isSecret && false // TODO: detect when caps lock is on
-                readonly property real visibleWidth: visible ? width + passwordInput.frameSpacing : 0
+            Row {
+                id: extraIcons
+                spacing: passwordInput.frameSpacing
+                Icon {
+                    name: "keyboard-caps-enabled"
+                    height: units.gu(3)
+                    width: units.gu(3)
+                    color: d.textColor
+                    visible: root.isSecret && false // TODO: detect when caps lock is on
+                }
+                Icon {
+                    name: "input-keyboard-symbolic"
+                    height: units.gu(3)
+                    width: units.gu(3)
+                    color: d.textColor
+                    visible: !unity8Settings.alwaysShowOsk
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: unity8Settings.alwaysShowOsk = true
+                    }
+                }
             }
         ]
 
@@ -178,9 +197,8 @@ FocusScope {
         onAccepted: respond()
 
         function respond() {
-            if (d.enabled) {
-                d.enabled = false;
-                root.responded(text);
+            if (root.interactive) {
+                root.accepted();
             }
         }
 
@@ -194,12 +212,13 @@ FocusScope {
         // palette color, whereas we want raisedSecondaryText.
         Label {
             id: hint
+            objectName: "promptHint"
             anchors {
                 left: parent.left
                 right: parent.right
                 verticalCenter: parent.verticalCenter
                 leftMargin: units.gu(1.5)
-                rightMargin: anchors.leftMargin + capsIcon.visibleWidth
+                rightMargin: anchors.leftMargin + extraIcons.width
             }
             text: root.text
             visible: passwordInput.text == "" && !passwordInput.inputMethodComposing
@@ -221,8 +240,9 @@ FocusScope {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.leftMargin: passwordInput.frameSpacing * 2
-        anchors.rightMargin: passwordInput.frameSpacing * 2 + capsIcon.visibleWidth
+        anchors.rightMargin: passwordInput.frameSpacing * 2 + extraIcons.width
         color: d.drawColor
-        visible: root.isPrompt && !d.enabled
+        text: passwordInput.displayText
+        visible: root.isPrompt && !root.interactive
     }
 }

@@ -88,22 +88,12 @@ Item {
 
             WindowResizeArea {
                 id: windowResizeArea
+                anchors.fill: parent
                 target: fakeWindow
+                boundsItem: bounds
                 borderThickness: units.gu(2)
                 minWidth: units.gu(15)
                 minHeight: units.gu(10)
-                defaultWidth: units.gu(20)
-                defaultHeight: units.gu(20)
-                windowId: "test-window-id"
-                screenWidth: root.width
-                screenHeight: root.height
-
-                Component.onCompleted: {
-                    loadWindowState();
-                }
-                Component.onDestruction: {
-                    saveWindowState();
-                }
             }
 
             Rectangle {
@@ -132,7 +122,16 @@ Item {
         active: windowLoaderCheckbox.checked
     }
 
+    Item {
+        id: bounds
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.right: controls.left
+        anchors.bottom: parent.bottom
+    }
+
     Rectangle {
+        id: controls
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
@@ -275,7 +274,7 @@ Item {
 
             var startDragX = initialWindowX + initialWindowWidth + 1
             var startDragY = initialWindowY + initialWindowHeight + 1
-            mouseFlick(root, startDragX, startDragY, startDragX + data.dx, startDragY + data.dy, true, true, units.gu(.5), 10);
+            mouseFlick(root, startDragX, startDragY, startDragX + data.dx, startDragY + data.dy);
 
             tryCompare(fakeWindow, "width", Math.max(initialWindowWidth + data.dx, fakeWindow.resizeAreaMinWidth));
             tryCompare(fakeWindow, "height", Math.max(initialWindowHeight + data.dy, fakeWindow.resizeAreaMinHeight));
@@ -301,7 +300,7 @@ Item {
 
             var startDragX = initialWindowX - 1
             var startDragY = initialWindowY - 1
-            mouseFlick(root, startDragX, startDragY, startDragX + data.dx, startDragY + data.dy, true, true, units.gu(.5), 10);
+            mouseFlick(root, startDragX, startDragY, startDragX + data.dx, startDragY + data.dy);
 
             tryCompare(fakeWindow, "width", Math.max(initialWindowWidth - data.dx, fakeWindow.resizeAreaMinWidth));
             tryCompare(fakeWindow, "height", Math.max(initialWindowHeight - data.dy, fakeWindow.resizeAreaMinHeight));
@@ -310,30 +309,6 @@ Item {
             var maxMoveY = initialWindowHeight - fakeWindow.resizeAreaMinHeight;
             compare(fakeWindow.requestedX, Math.min(initialWindowX + data.dx, initialWindowX + maxMoveX));
             compare(fakeWindow.requestedY, Math.min(initialWindowY + data.dy, initialWindowY + maxMoveY));
-        }
-
-        function test_saveRestoreSize() {
-            var initialWindowX = fakeWindow.windowedX;
-            var initialWindowY = fakeWindow.windowedY;
-            var initialWindowWidth = fakeWindow.width
-            var initialWindowHeight = fakeWindow.height
-
-            var resizeDelta = units.gu(5)
-            var startDragX = initialWindowX + initialWindowWidth + 1
-            var startDragY = initialWindowY + initialWindowHeight + 1
-            mouseFlick(root, startDragX, startDragY, startDragX + resizeDelta, startDragY + resizeDelta, true, true, units.gu(.5), 10);
-
-            tryCompare(fakeWindow, "width", Math.max(initialWindowWidth + resizeDelta, fakeWindow.resizeAreaMinWidth));
-            tryCompare(fakeWindow, "height", Math.max(initialWindowHeight + resizeDelta, fakeWindow.resizeAreaMinHeight));
-
-            // This will destroy the window and recreate it
-            windowLoader.active = false;
-            waitForRendering(root);
-            windowLoader.active = true;
-
-            // Make sure its size is again the same as before
-            tryCompare(fakeWindow, "width", Math.max(initialWindowWidth + resizeDelta, fakeWindow.resizeAreaMinWidth));
-            tryCompare(fakeWindow, "height", Math.max(initialWindowHeight + resizeDelta, fakeWindow.resizeAreaMinHeight));
         }
 
         // This tests if dragging smaller than minSize and then larger again, will keep the edge sticking
@@ -353,42 +328,12 @@ Item {
 
             var startDragX = initialWindowX + data.startX
             var startDragY = initialWindowY + data.startY
-            mouseFlick(root, startDragX, startDragY, startDragX + data.dx, startDragY + data.dy, true, false, units.gu(.05), 10);
+            mouseFlick(root, startDragX, startDragY, startDragX + data.dx, startDragY + data.dy, true, false);
             tryCompare(fakeWindow, "width", Math.max(initialWindowWidth - Math.abs(data.dx), fakeWindow.resizeAreaMinWidth));
             tryCompare(fakeWindow, "height", Math.max(initialWindowHeight - Math.abs(data.dy), fakeWindow.resizeAreaMinHeight));
-            mouseFlick(root, startDragX + data.dx, startDragY + data.dy, startDragX, startDragY, false, true, units.gu(.05), 10);
+            mouseFlick(root, startDragX + data.dx, startDragY + data.dy, startDragX, startDragY, false, true);
             tryCompare(fakeWindow, "width", initialWindowWidth);
             tryCompare(fakeWindow, "height", initialWindowHeight);
-        }
-
-        function test_saveRestoreMaximized() {
-            var initialWindowX = fakeWindow.windowedX;
-            var initialWindowY = fakeWindow.windowedY;
-
-            var moveDelta = units.gu(5);
-
-            fakeWindow.windowedX = initialWindowX + moveDelta
-            fakeWindow.windowedY = initialWindowY + moveDelta
-
-            // Now change the state to maximized. The window should not keep updating the stored values
-            fakeWindow.maximize()
-            fakeWindow.windowedX = 31415 // 0 is too risky to pass the test even when broken
-            fakeWindow.windowedY = 31415
-
-            // This will destroy the window and recreate it
-            windowLoader.active = false;
-            waitForRendering(root);
-            windowLoader.active = true;
-
-            // Make sure it's again where we left it in normal state before destroying
-            tryCompare(fakeWindow, "x", initialWindowX + moveDelta)
-            tryCompare(fakeWindow, "y", initialWindowX + moveDelta)
-
-            // Make sure maximize() has been called after restoring
-            tryCompare(fakeWindow, "state", "maximized")
-
-            // clean up
-            fakeWindow.restoreFromMaximized()
         }
 
         function test_restoreMovesIntoBounds_data() {
@@ -450,7 +395,7 @@ Item {
             windowRequestedHeightSpy.clear();
             verify(windowRequestedHeightSpy.valid);
 
-            mouseFlick(root, startDragX, startDragY, startDragX + deltaX, startDragY + deltaY, true, true, units.gu(.5), 10);
+            mouseFlick(root, startDragX, startDragY, startDragX + deltaX, startDragY + deltaY);
 
             compare(windowRequestedWidthSpy.count, 1);
             compare(fakeWindow.width, initialWindowWidth + fakeWindow.widthIncrement);
@@ -481,8 +426,7 @@ Item {
             var endDragX = (fakeWindow.maximumWidth * 2) + 1;
             var endDragY = (fakeWindow.maximumHeight * 2) + 1;
 
-            mouseFlick(fakeWindow, startDragX, startDragY, endDragX, endDragY,
-                    true/*pressMouse*/, true/*releaseMouse*/, units.gu(.5)/*speed*/, 20/*iterations*/);
+            mouseFlick(fakeWindow, startDragX, startDragY, endDragX, endDragY);
 
             compare(fakeWindow.requestedWidth, fakeWindow.maximumWidth);
             compare(fakeWindow.requestedHeight, fakeWindow.maximumHeight);
@@ -511,8 +455,7 @@ Item {
             var endDragX = (fakeWindow.minimumWidth * 0.5) + 1;
             var endDragY = (fakeWindow.minimumHeight * 0.5) + 1;
 
-            mouseFlick(fakeWindow, startDragX, startDragY, endDragX, endDragY,
-                    true/*pressMouse*/, true/*releaseMouse*/, units.gu(.5)/*speed*/, 20/*iterations*/);
+            mouseFlick(fakeWindow, startDragX, startDragY, endDragX, endDragY);
 
             compare(fakeWindow.requestedWidth, fakeWindow.minimumWidth);
             compare(fakeWindow.requestedHeight, fakeWindow.minimumHeight);

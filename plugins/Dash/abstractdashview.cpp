@@ -23,7 +23,7 @@ AbstractDashView::AbstractDashView()
  , m_asyncRequestedIndex(-1)
  , m_columnSpacing(0)
  , m_rowSpacing(0)
- , m_buffer(320) // Same value used in qquickitemview.cpp in Qt 5.4
+ , m_buffer(320) // Same value as QML_VIEW_DEFAULTCACHEBUFFER in qquickitemview.cpp (Qt 5.6)
  , m_displayMarginBeginning(0)
  , m_displayMarginEnd(0)
  , m_needsRelayout(false)

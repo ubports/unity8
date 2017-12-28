@@ -1,6 +1,5 @@
 debian/usr.bin.unity8-dash etc/apparmor.d
 var/lib/unity8/version
-data/unity8-dash.conf usr/share/upstart/sessions/
 data/unity8-filewatcher.conf usr/share/upstart/sessions/
 data/unity8.conf usr/share/upstart/sessions/
 data/devices.conf etc/ubuntu/
@@ -9,6 +8,7 @@ usr/bin/unity8
 usr/bin/unity8-dash
 usr/share/applications/unity8-dash.desktop
 usr/share/applications/unity8.desktop
+usr/share/unity8/ApplicationMenus
 usr/share/unity8/Greeter
 usr/share/unity8/Launcher
 usr/share/unity8/Panel

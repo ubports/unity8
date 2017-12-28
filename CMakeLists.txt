@@ -40,6 +40,19 @@ if(cmake_build_type_lower MATCHES coverage)
   ENABLE_COVERAGE_REPORT(TARGETS ${SHELL_APP} FILTER /usr/include ${CMAKE_SOURCE_DIR}/tests/* ${CMAKE_BINARY_DIR}/*)
 endif()
 
+find_package (ECM 1.7.0 QUIET NO_MODULE)
+if (ECM_FOUND)
+    # Provides us with -DECM_ENABLE_SANITIZERS='X'
+    # Where X can be address, thread, memory, leak, undefined
+    include("${ECM_MODULE_DIR}/ECMEnableSanitizers.cmake")
+endif()
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  if (NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS "5.0.0")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wsuggest-override" )
+  endif()
+endif()
+
 # Make sure we have all the needed symbols
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,defs")
 set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,-z,defs")
@@ -49,22 +62,28 @@ add_custom_target(cppcheck COMMAND cppcheck --enable=all -q --error-exitcode=2
                                        ${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/tests)
 
 include(FindPkgConfig)
-find_package(Qt5Core 5.4 REQUIRED)
-find_package(Qt5Qml 5.4 REQUIRED)
-find_package(Qt5Quick 5.4 REQUIRED)
-find_package(Qt5Gui 5.4 REQUIRED)
-find_package(Qt5DBus 5.4 REQUIRED)
-find_package(Qt5Concurrent 5.4 REQUIRED)
-find_package(Qt5Sql 5.4 REQUIRED)
+find_package(Qt5Core 5.6 REQUIRED)
+find_package(Qt5Qml 5.6 REQUIRED)
+find_package(Qt5Quick 5.6 REQUIRED)
+find_package(Qt5Gui 5.6 REQUIRED)
+find_package(Qt5DBus 5.6 REQUIRED)
+find_package(Qt5Concurrent 5.6 REQUIRED)
+find_package(Qt5Sql 5.6 REQUIRED)
+find_package(Qt5Test 5.6 REQUIRED)
 
-pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=22)
+pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=27)
 pkg_check_modules(GEONAMES REQUIRED geonames>=0.2)
 pkg_check_modules(GIO REQUIRED gio-2.0>=2.32)
 pkg_check_modules(GLIB REQUIRED glib-2.0>=2.32)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=12)
 pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
 pkg_check_modules(GD3 REQUIRED gnome-desktop-3.0)
-pkg_check_modules(UAL REQUIRED ubuntu-app-launch-2)
+pkg_check_modules(UAL REQUIRED ubuntu-app-launch-3)
 pkg_check_modules(UBUNTUGESTURES REQUIRED UbuntuGestures)
+pkg_check_modules(QTDBUSTEST REQUIRED
+    libqtdbustest-1
+    libqtdbusmock-1
+    )
 
 ### Check UbuntuGestures private headers. No pkg-config (.pc) file is provided for them
 find_path(UBUNTUGESTUREPRIV
@@ -137,8 +156,6 @@ include_directories(
     ${CMAKE_BINARY_DIR}/include
     ${APPLICATION_API_INCLUDE_DIRS}
 )
-
-set(ARTIFACTS_DIR "" CACHE PATH "Store test artifacts in this directory.")
 
 # Quiet logger
 set(QUIET_LOGGER OFF CACHE BOOL "Disable test output on stdout.")

@@ -97,6 +97,11 @@ Rectangle {
     }
     Binding {
         target: launcherLoader.item
+        property: "privateMode"
+        value: privateModeCheckBox.checked
+    }
+    Binding {
+        target: launcherLoader.item
         property: "panelWidth"
         value: units.gu(Math.round(widthSlider.value))
     }
@@ -116,6 +121,20 @@ Rectangle {
                 AbstractButton {
                     anchors.fill: parent
                     onClicked: lockedVisibleCheckBox.checked = !lockedVisibleCheckBox.checked
+                }
+            }
+        }
+
+        RowLayout {
+            CheckBox {
+                id: privateModeCheckBox
+                checked: false
+            }
+            Label {
+                text: "Private mode (lockscreen locked)"
+                AbstractButton {
+                    anchors.fill: parent
+                    onClicked: privateModeCheckBox.checked = !privateModeCheckBox.checked
                 }
             }
         }
@@ -295,6 +314,8 @@ Rectangle {
             compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
 
             removeTimeConstraintsFromSwipeAreas(root);
+
+            waitUntilLauncherDisappears();
         }
 
         function dragLauncher() {
@@ -322,7 +343,7 @@ Rectangle {
         function revealByEdgePush() {
             // Place the mouse against the window/screen edge and push beyond the barrier threshold
             mouseMove(root, 1, root.height / 2);
-            launcher.pushEdge(EdgeBarrierSettings.pushThreshold * 1.1);
+            launcher.pushEdge(EdgeBarrierSettings.pushThreshold * .6);
 
             var panel = findChild(launcher, "launcherPanel");
             verify(!!panel);
@@ -369,18 +390,17 @@ Rectangle {
         function assertFocusOnIndex(index) {
             var launcherPanel = findChild(launcher, "launcherPanel");
             var launcherListView = findChild(launcher, "launcherListView");
-            var bfbFocusHighlight = findChild(launcher, "bfbFocusHighlight");
+            var bfb = findChild(launcher, "buttonShowDashHome");
 
             waitForRendering(launcher);
             tryCompare(launcherPanel, "highlightIndex", index);
-            compare(bfbFocusHighlight.visible, index === -1);
+            compare(bfb.highlighted, index === -1);
             for (var i = 0; i < launcherListView.count; i++) {
                 var item = findChild(launcher, "launcherDelegate" + i);
                 // Delegates might be destroyed when not visible. We can't check if they paint a focus highlight.
                 // Make sure the requested index does have focus. for the others, try best effort to check if they don't
                 if (index === i || item) {
-                    var focusRing = findChild(item, "focusRing")
-                    tryCompare(focusRing, "visible", index === i);
+                    tryCompare(item, "highlighted", index === i);
                 }
             }
         }
@@ -824,7 +844,7 @@ Rectangle {
 
             // Dragging a bit (> 1.5 gu)
             newMouseX -= units.gu(2)
-            mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false, 100)
+            mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false)
             currentMouseX = newMouseX
 
             // Other items need to expand and become 0.6 opaque
@@ -832,8 +852,8 @@ Rectangle {
             tryCompare(item0, "itemOpacity", 0.6)
 
             // Dragging a bit more
-            newMouseY += initialItemHeight * 1.5
-            mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false, 100)
+            newMouseY += initialItemHeight * 1.25
+            mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false)
             currentMouseY = newMouseY
 
             tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 1)
@@ -1188,13 +1208,13 @@ Rectangle {
         }
 
         function test_keyboardNavigation(data) {
-            var bfbFocusHighlight = findChild(launcher, "bfbFocusHighlight");
+            var bfb = findChild(launcher, "buttonShowDashHome");
             var quickList = findChild(launcher, "quickList");
             var launcherPanel = findChild(launcher, "launcherPanel");
             var launcherListView = findChild(launcher, "launcherListView");
             var last = launcherListView.count - 1;
 
-            compare(bfbFocusHighlight.visible, false);
+            compare(bfb.highlighted, false);
             launcher.openForKeyboardNavigation();
             tryCompare(launcherPanel, "x", 0);
             waitForRendering(launcher);
@@ -1234,8 +1254,9 @@ Rectangle {
             tryCompare(quickList, "selectedIndex", 0)
 
             // Down should move down the quicklist
+            // Because item 1 is not selectable
             keyClick(Qt.Key_Down);
-            tryCompare(quickList, "selectedIndex", 1)
+            tryCompare(quickList, "selectedIndex", 2)
 
             // The quicklist should wrap around too
             keyClick(Qt.Key_Down);
@@ -1265,14 +1286,14 @@ Rectangle {
 
             keyClick(Qt.Key_Down); // Down to launcher item 0
             keyClick(Qt.Key_Down); // Down to launcher item 1
-            keyClick(Qt.Key_Right); // Into quicklist
-            keyClick(Qt.Key_Down); // Down to quicklist item 1
-            keyClick(Qt.Key_Down); // Down to quicklist item 2
+            keyClick(Qt.Key_Right); // Into quicklist, item 0 is selected
+            keyClick(Qt.Key_Down); // Down to quicklist item 2 (because 1 is not selectable)
+            keyClick(Qt.Key_Down); // Down to quicklist item 3
             keyClick(Qt.Key_Enter); // Trigger it
 
             compare(signalSpy.count, 1, "Quicklist signal wasn't triggered")
             compare(signalSpy.signalArguments[0][0], LauncherModel.get(1).appId)
-            compare(signalSpy.signalArguments[0][1], 2)
+            compare(signalSpy.signalArguments[0][1], 3)
             assertFocusOnIndex(-2);
         }
 
@@ -1477,6 +1498,87 @@ Rectangle {
             compare(launcherPanel.x, -launcherPanel.width);
 
             launcher.available = true;
+        }
+
+        function test_hoverOnEdgeBarrerPreventsHiding() {
+            revealByEdgePush();
+
+            // Make sure the mouse is on the very left edge (on top of the barrier)
+            mouseMove(root, 1, root.height / 2);
+
+            // trigger the hide timer
+            compare(fakeDismissTimer.running, true);
+            fakeDismissTimer.triggered();
+
+            compare(launcher.state, "visibleTemporary");
+        }
+
+        function test_hideQuicklistItemsInPrivateModel_data() {
+            return [
+                { tag: "private mode", private: true },
+                { tag: "normal mode", private: false }
+            ];
+        }
+
+        function test_hideQuicklistItemsInPrivateModel(data) {
+            privateModeCheckBox.checked = data.private;
+
+            revealByEdgePush();
+
+            var item = findChild(launcher, "launcherDelegate4");
+            var quickListShape = findChild(launcher, "quickListShape")
+
+            mousePress(item)
+            tryCompare(quickListShape, "visible", true)
+
+            var repeater = findChild(launcher, "popoverRepeater");
+            tryCompare(repeater, "count", LauncherModel.get(4).quickList.count - (data.private ? 1 : 0))
+        }
+
+        function test_hintOnSizeChange() {
+            var oldSize = launcher.panelWidth;
+            launcher.maxPanelX = -launcher.panelWidth;
+            launcher.panelWidth = oldSize + units.gu(2);
+            tryCompare(launcher, "maxPanelX", 0);
+            launcher.panelWidth = oldSize;
+        }
+
+        function test_doesntHideOnSuperWhenLockedVisible() {
+            launcher.lockedVisible = true;
+
+            waitForRendering(launcher);
+            launcher.superPressed = true;
+            wait(400); // Longpress
+            launcher.superPressed = false;
+            waitForRendering(launcher);
+
+            verify(launcher.state, "visible");
+        }
+
+        function test_mouseHoverSelectQuickList() {
+            dragLauncherIntoView();
+            var clickedItem = findChild(launcher, "launcherDelegate5")
+            var quickList = findChild(launcher, "quickList")
+
+            // Initial state
+            tryCompare(quickList, "state", "")
+
+            // Open quickList
+            mouseClick(clickedItem, clickedItem.width / 2, clickedItem.height / 2, Qt.RightButton)
+            verify(quickList, "state", "open")
+            compare(quickList.selectedIndex, -1)
+
+            var qEntry = findChild(launcher, "quickListEntry0");
+            mouseMove(qEntry, qEntry.width / 2    , qEntry.height / 2, 10);
+            mouseMove(qEntry, qEntry.width / 2 + 1, qEntry.height / 2, 10);
+
+            tryCompare(quickList, "selectedIndex", 0)
+
+            qEntry = findChild(launcher, "quickListEntry1");
+            mouseMove(qEntry, qEntry.width / 2    , qEntry.height / 2, 10);
+            mouseMove(qEntry, qEntry.width / 2 + 1, qEntry.height / 2, 10);
+
+            tryCompare(quickList, "selectedIndex", -1)
         }
     }
 }

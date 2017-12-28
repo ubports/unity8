@@ -75,6 +75,34 @@ ApplicationInfo::~ApplicationInfo()
 {
 }
 
+void ApplicationInfo::createPromptSurface()
+{
+    if (state() == ApplicationInfo::Stopped) { return; }
+
+    auto surfaceManager = SurfaceManager::instance();
+    if (!surfaceManager) {
+        WARNING_MSG("No SurfaceManager");
+        return;
+    }
+
+    QStringList screenshotIds = {"gallery", "map", "facebook", "camera", "browser", "music", "twitter"};
+    int i = rand() % screenshotIds.count();
+
+    QUrl screenshotUrl = QString("qrc:///Unity/Application/screenshots/%1@12.png")
+            .arg(screenshotIds[i]);
+
+    auto surface = surfaceManager->createSurface(QString("prompt foo"),
+            Mir::NormalType,
+            Mir::RestoredState,
+            nullptr, /* parentSurface */
+            screenshotUrl);
+    surfaceManager->notifySurfaceCreated(surface);
+
+    m_promptSurfaceList->addSurface(surface);
+
+    surfaceManager->activate(surface);
+}
+
 void ApplicationInfo::createSurface()
 {
     if (state() == ApplicationInfo::Stopped) { return; }
@@ -90,14 +118,18 @@ void ApplicationInfo::createSurface()
         return;
     }
 
+    bool wasFocused = focused();
+
     auto surface = surfaceManager->createSurface(surfaceName,
            Mir::NormalType,
-           fullscreen() ? Mir::FullscreenState : Mir::MaximizedState,
-           m_screenshotFileName);
+           fullscreen() ? Mir::FullscreenState : Mir::RestoredState,
+           nullptr, /* parentSurface */
+           m_screenshotFileName,
+           m_qmlFilePath);
 
     surface->setShellChrome(m_shellChrome);
 
-    m_surfaceList->appendSurface(surface);
+    m_surfaceList->addSurface(surface);
 
     ++m_liveSurfaceCount;
     connect(surface, &MirSurface::liveChanged, this, [this, surface](){
@@ -125,7 +157,18 @@ void ApplicationInfo::createSurface()
             setState(Running);
         }
     });
+    connect(surface, &MirSurfaceInterface::focusedChanged, this, [&](bool /*value*/) {
+        #if APPLICATION_DEBUG
+        qDebug().nospace() << "Application[" << appId() << "].focusedChanged(" << focused() << ")";
+        #endif
+        Q_EMIT focusedChanged(focused());
+    });
+
     connect(surface, &MirSurface::focusRequested, this, &ApplicationInfo::focusRequested);
+
+    if (wasFocused != focused()) {
+        Q_EMIT focusedChanged(focused());
+    }
 
     if (m_state == Starting) {
         if (m_requestedState == RequestedRunning) {
@@ -134,12 +177,14 @@ void ApplicationInfo::createSurface()
             setState(Suspended);
         }
     }
+
+    surfaceManager->notifySurfaceCreated(surface);
+    surfaceManager->activate(surface);
 }
 
 void ApplicationInfo::setIconId(const QString &iconId)
 {
-    setIcon(QString(sourceDirectory() +  "/tests/graphics/applicationIcons/%2@18.png")
-            .arg(iconId));
+    setIcon(QUrl(testDataDir() + "/graphics/applicationIcons/" + iconId + "@18.png"));
 }
 
 void ApplicationInfo::setScreenshotId(const QString &screenshotId)
@@ -157,6 +202,11 @@ void ApplicationInfo::setScreenshotId(const QString &screenshotId)
     if (screenshotFileName != m_screenshotFileName) {
         m_screenshotFileName = screenshotFileName;
     }
+}
+
+void ApplicationInfo::setQmlFilename(const QString &qmlFilename)
+{
+    m_qmlFilePath = QString("qrc:///Unity/Application/%1").arg(qmlFilename);
 }
 
 void ApplicationInfo::setName(const QString &value)
@@ -218,7 +268,7 @@ void ApplicationInfo::setFullscreen(bool value)
 {
     m_fullscreen = value;
     if (m_surfaceList->rowCount() > 0) {
-        m_surfaceList->get(0)->setState(Mir::FullscreenState);
+        m_surfaceList->get(0)->requestState(Mir::FullscreenState);
     }
 }
 
@@ -349,26 +399,6 @@ bool ApplicationInfo::focused() const
     return someSurfaceHasFocus;
 }
 
-void ApplicationInfo::setFocused(bool value)
-{
-    if (focused() == value) {
-        return;
-    }
-
-    if (value) {
-        if (m_surfaceList->count() > 0) {
-            m_surfaceList->get(0)->requestFocus();
-        }
-    } else {
-        for (int i = 0; i < m_surfaceList->count(); ++i) {
-            MirSurface *surface = static_cast<MirSurface*>(m_surfaceList->get(i));
-            if (surface->focused()) {
-                surface->setFocused(false);
-            }
-        }
-    }
-}
-
 void ApplicationInfo::onSurfaceCountChanged()
 {
     if (m_surfaceList->count() == 0 && m_state == Running) {
@@ -381,6 +411,7 @@ void ApplicationInfo::requestFocus()
     if (m_surfaceList->count() == 0) {
         Q_EMIT focusRequested();
     } else {
-        m_surfaceList->get(0)->requestFocus();
+        auto surface = static_cast<MirSurface*>(m_surfaceList->get(0));
+        surface->requestFocus();
     }
 }

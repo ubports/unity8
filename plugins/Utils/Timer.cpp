@@ -37,13 +37,16 @@ void Timer::setInterval(int msecs)
 void Timer::start()
 {
     m_timer.start();
-    AbstractTimer::start();
 }
 
 void Timer::stop()
 {
     m_timer.stop();
-    AbstractTimer::stop();
+}
+
+bool Timer::isRunning() const
+{
+    return m_timer.isActive();
 }
 
 bool Timer::isSingleShot() const

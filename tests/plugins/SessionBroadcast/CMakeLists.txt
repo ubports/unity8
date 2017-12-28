@@ -25,6 +25,9 @@ add_executable(MockBroadcastServer
     BroadcastServer.cpp
 )
 qt5_use_modules(MockBroadcastServer Core DBus)
+install(TARGETS MockBroadcastServer
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/SessionBroadcast"
+)
 
 ### SessionBroadcastTest
 add_executable(sessionbroadcasttestExec
@@ -32,6 +35,9 @@ add_executable(sessionbroadcasttestExec
     sessionbroadcasttest.cpp
 )
 qt5_use_modules(sessionbroadcasttestExec Test Core Qml DBus)
+install(TARGETS sessionbroadcasttestExec
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/SessionBroadcast"
+)
 
 add_unity8_unittest(SessionBroadcast dbus-test-runner
     ARG_PREFIX "--parameter"

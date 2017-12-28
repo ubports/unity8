@@ -20,6 +20,8 @@ import "." 0.1
 
 FocusScope {
     id: root
+    objectName: "WideView"
+
     focus: true
 
     property alias background: coverPage.background
@@ -32,13 +34,13 @@ FocusScope {
     property int delayMinutes // TODO
     property alias alphanumeric: loginList.alphanumeric
     property alias locked: loginList.locked
-    property alias sessionToStart: loginList.currentSession
     property alias waiting: loginList.waiting
     property var userModel // Set from outside
 
     readonly property bool animating: coverPage.showAnimation.running || coverPage.hideAnimation.running
     readonly property bool fullyShown: coverPage.showProgress === 1
     readonly property bool required: coverPage.required
+    readonly property alias sessionToStart: loginList.currentSession
 
     // so that it can be replaced in tests with a mock object
     property var inputMethod: Qt.inputMethod
@@ -52,16 +54,8 @@ FocusScope {
         loginList.showError();
     }
 
-    function reset(forceShow) {
-        loginList.reset();
-    }
-
-    function showMessage(html) {
-        loginList.showMessage(html);
-    }
-
-    function showPrompt(text, isSecret, isDefaultPrompt) {
-        loginList.showPrompt(text, isSecret, isDefaultPrompt);
+    function forceShow() {
+        // Nothing to do, we are always fully shown
     }
 
     function tryToUnlock(toTheRight) {
@@ -84,14 +78,8 @@ FocusScope {
         coverPage.hide();
     }
 
-    function notifyAuthenticationSucceeded(showFakePassword) {
-        if (showFakePassword) {
-            loginList.showFakePassword();
-        }
-    }
-
-    function showLastChance() {
-        // TODO
+    function showFakePassword() {
+        loginList.showFakePassword();
     }
 
     Rectangle {
@@ -139,12 +127,18 @@ FocusScope {
             Behavior on boxVerticalOffset { UbuntuNumberAnimation {} }
 
             model: root.userModel
-            currentSession: LightDMService.greeter.defaultSession
             onResponded: root.responded(response)
             onSelected: root.selected(index)
             onSessionChooserButtonClicked: parent.state = "SessionsList"
+            onCurrentIndexChanged: setCurrentSession()
 
             Keys.forwardTo: [sessionChooserLoader.item]
+
+            Component.onCompleted: setCurrentSession()
+
+            function setCurrentSession() {
+                currentSession = LightDMService.users.data(currentIndex, LightDMService.userRoles.SessionRole);
+            }
         }
 
         Loader {
@@ -152,6 +146,7 @@ FocusScope {
 
             height: loginList.height
             width: loginList.width
+
             anchors {
                 left: parent.left
                 leftMargin: Math.min(parent.width * 0.16, units.gu(20))
@@ -161,10 +156,9 @@ FocusScope {
             active: false
 
             onLoaded: sessionChooserLoader.item.forceActiveFocus();
-            Binding {
-                target: sessionChooserLoader.item
-                property: "initiallySelectedSession"
-                value: loginList.currentSession
+            onActiveChanged: {
+                if (!active) return;
+                item.updateHighlight(loginList.currentSession);
             }
 
             Connections {
@@ -172,7 +166,7 @@ FocusScope {
                 onSessionSelected: loginList.currentSession = sessionKey
                 onShowLoginList: {
                     coverPage.state = "LoginList"
-                    loginList.passwordInput.forceActiveFocus();
+                    loginList.tryToUnlock();
                 }
                 ignoreUnknownSignals: true
             }

@@ -21,6 +21,8 @@
 #include <QProcess>
 #include <QScreen>
 
+#include <QGSettings>
+
 #include <libintl.h>
 
 // libandroid-properties
@@ -30,12 +32,13 @@
 #include <paths.h>
 #include "CachingNetworkManagerFactory.h"
 #include "UnityCommandLineParser.h"
+#include "DebuggingController.h"
 
 ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     : QGuiApplication(argc, argv)
 {
-
     setApplicationName(QStringLiteral("unity8"));
+    setOrganizationName(QStringLiteral("Canonical"));
 
     connect(this, &QGuiApplication::screenAdded, this, &ShellApplication::onScreenAdded);
 
@@ -74,6 +77,9 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     bindtextdomain("unity8", translationDirectory().toUtf8().data());
     textdomain("unity8");
 
+    QScopedPointer<QGSettings> gSettings(new QGSettings("com.canonical.Unity8"));
+    gSettings->reset(QStringLiteral("alwaysShowOsk"));
+
     m_shellView = new ShellView(m_qmlEngine, &m_qmlArgs);
 
     if (parser.windowGeometry().isValid()) {
@@ -94,6 +100,7 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     }
     #endif
 
+    new DebuggingController(this);
 
     // Some hard-coded policy for now.
     // NB: We don't support more than two screens at the moment

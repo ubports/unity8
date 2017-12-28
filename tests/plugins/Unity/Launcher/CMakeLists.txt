@@ -1,5 +1,4 @@
 pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=10)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -17,7 +16,7 @@ include_directories(
     )
 
 add_definitions(-DSM_BUSNAME=sessionBus)
-add_definitions(-DSRCDIR="${CMAKE_CURRENT_SOURCE_DIR}")
+add_definitions(-DTEST_DIR="plugins/Unity/Launcher")
 
 ### LauncherModelTest
 add_executable(launchermodeltestExec
@@ -30,10 +29,14 @@ add_executable(launchermodeltestExec
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/quicklistmodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/dbusinterface.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/quicklistentry.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/ualwrapper.cpp
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/QuickListModelInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceListInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/Mir.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     )
 target_link_libraries(launchermodeltestExec
@@ -43,10 +46,13 @@ target_link_libraries(launchermodeltestExec
     ${UAL_LIBRARIES}
     )
 add_dependencies(launchermodeltestExec mock-server)
-qt5_use_modules(launchermodeltestExec Test Core DBus Xml Gui)
+qt5_use_modules(launchermodeltestExec Test Core DBus Xml Gui Qml)
+install(TARGETS launchermodeltestExec
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Launcher"
+    )
 
 add_unity8_unittest(LauncherModel dbus-test-runner
-    ENVIRONMENT "XDG_DATA_HOME=${CMAKE_CURRENT_BINARY_DIR}"
+    ENVIRONMENT "APPDIR=${CMAKE_CURRENT_BINARY_DIR}/applications"
     ARG_PREFIX "--parameter"
     ARGS
         --task $<TARGET_FILE:mock-server>
@@ -58,4 +64,7 @@ add_unity8_unittest(LauncherModel dbus-test-runner
 # copy sample application files into build directory for shadow builds
 file(COPY applications
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+    )
+install(DIRECTORY applications
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Launcher"
     )

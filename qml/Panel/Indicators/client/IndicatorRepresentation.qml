@@ -20,6 +20,7 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import ".."
 import "../.."
 
 Page {
@@ -77,11 +78,23 @@ Page {
 
         Component {
             id: page
-            IndicatorPage {
-                identifier: model.identifier
-                busName: indicatorProperties.busName
-                actionsObjectPath: indicatorProperties.actionsObjectPath
-                menuObjectPath: indicatorProperties.menuObjectPath
+            PanelMenuPage {
+                objectName: model.identifier + "-page"
+                submenuIndex: 0
+
+                menuModel: delegate.menuModel
+
+                factory: IndicatorMenuItemFactory {
+                    indicator: model.identifier
+                    rootModel: delegate.menuModel
+                }
+
+                IndicatorDelegate {
+                    id: delegate
+                    busName: indicatorProperties.busName
+                    actionsObjectPath: indicatorProperties.actionsObjectPath
+                    menuObjectPath: indicatorProperties.menuObjectPath
+                }
             }
         }
         Component {

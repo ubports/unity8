@@ -11,21 +11,20 @@ macro(add_unity8_mock PLUGIN VERSION PATH)
     set(single PREFIX)
     cmake_parse_arguments(MOCK "" "${single}" "" ${ARGN})
 
-    if(MOCK_PREFIX)
-        export_qmlfiles(${PLUGIN} ${PATH}
-            DESTINATION ${SHELL_INSTALL_QML}/${MOCK_PREFIX}
-            TARGET_PREFIX ${MOCK_PREFIX}-Mock
-            ${MOCK_UNPARSED_ARGUMENTS}
-        )
-        export_qmlplugin(${PLUGIN} ${VERSION} ${PATH}
-            DESTINATION ${SHELL_INSTALL_QML}/${MOCK_PREFIX}
-            TARGET_PREFIX ${MOCK_PREFIX}-Mock
-            ${MOCK_UNPARSED_ARGUMENTS}
-        )
-    else()
-        export_qmlfiles(${PLUGIN} ${PATH} TARGET_PREFIX Mock ${MOCK_UNPARSED_ARGUMENTS})
-        export_qmlplugin(${PLUGIN} ${VERSION} ${PATH} TARGET_PREFIX Mock ${MOCK_UNPARSED_ARGUMENTS})
+    if (NOT MOCK_PREFIX)
+        set(MOCK_PREFIX mocks)
     endif()
+
+    export_qmlfiles(${PLUGIN} ${PATH}
+        DESTINATION ${SHELL_INSTALL_QML}/${MOCK_PREFIX}
+        TARGET_PREFIX ${MOCK_PREFIX}-Mock
+        ${MOCK_UNPARSED_ARGUMENTS}
+    )
+    export_qmlplugin(${PLUGIN} ${VERSION} ${PATH}
+        DESTINATION ${SHELL_INSTALL_QML}/${MOCK_PREFIX}
+        TARGET_PREFIX ${MOCK_PREFIX}-Mock
+        ${MOCK_UNPARSED_ARGUMENTS}
+    )
 endmacro()
 
 add_subdirectory(AccountsService)
@@ -33,8 +32,9 @@ add_subdirectory(Biometryd)
 add_subdirectory(Cursor)
 add_subdirectory(GSettings.1.0)
 add_subdirectory(indicator-service)
+add_subdirectory(liblightdm)
 add_subdirectory(libusermetrics)
-add_subdirectory(LightDM)
+add_subdirectory(LightDMController)
 add_subdirectory(Lights)
 add_subdirectory(MeeGo)
 add_subdirectory(Powerd)

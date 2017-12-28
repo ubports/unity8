@@ -48,23 +48,7 @@ class Dash(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
         self.dash_content_list = self.wait_select_single(
             'QQuickListView', objectName='dashContentList')
 
-    def get_applications_grid(self):
-        get_grid = self.get_scope('clickscope').wait_select_single(
-            'CardGrid', objectName='local')
-        return get_grid
-
-    def get_application_icon(self, text):
-        """Returns a 'Tile' icon that has the text 'text' from the application
-        grid.
-
-        :param text: String containing the text of the icon to search for.
-
-        """
-        app_grid = self.get_applications_grid()
-        resp_grid = app_grid.wait_select_single('ResponsiveGridView')
-        return resp_grid.select_single('Tile', text=text)
-
-    def get_scope(self, scope_name='clickscope'):
+    def get_scope(self, scope_name):
         return self.dash_content_list.wait_select_single(
             'QQuickLoader', scopeId=scope_name)
 

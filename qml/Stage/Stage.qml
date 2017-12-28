@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2016 Canonical, Ltd.
+ * Copyright (C) 2014-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@ import GlobalShortcut 1.0
 import GSettings 1.0
 import "Spread"
 import "Spread/MathUtils.js" as MathUtils
+import WindowManager 1.0
 
 FocusScope {
     id: root
@@ -36,7 +37,6 @@ FocusScope {
     property url background
     property int dragAreaWidth
     property bool interactive
-    property bool keepDashRunning: true
     property real nativeHeight
     property real nativeWidth
     property QtObject orientations
@@ -44,13 +44,13 @@ FocusScope {
     property int shellOrientationAngle
     property bool spreadEnabled: true // If false, animations and right edge will be disabled
     property bool suspended
-    property int leftMargin: 0
     property bool oskEnabled: false
     property rect inputMethodRect
+    property real rightEdgePushProgress: 0
+    property Item availableDesktopArea
 
     // Configuration
     property string mode: "staged"
-    property real leftEdgeDragProgress: 0
 
     // Used by the tutorial code
     readonly property real rightEdgeDragProgress: rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0 // How far left the stage has been dragged
@@ -91,6 +91,7 @@ FocusScope {
 
 
     onAltTabPressedChanged: {
+        root.focus = true;
         if (altTabPressed) {
             if (root.spreadEnabled) {
                 altTabDelayTimer.start();
@@ -102,7 +103,9 @@ FocusScope {
             } else {
                 // No we didn't, do a quick alt-tab
                 if (appRepeater.count > 1) {
-                    appRepeater.itemAt(1).claimFocus();
+                    appRepeater.itemAt(1).activate();
+                } else if (appRepeater.count > 0) {
+                    appRepeater.itemAt(0).activate(); // quick alt-tab to the only (minimized) window should still activate it
                 }
             }
         }
@@ -119,8 +122,13 @@ FocusScope {
         }
     }
 
-    property Item itemConfiningMouseCursor: !spreadShown && priv.focusedAppDelegate && priv.focusedAppDelegate.surface &&
-                              priv.focusedAppDelegate.surface.confinesMousePointer ?
+    // For MirAL window management
+    WindowMargins {
+        normal: Qt.rect(0, root.mode === "windowed" ? priv.windowDecorationHeight : 0, 0, 0)
+        dialog: normal
+    }
+
+    property Item itemConfiningMouseCursor: !spreadShown && priv.focusedAppDelegate && priv.focusedAppDelegate.window.confinesMousePointer ?
                               priv.focusedAppDelegate.clientAreaItem : null;
 
     signal itemSnapshotRequested(Item item)
@@ -128,11 +136,6 @@ FocusScope {
     // functions to be called from outside
     function updateFocusedAppOrientation() { /* TODO */ }
     function updateFocusedAppOrientationAnimated() { /* TODO */}
-    function pushRightEdge(amount) {
-        if (root.spreadEnabled) {
-            edgeBarrier.push(amount);
-        }
-    }
 
     function closeSpread() {
         priv.goneToSpread = false;
@@ -141,6 +144,12 @@ FocusScope {
     onSpreadEnabledChanged: {
         if (!spreadEnabled && spreadShown) {
             closeSpread();
+        }
+    }
+
+    onRightEdgePushProgressChanged: {
+        if (spreadEnabled && rightEdgePushProgress >= 1) {
+            priv.goneToSpread = true
         }
     }
 
@@ -163,7 +172,7 @@ FocusScope {
         id: closeFocusedShortcut
         shortcut: Qt.AltModifier|Qt.Key_F4
         onTriggered: {
-            if (priv.focusedAppDelegate && !priv.focusedAppDelegate.isDash) {
+            if (priv.focusedAppDelegate) {
                 priv.focusedAppDelegate.close();
             }
         }
@@ -186,29 +195,34 @@ FocusScope {
     GlobalShortcut {
         id: maximizeWindowShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Up
-        onTriggered: priv.focusedAppDelegate.maximize()
+        onTriggered: priv.focusedAppDelegate.requestMaximize()
         active: root.state == "windowed" && priv.focusedAppDelegate && priv.focusedAppDelegate.canBeMaximized
     }
 
     GlobalShortcut {
         id: maximizeWindowLeftShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Left
-        onTriggered: priv.focusedAppDelegate.maximizeLeft()
+        onTriggered: priv.focusedAppDelegate.requestMaximizeLeft()
         active: root.state == "windowed" && priv.focusedAppDelegate && priv.focusedAppDelegate.canBeMaximizedLeftRight
     }
 
     GlobalShortcut {
         id: maximizeWindowRightShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Right
-        onTriggered: priv.focusedAppDelegate.maximizeRight()
+        onTriggered: priv.focusedAppDelegate.requestMaximizeRight()
         active: root.state == "windowed" && priv.focusedAppDelegate && priv.focusedAppDelegate.canBeMaximizedLeftRight
     }
 
     GlobalShortcut {
         id: minimizeRestoreShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Down
-        onTriggered: priv.focusedAppDelegate.anyMaximized
-                     ? priv.focusedAppDelegate.restoreFromMaximized() : priv.focusedAppDelegate.minimize()
+        onTriggered: {
+            if (priv.focusedAppDelegate.anyMaximized) {
+                priv.focusedAppDelegate.requestRestore();
+            } else {
+                priv.focusedAppDelegate.requestMinimize();
+            }
+        }
         active: root.state == "windowed" && priv.focusedAppDelegate
     }
 
@@ -218,9 +232,29 @@ FocusScope {
         active: priv.focusedAppDelegate !== null
     }
 
+    GlobalShortcut {
+        shortcut: Qt.ControlModifier|Qt.AltModifier|Qt.Key_T
+        onTriggered: {
+            // try in this order: snap pkg, new deb name, old deb name
+            var candidates = ["ubuntu-terminal-app_ubuntu-terminal-app", "ubuntu-terminal-app", "com.ubuntu.terminal"];
+            for (var i = 0; i < candidates.length; i++) {
+                if (priv.startApp(candidates[i]))
+                    break;
+            }
+        }
+    }
+
     QtObject {
         id: priv
         objectName: "DesktopStagePrivate"
+
+        function startApp(appId) {
+            if (root.applicationManager.findApplication(appId)) {
+                return root.applicationManager.requestFocusApplication(appId);
+            } else {
+                return root.applicationManager.startApplication(appId) !== null;
+            }
+        }
 
         property var focusedAppDelegate: null
         property var foregroundMaximizedAppDelegate: null // for stuff like drop shadow and focusing maximized app by clicking panel
@@ -244,20 +278,10 @@ FocusScope {
         }
 
         function minimizeAllWindows() {
-            for (var i = 0; i < appRepeater.count; i++) {
+            for (var i = appRepeater.count - 1; i >= 0; i--) {
                 var appDelegate = appRepeater.itemAt(i);
                 if (appDelegate && !appDelegate.minimized) {
-                    appDelegate.minimize();
-                }
-            }
-        }
-
-        function focusNext() {
-            for (var i = 0; i < appRepeater.count; i++) {
-                var appDelegate = appRepeater.itemAt(i);
-                if (appDelegate && !appDelegate.minimized) {
-                    appDelegate.focus = true;
-                    return;
+                    appDelegate.requestMinimize();
                 }
             }
         }
@@ -351,6 +375,8 @@ FocusScope {
         }
 
         readonly property real virtualKeyboardHeight: root.inputMethodRect.height
+
+        readonly property real windowDecorationHeight: units.gu(3)
     }
 
     Component.onCompleted: priv.updateMainAndSideStageIndexes();
@@ -358,14 +384,14 @@ FocusScope {
     Connections {
         target: PanelState
         onCloseClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.close(); } }
-        onMinimizeClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.minimize(); } }
-        onRestoreClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.restoreFromMaximized(); } }
+        onMinimizeClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.requestMinimize(); } }
+        onRestoreClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.requestRestore(); } }
     }
 
     Binding {
         target: PanelState
-        property: "buttonsVisible"
-        value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.maximized // FIXME for Locally integrated menus
+        property: "decorationsVisible"
+        value: mode == "windowed" && priv.focusedAppDelegate && priv.focusedAppDelegate.maximized && !root.spreadShown
     }
 
     Binding {
@@ -385,6 +411,20 @@ FocusScope {
 
     Binding {
         target: PanelState
+        property: "focusedPersistentSurfaceId"
+        value: {
+            if (priv.focusedAppDelegate !== null) {
+                if (priv.focusedAppDelegate.surface) {
+                    return priv.focusedAppDelegate.surface.persistentId;
+                }
+            }
+            return "";
+        }
+        when: priv.focusedAppDelegate
+    }
+
+    Binding {
+        target: PanelState
         property: "dropShadow"
         value: priv.focusedAppDelegate && !priv.focusedAppDelegate.maximized && priv.foregroundMaximizedAppDelegate !== null && mode == "windowed"
     }
@@ -392,12 +432,12 @@ FocusScope {
     Binding {
         target: PanelState
         property: "closeButtonShown"
-        value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized && !priv.focusedAppDelegate.isDash
+        value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized
     }
 
     Component.onDestruction: {
         PanelState.title = "";
-        PanelState.buttonsVisible = false;
+        PanelState.decorationsVisible = false;
         PanelState.dropShadow = false;
     }
 
@@ -415,7 +455,7 @@ FocusScope {
                 //       in staged mode, when it switches to Windowed mode it will suddenly
                 //       resume all those apps at once. We might want to avoid that.
                 value: root.mode === "windowed"
-                       || (isDash && root.keepDashRunning)
+                       || isDash
                        || (!root.suspended && model.application && priv.focusedAppDelegate &&
                            (priv.focusedAppDelegate.appId === model.application.appId ||
                             priv.mainStageAppId === model.application.appId ||
@@ -434,17 +474,11 @@ FocusScope {
         }
     }
 
-    Binding {
-        target: MirFocusController
-        property: "focusedSurface"
-        value: priv.focusedAppDelegate ? priv.focusedAppDelegate.focusedSurface : null
-        when: !appRepeater.startingUp && root.parent
-    }
-
     states: [
         State {
             name: "spread"; when: priv.goneToSpread
             PropertyChanges { target: floatingFlickable; enabled: true }
+            PropertyChanges { target: root; focus: true }
             PropertyChanges { target: spreadItem; focus: true }
             PropertyChanges { target: hoverMouseArea; enabled: true }
             PropertyChanges { target: rightEdgeDragArea; enabled: false }
@@ -453,7 +487,7 @@ FocusScope {
             PropertyChanges { target: wallpaper; visible: false }
         },
         State {
-            name: "stagedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "staged"
+            name: "stagedRightEdge"; when: root.spreadEnabled && (rightEdgeDragArea.dragging || rightEdgePushProgress > 0) && root.mode == "staged"
             PropertyChanges {
                 target: blurLayer;
                 visible: true;
@@ -463,35 +497,41 @@ FocusScope {
             }
         },
         State {
-            name: "sideStagedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "stagedWithSideStage"
+            name: "sideStagedRightEdge"; when: root.spreadEnabled && (rightEdgeDragArea.dragging || rightEdgePushProgress > 0) && root.mode == "stagedWithSideStage"
             extend: "stagedRightEdge"
             PropertyChanges {
                 target: sideStage
-                opacity: priv.sideStageDelegate.x === sideStage.x ? 1 : 0
+                opacity: priv.sideStageDelegate && priv.sideStageDelegate.x === sideStage.x ? 1 : 0
                 visible: true
             }
         },
         State {
-            name: "windowedRightEdge"; when: (rightEdgeDragArea.dragging || edgeBarrier.progress > 0) && root.mode == "windowed"
+            name: "windowedRightEdge"; when: root.spreadEnabled && (rightEdgeDragArea.dragging || rightEdgePushProgress > 0) && root.mode == "windowed"
             PropertyChanges {
                 target: blurLayer;
                 visible: true
                 blurRadius: 32
                 brightness: .65
-                opacity: MathUtils.linearAnimation(spreadItem.rightEdgeBreakPoint, 1, 0, 1, Math.max(rightEdgeDragArea.progress, edgeBarrier.progress))
+                opacity: MathUtils.linearAnimation(spreadItem.rightEdgeBreakPoint, 1, 0, 1, Math.max(rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0, rightEdgePushProgress))
             }
         },
         State {
             name: "staged"; when: root.mode === "staged"
-            PropertyChanges { target: wallpaper; visible: false }
+            PropertyChanges { target: wallpaper; visible: !priv.focusedAppDelegate || priv.focusedAppDelegate.x !== 0 }
+            PropertyChanges { target: root; focus: true }
+            PropertyChanges { target: appContainer; focus: true }
         },
         State {
             name: "stagedWithSideStage"; when: root.mode === "stagedWithSideStage"
             PropertyChanges { target: triGestureArea; enabled: priv.sideStageEnabled }
             PropertyChanges { target: sideStage; visible: true }
+            PropertyChanges { target: root; focus: true }
+            PropertyChanges { target: appContainer; focus: true }
         },
         State {
             name: "windowed"; when: root.mode === "windowed"
+            PropertyChanges { target: root; focus: true }
+            PropertyChanges { target: appContainer; focus: true }
         }
     ]
     transitions: [
@@ -503,7 +543,6 @@ FocusScope {
         Transition {
             to: "spread"
             PropertyAction { target: spreadItem; property: "highlightedIndex"; value: appRepeater.count > 1 ? 1 : 0 }
-            PropertyAction { target: floatingFlickable; property: "contentX"; value: 0 }
         },
         Transition {
             from: "spread"
@@ -518,6 +557,7 @@ FocusScope {
                     }
                 }
                 PropertyAction { target: spreadItem; property: "highlightedIndex"; value: -1 }
+                PropertyAction { target: floatingFlickable; property: "contentX"; value: 0 }
             }
         },
         Transition {
@@ -564,13 +604,17 @@ FocusScope {
             id: spreadItem
             objectName: "spreadItem"
             anchors.fill: appContainer
-            leftMargin: root.leftMargin
+            leftMargin: root.availableDesktopArea.x
             model: root.topLevelSurfaceList
             spreadFlickable: floatingFlickable
             z: 10
 
             onLeaveSpread: {
                 priv.goneToSpread = false;
+            }
+
+            onCloseCurrentApp: {
+                appRepeater.itemAt(highlightedIndex).close();
             }
         }
 
@@ -633,7 +677,7 @@ FocusScope {
 
             onShownChanged: {
                 if (!shown && priv.mainStageDelegate && !root.spreadShown) {
-                    priv.mainStageDelegate.claimFocus();
+                    priv.mainStageDelegate.activate();
                 }
             }
 
@@ -666,14 +710,23 @@ FocusScope {
             }
         }
 
-        TopLevelSurfaceRepeater {
+        Repeater {
             id: appRepeater
             model: topLevelSurfaceList
             objectName: "appRepeater"
 
+            function indexOf(delegateItem) {
+                for (var i = 0; i < count; i++) {
+                    if (itemAt(i) === delegateItem) {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+
             delegate: FocusScope {
                 id: appDelegate
-                objectName: "appDelegate_" + model.id
+                objectName: "appDelegate_" + model.window.id
                 property int itemIndex: index // We need this from outside the repeater
                 // z might be overriden in some cases by effects, but we need z ordering
                 // to calculate occlusion detection
@@ -685,11 +738,11 @@ FocusScope {
                 }
                 z: normalZ
 
-                // Normally we want x/y where we request it to be. Width/height of our delegate will
+                // Normally we want x/y where the surface thinks it is. Width/height of our delegate will
                 // match what the actual surface size is.
                 // Don't write to those, they will be set by states
-                x: requestedX
-                y: requestedY
+                x: model.window.position.x - clientAreaItem.x
+                y: model.window.position.y - clientAreaItem.y
                 width: decoratedWindow.implicitWidth
                 height: decoratedWindow.implicitHeight
 
@@ -699,6 +752,13 @@ FocusScope {
                 property real requestedY: windowedY
                 property real requestedWidth: windowedWidth
                 property real requestedHeight: windowedHeight
+                Binding {
+                    target: model.window; property: "requestedPosition"
+                    // miral doesn't know about our window decorations. So we have to deduct them
+                    value: Qt.point(appDelegate.requestedX + appDelegate.clientAreaItem.x,
+                                    appDelegate.requestedY + appDelegate.clientAreaItem.y)
+                    when: root.mode == "windowed"
+                }
 
                 // In those are for windowed mode. Those values basically store the window's properties
                 // when having a floating window. If you want to move/resize a window in normal mode, this is what you want to write to.
@@ -712,15 +772,45 @@ FocusScope {
                 property real restoredX
                 property real restoredY
 
+                // Keeps track of the window geometry while in normal or restored state
+                // Useful when returning from some maxmized state or when saving the geometry while maximized
+                // FIXME: find a better solution
+                property real normalX: 0
+                property real normalY: 0
+                property real normalWidth: 0
+                property real normalHeight: 0
+                function updateNormalGeometry() {
+                    if (appDelegate.state == "normal" || appDelegate.state == "restored") {
+                        normalX = appDelegate.requestedX;
+                        normalY = appDelegate.requestedY;
+                        normalWidth = appDelegate.width;
+                        normalHeight = appDelegate.height;
+                    }
+                }
+                function updateRestoredGeometry() {
+                    if (appDelegate.state == "normal" || appDelegate.state == "restored") {
+                        // save the x/y to restore to
+                        restoredX = appDelegate.x;
+                        restoredY = appDelegate.y;
+                    }
+                }
+
+                Connections {
+                    target: appDelegate
+                    onXChanged: appDelegate.updateNormalGeometry();
+                    onYChanged: appDelegate.updateNormalGeometry();
+                    onWidthChanged: appDelegate.updateNormalGeometry();
+                    onHeightChanged: appDelegate.updateNormalGeometry();
+                }
+
                 Binding {
                     target: appDelegate
                     property: "y"
                     value: appDelegate.requestedY -
-                           Math.min(appDelegate.requestedY - PanelState.panelHeight,
+                           Math.min(appDelegate.requestedY - root.availableDesktopArea.y,
                                     Math.max(0, priv.virtualKeyboardHeight - (appContainer.height - (appDelegate.requestedY + appDelegate.height))))
                     when: root.oskEnabled && appDelegate.focus && (appDelegate.state == "normal" || appDelegate.state == "restored")
                           && root.inputMethodRect.height > 0
-
                 }
 
                 Behavior on x { id: xBehavior; enabled: priv.closingIndex >= 0; UbuntuNumberAnimation { onRunningChanged: if (!running) priv.closingIndex = -1} }
@@ -735,8 +825,8 @@ FocusScope {
                                 angleDiff = (360 + angleDiff) % 360;
                                 if (angleDiff === 90 || angleDiff === 270) {
                                     var aux = decoratedWindow.requestedHeight;
-                                    decoratedWindow.requestedHeight = decoratedWindow.requestedWidth + decoratedWindow.decorationHeight;
-                                    decoratedWindow.requestedWidth = aux - decoratedWindow.decorationHeight;
+                                    decoratedWindow.requestedHeight = decoratedWindow.requestedWidth + decoratedWindow.actualDecorationHeight;
+                                    decoratedWindow.requestedWidth = aux - decoratedWindow.actualDecorationHeight;
                                 }
                             }
                             decoratedWindow.surfaceOrientationAngle = shellOrientationAngle;
@@ -767,7 +857,7 @@ FocusScope {
                                                      maximizedTopLeft || maximizedTopRight || maximizedBottomLeft || maximizedBottomRight
 
                 readonly property bool minimized: windowState & WindowStateStorage.WindowStateMinimized
-                readonly property bool fullscreen: surface ? surface.state === Mir.FullscreenState : application.fullscreen
+                readonly property bool fullscreen: windowState === WindowStateStorage.WindowStateFullscreen
 
                 readonly property bool canBeMaximized: canBeMaximizedHorizontally && canBeMaximizedVertically
                 readonly property bool canBeMaximizedLeftRight: (maximumWidth == 0 || maximumWidth >= appContainer.width/2) &&
@@ -778,7 +868,10 @@ FocusScope {
                 readonly property bool canBeMaximizedVertically: maximumHeight == 0 || maximumHeight >= appContainer.height
                 readonly property alias orientationChangesEnabled: decoratedWindow.orientationChangesEnabled
 
+                // TODO drop our own windowType once Mir/Miral/Qtmir gets in sync with ours
                 property int windowState: WindowStateStorage.WindowStateNormal
+                property int prevWindowState: WindowStateStorage.WindowStateRestored
+
                 property bool animationsEnabled: true
                 property alias title: decoratedWindow.title
                 readonly property string appName: model.application ? model.application.name : ""
@@ -793,14 +886,34 @@ FocusScope {
                     priv.updateMainAndSideStageIndexes()
                 }
 
-                readonly property var surface: model.surface
-                readonly property alias resizeArea: resizeArea
+                readonly property var surface: model.window.surface
+                readonly property var window: model.window
+
                 readonly property alias focusedSurface: decoratedWindow.focusedSurface
                 readonly property bool dragging: touchControls.overlayShown ? touchControls.dragging : decoratedWindow.dragging
 
                 readonly property string appId: model.application.appId
                 readonly property bool isDash: appId == "unity8-dash"
                 readonly property alias clientAreaItem: decoratedWindow.clientAreaItem
+
+                function activate() {
+                    if (model.window.focused) {
+                        updateQmlFocusFromMirSurfaceFocus();
+                    } else {
+                        model.window.activate();
+                    }
+                }
+                function requestMaximize() { model.window.requestState(Mir.MaximizedState); }
+                function requestMaximizeVertically() { model.window.requestState(Mir.VertMaximizedState); }
+                function requestMaximizeHorizontally() { model.window.requestState(Mir.HorizMaximizedState); }
+                function requestMaximizeLeft() { model.window.requestState(Mir.MaximizedLeftState); }
+                function requestMaximizeRight() { model.window.requestState(Mir.MaximizedRightState); }
+                function requestMaximizeTopLeft() { model.window.requestState(Mir.MaximizedTopLeftState); }
+                function requestMaximizeTopRight() { model.window.requestState(Mir.MaximizedTopRightState); }
+                function requestMaximizeBottomLeft() { model.window.requestState(Mir.MaximizedBottomLeftState); }
+                function requestMaximizeBottomRight() { model.window.requestState(Mir.MaximizedBottomRightState); }
+                function requestMinimize() { model.window.requestState(Mir.MinimizedState); }
+                function requestRestore() { model.window.requestState(Mir.RestoredState); }
 
                 function claimFocus() {
                     if (root.state == "spread") {
@@ -813,45 +926,84 @@ FocusScope {
                         }
                         priv.updateMainAndSideStageIndexes();
                     }
+                    appDelegate.focus = true;
+                    priv.focusedAppDelegate = appDelegate;
+                }
 
-                    if (root.mode == "windowed") {
-                        appDelegate.restore(true /* animated */, appDelegate.windowState);
-                    } else {
-                        appDelegate.focus = true;
-                    }
-                }
-                Connections {
-                    target: model.surface
-                    onFocusRequested: {
+                function updateQmlFocusFromMirSurfaceFocus() {
+                    if (model.window.focused) {
                         claimFocus();
+                        decoratedWindow.focus = true;
                     }
                 }
+
+                WindowStateSaver {
+                    id: windowStateSaver
+                    target: appDelegate
+                    screenWidth: appContainer.width
+                    screenHeight: appContainer.height
+                    leftMargin: root.availableDesktopArea.x
+                    minimumY: root.availableDesktopArea.y
+                }
+
                 Connections {
-                    target: model.application
+                    target: model.window
+                    onFocusedChanged: {
+                        updateQmlFocusFromMirSurfaceFocus();
+                    }
                     onFocusRequested: {
-                        if (!model.surface) {
-                            // when an app has no surfaces, we assume there's only one entry representing it:
-                            // this delegate.
-                            claimFocus();
-                        } else {
-                            // if the application has surfaces, focus request should be at surface-level.
+                        appDelegate.activate();
+                    }
+                    onStateChanged: {
+                        if (model.window.state === Mir.MinimizedState) {
+                            appDelegate.minimize();
+                        } else if (model.window.state === Mir.MaximizedState) {
+                            appDelegate.maximize();
+                        } else if (model.window.state === Mir.VertMaximizedState) {
+                            appDelegate.maximizeVertically();
+                        } else if (model.window.state === Mir.HorizMaximizedState) {
+                            appDelegate.maximizeHorizontally();
+                        } else if (model.window.state === Mir.MaximizedLeftState) {
+                            appDelegate.maximizeLeft();
+                        } else if (model.window.state === Mir.MaximizedRightState) {
+                            appDelegate.maximizeRight();
+                        } else if (model.window.state === Mir.MaximizedTopLeftState) {
+                            appDelegate.maximizeTopLeft();
+                        } else if (model.window.state === Mir.MaximizedTopRightState) {
+                            appDelegate.maximizeTopRight();
+                        } else if (model.window.state === Mir.MaximizedBottomLeftState) {
+                            appDelegate.maximizeBottomLeft();
+                        } else if (model.window.state === Mir.MaximizedBottomRightState) {
+                            appDelegate.maximizeBottomRight();
+                        } else if (model.window.state === Mir.RestoredState) {
+                            if (appDelegate.fullscreen && appDelegate.prevWindowState != WindowStateStorage.WindowStateRestored
+                                    && appDelegate.prevWindowState != WindowStateStorage.WindowStateNormal) {
+                                model.window.requestState(WindowStateStorage.toMirState(appDelegate.prevWindowState));
+                            } else {
+                                appDelegate.restore();
+                            }
+                        } else if (model.window.state === Mir.FullscreenState) {
+                            appDelegate.prevWindowState = appDelegate.windowState;
+                            appDelegate.windowState = WindowStateStorage.WindowStateFullscreen;
                         }
                     }
                 }
 
-                onFocusChanged: {
-                    if (appRepeater.startingUp)
-                        return;
-
-                    if (focus) {
-                        topLevelSurfaceList.raiseId(model.id);
-                        priv.focusedAppDelegate = appDelegate;
-                    } else if (!focus && priv.focusedAppDelegate === appDelegate && root.state != "spread") {
-                        priv.focusedAppDelegate = null;
-                        // FIXME: No idea why the Binding{} doens't update when focusedAppDelegate turns null
-                        MirFocusController.focusedSurface = null;
+                readonly property bool windowReady: clientAreaItem.surfaceInitialized
+                onWindowReadyChanged: {
+                    if (windowReady) {
+                        var loadedMirState = WindowStateStorage.toMirState(windowStateSaver.loadedState);
+                        // need to apply the shell chrome policy on top the saved window state
+                        var policy;
+                        if (root.mode == "windowed") {
+                            policy = windowedFullscreenPolicy;
+                        } else {
+                            policy = stagedFullscreenPolicy
+                        }
+                        window.requestState(policy.applyPolicy(loadedMirState, surface.shellChrome));
                     }
                 }
+
                 Component.onCompleted: {
                     if (application && application.rotatesWindowContents) {
                         decoratedWindow.surfaceOrientationAngle = shellOrientationAngle;
@@ -863,23 +1015,16 @@ FocusScope {
                     windowedX = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedX + units.gu(3) : (normalZ - 1) * units.gu(3)
                     windowedY = priv.focusedAppDelegate ? priv.focusedAppDelegate.windowedY + units.gu(3) : normalZ * units.gu(3)
                     // Now load any saved state. This needs to happen *after* the cascading!
-                    resizeArea.loadWindowState();
+                    windowStateSaver.load();
 
-                    // NB: We're differentiating if this delegate was created in response to a new entry in the model
-                    //     or if the Repeater is just populating itself with delegates to match the model it received.
-                    if (!appRepeater.startingUp) {
-                        // a top level window is always the focused one when it first appears, unfocusing
-                        // any preexisting one
-                        if (root.state == "spread") {
-                            spreadItem.highlightedIndex = index;
-                        }
-                        claimFocus();
-                    }
+                    updateQmlFocusFromMirSurfaceFocus();
 
                     refreshStage();
                     _constructing = false;
                 }
                 Component.onDestruction: {
+                    windowStateSaver.save();
+
                     if (!root.parent) {
                         // This stage is about to be destroyed. Don't mess up with the model at this point
                         return;
@@ -887,17 +1032,6 @@ FocusScope {
 
                     if (visuallyMaximized) {
                         priv.updateForegroundMaximizedApp();
-                    }
-
-                    if (focus) {
-                        // focus some other window
-                        for (var i = 0; i < appRepeater.count; i++) {
-                            var appDelegate = appRepeater.itemAt(i);
-                            if (appDelegate && !appDelegate.minimized && i != index) {
-                                appDelegate.focus = true;
-                                return;
-                            }
-                        }
                     }
                 }
 
@@ -919,7 +1053,7 @@ FocusScope {
                          || focusAnimation.running || rightEdgeFocusAnimation.running || hidingAnimation.running
 
                 function close() {
-                    model.surface.close();
+                    model.window.close();
                 }
 
                 function maximize(animated) {
@@ -962,15 +1096,11 @@ FocusScope {
                     animationsEnabled = (animated === undefined) || animated;
                     windowState |= WindowStateStorage.WindowStateMinimized; // add the minimized bit
                 }
-                function restoreFromMaximized(animated) {
-                    animationsEnabled = (animated === undefined) || animated;
-                    windowState = WindowStateStorage.WindowStateRestored;
-                }
                 function restore(animated,state) {
                     animationsEnabled = (animated === undefined) || animated;
                     windowState = state || WindowStateStorage.WindowStateRestored;
                     windowState &= ~WindowStateStorage.WindowStateMinimized; // clear the minimized bit
-                    focus = true;
+                    prevWindowState = windowState;
                 }
 
                 function playFocusAnimation() {
@@ -984,7 +1114,7 @@ FocusScope {
                             rightEdgeFocusAnimation.start()
                         }
                     } else if (state == "windowedRightEdge" || state == "windowed") {
-                        claimFocus();
+                        activate();
                     } else {
                         focusAnimation.start()
                     }
@@ -1022,10 +1152,10 @@ FocusScope {
                     to: 1
                     duration: UbuntuAnimation.SnapDuration
                     onStarted: {
-                        topLevelSurfaceList.raiseId(model.id);
+                        topLevelSurfaceList.raiseId(model.window.id);
                     }
                     onStopped: {
-                        appDelegate.claimFocus();
+                        appDelegate.activate();
                     }
                 }
                 ParallelAnimation {
@@ -1035,7 +1165,7 @@ FocusScope {
                     UbuntuNumberAnimation { target: decoratedWindow; properties: "angle"; to: 0; duration: priv.animationDuration }
                     UbuntuNumberAnimation { target: decoratedWindow; properties: "itemScale"; to: 1; duration: priv.animationDuration }
                     onStopped: {
-                        appDelegate.focus = true
+                        appDelegate.activate();
                     }
                 }
                 ParallelAnimation {
@@ -1061,12 +1191,11 @@ FocusScope {
                     sideStageX: sideStage.x
                     itemIndex: appDelegate.itemIndex
                     nextInStack: priv.nextInStack
-                    leftEdgeDragProgress: root.leftEdgeDragProgress
                 }
 
                 StagedRightEdgeMaths {
                     id: stagedRightEdgeMaths
-                    sceneWidth: appContainer.width - root.leftMargin
+                    sceneWidth: root.availableDesktopArea.width
                     sceneHeight: appContainer.height
                     isMainStageApp: priv.mainStageDelegate == appDelegate
                     isSideStageApp: priv.sideStageDelegate == appDelegate
@@ -1077,7 +1206,7 @@ FocusScope {
                     progress: 0
                     targetHeight: spreadItem.stackHeight
                     targetX: spreadMaths.targetX
-                    startY: appDelegate.fullscreen ? 0 : PanelState.panelHeight
+                    startY: appDelegate.fullscreen ? 0 : root.availableDesktopArea.y
                     targetY: spreadMaths.targetY
                     targetAngle: spreadMaths.targetAngle
                     targetScale: spreadMaths.targetScale
@@ -1102,6 +1231,7 @@ FocusScope {
                 states: [
                     State {
                         name: "spread"; when: root.state == "spread"
+                        StateChangeScript { script: { decoratedWindow.cancelDrag(); } }
                         PropertyChanges {
                             target: decoratedWindow;
                             showDecoration: false;
@@ -1128,13 +1258,14 @@ FocusScope {
                         }
                         PropertyChanges { target: dragArea; enabled: true }
                         PropertyChanges { target: windowInfoItem; opacity: spreadMaths.tileInfoOpacity; visible: spreadMaths.itemVisible }
+                        PropertyChanges { target: touchControls; enabled: false }
                     },
                     State {
                         name: "stagedRightEdge"
                         when: (root.mode == "staged" || root.mode == "stagedWithSideStage") && (root.state == "sideStagedRightEdge" || root.state == "stagedRightEdge" || rightEdgeFocusAnimation.running || hidingAnimation.running)
                         PropertyChanges {
                             target: stagedRightEdgeMaths
-                            progress: Math.max(edgeBarrier.progress, rightEdgeDragArea.draggedProgress)
+                            progress: Math.max(rightEdgePushProgress, rightEdgeDragArea.draggedProgress)
                         }
                         PropertyChanges {
                             target: appDelegate
@@ -1161,10 +1292,11 @@ FocusScope {
                     },
                     State {
                         name: "windowedRightEdge"
-                        when: root.mode == "windowed" && (root.state == "windowedRightEdge" || rightEdgeFocusAnimation.running || hidingAnimation.running || edgeBarrier.progress > 0)
+                        when: root.mode == "windowed" && (root.state == "windowedRightEdge" || rightEdgeFocusAnimation.running || hidingAnimation.running || rightEdgePushProgress > 0)
                         PropertyChanges {
                             target: windowedRightEdgeMaths
-                            progress: Math.max(rightEdgeDragArea.progress, edgeBarrier.progress)
+                            swipeProgress: rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0
+                            pushProgress: rightEdgePushProgress
                         }
                         PropertyChanges {
                             target: appDelegate
@@ -1195,9 +1327,9 @@ FocusScope {
                         PropertyChanges {
                             target: appDelegate
                             x: stageMaths.itemX
-                            y: appDelegate.fullscreen ? 0 : PanelState.panelHeight
+                            y: root.availableDesktopArea.y
                             requestedWidth: appContainer.width
-                            requestedHeight: appDelegate.fullscreen ? appContainer.height : appContainer.height - PanelState.panelHeight
+                            requestedHeight: root.availableDesktopArea.height
                             visuallyMaximized: true
                             visible: appDelegate.x < root.width
                         }
@@ -1213,6 +1345,10 @@ FocusScope {
                             target: stageMaths
                             animateX: !focusAnimation.running && itemIndex !== spreadItem.highlightedIndex
                         }
+                        PropertyChanges {
+                            target: appDelegate.window
+                            allowClientResize: false
+                        }
                     },
                     State {
                         name: "stagedWithSideStage"; when: root.state == "stagedWithSideStage"
@@ -1223,10 +1359,10 @@ FocusScope {
                         PropertyChanges {
                             target: appDelegate
                             x: stageMaths.itemX
-                            y: appDelegate.fullscreen ? 0 : PanelState.panelHeight
+                            y: root.availableDesktopArea.y
                             z: stageMaths.itemZ
                             requestedWidth: stageMaths.itemWidth
-                            requestedHeight: appDelegate.fullscreen ? appContainer.height : appContainer.height - PanelState.panelHeight
+                            requestedHeight: root.availableDesktopArea.height
                             visuallyMaximized: true
                             visible: appDelegate.x < root.width
                         }
@@ -1238,19 +1374,23 @@ FocusScope {
                             target: resizeArea
                             enabled: false
                         }
+                        PropertyChanges {
+                            target: appDelegate.window
+                            allowClientResize: false
+                        }
                     },
                     State {
                         name: "maximized"; when: appDelegate.maximized && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
-                            requestedX: root.leftMargin;
+                            requestedX: root.availableDesktopArea.x;
                             requestedY: 0;
                             visuallyMinimized: false;
-                            visuallyMaximized: true
-                            requestedWidth: appContainer.width - root.leftMargin;
+                            requestedWidth: root.availableDesktopArea.width;
                             requestedHeight: appContainer.height;
                         }
                         PropertyChanges { target: touchControls; enabled: true }
+                        PropertyChanges { target: decoratedWindow; windowControlButtonsVisible: false }
                     },
                     State {
                         name: "fullscreen"; when: appDelegate.fullscreen && !appDelegate.minimized
@@ -1269,37 +1409,31 @@ FocusScope {
                         PropertyChanges {
                             target: appDelegate
                             visuallyMinimized: false
-                            visuallyMaximized: false
                         }
                         PropertyChanges { target: touchControls; enabled: true }
                         PropertyChanges { target: resizeArea; enabled: true }
-                        PropertyChanges { target: decoratedWindow; shadowOpacity: .3}
+                        PropertyChanges { target: decoratedWindow; shadowOpacity: .3; windowControlButtonsVisible: true}
                     },
                     State {
                         name: "restored";
                         when: appDelegate.windowState == WindowStateStorage.WindowStateRestored
                         extend: "normal"
                         PropertyChanges {
+                            restoreEntryValues: false
                             target: appDelegate;
                             windowedX: restoredX;
                             windowedY: restoredY;
                         }
                     },
                     State {
-                        name: "semiMaximized"
-                        PropertyChanges { target: touchControls; enabled: true }
-                        PropertyChanges { target: resizeArea; enabled: true }
-                        PropertyChanges { target: decoratedWindow; shadowOpacity: .3 }
-                    },
-                    State {
                         name: "maximizedLeft"; when: appDelegate.maximizedLeft && !appDelegate.minimized
-                        extend: "semiMaximized"
+                        extend: "normal"
                         PropertyChanges {
                             target: appDelegate
-                            windowedX: root.leftMargin
-                            windowedY: PanelState.panelHeight
-                            windowedWidth: (appContainer.width - root.leftMargin)/2
-                            windowedHeight: appContainer.height - PanelState.panelHeight
+                            windowedX: root.availableDesktopArea.x
+                            windowedY: root.availableDesktopArea.y
+                            windowedWidth: root.availableDesktopArea.width / 2
+                            windowedHeight: root.availableDesktopArea.height
                         }
                     },
                     State {
@@ -1307,18 +1441,18 @@ FocusScope {
                         extend: "maximizedLeft"
                         PropertyChanges {
                             target: appDelegate;
-                            windowedX: (appContainer.width + root.leftMargin)/2
+                            windowedX: root.availableDesktopArea.x + (root.availableDesktopArea.width / 2)
                         }
                     },
                     State {
                         name: "maximizedTopLeft"; when: appDelegate.maximizedTopLeft && !appDelegate.minimized
-                        extend: "semiMaximized"
+                        extend: "normal"
                         PropertyChanges {
                             target: appDelegate
-                            windowedX: root.leftMargin
-                            windowedY: PanelState.panelHeight
-                            windowedWidth: (appContainer.width - root.leftMargin)/2
-                            windowedHeight: (appContainer.height - PanelState.panelHeight)/2
+                            windowedX: root.availableDesktopArea.x
+                            windowedY: root.availableDesktopArea.y
+                            windowedWidth: root.availableDesktopArea.width / 2
+                            windowedHeight: root.availableDesktopArea.height / 2
                         }
                     },
                     State {
@@ -1326,18 +1460,18 @@ FocusScope {
                         extend: "maximizedTopLeft"
                         PropertyChanges {
                             target: appDelegate
-                            windowedX: (appContainer.width + root.leftMargin)/2
+                            windowedX: root.availableDesktopArea.x + (root.availableDesktopArea.width / 2)
                         }
                     },
                     State {
                         name: "maximizedBottomLeft"; when: appDelegate.maximizedBottomLeft && !appDelegate.minimized
-                        extend: "semiMaximized"
+                        extend: "normal"
                         PropertyChanges {
                             target: appDelegate
-                            windowedX: root.leftMargin
-                            windowedY: (appContainer.height + PanelState.panelHeight)/2
-                            windowedWidth: (appContainer.width - root.leftMargin)/2
-                            windowedHeight: appContainer.height/2
+                            windowedX: root.availableDesktopArea.x
+                            windowedY: root.availableDesktopArea.y + (root.availableDesktopArea.height / 2)
+                            windowedWidth: root.availableDesktopArea.width / 2
+                            windowedHeight: root.availableDesktopArea.height / 2
                         }
                     },
                     State {
@@ -1345,36 +1479,43 @@ FocusScope {
                         extend: "maximizedBottomLeft"
                         PropertyChanges {
                             target: appDelegate
-                            windowedX: (appContainer.width + root.leftMargin)/2
+                            windowedX: root.availableDesktopArea.x + (root.availableDesktopArea.width / 2)
                         }
                     },
                     State {
                         name: "maximizedHorizontally"; when: appDelegate.maximizedHorizontally && !appDelegate.minimized
-                        extend: "semiMaximized"
-                        PropertyChanges { target: appDelegate; requestedX: root.leftMargin; requestedY: windowedY;
-                            requestedWidth: appContainer.width - root.leftMargin; requestedHeight: appDelegate.windowedHeight }
+                        extend: "normal"
+                        PropertyChanges {
+                            target: appDelegate
+                            windowedX: root.availableDesktopArea.x; windowedY: windowedY
+                            windowedWidth: root.availableDesktopArea.width; windowedHeight: windowedHeight
+                        }
                     },
                     State {
                         name: "maximizedVertically"; when: appDelegate.maximizedVertically && !appDelegate.minimized
-                        extend: "semiMaximized"
-                        PropertyChanges { target: appDelegate; requestedX: windowedX; requestedY: PanelState.panelHeight;
-                            requestedWidth: appDelegate.windowedWidth; requestedHeight: appContainer.height - PanelState.panelHeight }
+                        extend: "normal"
+                        PropertyChanges {
+                            target: appDelegate
+                            windowedX: windowedX; windowedY: root.availableDesktopArea.y
+                            windowedWidth: windowedWidth; windowedHeight: root.availableDesktopArea.height
+                        }
                     },
                     State {
                         name: "minimized"; when: appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate
-                            requestedX: -appDelegate.width / 2
                             scale: units.gu(5) / appDelegate.width
                             opacity: 0;
                             visuallyMinimized: true
                             visuallyMaximized: false
+                            x: -appDelegate.width / 2
+                            y: root.height / 2
                         }
                     }
                 ]
                 transitions: [
                     Transition {
-                        from: "staged,stagedWithSideStage"; to: "normal"
+                        from: "staged,stagedWithSideStage"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedX,requestedY,opacity,requestedWidth,requestedHeight,scale"; duration: priv.animationDuration }
@@ -1383,31 +1524,6 @@ FocusScope {
                         from: "normal,restored,maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight";
                         to: "staged,stagedWithSideStage"
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedX,requestedY,requestedWidth,requestedHeight"; duration: priv.animationDuration}
-                    },
-                    Transition {
-                        from: "maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight,minimized";
-                        to: "normal,restored"
-                        enabled: appDelegate.animationsEnabled
-                        PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
-                        UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,windowedX,windowedY,requestedWidth,requestedHeight,windowedWidth,windowedHeight,scale";
-                            duration: priv.animationDuration }
-                    },
-                    Transition {
-                        to: "minimized"
-                        enabled: appDelegate.animationsEnabled
-                        PropertyAction { target: appDelegate; property: "visuallyMaximized" }
-                        SequentialAnimation {
-                            UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,opacity,scale,requestedWidth,requestedHeight" }
-                            PropertyAction { target: appDelegate; property: "visuallyMinimized" }
-                            ScriptAction {
-                                script: {
-                                    if (appDelegate.minimized) {
-                                        appDelegate.focus = false;
-                                        priv.focusNext();
-                                    }
-                                }
-                            }
-                        }
                     },
                     Transition {
                         to: "spread"
@@ -1420,8 +1536,7 @@ FocusScope {
                     },
                     Transition {
                         from: "normal,staged"; to: "stagedWithSideStage"
-                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y"; duration: priv.animationDuration }
-                        UbuntuNumberAnimation { target: appDelegate; properties: "requestedWidth,requestedHeight"; duration: priv.animationDuration }
+                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedWidth,requestedHeight"; duration: priv.animationDuration }
                     },
                     Transition {
                         to: "windowedRightEdge"
@@ -1458,23 +1573,53 @@ FocusScope {
                         }
                     },
                     Transition {
+                        from: ",normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
+                        to: "minimized"
+                        SequentialAnimation {
+                            ScriptAction { script: { fakeRectangle.stop(); } }
+                            PropertyAction { target: appDelegate; property: "visuallyMaximized" }
+                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,scale,opacity"; duration: priv.animationDuration }
+                            PropertyAction { target: appDelegate; property: "visuallyMinimized" }
+                        }
+                    },
+                    Transition {
+                        from: "minimized"
+                        to: ",normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
+                        SequentialAnimation {
+                            PropertyAction { target: appDelegate; property: "visuallyMinimized,z" }
+                            ParallelAnimation {
+                                UbuntuNumberAnimation { target: appDelegate; properties: "x"; from: -appDelegate.width / 2; duration: priv.animationDuration }
+                                UbuntuNumberAnimation { target: appDelegate; properties: "y,opacity"; duration: priv.animationDuration }
+                                UbuntuNumberAnimation { target: appDelegate; properties: "scale"; from: 0; duration: priv.animationDuration }
+                            }
+                            PropertyAction { target: appDelegate; property: "visuallyMaximized" }
+                        }
+                    },
+                    Transition {
                         id: windowedTransition
-                        from: "normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
-                        to: "normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTop,maximizedBottom,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
+                        from: ",normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen,minimized"
+                        to: ",normal,restored,maximized,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedTopRight,maximizedBottomLeft,maximizedBottomRight,maximizedHorizontally,maximizedVertically,fullscreen"
                         enabled: appDelegate.animationsEnabled
                         SequentialAnimation {
+                            ScriptAction { script: {
+                                    if (appDelegate.visuallyMaximized) visuallyMaximized = false; // maximized before -> going to restored
+                                }
+                            }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                             UbuntuNumberAnimation { target: appDelegate; properties: "requestedX,requestedY,windowedX,windowedY,opacity,scale,requestedWidth,requestedHeight,windowedWidth,windowedHeight";
                                 duration: priv.animationDuration }
-                            PropertyAction { target: appDelegate; property: "visuallyMaximized" }
-                            ScriptAction { script: { fakeRectangle.stop(); } }
+                            ScriptAction { script: {
+                                    fakeRectangle.stop();
+                                    appDelegate.visuallyMaximized = appDelegate.maximized; // reflect the target state
+                                }
+                            }
                         }
                     }
                 ]
 
                 Binding {
                     target: PanelState
-                    property: "buttonsAlwaysVisible"
+                    property: "decorationsAlwaysVisible"
                     value: appDelegate && appDelegate.maximized && touchControls.overlayShown
                 }
 
@@ -1482,26 +1627,21 @@ FocusScope {
                     id: resizeArea
                     objectName: "windowResizeArea"
 
+                    anchors.fill: appDelegate
+
                     // workaround so that it chooses the correct resize borders when you drag from a corner ResizeGrip
                     anchors.margins: touchControls.overlayShown ? borderThickness/2 : -borderThickness
 
                     target: appDelegate
+                    boundsItem: root.availableDesktopArea
                     minWidth: units.gu(10)
                     minHeight: units.gu(10)
                     borderThickness: units.gu(2)
-                    windowId: model.application.appId // FIXME: Change this to point to windowId once we have such a thing
-                    screenWidth: appContainer.width
-                    screenHeight: appContainer.height
-                    leftMargin: root.leftMargin
                     enabled: false
                     visible: enabled
 
                     onPressed: {
-                        appDelegate.focus = true;
-                    }
-
-                    Component.onDestruction: {
-                        saveWindowState();
+                        appDelegate.activate();
                     }
                 }
 
@@ -1511,18 +1651,19 @@ FocusScope {
                     anchors.left: appDelegate.left
                     anchors.top: appDelegate.top
                     application: model.application
-                    surface: model.surface
-                    active: appDelegate.focus
+                    surface: model.window.surface
+                    active: model.window.focused
                     focus: true
                     interactive: root.interactive
                     showDecoration: 1
+                    decorationHeight: priv.windowDecorationHeight
                     maximizeButtonShown: appDelegate.canBeMaximized
                     overlayShown: touchControls.overlayShown
                     width: implicitWidth
                     height: implicitHeight
                     highlightSize: windowInfoItem.iconMargin / 2
-                    stageWidth: appContainer.width
-                    stageHeight: appContainer.height
+                    altDragEnabled: root.mode == "windowed"
+                    boundsItem: root.availableDesktopArea
 
                     requestedWidth: appDelegate.requestedWidth
                     requestedHeight: appDelegate.requestedHeight
@@ -1536,25 +1677,28 @@ FocusScope {
                     onCloseClicked: { appDelegate.close(); }
                     onMaximizeClicked: {
                         if (appDelegate.canBeMaximized) {
-                            appDelegate.anyMaximized ? appDelegate.restoreFromMaximized() : appDelegate.maximize();
+                            appDelegate.anyMaximized ? appDelegate.requestRestore() : appDelegate.requestMaximize();
                         }
                     }
                     onMaximizeHorizontallyClicked: {
                         if (appDelegate.canBeMaximizedHorizontally) {
-                            appDelegate.maximizedHorizontally ? appDelegate.restoreFromMaximized() : appDelegate.maximizeHorizontally()
+                            appDelegate.maximizedHorizontally ? appDelegate.requestRestore() : appDelegate.requestMaximizeHorizontally()
                         }
                     }
                     onMaximizeVerticallyClicked: {
                         if (appDelegate.canBeMaximizedVertically) {
-                            appDelegate.maximizedVertically ? appDelegate.restoreFromMaximized() : appDelegate.maximizeVertically()
+                            appDelegate.maximizedVertically ? appDelegate.requestRestore() : appDelegate.requestMaximizeVertically()
                         }
                     }
-                    onMinimizeClicked: appDelegate.minimize()
-                    onDecorationPressed: { appDelegate.focus = true; }
-                    onDecorationReleased: fakeRectangle.commit();
+                    onMinimizeClicked: { appDelegate.requestMinimize(); }
+                    onDecorationPressed: { appDelegate.activate(); }
+                    onDecorationReleased: fakeRectangle.visible ? fakeRectangle.commit() : appDelegate.updateRestoredGeometry()
 
                     property real angle: 0
+                    Behavior on angle { enabled: priv.closingIndex >= 0; UbuntuNumberAnimation {} }
                     property real itemScale: 1
+                    Behavior on itemScale { enabled: priv.closingIndex >= 0; UbuntuNumberAnimation {} }
+
                     transform: [
                         Scale {
                             origin.x: 0
@@ -1577,11 +1721,12 @@ FocusScope {
 
                 WindowControlsOverlay {
                     id: touchControls
+                    anchors.fill: appDelegate
                     target: appDelegate
+                    resizeArea: resizeArea
                     enabled: false
                     visible: enabled
-                    stageWidth: appContainer.width
-                    stageHeight: appContainer.height
+                    boundsItem: root.availableDesktopArea
 
                     onFakeMaximizeAnimationRequested: if (!appDelegate.maximized) fakeRectangle.maximize(amount, true)
                     onFakeMaximizeLeftAnimationRequested: if (!appDelegate.maximizedLeft) fakeRectangle.maximizeLeft(amount, true)
@@ -1591,18 +1736,16 @@ FocusScope {
                     onFakeMaximizeBottomLeftAnimationRequested: if (!appDelegate.maximizedBottomLeft) fakeRectangle.maximizeBottomLeft(amount, true);
                     onFakeMaximizeBottomRightAnimationRequested: if (!appDelegate.maximizedBottomRight) fakeRectangle.maximizeBottomRight(amount, true);
                     onStopFakeAnimation: fakeRectangle.stop();
-                    onDragReleased: fakeRectangle.commit();
+                    onDragReleased: fakeRectangle.visible ? fakeRectangle.commit() : appDelegate.updateRestoredGeometry()
                 }
 
                 WindowedFullscreenPolicy {
                     id: windowedFullscreenPolicy
-                    active: root.mode == "windowed"
-                    surface: model.surface
                 }
                 StagedFullscreenPolicy {
                     id: stagedFullscreenPolicy
                     active: root.mode == "staged" || root.mode == "stagedWithSideStage"
-                    surface: model.surface
+                    surface: model.window.surface
                 }
 
                 SpreadDelegateInputArea {
@@ -1610,7 +1753,7 @@ FocusScope {
                     objectName: "dragArea"
                     anchors.fill: decoratedWindow
                     enabled: false
-                    closeable: !appDelegate.isDash
+                    closeable: true
 
                     onClicked: {
                         spreadItem.highlightedIndex = index;
@@ -1620,11 +1763,7 @@ FocusScope {
                     }
                     onClose: {
                         priv.closingIndex = index
-                        if (model.surface) { // could be stopped by OOM
-                            model.surface.close()
-                        } else if (model.application) {
-                            root.applicationManager.stopApplication(model.application.appId);
-                        }
+                        model.window.close();
                     }
                 }
 
@@ -1652,30 +1791,74 @@ FocusScope {
                     }
                 }
 
-                Image {
-                    id: closeImage
+                MouseArea {
+                    id: closeMouseArea
+                    objectName: "closeMouseArea"
                     anchors { left: parent.left; top: parent.top; leftMargin: -height / 2; topMargin: -height / 2 + spreadMaths.closeIconOffset }
-                    source: "graphics/window-close.svg"
                     readonly property var mousePos: hoverMouseArea.mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
-                    visible: !appDelegate.isDash && dragArea.distance == 0
+                    visible: dragArea.distance == 0
                              && index == spreadItem.highlightedIndex
                              && mousePos.y < (decoratedWindow.height / 3)
                              && mousePos.y > -units.gu(4)
                              && mousePos.x > -units.gu(4)
                              && mousePos.x < (decoratedWindow.width * 2 / 3)
-                    height: units.gu(2)
+                    height: units.gu(6)
                     width: height
-                    sourceSize.width: width
-                    sourceSize.height: height
 
-                    MouseArea {
-                        id: closeMouseArea
-                        objectName: "closeMouseArea"
-                        anchors.fill: closeImage
-                        anchors.margins: -units.gu(2)
-                        onClicked: {
-                            priv.closingIndex = index;
-                            appDelegate.close();
+                    onClicked: {
+                        priv.closingIndex = index;
+                        appDelegate.close();
+                    }
+                    Image {
+                        id: closeImage
+                        source: "graphics/window-close.svg"
+                        anchors.fill: closeMouseArea
+                        anchors.margins: units.gu(2)
+                        sourceSize.width: width
+                        sourceSize.height: height
+                    }
+                }
+
+                Item {
+                    // Group all child windows in this item so that we can fade them out together when going to the spread
+                    // (and fade them in back again when returning from it)
+                    readonly property bool stageOnProperState: root.state === "windowed"
+                                                            || root.state === "staged"
+                                                            || root.state === "stagedWithSideStage"
+
+                    // TODO: Is it worth the extra cost of layering to avoid the opacity artifacts of intersecting children?
+                    //       Btw, will involve more than uncommenting the line below as children won't necessarily fit this item's
+                    //       geometry. This is just a reference.
+                    //layer.enabled: opacity !== 0.0 && opacity !== 1.0
+
+                    opacity: stageOnProperState ? 1.0 : 0.0
+                    visible: opacity !== 0.0 // make it transparent to input as well
+                    Behavior on opacity { UbuntuNumberAnimation {} }
+
+                    Repeater {
+                        id: childWindowRepeater
+                        model: appDelegate.surface ? appDelegate.surface.childSurfaceList : null
+
+                        delegate: ChildWindowTree {
+                            surface: model.surface
+
+                            // Account for the displacement caused by window decoration in the top-level surface
+                            // Ie, the top-level surface is not positioned at (0,0) of this ChildWindow's parent (appDelegate)
+                            displacementX: appDelegate.clientAreaItem.x
+                            displacementY: appDelegate.clientAreaItem.y
+
+                            boundsItem: root.availableDesktopArea
+                            decorationHeight: priv.windowDecorationHeight
+
+                            z: childWindowRepeater.count - model.index
+
+                            onFocusChanged: {
+                                if (focus) {
+                                    // some child surface in this tree got focus.
+                                    // Ensure we also have it at the top-level hierarchy
+                                    appDelegate.claimFocus();
+                                }
+                            }
                         }
                     }
                 }
@@ -1686,33 +1869,9 @@ FocusScope {
     FakeMaximizeDelegate {
         id: fakeRectangle
         target: priv.focusedAppDelegate
-        leftMargin: root.leftMargin
+        leftMargin: root.availableDesktopArea.x
         appContainerWidth: appContainer.width
         appContainerHeight: appContainer.height
-    }
-
-    EdgeBarrier {
-        id: edgeBarrier
-
-        // NB: it does its own positioning according to the specified edge
-        edge: Qt.RightEdge
-
-        onPassed: priv.goneToSpread = true;
-
-        material: Component {
-            Item {
-                Rectangle {
-                    width: parent.height
-                    height: parent.width
-                    rotation: 90
-                    anchors.centerIn: parent
-                    gradient: Gradient {
-                        GradientStop { position: 0.0; color: Qt.rgba(0.16,0.16,0.16,0.5)}
-                        GradientStop { position: 1.0; color: Qt.rgba(0.16,0.16,0.16,0)}
-                    }
-                }
-            }
-        }
     }
 
     MouseArea {
@@ -1735,13 +1894,13 @@ FocusScope {
             }
 
             // Find the hovered item and mark it active
-            var mapped = mapToItem(appContainer, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
-            var itemUnder = appContainer.childAt(mapped.x, mapped.y)
-            if (itemUnder) {
-                mapped = mapToItem(itemUnder, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
-                var delegateChild = itemUnder.childAt(mapped.x, mapped.y)
-                if (delegateChild && (delegateChild.objectName === "dragArea" || delegateChild.objectName === "windowInfoItem")) {
-                    spreadItem.highlightedIndex = appRepeater.indexOf(itemUnder)
+            for (var i = appRepeater.count - 1; i >= 0; i--) {
+                var appDelegate = appRepeater.itemAt(i);
+                var mapped = mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
+                var itemUnder = appDelegate.childAt(mapped.x, mapped.y);
+                if (itemUnder && (itemUnder.objectName === "dragArea" || itemUnder.objectName === "windowInfoItem" || itemUnder.objectName == "closeMouseArea")) {
+                    spreadItem.highlightedIndex = i;
+                    break;
                 }
             }
 
@@ -1781,11 +1940,11 @@ FocusScope {
             var targetContentX = floatingFlickable.contentWidth / spreadItem.totalItemCount * toIndex;
             if (targetContentX - floatingFlickable.contentX > spreadItem.rightStackXPos - (spreadItem.spreadItemWidth / 2)) {
                 var offset = (spreadItem.rightStackXPos - (spreadItem.spreadItemWidth / 2)) - (targetContentX - floatingFlickable.contentX)
-                snapAnimation.to = floatingFlickable.contentX - offset;
+                snapAnimation.to = Math.max(0, floatingFlickable.contentX - offset);
                 snapAnimation.start();
             } else if (targetContentX - floatingFlickable.contentX < spreadItem.leftStackXPos + units.gu(1)) {
                 var offset = (spreadItem.leftStackXPos + units.gu(1)) - (targetContentX - floatingFlickable.contentX);
-                snapAnimation.to = floatingFlickable.contentX - offset;
+                snapAnimation.to = Math.max(0, floatingFlickable.contentX - offset);
                 snapAnimation.start();
             }
         }

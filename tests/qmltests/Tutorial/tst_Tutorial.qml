@@ -17,7 +17,8 @@
 import QtQuick 2.4
 import QtTest 1.0
 import AccountsService 0.1
-import LightDM.IntegratedLightDM 0.1 as LightDM
+import LightDMController 0.1
+import LightDM.FullLightDM 0.1 as LightDM
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
 import Ubuntu.Telephony 0.1 as Telephony
@@ -85,8 +86,7 @@ Rectangle {
 
     Component.onCompleted: {
         // must set the mock mode before loading the Shell
-        LightDM.Greeter.mockMode = "single-pin";
-        LightDM.Users.mockMode = "single-pin";
+        LightDMController.userMode = "single-pin";
         shellLoader.active = true;
     }
 
@@ -149,6 +149,7 @@ Rectangle {
                         native_: shellLoader.nativeOrientation
                         primary: shellLoader.primaryOrientation
                     }
+                    hasTouchscreen: true
 
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
@@ -222,11 +223,11 @@ Rectangle {
                 CheckBox {
                     activeFocusOnPress: false
                     onCheckedChanged: {
-                        var surface = SurfaceManager.inputMethodSurface;
+                        var surface = topLevelSurfaceList.inputMethodSurface;
                         if (checked) {
-                            surface.setState(Mir.RestoredState);
+                            surface.requestState(Mir.RestoredState);
                         } else {
-                            surface.setState(Mir.MinimizedState);
+                            surface.requestState(Mir.MinimizedState);
                         }
                     }
                 }
@@ -246,7 +247,7 @@ Rectangle {
         }
     }
 
-    UT.UnityTestCase {
+    UT.StageTestCase {
         id: testCase
         name: "Tutorial"
         when: windowShown
@@ -254,6 +255,14 @@ Rectangle {
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
         property real halfWidth: shell ?  shell.width / 2 : 0
         property real halfHeight: shell ? shell.height / 2 : 0
+
+        onShellChanged: {
+            if (shell) {
+                topLevelSurfaceList = testCase.findInvisibleChild(shell, "topLevelSurfaceList");
+            } else {
+                topLevelSurfaceList = null;
+            }
+        }
 
         function init() {
             prepareShell();
@@ -299,18 +308,30 @@ Rectangle {
             tryCompare(shell, "waitingOnGreeter", false); // reset by greeter when ready
 
             WindowStateStorage.clear();
-            SurfaceManager.inputMethodSurface.setState(Mir.MinimizedState);
+            //topLevelSurfaceList.inputMethodSurface.setState(Mir.MinimizedState);
             callManager.foregroundCall = null;
             AccountsService.demoEdges = false;
             AccountsService.demoEdgesCompleted = [];
             AccountsService.demoEdges = true;
 
             LightDM.Greeter.hideGreeter();
+
+            stage = findChild(shell, "stage"); // from StageTestCase
+
+            startApplication("unity8-dash");
         }
 
         function loadShell(state) {
             resetLoader(state);
             prepareShell();
+        }
+
+        function ensureInputMethodSurface() {
+            var surfaceManager = findInvisibleChild(shell, "surfaceManager");
+            verify(surfaceManager);
+            surfaceManager.createInputMethodSurface();
+
+            tryCompareFunction(function() { return topLevelSurfaceList.inputMethodSurface !== null }, true);
         }
 
         function swipeAwayGreeter() {
@@ -699,9 +720,9 @@ Rectangle {
             ApplicationManager.startApplication("facebook-webapp");
             tryCompare(tutorialRightLoader, "shown", true);
 
-            var stage = findChild(shell, "stage");
+            var cursor = findChild(shell, "cursor");
             mouseMove(shell, shell.width, shell.height / 2);
-            stage.pushRightEdge(units.gu(8));
+            cursor.pushedRightBoundary(units.gu(8), 0);
             tryCompare(tutorialRightLoader, "shown", false);
 
             tryCompare(AccountsService, "demoEdges", false);
@@ -711,8 +732,9 @@ Rectangle {
             var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
             verify(tutorialLeftLoader.shown);
 
-            var surface = SurfaceManager.inputMethodSurface;
-            surface.setState(Mir.RestoredState);
+            ensureInputMethodSurface();
+            var surface = topLevelSurfaceList.inputMethodSurface;
+            surface.requestState(Mir.RestoredState);
 
             var inputMethod = findInvisibleChild(shell, "inputMethod");
             tryCompare(inputMethod, "visible", true);
@@ -724,7 +746,8 @@ Rectangle {
             var tutorial = findChild(shell, "tutorial");
             verify(!tutorial.delayed);
 
-            SurfaceManager.inputMethodSurface.setState(Mir.RestoredState);
+            ensureInputMethodSurface();
+            topLevelSurfaceList.inputMethodSurface.requestState(Mir.RestoredState);
 
             tryCompare(tutorial, "delayed", true);
         }

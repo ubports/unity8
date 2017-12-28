@@ -4,6 +4,402 @@ unity8 (8.16+ubports) xenial; urgency=medium
 
  -- UBports auto importer <infra@ubports.com>  Mon, 31 Jul 2017 03:12:43 +0200
 
+unity8 (8.15+17.04.20170404.7-0ubuntu2) zesty; urgency=medium
+
+  [ Michael Zanetti  ]
+  * Make the default store uri point to gnome software center
+
+ -- Timo Jyrinki <timo-jyrinki@ubuntu.com>  Thu, 06 Apr 2017 10:49:29 +0300
+
+unity8 (8.15+17.04.20170404.7-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Tweak app drawer a bit (LP: #1667570)
+
+  [ Josh Arenson ]
+  * Make some small changes to the greeter's session list
+  * Handle a user in the greeter having never selected a session better
+    (LP: #1673199)
+
+  [ Lukáš Tinkl ]
+  * Do not occlude windows with an ongoing unmaximize transition (LP:
+    #1666363)
+  * Show and implement close buttons for child windows (LP: #1668053)
+  * Sanitize the logic for pointer vs. touch menus, fixes hiding the
+    window title in staged mode, when hovering the panel with mouse and
+    no menus available.
+
+  [ Michael Zanetti ]
+  * Don't hide the launcher on super press if it's locked visible (LP:
+    #1675373)
+  * fix searchfield selection in drawer (LP: #1677259)
+  * make sure the stage has focus when going to spread (LP: #1672053,
+    #1672673, #1676995)
+  * don't autostart the dash app, but show its .desktop file instead
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 04 Apr 2017 22:56:06 +0000
+
+unity8 (8.15+17.04.20170328.3-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * mock: Remove empty property and move invokable
+  * Tune quicklist item selection
+  * Fix unminimizing going to the wrong position the second time (LP:
+    #1671458)
+  * Remove unclickable gaps on the menubar (LP: #1672722)
+  * indicators client is a tool
+  * Make sure we destroy the popups when the item goes away (LP:
+    #1670338)
+  * UnityApplicationMocks: Initialize m_state and m_requestedState
+  * Don't use appInfo after checking it if is null
+  * Initialize m_privateMode
+  * Hook up aboutToShow for overflow menus (LP: #1676016)
+
+  [ Daniel d'Andrada ]
+  * Give active focus to child surface qml items (LP: #1671072)
+  * Satellite child windows (LP: #1673415)
+  * Tell qtmir/miral about the available desktop area
+
+  [ Florian Boucault ]
+  * WindowStateStorage: use a private QThreadPool to ensure that
+    WindowStateStorage::saveValue always has a thread available to
+    execute the query in. (LP: #1675424)
+
+  [ Lukáš Tinkl ]
+  * Protect against loading invalid window geometry (LP: #1674262)
+  * Remove usage of the deprecated (and non-functional) system-image-
+    dbus service.
+  * Implement Ctrl+Alt+T to launch the terminal app (LP: #1673500)
+  * Only take normal and dialog surface types into account for launcher
+    items (LP: #1669047)
+  * Fix the shutdown dialog after recent refactoring in
+    DBusUnitySessionService (LP: #1676426)
+
+  [ Michael Zanetti ]
+  * drop the grey background behind icons in the drawer (LP: #1675688)
+
+  [ Pete Woods ]
+  * Fix Unity/Platform::isPC, and add tests (LP: #1670657)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 28 Mar 2017 21:50:20 +0000
+
+unity8 (8.15+17.04.20170321-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Signal aboutToShow (LP: #1664578)
+  * Support Panel top level items to be disabled (LP: #1670694)
+  * Improve Launcher ←→ touch menu interaction (LP: #1667620, #1671069)
+  * Fix real world submenus (e.g. kate) not getting their first item
+    selected on open (LP: #1666859)
+
+  [ Daniel d'Andrada ]
+  * Really disable the window decoration when in staged mode (LP:
+    #1670361)
+  * Don't let clients resize their surfaces while in staged
+    (phone/tablet) mode (LP: #1670390)
+  * TopLevelWindowModel: don't put hidden windows in the model (LP:
+    #1665286)
+
+  [ Lukáš Tinkl ]
+  * Reset always-show-osk gsetting on startup to default value (false
+    atm)
+  * Fix the restored-to position with Miral due to the state changes
+    being async (LP: #1669819)
+  * Add a cursor name fallback mapping "grabbing" -> "closedhand" for
+    Breeze
+  * Fix unsnapping a maximized window from the panel (LP: #1671721)
+  * Disable altDrag feature outside windowed mode
+
+  [ Michael Terry ]
+  * Don't lock the screen for guest users or users in the nopasswdlogin
+    group. (LP: #1644237)
+  * Support GNOME-style logout DBus API (making the Logout, Reboot, and
+    Shutdown launcher commands work) (LP: #1673229)
+
+  [ Michael Zanetti ]
+  * Add support for closing apps from the spread with "Q" (LP: #1670327)
+  * hide "private" launcher quicklist entries when the greeter is locked
+    (LP: #1667649)
+  * add surface titles to launcher's quicklist (LP: #1661668)
+  * properly reset the drawer state when cancelling a horizontal drag
+    (LP: #1669536)
+  * fix the focus moving correctly between launcher and drawer (LP:
+    #1669880)
+  * unfocus the drawer's textfield when it is moved (LP: #1669839)
+
+  [ Pete Woods ]
+  * Fix up indicators-client after refactoring (LP: #1672797)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 21 Mar 2017 10:58:13 +0000
+
+unity8 (8.15+17.04.20170308-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Let's follow the keyboard order
+  * Enable the license check (LP: #1590044)
+  * Show a barebones error message if loading the QML doesn't work
+  * Make sure cursor is back to normal when closing the window (LP:
+    #1666158)
+  * Fix small warning when sensitive is undefined
+  * Remove unused member variable
+  * Initialize m_msecsSinceReference
+  * Add warning if registerService fails
+  * Move menus Component {} out of the repeater
+  * Add tool to browse menus of a running app
+
+  [ Daniel d'Andrada ]
+  * Drag child windows with Alt+LeftMouseButton (LP: #1664947)
+
+  [ Gerry Boland ]
+  * TopLevelWindowModel: connect to the OSK surface to know when it goes
+    away so we can clean up after it. (LP: #1670681)
+
+  [ Josh Arenson ]
+  * Initialize sessionMode to single when mock is reset (LP: #1667463)
+
+  [ Lukáš Tinkl ]
+  * Make the menu string "Back" translatable
+  * Let the OSK be driven by a switch in indicator-keyboard (LP:
+    #1521518)
+  * Disable the tutorial when there's no touchscreen (LP: #1661557)
+  * Shell chrome fixes (LP: #1658117, #1665723, #1665724, #1669010)
+  * Cancel the drag as soon as we're entering the spread (LP: #1668642)
+  * Fix being unable to use window control buttons or menus with touch
+    (LP: #1667604, #1668387)
+
+  [ Michael Terry ]
+  * Set QT_IM_MODULE in the greeter so that the OSK can come up. (LP:
+    #1670383)
+  * Simplify our startup handling of Mir environment variables and set
+    the right socket path in snappy.
+
+  [ Michael Zanetti ]
+  * Cancel the home key activation if something else is pressed along
+    with Meta (LP: #1670678)
+  * close the drawer when something is launched from the launcher (LP:
+    #1660367)
+  * use a svg instead of a png for the Launcher's BFB (LP: #1668057)
+  * change the default setting for the launcher autohiding (LP:
+    #1670655)
+
+  [ Nick Dedekind ]
+  * Split up Shell::test_spreadDisabled to ensure initial state for each
+    test.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 08 Mar 2017 09:56:46 +0000
+
+unity8 (8.15+17.04.20170221-0ubuntu1) zesty; urgency=medium
+
+  * Handle ubuntu-app-launch API/ABI break
+
+ -- Ken VanDine <ken.vandine@canonical.com>  Tue, 21 Feb 2017 13:23:23 +0000
+
+unity8 (8.15+17.04.20170216.1-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make menus items close the menu when clicking on them (LP: #1657082,
+    #1657399)
+  * Clicking on an open menu closes it + test
+  * Make the menus and submenus do not go outside the screen when
+    popping out
+  * Auto open submenus on hover (LP: #1657085)
+  * Make the double click on a menu not be maximize the window below
+    (LP: #1657079)
+  * Make the MenuBar InverseMouseArea eat hover events when there's a
+    popup open (LP: #1657763)
+  * Make double click on the window decoration maximize (LP: #1657758)
+  * Eat hover events when the launcher quicklist is open (LP: #1640776)
+  * Remove TODO now that we require Qt > 5.5
+  * Serialize two make targets that want to cp to the same target file
+    (LP: #1660576)
+  * Remove variable that is always false (LP: #1585910)
+
+  [ Daniel d'Andrada ]
+  * Consolidate launcher API checks
+
+  [ Lukáš Tinkl ]
+  * Fixes for activating minimized windows and restoring fullscreen ones
+    (LP: #1656808, #1658937, #1658938)
+
+  [ Michael Zanetti ]
+  * move right edge push area up some levels so it can be used on top of
+    the indicators
+  * fix minimizing/restoring transitions (LP: #1658936)
+  * fix some glitches with spread positioning
+  * fix jumpy animation when closing an item from the spread
+  * Show the wallpaper while the focused app is moving in staged mode
+    (LP: #1648251)
+  * Update the tutorial to mention the app drawer instead of the dash on
+    long left edge swipe (LP: #1658932)
+  * prevent hiding the launcher when the mouse hover event is eaten by
+    the EdgePushArea (LP: #1657045)
+  * properly invalidate the whole model (LP: #1658190)
+  * stabilize OrientedShell test (LP: #1658994)
+
+  [ Nick Dedekind ]
+  * Added overflow support to application menus.
+  * Updated menu colors
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 16 Feb 2017 13:49:18 +0000
+
+unity8 (8.15+17.04.20170206-0ubuntu1) zesty; urgency=medium
+
+  [ Daniel d'Andrada ]
+  * Initial support for child windows (menus, dialogs, tooltips) (LP:
+    #1543467, #1591384, #1656727)
+
+ -- Albert Astals Cid <albert.astals@canonical.com>  Mon, 06 Feb 2017 09:12:23 +0000
+
+unity8 (8.15+17.04.20170131.1-0ubuntu1) zesty; urgency=medium
+
+  [ Rodney Dawes ]
+  * Remove dependencies on clickscope.
+
+ -- Albert Astals Cid <albert.astals@canonical.com>  Tue, 31 Jan 2017 14:40:33 +0000
+
+unity8 (8.15+17.04.20170124-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Limit tab-focus travelling on dialogs with a fence
+  * Restore focus to where it was when our ShellDialogs get unloaded
+  * Update current session after changing the user
+  * Add keyboard navigation for Indicators
+  * a window -> the current window
+  * There's no spreadDelegate_ anymore
+
+  [ Daniel d'Andrada ]
+  * Simplify DecoratedWindow
+  * Remove unnecessary warning message
+
+  [ Josh Arenson ]
+  * Add a test for the session chooser icon in the greeter's sessions
+    list
+
+  [ Lukáš Tinkl ]
+  * Fix keymap not being applied on the shell itself (LP: #1626435)
+  * Shell dialog improvements (kbd focus, mouse eater)
+  * Start searching directly as you type, w/o having to first
+    focus/click the search field.
+  * Add a test for the real implementation of WindowStateStorage
+  * Use a four finger gesture to open the drawer, much like in u7
+
+  [ Michael Terry ]
+  * Simplify the lightdm mock to make future greeter improvements easier
+    to test.
+  * Add support for guest sessions in unity8-greeter.
+  * Use a model for PAM prompts, supporting more possible interactions.
+  * Fix grouping of autopkg output and allow optionally passing
+    arguments to installed test scripts.
+  * Add support for LightDM hints for manual logins and hiding normal
+    users.
+
+  [ Michael Zanetti ]
+  * hint the launcher to indicate a successful size change to the user
+    (LP: #1646457)
+  * Improvements for the appdrawer (LP: #1648173)
+  * Adjust home key to still focus the dash instead of messing with the
+    drawer
+  * allow 4 finger simulation with mousetouchadaptor
+
+  [ Nick Dedekind ]
+  * Added Alt+F10 shortcut to open app menus. (LP: #1656896)
+  * Fixed menu layout width calculations. (LP: #1657050)
+  * Skip Panel::test_drag_indicator_item_down_shows_menu
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 24 Jan 2017 07:46:58 +0000
+
+unity8 (8.15+17.04.20170110.4-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Give focus to one of the buttons of the dialog
+  * tst_WindowResizeArea: Use default values for mouseFlick speed and
+    iterations (LP: #1651580)
+  * Require Qt 5.6 & misc fixes
+
+  [ Daniel van Vugt ]
+  * Deprecate usage of Mir's input resampling, instead opting for: (LP:
+    #1497105, #1591328)
+
+  [ Josh Arenson ]
+  * Allow the scopes list to automatically scroll when a scope is being
+    dragged past the bounds of the screen. (LP: #1575319)
+
+  [ Lukáš Tinkl ]
+  * Fix touch window controls being unreachable when the overlay is
+    being displayed (LP: #1648167)
+  * Fixup paths for window state storage in snappy environment
+  * Add Unity.Platform mock for our tests (LP: #1655336)
+
+  [ Michael Zanetti ]
+  * PreviewRatingInput: Use displayText instead of text to
+    enable/disable the Send button (LP: #1595910)
+  * Add a D-Bus interface to control some debug facilities on the fly
+  * some launcher workarounds for the snapping
+
+  [ Michał Sawicz ]
+  * Nuke leftover Platform in IndicatorsManager
+
+  [ Nick Dedekind ]
+  * Added registry for application menus
+
+  [ Michael Terry, Nick Dedekind ]
+  * Run the qmluitests.sh autopkg test against the installed package.
+
+  [ Michał Sawicz, Nick Dedekind ]
+  * Application menus
+
+  [ Rodney Dawes ]
+  * Remove the payments widget and dependency on libpay as no longer
+    needed.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 10 Jan 2017 14:48:42 +0000
+
+unity8 (8.15+17.04.20161215-0ubuntu2~1) zesty; urgency=medium
+
+  * No change rebuild
+
+ -- Timo Jyrinki <timo-jyrinki@ubuntu.com>  Wed, 04 Jan 2017 10:54:32 +0200
+
+unity8 (8.15+17.04.20161215-0ubuntu1) zesty; urgency=medium
+
+  * Let the model deal with some window management decisions (LP:
+    #1346633)
+
+ -- Daniel d'Andrada <daniel.dandrada@canonical.com>  Thu, 15 Dec 2016 16:17:29 +0000
+
+unity8 (8.15+17.04.20161207.1-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Add the Wsuggest-override flag to gcc
+  * Add support for compiler sanitizers via ECM
+  * Use timeStep as delay time (LP: #1642919)
+  * Bring back fix for 1517830 (LP: #1517830)
+  * Fix compile warnings in mocks
+  * Do not hide panel when launching an application if the mouse is on
+    the panel (LP: #1591311)
+
+  [ Daniel d'Andrada ]
+  * Fix "make tryApplicationWindow"
+  * Take save/restore functions out of WindowResizeArea
+
+  [ Josh Arenson ]
+  * Enable the greeter to remember which session the user last logged
+    into (LP: #1631365)
+
+  [ Lukáš Tinkl ]
+  * Fix the Super key not invoking the dash scope home (LP: #1607427)
+
+  [ Michael Zanetti ]
+  * Add the ApplicationDrawer
+  * tune right edge push (LP: #1646094)
+  * improve close button visiblity when hovering with the mouse
+  * Update virtual touchpad visuals and add a tutorial. (LP: #1585220)
+
+  [ Pete Woods ]
+  * MenuItemFactory: Add subtitle support to SwitchItem widget
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 07 Dec 2016 13:49:24 +0000
+
 unity8 (8.15+17.04.20161129-0ubuntu1) zesty; urgency=medium
 
   [ Albert Astals Cid ]
@@ -7766,3 +8162,8 @@ qml-phone-shell (0.1) quantal; urgency=low
   * Initial release
 
  -- Bill Filler <bill.filler@canonical.com>  Wed, 10 Oct 2012 10:19:53 -0400
+unity8 (8.15+17.04.20170404.7-0ubuntu2) zesty; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make the default store uri point to gnome software center
+

@@ -19,8 +19,8 @@ import Ubuntu.Components 1.3
 import QtTest 1.0
 import AccountsService 0.1
 import GSettings 1.0
-import LightDM.IntegratedLightDM 0.1 as LightDM
-import Ubuntu.SystemImage 0.1
+import LightDMController 0.1
+import LightDM.FullLightDM 0.1 as LightDM
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Test 0.1 as UT
@@ -35,8 +35,7 @@ Item {
 
     Component.onCompleted: {
         // must set the mock mode before loading the Shell
-        LightDM.Greeter.mockMode = "single-pin";
-        LightDM.Users.mockMode = "single-pin";
+        LightDMController.userMode = "single-pin";
         shellLoader.active = true;
     }
 
@@ -69,6 +68,7 @@ Item {
             property bool itemDestroyed: false
             sourceComponent: Component {
                 Shell {
+                    hasTouchscreen: true
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true
                     }
@@ -89,19 +89,6 @@ Item {
                     text: "Show Greeter"
                     onClicked: LightDM.Greeter.showGreeter()
                 }
-
-                Label {
-                    text: "Max retries:"
-                    color: "black"
-                }
-                TextField {
-                    id: maxRetriesTextField
-                    text: "-1"
-                    onTextChanged: {
-                        var greeter = testCase.findChild(shellLoader.item, "greeter");
-                        greeter.maxFailedLogins = text;
-                    }
-                }
             }
         }
     }
@@ -109,18 +96,6 @@ Item {
     SignalSpy {
         id: sessionSpy
         signalName: "sessionStarted"
-    }
-
-    SignalSpy {
-        id: resetSpy
-        target: SystemImage
-        signalName: "resettingDevice"
-    }
-
-    SignalSpy {
-        id: promptSpy
-        target: LightDM.Greeter
-        signalName: "showPrompt"
     }
 
     Telephony.CallEntry {
@@ -142,7 +117,7 @@ Item {
         }
     }
 
-    UT.UnityTestCase {
+    UT.StageTestCase {
         id: testCase
         name: "ShellWithPin"
         when: windowShown
@@ -155,16 +130,24 @@ Item {
             sessionSpy.target = greeter;
             swipeAwayGreeter(true);
             greeter.failedLoginsDelayAttempts = -1;
-            greeter.maxFailedLogins = -1;
 
             var launcher = findChild(shell, "launcher");
             var panel = findChild(launcher, "launcherPanel");
             verify(!!panel);
             panel.dismissTimer = fakeDismissTimer;
+
+            // from StageTestCase
+            stage = findChild(shell, "stage");
+            topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
+            verify(topLevelSurfaceList);
+
+            startApplication("unity8-dash");
         }
 
         function cleanup() {
             tryCompare(shell, "waitingOnGreeter", false); // make sure greeter didn't leave us in disabled state
+
+            topLevelSurfaceList = null;
 
             shellLoader.itemDestroyed = false
 
@@ -301,13 +284,15 @@ Item {
         }
 
         function test_emergencyCallCrash() {
+            var dialerSurfaceId = topLevelSurfaceList.nextId;
             var greeter = findChild(shell, "greeter");
             var emergencyButton = findChild(greeter, "emergencyCallLabel");
             tap(emergencyButton)
-
+            tryCompare(topLevelSurfaceList, "count", 2);
+            waitUntilAppWindowIsFullyLoaded(dialerSurfaceId);
 
             tryCompare(greeter, "shown", false);
-            killApps() // kill dialer-app, as if it crashed
+            ApplicationManager.stopApplication("dialer-app"); // kill dialer-app, as if it crashed
             tryCompare(greeter, "shown", true);
             tryCompare(findChild(greeter, "lockscreen"), "shown", true);
             tryCompare(findChild(greeter, "coverPage"), "shown", false);
@@ -319,7 +304,7 @@ Item {
             tap(emergencyButton)
 
             tryCompare(greeter, "shown", false);
-            ApplicationManager.startApplication("gallery-app", ApplicationManager.NoFlag)
+            startApplication("gallery-app");
             tryCompare(greeter, "shown", true);
         }
 
@@ -367,25 +352,6 @@ Item {
             tryCompare(delayedLockscreen, "delayMinutes", greeter.failedLoginsDelayMinutes);
         }
 
-        function test_factoryReset() {
-            skip("Factory reset support is not finished")
-
-            maxRetriesTextField.text = "3"
-            resetSpy.clear()
-
-            enterPin("1111")
-            enterPin("1111")
-
-            var dialog = findChild(root, "infoPopup")
-            var button = findChild(dialog, "infoPopupOkButton")
-            tap(button)
-            tryCompareFunction(function() {return findChild(root, "infoPopup", 0 /* timeout */)}, null)
-
-            tryCompare(resetSpy, "count", 0)
-            enterPin("1111")
-            tryCompare(resetSpy, "count", 1)
-        }
-
         function test_emergencyDialerLockOut() {
             // This is a theoretical attack on the lockscreen: Enter emergency
             // dialer mode on a phone, then plug into a larger screen,
@@ -406,7 +372,7 @@ Item {
             compare(stage.usageScenario, "phone");
 
             // And when we kill the app, we go back to locked tablet mode
-            killApps()
+            ApplicationManager.stopApplication("dialer-app");
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "fullyShown", true)
             compare(stage.usageScenario, "tablet");
@@ -457,13 +423,15 @@ Item {
             tryCompare(greeter, "shown", false);
             tryCompare(LightDM.Greeter, "active", false);
 
-            ApplicationManager.startApplication("dialer-app", ApplicationManager.NoFlag);
+            startApplication("dialer-app");
             tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
             callManager.foregroundCall = phoneCall;
 
             ApplicationManager.requestFocusApplication("unity8-dash");
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
-            tryCompare(panel.callHint, "visible", true);
+            var callHint = findChild(panel, "callHint");
+            tryCompare(callHint, "visible", true);
+            wait(10000)
 
             // simulate a callHint press, the real thing requires dialer: url support
             ApplicationManager.requestFocusApplication("dialer-app");
@@ -476,9 +444,7 @@ Item {
         function test_focusRequestedHidesCoverPage() {
             showGreeter();
 
-            var app = ApplicationManager.startApplication("gallery-app");
-            // wait until the app is fully loaded (ie, real surface replaces splash screen)
-            tryCompareFunction(function() { return app.session !== null && app.surfaceList.count > 0 }, true);
+            startApplication("gallery-app");
 
             // New app hides coverPage?
             var greeter = findChild(shell, "greeter");
@@ -528,90 +494,39 @@ Item {
             shellLoader.itemDestroyed = false;
             shellLoader.active = false;
             tryCompare(shellLoader, "itemDestroyed", true);
-            LightDM.Greeter.authenticate(""); // reset greeter
 
             // Create new shell
-            promptSpy.clear();
             shellLoader.active = true;
             tryCompareFunction(function() {return shell !== null}, true);
 
             // Confirm that we start disabled
-            compare(promptSpy.count, 0);
+            compare(LightDM.Prompts.count, 0);
             verify(shell.waitingOnGreeter);
             var coverPageDragHandle = findChild(shell, "coverPageDragHandle");
             verify(!coverPageDragHandle.enabled);
 
             // And that we only become enabled once the lockscreen is up
             tryCompare(shell, "waitingOnGreeter", false);
-            verify(promptSpy.count > 0);
+            verify(LightDM.Prompts.count > 0);
             var lockscreen = findChild(shell, "lockscreen");
             verify(lockscreen.shown);
         }
 
-        /*
-            Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1393447
+        function test_bfbOnLockedDevice() {
+            var launcher = findChild(shell, "launcher");
+            touchFlick(shell, units.gu(.5), shell.height / 2, units.gu(10), shell.height / 2);
 
-            Do a left edge drag that is long enough to start displacing the greeter
-            but short engough so that the greeter comes back into place once the
-            finger is lifted.
-
-            In this situation the launcher should remaing fully shown and hide itself
-            only after its idle timeout is triggered.
-         */
-        function test_shortLeftEdgeSwipeMakesLauncherStayVisible() {
-            showGreeter();
-
-            var launcher = testCase.findChild(shell, "launcher")
-            var launcherPanel = testCase.findChild(launcher, "launcherPanel");
-
-            var toX = shell.width * 0.45;
-            touchFlick(shell,
-                    1 /* fromX */, shell.height * 0.5 /* fromY */,
-                    toX /* toX */, shell.height * 0.5 /* toY */,
-                    true /* beginTouch */, false /* endTouch */,
-                    50, 100);
-
-            // Launcher must be fully shown by now
-            tryCompare(launcherPanel, "x", 0);
-
-            // Greeter should be displaced
-            var coverPage = findChild(shell, "coverPage");
-            tryCompareFunction(function() { return coverPage.mapToItem(shell, 0, 0).x > shell.width*0.2; }, true);
-
-            touchRelease(shell, toX, shell.height * 0.5);
-
-            // Upon release the greeter should have slid back into full view
-            tryCompareFunction(function() { return coverPage.mapToItem(shell, 0, 0).x === 0; }, true);
-
-            // And the launcher should stay fully shown
-            for (var i = 0; i < 10; ++i) {
-                wait(50);
-                compare(launcherPanel.x, 0);
-            }
-        }
-
-        function test_longLeftEdgeDrags() {
-            var coverPage = findChild(shell, "coverPage");
-            var lockscreen = findChild(shell, "lockscreen");
-            var launcher = findChild(shell, "launcherPanel");
-            var galleryApp = ApplicationManager.startApplication("gallery-app");
-            tryCompare(shell, "mainApp", galleryApp);
-
-            // Show greeter
-            showGreeter();
-
-            // Swipe cover page away
-            touchFlick(shell, 2, shell.height / 2, units.gu(30), shell.height / 2);
-            tryCompare(launcher, "x", -launcher.width);
-            tryCompare(coverPage, "showProgress", 0);
-            compare(lockscreen.shown, true);
-            tryCompare(shell, "mainApp", galleryApp);
-
-            // Now attempt a swipe on lockscreen
-            touchFlick(shell, 2, shell.height / 2, units.gu(30), shell.height / 2);
             tryCompare(launcher, "x", 0);
-            compare(lockscreen.shown, true);
-            tryCompare(shell, "mainApp", galleryApp);
+            tryCompare(launcher, "state", "visible");
+
+            waitForRendering(shell)
+
+            var bfb = findChild(launcher, "buttonShowDashHome");
+            mouseClick(bfb, bfb.width / 2, bfb.height / 2);
+
+            enterPin("1234")
+
+            tryCompare(launcher, "state", "drawer");
         }
     }
 }

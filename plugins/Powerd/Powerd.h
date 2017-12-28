@@ -27,8 +27,6 @@
 class Powerd: public QObject
 {
     Q_OBJECT
-    Q_ENUMS(Status)
-    Q_ENUMS(DisplayStateChangeReason)
     Q_PROPERTY(Status status READ status NOTIFY statusChanged)
 
 public:
@@ -41,11 +39,13 @@ public:
         SnapDecision    = 5, // Display changed state due to snap decision prompt
         CallDone        = 6, // Display changed state due to voice call end
     };
+    Q_ENUM(DisplayStateChangeReason)
 
     enum Status {
         Off,
         On,
     };
+    Q_ENUM(Status)
 
     explicit Powerd(QObject *parent = 0);
     ~Powerd();

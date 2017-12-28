@@ -77,7 +77,7 @@ Rectangle {
                     font.weight: Font.Medium
                 }
                 Label {
-                    text: i18n.tr("Takes a screenshot of a window.")
+                    text: i18n.tr("Takes a screenshot of the current window.")
                     fontSize: "small"
                     font.weight: Font.Light
                     wrapMode: Text.Wrap
@@ -104,6 +104,19 @@ Rectangle {
                 }
                 Label {
                     text: i18n.tr("Switches to previous keyboard layout.")
+                    fontSize: "small"
+                    font.weight: Font.Light
+                    wrapMode: Text.Wrap
+                    Layout.maximumWidth: maxTextSize
+                }
+
+                Label {
+                    text: i18n.tr("Ctrl + Alt + T")
+                    fontSize: "small"
+                    font.weight: Font.Medium
+                }
+                Label {
+                    text: i18n.tr("Starts the Terminal application.")
                     fontSize: "small"
                     font.weight: Font.Light
                     wrapMode: Text.Wrap
@@ -161,12 +174,25 @@ Rectangle {
                 }
 
                 Label {
-                    text: i18n.tr("Super + 0 to 9")
+                    text: i18n.tr("Super + 1 to 0")
                     fontSize: "small"
                     font.weight: Font.Medium
                 }
                 Label {
                     text: i18n.tr("Same as clicking on a launcher icon.")
+                    fontSize: "small"
+                    font.weight: Font.Light
+                    wrapMode: Text.Wrap
+                    Layout.maximumWidth: maxTextSize
+                }
+
+                Label {
+                    text: i18n.tr("Super + A")
+                    fontSize: "small"
+                    font.weight: Font.Medium
+                }
+                Label {
+                    text: i18n.tr("Opens the Application Drawer.")
                     fontSize: "small"
                     font.weight: Font.Light
                     wrapMode: Text.Wrap

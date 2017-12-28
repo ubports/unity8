@@ -18,11 +18,14 @@
 #include <QSqlDatabase>
 #include <QMutex>
 #include <QFuture>
+#include <QThreadPool>
+
+// unity-api
+#include <unity/shell/application/Mir.h>
 
 class WindowStateStorage: public QObject
 {
     Q_OBJECT
-    Q_ENUMS(WindowState)
 public:
     enum WindowState {
         WindowStateNormal = 1 << 0,
@@ -39,12 +42,11 @@ public:
         WindowStateMaximizedBottomRight = 1 << 11,
         WindowStateRestored = 1 << 12
     };
+    Q_ENUM(WindowState)
     Q_DECLARE_FLAGS(WindowStates, WindowState)
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
     Q_FLAG(WindowStates)
-#endif
 
-    WindowStateStorage(QObject *parent = 0);
+    WindowStateStorage(QObject *parent = nullptr);
     virtual ~WindowStateStorage();
 
     Q_INVOKABLE void saveState(const QString &windowId, WindowState state);
@@ -55,6 +57,8 @@ public:
 
     Q_INVOKABLE void saveStage(const QString &appId, int stage);
     Q_INVOKABLE int getStage(const QString &appId, int defaultValue) const;
+
+    Q_INVOKABLE Mir::State toMirState(WindowState state) const;
 
 private:
     void initdb();
@@ -68,5 +72,6 @@ private:
     // NB: This is accessed from threads. Make sure to mutex it.
     QSqlDatabase m_db;
 
-    QList< QFuture<void> > m_asyncQueries;
+    QList<QFuture<void>> m_asyncQueries;
+    QThreadPool m_threadPool;
 };

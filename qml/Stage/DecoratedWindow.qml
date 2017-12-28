@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2016 Canonical, Ltd.
+ * Copyright (C) 2014-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,9 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Unity.Application 0.1
 import "Spread/MathUtils.js" as MathUtils
+import Unity.ApplicationMenu 0.1
+import Unity.Indicators 0.1 as Indicators
+import "../Components/PanelState"
 
 FocusScope {
     id: root
@@ -35,11 +38,13 @@ FocusScope {
     property alias maximizeButtonShown: decoration.maximizeButtonShown
     property alias interactive: applicationWindow.interactive
     readonly property alias orientationChangesEnabled: applicationWindow.orientationChangesEnabled
+    property alias windowControlButtonsVisible: decoration.windowControlButtonsVisible
 
     // Changing this will actually add/remove a decoration, meaning, requestedHeight will take the decoration into account.
     property bool hasDecoration: true
     // This will temporarily show/hide the decoration without actually changing the surface's dimensions
     property real showDecoration: 1
+    property alias decorationHeight: decoration.height
     property bool animateDecoration: false
     property bool showHighlight: false
     property int highlightSize: units.gu(1)
@@ -52,11 +57,15 @@ FocusScope {
     property int scaleToPreviewSize: units.gu(30)
 
     property alias surfaceOrientationAngle: applicationWindow.surfaceOrientationAngle
-    readonly property real decorationHeight: Math.min(d.visibleDecorationHeight, d.requestedDecorationHeight)
+
+    // Height of the decoration that's actually being displayed at this moment. Will match decorationHeight
+    // when the decoration is being fully displayed
+    readonly property real actualDecorationHeight: Math.min(d.visibleDecorationHeight, d.requestedDecorationHeight)
+
     readonly property bool counterRotate: surfaceOrientationAngle != 0 && surfaceOrientationAngle != 180
 
     readonly property int minimumWidth: !counterRotate ? applicationWindow.minimumWidth : applicationWindow.minimumHeight
-    readonly property int minimumHeight: decorationHeight + (!counterRotate ? applicationWindow.minimumHeight : applicationWindow.minimumWidth)
+    readonly property int minimumHeight: actualDecorationHeight + (!counterRotate ? applicationWindow.minimumHeight : applicationWindow.minimumWidth)
     readonly property int maximumWidth: !counterRotate ? applicationWindow.maximumWidth : applicationWindow.maximumHeight
     readonly property int maximumHeight: (root.decorationShown && applicationWindow.maximumHeight > 0 ? decoration.height : 0)
                                          + (!counterRotate ? applicationWindow.maximumHeight : applicationWindow.maximumWidth)
@@ -64,11 +73,14 @@ FocusScope {
     readonly property int heightIncrement: !counterRotate ? applicationWindow.heightIncrement : applicationWindow.widthIncrement
 
     property alias overlayShown: decoration.overlayShown
-    property alias stageWidth: moveHandler.stageWidth
-    property alias stageHeight: moveHandler.stageHeight
+    property alias boundsItem: moveHandler.boundsItem
     readonly property alias dragging: moveHandler.dragging
 
     readonly property Item clientAreaItem: applicationWindow
+
+    property alias altDragEnabled: altDragHandler.enabled
+
+    property Item windowMargins
 
     signal closeClicked()
     signal maximizeClicked()
@@ -77,6 +89,10 @@ FocusScope {
     signal minimizeClicked()
     signal decorationPressed()
     signal decorationReleased()
+
+    function cancelDrag() {
+        moveHandler.cancelDrag();
+    }
 
     QtObject {
         id: d
@@ -94,7 +110,7 @@ FocusScope {
                 PropertyChanges {
                     target: root
                     implicitWidth: counterRotate ? applicationWindow.implicitHeight : applicationWindow.implicitWidth
-                    implicitHeight: root.decorationHeight + (counterRotate ? applicationWindow.implicitWidth:  applicationWindow.implicitHeight)
+                    implicitHeight: root.actualDecorationHeight + (counterRotate ? applicationWindow.implicitWidth:  applicationWindow.implicitHeight)
                 }
             },
             State {
@@ -103,7 +119,7 @@ FocusScope {
                 PropertyChanges {
                     target: root
                     implicitWidth: counterRotate ? applicationWindow.requestedHeight : applicationWindow.requestedWidth
-                    implicitHeight: root.decorationHeight + (counterRotate ? applicationWindow.requestedWidth:  applicationWindow.requestedHeight)
+                    implicitHeight: root.actualDecorationHeight + (counterRotate ? applicationWindow.requestedWidth:  applicationWindow.requestedHeight)
                 }
             },
             State {
@@ -142,51 +158,17 @@ FocusScope {
             margins: active ? -units.gu(2) : -units.gu(1.5)
         }
         height: Math.min(applicationWindow.implicitHeight, applicationWindow.height) * applicationWindow.itemScale
-                + root.decorationHeight * Math.min(1, root.showDecoration) + (active ? units.gu(4) : units.gu(3))
+                + root.actualDecorationHeight * Math.min(1, root.showDecoration) + (active ? units.gu(4) : units.gu(3))
         source: "../graphics/dropshadow2gu.sci"
         opacity: root.shadowOpacity
-    }
-
-    WindowDecoration {
-        id: decoration
-        closeButtonVisible: root.application.appId !== "unity8-dash"
-        objectName: "appWindowDecoration"
-        anchors { left: parent.left; top: parent.top; right: parent.right }
-        height: units.gu(3)
-        width: root.width
-        title: applicationWindow.title
-        opacity: root.hasDecoration ? Math.min(1, root.showDecoration) : 0
-
-        Behavior on opacity { UbuntuNumberAnimation { } }
-
-        onCloseClicked: root.closeClicked();
-        onMaximizeClicked: { root.decorationPressed(); root.maximizeClicked(); }
-        onMaximizeHorizontallyClicked: { root.decorationPressed(); root.maximizeHorizontallyClicked(); }
-        onMaximizeVerticallyClicked: { root.decorationPressed(); root.maximizeVerticallyClicked(); }
-        onMinimizeClicked: root.minimizeClicked();
-        onPressed: root.decorationPressed();
-
-        onPressedChanged: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
-        onPositionChanged: moveHandler.handlePositionChanged(mouse)
-        onReleased: {
-            root.decorationReleased();
-            moveHandler.handleReleased();
-        }
-    }
-
-    MoveHandler {
-        id: moveHandler
-        objectName: "moveHandler"
-        target: root.parent
-        buttonsWidth: decoration.buttonsWidth
     }
 
     ApplicationWindow {
         id: applicationWindow
         objectName: "appWindow"
-        anchors.left: parent.left
         anchors.top: parent.top
-        anchors.topMargin: root.decorationHeight * Math.min(1, root.showDecoration)
+        anchors.topMargin: root.actualDecorationHeight * Math.min(1, root.showDecoration)
+        anchors.left: parent.left
         width: implicitWidth
         height: implicitHeight
         requestedHeight: !counterRotate ? root.requestedHeight - d.requestedDecorationHeight : root.requestedWidth
@@ -227,11 +209,75 @@ FocusScope {
         ]
     }
 
+    WindowDecoration {
+        id: decoration
+        closeButtonVisible: true
+        objectName: "appWindowDecoration"
+
+        anchors { left: parent.left; top: parent.top; right: parent.right }
+        height: units.gu(3) // a default value. overwritten by root.decorationHeight
+
+        title: applicationWindow.title
+        windowMoving: moveHandler.moving && !altDragHandler.dragging
+
+        opacity: root.hasDecoration ? Math.min(1, root.showDecoration) : 0
+        Behavior on opacity { UbuntuNumberAnimation { } }
+        visible: opacity > 0 // don't eat input when decoration is fully translucent
+
+        onPressed: root.decorationPressed();
+        onPressedChanged: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
+        onPressedChangedEx: moveHandler.handlePressedChanged(pressed, pressedButtons, mouseX, mouseY)
+        onPositionChanged: moveHandler.handlePositionChanged(mouse)
+        onReleased: {
+            root.decorationReleased();
+            moveHandler.handleReleased();
+        }
+
+        onCloseClicked: root.closeClicked();
+        onMaximizeClicked: { root.decorationPressed(); root.maximizeClicked(); }
+        onMaximizeHorizontallyClicked: { root.decorationPressed(); root.maximizeHorizontallyClicked(); }
+        onMaximizeVerticallyClicked: { root.decorationPressed(); root.maximizeVerticallyClicked(); }
+        onMinimizeClicked: root.minimizeClicked();
+
+        enableMenus: {
+            return active &&
+                     surface &&
+                      (PanelState.focusedPersistentSurfaceId === surface.persistentId && !PanelState.decorationsVisible)
+        }
+        menu: sharedAppModel.model
+
+        Indicators.SharedUnityMenuModel {
+            id: sharedAppModel
+            property var menus: surface ? ApplicationMenuRegistry.getMenusForSurface(surface.persistentId) : []
+            property var menuService: menus.length > 0 ? menus[0] : undefined
+
+            busName: menuService ? menuService.service : ""
+            menuObjectPath: menuService && menuService.menuPath ? menuService.menuPath : ""
+            actions: menuService && menuService.actionPath ? { "unity": menuService.actionPath } : {}
+        }
+
+        Connections {
+            target: ApplicationMenuRegistry
+            onSurfaceMenuRegistered: {
+                if (surface && surfaceId === surface.persistentId) {
+                    sharedAppModel.menus = Qt.binding(function() { return surface ? ApplicationMenuRegistry.getMenusForSurface(surface.persistentId) : [] });
+                }
+            }
+            onSurfaceMenuUnregistered: {
+                if (surface && surfaceId === surface.persistentId) {
+                    sharedAppModel.menus = Qt.binding(function() { return surface ? ApplicationMenuRegistry.getMenusForSurface(surface.persistentId) : [] });
+                }
+            }
+        }
+    }
+
     MouseArea {
+        id: altDragHandler
         anchors.fill: applicationWindow
         acceptedButtons: Qt.LeftButton
         property bool dragging: false
         cursorShape: undefined // don't interfere with the cursor shape set by the underlying MirSurfaceItem
+        visible: enabled
         onPressed: {
             if (mouse.button == Qt.LeftButton && mouse.modifiers == Qt.AltModifier) {
                 root.decorationPressed(); // to raise it
@@ -255,6 +301,13 @@ FocusScope {
                 dragging = false;
             }
         }
+    }
+
+    MoveHandler {
+        id: moveHandler
+        objectName: "moveHandler"
+        target: root.parent
+        buttonsWidth: decoration.buttonsWidth
     }
 
     Rectangle {

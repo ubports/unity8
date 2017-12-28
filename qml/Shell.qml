@@ -43,7 +43,7 @@ import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
 import Unity.Indicators 0.1 as Indicators
 import Cursor 1.1
-import WindowManager 0.1
+import WindowManager 1.0
 
 
 StyledItem {
@@ -57,7 +57,7 @@ StyledItem {
     property Orientations orientations
     property real nativeWidth
     property real nativeHeight
-    property alias indicatorAreaShowProgress: panel.indicatorAreaShowProgress
+    property alias panelAreaShowProgress: panel.panelAreaShowProgress
     property string usageScenario: "phone" // supported values: "phone", "tablet" or "desktop"
     property string mode: "full-greeter"
     property alias oskEnabled: inputMethod.enabled
@@ -68,6 +68,8 @@ StyledItem {
         stage.updateFocusedAppOrientationAnimated();
     }
     property bool hasMouse: false
+    property bool hasKeyboard: false
+    property bool hasTouchscreen: false
 
     // to be read from outside
     readonly property int mainAppWindowOrientationAngle: stage.mainAppWindowOrientationAngle
@@ -108,7 +110,7 @@ StyledItem {
         }
     }
     function _onMainAppChanged(appId) {
-        if (wizard.active && appId != "" && appId != "unity8-dash") {
+        if (wizard.active && appId != "") {
             // If this happens on first boot, we may be in the
             // wizard while receiving a call.  But a call is more
             // important than the wizard so just bail out of it.
@@ -124,7 +126,7 @@ StyledItem {
         greeter.notifyAppFocusRequested(appId);
 
         panel.indicators.hide();
-        launcher.hide();
+        launcher.hide(launcher.ignoreHideIfMouseOverLauncher);
     }
 
     // For autopilot consumption
@@ -239,8 +241,7 @@ StyledItem {
         onHomeKeyActivated: {
             // Ignore when greeter is active, to avoid pocket presses
             if (!greeter.active) {
-                launcher.fadeOut();
-                shell.showHome();
+                launcher.openDrawer(false);
             }
         }
         onTouchBegun: { cursor.opacity = 0; }
@@ -251,6 +252,13 @@ StyledItem {
             cursor.y = mappedCoords.y;
             cursor.mouseNeverMoved = false;
         }
+    }
+
+    AvailableDesktopArea {
+        id: availableDesktopAreaItem
+        anchors.fill: parent
+        anchors.topMargin: panel.fullscreenMode ? 0 : panel.minimizedPanelHeight
+        anchors.leftMargin: launcher.lockedVisible ? launcher.panelWidth : 0
     }
 
     GSettings {
@@ -264,10 +272,15 @@ StyledItem {
         width: parent.width
         height: parent.height
 
-        TopLevelSurfaceList {
+        SurfaceManager {
+            id: surfaceMan
+            objectName: "surfaceManager"
+        }
+        TopLevelWindowModel {
             id: topLevelSurfaceList
             objectName: "topLevelSurfaceList"
-            applicationsModel: ApplicationManager
+            applicationManager: ApplicationManager // it's a singleton
+            surfaceManager: surfaceMan
         }
 
         Stage {
@@ -278,12 +291,12 @@ StyledItem {
 
             dragAreaWidth: shell.edgeSize
             background: wallpaperResolver.background
-            leftEdgeDragProgress: !greeter || greeter.locked || !tutorial.launcherLongSwipeEnabled ? 0 :
-                                Math.max(0, (launcher.dragDistance * (stage.width - launcher.panelWidth) / stage.width) - launcher.panelWidth)
 
             applicationManager: ApplicationManager
             topLevelSurfaceList: topLevelSurfaceList
             inputMethodRect: inputMethod.visibleRect
+            rightEdgePushProgress: rightEdgeBarrier.progress
+            availableDesktopArea: availableDesktopAreaItem
 
             property string usageScenario: shell.usageScenario === "phone" || greeter.hasLockedApp
                                                        ? "phone"
@@ -301,29 +314,61 @@ StyledItem {
 
             interactive: (!greeter || !greeter.shown)
                     && panel.indicators.fullyClosed
-                    && launcher.progress == 0
                     && !notifications.useModal
 
             onInteractiveChanged: { if (interactive) { focus = true; } }
 
-            leftMargin: shell.usageScenario == "desktop" && !settings.autohideLauncher ? launcher.panelWidth: 0
             suspended: greeter.shown
-            keepDashRunning: launcher.shown || launcher.dashSwipe
             altTabPressed: physicalKeysMapper.altTabPressed
             oskEnabled: shell.oskEnabled
             spreadEnabled: tutorial.spreadEnabled && (!greeter || (!greeter.hasLockedApp && !greeter.shown))
+
+            onSpreadShownChanged: {
+                panel.indicators.hide();
+                panel.applicationMenus.hide();
+            }
+        }
+
+        TouchGestureArea {
+            anchors.fill: stage
+
+            minimumTouchPoints: 4
+            maximumTouchPoints: minimumTouchPoints
+
+            readonly property bool recognisedPress: status == TouchGestureArea.Recognized &&
+                                                    touchPoints.length >= minimumTouchPoints &&
+                                                    touchPoints.length <= maximumTouchPoints
+            property bool wasPressed: false
+
+            onRecognisedPressChanged: {
+                if (recognisedPress) {
+                    wasPressed = true;
+                }
+            }
+
+            onStatusChanged: {
+                if (status !== TouchGestureArea.Recognized) {
+                    if (status === TouchGestureArea.WaitingForTouch) {
+                        if (wasPressed && !dragging) {
+                            launcher.openDrawer(true);
+                        }
+                    }
+                    wasPressed = false;
+                }
+            }
         }
     }
 
     InputMethod {
         id: inputMethod
         objectName: "inputMethod"
+        surface: topLevelSurfaceList.inputMethodSurface
         anchors {
             fill: parent
             topMargin: panel.panelHeight
             leftMargin: launcher.lockedVisible ? launcher.panelWidth : 0
         }
-        z: notifications.useModal || panel.indicators.shown || wizard.active || tutorial.running ? overlay.z + 1 : overlay.z - 1
+        z: notifications.useModal || panel.indicators.shown || wizard.active || tutorial.running || launcher.drawerShown ? overlay.z + 1 : overlay.z - 1
     }
 
     Loader {
@@ -336,6 +381,16 @@ StyledItem {
         onLoaded: {
             item.objectName = "greeter"
         }
+        property bool openDrawerAfterUnlock: false
+        Connections {
+            target: greeter
+            onActiveChanged: {
+                if (!greeter.active && greeterLoader.openDrawerAfterUnlock) {
+                    launcher.openDrawer(false);
+                    greeterLoader.openDrawerAfterUnlock = false;
+                }
+            }
+        }
     }
 
     Component {
@@ -343,9 +398,8 @@ StyledItem {
         Greeter {
 
             enabled: panel.indicators.fullyClosed // hides OSK when panel is open
-            hides: [launcher, panel.indicators]
+            hides: [launcher, panel.indicators, panel.applicationMenus]
             tabletMode: shell.usageScenario != "phone"
-            launcherOffset: launcher.progress
             forcedUnlock: wizard.active || shell.mode === "full-shell"
             background: wallpaperResolver.cachedBackground
             hasCustomBackground: wallpaperResolver.hasCustomBackground
@@ -378,7 +432,9 @@ StyledItem {
         id: showGreeterDelayed
         interval: 1
         onTriggered: {
-            greeter.forceShow();
+            // Go through the dbus service, because it has checks for whether
+            // we are even allowed to lock or not.
+            DBusUnitySessionService.PromptLock();
         }
     }
 
@@ -428,22 +484,11 @@ StyledItem {
         if (shell.mode === "greeter") {
             SessionBroadcast.requestHomeShown(AccountsService.user);
         } else {
-            var animate = !LightDMService.greeter.active && !stages.shown;
-            dash.setCurrentScope(0, animate, false);
-            ApplicationManager.requestFocusApplication("unity8-dash");
-        }
-    }
-
-    function showDash() {
-        if (greeter.notifyShowingDashFromDrag()) {
-            launcher.fadeOut();
-        }
-
-        if (!greeter.locked && tutorial.launcherLongSwipeEnabled
-            && (ApplicationManager.focusedApplicationId != "unity8-dash" || stage.spreadShown)) {
-            ApplicationManager.requestFocusApplication("unity8-dash")
-            launcher.fadeOut();
-            stage.closeSpread();
+            if (!greeter.active) {
+                launcher.openDrawer(false);
+            } else {
+                greeterLoader.openDrawerAfterUnlock = true;
+            }
         }
     }
 
@@ -457,6 +502,14 @@ StyledItem {
             id: panel
             objectName: "panel"
             anchors.fill: parent //because this draws indicator menus
+
+            mode: shell.usageScenario == "desktop" ? "windowed" : "staged"
+            minimizedPanelHeight: units.gu(3)
+            expandedPanelHeight: units.gu(7)
+            indicatorMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
+            applicationMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
+            applicationMenuContentX: launcher.lockedVisible ? launcher.panelWidth : 0
+
             indicators {
                 hides: [launcher]
                 available: tutorial.panelEnabled
@@ -464,12 +517,8 @@ StyledItem {
                         && (!greeter || !greeter.hasLockedApp)
                         && !shell.waitingOnGreeter
                         && settings.enableIndicatorMenu
-                width: parent.width > units.gu(60) ? units.gu(40) : parent.width
 
-                minimizedPanelHeight: units.gu(3)
-                expandedPanelHeight: units.gu(7)
-
-                indicatorsModel: Indicators.IndicatorsModel {
+                model: Indicators.IndicatorsModel {
                     // tablet and phone both use the same profile
                     // FIXME: use just "phone" for greeter too, but first fix
                     // greeter app launching to either load the app inside the
@@ -481,30 +530,25 @@ StyledItem {
                 }
             }
 
-            callHint {
-                greeterShown: greeter.shown
+            applicationMenus {
+                hides: [launcher]
+                available: (!greeter || !greeter.shown)
+                        && !shell.waitingOnGreeter
+                        && !stage.spreadShown
             }
 
-            readonly property bool focusedSurfaceIsFullscreen: MirFocusController.focusedSurface
-                ? MirFocusController.focusedSurface.state === Mir.FullscreenState
+            readonly property bool focusedSurfaceIsFullscreen: topLevelSurfaceList.focusedWindow
+                ? topLevelSurfaceList.focusedWindow.state === Mir.FullscreenState
                 : false
-            fullscreenMode: (focusedSurfaceIsFullscreen && !LightDMService.greeter.active && launcher.progress == 0)
+            fullscreenMode: (focusedSurfaceIsFullscreen && !LightDMService.greeter.active && launcher.progress == 0 && !stage.spreadShown)
                             || greeter.hasLockedApp
-            locked: greeter && greeter.active
+            greeterShown: greeter && greeter.shown
+            hasKeyboard: shell.hasKeyboard
         }
 
         Launcher {
             id: launcher
             objectName: "launcher"
-
-            /*
-             * Since the Dash doesn't have the same controll over surfaces that the
-             * Shell does, it can't slowly move the scope out of the way, as the shell
-             * does  with apps, and the dash is show instantly. This allows for some
-             * leeway and prevents accidental home swipes.
-             */
-            readonly property real offset: shell.focusedApplicationId == "unity8-dash" ? units.gu(12) : 0
-            readonly property bool dashSwipe: progress > offset
 
             anchors.top: parent.top
             anchors.topMargin: inverted ? 0 : panel.panelHeight
@@ -521,21 +565,26 @@ StyledItem {
             superTabPressed: physicalKeysMapper.superTabPressed
             panelWidth: units.gu(settings.launcherWidth)
             lockedVisible: shell.usageScenario == "desktop" && !settings.autohideLauncher && !panel.fullscreenMode
+            blurSource: greeter.shown ? greeter : stages
+            topPanelHeight: panel.panelHeight
+            drawerEnabled: !greeter.active
+            privateMode: greeter.active
 
             onShowDashHome: showHome()
-            onDash: showDash()
-            onDashSwipeChanged: {
-                if (dashSwipe) {
-                    dash.setCurrentScope(0, false, true)
-                }
-            }
             onLauncherApplicationSelected: {
                 greeter.notifyUserRequestedApp();
                 shell.activateApplication(appId);
             }
             onShownChanged: {
                 if (shown) {
-                    panel.indicators.hide()
+                    panel.indicators.hide();
+                    panel.applicationMenus.hide();
+                }
+            }
+            onDrawerShownChanged: {
+                if (drawerShown) {
+                    panel.indicators.hide();
+                    panel.applicationMenus.hide();
                 }
             }
             onFocusChanged: {
@@ -544,6 +593,12 @@ StyledItem {
                 }
             }
 
+            GlobalShortcut {
+                shortcut: Qt.MetaModifier | Qt.Key_A
+                onTriggered: {
+                    launcher.openDrawer(true);
+                }
+            }
             GlobalShortcut {
                 shortcut: Qt.AltModifier | Qt.Key_F1
                 onTriggered: {
@@ -591,8 +646,8 @@ StyledItem {
             objectName: "tutorial"
             anchors.fill: parent
 
-            paused: callManager.hasCalls || !greeter || greeter.active ||
-                    wizard.active
+            paused: callManager.hasCalls || !greeter || greeter.active || wizard.active
+                    || !hasTouchscreen // TODO #1661557 something better for no touchscreen
             delayed: dialogs.hasActiveDialog || notifications.hasNotification ||
                      inputMethod.visible ||
                      (launcher.shown && !launcher.lockedVisible) ||
@@ -659,14 +714,43 @@ StyledItem {
                 }
             ]
         }
+
+        EdgeBarrier {
+            id: rightEdgeBarrier
+            enabled: !greeter.shown
+
+            // NB: it does its own positioning according to the specified edge
+            edge: Qt.RightEdge
+
+            onPassed: {
+                panel.indicators.hide()
+            }
+
+            material: Component {
+                Item {
+                    Rectangle {
+                        width: parent.height
+                        height: parent.width
+                        rotation: 90
+                        anchors.centerIn: parent
+                        gradient: Gradient {
+                            GradientStop { position: 0.0; color: Qt.rgba(0.16,0.16,0.16,0.5)}
+                            GradientStop { position: 1.0; color: Qt.rgba(0.16,0.16,0.16,0)}
+                        }
+                    }
+                }
+            }
+        }
     }
 
     Dialogs {
         id: dialogs
         objectName: "dialogs"
         anchors.fill: parent
+        visible: hasActiveDialog
         z: overlay.z + 10
         usageScenario: shell.usageScenario
+        hasKeyboard: shell.hasKeyboard
         onPowerOffClicked: {
             shutdownFadeOutRectangle.enabled = true;
             shutdownFadeOutRectangle.visible = true;
@@ -740,7 +824,7 @@ StyledItem {
 
         onPushedRightBoundary: {
             if (buttons === Qt.NoButton) {
-                stage.pushRightEdge(amount);
+                rightEdgeBarrier.push(amount);
             } else if (buttons === Qt.LeftButton && previewRectangle && previewRectangle.target.canBeMaximizedLeftRight) {
                 previewRectangle.maximizeRight(amount);
             }
@@ -786,7 +870,9 @@ StyledItem {
     }
 
     // non-visual objects
-    KeymapSwitcher {}
+    KeymapSwitcher {
+        focusedSurface: topLevelSurfaceList.focusedWindow ? topLevelSurfaceList.focusedWindow.surface : null
+    }
     BrightnessControl {}
 
     Rectangle {

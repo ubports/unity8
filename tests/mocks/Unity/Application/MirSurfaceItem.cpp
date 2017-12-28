@@ -59,7 +59,7 @@ MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
         Qt::ExtraButton12 | Qt::ExtraButton13);
 
     connect(this, &QQuickItem::activeFocusChanged, this, &MirSurfaceItem::updateMirSurfaceActiveFocus);
-    connect(this, &QQuickItem::visibleChanged, this, &MirSurfaceItem::updateMirSurfaceVisibility);
+    connect(this, &QQuickItem::visibleChanged, this, &MirSurfaceItem::updateMirSurfaceExposure);
 
     connect(this, &MirSurfaceItem::consumesInputChanged, this, [this]() {
         updateMirSurfaceActiveFocus(hasActiveFocus());
@@ -159,7 +159,9 @@ void MirSurfaceItem::setOrientationAngle(Mir::OrientationAngle angle)
 
     if (m_qmlItem) {
         QQmlProperty orientationProp(m_qmlItem, "orientationAngle");
-        orientationProp.write(QVariant::fromValue(orientationAngle()));
+        if (orientationProp.isValid()) {
+            orientationProp.write(QVariant::fromValue(orientationAngle()));
+        }
     }
 }
 
@@ -167,7 +169,9 @@ void MirSurfaceItem::updateScreenshot(QUrl screenshotUrl)
 {
     if (m_qmlItem) {
         QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");
-        screenshotSource.write(QVariant::fromValue(screenshotUrl));
+        if (screenshotSource.isValid()) {
+            screenshotSource.write(QVariant::fromValue(screenshotUrl));
+        }
     }
 }
 
@@ -193,12 +197,23 @@ void MirSurfaceItem::createQmlContentItem()
 
     {
         QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");
-        screenshotSource.write(QVariant::fromValue(m_qmlSurface->screenshotUrl()));
+        if (screenshotSource.isValid()) {
+            screenshotSource.write(QVariant::fromValue(m_qmlSurface->screenshotUrl()));
+        }
     }
 
     {
         QQmlProperty orientationProp(m_qmlItem, "orientationAngle");
-        orientationProp.write(QVariant::fromValue(orientationAngle()));
+        if (orientationProp.isValid()) {
+            orientationProp.write(QVariant::fromValue(orientationAngle()));
+        }
+    }
+
+    {
+        QQmlProperty surfaceProperty(m_qmlItem, "surface");
+        if (surfaceProperty.isValid()) {
+            surfaceProperty.write(QVariant::fromValue(m_qmlSurface));
+        }
     }
 }
 
@@ -216,7 +231,7 @@ void MirSurfaceItem::touchEvent(QTouchEvent * event)
         Q_EMIT touchReleaseCountChanged(m_touchReleaseCount);
     }
 
-    Q_FOREACH(QTouchEvent::TouchPoint touchPoint, event->touchPoints()) {
+    Q_FOREACH(const QTouchEvent::TouchPoint &touchPoint, event->touchPoints()) {
         QString id(touchPoint.id());
         QVariantList list =  m_touchTrail[id].toList();
         list.append(QVariant::fromValue(touchPoint.pos()));
@@ -278,7 +293,7 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
         m_qmlSurface->registerView((qintptr)this);
 
         updateSurfaceSize();
-        updateMirSurfaceVisibility();
+        updateMirSurfaceExposure();
 
         if (m_orientationAngle) {
             m_qmlSurface->setOrientationAngle(*m_orientationAngle);
@@ -335,11 +350,11 @@ void MirSurfaceItem::updateMirSurfaceActiveFocus(bool focused)
     }
 }
 
-void MirSurfaceItem::updateMirSurfaceVisibility()
+void MirSurfaceItem::updateMirSurfaceExposure()
 {
     if (!m_qmlSurface) return;
 
-    m_qmlSurface->setViewVisibility((qintptr)this, isVisible());
+    m_qmlSurface->setViewExposure((qintptr)this, isVisible());
 }
 
 void MirSurfaceItem::setConsumesInput(bool value)

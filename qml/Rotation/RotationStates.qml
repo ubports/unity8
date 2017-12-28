@@ -273,13 +273,13 @@ StateGroup {
                 } }
                 NumberAnimation {
                     duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing
-                    target: root.shell; property: "indicatorAreaShowProgress"
+                    target: root.shell; property: "panelAreaShowProgress"
                     from: 1.0; to: 0.0
                 }
                 ImmediateRotationAction { info: d; shell: root.shell }
                 NumberAnimation {
                     duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing
-                    target: root.shell; property: "indicatorAreaShowProgress"
+                    target: root.shell; property: "panelAreaShowProgress"
                     from: 0.0; to: 1.0
                 }
                 ScriptAction { script: {

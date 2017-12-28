@@ -40,7 +40,6 @@ using namespace unity::shell::application;
 class ApplicationManager : public ApplicationManagerInterface {
     Q_OBJECT
 
-    Q_PROPERTY(bool empty READ isEmpty NOTIFY emptyChanged)
     Q_PROPERTY(QStringList availableApplications READ availableApplications NOTIFY availableApplicationsChanged)
 
  public:
@@ -50,10 +49,11 @@ class ApplicationManager : public ApplicationManagerInterface {
     // QAbstractItemModel methods.
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role) const override;
+
+    // ApplicationManagerInterface methods
     Q_INVOKABLE ApplicationInfo *get(int index) const override;
     Q_INVOKABLE ApplicationInfo *findApplication(const QString &appId) const override;
-
-    Q_INVOKABLE void move(int from, int to);
+    unity::shell::application::ApplicationInfoInterface *findApplicationWithSurface(unity::shell::application::MirSurfaceInterface* surface) const override;
 
     // Application control methods
     Q_INVOKABLE bool requestFocusApplication(const QString &appId) override;
@@ -68,26 +68,48 @@ class ApplicationManager : public ApplicationManagerInterface {
 
     QModelIndex findIndex(ApplicationInfo* application);
 
-    bool isEmpty() const;
-
  Q_SIGNALS:
     void focusRequested(const QString &appId);
-    void emptyChanged(bool empty);
     void availableApplicationsChanged(QStringList list);
 
  private Q_SLOTS:
-    void onWindowCreatedTimerTimeout();
-    void updateFocusedApplication();
+    void raiseApp(const QString &appId);
 
  private:
+    void move(int from, int to);
     bool add(ApplicationInfo *application);
     void remove(ApplicationInfo* application);
     void buildListOfAvailableApplications();
-    void onWindowCreated();
+    QString toString();
     ApplicationInfo *findApplication(MirSurface* surface);
     QList<ApplicationInfo*> m_runningApplications;
     QList<ApplicationInfo*> m_availableApplications;
-    QTimer m_windowCreatedTimer;
+    bool m_modelBusy{false};
+};
+
+/*
+    Lifecycle of the ApplicationManager instance belongs to the QML plugin.
+    So this guy here is used to notify other parts of the system when the plugin creates and destroys
+    the ApplicationManager.
+
+    Unlike ApplicationManager, we create ApplicationManagerNotifier whenever we want.
+ */
+class ApplicationManagerNotifier : public QObject {
+    Q_OBJECT
+public:
+    static ApplicationManagerNotifier *instance();
+
+    ApplicationManager *applicationManager() { return m_applicationManager; }
+
+Q_SIGNALS:
+    void applicationManagerChanged(ApplicationManager *applicationManager);
+
+private:
+    void setApplicationManager(ApplicationManager *);
+    static ApplicationManagerNotifier *m_instance;
+    ApplicationManager *m_applicationManager{nullptr};
+
+friend class ApplicationManager;
 };
 
 Q_DECLARE_METATYPE(ApplicationManager*)
