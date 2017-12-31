@@ -574,7 +574,7 @@ void LauncherModel::updateSurfaceListForApp(ApplicationInfoInterface* app)
     QList<QPair<QString, QString> > surfaces;
     for (int i = 0; i < app->surfaceList()->count(); ++i) {
         MirSurfaceInterface* iface = app->surfaceList()->get(i);
-        if (iface->type() == Mir::NormalType || iface->type() == Mir::DialogType) {
+        if (iface->type() == Mir::NormalType || iface->type() == Mir::DialogType || iface->type() == Mir::FreeStyleType) {
             // Avoid duplicate connections, so let's just disconnect first to be sure
             disconnect(iface, &MirSurfaceInterface::nameChanged, this, &LauncherModel::updateSurfaceListForSurface);
             connect(iface, &MirSurfaceInterface::nameChanged, this, &LauncherModel::updateSurfaceListForSurface);
