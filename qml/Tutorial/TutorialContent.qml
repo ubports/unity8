@@ -153,7 +153,8 @@ Item {
             paused: root.paused
 
             skipped: tutorialLeftLongLoader.skipped
-            isReady: tutorialTopLoader.skipped && !skipped && !paused && !delayed
+            isReady: tutorialTopLoader.skipped && !skipped && !paused && !delayed &&
+                     ApplicationManager.focusedApplicationId != "unity8-dash"
 
             InactivityTimer {
                 id: tutorialLeftLongTimer
