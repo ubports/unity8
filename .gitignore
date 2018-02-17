@@ -2,8 +2,14 @@
 /builddir
 # QtCreator project files
 /*.user
+*.qmlc
+*.jsc
 # Eclipse project files
 /.project
 /.cproject
 /.settings
 /.pydevproject
+# KDevelop project Files
+/.kdev4/
+/build/
+/*.kdev4
