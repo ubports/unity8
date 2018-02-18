@@ -1,10 +1,16 @@
+unity8 (8.20+0ubports0) bionic; urgency=medium
+
+ * Update bionic branch with xenial changes
+
+-- Dalton Durst <dalton@ubports.com>  Tue, 18 Feb 2020 18:15:11 -0600
+
 unity8 (8.20+ubports) xenial; urgency=medium
 
   * Replace dependency on ubuntu-wallpapers with ubports-wallpapers
 
  -- Dalton Durst <dalton@ubports.com>  Fri, 5 Oct 2018 13:28:20 -0500
 
-unity8 (8.17+ubports3) xenial; urgency=medium
+unity8 (8.16.1+ubports) bionic; urgency=medium
 
   * Imported to UBports
 
@@ -8172,4 +8178,3 @@ unity8 (8.15+17.04.20170404.7-0ubuntu2) zesty; urgency=medium
 
   [ Michael Zanetti ]
   * Make the default store uri point to gnome software center
-
