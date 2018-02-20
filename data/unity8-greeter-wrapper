@@ -20,8 +20,8 @@ cleanup()
 {
     trap - TERM EXIT
     # Kill upstart and indicators
-    if [ -n "$INIT_PID" ]; then
-        kill "$INIT_PID"
+    if [ -n "$IND_PID" ]; then
+        kill "$IND_PID"
     fi
     if [ -n "$CMD_PID" ]; then
         kill "$CMD_PID"
@@ -32,10 +32,7 @@ cleanup()
 set_greeter_var()
 {
     export "$1=$2"
-    gdbus call --session --dest org.freedesktop.DBus --object-path /org/freedesktop/DBus --method org.freedesktop.DBus.UpdateActivationEnvironment "{'$1': '$2'}"
-    if [ -n "$INIT_PID" ]; then
-        initctl set-env --global "$1=$2"
-    fi
+    dbus-update-activation-environment --systemd "$1=$2"
 }
 
 SUB_SOCKET=$XDG_RUNTIME_DIR/mir_socket
@@ -61,25 +58,12 @@ set_greeter_var QT_QPA_PLATFORM ubuntumirclient
 # eventually need the greeter to play ringtones for users that aren't logged in.
 set_greeter_var PA_DISABLED 1
 
-# Normal unity8 sessions are entirely driven by Upstart.  But greeters
-# are special.  They need access to the file descriptors that lightdm
-# creates for them and don't want to start all the services that a normal
-# session would.  So it's inconvenient to live within an upstart session.
-# But... we still want to use Upstart for some services.  So launch here.
-MIR_SOCKET=$SUB_SOCKET $TOUCH_WRAPPER upstart --user --no-startup-event &
-INIT_PID=$!
-while [ ! -e "$XDG_RUNTIME_DIR/upstart/sessions/$INIT_PID.session" ]; do sleep 0.1; done
-. "$XDG_RUNTIME_DIR/upstart/sessions/$INIT_PID.session"
-export UPSTART_SESSION
-
-# Connect upstart to system, but do first command in a loop to avoid any
-# race condition between the session file above being written and upstart being
-# ready to handle requests.
-while ! initctl notify-dbus-address "$DBUS_SESSION_BUS_ADDRESS"; do sleep 0.1; done
-initctl start notify-cgmanager
+# Start the indicators
+/usr/lib/gnome-session/run-systemd-session indicators.target &
+IND_PID=$!
 
 # Start any pre-greeter tasks if needed (like wizard)
-initctl emit unity8-greeter-starting
+#initctl emit unity8-greeter-starting FIXME
 
 # Define language here for phone if available.  When phone user switches their
 # language, they expect that to affect the greeter too.  But the user doesn't
