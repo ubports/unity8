@@ -11,6 +11,6 @@ See [CODING.md](CODING.md) for build instructions. The latest development previe
 ### Get involved
 
 * [Kanban-Board](https://github.com/ubports/unity8/projects/1)
-* If you are interesting in helping us in any way you can join [Unity8 Forum] (https://forums.ubports.com/category/36/unity8).
+* If you are interesting in helping us in any way you can join [Unity8 Forum](https://forums.ubports.com/category/36/unity8).
 * For reporting bugs or filing feature-requests, please use the project’s [issues page](https://github.com/ubports/unity8/issues).
-* For IM you can join our Telegram group [for Developer users] (https://t.me/UBports_Unity8).
+* For IM you can join our Telegram group [for Developer users](https://t.me/UBports_Unity8).
