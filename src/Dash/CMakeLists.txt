@@ -21,7 +21,9 @@ if (ENABLE_TOUCH_EMULATION)
     target_link_libraries(unity8-dash ${MOUSETOUCHADAPTOR_LIBS_LDFLAGS})
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden -Wl,--no-as-needed")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
+
+set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,--no-as-needed")
 
 # install binaries
 install(TARGETS ${DASH_APP}
