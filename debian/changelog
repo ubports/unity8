@@ -1,3 +1,9 @@
+unity8 (8.17+ubports2) xenial; urgency=medium
+
+  * Fix 'Operation not permitted' error on bullhead
+  
+-- Dalton Durst <dalton@ubports.com> Sun, 25 Feb 2018 08:22:00 -0600
+
 unity8 (8.17+ubports1) UNRELEASED; urgency=medium
 
   * No change rebuild to generate sources in ubports repo
