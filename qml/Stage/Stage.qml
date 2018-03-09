@@ -1726,11 +1726,12 @@ FocusScope {
 
         property int scrollAreaWidth: width / 3
         property bool progressiveScrollingEnabled: false
+        property bool isTouch: false
 
         onMouseXChanged: {
             mouse.accepted = false
 
-            if (hoverMouseArea.pressed) {
+            if (hoverMouseArea.pressed || isTouch) {
                 return;
             }
 
@@ -1766,7 +1767,17 @@ FocusScope {
             }
         }
 
-        onPressed: mouse.accepted = false
+        onPressed: {
+          mouse.accepted = false;
+          if (mouse.source === Qt.MouseEventSynthesizedByQt)
+              isTouch = true;
+          else
+              isTouch = false;
+        }
+
+        onExited: {
+          isTouch = false;
+        }
     }
 
     FloatingFlickable {
