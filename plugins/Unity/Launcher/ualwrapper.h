@@ -21,10 +21,12 @@ class UalWrapper: public QObject
     Q_OBJECT
 public:
     struct AppInfo {
+        QString appId;
         bool valid = false;
         QString name;
         QString icon;
         QStringList keywords;
+        uint popularity = 0;
     };
 
     UalWrapper(QObject* parent = nullptr);
@@ -32,4 +34,8 @@ public:
     static QStringList installedApps();
     static AppInfo getApplicationInfo(const QString &appId);
 
+Q_SIGNALS:
+    void appAdded(const QString &appId);
+    void appRemoved(const QString &appId);
+    void appInfoChanged(const QString &appId);
 };

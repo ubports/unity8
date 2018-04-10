@@ -24,7 +24,15 @@ using namespace ubuntu::app_launch;
 UalWrapper::UalWrapper(QObject *parent):
     QObject(parent)
 {
-
+    Registry::appAdded().connect([this](const std::shared_ptr<Application>&app) {
+        Q_EMIT appAdded(QString::fromStdString(app->appId()));
+    });
+    Registry::appRemoved().connect([this](const AppID &appId) {
+        Q_EMIT appRemoved(QString::fromStdString(appId));
+    });
+    Registry::appInfoUpdated().connect([this](const std::shared_ptr<Application>&app){
+        Q_EMIT appInfoChanged(QString::fromStdString(app->appId()));
+    });
 }
 
 QStringList UalWrapper::installedApps()
@@ -39,7 +47,7 @@ QStringList UalWrapper::installedApps()
             }
         }
     } catch (const std::runtime_error &e) {
-        qWarning() << "ubuntu-all-launch threw an exception listing apps:" << e.what();
+        qWarning() << "ubuntu-app-launch threw an exception listing apps:" << e.what();
     }
 
     return appIds;
@@ -59,11 +67,13 @@ UalWrapper::AppInfo UalWrapper::getApplicationInfo(const QString &appId)
         std::shared_ptr<Application> ualApp;
         ualApp = Application::create(ualAppId, Registry::getDefault());
 
+        info.appId = appId;
         info.name = QString::fromStdString(ualApp->info()->name());
         info.icon = QString::fromStdString(ualApp->info()->iconPath());
         for (const std::string &keyword : ualApp->info()->keywords().value()) {
             info.keywords << QString::fromStdString(keyword);
         }
+        info.popularity = ualApp->info()->popularity();
         info.valid = true;
     } catch (const std::runtime_error &e) {
         qWarning() << "ubuntu-app-launch threw an exception getting app info for appId:" << appId << ":" << e.what();
