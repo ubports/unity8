@@ -89,6 +89,12 @@ void LauncherItem::setKeywords(const QStringList &keywords)
     }
 }
 
+uint LauncherItem::popularity() const
+{
+    // Not exposing usage order in greeter session at this point.
+    return 0;
+}
+
 bool LauncherItem::pinned() const
 {
     return m_pinned;
