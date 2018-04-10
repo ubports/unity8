@@ -61,6 +61,40 @@ add_unity8_unittest(LauncherModel dbus-test-runner
         --wait-for org.freedesktop.Accounts
 )
 
+### AppDrawerModelTest
+add_executable(appdrawermodeltestExec
+    appdrawermodeltest.cpp
+    ualwrapper.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/appdrawermodel.cpp
+    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/AppDrawerModelInterface.h
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/launcheritem.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/quicklistmodel.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/quicklistentry.cpp
+    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/QuickListModelInterface.h
+    )
+target_link_libraries(appdrawermodeltestExec
+    unity8-private
+    ${GSETTINGS_QT_LDFLAGS}
+    ${GLIB_LIBRARIES}
+    ${UAL_LIBRARIES}
+    )
+add_dependencies(appdrawermodeltestExec mock-server)
+qt5_use_modules(appdrawermodeltestExec Test Core DBus Xml Gui Qml)
+install(TARGETS appdrawermodeltestExec
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Launcher"
+    )
+
+add_unity8_unittest(AppDrawerModel dbus-test-runner
+    ENVIRONMENT "APPDIR=${CMAKE_CURRENT_BINARY_DIR}/applications"
+    ARG_PREFIX "--parameter"
+    ARGS
+        --task $<TARGET_FILE:mock-server>
+        --ignore-return
+        --task $<TARGET_FILE:appdrawermodeltestExec>
+        --wait-for org.freedesktop.Accounts
+)
+
 # copy sample application files into build directory for shadow builds
 file(COPY applications
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR}

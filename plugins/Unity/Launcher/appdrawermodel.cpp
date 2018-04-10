@@ -21,7 +21,8 @@
 #include <QDateTime>
 
 AppDrawerModel::AppDrawerModel(QObject *parent):
-    AppDrawerModelInterface(parent)
+    AppDrawerModelInterface(parent),
+    m_ual(new UalWrapper(this))
 {
     Q_FOREACH (const QString &appId, UalWrapper::installedApps()) {
         UalWrapper::AppInfo info = UalWrapper::getApplicationInfo(appId);
@@ -29,10 +30,16 @@ AppDrawerModel::AppDrawerModel(QObject *parent):
             qWarning() << "Failed to get app info for app" << appId;
             continue;
         }
-        m_list.append(new LauncherItem(appId, info.name, info.icon, this));
-        m_list.last()->setKeywords(info.keywords);
+        LauncherItem* item = new LauncherItem(appId, info.name, info.icon, this);
+        item->setKeywords(info.keywords);
+        item->setPopularity(info.popularity);
+        m_list.append(item);
     }
-    qsrand(QDateTime::currentMSecsSinceEpoch() / 100);
+
+    // keep this a queued connection as it's coming from another thread.
+    connect(m_ual, &UalWrapper::appAdded, this, &AppDrawerModel::appAdded, Qt::QueuedConnection);
+    connect(m_ual, &UalWrapper::appRemoved, this, &AppDrawerModel::appRemoved, Qt::QueuedConnection);
+    connect(m_ual, &UalWrapper::appInfoChanged, this, &AppDrawerModel::appInfoChanged, Qt::QueuedConnection);
 }
 
 int AppDrawerModel::rowCount(const QModelIndex &parent) const
@@ -53,10 +60,64 @@ QVariant AppDrawerModel::data(const QModelIndex &index, int role) const
     case RoleKeywords:
         return m_list.at(index.row())->keywords();
     case RoleUsage:
-        // FIXME: u-a-l needs to provide API for usage stats.
-        // don't forget to drop the qsrand() call in the ctor when dropping this.
-        return qrand();
+        return m_list.at(index.row())->popularity();
     }
 
     return QVariant();
+}
+
+void AppDrawerModel::appAdded(const QString &appId)
+{
+    UalWrapper::AppInfo info = UalWrapper::getApplicationInfo(appId);
+    if (!info.valid) {
+        qWarning() << "App added signal received but failed to get app info for app" << appId;
+        return;
+    }
+
+    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    LauncherItem* item = new LauncherItem(appId, info.name, info.icon, this);
+    item->setKeywords(info.keywords);
+    item->setPopularity(info.popularity);
+    m_list.append(item);
+    endInsertRows();
+}
+
+void AppDrawerModel::appRemoved(const QString &appId)
+{
+    int idx = -1;
+    for (int i = 0; i < m_list.count(); i++) {
+        if (m_list.at(i)->appId() == appId) {
+            idx = i;
+            break;
+        }
+    }
+    if (idx < 0) {
+        qWarning() << "App removed signal received but app doesn't seem to be in the drawer model";
+        return;
+    }
+    beginRemoveRows(QModelIndex(), idx, idx);
+    m_list.takeAt(idx)->deleteLater();
+    endRemoveRows();
+}
+
+void AppDrawerModel::appInfoChanged(const QString &appId)
+{
+    LauncherItem *item = nullptr;
+    int idx = -1;
+
+    for(int i = 0; i < m_list.count(); i++) {
+        if (m_list.at(i)->appId() == appId) {
+            item = m_list.at(i);
+            idx = i;
+            break;
+        }
+    }
+
+    if (!item) {
+        return;
+    }
+
+    UalWrapper::AppInfo info = m_ual->getApplicationInfo(appId);
+    item->setPopularity(info.popularity);
+    Q_EMIT dataChanged(index(idx), index(idx), {AppDrawerModelInterface::RoleUsage});
 }

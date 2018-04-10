@@ -167,6 +167,7 @@ void LauncherModel::pin(const QString &appId, int index)
                                               appInfo.icon,
                                               this);
         item->setPinned(true);
+        item->setPopularity(appInfo.popularity);
         m_list.insert(index, item);
         endInsertRows();
     }

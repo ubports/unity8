@@ -256,6 +256,19 @@ void LauncherItem::setSurfaces(const QList<QPair<QString, QString> > &surfaces)
     }
 }
 
+uint LauncherItem::popularity() const
+{
+    return m_popularity;
+}
+
+void LauncherItem::setPopularity(uint popularity)
+{
+    if (m_popularity != popularity) {
+        m_popularity = popularity;
+        Q_EMIT popularityChanged(popularity);
+    }
+}
+
 unity::shell::launcher::QuickListModelInterface *LauncherItem::quickList() const
 {
     return m_quickList;

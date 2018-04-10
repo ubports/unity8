@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,28 +14,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QObject>
 
-#include <unity/shell/launcher/AppDrawerModelInterface.h>
+// This is a mock implementation
 
-#include "launcheritem.h"
-
-class UalWrapper;
-
-class AppDrawerModel: public AppDrawerModelInterface
+class UalWrapper: public QObject
 {
     Q_OBJECT
 public:
-    AppDrawerModel(QObject* parent = nullptr);
+    struct AppInfo {
+        QString appId;
+        bool valid = false;
+        QString name;
+        QString icon;
+        QStringList keywords;
+        uint popularity = 0;
+    };
 
-    int rowCount(const QModelIndex &parent) const override;
-    QVariant data(const QModelIndex &index, int role) const override;
+    UalWrapper(QObject* parent = nullptr);
 
-private Q_SLOTS:
+    static QStringList installedApps();
+    static AppInfo getApplicationInfo(const QString &appId);
+
+    // for testing:
+    static UalWrapper* instance();
+    void addMockApp(const QString &appId);
+    void removeMockApp(const QString &appId);
+
+Q_SIGNALS:
     void appAdded(const QString &appId);
     void appRemoved(const QString &appId);
     void appInfoChanged(const QString &appId);
 
+
 private:
-    QList<LauncherItem*> m_list;
-    UalWrapper *m_ual;
+    static QStringList s_list;
+    static UalWrapper *s_instance;
+
+    friend class AppDrawerModelTest;
 };

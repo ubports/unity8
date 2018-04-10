@@ -72,6 +72,11 @@ QStringList MockLauncherItem::keywords() const
     return m_keywords;
 }
 
+uint MockLauncherItem::popularity() const
+{
+    return m_popularity;
+}
+
 bool MockLauncherItem::pinned() const
 {
     return m_pinned;
@@ -198,6 +203,14 @@ void MockLauncherItem::setSurfaceCount(int surfaceCount)
     if (m_surfaceCount != surfaceCount) {
         m_surfaceCount = surfaceCount;
         Q_EMIT surfaceCountChanged(surfaceCount);
+    }
+}
+
+void MockLauncherItem::setPopularity(uint popularity)
+{
+    if (m_popularity != popularity) {
+        m_popularity = popularity;
+        Q_EMIT popularityChanged(m_popularity);
     }
 }
 
