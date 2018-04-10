@@ -871,7 +871,7 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
         return nullptr;
 
     m_asyncRequestedIndex = -1;
-    QObject* object = m_delegateModel->object(modelIndex, asynchronous);
+    QObject* object = m_delegateModel->object(modelIndex, asynchronous ? QQmlIncubator::Asynchronous : QQmlIncubator::AsynchronousIfNested);
     QQuickItem *item = qmlobject_cast<QQuickItem*>(object);
     if (!item) {
         if (object) {
