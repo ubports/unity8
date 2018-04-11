@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # -*- Mode: sh; indent-tabs-mode: nil; tab-width: 2 -*-
 
 # Ensure the shell always gets unthrottled touch events, so that applications
@@ -28,11 +28,45 @@ else
   MODE=full-shell
 fi
 
-dbus-update-activation-environment --systemd MIR_SOCKET=$MIR_SERVER_FILE
+# Add options for settings
+if [ -f ~/.unity8/configs.conf ]; then
+  source ~/.unity8/configs.conf
+fi
+
+# Scale settings
+isfloat='^[0-9]+([.][0-9]+)?$'
+isint='^[0-9]+$'
+if [[ $SCALE =~ $isfloat ]]; then
+  if ! [ $SCALE == "0" ]; then
+    export GRID_UNIT_PX=$(LC_ALL=C printf %.0f $((8 * ${SCALE})))
+    export QT_WAYLAND_FORCE_DPI=$(LC_ALL=C printf %.0f $((96 * ${SCALE})))
+  fi
+fi
+
+if [[ $GRID_UNIT_PX =~ $isint ]]; then
+  dbus-update-activation-environment --systemd GRID_UNIT_PX=${GRID_UNIT_PX}
+fi
+
+if [[ $QT_WAYLAND_FORCE_DPI =~ $isint ]]; then
+  dbus-update-activation-environment --systemd QT_WAYLAND_FORCE_DPI=${QT_WAYLAND_FORCE_DPI}
+fi
 
 # Tell unity-mir to raise SIGSTOP after we start, which we use to tell
 # systemd when we are done starting up.
 export UNITY_MIR_EMITS_SIGSTOP=1
+
+# Set some envs
+dbus-update-activation-environment --systemd QT_QPA_PLATFORM=wayland
+dbus-update-activation-environment --systemd GDK_BACKEND=wayland
+dbus-update-activation-environment --systemd SDL_VIDEODRIVER=wayland
+dbus-update-activation-environment --systemd UNITY8_SHELL_QT_QPA_PLATFORM=mirserver
+dbus-update-activation-environment --systemd QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+dbus-update-activation-environment --systemd QT_ACCESSIBILITY=1
+dbus-update-activation-environment --systemd QT_AUTO_SCREEN_SCALE_FACTOR=0
+dbus-update-activation-environment --systemd GTK_CSD=0
+
+# We need to be sure we dont use mir-on-mir
+unset MIR_SERVER_HOST_SOCKET
 
 ${BINARY:-unity8} --mode=$MODE "$@" &
 child=$!
@@ -44,3 +78,4 @@ done
 
 kill -CONT $child
 exit 0
+
