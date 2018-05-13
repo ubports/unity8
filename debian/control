@@ -164,6 +164,7 @@ Depends: qml-module-qtquick-layouts,
          unity-plugin-scopes | unity-scopes-impl,
          unity-scopes-impl-12,
          unity8-fake-env | unity-application-impl,
+         unity8-schemas,
          ${misc:Depends},
 Breaks: unity8 (<< 7.86),
 Replaces: unity8 (<< 7.86),
@@ -218,7 +219,7 @@ Pre-Depends: ${misc:Pre-Depends},
 Depends: accountsservice-ubuntu-schemas (>= 0.0.7),
          gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
          libhardware2,
-         unity-schemas (>= 7.3.1+14.10.20140915),
+         unity8-schemas,
          qtdeclarative5-gsettings1.0,
          qml-module-qtmultimedia,
          ${misc:Depends},
@@ -230,6 +231,18 @@ Description: Unity 8 private libs
  .
  This package contains the private libraries for QML and other components
  only used by the shell.
+
+
+Package: unity8-schemas
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends},
+Replaces: unity-schemas (>= 7.3.1+14.10.20140915),
+Breaks: unity-schemas (>= 7.3.1+14.10.20140915),
+Description: Unity 8 schemas
+ The Unity 8 shell is the primary user interface for Ubuntu devices.
+ .
+ This package contains the configuration schemas used by unity.
 
 Package: unity8-doc
 Section: doc
