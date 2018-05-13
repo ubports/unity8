@@ -1,0 +1,254 @@
+<schemalist>
+  <enum id="form-factor-enum">
+    <value nick="Automatic" value="0" />
+    <value nick="Desktop" value="1" />
+    <value nick="Netbook" value="2" />
+    <value nick="TV" value="3" />
+  </enum>
+  <enum id="home-expanded-enum">
+    <value nick="Not Expanded" value="0" />
+    <value nick="Expanded" value="1" />
+  </enum>
+  <enum id="launcher-position-enum">
+    <value nick="Left" value="0" />
+    <value nick="Bottom" value="1" />
+  </enum>
+  <enum id="desktop-type-enum">
+    <value nick="Ubuntu" value="0" />
+    <value nick="UbuntuKylin" value="1" />
+  </enum>
+
+  <schema path="/com/canonical/unity/" id="com.canonical.Unity" gettext-domain="unity">
+    <key enum="form-factor-enum" name="form-factor">
+      <default>"Automatic"</default>
+      <summary>The form factor Unity should target.</summary>
+      <description>The form factor chosen will affect the size and appearance of the Dash, Launcher and also the Window Management behaviour.</description>
+    </key>
+    <key enum="home-expanded-enum" name="home-expanded">
+      <default>"Expanded"</default>
+      <summary>Whether the home screen should be expanded.</summary>
+      <description>Whether the home screen should be expanded.</description>
+    </key>
+    <key enum="desktop-type-enum" name="desktop-type">
+      <default>"Ubuntu"</default>
+      <summary>The current desktop name.</summary>
+      <description>The current desktop name.</description>
+    </key>
+    <key type="i" name="minimize-count">
+      <default>0</default>
+      <summary>Number of times a normal window has been minimized.</summary>
+      <description>This is used to adjust the animation speed by making it progressively faster the more it is used.</description>
+    </key>
+    <key type="i" name="minimize-fast-duration">
+      <default>300</default>
+      <summary>The duration for the minimize animation when it is at its fastest setting.</summary>
+      <description>This is the duration that the minimize animation will have when it has been used more than an number of times equal minimize-speed-threshold.</description>
+    </key>
+    <key type="i" name="minimize-slow-duration">
+      <default>800</default>
+      <summary>The duration for the minimize animation when it is at its slowest setting.</summary>
+      <description>This is the duration that the minimize animation will have when it has never been used.</description>
+    </key>
+    <key type="i" name="minimize-speed-threshold">
+      <default>100</default>
+      <summary>The number of minimizations required to reach maximum speed.</summary>
+      <description>The speed of the minimize animation will progressively get faster as minimize-count approaches this value.</description>
+    </key>
+    <key type="b" name="double-click-activate">
+      <default>true</default>
+      <summary>Enable/Disable dash result double-click activation.</summary>
+      <description>This is used to enable/disable double-click result activation in the dash. Double-click to activate, single click preview</description>
+    </key>
+    <key type="b" name="integrated-menus">
+      <default>false</default>
+      <summary>Enable/Disable the integrated menus in Unity.</summary>
+      <description>When this is enabled, the application menus will be shown
+        on the window decoration, otherwise they will be always shown on the
+        unity top panel</description>
+    </key>
+    <key type="u" name="show-menus-now-delay">
+      <default>180</default>
+      <range min="0" max="5000"/>
+      <summary>Delay (in ms) before showing the menus when pressing Alt</summary>
+      <description>This allows tune the delay before presenting unity menus
+        (in non always-show-menus mode).</description>
+    </key>
+    <key type="b" name="always-show-menus">
+      <default>false</default>
+      <summary>Toggle the menu visibility based on mouse hovering.</summary>
+      <description>When this is enabled, the application menus will be always
+        shown (on the window decoration or in the unity panel, depending whether
+        integrated menus are enabled), otherwise they will be shown only when
+        the mouse cursor is over the relative mouse area.</description>
+    </key>
+    <key type="as" name="whitelist-repeated-keys">
+      <default>[
+        'XF86KbdBrightnessUp',
+        'XF86KbdBrightnessDown',
+        'XF86MonBrightnessUp',
+        'XF86MonBrightnessDown',
+        'XF86AudioRaiseVolume',
+        'XF86AudioLowerVolume'
+        ]</default>
+      <summary>List of keycodes that should be processed even if auto-repated.</summary>
+      <description>These keycodes are processed even if they are auto-repeated.</description>
+    </key>
+    <key type="b" name="pam-check-account-type">
+      <default>false</default>
+      <summary>Enable/Disable PAM account checking</summary>
+      <description>Whether PAM should check the result of account modules
+        when authenticating.  Only do this if you have account
+        configured properly on your system.</description>
+    </key>
+    <key type="b" name="lowgfx">
+      <default>false</default>
+      <summary>Enable/Disable Low Graphics Mode</summary>
+      <description>Whether Unity runs in Low Graphics Mode.</description>
+    </key>
+  </schema>
+  <schema path="/com/canonical/unity/interface/" id="com.canonical.Unity.Interface" gettext-domain="unity">
+    <key type="d" name="text-scale-factor">
+      <default>1.0</default>
+      <range min="0.5" max="3.0"/>
+      <summary>Font scaling for unity and applications.</summary>
+      <description>This value defines the global font scaling used by both
+        unity and applications. It will match the current system font scaling.</description>
+    </key>
+    <key type="d" name="cursor-scale-factor">
+      <default>1.0</default>
+      <range min="0.5" max="3.0"/>
+      <summary>Mouse cursor scaling.</summary>
+      <description>This value defines the global mouse cursor scaling used by both
+        unity and applications. Changing this value allows to use a custom scaling
+        for the mouse cursor.</description>
+    </key>
+    <key type="s" name="app-scale-factor-monitor">
+      <default>''</default>
+      <summary>The name of the monitor that controls the global app scaling factor.</summary>
+      <description>This value defines the monitor that unity will use (if found) as reference
+        for scaling all the applications.</description>
+    </key>
+    <key type="b" name="app-fallback-to-maximum-scale-factor">
+      <default>true</default>
+      <summary>Use the maximum per-monitor scale-factor as application scale factor if no target monitor is found.</summary>
+      <description>When this is enabled, the applications scale factor will match
+        the scale factor of the monitor with the greater value, in case the monitor
+        defined in 'app-scale-factor-monitor' is not provided or available.</description>
+    </key>
+  </schema>
+  <schema path="/com/canonical/unity/launcher/" id="com.canonical.Unity.Launcher" gettext-domain="unity">
+    <key type="as" name="favorites">
+      <default>[
+        'application://ubiquity.desktop',
+        'application://org.gnome.Nautilus.desktop',
+        'application://firefox.desktop',
+        'application://libreoffice-writer.desktop',
+        'application://libreoffice-calc.desktop',
+        'application://libreoffice-impress.desktop',
+        'application://org.gnome.Software.desktop',
+        'application://ubuntu-amazon-default.desktop',
+        'application://unity-control-center.desktop',
+        'unity://running-apps',
+        'unity://expo-icon',
+        'unity://devices'
+      ]</default>
+      <summary>List of items that should be shown by default in the launcher</summary>
+      <description>These items can be: application://desktop-id.desktop, device://uiid and unity://special-id (including: unity://running-apps (icons of running applications) unity://devices (icons of attached devices), unity://expo-icon (icon of the workspace switcher) and unity://desktop-icon (the show-desktop icon)); the order of this list determines the launcher item's position.</description>
+    </key>
+    <key type="as" name="items">
+      <default>[
+        'application:///dialer-app.desktop',
+        'application:///messaging-app.desktop',
+        'application:///address-book-app.desktop',
+        'application:///ubuntu-system-settings.desktop', 
+        'appid://com.ubuntu.camera/camera/current-user-version',
+        'appid://com.ubuntu.gallery/gallery/current-user-version',
+        'application:///webbrowser-app.desktop'
+      ]</default>
+      <summary>List of items that should be shown by default in the launcher</summary>
+      <description>These items can be: application:///desktop-id.desktop or appid://package/app/current-user-version.</description>
+    </key>
+    <key type="s" name="favorite-migration">
+      <default>''</default>
+      <summary>Version of last migration done</summary>
+      <description>This is a detection key for the favorite migration script to know whether the needed migration is done or not.</description>
+    </key>
+    <key enum="launcher-position-enum"  name="launcher-position">
+      <default>"Left"</default>
+      <summary>The position of launcher.</summary>
+      <description>The position of launcher.</description>
+    </key>
+  </schema>
+  <schema path="/com/canonical/unity/devices/" id="com.canonical.Unity.Devices" gettext-domain="unity">
+    <key type="as" name="blacklist">
+        <default>[]</default>
+        <summary>List of device uuid blacklist from the launcher.</summary>
+        <description>These devices are not shown in the launcher by default.</description>
+    </key>
+  </schema>
+  <schema path="/com/canonical/unity/dash/" id="com.canonical.Unity.Dash" gettext-domain="unity">
+    <key type="as" name="scopes">
+      <default>[ 'home.scope', 'applications.scope', 'files.scope', 'video.scope', 'music.scope', 'photos.scope', 'social.scope' ]</default>
+      <summary>List of scope ids specifying which scopes should be created and the order to display them in.</summary>
+      <description>The scopes listed in the scope bar will be ordered according to this list.</description>
+    </key>
+    <key type="as" name="favorite-scopes">
+      <default>[ 'scope://clickscope', 'scope://musicaggregator', 'scope://videoaggregator' ]</default>
+      <summary>List of scope queries specifying what should be displayed in the dash.</summary>
+      <description>List of favorite scopes displayed in the dash.</description>
+    </key>
+  </schema>
+  <schema path="/com/canonical/unity/decorations/" id="com.canonical.Unity.Decorations" gettext-domain="unity">
+    <key type="u" name="grab-wait">
+      <default>175</default>
+      <range min="0" max="1000"/>
+      <summary>Milliseconds to wait before considering a mouse pressure a grab</summary>
+      <description>The number of ms to wait before starting the window movement (and then
+        showing the proper mouse cursor, and grabbing the window)</description>
+    </key>
+  </schema>
+  <schema path="/com/canonical/unity/integrated-menus/" id="com.canonical.Unity.IntegratedMenus" gettext-domain="unity">
+    <key type="u" name="click-movement-threshold">
+      <default>15</default>
+      <range min="0" max="30"/>
+      <summary>Number of pixels to ignore on mouse pressure</summary>
+      <description>This value define how many pixels the user can move the mouse
+        when holding the mouse button, before we consider his action a movement
+        (to grab the window).</description>
+    </key>
+    <key type="u" name="double-click-wait">
+      <default>0</default>
+      <range min="0" max="300"/>
+      <summary>Milliseconds to wait before activating a menu after mouse release</summary>
+      <description>The number of ms to wait after a mouse button release event before considering
+        it a click. When this value is greater than 0, then it's possible to maximize
+        a window by double-clicking on its menus if the second click happens before the
+        specified value of ms is elapsed</description>
+    </key>
+    <key type="b" name="unfocused-windows-popup">
+      <default>true</default>
+      <summary>Whether to pop-up a menu when clicking over unfocused windows entries</summary>
+      <description>By disabling this setting you can make unity to only focus a window
+        when clicking over unfocused menu entries</description>
+    </key>
+  </schema>
+  <schema path="/com/canonical/unity/gestures/" id="com.canonical.Unity.Gestures" gettext-domain="unity">
+    <key type="b" name="launcher-drag">
+      <default>true</default>
+      <summary>Multi-touch gesture to reveal the launcher.</summary>
+      <description>When this is enabled, a 4 finger swipe from left to right will reveal launcher,
+        provided that the launcher is set to auto-hide.</description>
+    </key>
+    <key type="b" name="dash-tap">
+      <default>true</default>
+      <summary>Multi-touch gesture to open the dash.</summary>
+      <description>When this is enabled, a 4 finger tap will open the dash.</description>
+    </key>
+    <key type="b" name="windows-drag-pinch">
+      <default>true</default>
+      <summary>Multi-touch gestures to manage the windows.</summary>
+      <description>When this is enabled, 3 finger gestures such as drag, and pinch, will
+        help manage the windows.</description>
+    </key>
+  </schema>
+</schemalist>
