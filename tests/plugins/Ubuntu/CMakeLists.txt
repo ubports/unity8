@@ -1,1 +1,1 @@
-#add_subdirectory(Gestures) #FIXME broken with qt 5.9
+add_subdirectory(Gestures)
