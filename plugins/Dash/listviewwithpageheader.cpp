@@ -58,7 +58,7 @@
  * The first item of m_visibleItems is the one that defines the
  * positions of all the rest of items (see updatePolish()) and
  * this is why sometimes we move it even if it's not the item
- * that has triggered the function (i.e. in geometryChanged())
+ * that has triggered the function (i.e. in itemGeometryChanged())
  *
  * m_visibleItems is a list of ListItem. Each ListItem
  * will contain a item and potentially a sectionItem. The sectionItem
