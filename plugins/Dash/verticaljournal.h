@@ -66,7 +66,7 @@ public:
     void setColumnWidth(qreal columnWidth);
 
 protected:
-    void geometryChanged(QQuickItem *item, const QRectF &newGeometry, const QRectF &oldGeometry);
+    void itemGeometryChanged(QQuickItem * /*item*/, QQuickGeometryChange change, const QRectF &oldGeometry) override;
 
 Q_SIGNALS:
     void columnWidthChanged();
