@@ -179,7 +179,7 @@ void tst_DragHandle::flickAndHold(QQuickItem *dragHandle,
 
 void tst_DragHandle::drag(QPointF &touchPoint, const QPointF& direction, qreal distance,
                           int numSteps, qint64 timeMs)
-
+{
     qint64 timeStep = timeMs / numSteps;
     QPointF touchMovement = direction * (distance / (qreal)numSteps);
     for (int i = 0; i < numSteps; ++i) {

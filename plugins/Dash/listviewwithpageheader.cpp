@@ -1141,12 +1141,12 @@ void ListViewWithPageHeader::contentYAnimationRunningChanged(bool running)
     }
 }
 
-void ListViewWithPageHeader::itemGeometryChanged(QQuickItem * /*item*/, QQuickGeometryChange change, const QRectF &oldGeometry)
+void ListViewWithPageHeader::itemGeometryChanged(QQuickItem *item, QQuickGeometryChange change, const QRectF &oldGeometry)
 {
     if (change.heightChange()) {
         const qreal heightDiff = height() - oldGeometry.height();
         if (!m_visibleItems.isEmpty()) {
-            ListItem *firstItem = m_visibleItems.first();
+            ListViewWithPageHeader::ListItem *firstItem = m_visibleItems.first();
             const auto prevFirstItemY = firstItem->y();
             if (!m_inContentHeightKeepHeaderShown && oldGeometry.y() + oldGeometry.height() + m_clipItem->y() <= contentY()) {
                 firstItem->setY(firstItem->y() - heightDiff);
