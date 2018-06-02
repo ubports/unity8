@@ -272,7 +272,7 @@ void VerticalJournal::processModelRemoves(const QVector<QQmlChangeSet::Change> &
 }
 
 void VerticalJournal::itemGeometryChanged(QQuickItem * /*item*/, QQuickGeometryChange change, const QRectF &)
-{;
+{
     if (change.verticalChange()) {
         relayout();
     }
