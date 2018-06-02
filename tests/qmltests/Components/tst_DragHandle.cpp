@@ -175,15 +175,10 @@ void tst_DragHandle::flickAndHold(QQuickItem *dragHandle,
     // speed.
     m_fakeTimeSource->m_msecsSinceReference += 5000;
     QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
-
-    QQuickWindowPrivate *windowPrivate = QQuickWindowPrivate::get(m_view);
-    windowPrivate->flushDelayedTouchEvent();
 }
 
 void tst_DragHandle::drag(QPointF &touchPoint, const QPointF& direction, qreal distance,
                           int numSteps, qint64 timeMs)
-{
-    QQuickWindowPrivate *windowPrivate = QQuickWindowPrivate::get(m_view);
 
     qint64 timeStep = timeMs / numSteps;
     QPointF touchMovement = direction * (distance / (qreal)numSteps);
@@ -191,8 +186,6 @@ void tst_DragHandle::drag(QPointF &touchPoint, const QPointF& direction, qreal d
         touchPoint += touchMovement;
         m_fakeTimeSource->m_msecsSinceReference += timeStep;
         QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
-
-        windowPrivate->flushDelayedTouchEvent();
     }
 }
 

@@ -1143,7 +1143,8 @@ void ListViewWithPageHeader::contentYAnimationRunningChanged(bool running)
 
 void ListViewWithPageHeader::itemGeometryChanged(QQuickItem * /*item*/, QQuickGeometryChange change, const QRectF &oldGeometry)
 {
-    if (change.verticalChange()) {
+    if (change.heightChange()) {
+        const qreal heightDiff = height() - oldGeometry.height();
         if (!m_visibleItems.isEmpty()) {
             ListItem *firstItem = m_visibleItems.first();
             const auto prevFirstItemY = firstItem->y();
