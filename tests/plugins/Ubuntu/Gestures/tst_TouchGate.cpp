@@ -188,6 +188,8 @@ void tst_TouchGate::holdsEventsUntilGainsOwnership()
 
     if (!ownershipAfterTouchEnd) {
         touchRegistry->removeCandidateOwnerForTouch(0, candidateItem);
+        QQuickWindowPrivate *wp = QQuickWindowPrivate::get(testItem->window());
+        wp->flushFrameSynchronousEvents();
         // TouchGate should now open its flood gates and let testItem get all
         // events from touch 0 produced so far
         QCOMPARE(testItem->touchEventsReceived.count(), 2);
