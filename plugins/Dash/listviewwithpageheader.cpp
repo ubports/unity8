@@ -58,7 +58,7 @@
  * The first item of m_visibleItems is the one that defines the
  * positions of all the rest of items (see updatePolish()) and
  * this is why sometimes we move it even if it's not the item
- * that has triggered the function (i.e. in itemGeometryChanged())
+ * that has triggered the function (i.e. in geometryChanged())
  *
  * m_visibleItems is a list of ListItem. Each ListItem
  * will contain a item and potentially a sectionItem. The sectionItem
@@ -1141,7 +1141,7 @@ void ListViewWithPageHeader::contentYAnimationRunningChanged(bool running)
     }
 }
 
-void ListViewWithPageHeader::itemGeometryChanged(QQuickItem *item, const QRectF &newGeometry, const QRectF &oldGeometry)
+void ListViewWithPageHeader::geometryChanged(QQuickItem *item, const QRectF &newGeometry, const QRectF &oldGeometry)
 {
     const qreal heightDiff = newGeometry.height() - oldGeometry.height();
     if (heightDiff != 0) {
