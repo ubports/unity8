@@ -1146,7 +1146,7 @@ void ListViewWithPageHeader::itemGeometryChanged(QQuickItem *item, QQuickGeometr
     if (change.heightChange()) {
         const qreal heightDiff = height() - oldGeometry.height();
         if (!m_visibleItems.isEmpty()) {
-            ListViewWithPageHeader::ListItem *firstItem = m_visibleItems.first();
+            ListItem *firstItem = m_visibleItems.first();
             const auto prevFirstItemY = firstItem->y();
             if (!m_inContentHeightKeepHeaderShown && oldGeometry.y() + oldGeometry.height() + m_clipItem->y() <= contentY()) {
                 firstItem->setY(firstItem->y() - heightDiff);
