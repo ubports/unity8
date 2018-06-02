@@ -271,7 +271,7 @@ void VerticalJournal::processModelRemoves(const QVector<QQmlChangeSet::Change> &
     }
 }
 
-void VerticalJournal::QQuickGeometryChange(QQuickItem * /*item*/, const QRectF &newGeometry, const QRectF &oldGeometry)
+void VerticalJournal::geometryChanged(QQuickItem * /*item*/, const QRectF &newGeometry, const QRectF &oldGeometry)
 {
     const qreal heightDiff = newGeometry.height() - oldGeometry.height();
     if (heightDiff != 0) {
