@@ -107,7 +107,7 @@ void GestureTest::sendTouch(qint64 timestamp, int id, QPointF pos,
     QCoreApplication::sendEvent(m_view, &touchEvent);
 
     QQuickWindowPrivate *windowPrivate = QQuickWindowPrivate::get(m_view);
-    windowPrivate->flushDelayedTouchEvent();
+    windowPrivate->flushFrameSynchronousEvents();
 }
 
 void GestureTest::passTime(qint64 timeSpanMs)

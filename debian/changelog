@@ -1,3 +1,9 @@
+unity8 (8.17+ubports2) xenial; urgency=medium
+
+  * Fix for https://github.com/ubports/ubuntu-touch/issues/624
+
+ -- Dalton Durst <dalton@ubports.com>  Fri, 1 Jun 2018 16:14:11 -0500
+
 unity8 (8.17+ubports1) UNRELEASED; urgency=medium
 
   * No change rebuild to generate sources in ubports repo
