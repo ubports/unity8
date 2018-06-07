@@ -101,7 +101,9 @@ MouseArea {
             state = WindowStateStorage.WindowStateNormal;
         }
         windowStateStorage.saveState(root.windowId, state & ~WindowStateStorage.WindowStateMinimized); // clear the minimized bit when saving
-        windowStateStorage.saveGeometry(root.windowId, Qt.rect(priv.normalX, priv.normalY, priv.normalWidth, priv.normalHeight));
+        if ( priv.normalWidth && priv.normalHeight ) {
+            windowStateStorage.saveGeometry(root.windowId, Qt.rect(priv.normalX, priv.normalY, priv.normalWidth, priv.normalHeight));
+        }
     }
 
     QtObject {
