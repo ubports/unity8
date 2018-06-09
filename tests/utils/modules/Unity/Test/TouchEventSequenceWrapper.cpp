@@ -26,16 +26,7 @@ TouchEventSequenceWrapper::TouchEventSequenceWrapper(QTest::QTouchEventSequence 
 
 void TouchEventSequenceWrapper::commit(bool processEvents)
 {
-    // Item might be deleted as a consequence of this event sequence being handled
-    // So store its window beforehand
-    QQuickWindow *window = m_item->window();
-
     m_eventSequence.commit(processEvents);
-
-    if (window) {
-        QQuickWindowPrivate *wp = QQuickWindowPrivate::get(window);
-        wp->flushDelayedTouchEvent();
-    }
 }
 
 void TouchEventSequenceWrapper::move(int touchId, int x, int y)
