@@ -160,7 +160,8 @@
         'application:///dialer-app.desktop',
         'application:///messaging-app.desktop',
         'application:///address-book-app.desktop',
-        'application:///ubuntu-system-settings.desktop', 
+        'application:///ubuntu-system-settings.desktop',
+        'appid://openstore.openstore-team/openstore/current-user-version',
         'appid://com.ubuntu.camera/camera/current-user-version',
         'appid://com.ubuntu.gallery/gallery/current-user-version',
         'application:///webbrowser-app.desktop'
