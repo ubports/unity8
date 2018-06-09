@@ -161,7 +161,7 @@
         'application:///messaging-app.desktop',
         'application:///address-book-app.desktop',
         'application:///ubuntu-system-settings.desktop',
-        'application:///openstore.openstore-team/current-user-version',
+        'appid://openstore.openstore-team/openstore/current-user-version',
         'appid://com.ubuntu.camera/camera/current-user-version',
         'appid://com.ubuntu.gallery/gallery/current-user-version',
         'application:///webbrowser-app.desktop'
