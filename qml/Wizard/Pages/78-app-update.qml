@@ -228,25 +228,6 @@ LocalComponents.Page {
                     }
                 }
             }
-
-            NotAuthenticatedNotification {
-                id: notauthNotification
-                objectName: "noAuthenticationNotification"
-                visible: {
-                    var s = UpdateManager.status;
-                    switch (s) {
-                    case UpdateManager.StatusCheckingImageUpdates:
-                    case UpdateManager.StatusIdle:
-                        return !authenticated && online;
-                    }
-                    return false;
-                }
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                }
-                onRequestAuthentication: uoaConfig.exec()
-            }
         } // Column inside flickable.
     } // Flickable
 
