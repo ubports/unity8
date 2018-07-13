@@ -55,26 +55,6 @@ LocalComponents.Page {
         UpdateManager.check(UpdateManager.CheckClickIgnoreVersion);
     }
 
-    Setup {
-        id: uoaConfig
-        objectName: "uoaConfig"
-        applicationId: "ubuntu-system-settings"
-        providerId: "ubuntuone"
-
-        onFinished: {
-            if (reply.errorName) {
-                console.warn('Online Accounts failed:', reply.errorName);
-            }
-            UpdateManager.check(UpdateManager.CheckClickIgnoreVersion);
-            notauthNotification.enabled = true;
-        }
-    }
-
-    DownloadHandler {
-        id: downloadHandler
-        updateModel: UpdateManager.model
-    }
-
     Flickable {
         id: scrollWidget
         anchors {
@@ -94,9 +74,9 @@ LocalComponents.Page {
             id: content
             anchors { left: parent.left; right: parent.right }
 
-            Global {
-                id: glob
-                objectName: "global"
+            AppUpdateList {
+                id: appUpdateList
+                objectName: "appUpdateList"
                 anchors { left: parent.left; right: parent.right }
 
                 height: hidden ? 0 : units.gu(8)
@@ -206,7 +186,7 @@ LocalComponents.Page {
                         }
 
                         Connections {
-                            target: glob
+                            target: appUpdateList
                             onInstall: install()
                         }
 
