@@ -23,7 +23,6 @@
 import QMenuModel 0.1
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import SystemSettings 1.0
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.Components.Popups 1.3
@@ -40,8 +39,6 @@ LocalComponents.Page {
     forwardButtonSourceComponent: forwardButton
 
     property bool batchMode: false
-    property bool havePower: (indicatorPower.deviceState === "charging") ||
-                             (indicatorPower.batteryLevel > 25)
     property bool online: NetworkingStatus.online
     property bool authenticated: UpdateManager.authenticated
     property bool forceCheck: false
@@ -51,22 +48,26 @@ LocalComponents.Page {
         if (authenticated) {
             count += clickRepeater.count;
         }
-        count += imageRepeater.count;
         return count;
     }
 
     function check(force) {
-          UpdateManager.check(UpdateManager.CheckClickIgnoreVersion);
+        UpdateManager.check(UpdateManager.CheckClickIgnoreVersion);
     }
 
-    QDBusActionGroup {
-        id: indicatorPower
-        busType: 1
-        busName: "com.canonical.indicator.power"
-        objectPath: "/com/canonical/indicator/power"
-        property var batteryLevel: action("battery-level").state || 0
-        property var deviceState: action("device-state").state
-        Component.onCompleted: start()
+    Setup {
+        id: uoaConfig
+        objectName: "uoaConfig"
+        applicationId: "ubuntu-system-settings"
+        providerId: "ubuntuone"
+
+        onFinished: {
+            if (reply.errorName) {
+                console.warn('Online Accounts failed:', reply.errorName);
+            }
+            UpdateManager.check(UpdateManager.CheckClickIgnoreVersion);
+            notauthNotification.enabled = true;
+        }
     }
 
     DownloadHandler {
@@ -80,7 +81,7 @@ LocalComponents.Page {
             top: parent.top
             left: parent.left
             right: parent.right
-            bottom: configuration.top
+            bottom: parent.bottom
         }
         clip: true
         contentHeight: content.height
@@ -102,24 +103,12 @@ LocalComponents.Page {
                 clip: true
                 status: UpdateManager.status
                 batchMode: root.batchMode
-                requireRestart: imageRepeater.count > 0
                 updatesCount: root.updatesCount
                 online: root.online
                 onStop: UpdateManager.cancel()
 
                 onRequestInstall: {
-                    if (requireRestart) {
-                        var popup = PopupUtils.open(
-                            Qt.resolvedUrl("ImageUpdatePrompt.qml"), null, {
-                                havePowerForUpdate: root.havePower
-                            }
-                        );
-                        popup.requestSystemUpdate.connect(function () {
-                            install();
-                        });
-                    } else {
-                        install();
-                    }
+                      install();
                 }
                 onInstall: {
                     root.batchMode = true
@@ -162,67 +151,6 @@ LocalComponents.Page {
                             return i18n.tr("The update server is not responding. Try again later.");
                         }
                         return "";
-                    }
-                }
-            }
-
-            SettingsItemTitle {
-                id: updatesAvailableHeader
-                text: i18n.tr("Updates Available")
-                visible: imageUpdateCol.visible || clickUpdatesCol.visible
-            }
-
-            Column {
-                id: imageUpdateCol
-                objectName: "imageUpdates"
-                anchors { left: parent.left; right: parent.right }
-                visible: {
-                    var s = UpdateManager.status;
-                    var haveUpdates = imageRepeater.count > 0;
-                    switch (s) {
-                    case UpdateManager.StatusCheckingClickUpdates:
-                    case UpdateManager.StatusIdle:
-                        return haveUpdates && online;
-                    }
-                    return false;
-                }
-
-                Repeater {
-                    id: imageRepeater
-                    model: UpdateManager.imageUpdates
-
-                    delegate: UpdateDelegate {
-                        objectName: "imageUpdatesDelegate-" + index
-                        width: imageUpdateCol.width
-                        updateState: model.updateState
-                        progress: model.progress
-                        version: remoteVersion
-                        size: model.size
-                        changelog: model.changelog
-                        error: model.error
-                        kind: model.kind
-                        iconUrl: model.iconUrl
-                        name: title
-
-                        onResume: download()
-                        onRetry: download()
-                        onDownload: {
-                            if (SystemImage.downloadMode < 2) {
-                                SystemImage.downloadUpdate();
-                                SystemImage.forceAllowGSMDownload();
-                            } else {
-                                SystemImage.downloadUpdate();
-                            }
-                        }
-                        onPause: SystemImage.pauseDownload();
-                        onInstall: {
-                            var popup = PopupUtils.open(
-                                Qt.resolvedUrl("ImageUpdatePrompt.qml"), null, {
-                                    havePowerForUpdate: root.havePower
-                                }
-                            );
-                            popup.requestSystemUpdate.connect(SystemImage.applyUpdate);
-                        }
                     }
                 }
             }
@@ -301,76 +229,26 @@ LocalComponents.Page {
                 }
             }
 
-            SettingsItemTitle {
-                text: i18n.tr("Recent updates")
-                visible: installedCol.visible
-            }
-
-            Column {
-                id: installedCol
-                objectName: "installedUpdates"
-                anchors { left: parent.left; right: parent.right }
-                visible: installedRepeater.count > 0
-
-                Repeater {
-                    id: installedRepeater
-                    model: UpdateManager.installedUpdates
-
-                    delegate: UpdateDelegate {
-                        objectName: "installedUpdateDelegate-" + index
-                        width: installedCol.width
-                        version: remoteVersion
-                        size: model.size
-                        name: title
-                        kind: model.kind
-                        iconUrl: model.iconUrl
-                        changelog: model.changelog
-                        updateState: Update.StateInstalled
-                        updatedAt: model.updatedAt
-
-                        leadingActions: ListItemActions {
-                           actions: [
-                               Action {
-                                    iconName: "delete"
-                                    onTriggered: UpdateManager.remove(
-                                        model.identifier, model.revision
-                                    )
-                               }
-                           ]
-                        }
-
-                        // Launchable if there's a package name on a click.
-                        launchable: (!!packageName &&
-                                     model.kind === Update.KindClick)
-
-                        onLaunch: UpdateManager.launch(identifier, revision);
+            NotAuthenticatedNotification {
+                id: notauthNotification
+                objectName: "noAuthenticationNotification"
+                visible: {
+                    var s = UpdateManager.status;
+                    switch (s) {
+                    case UpdateManager.StatusCheckingImageUpdates:
+                    case UpdateManager.StatusIdle:
+                        return !authenticated && online;
                     }
+                    return false;
                 }
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+                onRequestAuthentication: uoaConfig.exec()
             }
         } // Column inside flickable.
     } // Flickable
-
-    Column {
-        id: configuration
-
-        height: childrenRect.height
-
-        anchors {
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
-        }
-
-        ListItem.ThinDivider {}
-
-        ListItem.SingleValue {
-            objectName: "configuration"
-            text: i18n.tr("Update settings")
-            progression: true
-            onClicked: pageStack.addPageToNextColumn(
-                root, Qt.resolvedUrl("UpdateSettings.qml"))
-        }
-    }
 
     Connections {
         id: postClickBatchHandler
@@ -385,42 +263,17 @@ LocalComponents.Page {
     }
 
     Connections {
-        id: postAllBatchHandler
-        ignoreUnknownSignals: true
-        target: null
-        onUpdatesCountChanged: {
-            if (target.updatesCount === 1) {
-                SystemImage.updateDownloaded.connect(function () {
-                    SystemImage.applyUpdate();
-                });
-                SystemImage.downloadUpdate();
-            }
-        }
-    }
-
-    Connections {
         target: NetworkingStatus
         onOnlineChanged: {
-            if (!online) {
-                UpdateManager.cancel();
-            } else {
-                UpdateManager.check(UpdateManager.CheckClickIgnoreVersion);
-            }
+          if (!online) {
+              UpdateManager.cancel();
+          } else {
+              UpdateManager.check(UpdateManager.CheckClickIgnoreVersion);
         }
+      }
     }
 
-    Connections {
-        target: SystemImage
-        onUpdateFailed: {
-            if (consecutiveFailureCount > SystemImage.failuresBeforeWarning) {
-                var popup = PopupUtils.open(
-                    Qt.resolvedUrl("InstallationFailed.qml"), null, {
-                        text: lastReason
-                    }
-                );
-            }
-        }
-    }
+    Component.onCompleted: check()
 
     Component {
         id: forwardButton
