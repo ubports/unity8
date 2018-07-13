@@ -164,7 +164,6 @@ LocalComponents.Page {
                         name: title
                         iconUrl: model.iconUrl
                         kind: model.kind
-                        changelog: model.changelog
                         error: model.error
                         signedUrl: signedDownloadUrl
 
