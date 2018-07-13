@@ -282,6 +282,4 @@ LocalComponents.Page {
             onClicked: pageStack.next()
         }
     }
-
-    Component.onCompleted: check()
 }
