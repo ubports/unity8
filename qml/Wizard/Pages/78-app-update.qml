@@ -82,20 +82,20 @@ LocalComponents.Page {
                 height: hidden ? 0 : units.gu(8)
                 clip: true
                 status: UpdateManager.status
-                batchMode: root.batchMode
-                updatesCount: root.updatesCount
-                online: root.online
+                batchMode: appUpdatePage.batchMode
+                updatesCount: appUpdatePage.updatesCount
+                online: appUpdatePage.online
                 onStop: UpdateManager.cancel()
 
                 onRequestInstall: {
                       install();
                 }
                 onInstall: {
-                    root.batchMode = true
+                    appUpdatePage.batchMode = true
                     if (requireRestart) {
-                        postAllBatchHandler.target = root;
+                        postAllBatchHandler.target = appUpdatePage;
                     } else {
-                        postClickBatchHandler.target = root;
+                        postClickBatchHandler.target = appUpdatePage;
                     }
                 }
             }
@@ -122,7 +122,7 @@ LocalComponents.Page {
                     wrapMode: Text.WordWrap
                     text: {
                         var s = UpdateManager.status;
-                        if (!root.online) {
+                        if (!appUpdatePage.online) {
                             return i18n.tr("Connect to the Internet to check for updates.");
                         } else if (s === UpdateManager.StatusIdle && updatesCount === 0) {
                             return i18n.tr("Software is up to date");
@@ -216,7 +216,7 @@ LocalComponents.Page {
         target: null
         onUpdatesCountChanged: {
             if (target.updatesCount === 0) {
-                root.batchMode = false;
+                appUpdatePage.batchMode = false;
                 target = null;
             }
         }
