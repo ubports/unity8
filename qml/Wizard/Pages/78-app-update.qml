@@ -55,28 +55,35 @@ LocalComponents.Page {
         UpdateManager.check(UpdateManager.CheckClickIgnoreVersion);
     }
 
+    DownloadHandler {
+        id: downloadHandler
+        updateModel: UpdateManager.model
+    }
+
     Flickable {
         id: scrollWidget
         anchors {
-            top: parent.top
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
+            fill: content
+            leftMargin: parent.leftMargin
+            rightMargin: parent.rightMargin
         }
         clip: true
-        contentHeight: content.height
-        boundsBehavior: (contentHeight > parent.height) ?
+        contentHeight: scrollWidgetContent.height
+        boundsBehavior: (contentHeight > scrollWidgetContent.height) ?
                         Flickable.DragAndOvershootBounds :
                         Flickable.StopAtBounds
         flickableDirection: Flickable.VerticalFlick
 
         Column {
-            id: content
-            anchors { left: parent.left; right: parent.right }
+            id: scrollWidgetContent
+            anchors {
+              left: parent.left
+              right: parent.right
+            }
 
-            AppUpdateList {
-                id: appUpdateList
-                objectName: "appUpdateList"
+            Global {
+                id: glob
+                objectName: "global"
                 anchors { left: parent.left; right: parent.right }
 
                 height: hidden ? 0 : units.gu(8)
@@ -92,11 +99,28 @@ LocalComponents.Page {
                 }
                 onInstall: {
                     appUpdatePage.batchMode = true
-                    if (requireRestart) {
-                        postAllBatchHandler.target = appUpdatePage;
-                    } else {
-                        postClickBatchHandler.target = appUpdatePage;
-                    }
+                    postClickBatchHandler.target = appUpdatePage;
+                }
+            }
+
+            AppUpdateList {
+                id: appUpdateList
+                objectName: "appUpdateList"
+
+                height: hidden ? 0 : units.gu(8)
+                clip: true
+                status: UpdateManager.status
+                batchMode: appUpdatePage.batchMode
+                updatesCount: appUpdatePage.updatesCount
+                online: appUpdatePage.online
+                onStop: UpdateManager.cancel()
+
+                onRequestInstall: {
+                    install();
+                }
+                onInstall: {
+                    appUpdatePage.batchMode = true
+                    postClickBatchHandler.target = appUpdatePage;
                 }
             }
 
@@ -127,7 +151,7 @@ LocalComponents.Page {
                         } else if (s === UpdateManager.StatusIdle && updatesCount === 0) {
                             return i18n.tr("Software is up to date");
                         } else if (s === UpdateManager.StatusServerError ||
-                                   s === UpdateManager.StatusNetworkError) {
+                                s === UpdateManager.StatusNetworkError) {
                             return i18n.tr("The update server is not responding. Try again later.");
                         }
                         return "";
@@ -174,7 +198,7 @@ LocalComponents.Page {
                             /* This creates a new signed URL with which we can
                             retry the download. See onSignedUrlChanged. */
                             UpdateManager.retry(model.identifier,
-                                               model.revision);
+                                            model.revision);
                         }
 
                         onSignedUrlChanged: {
@@ -207,8 +231,8 @@ LocalComponents.Page {
                     }
                 }
             }
-        } // Column inside flickable.
-    } // Flickable
+        } // Column inside flickable inside column.
+    } // Flickable inside Column
 
     Connections {
         id: postClickBatchHandler
