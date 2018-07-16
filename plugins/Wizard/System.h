@@ -18,6 +18,7 @@
 #define WIZARD_SYSTEM_H
 
 #include <QFileSystemWatcher>
+#include <QVersionNumber>
 #include <QObject>
 #include <QString>
 
@@ -30,7 +31,48 @@ public:
     System();
     ~System() = default;
 
+    /**
+     * Checks whether the wizard is enabled for first-run or otherwise
+     */
     bool wizardEnabled() const;
+
+    /**
+     * Returns the update version(s) that the wizard has not yet run for.
+     * Will be empty if the current wizard version is the same version that has
+     * already run or if the OOBE (first-time) wizard is set to run.
+     * The special value [QVersionNumber(0)] denotes that the first-time setup
+     * should run.
+     * The special value [] denotes that the wizard should not be run.
+     */
+    std::vector<QVersionNumber> versionsToShow() const;
+
+    /**
+     * Returns the possible update versions
+     */
+    std::vector<QVersionNumber> wizardUpdates() const
+    {
+        // Add a new QVersionNumber to this array for every new set of pages you
+        // would like to add to the wizard. The wizard will check for every
+        // version between its last run and its current version (::currentVersion())
+        return {
+            QVersionNumber(1, 0, 0)
+        };
+    }
+
+    /**
+     * The update version for the Wizard in this version of Unity8. Bump this
+     * version and add your new value to ::wizardUpdates(), then set the
+     * showOnVersions property for the pages you would like to run on the current
+     * update to the new value.
+     */
+    QVersionNumber currentVersion() const
+    {
+        return QVersionNumber(1, 0, 0);
+    }
+
+    /**
+     * Set that the OOBE (first-run) wizard should be run
+     */
     void setWizardEnabled(bool enabled);
 
 public Q_SLOTS:

@@ -20,6 +20,7 @@
 #include <QDBusMessage>
 #include <QDBusConnection>
 #include <QDBusMetaType>
+#include <QVersionNumber>
 #include <QDir>
 #include <QFile>
 #include <QLocale>
@@ -43,12 +44,42 @@ System::System()
 QString System::wizardEnabledPath()
 {
     // Uses ubuntu-system-settings namespace for historic compatibility reasons
-    return QDir::home().filePath(QStringLiteral(".config/ubuntu-system-settings/wizard-has-run"));
+    return QDir::home().filePath(QStringLiteral(".config/ubuntu-system-settings/wizard-has-run/"));
 }
 
 bool System::wizardEnabled() const
 {
-    return !QFile::exists(wizardEnabledPath());
+    // versionsToShow will only be empty if there are no missed wizard runs
+    return (sizeof(this->versionsToShow()) != 0);
+}
+
+std::vector<QVersionNumber> System::versionsToShow() const
+{
+    if (!QFile::exists(wizardEnabledPath())) {
+        std::vector<QVersionNumber> versions = {QVersionNumber(0)};
+        return versions;
+    }
+
+    std::vector<QVersionNumber> missedVersions;
+    
+    for(int i = 0; i < sizeof(wizardUpdates()); i++)
+    {
+        QVersionNumber versionToCheck = wizardUpdates()[i];
+        QString pathToCheck = QDir(wizardEnabledPath()).filePath(versionToCheck.toString());
+        
+        if (versionToCheck > currentVersion()) {
+            continue;
+        }
+
+        if (!QFile::exists(pathToCheck)) {
+            continue;
+        }
+
+        missedVersions.push_back(versionToCheck);
+    }
+
+    return missedVersions;
+    
 }
 
 void System::setWizardEnabled(bool enabled)
