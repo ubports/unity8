@@ -160,12 +160,24 @@ StyledItem {
             }
         }
 
+        /**
+         * Determine if array contains item
+         */
+        function itemInArrayInOtherArray(item, array) {
+            return array.indexOf(item) >= 0;
+        }
+
         function checkSkip() {
             if (!currentPage) { // may have had a parse error
+                console.warn("Wizard page skipped due to possible parse error.");
                 next()
             } else if (currentPage.skipValid) {
                 if (currentPage.skip) {
                     next()
+                } else if ( !(itemInArray(root.runningWizardVersion, currentPage.showOnVersions)) && 
+                            (currentPage.showOnVersions.length > 0) ) {
+                    // The page is not supposed to run on this version of the wizard
+                    next();
                 } else {
                     currentPage.opacity = 1
                     currentPage.enabled = true

@@ -49,36 +49,22 @@ QString System::wizardEnabledPath()
 
 bool System::wizardEnabled() const
 {
-    // versionsToShow will only be empty if there are no missed wizard runs
-    return (sizeof(this->versionsToShow()) != 0);
+    return (versionToShow() >= 0);
 }
 
-std::vector<QVersionNumber> System::versionsToShow() const
+signed int System::versionToShow() const
 {
-    if (!QFile::exists(wizardEnabledPath())) {
-        std::vector<QVersionNumber> versions = {QVersionNumber(0)};
-        return versions;
+    if (!(QFile::exists(wizardEnabledPath()))) {
+        return 0;
     }
 
-    std::vector<QVersionNumber> missedVersions;
+    QString pathToCheck = QDir(wizardEnabledPath()).filePath(QString::number(CURRENT_VERSION));
     
-    for(int i = 0; i < sizeof(wizardUpdates()); i++)
-    {
-        QVersionNumber versionToCheck = wizardUpdates()[i];
-        QString pathToCheck = QDir(wizardEnabledPath()).filePath(versionToCheck.toString());
-        
-        if (versionToCheck > currentVersion()) {
-            continue;
-        }
-
-        if (!QFile::exists(pathToCheck)) {
-            continue;
-        }
-
-        missedVersions.push_back(versionToCheck);
+    if (!(QFile::exists(pathToCheck))) {
+        return CURRENT_VERSION;
     }
 
-    return missedVersions;
+    return -1;
     
 }
 
@@ -88,13 +74,16 @@ void System::setWizardEnabled(bool enabled)
         return;
 
     if (enabled) {
-        QFile::remove(wizardEnabledPath());
+        QDir(wizardEnabledPath()).removeRecursively();
     } else {
-        QDir(wizardEnabledPath()).mkpath(QStringLiteral(".."));
-        QFile(wizardEnabledPath()).open(QIODevice::WriteOnly);
+        QDir(wizardEnabledPath()).mkpath(QStringLiteral("."));
         m_fsWatcher.addPath(wizardEnabledPath());
-        Q_EMIT wizardEnabledChanged();
+
+        // Disable the newest non-first-run wizard, too
+        QFile(QDir(wizardEnabledPath()).filePath(QString::number(CURRENT_VERSION))).open(QIODevice::WriteOnly);
     }
+
+    Q_EMIT wizardEnabledChanged();
 }
 
 void System::watcherFileChanged()

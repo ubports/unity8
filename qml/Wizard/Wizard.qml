@@ -29,6 +29,11 @@ Showable {
     // expected behavior of no emission on startup.
     readonly property bool active: loader.active
 
+    // Hold the version of the wizard that is currently running. 0 means the
+    // first-run wizard, -1 means no wizard, a higher number signifies the
+    // wizard version that is running.
+    property int runningWizardVersion: System.versionToShow
+
     // The wizard should be run at a later time if, for example, unity8 is
     // in greeter mode
     property bool deferred: false
