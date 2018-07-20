@@ -84,30 +84,9 @@ LocalComponents.Page {
             }
 
             GlobalUpdateControls {
-                id: glob
+                id: g
                 objectName: "global"
                 anchors { left: parent.left; right: parent.right }
-
-                height: hidden ? 0 : units.gu(8)
-                clip: true
-                status: UpdateManager.status
-                batchMode: appUpdatePage.batchMode
-                updatesCount: appUpdatePage.updatesCount
-                online: appUpdatePage.online
-                onStop: UpdateManager.cancel()
-
-                onRequestInstall: {
-                      install();
-                }
-                onInstall: {
-                    appUpdatePage.batchMode = true
-                    postClickBatchHandler.target = appUpdatePage;
-                }
-            }
-
-            AppUpdateList {
-                id: appUpdateList
-                objectName: "appUpdateList"
 
                 height: hidden ? 0 : units.gu(8)
                 clip: true
@@ -211,7 +190,7 @@ LocalComponents.Page {
                         }
 
                         Connections {
-                            target: appUpdateList
+                            target: g
                             onInstall: install()
                         }
 
@@ -233,8 +212,8 @@ LocalComponents.Page {
                     }
                 }
             }
-        } // Column inside flickable inside column.
-    } // Flickable inside Column
+        } // Column inside flickable
+    } // Flickable
 
     Connections {
         id: postClickBatchHandler
@@ -264,7 +243,7 @@ LocalComponents.Page {
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            text: i18n.tr("Skip")
+            text: (UpdateManager.status === UpdateManager.StatusIdle && updatesCount === 0) ? i18n.tr("Next") : i18n.tr("Skip")
             onClicked: pageStack.next()
         }
     }
