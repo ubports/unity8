@@ -118,7 +118,7 @@ void SystemTest::testUpdate()
 
     System system;
     QVERIFY(system.wizardEnabled());
-    QVERIFY(system.versionToShow() > 0);
+    QVERIFY(system.versionToShow() == system.CURRENT_VERSION);
 
     system.setWizardEnabled(false);
     QVERIFY(!system.wizardEnabled());
@@ -128,28 +128,28 @@ void SystemTest::testUpdate()
 
 void SystemTest::testNoticeChanges()
 {
-    // enable();
+    enable();
 
-    // System system;
-    // QSignalSpy spy(&system, SIGNAL(wizardEnabledChanged()));
+    System system;
+    QSignalSpy spy(&system, SIGNAL(wizardEnabledChanged()));
 
-    // // System only guarantees its signals work correcty when using its own set
-    // // methods (i.e. it won't necessarily notice if we modify the file behind
-    // // the scenes).  This is because watching all parent directories of the
-    // // wizard-has-run file with QFileSystemWatcher is a nightmare and waste of
-    // // resources for the corner case it is.  So we'll just test the set method.
+    // System only guarantees its signals work correcty when using its own set
+    // methods (i.e. it won't necessarily notice if we modify the file behind
+    // the scenes).  This is because watching all parent directories of the
+    // wizard-has-run file with QFileSystemWatcher is a nightmare and waste of
+    // resources for the corner case it is.  So we'll just test the set method.
 
-    // system.setWizardEnabled(false);
-    // QTRY_COMPARE(spy.count(), 1);
+    system.setWizardEnabled(false);
+    QTRY_COMPARE(spy.count(), 1);
 
-    // system.setWizardEnabled(true);
-    // QTRY_COMPARE(spy.count(), 2);
+    system.setWizardEnabled(true);
+    QTRY_COMPARE(spy.count(), 2);
 
-    // system.setWizardEnabled(false);
-    // QTRY_COMPARE(spy.count(), 3);
+    system.setWizardEnabled(false);
+    QTRY_COMPARE(spy.count(), 3);
 
-    // system.setWizardEnabled(true);
-    // QTRY_COMPARE(spy.count(), 4);
+    system.setWizardEnabled(true);
+    QTRY_COMPARE(spy.count(), 4);
 }
 
 QTEST_MAIN(SystemTest)

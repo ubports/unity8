@@ -45,7 +45,7 @@ public:
      * For example, if ::CURRENT_VERSION is 4, version 4 has not run, but the
      * first-run wizard has run, this method will return 4
      */
-    signed int versionToShow() const;
+    int versionToShow() const;
 
     /**
      * The update version for the Wizard in this version of Unity8. Bump this
