@@ -165,12 +165,11 @@ StyledItem {
         /**
          * Determine if array contains item
          */
-        function itemInArrayInOtherArray(item, array) {
+        function itemInArray(item, array) {
             return array.indexOf(item) >= 0;
         }
 
         function checkSkip() {
-            console.warn("Evaluating skip on " + currentPage.objectName);
             if (!currentPage) { // may have had a parse error
                 console.warn("Wizard page skipped due to possible parse error.");
                 next();
@@ -178,11 +177,11 @@ StyledItem {
                 if (currentPage.skip) {
                     next();
                     console.warn("Wizard page " + currentPage.objectName + " skipped on request");
-                } else if ( !(itemInArray(root.runningWizardVersion, currentPage.showOnVersions)) && 
+                } else if ( !(itemInArray(wizard.runningWizardVersion, currentPage.showOnVersions)) && 
                             (currentPage.showOnVersions.length > 0) ) {
                     // The page is not supposed to run on this version of the wizard
-                    console.warn("Wizard page " + currentPage.objectName + " skipped, it is not marked to run on this version.");
                     next();
+                    console.warn("Wizard page " + currentPage.objectName + " skipped, it is not marked to run on this version.");
                 } else {
                     console.warn("Starting wizard page " + currentPage.objectName);
                     currentPage.opacity = 1;

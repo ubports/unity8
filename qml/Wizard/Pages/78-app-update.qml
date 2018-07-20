@@ -43,6 +43,8 @@ LocalComponents.Page {
     property bool authenticated: UpdateManager.authenticated
     property bool forceCheck: false
 
+    showOnVersions: [1]
+
     property int updatesCount: {
         var count = 0;
         if (authenticated) {

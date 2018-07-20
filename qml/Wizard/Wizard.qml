@@ -20,7 +20,7 @@ import Wizard 0.1
 import "../Components"
 
 Showable {
-    id: root
+    id: wizard
 
     // This is a bool instead of an alias because Loader classes like to emit
     // changed signals for 'active' during startup even if they aren't actually
@@ -54,7 +54,7 @@ Showable {
 
         Connections {
             target: loader.item
-            onQuit: root.hide()
+            onQuit: wizard.hide()
         }
     }
 }

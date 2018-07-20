@@ -20,7 +20,7 @@ import QtQuick 2.4
 import Ubuntu.DownloadManager 1.2
 
 Item {
-    id: root
+    id: downloadHandler
     property var updateModel
     property alias downloads: downloadManager.downloads
     property var udm: DownloadManager {
