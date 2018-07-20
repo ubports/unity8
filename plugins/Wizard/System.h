@@ -26,7 +26,7 @@ class System : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool wizardEnabled READ wizardEnabled WRITE setWizardEnabled NOTIFY wizardEnabledChanged)
-    Q_PROPERTY(int versionToShow READ versionToShow)
+    Q_PROPERTY(int versionToShow READ versionToShow NOTIFY versionToShowChanged)
 
 public:
     System();
@@ -65,6 +65,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void wizardEnabledChanged();
+    void versionToShowChanged();
 
 private Q_SLOTS:
     void watcherFileChanged();

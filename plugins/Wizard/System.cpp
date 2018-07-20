@@ -84,11 +84,13 @@ void System::setWizardEnabled(bool enabled)
     }
 
     Q_EMIT wizardEnabledChanged();
+    Q_EMIT versionToShowChanged();
 }
 
 void System::watcherFileChanged()
 {
     Q_EMIT wizardEnabledChanged();
+    Q_EMIT versionToShowChanged();
     m_fsWatcher.removePath(wizardEnabledPath());
 }
 
