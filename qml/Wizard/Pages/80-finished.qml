@@ -25,6 +25,7 @@ LocalComponents.Page {
     customTitle: true
     lastPage: true
     buttonBarVisible: false
+    showOnVersions: []
 
     Component.onCompleted: {
         state = "reanchored";

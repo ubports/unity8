@@ -139,18 +139,20 @@ StyledItem {
 
         function load(path) {
             if (currentPage) {
-                currentPage.enabled = false
+                currentPage.enabled = false;
             }
 
             // First load it invisible, check that we should actually use
             // this page, and either skip it or continue.
-            push(path, {"opacity": 0, "enabled": false})
+            push(path, {"opacity": 0, "enabled": false});
 
             timeout.restart();
 
+            console.info("Loading page " + currentPage.objectName);
+
             // Check for immediate skip or not.  We may have to wait for
             // skipValid to be assigned (see Connections object below)
-            checkSkip()
+            checkSkip();
 
             var isPrimaryPage = !currentPage.customTitle;
             if (isPrimaryPage) {
@@ -168,19 +170,23 @@ StyledItem {
         }
 
         function checkSkip() {
+            console.warn("Evaluating skip on " + currentPage.objectName);
             if (!currentPage) { // may have had a parse error
                 console.warn("Wizard page skipped due to possible parse error.");
-                next()
+                next();
             } else if (currentPage.skipValid) {
                 if (currentPage.skip) {
-                    next()
+                    next();
+                    console.warn("Wizard page " + currentPage.objectName + " skipped on request");
                 } else if ( !(itemInArray(root.runningWizardVersion, currentPage.showOnVersions)) && 
                             (currentPage.showOnVersions.length > 0) ) {
                     // The page is not supposed to run on this version of the wizard
+                    console.warn("Wizard page " + currentPage.objectName + " skipped, it is not marked to run on this version.");
                     next();
                 } else {
-                    currentPage.opacity = 1
-                    currentPage.enabled = true
+                    console.warn("Starting wizard page " + currentPage.objectName);
+                    currentPage.opacity = 1;
+                    currentPage.enabled = true;
                     timeout.stop();
                 }
             }
