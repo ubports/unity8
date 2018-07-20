@@ -41,7 +41,6 @@ LocalComponents.Page {
     property bool batchMode: false
     property bool online: NetworkingStatus.online
     property bool authenticated: UpdateManager.authenticated
-    property bool forceCheck: false
 
     showOnVersions: [1]
 
@@ -225,17 +224,6 @@ LocalComponents.Page {
                 target = null;
             }
         }
-    }
-
-    Connections {
-        target: NetworkingStatus
-        onOnlineChanged: {
-          if (!online) {
-              UpdateManager.cancel();
-          } else {
-              UpdateManager.check(UpdateManager.CheckClickIgnoreVersion);
-        }
-      }
     }
 
     Component.onCompleted: check()
