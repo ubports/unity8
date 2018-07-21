@@ -20,7 +20,7 @@ import Wizard 0.1
 import "../Components"
 
 Showable {
-    id: root
+    id: wizard
 
     // This is a bool instead of an alias because Loader classes like to emit
     // changed signals for 'active' during startup even if they aren't actually
@@ -28,6 +28,11 @@ Showable {
     // unnecessary 'changed' emissions and provides consuming classes the
     // expected behavior of no emission on startup.
     readonly property bool active: loader.active
+
+    // Hold the version of the wizard that is currently running. 0 means the
+    // first-run wizard, -1 means no wizard, a higher number signifies the
+    // wizard version that is running.
+    property int runningWizardVersion: System.versionToShow
 
     // The wizard should be run at a later time if, for example, unity8 is
     // in greeter mode
@@ -49,7 +54,7 @@ Showable {
 
         Connections {
             target: loader.item
-            onQuit: root.hide()
+            onQuit: wizard.hide()
         }
     }
 }

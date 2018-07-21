@@ -25,6 +25,7 @@ LocalComponents.Page {
     customTitle: true
     lastPage: true
     buttonBarVisible: false
+    showOnVersions: []
 
     Component.onCompleted: {
         state = "reanchored";
@@ -86,7 +87,7 @@ LocalComponents.Page {
             fontSize: "x-large"
             font.weight: Font.Light
             lineHeight: 1.2
-            text: i18n.tr("Welcome to Ubuntu")
+            text: (wizard.runningWizardVersion === 0) ? i18n.tr("Welcome to Ubuntu") : i18n.tr("Welcome Back")
             color: whiteColor
         }
 
@@ -121,7 +122,7 @@ LocalComponents.Page {
             Label {
                 id: buttonLabel
                 color: whiteColor
-                text: i18n.tr("Get Started")
+                text: (wizard.runningWizardVersion === 0) ? i18n.tr("Get Started") : i18n.tr("Continue")
                 fontSize: "medium"
                 anchors.centerIn: parent
             }

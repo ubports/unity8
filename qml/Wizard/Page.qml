@@ -50,6 +50,11 @@ Item {
     property bool skipValid: true
     property bool skip: false
 
+    // Marks the wizard versions that this page should be displayed on.
+    // [0] marks a page to run on first-boot only. [] marks it to run on all wizard runs.
+    // Other valid values can be found in ../../plugins/Wizard/System.h
+    property var showOnVersions: [0]
+
     property bool hasBackButton: true
     property string backButtonText: i18n.ctr("Button: Go back one page in the Wizard", "Back")
     property bool customBack: false

@@ -105,6 +105,39 @@ StyledItem {
         id: pageList
     }
 
+    ActivityIndicator {
+        id: pagesSpinner
+        anchors.centerIn: parent
+        z: 100
+        running: false
+        visible: running
+
+        NumberAnimation on opacity {
+            id: fadeInAnimation
+            from: 0
+            to: 1
+            duration: 200
+        }
+
+        onVisibleChanged: {
+            if (visible) {
+                opacity = 0;
+                fadeInAnimation.start();
+            } else {
+                // impatientLoadingLabel.text = ""
+            }
+        }
+    }    
+
+    Timer {
+        id: impatientLoadingTimer
+        interval: 1700
+        onTriggered: {
+            console.warn("Impatient timer going off. Fix the wizard, it's too slow at skipping pages.")
+            pagesSpinner.running = true;
+        }
+    }
+
     PageStack {
         id: pageStack
         objectName: "pageStack"
@@ -139,18 +172,21 @@ StyledItem {
 
         function load(path) {
             if (currentPage) {
-                currentPage.enabled = false
+                currentPage.enabled = false;
             }
 
             // First load it invisible, check that we should actually use
             // this page, and either skip it or continue.
-            push(path, {"opacity": 0, "enabled": false})
+            push(path, {"opacity": 0, "enabled": false});
 
             timeout.restart();
+            impatientLoadingTimer.start();
+
+            console.info("Loading page " + currentPage.objectName);
 
             // Check for immediate skip or not.  We may have to wait for
             // skipValid to be assigned (see Connections object below)
-            checkSkip()
+            checkSkip();
 
             var isPrimaryPage = !currentPage.customTitle;
             if (isPrimaryPage) {
@@ -160,15 +196,29 @@ StyledItem {
             }
         }
 
+        /**
+         * Determine if array contains item
+         */
+        function itemInArray(item, array) {
+            return array.indexOf(item) >= 0;
+        }
+
         function checkSkip() {
             if (!currentPage) { // may have had a parse error
-                next()
+                console.warn("Wizard page skipped due to possible parse error.");
+                next();
             } else if (currentPage.skipValid) {
                 if (currentPage.skip) {
-                    next()
+                    next();
+                } else if ( !(itemInArray(wizard.runningWizardVersion, currentPage.showOnVersions)) && 
+                            (currentPage.showOnVersions.length > 0) ) {
+                    // The page is not supposed to run on this version of the wizard
+                    next();
                 } else {
-                    currentPage.opacity = 1
-                    currentPage.enabled = true
+                    impatientLoadingTimer.stop()
+                    pagesSpinner.running = false;
+                    currentPage.opacity = 1;
+                    currentPage.enabled = true;
                     timeout.stop();
                 }
             }

@@ -20,6 +20,7 @@
 #include <QDBusMessage>
 #include <QDBusConnection>
 #include <QDBusMetaType>
+#include <QVersionNumber>
 #include <QDir>
 #include <QFile>
 #include <QLocale>
@@ -43,12 +44,28 @@ System::System()
 QString System::wizardEnabledPath()
 {
     // Uses ubuntu-system-settings namespace for historic compatibility reasons
-    return QDir::home().filePath(QStringLiteral(".config/ubuntu-system-settings/wizard-has-run"));
+    return QDir::home().filePath(QStringLiteral(".config/ubuntu-system-settings/wizard-has-run/"));
 }
 
 bool System::wizardEnabled() const
 {
-    return !QFile::exists(wizardEnabledPath());
+    return (versionToShow() >= 0);
+}
+
+signed int System::versionToShow() const
+{
+    if (!(QFile::exists(wizardEnabledPath()))) {
+        return 0;
+    }
+
+    QString pathToCheck = QDir(wizardEnabledPath()).filePath(QString::number(CURRENT_VERSION));
+    
+    if (!(QFile::exists(pathToCheck))) {
+        return CURRENT_VERSION;
+    }
+
+    return -1;
+    
 }
 
 void System::setWizardEnabled(bool enabled)
@@ -57,18 +74,23 @@ void System::setWizardEnabled(bool enabled)
         return;
 
     if (enabled) {
-        QFile::remove(wizardEnabledPath());
+        QDir(wizardEnabledPath()).removeRecursively();
     } else {
-        QDir(wizardEnabledPath()).mkpath(QStringLiteral(".."));
-        QFile(wizardEnabledPath()).open(QIODevice::WriteOnly);
+        QDir(wizardEnabledPath()).mkpath(QStringLiteral("."));
         m_fsWatcher.addPath(wizardEnabledPath());
-        Q_EMIT wizardEnabledChanged();
+
+        // Disable the newest non-first-run wizard, too
+        QFile(QDir(wizardEnabledPath()).filePath(QString::number(CURRENT_VERSION))).open(QIODevice::WriteOnly);
     }
+
+    Q_EMIT wizardEnabledChanged();
+    Q_EMIT versionToShowChanged();
 }
 
 void System::watcherFileChanged()
 {
     Q_EMIT wizardEnabledChanged();
+    Q_EMIT versionToShowChanged();
     m_fsWatcher.removePath(wizardEnabledPath());
 }
 
