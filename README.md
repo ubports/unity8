@@ -39,6 +39,7 @@ What works:
 
 Does not work:
 - Most Xapps don't (yet) work
+- Proprietary drivers don't (yet) work
 - Many report being unable to login using GDM
 
 
