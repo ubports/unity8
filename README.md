@@ -35,12 +35,12 @@ Note that issues related to the version of Unity8 that currently runs on Ubuntu 
 
 What works:
 - Most Wayland apps work
-- Many report being able to login using LightDM, but may require a few attempts
+- Many report being able to log in using LightDM, but may require a few attempts
 
 Does not work:
 - Most Xapps don't (yet) work
 - Proprietary drivers don't (yet) work
-- Many report being unable to login using GDM
+- Many report being unable to log in using GDM
 
 
 ### Get involved
