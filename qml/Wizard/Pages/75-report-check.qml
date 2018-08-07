@@ -27,6 +27,7 @@ LocalComponents.Page {
     forwardButtonSourceComponent: !webview.visible ? forwardButton : null
     customBack: true
     customTitle: webview.visible
+    onlyOnInstall: true
 
     skip: !diagnostics.reportCrashes // skip the page when the system is configured not to report crashes
 

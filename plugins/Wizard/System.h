@@ -26,7 +26,8 @@ class System : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool wizardEnabled READ wizardEnabled WRITE setWizardEnabled NOTIFY wizardEnabledChanged)
-    Q_PROPERTY(int versionToShow READ versionToShow NOTIFY versionToShowChanged)
+    Q_PROPERTY(QString version READ version NOTIFY versionChanged)
+    Q_PROPERTY(bool isUpdate READ isUpdate NOTIFY isUpdateChanged)
 
 public:
     System();
@@ -37,22 +38,8 @@ public:
      */
     bool wizardEnabled() const;
 
-    /**
-     * Returns the version of the wizard that should be run
-     * -1 denotes that no wizard should be run. 0 denotes that the first-run
-     * wizard should be run. If we determine that the first-run wizard has run
-     * but ::CURRENT_VERSION has not, we return ::CURRENT_VERSION.
-     * For example, if ::CURRENT_VERSION is 4, version 4 has not run, but the
-     * first-run wizard has run, this method will return 4
-     */
-    int versionToShow() const;
-
-    /**
-     * The update version for the Wizard in this version of Unity8. Bump this
-     * version then set the showOnVersions property for the pages you would like
-     * to run on the current update to the new value.
-     */
-    int CURRENT_VERSION = 1;
+    QString version() const;
+    bool isUpdate() const;
 
     void setWizardEnabled(bool enabled);
 
@@ -65,7 +52,8 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void wizardEnabledChanged();
-    void versionToShowChanged();
+    void versionChanged();
+    void isUpdateChanged();
 
 private Q_SLOTS:
     void watcherFileChanged();
@@ -74,7 +62,10 @@ private:
     Q_DISABLE_COPY(System)
 
     static QString wizardEnabledPath();
+    static QString currentFrameworkPath();
     static void setSessionVariable(const QString &variable, const QString &value);
+    static QString readCurrentFramework();
+    static QString readWizardEnabled();
 
     QFileSystemWatcher m_fsWatcher;
 };

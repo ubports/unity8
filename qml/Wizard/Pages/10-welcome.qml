@@ -27,8 +27,7 @@ LocalComponents.Page {
 
     title: i18n.tr("Language")
     forwardButtonSourceComponent: forwardButton
-
-    showOnVersions: []
+    onlyOnInstall: true
 
     UbuntuLanguagePlugin {
         id: plugin

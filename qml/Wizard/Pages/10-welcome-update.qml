@@ -17,11 +17,12 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import AccountsService 0.1
+import Wizard 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
-    objectName: "changelogPage"
-    title: i18n.tr("What's new")
+    objectName: "welcomeUpdate"
+    title: i18n.tr("Welcome to " + System.version)
 
     forwardButtonSourceComponent: forwardButton
     onlyOnUpdate: true

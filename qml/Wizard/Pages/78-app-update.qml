@@ -42,7 +42,7 @@ LocalComponents.Page {
     property bool online: NetworkingStatus.online
     property bool authenticated: UpdateManager.authenticated
 
-    showOnVersions: [1]
+    onlyOnUpdate: true
 
     property int updatesCount: {
         var count = 0;

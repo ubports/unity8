@@ -20,7 +20,6 @@
 #include <QDBusMessage>
 #include <QDBusConnection>
 #include <QDBusMetaType>
-#include <QVersionNumber>
 #include <QDir>
 #include <QFile>
 #include <QLocale>
@@ -44,53 +43,78 @@ System::System()
 QString System::wizardEnabledPath()
 {
     // Uses ubuntu-system-settings namespace for historic compatibility reasons
-    return QDir::home().filePath(QStringLiteral(".config/ubuntu-system-settings/wizard-has-run/"));
+    return QDir::home().filePath(QStringLiteral(".config/ubuntu-system-settings/wizard-has-run"));
 }
+
+QString System::currentFrameworkPath()
+{
+    return QDir::home().filePath(QStringLiteral("/usr/share/click/framework/current"));
+}
+
+/*
+wizardEnabled and isUpdate logic
+
+if wizard-has-run does NOT exists == is new install
+if wizard-has-run does exists but does NOT match current framework == is update
+if wizard-has-run does exists but does match current framework == show no wizard
+*/
 
 bool System::wizardEnabled() const
 {
-    return (versionToShow() >= 0);
+    return !QFile::exists(wizardEnabledPath());
 }
 
-signed int System::versionToShow() const
+QString System::readCurrentFramework()
 {
-    if (!(QFile::exists(wizardEnabledPath()))) {
-        return 0;
-    }
+    QFile f(currentFrameworkPath());
+    if (!f.open(QFile::ReadOnly | QFile::Text)) return "";
+    QTextStream in(&f);
+    return in.readAll();
+}
 
-    QString pathToCheck = QDir(wizardEnabledPath()).filePath(QString::number(CURRENT_VERSION));
-    
-    if (!(QFile::exists(pathToCheck))) {
-        return CURRENT_VERSION;
-    }
+QString System::readWizardEnabled()
+{
+    QFile f(wizardEnabledPath());
+    if (!f.open(QFile::ReadOnly | QFile::Text)) return "";
+    QTextStream in(&f);
+    return in.readAll();
+}
 
-    return -1;
-    
+QString System::version() const
+{
+    return readCurrentFramework();
+}
+
+bool System::isUpdate() const
+{
+    if (!wizardEnabled())
+      return false;
+
+    return readCurrentFramework() != readWizardEnabled();
 }
 
 void System::setWizardEnabled(bool enabled)
 {
-    if (wizardEnabled() == enabled)
+    if (wizardEnabled() == enabled && !isUpdate())
         return;
 
     if (enabled) {
-        QDir(wizardEnabledPath()).removeRecursively();
+        QFile::remove(wizardEnabledPath());
     } else {
-        QDir(wizardEnabledPath()).mkpath(QStringLiteral("."));
+        QDir(wizardEnabledPath()).mkpath(QStringLiteral(".."));
+        if (QFile::exists(wizardEnabledPath()))
+          QFile::remove(wizardEnabledPath());
+        QFile::copy(currentFrameworkPath(), wizardEnabledPath());
         m_fsWatcher.addPath(wizardEnabledPath());
-
-        // Disable the newest non-first-run wizard, too
-        QFile(QDir(wizardEnabledPath()).filePath(QString::number(CURRENT_VERSION))).open(QIODevice::WriteOnly);
+        Q_EMIT wizardEnabledChanged();
+        Q_EMIT isUpdateChanged();
     }
-
-    Q_EMIT wizardEnabledChanged();
-    Q_EMIT versionToShowChanged();
 }
 
 void System::watcherFileChanged()
 {
     Q_EMIT wizardEnabledChanged();
-    Q_EMIT versionToShowChanged();
+    Q_EMIT isUpdateChanged();
     m_fsWatcher.removePath(wizardEnabledPath());
 }
 

@@ -24,6 +24,7 @@ LocalComponents.Page {
     title: i18n.tr("Personalize Your Device")
 
     forwardButtonSourceComponent: forwardButton
+    onlyOnInstall: true
 
     QtObject {
         id: d

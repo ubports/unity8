@@ -127,7 +127,7 @@ StyledItem {
                 // impatientLoadingLabel.text = ""
             }
         }
-    }    
+    }
 
     Timer {
         id: impatientLoadingTimer
@@ -195,14 +195,7 @@ StyledItem {
                 currentPage.aboutToShowSecondary(UbuntuAnimation.BriskDuration);
             }
         }
-
-        /**
-         * Determine if array contains item
-         */
-        function itemInArray(item, array) {
-            return array.indexOf(item) >= 0;
-        }
-
+        
         function checkSkip() {
             if (!currentPage) { // may have had a parse error
                 console.warn("Wizard page skipped due to possible parse error.");
@@ -210,9 +203,8 @@ StyledItem {
             } else if (currentPage.skipValid) {
                 if (currentPage.skip) {
                     next();
-                } else if ( !(itemInArray(wizard.runningWizardVersion, currentPage.showOnVersions)) && 
-                            (currentPage.showOnVersions.length > 0) ) {
-                    // The page is not supposed to run on this version of the wizard
+              } else if ((currentPage.onlyOnUpdate && !wizard.isUpdate) ||
+                         (currentPage.onlyOnInstall && wizard.isUpdate)) {
                     next();
                 } else {
                     impatientLoadingTimer.stop()
