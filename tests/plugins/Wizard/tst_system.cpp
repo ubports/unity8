@@ -33,59 +33,41 @@ private Q_SLOTS:
     void testEnable();
     void testDisable();
     void testNoticeChanges();
-    void testUpdate();
 
 private:
     void enable();
-    void enableUpdateOnly();
     void disable();
     bool isEnabled();
-    bool updateIsEnabled();
 
     QTemporaryDir dir;
     QDir enableDir;
-    QFile enableUpdateWizardFile;
+    QFile enableFile;
 };
 
 SystemTest::SystemTest()
 {
-    System system;
     qputenv("HOME", dir.path().toUtf8());
-    enableDir.setPath(dir.path() + "/.config/ubuntu-system-settings/wizard-has-run/");
-    QString updateFileName = enableDir.filePath(QString::number(system.CURRENT_VERSION));
-    enableUpdateWizardFile.setFileName(updateFileName);
+    enableDir.setPath(dir.path() + "/.config/ubuntu-system-settings");
+    enableFile.setFileName(enableDir.filePath("wizard-has-run"));
 }
 
 void SystemTest::enable()
 {
-    enableDir.removeRecursively();
+    enableFile.remove();
     QCOMPARE(isEnabled(), true);
 }
 
 void SystemTest::disable()
 {
     enableDir.mkpath(".");
-    enableUpdateWizardFile.open(QIODevice::WriteOnly);
-    enableUpdateWizardFile.close();
+    enableFile.open(QIODevice::WriteOnly);
+    enableFile.close();
     QCOMPARE(isEnabled(), false);
-    QCOMPARE(updateIsEnabled(), false);
 }
 
 bool SystemTest::isEnabled()
 {
-    return !enableDir.exists();
-}
-
-void SystemTest::enableUpdateOnly()
-{
-    disable();
-    enableUpdateWizardFile.remove();
-    QCOMPARE(updateIsEnabled(), true);
-}
-
-bool SystemTest::updateIsEnabled()
-{
-    return !enableUpdateWizardFile.exists();
+    return !enableFile.exists();
 }
 
 void SystemTest::testEnable()
@@ -110,20 +92,6 @@ void SystemTest::testDisable()
     system.setWizardEnabled(false);
     QVERIFY(!system.wizardEnabled());
     QVERIFY(!isEnabled());
-}
-
-void SystemTest::testUpdate()
-{
-    enableUpdateOnly();
-
-    System system;
-    QVERIFY(system.wizardEnabled());
-    QVERIFY(system.versionToShow() == system.CURRENT_VERSION);
-
-    system.setWizardEnabled(false);
-    QVERIFY(!system.wizardEnabled());
-    QVERIFY(!isEnabled());
-    QVERIFY(!updateIsEnabled());
 }
 
 void SystemTest::testNoticeChanges()
