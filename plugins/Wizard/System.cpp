@@ -48,7 +48,7 @@ QString System::wizardEnabledPath()
 
 QString System::currentFrameworkPath()
 {
-    return QDir::home().filePath(QStringLiteral("/usr/share/click/framework/current"));
+    return QDir::home().filePath(QStringLiteral("/usr/share/click/frameworks/current"));
 }
 
 /*
@@ -59,9 +59,15 @@ if wizard-has-run does exists but does NOT match current framework == is update
 if wizard-has-run does exists but does match current framework == show no wizard
 */
 
+bool System::wizardPathExists() {
+  return QFile::exists(wizardEnabledPath());
+}
+
 bool System::wizardEnabled() const
 {
-    return !QFile::exists(wizardEnabledPath());
+  if (!wizardPathExists())
+    return true;
+  return isUpdate();
 }
 
 QString System::readCurrentFramework()
@@ -87,7 +93,7 @@ QString System::version() const
 
 bool System::isUpdate() const
 {
-    if (!wizardEnabled())
+    if (!wizardPathExists())
       return false;
 
     return readCurrentFramework() != readWizardEnabled();

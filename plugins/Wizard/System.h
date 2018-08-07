@@ -66,6 +66,7 @@ private:
     static void setSessionVariable(const QString &variable, const QString &value);
     static QString readCurrentFramework();
     static QString readWizardEnabled();
+    static bool wizardPathExists();
 
     QFileSystemWatcher m_fsWatcher;
 };
