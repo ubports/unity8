@@ -48,7 +48,8 @@ QString System::wizardEnabledPath()
 
 QString System::currentFrameworkPath()
 {
-    return QDir::home().filePath(QStringLiteral("/usr/share/click/frameworks/current"));
+    QFileInfo f("/usr/share/click/frameworks/current");
+    return f.canonicalFilePath();
 }
 
 /*
