@@ -346,7 +346,7 @@ StyledItem {
             hides: [launcher, panel.indicators]
             tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
-            forcedUnlock: wizard.active || shell.mode === "full-shell"
+            forcedUnlock: wizard.active && !wizard.isUpdate || shell.mode === "full-shell"
             background: wallpaperResolver.cachedBackground
             hasCustomBackground: wallpaperResolver.hasCustomBackground
             allowFingerprint: !dialogs.hasActiveDialog &&
