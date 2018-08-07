@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2016 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,30 +16,119 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import AccountsService 0.1
 import Wizard 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
     objectName: "welcomeUpdate"
-    title: i18n.tr("Welcome to " + System.version)
 
-    forwardButtonSourceComponent: forwardButton
+    hasBackButton: false
+    customTitle: true
+    buttonBarVisible: false
     onlyOnUpdate: true
 
-    Label {
-        text: "This is where cool stuff would go"
+    Component.onCompleted: {
+        state = "reanchored";
     }
 
-    Component {
-        id: forwardButton
-        LocalComponents.StackButton {
-            text: i18n.tr("Next")
-            onClicked: {
-                if (d.validName) {
-                    AccountsService.realName = d.validName;
-                }
-                pageStack.next();
+    states: State {
+        name: "reanchored"
+        AnchorChanges { target: bgImage; anchors.top: parent.top; anchors.bottom: parent.bottom }
+        AnchorChanges { target: column;
+            anchors.verticalCenter: parent.verticalCenter;
+            anchors.top: undefined
+        }
+    }
+
+    SequentialAnimation {
+        id: splashAnimation
+        PauseAnimation { duration: UbuntuAnimation.BriskDuration }
+        SmoothedAnimation {
+            target: bgImage
+            property: "height"
+            to: units.gu(16)
+            duration: UbuntuAnimation.BriskDuration
+        }
+        NumberAnimation {
+            target: bgImage
+            property: 'opacity'
+            from: 1
+            to: 0
+        }
+    }
+
+    Image {
+        id: bgImage
+        source: wideMode ? "data/Desktop_splash_screen_bkg.png" : "data/Phone_splash_screen_bkg.png"
+        scale: Image.PreserveAspectFit
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.top // outside to let it slide down
+        visible: opacity > 0
+    }
+
+    Item {
+        id: column
+        anchors.leftMargin: leftMargin
+        anchors.rightMargin: rightMargin
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.bottom // outside to let it slide in
+        height: childrenRect.height
+        visible: opacity > 0
+
+        Label {
+            id: welcomeLabel
+            anchors.left: parent.left
+            anchors.right: parent.right
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.Wrap
+            fontSize: "x-large"
+            font.weight: Font.Light
+            lineHeight: 1.2
+            text: i18n.tr("Welcome to ") + System.version.split("Base-Version: ")[1]
+            color: whiteColor
+        }
+
+        Label {
+            id: welcomeText
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: welcomeLabel.bottom
+            anchors.topMargin: units.gu(2)
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.Wrap
+            fontSize: "large"
+            font.weight: Font.Light
+            lineHeight: 1.2
+            text: i18n.tr("We will make sure your device is ready to use ") + System.version.split("Base-Version: ")[1]
+            color: whiteColor
+        }
+
+        Rectangle {
+            anchors {
+                top: welcomeText.bottom
+                horizontalCenter: parent.horizontalCenter
+                topMargin: units.gu(4)
+            }
+            color: "transparent"
+            border.width: units.dp(1)
+            border.color: whiteColor
+            radius: units.dp(4)
+            width: buttonLabel.paintedWidth + units.gu(6)
+            height: buttonLabel.paintedHeight + units.gu(1.8)
+
+            Label {
+                id: buttonLabel
+                color: whiteColor
+                text: i18n.tr("Next")
+                fontSize: "medium"
+                anchors.centerIn: parent
+            }
+            AbstractButton {
+                objectName: "nextButton"
+                anchors.fill: parent
+                onClicked: pageStack.next();
             }
         }
     }

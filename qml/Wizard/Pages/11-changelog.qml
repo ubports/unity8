@@ -26,8 +26,21 @@ LocalComponents.Page {
     forwardButtonSourceComponent: forwardButton
     onlyOnUpdate: true
 
-    Label {
-        text: "This is where cool stuff would go"
+
+    Column {
+        id: column
+        spacing: units.gu(2)
+
+        anchors {
+            fill: content
+            leftMargin: wideMode ? parent.leftMargin : staticMargin
+            rightMargin: wideMode ? parent.rightMargin : staticMargin
+            topMargin: staticMargin
+        }
+
+        Label {
+            text: "This is where cool stuff would go"
+        }
     }
 
     Component {

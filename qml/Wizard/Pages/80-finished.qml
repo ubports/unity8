@@ -16,6 +16,7 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import Wizard 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -25,7 +26,6 @@ LocalComponents.Page {
     customTitle: true
     lastPage: true
     buttonBarVisible: false
-    onlyOnInstall: true
 
     Component.onCompleted: {
         state = "reanchored";
@@ -87,7 +87,7 @@ LocalComponents.Page {
             fontSize: "x-large"
             font.weight: Font.Light
             lineHeight: 1.2
-            text: (wizard.runningWizardVersion === 0) ? i18n.tr("Welcome to Ubuntu") : i18n.tr("Welcome Back")
+            text: (System.isUpdate) ? i18n.tr("Welcome Back") : i18n.tr("Welcome to Ubuntu")
             color: whiteColor
         }
 
@@ -122,7 +122,7 @@ LocalComponents.Page {
             Label {
                 id: buttonLabel
                 color: whiteColor
-                text: (wizard.runningWizardVersion === 0) ? i18n.tr("Get Started") : i18n.tr("Continue")
+                text: (System.isUpdate) ? i18n.tr("Continue") : i18n.tr("Get Started")
                 fontSize: "medium"
                 anchors.centerIn: parent
             }
