@@ -187,6 +187,7 @@ LocalComponents.Page {
       id: spinner
       anchors.centerIn: systemUpdatePage
       visible: systemUpdatePage.isChecking || systemUpdatePage.isUpdating
+      spacing: units.gu(1)
 
       ActivityIndicator {
           anchors.horizontalCenter: parent.horizontalCenter
