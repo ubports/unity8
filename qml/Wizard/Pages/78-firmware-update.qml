@@ -28,7 +28,7 @@ LocalComponents.Page {
     id: systemUpdatePage
     objectName: "firmwareUpdatePage"
 
-    title: i18n.tr("firmware Update")
+    title: i18n.tr("Firmware Update")
     forwardButtonSourceComponent: forwardButton
 
     skip: !SystemImage.supportsFirmwareUpdate() || !online
@@ -105,7 +105,7 @@ LocalComponents.Page {
             wrapMode: Text.Wrap
             textSize: Label.Medium
             text: systemUpdatePage.hasUpdate ? i18n.tr("There is a firmware update available!")
-                            : i18n.tr("Firmware is up to date!")
+                                             : i18n.tr("Firmware is up to date!")
 
         }
 
