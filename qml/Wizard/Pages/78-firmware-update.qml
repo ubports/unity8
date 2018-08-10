@@ -19,7 +19,8 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
-import Ubuntu.SystemImage 0.1
+import Ubuntu.SystemSettings.Update 1.0
+import Ubuntu.Connectivity 1.0
 import Wizard 0.1
 import ".." as LocalComponents
 
@@ -30,7 +31,7 @@ LocalComponents.Page {
     title: i18n.tr("firmware Update")
     forwardButtonSourceComponent: forwardButton
 
-    skip: !SystemImage.SupportsFirmwareUpdate() || !online
+    skip: !SystemImage.supportsFirmwareUpdate() || !online
 
     property bool online: NetworkingStatus.online
     property bool hasUpdate: false
@@ -39,15 +40,15 @@ LocalComponents.Page {
     property var partitions: ""
 
     function check() {
-        if (!SystemImage.SupportsFirmwareUpdate())
-          return
+        if (!SystemImage.supportsFirmwareUpdate())
+          return pageStack.next();
         systemUpdatePage.isChecking = true
         SystemImage.checkForFirmwareUpdate()
     }
 
     function flash() {
-        if (!SystemImage.SupportsFirmwareUpdate())
-          return
+        if (!SystemImage.supportsFirmwareUpdate())
+          return pageStack.next();
         systemUpdatePage.isUpdating = true
         SystemImage.updateFirmware()
     }
@@ -223,7 +224,8 @@ LocalComponents.Page {
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            text: systemUpdatePage.hasUpdate ? i18n.tr("Next") : i18n.tr("Skip")
+            text: !systemUpdatePage.hasUpdate && !systemUpdatePage.spinner
+                  ? i18n.tr("Next") : i18n.tr("Skip")
             onClicked: pageStack.next()
         }
     }
