@@ -1,11 +1,8 @@
 /*
- * This file is part of system-settings
+ * Copyright (C) 2018 The UBports project
  *
- * Copyright (C) 2013-2016 Canonical Ltd.
- *
- * Contact: Didier Roche <didier.roches@canonical.com>
- *          Diego Sarmentero <diego.sarmentero@canonical.com>
- *          Jonas G. Drange <jonas.drange@canonical.com>
+ * Written by: Dalton Durst <dalton@ubports.com>
+ *             Marius Gripsgard <marius@ubports.com>
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published

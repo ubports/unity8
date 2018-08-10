@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2018 The UBports project
  * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -195,7 +196,7 @@ StyledItem {
                 currentPage.aboutToShowSecondary(UbuntuAnimation.BriskDuration);
             }
         }
-        
+
         function checkSkip() {
             if (!currentPage) { // may have had a parse error
                 console.warn("Wizard page skipped due to possible parse error.");
