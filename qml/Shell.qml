@@ -450,9 +450,26 @@ StyledItem {
 
     // Red filter overlay
     ColorOverlay {
+        function diff() {
+		    var time = new Date();
+			var comp = time.getHours() + ":" + time.getMinutes();
+			if (settings.redFilterStart.split(":")[0] > settings.redFilterStop.split(":")[0]) {
+				return !(comp > settings.redFilterStop && comp < settings.redFilterStart);
+			} else if (settings.redFilterStart.split(":")[0] == settings.redFilterStop.split(":")[0]) {
+				if (settings.redFilterStart.split(":")[1] > settings.redFilterStop.split(":")[1]) {
+					return !(comp > settings.redFilterStop && comp < settings.redFilterStart);
+				} else if (settings.redFilterStart.split(":")[1] < settings.redFilterStop.split(":")[1]) {
+					return (comp < settings.redFilterStop && comp > settings.redFilterStart);
+				}
+			} else if (settings.redFilterStart.split(":")[0] < settings.redFilterStop.split(":")[0]) {
+				return (comp < settings.redFilterStop && comp > settings.redFilterStart);
+			} else {
+				return 0;
+			}
+		}
         z: 11
         opacity: settings.redFilterOpacity
-        visible: settings.redFilterEnabled && settings.redFilterOpacity > 0.01
+        visible: settings.redFilterEnabled && settings.redFilterOpacity > 0.01 && diff()
         anchors.fill: parent
         source: parent
         color: "#80800000"
