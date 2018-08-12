@@ -14,6 +14,14 @@
         <default>0.4</default>
         <description>Opacity of red filter overlay</description>
     </key>
+    <key name="red-filter-start" type="s">
+        <default>"20:00"</default>
+        <description>Start time of red filter overlay</description>
+    </key>
+    <key name="red-filter-stop" type="s">
+        <default>"08:00"</default>
+        <description>End time of red filter overlay</description>
+    </key>
     <key enum="usage-mode-enum" name="usage-mode">
       <default>"Automatic"</default>
       <summary>The usage mode.</summary>
