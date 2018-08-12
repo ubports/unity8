@@ -56,9 +56,9 @@ QString System::currentFrameworkPath()
 /*
 wizardEnabled and isUpdate logic
 
-if wizard-has-run does NOT exists == is new install
-if wizard-has-run does exists but does NOT match current framework == is update
-if wizard-has-run does exists but does match current framework == show no wizard
+if wizard-has-run does NOT exist == is new install
+if wizard-has-run exists but does NOT match current framework == is update
+if wizard-has-run exists but does match current framework == show no wizard
 */
 
 bool System::wizardPathExists() {
@@ -67,9 +67,10 @@ bool System::wizardPathExists() {
 
 bool System::wizardEnabled() const
 {
-  if (!wizardPathExists())
-    return true;
-  return isUpdate();
+    if (!wizardPathExists()) {
+        return true;
+    }
+    return isUpdate();
 }
 
 QString System::readCurrentFramework()
@@ -95,8 +96,9 @@ QString System::version() const
 
 bool System::isUpdate() const
 {
-    if (!wizardPathExists())
-      return false;
+    if (!wizardPathExists()) {
+        return false;
+    }
 
     return readCurrentFramework() != readWizardEnabled();
 }
@@ -110,8 +112,9 @@ void System::setWizardEnabled(bool enabled)
         QFile::remove(wizardEnabledPath());
     } else {
         QDir(wizardEnabledPath()).mkpath(QStringLiteral(".."));
-        if (QFile::exists(wizardEnabledPath()))
-          QFile::remove(wizardEnabledPath());
+        if (QFile::exists(wizardEnabledPath())) {
+            QFile::remove(wizardEnabledPath());
+        }
         QFile::copy(currentFrameworkPath(), wizardEnabledPath());
         m_fsWatcher.addPath(wizardEnabledPath());
         Q_EMIT wizardEnabledChanged();

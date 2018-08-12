@@ -124,8 +124,6 @@ StyledItem {
             if (visible) {
                 opacity = 0;
                 fadeInAnimation.start();
-            } else {
-                // impatientLoadingLabel.text = ""
             }
         }
     }
