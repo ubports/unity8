@@ -459,13 +459,15 @@ StyledItem {
 			} else if (settings.redFilterStart.split(":")[0] == settings.redFilterStop.split(":")[0]) {
 				if (settings.redFilterStart.split(":")[1] > settings.redFilterStop.split(":")[1]) {
 					return !(comp > settings.redFilterStop && comp < settings.redFilterStart);
+				} else if (settings.redFilterStart.split(":")[1] == settings.redFilterStop.split(":")[1]) {
+					return 1;
 				} else if (settings.redFilterStart.split(":")[1] < settings.redFilterStop.split(":")[1]) {
 					return (comp < settings.redFilterStop && comp > settings.redFilterStart);
 				}
 			} else if (settings.redFilterStart.split(":")[0] < settings.redFilterStop.split(":")[0]) {
 				return (comp < settings.redFilterStop && comp > settings.redFilterStart);
 			} else {
-				return 0;
+				return 1;
 			}
 		}
         z: 11
