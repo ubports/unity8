@@ -32,6 +32,7 @@ LocalComponents.Page {
     forwardButtonSourceComponent: forwardButton
 
     readonly property bool connected: Connectivity.online
+    skip: connected
 
     function getExtendedProperty(object, propertyName, defaultValue) {
         if (object && object.hasOwnProperty(propertyName)) {

@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2018 The UBports project
- * Copyright (C) 2013-2016 Canonical, Ltd.
+ *
+ * Written by: Marius Gripsgard <marius@ubports.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,12 +22,12 @@ import Wizard 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
-    objectName: "finishedPage"
+    objectName: "welcomeUpdate"
 
     hasBackButton: false
     customTitle: true
-    lastPage: true
     buttonBarVisible: false
+    onlyOnUpdate: true
 
     Component.onCompleted: {
         state = "reanchored";
@@ -41,21 +42,20 @@ LocalComponents.Page {
         }
     }
 
-    transitions: Transition {
-        ParallelAnimation {
-            AnchorAnimation {
-                targets: [bgImage, column]
-                duration: UbuntuAnimation.SlowDuration
-                easing.type: Easing.OutCirc
-            }
-            NumberAnimation {
-                targets: [bgImage,column]
-                property: "opacity"
-                from: 0
-                to: 1
-                duration: UbuntuAnimation.SlowDuration
-                easing.type: Easing.OutCirc
-            }
+    SequentialAnimation {
+        id: splashAnimation
+        PauseAnimation { duration: UbuntuAnimation.BriskDuration }
+        SmoothedAnimation {
+            target: bgImage
+            property: "height"
+            to: units.gu(16)
+            duration: UbuntuAnimation.BriskDuration
+        }
+        NumberAnimation {
+            target: bgImage
+            property: 'opacity'
+            from: 1
+            to: 0
         }
     }
 
@@ -88,7 +88,7 @@ LocalComponents.Page {
             fontSize: "x-large"
             font.weight: Font.Light
             lineHeight: 1.2
-            text: (System.isUpdate) ? i18n.tr("Welcome Back") : i18n.tr("Welcome to Ubuntu")
+            text: i18n.tr("Welcome to ") + System.version.split("Base-Version: ")[1]
             color: whiteColor
         }
 
@@ -103,7 +103,7 @@ LocalComponents.Page {
             fontSize: "large"
             font.weight: Font.Light
             lineHeight: 1.2
-            text: i18n.tr("You are ready to use your device now")
+            text: i18n.tr("We will make sure your device is ready to use ") + System.version.split("Base-Version: ")[1]
             color: whiteColor
         }
 
@@ -123,14 +123,14 @@ LocalComponents.Page {
             Label {
                 id: buttonLabel
                 color: whiteColor
-                text: (System.isUpdate) ? i18n.tr("Continue") : i18n.tr("Get Started")
+                text: i18n.tr("Next")
                 fontSize: "medium"
                 anchors.centerIn: parent
             }
             AbstractButton {
-                objectName: "finishButton"
+                objectName: "nextButton"
                 anchors.fill: parent
-                onClicked: root.quitWizard()
+                onClicked: pageStack.next();
             }
         }
     }

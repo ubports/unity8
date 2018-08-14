@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2018 The UBports project
  * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -346,7 +347,7 @@ StyledItem {
             hides: [launcher, panel.indicators]
             tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
-            forcedUnlock: wizard.active || shell.mode === "full-shell"
+            forcedUnlock: wizard.active && !wizard.isUpdate || shell.mode === "full-shell"
             background: wallpaperResolver.cachedBackground
             hasCustomBackground: wallpaperResolver.hasCustomBackground
             allowFingerprint: !dialogs.hasActiveDialog &&

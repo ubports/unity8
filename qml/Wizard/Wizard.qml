@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2018 The UBports project
  * Copyright (C) 2013, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -20,7 +21,7 @@ import Wizard 0.1
 import "../Components"
 
 Showable {
-    id: root
+    id: wizard
 
     // This is a bool instead of an alias because Loader classes like to emit
     // changed signals for 'active' during startup even if they aren't actually
@@ -28,6 +29,8 @@ Showable {
     // unnecessary 'changed' emissions and provides consuming classes the
     // expected behavior of no emission on startup.
     readonly property bool active: loader.active
+
+    property bool isUpdate: System.isUpdate
 
     // The wizard should be run at a later time if, for example, unity8 is
     // in greeter mode
@@ -49,7 +52,7 @@ Showable {
 
         Connections {
             target: loader.item
-            onQuit: root.hide()
+            onQuit: wizard.hide()
         }
     }
 }

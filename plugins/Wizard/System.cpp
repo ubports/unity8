@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2018 The UBports project
  * Copyright (C) 2014-2016 Canonical Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it
@@ -46,29 +47,85 @@ QString System::wizardEnabledPath()
     return QDir::home().filePath(QStringLiteral(".config/ubuntu-system-settings/wizard-has-run"));
 }
 
+QString System::currentFrameworkPath()
+{
+    QFileInfo f("/usr/share/click/frameworks/current");
+    return f.canonicalFilePath();
+}
+
+/*
+wizardEnabled and isUpdate logic
+
+if wizard-has-run does NOT exist == is new install
+if wizard-has-run exists but does NOT match current framework == is update
+if wizard-has-run exists but does match current framework == show no wizard
+*/
+
+bool System::wizardPathExists() {
+  return QFile::exists(wizardEnabledPath());
+}
+
 bool System::wizardEnabled() const
 {
-    return !QFile::exists(wizardEnabledPath());
+    if (!wizardPathExists()) {
+        return true;
+    }
+    return isUpdate();
+}
+
+QString System::readCurrentFramework()
+{
+    QFile f(currentFrameworkPath());
+    if (!f.open(QFile::ReadOnly | QFile::Text)) return "";
+    QTextStream in(&f);
+    return in.readAll();
+}
+
+QString System::readWizardEnabled()
+{
+    QFile f(wizardEnabledPath());
+    if (!f.open(QFile::ReadOnly | QFile::Text)) return "";
+    QTextStream in(&f);
+    return in.readAll();
+}
+
+QString System::version() const
+{
+    return readCurrentFramework();
+}
+
+bool System::isUpdate() const
+{
+    if (!wizardPathExists()) {
+        return false;
+    }
+
+    return readCurrentFramework() != readWizardEnabled();
 }
 
 void System::setWizardEnabled(bool enabled)
 {
-    if (wizardEnabled() == enabled)
+    if (wizardEnabled() == enabled && !isUpdate())
         return;
 
     if (enabled) {
         QFile::remove(wizardEnabledPath());
     } else {
         QDir(wizardEnabledPath()).mkpath(QStringLiteral(".."));
-        QFile(wizardEnabledPath()).open(QIODevice::WriteOnly);
+        if (QFile::exists(wizardEnabledPath())) {
+            QFile::remove(wizardEnabledPath());
+        }
+        QFile::copy(currentFrameworkPath(), wizardEnabledPath());
         m_fsWatcher.addPath(wizardEnabledPath());
         Q_EMIT wizardEnabledChanged();
+        Q_EMIT isUpdateChanged();
     }
 }
 
 void System::watcherFileChanged()
 {
     Q_EMIT wizardEnabledChanged();
+    Q_EMIT isUpdateChanged();
     m_fsWatcher.removePath(wizardEnabledPath());
 }
 

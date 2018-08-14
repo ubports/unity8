@@ -1,5 +1,8 @@
 /*
- * Copyright (C) 2015-2016 Canonical, Ltd.
+ * Copyright (C) 2018 The UBports project
+ *
+ * Written by: Dalton Durst <dalton@ubports.com>
+ *             Marius Gripsgard <marius@ubports.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,50 +23,33 @@ import AccountsService 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
-    objectName: "accountPage"
-    title: i18n.tr("Personalize Your Device")
+    objectName: "changelogPage"
+    title: i18n.tr("What's new")
 
     forwardButtonSourceComponent: forwardButton
-    onlyOnInstall: true
+    onlyOnUpdate: true
 
-    QtObject {
-        id: d
-        readonly property string validName: nameInput.text.trim()
-    }
 
     Column {
         id: column
-        spacing: units.gu(1)
+        spacing: units.gu(2)
+
         anchors {
             fill: content
-            leftMargin: parent.leftMargin
-            rightMargin: parent.rightMargin
-            topMargin: customMargin
+            leftMargin: wideMode ? parent.leftMargin : staticMargin
+            rightMargin: wideMode ? parent.rightMargin : staticMargin
+            topMargin: staticMargin
         }
 
-        // name
         Label {
-            id: nameLabel
-            anchors.left: parent.left
-            anchors.right: parent.right
-            text: i18n.tr("Preferred Name")
-            color: textColor
-            font.weight: Font.Light
-        }
-
-        LocalComponents.WizardTextField {
-            id: nameInput
-            objectName: "nameInput"
-            anchors.left: parent.left
-            anchors.right: parent.right
-            inputMethodHints: Qt.ImhNoPredictiveText
+            text: "This is where cool stuff would go"
         }
     }
 
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            text: d.validName ? i18n.tr("Next") : i18n.tr("Skip")
+            text: i18n.tr("Next")
             onClicked: {
                 if (d.validName) {
                     AccountsService.realName = d.validName;
