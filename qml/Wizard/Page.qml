@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2018 The UBports project
  * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -49,6 +50,10 @@ Item {
     // of the skip property.
     property bool skipValid: true
     property bool skip: false
+
+    // Marks if should be only shown if update or install
+    property bool onlyOnUpdate: false
+    property bool onlyOnInstall: false
 
     property bool hasBackButton: true
     property string backButtonText: i18n.ctr("Button: Go back one page in the Wizard", "Back")

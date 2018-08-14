@@ -36,6 +36,7 @@ LocalComponents.Page {
 
     // for testing
     readonly property alias tdModule: timeDatePanel
+    onlyOnInstall: true
 
     function highlightTimezone(offset) {
         highlightImage.source = "data/timezonemap/timezone_" + offset + ".png";
