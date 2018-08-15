@@ -48,11 +48,11 @@ void Changelog::readChangelog()
     if (!f.open(QFile::ReadOnly | QFile::Text)) return;
     QTextStream in(&f);
     m_text = in.readAll();
+    Q_EMIT textChanged();
 }
 
 void Changelog::watcherFileChanged()
 {
     readChangelog();
-    Q_EMIT textChanged();
     m_fsWatcher.removePath(changelogPath());
 }
