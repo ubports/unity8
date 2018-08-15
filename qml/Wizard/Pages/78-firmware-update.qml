@@ -100,6 +100,7 @@ LocalComponents.Page {
         }
 
         Label {
+            visible: !systemUpdatePage.isChecking
             anchors.horizontalCenter: parent.horizontalCenter
             font.weight: Font.Light
             wrapMode: Text.Wrap
@@ -213,17 +214,20 @@ LocalComponents.Page {
       Component.onCompleted: {
         if (online)
           systemUpdatePage.check();
+        else
+          systemUpdatePage.isChecking = false;
       }
     }
 
     Connections {
         target: NetworkingStatus
         onOnlineChanged: {
-            if (online) {
-                systemUpdatePage.check()
+            if (online)
+                systemUpdatePage.check();
+            else
+                systemUpdatePage.isChecking = false;
         }
     }
-  }
 
     Component {
         id: forwardButton
