@@ -43,6 +43,8 @@ LocalComponents.Page {
         }
 
         Label {
+            width: parent.width
+            wrapMode: Text.WordWrap
             text: Changelog.text
         }
     }

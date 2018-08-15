@@ -135,6 +135,7 @@ LocalComponents.Page {
 
             Label {
                 font.weight: Font.Light
+                wrapMode: Text.WordWrap
                 fontSize: "small"
                 text: systemUpdatePage.partitions
             }
