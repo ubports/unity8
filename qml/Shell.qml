@@ -17,6 +17,7 @@
 
 import QtQuick 2.4
 import QtQuick.Window 2.2
+import QtGraphicalEffects 1.0
 import AccountsService 0.1
 import Unity.Application 0.1
 import Ubuntu.Components 1.3
@@ -446,6 +447,35 @@ StyledItem {
             launcher.fadeOut();
             stage.closeSpread();
         }
+    }
+
+    // Red filter overlay
+    ColorOverlay {
+        function diff() {
+		    var time = new Date();
+			var comp = time.getHours() + ":" + time.getMinutes();
+			if (settings.redFilterStart.split(":")[0] > settings.redFilterStop.split(":")[0]) {
+				return !(comp > settings.redFilterStop && comp < settings.redFilterStart);
+			} else if (settings.redFilterStart.split(":")[0] == settings.redFilterStop.split(":")[0]) {
+				if (settings.redFilterStart.split(":")[1] > settings.redFilterStop.split(":")[1]) {
+					return !(comp > settings.redFilterStop && comp < settings.redFilterStart);
+				} else if (settings.redFilterStart.split(":")[1] == settings.redFilterStop.split(":")[1]) {
+					return 1;
+				} else if (settings.redFilterStart.split(":")[1] < settings.redFilterStop.split(":")[1]) {
+					return (comp < settings.redFilterStop && comp > settings.redFilterStart);
+				}
+			} else if (settings.redFilterStart.split(":")[0] < settings.redFilterStop.split(":")[0]) {
+				return (comp < settings.redFilterStop && comp > settings.redFilterStart);
+			} else {
+				return 1;
+			}
+		}
+        z: 11
+        opacity: settings.redFilterOpacity
+        visible: settings.redFilterEnabled && settings.redFilterOpacity > 0.01 && diff()
+        anchors.fill: parent
+        source: parent
+        color: "#80800000"
     }
 
     Item {
