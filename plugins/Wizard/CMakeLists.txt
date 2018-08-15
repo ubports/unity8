@@ -10,6 +10,7 @@ add_library(Wizard-qml MODULE
     timezonemodel.cpp
     Status.cpp
     keyboardLayoutsModel.cpp
+    Changelog.cpp
 )
 
 qt5_use_modules(Wizard-qml DBus Qml)
