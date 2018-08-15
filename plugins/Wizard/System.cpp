@@ -115,6 +115,10 @@ void System::setWizardEnabled(bool enabled)
         if (QFile::exists(wizardEnabledPath())) {
             QFile::remove(wizardEnabledPath());
         }
+        // For special cases check if wizardEnabledPath is a folder
+        if (QDir(wizardEnabledPath()).exists()) {
+            QDir(wizardEnabledPath()).removeRecursively();
+        }
         QFile::copy(currentFrameworkPath(), wizardEnabledPath());
         m_fsWatcher.addPath(wizardEnabledPath());
         Q_EMIT wizardEnabledChanged();

@@ -31,7 +31,7 @@ LocalComponents.Page {
     title: i18n.tr("Firmware Update")
     forwardButtonSourceComponent: forwardButton
 
-    skip: !SystemImage.supportsFirmwareUpdate() || !online
+    skip: !SystemImage.supportsFirmwareUpdate()
 
     property bool online: NetworkingStatus.online
     property bool hasUpdate: false
@@ -41,7 +41,7 @@ LocalComponents.Page {
 
     function check() {
         if (!SystemImage.supportsFirmwareUpdate())
-          return pageStack.next();
+          return;
         systemUpdatePage.isChecking = true
         SystemImage.checkForFirmwareUpdate()
     }
@@ -100,12 +100,14 @@ LocalComponents.Page {
         }
 
         Label {
+            visible: !systemUpdatePage.isChecking
             anchors.horizontalCenter: parent.horizontalCenter
             font.weight: Font.Light
             wrapMode: Text.Wrap
             textSize: Label.Medium
             text: systemUpdatePage.hasUpdate ? i18n.tr("There is a firmware update available!")
-                                             : i18n.tr("Firmware is up to date!")
+                                             : online ? i18n.tr("Firmware is up to date!")
+                                             : i18n.tr("Please connect to the Internet to check for updates.")
 
         }
 
@@ -209,18 +211,23 @@ LocalComponents.Page {
           visible: systemUpdatePage.isChecking
       }
 
-      Component.onCompleted: systemUpdatePage.check()
-
+      Component.onCompleted: {
+        if (online)
+          systemUpdatePage.check();
+        else
+          systemUpdatePage.isChecking = false;
+      }
     }
 
     Connections {
         target: NetworkingStatus
         onOnlineChanged: {
-            if (online) {
-                systemUpdatePage.check()
+            if (online)
+                systemUpdatePage.check();
+            else
+                systemUpdatePage.isChecking = false;
         }
     }
-  }
 
     Component {
         id: forwardButton
