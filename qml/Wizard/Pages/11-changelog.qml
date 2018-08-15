@@ -20,6 +20,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import AccountsService 0.1
+import Wizard 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -42,7 +43,7 @@ LocalComponents.Page {
         }
 
         Label {
-            text: "This is where cool stuff would go"
+            text: Changelog.text
         }
     }
 
