@@ -233,7 +233,7 @@ LocalComponents.Page {
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            text: !systemUpdatePage.hasUpdate && !systemUpdatePage.spinner
+            text: !systemUpdatePage.hasUpdate && !systemUpdatePage.spinner.visible
                   ? i18n.tr("Next") : i18n.tr("Skip")
             onClicked: pageStack.next()
         }
