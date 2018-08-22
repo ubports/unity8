@@ -30,22 +30,37 @@ LocalComponents.Page {
     forwardButtonSourceComponent: forwardButton
     onlyOnUpdate: true
 
-
-    Column {
-        id: column
-        spacing: units.gu(2)
+    ScrollView {
+        id: scroll
 
         anchors {
             fill: content
             leftMargin: wideMode ? parent.leftMargin : staticMargin
             rightMargin: wideMode ? parent.rightMargin : staticMargin
-            topMargin: staticMargin
         }
 
-        Label {
-            width: parent.width
-            wrapMode: Text.WordWrap
-            text: Changelog.text
+        Column {
+            id: column
+
+            width: scroll.width
+
+            // Make it appear that the text is hiding behind the header
+            Item {
+                height: staticMargin
+                width: units.gu(1)
+            }
+
+            Label {
+                anchors {
+                    // Keep the scroll bar from interfering with text
+                    rightMargin: units.gu(1)
+                }
+                id: changelogText
+                width: parent.width
+                wrapMode: Text.WordWrap
+                textSize: Label.Medium
+                text: Changelog.text
+            }
         }
     }
 
