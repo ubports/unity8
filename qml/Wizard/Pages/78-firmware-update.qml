@@ -239,8 +239,7 @@ LocalComponents.Page {
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            text: !firmwareUpdatePage.hasUpdate && !firmwareUpdatePage.spinner.visible
-                  ? i18n.tr("Next") : i18n.tr("Skip");
+            text: (!firmwareUpdatePage.hasUpdate && !spinner.visible) ? i18n.tr("Next") : i18n.tr("Skip");
             onClicked: pageStack.next();
         }
     }
