@@ -25,7 +25,7 @@ import Wizard 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
-    id: systemUpdatePage
+    id: firmwareUpdatePage
     objectName: "firmwareUpdatePage"
 
     title: i18n.tr("Firmware Update")
@@ -40,17 +40,19 @@ LocalComponents.Page {
     property var partitions: ""
 
     function check() {
-        if (!SystemImage.supportsFirmwareUpdate())
-          return;
-        systemUpdatePage.isChecking = true
-        SystemImage.checkForFirmwareUpdate()
+        if (!SystemImage.supportsFirmwareUpdate()) {
+            return;
+        }
+        firmwareUpdatePage.isChecking = true;
+        SystemImage.checkForFirmwareUpdate();
     }
 
     function flash() {
-        if (!SystemImage.supportsFirmwareUpdate())
-          return pageStack.next();
-        systemUpdatePage.isUpdating = true
-        SystemImage.updateFirmware()
+        if (!SystemImage.supportsFirmwareUpdate()) {
+            return pageStack.next();
+        }
+        firmwareUpdatePage.isUpdating = true;
+        SystemImage.updateFirmware();
     }
 
     Connections {
@@ -59,29 +61,30 @@ LocalComponents.Page {
             var updateobj = JSON.parse(updateObj);
             if (Array.isArray(updateobj) && updateobj.length > 0) {
               for (var u in updateobj) {
-                console.log(u)
-                if (systemUpdatePage.partitions === "")
-                  systemUpdatePage.partitions += updateobj[u].file
-                else
-                  systemUpdatePage.partitions += ", " + updateobj[u].file
+                console.log(u);
+                if (firmwareUpdatePage.partitions === "") {
+                    firmwareUpdatePage.partitions += updateobj[u].file;
+                } else {
+                    firmwareUpdatePage.partitions += ", " + updateobj[u].file;
+                }
               }
-              systemUpdatePage.hasUpdate = true;
+              firmwareUpdatePage.hasUpdate = true;
             }
             console.log(updateobj);
-            systemUpdatePage.isChecking = false;
+            firmwareUpdatePage.isChecking = false;
         }
         onUpdateFirmwareDone: {
             var updateobj = JSON.parse(updateObj);
             if (Array.isArray(updateobj) && updateobj.length === 0) {
               // This means success!
-              systemUpdatePage.hasUpdate = false;
-              systemUpdatePage.partitions = "";
+              firmwareUpdatePage.hasUpdate = false;
+              firmwareUpdatePage.partitions = "";
               System.skipUntilFinishedPage();
               SystemImage.reboot();
               return;
             }
             console.log(updateobj);
-            systemUpdatePage.isUpdating = false;
+            firmwareUpdatePage.isUpdating = false;
         }
     }
 
@@ -89,9 +92,9 @@ LocalComponents.Page {
         id: column
         anchors {
             fill: content
-            leftMargin: systemUpdatePage.leftMargin
-            rightMargin: systemUpdatePage.rightMargin
-            topMargin: systemUpdatePage.customMargin
+            leftMargin: firmwareUpdatePage.leftMargin
+            rightMargin: firmwareUpdatePage.rightMargin
+            topMargin: firmwareUpdatePage.customMargin
         }
         spacing: units.gu(3)
         opacity: spinner.visible ? 0.5 : 1
@@ -100,12 +103,12 @@ LocalComponents.Page {
         }
 
         Label {
-            visible: !systemUpdatePage.isChecking
+            visible: !firmwareUpdatePage.isChecking
             anchors.horizontalCenter: parent.horizontalCenter
             font.weight: Font.Light
             wrapMode: Text.Wrap
             textSize: Label.Medium
-            text: systemUpdatePage.hasUpdate ? i18n.tr("There is a firmware update available!")
+            text: firmwareUpdatePage.hasUpdate ? i18n.tr("There is a firmware update available!")
                                              : online ? i18n.tr("Firmware is up to date!")
                                              : i18n.tr("Please connect to the Internet to check for updates.")
 
@@ -137,7 +140,7 @@ LocalComponents.Page {
                 font.weight: Font.Light
                 wrapMode: Text.WordWrap
                 fontSize: "small"
-                text: systemUpdatePage.partitions
+                text: firmwareUpdatePage.partitions
             }
 
             Label {
@@ -171,7 +174,7 @@ LocalComponents.Page {
                 anchors.fill: parent
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
-                    systemUpdatePage.flash()
+                    firmwareUpdatePage.flash()
                 }
             }
 
@@ -188,54 +191,56 @@ LocalComponents.Page {
 
     Column {
       id: spinner
-      anchors.centerIn: systemUpdatePage
-      visible: systemUpdatePage.isChecking || systemUpdatePage.isUpdating
+      anchors.centerIn: firmwareUpdatePage
+      visible: firmwareUpdatePage.isChecking || firmwareUpdatePage.isUpdating
       spacing: units.gu(1)
 
-      ActivityIndicator {
-          anchors.horizontalCenter: parent.horizontalCenter
-          running: parent.visible
-      }
+        ActivityIndicator {
+            anchors.horizontalCenter: parent.horizontalCenter
+            running: parent.visible
+        }
 
-      Label {
-          wrapMode: Text.Wrap
-          width: systemUpdatePage.width - units.gu(3)
-          fontSize: "small"
-          text: i18n.tr("Downloading and Flashing firmware updates, this could take a few minutes...")
-          visible: systemUpdatePage.isUpdating
-      }
+        Label {
+            wrapMode: Text.Wrap
+            width: firmwareUpdatePage.width - units.gu(3)
+            fontSize: "small"
+            text: i18n.tr("Downloading and Flashing firmware updates, this could take a few minutes...")
+            visible: firmwareUpdatePage.isUpdating
+        }
 
-      Label {
-          wrapMode: Text.Wrap
-          fontSize: "small"
-          text: i18n.tr("Checking for firmware update")
-          visible: systemUpdatePage.isChecking
-      }
+        Label {
+            wrapMode: Text.Wrap
+            fontSize: "small"
+            text: i18n.tr("Checking for firmware update")
+            visible: firmwareUpdatePage.isChecking
+        }
 
-      Component.onCompleted: {
-        if (online)
-          systemUpdatePage.check();
-        else
-          systemUpdatePage.isChecking = false;
-      }
+        Component.onCompleted: {
+        if (online) {
+            firmwareUpdatePage.check();
+        }
+        else {
+            firmwareUpdatePage.isChecking = false;
+        }
+        }
     }
 
     Connections {
         target: NetworkingStatus
         onOnlineChanged: {
-            if (online)
-                systemUpdatePage.check();
-            else
-                systemUpdatePage.isChecking = false;
+            if (online) {
+                firmwareUpdatePage.check();
+            } else {
+                firmwareUpdatePage.isChecking = false;
+            }
         }
     }
 
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            text: !systemUpdatePage.hasUpdate && !systemUpdatePage.spinner.visible
-                  ? i18n.tr("Next") : i18n.tr("Skip")
-            onClicked: pageStack.next()
+            text: (!firmwareUpdatePage.hasUpdate && !spinner.visible) ? i18n.tr("Next") : i18n.tr("Skip");
+            onClicked: pageStack.next();
         }
     }
 }
