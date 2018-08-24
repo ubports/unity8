@@ -31,7 +31,8 @@ LocalComponents.Page {
     title: i18n.tr("Firmware Update")
     forwardButtonSourceComponent: forwardButton
 
-    skip: !SystemImage.supportsFirmwareUpdate()
+    //TODO: Temporarily disabled pending more testing
+    skip: true // !SystemImage.supportsFirmwareUpdate()
 
     property bool online: NetworkingStatus.online
     property bool hasUpdate: false
