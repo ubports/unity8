@@ -8,8 +8,7 @@ target_include_directories(LightDMController PUBLIC
 
 target_link_libraries(LightDMController
     MockLightDM
+    Qt5::Qml
     )
-
-qt5_use_modules(LightDMController Qml)
 
 add_unity8_mock(LightDMController 0.1 LightDMController TARGETS LightDMController)

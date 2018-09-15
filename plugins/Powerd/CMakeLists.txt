@@ -9,7 +9,9 @@ add_library(Powerd-qml MODULE
     Powerd.cpp
     )
 
-qt5_use_modules(Powerd-qml DBus Qml)
-target_link_libraries(Powerd-qml ${GIO_LDFLAGS})
+target_link_libraries(Powerd-qml
+    Qt5::DBus Qt5::Qml
+    ${GIO_LDFLAGS}
+    )
 
 add_unity8_plugin(Powerd 0.1 Powerd TARGETS Powerd-qml)

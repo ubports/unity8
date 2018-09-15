@@ -3,5 +3,5 @@ add_library(FakeUInput-qml MODULE
     mockuinput.cpp
 )
 
-qt5_use_modules(FakeUInput-qml Qml)
+target_link_libraries(FakeUInput-qml Qt5::Qml)
 add_unity8_mock(UInput 0.1 UInput TARGETS FakeUInput-qml)

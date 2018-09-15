@@ -11,7 +11,9 @@ add_library(Lights-qml MODULE
     Lights.cpp
     )
 
-qt5_use_modules(Lights-qml Qml Gui)
-target_link_libraries(Lights-qml ${ANDROID_HARDWARE_LIBRARIES})
+target_link_libraries(Lights-qml
+    Qt5::Qml Qt5::Gui
+    ${ANDROID_HARDWARE_LIBRARIES}
+    )
 
 add_unity8_plugin(Lights 0.1 Lights TARGETS Lights-qml)

@@ -47,14 +47,15 @@ add_library(FakeUtils-qml SHARED
     ${QMLPLUGIN_SRC}
     )
 
-target_link_libraries(FakeUtils-qml ${GIO_LDFLAGS})
+target_link_libraries(FakeUtils-qml
+    ${GIO_LDFLAGS}
+    Qt5::Qml Qt5::Quick Qt5::DBus Qt5::Network Qt5::Gui
+    )
 
 # Because this is an internal support library, we want
 # to expose all symbols in it. Consider changing this
 # either to a static library or just using the
 # files directly in targets.
 set_target_properties(FakeUtils-qml PROPERTIES COMPILE_FLAGS -fvisibility=default)
-
-qt5_use_modules(FakeUtils-qml Qml Quick DBus Network Gui)
 
 add_unity8_mock(Utils 0.1 Utils TARGETS FakeUtils-qml)

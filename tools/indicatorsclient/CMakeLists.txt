@@ -13,7 +13,7 @@ add_executable(${INDICATORS_CLIENT_APP}
     ${INDICATORS_CLIENT_HEADERS}
 )
 
-qt5_use_modules(${INDICATORS_CLIENT_APP} Core Widgets Quick)
+target_link_libraries(${INDICATORS_CLIENT_APP} Qt5::Core Qt5::Widgets Qt5::Quick)
 
 install(TARGETS ${INDICATORS_CLIENT_APP}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

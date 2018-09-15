@@ -32,8 +32,7 @@ macro(add_lvwph_test FILENAME TESTNAME)
     add_executable(${TESTNAME}TestExec
         ${FILENAME}test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/Dash/listviewwithpageheader.cpp)
-    qt5_use_modules(${TESTNAME}TestExec Test Core Qml)
-    target_link_libraries(${TESTNAME}TestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
+    target_link_libraries(${TESTNAME}TestExec Qt5::Test Qt5::Core Qt5::Qml ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
     install(TARGETS ${TESTNAME}TestExec
         DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Dash"
     )
@@ -51,8 +50,7 @@ macro(add_dashview_try_test FILENAME TESTNAME)
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/Dash/${FILENAME}.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/Dash/abstractdashview.cpp
     )
-    qt5_use_modules(${TESTNAME}TestExec Test Core Qml)
-    target_link_libraries(${TESTNAME}TestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
+    target_link_libraries(${TESTNAME}TestExec Qt5::Test Qt5::Core Qt5::Qml ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
     install(TARGETS ${TESTNAME}TestExec
         DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Dash"
     )
@@ -64,8 +62,7 @@ macro(add_dashview_try_test FILENAME TESTNAME)
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/Dash/${FILENAME}.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/Dash/abstractdashview.cpp
     )
-    qt5_use_modules(${TESTNAME}TryExec Test Core Qml)
-    target_link_libraries(${TESTNAME}TryExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
+    target_link_libraries(${TESTNAME}TryExec Qt5::Test Qt5::Core Qt5::Qml ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
     install(TARGETS ${TESTNAME}TryExec
         DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Dash"
     )
@@ -84,8 +81,7 @@ endforeach()
 
 # CardCreator test
 add_executable(CardCreatorTestExec cardcreatortest.cpp)
-qt5_use_modules(CardCreatorTestExec Test Core Qml)
-target_link_libraries(CardCreatorTestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
+target_link_libraries(CardCreatorTestExec Qt5::Test Qt5::Core Qt5::Qml ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
 install(TARGETS CardCreatorTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Dash"
 )

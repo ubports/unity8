@@ -37,9 +37,8 @@ add_library(Dash-qml MODULE
 target_link_libraries(Dash-qml
     ${Qt5Gui_LIBRARIES}
     ${Qt5Quick_LIBRARIES}
+    Qt5::Qml Qt5::Quick Qt5::Concurrent
     )
-
-qt5_use_modules(Dash-qml Qml Quick Concurrent)
 
 add_unity8_plugin(Dash 0.1 Dash TARGETS Dash-qml)
 

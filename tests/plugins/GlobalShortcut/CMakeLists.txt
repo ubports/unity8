@@ -6,8 +6,7 @@ include_directories(
 add_definitions(-DTEST_DIR="plugins/GlobalShortcut")
 
 add_executable(GlobalShortcutTestExec GlobalShortcutTest.cpp ${CMAKE_SOURCE_DIR}/plugins/GlobalShortcut/globalshortcut.cpp)
-qt5_use_modules(GlobalShortcutTestExec Test Quick)
-target_link_libraries(GlobalShortcutTestExec ${Qt5Quick_LIBRARIES} GlobalShortcut-qml)
+target_link_libraries(GlobalShortcutTestExec Qt5::Test Qt5::Quick ${Qt5Quick_LIBRARIES} GlobalShortcut-qml)
 install(TARGETS GlobalShortcutTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/GlobalShortcut"
 )
