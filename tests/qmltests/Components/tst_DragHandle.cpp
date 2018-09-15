@@ -20,6 +20,7 @@
 #include <qpa/qwindowsysteminterface.h>
 #include <QtQuick/QQuickView>
 #include <QtQml/QQmlEngine>
+#include <private/qquickanimatorcontroller_p.h>
 #include <private/qquickwindow_p.h>
 #include <UbuntuGestures/private/ucswipearea_p_p.h>
 
@@ -179,7 +180,15 @@ void tst_DragHandle::flickAndHold(QQuickItem *dragHandle,
     QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
 
     QQuickWindowPrivate *windowPrivate = QQuickWindowPrivate::get(m_view);
-    windowPrivate->flushDelayedTouchEvent();
+    if (windowPrivate->delayedTouch) {
+        windowPrivate->deliverDelayedTouchEvent();
+
+        // Touch events which constantly start animations (such as a behavior tracking
+        // the mouse point) need animations to start.
+        QQmlAnimationTimer *ut = QQmlAnimationTimer::instance();
+        if (ut && ut->hasStartAnimationPending())
+            ut->startAnimations();
+    }
 }
 
 void tst_DragHandle::drag(QPointF &touchPoint, const QPointF& direction, qreal distance,
@@ -194,7 +203,15 @@ void tst_DragHandle::drag(QPointF &touchPoint, const QPointF& direction, qreal d
         m_fakeTimeSource->m_msecsSinceReference += timeStep;
         QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
 
-        windowPrivate->flushDelayedTouchEvent();
+        if (windowPrivate->delayedTouch) {
+            windowPrivate->deliverDelayedTouchEvent();
+
+            // Touch events which constantly start animations (such as a behavior tracking
+            // the mouse point) need animations to start.
+            QQmlAnimationTimer *ut = QQmlAnimationTimer::instance();
+            if (ut && ut->hasStartAnimationPending())
+                ut->startAnimations();
+        }
     }
 }
 
