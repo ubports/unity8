@@ -1,5 +1,5 @@
 
-#add_subdirectory(Components) #FIXME broken with qt 5.9
+add_subdirectory(Components)
 
 add_unity8_qmltest(. OrientedShell)
 add_unity8_qmltest(. DisabledScreenNotice)

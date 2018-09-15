@@ -15,6 +15,7 @@
  */
 
 #include "TouchEventSequenceWrapper.h"
+#include <private/qquickanimatorcontroller_p.h>
 #include <private/qquickwindow_p.h>
 
 TouchEventSequenceWrapper::TouchEventSequenceWrapper(QTest::QTouchEventSequence eventSequence, QQuickItem *item)
@@ -34,7 +35,15 @@ void TouchEventSequenceWrapper::commit(bool processEvents)
 
     if (window) {
         QQuickWindowPrivate *wp = QQuickWindowPrivate::get(window);
-        wp->flushDelayedTouchEvent();
+        if (wp->delayedTouch) {
+            wp->deliverDelayedTouchEvent();
+
+            // Touch events which constantly start animations (such as a behavior tracking
+            // the mouse point) need animations to start.
+            QQmlAnimationTimer *ut = QQmlAnimationTimer::instance();
+            if (ut && ut->hasStartAnimationPending())
+                ut->startAnimations();
+        }
     }
 }
 

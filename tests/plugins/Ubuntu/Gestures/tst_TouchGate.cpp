@@ -19,6 +19,7 @@
 #include <QQmlEngine>
 #include <QQuickView>
 #include <QSharedPointer>
+#include <private/qquickanimatorcontroller_p.h>
 #include <private/qquickwindow_p.h>
 
 // C++ std lib
@@ -191,7 +192,15 @@ void tst_TouchGate::holdsEventsUntilGainsOwnership()
     if (!ownershipAfterTouchEnd) {
         touchRegistry->removeCandidateOwnerForTouch(0, candidateItem);
         QQuickWindowPrivate *wp = QQuickWindowPrivate::get(testItem->window());
-        wp->flushDelayedTouchEvent();
+        if (wp->delayedTouch) {
+            wp->deliverDelayedTouchEvent();
+
+            // Touch events which constantly start animations (such as a behavior tracking
+            // the mouse point) need animations to start.
+            QQmlAnimationTimer *ut = QQmlAnimationTimer::instance();
+            if (ut && ut->hasStartAnimationPending())
+                ut->startAnimations();
+        }
         // TouchGate should now open its flood gates and let testItem get all
         // events from touch 0 produced so far
         QCOMPARE(testItem->touchEventsReceived.count(), 2);
