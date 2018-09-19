@@ -11,6 +11,6 @@ set(MockNotificationsPlugin_SOURCES
 
 add_library(MockNotificationsPlugin MODULE ${MockNotificationsPlugin_SOURCES})
 
-qt5_use_modules(MockNotificationsPlugin Core Quick)
+target_link_libraries(MockNotificationsPlugin Qt5::Core Qt5::Quick)
 
 add_unity8_mock(Unity.Notifications 1.0 Unity/Notifications TARGETS MockNotificationsPlugin)

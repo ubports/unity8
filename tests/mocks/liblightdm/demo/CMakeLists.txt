@@ -18,4 +18,4 @@ target_link_libraries(MockLightDM-demo
     ${LIBUSERMETRICSOUTPUT_LDFLAGS}
     )
 
-qt5_use_modules(MockLightDM-demo Gui)
+target_link_libraries(MockLightDM-demo Qt5::Gui)

@@ -18,8 +18,10 @@ include_directories(
     )
 
 add_executable(DragHandleTestExec tst_DragHandle.cpp)
-qt5_use_modules(DragHandleTestExec Test Core Qml Gui Quick)
-target_link_libraries(DragHandleTestExec UbuntuGesturesQml ${UBUNTUGESTURES_LIBRARIES})
+target_link_libraries(DragHandleTestExec
+    Qt5::Test Qt5::Core Qt5::Qml Qt5::Gui Qt5::Quick
+    UbuntuGesturesQml ${UBUNTUGESTURES_LIBRARIES}
+    )
 install(TARGETS DragHandleTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/qmltests/Components"
     )
@@ -34,8 +36,10 @@ add_unity8_qmltest_data(. tst_DragHandle)
 
 ########## tst_EdgeDragEvaluator
 add_executable(EdgeDragEvaluatorTestExec tst_EdgeDragEvaluator.cpp)
-qt5_use_modules(EdgeDragEvaluatorTestExec Test Core Qml Gui Quick)
-target_link_libraries(EdgeDragEvaluatorTestExec UbuntuGesturesQml ${UBUNTUGESTURES_LIBRARIES})
+target_link_libraries(EdgeDragEvaluatorTestExec
+    Qt5::Test Qt5::Core Qt5::Qml Qt5::Gui Qt5::Quick
+    UbuntuGesturesQml ${UBUNTUGESTURES_LIBRARIES}
+    )
 install(TARGETS EdgeDragEvaluatorTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/qmltests/Components"
     )

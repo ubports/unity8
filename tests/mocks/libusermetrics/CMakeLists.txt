@@ -6,7 +6,7 @@ set(mock_SOURCES
 
 add_library(MockUserMetrics SHARED ${mock_SOURCES})
 
-qt5_use_modules(MockUserMetrics Gui)
+target_link_libraries(MockUserMetrics Qt5::Gui)
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/Utils

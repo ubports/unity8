@@ -3,5 +3,5 @@ add_library(UInput-qml MODULE
     uinput.cpp
 )
 
-qt5_use_modules(UInput-qml Qml)
+target_link_libraries(UInput-qml Qt5::Qml)
 add_unity8_plugin(UInput 0.1 UInput TARGETS UInput-qml)

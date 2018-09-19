@@ -44,8 +44,7 @@ target_link_libraries(IndicatorsQml
     ${GLIB_LIBRARIES}
     ${GIO_LIBRARIES}
     ${QMENUMODEL_LDFLAGS}
+    Qt5::Core Qt5::Qml Qt5::Quick Qt5::DBus
 )
-
-qt5_use_modules(IndicatorsQml Core Qml Quick DBus)
 
 add_unity8_plugin(Unity.Indicators 0.1 Unity/Indicators TARGETS IndicatorsQml)

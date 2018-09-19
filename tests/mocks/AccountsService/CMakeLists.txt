@@ -14,9 +14,8 @@ add_library(MockAccountsService-qml MODULE
     plugin.cpp
     )
 
-qt5_use_modules(MockAccountsService-qml DBus Qml)
-
 target_link_libraries(MockAccountsService-qml
+    Qt5::DBus Qt5::Qml
     MockLightDM
     )
 

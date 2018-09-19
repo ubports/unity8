@@ -20,7 +20,7 @@ add_library(WizardUtils-qml SHARED
 # files directly in targets.
 set_target_properties(WizardUtils-qml PROPERTIES COMPILE_FLAGS -fvisibility=default)
 
-qt5_use_modules(WizardUtils-qml DBus Qml Quick)
+target_link_libraries(WizardUtils-qml Qt5::DBus Qt5::Qml Qt5::Quick)
 
 set(PLUG_DIR ${PLUGIN_PRIVATE_MODULE_DIR}/Ubuntu/SystemSettings/Wizard/Utils)
 install(FILES qmldir DESTINATION ${PLUG_DIR})
