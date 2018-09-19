@@ -451,6 +451,8 @@ StyledItem {
 
     // Red filter overlay
     ColorOverlay {
+        id: colOverlay
+	property bool active: diff()
         function diff() {
 		    var time = new Date();
 			var comp = time.getHours() + ":" + time.getMinutes();
@@ -470,14 +472,35 @@ StyledItem {
 				return 1;
 			}
 		}
+        function newDiff() {
+	    var currentTime = new Date();
+	    currentTime = currentTime.getTime();
+	    var targetTime = new Date();
+	    targetTime = colOverlay.active ? targetTime.setHours(settings.redFilterStop.split(":")[0]) : targetTime.setHours(settings.redFilterStart.split(":")[0]);
+	    targetTime = colOverlay.active ? targetTime.setMinutes(settings.redFilterStop.split(":")[1]) : targetTime.setMinutes(settings.redFilterStart.split(":")[1]);
+	    targetTime = targetTime.getTime();
+	    var diffTime = targetTime - currentTime;
+	    diffTime = diffTime < 0 ? 86400 + diffTime : diffTime;
+	    return diffTime;
+	}
         z: 11
         opacity: settings.redFilterOpacity
-        visible: settings.redFilterEnabled && settings.redFilterOpacity > 0.01 && diff()
+        visible: settings.redFilterEnabled && settings.redFilterOpacity > 0.01 && active)
         anchors.fill: parent
         source: parent
         color: "#80800000"
+        
+	Timer {
+	    id: colOverlayTimer
+            interval: colOverlay.newDiff(); running: true; repeat: false
+            onTriggered: {
+	        colOverlay.active = !colOverlay.active;
+		colOverlayTimer.interval = colOverlay.newDiff();
+		colOverlayTimer.running = true;
+	    }
+        }
     }
-
+    
     Item {
         id: overlay
         z: 10
