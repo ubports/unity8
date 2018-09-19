@@ -493,12 +493,12 @@ StyledItem {
 
     Timer {
         id: colOverlayTimer
-        interval: colOverlay.newDiff()
+        interval: colOverlay.newDiff() * 1000
         running: true
         repeat: false
         onTriggered: {
             colOverlay.active = !colOverlay.active;
-            colOverlayTimer.interval = colOverlay.newDiff();
+            colOverlayTimer.interval = colOverlay.newDiff() * 1000;
             colOverlayTimer.running = true;
         }
     }
