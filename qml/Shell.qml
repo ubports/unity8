@@ -499,7 +499,7 @@ StyledItem {
         onTriggered: {
             colOverlay.active = !colOverlay.active;
             colOverlayTimer.interval = colOverlay.newDiff() * 1000;
-            colOverlayTimer.running = true;
+            colOverlayTimer.restart();
         }
     }
     
