@@ -5,6 +5,6 @@ add_library(MockPowerd-qml MODULE
     Powerd.cpp
     )
 
-qt5_use_modules(MockPowerd-qml Qml)
+target_link_libraries(MockPowerd-qml Qt5::Qml)
 
 add_unity8_mock(Powerd 0.1 Powerd TARGETS MockPowerd-qml)

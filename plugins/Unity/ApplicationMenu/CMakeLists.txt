@@ -14,6 +14,6 @@ qt5_add_dbus_adaptor(applicationMenu_SRCS com.ubuntu.MenuRegistrar.xml dbusappli
 
 add_library(ApplicationMenu-qml MODULE ${applicationMenu_SRCS})
 
-qt5_use_modules(ApplicationMenu-qml DBus Qml)
+target_link_libraries(ApplicationMenu-qml Qt5::DBus Qt5::Qml)
 
 add_unity8_plugin(Unity.ApplicationMenu 0.1 Unity/ApplicationMenu TARGETS ApplicationMenu-qml)

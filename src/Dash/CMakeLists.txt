@@ -10,12 +10,13 @@ endif()
 
 add_executable(unity8-dash ${DASH_SRCS})
 
-qt5_use_modules(unity8-dash DBus Gui Qml Quick Test)
-
 # For it to find libUbuntuGestures.so, needed by Ubuntu.Gestures QML module.
 set_target_properties(unity8-dash PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}")
 
-target_link_libraries(unity8-dash UbuntuGestures connectivity-qt1)
+target_link_libraries(unity8-dash
+    Qt5::DBus Qt5::Gui Qt5::Qml Qt5::Quick Qt5::Test
+    UbuntuGestures connectivity-qt1
+)
 
 if (ENABLE_TOUCH_EMULATION)
     target_link_libraries(unity8-dash ${MOUSETOUCHADAPTOR_LIBS_LDFLAGS})

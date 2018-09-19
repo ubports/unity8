@@ -14,7 +14,7 @@ remove_definitions(-DQT_NO_KEYWORDS)
 add_executable(ImageCacheTestExec
     test.cpp
     )
-qt5_use_modules(ImageCacheTestExec Core Quick Test)
+target_link_libraries(ImageCacheTestExec Qt5::Core Qt5::Quick Qt5::Test)
 add_unity8_uitest(ImageCache ImageCacheTestExec
     DEPENDS ImageCache-qml
     IMPORT_PATHS ${UNITY_PLUGINPATH}

@@ -20,6 +20,6 @@ include_directories(
 
 add_library(windowmanager-qml SHARED ${WINDOWMANAGER_SRC})
 
-qt5_use_modules(windowmanager-qml Qml Quick Gui)
+target_link_libraries(windowmanager-qml Qt5::Qml Qt5::Quick Qt5::Gui)
 
 add_unity8_plugin(WindowManager 0.1 WindowManager TARGETS windowmanager-qml)

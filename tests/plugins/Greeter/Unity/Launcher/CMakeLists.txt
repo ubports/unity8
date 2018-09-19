@@ -26,9 +26,9 @@ add_executable(launchermodelastestExec
 target_link_libraries(launchermodelastestExec
     unity8-private
     ${GSETTINGS_QT_LDFLAGS}
+    Qt5::Test Qt5::Core Qt5::DBus Qt5::Gui Qt5::Qml
     )
 add_dependencies(launchermodelastestExec mock-server)
-qt5_use_modules(launchermodelastestExec Test Core DBus Gui Qml)
 install(TARGETS launchermodelastestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Greeter/Unity/Launcher"
 )

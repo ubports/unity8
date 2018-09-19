@@ -4,7 +4,7 @@ add_executable(${SCOPE_TOOL}
     ../../src/UnixSignalHandler.cpp
     )
 
-qt5_use_modules(${SCOPE_TOOL} Qml Quick)
+target_link_libraries(${SCOPE_TOOL} Qt5::Qml Qt5::Quick)
 
 # install binaries
 install(TARGETS ${SCOPE_TOOL}
