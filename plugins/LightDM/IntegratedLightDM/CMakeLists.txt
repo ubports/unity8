@@ -25,9 +25,9 @@ target_link_libraries(IntegratedLightDM-qml
     integratedLightDM
     unity8-private
     ${LIBUSERMETRICSOUTPUT_LDFLAGS}
+    Qt5::DBus Qt5::Gui Qt5::Qml
     )
 
-qt5_use_modules(IntegratedLightDM-qml DBus Gui Qml)
 add_unity8_plugin(IntegratedLightDM 0.1 LightDM/IntegratedLightDM TARGETS IntegratedLightDM-qml)
 
 add_subdirectory(liblightdm)

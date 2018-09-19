@@ -29,12 +29,11 @@ add_definitions(-DUNITYINDICATORS_LIBRARY)
 
 target_link_libraries(IndicatorsFakeQml
     QMenuModelQml
+    Qt5::Core Qt5::Qml Qt5::Quick
 )
 
 set_target_properties(IndicatorsFakeQml PROPERTIES
     INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/mocks/QMenuModel"
 )
-
-qt5_use_modules(IndicatorsFakeQml Core Qml Quick)
 
 add_unity8_mock(Unity.Indicators 0.1 Unity/Indicators TARGETS IndicatorsFakeQml)

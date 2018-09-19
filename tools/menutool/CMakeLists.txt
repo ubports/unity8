@@ -2,4 +2,4 @@ add_executable(menutool
     menutool.cpp
     )
 
-qt5_use_modules(menutool Qml Quick)
+target_link_libraries(menutool Qt5::Qml Qt5::Quick)

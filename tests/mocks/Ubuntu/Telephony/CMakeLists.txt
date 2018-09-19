@@ -9,6 +9,6 @@ set(FakeUbuntuTelephonyQml_SOURCES
 
 add_library(FakeUbuntuTelephonyQml MODULE ${FakeUbuntuTelephonyQml_SOURCES})
 
-qt5_use_modules(FakeUbuntuTelephonyQml Core Quick)
+target_link_libraries(FakeUbuntuTelephonyQml Qt5::Core Qt5::Quick)
 
 add_unity8_mock(Ubuntu.Telephony 0.1 Ubuntu/Telephony TARGETS FakeUbuntuTelephonyQml)

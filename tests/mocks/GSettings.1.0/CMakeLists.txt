@@ -13,8 +13,7 @@ add_library(FakeGSettingsQml MODULE ${GSettingsQML_SOURCES})
 target_link_libraries(FakeGSettingsQml
   ${Qt5Core_LIBRARIES}
   ${Qt5Quick_LIBRARIES}
+  Qt5::Qml
 )
-
-qt5_use_modules(FakeGSettingsQml Qml)
 
 add_unity8_mock(GSettings 1.0 GSettings.1.0 TARGETS FakeGSettingsQml)

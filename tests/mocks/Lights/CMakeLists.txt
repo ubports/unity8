@@ -3,6 +3,6 @@ add_library(MockLights-qml MODULE
     Lights.cpp
     )
 
-qt5_use_modules(MockLights-qml Qml Gui)
+target_link_libraries(MockLights-qml Qt5::Qml Qt5::Gui)
 
 add_unity8_mock(Lights 0.1 Lights TARGETS MockLights-qml)

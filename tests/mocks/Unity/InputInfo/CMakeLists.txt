@@ -26,6 +26,6 @@ add_library(MockInputInfo SHARED
     ${MockInputInfo_SOURCES}
 )
 
-qt5_use_modules(MockInputInfo Core Qml Quick)
+target_link_libraries(MockInputInfo Qt5::Core Qt5::Qml Qt5::Quick)
 
 add_unity8_mock(Unity.InputInfo 0.1 Unity/InputInfo TARGETS MockInputInfo)

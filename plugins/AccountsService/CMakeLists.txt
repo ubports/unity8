@@ -7,9 +7,8 @@ add_library(AccountsService-qml MODULE
     plugin.cpp
     )
 
-qt5_use_modules(AccountsService-qml DBus Qml)
-
 target_link_libraries(AccountsService-qml
+    Qt5::DBus Qt5::Qml
     ${GLIB_LIBRARIES}
     )
 

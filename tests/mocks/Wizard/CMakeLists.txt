@@ -15,6 +15,5 @@ add_library(MockWizard-qml MODULE
     ${CMAKE_SOURCE_DIR}/plugins/Wizard/keyboardLayoutsModel.cpp
 )
 
-qt5_use_modules(MockWizard-qml DBus Qml)
-target_link_libraries(MockWizard-qml ${GD3_LDFLAGS} ${GLIB_LDFLAGS} ${GEONAMES_LDFLAGS})
+target_link_libraries(MockWizard-qml Qt5::DBus Qt5::Qml ${GD3_LDFLAGS} ${GLIB_LDFLAGS} ${GEONAMES_LDFLAGS})
 add_unity8_mock(Wizard 0.1 Wizard TARGETS MockWizard-qml)

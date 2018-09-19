@@ -43,12 +43,15 @@ add_library(Utils-qml SHARED
     ${QMLPLUGIN_SRC}
     )
 
+target_link_libraries(Utils-qml
+    ${GIO_LDFLAGS}
+    Qt5::Qml Qt5::Quick Qt5::DBus Qt5::Network Qt5::Gui Qt5::Sql Qt5::Concurrent
+    )
+
 # Because this is an internal support library, we want
 # to expose all symbols in it. Consider changing this
 # either to a static library or just using the
 # files directly in targets.
 set_target_properties(Utils-qml PROPERTIES COMPILE_FLAGS -fvisibility=default)
-
-qt5_use_modules(Utils-qml Qml Quick DBus Network Gui Sql Concurrent)
 
 add_unity8_plugin(Utils 0.1 Utils TARGETS Utils-qml)

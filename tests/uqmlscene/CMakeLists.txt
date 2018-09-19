@@ -4,7 +4,6 @@ add_executable(uqmlscene
     ${CMAKE_SOURCE_DIR}/src/DebuggingController.cpp
     )
 
-qt5_use_modules(uqmlscene Qml Quick Test DBus)
 pkg_check_modules(XCB REQUIRED xcb)
 
 include_directories(
@@ -25,6 +24,7 @@ if (NOT "${XCB_INCLUDE_DIRS}" STREQUAL "")
 endif()
 
 target_link_libraries(uqmlscene
+    Qt5::Qml Qt5::Quick Qt5::Test Qt5::DBus
     ${Qt5Qml_LIBRARIES}
     ${Qt5Quick_LIBRARIES}
     ${XCB_LDFLAGS}
