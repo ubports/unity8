@@ -9,6 +9,6 @@ set(MockScreens_SOURCES
 
 add_library(MockScreensPlugin MODULE ${MockScreens_SOURCES})
 
-qt5_use_modules(MockScreensPlugin Gui Qml)
+target_link_libraries(MockScreensPlugin Qt5::Gui Qt5::Qml)
 
 add_unity8_mock(Unity.Screens 0.1 Unity/Screens PREFIX mocks TARGETS MockScreensPlugin)

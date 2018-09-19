@@ -7,7 +7,7 @@ set(MockLightDM_SOURCES
 
 add_library(MockLightDM SHARED ${MockLightDM_SOURCES})
 
-qt5_use_modules(MockLightDM DBus Gui)
+target_link_libraries(MockLightDM Qt5::DBus Qt5::Gui)
 
 set_target_properties(MockLightDM PROPERTIES
                       OUTPUT_NAME lightdm-qt5-3

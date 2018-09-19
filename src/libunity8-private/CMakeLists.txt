@@ -19,7 +19,7 @@ set_target_properties(${LIB_NAME} PROPERTIES
     SOVERSION ${SOVERSION}
     )
 
-qt5_use_modules(${LIB_NAME} DBus)
+target_link_libraries(${LIB_NAME} Qt5::DBus)
 
 # install library
 install(TARGETS ${LIB_NAME}

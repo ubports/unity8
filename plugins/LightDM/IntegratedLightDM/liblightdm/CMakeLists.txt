@@ -26,21 +26,20 @@ target_link_libraries(integratedLightDM
     ${GLIB_LIBRARIES}
     ${LIBUSERMETRICSOUTPUT_LDFLAGS}
     -lpam
+    Qt5::Concurrent Qt5::DBus Qt5::Gui
 )
 target_link_libraries(integratedLightDMSession
     ${GLIB_LIBRARIES}
     ${LIBUSERMETRICSOUTPUT_LDFLAGS}
     -lpam
+    Qt5::Concurrent Qt5::DBus Qt5::Gui
 )
 target_link_libraries(MockLightDM-demo-shared
     ${GLIB_LIBRARIES}
     ${LIBUSERMETRICSOUTPUT_LDFLAGS}
     -lpam
+    Qt5::Concurrent Qt5::DBus Qt5::Gui
 )
-
-qt5_use_modules(integratedLightDM Concurrent DBus Gui)
-qt5_use_modules(integratedLightDMSession Concurrent DBus Gui)
-qt5_use_modules(MockLightDM-demo-shared Concurrent DBus Gui)
 
 set_target_properties(integratedLightDM PROPERTIES
                       COMPILE_FLAGS "-DSM_BUSNAME=systemBus -fPIC")

@@ -6,6 +6,6 @@ set(platformplugin_SRCS
 
 add_library(Platform-qml SHARED ${platformplugin_SRCS})
 
-qt5_use_modules(Platform-qml DBus Qml)
+target_link_libraries(Platform-qml Qt5::DBus Qt5::Qml)
 
 add_unity8_plugin(Unity.Platform 1.0 Unity/Platform TARGETS Platform-qml)

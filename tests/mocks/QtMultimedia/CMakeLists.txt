@@ -10,6 +10,6 @@ add_library(QtMultimedia-qml MODULE
     declarativeplaylist.cpp
     )
 
-qt5_use_modules(QtMultimedia-qml Qml Quick)
+target_link_libraries(QtMultimedia-qml Qt5::Qml Qt5::Quick)
 
 add_unity8_mock(QtMultimedia 5.0 QtMultimedia TARGETS QtMultimedia-qml)
