@@ -205,6 +205,7 @@ StyledItem {
 
     Component.onCompleted: {
         finishStartUpTimer.start();
+        colOverlayTimer.start();
     }
 
     VolumeControl {
@@ -485,7 +486,7 @@ StyledItem {
         }
         z: 11
         opacity: settings.redFilterOpacity
-        visible: settings.redFilterEnabled && settings.redFilterOpacity > 0.01 && active)
+        visible: settings.redFilterEnabled && settings.redFilterOpacity > 0.01 && (active || settings.redFilterStart == settings.redFilterStop))
         anchors.fill: parent
         source: parent
         color: "#80800000"
