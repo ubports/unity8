@@ -1,3 +1,11 @@
+unity8 (8.17+ubports3) xenial; urgency=medium
+
+  * Fix papercuts in Wizard update page interaction:
+    * Remove "Stop" button for app update check
+    * Make "not connected to internet" message more clear
+
+ -- Dalton Durst <dalton@ubports.com>  Fri, 28 Sep 2018 14:08:00 -0500
+
 unity8 (8.17+ubports2) xenial; urgency=medium
 
   * Fix for https://github.com/ubports/ubuntu-touch/issues/624
