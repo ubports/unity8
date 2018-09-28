@@ -124,12 +124,14 @@ LocalComponents.Page {
                     text: {
                         var s = UpdateManager.status;
                         if (!appUpdatePage.online) {
-                            return i18n.tr("Connect to the Internet to check for updates.");
+                            return i18n.tr("This device is not connected to the internet.") + " " +
+                                    i18n.tr("Use the OpenStore app to check for updates once connected.");
                         } else if (s === UpdateManager.StatusIdle && updatesCount === 0) {
                             return i18n.tr("Software is up to date");
                         } else if (s === UpdateManager.StatusServerError ||
                                 s === UpdateManager.StatusNetworkError) {
-                            return i18n.tr("The update server is not responding. Try again later.");
+                            return i18n.tr("The update server is not responding.") + " " +
+                                    i18n.tr("Use the OpenStore app to check for updates once connected.");
                         }
                         return "";
                     }
@@ -228,7 +230,14 @@ LocalComponents.Page {
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            text: (UpdateManager.status === UpdateManager.StatusIdle && updatesCount === 0) ? i18n.tr("Next") : i18n.tr("Skip")
+            text: {
+                var s = UpdateManager.status;
+                if (s === UpdateManager.StatusIdle && updatesCount === 0) {
+                    return i18n.tr("Next");
+                } else {
+                    return i18n.tr("Skip");
+                }
+            }
             onClicked: pageStack.next()
         }
     }

@@ -83,13 +83,6 @@ Item {
             elide: Text.ElideRight
             text: i18n.tr("Checking for updates…")
         }
-
-        Button {
-            objectName: "updatesGlobalStopButton"
-            text: i18n.tr("Stop")
-            onClicked: g.stop()
-            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-        }
     }
 
     RowLayout {
