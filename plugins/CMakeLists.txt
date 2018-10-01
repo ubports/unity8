@@ -1,4 +1,4 @@
-include(QmlPlugins)
+find_package(QmlPlugins)
 
 # Set up and install a plugin for unity8.
 #
