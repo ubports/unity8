@@ -1,4 +1,4 @@
-include(QmlPlugins)
+find_package(QmlPlugins)
 
 add_definitions(-DQT_NO_KEYWORDS)
 
