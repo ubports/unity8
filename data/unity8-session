@@ -67,6 +67,7 @@ dbus-update-activation-environment --systemd GTK_CSD=0
 
 # We need to be sure we dont use mir-on-mir
 unset MIR_SERVER_HOST_SOCKET
+unset DISPLAY
 
 QT_QPA_PLATFORM=${UNITY8_SHELL_QT_QPA_PLATFORM} ${BINARY:-unity8} --mode=$MODE "$@" &
 child=$!
@@ -78,4 +79,3 @@ done
 
 kill -CONT $child
 exit 0
-
