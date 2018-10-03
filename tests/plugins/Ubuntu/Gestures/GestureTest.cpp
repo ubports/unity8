@@ -17,6 +17,7 @@
 #include "GestureTest.h"
 
 #include <qpa/qwindowsysteminterface.h>
+#include <private/qquickanimatorcontroller_p.h>
 #include <private/qquickwindow_p.h>
 #include <QQmlEngine>
 #include <QQuickView>
@@ -108,7 +109,15 @@ void GestureTest::sendTouch(qint64 timestamp, int id, QPointF pos,
     QCoreApplication::sendEvent(m_view, &touchEvent);
 
     QQuickWindowPrivate *windowPrivate = QQuickWindowPrivate::get(m_view);
-    windowPrivate->flushDelayedTouchEvent();
+    if (windowPrivate->delayedTouch) {
+        windowPrivate->deliverDelayedTouchEvent();
+
+        // Touch events which constantly start animations (such as a behavior tracking
+        // the mouse point) need animations to start.
+        QQmlAnimationTimer *ut = QQmlAnimationTimer::instance();
+        if (ut && ut->hasStartAnimationPending())
+            ut->startAnimations();
+    }
 }
 
 void GestureTest::passTime(qint64 timeSpanMs)

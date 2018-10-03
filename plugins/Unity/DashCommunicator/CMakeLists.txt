@@ -16,9 +16,8 @@ add_library(DashCommunicator-qml MODULE
     ${QMLDASHCOMMUNICATORPLUGIN_SRC}
 )
 
-qt5_use_modules(DashCommunicator-qml DBus Qml)
-
 target_link_libraries(DashCommunicator-qml
+    Qt5::DBus Qt5::Qml
     unity8-private
 )
 

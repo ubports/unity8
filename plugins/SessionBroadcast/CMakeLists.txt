@@ -6,9 +6,8 @@ add_library(SessionBroadcast-qml MODULE
     plugin.cpp
     )
 
-qt5_use_modules(SessionBroadcast-qml DBus Qml)
-
 target_link_libraries(SessionBroadcast-qml
+    Qt5::DBus Qt5::Qml
     ${GLIB_LIBRARIES}
     )
 

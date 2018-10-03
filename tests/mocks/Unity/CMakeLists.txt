@@ -67,7 +67,7 @@ target_link_libraries(FakeUnityQml
   ${GOBJECT_LDFLAGS}
 )
 
-qt5_use_modules(FakeUnityQml Qml)
+target_link_libraries(FakeUnityQml Qt5::Qml)
 
 add_unity8_mock(Unity 0.2 Unity TARGETS FakeUnityQml)
 

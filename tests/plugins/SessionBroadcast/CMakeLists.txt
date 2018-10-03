@@ -24,7 +24,7 @@ add_executable(MockBroadcastServer
     server.cpp
     BroadcastServer.cpp
 )
-qt5_use_modules(MockBroadcastServer Core DBus)
+target_link_libraries(MockBroadcastServer Qt5::Core Qt5::DBus)
 install(TARGETS MockBroadcastServer
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/SessionBroadcast"
 )
@@ -34,7 +34,7 @@ add_executable(sessionbroadcasttestExec
     ${CMAKE_SOURCE_DIR}/plugins/SessionBroadcast/SessionBroadcast.cpp
     sessionbroadcasttest.cpp
 )
-qt5_use_modules(sessionbroadcasttestExec Test Core Qml DBus)
+target_link_libraries(sessionbroadcasttestExec Qt5::Test Qt5::Core Qt5::Qml Qt5::DBus)
 install(TARGETS sessionbroadcasttestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/SessionBroadcast"
 )

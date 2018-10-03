@@ -12,8 +12,10 @@ add_library(Wizard-qml MODULE
     keyboardLayoutsModel.cpp
 )
 
-qt5_use_modules(Wizard-qml DBus Qml)
-target_link_libraries(Wizard-qml ${GD3_LDFLAGS} ${GLIB_LDFLAGS} ${GEONAMES_LDFLAGS})
+target_link_libraries(Wizard-qml
+    Qt5::DBus Qt5::Qml
+    ${GD3_LDFLAGS} ${GLIB_LDFLAGS} ${GEONAMES_LDFLAGS}
+)
 add_unity8_plugin(Wizard 0.1 Wizard TARGETS Wizard-qml)
 
 set(POLKIT_LIB_DIR "${CMAKE_INSTALL_LOCALSTATEDIR}/lib/polkit-1")

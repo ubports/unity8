@@ -29,8 +29,7 @@ add_library(UnityLauncherAS-qml MODULE
 target_link_libraries(UnityLauncherAS-qml
     unity8-private
     ${GSETTINGS_QT_LDFLAGS}
+    Qt5::DBus Qt5::Qml Qt5::Gui
     )
-
-qt5_use_modules(UnityLauncherAS-qml DBus Qml Gui)
 
 add_unity8_greeter_plugin(Unity.Launcher 0.1 Unity/Launcher TARGETS UnityLauncherAS-qml)

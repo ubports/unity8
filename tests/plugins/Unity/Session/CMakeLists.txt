@@ -28,7 +28,7 @@ add_executable(LightDMServer
     LogindServer.cpp
     server.cpp
 )
-qt5_use_modules(LightDMServer Core DBus)
+target_link_libraries(LightDMServer Qt5::Core Qt5::DBus)
 install(TARGETS LightDMServer
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Session"
     )
@@ -53,7 +53,7 @@ target_link_libraries(sessionbackendtestExec
     unity8-private
     ${GLIB_LIBRARIES}
     )
-qt5_use_modules(sessionbackendtestExec Test Core Qml DBus)
+target_link_libraries(sessionbackendtestExec Qt5::Test Qt5::Core Qt5::Qml Qt5::DBus)
 install(TARGETS sessionbackendtestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Session"
 )

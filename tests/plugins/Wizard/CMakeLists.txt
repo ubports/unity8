@@ -7,7 +7,7 @@ add_executable(tst-wizard-pagelist
     tst_pagelist.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Wizard/PageList.cpp
 )
-qt5_use_modules(tst-wizard-pagelist Core Qml Test)
+target_link_libraries(tst-wizard-pagelist Qt5::Core Qt5::Qml Qt5::Test)
 install(TARGETS tst-wizard-pagelist
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Wizard"
 )
@@ -17,7 +17,7 @@ add_executable(tst-wizard-system
     tst_system.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Wizard/System.cpp
 )
-qt5_use_modules(tst-wizard-system Core DBus Qml Test)
+target_link_libraries(tst-wizard-system Qt5::Core Qt5::DBus Qt5::Qml Qt5::Test)
 install(TARGETS tst-wizard-system
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Wizard"
 )

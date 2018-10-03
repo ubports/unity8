@@ -32,8 +32,7 @@ add_library(InputInfo SHARED
 target_link_libraries(InputInfo
     ${LIBUDEV_LDFLAGS}
     ${LIBEVDEV_LDFLAGS}
+    Qt5::Core Qt5::Qml Qt5::Quick
 )
-
-qt5_use_modules(InputInfo Core Qml Quick)
 
 add_unity8_plugin(Unity.InputInfo 0.1 Unity/InputInfo TARGETS InputInfo)

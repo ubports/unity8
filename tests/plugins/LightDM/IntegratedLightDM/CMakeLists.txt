@@ -12,8 +12,8 @@ add_executable(GreeterDBusTestExec
 # This add_dependencies is needed since we're linking with with -L and -l below
 # make seems to work but ninja breaks without it
 add_dependencies(GreeterDBusTestExec MockLightDM)
-qt5_use_modules(GreeterDBusTestExec Core DBus Quick Test)
 target_link_libraries(GreeterDBusTestExec
+    Qt5::Core Qt5::DBus Qt5::Quick Qt5::Test
     MockLightDM
     )
 target_include_directories(GreeterDBusTestExec PUBLIC
@@ -36,8 +36,8 @@ add_executable(GreeterPamTestExec
     pam.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/IntegratedLightDM/liblightdm/GreeterPrivate.cpp
     )
-qt5_use_modules(GreeterPamTestExec Concurrent Core Test)
 target_link_libraries(GreeterPamTestExec
+    Qt5::Concurrent Qt5::Core Qt5::Test
     integratedLightDM
     )
 
@@ -57,8 +57,8 @@ add_executable(GreeterSessionsModelTestExec
     ${CMAKE_SOURCE_DIR}/plugins/Utils/unitysortfilterproxymodelqml.cpp
     )
 add_dependencies(GreeterSessionsModelTestExec MockLightDM)
-qt5_use_modules(GreeterSessionsModelTestExec Core Test)
 target_link_libraries(GreeterSessionsModelTestExec
+    Qt5::Core Qt5::Test
     MockLightDM
     )
 target_include_directories(GreeterSessionsModelTestExec PUBLIC
@@ -84,8 +84,8 @@ add_executable(GreeterUsersModelTestExec
 # This add_dependencies is needed since we're linking with with -L and -l below
 # make seems to work but ninja breaks without it
 add_dependencies(GreeterUsersModelTestExec MockLightDM)
-qt5_use_modules(GreeterUsersModelTestExec Core Test)
 target_link_libraries(GreeterUsersModelTestExec
+    Qt5::Core Qt5::Test
     MockLightDM
     )
 target_include_directories(GreeterUsersModelTestExec PUBLIC
@@ -111,8 +111,8 @@ add_executable(GreeterPromptsModelTestExec
 # This add_dependencies is needed since we're linking with with -L and -l below
 # make seems to work but ninja breaks without it
 add_dependencies(GreeterPromptsModelTestExec MockLightDM)
-qt5_use_modules(GreeterPromptsModelTestExec Core Test)
 target_link_libraries(GreeterPromptsModelTestExec
+    Qt5::Core Qt5::Test
     MockLightDM
     )
 target_include_directories(GreeterPromptsModelTestExec PUBLIC
@@ -131,8 +131,8 @@ add_unity8_uitest(GreeterPrompts GreeterPromptsModelTestExec
 add_executable(GreeterIntegratedTestExec
     integrated.cpp
     )
-qt5_use_modules(GreeterIntegratedTestExec Core DBus Quick Test)
 target_link_libraries(GreeterIntegratedTestExec
+    Qt5::Core Qt5::DBus Qt5::Quick Qt5::Test
     ${GLIB_LIBRARIES}
     integratedLightDMSession
     )

@@ -13,6 +13,6 @@ set(FakeApplicationMenu_SRCS
 
 add_library(FakeApplicationMenu-qml MODULE ${FakeApplicationMenu_SRCS})
 
-qt5_use_modules(FakeApplicationMenu-qml Qml DBus)
+target_link_libraries(FakeApplicationMenu-qml Qt5::Qml Qt5::DBus)
 
 add_unity8_mock(Unity.ApplicationMenu 1.0 Unity/ApplicationMenu PREFIX mocks TARGETS FakeApplicationMenu-qml)
