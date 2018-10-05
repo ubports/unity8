@@ -1,3 +1,9 @@
+unity8 (8.17+ubports4) xenial; urgency=medium
+
+  * Replace dependency on ubuntu-wallpapers with ubports-wallpapers
+
+ -- Dalton Durst <dalton@ubports.com>  Fri, 5 Oct 2018 13:28:20 -0500
+
 unity8 (8.17+ubports3) xenial; urgency=medium
 
   * Fix papercuts in Wizard update page interaction:
