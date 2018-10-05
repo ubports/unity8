@@ -1,5 +1,11 @@
 unity8 (8.20+ubports) xenial; urgency=medium
 
+  * Replace dependency on ubuntu-wallpapers with ubports-wallpapers
+
+ -- Dalton Durst <dalton@ubports.com>  Fri, 5 Oct 2018 13:28:20 -0500
+
+unity8 (8.17+ubports3) xenial; urgency=medium
+
   * Imported to UBports
 
  -- UBports auto importer <infra@ubports.com>  Mon, 31 Jul 2017 03:12:43 +0200
