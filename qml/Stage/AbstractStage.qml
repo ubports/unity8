@@ -32,7 +32,6 @@ FocusScope {
     property real dragProgress // How far left the stage has been dragged, used externally by tutorial code
     property bool interactive
     property real inverseProgress // This is the progress for left edge drags, in pixels.
-    property bool keepDashRunning: true
     property real maximizedAppTopMargin
     property real nativeHeight
     property real nativeWidth

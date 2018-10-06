@@ -40,7 +40,6 @@ import "Tutorial"
 import "Wizard"
 import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
-import Unity.DashCommunicator 0.1
 import Unity.Indicators 0.1 as Indicators
 import Cursor 1.1
 import WindowManager 1.0
@@ -209,11 +208,6 @@ StyledItem {
 
     VolumeControl {
         id: volumeControl
-    }
-
-    DashCommunicator {
-        id: dash
-        objectName: "dashCommunicator"
     }
 
     PhysicalKeysMapper {

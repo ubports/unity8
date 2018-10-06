@@ -1,6 +1,5 @@
 add_subdirectory(AccountsService)
 add_subdirectory(Cursor)
-add_subdirectory(Dash)
 add_subdirectory(GlobalShortcut)
 add_subdirectory(Greeter)
 add_subdirectory(ImageCache)

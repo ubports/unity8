@@ -7,7 +7,6 @@ install(FILES ${QML_JS_FILES}
 set(QML_DIRS
     ApplicationMenus
     Components
-    Dash
     graphics
     Greeter
     Launcher

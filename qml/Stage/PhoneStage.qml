@@ -136,19 +136,6 @@ AbstractStage {
         spreadView.snapTo(priv.indexOf(appId));
     }
 
-    onInverseProgressChanged: {
-        // This can't be a simple binding because that would be triggered after this handler
-        // while we need it active before doing the anition left/right
-        priv.animateX = (inverseProgress == 0)
-        if (inverseProgress == 0 && priv.oldInverseProgress > 0) {
-            // left edge drag released. Minimum distance is given by design.
-            if (priv.oldInverseProgress > units.gu(22)) {
-                applicationManager.requestFocusApplication("unity8-dash");
-            }
-        }
-        priv.oldInverseProgress = inverseProgress;
-    }
-
     // <FIXME-contentX> See rationale in the next comment with this tag
     onWidthChanged: {
         if (!root.beingResized) {
@@ -222,11 +209,9 @@ AbstractStage {
         model: root.applicationManager
         delegate: QtObject {
             property var stateBinding: Binding {
-                readonly property bool isDash: model.application ? model.application.appId == "unity8-dash" : false
                 target: model.application
                 property: "requestedState"
-                value: (isDash && root.keepDashRunning)
-                           || (!root.suspended && model.application && priv.focusedAppId === model.application.appId)
+                value: (!root.suspended && model.application && priv.focusedAppId === model.application.appId)
                        ? ApplicationInfoInterface.RequestedRunning
                        : ApplicationInfoInterface.RequestedSuspended
             }
@@ -507,8 +492,6 @@ AbstractStage {
                     focusFirstApp: root.focusFirstApp
                     highlightShown: root.altTabPressed && index === priv.highlightIndex
 
-                    readonly property bool isDash: model.application.appId == "unity8-dash"
-
                     Component.onCompleted: {
                         // NB: We're differentiating if this delegate was created in response to a new entry in the model
                         //     or if the Repeater is just populating itself with delegates to match the model it received.
@@ -557,17 +540,17 @@ AbstractStage {
                         }
                     }
 
-                    z: isDash && !spreadView.active ? -1 : behavioredIndex
+                    z: !spreadView.active ? -1 : behavioredIndex
 
                     x: {
                         // focused app is always positioned at 0 except when following left edge drag
                         if (isFocused) {
-                            if (!isDash && root.inverseProgress > 0 && spreadView.phase === 0) {
+                            if (root.inverseProgress > 0 && spreadView.phase === 0) {
                                 return root.inverseProgress;
                             }
                            return 0;
                         }
-                        if (isDash && !spreadView.active && !spreadDragArea.dragging) {
+                        if (!spreadView.active && !spreadDragArea.dragging) {
                            return 0;
                         }
 
@@ -577,7 +560,7 @@ AbstractStage {
 
                     application: model.application
                     surface: model.surface
-                    closeable: !isDash
+                    closeable: true
 
                     property real behavioredIndex: index
                     Behavior on behavioredIndex {
