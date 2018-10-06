@@ -129,19 +129,6 @@ AbstractStage {
         spreadView.contentX = -spreadView.shift;
     }
 
-    onInverseProgressChanged: {
-        // This can't be a simple binding because that would be triggered after this handler
-        // while we need it active before doing the anition left/right
-        spreadView.animateX = (inverseProgress == 0)
-        if (inverseProgress == 0 && priv.oldInverseProgress > 0) {
-            // left edge drag released. Minimum distance is given by design.
-            if (priv.oldInverseProgress > units.gu(22)) {
-                root.applicationManager.requestFocusApplication("unity8-dash");
-            }
-        }
-        priv.oldInverseProgress = inverseProgress;
-    }
-
     onAltTabPressedChanged: {
         if (!spreadEnabled) {
             return;
@@ -278,16 +265,13 @@ AbstractStage {
         model: root.applicationManager
         delegate: QtObject {
             property var stateBinding: Binding {
-                readonly property bool isDash: model.application ? model.application.appId == "unity8-dash" : false
                 target: model.application
                 property: "requestedState"
 
                 // NB: the first application clause is just to ensure we never get warnings for trying to access
                 //     members of a null variable.
                 value: model.application &&
-                        (
-                          (isDash && root.keepDashRunning)
-                           || (!root.suspended && (model.application.appId === priv.mainStageAppId
+                        (!root.suspended && (model.application.appId === priv.mainStageAppId
                                                    || model.application.appId === priv.sideStageAppId))
                         )
                        ? ApplicationInfoInterface.RequestedRunning
@@ -750,17 +734,16 @@ AbstractStage {
                     interactive: !spreadView.interactive && spreadView.phase === 0 && root.interactive
                     swipeToCloseEnabled: spreadView.interactive && !snapAnimation.running
                     maximizedAppTopMargin: root.maximizedAppTopMargin
-                    dragOffset: !isDash && model.id == priv.mainStageItemId && root.inverseProgress > 0
+                    dragOffset: model.id == priv.mainStageItemId && root.inverseProgress > 0
                             && spreadView.phase === 0 ? root.inverseProgress : 0
                     application: model.application
                     surface: model.surface
-                    closeable: !isDash
+                    closeable: true
                     highlightShown: root.altTabPressed && priv.highlightIndex == zIndex
                     dropShadow: spreadView.active || priv.focusedAppDelegateIsDislocated
 
                     readonly property bool wantsMainStage: stage == ApplicationInfoInterface.MainStage
 
-                    readonly property bool isDash: application.appId == "unity8-dash"
 
                     onFocusChanged: {
                         if (focus && !spreadRepeater.startingUp) {
@@ -828,7 +811,7 @@ AbstractStage {
                     Binding {
                         target: spreadTile
                         property: "z"
-                        value: (!spreadView.active && isDash && !active) ? -1 : spreadTile.zIndex
+                        value: (!spreadView.active && !active) ? -1 : spreadTile.zIndex
                     }
                     x: spreadView.width
 
@@ -860,7 +843,7 @@ AbstractStage {
                     function refreshStage() {
                         var newStage = ApplicationInfoInterface.MainStage;
                         if (priv.sideStageEnabled) { // we're in lanscape rotation.
-                            if (!isDash && application && application.supportedOrientations & (Qt.PortraitOrientation|Qt.InvertedPortraitOrientation)) {
+                            if (application && application.supportedOrientations & (Qt.PortraitOrientation|Qt.InvertedPortraitOrientation)) {
                                 var defaultStage = ApplicationInfoInterface.SideStage; // if application supports portrait, it defaults to sidestage.
                                 if (application.supportedOrientations & (Qt.LandscapeOrientation|Qt.InvertedLandscapeOrientation)) {
                                     // if it supports lanscape, it defaults to mainstage.
@@ -1100,7 +1083,6 @@ AbstractStage {
                 // only accept opposite stage.
                 Drag.keys: {
                     if (!surface) return "Disabled";
-                    if (spreadDelegate.isDash) return "Disabled";
 
                     if (spreadDelegate.stage === ApplicationInfo.MainStage) {
                         if (spreadDelegate.application.supportedOrientations

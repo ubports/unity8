@@ -105,19 +105,6 @@ Provides: lightdm-greeter
 Description: The Unity8 Greeter
  The Unity 8 greeter is the primary login greeter for Ubuntu devices.
 
-Package: unity-scope-tool
-Architecture: any
-Depends: unity8-common (= ${source:Version}),
-         unity8-private (= ${binary:Version}),
-         ${misc:Depends},
-         ${shlibs:Depends},
-# We do call pkg-config libunity-scopes from the code
-         pkg-config,
-         libunity-scopes-dev,
-Description: Development tool for Unity scopes
- This package contains the development tool for new generation Unity scopes, based
- on Unity8.
-
 Package: unity8
 Architecture: any
 Provides: indicator-renderer,
@@ -145,13 +132,14 @@ Depends: dmz-cursor-theme,
 Recommends: indicator-keyboard,
             indicator-session,
             unity-greeter-session-broadcast,
-Suggests: unity-scope-mediascanner2,
 Breaks: indicator-network (<< 0.5.1+14.10.20141014),
         ubuntu-touch-session (<< 0.107),
         unity8-greeter (<< 7.89),
+        unity-scope-tool,
         ubuntu-keyboard (<< 0.100),
 Replaces: ubuntu-touch-session (<< 0.82~),
           unity8-greeter (<< 7.89),
+          unity-scope-tool,
 Conflicts: ubuntu-system-settings-wizard,
 Description: Unity 8 shell
  The Unity 8 shell is the primary user interface for Ubuntu devices.
@@ -167,8 +155,6 @@ Depends: qml-module-qtquick-layouts,
          ubuntu-thumbnailer-impl-0,
          unity-application-impl-27,
          unity-notifications-impl-3,
-         unity-plugin-scopes | unity-scopes-impl,
-         unity-scopes-impl-12,
          unity8-tests | unity-application-impl,
          unity8-schemas,
          ${misc:Depends},
@@ -177,8 +163,7 @@ Replaces: unity8 (<< 7.86),
 Description: Unity 8 shell (common files)
  The Unity 8 shell is the primary user interface for Ubuntu devices.
  .
- This package contains the QML, graphics and locale files shared between
- unity8 and unity-scope-tool.
+ This package contains the QML, graphics and locale files for unity8.
 
 Package: unity8-autopilot
 Architecture: all

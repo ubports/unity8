@@ -31,7 +31,7 @@ Loader {
         else if (parsedStyle[1] === "gradient") return Utils.Style.luminance(parsedStyle[2], parsedStyle[3]);
     }
 
-    // FIXME this is only here for highlight purposes (see DashNavigation.qml, too)
+    // FIXME this is only here for highlight purposes
     readonly property color topColor: parsedStyle ? parsedStyle[2] : UbuntuColors.lightGrey
 
     sourceComponent: {

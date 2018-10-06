@@ -521,11 +521,6 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
         return;
     }
 
-    if (app->appId() == QLatin1String("unity8-dash")) {
-        // Not adding the dash app
-        return;
-    }
-
     const int itemIndex = findApplication(app->appId());
     if (itemIndex != -1) {
         LauncherItem *item = m_list.at(itemIndex);

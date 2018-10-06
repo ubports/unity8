@@ -168,13 +168,10 @@ void System::updateSessionLocale(const QString &locale)
 
     // Restart bits of the session to pick up new language.
     QProcess::startDetached(QStringLiteral("sh -c \"initctl emit indicator-services-end; \
-                                     initctl stop scope-registry; \
-                                     initctl stop smart-scopes-proxy; \
                                      initctl emit --no-wait indicator-services-start; \
                                      initctl restart --no-wait ubuntu-location-service-trust-stored; \
                                      initctl restart --no-wait maliit-server; \
-                                     initctl restart --no-wait indicator-messages; \
-                                     initctl restart --no-wait unity8-dash\""));
+                                     initctl restart --no-wait indicator-messages"));
 }
 
 void System::skipUntilFinishedPage()

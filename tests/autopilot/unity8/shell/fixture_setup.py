@@ -28,32 +28,6 @@ import fixtures
 import unity8
 
 
-class FakeScopes(fixtures.Fixture):
-
-    def setUp(self):
-        super().setUp()
-        self.useFixture(
-            fixtures.EnvironmentVariable(
-                'QML2_IMPORT_PATH',
-                newvalue=self._get_fake_scopes_library_path()))
-
-    def _get_fake_scopes_library_path(self):
-        if unity8.running_installed_tests():
-            mock_path = 'qml/scopefakes/'
-        else:
-            mock_path = os.path.join(
-                '../lib/', sysconfig.get_config_var('MULTIARCH'),
-                'unity8/qml/scopefakes/')
-        lib_path = unity8.get_lib_path()
-        ld_library_path = os.path.abspath(os.path.join(lib_path, mock_path))
-
-        if not os.path.exists(ld_library_path):
-            raise RuntimeError(
-                'Expected library path does not exists: %s.' % (
-                    ld_library_path))
-        return ld_library_path
-
-
 class Tutorial(fixtures.Fixture):
 
     def __init__(self, enable):
