@@ -1,3 +1,13 @@
+unity8 (8.17+ubports5) xenial; urgency=medium
+
+  * Yet more papercuts in Wizard update interaction:
+    * It's not possible to skip the app update page while it's checking for
+      updates, so make it say "Please wait..." while checking
+    * Make Changelog page indicate that the next page is loading after the next
+      button has been clicked. This avoids skipping the app update page.
+
+-- Dalton Durst <dalton@ubports.com> Mon, 8 Oct 2018 13:32:13 -0500
+
 unity8 (8.17+ubports4) xenial; urgency=medium
 
   * Replace dependency on ubuntu-wallpapers with ubports-wallpapers

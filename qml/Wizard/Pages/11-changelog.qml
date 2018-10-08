@@ -26,6 +26,10 @@ import ".." as LocalComponents
 LocalComponents.Page {
     objectName: "changelogPage"
     title: i18n.tr("What's new")
+    id: changelogPage
+
+    // See skipTimer below for information about this hack
+    property bool loading: false
 
     forwardButtonSourceComponent: forwardButton
     onlyOnUpdate: true
@@ -67,13 +71,25 @@ LocalComponents.Page {
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            text: i18n.tr("Next")
+            text: loading ? i18n.tr("Loading...") : i18n.tr("Next")
             onClicked: {
-                if (d.validName) {
-                    AccountsService.realName = d.validName;
-                }
-                pageStack.next();
+                changelogPage.loading = true;
+                skipTimer.restart();
             }
+        }
+    }
+
+    // A horrible hack to make sure the UI refreshes before actually skipping
+    // Without this, people press the Next button multiple times and skip
+    // multiple pages at once.
+    Timer {
+        id: skipTimer
+        interval: 100
+        repeat: false
+        running: false
+        onTriggered: {
+            changelogPage.loading = false;
+            pageStack.next();
         }
     }
 }

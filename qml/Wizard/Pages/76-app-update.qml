@@ -234,6 +234,8 @@ LocalComponents.Page {
                 var s = UpdateManager.status;
                 if (s === UpdateManager.StatusIdle && updatesCount === 0) {
                     return i18n.tr("Next");
+                } else if (s === UpdateManager.StatusCheckingClickUpdates) {
+                    return i18n.tr("Please wait...")
                 } else {
                     return i18n.tr("Skip");
                 }
