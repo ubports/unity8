@@ -143,7 +143,6 @@ SpreadDelegate {
         Behavior on xTranslate {
             enabled: !spreadView.active &&
                      !snapAnimation.running &&
-                     root.application.appId !== "unity8-dash" &&
                      spreadView.animateX &&
                      !spreadView.beingResized &&
                      priv.state !== "sideStage"
@@ -180,7 +179,7 @@ SpreadDelegate {
                     newTranslate += linearAnimation(0, spreadView.positionMarker2, 0, -units.gu(4), root.animatedProgress);
                 }
                 newTranslate += root.dragOffset;
-            } else if (!spreadView.active && root.application.appId == "unity8-dash") {
+            } else if (!spreadView.active) {
                 newTranslate -= root.width;
             }
 

@@ -1,13 +1,9 @@
-debian/usr.bin.unity8-dash etc/apparmor.d
 var/lib/unity8/version
 data/unity8.service usr/lib/systemd/user
-data/unity8-dash.service usr/lib/systemd/user
 data/unity8-session usr/bin
 data/devices.conf etc/ubuntu/
 data/test.sensors etc/ubuntusensors/
 usr/bin/unity8
-usr/bin/unity8-dash
-usr/share/applications/unity8-dash.desktop
 usr/share/applications/unity8.desktop
 usr/share/unity8/ApplicationMenus
 usr/share/unity8/Greeter
@@ -21,4 +17,3 @@ usr/share/unity8/Shell.qml
 usr/share/unity8/Stage
 usr/share/unity8/Tutorial
 usr/share/unity8/Wizard
-usr/share/url-dispatcher/urls/unity8-dash.url-dispatcher

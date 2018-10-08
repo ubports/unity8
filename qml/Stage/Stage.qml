@@ -445,7 +445,6 @@ FocusScope {
         model: root.applicationManager
         delegate: QtObject {
             property var stateBinding: Binding {
-                readonly property bool isDash: model.application ? model.application.appId == "unity8-dash" : false
                 target: model.application
                 property: "requestedState"
 
@@ -455,7 +454,6 @@ FocusScope {
                 //       in staged mode, when it switches to Windowed mode it will suddenly
                 //       resume all those apps at once. We might want to avoid that.
                 value: root.mode === "windowed"
-                       || isDash
                        || (!root.suspended && model.application && priv.focusedAppDelegate &&
                            (priv.focusedAppDelegate.appId === model.application.appId ||
                             priv.mainStageAppId === model.application.appId ||
@@ -893,7 +891,6 @@ FocusScope {
                 readonly property bool dragging: touchControls.overlayShown ? touchControls.dragging : decoratedWindow.dragging
 
                 readonly property string appId: model.application.appId
-                readonly property bool isDash: appId == "unity8-dash"
                 readonly property alias clientAreaItem: decoratedWindow.clientAreaItem
 
                 function activate() {
@@ -1128,7 +1125,7 @@ FocusScope {
                 function refreshStage() {
                     var newStage = ApplicationInfoInterface.MainStage;
                     if (priv.sideStageEnabled) { // we're in lanscape rotation.
-                        if (!isDash && application && application.supportedOrientations & (Qt.PortraitOrientation|Qt.InvertedPortraitOrientation)) {
+                        if (application && application.supportedOrientations & (Qt.PortraitOrientation|Qt.InvertedPortraitOrientation)) {
                             var defaultStage = ApplicationInfoInterface.SideStage; // if application supports portrait, it defaults to sidestage.
                             if (application.supportedOrientations & (Qt.LandscapeOrientation|Qt.InvertedLandscapeOrientation)) {
                                 // if it supports lanscape, it defaults to mainstage.
@@ -2105,7 +2102,6 @@ FocusScope {
                 // only accept opposite stage.
                 Drag.keys: {
                     if (!surface) return "Disabled";
-                    if (appDelegate.isDash) return "Disabled";
 
                     if (appDelegate.stage === ApplicationInfo.MainStage) {
                         if (appDelegate.application.supportedOrientations
