@@ -35,6 +35,11 @@ LocalComponents.Page {
     readonly property alias password2: password2Field.text
     readonly property bool passwordsMatching: password == password2 && password.trim().length > 7
 
+    function savePasswordAndGoNext() {
+        root.password = password;
+        pageStack.next();
+    }
+
     Flickable {
         id: column
         clip: true
@@ -114,6 +119,11 @@ LocalComponents.Page {
             id: password2Field
             objectName: "password2Field"
             echoMode: TextInput.Password
+            onAccepted: {
+                if (passwordsMatching) {
+                    savePasswordAndGoNext();
+                }
+            }
             onActiveFocusChanged: {
                 if (activeFocus) {
                     column.contentY = pass2Label.y
@@ -141,10 +151,7 @@ LocalComponents.Page {
         LocalComponents.StackButton {
             text: i18n.tr("Next")
             enabled: passwordsMatching
-            onClicked: {
-                root.password = password;
-                pageStack.next();
-            }
+            onClicked: savePasswordAndGoNext()
         }
     }
 }

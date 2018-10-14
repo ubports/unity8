@@ -26,9 +26,13 @@ LocalComponents.Page {
     forwardButtonSourceComponent: forwardButton
     onlyOnInstall: true
 
-    QtObject {
-        id: d
-        readonly property string validName: nameInput.text.trim()
+    readonly property string validName: nameInput.text.trim()
+
+    function saveNameAndGoNext() {
+        if (validName) {
+            AccountsService.realName = validName;
+        }
+        pageStack.next();
     }
 
     Column {
@@ -57,19 +61,15 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             inputMethodHints: Qt.ImhNoPredictiveText
+            onAccepted: saveNameAndGoNext()
         }
     }
 
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            text: d.validName ? i18n.tr("Next") : i18n.tr("Skip")
-            onClicked: {
-                if (d.validName) {
-                    AccountsService.realName = d.validName;
-                }
-                pageStack.next();
-            }
+            text: validName ? i18n.tr("Next") : i18n.tr("Skip")
+            onClicked: saveNameAndGoNext()
         }
     }
 }
