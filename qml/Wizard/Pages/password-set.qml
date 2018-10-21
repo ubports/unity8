@@ -29,6 +29,7 @@ LocalComponents.Page {
     id: passwdSetPage
     objectName: "passwdSetPage"
     title: i18n.tr("Lock Screen Password")
+    focusItem: passwordField
     forwardButtonSourceComponent: forwardButton
 
     readonly property alias password: passwordField.text

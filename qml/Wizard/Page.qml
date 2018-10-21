@@ -64,12 +64,22 @@ Item {
     property bool lastPage: false
     property bool buttonBarVisible: true
 
+    // Item that will receive input focus when the page is in front
+    // May be useful to open the keyboard automatically for a text field
+    property Item focusItem
+
     property string title: ""
 
     signal backClicked()
 
     visible: false
     anchors.fill: parent
+
+    onVisibleChanged: {
+        if (focusItem) {
+            focusItem.forceActiveFocus();
+        }
+    }
 
     Timer {
         id: indicatorTimer
