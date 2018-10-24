@@ -76,7 +76,7 @@ Item {
     anchors.fill: parent
 
     onVisibleChanged: {
-        if (focusItem) {
+        if (visible && focusItem) {
             focusItem.forceActiveFocus();
         }
     }
