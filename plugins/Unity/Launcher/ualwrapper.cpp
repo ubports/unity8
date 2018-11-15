@@ -24,6 +24,7 @@ using namespace ubuntu::app_launch;
 UalWrapper::UalWrapper(QObject *parent):
     QObject(parent)
 {
+/* Disable for now
     Registry::appAdded().connect([this](const std::shared_ptr<Application>&app) {
         Q_EMIT appAdded(QString::fromStdString(app->appId()));
     });
@@ -33,6 +34,7 @@ UalWrapper::UalWrapper(QObject *parent):
     Registry::appInfoUpdated().connect([this](const std::shared_ptr<Application>&app){
         Q_EMIT appInfoChanged(QString::fromStdString(app->appId()));
     });
+*/
 }
 
 QStringList UalWrapper::installedApps()
@@ -73,7 +75,7 @@ UalWrapper::AppInfo UalWrapper::getApplicationInfo(const QString &appId)
         for (const std::string &keyword : ualApp->info()->keywords().value()) {
             info.keywords << QString::fromStdString(keyword);
         }
-        info.popularity = ualApp->info()->popularity();
+        //info.popularity = ualApp->info()->popularity();
         info.valid = true;
     } catch (const std::runtime_error &e) {
         qWarning() << "ubuntu-app-launch threw an exception getting app info for appId:" << appId << ":" << e.what();
