@@ -6,32 +6,34 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-11-16 10:44+0000\n"
-"PO-Revision-Date: 2016-09-29 12:06+0000\n"
-"Last-Translator: Matthias Seidel <matthias.seidel@hamburg.de>\n"
-"Language-Team: German <de@li.org>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-08 13:29-0500\n"
+"PO-Revision-Date: 2018-11-18 20:25+0000\n"
+"Last-Translator: Florian Leeber <flori@bin.org.in>\n"
+"Language-Team: German <https://translate.ubports.com/projects/unity8/unity8/"
+"de/>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.1.1\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
-"X-Generator: Launchpad (build 18269)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
 msgstr "Passwort: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:108
+#: plugins/Unity/Launcher/launcheritem.cpp:50
+#: plugins/Unity/Launcher/launcheritem.cpp:109
 msgid "Pin shortcut"
 msgstr "Verknüpfung anheften"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:54
+#: plugins/Unity/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Beenden"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:108
+#: plugins/Unity/Launcher/launcheritem.cpp:109
 msgid "Unpin shortcut"
 msgstr "Verknüpfung entfernen"
 
@@ -346,24 +348,24 @@ msgstr "Ergebnisse verfeinern"
 msgid "Reset"
 msgstr "Zurücksetzen"
 
-#: qml/Dash/GenericScopeView.qml:545 qml/Dash/GenericScopeView.qml:716
+#: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
 msgid "Show less"
 msgstr "Weniger anzeigen"
 
-#: qml/Dash/GenericScopeView.qml:545
+#: qml/Dash/GenericScopeView.qml:547
 msgid "Show all"
 msgstr "Alle anzeigen"
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:578
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Suchen"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:57
+#: qml/Dash/PageHeaderExtraPanel.qml:67
 msgid "Recent Searches"
 msgstr "Letzte Suchanfragen"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:68
+#: qml/Dash/PageHeaderExtraPanel.qml:78
 msgid "Clear All"
 msgstr "Alle zurücksetzen"
 
@@ -459,7 +461,7 @@ msgstr "Passwort"
 msgid "Passcode"
 msgstr "PIN"
 
-#: qml/Greeter/LoginList.qml:98
+#: qml/Greeter/LoginList.qml:98 qml/Wizard/Pages/UpdateDelegate.qml:118
 msgid "Retry"
 msgstr "Erneut versuchen"
 
@@ -527,6 +529,7 @@ msgid "In queue…"
 msgstr "In Warteschlange …"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:999
+#: qml/Wizard/Pages/UpdateDelegate.qml:226
 msgid "Downloading"
 msgstr "Wird heruntergeladen"
 
@@ -591,24 +594,42 @@ msgstr ""
 "Wischen von der oberen Kante zeigt Benachrichtigungen und "
 "Schnelleinstellungen"
 
-#: qml/Wizard/Page.qml:54
+#: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Zurück"
 
-#: qml/Wizard/Pages/10-welcome.qml:28
+#: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
 msgstr "Sprache"
 
-#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:207 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:145
-#: qml/Wizard/Pages/75-report-check.qml:84
+#: qml/Wizard/Pages/10-welcome.qml:175
+#: qml/Wizard/Pages/10-welcome-update.qml:126
+#: qml/Wizard/Pages/11-changelog.qml:74 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:208 qml/Wizard/Pages/50-timezone.qml:272
+#: qml/Wizard/Pages/60-account.qml:66 qml/Wizard/Pages/70-passwd-type.qml:146
+#: qml/Wizard/Pages/75-report-check.qml:85
+#: qml/Wizard/Pages/76-app-update.qml:236
 #: qml/Wizard/Pages/passcode-desktop.qml:142
 #: qml/Wizard/Pages/password-set.qml:142
 msgid "Next"
 msgstr "Weiter"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:91
+msgid "Welcome to "
+msgstr "Willkommen bei "
+
+#: qml/Wizard/Pages/10-welcome-update.qml:106
+msgid "We will make sure your device is ready to use "
+msgstr "Wir werden sicherstellen dass Dein Gerät einsatzbereit ist "
+
+#: qml/Wizard/Pages/11-changelog.qml:28
+msgid "What's new"
+msgstr "Was gibt es Neues"
+
+#: qml/Wizard/Pages/11-changelog.qml:74
+msgid "Loading..."
+msgstr "Lade..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
@@ -622,9 +643,9 @@ msgstr "Tastatursprache"
 msgid "Keyboard layout"
 msgstr "Tastaturbelegung"
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:207
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/77-system-update.qml:152
-#: qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:208
+#: qml/Wizard/Pages/60-account.qml:66 qml/Wizard/Pages/76-app-update.qml:240
+#: qml/Wizard/Pages/79-system-update.qml:152 qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Überspringen"
 
@@ -632,57 +653,23 @@ msgstr "Überspringen"
 msgid "Connect to Wi‑Fi"
 msgstr "Mit WLAN verbinden"
 
-#: qml/Wizard/Pages/30-wifi.qml:132
+#: qml/Wizard/Pages/30-wifi.qml:133
 msgid "Connected"
 msgstr "Verbunden"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:166
 msgid "Available Wi-Fi networks"
 msgstr "Verfügbare Funknetzwerke"
 
-#: qml/Wizard/Pages/30-wifi.qml:166
+#: qml/Wizard/Pages/30-wifi.qml:167
 msgid "No available Wi-Fi networks"
 msgstr "Keine Funknetzwerke verfügbar"
-
-#: qml/Wizard/Pages/40-location.qml:27
-msgid "Location Services"
-msgstr "Standortdienste"
-
-#: qml/Wizard/Pages/40-location.qml:83
-msgid ""
-"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
-"(recommended)"
-msgstr ""
-"GPS, WLAN-Netzwerke und Mobilfunknetzwerk anonymisiert für die "
-"Standortbestimmung nutzen (empfohlen)"
-
-#: qml/Wizard/Pages/40-location.qml:105
-#, qt-format
-msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr "Durch Auswahl dieser Option akzeptieren Sie die Nokia-HERE-%1."
-
-#: qml/Wizard/Pages/40-location.qml:106
-msgctxt "part of: Nokia HERE terms and conditions"
-msgid "terms and conditions"
-msgstr "Nutzungsbedingungen"
-
-#: qml/Wizard/Pages/40-location.qml:160
-msgid "GPS only"
-msgstr "Nur GPS"
-
-#: qml/Wizard/Pages/40-location.qml:214
-msgid "Don't use my location"
-msgstr "Meinen Standort nicht verwenden"
-
-#: qml/Wizard/Pages/40-location.qml:260
-msgid "You can change it later in System Settings."
-msgstr "Sie können das später in den Systemeinstellungen ändern."
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "Zeitzone"
 
-#: qml/Wizard/Pages/50-timezone.qml:182
+#: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
 msgstr "Bitte Ihre Stadt eingeben"
 
@@ -690,7 +677,7 @@ msgstr "Bitte Ihre Stadt eingeben"
 msgid "Personalize Your Device"
 msgstr "Ihr Gerät personalisieren"
 
-#: qml/Wizard/Pages/60-account.qml:48
+#: qml/Wizard/Pages/60-account.qml:49
 msgid "Preferred Name"
 msgstr "Bevorzugter Name"
 
@@ -698,22 +685,22 @@ msgstr "Bevorzugter Name"
 msgid "Lock Screen"
 msgstr "Sperrbildschirm"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:102
+#: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr "Neues Passwort erstellen"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:104
+#: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr "PIN erstellen (nur Ziffern)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:106
+#: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "Kein Sperrcode"
 
-#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
+#: qml/Wizard/Pages/75-report-check.qml:26
 msgid "Privacy Policy"
 msgstr "Datenschutzerklärung"
 
@@ -721,21 +708,48 @@ msgstr "Datenschutzerklärung"
 msgid "Help Us Improve"
 msgstr "Bei der Verbesserung unterstützen"
 
-#: qml/Wizard/Pages/75-report-check.qml:59
+#: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Improve system performance by sending us crashes and error reports."
 msgstr ""
 "Bei der Systemverbesserung unterstützen, in dem Absturz- und Fehlerberichte "
 "gesendet werden."
 
-#: qml/Wizard/Pages/75-report-check.qml:60
+#: qml/Wizard/Pages/75-report-check.qml:61
 msgid "Privacy policy"
 msgstr "Datenschutzerklärung"
 
-#: qml/Wizard/Pages/77-system-update.qml:28
+#: qml/Wizard/Pages/76-app-update.qml:35
+msgid "Update Apps"
+msgstr "Apps updaten"
+
+#: qml/Wizard/Pages/76-app-update.qml:127
+msgid "This device is not connected to the internet."
+msgstr "Dieses Gerät ist nicht mit dem Internet verbunden."
+
+#: qml/Wizard/Pages/76-app-update.qml:128
+#: qml/Wizard/Pages/76-app-update.qml:134
+msgid "Use the OpenStore app to check for updates once connected."
+msgstr ""
+"Benutze die OpenStore-App um nach Updates zu suchen, sobald Du verbunden "
+"bist."
+
+#: qml/Wizard/Pages/76-app-update.qml:130
+msgid "Software is up to date"
+msgstr "Software ist aktuell"
+
+#: qml/Wizard/Pages/76-app-update.qml:133
+msgid "The update server is not responding."
+msgstr "Der Update-Server antwortet nicht."
+
+#: qml/Wizard/Pages/76-app-update.qml:238
+msgid "Please wait..."
+msgstr "Bitte warten…"
+
+#: qml/Wizard/Pages/79-system-update.qml:28
 msgid "Update Device"
 msgstr "Gerät aktualisieren"
 
-#: qml/Wizard/Pages/77-system-update.qml:55
+#: qml/Wizard/Pages/79-system-update.qml:55
 msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
@@ -743,73 +757,67 @@ msgstr ""
 "Es ist eine Systemaktualisierung verfügbar und bereit zur Installation. "
 "Danach wird das Gerät automatisch neu starten."
 
-#: qml/Wizard/Pages/77-system-update.qml:76
+#: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu system"
 msgstr "Ubuntu-System"
 
-#: qml/Wizard/Pages/77-system-update.qml:83
+#: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
 msgstr "Version %1"
 
-#: qml/Wizard/Pages/77-system-update.qml:102
+#: qml/Wizard/Pages/79-system-update.qml:102
 msgid "This could take a few minutes..."
 msgstr "Das kann ein paar Minuten dauern …"
 
-#: qml/Wizard/Pages/77-system-update.qml:116
+#: qml/Wizard/Pages/79-system-update.qml:116
 msgid "Install and restart now"
 msgstr "Jetzt installieren und neu starten"
 
-#: qml/Wizard/Pages/80-finished.qml:89
+#: qml/Wizard/Pages/80-finished.qml:91
+msgid "Welcome Back"
+msgstr "Willkommen zurück"
+
+#: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
 msgstr "Willkommen bei Ubuntu"
 
-#: qml/Wizard/Pages/80-finished.qml:104
+#: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
 msgstr "Sie können Ihr Gerät nun verwenden"
 
-#: qml/Wizard/Pages/80-finished.qml:124
+#: qml/Wizard/Pages/80-finished.qml:126
+msgid "Continue"
+msgstr "Weiter"
+
+#: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
 msgstr "Erste Schritte"
 
-#: qml/Wizard/Pages/here-terms.qml:25
-msgid "Terms & Conditions"
-msgstr "Nutzungsbedingungen"
+#: qml/Wizard/Pages/DownloadHandler.qml:174
+msgid "Installation failed"
+msgstr "Installation fehlgeschlagen"
 
-#: qml/Wizard/Pages/here-terms.qml:69
-msgid "Your device uses positioning technologies provided by HERE."
-msgstr ""
-"Das Gerät verwendet Standortermittlungsdienste, die durch HERE "
-"bereitgestellt werden."
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:84
+msgid "Checking for updates…"
+msgstr "Prüfe auf Updates…"
 
-#: qml/Wizard/Pages/here-terms.qml:81
-msgid ""
-"To provide you with positioning services and to improve their quality, HERE "
-"collects information about nearby cell towers and Wi-Fi hotspots around your "
-"current location whenever your position is being found."
-msgstr ""
-"Zur Standortbestimmung und Verbesserung der Qualität dieser, sammelt HERE "
-"Informationen über Netzwerkstationen und WLAN-Zugangspunkte in der Umgebung, "
-"sobald eine Position erfasst wurde."
-
-#: qml/Wizard/Pages/here-terms.qml:93
-msgid ""
-"The information collected is used to analyze the service and to improve the "
-"use of service, but not to identify you personally."
-msgstr ""
-"Die gesammelte Information wird zur Analyse und zur Nutzungsverbesserung des "
-"Dienstes genutzt. Nicht aber zur persönlichen Identifikation."
-
-#: qml/Wizard/Pages/here-terms.qml:106
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:109
 #, qt-format
-msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr "Wenn Sie fortfahren, stimmen Sie den HERE-%1 und -%2 zu."
+msgid "%1 update available"
+msgid_plural "%1 updates available"
+msgstr[0] "%1 Update verfügbar"
+msgstr[1] "%1 Updates verfügbar"
 
-#: qml/Wizard/Pages/here-terms.qml:107
-msgid "Service Terms"
-msgstr "Bedingungen des Dienstes"
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:119
+msgid "Update all…"
+msgstr "Alles aktualisieren…"
+
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:121
+msgid "Update all"
+msgstr "Alles aktualisieren"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:97
@@ -895,6 +903,68 @@ msgstr "Anrufe oder SMS-Nachrichten sind ohne eine SIM-Karte nicht möglich."
 msgid "To proceed with no SIM tap Skip."
 msgstr "Um ohne SIM-Karte fortzufahren, Überspringen drücken."
 
+#: qml/Wizard/Pages/UpdateDelegate.qml:123
+msgid "Update"
+msgstr "Aktualisieren"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:125
+msgid "Download"
+msgstr "Herunterladen"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:131
+msgid "Resume"
+msgstr "Fortsetzen"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:138
+msgid "Pause"
+msgstr "Unterbrechen"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:142
+msgid "Install…"
+msgstr "Installieren…"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:144
+msgid "Install"
+msgstr "Installieren"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:148
+msgid "Open"
+msgstr "Öffnen"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:216
+msgid "Installing"
+msgstr "Installiere"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:220
+msgid "Paused"
+msgstr "Unterbrochen"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:223
+msgid "Waiting to download"
+msgstr "Warte auf Download"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:279
+#, qt-format
+msgid "%1 of %2"
+msgstr "%1 von %2"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:283
+msgid "Downloaded"
+msgstr "Heruntergeladen"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:286
+msgid "Installed"
+msgstr "Installiert"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:291
+#, qt-format
+msgid "Updated %1"
+msgstr "%1 aktualisiert"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:315
+msgid "Update failed"
+msgstr "Update fehlgeschlagen"
+
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
 msgstr "Passwort zu kurz"
@@ -923,11 +993,64 @@ msgstr "Schwaches Passwort"
 msgid "Very weak password"
 msgstr "Sehr schwaches Passwort"
 
+#~ msgid "Location Services"
+#~ msgstr "Standortdienste"
+
+#~ msgid ""
+#~ "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
+#~ "(recommended)"
+#~ msgstr ""
+#~ "GPS, WLAN-Netzwerke und Mobilfunknetzwerk anonymisiert für die "
+#~ "Standortbestimmung nutzen (empfohlen)"
+
+#~ msgid "By selecting this option you agree to the Nokia HERE %1."
+#~ msgstr "Durch Auswahl dieser Option akzeptieren Sie die Nokia-HERE-%1."
+
+#~ msgctxt "part of: Nokia HERE terms and conditions"
+#~ msgid "terms and conditions"
+#~ msgstr "Nutzungsbedingungen"
+
+#~ msgid "GPS only"
+#~ msgstr "Nur GPS"
+
+#~ msgid "Don't use my location"
+#~ msgstr "Meinen Standort nicht verwenden"
+
+#~ msgid "You can change it later in System Settings."
+#~ msgstr "Sie können das später in den Systemeinstellungen ändern."
+
+#~ msgid "Terms & Conditions"
+#~ msgstr "Nutzungsbedingungen"
+
+#~ msgid "Your device uses positioning technologies provided by HERE."
+#~ msgstr ""
+#~ "Das Gerät verwendet Standortermittlungsdienste, die durch HERE "
+#~ "bereitgestellt werden."
+
+#~ msgid ""
+#~ "To provide you with positioning services and to improve their quality, "
+#~ "HERE collects information about nearby cell towers and Wi-Fi hotspots "
+#~ "around your current location whenever your position is being found."
+#~ msgstr ""
+#~ "Zur Standortbestimmung und Verbesserung der Qualität dieser, sammelt HERE "
+#~ "Informationen über Netzwerkstationen und WLAN-Zugangspunkte in der "
+#~ "Umgebung, sobald eine Position erfasst wurde."
+
+#~ msgid ""
+#~ "The information collected is used to analyze the service and to improve "
+#~ "the use of service, but not to identify you personally."
+#~ msgstr ""
+#~ "Die gesammelte Information wird zur Analyse und zur Nutzungsverbesserung "
+#~ "des Dienstes genutzt. Nicht aber zur persönlichen Identifikation."
+
+#~ msgid "By continuing, you agree to the HERE platform %1 and %2."
+#~ msgstr "Wenn Sie fortfahren, stimmen Sie den HERE-%1 und -%2 zu."
+
+#~ msgid "Service Terms"
+#~ msgstr "Bedingungen des Dienstes"
+
 #~ msgid "Confirm"
 #~ msgstr "Bestätigen"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Wird geladen. Bitte warten …"
 
 #~ msgid "Speak Now..."
 #~ msgstr "Sprechen Sie jetzt …"
@@ -952,9 +1075,6 @@ msgstr "Sehr schwaches Passwort"
 
 #~ msgid "Type or say a command"
 #~ msgstr "Befehl eingeben oder sprechen"
-
-#~ msgid "Speaking..."
-#~ msgstr "Sprechen Sie …"
 
 #~ msgid "See less"
 #~ msgstr "Weniger ansehen"
@@ -1009,8 +1129,8 @@ msgstr "Sehr schwaches Passwort"
 #~ msgstr "Dies ist Ihr letzter Versuch."
 
 #~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
-#~ "and all personal data will be deleted."
+#~ "If passcode is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
 #~ msgstr ""
 #~ "Wird die PIN falsch eingegeben, wird das Telefon auf den Werkszustand "
 #~ "zurückgesetzt und alle Daten werden gelöscht."
@@ -1019,13 +1139,12 @@ msgstr "Sehr schwaches Passwort"
 #~ "If passphrase is entered incorrectly, your phone will conduct a factory "
 #~ "reset and all personal data will be deleted."
 #~ msgstr ""
-#~ "Wird das Passwort falsch eingegeben, wird das Telefon auf den Werkszustand "
-#~ "zurückgesetzt und alle Daten werden gelöscht."
+#~ "Wird das Passwort falsch eingegeben, wird das Telefon auf den "
+#~ "Werkszustand zurückgesetzt und alle Daten werden gelöscht."
 
 #~ msgid "Sorry, incorrect passcode."
 #~ msgstr "Falsche PIN"
 
-#, qt-format
 #~ msgid "Sorry, incorrect %1"
 #~ msgstr "%1 falsch"
 
@@ -1062,7 +1181,6 @@ msgstr "Sehr schwaches Passwort"
 #~ msgid "Enter passcode"
 #~ msgstr "PIN eingeben"
 
-#, qt-format
 #~ msgid "Enter %1"
 #~ msgstr "%1 eingeben"
 
@@ -1080,9 +1198,6 @@ msgstr "Sehr schwaches Passwort"
 
 #~ msgid "Let’s get started."
 #~ msgstr "Fangen wir an!"
-
-#~ msgid "Continue"
-#~ msgstr "Weiter"
 
 #~ msgid "Please select how you’d like to unlock your phone."
 #~ msgstr "Bitte wählen Sie aus, wie Sie Ihr Telefon entsperren wollen."
@@ -1138,11 +1253,9 @@ msgstr "Sehr schwaches Passwort"
 #~ msgid "Please try again."
 #~ msgstr "Bitte versuchen Sie es erneut."
 
-#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
-#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
@@ -1313,7 +1426,8 @@ msgstr "Sehr schwaches Passwort"
 
 #~ msgid "Swipe from the top right edge to open the notification bar"
 #~ msgstr ""
-#~ "Vom rechten oberen Rand her wischen, um die Benachrichtigungsleiste zu öffnen"
+#~ "Vom rechten oberen Rand her wischen, um die Benachrichtigungsleiste zu "
+#~ "öffnen"
 
 #~ msgid "Swipe from the top edge to open the notification bar"
 #~ msgstr ""
@@ -1326,8 +1440,8 @@ msgstr "Sehr schwaches Passwort"
 #~ msgstr "Falsche Passphrase."
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
+#~ "and conditions</a>."
 #~ msgstr ""
 #~ "Mit dem Auswählen dieser Option stimmen Sie den <a href='#'>allgemeinen "
 #~ "Geschäftsbedingungen</a> von HERE zu."
