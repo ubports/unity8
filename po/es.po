@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2018-11-18 20:34+0000\n"
+"PO-Revision-Date: 2018-11-20 11:28+0000\n"
 "Last-Translator: advocatux <advocatux@airpost.net>\n"
 "Language-Team: Spanish <https://translate.ubports.com/projects/unity8/unity8/"
 "es/>\n"
@@ -213,7 +213,7 @@ msgstr "Mostrar las ventanas del escritorio."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Cursor Left or Right"
-msgstr "Flecha izquierda o derecha."
+msgstr "Cursor izquierdo o derecho"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Moves the focus."
@@ -287,7 +287,7 @@ msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
-msgstr "Las aplicaciones podrían tener datos sin guardar."
+msgstr "Las aplicaciones pueden tener datos no guardados:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgctxt ""
@@ -302,7 +302,7 @@ msgstr "O forzar ahora el cierre (se perderán los datos sin guardar)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
-msgstr "Ok, reconectaré."
+msgstr "Vale, volveré a conectar"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
@@ -445,8 +445,8 @@ msgstr ""
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Espere %1 minuto e inténtelo de nuevo..."
-msgstr[1] "Espere %1 minutos e inténtelo de nuevo..."
+msgstr[0] "Espere %1 minuto e inténtelo de nuevo…"
+msgstr[1] "Espere %1 minutos e inténtelo de nuevo…"
 
 #: qml/Greeter/Greeter.qml:596
 msgid "Try again"
