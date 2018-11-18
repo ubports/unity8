@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2018-11-18 21:07+0000\n"
+"PO-Revision-Date: 2018-11-20 11:28+0000\n"
 "Last-Translator: Joan CiberSheep <cibersheep@gmail.com>\n"
 "Language-Team: Catalan <https://translate.ubports.com/projects/unity8/unity8/"
 "ca/>\n"
@@ -117,7 +117,7 @@ msgstr "ImprPant"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr "Crea una captura de pantalla"
+msgstr "Crea una captura de pantalla."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
@@ -125,7 +125,7 @@ msgstr "Alt + ImprPant"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of a window."
-msgstr "Crea una captura de pantalla d'una finestra"
+msgstr "Crea una captura de pantalla d'una finestra."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -165,7 +165,7 @@ msgstr "Obre el mode de navegació de teclat del llançador."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Super + Tab"
-msgstr "Super + Tab"
+msgstr "Súper + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Switches applications via the launcher."
@@ -205,7 +205,7 @@ msgstr "Commuta entre aplicacions."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:229
 msgid "Super + W"
-msgstr "Super + W"
+msgstr "Súper + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:234
 msgid "Opens the desktop spread."
@@ -217,7 +217,7 @@ msgstr "Cursor dreta o esquerra"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Moves the focus."
-msgstr "Mou el focus"
+msgstr "Mou el focus."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:259
 msgid "Windows"
@@ -225,7 +225,7 @@ msgstr "Finestres"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:266
 msgid "Ctrl + Super + D"
-msgstr "Ctrl + Super + D"
+msgstr "Ctrl + Súper + D"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:271
 msgid "Minimizes all windows."
@@ -392,11 +392,11 @@ msgstr "Afegiu una ressenya"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:56
 msgid "Pull to refresh…"
-msgstr "Estireu per actualitzar..."
+msgstr "Estireu per actualitzar…"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:61
 msgid "Release to refresh…"
-msgstr "Deixeu anar per actualitzar..."
+msgstr "Deixeu anar per actualitzar…"
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
@@ -446,8 +446,8 @@ msgstr ""
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Espereu %1 minut i torneu-ho a intentar..."
-msgstr[1] "Espereu %1 minuts i torneu-ho a intentar..."
+msgstr[0] "Espereu %1 minut i torneu-ho a intentar…"
+msgstr[1] "Espereu %1 minuts i torneu-ho a intentar…"
 
 #: qml/Greeter/Greeter.qml:596
 msgid "Try again"
@@ -526,7 +526,7 @@ msgstr "Resta %1"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:995
 msgid "In queue…"
-msgstr "A la cua..."
+msgstr "A la cua…"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:999
 #: qml/Wizard/Pages/UpdateDelegate.qml:226
