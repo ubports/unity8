@@ -6,33 +6,35 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-11-16 10:44+0000\n"
-"PO-Revision-Date: 2015-07-06 05:33+0000\n"
-"Last-Translator: ☠Jay ZDLin☠ <Unknown>\n"
-"Language-Team: Russian <ru@li.org>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-08 13:29-0500\n"
+"PO-Revision-Date: 2018-11-20 11:28+0000\n"
+"Last-Translator: ierihon <idekovets@mail.ru>\n"
+"Language-Team: Russian <https://translate.ubports.com/projects/unity8/unity8/"
+"ru/>\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.1.1\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
-"X-Generator: Launchpad (build 18269)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
 msgstr "Пароль: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:108
+#: plugins/Unity/Launcher/launcheritem.cpp:50
+#: plugins/Unity/Launcher/launcheritem.cpp:109
 msgid "Pin shortcut"
 msgstr "Закрепить ярлык"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:54
+#: plugins/Unity/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Завершить"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:108
+#: plugins/Unity/Launcher/launcheritem.cpp:109
 msgid "Unpin shortcut"
 msgstr "Открепить ярлык"
 
@@ -166,7 +168,7 @@ msgstr "Super + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Switches applications via the launcher."
-msgstr ""
+msgstr "Переключает приложения через пусковую установку."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + 0 to 9"
@@ -206,7 +208,7 @@ msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:234
 msgid "Opens the desktop spread."
-msgstr ""
+msgstr "Открывает рабочий стол."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Cursor Left or Right"
@@ -343,24 +345,24 @@ msgstr "Уточнить результаты"
 msgid "Reset"
 msgstr "Сбросить"
 
-#: qml/Dash/GenericScopeView.qml:545 qml/Dash/GenericScopeView.qml:716
+#: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
 msgid "Show less"
 msgstr "Показать меньше"
 
-#: qml/Dash/GenericScopeView.qml:545
+#: qml/Dash/GenericScopeView.qml:547
 msgid "Show all"
 msgstr "Показать больше"
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:578
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Поиск"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:57
+#: qml/Dash/PageHeaderExtraPanel.qml:67
 msgid "Recent Searches"
 msgstr "Недавние поиски"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:68
+#: qml/Dash/PageHeaderExtraPanel.qml:78
 msgid "Clear All"
 msgstr "Очистить всё"
 
@@ -457,7 +459,7 @@ msgstr "Идентификационная фраза"
 msgid "Passcode"
 msgstr "Секретный код"
 
-#: qml/Greeter/LoginList.qml:98
+#: qml/Greeter/LoginList.qml:98 qml/Wizard/Pages/UpdateDelegate.qml:118
 msgid "Retry"
 msgstr "Повторить"
 
@@ -528,6 +530,7 @@ msgid "In queue…"
 msgstr "В очереди..."
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:999
+#: qml/Wizard/Pages/UpdateDelegate.qml:226
 msgid "Downloading"
 msgstr "Загрузка"
 
@@ -573,8 +576,7 @@ msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
-msgstr ""
-"Кратко проведите пальцем от левого края, чтобы открыть панель запуска"
+msgstr "Кратко проведите пальцем от левого края, чтобы открыть панель запуска"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
@@ -588,24 +590,44 @@ msgstr ""
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
 
-#: qml/Wizard/Page.qml:54
+#: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Назад"
 
-#: qml/Wizard/Pages/10-welcome.qml:28
+#: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
 msgstr "Язык"
 
-#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:207 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:145
-#: qml/Wizard/Pages/75-report-check.qml:84
+#: qml/Wizard/Pages/10-welcome.qml:175
+#: qml/Wizard/Pages/10-welcome-update.qml:126
+#: qml/Wizard/Pages/11-changelog.qml:74 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:208 qml/Wizard/Pages/50-timezone.qml:272
+#: qml/Wizard/Pages/60-account.qml:66 qml/Wizard/Pages/70-passwd-type.qml:146
+#: qml/Wizard/Pages/75-report-check.qml:85
+#: qml/Wizard/Pages/76-app-update.qml:236
 #: qml/Wizard/Pages/passcode-desktop.qml:142
 #: qml/Wizard/Pages/password-set.qml:142
 msgid "Next"
 msgstr "Далее"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:91
+#, fuzzy
+msgid "Welcome to "
+msgstr "Добро пожаловать в Ubuntu"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:106
+msgid "We will make sure your device is ready to use "
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:28
+msgid "What's new"
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:74
+#, fuzzy
+msgid "Loading..."
+msgstr "Говорите..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
@@ -619,9 +641,9 @@ msgstr "Язык клавиатуры"
 msgid "Keyboard layout"
 msgstr "Раскладка клавиатуры"
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:207
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/77-system-update.qml:152
-#: qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:208
+#: qml/Wizard/Pages/60-account.qml:66 qml/Wizard/Pages/76-app-update.qml:240
+#: qml/Wizard/Pages/79-system-update.qml:152 qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Пропустить"
 
@@ -629,57 +651,23 @@ msgstr "Пропустить"
 msgid "Connect to Wi‑Fi"
 msgstr "Подключение к Wi‑Fi"
 
-#: qml/Wizard/Pages/30-wifi.qml:132
+#: qml/Wizard/Pages/30-wifi.qml:133
 msgid "Connected"
 msgstr "Подключено"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:166
 msgid "Available Wi-Fi networks"
 msgstr "Доступные Wi-Fi сети"
 
-#: qml/Wizard/Pages/30-wifi.qml:166
+#: qml/Wizard/Pages/30-wifi.qml:167
 msgid "No available Wi-Fi networks"
 msgstr "Нет доступных Wi-Fi сетей"
-
-#: qml/Wizard/Pages/40-location.qml:27
-msgid "Location Services"
-msgstr "Службы геолокации"
-
-#: qml/Wizard/Pages/40-location.qml:83
-msgid ""
-"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
-"(recommended)"
-msgstr ""
-"Использовать анонимно GPS, точки доступа Wi-Fi  и мобильную сеть для "
-"определения местоположения (рекомендуется)"
-
-#: qml/Wizard/Pages/40-location.qml:105
-#, qt-format
-msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr "Выбрав эту опцию, вы соглашаитесь с  Nokia HERE %1."
-
-#: qml/Wizard/Pages/40-location.qml:106
-msgctxt "part of: Nokia HERE terms and conditions"
-msgid "terms and conditions"
-msgstr "условия и соглашения"
-
-#: qml/Wizard/Pages/40-location.qml:160
-msgid "GPS only"
-msgstr "Только GPS"
-
-#: qml/Wizard/Pages/40-location.qml:214
-msgid "Don't use my location"
-msgstr "Не использовать определение моего местоположения"
-
-#: qml/Wizard/Pages/40-location.qml:260
-msgid "You can change it later in System Settings."
-msgstr "Вы можете это изменить, позже в Настройках Системы"
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "Часовой пояс"
 
-#: qml/Wizard/Pages/50-timezone.qml:182
+#: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
 msgstr "Введите ваш город"
 
@@ -687,7 +675,7 @@ msgstr "Введите ваш город"
 msgid "Personalize Your Device"
 msgstr "Персонализация Устройства"
 
-#: qml/Wizard/Pages/60-account.qml:48
+#: qml/Wizard/Pages/60-account.qml:49
 msgid "Preferred Name"
 msgstr "Предпочитаемое имя"
 
@@ -695,22 +683,22 @@ msgstr "Предпочитаемое имя"
 msgid "Lock Screen"
 msgstr "Заблокировать экран"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:102
+#: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr "Создать новый пароль"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:104
+#: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr "Создать парольный код (только цифры)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:106
+#: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "Без кода разблокировки"
 
-#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
+#: qml/Wizard/Pages/75-report-check.qml:26
 msgid "Privacy Policy"
 msgstr "Политика конфиденциальности"
 
@@ -718,20 +706,46 @@ msgstr "Политика конфиденциальности"
 msgid "Help Us Improve"
 msgstr "Помогите нам улучшить"
 
-#: qml/Wizard/Pages/75-report-check.qml:59
+#: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Improve system performance by sending us crashes and error reports."
 msgstr ""
 "Помогите нам улучшить систему, отправивь нам отчёт об ошибках устройства"
 
-#: qml/Wizard/Pages/75-report-check.qml:60
+#: qml/Wizard/Pages/75-report-check.qml:61
 msgid "Privacy policy"
 msgstr "Политика конфиденциальности"
 
-#: qml/Wizard/Pages/77-system-update.qml:28
+#: qml/Wizard/Pages/76-app-update.qml:35
+msgid "Update Apps"
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:127
+msgid "This device is not connected to the internet."
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:128
+#: qml/Wizard/Pages/76-app-update.qml:134
+msgid "Use the OpenStore app to check for updates once connected."
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:130
+msgid "Software is up to date"
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:133
+msgid "The update server is not responding."
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:238
+#, fuzzy
+msgid "Please wait..."
+msgstr "Загрузка. Пожалуйста, подождите..."
+
+#: qml/Wizard/Pages/79-system-update.qml:28
 msgid "Update Device"
 msgstr "Обновить устройство"
 
-#: qml/Wizard/Pages/77-system-update.qml:55
+#: qml/Wizard/Pages/79-system-update.qml:55
 msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
@@ -739,72 +753,69 @@ msgstr ""
 "Доступно и готово к установке обновление системы. После чего, устройство "
 "выполнит автоматическую перезагрузку."
 
-#: qml/Wizard/Pages/77-system-update.qml:76
+#: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu system"
 msgstr "Система Ubuntu"
 
-#: qml/Wizard/Pages/77-system-update.qml:83
+#: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
 msgstr "Версия %1"
 
-#: qml/Wizard/Pages/77-system-update.qml:102
+#: qml/Wizard/Pages/79-system-update.qml:102
 msgid "This could take a few minutes..."
 msgstr "Операция может занять несколько минут..."
 
-#: qml/Wizard/Pages/77-system-update.qml:116
+#: qml/Wizard/Pages/79-system-update.qml:116
 msgid "Install and restart now"
 msgstr "Установить и перезагрузить сейчас"
 
-#: qml/Wizard/Pages/80-finished.qml:89
+#: qml/Wizard/Pages/80-finished.qml:91
+msgid "Welcome Back"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
 msgstr "Добро пожаловать в Ubuntu"
 
-#: qml/Wizard/Pages/80-finished.qml:104
+#: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
 msgstr "Теперь устройство готово к использованию"
 
-#: qml/Wizard/Pages/80-finished.qml:124
+#: qml/Wizard/Pages/80-finished.qml:126
+msgid "Continue"
+msgstr "Продолжить"
+
+#: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
 msgstr "Приступая к работе"
 
-#: qml/Wizard/Pages/here-terms.qml:25
-msgid "Terms & Conditions"
-msgstr "Условия использования"
-
-#: qml/Wizard/Pages/here-terms.qml:69
-msgid "Your device uses positioning technologies provided by HERE."
-msgstr "Ваше устройство использует HERE для определения местоположения"
-
-#: qml/Wizard/Pages/here-terms.qml:81
-msgid ""
-"To provide you with positioning services and to improve their quality, HERE "
-"collects information about nearby cell towers and Wi-Fi hotspots around your "
-"current location whenever your position is being found."
+#: qml/Wizard/Pages/DownloadHandler.qml:174
+msgid "Installation failed"
 msgstr ""
-"Для того, чтобы предоставить вам услуги позиционирования и повышения их "
-"качества, ЗДЕСЬ собирается информация о близлежащих вышках сотовой связи и "
-"точках доступа Wi-Fi вокруг вашего текущего местоположения всякий раз, когда "
-"ваша позиция была обнаружена."
 
-#: qml/Wizard/Pages/here-terms.qml:93
-msgid ""
-"The information collected is used to analyze the service and to improve the "
-"use of service, but not to identify you personally."
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:84
+msgid "Checking for updates…"
 msgstr ""
-"Собираемая информация используется для анализа и улучшения сервиса, а не для "
-"идентификации вашей личности."
 
-#: qml/Wizard/Pages/here-terms.qml:106
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:109
 #, qt-format
-msgid "By continuing, you agree to the HERE platform %1 and %2."
+msgid "%1 update available"
+msgid_plural "%1 updates available"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:119
+msgid "Update all…"
 msgstr ""
 
-#: qml/Wizard/Pages/here-terms.qml:107
-msgid "Service Terms"
-msgstr "Условия использования сервиса"
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:121
+#, fuzzy
+msgid "Update all"
+msgstr "Обновить устройство"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:97
@@ -890,6 +901,73 @@ msgstr ""
 msgid "To proceed with no SIM tap Skip."
 msgstr "Чтобы продолжить без SIM-карты, нажмите кнопку \"Пропустить\""
 
+#: qml/Wizard/Pages/UpdateDelegate.qml:123
+#, fuzzy
+msgid "Update"
+msgstr "Обновить устройство"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:125
+#, fuzzy
+msgid "Download"
+msgstr "Загрузка"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:131
+msgid "Resume"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:138
+msgid "Pause"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:142
+msgid "Install…"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:144
+msgid "Install"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:148
+msgid "Open"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:216
+msgid "Installing"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:220
+msgid "Paused"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:223
+msgid "Waiting to download"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:279
+#, qt-format
+msgid "%1 of %2"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:283
+#, fuzzy
+msgid "Downloaded"
+msgstr "Загрузка"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:286
+#, fuzzy
+msgid "Installed"
+msgstr "Также установлено"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:291
+#, fuzzy, qt-format
+msgid "Updated %1"
+msgstr "Обновить устройство"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:315
+#, fuzzy
+msgid "Update failed"
+msgstr "Обновить устройство"
+
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
 msgstr "Пароль слишком короткий"
@@ -918,16 +996,62 @@ msgstr "Слабый пароль"
 msgid "Very weak password"
 msgstr "Very weak password"
 
+#~ msgid "Location Services"
+#~ msgstr "Службы геолокации"
+
+#~ msgid ""
+#~ "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
+#~ "(recommended)"
+#~ msgstr ""
+#~ "Использовать анонимно GPS, точки доступа Wi-Fi  и мобильную сеть для "
+#~ "определения местоположения (рекомендуется)"
+
+#~ msgid "By selecting this option you agree to the Nokia HERE %1."
+#~ msgstr "Выбрав эту опцию, вы соглашаитесь с  Nokia HERE %1."
+
+#~ msgctxt "part of: Nokia HERE terms and conditions"
+#~ msgid "terms and conditions"
+#~ msgstr "условия и соглашения"
+
+#~ msgid "GPS only"
+#~ msgstr "Только GPS"
+
+#~ msgid "Don't use my location"
+#~ msgstr "Не использовать определение моего местоположения"
+
+#~ msgid "You can change it later in System Settings."
+#~ msgstr "Вы можете это изменить, позже в Настройках Системы"
+
+#~ msgid "Terms & Conditions"
+#~ msgstr "Условия использования"
+
+#~ msgid "Your device uses positioning technologies provided by HERE."
+#~ msgstr "Ваше устройство использует HERE для определения местоположения"
+
+#~ msgid ""
+#~ "To provide you with positioning services and to improve their quality, "
+#~ "HERE collects information about nearby cell towers and Wi-Fi hotspots "
+#~ "around your current location whenever your position is being found."
+#~ msgstr ""
+#~ "Для того, чтобы предоставить вам услуги позиционирования и повышения их "
+#~ "качества, ЗДЕСЬ собирается информация о близлежащих вышках сотовой связи "
+#~ "и точках доступа Wi-Fi вокруг вашего текущего местоположения всякий раз, "
+#~ "когда ваша позиция была обнаружена."
+
+#~ msgid ""
+#~ "The information collected is used to analyze the service and to improve "
+#~ "the use of service, but not to identify you personally."
+#~ msgstr ""
+#~ "Собираемая информация используется для анализа и улучшения сервиса, а не "
+#~ "для идентификации вашей личности."
+
+#~ msgid "Service Terms"
+#~ msgstr "Условия использования сервиса"
+
 #~ msgid "Type or say a command"
 #~ msgstr "Введите или произнесите команду"
 
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Загрузка. Пожалуйста, подождите..."
-
 #~ msgid "Speak Now..."
-#~ msgstr "Говорите..."
-
-#~ msgid "Speaking..."
 #~ msgstr "Говорите..."
 
 #~ msgid "Search"
@@ -949,7 +1073,8 @@ msgstr "Very weak password"
 
 #~ msgid "Try swiping from the top edge to access the indicators"
 #~ msgstr ""
-#~ "Попробуйте переместить палец от верхнего края вниз для доступа к индикаторам"
+#~ "Попробуйте переместить палец от верхнего края вниз для доступа к "
+#~ "индикаторам"
 
 #~ msgid "Close"
 #~ msgstr "Закрыть"
@@ -968,8 +1093,8 @@ msgstr "Very weak password"
 
 #~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
 #~ msgstr ""
-#~ "Переместите палец от левого края вправо для открытия лаунчера для быстрого "
-#~ "доступа к приложениям"
+#~ "Переместите палец от левого края вправо для открытия лаунчера для "
+#~ "быстрого доступа к приложениям"
 
 #~ msgid "See less"
 #~ msgstr "Вкратце"
@@ -1006,8 +1131,8 @@ msgstr "Very weak password"
 #~ msgstr "Осталась последняя попытка."
 
 #~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
-#~ "and all personal data will be deleted."
+#~ "If passcode is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
 #~ msgstr ""
 #~ "Если секретный код будет введен неверно, то телефон вернётся к заводским "
 #~ "настройкам, а все личные данные будут удалены."
@@ -1018,7 +1143,6 @@ msgstr "Very weak password"
 #~ msgid "Sorry, incorrect passphrase"
 #~ msgstr "Введена неверная кодовая фраза"
 
-#, qt-format
 #~ msgid "Sorry, incorrect %1"
 #~ msgstr "Некорректный ввод %1"
 
@@ -1049,7 +1173,6 @@ msgstr "Very weak password"
 #~ msgid "Enter passphrase"
 #~ msgstr "Введите кодовую фразу"
 
-#, qt-format
 #~ msgid "Enter %1"
 #~ msgstr "Введите %1"
 
@@ -1075,9 +1198,6 @@ msgstr "Very weak password"
 #~ msgid "Let’s get started."
 #~ msgstr "Приступим."
 
-#~ msgid "Continue"
-#~ msgstr "Продолжить"
-
 #~ msgid "Hi!"
 #~ msgstr "Привет!"
 
@@ -1088,8 +1208,8 @@ msgstr "Very weak password"
 #~ msgstr "Выберите способ разблокировки телефона."
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
+#~ "and conditions</a>."
 #~ msgstr ""
 #~ "Выбирая данную функцию, вы соглашаетесь с <a href='#'>условиями "
 #~ "использования</a> Nokia HERE."
@@ -1111,7 +1231,8 @@ msgstr "Very weak password"
 
 #~ msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
 #~ msgstr ""
-#~ "Используя GPS, анонимизированные данные Wi-Fi и сотовых сетей (рекомендуется)"
+#~ "Используя GPS, анонимизированные данные Wi-Fi и сотовых сетей "
+#~ "(рекомендуется)"
 
 #~ msgid ""
 #~ "Your phone is set up to automatically report errors to Canonical and its "
@@ -1128,8 +1249,8 @@ msgstr "Very weak password"
 #~ "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 #~ "Privacy</b>"
 #~ msgstr ""
-#~ "Данную функцию можно отключить, перейдя в <b>Параметры системы</b>, раздел "
-#~ "<b>Защита и приватность</b>"
+#~ "Данную функцию можно отключить, перейдя в <b>Параметры системы</b>, "
+#~ "раздел <b>Защита и приватность</b>"
 
 #~ msgid "Nice work!"
 #~ msgstr "Отличная работа!"
@@ -1146,11 +1267,9 @@ msgstr "Very weak password"
 #~ msgid "Confirm passphrase"
 #~ msgstr "Подтвердите кодовую фразу"
 
-#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
-#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
@@ -1295,7 +1414,8 @@ msgstr "Very weak password"
 #~ "настройкам, а все личные данные будут удалены."
 
 #~ msgid "Hover your mouse on the right edge to view your open apps"
-#~ msgstr "Наведите указатель на правый угол, чтобы увидеть открытые приложения"
+#~ msgstr ""
+#~ "Наведите указатель на правый угол, чтобы увидеть открытые приложения"
 
 #~ msgid "Swipe from the left edge to open the launcher"
 #~ msgstr "Проведите от левого края экрана, что бы открыть меню запуска"
