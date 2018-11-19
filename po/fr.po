@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
 "PO-Revision-Date: 2018-11-19 21:16+0000\n"
-"Last-Translator: Max Libre <libremax@protonmail.com>\n"
+"Last-Translator: Anne Onyme <anneonyme017@tutanota.com>\n"
 "Language-Team: French <https://translate.ubports.com/projects/unity8/unity8/"
 "fr/>\n"
 "Language: fr\n"
@@ -40,11 +40,11 @@ msgstr "Détacher le raccourci"
 #: qml/Components/Dialogs.qml:149
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr "Fermer la session"
+msgstr "Se déconnecter"
 
 #: qml/Components/Dialogs.qml:150
 msgid "Are you sure you want to log out?"
-msgstr "Êtes-vous sûr de vouloir vous déconnecter ?"
+msgstr "Êtes-vous sûr(e) de vouloir vous déconnecter ?"
 
 #: qml/Components/Dialogs.qml:152
 msgctxt "Button: Lock the system"
@@ -54,7 +54,7 @@ msgstr "Verrouiller"
 #: qml/Components/Dialogs.qml:159
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr "Fermer la session"
+msgstr "Se déconnecter"
 
 #: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
 #: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
@@ -70,7 +70,7 @@ msgstr "Redémarrer"
 
 #: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
-msgstr "Êtes-vous sûr de vouloir redémarrer ?"
+msgstr "Êtes-vous sûr(e) de vouloir redémarrer ?"
 
 #: qml/Components/Dialogs.qml:181
 msgid "No"
@@ -83,15 +83,15 @@ msgstr "Oui"
 #: qml/Components/Dialogs.qml:202
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr "Alimentation"
+msgstr "Extinction"
 
 #: qml/Components/Dialogs.qml:203
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
-"Êtes-vous sûr de vouloir\n"
-"couper l'alimentation ?"
+"Êtes-vous sûr(e) de vouloir\n"
+"éteindre ?"
 
 #: qml/Components/Dialogs.qml:205
 msgctxt "Button: Power off the system"
@@ -125,7 +125,7 @@ msgstr "Alt + Impécr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of a window."
-msgstr "Prends une capture d'écran d'une fenêtre."
+msgstr "Prend une capture d'écran d'une fenêtre."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -273,7 +273,7 @@ msgstr "Appel d'urgence"
 
 #: qml/Components/Lockscreen.qml:244
 msgid "OK"
-msgstr "OK"
+msgstr "Valider"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
@@ -300,12 +300,12 @@ msgstr ""
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
 msgstr ""
-"Ou forcer la fermeture maintenant (les données non enregistrées seront "
+"Ou forcez la fermeture maintenant (les données non enregistrées seront "
 "perdues)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
-msgstr "OK, je vais me reconnecter"
+msgstr "D'accord, je vais me reconnecter"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
@@ -386,7 +386,7 @@ msgstr "Envoyer"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:109
 msgid "Rate this"
-msgstr "Évaluez ceci"
+msgstr "Évaluer ceci"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:184
 msgid "Add a review"
