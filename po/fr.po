@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2018-11-19 21:16+0000\n"
+"PO-Revision-Date: 2018-11-20 11:28+0000\n"
 "Last-Translator: Anne Onyme <anneonyme017@tutanota.com>\n"
 "Language-Team: French <https://translate.ubports.com/projects/unity8/unity8/"
 "fr/>\n"
@@ -386,7 +386,7 @@ msgstr "Envoyer"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:109
 msgid "Rate this"
-msgstr "Évaluer ceci"
+msgstr "Évaluer"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:184
 msgid "Add a review"
@@ -436,19 +436,19 @@ msgstr "Appareil verrouillé"
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
 "L'appareil a été verrouillé suite à un trop grand nombre de tentatives de "
-"saisie d'une phrase de passe erronée."
+"saisie d'un mot de passe erroné."
 
 #: qml/Greeter/DelayedLockscreen.qml:59
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
 "Vous avez été bloqué suite à un trop grand nombre de tentatives de saisie "
-"d'un mot de passe erroné."
+"d'un code erroné."
 
 #: qml/Greeter/DelayedLockscreen.qml:68
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Veuillez patienter %1 minute puis réessayez…"
+msgstr[0] "Veuillez patienter une minute puis réessayez…"
 msgstr[1] "Veuillez patienter %1 minutes puis réessayez…"
 
 #: qml/Greeter/Greeter.qml:596
@@ -457,7 +457,7 @@ msgstr "Réessayer"
 
 #: qml/Greeter/LoginList.qml:70
 msgid "Passphrase"
-msgstr "Phrase secrète"
+msgstr "Mot de passe"
 
 #: qml/Greeter/LoginList.qml:71
 msgid "Passcode"
@@ -469,7 +469,7 @@ msgstr "Réessayer"
 
 #: qml/Greeter/LoginList.qml:99
 msgid "Log In"
-msgstr "Connexion"
+msgstr "Se connecter"
 
 #: qml/Greeter/NarrowView.qml:252
 msgid "Emergency"
@@ -577,7 +577,7 @@ msgstr ""
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr ""
 "Faites glisser à partir du bord gauche jusqu'au bord droit pour ouvrir le "
-"moteur de recherche Aujourd'hui"
+"moteur de recherche « Aujourd'hui »"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -631,7 +631,7 @@ msgstr "Nous allons nous assurer que votre appareil est prêt à l'emploi "
 
 #: qml/Wizard/Pages/11-changelog.qml:28
 msgid "What's new"
-msgstr "Quoi de neuf"
+msgstr "Nouveautés"
 
 #: qml/Wizard/Pages/11-changelog.qml:74
 msgid "Loading..."
@@ -639,7 +639,7 @@ msgstr "Chargement..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
-msgstr "Sélectionner le clavier"
+msgstr "Sélectionnez le clavier"
 
 #: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
@@ -657,7 +657,7 @@ msgstr "Passer"
 
 #: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
-msgstr "Se connecter au Wi-Fi"
+msgstr "Connectez-vous au Wi-Fi"
 
 #: qml/Wizard/Pages/30-wifi.qml:133
 msgid "Connected"
@@ -677,24 +677,24 @@ msgstr "Fuseau horaire"
 
 #: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
-msgstr "Saisir votre ville"
+msgstr "Saisissez votre ville"
 
 #: qml/Wizard/Pages/60-account.qml:24
 msgid "Personalize Your Device"
-msgstr "Personnaliser votre appareil"
+msgstr "Personnalisez votre appareil"
 
 #: qml/Wizard/Pages/60-account.qml:49
 msgid "Preferred Name"
-msgstr "Nom préferé"
+msgstr "Nom préféré"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:40
 msgid "Lock Screen"
-msgstr "Verrouiller l'écran"
+msgstr "Verrouillez l'écran"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
-msgstr "Créer un nouveau mot de passe"
+msgstr "Créer un mot de passe"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
@@ -704,7 +704,7 @@ msgstr "Créer un code (chiffres uniquement)"
 #: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
-msgstr "Aucun code de verrouillage"
+msgstr "Aucun verrouillage"
 
 #: qml/Wizard/Pages/75-report-check.qml:26
 msgid "Privacy Policy"
@@ -718,7 +718,7 @@ msgstr "Aidez-nous à nous améliorer"
 msgid "Improve system performance by sending us crashes and error reports."
 msgstr ""
 "Améliorez les performances du système en nous envoyant les rapports d'erreur "
-"et en nous signalant les anomalies."
+"et en nous signalant les problèmes."
 
 #: qml/Wizard/Pages/75-report-check.qml:61
 msgid "Privacy policy"
@@ -726,7 +726,7 @@ msgstr "Politique de confidentialité"
 
 #: qml/Wizard/Pages/76-app-update.qml:35
 msgid "Update Apps"
-msgstr "Mise à jour des applications"
+msgstr "Mettez à jour les applications"
 
 #: qml/Wizard/Pages/76-app-update.qml:127
 msgid "This device is not connected to the internet."
@@ -749,11 +749,11 @@ msgstr "Le serveur de mise à jour ne répond pas."
 
 #: qml/Wizard/Pages/76-app-update.qml:238
 msgid "Please wait..."
-msgstr "Veuillez patienter…"
+msgstr "Veuillez patienter..."
 
 #: qml/Wizard/Pages/79-system-update.qml:28
 msgid "Update Device"
-msgstr "Mettre à jour l'appareil"
+msgstr "Mettez à jour l'appareil"
 
 #: qml/Wizard/Pages/79-system-update.qml:55
 msgid ""
@@ -761,7 +761,7 @@ msgid ""
 "device will automatically restart."
 msgstr ""
 "Une mise à jour du système est disponible et prête à être installée. Votre "
-"appareil redémarrera automatiquement."
+"appareil redémarrera automatiquement après cela."
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
@@ -776,7 +776,7 @@ msgstr "Version %1"
 
 #: qml/Wizard/Pages/79-system-update.qml:102
 msgid "This could take a few minutes..."
-msgstr "Cela pourra prendre quelques minutes…"
+msgstr "Cela pourra prendre quelques minutes..."
 
 #: qml/Wizard/Pages/79-system-update.qml:116
 msgid "Install and restart now"
@@ -792,7 +792,7 @@ msgstr "Bienvenue sur Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
-msgstr "Vous êtes prêt à utiliser votre appareil maintenant"
+msgstr "Vous êtes maintenant prêt(e) à utiliser votre appareil"
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Continue"
@@ -800,7 +800,7 @@ msgstr "Continuer"
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
-msgstr "Commencer"
+msgstr "Premiers pas"
 
 #: qml/Wizard/Pages/DownloadHandler.qml:174
 msgid "Installation failed"
@@ -814,16 +814,16 @@ msgstr "Recherche de mises à jour…"
 #, qt-format
 msgid "%1 update available"
 msgid_plural "%1 updates available"
-msgstr[0] "%1 mise à jour disponible"
+msgstr[0] "Une mise à jour disponible"
 msgstr[1] "%1 mises à jour disponibles"
 
 #: qml/Wizard/Pages/GlobalUpdateControls.qml:119
 msgid "Update all…"
-msgstr "Mettre tout à jour…"
+msgstr "Tout mettre à jour…"
 
 #: qml/Wizard/Pages/GlobalUpdateControls.qml:121
 msgid "Update all"
-msgstr "Mettre tout à jour"
+msgstr "Tout mettre à jour"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:97
@@ -841,7 +841,7 @@ msgstr "Veuillez ressaisir."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
-msgstr "Code de verrouillage d'écran"
+msgstr "Code de verrouillage de l'écran"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:61
 msgid "Enter 4 numbers to setup your passcode"
@@ -978,11 +978,11 @@ msgstr "Mot de passe trop court"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
-msgstr "Les mots de passe correspondent"
+msgstr "Les phrases secrètes correspondent"
 
 #: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
-msgstr "Les mots de passe ne correspondent pas"
+msgstr "Les phrases secrètes ne correspondent pas"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
