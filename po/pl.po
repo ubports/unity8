@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2018-11-19 22:08+0000\n"
+"PO-Revision-Date: 2018-11-20 11:28+0000\n"
 "Last-Translator: Daniel Frańczak <danielfranczak5@wp.pl>\n"
 "Language-Team: Polish <https://translate.ubports.com/projects/unity8/unity8/"
 "pl/>\n"
@@ -116,7 +116,7 @@ msgstr "PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr "Pobiera zrzut ekranu"
+msgstr "Wykonuje zrzut ekranu."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
@@ -124,7 +124,7 @@ msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of a window."
-msgstr "Pobiera zrzut ekranu okna"
+msgstr "Wykonuje zrzut ekranu okna."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -132,7 +132,7 @@ msgstr "Super + Spacja"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr "Przełącza do kolejnego układu klawiatury"
+msgstr "Przełącza do kolejnego układu klawiatury."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
@@ -140,7 +140,7 @@ msgstr "Super + Shift + Spacja"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr "Przełącza do poprzedniego układu klawiatury"
+msgstr "Przełącza do poprzedniego układu klawiatury."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:118
 msgid "Launcher"
@@ -152,7 +152,7 @@ msgstr "Super (Przytrzymaj)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:130
 msgid "Opens the launcher, displays shortcuts."
-msgstr "Otwiera panel uruchamiania, wyświetla skróty"
+msgstr "Otwiera panel uruchamiania, wyświetla skróty."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Alt + F1"
@@ -160,7 +160,7 @@ msgstr "Alt + F1"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens launcher keyboard navigation mode."
-msgstr "Otwiera tryb nawigacji klawiaturą dla panelu uruchamiania"
+msgstr "Otwiera tryb nawigacji klawiaturą dla panelu uruchamiania."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Super + Tab"
@@ -168,7 +168,7 @@ msgstr "Super + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Switches applications via the launcher."
-msgstr "Przełącza aplikacje poprzez panel uruchamiania"
+msgstr "Przełącza aplikacje poprzez panel uruchamiania."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + 0 to 9"
@@ -176,7 +176,7 @@ msgstr "Super + 0-9"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Same as clicking on a launcher icon."
-msgstr "Ta sama reakcja co przy kliknięciu na ikonę panelu uruchamiania"
+msgstr "Ta sama reakcja co przy kliknięciu na ikonę panelu uruchamiania."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:181
 msgid "Scopes"
@@ -188,7 +188,7 @@ msgstr "Super (stuknij)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:193
 msgid "Opens the Scopes home."
-msgstr "Otwiera stronę soczewek"
+msgstr "Otwiera stronę soczewek."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:209
 msgid "Switching"
@@ -200,7 +200,7 @@ msgstr "Alt + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:221
 msgid "Switches between applications."
-msgstr "Przełącza pomiędzy aplikacjami"
+msgstr "Przełącza pomiędzy aplikacjami."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:229
 msgid "Super + W"
@@ -236,7 +236,7 @@ msgstr "Ctrl + Super + Up"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:284
 msgid "Maximizes the current window."
-msgstr "Maksymalizuje aktywne okno"
+msgstr "Maksymalizuje aktywne okno."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + Down"
@@ -244,7 +244,7 @@ msgstr "Ctrl + Super + Down"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes or restores the current window."
-msgstr "Minimalizuje lub przywraca aktywne okno"
+msgstr "Minimalizuje lub przywraca aktywne okno."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Left or Right"
@@ -252,7 +252,7 @@ msgstr "Ctrl + Super + Left or Right"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Semi-maximizes the current window."
-msgstr "Pół-maksymalizacja aktywnego okna"
+msgstr "Pół-maksymalizacja aktywnego okna."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Alt + F4"
@@ -293,7 +293,8 @@ msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
-"Zadokuj ponownie, zapisz co niezapisane i zamknij te aplikacje by kontynuować"
+"Zadokuj ponownie, zapisz co niezapisane i zamknij te aplikacje by "
+"kontynuować."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
@@ -390,11 +391,11 @@ msgstr "Dodaj recenzję"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:56
 msgid "Pull to refresh…"
-msgstr "Przeciągnij by odświeżyć"
+msgstr "Przeciągnij by odświeżyć…"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:61
 msgid "Release to refresh…"
-msgstr "Zwolnij by odświeżyć"
+msgstr "Zwolnij by odświeżyć…"
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
@@ -524,7 +525,7 @@ msgstr "Pozostało: %1"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:995
 msgid "In queue…"
-msgstr "W kolejce..."
+msgstr "W kolejce…"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:999
 #: qml/Wizard/Pages/UpdateDelegate.qml:226
@@ -766,7 +767,7 @@ msgstr "Wersja %1"
 
 #: qml/Wizard/Pages/79-system-update.qml:102
 msgid "This could take a few minutes..."
-msgstr "To może potrwać kilka minut"
+msgstr "To może potrwać kilka minut…"
 
 #: qml/Wizard/Pages/79-system-update.qml:116
 msgid "Install and restart now"
@@ -782,7 +783,7 @@ msgstr "Witamy w Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
-msgstr "Twoje urządzenie jest gotowe do działania!"
+msgstr "Twoje urządzenie jest gotowe do działania"
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Continue"
@@ -823,12 +824,12 @@ msgstr "Potwierdź kod"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
-msgstr "Niepoprawny kod"
+msgstr "Niepoprawny kod."
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgctxt "Enter the passcode again"
 msgid "Please re-enter."
-msgstr "Spróbuj ponownie"
+msgstr "Spróbuj ponownie."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
@@ -899,7 +900,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr "Pomiń, by kontynuować bez karty SIM"
+msgstr "Pomiń, by kontynuować bez karty SIM."
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:123
 msgid "Update"
@@ -973,7 +974,7 @@ msgstr "Hasła zgodne"
 
 #: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
-msgstr "Hasła nie zgadzają się."
+msgstr "Hasła nie zgadzają się"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
