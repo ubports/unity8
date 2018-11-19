@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2018-11-19 10:27+0000\n"
+"PO-Revision-Date: 2018-11-19 21:16+0000\n"
 "Last-Translator: Max Libre <libremax@protonmail.com>\n"
 "Language-Team: French <https://translate.ubports.com/projects/unity8/unity8/"
 "fr/>\n"
@@ -394,11 +394,11 @@ msgstr "Ajouter un avis"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:56
 msgid "Pull to refresh…"
-msgstr "Tirer pour actualiser..."
+msgstr "Tirer pour actualiser…"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:61
 msgid "Release to refresh…"
-msgstr "Relâcher pour actualiser..."
+msgstr "Relâcher pour actualiser…"
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
@@ -448,8 +448,8 @@ msgstr ""
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Veuillez patienter %1 minute puis réessayez..."
-msgstr[1] "Veuillez patienter %1 minutes puis réessayez..."
+msgstr[0] "Veuillez patienter %1 minute puis réessayez…"
+msgstr[1] "Veuillez patienter %1 minutes puis réessayez…"
 
 #: qml/Greeter/Greeter.qml:596
 msgid "Try again"
@@ -528,7 +528,7 @@ msgstr "Il reste %1"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:995
 msgid "In queue…"
-msgstr "Dans la file d'attente..."
+msgstr "Dans la file d'attente…"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:999
 #: qml/Wizard/Pages/UpdateDelegate.qml:226
@@ -908,7 +908,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr "Pour poursuivre sans carte SIM, appuyez sur « Passer »"
+msgstr "Pour poursuivre sans carte SIM, appuyez sur « Passer »."
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:123
 msgid "Update"
