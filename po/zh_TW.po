@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2018-11-20 05:33+0000\n"
+"PO-Revision-Date: 2018-11-20 11:28+0000\n"
 "Last-Translator: Louies <louies0623@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://translate.ubports.com/projects/"
 "unity8/unity8/zh_Hant/>\n"
@@ -199,7 +199,7 @@ msgstr "Alt + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:221
 msgid "Switches between applications."
-msgstr "在應用程式之間切換"
+msgstr "在應用程式之間切換。"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:229
 msgid "Super + W"
