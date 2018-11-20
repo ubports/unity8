@@ -19,7 +19,7 @@ bash <(wget -qO- https://raw.githubusercontent.com/ubports/unity8-desktop-instal
 
 **NOTE:**  The above installation instructions currently only work on Ubuntu 16.04 (xenial) and 18.04 (bionic). Please be aware that the script will install the latest *development preview* of Unity8 for desktop.  ***Expect bugs!***  Only install this preview if you understand the risks and are willing/able to fix your system if the preview breaks anything.  You are advised *not* to install this preview onto a production system.
 
-See [CODING](CODING) for build instructions.
+See [CODING](CODING.md) for build instructions.
 
 
 ### Where to report issues
