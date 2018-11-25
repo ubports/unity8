@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2018-11-25 00:02+0000\n"
-"Last-Translator: Max Libre <libremax@protonmail.com>\n"
+"PO-Revision-Date: 2018-11-25 19:31+0000\n"
+"Last-Translator: Anne Onyme <anneonyme017@tutanota.com>\n"
 "Language-Team: French <https://translate.ubports.com/projects/unity8/unity8/"
 "fr/>\n"
 "Language: fr\n"
@@ -208,7 +208,6 @@ msgid "Super + W"
 msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:234
-#, fuzzy
 msgid "Opens the desktop spread."
 msgstr "Ouvre le mode exposé."
 
@@ -217,7 +216,6 @@ msgid "Cursor Left or Right"
 msgstr "Flèche gauche ou droite"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
-#, fuzzy
 msgid "Moves the focus."
 msgstr "Déplace la sélection."
 
