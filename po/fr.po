@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2018-11-28 18:39+0000\n"
-"Last-Translator: Anne Onyme <anneonyme017@tutanota.com>\n"
+"PO-Revision-Date: 2018-12-02 00:00+0000\n"
+"Last-Translator: Max Libre <libremax@protonmail.com>\n"
 "Language-Team: French <https://translate.ubports.com/projects/unity8/unity8/"
 "fr/>\n"
 "Language: fr\n"
@@ -181,7 +181,7 @@ msgstr "Même effet qu'un clic sur une icône du lanceur."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:181
 msgid "Scopes"
-msgstr "Moteurs de recherche"
+msgstr "Scopes"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:188
 msgid "Super (Tap)"
@@ -209,7 +209,7 @@ msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:234
 msgid "Opens the desktop spread."
-msgstr "Ouvre le mode exposé."
+msgstr "Ouvre le mode d'affichage de bureau"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Cursor Left or Right"
