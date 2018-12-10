@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2018-12-02 00:00+0000\n"
+"PO-Revision-Date: 2018-12-16 00:00+0000\n"
 "Last-Translator: Max Libre <libremax@protonmail.com>\n"
 "Language-Team: French <https://translate.ubports.com/projects/unity8/unity8/"
 "fr/>\n"
@@ -209,7 +209,7 @@ msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:234
 msgid "Opens the desktop spread."
-msgstr "Ouvre le mode d'affichage de bureau"
+msgstr "Ouvre le mode d'affichage de bureau."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Cursor Left or Right"
