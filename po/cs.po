@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2018-12-02 00:00+0000\n"
+"PO-Revision-Date: 2018-12-21 09:12+0000\n"
 "Last-Translator: Milan Korecký <milan.korecky@gmail.com>\n"
 "Language-Team: Czech <https://translate.ubports.com/projects/unity8/unity8/"
 "cs/>\n"
@@ -160,7 +160,6 @@ msgid "Alt + F1"
 msgstr "Alt + F1"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
-#, fuzzy
 msgid "Opens launcher keyboard navigation mode."
 msgstr "Otevře launcher klávesnici v režimu hledání."
 
@@ -451,14 +450,12 @@ msgid "Try again"
 msgstr "Zkusit znovu"
 
 #: qml/Greeter/LoginList.qml:70
-#, fuzzy
 msgid "Passphrase"
 msgstr "Přístupové heslo"
 
 #: qml/Greeter/LoginList.qml:71
-#, fuzzy
 msgid "Passcode"
-msgstr "Heslo"
+msgstr "Přístupový kód"
 
 #: qml/Greeter/LoginList.qml:98 qml/Wizard/Pages/UpdateDelegate.qml:118
 msgid "Retry"
@@ -619,11 +616,11 @@ msgstr "Vítejte v "
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
-msgstr ""
+msgstr "Ujistíme se, že je vaše zařízení připravené k použití "
 
 #: qml/Wizard/Pages/11-changelog.qml:28
 msgid "What's new"
-msgstr ""
+msgstr "Novinky"
 
 #: qml/Wizard/Pages/11-changelog.qml:74
 msgid "Loading..."
@@ -631,15 +628,15 @@ msgstr "Načítám..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
-msgstr ""
+msgstr "Zvolte klávesnici"
 
 #: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
-msgstr ""
+msgstr "Jazyk klávesnice"
 
 #: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
-msgstr ""
+msgstr "Rozložení klávesnice"
 
 #: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:208
 #: qml/Wizard/Pages/60-account.qml:66 qml/Wizard/Pages/76-app-update.qml:240
@@ -653,87 +650,89 @@ msgstr "Připojte se k Wi-Fi"
 
 #: qml/Wizard/Pages/30-wifi.qml:133
 msgid "Connected"
-msgstr ""
+msgstr "Připojený"
 
 #: qml/Wizard/Pages/30-wifi.qml:166
 msgid "Available Wi-Fi networks"
-msgstr ""
+msgstr "Dostupné Wi-fi sítě"
 
 #: qml/Wizard/Pages/30-wifi.qml:167
 msgid "No available Wi-Fi networks"
-msgstr ""
+msgstr "Žádné dostupné Wi-fi sítě"
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
-msgstr ""
+msgstr "Časové pásmo"
 
 #: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
-msgstr ""
+msgstr "Zadejte vaše město"
 
 #: qml/Wizard/Pages/60-account.qml:24
 msgid "Personalize Your Device"
-msgstr ""
+msgstr "Přizpůsobit zařízení"
 
 #: qml/Wizard/Pages/60-account.qml:49
 msgid "Preferred Name"
-msgstr ""
+msgstr "Upřednostňované jméno"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:40
 msgid "Lock Screen"
-msgstr ""
+msgstr "Uzamknout obrazovku"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
-msgstr ""
+msgstr "Vytvořit nové heslo"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
-msgstr ""
+msgstr "Vytvořit přístupový kód (pouze čísla)"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
-msgstr ""
+msgstr "Bez uzamykacího přístupového kódu"
 
 #: qml/Wizard/Pages/75-report-check.qml:26
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Ochrana osobních údajů"
 
 #: qml/Wizard/Pages/75-report-check.qml:26
 msgid "Help Us Improve"
-msgstr ""
+msgstr "Pomozte nám s vylepšováním"
 
 #: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Improve system performance by sending us crashes and error reports."
-msgstr ""
+msgstr "Zvýšit výkon systému odesíláním zpráv o pádech a chybových hlášeních."
 
 #: qml/Wizard/Pages/75-report-check.qml:61
 msgid "Privacy policy"
-msgstr ""
+msgstr "Ochrana osobních údajů"
 
 #: qml/Wizard/Pages/76-app-update.qml:35
 msgid "Update Apps"
-msgstr ""
+msgstr "Aktualizovat aplikace"
 
 #: qml/Wizard/Pages/76-app-update.qml:127
 msgid "This device is not connected to the internet."
-msgstr ""
+msgstr "Zařízení není připojeno k internetu."
 
 #: qml/Wizard/Pages/76-app-update.qml:128
 #: qml/Wizard/Pages/76-app-update.qml:134
 msgid "Use the OpenStore app to check for updates once connected."
 msgstr ""
+"Jakmile budete připojeni, použijte OpenStore aplikaci pro vyhledání "
+"aktualizací."
 
 #: qml/Wizard/Pages/76-app-update.qml:130
 msgid "Software is up to date"
-msgstr ""
+msgstr "Software byl aktualizován"
 
 #: qml/Wizard/Pages/76-app-update.qml:133
 msgid "The update server is not responding."
-msgstr ""
+msgstr "Server s aktualizacemi neodpovídá."
 
 #: qml/Wizard/Pages/76-app-update.qml:238
 msgid "Please wait..."
@@ -741,44 +740,46 @@ msgstr "Čekejte prosím..."
 
 #: qml/Wizard/Pages/79-system-update.qml:28
 msgid "Update Device"
-msgstr ""
+msgstr "Aktualizace zařízení"
 
 #: qml/Wizard/Pages/79-system-update.qml:55
 msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
 msgstr ""
+"K dispozici nová aktualizace systému je připravena k instalaci. Po "
+"aktualizaci se zařízení automaticky restartuje."
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu system"
-msgstr ""
+msgstr "Ubuntu"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
-msgstr ""
+msgstr "Verze %1"
 
 #: qml/Wizard/Pages/79-system-update.qml:102
 msgid "This could take a few minutes..."
-msgstr ""
+msgstr "Může to trvat několik minut..."
 
 #: qml/Wizard/Pages/79-system-update.qml:116
 msgid "Install and restart now"
-msgstr ""
+msgstr "Instalovat a restartovat nyní"
 
 #: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome Back"
-msgstr ""
+msgstr "Vítejte zpět"
 
 #: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
-msgstr ""
+msgstr "Vítejte v Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
-msgstr ""
+msgstr "Jste připravený používat vaše zařízení"
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Continue"
@@ -786,27 +787,27 @@ msgstr "Pokračovat"
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
-msgstr ""
+msgstr "Začít"
 
 #: qml/Wizard/Pages/DownloadHandler.qml:174
 msgid "Installation failed"
-msgstr ""
+msgstr "Instalace selhala"
 
 #: qml/Wizard/Pages/GlobalUpdateControls.qml:84
 msgid "Checking for updates…"
-msgstr ""
+msgstr "Kontrola aktualizací…"
 
 #: qml/Wizard/Pages/GlobalUpdateControls.qml:109
 #, qt-format
 msgid "%1 update available"
 msgid_plural "%1 updates available"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%1 aktualizace k dispozici"
+msgstr[1] "%1 aktualizací k dispozici"
+msgstr[2] "%1 aktualizací k dispozici"
 
 #: qml/Wizard/Pages/GlobalUpdateControls.qml:119
 msgid "Update all…"
-msgstr ""
+msgstr "Aktualizovat vše…"
 
 #: qml/Wizard/Pages/GlobalUpdateControls.qml:121
 msgid "Update all"
@@ -819,69 +820,69 @@ msgstr "Potvrdit číselné heslo"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
-msgstr ""
+msgstr "Nesprávný přístupový kód."
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgctxt "Enter the passcode again"
 msgid "Please re-enter."
-msgstr ""
+msgstr "Zadat znovu."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
-msgstr ""
+msgstr "Kód uzamknutí obrazovky"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:61
 msgid "Enter 4 numbers to setup your passcode"
-msgstr ""
+msgstr "Zadejte 4 čísla pro nastavení přístupového kódu"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:77
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
-msgstr ""
+msgstr "Zvolit přístupový kód"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:127
 msgid "Passcode too short"
-msgstr ""
+msgstr "Přístupový kód je příliš krátký"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:129
 msgid "Passcodes match"
-msgstr ""
+msgstr "Shoda přístupového kódu"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:131
 msgid "Passcodes do not match"
-msgstr ""
+msgstr "Přístupové kódy nesouhlasí"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr ""
+msgstr "Přístupový kód musí mít 4 znaky"
 
 #: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
-msgstr ""
+msgstr "Heslo uzamčení obrazovky"
 
 #: qml/Wizard/Pages/password-set.qml:62
 msgid "Enter at least 8 characters"
-msgstr ""
+msgstr "Zadejte nejméně 8 znaků"
 
 #: qml/Wizard/Pages/password-set.qml:74
 msgid "Choose password"
-msgstr ""
+msgstr "Zvolit heslo"
 
 #: qml/Wizard/Pages/password-set.qml:104
 msgid "Confirm password"
-msgstr ""
+msgstr "Potvrdit heslo"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
-msgstr ""
+msgstr "Žádná SIM karta nainstalována"
 
 #: qml/Wizard/Pages/sim.qml:54
 msgid "SIM card added"
-msgstr ""
+msgstr "SIM karta vložena"
 
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
-msgstr ""
+msgstr "Je třeba restartovat zařízení pro přístup k mobilní síti."
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
@@ -889,15 +890,15 @@ msgstr "Reboot"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
-msgstr ""
+msgstr "Bez karty SIM nebudete moci telefonovat ani odesílat textové zprávy."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr ""
+msgstr "Pro pokračování bez karty SIM zvolte Přeskočit."
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:123
 msgid "Update"
-msgstr ""
+msgstr "Aktualizovat"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:125
 msgid "Download"
@@ -905,40 +906,40 @@ msgstr "Stáhnout"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:131
 msgid "Resume"
-msgstr ""
+msgstr "Pokračovat"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:138
 msgid "Pause"
-msgstr ""
+msgstr "Pozastavit"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:142
 msgid "Install…"
-msgstr ""
+msgstr "Instalovat…"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:144
 msgid "Install"
-msgstr ""
+msgstr "Instalovat"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:148
 msgid "Open"
-msgstr ""
+msgstr "Otevřít"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:216
 msgid "Installing"
-msgstr ""
+msgstr "Instalace"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:220
 msgid "Paused"
-msgstr ""
+msgstr "Pozastaveno"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:223
 msgid "Waiting to download"
-msgstr ""
+msgstr "Čekání na stažení"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:279
 #, qt-format
 msgid "%1 of %2"
-msgstr ""
+msgstr "%1 z %2"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:283
 msgid "Downloaded"
@@ -951,39 +952,39 @@ msgstr "Instalováno"
 #: qml/Wizard/Pages/UpdateDelegate.qml:291
 #, qt-format
 msgid "Updated %1"
-msgstr ""
+msgstr "Aktualizováno %1"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:315
 msgid "Update failed"
-msgstr ""
+msgstr "Aktualizace selhala"
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr ""
+msgstr "Příliš krátké heslo"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
-msgstr ""
+msgstr "Hesla se shodují"
 
 #: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Hesla se neshodují"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
-msgstr ""
+msgstr "Silné heslo"
 
 #: qml/Wizard/PasswordMeter.qml:97
 msgid "Fair password"
-msgstr ""
+msgstr "Přijatelné heslo"
 
 #: qml/Wizard/PasswordMeter.qml:99
 msgid "Weak password"
-msgstr ""
+msgstr "Slabé heslo"
 
 #: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
-msgstr ""
+msgstr "Velmi slabé heslo"
 
 #~ msgid "Terms & Conditions"
 #~ msgstr "Pravidla a podmínky"
