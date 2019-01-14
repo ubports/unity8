@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2018-12-23 00:00+0000\n"
+"PO-Revision-Date: 2019-01-20 00:00+0000\n"
 "Last-Translator: Milan Korecký <milan.korecky@gmail.com>\n"
 "Language-Team: Czech <https://translate.ubports.com/projects/unity8/unity8/"
 "cs/>\n"
@@ -101,7 +101,7 @@ msgstr "Vypnutí"
 #: qml/Components/Dialogs.qml:214
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr "Reboot"
+msgstr "Restartovat"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
@@ -747,7 +747,7 @@ msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
 msgstr ""
-"K dispozici nová aktualizace systému je připravena k instalaci. Po "
+"K dispozici je nová aktualizace systému a je připravena k instalaci. Po "
 "aktualizaci se zařízení automaticky restartuje."
 
 #: qml/Wizard/Pages/79-system-update.qml:76
@@ -886,7 +886,7 @@ msgstr "Je třeba restartovat zařízení pro přístup k mobilní síti."
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
-msgstr "Reboot"
+msgstr "Restartovat"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
