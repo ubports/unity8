@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2019-01-01 20:56+0000\n"
-"Last-Translator: Ivo Xavier <ivofernandes12@gmail.com>\n"
+"PO-Revision-Date: 2019-01-20 00:00+0000\n"
+"Last-Translator: Luís M. F. do Espírito Santo <luis.santo8@gmail.com>\n"
 "Language-Team: Portuguese <https://translate.ubports.com/projects/unity8/"
 "unity8/pt/>\n"
 "Language: pt\n"
@@ -129,7 +129,7 @@ msgstr "Tira uma captura de uma janela."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
-msgstr "Super + Space"
+msgstr "Super + Espaço"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
@@ -137,7 +137,7 @@ msgstr "Troca para o próximo layout do teclado."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
-msgstr "Super + Shift + Space"
+msgstr "Super + Shift + Espaço"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
@@ -145,7 +145,7 @@ msgstr "Troca para o anterior layout do teclado."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:118
 msgid "Launcher"
-msgstr "Launcher"
+msgstr "Lançador"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:125
 msgid "Super (Hold)"
@@ -153,7 +153,7 @@ msgstr "Super (Pressionar)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:130
 msgid "Opens the launcher, displays shortcuts."
-msgstr "Abre o Launcher, mostra os atalhos."
+msgstr "Abre o Lançador e mostra os atalhos."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Alt + F1"
@@ -169,7 +169,7 @@ msgstr "Super + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Switches applications via the launcher."
-msgstr "Muda aplicações através do Launcher."
+msgstr "Muda aplicações através do Lançador."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + 0 to 9"
@@ -177,7 +177,7 @@ msgstr "Super + 0 a 9"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Same as clicking on a launcher icon."
-msgstr "O mesmo que clicar no ícone do Launcher."
+msgstr "O mesmo que clicar no ícone do Lançador."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:181
 msgid "Scopes"
@@ -189,7 +189,7 @@ msgstr "Super (Toque)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:193
 msgid "Opens the Scopes home."
-msgstr "Abre a home Scopes."
+msgstr "Abre o início dos Scopes."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:209
 msgid "Switching"
@@ -233,7 +233,7 @@ msgstr "Minimiza todas as janelas."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:279
 msgid "Ctrl + Super + Up"
-msgstr "Ctrl + Super + Up"
+msgstr "Ctrl + Super + Cima"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:284
 msgid "Maximizes the current window."
@@ -241,7 +241,7 @@ msgstr "Maximiza a janela atual."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + Down"
-msgstr "Ctrl + Super + Down"
+msgstr "Ctrl + Super + Baixo"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes or restores the current window."
@@ -287,7 +287,7 @@ msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
-msgstr "Apps podem ter informação não guardada:"
+msgstr "As aplicações podem ter informação não guardada:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgctxt ""
@@ -306,7 +306,7 @@ msgstr "Ok, vou ligar novamente"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
-msgstr "Volte reconectar agora!"
+msgstr "Volte a conectar agora!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
@@ -319,7 +319,7 @@ msgstr "Pré-visualizar partilha"
 #: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr "Store"
+msgstr "Loja"
 
 #: qml/Dash/DashPageHeader.qml:368
 msgctxt "Button: Start a search in the current dash scope"
@@ -366,7 +366,7 @@ msgstr "Procuras recentes"
 
 #: qml/Dash/PageHeaderExtraPanel.qml:78
 msgid "Clear All"
-msgstr "Limpar todos"
+msgstr "Limpar tudo"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:36
 msgid "More..."
@@ -525,7 +525,7 @@ msgstr "Falta %1"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:995
 msgid "In queue…"
-msgstr "Em fila..."
+msgstr "Em fila…"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:999
 #: qml/Wizard/Pages/UpdateDelegate.qml:226
@@ -574,15 +574,15 @@ msgstr "Deslize longo da margem esquerda para abrir a scope Hoje"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
-msgstr "Deslize curto da margem esquerda para abrir o Launcher."
+msgstr "Deslize curto da margem esquerda para abrir o Lançador."
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
-msgstr "Deslize o rato contra para a margem direita para ver as apps abertas"
+msgstr "Deslize o rato contra a margem direita para ver as aplicações abertas"
 
 #: qml/Tutorial/TutorialRight.qml:56
 msgid "Swipe from the right edge to view your open apps"
-msgstr "Deslize da margem direita para ver as apps abertas."
+msgstr "Deslize da margem direita para ver as aplicações abertas."
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
@@ -617,7 +617,7 @@ msgstr "Bem-vindo(a) "
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
-msgstr "Nós vamos assegurar que o seu dispositivo está pronto para usar "
+msgstr "Vamos assegurar-nos que o seu dispositivo está pronto para usar "
 
 #: qml/Wizard/Pages/11-changelog.qml:28
 msgid "What's new"
@@ -715,7 +715,7 @@ msgstr "Política de privacidade"
 
 #: qml/Wizard/Pages/76-app-update.qml:35
 msgid "Update Apps"
-msgstr "Atualizar Apps"
+msgstr "Actualizar aplicações"
 
 #: qml/Wizard/Pages/76-app-update.qml:127
 msgid "This device is not connected to the internet."
@@ -747,8 +747,8 @@ msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
 msgstr ""
-"Existem atualizações ao sistema e prontas a instalar. Depois, o dispositivo "
-"vai reiniciar automaticamente."
+"Existe uma actualização de sistema pronta a instalar. Depois, o dispositivo "
+"reiniciar-se-á automaticamente."
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
@@ -771,15 +771,15 @@ msgstr "Instalar e reiniciar agora"
 
 #: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome Back"
-msgstr "Bem-vindo de volta"
+msgstr "Bem-vindo/a de volta"
 
 #: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
-msgstr "Bem-vindo (a) ao Ubuntu"
+msgstr "Bem-vindo/a ao Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
-msgstr "Está pronto (a) para usar o seu dispositivo"
+msgstr "Está pronto/a para usar o seu dispositivo"
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Continue"
@@ -791,7 +791,7 @@ msgstr "Começar"
 
 #: qml/Wizard/Pages/DownloadHandler.qml:174
 msgid "Installation failed"
-msgstr "Instalação falhou"
+msgstr "Instalação falhada"
 
 #: qml/Wizard/Pages/GlobalUpdateControls.qml:84
 msgid "Checking for updates…"
@@ -905,7 +905,7 @@ msgstr "Transferir"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:131
 msgid "Resume"
-msgstr "Resumir"
+msgstr "Continuar"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:138
 msgid "Pause"
