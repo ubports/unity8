@@ -34,6 +34,12 @@ LocalComponents.Page {
     readonly property bool connected: Connectivity.online
     skip: connected
 
+    onConnectedChanged: {
+        if (connected) {
+            pageStack.next()
+        }
+    }
+
     function getExtendedProperty(object, propertyName, defaultValue) {
         if (object && object.hasOwnProperty(propertyName)) {
             return object[propertyName];
