@@ -45,12 +45,20 @@ Item {
     readonly property bool superPressed: d.superPressed
     readonly property bool superTabPressed: d.superTabPressed
 
+    // Add a timeout for screenshots, but let it be half of normal long press
+    readonly property int screenshotTimeout: mouseArea.pressAndHoldInterval / 2
     property int powerKeyLongPressTime: 2000
 
     // For testing. If running windowed (e.g. tryShell), Alt+Tab is taken by the
     // running desktop, set this to true to use Ctrl+Tab instead.
     property bool controlInsteadOfAlt: false
     property bool controlInsteadOfSuper: false
+
+    MouseArea {
+        // Dead MouseArea so we can get pressAndHoldInterval value
+        id: mouseArea
+        visible: false
+    }
 
     QtObject {
         id: d
@@ -65,7 +73,8 @@ Item {
         property bool superPressed: false
         property bool superTabPressed: false
 
-        property var powerButtonPressStart: 0
+        property int powerButtonPressStart: 0
+        property int screenshotPressStart: 0
     }
 
     InputEventGenerator {
@@ -89,10 +98,15 @@ Item {
             if (event.isAutoRepeat && !d.ignoreVolumeEvents) root.volumeDownTriggered();
             else if (!event.isAutoRepeat) {
                 if (d.volumeUpKeyPressed) {
-                    if (Powerd.status === Powerd.On) {
+                    if (d.screenshotPressStart > 0
+                        && currentEventTimestamp - d.screenshotPressStart >= root.screenshotTimeout
+                        && Powerd.status === Powerd.On) {
+                        d.screenshotPressStart = 0;
                         root.screenshotTriggered();
+                    } else {
+                        d.screenshotPressStart = currentEventTimestamp;
+                        d.ignoreVolumeEvents = true;
                     }
-                    d.ignoreVolumeEvents = true;
                 }
                 d.volumeDownKeyPressed = true;
             }
@@ -100,10 +114,15 @@ Item {
             if (event.isAutoRepeat && !d.ignoreVolumeEvents) root.volumeUpTriggered();
             else if (!event.isAutoRepeat) {
                 if (d.volumeDownKeyPressed) {
-                    if (Powerd.status === Powerd.On) {
+                    if (d.screenshotPressStart > 0
+                        && currentEventTimestamp - d.screenshotPressStart >= root.screenshotTimeout
+                        && Powerd.status === Powerd.On) {
+                        d.screenshotPressStart = 0;
                         root.screenshotTriggered();
+                    } else {
+                        d.screenshotPressStart = currentEventTimestamp;
+                        d.ignoreVolumeEvents = true;
                     }
-                    d.ignoreVolumeEvents = true;
                 }
                 d.volumeUpKeyPressed = true;
             }
