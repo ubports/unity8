@@ -101,7 +101,7 @@ MouseArea {
             state = WindowStateStorage.WindowStateNormal;
         }
         windowStateStorage.saveState(root.windowId, state & ~WindowStateStorage.WindowStateMinimized); // clear the minimized bit when saving
-	// do not store window sizes if they are zero. this happens in staged mode
+        // do not store window sizes if they are zero. this happens in staged mode
         if ( priv.normalWidth && priv.normalHeight ) {
             windowStateStorage.saveGeometry(root.windowId, Qt.rect(priv.normalX, priv.normalY, priv.normalWidth, priv.normalHeight));
         }

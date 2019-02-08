@@ -119,7 +119,11 @@ void System::setWizardEnabled(bool enabled)
         if (QDir(wizardEnabledPath()).exists()) {
             QDir(wizardEnabledPath()).removeRecursively();
         }
-        QFile::copy(currentFrameworkPath(), wizardEnabledPath());
+        if (!QFile::copy(currentFrameworkPath(), wizardEnabledPath())) {
+            // Make en empty file if framework does not exist
+            QFile f(wizardEnabledPath());
+            f.open(QFile::WriteOnly);
+        }
         m_fsWatcher.addPath(wizardEnabledPath());
         Q_EMIT wizardEnabledChanged();
         Q_EMIT isUpdateChanged();
