@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2018-11-20 11:28+0000\n"
-"Last-Translator: Louies <louies0623@gmail.com>\n"
+"PO-Revision-Date: 2019-01-27 00:00+0000\n"
+"Last-Translator: louies0623 <louies0623@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://translate.ubports.com/projects/"
 "unity8/unity8/zh_Hant/>\n"
 "Language: zh_TW\n"
@@ -299,7 +299,7 @@ msgstr "或強制關閉 (未儲存的資料將會遺失)。"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
-msgstr "好的,我將重新連線"
+msgstr "好的，我將重新連線"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
@@ -448,7 +448,7 @@ msgstr "密碼"
 
 #: qml/Greeter/LoginList.qml:71
 msgid "Passcode"
-msgstr "PIN密碼"
+msgstr "PIN 密碼"
 
 #: qml/Greeter/LoginList.qml:98 qml/Wizard/Pages/UpdateDelegate.qml:118
 msgid "Retry"
@@ -796,7 +796,7 @@ msgstr "全部更新"
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:97
 msgid "Confirm passcode"
-msgstr "確認PIN密碼"
+msgstr "確認 PIN 密碼"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
@@ -809,7 +809,7 @@ msgstr "請重新輸入。"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
-msgstr "螢幕鎖定PIN密碼"
+msgstr "螢幕鎖定 PIN 密碼"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:61
 msgid "Enter 4 numbers to setup your passcode"
@@ -818,23 +818,23 @@ msgstr "輸入4個號碼來設置您的PIN密碼"
 #: qml/Wizard/Pages/passcode-desktop.qml:77
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
-msgstr "選擇PIN密碼"
+msgstr "選擇 PIN 密碼"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:127
 msgid "Passcode too short"
-msgstr "PIN密碼太短"
+msgstr "PIN 密碼太短"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:129
 msgid "Passcodes match"
-msgstr "PIN密碼相同"
+msgstr "PIN 密碼相同"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:131
 msgid "Passcodes do not match"
-msgstr "PIN密碼不同"
+msgstr "PIN 密碼不同"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr "PIN密碼長度必須為4個字元"
+msgstr "PIN 密碼長度必須為4個字元"
 
 #: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
@@ -874,7 +874,7 @@ msgstr "如果沒有 SIM 卡，您無法使用簡訊或撥打電話。"
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr "沒有要使用 SIM 卡, 請點擊 \"略過\"。"
+msgstr "沒有要使用 SIM 卡，請點擊 \"略過\"。"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:123
 msgid "Update"
