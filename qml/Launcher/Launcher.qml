@@ -30,7 +30,6 @@ FocusScope {
     property bool lockedVisible: false
     property bool available: true // can be used to disable all interactions
     property alias inverted: panel.inverted
-    property Item blurSource: null
     property int topPanelHeight: 0
     property bool drawerEnabled: true
     property alias privateMode: panel.privateMode
@@ -340,20 +339,6 @@ FocusScope {
                 root.switchToNextState("visible")
             }
         }
-    }
-
-    BackgroundBlur {
-        id: backgroundBlur
-        anchors.fill: parent
-        anchors.topMargin: root.inverted ? 0 : -root.topPanelHeight
-        visible: root.blurSource && drawer.x > -drawer.width
-        blurAmount: units.gu(6)
-        sourceItem: root.blurSource
-        blurRect: Qt.rect(panel.width,
-                          root.topPanelHeight,
-                          drawer.width + drawer.x - panel.width,
-                          height - root.topPanelHeight)
-        cached: drawer.moving
     }
 
     Drawer {
