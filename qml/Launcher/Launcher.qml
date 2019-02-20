@@ -375,7 +375,7 @@ FocusScope {
                 drawer.searchTextField.select(oldSelectionStart, oldSelectionEnd);
             }
         }
-        width: Math.min(root.width, units.gu(90)) * .9
+        width: Math.min(root.width, units.gu(81))
         panelWidth: panel.width
         visible: x > -width
 
