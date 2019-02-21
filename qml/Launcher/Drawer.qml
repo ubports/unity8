@@ -69,7 +69,7 @@ FocusScope {
 
     Rectangle {
         anchors.fill: parent
-        color: theme.palette.normal.background
+        color: "#111111"
         opacity: 0.99
 
         AppDrawerModel {
