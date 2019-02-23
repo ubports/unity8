@@ -19,6 +19,7 @@
 #include <QDBusConnection>
 #include <QSet>
 #include <QString>
+#include <QFileInfo>
 
 Platform::Platform(QObject *parent)
     : QObject(parent), m_isPC(true), m_isMultiSession(true)
@@ -46,7 +47,13 @@ void Platform::init()
     m_chassis = iface.property("Chassis").toString();
 
     // A PC is not a handset, tablet or watch.
-    m_isPC = !QSet<QString>{"handset", "tablet", "watch"}.contains(m_chassis);
+    // If FORM_FACTOR is not set on mobile devices chassis will be empty
+    // if chassis it's empty, chekck if lxc-android-config is installed
+    // and if so default to "phone" otherwise "desktop"
+    if (m_chassis.isEmpty())
+      m_isPC = !QFileInfo::exists("/var/lib/lxc/android/config");
+    else
+      m_isPC = !QSet<QString>{"handset", "tablet", "watch"}.contains(m_chassis);
     m_isMultiSession = seatIface.property("CanMultiSession").toBool() && seatIface.property("CanGraphical").toBool();
 }
 
