@@ -28,6 +28,7 @@ LocalComponents.Page {
     objectName: "tzPage"
 
     title: i18n.tr("Time Zone")
+    focusItem: searchField
     forwardButtonSourceComponent: forwardButton
 
     property string selectedTimeZone: ""
@@ -91,7 +92,6 @@ LocalComponents.Page {
             }
 
             resetViews();
-            searchField.forceActiveFocus();
         }
     }
 

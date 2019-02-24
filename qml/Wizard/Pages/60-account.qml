@@ -22,6 +22,7 @@ import ".." as LocalComponents
 LocalComponents.Page {
     objectName: "accountPage"
     title: i18n.tr("Personalize Your Device")
+    focusItem: nameInput
 
     forwardButtonSourceComponent: forwardButton
     onlyOnInstall: true
