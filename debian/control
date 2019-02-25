@@ -2,7 +2,8 @@ Source: unity8
 Section: x11
 Priority: optional
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Build-Depends: cmake,
+Build-Depends: android-headers,
+               cmake,
                dbus-test-runner,
                debhelper (>= 9),
                dh-apparmor,
