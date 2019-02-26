@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
-import Ubuntu.SystemImage 0.1
+import Ubuntu.SystemSettings.Update 1.0
 import Wizard 0.1
 import ".." as LocalComponents
 
@@ -28,7 +28,7 @@ LocalComponents.Page {
     title: i18n.tr("Update Device")
     forwardButtonSourceComponent: forwardButton
 
-    skip: !SystemImage.updateDownloaded // skip the page when the system update is not ready to install
+    skip: !root.updateDownloaded // skip the page when the system update is not ready to install
 
     Column {
         id: column
@@ -73,21 +73,14 @@ LocalComponents.Page {
                 color: textColor
                 font.weight: Font.Normal
                 fontSize: "small"
-                text: i18n.ctr("string identifying name of the update", "Ubuntu system")
+                text: i18n.ctr("string identifying name of the update", "Ubuntu Touch system")
             }
 
             Label {
                 font.weight: Font.Light
                 fontSize: "small"
                 color: textColor
-                text: i18n.ctr("version of the system update", "Version %1").arg(SystemImage.availableVersion)
-            }
-
-            Label {
-                font.weight: Font.Light
-                fontSize: "small"
-                color: textColor
-                text: SystemImage.updateSize
+                text: i18n.ctr("version of the system update", "Version %1").arg(SystemImage.targetBuildNumber)
             }
         }
 
@@ -142,7 +135,6 @@ LocalComponents.Page {
     ActivityIndicator {
         id: spinner
         anchors.centerIn: systemUpdatePage
-        running: SystemImage.updateApplying
         visible: running
     }
 

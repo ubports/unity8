@@ -33,7 +33,7 @@ LocalComponents.Page {
 
     skip: !SystemImage.supportsFirmwareUpdate()
 
-    property bool online: NetworkingStatus.online
+    property bool online: root.connected
     property bool hasUpdate: false
     property bool isUpdating: false
     property bool isChecking: true

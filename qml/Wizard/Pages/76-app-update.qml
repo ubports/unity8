@@ -24,7 +24,6 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.Components.Popups 1.3
 import Ubuntu.SystemSettings.Update 1.0
-import Ubuntu.Connectivity 1.0
 import Wizard 0.1
 import ".." as LocalComponents
 
@@ -36,16 +35,12 @@ LocalComponents.Page {
     forwardButtonSourceComponent: forwardButton
 
     property bool batchMode: false
-    property bool online: NetworkingStatus.online
-    property bool authenticated: UpdateManager.authenticated
 
     onlyOnUpdate: true
 
     property int updatesCount: {
         var count = 0;
-        if (authenticated) {
-            count += clickRepeater.count;
-        }
+        count += clickRepeater.count;
         return count;
     }
 
@@ -89,7 +84,7 @@ LocalComponents.Page {
                 status: UpdateManager.status
                 batchMode: appUpdatePage.batchMode
                 updatesCount: appUpdatePage.updatesCount
-                online: appUpdatePage.online
+                online: root.connected
                 onStop: UpdateManager.cancel()
 
                 onRequestInstall: {
@@ -123,7 +118,7 @@ LocalComponents.Page {
                     wrapMode: Text.WordWrap
                     text: {
                         var s = UpdateManager.status;
-                        if (!appUpdatePage.online) {
+                        if (!root.connected) {
                             return i18n.tr("This device is not connected to the internet.") + " " +
                                     i18n.tr("Use the OpenStore app to check for updates once connected.");
                         } else if (s === UpdateManager.StatusIdle && updatesCount === 0) {
@@ -148,7 +143,7 @@ LocalComponents.Page {
                     switch (s) {
                     case UpdateManager.StatusCheckingImageUpdates:
                     case UpdateManager.StatusIdle:
-                        return haveUpdates && online && authenticated;
+                        return haveUpdates && root.connected;
                     }
                     return false;
                 }

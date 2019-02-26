@@ -19,6 +19,8 @@ import QtQuick 2.4
 import MeeGo.QOfono 0.2
 import Ubuntu.Components 1.3
 import Ubuntu.SystemSettings.SecurityPrivacy 1.0
+import Ubuntu.SystemSettings.Update 1.0
+import Ubuntu.Connectivity 1.0
 import Wizard 0.1
 import "../Components"
 
@@ -35,6 +37,10 @@ StyledItem {
     property string password: ""
 
     property bool seenSIMPage: false // we want to see the SIM page at most once
+    readonly property bool connected: NetworkingStatus.online
+
+    property bool checkedForUpdates: false
+    property bool updateDownloaded: false
 
     property alias modemManager: modemManager
     property alias simManager0: simManager0
@@ -70,6 +76,14 @@ StyledItem {
         modemPath: modemManager.modems.length >= 2 ? modemManager.modems[1] : ""
     }
 
+    function checkForUpdatesIfConnected() {
+        if (connected && !checkedForUpdates) {
+            console.info("Wizard: Checking for system-image update");
+            SystemImage.checkForUpdate();
+            checkedForUpdates = true;
+        }
+    }
+
     function quitWizard() {
         pageStack.currentPage.enabled = false;
 
@@ -79,7 +93,7 @@ StyledItem {
                 // Ignore (but log) any errors, since we're past where the user set
                 // the method.  Worst case, we just leave the user with a swipe
                 // security method and they fix it in the system settings.
-                console.log("Error setting security method:", errorMsg)
+                console.log("Wizard: Error setting security method:", errorMsg)
             }
         }
 
@@ -122,11 +136,33 @@ StyledItem {
         }
     }
 
+    onConnectedChanged: {
+        checkForUpdatesIfConnected();
+    }
+
+    Connections {
+        target: SystemImage
+        onUpdateDownloaded: {
+            console.info("Wizard: A system-image update has been downloaded!")
+            root.updateDownloaded = true;
+        }
+        onCheckingForUpdatesChanged: {
+            if (!SystemImage.checkingForUpdates) {
+                console.info("Wizard: Update check finished")
+                if (SystemImage.updateAvailable) {
+                    console.info("Wizard: A system-image update is available!")
+                } else {
+                    console.info("Wizard: No update found.")
+                }
+            }
+        }
+    }
+
     Timer {
         id: impatientLoadingTimer
         interval: 1700
         onTriggered: {
-            console.warn("Impatient timer going off. Fix the wizard, it's too slow at skipping pages.")
+            console.warn("Wizard: Impatient timer going off. Fix the wizard, it's too slow at skipping pages.")
             pagesSpinner.running = true;
         }
     }
@@ -175,7 +211,7 @@ StyledItem {
             timeout.restart();
             impatientLoadingTimer.start();
 
-            console.info("Loading page " + currentPage.objectName);
+            console.info("Wizard: Loading page " + currentPage.objectName);
 
             // Check for immediate skip or not.  We may have to wait for
             // skipValid to be assigned (see Connections object below)
@@ -191,7 +227,7 @@ StyledItem {
 
         function checkSkip() {
             if (!currentPage) { // may have had a parse error
-                console.warn("Wizard page skipped due to possible parse error.");
+                console.warn("Wizard: page skipped due to possible parse error.");
                 next();
             } else if (currentPage.skipValid) {
                 if (currentPage.skip) {
@@ -214,7 +250,7 @@ StyledItem {
             objectName: "timeout"
             interval: 2000 // wizard pages shouldn't take long
             onTriggered: {
-                console.warn("Wizard page " + pageStack.currentPage.objectName + " skipped due to taking too long!!!");
+                console.warn("Wizard: Page " + pageStack.currentPage.objectName + " skipped due to taking too long!!!");
                 pageStack.currentPage.skip = true;
                 pageStack.currentPage.skipValid = true;
             }
@@ -225,6 +261,9 @@ StyledItem {
             onSkipValidChanged: pageStack.checkSkip()
         }
 
-        Component.onCompleted: next()
+        Component.onCompleted: {
+            checkForUpdatesIfConnected();
+            next();
+        }
     }
 }

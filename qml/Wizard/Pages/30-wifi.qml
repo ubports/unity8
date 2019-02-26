@@ -20,7 +20,7 @@ import QMenuModel 0.1 as QMenuModel
 import Ubuntu.Components 1.3
 import Wizard 0.1
 import Ubuntu.Connectivity 1.0
-import Ubuntu.SystemImage 0.1
+import Ubuntu.SystemSettings.Update 1.0
 import ".." as LocalComponents
 import "../../Components"
 
@@ -31,8 +31,7 @@ LocalComponents.Page {
     title: i18n.tr("Connect to Wi‑Fi")
     forwardButtonSourceComponent: forwardButton
 
-    readonly property bool connected: Connectivity.online
-    skip: connected
+    skip: root.connected
 
     function getExtendedProperty(object, propertyName, defaultValue) {
         if (object && object.hasOwnProperty(propertyName)) {
@@ -205,11 +204,8 @@ LocalComponents.Page {
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            text: (connected || listview.count === 0) ? i18n.tr("Next") : i18n.tr("Skip")
+            text: (root.connected || listview.count === 0) ? i18n.tr("Next") : i18n.tr("Skip")
             onClicked: {
-                if (connected) {
-                    SystemImage.checkForUpdate(); // initiate the background check for System Update
-                }
                 pageStack.next();
             }
         }
