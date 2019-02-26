@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2018 The UBports project
  * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -50,6 +51,10 @@ Item {
     property bool skipValid: true
     property bool skip: false
 
+    // Marks if should be only shown if update or install
+    property bool onlyOnUpdate: false
+    property bool onlyOnInstall: false
+
     property bool hasBackButton: true
     property string backButtonText: i18n.ctr("Button: Go back one page in the Wizard", "Back")
     property bool customBack: false
@@ -59,12 +64,22 @@ Item {
     property bool lastPage: false
     property bool buttonBarVisible: true
 
+    // Item that will receive input focus when the page is in front
+    // May be useful to open the keyboard automatically for a text field
+    property Item focusItem
+
     property string title: ""
 
     signal backClicked()
 
     visible: false
     anchors.fill: parent
+
+    onVisibleChanged: {
+        if (visible && focusItem) {
+            focusItem.forceActiveFocus();
+        }
+    }
 
     Timer {
         id: indicatorTimer

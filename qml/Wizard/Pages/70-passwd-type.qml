@@ -44,6 +44,7 @@ LocalComponents.Page {
     // or this isn't the first time the wizard has been run, etc).  We can't
     // properly set the password again, so let's not pretend we can.
     skip: securityPrivacy.securityType !== UbuntuSecurityPrivacyPanel.Swipe
+    onlyOnInstall: true
 
     function indexToMethod(index) {
         if (index === 0/* || index === 1*/)

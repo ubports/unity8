@@ -29,10 +29,17 @@ LocalComponents.Page {
     id: passwdSetPage
     objectName: "passcodeDesktopPage"
     title: i18n.tr("Lock Screen Passcode")
+    focusItem: passwordField
     forwardButtonSourceComponent: forwardButton
 
     readonly property alias password: passwordField.text
     readonly property alias password2: password2Field.text
+    readonly property bool passwordsMatching: password != "" && password == password2
+
+    function savePasswordAndGoNext() {
+        root.password = password;
+        pageStack.next();
+    }
 
     Flickable {
         id: column
@@ -105,6 +112,11 @@ LocalComponents.Page {
                 inputMethodHints: Qt.ImhDigitsOnly
                 validator: RegExpValidator { regExp: /^\d{4}$/ }
                 maximumLength: 4
+                onAccepted: {
+                    if (passwordsMatching) {
+                        savePasswordAndGoNext();
+                    }
+                }
                 onActiveFocusChanged: {
                     if (activeFocus) {
                         column.contentY = y
@@ -140,11 +152,8 @@ LocalComponents.Page {
         id: forwardButton
         LocalComponents.StackButton {
             text: i18n.tr("Next")
-            enabled: password != "" && password == password2
-            onClicked: {
-                root.password = password;
-                pageStack.next();
-            }
+            enabled: passwordsMatching
+            onClicked: savePasswordAndGoNext()
         }
     }
 }

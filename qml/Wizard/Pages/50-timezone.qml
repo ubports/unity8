@@ -28,6 +28,7 @@ LocalComponents.Page {
     objectName: "tzPage"
 
     title: i18n.tr("Time Zone")
+    focusItem: searchField
     forwardButtonSourceComponent: forwardButton
 
     property string selectedTimeZone: ""
@@ -36,6 +37,7 @@ LocalComponents.Page {
 
     // for testing
     readonly property alias tdModule: timeDatePanel
+    onlyOnInstall: true
 
     function highlightTimezone(offset) {
         highlightImage.source = "data/timezonemap/timezone_" + offset + ".png";
@@ -90,7 +92,6 @@ LocalComponents.Page {
             }
 
             resetViews();
-            searchField.forceActiveFocus();
         }
     }
 

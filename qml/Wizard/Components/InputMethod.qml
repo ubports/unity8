@@ -21,19 +21,19 @@ import Ubuntu.Components 0.1
 // TODO: try to share this code with that from the unity8 shell
 
 Item {
-    id: root
+    id: inputMethodRoot
 
     Connections {
         target: SurfaceManager
         onSurfaceCreated: {
             if (surface.type == MirSurfaceItem.InputMethod) {
-                root.surface = surface;
+                inputMethodRoot.surface = surface;
             }
         }
 
         onSurfaceDestroyed: {
-            if (root.surface == surface) {
-                root.surface = null;
+            if (inputMethodRoot.surface == surface) {
+                inputMethodRoot.surface = null;
                 surface.parent = null;
             }
             if (!surface.parent) {
@@ -71,7 +71,7 @@ Item {
                 visible: false
                 // half-way down because the vkb occupies only the lower half of the surface
                 // TODO: consider keyboard rotation
-                y: root.parent.height / 2.0
+                y: inputMethodRoot.parent.height / 2.0
             }
         }
     ]
@@ -89,17 +89,17 @@ Item {
         ignoreUnknownSignals: true // don't wanna spam the log when surface is null
         onStateChanged: {
             if (state == MirSurfaceItem.Minimized) {
-                root.hide();
+                inputMethodRoot.hide();
             } else if (state == MirSurfaceItem.Maximized) {
-                root.show();
+                inputMethodRoot.show();
             }
         }
     }
 
     onSurfaceChanged: {
         if (surface) {
-            surface.parent = root;
-            surface.anchors.fill = root;
+            surface.parent = inputMethodRoot;
+            surface.anchors.fill = inputMethodRoot;
         }
     }
 

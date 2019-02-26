@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2018 The UBports project
  * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -18,7 +19,6 @@ import QtQuick 2.4
 import MeeGo.QOfono 0.2
 import Ubuntu.Components 1.3
 import Ubuntu.SystemSettings.SecurityPrivacy 1.0
-import Ubuntu.SystemSettings.Diagnostics 1.0
 import Wizard 0.1
 import "../Components"
 
@@ -47,11 +47,6 @@ StyledItem {
     UbuntuSecurityPrivacyPanel {
         id: securityPrivacy
         objectName: "securityPrivacy"
-    }
-
-    UbuntuDiagnostics {
-        id: diagnostics
-        objectName: "diagnostics"
     }
 
     OfonoManager { // need it here for the language and country detection
@@ -105,6 +100,37 @@ StyledItem {
         id: pageList
     }
 
+    ActivityIndicator {
+        id: pagesSpinner
+        anchors.centerIn: parent
+        z: 100
+        running: false
+        visible: running
+
+        NumberAnimation on opacity {
+            id: fadeInAnimation
+            from: 0
+            to: 1
+            duration: 200
+        }
+
+        onVisibleChanged: {
+            if (visible) {
+                opacity = 0;
+                fadeInAnimation.start();
+            }
+        }
+    }
+
+    Timer {
+        id: impatientLoadingTimer
+        interval: 1700
+        onTriggered: {
+            console.warn("Impatient timer going off. Fix the wizard, it's too slow at skipping pages.")
+            pagesSpinner.running = true;
+        }
+    }
+
     PageStack {
         id: pageStack
         objectName: "pageStack"
@@ -139,18 +165,21 @@ StyledItem {
 
         function load(path) {
             if (currentPage) {
-                currentPage.enabled = false
+                currentPage.enabled = false;
             }
 
             // First load it invisible, check that we should actually use
             // this page, and either skip it or continue.
-            push(path, {"opacity": 0, "enabled": false})
+            push(path, {"opacity": 0, "enabled": false});
 
             timeout.restart();
+            impatientLoadingTimer.start();
+
+            console.info("Loading page " + currentPage.objectName);
 
             // Check for immediate skip or not.  We may have to wait for
             // skipValid to be assigned (see Connections object below)
-            checkSkip()
+            checkSkip();
 
             var isPrimaryPage = !currentPage.customTitle;
             if (isPrimaryPage) {
@@ -162,13 +191,19 @@ StyledItem {
 
         function checkSkip() {
             if (!currentPage) { // may have had a parse error
-                next()
+                console.warn("Wizard page skipped due to possible parse error.");
+                next();
             } else if (currentPage.skipValid) {
                 if (currentPage.skip) {
-                    next()
+                    next();
+              } else if ((currentPage.onlyOnUpdate && !wizard.isUpdate) ||
+                         (currentPage.onlyOnInstall && wizard.isUpdate)) {
+                    next();
                 } else {
-                    currentPage.opacity = 1
-                    currentPage.enabled = true
+                    impatientLoadingTimer.stop()
+                    pagesSpinner.running = false;
+                    currentPage.opacity = 1;
+                    currentPage.enabled = true;
                     timeout.stop();
                 }
             }
