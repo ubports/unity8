@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2018 The UBports project
  * Copyright (C) 2014-2016 Canonical Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it
@@ -18,6 +19,7 @@
 #define WIZARD_SYSTEM_H
 
 #include <QFileSystemWatcher>
+#include <QVersionNumber>
 #include <QObject>
 #include <QString>
 
@@ -25,12 +27,21 @@ class System : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool wizardEnabled READ wizardEnabled WRITE setWizardEnabled NOTIFY wizardEnabledChanged)
+    Q_PROPERTY(QString version READ version NOTIFY versionChanged)
+    Q_PROPERTY(bool isUpdate READ isUpdate NOTIFY isUpdateChanged)
 
 public:
     System();
     ~System() = default;
 
+    /**
+     * Checks whether the wizard is enabled for first-run or otherwise.
+     */
     bool wizardEnabled() const;
+
+    QString version() const;
+    bool isUpdate() const;
+
     void setWizardEnabled(bool enabled);
 
 public Q_SLOTS:
@@ -42,6 +53,8 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void wizardEnabledChanged();
+    void versionChanged();
+    void isUpdateChanged();
 
 private Q_SLOTS:
     void watcherFileChanged();
@@ -50,7 +63,11 @@ private:
     Q_DISABLE_COPY(System)
 
     static QString wizardEnabledPath();
+    static QString currentFrameworkPath();
     static void setSessionVariable(const QString &variable, const QString &value);
+    static QString readCurrentFramework();
+    static QString readWizardEnabled();
+    static bool wizardPathExists();
 
     QFileSystemWatcher m_fsWatcher;
 };

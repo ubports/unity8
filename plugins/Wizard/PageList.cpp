@@ -46,9 +46,7 @@ PageList::PageList(QObject *parent)
     QSet<QString> disabledPages;
     QStringList dataDirs;
 
-    if (getenv("WIZARD_TESTING") != nullptr) {
-        dataDirs = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
-    } else if (!isRunningInstalled()) {
+    if (!isRunningInstalled() && getenv("WIZARD_TESTING") == nullptr) {
         dataDirs << qmlDirectory();
     } else {
         dataDirs = shellDataDirs();
@@ -73,8 +71,11 @@ PageList::PageList(QObject *parent)
     // If there was a system update installed, skip until the last page to just greet the user
     QSettings settings;
     if (settings.value(QStringLiteral("Wizard/SkipUntilFinishedPage")).toBool()) {
-        while (m_pages.count() > 1) {
-            m_pages.erase(m_pages.begin());
+        const QString lastPage = m_pages.lastKey();
+        Q_FOREACH(const QString &page, m_pages.keys()) {
+            if (Q_UNLIKELY(page != lastPage)) {
+                m_pages.remove(page);
+            }
         }
 
         // ... and reset it again for the next run

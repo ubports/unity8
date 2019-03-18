@@ -168,15 +168,12 @@ Item {
             return stack.currentPage;
         }
 
-        function goToPage(name, skipSim, skipLocation, skipReporting) {
+        function goToPage(name, skipSim, skipLocation) {
             if (skipSim === undefined) {
                 skipSim = false;
             }
             if (skipLocation === undefined) {
                 skipLocation = false;
-            }
-            if (skipReporting === undefined) {
-                skipReporting = false;
             }
 
             var page = waitForPage("languagePage");
@@ -221,12 +218,6 @@ Item {
             page = waitForPage("passwdPage");
             if (name === page.objectName) return page;
             tap(findChild(page, "forwardButton"));
-
-            if (!skipReporting) {
-                page = waitForPage("reportingPage");
-                if (name === page.objectName) return page;
-                tap(findChild(page, "forwardButton"));
-            }
 
             page = waitForPage("finishedPage");
             if (name === page.objectName) return page;
@@ -334,7 +325,7 @@ Item {
             enterPasscode("1111");
 
             // now finish up
-            page = waitForPage("reportingPage");
+            page = waitForPage("systemUpdatePage");
             tap(findChild(page, "forwardButton"));
             page = waitForPage("finishedPage");
             waitUntilTransitionsEnd(page);
@@ -374,7 +365,7 @@ Item {
             tap(continueButton);
 
             // now finish up
-            page = waitForPage("reportingPage");
+            page = waitForPage("systemUpdatePage");
             tap(findChild(page, "forwardButton"));
             page = waitForPage("finishedPage");
             waitUntilTransitionsEnd(page);
@@ -392,7 +383,7 @@ Item {
 
             // now finish up
             tap(findChild(page, "forwardButton"));
-            page = waitForPage("reportingPage");
+            page = waitForPage("systemUpdatePage");
             tap(findChild(page, "forwardButton"));
             page = waitForPage("finishedPage");
             waitUntilTransitionsEnd(page);
