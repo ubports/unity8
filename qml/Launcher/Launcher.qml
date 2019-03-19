@@ -176,7 +176,6 @@ FocusScope {
         superPressTimer.stop();
         superLongPressTimer.stop();
         root.focus = true;
-        drawer.focus = true;
         if (focusInputField) {
             drawer.focusInput();
         }
@@ -350,19 +349,26 @@ FocusScope {
             bottom: parent.bottom
             right: parent.left
             onRightMarginChanged: {
-                // Remove (and put back) the focus for the searchfield in
-                // order to hide the copy/paste popover when we move the drawer
-                var hadFocus = drawer.searchTextField.focus;
-                var oldSelectionStart = drawer.searchTextField.selectionStart;
-                var oldSelectionEnd = drawer.searchTextField.selectionEnd;
-                drawer.searchTextField.focus = false;
-                drawer.searchTextField.focus = hadFocus;
-                drawer.searchTextField.select(oldSelectionStart, oldSelectionEnd);
+                if (fullyOpen && hadFocus) {
+                    // See drawer.onDraggingHorizontallyChanged below
+                    drawer.searchTextField.focus = hadFocus;
+                    drawer.searchTextField.select(oldSelectionStart, oldSelectionEnd);
+                    resetOldFocus();
+                } else if (fullyClosed) {
+                    drawer.searchTextField.clear();
+                    resetOldFocus();
+                }
             }
         }
         width: Math.min(root.width, units.gu(81))
         panelWidth: panel.width
         visible: x > -width
+        property var fullyOpen: x === 0
+        property var fullyClosed: x === -width
+
+        property var hadFocus: false
+        property var oldSelectionStart: null
+        property var oldSelectionEnd: null
 
         Behavior on anchors.rightMargin {
             enabled: !dragArea.dragging && !launcherDragArea.drag.active && panel.animate && !drawer.draggingHorizontally
@@ -378,6 +384,12 @@ FocusScope {
             root.focus = false;
         }
 
+        function resetOldFocus() {
+            hadFocus = false;
+            oldSelectionStart = null;
+            oldSelectionEnd = null;
+        }
+
         Keys.onEscapePressed: {
             root.hide()
         }
@@ -386,7 +398,15 @@ FocusScope {
             anchors.rightMargin = Math.max(-drawer.width, anchors.rightMargin + dragDistance);
         }
         onDraggingHorizontallyChanged: {
-            if (!draggingHorizontally) {
+            if (draggingHorizontally) {
+                // Remove (and put back using anchors.onRightMarginChanged) the
+                // focus for the searchfield in order to hide the copy/paste
+                // popover when we move the drawer
+                hadFocus = drawer.searchTextField.focus;
+                oldSelectionStart = drawer.searchTextField.selectionStart;
+                oldSelectionEnd = drawer.searchTextField.selectionEnd;
+                drawer.searchTextField.focus = false;
+            } else {
                 if (drawer.x < -units.gu(10)) {
                     root.hide();
                 } else {
@@ -572,6 +592,7 @@ FocusScope {
             PropertyChanges {
                 target: drawer
                 anchors.rightMargin: 0
+                focus: false
             }
         },
         State {
@@ -591,6 +612,7 @@ FocusScope {
             PropertyChanges {
                 target: drawer
                 anchors.rightMargin: -drawer.width + root.x // so we never go past panelWidth, even when teased by tutorial
+                focus: true
             }
         },
         State {
