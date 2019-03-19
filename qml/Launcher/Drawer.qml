@@ -93,7 +93,6 @@ FocusScope {
                 objectName: "searchField"
                 anchors { left: parent.left; top: parent.top; right: parent.right; margins: units.gu(1) }
                 placeholderText: i18n.tr("Search…")
-                focus: true
 
                 KeyNavigation.down: sections
 
