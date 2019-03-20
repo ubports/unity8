@@ -35,7 +35,7 @@ LocalComponents.Page {
     skip: connected
 
     onConnectedChanged: {
-        if (connected) {
+        if (connected && wifiPage.visible) {
             pageStack.next()
         }
     }
