@@ -355,7 +355,7 @@ FocusScope {
                     drawer.searchTextField.select(oldSelectionStart, oldSelectionEnd);
                     resetOldFocus();
                 } else if (fullyClosed) {
-                    drawer.searchTextField.clear();
+                    drawer.searchTextField.text = "";
                     resetOldFocus();
                 }
             }
