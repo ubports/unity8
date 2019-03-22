@@ -32,7 +32,7 @@ LocalComponents.Page {
     forwardButtonSourceComponent: forwardButton
 
     readonly property bool connected: Connectivity.online
-    skip: connected
+    skip: connected && !Connectivity.limitedBandwidth && wifiPage.visible
 
     onConnectedChanged: {
         if (connected && !Connectivity.limitedBandwidth && wifiPage.visible) {
