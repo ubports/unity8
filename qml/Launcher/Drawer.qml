@@ -35,12 +35,6 @@ FocusScope {
     property bool draggingHorizontally: false
     property int dragDistance: 0
 
-    onFocusChanged: {
-        if (focus) {
-            searchField.selectAll();
-        }
-    }
-
     function focusInput() {
         searchField.selectAll();
         searchField.focus = true;
