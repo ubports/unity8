@@ -190,10 +190,9 @@ FocusScope {
             }
 
             MouseArea {
-                id: horizontalDragDetector
                 parent: listLoader.item ? listLoader.item : null
                 anchors.fill: parent
-                propagateComposedEvents: false
+                propagateComposedEvents: true
                 property int oldX: 0
                 onPressed: {
                     oldX = mouseX;
@@ -204,6 +203,7 @@ FocusScope {
                     if (!root.draggingHorizontally) {
                         return;
                     }
+                    propagateComposedEvents = false;
                     parent.interactive = false;
                     root.dragDistance += diff;
                     oldX = mouseX
@@ -215,6 +215,13 @@ FocusScope {
                         root.draggingHorizontally = false;
                         parent.interactive = true;
                     }
+                    reactivateTimer.start();
+                }
+
+                Timer {
+                    id: reactivateTimer
+                    interval: 0
+                    onTriggered: parent.propagateComposedEvents = true;
                 }
             }
 
