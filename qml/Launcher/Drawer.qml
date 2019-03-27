@@ -32,6 +32,7 @@ FocusScope {
 
     signal applicationSelected(string appId)
 
+    property bool firstOpen: true
     property bool draggingHorizontally: false
     property int dragDistance: 0
 
@@ -190,11 +191,17 @@ FocusScope {
             }
 
             MouseArea {
+                id: horizontalDragDetector
                 parent: listLoader.item ? listLoader.item : null
                 anchors.fill: parent
                 propagateComposedEvents: true
                 property int oldX: 0
                 onPressed: {
+                    if (root.firstOpen) {
+                        mouse.accepted = false;
+                        root.firstOpen = false;
+                        return;
+                    }
                     oldX = mouseX;
                 }
                 onMouseXChanged: {
@@ -203,7 +210,6 @@ FocusScope {
                     if (!root.draggingHorizontally) {
                         return;
                     }
-                    propagateComposedEvents = false;
                     parent.interactive = false;
                     root.dragDistance += diff;
                     oldX = mouseX
@@ -215,13 +221,6 @@ FocusScope {
                         root.draggingHorizontally = false;
                         parent.interactive = true;
                     }
-                    reactivateTimer.start();
-                }
-
-                Timer {
-                    id: reactivateTimer
-                    interval: 0
-                    onTriggered: parent.propagateComposedEvents = true;
                 }
             }
 
@@ -318,7 +317,7 @@ FocusScope {
                             anchors { left: parent.left; top: categoryNameLabel.bottom; right: parent.right; topMargin: units.gu(1) }
                             height: rows * delegateHeight
 
-                            interactive: true
+                            interactive: false
                             focus: index == aToZListView.currentIndex
 
                             model: AppDrawerProxyModel {
