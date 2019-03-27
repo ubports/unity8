@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2019-02-14 13:53+0000\n"
-"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
+"PO-Revision-Date: 2019-03-29 15:14+0000\n"
+"Last-Translator: Tom Dom <thomas@patoel.nl>\n"
 "Language-Team: Dutch <https://translate.ubports.com/projects/unity8/unity8/"
 "nl/>\n"
 "Language: nl\n"
@@ -823,7 +823,7 @@ msgstr "Toegangscode bevestigen"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
-msgstr "Onjuiste toegangscode"
+msgstr "Onjuiste toegangscode."
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgctxt "Enter the passcode again"
@@ -929,7 +929,7 @@ msgstr "Openen"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:216
 msgid "Installing"
-msgstr "Bezig met installeren..."
+msgstr "Bezig met installeren"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:220
 msgid "Paused"
@@ -937,7 +937,7 @@ msgstr "Gepauzeerd"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:223
 msgid "Waiting to download"
-msgstr "Bezig met wachten op download..."
+msgstr "Bezig met wachten op download"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:279
 #, qt-format
