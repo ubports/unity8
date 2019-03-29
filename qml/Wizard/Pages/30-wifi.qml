@@ -31,7 +31,14 @@ LocalComponents.Page {
     title: i18n.tr("Connect to Wi‑Fi")
     forwardButtonSourceComponent: forwardButton
 
-    skip: root.connected
+    readonly property bool connected: Connectivity.online
+    skip: connected && !Connectivity.limitedBandwidth
+
+    onConnectedChanged: {
+        if (connected && !Connectivity.limitedBandwidth && wifiPage.visible) {
+            pageStack.next()
+        }
+    }
 
     function getExtendedProperty(object, propertyName, defaultValue) {
         if (object && object.hasOwnProperty(propertyName)) {
