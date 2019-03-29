@@ -32,7 +32,13 @@ LocalComponents.Page {
     forwardButtonSourceComponent: forwardButton
 
     readonly property bool connected: Connectivity.online
-    skip: connected
+    skip: connected && !Connectivity.limitedBandwidth
+
+    onConnectedChanged: {
+        if (connected && !Connectivity.limitedBandwidth && wifiPage.visible) {
+            pageStack.next()
+        }
+    }
 
     function getExtendedProperty(object, propertyName, defaultValue) {
         if (object && object.hasOwnProperty(propertyName)) {
