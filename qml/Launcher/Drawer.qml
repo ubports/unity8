@@ -121,11 +121,14 @@ FocusScope {
 
                     actions: [
                         Action {
-                            text: i18n.ctr("Apps sorted alphabetically", "A-Z")
+                            text: i18n.tr("Apps")
+                        },
+                        Action {
+                            text: i18n.ctr("Apps sorted and grouped alphabetically", "A-Z")
                         // TODO: Disabling this for now as we don't get the right input from u-a-l yet.
-//                        },
-//                        Action {
-//                            text: i18n.ctr("Most used apps", "Most used")
+                    //    },
+                    //    Action {
+                    //        text: i18n.ctr("Most used apps", "Most used")
                         }
                     ]
 
@@ -179,8 +182,8 @@ FocusScope {
 
                 sourceComponent: {
                     switch (sections.selectedIndex) {
-                    case 0: return aToZComponent;
-                    case 1: return mostUsedComponent;
+                    case 0: return singleGroupComponent;
+                    case 1: return aToZComponent;
                     }
                 }
                 Binding {
@@ -225,49 +228,42 @@ FocusScope {
             }
 
             Component {
-                id: mostUsedComponent
+                id: singleGroupComponent
                 DrawerListView {
-                    id: mostUsedListView
+                    id: singleGroupListView
 
-                    header: MoreAppsHeader {
-                        width: parent.width
-                        height: units.gu(6)
-                        highlighted: headerFocusScope.activeFocus
-                        onClicked: headerFocusScope.trigger();
+                    model: ListModel {
+                        id: singleGroupModel
+                        Component.onCompleted: {
+                            append({"name": i18n.tr("Apps")});
+                        }
                     }
 
-                    model: AppDrawerProxyModel {
-                        source: sortProxyModel
-                        group: AppDrawerProxyModel.GroupByAll
-                        sortBy: AppDrawerProxyModel.SortByUsage
-                        dynamicSortFilter: false
-                    }
-
-                    delegate: UbuntuShape {
+                    delegate: Item {
                         width: parent.width - units.gu(2)
                         anchors.horizontalCenter: parent.horizontalCenter
-                        color: "#20ffffff"
-                        aspect: UbuntuShape.Flat
-                        // NOTE: Cannot use gridView.rows here as it would evaluate to 0 at first and only update later,
-                        // which messes up the ListView.
-                        height: (Math.ceil(mostUsedGridView.model.count / mostUsedGridView.columns) * mostUsedGridView.delegateHeight) + units.gu(2)
 
                         readonly property string appId: model.appId
 
+                        // NOTE: Cannot use gridView.rows here as it would evaluate to 0 at first and only update later,
+                        // which messes up the ListView.
+                        height: (Math.ceil(gridView.model.count / gridView.columns) * gridView.delegateHeight) + units.gu(2)
+
                         DrawerGridView {
-                            id: mostUsedGridView
-                            anchors.fill: parent
-                            topMargin: units.gu(1)
-                            bottomMargin: units.gu(1)
-                            clip: true
+                            id: gridView
+                            anchors { left: parent.left; top: parent.top; right: parent.right; topMargin: units.gu(1) }
+                            height: rows * delegateHeight
 
-                            interactive: true
-                            focus: index == mostUsedListView.currentIndex
+                            interactive: false
+                            focus: index == aToZListView.currentIndex
 
-                            model: sortProxyModel
-
+                            model: AppDrawerProxyModel {
+                                id: categoryModel
+                                source: sortProxyModel
+                                dynamicSortFilter: false
+                            }
                             delegateWidth: root.delegateWidth
-                            delegateHeight: units.gu(10)
+                            delegateHeight: units.gu(11)
                             delegate: drawerDelegateComponent
                         }
                     }
@@ -278,13 +274,6 @@ FocusScope {
                 id: aToZComponent
                 DrawerListView {
                     id: aToZListView
-
-                    header: MoreAppsHeader {
-                        width: parent.width
-                        height: units.gu(6)
-                        highlighted: headerFocusScope.activeFocus
-                        onClicked: headerFocusScope.trigger();
-                    }
 
                     model: AppDrawerProxyModel {
                         source: sortProxyModel
@@ -327,7 +316,7 @@ FocusScope {
                                 dynamicSortFilter: false
                             }
                             delegateWidth: root.delegateWidth
-                            delegateHeight: units.gu(10)
+                            delegateHeight: units.gu(11)
                             delegate: drawerDelegateComponent
                         }
                     }
@@ -340,7 +329,7 @@ FocusScope {
             AbstractButton {
                 id: drawerDelegate
                 width: GridView.view.cellWidth
-                height: units.gu(10)
+                height: units.gu(11)
                 objectName: "drawerItem_" + model.appId
 
                 readonly property bool focused: index === GridView.view.currentIndex && GridView.view.activeFocus
@@ -349,7 +338,7 @@ FocusScope {
                 z: loader.active ? 1 : 0
 
                 Column {
-                    width: units.gu(8)
+                    width: units.gu(9)
                     anchors.horizontalCenter: parent.horizontalCenter
                     height: childrenRect.height
                     spacing: units.gu(1)
@@ -382,8 +371,11 @@ FocusScope {
                         id: label
                         text: model.name
                         width: parent.width
+                        anchors.horizontalCenter: parent.horizontalCenter
                         horizontalAlignment: Text.AlignHCenter
                         fontSize: "small"
+                        wrapMode: Text.WordWrap
+                        maximumLineCount: 2
                         elide: Text.ElideRight
 
                         Loader {
