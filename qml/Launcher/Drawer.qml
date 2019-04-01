@@ -26,7 +26,7 @@ FocusScope {
     id: root
 
     property int panelWidth: 0
-    readonly property bool moving: listLoader.item && listLoader.item.moving
+    readonly property bool moving: singleGroupListView && singleGroupListView.moving
     readonly property Item searchTextField: searchField
     readonly property real delegateWidth: units.gu(10)
 
@@ -49,10 +49,6 @@ FocusScope {
         // Catch all presses here in case the navigation lets something through
         // We never want to end up in the launcher with focus
         event.accepted = true;
-    }
-
-    Settings {
-        property alias selectedTab: sections.selectedIndex
     }
 
     MouseArea {
@@ -83,60 +79,34 @@ FocusScope {
             anchors.fill: parent
             anchors.leftMargin: root.panelWidth
 
-            TextField {
-                id: searchField
-                objectName: "searchField"
-                anchors { left: parent.left; top: parent.top; right: parent.right; margins: units.gu(1) }
-                placeholderText: i18n.tr("Search…")
-
-                KeyNavigation.down: sections
-
-                onAccepted: {
-                    if (searchField.displayText != "" && listLoader.item) {
-                        // In case there is no currentItem (it might have been filtered away) lets reset it to the first item
-                        if (!listLoader.item.currentItem) {
-                            listLoader.item.currentIndex = 0;
-                        }
-                        root.applicationSelected(listLoader.item.getFirstAppId());
-                    }
-                }
-            }
-
             Item {
-                id: sectionsContainer
-                anchors { left: parent.left; top: searchField.bottom; right: parent.right; }
-                height: sections.height
-                clip: true
-                z: 2
+                id: searchFieldContainer
+                height: units.gu(4)
+                anchors { left: parent.left; top: parent.top; right: parent.right; margins: units.gu(1) }
 
-                Sections {
-                    id: sections
-                    objectName: "drawerSections"
-                    width: parent.width
+                TextField {
+                    id: searchField
+                    objectName: "searchField"
+                    anchors {
+                        left: parent.left
+                        top: parent.top
+                        right: parent.right
+                        bottom: parent.bottom
+                        bottomMargin: units.gu(1)
+                    }
+                    placeholderText: i18n.tr("Search…")
+                    z: 100
 
-                    KeyNavigation.up: searchField
-                    KeyNavigation.down: headerFocusScope
-                    KeyNavigation.backtab: searchField
-                    KeyNavigation.tab: headerFocusScope
+                    KeyNavigation.down: singleGroupListView
 
-                    actions: [
-                        Action {
-                            text: i18n.tr("Apps")
-                        },
-                        Action {
-                            text: i18n.ctr("Apps sorted and grouped alphabetically", "A-Z")
-                        // TODO: Disabling this for now as we don't get the right input from u-a-l yet.
-                    //    },
-                    //    Action {
-                    //        text: i18n.ctr("Most used apps", "Most used")
+                    onAccepted: {
+                        if (searchField.displayText != "" && singleGroupListView) {
+                            // In case there is no currentItem (it might have been filtered away) lets reset it to the first item
+                            if (!appList.currentItem) {
+                                appList.currentIndex = 0;
+                            }
+                            root.applicationSelected(appList.getFirstAppId());
                         }
-                    ]
-
-                    Rectangle {
-                        anchors.bottom: parent.bottom
-                        height: units.dp(1)
-                        color: 'gray'
-                        width: contentContainer.width
                     }
                 }
             }
@@ -144,10 +114,10 @@ FocusScope {
             FocusScope {
                 id: headerFocusScope
                 objectName: "headerFocusScope"
-                KeyNavigation.up: sections
-                KeyNavigation.down: listLoader.item
-                KeyNavigation.backtab: sections
-                KeyNavigation.tab: listLoader.item
+                KeyNavigation.up: searchField
+                KeyNavigation.down: singleGroupListView
+                KeyNavigation.backtab: searchField
+                KeyNavigation.tab: singleGroupListView
                 activeFocusOnTab: true
 
                 GSettings {
@@ -170,32 +140,9 @@ FocusScope {
                 }
             }
 
-            Loader {
-                id: listLoader
-                objectName: "drawerListLoader"
-                anchors { left: parent.left; top: sectionsContainer.bottom; right: parent.right; bottom: parent.bottom }
-
-                KeyNavigation.up: headerFocusScope
-                KeyNavigation.down: searchField
-                KeyNavigation.backtab: headerFocusScope
-                KeyNavigation.tab: searchField
-
-                sourceComponent: {
-                    switch (sections.selectedIndex) {
-                    case 0: return singleGroupComponent;
-                    case 1: return aToZComponent;
-                    }
-                }
-                Binding {
-                    target: listLoader.item || null
-                    property: "objectName"
-                    value: "drawerItemList"
-                }
-            }
-
             MouseArea {
                 id: horizontalDragDetector
-                parent: listLoader.item ? listLoader.item : null
+                parent: singleGroupListView
                 anchors.fill: parent
                 propagateComposedEvents: true
                 property int oldX: 0
@@ -227,19 +174,25 @@ FocusScope {
                 }
             }
 
-            Component {
-                id: singleGroupComponent
-                DrawerListView {
+            Item {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: searchFieldContainer.bottom
+                    bottom: parent.bottom
+                }
+                z: 1
+
+                Flickable {
                     id: singleGroupListView
+                    clip: true
 
-                    model: ListModel {
-                        id: singleGroupModel
-                        Component.onCompleted: {
-                            append({"name": i18n.tr("Apps")});
-                        }
-                    }
+                    contentHeight: appListContainer.height
 
-                    delegate: Item {
+                    anchors.fill: parent
+
+                    Item {
+                        id: appListContainer
                         width: parent.width - units.gu(2)
                         anchors.horizontalCenter: parent.horizontalCenter
 
@@ -247,10 +200,10 @@ FocusScope {
 
                         // NOTE: Cannot use gridView.rows here as it would evaluate to 0 at first and only update later,
                         // which messes up the ListView.
-                        height: (Math.ceil(gridView.model.count / gridView.columns) * gridView.delegateHeight) + units.gu(2)
+                        height: (Math.ceil(appList.model.count / appList.columns) * appList.delegateHeight) + units.gu(2)
 
                         DrawerGridView {
-                            id: gridView
+                            id: appList
                             anchors { left: parent.left; top: parent.top; right: parent.right; topMargin: units.gu(1) }
                             height: rows * delegateHeight
 
@@ -260,59 +213,6 @@ FocusScope {
                             model: AppDrawerProxyModel {
                                 id: categoryModel
                                 source: sortProxyModel
-                                dynamicSortFilter: false
-                            }
-                            delegateWidth: root.delegateWidth
-                            delegateHeight: units.gu(11)
-                            delegate: drawerDelegateComponent
-                        }
-                    }
-                }
-            }
-
-            Component {
-                id: aToZComponent
-                DrawerListView {
-                    id: aToZListView
-
-                    model: AppDrawerProxyModel {
-                        source: sortProxyModel
-                        sortBy: AppDrawerProxyModel.SortByAToZ
-                        group: AppDrawerProxyModel.GroupByAToZ
-                        dynamicSortFilter: false
-                    }
-
-                    delegate: UbuntuShape {
-                        width: parent.width - units.gu(2)
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        color: "#20ffffff"
-                        aspect: UbuntuShape.Flat
-
-                        readonly property string appId: model.appId
-
-                        // NOTE: Cannot use gridView.rows here as it would evaluate to 0 at first and only update later,
-                        // which messes up the ListView.
-                        height: (Math.ceil(gridView.model.count / gridView.columns) * gridView.delegateHeight) +
-                                categoryNameLabel.implicitHeight + units.gu(2)
-
-                        Label {
-                            id: categoryNameLabel
-                            anchors { left: parent.left; top: parent.top; right: parent.right; margins: units.gu(1) }
-                            text: model.letter
-                        }
-
-                        DrawerGridView {
-                            id: gridView
-                            anchors { left: parent.left; top: categoryNameLabel.bottom; right: parent.right; topMargin: units.gu(1) }
-                            height: rows * delegateHeight
-
-                            interactive: false
-                            focus: index == aToZListView.currentIndex
-
-                            model: AppDrawerProxyModel {
-                                id: categoryModel
-                                source: sortProxyModel
-                                filterLetter: model.letter
                                 dynamicSortFilter: false
                             }
                             delegateWidth: root.delegateWidth

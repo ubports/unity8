@@ -46,4 +46,8 @@ FocusScope {
         cellWidth: root.delegateWidth + spacing
         cellHeight: root.delegateHeight
     }
+
+    function getFirstAppId() {
+        return model.appId(0);
+    }
 }
