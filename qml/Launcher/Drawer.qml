@@ -26,7 +26,7 @@ FocusScope {
     id: root
 
     property int panelWidth: 0
-    readonly property bool moving: singleGroupListView && singleGroupListView.moving
+    readonly property bool moving: appList && appList.moving
     readonly property Item searchTextField: searchField
     readonly property real delegateWidth: units.gu(10)
 
@@ -81,7 +81,7 @@ FocusScope {
 
             Item {
                 id: searchFieldContainer
-                height: units.gu(4)
+                height: units.gu(6)
                 anchors { left: parent.left; top: parent.top; right: parent.right; margins: units.gu(1) }
 
                 TextField {
@@ -92,15 +92,15 @@ FocusScope {
                         top: parent.top
                         right: parent.right
                         bottom: parent.bottom
-                        bottomMargin: units.gu(1)
+                        bottomMargin: units.gu(2)
                     }
                     placeholderText: i18n.tr("Search…")
                     z: 100
 
-                    KeyNavigation.down: singleGroupListView
+                    KeyNavigation.down: appList
 
                     onAccepted: {
-                        if (searchField.displayText != "" && singleGroupListView) {
+                        if (searchField.displayText != "" && appList) {
                             // In case there is no currentItem (it might have been filtered away) lets reset it to the first item
                             if (!appList.currentItem) {
                                 appList.currentIndex = 0;
@@ -111,116 +111,27 @@ FocusScope {
                 }
             }
 
-            FocusScope {
-                id: headerFocusScope
-                objectName: "headerFocusScope"
-                KeyNavigation.up: searchField
-                KeyNavigation.down: singleGroupListView
-                KeyNavigation.backtab: searchField
-                KeyNavigation.tab: singleGroupListView
-                activeFocusOnTab: true
-
-                GSettings {
-                    id: settings
-                    schema.id: "com.canonical.Unity8"
-                }
-
-                Keys.onPressed: {
-                    switch (event.key) {
-                    case Qt.Key_Return:
-                    case Qt.Key_Enter:
-                    case Qt.Key_Space:
-                        trigger();
-                        event.accepted = true;
-                    }
-                }
-
-                function trigger() {
-                    Qt.openUrlExternally(settings.appstoreUri)
-                }
-            }
-
-            MouseArea {
-                id: horizontalDragDetector
-                parent: singleGroupListView
-                anchors.fill: parent
-                propagateComposedEvents: true
-                property int oldX: 0
-                onPressed: {
-                    if (root.firstOpen) {
-                        mouse.accepted = false;
-                        root.firstOpen = false;
-                        return;
-                    }
-                    oldX = mouseX;
-                }
-                onMouseXChanged: {
-                    var diff = oldX - mouseX;
-                    root.draggingHorizontally |= diff > units.gu(2);
-                    if (!root.draggingHorizontally) {
-                        return;
-                    }
-                    parent.interactive = false;
-                    root.dragDistance += diff;
-                    oldX = mouseX
-                }
-                onReleased: reset();
-                onCanceled: reset();
-                function reset() {
-                    if (root.draggingHorizontally) {
-                        root.draggingHorizontally = false;
-                        parent.interactive = true;
-                    }
-                }
-            }
-
-            Item {
+            DrawerGridView {
+                id: appList
                 anchors {
                     left: parent.left
                     right: parent.right
                     top: searchFieldContainer.bottom
                     bottom: parent.bottom
                 }
-                z: 1
+                height: rows * delegateHeight
+                clip: true
 
-                Flickable {
-                    id: singleGroupListView
-                    clip: true
+                focus: index == aToZListView.currentIndex
 
-                    contentHeight: appListContainer.height
-
-                    anchors.fill: parent
-
-                    Item {
-                        id: appListContainer
-                        width: parent.width - units.gu(2)
-                        anchors.horizontalCenter: parent.horizontalCenter
-
-                        readonly property string appId: model.appId
-
-                        // NOTE: Cannot use gridView.rows here as it would evaluate to 0 at first and only update later,
-                        // which messes up the ListView.
-                        height: (Math.ceil(appList.model.count / appList.columns) * appList.delegateHeight) + units.gu(2)
-
-                        DrawerGridView {
-                            id: appList
-                            anchors { left: parent.left; top: parent.top; right: parent.right; topMargin: units.gu(1) }
-                            height: rows * delegateHeight
-
-                            interactive: false
-                            focus: index == aToZListView.currentIndex
-
-                            model: AppDrawerProxyModel {
-                                id: categoryModel
-                                source: sortProxyModel
-                                dynamicSortFilter: false
-                            }
-                            delegateWidth: root.delegateWidth
-                            delegateHeight: units.gu(11)
-                            delegate: drawerDelegateComponent
-                        }
-                    }
+                model: AppDrawerProxyModel {
+                    id: categoryModel
+                    source: sortProxyModel
+                    dynamicSortFilter: false
                 }
+                delegateWidth: root.delegateWidth
+                delegateHeight: units.gu(11)
+                delegate: drawerDelegateComponent
             }
         }
 

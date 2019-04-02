@@ -179,7 +179,11 @@ FocusScope {
         if (focusInputField) {
             drawer.focusInput();
         }
-        switchToNextState("drawer")
+        if (state === "drawer") {
+            switchToNextState("")
+        } else {
+            switchToNextState("drawer")
+        }
     }
 
     Keys.onPressed: {
@@ -588,6 +592,7 @@ FocusScope {
             PropertyChanges {
                 target: panel
                 x: -root.panelWidth
+                showCloseIcon: false
             }
             PropertyChanges {
                 target: drawer
@@ -600,6 +605,7 @@ FocusScope {
             PropertyChanges {
                 target: panel
                 x: -root.x // so we never go past panelWidth, even when teased by tutorial
+                showCloseIcon: false
             }
             PropertyChanges {
                 target: drawer
@@ -613,6 +619,10 @@ FocusScope {
                 target: drawer
                 anchors.rightMargin: -drawer.width + root.x // so we never go past panelWidth, even when teased by tutorial
                 focus: true
+            }
+            PropertyChanges {
+                target: panel
+                showCloseIcon: true
             }
         },
         State {

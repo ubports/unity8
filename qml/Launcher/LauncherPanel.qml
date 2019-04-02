@@ -35,6 +35,7 @@ Rectangle {
     property bool moving: launcherListView.moving || launcherListView.flicking
     property bool preventHiding: moving || dndArea.draggedIndex >= 0 || quickList.state === "open" || dndArea.pressed
                                  || dndArea.containsMouse || dashItem.hovered
+    property bool showCloseIcon: false
     property int highlightIndex: -2
     property bool shortcutHintsShown: false
     readonly property bool quickListOpen: quickList.state === "open"
@@ -97,7 +98,7 @@ Rectangle {
                 sourceSize.width: width
                 sourceSize.height: height
                 anchors.centerIn: parent
-                source: "graphics/home.svg"
+                source: root.showCloseIcon ? "graphics/back.svg": "graphics/home.svg"
                 rotation: root.rotation
             }
             AbstractButton {
