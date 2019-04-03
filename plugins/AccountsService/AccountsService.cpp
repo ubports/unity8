@@ -25,7 +25,6 @@
 #include <glib.h>
 
 #define IFACE_ACCOUNTS_USER          QStringLiteral("org.freedesktop.Accounts.User")
-#define IFACE_LOCATION_HERE          QStringLiteral("com.ubuntu.location.providers.here.AccountsService")
 #define IFACE_UBUNTU_INPUT           QStringLiteral("com.ubuntu.AccountsService.Input")
 #define IFACE_UBUNTU_SECURITY        QStringLiteral("com.ubuntu.AccountsService.SecurityPrivacy")
 #define IFACE_UBUNTU_SECURITY_OLD    QStringLiteral("com.ubuntu.touch.AccountsService.SecurityPrivacy")
@@ -93,8 +92,6 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
     registerProperty(IFACE_ACCOUNTS_USER, PROP_EMAIL, QStringLiteral("emailChanged"));
     registerProperty(IFACE_ACCOUNTS_USER, PROP_REAL_NAME, QStringLiteral("realNameChanged"));
     registerProperty(IFACE_ACCOUNTS_USER, PROP_INPUT_SOURCES, QStringLiteral("keymapsChanged"));
-    registerProperty(IFACE_LOCATION_HERE, PROP_LICENSE_ACCEPTED, QStringLiteral("hereEnabledChanged"));
-    registerProperty(IFACE_LOCATION_HERE, PROP_LICENSE_BASE_PATH, QStringLiteral("hereLicensePathChanged"));
     registerProperty(IFACE_UBUNTU_SECURITY, PROP_ENABLE_FINGERPRINT_IDENTIFICATION, QStringLiteral("enableFingerprintIdentificationChanged"));
     registerProperty(IFACE_UBUNTU_SECURITY, PROP_ENABLE_LAUNCHER_WHILE_LOCKED, QStringLiteral("enableLauncherWhileLockedChanged"));
     registerProperty(IFACE_UBUNTU_SECURITY, PROP_ENABLE_INDICATORS_WHILE_LOCKED, QStringLiteral("enableIndicatorsWhileLockedChanged"));
@@ -214,32 +211,6 @@ AccountsService::PasswordDisplayHint AccountsService::passwordDisplayHint() cons
 {
     auto value = getProperty(IFACE_UBUNTU_SECURITY, PROP_PASSWORD_DISPLAY_HINT);
     return (PasswordDisplayHint)value.toInt();
-}
-
-bool AccountsService::hereEnabled() const
-{
-    auto value = getProperty(IFACE_LOCATION_HERE, PROP_LICENSE_ACCEPTED);
-    return value.toBool();
-}
-
-void AccountsService::setHereEnabled(bool enabled)
-{
-    setProperty(IFACE_LOCATION_HERE, PROP_LICENSE_ACCEPTED, enabled);
-}
-
-QString AccountsService::hereLicensePath() const
-{
-    auto value = getProperty(IFACE_LOCATION_HERE, PROP_LICENSE_BASE_PATH);
-    QString hereLicensePath = value.toString();
-    if (hereLicensePath.isEmpty() || !QFile::exists(hereLicensePath))
-        hereLicensePath = QStringLiteral("");
-    return hereLicensePath;
-}
-
-bool AccountsService::hereLicensePathValid() const
-{
-    auto value = getProperty(IFACE_LOCATION_HERE, PROP_LICENSE_BASE_PATH);
-    return !value.toString().isNull();
 }
 
 QString AccountsService::realName() const

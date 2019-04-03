@@ -66,16 +66,6 @@ class AccountsService: public QObject
                 READ failedFingerprintLogins
                 WRITE setFailedFingerprintLogins
                 NOTIFY failedFingerprintLoginsChanged)
-    Q_PROPERTY(bool hereEnabled
-               READ hereEnabled
-               WRITE setHereEnabled
-               NOTIFY hereEnabledChanged)
-    Q_PROPERTY(QString hereLicensePath
-               READ hereLicensePath
-               NOTIFY hereLicensePathChanged)
-    Q_PROPERTY(bool hereLicensePathValid // qml sees a null string as "", so we use proxy setting for that
-               READ hereLicensePathValid
-               NOTIFY hereLicensePathChanged)
     Q_PROPERTY(QString realName READ realName WRITE setRealName NOTIFY realNameChanged)
     Q_PROPERTY(QString email READ email WRITE setEmail NOTIFY emailChanged)
     Q_PROPERTY(QStringList keymaps READ keymaps WRITE setKeymaps NOTIFY keymapsChanged)
@@ -106,10 +96,6 @@ public:
     void setFailedLogins(uint failedLogins);
     uint failedFingerprintLogins() const;
     void setFailedFingerprintLogins(uint failedFingerprintLogins);
-    bool hereEnabled() const;
-    void setHereEnabled(bool enabled);
-    QString hereLicensePath() const;
-    bool hereLicensePathValid() const;
     QString realName() const;
     void setRealName(const QString &realName);
     QString email() const;
@@ -129,8 +115,6 @@ Q_SIGNALS:
     void passwordDisplayHintChanged();
     void failedLoginsChanged();
     void failedFingerprintLoginsChanged();
-    void hereEnabledChanged();
-    void hereLicensePathChanged();
     void realNameChanged();
     void emailChanged();
     void keymapsChanged();
