@@ -87,8 +87,6 @@ Item {
     }
 
     function setup() {
-        AccountsService.hereEnabled = false;
-        AccountsService.hereLicensePath = Qt.resolvedUrl("licenses");
         i18n.language = "en";
         MockQOfono.setModems(["sim1"], [false], []);
         MockQOfono.available = true;
@@ -395,7 +393,6 @@ Item {
         function test_locationGpsOnly() {
             var page = goToPage("locationPage");
             var gpsCheck = findChild(page, "gpsCheckLabel");
-            var hereCheck = findChild(page, "hereCheckLabel");
             var nopeCheck = findChild(page, "nopeCheckLabel");
 
             var locationActionGroup = findInvisibleChild(page, "locationActionGroup");
@@ -404,11 +401,9 @@ Item {
 
             tap(gpsCheck);
             tryCompare(gpsCheck, "checked", true);
-            tryCompare(hereCheck, "checked", false);
             tryCompare(nopeCheck, "checked", false);
 
             tap(findChild(page, "forwardButton"));
-            tryCompare(AccountsService, "hereEnabled", false);
             tryCompare(activateLocationSpy, "count", 1)
             tryCompare(activateGPSSpy, "count", 1)
         }
@@ -416,7 +411,6 @@ Item {
         function test_locationNope() {
             var page = goToPage("locationPage");
             var gpsCheck = findChild(page, "gpsCheckLabel");
-            var hereCheck = findChild(page, "hereCheckLabel");
             var nopeCheck = findChild(page, "nopeCheckLabel");
 
             var locationActionGroup = findInvisibleChild(page, "locationActionGroup");
@@ -425,34 +419,11 @@ Item {
 
             tap(nopeCheck);
             tryCompare(gpsCheck, "checked", false);
-            tryCompare(hereCheck, "checked", false);
             tryCompare(nopeCheck, "checked", true);
 
             tap(findChild(page, "forwardButton"));
-            tryCompare(AccountsService, "hereEnabled", false);
             tryCompare(activateLocationSpy, "count", 0);
             tryCompare(activateGPSSpy, "count", 0);
-        }
-
-        function test_locationHere() {
-            var page = goToPage("locationPage");
-            var gpsCheck = findChild(page, "gpsCheckLabel");
-            var hereCheck = findChild(page, "hereCheckLabel");
-            var nopeCheck = findChild(page, "nopeCheckLabel");
-
-            var locationActionGroup = findInvisibleChild(page, "locationActionGroup");
-            activateLocationSpy.target = locationActionGroup.location;
-            activateGPSSpy.target = locationActionGroup.gps;
-
-            // no tap because HERE is the default
-            tryCompare(gpsCheck, "checked", false);
-            tryCompare(hereCheck, "checked", true);
-            tryCompare(nopeCheck, "checked", false);
-
-            tap(findChild(page, "forwardButton"));
-            tryCompare(AccountsService, "hereEnabled", true);
-            tryCompare(activateLocationSpy, "count", 1);
-            tryCompare(activateGPSSpy, "count", 1);
         }
 
         function test_timezonePage() {

@@ -116,10 +116,6 @@ private Q_SLOTS:
         QCOMPARE(session.failedLogins(), (uint)0);
         session.setFailedLogins(5);
         QCOMPARE(session.failedLogins(), (uint)5);
-
-        QCOMPARE(session.hereEnabled(), false);
-        session.setHereEnabled(true);
-        QCOMPARE(session.hereEnabled(), true);
     }
 
     void testMarkDemoEdgeCompleted()
@@ -229,30 +225,6 @@ private Q_SLOTS:
                                                     "PasswordDisplayHint",
                                                     dbusVariant(AccountsService::Numeric)));
         QTRY_COMPARE(session.passwordDisplayHint(), AccountsService::Numeric);
-    }
-
-    void testAsynchronousChangeForLicenseAccepted()
-    {
-        AccountsService session(this, QTest::currentTestFunction());
-
-        QCOMPARE(session.hereEnabled(), false);
-        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
-                                                    "com.ubuntu.location.providers.here.AccountsService",
-                                                    "LicenseAccepted",
-                                                    dbusVariant(true)));
-        QTRY_COMPARE(session.hereEnabled(), true);
-    }
-
-    void testAsynchronousChangeForLicenseBasePath()
-    {
-        AccountsService session(this, QTest::currentTestFunction());
-
-        QCOMPARE(session.hereLicensePath(), QString());
-        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
-                                                    "com.ubuntu.location.providers.here.AccountsService",
-                                                    "LicenseBasePath",
-                                                    dbusVariant("/")));
-        QTRY_COMPARE(session.hereLicensePath(), QString("/"));
     }
 
     void testAsynchronousChangeForBackgroundFile()

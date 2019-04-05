@@ -31,8 +31,6 @@ AccountsService::AccountsService(QObject* parent)
     m_failedFingerprintLogins(0),
     m_demoEdges(false),
     m_demoEdgesCompleted(),
-    m_hereEnabled(false),
-    m_hereLicensePath(""),
     m_usersModel(new UsersModel(this))
 {
 }
@@ -174,40 +172,6 @@ void AccountsService::setFailedFingerprintLogins(uint failedFingerprintLogins)
 {
     m_failedFingerprintLogins = failedFingerprintLogins;
     failedFingerprintLoginsChanged();
-}
-
-bool AccountsService::hereEnabled() const
-{
-    return m_hereEnabled;
-}
-
-void AccountsService::setHereEnabled(bool enabled)
-{
-    m_hereEnabled = enabled;
-    hereEnabledChanged();
-}
-
-QString AccountsService::hereLicensePath() const
-{
-    return m_hereLicensePath;
-}
-
-void AccountsService::setHereLicensePath(const QString &path)
-{
-    // Path should always be valid (this code is all synchronous)
-    if (path == " ") {
-        m_hereLicensePath = QString::null;
-    } else if (path.isNull()) { // because qml collapses null and empty
-        m_hereLicensePath = "";
-    } else {
-        m_hereLicensePath = path;
-    }
-    hereLicensePathChanged();
-}
-
-bool AccountsService::hereLicensePathValid() const
-{
-    return !m_hereLicensePath.isNull();
 }
 
 QString AccountsService::realName() const

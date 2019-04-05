@@ -69,17 +69,6 @@ class AccountsService: public QObject
                 READ failedFingerprintLogins
                 WRITE setFailedFingerprintLogins
                 NOTIFY failedFingerprintLoginsChanged)
-    Q_PROPERTY(bool hereEnabled
-               READ hereEnabled
-               WRITE setHereEnabled
-               NOTIFY hereEnabledChanged)
-    Q_PROPERTY(QString hereLicensePath
-               READ hereLicensePath
-               WRITE setHereLicensePath // only available in mock
-               NOTIFY hereLicensePathChanged)
-    Q_PROPERTY(bool hereLicensePathValid // qml sees a null string as "", so we use proxy setting for that
-               READ hereLicensePathValid
-               NOTIFY hereLicensePathChanged)
     Q_PROPERTY(QString realName READ realName WRITE setRealName NOTIFY realNameChanged)
     Q_PROPERTY(QString email READ email WRITE setEmail NOTIFY emailChanged)
     Q_PROPERTY(QStringList keymaps
@@ -118,11 +107,6 @@ public:
     void setFailedLogins(uint failedLogins);
     uint failedFingerprintLogins() const;
     void setFailedFingerprintLogins(uint failedFingerprintLogins);
-    bool hereEnabled() const;
-    void setHereEnabled(bool enabled);
-    QString hereLicensePath() const;
-    void setHereLicensePath(const QString &path);
-    bool hereLicensePathValid() const;
     QString realName() const;
     void setRealName(const QString &realName);
     QString email() const;
@@ -142,8 +126,6 @@ Q_SIGNALS:
     void passwordDisplayHintChanged();
     void failedLoginsChanged();
     void failedFingerprintLoginsChanged();
-    void hereEnabledChanged();
-    void hereLicensePathChanged();
     void realNameChanged();
     void emailChanged();
     void keymapsChanged();
@@ -159,8 +141,6 @@ private:
     uint m_failedFingerprintLogins;
     bool m_demoEdges;
     QStringList m_demoEdgesCompleted;
-    bool m_hereEnabled;
-    QString m_hereLicensePath;
     QString m_realName;
     QStringList m_kbdMap;
     QString m_email;
