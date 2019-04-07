@@ -379,10 +379,30 @@ StyledItem {
         Connections {
             target: greeter
             onActiveChanged: {
-                if (!greeter.active && greeterLoader.openDrawerAfterUnlock) {
+                if (greeter.active)
+                    return
+
+                // Show drawer in case showHome() requests it
+                if (greeterLoader.openDrawerAfterUnlock) {
                     launcher.openDrawer(false);
                     greeterLoader.openDrawerAfterUnlock = false;
                 }
+                // Show the launcher when there are no running apps
+                else if (topLevelSurfaceList.count < 1) {
+                    launcher.switchToNextState("visible")
+                }
+            }
+        }
+
+        // Show the launcher in case there are no running apps
+        Connections {
+            target: topLevelSurfaceList
+            onCountChanged: {
+                if (topLevelSurfaceList.count > 0)
+                    return
+
+                stage.closeSpread()
+                launcher.switchToNextState("visible")
             }
         }
     }
