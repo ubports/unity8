@@ -46,6 +46,16 @@ FocusScope {
             focusInput();
             searchField.text = event.text;
         }
+        switch (event.key) {
+            case Qt.Key_Right:
+            case Qt.Key_Left:
+            case Qt.Key_Down:
+                appList.focus = true;
+                break;
+            case Qt.Key_Up:
+                focusInput();
+                break;
+        }
         // Catch all presses here in case the navigation lets something through
         // We never want to end up in the launcher with focus
         event.accepted = true;
@@ -121,8 +131,6 @@ FocusScope {
                 }
                 height: rows * delegateHeight
                 clip: true
-
-                focus: index == aToZListView.currentIndex
 
                 model: AppDrawerProxyModel {
                     id: categoryModel
