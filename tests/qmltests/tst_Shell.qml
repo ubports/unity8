@@ -607,7 +607,7 @@ Rectangle {
             waitForRendering(shell)
             var app0 = ApplicationManager.startApplication("unity8-dash")
             var app1 = ApplicationManager.startApplication("dialer-app")
-            var app2 = ApplicationManager.startApplication("webbrowser-app")
+            var app2 = ApplicationManager.startApplication("morph-browser")
             var app3 = ApplicationManager.startApplication("camera-app")
             var app4 = ApplicationManager.startApplication("facebook-webapp")
             var app5 = ApplicationManager.startApplication("camera-app")
@@ -961,7 +961,7 @@ Rectangle {
             shell.usageScenario = data.usageScenario;
             swipeAwayGreeter();
 
-            var appDelegate = startApplication("webbrowser-app");
+            var appDelegate = startApplication("morph-browser");
 
             tryCompare(appDelegate.surface, "activeFocus", true);
         }
@@ -971,7 +971,7 @@ Rectangle {
             swipeAwayGreeter();
 
             var webAppSurfaceId = topLevelSurfaceList.nextId;
-            var webApp = ApplicationManager.startApplication("webbrowser-app");
+            var webApp = ApplicationManager.startApplication("morph-browser");
             verify(webApp);
             waitUntilAppWindowIsFullyLoaded(webAppSurfaceId);
 
@@ -1522,7 +1522,7 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             var webBrowserSurfaceId = topLevelSurfaceList.nextId;
-            var webBrowserApp = ApplicationManager.startApplication("webbrowser-app");
+            var webBrowserApp = ApplicationManager.startApplication("morph-browser");
             waitUntilAppWindowIsFullyLoaded(webBrowserSurfaceId);
 
             var gallerySurfaceId = topLevelSurfaceList.nextId;
@@ -1550,7 +1550,7 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             var webBrowserSurfaceId = topLevelSurfaceList.nextId;
-            var webBrowserApp = ApplicationManager.startApplication("webbrowser-app");
+            var webBrowserApp = ApplicationManager.startApplication("morph-browser");
             waitUntilAppWindowIsFullyLoaded(webBrowserSurfaceId);
 
             var gallerySurfaceId = topLevelSurfaceList.nextId;
@@ -1590,7 +1590,7 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(app1SurfaceId);
 
             var app2SurfaceId = topLevelSurfaceList.nextId;
-            var app2 = ApplicationManager.startApplication("webbrowser-app")
+            var app2 = ApplicationManager.startApplication("morph-browser")
             waitUntilAppWindowIsFullyLoaded(app2SurfaceId);
             var app2Surface = app2.surfaceList.get(0);
             verify(app2Surface);
@@ -2088,11 +2088,11 @@ Rectangle {
             loadShell(data.formFactor);
             shell.usageScenario = data.usageScenario;
 
-            GSettingsController.setLifecycleExemptAppids(["webbrowser-app"]);
+            GSettingsController.setLifecycleExemptAppids(["morph-browser"]);
 
             // Add two main stage apps, the second in order to suspend the first
             var app1SurfaceId = topLevelSurfaceList.nextId;
-            var app1 = ApplicationManager.startApplication("webbrowser-app");
+            var app1 = ApplicationManager.startApplication("morph-browser");
             waitUntilAppWindowIsFullyLoaded(app1SurfaceId);
             var app2SurfaceId = topLevelSurfaceList.nextId;
             var app2 = ApplicationManager.startApplication("gallery-app");

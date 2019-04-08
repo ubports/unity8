@@ -34,7 +34,7 @@ MockAppDrawerModel::MockAppDrawerModel(QObject *parent):
     m_list.append(item);
     item = new MockLauncherItem("facebook-webapp", "/usr/share/applications/facebook-webapp.desktop", "Facebook", "facebook", this);
     m_list.append(item);
-    item = new MockLauncherItem("webbrowser-app", "/usr/share/applications/webbrowser-app.desktop", "Browser", "browser", this);
+    item = new MockLauncherItem("morph-browser", "/usr/share/applications/morph-browser.desktop", "Browser", "browser", this);
     m_list.append(item);
     item = new MockLauncherItem("twitter-webapp", "/usr/share/applications/twitter-webapp.desktop", "Twitter", "twitter", this);
     m_list.append(item);

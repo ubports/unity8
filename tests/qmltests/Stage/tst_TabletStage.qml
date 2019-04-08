@@ -110,7 +110,7 @@ Rectangle {
 
             ApplicationCheckBox {
                 id: webbrowserCheckBox
-                appId: "webbrowser-app"
+                appId: "morph-browser"
             }
             ApplicationCheckBox {
                 id: galleryCheckBox
@@ -519,7 +519,7 @@ Rectangle {
 
         function test_applicationLoadsInDefaultStage_data() {
             return [
-                { tag: "MainStage", appId: "webbrowser-app", mainStageAppId: "webbrowser-app", sideStageAppId: "" },
+                { tag: "MainStage", appId: "morph-browser", mainStageAppId: "morph-browser", sideStageAppId: "" },
                 { tag: "SideStage", appId: "dialer-app", mainStageAppId: "unity8-dash", sideStageAppId: "dialer-app" },
             ];
         }
@@ -541,8 +541,8 @@ Rectangle {
 
         function test_applicationLoadsInSavedStage_data() {
             return [
-                { tag: "MainStage", stage: ApplicationInfoInterface.MainStage, mainStageAppId: "webbrowser-app", sideStageAppId: ""},
-                { tag: "SideStage", stage: ApplicationInfoInterface.SideStage, mainStageAppId: "unity8-dash", sideStageAppId: "webbrowser-app" },
+                { tag: "MainStage", stage: ApplicationInfoInterface.MainStage, mainStageAppId: "morph-browser", sideStageAppId: ""},
+                { tag: "SideStage", stage: ApplicationInfoInterface.SideStage, mainStageAppId: "unity8-dash", sideStageAppId: "morph-browser" },
             ];
         }
 
@@ -591,7 +591,7 @@ Rectangle {
             }
 
             tryCompare(stageSaver, "count", 1);
-            compare(stageSaver.signalArguments[0][0], "webbrowser-app")
+            compare(stageSaver.signalArguments[0][0], "morph-browser")
             compare(stageSaver.signalArguments[0][1], data.toStage)
         }
 

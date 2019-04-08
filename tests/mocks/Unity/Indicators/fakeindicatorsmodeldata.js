@@ -879,7 +879,7 @@ var fakeMenuData = {
                         "ext": {
                             "xCanonicalUid": 1003
                         },
-                        "icon": "image://theme/webbrowser-app",
+                        "icon": "image://theme/morph-browser",
                         "isCheck": false,
                         "isRadio": false,
                         "isSeparator": false,
@@ -928,7 +928,7 @@ var fakeMenuData = {
                         "ext": {
                             "xCanonicalUid": 1002
                         },
-                        "icon": "image://theme/webbrowser-app",
+                        "icon": "image://theme/morph-browser",
                         "isCheck": false,
                         "isRadio": false,
                         "isSeparator": false,
@@ -945,7 +945,7 @@ var fakeMenuData = {
                         "ext": {
                             "xCanonicalUid": 1001
                         },
-                        "icon": "image://theme/webbrowser-app",
+                        "icon": "image://theme/morph-browser",
                         "isCheck": false,
                         "isRadio": false,
                         "isSeparator": false,

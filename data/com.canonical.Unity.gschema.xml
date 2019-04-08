@@ -164,7 +164,7 @@
         'appid://openstore.openstore-team/openstore/current-user-version',
         'appid://com.ubuntu.camera/camera/current-user-version',
         'appid://com.ubuntu.gallery/gallery/current-user-version',
-        'application:///webbrowser-app.desktop'
+        'application:///morph-browser.desktop'
       ]</default>
       <summary>List of items that should be shown by default in the launcher</summary>
       <description>These items can be: application:///desktop-id.desktop or appid://package/app/current-user-version.</description>
