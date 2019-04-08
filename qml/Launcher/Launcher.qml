@@ -180,9 +180,9 @@ FocusScope {
             drawer.focusInput();
         }
         if (state === "drawer") {
-            switchToNextState("")
+            switchToNextState("visible");
         } else {
-            switchToNextState("drawer")
+            switchToNextState("drawer");
         }
     }
 
@@ -606,10 +606,12 @@ FocusScope {
                 target: panel
                 x: -root.x // so we never go past panelWidth, even when teased by tutorial
                 showCloseIcon: false
+                focus: true
             }
             PropertyChanges {
                 target: drawer
                 anchors.rightMargin: 0
+                focus: false
             }
         },
         State {
