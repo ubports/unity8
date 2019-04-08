@@ -371,7 +371,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setAppId("webbrowser-app");
+    application->setAppId("morph-browser");
     application->setShellChrome(Mir::LowChrome);
     application->setName("Browser");
     application->setScreenshotId("browser");

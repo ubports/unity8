@@ -432,7 +432,7 @@ Item {
 
         function test_closeSurfaceOfMultiSurfaceApp() {
             var surface1Id = topLevelSurfaceList.nextId;
-            var webbrowserApp  = ApplicationManager.startApplication("webbrowser-app");
+            var webbrowserApp  = ApplicationManager.startApplication("morph-browser");
             waitUntilAppSurfaceShowsUp(surface1Id);
 
             var surface2Id = topLevelSurfaceList.nextId;
@@ -465,7 +465,7 @@ Item {
 
         function test_swipeToClose(data) {
             var surface1Id = topLevelSurfaceList.nextId;
-            var webbrowserApp  = ApplicationManager.startApplication("webbrowser-app");
+            var webbrowserApp  = ApplicationManager.startApplication("morph-browser");
             waitUntilAppSurfaceShowsUp(surface1Id);
 
             performEdgeSwipeToShowAppSpread();
@@ -497,7 +497,7 @@ Item {
             var dashWindow = topLevelSurfaceList.windowAt(0);
 
             var webbrowserSurfaceId = topLevelSurfaceList.nextId;
-            var webbrowserApp  = ApplicationManager.startApplication("webbrowser-app");
+            var webbrowserApp  = ApplicationManager.startApplication("morph-browser");
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
             switchToSurface(dashSurfaceId);
@@ -541,7 +541,7 @@ Item {
             var dashWindow = topLevelSurfaceList.windowAt(0);
 
             var webbrowserSurfaceId = topLevelSurfaceList.nextId;
-            var webbrowserApp  = ApplicationManager.startApplication("webbrowser-app");
+            var webbrowserApp  = ApplicationManager.startApplication("morph-browser");
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
             switchToSurface(dashSurfaceId);
@@ -571,7 +571,7 @@ Item {
             tryCompareFunction(function(){return topLevelSurfaceList.indexForId(webbrowserSurfaceId);}, -1);
 
             // nor is its app
-            compare(ApplicationManager.findApplication("webbrowser-app"), null);
+            compare(ApplicationManager.findApplication("morph-browser"), null);
 
             // only unity8-dash surface is left
             compare(topLevelSurfaceList.count, 1);
@@ -587,7 +587,7 @@ Item {
             performEdgeSwipeToShowAppSpread();
 
             var webbrowserSurfaceId = topLevelSurfaceList.nextId;
-            var webbrowserApp  = ApplicationManager.startApplication("webbrowser-app");
+            var webbrowserApp  = ApplicationManager.startApplication("morph-browser");
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
             compare(topLevelSurfaceList.idAt(0), webbrowserSurfaceId);

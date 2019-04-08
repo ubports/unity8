@@ -51,7 +51,7 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     item = new MockLauncherItem("facebook-webapp", "/usr/share/applications/facebook-webapp.desktop", "Facebook", "facebook", this);
     item->setProgress(150);
     m_list.append(item);
-    item = new MockLauncherItem("webbrowser-app", "/usr/share/applications/webbrowser-app.desktop", "Browser", "browser", this);
+    item = new MockLauncherItem("morph-browser", "/usr/share/applications/morph-browser.desktop", "Browser", "browser", this);
     item->setSurfaceCount(5);
     item->setCount(1);
     item->setCountVisible(true);
