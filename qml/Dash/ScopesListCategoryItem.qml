@@ -73,7 +73,6 @@ AbstractButton {
                 wrapMode: Text.Wrap
                 maximumLineCount: 1
                 verticalAlignment: Text.AlignHCenter
-                color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
             }
             Label {
                 id: subtitleLabel
@@ -84,7 +83,6 @@ AbstractButton {
                 maximumLineCount: 1
                 verticalAlignment: Text.AlignHCenter
                 visible: text != ""
-                color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
             }
         }
         AbstractButton {
