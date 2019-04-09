@@ -91,16 +91,21 @@ Rectangle {
             color: UbuntuColors.orange
             readonly property bool highlighted: root.highlightIndex == -1;
 
-            Image {
+            Icon {
                 objectName: "dashItem"
                 width: parent.width * .6
                 height: width
-                sourceSize.width: width
-                sourceSize.height: height
                 anchors.centerIn: parent
-                source: root.showCloseIcon ? "graphics/back.svg": "graphics/home.svg"
+                source: {
+                    if (root.showCloseIcon) {
+                        return "/usr/share/icons/suru/actions/scalable/back.svg"
+                    }
+                    return "graphics/home.svg"
+                }
+                color: "white"
                 rotation: root.rotation
             }
+
             AbstractButton {
                 id: dashItem
                 anchors.fill: parent
