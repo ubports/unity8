@@ -98,9 +98,9 @@ Rectangle {
                 anchors.centerIn: parent
                 source: {
                     if (root.showCloseIcon) {
-                        return "/usr/share/icons/suru/actions/scalable/back.svg"
+                        return "/usr/share/icons/suru/actions/scalable/back.svg";
                     }
-                    return "graphics/home.svg"
+                    return "graphics/home.svg";
                 }
                 color: "white"
                 rotation: root.rotation
