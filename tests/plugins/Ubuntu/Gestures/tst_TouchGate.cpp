@@ -375,7 +375,7 @@ void tst_TouchGate::disabledWhileHoldingTouch()
         // it got only the new touch point.
         QSharedPointer<QTouchEvent> touchEvent = testItem->touchEventsReceived[0];
         QCOMPARE(touchEvent->touchPoints().count(), 1);
-        QCOMPARE(touchEvent->touchPoints()[0].id(), 1);
+        QCOMPARE(touchEvent->touchPoints()[0].pos(), QPointF(200, 200));
     }
 }
 
