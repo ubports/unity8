@@ -20,6 +20,11 @@ override_dh_auto_build:
 	# doc is not a default target
 	dh_auto_build -- all doc
 
+override_dh_auto_test:
+	# Run the entire test battery
+	cd "obj-$(DEB_BUILD_MULTIARCH)"; \
+	make xvfballtests
+
 override_dh_install:
 	# install autopilot tests
 	cd tests/autopilot; \
