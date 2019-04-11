@@ -376,33 +376,6 @@ Item {
             tryCompare(delegateB.application, "requestedState", ApplicationInfoInterface.RequestedRunning);
         }
 
-        function test_dashRemainsRunningIfStageIsToldSo() {
-            addApps(1);
-
-            var delegateDash = findChild(stage, "appDelegate_" + topLevelSurfaceList.idAt(1));
-            verify(delegateDash);
-            compare(delegateDash.application.appId, "unity8-dash");
-
-            var delegateOther = findChild(stage, "appDelegate_" + topLevelSurfaceList.idAt(0));
-            verify(delegateOther);
-
-            performEdgeSwipeToShowAppSpread();
-            tap(delegateDash, 1, 1);
-
-            tryCompare(delegateDash, "focus", true);
-            tryCompare(delegateDash.application, "requestedState", ApplicationInfoInterface.RequestedRunning);
-            compare(delegateOther.focus, false);
-            compare(delegateOther.application.requestedState, ApplicationInfoInterface.RequestedSuspended);
-
-            performEdgeSwipeToShowAppSpread();
-            tap(delegateOther, 1, 1);
-            // The other app gets focused and running but dash is kept running despite being unfocused
-            tryCompare(delegateOther, "focus", true);
-            tryCompare(delegateOther.application, "requestedState", ApplicationInfoInterface.RequestedRunning);
-            tryCompare(delegateDash, "focus", false);
-            tryCompare(delegateDash.application, "requestedState", ApplicationInfoInterface.RequestedRunning);
-        }
-
         function test_foregroundAppIsSuspendedWhenStageIsSuspended() {
             addApps(1);
 
