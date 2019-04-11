@@ -201,7 +201,7 @@ function(add_executable_test COMPONENT_NAME TARGET)
         add_qmltest_target(xvfbtest${COMPONENT_NAME} ${TARGET}
             COMMAND $<TARGET_FILE:xvfb-run> --server-args "-screen 0 1024x768x24" --auto-servernum ${qmltest_command}
             ${depends}
-            ENVIRONMENT QML2_IMPORT_PATH=${imports} LD_PRELOAD=/usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}/mesa/libGL.so.1 ${QMLTEST_ENVIRONMENT}
+            ENVIRONMENT QT_QPA_PLATFORM=xcb QML2_IMPORT_PATH=${imports} LD_PRELOAD=/usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}/mesa/libGL.so.1 ${QMLTEST_ENVIRONMENT}
             TARGETS ${xvfb_targets}
         )
     endif()
