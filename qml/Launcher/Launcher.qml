@@ -364,7 +364,7 @@ FocusScope {
                 }
             }
         }
-        width: Math.min(root.width, units.gu(81))
+        width: Math.min(root.width, units.gu(90)) * .9
         panelWidth: panel.width
         visible: x > -width
         property var fullyOpen: x === 0
