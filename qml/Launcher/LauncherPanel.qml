@@ -35,7 +35,6 @@ Rectangle {
     property bool moving: launcherListView.moving || launcherListView.flicking
     property bool preventHiding: moving || dndArea.draggedIndex >= 0 || quickList.state === "open" || dndArea.pressed
                                  || dndArea.containsMouse || dashItem.hovered
-    property bool showCloseIcon: false
     property int highlightIndex: -2
     property bool shortcutHintsShown: false
     readonly property bool quickListOpen: quickList.state === "open"
@@ -96,12 +95,7 @@ Rectangle {
                 width: parent.width * .6
                 height: width
                 anchors.centerIn: parent
-                source: {
-                    if (root.showCloseIcon) {
-                        return "/usr/share/icons/suru/actions/scalable/back.svg";
-                    }
-                    return "graphics/home.svg";
-                }
+                source: "graphics/home.svg"
                 color: "white"
                 rotation: root.rotation
             }

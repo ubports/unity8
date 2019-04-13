@@ -592,7 +592,6 @@ FocusScope {
             PropertyChanges {
                 target: panel
                 x: -root.panelWidth
-                showCloseIcon: false
             }
             PropertyChanges {
                 target: drawer
@@ -605,7 +604,6 @@ FocusScope {
             PropertyChanges {
                 target: panel
                 x: -root.x // so we never go past panelWidth, even when teased by tutorial
-                showCloseIcon: false
                 focus: true
             }
             PropertyChanges {
@@ -624,7 +622,6 @@ FocusScope {
             }
             PropertyChanges {
                 target: panel
-                showCloseIcon: true
             }
         },
         State {
