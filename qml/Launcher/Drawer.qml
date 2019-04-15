@@ -32,7 +32,7 @@ FocusScope {
 
     signal applicationSelected(string appId)
 
-    property bool firstOpen: true
+    property bool handleVisible: false
     property bool draggingHorizontally: false
     property int dragDistance: 0
 
@@ -73,6 +73,44 @@ FocusScope {
         color: "#111111"
         opacity: 0.99
 
+        MouseArea {
+            id: drawerHandle
+            anchors {
+                right: parent.right
+                top: parent.top
+                bottom: parent.bottom
+            }
+            width: root.handleVisible ? units.gu(2) : 0
+            property int oldX: 0
+
+            onPressed: {
+                handle.active = true;
+                oldX = mouseX;
+            }
+            onMouseXChanged: {
+                var diff = oldX - mouseX;
+                root.draggingHorizontally |= diff > units.gu(2);
+                if (!root.draggingHorizontally) {
+                    return;
+                }
+                root.dragDistance += diff;
+                oldX = mouseX
+            }
+            onReleased: reset()
+            onCanceled: reset()
+
+            function reset() {
+                root.draggingHorizontally = false;
+                handle.active = false;
+            }
+
+            Handle {
+                id: handle
+                anchors.fill: parent
+                active: parent.pressed
+            }
+        }
+
         AppDrawerModel {
             id: appDrawerModel
         }
@@ -86,8 +124,13 @@ FocusScope {
 
         Item {
             id: contentContainer
-            anchors.fill: parent
-            anchors.leftMargin: root.panelWidth
+            anchors {
+                left: parent.left
+                right: drawerHandle.left
+                top: parent.top
+                bottom: parent.bottom
+                leftMargin: root.panelWidth
+            }
 
             Item {
                 id: searchFieldContainer

@@ -167,7 +167,7 @@ FocusScope {
         switchToNextState("visible")
     }
 
-    function openDrawer(focusInputField) {
+    function toggleDrawer(focusInputField, onlyOpen) {
         if (!drawerEnabled) {
             return;
         }
@@ -179,7 +179,7 @@ FocusScope {
         if (focusInputField) {
             drawer.focusInput();
         }
-        if (state === "drawer") {
+        if (state === "drawer" && !onlyOpen) {
             switchToNextState("visible");
         } else {
             switchToNextState("drawer");
@@ -357,14 +357,14 @@ FocusScope {
                     // See drawer.onDraggingHorizontallyChanged below
                     drawer.searchTextField.focus = hadFocus;
                     drawer.searchTextField.select(oldSelectionStart, oldSelectionEnd);
-                    resetOldFocus();
                 } else if (fullyClosed) {
                     drawer.searchTextField.text = "";
-                    resetOldFocus();
                 }
+                resetOldFocus();
             }
         }
-        width: Math.min(root.width, units.gu(90)) * .9
+        width: Math.min(root.width, units.gu(81))
+        handleVisible: (width < units.gu(81))
         panelWidth: panel.width
         visible: x > -width
         property var fullyOpen: x === 0
@@ -414,7 +414,7 @@ FocusScope {
                 if (drawer.x < -units.gu(10)) {
                     root.hide();
                 } else {
-                    root.openDrawer();
+                    root.toggleDrawer(false, true);
                 }
             }
         }
@@ -497,7 +497,7 @@ FocusScope {
         }
         onPassed: {
             if (root.drawerEnabled) {
-                root.openDrawer()
+                root.toggleDrawer()
             }
         }
 
@@ -573,7 +573,7 @@ FocusScope {
             if (!dragging) {
                 if (distance > panel.width / 2) {
                     if (root.drawerEnabled && distance > panel.width * 3 && dragDirection() !== "left") {
-                        root.openDrawer(false)
+                        root.toggleDrawer(false)
                     } else {
                         root.switchToNextState("visible");
                     }
