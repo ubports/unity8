@@ -73,6 +73,7 @@ Build-Depends: cmake,
                qtdeclarative5-ubuntu-content1,
                qtdeclarative5-ubuntu-settings-components (>= 0.11),
                ttf-ubuntu-font-family,
+               ubuntu-system-settings,
                xvfb,
                android-headers,
 Standards-Version: 3.9.4
