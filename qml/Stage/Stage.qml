@@ -481,6 +481,7 @@ FocusScope {
             PropertyChanges { target: hoverMouseArea; enabled: true }
             PropertyChanges { target: rightEdgeDragArea; enabled: false }
             PropertyChanges { target: cancelSpreadMouseArea; enabled: true }
+            PropertyChanges { target: noAppsRunningHint; visible: (root.topLevelSurfaceList.count < 1) }
             PropertyChanges { target: blurLayer; visible: true; blurRadius: 32; brightness: .65; opacity: 1 }
             PropertyChanges { target: wallpaper; visible: false }
         },
@@ -493,6 +494,7 @@ FocusScope {
                 brightness: .65
                 opacity: 1
             }
+            PropertyChanges { target: noAppsRunningHint; visible: (root.topLevelSurfaceList.count < 1) }
         },
         State {
             name: "sideStagedRightEdge"; when: root.spreadEnabled && (rightEdgeDragArea.dragging || rightEdgePushProgress > 0) && root.mode == "stagedWithSideStage"
@@ -614,6 +616,19 @@ FocusScope {
             onCloseCurrentApp: {
                 appRepeater.itemAt(highlightedIndex).close();
             }
+        }
+
+        Label {
+            id: noAppsRunningHint
+            visible: false
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            horizontalAlignment: Qt.AlignHCenter
+            verticalAlignment: Qt.AlignVCenter
+            width: parent.width
+            wrapMode: Label.WordWrap
+            fontSize: "large"
+            text: i18n.tr("No running apps")
         }
 
         Connections {
