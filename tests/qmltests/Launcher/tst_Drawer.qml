@@ -235,7 +235,7 @@ StyledItem {
         function test_search() {
             compare(launcher.lastSelectedApplication, "");
 
-            launcher.openDrawer(true)
+            launcher.toggleDrawer(true)
             typeString("cam");
             keyClick(Qt.Key_Enter);
 
@@ -279,7 +279,7 @@ StyledItem {
             keyClick(Qt.Key_Escape);
             waitForRendering(launcher);
             waitUntilTransitionsEnd(launcher);
-            launcher.openDrawer(true);
+            launcher.toggleDrawer(true);
             waitForRendering(launcher);
             waitUntilTransitionsEnd(launcher);
 
@@ -290,7 +290,7 @@ StyledItem {
         }
 
         function test_kbdNavigation() {
-            launcher.openDrawer(true);
+            launcher.toggleDrawer(true);
             waitForRendering(launcher);
             waitUntilTransitionsEnd(launcher);
             compare(launcher.lastSelectedApplication, "");
@@ -331,7 +331,7 @@ StyledItem {
             // once https://codereview.qt-project.org/#/c/184942/ is accepted
             skip();
 
-            launcher.openDrawer(true);
+            launcher.toggleDrawer(true);
             waitForRendering(launcher);
             waitUntilTransitionsEnd(launcher);
 
@@ -353,7 +353,7 @@ StyledItem {
             keyClick(Qt.Key_Down);
             tryCompare(panel, "highlightIndex", 0);
 
-            launcher.openDrawer(true);
+            launcher.toggleDrawer(true);
             tryCompare(searchField, "focus", true);
 
             keyClick(Qt.Key_Escape);
@@ -365,7 +365,7 @@ StyledItem {
         }
 
         function test_closeWhileDragging() {
-            launcher.openDrawer(true);
+            launcher.toggleDrawer(true);
             waitForRendering(launcher);
             waitUntilTransitionsEnd(launcher);
 

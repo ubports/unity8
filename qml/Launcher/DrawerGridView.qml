@@ -20,8 +20,8 @@ import "../Components"
 FocusScope {
     id: root
 
-    property int delegateWidth: units.gu(10)
-    property int delegateHeight: units.gu(10)
+    property int delegateWidth: units.gu(11)
+    property int delegateHeight: units.gu(11)
     property alias delegate: gridView.delegate
     property alias model: gridView.model
     property alias interactive: gridView.interactive
@@ -45,5 +45,9 @@ FocusScope {
 
         cellWidth: root.delegateWidth + spacing
         cellHeight: root.delegateHeight
+    }
+
+    function getFirstAppId() {
+        return model.appId(0);
     }
 }

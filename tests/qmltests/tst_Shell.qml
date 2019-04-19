@@ -3130,7 +3130,7 @@ Rectangle {
             if (data.lockLauncher) {
                 panel.applicationMenus.show();
                 tryCompare(panel.applicationMenus, "fullyOpened", true);
-                launcher.openDrawer();
+                launcher.toggleDrawer();
             } else {
                 tryCompare(launcher, "shown", false);
                 panel.applicationMenus.show();

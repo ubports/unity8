@@ -235,7 +235,7 @@ StyledItem {
         onHomeKeyActivated: {
             // Ignore when greeter is active, to avoid pocket presses
             if (!greeter.active) {
-                launcher.openDrawer(false);
+                launcher.toggleDrawer(false);
             }
         }
         onTouchBegun: { cursor.opacity = 0; }
@@ -344,7 +344,7 @@ StyledItem {
                 if (status !== TouchGestureArea.Recognized) {
                     if (status === TouchGestureArea.WaitingForTouch) {
                         if (wasPressed && !dragging) {
-                            launcher.openDrawer(true);
+                            launcher.toggleDrawer(true);
                         }
                     }
                     wasPressed = false;
@@ -375,7 +375,7 @@ StyledItem {
         onLoaded: {
             item.objectName = "greeter"
         }
-        property bool openDrawerAfterUnlock: false
+        property bool toggleDrawerAfterUnlock: false
         Connections {
             target: greeter
             onActiveChanged: {
@@ -383,9 +383,9 @@ StyledItem {
                     return
 
                 // Show drawer in case showHome() requests it
-                if (greeterLoader.openDrawerAfterUnlock) {
-                    launcher.openDrawer(false);
-                    greeterLoader.openDrawerAfterUnlock = false;
+                if (greeterLoader.toggleDrawerAfterUnlock) {
+                    launcher.toggleDrawer(false);
+                    greeterLoader.toggleDrawerAfterUnlock = false;
                 }
                 // Show the launcher when there are no running apps
                 else if (topLevelSurfaceList.count < 1) {
@@ -499,9 +499,9 @@ StyledItem {
             SessionBroadcast.requestHomeShown(AccountsService.user);
         } else {
             if (!greeter.active) {
-                launcher.openDrawer(false);
+                launcher.toggleDrawer(false);
             } else {
-                greeterLoader.openDrawerAfterUnlock = true;
+                greeterLoader.toggleDrawerAfterUnlock = true;
             }
         }
     }
@@ -609,7 +609,7 @@ StyledItem {
             GlobalShortcut {
                 shortcut: Qt.MetaModifier | Qt.Key_A
                 onTriggered: {
-                    launcher.openDrawer(true);
+                    launcher.toggleDrawer(true);
                 }
             }
             GlobalShortcut {

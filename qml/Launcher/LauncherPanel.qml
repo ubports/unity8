@@ -90,16 +90,16 @@ Rectangle {
             color: UbuntuColors.orange
             readonly property bool highlighted: root.highlightIndex == -1;
 
-            Image {
+            Icon {
                 objectName: "dashItem"
                 width: parent.width * .6
                 height: width
-                sourceSize.width: width
-                sourceSize.height: height
                 anchors.centerIn: parent
                 source: "graphics/home.svg"
+                color: "white"
                 rotation: root.rotation
             }
+
             AbstractButton {
                 id: dashItem
                 anchors.fill: parent

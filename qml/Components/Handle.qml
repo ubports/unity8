@@ -29,6 +29,7 @@ Rectangle {
         height: childrenRect.height
         anchors.centerIn: parent
         spacing: units.gu(0.5)
+        rotation: (parent.width >= parent.height) ? 0 : 90
         Repeater {
             model: 3
             delegate: Rectangle {
