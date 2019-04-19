@@ -74,7 +74,7 @@ FocusScope {
         anchors.fill: parent
         color: "#111111"
         opacity: 0.99
-        
+
         Image {
             id: background
             anchors.fill: parent
