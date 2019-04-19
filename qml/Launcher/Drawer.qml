@@ -21,6 +21,8 @@ import Utils 0.1
 import "../Components"
 import Qt.labs.settings 1.0
 import GSettings  1.0
+import AccountsService 0.1
+import QtGraphicalEffects 1.0
 
 FocusScope {
     id: root
@@ -72,6 +74,26 @@ FocusScope {
         anchors.fill: parent
         color: "#111111"
         opacity: 0.99
+        
+        Image {
+            id: background
+            anchors.fill: parent
+            source: AccountsService.backgroundFile
+            fillMode: Image.PreserveAspectCrop
+        }
+
+        FastBlur {
+            anchors.fill: background
+            source: background
+            radius: 128
+        }
+
+        // Workaround for images with fastblur can't use opacity
+        Rectangle {
+            anchors.fill: background
+            color: parent.color
+            opacity: 0.67
+        }
 
         MouseArea {
             id: drawerHandle
