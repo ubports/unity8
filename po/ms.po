@@ -6,11 +6,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-11-16 10:44+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-08 13:29-0500\n"
 "PO-Revision-Date: 2016-05-24 01:36+0000\n"
 "Last-Translator: abuyop <Unknown>\n"
 "Language-Team: Malay <ms@li.org>\n"
+"Language: ms\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,16 +23,16 @@ msgstr ""
 msgid "Password: "
 msgstr "Kata Laluan: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:108
+#: plugins/Unity/Launcher/launcheritem.cpp:50
+#: plugins/Unity/Launcher/launcheritem.cpp:109
 msgid "Pin shortcut"
 msgstr "Cemat pintasan"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:54
+#: plugins/Unity/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Keluar"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:108
+#: plugins/Unity/Launcher/launcheritem.cpp:109
 msgid "Unpin shortcut"
 msgstr "Nyahcemat pintasan"
 
@@ -342,24 +343,24 @@ msgstr "Takrif keputusan anda"
 msgid "Reset"
 msgstr "Tetap Semula"
 
-#: qml/Dash/GenericScopeView.qml:545 qml/Dash/GenericScopeView.qml:716
+#: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
 msgid "Show less"
 msgstr "Tunjuk sedikit"
 
-#: qml/Dash/GenericScopeView.qml:545
+#: qml/Dash/GenericScopeView.qml:547
 msgid "Show all"
 msgstr "Tunjuk semua"
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:578
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Gelintar"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:57
+#: qml/Dash/PageHeaderExtraPanel.qml:67
 msgid "Recent Searches"
 msgstr "Gelintar Baru-baru Ini"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:68
+#: qml/Dash/PageHeaderExtraPanel.qml:78
 msgid "Clear All"
 msgstr "Kosongkan Semua"
 
@@ -453,7 +454,7 @@ msgstr ""
 msgid "Passcode"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:98
+#: qml/Greeter/LoginList.qml:98 qml/Wizard/Pages/UpdateDelegate.qml:118
 msgid "Retry"
 msgstr "Cuba Lagi"
 
@@ -521,6 +522,7 @@ msgid "In queue…"
 msgstr "Dalam baris gilir..."
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:999
+#: qml/Wizard/Pages/UpdateDelegate.qml:226
 msgid "Downloading"
 msgstr "Memuat turun"
 
@@ -584,24 +586,44 @@ msgstr ""
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
 
-#: qml/Wizard/Page.qml:54
+#: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Kembali"
 
-#: qml/Wizard/Pages/10-welcome.qml:28
+#: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
 msgstr "Bahasa"
 
-#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:207 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:145
-#: qml/Wizard/Pages/75-report-check.qml:84
+#: qml/Wizard/Pages/10-welcome.qml:175
+#: qml/Wizard/Pages/10-welcome-update.qml:126
+#: qml/Wizard/Pages/11-changelog.qml:74 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:208 qml/Wizard/Pages/50-timezone.qml:272
+#: qml/Wizard/Pages/60-account.qml:66 qml/Wizard/Pages/70-passwd-type.qml:146
+#: qml/Wizard/Pages/75-report-check.qml:85
+#: qml/Wizard/Pages/76-app-update.qml:236
 #: qml/Wizard/Pages/passcode-desktop.qml:142
 #: qml/Wizard/Pages/password-set.qml:142
 msgid "Next"
 msgstr "Berikutnya"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:91
+#, fuzzy
+msgid "Welcome to "
+msgstr "Selamat datang ke Ubuntu"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:106
+msgid "We will make sure your device is ready to use "
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:28
+msgid "What's new"
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:74
+#, fuzzy
+msgid "Loading..."
+msgstr "Bercakap..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
@@ -615,9 +637,9 @@ msgstr ""
 msgid "Keyboard layout"
 msgstr ""
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:207
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/77-system-update.qml:152
-#: qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:208
+#: qml/Wizard/Pages/60-account.qml:66 qml/Wizard/Pages/76-app-update.qml:240
+#: qml/Wizard/Pages/79-system-update.qml:152 qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Langkau"
 
@@ -625,57 +647,23 @@ msgstr "Langkau"
 msgid "Connect to Wi‑Fi"
 msgstr "Sambung ke Wi-Fi"
 
-#: qml/Wizard/Pages/30-wifi.qml:132
+#: qml/Wizard/Pages/30-wifi.qml:133
 msgid "Connected"
 msgstr "Bersambung"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:166
 msgid "Available Wi-Fi networks"
 msgstr "Rangkaian Wi-Fi tersedia"
 
-#: qml/Wizard/Pages/30-wifi.qml:166
+#: qml/Wizard/Pages/30-wifi.qml:167
 msgid "No available Wi-Fi networks"
 msgstr "Tiada rangkaian Wi-Fi tersedia"
-
-#: qml/Wizard/Pages/40-location.qml:27
-msgid "Location Services"
-msgstr "Perkhidmatan Lokasi"
-
-#: qml/Wizard/Pages/40-location.qml:83
-msgid ""
-"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
-"(recommended)"
-msgstr ""
-"Guna GPS, hotspot Wi-Fi dan rangkaian mudah alih secara awanama untuk "
-"mengesan lokasi (disarankan)"
-
-#: qml/Wizard/Pages/40-location.qml:105
-#, qt-format
-msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr "Dengan memilih pilihan ini anda bersetuju dengan Nokia HERE %1."
-
-#: qml/Wizard/Pages/40-location.qml:106
-msgctxt "part of: Nokia HERE terms and conditions"
-msgid "terms and conditions"
-msgstr "terma dan syarat"
-
-#: qml/Wizard/Pages/40-location.qml:160
-msgid "GPS only"
-msgstr "GPS sahaja"
-
-#: qml/Wizard/Pages/40-location.qml:214
-msgid "Don't use my location"
-msgstr "Jangan guna lokasi saya"
-
-#: qml/Wizard/Pages/40-location.qml:260
-msgid "You can change it later in System Settings."
-msgstr "Anda boleh mengubahnya kemudian di dalam Tetapan Sistem."
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "Zon Waktu"
 
-#: qml/Wizard/Pages/50-timezone.qml:182
+#: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
 msgstr "Masukkan bandar anda"
 
@@ -683,7 +671,7 @@ msgstr "Masukkan bandar anda"
 msgid "Personalize Your Device"
 msgstr "Peribadikan Peranti Anda"
 
-#: qml/Wizard/Pages/60-account.qml:48
+#: qml/Wizard/Pages/60-account.qml:49
 msgid "Preferred Name"
 msgstr "Nama Digemari"
 
@@ -691,22 +679,22 @@ msgstr "Nama Digemari"
 msgid "Lock Screen"
 msgstr "Skrin Kunci"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:102
+#: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr "Cipta kata laluan baharu"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:104
+#: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr "Cipta kod laluan (nombor sahaja)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:106
+#: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "Tiada kod kunci"
 
-#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
+#: qml/Wizard/Pages/75-report-check.qml:26
 msgid "Privacy Policy"
 msgstr "Dasar Kerahsiaan"
 
@@ -714,93 +702,113 @@ msgstr "Dasar Kerahsiaan"
 msgid "Help Us Improve"
 msgstr "Bantu Kami"
 
-#: qml/Wizard/Pages/75-report-check.qml:59
+#: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Improve system performance by sending us crashes and error reports."
 msgstr ""
 "Tambah baik prestasi sistem dengan menghantar laporan kerosakan dan ralat."
 
-#: qml/Wizard/Pages/75-report-check.qml:60
+#: qml/Wizard/Pages/75-report-check.qml:61
 msgid "Privacy policy"
 msgstr "Dasar kerahsiaan"
 
-#: qml/Wizard/Pages/77-system-update.qml:28
+#: qml/Wizard/Pages/76-app-update.qml:35
+msgid "Update Apps"
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:127
+msgid "This device is not connected to the internet."
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:128
+#: qml/Wizard/Pages/76-app-update.qml:134
+msgid "Use the OpenStore app to check for updates once connected."
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:130
+msgid "Software is up to date"
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:133
+msgid "The update server is not responding."
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:238
+#, fuzzy
+msgid "Please wait..."
+msgstr "Memuatkan. Tunggu Sebentar..."
+
+#: qml/Wizard/Pages/79-system-update.qml:28
 msgid "Update Device"
 msgstr ""
 
-#: qml/Wizard/Pages/77-system-update.qml:55
+#: qml/Wizard/Pages/79-system-update.qml:55
 msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
 msgstr ""
 
-#: qml/Wizard/Pages/77-system-update.qml:76
+#: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu system"
 msgstr ""
 
-#: qml/Wizard/Pages/77-system-update.qml:83
+#: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
 msgstr ""
 
-#: qml/Wizard/Pages/77-system-update.qml:102
+#: qml/Wizard/Pages/79-system-update.qml:102
 msgid "This could take a few minutes..."
 msgstr ""
 
-#: qml/Wizard/Pages/77-system-update.qml:116
+#: qml/Wizard/Pages/79-system-update.qml:116
 msgid "Install and restart now"
 msgstr ""
 
-#: qml/Wizard/Pages/80-finished.qml:89
+#: qml/Wizard/Pages/80-finished.qml:91
+msgid "Welcome Back"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
 msgstr "Selamat datang ke Ubuntu"
 
-#: qml/Wizard/Pages/80-finished.qml:104
+#: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
 msgstr "Anda boleh gunakan peranti sekarang"
 
-#: qml/Wizard/Pages/80-finished.qml:124
+#: qml/Wizard/Pages/80-finished.qml:126
+msgid "Continue"
+msgstr "Teruskan"
+
+#: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
 msgstr "Membiasakan Diri"
 
-#: qml/Wizard/Pages/here-terms.qml:25
-msgid "Terms & Conditions"
-msgstr "Terma & Syarat"
-
-#: qml/Wizard/Pages/here-terms.qml:69
-msgid "Your device uses positioning technologies provided by HERE."
+#: qml/Wizard/Pages/DownloadHandler.qml:174
+msgid "Installation failed"
 msgstr ""
-"Peranti anda menggunakan teknologi menentukan lokasi yang disediakan oleh "
-"HERE."
 
-#: qml/Wizard/Pages/here-terms.qml:81
-msgid ""
-"To provide you with positioning services and to improve their quality, HERE "
-"collects information about nearby cell towers and Wi-Fi hotspots around your "
-"current location whenever your position is being found."
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:84
+msgid "Checking for updates…"
 msgstr ""
-"Untuk menyediakan perkhidmatan penentuan lokasi dan menambahbaik kualiti, "
-"HERE mengutip maklumat berkenaan menara telekomunikasi berhampiran dan "
-"hotspot Wi-Fi disekitar anda bilamana kedudukan anda ditemui."
 
-#: qml/Wizard/Pages/here-terms.qml:93
-msgid ""
-"The information collected is used to analyze the service and to improve the "
-"use of service, but not to identify you personally."
-msgstr ""
-"Maklumat tersebut digunakan untuk menganalisis perkhidmatan dan menambahbaik "
-"penggunaan perkhidmatan, walaubagaimanapun tidak mengenalpasti anda secara "
-"peribadi."
-
-#: qml/Wizard/Pages/here-terms.qml:106
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:109
 #, qt-format
-msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr "Jika diteruskan, anda menyetujui HERE platform %1 dan %2."
+msgid "%1 update available"
+msgid_plural "%1 updates available"
+msgstr[0] ""
+msgstr[1] ""
 
-#: qml/Wizard/Pages/here-terms.qml:107
-msgid "Service Terms"
-msgstr "Terma Perkhidmatan"
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:119
+msgid "Update all…"
+msgstr ""
+
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:121
+#, fuzzy
+msgid "Update all"
+msgstr "Tidak sama sekali"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:97
@@ -880,12 +888,76 @@ msgstr "Mula Semula"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
-msgstr ""
-"Anda tidak dapat membuat panggilan atau guna pemesejan teks tanpa SIM."
+msgstr "Anda tidak dapat membuat panggilan atau guna pemesejan teks tanpa SIM."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
 msgstr "Untuk teruskan tanpa SIM ketik Langkau."
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:123
+msgid "Update"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:125
+#, fuzzy
+msgid "Download"
+msgstr "Memuat turun"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:131
+msgid "Resume"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:138
+msgid "Pause"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:142
+msgid "Install…"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:144
+msgid "Install"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:148
+msgid "Open"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:216
+msgid "Installing"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:220
+msgid "Paused"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:223
+msgid "Waiting to download"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:279
+#, qt-format
+msgid "%1 of %2"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:283
+#, fuzzy
+msgid "Downloaded"
+msgstr "Memuat turun"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:286
+#, fuzzy
+msgid "Installed"
+msgstr "Juga dipasang"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:291
+#, qt-format
+msgid "Updated %1"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:315
+msgid "Update failed"
+msgstr ""
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
@@ -915,6 +987,63 @@ msgstr "Kata laluan lemah"
 msgid "Very weak password"
 msgstr "Kata laluan sangat lemah"
 
+#~ msgid "Location Services"
+#~ msgstr "Perkhidmatan Lokasi"
+
+#~ msgid ""
+#~ "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
+#~ "(recommended)"
+#~ msgstr ""
+#~ "Guna GPS, hotspot Wi-Fi dan rangkaian mudah alih secara awanama untuk "
+#~ "mengesan lokasi (disarankan)"
+
+#~ msgid "By selecting this option you agree to the Nokia HERE %1."
+#~ msgstr "Dengan memilih pilihan ini anda bersetuju dengan Nokia HERE %1."
+
+#~ msgctxt "part of: Nokia HERE terms and conditions"
+#~ msgid "terms and conditions"
+#~ msgstr "terma dan syarat"
+
+#~ msgid "GPS only"
+#~ msgstr "GPS sahaja"
+
+#~ msgid "Don't use my location"
+#~ msgstr "Jangan guna lokasi saya"
+
+#~ msgid "You can change it later in System Settings."
+#~ msgstr "Anda boleh mengubahnya kemudian di dalam Tetapan Sistem."
+
+#~ msgid "Terms & Conditions"
+#~ msgstr "Terma & Syarat"
+
+#~ msgid "Your device uses positioning technologies provided by HERE."
+#~ msgstr ""
+#~ "Peranti anda menggunakan teknologi menentukan lokasi yang disediakan oleh "
+#~ "HERE."
+
+#~ msgid ""
+#~ "To provide you with positioning services and to improve their quality, "
+#~ "HERE collects information about nearby cell towers and Wi-Fi hotspots "
+#~ "around your current location whenever your position is being found."
+#~ msgstr ""
+#~ "Untuk menyediakan perkhidmatan penentuan lokasi dan menambahbaik kualiti, "
+#~ "HERE mengutip maklumat berkenaan menara telekomunikasi berhampiran dan "
+#~ "hotspot Wi-Fi disekitar anda bilamana kedudukan anda ditemui."
+
+#~ msgid ""
+#~ "The information collected is used to analyze the service and to improve "
+#~ "the use of service, but not to identify you personally."
+#~ msgstr ""
+#~ "Maklumat tersebut digunakan untuk menganalisis perkhidmatan dan "
+#~ "menambahbaik penggunaan perkhidmatan, walaubagaimanapun tidak "
+#~ "mengenalpasti anda secara peribadi."
+
+#~ msgid "By continuing, you agree to the HERE platform %1 and %2."
+#~ msgstr "Jika diteruskan, anda menyetujui HERE platform %1 dan %2."
+
+#~ msgid "Service Terms"
+#~ msgstr "Terma Perkhidmatan"
+
 #~ msgid "Top edge"
 #~ msgstr "Pinggir atas"
 
@@ -931,7 +1060,8 @@ msgstr "Kata laluan sangat lemah"
 #~ msgstr "Pinggir kiri"
 
 #~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr "Leret dari kiri untuk munculkan pelancar untuk capaian pantas ke apl"
+#~ msgstr ""
+#~ "Leret dari kiri untuk munculkan pelancar untuk capaian pantas ke apl"
 
 #~ msgid "Well done"
 #~ msgstr "Bagus"
@@ -947,12 +1077,6 @@ msgstr "Kata laluan sangat lemah"
 
 #~ msgid "Type or say a command"
 #~ msgstr "Taip atau sebut satu perintah"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Memuatkan. Tunggu Sebentar..."
-
-#~ msgid "Speaking..."
-#~ msgstr "Bercakap..."
 
 #~ msgid "Speak Now..."
 #~ msgstr "Cakap Sekarang..."
@@ -1002,11 +1126,9 @@ msgstr "Kata laluan sangat lemah"
 #~ msgid "Roaming"
 #~ msgstr "Perayauan"
 
-#, qt-format
 #~ msgid "Enter %1"
 #~ msgstr "Masuk %1"
 
-#, qt-format
 #~ msgid "Sorry, incorrect %1"
 #~ msgstr "Maaf, %1 salah"
 
@@ -1029,11 +1151,11 @@ msgstr "Kata laluan sangat lemah"
 #~ msgstr "Ini merupakan percubaan terakhir anda."
 
 #~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
-#~ "and all personal data will be deleted."
+#~ "If passcode is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
 #~ msgstr ""
-#~ "Jika kod laluan masih salah, telefon anda akan membuat tetapan semula kilang "
-#~ "dan semua data peribadi anda akan dipadam."
+#~ "Jika kod laluan masih salah, telefon anda akan membuat tetapan semula "
+#~ "kilang dan semua data peribadi anda akan dipadam."
 
 #~ msgid ""
 #~ "If passphrase is entered incorrectly, your phone will conduct a factory "
@@ -1109,9 +1231,6 @@ msgstr "Kata laluan sangat lemah"
 #~ msgid "View all your running tasks."
 #~ msgstr "Lihat semua tugas yang berjalan."
 
-#~ msgid "Continue"
-#~ msgstr "Teruskan"
-
 #~ msgid "Hi!"
 #~ msgstr "Hai"
 
@@ -1164,14 +1283,11 @@ msgstr "Kata laluan sangat lemah"
 #~ msgstr "Frasa laluan"
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
+#~ "and conditions</a>."
 #~ msgstr ""
-#~ "Dengan memilih pilihan ini anda menyetujui <a href='#'>terma dan syarat</a> "
-#~ "Nokia HERE."
-
-#~ msgid "Not at all"
-#~ msgstr "Tidak sama sekali"
+#~ "Dengan memilih pilihan ini anda menyetujui <a href='#'>terma dan syarat</"
+#~ "a> Nokia HERE."
 
 #~ msgid "Available networks…"
 #~ msgstr "Rangkaian tersedia..."
@@ -1206,15 +1322,15 @@ msgstr "Kata laluan sangat lemah"
 #~ "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 #~ "Privacy</b>"
 #~ msgstr ""
-#~ "Ia boleh dilumpuhkan di dalam <b>Tetapan Sistem</b> di bawah <b>Keselamatan "
-#~ "&amp; Kerahsiaan</b>"
+#~ "Ia boleh dilumpuhkan di dalam <b>Tetapan Sistem</b> di bawah "
+#~ "<b>Keselamatan &amp; Kerahsiaan</b>"
 
 #~ msgid ""
 #~ "Your phone is set up to automatically report errors to Canonical and its "
 #~ "partners, the makers of the operating system."
 #~ msgstr ""
-#~ "Telefon anda ditetapkan secara automatik melaporkan ralat kepada Canonical "
-#~ "dan rakannya, pencipta sistem pengoperasian ini."
+#~ "Telefon anda ditetapkan secara automatik melaporkan ralat kepada "
+#~ "Canonical dan rakannya, pencipta sistem pengoperasian ini."
 
 #~ msgid "Nice work!"
 #~ msgstr "Selesai!"
@@ -1231,11 +1347,9 @@ msgstr "Kata laluan sangat lemah"
 #~ msgid "Finish"
 #~ msgstr "Selesai"
 
-#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
-#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 

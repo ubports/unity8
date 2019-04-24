@@ -6,11 +6,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-11-16 10:44+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-08 13:29-0500\n"
 "PO-Revision-Date: 2015-03-22 15:56+0000\n"
 "Last-Translator: Arda Ünlü <aarda.uunlu@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
+"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,16 +23,16 @@ msgstr ""
 msgid "Password: "
 msgstr "Parola: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:108
+#: plugins/Unity/Launcher/launcheritem.cpp:50
+#: plugins/Unity/Launcher/launcheritem.cpp:109
 msgid "Pin shortcut"
 msgstr "Kısayolu iğnele"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:54
+#: plugins/Unity/Launcher/launcheritem.cpp:55
 msgid "Quit"
 msgstr "Çıkış"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:108
+#: plugins/Unity/Launcher/launcheritem.cpp:109
 msgid "Unpin shortcut"
 msgstr "Kısayol iğnesini kaldır"
 
@@ -344,24 +345,24 @@ msgstr "Sonuçlarınızı daraltın"
 msgid "Reset"
 msgstr "Sıfırla"
 
-#: qml/Dash/GenericScopeView.qml:545 qml/Dash/GenericScopeView.qml:716
+#: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
 msgid "Show less"
 msgstr "Daha az göster"
 
-#: qml/Dash/GenericScopeView.qml:545
+#: qml/Dash/GenericScopeView.qml:547
 msgid "Show all"
 msgstr "Tümünü göster"
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:578
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Ara"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:57
+#: qml/Dash/PageHeaderExtraPanel.qml:67
 msgid "Recent Searches"
 msgstr "En son arananlar"
 
-#: qml/Dash/PageHeaderExtraPanel.qml:68
+#: qml/Dash/PageHeaderExtraPanel.qml:78
 msgid "Clear All"
 msgstr "Tümünü Temizle"
 
@@ -453,7 +454,7 @@ msgstr "Parola Metni"
 msgid "Passcode"
 msgstr "Parola"
 
-#: qml/Greeter/LoginList.qml:98
+#: qml/Greeter/LoginList.qml:98 qml/Wizard/Pages/UpdateDelegate.qml:118
 msgid "Retry"
 msgstr "Tekrar Dene"
 
@@ -521,6 +522,7 @@ msgid "In queue…"
 msgstr "Beklemede..."
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:999
+#: qml/Wizard/Pages/UpdateDelegate.qml:226
 msgid "Downloading"
 msgstr "İndiriliyor"
 
@@ -582,24 +584,44 @@ msgstr "Açık uygulamaları görüntülemek için sağ kenarından hızlıca ka
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr "Bildirimleri ve hızlı ayarlara erişmek için üst kenardan kaydırın"
 
-#: qml/Wizard/Page.qml:54
+#: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Geri"
 
-#: qml/Wizard/Pages/10-welcome.qml:28
+#: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
 msgstr "Dil"
 
-#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:207 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:145
-#: qml/Wizard/Pages/75-report-check.qml:84
+#: qml/Wizard/Pages/10-welcome.qml:175
+#: qml/Wizard/Pages/10-welcome-update.qml:126
+#: qml/Wizard/Pages/11-changelog.qml:74 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:208 qml/Wizard/Pages/50-timezone.qml:272
+#: qml/Wizard/Pages/60-account.qml:66 qml/Wizard/Pages/70-passwd-type.qml:146
+#: qml/Wizard/Pages/75-report-check.qml:85
+#: qml/Wizard/Pages/76-app-update.qml:236
 #: qml/Wizard/Pages/passcode-desktop.qml:142
 #: qml/Wizard/Pages/password-set.qml:142
 msgid "Next"
 msgstr "Sonraki"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:91
+#, fuzzy
+msgid "Welcome to "
+msgstr "Ubuntu'ya Hoş Geldiniz"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:106
+msgid "We will make sure your device is ready to use "
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:28
+msgid "What's new"
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:74
+#, fuzzy
+msgid "Loading..."
+msgstr "Konuşuyor..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
@@ -613,9 +635,9 @@ msgstr "Klavye dili"
 msgid "Keyboard layout"
 msgstr "Klavye düzeni"
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:207
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/77-system-update.qml:152
-#: qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:208
+#: qml/Wizard/Pages/60-account.qml:66 qml/Wizard/Pages/76-app-update.qml:240
+#: qml/Wizard/Pages/79-system-update.qml:152 qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Atla"
 
@@ -623,57 +645,23 @@ msgstr "Atla"
 msgid "Connect to Wi‑Fi"
 msgstr "Wi-Fi'ye Bağlan"
 
-#: qml/Wizard/Pages/30-wifi.qml:132
+#: qml/Wizard/Pages/30-wifi.qml:133
 msgid "Connected"
 msgstr "Bağlandı"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:166
 msgid "Available Wi-Fi networks"
 msgstr "Uygun Wi-Fi ağları"
 
-#: qml/Wizard/Pages/30-wifi.qml:166
+#: qml/Wizard/Pages/30-wifi.qml:167
 msgid "No available Wi-Fi networks"
 msgstr "Uygun Wi-Fi ağı yok"
-
-#: qml/Wizard/Pages/40-location.qml:27
-msgid "Location Services"
-msgstr "Konum Servisleri"
-
-#: qml/Wizard/Pages/40-location.qml:83
-msgid ""
-"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
-"(recommended)"
-msgstr ""
-"GPS, Wi-Fi etkin noktaları ve mobil ağ anonim konumunu tespit etmek için "
-"(önerilir)"
-
-#: qml/Wizard/Pages/40-location.qml:105
-#, qt-format
-msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr "Bu seçeneği seçerek Nokia HERE  %1 kabul ediyorum."
-
-#: qml/Wizard/Pages/40-location.qml:106
-msgctxt "part of: Nokia HERE terms and conditions"
-msgid "terms and conditions"
-msgstr "şartlar ve koşullar"
-
-#: qml/Wizard/Pages/40-location.qml:160
-msgid "GPS only"
-msgstr "Sadece GPS"
-
-#: qml/Wizard/Pages/40-location.qml:214
-msgid "Don't use my location"
-msgstr "Konumumu kullanmayın"
-
-#: qml/Wizard/Pages/40-location.qml:260
-msgid "You can change it later in System Settings."
-msgstr "Sistem Ayarları bölümünde daha sonra değiştirebilirsiniz."
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "Zaman Dilimi"
 
-#: qml/Wizard/Pages/50-timezone.qml:182
+#: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
 msgstr "Şehrinizi girin"
 
@@ -681,7 +669,7 @@ msgstr "Şehrinizi girin"
 msgid "Personalize Your Device"
 msgstr "Cihazınızı Kişiselleştirin"
 
-#: qml/Wizard/Pages/60-account.qml:48
+#: qml/Wizard/Pages/60-account.qml:49
 msgid "Preferred Name"
 msgstr "Tercih Edilen İsim"
 
@@ -689,22 +677,22 @@ msgstr "Tercih Edilen İsim"
 msgid "Lock Screen"
 msgstr "Ekranı Kilitle"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:102
+#: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr "Yeni şifre oluştur"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:104
+#: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr "Parola oluştur (yalnızca sayılar)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:106
+#: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "Kilit kodu yok"
 
-#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
+#: qml/Wizard/Pages/75-report-check.qml:26
 msgid "Privacy Policy"
 msgstr "Gizlilik İlkesi"
 
@@ -712,20 +700,45 @@ msgstr "Gizlilik İlkesi"
 msgid "Help Us Improve"
 msgstr "Geliştirmek Bize Yardım Et"
 
-#: qml/Wizard/Pages/75-report-check.qml:59
-msgid "Improve system performance by sending us crashes and error reports."
-msgstr ""
-"Çökme ve hata raporları bize göndererek sistem performansını arttırın."
-
 #: qml/Wizard/Pages/75-report-check.qml:60
+msgid "Improve system performance by sending us crashes and error reports."
+msgstr "Çökme ve hata raporları bize göndererek sistem performansını arttırın."
+
+#: qml/Wizard/Pages/75-report-check.qml:61
 msgid "Privacy policy"
 msgstr "Gizlilik politikası"
 
-#: qml/Wizard/Pages/77-system-update.qml:28
+#: qml/Wizard/Pages/76-app-update.qml:35
+msgid "Update Apps"
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:127
+msgid "This device is not connected to the internet."
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:128
+#: qml/Wizard/Pages/76-app-update.qml:134
+msgid "Use the OpenStore app to check for updates once connected."
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:130
+msgid "Software is up to date"
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:133
+msgid "The update server is not responding."
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:238
+#, fuzzy
+msgid "Please wait..."
+msgstr "Yükleniyor. Lütfen Bekleyin..."
+
+#: qml/Wizard/Pages/79-system-update.qml:28
 msgid "Update Device"
 msgstr "Cihazı Güncelleştir"
 
-#: qml/Wizard/Pages/77-system-update.qml:55
+#: qml/Wizard/Pages/79-system-update.qml:55
 msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
@@ -733,72 +746,68 @@ msgstr ""
 "Bir sistem güncellemesi ve yüklemeye hazır bulunmaktadır. Daha sonra, cihaz "
 "otomatik olarak yeniden başlar."
 
-#: qml/Wizard/Pages/77-system-update.qml:76
+#: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu system"
 msgstr "Ubuntu sistem"
 
-#: qml/Wizard/Pages/77-system-update.qml:83
+#: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
 msgstr "Sürüm %1"
 
-#: qml/Wizard/Pages/77-system-update.qml:102
+#: qml/Wizard/Pages/79-system-update.qml:102
 msgid "This could take a few minutes..."
 msgstr "Bu işlem birkaç dakika sürebilir ..."
 
-#: qml/Wizard/Pages/77-system-update.qml:116
+#: qml/Wizard/Pages/79-system-update.qml:116
 msgid "Install and restart now"
 msgstr "Yükle ve yeniden başlat"
 
-#: qml/Wizard/Pages/80-finished.qml:89
+#: qml/Wizard/Pages/80-finished.qml:91
+msgid "Welcome Back"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
 msgstr "Ubuntu'ya Hoş Geldiniz"
 
-#: qml/Wizard/Pages/80-finished.qml:104
+#: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
 msgstr "Cihazınızı kullanmaya hazırsınız"
 
-#: qml/Wizard/Pages/80-finished.qml:124
+#: qml/Wizard/Pages/80-finished.qml:126
+msgid "Continue"
+msgstr "Devam Et"
+
+#: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
 msgstr "Başlarken"
 
-#: qml/Wizard/Pages/here-terms.qml:25
-msgid "Terms & Conditions"
-msgstr "Şartlar ve Koşullar"
-
-#: qml/Wizard/Pages/here-terms.qml:69
-msgid "Your device uses positioning technologies provided by HERE."
+#: qml/Wizard/Pages/DownloadHandler.qml:174
+msgid "Installation failed"
 msgstr ""
-"Cihazınız HERE tarafından sağlanan konumlandırma teknolojileri kullanır."
 
-#: qml/Wizard/Pages/here-terms.qml:81
-msgid ""
-"To provide you with positioning services and to improve their quality, HERE "
-"collects information about nearby cell towers and Wi-Fi hotspots around your "
-"current location whenever your position is being found."
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:84
+msgid "Checking for updates…"
 msgstr ""
-"Konumlandırma hizmetleri sağlamak için ve onların kalitesini artırmak için, "
-"HERE pozisyonun bulunduğu zaman bulunduğunuz yerin yakın çevresinde baz "
-"istasyonları ve Wi-Fi noktaları hakkında bilgi toplar."
 
-#: qml/Wizard/Pages/here-terms.qml:93
-msgid ""
-"The information collected is used to analyze the service and to improve the "
-"use of service, but not to identify you personally."
-msgstr ""
-"Toplanan bilgi analiz etmek ve hizmet kullanımını artırmak kullanılır ama "
-"sizi kişisel olarak tanımlamak için kullanılmaz."
-
-#: qml/Wizard/Pages/here-terms.qml:106
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:109
 #, qt-format
-msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr "Devam ederek, HERE  platformu %1 ve %2 kabul ediyorum."
+msgid "%1 update available"
+msgid_plural "%1 updates available"
+msgstr[0] ""
+msgstr[1] ""
 
-#: qml/Wizard/Pages/here-terms.qml:107
-msgid "Service Terms"
-msgstr "Servis Koşulları"
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:119
+msgid "Update all…"
+msgstr ""
+
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:121
+#, fuzzy
+msgid "Update all"
+msgstr "Cihazı Güncelleştir"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:97
@@ -885,6 +894,73 @@ msgstr ""
 msgid "To proceed with no SIM tap Skip."
 msgstr "SIM kartı olmadan devam etmek için Geç'e basın"
 
+#: qml/Wizard/Pages/UpdateDelegate.qml:123
+#, fuzzy
+msgid "Update"
+msgstr "Cihazı Güncelleştir"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:125
+#, fuzzy
+msgid "Download"
+msgstr "İndiriliyor"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:131
+msgid "Resume"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:138
+msgid "Pause"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:142
+msgid "Install…"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:144
+msgid "Install"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:148
+msgid "Open"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:216
+msgid "Installing"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:220
+msgid "Paused"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:223
+msgid "Waiting to download"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:279
+#, qt-format
+msgid "%1 of %2"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:283
+#, fuzzy
+msgid "Downloaded"
+msgstr "İndiriliyor"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:286
+#, fuzzy
+msgid "Installed"
+msgstr "Ayrıca kurulan"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:291
+#, fuzzy, qt-format
+msgid "Updated %1"
+msgstr "Cihazı Güncelleştir"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:315
+#, fuzzy
+msgid "Update failed"
+msgstr "Cihazı Güncelleştir"
+
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
 msgstr "Parola çok kısa"
@@ -913,20 +989,69 @@ msgstr "Zayıf parola"
 msgid "Very weak password"
 msgstr "Çok zayıf şifre"
 
+#~ msgid "Location Services"
+#~ msgstr "Konum Servisleri"
+
+#~ msgid ""
+#~ "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
+#~ "(recommended)"
+#~ msgstr ""
+#~ "GPS, Wi-Fi etkin noktaları ve mobil ağ anonim konumunu tespit etmek için "
+#~ "(önerilir)"
+
+#~ msgid "By selecting this option you agree to the Nokia HERE %1."
+#~ msgstr "Bu seçeneği seçerek Nokia HERE  %1 kabul ediyorum."
+
+#~ msgctxt "part of: Nokia HERE terms and conditions"
+#~ msgid "terms and conditions"
+#~ msgstr "şartlar ve koşullar"
+
+#~ msgid "GPS only"
+#~ msgstr "Sadece GPS"
+
+#~ msgid "Don't use my location"
+#~ msgstr "Konumumu kullanmayın"
+
+#~ msgid "You can change it later in System Settings."
+#~ msgstr "Sistem Ayarları bölümünde daha sonra değiştirebilirsiniz."
+
+#~ msgid "Terms & Conditions"
+#~ msgstr "Şartlar ve Koşullar"
+
+#~ msgid "Your device uses positioning technologies provided by HERE."
+#~ msgstr ""
+#~ "Cihazınız HERE tarafından sağlanan konumlandırma teknolojileri kullanır."
+
+#~ msgid ""
+#~ "To provide you with positioning services and to improve their quality, "
+#~ "HERE collects information about nearby cell towers and Wi-Fi hotspots "
+#~ "around your current location whenever your position is being found."
+#~ msgstr ""
+#~ "Konumlandırma hizmetleri sağlamak için ve onların kalitesini artırmak "
+#~ "için, HERE pozisyonun bulunduğu zaman bulunduğunuz yerin yakın çevresinde "
+#~ "baz istasyonları ve Wi-Fi noktaları hakkında bilgi toplar."
+
+#~ msgid ""
+#~ "The information collected is used to analyze the service and to improve "
+#~ "the use of service, but not to identify you personally."
+#~ msgstr ""
+#~ "Toplanan bilgi analiz etmek ve hizmet kullanımını artırmak kullanılır ama "
+#~ "sizi kişisel olarak tanımlamak için kullanılmaz."
+
+#~ msgid "By continuing, you agree to the HERE platform %1 and %2."
+#~ msgstr "Devam ederek, HERE  platformu %1 ve %2 kabul ediyorum."
+
+#~ msgid "Service Terms"
+#~ msgstr "Servis Koşulları"
+
 #~ msgid "Confirm"
 #~ msgstr "Onayla"
 
 #~ msgid "Type or say a command"
 #~ msgstr "Bir komut yazın veya söyleyin"
 
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Yükleniyor. Lütfen Bekleyin..."
-
 #~ msgid "Speak Now..."
 #~ msgstr "Şimdi Konuşun..."
-
-#~ msgid "Speaking..."
-#~ msgstr "Konuşuyor..."
 
 #~ msgid "Search"
 #~ msgstr "Ara"
@@ -990,7 +1115,6 @@ msgstr "Çok zayıf şifre"
 #~ msgid "Sorry, incorrect passcode"
 #~ msgstr "Üzgünüm, hatalı parola"
 
-#, qt-format
 #~ msgid "Sorry, incorrect %1"
 #~ msgstr "Üzgünüm, hatalı %1"
 
@@ -1007,15 +1131,15 @@ msgstr "Çok zayıf şifre"
 #~ "If passphrase is entered incorrectly, your phone will conduct a factory "
 #~ "reset and all personal data will be deleted."
 #~ msgstr ""
-#~ "Eğer hatalı parola girilirse, telefonunuz fabrika ayarlarına dönecek ve tüm "
-#~ "kişisel verileriniz silinecek."
+#~ "Eğer hatalı parola girilirse, telefonunuz fabrika ayarlarına dönecek ve "
+#~ "tüm kişisel verileriniz silinecek."
 
 #~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
-#~ "and all personal data will be deleted."
+#~ "If passcode is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
 #~ msgstr ""
-#~ "Eğer hatalı parola girilirse, telefonunuz fabrika ayarlarına dönecek ve tüm "
-#~ "kişisel verileriniz silinecek."
+#~ "Eğer hatalı parola girilirse, telefonunuz fabrika ayarlarına dönecek ve "
+#~ "tüm kişisel verileriniz silinecek."
 
 #~ msgid "Reboot"
 #~ msgstr "Yeniden başlat"
@@ -1038,7 +1162,6 @@ msgstr "Çok zayıf şifre"
 #~ msgid "Settings"
 #~ msgstr "Ayarlar"
 
-#, qt-format
 #~ msgid "Enter %1"
 #~ msgstr "%1 Girin"
 
@@ -1062,7 +1185,8 @@ msgstr "Çok zayıf şifre"
 
 #~ msgid "Without it, you won’t be able to make calls or use text messaging."
 #~ msgstr ""
-#~ "Bir kart olmadan arama yapamaz veya metin mesaj gönderimini kullanamazsınız."
+#~ "Bir kart olmadan arama yapamaz veya metin mesaj gönderimini "
+#~ "kullanamazsınız."
 
 #~ msgid "Please select how you’d like to unlock your phone."
 #~ msgstr "Lütfen telefonunuzun kilidini nasıl açmak istediğinizi seçin."
@@ -1075,9 +1199,6 @@ msgstr "Çok zayıf şifre"
 
 #~ msgid "Let’s get started."
 #~ msgstr "Hadi başlayalım."
-
-#~ msgid "Continue"
-#~ msgstr "Devam Et"
 
 #~ msgid "Available networks…"
 #~ msgstr "Kullanılabilir ağlar..."
@@ -1093,14 +1214,15 @@ msgstr "Çok zayıf şifre"
 
 #~ msgid "You can change your mind later in <b>System Settings</b>."
 #~ msgstr ""
-#~ "Kararınızı daha sonra <b>Sistem Ayarları</b> içerisinden değiştirebilirsiniz."
+#~ "Kararınızı daha sonra <b>Sistem Ayarları</b> içerisinden "
+#~ "değiştirebilirsiniz."
 
 #~ msgid ""
 #~ "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 #~ "Privacy</b>"
 #~ msgstr ""
-#~ "Bu <b>Sistem Ayarları</b> içerisindeki <b>Güvenlik ve Gizlilik</b> altından "
-#~ "devre dışı bırakılabilir"
+#~ "Bu <b>Sistem Ayarları</b> içerisindeki <b>Güvenlik ve Gizlilik</b> "
+#~ "altından devre dışı bırakılabilir"
 
 #~ msgid ""
 #~ "Your phone is set up to automatically report errors to Canonical and its "
@@ -1116,11 +1238,11 @@ msgstr "Çok zayıf şifre"
 #~ msgstr "Telefonun konumunuzu bulmasına izin verin:"
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
+#~ "and conditions</a>."
 #~ msgstr ""
-#~ "Bu seçeneği işaretleyerek Nokia HERE <a href='#'>koşul ve şartlarını</a>nı "
-#~ "kabul ediyorsunuz."
+#~ "Bu seçeneği işaretleyerek Nokia HERE <a href='#'>koşul ve şartlarını</"
+#~ "a>nı kabul ediyorsunuz."
 
 #~ msgid "Not at all"
 #~ msgstr "Etmiyorum"
@@ -1142,7 +1264,6 @@ msgstr "Çok zayıf şifre"
 #~ msgid "Confirm passphrase"
 #~ msgstr "Parolayı yinele"
 
-#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
@@ -1158,7 +1279,6 @@ msgstr "Çok zayıf şifre"
 #~ msgid "Your phone is now ready to use."
 #~ msgstr "Telefonunuz artık kullanıma hazır."
 
-#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
