@@ -80,7 +80,8 @@ FocusScope {
                 top: parent.top
                 bottom: parent.bottom
             }
-            width: root.handleVisible ? units.gu(2) : 0
+            visible: root.handleVisible
+            width: units.gu(2)
             property int oldX: 0
 
             onPressed: {
