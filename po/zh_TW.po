@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2019-01-27 00:00+0000\n"
+"PO-Revision-Date: 2019-05-03 21:03+0000\n"
 "Last-Translator: louies0623 <louies0623@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://translate.ubports.com/projects/"
 "unity8/unity8/zh_Hant/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.1.1\n"
+"X-Generator: Weblate 3.6.1\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:36+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -326,7 +326,7 @@ msgstr "搜尋"
 #: qml/Dash/DashPageHeader.qml:378
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr "設定"
+msgstr "設置"
 
 #: qml/Dash/DashPageHeader.qml:385
 msgid "Remove from Favorites"
@@ -708,7 +708,7 @@ msgstr "此裝置尚未連接到網路。"
 #: qml/Wizard/Pages/76-app-update.qml:128
 #: qml/Wizard/Pages/76-app-update.qml:134
 msgid "Use the OpenStore app to check for updates once connected."
-msgstr "連接後，使用Open Store應用程式來檢查更新。"
+msgstr "連接後，使用 Open Store 應用程式來檢查更新。"
 
 #: qml/Wizard/Pages/76-app-update.qml:130
 msgid "Software is up to date"
@@ -813,7 +813,7 @@ msgstr "螢幕鎖定 PIN 密碼"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:61
 msgid "Enter 4 numbers to setup your passcode"
-msgstr "輸入4個號碼來設置您的PIN密碼"
+msgstr "輸入 4 個號碼來設置您的 PIN 密碼"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:77
 #: qml/Wizard/Pages/passcode-set.qml:54
@@ -834,7 +834,7 @@ msgstr "PIN 密碼不同"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr "PIN 密碼長度必須為4個字元"
+msgstr "PIN 密碼長度必須為 4 個字元"
 
 #: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
@@ -842,7 +842,7 @@ msgstr "螢幕鎖定密碼"
 
 #: qml/Wizard/Pages/password-set.qml:62
 msgid "Enter at least 8 characters"
-msgstr "至少輸入8個字元"
+msgstr "至少輸入 8 個字元"
 
 #: qml/Wizard/Pages/password-set.qml:74
 msgid "Choose password"
