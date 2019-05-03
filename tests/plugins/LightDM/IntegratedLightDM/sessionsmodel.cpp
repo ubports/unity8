@@ -63,6 +63,10 @@ private Q_SLOTS:
 
     void testIconLookupLogic()
     {
+        QSKIP("This test tries to search system icon directories for the "
+              "wanted icons, assuming that the greeter icons are already "
+              "installed. Fixing the test would require using "
+              "setIconSearchDirectories() and some local dummy files.");
         const QString data[][2] = {
                                     //{SESSION KEY, ICON NAME}
                                     {"gnome-classic", "gnome_badge.png"},
