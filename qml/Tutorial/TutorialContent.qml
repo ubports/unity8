@@ -189,7 +189,7 @@ Item {
 
             skipped: tutorialRightLoader.skipped
             isReady: tutorialTopLoader.skipped && !skipped && !paused && !delayed &&
-                     ApplicationManager.count >= 4
+                     ApplicationManager.count >= 3
 
             InactivityTimer {
                 id: tutorialRightTimer
