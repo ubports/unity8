@@ -26,9 +26,8 @@ TutorialPage {
     // When on phone or tablet, fade out as the drag progresses
     opacityOverride: usageScenario === "desktop" ? 1 : 1 - stage.rightEdgeDragProgress * 2
 
-    // Else on desktop, fade out when the spread is shown
     Connections {
-        target: usageScenario === "desktop" ? stage : null
+        target: stage
         ignoreUnknownSignals: true
         onSpreadShownChanged: if (stage.spreadShown && root.shown) root.hide()
     }
