@@ -77,11 +77,11 @@ ActionItem {
     RowLayout {
         id: row
         spacing: units.gu(1)
-        anchors.left: parent.left
-        anchors.right: parent.right
+        anchors.left: root.left
+        anchors.right: root.right
         anchors.leftMargin: units.gu(1)
         anchors.rightMargin: units.gu(1)
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.verticalCenter: root.verticalCenter
 
         Item {
             Layout.minimumWidth: units.gu(1.5)
