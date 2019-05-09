@@ -65,7 +65,7 @@ Item {
 
             unityMenuModel: UnityMenuModel {
                 id: menuBackend
-                modelData: appMenuData.generateTestData(10,5,2,3)
+                modelData: null
             }
         }
     }
@@ -88,9 +88,11 @@ Item {
         when: windowShown
 
         function init() {
+            mouseMove(root, 0, 0);
             menuBar.dismiss();
-            menuBackend.modelData = appMenuData.generateTestData(5,5,2,3, "menu")
+            menuBackend.modelData = appMenuData.generateTestData(5,5,2,3, "menu");
             activatedSpy.clear();
+            aboutToShowCalledSpy.clear();
             waitForRendering(menuBar);
         }
 
@@ -233,21 +235,24 @@ Item {
 
             var priv = findInvisibleChild(menuBar, "d");
 
-            var menuItem0 = findChild(menuBar, "menuBar-item0"); verify(menuItem0);
-            var menuItem2 = findChild(menuBar, "menuBar-item2"); verify(menuItem2);
+            var menuItem0 = findChild(menuBar, "menuBar-item0");
+            verify(menuItem0);
+            var menuItem2 = findChild(menuBar, "menuBar-item2");
+            verify(menuItem2);
 
             menuItem0.show();
-            compare(menuItem0.popupVisible, true, "Popup should be visible");
+            waitForRendering(menuItem0);
+            tryCompare(menuItem0, "popupVisible", true);
 
             keyClick(Qt.Key_Right);
-            compare(priv.currentItem, menuItem2);
-            compare(menuItem2.popupVisible, true);
-            compare(menuItem0.popupVisible, false);
+            tryCompare(priv, "currentItem", menuItem2);
+            tryCompare(menuItem2, "popupVisible", true);
+            tryCompare(menuItem0, "popupVisible", false);
 
             keyClick(Qt.Key_Left);
-            compare(priv.currentItem, menuItem0);
-            compare(menuItem2.popupVisible, false);
-            compare(menuItem0.popupVisible, true);
+            tryCompare(priv, "currentItem", menuItem0);
+            tryCompare(menuItem2, "popupVisible", false);
+            tryCompare(menuItem0, "popupVisible", true);
         }
 
         function test_menuActivateClosesMenu() {
@@ -311,6 +316,28 @@ Item {
             waitForRendering(menuItem);
             mouseClick(menuItem);
             compare(priv.currentItem, null, "CurrentItem should be null");
+        }
+
+        function test_mouseDoesNotHoldMenuOpen() {
+            // The user may want to click on a menu to open it then switch to
+            // keyboard navigation. Ensure that this doesn't keep the original
+            // menu held open.
+
+            var priv = findInvisibleChild(menuBar, "d");
+            var menuItem0 = findChild(menuBar, "menuBar-item0");
+            var menuItem1 = findChild(menuBar, "menuBar-item1");
+
+            mouseClick(menuItem0);
+            // This only tests the problem behavior if the mouse is moved before
+            // pressing the arrow keys (which almost always happens with users)
+            mouseMove(menuItem0, 1, 1, 0);
+            tryCompare(priv, "currentItem", menuItem0);
+            tryCompare(menuItem0, "popupVisible", true);
+
+            expectFail("", "FIXME: Clicking a menu item then moving the mouse prevents keyboard navigation");
+            keyClick(Qt.Key_Right);
+            tryCompare(priv, "currentItem", menuItem1);
+            tryCompare(menuItem1, "popupVisible", true);
         }
 
         function test_overfow() {
@@ -381,7 +408,8 @@ Item {
             menuItem.show();
 
             // waits for item to be created so the keyclick actually works
-            findChild(menuBar, "menuBar-item0-menu-item1-actionItem");
+            var submenuContainingDisabledItem = findChild(menuBar, "menuBar-item0-menu-item1-actionItem");
+            waitForRendering(submenuContainingDisabledItem);
 
             keyClick(Qt.Key_Down);
             keyClick(Qt.Key_Down);
