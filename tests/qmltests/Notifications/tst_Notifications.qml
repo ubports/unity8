@@ -683,8 +683,8 @@ Item {
                         // click to collapse
                         tryCompareFunction(function() { mouseClick(comboButton, comboButton.width / 2, comboButton.height / 2); return !comboButton.expanded; }, true);
                     } else {
-                        mouseClick(buttonCancel)
-                        compare(actionSpy.signalArguments[0][0], data.n.actions.data(1, ActionModel.RoleActionId), "got wrong id for negative action")
+                        tryCompareFunction(function() { mouseClick(buttonCancel); return actionSpy.signalArguments.length > 0; }, true);
+                        compare(actionSpy.signalArguments[0][0], data.n.actions.data(1, ActionModel.RoleActionId), "got wrong id for negative action");
                     }
                 }
 
