@@ -20,7 +20,9 @@ import AccountsService 0.1
 import MeeGo.QOfono 0.2
 import QMenuModel 0.1
 import Ubuntu.Components 1.3
+import Ubuntu.Connectivity 1.0
 import Ubuntu.SystemSettings.SecurityPrivacy 1.0
+import Ubuntu.SystemSettings.Update 1.0
 import Ubuntu.SystemSettings.TimeDate 1.1
 import Unity.Test 0.1 as UT
 import Wizard 0.1
@@ -86,34 +88,22 @@ Item {
         signalName: "keymapsChanged"
     }
 
-    function setup() {
-        i18n.language = "en";
-        MockQOfono.setModems(["sim1"], [false], []);
-        MockQOfono.available = true;
-        MockQOfono.ready = true;
-        System.wizardEnabled = true;
-
-        updateSessionLanguageSpy.clear();
-        setSecuritySpy.clear();
-        activateLocationSpy.clear();
-        activateGPSSpy.clear();
-        timezoneSpy.clear();
-        kbdLayoutSpy.clear();
-
-        ActionData.data = {
-            "location-detection-enabled": {
-                'valid': true,
-                'state': false
-            },
-            "gps-detection-enabled": {
-                'valid': true,
-                'state': false
-            }
-        };
+    SignalSpy {
+        id: updateDownloadedSpy
+        target: SystemImage
+        signalName: "updateDownloaded"
     }
 
-    Component.onCompleted: {
-        setup();
+    SignalSpy {
+        id: applyUpdateSpy
+        target: SystemImage
+        signalName: "applyUpdate"
+    }
+
+    SignalSpy {
+        id: skipUntilFinishedSpy
+        target: System
+        signalName: "wouldHaveSetSkipUntilFinish"
     }
 
     UT.UnityTestCase {
@@ -122,6 +112,52 @@ Item {
         when: windowShown
 
         property Item wizard: wizardLoader.status === Loader.Ready ? wizardLoader.item : null
+
+        function init() {
+            i18n.language = "en";
+            MockQOfono.setModems(["sim1"], [false], []);
+            MockQOfono.available = true;
+            MockQOfono.ready = true;
+
+            System.wizardEnabled = true;
+            System.isUpdate = false;
+
+            SystemImage.updateAvailable = false;
+            SystemImage.checkingForUpdates = false;
+
+            NetworkingStatus.status = NetworkingStatus.Offline;
+
+            updateSessionLanguageSpy.clear();
+            setSecuritySpy.clear();
+            activateLocationSpy.clear();
+            activateGPSSpy.clear();
+            timezoneSpy.clear();
+            kbdLayoutSpy.clear();
+            updateDownloadedSpy.clear();
+            applyUpdateSpy.clear();
+            skipUntilFinishedSpy.clear();
+
+            // reload our test subject to get it in a fresh state once again
+            wizardLoader.active = true;
+
+            tryCompare(wizardLoader, "status", Loader.Ready);
+
+            var pages = findChild(wizard, "wizardPages")
+            var security = findInvisibleChild(pages, "securityPrivacy");
+            security.setSecurity("", "", UbuntuSecurityPrivacyPanel.Swipe);
+            setSecuritySpy.target = security;
+
+            ActionData.data = {
+                "location-detection-enabled": {
+                    'valid': true,
+                    'state': false
+                },
+                "gps-detection-enabled": {
+                    'valid': true,
+                    'state': false
+                }
+            };
+        }
 
         function cleanup() {
             wizardLoader.itemDestroyed = false;
@@ -137,18 +173,6 @@ Item {
             // iteration to do its work. So to ensure the reload, we will wait until the
             // Shell instance gets destroyed.
             tryCompare(wizardLoader, "itemDestroyed", true);
-
-            // reload our test subject to get it in a fresh state once again
-            wizardLoader.active = true;
-
-            tryCompare(wizardLoader, "status", Loader.Ready);
-
-            var pages = findChild(wizard, "wizardPages");
-            var security = findInvisibleChild(pages, "securityPrivacy");
-            security.setSecurity("", "", UbuntuSecurityPrivacyPanel.Swipe);
-            setSecuritySpy.target = security;
-
-            setup();
         }
 
         function waitForPage(name) {
@@ -166,12 +190,9 @@ Item {
             return stack.currentPage;
         }
 
-        function goToPage(name, skipSim, skipLocation) {
+        function goToPage(name, skipSim) {
             if (skipSim === undefined) {
                 skipSim = false;
-            }
-            if (skipLocation === undefined) {
-                skipLocation = false;
             }
 
             var page = waitForPage("languagePage");
@@ -192,12 +213,6 @@ Item {
             if (name === page.objectName) return page;
             tap(findChild(page, "forwardButton"));
 
-            if (!skipLocation) {
-                page = waitForPage("locationPage");
-                if (name === page.objectName) return page;
-                tap(findChild(page, "forwardButton"));
-            }
-
             page = waitForPage("tzPage");
             if (name === page.objectName) return page;
             waitUntilTransitionsEnd(page);
@@ -211,10 +226,23 @@ Item {
             if (name === page.objectName) return page;
             tap(findChild(page, "nameInput"));
             typeString("foobar");
-            tap(findChild(page, "forwardButton"));
 
-            page = waitForPage("passwdPage");
+            if (name != "passwdPage") {
+                // Skip the password prompt
+                var pages = findChild(wizard, "wizardPages");
+                var security = findInvisibleChild(pages, "securityPrivacy");
+                security.setSecurity("", "", UbuntuSecurityPrivacyPanel.Passphrase);
+                tap(findChild(page, "forwardButton"));
+            } else {
+                tap(findChild(page, "forwardButton"));
+                page = waitForPage("passwdPage");
+                if (name === page.objectName) return page;
+                tap(findChild(page, "forwardButton"));
+            }
+
+            page = waitForPage("systemUpdatePage");
             if (name === page.objectName) return page;
+            waitUntilTransitionsEnd(page);
             tap(findChild(page, "forwardButton"));
 
             page = waitForPage("finishedPage");
@@ -323,8 +351,6 @@ Item {
             enterPasscode("1111");
 
             // now finish up
-            page = waitForPage("systemUpdatePage");
-            tap(findChild(page, "forwardButton"));
             page = waitForPage("finishedPage");
             waitUntilTransitionsEnd(page);
             tap(findChild(page, "finishButton"));
@@ -363,8 +389,6 @@ Item {
             tap(continueButton);
 
             // now finish up
-            page = waitForPage("systemUpdatePage");
-            tap(findChild(page, "forwardButton"));
             page = waitForPage("finishedPage");
             waitUntilTransitionsEnd(page);
             tap(findChild(page, "finishButton"));
@@ -381,49 +405,11 @@ Item {
 
             // now finish up
             tap(findChild(page, "forwardButton"));
-            page = waitForPage("systemUpdatePage");
-            tap(findChild(page, "forwardButton"));
             page = waitForPage("finishedPage");
             waitUntilTransitionsEnd(page);
             tap(findChild(page, "finishButton"));
 
             tryCompare(setSecuritySpy, "count", 0); // not called for swipe method
-        }
-
-        function test_locationGpsOnly() {
-            var page = goToPage("locationPage");
-            var gpsCheck = findChild(page, "gpsCheckLabel");
-            var nopeCheck = findChild(page, "nopeCheckLabel");
-
-            var locationActionGroup = findInvisibleChild(page, "locationActionGroup");
-            activateLocationSpy.target = locationActionGroup.location;
-            activateGPSSpy.target = locationActionGroup.gps;
-
-            tap(gpsCheck);
-            tryCompare(gpsCheck, "checked", true);
-            tryCompare(nopeCheck, "checked", false);
-
-            tap(findChild(page, "forwardButton"));
-            tryCompare(activateLocationSpy, "count", 1)
-            tryCompare(activateGPSSpy, "count", 1)
-        }
-
-        function test_locationNope() {
-            var page = goToPage("locationPage");
-            var gpsCheck = findChild(page, "gpsCheckLabel");
-            var nopeCheck = findChild(page, "nopeCheckLabel");
-
-            var locationActionGroup = findInvisibleChild(page, "locationActionGroup");
-            activateLocationSpy.target = locationActionGroup.location;
-            activateGPSSpy.target = locationActionGroup.gps;
-
-            tap(nopeCheck);
-            tryCompare(gpsCheck, "checked", false);
-            tryCompare(nopeCheck, "checked", true);
-
-            tap(findChild(page, "forwardButton"));
-            tryCompare(activateLocationSpy, "count", 0);
-            tryCompare(activateGPSSpy, "count", 0);
         }
 
         function test_timezonePage() {
@@ -450,6 +436,24 @@ Item {
             tryCompare(timezoneSpy, "count", 1);
             compare(timezoneSpy.signalArguments[0][0], "Europe/London");
             compare(timezoneSpy.signalArguments[0][1], "Belfast");
+        }
+
+        function test_systemUpdatePage() {
+
+            compare(updateDownloadedSpy.count, 0);
+            SystemImage.updateAvailable = true;
+            SystemImage.targetBuildNumber = 42;
+            SystemImage.updateDownloaded();
+            compare(updateDownloadedSpy.count, 1);
+
+            var page = goToPage("systemUpdatePage");
+            var updateButton = findChild(page, "installButton");
+
+            compare(skipUntilFinishedSpy.count, 0);
+            compare(applyUpdateSpy.count, 0);
+            tap(updateButton);
+            compare(skipUntilFinishedSpy.count, 1);
+            compare(applyUpdateSpy.count, 1);
         }
 
         function test_accountPage() {
