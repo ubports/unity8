@@ -73,7 +73,7 @@ Item {
         function init() {
             Powerd.setStatus(Powerd.On, Powerd.Unknown);
             loader.active = true;
-            tryCompare(loader.status == Loader.Ready);
+            tryCompare(loader, "status", Loader.Ready);
             inputCatcher.pressedKeys = [];
             inputCatcher.releasedKeys = [];
         }
