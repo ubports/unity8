@@ -36,6 +36,17 @@ void MockSystem::setWizardEnabled(bool enabled)
     Q_EMIT wizardEnabledChanged();
 }
 
+bool MockSystem::isUpdate() const
+{
+    return m_isUpdate;
+}
+
+void MockSystem::setIsUpdate(bool update)
+{
+    m_isUpdate = update;
+    Q_EMIT isUpdateChanged();
+}
+
 void MockSystem::updateSessionLocale(const QString &locale)
 {
     Q_EMIT updateSessionLocaleCalled(locale);
@@ -43,7 +54,5 @@ void MockSystem::updateSessionLocale(const QString &locale)
 
 void MockSystem::skipUntilFinishedPage()
 {
-    QSettings settings;
-    settings.setValue(QStringLiteral("Wizard/SkipUntilFinishedPage"), true);
-    settings.sync();
+    Q_EMIT wouldHaveSetSkipUntilFinish();
 }

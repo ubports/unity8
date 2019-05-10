@@ -39,7 +39,7 @@ NetworkingStatus::limitations() const
 NetworkingStatus::Status
 NetworkingStatus::status() const
 {
-    return Status::Online;
+    return m_status;
 }
 
 bool
@@ -61,4 +61,10 @@ void NetworkingStatus::setLimitedBandwidth(bool limited)
     } else if (limitedBandwith()) {
         m_limitations.remove(m_limitations.indexOf(Limitations::Bandwith));
     }
+}
+
+void NetworkingStatus::setStatus(Status status)
+{
+    m_status = status;
+    Q_EMIT statusChanged(m_status);
 }
