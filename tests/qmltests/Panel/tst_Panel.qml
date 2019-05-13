@@ -263,6 +263,10 @@ PanelTest {
             PanelState.title = "";
             PanelState.decorationsVisible = false;
 
+            // Put the mouse somewhere neutral so it doesn't hover over things
+            // and mess up the test
+            mouseMove(root, 0, 100);
+
             // Wait for the indicators to get into position.
             // (switches between normal and fullscreen modes are animated)
             var panelArea = findChild(panel, "panelArea");
@@ -772,9 +776,9 @@ PanelTest {
             }
         }
 
-        function test_stagedApplicationMenuBarShowOnMouseHover() {
+        function test_windowedApplicationMenuBarShowOnMouseHover() {
             PanelState.title = "Fake Title";
-            panel.mode = "staged";
+            panel.mode = "windowed";
             mouseEmulation.checked = false;
 
             var appTitle = findChild(panel, "panelTitle"); verify(appTitle);
@@ -786,7 +790,11 @@ PanelTest {
 
             mouseMove(panel, panel.width/2, panel.panelHeight);
 
-            var appMenuBar = findChild(panel, "menuBar"); verify(appMenuBar);
+            waitForRendering(panel);
+
+            var appMenuBarLoader = findChild(panel, "menuBarLoader")
+            tryVerify(function() {return appMenuBarLoader.item});
+            var appMenuBar = appMenuBarLoader.item
             tryCompare(appTitle, "visible", false, undefined, "App title should not be visible on mouse hover");
             tryCompare(appMenuBar, "visible", true, undefined, "App menu bar should be visible on mouse hover");
         }
@@ -833,7 +841,8 @@ PanelTest {
 
             var indicatorsBar = findChild(panel.applicationMenus, "indicatorsBar");
 
-            PanelState.title = "Fake Title"
+            PanelState.title = "Fake Title";
+            waitForRendering(panel);
             pullDownApplicationsMenu(0 /*xPos*/);
             compare(aboutToShowCalledSpy.count, 1);
 

@@ -86,7 +86,7 @@ Item {
                                                     PanelState.decorationsAlwaysVisible
 
         property bool showPointerMenu: revealControls && enablePointerMenu &&
-                                       (PanelState.decorationsVisible || mode == "staged")
+                                       (PanelState.decorationsVisible || mode == "windowed")
 
         property bool enablePointerMenu: applicationMenus.available &&
                                          applicationMenus.model
