@@ -105,6 +105,9 @@ FocusScope {
         hadFocus = false;
         oldSelectionStart = null;
         oldSelectionEnd = null;
+        appList.currentIndex = 0;
+        searchField.focus = false;
+        appList.focus = false;
     }
 
     function focusInput() {
@@ -258,6 +261,7 @@ FocusScope {
 
             DrawerGridView {
                 id: appList
+                objectName: "drawerAppList"
                 anchors {
                     left: parent.left
                     right: parent.right
