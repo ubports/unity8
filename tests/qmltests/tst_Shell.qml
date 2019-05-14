@@ -776,6 +776,104 @@ Rectangle {
             LightDMController.userMode = mode;
         }
 
+        function dragToCloseIndicatorsPanel() {
+            var indicators = findChild(shell, "indicators");
+
+            var touchStartX = shell.width / 2;
+            var touchStartY = shell.height - (indicators.minimizedPanelHeight * 0.5);
+            touchFlick(shell,
+                    touchStartX, touchStartY,
+                    touchStartX, shell.height * 0.1);
+
+            tryCompare(indicators, "fullyClosed", true);
+        }
+
+        function dragLauncherIntoView() {
+            var launcher = findChild(shell, "launcher");
+            var launcherPanel = findChild(launcher, "launcherPanel");
+            waitForRendering(launcher);
+            verify(launcherPanel.x = - launcherPanel.width);
+
+            var touchStartX = 2;
+            var touchStartY = shell.height / 2;
+            touchFlick(shell, touchStartX, touchStartY, launcherPanel.width + units.gu(1), touchStartY);
+
+            tryCompare(launcherPanel, "x", 0);
+            tryCompare(launcher, "state", "visible");
+        }
+
+        function tapOnAppIconInLauncher() {
+            var launcherPanel = findChild(shell, "launcherPanel");
+
+            // pick the first icon, the one at the top.
+            var appIcon = findChild(launcherPanel, "launcherDelegate0")
+            tap(appIcon, appIcon.width / 2, appIcon.height / 2);
+        }
+
+        function showIndicators() {
+            var indicators = findChild(shell, "indicators");
+            indicators.show();
+            tryCompare(indicators, "fullyOpened", true);
+        }
+
+        function hideIndicators() {
+            var indicators = findChild(shell, "indicators");
+            if (indicators.fullyOpened) {
+                indicators.hide();
+            }
+        }
+
+        function waitUntilDashIsFocused() {
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+        }
+
+        function swipeFromLeftEdge(swipeLength) {
+            var touchStartX = 2;
+            var touchStartY = shell.height / 2;
+            touchFlick(shell,
+                    touchStartX              , touchStartY,
+                    touchStartX + swipeLength, touchStartY);
+        }
+
+        function itemIsOnScreen(item) {
+            var itemRectInShell = item.mapToItem(shell, 0, 0, item.width, item.height);
+
+            return itemRectInShell.x >= 0
+                && itemRectInShell.y >= 0
+                && itemRectInShell.x + itemRectInShell.width <= shell.width
+                && itemRectInShell.y + itemRectInShell.height <= shell.height;
+        }
+
+        function showGreeter() {
+            var greeter = findChild(shell, "greeter");
+            LightDM.Greeter.showGreeter();
+            waitForRendering(greeter);
+            tryCompare(greeter, "fullyShown", true);
+
+            // greeter unloads its internal components when hidden
+            // and reloads them when shown. Thus we have to do this
+            // again before interacting with it otherwise any
+            // SwipeAreas in there won't be easily fooled by
+            // fake swipes.
+            removeTimeConstraintsFromSwipeAreas(greeter);
+        }
+
+        function revealLauncherByEdgePushWithMouse() {
+            var launcher = findChild(shell, "launcher");
+            verify(launcher);
+
+            // Place the mouse against the window/screen edge and push beyond the barrier threshold
+            mouseMove(shell, 0, shell.height / 2);
+            launcher.pushEdge(EdgeBarrierSettings.pushThreshold * .8);
+
+            var panel = findChild(launcher, "launcherPanel");
+            verify(panel);
+
+            // wait until it gets fully extended
+            tryCompare(panel, "x", 0);
+            tryCompare(launcher, "state", "visibleTemporary");
+        }
+
         function test_snapDecisionDismissalReturnsFocus() {
             loadShell("phone");
             swipeAwayGreeter();
@@ -992,104 +1090,6 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(webAppSurfaceId);
 
             tryCompare(webAppSurface, "activeFocus", true);
-        }
-
-        function dragToCloseIndicatorsPanel() {
-            var indicators = findChild(shell, "indicators");
-
-            var touchStartX = shell.width / 2;
-            var touchStartY = shell.height - (indicators.minimizedPanelHeight * 0.5);
-            touchFlick(shell,
-                    touchStartX, touchStartY,
-                    touchStartX, shell.height * 0.1);
-
-            tryCompare(indicators, "fullyClosed", true);
-        }
-
-        function dragLauncherIntoView() {
-            var launcher = findChild(shell, "launcher");
-            var launcherPanel = findChild(launcher, "launcherPanel");
-            waitForRendering(launcher);
-            verify(launcherPanel.x = - launcherPanel.width);
-
-            var touchStartX = 2;
-            var touchStartY = shell.height / 2;
-            touchFlick(shell, touchStartX, touchStartY, launcherPanel.width + units.gu(1), touchStartY);
-
-            tryCompare(launcherPanel, "x", 0);
-            tryCompare(launcher, "state", "visible");
-        }
-
-        function tapOnAppIconInLauncher() {
-            var launcherPanel = findChild(shell, "launcherPanel");
-
-            // pick the first icon, the one at the top.
-            var appIcon = findChild(launcherPanel, "launcherDelegate0")
-            tap(appIcon, appIcon.width / 2, appIcon.height / 2);
-        }
-
-        function showIndicators() {
-            var indicators = findChild(shell, "indicators");
-            indicators.show();
-            tryCompare(indicators, "fullyOpened", true);
-        }
-
-        function hideIndicators() {
-            var indicators = findChild(shell, "indicators");
-            if (indicators.fullyOpened) {
-                indicators.hide();
-            }
-        }
-
-        function waitUntilDashIsFocused() {
-            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
-        }
-
-        function swipeFromLeftEdge(swipeLength) {
-            var touchStartX = 2;
-            var touchStartY = shell.height / 2;
-            touchFlick(shell,
-                    touchStartX              , touchStartY,
-                    touchStartX + swipeLength, touchStartY);
-        }
-
-        function itemIsOnScreen(item) {
-            var itemRectInShell = item.mapToItem(shell, 0, 0, item.width, item.height);
-
-            return itemRectInShell.x >= 0
-                && itemRectInShell.y >= 0
-                && itemRectInShell.x + itemRectInShell.width <= shell.width
-                && itemRectInShell.y + itemRectInShell.height <= shell.height;
-        }
-
-        function showGreeter() {
-            var greeter = findChild(shell, "greeter");
-            LightDM.Greeter.showGreeter();
-            waitForRendering(greeter);
-            tryCompare(greeter, "fullyShown", true);
-
-            // greeter unloads its internal components when hidden
-            // and reloads them when shown. Thus we have to do this
-            // again before interacting with it otherwise any
-            // SwipeAreas in there won't be easily fooled by
-            // fake swipes.
-            removeTimeConstraintsFromSwipeAreas(greeter);
-        }
-
-        function revealLauncherByEdgePushWithMouse() {
-            var launcher = findChild(shell, "launcher");
-            verify(launcher);
-
-            // Place the mouse against the window/screen edge and push beyond the barrier threshold
-            mouseMove(shell, 0, shell.height / 2);
-            launcher.pushEdge(EdgeBarrierSettings.pushThreshold * .8);
-
-            var panel = findChild(launcher, "launcherPanel");
-            verify(panel);
-
-            // wait until it gets fully extended
-            tryCompare(panel, "x", 0);
-            tryCompare(launcher, "state", "visibleTemporary");
         }
 
         function test_focusRequestedHidesGreeter() {
@@ -1713,7 +1713,7 @@ Rectangle {
                 }
             }
 
-            verify(y < 4000);
+            verify(x < 4000);
 
             keyRelease(Qt.Key_Alt);
         }
