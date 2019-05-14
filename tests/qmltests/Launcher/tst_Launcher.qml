@@ -1438,14 +1438,14 @@ Rectangle {
             tryCompare(tooltipShape, "opacity", .0);
 
             // Left click hides the quicklist, tooltip is still dismissed
-            mouseClick(item, item.width / 2, item.height / 2, Qt.LefftButton);
+            mouseClick(item, item.width / 2, item.height / 2, Qt.LeftButton);
             tryCompare(quickListShape, "visible", false);
             tryCompare(tooltipShape, "visible", false);
             tryCompare(tooltipShape, "opacity", .0);
 
             // Mouse motion should should show tooltip again
-            mouseMove(item, item.width / 2, item.height / 2, 10);
             mouseMove(item, item.width / 2 + 1, item.height / 2, 10);
+            mouseMove(item, item.width / 2, item.height / 2, 10);
             tryCompare(tooltipShape, "visible", true);
             tryCompare(tooltipShape, "opacity", .95);
         }
