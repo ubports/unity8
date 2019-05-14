@@ -1741,7 +1741,7 @@ Rectangle {
             while (spreadItem.highlightedIndex !== 2 && x <= 4000) {
                 x+=10;
                 mouseMove(shell, x, y)
-                wait(1); // spin the loop so bindings get evaluated
+                wait(10); // spin the loop so bindings get evaluated
             }
             tryCompare(closeMouseArea, "enabled", true)
 
@@ -1772,7 +1772,6 @@ Rectangle {
 
             var stage = findChild(shell, "stage");
             var spreadItem = findChild(stage, "spreadItem");
-//            waitForRendering(spread)
 
             var appRepeater = findInvisibleChild(shell, "appRepeater");
             verify(appRepeater !== null);
@@ -1793,7 +1792,7 @@ Rectangle {
             while (spreadItem.highlightedIndex !== 2 && x <= 4000) {
                 x+=10;
                 mouseMove(shell, x, y)
-                wait(1); // spin the loop so bindings get evaluated
+                wait(10); // spin the loop so bindings get evaluated
             }
             tryCompare(decoratedWindow, "showHighlight", true);
 
@@ -1811,6 +1810,7 @@ Rectangle {
             loadDesktopShellWithApps()
 
             var appRepeater = findInvisibleChild(shell, "appRepeater");
+            var launcherPanel = findChild(shell, "launcherPanel");
             verify(appRepeater !== null);
 
             keyPress(Qt.Key_Alt);
@@ -1822,22 +1822,14 @@ Rectangle {
             compare(spreadFlickable.contentX, 0);
 
             // Move the mouse to the right and make sure it scrolls the Flickable
-            var x = 0;
-            var y = shell.height * .5;
-            mouseMove(shell, x, y)
-            while (x <= shell.width) {
-                x+=10;
-                mouseMove(shell, x, y);
-                wait(1); // spin the loop so bindings get evaluated
-            }
+            var shellLeft = launcherPanel.width + 5;
+            var shellRight = shell.width - 5;
+            var halfShellHeight = shell.height / 2;
+            mouseFlick(shell, shellLeft, halfShellHeight, shellRight, halfShellHeight, false, false, units.gu(100));
             tryCompare(spreadFlickable, "contentX", spreadFlickable.contentWidth - spreadFlickable.width);
 
             // And turn around
-            while (x > 0) {
-                x-=10;
-                mouseMove(shell, x, y)
-                wait(1); // spin the loop so bindings get evaluated
-            }
+            mouseFlick(shell, shellRight, halfShellHeight, shellLeft, halfShellHeight, false, false, units.gu(100));
             tryCompare(spreadFlickable, "contentX", 0);
 
             keyRelease(Qt.Key_Alt);
