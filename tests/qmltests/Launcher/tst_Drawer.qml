@@ -112,6 +112,14 @@ StyledItem {
             return drawer;
         }
 
+        function openDrawerAndWait() {
+            // Open the drawer by directly calling on the Launcher, then wait for it to animate in
+            launcher.toggleDrawer(true);
+            waitForRendering(launcher);
+            waitUntilTransitionsEnd(launcher);
+            return findChild(launcher, "drawer");
+        }
+
         function revealByEdgePush() {
             // Place the mouse against the window/screen edge and push beyond the barrier threshold
             // If the mouse did not move between two revealByEdgePush(), we need it to move out the
@@ -193,8 +201,8 @@ StyledItem {
         function test_launchAppFromDrawer() {
             dragDrawerIntoView();
 
-            var drawerList = findChild(launcher, "drawerItemList");
-            var dialerApp = findChild(drawerList, "drawerItem_dialer-app");
+            var appList = findChild(launcher, "drawerAppList");
+            var dialerApp = findChild(appList, "drawerItem_dialer-app");
             mouseClick(dialerApp, dialerApp.width / 2, dialerApp.height / 2);
 
             tryCompare(launcher, "lastSelectedApplication", "dialer-app");
@@ -207,8 +215,8 @@ StyledItem {
 
             tryCompare(launcher, "focus", true);
 
-            var drawerList = findChild(launcher, "drawerItemList");
-            var dialerApp = findChild(drawerList, "drawerItem_dialer-app");
+            var appList = findChild(launcher, "drawerAppList");
+            var dialerApp = findChild(appList, "drawerItem_dialer-app");
             mouseClick(dialerApp, dialerApp.width / 2, dialerApp.height / 2);
 
             tryCompare(launcher, "focus", false);
@@ -289,58 +297,70 @@ StyledItem {
 
         }
 
-        function test_kbdNavigation() {
-            launcher.toggleDrawer(true);
-            waitForRendering(launcher);
-            waitUntilTransitionsEnd(launcher);
-            compare(launcher.lastSelectedApplication, "");
-
-            var drawer = findChild(launcher, "drawer");
+        function test_kbdSearch() {
+            // Try out the keyboard navigation for the search field
+            var drawer = openDrawerAndWait();
             var searchField = findChild(drawer, "searchField");
-            var sections = findChild(drawer, "drawerSections");
-            var header = findChild(drawer, "headerFocusScope");
-            var listLoader = findChild(drawer, "drawerListLoader");
 
-            tryCompare(searchField, "activeFocus", true);
-            // for some reason, even when the searchField has activeFocus already,
-            // it won't react on key down events if they're coming in too early...
-            // let's repeat the press for a bit before giving up
-            tryCompareFunction(function() {
-                wait(10)
-                keyClick(Qt.Key_Down);
-                return sections.activeFocus;
-            }, true)
+            tryCompare(searchField, "focus", false);
+            keyClick(Qt.Key_Up);
+            tryCompare(searchField, "focus", true);
+            keyClick(Qt.Key_Escape);
+            tryCompare(searchField, "focus", false);
+
+            // Make sure the focus doesn't get put back when reopening
+            openDrawerAndWait();
+            tryCompare(searchField, "focus", false);
+        }
+
+        function test_kbdGrid() {
+            // Try out the keyboard navigation around the grid
+            var drawer = openDrawerAndWait();
+            var searchField = findChild(drawer, "searchField");
+            var appList = findChild(drawer, "drawerAppList");
+
+            tryCompare(searchField, "focus", false);
+            tryCompare(appList, "focus", false);
+            tryCompare(appList, "currentIndex", 0);
 
             keyClick(Qt.Key_Down);
-            tryCompare(header, "activeFocus", true);
+            tryCompare(appList, "focus", true);
+            tryCompare(appList, "currentIndex", 0);
 
+            keyClick(Qt.Key_Right);
+            tryCompare(appList, "currentIndex", 1);
+
+            keyClick(Qt.Key_Escape);
+            tryCompare(appList, "currentIndex", 0);
+            tryCompare(appList, "focus", false);
+        }
+
+        function test_kbdFocusMoves() {
+            // Make sure keyboard focus can move between the search field and grid
+            var drawer = openDrawerAndWait();
+            var searchField = findChild(drawer, "searchField");
+            var appList = findChild(drawer, "drawerAppList");
+
+            keyClick(Qt.Key_Up);
             keyClick(Qt.Key_Down);
-            tryCompare(listLoader, "activeFocus", true);
+            tryCompare(appList, "focus", true);
+            tryCompare(appList, "currentIndex", 0);
 
+            // Down once more to move the focus further into the app grid
             keyClick(Qt.Key_Down);
-            keyClick(Qt.Key_Left);
-            tryCompare(listLoader, "activeFocus", true);
-
-            keyClick(Qt.Key_Enter);
-
-            compare(launcher.lastSelectedApplication, "calendar-app");
+            keyClick(Qt.Key_Up);
+            keyClick(Qt.Key_Up);
+            tryCompare(searchField, "focus", true);
         }
 
         function test_focusAppFromLauncherWhileDrawerIsOpen() {
-            // FIXME: Skipping this test because of a bug in Qt. Please enable
-            // once https://codereview.qt-project.org/#/c/184942/ is accepted
-            skip();
-
-            launcher.toggleDrawer(true);
-            waitForRendering(launcher);
-            waitUntilTransitionsEnd(launcher);
-
+            openDrawerAndWait();
             var appIcon = findChild(launcher, "launcherDelegate4")
 
-            mouseMove(launcher, units.gu(4), launcher.height / 2)
+            mouseMove(appIcon, appIcon.width / 2, appIcon.height / 2);
             mouseClick(appIcon, appIcon.width / 2, appIcon.height / 2);
 
-            tryCompare(launcher, "state", "visibleTemporary");
+            tryCompare(launcher, "state", "");
         }
 
         function test_focusMovesCorrectlyBetweenLauncherAndDrawer() {
@@ -365,14 +385,11 @@ StyledItem {
         }
 
         function test_closeWhileDragging() {
-            launcher.toggleDrawer(true);
-            waitForRendering(launcher);
-            waitUntilTransitionsEnd(launcher);
-
-            var drawer = findChild(launcher, "drawer");
+            var drawer = openDrawerAndWait();
+            var handle = findChild(drawer, "drawerHandle");
             tryCompare(drawer.anchors, "rightMargin", -drawer.width);
 
-            mousePress(drawer, drawer.width / 2, drawer.height / 2);
+            mousePress(handle);
             mouseMove(drawer, drawer.width / 4, drawer.height / 2);
             tryCompare(drawer, "draggingHorizontally", true);
 
