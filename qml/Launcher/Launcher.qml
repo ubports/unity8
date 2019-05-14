@@ -352,34 +352,10 @@ FocusScope {
             topMargin: root.inverted ? root.topPanelHeight : 0
             bottom: parent.bottom
             right: parent.left
-            onRightMarginChanged: {
-                if (fullyOpen && hadFocus) {
-                    // See drawer.onDraggingHorizontallyChanged below
-                    drawer.searchTextField.focus = hadFocus;
-                    drawer.searchTextField.select(oldSelectionStart, oldSelectionEnd);
-                } else if (fullyClosed) {
-                    drawer.searchTextField.text = "";
-                }
-                resetOldFocus();
-            }
         }
         width: Math.min(root.width, units.gu(81))
         panelWidth: panel.width
-        visible: x > -width
-        property var fullyOpen: x === 0
-        property var fullyClosed: x === -width
-
-        property var hadFocus: false
-        property var oldSelectionStart: null
-        property var oldSelectionEnd: null
-
-        Behavior on anchors.rightMargin {
-            enabled: !dragArea.dragging && !launcherDragArea.drag.active && panel.animate && !drawer.draggingHorizontally
-            NumberAnimation {
-                duration: 300
-                easing.type: Easing.OutCubic
-            }
-        }
+        allowSlidingAnimation: !dragArea.dragging && !launcherDragArea.drag.active && panel.animate
 
         onApplicationSelected: {
             root.hide();
@@ -387,35 +363,12 @@ FocusScope {
             root.focus = false;
         }
 
-        function resetOldFocus() {
-            hadFocus = false;
-            oldSelectionStart = null;
-            oldSelectionEnd = null;
+        onHide: {
+            root.hide();
         }
 
-        Keys.onEscapePressed: {
-            root.hide()
-        }
-
-        onDragDistanceChanged: {
-            anchors.rightMargin = Math.max(-drawer.width, anchors.rightMargin + dragDistance);
-        }
-        onDraggingHorizontallyChanged: {
-            if (draggingHorizontally) {
-                // Remove (and put back using anchors.onRightMarginChanged) the
-                // focus for the searchfield in order to hide the copy/paste
-                // popover when we move the drawer
-                hadFocus = drawer.searchTextField.focus;
-                oldSelectionStart = drawer.searchTextField.selectionStart;
-                oldSelectionEnd = drawer.searchTextField.selectionEnd;
-                drawer.searchTextField.focus = false;
-            } else {
-                if (drawer.x < -units.gu(10)) {
-                    root.hide();
-                } else {
-                    root.toggleDrawer(false, true);
-                }
-            }
+        onOpen: {
+            root.toggleDrawer(false, true);
         }
     }
 

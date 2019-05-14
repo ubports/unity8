@@ -29,11 +29,81 @@ FocusScope {
     readonly property bool moving: appList && appList.moving
     readonly property Item searchTextField: searchField
     readonly property real delegateWidth: units.gu(10)
+    visible: x > -width
+    property var fullyOpen: x === 0
+    property var fullyClosed: x === -width
 
     signal applicationSelected(string appId)
 
+    // Request that the Drawer is opened fully, if it was partially closed then
+    // brought back
+    signal open();
+
+    // Request that the Drawer (and maybe its parent) is hidden, normally if
+    // the Drawer has been dragged away.
+    signal hide();
+
+    property bool allowSlidingAnimation: false
     property bool draggingHorizontally: false
     property int dragDistance: 0
+
+    property var hadFocus: false
+    property var oldSelectionStart: null
+    property var oldSelectionEnd: null
+
+    anchors {
+        onRightMarginChanged: {
+            if (fullyOpen && hadFocus) {
+                // See onDraggingHorizontallyChanged below
+                searchField.focus = hadFocus;
+                searchField.select(oldSelectionStart, oldSelectionEnd);
+                return;
+            } else if (fullyClosed || fullyOpen) {
+                searchField.text = "";
+                resetOldFocus();
+            }
+        }
+    }
+
+    Behavior on anchors.rightMargin {
+        enabled: allowSlidingAnimation && !draggingHorizontally
+        NumberAnimation {
+            duration: 300
+            easing.type: Easing.OutCubic
+        }
+    }
+
+    onDraggingHorizontallyChanged: {
+        if (draggingHorizontally) {
+            // Remove (and put back using anchors.onRightMarginChanged) the
+            // focus for the searchfield in order to hide the copy/paste
+            // popover when we move the drawer
+            hadFocus = searchField.focus;
+            oldSelectionStart = searchField.selectionStart;
+            oldSelectionEnd = searchField.selectionEnd;
+            searchField.focus = false;
+        } else {
+            if (x < -units.gu(10)) {
+                hide();
+            } else {
+                requestOpen();
+            }
+        }
+    }
+
+    Keys.onEscapePressed: {
+        root.hide()
+    }
+
+    onDragDistanceChanged: {
+        anchors.rightMargin = Math.max(-drawer.width, anchors.rightMargin + dragDistance);
+    }
+
+    function resetOldFocus() {
+        hadFocus = false;
+        oldSelectionStart = null;
+        oldSelectionEnd = null;
+    }
 
     function focusInput() {
         searchField.selectAll();
@@ -74,6 +144,7 @@ FocusScope {
 
         MouseArea {
             id: drawerHandle
+            objectName: "drawerHandle"
             anchors {
                 right: parent.right
                 top: parent.top
