@@ -558,12 +558,12 @@ Rectangle {
 
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
 
+        function initTestCase() {
+            tearDown();
+        }
+
         function init() {
-            if (shellLoader.active) {
-                // happens for the very first test function as shell
-                // is loaded by default
-                tearDown();
-            }
+            mouseMove(root, 0, 0);
         }
 
         function cleanup() {
@@ -679,49 +679,6 @@ Rectangle {
             tryCompareFunction(function() { return root.topLevelSurfaceList.inputMethodSurface !== null }, true);
         }
 
-        function test_snapDecisionDismissalReturnsFocus() {
-            loadShell("phone");
-            swipeAwayGreeter();
-            var notifications = findChild(shell, "notificationList");
-            var appDelegate = startApplication("camera-app");
-
-            var appSurface = appDelegate.surface;
-            verify(appSurface);
-
-            tryCompare(appSurface, "activeFocus", true);
-
-            notifications.model = mockNotificationsModel;
-
-            // FIXME: Hack: UnitySortFilterProxyModelQML doesn't work with QML ListModels which we use
-            // for mocking here (RoleType can't be found in the QML model). As we only need to show
-            // one SnapDecision lets just disable the filtering and make appear any notification as a
-            // SnapDecision.
-            var snapDecisionProxyModel = findInvisibleChild(shell, "snapDecisionProxyModel");
-            snapDecisionProxyModel.filterRegExp = RegExp("");
-
-            // Pop-up a notification
-            addSnapDecisionNotification();
-            waitForRendering(shell);
-
-            // Make sure the notification really opened
-            var notification = findChild(notifications, "notification" + (mockNotificationsModel.count - 1));
-            verify(notification !== undefined && notification != null, "notification wasn't found");
-            tryCompare(notification, "height", notification.implicitHeight)
-            waitForRendering(notification);
-
-            // Make sure activeFocus went away from the app window
-            tryCompare(appSurface, "activeFocus", false);
-            tryCompare(stage, "interactive", false);
-
-            // Clicking the button should dismiss the notification and return focus
-            var buttonAccept = findChild(notification, "notify_button0");
-            mouseClick(buttonAccept);
-
-            // Make sure we're back to normal
-            tryCompare(appSurface, "activeFocus", true);
-            compare(stage.interactive, true, "Stages not interactive again after modal notification has closed");
-        }
-
         function addSnapDecisionNotification() {
             var n = {
                 type: Notification.SnapDecision,
@@ -739,77 +696,6 @@ Rectangle {
 
             mockNotificationsModel.append(n)
         }
-
-        function test_suspend() {
-            loadShell("phone");
-            swipeAwayGreeter();
-            var greeter = findChild(shell, "greeter");
-
-            // Launch an app from the launcher
-            dragLauncherIntoView();
-            var appSurfaceId = topLevelSurfaceList.nextId;
-            tapOnAppIconInLauncher();
-            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
-
-            var mainAppId = ApplicationManager.focusedApplicationId;
-            verify(mainAppId != "");
-            var mainApp = ApplicationManager.findApplication(mainAppId);
-            verify(mainApp);
-            tryCompare(mainApp, "requestedState", ApplicationInfoInterface.RequestedRunning);
-
-            // Display off while call is active...
-            callManager.foregroundCall = phoneCall;
-            Powerd.setStatus(Powerd.Off, Powerd.Unknown);
-            tryCompare(greeter, "shown", false);
-
-            // Now try again after ending call
-            callManager.foregroundCall = null;
-            Powerd.setStatus(Powerd.On, Powerd.Unknown);
-            Powerd.setStatus(Powerd.Off, Powerd.Unknown);
-            tryCompare(greeter, "fullyShown", true);
-
-            compare(mainApp.requestedState, ApplicationInfoInterface.RequestedSuspended);
-
-            // And wake up
-            Powerd.setStatus(Powerd.On, Powerd.Unknown);
-            tryCompare(greeter, "fullyShown", true);
-
-            // Swipe away greeter to focus app
-
-            // greeter unloads its internal components when hidden
-            // and reloads them when shown. Thus we have to do this
-            // again before interacting with it otherwise any
-            // SwipeAreas in there won't be easily fooled by
-            // fake swipes.
-            removeTimeConstraintsFromSwipeAreas(greeter);
-            swipeAwayGreeter();
-
-            compare(mainApp.requestedState, ApplicationInfoInterface.RequestedRunning);
-            tryCompare(ApplicationManager, "focusedApplicationId", mainAppId);
-        }
-
-        function test_greeterStartsCorrectSession() {
-            loadShell("desktop");
-            setLightDMMockMode("full");
-
-            LightDMController.sessionMode = "full"
-            LightDMController.numSessions = LightDMController.numAvailableSessions;
-            var greeter = findChild(shell, "greeter");
-            var view = findChild(greeter, "WideView");
-            verify(view, "This test requires WideView to be loaded");
-
-            var loginList = findChild(view, "loginList");
-
-            compare(view.sessionToStart, greeter.sessionToStart());
-
-            // Ensure another session can actually be selected
-            compare(LightDMController.numSessions > 1, true);
-            loginList.currentSession = LightDM.Sessions.data(1, LightDM.SessionRoles.KeyRole);
-
-            compare(view.sessionToStart, greeter.sessionToStart());
-
-        }
-
 
         function swipeAwayGreeter() {
             var greeter = findChild(shell, "greeter");
@@ -888,6 +774,119 @@ Rectangle {
 
         function setLightDMMockMode(mode) {
             LightDMController.userMode = mode;
+        }
+
+        function test_snapDecisionDismissalReturnsFocus() {
+            loadShell("phone");
+            swipeAwayGreeter();
+            var notifications = findChild(shell, "notificationList");
+            var appDelegate = startApplication("camera-app");
+
+            var appSurface = appDelegate.surface;
+            verify(appSurface);
+
+            tryCompare(appSurface, "activeFocus", true);
+
+            notifications.model = mockNotificationsModel;
+
+            // FIXME: Hack: UnitySortFilterProxyModelQML doesn't work with QML ListModels which we use
+            // for mocking here (RoleType can't be found in the QML model). As we only need to show
+            // one SnapDecision lets just disable the filtering and make appear any notification as a
+            // SnapDecision.
+            var snapDecisionProxyModel = findInvisibleChild(shell, "snapDecisionProxyModel");
+            snapDecisionProxyModel.filterRegExp = RegExp("");
+
+            // Pop-up a notification
+            addSnapDecisionNotification();
+            waitForRendering(shell);
+
+            // Make sure the notification really opened
+            var notification = findChild(notifications, "notification" + (mockNotificationsModel.count - 1));
+            verify(notification !== undefined && notification != null, "notification wasn't found");
+            tryCompare(notification, "height", notification.implicitHeight)
+            waitForRendering(notification);
+
+            // Make sure activeFocus went away from the app window
+            tryCompare(appSurface, "activeFocus", false);
+            tryCompare(stage, "interactive", false);
+
+            // Clicking the button should dismiss the notification and return focus
+            var buttonAccept = findChild(notification, "notify_button0");
+            mouseClick(buttonAccept);
+
+            // Make sure we're back to normal
+            tryCompare(appSurface, "activeFocus", true);
+            compare(stage.interactive, true, "Stages not interactive again after modal notification has closed");
+        }
+
+        function test_suspend() {
+            loadShell("phone");
+            swipeAwayGreeter();
+            var greeter = findChild(shell, "greeter");
+
+            // Launch an app from the launcher
+            dragLauncherIntoView();
+            var appSurfaceId = topLevelSurfaceList.nextId;
+            tapOnAppIconInLauncher();
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+
+            var mainAppId = ApplicationManager.focusedApplicationId;
+            verify(mainAppId != "");
+            var mainApp = ApplicationManager.findApplication(mainAppId);
+            verify(mainApp);
+            tryCompare(mainApp, "requestedState", ApplicationInfoInterface.RequestedRunning);
+
+            // Display off while call is active...
+            callManager.foregroundCall = phoneCall;
+            Powerd.setStatus(Powerd.Off, Powerd.Unknown);
+            tryCompare(greeter, "shown", false);
+
+            // Now try again after ending call
+            callManager.foregroundCall = null;
+            Powerd.setStatus(Powerd.On, Powerd.Unknown);
+            Powerd.setStatus(Powerd.Off, Powerd.Unknown);
+            tryCompare(greeter, "fullyShown", true);
+
+            compare(mainApp.requestedState, ApplicationInfoInterface.RequestedSuspended);
+
+            // And wake up
+            Powerd.setStatus(Powerd.On, Powerd.Unknown);
+            tryCompare(greeter, "fullyShown", true);
+
+            // Swipe away greeter to focus app
+
+            // greeter unloads its internal components when hidden
+            // and reloads them when shown. Thus we have to do this
+            // again before interacting with it otherwise any
+            // SwipeAreas in there won't be easily fooled by
+            // fake swipes.
+            removeTimeConstraintsFromSwipeAreas(greeter);
+            swipeAwayGreeter();
+
+            compare(mainApp.requestedState, ApplicationInfoInterface.RequestedRunning);
+            tryCompare(ApplicationManager, "focusedApplicationId", mainAppId);
+        }
+
+        function test_greeterStartsCorrectSession() {
+            loadShell("desktop");
+            setLightDMMockMode("full");
+
+            LightDMController.sessionMode = "full"
+            LightDMController.numSessions = LightDMController.numAvailableSessions;
+            var greeter = findChild(shell, "greeter");
+            var view = findChild(greeter, "WideView");
+            verify(view, "This test requires WideView to be loaded");
+
+            var loginList = findChild(view, "loginList");
+
+            compare(view.sessionToStart, greeter.sessionToStart());
+
+            // Ensure another session can actually be selected
+            compare(LightDMController.numSessions > 1, true);
+            loginList.currentSession = LightDM.Sessions.data(1, LightDM.SessionRoles.KeyRole);
+
+            compare(view.sessionToStart, greeter.sessionToStart());
+
         }
 
         function test_showInputMethod() {
@@ -1691,26 +1690,26 @@ Rectangle {
             keyRelease(Qt.Key_Alt);
         }
 
-        function otest_highlightFollowsMouse() {
+        function test_highlightFollowsMouse() {
             loadDesktopShellWithApps()
 
-            var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
-            verify(spreadRepeater !== null);
+            var spreadItem = findChild(shell, "spreadItem");
+            verify(spreadItem !== null);
 
             keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
 
-            tryCompare(spreadRepeater, "highlightedIndex", 1);
+            tryCompare(spreadItem, "highlightedIndex", 1);
 
             var x = 0;
             var y = shell.height * .75;
             mouseMove(shell, x, y)
 
             for (var i = 0; i < 7; i++) {
-                while (spreadRepeater.highlightedIndex != i && x <= 4000) {
+                while (spreadItem.highlightedIndex != i && x <= 4000) {
                     x+=10;
                     mouseMove(shell, x, y)
-                    wait(0); // spin the loop so bindings get evaluated
+                    wait(10); // spin the loop so bindings get evaluated
                 }
             }
 
@@ -1742,7 +1741,7 @@ Rectangle {
             while (spreadItem.highlightedIndex !== 2 && x <= 4000) {
                 x+=10;
                 mouseMove(shell, x, y)
-                wait(0); // spin the loop so bindings get evaluated
+                wait(1); // spin the loop so bindings get evaluated
             }
             tryCompare(closeMouseArea, "enabled", true)
 
@@ -1750,7 +1749,10 @@ Rectangle {
             verify(topLevelSurfaceList.indexForId(surfaceId) === 2);
 
             // Close the app using the close button
-            mouseClick(closeMouseArea, closeMouseArea.width / 2, closeMouseArea.height / 2)
+            // The button doesn't appear until the mouse is over the surface
+            mouseMove(closeMouseArea, closeMouseArea.width / 2, closeMouseArea.height / 2, 10);
+            tryCompare(closeMouseArea, "visible", true);
+            mouseClick(closeMouseArea, closeMouseArea.width / 2, closeMouseArea.height / 2);
 
             tryCompare(topLevelSurfaceList, "count", countBeforeClickingCloseButton - 1);
             verify(topLevelSurfaceList.indexForId(surfaceId) === -1);
@@ -1791,7 +1793,7 @@ Rectangle {
             while (spreadItem.highlightedIndex !== 2 && x <= 4000) {
                 x+=10;
                 mouseMove(shell, x, y)
-                wait(0); // spin the loop so bindings get evaluated
+                wait(1); // spin the loop so bindings get evaluated
             }
             tryCompare(decoratedWindow, "showHighlight", true);
 
@@ -1811,21 +1813,22 @@ Rectangle {
             var appRepeater = findInvisibleChild(shell, "appRepeater");
             verify(appRepeater !== null);
 
-            keyPress(Qt.Key_Alt)
+            keyPress(Qt.Key_Alt);
             keyClick(Qt.Key_Tab);
 
-            var spreadFlickable = findChild(shell, "spreadFlickable")
+            var spreadFlickable = findChild(shell, "spreadFlickable");
+            waitForRendering(spreadFlickable);
 
             compare(spreadFlickable.contentX, 0);
 
             // Move the mouse to the right and make sure it scrolls the Flickable
             var x = 0;
-            var y = shell.height * .5
+            var y = shell.height * .5;
             mouseMove(shell, x, y)
             while (x <= shell.width) {
                 x+=10;
-                mouseMove(shell, x, y)
-                wait(0); // spin the loop so bindings get evaluated
+                mouseMove(shell, x, y);
+                wait(1); // spin the loop so bindings get evaluated
             }
             tryCompare(spreadFlickable, "contentX", spreadFlickable.contentWidth - spreadFlickable.width);
 
@@ -1833,7 +1836,7 @@ Rectangle {
             while (x > 0) {
                 x-=10;
                 mouseMove(shell, x, y)
-                wait(0); // spin the loop so bindings get evaluated
+                wait(1); // spin the loop so bindings get evaluated
             }
             tryCompare(spreadFlickable, "contentX", 0);
 
