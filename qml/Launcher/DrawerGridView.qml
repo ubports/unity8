@@ -37,6 +37,7 @@ FocusScope {
     GridView {
         id: gridView
         anchors.fill: parent
+        anchors.topMargin: units.gu(2)
         leftMargin: spacing
         focus: true
 
