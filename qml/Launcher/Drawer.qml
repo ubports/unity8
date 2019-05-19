@@ -135,7 +135,7 @@ FocusScope {
 
             Item {
                 id: searchFieldContainer
-                height: units.gu(6)
+                height: units.gu(4)
                 anchors { left: parent.left; top: parent.top; right: parent.right; margins: units.gu(1) }
 
                 TextField {
@@ -146,7 +146,6 @@ FocusScope {
                         top: parent.top
                         right: parent.right
                         bottom: parent.bottom
-                        bottomMargin: units.gu(2)
                     }
                     placeholderText: i18n.tr("Search…")
                     z: 100
