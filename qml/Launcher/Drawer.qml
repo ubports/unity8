@@ -32,7 +32,6 @@ FocusScope {
 
     signal applicationSelected(string appId)
 
-    property bool handleVisible: false
     property bool draggingHorizontally: false
     property int dragDistance: 0
 
@@ -80,7 +79,6 @@ FocusScope {
                 top: parent.top
                 bottom: parent.bottom
             }
-            visible: root.handleVisible
             width: units.gu(2)
             property int oldX: 0
 
