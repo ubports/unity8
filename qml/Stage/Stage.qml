@@ -967,34 +967,34 @@ FocusScope {
                         appDelegate.activate();
                     }
                     onStateChanged: {
-                        if (model.window.state === Mir.MinimizedState) {
+                        if (value == Mir.MinimizedState) {
                             appDelegate.minimize();
-                        } else if (model.window.state === Mir.MaximizedState) {
+                        } else if (value == Mir.MaximizedState) {
                             appDelegate.maximize();
-                        } else if (model.window.state === Mir.VertMaximizedState) {
+                        } else if (value == Mir.VertMaximizedState) {
                             appDelegate.maximizeVertically();
-                        } else if (model.window.state === Mir.HorizMaximizedState) {
+                        } else if (value == Mir.HorizMaximizedState) {
                             appDelegate.maximizeHorizontally();
-                        } else if (model.window.state === Mir.MaximizedLeftState) {
+                        } else if (value == Mir.MaximizedLeftState) {
                             appDelegate.maximizeLeft();
-                        } else if (model.window.state === Mir.MaximizedRightState) {
+                        } else if (value == Mir.MaximizedRightState) {
                             appDelegate.maximizeRight();
-                        } else if (model.window.state === Mir.MaximizedTopLeftState) {
+                        } else if (value == Mir.MaximizedTopLeftState) {
                             appDelegate.maximizeTopLeft();
-                        } else if (model.window.state === Mir.MaximizedTopRightState) {
+                        } else if (value == Mir.MaximizedTopRightState) {
                             appDelegate.maximizeTopRight();
-                        } else if (model.window.state === Mir.MaximizedBottomLeftState) {
+                        } else if (value == Mir.MaximizedBottomLeftState) {
                             appDelegate.maximizeBottomLeft();
-                        } else if (model.window.state === Mir.MaximizedBottomRightState) {
+                        } else if (value == Mir.MaximizedBottomRightState) {
                             appDelegate.maximizeBottomRight();
-                        } else if (model.window.state === Mir.RestoredState) {
+                        } else if (value == Mir.RestoredState) {
                             if (appDelegate.fullscreen && appDelegate.prevWindowState != WindowStateStorage.WindowStateRestored
                                     && appDelegate.prevWindowState != WindowStateStorage.WindowStateNormal) {
                                 model.window.requestState(WindowStateStorage.toMirState(appDelegate.prevWindowState));
                             } else {
                                 appDelegate.restore();
                             }
-                        } else if (model.window.state === Mir.FullscreenState) {
+                        } else if (value == Mir.FullscreenState) {
                             appDelegate.prevWindowState = appDelegate.windowState;
                             appDelegate.windowState = WindowStateStorage.WindowStateFullscreen;
                         }
