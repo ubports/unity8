@@ -76,6 +76,7 @@ Item {
         property var menu: loader.status === Loader.Ready ? loader.item : null
 
         function init() {
+            mouseMove(root, 0, 0);
             loader.active = true;
             menu.show();
         }
@@ -141,7 +142,7 @@ Item {
 
             mouseClick(menuItem, menuItem.width/2, menuItem.height/2);
 
-            compare(menuItem.action.checked, true, "Checkable menu item should have toggled");
+            tryCompare(menuItem.action, "checked", true, 5000, "Checkable menu item should have toggled");
         }
 
         function test_keyboardNavigation_DownKeySelectsAndOpensNextMenuItemAndRotates() {
@@ -154,16 +155,16 @@ Item {
             var priv = findInvisibleChild(menu, "d");
 
             keyClick(Qt.Key_Down, Qt.NoModifier);
-            compare(priv.currentItem, item1, "CurrentItem should have moved to item 1");
+            tryCompare(priv, "currentItem", item1);
 
             keyClick(Qt.Key_Down, Qt.NoModifier);
-            compare(priv.currentItem, item2, "CurrentItem should have moved to item 2");
+            tryCompare(priv, "currentItem", item2);
 
             keyClick(Qt.Key_Down, Qt.NoModifier);
-            compare(priv.currentItem, item0, "CurrentItem should have moved to item 0");
+            tryCompare(priv, "currentItem", item0);
 
             keyClick(Qt.Key_Down, Qt.NoModifier);
-            compare(priv.currentItem, item1, "CurrentItem should have moved to item 1");
+            tryCompare(priv, "currentItem", item1);
         }
 
         function test_keyboardNavigation_UpKeySelectsAndOpensPreviousMenuItemAndRotates() {
@@ -176,16 +177,16 @@ Item {
             var priv = findInvisibleChild(menu, "d");
 
             keyClick(Qt.Key_Up, Qt.NoModifier);
-            compare(priv.currentItem, item2, "CurrentItem should have moved to item 2");
+            tryCompare(priv, "currentItem", item2);
 
             keyClick(Qt.Key_Up, Qt.NoModifier);
-            compare(priv.currentItem, item1, "CurrentItem should have moved to item 1");
+            tryCompare(priv, "currentItem", item1);
 
             keyClick(Qt.Key_Up, Qt.NoModifier);
-            compare(priv.currentItem, item0, "CurrentItem should have moved to item 0");
+            tryCompare(priv, "currentItem", item0);
 
             keyClick(Qt.Key_Up, Qt.NoModifier);
-            compare(priv.currentItem, item2, "CurrentItem should have moved to item 2");
+            tryCompare(priv, "currentItem", item2);
         }
 
         function test_aboutToShow() {
