@@ -340,11 +340,11 @@ Item {
             tryCompare(menuItem1, "popupVisible", true);
         }
 
-        function test_overfow() {
+        function test_overflow() {
             menuBackend.modelData = appMenuData.generateTestData(5,2,0,0,"menu");
 
             var overflow = findChild(menuBar, "overflow");
-            compare(overflow.visible, false, "Overflow should not be visible");
+            tryCompare(overflow, "visible", false, 5000, "Overflow should not be visible");
 
             var menu = { "rowData": { "label": "Short" } };
             tryCompareFunction(function() {
@@ -357,12 +357,12 @@ Item {
             }, true);
 
             mouseClick(overflow);
-            verify(overflow.__popup);
+            tryVerify(function() {return overflow.__popup});
             var menuItem = findChild(menuBar, "overflow-menu-item0-actionItem");
             waitForRendering(menuItem);
             mouseClick(menuItem);
 
-            verify(findChild(menuBar, "overflow-menu-item0-menu-item0-actionItem"));
+            tryVerify(function() {return findChild(menuBar, "overflow-menu-item0-menu-item0-actionItem")});
 
             tryCompareFunction(function() {
                 menuBackend.removeRow(0);
