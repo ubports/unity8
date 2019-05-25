@@ -66,9 +66,6 @@ Rectangle {
             id: availableDesktopAreaItem
             anchors.fill: parent
         }
-        Component.onCompleted: {
-            ApplicationManager.startApplication("unity8-dash");
-        }
     }
 
     Rectangle {
@@ -108,6 +105,22 @@ Rectangle {
                 }
             }
 
+            Button {
+                text: "Drag app to side stage"
+                activeFocusOnPress: false
+                onClicked: {
+                    testCase.dragToSideStage();
+                }
+            }
+
+            Button {
+                text: "Drag app to main stage"
+                activeFocusOnPress: false
+                onClicked: {
+                    testCase.dragToMainStage();
+                }
+            }
+
             ApplicationCheckBox {
                 id: webbrowserCheckBox
                 appId: "morph-browser"
@@ -144,37 +157,17 @@ Rectangle {
         function init() {
             stageSaver.clear();
 
-            ApplicationManager.startApplication("unity8-dash");
-            tryCompare(topSurfaceList, "count", 1);
-            compare(topSurfaceList.applicationAt(0).appId, "unity8-dash");
-
-            // this is very strange, but sometimes the test starts without
-            // Stage components having finished loading themselves
-            var appWindow = null
-            while (!appWindow) {
-                appWindow = findAppWindowForSurfaceId(topSurfaceList.idAt(0));
-                if (!appWindow) {
-                    console.log("didn't find unity8-dash appWindow in Stage. Trying again...");
-                    wait(50);
-                }
-            }
+            tryCompare(topSurfaceList, "count", 0);
 
             // wait for Stage to stabilize back into its initial state
             var appRepeater = findChild(stage, "appRepeater");
-            tryCompare(appRepeater, "count", 1);
-            tryCompare(appRepeater.itemAt(0), "x", 0);
+            tryCompare(appRepeater, "count", 0);
 
-            waitUntilAppSurfaceShowsUp(topSurfaceList.idAt(0));
             sideStage.hideNow()
             tryCompare(sideStage, "x", stage.width)
         }
 
         function cleanup() {
-            ApplicationManager.requestFocusApplication("unity8-dash");
-            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
-            tryCompare(stage, "state", "stagedWithSideStage");
-            waitForRendering(stage);
-
             killApps();
 
             sideStage.hideNow();
@@ -194,6 +187,9 @@ Rectangle {
         }
 
         function findAppWindowForSurfaceId(surfaceId) {
+            tryVerify(function() {
+                return findChild(stage, "appDelegate_" + surfaceId);
+            }, 100, "Found app surface with ID " + surfaceId);
             var spreadDelegate = findChild(stage, "appDelegate_" + surfaceId);
             if (!spreadDelegate) {
                 return null;
@@ -203,12 +199,14 @@ Rectangle {
         }
 
         function switchToSurface(targetSurfaceId) {
+            waitForRendering(stage);
             performEdgeSwipeToShowAppSpread();
 
             waitUntilAppDelegateStopsMoving(targetSurfaceId);
             var targetAppWindow = findAppWindowForSurfaceId(targetSurfaceId);
             verify(targetAppWindow);
             tap(targetAppWindow, 10, 10);
+            waitForRendering(stage);
         }
 
         function waitUntilAppDelegateStopsMoving(targetSurfaceId)
@@ -241,7 +239,6 @@ Rectangle {
 
         function dragToSideStage(surfaceId) {
             sideStage.showNow();
-            var targetAppDelegate = findChild(stage, "appDelegate_" + surfaceId);
 
             var pos = stage.width - sideStage.width - (stage.width - sideStage.width) / 2;
             var end_pos = stage.width - sideStage.width / 2;
@@ -252,13 +249,15 @@ Rectangle {
                                     return sideStage.shown && !sideStage.showAnimation.running &&
                                            pos >= end_pos;
                                 });
-            tryCompare(targetAppDelegate, "stage", ApplicationInfoInterface.SideStage);
+            if (surfaceId != null) {
+                var targetAppDelegate = findChild(stage, "appDelegate_" + surfaceId);
+                verify(targetAppDelegate);
+                tryCompare(targetAppDelegate, "stage", ApplicationInfoInterface.SideStage);
+            }
         }
 
         function dragToMainStage(surfaceId) {
             sideStage.showNow();
-            var targetAppDelegate = findChild(stage, "appDelegate_" + surfaceId);
-            verify(targetAppDelegate);
 
             var pos = stage.width - sideStage.width / 2;
             var end_pos = stage.width - sideStage.width - (stage.width - sideStage.width) / 2;
@@ -273,15 +272,42 @@ Rectangle {
                                     pos -= units.gu(3);
                                     return pos <= end_pos;
                                 });
-            tryCompare(targetAppDelegate, "stage", ApplicationInfoInterface.MainStage);
+            if (surfaceId != null) {
+                var targetAppDelegate = findChild(stage, "appDelegate_" + surfaceId);
+                verify(targetAppDelegate);
+                tryCompare(targetAppDelegate, "stage", ApplicationInfoInterface.MainStage);
+            }
+        }
+
+        // Launch one of the available apps in this test case
+        // Return the topSurfaceList's ID for the launched app
+        // Valid values are: "morph", "gallery", "dialer", and "facebook"
+        // "facebook" will be launched if no name is given
+        function launchApp(appName) {
+            var nextAppId = topSurfaceList.nextId;
+            switch (appName) {
+                case "morph":
+                    webbrowserCheckBox.checked = true;
+                    break;
+                case "gallery":
+                    galleryCheckBox.checked = true;
+                    break;
+                case "dialer":
+                    dialerCheckBox.checked = true;
+                    break;
+                case "facebook":
+                default:
+                    facebookCheckBox.checked = true;
+                    break;
+            }
+            waitUntilAppSurfaceShowsUp(nextAppId);
+            return nextAppId;
         }
 
         function test_tappingSwitchesFocusBetweenStages() {
             WindowStateStorage.saveStage(dialerCheckBox.appId, ApplicationInfoInterface.SideStage)
 
-            var webbrowserSurfaceId = topSurfaceList.nextId;
-            webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+            var webbrowserSurfaceId = launchApp("morph");
             var webbrowserDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             verify(webbrowserDelegate);
             compare(webbrowserDelegate.stage, ApplicationInfoInterface.MainStage);
@@ -290,9 +316,7 @@ Rectangle {
 
             tryCompare(webbrowserWindow.surface, "activeFocus", true);
 
-            var dialerSurfaceId = topSurfaceList.nextId;
-            dialerCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(dialerSurfaceId);
+            var dialerSurfaceId = launchApp("dialer");
 
             var dialerApp = ApplicationManager.findApplication(dialerCheckBox.appId);
             var dialerDelegate = findChild(stage, "appDelegate_" + dialerSurfaceId);
@@ -322,9 +346,7 @@ Rectangle {
         function test_closeAppInSideStage() {
             WindowStateStorage.saveStage(dialerCheckBox.appId, ApplicationInfoInterface.SideStage)
 
-            var dialerSurfaceId = topSurfaceList.nextId;
-            dialerCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(dialerSurfaceId);
+            var dialerSurfaceId = launchApp("dialer");
 
             performEdgeSwipeToShowAppSpread();
 
@@ -348,18 +370,14 @@ Rectangle {
         }
 
         function test_suspendsAndResumesAppsInMainStage() {
-            var webbrowserSurfaceId = topSurfaceList.nextId;
-            webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+            var webbrowserSurfaceId = launchApp("morph");
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
             var webbrowserDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             compare(webbrowserDelegate.stage, ApplicationInfoInterface.MainStage);
 
             tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Running);
 
-            var gallerySurfaceId = topSurfaceList.nextId;
-            galleryCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(gallerySurfaceId);
+            var gallerySurfaceId = launchApp("gallery");
             var galleryApp = ApplicationManager.findApplication(galleryCheckBox.appId);
             var galleryDelegate = findChild(stage, "appDelegate_" + gallerySurfaceId);
             compare(galleryDelegate.stage, ApplicationInfoInterface.MainStage);
@@ -388,17 +406,13 @@ Rectangle {
             // launch two main stage apps
             // gallery will be on foreground and webbrowser on background
 
-            var webbrowserSurfaceId = topSurfaceList.nextId;
-            webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+            var webbrowserSurfaceId = launchApp("morph");
             var webbrowserDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             verify(webbrowserDelegate);
             compare(webbrowserDelegate.stage, ApplicationInfoInterface.MainStage);
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
 
-            var gallerySurfaceId = topSurfaceList.nextId;
-            galleryCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(gallerySurfaceId);
+            var gallerySurfaceId = launchApp("gallery");
             var galleryApp = ApplicationManager.findApplication(galleryCheckBox.appId);
             var galleryDelegate = findChild(stage, "appDelegate_" + gallerySurfaceId);
             compare(galleryDelegate.stage, ApplicationInfoInterface.MainStage);
@@ -408,16 +422,12 @@ Rectangle {
             // then launch two side stage apps
             // facebook will be on foreground and dialer on background
 
-            var dialerSurfaceId = topSurfaceList.nextId;
-            dialerCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(dialerSurfaceId);
+            var dialerSurfaceId = launchApp("dialer");
             var dialerApp = ApplicationManager.findApplication(dialerCheckBox.appId);
             var dialerDelegate = findChild(stage, "appDelegate_" + dialerSurfaceId);
             compare(dialerDelegate.stage, ApplicationInfoInterface.SideStage);
 
-            var facebookSurfaceId = topSurfaceList.nextId;
-            facebookCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(facebookSurfaceId);
+            var facebookSurfaceId = launchApp("facebook");
             var facebookApp = ApplicationManager.findApplication(facebookCheckBox.appId);
             var facebookDelegate = findChild(stage, "appDelegate_" + facebookSurfaceId);
             compare(facebookDelegate.stage, ApplicationInfoInterface.SideStage);
@@ -450,16 +460,12 @@ Rectangle {
         function test_foregroundAppsAreSuspendedWhenStageIsSuspended() {
             WindowStateStorage.saveStage(dialerCheckBox.appId, ApplicationInfoInterface.SideStage)
 
-            var webbrowserSurfaceId = topSurfaceList.nextId;
-            webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+            var webbrowserSurfaceId = launchApp("morph");
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
             var webbrowserDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             compare(webbrowserDelegate.stage, ApplicationInfoInterface.MainStage);
 
-            var dialerSurfaceId = topSurfaceList.nextId;
-            dialerCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(dialerSurfaceId);
+            var dialerSurfaceId = launchApp("dialer");
             var dialerApp = ApplicationManager.findApplication(dialerCheckBox.appId);
             var dialerDelegate = findChild(stage, "appDelegate_" + dialerSurfaceId);
             compare(dialerDelegate.stage, ApplicationInfoInterface.SideStage);
@@ -520,7 +526,7 @@ Rectangle {
         function test_applicationLoadsInDefaultStage_data() {
             return [
                 { tag: "MainStage", appId: "morph-browser", mainStageAppId: "morph-browser", sideStageAppId: "" },
-                { tag: "SideStage", appId: "dialer-app", mainStageAppId: "unity8-dash", sideStageAppId: "dialer-app" },
+                { tag: "SideStage", appId: "dialer-app", mainStageAppId: "facebook-webapp", sideStageAppId: "dialer-app" },
             ];
         }
 
@@ -528,7 +534,9 @@ Rectangle {
             var stagesPriv = findInvisibleChild(stage, "DesktopStagePrivate");
             verify(stagesPriv);
 
-            tryCompare(stagesPriv, "mainStageAppId", "unity8-dash");
+            facebookCheckBox.checked = true;
+
+            tryCompare(stagesPriv, "mainStageAppId", "facebook-webapp");
             tryCompare(stagesPriv, "sideStageAppId", "");
 
             var appSurfaceId = topSurfaceList.nextId;
@@ -542,7 +550,7 @@ Rectangle {
         function test_applicationLoadsInSavedStage_data() {
             return [
                 { tag: "MainStage", stage: ApplicationInfoInterface.MainStage, mainStageAppId: "morph-browser", sideStageAppId: ""},
-                { tag: "SideStage", stage: ApplicationInfoInterface.SideStage, mainStageAppId: "unity8-dash", sideStageAppId: "morph-browser" },
+                { tag: "SideStage", stage: ApplicationInfoInterface.SideStage, mainStageAppId: "facebook-webapp", sideStageAppId: "morph-browser" },
             ];
         }
 
@@ -552,12 +560,12 @@ Rectangle {
             var stagesPriv = findInvisibleChild(stage, "DesktopStagePrivate");
             verify(stagesPriv);
 
-            tryCompare(stagesPriv, "mainStageAppId", "unity8-dash");
+            facebookCheckBox.checked = true;
+
+            tryCompare(stagesPriv, "mainStageAppId", "facebook-webapp");
             tryCompare(stagesPriv, "sideStageAppId", "");
 
-            var webbrowserSurfaceId = topSurfaceList.nextId;
-            webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+            var webbrowserSurfaceId = launchApp("morph");
 
             tryCompare(stagesPriv, "mainStageAppId", data.mainStageAppId);
             tryCompare(stagesPriv, "sideStageAppId", data.sideStageAppId);
@@ -577,12 +585,12 @@ Rectangle {
             var stagesPriv = findInvisibleChild(stage, "DesktopStagePrivate");
             verify(stagesPriv);
 
-            tryCompare(stagesPriv, "mainStageAppId", "unity8-dash");
+            facebookCheckBox.checked = true;
+
+            tryCompare(stagesPriv, "mainStageAppId", "facebook-webapp");
             tryCompare(stagesPriv, "sideStageAppId", "");
 
-            var webbrowserSurfaceId = topSurfaceList.nextId;
-            webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+            var webbrowserSurfaceId = launchApp("morph");
 
             if (data.toStage === ApplicationInfoInterface.SideStage) {
                 dragToSideStage(webbrowserSurfaceId);
@@ -597,10 +605,7 @@ Rectangle {
 
         function test_loadSideStageByDraggingFromMainStage() {
             sideStage.showNow();
-            print("sidestage now shown. launching browser")
-            var webbrowserSurfaceId = topSurfaceList.nextId;
-            webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+            var webbrowserSurfaceId = launchApp("morph")
 
             var appDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
@@ -619,9 +624,7 @@ Rectangle {
             tryCompareFunction(function() {
                 return WindowStateStorage.getStage(webbrowserCheckBox.appId, ApplicationInfoInterface.MainStage) === ApplicationInfoInterface.SideStage
             }, true);
-            var webbrowserSurfaceId = topSurfaceList.nextId;
-            webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+            var webbrowserSurfaceId = launchApp("morph");
 
             var appDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
@@ -643,18 +646,18 @@ Rectangle {
             Application gets relaunched. Its new surface will seamlessly replace the screenshot.
          */
         function test_selectSuspendedAppWithoutSurface() {
-            compare(topSurfaceList.applicationAt(0).appId, "unity8-dash");
-            var dashSurfaceId = topSurfaceList.idAt(0);
-            var dashWindow = topSurfaceList.windowAt(0);
+            launchApp("facebook");
+            compare(topSurfaceList.applicationAt(0).appId, "facebook-webapp");
+            var facebookSurfaceId = topSurfaceList.idAt(0);
+            var facebookWindow = topSurfaceList.windowAt(0);
 
             var webbrowserSurfaceId = topSurfaceList.nextId;
-            webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+            launchApp("morph");
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
 
-            switchToSurface(dashSurfaceId);
+            switchToSurface(facebookSurfaceId);
 
-            tryCompare(topLevelSurfaceList, "focusedWindow", dashWindow);
+            tryCompare(topLevelSurfaceList, "focusedWindow", facebookWindow);
             tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Suspended);
 
             compare(webbrowserApp.surfaceList.count, 1);
@@ -679,9 +682,7 @@ Rectangle {
         }
 
         function test_draggingSurfaceKeepsSurfaceFocus() {
-            var webbrowserSurfaceId = topSurfaceList.nextId;
-            webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+            var webbrowserSurfaceId = launchApp("morph");
 
             var appDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
@@ -695,34 +696,9 @@ Rectangle {
             tryCompare(appDelegate, "stage", ApplicationInfoInterface.SideStage);
         }
 
-        function test_dashDoesNotDragToSidestage() {
-            sideStage.showNow();
-            compare(topSurfaceList.applicationAt(0).appId, "unity8-dash");
-            var dashSurfaceId = topSurfaceList.idAt(0);
-
-            var appDelegate = findChild(stage, "appDelegate_" + dashSurfaceId);
-            verify(appDelegate);
-            compare(appDelegate.stage, ApplicationInfoInterface.MainStage);
-
-            var pos = stage.width - sideStage.width - (stage.width - sideStage.width) / 2;
-            var end_pos = stage.width - sideStage.width / 2;
-
-            multiTouchDragUntil([0,1,2], stage, pos, stage.height / 2, units.gu(3), 0,
-                                function() {
-                                    pos += units.gu(3);
-                                    return sideStage.shown && !sideStage.showAnimation.running &&
-                                           pos >= end_pos;
-                                });
-
-            waitForRendering(stage);
-            tryCompare(appDelegate, "stage", ApplicationInfoInterface.MainStage);
-        }
-
         function test_switchRestoreStageOnRotation() {
             WindowStateStorage.saveStage(webbrowserCheckBox.appId, ApplicationInfoInterface.SideStage)
-            var webbrowserSurfaceId = topSurfaceList.nextId;
-            webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+            var webbrowserSurfaceId = launchApp("morph");
 
             var appDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
@@ -739,9 +715,7 @@ Rectangle {
         }
 
         function test_restoreSavedStageOnCloseReopen() {
-            var webbrowserSurfaceId = topSurfaceList.nextId;
-            webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+            var webbrowserSurfaceId = launchApp("morph");
 
             var appDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
@@ -752,14 +726,12 @@ Rectangle {
             tryCompare(appDelegate, "stage", ApplicationInfoInterface.MainStage);
 
             webbrowserCheckBox.checked = false;
-            tryCompare(ApplicationManager, "count", 1);
+            tryCompare(ApplicationManager, "count", 0);
 
             // back to landscape
             stage.shellOrientation = Qt.LandscapeOrientation;
 
-            webbrowserSurfaceId = topSurfaceList.nextId;
-            webbrowserCheckBox.checked = true;
-            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+            webbrowserSurfaceId = launchApp("morph");
 
             appDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
@@ -773,9 +745,8 @@ Rectangle {
             the window (and not get eaten by some translucent decoration like in that bug).
          */
         function test_clickNearTopEdgeGoesToWindow() {
-            compare(topLevelSurfaceList.count, 1); // assume unity8-dash is already there
-
-            var appDelegate = findChild(stage, "appDelegate_" + topLevelSurfaceList.idAt(0));
+            var facebookSurfaceId = launchApp("facebook");
+            var appDelegate = findChild(stage, "appDelegate_" + facebookSurfaceId);
             verify(appDelegate);
 
             var surfaceItem = findChild(appDelegate, "surfaceItem");
@@ -784,20 +755,20 @@ Rectangle {
             compare(surfaceItem.mousePressCount, 0);
             compare(surfaceItem.mouseReleaseCount, 0);
 
-            mouseClick(appDelegate, 1, 1); // near top left
+            mouseClick(surfaceItem, 1, 1); // near top left
 
-            compare(surfaceItem.mousePressCount, 1);
-            compare(surfaceItem.mouseReleaseCount, 1);
+            tryCompare(surfaceItem, "mousePressCount", 1);
+            tryCompare(surfaceItem, "mouseReleaseCount", 1);
 
-            mouseClick(appDelegate, appDelegate.width / 2, 1); // near top
+            mouseClick(stage, appDelegate.width / 2, 1); // near top
 
-            compare(surfaceItem.mousePressCount, 2);
-            compare(surfaceItem.mouseReleaseCount, 2);
+            tryCompare(surfaceItem, "mousePressCount", 2);
+            tryCompare(surfaceItem, "mouseReleaseCount", 2);
 
-            mouseClick(appDelegate, appDelegate.width - 1, 1); // near top right
+            mouseClick(stage, appDelegate.width - 1, 1); // near top right
 
-            compare(surfaceItem.mousePressCount, 3);
-            compare(surfaceItem.mouseReleaseCount, 3);
+            tryCompare(surfaceItem, "mousePressCount", 3);
+            tryCompare(surfaceItem, "mouseReleaseCount", 3);
         }
     }
 }
