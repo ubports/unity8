@@ -349,7 +349,7 @@ Rectangle {
                             target: fullscreenAppCheck
                             when: topLevelSurfaceList && topLevelSurfaceList.focusedWindow
                             property: "checked"
-                            value: topLevelSurfaceList.focusedWindow.state === Mir.FullscreenState
+                            value: topLevelSurfaceList.focusedWindow.state == Mir.FullscreenState
                         }
                     }
                     Label {

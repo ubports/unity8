@@ -268,7 +268,13 @@ void ApplicationInfo::setFullscreen(bool value)
 {
     m_fullscreen = value;
     if (m_surfaceList->rowCount() > 0) {
-        m_surfaceList->get(0)->requestState(Mir::FullscreenState);
+        Mir::State newState;
+        if (value) {
+            newState = Mir::FullscreenState;
+        } else {
+            newState = Mir::RestoredState;
+        }
+        m_surfaceList->get(0)->requestState(newState);
     }
 }
 

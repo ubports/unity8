@@ -36,15 +36,11 @@ using namespace unity::shell::application;
 class ApplicationInfo : public ApplicationInfoInterface {
     Q_OBJECT
 
-    ////
-    // FIXME: Remove those
-    Q_PROPERTY(bool fullscreen READ fullscreen WRITE setFullscreen NOTIFY fullscreenChanged)
-
-    // Only exists in this fake implementation
-
     // whether the test code will explicitly control the creation of the application surface
+    // Only exists in this mock
     Q_PROPERTY(bool manualSurfaceCreation READ manualSurfaceCreation WRITE setManualSurfaceCreation NOTIFY manualSurfaceCreationChanged)
 
+    // Only exists in this mock
     Q_PROPERTY(QString screenshot READ screenshot CONSTANT)
 
 public:
