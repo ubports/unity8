@@ -23,7 +23,7 @@ import Unity.Application 0.1
 // state of the window is returned to restored.
 QtObject {
     function applyPolicy(surfaceState, surfaceChrome) {
-        if (surfaceState === Mir.FullscreenState && surfaceChrome === Mir.LowChrome) {
+        if (surfaceState == Mir.FullscreenState && surfaceChrome === Mir.LowChrome) {
             return Mir.RestoredState;
         }
         return surfaceState;

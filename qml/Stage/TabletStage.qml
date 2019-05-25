@@ -775,7 +775,7 @@ AbstractStage {
                         if (priv.mainStageDelegate && stage === ApplicationInfoInterface.SideStage) {
                             return priv.mainStageDelegate.fullscreen;
                         } else if (surface) {
-                            return surface.state === Mir.FullscreenState;
+                            return surface.state == Mir.FullscreenState;
                         } else if (application) {
                             return application.fullscreen;
                         } else {

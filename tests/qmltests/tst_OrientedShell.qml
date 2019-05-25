@@ -649,17 +649,16 @@ Rectangle {
             var cameraSurfaceId = topLevelSurfaceList.nextId;
             var cameraApp = ApplicationManager.startApplication("camera-app");
             verify(cameraApp);
+            tryVerify(function() {return cameraApp.surfaceList.get(0)});
+            var cameraSurface = cameraApp.surfaceList.get(0);
 
             // ensure the mock camera-app is as we expect
-            compare(cameraApp.fullscreen, true);
+            tryCompare(cameraSurface, "state", Mir.FullscreenState, 1000);
             compare(cameraApp.rotatesWindowContents, true);
             compare(cameraApp.supportedOrientations, Qt.PortraitOrientation | Qt.LandscapeOrientation
                     | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation);
 
             waitUntilAppWindowIsFullyLoaded(cameraSurfaceId);
-
-            var cameraSurface = cameraApp.surfaceList.get(0);
-            verify(cameraSurface);
 
             var focusChangedSpy = signalSpy;
             focusChangedSpy.clear();
@@ -697,8 +696,8 @@ Rectangle {
 
             if (!data.windowed) { // subject to shell-chrome policies
                 // It should retain native dimensions regardless of its rotation/orientation
-                compare(cameraSurface.width, orientedShell.width);
-                compare(cameraSurface.height, orientedShell.height);
+                tryCompare(cameraSurface, "width", orientedShell.width);
+                tryCompare(cameraSurface, "height", orientedShell.height);
             }
 
             // Surface focus shouldn't have been touched because of the rotation
