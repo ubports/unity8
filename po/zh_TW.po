@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2019-05-03 21:03+0000\n"
+"PO-Revision-Date: 2019-05-16 21:03+0000\n"
 "Last-Translator: louies0623 <louies0623@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://translate.ubports.com/projects/"
 "unity8/unity8/zh_Hant/>\n"
@@ -326,7 +326,7 @@ msgstr "搜尋"
 #: qml/Dash/DashPageHeader.qml:378
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr "設置"
+msgstr "設定"
 
 #: qml/Dash/DashPageHeader.qml:385
 msgid "Remove from Favorites"

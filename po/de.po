@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2018-11-18 20:25+0000\n"
-"Last-Translator: Florian Leeber <flori@bin.org.in>\n"
+"PO-Revision-Date: 2019-05-24 12:03+0000\n"
+"Last-Translator: Julian Theel <julian@hubu.de>\n"
 "Language-Team: German <https://translate.ubports.com/projects/unity8/unity8/"
 "de/>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.1.1\n"
+"X-Generator: Weblate 3.6.1\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -161,7 +161,7 @@ msgstr "Alt + F1"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens launcher keyboard navigation mode."
-msgstr "Öffnet Tastaturnavigation des Starters"
+msgstr "Öffnet Tastaturnavigation des Starters."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Super + Tab"
@@ -169,7 +169,7 @@ msgstr "Super + Tabulatur"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Switches applications via the launcher."
-msgstr "Schaltet über den Starter zwischen Anwendungen um"
+msgstr "Schaltet über den Starter zwischen Anwendungen um."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + 0 to 9"
@@ -189,7 +189,7 @@ msgstr "Super (antippen)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:193
 msgid "Opens the Scopes home."
-msgstr "Öffnet die Scopeübersicht"
+msgstr "Öffnet die Scopeübersicht."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:209
 msgid "Switching"
@@ -213,7 +213,7 @@ msgstr "Zeigt alle geöffneten Fenster nebeneinander."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Cursor Left or Right"
-msgstr "Pfeiltasten"
+msgstr "Pfeiltasten (links oder rechts)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Moves the focus."
@@ -245,7 +245,7 @@ msgstr "Strg + Super + runter"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes or restores the current window."
-msgstr "Minmiert oder stellt das aktuelle Fenster wieder her."
+msgstr "Minimiert oder stellt das aktuelle Fenster wieder her."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Left or Right"
@@ -287,7 +287,7 @@ msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
-msgstr "Anwendungen könnten ungespeicherte Daten haben:"
+msgstr "Anwendungen könnten nicht gespeicherte Daten haben:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgctxt ""
@@ -299,7 +299,7 @@ msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
-msgstr "Oder das Schließen erzwingen (ungespeicherte Daten gehen verloren)."
+msgstr "Oder das Schließen erzwingen (nicht gespeicherte Daten gehen verloren)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
@@ -307,7 +307,7 @@ msgstr "Ja, ich werde andocken"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
-msgstr "Jetzt verbinden!"
+msgstr "Jetzt wiederverbinden!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
@@ -334,7 +334,7 @@ msgstr "Einstellungen"
 
 #: qml/Dash/DashPageHeader.qml:385
 msgid "Remove from Favorites"
-msgstr "Aus den Favoriten entfernen"
+msgstr "Aus Favoriten entfernen"
 
 #: qml/Dash/DashPageHeader.qml:385
 msgid "Add to Favorites"
@@ -371,11 +371,11 @@ msgstr "Alle zurücksetzen"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:36
 msgid "More..."
-msgstr "Mehr …"
+msgstr "Mehr…"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:36
 msgid "Less..."
-msgstr "Weniger …"
+msgstr "Weniger…"
 
 #: qml/Dash/Previews/PreviewCommentInput.qml:83
 #: qml/Dash/Previews/PreviewRatingInput.qml:202
@@ -392,11 +392,11 @@ msgstr "Bewertung hinzufügen"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:56
 msgid "Pull to refresh…"
-msgstr "Zum Aktualisieren ziehen …"
+msgstr "Zum Aktualisieren ziehen…"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:61
 msgid "Release to refresh…"
-msgstr "Zum Aktualisieren loslassen …"
+msgstr "Zum Aktualisieren loslassen…"
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
@@ -446,8 +446,8 @@ msgstr ""
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Bitte %1 Minute warten und dann erneut versuchen …"
-msgstr[1] "Bitte %1 Minuten warten und dann erneut versuchen …"
+msgstr[0] "Bitte %1 Minute warten und dann erneut versuchen…"
+msgstr[1] "Bitte %1 Minuten warten und dann erneut versuchen…"
 
 #: qml/Greeter/Greeter.qml:596
 msgid "Try again"
@@ -483,7 +483,7 @@ msgstr "Passwort anzeigen"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr "Tippen, um zum Anruf zurückzugehen …"
+msgstr "Tippen, um zum Anruf zurückzugehen…"
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
@@ -526,7 +526,7 @@ msgstr "%1 verbleibend"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:995
 msgid "In queue…"
-msgstr "In Warteschlange …"
+msgstr "In Warteschlange…"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:999
 #: qml/Wizard/Pages/UpdateDelegate.qml:226
@@ -621,7 +621,7 @@ msgstr "Willkommen bei "
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
-msgstr "Wir werden sicherstellen dass Dein Gerät einsatzbereit ist "
+msgstr "Wir werden sicherstellen, dass Dein Gerät einsatzbereit ist "
 
 #: qml/Wizard/Pages/11-changelog.qml:28
 msgid "What's new"
@@ -671,7 +671,7 @@ msgstr "Zeitzone"
 
 #: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
-msgstr "Bitte Ihre Stadt eingeben"
+msgstr "Bitte geben Sie Ihre Stadt ein"
 
 #: qml/Wizard/Pages/60-account.qml:24
 msgid "Personalize Your Device"
@@ -730,7 +730,7 @@ msgstr "Dieses Gerät ist nicht mit dem Internet verbunden."
 #: qml/Wizard/Pages/76-app-update.qml:134
 msgid "Use the OpenStore app to check for updates once connected."
 msgstr ""
-"Benutze die OpenStore-App um nach Updates zu suchen, sobald Du verbunden "
+"Benutze die OpenStore-App, um nach Updates zu suchen, sobald Du verbunden "
 "bist."
 
 #: qml/Wizard/Pages/76-app-update.qml:130
@@ -770,7 +770,7 @@ msgstr "Version %1"
 
 #: qml/Wizard/Pages/79-system-update.qml:102
 msgid "This could take a few minutes..."
-msgstr "Das kann ein paar Minuten dauern …"
+msgstr "Das kann ein paar Minuten dauern…"
 
 #: qml/Wizard/Pages/79-system-update.qml:116
 msgid "Install and restart now"
@@ -848,15 +848,15 @@ msgstr "PIN wählen"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:127
 msgid "Passcode too short"
-msgstr "PIN zu kurz"
+msgstr "PIN ist zu kurz"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:129
 msgid "Passcodes match"
-msgstr "PINs stimmen überein"
+msgstr "PIN-Codes stimmen überein"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:131
 msgid "Passcodes do not match"
-msgstr "PINs stimmen nicht überein"
+msgstr "PIN-Codes stimmen nicht überein"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
@@ -864,7 +864,7 @@ msgstr "PIN muss 4 Ziffern lang sein"
 
 #: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
-msgstr "Sperrbildschirmpasswort"
+msgstr "Passwort für Sperrbildschirm"
 
 #: qml/Wizard/Pages/password-set.qml:62
 msgid "Enter at least 8 characters"
@@ -897,7 +897,7 @@ msgstr "Neustarten"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
-msgstr "Anrufe oder SMS-Nachrichten sind ohne eine SIM-Karte nicht möglich."
+msgstr "Anrufe oder SMS-Nachrichten sind ohne SIM-Karte nicht möglich."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
