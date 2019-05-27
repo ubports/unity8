@@ -109,15 +109,8 @@ StyledItem {
             tryCompareFunction( function(){ return drawer.x === 0; }, true );
             tryCompare(launcher, "state", "drawer");
             tryCompare(launcher, "drawerShown", true);
+            tryCompare(drawer, "fullyOpen", true);
             return drawer;
-        }
-
-        function openDrawerAndWait() {
-            // Open the drawer by directly calling on the Launcher, then wait for it to animate in
-            launcher.toggleDrawer(true);
-            waitForRendering(launcher);
-            waitUntilTransitionsEnd(launcher);
-            return findChild(launcher, "drawer");
         }
 
         function revealByEdgePush() {
@@ -247,7 +240,7 @@ StyledItem {
             typeString("cam");
             keyClick(Qt.Key_Enter);
 
-            compare(launcher.lastSelectedApplication, "camera-app");
+            tryCompare(launcher, "lastSelectedApplication", "camera-app");
             waitForRendering(launcher);
             tryCompare(launcher, "drawerShown", false);
         }
@@ -281,25 +274,22 @@ StyledItem {
             tryCompareFunction(function() { return !!searchField }, true);
             tryCompare(searchField, "selectedText", searchField.displayText);
             typeString("cam");
-            tryCompareFunction(function() { return searchField.displayText }, "cam");
+            tryCompare(searchField, "displayText", "cam");
 
             // Try again to make sure it cleaned and everything
             keyClick(Qt.Key_Escape);
-            waitForRendering(launcher);
-            waitUntilTransitionsEnd(launcher);
-            launcher.toggleDrawer(true);
-            waitForRendering(launcher);
-            waitUntilTransitionsEnd(launcher);
+            tryCompare(drawer, "fullyClosed", true);
+            dragDrawerIntoView();
 
-            tryCompare(searchField, "selectedText", searchField.displayText);
+            tryCompare(searchField, "displayText", "");
             typeString("terminal");
-            tryCompareFunction(function() { return searchField.displayText }, "terminal");
+            tryCompare(searchField, "displayText", "terminal");
 
         }
 
         function test_kbdSearch() {
             // Try out the keyboard navigation for the search field
-            var drawer = openDrawerAndWait();
+            var drawer = dragDrawerIntoView();
             var searchField = findChild(drawer, "searchField");
 
             tryCompare(searchField, "focus", false);
@@ -309,13 +299,13 @@ StyledItem {
             tryCompare(searchField, "focus", false);
 
             // Make sure the focus doesn't get put back when reopening
-            openDrawerAndWait();
+            dragDrawerIntoView();
             tryCompare(searchField, "focus", false);
         }
 
         function test_kbdGrid() {
             // Try out the keyboard navigation around the grid
-            var drawer = openDrawerAndWait();
+            var drawer = dragDrawerIntoView();
             var searchField = findChild(drawer, "searchField");
             var appList = findChild(drawer, "drawerAppList");
 
@@ -337,7 +327,7 @@ StyledItem {
 
         function test_kbdFocusMoves() {
             // Make sure keyboard focus can move between the search field and grid
-            var drawer = openDrawerAndWait();
+            var drawer = dragDrawerIntoView();
             var searchField = findChild(drawer, "searchField");
             var appList = findChild(drawer, "drawerAppList");
 
@@ -354,7 +344,7 @@ StyledItem {
         }
 
         function test_focusAppFromLauncherWhileDrawerIsOpen() {
-            openDrawerAndWait();
+            dragDrawerIntoView();
             var appIcon = findChild(launcher, "launcherDelegate4")
 
             mouseMove(appIcon, appIcon.width / 2, appIcon.height / 2);
@@ -385,7 +375,7 @@ StyledItem {
         }
 
         function test_closeWhileDragging() {
-            var drawer = openDrawerAndWait();
+            var drawer = dragDrawerIntoView();
             var handle = findChild(drawer, "drawerHandle");
             tryCompare(drawer.anchors, "rightMargin", -drawer.width);
 
