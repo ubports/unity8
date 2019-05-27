@@ -459,9 +459,11 @@ Rectangle {
 
             var numbersGrid = findChild(lockscreen, "numbersGrid");
             // Make sure the numbers pad keeps a 4gu margin on left/right but doesn't grow larger than 50 gu's width.
-            // For rounding reasons it might be off 1 pixel. Let's make sure it's within +/- 1 pixel of what we expect
-            verify(numbersGrid.width >= Math.min(units.gu(50), data.width - units.gu(8)) - 1);
-            verify(numbersGrid.width <= Math.min(units.gu(50), data.width - units.gu(8)) + 1);
+            // For rounding reasons it might be off 2 pixels. Let's make sure it's within +/- 2 pixels of what we expect
+            var idealWidth = Math.min(units.gu(50), data.width - units.gu(8));
+            tryVerify(function() {
+                return (idealWidth - 2) <= numbersGrid.width <= (idealWidth + 2);
+            }, 5000, "numbersGrid's width of " + numbersGrid.width + " is within 2 pixels of " + idealWidth);
         }
     }
 
