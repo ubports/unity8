@@ -311,7 +311,7 @@ Rectangle {
             tryCompare(listView, "contentY", -listView.topMargin, 5000, "Launcher did not start up with first item unfolded");
 
             // Now do check that snapping is in fact enabled
-            compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
+            tryCompare(listView, "snapMode", ListView.SnapToItem, 5000, "Snapping is not enabled");
 
             removeTimeConstraintsFromSwipeAreas(root);
 
@@ -533,7 +533,7 @@ Rectangle {
                 launcherListView.moveToIndex(i);
                 waitForRendering(launcherListView);
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
-                compare(findChild(delegate, "countEmblem").visible, LauncherModel.get(i).countVisible)
+                tryCompare(findChild(delegate, "countEmblem"), "visible", LauncherModel.get(i).countVisible);
                 // Intentionally allow type coercion (string/number)
                 compare(findChild(delegate, "countLabel").text == LauncherModel.get(i).count, true)
             }
@@ -549,7 +549,7 @@ Rectangle {
                 tryCompare(moveAnimation, "running", false);
 
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
-                compare(findChild(delegate, "progressOverlay").visible, LauncherModel.get(i).progress >= 0)
+                tryCompare(findChild(delegate, "progressOverlay"), "visible", LauncherModel.get(i).progress >= 0);
             }
         }
 
@@ -563,7 +563,7 @@ Rectangle {
                 waitForRendering(launcherListView);
                 tryCompare(moveAnimation, "running", false);
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
-                compare(findChild(delegate, "focusedHighlight").visible, LauncherModel.get(i).focused)
+                tryCompare(findChild(delegate, "focusedHighlight"), "visible", LauncherModel.get(i).focused);
             }
         }
 
@@ -704,9 +704,8 @@ Rectangle {
                     tryCompare(draggedItem, "height", units.gu(1))
                 }
 
-                waitForRendering(draggedItem)
-                compare(LauncherModel.get(4).appId, item3)
-                compare(LauncherModel.get(3).appId, item4)
+                tryCompare(LauncherModel.get(4), "appId", item3);
+                tryCompare(LauncherModel.get(3), "appId", item4);
             }
 
             // Releasing and checking if initial values are restored
@@ -858,10 +857,8 @@ Rectangle {
 
             tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 1)
             tryCompare(draggedItem, "height", units.gu(1))
-
-            waitForRendering(draggedItem)
-            compare(LauncherModel.get(4).appId, item3)
-            compare(LauncherModel.get(3).appId, item4)
+            tryCompare(LauncherModel.get(4), "appId", item3);
+            tryCompare(LauncherModel.get(3), "appId", item4);
 
             // Releasing and checking if initial values are restored
             mouseRelease(launcher)
@@ -905,7 +902,7 @@ Rectangle {
             clickThroughTester.pressCount = 0;
             mouseClick(root, root.width / 2, units.gu(1));
             waitUntilLauncherDisappears();
-            verify(launcher.state == "");
+            tryCompare(launcher, "state", "");
             compare(clickThroughTester.pressCount, 1);
 
             // and repeat, as a test for regression in lpbug#1531339
@@ -914,7 +911,7 @@ Rectangle {
             clickThroughTester.pressCount = 0;
             mouseClick(root, root.width / 2, units.gu(1));
             waitUntilLauncherDisappears();
-            verify(launcher.state == "");
+            tryCompare(launcher, "state", "");
             compare(clickThroughTester.pressCount, 1);
         }
 
@@ -944,8 +941,8 @@ Rectangle {
             tryCompare(quickListShape, "opacity", 0.95);
             mouseRelease(draggedItem);
 
-            verify(quickList.y >= units.gu(1));
-            verify(quickList.y + quickList.height + units.gu(1) <= launcher.height);
+            tryVerify(function() {return (quickList.y >= units.gu(1))});
+            tryVerify(function() {return (quickList.y + quickList.height + units.gu(1) <= launcher.height)});
             compare(quickList.width, units.gu(30));
 
             // Click somewhere in the empty space to dismiss the quicklist
@@ -990,14 +987,14 @@ Rectangle {
                 // QuickList needs to be closed when some clickable item is clicked
                 tryCompare(quickListShape, "visible", false)
 
-                compare(signalSpy.count, 1, "Quicklist signal wasn't triggered")
-                compare(signalSpy.signalArguments[0][0], LauncherModel.get(5).appId)
+                tryCompare(signalSpy, "count", 1, 5000, "Quicklist signal wasn't triggered");
+                compare(signalSpy.signalArguments[0][0], LauncherModel.get(5).appId);
                 compare(signalSpy.signalArguments[0][1], 2)
 
             } else {
 
                 // QuickList must not be closed when a non-clickable item is clicked
-                verify(quickListShape.visible, "QuickList must be visible")
+                tryCompare(quickListShape, "visible", true, 5000, "QuickList must be visible");
 
                 compare(signalSpy.count, 0, "Quicklist signal must NOT be triggered when clicking a non-clickable item")
 
@@ -1052,13 +1049,13 @@ Rectangle {
             verify(!!panel);
 
             revealByEdgePush();
-            compare(launcher.state, "visibleTemporary");
+            tryCompare(launcher, "state", "visibleTemporary");
 
             // Now move the mouse away and make sure it hides in less than a second
             mouseMove(root, root.width, root.height / 2)
 
             // trigger the hide timer
-            compare(fakeDismissTimer.running, true);
+            tryCompare(fakeDismissTimer, "running", true);
             fakeDismissTimer.triggered();
             tryCompare(panel, "x", 0);
 
@@ -1069,11 +1066,12 @@ Rectangle {
         function test_progressChangeViaModel() {
             dragLauncherIntoView();
             var item = findChild(launcher, "launcherDelegate0")
+            var progress = findChild(item, "progressOverlay");
             verify(item != undefined)
             LauncherModel.setProgress(LauncherModel.get(0).appId, -1)
-            compare(findChild(item, "progressOverlay").visible, false)
+            tryCompare(progress, "visible", false);
             LauncherModel.setProgress(LauncherModel.get(0).appId, 20)
-            compare(findChild(item, "progressOverlay").visible, true)
+            tryCompare(progress, "visible", true);
             LauncherModel.setProgress(LauncherModel.get(0).appId, 0)
         }
 
@@ -1101,7 +1099,7 @@ Rectangle {
 
         function test_alertIgnoreFocusedApp() {
             LauncherModel.setAlerting(LauncherModel.get(0).appId, true)
-            compare(LauncherModel.get(0).alerting, false, "Focused app should not have the alert-state set")
+            compare(LauncherModel.get(0).alerting, false, "Focused app should not have the alert-state set");
         }
 
         function test_alertOnlyOnePeekingIcon() {
@@ -1291,7 +1289,7 @@ Rectangle {
             keyClick(Qt.Key_Down); // Down to quicklist item 3
             keyClick(Qt.Key_Enter); // Trigger it
 
-            compare(signalSpy.count, 1, "Quicklist signal wasn't triggered")
+            tryCompare(signalSpy, "count", 1, 5000, "Quicklist signal wasn't triggered");
             compare(signalSpy.signalArguments[0][0], LauncherModel.get(1).appId)
             compare(signalSpy.signalArguments[0][1], 3)
             assertFocusOnIndex(-2);
@@ -1371,7 +1369,7 @@ Rectangle {
 
                 var delegate = findChild(launcher, "launcherDelegate" + i);
                 var surfacePipRepeater = findInvisibleChild(delegate, "surfacePipRepeater");
-                compare(surfacePipRepeater.model, Math.min(3, LauncherModel.get(i).surfaceCount))
+                tryCompare(surfacePipRepeater, "model", Math.min(3, LauncherModel.get(i).surfaceCount));
             }
         }
 
@@ -1484,15 +1482,13 @@ Rectangle {
 
             dragLauncherIntoView();
             var launcherPanel = findChild(launcher, "launcherPanel");
-            compare(launcherPanel.x, 0);
-
-            launcher.available = true;
+            tryCompare(launcherPanel, "x", 0);
         }
 
         function test_launcherDisabledSetting() {
             launcher.available = false;
 
-            //We don't actually care that it's visible, so juct use dragLauncher() rather than dragLauncherIntoView()
+            //We don't actually care that it's visible, so just use dragLauncher() rather than dragLauncherIntoView()
             dragLauncher();
             var launcherPanel = findChild(launcher, "launcherPanel");
             compare(launcherPanel.x, -launcherPanel.width);
@@ -1507,7 +1503,7 @@ Rectangle {
             mouseMove(root, 1, root.height / 2);
 
             // trigger the hide timer
-            compare(fakeDismissTimer.running, true);
+            tryCompare(fakeDismissTimer, "running", true);
             fakeDismissTimer.triggered();
 
             compare(launcher.state, "visibleTemporary");
@@ -1565,12 +1561,12 @@ Rectangle {
 
             // Open quickList
             mouseClick(clickedItem, clickedItem.width / 2, clickedItem.height / 2, Qt.RightButton)
-            verify(quickList, "state", "open")
-            compare(quickList.selectedIndex, -1)
+            tryCompare(quickList, "state", "open");
+            tryCompare(quickList, "selectedIndex", -1);
 
             var qEntry = findChild(launcher, "quickListEntry0");
             mouseMove(qEntry, qEntry.width / 2    , qEntry.height / 2, 10);
-            mouseMove(qEntry, qEntry.width / 2 + 1, qEntry.height / 2, 10);
+            mouseMove(qEntry, qEntry.width / 2 + 5, qEntry.height / 2, 10);
 
             tryCompare(quickList, "selectedIndex", 0)
 
