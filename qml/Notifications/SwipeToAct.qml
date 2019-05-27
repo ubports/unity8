@@ -150,6 +150,9 @@ Item {
             anchors.margins: priv.gap
             x: priv.halfWay
 
+            // Used by the tests to determine when the slider is ready to move
+            readonly property bool atRest: ((x === priv.halfWay) && (!mouseArea.dragging) && (!sliderXAnimation.running))
+
             Component.onCompleted: {
                 xBehavior.enabled = true
             }
@@ -158,6 +161,7 @@ Item {
                 id: xBehavior
                 enabled: false
                 UbuntuNumberAnimation {
+                    id: sliderXAnimation
                     duration: UbuntuAnimation.FastDuration
                     easing.type: Easing.OutBounce
                 }

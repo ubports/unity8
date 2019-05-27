@@ -282,6 +282,8 @@ Item {
                         var x = swipeMouseArea.width / 2
                         var y = swipeMouseArea.height / 2
 
+                        tryCompare(slider, "atRest", true);
+
                         if(data.checkSwipeToActAccept) {
                             mouseDrag(slider, x, y, (swipeMouseArea.width / 2) - slider.width, 0);
                             actionSpy.wait();
