@@ -62,7 +62,7 @@ Rectangle {
 
             var averageIconWidth = rating.width / rating.size;
             mouseClick(rating, averageIconWidth * data.index + averageIconWidth / 2, rating.height / 2);
-            compare(rating.value, data.value);
+            tryCompare(rating, "value", data.value);
 
             rating.interactive = false;
         }

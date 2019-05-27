@@ -359,10 +359,10 @@ Item {
             verify(delegateB);
 
             // A is focused and running, B is unfocused and suspended
-            compare(delegateA.focus, true);
-            compare(delegateA.application.requestedState, ApplicationInfoInterface.RequestedRunning);
-            compare(delegateB.focus, false);
-            compare(delegateB.application.requestedState, ApplicationInfoInterface.RequestedSuspended);
+            tryCompare(delegateA, "focus", true);
+            tryCompare(delegateA.application, "requestedState", ApplicationInfoInterface.RequestedRunning);
+            tryCompare(delegateB, "focus", false);
+            tryCompare(delegateB.application, "requestedState", ApplicationInfoInterface.RequestedSuspended);
 
             // Switch foreground/focused appp from A to B
             performEdgeSwipeToShowAppSpread();
@@ -382,8 +382,8 @@ Item {
             var delegate = findChild(stage, "appDelegate_" + topLevelSurfaceList.idAt(0));
             verify(delegate);
 
-            compare(delegate.focus, true);
-            compare(delegate.application.requestedState, ApplicationInfoInterface.RequestedRunning);
+            tryCompare(delegate, "focus", true);
+            tryCompare(delegate.application, "requestedState", ApplicationInfoInterface.RequestedRunning);
 
             stage.suspended = true;
 
@@ -398,9 +398,9 @@ Item {
             addApps(1);
             // When progress goes to 1 it should switch to spread, but stay there even if progress goes back
             stage.rightEdgePushProgress = 1;
-            compare(stage.state, "spread");
+            tryCompare(stage, "state", "spread");
             stage.rightEdgePushProgress = 0;
-            compare(stage.state, "spread");
+            tryCompare(stage, "state", "spread");
         }
 
         function test_closeSurfaceOfMultiSurfaceApp() {
@@ -494,7 +494,7 @@ Item {
             tryCompareFunction(function(){return topLevelSurfaceList.idAt(0);}, webbrowserSurfaceId);
 
             // and it should eventually get a new surface and get resumed
-            tryCompareFunction(function(){return topLevelSurfaceList.surfaceAt(0) !== null;}, true);
+            tryVerify(function(){return topLevelSurfaceList.surfaceAt(0)});
             compare(topLevelSurfaceList.count, 2); // still two top-level items
             tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Running);
             compare(webbrowserApp.surfaceList.count, 1);

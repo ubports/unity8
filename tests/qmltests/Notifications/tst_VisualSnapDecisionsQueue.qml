@@ -210,9 +210,9 @@ Row {
                 mouseClick(snap_decision[index])
                 for (var kindex = 0; kindex < snap_decision.length; kindex++) {
                     if (kindex == index) {
-                        compare(snap_decision[kindex].expanded, true, "state of "+ kindex + ".snap-decision is not expanded");
+                        tryCompare(snap_decision[kindex], "expanded", true, 5000, "state of "+ kindex + ".snap-decision is not expanded");
                     } else {
-                        compare(snap_decision[kindex].expanded, false, "state of "+ kindex + ".snap-decision is not contracted");
+                        tryCompare(snap_decision[kindex], "expanded", false, 5000, "state of "+ kindex + ".snap-decision is not contracted");
                     }
                 }
             }
@@ -225,7 +225,7 @@ Row {
 
             for (var index = 1; index < snap_decision.length; index++) {
                 removeTopMostNotification();
-                compare(snap_decision[index].expanded, true, "state of " + index + ". snap-decision is not expanded");
+                tryCompare(snap_decision[index], "expanded", true, 5000, "state of " + index + ". snap-decision is not expanded");
             }
         }
     }

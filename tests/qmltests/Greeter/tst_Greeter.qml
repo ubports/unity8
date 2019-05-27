@@ -185,7 +185,7 @@ Item {
 
         function verifySelected(name) {
             var i = getIndexOf(name);
-            compare(view.currentIndex, i);
+            tryCompare(view, "currentIndex", i);
             compare(AccountsService.user, name);
             if (name[0] === "*") // custom rows have no authenticationUser set
                 compare(LightDM.Greeter.authenticationUser, "");
@@ -284,19 +284,19 @@ Item {
         function test_fullyShown() {
             compare(greeter.fullyShown, true);
             view.hide();
-            compare(greeter.fullyShown, false);
+            tryCompare(greeter, "fullyShown", false);
         }
 
         function test_alphanumeric() {
             selectUser("has-password");
-            compare(view.alphanumeric, true);
+            tryCompare(view, "alphanumeric", true);
             selectUser("has-pin");
-            compare(view.alphanumeric, false);
+            tryCompare(view, "alphanumeric", false);
         }
 
         function test_background() {
             greeter.background = "testing";
-            compare(view.background, Qt.resolvedUrl("testing"));
+            tryCompare(view, "background", Qt.resolvedUrl("testing"));
         }
 
         function test_hasCustomBackground() {
@@ -307,12 +307,12 @@ Item {
 
         function test_notifyAboutToFocusApp() {
             greeter.notifyUserRequestedApp("fake-app");
-            compare(viewTryToUnlockSpy.count, 1);
+            viewTryToUnlockSpy.wait();
             compare(viewTryToUnlockSpy.signalArguments[0][0], false);
         }
 
         function test_notifyShowingDashFromDrag() {
-            compare(greeter.notifyShowingDashFromDrag("fake-app"), true);
+            verify(greeter.notifyShowingDashFromDrag("fake-app"));
             compare(viewTryToUnlockSpy.count, 1);
             compare(viewTryToUnlockSpy.signalArguments[0][0], true);
         }
@@ -456,16 +456,16 @@ Item {
         function test_dbusHideGreeter() {
             compare(view.required, true);
             LightDM.Greeter.hideGreeter();
-            compare(view.required, false);
+            tryCompare(view, "required", false);
             compare(greeter.required, false);
         }
 
         function test_dbusShowGreeterFromHiddenState() {
             greeter.hide();
-            compare(greeter.required, false);
+            tryCompare(greeter, "required", false);
 
             LightDM.Greeter.showGreeter();
-            compare(greeter.required, true);
+            tryCompare(greeter, "required", true);
             compare(greeter.fullyShown, true);
             view = findChild(greeter, "testView");
             compare(view.required, true);
@@ -480,7 +480,7 @@ Item {
 
             compare(viewForceShowSpy.count, 0);
             LightDM.Greeter.showGreeter();
-            compare(viewForceShowSpy.count, 1);
+            viewForceShowSpy.wait();
         }
 
         function test_selectUserHint() {
@@ -554,7 +554,7 @@ Item {
             verify(biometryd.operation.running);
 
             biometryd.operation.mockSuccess(LightDM.Users.data(index, LightDM.UserRoles.UidRole));
-            compare(viewTryToUnlockSpy.count, 1);
+            viewTryToUnlockSpy.wait();
             verify(greeter.locked);
         }
 
@@ -579,7 +579,7 @@ Item {
             verify(biometryd.operation.running);
 
             biometryd.operation.mockFailure("error");
-            compare(viewShowErrorMessageSpy.count, 1);
+            viewShowErrorMessageSpy.wait();
             compare(viewShowErrorMessageSpy.signalArguments[0][0], i18n.tr("Try again"));
         }
 
@@ -593,16 +593,17 @@ Item {
             compare(viewTryToUnlockSpy.count, 0);
 
             biometryd.operation.mockFailure("error");
-            compare(viewTryToUnlockSpy.count, 1);
+            viewTryToUnlockSpy.wait();
+            viewTryToUnlockSpy.clear();
 
             // Confirm that we are stuck in this mode until next login
             biometryd.operation.mockSuccess(LightDM.Users.data(index, LightDM.UserRoles.UidRole));
-            compare(viewTryToUnlockSpy.count, 2);
+            viewTryToUnlockSpy.wait();
 
             unlockAndShowGreeter();
 
             biometryd.operation.mockSuccess(LightDM.Users.data(index, LightDM.UserRoles.UidRole));
-            verify(!greeter.active);
+            tryCompare(greeter, "active", false);
         }
 
         function test_fingerprintFailureCountReset() {
@@ -620,7 +621,7 @@ Item {
             compare(viewTryToUnlockSpy.count, 0);
 
             biometryd.operation.mockFailure("error");
-            compare(viewTryToUnlockSpy.count, 1);
+            viewTryToUnlockSpy.wait();
         }
 
         function test_fingerprintWrongUid() {
@@ -631,7 +632,7 @@ Item {
             biometryd.operation.mockSuccess(0);
 
             verify(greeter.active);
-            compare(viewShowErrorMessageSpy.count, 1);
+            viewShowErrorMessageSpy.wait();
             compare(viewShowErrorMessageSpy.signalArguments[0][0], i18n.tr("Try again"));
         }
 

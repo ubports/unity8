@@ -311,7 +311,7 @@ Item {
             var pages = findChild(wizard, "wizardPages");
             var security = findInvisibleChild(pages, "securityPrivacy");
             security.setSecurity("", "", UbuntuSecurityPrivacyPanel.Passphrase);
-            compare(security.securityType, UbuntuSecurityPrivacyPanel.Passphrase);
+            tryCompare(security, "securityType", UbuntuSecurityPrivacyPanel.Passphrase);
 
             // Make sure that moving from sim page lands on wifi page
             tap(findChild(page, "forwardButton"));
@@ -346,7 +346,7 @@ Item {
 
             enterPasscode("1112");
             var error = findChild(page, "wrongNoticeLabel");
-            tryCompareFunction(function() { return error.text !== ""; }, true);
+            tryVerify(function() { return error.text !== ""; });
 
             enterPasscode("1111");
 
@@ -355,7 +355,7 @@ Item {
             waitUntilTransitionsEnd(page);
             tap(findChild(page, "finishButton"));
 
-            tryCompare(setSecuritySpy, "count", 1);
+            setSecuritySpy.wait();
             compare(setSecuritySpy.signalArguments[0][0], "");
             compare(setSecuritySpy.signalArguments[0][1], "1111");
             compare(setSecuritySpy.signalArguments[0][2], UbuntuSecurityPrivacyPanel.Passcode);
@@ -393,7 +393,7 @@ Item {
             waitUntilTransitionsEnd(page);
             tap(findChild(page, "finishButton"));
 
-            tryCompare(setSecuritySpy, "count", 1);
+            setSecuritySpy.wait();
             compare(setSecuritySpy.signalArguments[0][0], "");
             compare(setSecuritySpy.signalArguments[0][1], "12345678");
             compare(setSecuritySpy.signalArguments[0][2], UbuntuSecurityPrivacyPanel.Passphrase);
@@ -433,7 +433,7 @@ Item {
 
             // go next and verify the (mock) signal got fired
             tap(findChild(page, "forwardButton"));
-            tryCompare(timezoneSpy, "count", 1);
+            timezoneSpy.wait();
             compare(timezoneSpy.signalArguments[0][0], "Europe/London");
             compare(timezoneSpy.signalArguments[0][1], "Belfast");
         }
@@ -444,7 +444,7 @@ Item {
             SystemImage.updateAvailable = true;
             SystemImage.targetBuildNumber = 42;
             SystemImage.updateDownloaded();
-            compare(updateDownloadedSpy.count, 1);
+            updateDownloadedSpy.wait();
 
             var page = goToPage("systemUpdatePage");
             var updateButton = findChild(page, "installButton");
@@ -452,8 +452,8 @@ Item {
             compare(skipUntilFinishedSpy.count, 0);
             compare(applyUpdateSpy.count, 0);
             tap(updateButton);
-            compare(skipUntilFinishedSpy.count, 1);
-            compare(applyUpdateSpy.count, 1);
+            skipUntilFinishedSpy.wait();
+            applyUpdateSpy.wait();
         }
 
         function test_accountPage() {
@@ -472,14 +472,12 @@ Item {
             var langSelector = findChild(page, "langSelector");
             verify(langSelector);
             langSelector.selectedIndex = 1; // should be fr_FR
-            print("Selected language:", page.selectedLanguage);
 
             // pick some layout
             var kbdDelegate = findChild(page, "kbdDelegate1");
             verify(kbdDelegate);
             mouseClick(kbdDelegate);
             verify(kbdDelegate.isCurrent);
-            print("Selected keymap:", page.selectedKeymap);
 
             // verify the keymapsChanged signal got fired
             tap(findChild(page, "forwardButton"));

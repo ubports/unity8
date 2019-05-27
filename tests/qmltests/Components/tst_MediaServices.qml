@@ -151,10 +151,10 @@ Rectangle {
 
             var mediaPlayer = findInvisibleChild(services, "mediaPlayer");
             verify(mediaPlayer !== null);
-            compare(mediaPlayer.playbackState, MediaPlayer.PlayingState, "Media player should be playing");
+            tryCompare(mediaPlayer, "playbackState", MediaPlayer.PlayingState, 5000, "Media player should be playing");
 
             tap(videoPlayer, videoPlayer.width/2, videoPlayer.height/2);
-            compare(mediaPlayer.playbackState, MediaPlayer.PausedState, "Media player should be playing");
+            tryCompare(mediaPlayer, "playbackState", MediaPlayer.PausedState, 5000, "Media player should be paused");
         }
 
         function test_fullscreenSwitch() {
@@ -167,7 +167,7 @@ Rectangle {
             verify(button !== null);
             tap(button);
 
-            compare(services.fullscreen, true, "Should have switched to fullscreen mode.");
+            tryCompare(services, "fullscreen", true, 5000, "Should have switched to fullscreen mode.");
         }
 
         function test_HeaderVisibleOnlyWhenFullscreen() {
@@ -200,6 +200,7 @@ Rectangle {
             var mediaPlayer = findInvisibleChild(services, "mediaPlayer");
             mediaPlayer.play();
             mediaPlayer.pause();
+            // Purposefully wait for when controls would normally time out
             wait(300);
 
             compare(services.header.visible, true, "Header should still be visible");
@@ -217,7 +218,7 @@ Rectangle {
             verify(navigationButton !== null);
 
             tap(navigationButton);
-            compare(serviceCloseSpy.count, 1, "close was not called");
+            serviceCloseSpy.wait();
         }
 
         function test_maximumVideoSize() {

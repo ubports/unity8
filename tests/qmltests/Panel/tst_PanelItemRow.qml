@@ -255,13 +255,13 @@ PanelTest {
             var toPosition = indicatorsRow.mapFromItem(toItem, toItem.width/2, toItem.height/2);
 
             mousePress(indicatorsRow, fromPosition.x, fromPosition.y);
-            compare(indicatorsRow.currentItem, fromItem, "Initial item not selected");
+            tryCompare(indicatorsRow, "currentItem", fromItem, 5000, "Initial item not selected");
 
             // this uses the MouseArea above to change the indicatorRow lateralPosition
             mouseFlick(indicatorsRow, fromPosition.x, fromPosition.y, toPosition.x, toPosition.y, false, false, units.gu(5), 30);
 
             mouseRelease(indicatorsRow, fromPosition.x, fromPosition.y);
-            compare(indicatorsRow.currentItem, toItem, "Current item did not change to expected item");
+            tryCompare(indicatorsRow, "currentItem", toItem, 5000, "Current item did not change to expected item");
         }
 
         // testing that positive changes to the lateral position offset shifts the highlight offset to the right

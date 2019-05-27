@@ -977,13 +977,13 @@ Rectangle {
 
             var loginList = findChild(view, "loginList");
 
-            compare(view.sessionToStart, greeter.sessionToStart());
+            tryCompare(view, "sessionToStart", greeter.sessionToStart());
 
             // Ensure another session can actually be selected
             compare(LightDMController.numSessions > 1, true);
             loginList.currentSession = LightDM.Sessions.data(1, LightDM.SessionRoles.KeyRole);
 
-            compare(view.sessionToStart, greeter.sessionToStart());
+            tryCompare(view, "sessionToStart", greeter.sessionToStart());
 
         }
 
@@ -1158,7 +1158,7 @@ Rectangle {
             compare(sessionSpy.count, 0);
 
             swipeAwayGreeter();
-            compare(sessionSpy.count, 1);
+            sessionSpy.wait();
         }
 
         function test_fullscreen() {
@@ -1194,6 +1194,7 @@ Rectangle {
 
             touchFlick(shell, touchStartX, touchStartY, units.gu(2), touchStartY, true, false);
 
+            // We did NOT leave fullscreen
             compare(panel.fullscreenMode, true);
 
             touchFlick(shell, units.gu(2), touchStartY, shell.width * 0.5, touchStartY, false, false);
@@ -1235,7 +1236,7 @@ Rectangle {
             wizard.hide();
             tryCompare(wizard, "active", false);
             compare(Wizard.System.wizardEnabled, false);
-            compare(unlockAllModemsSpy.count, 1);
+            unlockAllModemsSpy.wait();
         }
 
         function test_wizardEarlyExit() {
@@ -1509,7 +1510,7 @@ Rectangle {
             shell.usageScenario = data.usageScenario;
 
             var launcher = findChild(shell, "launcher");
-            compare(launcher.inverted, data.launcherInverted);
+            tryCompare(launcher, "inverted", data.launcherInverted);
         }
 
         function test_unfocusedAppsGetSuspendedAfterEnteringStagedMode() {
@@ -1750,6 +1751,7 @@ Rectangle {
 
             // Close the app using the close button
             // The button doesn't appear until the mouse is over the surface
+            mouseMove(closeMouseArea, closeMouseArea.width / 2 + 1, closeMouseArea.height / 2, 10);
             mouseMove(closeMouseArea, closeMouseArea.width / 2, closeMouseArea.height / 2, 10);
             tryCompare(closeMouseArea, "visible", true);
             mouseClick(closeMouseArea, closeMouseArea.width / 2, closeMouseArea.height / 2);
@@ -1819,7 +1821,7 @@ Rectangle {
             var spreadFlickable = findChild(shell, "spreadFlickable");
             waitForRendering(spreadFlickable);
 
-            compare(spreadFlickable.contentX, 0);
+            tryCompare(spreadFlickable, "contentX", 0);
 
             // Move the mouse to the right and make sure it scrolls the Flickable
             var shellLeft = launcherPanel.width + 5;
@@ -1977,7 +1979,7 @@ Rectangle {
             mousePress(appDelegate, appDelegate.width / 2, units.gu(1))
             mouseMove(appDelegate, appDelegate.width / 2, -units.gu(100))
 
-            compare(appDelegate.y >= PanelState.panelHeight, true);
+            tryVerify(function() {return (appDelegate.y >= PanelState.panelHeight)});
         }
 
         function test_cantResizeWindowUnderPanel() {
@@ -2005,7 +2007,7 @@ Rectangle {
             mouseMove(decoration, decoration.width/2, -units.gu(100));
 
             // verify we don't go past the panel
-            compare(appDelegate.y >= PanelState.panelHeight, true);
+            tryVerify(function() {return (appDelegate.y >= PanelState.panelHeight)});
         }
 
         function test_restoreWindowStateFixesIfUnderPanel() {
@@ -2029,7 +2031,7 @@ Rectangle {
             tryCompareFunction(function () { return topLevelSurfaceList.applicationAt(0).appId; }, application.appId);
 
             appDelegate = appRepeater.itemAt(0);
-            compare(appDelegate.y >= PanelState.panelHeight, true);
+            tryVerify(function() {return (appDelegate.y >= PanelState.panelHeight)});
         }
 
         function test_lifecyclePolicyForNonTouchApp_data() {
@@ -2151,7 +2153,11 @@ Rectangle {
 
             // The popup must appear now, unless in "tablet" mode
             popup = findChild(root, "modeSwitchWarningDialog");
-            compare(popup !== null, !data.tabletMode);
+            if (data.tabletMode) {
+                verify(!popup);
+            } else {
+                verify(popup);
+            }
 
             if (data.replug || data.tabletMode) {
                 shell.usageScenario = "desktop"
@@ -2168,10 +2174,10 @@ Rectangle {
 
             if (data.replug || data.tabletMode) {
                 // Libreoffice must still be running
-                compare(ApplicationManager.findApplication("libreoffice") !== null, true);
+                tryVerify(function() {return ApplicationManager.findApplication("libreoffice")});
             } else {
                 // Libreoffice must be gone now (or soon at least)
-                tryCompareFunction(function() { return ApplicationManager.findApplication("libreoffice") === null}, true);
+                tryVerify(function() {return !ApplicationManager.findApplication("libreoffice")});
             }
         }
 
@@ -2193,7 +2199,7 @@ Rectangle {
             var launcher = findChild(shell, "launcher");
             var launcherPanel = findChild(launcher, "launcherPanel");
             var firstAppInLauncher = LauncherModel.get(0).appId;
-            compare(launcher.state, data.launcherLocked ? "visible": "");
+            tryCompare(launcher, "state", data.launcherLocked ? "visible": "");
             compare(launcherPanel.highlightIndex, -2);
 
             // Use Super + Tab Tab to cycle to the first entry in the launcher
@@ -2354,20 +2360,20 @@ Rectangle {
             verify(topmostSurfaceItem);
 
             mouseClick(shell, 1, shell.height / 2);
-            compare(topmostSurfaceItem.mousePressCount, 1);
-            compare(topmostSurfaceItem.mouseReleaseCount, 1);
+            tryCompare(topmostSurfaceItem, "mousePressCount", 1);
+            tryCompare(topmostSurfaceItem, "mouseReleaseCount", 1);
 
             mouseClick(shell, shell.width - 1, shell.height / 2);
-            compare(topmostSurfaceItem.mousePressCount, 2);
-            compare(topmostSurfaceItem.mouseReleaseCount, 2);
+            tryCompare(topmostSurfaceItem, "mousePressCount", 2);
+            tryCompare(topmostSurfaceItem, "mouseReleaseCount", 2);
 
             tap(shell, 1, shell.height / 2);
-            compare(topmostSurfaceItem.touchPressCount, 1);
-            compare(topmostSurfaceItem.touchReleaseCount, 1);
+            tryCompare(topmostSurfaceItem, "touchPressCount", 1);
+            tryCompare(topmostSurfaceItem, "touchReleaseCount", 1);
 
             tap(shell, shell.width - 1, shell.height / 2);
-            compare(topmostSurfaceItem.touchPressCount, 2);
-            compare(topmostSurfaceItem.touchReleaseCount, 2);
+            tryCompare(topmostSurfaceItem, "touchPressCount", 2);
+            tryCompare(topmostSurfaceItem, "touchReleaseCount", 2);
         }
 
         function test_background_data() {
@@ -2434,7 +2440,7 @@ Rectangle {
             var appIcon = findChild(shell, "launcherDelegate0")
             tap(appIcon);
 
-            tryCompare(broadcastUrlSpy, "count", 1);
+            broadcastUrlSpy.wait();
             compare(broadcastUrlSpy.signalArguments[0][0], "application:///" + appIcon.appId + ".desktop");
             compare(ApplicationManager.count, 0); // confirm no app is open, we didn't start new app
 
@@ -2457,7 +2463,7 @@ Rectangle {
             dragLauncherIntoView();
             tap(findChild(shell, "buttonShowDashHome"));
 
-            tryCompare(broadcastHomeSpy, "count", 1);
+            broadcastHomeSpy.wait();
             compare(topLevelSurfaceList.applicationAt(0).appId, "gallery-app"); // confirm we didn't raise dash
 
             var coverPage = findChild(shell, "coverPage");
@@ -2475,7 +2481,7 @@ Rectangle {
             verify(urlDispatcher.active);
             urlDispatcher.urlRequested("test:"); // force signal emission
 
-            tryCompare(broadcastUrlSpy, "count", 1);
+            broadcastUrlSpy.wait();
             compare(broadcastUrlSpy.signalArguments[0][0], "test:");
             compare(ApplicationManager.count, 0); // confirm no app is open, we didn't start new app
 
@@ -2772,7 +2778,7 @@ Rectangle {
             GSettingsController.setEnableLauncher(data.enabled);
 
             var launcher = findChild(shell, "launcher");
-            compare(launcher.available, data.enabled);
+            tryCompare(launcher, "available", data.enabled);
 
             GSettingsController.setEnableLauncher(true);
         }
@@ -2790,7 +2796,7 @@ Rectangle {
             GSettingsController.setEnableIndicatorMenu(data.enabled);
 
             var panel = findChild(shell, "panel");
-            compare(panel.indicators.available, data.enabled);
+            tryCompare(panel.indicators, "available", data.enabled);
 
             GSettingsController.setEnableIndicatorMenu(true);
         }
@@ -2910,7 +2916,7 @@ Rectangle {
 
             var panel = findChild(shell, "panel"); verify(panel);
             var panelTitle = findChild(panel, "panelTitle"); verify(panelTitle);
-            compare(panelTitle.visible, false, "Panel title should not be visible when greeter is shown");
+            tryCompare(panelTitle, "visible", false, 5000, "Panel title should not be visible when greeter is shown");
 
             swipeAwayGreeter();
 
@@ -3097,9 +3103,9 @@ Rectangle {
             var launcher = testCase.findChild(shell, "launcher");
             launcher.lockedVisible = data.lockLauncher;
             if (data.lockLauncher) {
-                compare(panel.applicationMenus.x, launcher.panelWidth);
+                tryCompare(panel.applicationMenus, "x", launcher.panelWidth);
             } else {
-                compare(panel.applicationMenus.x, 0);
+                tryCompare(panel.applicationMenus, "x", 0);
             }
         }
 

@@ -179,7 +179,7 @@ PanelTest {
             touchPress(indicatorsMenu, firstItemMappedPosition.x, indicatorsMenu.minimizedPanelHeight / 2);
 
             indicatorsMenu.height = indicatorsMenu.openedHeight / 2;
-            compare(indicatorsMenu.state, "reveal", "Indicators should be revealing when partially opened.");
+            tryCompare(indicatorsMenu, "state", "reveal", 5000, "Indicators should be revealing when partially opened.");
 
             indicatorsMenu.height = indicatorsMenu.openedHeight;
             compare(indicatorsMenu.state, "reveal", "Indicators should still be revealing when fully opened.");

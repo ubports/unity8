@@ -265,7 +265,7 @@ PanelTest {
 
             // Put the mouse somewhere neutral so it doesn't hover over things
             // and mess up the test
-            mouseMove(root, 0, 100);
+            mouseMove(root, 0, 0);
 
             // Wait for the indicators to get into position.
             // (switches between normal and fullscreen modes are animated)
@@ -285,11 +285,13 @@ PanelTest {
             panel.indicators.hide();
             panel.applicationMenus.hide();
             waitForAllAnimationToComplete("initial");
+            tryCompare(panel.indicators, "fullyClosed", true);
+            tryCompare(panel.applicationMenus, "fullyClosed", true);
         }
 
         function get_indicator_item(index) {
             var indicatorItem = findChild(panel, root.originalModelData[index]["identifier"]+"-panelItem");
-            verify(indicatorItem !== null);
+            verify(indicatorItem);
 
             return indicatorItem;
         }
@@ -305,7 +307,7 @@ PanelTest {
                 var indicatorItem = get_indicator_item(i);
 
                 var itemState = findInvisibleChild(indicatorItem, "indicatorItemState");
-                verify(itemState !== null);
+                verify(itemState);
 
                 waitUntilTransitionsEnd(itemState);
             }
@@ -357,13 +359,13 @@ PanelTest {
             callManager.foregroundCall = data.call;
 
             var panelRow = findChild(panel.indicators, "panelItemRow");
-            verify(panelRow !== null);
+            verify(panelRow);
 
             var menuContent = findChild(panel.indicators, "menuContent");
-            verify(menuContent !== null);
+            verify(menuContent);
 
             var panelArea = findChild(panel, "panelArea");
-            verify(panelArea !== null);
+            verify(panelArea);
 
             // Wait for the indicators to get into position.
             // (switches between normal and fullscreen modes are animated)
@@ -417,10 +419,10 @@ PanelTest {
             callManager.foregroundCall = data.call;
 
             var panelRow = findChild(data.section, "panelItemRow");
-            verify(panelRow !== null);
+            verify(panelRow);
 
             var panelArea = findChild(panel, "panelArea");
-            verify(panelArea !== null);
+            verify(panelArea);
 
             // Wait for the indicators to get into position.
             // (switches between normal and fullscreen modes are animated)
@@ -480,7 +482,7 @@ PanelTest {
             var hintingAnimation = findInvisibleChild(showDragHandle, "hintingAnimation");
             verify(hintingAnimation);
 
-            compare(hintingAnimation.running, data.hintExpected)
+            tryCompare(hintingAnimation, "running", data.hintExpected);
             tryCompare(hintingAnimation, "running", false); // wait till animation completes
 
             // no hint animation when fullscreen
@@ -507,13 +509,13 @@ PanelTest {
             callManager.foregroundCall = data.call;
 
             var panelRow = findChild(panel.indicators, "panelItemRow");
-            verify(panelRow !== null);
+            verify(panelRow);
 
             var menuContent = findChild(panel.indicators, "menuContent");
-            verify(menuContent !== null);
+            verify(menuContent);
 
             var panelArea = findChild(panel, "panelArea");
-            verify(panelArea !== null);
+            verify(panelArea);
 
             // Wait for the indicators to get into position.
             // (switches between normal and fullscreen modes are animated)
@@ -528,7 +530,8 @@ PanelTest {
             // They should be at least half-way through the screen
             tryCompareFunction(
                 function() {return panel.applicationMenus.height >= panel.height * 0.5},
-                true);
+                true
+            );
 
             touchRelease(panel, units.gu(1), panel.height);
 
@@ -562,7 +565,7 @@ PanelTest {
             tryCompare(panel.indicators, "fullyClosed", true);
             compare(backgroundPressedSpy.count, 0);
             tap(panel, touchPosX, touchPosY);
-            compare(backgroundPressedSpy.count, 2);
+            tryCompare(backgroundPressedSpy, "count", 2);
 
             pullDownIndicatorsMenu();
 
@@ -589,7 +592,7 @@ PanelTest {
             // Now that's fully closed, input should go through again
             backgroundPressedSpy.clear();
             tap(panel, touchPosX, touchPosY);
-            compare(backgroundPressedSpy.count, 2);
+            tryCompare(backgroundPressedSpy, "count", 2);
         }
 
         function test_darkenedAreaEatsAllApplicationMenuEvents() {
@@ -605,7 +608,7 @@ PanelTest {
             tryCompare(panel.applicationMenus, "fullyClosed", true);
             compare(backgroundPressedSpy.count, 0);
             tap(panel, touchPosX, touchPosY);
-            compare(backgroundPressedSpy.count, 2);
+            tryCompare(backgroundPressedSpy, "count", 2);
 
             pullDownApplicationsMenu();
 
@@ -632,7 +635,7 @@ PanelTest {
             // Now that's fully closed, input should go through again
             backgroundPressedSpy.clear();
             tap(panel, touchPosX, touchPosY);
-            compare(backgroundPressedSpy.count, 2);
+            tryCompare(backgroundPressedSpy, "count", 2);
         }
 
 
@@ -696,7 +699,7 @@ PanelTest {
                     panel.indicators.width / 2,
                     panel.minimizedPanelHeight / 2);
 
-            compare(panel.indicators.shown, true);
+            tryCompare(panel.indicators, "shown", true);
             tryCompare(panel.indicators, "fullyOpened", true);
 
             var handle = findChild(panel.indicators, "handle");
@@ -704,7 +707,7 @@ PanelTest {
 
             mouseClick(handle);
 
-            compare(panel.indicators.shown, false);
+            tryCompare(panel.indicators, "shown", false);
             tryCompare(panel.indicators, "fullyClosed", true);
         }
 
@@ -718,7 +721,7 @@ PanelTest {
             // click in very topleft corner and verify the close button got clicked too
             mouseMove(panel, 0, 0);
             mouseClick(panel, 0, 0, undefined /*button*/, undefined /*modifiers*/, 100 /*short delay*/);
-            compare(windowControlButtonsSpy.count, 1);
+            windowControlButtonsSpy.wait();
         }
 
         function test_hidingKeyboardIndicator_data() {
@@ -848,7 +851,7 @@ PanelTest {
 
             keyClick(Qt.Key_Right);
             tryCompare(indicatorsBar, "currentItemIndex", 1);
-            compare(aboutToShowCalledSpy.count, 2);
+            tryCompare(aboutToShowCalledSpy, "count", 2);
 
             compare(aboutToShowCalledSpy.signalArguments[0][0], 0);
             compare(aboutToShowCalledSpy.signalArguments[1][0], 1);
@@ -860,7 +863,7 @@ PanelTest {
             aboutToShowCalledSpy.clear();
 
             keyClick(Qt.Key_Enter);
-            compare(aboutToShowCalledSpy.count, 1);
+            aboutToShowCalledSpy.wait();
         }
 
         function test_disabledTopLevel() {

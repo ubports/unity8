@@ -397,9 +397,9 @@ Item {
 
             mouseFlick(root, startDragX, startDragY, startDragX + deltaX, startDragY + deltaY);
 
-            compare(windowRequestedWidthSpy.count, 1);
+            windowRequestedWidthSpy.wait();
             compare(fakeWindow.width, initialWindowWidth + fakeWindow.widthIncrement);
-            compare(windowRequestedHeightSpy.count, 1);
+            windowRequestedHeightSpy.wait();
             compare(fakeWindow.height, initialWindowHeight + fakeWindow.heightIncrement);
         }
 

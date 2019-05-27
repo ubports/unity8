@@ -124,7 +124,7 @@ PanelTest {
 
                 activate_content(menuIndex);
                 testItemObjectName = indicatorsModel.data(menuIndex, Indicators.IndicatorsModelRole.Identifier);
-                compare(listView.currentIndex, menuIndex, "Current tab index does not match selected tab index");
+                tryCompare(listView, "currentIndex", menuIndex, 5000, "Current tab index does not match selected tab index");
                 tryCompareFunction(current_item_equals_test_item, true);
             }
         }
@@ -136,7 +136,7 @@ PanelTest {
 
             for (var i = 0; i < 100; i++) {
                 activate_content(i % menuCount);
-                compare(menuContent.currentMenuIndex, i%menuCount);
+                tryCompare(menuContent, "currentMenuIndex", i%menuCount);
             }
         }
     }

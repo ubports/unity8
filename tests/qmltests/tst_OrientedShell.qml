@@ -525,7 +525,7 @@ Rectangle {
             compare(primaryApp.rotatesWindowContents, false);
             compare(primaryApp.supportedOrientations, Qt.PrimaryOrientation);
 
-            tryCompareFunction(function(){return primaryDelegate.surface != null;}, true);
+            tryVerify(function(){return primaryDelegate.surface});
             verify(checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle));
 
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
@@ -958,7 +958,7 @@ Rectangle {
             // app must have portrait aspect ratio
             verify(decoratedWindow.width < decoratedWindow.height);
 
-            // shell should remain in its primery orientation as the app in the main stage
+            // shell should remain in its primary orientation as the app in the main stage
             // is the one that dictates its orientation. In this case it's unity8-dash
             // which supports only primary orientation
             compare(shell.orientation, orientedShell.orientations.primary);
@@ -1508,7 +1508,6 @@ Rectangle {
             }
             var point = surfaceItem.mapToItem(orientedShell, 0, 0);
 
-            print("exptectedAngle", expectedAngle, point.x, point.y)
             switch (expectedAngle) {
             case 0:
                 return point.x === 0 && point.y === PanelState.panelHeight;
@@ -1625,7 +1624,7 @@ Rectangle {
             testCase.showPowerDialog();
 
             var dialogLoader = findChild(orientedShell, "dialogLoader");
-            tryCompareFunction(function() { return dialogLoader.item !== null }, true);
+            tryVerify(function() { return dialogLoader.item !== null });
 
             keyClick(Qt.Key_Escape);
 
@@ -1635,7 +1634,7 @@ Rectangle {
             // Do it twice, our previous solution failed the second time ^_^
             testCase.showPowerDialog();
 
-            tryCompareFunction(function() { return dialogLoader.item !== null }, true);
+            tryVerify(function() { return dialogLoader.item !== null });
 
             keyClick(Qt.Key_Escape);
 

@@ -89,6 +89,12 @@ Item {
             verify(loader.item == null);
         }
 
+        function loadData(menuData) {
+            loader.data = menuData;
+            loader.sourceComponent = factory.load(menuData);
+            tryVerify(function() { return loader.item; });
+        }
+
         function test_createTypes_data() {
             return [
                 { tag: 'volume', type: "unity.widgets.systemsettings.tablet.volumecontrol", objectName: "sliderMenu" },
@@ -127,9 +133,7 @@ Item {
         function test_createTypes(data) {
             menuData.type = data.type;
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, data.objectName, "Created object name does not match intended object (" + loader.item.objectName + " != " + data.objectName + ")");
         }
 
@@ -137,27 +141,21 @@ Item {
             var tmpData = menuData;
             tmpData.isCheck = true;
 
-            loader.data = tmpData;
-            loader.sourceComponent = factory.load(tmpData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(tmpData);
             compare(loader.item.objectName, "checkableMenu", "Should have created a checkable menu");
         }
 
         function test_create_radio() {
             menuData.isRadio = true;
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "radioMenu", "Should have created a radio menu");
         }
 
         function test_create_separator() {
             menuData.isSeparator = true;
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "separatorMenu", "Should have created a separator menu");
         }
 
@@ -180,9 +178,7 @@ Item {
             };
             menuData.actionState = data.value1;
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "sliderMenu", "Should have created a slider menu");
 
             compare(loader.item.text, data.tag, "Label does not match data");
@@ -217,9 +213,7 @@ Item {
             };
             menuData.actionState = data.value1;
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.value, data.value1, "Value does not match data");
 
             var slider = findChild(loader.item, "slider");
@@ -247,9 +241,7 @@ Item {
             menuData.label = data.label;
             menuData.sensitive = data.enabled;
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "buttonMenu", "Should have created a button menu");
 
             compare(loader.item.buttonText, data.label, "Label does not match data");
@@ -267,9 +259,7 @@ Item {
             menuData.type = "com.canonical.indicator.section"
             menuData.label = data.label;
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "sectionMenu", "Should have created a section menu");
 
             compare(loader.item.text, data.label, "Label does not match data");
@@ -287,9 +277,7 @@ Item {
             menuData.label = data.label;
             menuData.actionState = data.value;
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "progressMenu", "Should have created a progress menu");
 
             compare(loader.item.text, data.label, "Label does not match data");
@@ -309,9 +297,7 @@ Item {
             menuData.sensitive = data.enabled;
             menuData.icon = data.icon;
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "standardMenu", "Should have created a standard menu");
 
             compare(loader.item.text, data.label, "Label does not match data");
@@ -333,9 +319,7 @@ Item {
             menuData.isCheck = true;
             menuData.isToggled = data.checked;
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "checkableMenu", "Should have created a checkable menu");
 
             compare(loader.item.text, data.label, "Label does not match data");
@@ -357,9 +341,7 @@ Item {
             menuData.isRadio = true;
             menuData.isToggled = data.checked;
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "radioMenu", "Should have created a radio menu");
 
             compare(loader.item.text, data.label, "Label does not match data");
@@ -385,9 +367,7 @@ Item {
                 'xCanonicalSubtitleAction': data.subtitleAction,
             };
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "switchMenu", "Should have created a switch menu");
 
             compare(loader.item.text, data.label, "Label does not match data");
@@ -415,9 +395,7 @@ Item {
                 'xCanonicalTime': data.time.getTime() / 1000 // expected in seconds
             };
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "alarmMenu", "Should have created a alarm menu");
 
             compare(loader.item.text, data.label, "Label does not match data");
@@ -445,9 +423,7 @@ Item {
                 'xCanonicalTime': data.time.getTime() / 1000 // expected in seconds
             };
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "appointmentMenu", "Should have created a appointment menu");
 
             compare(loader.item.text, data.label, "Label does not match data");
@@ -527,9 +503,7 @@ Item {
                 'xCanonicalUid': data.tag
             };
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "transferMenu", "Should have created a transfer menu");
 
             compare(loader.item.text, data.label, "Label does not match data");
@@ -556,9 +530,7 @@ Item {
                 'xCanonicalExtraLabel': data.buttonText
             };
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "buttonSectionMenu", "Should have created a transfer menu");
 
             compare(loader.item.text, data.label, "Label does not match data");
@@ -580,9 +552,7 @@ Item {
             menuData.label = data.label;
             menuData.ext = { 'xCanonicalBusyAction': data.busy }
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "wifiSection", "Should have created a wifi section menu");
 
             compare(loader.item.text, data.label, "Label does not match data");
@@ -607,9 +577,7 @@ Item {
                 'xCanonicalWifiApIsAdhoc': data.adHoc,
             };
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "accessPoint", "Should have created a access point menu");
 
             compare(loader.item.text, data.label, "Label does not match data");
@@ -647,9 +615,7 @@ Item {
                 'xCanonicalModemLockedAction': data.unlockAction,
             };
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "modemInfoItem", "Should have created a modem info item.");
 
             compare(loader.item.statusLabelAction.name, data.statusLabelAction, "StatusLabel action incorrect");
@@ -664,9 +630,7 @@ Item {
         function test_create_messageItem() {
             menuData.type = "com.canonical.indicator.messages.messageitem";
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "messageItem", "Should have created a message menu");
         }
 
@@ -686,9 +650,7 @@ Item {
             menuData.actionState = [data.count];
             menuData.isToggled = true;
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "groupedMessage", "Should have created a group message menu");
 
             compare(loader.item.text, data.label, "Label does not match data");
@@ -749,9 +711,7 @@ Item {
                 'state': data.state,
             };
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "mediaPayerMenu", "Should have created a media player menu");
 
             compare(loader.item.playerIcon, data.icon, "Album art does not match data");
@@ -789,9 +749,7 @@ Item {
                 'xCanonicalPreviousAction': data.previousAction
             };
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "playbackItemMenu", "Should have created a playback menu");
 
             compare(loader.item.playing, false, "Playing does not match data");
@@ -809,8 +767,7 @@ Item {
             menuData.sensitive = true;
             menuData.isToggled = false;
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
+            loadData(menuData);
 
             compare(loader.item.checked, false, "Loader did not load check state");
             mouseClick(loader.item,
@@ -829,8 +786,7 @@ Item {
             menuData.sensitive = true;
             menuData.isToggled = false;
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
+            loadData(menuData);
 
             var sync = findInvisibleChild(loader.item, "sync");
             verify(sync);
@@ -859,9 +815,7 @@ Item {
                 "appointment-days": data.eventDays
             }
 
-            loader.data = menuData;
-            loader.sourceComponent = factory.load(menuData);
-            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            loadData(menuData);
             compare(loader.item.objectName, "calendarMenu", "Should have created a calendar menu")
 
             compare(loader.item.currentDate.getFullYear(), data.calendarDay.getFullYear(), "Calendar year does not match data")
