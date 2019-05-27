@@ -283,12 +283,14 @@ Item {
                         var y = swipeMouseArea.height / 2
 
                         if(data.checkSwipeToActAccept) {
-                            tryCompareFunction(function() { mouseDrag(slider, x, y, (swipeMouseArea.width / 2) - slider.width, 0); return actionSpy.signalArguments.length > 0; }, true);
+                            mouseDrag(slider, x, y, (swipeMouseArea.width / 2) - slider.width, 0);
+                            actionSpy.wait();
                             compare(actionSpy.signalArguments[0][0], data.actions.data(0, ActionModel.RoleActionId), "got wrong id for positive action");
                             actionSpy.clear();
                         }
                         if(data.checkSwipeToActReject) {
-                            tryCompareFunction(function() { mouseDrag(slider, x, y, -(swipeMouseArea.width / 2), 0); return actionSpy.signalArguments.length > 0; }, true);
+                            mouseDrag(slider, x, y, -(swipeMouseArea.width / 2), 0);
+                            actionSpy.wait();
                             compare(actionSpy.signalArguments[0][0], data.actions.data(1, ActionModel.RoleActionId), "got wrong id for negative action");
                             actionSpy.clear();
                         }
@@ -302,12 +304,14 @@ Item {
 
                     if(data.checkSwipeToActAccept) {
                         mouseClick(rightButton);
+                        actionSpy.wait();
                         compare(actionSpy.signalArguments[0][0], data.actions.data(0, ActionModel.RoleActionId), "got wrong id for positive action");
                         actionSpy.clear();
                     }
 
                     if(data.checkSwipeToActReject) {
                         mouseClick(leftButton);
+                        actionSpy.wait();
                         compare(actionSpy.signalArguments[0][0], data.actions.data(1, ActionModel.RoleActionId), "got wrong id for negative action");
                         actionSpy.clear();
                     }

@@ -242,7 +242,8 @@ Row {
 
                 // only test the left/cancel-button if two actions have been passed in
                 if (data.actions.length == 2) {
-                    tryCompareFunction(function() { mouseClick(buttonCancel); return actionSpy.signalArguments.length > 0; }, true);
+                    mouseClick(buttonCancel);
+                    actionSpy.wait();
                     compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
                     actionSpy.clear()
                 }
@@ -251,7 +252,8 @@ Row {
                 verify(buttonAccept.color === data.buttonTinted ? "#3fb24f" : "#dddddd", "button has the wrong color-tint")
 
                 // click the positive/right button
-                tryCompareFunction(function() { mouseClick(buttonAccept); return actionSpy.signalArguments.length > 0; }, true);
+                mouseClick(buttonAccept);
+                actionSpy.wait();
                 compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id positive action")
                 actionSpy.clear()
                 waitForRendering(notification)
@@ -259,23 +261,27 @@ Row {
                 // check if there's a OptionToggle created due to more actions being passed
                 if (data.actions.length > 2) {
                     var optionToggle = findChild(notification, "notify_button2")
-                    tryCompareFunction(function() { return optionToggle.expanded == false; }, true);
+                    tryCompare(optionToggle, "expanded", false);
 
                     // click to expand
-                    tryCompareFunction(function() { mouseClick(optionToggle); return optionToggle.expanded == true; }, true);
+                    mouseClick(optionToggle);
+                    tryCompare(optionToggle, "expanded", true);
 
                     // try clicking on choices in expanded comboList
                     var choiceButton1 = findChild(notification, "notify_button3")
-                    tryCompareFunction(function() { mouseClick(choiceButton1); return actionSpy.signalArguments.length > 0; }, true);
+                    mouseClick(choiceButton1);
+                    actionSpy.wait();
                     compare(actionSpy.signalArguments[0][0], data.actions[3]["id"], "got wrong id choice action 1")
                     actionSpy.clear()
 
                     var choiceButton2 = findChild(notification, "notify_button4")
-                    tryCompareFunction(function() { mouseClick(choiceButton2); return actionSpy.signalArguments.length > 0; }, true);
+                    mouseClick(choiceButton2);
+                    actionSpy.wait();
                     compare(actionSpy.signalArguments[0][0], data.actions[4]["id"], "got wrong id choice action 2")
                     actionSpy.clear()
                 } else {
                     mouseClick(buttonCancel)
+                    actionSpy.wait();
                     compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
                 }
             }

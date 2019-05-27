@@ -648,7 +648,8 @@ Item {
 
                     // only test the left/cancel-button if two actions have been passed in
                     if (data.n.actions.count === 2) {
-                        tryCompareFunction(function() { mouseClick(buttonCancel); return actionSpy.signalArguments.length > 0; }, true);
+                        mouseClick(buttonCancel);
+                        actionSpy.wait();
                         compare(actionSpy.signalArguments[0][0], data.n.actions.data(1, ActionModel.RoleActionId), "got wrong id for negative action")
                         actionSpy.clear()
                     }
@@ -657,7 +658,8 @@ Item {
                     verify(buttonAccept.color === data.buttonTinted ? "#3fb24f" : "#dddddd", "button has the wrong color-tint")
 
                     // click the positive/right button
-                    tryCompareFunction(function() { mouseClick(buttonAccept); return actionSpy.signalArguments.length > 0; }, true);
+                    mouseClick(buttonAccept);
+                    actionSpy.wait();
                     compare(actionSpy.signalArguments[0][0], data.n.actions.data(0, ActionModel.RoleActionId), "got wrong id positive action")
                     actionSpy.clear()
 
@@ -671,17 +673,20 @@ Item {
 
                         // try clicking on choices in expanded comboList
                         var choiceButton1 = findChild(notification, "notify_button3")
-                        tryCompareFunction(function() { mouseClick(choiceButton1); return actionSpy.signalArguments.length > 0; }, true);
+                        mouseClick(choiceButton1);
+                        actionSpy.wait();
                         compare(actionSpy.signalArguments[0][0], data.n.actions.data(3, ActionModel.RoleActionId), "got wrong id choice action 1")
                         actionSpy.clear()
 
                         var choiceButton2 = findChild(notification, "notify_button4")
-                        tryCompareFunction(function() { mouseClick(choiceButton2); return actionSpy.signalArguments.length > 0; }, true);
+                        mouseClick(choiceButton2);
+                        actionSpy.wait();
                         compare(actionSpy.signalArguments[0][0], data.n.actions.data(4, ActionModel.RoleActionId), "got wrong id choice action 2")
                         actionSpy.clear()
 
                         // click to collapse
-                        tryCompareFunction(function() { mouseClick(comboButton, comboButton.width / 2, comboButton.height / 2); return !comboButton.expanded; }, true);
+                        mouseClick(comboButton);
+                        tryCompare(comboButton, "expanded", false);
                     } else {
                         tryCompareFunction(function() { mouseClick(buttonCancel); return actionSpy.signalArguments.length > 0; }, true);
                         compare(actionSpy.signalArguments[0][0], data.n.actions.data(1, ActionModel.RoleActionId), "got wrong id for negative action");
@@ -816,8 +821,8 @@ Item {
                 var dragY = notification2.height / 2;
                 touchFlick(notification2, dragStart, dragY, dragEnd, dragY);
                 waitForRendering(notifications);
-                tryCompareFunction(function() { return notification1.expanded; }, true);
-                tryCompareFunction(function() { return notification2.expanded; }, undefined);
+                tryCompare(notification1, "expanded", true);
+                tryCompare(notification2, "expanded", undefined);
             }
 
             function topmostIsFullscreen_data() {

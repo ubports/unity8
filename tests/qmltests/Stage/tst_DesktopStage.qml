@@ -264,13 +264,13 @@ Item {
             var fromAppWindow = findChild(fromDelegate, "appWindow");
             verify(fromAppWindow);
             tap(fromAppWindow);
-            compare(fromDelegate.surface.activeFocus, true);
+            tryCompare(fromDelegate.surface, "activeFocus", true);
             compare(topSurfaceList.focusedWindow, fromDelegate.window);
 
             var toAppWindow = findChild(toDelegate, "appWindow");
             verify(toAppWindow);
             tap(toAppWindow);
-            compare(toDelegate.surface.activeFocus, true);
+            tryCompare(toDelegate.surface, "activeFocus", true);
             compare(topSurfaceList.focusedWindow, toDelegate.window);
         }
 
@@ -591,7 +591,7 @@ Item {
             var dialerDelegate = startApplication("dialer-app");
             verify(dialerDelegate);
 
-            compare(dialerDelegate.visible, true, "Dialer should be visible");
+            tryCompare(dialerDelegate, "visible", true, 5000, "Dialer should be visible");
             compare(dashDelegate.visible, true, "Dash should still be visible");
         }
 

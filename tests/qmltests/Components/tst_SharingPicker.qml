@@ -58,16 +58,16 @@ Rectangle {
 
         function test_open_picker() {
             sharingPicker.showPeerPicker();
-            compare(peerPicker.visible, true);
+            tryCompare(peerPicker, "visible", true);
         }
 
         function test_createExportedItems() {
             var exportedItems = sharingPicker.createExportedItems(shareData["uri"]);
             for (var i = 0; i < exportedItems.length; i++) {
-                compare(exportedItems[i].url, shareData["uri"][i]);
+                tryCompare(exportedItems[i], "url", shareData["uri"][i]);
             }
             exportedItems = sharingPicker.createExportedItems(shareDataString["uri"]);
-            compare(exportedItems[0].url, shareDataString["uri"]);
+            tryCompare(exportedItems[0], "url", shareDataString["uri"]);
         }
     }
 }

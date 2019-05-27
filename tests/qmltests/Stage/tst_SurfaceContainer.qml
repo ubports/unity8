@@ -214,15 +214,15 @@ Rectangle {
             tap(surfaceContainer);
 
             // surface got touches as the surfaceContainer is interactive
-            compare(surfaceItem.touchPressCount, 1)
-            compare(surfaceItem.touchReleaseCount, 1);
+            tryCompare(surfaceItem, "touchPressCount", 1);
+            tryCompare(surfaceItem, "touchPressCount", 1);
 
             interactiveCheckbox.checked = false;
             tap(surfaceContainer);
 
             // surface shouldn't get the touches from the second tap as the surfaceContainer
             // was *not* interactive when it happened.
-            compare(surfaceItem.touchPressCount, 1)
+            compare(surfaceItem.touchPressCount, 1);
             compare(surfaceItem.touchReleaseCount, 1);
         }
 
@@ -235,9 +235,9 @@ Rectangle {
 
             surfaceContainer.focus = false;
 
-            compare(surfaceItem.activeFocus, false);
+            tryCompare(surfaceItem, "activeFocus", false);
             mouseClick(surfaceContainer);
-            compare(surfaceItem.activeFocus, true);
+            tryCompare(surfaceItem, "activeFocus", true);
         }
 
         function test_surfaceItemGetsActiveFocusOnTap() {
@@ -249,9 +249,9 @@ Rectangle {
 
             surfaceContainer.focus = false;
 
-            compare(surfaceItem.activeFocus, false);
+            tryCompare(surfaceItem, "activeFocus", false);
             tap(surfaceContainer);
-            compare(surfaceItem.activeFocus, true);
+            tryCompare(surfaceItem, "activeFocus", true);
         }
     }
 }

@@ -129,8 +129,8 @@ Item {
                       -100, 25,
                       0, Qt.LeftButton);
 
-            compare(draggingArea.dragging, true);
-            compare(draggingArea.dragValue, -125);
+            tryCompare(draggingArea, "dragging", true);
+            tryCompare(draggingArea, "dragValue", -125);
             compare(dragStartCount, 1);
             compare(dragEndCount, 0);
 
@@ -139,7 +139,7 @@ Item {
                          -100, 25,
                          Qt.LeftButton, Qt.NoModifier, 0);
 
-            compare(draggingArea.dragging, false);
+            tryCompare(draggingArea, "dragging", false);
             compare(dragStartCount, 1);
             compare(dragEndCount, 1);
         }
@@ -166,8 +166,8 @@ Item {
                       25, 125,
                       0, Qt.LeftButton);
 
-            compare(draggingArea.dragging, true);
-            compare(draggingArea.dragValue, 100);
+            tryCompare(draggingArea, "dragging", true);
+            tryCompare(draggingArea, "dragValue", 100);
             compare(dragStartCount, 1);
             compare(dragEndCount, 0);
 
@@ -176,7 +176,7 @@ Item {
                          25, 125,
                          Qt.LeftButton, Qt.NoModifier, 0);
 
-            compare(draggingArea.dragging, false);
+            tryCompare(draggingArea, "dragging", false);
             compare(dragStartCount, 1);
             compare(dragEndCount, 1);
         }

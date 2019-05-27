@@ -163,7 +163,7 @@ Item {
             verify(controlButton !== null);
 
             mouseClick(controlButton, controlButton.width/2, controlButton.height/2);
-            compare(signalSpy.count, 1);
+            signalSpy.wait();
         }
 
         function test_titleRemainsWhenHoveringOnTitleBarWithNoMenu() {
@@ -177,8 +177,8 @@ Item {
             var titleLabel = findChild(decoration, "windowDecorationTitle");
             verify(menuLoader);
 
-            compare(menuLoader.opacity, 0, "Menu should not show when present")
-            compare(titleLabel.opacity, 1, "Title should always show when app menu not present")
+            tryCompare(menuLoader, "opacity", 0, 5000, "Menu should not show when present")
+            tryCompare(titleLabel, "opacity", 1, 5000, "Title should always show when app menu not present")
         }
 
         function test_menuShowsWhenHoveringOnTitleBar() {

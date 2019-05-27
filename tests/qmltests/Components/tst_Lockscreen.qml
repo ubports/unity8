@@ -184,10 +184,11 @@ Rectangle {
         function test_loading(data) {
             pinPadCheckBox.checked = data.alphanumeric
             waitForLockscreenReady();
+            var button8 = findChild(lockscreen, "pinPadButton8");
             if (data.pinPadAvailable) {
-                compare(findChild(lockscreen, "pinPadButton8").text, "8", "Could not find number 8 on PinPad")
+                compare(button8.text, "8", "Could not find number 8 on PinPad");
             } else {
-                compare(findChild(lockscreen, "pinPadButton8"), null, "Could find number 8 on PinPad even though it should be only OSK")
+                compare(button8, null, "Could find number 8 on PinPad even though it should be only OSK");
             }
         }
 
@@ -292,8 +293,7 @@ Rectangle {
             lockscreen.clear(data.animation)
             tryCompare(inputField, "text", "")
 
-            wait(0) // Trigger event loop to make sure the animation would start running
-            compare(animation.running, data.animation)
+            tryCompare(animation, "running", data.animation)
             if (data.animation) {
                 if (!data.alphanumeric) {
                     var label = findChild(lockscreen, "wrongNoticeLabel");
@@ -326,12 +326,12 @@ Rectangle {
 
             var pinPadButton5 = findChild(lockscreen, "pinPadButton5");
             mouseClick(pinPadButton5, units.gu(1), units.gu(1));
-            compare(pinEntryField.text, "5");
+            tryCompare(pinEntryField, "text", "5");
 
             tryCompare(backspaceIcon, "opacity", 1);
 
             mouseClick(backspaceIcon, units.gu(1), units.gu(1));
-            compare(pinEntryField.text, "");
+            tryCompare(pinEntryField, "text", "");
 
             tryCompare(backspaceIcon, "opacity", 0);
         }

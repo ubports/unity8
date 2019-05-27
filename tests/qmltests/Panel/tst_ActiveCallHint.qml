@@ -113,7 +113,7 @@ Item {
             callManager.foregroundCall = data.call;
             callManager.callIndicatorVisible = data.visible;
 
-            compare(callHint.active, data.expected, "Call hint should be active when callIndicatorVisible=true");
+            tryCompare(callHint, "active", data.expected, 5000, "Call hint should be active when callIndicatorVisible=true");
 
             if (data.dialer) {
                 // clean up
@@ -137,7 +137,7 @@ Item {
             callManager.backgroundCall = data.background;
 
             var contactLabel = findChild(callHint, "contactLabel");
-            verify(contactLabel !== null);
+            verify(contactLabel);
 
             compare(contactLabel.text, data.label, "Contact label does not match call");
         }
@@ -146,7 +146,7 @@ Item {
             callManager.backgroundCall = call3;
 
             var contactLabel = findChild(callHint, "contactLabel");
-            verify(contactLabel !== null);
+            verify(contactLabel);
 
             contactWactherData.contactData = { "+447812221113": { "alias": "Bob's Uncle" } };
             compare(contactLabel.text, "Bob's Uncle", "Contact label does not match call");
@@ -171,22 +171,24 @@ Item {
             call1.elapsedTime = data.elpasedTime;
 
             var timeLabel = findChild(callHint, "timeLabel");
-            verify(timeLabel !== null);
+            verify(timeLabel);
 
             compare(timeLabel.text, data.initial);
             call1.elapsedTime = call1.elapsedTime + 1;
-            compare(timeLabel.text, data.expected);
+            tryCompare(timeLabel, "text", data.expected);
         }
 
         function test_displayedLabelChangesOverTime() {
             callManager.backgroundCall = call3;
 
             var labelPathView = findChild(callHint, "labelPathView");
-            verify(labelPathView !== null);
+            verify(labelPathView);
 
             var currentOffset = labelPathView.offset
+            wait(1100);
             tryCompareFunction(function() { return labelPathView.offset !== currentOffset }, true);
             currentOffset = labelPathView.offset
+            wait(1100);
             tryCompareFunction(function() { return labelPathView.offset !== currentOffset }, true);
         }
     }

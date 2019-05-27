@@ -319,7 +319,7 @@ Item {
         function test_tease(data) {
             view.dragHandleLeftMargin = data.offset;
             tap(view, data.x, 0);
-            compare(teaseSpy.count, data.count);
+            tryCompare(teaseSpy, "count", data.count);
         }
 
         function test_customBackground() {
@@ -340,7 +340,7 @@ Item {
             view.alphanumeric = false;
             swipeAwayCover();
             typeString("1234");
-            compare(respondedSpy.count, 1);
+            respondedSpy.wait();
             compare(respondedSpy.signalArguments[0][0], "1234");
         }
 
