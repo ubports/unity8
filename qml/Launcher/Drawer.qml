@@ -37,11 +37,11 @@ FocusScope {
 
     // Request that the Drawer is opened fully, if it was partially closed then
     // brought back
-    signal open();
+    signal openRequested()
 
     // Request that the Drawer (and maybe its parent) is hidden, normally if
     // the Drawer has been dragged away.
-    signal hide();
+    signal hideRequested()
 
     property bool allowSlidingAnimation: false
     property bool draggingHorizontally: false
@@ -57,7 +57,6 @@ FocusScope {
                 // See onDraggingHorizontallyChanged below
                 searchField.focus = hadFocus;
                 searchField.select(oldSelectionStart, oldSelectionEnd);
-                return;
             } else if (fullyClosed || fullyOpen) {
                 searchField.text = "";
                 resetOldFocus();
@@ -84,15 +83,15 @@ FocusScope {
             searchField.focus = false;
         } else {
             if (x < -units.gu(10)) {
-                hide();
+                hideRequested();
             } else {
-                requestOpen();
+                openRequested();
             }
         }
     }
 
     Keys.onEscapePressed: {
-        root.hide()
+        root.hideRequested()
     }
 
     onDragDistanceChanged: {
