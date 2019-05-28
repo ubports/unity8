@@ -665,8 +665,13 @@ Rectangle {
         rotation: root.rotation
         aspect: UbuntuShape.Flat
 
+        // Denotes that the shape is not animating, to prevent race conditions during testing
+        readonly property bool ready: (visible && (!quickListShapeOpacityFade.running))
+
         Behavior on opacity {
-            UbuntuNumberAnimation {}
+            UbuntuNumberAnimation {
+                id: quickListShapeOpacityFade
+            }
         }
 
         source: ShaderEffectSource {

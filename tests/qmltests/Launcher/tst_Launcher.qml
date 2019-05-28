@@ -1496,7 +1496,7 @@ Rectangle {
             launcher.available = true;
         }
 
-        function test_hoverOnEdgeBarrerPreventsHiding() {
+        function test_hoverOnEdgeBarrierPreventsHiding() {
             revealByEdgePush();
 
             // Make sure the mouse is on the very left edge (on top of the barrier)
@@ -1555,6 +1555,7 @@ Rectangle {
             dragLauncherIntoView();
             var clickedItem = findChild(launcher, "launcherDelegate5")
             var quickList = findChild(launcher, "quickList")
+            var quickListShape = findChild(launcher, "quickListShape");
 
             // Initial state
             tryCompare(quickList, "state", "")
@@ -1563,6 +1564,7 @@ Rectangle {
             mouseClick(clickedItem, clickedItem.width / 2, clickedItem.height / 2, Qt.RightButton)
             tryCompare(quickList, "state", "open");
             tryCompare(quickList, "selectedIndex", -1);
+            tryVerify(function() {return quickListShape.ready});
 
             var qEntry = findChild(launcher, "quickListEntry0");
             mouseMove(qEntry, qEntry.width / 2    , qEntry.height / 2, 10);
