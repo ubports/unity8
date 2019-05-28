@@ -363,11 +363,11 @@ FocusScope {
             root.focus = false;
         }
 
-        onHide: {
+        onHideRequested: {
             root.hide();
         }
 
-        onOpen: {
+        onOpenRequested: {
             root.toggleDrawer(false, true);
         }
     }
