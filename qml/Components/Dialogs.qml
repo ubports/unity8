@@ -34,12 +34,21 @@ MouseArea {
     // to be set from outside, useful mostly for testing purposes
     property var unitySessionService: DBusUnitySessionService
     property var closeAllApps: function() {
+        // FIXME! This is an awefull way of doing this!
+        var i = 0;
+        var tries = 0;
         while (true) {
-            var app = ApplicationManager.get(0);
+            var app = ApplicationManager.get(i);
             if (app === null) {
-                break;
+                // if we are at index 0 and app = null, we closed all apps
+                // Try 20 times, if the apps wont close just move on
+                if (i === 0 || tries >= 20)
+                    break;
+                i = 0;
+                tries++;
             }
             ApplicationManager.stopApplication(app.appId);
+            i++;
         }
     }
     property string usageScenario
