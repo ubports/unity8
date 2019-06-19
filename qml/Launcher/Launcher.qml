@@ -33,6 +33,7 @@ FocusScope {
     property int topPanelHeight: 0
     property bool drawerEnabled: true
     property alias privateMode: panel.privateMode
+    property url background
 
     property int panelWidth: units.gu(10)
     property int dragAreaWidth: units.gu(1)
@@ -353,6 +354,7 @@ FocusScope {
             bottom: parent.bottom
             right: parent.left
         }
+        background: root.background
         width: Math.min(root.width, units.gu(81))
         panelWidth: panel.width
         allowSlidingAnimation: !dragArea.dragging && !launcherDragArea.drag.active && panel.animate

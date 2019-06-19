@@ -31,6 +31,7 @@ FocusScope {
     readonly property bool moving: appList && appList.moving
     readonly property Item searchTextField: searchField
     readonly property real delegateWidth: units.gu(10)
+    property url background
     visible: x > -width
     property var fullyOpen: x === 0
     property var fullyClosed: x === -width
@@ -149,7 +150,7 @@ FocusScope {
         Image {
             id: background
             anchors.fill: parent
-            source: AccountsService.backgroundFile
+            source: root.background
             fillMode: Image.PreserveAspectCrop
         }
 
@@ -159,7 +160,7 @@ FocusScope {
             radius: 128
         }
 
-        // Workaround for images with fastblur can't use opacity
+        // Images with fastblur can't use opacity, so we'll put this on top
         Rectangle {
             anchors.fill: background
             color: parent.color

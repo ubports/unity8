@@ -582,6 +582,7 @@ StyledItem {
             topPanelHeight: panel.panelHeight
             drawerEnabled: !greeter.active
             privateMode: greeter.active
+            background: wallpaperResolver.cachedBackground
 
             onShowDashHome: showHome()
             onLauncherApplicationSelected: {
