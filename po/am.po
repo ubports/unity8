@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2019-03-18 16:43+0000\n"
+"PO-Revision-Date: 2019-06-23 19:04+0000\n"
 "Last-Translator: Samson <sambelet@yahoo.com>\n"
 "Language-Team: Amharic <https://translate.ubports.com/projects/unity8/unity8/"
 "am/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.1.1\n"
+"X-Generator: Weblate 3.6.1\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:34+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -893,7 +893,7 @@ msgstr "የ ወረደ"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:131
 msgid "Resume"
-msgstr ""
+msgstr "ይቀጥሉ"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:138
 msgid "Pause"
@@ -901,19 +901,19 @@ msgstr ""
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:142
 msgid "Install…"
-msgstr ""
+msgstr "መግጠሚያ…"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:144
 msgid "Install"
-msgstr ""
+msgstr "መግጠሚያ"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:148
 msgid "Open"
-msgstr ""
+msgstr "መክፈቻ"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:216
 msgid "Installing"
-msgstr ""
+msgstr "በ መግጠም ላይ"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:220
 msgid "Paused"
@@ -921,12 +921,12 @@ msgstr ""
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:223
 msgid "Waiting to download"
-msgstr ""
+msgstr "ለ ማውረድ በ መጠበቅ ላይ"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:279
 #, qt-format
 msgid "%1 of %2"
-msgstr ""
+msgstr "%1 ከ %2"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:283
 msgid "Downloaded"
