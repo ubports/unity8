@@ -42,6 +42,7 @@ FocusScope {
 
     property bool superPressed: false
     property bool superTabPressed: false
+    property bool takesFocus: false;
 
     readonly property bool dragging: dragArea.dragging
     readonly property real dragDistance: dragArea.dragging ? dragArea.touchPosition.x : 0
@@ -65,6 +66,8 @@ FocusScope {
         }
     }
 
+    onFocusChanged: {if (!focus) { root.takesFocus = false; }}
+
     onSuperPressedChanged: {
         if (state == "drawer")
             return;
@@ -84,6 +87,7 @@ FocusScope {
         if (superTabPressed) {
             switchToNextState("visible")
             panel.highlightIndex = -1;
+            root.takesFocus = true;
             root.focus = true;
             superPressTimer.stop();
             superLongPressTimer.stop();
@@ -128,6 +132,7 @@ FocusScope {
         } else {
             switchToNextState("")
         }
+        root.focus = false;
     }
 
     function fadeOut() {
@@ -164,6 +169,7 @@ FocusScope {
     function openForKeyboardNavigation() {
         panel.highlightIndex = -1; // The BFB
         drawer.focus = false;
+        root.takesFocus = true;
         root.focus = true;
         switchToNextState("visible")
     }
@@ -176,6 +182,7 @@ FocusScope {
         panel.shortcutHintsShown = false;
         superPressTimer.stop();
         superLongPressTimer.stop();
+        root.takesFocus = true;
         root.focus = true;
         if (focusInputField) {
             drawer.focusInput();
@@ -232,7 +239,6 @@ FocusScope {
             root.hide();
             panel.highlightIndex = -2
             event.accepted = true;
-            root.focus = false;
         }
     }
 

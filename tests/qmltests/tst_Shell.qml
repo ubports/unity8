@@ -3289,6 +3289,20 @@ Rectangle {
             tryCompare(appDelegate2.surface, "activeFocus", true);
         }
 
+        function test_launchFromDrawerPutsFocusOnStage() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            keyClick(Qt.Key_A, Qt.MetaModifier);
+            typeString("browser");
+            keyClick(Qt.Key_Enter);
+
+            var appRepeater = findChild(shell, "appRepeater");
+            tryCompare(appRepeater.itemAt(0), "activeFocus", true);
+        }
+
         function test_maximizedWindowAndMenuInPanel() {
             loadShell("desktop");
             shell.usageScenario = "desktop";

@@ -38,6 +38,7 @@ Q_LOGGING_CATEGORY(TOPLEVELWINDOWMODEL, "toplevelwindowmodel", QtInfoMsg)
 namespace unityapi = unity::shell::application;
 
 TopLevelWindowModel::TopLevelWindowModel()
+    : m_nullWindow(createWindow(nullptr))
 {
 }
 
@@ -718,4 +719,10 @@ void TopLevelWindowModel::activateTopMostWindowWithoutId(int forbiddenId)
             window->activate();
         }
     }
+}
+
+void TopLevelWindowModel::activateNullWindow()
+{
+    m_nullWindow->activate();
+    m_surfaceManager->activate(nullptr);
 }
