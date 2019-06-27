@@ -723,6 +723,6 @@ void TopLevelWindowModel::activateTopMostWindowWithoutId(int forbiddenId)
 
 void TopLevelWindowModel::activateNullWindow()
 {
-    m_nullWindow->activate();
-    m_surfaceManager->activate(nullptr);
+    if (!m_nullWindow->focused())
+        m_nullWindow->activate();
 }
