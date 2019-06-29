@@ -436,7 +436,13 @@ void TopLevelWindowModel::removeAt(int index)
         setFocusedWindow(nullptr);
     }
 
-    INFO_MSG << " after " << toString();
+    if (m_closingAllApps) {
+        if (m_windowModel.isEmpty()) {
+            Q_EMIT closedAllWindows();
+        }
+    }
+
+    INFO_MSG << " after " << toString() << " apps left " << m_windowModel.count();
 }
 
 void TopLevelWindowModel::setInputMethodWindow(Window *window)
@@ -725,4 +731,12 @@ void TopLevelWindowModel::activateNullWindow()
 {
     if (!m_nullWindow->focused())
         m_nullWindow->activate();
+}
+
+void TopLevelWindowModel::closeAllWindows()
+{
+    m_closingAllApps = true;
+    for (auto win : m_windowModel) {
+        win.window->close();
+    }
 }
