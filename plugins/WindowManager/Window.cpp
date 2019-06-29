@@ -21,6 +21,7 @@
 
 #include <QQmlEngine>
 #include <QTextStream>
+#include <QTimer>
 
 namespace unityapi = unity::shell::application;
 
@@ -124,10 +125,24 @@ void Window::requestState(Mir::State state)
     }
 }
 
-void Window::close()
+void Window::close(bool forceCloseOverdue)
 {
+    DEBUG_MSG << "()";
     if (m_surface) {
         m_surface->close();
+
+        // Some apps are bad and wont respect the close request, so setup
+        // a timer that will detect if an app wont close, if forceCloseOverdue
+        // it will forceClose it, if not it will signal closeOverdue.
+        // The timer includes context, so if the class is destroyed before the
+        // interval occurs, the lambda func will not be called.
+        QTimer::singleShot(3000, this, [this, forceCloseOverdue]() {
+            if (forceCloseOverdue){
+                forceClose();
+            } else {
+                Q_EMIT closeOverdue();
+            }
+        });
     } else {
         Q_EMIT closeRequested();
     }

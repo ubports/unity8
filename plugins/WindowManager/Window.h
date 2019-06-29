@@ -128,7 +128,9 @@ public Q_SLOTS:
      * @brief Sends a close request
      *
      */
-    void close();
+    void close() { close(true); };
+    void close(bool forceCloseOverdue);
+
     void forceClose();
 
     /**
@@ -153,6 +155,8 @@ Q_SIGNALS:
      * @brief Emitted when focus for this window is requested by an external party
      */
     void focusRequested();
+
+    void closeOverdue();
 
 private:
     void updatePosition();
