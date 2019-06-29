@@ -89,6 +89,22 @@ FocusScope {
                 Qt.InvertedLandscapeOrientation;
     }
 
+    onInteractiveChanged: {
+        // Stage must have focus before activating windows, including null
+        if (interactive) {
+            focus = true;
+
+            // Activate focused app once stage is active again
+            // this makes sure the focused app have focus
+            if (priv.focusedAppDelegate) {
+                priv.focusedAppDelegate.window.activate();
+            }
+        } else {
+            // Activate null window once stage is not active this makes
+            // sure none of the apps have focus when stage is not active
+            topLevelSurfaceList.activateNullWindow();
+        }
+    }
 
     onAltTabPressedChanged: {
         root.focus = true;

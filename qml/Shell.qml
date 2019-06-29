@@ -173,6 +173,7 @@ StyledItem {
         } else {
             startApp(appId);
         }
+        stage.focus = true;
     }
 
     function activateURL(url) {
@@ -309,8 +310,7 @@ StyledItem {
             interactive: (!greeter || !greeter.shown)
                     && panel.indicators.fullyClosed
                     && !notifications.useModal
-
-            onInteractiveChanged: { if (interactive) { focus = true; } }
+                    && !launcher.takesFocus
 
             suspended: greeter.shown
             altTabPressed: physicalKeysMapper.altTabPressed

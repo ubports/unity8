@@ -164,6 +164,11 @@ public:
      */
     Q_INVOKABLE void raiseId(int id);
 
+    /**
+     * @brief Raises and focuses a window with no surface
+     */
+    Q_INVOKABLE void activateNullWindow();
+
 Q_SIGNALS:
     void countChanged();
     void inputMethodSurfaceChanged(unity::shell::application::MirSurfaceInterface* inputMethodSurface);
@@ -239,6 +244,7 @@ private:
     QVector<ModelEntry> m_windowModel;
     Window* m_inputMethodWindow{nullptr};
     Window* m_focusedWindow{nullptr};
+    Window* m_nullWindow;
 
     int m_nextId{1};
     // Just something big enough that we don't risk running out of unused id numbers.
