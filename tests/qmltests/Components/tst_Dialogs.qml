@@ -66,7 +66,6 @@ Rectangle {
             id: dialogs
             anchors.fill: parent
             unitySessionService: fakeUnitySession
-            closeAllApps: function() {}
         }
     }
 

@@ -169,6 +169,11 @@ public:
      */
     Q_INVOKABLE void activateNullWindow();
 
+    /**
+     * @brief Closes all windows, emits closedAllWindows when done
+     */
+    Q_INVOKABLE void closeAllWindows();
+
 Q_SIGNALS:
     void countChanged();
     void inputMethodSurfaceChanged(unity::shell::application::MirSurfaceInterface* inputMethodSurface);
@@ -184,6 +189,8 @@ Q_SIGNALS:
     void listChanged();
 
     void nextIdChanged();
+
+    void closedAllWindows();
 
 private Q_SLOTS:
     void onSurfaceCreated(unity::shell::application::MirSurfaceInterface *surface);
@@ -267,6 +274,8 @@ private:
     // Valid between modificationsStarted and modificationsEnded
     bool m_focusedWindowChanged{false};
     Window *m_newlyFocusedWindow{nullptr};
+
+    bool m_closingAllApps{false};
 };
 
 #endif // TOPLEVELWINDOWMODEL_H
