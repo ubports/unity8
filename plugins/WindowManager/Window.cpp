@@ -133,6 +133,14 @@ void Window::close()
     }
 }
 
+void Window::forceClose()
+{
+    DEBUG_MSG << "()";
+    if (m_surface) {
+        m_surface->forceClose();
+    }
+}
+
 void Window::activate()
 {
     DEBUG_MSG << "()";

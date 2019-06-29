@@ -129,6 +129,7 @@ public Q_SLOTS:
      *
      */
     void close();
+    void forceClose();
 
     /**
      * @brief Focuses and raises the window
