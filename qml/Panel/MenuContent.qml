@@ -45,7 +45,6 @@ Rectangle {
         model: content.model
 
         highlightFollowsCurrentItem: false
-        contentX: currentIndex * width
         interactive: false
         orientation: ListView.Horizontal
         // Load all the indicator menus (a big number)
@@ -54,6 +53,10 @@ Rectangle {
         // for additions/removals.
         onCountChanged: {
             listViewContent.currentIndex = content.currentMenuIndex;
+        }
+
+        onCurrentIndexChanged: {
+            positionViewAtIndex(currentIndex, ListView.Beginning);
         }
 
         delegate: Loader {
