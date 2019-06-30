@@ -65,6 +65,7 @@ public:
     MirSurfaceInterface* parentSurface() const override { return nullptr; }
     unity::shell::application::MirSurfaceListInterface* childSurfaceList() const override { return nullptr; }
     void close() override {}
+    void forceClose() override {}
     void activate() override {}
 
 public Q_SLOTS:
