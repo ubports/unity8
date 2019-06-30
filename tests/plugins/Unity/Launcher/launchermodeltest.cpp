@@ -75,6 +75,7 @@ public:
     MirSurfaceInterface* parentSurface() const override { return nullptr; }
     MirSurfaceListInterface* childSurfaceList() const override { return nullptr; }
     void close() override {}
+    void forceClose() override {}
     void activate() override {}
     void requestState(Mir::State) override {}
 
