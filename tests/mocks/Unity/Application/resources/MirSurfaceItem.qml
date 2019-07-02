@@ -20,9 +20,6 @@ Rectangle {
     id: root
     color: "pink"
 
-    implicitWidth: width
-    implicitHeight: height
-
     property alias screenshotSource: screenshotImage.source
     property int orientationAngle
 

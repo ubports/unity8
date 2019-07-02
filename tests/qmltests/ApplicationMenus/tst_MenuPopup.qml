@@ -24,6 +24,7 @@ import Unity.Test 0.1
 import Utils 0.1
 
 import "../../../qml/ApplicationMenus"
+import "../../../qml/Components/PanelState"
 import ".."
 
 Item {
@@ -59,6 +60,7 @@ Item {
                        }}
                     ]
             }
+            panelState: PanelState {}
         }
     }
 

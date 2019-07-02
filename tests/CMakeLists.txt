@@ -47,6 +47,7 @@ macro(unity8_parse_arguments)
     list(APPEND ld_paths
         ${UNITY_MOCKPATH}/liblightdm
         ${UNITY_MOCKPATH}/libusermetrics
+        ${UNITY_MOCKPATH}/WindowManager
     )
 
     string(REPLACE ";" ":" ld_library_path "${ld_paths}")

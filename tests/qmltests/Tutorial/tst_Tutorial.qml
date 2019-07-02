@@ -37,20 +37,10 @@ Rectangle {
     height: units.gu(71)
 
     QtObject {
-        id: applicationArguments
-
-        function hasGeometry() {
-            return false;
-        }
-
-        function width() {
-            return 0;
-        }
-
-        function height() {
-            return 0;
-        }
+        id: _screenWindow
+        property bool primary: true
     }
+    property alias screenWindow: _screenWindow
 
     Telephony.CallEntry {
         id: phoneCall
@@ -256,13 +246,7 @@ Rectangle {
         property real halfWidth: shell ?  shell.width / 2 : 0
         property real halfHeight: shell ? shell.height / 2 : 0
 
-        onShellChanged: {
-            if (shell) {
-                topLevelSurfaceList = testCase.findInvisibleChild(shell, "topLevelSurfaceList");
-            } else {
-                topLevelSurfaceList = null;
-            }
-        }
+        topLevelSurfaceList: shell ? shell.topLevelSurfaceList : null;
 
         function init() {
             prepareShell();
@@ -327,9 +311,7 @@ Rectangle {
         }
 
         function ensureInputMethodSurface() {
-            var surfaceManager = findInvisibleChild(shell, "surfaceManager");
-            verify(surfaceManager);
-            surfaceManager.createInputMethodSurface();
+            SurfaceManager.createInputMethodSurface();
 
             tryCompareFunction(function() { return topLevelSurfaceList.inputMethodSurface !== null }, true);
         }

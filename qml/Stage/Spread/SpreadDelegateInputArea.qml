@@ -28,6 +28,9 @@ Item {
 
     readonly property alias distance: d.distance
 
+    property var stage: null
+    property var dragDelegate: null
+
     signal clicked()
     signal close()
 
@@ -84,18 +87,13 @@ Item {
         }
     }
 
-    // Event eater
-    MouseArea {
-        anchors.fill: parent
-        onClicked: root.clicked()
-        onWheel: wheel.accepted = true
-    }
-
     MultiPointTouchArea {
         anchors.fill: parent
-        mouseEnabled: false
         maximumTouchPoints: 1
         property int offset: 0
+
+        // tp.startY seems to be broken for mouse interaction... lets track it ourselves
+        property int startY: 0
 
         touchPoints: [
             TouchPoint {
@@ -103,14 +101,13 @@ Item {
             }
         ]
 
-        onCanceled: {
-            d.moving = false
-            animation.animate("center");
+        onPressed: {
+            startY = tp.y
         }
 
         onTouchUpdated: {
-            if (!d.moving) {
-                if (Math.abs(tp.startY - tp.y) > d.threshold) {
+            if (!d.moving || !tp.pressed) {
+                if (Math.abs(startY - tp.y) > d.threshold) {
                     d.moving = true;
                     d.dragEvents = []
                     offset = tp.y - tp.startY;
@@ -119,17 +116,32 @@ Item {
                 }
             }
 
-            if (root.closeable) {
-                d.distance = tp.y - tp.startY - offset
+
+            var value = tp.y - tp.startY - offset;
+            if (value < 0) {
+                var coords = mapToItem(stage, tp.x, tp.y);
+                dragDelegate.Drag.hotSpot.x = dragDelegate.width / 2
+                dragDelegate.Drag.hotSpot.y = units.gu(2)
+                dragDelegate.x = coords.x - dragDelegate.Drag.hotSpot.x
+                dragDelegate.y = coords.y - dragDelegate.Drag.hotSpot.y
+                dragDelegate.Drag.active = true;
+                dragDelegate.surface = model.window.surface;
+
             } else {
-                var value = tp.y - tp.startY - offset;
-                d.distance = Math.sqrt(Math.abs(value)) * (value < 0 ? -1 : 1) * 3
+                if (root.closeable) {
+                    d.distance = value
+                } else {
+                    d.distance = Math.sqrt(Math.abs(value)) * (value < 0 ? -1 : 1) * 3
+                }
             }
 
             d.pushDragEvent(tp);
         }
 
         onReleased: {
+            var result = dragDelegate.Drag.drop();
+            dragDelegate.surface = null;
+
             if (!d.moving) {
                 root.clicked()
             }
@@ -148,6 +160,13 @@ Item {
             } else {
                 animation.animate("center")
             }
+        }
+
+        onCanceled: {
+            dragDelegate.Drag.active = false;
+            dragDelegate.surface = null;
+            d.moving = false
+            animation.animate("center");
         }
     }
 

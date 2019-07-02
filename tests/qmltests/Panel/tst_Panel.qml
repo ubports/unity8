@@ -42,10 +42,10 @@ PanelTest {
         value: keyboardAttached.checked
     }
 
-    SurfaceManager { id: sMgr }
+    readonly property alias panelState: panel.panelState
+
     ApplicationMenuDataLoader {
         id: appMenuData
-        surfaceManager: sMgr
     }
 
     Component.onCompleted: {
@@ -99,6 +99,8 @@ PanelTest {
                         model: root.indicatorsModel
                         hides: [ panel.applicationMenus ]
                     }
+
+                    panelState: PanelState {}
                 }
             }
         }
@@ -153,7 +155,7 @@ PanelTest {
                 Layout.fillWidth: true
                 CheckBox {
                     id: windowControlsCB
-                    onClicked: PanelState.decorationsVisible = checked
+                    onClicked: panelState.decorationsVisible = checked
                 }
                 Label {
                     text: "Show window decorations"
@@ -164,7 +166,7 @@ PanelTest {
             RowLayout {
                 Layout.fillWidth: true
                 CheckBox {
-                    onClicked: PanelState.title = checked ? "Fake window title" : ""
+                    onClicked: panelState.title = checked ? "Fake window title" : ""
                 }
                 Label {
                     text: "Show fake window title"
@@ -250,7 +252,7 @@ PanelTest {
 
         SignalSpy {
             id: windowControlButtonsSpy
-            target: PanelState
+            target: panelState
             signalName: "closeClicked"
         }
 
@@ -260,8 +262,8 @@ PanelTest {
             panel.fullscreenMode = false;
             callManager.foregroundCall = null;
 
-            PanelState.title = "";
-            PanelState.decorationsVisible = false;
+            panelState.title = "";
+            panelState.decorationsVisible = false;
 
             // Put the mouse somewhere neutral so it doesn't hover over things
             // and mess up the test
@@ -462,7 +464,7 @@ PanelTest {
         }
 
         function test_hint(data) {
-            PanelState.title = "Fake Title"
+            panelState.title = "Fake Title"
             panel.fullscreenMode = data.fullscreen;
             callManager.foregroundCall = data.call;
 
@@ -504,7 +506,7 @@ PanelTest {
         // menus, first by running the hint animation, then after dragging down will
         // expose more of the panel. Releasing the touch will complete the show.
         function test_drag_applicationMenu_down_shows_menu(data) {
-            PanelState.title = "Fake Title";
+            panelState.title = "Fake Title";
             panel.fullscreenMode = data.fullscreen;
             callManager.foregroundCall = data.call;
 
@@ -596,7 +598,7 @@ PanelTest {
         }
 
         function test_darkenedAreaEatsAllApplicationMenuEvents() {
-            PanelState.title = "Fake Title"
+            panelState.title = "Fake Title"
 
             // The center of the area not covered by the indicators menu
             // Ie, the visible darkened area behind the menu
@@ -717,7 +719,7 @@ PanelTest {
             var windowControlArea = findChild(panel, "windowControlArea");
             verify(windowControlArea, "Window control area should have been created in windowed mode")
 
-            PanelState.decorationsVisible = true;
+            panelState.decorationsVisible = true;
             // click in very topleft corner and verify the close button got clicked too
             mouseMove(panel, 0, 0);
             mouseClick(panel, 0, 0, undefined /*button*/, undefined /*modifiers*/, 100 /*short delay*/);
@@ -779,8 +781,26 @@ PanelTest {
             }
         }
 
-        function test_windowedApplicationMenuBarShowOnMouseHover() {
-            PanelState.title = "Fake Title";
+        function test_stagedApplicationMenuBarShowOnMouseHover() {
+            panelState.title = "Fake Title";
+            panel.mode = "staged";
+            mouseEmulation.checked = false;
+
+            var appTitle = findChild(panel, "panelTitle"); verify(appTitle);
+            var appMenuRow = findChild(panel.applicationMenus, "panelRow"); verify(appMenuRow);
+            var appMenuBar = findChild(panel, "menuBar"); verify(appMenuBar);
+
+            tryCompare(appTitle, "visible", true, undefined, "App title should be visible");
+            tryCompare(appMenuBar, "visible", false, undefined, "App menu bar should not be visible");
+
+            mouseMove(panel, panel.width/2, panel.panelHeight);
+
+            tryCompare(appTitle, "visible", false, undefined, "App title should not be visible on mouse hover");
+            tryCompare(appMenuBar, "visible", true, undefined, "App menu bar should be visible on mouse hover");
+        }
+
+        function test_windowedApplicationMenuShowOnMouseHoverWhenDecorationsShown() {
+            panelState.title = "Fake Title";
             panel.mode = "windowed";
             mouseEmulation.checked = false;
 
@@ -794,6 +814,10 @@ PanelTest {
             mouseMove(panel, panel.width/2, panel.panelHeight);
 
             waitForRendering(panel);
+            tryCompare(appTitle, "visible", true, undefined, "App title should still be visible on mouse hover when panel decorations are not visible");
+            tryCompare(appMenuBar, "visible", false, undefined, "App menu bar should be visible on mouse hover when panel decorations are not visible");
+
+            panelState.decorationsVisible = true;
 
             var appMenuBarLoader = findChild(panel, "menuBarLoader")
             tryVerify(function() {return appMenuBarLoader.item});
@@ -844,7 +868,7 @@ PanelTest {
 
             var indicatorsBar = findChild(panel.applicationMenus, "indicatorsBar");
 
-            PanelState.title = "Fake Title";
+            panelState.title = "Fake Title"
             waitForRendering(panel);
             pullDownApplicationsMenu(0 /*xPos*/);
             compare(aboutToShowCalledSpy.count, 1);
@@ -878,7 +902,7 @@ PanelTest {
 
             var indicatorsBar = findChild(panel.applicationMenus, "indicatorsBar");
 
-            PanelState.title = "Fake Title"
+            panelState.title = "Fake Title"
             pullDownApplicationsMenu(0 /*xPos*/);
 
             tryCompare(indicatorsBar, "currentItemIndex", 0);

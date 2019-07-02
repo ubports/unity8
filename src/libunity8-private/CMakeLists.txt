@@ -8,6 +8,7 @@ set(lib${LIB_NAME}_SRCS
     abstractdbusservicemonitor.cpp
     unitydbusobject.cpp
     unitydbusvirtualobject.cpp
+    wmpolicyinterface.cpp
     )
 
 add_library(${LIB_NAME} SHARED

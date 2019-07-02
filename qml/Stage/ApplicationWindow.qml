@@ -52,13 +52,8 @@ FocusScope {
         // other instructions.
         if (surface) {
             surfaceContainer.surface = surface;
-            d.liveSurface = surface.live;
-            d.hadSurface = false;
             surfaceInitTimer.start();
         } else {
-            if (d.surfaceInitialized) {
-                d.hadSurface = true;
-            }
             d.surfaceInitialized = false;
             surfaceContainer.surface = null;
         }
@@ -66,21 +61,6 @@ FocusScope {
 
     QtObject {
         id: d
-
-        property bool liveSurface: false;
-        property var con: Connections {
-            target: root.surface
-            onLiveChanged: d.liveSurface = root.surface.live
-        }
-        // using liveSurface instead of root.surface.live because with the latter
-        // this expression is not reevaluated when root.surface changes
-        readonly property bool needToTakeScreenshot: root.surface && d.surfaceInitialized && !d.liveSurface
-                                                  && applicationState !== ApplicationInfoInterface.Running
-        onNeedToTakeScreenshotChanged: {
-            if (needToTakeScreenshot && screenshotImage.status === Image.Null) {
-                screenshotImage.take();
-            }
-        }
 
         // helpers so that we don't have to check for the existence of an application everywhere
         // (in order to avoid breaking qml binding due to a javascript exception)
@@ -131,34 +111,10 @@ FocusScope {
         id: surfaceInitTimer
         interval: 100
         onTriggered: {
-            if (root.surface && root.surface.live) {d.surfaceInitialized = true;}
-        }
-    }
-
-    Timer {
-        id: surfaceIsOldTimer
-        interval: 1000
-        onTriggered: { if (stateGroup.state === "surface") { d.surfaceOldEnoughToBeResized = true; } }
-    }
-
-    Image {
-        id: screenshotImage
-        objectName: "screenshotImage"
-        anchors.fill: parent
-        fillMode: Image.PreserveAspectCrop
-        horizontalAlignment: Image.AlignLeft
-        verticalAlignment: Image.AlignTop
-        antialiasing: !root.interactive
-        z: 1
-
-        function take() {
-            // Save memory by using a half-resolution (thus quarter size) screenshot.
-            // Do not make this a binding, we can only take the screenshot once!
-            surfaceContainer.grabToImage(
-                function(result) {
-                    screenshotImage.source = result.url;
-                },
-                Qt.size(root.width / 2, root.height / 2));
+            if (root.surface && root.surface.live) {
+                d.surfaceInitialized = true;
+                d.hadSurface = true;
+            }
         }
     }
 
@@ -167,7 +123,7 @@ FocusScope {
         visible: active
         active: false
         anchors.fill: parent
-        z: screenshotImage.z + 1
+        z: 1
         sourceComponent: Component {
             Splash {
                 id: splash
@@ -238,167 +194,14 @@ FocusScope {
         id: stateGroup
         objectName: "applicationWindowStateGroup"
         states: [
-            State {
-                name: "void"
-                when:
-                     d.hadSurface && (!root.surface || !d.surfaceInitialized)
-                     &&
-                     screenshotImage.status !== Image.Ready
-            },
-            State {
-                name: "splashScreen"
-                when:
-                     !d.hadSurface && (!root.surface || !d.surfaceInitialized)
-                     &&
-                     screenshotImage.status !== Image.Ready
-            },
-            State {
+            State{
                 name: "surface"
-                when:
-                      (root.surface && d.surfaceInitialized)
-                      &&
-                      (d.liveSurface ||
-                       (d.applicationState !== ApplicationInfoInterface.Running
-                        && screenshotImage.status !== Image.Ready))
-                PropertyChanges {
-                    target: root
-                    implicitWidth: surfaceContainer.implicitWidth
-                    implicitHeight: surfaceContainer.implicitHeight
-                }
+                when: (root.surface && d.surfaceInitialized) || d.hadSurface
             },
             State {
-                name: "screenshot"
-                when:
-                      screenshotImage.status === Image.Ready
-                      &&
-                      (d.applicationState !== ApplicationInfoInterface.Running
-                       || !root.surface || !d.surfaceInitialized)
-            },
-            State {
-                // This is a dead end. From here we expect the surface to be removed from the model
-                // shortly after we stop referencing to it in our SurfaceContainer.
-                name: "closed"
-                when:
-                      // The surface died while the application is running. It must have been closed
-                      // by the shell or the application decided to destroy it by itself
-                      root.surface && d.surfaceInitialized && !d.liveSurface
-                      && d.applicationState === ApplicationInfoInterface.Running
-            }
-        ]
-
-        transitions: [
-            Transition {
-                from: ""; to: "splashScreen"
-                PropertyAction { target: splashLoader; property: "active"; value: true }
-                PropertyAction { target: surfaceContainer
-                                 property: "visible"; value: false }
-            },
-            Transition {
-                from: "splashScreen"; to: "surface"
-                SequentialAnimation {
-                    PropertyAction { target: surfaceContainer
-                                     property: "opacity"; value: 0.0 }
-                    PropertyAction { target: surfaceContainer
-                                     property: "visible"; value: true }
-                    UbuntuNumberAnimation { target: surfaceContainer; property: "opacity";
-                                            from: 0.0; to: 1.0
-                                            duration: UbuntuAnimation.BriskDuration }
-                    ScriptAction { script: {
-                        splashLoader.active = false;
-                        surfaceIsOldTimer.start();
-                    } }
-                }
-            },
-            Transition {
-                from: "surface"; to: "splashScreen"
-                SequentialAnimation {
-                    ScriptAction { script: {
-                        surfaceIsOldTimer.stop();
-                        d.surfaceOldEnoughToBeResized = false;
-                        splashLoader.active = true;
-                        surfaceContainer.visible = true;
-                    } }
-                    UbuntuNumberAnimation { target: splashLoader; property: "opacity";
-                                            from: 0.0; to: 1.0
-                                            duration: UbuntuAnimation.BriskDuration }
-                    PropertyAction { target: surfaceContainer
-                                     property: "visible"; value: false }
-                }
-            },
-            Transition {
-                from: "surface"; to: "screenshot"
-                SequentialAnimation {
-                    ScriptAction { script: {
-                        surfaceIsOldTimer.stop();
-                        d.surfaceOldEnoughToBeResized = false;
-                        screenshotImage.visible = true;
-                    } }
-                    UbuntuNumberAnimation { target: screenshotImage; property: "opacity";
-                                            from: 0.0; to: 1.0
-                                            duration: UbuntuAnimation.BriskDuration }
-                    ScriptAction { script: {
-                        surfaceContainer.visible = false;
-                        surfaceContainer.surface = null;
-                        d.hadSurface = true;
-                    } }
-                }
-            },
-            Transition {
-                from: "screenshot"; to: "surface"
-                SequentialAnimation {
-                    PropertyAction { target: surfaceContainer
-                                     property: "visible"; value: true }
-                    UbuntuNumberAnimation { target: screenshotImage; property: "opacity";
-                                            from: 1.0; to: 0.0
-                                            duration: UbuntuAnimation.BriskDuration }
-                    ScriptAction { script: {
-                        screenshotImage.visible = false;
-                        screenshotImage.source = "";
-                        surfaceIsOldTimer.start();
-                    } }
-                }
-            },
-            Transition {
-                from: "splashScreen"; to: "screenshot"
-                SequentialAnimation {
-                    PropertyAction { target: screenshotImage
-                                     property: "visible"; value: true }
-                    UbuntuNumberAnimation { target: screenshotImage; property: "opacity";
-                                            from: 0.0; to: 1.0
-                                            duration: UbuntuAnimation.BriskDuration }
-                    PropertyAction { target: splashLoader; property: "active"; value: false }
-                }
-            },
-            Transition {
-                from: "surface"; to: "void"
-                ScriptAction { script: {
-                    surfaceIsOldTimer.stop();
-                    d.surfaceOldEnoughToBeResized = false;
-                    surfaceContainer.visible = false;
-                } }
-            },
-            Transition {
-                from: "void"; to: "surface"
-                SequentialAnimation {
-                    PropertyAction { target: surfaceContainer; property: "opacity"; value: 0.0 }
-                    PropertyAction { target: surfaceContainer; property: "visible"; value: true }
-                    UbuntuNumberAnimation { target: surfaceContainer; property: "opacity";
-                                            from: 0.0; to: 1.0
-                                            duration: UbuntuAnimation.BriskDuration }
-                    ScriptAction { script: {
-                        surfaceIsOldTimer.start();
-                    } }
-                }
-            },
-            Transition {
-                to: "closed"
-                SequentialAnimation {
-                    ScriptAction { script: {
-                        surfaceContainer.visible = false;
-                        surfaceContainer.surface = null;
-                        d.hadSurface = true;
-                    } }
-                }
+                name: "splash"
+                when: !root.surface && !d.surfaceInitialized && !d.hadSurface
+                PropertyChanges { target: splashLoader; active: true }
             }
         ]
     }

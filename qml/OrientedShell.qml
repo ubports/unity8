@@ -18,7 +18,7 @@ import QtQuick 2.4
 import QtQuick.Window 2.2
 import Unity.InputInfo 0.1
 import Unity.Session 0.1
-import Unity.Screens 0.1
+import WindowManager 1.0
 import Utils 0.1
 import GSettings 1.0
 import "Components"
@@ -32,14 +32,15 @@ Item {
     implicitWidth: units.gu(40)
     implicitHeight: units.gu(71)
 
+    property alias deviceConfiguration: _deviceConfiguration
+    property alias orientations: d.orientations
+
     onWidthChanged: calculateUsageMode();
 
     DeviceConfiguration {
-        id: deviceConfiguration
+        id: _deviceConfiguration
         name: applicationArguments.deviceName
     }
-
-    property alias orientations: d.orientations
 
     Item {
         id: d
@@ -155,10 +156,6 @@ Item {
             }
         }
         return false;
-    }
-
-    Screens {
-        id: screens
     }
 
     property int orientation

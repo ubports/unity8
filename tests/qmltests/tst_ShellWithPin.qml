@@ -40,20 +40,10 @@ Item {
     }
 
     QtObject {
-        id: applicationArguments
-
-        function hasGeometry() {
-            return false;
-        }
-
-        function width() {
-            return 0;
-        }
-
-        function height() {
-            return 0;
-        }
+        id: _screenWindow
+        property bool primary: true
     }
+    property alias screenWindow: _screenWindow
 
     Row {
         id: contentRow
@@ -123,6 +113,7 @@ Item {
         when: windowShown
 
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
+        topLevelSurfaceList: shell ? shell.topLevelSurfaceList : null
 
         function init() {
             tryCompare(shell, "waitingOnGreeter", false); // will be set when greeter is all ready
@@ -138,7 +129,6 @@ Item {
 
             // from StageTestCase
             stage = findChild(shell, "stage");
-            topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
             verify(topLevelSurfaceList);
 
             startApplication("unity8-dash");
@@ -146,8 +136,6 @@ Item {
 
         function cleanup() {
             tryCompare(shell, "waitingOnGreeter", false); // make sure greeter didn't leave us in disabled state
-
-            topLevelSurfaceList = null;
 
             shellLoader.itemDestroyed = false
 

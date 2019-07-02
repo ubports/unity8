@@ -15,8 +15,11 @@
  */
 
 import QtQuick 2.4
+import UInput 0.1
 
-Item {
+Canvas {
+    id: root
+
     property int topBoundaryOffset // effectively panel height
     property Item confiningItem
 
@@ -30,5 +33,49 @@ Item {
     signal pushStopped()
     signal mouseMoved()
 
-    onMouseMoved: opacity = 1;
+    width: units.gu(2)
+    height: units.gu(2)
+    antialiasing: true
+
+    onPaint: {
+        var ctx = getContext("2d");
+        ctx.save();
+        ctx.clearRect(0,0,width, height);
+        ctx.strokeStyle = "#000000";
+        ctx.lineWidth = 1
+        ctx.fillStyle = "#ffffff";
+        ctx.globalAlpha = 1.0;
+        ctx.lineJoin = "round";
+        ctx.beginPath();
+
+        // put rectangle in the middle
+        // draw the rectangle
+        ctx.moveTo(width/2,height);
+        ctx.lineTo(width, height/2);
+        ctx.lineTo(0,0);
+
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    Connections {
+        target: UInput
+        onMouseMoved: {
+            var newX = root.x;
+            newX += dx;
+            if (newX < 0) newX = 0;
+            else if (newX >= parent.width) newX = parent.width-1;
+
+            var newY = root.y;
+            newY += dy;
+            if (newY < 0) newY = 0;
+            else if (newY >= parent.height) newY = parent.height-1;
+
+            root.x = newX;
+            root.y = newY;
+            root.mouseMoved();
+        }
+    }
 }

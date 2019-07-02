@@ -72,6 +72,7 @@ find_package(Qt5Sql 5.6 REQUIRED)
 find_package(Qt5Test 5.6 REQUIRED)
 
 pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=27)
+pkg_check_modules(QTMIRSERVER REQUIRED qtmirserver>=0.6.0)
 pkg_check_modules(GEONAMES REQUIRED geonames>=0.2)
 pkg_check_modules(GIO REQUIRED gio-2.0>=2.32)
 pkg_check_modules(GLIB REQUIRED glib-2.0>=2.32)
@@ -84,6 +85,7 @@ pkg_check_modules(QTDBUSTEST REQUIRED
     libqtdbustest-1
     libqtdbusmock-1
     )
+pkg_check_modules(MIRAL REQUIRED miral)
 
 ### Check UbuntuGestures private headers. No pkg-config (.pc) file is provided for them
 find_path(UBUNTUGESTUREPRIV
@@ -118,7 +120,9 @@ if(SHELL_PLUGINDIR STREQUAL "")
     message(FATAL_ERROR "Could not determine plugin import dir.")
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-permissive -pedantic -Wall -Wextra")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-permissive -pedantic -Wall -Wextra")
+
+set (CMAKE_CXX_STANDARD 14)
 
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "release" OR "${CMAKE_BUILD_TYPE}" STREQUAL "relwithdebinfo")
     option(Werror "Treat warnings as errors" ON)

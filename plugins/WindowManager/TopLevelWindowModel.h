@@ -20,11 +20,16 @@
 #include <QAbstractListModel>
 #include <QLoggingCategory>
 
+#include <memory>
+
 #include "WindowManagerGlobal.h"
 
 Q_DECLARE_LOGGING_CATEGORY(TOPLEVELWINDOWMODEL)
 
 class Window;
+class Workspace;
+
+namespace miral { class Workspace; }
 
 namespace unity {
     namespace shell {
@@ -72,16 +77,6 @@ class WINDOWMANAGERQML_EXPORT TopLevelWindowModel : public QAbstractListModel
      */
     Q_PROPERTY(Window* focusedWindow READ focusedWindow NOTIFY focusedWindowChanged)
 
-    Q_PROPERTY(unity::shell::application::SurfaceManagerInterface* surfaceManager
-            READ surfaceManager
-            WRITE setSurfaceManager
-            NOTIFY surfaceManagerChanged)
-
-    Q_PROPERTY(unity::shell::application::ApplicationManagerInterface* applicationManager
-            READ applicationManager
-            WRITE setApplicationManager
-            NOTIFY applicationManagerChanged)
-
     /**
       The id to be used on the next entry created
       Useful for tests
@@ -100,7 +95,8 @@ public:
         ApplicationRole = Qt::UserRole + 1,
     };
 
-    TopLevelWindowModel();
+    TopLevelWindowModel(Workspace* workspace);
+    ~TopLevelWindowModel();
 
     // From QAbstractItemModel
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -111,16 +107,10 @@ public:
         return roleNames;
     }
 
-    // Own API
+    // Own API;
 
     unity::shell::application::MirSurfaceInterface* inputMethodSurface() const;
     Window* focusedWindow() const;
-
-    unity::shell::application::ApplicationManagerInterface *applicationManager() const { return m_applicationManager; }
-    void setApplicationManager(unity::shell::application::ApplicationManagerInterface*);
-
-    unity::shell::application::SurfaceManagerInterface *surfaceManager() const { return m_surfaceManager; }
-    void setSurfaceManager(unity::shell::application::SurfaceManagerInterface*);
 
     int nextId() const { return m_nextId; }
 
@@ -168,13 +158,13 @@ public:
      * @brief Raises and focuses a window with no surface
      */
     Q_INVOKABLE void activateNullWindow();
+    void setApplicationManager(unity::shell::application::ApplicationManagerInterface*);
+    void setSurfaceManager(unity::shell::application::SurfaceManagerInterface*);
 
 Q_SIGNALS:
     void countChanged();
     void inputMethodSurfaceChanged(unity::shell::application::MirSurfaceInterface* inputMethodSurface);
     void focusedWindowChanged(Window *focusedWindow);
-    void applicationManagerChanged(unity::shell::application::ApplicationManagerInterface*);
-    void surfaceManagerChanged(unity::shell::application::SurfaceManagerInterface*);
 
     /**
      * @brief Emitted when the list changes
@@ -186,7 +176,8 @@ Q_SIGNALS:
     void nextIdChanged();
 
 private Q_SLOTS:
-    void onSurfaceCreated(unity::shell::application::MirSurfaceInterface *surface);
+    void onSurfacesAddedToWorkspace(const std::shared_ptr<miral::Workspace>& workspace,
+                                    const QVector<unity::shell::application::MirSurfaceInterface*> surfaces);
     void onSurfacesRaised(const QVector<unity::shell::application::MirSurfaceInterface*> &surfaces);
 
     void onModificationsStarted();
@@ -203,9 +194,9 @@ private:
     void setInputMethodWindow(Window *window);
     void setFocusedWindow(Window *window);
     void removeInputMethodWindow();
-    int findIndexOf(const unity::shell::application::MirSurfaceInterface *surface) const;
     void deleteAt(int index);
     void removeAt(int index);
+    void removeSurfaces(const QVector<unity::shell::application::MirSurfaceInterface *> surfaces);
 
     void addApplication(unity::shell::application::ApplicationInfoInterface *application);
     void removeApplication(unity::shell::application::ApplicationInfoInterface *application);
@@ -228,6 +219,8 @@ private:
     void activateEmptyWindow(Window *window);
 
     void activateTopMostWindowWithoutId(int forbiddenId);
+    void refreshWindows();
+    void clear();
 
     Window *createWindow(unity::shell::application::MirSurfaceInterface *surface);
 
@@ -245,6 +238,9 @@ private:
     Window* m_inputMethodWindow{nullptr};
     Window* m_focusedWindow{nullptr};
     Window* m_nullWindow;
+    Workspace* m_workspace{nullptr};
+    // track all the surfaces we've been told about.
+    QSet<unity::shell::application::MirSurfaceInterface*> m_allSurfaces;
 
     int m_nextId{1};
     // Just something big enough that we don't risk running out of unused id numbers.
@@ -265,8 +261,7 @@ private:
     ModelState m_modelState{IdleState};
 
     // Valid between modificationsStarted and modificationsEnded
-    bool m_focusedWindowChanged{false};
-    Window *m_newlyFocusedWindow{nullptr};
+    bool m_focusedWindowCleared{false};
 };
 
 #endif // TOPLEVELWINDOWMODEL_H

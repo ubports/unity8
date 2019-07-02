@@ -19,6 +19,7 @@ import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
 import "../../../qml/Components"
+import "../../../qml/Components/PanelState"
 import "../../../qml/Stage"
 import Ubuntu.Components 1.3
 import Unity.Application 0.1
@@ -31,10 +32,10 @@ Item {
 
     property var greeter: { fullyShown: true }
 
-    SurfaceManager { id: sMgr }
+    readonly property var topLevelSurfaceList: WorkspaceManager.activeWorkspace.windowModel
+
     ApplicationMenuDataLoader {
         id: appMenuData
-        surfaceManager: sMgr
     }
 
     Stage {
@@ -47,19 +48,17 @@ Item {
         orientations: Orientations {}
         applicationManager: ApplicationManager
         mode: "staged"
-        topLevelSurfaceList: TopLevelWindowModel {
-            id: topLevelSurfaceList
-            applicationManager: ApplicationManager
-            surfaceManager: sMgr
-        }
+        topLevelSurfaceList: root.topLevelSurfaceList
         availableDesktopArea: availableDesktopAreaItem
         Item {
             id: availableDesktopAreaItem
             anchors.fill: parent
         }
+
         Component.onCompleted: {
             ApplicationManager.startApplication("unity8-dash");
         }
+        panelState: PanelState {}
     }
 
     Flickable {
@@ -305,7 +304,6 @@ Item {
 
             performEdgeSwipeToShowAppSpread();
 
-            print("tapping", selectedAppDeleage.appId, selectedAppDeleage.visible)
             if (selectedAppDeleage.x > stage.width - units.gu(5)) {
                 touchFlick(stage, stage.width - units.gu(2), stage.height / 2, units.gu(2), stage.height / 2, true, true, units.gu(2), 10)
             }
@@ -534,6 +532,7 @@ Item {
             performEdgeSwipeToShowAppSpread();
 
             var appDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
+            verify(appDelegate);
             var dragArea = findChild(appDelegate, "dragArea");
             verify(dragArea);
             tryCompare(dragArea, "closeable", true);

@@ -28,10 +28,10 @@ Item {
     property var spreadFlickable
 
     // some config options
-    property real contentMargin: 0.16 * root.height
-    property real contentTopMargin: contentMargin
-    property real contentBottomMargin: 0.35 * contentMargin
-    property real windowTitleTopMargin: 3/4 * (contentTopMargin - windowTitle.height)
+    property real contentMargin: 0.1 * root.height
+    property real contentTopMargin: contentMargin + root.y + windowTitle.height
+    property real contentBottomMargin: contentMargin
+    property real windowTitleTopMargin: contentMargin - windowTitle.height
     property int stackItemCount: 3
     property real leftRotationAngle: 22
     property real rightRotationAngle: 32
@@ -52,7 +52,7 @@ Item {
 
     readonly property real spreadWidth: rightStackXPos - leftStackXPos
     readonly property real spreadHeight: root.height
-    readonly property real spreadItemHeight: spreadHeight - contentTopMargin - contentBottomMargin
+    readonly property real spreadItemHeight: spreadHeight - contentMargin * 2
     readonly property real spreadItemWidth: stackHeight
 
     readonly property real dynamicLeftRotationAngle: leftRotationAngle * rotationAngleFactor
@@ -92,10 +92,9 @@ Item {
 
     readonly property real visibleItemCount: (spreadWidth / spreadItemWidth) / (1 - itemOverlap)
 
-    readonly property real spreadTotalWidth: Math.max(2,totalItemCount) * spreadWidth / visibleItemCount
+    readonly property real spreadTotalWidth: totalItemCount * spreadWidth / visibleItemCount
 
-    readonly property real centeringOffset: Math.max(spreadWidth - spreadTotalWidth ,0) / (2 * spreadWidth)
-
+    readonly property real centeringOffset: Math.max(spreadWidth - spreadTotalWidth + (leftStackXPos - leftMargin) * 2, 0) / (2 * spreadWidth)
 
     readonly property var curve: BezierCurve {
         controlPoint2: {'x': 0.19, 'y': 0.00}

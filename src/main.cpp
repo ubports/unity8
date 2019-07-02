@@ -15,9 +15,10 @@
  */
 
 // local
-#include "ShellApplication.h"
+#include "UnityApplication.h"
 #include "qmldebuggerutils.h"
 #include "UnixSignalHandler.h"
+#include <paths.h>
 
 #include <QTranslator>
 #include <QLibraryInfo>
@@ -27,17 +28,12 @@ int main(int argc, const char *argv[])
 {
     qSetMessagePattern("[%{time yyyy-MM-dd:hh:mm:ss.zzz}] %{if-category}%{category}: %{endif}%{message}");
 
-    bool isMirServer = qgetenv("QT_QPA_PLATFORM") ==  "mirserver";
-    if (!isMirServer && qgetenv("QT_QPA_PLATFORM") == "ubuntumirclient") {
-        setenv("QT_QPA_PLATFORM", "mirserver", 1 /* overwrite */);
-        isMirServer = true;
-    }
-
     if (enableQmlDebugger(argc, argv)) {
         QQmlDebuggingEnabler qQmlEnableDebuggingHelper(true);
     }
 
-    ShellApplication *application = new ShellApplication(argc, (char**)argv, isMirServer);
+    auto *application = new UnityApplication(argc,
+                                             (char**)argv);
 
     UnixSignalHandler signalHandler([]{
         QGuiApplication::exit(0);

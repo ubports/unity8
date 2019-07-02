@@ -25,6 +25,8 @@
 // from tests/mocks
 #include <Unity/Application/MirSurfaceListModel.h>
 
+#include "wmpolicyinterface.h"
+
 using namespace unity::shell::application;
 
 class MirSurface : public MirSurfaceInterface
@@ -88,6 +90,13 @@ class SurfaceManager : public SurfaceManagerInterface
     Q_OBJECT
 
 public:
+    void forEachSurfaceInWorkspace(const std::shared_ptr<miral::Workspace>&,
+                                   const std::function<void(unity::shell::application::MirSurfaceInterface*)>&) override {}
+    void moveSurfaceToWorkspace(unity::shell::application::MirSurfaceInterface*,
+                                const std::shared_ptr<miral::Workspace>&) override {}
+    void moveWorkspaceContentToWorkspace(const std::shared_ptr<miral::Workspace>&,
+                                         const std::shared_ptr<miral::Workspace>&) override {}
+
     void raise(MirSurfaceInterface *) override {}
     void activate(MirSurfaceInterface *) override {}
 };
@@ -206,6 +215,22 @@ private:
     }
 
     QList<Application*> m_applications;
+};
+
+namespace miral {
+class Workspace {};
+}
+
+class WindowManagementPolicy : public WMPolicyInterface
+{
+public:
+    WindowManagementPolicy() {}
+
+    std::shared_ptr<miral::Workspace> createWorkspace() override { return std::make_shared<miral::Workspace>(); }
+
+    void releaseWorkspace(const std::shared_ptr<miral::Workspace>&) override {}
+
+    void setActiveWorkspace(const std::shared_ptr<miral::Workspace>&) override {}
 };
 
 #endif // UNITYAPPLICATIONMOCKS_H

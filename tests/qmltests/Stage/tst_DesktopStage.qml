@@ -63,17 +63,11 @@ Item {
         }
     }
 
-    SurfaceManager { id: sMgr }
     ApplicationMenuDataLoader {
         id: appMenuData
-        surfaceManager: sMgr
     }
 
-    TopLevelWindowModel {
-        id: topSurfaceList
-        applicationManager: ApplicationManager
-        surfaceManager: sMgr
-    }
+    readonly property var topSurfaceList: WorkspaceManager.activeWorkspace.windowModel
 
     Loader {
         id: stageLoader
@@ -103,11 +97,12 @@ Item {
                 availableDesktopArea: availableDesktopAreaItem
                 interactive: true
                 mode: "windowed"
+                panelState: PanelState {}
 
                 Item {
                     id: availableDesktopAreaItem
                     anchors.fill: parent
-                    anchors.topMargin: PanelState.panelHeight
+                    anchors.topMargin: parent.panelState.panelHeight
                 }
             }
         }
@@ -180,6 +175,7 @@ Item {
 
         stage: stageLoader.status === Loader.Ready ? stageLoader.item : null
         topLevelSurfaceList: topSurfaceList
+        property var panelState: stage ? stage.panelState : null
 
         function init() {
             // wait until unity8-dash is up and running.
@@ -562,8 +558,6 @@ Item {
             var gmailDelegate = startApplication("gmail-webapp");
             verify(gmailDelegate);
 
-            wait(2000)
-
             var gmailMaximizeButton = findChild(gmailDelegate, "maximizeWindowButton");
             verify(gmailMaximizeButton);
             mouseClick(gmailMaximizeButton);
@@ -638,19 +632,19 @@ Item {
             maximizeDelegate(facebookAppDelegate);
 
             // verify the drop shadow is still not visible
-            verify(PanelState.dropShadow == false);
+            verify(panelState.dropShadow == false);
 
             // start a foreground app, not maximized
             var dialerAppDelegate = startApplication("dialer-app");
 
             // verify the drop shadow becomes visible
-            tryCompareFunction(function() { return PanelState.dropShadow; }, true);
+            tryCompareFunction(function() { return panelState.dropShadow; }, true);
 
             // close the maximized app
             ApplicationManager.stopApplication("facebook-webapp");
 
             // verify the drop shadow is gone
-            tryCompare(PanelState, "dropShadow", false);
+            tryCompare(panelState, "dropShadow", false);
         }
 
         function test_threeFingerTapShowsWindowControls_data() {

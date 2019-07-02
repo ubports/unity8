@@ -24,6 +24,7 @@ import Unity.Test 0.1
 import Utils 0.1
 
 import "../../../qml/ApplicationMenus"
+import "../../../qml/Components/PanelState"
 import ".."
 
 Item {
@@ -42,10 +43,8 @@ Item {
         value: false
     }
 
-    SurfaceManager { id: sMgr }
     ApplicationMenuDataLoader {
         id: appMenuData
-        surfaceManager: sMgr
     }
 
     Rectangle {
@@ -67,6 +66,7 @@ Item {
                 id: menuBackend
                 modelData: null
             }
+            panelState: PanelState {}
         }
     }
 

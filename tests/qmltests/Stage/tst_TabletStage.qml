@@ -26,6 +26,7 @@ import WindowManager 1.0
 import ".."
 import "../../../qml/Stage"
 import "../../../qml/Components"
+import "../../../qml/Components/PanelState"
 
 Rectangle {
     id: root
@@ -35,10 +36,10 @@ Rectangle {
 
     property var greeter: { fullyShown: true }
 
-    SurfaceManager { id: sMgr }
+    readonly property var topLevelSurfaceList: WorkspaceManager.activeWorkspace.windowModel
+
     ApplicationMenuDataLoader {
         id: appMenuData
-        surfaceManager: sMgr
     }
 
     Stage {
@@ -56,11 +57,8 @@ Rectangle {
         focus: true
         mode: "stagedWithSideStage"
         applicationManager: ApplicationManager
-        topLevelSurfaceList: TopLevelWindowModel {
-            id: topLevelSurfaceList
-            applicationManager: ApplicationManager
-            surfaceManager: sMgr
-        }
+        topLevelSurfaceList: root.topLevelSurfaceList
+        panelState: PanelState {}
         availableDesktopArea: availableDesktopAreaItem
         Item {
             id: availableDesktopAreaItem
@@ -151,7 +149,6 @@ Rectangle {
         name: "TabletStage"
         when: windowShown
 
-        readonly property alias topSurfaceList: stage.topLevelSurfaceList
         property Item sideStage: stage ? findChild(stage, "sideStage") : null
 
         function init() {
@@ -165,6 +162,7 @@ Rectangle {
 
             sideStage.hideNow()
             tryCompare(sideStage, "x", stage.width)
+
         }
 
         function cleanup() {
@@ -226,7 +224,7 @@ Rectangle {
             tryCompare(stage, "state", "spread");
         }
 
-        function swipeSurfaceUpwards(surfaceId) {
+        function swipeSurfaceDownwards(surfaceId) {
             var appWindow = findAppWindowForSurfaceId(surfaceId);
             verify(appWindow);
 
@@ -234,7 +232,7 @@ Rectangle {
             // to not be covered by other surfaces when they're all being shown in the spread
             touchFlick(appWindow,
                     appWindow.width * 0.1, appWindow.height / 2,
-                    appWindow.width * 0.1, -appWindow.height / 2);
+                    appWindow.width * 0.1, appWindow.height * 1.5);
         }
 
         function dragToSideStage(surfaceId) {
@@ -308,6 +306,8 @@ Rectangle {
             WindowStateStorage.saveStage(dialerCheckBox.appId, ApplicationInfoInterface.SideStage)
 
             var webbrowserSurfaceId = launchApp("morph");
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
             var webbrowserDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             verify(webbrowserDelegate);
             compare(webbrowserDelegate.stage, ApplicationInfoInterface.MainStage);
@@ -317,6 +317,8 @@ Rectangle {
             tryCompare(webbrowserWindow.surface, "activeFocus", true);
 
             var dialerSurfaceId = launchApp("dialer");
+            dialerCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(dialerSurfaceId);
 
             var dialerApp = ApplicationManager.findApplication(dialerCheckBox.appId);
             var dialerDelegate = findChild(stage, "appDelegate_" + dialerSurfaceId);
@@ -347,6 +349,8 @@ Rectangle {
             WindowStateStorage.saveStage(dialerCheckBox.appId, ApplicationInfoInterface.SideStage)
 
             var dialerSurfaceId = launchApp("dialer");
+            dialerCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(dialerSurfaceId);
 
             performEdgeSwipeToShowAppSpread();
 
@@ -356,7 +360,7 @@ Rectangle {
             compare(appDelegate.stage, ApplicationInfoInterface.SideStage);
             tryCompare(dragArea, "closeable", true);
 
-            swipeSurfaceUpwards(dialerSurfaceId);
+            swipeSurfaceDownwards(dialerSurfaceId);
 
             // Check that dialer-app has been closed
 
@@ -367,10 +371,16 @@ Rectangle {
             tryCompareFunction(function() {
                 return ApplicationManager.findApplication(dialerCheckBox.appId);
             }, null);
+
+            stage.closeSpread();
         }
 
         function test_suspendsAndResumesAppsInMainStage() {
             var webbrowserSurfaceId = launchApp("morph");
+
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
             var webbrowserDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             compare(webbrowserDelegate.stage, ApplicationInfoInterface.MainStage);
@@ -378,6 +388,9 @@ Rectangle {
             tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Running);
 
             var gallerySurfaceId = launchApp("gallery");
+            galleryCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(gallerySurfaceId);
+
             var galleryApp = ApplicationManager.findApplication(galleryCheckBox.appId);
             var galleryDelegate = findChild(stage, "appDelegate_" + gallerySurfaceId);
             compare(galleryDelegate.stage, ApplicationInfoInterface.MainStage);
@@ -406,13 +419,20 @@ Rectangle {
             // launch two main stage apps
             // gallery will be on foreground and webbrowser on background
 
+
             var webbrowserSurfaceId = launchApp("morph");
+
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
             var webbrowserDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             verify(webbrowserDelegate);
             compare(webbrowserDelegate.stage, ApplicationInfoInterface.MainStage);
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
 
             var gallerySurfaceId = launchApp("gallery");
+            galleryCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(gallerySurfaceId);
             var galleryApp = ApplicationManager.findApplication(galleryCheckBox.appId);
             var galleryDelegate = findChild(stage, "appDelegate_" + gallerySurfaceId);
             compare(galleryDelegate.stage, ApplicationInfoInterface.MainStage);
@@ -423,12 +443,16 @@ Rectangle {
             // facebook will be on foreground and dialer on background
 
             var dialerSurfaceId = launchApp("dialer");
+            dialerCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(dialerSurfaceId);
             var dialerApp = ApplicationManager.findApplication(dialerCheckBox.appId);
             var dialerDelegate = findChild(stage, "appDelegate_" + dialerSurfaceId);
             compare(dialerDelegate.stage, ApplicationInfoInterface.SideStage);
 
             var facebookSurfaceId = launchApp("facebook");
-            var facebookApp = ApplicationManager.findApplication(facebookCheckBox.appId);
+            facebookCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(facebookSurfaceId);
+
             var facebookDelegate = findChild(stage, "appDelegate_" + facebookSurfaceId);
             compare(facebookDelegate.stage, ApplicationInfoInterface.SideStage);
 
@@ -461,12 +485,16 @@ Rectangle {
             WindowStateStorage.saveStage(dialerCheckBox.appId, ApplicationInfoInterface.SideStage)
 
             var webbrowserSurfaceId = launchApp("morph");
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
             var webbrowserDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             compare(webbrowserDelegate.stage, ApplicationInfoInterface.MainStage);
 
             var dialerSurfaceId = launchApp("dialer");
-            var dialerApp = ApplicationManager.findApplication(dialerCheckBox.appId);
+            dialerCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(dialerSurfaceId);
+
             var dialerDelegate = findChild(stage, "appDelegate_" + dialerSurfaceId);
             compare(dialerDelegate.stage, ApplicationInfoInterface.SideStage);
 
@@ -539,7 +567,7 @@ Rectangle {
             tryCompare(stagesPriv, "mainStageAppId", "facebook-webapp");
             tryCompare(stagesPriv, "sideStageAppId", "");
 
-            var appSurfaceId = topSurfaceList.nextId;
+            var appSurfaceId = topLevelSurfaceList.nextId;
             var app = ApplicationManager.startApplication(data.appId);
             waitUntilAppSurfaceShowsUp(appSurfaceId);
 
@@ -566,6 +594,8 @@ Rectangle {
             tryCompare(stagesPriv, "sideStageAppId", "");
 
             var webbrowserSurfaceId = launchApp("morph");
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
             tryCompare(stagesPriv, "mainStageAppId", data.mainStageAppId);
             tryCompare(stagesPriv, "sideStageAppId", data.sideStageAppId);
@@ -591,6 +621,8 @@ Rectangle {
             tryCompare(stagesPriv, "sideStageAppId", "");
 
             var webbrowserSurfaceId = launchApp("morph");
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
             if (data.toStage === ApplicationInfoInterface.SideStage) {
                 dragToSideStage(webbrowserSurfaceId);
@@ -606,6 +638,8 @@ Rectangle {
         function test_loadSideStageByDraggingFromMainStage() {
             sideStage.showNow();
             var webbrowserSurfaceId = launchApp("morph")
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
             var appDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
@@ -625,6 +659,8 @@ Rectangle {
                 return WindowStateStorage.getStage(webbrowserCheckBox.appId, ApplicationInfoInterface.MainStage) === ApplicationInfoInterface.SideStage
             }, true);
             var webbrowserSurfaceId = launchApp("morph");
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
             var appDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
@@ -638,7 +674,7 @@ Rectangle {
 
         /*
             1- Suspended app gets killed behind the scenes, causing its surface to go zombie.
-            2- Surface gets screenshotted and removed. Its slot in the topSurfaceList remains,
+            2- Surface gets screenshotted and removed. Its slot in the topLevelSurfaceList remains,
                though (so ApplicationWindow can display the screenshot in its place).
             3- User taps on the screenshot of the long-gone surface.
 
@@ -653,6 +689,9 @@ Rectangle {
 
             var webbrowserSurfaceId = topSurfaceList.nextId;
             launchApp("morph");
+
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
 
             switchToSurface(facebookSurfaceId);
@@ -665,24 +704,22 @@ Rectangle {
             // simulate the suspended app being killed by the out-of-memory daemon
             webbrowserApp.surfaceList.get(0).setLive(false);
 
-            // wait until the surface is gone
-            tryCompare(webbrowserApp.surfaceList, "count", 0);
-            compare(topSurfaceList.surfaceAt(topSurfaceList.indexForId(webbrowserSurfaceId)), null);
-
             switchToSurface(webbrowserSurfaceId);
 
             // webbrowser should have been brought to front
-            tryCompareFunction(function(){return topSurfaceList.idAt(0);}, webbrowserSurfaceId);
+            tryCompareFunction(function(){return topLevelSurfaceList.idAt(0);}, webbrowserSurfaceId);
 
             // and it should eventually get a new surface and get resumed
-            tryCompareFunction(function(){return topSurfaceList.surfaceAt(0) !== null;}, true);
-            compare(topSurfaceList.count, 2); // still two top-level items
+            tryCompareFunction(function(){return topLevelSurfaceList.surfaceAt(0) !== null;}, true);
+            compare(topLevelSurfaceList.count, 2); // still two top-level items
             tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Running);
             compare(webbrowserApp.surfaceList.count, 1);
         }
 
         function test_draggingSurfaceKeepsSurfaceFocus() {
             var webbrowserSurfaceId = launchApp("morph");
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
             var appDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
@@ -699,6 +736,8 @@ Rectangle {
         function test_switchRestoreStageOnRotation() {
             WindowStateStorage.saveStage(webbrowserCheckBox.appId, ApplicationInfoInterface.SideStage)
             var webbrowserSurfaceId = launchApp("morph");
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
             var appDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
@@ -716,6 +755,8 @@ Rectangle {
 
         function test_restoreSavedStageOnCloseReopen() {
             var webbrowserSurfaceId = launchApp("morph");
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
             var appDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);
@@ -732,6 +773,8 @@ Rectangle {
             stage.shellOrientation = Qt.LandscapeOrientation;
 
             webbrowserSurfaceId = launchApp("morph");
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
             appDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
             verify(appDelegate);

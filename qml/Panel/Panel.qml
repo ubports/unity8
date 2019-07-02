@@ -48,6 +48,7 @@ Item {
     property bool hasKeyboard: false
 
     property string mode: "staged"
+    property PanelState panelState
 
     MouseArea {
         id: backMouseEater
@@ -64,14 +65,14 @@ Item {
     }
 
     Binding {
-        target: PanelState
+        target: panelState
         property: "panelHeight"
         value: minimizedPanelHeight
     }
 
     RegisteredApplicationMenuModel {
         id: registeredMenuModel
-        persistentSurfaceId: PanelState.focusedPersistentSurfaceId
+        persistentSurfaceId: panelState.focusedPersistentSurfaceId
     }
 
     QtObject {
@@ -82,11 +83,11 @@ Item {
                                       !indicators.shown &&
                                       (decorationMouseArea.containsMouse || menuBarLoader.menusRequested)
 
-        property bool showWindowDecorationControls: (revealControls && PanelState.decorationsVisible) ||
-                                                    PanelState.decorationsAlwaysVisible
+        property bool showWindowDecorationControls: (revealControls && panelState.decorationsVisible) ||
+                                                    panelState.decorationsAlwaysVisible
 
-        property bool showPointerMenu: revealControls && enablePointerMenu &&
-                                       (PanelState.decorationsVisible || mode == "windowed")
+        property bool showPointerMenu: revealControls &&
+                                       (panelState.decorationsVisible || mode == "windowed")
 
         property bool enablePointerMenu: applicationMenus.available &&
                                          applicationMenus.model
@@ -138,7 +139,7 @@ Item {
                 fill: panelAreaBackground
                 bottomMargin: -units.gu(1)
             }
-            visible: PanelState.dropShadow
+            visible: panelState.dropShadow
             source: "graphics/rectangular_dropshadow.sci"
         }
 
@@ -195,12 +196,12 @@ Item {
                     visible: opacity != 0
                     Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
 
-                    active: PanelState.decorationsVisible || PanelState.decorationsAlwaysVisible
+                    active: panelState.decorationsVisible || panelState.decorationsAlwaysVisible
                     windowIsMaximized: true
-                    onCloseClicked: PanelState.closeClicked()
-                    onMinimizeClicked: PanelState.minimizeClicked()
-                    onMaximizeClicked: PanelState.restoreClicked()
-                    closeButtonShown: PanelState.closeButtonShown
+                    onCloseClicked: panelState.closeClicked()
+                    onMinimizeClicked: panelState.minimizeClicked()
+                    onMaximizeClicked: panelState.restoreClicked()
+                    closeButtonShown: panelState.closeButtonShown
                 }
 
                 Loader {
@@ -220,11 +221,12 @@ Item {
                     sourceComponent: MenuBar {
                         id: bar
                         objectName: "menuBar"
-                        anchors.left: parent ? parent.left : undefined
+                        anchors.left: menuBarLoader ? menuBarLoader.left : undefined
                         anchors.margins: units.gu(1)
                         height: menuBarLoader.height
-                        enableKeyFilter: valid && PanelState.decorationsVisible
+                        enableKeyFilter: valid && panelState.decorationsVisible
                         unityMenuModel: __applicationMenus.model
+                        panelState: root.panelState
 
                         Connections {
                             target: __applicationMenus
@@ -236,7 +238,7 @@ Item {
                             onShownChanged: bar.dismiss();
                         }
 
-                        onDoubleClicked: PanelState.restoreClicked()
+                        onDoubleClicked: panelState.restoreClicked()
                         onPressed: mouse.accepted = false // let the parent mouse area handle this, so it can both unsnap window and show menu
                     }
                 }
@@ -343,7 +345,7 @@ Item {
             opacity: __applicationMenus.visible && !__applicationMenus.expanded ? 1 : 0
             visible: opacity != 0
             Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
-            text: PanelState.title
+            text: panelState.title
         }
 
         PanelMenu {

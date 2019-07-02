@@ -24,8 +24,10 @@ class MockController: public QObject
 {
     Q_OBJECT
 public:
-    MockController(QObject *parent = 0);
+    MockController(QObject *parent = nullptr);
     ~MockController() = default;
+
+    static MockController *instance();
 
     Q_INVOKABLE QInputDevice* addMockDevice(const QString &devicePath, QInputDevice::InputType type);
     Q_INVOKABLE void removeDevice(const QString &devicePath);

@@ -17,19 +17,74 @@
 #include "WindowManagerPlugin.h"
 
 #include "AvailableDesktopArea.h"
+#include "Screen.h"
+#include "ScreenAttached.h"
+#include "Screens.h"
+#include "ScreensConfiguration.h"
+#include "ScreenWindow.h"
 #include "TopLevelWindowModel.h"
 #include "Window.h"
+#include "WindowManagerObjects.h"
 #include "WindowMargins.h"
+#include "WorkspaceManager.h"
+#include "Workspace.h"
+#include "WorkspaceModel.h"
 
 #include <QtQml>
+#include <qtmir/qtmir.h>
+
+namespace {
+
+static const QString notInstantiatable = QStringLiteral("Not instantiatable");
+
+static QObject *workspace_manager(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return WorkspaceManager::instance();
+}
+QObject* screensSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
+    Q_UNUSED(engine);
+    Q_UNUSED(scriptEngine);
+    return ConcreteScreens::self();
+}
+QObject* objectsSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
+    Q_UNUSED(engine);
+    Q_UNUSED(scriptEngine);
+    return WindowManagerObjects::instance();
+}
+
+} // namspace
 
 void WindowManagerPlugin::registerTypes(const char *uri)
 {
     qmlRegisterType<AvailableDesktopArea>(uri, 1, 0, "AvailableDesktopArea");
-    qmlRegisterType<TopLevelWindowModel>(uri, 1, 0, "TopLevelWindowModel");
     qmlRegisterType<WindowMargins>(uri, 1, 0, "WindowMargins");
+    qmlRegisterSingletonType<WorkspaceManager>(uri, 1, 0, "WorkspaceManager", workspace_manager);
+    qmlRegisterSingletonType<ConcreteScreens>(uri, 1, 0, "Screens", screensSingleton);
+    qmlRegisterUncreatableType<qtmir::ScreenMode>(uri, 1, 0, "ScreenMode", notInstantiatable);
+    qmlRegisterSingletonType<WindowManagerObjects>(uri, 1, 0, "WindowManagerObjects", objectsSingleton);
+
+    qRegisterMetaType<ConcreteScreen*>("ConcreteScreen*");
+    qRegisterMetaType<ProxyScreens*>("ProxyScreens*");
+    qRegisterMetaType<Workspace*>("Workspace*");
+    qRegisterMetaType<TopLevelWindowModel*>("TopLevelWindowModel*");
+    qRegisterMetaType<ScreenConfig*>("ScreenConfig*");
+    qRegisterMetaType<WorkspaceModel*>("WorkspaceModel*");
 
     qRegisterMetaType<Window*>("Window*");
-
     qRegisterMetaType<QAbstractListModel*>("QAbstractListModel*");
+
+    qmlRegisterType<ScreenWindow>(uri, 1, 0, "ScreenWindow");
+    qmlRegisterRevision<QWindow,1>(uri, 1, 0);
+
+    qmlRegisterUncreatableType<WMScreen>(uri, 1, 0, "WMScreen", notInstantiatable);
+}
+
+void WindowManagerPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
+{
+    QQmlExtensionPlugin::initializeEngine(engine, uri);
+
+    // Create Screens
+    new ConcreteScreens(qtmir::get_screen_model(), new ScreensConfiguration());
 }
