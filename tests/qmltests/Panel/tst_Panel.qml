@@ -788,7 +788,7 @@ PanelTest {
 
             var appTitle = findChild(panel, "panelTitle"); verify(appTitle);
             var appMenuRow = findChild(panel.applicationMenus, "panelRow"); verify(appMenuRow);
-            var appMenuBar = findChild(panel, "menuBar"); verify(appMenuBar);
+            var appMenuBar = findChild(panel, "menuBarLoader"); verify(appMenuBar);
 
             tryCompare(appTitle, "visible", true, undefined, "App title should be visible");
             tryCompare(appMenuBar, "visible", false, undefined, "App menu bar should not be visible");
