@@ -154,7 +154,7 @@ Rectangle {
         function init() {
             stageSaver.clear();
 
-            tryCompare(topSurfaceList, "count", 0);
+            tryCompare(topLevelSurfaceList, "count", 0);
 
             // wait for Stage to stabilize back into its initial state
             var appRepeater = findChild(stage, "appRepeater");
@@ -278,11 +278,11 @@ Rectangle {
         }
 
         // Launch one of the available apps in this test case
-        // Return the topSurfaceList's ID for the launched app
+        // Return the topLevelSurfaceList's ID for the launched app
         // Valid values are: "morph", "gallery", "dialer", and "facebook"
         // "facebook" will be launched if no name is given
         function launchApp(appName) {
-            var nextAppId = topSurfaceList.nextId;
+            var nextAppId = topLevelSurfaceList.nextId;
             switch (appName) {
                 case "morph":
                     webbrowserCheckBox.checked = true;
@@ -450,6 +450,7 @@ Rectangle {
             compare(dialerDelegate.stage, ApplicationInfoInterface.SideStage);
 
             var facebookSurfaceId = launchApp("facebook");
+            var facebookApp = ApplicationManager.findApplication(facebookCheckBox.appId);
             facebookCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(facebookSurfaceId);
 
@@ -492,6 +493,7 @@ Rectangle {
             compare(webbrowserDelegate.stage, ApplicationInfoInterface.MainStage);
 
             var dialerSurfaceId = launchApp("dialer");
+            var dialerApp = ApplicationManager.findApplication(dialerCheckBox.appId);
             dialerCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(dialerSurfaceId);
 
@@ -683,11 +685,11 @@ Rectangle {
          */
         function test_selectSuspendedAppWithoutSurface() {
             launchApp("facebook");
-            compare(topSurfaceList.applicationAt(0).appId, "facebook-webapp");
-            var facebookSurfaceId = topSurfaceList.idAt(0);
-            var facebookWindow = topSurfaceList.windowAt(0);
+            compare(topLevelSurfaceList.applicationAt(0).appId, "facebook-webapp");
+            var facebookSurfaceId = topLevelSurfaceList.idAt(0);
+            var facebookWindow = topLevelSurfaceList.windowAt(0);
 
-            var webbrowserSurfaceId = topSurfaceList.nextId;
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
             launchApp("morph");
 
             webbrowserCheckBox.checked = true;
