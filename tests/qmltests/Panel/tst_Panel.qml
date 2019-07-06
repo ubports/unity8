@@ -813,15 +813,14 @@ PanelTest {
 
             mouseMove(panel, panel.width/2, panel.panelHeight);
 
+            tryVerify(function() {return menuBarLoader.item});
+            var appMenuBar = menuBarLoader.item
             waitForRendering(panel);
             tryCompare(appTitle, "visible", true, undefined, "App title should still be visible on mouse hover when panel decorations are not visible");
-            tryCompare(appMenuBar, "visible", false, undefined, "App menu bar should be visible on mouse hover when panel decorations are not visible");
+            tryCompare(appMenuBar, "visible", true, undefined, "App menu bar should be visible on mouse hover when panel decorations are not visible");
 
             panelState.decorationsVisible = true;
 
-            var appMenuBarLoader = findChild(panel, "menuBarLoader")
-            tryVerify(function() {return appMenuBarLoader.item});
-            var appMenuBar = appMenuBarLoader.item
             tryCompare(appTitle, "visible", false, undefined, "App title should not be visible on mouse hover");
             tryCompare(appMenuBar, "visible", true, undefined, "App menu bar should be visible on mouse hover");
         }
