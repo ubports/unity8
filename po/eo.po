@@ -8,16 +8,17 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2015-06-06 23:37+0000\n"
-"Last-Translator: Eliovir <Unknown>\n"
-"Language-Team: Esperanto <eo@li.org>\n"
+"PO-Revision-Date: 2019-07-05 17:48+0000\n"
+"Last-Translator: Colin Reeder <vpzomtrrfrt@gmail.com>\n"
+"Language-Team: Esperanto <https://translate.ubports.com/projects/unity8/"
+"unity8/eo/>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.6.1\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
-"X-Generator: Launchpad (build 18269)\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
@@ -93,7 +94,7 @@ msgstr ""
 #: qml/Components/Dialogs.qml:205
 msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr ""
+msgstr "Malŝalti"
 
 #: qml/Components/Dialogs.qml:214
 msgctxt "Button: Restart the system"
@@ -106,7 +107,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Unity 8"
-msgstr ""
+msgstr "Unity 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -142,7 +143,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:118
 msgid "Launcher"
-msgstr ""
+msgstr "Lanĉilo"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:125
 msgid "Super (Hold)"
@@ -218,7 +219,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:259
 msgid "Windows"
-msgstr ""
+msgstr "Fenestroj"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:266
 msgid "Ctrl + Super + D"
@@ -226,7 +227,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:271
 msgid "Minimizes all windows."
-msgstr ""
+msgstr "Minimumigas ĉiujn fenestrojn."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:279
 msgid "Ctrl + Super + Up"
@@ -258,15 +259,15 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Closes the current window."
-msgstr ""
+msgstr "Fermas la nunan fenestron."
 
 #: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
 msgid "Return to Call"
-msgstr ""
+msgstr "Reveni al Voko"
 
 #: qml/Components/Lockscreen.qml:212
 msgid "Emergency Call"
-msgstr ""
+msgstr "Krizo Voko"
 
 #: qml/Components/Lockscreen.qml:244
 msgid "OK"
@@ -275,12 +276,12 @@ msgstr "Bone"
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
 msgid "%1:%2:%3"
-msgstr ""
+msgstr "%1:%2:%3"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:49
 #, qt-format
 msgid "%1:%2"
-msgstr ""
+msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
@@ -298,11 +299,11 @@ msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
-msgstr ""
+msgstr "Bone, mi rekonektos"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
-msgstr ""
+msgstr "Rekonekti nun!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
