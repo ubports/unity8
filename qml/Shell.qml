@@ -135,7 +135,7 @@ StyledItem {
         } else if (topLevelSurfaceList.count === 0 && !greeter.active && !wizard.active) {
             // Show the Launcher when there are no apps running
             stage.closeSpread();
-            launcher.switchToNextState("visible")
+            launcher.show();
         }
 
         // *Always* make sure the greeter knows that the focused app changed

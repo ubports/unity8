@@ -117,6 +117,15 @@ FocusScope {
         hint();
     }
 
+    // Switches the Launcher to the visible state, but only if it's not already
+    // opened.
+    // Prevents closing the Drawer when trying to show the Launcher.
+    function show() {
+        if (state === "" || state === "visibleTemporary") {
+            switchToNextState("visible");
+        }
+    }
+
     function hide(flags) {
         if ((flags & ignoreHideIfMouseOverLauncher) && Utils.Functions.itemUnderMouse(panel)) {
             if (state == "drawer") {
