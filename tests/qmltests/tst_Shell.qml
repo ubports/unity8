@@ -176,7 +176,7 @@ Rectangle {
                             if (shellLoader.status !== Loader.Ready)
                                 return;
 
-                            var greeter = testCase.findChild(shellLoader.item, "greeter");
+                            var greeter = shellLoader.item.greeter;
                             if (!greeter.shown) {
                                 LightDM.Greeter.showGreeter();
                             }
@@ -189,7 +189,7 @@ Rectangle {
                             if (shellLoader.status !== Loader.Ready)
                                 return;
 
-                            var greeter = testCase.findChild(shellLoader.item, "greeter");
+                            var greeter = shellLoader.item.greeter;
                             if (greeter.shown) {
                                 greeter.hide()
                             }
@@ -504,11 +504,6 @@ Rectangle {
     }
 
     SignalSpy {
-        id: dashCommunicatorSpy
-        signalName: "setCurrentScopeCalled"
-    }
-
-    SignalSpy {
         id: broadcastUrlSpy
         target: SessionBroadcast
         signalName: "startUrl"
@@ -581,10 +576,10 @@ Rectangle {
             removeTimeConstraintsFromSwipeAreas(shellLoader.item);
             tryCompare(shell, "waitingOnGreeter", false); // reset by greeter when ready
 
-            sessionSpy.target = findChild(shell, "greeter")
-            dashCommunicatorSpy.target = findInvisibleChild(shell, "dashCommunicator");
+            sessionSpy.target = shell.greeter;
 
             var launcher = findChild(shell, "launcher");
+            verify(!!launcher);
             launcherShowDashHomeSpy.target = launcher;
 
             var panel = findChild(launcher, "launcherPanel");
