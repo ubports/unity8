@@ -98,6 +98,8 @@ StyledItem {
     onMainAppChanged: {
         if (mainApp) {
             _onMainAppChanged(mainApp.appId);
+        } else if (greeter.locked && greeter.lockedApp != "") {
+            greeter.show();
         }
     }
     Connections {
