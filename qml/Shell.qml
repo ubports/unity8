@@ -96,9 +96,7 @@ StyledItem {
     readonly property var mainApp: stage.mainApp
 
     onMainAppChanged: {
-        if (mainApp) {
-            _onMainAppChanged(mainApp.appId);
-        }
+        _onMainAppChanged((mainApp ? mainApp.appId : ""));
     }
     Connections {
         target: ApplicationManager
@@ -108,24 +106,40 @@ StyledItem {
             }
         }
     }
+
+    // Calls attention back to the most important thing that's been focused
+    // (ex: phone calls go over Wizard, app focuses go over indicators, greeter
+    // goes over everything if it is locked)
+    // Must be called whenever app focus changes occur, even if the focus change
+    // is "nothing is focused".  In that case, call with appId = ""
     function _onMainAppChanged(appId) {
-        if (wizard.active && appId != "") {
-            // If this happens on first boot, we may be in the
-            // wizard while receiving a call.  But a call is more
-            // important than the wizard so just bail out of it.
-            wizard.hide();
+
+        if (appId !== "") {
+            if (wizard.active) {
+                // If this happens on first boot, we may be in the
+                // wizard while receiving a call.  A call is more
+                // important than the wizard so just bail out of it.
+                wizard.hide();
+            }
+
+            if (appId === "dialer-app" && callManager.hasCalls && greeter.locked) {
+                // If we are in the middle of a call, make dialer lockedApp. The
+                // Greeter will show it when it's notified of the focus.
+                // This can happen if user backs out of dialer back to greeter, then
+                // launches dialer again.
+                greeter.lockedApp = appId;
+            }
+
+            panel.indicators.hide();
+            launcher.hide(launcher.ignoreHideIfMouseOverLauncher);
+        } else if (topLevelSurfaceList.count === 0 && !greeter.active && !wizard.active) {
+            // Show the Launcher when there are no apps running
+            stage.closeSpread();
+            launcher.show();
         }
 
-        if (appId === "dialer-app" && callManager.hasCalls && greeter.locked) {
-            // If we are in the middle of a call, make dialer lockedApp and show it.
-            // This can happen if user backs out of dialer back to greeter, then
-            // launches dialer again.
-            greeter.lockedApp = appId;
-        }
+        // *Always* make sure the greeter knows that the focused app changed
         greeter.notifyAppFocusRequested(appId);
-
-        panel.indicators.hide();
-        launcher.hide(launcher.ignoreHideIfMouseOverLauncher);
     }
 
     // For autopilot consumption
@@ -391,18 +405,6 @@ StyledItem {
                 else if (topLevelSurfaceList.count < 1) {
                     launcher.switchToNextState("visible")
                 }
-            }
-        }
-
-        // Show the launcher in case there are no running apps
-        Connections {
-            target: topLevelSurfaceList
-            onCountChanged: {
-                if (topLevelSurfaceList.count > 0)
-                    return
-
-                stage.closeSpread()
-                launcher.switchToNextState("visible")
             }
         }
     }
