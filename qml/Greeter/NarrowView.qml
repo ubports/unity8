@@ -124,6 +124,13 @@ FocusScope {
         showAnimation: StandardAnimation { property: "opacity"; to: 1 }
         hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
 
+        Rectangle {
+            // In case background fails to load or doesn't cover the whole screen
+            id: backgroundBackup
+            anchors.fill: parent
+            color: "black"
+        }
+
         Wallpaper {
             id: lockscreenBackground
             objectName: "lockscreenBackground"
