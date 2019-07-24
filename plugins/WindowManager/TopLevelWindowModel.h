@@ -167,13 +167,17 @@ public:
     /**
      * @brief Raises and focuses a window with no surface
      */
-    Q_INVOKABLE void activateNullWindow();
+    Q_INVOKABLE void rootFocus(bool focus);
 
     /**
      * @brief Closes all windows, emits closedAllWindows when done
      */
     Q_INVOKABLE void closeAllWindows();
 
+    /**
+     * @brief Sets pending activation flag
+     */
+    Q_INVOKABLE void pendingActivation();
 Q_SIGNALS:
     void countChanged();
     void inputMethodSurfaceChanged(unity::shell::application::MirSurfaceInterface* inputMethodSurface);
@@ -252,6 +256,8 @@ private:
     Window* m_inputMethodWindow{nullptr};
     Window* m_focusedWindow{nullptr};
     Window* m_nullWindow;
+    Window* m_previousWindow{nullptr};
+    bool m_pendingActivation;
 
     int m_nextId{1};
     // Just something big enough that we don't risk running out of unused id numbers.
