@@ -1063,5 +1063,23 @@ Item {
             verify(surfaceItem);
             tryCompare(surfaceItem, "activeFocus", true);
         }
+
+        function test_ignoreSavedStateIfInitalIsFullscreenAndLowChrome() {
+            WindowStateStorage.saveState("camera-app", WindowStateStorage.WindowStateNormal);
+            var appDelegate = startApplication("camera-app");
+            tryCompare(appDelegate, "state", "restored");
+        }
+
+        function test_ignoreSavedStateIfInitalIsFullscreen() {
+            WindowStateStorage.saveState("camera-app3", WindowStateStorage.WindowStateNormal);
+            var appDelegate = startApplication("camera-app3");
+            tryCompare(appDelegate, "state", "fullscreen");
+        }
+
+        function test_ignoreSavedFullscreen() {
+            WindowStateStorage.saveState("dialer-app", WindowStateStorage.WindowStateFullscreen);
+            var appDelegate = startApplication("dialer-app");
+            tryCompare(appDelegate, "state", "normal");
+        }
     }
 }
