@@ -1542,17 +1542,21 @@ FocusScope {
                     }
                 ]
                 transitions: [
+
+                    // These two animate applications into position from Staged to Desktop and back
                     Transition {
                         from: "staged,stagedWithSideStage"
+                        to: "normal,restored,maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedX,requestedY,opacity,requestedWidth,requestedHeight,scale"; duration: priv.animationDuration }
                     },
                     Transition {
-                        from: "normal,restored,maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight";
+                        from: "normal,restored,maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight"
                         to: "staged,stagedWithSideStage"
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedX,requestedY,requestedWidth,requestedHeight"; duration: priv.animationDuration}
                     },
+
                     Transition {
                         to: "spread"
                         // DecoratedWindow wants the scaleToPreviewSize set before enabling scaleToPreview
