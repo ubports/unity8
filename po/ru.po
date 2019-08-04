@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2019-08-04 12:48+0000\n"
-"Last-Translator: Moshe Lazar <wersewikkov@gmail.com>\n"
+"PO-Revision-Date: 2019-08-05 13:49+0000\n"
+"Last-Translator: vokaliz <vokaliz@protonmail.com>\n"
 "Language-Team: Russian <https://translate.ubports.com/projects/unity8/unity8/"
 "ru/>\n"
 "Language: ru\n"
@@ -164,7 +164,7 @@ msgstr "Активирует режим навигации по панели з�
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Super + Tab"
-msgstr "Win + Tab"
+msgstr "Super + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Switches applications via the launcher."
@@ -529,7 +529,7 @@ msgstr "Осталось %1"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:995
 msgid "In queue…"
-msgstr "В очереди..."
+msgstr "В очереди…"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:999
 #: qml/Wizard/Pages/UpdateDelegate.qml:226
