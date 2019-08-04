@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2019-07-05 17:48+0000\n"
-"Last-Translator: Moshe Lazar <wersewikkov@gmail.com>\n"
+"PO-Revision-Date: 2019-08-04 12:48+0000\n"
+"Last-Translator: vokaliz <vokaliz@protonmail.com>\n"
 "Language-Team: Russian <https://translate.ubports.com/projects/unity8/unity8/"
 "ru/>\n"
 "Language: ru\n"
@@ -251,9 +251,8 @@ msgid "Ctrl + Super + Left or Right"
 msgstr "Ctrl + Super + влево или вправо"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
-#, fuzzy
 msgid "Semi-maximizes the current window."
-msgstr "Полу-разворачивает текущее окно."
+msgstr "Наполовину разворачивает текущее окно."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Alt + F4"
@@ -290,7 +289,6 @@ msgid "Apps may have unsaved data:"
 msgstr "Приложения могут содержать несохранённые данные:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
-#, fuzzy
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
@@ -583,25 +581,22 @@ msgid "Short swipe from the left edge to open the launcher"
 msgstr "Кратко проведите пальцем от левого края, чтобы открыть панель запуска"
 
 #: qml/Tutorial/TutorialRight.qml:55
-#, fuzzy
 msgid "Push your mouse against the right edge to view your open apps"
 msgstr ""
 "Наведите указатель мыши на правый край экрана, чтобы просмотреть список "
 "открытых окон программ"
 
 #: qml/Tutorial/TutorialRight.qml:56
-#, fuzzy
 msgid "Swipe from the right edge to view your open apps"
 msgstr ""
 "Выполните свайп от правого края, чтобы просмотреть список открытых окон "
 "программ"
 
 #: qml/Tutorial/TutorialTop.qml:53
-#, fuzzy
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
-"Свайпните от верхнего края, чтобы получить доступ к уведомлений и быстрых "
-"настроек"
+"Проведите пальцем от верхнего края, чтобы получить доступ к уведомлениям и "
+"быстрым настройкам"
 
 #: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
@@ -625,7 +620,6 @@ msgid "Next"
 msgstr "Далее"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:91
-#, fuzzy
 msgid "Welcome to "
 msgstr "Добро пожаловать "
 
@@ -634,9 +628,8 @@ msgid "We will make sure your device is ready to use "
 msgstr "Мы убедимся, что ваше устройство готово к использованию "
 
 #: qml/Wizard/Pages/11-changelog.qml:28
-#, fuzzy
 msgid "What's new"
-msgstr "Новости"
+msgstr "Что нового"
 
 #: qml/Wizard/Pages/11-changelog.qml:74
 msgid "Loading..."
@@ -814,12 +807,12 @@ msgid "Checking for updates…"
 msgstr "Проверка наличия обновлений…"
 
 #: qml/Wizard/Pages/GlobalUpdateControls.qml:109
-#, fuzzy, qt-format
+#, qt-format
 msgid "%1 update available"
 msgid_plural "%1 updates available"
-msgstr[0] "доступно обновление"
-msgstr[1] "доступны обновления"
-msgstr[2] "доступны обновления"
+msgstr[0] "%1 доступно обновление"
+msgstr[1] "%1 доступны обновления"
+msgstr[2] "1% доступны обновления"
 
 #: qml/Wizard/Pages/GlobalUpdateControls.qml:119
 msgid "Update all…"
