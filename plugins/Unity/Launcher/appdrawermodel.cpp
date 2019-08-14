@@ -16,13 +16,15 @@
 
 #include "appdrawermodel.h"
 #include "ualwrapper.h"
+#include "xdgwatcher.h"
 
 #include <QDebug>
 #include <QDateTime>
 
 AppDrawerModel::AppDrawerModel(QObject *parent):
     AppDrawerModelInterface(parent),
-    m_ual(new UalWrapper(this))
+    m_ual(new UalWrapper(this)),
+    m_xdgWatcher(new XdgWatcher(this))
 {
     Q_FOREACH (const QString &appId, UalWrapper::installedApps()) {
         UalWrapper::AppInfo info = UalWrapper::getApplicationInfo(appId);
@@ -37,9 +39,9 @@ AppDrawerModel::AppDrawerModel(QObject *parent):
     }
 
     // keep this a queued connection as it's coming from another thread.
-    connect(m_ual, &UalWrapper::appAdded, this, &AppDrawerModel::appAdded, Qt::QueuedConnection);
-    connect(m_ual, &UalWrapper::appRemoved, this, &AppDrawerModel::appRemoved, Qt::QueuedConnection);
-    connect(m_ual, &UalWrapper::appInfoChanged, this, &AppDrawerModel::appInfoChanged, Qt::QueuedConnection);
+    connect(m_xdgWatcher, &XdgWatcher::appAdded, this, &AppDrawerModel::appAdded, Qt::QueuedConnection);
+    connect(m_xdgWatcher, &XdgWatcher::appRemoved, this, &AppDrawerModel::appRemoved, Qt::QueuedConnection);
+    connect(m_xdgWatcher, &XdgWatcher::appInfoChanged, this, &AppDrawerModel::appInfoChanged, Qt::QueuedConnection);
 }
 
 int AppDrawerModel::rowCount(const QModelIndex &parent) const

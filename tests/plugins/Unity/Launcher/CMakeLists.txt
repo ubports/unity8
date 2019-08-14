@@ -65,6 +65,7 @@ add_unity8_unittest(LauncherModel dbus-test-runner
 add_executable(appdrawermodeltestExec
     appdrawermodeltest.cpp
     ualwrapper.cpp
+    xdgwatcher.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/appdrawermodel.cpp
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/AppDrawerModelInterface.h
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/launcheritem.cpp

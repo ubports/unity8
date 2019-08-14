@@ -50,11 +50,9 @@ UalWrapper::AppInfo UalWrapper::getApplicationInfo(const QString &appId)
 void UalWrapper::addMockApp(const QString &appId)
 {
     s_list.append(appId);
-    Q_EMIT appAdded(appId);
 }
 
 void UalWrapper::removeMockApp(const QString &appId)
 {
     s_list.removeAll(appId);
-    Q_EMIT appRemoved(appId);
 }

@@ -15,6 +15,7 @@
  */
 
 #include "ualwrapper.h"
+#include "xdgwatcher.h"
 #include "appdrawermodel.h"
 
 #include <QtTest>
@@ -38,11 +39,13 @@ private Q_SLOTS:
         QCOMPARE(appDrawerModel->rowCount(QModelIndex()), 2);
 
         UalWrapper::instance()->addMockApp("app3");
+        XdgWatcher::instance()->addMockApp("app3");
         qApp->processEvents(); // ualwrapper is connected Queued
 
         QCOMPARE(appDrawerModel->rowCount(QModelIndex()), 3);
 
         UalWrapper::instance()->removeMockApp("app3");
+        XdgWatcher::instance()->removeMockApp("app3");
         qApp->processEvents();
 
         QCOMPARE(appDrawerModel->rowCount(QModelIndex()), 2);
