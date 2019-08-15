@@ -27,6 +27,7 @@ namespace unityapi = unity::shell::application;
 Q_LOGGING_CATEGORY(UNITY_WINDOW, "unity.window", QtWarningMsg)
 
 #define DEBUG_MSG qCDebug(UNITY_WINDOW).nospace() << qPrintable(toString()) << "::" << __func__
+#define WARNING_MSG qCWarning(UNITY_WINDOW).nospace() << qPrintable(toString()) << "::" << __func__
 
 Window::Window(int id, QObject *parent)
     : QObject(parent)
@@ -184,7 +185,15 @@ void Window::setSurface(unityapi::MirSurfaceInterface *surface)
             setSurface(nullptr);
         });
 
+        // Surface should never be focused at this point!
+        if (m_surface->focused()) {
+            WARNING_MSG << "Inital surface is focused!";
+        }
+
         // bring it up to speed
+        if (m_focused) {
+            m_surface->activate();
+        }
         if (m_positionRequested) {
             m_surface->setRequestedPosition(m_requestedPosition);
         }
