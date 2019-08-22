@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2018-12-23 00:00+0000\n"
-"Last-Translator: Anne Onyme <anneonyme017@tutanota.com>\n"
+"PO-Revision-Date: 2019-08-11 10:49+0000\n"
+"Last-Translator: Anne Onyme <anneonyme017@netcourrier.com>\n"
 "Language-Team: French <https://translate.ubports.com/projects/unity8/unity8/"
 "fr/>\n"
 "Language: fr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.1.1\n"
+"X-Generator: Weblate 3.6.1\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -44,7 +44,7 @@ msgstr "Fermer la session"
 
 #: qml/Components/Dialogs.qml:150
 msgid "Are you sure you want to log out?"
-msgstr "Êtes-vous sûr(e) de vouloir fermer la session ?"
+msgstr "Voulez-vous vraiment fermer la session ?"
 
 #: qml/Components/Dialogs.qml:152
 msgctxt "Button: Lock the system"
@@ -70,7 +70,7 @@ msgstr "Redémarrer"
 
 #: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
-msgstr "Êtes-vous sûr(e) de vouloir redémarrer ?"
+msgstr "Voulez-vous vraiment redémarrer ?"
 
 #: qml/Components/Dialogs.qml:181
 msgid "No"
@@ -90,7 +90,7 @@ msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
-"Êtes-vous sûr(e) de vouloir\n"
+"Voulez-vous vraiment\n"
 "éteindre ?"
 
 #: qml/Components/Dialogs.qml:205

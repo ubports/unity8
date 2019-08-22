@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2018-12-30 00:00+0000\n"
-"Last-Translator: Alex <alexisgiron4@hotmail.com>\n"
+"PO-Revision-Date: 2019-08-11 10:49+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Spanish <https://translate.ubports.com/projects/unity8/unity8/"
 "es/>\n"
 "Language: es\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.1.1\n"
+"X-Generator: Weblate 3.6.1\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -739,7 +739,7 @@ msgstr "El servidor de actualización no responde."
 
 #: qml/Wizard/Pages/76-app-update.qml:238
 msgid "Please wait..."
-msgstr "Espere..."
+msgstr "Espere…"
 
 #: qml/Wizard/Pages/79-system-update.qml:28
 msgid "Update Device"
