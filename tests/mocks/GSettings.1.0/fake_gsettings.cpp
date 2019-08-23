@@ -27,7 +27,6 @@ GSettingsControllerQml::GSettingsControllerQml()
     , m_autohideLauncher(false)
     , m_launcherWidth(8)
     , m_edgeDragWidth(2)
-    , m_enableLauncher(true)
     , m_enableIndicatorMenu(true)
     , m_appstoreUri("http://uappexplorer.com")
 {
@@ -148,19 +147,6 @@ void GSettingsControllerQml::setEdgeDragWidth(uint edgeDragWidth)
     }
 }
 
-void GSettingsControllerQml::setEnableLauncher(bool enableLauncher)
-{
-    if (m_enableLauncher != enableLauncher) {
-        m_enableLauncher = enableLauncher;
-        Q_EMIT enableLauncherChanged(enableLauncher);
-    }
-}
-
-bool GSettingsControllerQml::enableLauncher() const
-{
-    return m_enableLauncher;
-}
-
 bool GSettingsControllerQml::enableIndicatorMenu() const
 {
     return m_enableIndicatorMenu;
@@ -243,8 +229,6 @@ void GSettingsQml::componentComplete()
             this, &GSettingsQml::launcherWidthChanged);
     connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::edgeDragWidthChanged,
             this, &GSettingsQml::edgeDragWidthChanged);
-    connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::enableLauncherChanged,
-            this, &GSettingsQml::enableLauncherChanged);
     connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::enableIndicatorMenuChanged,
             this, &GSettingsQml::enableIndicatorMenuChanged);
 
@@ -256,7 +240,6 @@ void GSettingsQml::componentComplete()
     Q_EMIT autohideLauncherChanged();
     Q_EMIT launcherWidthChanged();
     Q_EMIT edgeDragWidthChanged();
-    Q_EMIT enableLauncherChanged();
     Q_EMIT enableIndicatorMenuChanged();
 }
 
@@ -364,15 +347,6 @@ QVariant GSettingsQml::edgeDragWidth() const
     }
 }
 
-QVariant GSettingsQml::enableLauncher() const
-{
-    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
-        return GSettingsControllerQml::instance()->enableLauncher();
-    } else {
-        return QVariant();
-    }
-}
-
 QVariant GSettingsQml::enableIndicatorMenu() const
 {
     if (m_valid && m_schema->id() == "com.canonical.Unity8") {
@@ -415,13 +389,6 @@ void GSettingsQml::setEdgeDragWidth(const QVariant &edgeDragWidth)
 {
     if (m_valid && m_schema->id() == "com.canonical.Unity8") {
         GSettingsControllerQml::instance()->setEdgeDragWidth(edgeDragWidth.toUInt());
-    }
-}
-
-void GSettingsQml::setEnableLauncher(const QVariant &enableLauncher)
-{
-    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
-        GSettingsControllerQml::instance()->setEnableLauncher(enableLauncher.toBool());
     }
 }
 

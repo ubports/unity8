@@ -2760,24 +2760,6 @@ Rectangle {
             tryCompare(cursor, "opacity", 0);
         }
 
-        function test_launcherEnabledSetting_data() {
-            return [
-                {tag: "launcher enabled", enabled: true},
-                {tag: "launcher disabled", enabled: false}
-            ]
-        }
-
-        function test_launcherEnabledSetting(data) {
-            loadShell("phone");
-
-            GSettingsController.setEnableLauncher(data.enabled);
-
-            var launcher = findChild(shell, "launcher");
-            tryCompare(launcher, "available", data.enabled);
-
-            GSettingsController.setEnableLauncher(true);
-        }
-
         function test_indicatorMenuEnabledSetting_data() {
             return [
                 {tag: "indicator menu enabled", enabled: true},
