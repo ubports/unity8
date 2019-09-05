@@ -28,7 +28,7 @@ FocusScope {
     id: root
 
     property int panelWidth: 0
-    readonly property bool moving: appList && appList.moving
+    readonly property bool moving: (appList && appList.moving) ? true : false
     readonly property Item searchTextField: searchField
     readonly property real delegateWidth: units.gu(10)
     property url background
