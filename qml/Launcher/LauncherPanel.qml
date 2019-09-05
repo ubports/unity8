@@ -835,7 +835,7 @@ Rectangle {
                     id: popoverRepeater
                     objectName: "popoverRepeater"
                     model: QuickListProxyModel {
-                        source: quickList.model
+                        source: quickList.model ? quickList.model : null
                         privateMode: root.privateMode
                     }
 
