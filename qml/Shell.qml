@@ -139,7 +139,7 @@ StyledItem {
         }
 
         // *Always* make sure the greeter knows that the focused app changed
-        greeter.notifyAppFocusRequested(appId);
+        if (greeter) greeter.notifyAppFocusRequested(appId);
     }
 
     // For autopilot consumption
