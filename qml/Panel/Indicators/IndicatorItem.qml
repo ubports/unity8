@@ -23,7 +23,7 @@ IndicatorDelegate {
     id: root
 
     property string identifier
-    property string title: indicatorName.text
+    property alias title: indicatorName.text
     property alias leftLabel: leftLabelItem.text
     property alias rightLabel: rightLabelItem.text
     property var icons: undefined
@@ -146,7 +146,7 @@ IndicatorDelegate {
         anchors.horizontalCenter: parent.horizontalCenter
         width: contentWidth > 0 ? contentWidth + units.gu(1) : 0
 
-        text: title !== "" ? title : identifier
+        text: identifier
         fontSize: "x-small"
         font.weight: Font.Light
         horizontalAlignment: Text.AlignHCenter
