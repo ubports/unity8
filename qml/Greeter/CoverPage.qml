@@ -224,7 +224,6 @@ Showable {
     hideAnimation: SequentialAnimation {
         id: hideAnimation
         objectName: "hideAnimation"
-        property var target // unused, here to silence Showable warning
         StandardAnimation {
             id: hideTranslation
             property: "x"
@@ -237,7 +236,6 @@ Showable {
     showAnimation: SequentialAnimation {
         id: showAnimation
         objectName: "showAnimation"
-        property var target // unused, here to silence Showable warning
         PropertyAction { target: root; property: "visible"; value: true }
         PropertyAction { target: positionLock; property: "enabled"; value: false }
         StandardAnimation {
