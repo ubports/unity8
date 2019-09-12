@@ -92,6 +92,18 @@ StyledItem {
 
         height: Math.max(units.gu(15), promptList.height + units.gu(8))
         Behavior on height { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
+
+        Label {
+          // HACK: Work around https://github.com/ubports/unity8/issues/185
+          text: "Ubuntu Touch"
+          visible: userList.count == 1
+          anchors {
+            left: parent.left
+            top: parent.top
+            topMargin: units.gu(2)
+            leftMargin: units.gu(2)
+          }
+        }
     }
 
     ListView {
@@ -143,6 +155,7 @@ StyledItem {
 
             FadingLabel {
                 objectName: "username" + index
+                visible: userList.count != 1 // HACK Hide username label until someone sorts out the anchoring with the keyboard-dismiss animation, Work around https://github.com/ubports/unity8/issues/185
 
                 anchors {
                     left: parent.left
