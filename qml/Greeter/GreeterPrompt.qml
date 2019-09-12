@@ -214,14 +214,15 @@ FocusScope {
             id: hint
             objectName: "promptHint"
             anchors {
-                left: parent.left
-                right: parent.right
-                verticalCenter: parent.verticalCenter
+                left: parent ? parent.left  : undefined
+                right: parent ? parent.right  : undefined
+                verticalCenter: parent ? parent.verticalCenter  : undefined
                 leftMargin: units.gu(1.5)
                 rightMargin: anchors.leftMargin + extraIcons.width
             }
             text: root.text
             visible: passwordInput.text == "" && !passwordInput.inputMethodComposing
+            enabled: visible
             color: d.drawColor
             elide: Text.ElideRight
         }
@@ -236,13 +237,14 @@ FocusScope {
     // we'll fake it by covering the real text field with a label.
     FadingLabel {
         id: fakeLabel
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: parent.left
-        anchors.right: parent.right
+        anchors.verticalCenter: parent ? parent.verticalCenter : undefined
+        anchors.left: parent ? parent.left : undefined
+        anchors.right: parent ? parent.right : undefined
         anchors.leftMargin: passwordInput.frameSpacing * 2
         anchors.rightMargin: passwordInput.frameSpacing * 2 + extraIcons.width
         color: d.drawColor
         text: passwordInput.displayText
         visible: root.isPrompt && !root.interactive
+        enabled: visible
     }
 }
