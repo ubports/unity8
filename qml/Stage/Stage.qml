@@ -1181,6 +1181,25 @@ FocusScope {
                 onWindowReadyChanged: {
                     if (windowReady) {
                         var loadedMirState = WindowStateStorage.toMirState(windowStateSaver.loadedState);
+                        var state = loadedMirState;
+
+                        if (window.state == Mir.FullscreenState) {
+                            // If the app is fullscreen at startup, we should not use saved state
+                            // Example of why: if you open game that only requests fullscreen at
+                            // Statup, this will automaticly be set to "restored state" since
+                            // thats the default value of stateStorage, this will result in the app
+                            // having the "restored state" as it will not make a fullscreen
+                            // call after the app has started.
+                            console.log("Inital window state is fullscreen, not using saved state.");
+                            state = window.state;
+                        } else if (loadedMirState == Mir.FullscreenState) {
+                            // If saved state is fullscreen, we should use app inital state
+                            // Example of why: if you open browser with youtube video at fullscreen
+                            // and close this app, it will be fullscreen next time you open the app.
+                            console.log("Saved window state is fullscreen, using inital window state");
+                            state = window.state;
+                        }
+
                         // need to apply the shell chrome policy on top the saved window state
                         var policy;
                         if (root.mode == "windowed") {
@@ -1188,7 +1207,7 @@ FocusScope {
                         } else {
                             policy = stagedFullscreenPolicy
                         }
-                        window.requestState(policy.applyPolicy(loadedMirState, surface.shellChrome));
+                        window.requestState(policy.applyPolicy(state, surface.shellChrome));
                     }
                 }
 
@@ -1720,17 +1739,21 @@ FocusScope {
                 ]
 
                 transitions: [
+
+                    // These two animate applications into position from Staged to Desktop and back
                     Transition {
                         from: "staged,stagedWithSideStage"
+                        to: "normal,restored,maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedX,requestedY,opacity,requestedWidth,requestedHeight,scale"; duration: priv.animationDuration }
                     },
                     Transition {
-                        from: "normal,restored,maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight";
+                        from: "normal,restored,maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight"
                         to: "staged,stagedWithSideStage"
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,requestedX,requestedY,requestedWidth,requestedHeight"; duration: priv.animationDuration}
                     },
+
                     Transition {
                         from: "normal,restored,maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight,staged,stagedWithSideStage,windowedRightEdge,stagedRightEdge";
                         to: "spread"

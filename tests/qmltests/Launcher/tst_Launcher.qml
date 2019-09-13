@@ -1477,25 +1477,6 @@ Rectangle {
             tryCompare(tooltipShape, "opacity", .95);
         }
 
-        function test_launcherEnabledSetting() {
-            launcher.available = true;
-
-            dragLauncherIntoView();
-            var launcherPanel = findChild(launcher, "launcherPanel");
-            tryCompare(launcherPanel, "x", 0);
-        }
-
-        function test_launcherDisabledSetting() {
-            launcher.available = false;
-
-            //We don't actually care that it's visible, so just use dragLauncher() rather than dragLauncherIntoView()
-            dragLauncher();
-            var launcherPanel = findChild(launcher, "launcherPanel");
-            compare(launcherPanel.x, -launcherPanel.width);
-
-            launcher.available = true;
-        }
-
         function test_hoverOnEdgeBarrierPreventsHiding() {
             revealByEdgePush();
 

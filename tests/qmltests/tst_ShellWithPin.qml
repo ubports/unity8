@@ -130,8 +130,6 @@ Item {
             // from StageTestCase
             stage = findChild(shell, "stage");
             verify(topLevelSurfaceList);
-
-            startApplication("unity8-dash");
         }
 
         function cleanup() {
@@ -276,7 +274,7 @@ Item {
             var greeter = findChild(shell, "greeter");
             var emergencyButton = findChild(greeter, "emergencyCallLabel");
             tap(emergencyButton)
-            tryCompare(topLevelSurfaceList, "count", 2);
+            tryCompare(topLevelSurfaceList, "count", 1);
             waitUntilAppWindowIsFullyLoaded(dialerSurfaceId);
 
             tryCompare(greeter, "shown", false);
@@ -404,6 +402,8 @@ Item {
             // - Should be back in normal dialer
             // (we've had a bug where we locked screen in this case)
 
+            startApplication("gallery-app");
+
             var greeter = findChild(shell, "greeter");
             var panel = findChild(shell, "panel");
 
@@ -415,8 +415,8 @@ Item {
             tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
             callManager.foregroundCall = phoneCall;
 
-            ApplicationManager.requestFocusApplication("unity8-dash");
-            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+            ApplicationManager.requestFocusApplication("gallery-app");
+            tryCompare(ApplicationManager, "focusedApplicationId", "gallery-app");
             var callHint = findChild(panel, "callHint");
             tryCompare(callHint, "visible", true);
             wait(10000)
@@ -515,6 +515,32 @@ Item {
             enterPin("1234")
 
             tryCompare(launcher, "state", "drawer");
+        }
+
+        /* Regression test, https://github.com/ubports/ubuntu-touch/issues/1178
+           When all apps closed while the Greeter was shown, the Launcher would
+           appear over the Greeter. This was caused by logic that would normally
+           cause the Launcher to be shown over the empty Background. */
+        function test_launcherShowCulledWhenLocked() {
+            var launcher = findChild(shell, "launcher");
+
+            // Ensure the Launcher is sane
+            touchFlick(shell, units.gu(.5), shell.height / 2, units.gu(10), shell.height / 2);
+            tryCompare(launcher, "state", "visible");
+            tap(shell);
+            tryCompare(launcher, "state", "");
+
+            console.log("I AM LOGGING NOW");
+            console.log(ApplicationManager.count);
+
+            // Start and kill an app to cause the Launcher to be triggered (in error state)
+            startApplication("gallery-app");
+            tryCompare(ApplicationManager, "count", 1);
+            ApplicationManager.stopApplication("gallery-app");
+            tryCompare(ApplicationManager, "count", 0);
+
+            // Make sure that the error state didn't happen
+            tryCompare(launcher, "state", "");
         }
     }
 }

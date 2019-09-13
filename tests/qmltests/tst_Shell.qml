@@ -179,7 +179,7 @@ Rectangle {
                             if (shellLoader.status !== Loader.Ready)
                                 return;
 
-                            var greeter = testCase.findChild(shellLoader.item, "greeter");
+                            var greeter = shellLoader.item.greeter;
                             if (!greeter.shown) {
                                 LightDM.Greeter.showGreeter();
                             }
@@ -192,7 +192,7 @@ Rectangle {
                             if (shellLoader.status !== Loader.Ready)
                                 return;
 
-                            var greeter = testCase.findChild(shellLoader.item, "greeter");
+                            var greeter = shellLoader.item.greeter;
                             if (greeter.shown) {
                                 greeter.hide()
                             }
@@ -509,11 +509,6 @@ Rectangle {
     }
 
     SignalSpy {
-        id: dashCommunicatorSpy
-        signalName: "setCurrentScopeCalled"
-    }
-
-    SignalSpy {
         id: broadcastUrlSpy
         target: SessionBroadcast
         signalName: "startUrl"
@@ -587,10 +582,10 @@ Rectangle {
             removeTimeConstraintsFromSwipeAreas(shellLoader.item);
             tryCompare(shell, "waitingOnGreeter", false); // reset by greeter when ready
 
-            sessionSpy.target = findChild(shell, "greeter")
-            dashCommunicatorSpy.target = findInvisibleChild(shell, "dashCommunicator");
+            sessionSpy.target = shell.greeter;
 
             var launcher = findChild(shell, "launcher");
+            verify(!!launcher);
             launcherShowDashHomeSpy.target = launcher;
 
             var panel = findChild(launcher, "launcherPanel");
@@ -2775,24 +2770,6 @@ Rectangle {
             // let the timer kick in again and verify the cursor got hidden
             wait(3000);
             tryCompare(cursor, "opacity", 0);
-        }
-
-        function test_launcherEnabledSetting_data() {
-            return [
-                {tag: "launcher enabled", enabled: true},
-                {tag: "launcher disabled", enabled: false}
-            ]
-        }
-
-        function test_launcherEnabledSetting(data) {
-            loadShell("phone");
-
-            GSettingsController.setEnableLauncher(data.enabled);
-
-            var launcher = findChild(shell, "launcher");
-            tryCompare(launcher, "available", data.enabled);
-
-            GSettingsController.setEnableLauncher(true);
         }
 
         function test_indicatorMenuEnabledSetting_data() {

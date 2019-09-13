@@ -161,6 +161,11 @@ public:
     void setApplicationManager(unity::shell::application::ApplicationManagerInterface*);
     void setSurfaceManager(unity::shell::application::SurfaceManagerInterface*);
 
+    /**
+     * @brief Closes all windows, emits closedAllWindows when done
+     */
+    Q_INVOKABLE void closeAllWindows();
+
 Q_SIGNALS:
     void countChanged();
     void inputMethodSurfaceChanged(unity::shell::application::MirSurfaceInterface* inputMethodSurface);
@@ -174,6 +179,8 @@ Q_SIGNALS:
     void listChanged();
 
     void nextIdChanged();
+
+    void closedAllWindows();
 
 private Q_SLOTS:
     void onSurfacesAddedToWorkspace(const std::shared_ptr<miral::Workspace>& workspace,
@@ -262,6 +269,8 @@ private:
 
     // Valid between modificationsStarted and modificationsEnded
     bool m_focusedWindowCleared{false};
+
+    bool m_closingAllApps{false};
 };
 
 #endif // TOPLEVELWINDOWMODEL_H
