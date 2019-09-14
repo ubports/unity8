@@ -118,7 +118,7 @@ Item {
 
 
             var value = tp.y - tp.startY - offset;
-            if (value < 0) {
+            if (value < 0 && stage.workspaceEnabled) {
                 var coords = mapToItem(stage, tp.x, tp.y);
                 dragDelegate.Drag.hotSpot.x = dragDelegate.width / 2
                 dragDelegate.Drag.hotSpot.y = units.gu(2)

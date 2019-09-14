@@ -50,10 +50,11 @@ FocusScope {
     property Item availableDesktopArea
     property PanelState panelState
 
-    readonly property var temporarySelectedWorkspace: state == "spread" ? screensAndWorkspaces.activeWorkspace : null
-
     // Configuration
     property string mode: "staged"
+
+    readonly property var temporarySelectedWorkspace: state == "spread" ? screensAndWorkspaces.activeWorkspace : null
+    property bool workspaceEnabled: (mode == "windowed" || settings.forceEnableWorkspace) && settings.enableWorkspace
 
     // Used by the tutorial code
     readonly property real rightEdgeDragProgress: rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0 // How far left the stage has been dragged
@@ -90,6 +91,11 @@ FocusScope {
                 Qt.LandscapeOrientation |
                 Qt.InvertedPortraitOrientation |
                 Qt.InvertedLandscapeOrientation;
+    }
+
+    GSettings {
+        id: settings
+        schema.id: "com.canonical.Unity8"
     }
 
     onInteractiveChanged: {
@@ -669,14 +675,20 @@ FocusScope {
             height: Math.max(units.gu(30), parent.height * .3)
             background: root.background
             opacity: 0
-            visible: opacity > 0
+            visible: workspaceEnabled ? opacity > 0 : false
+            enabled: workspaceEnabled
             onCloseSpread: priv.goneToSpread = false;
         }
 
         Spread {
             id: spreadItem
             objectName: "spreadItem"
-            anchors { left: parent.left; bottom: parent.bottom; right: parent.right; top: screensAndWorkspaces.bottom }
+            anchors {
+                left: parent.left;
+                bottom: parent.bottom;
+                right: parent.right;
+                top: workspaceEnabled ? screensAndWorkspaces.bottom : parent.top;
+            }
             leftMargin: root.availableDesktopArea.x
             model: root.topLevelSurfaceList
             spreadFlickable: floatingFlickable
