@@ -781,20 +781,25 @@ PanelTest {
             }
         }
 
-        function test_stagedApplicationMenuBarShowOnMouseHover() {
+        function test_windowedApplicationMenuBarShowOnMouseHover() {
             panelState.title = "Fake Title";
-            panel.mode = "staged";
+            panel.mode = "windowed";
             mouseEmulation.checked = false;
 
             var appTitle = findChild(panel, "panelTitle"); verify(appTitle);
             var appMenuRow = findChild(panel.applicationMenus, "panelRow"); verify(appMenuRow);
-            var appMenuBar = findChild(panel, "menuBarLoader"); verify(appMenuBar);
+            var menuBarLoader = findChild(panel, "menuBarLoader"); verify(menuBarLoader);
 
             tryCompare(appTitle, "visible", true, undefined, "App title should be visible");
-            tryCompare(appMenuBar, "visible", false, undefined, "App menu bar should not be visible");
+            tryCompare(menuBarLoader, "visible", false, undefined, "App menu bar should not be visible");
 
             mouseMove(panel, panel.width/2, panel.panelHeight);
 
+            waitForRendering(panel);
+
+            var appMenuBarLoader = findChild(panel, "menuBarLoader")
+            tryVerify(function() {return appMenuBarLoader.item});
+            var appMenuBar = appMenuBarLoader.item
             tryCompare(appTitle, "visible", false, undefined, "App title should not be visible on mouse hover");
             tryCompare(appMenuBar, "visible", true, undefined, "App menu bar should be visible on mouse hover");
         }
