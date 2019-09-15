@@ -568,8 +568,6 @@ Rectangle {
         }
 
         function test_tutorialRightShortDrag() {
-            skip("This test interferes with test_tutorialRightAutoSkipped. If" +
-                 " one runs before the other, the second one will fail. FIXME");
             var tutorial = findChild(shell, "tutorial");
             var tutorialRight = findChild(tutorial, "tutorialRight");
             var stage = findChild(shell, "stage");
@@ -578,9 +576,9 @@ Rectangle {
             touchFlick(shell, shell.width, halfHeight, shell.width * 0.8, halfHeight, true, false);
             // compare opacity with a bound rather than hard 0.6 because progress doesn't
             // always match the drag perfectly (takes a moment for drag to kick in)
-            tryCompareFunction(function() {
+            verify(function() {
                 return tutorialRight.opacity >= 0.6 && tutorialRight.opacity < 0.8;
-            }, true);
+            });
             touchFlick(shell, shell.width, halfHeight, shell.width * 0.8, halfHeight, false, true);
 
             compare(tutorialRight.shown, true);
