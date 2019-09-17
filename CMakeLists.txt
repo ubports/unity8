@@ -74,6 +74,7 @@ find_package(Qt5Svg 5.6 REQUIRED)
 find_package(Qt5Network 5.6 REQUIRED)
 find_package(Qt5Xml 5.6 REQUIRED)
 
+pkg_check_modules(DEVICEINFO REQUIRED deviceinfo)
 pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=27)
 pkg_check_modules(QTMIRSERVER REQUIRED qtmirserver>=0.6.0)
 pkg_check_modules(GEONAMES REQUIRED geonames>=0.2)

@@ -34,7 +34,6 @@ public:
     #endif
 
     bool hasFullscreen() const { return m_hasFullscreen; }
-    QString deviceName() const { return m_deviceName; }
     QString mode() const { return m_mode; }
 
     QString qmlfie() const { return m_qmlfile; }
@@ -55,7 +54,6 @@ protected:
     #endif
 
     bool m_hasFullscreen;
-    QString m_deviceName;
     QString m_mode;
     QString m_qmlfile;
 };
