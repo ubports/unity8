@@ -75,6 +75,7 @@ Build-Depends: cmake,
                ttf-ubuntu-font-family,
                xvfb,
                android-headers,
+               libdeviceinfo-dev,
 Standards-Version: 3.9.4
 Homepage: http://launchpad.net/unity
 # If you aren't a member of ~unity-team but need to upload

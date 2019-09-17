@@ -20,11 +20,13 @@ import Utils 0.1
 QtObject {
     id: root
 
+    // This allows to override device name, used for convergence
+    // to set screens to desktop "mode"
+    property var overrideName: false
+
     readonly property int useNativeOrientation: -1
 
-    // The only writable property in the API
-    // all other properties are set according to the device name
-    property alias name: priv.state
+    readonly property alias name: priv.name;
 
     readonly property alias primaryOrientation: priv.primaryOrientation
     readonly property alias supportedOrientations: priv.supportedOrientations
@@ -35,23 +37,28 @@ QtObject {
 
     readonly property alias category: priv.category
 
-    readonly property var deviceConfigParser: DeviceConfigParser {
-        name: root.name
+    readonly property var deviceConfig: DeviceConfig {}
+
+    readonly property var binding: Binding {
+        target: priv
+        property: "state"
+        value: root.overrideName ? overrideName : deviceConfig.name
     }
 
     readonly property var priv: StateGroup {
         id: priv
 
-        property int primaryOrientation: deviceConfigParser.primaryOrientation == Qt.PrimaryOrientation ?
-                                             root.useNativeOrientation : deviceConfigParser.primaryOrientation
+        property int primaryOrientation: deviceConfig.primaryOrientation == Qt.PrimaryOrientation ?
+                                             root.useNativeOrientation : deviceConfig.primaryOrientation
 
-        property int supportedOrientations: deviceConfigParser.supportedOrientations
+        property int supportedOrientations: deviceConfig.supportedOrientations
 
-        property int landscapeOrientation: deviceConfigParser.landscapeOrientation
-        property int invertedLandscapeOrientation: deviceConfigParser.invertedLandscapeOrientation
-        property int portraitOrientation: deviceConfigParser.portraitOrientation
-        property int invertedPortraitOrientation: deviceConfigParser.invertedPortraitOrientation
-        property string category: deviceConfigParser.category
+        property int landscapeOrientation: deviceConfig.landscapeOrientation
+        property int invertedLandscapeOrientation: deviceConfig.invertedLandscapeOrientation
+        property int portraitOrientation: deviceConfig.portraitOrientation
+        property int invertedPortraitOrientation: deviceConfig.invertedPortraitOrientation
+        property string category: deviceConfig.category
+        property string name: deviceConfig.name
 
         states: [
             State {
@@ -67,6 +74,7 @@ QtObject {
                     portraitOrientation: Qt.PortraitOrientation
                     invertedPortraitOrientation: Qt.InvertedPortraitOrientation
                     category: "phone"
+                    name: "mako"
                 }
             },
             State {
@@ -82,6 +90,7 @@ QtObject {
                     portraitOrientation: Qt.PortraitOrientation
                     invertedPortraitOrientation: Qt.InvertedPortraitOrientation
                     category: "phone"
+                    name: "krillin"
                 }
             },
             State {
@@ -97,6 +106,7 @@ QtObject {
                     portraitOrientation: Qt.PortraitOrientation
                     invertedPortraitOrientation: Qt.InvertedPortraitOrientation
                     category: "phone"
+                    name: "arale"
                 }
             },
             State {
@@ -113,6 +123,7 @@ QtObject {
                     portraitOrientation: Qt.PortraitOrientation
                     invertedPortraitOrientation: Qt.InvertedPortraitOrientation
                     category: "tablet"
+                    name: "manta"
                 }
             },
             State {
@@ -129,6 +140,7 @@ QtObject {
                     portraitOrientation: Qt.PortraitOrientation
                     invertedPortraitOrientation: Qt.InvertedPortraitOrientation
                     category: "tablet"
+                    name: "flo"
                 }
             },
             State {
@@ -142,6 +154,7 @@ QtObject {
                     portraitOrientation: Qt.PortraitOrientation
                     invertedPortraitOrientation: Qt.InvertedPortraitOrientation
                     category: "desktop"
+                    name: "desktop"
                 }
             }
         ]

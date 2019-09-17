@@ -71,6 +71,7 @@ find_package(Qt5Concurrent 5.6 REQUIRED)
 find_package(Qt5Sql 5.6 REQUIRED)
 find_package(Qt5Test 5.6 REQUIRED)
 
+pkg_check_modules(DEVICEINFO REQUIRED deviceinfo)
 pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=27)
 pkg_check_modules(GEONAMES REQUIRED geonames>=0.2)
 pkg_check_modules(GIO REQUIRED gio-2.0>=2.32)
