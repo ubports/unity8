@@ -27,10 +27,10 @@ Item {
     // For testing
     property var screen: Screen
     property var orientationLock: OrientationLock
+    property alias overrideDeviceName: deviceConfiguration.overrideName
 
     DeviceConfiguration {
         id: deviceConfiguration
-        name: applicationArguments.deviceName
     }
 
     Item {

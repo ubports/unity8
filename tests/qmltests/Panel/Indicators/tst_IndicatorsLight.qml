@@ -257,13 +257,13 @@ Item {
                 // Support for Multicolor LED
                 //
                 { tag: "Powerd.Off with New Message & no support for multicolor led",
-                  expectedLightsState: Lights.On,
+                  expectedLightsState: Leds.On,
                       powerd: Powerd.Off, actionData: newMessage, supportsMultiColorLed: false },
                 { tag: "Powerd.Off while charging & support for multicolor led",
-                  expectedLightsState: Lights.On,
+                  expectedLightsState: Leds.On,
                       powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging, supportsMultiColorLed: true },
                 { tag: "Powerd.Off while charging & no support for multicolor led",
-                  expectedLightsState: Lights.Off,
+                  expectedLightsState: Leds.Off,
                       powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging, supportsMultiColorLed: false },
             ]
         }

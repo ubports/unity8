@@ -33,10 +33,13 @@ Item {
     implicitHeight: units.gu(71)
 
     onWidthChanged: calculateUsageMode();
+    property var overrideDeviceName: screens.count > 1 ? "desktop" : false
 
     DeviceConfiguration {
         id: deviceConfiguration
-        name: applicationArguments.deviceName
+
+        // Override for convergence to set scale etc for second monitor
+        overrideName: root.overrideDeviceName
     }
 
     property alias orientations: d.orientations
