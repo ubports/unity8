@@ -166,6 +166,7 @@ Rectangle {
             orientationLocked: orientationLockedCheckBox.checked
             orientationLock: mockOrientationLock
             lightIndicators: true
+            overrideDeviceName: applicationArguments.deviceName
         }
     }
 

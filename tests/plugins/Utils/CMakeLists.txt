@@ -12,7 +12,6 @@ foreach(util_test
     QLimitProxyModel
     UnitySortFilterProxyModel
     WindowInputMonitor
-    DeviceConfigParser
     WindowStateStorage
 )
     add_executable(${util_test}TestExec ${util_test}Test.cpp ModelTest.cpp)
