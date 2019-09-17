@@ -42,15 +42,11 @@ if (ENABLE_TOUCH_EMULATION)
     set(SOURCE_FILES ${SOURCE_FILES} MouseTouchAdaptor.cpp)
 endif()
 
-pkg_check_modules(ANDROID_PROPERTIES REQUIRED libandroid-properties)
 add_executable(${SHELL_APP} ${SOURCE_FILES})
 
-if (NOT "${ANDROID_PROPERTIES_INCLUDE_DIRS}" STREQUAL "")
-    set_target_properties(${SHELL_APP} PROPERTIES INCLUDE_DIRECTORIES ${ANDROID_PROPERTIES_INCLUDE_DIRS})
-endif()
 target_link_libraries(${SHELL_APP}
     Qt5::DBus Qt5::Gui Qt5::Qml Qt5::Quick Qt5::Test
-    ${ANDROID_PROPERTIES_LDFLAGS} ${GSETTINGS_QT_LDFLAGS}
+    ${GSETTINGS_QT_LDFLAGS}
     UbuntuGestures connectivity-qt1 unity8-private
     )
 
