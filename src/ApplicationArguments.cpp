@@ -21,11 +21,3 @@ ApplicationArguments::ApplicationArguments(QCoreApplication *app)
     , LomiriCommandLineParser(*app)
 {
 }
-
-void ApplicationArguments::setDeviceName(const QString &deviceName)
-{
-    if (deviceName != m_deviceName) {
-        m_deviceName = deviceName;
-        Q_EMIT deviceNameChanged(m_deviceName);
-    }
-}

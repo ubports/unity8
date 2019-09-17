@@ -37,10 +37,13 @@ Item {
     property bool lightIndicators: false
 
     onWidthChanged: calculateUsageMode();
+    property var overrideDeviceName: screens.count > 1 ? "desktop" : false
 
     DeviceConfiguration {
         id: _deviceConfiguration
-        name: applicationArguments.deviceName
+
+        // Override for convergence to set scale etc for second monitor
+        overrideName: root.overrideDeviceName
     }
 
     Item {

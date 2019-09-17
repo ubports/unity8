@@ -29,7 +29,6 @@ class ApplicationArguments : public QObject,
                              public LomiriCommandLineParser
 {
     Q_OBJECT
-    Q_PROPERTY(QString deviceName READ deviceName NOTIFY deviceNameChanged)
     Q_PROPERTY(QString mode READ mode CONSTANT)
 
     Q_PROPERTY(bool hasGeometry READ hasGeometry CONSTANT)
@@ -44,12 +43,7 @@ class ApplicationArguments : public QObject,
 public:
     ApplicationArguments(QCoreApplication *app);
 
-    void setDeviceName(const QString &deviceName);
-
     bool hasGeometry() const { return m_windowGeometry.isValid(); }
-
-Q_SIGNALS:
-    void deviceNameChanged(const QString&);
 };
 
 #endif // APPLICATION_ARGUMENTS_H

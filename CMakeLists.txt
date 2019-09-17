@@ -89,6 +89,7 @@ pkg_check_modules(QTDBUSTEST REQUIRED
     libqtdbusmock-1
     )
 pkg_check_modules(MIRAL REQUIRED miral)
+pkg_check_modules(DEVICEINFO REQUIRED deviceinfo)
 
 ### Check LomiriGestures private headers. No pkg-config (.pc) file is provided for them
 find_path(LOMIRIGESTUREPRIV

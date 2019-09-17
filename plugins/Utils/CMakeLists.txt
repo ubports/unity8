@@ -7,6 +7,7 @@ include_directories(
     SYSTEM
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
+    ${DEVICEINFO_INCLUDE_DIRS}
 )
 
 set(QMLPLUGIN_SRC
@@ -30,7 +31,7 @@ set(QMLPLUGIN_SRC
     windowstatestorage.cpp
     timezoneFormatter.cpp
     inputeventgenerator.cpp
-    deviceconfigparser.cpp
+    deviceconfig.cpp
     globalfunctions.cpp
     URLDispatcher.cpp
     tabfocusfence.cpp
@@ -45,7 +46,8 @@ add_library(Utils-qml SHARED
 
 target_link_libraries(Utils-qml
     Qt5::Qml Qt5::Quick Qt5::DBus Qt5::Network Qt5::Gui Qt5::Sql Qt5::Concurrent
-    )
+    ${DEVICEINFO_LDFLAGS}
+)
 
 # Because this is an internal support library, we want
 # to expose all symbols in it. Consider changing this

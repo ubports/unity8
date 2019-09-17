@@ -22,7 +22,7 @@ set(QMLPLUGIN_SRC
     ${CMAKE_SOURCE_DIR}/plugins/Utils/timezoneFormatter.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/applicationsfiltermodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/inputeventgenerator.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/Utils/deviceconfigparser.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/deviceconfig.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/globalfunctions.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/appdrawerproxymodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/tabfocusfence.cpp
@@ -41,6 +41,7 @@ set(QMLPLUGIN_SRC
     plugin.cpp
     windowstatestorage.cpp
     URLDispatcher.cpp
+    deviceinfo.cpp
     )
 
 add_library(FakeUtils-qml SHARED
@@ -50,7 +51,7 @@ add_library(FakeUtils-qml SHARED
 target_link_libraries(FakeUtils-qml
     ${GIO_LDFLAGS}
     Qt5::Qml Qt5::Quick Qt5::DBus Qt5::Network Qt5::Gui
-    )
+)
 
 # Because this is an internal support library, we want
 # to expose all symbols in it. Consider changing this

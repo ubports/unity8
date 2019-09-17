@@ -38,12 +38,17 @@
 #include <timezoneFormatter.h>
 #include <applicationsfiltermodel.h>
 #include <inputeventgenerator.h>
-#include <deviceconfigparser.h>
+#include <deviceconfig.h>
 #include <globalfunctions.h>
 #include <appdrawerproxymodel.h>
 #include <tabfocusfence.h>
 #include <expressionfiltermodel.h>
 #include <quicklistproxymodel.h>
+#include <deviceinfo.h>
+
+static QObject *createDeviceInfoTester(QQmlEngine*, QJSEngine*) {
+    return new DeviceInfoTester();
+}
 
 static QObject *createWindowStateStorage(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
@@ -83,7 +88,8 @@ void FakeUtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<ActiveFocusLogger>(uri, 0, 1, "ActiveFocusLogger");
     qmlRegisterType<ApplicationsFilterModel>(uri, 0, 1, "ApplicationsFilterModel");
     qmlRegisterType<InputEventGenerator>(uri, 0, 1, "InputEventGenerator");
-    qmlRegisterType<DeviceConfigParser>(uri, 0, 1, "DeviceConfigParser");
+    qmlRegisterType<DeviceConfig>(uri, 0, 1, "DeviceConfig");
+    qmlRegisterSingletonType<DeviceInfoTester>(uri, 0, 1, "DeviceInfoTester", createDeviceInfoTester);
     qmlRegisterSingletonType<GlobalFunctions>(uri, 0, 1, "Functions", createGlobalFunctions);
     qmlRegisterType<URLDispatcher>(uri, 0, 1, "URLDispatcher");
     qmlRegisterType<AppDrawerProxyModel>(uri, 0, 1, "AppDrawerProxyModel");

@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtTest 1.0
 import Lomiri.SelfTest 0.1
 import "../../qml"
+import Utils 0.1
 
 Item {
     id: root
@@ -33,9 +34,15 @@ Item {
         name: "DeviceConfiguration"
         when: windowShown
 
+        function init() {
+            DeviceInfoTester.resetTestData();
+            deviceConfiguration.deviceConfig.refresh();
+        }
+
         function test_defaults() {
-            deviceConfiguration.name = "nonexisting"
-            compare(deviceConfiguration.primaryOrientation, -1)
+            compare(deviceConfiguration.name, "test");
+            compare(deviceConfiguration.category, "desktop");
+            compare(deviceConfiguration.primaryOrientation, Qt.LandscapeOrientation)
             compare(deviceConfiguration.landscapeOrientation, Qt.LandscapeOrientation)
             compare(deviceConfiguration.portraitOrientation, Qt.PortraitOrientation)
             compare(deviceConfiguration.invertedLandscapeOrientation, Qt.InvertedLandscapeOrientation)
@@ -44,6 +51,44 @@ Item {
                     | Qt.InvertedPortraitOrientation
                     | Qt.LandscapeOrientation
                     | Qt.InvertedLandscapeOrientation)
+        }
+
+        function test_changed() {
+            DeviceInfoTester.setTestData("name", "different");
+            DeviceInfoTester.setTestData("deviceType", "phone");
+            deviceConfiguration.deviceConfig.refresh();
+
+            compare(deviceConfiguration.name, "different");
+            compare(deviceConfiguration.category, "phone");
+            compare(deviceConfiguration.primaryOrientation, Qt.LandscapeOrientation)
+            compare(deviceConfiguration.landscapeOrientation, Qt.LandscapeOrientation)
+            compare(deviceConfiguration.portraitOrientation, Qt.PortraitOrientation)
+            compare(deviceConfiguration.invertedLandscapeOrientation, Qt.InvertedLandscapeOrientation)
+            compare(deviceConfiguration.invertedPortraitOrientation, Qt.InvertedPortraitOrientation)
+            compare(deviceConfiguration.supportedOrientations, Qt.PortraitOrientation
+                    | Qt.InvertedPortraitOrientation
+                    | Qt.LandscapeOrientation
+                    | Qt.InvertedLandscapeOrientation)
+        }
+
+        function test_nameOverride() {
+            deviceConfiguration.overrideName = "flo";
+            compare(deviceConfiguration.name, "flo");
+            compare(deviceConfiguration.category, "tablet");
+            compare(deviceConfiguration.primaryOrientation, Qt.InvertedLandscapeOrientation)
+            compare(deviceConfiguration.landscapeOrientation, Qt.InvertedLandscapeOrientation)
+            compare(deviceConfiguration.portraitOrientation, Qt.PortraitOrientation)
+            compare(deviceConfiguration.invertedLandscapeOrientation, Qt.LandscapeOrientation)
+            compare(deviceConfiguration.invertedPortraitOrientation, Qt.InvertedPortraitOrientation)
+            compare(deviceConfiguration.supportedOrientations, Qt.PortraitOrientation
+                    | Qt.InvertedPortraitOrientation
+                    | Qt.LandscapeOrientation
+                    | Qt.InvertedLandscapeOrientation)
+
+            // Also try reseting override
+            deviceConfiguration.overrideName = false;
+            compare(deviceConfiguration.name, "test");
+            compare(deviceConfiguration.category, "desktop");
         }
     }
 }

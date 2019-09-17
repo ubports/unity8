@@ -52,10 +52,6 @@ LomiriCommandLineParser::LomiriCommandLineParser(const QCoreApplication &app)
         QStringLiteral("DISCOURAGED: Please set QT_LOAD_TESTABILITY instead.\nLoad the testability driver"));
     parser.addOption(testabilityOption);
 
-    QCommandLineOption devicenameOption(QStringList() << QStringLiteral("devicename"),
-            QStringLiteral("Specify the device name instead of letting Lomiri 8 find it out"), QStringLiteral("devicename"), QLatin1String(""));
-    parser.addOption(devicenameOption);
-
     QCommandLineOption modeOption(QStringLiteral("mode"),
         QStringLiteral("Whether to run greeter and/or shell [full-greeter, full-shell, greeter, shell]"),
         QStringLiteral("mode"), QStringLiteral("full-greeter"));
@@ -89,7 +85,6 @@ LomiriCommandLineParser::LomiriCommandLineParser(const QCoreApplication &app)
     #endif
 
     m_hasFullscreen = parser.isSet(fullscreenOption);
-    m_deviceName = parser.value(devicenameOption);
     resolveMode(parser, modeOption);
 
     m_qmlfile = parser.value(qmlfileOption);

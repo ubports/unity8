@@ -40,6 +40,7 @@ Rectangle {
 
     property var tryShell: null
     property string ldmUserMode: "single"
+    property string deviceName: "mako"
 
     Binding {
         target: LightDMController
@@ -49,7 +50,6 @@ Rectangle {
 
     QtObject {
         id: applicationArguments
-        property string deviceName: "mako"
         property string mode: "full-greeter"
     }
 
@@ -96,7 +96,7 @@ Rectangle {
     property int physicalOrientation270
     property real primaryOrientationAngle
 
-    state: applicationArguments.deviceName
+    state: deviceName
     states: [
         State {
             name: "mako"
@@ -171,6 +171,7 @@ Rectangle {
             physicalOrientation: root.physicalOrientation0
             orientationLocked: orientationLockedCheckBox.checked
             orientationLock: mockOrientationLock
+            overrideDeviceName: deviceName
             lightIndicators: true
         }
     }
@@ -328,7 +329,7 @@ Rectangle {
                 model: ["mako", "manta", "flo", "desktop"]
                 onSelectedIndexChanged: {
                     destroyShell();
-                    applicationArguments.deviceName = model[selectedIndex];
+                    deviceName = model[selectedIndex];
                     createTryShell();
                 }
             }
@@ -443,17 +444,17 @@ Rectangle {
             // Simulates what happens when the shell is moved to an external monitor and back
             Button {
                 id: moveToFromMonitorButton
-                text: applicationArguments.deviceName === "desktop" ? "Move to " + prevDevName + " screen" : "Move to desktop screen"
+                text: deviceName === "desktop" ? "Move to " + prevDevName + " screen" : "Move to desktop screen"
                 activeFocusOnPress: false
                 property string prevDevName: "mako"
                 onClicked: {
                     usageModeSelector.selectAutomatic();
 
-                    if (applicationArguments.deviceName === "desktop") {
-                        applicationArguments.deviceName = prevDevName;
+                    if (deviceName === "desktop") {
+                        deviceName = prevDevName;
                     } else {
-                        prevDevName = applicationArguments.deviceName;
-                        applicationArguments.deviceName = "desktop"
+                        prevDevName = deviceName;
+                        deviceName = "desktop"
                     }
                 }
             }
@@ -1519,8 +1520,8 @@ Rectangle {
             tryCompare(greeter, "fullyShown", true);
         }
 
-        function loadShell(deviceName, userMode = "single") {
-            applicationArguments.deviceName = deviceName;
+        function loadShell(deviceName_, userMode = "single") {
+            deviceName = deviceName_;
 
             ldmUserMode = userMode; // Set the mode for LightDM ( default is "single" )
 

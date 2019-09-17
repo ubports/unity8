@@ -29,7 +29,6 @@ ScreenWindow {
 
     DeviceConfiguration {
         id: deviceConfiguration
-        name: applicationArguments.deviceName
     }
 
     Loader {
@@ -52,7 +51,7 @@ ScreenWindow {
             implicitHeight: screenWindow.height
 
             deviceConfiguration {
-                name: Screens.count > 1 ? "desktop" : applicationArguments.deviceName
+                overrideName: Screens.count > 1 ? "desktop" : false
             }
         }
     }
