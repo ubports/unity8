@@ -14,16 +14,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DEVICECONFIGPARSER_H
-#define DEVICECONFIGPARSER_H
+#pragma once
 
 #include <QObject>
-#include <QSettings>
+#include <memory>
 
-class DeviceConfigParser: public QObject
+class DeviceInfo;
+class DeviceConfig: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY changed)
+    Q_PROPERTY(QString name READ name NOTIFY changed)
 
     // NOTE: When changing this properties, also update the examples in docs and data
     Q_PROPERTY(Qt::ScreenOrientation primaryOrientation READ primaryOrientation NOTIFY changed)
@@ -33,13 +33,12 @@ class DeviceConfigParser: public QObject
     Q_PROPERTY(Qt::ScreenOrientation portraitOrientation READ portraitOrientation NOTIFY changed)
     Q_PROPERTY(Qt::ScreenOrientation invertedPortraitOrientation READ invertedPortraitOrientation NOTIFY changed)
     Q_PROPERTY(QString category READ category NOTIFY changed)
-    Q_PROPERTY(bool supportsMultiColorLed READ supportsMultiColorLed NOTIFY changed)
+    Q_PROPERTY(bool supportsMultiColorLed READ supportsMultiColorLed)
 
 public:
-    DeviceConfigParser(QObject *parent = nullptr);
+    DeviceConfig(QObject *parent = nullptr);
 
     QString name() const;
-    void setName(const QString &name);
 
     Qt::ScreenOrientation primaryOrientation() const;
     Qt::ScreenOrientations supportedOrientations() const;
@@ -54,13 +53,7 @@ Q_SIGNALS:
     void changed();
 
 private:
-    QString m_name;
-    QSettings *m_config;
+    std::shared_ptr<DeviceInfo> m_info;
 
-    QStringList readOrientationsFromConfig(const QString &key) const;
-    QString readOrientationFromConfig(const QString &key) const;
-    Qt::ScreenOrientation stringToOrientation(const QString &orientationString, Qt::ScreenOrientation defaultValue) const;
-    bool readBoolFromConfig(const QString &key, bool defaultValue) const;
+    Qt::ScreenOrientation stringToOrientation(const std::string &orientationString, Qt::ScreenOrientation defaultValue) const;
 };
-
-#endif

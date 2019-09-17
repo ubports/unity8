@@ -15,7 +15,6 @@ Build-Depends: cmake,
                gdb,
                graphviz,
                gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
-               libandroid-properties-dev,
                libconnectivity-qt1-dev (>= 0.7.1),
                libevdev-dev,
                libgeonames-dev (>= 0.2),
@@ -74,6 +73,7 @@ Build-Depends: cmake,
                qtdeclarative5-ubuntu-settings-components (>= 0.11),
                ttf-ubuntu-font-family,
                xvfb,
+               libdeviceinfo-dev,
 Standards-Version: 3.9.4
 Homepage: http://launchpad.net/unity
 # If you aren't a member of ~unity-team but need to upload
