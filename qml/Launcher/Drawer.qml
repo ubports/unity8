@@ -157,7 +157,8 @@ FocusScope {
         FastBlur {
             anchors.fill: background
             source: background
-            radius: 128
+            radius: 64
+            cached: true
         }
 
         // Images with fastblur can't use opacity, so we'll put this on top
