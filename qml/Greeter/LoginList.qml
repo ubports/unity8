@@ -30,6 +30,7 @@ StyledItem {
     property bool locked
     property bool waiting
     property alias boxVerticalOffset: highlightItem.y
+    property string _realName
 
     readonly property int numAboveBelow: 4
     readonly property int cellHeight: units.gu(5)
@@ -95,7 +96,7 @@ StyledItem {
 
         Label {
           // HACK: Work around https://github.com/ubports/unity8/issues/185
-          text: "Ubuntu Touch"
+          text: _realName ? _realName : LightDMService.greeter.authenticationUser
           visible: userList.count == 1
           anchors {
             left: parent.left
@@ -172,6 +173,8 @@ StyledItem {
                       ?  LightDMService.greeter.authenticationUser : realName
                 color: userList.currentIndex !== index ? theme.palette.normal.raised
                                                        : theme.palette.normal.raisedText
+
+                Component.onCompleted: _realName = realName
 
                 Behavior on anchors.topMargin { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
 
