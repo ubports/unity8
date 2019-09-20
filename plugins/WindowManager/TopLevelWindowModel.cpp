@@ -736,6 +736,12 @@ void TopLevelWindowModel::closeAllWindows()
     for (auto win : m_windowModel) {
         win.window->close();
     }
+
+    // This is done after the for loop in the unlikely event that
+    // an app starts in between this
+    if (m_windowModel.isEmpty()) {
+        Q_EMIT closedAllWindows();
+    }
 }
 
 void TopLevelWindowModel::rootFocus(bool focus)
