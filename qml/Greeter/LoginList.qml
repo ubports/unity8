@@ -30,6 +30,7 @@ StyledItem {
     property bool locked
     property bool waiting
     property alias boxVerticalOffset: highlightItem.y
+    property string _realName
 
     readonly property alias passwordInput: passwordInput
     readonly property int numAboveBelow: 4
@@ -136,6 +137,17 @@ StyledItem {
         }
 
         height: root.highlightedHeight
+        Label {
+          // HACK: Work around https://github.com/ubports/unity8/issues/185
+          text: _realName ? _realName : LightDMService.greeter.authenticationUser
+          visible: userList.count == 1
+          anchors {
+            left: parent.left
+            top: parent.top
+            topMargin: units.gu(2)
+            leftMargin: units.gu(2)
+          }
+        }
     }
 
     ListView {
@@ -193,6 +205,7 @@ StyledItem {
 
             FadingLabel {
                 objectName: "username" + index
+                visible: userList.count != 1 // HACK Hide username label until someone sorts out the anchoring with the keyboard-dismiss animation, Work around https://github.com/ubports/unity8/issues/185
 
                 anchors {
                     left: parent.left
@@ -206,6 +219,8 @@ StyledItem {
                 text: realName
                 color: userList.currentIndex !== index ? theme.palette.normal.raised
                                                        : theme.palette.normal.raisedText
+
+                Component.onCompleted: _realName = realName
 
                 Behavior on anchors.topMargin { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
 
