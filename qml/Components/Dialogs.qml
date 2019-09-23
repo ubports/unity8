@@ -222,11 +222,13 @@ MouseArea {
                 focus: true
                 text: i18n.tr("Yes")
                 onClicked: {
+                    doOnClosedAllWindows = function(unitySessionService, rebootDialog) {
+                        return function() {
+                            unitySessionService.reboot();
+                            rebootDialog.hide();
+                        }
+                    }(unitySessionService, rebootDialog);
                     topLevelSurfaceList.closeAllWindows();
-                    doOnClosedAllWindows = function() {
-                        unitySessionService.reboot();
-                        rebootDialog.hide();
-                    }
                 }
                 color: theme.palette.normal.negative
                 Component.onCompleted: if (root.hasKeyboard) forceActiveFocus(Qt.TabFocusReason)
@@ -245,11 +247,13 @@ MouseArea {
                 focus: true
                 text: i18n.ctr("Button: Power off the system", "Power off")
                 onClicked: {
+                    doOnClosedAllWindows = function(root, powerDialog) {
+                        return function() {
+                            powerDialog.hide();
+                            root.powerOffClicked();
+                        }
+                    }(root, powerDialog);
                     topLevelSurfaceList.closeAllWindows();
-                    doOnClosedAllWindows = function() {
-                        powerDialog.hide();
-                        root.powerOffClicked();
-                    }
                 }
                 color: theme.palette.normal.negative
                 Component.onCompleted: if (root.hasKeyboard) forceActiveFocus(Qt.TabFocusReason)
@@ -258,11 +262,13 @@ MouseArea {
                 width: parent.width
                 text: i18n.ctr("Button: Restart the system", "Restart")
                 onClicked: {
+                    doOnClosedAllWindows = function(unitySessionService, powerDialog) {
+                        return function() {
+                            unitySessionService.reboot();
+                            powerDialog.hide();
+                        }
+                    }(unitySessionService, powerDialog);
                     topLevelSurfaceList.closeAllWindows();
-                    doOnClosedAllWindows = function() {
-                        unitySessionService.reboot();
-                        powerDialog.hide();
-                    }
                 }
             }
             Button {
@@ -302,11 +308,13 @@ MouseArea {
         }
 
         onLogoutReady: {
+            doOnClosedAllWindows = function(unitySessionService) {
+                return function() {
+                    Qt.quit();
+                    unitySessionService.endSession();
+                }
+            }(unitySessionService);
             topLevelSurfaceList.closeAllWindows();
-            doOnClosedAllWindows = function() {
-                Qt.quit();
-                unitySessionService.endSession();
-            }
         }
     }
 }

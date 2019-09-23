@@ -186,6 +186,8 @@ StyledItem {
     readonly property alias greeter: greeterLoader.item
 
     function activateApplication(appId) {
+        topLevelSurfaceList.pendingActivation();
+
         // Either open the app in our own session, or -- if we're acting as a
         // greeter -- ask the user's session to open it for us.
         if (shell.mode === "greeter") {

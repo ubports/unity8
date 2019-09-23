@@ -157,15 +157,20 @@ public:
     /**
      * @brief Raises and focuses a window with no surface
      */
-    Q_INVOKABLE void activateNullWindow();
-    void setApplicationManager(unity::shell::application::ApplicationManagerInterface*);
-    void setSurfaceManager(unity::shell::application::SurfaceManagerInterface*);
+    Q_INVOKABLE void rootFocus(bool focus);
 
     /**
      * @brief Closes all windows, emits closedAllWindows when done
      */
     Q_INVOKABLE void closeAllWindows();
 
+    /**
+     * @brief Sets pending activation flag
+     */
+    Q_INVOKABLE void pendingActivation();
+
+    void setApplicationManager(unity::shell::application::ApplicationManagerInterface*);
+    void setSurfaceManager(unity::shell::application::SurfaceManagerInterface*);
 Q_SIGNALS:
     void countChanged();
     void inputMethodSurfaceChanged(unity::shell::application::MirSurfaceInterface* inputMethodSurface);
@@ -248,6 +253,8 @@ private:
     Workspace* m_workspace{nullptr};
     // track all the surfaces we've been told about.
     QSet<unity::shell::application::MirSurfaceInterface*> m_allSurfaces;
+    Window* m_previousWindow{nullptr};
+    bool m_pendingActivation;
 
     int m_nextId{1};
     // Just something big enough that we don't risk running out of unused id numbers.

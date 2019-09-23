@@ -102,17 +102,14 @@ FocusScope {
         // Stage must have focus before activating windows, including null
         if (interactive) {
             focus = true;
-
-            // Activate focused app once stage is active again
-            // this makes sure the focused app have focus
-            if (priv.focusedAppDelegate) {
-                priv.focusedAppDelegate.window.activate();
-            }
-        } else {
-            // Activate null window once stage is not active this makes
-            // sure none of the apps have focus when stage is not active
-            topLevelSurfaceList.activateNullWindow();
         }
+
+        // This will:
+        // - If interactive: Try to reactivate last focused application.
+        //   this will not happen if a pending activation is going on
+        // - If not interactive: Activate nullWindow, this makes
+        //   sure none of the apps have focus when stage is not active
+        topLevelSurfaceList.rootFocus(interactive);
     }
 
     onAltTabPressedChanged: {

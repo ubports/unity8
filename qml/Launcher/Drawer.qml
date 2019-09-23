@@ -28,7 +28,7 @@ FocusScope {
     id: root
 
     property int panelWidth: 0
-    readonly property bool moving: appList && appList.moving
+    readonly property bool moving: (appList && appList.moving) ? true : false
     readonly property Item searchTextField: searchField
     readonly property real delegateWidth: units.gu(10)
     property url background
@@ -157,7 +157,8 @@ FocusScope {
         FastBlur {
             anchors.fill: background
             source: background
-            radius: 128
+            radius: 64
+            cached: true
         }
 
         // Images with fastblur can't use opacity, so we'll put this on top
@@ -292,6 +293,12 @@ FocusScope {
                 readonly property bool focused: index === GridView.view.currentIndex && GridView.view.activeFocus
 
                 onClicked: root.applicationSelected(model.appId)
+                onPressAndHold: {
+                  if (model.appId.includes(".")) { // Open OpenStore page if app is a click
+                    var splitAppId = model.appId.split("_");
+                    Qt.openUrlExternally("https://open-store.io/app/" + model.appId.replace("_" + splitAppId[splitAppId.length-1],"") + "/");
+                  }
+                }
                 z: loader.active ? 1 : 0
 
                 Column {

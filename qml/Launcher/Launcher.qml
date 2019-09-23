@@ -375,8 +375,8 @@ FocusScope {
         allowSlidingAnimation: !dragArea.dragging && !launcherDragArea.drag.active && panel.animate
 
         onApplicationSelected: {
-            root.hide();
             root.launcherApplicationSelected(appId)
+            root.hide();
             root.focus = false;
         }
 

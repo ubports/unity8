@@ -732,16 +732,19 @@ void TopLevelWindowModel::setFocusedWindow(Window *window)
     if (window != m_focusedWindow) {
         INFO_MSG << "(" << window << ")";
 
-        Window* previousWindow = m_focusedWindow;
+        m_previousWindow = m_focusedWindow;
 
         m_focusedWindow = window;
         Q_EMIT focusedWindowChanged(m_focusedWindow);
 
-        if (previousWindow && previousWindow->focused() && !previousWindow->surface()) {
+        if (m_previousWindow && m_previousWindow->focused() && !m_previousWindow->surface()) {
             // do it ourselves. miral doesn't know about this window
-            previousWindow->setFocused(false);
+            m_previousWindow->setFocused(false);
         }
     }
+
+    // Reset
+    m_pendingActivation = false;
 }
 
 unityapi::MirSurfaceInterface* TopLevelWindowModel::inputMethodSurface() const
@@ -808,12 +811,6 @@ void TopLevelWindowModel::activateTopMostWindowWithoutId(int forbiddenId)
     }
 }
 
-void TopLevelWindowModel::activateNullWindow()
-{
-    if (!m_nullWindow->focused())
-        m_nullWindow->activate();
-}
-
 void TopLevelWindowModel::refreshWindows()
 {
     DEBUG_MSG << "()";
@@ -871,4 +868,37 @@ void TopLevelWindowModel::closeAllWindows()
     for (auto win : m_windowModel) {
         win.window->close();
     }
+
+    // This is done after the for loop in the unlikely event that
+    // an app starts in between this
+    if (m_windowModel.isEmpty()) {
+        Q_EMIT closedAllWindows();
+    }
+}
+
+void TopLevelWindowModel::rootFocus(bool focus)
+{
+    if (focus) {
+        // Give focus back to previous focused window, only if null window is focused.
+        // If null window is not focused, a different app had taken the focus and we
+        // should repect that, or if a pendingActivation is going on.
+        if (m_previousWindow && !m_previousWindow->focused() && !m_pendingActivation &&
+            m_nullWindow == m_focusedWindow && m_previousWindow != m_nullWindow) {
+            m_previousWindow->activate();
+        }
+    } else {
+        if (!m_nullWindow->focused()) {
+            m_nullWindow->activate();
+        }
+    }
+}
+
+// Pending Activation will block refocus of previous focused window
+// this is needed since surface activation with miral is async,
+// and activation of placeholder is sync. This causes a race condition
+// between placeholder and prev window. This results in prev window
+// gets focused, as it will always be later than the placeholder.
+void TopLevelWindowModel::pendingActivation()
+{
+    m_pendingActivation = true;
 }

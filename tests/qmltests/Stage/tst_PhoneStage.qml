@@ -498,6 +498,32 @@ Item {
             compare(webbrowserApp.surfaceList.count, 1);
         }
 
+        function test_givePlaceholderFocusOnStartup() {
+            compare(topLevelSurfaceList.applicationAt(0).appId, "unity8-dash");
+            var dashSurfaceId = topLevelSurfaceList.idAt(0);
+            waitUntilAppSurfaceShowsUp(dashSurfaceId);
+            waitForRendering(stage);
+
+            // Give nullwindow focus
+            topLevelSurfaceList.rootFocus(false);
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
+            topLevelSurfaceList.pendingActivation();
+            var webbrowserApp  = ApplicationManager.startApplication("morph-browser");
+            compare(topLevelSurfaceList.applicationAt(0).appId, "morph-browser");
+            var webbrowserWindow = topLevelSurfaceList.windowAt(0);
+
+            // Give focus back to stage, but we should NOT refocus prev window (dash in this case)
+            topLevelSurfaceList.rootFocus(true);
+
+            // We should have given focus to webbrowser at this point, not dashWindow
+            tryCompare(topLevelSurfaceList, "focusedWindow", webbrowserWindow);
+
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
+            // Should still have webbrowser as focused app
+            tryCompare(topLevelSurfaceList, "focusedWindow", webbrowserWindow);
+        }
+
         /*
             1 - user suspends an application (ie, focus a surface from a different application)
             2 - That suspended application gets killed, causing its surface to go zombie
