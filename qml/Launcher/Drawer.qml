@@ -293,6 +293,12 @@ FocusScope {
                 readonly property bool focused: index === GridView.view.currentIndex && GridView.view.activeFocus
 
                 onClicked: root.applicationSelected(model.appId)
+                onPressAndHold: {
+                  if (model.appId.includes(".")) { // Open OpenStore page if app is a click
+                    var splitAppId = model.appId.split("_");
+                    Qt.openUrlExternally("https://open-store.io/app/" + model.appId.replace("_" + splitAppId[splitAppId.length-1],"") + "/");
+                  }
+                }
                 z: loader.active ? 1 : 0
 
                 Column {
