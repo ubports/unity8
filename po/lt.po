@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2019-08-11 10:49+0000\n"
+"PO-Revision-Date: 2019-09-21 20:50+0000\n"
 "Last-Translator: Moo <moose@mail.ru>\n"
 "Language-Team: Lithuanian <https://translate.ubports.com/projects/unity8/"
 "unity8/lt/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > "
 "19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? "
 "1 : 2);\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 3.8\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -320,7 +320,7 @@ msgstr ""
 #: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr ""
+msgstr "Parduotuvė"
 
 #: qml/Dash/DashPageHeader.qml:368
 msgctxt "Button: Start a search in the current dash scope"
@@ -412,7 +412,7 @@ msgstr ""
 
 #: qml/Dash/ScopesList.qml:105
 msgid "Also installed"
-msgstr ""
+msgstr "Taip pat įdiegta"
 
 #: qml/DisabledScreenNotice.qml:109
 msgid ""
@@ -641,7 +641,7 @@ msgstr "Praleisti"
 
 #: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
-msgstr ""
+msgstr "Prisijungti prie belaidžio (Wi-Fi)"
 
 #: qml/Wizard/Pages/30-wifi.qml:133
 msgid "Connected"
@@ -649,11 +649,11 @@ msgstr "Prisijungta"
 
 #: qml/Wizard/Pages/30-wifi.qml:166
 msgid "Available Wi-Fi networks"
-msgstr ""
+msgstr "Prieinami belaidžiai (Wi-Fi) tinklai"
 
 #: qml/Wizard/Pages/30-wifi.qml:167
 msgid "No available Wi-Fi networks"
-msgstr ""
+msgstr "Nėra prieinamų belaidžių (Wi-Fi) tinklų"
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
@@ -860,11 +860,11 @@ msgstr "Įveskite bent 8 simbolius"
 
 #: qml/Wizard/Pages/password-set.qml:74
 msgid "Choose password"
-msgstr ""
+msgstr "Pasirinkite slaptažodį"
 
 #: qml/Wizard/Pages/password-set.qml:104
 msgid "Confirm password"
-msgstr ""
+msgstr "Patvirtinkite slaptažodį"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
@@ -877,6 +877,8 @@ msgstr "Pridėta SIM kortelė"
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
 msgstr ""
+"Norėdami gauti prieigą prie mobiliojo tinklo, privalote paleisti įrenginį iš "
+"naujo."
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
@@ -888,7 +890,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr ""
+msgstr "Norėdami tęsti be SIM kortelės, bakstelėkite \"Praleisti\"."
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:123
 msgid "Update"
