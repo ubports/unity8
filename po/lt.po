@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2019-09-21 20:50+0000\n"
+"PO-Revision-Date: 2019-09-25 19:51+0000\n"
 "Last-Translator: Moo <moose@mail.ru>\n"
 "Language-Team: Lithuanian <https://translate.ubports.com/projects/unity8/"
 "unity8/lt/>\n"
@@ -139,7 +139,7 @@ msgstr "Perjungia į kitą klaviatūros išdėstymą."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
-msgstr ""
+msgstr "Super + Lyg2 + Tarpas"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
