@@ -168,7 +168,6 @@ Item {
             objectName: "windowDecorationTitle"
             anchors {
                 left: parent.left
-                right: __indicators.left
                 top: parent.top
                 leftMargin: units.gu(1)
                 rightMargin: units.gu(1)
@@ -177,11 +176,12 @@ Item {
             }
             color: "white"
             height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
+            width: 0.3*parent.width
             opacity: !windowControlButtons.visible && !root.locked && !callHint.visible ? 1 : 0
-            visible: opacity != 0
+            visible: PanelState.title != "Scopes" && indicators.fullyClosed && opacity != 0
             verticalAlignment: Text.AlignVCenter
             fontSize: "medium"
-            font.weight: PanelState.buttonsVisible ? Font.Light : Font.Medium
+            font.weight: Font.Light
             text: PanelState.title
             elide: Text.ElideRight
             maximumLineCount: 1
