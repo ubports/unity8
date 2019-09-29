@@ -114,6 +114,7 @@ Item {
 
         function cleanup() {
             ApplicationManager.requestFocusApplication("unity8-dash");
+            stage.closeSpread();
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
             tryCompare(stage, "state", "staged");
             waitForRendering(stage);
