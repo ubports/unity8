@@ -308,7 +308,12 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
         }
 
         connect(m_qmlSurface, &MirSurface::screenshotUrlChanged, this, &MirSurfaceItem::updateScreenshot);
-        connect(m_qmlSurface, &MirSurface::liveChanged, this, &MirSurfaceItem::liveChanged);
+        connect(m_qmlSurface, &MirSurface::liveChanged, this, [this] (bool live) {
+            if (!live) {
+                setSurface(nullptr);
+            }
+            Q_EMIT liveChanged(live);
+        });
         connect(m_qmlSurface, &MirSurface::stateChanged, this, &MirSurfaceItem::surfaceStateChanged);
         connect(m_qmlSurface, &MirSurface::sizeChanged, this, [this] () {
             setImplicitSize(m_qmlSurface->width(), m_qmlSurface->height());
