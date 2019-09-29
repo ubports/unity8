@@ -114,6 +114,7 @@ FocusScope {
             if (root.surface && root.surface.live) {
                 d.surfaceInitialized = true;
                 d.hadSurface = true;
+                d.surfaceOldEnoughToBeResized = true;
             }
         }
     }
