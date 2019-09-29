@@ -191,6 +191,17 @@ Item {
                     appWindow.width * 0.1, -appWindow.height / 2);
         }
 
+        function swipeSurfaceDownwards(surfaceId) {
+            var appWindow = findAppWindowForSurfaceId(surfaceId);
+            verify(appWindow);
+
+            // Swipe from the left side of the surface as it's the one most likely
+            // to not be covered by other surfaces when they're all being shown in the spread
+            touchFlick(appWindow,
+                    appWindow.width * 0.1, appWindow.height / 2,
+                    appWindow.width * 0.1, appWindow.height);
+        }
+
         function switchToSurface(targetSurfaceId) {
             performEdgeSwipeToShowAppSpread();
 
