@@ -899,6 +899,7 @@ FocusScope {
             opacity: surface != null ? 1 : 0
             Behavior on opacity { UbuntuNumberAnimation {} }
             visible: opacity > 0
+            enabled: workspaceSwitcher
 
             Drag.active: surface != null
             Drag.keys: ["application"]
@@ -2117,6 +2118,7 @@ FocusScope {
 
     WorkspaceSwitcher {
         id: workspaceSwitcher
+        enabled: workspaceEnabled
         anchors.centerIn: parent
         height: units.gu(20)
         width: root.width - units.gu(8)
