@@ -1818,6 +1818,7 @@ FocusScope {
                         SequentialAnimation {
                             ScriptAction { script: { fakeRectangle.stop(); } }
                             PropertyAction { target: appDelegate; property: "visuallyMaximized" }
+                            PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                             UbuntuNumberAnimation { target: appDelegate; properties: "x,y,scale,opacity"; duration: priv.animationDuration }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                         }
@@ -2001,7 +2002,7 @@ FocusScope {
                     }
                     onClose: {
                         priv.closingIndex = index
-                        model.window.close();
+                        appDelegate.close();
                     }
                 }
 
