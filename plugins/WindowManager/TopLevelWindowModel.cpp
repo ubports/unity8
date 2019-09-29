@@ -463,6 +463,10 @@ void TopLevelWindowModel::removeSurfaces(const QVector<unity::shell::application
             window->setSurface(nullptr);
             window->setFocused(false);
 
+            if (window == m_previousWindow) {
+                m_previousWindow = nullptr;
+            }
+
             m_windowModel.removeAt(start);
             m_allSurfaces.remove(surface);
         }
@@ -502,6 +506,10 @@ void TopLevelWindowModel::removeAt(int index)
 
     if (!window->surface()) {
         window->setFocused(false);
+    }
+
+    if (window == m_previousWindow) {
+        m_previousWindow = nullptr;
     }
 
     m_windowModel.removeAt(index);
@@ -860,6 +868,7 @@ void TopLevelWindowModel::clear()
     m_allSurfaces.clear();
     setFocusedWindow(nullptr);
     m_focusedWindowCleared = false;
+    m_previousWindow = nullptr;
 }
 
 void TopLevelWindowModel::closeAllWindows()
