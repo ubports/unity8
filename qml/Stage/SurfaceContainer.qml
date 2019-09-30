@@ -39,10 +39,15 @@ FocusScope {
     // to update surface activeFocus. See mock MirSurfaceItem.
     property alias consumesInput: surfaceItem.consumesInput
 
+    property bool hadSurface: false
+
     onSurfaceChanged: {
         // Not a binding because animations might remove the surface from the surfaceItem
         // programatically (in order to signal that a zombie surface is free for deletion),
         // even though root.surface is still !null.
+        if (surface != null)
+            root.hadSurface = true;
+
         surfaceItem.surface = surface;
     }
 
@@ -83,7 +88,7 @@ FocusScope {
     Loader {
         id: animationsLoader
         objectName: "animationsLoader"
-        active: root.surface
+        active: root.surface || root.hadSurface
         source: {
             if (root.isPromptSurface) {
                 return "PromptSurfaceAnimations.qml";
@@ -103,6 +108,12 @@ FocusScope {
             when: animationsLoader.item
             property: "container"
             value: root
+        }
+        Binding {
+            target: animationsLoader.item
+            when: animationsLoader.item
+            property: "hadSurface"
+            value: hadSurface
         }
     }
 }
