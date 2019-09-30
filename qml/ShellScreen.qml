@@ -59,6 +59,8 @@ ScreenWindow {
 
     Component {
         id: disabledScreenComponent
-        DisabledScreenNotice {}
+        DisabledScreenNotice {
+            oskEnabled: Screens.count > 1
+        }
     }
 }

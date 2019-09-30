@@ -18,12 +18,14 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import Qt.labs.settings 1.0
-import WindowManager 1.0
 import UInput 0.1
 import "../Components"
 
 Item {
     id: root
+
+    property var inputSurface: null
+    property bool oskEnabled: false
 
     Component.onCompleted: {
         UInput.createMouse();
@@ -240,9 +242,10 @@ Item {
     InputMethod {
         id: inputMethod
         // Don't resize when there is only one screen to avoid resize clashing with the InputMethod in the Shell.
-        enabled: Screens.count > 1 && settings.oskEnabled && !tutorial.running
+        enabled: root.oskEnabled && settings.oskEnabled && !tutorial.running
         objectName: "inputMethod"
         anchors.fill: parent
+        surface: inputSurface
     }
 
     Label {
