@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2019-08-11 10:49+0000\n"
-"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"PO-Revision-Date: 2019-10-01 23:29+0000\n"
+"Last-Translator: Ari Börde Kröyer <ari.kroyer@online.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.ubports.com/projects/"
 "unity8/unity8/nb/>\n"
 "Language: nb\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 3.8\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:123
@@ -715,9 +715,8 @@ msgid "Update Apps"
 msgstr "Oppgrader programmer"
 
 #: qml/Wizard/Pages/76-app-update.qml:127
-#, fuzzy
 msgid "This device is not connected to the internet."
-msgstr "Denne enheten er ikke tilkoblet Internett."
+msgstr "Denne enheten er ikke tilkoblet internett."
 
 #: qml/Wizard/Pages/76-app-update.qml:128
 #: qml/Wizard/Pages/76-app-update.qml:134
@@ -734,9 +733,8 @@ msgid "The update server is not responding."
 msgstr "Oppdateringstjeneren svarer ikke."
 
 #: qml/Wizard/Pages/76-app-update.qml:238
-#, fuzzy
 msgid "Please wait..."
-msgstr "Vent …"
+msgstr "Vennligst vent …"
 
 #: qml/Wizard/Pages/79-system-update.qml:28
 msgid "Update Device"
@@ -809,7 +807,6 @@ msgid "Update all…"
 msgstr "Oppgrader alle…"
 
 #: qml/Wizard/Pages/GlobalUpdateControls.qml:121
-#, fuzzy
 msgid "Update all"
 msgstr "Oppdater alt"
 
@@ -897,12 +894,10 @@ msgid "To proceed with no SIM tap Skip."
 msgstr "Trykk «Hopp over» for å fortsette uten SIM-kort"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:123
-#, fuzzy
 msgid "Update"
-msgstr "Oppdater"
+msgstr "Oppdatér"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:125
-#, fuzzy
 msgid "Download"
 msgstr "Last ned"
 
