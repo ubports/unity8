@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2019-10-01 23:29+0000\n"
-"Last-Translator: Ari Börde Kröyer <ari.kroyer@online.no>\n"
+"PO-Revision-Date: 2019-10-02 23:53+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.ubports.com/projects/"
 "unity8/unity8/nb/>\n"
 "Language: nb\n"
@@ -734,7 +734,7 @@ msgstr "Oppdateringstjeneren svarer ikke."
 
 #: qml/Wizard/Pages/76-app-update.qml:238
 msgid "Please wait..."
-msgstr "Vennligst vent …"
+msgstr "Vent …"
 
 #: qml/Wizard/Pages/79-system-update.qml:28
 msgid "Update Device"
@@ -895,7 +895,7 @@ msgstr "Trykk «Hopp over» for å fortsette uten SIM-kort"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:123
 msgid "Update"
-msgstr "Oppdatér"
+msgstr "Oppdater"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:125
 msgid "Download"
