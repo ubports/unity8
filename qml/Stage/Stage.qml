@@ -829,6 +829,13 @@ FocusScope {
                     onHeightChanged: appDelegate.updateNormalGeometry();
                 }
 
+                // True when the Stage is focusing this app and playing its own animation.
+                // Stays true until the app is unfocused.
+                // If it is, we don't want to play the slide in/out transition from StageMaths.
+                // Setting it imperatively is not great, but any declarative solution hits
+                // race conditions, causing two animations to play for one focus event.
+                property bool inhibitSlideAnimation: false
+
                 Binding {
                     target: appDelegate
                     property: "y"
@@ -975,6 +982,9 @@ FocusScope {
                     target: model.window
                     onFocusedChanged: {
                         updateQmlFocusFromMirSurfaceFocus();
+                        if (!model.window.focused) {
+                            inhibitSlideAnimation = false;
+                        }
                     }
                     onFocusRequested: {
                         appDelegate.activate();
@@ -1208,6 +1218,9 @@ FocusScope {
                     UbuntuNumberAnimation { target: appDelegate; properties: "x"; to: rightEdgeFocusAnimation.targetX; duration: priv.animationDuration }
                     UbuntuNumberAnimation { target: decoratedWindow; properties: "angle"; to: 0; duration: priv.animationDuration }
                     UbuntuNumberAnimation { target: decoratedWindow; properties: "itemScale"; to: 1; duration: priv.animationDuration }
+                    onStarted: {
+                        inhibitSlideAnimation = true;
+                    }
                     onStopped: {
                         appDelegate.activate();
                     }
@@ -1235,6 +1248,7 @@ FocusScope {
                     sideStageX: sideStage.x
                     itemIndex: appDelegate.itemIndex
                     nextInStack: priv.nextInStack
+                    animationDuration: priv.animationDuration
                 }
 
                 StagedRightEdgeMaths {
@@ -1387,7 +1401,7 @@ FocusScope {
                         }
                         PropertyChanges {
                             target: stageMaths
-                            animateX: !focusAnimation.running && itemIndex !== spreadItem.highlightedIndex
+                            animateX: !focusAnimation.running && !rightEdgeFocusAnimation.running && itemIndex !== spreadItem.highlightedIndex && !inhibitSlideAnimation
                         }
                         PropertyChanges {
                             target: appDelegate.window
