@@ -57,4 +57,9 @@ Instantiator {
         property: "applicationManager"
         value: ApplicationManager
     }
+
+    Component.onDestruction: {
+        WindowManagerObjects.surfaceManager = null;
+        WindowManagerObjects.applicationManager = null;
+    }
 }
