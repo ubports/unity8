@@ -32,8 +32,30 @@ WorkspaceManager *WorkspaceManager::instance()
 }
 
 WorkspaceManager::WorkspaceManager()
-    : m_activeWorkspace(nullptr)
+    : m_activeWorkspace(nullptr),
+      m_surfaceManager(nullptr)
 {
+    connect(WindowManagerObjects::instance(), &WindowManagerObjects::surfaceManagerChanged,
+            this, &WorkspaceManager::setSurfaceManager);
+
+    setSurfaceManager(WindowManagerObjects::instance()->surfaceManager());
+}
+
+void WorkspaceManager::setSurfaceManager(unity::shell::application::SurfaceManagerInterface *surfaceManager)
+{
+    if (m_surfaceManager == surfaceManager) return;
+
+    if (m_surfaceManager) {
+        disconnect(m_surfaceManager, &QObject::destroyed, this, 0);
+    }
+
+    m_surfaceManager = surfaceManager;
+
+    if (m_surfaceManager) {
+        connect(m_surfaceManager, &QObject::destroyed, this, [this](){
+            setSurfaceManager(nullptr);
+        });
+    }
 }
 
 Workspace *WorkspaceManager::createWorkspace()
@@ -72,17 +94,15 @@ void WorkspaceManager::destroyWorkspace(Workspace *workspace)
 
 void WorkspaceManager::moveSurfaceToWorkspace(unity::shell::application::MirSurfaceInterface *surface, Workspace *workspace)
 {
-    auto surfaceManager = WindowManagerObjects::instance()->surfaceManager();
-    if (surfaceManager) {
-        surfaceManager->moveSurfaceToWorkspace(surface, workspace->workspace());
+    if (m_surfaceManager) {
+        m_surfaceManager->moveSurfaceToWorkspace(surface, workspace->workspace());
     }
 }
 
 void WorkspaceManager::moveWorkspaceContentToWorkspace(Workspace *to, Workspace *from)
 {
-    auto surfaceManager = WindowManagerObjects::instance()->surfaceManager();
-    if (surfaceManager) {
-        surfaceManager->moveWorkspaceContentToWorkspace(to->workspace(), from->workspace());
+    if (m_surfaceManager) {
+        m_surfaceManager->moveWorkspaceContentToWorkspace(to->workspace(), from->workspace());
     }
 }
 

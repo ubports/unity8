@@ -55,6 +55,9 @@ public:
 
     Q_INVOKABLE void moveWorkspaceContentToWorkspace(Workspace* to, Workspace* from);
 
+public Q_SLOTS:
+    void setSurfaceManager(unity::shell::application::SurfaceManagerInterface*);
+
 Q_SIGNALS:
     void activeWorkspaceChanged(Workspace*);
 
