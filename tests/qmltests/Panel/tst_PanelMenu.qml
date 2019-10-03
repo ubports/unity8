@@ -31,6 +31,12 @@ PanelTest {
         target: clickThroughTester
     }
 
+    SignalSpy {
+        id: showTappedSpy
+        target: indicatorsMenu
+        signalName: "showTapped"
+    }
+
     MouseArea {
         id: clickThroughTester
         anchors.fill: root
@@ -140,6 +146,7 @@ PanelTest {
 
         function cleanup() {
             clickThroughSpy.clear();
+            showTappedSpy.clear();
         }
 
         function get_indicator_item(index) {
@@ -320,6 +327,23 @@ PanelTest {
 
             indicatorsMenu.available = true;
             indicatorsMenu.hide();
+        }
+
+        // Ensure that showTapped is only signaled when the user hasn't moved
+        // thir tap point
+        // Prior to this, the user could press and drag down very fast but
+        // still call showTapped
+        function test_showTapped() {
+            // Get the first indicator
+            var firstItem = get_indicator_item(0);
+            var firstItemMappedPosition = indicatorsMenu.mapFromItem(firstItem, firstItem.width/2, firstItem.height/2);
+
+            touchFlick(indicatorsMenu,
+                       firstItemMappedPosition.x, indicatorsMenu.minimizedPanelHeight / 2,
+                       firstItemMappedPosition.x, indicatorsMenu.minimizedPanelHeight * 7,
+                       true /* beginTouch */, true /* endTouch */, 100, 2);
+
+            verify(showTappedSpy.count === 0);
         }
     }
 }
