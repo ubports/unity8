@@ -49,6 +49,8 @@ Showable {
     readonly property int barWidth: adjustDragHandleSizeToContents ? Math.min(bar.width, bar.implicitWidth) : bar.width
     readonly property alias currentMenuIndex: bar.currentItemIndex
 
+    // The user tapped the panel and did not move.
+    // Note that this does not fire on mouse events, only touch events.
     signal showTapped()
 
     // TODO: Perhaps we need a animation standard for showing/hiding? Each showable seems to
@@ -242,7 +244,7 @@ Showable {
                 touchPressTime = new Date().getTime();
             } else {
                 var touchReleaseTime = new Date().getTime();
-                if (touchReleaseTime - touchPressTime <= 300) {
+                if (touchReleaseTime - touchPressTime <= 300 && distance < units.gu(1)) {
                     root.showTapped();
                 }
             }
