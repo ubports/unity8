@@ -235,7 +235,7 @@ Showable {
         width: root.barWidth + root.menuContentX // show handle should only cover panel items.
         height: minimizedPanelHeight
         direction: Direction.Downwards
-        enabled: !root.shown && root.available
+        enabled: !root.shown && root.available && !hideAnimation.running && !showAnimation.running
         autoCompleteDragThreshold: maxTotalDragDistance / 2
         stretch: true
 
@@ -268,7 +268,7 @@ Showable {
         objectName: "hideDragHandle"
         anchors.fill: handle
         direction: Direction.Upwards
-        enabled: root.shown && root.available
+        enabled: root.shown && root.available && !hideAnimation.running && !showAnimation.running
         hintDisplacement: units.gu(3)
         autoCompleteDragThreshold: maxTotalDragDistance / 6
         stretch: true
