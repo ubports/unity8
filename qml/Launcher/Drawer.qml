@@ -115,6 +115,10 @@ FocusScope {
         searchField.focus = true;
     }
 
+    function unFocusInput() {
+        searchField.focus = false;
+    }
+
     Keys.onPressed: {
         if (event.text.trim() !== "") {
             focusInput();
@@ -279,6 +283,11 @@ FocusScope {
                 delegateWidth: root.delegateWidth
                 delegateHeight: units.gu(11)
                 delegate: drawerDelegateComponent
+                onDraggingVerticallyChanged: {
+                    if (draggingVertically) {
+                        unFocusInput();
+                    }
+                }
             }
         }
 

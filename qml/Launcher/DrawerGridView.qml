@@ -26,6 +26,7 @@ FocusScope {
     property alias model: gridView.model
     property alias interactive: gridView.interactive
     property alias currentIndex: gridView.currentIndex
+    property alias draggingVertically: gridView.draggingVertically
 
     property alias header: gridView.header
     property alias topMargin: gridView.topMargin
