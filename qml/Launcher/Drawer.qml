@@ -325,6 +325,7 @@ FocusScope {
                         borderSource: 'undefined'
                         source: Image {
                             id: sourceImage
+                            asynchronous: true
                             sourceSize.width: appIcon.width
                             source: model.icon
                         }
