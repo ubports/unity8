@@ -240,6 +240,7 @@ FocusScope {
                 TextField {
                     id: searchField
                     objectName: "searchField"
+                    inputMethodHints: Qt.ImhNoPredictiveText; //workaround to get the clear button enabled without the need of a space char event or change in focus
                     anchors {
                         left: parent.left
                         top: parent.top
