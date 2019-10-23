@@ -275,11 +275,7 @@ FocusScope {
                 height: rows * delegateHeight
                 clip: true
 
-                model: AppDrawerProxyModel {
-                    id: categoryModel
-                    source: sortProxyModel
-                    dynamicSortFilter: false
-                }
+                model: sortProxyModel
                 delegateWidth: root.delegateWidth
                 delegateHeight: units.gu(11)
                 delegate: drawerDelegateComponent
