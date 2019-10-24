@@ -325,6 +325,13 @@ FocusScope {
                             asynchronous: true
                             sourceSize.width: appIcon.width
                             source: model.icon
+                            onStatusChanged: {
+                               if (status == Image.Error)
+                               {
+                                  source = "graphics/placeholder-app-icon.png";
+                               }
+                            }
+
                         }
                         sourceFillMode: UbuntuShape.PreserveAspectCrop
 

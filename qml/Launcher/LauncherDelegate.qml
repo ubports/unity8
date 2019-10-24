@@ -145,6 +145,12 @@ Item {
                 sourceSize.height: iconShape.height
                 source: root.iconName
                 cache: false // see lpbug#1543290 why no cache
+                onStatusChanged: {
+                   if (status == Image.Error)
+                   {
+                      source = "graphics/placeholder-app-icon.png";
+                   }
+                }
             }
         }
 
