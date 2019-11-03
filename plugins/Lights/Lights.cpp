@@ -30,25 +30,22 @@ Lights::Lights(QObject* parent)
     m_color("blue"),
     m_state(Lights::Off),
     m_onMs(1000),
-    m_offMs(3000)
+    m_offMs(3000),
+    lightControl(nullptr)
 {
+    lightControl = new QDBusInterface(QStringLiteral("com.ubports.lightcontrol"),
+                                     QStringLiteral("/com/ubports/lightcontrol"),
+                                     QStringLiteral("com.ubports.lightcontrol"),
+                                     QDBusConnection::SM_BUSNAME(), this);
+    turnOff();
 }
 
 Lights::~Lights()
 {
-    if (m_lightDevice) {
-        hw_device_t* device = (hw_device_t*) m_lightDevice;
-        device->close(device);
-    }
 }
 
 void Lights::setState(Lights::State newState)
 {
-    if (!init()) {
-        qWarning() << "No lights device";
-        return;
-    }
-
     if (m_state != newState) {
         if (newState == Lights::On) {
             turnOn();
@@ -70,6 +67,8 @@ void Lights::setColor(const QColor &color)
 {
     if (m_color != color) {
         m_color = color;
+        QString colorString = QString("0x%1").arg(color, 6, 16, QChar('0'));
+        lightControl->asyncCall("set_led_color", colorString);
         Q_EMIT colorChanged(m_color);
         // FIXME: update the color if the light is already on
     }
@@ -108,59 +107,13 @@ void Lights::setOffMillisec(int offMs)
     }
 }
 
-bool Lights::init()
-{
-    if (m_lightDevice) {
-        return true;
-    }
-
-    int err;
-    hw_module_t* module;
-
-    err = hw_get_module(LIGHTS_HARDWARE_MODULE_ID, (hw_module_t const**)&module);
-    if (err == 0) {
-        hw_device_t* device;
-        err = module->methods->open(module, LIGHT_ID_NOTIFICATIONS, &device);
-        if (err == 0) {
-            m_lightDevice = (light_device_t*)device;
-            turnOff();
-            return true;
-        } else {
-            qWarning() << "Failed to access notification lights";
-        }
-    } else {
-        qWarning() << "Failed to initialize lights hardware.";
-    }
-    return false;
-}
 
 void Lights::turnOn()
 {
-    // pulse
-    light_state_t state;
-    memset(&state, 0, sizeof(light_state_t));
-    state.color = m_color.rgba();
-    state.flashMode = LIGHT_FLASH_TIMED;
-    state.flashOnMS = m_onMs;
-    state.flashOffMS = m_offMs;
-    state.brightnessMode = BRIGHTNESS_MODE_USER;
-
-    if (m_lightDevice->set_light(m_lightDevice, &state) != 0) {
-         qWarning() << "Failed to turn the light off";
-    }
+    lightControl->asyncCall("turn_led_on");
 }
 
 void Lights::turnOff()
 {
-    light_state_t state;
-    memset(&state, 0, sizeof(light_state_t));
-    state.color = 0x00000000;
-    state.flashMode = LIGHT_FLASH_NONE;
-    state.flashOnMS = 0;
-    state.flashOffMS = 0;
-    state.brightnessMode = 0;
-
-    if (m_lightDevice->set_light(m_lightDevice, &state) != 0) {
-        qWarning() << "Failed to turn the light off";
-    }
+    lightControl->asyncCall("turn_led_off");
 }

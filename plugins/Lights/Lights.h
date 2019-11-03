@@ -21,6 +21,7 @@
 
 #include <QtCore/QObject>
 #include <QtGui/QColor>
+#include <QtDBus/QDBusInterface>
 
 struct light_device_t;
 
@@ -67,9 +68,10 @@ private:
     int m_onMs;
     int m_offMs;
 
-    bool init();
     void turnOff();
     void turnOn();
+
+    QDBusInterface *lightControl;
 };
 
 #endif
