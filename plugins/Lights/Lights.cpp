@@ -33,7 +33,7 @@ Lights::Lights(QObject* parent)
     lightControl = new QDBusInterface(QStringLiteral("com.ubports.lightcontrol"),
                                      QStringLiteral("/com/ubports/lightcontrol"),
                                      QStringLiteral("com.ubports.lightcontrol"),
-                                     QDBusConnection::systemBus(), this);
+                                     QDBusConnection::(), this);
     turnOff();
 }
 
