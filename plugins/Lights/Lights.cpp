@@ -18,11 +18,8 @@
 
 #include "Lights.h"
 #include <QtCore/QDebug>
+#include <QDBusPendingCall>
 
-extern "C" {
-#include "android-hardware.h"
-#include <string.h>
-}
 
 Lights::Lights(QObject* parent)
   : QObject(parent),
@@ -36,7 +33,7 @@ Lights::Lights(QObject* parent)
     lightControl = new QDBusInterface(QStringLiteral("com.ubports.lightcontrol"),
                                      QStringLiteral("/com/ubports/lightcontrol"),
                                      QStringLiteral("com.ubports.lightcontrol"),
-                                     QDBusConnection::SM_BUSNAME(), this);
+                                     QDBusConnection::systemBus(), this);
     turnOff();
 }
 
@@ -67,7 +64,7 @@ void Lights::setColor(const QColor &color)
 {
     if (m_color != color) {
         m_color = color;
-        QString colorString = QString("0x%1").arg(color, 6, 16, QChar('0'));
+        QString colorString = QString("0x%1").arg(color, 6, 16).toUpper();
         lightControl->asyncCall("set_led_color", colorString);
         Q_EMIT colorChanged(m_color);
         // FIXME: update the color if the light is already on
