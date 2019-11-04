@@ -64,10 +64,9 @@ void Lights::setColor(const QColor &color)
 {
     if (m_color != color) {
         m_color = color;
-        QString colorString = QString("0x%1").arg(color, 6, 16).toUpper();
+        QString colorString = QString("0x%1").arg(color.rgb(), 6, 16, QChar('0'));
         lightControl->asyncCall("set_led_color", colorString);
         Q_EMIT colorChanged(m_color);
-        // FIXME: update the color if the light is already on
     }
 }
 
