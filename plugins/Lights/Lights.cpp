@@ -20,6 +20,12 @@
 #include <QtCore/QDebug>
 #include <QDBusPendingCall>
 
+namespace
+{
+char const* const dbus_lightcontrol_servicename = "com.ubports.lightcontrol";
+char const* const dbus_lightcontrol_path = "/com/ubports/lightcontrol";
+char const* const dbus_lightcontrol_interface = "com.ubports.lightcontrol";
+}
 
 Lights::Lights(QObject* parent)
   : QObject(parent),
@@ -30,11 +36,16 @@ Lights::Lights(QObject* parent)
     m_offMs(3000),
     lightControl(nullptr)
 {
-    lightControl = new QDBusInterface(QStringLiteral("com.ubports.lightcontrol"),
-                                     QStringLiteral("/com/ubports/lightcontrol"),
-                                     QStringLiteral("com.ubports.lightcontrol"),
+    lightControl = new QDBusInterface(dbus_lightcontrol_servicename,
+                                     dbus_lightcontrol_path,
+                                     dbus_lightcontrol_interface,
                                      QDBusConnection::systemBus(), this);
     turnOff();
+
+    QString colorString = QString("0x%1").arg(m_color.rgb(), 6, 16, QChar('0'));
+    lightControl->asyncCall("set_led_attributes", colorString, m_onMs, m_offMs);
+
+    qWarning() << "[Lights] New Lights are there!";
 }
 
 Lights::~Lights()
@@ -43,6 +54,7 @@ Lights::~Lights()
 
 void Lights::setState(Lights::State newState)
 {
+    qWarning() << "[Lights] setState: " << newState;
     if (m_state != newState) {
         if (newState == Lights::On) {
             turnOn();
@@ -62,9 +74,11 @@ Lights::State Lights::state() const
 
 void Lights::setColor(const QColor &color)
 {
+    qWarning() << "[Lights] setColor: " << color;
     if (m_color != color) {
         m_color = color;
         QString colorString = QString("0x%1").arg(color.rgb(), 6, 16, QChar('0'));
+        qWarning() << "[Lights] calling set_led_color: " << colorString;
         lightControl->asyncCall("set_led_color", colorString);
         Q_EMIT colorChanged(m_color);
     }
@@ -106,10 +120,12 @@ void Lights::setOffMillisec(int offMs)
 
 void Lights::turnOn()
 {
+    qWarning() << "[Lights] turnOn";
     lightControl->asyncCall("turn_led_on");
 }
 
 void Lights::turnOff()
 {
+    qWarning() << "[Lights] turnOff";
     lightControl->asyncCall("turn_led_off");
 }
