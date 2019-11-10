@@ -28,6 +28,8 @@ import Wizard 0.1
 QtObject {
     id: root
 
+    property string indicatorState: "INDICATOR_OFF"
+
     property color color: "darkgreen"
     property int onMillisec: 1000
     property int offMillisec: 3000
@@ -51,12 +53,6 @@ QtObject {
         console.log("updateLightState: " + msg + ", hasMessages: " + hasMessages + ", icon: " 
             + batteryIconName + ", displayStatus: " + displayStatus + ", deviceState: " 
             + deviceState + ", batteryLevel: " + batteryLevel)
-
-        // only show led when display is off
-        if(displayStatus == Powerd.On) {
-            Lights.state = Lights.Off
-            return
-        }
 
         //
         // priorities:
@@ -91,55 +87,79 @@ QtObject {
         //   but 'caution' icon at 9%.
         // 
 
-        var lColor = ""
-        var lOnMS = -1
-        var lOffMS = -1
+        // only show led when display is off
+        if (displayStatus == Powerd.On) {
+            indicatorState = "INDICATOR_OFF"
+            return
+        }
 
+        // unread messsages have highest priority
+        if (hasMessages) {
+            indicatorState = "HAS_MESSAGES"
+            return
+        }
+
+        // show charging. show full only when charging
         var isCharging = batteryIconName.indexOf("charging") >= 0
-        if(!isCharging)
-            isCharging = deviceState != "discharging"
+                         || deviceState != "discharging"
 
-        if(hasMessages) { 
-            // Unread Notifications
-            lColor  = "darkgreen"
-            lOnMS   = 1000
-            lOffMS  = 3000
-        } else if(isCharging) {
-            if(batteryIconName.indexOf("full-charged") >= 0
-               || deviceState == "fully-charged"
-               || batteryLevel >= 100) { 
-                // Battery Full
-                lColor  = "green"
-                lOnMS   = 1000
-                lOffMS  = 0
-            } else {
-                // Battery Charging
-                lColor  = "white"
-                lOnMS   = 1000
-                lOffMS  = 0
-            }
-        } else if(batteryIconName.indexOf("caution") >= 0
-                  || batteryIconName.indexOf("empty") >= 0) {
-            // Battery Low
-            lColor  = "orangered"
-            lOnMS   = 500
-            lOffMS  = 3000
+        var isFull = isCharging
+                     && (batteryIconName.indexOf("full-charged") >= 0
+                         || deviceState == "fully-charged"
+                         || batteryLevel >= 100)
+
+        if (isCharging) {
+            if (isFull)
+                indicatorState = "BATTERY_FULL"
+            else
+                indicatorState = "BATTERY_CHARGING"
+            return
         }
 
-        console.log("  color=" + lColor + ", onMS=" + lOnMS + ", offMS=" + lOffMS)
-        if(lOnMS > -1) {
-            root.onMillisec = lOnMS
+        // show battery low or nothing
+        if (batteryIconName.indexOf("caution") >= 0
+            || batteryIconName.indexOf("empty") >= 0)
+            indicatorState = "BATTERY_LOW"
+        else
+            indicatorState = "INDICATOR_OFF"
+
+    }
+
+    onIndicatorStateChanged: {
+        console.log("onIndicatorStateChange: " + indicatorState)
+
+        switch (indicatorState) {
+        case "INDICATOR_OFF":
+            break;
+        case "HAS_MESSAGES":
+            color        = "darkgreen"
+            onMillisec   = 1000
+            offMillisec  = 3000
+            break;
+        case "BATTERY_FULL":
+            color        = "green"
+            onMillisec   = 1000
+            offMillisec  = 0
+            break;
+        case "BATTERY_CHARGING":
+            color        = "white"
+            onMillisec   = 1000
+            offMillisec  = 0
+            break;
+        case "BATTERY_LOW":
+            color        = "orangered"
+            onMillisec   = 500
+            offMillisec  = 3000
+            break;
+        default:
+            console.log("ERROR onIndicatorStateChange: unknown state: " + indicatorState)
+            break;
         }
-        if(lOffMS > -1) {
-            root.offMillisec = lOffMS
-        }
-        if(lColor.length > 0) {
-            root.color = lColor
-            // HACK: led is only updated after turn on so first turn off
-            Lights.state = Lights.Off
-            Lights.state = Lights.On
-        } else
-            Lights.state = Lights.Off
+
+        // HACK: led is only updated after turn on so first always turn off
+        Lights.state = Lights.Off
+        if (indicatorState != "INDICATOR_OFF")
+          Lights.state = Lights.On
     }
 
     // Existence of unread notifications is determined by checking for a specific icon name in a dbus signal.
