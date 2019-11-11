@@ -99,30 +99,23 @@ QtObject {
             return
         }
 
-        // show charging. show full only when charging
         var isCharging = batteryIconName.indexOf("charging") >= 0
                          || deviceState != "discharging"
 
-        var isFull = isCharging
-                     && (batteryIconName.indexOf("full-charged") >= 0
-                         || deviceState == "fully-charged"
-                         || batteryLevel >= 100)
+        var isFull = batteryIconName.indexOf("full-charged") >= 0
+                     || deviceState == "fully-charged"
+                     || batteryLevel >= 100
 
-        if (isCharging) {
-            if (isFull)
-                indicatorState = "BATTERY_FULL"
-            else
-                indicatorState = "BATTERY_CHARGING"
-            return
-        }
-
-        // show battery low or nothing
-        if (batteryIconName.indexOf("caution") >= 0
-            || batteryIconName.indexOf("empty") >= 0)
+        if (isCharging && isFull) {
+            indicatorState = "BATTERY_FULL"
+        } else if (isCharging) {
+            indicatorState = "BATTERY_CHARGING"
+        } else if (batteryIconName.indexOf("caution") >= 0
+                   || batteryIconName.indexOf("empty") >= 0) {
             indicatorState = "BATTERY_LOW"
-        else
+        } else {
             indicatorState = "INDICATOR_OFF"
-
+        }
     }
 
     onIndicatorStateChanged: {
