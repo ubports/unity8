@@ -50,14 +50,14 @@ QtObject {
     }
 
     function updateLightState(msg) {
-        console.log("updateLightState: " + msg + ", hasMessages: " + hasMessages + ", icon: " 
-            + batteryIconName + ", displayStatus: " + displayStatus + ", deviceState: " 
+        console.log("updateLightState: " + msg + ", hasMessages: " + hasMessages + ", icon: "
+            + batteryIconName + ", displayStatus: " + displayStatus + ", deviceState: "
             + deviceState + ", batteryLevel: " + batteryLevel)
 
         //
         // priorities:
-        //   unread messsages (highest), full&charging, charging, low   
-        // 
+        //   unread messsages (highest), full&charging, charging, low
+        //
         // Icons: (see device.s from indicator-power)
         //   %s-empty-symbolic             empty
         //   %s-caution-charging-symbolic  charging  [ 0..10)
@@ -85,7 +85,7 @@ QtObject {
         //
         //   Battery low warning dialog on screen shows up at 10%
         //   but 'caution' icon at 9%.
-        // 
+        //
 
         // only show led when display is off
         if (displayStatus == Powerd.On) {
