@@ -100,7 +100,8 @@ QtObject {
         }
 
         var isCharging = batteryIconName.indexOf("charging") >= 0
-                         || deviceState != "discharging"
+                         || deviceState == "charging"
+                         || deviceState == "fully-charged"
 
         var isFull = batteryIconName.indexOf("full-charged") >= 0
                      || deviceState == "fully-charged"
