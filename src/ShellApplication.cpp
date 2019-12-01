@@ -41,6 +41,7 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     setOrganizationName(QStringLiteral("Canonical"));
 
     connect(this, &QGuiApplication::screenAdded, this, &ShellApplication::onScreenAdded);
+    connect(this, &QGuiApplication::screenRemoved, this, &ShellApplication::onScreenRemoved);
 
     setupQmlEngine(isMirServer);
 
@@ -198,7 +199,7 @@ void ShellApplication::onScreenAdded(QScreen * /*screen*/)
     }
 }
 
-void ShellApplication::onScreenAboutToBeRemoved(QScreen *screen)
+void ShellApplication::onScreenRemoved(QScreen *screen)
 {
     // TODO: Support an arbitrary number of screens and different policies
     //       (eg cloned desktop, several desktops, etc)
