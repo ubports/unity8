@@ -39,12 +39,10 @@ public:
     virtual ~ShellApplication();
 
     void destroyResources();
-public Q_SLOTS:
-    // called by qtmir
-    void onScreenAboutToBeRemoved(QScreen *screen);
 
 private Q_SLOTS:
     void onScreenAdded(QScreen*);
+    void onScreenRemoved(QScreen*);
 
 private:
     void setupQmlEngine(bool isMirServer);
