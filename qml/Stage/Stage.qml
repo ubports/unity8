@@ -497,6 +497,11 @@ FocusScope {
             PropertyChanges { target: noAppsRunningHint; visible: (root.topLevelSurfaceList.count < 1) }
             PropertyChanges { target: blurLayer; visible: true; blurRadius: 32; brightness: .65; opacity: 1 }
             PropertyChanges { target: wallpaper; visible: false }
+
+            // If we enter spread, remove focus from any app
+            // Focus should not be given back here as that
+            // is handled by spread when selecting app.
+            PropertyChanges { target: topLevelSurfaceList; rootFocus: false }
         },
         State {
             name: "stagedRightEdge"; when: root.spreadEnabled && (rightEdgeDragArea.dragging || rightEdgePushProgress > 0) && root.mode == "staged"
