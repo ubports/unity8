@@ -40,6 +40,9 @@ namespace unityapi = unity::shell::application;
 TopLevelWindowModel::TopLevelWindowModel()
     : m_nullWindow(createWindow(nullptr))
 {
+    connect(m_nullWindow, &Window::focusedChanged, this, [this] {
+        Q_EMIT rootFocusChanged();
+    });
 }
 
 void TopLevelWindowModel::setApplicationManager(unityapi::ApplicationManagerInterface* value)
@@ -744,8 +747,14 @@ void TopLevelWindowModel::closeAllWindows()
     }
 }
 
-void TopLevelWindowModel::rootFocus(bool focus)
+bool TopLevelWindowModel::rootFocus()
 {
+    return !m_nullWindow->focused();
+}
+
+void TopLevelWindowModel::setRootFocus(bool focus)
+{
+    INFO_MSG << "(" << focus << ")";
     if (focus) {
         // Give focus back to previous focused window, only if null window is focused.
         // If null window is not focused, a different app had taken the focus and we

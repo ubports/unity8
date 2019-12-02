@@ -507,7 +507,7 @@ Item {
             waitForRendering(stage);
 
             // Give nullwindow focus
-            topLevelSurfaceList.rootFocus(false);
+            topLevelSurfaceList.rootFocus = false;
             var webbrowserSurfaceId = topLevelSurfaceList.nextId;
             topLevelSurfaceList.pendingActivation();
             var webbrowserApp  = ApplicationManager.startApplication("morph-browser");
@@ -515,7 +515,7 @@ Item {
             var webbrowserWindow = topLevelSurfaceList.windowAt(0);
 
             // Give focus back to stage, but we should NOT refocus prev window (dash in this case)
-            topLevelSurfaceList.rootFocus(true);
+            topLevelSurfaceList.rootFocus = true;
 
             // We should have given focus to webbrowser at this point, not dashWindow
             tryCompare(topLevelSurfaceList, "focusedWindow", webbrowserWindow);
