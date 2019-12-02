@@ -88,6 +88,12 @@ class WINDOWMANAGERQML_EXPORT TopLevelWindowModel : public QAbstractListModel
      */
     Q_PROPERTY(int nextId READ nextId NOTIFY nextIdChanged)
 
+
+   /**
+     * @brief Raises and focuses a window with no surface
+     */
+    Q_PROPERTY(bool rootFocus READ rootFocus WRITE setRootFocus NOTIFY rootFocusChanged)
+
 public:
     /**
      * @brief The Roles supported by the model
@@ -165,11 +171,6 @@ public:
     Q_INVOKABLE void raiseId(int id);
 
     /**
-     * @brief Raises and focuses a window with no surface
-     */
-    Q_INVOKABLE void rootFocus(bool focus);
-
-    /**
      * @brief Closes all windows, emits closedAllWindows when done
      */
     Q_INVOKABLE void closeAllWindows();
@@ -196,6 +197,8 @@ Q_SIGNALS:
 
     void closedAllWindows();
 
+    void rootFocusChanged();
+
 private Q_SLOTS:
     void onSurfaceCreated(unity::shell::application::MirSurfaceInterface *surface);
     void onSurfacesRaised(const QVector<unity::shell::application::MirSurfaceInterface*> &surfaces);
@@ -210,6 +213,9 @@ private:
     int nextId(int id) const;
     QString toString();
     int indexOf(unity::shell::application::MirSurfaceInterface *surface);
+
+    void setRootFocus(bool focus);
+    bool rootFocus();
 
     void setInputMethodWindow(Window *window);
     void setFocusedWindow(Window *window);

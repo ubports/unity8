@@ -744,7 +744,12 @@ void TopLevelWindowModel::closeAllWindows()
     }
 }
 
-void TopLevelWindowModel::rootFocus(bool focus)
+bool TopLevelWindowModel::rootFocus()
+{
+    return m_nullWindow->focused();
+}
+
+void TopLevelWindowModel::setRootFocus(bool focus)
 {
     if (focus) {
         // Give focus back to previous focused window, only if null window is focused.
