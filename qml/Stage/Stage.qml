@@ -100,7 +100,7 @@ FocusScope {
         //   this will not happen if a pending activation is going on
         // - If not interactive: Activate nullWindow, this makes
         //   sure none of the apps have focus when stage is not active
-        topLevelSurfaceList.rootFocus(interactive);
+        topLevelSurfaceList.rootFocus = interactive;
     }
 
     onAltTabPressedChanged: {

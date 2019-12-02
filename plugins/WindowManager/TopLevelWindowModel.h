@@ -88,6 +88,24 @@ class WINDOWMANAGERQML_EXPORT TopLevelWindowModel : public QAbstractListModel
      */
     Q_PROPERTY(int nextId READ nextId NOTIFY nextIdChanged)
 
+
+   /**
+     * @brief Sets whether a user Window or "nothing" should be focused
+     *
+     * This implementation of TLWM must have something focused. However, the
+     * user may wish to have nothing in some cases - for example, when they
+     * minimize all their windows on the desktop or unfocus the app they're
+     * using by clicking the background or indicators.
+     *
+     * Unsetting rootFocus effectively focuses "nothing" by setting up a Window
+     * that has no displayable Surfaces and bringing it into focus.
+     *
+     * Setting rootFocus attempts to focus the Window which was focused last -
+     * unless another app is attempting to gain focus (as determined by
+     * pendingActivation) and that's why we got rootFocus.
+     */
+    Q_PROPERTY(bool rootFocus READ rootFocus WRITE setRootFocus NOTIFY rootFocusChanged)
+
 public:
     /**
      * @brief The Roles supported by the model
@@ -165,11 +183,6 @@ public:
     Q_INVOKABLE void raiseId(int id);
 
     /**
-     * @brief Raises and focuses a window with no surface
-     */
-    Q_INVOKABLE void rootFocus(bool focus);
-
-    /**
      * @brief Closes all windows, emits closedAllWindows when done
      */
     Q_INVOKABLE void closeAllWindows();
@@ -178,6 +191,10 @@ public:
      * @brief Sets pending activation flag
      */
     Q_INVOKABLE void pendingActivation();
+
+    void setRootFocus(bool focus);
+    bool rootFocus();
+
 Q_SIGNALS:
     void countChanged();
     void inputMethodSurfaceChanged(unity::shell::application::MirSurfaceInterface* inputMethodSurface);
@@ -195,6 +212,8 @@ Q_SIGNALS:
     void nextIdChanged();
 
     void closedAllWindows();
+
+    void rootFocusChanged();
 
 private Q_SLOTS:
     void onSurfaceCreated(unity::shell::application::MirSurfaceInterface *surface);

@@ -15,6 +15,7 @@
  */
 
 #include <QtTest/QtTest>
+#include <QSignalSpy>
 
 // WindowManager plugin
 #include <TopLevelWindowModel.h>
@@ -32,6 +33,8 @@ private Q_SLOTS:
 
     void singleSurfaceStartsHidden();
     void secondSurfaceIsHidden();
+    void rootFocus();
+    void rootFocusInhibit();
 
 private:
     ApplicationManager *applicationManager{nullptr};
@@ -123,6 +126,63 @@ void tst_TopLevelWindowModel::secondSurfaceIsHidden()
     // and it's gone again
     QCOMPARE(topLevelWindowModel->rowCount(), 1);
     QCOMPARE((void*)topLevelWindowModel->windowAt(0)->surface(), (void*)firstSurface);
+}
+
+// Ensure that rootFocus unfocuses and refocuses windows
+void tst_TopLevelWindowModel::rootFocus()
+{
+    applicationManager->startApplication(QString("hello-world"), QStringList());
+
+    // We need to keep the window's surface null, unlike the other tests,
+    // because then the TLWM assumes that the window is unknown to MirAL and
+    // handles focus changes itself. If MirAL and QtMir are behaving properly,
+    // they mirror this behavior for windows with surfaces.
+    QCOMPARE(topLevelWindowModel->rowCount(), 1);
+    QCOMPARE((void*)topLevelWindowModel->windowAt(0)->surface(), (void*)nullptr);
+    auto dummyWindow = topLevelWindowModel->windowAt(0);
+
+    auto rootFocusChangedSpy = new QSignalSpy(topLevelWindowModel, &TopLevelWindowModel::rootFocusChanged);
+
+    // Unsetting rootFocus will remove focus from the dummy window
+    topLevelWindowModel->setRootFocus(false);
+    QVERIFY(!topLevelWindowModel->rootFocus());
+    QVERIFY(!dummyWindow->focused());
+    QCOMPARE(rootFocusChangedSpy->count(), 1);
+
+    // Setting rootFocus will add focus back to the dummy window
+    topLevelWindowModel->setRootFocus(true);
+    QVERIFY(topLevelWindowModel->rootFocus());
+    QCOMPARE((void*)topLevelWindowModel->focusedWindow(), (void*)dummyWindow);
+    QCOMPARE(rootFocusChangedSpy->count(), 2);
+}
+
+// Ensure that rootFocus does not refocus a window if we focus another
+void tst_TopLevelWindowModel::rootFocusInhibit()
+{
+    applicationManager->startApplication(QString("1"), QStringList());
+
+    auto dummyWindow1 = topLevelWindowModel->windowAt(0);
+
+    // Unsetting rootFocus will remove focus from the dummy window
+    topLevelWindowModel->setRootFocus(false);
+    QVERIFY(!topLevelWindowModel->rootFocus());
+    QVERIFY(!dummyWindow1->focused());
+
+    // Starting an Application will cause a pendingActivation, setting
+    // rootFocus but preventing the original window from becoming refocused
+    auto dummyWindow1FocusSpy = new QSignalSpy(dummyWindow1, &Window::focusedChanged);
+
+    // Saying that dummyWindow1 is different than dummyWindow2 will have to do
+    // since Applications don't know their Windows and we don't mock the other
+    // way around.
+    applicationManager->startApplication(QString("2"), QStringList());
+    auto dummyWindow2 = topLevelWindowModel->windowAt(0);
+    QVERIFY((void*)dummyWindow1 != (void*)dummyWindow2);
+
+    QVERIFY(topLevelWindowModel->rootFocus());
+    QVERIFY(!dummyWindow1->focused());
+    QVERIFY(dummyWindow2->focused());
+    QVERIFY(dummyWindow1FocusSpy->empty());
 }
 
 QTEST_MAIN(tst_TopLevelWindowModel)
