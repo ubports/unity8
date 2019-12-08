@@ -115,30 +115,30 @@ Item {
         "100": {"battery-level": {'valid': true, 'state': 100}}
     }
     property var deviceStateDBusSignals: {
-      "fullyCharged" : {'device-state': {'valid': true, 'state': "fully-charged"}},
-      "charging"     : {'device-state': {'valid': true, 'state': "charging"}},
-      "discharging"  : {'device-state': {'valid': true, 'state': "discharging"}}
+        "fullyCharged" : {'device-state': {'valid': true, 'state': "fully-charged"}},
+        "charging"     : {'device-state': {'valid': true, 'state': "charging"}},
+        "discharging"  : {'device-state': {'valid': true, 'state': "discharging"}}
     }
 
     property var combinedDBusSignals: {
         "hasMessageAndCharging" : {
-		"messages" : {
-		    'valid': true,
-		    'state': {
-			'icons': [ 'indicator-messages-new' ]
-		    }
-		},
-	       'device-state': {'valid': true, 'state': "charging"}
-	},
+             "messages" : {
+                 'valid': true,
+                 'state': {
+                     'icons': [ 'indicator-messages-new' ]
+                 }
+             },
+            'device-state': {'valid': true, 'state': "charging"}
+        },
         "hasMessageAndFullyCharged" : {
-		"messages" : {
-		    'valid': true,
-		    'state': {
-			'icons': [ 'indicator-messages-new' ]
-		    }
-		},
-	       'device-state': {'valid': true, 'state': "fully-charged"}
-	}
+            "messages" : {
+                'valid': true,
+                'state': {
+                    'icons': [ 'indicator-messages-new' ]
+                }
+            },
+            'device-state': {'valid': true, 'state': "fully-charged"}
+        }
     }
 
     property color darkGreen: "darkgreen"
@@ -214,7 +214,7 @@ Item {
                       powerd: Powerd.On, wizardStatus: batteryIconNames.empty },
 
                 { tag: "Powerd.Off while charging and battery empty",
-		  expectedLightsState: Lights.On, expectedLightsColor: white,
+                  expectedLightsState: Lights.On, expectedLightsColor: white,
                       powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging },
 
                 //
@@ -260,19 +260,19 @@ Item {
             console.log("----------------------------------------------------------------")
 
             if (data.hasOwnProperty("powerd"))
-                Powerd.setStatus(data.powerd, Powerd.Unknown);
+                Powerd.setStatus(data.powerd, Powerd.Unknown)
             if (data.hasOwnProperty("actionData"))
-                ActionData.data = data.actionData;
+                ActionData.data = data.actionData
             if (data.hasOwnProperty("wizardStatus"))
                 loader.item.batteryIconName = data.wizardStatus
 
             compare(Lights.state, data.expectedLightsState, "Lights state does not match expected value");
             if (data.hasOwnProperty("expectedLightsColor"))
-                compare(Lights.color, data.expectedLightsColor, "Lights color does not match expected value");;
+                compare(Lights.color, data.expectedLightsColor, "Lights color does not match expected value")
             if (data.hasOwnProperty("expectedLightsOnMillisec"))
-                compare(Lights.onMillisec, data.expectedLightsOnMillisec, "Lights OnMillisec does not match expected value");;
+                compare(Lights.onMillisec, data.expectedLightsOnMillisec, "Lights OnMillisec does not match expected value")
             if (data.hasOwnProperty("expectedLightsOffMillisec"))
-                compare(Lights.offMillisec, data.expectedLightsOffMillisec, "Lights OffMillisec does not match expected value");;
+                compare(Lights.offMillisec, data.expectedLightsOffMillisec, "Lights OffMillisec does not match expected value")
         }
     }
 }
