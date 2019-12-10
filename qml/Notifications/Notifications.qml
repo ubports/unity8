@@ -82,34 +82,17 @@ ListView {
 
     onCountChanged: if (count == 0) topmostIsFullscreen = false; // reset
 
-    // FIXME: disabled all transitions because of LP: #1354406 workaround
-    /*populate: Transition {
-        UbuntuNumberAnimation {
-            property: "opacity"
-            to: 1
-            duration: UbuntuAnimation.SnapDuration
-        }
+    move: Transition {
+        NumberAnimation { property: "opacity"; to:1; duration: UbuntuAnimation.SnapDuration }
     }
-
-    add: Transition {
-        UbuntuNumberAnimation {
-            property: "opacity"
-            to: 1
-            duration: UbuntuAnimation.SnapDuration
-        }
-    }
-
-    remove: Transition {
-        UbuntuNumberAnimation {
-            property: "opacity"
-            to: 0
-        }
-    }
-
     displaced: Transition {
-        UbuntuNumberAnimation {
-            properties: "x,y"
-            duration: UbuntuAnimation.SnapDuration
-        }
-    }*/
+        SmoothedAnimation { property: "y"; duration: 300 }
+        NumberAnimation { property: "opacity"; to:1; duration: UbuntuAnimation.SnapDuration }
+    }
+    add: Transition {
+        NumberAnimation { property: "opacity"; from: 0; to:1; duration: UbuntuAnimation.SnapDuration }
+    }
+    remove: Transition {
+        NumberAnimation { property: "opacity"; from: 1; to:0; duration: UbuntuAnimation.SnapDuration }
+    }
 }
