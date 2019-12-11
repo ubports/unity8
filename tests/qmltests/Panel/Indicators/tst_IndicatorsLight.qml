@@ -101,6 +101,51 @@ Item {
         }
     }
 
+    // come from Wizard Status plugin
+    property var batteryIconNames: {
+        "fullyCharged" : "fully-charged",
+        "charging" :  "charging",
+        "caution" : "caution",
+        "empty" : "empty",
+    }
+
+    // come from DBUS com.canonical.indicator.power
+    property var batteryLevelDBusSignals: {
+        "80":  {"battery-level": {'valid': true, 'state': 80}},
+        "100": {"battery-level": {'valid': true, 'state': 100}}
+    }
+    property var deviceStateDBusSignals: {
+        "fullyCharged" : {'device-state': {'valid': true, 'state': "fully-charged"}},
+        "charging"     : {'device-state': {'valid': true, 'state': "charging"}},
+        "discharging"  : {'device-state': {'valid': true, 'state': "discharging"}}
+    }
+
+    property var combinedDBusSignals: {
+        "hasMessageAndCharging" : {
+             "messages" : {
+                 'valid': true,
+                 'state': {
+                     'icons': [ 'indicator-messages-new' ]
+                 }
+             },
+            'device-state': {'valid': true, 'state': "charging"}
+        },
+        "hasMessageAndFullyCharged" : {
+            "messages" : {
+                'valid': true,
+                'state': {
+                    'icons': [ 'indicator-messages-new' ]
+                }
+            },
+            'device-state': {'valid': true, 'state': "fully-charged"}
+        }
+    }
+
+    property color darkGreen: "darkgreen"
+    property color green: "green"
+    property color white: "white"
+    property color orangeRed: "orangeRed"
+
     UT.UnityTestCase {
         name: "IndicatorsLight"
         when: windowShown
@@ -115,18 +160,119 @@ Item {
 
         function test_LightsStatus_data() {
             return [
-                { tag: "Powerd.On with No Message", powerd: Powerd.On, actionData: noNewMessage, expected: Lights.Off },
-                { tag: "Powerd.Off with No Message", powerd: Powerd.Off, actionData: noNewMessage, expected: Lights.Off },
-                { tag: "Powerd.On with New Message", powerd: Powerd.On, actionData: newMessage, expected: Lights.Off },
-                { tag: "Powerd.Off with New Message", powerd: Powerd.Off, actionData: newMessage, expected: Lights.On },
+                //
+                // new messages
+                //
+                { tag: "Powerd.On with No Message", powerd: Powerd.On, actionData: noNewMessage, expectedLightsState: Lights.Off },
+                { tag: "Powerd.Off with No Message", powerd: Powerd.Off, actionData: noNewMessage, expectedLightsState: Lights.Off },
+                { tag: "Powerd.On with New Message", powerd: Powerd.On, actionData: newMessage, expectedLightsState: Lights.Off },
+                { tag: "Powerd.Off with New Message", powerd: Powerd.Off, actionData: newMessage, expectedLightsState: Lights.On },
+
+                //
+                // show charging
+                //
+                { tag: "Powerd.Off while charging",
+                  expectedLightsState: Lights.On,
+                      powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging },
+
+                { tag: "Powerd.On while charging",
+                  expectedLightsState: Lights.Off,
+                      powerd: Powerd.On, actionData: deviceStateDBusSignals.charging },
+
+                { tag: "Powerd.On while charging",
+                  expectedLightsState: Lights.Off,
+                      powerd: Powerd.On, wizardStatus: batteryIconNames.charging },
+
+                //
+                // show charging and full
+                //
+                { tag: "Powerd.Off while charging and battery full",
+                  expectedLightsState: Lights.On, expectedLightsColor: green,
+                      powerd: Powerd.Off, actionData: deviceStateDBusSignals.fullyCharged },
+
+                { tag: "Powerd.On while charging and battery full",
+                  expectedLightsState: Lights.Off,
+                      powerd: Powerd.On, actionData: deviceStateDBusSignals.fullyCharged },
+
+                { tag: "Powerd.Off while discharging and battery full",
+                  expectedLightsState: Lights.Off,
+                      powerd: Powerd.Off, actionData: deviceStateDBusSignals.discharging, wizardStatus: batteryIconNames.fullyCharged },
+
+                //
+                // show empty
+                //
+                { tag: "Powerd.Off while discharging and battery empty",
+                  expectedLightsState: Lights.On, expectedLightsColor: orangeRed,
+                      powerd: Powerd.Off, wizardStatus: batteryIconNames.caution },
+
+                { tag: "Powerd.On while discharging and battery empty",
+                  expectedLightsState: Lights.Off,
+                      powerd: Powerd.On, wizardStatus: batteryIconNames.caution },
+
+                { tag: "Powerd.On while discharging and battery empty",
+                  expectedLightsState: Lights.Off,
+                      powerd: Powerd.On, wizardStatus: batteryIconNames.empty },
+
+                { tag: "Powerd.Off while charging and battery empty",
+                  expectedLightsState: Lights.On, expectedLightsColor: white,
+                      powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging },
+
+                //
+                // new message has highest priority
+                //
+                { tag: "Powerd.Off with New Message, discharging and battery empty",
+                  expectedLightsState: Lights.On,
+                  expectedLightsColor: darkGreen,
+                  expectedLightsOnMillisec: 1000,
+                  expectedLightsOffMillisec: 3000,
+                      powerd: Powerd.Off, actionData: newMessage, wizardStatus: batteryIconNames.caution },
+
+                { tag: "Powerd.Off with New Message and charging",
+                  expectedLightsState: Lights.On,
+                  expectedLightsColor: darkGreen,
+                  expectedLightsOnMillisec: 1000,
+                  expectedLightsOffMillisec: 3000,
+                      powerd: Powerd.Off, actionData: combinedDBusSignals.hasMessageAndCharging },
+
+                { tag: "Powerd.Off with New Message, charging and battery full",
+                  expectedLightsState: Lights.On,
+                  expectedLightsColor: darkGreen,
+                  expectedLightsOnMillisec: 1000,
+                  expectedLightsOffMillisec: 3000,
+                      powerd: Powerd.Off, actionData: combinedDBusSignals.hasMessageAndFullyCharged },
+
+                //
+                // use battery level
+                //
+                { tag: "Powerd.Off while charging and battery level at 80%",
+                  expectedLightsState: Lights.On, expectedLightsColor: white,
+                      powerd: Powerd.Off, actionData: batteryLevelDBusSignals["80"], wizardStatus: batteryIconNames.charging },
+
+                { tag: "Powerd.Off while charging and battery level at 100%",
+                  expectedLightsState: Lights.On, expectedLightsColor: green,
+                  expectedLightsOnMillisec: 1000,
+                  expectedLightsOffMillisec: 0,
+                      powerd: Powerd.Off, actionData: batteryLevelDBusSignals["100"], wizardStatus: batteryIconNames.charging },
             ]
         }
 
         function test_LightsStatus(data) {
-            Powerd.setStatus(data.powerd, Powerd.Unknown);
-            ActionData.data = data.actionData;
+            console.log("----------------------------------------------------------------")
 
-            compare(Lights.state, data.expected, "Light does not match expected value");
+            if (data.hasOwnProperty("powerd"))
+                Powerd.setStatus(data.powerd, Powerd.Unknown)
+            if (data.hasOwnProperty("actionData"))
+                ActionData.data = data.actionData
+            if (data.hasOwnProperty("wizardStatus"))
+                loader.item.batteryIconName = data.wizardStatus
+
+            compare(Lights.state, data.expectedLightsState, "Lights state does not match expected value");
+            if (data.hasOwnProperty("expectedLightsColor"))
+                compare(Lights.color, data.expectedLightsColor, "Lights color does not match expected value")
+            if (data.hasOwnProperty("expectedLightsOnMillisec"))
+                compare(Lights.onMillisec, data.expectedLightsOnMillisec, "Lights OnMillisec does not match expected value")
+            if (data.hasOwnProperty("expectedLightsOffMillisec"))
+                compare(Lights.offMillisec, data.expectedLightsOffMillisec, "Lights OffMillisec does not match expected value")
         }
     }
 }
