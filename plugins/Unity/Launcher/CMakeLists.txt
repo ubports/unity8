@@ -26,6 +26,7 @@ set(QMLLAUNCHERPLUGIN_SRC
     asadapter.cpp
     appdrawermodel.cpp
     ualwrapper.cpp
+    xdgwatcher.cpp
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsServiceDBusAdaptor.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h

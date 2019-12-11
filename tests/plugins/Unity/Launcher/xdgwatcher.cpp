@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2019 UBports Foundation.
+ * Author(s): Marius Gripsgard <marius@ubports.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,23 +15,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QObject>
+#include "xdgwatcher.h"
 
-class UalWrapper: public QObject
+XdgWatcher* XdgWatcher::s_xinstance = nullptr;
+
+XdgWatcher::XdgWatcher(QObject* parent)
+    : QObject(parent)
 {
-    Q_OBJECT
-public:
-    struct AppInfo {
-        QString appId;
-        bool valid = false;
-        QString name;
-        QString icon;
-        QStringList keywords;
-        uint popularity = 0;
-    };
+    s_xinstance = this;
+}
 
-    UalWrapper(QObject* parent = nullptr);
+XdgWatcher* XdgWatcher::instance()
+{
+    return s_xinstance;
+}
 
-    static QStringList installedApps();
-    static AppInfo getApplicationInfo(const QString &appId);
-};
+void XdgWatcher::addMockApp(const QString &appId)
+{
+    Q_EMIT appAdded(appId);
+}
+
+void XdgWatcher::removeMockApp(const QString &appId)
+{
+    Q_EMIT appRemoved(appId);
+}
+
+const QString XdgWatcher::stripAppIdVersion(const QString rawAppID) {
+    return rawAppID;
+}
