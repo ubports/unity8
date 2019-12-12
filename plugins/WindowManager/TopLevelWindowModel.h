@@ -103,6 +103,9 @@ class WINDOWMANAGERQML_EXPORT TopLevelWindowModel : public QAbstractListModel
      * Setting rootFocus attempts to focus the Window which was focused last -
      * unless another app is attempting to gain focus (as determined by
      * pendingActivation) and that's why we got rootFocus.
+     *
+     * If the previously-focused Window was closed before rootFocus was set,
+     * the next available window will be focused.
      */
     Q_PROPERTY(bool rootFocus READ rootFocus WRITE setRootFocus NOTIFY rootFocusChanged)
 
