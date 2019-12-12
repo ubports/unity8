@@ -101,7 +101,7 @@ Item {
                 applicationManager: ApplicationManager
                 topLevelSurfaceList: topSurfaceList
                 availableDesktopArea: availableDesktopAreaItem
-                interactive: true
+                allowInteractivity: true
                 mode: "windowed"
 
                 Item {

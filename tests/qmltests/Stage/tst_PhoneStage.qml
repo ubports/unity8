@@ -42,7 +42,7 @@ Item {
         anchors { fill: parent; rightMargin: units.gu(30) }
         focus: true
         dragAreaWidth: units.gu(2)
-        interactive: true
+        allowInteractivity: true
         shellOrientation: Qt.PortraitOrientation
         orientations: Orientations {}
         applicationManager: ApplicationManager

@@ -45,7 +45,7 @@ Rectangle {
         id: stage
         anchors { fill: parent; rightMargin: units.gu(30) }
         dragAreaWidth: units.gu(2)
-        interactive: true
+        allowInteractivity: true
         shellOrientation: Qt.LandscapeOrientation
         nativeWidth: width
         nativeHeight: height
