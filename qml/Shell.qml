@@ -323,10 +323,10 @@ StyledItem {
             nativeWidth: shell.nativeWidth
             nativeHeight: shell.nativeHeight
 
-            interactive: (!greeter || !greeter.shown)
-                    && panel.indicators.fullyClosed
-                    && !notifications.useModal
-                    && !launcher.takesFocus
+            allowInteractivity: (!greeter || !greeter.shown)
+                                && panel.indicators.fullyClosed
+                                && !notifications.useModal
+                                && !launcher.takesFocus
 
             suspended: greeter.shown
             altTabPressed: physicalKeysMapper.altTabPressed
