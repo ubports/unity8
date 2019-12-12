@@ -713,10 +713,12 @@ void TopLevelWindowModel::move(int from, int to)
 }
 void TopLevelWindowModel::onModificationsStarted()
 {
+    m_surfaceManagerBusy = true;
 }
 
 void TopLevelWindowModel::onModificationsEnded()
 {
+    m_surfaceManagerBusy = false;
     if (m_focusedWindowChanged) {
         setFocusedWindow(m_newlyFocusedWindow);
     }
@@ -758,7 +760,14 @@ bool TopLevelWindowModel::rootFocus()
 
 void TopLevelWindowModel::setRootFocus(bool focus)
 {
-    INFO_MSG << "(" << focus << ")";
+    INFO_MSG << "(" << focus << "), surfaceManagerBusy is " << m_surfaceManagerBusy;
+
+    if (m_surfaceManagerBusy) {
+        // Something else is probably being focused already, let's not add to
+        // the noise.
+        return;
+    }
+
     if (focus) {
         // Give focus back to previous focused window, only if null window is focused.
         // If null window is not focused, a different app had taken the focus and we

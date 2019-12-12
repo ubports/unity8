@@ -289,6 +289,7 @@ private:
 
     unity::shell::application::ApplicationManagerInterface* m_applicationManager{nullptr};
     unity::shell::application::SurfaceManagerInterface *m_surfaceManager{nullptr};
+    bool m_surfaceManagerBusy;
 
     enum ModelState {
         IdleState,
