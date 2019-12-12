@@ -38,7 +38,8 @@ Q_LOGGING_CATEGORY(TOPLEVELWINDOWMODEL, "toplevelwindowmodel", QtInfoMsg)
 namespace unityapi = unity::shell::application;
 
 TopLevelWindowModel::TopLevelWindowModel()
-    : m_nullWindow(createWindow(nullptr))
+    : m_nullWindow(createWindow(nullptr)),
+      m_surfaceManagerBusy(false)
 {
     connect(m_nullWindow, &Window::focusedChanged, this, [this] {
         Q_EMIT rootFocusChanged();
@@ -439,6 +440,10 @@ void TopLevelWindowModel::removeAt(int index)
         setFocusedWindow(nullptr);
     }
 
+    if (m_previousWindow == window) {
+        m_previousWindow = nullptr;
+    }
+
     if (m_closingAllApps) {
         if (m_windowModel.isEmpty()) {
             Q_EMIT closedAllWindows();
@@ -754,6 +759,14 @@ bool TopLevelWindowModel::rootFocus()
 
 void TopLevelWindowModel::setRootFocus(bool focus)
 {
+    INFO_MSG << "(" << focus << "), surfaceManagerBusy is " << m_surfaceManagerBusy;
+
+    if (m_surfaceManagerBusy) {
+        // Something else is probably being focused already, let's not add to
+        // the noise.
+        return;
+    }
+
     INFO_MSG << "(" << focus << ")";
     if (focus) {
         // Give focus back to previous focused window, only if null window is focused.
@@ -762,6 +775,9 @@ void TopLevelWindowModel::setRootFocus(bool focus)
         if (m_previousWindow && !m_previousWindow->focused() && !m_pendingActivation &&
             m_nullWindow == m_focusedWindow && m_previousWindow != m_nullWindow) {
             m_previousWindow->activate();
+        } else if (!m_pendingActivation) {
+            // The previous window does not exist any more, focus top window.
+            activateTopMostWindowWithoutId(-1);
         }
     } else {
         if (!m_nullWindow->focused()) {
