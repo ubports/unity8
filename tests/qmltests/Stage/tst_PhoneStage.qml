@@ -219,7 +219,7 @@ Item {
             return [
                 {tag: "<breakPoint (trigger)", progress: .2, cancel: false, endState: "staged", newFocusedIndex: 1 },
                 {tag: "<breakPoint (cancel)", progress: .2, cancel: true, endState: "staged", newFocusedIndex: 0 },
-                {tag: ">breakPoint (trigger)", progress: .5, cancel: false, endState: "spread", newFocusedIndex: 0 },
+                {tag: ">breakPoint (trigger)", progress: .5, cancel: false, endState: "spread", newFocusedIndex: null },
                 {tag: ">breakPoint (cancel)", progress: .8, cancel: true, endState: "staged", newFocusedIndex: 0 },
             ];
         }
@@ -234,7 +234,6 @@ Item {
             var endY = startY;
             var endX = stage.width - (stage.width * data.progress) - stage.dragAreaWidth;
 
-            var oldFocusedApp = ApplicationManager.get(0);
             var newFocusedApp = ApplicationManager.get(data.newFocusedIndex);
 
             touchFlick(stage, startX, startY, endX, endY,
@@ -247,7 +246,7 @@ Item {
                 touchRelease(stage, endX, endY);            }
 
             tryCompare(stage, "state", data.endState);
-            tryCompare(ApplicationManager, "focusedApplicationId", data.endState == "spread" ? oldFocusedApp.appId : newFocusedApp.appId);
+            tryCompare(ApplicationManager, "focusedApplicationId", data.endState == "spread" ? "" : newFocusedApp.appId);
         }
 
         function test_selectAppFromSpread_data() {
