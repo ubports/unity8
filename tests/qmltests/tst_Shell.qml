@@ -2134,7 +2134,7 @@ Rectangle {
             waitForRendering(shell);
 
             // No legacy app running yet... Popup must *not* show.
-            var popup = findChild(dialogs, "modeSwitchWarningDialog");
+            var popup = findChild(dialogs, "modeSwitchWarningDialog", 1000);
             compare(popup, null);
 
             shell.usageScenario = "desktop"
@@ -2147,7 +2147,7 @@ Rectangle {
             waitForRendering(shell);
 
             // The popup must appear now, unless in "tablet" mode
-            popup = findChild(dialogs, "modeSwitchWarningDialog");
+            popup = findChild(dialogs, "modeSwitchWarningDialog", 1000);
             if (data.tabletMode) {
                 verify(!popup);
             } else {
@@ -2164,7 +2164,7 @@ Rectangle {
             }
 
             // Popup must be gone now
-            popup = findChild(dialogs, "modeSwitchWarningDialog");
+            popup = findChild(dialogs, "modeSwitchWarningDialog", 1000);
             tryCompareFunction(function() { return popup === null}, true);
 
             if (data.replug || data.tabletMode) {
