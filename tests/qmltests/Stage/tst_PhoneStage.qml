@@ -77,15 +77,6 @@ Item {
             Column {
                 anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
                 spacing: units.gu(1)
-                EdgeBarrierControls {
-                    id: edgeBarrierControls
-                    text: "Drag here to pull out spread"
-                    backgroundColor: "blue"
-                    onDragged: { stage.pushRightEdge(amount); }
-                    Component.onCompleted: {
-                        edgeBarrierControls.target = testCase.findChild(stage, "edgeBarrierController");
-                    }
-                }
                 Repeater {
                     model: ApplicationManager.availableApplications
                     ApplicationCheckBox { appId: modelData }

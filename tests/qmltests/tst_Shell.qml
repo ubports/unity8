@@ -2114,7 +2114,7 @@ Rectangle {
                 {tag: "forceClose", replug: false, tabletMode: false, screenSize: Qt.size(units.gu(20), units.gu(40)) },
                 {tag: "replug", replug: true, tabletMode: false, screenSize: Qt.size(units.gu(20), units.gu(40)) },
                 {tag: "forceClose+tablet", replug: false, tabletMode: true, screenSize: Qt.size(units.gu(90), units.gu(65)) },
-                {tag: "replug+tablet", replug: true, tabletMode: true, screenSize: Qt.size(units.gu(90), units.gu(65)) }
+                {tag: "replug+tablet", replug: true, tabletMode: true, screenSize: Qt.size(units.gu(90), units.gu(65)) },
             ];
         }
 
@@ -2134,7 +2134,7 @@ Rectangle {
             waitForRendering(shell);
 
             // No legacy app running yet... Popup must *not* show.
-            var popup = findChild(root, "modeSwitchWarningDialog");
+            var popup = findChild(dialogs, "modeSwitchWarningDialog", 1000);
             compare(popup, null);
 
             shell.usageScenario = "desktop"
@@ -2147,7 +2147,7 @@ Rectangle {
             waitForRendering(shell);
 
             // The popup must appear now, unless in "tablet" mode
-            popup = findChild(root, "modeSwitchWarningDialog");
+            popup = findChild(dialogs, "modeSwitchWarningDialog", 1000);
             if (data.tabletMode) {
                 verify(!popup);
             } else {
@@ -2164,7 +2164,7 @@ Rectangle {
             }
 
             // Popup must be gone now
-            popup = findChild(root, "modeSwitchWarningDialog");
+            popup = findChild(dialogs, "modeSwitchWarningDialog", 1000);
             tryCompareFunction(function() { return popup === null}, true);
 
             if (data.replug || data.tabletMode) {
