@@ -42,7 +42,7 @@ Item {
         anchors { fill: parent; rightMargin: units.gu(30) }
         focus: true
         dragAreaWidth: units.gu(2)
-        interactive: true
+        allowInteractivity: true
         shellOrientation: Qt.PortraitOrientation
         orientations: Orientations {}
         applicationManager: ApplicationManager
@@ -210,7 +210,7 @@ Item {
             return [
                 {tag: "<breakPoint (trigger)", progress: .2, cancel: false, endState: "staged", newFocusedIndex: 1 },
                 {tag: "<breakPoint (cancel)", progress: .2, cancel: true, endState: "staged", newFocusedIndex: 0 },
-                {tag: ">breakPoint (trigger)", progress: .5, cancel: false, endState: "spread", newFocusedIndex: 0 },
+                {tag: ">breakPoint (trigger)", progress: .5, cancel: false, endState: "spread", newFocusedIndex: null },
                 {tag: ">breakPoint (cancel)", progress: .8, cancel: true, endState: "staged", newFocusedIndex: 0 },
             ];
         }
@@ -225,7 +225,6 @@ Item {
             var endY = startY;
             var endX = stage.width - (stage.width * data.progress) - stage.dragAreaWidth;
 
-            var oldFocusedApp = ApplicationManager.get(0);
             var newFocusedApp = ApplicationManager.get(data.newFocusedIndex);
 
             touchFlick(stage, startX, startY, endX, endY,
@@ -238,7 +237,7 @@ Item {
                 touchRelease(stage, endX, endY);            }
 
             tryCompare(stage, "state", data.endState);
-            tryCompare(ApplicationManager, "focusedApplicationId", data.endState == "spread" ? oldFocusedApp.appId : newFocusedApp.appId);
+            tryCompare(ApplicationManager, "focusedApplicationId", data.endState == "spread" ? "" : newFocusedApp.appId);
         }
 
         function test_selectAppFromSpread_data() {
@@ -582,6 +581,33 @@ Item {
 
             compare(topLevelSurfaceList.idAt(0), webbrowserSurfaceId);
             compare(webbrowserApp.focused, true);
+        }
+
+        /*
+            Ensure that closing a surface while rootFocus is off focuses the
+            next available surface when rootFocus is given back.
+
+            Regression test for https://github.com/ubports/unity8/issues/234
+
+            This cannot be tested in tst_TopLevelWindowModel.cpp, the mocks for
+            it are not advanced enough.
+        */
+        function test_closeFocusedAppWithSpreadOpen()
+        {
+            var dashApp = ApplicationManager.findApplication("unity8-dash");
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
+            var webbrowserApp  = ApplicationManager.startApplication("morph-browser");
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
+            topLevelSurfaceList.rootFocus = false;
+
+            performEdgeSwipeToShowAppSpread();
+
+            swipeSurfaceUpwards(webbrowserSurfaceId);
+            tryCompareFunction(function() { return topLevelSurfaceList.indexForId(webbrowserSurfaceId); }, -1);
+
+            topLevelSurfaceList.rootFocus = true;
+            compare(dashApp.focused, true);
         }
     }
 }

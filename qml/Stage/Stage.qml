@@ -36,7 +36,6 @@ FocusScope {
     property bool altTabPressed
     property url background
     property int dragAreaWidth
-    property bool interactive
     property real nativeHeight
     property real nativeWidth
     property QtObject orientations
@@ -48,6 +47,11 @@ FocusScope {
     property rect inputMethodRect
     property real rightEdgePushProgress: 0
     property Item availableDesktopArea
+
+    // Whether outside forces say that the Stage may have focus
+    property bool allowInteractivity
+
+    readonly property bool interactive: (state === "staged" || state === "stagedWithSideStage" || state === "windowed") && allowInteractivity
 
     // Configuration
     property string mode: "staged"
@@ -89,18 +93,17 @@ FocusScope {
                 Qt.InvertedLandscapeOrientation;
     }
 
+    Binding {
+        target: topLevelSurfaceList
+        property: "rootFocus"
+        value: interactive
+    }
+
     onInteractiveChanged: {
         // Stage must have focus before activating windows, including null
         if (interactive) {
             focus = true;
         }
-
-        // This will:
-        // - If interactive: Try to reactivate last focused application.
-        //   this will not happen if a pending activation is going on
-        // - If not interactive: Activate nullWindow, this makes
-        //   sure none of the apps have focus when stage is not active
-        topLevelSurfaceList.rootFocus = interactive;
     }
 
     onAltTabPressedChanged: {
@@ -1302,7 +1305,6 @@ FocusScope {
                             showHighlight: spreadItem.highlightedIndex === index
                             darkening: spreadItem.highlightedIndex >= 0
                             anchors.topMargin: dragArea.distance
-                            interactive: false
                         }
                         PropertyChanges {
                             target: appDelegate
@@ -1343,7 +1345,6 @@ FocusScope {
                             scaleToPreviewSize: spreadItem.stackHeight
                             scaleToPreviewProgress: stagedRightEdgeMaths.scaleToPreviewProgress
                             shadowOpacity: .3
-                            interactive: false
                         }
                         // make sure it's visible but transparent so it fades in when we transition to spread
                         PropertyChanges { target: windowInfoItem; opacity: 0; visible: true }
