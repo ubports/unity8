@@ -485,6 +485,26 @@ FocusScope {
                             ? (!model.application.isTouchApp || isExemptFromLifecycle(model.application.appId))
                             : false
             }
+
+            property var focusRequestedConnection: Connections {
+                target: model.application
+
+                onFocusRequested: {
+                    // Application emits focusRequested when it has no surface (i.e. their processes died).
+                    // Find the topmost window for this application and activate it, after which the app
+                    // will be requested to be running.
+
+                    for (var i = 0; i < appRepeater.count; i++) {
+                        var appDelegate = appRepeater.itemAt(i);
+                        if (appDelegate.application.appId === model.application.appId) {
+                            appDelegate.activate();
+                            return;
+                        }
+                    }
+
+                    console.warn("Application requested te be focused but no window for it. What should we do?");
+                }
+            }
         }
     }
 
