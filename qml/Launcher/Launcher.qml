@@ -419,8 +419,8 @@ FocusScope {
         property bool animate: true
 
         onApplicationSelected: {
+            launcherApplicationSelected(appId);
             root.hide(ignoreHideIfMouseOverLauncher);
-            launcherApplicationSelected(appId)
         }
         onShowDashHome: {
             root.hide(ignoreHideIfMouseOverLauncher);
