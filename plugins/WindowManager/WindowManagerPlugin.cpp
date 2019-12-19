@@ -20,14 +20,23 @@
 #include "TopLevelWindowModel.h"
 #include "Window.h"
 #include "WindowMargins.h"
+#include "InputMethodManager.h"
 
 #include <QtQml>
+
+QObject *inputMethodManager(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return InputMethodManager::instance();
+}
 
 void WindowManagerPlugin::registerTypes(const char *uri)
 {
     qmlRegisterType<AvailableDesktopArea>(uri, 1, 0, "AvailableDesktopArea");
     qmlRegisterType<TopLevelWindowModel>(uri, 1, 0, "TopLevelWindowModel");
     qmlRegisterType<WindowMargins>(uri, 1, 0, "WindowMargins");
+    qmlRegisterSingletonType<InputMethodManager>(uri, 1, 0, "InputMethodManager", inputMethodManager);
 
     qRegisterMetaType<Window*>("Window*");
 

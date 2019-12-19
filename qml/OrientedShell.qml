@@ -275,7 +275,13 @@ Item {
         hasMouse: pointerInputDevices > 0
         hasKeyboard: keyboardsModel.count > 0
         hasTouchscreen: touchScreensModel.count > 0
-        oskEnabled: unity8Settings.alwaysShowOsk || !hasKeyboard || forceOSKEnabled
+
+        // Since we dont have proper multiscreen support yet
+        // hardcode screen count to only show osk on this screen
+        // when it's the only one connected.
+        // FIXME once multiscreen has landed
+        oskEnabled: (!hasKeyboard && screens.count === 1) ||
+                    unity8Settings.alwaysShowOsk || forceOSKEnabled
 
         usageScenario: {
             if (unity8Settings.usageMode === "Windowed") {

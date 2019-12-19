@@ -29,6 +29,7 @@
 
 // local
 #include "Window.h"
+#include "InputMethodManager.h"
 
 Q_LOGGING_CATEGORY(TOPLEVELWINDOWMODEL, "toplevelwindowmodel", QtInfoMsg)
 
@@ -461,6 +462,7 @@ void TopLevelWindowModel::setInputMethodWindow(Window *window)
     }
     m_inputMethodWindow = window;
     Q_EMIT inputMethodSurfaceChanged(m_inputMethodWindow->surface());
+    InputMethodManager::instance()->setWindow(window);
 }
 
 void TopLevelWindowModel::removeInputMethodWindow()
@@ -469,6 +471,7 @@ void TopLevelWindowModel::removeInputMethodWindow()
         delete m_inputMethodWindow;
         m_inputMethodWindow = nullptr;
         Q_EMIT inputMethodSurfaceChanged(nullptr);
+        InputMethodManager::instance()->setWindow(nullptr);
     }
 }
 
