@@ -736,6 +736,7 @@ void TopLevelWindowModel::activateTopMostWindowWithoutId(int forbiddenId)
         Window *window = m_windowModel[i].window;
         if (window->id() != forbiddenId) {
             window->activate();
+            break;
         }
     }
 }
