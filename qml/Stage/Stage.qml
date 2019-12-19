@@ -1209,6 +1209,7 @@ FocusScope {
                     to: 1
                     duration: UbuntuAnimation.SnapDuration
                     onStarted: {
+                        topLevelSurfaceList.pendingActivation();
                         topLevelSurfaceList.raiseId(model.window.id);
                     }
                     onStopped: {
@@ -1222,6 +1223,7 @@ FocusScope {
                     UbuntuNumberAnimation { target: decoratedWindow; properties: "angle"; to: 0; duration: priv.animationDuration }
                     UbuntuNumberAnimation { target: decoratedWindow; properties: "itemScale"; to: 1; duration: priv.animationDuration }
                     onStarted: {
+                        topLevelSurfaceList.pendingActivation();
                         inhibitSlideAnimation = true;
                     }
                     onStopped: {
