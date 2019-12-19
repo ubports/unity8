@@ -373,7 +373,6 @@ StyledItem {
     InputMethod {
         id: inputMethod
         objectName: "inputMethod"
-        surface: topLevelSurfaceList.inputMethodSurface
         anchors {
             fill: parent
             topMargin: panel.panelHeight

@@ -17,13 +17,14 @@
 import QtQuick 2.4
 import Unity.Application 0.1
 import Ubuntu.Gestures 0.1
+import WindowManager 1.0
 
 Item {
     id: root
 
     readonly property rect visibleRect: surfaceItem.surface && visible ? surfaceItem.surface.inputBounds : Qt.rect(0, 0, 0, 0)
 
-    property var surface
+    property var surface: root.enabled ? InputMethodManager.surface : null;
 
     MirSurfaceItem {
         id: surfaceItem
