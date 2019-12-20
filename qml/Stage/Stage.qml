@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.4
+import QtQuick.Window 2.2
 import Ubuntu.Components 1.3
 import Unity.Application 0.1
 import "../Components/PanelState"
@@ -767,11 +768,19 @@ FocusScope {
                 }
                 z: normalZ
 
+                // Set these as propertyes as they wont update otherwise
+                property real screenOffsetX: Screen.virtualX
+                property real screenOffsetY: Screen.virtualY
+
                 // Normally we want x/y where the surface thinks it is. Width/height of our delegate will
                 // match what the actual surface size is.
                 // Don't write to those, they will be set by states
-                x: model.window.position.x - clientAreaItem.x
-                y: model.window.position.y - clientAreaItem.y
+                // --
+                // Here we will also need to remove the screen offset from miral's results
+                // as unity8 x,y will be relative to the current screen only
+                // FIXME: when proper multiscreen lands
+                x: model.window.position.x - clientAreaItem.x - screenOffsetX
+                y: model.window.position.y - clientAreaItem.y - screenOffsetY
                 width: decoratedWindow.implicitWidth
                 height: decoratedWindow.implicitHeight
 
@@ -781,12 +790,21 @@ FocusScope {
                 property real requestedY: windowedY
                 property real requestedWidth: windowedWidth
                 property real requestedHeight: windowedHeight
+
+                // For both windowed and staged need to tell miral what screen we are on,
+                // so we need to add the screen offset to the position we tell miral
+                // FIXME: when proper multiscreen lands
                 Binding {
                     target: model.window; property: "requestedPosition"
                     // miral doesn't know about our window decorations. So we have to deduct them
-                    value: Qt.point(appDelegate.requestedX + appDelegate.clientAreaItem.x,
-                                    appDelegate.requestedY + appDelegate.clientAreaItem.y)
+                    value: Qt.point(appDelegate.requestedX + appDelegate.clientAreaItem.x + screenOffsetX,
+                                    appDelegate.requestedY + appDelegate.clientAreaItem.y + screenOffsetY)
                     when: root.mode == "windowed"
+                }
+                Binding {
+                    target: model.window; property: "requestedPosition"
+                    value: Qt.point(screenOffsetX, screenOffsetY)
+                    when: root.mode != "windowed"
                 }
 
                 // In those are for windowed mode. Those values basically store the window's properties
