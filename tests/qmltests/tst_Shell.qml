@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2013-2016 Canonical, Ltd.
+ * Copyright (C) 2019 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -869,6 +870,30 @@ Rectangle {
             tryCompare(launcher, "state", "visibleTemporary");
         }
 
+        function waitUntilFocusedApplicationIsShowingItsSurface()
+        {
+            var spreadDelegate = findChild(shell, "appDelegate_" + topLevelSurfaceList.idAt(0));
+            var appState = findInvisibleChild(spreadDelegate, "applicationWindowStateGroup");
+            tryCompare(appState, "state", "surface");
+            var transitions = appState.transitions;
+            for (var i = 0; i < transitions.length; ++i) {
+                var transition = transitions[i];
+                tryCompare(transition, "running", false, 2000);
+            }
+        }
+
+        function swipeFromRightEdgeToShowAppSpread()
+        {
+            // perform a right-edge drag to show the spread
+            var touchStartX = shell.width - (shell.edgeSize / 2)
+            var touchStartY = shell.height / 2;
+            touchFlick(shell, touchStartX, touchStartY, units.gu(1) /* endX */, touchStartY /* endY */);
+
+            // check if it's indeed showing the spread
+            var stage = findChild(shell, "stage");
+            tryCompare(stage, "state", "spread");
+        }
+
         function test_snapDecisionDismissalReturnsFocus() {
             loadShell("phone");
             swipeAwayGreeter();
@@ -1349,30 +1374,6 @@ Rectangle {
 
             tryCompare(topmostSurfaceItem, "touchPressCount", 0);
             tryCompare(topmostSurfaceItem, "touchReleaseCount", 0);
-        }
-
-        function waitUntilFocusedApplicationIsShowingItsSurface()
-        {
-            var spreadDelegate = findChild(shell, "appDelegate_" + topLevelSurfaceList.idAt(0));
-            var appState = findInvisibleChild(spreadDelegate, "applicationWindowStateGroup");
-            tryCompare(appState, "state", "surface");
-            var transitions = appState.transitions;
-            for (var i = 0; i < transitions.length; ++i) {
-                var transition = transitions[i];
-                tryCompare(transition, "running", false, 2000);
-            }
-        }
-
-        function swipeFromRightEdgeToShowAppSpread()
-        {
-            // perform a right-edge drag to show the spread
-            var touchStartX = shell.width - (shell.edgeSize / 2)
-            var touchStartY = shell.height / 2;
-            touchFlick(shell, touchStartX, touchStartY, units.gu(1) /* endX */, touchStartY /* endY */);
-
-            // check if it's indeed showing the spread
-            var stage = findChild(shell, "stage");
-            tryCompare(stage, "state", "spread");
         }
 
         function test_physicalHomeKeyPressDoesNothingWithActiveGreeter() {
@@ -2652,13 +2653,7 @@ Rectangle {
             var cursor = findChild(shell, "cursor");
             var indicators = findChild(shell, "indicators");
 
-            // Open indicators
-            var touchX = shell.width - units.gu(5);
-            touchFlick(shell,
-                    touchX /* fromX */, indicators.minimizedPanelHeight * 0.5 /* fromY */,
-                    touchX /* toX */, shell.height * 0.9 /* toY */,
-                    true /* beginTouch */, true /* endTouch */);
-            tryCompare(indicators, "fullyOpened", true);
+            showIndicators();
 
             // push the right edge
             mouseMove(shell, shell.width -  1, units.gu(10));
