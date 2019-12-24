@@ -1,5 +1,6 @@
 /*
  * Copyright 2014-2016 Canonical Ltd.
+ * Copyright 2019 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -581,33 +582,6 @@ Item {
 
             compare(topLevelSurfaceList.idAt(0), webbrowserSurfaceId);
             compare(webbrowserApp.focused, true);
-        }
-
-        /*
-            Ensure that closing a surface while rootFocus is off focuses the
-            next available surface when rootFocus is given back.
-
-            Regression test for https://github.com/ubports/unity8/issues/234
-
-            This cannot be tested in tst_TopLevelWindowModel.cpp, the mocks for
-            it are not advanced enough.
-        */
-        function test_closeFocusedAppWithSpreadOpen()
-        {
-            var dashApp = ApplicationManager.findApplication("unity8-dash");
-            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
-            var webbrowserApp  = ApplicationManager.startApplication("morph-browser");
-            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
-
-            topLevelSurfaceList.rootFocus = false;
-
-            performEdgeSwipeToShowAppSpread();
-
-            swipeSurfaceUpwards(webbrowserSurfaceId);
-            tryCompareFunction(function() { return topLevelSurfaceList.indexForId(webbrowserSurfaceId); }, -1);
-
-            topLevelSurfaceList.rootFocus = true;
-            compare(dashApp.focused, true);
         }
     }
 }

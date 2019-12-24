@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2016-2017 Canonical, Ltd.
+ * Copyright 2019 UBports Foundation
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -18,6 +19,7 @@
 #define TOPLEVELWINDOWMODEL_H
 
 #include <QAbstractListModel>
+#include <QAtomicInteger>
 #include <QLoggingCategory>
 
 #include "WindowManagerGlobal.h"
@@ -86,7 +88,15 @@ class WINDOWMANAGERQML_EXPORT TopLevelWindowModel : public QAbstractListModel
       The id to be used on the next entry created
       Useful for tests
      */
-    Q_PROPERTY(int nextId READ nextId NOTIFY nextIdChanged)
+    Q_PROPERTY(int nextId READ nextId)
+
+    /**
+      The maximum window ID that may be issued by the model.
+      Will only leave the model in a consistent state if changed before
+      any windows are added.
+      Don't change this unless you are the tests or want to break everything.
+     */
+    Q_PROPERTY(int maxWindowId READ getMaxWindowId WRITE setMaxWindowId)
 
 
    /**
@@ -143,7 +153,7 @@ public:
     unity::shell::application::SurfaceManagerInterface *surfaceManager() const { return m_surfaceManager; }
     void setSurfaceManager(unity::shell::application::SurfaceManagerInterface*);
 
-    int nextId() const { return m_nextId; }
+    int nextId() const { return m_nextId.load(); }
 
 public:
     /**
@@ -198,6 +208,9 @@ public:
     void setRootFocus(bool focus);
     bool rootFocus();
 
+    void setMaxWindowId(int newMaxWindowId);
+    int getMaxWindowId();
+
 Q_SIGNALS:
     void countChanged();
     void inputMethodSurfaceChanged(unity::shell::application::MirSurfaceInterface* inputMethodSurface);
@@ -212,11 +225,11 @@ Q_SIGNALS:
      */
     void listChanged();
 
-    void nextIdChanged();
-
     void closedAllWindows();
 
     void rootFocusChanged();
+
+    void maxWindowIdChanged();
 
 private Q_SLOTS:
     void onSurfaceCreated(unity::shell::application::MirSurfaceInterface *surface);
@@ -263,6 +276,8 @@ private:
     void activateTopMostWindowWithoutId(int forbiddenId);
 
     Window *createWindow(unity::shell::application::MirSurfaceInterface *surface);
+    Window *createWindowWithId(unity::shell::application::MirSurfaceInterface *surface, int id);
+    Window *createNullWindow();
 
     struct ModelEntry {
         ModelEntry() {}
@@ -281,11 +296,12 @@ private:
     Window* m_previousWindow{nullptr};
     bool m_pendingActivation;
 
-    int m_nextId{1};
+    QAtomicInteger<int> m_nextId{1};
+
     // Just something big enough that we don't risk running out of unused id numbers.
     // Not sure if QML int type supports something close to std::numeric_limits<int>::max() and
     // there's no reason to try out its limits.
-    static const int m_maxId{1000000};
+    int m_maxWindowId;
 
     unity::shell::application::ApplicationManagerInterface* m_applicationManager{nullptr};
     unity::shell::application::SurfaceManagerInterface *m_surfaceManager{nullptr};
