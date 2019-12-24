@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2016-2017 Canonical, Ltd.
+ * Copyright 2019 UBports Foundation
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -38,7 +39,8 @@ Q_LOGGING_CATEGORY(TOPLEVELWINDOWMODEL, "toplevelwindowmodel", QtInfoMsg)
 namespace unityapi = unity::shell::application;
 
 TopLevelWindowModel::TopLevelWindowModel()
-    : m_nullWindow(createWindow(nullptr)),
+    : m_nullWindow(createNullWindow()),
+      m_maxWindowId(1000000),
       m_surfaceManagerBusy(false)
 {
     connect(m_nullWindow, &Window::focusedChanged, this, [this] {
@@ -350,6 +352,16 @@ void TopLevelWindowModel::onSurfaceDestroyed(unityapi::MirSurfaceInterface *surf
 Window *TopLevelWindowModel::createWindow(unityapi::MirSurfaceInterface *surface)
 {
     int id = generateId();
+    return createWindowWithId(surface, id);
+}
+
+Window *TopLevelWindowModel::createNullWindow()
+{
+    return createWindowWithId(nullptr, 0);
+}
+
+Window *TopLevelWindowModel::createWindowWithId(unityapi::MirSurfaceInterface *surface, int id)
+{
     Window *qmlWindow = new Window(id, this);
     connectWindow(qmlWindow);
     if (surface) {
@@ -514,34 +526,29 @@ int TopLevelWindowModel::findIndexOf(const unityapi::MirSurfaceInterface *surfac
     return -1;
 }
 
+// Finds a unique integer identifier not greater than maxWindowId.
 int TopLevelWindowModel::generateId()
 {
-    int id = m_nextId;
-    m_nextId = nextFreeId(nextId(id), id);
-    return id;
-}
+    int candidateId = m_nextId.fetchAndAddAcquire(1);
 
-int TopLevelWindowModel::nextId(int id) const
-{
-    if (id == m_maxId) {
-        return id = 1;
-    } else {
-        return id + 1;
-    }
-}
+    // If the user opens two windows at the exact same time after opening
+    // maxWindowId windows, it is potentially possible that we issue the same
+    // ID for both. This is a risk we can accept.
+    if (candidateId > getMaxWindowId()) {
+        int originalCandidateId = candidateId;
+        candidateId = 1;
 
-int TopLevelWindowModel::nextFreeId(int candidateId, const int latestId)
-{
-    int firstCandidateId = candidateId;
+        while (indexForId(candidateId) != -1) {
+            candidateId += 1;
 
-    while (indexForId(candidateId) != -1 || candidateId == latestId) {
-        candidateId = nextId(candidateId);
-
-        if (candidateId == firstCandidateId) {
-            qFatal("TopLevelWindowModel: run out of window ids.");
+            if (candidateId == originalCandidateId) {
+                // The user has maxWindowId windows open somehow.
+                qFatal("TopLevelWindowModel: Ran out of window IDs!");
+            }
         }
-    }
 
+        m_nextId.fetchAndStoreAcquire(candidateId + 1);
+    }
     return candidateId;
 }
 
@@ -786,6 +793,20 @@ void TopLevelWindowModel::setRootFocus(bool focus)
             m_nullWindow->activate();
         }
     }
+}
+
+void TopLevelWindowModel::setMaxWindowId(int newMaxWindowId)
+{
+    DEBUG_MSG << "(" << newMaxWindowId << ")";
+    if (m_maxWindowId != newMaxWindowId) {
+        m_maxWindowId = newMaxWindowId;
+        Q_EMIT maxWindowIdChanged();
+    }
+}
+
+int TopLevelWindowModel::getMaxWindowId()
+{
+    return m_maxWindowId;
 }
 
 // Pending Activation will block refocus of previous focused window
