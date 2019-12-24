@@ -93,7 +93,7 @@ Item {
 
     UT.UnityTestCase {
         id: testCase
-        name: "PhoneStage"
+        name: "QMLTopLevelWindowModel"
         when: windowShown
 
         function init() {
