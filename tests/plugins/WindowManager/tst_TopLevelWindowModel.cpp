@@ -14,6 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// There is a companion set of QMLTests for TLWM in tst_QMLTopLevelWindowModel.qml.
+
 #include <QtTest/QtTest>
 #include <QSignalSpy>
 
