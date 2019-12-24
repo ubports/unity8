@@ -132,7 +132,7 @@ StyledItem {
 
             panel.indicators.hide();
             launcher.hide(launcher.ignoreHideIfMouseOverLauncher);
-        } else if (topLevelSurfaceList.count === 0 && !greeter.active && !wizard.active) {
+        } else if (topLevelSurfaceList.count === 0 && greeter && !greeter.active && !wizard.active) {
             // Show the Launcher when there are no apps running
             stage.closeSpread();
             launcher.show();
@@ -403,8 +403,9 @@ StyledItem {
                     launcher.toggleDrawer(false);
                     greeterLoader.toggleDrawerAfterUnlock = false;
                 }
-                // Show the launcher when there are no running apps
-                else if (topLevelSurfaceList.count < 1) {
+                // Show the launcher when there are no running apps and the user
+                // isn't operating the panel
+                else if (topLevelSurfaceList.count < 1 && !panel.visible) {
                     launcher.switchToNextState("visible")
                 }
             }
