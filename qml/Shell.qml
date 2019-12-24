@@ -403,9 +403,8 @@ StyledItem {
                     launcher.toggleDrawer(false);
                     greeterLoader.toggleDrawerAfterUnlock = false;
                 }
-                // Show the launcher when there are no running apps and the user
-                // isn't operating the panel
-                else if (topLevelSurfaceList.count < 1 && !panel.visible) {
+                // Show the launcher when there are no running apps
+                else if (topLevelSurfaceList.count < 1) {
                     launcher.switchToNextState("visible")
                 }
             }
