@@ -1,5 +1,6 @@
 ﻿/*
  * Copyright (C) 2013-2016 Canonical, Ltd.
+ * Copyright (C) 2019 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -405,7 +406,9 @@ StyledItem {
                 }
                 // Show the launcher when there are no running apps
                 else if (topLevelSurfaceList.count < 1) {
-                    launcher.switchToNextState("visible")
+                    launcher.switchToNextState("visible");
+                } else {
+                    launcher.hide();
                 }
             }
         }
@@ -430,10 +433,6 @@ StyledItem {
             //        Issue involves launcher's DDA getting disabled on a long
             //        left-edge drag
             dragHandleLeftMargin: launcher.available ? launcher.dragAreaWidth + 1 : 0
-
-            onSessionStarted: {
-                launcher.hide();
-            }
 
             onTease: {
                 if (!tutorial.running) {
