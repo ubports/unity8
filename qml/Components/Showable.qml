@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2019 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -88,7 +89,7 @@ Item {
             if (!showAnimation.running) {
                 showAnimation.restart()
             }
-            if (__skipShowAnimation) {
+            if (__skipShowAnimation || shown) {
                 showAnimation.complete();
             }
         } else {
@@ -121,7 +122,7 @@ Item {
             if (!hideAnimation.running) {
                 hideAnimation.restart()
             }
-            if (__skipHideAnimation) {
+            if (__skipHideAnimation || !shown) {
                 hideAnimation.complete();
             }
         } else {
