@@ -297,10 +297,6 @@ private:
     bool m_pendingActivation;
 
     QAtomicInteger<int> m_nextId{1};
-
-    // Just something big enough that we don't risk running out of unused id numbers.
-    // Not sure if QML int type supports something close to std::numeric_limits<int>::max() and
-    // there's no reason to try out its limits.
     int m_maxWindowId;
 
     unity::shell::application::ApplicationManagerInterface* m_applicationManager{nullptr};

@@ -40,7 +40,7 @@ namespace unityapi = unity::shell::application;
 
 TopLevelWindowModel::TopLevelWindowModel()
     : m_nullWindow(createNullWindow()),
-      m_maxWindowId(1000000),
+      m_maxWindowId(std::numeric_limits<int>::max()),
       m_surfaceManagerBusy(false)
 {
     connect(m_nullWindow, &Window::focusedChanged, this, [this] {
