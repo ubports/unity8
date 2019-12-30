@@ -90,14 +90,6 @@ class WINDOWMANAGERQML_EXPORT TopLevelWindowModel : public QAbstractListModel
      */
     Q_PROPERTY(int nextId READ nextId)
 
-    /**
-      The maximum window ID that may be issued by the model.
-      Will only leave the model in a consistent state if changed before
-      any windows are added.
-      Don't change this unless you are the tests or want to break everything.
-     */
-    Q_PROPERTY(int maxWindowId READ getMaxWindowId WRITE setMaxWindowId)
-
 
    /**
      * @brief Sets whether a user Window or "nothing" should be focused
@@ -208,9 +200,6 @@ public:
     void setRootFocus(bool focus);
     bool rootFocus();
 
-    void setMaxWindowId(int newMaxWindowId);
-    int getMaxWindowId();
-
 Q_SIGNALS:
     void countChanged();
     void inputMethodSurfaceChanged(unity::shell::application::MirSurfaceInterface* inputMethodSurface);
@@ -228,8 +217,6 @@ Q_SIGNALS:
     void closedAllWindows();
 
     void rootFocusChanged();
-
-    void maxWindowIdChanged();
 
 private Q_SLOTS:
     void onSurfaceCreated(unity::shell::application::MirSurfaceInterface *surface);
@@ -297,7 +284,6 @@ private:
     bool m_pendingActivation;
 
     QAtomicInteger<int> m_nextId{1};
-    int m_maxWindowId;
 
     unity::shell::application::ApplicationManagerInterface* m_applicationManager{nullptr};
     unity::shell::application::SurfaceManagerInterface *m_surfaceManager{nullptr};
