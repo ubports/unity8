@@ -40,7 +40,6 @@ namespace unityapi = unity::shell::application;
 
 TopLevelWindowModel::TopLevelWindowModel()
     : m_nullWindow(createNullWindow()),
-      m_maxWindowId(std::numeric_limits<int>::max()),
       m_surfaceManagerBusy(false)
 {
     connect(m_nullWindow, &Window::focusedChanged, this, [this] {
@@ -351,7 +350,7 @@ void TopLevelWindowModel::onSurfaceDestroyed(unityapi::MirSurfaceInterface *surf
 
 Window *TopLevelWindowModel::createWindow(unityapi::MirSurfaceInterface *surface)
 {
-    int id = generateId();
+    int id = m_nextId.fetchAndAddAcquire(1);
     return createWindowWithId(surface, id);
 }
 
@@ -524,32 +523,6 @@ int TopLevelWindowModel::findIndexOf(const unityapi::MirSurfaceInterface *surfac
         }
     }
     return -1;
-}
-
-// Finds a unique integer identifier not greater than maxWindowId.
-int TopLevelWindowModel::generateId()
-{
-    int candidateId = m_nextId.fetchAndAddAcquire(1);
-
-    // If the user opens two windows at the exact same time after opening
-    // maxWindowId windows, it is potentially possible that we issue the same
-    // ID for both. This is a risk we can accept.
-    if (candidateId > getMaxWindowId()) {
-        int originalCandidateId = candidateId;
-        candidateId = 1;
-
-        while (indexForId(candidateId) != -1) {
-            candidateId += 1;
-
-            if (candidateId == originalCandidateId) {
-                // The user has maxWindowId windows open somehow.
-                qFatal("TopLevelWindowModel: Ran out of window IDs!");
-            }
-        }
-
-        m_nextId.fetchAndStoreAcquire(candidateId + 1);
-    }
-    return candidateId;
 }
 
 QString TopLevelWindowModel::toString()
@@ -793,20 +766,6 @@ void TopLevelWindowModel::setRootFocus(bool focus)
             m_nullWindow->activate();
         }
     }
-}
-
-void TopLevelWindowModel::setMaxWindowId(int newMaxWindowId)
-{
-    DEBUG_MSG << "(" << newMaxWindowId << ")";
-    if (m_maxWindowId != newMaxWindowId) {
-        m_maxWindowId = newMaxWindowId;
-        Q_EMIT maxWindowIdChanged();
-    }
-}
-
-int TopLevelWindowModel::getMaxWindowId()
-{
-    return m_maxWindowId;
 }
 
 // Pending Activation will block refocus of previous focused window

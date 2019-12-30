@@ -168,34 +168,5 @@ Item {
             tlwm.rootFocus = true;
             compare(dialerApp.focused, true);
         }
-
-        /*
-            Ensure that we can handle issuing windows up to maxWindowId,
-            including reusing IDs once we're exhausted.
-        */
-        function test_issueAllTheIds()
-        {
-            tlwm.maxWindowId = 5;
-
-            // Start an app ourselves so we can close it
-            var nextAppId = ApplicationManager.availableApplications[5];
-            var app = ApplicationManager.startApplication(nextAppId);
-            var appWindowId = tlwm.idAt(0);
-
-            // Add four more apps to bring us to five
-            addApps(4);
-
-            ApplicationManager.stopApplication(app.appId);
-            // It should be gone soon
-            tryCompareFunction(function() { return tlwm.indexForId(appWindowId); }, -1);
-
-            // And now we can start a new one
-            var appAgain = ApplicationManager.startApplication(nextAppId);
-            verify(appAgain);
-
-            // The new app should have taken the ID of the closed app since
-            // we're under contention.
-            tryCompareFunction(function() { return tlwm.indexForId(appWindowId); }, 0);
-        }
     }
 }
