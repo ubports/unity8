@@ -182,5 +182,18 @@ Item {
             compare(show1.showAnimation.running, false, "Showable should be done running after delayed showNow");
             compare(show1.opacity, 1.0, "Showable should be at end of animation after delayed showNow");
         }
+
+        // Test consecutive show()/hide() to not just complete the animation.
+        function test_show_when_showing_hide_when_hiding() {
+            init_test();
+
+            show1.show();
+            show1.show();
+            compare(show1.showAnimation.running, true);
+
+            show1.hide();
+            show1.hide();
+            compare(show1.hideAnimation.running, true);
+        }
     }
 }
