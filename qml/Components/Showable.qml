@@ -74,6 +74,9 @@ Item {
     }
 
     function __reallyShow() {
+        if (showAnimation != undefined && showAnimation.running)
+            return;
+
         if (!available) {
             __skipShowAnimation = false;
             return false;
@@ -86,9 +89,7 @@ Item {
         }
 
         if (showAnimation != undefined) {
-            if (!showAnimation.running) {
-                showAnimation.restart()
-            }
+            showAnimation.restart()
             if (__skipShowAnimation || shown) {
                 showAnimation.complete();
             }
@@ -107,6 +108,9 @@ Item {
     property var prepareToHide: function(){}
 
     function hide() {
+        if (hideAnimation != undefined && hideAnimation.running)
+            return;
+
         if (showAnimation != undefined && showAnimation.running) {
             showAnimation.stop()
         }
@@ -119,9 +123,7 @@ Item {
         }
 
         if (hideAnimation != undefined) {
-            if (!hideAnimation.running) {
-                hideAnimation.restart()
-            }
+            hideAnimation.restart()
             if (__skipHideAnimation || !shown) {
                 hideAnimation.complete();
             }
