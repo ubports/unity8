@@ -30,7 +30,7 @@ StyledItem {
     height: units.gu(80)
     focus: true
 
-    theme.name: "Ubuntu.Components.Themes.SuruDark"
+    theme.name: "Ubuntu.Components.Themes.Ambiance"
 
     Row {
         anchors.fill: parent
