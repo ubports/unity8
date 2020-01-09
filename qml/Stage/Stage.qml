@@ -962,7 +962,11 @@ FocusScope {
                         priv.updateMainAndSideStageIndexes();
                     }
                     appDelegate.focus = true;
-                    priv.focusedAppDelegate = appDelegate;
+
+                    // Don't set focusedAppDelegate (and signal mainAppChanged) unnecessarily
+                    // which can happen after getting interactive again.
+                    if (priv.focusedAppDelegate !== appDelegate)
+                        priv.focusedAppDelegate = appDelegate;
                 }
 
                 function updateQmlFocusFromMirSurfaceFocus() {
