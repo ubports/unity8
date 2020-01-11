@@ -93,6 +93,7 @@ QtObject {
                     target: priv
                     primaryOrientation: root.useNativeOrientation
                     supportedOrientations: Qt.PortraitOrientation
+                                         | Qt.InvertedPortraitOrientation
                                          | Qt.LandscapeOrientation
                                          | Qt.InvertedLandscapeOrientation
                     landscapeOrientation: Qt.LandscapeOrientation
