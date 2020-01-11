@@ -86,6 +86,12 @@ Item {
         }
     }
 
+    SignalSpy {
+        id: mainAppChangedSpy
+        target: stage
+        signalName: "mainAppChanged"
+    }
+
     UT.UnityTestCase {
         id: testCase
         name: "PhoneStage"
@@ -582,6 +588,22 @@ Item {
 
             compare(topLevelSurfaceList.idAt(0), webbrowserSurfaceId);
             compare(webbrowserApp.focused, true);
+        }
+
+        /*
+            Check that set & unset allowInteractivity won't change main app.
+        */
+        function test_interactivityShouldNotChangeMainApp()
+        {
+            // Have something to focus
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
+            var webbrowserApp = ApplicationManager.startApplication("morph-browser");
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
+            mainAppChangedSpy.clear();
+            stage.allowInteractivity = false;
+            stage.allowInteractivity = true;
+            compare(mainAppChangedSpy.count, 0);
         }
     }
 }
