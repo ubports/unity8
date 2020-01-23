@@ -195,9 +195,8 @@ void TopLevelWindowModel::prependSurfaceHelper(unityapi::MirSurfaceInterface *su
 
     prependWindow(window, application);
 
-    if (!surface) {
-        activateEmptyWindow(window);
-    }
+    // Activate the newly-prepended window.
+    window->activate();
 
     INFO_MSG << " after " << toString();
 }
