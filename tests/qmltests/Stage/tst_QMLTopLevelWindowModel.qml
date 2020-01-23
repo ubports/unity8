@@ -168,5 +168,24 @@ Item {
             tlwm.rootFocus = true;
             compare(dialerApp.focused, true);
         }
+
+        /*
+            Ensure that the newly-opened window from an already-opened app will
+            be focused in addition to being on top.
+         */
+        function test_focusNewWindowFromOpenedApp()
+        {
+            var firstWindowSurfaceId = tlwm.nextId;
+            var webbrowserApp = ApplicationManager.startApplication("morph-browser");
+            waitUntilAppSurfaceShowsUp(firstWindowSurfaceId);
+
+            // Create the second window
+            var secondWindowSurfaceId = tlwm.nextId;
+            webbrowserApp.createSurface();
+
+            var topWindow = tlwm.windowAt(0);
+            compare(topWindow.id, secondWindowSurfaceId, "The top window is not the second window.");
+            compare(topWindow.focused, true, "The second window isn't focused.");
+        }
     }
 }
