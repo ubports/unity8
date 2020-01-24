@@ -2494,6 +2494,8 @@ Rectangle {
             app.createPromptSurface();
             var promptSurface = app.promptSurfaceList.get(0);
             verify(promptSurface);
+            // FIXME: remove when prompt surface focus management is working.
+            promptSurface.activate();
             tryCompare(appSurface, "keymap", promptSurface.keymap);
             // ... and that the controller's surface keymap is also the same
             tryCompare(topLevelSurfaceList.focusedWindow.surface, "keymap", "sk");
