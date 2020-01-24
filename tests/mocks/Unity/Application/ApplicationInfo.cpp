@@ -99,8 +99,6 @@ void ApplicationInfo::createPromptSurface()
     surfaceManager->notifySurfaceCreated(surface);
 
     m_promptSurfaceList->addSurface(surface);
-
-    surfaceManager->activate(surface);
 }
 
 void ApplicationInfo::createSurface()
@@ -179,7 +177,6 @@ void ApplicationInfo::createSurface()
     }
 
     surfaceManager->notifySurfaceCreated(surface);
-    surfaceManager->activate(surface);
 }
 
 void ApplicationInfo::setIconId(const QString &iconId)
