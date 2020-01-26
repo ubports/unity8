@@ -32,10 +32,6 @@ Item {
     property alias title: header.title
     property alias showHeader: header.visible
 
-    Ambiance.Palette {
-        id: ambiancePalette
-    }
-
     QtObject {
         id: d
 
@@ -43,7 +39,7 @@ Item {
         // This is also the default value of a color property in QML.
         readonly property color undefinedColor: "#00000000"
 
-        readonly property color defaultBackgroundColor: header.visible ? ambiancePalette.normal.background : "black"
+        readonly property color defaultBackgroundColor: header.visible ? theme.palette.normal.background : "black"
 
         // Splash screen that shows the application icon and splashTitle
         readonly property bool showIcon: overlaidImage.status == Image.Null && !root.showHeader
@@ -60,28 +56,16 @@ Item {
                                                                                       : root.headerColor
         property color footerColor: Qt.colorEqual(root.footerColor, d.undefinedColor) ? styledItem.backgroundColor
                                                                                       : root.footerColor
-
-        // FIXME: fake a Theme object as to expose the Palette corresponding to the backgroundColor (see MainViewStyle.qml)
-        readonly property var fakeTheme: QtObject {
-            property string name
-            property Palette palette: Qt.createQmlObject("import QtQuick 2.4;\
-                                                          import Ubuntu.Components.Themes.%1 1.3;\
-                                                          Palette {}".arg(styledItem.fakeTheme.name),
-                                                         styledItem, "dynamicPalette");
-        }
-
-        // FIXME: should instead use future toolkit API:
-        // style: theme.createStyleComponent("MainViewStyle.qml", styledItem)
-        style: Component { MainViewStyle {theme: styledItem.fakeTheme} }
+        style: Theme.createStyleComponent("MainViewStyle.qml", styledItem)
     }
 
     PageHeader {
         id: header
         anchors { left: parent.left; right: parent.right }
         StyleHints {
-            foregroundColor: styledItem.fakeTheme.palette.normal.backgroundText
+            foregroundColor: styledItem.theme.palette.normal.backgroundText
             backgroundColor: "transparent"
-            dividerColor: styledItem.fakeTheme.palette.normal.base
+            dividerColor: styledItem.theme.palette.normal.base
         }
     }
 
@@ -126,7 +110,7 @@ Item {
         anchors.topMargin: units.gu(2)
         fontSize: "large"
 
-        color: styledItem.fakeTheme.palette.normal.backgroundText
+        color: styledItem.theme.palette.normal.backgroundText
         visible: d.showIcon
     }
 
@@ -146,5 +130,9 @@ Item {
         anchors.fill: parent
         enabled: parent.visible
         // absorb all mouse events
+    }
+
+    transitions: Transition {
+        UbuntuNumberAnimation {}
     }
 }
