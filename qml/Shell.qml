@@ -208,6 +208,8 @@ StyledItem {
     }
 
     function startLockedApp(app) {
+        topLevelSurfaceList.pendingActivation();
+
         if (greeter.locked) {
             greeter.lockedApp = app;
         }
