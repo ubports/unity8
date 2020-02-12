@@ -76,7 +76,7 @@ StyledItem {
 
     readonly property bool orientationChangesEnabled: panel.indicators.fullyClosed
             && stage.orientationChangesEnabled
-            && (!greeter || !greeter.animating)
+            && (!greeter.animating)
 
     readonly property bool showingGreeter: greeter && greeter.shown
 
@@ -87,7 +87,7 @@ StyledItem {
         if (startingUp) {
             // Ensure we don't rotate during start up
             return Qt.PrimaryOrientation;
-        } else if (showingGreeter || notifications.topmostIsFullscreen) {
+        } else if (notifications.topmostIsFullscreen) {
             return Qt.PrimaryOrientation;
         } else {
             return shell.orientations.map(stage.supportedOrientations);
