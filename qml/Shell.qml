@@ -133,10 +133,6 @@ StyledItem {
 
             panel.indicators.hide();
             launcher.hide(launcher.ignoreHideIfMouseOverLauncher);
-        } else if (topLevelSurfaceList.count === 0 && greeter && !greeter.active && !wizard.active) {
-            // Show the Launcher when there are no apps running
-            stage.closeSpread();
-            launcher.show();
         }
 
         // *Always* make sure the greeter knows that the focused app changed
@@ -149,6 +145,15 @@ StyledItem {
     // Note when greeter is waiting on PAM, so that we can disable edges until
     // we know which user data to show and whether the session is locked.
     readonly property bool waitingOnGreeter: greeter && greeter.waiting
+
+    // True when the user is logged in with no apps running
+    readonly property bool atDesktop: topLevelSurfaceList && greeter && topLevelSurfaceList.count === 0 && !greeter.active
+
+    onAtDesktopChanged: {
+        if (atDesktop && stage) {
+            stage.closeSpread();
+        }
+    }
 
     property real edgeSize: units.gu(settings.edgeDragWidth)
 
@@ -404,10 +409,6 @@ StyledItem {
                 if (greeterLoader.toggleDrawerAfterUnlock) {
                     launcher.toggleDrawer(false);
                     greeterLoader.toggleDrawerAfterUnlock = false;
-                }
-                // Show the launcher when there are no running apps
-                else if (topLevelSurfaceList.count < 1) {
-                    launcher.switchToNextState("visible");
                 } else {
                     launcher.hide();
                 }
@@ -524,9 +525,13 @@ StyledItem {
             mode: shell.usageScenario == "desktop" ? "windowed" : "staged"
             minimizedPanelHeight: units.gu(3)
             expandedPanelHeight: units.gu(7)
-            indicatorMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
-            applicationMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
+            indicatorMenuWidth: menuWidth
+            applicationMenuWidth: menuWidth
             applicationMenuContentX: launcher.lockedVisible ? launcher.panelWidth : 0
+
+            // Whether the menus should take up the full screen or not
+            readonly property bool partialWidth: parent.width > units.gu(60)
+            readonly property double menuWidth: partialWidth ? units.gu(40) : parent.width
 
             indicators {
                 hides: [launcher]
@@ -581,11 +586,15 @@ StyledItem {
             superPressed: physicalKeysMapper.superPressed
             superTabPressed: physicalKeysMapper.superTabPressed
             panelWidth: units.gu(settings.launcherWidth)
-            lockedVisible: shell.usageScenario == "desktop" && !settings.autohideLauncher && !panel.fullscreenMode
+            lockedVisible: ((shell.usageScenario == "desktop" && !settings.autohideLauncher) || shell.atDesktop) && !collidingWithPanel && !panel.fullscreenMode
             topPanelHeight: panel.panelHeight
             drawerEnabled: !greeter.active
             privateMode: greeter.active
             background: wallpaperResolver.cachedBackground
+
+            // It can be assumed that the Launcher and Panel would overlap if
+            // the Panel is open and taking up the full width of the shell
+            readonly property bool collidingWithPanel: panel && (!panel.fullyClosed && !panel.partialWidth)
 
             onShowDashHome: showHome()
             onLauncherApplicationSelected: {

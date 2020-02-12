@@ -33,6 +33,7 @@ import "Indicators"
 Item {
     id: root
     readonly property real panelHeight: panelArea.y + minimizedPanelHeight
+    readonly property bool fullyClosed: indicators.fullyClosed && applicationMenus.fullyClosed
 
     property real minimizedPanelHeight: units.gu(3)
     property real expandedPanelHeight: units.gu(7)
