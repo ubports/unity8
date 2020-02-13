@@ -1306,15 +1306,6 @@ Rectangle {
             compare(wallpaperResolver.background, AccountsService.backgroundFile);
         }
 
-        function test_cachedBackground() {
-            loadShell("desktop", 0);
-
-            var greeter = findChild(shell, "greeter");
-            verify(!greeter.hasCustomBackground);
-            compare(greeter.background.toString().indexOf("image://unity8imagecache/file:///"), 0);
-            verify(greeter.background.toString().indexOf("?name=wallpaper") > 0);
-        }
-
         function test_tapOnRightEdgeReachesApplicationSurface() {
             loadShell("phone");
             swipeAwayGreeter();

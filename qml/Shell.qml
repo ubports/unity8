@@ -27,7 +27,6 @@ import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import GlobalShortcut 1.0 // has to be before Utils, because of WindowInputFilter
 import GSettings 1.0
-import ImageCache 0.1
 import Utils 0.1
 import Powerd 0.1
 import SessionBroadcast 0.1
@@ -158,13 +157,6 @@ StyledItem {
 
         readonly property url defaultBackground: "file://" + Constants.defaultWallpaper
         readonly property bool hasCustomBackground: background != defaultBackground
-
-        // Use a cached version of the scaled-down wallpaper (as sometimes the
-        // image can be quite big compared to the device size, including for
-        // our default wallpaper). We use a name=wallpaper argument here to
-        // make sure we don't litter our cache with lots of scaled images. We
-        // only need to bother caching one at a time.
-        readonly property url cachedBackground: background.toString().indexOf("file:///") === 0 ? "image://unity8imagecache/" + background + "?name=wallpaper" : background
 
         GSettings {
             id: backgroundSettings
@@ -423,7 +415,7 @@ StyledItem {
             hides: [launcher, panel.indicators, panel.applicationMenus]
             tabletMode: shell.usageScenario != "phone"
             forcedUnlock: wizard.active || shell.mode === "full-shell"
-            background: wallpaperResolver.cachedBackground
+            background: wallpaperResolver.background
             hasCustomBackground: wallpaperResolver.hasCustomBackground
             allowFingerprint: !dialogs.hasActiveDialog &&
                               !notifications.topmostIsFullscreen &&
@@ -585,7 +577,7 @@ StyledItem {
             topPanelHeight: panel.panelHeight
             drawerEnabled: !greeter.active
             privateMode: greeter.active
-            background: wallpaperResolver.cachedBackground
+            background: wallpaperResolver.background
 
             onShowDashHome: showHome()
             onLauncherApplicationSelected: {
@@ -704,7 +696,7 @@ StyledItem {
             model: NotificationBackend.Model
             margin: units.gu(1)
             hasMouse: shell.hasMouse
-            background: wallpaperResolver.cachedBackground
+            background: wallpaperResolver.background
 
             y: topmostIsFullscreen ? 0 : panel.panelHeight
             height: parent.height - (topmostIsFullscreen ? 0 : panel.panelHeight)
