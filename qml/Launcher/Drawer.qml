@@ -151,11 +151,10 @@ FocusScope {
         color: "#111111"
         opacity: 0.99
 
-        Image {
+        Wallpaper {
             id: background
             anchors.fill: parent
             source: root.background
-            fillMode: Image.PreserveAspectCrop
         }
 
         FastBlur {
