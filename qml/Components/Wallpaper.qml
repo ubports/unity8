@@ -22,22 +22,9 @@ Item {
     id: root
     property url source
 
-    CrossFadeImage {
+    Image {
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
-
-        // Limit how much memory we reserve and avoid reloading when item size
-        // changes or is rotated by specifying sourceSize.
-        //
-        // FIXME: If the source image has a portrait aspect ratio, we should swap
-        // sourceSize.width and sourceSize.height to prevent blurriness from double
-        // scaling.  We could easily do that with a tiny image loader to check
-        // the aspect ratio first, but when we change sourceSize, we lose all
-        // the benefits of CrossFadeImage.  So we need to fix that component
-        // first to gracefully handle sourceSize changes (LP: #1599203).
-        readonly property int maxSize: Math.max(Screen.width, Screen.height)
-        sourceSize.width: 0
-        sourceSize.height: maxSize
 
         source: root.source
     }
