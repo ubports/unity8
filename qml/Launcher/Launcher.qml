@@ -108,7 +108,7 @@ FocusScope {
             panel.dismissTimer.stop();
             fadeOutAnimation.stop();
             switchToNextState("visible")
-        } else if (!lockedVisible && state == "visible") {
+        } else if (!lockedVisible && (state == "visible" || state == "drawer")) {
             hide();
         }
     }
