@@ -38,6 +38,11 @@ IndicatorDelegate {
 
     implicitWidth: mainItems.width
 
+    // Prevent ListView from removing us from the view while expanding.
+    // If we're the PanelBar's initial item, our removal will make it lose
+    // track of us and cause its positioning to go wrong.
+    ListView.delayRemove: stateTransition.running
+
     MouseArea {
         readonly property int stepUp: 1
         readonly property int stepDown: -1
@@ -226,6 +231,7 @@ IndicatorDelegate {
 
         transitions: [
             Transition {
+                id: stateTransition
                 PropertyAction { target: d; property: "useFallbackIcon" }
                 AnchorAnimation {
                     targets: [ mainItems, iconsItem, leftLabelItem, rightLabelItem ]
