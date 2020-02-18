@@ -3247,7 +3247,8 @@ Rectangle {
                 formFactor: "phone",
                 launcherLocked: false,
                 stateWithOpenIndicators: "",
-                stateWithOpenApps: ""
+                stateWithOpenApps: "",
+                inputMethodMargin: 0,
             },
             {
                 tag: "tablet",
@@ -3255,7 +3256,8 @@ Rectangle {
                 formFactor: "tablet",
                 launcherLocked: false,
                 stateWithOpenIndicators: "visible",
-                stateWithOpenApps: ""
+                stateWithOpenApps: "",
+                inputMethodMargin: 0,
             },
             {
                 tag: "desktop without auto-hide",
@@ -3263,7 +3265,8 @@ Rectangle {
                 shell: "desktop",
                 launcherLocked: true,
                 stateWithOpenIndicators: "visible",
-                stateWithOpenApps: "visible"
+                stateWithOpenApps: "visible",
+                inputMethodMargin: 64,
             },
             {
                 tag: "desktop with auto-hide",
@@ -3271,7 +3274,8 @@ Rectangle {
                 shell: "desktop",
                 launcherLocked: false,
                 stateWithOpenIndicators: "visible",
-                stateWithOpenApps: ""
+                stateWithOpenApps: "",
+                inputMethodMargin: 0,
             },
             {
                 tag: "desktop with auto-hide at small formFactor",
@@ -3279,7 +3283,8 @@ Rectangle {
                 shell: "desktop",
                 launcherLocked: false,
                 stateWithOpenIndicators: "",
-                stateWithOpenApps: ""
+                stateWithOpenApps: "",
+                inputMethodMargin: 0,
             },
             {
                 tag: "tablet with auto-hide at small formFactor",
@@ -3287,7 +3292,8 @@ Rectangle {
                 shell: "tablet",
                 launcherLocked: false,
                 stateWithOpenIndicators: "",
-                stateWithOpenApps: ""
+                stateWithOpenApps: "",
+                inputMethodMargin: 0,
             }]
         }
 
@@ -3295,11 +3301,17 @@ Rectangle {
             Ensure that the Launcher will not dismiss while there are no apps
             running, but gets dismissed when it would be intersected by
             indicators.
+
+            Additionally, ensure that the keyboard takes up the full width of
+            the Shell when the launcher is locked by Shell functions and has
+            a margin set to avoid the Launcher when the launcher is locked by
+            the user.
         */
         function test_launcherLockedWhenNoAppsRunning(data) {
             loadShell(data.shell, 0);
             shellLoader.state = data.formFactor;
             var launcher = findChild(shell, "launcher");
+            var inputMethod = findChild(shell, "inputMethod");
             GSettingsController.setAutohideLauncher(!data.launcherLocked);
             swipeAwayGreeter();
 
@@ -3326,6 +3338,7 @@ Rectangle {
             // The Launcher should return when all apps are closed
             killApps();
             tryCompare(launcher, "state", "visible");
+            tryCompare(inputMethod.anchors, "leftMargin", data.inputMethodMargin);
         }
     }
 }
