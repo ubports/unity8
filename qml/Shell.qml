@@ -375,7 +375,7 @@ StyledItem {
         anchors {
             fill: parent
             topMargin: panel.panelHeight
-            leftMargin: launcher.lockedVisible ? launcher.panelWidth : 0
+            leftMargin: (launcher.lockedByUser && launcher.lockAllowed) ? launcher.panelWidth : 0
         }
         z: notifications.useModal || panel.indicators.shown || wizard.active || tutorial.running || launcher.drawerShown ? overlay.z + 1 : overlay.z - 1
     }
@@ -578,7 +578,7 @@ StyledItem {
             superPressed: physicalKeysMapper.superPressed
             superTabPressed: physicalKeysMapper.superTabPressed
             panelWidth: units.gu(settings.launcherWidth)
-            lockedVisible: ((shell.usageScenario == "desktop" && !settings.autohideLauncher) || shell.atDesktop) && !collidingWithPanel && !panel.fullscreenMode
+            lockedVisible: (lockedByUser || shell.atDesktop) && lockAllowed
             topPanelHeight: panel.panelHeight
             drawerEnabled: !greeter.active
             privateMode: greeter.active
@@ -587,6 +587,13 @@ StyledItem {
             // It can be assumed that the Launcher and Panel would overlap if
             // the Panel is open and taking up the full width of the shell
             readonly property bool collidingWithPanel: panel && (!panel.fullyClosed && !panel.partialWidth)
+
+            // The "autohideLauncher" setting is only valid in desktop mode
+            readonly property bool lockedByUser: (shell.usageScenario == "desktop" && !settings.autohideLauncher)
+
+            // The Launcher should absolutely not be locked visible under some
+            // conditions
+            readonly property bool lockAllowed: !collidingWithPanel && !panel.fullscreenMode && !wizard.active
 
             onShowDashHome: showHome()
             onLauncherApplicationSelected: {
