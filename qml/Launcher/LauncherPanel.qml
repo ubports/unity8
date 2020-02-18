@@ -31,13 +31,13 @@ Rectangle {
     property var model
     property bool inverted: false
     property bool privateMode: false
-    property bool dragging: false
     property bool moving: launcherListView.moving || launcherListView.flicking
     property bool preventHiding: moving || dndArea.draggedIndex >= 0 || quickList.state === "open" || dndArea.pressed
                                  || dndArea.containsMouse || dashItem.hovered
     property int highlightIndex: -2
     property bool shortcutHintsShown: false
     readonly property bool quickListOpen: quickList.state === "open"
+    readonly property bool dragging: launcherListView.dragging || dndArea.dragging
 
     signal applicationSelected(string appId)
     signal showDashHome()
