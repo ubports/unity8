@@ -36,6 +36,7 @@ Item {
     property bool delayed // don't show new tutorials
     property int lastInputTimestamp
 
+    readonly property bool demonstrateLauncher: loader.item ? loader.item.demonstrateLauncher : false
     readonly property bool launcherEnabled: loader.item ? loader.item.launcherEnabled : true
     readonly property bool launcherLongSwipeEnabled: loader.item ? loader.item.launcherLongSwipeEnabled : true
     readonly property bool spreadEnabled: loader.item ? loader.item.spreadEnabled : true
