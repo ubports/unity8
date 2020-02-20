@@ -588,12 +588,12 @@ StyledItem {
             // the Panel is open and taking up the full width of the shell
             readonly property bool collidingWithPanel: panel && (!panel.fullyClosed && !panel.partialWidth)
 
-            // The "autohideLauncher" setting is only valid in desktop mode
+            // The "autohideLauncher" setting for desktop mode
             readonly property bool lockedByUser: (shell.usageScenario == "desktop" && !settings.autohideLauncher)
 
             // The Launcher should absolutely not be locked visible under some
-            // conditions
-            readonly property bool lockAllowed: !collidingWithPanel && !panel.fullscreenMode && !wizard.active
+            // conditions, allow user setting "autohideLauncher" to override lock
+            readonly property bool lockAllowed: !collidingWithPanel && !panel.fullscreenMode && !wizard.active && !settings.autohideLauncher
 
             onShowDashHome: showHome()
             onLauncherApplicationSelected: {
