@@ -30,11 +30,14 @@ Item {
     property bool delayed: true // same
     property var lastInputTimestamp
 
+    readonly property bool demonstrateLauncher: !tutorialLeftLoader.skipped
     readonly property bool launcherEnabled: !running
                                             || tutorialLeftLoader.shown
                                             || tutorialLeftLongLoader.shown
     readonly property bool launcherLongSwipeEnabled: tutorialLeftLongLoader.shown
                                                      || tutorialLeftLongLoader.skipped
+                                                     || paused
+                                                     || delayed
     readonly property bool spreadEnabled: !running || tutorialRightLoader.shown
     readonly property bool panelEnabled: !running || tutorialTopLoader.shown
     readonly property bool running: tutorialLeftLoader.shown
@@ -68,39 +71,6 @@ Item {
     }
 
     Loader {
-        id: tutorialLeftLoader
-        objectName: "tutorialLeftLoader"
-        anchors.fill: parent
-
-        readonly property bool skipped: !d.mobileScenario || d.haveShown("left")
-        readonly property bool shown: item && item.shown
-        active: !skipped || (item && item.visible)
-        onSkippedChanged: if (skipped && shown) item.hide()
-
-        sourceComponent: TutorialLeft {
-            id: tutorialLeft
-            objectName: "tutorialLeft"
-            anchors.fill: parent
-            launcher: root.launcher
-            hides: [launcher, panel.indicators]
-            paused: root.paused
-
-            isReady: !tutorialLeftLoader.skipped && !paused && !delayed
-
-            InactivityTimer {
-                id: tutorialLeftTimer
-                objectName: "tutorialLeftTimer"
-                interval: 20000
-                lastInputTimestamp: root.lastInputTimestamp
-                page: parent
-            }
-
-            onIsReadyChanged: if (isReady && !shown) tutorialLeftTimer.start()
-            onFinished: AccountsService.markDemoEdgeCompleted("left")
-        }
-    }
-
-    Loader {
         id: tutorialTopLoader
         objectName: "tutorialTopLoader"
         anchors.fill: parent
@@ -119,18 +89,55 @@ Item {
             paused: root.paused
 
             skipped: tutorialTopLoader.skipped
-            isReady: tutorialLeftLoader.skipped && !skipped && !paused && !delayed
+            isReady: !skipped && !paused && !delayed
 
             InactivityTimer {
                 id: tutorialTopTimer
                 objectName: "tutorialTopTimer"
-                interval: 60000
+                interval: 1000
                 lastInputTimestamp: root.lastInputTimestamp
                 page: parent
             }
 
             onIsReadyChanged: if (isReady && !shown) tutorialTopTimer.start()
             onFinished: AccountsService.markDemoEdgeCompleted("top")
+        }
+    }
+
+    Loader {
+        id: tutorialLeftLoader
+        objectName: "tutorialLeftLoader"
+        anchors.fill: parent
+
+        readonly property bool skipped: !d.mobileScenario || d.haveShown("left")
+        readonly property bool shown: item && item.shown
+        active: !skipped || (item && item.visible)
+        onSkippedChanged: if (skipped && shown) item.hide()
+
+        sourceComponent: TutorialLeft {
+            id: tutorialLeft
+            objectName: "tutorialLeft"
+            anchors.fill: parent
+            launcher: root.launcher
+            hides: [launcher, panel.indicators]
+            paused: root.paused
+
+            isReady: !tutorialLeftLoader.skipped && tutorialTopLoader.skipped && !paused && !delayed
+
+            InactivityTimer {
+                id: tutorialLeftTimer
+                objectName: "tutorialLeftTimer"
+                interval: 1000
+                lastInputTimestamp: root.lastInputTimestamp
+                page: parent
+            }
+
+            onIsReadyChanged: {
+                if (isReady && !shown) {
+                    tutorialLeftTimer.start();
+                }
+            }
+            onFinished: AccountsService.markDemoEdgeCompleted("left")
         }
     }
 
@@ -153,12 +160,12 @@ Item {
             paused: root.paused
 
             skipped: tutorialLeftLongLoader.skipped
-            isReady: tutorialTopLoader.skipped && !skipped && !paused && !delayed
+            isReady: tutorialLeftLoader.skipped && !skipped && !paused && !delayed
 
             InactivityTimer {
                 id: tutorialLeftLongTimer
                 objectName: "tutorialLeftLongTimer"
-                interval: 5000
+                interval: 1000
                 lastInputTimestamp: root.lastInputTimestamp
                 page: parent
             }
@@ -188,13 +195,13 @@ Item {
             paused: root.paused
 
             skipped: tutorialRightLoader.skipped
-            isReady: tutorialTopLoader.skipped && !skipped && !paused && !delayed &&
-                     ApplicationManager.count >= 3
+            isReady: tutorialLeftLongLoader.skipped && !skipped && !paused && !delayed &&
+                     ApplicationManager.count >= 1
 
             InactivityTimer {
                 id: tutorialRightTimer
                 objectName: "tutorialRightTimer"
-                interval: 10000
+                interval: 1000
                 lastInputTimestamp: root.lastInputTimestamp
                 page: parent
             }
