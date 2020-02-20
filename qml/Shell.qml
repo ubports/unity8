@@ -580,7 +580,7 @@ StyledItem {
             panelWidth: units.gu(settings.launcherWidth)
             lockedVisible: (lockedByUser || shell.atDesktop) && lockAllowed
             topPanelHeight: panel.panelHeight
-            drawerEnabled: !greeter.active
+            drawerEnabled: !greeter.active && tutorial.launcherLongSwipeEnabled
             privateMode: greeter.active
             background: wallpaperResolver.background
 
@@ -593,7 +593,7 @@ StyledItem {
 
             // The Launcher should absolutely not be locked visible under some
             // conditions
-            readonly property bool lockAllowed: !collidingWithPanel && !panel.fullscreenMode && !wizard.active
+            readonly property bool lockAllowed: !collidingWithPanel && !panel.fullscreenMode && !wizard.active && !tutorial.demonstrateLauncher
 
             onShowDashHome: showHome()
             onLauncherApplicationSelected: {
