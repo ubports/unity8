@@ -127,11 +127,11 @@ QtObject {
             return
         }
 
-	// if charging state is not to be shown set led off
+        // if charging state is not to be shown set led off
         if(!_unity8Settings.chargingStateVisible) {
             indicatorState = "INDICATOR_OFF"
             return
-	}
+        }
 
         var isCharging = batteryIconName.indexOf("charging") >= 0
                          || deviceState == "charging"
