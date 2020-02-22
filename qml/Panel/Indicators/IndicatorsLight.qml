@@ -24,6 +24,7 @@ import Lights 0.1
 import QMenuModel 0.1 as QMenuModel
 import Unity.Indicators 0.1 as Indicators
 import Wizard 0.1
+import GSettings 1.0
 
 import "../../.."
 
@@ -45,8 +46,13 @@ QtObject {
     property string batteryIconName: Status.batteryIcon
     property string displayStatus: Powerd.status
 
+
     onSupportsMultiColorLedChanged: {
         updateLightState("onSupportsMultiColorLedChanged")
+    }
+
+    property var _unity8Settings: GSettings {
+        schema.id: "com.canonical.Unity8.LedIndication"
     }
 
     onDisplayStatusChanged: {
@@ -65,8 +71,11 @@ QtObject {
             + ", icon: " + batteryIconName
             + ", displayStatus: " + displayStatus
             + ", deviceState: " + deviceState
-            + ", batteryLevel: " + batteryLevel)
+            + ", batteryLevel: " + batteryLevel
+            + ", chargingStateVisible: " + _unity8Settings.chargingStateVisible)
 
+        //
+        // If charging state visibility is disabled then only show messages.
         //
         // priorities:
         //   unread messsages (highest), full&charging, charging, low
@@ -114,10 +123,15 @@ QtObject {
 
         // if device does not support a multi color led set led off
         if(!supportsMultiColorLed) {
-console.log("no support for Multicolor LED. " + indicatorState)
             indicatorState = "INDICATOR_OFF"
             return
         }
+
+	// if charging state is not to be shown set led off
+        if(!_unity8Settings.chargingStateVisible) {
+            indicatorState = "INDICATOR_OFF"
+            return
+	}
 
         var isCharging = batteryIconName.indexOf("charging") >= 0
                          || deviceState == "charging"
