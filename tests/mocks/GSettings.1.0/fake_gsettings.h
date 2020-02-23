@@ -105,6 +105,10 @@ Q_SIGNALS:
     void appstoreUriChanged();
     void chargingStateVisibleChanged();
 
+    // This signal is not implemented but it's declaration is required
+    // for qml elements using the GSettings onChanged event.
+    void changed(const QString &key, const QVariant &value);
+
 private:
     GSettingsSchemaQml* m_schema;
     bool m_valid;
