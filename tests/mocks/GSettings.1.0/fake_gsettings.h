@@ -59,6 +59,7 @@ class GSettingsQml: public QObject, public QQmlParserStatus
     Q_PROPERTY(QVariant edgeDragWidth READ edgeDragWidth WRITE setEdgeDragWidth NOTIFY edgeDragWidthChanged)
     Q_PROPERTY(QVariant enableIndicatorMenu READ enableIndicatorMenu WRITE setEnableIndicatorMenu NOTIFY enableIndicatorMenuChanged)
     Q_PROPERTY(QVariant appstoreUri READ appstoreUri NOTIFY appstoreUriChanged)
+    Q_PROPERTY(QVariant chargingStateVisible READ chargingStateVisible NOTIFY chargingStateVisibleChanged)
 
 public:
     GSettingsQml(QObject *parent = nullptr);
@@ -77,6 +78,7 @@ public:
     QVariant edgeDragWidth() const;
     QVariant enableIndicatorMenu() const;
     QVariant appstoreUri() const;
+    QVariant chargingStateVisible() const;
 
     void setDisableHeight(const QVariant &val);
     void setPictureUri(const QVariant &str);
@@ -87,6 +89,7 @@ public:
     void setLauncherWidth(const QVariant &launcherWidth);
     void setEdgeDragWidth(const QVariant &edgeDragWidth);
     void setEnableIndicatorMenu(const QVariant &enableIndicatorMenu);
+    void setChargingStateVisible(const QVariant &chargingStateVisible);
 
 Q_SIGNALS:
     void disableHeightChanged();
@@ -100,6 +103,7 @@ Q_SIGNALS:
     void edgeDragWidthChanged();
     void enableIndicatorMenuChanged();
     void appstoreUriChanged();
+    void chargingStateVisibleChanged();
 
 private:
     GSettingsSchemaQml* m_schema;
@@ -145,6 +149,9 @@ public:
 
     QString appstoreUri() const;
 
+    bool chargingStateVisible() const;
+    Q_INVOKABLE void setChargingStateVisible(bool chargingStateVisible);
+
 Q_SIGNALS:
     void disableHeightChanged();
     void pictureUriChanged(const QString&);
@@ -156,6 +163,7 @@ Q_SIGNALS:
     void edgeDragWidthChanged(uint edgeDragWidth);
     void enableIndicatorMenuChanged(bool enableIndicatorMenu);
     void appstoreUriChanged(const QString &appstoreUri);
+    void chargingStateVisibleChanged(bool chargingStateVisible);
 
 private:
     GSettingsControllerQml();
@@ -170,6 +178,7 @@ private:
     uint m_edgeDragWidth;
     bool m_enableIndicatorMenu;
     QString m_appstoreUri;
+    bool m_chargingStateVisible;
 
     static GSettingsControllerQml* s_controllerInstance;
     QList<GSettingsQml *> m_registeredGSettings;
