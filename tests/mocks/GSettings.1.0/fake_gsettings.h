@@ -59,7 +59,7 @@ class GSettingsQml: public QObject, public QQmlParserStatus
     Q_PROPERTY(QVariant edgeDragWidth READ edgeDragWidth WRITE setEdgeDragWidth NOTIFY edgeDragWidthChanged)
     Q_PROPERTY(QVariant enableIndicatorMenu READ enableIndicatorMenu WRITE setEnableIndicatorMenu NOTIFY enableIndicatorMenuChanged)
     Q_PROPERTY(QVariant appstoreUri READ appstoreUri NOTIFY appstoreUriChanged)
-    Q_PROPERTY(QVariant chargingStateVisible READ chargingStateVisible NOTIFY chargingStateVisibleChanged)
+    Q_PROPERTY(QVariant chargingStateVisible READ chargingStateVisible WRITE setChargingStateVisible NOTIFY chargingStateVisibleChanged)
 
 public:
     GSettingsQml(QObject *parent = nullptr);

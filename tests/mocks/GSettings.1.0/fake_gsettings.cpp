@@ -421,3 +421,10 @@ QVariant GSettingsQml::chargingStateVisible() const
         return QVariant();
     }
 }
+
+void GSettingsQml::setChargingStateVisible(const QVariant &chargingStateVisible)
+{
+    if (m_valid && m_schema->id() == "com.canonical.Unity8.LedIndication") {
+        GSettingsControllerQml::instance()->setChargingStateVisible(chargingStateVisible.toBool());
+    }
+}
