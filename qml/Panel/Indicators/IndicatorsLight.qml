@@ -53,6 +53,9 @@ QtObject {
 
     property var _unity8Settings: GSettings {
         schema.id: "com.canonical.Unity8.LedIndication"
+        onChanged: {
+            root.updateLightState("onChanged (settings)")
+        }
     }
 
     onDisplayStatusChanged: {
