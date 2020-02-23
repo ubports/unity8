@@ -112,7 +112,11 @@ Item {
         readonly property bool skipped: !d.mobileScenario || d.haveShown("left")
         readonly property bool shown: item && item.shown
         active: !skipped || (item && item.visible)
-        onSkippedChanged: if (skipped && shown) item.hide()
+        onSkippedChanged: {
+            console.log("SKIPPED HAS CHANGED TO " + skipped);
+            console.trace();
+            if (skipped && shown) item.hide()
+        }
 
         sourceComponent: TutorialLeft {
             id: tutorialLeft
@@ -122,7 +126,10 @@ Item {
             hides: [launcher, panel.indicators]
             paused: root.paused
 
-            isReady: !tutorialLeftLoader.skipped && tutorialTopLoader.skipped && !paused && !delayed
+            isReady: !tutorialLeftLoader.skipped
+                     && tutorialTopLoader.skipped
+                     && !paused
+                     && !delayed
 
             InactivityTimer {
                 id: tutorialLeftTimer
@@ -160,7 +167,11 @@ Item {
             paused: root.paused
 
             skipped: tutorialLeftLongLoader.skipped
-            isReady: tutorialLeftLoader.skipped && !skipped && !paused && !delayed
+            isReady: tutorialLeftLoader.skipped
+                     && tutorialTopLoader.skipped
+                     && !skipped
+                     && !paused
+                     && !delayed
 
             InactivityTimer {
                 id: tutorialLeftLongTimer
@@ -195,8 +206,13 @@ Item {
             paused: root.paused
 
             skipped: tutorialRightLoader.skipped
-            isReady: tutorialLeftLongLoader.skipped && !skipped && !paused && !delayed &&
-                     ApplicationManager.count >= 1
+            isReady: tutorialTopLoader.skipped
+                     && tutorialLeftLoader.skipped
+                     && tutorialLeftLongLoader.skipped
+                     && !skipped
+                     && !paused
+                     && !delayed
+                     && ApplicationManager.count >= 1
 
             InactivityTimer {
                 id: tutorialRightTimer
