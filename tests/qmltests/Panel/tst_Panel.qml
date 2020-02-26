@@ -1,5 +1,6 @@
 /*
  * Copyright 2013-2015 Canonical Ltd.
+ * Copyright 2020 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,213 +31,9 @@ import "../../../qml/Components/PanelState"
 import "../Stage"
 import ".."
 
-PanelTest {
+PanelUI {
     id: root
     width: units.gu(120)
-    height: units.gu(71)
-    color: "black"
-
-    Binding {
-        target: QuickUtils
-        property: "keyboardAttached"
-        value: keyboardAttached.checked
-    }
-
-    SurfaceManager { id: sMgr }
-    ApplicationMenuDataLoader {
-        id: appMenuData
-        surfaceManager: sMgr
-    }
-
-    Component.onCompleted: {
-        theme.name = "Ubuntu.Components.Themes.SuruDark"
-    }
-
-    Rectangle {
-        anchors.fill: parent
-        color: "darkgrey"
-    }
-
-    SignalSpy {
-        id: aboutToShowCalledSpy
-        signalName: "aboutToShowCalled"
-    }
-
-    RowLayout {
-        anchors.fill: parent
-        anchors.margins: units.gu(1)
-        clip: true
-
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
-            id: itemArea
-            color: backgroundMouseArea.pressed ? "red" : "blue"
-
-            MouseArea {
-                id: backgroundMouseArea
-                anchors.fill: parent
-                hoverEnabled: true
-
-                Panel {
-                    id: panel
-                    anchors.fill: parent
-                    mode: modeSelector.model[modeSelector.selectedIndex]
-
-                    indicatorMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
-                    applicationMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
-
-                    applicationMenus {
-                        model: UnityMenuModel {
-                            modelData: appMenuData.generateTestData(5, 4, 2, 3, "menu")
-                        }
-
-                        hides: [ panel.indicators ]
-                    }
-
-                    indicators {
-                        model: root.indicatorsModel
-                        hides: [ panel.applicationMenus ]
-                    }
-                }
-            }
-        }
-
-        ColumnLayout {
-            Layout.alignment: Qt.AlignTop
-            Layout.fillWidth: false
-
-            ListItem.ItemSelector {
-                id: modeSelector
-                anchors { left: parent.left; right: parent.right }
-                activeFocusOnPress: false
-                text: "Mode"
-                model: ["staged", "windowed" ]
-                onSelectedIndexChanged: {
-                    panel.mode = model[selectedIndex];
-                    keyboardAttached.checked = panel.mode == "windowed"
-                }
-            }
-
-            Button {
-                Layout.fillWidth: true
-                text: panel.indicators.shown ? "Hide" : "Show"
-                onClicked: {
-                    if (panel.indicators.shown) {
-                        panel.indicators.hide();
-                    } else {
-                        panel.indicators.show();
-                    }
-                }
-            }
-
-            Button {
-                text: panel.fullscreenMode ? "Maximize" : "FullScreen"
-                Layout.fillWidth: true
-                onClicked: panel.fullscreenMode = !panel.fullscreenMode
-            }
-
-            Button {
-                Layout.fillWidth: true
-                text: callManager.hasCalls ? "Called" : "No Calls"
-                onClicked: {
-                    if (callManager.foregroundCall) {
-                        callManager.foregroundCall = null;
-                    } else {
-                        callManager.foregroundCall = phoneCall;
-                    }
-                }
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-                CheckBox {
-                    id: windowControlsCB
-                    onClicked: PanelState.decorationsVisible = checked
-                }
-                Label {
-                    text: "Show window decorations"
-                    color: "white"
-                }
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-                CheckBox {
-                    onClicked: PanelState.title = checked ? "Fake window title" : ""
-                }
-                Label {
-                    text: "Show fake window title"
-                    color: "white"
-                }
-            }
-
-            Rectangle {
-                Layout.preferredHeight: units.dp(1);
-                Layout.fillWidth: true;
-                color: "black"
-            }
-
-            Rectangle {
-                Layout.preferredHeight: units.dp(1);
-                Layout.fillWidth: true;
-                color: "black"
-            }
-
-            Repeater {
-                model: root.originalModelData
-                RowLayout {
-                    CheckBox {
-                        checked: true
-                        onCheckedChanged: checked ? insertIndicator(index) : removeIndicator(index);
-                    }
-                    Label {
-                        Layout.fillWidth: true
-                        text: modelData["identifier"]
-                        color: "white"
-                    }
-
-                    CheckBox {
-                        checked: true
-                        onCheckedChanged: setIndicatorVisible(index, checked);
-                    }
-                    Label {
-                        text: "visible"
-                        color: "white"
-                    }
-                }
-            }
-
-            Rectangle {
-                Layout.preferredHeight: units.dp(1);
-                Layout.fillWidth: true;
-                color: "black"
-            }
-
-            MouseTouchEmulationCheckbox {
-                id: mouseEmulation
-                color: "white"
-                checked: panel.mode == "staged"
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-                CheckBox {
-                    id: keyboardAttached
-                }
-                Label {
-                    text: "Keyboard Attached"
-                    color: "white"
-                }
-            }
-        }
-    }
-
-    Telephony.CallEntry {
-        id: phoneCall
-        phoneNumber: "+447812221111"
-    }
 
     UnityTestCase {
         name: "Panel"
@@ -255,12 +52,18 @@ PanelTest {
         }
 
         function init() {
+            var messagingMenu = findChild(panel, "fake-indicator-messages-panelItem");
+            // Make all indicators visible again
+            for (var i = 0; i < originalModelData.length; i++) {
+                root.setIndicatorVisible(i, false);
+                root.setIndicatorVisible(i, true);
+            }
             panel.mode = "staged";
             mouseEmulation.checked = true;
             panel.fullscreenMode = false;
             callManager.foregroundCall = null;
 
-            PanelState.title = "";
+            PanelState.title = "Fake Window Title"
             PanelState.decorationsVisible = false;
 
             // Put the mouse somewhere neutral so it doesn't hover over things
@@ -278,6 +81,8 @@ PanelTest {
             compare(windowControlButtonsSpy.valid, true);
 
             waitForRendering(panel);
+            // Wait for indicators to fade in all the way using a sample
+            tryCompare(messagingMenu, "opacity", 1);
         }
 
         function cleanup() {
@@ -353,8 +158,6 @@ PanelTest {
         // expose more of the panel, binding it to the selected indicator and opening it's menu.
         // Tested from first Y pixel to check for swipe from offscreen.
         function test_drag_indicator_item_down_shows_menu(data) {
-            skip("Unstable test; panel expansion refactor may be required");
-
             panel.fullscreenMode = data.fullscreen;
             callManager.foregroundCall = data.call;
 
@@ -376,12 +179,18 @@ PanelTest {
 
                 var indicatorItem = get_indicator_item(i);
 
+                if (indicatorItem.hidden) {
+                    // Getting to this item would require swiping left after
+                    // pulling down
+                    continue;
+                }
+
                 var startXPosition = panel.mapFromItem(indicatorItem, indicatorItem.width / 2, 0).x;
 
                 touchFlick(panel,
                            startXPosition, 0,
                            startXPosition, panel.height,
-                           true /* beginTouch */, false /* endTouch */, 1, 15);
+                           true /* beginTouch */, false /* endTouch */);
 
                 // Indicators height should follow the drag, and therefore increase accordingly.
                 // They should be at least half-way through the screen
@@ -435,7 +244,7 @@ PanelTest {
             touchFlick(data.section,
                        data.section.width / 2, panel.height,
                        data.section.width / 2, 0,
-                       true /* beginTouch */, false /* endTouch */, units.gu(5), 15);
+                       true /* beginTouch */, false /* endTouch */);
 
             // Indicators height should follow the drag, and therefore increase accordingly.
             // They should be at least half-way through the screen
@@ -462,7 +271,6 @@ PanelTest {
         }
 
         function test_hint(data) {
-            PanelState.title = "Fake Title"
             panel.fullscreenMode = data.fullscreen;
             callManager.foregroundCall = data.call;
 
@@ -504,7 +312,6 @@ PanelTest {
         // menus, first by running the hint animation, then after dragging down will
         // expose more of the panel. Releasing the touch will complete the show.
         function test_drag_applicationMenu_down_shows_menu(data) {
-            PanelState.title = "Fake Title";
             panel.fullscreenMode = data.fullscreen;
             callManager.foregroundCall = data.call;
 
@@ -524,7 +331,7 @@ PanelTest {
             touchFlick(panel,
                        units.gu(1), 0,
                        units.gu(1), panel.height,
-                       true /* beginTouch */, false /* endTouch */, units.gu(5), 15);
+                       true /* beginTouch */, false /* endTouch */);
 
             // Indicators height should follow the drag, and therefore increase accordingly.
             // They should be at least half-way through the screen
@@ -596,7 +403,6 @@ PanelTest {
         }
 
         function test_darkenedAreaEatsAllApplicationMenuEvents() {
-            PanelState.title = "Fake Title"
 
             // The center of the area not covered by the indicators menu
             // Ie, the visible darkened area behind the menu
@@ -780,7 +586,6 @@ PanelTest {
         }
 
         function test_windowedApplicationMenuBarShowOnMouseHover() {
-            PanelState.title = "Fake Title";
             panel.mode = "windowed";
             mouseEmulation.checked = false;
 
@@ -844,7 +649,6 @@ PanelTest {
 
             var indicatorsBar = findChild(panel.applicationMenus, "indicatorsBar");
 
-            PanelState.title = "Fake Title";
             waitForRendering(panel);
             pullDownApplicationsMenu(0 /*xPos*/);
             compare(aboutToShowCalledSpy.count, 1);
@@ -878,7 +682,6 @@ PanelTest {
 
             var indicatorsBar = findChild(panel.applicationMenus, "indicatorsBar");
 
-            PanelState.title = "Fake Title"
             pullDownApplicationsMenu(0 /*xPos*/);
 
             tryCompare(indicatorsBar, "currentItemIndex", 0);
