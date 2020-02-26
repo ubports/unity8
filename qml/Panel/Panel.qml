@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2013-2017 Canonical, Ltd.
+ * Copyright (C) 2020 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,8 +38,7 @@ Item {
 
     property real minimizedPanelHeight: units.gu(3)
     property real expandedPanelHeight: units.gu(7)
-    property real indicatorMenuWidth: width
-    property real applicationMenuWidth: width
+    property real menuWidth: partialWidth ? units.gu(40) : width
     property alias applicationMenuContentX: __applicationMenus.menuContentX
 
     property alias applicationMenus: __applicationMenus
@@ -47,6 +47,9 @@ Item {
     property real panelAreaShowProgress: 1.0
     property bool greeterShown: false
     property bool hasKeyboard: false
+
+    // Whether our expanded menus should take up the full width of the panel
+    property bool partialWidth: width > units.gu(60)
 
     property string mode: "staged"
 
@@ -260,14 +263,14 @@ Item {
 
             x: menuContentX
             model: registeredMenuModel.model
-            width: root.applicationMenuWidth
+            width: root.menuWidth
+            overFlowWidth: width
             minimizedPanelHeight: root.minimizedPanelHeight
             expandedPanelHeight: root.expandedPanelHeight
             openedHeight: root.height
             alignment: Qt.AlignLeft
             enableHint: !callHint.active && !fullscreenMode
             showOnClick: false
-            adjustDragHandleSizeToContents: false
             panelColor: panelAreaBackground.color
 
             onShowTapped: {
@@ -325,9 +328,8 @@ Item {
             }
         }
 
-        Label {
-            id: rowLabel
-            objectName: "panelTitle"
+        Item {
+            id: panelTitleHolder
             anchors {
                 left: parent.left
                 leftMargin: units.gu(1)
@@ -335,16 +337,44 @@ Item {
                 rightMargin: units.gu(1)
             }
             height: root.minimizedPanelHeight
-            verticalAlignment: Text.AlignVCenter
-            elide: Text.ElideRight
-            maximumLineCount: 1
-            fontSize: "medium"
-            font.weight: Font.Medium
-            color: theme.palette.selected.backgroundText
-            opacity: __applicationMenus.visible && !__applicationMenus.expanded ? 1 : 0
-            visible: opacity != 0
-            Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
-            text: PanelState.title
+
+            Label {
+                id: rowLabel
+                anchors {
+                    left: parent.left
+                }
+                objectName: "panelTitle"
+                width: root.width - __indicators.maxDragHandleSize - touchMenuIcon.width
+                height: root.minimizedPanelHeight
+                verticalAlignment: Text.AlignVCenter
+                elide: Text.ElideRight
+                maximumLineCount: 1
+                fontSize: "medium"
+                font.weight: Font.Medium
+                color: theme.palette.selected.backgroundText
+                text: (root.partialWidth && !callHint.visible) ? PanelState.title : ""
+                opacity: __applicationMenus.visible && !__applicationMenus.expanded
+                Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+                visible: opacity !== 0
+                readonly property var implicitWidthWithMargin: implicitWidth === 0 ? 0 : implicitWidth + units.gu(1)
+            }
+
+            Icon {
+                id: touchMenuIcon
+                objectName: "touchMenuIcon"
+                anchors {
+                    right: parent.right
+                    rightMargin: parent.width - rowLabel.implicitWidthWithMargin - width
+                    verticalCenter: parent.verticalCenter
+                }
+                width: units.gu(2)
+                height: units.gu(2)
+                name: "down"
+                color: theme.palette.normal.backgroundText
+                opacity: !__applicationMenus.expanded && d.enableTouchMenus && !callHint.visible
+                Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+                visible: opacity !== 0
+            }
         }
 
         PanelMenu {
@@ -355,15 +385,20 @@ Item {
                 top: parent.top
                 right: parent.right
             }
-            width: root.indicatorMenuWidth
+            width: root.menuWidth
             minimizedPanelHeight: root.minimizedPanelHeight
             expandedPanelHeight: root.expandedPanelHeight
             openedHeight: root.height
 
-            overFlowWidth: root.width
+            overFlowWidth: width - appMenuClear
             enableHint: !callHint.active && !fullscreenMode
             showOnClick: !callHint.visible
             panelColor: panelAreaBackground.color
+
+            // On small screens, the Indicators' handle area is the entire top
+            // bar unless there is an application menu. In that case, our handle
+            // needs to allow for some room to clear the application menu.
+            property var appMenuClear: (d.enableTouchMenus && !partialWidth) ? units.gu(7) : 0
 
             onShowTapped: {
                 if (callHint.active) {

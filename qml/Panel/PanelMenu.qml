@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2014-2016 Canonical, Ltd.
+ * Copyright (C) 2020 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +33,6 @@ Showable {
     property real openedHeight: units.gu(71)
     property bool enableHint: true
     property bool showOnClick: true
-    property bool adjustDragHandleSizeToContents: true
     property color panelColor: theme.palette.normal.background
     property real menuContentX: 0
 
@@ -46,7 +46,7 @@ Showable {
     readonly property bool partiallyOpened: unitProgress > 0 && unitProgress < 1.0
     readonly property bool fullyClosed: unitProgress == 0
     readonly property alias expanded: bar.expanded
-    readonly property int barWidth: adjustDragHandleSizeToContents ? Math.min(bar.width, bar.implicitWidth) : bar.width
+    readonly property int barWidth: bar.width
     readonly property alias currentMenuIndex: bar.currentItemIndex
 
     // The user tapped the panel and did not move.
@@ -213,9 +213,8 @@ Showable {
 
     MouseArea {
         anchors.bottom: parent.bottom
-        anchors.left: alignment == Qt.AlignLeft ? parent.left : undefined
-        anchors.right: alignment == Qt.AlignRight ? parent.right : undefined
-        width: root.barWidth // show handle should only cover panel items.
+        anchors.left: alignment == Qt.AlignLeft ? parent.left : __showDragHandle.left
+        anchors.right: alignment == Qt.AlignRight ? parent.right : __showDragHandle.right
         height: minimizedPanelHeight
         enabled: __showDragHandle.enabled && showOnClick
         onClicked: {
@@ -232,7 +231,7 @@ Showable {
         anchors.left: alignment == Qt.AlignLeft ? parent.left : undefined
         anchors.leftMargin: -root.menuContentX
         anchors.right: alignment == Qt.AlignRight ? parent.right : undefined
-        width: root.barWidth + root.menuContentX // show handle should only cover panel items.
+        width: root.overFlowWidth + root.menuContentX
         height: minimizedPanelHeight
         direction: Direction.Downwards
         enabled: !root.shown && root.available && !hideAnimation.running && !showAnimation.running

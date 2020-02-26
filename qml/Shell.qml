@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (C) 2013-2016 Canonical, Ltd.
- * Copyright (C) 2019 UBports Foundation
+ * Copyright (C) 2019-2020 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -517,13 +517,7 @@ StyledItem {
             mode: shell.usageScenario == "desktop" ? "windowed" : "staged"
             minimizedPanelHeight: units.gu(3)
             expandedPanelHeight: units.gu(7)
-            indicatorMenuWidth: menuWidth
-            applicationMenuWidth: menuWidth
             applicationMenuContentX: launcher.lockedVisible ? launcher.panelWidth : 0
-
-            // Whether the menus should take up the full screen or not
-            readonly property bool partialWidth: parent.width > units.gu(60)
-            readonly property double menuWidth: partialWidth ? units.gu(40) : parent.width
 
             indicators {
                 hides: [launcher]
