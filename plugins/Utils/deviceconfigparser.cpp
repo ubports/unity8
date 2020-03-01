@@ -116,6 +116,24 @@ QString DeviceConfigParser::category() const
     return value;
 }
 
+bool DeviceConfigParser::supportsMultiColorLed() const
+{
+    return readBoolFromConfig("SupportsMultiColorLed", true);
+}
+
+bool DeviceConfigParser::readBoolFromConfig(const QString &key, bool defaultValue) const
+{
+    m_config->beginGroup(m_name);
+
+    bool ret = defaultValue;
+    if (m_config->contains(key)) {
+        ret = m_config->value(key).toBool();
+    }
+
+    m_config->endGroup();
+    return ret;
+}
+
 QStringList DeviceConfigParser::readOrientationsFromConfig(const QString &key) const
 {
     m_config->beginGroup(m_name);
