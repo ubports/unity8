@@ -54,7 +54,7 @@ QtObject {
         property int portraitOrientation: deviceConfigParser.portraitOrientation
         property int invertedPortraitOrientation: deviceConfigParser.invertedPortraitOrientation
         property string category: deviceConfigParser.category
-        property string supportedOrientations: deviceConfigParser.supportedOrientations
+        property string supportsMultiColorLed: deviceConfigParser.supportsMultiColorLed
 
         states: [
             State {
