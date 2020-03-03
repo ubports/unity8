@@ -142,6 +142,18 @@ PanelTest {
 
             Button {
                 Layout.fillWidth: true
+                text: panel.applicationMenus.shown ? "Hide Menu" : "Show Menu"
+                onClicked: {
+                    if (panel.applicationMenus.shown) {
+                        panel.applicationMenus.hide();
+                    } else {
+                        panel.applicationMenus.show();
+                    }
+                }
+            }
+
+            Button {
+                Layout.fillWidth: true
                 text: callManager.hasCalls ? "Remove call" : "Add call"
                 onClicked: {
                     if (callManager.foregroundCall) {
