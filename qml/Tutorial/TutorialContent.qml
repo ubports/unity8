@@ -112,11 +112,7 @@ Item {
         readonly property bool skipped: !d.mobileScenario || d.haveShown("left")
         readonly property bool shown: item && item.shown
         active: !skipped || (item && item.visible)
-        onSkippedChanged: {
-            console.log("SKIPPED HAS CHANGED TO " + skipped);
-            console.trace();
-            if (skipped && shown) item.hide()
-        }
+        onSkippedChanged: if (skipped && shown) item.hide()
 
         sourceComponent: TutorialLeft {
             id: tutorialLeft
