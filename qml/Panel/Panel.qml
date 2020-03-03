@@ -47,6 +47,7 @@ Item {
     property real panelAreaShowProgress: 1.0
     property bool greeterShown: false
     property bool hasKeyboard: false
+    property bool supportsMultiColorLed: true
 
     property string mode: "staged"
 
@@ -437,6 +438,7 @@ Item {
 
     IndicatorsLight {
         id: indicatorLights
+        supportsMultiColorLed: root.supportsMultiColorLed
     }
 
     states: [

@@ -30,6 +30,8 @@ import "../../.."
 QtObject {
     id: root
 
+    property bool supportsMultiColorLed: true
+
     property string indicatorState: "INDICATOR_OFF"
 
     property color color: "darkgreen"
@@ -43,8 +45,8 @@ QtObject {
     property string batteryIconName: Status.batteryIcon
     property string displayStatus: Powerd.status
 
-    property var _deviceConfiguration: DeviceConfiguration {
-        name: applicationArguments.deviceName
+    onSupportsMultiColorLedChanged: {
+        updateLightState("onSupportsMultiColorLedChanged")
     }
 
     onDisplayStatusChanged: {
@@ -57,7 +59,9 @@ QtObject {
 
     function updateLightState(msg) {
         console.log("updateLightState: " + msg
-            + ", supportsMultiColorLed: " + _deviceConfiguration.supportsMultiColorLed
+            + ", Lights.state: " + Lights.state
+            + ", indicatorState: " + indicatorState
+            + ", supportsMultiColorLed: " + supportsMultiColorLed
             + ", hasMessages: " + hasMessages
             + ", icon: " + batteryIconName
             + ", displayStatus: " + displayStatus
@@ -110,7 +114,8 @@ QtObject {
         }
 
         // if device does not support a multi color led set led off
-        if(!_deviceConfiguration.supportsMultiColorLed) {
+        if(!supportsMultiColorLed) {
+console.log("no support for Multicolor LED. " + indicatorState)
             indicatorState = "INDICATOR_OFF"
             return
         }
@@ -209,6 +214,7 @@ QtObject {
         }
     }
 
+    Component.onCompleted: Lights.state = Lights.Off
     Component.onDestruction: Lights.state = Lights.Off
 
     property var _colorBinding: Binding {

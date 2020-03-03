@@ -253,6 +253,19 @@ Item {
                   expectedLightsOnMillisec: 1000,
                   expectedLightsOffMillisec: 0,
                       powerd: Powerd.Off, actionData: batteryLevelDBusSignals["100"], wizardStatus: batteryIconNames.charging },
+
+                //
+                // Support for Multicolor LED
+                //
+                { tag: "Powerd.Off with New Message & no support for multicolor led",
+                  expectedLightsState: Lights.On,
+                      powerd: Powerd.Off, actionData: newMessage, supportsMultiColorLed: false },
+                { tag: "Powerd.Off while charging & support for multicolor led",
+                  expectedLightsState: Lights.On,
+                      powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging, supportsMultiColorLed: true },
+                { tag: "Powerd.Off while charging & no support for multicolor led",
+                  expectedLightsState: Lights.Off,
+                      powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging, supportsMultiColorLed: false },
             ]
         }
 
@@ -265,6 +278,10 @@ Item {
                 ActionData.data = data.actionData
             if (data.hasOwnProperty("wizardStatus"))
                 loader.item.batteryIconName = data.wizardStatus
+            // NOTE: Something is wrong. If supportsMultiColorLed is set right at the start
+            //       of this function the last test fails.
+            if (data.hasOwnProperty("supportsMultiColorLed"))
+                loader.item.supportsMultiColorLed = data.supportsMultiColorLed
 
             compare(Lights.state, data.expectedLightsState, "Lights state does not match expected value");
             if (data.hasOwnProperty("expectedLightsColor"))
