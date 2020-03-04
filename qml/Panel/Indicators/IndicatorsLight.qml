@@ -59,7 +59,6 @@ QtObject {
 
     function updateLightState(msg) {
         console.log("updateLightState: " + msg
-            + ", Lights.state: " + Lights.state
             + ", indicatorState: " + indicatorState
             + ", supportsMultiColorLed: " + supportsMultiColorLed
             + ", hasMessages: " + hasMessages
