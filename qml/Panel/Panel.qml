@@ -411,7 +411,7 @@ Item {
                 objectName: identifier+"-panelItem"
 
                 property int ownIndex: index
-                readonly property bool overflow: parent.width - x > __indicators.overFlowWidth
+                readonly property bool overflow: parent.width - (x - __indicators.rowContentX) > __indicators.overFlowWidth
                 readonly property bool hidden: !expanded && (overflow || !indicatorVisible || hideSessionIndicator || hideKeyboardIndicator)
                 // HACK for indicator-session
                 readonly property bool hideSessionIndicator: identifier == "indicator-session" && Math.min(Screen.width, Screen.height) <= units.gu(60)

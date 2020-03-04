@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2020 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +30,7 @@ Item {
     readonly property alias currentItemIndex: row.currentItemIndex
     property real lateralPosition: -1
     property int alignment: Qt.AlignRight
+    readonly property int rowContentX: row.contentX
 
     property alias hideRow: row.hideRow
     property alias rowItemDelegate: row.delegate
@@ -133,12 +135,12 @@ Item {
 
                 if (root.alignment == Qt.AlignLeft) {
                     // current item overlap on left
-                    if (row.currentItem && flickable.contentX > row.currentItem.x) {
-                        d.alignmentAdjustment -= (flickable.contentX - row.currentItem.x);
+                    if (row.currentItem && flickable.contentX > (row.currentItem.x - row.contentX)) {
+                        d.alignmentAdjustment -= (flickable.contentX - (row.currentItem.x - row.contentX));
 
                     // current item overlap on right
-                    } else if (row.currentItem && flickable.contentX + flickable.width < row.currentItem.x + row.currentItem.width) {
-                        d.alignmentAdjustment += (row.currentItem.x + row.currentItem.width) - (flickable.contentX + flickable.width);
+                    } else if (row.currentItem && flickable.contentX + flickable.width < (row.currentItem.x - row.contentX) + row.currentItem.width) {
+                        d.alignmentAdjustment += ((row.currentItem.x - row.contentX) + row.currentItem.width) - (flickable.contentX + flickable.width);
                     }
                 } else {
                     // gap between left and row?
@@ -155,12 +157,12 @@ Item {
                         d.alignmentAdjustment -= flickable.contentX;
 
                     // current item overlap on left
-                    } else if (row.currentItem && (flickable.contentX + flickable.width) < (row.width - row.currentItem.x)) {
-                        d.alignmentAdjustment += ((row.width - row.currentItem.x) - (flickable.contentX + flickable.width));
+                    } else if (row.currentItem && (flickable.contentX + flickable.width) < (row.width - (row.currentItem.x - row.contentX))) {
+                        d.alignmentAdjustment += ((row.width - (row.currentItem.x - row.contentX)) - (flickable.contentX + flickable.width));
 
                     // current item overlap on right
-                    } else if (row.currentItem && flickable.contentX > (row.width - row.currentItem.x - row.currentItem.width)) {
-                        d.alignmentAdjustment -= flickable.contentX - (row.width - row.currentItem.x - row.currentItem.width);
+                    } else if (row.currentItem && flickable.contentX > (row.width - (row.currentItem.x - row.contentX) - row.currentItem.width)) {
+                        d.alignmentAdjustment -= flickable.contentX - (row.width - (row.currentItem.x - row.contentX) - row.currentItem.width);
                     }
                 }
             }

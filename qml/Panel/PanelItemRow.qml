@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2013-2014 Canonical, Ltd.
+ * Copyright (C) 2020 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +37,7 @@ Item {
     property color hightlightColor: "#ffffff"
 
     property alias delegate: row.delegate
+    property alias contentX: row.contentX
 
     property real lateralPosition: -1
     onLateralPositionChanged: {
@@ -85,7 +87,7 @@ Item {
     }
 
     function indicatorAt(x, y) {
-        var item = row.itemAt(x, y);
+        var item = row.itemAt(x + row.contentX, y);
         return item && item.hasOwnProperty("ownIndex") ? item : null;
     }
 
@@ -184,7 +186,7 @@ Item {
                 ScriptAction {
                     script: {
                         d.forceAlignmentAnimationDisabled = true;
-                        highlight.currentItemX = Qt.binding(function() { return currentItem ? currentItem.x : 0 });
+                        highlight.currentItemX = Qt.binding(function() { return currentItem ? currentItem.x - row.contentX : 0 });
                         d.forceAlignmentAnimationDisabled = false;
                     }
                 }
@@ -235,7 +237,7 @@ Item {
             NumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
         }
 
-        property real currentItemX: currentItem ? currentItem.x : 0
+        property real currentItemX: currentItem ? currentItem.x - row.contentX : 0
         Behavior on currentItemX {
             id: currentItemXBehavior
             enabled: !d.firstItemSwitch && expanded && !d.forceAlignmentAnimationDisabled
