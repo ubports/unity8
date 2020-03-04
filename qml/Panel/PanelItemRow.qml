@@ -180,7 +180,7 @@ Item {
         // TODO: make this better
         // when the width changes, the highlight will lag behind due to animation, so we need to disable the animation
         // and adjust the highlight X immediately.
-        width: childrenRect.width
+        width: contentItem.width
         Behavior on width {
             SequentialAnimation {
                 ScriptAction {
