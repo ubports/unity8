@@ -49,6 +49,11 @@ Showable {
     readonly property int barWidth: bar.width
     readonly property alias currentMenuIndex: bar.currentItemIndex
 
+    // Exposes the current contentX of the PanelBar's internal ListView. This
+    // must be used to offset absolute x values against the ListView, since
+    // we commonly add or remove elements and cause the contentX to change.
+    readonly property int rowContentX: bar.rowContentX
+
     // The user tapped the panel and did not move.
     // Note that this does not fire on mouse events, only touch events.
     signal showTapped()
