@@ -146,7 +146,7 @@ QtObject {
                     invertedPortraitOrientation: Qt.InvertedPortraitOrientation
                     category: "desktop"
                 }
-            },
+            }
         ]
     }
 }
