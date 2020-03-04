@@ -147,13 +147,6 @@ QtObject {
                     category: "desktop"
                 }
             },
-            State {
-                name: "turbo"
-                PropertyChanges {
-                    target: priv
-                    supportsMultiColorLed: false
-                }
-            }
         ]
     }
 }
