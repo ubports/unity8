@@ -415,7 +415,7 @@ void GSettingsQml::setEnableIndicatorMenu(const QVariant &enableIndicatorMenu)
 
 QVariant GSettingsQml::chargingStateVisible() const
 {
-    if (m_valid && m_schema->id() == "com.canonical.Unity8.LedIndication") {
+    if (m_valid && m_schema->id() == "com.lomiri.LedIndication") {
         return GSettingsControllerQml::instance()->chargingStateVisible();
     } else {
         return QVariant();
@@ -424,7 +424,7 @@ QVariant GSettingsQml::chargingStateVisible() const
 
 void GSettingsQml::setChargingStateVisible(const QVariant &chargingStateVisible)
 {
-    if (m_valid && m_schema->id() == "com.canonical.Unity8.LedIndication") {
+    if (m_valid && m_schema->id() == "com.lomiri.LedIndication") {
         GSettingsControllerQml::instance()->setChargingStateVisible(chargingStateVisible.toBool());
     }
 }

@@ -63,8 +63,8 @@ Item {
     }
 
     GSettings {
-        id: unity8settings
-        schema.id: "com.canonical.Unity8.LedIndication"
+        id: lomiriSettings
+        schema.id: "com.lomiri.LedIndication"
     }
 
     RowLayout {
@@ -161,11 +161,8 @@ Item {
             ActionData.data = noNewMessage;
             loader.sourceComponent = undefined;
             loader.sourceComponent = light;
-<<<<<<< 13a676575372b8cbe881471311dbeb3e9d7c572c
-=======
             Powerd.setStatus(Powerd.On, Powerd.Unknown);
-            unity8settings.chargingStateVisible = true;
->>>>>>> added test cases for charge-state-visibility setting
+            lomiriSettings.chargingStateVisible = true;
         }
 
         function test_LightsStatus_data() {
@@ -265,7 +262,6 @@ Item {
                       powerd: Powerd.Off, actionData: batteryLevelDBusSignals["100"], wizardStatus: batteryIconNames.charging },
 
                 //
-<<<<<<< 13a676575372b8cbe881471311dbeb3e9d7c572c
                 // Support for Multicolor LED
                 //
                 { tag: "Powerd.Off with New Message & no support for multicolor led",
@@ -277,7 +273,7 @@ Item {
                 { tag: "Powerd.Off while charging & no support for multicolor led",
                   expectedLightsState: Lights.Off,
                       powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging, supportsMultiColorLed: false },
-=======
+
                 // disabled charging state visible
                 //
                 { tag: "Powerd.Off with New Message & chargingStateVisible=false",
@@ -286,20 +282,17 @@ Item {
                 { tag: "Powerd.Off while charging & chargingStateVisible=false",
                   expectedLightsState: Lights.Off,
                       powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging, chargingStateVisible: false },
->>>>>>> added test cases for charge-state-visibility setting
+
             ]
         }
 
         function test_LightsStatus(data) {
             console.log("----------------------------------------------------------------")
 
-<<<<<<< 13a676575372b8cbe881471311dbeb3e9d7c572c
             if (data.hasOwnProperty("supportsMultiColorLed"))
                 loader.item.supportsMultiColorLed = data.supportsMultiColorLed
-=======
             if (data.hasOwnProperty("chargingStateVisible"))
-                unity8settings.chargingStateVisible = data.chargingStateVisible
->>>>>>> added test cases for charge-state-visibility setting
+                lomiriSettings.chargingStateVisible = data.chargingStateVisible
             if (data.hasOwnProperty("powerd"))
                 Powerd.setStatus(data.powerd, Powerd.Unknown)
             if (data.hasOwnProperty("actionData"))
