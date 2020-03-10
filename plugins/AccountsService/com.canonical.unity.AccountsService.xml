@@ -9,8 +9,14 @@
     <annotation name="org.freedesktop.Accounts.Authentication.ChangeAny"
                 value="com.ubuntu.AccountsService.GreeterChangeAny"/>
 
+    <!-- Marks that V1 (pre-8.21) edge demos have been run. Legacy value. -->
     <!-- Should have been named DemoEdges, sorry folks. -mterry -->
     <property name="demo-edges" type="b" access="readwrite">
+      <annotation name="org.freedesktop.Accounts.DefaultValue" value="true"/>
+    </property>
+
+    <!-- Marks that V2 (post-8.21) edge demos have been run -->
+    <property name="DemoEdges2" type="b" access="readwrite">
       <annotation name="org.freedesktop.Accounts.DefaultValue" value="true"/>
     </property>
 

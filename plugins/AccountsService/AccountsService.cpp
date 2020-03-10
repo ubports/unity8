@@ -32,7 +32,7 @@
 #define IFACE_UNITY_PRIVATE          QStringLiteral("com.canonical.unity.AccountsService.Private")
 
 #define PROP_BACKGROUND_FILE                   QStringLiteral("BackgroundFile")
-#define PROP_DEMO_EDGES                        QStringLiteral("demo-edges")
+#define PROP_DEMO_EDGES                        QStringLiteral("DemoEdges2")
 #define PROP_DEMO_EDGES_COMPLETED              QStringLiteral("DemoEdgesCompleted")
 #define PROP_EMAIL                             QStringLiteral("Email")
 #define PROP_ENABLE_FINGERPRINT_IDENTIFICATION QStringLiteral("EnableFingerprintIdentification")

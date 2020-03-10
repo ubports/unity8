@@ -124,7 +124,7 @@ void PropertiesServer::internalSet(const QString &interface, const QString &prop
 
 void PropertiesServer::Reset()
 {
-    m_properties["com.canonical.unity.AccountsService"]["demo-edges"] = false;
+    m_properties["com.canonical.unity.AccountsService"]["DemoEdges2"] = false;
     m_properties["com.canonical.unity.AccountsService"]["DemoEdgesCompleted"] = QStringList();
     m_properties["com.canonical.unity.AccountsService"]["LauncherItems"] = QVariant::fromValue(QList<QVariantMap>());
     m_properties["com.canonical.unity.AccountsService.Private"]["FailedLogins"] = 0;

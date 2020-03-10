@@ -149,7 +149,7 @@ Item {
         objectName: "tutorialLeftLongLoader"
         anchors.fill: parent
 
-        readonly property bool skipped: !d.mobileScenario || d.haveShown("left-long")
+        readonly property bool skipped: !d.mobileScenario || d.haveShown("left-drawer")
         readonly property bool shown: item && item.shown
         active: !skipped || (item && item.visible)
         onSkippedChanged: if (skipped && shown) item.hide()
@@ -178,7 +178,7 @@ Item {
             }
 
             onIsReadyChanged: if (isReady && !shown) tutorialLeftLongTimer.start()
-            onFinished: AccountsService.markDemoEdgeCompleted("left-long")
+            onFinished: AccountsService.markDemoEdgeCompleted("left-drawer")
         }
     }
 
