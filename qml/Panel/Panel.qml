@@ -342,9 +342,10 @@ Item {
                 id: rowLabel
                 anchors {
                     left: parent.left
+                    right: root.partialWidth ? parent.right : parent.left
+                    rightMargin: touchMenuIcon.width
                 }
                 objectName: "panelTitle"
-                width: root.width - __indicators.maxDragHandleSize - touchMenuIcon.width
                 height: root.minimizedPanelHeight
                 verticalAlignment: Text.AlignVCenter
                 elide: Text.ElideRight
@@ -356,15 +357,14 @@ Item {
                 opacity: __applicationMenus.visible && !__applicationMenus.expanded
                 Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
                 visible: opacity !== 0
-                readonly property var implicitWidthWithMargin: implicitWidth === 0 ? 0 : implicitWidth + units.gu(1)
             }
 
             Icon {
                 id: touchMenuIcon
                 objectName: "touchMenuIcon"
                 anchors {
-                    right: parent.right
-                    rightMargin: parent.width - rowLabel.implicitWidthWithMargin - width
+                    left: parent.left
+                    leftMargin: rowLabel.contentWidth + units.dp(2)
                     verticalCenter: parent.verticalCenter
                 }
                 width: units.gu(2)
