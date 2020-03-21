@@ -15,19 +15,20 @@
  */
 
 #include "plugin.h"
-#include "Lights.h"
+#include "Leds.h"
 
 #include <QtQml/qqml.h>
 
-static QObject *lights_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+static QObject *leds_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
-    return new Lights();
+
+    return new Leds();
 }
 
 void PowerdPlugin::registerTypes(const char *uri)
 {
-    Q_ASSERT(uri == QLatin1String("Lights"));
-    qmlRegisterSingletonType<Lights>(uri, 0, 1, "Lights", lights_provider);
+    Q_ASSERT(uri == QLatin1String("Hfd"));
+    qmlRegisterSingletonType<Leds>(uri, 0, 1, "Leds", leds_provider);
 }

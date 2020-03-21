@@ -12,19 +12,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Renato Araujo Oliveira Filho <renato.filho@canonical.com>
  */
 
-#ifndef LOMIRI_LIGHTS_H
-#define LOMIRI_LIGHTS_H
+#pragma once
 
 #include <QtCore/QObject>
 #include <QtGui/QColor>
 
-struct light_device_t;
-
-class Lights: public QObject
+class Leds: public QObject
 {
     Q_OBJECT
     Q_PROPERTY(State state READ state  WRITE setState NOTIFY stateChanged)
@@ -39,8 +34,8 @@ public:
     };
     Q_ENUM(State)
 
-    explicit Lights(QObject *parent = 0);
-    ~Lights();
+    explicit Leds(QObject *parent = 0);
+    ~Leds();
 
     void setState(State newState);
     State state() const;
@@ -61,15 +56,8 @@ Q_SIGNALS:
     void offMillisecChanged(int offMs);
 
 private:
-    light_device_t* m_lightDevice;
     QColor m_color;
     State m_state;
     int m_onMs;
     int m_offMs;
-
-    bool init();
-    void turnOff();
-    void turnOn();
 };
-
-#endif

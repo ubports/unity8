@@ -4,7 +4,6 @@ usr/lib/*/lomiri/qml/Cursor
 usr/lib/*/lomiri/qml/GlobalShortcut
 usr/lib/*/lomiri/qml/Greeter
 usr/lib/*/lomiri/qml/LightDM
-usr/lib/*/lomiri/qml/Lights
 usr/lib/*/lomiri/qml/Powerd
 usr/lib/*/lomiri/qml/ScreenshotDirectory
 usr/lib/*/lomiri/qml/SessionBroadcast
