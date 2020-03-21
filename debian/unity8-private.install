@@ -4,7 +4,6 @@ usr/lib/*/unity8/qml/Cursor
 usr/lib/*/unity8/qml/GlobalShortcut
 usr/lib/*/unity8/qml/Greeter
 usr/lib/*/unity8/qml/LightDM
-usr/lib/*/unity8/qml/Lights
 usr/lib/*/unity8/qml/Powerd
 usr/lib/*/unity8/qml/ScreenshotDirectory
 usr/lib/*/unity8/qml/SessionBroadcast
