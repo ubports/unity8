@@ -3,7 +3,6 @@ Section: x11
 Priority: optional
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends:
- android-headers,
  cmake,
  cmake-extras,
  dbus-test-runner,
@@ -24,7 +23,6 @@ Build-Depends:
  libglib2.0-dev,
  libgnome-desktop-3-dev,
  libgsettings-qt-dev,
- libhardware-dev,
  liblightdm-qt5-3-dev,
  libpam0g-dev,
  libpulse-dev,
@@ -115,6 +113,7 @@ Depends:
  libglib2.0-bin,
  qmenumodel-qml (>= 0.2.11),
  qml-module-biometryd,
+ qml-module-hfd,
  qml-module-qt-labs-folderlistmodel,
  qml-module-qt-labs-settings,
  qml-module-qtqml-statemachine,
@@ -233,7 +232,6 @@ Pre-Depends:
 Depends:
  accountsservice-ubuntu-schemas (>= 0.0.7),
  gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
- libhardware2,
  qml-module-qtmultimedia,
  qtdeclarative5-gsettings1.0,
  unity8-schemas,

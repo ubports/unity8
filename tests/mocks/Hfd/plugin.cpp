@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2012,2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,24 +12,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Renato Araujo Oliveira Filho <renato.filho@canonical.com>
  */
 
 #include "plugin.h"
-#include "Lights.h"
+#include "Leds.h"
 
 #include <QtQml/qqml.h>
 
-static QObject *lights_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+static QObject *leds_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
-    return new Lights();
+    return new Leds();
 }
 
-void LightsPlugin::registerTypes(const char *uri)
+void PowerdPlugin::registerTypes(const char *uri)
 {
-    Q_ASSERT(uri == QLatin1String("Lights"));
-    qmlRegisterSingletonType<Lights>(uri, 0, 1, "Lights", lights_provider);
+    Q_ASSERT(uri == QLatin1String("Hfd"));
+    qmlRegisterSingletonType<Leds>(uri, 0, 1, "Leds", leds_provider);
 }

@@ -14,20 +14,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "plugin.h"
-#include "Lights.h"
+#pragma once
 
-#include <QtQml/qqml.h>
+#include <QtQml/QQmlEngine>
+#include <QtQml/QQmlExtensionPlugin>
 
-static QObject *lights_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+class PowerdPlugin : public QQmlExtensionPlugin
 {
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-    return new Lights();
-}
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
-void PowerdPlugin::registerTypes(const char *uri)
-{
-    Q_ASSERT(uri == QLatin1String("Lights"));
-    qmlRegisterSingletonType<Lights>(uri, 0, 1, "Lights", lights_provider);
-}
+public:
+    void registerTypes(const char *uri) override;
+};
