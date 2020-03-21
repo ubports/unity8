@@ -14,13 +14,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_MOCK_LIGHTS_H
-#define UNITY_MOCK_LIGHTS_H
+#pragma once
 
 #include <QtCore/QObject>
 #include <QtGui/QColor>
 
-class Lights: public QObject
+class Leds: public QObject
 {
     Q_OBJECT
     Q_PROPERTY(State state READ state  WRITE setState NOTIFY stateChanged)
@@ -35,8 +34,8 @@ public:
     };
     Q_ENUM(State)
 
-    explicit Lights(QObject *parent = 0);
-    ~Lights();
+    explicit Leds(QObject *parent = 0);
+    ~Leds();
 
     void setState(State newState);
     State state() const;
@@ -62,5 +61,3 @@ private:
     int m_onMs;
     int m_offMs;
 };
-
-#endif
