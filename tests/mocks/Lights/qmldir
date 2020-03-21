@@ -1,3 +1,0 @@
-module Lights
-plugin MockLights-qml
-typeinfo Lights.qmltypes
