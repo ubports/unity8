@@ -45,6 +45,7 @@ private Q_SLOTS:
     void releaseAndPressRecognisedGestureDoesNotRejectForPeriod();
     void topAreaReceivesOwnershipFirstWithEqualPoints();
     void topAreaReceivesOwnershipFirstWithMorePoints();
+    void newTouchAfterRejectionIsPassedThrough();
 
 private:
     void initGestureComponent(TouchGestureArea *area);
@@ -263,6 +264,35 @@ void tst_TouchGestureArea::topAreaReceivesOwnershipFirstWithMorePoints()
                                        .press(1, touchPoint.toPoint());
     QCOMPARE((int)m_gestureTop->status(), (int)TouchGestureArea::Recognized);
     QCOMPARE((int)m_gestureMiddle->status(), (int)TouchGestureArea::Rejected);
+}
+
+void tst_TouchGestureArea::newTouchAfterRejectionIsPassedThrough() {
+    m_gestureTop->setEnabled(true);
+    m_gestureTop->setMinimumTouchPoints(2);
+    m_gestureTop->setMaximumTouchPoints(2);
+    m_gestureTop->setRecognitionPeriod(30);
+
+    m_gestureBottom->setEnabled(true);
+    m_gestureBottom->setMinimumTouchPoints(2);
+    m_gestureBottom->setMaximumTouchPoints(2);
+    m_gestureBottom->setRecognitionPeriod(50);
+
+    QPointF touchPoint = calculateInitialTouchPos(m_gestureBottom);
+
+    QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
+    QCOMPARE((int)m_gestureTop->status(), (int)TouchGestureArea::Undecided);
+    QCOMPARE((int)m_gestureBottom->status(), (int)TouchGestureArea::Undecided);
+
+    passTime(40); // 10ms after top item's recognition period.
+    QCOMPARE((int)m_gestureTop->status(), (int)TouchGestureArea::Rejected);
+    QCOMPARE((int)m_gestureBottom->status(), (int)TouchGestureArea::Undecided);
+
+    // If the top item passes the event down the line, now the bottom one will
+    // recognize the gesture.
+    QTest::touchEvent(m_view, m_device).stationary(0)
+                                       .press(1, touchPoint.toPoint());
+    QCOMPARE((int)m_gestureTop->status(), (int)TouchGestureArea::Rejected);
+    QCOMPARE((int)m_gestureBottom->status(), (int)TouchGestureArea::Recognized);
 }
 
 QTEST_MAIN(tst_TouchGestureArea)
