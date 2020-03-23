@@ -49,7 +49,7 @@ Item {
     property bool hasKeyboard: false
 
     // Whether our expanded menus should take up the full width of the panel
-    property bool partialWidth: width > units.gu(60)
+    property bool partialWidth: width >= units.gu(60)
 
     property string mode: "staged"
 
