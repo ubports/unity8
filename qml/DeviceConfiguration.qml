@@ -99,6 +99,7 @@ QtObject {
                     invertedLandscapeOrientation: Qt.InvertedLandscapeOrientation
                     portraitOrientation: Qt.PortraitOrientation
                     invertedPortraitOrientation: Qt.InvertedPortraitOrientation
+                    supportsMultiColorLed: false
                     category: "phone"
                 }
             },
@@ -145,6 +146,13 @@ QtObject {
                     portraitOrientation: Qt.PortraitOrientation
                     invertedPortraitOrientation: Qt.InvertedPortraitOrientation
                     category: "desktop"
+                }
+            },
+            State {
+                name: "turbo"
+                PropertyChanges {
+                    target: priv
+                    supportsMultiColorLed: false
                 }
             }
         ]
