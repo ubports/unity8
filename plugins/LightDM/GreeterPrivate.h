@@ -34,6 +34,7 @@ public:
     PromptsModel leftovers; // prompts to show during next auth for same user
     bool responded;
     bool everResponded;
+    bool promptless;
     QString cachedAuthUser;
 
 protected:
