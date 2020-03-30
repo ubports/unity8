@@ -48,7 +48,7 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void authenticationUserChangedHandler();
-    void authenticatedChangedHandler();
+    void promptlessChangedHandler();
 
 private:
     Greeter *m_greeter;

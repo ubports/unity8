@@ -15,6 +15,7 @@
  */
 
 #include "Greeter.h"
+#include "PromptsModel.h"
 
 #include <QCoreApplication>
 #include <QDBusInterface>
@@ -137,11 +138,13 @@ private Q_SLOTS:
     void testActiveEntryChanged()
     {
         QSignalSpy spy(this, &GreeterDBusTest::PropertiesChangedRelay);
+
         greeter->authenticate("has-password");
 
-        QTRY_COMPARE(spy.count(), 2); // EntryIsLocked then ActiveEntry
+        // EntryIsLocked's default is true, thus only single property change.
+        QTRY_COMPARE(spy.count(), 1);
 
-        QList<QVariant> arguments = spy[1];
+        QList<QVariant> arguments = spy[0];
         QVERIFY(arguments.at(0).toString() == "com.canonical.UnityGreeter.List");
         QVERIFY(arguments.at(1).toMap().contains("ActiveEntry"));
         QVERIFY(arguments.at(1).toMap()["ActiveEntry"] == "has-password");
@@ -154,19 +157,29 @@ private Q_SLOTS:
         greeter->authenticate("no-password");
         QTRY_VERIFY(!dbusList->property("EntryIsLocked").toBool());
 
+        QSignalSpy promptSpy(greeter->promptsModel(), &PromptsModel::countChanged);
+        QSignalSpy successSpy(greeter, &Greeter::loginSuccess);
+
         greeter->authenticate("has-password");
         QTRY_VERIFY(dbusList->property("EntryIsLocked").toBool());
+        // Make sure that EntryIsLocked stays `true` after authenticated.
+        // Regression test for https://github.com/ubports/ubuntu-touch/issues/1406
+        promptSpy.wait();
+        greeter->respond(QStringLiteral("password"));
+        successSpy.wait();
+        QVERIFY(dbusList->property("EntryIsLocked").toBool());
     }
 
     void testEntryIsLockedChanged()
     {
         QSignalSpy spy(this, &GreeterDBusTest::PropertiesChangedRelay);
+
         greeter->authenticate("no-password");
 
-        // EntryIsLocked=true, ActiveEntry, then EntryIsLocked=false
-        QTRY_COMPARE(spy.count(), 3);
+        // ActiveEntry, then EntryIsLocked=false
+        QTRY_COMPARE(spy.count(), 2);
 
-        QList<QVariant> arguments = spy[2];
+        QList<QVariant> arguments = spy[1];
         QVERIFY(arguments.at(0).toString() == "com.canonical.UnityGreeter.List");
         QVERIFY(arguments.at(1).toMap().contains("EntryIsLocked"));
         QVERIFY(arguments.at(1).toMap()["EntryIsLocked"] == false);
