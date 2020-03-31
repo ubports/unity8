@@ -47,6 +47,7 @@ Item {
     property real panelAreaShowProgress: 1.0
     property bool greeterShown: false
     property bool hasKeyboard: false
+    property bool supportsMultiColorLed: true
 
     // Whether our expanded menus should take up the full width of the panel
     property bool partialWidth: width >= units.gu(60)
@@ -472,6 +473,7 @@ Item {
 
     IndicatorsLight {
         id: indicatorLights
+        supportsMultiColorLed: root.supportsMultiColorLed
     }
 
     states: [

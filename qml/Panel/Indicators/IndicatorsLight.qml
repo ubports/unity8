@@ -25,8 +25,12 @@ import QMenuModel 0.1 as QMenuModel
 import Unity.Indicators 0.1 as Indicators
 import Wizard 0.1
 
+import "../../.."
+
 QtObject {
     id: root
+
+    property bool supportsMultiColorLed: true
 
     property string indicatorState: "INDICATOR_OFF"
 
@@ -41,6 +45,10 @@ QtObject {
     property string batteryIconName: Status.batteryIcon
     property string displayStatus: Powerd.status
 
+    onSupportsMultiColorLedChanged: {
+        updateLightState("onSupportsMultiColorLedChanged")
+    }
+
     onDisplayStatusChanged: {
         updateLightState("onDisplayStatusChanged")
     }
@@ -50,9 +58,14 @@ QtObject {
     }
 
     function updateLightState(msg) {
-        console.log("updateLightState: " + msg + ", hasMessages: " + hasMessages + ", icon: "
-            + batteryIconName + ", displayStatus: " + displayStatus + ", deviceState: "
-            + deviceState + ", batteryLevel: " + batteryLevel)
+        console.log("updateLightState: " + msg
+            + ", indicatorState: " + indicatorState
+            + ", supportsMultiColorLed: " + supportsMultiColorLed
+            + ", hasMessages: " + hasMessages
+            + ", icon: " + batteryIconName
+            + ", displayStatus: " + displayStatus
+            + ", deviceState: " + deviceState
+            + ", batteryLevel: " + batteryLevel)
 
         //
         // priorities:
@@ -96,6 +109,13 @@ QtObject {
         // unread messsages have highest priority
         if (hasMessages) {
             indicatorState = "HAS_MESSAGES"
+            return
+        }
+
+        // if device does not support a multi color led set led off
+        if(!supportsMultiColorLed) {
+console.log("no support for Multicolor LED. " + indicatorState)
+            indicatorState = "INDICATOR_OFF"
             return
         }
 
@@ -193,6 +213,7 @@ QtObject {
         }
     }
 
+    Component.onCompleted: Lights.state = Lights.Off
     Component.onDestruction: Lights.state = Lights.Off
 
     property var _colorBinding: Binding {

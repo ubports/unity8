@@ -155,7 +155,6 @@ Item {
             ActionData.data = noNewMessage;
             loader.sourceComponent = undefined;
             loader.sourceComponent = light;
-            Powerd.setStatus(Powerd.On, Powerd.Unknown);
         }
 
         function test_LightsStatus_data() {
@@ -253,12 +252,27 @@ Item {
                   expectedLightsOnMillisec: 1000,
                   expectedLightsOffMillisec: 0,
                       powerd: Powerd.Off, actionData: batteryLevelDBusSignals["100"], wizardStatus: batteryIconNames.charging },
+
+                //
+                // Support for Multicolor LED
+                //
+                { tag: "Powerd.Off with New Message & no support for multicolor led",
+                  expectedLightsState: Lights.On,
+                      powerd: Powerd.Off, actionData: newMessage, supportsMultiColorLed: false },
+                { tag: "Powerd.Off while charging & support for multicolor led",
+                  expectedLightsState: Lights.On,
+                      powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging, supportsMultiColorLed: true },
+                { tag: "Powerd.Off while charging & no support for multicolor led",
+                  expectedLightsState: Lights.Off,
+                      powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging, supportsMultiColorLed: false },
             ]
         }
 
         function test_LightsStatus(data) {
             console.log("----------------------------------------------------------------")
 
+            if (data.hasOwnProperty("supportsMultiColorLed"))
+                loader.item.supportsMultiColorLed = data.supportsMultiColorLed
             if (data.hasOwnProperty("powerd"))
                 Powerd.setStatus(data.powerd, Powerd.Unknown)
             if (data.hasOwnProperty("actionData"))

@@ -69,6 +69,7 @@ StyledItem {
     property bool hasMouse: false
     property bool hasKeyboard: false
     property bool hasTouchscreen: false
+    property bool supportsMultiColorLed: true
 
     // to be read from outside
     readonly property int mainAppWindowOrientationAngle: stage.mainAppWindowOrientationAngle
@@ -553,6 +554,7 @@ StyledItem {
                             || greeter.hasLockedApp
             greeterShown: greeter && greeter.shown
             hasKeyboard: shell.hasKeyboard
+            supportsMultiColorLed: shell.supportsMultiColorLed
         }
 
         Launcher {
