@@ -32,6 +32,8 @@ private Q_SLOTS:
     void initTestCase() {
         UalWrapper::s_list << QStringLiteral("app1") << QStringLiteral("app2");
         appDrawerModel = new AppDrawerModel(this);
+        QTRY_VERIFY(!appDrawerModel->refreshing());
+
         QCOMPARE(appDrawerModel->rowCount(QModelIndex()), 2);
     }
 
@@ -48,6 +50,16 @@ private Q_SLOTS:
         XdgWatcher::instance()->removeMockApp("app3");
         qApp->processEvents();
 
+        QCOMPARE(appDrawerModel->rowCount(QModelIndex()), 2);
+    }
+
+    void testRefresh() {
+        QSignalSpy refreshingSpy(appDrawerModel, &AppDrawerModel::refreshingChanged);
+
+        appDrawerModel->refresh();
+        QTRY_VERIFY(!appDrawerModel->refreshing());
+
+        QCOMPARE(refreshingSpy.count(), 2);
         QCOMPARE(appDrawerModel->rowCount(QModelIndex()), 2);
     }
 };

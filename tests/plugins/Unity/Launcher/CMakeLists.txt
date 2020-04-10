@@ -81,7 +81,7 @@ target_link_libraries(appdrawermodeltestExec
     ${UAL_LIBRARIES}
     )
 add_dependencies(appdrawermodeltestExec mock-server)
-qt5_use_modules(appdrawermodeltestExec Test Core DBus Xml Gui Qml)
+qt5_use_modules(appdrawermodeltestExec Test Core DBus Xml Gui Qml Concurrent)
 install(TARGETS appdrawermodeltestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Launcher"
     )
