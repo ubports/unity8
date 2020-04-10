@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2020 UBports Foundation.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +16,7 @@
  */
 
 import QtQuick 2.4
+import Ubuntu.Components 1.3
 import "../Components"
 
 FocusScope {
@@ -35,6 +37,9 @@ FocusScope {
     readonly property int columns: width / delegateWidth
     readonly property int rows: Math.ceil(gridView.model.count / root.columns)
 
+    property alias refreshing: pullToRefresh.refreshing
+    signal refresh();
+
     GridView {
         id: gridView
         anchors.fill: parent
@@ -47,6 +52,32 @@ FocusScope {
 
         cellWidth: root.delegateWidth + spacing
         cellHeight: root.delegateHeight
+
+        PullToRefresh {
+            id: pullToRefresh
+            parent: gridView
+            target: gridView
+
+            readonly property real contentY: gridView.contentY - gridView.originY
+            y: -contentY - units.gu(5)
+
+            readonly property color pullLabelColor: "white"
+            style: PullToRefreshScopeStyle {
+                activationThreshold: Math.min(units.gu(14), gridView.height / 5)
+            }
+
+            onRefresh: root.refresh();
+        }
+    }
+
+    ProgressBar {
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+        visible: refreshing
+        indeterminate: true
     }
 
     function getFirstAppId() {

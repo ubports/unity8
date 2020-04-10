@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2020 UBports Foundation.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,12 +22,22 @@
 class MockAppDrawerModel: public AppDrawerModelInterface
 {
     Q_OBJECT
+    // TODO: Add this to AppDrawerModelInterface in unity-api.
+    // Or, better yet, remove AppDrawerModelInterface from unity-api.
+    Q_PROPERTY(bool refreshing READ refreshing NOTIFY refreshingChanged)
 public:
     MockAppDrawerModel(QObject* parent = nullptr);
 
     int rowCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
+    bool refreshing();
+    Q_INVOKABLE void refresh();
+
+Q_SIGNALS:
+    void refreshingChanged();
+
 private:
     QList<MockLauncherItem*> m_list;
+    bool m_refresing;
 };
