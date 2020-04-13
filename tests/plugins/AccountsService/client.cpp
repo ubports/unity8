@@ -92,17 +92,17 @@ private Q_SLOTS:
     {
         // Test various invalid calls
         AccountsServiceDBusAdaptor session;
-        QCOMPARE(session.getUserPropertyAsync("NOPE", "com.canonical.unity.AccountsService", "demo-edges").value(), QVariant());
+        QCOMPARE(session.getUserPropertyAsync("NOPE", "com.canonical.unity.AccountsService", "DemoEdges2").value(), QVariant());
         QCOMPARE(session.getUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "NOPE").value(), QVariant());
     }
 
     void testGetSetServiceDBusAdaptor()
     {
         AccountsServiceDBusAdaptor session;
-        session.setUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "demo-edges", QVariant(true)).waitForFinished();
-        QCOMPARE(session.getUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "demo-edges").value(), QVariant(true));
-        session.setUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "demo-edges", QVariant(false)).waitForFinished();
-        QCOMPARE(session.getUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "demo-edges").value(), QVariant(false));
+        session.setUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "DemoEdges2", QVariant(true)).waitForFinished();
+        QCOMPARE(session.getUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "DemoEdges2").value(), QVariant(true));
+        session.setUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "DemoEdges2", QVariant(false)).waitForFinished();
+        QCOMPARE(session.getUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "DemoEdges2").value(), QVariant(false));
     }
 
     void testGetSetService()
@@ -162,7 +162,7 @@ private Q_SLOTS:
         QCOMPARE(session.demoEdges(), false);
         ASSERT_DBUS_CALL(m_userInterface->call("Set",
                                                "com.canonical.unity.AccountsService",
-                                               "demo-edges",
+                                               "DemoEdges2",
                                                dbusVariant(true)));
         QTRY_COMPARE(session.demoEdges(), true);
     }

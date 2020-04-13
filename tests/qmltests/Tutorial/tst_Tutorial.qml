@@ -361,7 +361,7 @@ Rectangle {
             var tutorialRight = findChild(shell, "tutorialRight");
             var tutorialRightTimer = findChild(tutorialRight, "tutorialRightTimer");
 
-            AccountsService.demoEdgesCompleted = ["top", "left", "left-long"];
+            AccountsService.demoEdgesCompleted = ["top", "left", "left-drawer"];
             ApplicationManager.startApplication("facebook-webapp");
 
             tryCompare(tutorialLeftLongLoader, "active", false);
@@ -457,7 +457,7 @@ Rectangle {
             touchFlick(shell, 0, halfHeight, shell.width, halfHeight);
 
             tryCompare(tutorialLeftLongLoader, "shown", false);
-            tryCompare(AccountsService, "demoEdgesCompleted", ["top", "left", "left-long"]);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["top", "left", "left-drawer"]);
         }
 
         function test_tutorialLeftAutoSkipped() {
@@ -573,7 +573,7 @@ Rectangle {
             openTutorialRight();
             touchFlick(shell, shell.width, halfHeight, 0, halfHeight);
 
-            tryCompare(AccountsService, "demoEdgesCompleted", ["top", "left", "left-long", "right"]);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["top", "left", "left-drawer", "right"]);
             tryCompare(AccountsService, "demoEdges", false);
         }
 
@@ -603,7 +603,7 @@ Rectangle {
             ApplicationManager.startApplication("gallery-app");
             tryCompare(ApplicationManager, "count", 1);
 
-            AccountsService.demoEdgesCompleted = ["top", "left", "left-long"];
+            AccountsService.demoEdgesCompleted = ["top", "left", "left-drawer"];
             verify(tutorialRightTimer.running);
             verify(!tutorialRightLoader.shown);
             tutorialRightTimer.interval = 1;
@@ -622,7 +622,7 @@ Rectangle {
             ApplicationManager.startApplication("facebook-webapp");
             tryCompare(ApplicationManager, "count", 1);
 
-            AccountsService.demoEdgesCompleted = ["top", "left", "left-long"];
+            AccountsService.demoEdgesCompleted = ["top", "left", "left-drawer"];
             tryCompare(tutorialLeftLongLoader, "skipped", true);
             verify(tutorialRightTimer.running);
             tryCompare(tutorialRight, "isReady", true);
@@ -631,7 +631,7 @@ Rectangle {
             wait(1000);
 
             touchFlick(shell, shell.width, halfHeight, 0, halfHeight);
-            tryCompare(AccountsService, "demoEdgesCompleted", ["top", "left", "left-long", "right"]);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["top", "left", "left-drawer", "right"]);
         }
 
         function test_activeCallInterruptsTutorial() {
@@ -683,7 +683,7 @@ Rectangle {
             verify(!tutorialRight.isReady);
             verify(!tutorialRight.shown);
             verify(!tutorialRight.paused);
-            compare(AccountsService.demoEdgesCompleted, ["top", "left", "left-long"]);
+            compare(AccountsService.demoEdgesCompleted, ["top", "left", "left-drawer"]);
         }
 
         function test_desktopOnlyShowsTutorialRight() {
