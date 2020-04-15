@@ -7,52 +7,25 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-08 17:26-0500\n"
-"PO-Revision-Date: 2016-04-13 06:27+0000\n"
-"Last-Translator: YunQiang Su <wzssyqa@gmail.com>\n"
-"Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2018-10-08 13:29-0500\n"
+"PO-Revision-Date: 2019-12-01 01:00+0000\n"
+"Last-Translator: Sam Zhang <sammyok@163.com>\n"
+"Language-Team: Chinese (Simplified) <https://translate.ubports.com/projects/"
+"unity8/unity8/zh_Hans/>\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2017-04-07 06:31+0000\n"
-"X-Generator: Launchpad (build 18343)\n"
+"X-Generator: Weblate 3.8\n"
+"X-Launchpad-Export-Date: 2016-11-23 06:36+0000\n"
 
-#: plugins/LightDM/Greeter.cpp:188
+#: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
 msgstr "密码： "
 
-#: plugins/LightDM/Greeter.cpp:203
-msgid "Username"
-msgstr ""
-
-#: plugins/LightDM/Greeter.cpp:242
-msgid "Failed to authenticate"
-msgstr ""
-
-#: plugins/LightDM/Greeter.cpp:244
-msgid "Invalid password, please try again"
-msgstr ""
-
-#: plugins/LightDM/Greeter.cpp:254
-msgid "Log In"
-msgstr "登录"
-
-#: plugins/LightDM/Greeter.cpp:254 qml/Wizard/Pages/UpdateDelegate.qml:118
-msgid "Retry"
-msgstr "重试"
-
-#: plugins/LightDM/UsersModel.cpp:157
-msgid "Login"
-msgstr ""
-
-#: plugins/LightDM/UsersModel.cpp:165
-msgid "Guest Session"
-msgstr ""
-
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:50
+#: plugins/Unity/Launcher/launcheritem.cpp:109
 msgid "Pin shortcut"
 msgstr "固定快捷方式"
 
@@ -60,58 +33,59 @@ msgstr "固定快捷方式"
 msgid "Quit"
 msgstr "退出"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:109
 msgid "Unpin shortcut"
 msgstr "取消固定快捷方式"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:149
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "退出"
 
-#: qml/Components/Dialogs.qml:177
+#: qml/Components/Dialogs.qml:150
 msgid "Are you sure you want to log out?"
 msgstr "您确定要注销？"
 
-#: qml/Components/Dialogs.qml:180
+#: qml/Components/Dialogs.qml:152
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "锁定"
 
-#: qml/Components/Dialogs.qml:191
+#: qml/Components/Dialogs.qml:159
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "退出"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:264
-#: qml/Greeter/NarrowView.qml:208 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
+#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
+#: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "取消"
 
-#: qml/Components/Dialogs.qml:211
+#: qml/Components/Dialogs.qml:178
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "重启"
 
-#: qml/Components/Dialogs.qml:212
+#: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
 msgstr "您确定要重启吗？"
 
-#: qml/Components/Dialogs.qml:215
+#: qml/Components/Dialogs.qml:181
 msgid "No"
 msgstr "否"
 
-#: qml/Components/Dialogs.qml:223
+#: qml/Components/Dialogs.qml:187
 msgid "Yes"
 msgstr "是"
 
-#: qml/Components/Dialogs.qml:239
+#: qml/Components/Dialogs.qml:202
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "电源"
 
-#: qml/Components/Dialogs.qml:240
+#: qml/Components/Dialogs.qml:203
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -119,12 +93,12 @@ msgstr ""
 "您确定要\n"
 "关闭电源吗？"
 
-#: qml/Components/Dialogs.qml:244
+#: qml/Components/Dialogs.qml:205
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "关闭电源"
 
-#: qml/Components/Dialogs.qml:255
+#: qml/Components/Dialogs.qml:214
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "重启"
@@ -150,8 +124,8 @@ msgid "Alt + PrtScr"
 msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
-msgid "Takes a screenshot of the current window."
-msgstr ""
+msgid "Takes a screenshot of a window."
+msgstr "给窗口截图。"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -169,143 +143,127 @@ msgstr "Super + Shift + 空格"
 msgid "Switches to previous keyboard layout."
 msgstr "切换至前一个键盘布局。"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:114
-msgid "Ctrl + Alt + T"
-msgstr ""
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:119
-msgid "Starts the Terminal application."
-msgstr ""
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:131
+#: qml/Components/KeyboardShortcutsOverlay.qml:118
 msgid "Launcher"
 msgstr "启动器"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:138
+#: qml/Components/KeyboardShortcutsOverlay.qml:125
 msgid "Super (Hold)"
 msgstr "Super (长按)"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:143
+#: qml/Components/KeyboardShortcutsOverlay.qml:130
 msgid "Opens the launcher, displays shortcuts."
 msgstr "打开启动器，显示快捷键。"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:151
+#: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Alt + F1"
 msgstr "Alt + F1"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:156
+#: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens launcher keyboard navigation mode."
 msgstr "打开启动器键盘导航模式。"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:164
+#: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Super + Tab"
 msgstr "Super + Tab"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:169
+#: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Switches applications via the launcher."
 msgstr "通过启动器切换应用程序。"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:177
-msgid "Super + 1 to 0"
-msgstr ""
+#: qml/Components/KeyboardShortcutsOverlay.qml:164
+msgid "Super + 0 to 9"
+msgstr "Super + 0 至 9"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:182
+#: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Same as clicking on a launcher icon."
 msgstr "等同于在启动器上点击相应的图标。"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:190
-msgid "Super + A"
-msgstr ""
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:195
-msgid "Opens the Application Drawer."
-msgstr ""
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
+#: qml/Components/KeyboardShortcutsOverlay.qml:181
 msgid "Scopes"
 msgstr "Scopes"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
+#: qml/Components/KeyboardShortcutsOverlay.qml:188
 msgid "Super (Tap)"
 msgstr "Super (轻按)"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
+#: qml/Components/KeyboardShortcutsOverlay.qml:193
 msgid "Opens the Scopes home."
 msgstr "打开 Scope 首页。"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:235
+#: qml/Components/KeyboardShortcutsOverlay.qml:209
 msgid "Switching"
 msgstr "切换"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:242
+#: qml/Components/KeyboardShortcutsOverlay.qml:216
 msgid "Alt + Tab"
 msgstr "Alt + Tab"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:247
+#: qml/Components/KeyboardShortcutsOverlay.qml:221
 msgid "Switches between applications."
-msgstr "切换应用程序"
+msgstr "切换应用程序。"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:255
+#: qml/Components/KeyboardShortcutsOverlay.qml:229
 msgid "Super + W"
 msgstr "Super + W"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:260
+#: qml/Components/KeyboardShortcutsOverlay.qml:234
 msgid "Opens the desktop spread."
-msgstr ""
+msgstr "打开扩展桌面。"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:268
+#: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Cursor Left or Right"
 msgstr "光标左侧或右侧"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:273
+#: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Moves the focus."
 msgstr "移动焦点。"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:285
+#: qml/Components/KeyboardShortcutsOverlay.qml:259
 msgid "Windows"
 msgstr "窗口"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:292
+#: qml/Components/KeyboardShortcutsOverlay.qml:266
 msgid "Ctrl + Super + D"
 msgstr "Ctrl + Super + D"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:297
+#: qml/Components/KeyboardShortcutsOverlay.qml:271
 msgid "Minimizes all windows."
 msgstr "最小化所有窗口。"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:305
+#: qml/Components/KeyboardShortcutsOverlay.qml:279
 msgid "Ctrl + Super + Up"
 msgstr "Ctrl + Super + 上方向键"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:310
+#: qml/Components/KeyboardShortcutsOverlay.qml:284
 msgid "Maximizes the current window."
 msgstr "最大化当前窗口。"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:318
+#: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + Down"
 msgstr "Ctrl + Super + 下方向键"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:323
+#: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes or restores the current window."
 msgstr "最小化或还原当前窗口。"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:331
+#: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Left or Right"
 msgstr "Ctrl + Super + 左右方向键"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:336
+#: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Semi-maximizes the current window."
 msgstr "半最大化当前窗口。"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:344
+#: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Alt + F4"
 msgstr "Alt + F4"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:349
+#: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Closes the current window."
 msgstr "关闭当前窗口。"
 
-#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:228
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
 msgid "Return to Call"
 msgstr "回到呼叫"
 
@@ -313,7 +271,7 @@ msgstr "回到呼叫"
 msgid "Emergency Call"
 msgstr "紧急呼叫"
 
-#: qml/Components/Lockscreen.qml:245
+#: qml/Components/Lockscreen.qml:244
 msgid "OK"
 msgstr "确定"
 
@@ -327,29 +285,29 @@ msgstr "%1:%2:%3"
 msgid "%1:%2"
 msgstr "%1:%2"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:33
+#: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
 msgstr "应用中可能有未保存数据:"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:60
+#: qml/Components/ModeSwitchWarningDialog.qml:57
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr "重新连接，保存你的工作并关闭这些应用并继续。"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:67
+#: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
 msgstr "或者立即强制关闭（未保存的数据将丢失）。"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:80
+#: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
 msgstr "好的，我就重新连接"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:81
+#: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
 msgstr "即刻重新连接！"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:94
+#: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
 msgstr "关闭所有"
 
@@ -357,29 +315,110 @@ msgstr "关闭所有"
 msgid "Preview Share Item"
 msgstr "预览分享项目"
 
-#: qml/Components/VirtualTouchPad.qml:317
+#: qml/Dash/DashPageHeader.qml:361
+msgctxt "Button: Open the Ubuntu Store"
+msgid "Store"
+msgstr "商店"
+
+#: qml/Dash/DashPageHeader.qml:368
+msgctxt "Button: Start a search in the current dash scope"
+msgid "Search"
+msgstr "搜索"
+
+#: qml/Dash/DashPageHeader.qml:378
+msgctxt "Button: Show the current dash scope settings"
+msgid "Settings"
+msgstr "设置"
+
+#: qml/Dash/DashPageHeader.qml:385
+msgid "Remove from Favorites"
+msgstr "从收藏夹中移除"
+
+#: qml/Dash/DashPageHeader.qml:385
+msgid "Add to Favorites"
+msgstr "添加到收藏夹"
+
+#: qml/Dash/FiltersPopover.qml:61
+msgid "Refine your results"
+msgstr "精进查找结果"
+
+#: qml/Dash/FiltersPopover.qml:70
+msgid "Reset"
+msgstr "重置"
+
+#: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
+msgid "Show less"
+msgstr "显示更少"
+
+#: qml/Dash/GenericScopeView.qml:547
+msgid "Show all"
+msgstr "显示全部"
+
+#: qml/Dash/GenericScopeView.qml:578
+msgctxt "Label: Hint for dash search line edit"
+msgid "Search"
+msgstr "搜索"
+
+#: qml/Dash/PageHeaderExtraPanel.qml:67
+msgid "Recent Searches"
+msgstr "近期搜索"
+
+#: qml/Dash/PageHeaderExtraPanel.qml:78
+msgid "Clear All"
+msgstr "全部清除"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:36
+msgid "More..."
+msgstr "更多..."
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:36
+msgid "Less..."
+msgstr "更少..."
+
+#: qml/Dash/Previews/PreviewCommentInput.qml:83
+#: qml/Dash/Previews/PreviewRatingInput.qml:202
+msgid "Send"
+msgstr "发送"
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:109
+msgid "Rate this"
+msgstr "评分"
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:184
+msgid "Add a review"
+msgstr "添加评论"
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:56
+msgid "Pull to refresh…"
+msgstr "下拉刷新…"
+
+#: qml/Dash/PullToRefreshScopeStyle.qml:61
+msgid "Release to refresh…"
+msgstr "放开刷新…"
+
+#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
+msgid "Enable location data"
+msgstr "启用位置信息"
+
+#: qml/Dash/ScopesList.qml:57
+msgid "Manage"
+msgstr "管理"
+
+#: qml/Dash/ScopesList.qml:104
+msgid "Home"
+msgstr "首页"
+
+#: qml/Dash/ScopesList.qml:105
+msgid "Also installed"
+msgstr "已安装"
+
+#: qml/DisabledScreenNotice.qml:109
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
 "你的设备现在已经连接到一个外部显示。将这个屏幕当作一块触控板使用来与指针互"
 "动。"
-
-#: qml/Components/VirtualTouchPad.qml:327
-msgid "Tap left button to click."
-msgstr ""
-
-#: qml/Components/VirtualTouchPad.qml:339
-msgid "Tap right button to right click."
-msgstr ""
-
-#: qml/Components/VirtualTouchPad.qml:351
-msgid "Swipe with two fingers to scroll."
-msgstr ""
-
-#: qml/Components/VirtualTouchPad.qml:396
-msgid "Find more settings in the system settings."
-msgstr ""
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -401,39 +440,35 @@ msgstr "您因太多失败的密码尝试而被锁定。"
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "请稍候 %1 分钟，然后重试..."
+msgstr[0] "请稍候 %1 分钟，然后重试…"
 
-#: qml/Greeter/Greeter.qml:550
+#: qml/Greeter/Greeter.qml:596
 msgid "Try again"
 msgstr "重试"
 
-#: qml/Greeter/Greeter.qml:551
-msgid "Enter passphrase to unlock"
-msgstr ""
-
-#: qml/Greeter/Greeter.qml:552
-msgid "Enter passcode to unlock"
-msgstr ""
-
-#: qml/Greeter/NarrowView.qml:228
-msgid "Emergency"
-msgstr ""
-
-#: qml/Greeter/PromptList.qml:126
+#: qml/Greeter/LoginList.qml:70
 msgid "Passphrase"
-msgstr ""
+msgstr "密码"
 
-#: qml/Greeter/PromptList.qml:126
+#: qml/Greeter/LoginList.qml:71
 msgid "Passcode"
-msgstr ""
+msgstr "PIN 密码"
 
-#: qml/Greeter/SessionsList.qml:124
+#: qml/Greeter/LoginList.qml:98 qml/Wizard/Pages/UpdateDelegate.qml:118
+msgid "Retry"
+msgstr "重试"
+
+#: qml/Greeter/LoginList.qml:99
+msgid "Log In"
+msgstr "登录"
+
+#: qml/Greeter/NarrowView.qml:252
+msgid "Emergency"
+msgstr "紧急情况"
+
+#: qml/Greeter/SessionsList.qml:122
 msgid "Select desktop environment"
-msgstr ""
-
-#: qml/Launcher/Drawer.qml:107
-msgid "Search…"
-msgstr ""
+msgstr "选择桌面环境"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -447,60 +482,60 @@ msgstr "点击回到通话..."
 msgid "Conference"
 msgstr "会议"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:869
+#: qml/Panel/Indicators/MenuItemFactory.qml:847
 msgid "Nothing is playing"
 msgstr "无正在播放的项目"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:997
+#: qml/Panel/Indicators/MenuItemFactory.qml:975
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 小时"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1001
+#: qml/Panel/Indicators/MenuItemFactory.qml:979
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 分钟"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1006
+#: qml/Panel/Indicators/MenuItemFactory.qml:984
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 秒"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1009
+#: qml/Panel/Indicators/MenuItemFactory.qml:987
 msgid "0 seconds"
 msgstr "0 秒"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1011
+#: qml/Panel/Indicators/MenuItemFactory.qml:989
 #, qt-format
 msgid "%1 remaining"
 msgstr "剩余 %1"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1017
+#: qml/Panel/Indicators/MenuItemFactory.qml:995
 msgid "In queue…"
-msgstr "排队中..."
+msgstr "排队中…"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1021
+#: qml/Panel/Indicators/MenuItemFactory.qml:999
 #: qml/Wizard/Pages/UpdateDelegate.qml:226
 msgid "Downloading"
 msgstr "正在下载"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1023
+#: qml/Panel/Indicators/MenuItemFactory.qml:1001
 msgid "Paused, tap to resume"
 msgstr "已暂停，点击继续"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1025
+#: qml/Panel/Indicators/MenuItemFactory.qml:1003
 msgid "Canceled"
 msgstr "已取消"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1027
+#: qml/Panel/Indicators/MenuItemFactory.qml:1005
 msgid "Finished"
 msgstr "已完成"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1029
+#: qml/Panel/Indicators/MenuItemFactory.qml:1007
 msgid "Failed, tap to retry"
 msgstr "下载失败，请点击重试"
 
@@ -520,17 +555,13 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "回电"
 
-#: qml/Panel/PanelMenuPage.qml:92
-msgid "Back"
-msgstr ""
-
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "使用三指将任何应用从一个窗口拖拽至另一个"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Application Drawer"
-msgstr ""
+msgid "Long swipe from the left edge to open the Today scope"
+msgstr "从左侧边缘长距离滑动打开“今日”分类"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -560,49 +591,46 @@ msgstr "语言"
 #: qml/Wizard/Pages/10-welcome.qml:175
 #: qml/Wizard/Pages/10-welcome-update.qml:126
 #: qml/Wizard/Pages/11-changelog.qml:74 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:214 qml/Wizard/Pages/50-timezone.qml:272
-#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/70-passwd-type.qml:146
-#: qml/Wizard/Pages/76-app-update.qml:231
-#: qml/Wizard/Pages/passcode-desktop.qml:154
-#: qml/Wizard/Pages/password-set.qml:153
+#: qml/Wizard/Pages/30-wifi.qml:208 qml/Wizard/Pages/50-timezone.qml:272
+#: qml/Wizard/Pages/60-account.qml:66 qml/Wizard/Pages/70-passwd-type.qml:146
+#: qml/Wizard/Pages/75-report-check.qml:85
+#: qml/Wizard/Pages/76-app-update.qml:236
+#: qml/Wizard/Pages/passcode-desktop.qml:142
+#: qml/Wizard/Pages/password-set.qml:142
 msgid "Next"
 msgstr "下一步"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:91
-#, fuzzy
-#| msgid "Welcome to Ubuntu"
 msgid "Welcome to "
-msgstr "欢迎使用 Ubuntu"
+msgstr "欢迎使用 "
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
-msgstr ""
+msgstr "我们将使您的设备准备就绪 "
 
 #: qml/Wizard/Pages/11-changelog.qml:28
 msgid "What's new"
-msgstr ""
+msgstr "有什么新的"
 
 #: qml/Wizard/Pages/11-changelog.qml:74
-#, fuzzy
-#| msgid "Speaking..."
 msgid "Loading..."
-msgstr "讲话中..."
+msgstr "载入中…"
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
-msgstr ""
+msgstr "选择键盘"
 
 #: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
-msgstr ""
+msgstr "键盘语言"
 
 #: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
-msgstr ""
+msgstr "键盘配置"
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:214
-#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/76-app-update.qml:235
-#: qml/Wizard/Pages/79-system-update.qml:144 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:208
+#: qml/Wizard/Pages/60-account.qml:66 qml/Wizard/Pages/76-app-update.qml:240
+#: qml/Wizard/Pages/79-system-update.qml:152 qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "跳过"
 
@@ -610,15 +638,15 @@ msgstr "跳过"
 msgid "Connect to Wi‑Fi"
 msgstr "连接至 WLAN"
 
-#: qml/Wizard/Pages/30-wifi.qml:139
+#: qml/Wizard/Pages/30-wifi.qml:133
 msgid "Connected"
 msgstr "已连接"
 
-#: qml/Wizard/Pages/30-wifi.qml:172
+#: qml/Wizard/Pages/30-wifi.qml:166
 msgid "Available Wi-Fi networks"
 msgstr "可用的 WLAN 网络"
 
-#: qml/Wizard/Pages/30-wifi.qml:173
+#: qml/Wizard/Pages/30-wifi.qml:167
 msgid "No available Wi-Fi networks"
 msgstr "没有可用的 WLAN 网络"
 
@@ -634,7 +662,7 @@ msgstr "输入您的城市"
 msgid "Personalize Your Device"
 msgstr "个性化您的设备"
 
-#: qml/Wizard/Pages/60-account.qml:54
+#: qml/Wizard/Pages/60-account.qml:49
 msgid "Preferred Name"
 msgstr "首选名称"
 
@@ -657,65 +685,79 @@ msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "无密码"
 
-#: qml/Wizard/Pages/76-app-update.qml:34
+#: qml/Wizard/Pages/75-report-check.qml:26
+msgid "Privacy Policy"
+msgstr "隐私政策"
+
+#: qml/Wizard/Pages/75-report-check.qml:26
+msgid "Help Us Improve"
+msgstr "帮助我们改进"
+
+#: qml/Wizard/Pages/75-report-check.qml:60
+msgid "Improve system performance by sending us crashes and error reports."
+msgstr "向我们发送崩溃和错误报告来提高系统性能。"
+
+#: qml/Wizard/Pages/75-report-check.qml:61
+msgid "Privacy policy"
+msgstr "隐私政策"
+
+#: qml/Wizard/Pages/76-app-update.qml:35
 msgid "Update Apps"
-msgstr ""
+msgstr "更新应用"
 
-#: qml/Wizard/Pages/76-app-update.qml:122
+#: qml/Wizard/Pages/76-app-update.qml:127
 msgid "This device is not connected to the internet."
-msgstr ""
-
-#: qml/Wizard/Pages/76-app-update.qml:123
-#: qml/Wizard/Pages/76-app-update.qml:129
-msgid "Use the OpenStore app to check for updates once connected."
-msgstr ""
-
-#: qml/Wizard/Pages/76-app-update.qml:125
-msgid "Software is up to date"
-msgstr ""
+msgstr "设备已脱机。"
 
 #: qml/Wizard/Pages/76-app-update.qml:128
-msgid "The update server is not responding."
-msgstr ""
+#: qml/Wizard/Pages/76-app-update.qml:134
+msgid "Use the OpenStore app to check for updates once connected."
+msgstr "联网后通过OpenStore检查更新。"
 
-#: qml/Wizard/Pages/76-app-update.qml:233
-#, fuzzy
-#| msgid "Loading. Please Wait..."
+#: qml/Wizard/Pages/76-app-update.qml:130
+msgid "Software is up to date"
+msgstr "软件已是最新"
+
+#: qml/Wizard/Pages/76-app-update.qml:133
+msgid "The update server is not responding."
+msgstr "更新服务器无响应。"
+
+#: qml/Wizard/Pages/76-app-update.qml:238
 msgid "Please wait..."
-msgstr "正在加载，请稍候..."
+msgstr "请稍候..."
 
 #: qml/Wizard/Pages/79-system-update.qml:28
 msgid "Update Device"
-msgstr ""
+msgstr "更新设备"
 
 #: qml/Wizard/Pages/79-system-update.qml:55
 msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
-msgstr ""
+msgstr "有可用的系统更新可以安装。稍后设备将自动重启。"
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
-msgid "Ubuntu Touch system"
-msgstr ""
+msgid "Ubuntu system"
+msgstr "Ubuntu系统"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
-msgstr ""
+msgstr "版本 %1"
 
-#: qml/Wizard/Pages/79-system-update.qml:95
+#: qml/Wizard/Pages/79-system-update.qml:102
 msgid "This could take a few minutes..."
-msgstr ""
+msgstr "这可能需要几分钟。"
 
-#: qml/Wizard/Pages/79-system-update.qml:109
+#: qml/Wizard/Pages/79-system-update.qml:116
 msgid "Install and restart now"
-msgstr ""
+msgstr "安装并重新启动"
 
 #: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome Back"
-msgstr ""
+msgstr "欢迎回来"
 
 #: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
@@ -735,30 +777,28 @@ msgstr "入门"
 
 #: qml/Wizard/Pages/DownloadHandler.qml:174
 msgid "Installation failed"
-msgstr ""
+msgstr "安装失败"
 
 #: qml/Wizard/Pages/GlobalUpdateControls.qml:84
 msgid "Checking for updates…"
-msgstr ""
+msgstr "检查更新中…"
 
 #: qml/Wizard/Pages/GlobalUpdateControls.qml:109
 #, qt-format
 msgid "%1 update available"
 msgid_plural "%1 updates available"
-msgstr[0] ""
+msgstr[0] "%1 更新可用"
 
 #: qml/Wizard/Pages/GlobalUpdateControls.qml:119
 msgid "Update all…"
-msgstr ""
+msgstr "全部更新…"
 
 #: qml/Wizard/Pages/GlobalUpdateControls.qml:121
-#, fuzzy
-#| msgid "Not at all"
 msgid "Update all"
-msgstr "不使用"
+msgstr "全部更新"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:104
+#: qml/Wizard/Pages/passcode-desktop.qml:97
 msgid "Confirm passcode"
 msgstr "确认新密码"
 
@@ -775,24 +815,24 @@ msgstr "请重新输入。"
 msgid "Lock Screen Passcode"
 msgstr "锁屏密码"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:68
+#: qml/Wizard/Pages/passcode-desktop.qml:61
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "输入 4 个数字来设置你的密码"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:84
+#: qml/Wizard/Pages/passcode-desktop.qml:77
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "选择密码"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:139
+#: qml/Wizard/Pages/passcode-desktop.qml:127
 msgid "Passcode too short"
 msgstr "密码太短"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:141
+#: qml/Wizard/Pages/passcode-desktop.qml:129
 msgid "Passcodes match"
 msgstr "密码匹配"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:143
+#: qml/Wizard/Pages/passcode-desktop.qml:131
 msgid "Passcodes do not match"
 msgstr "密码不匹配"
 
@@ -804,15 +844,15 @@ msgstr "密码必须为 4 个字符长度"
 msgid "Lock Screen Password"
 msgstr "锁屏密码"
 
-#: qml/Wizard/Pages/password-set.qml:68
+#: qml/Wizard/Pages/password-set.qml:62
 msgid "Enter at least 8 characters"
 msgstr "输入至少8个字符"
 
-#: qml/Wizard/Pages/password-set.qml:80
+#: qml/Wizard/Pages/password-set.qml:74
 msgid "Choose password"
 msgstr "设置密码"
 
-#: qml/Wizard/Pages/password-set.qml:110
+#: qml/Wizard/Pages/password-set.qml:104
 msgid "Confirm password"
 msgstr "确认密码"
 
@@ -826,7 +866,7 @@ msgstr "SIM 卡已添加"
 
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
-msgstr "你必须重启设备才能访问移动网络"
+msgstr "你必须重启设备才能访问移动网络。"
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
@@ -838,75 +878,69 @@ msgstr "没有 SIM 卡你将不能拨打电话或使用短信。"
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr "点击跳过继续无 SIM 卡"
+msgstr "没有SIM卡，请点击跳过。"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:123
 msgid "Update"
-msgstr ""
+msgstr "更新"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:125
-#, fuzzy
-#| msgid "Downloading"
 msgid "Download"
-msgstr "正在下载"
+msgstr "下载"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:131
 msgid "Resume"
-msgstr ""
+msgstr "继续"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:138
 msgid "Pause"
-msgstr ""
+msgstr "暂停"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:142
 msgid "Install…"
-msgstr ""
+msgstr "安装…"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:144
 msgid "Install"
-msgstr ""
+msgstr "安装"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:148
 msgid "Open"
-msgstr ""
+msgstr "打开"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:216
 msgid "Installing"
-msgstr ""
+msgstr "安装中"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:220
 msgid "Paused"
-msgstr ""
+msgstr "已暂停"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:223
 msgid "Waiting to download"
-msgstr ""
+msgstr "等待下载"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:279
 #, qt-format
 msgid "%1 of %2"
-msgstr ""
+msgstr "%1 总共 %2"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:283
-#, fuzzy
-#| msgid "Downloading"
 msgid "Downloaded"
-msgstr "正在下载"
+msgstr "已下载"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:286
-#, fuzzy
-#| msgid "Also installed"
 msgid "Installed"
 msgstr "已安装"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:291
 #, qt-format
 msgid "Updated %1"
-msgstr ""
+msgstr "已更新 %1"
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:315
 msgid "Update failed"
-msgstr ""
+msgstr "更新失败"
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
@@ -936,76 +970,6 @@ msgstr "密码强度：较弱"
 msgid "Very weak password"
 msgstr "密码强度：非常弱"
 
-#~ msgctxt "Button: Open the Ubuntu Store"
-#~ msgid "Store"
-#~ msgstr "商店"
-
-#~ msgctxt "Button: Start a search in the current dash scope"
-#~ msgid "Search"
-#~ msgstr "搜索"
-
-#~ msgctxt "Button: Show the current dash scope settings"
-#~ msgid "Settings"
-#~ msgstr "设置"
-
-#~ msgid "Remove from Favorites"
-#~ msgstr "从收藏夹中移除"
-
-#~ msgid "Add to Favorites"
-#~ msgstr "添加到收藏夹"
-
-#~ msgid "Refine your results"
-#~ msgstr "精进查找结果"
-
-#~ msgid "Reset"
-#~ msgstr "重置"
-
-#~ msgid "Show less"
-#~ msgstr "显示更少"
-
-#~ msgid "Show all"
-#~ msgstr "显示全部"
-
-#~ msgctxt "Label: Hint for dash search line edit"
-#~ msgid "Search"
-#~ msgstr "搜索"
-
-#~ msgid "Recent Searches"
-#~ msgstr "近期搜索"
-
-#~ msgid "Clear All"
-#~ msgstr "全部清除"
-
-#~ msgid "More..."
-#~ msgstr "更多..."
-
-#~ msgid "Less..."
-#~ msgstr "更少..."
-
-#~ msgid "Send"
-#~ msgstr "发送"
-
-#~ msgid "Rate this"
-#~ msgstr "评分"
-
-#~ msgid "Add a review"
-#~ msgstr "添加评论"
-
-#~ msgid "Pull to refresh…"
-#~ msgstr "下拉刷新..."
-
-#~ msgid "Release to refresh…"
-#~ msgstr "放开刷新..."
-
-#~ msgid "Enable location data"
-#~ msgstr "启用位置信息"
-
-#~ msgid "Manage"
-#~ msgstr "管理"
-
-#~ msgid "Home"
-#~ msgstr "首页"
-
 #~ msgid "Location Services"
 #~ msgstr "定位服务"
 
@@ -1029,18 +993,6 @@ msgstr "密码强度：非常弱"
 
 #~ msgid "You can change it later in System Settings."
 #~ msgstr "可以稍后在系统设置中更改。"
-
-#~ msgid "Privacy Policy"
-#~ msgstr "隐私政策"
-
-#~ msgid "Help Us Improve"
-#~ msgstr "帮助我们改进"
-
-#~ msgid "Improve system performance by sending us crashes and error reports."
-#~ msgstr "向我们发送崩溃和错误报告来提高系统性能。"
-
-#~ msgid "Privacy policy"
-#~ msgstr "隐私政策"
 
 #~ msgid "Terms & Conditions"
 #~ msgstr "条款与条件"
@@ -1422,12 +1374,3 @@ msgstr "密码强度：非常弱"
 
 #~ msgid "Short or long swipe from the right edge to view your open apps"
 #~ msgstr "从右侧边缘短距离或长距离滑动查看打开的应用"
-
-#~ msgid "Long swipe from the left edge to open the Today scope"
-#~ msgstr "从左侧边缘长距离滑动打开“今日”分类"
-
-#~ msgid "Takes a screenshot of a window."
-#~ msgstr "给窗口截图。"
-
-#~ msgid "Super + 0 to 9"
-#~ msgstr "Super + 0 至 9"
