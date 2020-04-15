@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-02-03 17:21+0000\n"
-"Last-Translator: nathangiovannini3 <nathan95@live.it>\n"
+"PO-Revision-Date: 2020-04-15 21:57+0000\n"
+"Last-Translator: Mike <miguel2000@livecom.it>\n"
 "Language-Team: Italian <https://translate.ubports.com/projects/unity8/unity8/"
 "it/>\n"
 "Language: it\n"
@@ -26,7 +26,7 @@ msgstr "Password: "
 
 #: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr ""
+msgstr "Nome utente"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
