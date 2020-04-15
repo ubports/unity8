@@ -1,104 +1,102 @@
-# Wolof translation for unity8
-# Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Canonical Ltd.
 # This file is distributed under the same license as the unity8 package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 13:29-0500\n"
-"PO-Revision-Date: 2015-10-29 11:16+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Wolof <wo@li.org>\n"
-"Language: wo\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: gu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-11-23 06:36+0000\n"
-"X-Generator: Launchpad (build 18269)\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
-msgstr "Baatu-jàll "
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:50
 #: plugins/Unity/Launcher/launcheritem.cpp:109
 msgid "Pin shortcut"
-msgstr "Kepp"
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:55
 msgid "Quit"
-msgstr "Génn"
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:109
 msgid "Unpin shortcut"
-msgstr "Dindi"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:149
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr "Génn"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:150
 msgid "Are you sure you want to log out?"
-msgstr "Wóor na ne danga bëgg a génn?"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:152
 msgctxt "Button: Lock the system"
 msgid "Lock"
-msgstr "Tëj"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:159
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr "Génn"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
 #: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
 #: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
-msgstr "Neenal"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:178
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
-msgstr "Fay-taalaat"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
-msgstr "Wóor na ne danga bëgg a fay-taalaat?"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:181
 msgid "No"
-msgstr "Déet"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:187
 msgid "Yes"
-msgstr "Waaw"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:202
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr "Fay"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:203
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
-msgstr "Wóor na ne danga bëgg a fay?"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:205
 msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr "Fay"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:214
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr "Fay-taalaat"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
@@ -262,15 +260,15 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
 msgid "Return to Call"
-msgstr "Dellu ci woote bi"
+msgstr ""
 
 #: qml/Components/Lockscreen.qml:212
 msgid "Emergency Call"
-msgstr "Wooteb wallu"
+msgstr ""
 
 #: qml/Components/Lockscreen.qml:244
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
@@ -315,25 +313,25 @@ msgstr ""
 #: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr "Ja"
+msgstr ""
 
 #: qml/Dash/DashPageHeader.qml:368
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
-msgstr "Seet"
+msgstr ""
 
 #: qml/Dash/DashPageHeader.qml:378
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr "Jekkal"
+msgstr ""
 
 #: qml/Dash/DashPageHeader.qml:385
 msgid "Remove from Favorites"
-msgstr "Dindee ci Tànneef yi"
+msgstr ""
 
 #: qml/Dash/DashPageHeader.qml:385
 msgid "Add to Favorites"
-msgstr "Yokk ci Tànneef yi"
+msgstr ""
 
 #: qml/Dash/FiltersPopover.qml:61
 msgid "Refine your results"
@@ -354,7 +352,7 @@ msgstr ""
 #: qml/Dash/GenericScopeView.qml:578
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
-msgstr "Seet"
+msgstr ""
 
 #: qml/Dash/PageHeaderExtraPanel.qml:67
 msgid "Recent Searches"
@@ -366,48 +364,48 @@ msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:36
 msgid "More..."
-msgstr "Leneen..."
+msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:36
 msgid "Less..."
-msgstr "Wàññi..."
+msgstr ""
 
 #: qml/Dash/Previews/PreviewCommentInput.qml:83
 #: qml/Dash/Previews/PreviewRatingInput.qml:202
 msgid "Send"
-msgstr "Yónnee"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:109
 msgid "Rate this"
-msgstr "Xayma ko"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:184
 msgid "Add a review"
-msgstr "Yokk sa xalaat"
+msgstr ""
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:56
 msgid "Pull to refresh…"
-msgstr "Xëcc ngir yeesal..."
+msgstr ""
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:61
 msgid "Release to refresh…"
-msgstr "Bàyyi ngir yeesal..."
+msgstr ""
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
-msgstr "Doxal njoxey barab"
+msgstr ""
 
 #: qml/Dash/ScopesList.qml:57
 msgid "Manage"
-msgstr "Yor"
+msgstr ""
 
 #: qml/Dash/ScopesList.qml:104
 msgid "Home"
-msgstr "Njëlbeen"
+msgstr ""
 
 #: qml/Dash/ScopesList.qml:105
 msgid "Also installed"
-msgstr "Yiñ samp tamit"
+msgstr ""
 
 #: qml/DisabledScreenNotice.qml:109
 msgid ""
@@ -417,26 +415,26 @@ msgstr ""
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
-msgstr "Ubbi"
+msgstr ""
 
 #: qml/Greeter/DelayedLockscreen.qml:43
 msgid "Device Locked"
-msgstr "Téye nañ jumtukaay"
+msgstr ""
 
 #: qml/Greeter/DelayedLockscreen.qml:58
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr "Téye nañ la ndax danga duggal ay yoon kàddu-jàll bu baaxul."
+msgstr ""
 
 #: qml/Greeter/DelayedLockscreen.qml:59
 msgid "You have been locked out due to too many failed passcode attempts."
-msgstr "Téye nañ la ndax danga duggal ay yoon kàddu-jàll bu baaxul."
+msgstr ""
 
 #: qml/Greeter/DelayedLockscreen.qml:68
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Dila ñaan nga xaar %1 simili te jéemaat..."
-msgstr[1] "Dila ñaan nga xaar %1 simili te jéemaat..."
+msgstr[0] ""
+msgstr[1] ""
 
 #: qml/Greeter/Greeter.qml:596
 msgid "Try again"
@@ -452,7 +450,7 @@ msgstr ""
 
 #: qml/Greeter/LoginList.qml:98 qml/Wizard/Pages/UpdateDelegate.qml:118
 msgid "Retry"
-msgstr "Jéemaat"
+msgstr ""
 
 #: qml/Greeter/LoginList.qml:99
 msgid "Log In"
@@ -468,75 +466,75 @@ msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
-msgstr "Wone baatu-jàll"
+msgstr ""
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr "Bësal ngir dello ci woote bi..."
+msgstr ""
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
-msgstr "Wax ci kaw"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:847
 msgid "Nothing is playing"
-msgstr "Dara dawul"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:975
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
-msgstr[0] "%1 waxtu"
-msgstr[1] "%1 waxtu"
+msgstr[0] ""
+msgstr[1] ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:979
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] "%1 simili"
-msgstr[1] "%1 simili"
+msgstr[0] ""
+msgstr[1] ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:984
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
-msgstr[0] "%1 saa"
-msgstr[1] "%1 saa"
+msgstr[0] ""
+msgstr[1] ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:987
 msgid "0 seconds"
-msgstr "0 saa"
+msgstr ""
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
 #: qml/Panel/Indicators/MenuItemFactory.qml:989
 #, qt-format
 msgid "%1 remaining"
-msgstr "%1 moo des"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:995
 msgid "In queue…"
-msgstr "ci xaaruwaay bi..."
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:999
 #: qml/Wizard/Pages/UpdateDelegate.qml:226
 msgid "Downloading"
-msgstr "Yebbi"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:1001
 msgid "Paused, tap to resume"
-msgstr "Dafa taxaw, bësal ngir tàmbaliwaat"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:1003
 msgid "Canceled"
-msgstr "Neenalees"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:1005
 msgid "Finished"
-msgstr "Jeexalees"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:1007
 msgid "Failed, tap to retry"
-msgstr "Antoodi, bësal ngir jéemaat"
+msgstr ""
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:151
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:210
@@ -547,7 +545,7 @@ msgstr ""
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:152
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
-msgstr "Wuyu"
+msgstr ""
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:209
 msgctxt "Button: Call back on phone"
@@ -581,7 +579,7 @@ msgstr ""
 #: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr "Dellu"
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
@@ -612,9 +610,8 @@ msgid "What's new"
 msgstr ""
 
 #: qml/Wizard/Pages/11-changelog.qml:74
-#, fuzzy
 msgid "Loading..."
-msgstr "Maa ngi wax..."
+msgstr ""
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
@@ -632,11 +629,11 @@ msgstr ""
 #: qml/Wizard/Pages/60-account.qml:66 qml/Wizard/Pages/76-app-update.qml:240
 #: qml/Wizard/Pages/79-system-update.qml:152 qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
-msgstr "Tëb"
+msgstr ""
 
 #: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
-msgstr "Lonku ci Wi-fi"
+msgstr ""
 
 #: qml/Wizard/Pages/30-wifi.qml:133
 msgid "Connected"
@@ -723,9 +720,8 @@ msgid "The update server is not responding."
 msgstr ""
 
 #: qml/Wizard/Pages/76-app-update.qml:238
-#, fuzzy
 msgid "Please wait..."
-msgstr "Yeb. Di ñaan nga xaar..."
+msgstr ""
 
 #: qml/Wizard/Pages/79-system-update.qml:28
 msgid "Update Device"
@@ -770,7 +766,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Continue"
-msgstr "Wéy"
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
@@ -796,14 +792,13 @@ msgid "Update all…"
 msgstr ""
 
 #: qml/Wizard/Pages/GlobalUpdateControls.qml:121
-#, fuzzy
 msgid "Update all"
-msgstr "Déet"
+msgstr ""
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:97
 msgid "Confirm passcode"
-msgstr "Dëggal baatu-jàll"
+msgstr ""
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
@@ -873,7 +868,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
-msgstr "Fay-taalaat"
+msgstr ""
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
@@ -888,9 +883,8 @@ msgid "Update"
 msgstr ""
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:125
-#, fuzzy
 msgid "Download"
-msgstr "Yebbi"
+msgstr ""
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:131
 msgid "Resume"
@@ -930,14 +924,12 @@ msgid "%1 of %2"
 msgstr ""
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:283
-#, fuzzy
 msgid "Downloaded"
-msgstr "Yebbi"
+msgstr ""
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:286
-#, fuzzy
 msgid "Installed"
-msgstr "Yiñ samp tamit"
+msgstr ""
 
 #: qml/Wizard/Pages/UpdateDelegate.qml:291
 #, qt-format
@@ -975,349 +967,3 @@ msgstr ""
 #: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
 msgstr ""
-
-#~ msgid "Terms & Conditions"
-#~ msgstr "Anami jëfandiku gi"
-
-#~ msgid "Log out"
-#~ msgstr "Génn"
-
-#~ msgid "Power"
-#~ msgstr "Fay"
-
-#~ msgid "Are you sure you want to shut down?"
-#~ msgstr "Wóor na ne danga bëgg a fay?"
-
-#~ msgid "Reboot"
-#~ msgstr "Fay-taalaat"
-
-#~ msgid "Shut down"
-#~ msgstr "Fay"
-
-#~ msgid "Power off"
-#~ msgstr "Fay"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "Jéemal diri tambale ci kaw  ngir gis wonekaay yi"
-
-#~ msgid "Top edge"
-#~ msgstr "Cat wu kaw"
-
-#~ msgid "Close"
-#~ msgstr "Tëj"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "Diriwaatal ci kaw ngir tëj xoolu jekkal yi"
-
-#~ msgid "Left edge"
-#~ msgstr "Catu cammoñ"
-
-#~ msgid "Well done"
-#~ msgstr "Jaa-jëf"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr ""
-#~ "Jéemal diri tambalee ci cammoñ ngir gis ubbikaay bi ngir àgg gu gaaw ci "
-#~ "jëfekaay yi"
-
-#~ msgid "Skip intro"
-#~ msgstr "Tëb ndoorteel"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "Jéemal diri tambalee ci catu ndijoor bi ngir ubbi wootekaay bi"
-
-#~ msgid "Right edge"
-#~ msgstr "Cat wu ndijoor"
-
-#~ msgid "See all"
-#~ msgstr "Gis lépp"
-
-#~ msgid "Settings"
-#~ msgstr "Jekkal"
-
-#~ msgid "See less"
-#~ msgstr "Gis lu néew"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "Léegi nàng nga bu baax kon man nga tàmbali jëfandikoo wootekaay bi "
-#~ "<br><br> Bësal ci xoolu bi ngir tàmbali"
-
-#~ msgid "Store"
-#~ msgstr "Ja"
-
-#~ msgid "Search"
-#~ msgstr "Seet"
-
-#~ msgid "Type or say a command"
-#~ msgstr "Bind walla wax ag cantaane"
-
-#~ msgid "Speak Now..."
-#~ msgstr "Léegi waxal..."
-
-#~ msgid "Confirm"
-#~ msgstr "Dëggal"
-
-#~ msgid "Unlock SIM"
-#~ msgstr "Tijji SIM"
-
-#~ msgid "Roaming"
-#~ msgstr "Roaming"
-
-#~ msgid "Enter passphrase"
-#~ msgstr "Duggal kàddu-jàll"
-
-#~ msgid "Sorry, incorrect %1"
-#~ msgstr "Jéggalu, %1 baaxul"
-
-#~ msgid "Sorry, incorrect passphrase"
-#~ msgstr "Jéggalu, kàddu-jàll gi baaxul"
-
-#~ msgid "Enter %1"
-#~ msgstr "Bindal %1"
-
-#~ msgid "Sorry, incorrect passphrase."
-#~ msgstr "Jéggalu, kàddu-jàll gi baaxul."
-
-#~ msgid "Sorry, incorrect passcode."
-#~ msgstr "Jéggalu, baatu-jàll bi baaxul"
-
-#~ msgid "Please re-enter"
-#~ msgstr "Di la ñaan nga duggalaat"
-
-#~ msgid "Enter passcode"
-#~ msgstr "Duggal baatu-jàll"
-
-#~ msgid "Sorry, incorrect passcode"
-#~ msgstr "Jéggalu, baatu-jàll bi baaxul"
-
-#~ msgid ""
-#~ "If passphrase is entered incorrectly, your phone will conduct a factory "
-#~ "reset and all personal data will be deleted."
-#~ msgstr ""
-#~ "Su kàddu-jàll gi dugg baaxul, sa wootekaay di nañ ko delloo nimu meloon "
-#~ "ci defaram te sa bépp njoxe di nañ ko far."
-
-#~ msgid "This will be your last attempt."
-#~ msgstr "Bii mooy sa jéem bu mujj."
-
-#~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory "
-#~ "reset and all personal data will be deleted."
-#~ msgstr ""
-#~ "Su baatu-jàll bi dugg baaxul, sa wootekaay di nañ ko delloo nimu meloon "
-#~ "ci defaram te sa bépp njoxe di nañ ko far."
-
-#~ msgid "%a %H:%M"
-#~ msgstr "%a ci %H:%M"
-
-#~ msgid "%a %l:%M %p"
-#~ msgstr "%a ci %l:%M %p"
-
-#~ msgid "Tomorrow %l:%M %p"
-#~ msgstr "Suba ci %l:%M %p"
-
-#~ msgid "%l:%M %p"
-#~ msgstr "%l:%M %p"
-
-#~ msgid "Yesterday %l:%M %p"
-#~ msgstr "Démb %l:%M %p"
-
-#~ msgid "Tomorrow %H:%M"
-#~ msgstr "Suba ci %H:%M"
-
-#~ msgid "%H:%M"
-#~ msgstr "%H:%M"
-
-#~ msgid "%a %d %b %l:%M %p"
-#~ msgstr "%a %b %d  ci %l:%M %p"
-
-#~ msgid "Yesterday %H:%M"
-#~ msgstr "Démb %H:%M"
-
-#~ msgid "%a %d %b %H:%M"
-#~ msgstr "%a %b %d  ci %H:%M"
-
-#~ msgctxt "Button: Shut down the system"
-#~ msgid "Shut down"
-#~ msgstr "Fay"
-
-#~ msgctxt "Title: Reboot/Shut down dialog"
-#~ msgid "Shut down"
-#~ msgstr "Fay"
-
-#~ msgctxt "Button: Reboot the system"
-#~ msgid "Reboot"
-#~ msgstr "Fay-taalaat"
-
-#~ msgid "Tap to unlock"
-#~ msgstr "Bësal ngir ubbi"
-
-#~ msgctxt "passphrase"
-#~ msgid "Please re-enter"
-#~ msgstr "Di la ñaan nga duggalaat"
-
-#~ msgid "This action does different things for different apps"
-#~ msgstr "Jii jëf dafay defal mbir yu wuute jëfekaay yu wuute"
-
-#~ msgid "Call back"
-#~ msgstr "wootewaat"
-
-#~ msgid "Swipe up from the bottom edge."
-#~ msgstr "Diri tambalee ci cat bu suuf bi."
-
-#~ msgid "Open special menus"
-#~ msgstr "Open njëli jagleel"
-
-#~ msgid "Tap here to finish."
-#~ msgstr "Bësal fii ngir Feexal."
-
-#~ msgid "To view open apps"
-#~ msgstr "Ngir gis jëfekaay yi ubeeku"
-
-#~ msgid "Long swipe from the right edge."
-#~ msgstr "Diri bu gudd tambalee ci cat bu ndijoor bi."
-
-#~ msgid "View all your running tasks."
-#~ msgstr "Gis lépp luy dox ci biir."
-
-#~ msgid "These are the shortcuts to favorite apps"
-#~ msgstr "Yii ñall ñooy yóbbe ci jëfekaay yi nga taamu"
-
-#~ msgid "Try again."
-#~ msgstr "Jéemaatal"
-
-#~ msgid "You almost got it!"
-#~ msgstr "Léegi mu jeex"
-
-#~ msgid "Short swipe from the left edge."
-#~ msgstr "Diri bu gàtt tambalee ci cat bu cammoñ bi"
-
-#~ msgid "Open the launcher"
-#~ msgstr "Ubbi Ubbikaay bi"
-
-#~ msgid "Tap here to continue."
-#~ msgstr "Bësal fii ngir wéy."
-
-#~ msgid "Confirm passphrase"
-#~ msgstr "Dëggal kàddu-jàll"
-
-#~ msgid "Hi!"
-#~ msgstr "Dila nuyu!"
-
-#~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Dala-jàmm ci sa wootekaay bu Ubuntu."
-
-#~ msgid "Let’s get started."
-#~ msgstr "Nu tambali."
-
-#~ msgid "Choose your passcode"
-#~ msgstr "Tànnal sa baatu-jàll"
-
-#~ msgid "Passphrase must be 4 characters long"
-#~ msgstr "Kàddu-jàll gi faww mu mat 4 màndarga"
-
-#~ msgid "Lock security"
-#~ msgstr "Kaaraangeg tëj"
-
-#~ msgid "Without it, you won’t be able to make calls or use text messaging."
-#~ msgstr "Lu ko moy doo man a woote walla yónney bataaxal."
-
-#~ msgid "Add a SIM card and restart your device"
-#~ msgstr "Duggalal ab SIM te fay-taalaat sa wootekaay"
-
-#~ msgid "Please select how you’d like to unlock your phone."
-#~ msgstr "Tànnal nan nga bëgg a tëjee sa wootekaay"
-
-#~ msgctxt "Label: Description of security method"
-#~ msgid "No security"
-#~ msgstr "Amul kaaraange"
-
-#~ msgctxt "Label: Type of security method"
-#~ msgid "Swipe"
-#~ msgstr "Diri"
-
-#~ msgctxt "Label: Description of security method"
-#~ msgid "4 digits only"
-#~ msgstr "4 baaraam rek"
-
-#~ msgctxt "Label: Type of security method"
-#~ msgid "Passcode"
-#~ msgstr "Baatu-jàll"
-
-#~ msgctxt "Label: Type of security method"
-#~ msgid "Passphrase"
-#~ msgstr "kàddu-jàll"
-
-#~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
-#~ "and conditions</a>."
-#~ msgstr ""
-#~ "Soo falee bii tànneef mooy ne nangu nga <a href='#'>anami jëfandiku</a gu "
-#~ "Nokia HERE"
-
-#~ msgid "Available networks…"
-#~ msgstr "Mbaal yi jàppandi..."
-
-#~ msgid "No available networks."
-#~ msgstr "Benn mbaal jàppandiwul"
-
-#~ msgid "Location"
-#~ msgstr "Nekkuwaay"
-
-#~ msgid "Let the phone detect your location:"
-#~ msgstr "Bàyyi wootekaay bi gisal boppam sa nekkuwaay"
-
-#~ msgid "Using GPS only (less accurate)"
-#~ msgstr "Ci jëfandikoo GPS kepp (gën a ñawadi)"
-
-#~ msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
-#~ msgstr ""
-#~ "Jëfandikoo GPS, wi-fi buñ xamul ak xibaaru mbaalu wootekaay (digalees)"
-
-#~ msgid "〈  %1"
-#~ msgstr "〈  %1"
-
-#~ msgid "Improving your experience"
-#~ msgstr "Gënal jëfandiku gi"
-
-#~ msgid "You can change your mind later in <b>System Settings</b>."
-#~ msgstr "Man ngaa seetaat sa tànneef ginnaaw bi ci  <b>Jekkali Noste</b>."
-
-#~ msgid ""
-#~ "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
-#~ "Privacy</b>"
-#~ msgstr ""
-#~ "Man nañ koo dindee ci  <b>Jagali Noste</b> ci ronu  <b>Karaange &amp; "
-#~ "Sutura</b>"
-
-#~ msgid ""
-#~ "Your phone is set up to automatically report errors to Canonical and its "
-#~ "partners, the makers of the operating system."
-#~ msgstr ""
-#~ "Sa wootekaay dañ koo def bamuy yónneel boppam njuumte yi Canonical aki "
-#~ "farandoom, ñi defar nosteg doxiin gi."
-
-#~ msgid "Nice work!"
-#~ msgstr "Liggéey bu rafet!"
-
-#~ msgid "All done"
-#~ msgstr "Sotti na"
-
-#~ msgid "Finish"
-#~ msgstr "Jeexal"
-
-#~ msgid "Your phone is now ready to use."
-#~ msgstr "Leegi sa wootekaay noppi na ngir ñu man koo jëfandikoo."
-
-#~ msgid "%1  〉"
-#~ msgstr "%1  〉"
-
-#~ msgctxt "Label: Description of security method"
-#~ msgid "Numbers and letters"
-#~ msgstr "Nimero aki araf"
-
-#~ msgid "Please try again."
-#~ msgstr "Dila ñaan nga jéemaat."
