@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-08 13:29-0500\n"
+"POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2019-12-29 01:00+0000\n"
 "Last-Translator: Moo <moose@mail.ru>\n"
 "Language-Team: Lithuanian <https://translate.ubports.com/projects/unity8/"
@@ -22,12 +22,40 @@ msgstr ""
 "X-Generator: Weblate 3.8\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
-#: plugins/LightDM/Greeter.cpp:123
+#: plugins/LightDM/Greeter.cpp:199
 msgid "Password: "
 msgstr "Slaptažodis: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:50
-#: plugins/Unity/Launcher/launcheritem.cpp:109
+#: plugins/LightDM/Greeter.cpp:214
+msgid "Username"
+msgstr ""
+
+#: plugins/LightDM/Greeter.cpp:258
+msgid "Failed to authenticate"
+msgstr ""
+
+#: plugins/LightDM/Greeter.cpp:260
+msgid "Invalid password, please try again"
+msgstr ""
+
+#: plugins/LightDM/Greeter.cpp:270
+msgid "Log In"
+msgstr "Prisijungti"
+
+#: plugins/LightDM/Greeter.cpp:270
+msgid "Retry"
+msgstr "Bandyti dar kartą"
+
+#: plugins/LightDM/UsersModel.cpp:157
+msgid "Login"
+msgstr ""
+
+#: plugins/LightDM/UsersModel.cpp:165
+msgid "Guest Session"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:49
+#: plugins/Unity/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
 msgstr "Prisegti šaukinį"
 
@@ -35,59 +63,58 @@ msgstr "Prisegti šaukinį"
 msgid "Quit"
 msgstr "Išeiti"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:109
+#: plugins/Unity/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
 msgstr "Atsegti šaukinį"
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:176
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Atsijungti"
 
-#: qml/Components/Dialogs.qml:150
+#: qml/Components/Dialogs.qml:177
 msgid "Are you sure you want to log out?"
 msgstr "Ar tikrai norite atsijungti?"
 
-#: qml/Components/Dialogs.qml:152
+#: qml/Components/Dialogs.qml:180
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Užrakinti"
 
-#: qml/Components/Dialogs.qml:159
+#: qml/Components/Dialogs.qml:191
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Atsijungti"
 
-#: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
-#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
-#: qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Atsisakyti"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:211
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Paleisti iš naujo"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:212
 msgid "Are you sure you want to reboot?"
 msgstr "Ar tikrai norite paleisti iš naujo?"
 
-#: qml/Components/Dialogs.qml:181
+#: qml/Components/Dialogs.qml:215
 msgid "No"
 msgstr "Ne"
 
-#: qml/Components/Dialogs.qml:187
+#: qml/Components/Dialogs.qml:223
 msgid "Yes"
 msgstr "Taip"
 
-#: qml/Components/Dialogs.qml:202
+#: qml/Components/Dialogs.qml:243
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:203
+#: qml/Components/Dialogs.qml:244
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -95,12 +122,12 @@ msgstr ""
 "Ar tikrai norėtumėte\n"
 "išjungti?"
 
-#: qml/Components/Dialogs.qml:205
+#: qml/Components/Dialogs.qml:248
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Išjungti"
 
-#: qml/Components/Dialogs.qml:214
+#: qml/Components/Dialogs.qml:263
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Paleisti iš naujo"
@@ -126,7 +153,9 @@ msgid "Alt + PrtScr"
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
-msgid "Takes a screenshot of a window."
+#, fuzzy
+#| msgid "Takes a screenshot of a window."
+msgid "Takes a screenshot of the current window."
 msgstr "Padaro lango ekrano kopiją."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
@@ -145,127 +174,151 @@ msgstr "Super + Lyg2 + Tarpas"
 msgid "Switches to previous keyboard layout."
 msgstr "Perjugia į ankstesnį klaviatūros išdėstymą."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:118
+#: qml/Components/KeyboardShortcutsOverlay.qml:114
+#, fuzzy
+#| msgid "Alt + Tab"
+msgid "Ctrl + Alt + T"
+msgstr "Alt + Tab"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:119
+#, fuzzy
+#| msgid "Switches between applications."
+msgid "Starts the Terminal application."
+msgstr "Perjungia tarp programų."
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:125
+#: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Super (Hold)"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:130
+#: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens the launcher, displays shortcuts."
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:138
+#: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Alt + F1"
 msgstr "Alt + F1"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:143
+#: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Opens launcher keyboard navigation mode."
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:151
+#: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + Tab"
 msgstr "Super + Tab"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:156
+#: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Switches applications via the launcher."
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:164
-msgid "Super + 0 to 9"
+#: qml/Components/KeyboardShortcutsOverlay.qml:177
+#, fuzzy
+#| msgid "Super + 0 to 9"
+msgid "Super + 1 to 0"
 msgstr "Super + 0 iki 9"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:169
+#: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:181
+#: qml/Components/KeyboardShortcutsOverlay.qml:190
+#, fuzzy
+#| msgid "Super + W"
+msgid "Super + A"
+msgstr "Super + W"
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:195
+msgid "Opens the Application Drawer."
+msgstr ""
+
+#: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:188
+#: qml/Components/KeyboardShortcutsOverlay.qml:214
 msgid "Super (Tap)"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:193
+#: qml/Components/KeyboardShortcutsOverlay.qml:219
 msgid "Opens the Scopes home."
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:209
+#: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:216
+#: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Alt + Tab"
 msgstr "Alt + Tab"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:221
+#: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Switches between applications."
 msgstr "Perjungia tarp programų."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:229
+#: qml/Components/KeyboardShortcutsOverlay.qml:255
 msgid "Super + W"
 msgstr "Super + W"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:234
+#: qml/Components/KeyboardShortcutsOverlay.qml:260
 msgid "Opens the desktop spread."
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:242
+#: qml/Components/KeyboardShortcutsOverlay.qml:268
 msgid "Cursor Left or Right"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:247
+#: qml/Components/KeyboardShortcutsOverlay.qml:273
 msgid "Moves the focus."
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:259
+#: qml/Components/KeyboardShortcutsOverlay.qml:285
 msgid "Windows"
 msgstr "Langai"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:266
+#: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + D"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:271
+#: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes all windows."
 msgstr "Suskleidžia visus langus."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:279
+#: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Up"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:284
+#: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Maximizes the current window."
 msgstr "Išskleidžia esamą langą."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:292
+#: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Ctrl + Super + Down"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:297
+#: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Minimizes or restores the current window."
 msgstr "Suskleidžia ar atkuria esamą langą."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:305
+#: qml/Components/KeyboardShortcutsOverlay.qml:331
 msgid "Ctrl + Super + Left or Right"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:310
+#: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Semi-maximizes the current window."
 msgstr "Pusiau išskleidžia esamą langą."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:318
+#: qml/Components/KeyboardShortcutsOverlay.qml:344
 msgid "Alt + F4"
 msgstr "Alt + F4"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:323
+#: qml/Components/KeyboardShortcutsOverlay.qml:349
 msgid "Closes the current window."
 msgstr "Užveria esamą langą."
 
-#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:235
 msgid "Return to Call"
 msgstr ""
 
@@ -273,7 +326,7 @@ msgstr ""
 msgid "Emergency Call"
 msgstr "Pagalbos skambutis"
 
-#: qml/Components/Lockscreen.qml:244
+#: qml/Components/Lockscreen.qml:245
 msgid "OK"
 msgstr "Gerai"
 
@@ -287,29 +340,29 @@ msgstr "%1:%2:%3"
 msgid "%1:%2"
 msgstr "%1:%2"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:32
+#: qml/Components/ModeSwitchWarningDialog.qml:33
 msgid "Apps may have unsaved data:"
 msgstr "Programose gali būti neįrašytų duomenų:"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:57
+#: qml/Components/ModeSwitchWarningDialog.qml:60
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
 
-#: qml/Components/ModeSwitchWarningDialog.qml:63
+#: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
 msgstr ""
 
-#: qml/Components/ModeSwitchWarningDialog.qml:75
+#: qml/Components/ModeSwitchWarningDialog.qml:80
 msgid "OK, I will reconnect"
 msgstr ""
 
-#: qml/Components/ModeSwitchWarningDialog.qml:76
+#: qml/Components/ModeSwitchWarningDialog.qml:81
 msgid "Reconnect now!"
 msgstr ""
 
-#: qml/Components/ModeSwitchWarningDialog.qml:88
+#: qml/Components/ModeSwitchWarningDialog.qml:94
 msgid "Close all"
 msgstr ""
 
@@ -317,107 +370,26 @@ msgstr ""
 msgid "Preview Share Item"
 msgstr ""
 
-#: qml/Dash/DashPageHeader.qml:361
-msgctxt "Button: Open the Ubuntu Store"
-msgid "Store"
-msgstr "Parduotuvė"
-
-#: qml/Dash/DashPageHeader.qml:368
-msgctxt "Button: Start a search in the current dash scope"
-msgid "Search"
-msgstr "Ieškoti"
-
-#: qml/Dash/DashPageHeader.qml:378
-msgctxt "Button: Show the current dash scope settings"
-msgid "Settings"
-msgstr "Nustatymai"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Remove from Favorites"
-msgstr "Šalinti iš mėgstamų"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Add to Favorites"
-msgstr "Pridėti į mėgstamus"
-
-#: qml/Dash/FiltersPopover.qml:61
-msgid "Refine your results"
-msgstr ""
-
-#: qml/Dash/FiltersPopover.qml:70
-msgid "Reset"
-msgstr "Atstatyti"
-
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
-msgid "Show less"
-msgstr "Rodyti mažiau"
-
-#: qml/Dash/GenericScopeView.qml:547
-msgid "Show all"
-msgstr "Rodyti visus"
-
-#: qml/Dash/GenericScopeView.qml:578
-msgctxt "Label: Hint for dash search line edit"
-msgid "Search"
-msgstr "Paieška"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:67
-msgid "Recent Searches"
-msgstr "Paskiausios paieškos"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:78
-msgid "Clear All"
-msgstr "Išvalyti visus"
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "More..."
-msgstr "Daugiau..."
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "Less..."
-msgstr "Mažiau..."
-
-#: qml/Dash/Previews/PreviewCommentInput.qml:83
-#: qml/Dash/Previews/PreviewRatingInput.qml:202
-msgid "Send"
-msgstr "Siųsti"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:109
-msgid "Rate this"
-msgstr "Įvertinkite tai"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:184
-msgid "Add a review"
-msgstr "Pridėkite apžvalgą"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:56
-msgid "Pull to refresh…"
-msgstr "Patraukite norėdami įkelti iš naujo…"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:61
-msgid "Release to refresh…"
-msgstr "Atleiskite norėdami įkelti iš naujo…"
-
-#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
-msgid "Enable location data"
-msgstr ""
-
-#: qml/Dash/ScopesList.qml:57
-msgid "Manage"
-msgstr "Tvarkyti"
-
-#: qml/Dash/ScopesList.qml:104
-msgid "Home"
-msgstr ""
-
-#: qml/Dash/ScopesList.qml:105
-msgid "Also installed"
-msgstr "Taip pat įdiegta"
-
-#: qml/DisabledScreenNotice.qml:109
+#: qml/Components/VirtualTouchPad.qml:317
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
+msgstr ""
+
+#: qml/Components/VirtualTouchPad.qml:327
+msgid "Tap left button to click."
+msgstr ""
+
+#: qml/Components/VirtualTouchPad.qml:339
+msgid "Tap right button to right click."
+msgstr ""
+
+#: qml/Components/VirtualTouchPad.qml:351
+msgid "Swipe with two fingers to scroll."
+msgstr ""
+
+#: qml/Components/VirtualTouchPad.qml:396
+msgid "Find more settings in the system settings."
 msgstr ""
 
 #: qml/Greeter/CoverPage.qml:127
@@ -444,33 +416,39 @@ msgstr[0] "Palaukite %1 minutę ir bandykite dar kartą…"
 msgstr[1] "Palaukite %1 minutes ir bandykite dar kartą…"
 msgstr[2] "Palaukite %1 minučių ir bandykite dar kartą…"
 
-#: qml/Greeter/Greeter.qml:596
+#: qml/Greeter/Greeter.qml:550
 msgid "Try again"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:70
-msgid "Passphrase"
-msgstr "Slaptafrazė"
-
-#: qml/Greeter/LoginList.qml:71
-msgid "Passcode"
+#: qml/Greeter/Greeter.qml:551
+msgid "Enter passphrase to unlock"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:98 qml/Wizard/Pages/UpdateDelegate.qml:118
-msgid "Retry"
-msgstr "Bandyti dar kartą"
+#: qml/Greeter/Greeter.qml:552
+msgid "Enter passcode to unlock"
+msgstr ""
 
-#: qml/Greeter/LoginList.qml:99
-msgid "Log In"
-msgstr "Prisijungti"
-
-#: qml/Greeter/NarrowView.qml:252
+#: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
 msgstr ""
 
-#: qml/Greeter/SessionsList.qml:122
+#: qml/Greeter/PromptList.qml:126
+msgid "Passphrase"
+msgstr "Slaptafrazė"
+
+#: qml/Greeter/PromptList.qml:126
+msgid "Passcode"
+msgstr ""
+
+#: qml/Greeter/SessionsList.qml:124
 msgid "Select desktop environment"
 msgstr ""
+
+#: qml/Launcher/Drawer.qml:249
+#, fuzzy
+#| msgid "Search"
+msgid "Search…"
+msgstr "Paieška"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -484,63 +462,62 @@ msgstr ""
 msgid "Conference"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:847
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:869
 msgid "Nothing is playing"
 msgstr "Nieko neatkuriama"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:975
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:997
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:979
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1001
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:984
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1006
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:987
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1009
 msgid "0 seconds"
 msgstr "0 sekundžių"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:989
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1011
 #, qt-format
 msgid "%1 remaining"
 msgstr "Liko %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:995
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1017
 msgid "In queue…"
 msgstr "Eilėje…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:999
-#: qml/Wizard/Pages/UpdateDelegate.qml:226
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1021
 msgid "Downloading"
 msgstr "Atsisiunčiama"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1001
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1023
 msgid "Paused, tap to resume"
 msgstr "Pristabdyta, bakstelėkite norėdami pratęsti"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1003
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1025
 msgid "Canceled"
 msgstr "Atsisakyta"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1005
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1027
 msgid "Finished"
 msgstr "Užbaigta"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:1007
+#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1029
 msgid "Failed, tap to retry"
 msgstr "Nepavyko, bakstelėkite norėdami bandyti dar kartą"
 
@@ -560,23 +537,37 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Atskambinti"
 
+#: qml/Panel/PanelMenuPage.qml:92
+#, fuzzy
+#| msgctxt "Button: Go back one page in the Wizard"
+#| msgid "Back"
+msgid "Back"
+msgstr "Atgal"
+
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr ""
 
-#: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Today scope"
+#: qml/Stage/Stage.qml:668
+msgid "No running apps"
 msgstr ""
+
+#: qml/Tutorial/TutorialLeftLong.qml:49
+#, fuzzy
+#| msgid "Try swiping from the top edge to access the indicators"
+msgid "Long swipe from the left edge to open the Application Drawer"
+msgstr ""
+"Pabandykite braukti nuo dešiniojo krašto, kad pasiektumėte indikatorius"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
 msgstr ""
 
-#: qml/Tutorial/TutorialRight.qml:55
+#: qml/Tutorial/TutorialRight.qml:54
 msgid "Push your mouse against the right edge to view your open apps"
 msgstr ""
 
-#: qml/Tutorial/TutorialRight.qml:56
+#: qml/Tutorial/TutorialRight.qml:55
 msgid "Swipe from the right edge to view your open apps"
 msgstr ""
 
@@ -593,15 +584,13 @@ msgstr "Atgal"
 msgid "Language"
 msgstr "Kalba"
 
-#: qml/Wizard/Pages/10-welcome.qml:175
+#: qml/Wizard/Pages/10-welcome.qml:176
 #: qml/Wizard/Pages/10-welcome-update.qml:126
 #: qml/Wizard/Pages/11-changelog.qml:74 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:208 qml/Wizard/Pages/50-timezone.qml:272
-#: qml/Wizard/Pages/60-account.qml:66 qml/Wizard/Pages/70-passwd-type.qml:146
-#: qml/Wizard/Pages/75-report-check.qml:85
-#: qml/Wizard/Pages/76-app-update.qml:236
-#: qml/Wizard/Pages/passcode-desktop.qml:142
-#: qml/Wizard/Pages/password-set.qml:142
+#: qml/Wizard/Pages/30-wifi.qml:214 qml/Wizard/Pages/50-timezone.qml:272
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/70-passwd-type.qml:146
+#: qml/Wizard/Pages/passcode-desktop.qml:154
+#: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
 msgstr "Kitas"
 
@@ -633,9 +622,9 @@ msgstr "Klaviatūros kalba"
 msgid "Keyboard layout"
 msgstr "Klaviatūros išdėstymas"
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:208
-#: qml/Wizard/Pages/60-account.qml:66 qml/Wizard/Pages/76-app-update.qml:240
-#: qml/Wizard/Pages/79-system-update.qml:152 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:214
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/79-system-update.qml:144
+#: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Praleisti"
 
@@ -643,15 +632,15 @@ msgstr "Praleisti"
 msgid "Connect to Wi‑Fi"
 msgstr "Prisijungti prie belaidžio (Wi-Fi)"
 
-#: qml/Wizard/Pages/30-wifi.qml:133
+#: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
 msgstr "Prisijungta"
 
-#: qml/Wizard/Pages/30-wifi.qml:166
+#: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
 msgstr "Prieinami belaidžiai (Wi-Fi) tinklai"
 
-#: qml/Wizard/Pages/30-wifi.qml:167
+#: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
 msgstr "Nėra prieinamų belaidžių (Wi-Fi) tinklų"
 
@@ -667,7 +656,7 @@ msgstr "Įveskite savo miestą"
 msgid "Personalize Your Device"
 msgstr ""
 
-#: qml/Wizard/Pages/60-account.qml:49
+#: qml/Wizard/Pages/60-account.qml:54
 msgid "Preferred Name"
 msgstr "Pageidaujamas vardas"
 
@@ -690,48 +679,6 @@ msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr ""
 
-#: qml/Wizard/Pages/75-report-check.qml:26
-msgid "Privacy Policy"
-msgstr "Privatumo politika"
-
-#: qml/Wizard/Pages/75-report-check.qml:26
-msgid "Help Us Improve"
-msgstr "Padėkite mums tobulėti"
-
-#: qml/Wizard/Pages/75-report-check.qml:60
-msgid "Improve system performance by sending us crashes and error reports."
-msgstr ""
-"Patobulinkite sistemos našumą siųsdami mums strigčių ir klaidų ataskaitas."
-
-#: qml/Wizard/Pages/75-report-check.qml:61
-msgid "Privacy policy"
-msgstr "Privatumo politika"
-
-#: qml/Wizard/Pages/76-app-update.qml:35
-msgid "Update Apps"
-msgstr ""
-
-#: qml/Wizard/Pages/76-app-update.qml:127
-msgid "This device is not connected to the internet."
-msgstr "Šis įrenginys nėra prijungtas prie interneto."
-
-#: qml/Wizard/Pages/76-app-update.qml:128
-#: qml/Wizard/Pages/76-app-update.qml:134
-msgid "Use the OpenStore app to check for updates once connected."
-msgstr ""
-
-#: qml/Wizard/Pages/76-app-update.qml:130
-msgid "Software is up to date"
-msgstr ""
-
-#: qml/Wizard/Pages/76-app-update.qml:133
-msgid "The update server is not responding."
-msgstr "Atnaujinimų serveris neatsako."
-
-#: qml/Wizard/Pages/76-app-update.qml:238
-msgid "Please wait..."
-msgstr "Palaukite..."
-
 #: qml/Wizard/Pages/79-system-update.qml:28
 msgid "Update Device"
 msgstr "Atnaujinti įrenginį"
@@ -745,8 +692,11 @@ msgstr ""
 "bus automatiškai paleistas iš naujo."
 
 #: qml/Wizard/Pages/79-system-update.qml:76
+#, fuzzy
+#| msgctxt "string identifying name of the update"
+#| msgid "Ubuntu system"
 msgctxt "string identifying name of the update"
-msgid "Ubuntu system"
+msgid "Ubuntu Touch system"
 msgstr "Ubuntu sistema"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
@@ -755,11 +705,11 @@ msgctxt "version of the system update"
 msgid "Version %1"
 msgstr "Versija %1"
 
-#: qml/Wizard/Pages/79-system-update.qml:102
+#: qml/Wizard/Pages/79-system-update.qml:95
 msgid "This could take a few minutes..."
 msgstr "Tai gali užtrukti kelias minutes..."
 
-#: qml/Wizard/Pages/79-system-update.qml:116
+#: qml/Wizard/Pages/79-system-update.qml:109
 msgid "Install and restart now"
 msgstr "Įdiegti ir paleisti iš naujo dabar"
 
@@ -783,32 +733,8 @@ msgstr "Tęsti"
 msgid "Get Started"
 msgstr "Darbo pradžia"
 
-#: qml/Wizard/Pages/DownloadHandler.qml:174
-msgid "Installation failed"
-msgstr "Įdiegimas nepavyko"
-
-#: qml/Wizard/Pages/GlobalUpdateControls.qml:84
-msgid "Checking for updates…"
-msgstr "Tikrinama ar yra atnaujinimų…"
-
-#: qml/Wizard/Pages/GlobalUpdateControls.qml:109
-#, qt-format
-msgid "%1 update available"
-msgid_plural "%1 updates available"
-msgstr[0] "Yra prieinamas %1 atnaujinimas"
-msgstr[1] "Yra prieinami %1 atnaujinimai"
-msgstr[2] "Yra prieinama %1 atnaujinimų"
-
-#: qml/Wizard/Pages/GlobalUpdateControls.qml:119
-msgid "Update all…"
-msgstr "Atnaujinti viską…"
-
-#: qml/Wizard/Pages/GlobalUpdateControls.qml:121
-msgid "Update all"
-msgstr "Atnaujinti viską"
-
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:97
+#: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
 msgstr ""
 
@@ -825,24 +751,24 @@ msgstr "Įveskite iš naujo."
 msgid "Lock Screen Passcode"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:61
+#: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:77
+#: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:127
+#: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:129
+#: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:131
+#: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
 msgstr ""
 
@@ -854,15 +780,15 @@ msgstr ""
 msgid "Lock Screen Password"
 msgstr "Ekrano užrakto slaptažodis"
 
-#: qml/Wizard/Pages/password-set.qml:62
+#: qml/Wizard/Pages/password-set.qml:68
 msgid "Enter at least 8 characters"
 msgstr "Įveskite bent 8 simbolius"
 
-#: qml/Wizard/Pages/password-set.qml:74
+#: qml/Wizard/Pages/password-set.qml:80
 msgid "Choose password"
 msgstr "Pasirinkite slaptažodį"
 
-#: qml/Wizard/Pages/password-set.qml:104
+#: qml/Wizard/Pages/password-set.qml:110
 msgid "Confirm password"
 msgstr "Patvirtinkite slaptažodį"
 
@@ -892,68 +818,6 @@ msgstr "Be SIM kortelės negalėsite skambinti ar rašyti tekstinių žinučių.
 msgid "To proceed with no SIM tap Skip."
 msgstr "Norėdami tęsti be SIM kortelės, bakstelėkite \"Praleisti\"."
 
-#: qml/Wizard/Pages/UpdateDelegate.qml:123
-msgid "Update"
-msgstr "Atnaujinti"
-
-#: qml/Wizard/Pages/UpdateDelegate.qml:125
-msgid "Download"
-msgstr "Atsisiųsti"
-
-#: qml/Wizard/Pages/UpdateDelegate.qml:131
-msgid "Resume"
-msgstr "Pratęsti"
-
-#: qml/Wizard/Pages/UpdateDelegate.qml:138
-msgid "Pause"
-msgstr "Pristabdyti"
-
-#: qml/Wizard/Pages/UpdateDelegate.qml:142
-msgid "Install…"
-msgstr "Įdiegti…"
-
-#: qml/Wizard/Pages/UpdateDelegate.qml:144
-msgid "Install"
-msgstr "Įdiegti"
-
-#: qml/Wizard/Pages/UpdateDelegate.qml:148
-msgid "Open"
-msgstr "Atverti"
-
-#: qml/Wizard/Pages/UpdateDelegate.qml:216
-msgid "Installing"
-msgstr "Įdiegiama"
-
-#: qml/Wizard/Pages/UpdateDelegate.qml:220
-msgid "Paused"
-msgstr "Pristabdyta"
-
-#: qml/Wizard/Pages/UpdateDelegate.qml:223
-msgid "Waiting to download"
-msgstr "Laukiama atsisiuntimo"
-
-#: qml/Wizard/Pages/UpdateDelegate.qml:279
-#, qt-format
-msgid "%1 of %2"
-msgstr "%1 iš %2"
-
-#: qml/Wizard/Pages/UpdateDelegate.qml:283
-msgid "Downloaded"
-msgstr "Atsisiųsta"
-
-#: qml/Wizard/Pages/UpdateDelegate.qml:286
-msgid "Installed"
-msgstr "Įdiegta"
-
-#: qml/Wizard/Pages/UpdateDelegate.qml:291
-#, qt-format
-msgid "Updated %1"
-msgstr "%1 atnaujinta"
-
-#: qml/Wizard/Pages/UpdateDelegate.qml:315
-msgid "Update failed"
-msgstr "Atnaujinimas nepavyko"
-
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
 msgstr "Slaptažodis per trumpas"
@@ -982,9 +846,154 @@ msgstr "Silpnas slaptažodis"
 msgid "Very weak password"
 msgstr "Labai silpnas slaptažodis"
 
-#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgid "Store"
+#~ msgstr "Parduotuvė"
+
+#~ msgctxt "Button: Start a search in the current dash scope"
+#~ msgid "Search"
+#~ msgstr "Ieškoti"
+
+#~ msgctxt "Button: Show the current dash scope settings"
+#~ msgid "Settings"
+#~ msgstr "Nustatymai"
+
+#~ msgid "Remove from Favorites"
+#~ msgstr "Šalinti iš mėgstamų"
+
+#~ msgid "Add to Favorites"
+#~ msgstr "Pridėti į mėgstamus"
+
+#~ msgid "Reset"
+#~ msgstr "Atstatyti"
+
+#~ msgid "Show less"
+#~ msgstr "Rodyti mažiau"
+
+#~ msgid "Show all"
+#~ msgstr "Rodyti visus"
+
+#~ msgctxt "Label: Hint for dash search line edit"
+#~ msgid "Search"
+#~ msgstr "Paieška"
+
+#~ msgid "Recent Searches"
+#~ msgstr "Paskiausios paieškos"
+
+#~ msgid "Clear All"
+#~ msgstr "Išvalyti visus"
+
+#~ msgid "More..."
+#~ msgstr "Daugiau..."
+
+#~ msgid "Less..."
+#~ msgstr "Mažiau..."
+
+#~ msgid "Send"
+#~ msgstr "Siųsti"
+
+#~ msgid "Rate this"
+#~ msgstr "Įvertinkite tai"
+
+#~ msgid "Add a review"
+#~ msgstr "Pridėkite apžvalgą"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Patraukite norėdami įkelti iš naujo…"
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Atleiskite norėdami įkelti iš naujo…"
+
+#~ msgid "Manage"
+#~ msgstr "Tvarkyti"
+
+#~ msgid "Also installed"
+#~ msgstr "Taip pat įdiegta"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "Privatumo politika"
+
+#~ msgid "Help Us Improve"
+#~ msgstr "Padėkite mums tobulėti"
+
+#~ msgid "Improve system performance by sending us crashes and error reports."
 #~ msgstr ""
-#~ "Pabandykite braukti nuo dešiniojo krašto, kad pasiektumėte indikatorius"
+#~ "Patobulinkite sistemos našumą siųsdami mums strigčių ir klaidų ataskaitas."
+
+#~ msgid "Privacy policy"
+#~ msgstr "Privatumo politika"
+
+#~ msgid "This device is not connected to the internet."
+#~ msgstr "Šis įrenginys nėra prijungtas prie interneto."
+
+#~ msgid "The update server is not responding."
+#~ msgstr "Atnaujinimų serveris neatsako."
+
+#~ msgid "Please wait..."
+#~ msgstr "Palaukite..."
+
+#~ msgid "Installation failed"
+#~ msgstr "Įdiegimas nepavyko"
+
+#~ msgid "Checking for updates…"
+#~ msgstr "Tikrinama ar yra atnaujinimų…"
+
+#~ msgid "%1 update available"
+#~ msgid_plural "%1 updates available"
+#~ msgstr[0] "Yra prieinamas %1 atnaujinimas"
+#~ msgstr[1] "Yra prieinami %1 atnaujinimai"
+#~ msgstr[2] "Yra prieinama %1 atnaujinimų"
+
+#~ msgid "Update all…"
+#~ msgstr "Atnaujinti viską…"
+
+#~ msgid "Update all"
+#~ msgstr "Atnaujinti viską"
+
+#~ msgid "Update"
+#~ msgstr "Atnaujinti"
+
+#~ msgid "Download"
+#~ msgstr "Atsisiųsti"
+
+#~ msgid "Resume"
+#~ msgstr "Pratęsti"
+
+#~ msgid "Pause"
+#~ msgstr "Pristabdyti"
+
+#~ msgid "Install…"
+#~ msgstr "Įdiegti…"
+
+#~ msgid "Install"
+#~ msgstr "Įdiegti"
+
+#~ msgid "Open"
+#~ msgstr "Atverti"
+
+#~ msgid "Installing"
+#~ msgstr "Įdiegiama"
+
+#~ msgid "Paused"
+#~ msgstr "Pristabdyta"
+
+#~ msgid "Waiting to download"
+#~ msgstr "Laukiama atsisiuntimo"
+
+#~ msgid "%1 of %2"
+#~ msgstr "%1 iš %2"
+
+#~ msgid "Downloaded"
+#~ msgstr "Atsisiųsta"
+
+#~ msgid "Installed"
+#~ msgstr "Įdiegta"
+
+#~ msgid "Updated %1"
+#~ msgstr "%1 atnaujinta"
+
+#~ msgid "Update failed"
+#~ msgstr "Atnaujinimas nepavyko"
 
 #~ msgid "Top edge"
 #~ msgstr "Viršutinis kraštas"
@@ -1024,6 +1033,3 @@ msgstr "Labai silpnas slaptažodis"
 
 #~ msgid "Confirm"
 #~ msgstr "Patvirtinti"
-
-#~ msgid "Search"
-#~ msgstr "Paieška"
