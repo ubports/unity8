@@ -6,53 +6,26 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-04-04 22:56+0000\n"
-"PO-Revision-Date: 2017-01-17 10:58+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-08 13:29-0500\n"
+"PO-Revision-Date: 2016-04-01 17:32+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2017-04-07 06:31+0000\n"
-"X-Generator: Launchpad (build 18343)\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Launchpad-Export-Date: 2016-11-23 06:36+0000\n"
+"X-Generator: Launchpad (build 18269)\n"
 
-#: plugins/LightDM/Greeter.cpp:188
+#: plugins/LightDM/Greeter.cpp:123
 msgid "Password: "
 msgstr "Пароль: "
 
-#: plugins/LightDM/Greeter.cpp:203
-msgid "Username"
-msgstr ""
-
-#: plugins/LightDM/Greeter.cpp:242
-msgid "Failed to authenticate"
-msgstr ""
-
-#: plugins/LightDM/Greeter.cpp:244
-msgid "Invalid password, please try again"
-msgstr ""
-
-#: plugins/LightDM/Greeter.cpp:254
-msgid "Log In"
-msgstr "Вхід"
-
-#: plugins/LightDM/Greeter.cpp:254
-msgid "Retry"
-msgstr "Повторити"
-
-#: plugins/LightDM/UsersModel.cpp:157
-msgid "Login"
-msgstr ""
-
-#: plugins/LightDM/UsersModel.cpp:165
-msgid "Guest Session"
-msgstr ""
-
-#: plugins/Unity/Launcher/launcheritem.cpp:49
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:50
+#: plugins/Unity/Launcher/launcheritem.cpp:109
 msgid "Pin shortcut"
 msgstr "Заблокувати кнопку"
 
@@ -60,59 +33,59 @@ msgstr "Заблокувати кнопку"
 msgid "Quit"
 msgstr "Вийти"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:123
+#: plugins/Unity/Launcher/launcheritem.cpp:109
 msgid "Unpin shortcut"
 msgstr "Розблокувати кнопку"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:149
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Вийти"
 
-#: qml/Components/Dialogs.qml:177
+#: qml/Components/Dialogs.qml:150
 msgid "Are you sure you want to log out?"
 msgstr "Ви справді хочете вийти?"
 
-#: qml/Components/Dialogs.qml:180
+#: qml/Components/Dialogs.qml:152
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Заблокувати"
 
-#: qml/Components/Dialogs.qml:191
+#: qml/Components/Dialogs.qml:159
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Вийти"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:264
-#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:208
+#: qml/Components/Dialogs.qml:166 qml/Components/Dialogs.qml:222
+#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:232
 #: qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: qml/Components/Dialogs.qml:211
+#: qml/Components/Dialogs.qml:178
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Перезавантажити"
 
-#: qml/Components/Dialogs.qml:212
+#: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
 msgstr "Ви справді хочете перезавантажити пристрій?"
 
-#: qml/Components/Dialogs.qml:215
+#: qml/Components/Dialogs.qml:181
 msgid "No"
 msgstr "Ні"
 
-#: qml/Components/Dialogs.qml:223
+#: qml/Components/Dialogs.qml:187
 msgid "Yes"
 msgstr "Так"
 
-#: qml/Components/Dialogs.qml:239
+#: qml/Components/Dialogs.qml:202
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Живлення"
 
-#: qml/Components/Dialogs.qml:240
+#: qml/Components/Dialogs.qml:203
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -120,12 +93,12 @@ msgstr ""
 "Ви справді хочете вимкнути\n"
 "живлення?"
 
-#: qml/Components/Dialogs.qml:244
+#: qml/Components/Dialogs.qml:205
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Вимкнути"
 
-#: qml/Components/Dialogs.qml:255
+#: qml/Components/Dialogs.qml:214
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Перезапустити"
@@ -151,8 +124,8 @@ msgid "Alt + PrtScr"
 msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
-msgid "Takes a screenshot of the current window."
-msgstr ""
+msgid "Takes a screenshot of a window."
+msgstr "Зробити знімок вікна."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -170,143 +143,127 @@ msgstr "Win + Shift + Пробіл"
 msgid "Switches to previous keyboard layout."
 msgstr "Перемкнутися на попередню розкладку клавіатури."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:114
-msgid "Ctrl + Alt + T"
-msgstr ""
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:119
-msgid "Starts the Terminal application."
-msgstr ""
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:131
+#: qml/Components/KeyboardShortcutsOverlay.qml:118
 msgid "Launcher"
 msgstr "Засіб запуску"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:138
+#: qml/Components/KeyboardShortcutsOverlay.qml:125
 msgid "Super (Hold)"
 msgstr "Win (утримування)"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:143
+#: qml/Components/KeyboardShortcutsOverlay.qml:130
 msgid "Opens the launcher, displays shortcuts."
 msgstr "Відкрити меню запуску, показати клавіатурні скорочення."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:151
+#: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Alt + F1"
 msgstr "Alt + F1"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:156
+#: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens launcher keyboard navigation mode."
 msgstr "Відкрити меню запуску у режимі навігації з клавіатури."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:164
+#: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Super + Tab"
 msgstr "Win + Tab"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:169
+#: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Switches applications via the launcher."
 msgstr "Перемкнути програму за допомогою засобу запуску."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:177
-msgid "Super + 1 to 0"
-msgstr ""
+#: qml/Components/KeyboardShortcutsOverlay.qml:164
+msgid "Super + 0 to 9"
+msgstr "Win + 0-9"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:182
+#: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Same as clicking on a launcher icon."
 msgstr "Те саме, що натискання піктограми засобу запуску."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:190
-msgid "Super + A"
-msgstr "Win + A"
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:195
-msgid "Opens the Application Drawer."
-msgstr "Відкриває висувне меню програм."
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
+#: qml/Components/KeyboardShortcutsOverlay.qml:181
 msgid "Scopes"
 msgstr "Області"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
+#: qml/Components/KeyboardShortcutsOverlay.qml:188
 msgid "Super (Tap)"
 msgstr "Win (натискання)"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
+#: qml/Components/KeyboardShortcutsOverlay.qml:193
 msgid "Opens the Scopes home."
 msgstr "Відкрити домашню сторінку «Областей»."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:235
+#: qml/Components/KeyboardShortcutsOverlay.qml:209
 msgid "Switching"
 msgstr "Перемикання"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:242
+#: qml/Components/KeyboardShortcutsOverlay.qml:216
 msgid "Alt + Tab"
 msgstr "Alt + Tab"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:247
+#: qml/Components/KeyboardShortcutsOverlay.qml:221
 msgid "Switches between applications."
 msgstr "Виконує перемикання між програмами."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:255
+#: qml/Components/KeyboardShortcutsOverlay.qml:229
 msgid "Super + W"
 msgstr "Win + W"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:260
+#: qml/Components/KeyboardShortcutsOverlay.qml:234
 msgid "Opens the desktop spread."
 msgstr "Відкрити режим презентації."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:268
+#: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Cursor Left or Right"
 msgstr "← або →"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:273
+#: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Moves the focus."
 msgstr "Пересунути фокус."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:285
+#: qml/Components/KeyboardShortcutsOverlay.qml:259
 msgid "Windows"
 msgstr "Вікна"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:292
+#: qml/Components/KeyboardShortcutsOverlay.qml:266
 msgid "Ctrl + Super + D"
 msgstr "Ctrl + Win + D"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:297
+#: qml/Components/KeyboardShortcutsOverlay.qml:271
 msgid "Minimizes all windows."
 msgstr "Згорнути усі вікна."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:305
+#: qml/Components/KeyboardShortcutsOverlay.qml:279
 msgid "Ctrl + Super + Up"
 msgstr "Ctrl + Win + ↑"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:310
+#: qml/Components/KeyboardShortcutsOverlay.qml:284
 msgid "Maximizes the current window."
 msgstr "Згорнути поточне вікно."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:318
+#: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + Down"
 msgstr "Ctrl + Win + ↓"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:323
+#: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes or restores the current window."
 msgstr "Згорнути або відновити поточне вікно."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:331
+#: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Left or Right"
 msgstr "Ctrl + Win + ← або →"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:336
+#: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Semi-maximizes the current window."
 msgstr "Напіврозгорнути поточне вікно."
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:344
+#: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Alt + F4"
 msgstr "Alt + F4"
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:349
+#: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Closes the current window."
 msgstr "Закрити поточне вікно."
 
-#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:228
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:252
 msgid "Return to Call"
 msgstr "Повернутися до дзвінка"
 
@@ -314,7 +271,7 @@ msgstr "Повернутися до дзвінка"
 msgid "Emergency Call"
 msgstr "Терміновий виклик"
 
-#: qml/Components/Lockscreen.qml:245
+#: qml/Components/Lockscreen.qml:244
 msgid "OK"
 msgstr "Гаразд"
 
@@ -328,11 +285,11 @@ msgstr "%1:%2:%3"
 msgid "%1:%2"
 msgstr "%1:%2"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:33
+#: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
 msgstr "Додатки можуть містити незбережені дані:"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:60
+#: qml/Components/ModeSwitchWarningDialog.qml:57
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
@@ -340,49 +297,25 @@ msgstr ""
 "Виконайте повторне з’єднання, збережіть результати роботи і закрийте вікна "
 "цих програм, щоб продовжити."
 
-#: qml/Components/ModeSwitchWarningDialog.qml:67
+#: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
 msgstr "Або закрити примусово (незбережені дані будуть втрачені)."
 
-#: qml/Components/ModeSwitchWarningDialog.qml:80
+#: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
 msgstr "Добре, я перепід’єднаюсь"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:81
+#: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
 msgstr "Перепід’єднатися зараз!"
 
-#: qml/Components/ModeSwitchWarningDialog.qml:94
+#: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
 msgstr "Закрити усе"
 
 #: qml/Components/SharingPicker.qml:54
 msgid "Preview Share Item"
 msgstr "Попередній перегляд спільного запису"
-
-#: qml/Components/VirtualTouchPad.qml:317
-msgid ""
-"Your device is now connected to an external display. Use this screen as a "
-"touch pad to interact with the pointer."
-msgstr ""
-"Ваш пристрій під’єднаний до зовнішнього дисплея. Використовуйте цей екран як "
-"сенсорну панель для керування вказівником."
-
-#: qml/Components/VirtualTouchPad.qml:327
-msgid "Tap left button to click."
-msgstr "Торнніться лівої кнопки для клацання лівою."
-
-#: qml/Components/VirtualTouchPad.qml:339
-msgid "Tap right button to right click."
-msgstr "Торкніться правої кнопки для клацання правою."
-
-#: qml/Components/VirtualTouchPad.qml:351
-msgid "Swipe with two fingers to scroll."
-msgstr "Проведіть двома пальцями для гортання."
-
-#: qml/Components/VirtualTouchPad.qml:396
-msgid "Find more settings in the system settings."
-msgstr "Додаткові параметри можна знайти у «Системних параметрах»"
 
 #: qml/Dash/DashPageHeader.qml:361
 msgctxt "Button: Open the Ubuntu Store"
@@ -469,17 +402,25 @@ msgstr "Відпустіть для оновлення…"
 msgid "Enable location data"
 msgstr "Увімкнути дані перебування"
 
-#: qml/Dash/ScopesList.qml:146
+#: qml/Dash/ScopesList.qml:57
 msgid "Manage"
 msgstr "Керування"
 
-#: qml/Dash/ScopesList.qml:187
+#: qml/Dash/ScopesList.qml:104
 msgid "Home"
 msgstr "Домівка"
 
-#: qml/Dash/ScopesList.qml:188
+#: qml/Dash/ScopesList.qml:105
 msgid "Also installed"
 msgstr "Також встановлено"
+
+#: qml/DisabledScreenNotice.qml:109
+msgid ""
+"Your device is now connected to an external display. Use this screen as a "
+"touch pad to interact with the pointer."
+msgstr ""
+"Ваш пристрій під’єднаний до зовнішнього дисплея. Використовуйте цей екран як "
+"сенсорну панель для керування вказівником."
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -509,46 +450,33 @@ msgstr[0] "Зачекайте %1 хвилину і повторіть спроб
 msgstr[1] "Зачекайте %1 хвилини і повторіть спробу…"
 msgstr[2] "Зачекайте %1 хвилин і повторіть спробу…"
 
-#: qml/Greeter/Greeter.qml:550
+#: qml/Greeter/Greeter.qml:596
 msgid "Try again"
 msgstr "Повторити спробу"
 
-#: qml/Greeter/Greeter.qml:551
-msgid "Enter passphrase to unlock"
-msgstr ""
-
-#: qml/Greeter/Greeter.qml:552
-msgid "Enter passcode to unlock"
-msgstr ""
-
-#: qml/Greeter/NarrowView.qml:228
-msgid "Emergency"
-msgstr "Критичний стан"
-
-#: qml/Greeter/PromptList.qml:126
+#: qml/Greeter/LoginList.qml:70
 msgid "Passphrase"
 msgstr "Пароль"
 
-#: qml/Greeter/PromptList.qml:126
+#: qml/Greeter/LoginList.qml:71
 msgid "Passcode"
 msgstr "Код-пароль"
 
-#: qml/Greeter/SessionsList.qml:124
+#: qml/Greeter/LoginList.qml:98 qml/Wizard/Pages/UpdateDelegate.qml:118
+msgid "Retry"
+msgstr "Повторити"
+
+#: qml/Greeter/LoginList.qml:99
+msgid "Log In"
+msgstr "Вхід"
+
+#: qml/Greeter/NarrowView.qml:252
+msgid "Emergency"
+msgstr "Критичний стан"
+
+#: qml/Greeter/SessionsList.qml:122
 msgid "Select desktop environment"
 msgstr "Виберіть стільничне середовище"
-
-#: qml/Launcher/Drawer.qml:94
-msgid "Search…"
-msgstr "Пошук…"
-
-#: qml/Launcher/Drawer.qml:129
-msgctxt "Apps sorted alphabetically"
-msgid "A-Z"
-msgstr "А-Я"
-
-#: qml/Launcher/MoreAppsHeader.qml:55
-msgid "More apps in the store"
-msgstr "Інші програми можна знайти у крамниці"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -562,11 +490,11 @@ msgstr "Торкніться, щоб повернутися до дзвінка�
 msgid "Conference"
 msgstr "Конференція"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:869
+#: qml/Panel/Indicators/MenuItemFactory.qml:847
 msgid "Nothing is playing"
 msgstr "Нічого не відтворюється"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:997
+#: qml/Panel/Indicators/MenuItemFactory.qml:975
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -574,7 +502,7 @@ msgstr[0] "%1 година"
 msgstr[1] "%1 години"
 msgstr[2] "%1 годин"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1001
+#: qml/Panel/Indicators/MenuItemFactory.qml:979
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -582,7 +510,7 @@ msgstr[0] "%1 хвилина"
 msgstr[1] "%1 хвилини"
 msgstr[2] "%1 хвилин"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1006
+#: qml/Panel/Indicators/MenuItemFactory.qml:984
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -590,37 +518,38 @@ msgstr[0] "%1 секунда"
 msgstr[1] "%1 секунди"
 msgstr[2] "%1 секунд"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1009
+#: qml/Panel/Indicators/MenuItemFactory.qml:987
 msgid "0 seconds"
 msgstr "0 секунд"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1011
+#: qml/Panel/Indicators/MenuItemFactory.qml:989
 #, qt-format
 msgid "%1 remaining"
 msgstr "Залишилося %1"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1017
+#: qml/Panel/Indicators/MenuItemFactory.qml:995
 msgid "In queue…"
 msgstr "У черзі…"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1021
+#: qml/Panel/Indicators/MenuItemFactory.qml:999
+#: qml/Wizard/Pages/UpdateDelegate.qml:226
 msgid "Downloading"
 msgstr "Отримуємо"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1023
+#: qml/Panel/Indicators/MenuItemFactory.qml:1001
 msgid "Paused, tap to resume"
 msgstr "Призупинено, торкніться, щоб поновити"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1025
+#: qml/Panel/Indicators/MenuItemFactory.qml:1003
 msgid "Canceled"
 msgstr "Скасовано"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1027
+#: qml/Panel/Indicators/MenuItemFactory.qml:1005
 msgid "Finished"
 msgstr "Завершено"
 
-#: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1029
+#: qml/Panel/Indicators/MenuItemFactory.qml:1007
 msgid "Failed, tap to retry"
 msgstr "Помилка, торкніться, щоб повторити спробу"
 
@@ -640,17 +569,13 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Зворотний виклик"
 
-#: qml/Panel/PanelMenuPage.qml:92
-msgid "Back"
-msgstr ""
-
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "Пересувайте будь-який додаток за допомогою трьох пальців"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Application Drawer"
-msgstr ""
+msgid "Long swipe from the left edge to open the Today scope"
+msgstr "Довге проведення від лівого краю відкриває область «Сьогодні»"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -676,24 +601,44 @@ msgstr ""
 "Виконайте рух пальцем від верхнього краю, щоб отримати доступ до сповіщень і "
 "швидких налаштувань"
 
-#: qml/Wizard/Page.qml:54
+#: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Назад"
 
-#: qml/Wizard/Pages/10-welcome.qml:28
+#: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
 msgstr "Мова"
 
-#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:145
-#: qml/Wizard/Pages/75-report-check.qml:84
+#: qml/Wizard/Pages/10-welcome.qml:175
+#: qml/Wizard/Pages/10-welcome-update.qml:126
+#: qml/Wizard/Pages/11-changelog.qml:74 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:208 qml/Wizard/Pages/50-timezone.qml:272
+#: qml/Wizard/Pages/60-account.qml:66 qml/Wizard/Pages/70-passwd-type.qml:146
+#: qml/Wizard/Pages/75-report-check.qml:85
+#: qml/Wizard/Pages/76-app-update.qml:236
 #: qml/Wizard/Pages/passcode-desktop.qml:142
 #: qml/Wizard/Pages/password-set.qml:142
 msgid "Next"
 msgstr "Наступне"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:91
+#, fuzzy
+msgid "Welcome to "
+msgstr "Ласкаво просимо до Ubuntu"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:106
+msgid "We will make sure your device is ready to use "
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:28
+msgid "What's new"
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:74
+#, fuzzy
+msgid "Loading..."
+msgstr "Мовлення…"
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
@@ -707,66 +652,33 @@ msgstr "Мова клавіатури"
 msgid "Keyboard layout"
 msgstr "Розкладка клавіатури"
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:208
+#: qml/Wizard/Pages/60-account.qml:66 qml/Wizard/Pages/76-app-update.qml:240
+#: qml/Wizard/Pages/79-system-update.qml:152 qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Пропустити"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
 msgstr "З’єднатися із Wi‑Fi"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:133
 msgid "Connected"
 msgstr "Під’єднано"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:166
 msgid "Available Wi-Fi networks"
 msgstr "Доступні мережі Wi-Fi"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:167
 msgid "No available Wi-Fi networks"
 msgstr "Не доступні мережі Wi-Fi"
-
-#: qml/Wizard/Pages/40-location.qml:27
-msgid "Location Services"
-msgstr "Сервіс Геолокації"
-
-#: qml/Wizard/Pages/40-location.qml:83
-msgid ""
-"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
-"(recommended)"
-msgstr ""
-"Використовувати анонімно GPS, точки доступу Wi-Fi та мобільну мережу для "
-"визначення місцерозташування (рекомендовано)"
-
-#: qml/Wizard/Pages/40-location.qml:105
-#, qt-format
-msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr "Обравши цю опцію, Ви погоджуєтеся з Nokia HERE %1"
-
-#: qml/Wizard/Pages/40-location.qml:106
-msgctxt "part of: Nokia HERE terms and conditions"
-msgid "terms and conditions"
-msgstr "правила та обмеження"
-
-#: qml/Wizard/Pages/40-location.qml:160
-msgid "GPS only"
-msgstr "Лише GPS"
-
-#: qml/Wizard/Pages/40-location.qml:214
-msgid "Don't use my location"
-msgstr "Не використовувати визначення положення"
-
-#: qml/Wizard/Pages/40-location.qml:260
-msgid "You can change it later in System Settings."
-msgstr "Ви можете змінити його пізніше в налаштуваннях системи."
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "Часовий пояс"
 
-#: qml/Wizard/Pages/50-timezone.qml:182
+#: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
 msgstr "Уведіь Ваше місто"
 
@@ -774,7 +686,7 @@ msgstr "Уведіь Ваше місто"
 msgid "Personalize Your Device"
 msgstr "Персоналізація Пристрою"
 
-#: qml/Wizard/Pages/60-account.qml:48
+#: qml/Wizard/Pages/60-account.qml:49
 msgid "Preferred Name"
 msgstr "Бажане ім’я"
 
@@ -782,22 +694,22 @@ msgstr "Бажане ім’я"
 msgid "Lock Screen"
 msgstr "Заблокувати екран"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:102
+#: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr "Створити новий пароль"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:104
+#: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr "Створити парольний код (лише цифри)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:106
+#: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "Без коду розблокування"
 
-#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
+#: qml/Wizard/Pages/75-report-check.qml:26
 msgid "Privacy Policy"
 msgstr "Правила конфіденційності"
 
@@ -805,64 +717,116 @@ msgstr "Правила конфіденційності"
 msgid "Help Us Improve"
 msgstr "Допоможіть нам покращити"
 
-#: qml/Wizard/Pages/75-report-check.qml:59
+#: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Improve system performance by sending us crashes and error reports."
 msgstr ""
 "Допоможіть нам покращити систему, відіславши нам звіт про помилки пристрою."
 
-#: qml/Wizard/Pages/75-report-check.qml:60
+#: qml/Wizard/Pages/75-report-check.qml:61
 msgid "Privacy policy"
 msgstr "Правила конфіденційності"
 
-#: qml/Wizard/Pages/80-finished.qml:89
+#: qml/Wizard/Pages/76-app-update.qml:35
+msgid "Update Apps"
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:127
+msgid "This device is not connected to the internet."
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:128
+#: qml/Wizard/Pages/76-app-update.qml:134
+msgid "Use the OpenStore app to check for updates once connected."
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:130
+msgid "Software is up to date"
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:133
+msgid "The update server is not responding."
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:238
+#, fuzzy
+msgid "Please wait..."
+msgstr "Завантаження. Будь ласка, зачекайте…"
+
+#: qml/Wizard/Pages/79-system-update.qml:28
+msgid "Update Device"
+msgstr "Оновлення для пристрою"
+
+#: qml/Wizard/Pages/79-system-update.qml:55
+msgid ""
+"There is a system update available and ready to install. Afterwards, the "
+"device will automatically restart."
+msgstr ""
+"Доступне і готове до встановлення оновлення системи. Щойно систему буде "
+"оновлено, пристрій автоматично її перезавантажить."
+
+#: qml/Wizard/Pages/79-system-update.qml:76
+msgctxt "string identifying name of the update"
+msgid "Ubuntu system"
+msgstr "Система Ubuntu"
+
+#: qml/Wizard/Pages/79-system-update.qml:83
+#, qt-format
+msgctxt "version of the system update"
+msgid "Version %1"
+msgstr "Версія %1"
+
+#: qml/Wizard/Pages/79-system-update.qml:102
+msgid "This could take a few minutes..."
+msgstr "Це може тривати декілька хвилин…"
+
+#: qml/Wizard/Pages/79-system-update.qml:116
+msgid "Install and restart now"
+msgstr "Встановити і перезавантажити зараз"
+
+#: qml/Wizard/Pages/80-finished.qml:91
+msgid "Welcome Back"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
 msgstr "Ласкаво просимо до Ubuntu"
 
-#: qml/Wizard/Pages/80-finished.qml:104
+#: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
 msgstr "Тепер пристрій готовий до використання"
 
-#: qml/Wizard/Pages/80-finished.qml:124
+#: qml/Wizard/Pages/80-finished.qml:126
+msgid "Continue"
+msgstr "Продовжити"
+
+#: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
 msgstr "Починаючи роботу"
 
-#: qml/Wizard/Pages/here-terms.qml:25
-msgid "Terms & Conditions"
-msgstr "Умови користування"
-
-#: qml/Wizard/Pages/here-terms.qml:69
-msgid "Your device uses positioning technologies provided by HERE."
-msgstr "Ваш пристрій використовує HERE для визначення місцезнаходження"
-
-#: qml/Wizard/Pages/here-terms.qml:81
-msgid ""
-"To provide you with positioning services and to improve their quality, HERE "
-"collects information about nearby cell towers and Wi-Fi hotspots around your "
-"current location whenever your position is being found."
+#: qml/Wizard/Pages/DownloadHandler.qml:174
+msgid "Installation failed"
 msgstr ""
-"Для надання послуг із позиціювання та покращення якості інших послуг HERE "
-"збирає інформацію щодо розташованих поблизу із вами станцій мобільного "
-"зв’язку та точок доступу Wi-Fi під час визначення вашого поточного "
-"розташування."
 
-#: qml/Wizard/Pages/here-terms.qml:93
-msgid ""
-"The information collected is used to analyze the service and to improve the "
-"use of service, but not to identify you personally."
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:84
+msgid "Checking for updates…"
 msgstr ""
-"Збирана інформація використовується для аналізу та поліпшення сервісу, а не "
-"для ідентифікації Вашої особи."
 
-#: qml/Wizard/Pages/here-terms.qml:106
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:109
 #, qt-format
-msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr ""
-"Продовження роботи зі службою означатиме, що ви згодні із %1 і %2 платформи "
-"HERE."
+msgid "%1 update available"
+msgid_plural "%1 updates available"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: qml/Wizard/Pages/here-terms.qml:107
-msgid "Service Terms"
-msgstr "Умовами надання послуг"
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:119
+msgid "Update all…"
+msgstr ""
+
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:121
+#, fuzzy
+msgid "Update all"
+msgstr "Оновлення для пристрою"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:97
@@ -948,6 +912,73 @@ msgstr ""
 msgid "To proceed with no SIM tap Skip."
 msgstr "Щоб продовжити без SIM картки, натисніть кнопку \"Пропустити\""
 
+#: qml/Wizard/Pages/UpdateDelegate.qml:123
+#, fuzzy
+msgid "Update"
+msgstr "Оновлення для пристрою"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:125
+#, fuzzy
+msgid "Download"
+msgstr "Отримуємо"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:131
+msgid "Resume"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:138
+msgid "Pause"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:142
+msgid "Install…"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:144
+msgid "Install"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:148
+msgid "Open"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:216
+msgid "Installing"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:220
+msgid "Paused"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:223
+msgid "Waiting to download"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:279
+#, qt-format
+msgid "%1 of %2"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:283
+#, fuzzy
+msgid "Downloaded"
+msgstr "Отримуємо"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:286
+#, fuzzy
+msgid "Installed"
+msgstr "Також встановлено"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:291
+#, fuzzy, qt-format
+msgid "Updated %1"
+msgstr "Оновлення для пристрою"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:315
+#, fuzzy
+msgid "Update failed"
+msgstr "Оновлення для пристрою"
+
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
 msgstr "Пароль є надто коротким"
@@ -976,20 +1007,71 @@ msgstr "Слабкий пароль"
 msgid "Very weak password"
 msgstr "Дуже слабкий пароль"
 
+#~ msgid "Location Services"
+#~ msgstr "Сервіс Геолокації"
+
+#~ msgid ""
+#~ "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
+#~ "(recommended)"
+#~ msgstr ""
+#~ "Використовувати анонімно GPS, точки доступу Wi-Fi та мобільну мережу для "
+#~ "визначення місцерозташування (рекомендовано)"
+
+#~ msgid "By selecting this option you agree to the Nokia HERE %1."
+#~ msgstr "Обравши цю опцію, Ви погоджуєтеся з Nokia HERE %1"
+
+#~ msgctxt "part of: Nokia HERE terms and conditions"
+#~ msgid "terms and conditions"
+#~ msgstr "правила та обмеження"
+
+#~ msgid "GPS only"
+#~ msgstr "Лише GPS"
+
+#~ msgid "Don't use my location"
+#~ msgstr "Не використовувати визначення положення"
+
+#~ msgid "You can change it later in System Settings."
+#~ msgstr "Ви можете змінити його пізніше в налаштуваннях системи."
+
+#~ msgid "Terms & Conditions"
+#~ msgstr "Умови користування"
+
+#~ msgid "Your device uses positioning technologies provided by HERE."
+#~ msgstr "Ваш пристрій використовує HERE для визначення місцезнаходження"
+
+#~ msgid ""
+#~ "To provide you with positioning services and to improve their quality, "
+#~ "HERE collects information about nearby cell towers and Wi-Fi hotspots "
+#~ "around your current location whenever your position is being found."
+#~ msgstr ""
+#~ "Для надання послуг із позиціювання та покращення якості інших послуг HERE "
+#~ "збирає інформацію щодо розташованих поблизу із вами станцій мобільного "
+#~ "зв’язку та точок доступу Wi-Fi під час визначення вашого поточного "
+#~ "розташування."
+
+#~ msgid ""
+#~ "The information collected is used to analyze the service and to improve "
+#~ "the use of service, but not to identify you personally."
+#~ msgstr ""
+#~ "Збирана інформація використовується для аналізу та поліпшення сервісу, а "
+#~ "не для ідентифікації Вашої особи."
+
+#~ msgid "By continuing, you agree to the HERE platform %1 and %2."
+#~ msgstr ""
+#~ "Продовження роботи зі службою означатиме, що ви згодні із %1 і %2 "
+#~ "платформи HERE."
+
+#~ msgid "Service Terms"
+#~ msgstr "Умовами надання послуг"
+
 #~ msgid "Confirm"
 #~ msgstr "Підтвердити"
 
 #~ msgid "Type or say a command"
 #~ msgstr "Введіть або озвучте команду"
 
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Завантаження. Будь ласка, зачекайте…"
-
 #~ msgid "Speak Now..."
 #~ msgstr "Можна говорити…"
-
-#~ msgid "Speaking..."
-#~ msgstr "Мовлення…"
 
 #~ msgid "Search"
 #~ msgstr "Пошук"
@@ -1022,7 +1104,8 @@ msgstr "Дуже слабкий пароль"
 #~ msgstr "Пропустити вступ"
 
 #~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "Спробуйте провести пальцем від правою краю, щоб розблокувати телефон"
+#~ msgstr ""
+#~ "Спробуйте провести пальцем від правою краю, щоб розблокувати телефон"
 
 #~ msgid "Right edge"
 #~ msgstr "Правий край"
@@ -1034,8 +1117,8 @@ msgstr "Дуже слабкий пароль"
 #~ "You have now mastered the edge gestures and can start using the "
 #~ "phone<br><br>Tap on the screen to start"
 #~ msgstr ""
-#~ "Вами налаштовано дії у відповідь на дотики на краях екрана. Тепер телефоном "
-#~ "можна користуватися.<br><br>Торкніться екрана, щоб розпочати."
+#~ "Вами налаштовано дії у відповідь на дотики на краях екрана. Тепер "
+#~ "телефоном можна користуватися.<br><br>Торкніться екрана, щоб розпочати."
 
 #~ msgid "See all"
 #~ msgstr "Детальніше"
@@ -1068,11 +1151,11 @@ msgstr "Дуже слабкий пароль"
 #~ msgstr "Вибачте, помилковий код-пароль."
 
 #~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
-#~ "and all personal data will be deleted."
+#~ "If passcode is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
 #~ msgstr ""
-#~ "Якщо код-пароль буде вказано неправильно, телефон повернеться до початкового "
-#~ "стану, усі особисті дані буде вилучено."
+#~ "Якщо код-пароль буде вказано неправильно, телефон повернеться до "
+#~ "початкового стану, усі особисті дані буде вилучено."
 
 #~ msgid ""
 #~ "If passphrase is entered incorrectly, your phone will conduct a factory "
@@ -1084,7 +1167,6 @@ msgstr "Дуже слабкий пароль"
 #~ msgid "This will be your last attempt."
 #~ msgstr "Ця спроба буде останньою."
 
-#, qt-format
 #~ msgid "Sorry, incorrect %1"
 #~ msgstr "Вибачте, помилковий %1"
 
@@ -1115,7 +1197,6 @@ msgstr "Дуже слабкий пароль"
 #~ msgid "Manage Scopes"
 #~ msgstr "Керування областями"
 
-#, qt-format
 #~ msgid "Enter %1"
 #~ msgstr "Введіть %1"
 
@@ -1148,9 +1229,6 @@ msgstr "Дуже слабкий пароль"
 
 #~ msgid "Let’s get started."
 #~ msgstr "Почнімо."
-
-#~ msgid "Continue"
-#~ msgstr "Продовжити"
 
 #~ msgid "Available networks…"
 #~ msgstr "Доступні мережі…"
@@ -1202,7 +1280,6 @@ msgstr "Дуже слабкий пароль"
 #~ msgid "Confirm passphrase"
 #~ msgstr "Підтвердіть пароль"
 
-#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
@@ -1215,17 +1292,17 @@ msgstr "Дуже слабкий пароль"
 #~ msgid "Please try again."
 #~ msgstr "Будь ласка, спробуйте ще раз!"
 
-#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
 #~ msgid "You can change your mind later in <b>System Settings</b>."
 #~ msgstr ""
-#~ "Згодом змінити налаштування можна за допомогою <b>Системних параметрів</b>."
+#~ "Згодом змінити налаштування можна за допомогою <b>Системних параметрів</"
+#~ "b>."
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
+#~ "and conditions</a>."
 #~ msgstr ""
 #~ "Вибором цього варіанта дій ви погоджуєтеся із <a href='#'>умовами надання "
 #~ "послуг Nokia HERE</a>."
@@ -1355,7 +1432,8 @@ msgstr "Дуже слабкий пароль"
 
 #~ msgid "Swipe from the top right edge to open the notification bar"
 #~ msgstr ""
-#~ "Проведіть пальцем від верхнього правого краю для відкриття панелі сповіщень"
+#~ "Проведіть пальцем від верхнього правого краю для відкриття панелі "
+#~ "сповіщень"
 
 #~ msgid "Swipe from the top edge to open the notification bar"
 #~ msgstr "Проведіть пальцем від верхнього краю для відкриття панелі сповіщень"
@@ -1382,37 +1460,3 @@ msgstr "Дуже слабкий пароль"
 
 #~ msgid "Swipe up for favorite calculations"
 #~ msgstr "Проведіть вгору, щоб побачити список вибраних обчислень"
-
-#~ msgid "Long swipe from the left edge to open the Today scope"
-#~ msgstr "Довге проведення від лівого краю відкриває область «Сьогодні»"
-
-#~ msgid "Takes a screenshot of a window."
-#~ msgstr "Зробити знімок вікна."
-
-#~ msgid "Super + 0 to 9"
-#~ msgstr "Win + 0-9"
-
-#~ msgctxt "string identifying name of the update"
-#~ msgid "Ubuntu system"
-#~ msgstr "Система Ubuntu"
-
-#~ msgid "Update Device"
-#~ msgstr "Оновлення для пристрою"
-
-#~ msgid ""
-#~ "There is a system update available and ready to install. Afterwards, the "
-#~ "device will automatically restart."
-#~ msgstr ""
-#~ "Доступне і готове до встановлення оновлення системи. Щойно систему буде "
-#~ "оновлено, пристрій автоматично її перезавантажить."
-
-#~ msgid "Install and restart now"
-#~ msgstr "Встановити і перезавантажити зараз"
-
-#~ msgid "This could take a few minutes..."
-#~ msgstr "Це може тривати декілька хвилин…"
-
-#, qt-format
-#~ msgctxt "version of the system update"
-#~ msgid "Version %1"
-#~ msgstr "Версія %1"
