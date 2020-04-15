@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2019-05-24 12:03+0000\n"
-"Last-Translator: Julian Theel <julian@hubu.de>\n"
+"PO-Revision-Date: 2020-04-15 19:40+0000\n"
+"Last-Translator: Florian Leeber <flori@bin.org.in>\n"
 "Language-Team: German <https://translate.ubports.com/projects/unity8/unity8/"
 "de/>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 3.8\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:199
@@ -26,15 +26,15 @@ msgstr "Passwort: "
 
 #: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr ""
+msgstr "Benutzername"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "Authentifizierung fehlgeschlagen"
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "Ungültiges Passwort, bitte nochmals versuchen"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
@@ -46,11 +46,11 @@ msgstr "Erneut versuchen"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr ""
+msgstr "Einloggen"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr ""
+msgstr "Gastsitzung"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
@@ -151,10 +151,8 @@ msgid "Alt + PrtScr"
 msgstr "Alt + Druck"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
-#, fuzzy
-#| msgid "Takes a screenshot of a window."
 msgid "Takes a screenshot of the current window."
-msgstr "Macht ein Bildschirmfoto eines Fensters."
+msgstr "Macht ein Bildschirmfoto des aktuellen Fensters."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -173,16 +171,12 @@ msgid "Switches to previous keyboard layout."
 msgstr "Wechselt zur vorherigen Tastaturbelegung."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
-#, fuzzy
-#| msgid "Ctrl + Super + D"
 msgid "Ctrl + Alt + T"
-msgstr "Strg + Super + D"
+msgstr "Ctrl + Alt + T"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
-#, fuzzy
-#| msgid "Switches between applications."
 msgid "Starts the Terminal application."
-msgstr "Zwischen Anwendungen wechseln."
+msgstr "Startet die Terminal-Anwendung."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
@@ -213,26 +207,20 @@ msgid "Switches applications via the launcher."
 msgstr "Schaltet über den Starter zwischen Anwendungen um."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
-#, fuzzy
-#| msgid "Super + 0 to 9"
 msgid "Super + 1 to 0"
-msgstr "Super + 0 bis 9"
+msgstr "Super + 1 bis 0"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
 msgstr "Entspricht dem Anklicken eines Startersymbols."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
-#, fuzzy
-#| msgid "Super + W"
 msgid "Super + A"
-msgstr "Super + W"
+msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
-#, fuzzy
-#| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
-msgstr "Öffnen Sie den Starter."
+msgstr "Öffnet den Application Drawer."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
@@ -382,22 +370,20 @@ msgstr ""
 "Gerätedisplay als Touchpad, um den Mauszeiger zu steuern."
 
 #: qml/Components/VirtualTouchPad.qml:327
-#, fuzzy
-#| msgid "Tap to return to call..."
 msgid "Tap left button to click."
-msgstr "Tippen, um zum Anruf zurückzugehen…"
+msgstr "Linken Knopf tippen um zu klicken."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "Rechten Knopf tippen um  rechts zu klicken."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "Mit zwei Fingern wischen um  zu scrollen."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "Finde mehr Einstellungen in den System-Settings."
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -431,16 +417,12 @@ msgid "Try again"
 msgstr "Erneut versuchen"
 
 #: qml/Greeter/Greeter.qml:551
-#, fuzzy
-#| msgid "Enter passphrase"
 msgid "Enter passphrase to unlock"
-msgstr "Passphrase eingeben"
+msgstr "Passwort zum Entsperren eingeben"
 
 #: qml/Greeter/Greeter.qml:552
-#, fuzzy
-#| msgid "Enter passcode"
 msgid "Enter passcode to unlock"
-msgstr "PIN eingeben"
+msgstr "PIN eingeben zum Entsperren"
 
 #: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
@@ -459,10 +441,8 @@ msgid "Select desktop environment"
 msgstr "Arbeitsumgebung auswählen"
 
 #: qml/Launcher/Drawer.qml:249
-#, fuzzy
-#| msgid "Search"
 msgid "Search…"
-msgstr "Suchen"
+msgstr "Suchen…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -552,9 +532,6 @@ msgid "Call back"
 msgstr "Zurückrufen"
 
 #: qml/Panel/PanelMenuPage.qml:92
-#, fuzzy
-#| msgctxt "Button: Go back one page in the Wizard"
-#| msgid "Back"
 msgid "Back"
 msgstr "Zurück"
 
@@ -564,14 +541,12 @@ msgstr "Eine Anwendung mit 3 Fingern von einem Fenster zum anderen ziehen"
 
 #: qml/Stage/Stage.qml:668
 msgid "No running apps"
-msgstr ""
+msgstr "Keine laufenden Anwendungen"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-#, fuzzy
-#| msgid "Long swipe from the left edge to open the Today scope"
 msgid "Long swipe from the left edge to open the Application Drawer"
 msgstr ""
-"Langgezogene Wischgeste von der linken Kante, um den Heute-Scope zu öffnen"
+"Langgezogene Wischgeste von der linken Kante um den App Drawer zu öffnen"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -710,12 +685,9 @@ msgstr ""
 "Danach wird das Gerät automatisch neu starten."
 
 #: qml/Wizard/Pages/79-system-update.qml:76
-#, fuzzy
-#| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
 msgctxt "string identifying name of the update"
 msgid "Ubuntu Touch system"
-msgstr "Ubuntu-System"
+msgstr "Ubuntu-Touch-System"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
