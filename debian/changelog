@@ -1,10 +1,85 @@
-unity8 (8.20+ubports) xenial; urgency=medium
+unity8 (8.20+ubports0) xenial; urgency=medium
+
+  * Move back to 8.15+17.04.20170404.7-0ubuntu2, basically removing
+    8.16 and 8.17 from the git history.
+  * 244 commits compared to 8.15+17.04.20170404.7-0ubuntu2, 6,940
+    additions and 47,165 deletions.
+  * Remove scopes.
+  * Fix test compatibility with Qt 5.9, many race conditions caused
+    therein.
+  * Improve test performance.
+  * Remove A-Z drawer model and most of the code around it. Leaves a
+    basic app grid and nothing else in the Drawer.
+  * Enable glyph cache workaround to improve text rendering on Android
+    platform.
+  * Disable touch compression to improve scrolling performance.
+  * Correctly end indicator services after unity8 job stops.
+  * Do not use platform-api if it is not available.
+  * Move back to ubuntu-app-launch2, replace its Drawer hookups with a
+    file watcher and manual pull-to-refresh (for now).
+  * Add unity8-schemas package.
+  * Add Drawer tutorial for users upgrading from 8.17.
+  * Remove HERE location data related code.
+  * Remove ImageCache and use Qt's own Image handling for wallpaper.
+  * Fix EntryIsLocked property to allow apps to correctly check for
+    screen locking.
+  * Ignore rejected touch events so the user can start a multi-touch
+    gesture incrementally in apps.
+  * Use multi-color LEDs as charge level indicators.
+  * Add an InputMethodManager which holds the Input Method window
+    separately from the TopLevelWindowManager. Allows the keyboard to
+    be treated differently, such as displaying on internal display
+    while the primary display is external.
+  * Many fixes for window management...
+  * Change global menu for better touch compatibility.
+  * Add background to NarrowView greeter so the Stage doesn't peek
+    through small wallpapers.
+  * Fix anchoring of single username to the login box in Greeter.
+  * Remove background blur from the Drawer and Launcher. :(
+  * Advance Wizard when the user presses Enter or completes the task
+    on a page where appropriate.
+  * And more not listed... The previous release was commit
+    c91d0f69367b33a6efca18d7b4b5be289df28d3e
+
+ -- Dalton Durst <dalton@ubports.com>  Wed, 15 Apr 2020 12:18:01 -0500
+
+unity8 (8.17+ubports5) xenial; urgency=medium
+
+  * Yet more papercuts in Wizard update interaction:
+    * It's not possible to skip the app update page while it's checking for
+      updates, so make it say "Please wait..." while checking
+    * Make Changelog page indicate that the next page is loading after the next
+      button has been clicked. This avoids skipping the app update page.
+
+-- Dalton Durst <dalton@ubports.com> Mon, 8 Oct 2018 13:32:13 -0500
+
+unity8 (8.17+ubports4) xenial; urgency=medium
 
   * Replace dependency on ubuntu-wallpapers with ubports-wallpapers
 
  -- Dalton Durst <dalton@ubports.com>  Fri, 5 Oct 2018 13:28:20 -0500
 
 unity8 (8.17+ubports3) xenial; urgency=medium
+
+  * Fix papercuts in Wizard update page interaction:
+    * Remove "Stop" button for app update check
+    * Make "not connected to internet" message more clear
+
+ -- Dalton Durst <dalton@ubports.com>  Fri, 28 Sep 2018 14:08:00 -0500
+
+unity8 (8.17+ubports2) xenial; urgency=medium
+
+  * Fix for https://github.com/ubports/ubuntu-touch/issues/624
+
+ -- Dalton Durst <dalton@ubports.com>  Fri, 1 Jun 2018 16:14:11 -0500
+
+unity8 (8.17+ubports1) UNRELEASED; urgency=medium
+
+  * No change rebuild to generate sources in ubports repo
+
+ -- Dan Chapman <dan@ubports.com>  Tue, 20 Feb 2018 07:09:11 +0000
+
+unity8 (8.16+ubports) xenial; urgency=medium
 
   * Imported to UBports
 
@@ -8172,4 +8247,3 @@ unity8 (8.15+17.04.20170404.7-0ubuntu2) zesty; urgency=medium
 
   [ Michael Zanetti ]
   * Make the default store uri point to gnome software center
-
