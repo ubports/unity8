@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2018-11-20 11:28+0000\n"
+"PO-Revision-Date: 2020-04-15 21:56+0000\n"
 "Last-Translator: Joan CiberSheep <cibersheep@gmail.com>\n"
 "Language-Team: Catalan <https://translate.ubports.com/projects/unity8/unity8/"
 "ca/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.1.1\n"
+"X-Generator: Weblate 3.8\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:34+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:199
@@ -26,15 +26,15 @@ msgstr "Contrasenya: "
 
 #: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr ""
+msgstr "Nom d'usuari"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "Ha fallat l'autenticació"
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "Contrasenya invàlida, torneu-ho a provar"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
@@ -46,11 +46,11 @@ msgstr "Torna-ho a provar"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr ""
+msgstr "Inicia sessió"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr ""
+msgstr "Sessió de convidat"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
@@ -151,10 +151,8 @@ msgid "Alt + PrtScr"
 msgstr "Alt + ImprPant"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
-#, fuzzy
-#| msgid "Takes a screenshot of a window."
 msgid "Takes a screenshot of the current window."
-msgstr "Crea una captura de pantalla d'una finestra."
+msgstr "Crea una captura de pantalla d'aquesta finestra."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -173,16 +171,12 @@ msgid "Switches to previous keyboard layout."
 msgstr "Canvia a la disposició prèvia de teclat."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
-#, fuzzy
-#| msgid "Ctrl + Super + D"
 msgid "Ctrl + Alt + T"
-msgstr "Ctrl + Súper + D"
+msgstr "Ctrl + Alt + T"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
-#, fuzzy
-#| msgid "Switches between applications."
 msgid "Starts the Terminal application."
-msgstr "Commuta entre aplicacions."
+msgstr "Inicia el terminal."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
@@ -213,26 +207,20 @@ msgid "Switches applications via the launcher."
 msgstr "Commuta les aplicacions mitjançant el llançador."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
-#, fuzzy
-#| msgid "Super + 0 to 9"
 msgid "Super + 1 to 0"
-msgstr "Super + 0 a 9"
+msgstr "Súper + 1 a 0"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
 msgstr "El mateix que clicar sobre una icona del llançador."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
-#, fuzzy
-#| msgid "Super + W"
 msgid "Super + A"
-msgstr "Súper + W"
+msgstr "Súper + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
-#, fuzzy
-#| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
-msgstr "Obre el llançador"
+msgstr "Obre el calaix d'aplicacions."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
@@ -381,22 +369,20 @@ msgstr ""
 "pantalla com a ratolí tàctil per interaccionar amb el cursor."
 
 #: qml/Components/VirtualTouchPad.qml:327
-#, fuzzy
-#| msgid "Tap to return to call..."
 msgid "Tap left button to click."
-msgstr "Feu un toc per tornar a la trucada..."
+msgstr "Toqueu el botó esquerre per fer clic."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "Toqueu el botó dret per fer clic dret."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "Llisqueu amb dos dits per desplaçar."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "Trobareu més opcions als paràmetres del sistema."
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -430,16 +416,12 @@ msgid "Try again"
 msgstr "Torna-ho a provar"
 
 #: qml/Greeter/Greeter.qml:551
-#, fuzzy
-#| msgid "Enter passphrase"
 msgid "Enter passphrase to unlock"
-msgstr "Introduïu la contrasenya"
+msgstr "Introduïu la frase de pas per desblocar"
 
 #: qml/Greeter/Greeter.qml:552
-#, fuzzy
-#| msgid "Enter passcode"
 msgid "Enter passcode to unlock"
-msgstr "Introduïu el codi d'accés"
+msgstr "Introduïu la contrasenya per desblocar"
 
 #: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
@@ -458,10 +440,8 @@ msgid "Select desktop environment"
 msgstr "Seleccioneu l'entorn d'escriptori"
 
 #: qml/Launcher/Drawer.qml:249
-#, fuzzy
-#| msgid "Search"
 msgid "Search…"
-msgstr "Cerca"
+msgstr "Cerca…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -551,9 +531,6 @@ msgid "Call back"
 msgstr "Retorna la trucada"
 
 #: qml/Panel/PanelMenuPage.qml:92
-#, fuzzy
-#| msgctxt "Button: Go back one page in the Wizard"
-#| msgid "Back"
 msgid "Back"
 msgstr "Enrere"
 
@@ -564,13 +541,12 @@ msgstr ""
 
 #: qml/Stage/Stage.qml:668
 msgid "No running apps"
-msgstr ""
+msgstr "Cap aplicació activa"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-#, fuzzy
-#| msgid "Long swipe from the left edge to open the Today scope"
 msgid "Long swipe from the left edge to open the Application Drawer"
-msgstr "Feu una lliscada llarga des de la vora esquerra per obrir l'àmbit Avui"
+msgstr ""
+"Obriu el calaix d'aplicacions amb una lliscada llarga des de la vora esquerra"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -711,12 +687,9 @@ msgstr ""
 "Després, el dispositiu es reiniciarà automàticament."
 
 #: qml/Wizard/Pages/79-system-update.qml:76
-#, fuzzy
-#| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
 msgctxt "string identifying name of the update"
 msgid "Ubuntu Touch system"
-msgstr "Sistema de l'Ubuntu"
+msgstr "Sistema Ubuntu Touch"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
