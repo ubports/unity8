@@ -6,18 +6,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-04-04 22:56+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-04-08 17:26-0500\n"
 "PO-Revision-Date: 2016-02-24 04:40+0000\n"
 "Last-Translator: Po-Hsu Lin <po-hsu.lin@canonical.com>\n"
 "Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Launchpad-Export-Date: 2017-04-07 06:31+0000\n"
 "X-Generator: Launchpad (build 18343)\n"
-"Language: zh_TW\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -39,7 +39,7 @@ msgstr "密碼錯誤，請再試一次"
 msgid "Log In"
 msgstr "登入"
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:254 qml/Wizard/Pages/UpdateDelegate.qml:118
 msgid "Retry"
 msgstr "重試"
 
@@ -84,8 +84,7 @@ msgid "Log Out"
 msgstr "登出"
 
 #: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:264
-#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:208
-#: qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Greeter/NarrowView.qml:208 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "取消"
@@ -378,103 +377,6 @@ msgstr ""
 msgid "Find more settings in the system settings."
 msgstr ""
 
-#: qml/Dash/DashPageHeader.qml:361
-msgctxt "Button: Open the Ubuntu Store"
-msgid "Store"
-msgstr "商城"
-
-#: qml/Dash/DashPageHeader.qml:368
-msgctxt "Button: Start a search in the current dash scope"
-msgid "Search"
-msgstr "搜尋"
-
-#: qml/Dash/DashPageHeader.qml:378
-msgctxt "Button: Show the current dash scope settings"
-msgid "Settings"
-msgstr "設定"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Remove from Favorites"
-msgstr "自「最愛」移除"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Add to Favorites"
-msgstr "加入到「最愛」"
-
-#: qml/Dash/FiltersPopover.qml:61
-msgid "Refine your results"
-msgstr "精細篩選結果"
-
-#: qml/Dash/FiltersPopover.qml:70
-msgid "Reset"
-msgstr "重設"
-
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
-msgid "Show less"
-msgstr "顯示較少"
-
-#: qml/Dash/GenericScopeView.qml:547
-msgid "Show all"
-msgstr "顯示全部"
-
-#: qml/Dash/GenericScopeView.qml:578
-msgctxt "Label: Hint for dash search line edit"
-msgid "Search"
-msgstr "搜尋"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:67
-msgid "Recent Searches"
-msgstr "最近的搜尋"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:78
-msgid "Clear All"
-msgstr "全部清除"
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "More..."
-msgstr "更多…"
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "Less..."
-msgstr "縮減…"
-
-#: qml/Dash/Previews/PreviewCommentInput.qml:83
-#: qml/Dash/Previews/PreviewRatingInput.qml:202
-msgid "Send"
-msgstr "發送"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:109
-msgid "Rate this"
-msgstr "給予評等"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:184
-msgid "Add a review"
-msgstr "新增評論"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:56
-msgid "Pull to refresh…"
-msgstr "下拉以重新整理..."
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:61
-msgid "Release to refresh…"
-msgstr "放開以重新整理..."
-
-#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
-msgid "Enable location data"
-msgstr "啟用位置資料"
-
-#: qml/Dash/ScopesList.qml:146
-msgid "Manage"
-msgstr "管理"
-
-#: qml/Dash/ScopesList.qml:187
-msgid "Home"
-msgstr "家屋"
-
-#: qml/Dash/ScopesList.qml:188
-msgid "Also installed"
-msgstr "也有安裝"
-
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
 msgstr "解鎖"
@@ -525,18 +427,9 @@ msgstr ""
 msgid "Select desktop environment"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:94
+#: qml/Launcher/Drawer.qml:107
 msgid "Search…"
 msgstr "搜尋..."
-
-#: qml/Launcher/Drawer.qml:129
-msgctxt "Apps sorted alphabetically"
-msgid "A-Z"
-msgstr "A-Z"
-
-#: qml/Launcher/MoreAppsHeader.qml:55
-msgid "More apps in the store"
-msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -587,6 +480,7 @@ msgid "In queue…"
 msgstr "佇列中…"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1021
+#: qml/Wizard/Pages/UpdateDelegate.qml:226
 msgid "Downloading"
 msgstr "下載中"
 
@@ -650,24 +544,45 @@ msgstr ""
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
 
-#: qml/Wizard/Page.qml:54
+#: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "返回"
 
-#: qml/Wizard/Pages/10-welcome.qml:28
+#: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
 msgstr "語言"
 
-#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:145
-#: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:142
-#: qml/Wizard/Pages/password-set.qml:142
+#: qml/Wizard/Pages/10-welcome.qml:175
+#: qml/Wizard/Pages/10-welcome-update.qml:126
+#: qml/Wizard/Pages/11-changelog.qml:74 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:214 qml/Wizard/Pages/50-timezone.qml:272
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/70-passwd-type.qml:146
+#: qml/Wizard/Pages/76-app-update.qml:231
+#: qml/Wizard/Pages/passcode-desktop.qml:154
+#: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
 msgstr "下一個"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:91
+#, fuzzy
+#| msgid "Welcome to Ubuntu"
+msgid "Welcome to "
+msgstr "歡迎使用 Ubuntu"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:106
+msgid "We will make sure your device is ready to use "
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:28
+msgid "What's new"
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:74
+#, fuzzy
+#| msgid "Speaking..."
+msgid "Loading..."
+msgstr "說話中..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
@@ -681,64 +596,33 @@ msgstr "鍵盤語言"
 msgid "Keyboard layout"
 msgstr "鍵盤配置"
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:214
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/76-app-update.qml:235
+#: qml/Wizard/Pages/79-system-update.qml:144 qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "略過"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
 msgstr "連接 Wi-Fi"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
 msgstr "已連線"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
 msgstr "可用的 Wi-Fi 無線網路"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
 msgstr "無可用的 Wi-Fi 無線網路"
-
-#: qml/Wizard/Pages/40-location.qml:27
-msgid "Location Services"
-msgstr "定位服務"
-
-#: qml/Wizard/Pages/40-location.qml:83
-msgid ""
-"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
-"(recommended)"
-msgstr ""
-
-#: qml/Wizard/Pages/40-location.qml:105
-#, qt-format
-msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr ""
-
-#: qml/Wizard/Pages/40-location.qml:106
-msgctxt "part of: Nokia HERE terms and conditions"
-msgid "terms and conditions"
-msgstr "條款及條件"
-
-#: qml/Wizard/Pages/40-location.qml:160
-msgid "GPS only"
-msgstr "僅 GPS"
-
-#: qml/Wizard/Pages/40-location.qml:214
-msgid "Don't use my location"
-msgstr ""
-
-#: qml/Wizard/Pages/40-location.qml:260
-msgid "You can change it later in System Settings."
-msgstr ""
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "時區"
 
-#: qml/Wizard/Pages/50-timezone.qml:182
+#: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
 msgstr ""
 
@@ -746,7 +630,7 @@ msgstr ""
 msgid "Personalize Your Device"
 msgstr ""
 
-#: qml/Wizard/Pages/60-account.qml:48
+#: qml/Wizard/Pages/60-account.qml:54
 msgid "Preferred Name"
 msgstr ""
 
@@ -754,81 +638,126 @@ msgstr ""
 msgid "Lock Screen"
 msgstr "鎖住螢幕"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:102
+#: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr ""
 
-#: qml/Wizard/Pages/70-passwd-type.qml:104
+#: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr ""
 
-#: qml/Wizard/Pages/70-passwd-type.qml:106
+#: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr ""
 
-#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
-msgid "Privacy Policy"
-msgstr "隱私權政策"
-
-#: qml/Wizard/Pages/75-report-check.qml:26
-msgid "Help Us Improve"
+#: qml/Wizard/Pages/76-app-update.qml:34
+msgid "Update Apps"
 msgstr ""
 
-#: qml/Wizard/Pages/75-report-check.qml:59
-msgid "Improve system performance by sending us crashes and error reports."
+#: qml/Wizard/Pages/76-app-update.qml:122
+msgid "This device is not connected to the internet."
 msgstr ""
 
-#: qml/Wizard/Pages/75-report-check.qml:60
-msgid "Privacy policy"
-msgstr "隱私權政策"
+#: qml/Wizard/Pages/76-app-update.qml:123
+#: qml/Wizard/Pages/76-app-update.qml:129
+msgid "Use the OpenStore app to check for updates once connected."
+msgstr ""
 
-#: qml/Wizard/Pages/80-finished.qml:89
+#: qml/Wizard/Pages/76-app-update.qml:125
+msgid "Software is up to date"
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:128
+msgid "The update server is not responding."
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:233
+#, fuzzy
+#| msgid "Loading. Please Wait..."
+msgid "Please wait..."
+msgstr "載入中。請稍候..."
+
+#: qml/Wizard/Pages/79-system-update.qml:28
+msgid "Update Device"
+msgstr "更新裝置"
+
+#: qml/Wizard/Pages/79-system-update.qml:55
+msgid ""
+"There is a system update available and ready to install. Afterwards, the "
+"device will automatically restart."
+msgstr ""
+
+#: qml/Wizard/Pages/79-system-update.qml:76
+#, fuzzy
+#| msgctxt "string identifying name of the update"
+#| msgid "Ubuntu system"
+msgctxt "string identifying name of the update"
+msgid "Ubuntu Touch system"
+msgstr "Ubuntu 系統"
+
+#: qml/Wizard/Pages/79-system-update.qml:83
+#, qt-format
+msgctxt "version of the system update"
+msgid "Version %1"
+msgstr ""
+
+#: qml/Wizard/Pages/79-system-update.qml:95
+msgid "This could take a few minutes..."
+msgstr ""
+
+#: qml/Wizard/Pages/79-system-update.qml:109
+msgid "Install and restart now"
+msgstr "馬上安裝並重新啟動"
+
+#: qml/Wizard/Pages/80-finished.qml:91
+msgid "Welcome Back"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
 msgstr "歡迎使用 Ubuntu"
 
-#: qml/Wizard/Pages/80-finished.qml:104
+#: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
 msgstr ""
 
-#: qml/Wizard/Pages/80-finished.qml:124
+#: qml/Wizard/Pages/80-finished.qml:126
+msgid "Continue"
+msgstr "繼續"
+
+#: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
 msgstr "新手上路"
 
-#: qml/Wizard/Pages/here-terms.qml:25
-msgid "Terms & Conditions"
-msgstr "使用條款與細則"
-
-#: qml/Wizard/Pages/here-terms.qml:69
-msgid "Your device uses positioning technologies provided by HERE."
+#: qml/Wizard/Pages/DownloadHandler.qml:174
+msgid "Installation failed"
 msgstr ""
 
-#: qml/Wizard/Pages/here-terms.qml:81
-msgid ""
-"To provide you with positioning services and to improve their quality, HERE "
-"collects information about nearby cell towers and Wi-Fi hotspots around your "
-"current location whenever your position is being found."
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:84
+msgid "Checking for updates…"
 msgstr ""
 
-#: qml/Wizard/Pages/here-terms.qml:93
-msgid ""
-"The information collected is used to analyze the service and to improve the "
-"use of service, but not to identify you personally."
-msgstr ""
-
-#: qml/Wizard/Pages/here-terms.qml:106
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:109
 #, qt-format
-msgid "By continuing, you agree to the HERE platform %1 and %2."
+msgid "%1 update available"
+msgid_plural "%1 updates available"
+msgstr[0] ""
+
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:119
+msgid "Update all…"
 msgstr ""
 
-#: qml/Wizard/Pages/here-terms.qml:107
-msgid "Service Terms"
-msgstr "服務條款"
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:121
+#, fuzzy
+#| msgid "Update Device"
+msgid "Update all"
+msgstr "更新裝置"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:97
+#: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
 msgstr "確認通關碼"
 
@@ -845,24 +774,24 @@ msgstr "請重新輸入："
 msgid "Lock Screen Passcode"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:61
+#: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:77
+#: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "選擇通關碼"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:127
+#: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:129
+#: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:131
+#: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
 msgstr ""
 
@@ -874,15 +803,15 @@ msgstr ""
 msgid "Lock Screen Password"
 msgstr ""
 
-#: qml/Wizard/Pages/password-set.qml:62
+#: qml/Wizard/Pages/password-set.qml:68
 msgid "Enter at least 8 characters"
 msgstr "輸入至少 8 個字元"
 
-#: qml/Wizard/Pages/password-set.qml:74
+#: qml/Wizard/Pages/password-set.qml:80
 msgid "Choose password"
 msgstr "選擇通關碼"
 
-#: qml/Wizard/Pages/password-set.qml:104
+#: qml/Wizard/Pages/password-set.qml:110
 msgid "Confirm password"
 msgstr "確認密碼"
 
@@ -909,6 +838,79 @@ msgstr ""
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
 msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:123
+#, fuzzy
+#| msgid "Update Device"
+msgid "Update"
+msgstr "更新裝置"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:125
+#, fuzzy
+#| msgid "Downloading"
+msgid "Download"
+msgstr "下載中"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:131
+msgid "Resume"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:138
+msgid "Pause"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:142
+msgid "Install…"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:144
+msgid "Install"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:148
+msgid "Open"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:216
+msgid "Installing"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:220
+msgid "Paused"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:223
+msgid "Waiting to download"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:279
+#, qt-format
+msgid "%1 of %2"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:283
+#, fuzzy
+#| msgid "Downloading"
+msgid "Downloaded"
+msgstr "下載中"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:286
+#, fuzzy
+#| msgid "Also installed"
+msgid "Installed"
+msgstr "也有安裝"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:291
+#, fuzzy, qt-format
+#| msgid "Update Device"
+msgid "Updated %1"
+msgstr "更新裝置"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:315
+#, fuzzy
+#| msgid "Update Device"
+msgid "Update failed"
+msgstr "更新裝置"
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
@@ -938,17 +940,107 @@ msgstr "密碼強度不足"
 msgid "Very weak password"
 msgstr "密碼強度極弱"
 
+#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgid "Store"
+#~ msgstr "商城"
+
+#~ msgctxt "Button: Start a search in the current dash scope"
+#~ msgid "Search"
+#~ msgstr "搜尋"
+
+#~ msgctxt "Button: Show the current dash scope settings"
+#~ msgid "Settings"
+#~ msgstr "設定"
+
+#~ msgid "Remove from Favorites"
+#~ msgstr "自「最愛」移除"
+
+#~ msgid "Add to Favorites"
+#~ msgstr "加入到「最愛」"
+
+#~ msgid "Refine your results"
+#~ msgstr "精細篩選結果"
+
+#~ msgid "Reset"
+#~ msgstr "重設"
+
+#~ msgid "Show less"
+#~ msgstr "顯示較少"
+
+#~ msgid "Show all"
+#~ msgstr "顯示全部"
+
+#~ msgctxt "Label: Hint for dash search line edit"
+#~ msgid "Search"
+#~ msgstr "搜尋"
+
+#~ msgid "Recent Searches"
+#~ msgstr "最近的搜尋"
+
+#~ msgid "Clear All"
+#~ msgstr "全部清除"
+
+#~ msgid "More..."
+#~ msgstr "更多…"
+
+#~ msgid "Less..."
+#~ msgstr "縮減…"
+
+#~ msgid "Send"
+#~ msgstr "發送"
+
+#~ msgid "Rate this"
+#~ msgstr "給予評等"
+
+#~ msgid "Add a review"
+#~ msgstr "新增評論"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "下拉以重新整理..."
+
+#~ msgid "Release to refresh…"
+#~ msgstr "放開以重新整理..."
+
+#~ msgid "Enable location data"
+#~ msgstr "啟用位置資料"
+
+#~ msgid "Manage"
+#~ msgstr "管理"
+
+#~ msgid "Home"
+#~ msgstr "家屋"
+
+#~ msgctxt "Apps sorted alphabetically"
+#~ msgid "A-Z"
+#~ msgstr "A-Z"
+
+#~ msgid "Location Services"
+#~ msgstr "定位服務"
+
+#~ msgctxt "part of: Nokia HERE terms and conditions"
+#~ msgid "terms and conditions"
+#~ msgstr "條款及條件"
+
+#~ msgid "GPS only"
+#~ msgstr "僅 GPS"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "隱私權政策"
+
+#~ msgid "Privacy policy"
+#~ msgstr "隱私權政策"
+
+#~ msgid "Terms & Conditions"
+#~ msgstr "使用條款與細則"
+
+#~ msgid "Service Terms"
+#~ msgstr "服務條款"
+
 #~ msgid "Confirm"
 #~ msgstr "確認"
 
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "載入中。請稍候..."
-
 #~ msgid "Speak Now..."
 #~ msgstr "請說..."
-
-#~ msgid "Speaking..."
-#~ msgstr "說話中..."
 
 #~ msgid "Search"
 #~ msgstr "搜尋"
@@ -1033,7 +1125,6 @@ msgstr "密碼強度極弱"
 #~ msgid "Done"
 #~ msgstr "完成"
 
-#, qt-format
 #~ msgid "Sorry, incorrect %1"
 #~ msgstr "抱歉，%1不對"
 
@@ -1051,7 +1142,6 @@ msgstr "密碼強度極弱"
 #~ "reset and all personal data will be deleted."
 #~ msgstr "如輸入的密語不對，本電話會進行重設，所有個人資料都會刪除。"
 
-#, qt-format
 #~ msgid "Enter %1"
 #~ msgstr "輸入 %1"
 
@@ -1071,8 +1161,8 @@ msgstr "密碼強度極弱"
 #~ msgstr "抱歉，通關碼不對。"
 
 #~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
-#~ "and all personal data will be deleted."
+#~ "If passcode is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
 #~ msgstr "如輸入的通關碼不對，本電話會進行重設，所有個人資料都會刪除。"
 
 #~ msgid "Enter passcode"
@@ -1129,9 +1219,6 @@ msgstr "密碼強度極弱"
 #~ msgid "Let’s get started."
 #~ msgstr "讓我們開始吧。"
 
-#~ msgid "Continue"
-#~ msgstr "繼續"
-
 #~ msgid "Add a SIM card and restart your device"
 #~ msgstr "插入 SIM 卡並重新啟動您的裝置"
 
@@ -1163,8 +1250,8 @@ msgstr "密碼強度極弱"
 #~ msgstr "使用 GPS、匿名化 Wi-Fi 與巢狀行動網路資訊 (建議)"
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
+#~ "and conditions</a>."
 #~ msgstr "選取此項代表您同意 Nokia HERE 的<a href='#'>服務條款與細則</a>。"
 
 #~ msgid "Not at all"
@@ -1179,7 +1266,9 @@ msgstr "密碼強度極弱"
 #~ msgid ""
 #~ "Your phone is set up to automatically report errors to Canonical and its "
 #~ "partners, the makers of the operating system."
-#~ msgstr "您的手機已設置為會自動向 Canonical 及其合作夥伴 (作業系統的製作者) 回報錯誤問題。"
+#~ msgstr ""
+#~ "您的手機已設置為會自動向 Canonical 及其合作夥伴 (作業系統的製作者) 回報錯"
+#~ "誤問題。"
 
 #~ msgid ""
 #~ "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
@@ -1210,11 +1299,9 @@ msgstr "密碼強度極弱"
 #~ msgid "Passphrase must be 4 characters long"
 #~ msgstr "密語必須 4 個字元長"
 
-#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
-#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
@@ -1296,13 +1383,3 @@ msgstr "密碼強度極弱"
 
 #~ msgid "Super + 0 to 9"
 #~ msgstr "Super + 0 到 9"
-
-#~ msgctxt "string identifying name of the update"
-#~ msgid "Ubuntu system"
-#~ msgstr "Ubuntu 系統"
-
-#~ msgid "Update Device"
-#~ msgstr "更新裝置"
-
-#~ msgid "Install and restart now"
-#~ msgstr "馬上安裝並重新啟動"

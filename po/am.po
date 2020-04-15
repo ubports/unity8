@@ -6,11 +6,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-04-04 22:56+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-04-08 17:26-0500\n"
 "PO-Revision-Date: 2017-01-26 15:04+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
+"Language: am\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -38,7 +39,7 @@ msgstr "እባክዎን እንደገና ይሞክሩ ዋጋ የሌለው የመ�
 msgid "Log In"
 msgstr "መግቢያ"
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:254 qml/Wizard/Pages/UpdateDelegate.qml:118
 msgid "Retry"
 msgstr "እንደገና ይሞክሩ"
 
@@ -83,8 +84,7 @@ msgid "Log Out"
 msgstr "መውጫ"
 
 #: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:264
-#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:208
-#: qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Greeter/NarrowView.qml:208 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "መሰረዣ"
@@ -379,103 +379,6 @@ msgstr "ለ መሽብለል በ ሁለት ጣት ይጥረጉ"
 msgid "Find more settings in the system settings."
 msgstr "ተጨማሪ ማሰናጃዎችን ያግኙ በ ስርአት ማሰናጃ ውስጥ"
 
-#: qml/Dash/DashPageHeader.qml:361
-msgctxt "Button: Open the Ubuntu Store"
-msgid "Store"
-msgstr "ማስቀመጫ"
-
-#: qml/Dash/DashPageHeader.qml:368
-msgctxt "Button: Start a search in the current dash scope"
-msgid "Search"
-msgstr "መፈለጊያ"
-
-#: qml/Dash/DashPageHeader.qml:378
-msgctxt "Button: Show the current dash scope settings"
-msgid "Settings"
-msgstr "ማሰናጃዎች"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Remove from Favorites"
-msgstr "ከምወዳቸው ማስወገጃ"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Add to Favorites"
-msgstr "ወደምወዳቸው መጨመሪያ"
-
-#: qml/Dash/FiltersPopover.qml:61
-msgid "Refine your results"
-msgstr "የ እርስዎን ውጤቶች እንደገና ማጣሪያ"
-
-#: qml/Dash/FiltersPopover.qml:70
-msgid "Reset"
-msgstr "እንደ ነበረ መመለሻ"
-
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
-msgid "Show less"
-msgstr "ትንሽ ማሳያ"
-
-#: qml/Dash/GenericScopeView.qml:547
-msgid "Show all"
-msgstr "ሁሉንም ማሳያ"
-
-#: qml/Dash/GenericScopeView.qml:578
-msgctxt "Label: Hint for dash search line edit"
-msgid "Search"
-msgstr "መፈለጊያ"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:67
-msgid "Recent Searches"
-msgstr "የ ቅርብ ጊዜ ፍለጋዎች"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:78
-msgid "Clear All"
-msgstr "ሁሉንም ማጽጃ"
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "More..."
-msgstr "ተጨማሪ..."
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "Less..."
-msgstr "አነስተኛ..."
-
-#: qml/Dash/Previews/PreviewCommentInput.qml:83
-#: qml/Dash/Previews/PreviewRatingInput.qml:202
-msgid "Send"
-msgstr "መላኪያ"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:109
-msgid "Rate this"
-msgstr "ለዚህ ደረጃ ይስጡ"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:184
-msgid "Add a review"
-msgstr "ግምገማ መጨመሪያ"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:56
-msgid "Pull to refresh…"
-msgstr "ይሳቡ ለማነቃቃት…"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:61
-msgid "Release to refresh…"
-msgstr "ይልቀቁ ለማነቃቃት…"
-
-#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
-msgid "Enable location data"
-msgstr "የአካባቢ ዳታ ማስቻያ"
-
-#: qml/Dash/ScopesList.qml:146
-msgid "Manage"
-msgstr "አስተዳዳሪ"
-
-#: qml/Dash/ScopesList.qml:187
-msgid "Home"
-msgstr "ቤት"
-
-#: qml/Dash/ScopesList.qml:188
-msgid "Also installed"
-msgstr "እንዲሁም የተገጠሙ"
-
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
 msgstr "መክፈቻ"
@@ -527,18 +430,9 @@ msgstr "ማለፊያ ኮድ"
 msgid "Select desktop environment"
 msgstr "የ ዴስክቶፕ አይነት ይምረጡ"
 
-#: qml/Launcher/Drawer.qml:94
+#: qml/Launcher/Drawer.qml:107
 msgid "Search…"
 msgstr "መፈለጊያ..."
-
-#: qml/Launcher/Drawer.qml:129
-msgctxt "Apps sorted alphabetically"
-msgid "A-Z"
-msgstr "A-Z"
-
-#: qml/Launcher/MoreAppsHeader.qml:55
-msgid "More apps in the store"
-msgstr "ተጨማሪ መተግበሪያ በ ሱቅ ውስጥ"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -592,6 +486,7 @@ msgid "In queue…"
 msgstr "ወረፋ በመጠበቅ ላይ…"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1021
+#: qml/Wizard/Pages/UpdateDelegate.qml:226
 msgid "Downloading"
 msgstr "በማውረድ ላይ"
 
@@ -655,24 +550,45 @@ msgstr "ከ ቀኝ በኩል ይጥረጉ የ ተከፈቱ መተግበሪያዎ
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr "ከ ላይ ጠረዝ በኩል ይጥረጉ ማስታወቂያዎች እና በፍጥነት ማሰናጃዎች ጋር ለ መድረስ"
 
-#: qml/Wizard/Page.qml:54
+#: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "ወደ ኋላ"
 
-#: qml/Wizard/Pages/10-welcome.qml:28
+#: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
 msgstr "ቋንቋ"
 
-#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:145
-#: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:142
-#: qml/Wizard/Pages/password-set.qml:142
+#: qml/Wizard/Pages/10-welcome.qml:175
+#: qml/Wizard/Pages/10-welcome-update.qml:126
+#: qml/Wizard/Pages/11-changelog.qml:74 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:214 qml/Wizard/Pages/50-timezone.qml:272
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/70-passwd-type.qml:146
+#: qml/Wizard/Pages/76-app-update.qml:231
+#: qml/Wizard/Pages/passcode-desktop.qml:154
+#: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
 msgstr "ይቀጥሉ"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:91
+#, fuzzy
+#| msgid "Welcome to Ubuntu"
+msgid "Welcome to "
+msgstr "እንኳን ደህና መጡ ወደ ኡቡንቱ"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:106
+msgid "We will make sure your device is ready to use "
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:28
+msgid "What's new"
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:74
+#, fuzzy
+#| msgid "Speaking..."
+msgid "Loading..."
+msgstr "በመናገር ላይ..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
@@ -686,64 +602,33 @@ msgstr "የ ፊደል ገበታ ቋንቋ"
 msgid "Keyboard layout"
 msgstr "የ ፊደል ገበታ አቀራረብ"
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:214
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/76-app-update.qml:235
+#: qml/Wizard/Pages/79-system-update.qml:144 qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "መዝለያ"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
 msgstr "ወደ ዋይ‑ፋይ መገናኛ"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
 msgstr "ተገናኝቷል"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
 msgstr "ዝግጁ የ ዋይ-ፋይ ኔትዎርኮች"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
 msgstr "ምንም ዝግጁ ዋይ-ፋይ ኔትዎርኮች አልተገኙም"
-
-#: qml/Wizard/Pages/40-location.qml:27
-msgid "Location Services"
-msgstr "የ አካባቢ ግልጋሎት"
-
-#: qml/Wizard/Pages/40-location.qml:83
-msgid ""
-"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
-"(recommended)"
-msgstr "ይጠቀሙ ጂፒኤስ: ዋይ-ፋይ: hotspots እና ተንቀሳቃሽ ኔትዎርክ ሳይታወቁ አካባቢ ለማግኘት (ይመከራሉ)"
-
-#: qml/Wizard/Pages/40-location.qml:105
-#, qt-format
-msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr "ይህን ምርጫ በ መምረጥ እርስዎ ተስማምተዋል ከ Nokia HERE %1."
-
-#: qml/Wizard/Pages/40-location.qml:106
-msgctxt "part of: Nokia HERE terms and conditions"
-msgid "terms and conditions"
-msgstr "ስምምነት እና ሁኔታዎች"
-
-#: qml/Wizard/Pages/40-location.qml:160
-msgid "GPS only"
-msgstr "ጂፒኤስ ብቻ"
-
-#: qml/Wizard/Pages/40-location.qml:214
-msgid "Don't use my location"
-msgstr "የ እኔን አካባቢ አትጠቀም"
-
-#: qml/Wizard/Pages/40-location.qml:260
-msgid "You can change it later in System Settings."
-msgstr "እርስዎ በኋላ በ ስርአት ማሰናጃ ውስጥ መቀየር ይችላሉ"
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "የ ሰአት ክልል"
 
-#: qml/Wizard/Pages/50-timezone.qml:182
+#: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
 msgstr "የ እርስዎን ከተማ ያስገቡ"
 
@@ -751,7 +636,7 @@ msgstr "የ እርስዎን ከተማ ያስገቡ"
 msgid "Personalize Your Device"
 msgstr "የ እርስዎን አካል የ ግልዎ ያድርጉ"
 
-#: qml/Wizard/Pages/60-account.qml:48
+#: qml/Wizard/Pages/60-account.qml:54
 msgid "Preferred Name"
 msgstr "የመረጡት ስም"
 
@@ -759,83 +644,127 @@ msgstr "የመረጡት ስም"
 msgid "Lock Screen"
 msgstr "መመልከቻውን መቆለፊያ"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:102
+#: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr "አዲስ የ መግቢያ ቃል መፍጠሪያ"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:104
+#: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr "አዲስ የ ማለፊያ ኮድ መፍጠሪያ (ቁጥር ብቻ)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:106
+#: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "ምንም መቆለፊያ ኮድ አልተገኘም"
 
-#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
-msgid "Privacy Policy"
-msgstr "የ ግላዊነት መመሪያ"
+#: qml/Wizard/Pages/76-app-update.qml:34
+msgid "Update Apps"
+msgstr ""
 
-#: qml/Wizard/Pages/75-report-check.qml:26
-msgid "Help Us Improve"
-msgstr "እንድንሻሻል ይርዱን"
+#: qml/Wizard/Pages/76-app-update.qml:122
+msgid "This device is not connected to the internet."
+msgstr ""
 
-#: qml/Wizard/Pages/75-report-check.qml:59
-msgid "Improve system performance by sending us crashes and error reports."
-msgstr "የ ስርአቱን አፈጻጸም ለማሻሻል የ ግጭት እና የ ስህተት መልእክቶች ይላኩልን"
+#: qml/Wizard/Pages/76-app-update.qml:123
+#: qml/Wizard/Pages/76-app-update.qml:129
+msgid "Use the OpenStore app to check for updates once connected."
+msgstr ""
 
-#: qml/Wizard/Pages/75-report-check.qml:60
-msgid "Privacy policy"
-msgstr "የ ግላዊነት መመሪያ"
+#: qml/Wizard/Pages/76-app-update.qml:125
+msgid "Software is up to date"
+msgstr ""
 
-#: qml/Wizard/Pages/80-finished.qml:89
+#: qml/Wizard/Pages/76-app-update.qml:128
+msgid "The update server is not responding."
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:233
+#, fuzzy
+#| msgid "Loading. Please Wait..."
+msgid "Please wait..."
+msgstr "እባክዎን ይቆዩ በመጫን ላይ..."
+
+#: qml/Wizard/Pages/79-system-update.qml:28
+msgid "Update Device"
+msgstr "አካሉን ማሻሻያ"
+
+#: qml/Wizard/Pages/79-system-update.qml:55
+msgid ""
+"There is a system update available and ready to install. Afterwards, the "
+"device will automatically restart."
+msgstr "የ ስርአት ማሻሻያ ዝግጁ ነው ለ መግጠም: ከዚያ በኋላ አካሉ ራሱ በራሱ እንደገና ይጀምራል"
+
+#: qml/Wizard/Pages/79-system-update.qml:76
+#, fuzzy
+#| msgctxt "string identifying name of the update"
+#| msgid "Ubuntu system"
+msgctxt "string identifying name of the update"
+msgid "Ubuntu Touch system"
+msgstr "የ ኡቡቱ ስርአት"
+
+#: qml/Wizard/Pages/79-system-update.qml:83
+#, qt-format
+msgctxt "version of the system update"
+msgid "Version %1"
+msgstr "እትም %1"
+
+#: qml/Wizard/Pages/79-system-update.qml:95
+msgid "This could take a few minutes..."
+msgstr "ይህ ትንሽ ደቂቆች ይወስዳል"
+
+#: qml/Wizard/Pages/79-system-update.qml:109
+msgid "Install and restart now"
+msgstr "መግጠሚያ እና እንደገና ማስጀመሪያ"
+
+#: qml/Wizard/Pages/80-finished.qml:91
+msgid "Welcome Back"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
 msgstr "እንኳን ደህና መጡ ወደ ኡቡንቱ"
 
-#: qml/Wizard/Pages/80-finished.qml:104
+#: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
 msgstr "የ እርስዎን አካል ለ መጠቀም አሁን ዝግጁ ነው"
 
-#: qml/Wizard/Pages/80-finished.qml:124
+#: qml/Wizard/Pages/80-finished.qml:126
+msgid "Continue"
+msgstr "ይቀጥሉ"
+
+#: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
 msgstr "እንጀምር"
 
-#: qml/Wizard/Pages/here-terms.qml:25
-msgid "Terms & Conditions"
-msgstr "ውሎች & ሁኔታዎች"
-
-#: qml/Wizard/Pages/here-terms.qml:69
-msgid "Your device uses positioning technologies provided by HERE."
-msgstr "የ እርስዎ አካል ይጠቀማል ያሉበትን አካባቢ ቴክኖሎጂ የቀረበውን በ HERE."
-
-#: qml/Wizard/Pages/here-terms.qml:81
-msgid ""
-"To provide you with positioning services and to improve their quality, HERE "
-"collects information about nearby cell towers and Wi-Fi hotspots around your "
-"current location whenever your position is being found."
+#: qml/Wizard/Pages/DownloadHandler.qml:174
+msgid "Installation failed"
 msgstr ""
-"እርስዎ ያሉበትን አካባቢ ግልጋሎት ለ መስጠት እና ለማሻሻል: HERE መረጃ ይሰበስባል በቅርብ ያሉ የ ሴል ምሶሶዎች እና "
-"ዋይ-ፋይ hotspots እርስዎ አሁን ያሉበትን አካባቢ ሲታወቅ"
 
-#: qml/Wizard/Pages/here-terms.qml:93
-msgid ""
-"The information collected is used to analyze the service and to improve the "
-"use of service, but not to identify you personally."
-msgstr "የ ተሰበሰበው መረጃ የሚጠቅመው ግልጋሎት ለማሻሻል ነው: ነገር ግን እርስዎን በ ግል ለ መለየት አይደለም"
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:84
+msgid "Checking for updates…"
+msgstr ""
 
-#: qml/Wizard/Pages/here-terms.qml:106
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:109
 #, qt-format
-msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr "በ መቀጠል እርስዎ ተስማምተዋል ከ HERE platform %1 እና %2."
+msgid "%1 update available"
+msgid_plural "%1 updates available"
+msgstr[0] ""
+msgstr[1] ""
 
-#: qml/Wizard/Pages/here-terms.qml:107
-msgid "Service Terms"
-msgstr "የ ግልጋሎት ስምምነቶች"
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:119
+msgid "Update all…"
+msgstr ""
+
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:121
+#, fuzzy
+#| msgid "Update Device"
+msgid "Update all"
+msgstr "አካሉን ማሻሻያ"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:97
+#: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
 msgstr "የማለፊያ ኮድ ማረጋገጫ"
 
@@ -852,24 +781,24 @@ msgstr "እባክዎን እንደገና-ያስገቡ"
 msgid "Lock Screen Passcode"
 msgstr "የ መመልከቻው መቆለፊያ የ ማለፊያ ኮድ"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:61
+#: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "ያስገቡ 4 ቁጥሮች የ እርስዎን የ ማለፊያ ኮድ ለማሰናዳት"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:77
+#: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "የ ማለፊያ ኮድ ይምረጡ"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:127
+#: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
 msgstr "የ ማለፊያ ኮዱ በጣም አጭር ነው"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:129
+#: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
 msgstr "የ ማለፊያ ኮዶቹ ተመሳሳይ ናቸው"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:131
+#: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
 msgstr "የ ማለፊያ ኮዶቹ አይመሳሰሉም"
 
@@ -881,15 +810,15 @@ msgstr "የ ማለፊያ ኮድ 4 ባህሪዎች መሆን አለበት"
 msgid "Lock Screen Password"
 msgstr "የ መመልከቻ መቆለፊያ የ መግቢያ ቃል"
 
-#: qml/Wizard/Pages/password-set.qml:62
+#: qml/Wizard/Pages/password-set.qml:68
 msgid "Enter at least 8 characters"
 msgstr "ያስገቡ ቢያንስ 8 ባህሪዎች"
 
-#: qml/Wizard/Pages/password-set.qml:74
+#: qml/Wizard/Pages/password-set.qml:80
 msgid "Choose password"
 msgstr "የ መግቢያ ቃል ይምረጡ"
 
-#: qml/Wizard/Pages/password-set.qml:104
+#: qml/Wizard/Pages/password-set.qml:110
 msgid "Confirm password"
 msgstr "የ መግቢያ ቃሉን ያረጋግጡ"
 
@@ -916,6 +845,79 @@ msgstr "ያለ ሲም ካርድ እርስዎ ጥሪ መፈጸም ወይንም �
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
 msgstr "ያለ ሲም ለ መቀጠል መዝለያውን መታ ያድርጉ"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:123
+#, fuzzy
+#| msgid "Update Device"
+msgid "Update"
+msgstr "አካሉን ማሻሻያ"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:125
+#, fuzzy
+#| msgid "Downloading"
+msgid "Download"
+msgstr "በማውረድ ላይ"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:131
+msgid "Resume"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:138
+msgid "Pause"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:142
+msgid "Install…"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:144
+msgid "Install"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:148
+msgid "Open"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:216
+msgid "Installing"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:220
+msgid "Paused"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:223
+msgid "Waiting to download"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:279
+#, qt-format
+msgid "%1 of %2"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:283
+#, fuzzy
+#| msgid "Downloading"
+msgid "Downloaded"
+msgstr "በማውረድ ላይ"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:286
+#, fuzzy
+#| msgid "Also installed"
+msgid "Installed"
+msgstr "እንዲሁም የተገጠሙ"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:291
+#, fuzzy, qt-format
+#| msgid "Update Device"
+msgid "Updated %1"
+msgstr "አካሉን ማሻሻያ"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:315
+#, fuzzy
+#| msgid "Update Device"
+msgid "Update failed"
+msgstr "አካሉን ማሻሻያ"
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
@@ -945,6 +947,144 @@ msgstr "ደካማ የ መግቢያ ቃል"
 msgid "Very weak password"
 msgstr "በጣም ደካማ የ መግቢያ ቃል"
 
+#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgid "Store"
+#~ msgstr "ማስቀመጫ"
+
+#~ msgctxt "Button: Start a search in the current dash scope"
+#~ msgid "Search"
+#~ msgstr "መፈለጊያ"
+
+#~ msgctxt "Button: Show the current dash scope settings"
+#~ msgid "Settings"
+#~ msgstr "ማሰናጃዎች"
+
+#~ msgid "Remove from Favorites"
+#~ msgstr "ከምወዳቸው ማስወገጃ"
+
+#~ msgid "Add to Favorites"
+#~ msgstr "ወደምወዳቸው መጨመሪያ"
+
+#~ msgid "Refine your results"
+#~ msgstr "የ እርስዎን ውጤቶች እንደገና ማጣሪያ"
+
+#~ msgid "Reset"
+#~ msgstr "እንደ ነበረ መመለሻ"
+
+#~ msgid "Show less"
+#~ msgstr "ትንሽ ማሳያ"
+
+#~ msgid "Show all"
+#~ msgstr "ሁሉንም ማሳያ"
+
+#~ msgctxt "Label: Hint for dash search line edit"
+#~ msgid "Search"
+#~ msgstr "መፈለጊያ"
+
+#~ msgid "Recent Searches"
+#~ msgstr "የ ቅርብ ጊዜ ፍለጋዎች"
+
+#~ msgid "Clear All"
+#~ msgstr "ሁሉንም ማጽጃ"
+
+#~ msgid "More..."
+#~ msgstr "ተጨማሪ..."
+
+#~ msgid "Less..."
+#~ msgstr "አነስተኛ..."
+
+#~ msgid "Send"
+#~ msgstr "መላኪያ"
+
+#~ msgid "Rate this"
+#~ msgstr "ለዚህ ደረጃ ይስጡ"
+
+#~ msgid "Add a review"
+#~ msgstr "ግምገማ መጨመሪያ"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "ይሳቡ ለማነቃቃት…"
+
+#~ msgid "Release to refresh…"
+#~ msgstr "ይልቀቁ ለማነቃቃት…"
+
+#~ msgid "Enable location data"
+#~ msgstr "የአካባቢ ዳታ ማስቻያ"
+
+#~ msgid "Manage"
+#~ msgstr "አስተዳዳሪ"
+
+#~ msgid "Home"
+#~ msgstr "ቤት"
+
+#~ msgctxt "Apps sorted alphabetically"
+#~ msgid "A-Z"
+#~ msgstr "A-Z"
+
+#~ msgid "More apps in the store"
+#~ msgstr "ተጨማሪ መተግበሪያ በ ሱቅ ውስጥ"
+
+#~ msgid "Location Services"
+#~ msgstr "የ አካባቢ ግልጋሎት"
+
+#~ msgid ""
+#~ "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
+#~ "(recommended)"
+#~ msgstr "ይጠቀሙ ጂፒኤስ: ዋይ-ፋይ: hotspots እና ተንቀሳቃሽ ኔትዎርክ ሳይታወቁ አካባቢ ለማግኘት (ይመከራሉ)"
+
+#~ msgid "By selecting this option you agree to the Nokia HERE %1."
+#~ msgstr "ይህን ምርጫ በ መምረጥ እርስዎ ተስማምተዋል ከ Nokia HERE %1."
+
+#~ msgctxt "part of: Nokia HERE terms and conditions"
+#~ msgid "terms and conditions"
+#~ msgstr "ስምምነት እና ሁኔታዎች"
+
+#~ msgid "GPS only"
+#~ msgstr "ጂፒኤስ ብቻ"
+
+#~ msgid "Don't use my location"
+#~ msgstr "የ እኔን አካባቢ አትጠቀም"
+
+#~ msgid "You can change it later in System Settings."
+#~ msgstr "እርስዎ በኋላ በ ስርአት ማሰናጃ ውስጥ መቀየር ይችላሉ"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "የ ግላዊነት መመሪያ"
+
+#~ msgid "Help Us Improve"
+#~ msgstr "እንድንሻሻል ይርዱን"
+
+#~ msgid "Improve system performance by sending us crashes and error reports."
+#~ msgstr "የ ስርአቱን አፈጻጸም ለማሻሻል የ ግጭት እና የ ስህተት መልእክቶች ይላኩልን"
+
+#~ msgid "Privacy policy"
+#~ msgstr "የ ግላዊነት መመሪያ"
+
+#~ msgid "Terms & Conditions"
+#~ msgstr "ውሎች & ሁኔታዎች"
+
+#~ msgid "Your device uses positioning technologies provided by HERE."
+#~ msgstr "የ እርስዎ አካል ይጠቀማል ያሉበትን አካባቢ ቴክኖሎጂ የቀረበውን በ HERE."
+
+#~ msgid ""
+#~ "To provide you with positioning services and to improve their quality, "
+#~ "HERE collects information about nearby cell towers and Wi-Fi hotspots "
+#~ "around your current location whenever your position is being found."
+#~ msgstr ""
+#~ "እርስዎ ያሉበትን አካባቢ ግልጋሎት ለ መስጠት እና ለማሻሻል: HERE መረጃ ይሰበስባል በቅርብ ያሉ የ ሴል ምሶሶዎች "
+#~ "እና ዋይ-ፋይ hotspots እርስዎ አሁን ያሉበትን አካባቢ ሲታወቅ"
+
+#~ msgid ""
+#~ "The information collected is used to analyze the service and to improve "
+#~ "the use of service, but not to identify you personally."
+#~ msgstr "የ ተሰበሰበው መረጃ የሚጠቅመው ግልጋሎት ለማሻሻል ነው: ነገር ግን እርስዎን በ ግል ለ መለየት አይደለም"
+
+#~ msgid "By continuing, you agree to the HERE platform %1 and %2."
+#~ msgstr "በ መቀጠል እርስዎ ተስማምተዋል ከ HERE platform %1 እና %2."
+
+#~ msgid "Service Terms"
+#~ msgstr "የ ግልጋሎት ስምምነቶች"
+
 #~ msgid "Top edge"
 #~ msgstr "የላይ ጠርዝ"
 
@@ -959,12 +1099,6 @@ msgstr "በጣም ደካማ የ መግቢያ ቃል"
 
 #~ msgid "Type or say a command"
 #~ msgstr "ትእዛዝ ይናገሩ ወይንም ይጻፉ"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "እባክዎን ይቆዩ በመጫን ላይ..."
-
-#~ msgid "Speaking..."
-#~ msgstr "በመናገር ላይ..."
 
 #~ msgid "Speak Now..."
 #~ msgstr "አሁን ይናገሩ..."
@@ -1017,7 +1151,6 @@ msgstr "በጣም ደካማ የ መግቢያ ቃል"
 #~ msgid "This will be your last attempt."
 #~ msgstr "ይህ የመጨረሻ ሙከራዎ ነው"
 
-#, qt-format
 #~ msgid "Sorry, incorrect %1"
 #~ msgstr "አዝናለሁ: የተሳሳተ%1"
 
@@ -1058,11 +1191,12 @@ msgstr "በጣም ደካማ የ መግቢያ ቃል"
 #~ "You have now mastered the edge gestures and can start using the "
 #~ "phone<br><br>Tap on the screen to start"
 #~ msgstr ""
-#~ "አሁን የ ጠርዝ  እንቅስቃሴን አውቀዋል እና መጀመር ይችላሉ ስልኩን መጠቀም <br><br>መመልከቻውን መታ ያድርጉ ለመጀመር"
+#~ "አሁን የ ጠርዝ  እንቅስቃሴን አውቀዋል እና መጀመር ይችላሉ ስልኩን መጠቀም <br><br>መመልከቻውን መታ ያድርጉ "
+#~ "ለመጀመር"
 
 #~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
-#~ "and all personal data will be deleted."
+#~ "If passcode is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
 #~ msgstr ""
 #~ "የተሳሳተ የማለፊያ ኮድ ካስገቡ የ እርስዎ ስልክ ወደ ነበረበት ወደ ፋክቶሪው ዘዴ ይመለሳል: እና የ ግል ዳታ በሙሉ "
 #~ "ይጠፋል"
@@ -1071,8 +1205,8 @@ msgstr "በጣም ደካማ የ መግቢያ ቃል"
 #~ "If passphrase is entered incorrectly, your phone will conduct a factory "
 #~ "reset and all personal data will be deleted."
 #~ msgstr ""
-#~ "የተሳሳተ የማለፊያ ሐረግ ካስገቡ የ እርስዎ ስልክ ወደ ነበረበት ወደ ፋክቶሪው ዘዴ ይመለሳል: እና የ ግል ዳታ በሙሉ "
-#~ "ይጠፋል"
+#~ "የተሳሳተ የማለፊያ ሐረግ ካስገቡ የ እርስዎ ስልክ ወደ ነበረበት ወደ ፋክቶሪው ዘዴ ይመለሳል: እና የ ግል ዳታ "
+#~ "በሙሉ ይጠፋል"
 
 #~ msgid "Roaming"
 #~ msgstr "ማዘዋወሪያ"
@@ -1080,7 +1214,6 @@ msgstr "በጣም ደካማ የ መግቢያ ቃል"
 #~ msgid "Manage Scopes"
 #~ msgstr "የ ክልል አስተዳዳሪ"
 
-#, qt-format
 #~ msgid "Enter %1"
 #~ msgstr "ማስገቢያ %1"
 
@@ -1115,7 +1248,8 @@ msgstr "በጣም ደካማ የ መግቢያ ቃል"
 #~ "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 #~ "Privacy</b>"
 #~ msgstr ""
-#~ "ይህን ግልጋሎት ማሰናከል ይችላሉ ከ <b>ስርአት ማሰናጃዎች</b> under <b>Security &amp; Privacy</b>"
+#~ "ይህን ግልጋሎት ማሰናከል ይችላሉ ከ <b>ስርአት ማሰናጃዎች</b> under <b>Security &amp; "
+#~ "Privacy</b>"
 
 #~ msgid "Nice work!"
 #~ msgstr "ጥሩ ሰርተዋል!"
@@ -1150,9 +1284,6 @@ msgstr "በጣም ደካማ የ መግቢያ ቃል"
 #~ msgid "Let’s get started."
 #~ msgstr "ስራ እንጀምር"
 
-#~ msgid "Continue"
-#~ msgstr "ይቀጥሉ"
-
 #~ msgid "Passphrase must be 4 characters long"
 #~ msgstr "የ ማለፊያ ሀረግ ቢያንስ 4 ባህሪዎች መሆን አለበት"
 
@@ -1162,11 +1293,9 @@ msgstr "በጣም ደካማ የ መግቢያ ቃል"
 #~ msgid "Let the phone detect your location:"
 #~ msgstr "እባክዎን እርስዎ ያሉበትን አካባቢ ስልኩ እራሱ ይፈልግ:"
 
-#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
-#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
@@ -1183,12 +1312,12 @@ msgstr "በጣም ደካማ የ መግቢያ ቃል"
 #~ "Your phone is set up to automatically report errors to Canonical and its "
 #~ "partners, the makers of the operating system."
 #~ msgstr ""
-#~ "የ እርስዎ ስልክ ራሱ በራሱ የ ስህተት መግለጫዎች ወደ Canonical and its partners, የ መስሪያ ስርአት "
-#~ "አምራቾች"
+#~ "የ እርስዎ ስልክ ራሱ በራሱ የ ስህተት መግለጫዎች ወደ Canonical and its partners, የ መስሪያ "
+#~ "ስርአት አምራቾች"
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
+#~ "and conditions</a>."
 #~ msgstr "ይህን ምርጫ በመምረጥ ተስማምቻለሁ ከ Nokia HERE <a href='#'>ውሎች እና ሁኔታዎች ጋር</a>."
 
 #~ msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
@@ -1347,26 +1476,3 @@ msgstr "በጣም ደካማ የ መግቢያ ቃል"
 
 #~ msgid "Super + 0 to 9"
 #~ msgstr "Super + 0 እስከ 9"
-
-#~ msgid "Install and restart now"
-#~ msgstr "መግጠሚያ እና እንደገና ማስጀመሪያ"
-
-#~ msgid "This could take a few minutes..."
-#~ msgstr "ይህ ትንሽ ደቂቆች ይወስዳል"
-
-#, qt-format
-#~ msgctxt "version of the system update"
-#~ msgid "Version %1"
-#~ msgstr "እትም %1"
-
-#~ msgctxt "string identifying name of the update"
-#~ msgid "Ubuntu system"
-#~ msgstr "የ ኡቡቱ ስርአት"
-
-#~ msgid "Update Device"
-#~ msgstr "አካሉን ማሻሻያ"
-
-#~ msgid ""
-#~ "There is a system update available and ready to install. Afterwards, the "
-#~ "device will automatically restart."
-#~ msgstr "የ ስርአት ማሻሻያ ዝግጁ ነው ለ መግጠም: ከዚያ በኋላ አካሉ ራሱ በራሱ እንደገና ይጀምራል"

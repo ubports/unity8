@@ -6,11 +6,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-04-04 22:56+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-04-08 17:26-0500\n"
 "PO-Revision-Date: 2016-04-08 18:34+0000\n"
 "Last-Translator: Akerbeltz <fios@akerbeltz.org>\n"
 "Language-Team: Fòram na Gàidhlig\n"
+"Language: gd\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,7 +19,6 @@ msgstr ""
 "(n > 2 && n < 20) ? 2 : 3;\n"
 "X-Launchpad-Export-Date: 2017-04-07 06:30+0000\n"
 "X-Generator: Launchpad (build 18343)\n"
-"Language: gd\n"
 
 #: plugins/LightDM/Greeter.cpp:188
 msgid "Password: "
@@ -40,7 +40,7 @@ msgstr ""
 msgid "Log In"
 msgstr "Clàraich a-steach"
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:254 qml/Wizard/Pages/UpdateDelegate.qml:118
 msgid "Retry"
 msgstr "Feuch ris a-rithist"
 
@@ -85,8 +85,7 @@ msgid "Log Out"
 msgstr "Clàraich a-mach"
 
 #: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:264
-#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:208
-#: qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Greeter/NarrowView.qml:208 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Sguir dheth"
@@ -386,103 +385,6 @@ msgstr ""
 msgid "Find more settings in the system settings."
 msgstr ""
 
-#: qml/Dash/DashPageHeader.qml:361
-msgctxt "Button: Open the Ubuntu Store"
-msgid "Store"
-msgstr "Am bùth"
-
-#: qml/Dash/DashPageHeader.qml:368
-msgctxt "Button: Start a search in the current dash scope"
-msgid "Search"
-msgstr "Lorg"
-
-#: qml/Dash/DashPageHeader.qml:378
-msgctxt "Button: Show the current dash scope settings"
-msgid "Settings"
-msgstr "Roghainnean"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Remove from Favorites"
-msgstr "Thoir air falbh o na h-annsachdan"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Add to Favorites"
-msgstr "Cuir ris na h-annsachdan"
-
-#: qml/Dash/FiltersPopover.qml:61
-msgid "Refine your results"
-msgstr "Cuir na toraidhean air gleus"
-
-#: qml/Dash/FiltersPopover.qml:70
-msgid "Reset"
-msgstr "Ath-shuidhich"
-
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
-msgid "Show less"
-msgstr "Seall nas lugha dhiubh"
-
-#: qml/Dash/GenericScopeView.qml:547
-msgid "Show all"
-msgstr "Seall na h-uile"
-
-#: qml/Dash/GenericScopeView.qml:578
-msgctxt "Label: Hint for dash search line edit"
-msgid "Search"
-msgstr "Lorg"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:67
-msgid "Recent Searches"
-msgstr "Na lorg thu roimhe"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:78
-msgid "Clear All"
-msgstr "Falamhaich na h-uile"
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "More..."
-msgstr "Barrachd..."
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "Less..."
-msgstr "Nas lugha..."
-
-#: qml/Dash/Previews/PreviewCommentInput.qml:83
-#: qml/Dash/Previews/PreviewRatingInput.qml:202
-msgid "Send"
-msgstr "Cuir"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:109
-msgid "Rate this"
-msgstr "Rangaich seo"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:184
-msgid "Add a review"
-msgstr "Cuir lèirmheas ris"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:56
-msgid "Pull to refresh…"
-msgstr "Tarraing airson ath-nuadhachadh…"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:61
-msgid "Release to refresh…"
-msgstr "Leig às airson ath-nuadhachadh…"
-
-#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
-msgid "Enable location data"
-msgstr "Cuir an comas dàta an ionaid"
-
-#: qml/Dash/ScopesList.qml:146
-msgid "Manage"
-msgstr "Stiùirich"
-
-#: qml/Dash/ScopesList.qml:187
-msgid "Home"
-msgstr "Dhachaigh"
-
-#: qml/Dash/ScopesList.qml:188
-msgid "Also installed"
-msgstr "Air a stàladh cuideachd"
-
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
 msgstr "Thoir a' ghlas dheth"
@@ -540,17 +442,8 @@ msgstr "Còd-faire"
 msgid "Select desktop environment"
 msgstr "Tagh àrainneachd an deasga"
 
-#: qml/Launcher/Drawer.qml:94
+#: qml/Launcher/Drawer.qml:107
 msgid "Search…"
-msgstr ""
-
-#: qml/Launcher/Drawer.qml:129
-msgctxt "Apps sorted alphabetically"
-msgid "A-Z"
-msgstr ""
-
-#: qml/Launcher/MoreAppsHeader.qml:55
-msgid "More apps in the store"
 msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
@@ -611,6 +504,7 @@ msgid "In queue…"
 msgstr "Air a' chiudha…"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1021
+#: qml/Wizard/Pages/UpdateDelegate.qml:226
 msgid "Downloading"
 msgstr "'Ga luchdadh a-nuas"
 
@@ -683,24 +577,45 @@ msgstr ""
 "Dèan grad-shlaighdeadh o oir a' bharra gus na brathan is grad-roghainnean "
 "inntrigeadh"
 
-#: qml/Wizard/Page.qml:54
+#: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Air ais"
 
-#: qml/Wizard/Pages/10-welcome.qml:28
+#: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
 msgstr "Cànan"
 
-#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:145
-#: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:142
-#: qml/Wizard/Pages/password-set.qml:142
+#: qml/Wizard/Pages/10-welcome.qml:175
+#: qml/Wizard/Pages/10-welcome-update.qml:126
+#: qml/Wizard/Pages/11-changelog.qml:74 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:214 qml/Wizard/Pages/50-timezone.qml:272
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/70-passwd-type.qml:146
+#: qml/Wizard/Pages/76-app-update.qml:231
+#: qml/Wizard/Pages/passcode-desktop.qml:154
+#: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
 msgstr "Air adhart"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:91
+#, fuzzy
+#| msgid "Welcome to Ubuntu"
+msgid "Welcome to "
+msgstr "Fàilte gu Ubuntu"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:106
+msgid "We will make sure your device is ready to use "
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:28
+msgid "What's new"
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:74
+#, fuzzy
+#| msgid "Speaking..."
+msgid "Loading..."
+msgstr "A' bruidhinn..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
@@ -714,67 +629,33 @@ msgstr "Cànan a' mheur-chlàir"
 msgid "Keyboard layout"
 msgstr "Co-dhealbhachd a' mheur-chlàir"
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:214
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/76-app-update.qml:235
+#: qml/Wizard/Pages/79-system-update.qml:144 qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Leum thairis air"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
 msgstr "Ceangail ri Wi-Fi"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
 msgstr "Ceangailte"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
 msgstr "Lìonraidhean WiFi a tha ri làimh"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
 msgstr "Chan eil lìonra WiFi sam bith ann"
-
-#: qml/Wizard/Pages/40-location.qml:27
-msgid "Location Services"
-msgstr "Seirbheisean ionaid"
-
-#: qml/Wizard/Pages/40-location.qml:83
-msgid ""
-"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
-"(recommended)"
-msgstr ""
-"Cleachd GPS, hotspots WiFi is lìonraidhean mobile gun urra a dh’fhiosrachadh "
-"d’ ionaid (mholamaid seo)"
-
-#: qml/Wizard/Pages/40-location.qml:105
-#, qt-format
-msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr ""
-"Ma thaghas tu an roghainn seo, bidh thu ag aontachadh ri %1 Nokia HERE."
-
-#: qml/Wizard/Pages/40-location.qml:106
-msgctxt "part of: Nokia HERE terms and conditions"
-msgid "terms and conditions"
-msgstr "teirmichean is cumhaichean"
-
-#: qml/Wizard/Pages/40-location.qml:160
-msgid "GPS only"
-msgstr "GPS a-mhàin"
-
-#: qml/Wizard/Pages/40-location.qml:214
-msgid "Don't use my location"
-msgstr "Na cleachd m’ ionad"
-
-#: qml/Wizard/Pages/40-location.qml:260
-msgid "You can change it later in System Settings."
-msgstr "’S urrainn dhut seo atharrachadh sna roghainnean uair sam bith"
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "Roinn-tìde"
 
-#: qml/Wizard/Pages/50-timezone.qml:182
+#: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
 msgstr "Cuir a-steach do bhaile"
 
@@ -782,7 +663,7 @@ msgstr "Cuir a-steach do bhaile"
 msgid "Personalize Your Device"
 msgstr "Cuir dreach pearsanta air an uidheam agad"
 
-#: qml/Wizard/Pages/60-account.qml:48
+#: qml/Wizard/Pages/60-account.qml:54
 msgid "Preferred Name"
 msgstr "An t-ainm as fhearr leat"
 
@@ -790,90 +671,131 @@ msgstr "An t-ainm as fhearr leat"
 msgid "Lock Screen"
 msgstr "Glais  an sgrìn"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:102
+#: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr "Cruthaich facal-faire ùr"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:104
+#: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr "Cruthaich còd-faire (àireamhan a-mhàin)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:106
+#: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "Gun chòd-faire"
 
-#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
-msgid "Privacy Policy"
-msgstr "Am poileasaidh prìobhaideachd"
-
-#: qml/Wizard/Pages/75-report-check.qml:26
-msgid "Help Us Improve"
-msgstr "Cuidich leinn ’ga leasachadh"
-
-#: qml/Wizard/Pages/75-report-check.qml:59
-msgid "Improve system performance by sending us crashes and error reports."
+#: qml/Wizard/Pages/76-app-update.qml:34
+msgid "Update Apps"
 msgstr ""
-"Leasaich an siostam còmhla rinn is tu a’ cur thugainn aithisgean mu "
-"thuislidhean is mearachdan."
 
-#: qml/Wizard/Pages/75-report-check.qml:60
-msgid "Privacy policy"
-msgstr "Am poileasaidh prìobhaideachd"
+#: qml/Wizard/Pages/76-app-update.qml:122
+msgid "This device is not connected to the internet."
+msgstr ""
 
-#: qml/Wizard/Pages/80-finished.qml:89
+#: qml/Wizard/Pages/76-app-update.qml:123
+#: qml/Wizard/Pages/76-app-update.qml:129
+msgid "Use the OpenStore app to check for updates once connected."
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:125
+msgid "Software is up to date"
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:128
+msgid "The update server is not responding."
+msgstr ""
+
+#: qml/Wizard/Pages/76-app-update.qml:233
+#, fuzzy
+#| msgid "Loading. Please Wait..."
+msgid "Please wait..."
+msgstr "'Ga luchdadh, fuirich ort..."
+
+#: qml/Wizard/Pages/79-system-update.qml:28
+msgid "Update Device"
+msgstr "Ùraich an t-uidheam"
+
+#: qml/Wizard/Pages/79-system-update.qml:55
+msgid ""
+"There is a system update available and ready to install. Afterwards, the "
+"device will automatically restart."
+msgstr ""
+"Tha ùrachadh an t-siostaim ri fhaighinn agus ullamh gus a stàladh. Thèid an "
+"t-uidheam ath-thòiseachadh gu fèin-obrachail às a dhèidh."
+
+#: qml/Wizard/Pages/79-system-update.qml:76
+#, fuzzy
+#| msgctxt "string identifying name of the update"
+#| msgid "Ubuntu system"
+msgctxt "string identifying name of the update"
+msgid "Ubuntu Touch system"
+msgstr "Siostam Ubuntu"
+
+#: qml/Wizard/Pages/79-system-update.qml:83
+#, qt-format
+msgctxt "version of the system update"
+msgid "Version %1"
+msgstr "Tionndadh %1"
+
+#: qml/Wizard/Pages/79-system-update.qml:95
+msgid "This could take a few minutes..."
+msgstr "Dh'fhaoidte gun toir seo mionaid no dhà..."
+
+#: qml/Wizard/Pages/79-system-update.qml:109
+msgid "Install and restart now"
+msgstr "Stàlaich is ath-thòisich an-dràsta"
+
+#: qml/Wizard/Pages/80-finished.qml:91
+msgid "Welcome Back"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
 msgstr "Fàilte gu Ubuntu"
 
-#: qml/Wizard/Pages/80-finished.qml:104
+#: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
 msgstr "Tha an t-uidheam deas ri do làimh a-nis"
 
-#: qml/Wizard/Pages/80-finished.qml:124
+#: qml/Wizard/Pages/80-finished.qml:126
+msgid "Continue"
+msgstr "Lean air adhart"
+
+#: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
 msgstr "Toiseach-tòiseachaidh"
 
-#: qml/Wizard/Pages/here-terms.qml:25
-msgid "Terms & Conditions"
-msgstr "Teirmichean ⁊ cumhaichean"
-
-#: qml/Wizard/Pages/here-terms.qml:69
-msgid "Your device uses positioning technologies provided by HERE."
-msgstr "’S e HERE a tha a’ solar teicneolas ionad an uidheim agad."
-
-#: qml/Wizard/Pages/here-terms.qml:81
-msgid ""
-"To provide you with positioning services and to improve their quality, HERE "
-"collects information about nearby cell towers and Wi-Fi hotspots around your "
-"current location whenever your position is being found."
+#: qml/Wizard/Pages/DownloadHandler.qml:174
+msgid "Installation failed"
 msgstr ""
-"Airson ’s gun urrainn dha HERE d’ ionad a dh’fhiosrachadh dhut is càileachd "
-"nan seirbheisean aca a leasachadh, cruinnichidh iad fiosrachadh mu thùir nam "
-"fònaichean-làimhe is hotspots WiFI faisg ort nuair a dh’fhiosraicheas iad d’ "
-"ionad."
 
-#: qml/Wizard/Pages/here-terms.qml:93
-msgid ""
-"The information collected is used to analyze the service and to improve the "
-"use of service, but not to identify you personally."
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:84
+msgid "Checking for updates…"
 msgstr ""
-"Cleachdar am fiosrachadh seo airson mion-sgrùdadh a dhèanamh air an t-"
-"seirbheis agus a leasachadh ach chan ann gus d’ aithneachadh gu pearsanta."
 
-#: qml/Wizard/Pages/here-terms.qml:106
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:109
 #, qt-format
-msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr ""
-"Ma leanas tu air adhart, bidh thu ag aontachadh ri %1 agus %2 ùrlar HERE."
+msgid "%1 update available"
+msgid_plural "%1 updates available"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
-#: qml/Wizard/Pages/here-terms.qml:107
-msgid "Service Terms"
-msgstr "teirmichean na seirbheise"
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:119
+msgid "Update all…"
+msgstr ""
+
+#: qml/Wizard/Pages/GlobalUpdateControls.qml:121
+#, fuzzy
+#| msgid "Update Device"
+msgid "Update all"
+msgstr "Ùraich an t-uidheam"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:97
+#: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
 msgstr "Dearbhaich an còd-faire"
 
@@ -890,24 +812,24 @@ msgstr "Cuir a-steach e às ùr."
 msgid "Lock Screen Passcode"
 msgstr "Còd-faire na sgrin-ghlasaidh"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:61
+#: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "Cuir a-steach 4 àireamhan a bhios ’nan còd-faire agad"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:77
+#: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "Tagh còd-faire"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:127
+#: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
 msgstr "Tha an còd-faire ro ghoirid"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:129
+#: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
 msgstr "Tha an dà chòd-faire co-ionnann"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:131
+#: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
 msgstr "Chan eil an dà chòd-faire co-ionnann"
 
@@ -919,15 +841,15 @@ msgstr "Feumaidh an còd-faire a bhith 4 caractaran a dh’fhaid"
 msgid "Lock Screen Password"
 msgstr "Facal-faire na sgrìn-ghlasaidh"
 
-#: qml/Wizard/Pages/password-set.qml:62
+#: qml/Wizard/Pages/password-set.qml:68
 msgid "Enter at least 8 characters"
 msgstr "Cuir a-steach co-dhiù 8 caractaran"
 
-#: qml/Wizard/Pages/password-set.qml:74
+#: qml/Wizard/Pages/password-set.qml:80
 msgid "Choose password"
 msgstr "Tagh facal-faire"
 
-#: qml/Wizard/Pages/password-set.qml:104
+#: qml/Wizard/Pages/password-set.qml:110
 msgid "Confirm password"
 msgstr "Dearbh am facal-faire"
 
@@ -958,6 +880,79 @@ msgid "To proceed with no SIM tap Skip."
 msgstr ""
 "Leum thairis air seo ma tha thu airson leantainn air adhart as aonais SIM."
 
+#: qml/Wizard/Pages/UpdateDelegate.qml:123
+#, fuzzy
+#| msgid "Update Device"
+msgid "Update"
+msgstr "Ùraich an t-uidheam"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:125
+#, fuzzy
+#| msgid "Downloading"
+msgid "Download"
+msgstr "'Ga luchdadh a-nuas"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:131
+msgid "Resume"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:138
+msgid "Pause"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:142
+msgid "Install…"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:144
+msgid "Install"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:148
+msgid "Open"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:216
+msgid "Installing"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:220
+msgid "Paused"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:223
+msgid "Waiting to download"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:279
+#, qt-format
+msgid "%1 of %2"
+msgstr ""
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:283
+#, fuzzy
+#| msgid "Downloading"
+msgid "Downloaded"
+msgstr "'Ga luchdadh a-nuas"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:286
+#, fuzzy
+#| msgid "Also installed"
+msgid "Installed"
+msgstr "Air a stàladh cuideachd"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:291
+#, fuzzy, qt-format
+#| msgid "Update Device"
+msgid "Updated %1"
+msgstr "Ùraich an t-uidheam"
+
+#: qml/Wizard/Pages/UpdateDelegate.qml:315
+#, fuzzy
+#| msgid "Update Device"
+msgid "Update failed"
+msgstr "Ùraich an t-uidheam"
+
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
 msgstr "Tha am facal-faire ro ghoirid"
@@ -986,13 +981,154 @@ msgstr "Facal-faire lag"
 msgid "Very weak password"
 msgstr "Facal-faire glè lag"
 
+#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgid "Store"
+#~ msgstr "Am bùth"
+
+#~ msgctxt "Button: Start a search in the current dash scope"
+#~ msgid "Search"
+#~ msgstr "Lorg"
+
+#~ msgctxt "Button: Show the current dash scope settings"
+#~ msgid "Settings"
+#~ msgstr "Roghainnean"
+
+#~ msgid "Remove from Favorites"
+#~ msgstr "Thoir air falbh o na h-annsachdan"
+
+#~ msgid "Add to Favorites"
+#~ msgstr "Cuir ris na h-annsachdan"
+
+#~ msgid "Refine your results"
+#~ msgstr "Cuir na toraidhean air gleus"
+
+#~ msgid "Reset"
+#~ msgstr "Ath-shuidhich"
+
+#~ msgid "Show less"
+#~ msgstr "Seall nas lugha dhiubh"
+
+#~ msgid "Show all"
+#~ msgstr "Seall na h-uile"
+
+#~ msgctxt "Label: Hint for dash search line edit"
+#~ msgid "Search"
+#~ msgstr "Lorg"
+
+#~ msgid "Recent Searches"
+#~ msgstr "Na lorg thu roimhe"
+
+#~ msgid "Clear All"
+#~ msgstr "Falamhaich na h-uile"
+
+#~ msgid "More..."
+#~ msgstr "Barrachd..."
+
+#~ msgid "Less..."
+#~ msgstr "Nas lugha..."
+
+#~ msgid "Send"
+#~ msgstr "Cuir"
+
+#~ msgid "Rate this"
+#~ msgstr "Rangaich seo"
+
+#~ msgid "Add a review"
+#~ msgstr "Cuir lèirmheas ris"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Tarraing airson ath-nuadhachadh…"
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Leig às airson ath-nuadhachadh…"
+
+#~ msgid "Enable location data"
+#~ msgstr "Cuir an comas dàta an ionaid"
+
+#~ msgid "Manage"
+#~ msgstr "Stiùirich"
+
+#~ msgid "Home"
+#~ msgstr "Dhachaigh"
+
+#~ msgid "Location Services"
+#~ msgstr "Seirbheisean ionaid"
+
+#~ msgid ""
+#~ "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
+#~ "(recommended)"
+#~ msgstr ""
+#~ "Cleachd GPS, hotspots WiFi is lìonraidhean mobile gun urra a "
+#~ "dh’fhiosrachadh d’ ionaid (mholamaid seo)"
+
+#~ msgid "By selecting this option you agree to the Nokia HERE %1."
+#~ msgstr ""
+#~ "Ma thaghas tu an roghainn seo, bidh thu ag aontachadh ri %1 Nokia HERE."
+
+#~ msgctxt "part of: Nokia HERE terms and conditions"
+#~ msgid "terms and conditions"
+#~ msgstr "teirmichean is cumhaichean"
+
+#~ msgid "GPS only"
+#~ msgstr "GPS a-mhàin"
+
+#~ msgid "Don't use my location"
+#~ msgstr "Na cleachd m’ ionad"
+
+#~ msgid "You can change it later in System Settings."
+#~ msgstr "’S urrainn dhut seo atharrachadh sna roghainnean uair sam bith"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "Am poileasaidh prìobhaideachd"
+
+#~ msgid "Help Us Improve"
+#~ msgstr "Cuidich leinn ’ga leasachadh"
+
+#~ msgid "Improve system performance by sending us crashes and error reports."
+#~ msgstr ""
+#~ "Leasaich an siostam còmhla rinn is tu a’ cur thugainn aithisgean mu "
+#~ "thuislidhean is mearachdan."
+
+#~ msgid "Privacy policy"
+#~ msgstr "Am poileasaidh prìobhaideachd"
+
+#~ msgid "Terms & Conditions"
+#~ msgstr "Teirmichean ⁊ cumhaichean"
+
+#~ msgid "Your device uses positioning technologies provided by HERE."
+#~ msgstr "’S e HERE a tha a’ solar teicneolas ionad an uidheim agad."
+
+#~ msgid ""
+#~ "To provide you with positioning services and to improve their quality, "
+#~ "HERE collects information about nearby cell towers and Wi-Fi hotspots "
+#~ "around your current location whenever your position is being found."
+#~ msgstr ""
+#~ "Airson ’s gun urrainn dha HERE d’ ionad a dh’fhiosrachadh dhut is "
+#~ "càileachd nan seirbheisean aca a leasachadh, cruinnichidh iad fiosrachadh "
+#~ "mu thùir nam fònaichean-làimhe is hotspots WiFI faisg ort nuair a "
+#~ "dh’fhiosraicheas iad d’ ionad."
+
+#~ msgid ""
+#~ "The information collected is used to analyze the service and to improve "
+#~ "the use of service, but not to identify you personally."
+#~ msgstr ""
+#~ "Cleachdar am fiosrachadh seo airson mion-sgrùdadh a dhèanamh air an t-"
+#~ "seirbheis agus a leasachadh ach chan ann gus d’ aithneachadh gu pearsanta."
+
+#~ msgid "By continuing, you agree to the HERE platform %1 and %2."
+#~ msgstr ""
+#~ "Ma leanas tu air adhart, bidh thu ag aontachadh ri %1 agus %2 ùrlar HERE."
+
+#~ msgid "Service Terms"
+#~ msgstr "teirmichean na seirbheise"
+
 #~ msgid "Skip intro"
 #~ msgstr "Gearr leum thairis air an ro-ràdh"
 
 #~ msgid "Try swiping from the right edge to unlock the phone"
 #~ msgstr ""
-#~ "Feuch is dèan grad-shlaighdeadh a-steach on oir dheas gus a' ghlas a thoirt "
-#~ "far an fhòn"
+#~ "Feuch is dèan grad-shlaighdeadh a-steach on oir dheas gus a' ghlas a "
+#~ "thoirt far an fhòn"
 
 #~ msgid "Right edge"
 #~ msgstr "An oir dheas"
@@ -1025,14 +1161,8 @@ msgstr "Facal-faire glè lag"
 #~ msgid "Confirm"
 #~ msgstr "Dearbhaich"
 
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "'Ga luchdadh, fuirich ort..."
-
 #~ msgid "Type or say a command"
 #~ msgstr "Sgrìobh no can àithne"
-
-#~ msgid "Speaking..."
-#~ msgstr "A' bruidhinn..."
 
 #~ msgid "Speak Now..."
 #~ msgstr "Can rud a-nis..."
@@ -1047,8 +1177,9 @@ msgstr "Facal-faire glè lag"
 #~ "You have now mastered the edge gestures and can start using the "
 #~ "phone<br><br>Tap on the screen to start"
 #~ msgstr ""
-#~ "Fhuair thu air na gluasadan oire ceart a dhèanamh a-nis agus is urrainn dhut "
-#~ "am fòn a chleachdadh<br><br>Thoir gnogag air an sgrìn airson tòiseachadh"
+#~ "Fhuair thu air na gluasadan oire ceart a dhèanamh a-nis agus is urrainn "
+#~ "dhut am fòn a chleachdadh<br><br>Thoir gnogag air an sgrìn airson "
+#~ "tòiseachadh"
 
 #~ msgid "See all"
 #~ msgstr "Seall na h-uile"
@@ -1098,7 +1229,6 @@ msgstr "Facal-faire glè lag"
 #~ msgid "Sorry, incorrect passcode"
 #~ msgstr "Duilich ach tha an còd-faire cearr"
 
-#, qt-format
 #~ msgid "Sorry, incorrect %1"
 #~ msgstr "Duilich ach tha a' %1 cearr"
 
@@ -1115,17 +1245,17 @@ msgstr "Facal-faire glè lag"
 #~ "If passphrase is entered incorrectly, your phone will conduct a factory "
 #~ "reset and all personal data will be deleted."
 #~ msgstr ""
-#~ "Ma thèid an abairt-fhaire a chur a-steach mar bu chòir, thèid an fhòn agad a "
-#~ "ath-shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta "
-#~ "pearsanta a sguabadh às."
+#~ "Ma thèid an abairt-fhaire a chur a-steach mar bu chòir, thèid an fhòn "
+#~ "agad a ath-shuidheachadh air roghainnean an fhactaraidh agus thèid gach "
+#~ "dàta pearsanta a sguabadh às."
 
 #~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
-#~ "and all personal data will be deleted."
+#~ "If passcode is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
 #~ msgstr ""
-#~ "Ma thèid an còd-faire a chur a-steach mar bu chòir, thèid an fhòn agad a ath-"
-#~ "shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta pearsanta "
-#~ "a sguabadh às."
+#~ "Ma thèid an còd-faire a chur a-steach mar bu chòir, thèid an fhòn agad a "
+#~ "ath-shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta "
+#~ "pearsanta a sguabadh às."
 
 #~ msgid "Manage Scopes"
 #~ msgstr "Stiùirich na sgòpaichean"
@@ -1136,7 +1266,6 @@ msgstr "Facal-faire glè lag"
 #~ msgid "Enter passcode"
 #~ msgstr "Cuir còd-faire a-steach"
 
-#, qt-format
 #~ msgid "Enter %1"
 #~ msgstr "Cuir a-steach %1"
 
@@ -1151,9 +1280,6 @@ msgstr "Facal-faire glè lag"
 
 #~ msgid "Let’s get started."
 #~ msgstr "Tòisicheamaid."
-
-#~ msgid "Continue"
-#~ msgstr "Lean air adhart"
 
 #~ msgid "Lock security"
 #~ msgstr "Glas tèarainteachd"
@@ -1194,8 +1320,8 @@ msgstr "Facal-faire glè lag"
 #~ "partners, the makers of the operating system."
 #~ msgstr ""
 #~ "Chaidh am fòn agad a shuidheachadh gus innse mu mhearachdan gu fèin-"
-#~ "obrachail do Chanonical  's a chom-pàirtichean a rinn an siostam-obrachaidh "
-#~ "seo."
+#~ "obrachail do Chanonical  's a chom-pàirtichean a rinn an siostam-"
+#~ "obrachaidh seo."
 
 #~ msgid "Nice work!"
 #~ msgstr "Shin thu!"
@@ -1212,7 +1338,6 @@ msgstr "Facal-faire glè lag"
 #~ msgid "Confirm passphrase"
 #~ msgstr "Dearbhaich an abairt-fhaire"
 
-#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
@@ -1225,7 +1350,6 @@ msgstr "Facal-faire glè lag"
 #~ msgid "Passphrase must be 4 characters long"
 #~ msgstr "Feumaidh an abairt-fhaire a bhith 4 caractaran a dh'fhaid"
 
-#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
@@ -1277,8 +1401,8 @@ msgstr "Facal-faire glè lag"
 #~ "<b>Roghainnean an t-siostaim</b>."
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
+#~ "and conditions</a>."
 #~ msgstr ""
 #~ "Ma thaghas tu an roghainn seo, bidh thu ag aontachadh ri <a "
 #~ "href='#'>teirmichean is cumhaichean</a> an Nokia HERE."
@@ -1402,8 +1526,8 @@ msgstr "Facal-faire glè lag"
 
 #~ msgid "Hover your mouse on the right edge to view your open apps"
 #~ msgstr ""
-#~ "Fan an luchag agad os cionn na h-oir dheas a dh’fhaicinn nan aplacaidean a "
-#~ "tha fosgailte agad"
+#~ "Fan an luchag agad os cionn na h-oir dheas a dh’fhaicinn nan aplacaidean "
+#~ "a tha fosgailte agad"
 
 #~ msgid "Short or long swipe from the right edge to view your open apps"
 #~ msgstr ""
@@ -1413,30 +1537,5 @@ msgstr "Facal-faire glè lag"
 #~ msgid "Super + 0 to 9"
 #~ msgstr "Super + 0 gu 9"
 
-#, qt-format
-#~ msgctxt "version of the system update"
-#~ msgid "Version %1"
-#~ msgstr "Tionndadh %1"
-
 #~ msgid "Takes a screenshot of a window."
 #~ msgstr "Togaidh seo glacadh-sgrìn de dh'uinneag."
-
-#~ msgid "Update Device"
-#~ msgstr "Ùraich an t-uidheam"
-
-#~ msgid ""
-#~ "There is a system update available and ready to install. Afterwards, the "
-#~ "device will automatically restart."
-#~ msgstr ""
-#~ "Tha ùrachadh an t-siostaim ri fhaighinn agus ullamh gus a stàladh. Thèid an "
-#~ "t-uidheam ath-thòiseachadh gu fèin-obrachail às a dhèidh."
-
-#~ msgctxt "string identifying name of the update"
-#~ msgid "Ubuntu system"
-#~ msgstr "Siostam Ubuntu"
-
-#~ msgid "This could take a few minutes..."
-#~ msgstr "Dh'fhaoidte gun toir seo mionaid no dhà..."
-
-#~ msgid "Install and restart now"
-#~ msgstr "Stàlaich is ath-thòisich an-dràsta"
