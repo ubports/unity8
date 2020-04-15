@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-03-23 16:22+0000\n"
+"PO-Revision-Date: 2020-04-15 21:56+0000\n"
 "Last-Translator: Adrià <adriamartinmor@gmail.com>\n"
 "Language-Team: Sardinian <https://translate.ubports.com/projects/unity8/"
 "unity8/sc/>\n"
@@ -25,31 +25,31 @@ msgstr "Crae: "
 
 #: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr ""
+msgstr "Nùmene utente"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "Autenticatzione faddida"
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "Sa crae no est curreta, torra·bi a proare"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
-msgstr ""
+msgstr "Identìfica·ti"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
-msgstr ""
+msgstr "Torra·bi a proare"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr ""
+msgstr "Inghitzu de sessione"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr ""
+msgstr "Sessione de invitadu"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
@@ -150,10 +150,8 @@ msgid "Alt + PrtScr"
 msgstr "Alt + Stamp"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
-#, fuzzy
-#| msgid "Takes a screenshot of a window."
 msgid "Takes a screenshot of the current window."
-msgstr "Faghe una catura de una ventana."
+msgstr "Faghe una catura de custa ventana."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -172,16 +170,12 @@ msgid "Switches to previous keyboard layout."
 msgstr "Cola a sa dispositzione de tecladu pretzedente."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
-#, fuzzy
-#| msgid "Ctrl + Super + D"
 msgid "Ctrl + Alt + T"
-msgstr "Ctrl + Super + D"
+msgstr "Ctrl + Alt + T"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
-#, fuzzy
-#| msgid "Switches between applications."
 msgid "Starts the Terminal application."
-msgstr "Cuncàmbia intre aplicatziones."
+msgstr "Aviat su terminale."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
@@ -212,28 +206,24 @@ msgid "Switches applications via the launcher."
 msgstr "Cola aplicatziones tràmite su launcher."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
-#, fuzzy
-#| msgid "Super + 0 to 9"
 msgid "Super + 1 to 0"
-msgstr "Super + 0 a 9"
+msgstr "Super + 1 to 0"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
 msgstr "Su pròpiu chi incarcare in un'icona de su launcher."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
-#, fuzzy
-#| msgid "Super + W"
 msgid "Super + A"
-msgstr "Super + W"
+msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
-msgstr ""
+msgstr "Aberit su calàsciu de aplicatziones."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
-msgstr ""
+msgstr "Àmbitos"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:214
 msgid "Super (Tap)"
@@ -265,15 +255,15 @@ msgstr "Abèrit sa distributzione de s'iscrivania."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:268
 msgid "Cursor Left or Right"
-msgstr ""
+msgstr "Fritza manca o dereta"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:273
 msgid "Moves the focus."
-msgstr ""
+msgstr "Moe su campu."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:285
 msgid "Windows"
-msgstr ""
+msgstr "Ventana"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + D"
@@ -281,7 +271,7 @@ msgstr "Ctrl + Super + D"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes all windows."
-msgstr ""
+msgstr "Mìnima totu is ventanas."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Up"
@@ -289,7 +279,7 @@ msgstr "Ctrl + Super + ↑"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Maximizes the current window."
-msgstr ""
+msgstr "Ismànniat sa ventana atuale."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Ctrl + Super + Down"
@@ -305,7 +295,7 @@ msgstr "Ctrl + Super + ← o →"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Semi-maximizes the current window."
-msgstr ""
+msgstr "Ismànniat in manera partziale sa ventana atuale."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:344
 msgid "Alt + F4"
@@ -346,10 +336,13 @@ msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Torra a connètere su dispositivu, sarva su traballu tuo e serra custas "
+"aplicatziones pro sighire."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
 msgstr ""
+"O fortza sa serradura immoe (is datos non sarvados ant a èssere pèrdidos)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:80
 msgid "OK, I will reconnect"
@@ -372,22 +365,24 @@ msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
+"Su dispositivu est connètidu a un'ischermu esternu. Imprea custu ischermu "
+"che a sòrighe tàtile pro interagire cun su puntadore."
 
 #: qml/Components/VirtualTouchPad.qml:327
 msgid "Tap left button to click."
-msgstr ""
+msgstr "Toca su butone de manca pro incarcare."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "Toca su butone de dereta pro fàghere clic deretu."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "Iscurre cun duos ditos pro ti mòere."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "As a agatare àteras optziones in is cunfiguratziones de sistema."
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -405,176 +400,181 @@ msgstr ""
 #: qml/Greeter/DelayedLockscreen.qml:59
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
+"S'atzessu a su dispositivu est istadu blocadu pro more de is tropu "
+"tentativos de inserimentu de còdighe."
 
 #: qml/Greeter/DelayedLockscreen.qml:68
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Iseta %1 minutu e torra·bi a proare…"
+msgstr[1] "Iseta %1 minutos e torra·bi a proare…"
 
 #: qml/Greeter/Greeter.qml:550
 msgid "Try again"
-msgstr ""
+msgstr "Torra·bi a proare"
 
 #: qml/Greeter/Greeter.qml:551
 msgid "Enter passphrase to unlock"
-msgstr ""
+msgstr "Inserta sa crae pro isblocare"
 
 #: qml/Greeter/Greeter.qml:552
 msgid "Enter passcode to unlock"
-msgstr ""
+msgstr "Inserta su còdighe de atzessu pro isblocare"
 
 #: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
-msgstr ""
+msgstr "Emergèntzia"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passphrase"
-msgstr ""
+msgstr "Crae"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passcode"
-msgstr ""
+msgstr "Còdighe de atzessu"
 
 #: qml/Greeter/SessionsList.qml:124
 msgid "Select desktop environment"
-msgstr ""
+msgstr "Sèbera s'ambiente de iscrivania"
 
 #: qml/Launcher/Drawer.qml:249
-#, fuzzy
-#| msgctxt "Button: Start a search in the current dash scope"
-#| msgid "Search"
 msgid "Search…"
-msgstr "Chirca"
+msgstr "Chirca…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
-msgstr ""
+msgstr "Ammustra sa crae"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr ""
+msgstr "Toca pro torrare a sa mutida..."
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
-msgstr ""
+msgstr "Cunferèntzia"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:869
 msgid "Nothing is playing"
-msgstr ""
+msgstr "Nudda in riprodutzione"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:997
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 ora"
+msgstr[1] "%1 oras"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1001
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 minutu"
+msgstr[1] "%1 minutos"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1006
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 segundu"
+msgstr[1] "%1 segundos"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1009
 msgid "0 seconds"
-msgstr ""
+msgstr "0 segundos"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1011
 #, qt-format
 msgid "%1 remaining"
-msgstr ""
+msgstr "Abarrat %1"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1017
 msgid "In queue…"
-msgstr ""
+msgstr "A sa coa…"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1021
 msgid "Downloading"
-msgstr ""
+msgstr "Iscarrighende"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1023
 msgid "Paused, tap to resume"
-msgstr ""
+msgstr "In pàusa, toca pro sighire"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1025
 msgid "Canceled"
-msgstr ""
+msgstr "Annulladu"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1027
 msgid "Finished"
-msgstr ""
+msgstr "Acabbadu"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1029
 msgid "Failed, tap to retry"
-msgstr ""
+msgstr "Faddina. Toca pro bi torrare a proare"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:151
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:210
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "Imbia"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:152
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
-msgstr ""
+msgstr "Risponde"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:209
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr ""
+msgstr "Torra sa mutida"
 
 #: qml/Panel/PanelMenuPage.qml:92
 msgid "Back"
-msgstr ""
+msgstr "In segus"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
-msgstr ""
+msgstr "Traga cun 3 ditos is aplicatziones dae una ventana a s'àtera"
 
 #: qml/Stage/Stage.qml:668
 msgid "No running apps"
-msgstr ""
+msgstr "Peruna aplicatzione ativa"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
 msgid "Long swipe from the left edge to open the Application Drawer"
 msgstr ""
+"Iscurrimentu longu dae s'ala de manca pro abèrrere su calàsciu de "
+"aplicatziones"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
-msgstr ""
+msgstr "Iscurrimentu curtzu dae s'ala de manca pro abèrrere su launcher"
 
 #: qml/Tutorial/TutorialRight.qml:54
 msgid "Push your mouse against the right edge to view your open apps"
 msgstr ""
+"Preme su puntadore cuntra a s'ala de dereta pro bìdere is aplicatziones "
+"abertas"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Swipe from the right edge to view your open apps"
-msgstr ""
+msgstr "Iscurre dae s'ala de dereta pro bìdere is aplicatziones abertas"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
+"Iscurre dae s'ala de susu pro atzèdere a is notìficas e a is "
+"cunfiguratziones lestras"
 
 #: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr ""
+msgstr "In segus"
 
 #: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
-msgstr ""
+msgstr "Limba"
 
 #: qml/Wizard/Pages/10-welcome.qml:176
 #: qml/Wizard/Pages/10-welcome-update.qml:126
@@ -584,252 +584,254 @@ msgstr ""
 #: qml/Wizard/Pages/passcode-desktop.qml:154
 #: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
-msgstr ""
+msgstr "Sighi"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 msgid "Welcome to "
-msgstr ""
+msgstr "Ti donamus su benebènnidu a "
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
-msgstr ""
+msgstr "Amus a verificare chi su dispositivu tuo est prontu pro s'impreu "
 
 #: qml/Wizard/Pages/11-changelog.qml:28
 msgid "What's new"
-msgstr ""
+msgstr "Noas"
 
 #: qml/Wizard/Pages/11-changelog.qml:74
 msgid "Loading..."
-msgstr ""
+msgstr "Carrighende..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
-msgstr ""
+msgstr "Sèbera su tecladu"
 
 #: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
-msgstr ""
+msgstr "Limba de su tecladu"
 
 #: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
-msgstr ""
+msgstr "Dispositzione de su tecladu"
 
 #: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:214
 #: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/79-system-update.qml:144
 #: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
-msgstr ""
+msgstr "Brinca"
 
 #: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
-msgstr ""
+msgstr "Connete a su Wi-Fi"
 
 #: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
-msgstr ""
+msgstr "Connètidu"
 
 #: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
-msgstr ""
+msgstr "Retes Wi-Fi a disponimentu"
 
 #: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
-msgstr ""
+msgstr "Peruna rete Wi-Fi a disponimentu"
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
-msgstr ""
+msgstr "Fusu oràriu"
 
 #: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
-msgstr ""
+msgstr "Inserta sa tzitade tua"
 
 #: qml/Wizard/Pages/60-account.qml:24
 msgid "Personalize Your Device"
-msgstr ""
+msgstr "Personaliza su dispositivu tuo"
 
 #: qml/Wizard/Pages/60-account.qml:54
 msgid "Preferred Name"
-msgstr ""
+msgstr "Nùmene preferidu"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:40
 msgid "Lock Screen"
-msgstr ""
+msgstr "Bloca s'ischermu"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
-msgstr ""
+msgstr "Crea una crae noa"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
-msgstr ""
+msgstr "Crea unu còdighe de atzessu (nùmeros isceti)"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
-msgstr ""
+msgstr "Perunu còdighe de blocu"
 
 #: qml/Wizard/Pages/79-system-update.qml:28
 msgid "Update Device"
-msgstr ""
+msgstr "Atualiza su dispositivu"
 
 #: qml/Wizard/Pages/79-system-update.qml:55
 msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
 msgstr ""
+"Atualizatzione de su sistema a disponimentu e pronta pro installare. A "
+"pustis, su dispositivu at a èssere torradu a aviare in manera automàtica."
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu Touch system"
-msgstr ""
+msgstr "Sistema Ubuntu Touch"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
-msgstr ""
+msgstr "Versione %1"
 
 #: qml/Wizard/Pages/79-system-update.qml:95
 msgid "This could take a few minutes..."
-msgstr ""
+msgstr "B'at a pònnere carchi minutu..."
 
 #: qml/Wizard/Pages/79-system-update.qml:109
 msgid "Install and restart now"
-msgstr ""
+msgstr "Installa e torra a aviare immoe"
 
 #: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome Back"
-msgstr ""
+msgstr "Ti torramus a donare su benebènnidu"
 
 #: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
-msgstr ""
+msgstr "Ti donamus su benebènnidu a Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
-msgstr ""
+msgstr "Totu prontu pro chi imprees su dispositivu tuo"
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Continue"
-msgstr ""
+msgstr "Sighi"
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
-msgstr ""
+msgstr "Introdutzione"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
-msgstr ""
+msgstr "Cunfirma su còdighe de atzessu"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
-msgstr ""
+msgstr "Su còdighe no est curretu."
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgctxt "Enter the passcode again"
 msgid "Please re-enter."
-msgstr ""
+msgstr "Torra·bi a proare."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
-msgstr ""
+msgstr "Còdighe de atzessu a su blocu de ischermu"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
-msgstr ""
+msgstr "Inserta 4 nùmeros pro cunfigurare su còdighe"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
-msgstr ""
+msgstr "Sèbera su còdighe de atzessu"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
-msgstr ""
+msgstr "Su còdighe est tropu curtzu"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
-msgstr ""
+msgstr "Is còdighes cointzident"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
-msgstr ""
+msgstr "Is còdighes non cointzident"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr ""
+msgstr "Sa longària mìnima de su còdighe est de 4 caràteres"
 
 #: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
-msgstr ""
+msgstr "Crae de blocu de ischermu"
 
 #: qml/Wizard/Pages/password-set.qml:68
 msgid "Enter at least 8 characters"
-msgstr ""
+msgstr "Inserta a su mancu 8 caràteres"
 
 #: qml/Wizard/Pages/password-set.qml:80
 msgid "Choose password"
-msgstr ""
+msgstr "Sèbera una crae"
 
 #: qml/Wizard/Pages/password-set.qml:110
 msgid "Confirm password"
-msgstr ""
+msgstr "Cunfirma sa crae"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
-msgstr ""
+msgstr "Peruna SIM installada"
 
 #: qml/Wizard/Pages/sim.qml:54
 msgid "SIM card added"
-msgstr ""
+msgstr "SIM agiunta"
 
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
-msgstr ""
+msgstr "Depes torrare a aviare su dispositivu pro atzèdere a sa rete mòbile."
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
-msgstr ""
+msgstr "Torra a aviare"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
-msgstr ""
+msgstr "No as a pòdere fàghere mutidas o imbiare messàgios de SMS sena una SIM."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr ""
+msgstr "Pro sighire sena SIM toca Brinca."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr ""
+msgstr "Sa crae est tropu curtza"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
-msgstr ""
+msgstr "Is craes cointzident"
 
 #: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Is craes non cointzident"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
-msgstr ""
+msgstr "Sa crae est forte"
 
 #: qml/Wizard/PasswordMeter.qml:97
 msgid "Fair password"
-msgstr ""
+msgstr "Sa crae est atzetàbile"
 
 #: qml/Wizard/PasswordMeter.qml:99
 msgid "Weak password"
-msgstr ""
+msgstr "Sa crae est fràgile"
 
 #: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
-msgstr ""
+msgstr "Sa crae est fràgile meda"
 
 #~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
