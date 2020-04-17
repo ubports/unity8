@@ -183,7 +183,7 @@ FocusScope {
         switchToNextState("visible")
     }
 
-    function toggleDrawer(focusInputField, onlyOpen) {
+    function toggleDrawer(focusInputField, onlyOpen, alsoToggleLauncher) {
         if (!drawerEnabled) {
             return;
         }
@@ -196,11 +196,13 @@ FocusScope {
         if (focusInputField) {
             drawer.focusInput();
         }
-        if (state === "drawer" && !onlyOpen) {
-            switchToNextState("visible");
-        } else {
+        if (state === "drawer" && !onlyOpen)
+            if (alsoToggleLauncher && !root.lockedVisible)
+                switchToNextState("");
+            else
+                switchToNextState("visible");
+        else
             switchToNextState("drawer");
-        }
     }
 
     Keys.onPressed: {

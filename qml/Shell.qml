@@ -253,7 +253,9 @@ StyledItem {
         onHomeKeyActivated: {
             // Ignore when greeter is active, to avoid pocket presses
             if (!greeter.active) {
-                launcher.toggleDrawer(false);
+                launcher.toggleDrawer(/* focusInputField */  false,
+                                      /* onlyOpen */         false,
+                                      /* alsoToggleLauncher */ true);
             }
         }
         onTouchBegun: { cursor.opacity = 0; }
