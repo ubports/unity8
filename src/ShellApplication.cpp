@@ -183,9 +183,6 @@ void ShellApplication::onScreenAdded(QScreen * /*screen*/)
     if (screens().count() == 2) {
         m_shellView->setScreen(screens().at(1));
         m_qmlArgs.setDeviceName(QStringLiteral("desktop"));
-        // Changing the QScreen where a QWindow is drawn makes it also lose focus (besides having
-        // its backing QPlatformWindow recreated). So lets refocus it.
-        m_shellView->requestActivate();
         // QWindow::destroy() is called when it changes between screens. We have to manually make it visible again
         // <dandrader> This bug is supposedly fixed in Qt 5.5.1, although I can still reproduce it there. :-/
         m_shellView->setVisible(true);
@@ -196,6 +193,12 @@ void ShellApplication::onScreenAdded(QScreen * /*screen*/)
         // QWindow::showFullScreen() also calls QWindow::requestActivate() and we don't want that!
         m_secondaryWindow->setWindowState(Qt::WindowFullScreen);
         m_secondaryWindow->setVisible(true);
+
+        // Changing the QScreen where a QWindow is drawn makes it also lose focus (besides having
+        // its backing QPlatformWindow recreated). So lets refocus it.
+        // This must be done after the creation of the SecondaryWindow, else
+        // the SecondaryWindow takes focus anyway.
+        m_shellView->requestActivate();
     }
 }
 
