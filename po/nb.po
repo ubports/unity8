@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2019-10-30 03:35+0000\n"
+"PO-Revision-Date: 2020-04-25 06:23+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.ubports.com/projects/"
 "unity8/unity8/nb/>\n"
@@ -26,15 +26,15 @@ msgstr "Passord: "
 
 #: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr ""
+msgstr "Brukernavn"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "Kunne ikke identitetsbekrefte"
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "Ugyldig passord, prøv igjen"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
@@ -45,12 +45,13 @@ msgid "Retry"
 msgstr "Prøv igjen"
 
 #: plugins/LightDM/UsersModel.cpp:157
+#, fuzzy
 msgid "Login"
-msgstr ""
+msgstr "Logg inn"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr ""
+msgstr "Gjesteøkt"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
@@ -388,15 +389,16 @@ msgstr "Trykk for å gå tilbake til anrop …"
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "Trykk på høyre knapp for høyreklikk."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "Dra med to fingre for å rulle."
 
 #: qml/Components/VirtualTouchPad.qml:396
+#, fuzzy
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "Flere innstillinger er å finne i systeminnstillingene."
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -561,7 +563,7 @@ msgstr "Dra et program fra et vindu til et annet med 3 fingre"
 
 #: qml/Stage/Stage.qml:668
 msgid "No running apps"
-msgstr ""
+msgstr "Ingen kjørende programmer"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
 #, fuzzy
