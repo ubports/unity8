@@ -26,15 +26,15 @@ Image {
     width: units.gu(70)
     height: units.gu(70)
 
-    source: wallpaperResolver.background
+    source: imageResolver.background
 
-    WallpaperResolver {
-        id: wallpaperResolver
+    ImageResolver {
+        id: imageResolver
     }
 
     UnityTestCase {
         id: testCase
-        name: "WallpaperResolver"
+        name: "ImageResolver"
         when: windowShown
 
         function test_background_data() {
@@ -68,8 +68,8 @@ Image {
         }
 
         function test_background(data) {
-            wallpaperResolver.candidates = data.list;
-            tryCompare(wallpaperResolver, "background", data.output);
+            imageResolver.candidates = data.list;
+            tryCompare(imageResolver, "background", data.output);
         }
     }
 }
