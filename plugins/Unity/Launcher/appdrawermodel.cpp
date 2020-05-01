@@ -23,6 +23,8 @@
 #include <QDateTime>
 #include <QtConcurrentRun>
 
+#define DBG() qDebug() << "AppDrawerModel:"
+
 static std::shared_ptr<LauncherItem> makeSharedLauncherItem(
         const QString &appId, const QString &name, const QString &icon, QObject * parent)
 {
@@ -45,6 +47,7 @@ AppDrawerModel::AppDrawerModel(QObject *parent):
     connect(m_xdgWatcher, &XdgWatcher::appRemoved, this, &AppDrawerModel::appRemoved, Qt::QueuedConnection);
     connect(m_xdgWatcher, &XdgWatcher::appInfoChanged, this, &AppDrawerModel::appInfoChanged, Qt::QueuedConnection);
 
+    DBG() << "constructed";
     refresh();
 }
 
@@ -145,11 +148,17 @@ bool AppDrawerModel::refreshing() {
 }
 
 void AppDrawerModel::refresh() {
-    if (m_refreshing)
+    if (m_refreshing) {
+        DBG() << "Duplicated refresh()";
         return;
+    }
+
+    DBG() << "refresh()";
 
     m_refreshFutureWatcher.setFuture(QtConcurrent::run([](QThread *thread) {
         ItemList list;
+
+        DBG() << "In the refresh thread";
 
         Q_FOREACH (const QString &appId, UalWrapper::installedApps()) {
             UalWrapper::AppInfo info = UalWrapper::getApplicationInfo(appId);
@@ -157,6 +166,9 @@ void AppDrawerModel::refresh() {
                 qWarning() << "Failed to get app info for app" << appId;
                 continue;
             }
+
+            DBG() << "Adding" << info.name;
+
             // We don't pass parent in because this may run after the model is destroyed.
             // (And, in fact, we can't, because the model is in a diferent thread.)
             auto item = makeSharedLauncherItem(appId, info.name, info.icon, /* parent */ nullptr);
@@ -166,6 +178,8 @@ void AppDrawerModel::refresh() {
             list.append(std::move(item));
         }
 
+        DBG() << "Returning from refresh thread.";
+
         return list;
     }, this->thread()));
 
@@ -174,9 +188,13 @@ void AppDrawerModel::refresh() {
 }
 
 void AppDrawerModel::onRefreshFinished() {
-    if (m_refreshFutureWatcher.isCanceled())
+    if (m_refreshFutureWatcher.isCanceled()) {
         // This is the result of setting canceled future below.
+        DBG() << "refreshFinished() for canceled future.";
         return;
+    }
+
+    DBG() << "refreshFinished()";
 
     beginResetModel();
 
