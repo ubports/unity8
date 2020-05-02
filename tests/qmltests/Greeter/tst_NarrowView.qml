@@ -445,7 +445,7 @@ Item {
             verify(dataCircle);
 
             tap(dataCircle);
-            wait(1);
+            wait(200);
             tap(dataCircle);
 
             tryCompare(infographicDataChangedSpy, "count", 1);
