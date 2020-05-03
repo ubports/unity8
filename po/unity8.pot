@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-29 11:42-0600\n"
+"POT-Creation-Date: 2021-05-31 19:04-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -222,75 +222,75 @@ msgstr ""
 msgid "Opens the Application Drawer."
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:235
+#: qml/Components/KeyboardShortcutsOverlay.qml:211
 msgid "Switching"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:242
+#: qml/Components/KeyboardShortcutsOverlay.qml:218
 msgid "Alt + Tab"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:247
+#: qml/Components/KeyboardShortcutsOverlay.qml:223
 msgid "Switches between applications."
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:255
+#: qml/Components/KeyboardShortcutsOverlay.qml:231
 msgid "Super + W"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:260
+#: qml/Components/KeyboardShortcutsOverlay.qml:236
 msgid "Opens the desktop spread."
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:268
+#: qml/Components/KeyboardShortcutsOverlay.qml:244
 msgid "Cursor Left or Right"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:273
+#: qml/Components/KeyboardShortcutsOverlay.qml:249
 msgid "Moves the focus."
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:285
+#: qml/Components/KeyboardShortcutsOverlay.qml:261
 msgid "Windows"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:292
+#: qml/Components/KeyboardShortcutsOverlay.qml:268
 msgid "Ctrl + Super + D"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:297
+#: qml/Components/KeyboardShortcutsOverlay.qml:273
 msgid "Minimizes all windows."
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:305
+#: qml/Components/KeyboardShortcutsOverlay.qml:281
 msgid "Ctrl + Super + Up"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:310
+#: qml/Components/KeyboardShortcutsOverlay.qml:286
 msgid "Maximizes the current window."
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:318
+#: qml/Components/KeyboardShortcutsOverlay.qml:294
 msgid "Ctrl + Super + Down"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:323
+#: qml/Components/KeyboardShortcutsOverlay.qml:299
 msgid "Minimizes or restores the current window."
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:331
+#: qml/Components/KeyboardShortcutsOverlay.qml:307
 msgid "Ctrl + Super + Left or Right"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:336
+#: qml/Components/KeyboardShortcutsOverlay.qml:312
 msgid "Semi-maximizes the current window."
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:344
+#: qml/Components/KeyboardShortcutsOverlay.qml:320
 msgid "Alt + F4"
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:349
+#: qml/Components/KeyboardShortcutsOverlay.qml:325
 msgid "Closes the current window."
 msgstr ""
 
@@ -439,7 +439,7 @@ msgstr ""
 msgid "Tap to return to call..."
 msgstr ""
 
-#: qml/Panel/ActiveCallHint.qml:92
+#: qml/Panel/ActiveCallHint.qml:93
 msgid "Conference"
 msgstr ""
 
@@ -522,7 +522,7 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: qml/Stage/SideStage.qml:76
+#: qml/Stage/SideStage.qml:80
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr ""
 
@@ -562,7 +562,7 @@ msgstr ""
 #: qml/Wizard/Pages/10-welcome.qml:176
 #: qml/Wizard/Pages/10-welcome-update.qml:126
 #: qml/Wizard/Pages/11-changelog.qml:74 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:214 qml/Wizard/Pages/50-timezone.qml:272
+#: qml/Wizard/Pages/30-wifi.qml:213 qml/Wizard/Pages/50-timezone.qml:270
 #: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/70-passwd-type.qml:146
 #: qml/Wizard/Pages/passcode-desktop.qml:154
 #: qml/Wizard/Pages/password-set.qml:153
@@ -597,7 +597,7 @@ msgstr ""
 msgid "Keyboard layout"
 msgstr ""
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:214
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:213
 #: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/79-system-update.qml:144
 #: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
@@ -623,7 +623,7 @@ msgstr ""
 msgid "Time Zone"
 msgstr ""
 
-#: qml/Wizard/Pages/50-timezone.qml:183
+#: qml/Wizard/Pages/50-timezone.qml:182
 msgid "Enter your city"
 msgstr ""
 
@@ -688,7 +688,7 @@ msgid "Welcome Back"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:91
-msgid "Welcome to Ubuntu"
+msgid "Welcome to Ubuntu Touch"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:106
