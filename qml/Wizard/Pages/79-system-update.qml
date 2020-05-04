@@ -116,6 +116,7 @@ LocalComponents.Page {
                 objectName: "installButton"
                 anchors.fill: parent
                 onClicked: {
+                    root.savePassword();
                     System.skipUntilFinishedPage();
                     SystemImage.applyUpdate();
                 }

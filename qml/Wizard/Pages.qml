@@ -84,19 +84,22 @@ StyledItem {
         }
     }
 
-    function quitWizard() {
-        pageStack.currentPage.enabled = false;
-
+    function savePassword() {
         if (password != "") {
-            var errorMsg = securityPrivacy.setSecurity("", password, passwordMethod)
+            var errorMsg = securityPrivacy.setSecurity("", password, passwordMethod);
             if (errorMsg !== "") {
                 // Ignore (but log) any errors, since we're past where the user set
                 // the method.  Worst case, we just leave the user with a swipe
                 // security method and they fix it in the system settings.
-                console.log("Wizard: Error setting security method:", errorMsg)
+                console.log("Wizard: Error setting security method:", errorMsg);
             }
         }
 
+    }
+
+    function quitWizard() {
+        pageStack.currentPage.enabled = false;
+        savePassword();
         quit();
     }
 
