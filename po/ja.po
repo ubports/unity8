@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2020-05-06 05:42+0000\n"
-"Last-Translator: kaito419 <m.k419sabuaka@gmail.com>\n"
+"Last-Translator: penyotike <penyotike@moimoi.re>\n"
 "Language-Team: Japanese <https://translate.ubports.com/projects/unity8/"
 "unity8/ja/>\n"
 "Language: ja\n"
@@ -150,7 +150,7 @@ msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of the current window."
-msgstr ""
+msgstr "現在のウィンドウのスクリーンショットを撮ります。"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -170,19 +170,20 @@ msgstr "前のキーボードレイアウトに切り替えます。"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
 msgid "Ctrl + Alt + T"
-msgstr ""
+msgstr "Ctrl + Alt + T"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
 msgid "Starts the Terminal application."
-msgstr ""
+msgstr "ターミナルアプリケーションを起動します。"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
-msgstr ""
+msgstr "ランチャー"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
+#, fuzzy
 msgid "Super (Hold)"
-msgstr ""
+msgstr "Super (Hold)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens the launcher, displays shortcuts."
@@ -194,11 +195,11 @@ msgstr "Alt + F1"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Opens launcher keyboard navigation mode."
-msgstr ""
+msgstr "ランチャーキーボードナビゲーションモードを開きます。"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + Tab"
-msgstr ""
+msgstr "Super + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Switches applications via the launcher."
@@ -206,7 +207,7 @@ msgstr "ランチャー経由でアプリケーションを切り替えます。
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + 1 to 0"
-msgstr ""
+msgstr "Super + 1 から 0"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
@@ -214,11 +215,11 @@ msgstr "ランチャーアイコンをクリックするのと同じです。"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
 msgid "Super + A"
-msgstr ""
+msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
-msgstr ""
+msgstr "アプリケーションドロワーを開きます。"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
@@ -226,7 +227,7 @@ msgstr "スコープ"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:214
 msgid "Super (Tap)"
-msgstr ""
+msgstr "Super (Tap)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:219
 msgid "Opens the Scopes home."
@@ -242,7 +243,7 @@ msgstr "Alt + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Switches between applications."
-msgstr ""
+msgstr "アプリケーションを切り替えます。"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:255
 msgid "Super + W"
