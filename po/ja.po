@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-05-06 05:42+0000\n"
+"PO-Revision-Date: 2020-05-07 06:23+0000\n"
 "Last-Translator: penyotike <penyotike@moimoi.re>\n"
 "Language-Team: Japanese <https://translate.ubports.com/projects/unity8/"
 "unity8/ja/>\n"
@@ -251,7 +251,7 @@ msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:260
 msgid "Opens the desktop spread."
-msgstr ""
+msgstr "デスクトップスプレッドを開きます。"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:268
 msgid "Cursor Left or Right"
