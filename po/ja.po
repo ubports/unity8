@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2020-05-06 05:34+0000\n"
-"Last-Translator: penyotike <penyotike@moimoi.re>\n"
+"Last-Translator: kaito419 <m.k419sabuaka@gmail.com>\n"
 "Language-Team: Japanese <https://translate.ubports.com/projects/unity8/"
 "unity8/ja/>\n"
 "Language: ja\n"
@@ -146,7 +146,7 @@ msgstr "スクリーンショットを撮る。"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
-msgstr ""
+msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of the current window."
