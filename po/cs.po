@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-05-15 12:24+0000\n"
+"PO-Revision-Date: 2020-05-19 11:24+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech <https://translate.ubports.com/projects/unity8/unity8/"
 "cs/>\n"
@@ -152,7 +152,7 @@ msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of the current window."
-msgstr "Pořídí snímek právě aktivního okna."
+msgstr "Pořídí snímek právě zaměřeného okna."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -188,7 +188,7 @@ msgstr "Super (držet)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens the launcher, displays shortcuts."
-msgstr "Otevře launcher a zobrazí zkratky."
+msgstr "Otevře launcher, zobrazí zkratky."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Alt + F1"
@@ -665,7 +665,7 @@ msgstr "Vytvořit nové heslo"
 #: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
-msgstr "Vytvořit přístupový kód (pouze čísla)"
+msgstr "Vytvořit přístupový kód (pouze číslice)"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
@@ -739,11 +739,11 @@ msgstr "Zadejte znovu."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
-msgstr "Kód pro odemčení obrazovky"
+msgstr "Přístupový kód pro odemčení obrazovky"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
-msgstr "Zadejte 4 číslice pro nastavení přístupového kódu"
+msgstr "Zadejte 4 číslice, které budou sloužit jako přístupový kód"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
@@ -756,11 +756,11 @@ msgstr "Přístupový kód je příliš krátký"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
-msgstr "Zadání přístupového kódu jsou shodná"
+msgstr "Zadání přístupového kódu se shodují"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
-msgstr "Zadání přístupového kódu nejsou shodná"
+msgstr "Zadání přístupového kódu se neshodují"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
