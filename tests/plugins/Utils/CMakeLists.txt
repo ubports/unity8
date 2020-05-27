@@ -16,8 +16,7 @@ foreach(util_test
     WindowStateStorage
 )
     add_executable(${util_test}TestExec ${util_test}Test.cpp ModelTest.cpp)
-    qt5_use_modules(${util_test}TestExec Test Core Qml)
-    target_link_libraries(${util_test}TestExec Utils-qml)
+    target_link_libraries(${util_test}TestExec Qt5::Test Qt5::Core Qt5::Qml Utils-qml)
     install(TARGETS ${util_test}TestExec
         DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Utils"
     )
@@ -32,8 +31,7 @@ add_unity8_qmlunittest(. UtilsStyle)
 
 # URLDispatcher test needs dbus-test-runner because it claims a dbus name
 add_executable(URLDispatcherTestExec URLDispatcherTest.cpp)
-qt5_use_modules(URLDispatcherTestExec Test Core Qml)
-target_link_libraries(URLDispatcherTestExec Utils-qml)
+target_link_libraries(URLDispatcherTestExec Qt5::Test Qt5::Core Qt5::Qml Utils-qml)
 install(TARGETS URLDispatcherTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Utils"
 )

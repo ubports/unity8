@@ -18,8 +18,8 @@ add_library(UnitySession-qml MODULE
     ${QMLSESSIONPLUGIN_SRC}
     )
 
-qt5_use_modules(UnitySession-qml DBus Qml)
 target_link_libraries(UnitySession-qml
+    Qt5::DBus Qt5::Qml
     unity8-private
     ${GIO_LDFLAGS}
     ${GLIB_LIBRARIES}

@@ -26,8 +26,7 @@ add_library(Cursor-qml SHARED
 target_link_libraries(Cursor-qml
     xcursorloader-static
     ${QT5PLATFORM_SUPPORT_LDFLAGS}
+    Qt5::Qml Qt5::Quick Qt5::Svg
 )
-
-qt5_use_modules(Cursor-qml Qml Quick Svg)
 
 add_unity8_plugin(Cursor 1.1 Cursor TARGETS Cursor-qml)

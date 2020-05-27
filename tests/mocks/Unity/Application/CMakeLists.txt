@@ -24,8 +24,8 @@ add_library(FakeUnityApplicationQml MODULE ${FakeUnityApplicationQml_SOURCES})
 add_library(NonMirUnityApplicationQml MODULE ${FakeUnityApplicationQml_SOURCES})
 set_target_properties(NonMirUnityApplicationQml PROPERTIES OUTPUT_NAME FakeUnityApplicationQml)
 
-qt5_use_modules(FakeUnityApplicationQml Core Quick DBus)
-qt5_use_modules(NonMirUnityApplicationQml Core Quick DBus)
+target_link_libraries(FakeUnityApplicationQml Qt5::Core Qt5::Quick Qt5::DBus)
+target_link_libraries(NonMirUnityApplicationQml Qt5::Core Qt5::Quick Qt5::DBus)
 
 add_unity8_mock(Unity.Application 0.1 Unity/Application TARGETS FakeUnityApplicationQml)
 add_unity8_mock(Unity.Application 0.1 Unity/Application

@@ -18,8 +18,10 @@ include_directories(
 
 macro(build_gesture_test CLASSNAME)
     add_executable(${CLASSNAME}TestExec tst_${CLASSNAME}.cpp GestureTest.cpp TestItem.cpp)
-    qt5_use_modules(${CLASSNAME}TestExec Test Core Qml Gui Quick)
-    target_link_libraries(${CLASSNAME}TestExec UbuntuGesturesQml ${UBUNTUGESTURES_LIBRARIES})
+    target_link_libraries(${CLASSNAME}TestExec
+        Qt5::Test Qt5::Core Qt5::Qml Qt5::Gui Qt5::Quick
+        UbuntuGesturesQml ${UBUNTUGESTURES_LIBRARIES}
+    )
     install(TARGETS ${CLASSNAME}TestExec
         DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Ubuntu/Gestures"
     )

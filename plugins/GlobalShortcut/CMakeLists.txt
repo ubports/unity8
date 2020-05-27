@@ -5,6 +5,6 @@ set(globalshortcutplugin_SRCS
 
 add_library(GlobalShortcut-qml SHARED ${globalshortcutplugin_SRCS})
 
-qt5_use_modules(GlobalShortcut-qml Quick Gui)
+target_link_libraries(GlobalShortcut-qml Qt5::Quick Qt5::Gui)
 
 add_unity8_plugin(GlobalShortcut 1.0 GlobalShortcut TARGETS GlobalShortcut-qml)

@@ -133,6 +133,9 @@ else()
   FIND_PROGRAM(QDBUSXML2CPP_EXECUTABLE qdbusxml2cpp)
 endif()
 
+if(NOT QDBUSXML2CPP_EXECUTABLE)
+    message(FATAL_ERROR "qdbusxml2cpp not found")
+endif()
 
 install(DIRECTORY data graphics
     DESTINATION "${SHELL_APP_DIR}/tests"
