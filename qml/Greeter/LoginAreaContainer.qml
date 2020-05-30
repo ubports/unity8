@@ -33,6 +33,6 @@ Item {
     UbuntuShape {
         anchors.fill: parent
         aspect: UbuntuShape.Flat
-        backgroundColor: theme.palette.normal.raised
+        backgroundColor: theme.palette.normal.background
     }
 }
