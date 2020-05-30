@@ -56,10 +56,6 @@ StyledItem {
         promptList.showFakePassword();
     }
 
-    theme: ThemeSettings {
-        name: "Ubuntu.Components.Themes.Ambiance"
-    }
-
     Keys.onUpPressed: {
         if (currentIndex > 0) {
             selected(currentIndex - 1);
