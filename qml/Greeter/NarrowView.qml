@@ -40,6 +40,9 @@ FocusScope {
     readonly property bool required: coverPage.required || lockscreen.required
     readonly property bool animating: coverPage.showAnimation.running || coverPage.hideAnimation.running
 
+    //Does this need to come from up in the stack?
+    readonly property bool isLandscape: width > height
+
     // so that it can be replaced in tests with a mock object
     property var inputMethod: Qt.inputMethod
 
@@ -133,7 +136,7 @@ FocusScope {
                 bottom: parent.bottom
             }
             width: units.gu(40)
-            boxVerticalOffset: units.gu(14)
+            boxVerticalOffset: isLandscape ? units.gu(2) : units.gu(14)
             enabled: !coverPage.shown && visible
             visible: !delayedLockscreen.visible
 
@@ -186,12 +189,51 @@ FocusScope {
         }
 
         Clock {
-            anchors {
-                top: parent.top
-                topMargin: units.gu(2)
-                horizontalCenter: parent.horizontalCenter
-            }
+            id: clock
+            anchors.centerIn: parent
         }
+
+
+        states: [
+            State {
+                name: "verticalScreen"; when: !isLandscape
+
+                PropertyChanges {
+                    target: clock
+                    anchors {
+                        top: coverPage.top
+                        topMargin: units.gu(2)
+                        horizontalCenter: coverPage.horizontalCenter
+                        centerIn: undefined
+                        horizontalCenterOffset: 0
+                    }
+                }
+
+                PropertyChanges {
+                    target: coverPage
+                    infographics.anchors.leftMargin: 0
+                }
+            },
+            State {
+                name: "horizontalScreen"; when: isLandscape
+
+                PropertyChanges {
+                    target: clock
+                    anchors {
+                        top: undefined
+                        topMargin: undefined
+                        horizontalCenter: undefined
+                        centerIn: coverPage
+                        horizontalCenterOffset: - coverPage.width / 2 + clock.width
+                    }
+                }
+
+                PropertyChanges {
+                    target: coverPage
+                    infographics.anchors.leftMargin: clock.width + units.gu(2)
+                }
+            }
+        ]
     }
 
     StyledItem {
@@ -207,7 +249,7 @@ FocusScope {
                               inputMethod.keyboardRectangle.height : 0)
 
         Rectangle {
-            color: UbuntuColors.porcelain // matches OSK background
+            color: UbuntuColors.porcelain // matches OSK background. Edit: This is not true anymore as OSK has themes but for now is good
             anchors.fill: parent
         }
 
