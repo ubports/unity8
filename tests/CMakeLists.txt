@@ -73,8 +73,9 @@ function(add_unity8_unittest COMPONENT_NAME TARGET)
         TARGETS unittests
         ${U8TEST_ARGN}
         ENVIRONMENT ${environment}
-                    QT_QPA_PLATFORM=minimal
                     ${U8TEST_ENVIRONMENT}
+                    QT_QPA_PLATFORM=minimal
+                    UITK_ICON_THEME=suru
     )
 endfunction()
 
@@ -87,6 +88,7 @@ function(add_unity8_uitest COMPONENT_NAME TARGET)
         ${U8TEST_ARGN}
         ENVIRONMENT ${environment}
                     ${U8TEST_ENVIRONMENT}
+                    UITK_ICON_THEME=suru
     )
 endfunction()
 
@@ -99,8 +101,9 @@ function(add_unity8_qmlunittest PATH COMPONENT_NAME)
         TARGET unittests
         ${U8TEST_ARGN}
         ENVIRONMENT ${environment}
-                    QT_QPA_PLATFORM=minimal
                     ${U8TEST_ENVIRONMENT}
+                    QT_QPA_PLATFORM=minimal
+                    UITK_ICON_THEME=suru
     )
 endfunction()
 
@@ -113,6 +116,7 @@ function(add_unity8_qmltest PATH COMPONENT_NAME)
         ${U8TEST_ARGN}
         ENVIRONMENT ${environment}
                     ${U8TEST_ENVIRONMENT}
+                    UITK_ICON_THEME=suru
     )
 endfunction()
 
