@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2019-03-29 15:14+0000\n"
-"Last-Translator: Tom Dom <thomas@patoel.nl>\n"
+"PO-Revision-Date: 2020-05-21 08:24+0000\n"
+"Last-Translator: Pierre <epierre3@gmail.com>\n"
 "Language-Team: Dutch <https://translate.ubports.com/projects/unity8/unity8/"
 "nl/>\n"
 "Language: nl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.1.1\n"
+"X-Generator: Weblate 3.8\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:199
@@ -26,15 +26,15 @@ msgstr "Wachtwoord: "
 
 #: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr ""
+msgstr "Gebruikersnaam"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "Verificatie mislukt"
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "Ongeldig wachtwoord, probeer opnieuw"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
@@ -46,7 +46,7 @@ msgstr "Opnieuw proberen"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"

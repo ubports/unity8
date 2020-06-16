@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-04-17 23:23+0000\n"
-"Last-Translator: Milan Korecký <milan.korecky@gmail.com>\n"
+"PO-Revision-Date: 2020-05-19 11:24+0000\n"
+"Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech <https://translate.ubports.com/projects/unity8/unity8/"
 "cs/>\n"
 "Language: cs\n"
@@ -26,15 +26,15 @@ msgstr "Heslo: "
 
 #: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr "Jméno uživatele"
+msgstr "Uživatelské jméno"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr "Chyba při ověření"
+msgstr "Chyba při ověřování se"
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr "Nesprávné heslo, zkuste to znovu prosím"
+msgstr "Nesprávné heslo – zkuste to znovu prosím"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
@@ -46,11 +46,11 @@ msgstr "Znovu"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr "Zahájit sezení"
+msgstr "Zahájit relaci"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr "Sezení pro hosta"
+msgstr "Relace pro hosta"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
@@ -118,7 +118,7 @@ msgid ""
 "to power off?"
 msgstr ""
 "Opravdu chcete\n"
-"telefon vypnout?"
+"zařízení vypnout?"
 
 #: qml/Components/Dialogs.qml:248
 msgctxt "Button: Power off the system"
@@ -136,7 +136,7 @@ msgstr "Klávesové zkratky"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Unity 8"
-msgstr "Unity 8"
+msgstr "Lomiri"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
@@ -152,7 +152,7 @@ msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of the current window."
-msgstr "Pořídí snímek právě aktivního okna."
+msgstr "Pořídí snímek právě zaměřeného okna."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -184,11 +184,11 @@ msgstr "Launcher"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Super (Hold)"
-msgstr "Super (Držet)"
+msgstr "Super (držet)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens the launcher, displays shortcuts."
-msgstr "Otevře launcher a zobrazí zkratky."
+msgstr "Otevře launcher, zobrazí zkratky."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Alt + F1"
@@ -196,7 +196,7 @@ msgstr "Alt + F1"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Opens launcher keyboard navigation mode."
-msgstr "Otevře launcher klávesnici v režimu hledání."
+msgstr "Otevře launcher v režimu pohybu pomocí klávesnice."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + Tab"
@@ -212,7 +212,7 @@ msgstr "Super + 1 až 0"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
-msgstr "Obdoba klepnutí na ikonu v launcheru."
+msgstr "Obdoba kliknutí na ikonu v launcheru."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
 msgid "Super + A"
@@ -232,11 +232,11 @@ msgstr "Super (klepnutí)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:219
 msgid "Opens the Scopes home."
-msgstr "Otevře Scopes."
+msgstr "Otevře domovskou sekci Scopes."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
-msgstr "Přepnout"
+msgstr "Přepínání"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Alt + Tab"
@@ -260,7 +260,7 @@ msgstr "Šipky vlevo nebo vpravo"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:273
 msgid "Moves the focus."
-msgstr "Přesune zaaměření."
+msgstr "Přesune zaměření."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:285
 msgid "Windows"
@@ -276,7 +276,7 @@ msgstr "Minimalizuje všechna okna."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Up"
-msgstr "Ctrl + Super + Up"
+msgstr "Ctrl + Super + Šipka nahoru"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Maximizes the current window."
@@ -284,11 +284,11 @@ msgstr "Maximalizuje právě zaměřené okno."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Ctrl + Super + Down"
-msgstr "Ctrl + Super + Down"
+msgstr "Ctrl + Super + Šipka dolů"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Minimizes or restores the current window."
-msgstr "Minimalizuje anebo obnoví právě zaměřené okno."
+msgstr "Minimalizuje anebo obnoví původní velikost právě zaměřeného okna."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:331
 msgid "Ctrl + Super + Left or Right"
@@ -296,7 +296,7 @@ msgstr "Ctrl + Super + šipka vlevo nebo vpravo"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Semi-maximizes the current window."
-msgstr "Skoro maximalizuje stávající okno."
+msgstr "Skoro maximalizuje právě zaměřené okno."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:344
 msgid "Alt + F4"
@@ -304,7 +304,7 @@ msgstr "Alt + F4"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:349
 msgid "Closes the current window."
-msgstr "Zavřít stávající okno."
+msgstr "Zavře právě zaměřené okno."
 
 #: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:235
 msgid "Return to Call"
@@ -342,7 +342,7 @@ msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
-msgstr "Anebo lze vynutit ukončení (neuložená data ovšem budou ztracena)."
+msgstr "Anebo lze vynutit ukončení (neuložená data ovšem budou ztracena!)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:80
 msgid "OK, I will reconnect"
@@ -366,19 +366,19 @@ msgid ""
 "touch pad to interact with the pointer."
 msgstr ""
 "Zařízení je připojené k externí obrazovce. Vestavěný displej zařízení "
-"použijte pro ovládání kurzoru."
+"použijte pro ovládání ukazatele myši (jako touchpad)."
 
 #: qml/Components/VirtualTouchPad.qml:327
 msgid "Tap left button to click."
-msgstr "Pro kliknutí klepněte na levé tlačítko."
+msgstr "Pro kliknutí levým tlačítkem myši klepněte na tlačítko vlevo."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr "Pro pravé kliknutí klepněte na pravé tlačítko."
+msgstr "Pro kliknutí pravým tlačítkem klepněte na tlačítko vpravo."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr "Pro posun přejeďte dvěma prsty."
+msgstr "Pro posouvání přejeďte dvěma prsty."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
@@ -418,7 +418,7 @@ msgstr "Zkusit znovu"
 
 #: qml/Greeter/Greeter.qml:551
 msgid "Enter passphrase to unlock"
-msgstr "K odemknutí zadejte přístupové heslo"
+msgstr "K odemknutí zadejte přístupovou frázi"
 
 #: qml/Greeter/Greeter.qml:552
 msgid "Enter passcode to unlock"
@@ -442,7 +442,7 @@ msgstr "Vybrat desktopové prostředí"
 
 #: qml/Launcher/Drawer.qml:249
 msgid "Search…"
-msgstr "Vyhledávání…"
+msgstr "Vyhledat…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -558,7 +558,7 @@ msgstr "Krátkým přetažením od levého okraje otevřete launcher"
 
 #: qml/Tutorial/TutorialRight.qml:54
 msgid "Push your mouse against the right edge to view your open apps"
-msgstr "„Zatlačením“ myší na levý okraj zobrazíte spuštěné aplikace"
+msgstr "„Zatlačením“ ukazatelem myši na levý okraj zobrazíte spuštěné aplikace"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Swipe from the right edge to view your open apps"
@@ -593,7 +593,7 @@ msgstr "Vítejte v "
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
-msgstr "Nyní bude ověřeno, že je vaše zařízení připravené k použití "
+msgstr "Nyní bude ověřeno, zda je vaše zařízení připraveno k použití "
 
 #: qml/Wizard/Pages/11-changelog.qml:28
 msgid "What's new"
@@ -665,7 +665,7 @@ msgstr "Vytvořit nové heslo"
 #: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
-msgstr "Vytvořit přístupový kód (pouze čísla)"
+msgstr "Vytvořit přístupový kód (pouze číslice)"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
@@ -674,7 +674,7 @@ msgstr "Bez uzamykacího přístupového kódu"
 
 #: qml/Wizard/Pages/79-system-update.qml:28
 msgid "Update Device"
-msgstr "Aktualizace zařízení"
+msgstr "Aktualizovat zařízení"
 
 #: qml/Wizard/Pages/79-system-update.qml:55
 msgid ""
@@ -687,7 +687,7 @@ msgstr ""
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu Touch system"
-msgstr "Ubuntu Touch systém"
+msgstr "Systém Ubuntu Touch"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -726,7 +726,7 @@ msgstr "Začínáme"
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
-msgstr "Potvrdit přístupový kód"
+msgstr "Potvrďte zadání přístupového kódu"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
@@ -739,11 +739,11 @@ msgstr "Zadejte znovu."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
-msgstr "Kód pro odemčení obrazovky"
+msgstr "Přístupový kód pro odemčení obrazovky"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
-msgstr "Zadejte 4 číslice pro nastavení přístupového kódu"
+msgstr "Zadejte 4 číslice, které budou sloužit jako přístupový kód"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
@@ -756,11 +756,11 @@ msgstr "Přístupový kód je příliš krátký"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
-msgstr "Zadání přístupového kódu jsou shodná"
+msgstr "Zadání přístupového kódu se shodují"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
-msgstr "Zadání přístupového kódu nejsou shodná"
+msgstr "Zadání přístupového kódu se neshodují"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
@@ -776,11 +776,11 @@ msgstr "Zadejte nejméně 8 znaků"
 
 #: qml/Wizard/Pages/password-set.qml:80
 msgid "Choose password"
-msgstr "Zvolit heslo"
+msgstr "Zvolte heslo"
 
 #: qml/Wizard/Pages/password-set.qml:110
 msgid "Confirm password"
-msgstr "Potvrdit heslo"
+msgstr "Potvrďte heslo"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
@@ -804,7 +804,7 @@ msgstr "Bez SIM karty nebudete moci telefonovat ani odesílat textové zprávy."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr "Pro pokračování bez SIM karty zvolte Přeskočit."
+msgstr "Pro pokračování bez SIM karty klepněte na Přeskočit."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
@@ -812,7 +812,7 @@ msgstr "Příliš krátké heslo"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
-msgstr "Hesla se shodují"
+msgstr "Zadání hesla se shodují"
 
 #: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
@@ -820,19 +820,19 @@ msgstr "Zadání hesla se neshodují"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
-msgstr "Silné heslo"
+msgstr "Velmi odolné heslo"
 
 #: qml/Wizard/PasswordMeter.qml:97
 msgid "Fair password"
-msgstr "Přijatelné heslo"
+msgstr "Odolné/napsatelné heslo"
 
 #: qml/Wizard/PasswordMeter.qml:99
 msgid "Weak password"
-msgstr "Slabé heslo"
+msgstr "Prolomitelné heslo"
 
 #: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
-msgstr "Velmi slabé heslo"
+msgstr "Velmi snadno prolomitelné heslo"
 
 #~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"
