@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-05-21 08:24+0000\n"
-"Last-Translator: Pierre <epierre3@gmail.com>\n"
+"PO-Revision-Date: 2020-07-14 18:34+0000\n"
+"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://translate.ubports.com/projects/unity8/unity8/"
 "nl/>\n"
 "Language: nl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 3.11.3\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:199
@@ -34,11 +34,11 @@ msgstr "Verificatie mislukt"
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr "Ongeldig wachtwoord, probeer opnieuw"
+msgstr "Ongeldig wachtwoord; probeer het opnieuw"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
-msgstr "Aanmelden"
+msgstr "Inloggen"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
@@ -46,11 +46,11 @@ msgstr "Opnieuw proberen"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr "Login"
+msgstr "Inloggen"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr ""
+msgstr "Gastsessie"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
@@ -68,11 +68,11 @@ msgstr "Snelkoppeling losmaken"
 #: qml/Components/Dialogs.qml:176
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr "Afmelden"
+msgstr "Uitloggen"
 
 #: qml/Components/Dialogs.qml:177
 msgid "Are you sure you want to log out?"
-msgstr "Weet je zeker dat je wilt afmelden?"
+msgstr "Weet je zeker dat je wilt uitloggen?"
 
 #: qml/Components/Dialogs.qml:180
 msgctxt "Button: Lock the system"
@@ -82,7 +82,7 @@ msgstr "Vergrendelen"
 #: qml/Components/Dialogs.qml:191
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr "Afmelden"
+msgstr "Uitloggen"
 
 #: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
 #: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
@@ -93,11 +93,11 @@ msgstr "Annuleren"
 #: qml/Components/Dialogs.qml:211
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
-msgstr "Opnieuw opstarten"
+msgstr "Herstarten"
 
 #: qml/Components/Dialogs.qml:212
 msgid "Are you sure you want to reboot?"
-msgstr "Weet je zeker dat je opnieuw wilt opstarten?"
+msgstr "Weet je zeker dat je wilt herstarten?"
 
 #: qml/Components/Dialogs.qml:215
 msgid "No"
@@ -128,7 +128,7 @@ msgstr "Uitschakelen"
 #: qml/Components/Dialogs.qml:263
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr "Opnieuw opstarten"
+msgstr "Herstarten"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
@@ -144,21 +144,19 @@ msgstr "PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr "Maakt een schermafdruk."
+msgstr "Maakt een schermfoto."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
 msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
-#, fuzzy
-#| msgid "Takes a screenshot of a window."
 msgid "Takes a screenshot of the current window."
-msgstr "Maakt een schermafdruk van een venster."
+msgstr "Maakt een schermfoto van het huidige venster."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
-msgstr "Super + Spatiebalk"
+msgstr "Super + spatiebalk"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
@@ -173,16 +171,12 @@ msgid "Switches to previous keyboard layout."
 msgstr "Schakelt over naar de vorige toetsenbordindeling."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
-#, fuzzy
-#| msgid "Ctrl + Super + D"
 msgid "Ctrl + Alt + T"
-msgstr "Ctrl + Super + D"
+msgstr "Ctrl + Alt + T"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
-#, fuzzy
-#| msgid "Switches between applications."
 msgid "Starts the Terminal application."
-msgstr "Wisselt tussen toepassingen."
+msgstr "Start de terminalapp."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
@@ -194,7 +188,7 @@ msgstr "Super (ingedrukt houden)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens the launcher, displays shortcuts."
-msgstr "Opent de Starter; toont sneltoetsen."
+msgstr "Opent de Starter en toont de sneltoetsen."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Alt + F1"
@@ -210,29 +204,23 @@ msgstr "Super + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Switches applications via the launcher."
-msgstr "Wisselt toepassingen via de Starter."
+msgstr "Wisselt tussen apps op de Starter."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
-#, fuzzy
-#| msgid "Super + 0 to 9"
 msgid "Super + 1 to 0"
-msgstr "Super + 0 tot 9"
+msgstr "Super + 1 tot 0"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
 msgstr "Hetzelfde als klikken op een pictogram in de Starter."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
-#, fuzzy
-#| msgid "Super + W"
 msgid "Super + A"
-msgstr "Super + W"
+msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
-#, fuzzy
-#| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
-msgstr "De Starter openen"
+msgstr "Opent het appoverzicht."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
@@ -256,7 +244,7 @@ msgstr "Alt + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Switches between applications."
-msgstr "Wisselt tussen toepassingen."
+msgstr "Wisselt tussen apps."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:255
 msgid "Super + W"
@@ -264,11 +252,11 @@ msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:260
 msgid "Opens the desktop spread."
-msgstr "Opent bureaubladspreiding."
+msgstr "Opent werkbladspreiding."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:268
 msgid "Cursor Left or Right"
-msgstr "Pijltje links of rechts"
+msgstr "Pijltje naar links of rechts"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:273
 msgid "Moves the focus."
@@ -288,7 +276,7 @@ msgstr "Minimaliseert alle vensters."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Up"
-msgstr "Ctrl + Super + Pijltje omhoog"
+msgstr "Ctrl + Super + pijltje omhoog"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Maximizes the current window."
@@ -296,7 +284,7 @@ msgstr "Maximaliseert het huidige venster."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Ctrl + Super + Down"
-msgstr "Ctrl + Super + Pijl omlaag"
+msgstr "Ctrl + Super + pijltje omlaag"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Minimizes or restores the current window."
@@ -304,7 +292,7 @@ msgstr "Maximaliseert of herstelt het huidige venster."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:331
 msgid "Ctrl + Super + Left or Right"
-msgstr "Ctrl + Super + Pijltje links of rechts"
+msgstr "Ctrl + Super + pijltje naar links of rechts"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Semi-maximizes the current window."
@@ -342,19 +330,18 @@ msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:33
 msgid "Apps may have unsaved data:"
-msgstr "Er zijn toepassingen met mogelijk niet-opgeslagen gegevens:"
+msgstr "Er zijn apps met mogelijk niet-opgeslagen gegevens:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:60
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
-"Dock je apparaat opnieuw, sla je werk op en sluit deze toepassingen alvorens "
-"door te gaan."
+"Dock je apparaat opnieuw, sla je werk op en sluit deze apps om door te gaan."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
-msgstr "Of sluit nu geforceerd af (niet-opgeslagen gegevens gaan verloren)."
+msgstr "Of sluit nu gedwongen af (niet-opgeslagen gegevens gaan verloren)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:80
 msgid "OK, I will reconnect"
@@ -362,15 +349,15 @@ msgstr "Oké, ik zal opnieuw verbinden"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:81
 msgid "Reconnect now!"
-msgstr "Verbind nu opnieuw!"
+msgstr "Nu opnieuw verbinden!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:94
 msgid "Close all"
-msgstr "Sluit alles"
+msgstr "Alles sluiten"
 
 #: qml/Components/SharingPicker.qml:54
 msgid "Preview Share Item"
-msgstr "Voorbeeld van gedeeld item"
+msgstr "Voorvertoning van gedeeld item"
 
 #: qml/Components/VirtualTouchPad.qml:317
 msgid ""
@@ -378,25 +365,23 @@ msgid ""
 "touch pad to interact with the pointer."
 msgstr ""
 "Je apparaat is nu verbonden met een extern beeldscherm. Gebruik dit scherm "
-"als touchpad om de aanwijzer te bedienen."
+"als touchpad om de cursor te bedienen."
 
 #: qml/Components/VirtualTouchPad.qml:327
-#, fuzzy
-#| msgid "Tap to return to call..."
 msgid "Tap left button to click."
-msgstr "Druk om terug te keren naar gesprek…"
+msgstr "Druk op de linkerknop om te klikken."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "Druk op de rechterknop om rechts te klikken."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "Veeg met twee vingers om te scrollen."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "Bekijk meer instellingen in de systeeminstellingen."
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -404,7 +389,7 @@ msgstr "Ontgrendelen"
 
 #: qml/Greeter/DelayedLockscreen.qml:43
 msgid "Device Locked"
-msgstr "Apparaat vergrendeld"
+msgstr "Apparaat is vergrendeld"
 
 #: qml/Greeter/DelayedLockscreen.qml:58
 msgid "You have been locked out due to too many failed passphrase attempts."
@@ -422,24 +407,20 @@ msgstr ""
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Wacht %1 minuut en probeer het dan opnieuw…"
-msgstr[1] "Wacht %1 minuten en probeer het dan opnieuw…"
+msgstr[0] "Wacht %1 minuut en probeer het opnieuw…"
+msgstr[1] "Wacht %1 minuten en probeer het opnieuw…"
 
 #: qml/Greeter/Greeter.qml:550
 msgid "Try again"
 msgstr "Opnieuw proberen"
 
 #: qml/Greeter/Greeter.qml:551
-#, fuzzy
-#| msgid "Enter passphrase"
 msgid "Enter passphrase to unlock"
-msgstr "Voer wachtwoordzin in"
+msgstr "Voer je wachtwoordzin in"
 
 #: qml/Greeter/Greeter.qml:552
-#, fuzzy
-#| msgid "Enter passcode"
 msgid "Enter passcode to unlock"
-msgstr "Voer toegangscode in"
+msgstr "Voer je toegangscode in"
 
 #: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
@@ -447,7 +428,7 @@ msgstr "Noodgeval"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passphrase"
-msgstr "Wachtwoord"
+msgstr "Wachtwoordzin"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passcode"
@@ -458,10 +439,8 @@ msgid "Select desktop environment"
 msgstr "Werkomgeving kiezen"
 
 #: qml/Launcher/Drawer.qml:249
-#, fuzzy
-#| msgid "Search"
 msgid "Search…"
-msgstr "Zoeken"
+msgstr "Zoeken…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -551,26 +530,20 @@ msgid "Call back"
 msgstr "Terugbellen"
 
 #: qml/Panel/PanelMenuPage.qml:92
-#, fuzzy
-#| msgctxt "Button: Go back one page in the Wizard"
-#| msgid "Back"
 msgid "Back"
-msgstr "Terug"
+msgstr "Vorige"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
-msgstr ""
-"Versleep een toepassing met 3 vingers van het ene venster naar het andere"
+msgstr "Versleep een app met 3 vingers van het ene venster naar het andere"
 
 #: qml/Stage/Stage.qml:668
 msgid "No running apps"
-msgstr ""
+msgstr "Je hebt geen geopende apps"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-#, fuzzy
-#| msgid "Long swipe from the left edge to open the Today scope"
 msgid "Long swipe from the left edge to open the Application Drawer"
-msgstr "Veeg langzaam vanaf de linkerkant om de Vandaag-scope te openen"
+msgstr "Veeg langzaam vanaf de linkerkant om het appoverzicht te openen"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -586,14 +559,12 @@ msgstr "Veeg vanaf de rechterrand om geopende apps te tonen"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
-msgstr ""
-"Veeg van de bovenrand om toegang te krijgen tot meldingen en snelle "
-"instellingen"
+msgstr "Veeg vanaf de bovenrand om meldingen en snelle instellingen te tonen"
 
 #: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr "Terug"
+msgstr "Vorige"
 
 #: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
@@ -615,7 +586,7 @@ msgstr "Welkom bij "
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
-msgstr "We zorgen ervoor dat je apparaat klaar is voor gebruik "
+msgstr "We maken je apparaat klaar voor gebruik "
 
 #: qml/Wizard/Pages/11-changelog.qml:28
 msgid "What's new"
@@ -627,7 +598,7 @@ msgstr "Bezig met laden..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
-msgstr "Toetsenbord selecteren"
+msgstr "Toetsenbord kiezen"
 
 #: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
@@ -682,12 +653,12 @@ msgstr "Schermvergrendeling"
 #: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
-msgstr "Creëer een nieuw wachtwoord"
+msgstr "Wachtwoord aanmaken"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
-msgstr "Creëer een toegangscode (alleen cijfers)"
+msgstr "Toegangscode aanmaken (alleen cijfers)"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
@@ -707,12 +678,9 @@ msgstr ""
 "apparaat start daarna opnieuw op."
 
 #: qml/Wizard/Pages/79-system-update.qml:76
-#, fuzzy
-#| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
 msgctxt "string identifying name of the update"
 msgid "Ubuntu Touch system"
-msgstr "Ubuntu-systeem"
+msgstr "Ubuntu Touch-systeem"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
@@ -764,7 +732,7 @@ msgstr "Voer je code opnieuw in."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
-msgstr "Toegangscodecode schermvergrendeling"
+msgstr "Toegangscode schermvergrendeling"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
@@ -777,19 +745,19 @@ msgstr "Kies een toegangscode"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
-msgstr "Toegangscode te kort"
+msgstr "De toegangscode is te kort"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
-msgstr "Toegangscodes komen overeen"
+msgstr "De toegangscodes komen overeen"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
-msgstr "Toegangscodes komen niet overeen"
+msgstr "De toegangscodes komen niet overeen"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr "Toegangscode moet 4 tekens lang zijn"
+msgstr "De toegangscode moet 4 tekens lang zijn"
 
 #: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
@@ -829,19 +797,19 @@ msgstr "Zonder simkaart kun je niet bellen of sms'en."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr "Druk op Overslaan om door te gaan zonder simkaart."
+msgstr "Druk op 'Overslaan' om door te gaan zonder simkaart."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr "Wachtwoord te kort"
+msgstr "Het wachtwoord is te kort"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
-msgstr "Wachtwoorden komen overeen"
+msgstr "De wachtwoorden komen overeen"
 
 #: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
-msgstr "Wachtwoorden komen niet overeen"
+msgstr "De wachtwoorden komen niet overeen"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
