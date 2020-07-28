@@ -45,7 +45,7 @@ Object {
 
             Action {
                 id: action
-                text: menuData.label.replace("_", "&")
+                text: menuData ? menuData.label.replace("_", "&") : ""
             }
 
             ListItemLayout {
@@ -53,14 +53,14 @@ Object {
                 title.text: action.text
 
                 Icon {
-                    source: menuData && menuData.icon || ""
+                    source: menuData ? menuData.icon : ""
                     SlotsLayout.position: SlotsLayout.Leading
                     height: units.gu(3)
                 }
 
                 Label {
-                    text: menuData.shortcut
-                    visible: menuData.shortcut && QuickUtils.keyboardAttached
+                    text: menuData ? menuData.shortcut : ""
+                    visible: menuData && menuData.shortcut && QuickUtils.keyboardAttached
                     SlotsLayout.position: SlotsLayout.Trailing
                     color: enabled ? theme.palette.normal.backgroundSecondaryText :
                                      theme.palette.disabled.backgroundSecondaryText
@@ -86,7 +86,7 @@ Object {
 
             Action {
                 id: action
-                text: menuData.label.replace("_", "&")
+                text: menuData ? menuData.label.replace("_", "&") : ""
             }
 
             ListItemLayout {
@@ -94,7 +94,7 @@ Object {
                 title.text: action.text
 
                 Icon {
-                    source: menuData && menuData.icon || ""
+                    source: menuData ? menuData.icon : ""
                     SlotsLayout.position: SlotsLayout.Leading
                     height: units.gu(3)
                 }
