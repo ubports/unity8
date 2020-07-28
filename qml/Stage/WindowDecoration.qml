@@ -99,13 +99,12 @@ MouseArea {
         spacing: units.gu(3)
 
         WindowControlButtons {
+            Layout.fillHeight: true
+            Layout.fillWidth: false
+            Layout.topMargin: units.gu(0.5)
+            Layout.bottomMargin: units.gu(0.5)
+
             id: buttons
-            anchors {
-                top: parent.top
-                bottom: parent.bottom
-                topMargin: units.gu(0.5)
-                bottomMargin: units.gu(0.5)
-            }
             active: root.active
             onCloseClicked: root.closeClicked();
             onMinimizeClicked: root.minimizeClicked();
