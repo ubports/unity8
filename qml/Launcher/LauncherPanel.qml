@@ -556,7 +556,7 @@ Rectangle {
 
                         function processPositionChanged(mouse) {
                             if (draggedIndex >= 0) {
-                                if (!selectedItem.dragging) {
+                                if (selectedItem && !selectedItem.dragging) {
                                     var distance = Math.max(Math.abs(mouse.x - startX), Math.abs(mouse.y - startY))
                                     if (!preDragging && distance > units.gu(1.5)) {
                                         preDragging = true;
