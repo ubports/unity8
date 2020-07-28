@@ -2207,8 +2207,8 @@ FocusScope {
                 consumesInput: false
                 interactive: false
                 focus: false
-                requestedWidth: appDelegate.requestedWidth
-                requestedHeight: appDelegate.requestedHeight
+                requestedWidth: appDelegate ? appDelegate.requestedWidth : 0
+                requestedHeight: appDelegate ? appDelegate.requestedHeight : 0
 
                 width: units.gu(40)
                 height: units.gu(40)
