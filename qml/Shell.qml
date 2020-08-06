@@ -90,7 +90,7 @@ StyledItem {
         } else if (showingGreeter || notifications.topmostIsFullscreen) {
             return Qt.PrimaryOrientation;
         } else {
-            return shell.orientations.map(stage.supportedOrientations);
+            return shell.orientations ? shell.orientations.map(stage.supportedOrientations) : Qt.PrimaryOrientation;
         }
     }
 
