@@ -914,7 +914,7 @@ Rectangle {
             compare(twitterApp.supportedOrientations, Qt.PortraitOrientation | Qt.LandscapeOrientation
                     | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation);
 
-            tryCompare(twitterDelegate, "orientationChangesEnabled", true);
+            tryCompare(twitterDelegate, "orientationChangesEnabled", false);
 
             var decoratedWindow = findChild(twitterDelegate, "decoratedWindow");
             verify(decoratedWindow);
