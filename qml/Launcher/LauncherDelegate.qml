@@ -37,7 +37,7 @@ Item {
 
     readonly property int effectiveHeight: Math.cos(angle * Math.PI / 180) * itemHeight
     readonly property real foldedHeight: Math.cos(maxAngle * Math.PI / 180) * itemHeight
-    readonly property alias wiggling: wiggleAnim.running
+    readonly property alias wiggling: root.alerting
 
     property int itemWidth
     property int itemHeight
