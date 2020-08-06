@@ -941,7 +941,7 @@ Rectangle {
             tryCompare(quickListShape, "opacity", 0.95);
             mouseRelease(draggedItem);
 
-            tryVerify(function() {return (quickList.y >= units.gu(1))});
+            tryVerify(function() {return (quickList.y >= units.gu(0.5))});
             tryVerify(function() {return (quickList.y + quickList.height + units.gu(1) <= launcher.height)});
             compare(quickList.width, units.gu(30));
 
@@ -1176,6 +1176,7 @@ Rectangle {
             tryCompare(appIcon1, "wiggling", true, 1000, "appId #1 should not be still")
             LauncherModel.setAlerting(LauncherModel.get(1).appId, false)
             waitForWiggleToStop(appIcon1)
+
             LauncherModel.setCount(LauncherModel.get(1).appId, 4711)
             tryCompare(appIcon1, "wiggling", true, 1000, "appId #1 should not be still")
             LauncherModel.setAlerting(LauncherModel.get(1).appId, false)
