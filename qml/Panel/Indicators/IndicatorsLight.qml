@@ -204,11 +204,11 @@ console.log("no support for Multicolor LED. " + indicatorState)
         property variant deviceState: action("device-state").state
         Component.onCompleted: start()
         onBatteryLevelChanged: {
-            root.batteryLevel = batteryLevel
+            root.batteryLevel = batteryLevel ? batteryLevel : 0.00
             updateLightState("onBatteryLevelChanged")
         }
         onDeviceStateChanged: {
-            root.deviceState = deviceState
+            root.deviceState = deviceState ? deviceState : "unknown"
             updateLightState("onDeviceStateChanged")
         }
     }
