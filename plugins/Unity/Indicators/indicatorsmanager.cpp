@@ -55,20 +55,22 @@ void IndicatorsManager::load()
 {
     unload();
 
-    const QStringList xdgLocations = shellDataDirs();
-
     m_fsWatcher.reset(new QFileSystemWatcher(this));
 
-    Q_FOREACH(const QString& xdgLocation, xdgLocations)
-    {
-        const QString indicator_path = QDir::cleanPath(xdgLocation + "/unity/indicators");
-        QDir indicator_dir(indicator_path);
-        if (indicator_dir.exists())
-        {
+    for (const auto xdgPath : shellDataDirs()) {
+        // For legacy reasons we keep the old unity indicator path
+        const auto unityPath = QDir::cleanPath(xdgPath + "/unity/indicators");
+        if (QFile::exists(unityPath)) {
             // watch folder for changes.
-            m_fsWatcher->addPath(indicator_path);
+            m_fsWatcher->addPath(unityPath);
+            loadDir(unityPath);
+        }
 
-            loadDir(indicator_dir);
+        const auto ayatanaPath = QDir::cleanPath(xdgPath + "/ayatana/indicators");
+        if (QFile::exists(ayatanaPath)) {
+            // watch folder for changes.
+            m_fsWatcher->addPath(ayatanaPath);
+            loadDir(ayatanaPath);
         }
     }
 
@@ -131,13 +133,13 @@ void IndicatorsManager::loadFile(const QFileInfo& file_info)
         QStringList xdgLocations = shellDataDirs();
         for (int i = 0; i < xdgLocations.size(); i++)
         {
-            const QString indicatorDir = QDir::cleanPath(xdgLocations[i] + "/unity/indicators");
+            const QString xdgLocation = QDir::cleanPath(xdgLocations[i]);
 
-            if (newFileInfoDir == indicatorDir)
+            if (newFileInfoDir.startsWith(xdgLocation))
             {
                 file_info_location = i;
             }
-            if (currentDataDir == indicatorDir)
+            if (currentDataDir.startsWith(xdgLocation))
             {
                 current_data_location = i;
             }
@@ -284,8 +286,10 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator_name)
     // 2) enable keyboard indicator
     //
     // The rest of the indicators respect their default profile (which is "phone", even on desktop PCs)
-    if ((new_indicator->identifier() == QStringLiteral("indicator-session"))
-            || new_indicator->identifier() == QStringLiteral("indicator-keyboard")) {
+    if (new_indicator->identifier() == QStringLiteral("indicator-session") ||
+        new_indicator->identifier() == QStringLiteral("indicator-keyboard") ||
+        new_indicator->identifier() == QStringLiteral("ayatana-indicator-session") ||
+        new_indicator->identifier() == QStringLiteral("ayatana-indicator-keyboard")) {
         new_indicator->setProfile(QString(m_profile).replace(QStringLiteral("phone"), QStringLiteral("desktop")));
     } else {
         new_indicator->setProfile(m_profile);
