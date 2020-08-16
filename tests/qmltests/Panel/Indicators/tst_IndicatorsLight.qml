@@ -47,16 +47,6 @@ Item {
         }
     };
 
-    Component {
-        id: light
-        IndicatorsLight {}
-    }
-
-    Loader {
-        id: loader
-        sourceComponent: light
-    }
-
     Component.onCompleted: {
         ActionData.data = newMessage;
         Powerd.setStatus(Powerd.On, Powerd.Unknown);
@@ -153,16 +143,15 @@ Item {
     property color orangeRed: "orangeRed"
 
     UT.UnityTestCase {
+        id: testCase
         name: "IndicatorsLight"
         when: windowShown
 
         function init() {
             // reload
             ActionData.data = noNewMessage;
-            loader.sourceComponent = undefined;
-            loader.sourceComponent = light;
-            Powerd.setStatus(Powerd.On, Powerd.Unknown);
             lomiriSettings.chargingStateVisible = true;
+            Powerd.setStatus(Powerd.On, Powerd.Unknown);
         }
 
         function test_LightsStatus_data() {
@@ -274,12 +263,13 @@ Item {
                   expectedLightsState: Lights.Off,
                       powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging, supportsMultiColorLed: false },
 
+                //
                 // disabled charging state visible
                 //
-                { tag: "Powerd.Off with New Message & chargingStateVisible=false",
+                { tag: "Powerd.Off with New Message & chargingStateVisible==false",
                   expectedLightsState: Lights.On,
                       powerd: Powerd.Off, actionData: newMessage, chargingStateVisible: false },
-                { tag: "Powerd.Off while charging & chargingStateVisible=false",
+                { tag: "Powerd.Off while charging & chargingStateVisible==false",
                   expectedLightsState: Lights.Off,
                       powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging, chargingStateVisible: false },
 
@@ -287,10 +277,11 @@ Item {
         }
 
         function test_LightsStatus(data) {
-            console.log("----------------------------------------------------------------")
+            var item = createTemporaryQmlObject("import QtQuick 2.0; import\"" + Qt.resolvedUrl("../../../../qml/Panel/Indicators") + "\"; IndicatorsLight {}", testCase);
 
-            if (data.hasOwnProperty("supportsMultiColorLed"))
-                loader.item.supportsMultiColorLed = data.supportsMultiColorLed
+            console.log("----------------------------------------------------------------")
+            if (data.hasOwnProperty("supportsMultiColorLed")) 
+                item.supportsMultiColorLed = data.supportsMultiColorLed
             if (data.hasOwnProperty("chargingStateVisible"))
                 lomiriSettings.chargingStateVisible = data.chargingStateVisible
             if (data.hasOwnProperty("powerd"))
@@ -298,7 +289,7 @@ Item {
             if (data.hasOwnProperty("actionData"))
                 ActionData.data = data.actionData
             if (data.hasOwnProperty("wizardStatus"))
-                loader.item.batteryIconName = data.wizardStatus
+                item.batteryIconName = data.wizardStatus
 
             compare(Lights.state, data.expectedLightsState, "Lights state does not match expected value");
             if (data.hasOwnProperty("expectedLightsColor"))
