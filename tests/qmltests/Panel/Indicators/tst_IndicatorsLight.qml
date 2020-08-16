@@ -280,7 +280,7 @@ Item {
             var item = createTemporaryQmlObject("import QtQuick 2.0; import\"" + Qt.resolvedUrl("../../../../qml/Panel/Indicators") + "\"; IndicatorsLight {}", testCase);
 
             console.log("----------------------------------------------------------------")
-            if (data.hasOwnProperty("supportsMultiColorLed")) 
+            if (data.hasOwnProperty("supportsMultiColorLed"))
                 item.supportsMultiColorLed = data.supportsMultiColorLed
             if (data.hasOwnProperty("chargingStateVisible"))
                 lomiriSettings.chargingStateVisible = data.chargingStateVisible
@@ -291,7 +291,7 @@ Item {
             if (data.hasOwnProperty("wizardStatus"))
                 item.batteryIconName = data.wizardStatus
 
-            compare(Lights.state, data.expectedLightsState, "Lights state does not match expected value");
+            compare(Lights.state, data.expectedLightsState, "Lights state does not match expected value")
             if (data.hasOwnProperty("expectedLightsColor"))
                 compare(Lights.color, data.expectedLightsColor, "Lights color does not match expected value")
             if (data.hasOwnProperty("expectedLightsOnMillisec"))
