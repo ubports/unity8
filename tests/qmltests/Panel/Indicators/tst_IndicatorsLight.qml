@@ -264,7 +264,7 @@ Item {
                       powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging, supportsMultiColorLed: false },
 
                 //
-                // disabled charging state visible
+                // Charging state visibility
                 //
                 { tag: "Powerd.Off with New Message & chargingStateVisible==false",
                   expectedLightsState: Lights.On,
@@ -272,6 +272,12 @@ Item {
                 { tag: "Powerd.Off while charging & chargingStateVisible==false",
                   expectedLightsState: Lights.Off,
                       powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging, chargingStateVisible: false },
+                { tag: "Powerd.Off while charging & chargingStateVisible==true",
+                  expectedLightsState: Lights.On,
+                      powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging, chargingStateVisible: true },
+                { tag: "Powerd.Off while charging & chargingStateVisible==true & no support for multicolor led",
+                  expectedLightsState: Lights.Off,
+                      powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging, chargingStateVisible: true, supportsMultiColorLed: false },
 
             ]
         }
