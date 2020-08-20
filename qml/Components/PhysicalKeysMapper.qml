@@ -40,6 +40,7 @@ Item {
     signal volumeDownTriggered;
     signal volumeUpTriggered;
     signal screenshotTriggered;
+    signal mediaKey;
 
     readonly property bool altTabPressed: d.altTabPressed
     readonly property bool superPressed: d.superPressed
@@ -158,6 +159,12 @@ Item {
                 d.superTabPressed = false;
                 event.accepted = true;
             }
+        } else if (   event.key == Qt.Key_MediaNext 
+                   || event.key == Qt.Key_MediaPrevious 
+                   || event.key == Qt.Key_MediaPlay
+                   || event.key == Qt.Key_WebCam
+) {
+            root.mediaKey(event.key);
         }
     }
 }
