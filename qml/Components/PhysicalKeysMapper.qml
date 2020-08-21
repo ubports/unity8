@@ -159,8 +159,8 @@ Item {
                 d.superTabPressed = false;
                 event.accepted = true;
             }
-        } else if (   event.key == Qt.Key_MediaNext 
-                   || event.key == Qt.Key_MediaPrevious 
+        } else if (   event.key == Qt.Key_MediaNext
+                   || event.key == Qt.Key_MediaPrevious
                    || event.key == Qt.Key_MediaPlay
                    || event.key == Qt.Key_WebCam
 ) {

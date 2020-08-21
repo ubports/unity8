@@ -50,4 +50,3 @@ void HandleMediaKeys::onMediaKey(int key)
 {
     Q_EMIT mediaKey(key);
 }
-
