@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2020 UBports Foundation.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -115,6 +116,10 @@ FocusScope {
         searchField.focus = true;
     }
 
+    function unFocusInput() {
+        searchField.focus = false;
+    }
+
     Keys.onPressed: {
         if (event.text.trim() !== "") {
             focusInput();
@@ -147,11 +152,10 @@ FocusScope {
         color: "#111111"
         opacity: 0.99
 
-        Image {
+        Wallpaper {
             id: background
             anchors.fill: parent
             source: root.background
-            fillMode: Image.PreserveAspectCrop
         }
 
         FastBlur {
@@ -236,6 +240,7 @@ FocusScope {
                 TextField {
                     id: searchField
                     objectName: "searchField"
+                    inputMethodHints: Qt.ImhNoPredictiveText; //workaround to get the clear button enabled without the need of a space char event or change in focus
                     anchors {
                         left: parent.left
                         top: parent.top
@@ -271,14 +276,20 @@ FocusScope {
                 height: rows * delegateHeight
                 clip: true
 
-                model: AppDrawerProxyModel {
-                    id: categoryModel
-                    source: sortProxyModel
-                    dynamicSortFilter: false
-                }
+                model: sortProxyModel
                 delegateWidth: root.delegateWidth
                 delegateHeight: units.gu(11)
                 delegate: drawerDelegateComponent
+                onDraggingVerticallyChanged: {
+                    if (draggingVertically) {
+                        unFocusInput();
+                    }
+                }
+
+                refreshing: appDrawerModel.refreshing
+                onRefresh: {
+                    appDrawerModel.refresh();
+                }
             }
         }
 
@@ -316,6 +327,7 @@ FocusScope {
                         borderSource: 'undefined'
                         source: Image {
                             id: sourceImage
+                            asynchronous: true
                             sourceSize.width: appIcon.width
                             source: model.icon
                         }

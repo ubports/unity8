@@ -6,49 +6,51 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-04-04 22:56+0000\n"
-"PO-Revision-Date: 2016-04-25 16:24+0000\n"
-"Last-Translator: Aggelos Arnaoutis <angelosarn@hotmail.com>\n"
-"Language-Team: Greek <el@li.org>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"PO-Revision-Date: 2020-07-11 16:32+0000\n"
+"Last-Translator: Kosmas Raptis <keeperkosmas6@gmail.com>\n"
+"Language-Team: Greek <https://translate.ubports.com/projects/unity8/unity8/"
+"el/>\n"
+"Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-04-07 06:30+0000\n"
-"X-Generator: Launchpad (build 18343)\n"
+"X-Generator: Weblate 3.11.3\n"
+"X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
-#: plugins/LightDM/Greeter.cpp:188
+#: plugins/LightDM/Greeter.cpp:199
 msgid "Password: "
 msgstr "Κωδικός πρόσβασης: "
 
-#: plugins/LightDM/Greeter.cpp:203
+#: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr ""
+msgstr "Όνομα Χρήστη"
 
-#: plugins/LightDM/Greeter.cpp:242
+#: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "Αποτυχία πιστοποίησης"
 
-#: plugins/LightDM/Greeter.cpp:244
+#: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "Λανθασμένος κωδικός, παρακαλώ προσπαθήστε ξανά"
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
 msgstr "Σύνδεση"
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
 msgstr "Επανάληψη"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr ""
+msgstr "Σύνδεση"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr ""
+msgstr "Συνεδρία Επισκέπτη"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
@@ -82,9 +84,8 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Αποσύνδεση"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:264
-#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:208
-#: qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Ακύρωση"
@@ -106,12 +107,12 @@ msgstr "Όχι"
 msgid "Yes"
 msgstr "Ναι"
 
-#: qml/Components/Dialogs.qml:239
+#: qml/Components/Dialogs.qml:243
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Τερματισμός"
 
-#: qml/Components/Dialogs.qml:240
+#: qml/Components/Dialogs.qml:244
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -119,12 +120,12 @@ msgstr ""
 "Επιθυμείτε σίγουρα τον\n"
 "τερματισμό λειτουργίας;"
 
-#: qml/Components/Dialogs.qml:244
+#: qml/Components/Dialogs.qml:248
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Τερματισμός"
 
-#: qml/Components/Dialogs.qml:255
+#: qml/Components/Dialogs.qml:263
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Επανεκκίνηση"
@@ -135,91 +136,91 @@ msgstr "Συντομεύσεις Πληκτρολογίου"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Unity 8"
-msgstr ""
+msgstr "Unity 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
-msgstr ""
+msgstr "PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr "Τράβηξε στιγμιότυπο οθόνης"
+msgstr "Λαμβάνει ένα στιγμιότυπο οθόνης."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
-msgstr ""
+msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of the current window."
-msgstr ""
+msgstr "Λαμβάνει ένα στιγμιότυπο του τρέχοντος παραθύρου."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
-msgstr ""
+msgstr "Super + Space"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr "Εναλλαγή στην επόμενη διάταξη πληκτρολογίου"
+msgstr "Μετάβαση στην επόμενη διάταξη πληκτρολογίου."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
-msgstr ""
+msgstr "Super + Shift + Space"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr "Εναλλαγή στην προηγούμενη διάταξη πληκτρολογίου"
+msgstr "Μετάβαση στην προηγούμενη διάταξη πληκτρολογίου."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
 msgid "Ctrl + Alt + T"
-msgstr ""
+msgstr "Ctrl + Alt + T"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
 msgid "Starts the Terminal application."
-msgstr ""
+msgstr "Εκκινεί την εφαρμογή τερματικού."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
-msgstr "Εκκινητής εφαρμογών"
+msgstr "Εκκινητής"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Super (Hold)"
-msgstr "Κουμπί Super (Κρατάμε πατημένο)"
+msgstr "Super (Κρατημένο)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens the launcher, displays shortcuts."
-msgstr "Ανοίγει τον εκκινητή εφαρμογών, εμφανίζει τις συντομεύσεις εφαρμογών"
+msgstr "Ανοίγει τον εκκινητή, εμφανίζει συντομεύσεις."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Alt + F1"
-msgstr ""
+msgstr "Alt + F1"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Opens launcher keyboard navigation mode."
-msgstr ""
+msgstr "Ανοίγει τη λειτουργία πλοήγησης πληκτρολογίου εκκινητή."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + Tab"
-msgstr ""
+msgstr "Super + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Switches applications via the launcher."
-msgstr "Εναλλαγή εφαρμογών μέσω του εκκινητή εφαρμογών."
+msgstr "Εναλλάζει εφαρμογές μέσω του εκκινητή."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + 1 to 0"
-msgstr ""
+msgstr "Super + 1 μέχρι 0"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
-msgstr ""
+msgstr "Το ίδιο με το κλικ σε ένα εικονίδιο εκκινητή."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
 msgid "Super + A"
-msgstr ""
+msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
-msgstr ""
+msgstr "Ανοίγει το συρτάρι εφαρμογών."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
@@ -227,11 +228,11 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:214
 msgid "Super (Tap)"
-msgstr ""
+msgstr "Super (Πάτημα)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:219
 msgid "Opens the Scopes home."
-msgstr "Ανοίγει την αρχική σελίδα των Scopes."
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -239,27 +240,27 @@ msgstr "Εναλλαγή"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Alt + Tab"
-msgstr ""
+msgstr "Alt + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Switches between applications."
-msgstr "Εναλλάσει μεταξύ εφαρμογών."
+msgstr "Εναλλαγή μεταξύ εφαρμογών."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:255
 msgid "Super + W"
-msgstr ""
+msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:260
 msgid "Opens the desktop spread."
-msgstr "Ανοίγει την οθόνη εναλλαγής εφαρμογών."
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:268
 msgid "Cursor Left or Right"
-msgstr ""
+msgstr "Δρομέας αριστερά ή δεξιά"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:273
 msgid "Moves the focus."
-msgstr "Μετακίνηση της εστίασης."
+msgstr "Μετακινεί την εστίαση."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:285
 msgid "Windows"
@@ -267,45 +268,45 @@ msgstr "Παράθυρα"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + D"
-msgstr ""
+msgstr "Ctrl + Super + D"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes all windows."
-msgstr "Ελαχιστοποίηση όλων των παραθύρων."
+msgstr "Ελαχιστοποιεί όλα τα παράθυρα."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Up"
-msgstr ""
+msgstr "Ctrl + Super + Up"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Maximizes the current window."
-msgstr "Μεγιστοποίηση του τρέχοντος παραθύρου."
+msgstr "Μεγιστοποιεί το τρέχων παράθυρο."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Ctrl + Super + Down"
-msgstr ""
+msgstr "Ctrl + Super + Down"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Minimizes or restores the current window."
-msgstr "Ελαχιστοποιεί ή μεγιστοποιεί το τρέχον παράθυρο."
+msgstr "Ελαχιστοποιεί ή επαναφέρει το τρέχων παράθυρο."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:331
 msgid "Ctrl + Super + Left or Right"
-msgstr ""
+msgstr "Ctrl + Super + Left or Right"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Semi-maximizes the current window."
-msgstr ""
+msgstr "Ήμι-μεγιστοποιεί το τρέχων παράθυρο."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:344
 msgid "Alt + F4"
-msgstr ""
+msgstr "Alt + F4"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:349
 msgid "Closes the current window."
-msgstr "Κλείνει το τρέχον παράθυρο."
+msgstr "Κλείνει το τρέχων παράθυρο."
 
-#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:228
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:235
 msgid "Return to Call"
 msgstr "Επιστροφή στην κλήση"
 
@@ -336,6 +337,8 @@ msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Επανασυνδέστε, σώστε την εργασία σας και κλείστε αυτές τις εφαρμογές για να "
+"συνεχίσετε."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
@@ -368,8 +371,10 @@ msgstr ""
 "αυτήν την οθόνη ως επιφάνεια αφής για να αλληλεπηδράσετε με τον δείκτη."
 
 #: qml/Components/VirtualTouchPad.qml:327
+#, fuzzy
+#| msgid "Tap to return to call..."
 msgid "Tap left button to click."
-msgstr ""
+msgstr "Πατήστε για να γυρίσετε στην κλήση..."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
@@ -382,103 +387,6 @@ msgstr ""
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
 msgstr ""
-
-#: qml/Dash/DashPageHeader.qml:361
-msgctxt "Button: Open the Ubuntu Store"
-msgid "Store"
-msgstr "Κατάστημα"
-
-#: qml/Dash/DashPageHeader.qml:368
-msgctxt "Button: Start a search in the current dash scope"
-msgid "Search"
-msgstr "Αναζήτηση"
-
-#: qml/Dash/DashPageHeader.qml:378
-msgctxt "Button: Show the current dash scope settings"
-msgid "Settings"
-msgstr "Ρυθμίσεις"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Remove from Favorites"
-msgstr "Αφαίρεση από τα αγαπημένα"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Add to Favorites"
-msgstr "Προσθήκη στα αγαπημένα"
-
-#: qml/Dash/FiltersPopover.qml:61
-msgid "Refine your results"
-msgstr "Βελτιώστε τα αποτελέσματά σας"
-
-#: qml/Dash/FiltersPopover.qml:70
-msgid "Reset"
-msgstr "Επαναφορά"
-
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
-msgid "Show less"
-msgstr "Εμφάνιση λιγότερων"
-
-#: qml/Dash/GenericScopeView.qml:547
-msgid "Show all"
-msgstr "Προβολή όλων"
-
-#: qml/Dash/GenericScopeView.qml:578
-msgctxt "Label: Hint for dash search line edit"
-msgid "Search"
-msgstr "Αναζήτηση"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:67
-msgid "Recent Searches"
-msgstr "Πρόσφατες αναζητήσεις"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:78
-msgid "Clear All"
-msgstr "Καθαρισμός όλων"
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "More..."
-msgstr "Περισσότερα..."
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "Less..."
-msgstr "Λιγότερα..."
-
-#: qml/Dash/Previews/PreviewCommentInput.qml:83
-#: qml/Dash/Previews/PreviewRatingInput.qml:202
-msgid "Send"
-msgstr "Αποστολή"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:109
-msgid "Rate this"
-msgstr "Βαθμολογήστε το"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:184
-msgid "Add a review"
-msgstr "Προσθέστε την αξιολόγησή σας"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:56
-msgid "Pull to refresh…"
-msgstr "Σύρτε για ανανέωση…"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:61
-msgid "Release to refresh…"
-msgstr "Αφήστε για ανανέωση…"
-
-#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
-msgid "Enable location data"
-msgstr "Ενεργοποίηση δεδομένων τοποθεσίας"
-
-#: qml/Dash/ScopesList.qml:146
-msgid "Manage"
-msgstr "Διαχείριση"
-
-#: qml/Dash/ScopesList.qml:187
-msgid "Home"
-msgstr "Αρχή"
-
-#: qml/Dash/ScopesList.qml:188
-msgid "Also installed"
-msgstr "Επίσης εγκατεστημένα"
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -509,44 +417,41 @@ msgstr[1] "Παρακαλώ περιμένετε %1 λεπτά και δοκιμ
 
 #: qml/Greeter/Greeter.qml:550
 msgid "Try again"
-msgstr "Προσπαθήστε ξανά"
+msgstr ""
 
 #: qml/Greeter/Greeter.qml:551
+#, fuzzy
+#| msgid "Enter passphrase"
 msgid "Enter passphrase to unlock"
-msgstr ""
+msgstr "Εισαγωγή συνθηματικού"
 
 #: qml/Greeter/Greeter.qml:552
+#, fuzzy
+#| msgid "Enter passcode"
 msgid "Enter passcode to unlock"
-msgstr ""
+msgstr "Εισαγωγή κωδικού πρόσβασης"
 
-#: qml/Greeter/NarrowView.qml:228
+#: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
 msgstr ""
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passphrase"
-msgstr "Συνθηματική φράση"
+msgstr ""
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passcode"
-msgstr "Κωδικός"
+msgstr ""
 
 #: qml/Greeter/SessionsList.qml:124
 msgid "Select desktop environment"
-msgstr "Επιλέξτε περιβάλλον εργασίας"
+msgstr ""
 
-#: qml/Launcher/Drawer.qml:94
+#: qml/Launcher/Drawer.qml:249
+#, fuzzy
+#| msgid "Search"
 msgid "Search…"
-msgstr ""
-
-#: qml/Launcher/Drawer.qml:129
-msgctxt "Apps sorted alphabetically"
-msgid "A-Z"
-msgstr ""
-
-#: qml/Launcher/MoreAppsHeader.qml:55
-msgid "More apps in the store"
-msgstr ""
+msgstr "Αναζήτηση"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -636,8 +541,11 @@ msgid "Call back"
 msgstr "Επανάκληση"
 
 #: qml/Panel/PanelMenuPage.qml:92
+#, fuzzy
+#| msgctxt "Button: Go back one page in the Wizard"
+#| msgid "Back"
 msgid "Back"
-msgstr ""
+msgstr "Πίσω"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
@@ -645,122 +553,108 @@ msgstr ""
 "Σύρετε με την χρήση των 3 δακτύλων οποιαδήποτε εφαρμογή από ένα παράθυρο σε "
 "άλλο"
 
-#: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Application Drawer"
+#: qml/Stage/Stage.qml:668
+msgid "No running apps"
 msgstr ""
+
+#: qml/Tutorial/TutorialLeftLong.qml:49
+#, fuzzy
+#| msgid "Try swiping from the top edge to access the indicators"
+msgid "Long swipe from the left edge to open the Application Drawer"
+msgstr "Σύρετε από το πάνω άκρο για πρόσβαση στις ρυθμίσεις"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
 msgstr ""
-"Σύντομο σύρσιμο από την αριστερή άκρη εμφανίζει τον εκκινητή εφαρμογών"
 
-#: qml/Tutorial/TutorialRight.qml:55
+#: qml/Tutorial/TutorialRight.qml:54
 msgid "Push your mouse against the right edge to view your open apps"
 msgstr ""
-"Σπρώξτε τον δείκτη του ποντικιού στην δεξιά άκρη ώστε να εμφανιστούν όλες οι "
-"ανοικτές εφαρμογές"
 
-#: qml/Tutorial/TutorialRight.qml:56
+#: qml/Tutorial/TutorialRight.qml:55
 msgid "Swipe from the right edge to view your open apps"
-msgstr "Σύρσιμο από την δεξιά άκρη εμφανίζει όλες οι ανοικτές εφαρμογές"
+msgstr ""
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
-"Σύρσιμο από την πάνω άκρη εμφανίζει ειδοποιήσεις και σύντομες ρυθμίσεις"
 
-#: qml/Wizard/Page.qml:54
+#: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Πίσω"
 
-#: qml/Wizard/Pages/10-welcome.qml:28
+#: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
 msgstr "Γλώσσα"
 
-#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:145
-#: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:142
-#: qml/Wizard/Pages/password-set.qml:142
+#: qml/Wizard/Pages/10-welcome.qml:176
+#: qml/Wizard/Pages/10-welcome-update.qml:126
+#: qml/Wizard/Pages/11-changelog.qml:74 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:214 qml/Wizard/Pages/50-timezone.qml:272
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/70-passwd-type.qml:146
+#: qml/Wizard/Pages/passcode-desktop.qml:154
+#: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
 msgstr "Επόμενο"
 
+#: qml/Wizard/Pages/10-welcome-update.qml:91
+#, fuzzy
+msgid "Welcome to "
+msgstr "Καλώς ήρθατε στο Ubuntu"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:106
+msgid "We will make sure your device is ready to use "
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:28
+msgid "What's new"
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:74
+#, fuzzy
+msgid "Loading..."
+msgstr "Ομιλία..."
+
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
-msgstr "Επιλογή διάταξης πληκτρολογίου"
+msgstr ""
 
 #: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
-msgstr "Γλώσσα πληκτρολογίου"
+msgstr ""
 
 #: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
-msgstr "Διάταξη πληκτρολογίου"
+msgstr ""
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:214
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/79-system-update.qml:144
+#: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Παράβλεψη"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
 msgstr "Σύνδεση σε δίκτυο Wi-Fi"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
 msgstr "Συνδεδεμένο"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
 msgstr "Διαθέσιμα δίκτυα Wi-Fi"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
 msgstr "Κανένα διαθέσιμο δίκτυο Wi-Fi"
-
-#: qml/Wizard/Pages/40-location.qml:27
-msgid "Location Services"
-msgstr "Υπηρεσίες τοποθεσίας"
-
-#: qml/Wizard/Pages/40-location.qml:83
-msgid ""
-"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
-"(recommended)"
-msgstr ""
-"Ανίχνευση τοποθεσίας κάνοντας ανώνυμη χρήση GPS, Wi-Fi hotspots και δίκτυα "
-"κινητής τηλεφωνίας (προτείνεται)"
-
-#: qml/Wizard/Pages/40-location.qml:105
-#, qt-format
-msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr ""
-"Με το να επιλέξετε αυτήν την επιλογή συμφωνείτε με τους %1 Nokia HERE."
-
-#: qml/Wizard/Pages/40-location.qml:106
-msgctxt "part of: Nokia HERE terms and conditions"
-msgid "terms and conditions"
-msgstr "όρους χρήσης"
-
-#: qml/Wizard/Pages/40-location.qml:160
-msgid "GPS only"
-msgstr "Μόνο GPS"
-
-#: qml/Wizard/Pages/40-location.qml:214
-msgid "Don't use my location"
-msgstr "Μην χρησιμοποιήσεις την τοποθεσία μου"
-
-#: qml/Wizard/Pages/40-location.qml:260
-msgid "You can change it later in System Settings."
-msgstr "Μπορείτε να το αλλάξετε αργότερα στις Ρυθμίσεις συστήματος."
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "Ζώνη ώρας"
 
-#: qml/Wizard/Pages/50-timezone.qml:182
+#: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
 msgstr "Εισάγετε την πόλη σας"
 
@@ -768,7 +662,7 @@ msgstr "Εισάγετε την πόλη σας"
 msgid "Personalize Your Device"
 msgstr "Εξατομικεύστε την συσκευή σας."
 
-#: qml/Wizard/Pages/60-account.qml:48
+#: qml/Wizard/Pages/60-account.qml:54
 msgid "Preferred Name"
 msgstr "Προτιμώμενο όνομα"
 
@@ -776,90 +670,72 @@ msgstr "Προτιμώμενο όνομα"
 msgid "Lock Screen"
 msgstr "Κλείδωμα οθόνης"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:102
+#: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr "Δημιουργία νέου κωδικού πρόσβασης"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:104
+#: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr "Δημιουργία κωδικού πρόσβασης (αριθμοί μόνο)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:106
+#: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "Κανένας κωδικός κλειδώματος"
 
-#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
-msgid "Privacy Policy"
-msgstr "Πολιτική απορρήτου"
-
-#: qml/Wizard/Pages/75-report-check.qml:26
-msgid "Help Us Improve"
-msgstr "Βοηθήστε μας να βελτιωθούμε"
-
-#: qml/Wizard/Pages/75-report-check.qml:59
-msgid "Improve system performance by sending us crashes and error reports."
+#: qml/Wizard/Pages/79-system-update.qml:28
+msgid "Update Device"
 msgstr ""
-"Βελτιώστε την απόδοση συστήματος με το να στέλνετε σε εμάς αναφορές  "
-"κατάρρευσης και σφαλμάτων."
 
-#: qml/Wizard/Pages/75-report-check.qml:60
-msgid "Privacy policy"
-msgstr "Πολιτική απορρήτου"
+#: qml/Wizard/Pages/79-system-update.qml:55
+msgid ""
+"There is a system update available and ready to install. Afterwards, the "
+"device will automatically restart."
+msgstr ""
 
-#: qml/Wizard/Pages/80-finished.qml:89
+#: qml/Wizard/Pages/79-system-update.qml:76
+msgctxt "string identifying name of the update"
+msgid "Ubuntu Touch system"
+msgstr ""
+
+#: qml/Wizard/Pages/79-system-update.qml:83
+#, qt-format
+msgctxt "version of the system update"
+msgid "Version %1"
+msgstr ""
+
+#: qml/Wizard/Pages/79-system-update.qml:95
+msgid "This could take a few minutes..."
+msgstr ""
+
+#: qml/Wizard/Pages/79-system-update.qml:109
+msgid "Install and restart now"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:91
+msgid "Welcome Back"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
 msgstr "Καλώς ήρθατε στο Ubuntu"
 
-#: qml/Wizard/Pages/80-finished.qml:104
+#: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
 msgstr "Είστε έτοιμος να χρησιμοποιείσετε της συσκεύη σας τώρα"
 
-#: qml/Wizard/Pages/80-finished.qml:124
+#: qml/Wizard/Pages/80-finished.qml:126
+msgid "Continue"
+msgstr "Συνέχιση"
+
+#: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
-msgstr "Έναρξη"
-
-#: qml/Wizard/Pages/here-terms.qml:25
-msgid "Terms & Conditions"
-msgstr "Όροι και προϋποθέσεις"
-
-#: qml/Wizard/Pages/here-terms.qml:69
-msgid "Your device uses positioning technologies provided by HERE."
 msgstr ""
-"Η συσκεύη σας χρησιμοποιούν τεχνολογίες εντοπισμού θέσης που παρέχονται από "
-"το HERE."
-
-#: qml/Wizard/Pages/here-terms.qml:81
-msgid ""
-"To provide you with positioning services and to improve their quality, HERE "
-"collects information about nearby cell towers and Wi-Fi hotspots around your "
-"current location whenever your position is being found."
-msgstr ""
-"Για να παράσχει υπηρεσίες τοποθεσίας και να βελτιώσει την ποιότητα, το HERE "
-"συλλέγει πληροφορίες για κοντινές κεραίες κινητής τηλεφωνίας και Wi-Fi "
-"hotspot γύρω από την τρέχουσα τοποθεσία σας όταν ανιχνεύεται η τοποθεσία σας."
-
-#: qml/Wizard/Pages/here-terms.qml:93
-msgid ""
-"The information collected is used to analyze the service and to improve the "
-"use of service, but not to identify you personally."
-msgstr ""
-"Οι πληροφορίες που μαζεύονται χρησιμοποιούνται για αναλύσουν την υπηρεσία "
-"και να βελτιώσουν την χρήση της υπηρεσίας, και όχι για να βρουν ποιος είστε."
-
-#: qml/Wizard/Pages/here-terms.qml:106
-#, qt-format
-msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr "Με το να συνεχίσετε, συμφωνείτε στα %1 και %2 της πλατφόρμας HERE."
-
-#: qml/Wizard/Pages/here-terms.qml:107
-msgid "Service Terms"
-msgstr "Όρους υπηρεσίας"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:97
+#: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
 msgstr "Επιβεβαιώστε τον κωδικό πρόσβασης"
 
@@ -876,24 +752,24 @@ msgstr "Παρακαλώ πληκτρολογήστε ξανά."
 msgid "Lock Screen Passcode"
 msgstr "Κωδικός πρόσβασης κλειδώματος οθόνης"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:61
+#: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "Εισάγετε 4 αριθμούς για ρύθμιση κωδικού πρόσβασης"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:77
+#: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "Επιλογή κωδικού πρόσβασης"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:127
+#: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
 msgstr "Κωδικός πρόσβασης πολύ μικρός"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:129
+#: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
 msgstr "Ταίριασμα κωδικών πρόσβασης"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:131
+#: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
 msgstr "Οι κωδικοί πρόσβασης δεν ταιριάζουν"
 
@@ -905,15 +781,15 @@ msgstr "Ο κωδικός πρόσβασης πρέπει να είναι 4 χα
 msgid "Lock Screen Password"
 msgstr "Κωδικός πρόσβασης κλειδώματος οθόνης"
 
-#: qml/Wizard/Pages/password-set.qml:62
+#: qml/Wizard/Pages/password-set.qml:68
 msgid "Enter at least 8 characters"
 msgstr "Εισάγετε τουλάχιστον 8 χαρακτήρες"
 
-#: qml/Wizard/Pages/password-set.qml:74
+#: qml/Wizard/Pages/password-set.qml:80
 msgid "Choose password"
 msgstr "Επιλογή κωδικού πρόσβασης"
 
-#: qml/Wizard/Pages/password-set.qml:104
+#: qml/Wizard/Pages/password-set.qml:110
 msgid "Confirm password"
 msgstr "Επιβεβαίωση κωδικού πρόσβασης"
 
@@ -942,11 +818,11 @@ msgstr ""
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr "Για να προχωρήσετε χωρίς SIM πατήστε Παράβλεψη."
+msgstr ""
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr "Πολύ σύντομος κωδικός"
+msgstr ""
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
@@ -970,7 +846,150 @@ msgstr "Αδύναμος κωδικός πρόσβασης"
 
 #: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
-msgstr "Πολύ αδύμανος κωδικός"
+msgstr ""
+
+#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgid "Store"
+#~ msgstr "Κατάστημα"
+
+#~ msgctxt "Button: Start a search in the current dash scope"
+#~ msgid "Search"
+#~ msgstr "Αναζήτηση"
+
+#~ msgctxt "Button: Show the current dash scope settings"
+#~ msgid "Settings"
+#~ msgstr "Ρυθμίσεις"
+
+#~ msgid "Remove from Favorites"
+#~ msgstr "Αφαίρεση από τα αγαπημένα"
+
+#~ msgid "Add to Favorites"
+#~ msgstr "Προσθήκη στα αγαπημένα"
+
+#~ msgid "Refine your results"
+#~ msgstr "Βελτιώστε τα αποτελέσματά σας"
+
+#~ msgid "Reset"
+#~ msgstr "Επαναφορά"
+
+#~ msgctxt "Label: Hint for dash search line edit"
+#~ msgid "Search"
+#~ msgstr "Αναζήτηση"
+
+#~ msgid "Recent Searches"
+#~ msgstr "Πρόσφατες αναζητήσεις"
+
+#~ msgid "Clear All"
+#~ msgstr "Καθαρισμός όλων"
+
+#~ msgid "More..."
+#~ msgstr "Περισσότερα..."
+
+#~ msgid "Less..."
+#~ msgstr "Λιγότερα..."
+
+#~ msgid "Send"
+#~ msgstr "Αποστολή"
+
+#~ msgid "Rate this"
+#~ msgstr "Βαθμολογήστε το"
+
+#~ msgid "Add a review"
+#~ msgstr "Προσθέστε την αξιολόγησή σας"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Σύρτε για ανανέωση…"
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Αφήστε για ανανέωση…"
+
+#~ msgid "Enable location data"
+#~ msgstr "Ενεργοποίηση δεδομένων τοποθεσίας"
+
+#~ msgid "Manage"
+#~ msgstr "Διαχείριση"
+
+#~ msgid "Home"
+#~ msgstr "Αρχή"
+
+#~ msgid "Also installed"
+#~ msgstr "Επίσης εγκατεστημένα"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "Πολιτική απορρήτου"
+
+#~ msgid "Help Us Improve"
+#~ msgstr "Βοηθήστε μας να βελτιωθούμε"
+
+#~ msgid "Improve system performance by sending us crashes and error reports."
+#~ msgstr ""
+#~ "Βελτιώστε την απόδοση συστήματος με το να στέλνετε σε εμάς αναφορές  "
+#~ "κατάρρευσης και σφαλμάτων."
+
+#~ msgid "Privacy policy"
+#~ msgstr "Πολιτική απορρήτου"
+
+#, fuzzy
+#~ msgid "Please wait..."
+#~ msgstr "Γίνεται φόρτωση. Παρακαλώ περιμένετε..."
+
+#, fuzzy
+#~ msgid "Update all"
+#~ msgstr "Καθόλου"
+
+#, fuzzy
+#~ msgid "Download"
+#~ msgstr "Λήψη σε εξέλιξη"
+
+#, fuzzy
+#~ msgid "Downloaded"
+#~ msgstr "Λήψη σε εξέλιξη"
+
+#, fuzzy
+#~ msgid "Installed"
+#~ msgstr "Επίσης εγκατεστημένα"
+
+#~ msgid "Location Services"
+#~ msgstr "Υπηρεσίες τοποθεσίας"
+
+#~ msgid "By selecting this option you agree to the Nokia HERE %1."
+#~ msgstr ""
+#~ "Με το να επιλέξετε αυτήν την επιλογή συμφωνείτε με τους %1 Nokia HERE."
+
+#~ msgctxt "part of: Nokia HERE terms and conditions"
+#~ msgid "terms and conditions"
+#~ msgstr "όρους χρήσης"
+
+#~ msgid "GPS only"
+#~ msgstr "Μόνο GPS"
+
+#~ msgid "Don't use my location"
+#~ msgstr "Μην χρησιμοποιήσεις την τοποθεσία μου"
+
+#~ msgid "You can change it later in System Settings."
+#~ msgstr "Μπορείτε να το αλλάξετε αργότερα στις Ρυθμίσεις συστήματος."
+
+#~ msgid "Terms & Conditions"
+#~ msgstr "Όροι και προϋποθέσεις"
+
+#~ msgid "Your device uses positioning technologies provided by HERE."
+#~ msgstr ""
+#~ "Η συσκεύη σας χρησιμοποιούν τεχνολογίες εντοπισμού θέσης που παρέχονται "
+#~ "από το HERE."
+
+#~ msgid ""
+#~ "The information collected is used to analyze the service and to improve "
+#~ "the use of service, but not to identify you personally."
+#~ msgstr ""
+#~ "Οι πληροφορίες που μαζεύονται χρησιμοποιούνται για αναλύσουν την υπηρεσία "
+#~ "και να βελτιώσουν την χρήση της υπηρεσίας, και όχι για να βρουν ποιος "
+#~ "είστε."
+
+#~ msgid "By continuing, you agree to the HERE platform %1 and %2."
+#~ msgstr "Με το να συνεχίσετε, συμφωνείτε στα %1 και %2 της πλατφόρμας HERE."
+
+#~ msgid "Service Terms"
+#~ msgstr "Όρους υπηρεσίας"
 
 #~ msgid "Confirm"
 #~ msgstr "Επιβεβαίωση"
@@ -980,15 +999,6 @@ msgstr "Πολύ αδύμανος κωδικός"
 
 #~ msgid "Speak Now..."
 #~ msgstr "Μιλήστε τώρα..."
-
-#~ msgid "Speaking..."
-#~ msgstr "Ομιλία..."
-
-#~ msgid "Search"
-#~ msgstr "Αναζήτηση"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "Σύρετε από το πάνω άκρο για πρόσβαση στις ρυθμίσεις"
 
 #~ msgid "Swipe up again to close the settings screen"
 #~ msgstr "Σύρετε προς τα επάνω για κλείσιμο των ρυθμίσεων"
@@ -1012,9 +1022,6 @@ msgstr "Πολύ αδύμανος κωδικός"
 
 #~ msgid "Right edge"
 #~ msgstr "Δεξί άκρο"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Γίνεται φόρτωση. Παρακαλώ περιμένετε..."
 
 #~ msgid "Try swiping from the right edge to unlock the phone"
 #~ msgstr "Σύρετε από το δεξί άκρο για ξεκλείδωμα του τηλεφώνου"
@@ -1062,7 +1069,6 @@ msgstr "Πολύ αδύμανος κωδικός"
 #~ msgid "Are you sure you want to shut down?"
 #~ msgstr "Επιθυμείτε σίγουρα τερματισμό;"
 
-#, qt-format
 #~ msgid "Sorry, incorrect %1"
 #~ msgstr "Συγνώμη, μη έγκυρο %1"
 
@@ -1075,19 +1081,12 @@ msgstr "Πολύ αδύμανος κωδικός"
 #~ msgid "Sorry, incorrect passphrase"
 #~ msgstr "Συγνώμη, μη έγκυρο συνθηματικό"
 
-#~ msgid "Enter passphrase"
-#~ msgstr "Εισαγωγή συνθηματικού"
-
 #~ msgid "Please re-enter"
 #~ msgstr "Παρακαλώ πληκτρολογήστε ξανά"
-
-#~ msgid "Enter passcode"
-#~ msgstr "Εισαγωγή κωδικού πρόσβασης"
 
 #~ msgid "Sorry, incorrect passcode"
 #~ msgstr "Συγνώμη, μη έγκυρος κωδικός πρόσβασης"
 
-#, qt-format
 #~ msgid "Enter %1"
 #~ msgstr "Εισάγετε %1"
 
@@ -1099,7 +1098,8 @@ msgstr "Πολύ αδύμανος κωδικός"
 
 #~ msgid "You can change your mind later in <b>System Settings</b>."
 #~ msgstr ""
-#~ "Μπορείτε να αλλάξετε τη γνώμη σας αργότερα στις <b>Ρυθμίσεις Συστήματος</b>."
+#~ "Μπορείτε να αλλάξετε τη γνώμη σας αργότερα στις <b>Ρυθμίσεις Συστήματος</"
+#~ "b>."
 
 #~ msgid "Let the phone detect your location:"
 #~ msgstr "Επιτρέψετε το τηλέφωνο να εντοπίσει την τοποθεσία σας:"
@@ -1107,11 +1107,9 @@ msgstr "Πολύ αδύμανος κωδικός"
 #~ msgid "Nice work!"
 #~ msgstr "Ωραία δουλειά!"
 
-#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
-#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
@@ -1123,8 +1121,8 @@ msgstr "Πολύ αδύμανος κωδικός"
 
 #~ msgid "Without it, you won’t be able to make calls or use text messaging."
 #~ msgstr ""
-#~ "Χωρίς αυτήν, δεν θα μπορείτε να κάνετε κλήσεις ή να χρησιμοποιήσετε μηνύματα "
-#~ "κειμένου."
+#~ "Χωρίς αυτήν, δεν θα μπορείτε να κάνετε κλήσεις ή να χρησιμοποιήσετε "
+#~ "μηνύματα κειμένου."
 
 #~ msgid "Hi!"
 #~ msgstr "Γεια!"
@@ -1135,15 +1133,12 @@ msgstr "Πολύ αδύμανος κωδικός"
 #~ msgid "Let’s get started."
 #~ msgstr "Ας ξεκινήσουμε."
 
-#~ msgid "Continue"
-#~ msgstr "Συνέχιση"
-
 #~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
-#~ "and all personal data will be deleted."
+#~ "If passcode is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
 #~ msgstr ""
-#~ "Εάν ο κωδικός πρόσβασης που θα εισάγετε είναι μη έγκυρος, το τηλέφωνο σας θα "
-#~ "κάνει επαναφορά των εργοστασιακών ρυθμίσεων και όλα τα δεδομένα σας θα "
+#~ "Εάν ο κωδικός πρόσβασης που θα εισάγετε είναι μη έγκυρος, το τηλέφωνο σας "
+#~ "θα κάνει επαναφορά των εργοστασιακών ρυθμίσεων και όλα τα δεδομένα σας θα "
 #~ "διαγραφούν."
 
 #~ msgid "Lock security"
@@ -1154,9 +1149,6 @@ msgstr "Πολύ αδύμανος κωδικός"
 
 #~ msgid "Improving your experience"
 #~ msgstr "Βελτιώστε την εμπειρία σας"
-
-#~ msgid "Not at all"
-#~ msgstr "Καθόλου"
 
 #~ msgid "Available networks…"
 #~ msgstr "Διαθέσιμα δίκτυα..."
@@ -1199,8 +1191,8 @@ msgstr "Πολύ αδύμανος κωδικός"
 #~ msgstr "Ενέργεια"
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
+#~ "and conditions</a>."
 #~ msgstr ""
 #~ "Ενεργοποιώντας αυτή την επιλογή, αποδέχεστε τους <a href='#'>όρους και "
 #~ "προϋποθέσεις</a> της Nokia HERE."
@@ -1223,9 +1215,6 @@ msgstr "Πολύ αδύμανος κωδικός"
 
 #~ msgid "View all your running tasks."
 #~ msgstr "Δείτε όλες τις εργασίες που εκτελούνται."
-
-#~ msgid "Open the launcher"
-#~ msgstr "Άνοιγμα του εκκινητή"
 
 #~ msgid "These are the shortcuts to favorite apps"
 #~ msgstr "Είναι συντομεύσεις για αγαπημένες εφαρμογές"
@@ -1284,8 +1273,8 @@ msgstr "Πολύ αδύμανος κωδικός"
 #~ "Your phone is set up to automatically report errors to Canonical and its "
 #~ "partners, the makers of the operating system."
 #~ msgstr ""
-#~ "Το τηλέφωνό σας είναι ρυθμισμένο να στέλνει αυτόματα αναφορές σφαλμάτων στην "
-#~ "Canonical και τους συνεργάτες της, τους δημιουργούς του λειτουργικού "
+#~ "Το τηλέφωνό σας είναι ρυθμισμένο να στέλνει αυτόματα αναφορές σφαλμάτων "
+#~ "στην Canonical και τους συνεργάτες της, τους δημιουργούς του λειτουργικού "
 #~ "συστήματος."
 
 #~ msgid "Using GPS only (less accurate)"
@@ -1341,34 +1330,6 @@ msgstr "Πολύ αδύμανος κωδικός"
 #~ "If passphrase is entered incorrectly, your phone will conduct a factory "
 #~ "reset and all personal data will be deleted."
 #~ msgstr ""
-#~ "Εάν το συνθηματικό που θα εισάγετε είναι μη έγκυρο, το τηλέφωνο σας θα κάνει "
-#~ "επαναφορά των εργοστασιακών ρυθμίσεων και όλα τα δεδομένα σας θα διαγραφούν."
-
-#~ msgid "Long swipe from the left edge to open the Today scope"
-#~ msgstr ""
-#~ "Παρατεταμμένο σύρσιμο από την αριστερή άκρη εμφανίζει το scope \"Σήμερα\""
-
-#~ msgid "Install and restart now"
-#~ msgstr "Εγκατάσταση και επανεκκίνηση τώρα"
-
-#~ msgid "This could take a few minutes..."
-#~ msgstr "Αυτό μπορεί να διαρκέσει λίγα λεπτά ..."
-
-#, qt-format
-#~ msgctxt "version of the system update"
-#~ msgid "Version %1"
-#~ msgstr "Έκδοση %1"
-
-#~ msgctxt "string identifying name of the update"
-#~ msgid "Ubuntu system"
-#~ msgstr "Έκδοση Ubuntu"
-
-#~ msgid "Update Device"
-#~ msgstr "Ενημέρωση συσκευής"
-
-#~ msgid ""
-#~ "There is a system update available and ready to install. Afterwards, the "
-#~ "device will automatically restart."
-#~ msgstr ""
-#~ "Υπάρχει διαθέσιμη προς εγκατάσταση αναβάθμιση του συστήματος. Μετά την "
-#~ "εγκατάσταση η συσκευή θα επανεκκινήσει αυτόματα."
+#~ "Εάν το συνθηματικό που θα εισάγετε είναι μη έγκυρο, το τηλέφωνο σας θα "
+#~ "κάνει επαναφορά των εργοστασιακών ρυθμίσεων και όλα τα δεδομένα σας θα "
+#~ "διαγραφούν."

@@ -6,39 +6,40 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-04-04 22:56+0000\n"
-"PO-Revision-Date: 2016-12-20 14:02+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"PO-Revision-Date: 2016-05-24 01:36+0000\n"
 "Last-Translator: abuyop <Unknown>\n"
 "Language-Team: Malay <ms@li.org>\n"
+"Language: ms\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-04-07 06:30+0000\n"
-"X-Generator: Launchpad (build 18343)\n"
+"X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
+"X-Generator: Launchpad (build 18269)\n"
 
-#: plugins/LightDM/Greeter.cpp:188
+#: plugins/LightDM/Greeter.cpp:199
 msgid "Password: "
 msgstr "Kata Laluan: "
 
-#: plugins/LightDM/Greeter.cpp:203
+#: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
 msgstr ""
 
-#: plugins/LightDM/Greeter.cpp:242
+#: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
 msgstr ""
 
-#: plugins/LightDM/Greeter.cpp:244
+#: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
 msgstr ""
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
-msgstr "Daftar Masuk"
+msgstr ""
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
 msgstr "Cuba Lagi"
 
@@ -82,9 +83,8 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Daftar Keluar"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:264
-#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:208
-#: qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Batal"
@@ -106,46 +106,46 @@ msgstr "Tidak"
 msgid "Yes"
 msgstr "Ya"
 
-#: qml/Components/Dialogs.qml:239
+#: qml/Components/Dialogs.qml:243
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Kuasa"
 
-#: qml/Components/Dialogs.qml:240
+#: qml/Components/Dialogs.qml:244
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr "Anda pasti mahu tutup?"
 
-#: qml/Components/Dialogs.qml:244
+#: qml/Components/Dialogs.qml:248
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Padam"
 
-#: qml/Components/Dialogs.qml:255
+#: qml/Components/Dialogs.qml:263
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Mula Semula"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
-msgstr "Pintasan Papan Kekunci"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Unity 8"
-msgstr "Unity 8"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
-msgstr "PrtScr"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr "Tangkap cekupan skrin."
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
-msgstr "Alt + PrtScr"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of the current window."
@@ -153,19 +153,19 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
-msgstr "Super + Space"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr "Tukar ke bentangan papan kekunci berikutnya."
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
-msgstr "Super + Shift + Space"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr "Tukar ke bentangan papan kekunci terdahulu."
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
 msgid "Ctrl + Alt + T"
@@ -177,31 +177,31 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
-msgstr "Pelancar"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Super (Hold)"
-msgstr "Super (Tahan)"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens the launcher, displays shortcuts."
-msgstr "Buka pelancar, papar pintasan."
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Alt + F1"
-msgstr "Alt + F1"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Opens launcher keyboard navigation mode."
-msgstr "Buka mod navigasi pelancar papan kekunci."
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + Tab"
-msgstr "Super + Tab"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Switches applications via the launcher."
-msgstr "Tukar aplikasi melalui pelancar."
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + 1 to 0"
@@ -209,101 +209,103 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
-msgstr "Sama seperti mengklik pada ikon pelancar."
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
 msgid "Super + A"
-msgstr "Super + A"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
+#, fuzzy
+#| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
-msgstr "Buka Bekas Aplikasi."
+msgstr "Buka pelancar"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
-msgstr "Skop"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:214
 msgid "Super (Tap)"
-msgstr "Super (Ketik)"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:219
 msgid "Opens the Scopes home."
-msgstr "Buka rumah Skop."
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
-msgstr "Pertukaran"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Alt + Tab"
-msgstr "Alt + Tab"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Switches between applications."
-msgstr "Tukar diantara aplikasi."
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:255
 msgid "Super + W"
-msgstr "Super + W"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:260
 msgid "Opens the desktop spread."
-msgstr "Buka hamparan desktop."
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:268
 msgid "Cursor Left or Right"
-msgstr "Kursor Kiri atau Kanan"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:273
 msgid "Moves the focus."
-msgstr "Alihkan fokus."
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:285
 msgid "Windows"
-msgstr "Tetingkap"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + D"
-msgstr "Ctrl + Super + D"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes all windows."
-msgstr "Minimumkan semua tetingkap."
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Up"
-msgstr "Ctrl + Super + Atas"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Maximizes the current window."
-msgstr "Maksimumkan tetingkap semasa."
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Ctrl + Super + Down"
-msgstr "Ctrl + Super + Bawah"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Minimizes or restores the current window."
-msgstr "Minimumkan atau pulihkan tetingkap semasa."
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:331
 msgid "Ctrl + Super + Left or Right"
-msgstr "Ctrl + Super + Kiri atau Kanan"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Semi-maximizes the current window."
-msgstr "Separa-maksimum tetingkap semasa."
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:344
 msgid "Alt + F4"
-msgstr "Alt + F4"
+msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:349
 msgid "Closes the current window."
-msgstr "Tutup tetingkap semasa."
+msgstr ""
 
-#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:228
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:235
 msgid "Return to Call"
 msgstr "Kembali ke Panggilan"
 
@@ -318,12 +320,12 @@ msgstr "OK"
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
 msgid "%1:%2:%3"
-msgstr "%1:%2:%3"
+msgstr ""
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:49
 #, qt-format
 msgid "%1:%2"
-msgstr "%1:%2"
+msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:33
 msgid "Apps may have unsaved data:"
@@ -364,117 +366,22 @@ msgstr ""
 "sentuh untuk berinteraksi dengan penuding."
 
 #: qml/Components/VirtualTouchPad.qml:327
+#, fuzzy
+#| msgid "Tap to return to call..."
 msgid "Tap left button to click."
-msgstr "Ketik butang kiri untuk mengklik."
+msgstr "Ketuk untuk kembali memanggil..."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr "Ketik butang kanan untuk mengklik kanan."
+msgstr ""
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr "Leret dengan dua jari untuk menatal."
+msgstr ""
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr "Cari lagi tetapan dalam tetapan sistem."
-
-#: qml/Dash/DashPageHeader.qml:361
-msgctxt "Button: Open the Ubuntu Store"
-msgid "Store"
-msgstr "Kedai"
-
-#: qml/Dash/DashPageHeader.qml:368
-msgctxt "Button: Start a search in the current dash scope"
-msgid "Search"
-msgstr "Gelintar"
-
-#: qml/Dash/DashPageHeader.qml:378
-msgctxt "Button: Show the current dash scope settings"
-msgid "Settings"
-msgstr "Tetapan"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Remove from Favorites"
-msgstr "Buang dari Kegemaran"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Add to Favorites"
-msgstr "Tambah ke Kegemaran"
-
-#: qml/Dash/FiltersPopover.qml:61
-msgid "Refine your results"
-msgstr "Takrif keputusan anda"
-
-#: qml/Dash/FiltersPopover.qml:70
-msgid "Reset"
-msgstr "Tetap Semula"
-
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
-msgid "Show less"
-msgstr "Tunjuk sedikit"
-
-#: qml/Dash/GenericScopeView.qml:547
-msgid "Show all"
-msgstr "Tunjuk semua"
-
-#: qml/Dash/GenericScopeView.qml:578
-msgctxt "Label: Hint for dash search line edit"
-msgid "Search"
-msgstr "Gelintar"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:67
-msgid "Recent Searches"
-msgstr "Gelintar Baru-baru Ini"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:78
-msgid "Clear All"
-msgstr "Kosongkan Semua"
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "More..."
-msgstr "Lagi..."
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "Less..."
-msgstr "Kurang..."
-
-#: qml/Dash/Previews/PreviewCommentInput.qml:83
-#: qml/Dash/Previews/PreviewRatingInput.qml:202
-msgid "Send"
-msgstr "Hantar"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:109
-msgid "Rate this"
-msgstr "Kadar ini"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:184
-msgid "Add a review"
-msgstr "Tambah ulasan"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:56
-msgid "Pull to refresh…"
-msgstr "Tarik untuk segar semula..."
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:61
-msgid "Release to refresh…"
-msgstr "Lepas untuk segar semula..."
-
-#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
-msgid "Enable location data"
-msgstr "Benarkan data lokasi"
-
-#: qml/Dash/ScopesList.qml:146
-msgid "Manage"
-msgstr "Urus"
-
-#: qml/Dash/ScopesList.qml:187
-msgid "Home"
-msgstr "Rumah"
-
-#: qml/Dash/ScopesList.qml:188
-msgid "Also installed"
-msgstr "Juga dipasang"
+msgstr ""
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -503,44 +410,41 @@ msgstr[1] "Sila tunggu %1 minit kemudian cuba lagi..."
 
 #: qml/Greeter/Greeter.qml:550
 msgid "Try again"
-msgstr "Cuba lagi"
+msgstr ""
 
 #: qml/Greeter/Greeter.qml:551
+#, fuzzy
+#| msgid "Enter passphrase"
 msgid "Enter passphrase to unlock"
-msgstr ""
+msgstr "Masukkan frasa laluan"
 
 #: qml/Greeter/Greeter.qml:552
+#, fuzzy
+#| msgid "Enter passcode"
 msgid "Enter passcode to unlock"
-msgstr ""
+msgstr "Masukkan kod laluan"
 
-#: qml/Greeter/NarrowView.qml:228
+#: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
-msgstr "Kecemasan"
+msgstr ""
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passphrase"
-msgstr "Frasa laluan"
+msgstr ""
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passcode"
-msgstr "Kod laluan"
+msgstr ""
 
 #: qml/Greeter/SessionsList.qml:124
 msgid "Select desktop environment"
-msgstr "Pilih persekitaran desktop"
+msgstr ""
 
-#: qml/Launcher/Drawer.qml:94
+#: qml/Launcher/Drawer.qml:249
+#, fuzzy
+#| msgid "Search"
 msgid "Search…"
-msgstr "Gelintar..."
-
-#: qml/Launcher/Drawer.qml:129
-msgctxt "Apps sorted alphabetically"
-msgid "A-Z"
-msgstr "A-Z"
-
-#: qml/Launcher/MoreAppsHeader.qml:55
-msgid "More apps in the store"
-msgstr "Lagi apl di dalam kedai"
+msgstr "Gelintar"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -630,8 +534,11 @@ msgid "Call back"
 msgstr "Panggilan semula"
 
 #: qml/Panel/PanelMenuPage.qml:92
+#, fuzzy
+#| msgctxt "Button: Go back one page in the Wizard"
+#| msgid "Back"
 msgid "Back"
-msgstr ""
+msgstr "Kembali"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
@@ -639,121 +546,110 @@ msgstr ""
 "Seret menggunakan 3 jari pada mana-mana aplik dari satu tetingkap ke "
 "tetingkap yang lain"
 
-#: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Application Drawer"
+#: qml/Stage/Stage.qml:668
+msgid "No running apps"
 msgstr ""
+
+#: qml/Tutorial/TutorialLeftLong.qml:49
+#, fuzzy
+#| msgid "Long swipe from the left edge to open the Today scope"
+msgid "Long swipe from the left edge to open the Application Drawer"
+msgstr "Leret panjang dari pinggir kiri untuk membuka skop Hari Ini"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
-msgstr "Leret pendek dari pinggir kiri untuk membuka pelancar"
+msgstr ""
 
-#: qml/Tutorial/TutorialRight.qml:55
+#: qml/Tutorial/TutorialRight.qml:54
 msgid "Push your mouse against the right edge to view your open apps"
 msgstr ""
 "Tolak penuding tetikus anda ke pinggir kanan untuk melihat apl yang telah "
 "dibuka"
 
-#: qml/Tutorial/TutorialRight.qml:56
+#: qml/Tutorial/TutorialRight.qml:55
 msgid "Swipe from the right edge to view your open apps"
-msgstr "Leret dari pinggir kanan untuk melihat apl yang dibuka"
+msgstr ""
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
-"Leret dari pinggir atas untuk mencapai tetapan pemberitahuan dan tetapan "
-"pantas"
 
-#: qml/Wizard/Page.qml:54
+#: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Kembali"
 
-#: qml/Wizard/Pages/10-welcome.qml:28
+#: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
 msgstr "Bahasa"
 
-#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:145
-#: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:142
-#: qml/Wizard/Pages/password-set.qml:142
+#: qml/Wizard/Pages/10-welcome.qml:176
+#: qml/Wizard/Pages/10-welcome-update.qml:126
+#: qml/Wizard/Pages/11-changelog.qml:74 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:214 qml/Wizard/Pages/50-timezone.qml:272
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/70-passwd-type.qml:146
+#: qml/Wizard/Pages/passcode-desktop.qml:154
+#: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
 msgstr "Berikutnya"
 
+#: qml/Wizard/Pages/10-welcome-update.qml:91
+#, fuzzy
+msgid "Welcome to "
+msgstr "Selamat datang ke Ubuntu"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:106
+msgid "We will make sure your device is ready to use "
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:28
+msgid "What's new"
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:74
+#, fuzzy
+msgid "Loading..."
+msgstr "Bercakap..."
+
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
-msgstr "Pilih Papan Kekuci"
+msgstr ""
 
 #: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
-msgstr "Bahasa papan kekunci"
+msgstr ""
 
 #: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
-msgstr "Bentangan papan kekunci"
+msgstr ""
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:214
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/79-system-update.qml:144
+#: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Langkau"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
 msgstr "Sambung ke Wi-Fi"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
 msgstr "Bersambung"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
 msgstr "Rangkaian Wi-Fi tersedia"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
 msgstr "Tiada rangkaian Wi-Fi tersedia"
-
-#: qml/Wizard/Pages/40-location.qml:27
-msgid "Location Services"
-msgstr "Perkhidmatan Lokasi"
-
-#: qml/Wizard/Pages/40-location.qml:83
-msgid ""
-"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
-"(recommended)"
-msgstr ""
-"Guna GPS, hotspot Wi-Fi dan rangkaian mudah alih secara awanama untuk "
-"mengesan lokasi (disarankan)"
-
-#: qml/Wizard/Pages/40-location.qml:105
-#, qt-format
-msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr "Dengan memilih pilihan ini anda bersetuju dengan Nokia HERE %1."
-
-#: qml/Wizard/Pages/40-location.qml:106
-msgctxt "part of: Nokia HERE terms and conditions"
-msgid "terms and conditions"
-msgstr "terma dan syarat"
-
-#: qml/Wizard/Pages/40-location.qml:160
-msgid "GPS only"
-msgstr "GPS sahaja"
-
-#: qml/Wizard/Pages/40-location.qml:214
-msgid "Don't use my location"
-msgstr "Jangan guna lokasi saya"
-
-#: qml/Wizard/Pages/40-location.qml:260
-msgid "You can change it later in System Settings."
-msgstr "Anda boleh mengubahnya kemudian di dalam Tetapan Sistem."
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "Zon Waktu"
 
-#: qml/Wizard/Pages/50-timezone.qml:182
+#: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
 msgstr "Masukkan bandar anda"
 
@@ -761,7 +657,7 @@ msgstr "Masukkan bandar anda"
 msgid "Personalize Your Device"
 msgstr "Peribadikan Peranti Anda"
 
-#: qml/Wizard/Pages/60-account.qml:48
+#: qml/Wizard/Pages/60-account.qml:54
 msgid "Preferred Name"
 msgstr "Nama Digemari"
 
@@ -769,90 +665,72 @@ msgstr "Nama Digemari"
 msgid "Lock Screen"
 msgstr "Skrin Kunci"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:102
+#: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr "Cipta kata laluan baharu"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:104
+#: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr "Cipta kod laluan (nombor sahaja)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:106
+#: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "Tiada kod kunci"
 
-#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
-msgid "Privacy Policy"
-msgstr "Dasar Kerahsiaan"
-
-#: qml/Wizard/Pages/75-report-check.qml:26
-msgid "Help Us Improve"
-msgstr "Bantu Kami"
-
-#: qml/Wizard/Pages/75-report-check.qml:59
-msgid "Improve system performance by sending us crashes and error reports."
+#: qml/Wizard/Pages/79-system-update.qml:28
+msgid "Update Device"
 msgstr ""
-"Tambah baik prestasi sistem dengan menghantar laporan kerosakan dan ralat."
 
-#: qml/Wizard/Pages/75-report-check.qml:60
-msgid "Privacy policy"
-msgstr "Dasar kerahsiaan"
+#: qml/Wizard/Pages/79-system-update.qml:55
+msgid ""
+"There is a system update available and ready to install. Afterwards, the "
+"device will automatically restart."
+msgstr ""
 
-#: qml/Wizard/Pages/80-finished.qml:89
+#: qml/Wizard/Pages/79-system-update.qml:76
+msgctxt "string identifying name of the update"
+msgid "Ubuntu Touch system"
+msgstr ""
+
+#: qml/Wizard/Pages/79-system-update.qml:83
+#, qt-format
+msgctxt "version of the system update"
+msgid "Version %1"
+msgstr ""
+
+#: qml/Wizard/Pages/79-system-update.qml:95
+msgid "This could take a few minutes..."
+msgstr ""
+
+#: qml/Wizard/Pages/79-system-update.qml:109
+msgid "Install and restart now"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:91
+msgid "Welcome Back"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
 msgstr "Selamat datang ke Ubuntu"
 
-#: qml/Wizard/Pages/80-finished.qml:104
+#: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
 msgstr "Anda boleh gunakan peranti sekarang"
 
-#: qml/Wizard/Pages/80-finished.qml:124
+#: qml/Wizard/Pages/80-finished.qml:126
+msgid "Continue"
+msgstr "Teruskan"
+
+#: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
 msgstr "Membiasakan Diri"
 
-#: qml/Wizard/Pages/here-terms.qml:25
-msgid "Terms & Conditions"
-msgstr "Terma & Syarat"
-
-#: qml/Wizard/Pages/here-terms.qml:69
-msgid "Your device uses positioning technologies provided by HERE."
-msgstr ""
-"Peranti anda menggunakan teknologi menentukan lokasi yang disediakan oleh "
-"HERE."
-
-#: qml/Wizard/Pages/here-terms.qml:81
-msgid ""
-"To provide you with positioning services and to improve their quality, HERE "
-"collects information about nearby cell towers and Wi-Fi hotspots around your "
-"current location whenever your position is being found."
-msgstr ""
-"Untuk menyediakan perkhidmatan penentuan lokasi dan menambahbaik kualiti, "
-"HERE mengutip maklumat berkenaan menara telekomunikasi berhampiran dan "
-"hotspot Wi-Fi disekitar anda bilamana kedudukan anda ditemui."
-
-#: qml/Wizard/Pages/here-terms.qml:93
-msgid ""
-"The information collected is used to analyze the service and to improve the "
-"use of service, but not to identify you personally."
-msgstr ""
-"Maklumat tersebut digunakan untuk menganalisis perkhidmatan dan menambahbaik "
-"penggunaan perkhidmatan, walaubagaimanapun tidak mengenalpasti anda secara "
-"peribadi."
-
-#: qml/Wizard/Pages/here-terms.qml:106
-#, qt-format
-msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr "Jika diteruskan, anda menyetujui HERE platform %1 dan %2."
-
-#: qml/Wizard/Pages/here-terms.qml:107
-msgid "Service Terms"
-msgstr "Terma Perkhidmatan"
-
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:97
+#: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
 msgstr "Sahkan kod laluan"
 
@@ -869,24 +747,24 @@ msgstr "Sila masukkan sekali lagi."
 msgid "Lock Screen Passcode"
 msgstr "Kod Laluan Skrin Kunci"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:61
+#: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "Masukkan 4 nombor untuk persediaan kod laluan anda"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:77
+#: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "Pilih kod laluan"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:127
+#: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
 msgstr "Kod laluan terlalu pendek"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:129
+#: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
 msgstr "Kod laluan sepadan"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:131
+#: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
 msgstr "Kod laluan tidak sepadan"
 
@@ -898,15 +776,15 @@ msgstr "Kod laluan mestilah 4 aksara panjang"
 msgid "Lock Screen Password"
 msgstr "Kata Laluan Skrin Kunci"
 
-#: qml/Wizard/Pages/password-set.qml:62
+#: qml/Wizard/Pages/password-set.qml:68
 msgid "Enter at least 8 characters"
 msgstr "Masukkan sekurang-kurangnya 8 aksara"
 
-#: qml/Wizard/Pages/password-set.qml:74
+#: qml/Wizard/Pages/password-set.qml:80
 msgid "Choose password"
 msgstr "Pilih kata laluan"
 
-#: qml/Wizard/Pages/password-set.qml:104
+#: qml/Wizard/Pages/password-set.qml:110
 msgid "Confirm password"
 msgstr "Sahkan kata laluan"
 
@@ -929,8 +807,7 @@ msgstr "Mula Semula"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
-msgstr ""
-"Anda tidak dapat membuat panggilan atau guna pemesejan teks tanpa SIM."
+msgstr "Anda tidak dapat membuat panggilan atau guna pemesejan teks tanpa SIM."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
@@ -938,7 +815,7 @@ msgstr "Untuk teruskan tanpa SIM ketik Langkau."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr "Kata laluan terlalu pendek"
+msgstr ""
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
@@ -964,6 +841,169 @@ msgstr "Kata laluan lemah"
 msgid "Very weak password"
 msgstr "Kata laluan sangat lemah"
 
+#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgid "Store"
+#~ msgstr "Kedai"
+
+#~ msgctxt "Button: Start a search in the current dash scope"
+#~ msgid "Search"
+#~ msgstr "Gelintar"
+
+#~ msgctxt "Button: Show the current dash scope settings"
+#~ msgid "Settings"
+#~ msgstr "Tetapan"
+
+#~ msgid "Remove from Favorites"
+#~ msgstr "Buang dari Kegemaran"
+
+#~ msgid "Add to Favorites"
+#~ msgstr "Tambah ke Kegemaran"
+
+#~ msgid "Refine your results"
+#~ msgstr "Takrif keputusan anda"
+
+#~ msgid "Reset"
+#~ msgstr "Tetap Semula"
+
+#~ msgid "Show less"
+#~ msgstr "Tunjuk sedikit"
+
+#~ msgid "Show all"
+#~ msgstr "Tunjuk semua"
+
+#~ msgctxt "Label: Hint for dash search line edit"
+#~ msgid "Search"
+#~ msgstr "Gelintar"
+
+#~ msgid "Recent Searches"
+#~ msgstr "Gelintar Baru-baru Ini"
+
+#~ msgid "Clear All"
+#~ msgstr "Kosongkan Semua"
+
+#~ msgid "More..."
+#~ msgstr "Lagi..."
+
+#~ msgid "Less..."
+#~ msgstr "Kurang..."
+
+#~ msgid "Send"
+#~ msgstr "Hantar"
+
+#~ msgid "Rate this"
+#~ msgstr "Kadar ini"
+
+#~ msgid "Add a review"
+#~ msgstr "Tambah ulasan"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Tarik untuk segar semula..."
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Lepas untuk segar semula..."
+
+#~ msgid "Enable location data"
+#~ msgstr "Benarkan data lokasi"
+
+#~ msgid "Manage"
+#~ msgstr "Urus"
+
+#~ msgid "Home"
+#~ msgstr "Rumah"
+
+#~ msgid "Also installed"
+#~ msgstr "Juga dipasang"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "Dasar Kerahsiaan"
+
+#~ msgid "Help Us Improve"
+#~ msgstr "Bantu Kami"
+
+#~ msgid "Improve system performance by sending us crashes and error reports."
+#~ msgstr ""
+#~ "Tambah baik prestasi sistem dengan menghantar laporan kerosakan dan ralat."
+
+#~ msgid "Privacy policy"
+#~ msgstr "Dasar kerahsiaan"
+
+#, fuzzy
+#~ msgid "Please wait..."
+#~ msgstr "Memuatkan. Tunggu Sebentar..."
+
+#, fuzzy
+#~ msgid "Update all"
+#~ msgstr "Tidak sama sekali"
+
+#, fuzzy
+#~ msgid "Download"
+#~ msgstr "Memuat turun"
+
+#, fuzzy
+#~ msgid "Downloaded"
+#~ msgstr "Memuat turun"
+
+#, fuzzy
+#~ msgid "Installed"
+#~ msgstr "Juga dipasang"
+
+#~ msgid "Location Services"
+#~ msgstr "Perkhidmatan Lokasi"
+
+#~ msgid ""
+#~ "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
+#~ "(recommended)"
+#~ msgstr ""
+#~ "Guna GPS, hotspot Wi-Fi dan rangkaian mudah alih secara awanama untuk "
+#~ "mengesan lokasi (disarankan)"
+
+#~ msgid "By selecting this option you agree to the Nokia HERE %1."
+#~ msgstr "Dengan memilih pilihan ini anda bersetuju dengan Nokia HERE %1."
+
+#~ msgctxt "part of: Nokia HERE terms and conditions"
+#~ msgid "terms and conditions"
+#~ msgstr "terma dan syarat"
+
+#~ msgid "GPS only"
+#~ msgstr "GPS sahaja"
+
+#~ msgid "Don't use my location"
+#~ msgstr "Jangan guna lokasi saya"
+
+#~ msgid "You can change it later in System Settings."
+#~ msgstr "Anda boleh mengubahnya kemudian di dalam Tetapan Sistem."
+
+#~ msgid "Terms & Conditions"
+#~ msgstr "Terma & Syarat"
+
+#~ msgid "Your device uses positioning technologies provided by HERE."
+#~ msgstr ""
+#~ "Peranti anda menggunakan teknologi menentukan lokasi yang disediakan oleh "
+#~ "HERE."
+
+#~ msgid ""
+#~ "To provide you with positioning services and to improve their quality, "
+#~ "HERE collects information about nearby cell towers and Wi-Fi hotspots "
+#~ "around your current location whenever your position is being found."
+#~ msgstr ""
+#~ "Untuk menyediakan perkhidmatan penentuan lokasi dan menambahbaik kualiti, "
+#~ "HERE mengutip maklumat berkenaan menara telekomunikasi berhampiran dan "
+#~ "hotspot Wi-Fi disekitar anda bilamana kedudukan anda ditemui."
+
+#~ msgid ""
+#~ "The information collected is used to analyze the service and to improve "
+#~ "the use of service, but not to identify you personally."
+#~ msgstr ""
+#~ "Maklumat tersebut digunakan untuk menganalisis perkhidmatan dan "
+#~ "menambahbaik penggunaan perkhidmatan, walaubagaimanapun tidak "
+#~ "mengenalpasti anda secara peribadi."
+
+#~ msgid "By continuing, you agree to the HERE platform %1 and %2."
+#~ msgstr "Jika diteruskan, anda menyetujui HERE platform %1 dan %2."
+
+#~ msgid "Service Terms"
+#~ msgstr "Terma Perkhidmatan"
+
 #~ msgid "Top edge"
 #~ msgstr "Pinggir atas"
 
@@ -980,7 +1020,8 @@ msgstr "Kata laluan sangat lemah"
 #~ msgstr "Pinggir kiri"
 
 #~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr "Leret dari kiri untuk munculkan pelancar untuk capaian pantas ke apl"
+#~ msgstr ""
+#~ "Leret dari kiri untuk munculkan pelancar untuk capaian pantas ke apl"
 
 #~ msgid "Well done"
 #~ msgstr "Bagus"
@@ -997,20 +1038,11 @@ msgstr "Kata laluan sangat lemah"
 #~ msgid "Type or say a command"
 #~ msgstr "Taip atau sebut satu perintah"
 
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Memuatkan. Tunggu Sebentar..."
-
-#~ msgid "Speaking..."
-#~ msgstr "Bercakap..."
-
 #~ msgid "Speak Now..."
 #~ msgstr "Cakap Sekarang..."
 
 #~ msgid "Confirm"
 #~ msgstr "Sahkan"
-
-#~ msgid "Search"
-#~ msgstr "Gelintar"
 
 #~ msgid "Log out"
 #~ msgstr "Daftar keluar"
@@ -1045,17 +1077,12 @@ msgstr "Kata laluan sangat lemah"
 #~ msgid "Done"
 #~ msgstr "Selesai"
 
-#~ msgid "Enter passphrase"
-#~ msgstr "Masukkan frasa laluan"
-
 #~ msgid "Roaming"
 #~ msgstr "Perayauan"
 
-#, qt-format
 #~ msgid "Enter %1"
 #~ msgstr "Masuk %1"
 
-#, qt-format
 #~ msgid "Sorry, incorrect %1"
 #~ msgstr "Maaf, %1 salah"
 
@@ -1068,9 +1095,6 @@ msgstr "Kata laluan sangat lemah"
 #~ msgid "Please re-enter"
 #~ msgstr "Sila masuk-semula"
 
-#~ msgid "Enter passcode"
-#~ msgstr "Masukkan kod laluan"
-
 #~ msgid "Sorry, incorrect passcode"
 #~ msgstr "Maaf, kod laluan salah"
 
@@ -1078,11 +1102,11 @@ msgstr "Kata laluan sangat lemah"
 #~ msgstr "Ini merupakan percubaan terakhir anda."
 
 #~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
-#~ "and all personal data will be deleted."
+#~ "If passcode is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
 #~ msgstr ""
-#~ "Jika kod laluan masih salah, telefon anda akan membuat tetapan semula kilang "
-#~ "dan semua data peribadi anda akan dipadam."
+#~ "Jika kod laluan masih salah, telefon anda akan membuat tetapan semula "
+#~ "kilang dan semua data peribadi anda akan dipadam."
 
 #~ msgid ""
 #~ "If passphrase is entered incorrectly, your phone will conduct a factory "
@@ -1134,9 +1158,6 @@ msgstr "Kata laluan sangat lemah"
 #~ msgid "This action does different things for different apps"
 #~ msgstr "Tindakan ini melakukan perkara yang berlainan untuk apl berbeza"
 
-#~ msgid "Open the launcher"
-#~ msgstr "Buka pelancar"
-
 #~ msgid "Tap here to continue."
 #~ msgstr "Ketik di sini untuk teruskan."
 
@@ -1157,9 +1178,6 @@ msgstr "Kata laluan sangat lemah"
 
 #~ msgid "View all your running tasks."
 #~ msgstr "Lihat semua tugas yang berjalan."
-
-#~ msgid "Continue"
-#~ msgstr "Teruskan"
 
 #~ msgid "Hi!"
 #~ msgstr "Hai"
@@ -1213,14 +1231,11 @@ msgstr "Kata laluan sangat lemah"
 #~ msgstr "Frasa laluan"
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
+#~ "and conditions</a>."
 #~ msgstr ""
-#~ "Dengan memilih pilihan ini anda menyetujui <a href='#'>terma dan syarat</a> "
-#~ "Nokia HERE."
-
-#~ msgid "Not at all"
-#~ msgstr "Tidak sama sekali"
+#~ "Dengan memilih pilihan ini anda menyetujui <a href='#'>terma dan syarat</"
+#~ "a> Nokia HERE."
 
 #~ msgid "Available networks…"
 #~ msgstr "Rangkaian tersedia..."
@@ -1255,15 +1270,15 @@ msgstr "Kata laluan sangat lemah"
 #~ "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 #~ "Privacy</b>"
 #~ msgstr ""
-#~ "Ia boleh dilumpuhkan di dalam <b>Tetapan Sistem</b> di bawah <b>Keselamatan "
-#~ "&amp; Kerahsiaan</b>"
+#~ "Ia boleh dilumpuhkan di dalam <b>Tetapan Sistem</b> di bawah "
+#~ "<b>Keselamatan &amp; Kerahsiaan</b>"
 
 #~ msgid ""
 #~ "Your phone is set up to automatically report errors to Canonical and its "
 #~ "partners, the makers of the operating system."
 #~ msgstr ""
-#~ "Telefon anda ditetapkan secara automatik melaporkan ralat kepada Canonical "
-#~ "dan rakannya, pencipta sistem pengoperasian ini."
+#~ "Telefon anda ditetapkan secara automatik melaporkan ralat kepada "
+#~ "Canonical dan rakannya, pencipta sistem pengoperasian ini."
 
 #~ msgid "Nice work!"
 #~ msgstr "Selesai!"
@@ -1280,11 +1295,9 @@ msgstr "Kata laluan sangat lemah"
 #~ msgid "Finish"
 #~ msgstr "Selesai"
 
-#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
-#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
@@ -1363,41 +1376,7 @@ msgstr "Kata laluan sangat lemah"
 #~ msgid "Swipe up to create a message"
 #~ msgstr "Leret ke atas untuk cipta satu mesej"
 
-#~ msgid "Long swipe from the left edge to open the Today scope"
-#~ msgstr "Leret panjang dari pinggir kiri untuk membuka skop Hari Ini"
-
 #~ msgid "Hover your mouse on the right edge to view your open apps"
 #~ msgstr ""
 #~ "Letak penuding tetikus anda dipinggir kanan untuk melihat apl anda yang "
 #~ "telah dibuka"
-
-#~ msgid "Takes a screenshot of a window."
-#~ msgstr "Ambil cekupan skrin bagi tetingkap."
-
-#~ msgid "Super + 0 to 9"
-#~ msgstr "Super + 0 hingga 9"
-
-#~ msgid "Install and restart now"
-#~ msgstr "Pasang dan mula semula sekarang"
-
-#~ msgid "This could take a few minutes..."
-#~ msgstr "Ia mengambil masa beberapa minit..."
-
-#, qt-format
-#~ msgctxt "version of the system update"
-#~ msgid "Version %1"
-#~ msgstr "Versi %1"
-
-#~ msgctxt "string identifying name of the update"
-#~ msgid "Ubuntu system"
-#~ msgstr "Sistem Ubuntu"
-
-#~ msgid "Update Device"
-#~ msgstr "Kemaskini Peranti"
-
-#~ msgid ""
-#~ "There is a system update available and ready to install. Afterwards, the "
-#~ "device will automatically restart."
-#~ msgstr ""
-#~ "Terdapat kemaskini sistem tersedia dan sedia dipasangkan. Selepas itu, "
-#~ "peranti akan dimulakan semula secara automatik."

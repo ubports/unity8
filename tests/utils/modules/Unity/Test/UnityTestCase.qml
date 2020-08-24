@@ -336,12 +336,12 @@ TestCase {
         endTouch = (endTouch !== undefined) ? endTouch : true
 
         // Set a default speed if not specified
-        speed = (speed !== undefined) ? speed : units.gu(10)
+        speed = (speed !== undefined) ? speed : units.gu(100)
 
         // Set a default iterations if not specified
         var iterations = (iterations !== undefined) ? iterations : 10
 
-        var distance = Math.sqrt(Math.pow(rootTo.x - rootFrom.x, 2) + Math.pow(rootTo.Y - rootFrom.y, 2))
+        var distance = Math.sqrt(Math.pow(rootTo.x - rootFrom.x, 2) + Math.pow(rootTo.y - rootFrom.y, 2))
         var totalTime = (distance / speed) * 1000 /* converting speed to pixels/ms */
 
         var timeStep = totalTime / iterations

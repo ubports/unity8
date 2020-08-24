@@ -5,6 +5,6 @@ set(FakeUbuntuDownloadDaemonListenerQml_SOURCES
 
 add_library(FakeUbuntuDownloadDaemonListenerQml MODULE ${FakeUbuntuDownloadDaemonListenerQml_SOURCES})
 
-qt5_use_modules(FakeUbuntuDownloadDaemonListenerQml Core Quick)
+target_link_libraries(FakeUbuntuDownloadDaemonListenerQml Qt5::Core Qt5::Quick)
 
 add_unity8_mock(Ubuntu.DownloadDaemonListener 0.1 Ubuntu/DownloadDaemonListener TARGETS FakeUbuntuDownloadDaemonListenerQml)

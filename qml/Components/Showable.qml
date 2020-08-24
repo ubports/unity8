@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2019 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -73,6 +74,9 @@ Item {
     }
 
     function __reallyShow() {
+        if (showAnimation != undefined && showAnimation.running)
+            return;
+
         if (!available) {
             __skipShowAnimation = false;
             return false;
@@ -85,10 +89,8 @@ Item {
         }
 
         if (showAnimation != undefined) {
-            if (!showAnimation.running) {
-                showAnimation.restart()
-            }
-            if (__skipShowAnimation) {
+            showAnimation.restart()
+            if (__skipShowAnimation || shown) {
                 showAnimation.complete();
             }
         } else {
@@ -106,6 +108,9 @@ Item {
     property var prepareToHide: function(){}
 
     function hide() {
+        if (hideAnimation != undefined && hideAnimation.running)
+            return;
+
         if (showAnimation != undefined && showAnimation.running) {
             showAnimation.stop()
         }
@@ -118,10 +123,8 @@ Item {
         }
 
         if (hideAnimation != undefined) {
-            if (!hideAnimation.running) {
-                hideAnimation.restart()
-            }
-            if (__skipHideAnimation) {
+            hideAnimation.restart()
+            if (__skipHideAnimation || !shown) {
                 hideAnimation.complete();
             }
         } else {

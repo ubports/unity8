@@ -5,6 +5,6 @@ set(MOCK_CONNECTIVITY_SOURCES
 
 add_library(MockConnectivity MODULE ${MOCK_CONNECTIVITY_SOURCES})
 
-qt5_use_modules(MockConnectivity Qml Quick Core)
+target_link_libraries(MockConnectivity Qt5::Qml Qt5::Quick Qt5::Core)
 
 add_unity8_mock(Unity.Connectivity 0.1 Unity/Connectivity TARGETS MockConnectivity)

@@ -1,5 +1,6 @@
 ﻿/*
  * Copyright (C) 2013-2016 Canonical, Ltd.
+ * Copyright (C) 2019-2020 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +27,6 @@ import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import GlobalShortcut 1.0 // has to be before Utils, because of WindowInputFilter
 import GSettings 1.0
-import ImageCache 0.1
 import Utils 0.1
 import Powerd 0.1
 import SessionBroadcast 0.1
@@ -70,6 +70,7 @@ StyledItem {
     property bool hasMouse: false
     property bool hasKeyboard: false
     property bool hasTouchscreen: false
+    property bool supportsMultiColorLed: true
 
     // to be read from outside
     readonly property int mainAppWindowOrientationAngle: stage.mainAppWindowOrientationAngle
@@ -138,10 +139,6 @@ StyledItem {
 
             panel.indicators.hide();
             launcher.hide(launcher.ignoreHideIfMouseOverLauncher);
-        } else if (topLevelSurfaceList.count === 0 && !greeter.active && !wizard.active) {
-            // Show the Launcher when there are no apps running
-            stage.closeSpread();
-            launcher.show();
         }
 
         // *Always* make sure the greeter knows that the focused app changed
@@ -155,6 +152,15 @@ StyledItem {
     // we know which user data to show and whether the session is locked.
     readonly property bool waitingOnGreeter: greeter && greeter.waiting
 
+    // True when the user is logged in with no apps running
+    readonly property bool atDesktop: topLevelSurfaceList && greeter && topLevelSurfaceList.count === 0 && !greeter.active
+
+    onAtDesktopChanged: {
+        if (atDesktop && stage) {
+            stage.closeSpread();
+        }
+    }
+
     property real edgeSize: units.gu(settings.edgeDragWidth)
 
     WallpaperResolver {
@@ -163,13 +169,6 @@ StyledItem {
 
         readonly property url defaultBackground: "file://" + Constants.defaultWallpaper
         readonly property bool hasCustomBackground: background != defaultBackground
-
-        // Use a cached version of the scaled-down wallpaper (as sometimes the
-        // image can be quite big compared to the device size, including for
-        // our default wallpaper). We use a name=wallpaper argument here to
-        // make sure we don't litter our cache with lots of scaled images. We
-        // only need to bother caching one at a time.
-        readonly property url cachedBackground: background.toString().indexOf("file:///") === 0 ? "image://unity8imagecache/" + background + "?name=wallpaper" : background
 
         GSettings {
             id: backgroundSettings
@@ -213,6 +212,8 @@ StyledItem {
     }
 
     function startLockedApp(app) {
+        topLevelSurfaceList.pendingActivation();
+
         if (greeter.locked) {
             greeter.lockedApp = app;
         }
@@ -258,7 +259,9 @@ StyledItem {
         onHomeKeyActivated: {
             // Ignore when greeter is active, to avoid pocket presses
             if (!greeter.active) {
-                launcher.toggleDrawer(false);
+                launcher.toggleDrawer(/* focusInputField */  false,
+                                      /* onlyOpen */         false,
+                                      /* alsoToggleLauncher */ true);
             }
         }
         onTouchBegun: { cursor.opacity = 0; }
@@ -308,6 +311,7 @@ StyledItem {
             inputMethodRect: inputMethod.visibleRect
             rightEdgePushProgress: rightEdgeBarrier.progress
             availableDesktopArea: availableDesktopAreaItem
+            launcherLeftMargin: launcher.visibleWidth
 
             property string usageScenario: shell.usageScenario === "phone" || greeter.hasLockedApp
                                                        ? "phone"
@@ -323,10 +327,10 @@ StyledItem {
             nativeWidth: shell.nativeWidth
             nativeHeight: shell.nativeHeight
 
-            interactive: (!greeter || !greeter.shown)
-                    && panel.indicators.fullyClosed
-                    && !notifications.useModal
-                    && !launcher.takesFocus
+            allowInteractivity: (!greeter || !greeter.shown)
+                                && panel.indicators.fullyClosed
+                                && !notifications.useModal
+                                && !launcher.takesFocus
 
             suspended: greeter.shown
             altTabPressed: physicalKeysMapper.altTabPressed
@@ -373,11 +377,10 @@ StyledItem {
     InputMethod {
         id: inputMethod
         objectName: "inputMethod"
-        surface: shell.topLevelSurfaceList.inputMethodSurface
         anchors {
             fill: parent
             topMargin: panel.panelHeight
-            leftMargin: launcher.lockedVisible ? launcher.panelWidth : 0
+            leftMargin: (launcher.lockedByUser && launcher.lockAllowed) ? launcher.panelWidth : 0
         }
         z: notifications.useModal || panel.indicators.shown || wizard.active || tutorial.running || launcher.drawerShown ? overlay.z + 1 : overlay.z - 1
     }
@@ -408,10 +411,8 @@ StyledItem {
                 if (greeterLoader.toggleDrawerAfterUnlock) {
                     launcher.toggleDrawer(false);
                     greeterLoader.toggleDrawerAfterUnlock = false;
-                }
-                // Show the launcher when there are no running apps
-                else if (topLevelSurfaceList.count < 1) {
-                    launcher.switchToNextState("visible")
+                } else {
+                    launcher.hide();
                 }
             }
         }
@@ -425,7 +426,7 @@ StyledItem {
             hides: [launcher, panel.indicators, panel.applicationMenus]
             tabletMode: shell.usageScenario != "phone"
             forcedUnlock: wizard.active || shell.mode === "full-shell"
-            background: wallpaperResolver.cachedBackground
+            background: wallpaperResolver.background
             hasCustomBackground: wallpaperResolver.hasCustomBackground
             allowFingerprint: !dialogs.hasActiveDialog &&
                               !notifications.topmostIsFullscreen &&
@@ -436,10 +437,6 @@ StyledItem {
             //        Issue involves launcher's DDA getting disabled on a long
             //        left-edge drag
             dragHandleLeftMargin: launcher.available ? launcher.dragAreaWidth + 1 : 0
-
-            onSessionStarted: {
-                launcher.hide();
-            }
 
             onTease: {
                 if (!tutorial.running) {
@@ -537,8 +534,6 @@ StyledItem {
             mode: shell.usageScenario == "desktop" ? "windowed" : "staged"
             minimizedPanelHeight: units.gu(3)
             expandedPanelHeight: units.gu(7)
-            indicatorMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
-            applicationMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
             applicationMenuContentX: launcher.lockedVisible ? launcher.panelWidth : 0
 
             indicators {
@@ -576,6 +571,7 @@ StyledItem {
             greeterShown: greeter && greeter.shown
             hasKeyboard: shell.hasKeyboard
             panelState: panelState
+            supportsMultiColorLed: shell.supportsMultiColorLed
         }
 
         Launcher {
@@ -595,11 +591,22 @@ StyledItem {
             superPressed: physicalKeysMapper.superPressed
             superTabPressed: physicalKeysMapper.superTabPressed
             panelWidth: units.gu(settings.launcherWidth)
-            lockedVisible: shell.usageScenario == "desktop" && !settings.autohideLauncher && !panel.fullscreenMode
+            lockedVisible: (lockedByUser || shell.atDesktop) && lockAllowed
             topPanelHeight: panel.panelHeight
-            drawerEnabled: !greeter.active
+            drawerEnabled: !greeter.active && tutorial.launcherLongSwipeEnabled
             privateMode: greeter.active
-            background: wallpaperResolver.cachedBackground
+            background: wallpaperResolver.background
+
+            // It can be assumed that the Launcher and Panel would overlap if
+            // the Panel is open and taking up the full width of the shell
+            readonly property bool collidingWithPanel: panel && (!panel.fullyClosed && !panel.partialWidth)
+
+            // The "autohideLauncher" setting is only valid in desktop mode
+            readonly property bool lockedByUser: (shell.usageScenario == "desktop" && !settings.autohideLauncher)
+
+            // The Launcher should absolutely not be locked visible under some
+            // conditions
+            readonly property bool lockAllowed: !collidingWithPanel && !panel.fullscreenMode && !wizard.active && !tutorial.demonstrateLauncher
 
             onShowDashHome: showHome()
             onLauncherApplicationSelected: {
@@ -718,7 +725,7 @@ StyledItem {
             model: NotificationBackend.Model
             margin: units.gu(1)
             hasMouse: shell.hasMouse
-            background: wallpaperResolver.cachedBackground
+            background: wallpaperResolver.background
 
             y: topmostIsFullscreen ? 0 : panel.panelHeight
             height: parent.height - (topmostIsFullscreen ? 0 : panel.panelHeight)

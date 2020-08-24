@@ -19,6 +19,6 @@ set(MockLauncherModel_SOURCES
 
 add_library(MockLauncherPlugin MODULE ${MockLauncherModel_SOURCES})
 
-qt5_use_modules(MockLauncherPlugin Core Quick)
+target_link_libraries(MockLauncherPlugin Qt5::Core Qt5::Quick)
 
 add_unity8_mock(Unity.Launcher 0.1 Unity/Launcher TARGETS MockLauncherPlugin)

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2017 Canonical, Ltd.
+ * Copyright (C) 2019 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,10 +43,10 @@ var fakeMenuData = {
                         "label": "There's an updated system image.",
                         "sensitive": true,
                         "isSeparator": false,
-                        "icon": "file:///usr/share/ubuntu/settings/system/icons/settings-system-update.svg",
+                        "icon": "image://theme/preferences-system-updates-symbolic",
                         "type": "com.canonical.indicator.messages.messageitem",
                         "ext": {
-                                "icon": "file:///usr/share/ubuntu/settings/system/icons/settings-system-update.svg",
+                                "icon": "image://theme/preferences-system-updates-symbolic",
                                 "xCanonicalAppIcon": "image://theme/system-settings",
                                 "xCanonicalMessageActions": null,
                                 "xCanonicalText": "Tap to open the system updater.",
@@ -879,7 +880,7 @@ var fakeMenuData = {
                         "ext": {
                             "xCanonicalUid": 1003
                         },
-                        "icon": "image://theme/morph-browser",
+                        "icon": "image://theme/webbrowser-app-symbolic",
                         "isCheck": false,
                         "isRadio": false,
                         "isSeparator": false,
@@ -928,7 +929,7 @@ var fakeMenuData = {
                         "ext": {
                             "xCanonicalUid": 1002
                         },
-                        "icon": "image://theme/morph-browser",
+                        "icon": "image://theme/webbrowser-app-symbolic",
                         "isCheck": false,
                         "isRadio": false,
                         "isSeparator": false,
@@ -945,7 +946,7 @@ var fakeMenuData = {
                         "ext": {
                             "xCanonicalUid": 1001
                         },
-                        "icon": "image://theme/morph-browser",
+                        "icon": "image://theme/webbrowser-app-symbolic",
                         "isCheck": false,
                         "isRadio": false,
                         "isSeparator": false,

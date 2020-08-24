@@ -6,50 +6,51 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-04-04 22:56+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2016-05-04 17:52+0000\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
+"Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2017-04-07 06:30+0000\n"
-"X-Generator: Launchpad (build 18343)\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
+"X-Generator: Launchpad (build 18269)\n"
 
-#: plugins/LightDM/Greeter.cpp:188
+#: plugins/LightDM/Greeter.cpp:199
 msgid "Password: "
 msgstr "Lozinka: "
 
-#: plugins/LightDM/Greeter.cpp:203
+#: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr "Korisničko ime"
+msgstr ""
 
-#: plugins/LightDM/Greeter.cpp:242
+#: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr "Ovjera nije uspjela"
+msgstr ""
 
-#: plugins/LightDM/Greeter.cpp:244
+#: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr "Neispravna lozinka, pokušajte ponovno"
+msgstr ""
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
 msgstr "Prijavi se"
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
 msgstr "Pokušaj ponovno"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr "Prijava"
+msgstr ""
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr "Prijava gosta"
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
@@ -83,9 +84,8 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Odjava"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:264
-#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:208
-#: qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Odustani"
@@ -107,12 +107,12 @@ msgstr "Ne"
 msgid "Yes"
 msgstr "Da"
 
-#: qml/Components/Dialogs.qml:239
+#: qml/Components/Dialogs.qml:243
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Isključivanje"
 
-#: qml/Components/Dialogs.qml:240
+#: qml/Components/Dialogs.qml:244
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -120,12 +120,12 @@ msgstr ""
 "Sigurno želite\n"
 "isključiti?"
 
-#: qml/Components/Dialogs.qml:244
+#: qml/Components/Dialogs.qml:248
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Isključi"
 
-#: qml/Components/Dialogs.qml:255
+#: qml/Components/Dialogs.qml:263
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Ponovno pokreni"
@@ -151,8 +151,10 @@ msgid "Alt + PrtScr"
 msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
+#, fuzzy
+#| msgid "Takes a screenshot of a window."
 msgid "Takes a screenshot of the current window."
-msgstr "Uslikava sliku zaslona trenutnog prozora."
+msgstr "Uslikava prozor."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -171,12 +173,16 @@ msgid "Switches to previous keyboard layout."
 msgstr "Prebacuje na prijašnji raspored tipkovnice."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
+#, fuzzy
+#| msgid "Ctrl + Super + D"
 msgid "Ctrl + Alt + T"
-msgstr "Ctrl + Alt + T"
+msgstr "Ctrl + Super + D"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
+#, fuzzy
+#| msgid "Switches between applications."
 msgid "Starts the Terminal application."
-msgstr "Pokreće Terminal aplikaciju."
+msgstr "Prebacuje između aplikacija."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
@@ -207,20 +213,26 @@ msgid "Switches applications via the launcher."
 msgstr "Prebacuje aplikacije putem pokretača."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
+#, fuzzy
+#| msgid "Super + 0 to 9"
 msgid "Super + 1 to 0"
-msgstr "Super + 1 do 0"
+msgstr "Super + 0 do 9"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
 msgstr "Isto kao i klikanje na ikonu pokretača."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
+#, fuzzy
+#| msgid "Super + W"
 msgid "Super + A"
-msgstr "Super + A"
+msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
+#, fuzzy
+#| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
-msgstr "Otvara pretinac aplikacija."
+msgstr "Otvori pokretač"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
@@ -306,7 +318,7 @@ msgstr "Alt + F4"
 msgid "Closes the current window."
 msgstr "Zatvara trenutni prozor."
 
-#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:228
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:235
 msgid "Return to Call"
 msgstr "Vrati na poziv"
 
@@ -369,117 +381,22 @@ msgstr ""
 "dodirnik za interakciju s pokazivačem."
 
 #: qml/Components/VirtualTouchPad.qml:327
+#, fuzzy
+#| msgid "Tap to return to call..."
 msgid "Tap left button to click."
-msgstr "Dotaknite lijevu tipku za klik."
+msgstr "Dodirni za povratak pozivu..."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr "Dotaknite desnu tipku za klik."
+msgstr ""
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr "Povucite s dva prsta za pomicanje."
+msgstr ""
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr "Potražite više postavki u postavkama sustava."
-
-#: qml/Dash/DashPageHeader.qml:361
-msgctxt "Button: Open the Ubuntu Store"
-msgid "Store"
-msgstr "Trgovina"
-
-#: qml/Dash/DashPageHeader.qml:368
-msgctxt "Button: Start a search in the current dash scope"
-msgid "Search"
-msgstr "Pretraži"
-
-#: qml/Dash/DashPageHeader.qml:378
-msgctxt "Button: Show the current dash scope settings"
-msgid "Settings"
-msgstr "Postavke"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Remove from Favorites"
-msgstr "Ukloni iz omiljenih"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Add to Favorites"
-msgstr "Dodaj u omiljene"
-
-#: qml/Dash/FiltersPopover.qml:61
-msgid "Refine your results"
-msgstr "Precizirajte svoje rezultate"
-
-#: qml/Dash/FiltersPopover.qml:70
-msgid "Reset"
-msgstr "Ponovno postavi"
-
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
-msgid "Show less"
-msgstr "Prikaži manje"
-
-#: qml/Dash/GenericScopeView.qml:547
-msgid "Show all"
-msgstr "Prikaži sve"
-
-#: qml/Dash/GenericScopeView.qml:578
-msgctxt "Label: Hint for dash search line edit"
-msgid "Search"
-msgstr "Pretraži"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:67
-msgid "Recent Searches"
-msgstr "Nedavna pretraživanja"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:78
-msgid "Clear All"
-msgstr "Obriši sve"
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "More..."
-msgstr "Više..."
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "Less..."
-msgstr "Manje..."
-
-#: qml/Dash/Previews/PreviewCommentInput.qml:83
-#: qml/Dash/Previews/PreviewRatingInput.qml:202
-msgid "Send"
-msgstr "Pošalji"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:109
-msgid "Rate this"
-msgstr "Ocijeni ovo"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:184
-msgid "Add a review"
-msgstr "Dodaj recenziju"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:56
-msgid "Pull to refresh…"
-msgstr "Povuci za osvježavanje..."
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:61
-msgid "Release to refresh…"
-msgstr "Otpusti za osvježavanje..."
-
-#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
-msgid "Enable location data"
-msgstr "Omogući podatke lokacije"
-
-#: qml/Dash/ScopesList.qml:146
-msgid "Manage"
-msgstr "Upravljaj"
-
-#: qml/Dash/ScopesList.qml:187
-msgid "Home"
-msgstr "Naslovnica"
-
-#: qml/Dash/ScopesList.qml:188
-msgid "Also installed"
-msgstr "Također instalirano"
+msgstr ""
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -510,14 +427,18 @@ msgid "Try again"
 msgstr "Pokušaj ponovno"
 
 #: qml/Greeter/Greeter.qml:551
+#, fuzzy
+#| msgid "Enter passphrase"
 msgid "Enter passphrase to unlock"
-msgstr "Upišite lozinku za otključavanje"
+msgstr "Upišite lozinku"
 
 #: qml/Greeter/Greeter.qml:552
+#, fuzzy
+#| msgid "Enter passcode"
 msgid "Enter passcode to unlock"
-msgstr "Upišite kôd za otključavanje"
+msgstr "Upišite kôd"
 
-#: qml/Greeter/NarrowView.qml:228
+#: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
 msgstr "Hitno"
 
@@ -533,18 +454,11 @@ msgstr "Kôd"
 msgid "Select desktop environment"
 msgstr "Odaberi okruženje radne površine"
 
-#: qml/Launcher/Drawer.qml:94
+#: qml/Launcher/Drawer.qml:249
+#, fuzzy
+#| msgid "Search"
 msgid "Search…"
-msgstr "Pretraži…"
-
-#: qml/Launcher/Drawer.qml:129
-msgctxt "Apps sorted alphabetically"
-msgid "A-Z"
-msgstr "A-Ž"
-
-#: qml/Launcher/MoreAppsHeader.qml:55
-msgid "More apps in the store"
-msgstr "Više aplikacija u trgovini"
+msgstr "Pretraživanje"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -637,28 +551,36 @@ msgid "Call back"
 msgstr "Uzvrati poziv"
 
 #: qml/Panel/PanelMenuPage.qml:92
+#, fuzzy
+#| msgctxt "Button: Go back one page in the Wizard"
+#| msgid "Back"
 msgid "Back"
 msgstr "Natrag"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
+msgstr "Povucite pomoću 3 prsta bilo koju aplikaciju iz jednog prozora u drugi"
+
+#: qml/Stage/Stage.qml:668
+msgid "No running apps"
 msgstr ""
-"Povucite pomoću 3 prsta bilo koju aplikaciju iz jednog prozora u drugi"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
+#, fuzzy
+#| msgid "Long swipe from the left edge to open the Today scope"
 msgid "Long swipe from the left edge to open the Application Drawer"
-msgstr "Duže povucite s lijevog ruba za otvaranje pretinca aplikacija"
+msgstr "Dulje povucite od lijevog ruba za otvaranje današnjeg djelokruga"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
 msgstr "Kratko povucite s lijevog ruba za otvaranje pokretača"
 
-#: qml/Tutorial/TutorialRight.qml:55
+#: qml/Tutorial/TutorialRight.qml:54
 msgid "Push your mouse against the right edge to view your open apps"
 msgstr ""
 "Gurnite svoj miš uz desni rub kako bi vidjeli svoje otvorene aplikacije"
 
-#: qml/Tutorial/TutorialRight.qml:56
+#: qml/Tutorial/TutorialRight.qml:55
 msgid "Swipe from the right edge to view your open apps"
 msgstr "Povucite s desnog ruba kako bi vidjeli otvorene aplikacije"
 
@@ -666,24 +588,42 @@ msgstr "Povucite s desnog ruba kako bi vidjeli otvorene aplikacije"
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr "Povucite s gornjeg ruba za pristup obavijestima i brzim postavkama"
 
-#: qml/Wizard/Page.qml:54
+#: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Natrag"
 
-#: qml/Wizard/Pages/10-welcome.qml:28
+#: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
 msgstr "Jezik"
 
-#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:145
-#: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:142
-#: qml/Wizard/Pages/password-set.qml:142
+#: qml/Wizard/Pages/10-welcome.qml:176
+#: qml/Wizard/Pages/10-welcome-update.qml:126
+#: qml/Wizard/Pages/11-changelog.qml:74 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:214 qml/Wizard/Pages/50-timezone.qml:272
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/70-passwd-type.qml:146
+#: qml/Wizard/Pages/passcode-desktop.qml:154
+#: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
 msgstr "Sljedeće"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:91
+#, fuzzy
+msgid "Welcome to "
+msgstr "Dobrodošli u Ubuntu"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:106
+msgid "We will make sure your device is ready to use "
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:28
+msgid "What's new"
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:74
+#, fuzzy
+msgid "Loading..."
+msgstr "Govor..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
@@ -697,66 +637,33 @@ msgstr "Jezik tipkovnice"
 msgid "Keyboard layout"
 msgstr "Raspored tipkovnice"
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:214
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/79-system-update.qml:144
+#: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Preskoči"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
 msgstr "Povezivanje s Wi‑Fi"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
 msgstr "Povezano"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
 msgstr "Dostupne bežične mreže"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
 msgstr "Nema dostupnih bežičnih mreža"
-
-#: qml/Wizard/Pages/40-location.qml:27
-msgid "Location Services"
-msgstr "Usluge lokacije"
-
-#: qml/Wizard/Pages/40-location.qml:83
-msgid ""
-"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
-"(recommended)"
-msgstr ""
-"Koristi GPS, bežične pristupne točke i mobilnu mrežu anonimno za otkrivanje "
-"lokacije (preporučeno)"
-
-#: qml/Wizard/Pages/40-location.qml:105
-#, qt-format
-msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr "Odabirom ove mogućnosti pristajete na Nokia HERE %1."
-
-#: qml/Wizard/Pages/40-location.qml:106
-msgctxt "part of: Nokia HERE terms and conditions"
-msgid "terms and conditions"
-msgstr "uvjete i odredbe"
-
-#: qml/Wizard/Pages/40-location.qml:160
-msgid "GPS only"
-msgstr "Samo GPS"
-
-#: qml/Wizard/Pages/40-location.qml:214
-msgid "Don't use my location"
-msgstr "Ne koristi uslugu lokacije"
-
-#: qml/Wizard/Pages/40-location.qml:260
-msgid "You can change it later in System Settings."
-msgstr "Ovo možete kasnije promijeniti u postavkama sustava."
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "Vremenska zona"
 
-#: qml/Wizard/Pages/50-timezone.qml:182
+#: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
 msgstr "Upišite svoj grad"
 
@@ -764,7 +671,7 @@ msgstr "Upišite svoj grad"
 msgid "Personalize Your Device"
 msgstr "Personalizirajte svoj uređaj"
 
-#: qml/Wizard/Pages/60-account.qml:48
+#: qml/Wizard/Pages/60-account.qml:54
 msgid "Preferred Name"
 msgstr "Željeno ime"
 
@@ -772,89 +679,77 @@ msgstr "Željeno ime"
 msgid "Lock Screen"
 msgstr "Zaključaj zaslon"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:102
+#: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr "Stvori novu lozinku"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:104
+#: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr "Stvori sigurnosni kôd (samo brojevi)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:106
+#: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "Nema kôda zaključavanja"
 
-#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
-msgid "Privacy Policy"
-msgstr "Pravila privatnosti"
+#: qml/Wizard/Pages/79-system-update.qml:28
+msgid "Update Device"
+msgstr "Nadopuni uređaj"
 
-#: qml/Wizard/Pages/75-report-check.qml:26
-msgid "Help Us Improve"
-msgstr "Pomognite nam poboljšati"
-
-#: qml/Wizard/Pages/75-report-check.qml:59
-msgid "Improve system performance by sending us crashes and error reports."
+#: qml/Wizard/Pages/79-system-update.qml:55
+msgid ""
+"There is a system update available and ready to install. Afterwards, the "
+"device will automatically restart."
 msgstr ""
-"Poboljšajte performanse sustava šaljući nam izvješća grešaka i rušenja."
+"Dostupna je nadopuna sustava i spremna je za instalaciju. Naknadno, uređaj "
+"će se automatski ponovno pokrenuti."
 
-#: qml/Wizard/Pages/75-report-check.qml:60
-msgid "Privacy policy"
-msgstr "Pravila privatnosti"
+#: qml/Wizard/Pages/79-system-update.qml:76
+#, fuzzy
+#| msgctxt "string identifying name of the update"
+#| msgid "Ubuntu system"
+msgctxt "string identifying name of the update"
+msgid "Ubuntu Touch system"
+msgstr "Ubuntu sustav"
 
-#: qml/Wizard/Pages/80-finished.qml:89
+#: qml/Wizard/Pages/79-system-update.qml:83
+#, qt-format
+msgctxt "version of the system update"
+msgid "Version %1"
+msgstr "Inačica %1"
+
+#: qml/Wizard/Pages/79-system-update.qml:95
+msgid "This could take a few minutes..."
+msgstr "Ovo može potrajati nekoliko minuta..."
+
+#: qml/Wizard/Pages/79-system-update.qml:109
+msgid "Install and restart now"
+msgstr "Instaliraj i odmah ponovno pokreni"
+
+#: qml/Wizard/Pages/80-finished.qml:91
+msgid "Welcome Back"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
 msgstr "Dobrodošli u Ubuntu"
 
-#: qml/Wizard/Pages/80-finished.qml:104
+#: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
 msgstr "Sada ste spremni koristiti svoj uređaj"
 
-#: qml/Wizard/Pages/80-finished.qml:124
+#: qml/Wizard/Pages/80-finished.qml:126
+msgid "Continue"
+msgstr "Nastavi"
+
+#: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
 msgstr "Započnite"
 
-#: qml/Wizard/Pages/here-terms.qml:25
-msgid "Terms & Conditions"
-msgstr "Uvjeti i odredbe"
-
-#: qml/Wizard/Pages/here-terms.qml:69
-msgid "Your device uses positioning technologies provided by HERE."
-msgstr ""
-"Vaš uređaj koristi tehnologiju određivanja položaja koju omogućuje HERE."
-
-#: qml/Wizard/Pages/here-terms.qml:81
-msgid ""
-"To provide you with positioning services and to improve their quality, HERE "
-"collects information about nearby cell towers and Wi-Fi hotspots around your "
-"current location whenever your position is being found."
-msgstr ""
-"Kako bi vam omogućili uslugu određivanja položaja i poboljšali njenu "
-"kvalitetu, HERE prikuplja informacije o obližnjim mobilnim odašiljačima i "
-"bežičnim pristupnim točkama u okolini vaše trenutne lokacije kada je vaš "
-"položaj pronađen."
-
-#: qml/Wizard/Pages/here-terms.qml:93
-msgid ""
-"The information collected is used to analyze the service and to improve the "
-"use of service, but not to identify you personally."
-msgstr ""
-"Prikupljene informacije se koriste za analizu i poboljšanje korištenja "
-"usluga, ali ne i kako bi Vas osobno identificirali."
-
-#: qml/Wizard/Pages/here-terms.qml:106
-#, qt-format
-msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr "Nastavkom, pristajete na HERE platformu %1 i %2."
-
-#: qml/Wizard/Pages/here-terms.qml:107
-msgid "Service Terms"
-msgstr "Uvjeti korištenja"
-
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:97
+#: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
 msgstr "Potvrdi kôd"
 
@@ -871,24 +766,24 @@ msgstr "Ponovno upišite."
 msgid "Lock Screen Passcode"
 msgstr "Kôd zaključavanja zaslona"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:61
+#: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "Upišite 4 broja za postavljanje vašeg kôda"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:77
+#: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "Odaberi kôd"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:127
+#: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
 msgstr "Kôd je prekratak"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:129
+#: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
 msgstr "Kôdovi se podudaraju"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:131
+#: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
 msgstr "Kôdovi se ne podudaraju"
 
@@ -900,15 +795,15 @@ msgstr "Kôd mora sadržavati 4 znamenke"
 msgid "Lock Screen Password"
 msgstr "Lozinka zaključavanja zaslona"
 
-#: qml/Wizard/Pages/password-set.qml:62
+#: qml/Wizard/Pages/password-set.qml:68
 msgid "Enter at least 8 characters"
 msgstr "Upišite najmanje 8 znamenaka"
 
-#: qml/Wizard/Pages/password-set.qml:74
+#: qml/Wizard/Pages/password-set.qml:80
 msgid "Choose password"
 msgstr "Odaberi lozinku"
 
-#: qml/Wizard/Pages/password-set.qml:104
+#: qml/Wizard/Pages/password-set.qml:110
 msgid "Confirm password"
 msgstr "Potvrdi lozniku"
 
@@ -965,23 +860,188 @@ msgstr "Slaba lozinka"
 msgid "Very weak password"
 msgstr "Vrlo slaba lozinka"
 
+#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgid "Store"
+#~ msgstr "Trgovina"
+
+#~ msgctxt "Button: Start a search in the current dash scope"
+#~ msgid "Search"
+#~ msgstr "Pretraži"
+
+#~ msgctxt "Button: Show the current dash scope settings"
+#~ msgid "Settings"
+#~ msgstr "Postavke"
+
+#~ msgid "Remove from Favorites"
+#~ msgstr "Ukloni iz omiljenih"
+
+#~ msgid "Add to Favorites"
+#~ msgstr "Dodaj u omiljene"
+
+#~ msgid "Refine your results"
+#~ msgstr "Precizirajte svoje rezultate"
+
+#~ msgid "Reset"
+#~ msgstr "Ponovno postavi"
+
+#~ msgid "Show less"
+#~ msgstr "Prikaži manje"
+
+#~ msgid "Show all"
+#~ msgstr "Prikaži sve"
+
+#~ msgctxt "Label: Hint for dash search line edit"
+#~ msgid "Search"
+#~ msgstr "Pretraži"
+
+#~ msgid "Recent Searches"
+#~ msgstr "Nedavna pretraživanja"
+
+#~ msgid "Clear All"
+#~ msgstr "Obriši sve"
+
+#~ msgid "More..."
+#~ msgstr "Više..."
+
+#~ msgid "Less..."
+#~ msgstr "Manje..."
+
+#~ msgid "Send"
+#~ msgstr "Pošalji"
+
+#~ msgid "Rate this"
+#~ msgstr "Ocijeni ovo"
+
+#~ msgid "Add a review"
+#~ msgstr "Dodaj recenziju"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Povuci za osvježavanje..."
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Otpusti za osvježavanje..."
+
+#~ msgid "Enable location data"
+#~ msgstr "Omogući podatke lokacije"
+
+#~ msgid "Manage"
+#~ msgstr "Upravljaj"
+
+#~ msgid "Home"
+#~ msgstr "Naslovnica"
+
+#~ msgid "Also installed"
+#~ msgstr "Također instalirano"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "Pravila privatnosti"
+
+#~ msgid "Help Us Improve"
+#~ msgstr "Pomognite nam poboljšati"
+
+#~ msgid "Improve system performance by sending us crashes and error reports."
+#~ msgstr ""
+#~ "Poboljšajte performanse sustava šaljući nam izvješća grešaka i rušenja."
+
+#~ msgid "Privacy policy"
+#~ msgstr "Pravila privatnosti"
+
+#, fuzzy
+#~ msgid "Please wait..."
+#~ msgstr "Učitavanje. Molim pričekajte..."
+
+#, fuzzy
+#~ msgid "Update all"
+#~ msgstr "Nadopuni uređaj"
+
+#, fuzzy
+#~ msgid "Update"
+#~ msgstr "Nadopuni uređaj"
+
+#, fuzzy
+#~ msgid "Download"
+#~ msgstr "Preuzimanje"
+
+#, fuzzy
+#~ msgid "Downloaded"
+#~ msgstr "Preuzimanje"
+
+#, fuzzy
+#~ msgid "Installed"
+#~ msgstr "Također instalirano"
+
+#, fuzzy
+#~ msgid "Updated %1"
+#~ msgstr "Nadopuni uređaj"
+
+#, fuzzy
+#~ msgid "Update failed"
+#~ msgstr "Nadopuni uređaj"
+
+#~ msgid "Location Services"
+#~ msgstr "Usluge lokacije"
+
+#~ msgid ""
+#~ "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
+#~ "(recommended)"
+#~ msgstr ""
+#~ "Koristi GPS, bežične pristupne točke i mobilnu mrežu anonimno za "
+#~ "otkrivanje lokacije (preporučeno)"
+
+#~ msgid "By selecting this option you agree to the Nokia HERE %1."
+#~ msgstr "Odabirom ove mogućnosti pristajete na Nokia HERE %1."
+
+#~ msgctxt "part of: Nokia HERE terms and conditions"
+#~ msgid "terms and conditions"
+#~ msgstr "uvjete i odredbe"
+
+#~ msgid "GPS only"
+#~ msgstr "Samo GPS"
+
+#~ msgid "Don't use my location"
+#~ msgstr "Ne koristi uslugu lokacije"
+
+#~ msgid "You can change it later in System Settings."
+#~ msgstr "Ovo možete kasnije promijeniti u postavkama sustava."
+
+#~ msgid "Terms & Conditions"
+#~ msgstr "Uvjeti i odredbe"
+
+#~ msgid "Your device uses positioning technologies provided by HERE."
+#~ msgstr ""
+#~ "Vaš uređaj koristi tehnologiju određivanja položaja koju omogućuje HERE."
+
+#~ msgid ""
+#~ "To provide you with positioning services and to improve their quality, "
+#~ "HERE collects information about nearby cell towers and Wi-Fi hotspots "
+#~ "around your current location whenever your position is being found."
+#~ msgstr ""
+#~ "Kako bi vam omogućili uslugu određivanja položaja i poboljšali njenu "
+#~ "kvalitetu, HERE prikuplja informacije o obližnjim mobilnim odašiljačima i "
+#~ "bežičnim pristupnim točkama u okolini vaše trenutne lokacije kada je vaš "
+#~ "položaj pronađen."
+
+#~ msgid ""
+#~ "The information collected is used to analyze the service and to improve "
+#~ "the use of service, but not to identify you personally."
+#~ msgstr ""
+#~ "Prikupljene informacije se koriste za analizu i poboljšanje korištenja "
+#~ "usluga, ali ne i kako bi Vas osobno identificirali."
+
+#~ msgid "By continuing, you agree to the HERE platform %1 and %2."
+#~ msgstr "Nastavkom, pristajete na HERE platformu %1 i %2."
+
+#~ msgid "Service Terms"
+#~ msgstr "Uvjeti korištenja"
+
 #~ msgid "Confirm"
 #~ msgstr "Potvrdi"
 
 #~ msgid "Type or say a command"
 #~ msgstr "Upišite ili izgovorite naredbu"
 
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Učitavanje. Molim pričekajte..."
-
 #~ msgid "Speak Now..."
 #~ msgstr "Recite..."
-
-#~ msgid "Speaking..."
-#~ msgstr "Govor..."
-
-#~ msgid "Search"
-#~ msgstr "Pretraživanje"
 
 #~ msgid "Top edge"
 #~ msgstr "Gornji rub"
@@ -1070,11 +1130,9 @@ msgstr "Vrlo slaba lozinka"
 #~ msgid "Tap to unlock"
 #~ msgstr "Dodirni za otključavanje"
 
-#, qt-format
 #~ msgid "Enter %1"
 #~ msgstr "Upišite %1"
 
-#, qt-format
 #~ msgid "Sorry, incorrect %1"
 #~ msgstr "Isprika, netočna %1"
 
@@ -1084,15 +1142,12 @@ msgstr "Vrlo slaba lozinka"
 #~ msgid "Sorry, incorrect passphrase"
 #~ msgstr "Isprika, netočna lozinka"
 
-#~ msgid "Enter passphrase"
-#~ msgstr "Upišite lozinku"
-
 #~ msgid ""
 #~ "If passphrase is entered incorrectly, your phone will conduct a factory "
 #~ "reset and all personal data will be deleted."
 #~ msgstr ""
-#~ "Ako netočno upišete lozinku, vaš telefon će pokrenuti vraćanje na tvorničke "
-#~ "postavke i svi osobni podaci će biti obrisani."
+#~ "Ako netočno upišete lozinku, vaš telefon će pokrenuti vraćanje na "
+#~ "tvorničke postavke i svi osobni podaci će biti obrisani."
 
 #~ msgid "This will be your last attempt."
 #~ msgstr "Ovo je vaš posljednji pokušaj."
@@ -1112,9 +1167,6 @@ msgstr "Vrlo slaba lozinka"
 
 #~ msgid "Short swipe from the left edge."
 #~ msgstr "Povuci kratko s lijevog ruba"
-
-#~ msgid "Open the launcher"
-#~ msgstr "Otvori pokretač"
 
 #~ msgid "Tap here to continue."
 #~ msgstr "Dodirni ovdje za nastavak."
@@ -1136,9 +1188,6 @@ msgstr "Vrlo slaba lozinka"
 
 #~ msgid "Try again."
 #~ msgstr "Pokušaj ponovno."
-
-#~ msgid "Continue"
-#~ msgstr "Nastavi"
 
 #~ msgid "Please try again."
 #~ msgstr "Pokušajte ponovno."
@@ -1167,12 +1216,9 @@ msgstr "Vrlo slaba lozinka"
 #~ msgid "Sorry, incorrect passcode"
 #~ msgstr "Isprika, netočan kôd"
 
-#~ msgid "Enter passcode"
-#~ msgstr "Upišite kôd"
-
 #~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
-#~ "and all personal data will be deleted."
+#~ "If passcode is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
 #~ msgstr ""
 #~ "Ako je netočno upisan kôd, vaš telefon će pokrenuti vraćanje na tvorničke "
 #~ "postavke i svi osobni podaci biti će obrisani."
@@ -1213,8 +1259,8 @@ msgstr "Vrlo slaba lozinka"
 #~ msgstr "Lozinka"
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
+#~ "and conditions</a>."
 #~ msgstr ""
 #~ "Odabirom ove mogućnosti prihvaćate Nokia HERE <a href='#'>uvjete i "
 #~ "odredbe</a>."
@@ -1236,7 +1282,8 @@ msgstr "Vrlo slaba lozinka"
 
 #~ msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
 #~ msgstr ""
-#~ "Korištenje GPS-a, anonimne Wi-Fi i informacije mobilne mreže (preporučljivo)"
+#~ "Korištenje GPS-a, anonimne Wi-Fi i informacije mobilne mreže "
+#~ "(preporučljivo)"
 
 #~ msgctxt "Label: Description of security method"
 #~ msgid "Numbers and letters"
@@ -1277,11 +1324,9 @@ msgstr "Vrlo slaba lozinka"
 #~ msgid "Your phone is now ready to use."
 #~ msgstr "Vaš telefon je sada spreman za korištenje."
 
-#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
-#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
@@ -1321,9 +1366,6 @@ msgstr "Vrlo slaba lozinka"
 #~ msgid "Swipe up to add a contact"
 #~ msgstr "Povucite prema gore za dodavanje kontakta"
 
-#~ msgid "Long swipe from the left edge to open the Today scope"
-#~ msgstr "Dulje povucite od lijevog ruba za otvaranje današnjeg djelokruga"
-
 #~ msgid "Please re-enter"
 #~ msgstr "Ponovno upišite"
 
@@ -1347,7 +1389,8 @@ msgstr "Vrlo slaba lozinka"
 
 #~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
 #~ msgstr ""
-#~ "Za otkrivanje pokretača brzog pristupa aplikacijama povucite s lijeve strane"
+#~ "Za otkrivanje pokretača brzog pristupa aplikacijama povucite s lijeve "
+#~ "strane"
 
 #~ msgid ""
 #~ "You have now mastered the edge gestures and can start using the "
@@ -1358,34 +1401,3 @@ msgstr "Vrlo slaba lozinka"
 
 #~ msgid "Store"
 #~ msgstr "Pohrana"
-
-#~ msgid "Takes a screenshot of a window."
-#~ msgstr "Uslikava prozor."
-
-#~ msgid "Super + 0 to 9"
-#~ msgstr "Super + 0 do 9"
-
-#~ msgid "Install and restart now"
-#~ msgstr "Instaliraj i odmah ponovno pokreni"
-
-#~ msgid "This could take a few minutes..."
-#~ msgstr "Ovo može potrajati nekoliko minuta..."
-
-#, qt-format
-#~ msgctxt "version of the system update"
-#~ msgid "Version %1"
-#~ msgstr "Inačica %1"
-
-#~ msgctxt "string identifying name of the update"
-#~ msgid "Ubuntu system"
-#~ msgstr "Ubuntu sustav"
-
-#~ msgid "Update Device"
-#~ msgstr "Nadopuni uređaj"
-
-#~ msgid ""
-#~ "There is a system update available and ready to install. Afterwards, the "
-#~ "device will automatically restart."
-#~ msgstr ""
-#~ "Dostupna je nadopuna sustava i spremna je za instalaciju. Naknadno, uređaj "
-#~ "će se automatski ponovno pokrenuti."

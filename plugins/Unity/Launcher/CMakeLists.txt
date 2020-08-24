@@ -26,6 +26,7 @@ set(QMLLAUNCHERPLUGIN_SRC
     asadapter.cpp
     appdrawermodel.cpp
     ualwrapper.cpp
+    xdgwatcher.cpp
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsServiceDBusAdaptor.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
@@ -47,8 +48,7 @@ target_link_libraries(UnityLauncher-qml
     ${GSETTINGS_QT_LDFLAGS}
     ${GLIB_LIBRARIES}
     ${UAL_LIBRARIES}
+    Qt5::DBus Qt5::Qml Qt5::Gui Qt5::Concurrent
     )
-
-qt5_use_modules(UnityLauncher-qml DBus Qml Gui)
 
 add_unity8_plugin(Unity.Launcher 0.1 Unity/Launcher TARGETS UnityLauncher-qml)

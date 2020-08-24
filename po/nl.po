@@ -6,49 +6,51 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-04-04 22:56+0000\n"
-"PO-Revision-Date: 2016-11-01 08:29+0000\n"
-"Last-Translator: Hannie Dumoleyn <Unknown>\n"
-"Language-Team: Dutch <nl@li.org>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"PO-Revision-Date: 2020-07-14 18:34+0000\n"
+"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
+"Language-Team: Dutch <https://translate.ubports.com/projects/unity8/unity8/"
+"nl/>\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-04-07 06:29+0000\n"
-"X-Generator: Launchpad (build 18343)\n"
+"X-Generator: Weblate 3.11.3\n"
+"X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
-#: plugins/LightDM/Greeter.cpp:188
+#: plugins/LightDM/Greeter.cpp:199
 msgid "Password: "
 msgstr "Wachtwoord: "
 
-#: plugins/LightDM/Greeter.cpp:203
+#: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr ""
+msgstr "Gebruikersnaam"
 
-#: plugins/LightDM/Greeter.cpp:242
+#: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "Verificatie mislukt"
 
-#: plugins/LightDM/Greeter.cpp:244
+#: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "Ongeldig wachtwoord; probeer het opnieuw"
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
-msgstr "Aanmelden"
+msgstr "Inloggen"
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
 msgstr "Opnieuw proberen"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr ""
+msgstr "Inloggen"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr ""
+msgstr "Gastsessie"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
@@ -66,11 +68,11 @@ msgstr "Snelkoppeling losmaken"
 #: qml/Components/Dialogs.qml:176
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr "Afmelden"
+msgstr "Uitloggen"
 
 #: qml/Components/Dialogs.qml:177
 msgid "Are you sure you want to log out?"
-msgstr "Weet u zeker dat u zich wilt afmelden?"
+msgstr "Weet je zeker dat je wilt uitloggen?"
 
 #: qml/Components/Dialogs.qml:180
 msgctxt "Button: Lock the system"
@@ -80,11 +82,10 @@ msgstr "Vergrendelen"
 #: qml/Components/Dialogs.qml:191
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr "Afmelden"
+msgstr "Uitloggen"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:264
-#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:208
-#: qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Annuleren"
@@ -92,11 +93,11 @@ msgstr "Annuleren"
 #: qml/Components/Dialogs.qml:211
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
-msgstr "Opnieuw opstarten"
+msgstr "Herstarten"
 
 #: qml/Components/Dialogs.qml:212
 msgid "Are you sure you want to reboot?"
-msgstr "Weet u zeker dat u het apparaat opnieuw wilt starten?"
+msgstr "Weet je zeker dat je wilt herstarten?"
 
 #: qml/Components/Dialogs.qml:215
 msgid "No"
@@ -106,28 +107,28 @@ msgstr "Nee"
 msgid "Yes"
 msgstr "Ja"
 
-#: qml/Components/Dialogs.qml:239
+#: qml/Components/Dialogs.qml:243
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr "Uitschakelen/Opnieuw starten"
+msgstr "Afsluitmenu"
 
-#: qml/Components/Dialogs.qml:240
+#: qml/Components/Dialogs.qml:244
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
-"Weet u zeker dat u het apparaat\n"
+"Weet je zeker dat je het apparaat\n"
 "wilt uitschakelen?"
 
-#: qml/Components/Dialogs.qml:244
+#: qml/Components/Dialogs.qml:248
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Uitschakelen"
 
-#: qml/Components/Dialogs.qml:255
+#: qml/Components/Dialogs.qml:263
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr "Opnieuw opstarten"
+msgstr "Herstarten"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
@@ -143,7 +144,7 @@ msgstr "PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr "Maakt een schermafdruk."
+msgstr "Maakt een schermfoto."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
@@ -151,15 +152,15 @@ msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of the current window."
-msgstr ""
+msgstr "Maakt een schermfoto van het huidige venster."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
-msgstr "Super + Spatiebalk"
+msgstr "Super + spatiebalk"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr "Schakelt naar volgende toetsenbordindeling."
+msgstr "Schakelt over naar de volgende toetsenbordindeling."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
@@ -167,27 +168,27 @@ msgstr "Super + Shift + Spatiebalk"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr "Schakelt naar vorige toetsenbordindeling."
+msgstr "Schakelt over naar de vorige toetsenbordindeling."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
 msgid "Ctrl + Alt + T"
-msgstr ""
+msgstr "Ctrl + Alt + T"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
 msgid "Starts the Terminal application."
-msgstr ""
+msgstr "Start de terminalapp."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
-msgstr "De Starter"
+msgstr "Starter"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Super (Hold)"
-msgstr "Super (Vasthouden)"
+msgstr "Super (ingedrukt houden)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens the launcher, displays shortcuts."
-msgstr "Opent de Starter; toont sneltoetsen."
+msgstr "Opent de Starter en toont de sneltoetsen."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Alt + F1"
@@ -195,7 +196,7 @@ msgstr "Alt + F1"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Opens launcher keyboard navigation mode."
-msgstr "Opent toetsenbordnavigatiemodus van Starter."
+msgstr "Opent de toetsenbordnavigatiemodus van de Starter."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + Tab"
@@ -203,11 +204,11 @@ msgstr "Super + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Switches applications via the launcher."
-msgstr "Wisselt toepassingen via de Starter."
+msgstr "Wisselt tussen apps op de Starter."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + 1 to 0"
-msgstr ""
+msgstr "Super + 1 tot 0"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
@@ -215,11 +216,11 @@ msgstr "Hetzelfde als klikken op een pictogram in de Starter."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
 msgid "Super + A"
-msgstr ""
+msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
-msgstr ""
+msgstr "Opent het appoverzicht."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
@@ -227,11 +228,11 @@ msgstr "Scopes"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:214
 msgid "Super (Tap)"
-msgstr "Super (Tikken)"
+msgstr "Super (indrukken)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:219
 msgid "Opens the Scopes home."
-msgstr "Opent Scopes-startpagina."
+msgstr "Opent de Scopes-startpagina."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
@@ -243,7 +244,7 @@ msgstr "Alt + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Switches between applications."
-msgstr "Wisselt tussen toepassingen."
+msgstr "Wisselt tussen apps."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:255
 msgid "Super + W"
@@ -251,11 +252,11 @@ msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:260
 msgid "Opens the desktop spread."
-msgstr "Opent bureaubladspreiding."
+msgstr "Opent werkbladspreiding."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:268
 msgid "Cursor Left or Right"
-msgstr "Pijltoets links of rechts"
+msgstr "Pijltje naar links of rechts"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:273
 msgid "Moves the focus."
@@ -275,7 +276,7 @@ msgstr "Minimaliseert alle vensters."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Up"
-msgstr "Ctrl + Super + Pijl omhoog"
+msgstr "Ctrl + Super + pijltje omhoog"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Maximizes the current window."
@@ -283,7 +284,7 @@ msgstr "Maximaliseert het huidige venster."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Ctrl + Super + Down"
-msgstr "Ctrl + Super + Pijl omlaag"
+msgstr "Ctrl + Super + pijltje omlaag"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Minimizes or restores the current window."
@@ -291,7 +292,7 @@ msgstr "Maximaliseert of herstelt het huidige venster."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:331
 msgid "Ctrl + Super + Left or Right"
-msgstr "Ctrl + Super + Pijl links of rechts"
+msgstr "Ctrl + Super + pijltje naar links of rechts"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Semi-maximizes the current window."
@@ -305,9 +306,9 @@ msgstr "Alt + F4"
 msgid "Closes the current window."
 msgstr "Sluit het huidige venster."
 
-#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:228
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:235
 msgid "Return to Call"
-msgstr "Teruggaan naar gesprek"
+msgstr "Terug naar gesprek"
 
 #: qml/Components/Lockscreen.qml:212
 msgid "Emergency Call"
@@ -315,7 +316,7 @@ msgstr "Noodoproep"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "OK"
-msgstr "Ok"
+msgstr "Oké"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
@@ -329,28 +330,26 @@ msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:33
 msgid "Apps may have unsaved data:"
-msgstr "Er zouden toepassingen kunnen zijn met niet-opgeslagen gegevens:"
+msgstr "Er zijn apps met mogelijk niet-opgeslagen gegevens:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:60
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
-"Zet uw apparaat weer in het dok, sla uw werk op en sluit deze toepassingen "
-"alvorens door te gaan."
+"Dock je apparaat opnieuw, sla je werk op en sluit deze apps om door te gaan."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
-msgstr ""
-"Of sluit nu geforceerd af (niet-opgeslagen gegevens zullen verloren gaan)."
+msgstr "Of sluit nu gedwongen af (niet-opgeslagen gegevens gaan verloren)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:80
 msgid "OK, I will reconnect"
-msgstr "Ok, ik zal opnieuw verbinden"
+msgstr "Oké, ik zal opnieuw verbinden"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:81
 msgid "Reconnect now!"
-msgstr "Verbind nu opnieuw!"
+msgstr "Nu opnieuw verbinden!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:94
 msgid "Close all"
@@ -358,128 +357,31 @@ msgstr "Alles sluiten"
 
 #: qml/Components/SharingPicker.qml:54
 msgid "Preview Share Item"
-msgstr "Voorbeeld van share-item"
+msgstr "Voorvertoning van gedeeld item"
 
 #: qml/Components/VirtualTouchPad.qml:317
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
-"Uw apparaat is nu verbonden met een extern beeldscherm. Gebruik dit scherm "
-"als een touchpad om de aanwijzer te bedienen."
+"Je apparaat is nu verbonden met een extern beeldscherm. Gebruik dit scherm "
+"als touchpad om de cursor te bedienen."
 
 #: qml/Components/VirtualTouchPad.qml:327
 msgid "Tap left button to click."
-msgstr ""
+msgstr "Druk op de linkerknop om te klikken."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "Druk op de rechterknop om rechts te klikken."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "Veeg met twee vingers om te scrollen."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
-
-#: qml/Dash/DashPageHeader.qml:361
-msgctxt "Button: Open the Ubuntu Store"
-msgid "Store"
-msgstr "Winkel"
-
-#: qml/Dash/DashPageHeader.qml:368
-msgctxt "Button: Start a search in the current dash scope"
-msgid "Search"
-msgstr "Zoeken"
-
-#: qml/Dash/DashPageHeader.qml:378
-msgctxt "Button: Show the current dash scope settings"
-msgid "Settings"
-msgstr "Instellingen"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Remove from Favorites"
-msgstr "Verwijderen uit favorieten"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Add to Favorites"
-msgstr "Toevoegen aan favorieten"
-
-#: qml/Dash/FiltersPopover.qml:61
-msgid "Refine your results"
-msgstr "Resultaten verfijnen"
-
-#: qml/Dash/FiltersPopover.qml:70
-msgid "Reset"
-msgstr "Herstellen"
-
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
-msgid "Show less"
-msgstr "Minder weergeven"
-
-#: qml/Dash/GenericScopeView.qml:547
-msgid "Show all"
-msgstr "Alles weergeven"
-
-#: qml/Dash/GenericScopeView.qml:578
-msgctxt "Label: Hint for dash search line edit"
-msgid "Search"
-msgstr "Zoeken"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:67
-msgid "Recent Searches"
-msgstr "Recente zoekopdrachten"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:78
-msgid "Clear All"
-msgstr "Alles wissen"
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "More..."
-msgstr "Meer…"
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "Less..."
-msgstr "Minder…"
-
-#: qml/Dash/Previews/PreviewCommentInput.qml:83
-#: qml/Dash/Previews/PreviewRatingInput.qml:202
-msgid "Send"
-msgstr "Versturen"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:109
-msgid "Rate this"
-msgstr "Beoordeel dit"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:184
-msgid "Add a review"
-msgstr "Voeg recensie toe"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:56
-msgid "Pull to refresh…"
-msgstr "Trekken om te verversen…"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:61
-msgid "Release to refresh…"
-msgstr "Loslaten om te verversen…"
-
-#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
-msgid "Enable location data"
-msgstr "Locatiegegevens inschakelen"
-
-#: qml/Dash/ScopesList.qml:146
-msgid "Manage"
-msgstr "Beheren"
-
-#: qml/Dash/ScopesList.qml:187
-msgid "Home"
-msgstr "Startpagina"
-
-#: qml/Dash/ScopesList.qml:188
-msgid "Also installed"
-msgstr "Ook geïnstalleerd"
+msgstr "Bekijk meer instellingen in de systeeminstellingen."
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -487,40 +389,40 @@ msgstr "Ontgrendelen"
 
 #: qml/Greeter/DelayedLockscreen.qml:43
 msgid "Device Locked"
-msgstr "Apparaat vergrendeld"
+msgstr "Apparaat is vergrendeld"
 
 #: qml/Greeter/DelayedLockscreen.qml:58
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
-"U werd de toegang geweigerd omdat u te vaak een onjuiste wachtwoordzin heeft "
+"Je bent buitengesloten omdat je te vaak een verkeerd wachtwoord hebt "
 "ingevoerd."
 
 #: qml/Greeter/DelayedLockscreen.qml:59
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
-"U werd de toegang geweigerd omdat u te vaak een onjuiste toegangscode heeft "
+"Je bent buitengesloten omdat je te vaak een verkeerde toegangscode hebt "
 "ingevoerd."
 
 #: qml/Greeter/DelayedLockscreen.qml:68
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Wacht a.u.b. %1 minuut en probeer het dan opnieuw…"
-msgstr[1] "Wacht a.u.b. %1 minuten en probeer het dan opnieuw…"
+msgstr[0] "Wacht %1 minuut en probeer het opnieuw…"
+msgstr[1] "Wacht %1 minuten en probeer het opnieuw…"
 
 #: qml/Greeter/Greeter.qml:550
 msgid "Try again"
-msgstr "Probeer het opnieuw"
+msgstr "Opnieuw proberen"
 
 #: qml/Greeter/Greeter.qml:551
 msgid "Enter passphrase to unlock"
-msgstr ""
+msgstr "Voer je wachtwoordzin in"
 
 #: qml/Greeter/Greeter.qml:552
 msgid "Enter passcode to unlock"
-msgstr ""
+msgstr "Voer je toegangscode in"
 
-#: qml/Greeter/NarrowView.qml:228
+#: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
 msgstr "Noodgeval"
 
@@ -534,20 +436,11 @@ msgstr "Toegangscode"
 
 #: qml/Greeter/SessionsList.qml:124
 msgid "Select desktop environment"
-msgstr "Bureaubladomgeving selecteren"
+msgstr "Werkomgeving kiezen"
 
-#: qml/Launcher/Drawer.qml:94
+#: qml/Launcher/Drawer.qml:249
 msgid "Search…"
-msgstr ""
-
-#: qml/Launcher/Drawer.qml:129
-msgctxt "Apps sorted alphabetically"
-msgid "A-Z"
-msgstr ""
-
-#: qml/Launcher/MoreAppsHeader.qml:55
-msgid "More apps in the store"
-msgstr ""
+msgstr "Zoeken…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -555,7 +448,7 @@ msgstr "Wachtwoord tonen"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr "Tik om terug te gaan naar gesprek…"
+msgstr "Druk om terug te keren naar gesprek…"
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
@@ -606,7 +499,7 @@ msgstr "Aan het downloaden"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1023
 msgid "Paused, tap to resume"
-msgstr "Gepauzeerd, tik om te hervatten"
+msgstr "Gepauzeerd; druk om te hervatten"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1025
 msgid "Canceled"
@@ -618,7 +511,7 @@ msgstr "Klaar"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1029
 msgid "Failed, tap to retry"
-msgstr "Mislukt, tik om het opnieuw te proberen"
+msgstr "Mislukt; druk om opnieuw te proberen"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:151
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:210
@@ -638,294 +531,261 @@ msgstr "Terugbellen"
 
 #: qml/Panel/PanelMenuPage.qml:92
 msgid "Back"
-msgstr ""
+msgstr "Vorige"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
-msgstr ""
-"Een toepassing met 3 vingers slepen van het ene venster naar het andere"
+msgstr "Versleep een app met 3 vingers van het ene venster naar het andere"
+
+#: qml/Stage/Stage.qml:668
+msgid "No running apps"
+msgstr "Je hebt geen geopende apps"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
 msgid "Long swipe from the left edge to open the Application Drawer"
-msgstr ""
+msgstr "Veeg langzaam vanaf de linkerkant om het appoverzicht te openen"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
 msgstr "Veeg kort vanaf de linkerrand om de Starter te openen"
 
-#: qml/Tutorial/TutorialRight.qml:55
+#: qml/Tutorial/TutorialRight.qml:54
 msgid "Push your mouse against the right edge to view your open apps"
-msgstr "Duw uw muis tegen de rechterrand om geopende apps te zien"
+msgstr "Duw je muis tegen de rechterrand om geopende apps te tonen"
 
-#: qml/Tutorial/TutorialRight.qml:56
+#: qml/Tutorial/TutorialRight.qml:55
 msgid "Swipe from the right edge to view your open apps"
-msgstr "Veeg vanaf de rechterrand om geopende apps te zien"
+msgstr "Veeg vanaf de rechterrand om geopende apps te tonen"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
-msgstr ""
-"Veeg van de bovenrand om toegang te krijgen tot notificaties en snelle "
-"instellingen"
+msgstr "Veeg vanaf de bovenrand om meldingen en snelle instellingen te tonen"
 
-#: qml/Wizard/Page.qml:54
+#: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr "Terug"
+msgstr "Vorige"
 
-#: qml/Wizard/Pages/10-welcome.qml:28
+#: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
 msgstr "Taal"
 
-#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:145
-#: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:142
-#: qml/Wizard/Pages/password-set.qml:142
+#: qml/Wizard/Pages/10-welcome.qml:176
+#: qml/Wizard/Pages/10-welcome-update.qml:126
+#: qml/Wizard/Pages/11-changelog.qml:74 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:214 qml/Wizard/Pages/50-timezone.qml:272
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/70-passwd-type.qml:146
+#: qml/Wizard/Pages/passcode-desktop.qml:154
+#: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
 msgstr "Volgende"
 
+#: qml/Wizard/Pages/10-welcome-update.qml:91
+msgid "Welcome to "
+msgstr "Welkom bij "
+
+#: qml/Wizard/Pages/10-welcome-update.qml:106
+msgid "We will make sure your device is ready to use "
+msgstr "We maken je apparaat klaar voor gebruik "
+
+#: qml/Wizard/Pages/11-changelog.qml:28
+msgid "What's new"
+msgstr "Wijzigingslog"
+
+#: qml/Wizard/Pages/11-changelog.qml:74
+msgid "Loading..."
+msgstr "Bezig met laden..."
+
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
-msgstr "Toetsenbord selecteren"
+msgstr "Toetsenbord kiezen"
 
 #: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
-msgstr "Taal toetsenbord"
+msgstr "Toetsenbordtaal"
 
 #: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
 msgstr "Toetsenbordindeling"
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:214
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/79-system-update.qml:144
+#: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Overslaan"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
-msgstr "Verbinden met Wifi"
+msgstr "Verbinden met Wi-Fi"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
 msgstr "Verbonden"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
-msgstr "Beschikbare wifi-netwerken"
+msgstr "Beschikbare Wi-Fi-netwerken"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
-msgstr "Geen wifi-netwerken beschikbaar"
-
-#: qml/Wizard/Pages/40-location.qml:27
-msgid "Location Services"
-msgstr "Locatie Diensten"
-
-#: qml/Wizard/Pages/40-location.qml:83
-msgid ""
-"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
-"(recommended)"
-msgstr ""
-"Maak anoniem gebruik van GPS, wifi-hotspots en het mobiele netwerk om uw "
-"locatie te bepalen (aanbevolen)"
-
-#: qml/Wizard/Pages/40-location.qml:105
-#, qt-format
-msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr "Door deze optie te selecteren gaat u akkoord met de Nokia HERE %1."
-
-#: qml/Wizard/Pages/40-location.qml:106
-msgctxt "part of: Nokia HERE terms and conditions"
-msgid "terms and conditions"
-msgstr "voorwaarden voor gebruik"
-
-#: qml/Wizard/Pages/40-location.qml:160
-msgid "GPS only"
-msgstr "Alleen GPS"
-
-#: qml/Wizard/Pages/40-location.qml:214
-msgid "Don't use my location"
-msgstr "Mijn locatie niet gebruiken"
-
-#: qml/Wizard/Pages/40-location.qml:260
-msgid "You can change it later in System Settings."
-msgstr "U kunt het later aanpassen in Systeeminstellingen"
+msgstr "Geen Wi-Fi-netwerken beschikbaar"
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "Tijdzone"
 
-#: qml/Wizard/Pages/50-timezone.qml:182
+#: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
-msgstr "Uw stad invoeren"
+msgstr "Voer je plaatsnaam in"
 
 #: qml/Wizard/Pages/60-account.qml:24
 msgid "Personalize Your Device"
-msgstr "Uw apparaat personaliseren"
+msgstr "Personaliseer je apparaat"
 
-#: qml/Wizard/Pages/60-account.qml:48
+#: qml/Wizard/Pages/60-account.qml:54
 msgid "Preferred Name"
-msgstr "Gebruikersnaam"
+msgstr "Voorkeursnaam"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:40
 msgid "Lock Screen"
 msgstr "Schermvergrendeling"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:102
+#: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
-msgstr "Een nieuw wachtwoord aanmaken"
+msgstr "Wachtwoord aanmaken"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:104
+#: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
-msgstr "Toegangscode (alleen nummers) aanmaken"
+msgstr "Toegangscode aanmaken (alleen cijfers)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:106
+#: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "Geen vergrendelcode"
 
-#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
-msgid "Privacy Policy"
-msgstr "Privacybeleid"
+#: qml/Wizard/Pages/79-system-update.qml:28
+msgid "Update Device"
+msgstr "Apparaat bijwerken"
 
-#: qml/Wizard/Pages/75-report-check.qml:26
-msgid "Help Us Improve"
-msgstr "Help ons verbeteren"
-
-#: qml/Wizard/Pages/75-report-check.qml:59
-msgid "Improve system performance by sending us crashes and error reports."
+#: qml/Wizard/Pages/79-system-update.qml:55
+msgid ""
+"There is a system update available and ready to install. Afterwards, the "
+"device will automatically restart."
 msgstr ""
-"Verbeteren van systeemprestaties door ons crash- en foutrapportages te sturen"
+"Er is een systeemupdate beschikbaar en klaar om te worden geïnstalleerd. Het "
+"apparaat start daarna opnieuw op."
 
-#: qml/Wizard/Pages/75-report-check.qml:60
-msgid "Privacy policy"
-msgstr "Privacybeleid"
+#: qml/Wizard/Pages/79-system-update.qml:76
+msgctxt "string identifying name of the update"
+msgid "Ubuntu Touch system"
+msgstr "Ubuntu Touch-systeem"
 
-#: qml/Wizard/Pages/80-finished.qml:89
+#: qml/Wizard/Pages/79-system-update.qml:83
+#, qt-format
+msgctxt "version of the system update"
+msgid "Version %1"
+msgstr "Versie %1"
+
+#: qml/Wizard/Pages/79-system-update.qml:95
+msgid "This could take a few minutes..."
+msgstr "Dit kan enkele minuten duren…"
+
+#: qml/Wizard/Pages/79-system-update.qml:109
+msgid "Install and restart now"
+msgstr "Nu installeren en herstarten"
+
+#: qml/Wizard/Pages/80-finished.qml:91
+msgid "Welcome Back"
+msgstr "Welkom terug"
+
+#: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
 msgstr "Welkom bij Ubuntu"
 
-#: qml/Wizard/Pages/80-finished.qml:104
+#: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
-msgstr "U bent klaar om uw apparaat te gebruiken"
+msgstr "Je apparaat is nu klaar voor gebruik"
 
-#: qml/Wizard/Pages/80-finished.qml:124
+#: qml/Wizard/Pages/80-finished.qml:126
+msgid "Continue"
+msgstr "Doorgaan"
+
+#: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
 msgstr "Aan de slag"
 
-#: qml/Wizard/Pages/here-terms.qml:25
-msgid "Terms & Conditions"
-msgstr "Algemene voorwaarden"
-
-#: qml/Wizard/Pages/here-terms.qml:69
-msgid "Your device uses positioning technologies provided by HERE."
-msgstr ""
-"Uw apparaat maakt gebruik van technologieën voor plaatsbepaling van HERE."
-
-#: qml/Wizard/Pages/here-terms.qml:81
-msgid ""
-"To provide you with positioning services and to improve their quality, HERE "
-"collects information about nearby cell towers and Wi-Fi hotspots around your "
-"current location whenever your position is being found."
-msgstr ""
-"Om u plaatsbepalingsdiensten te leveren en deze te verbeteren, zal HERE "
-"informatie verzamelen over GSM-masten in de buurt en wifi-hotspots rond uw "
-"huidige locatie wanneer uw huidige positie gevonden is."
-
-#: qml/Wizard/Pages/here-terms.qml:93
-msgid ""
-"The information collected is used to analyze the service and to improve the "
-"use of service, but not to identify you personally."
-msgstr ""
-"De informatie die wordt verzameld zal gebruikt worden om de dienst te "
-"analyseren en om het gebruik van de dienst te verbeteren, maar niet om u "
-"persoonlijk te identificeren."
-
-#: qml/Wizard/Pages/here-terms.qml:106
-#, qt-format
-msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr "Als u doorgaat, gaat u akkoord met het HERE platform %1 en %2"
-
-#: qml/Wizard/Pages/here-terms.qml:107
-msgid "Service Terms"
-msgstr "Dienstvoorwaarden"
-
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:97
+#: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
 msgstr "Toegangscode bevestigen"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
-msgstr "Onjuiste toegangscode"
+msgstr "Onjuiste toegangscode."
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgctxt "Enter the passcode again"
 msgid "Please re-enter."
-msgstr "Voer uw PIN opnieuw in."
+msgstr "Voer je code opnieuw in."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
-msgstr "Toegangscodecode schermvergrendeling"
+msgstr "Toegangscode schermvergrendeling"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:61
+#: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
-msgstr "Voer 4 cijfers is om uw toegangscode in te stellen"
+msgstr "Voer 4 cijfers in om je toegangscode in te stellen"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:77
+#: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "Kies een toegangscode"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:127
+#: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
-msgstr "Toegangscode te kort"
+msgstr "De toegangscode is te kort"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:129
+#: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
-msgstr "Toegangscodes komen overeen"
+msgstr "De toegangscodes komen overeen"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:131
+#: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
-msgstr "Toegangscodes komen noet overeen"
+msgstr "De toegangscodes komen niet overeen"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr "Toegangscode moet 4 tekens lang zijn"
+msgstr "De toegangscode moet 4 tekens lang zijn"
 
 #: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
 msgstr "Wachtwoord schermvergrendeling"
 
-#: qml/Wizard/Pages/password-set.qml:62
+#: qml/Wizard/Pages/password-set.qml:68
 msgid "Enter at least 8 characters"
-msgstr "Voer tenminste 8 tekens in"
+msgstr "Voer minimaal 8 tekens in"
 
-#: qml/Wizard/Pages/password-set.qml:74
+#: qml/Wizard/Pages/password-set.qml:80
 msgid "Choose password"
 msgstr "Kies een wachtwoord"
 
-#: qml/Wizard/Pages/password-set.qml:104
+#: qml/Wizard/Pages/password-set.qml:110
 msgid "Confirm password"
 msgstr "Wachtwoord bevestigen"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
-msgstr "Geen SIM-kaart geïnstalleerd"
+msgstr "Geen simkaart ingevoerd"
 
 #: qml/Wizard/Pages/sim.qml:54
 msgid "SIM card added"
-msgstr "SIM-kaart toegevoegd"
+msgstr "Simkaart ingevoerd"
 
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
-msgstr ""
-"U dient het apparaat opnieuw te starten om toegang te krijgen tot het "
-"mobiele netwerk"
+msgstr "Herstart het apparaat om verbinding te maken met het mobiele netwerk."
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
@@ -933,23 +793,23 @@ msgstr "Herstarten"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
-msgstr "U kunt niet bellen of sms'en zonder een SIM-kaart."
+msgstr "Zonder simkaart kun je niet bellen of sms'en."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr "Tik op Overslaan om door te gaan zonder SIM-kaart."
+msgstr "Druk op 'Overslaan' om door te gaan zonder simkaart."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr "Wachtwoord te kort"
+msgstr "Het wachtwoord is te kort"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
-msgstr "Wachtwoorden komen overeen"
+msgstr "De wachtwoorden komen overeen"
 
 #: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
-msgstr "Wachtwoorden komen niet overeen"
+msgstr "De wachtwoorden komen niet overeen"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
@@ -967,23 +827,239 @@ msgstr "Zwak wachtwoord"
 msgid "Very weak password"
 msgstr "Zeer zwak wachtwoord"
 
+#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgid "Store"
+#~ msgstr "Winkel"
+
+#~ msgctxt "Button: Start a search in the current dash scope"
+#~ msgid "Search"
+#~ msgstr "Zoeken"
+
+#~ msgctxt "Button: Show the current dash scope settings"
+#~ msgid "Settings"
+#~ msgstr "Instellingen"
+
+#~ msgid "Remove from Favorites"
+#~ msgstr "Verwijderen uit favorieten"
+
+#~ msgid "Add to Favorites"
+#~ msgstr "Toevoegen aan favorieten"
+
+#~ msgid "Refine your results"
+#~ msgstr "Resultaten verfijnen"
+
+#~ msgid "Reset"
+#~ msgstr "Herstellen"
+
+#~ msgid "Show less"
+#~ msgstr "Minder tonen"
+
+#~ msgid "Show all"
+#~ msgstr "Alles tonen"
+
+#~ msgctxt "Label: Hint for dash search line edit"
+#~ msgid "Search"
+#~ msgstr "Zoeken"
+
+#~ msgid "Recent Searches"
+#~ msgstr "Recente zoekopdrachten"
+
+#~ msgid "Clear All"
+#~ msgstr "Alles wissen"
+
+#~ msgid "More..."
+#~ msgstr "Meer…"
+
+#~ msgid "Less..."
+#~ msgstr "Minder…"
+
+#~ msgid "Send"
+#~ msgstr "Versturen"
+
+#~ msgid "Rate this"
+#~ msgstr "Beoordelen"
+
+#~ msgid "Add a review"
+#~ msgstr "Recensie schrijven"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Trek om te verversen…"
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Laat los om te verversen…"
+
+#~ msgid "Enable location data"
+#~ msgstr "Locatiegegevens inschakelen"
+
+#~ msgid "Manage"
+#~ msgstr "Beheren"
+
+#~ msgid "Home"
+#~ msgstr "Startpagina"
+
+#~ msgid "Also installed"
+#~ msgstr "Oók geïnstalleerd"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "Privacybeleid"
+
+#~ msgid "Help Us Improve"
+#~ msgstr "Help ons verbeteren"
+
+#~ msgid "Improve system performance by sending us crashes and error reports."
+#~ msgstr ""
+#~ "Verbeter de systeemprestaties door ons crash- en foutrapportages te "
+#~ "sturen."
+
+#~ msgid "Privacy policy"
+#~ msgstr "Privacybeleid"
+
+#~ msgid "Update Apps"
+#~ msgstr "Apps bijwerken"
+
+#~ msgid "This device is not connected to the internet."
+#~ msgstr "Dit apparaat is niet verbonden met het internet."
+
+#~ msgid "Use the OpenStore app to check for updates once connected."
+#~ msgstr ""
+#~ "Gebruik, zodra je verbonden bent, de OpenStore-app om te controleren op "
+#~ "updates."
+
+#~ msgid "Software is up to date"
+#~ msgstr "Software is actueel"
+
+#~ msgid "The update server is not responding."
+#~ msgstr "De updateserver reageert niet."
+
+#~ msgid "Please wait..."
+#~ msgstr "Even geduld..."
+
+#~ msgid "Installation failed"
+#~ msgstr "Installatie mislukt"
+
+#~ msgid "Checking for updates…"
+#~ msgstr "Bezig met controleren op updates…"
+
+#~ msgid "%1 update available"
+#~ msgid_plural "%1 updates available"
+#~ msgstr[0] "%1 update beschikbaar"
+#~ msgstr[1] "%1 updates beschikbaar"
+
+#~ msgid "Update all…"
+#~ msgstr "Alles bijwerken…"
+
+#~ msgid "Update all"
+#~ msgstr "Alles bijwerken"
+
+#~ msgid "Update"
+#~ msgstr "Bijwerken"
+
+#~ msgid "Download"
+#~ msgstr "Downloaden"
+
+#~ msgid "Resume"
+#~ msgstr "Hervatten"
+
+#~ msgid "Pause"
+#~ msgstr "Pauzeren"
+
+#~ msgid "Install…"
+#~ msgstr "Installeren…"
+
+#~ msgid "Install"
+#~ msgstr "Installeren"
+
+#~ msgid "Open"
+#~ msgstr "Openen"
+
+#~ msgid "Installing"
+#~ msgstr "Bezig met installeren"
+
+#~ msgid "Paused"
+#~ msgstr "Gepauzeerd"
+
+#~ msgid "Waiting to download"
+#~ msgstr "Bezig met wachten op download"
+
+#~ msgid "%1 of %2"
+#~ msgstr "%1 van %2"
+
+#~ msgid "Downloaded"
+#~ msgstr "Gedownload"
+
+#~ msgid "Installed"
+#~ msgstr "Geïnstalleerd"
+
+#~ msgid "Updated %1"
+#~ msgstr "%1 is bijgewerkt"
+
+#~ msgid "Update failed"
+#~ msgstr "Bijwerken mislukt"
+
+#~ msgid "Location Services"
+#~ msgstr "Locatie Diensten"
+
+#~ msgid ""
+#~ "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
+#~ "(recommended)"
+#~ msgstr ""
+#~ "Maak anoniem gebruik van GPS, wifi-hotspots en het mobiele netwerk om uw "
+#~ "locatie te bepalen (aanbevolen)"
+
+#~ msgid "By selecting this option you agree to the Nokia HERE %1."
+#~ msgstr "Door deze optie te selecteren gaat u akkoord met de Nokia HERE %1."
+
+#~ msgctxt "part of: Nokia HERE terms and conditions"
+#~ msgid "terms and conditions"
+#~ msgstr "voorwaarden voor gebruik"
+
+#~ msgid "GPS only"
+#~ msgstr "Alleen GPS"
+
+#~ msgid "Don't use my location"
+#~ msgstr "Mijn locatie niet gebruiken"
+
+#~ msgid "You can change it later in System Settings."
+#~ msgstr "U kunt het later aanpassen in Systeeminstellingen"
+
+#~ msgid "Terms & Conditions"
+#~ msgstr "Algemene voorwaarden"
+
+#~ msgid "Your device uses positioning technologies provided by HERE."
+#~ msgstr ""
+#~ "Uw apparaat maakt gebruik van technologieën voor plaatsbepaling van HERE."
+
+#~ msgid ""
+#~ "To provide you with positioning services and to improve their quality, "
+#~ "HERE collects information about nearby cell towers and Wi-Fi hotspots "
+#~ "around your current location whenever your position is being found."
+#~ msgstr ""
+#~ "Om u plaatsbepalingsdiensten te leveren en deze te verbeteren, zal HERE "
+#~ "informatie verzamelen over GSM-masten in de buurt en wifi-hotspots rond "
+#~ "uw huidige locatie wanneer uw huidige positie gevonden is."
+
+#~ msgid ""
+#~ "The information collected is used to analyze the service and to improve "
+#~ "the use of service, but not to identify you personally."
+#~ msgstr ""
+#~ "De informatie die wordt verzameld zal gebruikt worden om de dienst te "
+#~ "analyseren en om het gebruik van de dienst te verbeteren, maar niet om u "
+#~ "persoonlijk te identificeren."
+
+#~ msgid "By continuing, you agree to the HERE platform %1 and %2."
+#~ msgstr "Als u doorgaat, gaat u akkoord met het HERE platform %1 en %2"
+
+#~ msgid "Service Terms"
+#~ msgstr "Dienstvoorwaarden"
+
 #~ msgid "Confirm"
 #~ msgstr "Bevestigen"
 
 #~ msgid "Type or say a command"
 #~ msgstr "Een opdracht intypen of inspreken"
 
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Bezig met laden. Even geduld a.u.b."
-
 #~ msgid "Speak Now..."
 #~ msgstr "Nu inspreken…"
-
-#~ msgid "Speaking..."
-#~ msgstr "Inspreken…"
-
-#~ msgid "Search"
-#~ msgstr "Zoeken"
 
 #~ msgid "Swipe up again to close the settings screen"
 #~ msgstr "Veeg nogmaals omhoog om het instellingenscherm te sluiten"
@@ -1004,7 +1080,8 @@ msgstr "Zeer zwak wachtwoord"
 #~ msgstr "Linkerrand"
 
 #~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr "Veeg vanaf links om de Starter te tonen voor snelle toegang tot apps"
+#~ msgstr ""
+#~ "Veeg vanaf links om de Starter te tonen voor snelle toegang tot apps"
 
 #~ msgid "Right edge"
 #~ msgstr "Rechterrand"
@@ -1016,8 +1093,8 @@ msgstr "Zeer zwak wachtwoord"
 #~ "You have now mastered the edge gestures and can start using the "
 #~ "phone<br><br>Tap on the screen to start"
 #~ msgstr ""
-#~ "Nu u de bewegingen vanuit de randen onder de knie heeft, kunt u beginnen met "
-#~ "het gebruiken van de telefoon<br><br>Tik op het scherm om te beginnen"
+#~ "Nu u de bewegingen vanuit de randen onder de knie heeft, kunt u beginnen "
+#~ "met het gebruiken van de telefoon<br><br>Tik op het scherm om te beginnen"
 
 #~ msgid "Try swiping from the top edge to access the indicators"
 #~ msgstr "Veeg vanuit de bovenrand om de indicatoren te bekijken"
@@ -1056,20 +1133,21 @@ msgstr "Zeer zwak wachtwoord"
 #~ msgstr "Dit zal uw laatste poging worden."
 
 #~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
-#~ "and all personal data will be deleted."
+#~ "If passcode is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
 #~ msgstr ""
-#~ "Wanneer de toegangscode nu opnieuw onjuist wordt ingevoerd, zal uw telefoon "
-#~ "teruggaan naar de fabrieksinstellingen en zal al uw eigen data verloren gaan."
+#~ "Wanneer de toegangscode nu opnieuw onjuist wordt ingevoerd, zal uw "
+#~ "telefoon teruggaan naar de fabrieksinstellingen en zal al uw eigen data "
+#~ "verloren gaan."
 
 #~ msgid ""
 #~ "If passphrase is entered incorrectly, your phone will conduct a factory "
 #~ "reset and all personal data will be deleted."
 #~ msgstr ""
-#~ "Wanneer de wachtwoordzin nu opnieuw onjuist wordt ingevoerd, zal uw telefoon "
-#~ "teruggaan naar de fabrieksinstellingen en zal al uw eigen data verloren gaan."
+#~ "Wanneer de wachtwoordzin nu opnieuw onjuist wordt ingevoerd, zal uw "
+#~ "telefoon teruggaan naar de fabrieksinstellingen en zal al uw eigen data "
+#~ "verloren gaan."
 
-#, qt-format
 #~ msgid "Sorry, incorrect %1"
 #~ msgstr "Sorry, onjuiste %1"
 
@@ -1103,22 +1181,15 @@ msgstr "Zeer zwak wachtwoord"
 #~ msgid "Manage Scopes"
 #~ msgstr "Scopes-beheer"
 
-#, qt-format
 #~ msgid "Enter %1"
 #~ msgstr "Voer %1 in"
-
-#~ msgid "Enter passphrase"
-#~ msgstr "Voer wachtwoordzin in"
-
-#~ msgid "Enter passcode"
-#~ msgstr "Voer toegangscode in"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Herhaal deze a.u.b."
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
+#~ "and conditions</a>."
 #~ msgstr ""
 #~ "Door deze optie te selecteren gaat u akkoord met de Nokia HERE <a "
 #~ "href='#'>Algemene Voorwaarden</a>."
@@ -1144,9 +1215,6 @@ msgstr "Zeer zwak wachtwoord"
 #~ msgid "Let’s get started."
 #~ msgstr "Laten we beginnen."
 
-#~ msgid "Continue"
-#~ msgstr "Doorgaan"
-
 #~ msgid "Lock security"
 #~ msgstr "Vergrendelbeveiliging"
 
@@ -1154,7 +1222,8 @@ msgstr "Zeer zwak wachtwoord"
 #~ msgstr "Selecteer a.u.b. hoe u uw telefoon wilt ontgrendelen."
 
 #~ msgid "You can change your mind later in <b>System Settings</b>."
-#~ msgstr "U kunt later van gedachten veranderen in <b>Systeeminstellingen</b>."
+#~ msgstr ""
+#~ "U kunt later van gedachten veranderen in <b>Systeeminstellingen</b>."
 
 #~ msgid "Not at all"
 #~ msgstr "Helemaal niet"
@@ -1182,8 +1251,8 @@ msgstr "Zeer zwak wachtwoord"
 #~ "Your phone is set up to automatically report errors to Canonical and its "
 #~ "partners, the makers of the operating system."
 #~ msgstr ""
-#~ "Uw telefoon is ingesteld om fouten automatisch te rapporteren aan Canonical "
-#~ "en partners, de makers van het besturingssysteem."
+#~ "Uw telefoon is ingesteld om fouten automatisch te rapporteren aan "
+#~ "Canonical en partners, de makers van het besturingssysteem."
 
 #~ msgid "Nice work!"
 #~ msgstr "Mooi werk!"
@@ -1197,11 +1266,9 @@ msgstr "Zeer zwak wachtwoord"
 #~ msgid "Confirm passphrase"
 #~ msgstr "Wachtwoordzin bevestigen"
 
-#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
-#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
@@ -1213,7 +1280,8 @@ msgstr "Zeer zwak wachtwoord"
 
 #~ msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
 #~ msgstr ""
-#~ "Met behulp van GPS, geanonimiseerde Wi-Fi en mobiele netwerkinfo (aanbevolen)"
+#~ "Met behulp van GPS, geanonimiseerde Wi-Fi en mobiele netwerkinfo "
+#~ "(aanbevolen)"
 
 #~ msgid "Short swipe from the left edge."
 #~ msgstr "Korte veeg vanaf de linkerrand."
@@ -1241,9 +1309,6 @@ msgstr "Zeer zwak wachtwoord"
 
 #~ msgid "To view open apps"
 #~ msgstr "Geopende apps bekijken"
-
-#~ msgid "Open the launcher"
-#~ msgstr "De Starter openen"
 
 #~ msgid "Open special menus"
 #~ msgstr "Speciale menu's openen"
@@ -1364,37 +1429,3 @@ msgstr "Zeer zwak wachtwoord"
 
 #~ msgid "Swipe up to manage the app"
 #~ msgstr "Omhoog vegen om de app te beheren"
-
-#~ msgid "Long swipe from the left edge to open the Today scope"
-#~ msgstr "Lang vanaf de linkerkant vegen om de Vandaag-scope te openen"
-
-#~ msgid "Takes a screenshot of a window."
-#~ msgstr "Maakt een schermafdruk van een venster."
-
-#~ msgid "Super + 0 to 9"
-#~ msgstr "Super + 0 tot 9"
-
-#~ msgid "Install and restart now"
-#~ msgstr "Nu installeren en herstarten"
-
-#~ msgid "This could take a few minutes..."
-#~ msgstr "Dit kan enkele minuten duren…"
-
-#, qt-format
-#~ msgctxt "version of the system update"
-#~ msgid "Version %1"
-#~ msgstr "Versie %1"
-
-#~ msgctxt "string identifying name of the update"
-#~ msgid "Ubuntu system"
-#~ msgstr "Ubuntu-systeem"
-
-#~ msgid "Update Device"
-#~ msgstr "Apparaat bijwerken"
-
-#~ msgid ""
-#~ "There is a system update available and ready to install. Afterwards, the "
-#~ "device will automatically restart."
-#~ msgstr ""
-#~ "Er is een systeemupdate beschikbaar en klaar om geïnstalleerd te worden. "
-#~ "Daarna zal het apparaat automatisch opnieuw starten."

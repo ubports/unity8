@@ -6,40 +6,41 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-04-04 22:56+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-15 12:15-0500\n"
 "PO-Revision-Date: 2015-07-06 17:47+0000\n"
 "Last-Translator: Meriuță Cornel <meriutacornel@neacornel.eu>\n"
 "Language-Team: Romanian <ro@li.org>\n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1 ? 0: (((n % 100 > 19) || ((n % 100 "
 "== 0) && (n != 0))) ? 2: 1));\n"
-"X-Launchpad-Export-Date: 2017-04-07 06:30+0000\n"
-"X-Generator: Launchpad (build 18343)\n"
+"X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
+"X-Generator: Launchpad (build 18269)\n"
 
-#: plugins/LightDM/Greeter.cpp:188
+#: plugins/LightDM/Greeter.cpp:199
 msgid "Password: "
 msgstr "Parolă: "
 
-#: plugins/LightDM/Greeter.cpp:203
+#: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
 msgstr ""
 
-#: plugins/LightDM/Greeter.cpp:242
+#: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
 msgstr ""
 
-#: plugins/LightDM/Greeter.cpp:244
+#: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
 msgstr ""
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
 msgstr ""
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
 msgstr "Reîncercați"
 
@@ -83,9 +84,8 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Ieșire din cont"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:264
-#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:208
-#: qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Anulează"
@@ -107,12 +107,12 @@ msgstr "Nu"
 msgid "Yes"
 msgstr "Da"
 
-#: qml/Components/Dialogs.qml:239
+#: qml/Components/Dialogs.qml:243
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Alimentare"
 
-#: qml/Components/Dialogs.qml:240
+#: qml/Components/Dialogs.qml:244
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -120,12 +120,12 @@ msgstr ""
 "Sunteți sigur că doriți să\n"
 "opriți alimentarea?"
 
-#: qml/Components/Dialogs.qml:244
+#: qml/Components/Dialogs.qml:248
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Oprire"
 
-#: qml/Components/Dialogs.qml:255
+#: qml/Components/Dialogs.qml:263
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Repornire"
@@ -219,8 +219,10 @@ msgid "Super + A"
 msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
+#, fuzzy
+#| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
-msgstr ""
+msgstr "Deschide lansatorul"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
@@ -306,7 +308,7 @@ msgstr ""
 msgid "Closes the current window."
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:228
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:235
 msgid "Return to Call"
 msgstr "Reveniți la funcția de apelare"
 
@@ -365,8 +367,10 @@ msgid ""
 msgstr ""
 
 #: qml/Components/VirtualTouchPad.qml:327
+#, fuzzy
+#| msgid "Tap to return to call..."
 msgid "Tap left button to click."
-msgstr ""
+msgstr "Atingeți pentru a vă întoarce la convorbire..."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
@@ -379,103 +383,6 @@ msgstr ""
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
 msgstr ""
-
-#: qml/Dash/DashPageHeader.qml:361
-msgctxt "Button: Open the Ubuntu Store"
-msgid "Store"
-msgstr "Magazin"
-
-#: qml/Dash/DashPageHeader.qml:368
-msgctxt "Button: Start a search in the current dash scope"
-msgid "Search"
-msgstr "Căutare"
-
-#: qml/Dash/DashPageHeader.qml:378
-msgctxt "Button: Show the current dash scope settings"
-msgid "Settings"
-msgstr "Configurări"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Remove from Favorites"
-msgstr "Șterge din favorite"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Add to Favorites"
-msgstr "Adaugă la favorite"
-
-#: qml/Dash/FiltersPopover.qml:61
-msgid "Refine your results"
-msgstr ""
-
-#: qml/Dash/FiltersPopover.qml:70
-msgid "Reset"
-msgstr ""
-
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
-msgid "Show less"
-msgstr ""
-
-#: qml/Dash/GenericScopeView.qml:547
-msgid "Show all"
-msgstr ""
-
-#: qml/Dash/GenericScopeView.qml:578
-msgctxt "Label: Hint for dash search line edit"
-msgid "Search"
-msgstr "Căutare"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:67
-msgid "Recent Searches"
-msgstr ""
-
-#: qml/Dash/PageHeaderExtraPanel.qml:78
-msgid "Clear All"
-msgstr ""
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "More..."
-msgstr "Mai mult ..."
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "Less..."
-msgstr "Mai puțin..."
-
-#: qml/Dash/Previews/PreviewCommentInput.qml:83
-#: qml/Dash/Previews/PreviewRatingInput.qml:202
-msgid "Send"
-msgstr "Trimite"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:109
-msgid "Rate this"
-msgstr "Evaluați"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:184
-msgid "Add a review"
-msgstr "Adăugați o recenzie"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:56
-msgid "Pull to refresh…"
-msgstr "Trageți pentru a actualiza..."
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:61
-msgid "Release to refresh…"
-msgstr "Eliberați pentru a actualiza..."
-
-#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
-msgid "Enable location data"
-msgstr "Activaţi datele de localizare"
-
-#: qml/Dash/ScopesList.qml:146
-msgid "Manage"
-msgstr "Administrați"
-
-#: qml/Dash/ScopesList.qml:187
-msgid "Home"
-msgstr "Acasă"
-
-#: qml/Dash/ScopesList.qml:188
-msgid "Also installed"
-msgstr "Alte programe instalate"
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -509,14 +416,18 @@ msgid "Try again"
 msgstr ""
 
 #: qml/Greeter/Greeter.qml:551
+#, fuzzy
+#| msgid "Enter passphrase"
 msgid "Enter passphrase to unlock"
-msgstr ""
+msgstr "Introduceți fraza parolă"
 
 #: qml/Greeter/Greeter.qml:552
+#, fuzzy
+#| msgid "Enter passcode"
 msgid "Enter passcode to unlock"
-msgstr ""
+msgstr "Introduceți parola"
 
-#: qml/Greeter/NarrowView.qml:228
+#: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
 msgstr ""
 
@@ -532,18 +443,11 @@ msgstr ""
 msgid "Select desktop environment"
 msgstr ""
 
-#: qml/Launcher/Drawer.qml:94
+#: qml/Launcher/Drawer.qml:249
+#, fuzzy
+#| msgid "Search"
 msgid "Search…"
-msgstr ""
-
-#: qml/Launcher/Drawer.qml:129
-msgctxt "Apps sorted alphabetically"
-msgid "A-Z"
-msgstr ""
-
-#: qml/Launcher/MoreAppsHeader.qml:55
-msgid "More apps in the store"
-msgstr ""
+msgstr "Căutare"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -636,26 +540,35 @@ msgid "Call back"
 msgstr ""
 
 #: qml/Panel/PanelMenuPage.qml:92
+#, fuzzy
+#| msgctxt "Button: Go back one page in the Wizard"
+#| msgid "Back"
 msgid "Back"
-msgstr ""
+msgstr "Înapoi"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr ""
 
-#: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Application Drawer"
+#: qml/Stage/Stage.qml:668
+msgid "No running apps"
 msgstr ""
+
+#: qml/Tutorial/TutorialLeftLong.qml:49
+#, fuzzy
+#| msgid "Try swiping from the top edge to access the indicators"
+msgid "Long swipe from the left edge to open the Application Drawer"
+msgstr "Glisați de la marginea de sus a ecranului pentru a accesa indicatorii"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
 msgstr ""
 
-#: qml/Tutorial/TutorialRight.qml:55
+#: qml/Tutorial/TutorialRight.qml:54
 msgid "Push your mouse against the right edge to view your open apps"
 msgstr ""
 
-#: qml/Tutorial/TutorialRight.qml:56
+#: qml/Tutorial/TutorialRight.qml:55
 msgid "Swipe from the right edge to view your open apps"
 msgstr ""
 
@@ -663,24 +576,41 @@ msgstr ""
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
 
-#: qml/Wizard/Page.qml:54
+#: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Înapoi"
 
-#: qml/Wizard/Pages/10-welcome.qml:28
+#: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
 msgstr ""
 
-#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:145
-#: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:142
-#: qml/Wizard/Pages/password-set.qml:142
+#: qml/Wizard/Pages/10-welcome.qml:176
+#: qml/Wizard/Pages/10-welcome-update.qml:126
+#: qml/Wizard/Pages/11-changelog.qml:74 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:214 qml/Wizard/Pages/50-timezone.qml:272
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/70-passwd-type.qml:146
+#: qml/Wizard/Pages/passcode-desktop.qml:154
+#: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
 msgstr ""
+
+#: qml/Wizard/Pages/10-welcome-update.qml:91
+msgid "Welcome to "
+msgstr ""
+
+#: qml/Wizard/Pages/10-welcome-update.qml:106
+msgid "We will make sure your device is ready to use "
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:28
+msgid "What's new"
+msgstr ""
+
+#: qml/Wizard/Pages/11-changelog.qml:74
+#, fuzzy
+msgid "Loading..."
+msgstr "Vorbire..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
@@ -694,64 +624,33 @@ msgstr ""
 msgid "Keyboard layout"
 msgstr ""
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:214
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/79-system-update.qml:144
+#: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Se omite"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
 msgstr "Conectare la Wi-Fi"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
 msgstr ""
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
 msgstr ""
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
-msgstr ""
-
-#: qml/Wizard/Pages/40-location.qml:27
-msgid "Location Services"
-msgstr ""
-
-#: qml/Wizard/Pages/40-location.qml:83
-msgid ""
-"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
-"(recommended)"
-msgstr ""
-
-#: qml/Wizard/Pages/40-location.qml:105
-#, qt-format
-msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr ""
-
-#: qml/Wizard/Pages/40-location.qml:106
-msgctxt "part of: Nokia HERE terms and conditions"
-msgid "terms and conditions"
-msgstr ""
-
-#: qml/Wizard/Pages/40-location.qml:160
-msgid "GPS only"
-msgstr ""
-
-#: qml/Wizard/Pages/40-location.qml:214
-msgid "Don't use my location"
-msgstr ""
-
-#: qml/Wizard/Pages/40-location.qml:260
-msgid "You can change it later in System Settings."
 msgstr ""
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr ""
 
-#: qml/Wizard/Pages/50-timezone.qml:182
+#: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
 msgstr ""
 
@@ -759,7 +658,7 @@ msgstr ""
 msgid "Personalize Your Device"
 msgstr ""
 
-#: qml/Wizard/Pages/60-account.qml:48
+#: qml/Wizard/Pages/60-account.qml:54
 msgid "Preferred Name"
 msgstr ""
 
@@ -767,81 +666,72 @@ msgstr ""
 msgid "Lock Screen"
 msgstr ""
 
-#: qml/Wizard/Pages/70-passwd-type.qml:102
+#: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr ""
 
-#: qml/Wizard/Pages/70-passwd-type.qml:104
+#: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr ""
 
-#: qml/Wizard/Pages/70-passwd-type.qml:106
+#: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr ""
 
-#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
-msgid "Privacy Policy"
+#: qml/Wizard/Pages/79-system-update.qml:28
+msgid "Update Device"
 msgstr ""
 
-#: qml/Wizard/Pages/75-report-check.qml:26
-msgid "Help Us Improve"
+#: qml/Wizard/Pages/79-system-update.qml:55
+msgid ""
+"There is a system update available and ready to install. Afterwards, the "
+"device will automatically restart."
 msgstr ""
 
-#: qml/Wizard/Pages/75-report-check.qml:59
-msgid "Improve system performance by sending us crashes and error reports."
+#: qml/Wizard/Pages/79-system-update.qml:76
+msgctxt "string identifying name of the update"
+msgid "Ubuntu Touch system"
 msgstr ""
 
-#: qml/Wizard/Pages/75-report-check.qml:60
-msgid "Privacy policy"
+#: qml/Wizard/Pages/79-system-update.qml:83
+#, qt-format
+msgctxt "version of the system update"
+msgid "Version %1"
 msgstr ""
 
-#: qml/Wizard/Pages/80-finished.qml:89
+#: qml/Wizard/Pages/79-system-update.qml:95
+msgid "This could take a few minutes..."
+msgstr ""
+
+#: qml/Wizard/Pages/79-system-update.qml:109
+msgid "Install and restart now"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:91
+msgid "Welcome Back"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
 msgstr ""
 
-#: qml/Wizard/Pages/80-finished.qml:104
+#: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
 msgstr ""
 
-#: qml/Wizard/Pages/80-finished.qml:124
+#: qml/Wizard/Pages/80-finished.qml:126
+msgid "Continue"
+msgstr "Continuare"
+
+#: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
 msgstr ""
 
-#: qml/Wizard/Pages/here-terms.qml:25
-msgid "Terms & Conditions"
-msgstr "Termeni și condiții"
-
-#: qml/Wizard/Pages/here-terms.qml:69
-msgid "Your device uses positioning technologies provided by HERE."
-msgstr ""
-
-#: qml/Wizard/Pages/here-terms.qml:81
-msgid ""
-"To provide you with positioning services and to improve their quality, HERE "
-"collects information about nearby cell towers and Wi-Fi hotspots around your "
-"current location whenever your position is being found."
-msgstr ""
-
-#: qml/Wizard/Pages/here-terms.qml:93
-msgid ""
-"The information collected is used to analyze the service and to improve the "
-"use of service, but not to identify you personally."
-msgstr ""
-
-#: qml/Wizard/Pages/here-terms.qml:106
-#, qt-format
-msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr ""
-
-#: qml/Wizard/Pages/here-terms.qml:107
-msgid "Service Terms"
-msgstr ""
-
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:97
+#: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
 msgstr "Confirmați codul de acces"
 
@@ -858,24 +748,24 @@ msgstr ""
 msgid "Lock Screen Passcode"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:61
+#: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:77
+#: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:127
+#: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:129
+#: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
 msgstr ""
 
-#: qml/Wizard/Pages/passcode-desktop.qml:131
+#: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
 msgstr ""
 
@@ -887,15 +777,15 @@ msgstr ""
 msgid "Lock Screen Password"
 msgstr ""
 
-#: qml/Wizard/Pages/password-set.qml:62
+#: qml/Wizard/Pages/password-set.qml:68
 msgid "Enter at least 8 characters"
 msgstr ""
 
-#: qml/Wizard/Pages/password-set.qml:74
+#: qml/Wizard/Pages/password-set.qml:80
 msgid "Choose password"
 msgstr ""
 
-#: qml/Wizard/Pages/password-set.qml:104
+#: qml/Wizard/Pages/password-set.qml:110
 msgid "Confirm password"
 msgstr ""
 
@@ -951,30 +841,95 @@ msgstr ""
 msgid "Very weak password"
 msgstr ""
 
+#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgid "Store"
+#~ msgstr "Magazin"
+
+#~ msgctxt "Button: Start a search in the current dash scope"
+#~ msgid "Search"
+#~ msgstr "Căutare"
+
+#~ msgctxt "Button: Show the current dash scope settings"
+#~ msgid "Settings"
+#~ msgstr "Configurări"
+
+#~ msgid "Remove from Favorites"
+#~ msgstr "Șterge din favorite"
+
+#~ msgid "Add to Favorites"
+#~ msgstr "Adaugă la favorite"
+
+#~ msgctxt "Label: Hint for dash search line edit"
+#~ msgid "Search"
+#~ msgstr "Căutare"
+
+#~ msgid "More..."
+#~ msgstr "Mai mult ..."
+
+#~ msgid "Less..."
+#~ msgstr "Mai puțin..."
+
+#~ msgid "Send"
+#~ msgstr "Trimite"
+
+#~ msgid "Rate this"
+#~ msgstr "Evaluați"
+
+#~ msgid "Add a review"
+#~ msgstr "Adăugați o recenzie"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Trageți pentru a actualiza..."
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Eliberați pentru a actualiza..."
+
+#~ msgid "Enable location data"
+#~ msgstr "Activaţi datele de localizare"
+
+#~ msgid "Manage"
+#~ msgstr "Administrați"
+
+#~ msgid "Home"
+#~ msgstr "Acasă"
+
+#~ msgid "Also installed"
+#~ msgstr "Alte programe instalate"
+
+#, fuzzy
+#~ msgid "Please wait..."
+#~ msgstr "Se încarcă. Așteptați..."
+
+#, fuzzy
+#~ msgid "Update all"
+#~ msgstr "Deloc"
+
+#, fuzzy
+#~ msgid "Download"
+#~ msgstr "Se descarcă"
+
+#, fuzzy
+#~ msgid "Downloaded"
+#~ msgstr "Se descarcă"
+
+#, fuzzy
+#~ msgid "Installed"
+#~ msgstr "Alte programe instalate"
+
+#~ msgid "Terms & Conditions"
+#~ msgstr "Termeni și condiții"
+
 #~ msgid "Confirm"
 #~ msgstr "Confirmați"
 
 #~ msgid "Type or say a command"
 #~ msgstr "Scrieți sau spuneți o comandă"
 
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Se încarcă. Așteptați..."
-
 #~ msgid "Speak Now..."
 #~ msgstr "Vorbiți acum..."
 
-#~ msgid "Speaking..."
-#~ msgstr "Vorbire..."
-
-#~ msgid "Search"
-#~ msgstr "Căutare"
-
 #~ msgid "Top edge"
 #~ msgstr "Marginea de sus"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr ""
-#~ "Glisați de la marginea de sus a ecranului pentru a accesa indicatorii"
 
 #~ msgid "Left edge"
 #~ msgstr "Marginea din stânga"
@@ -1043,20 +998,20 @@ msgstr ""
 #~ msgstr "Parolă greșită"
 
 #~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
-#~ "and all personal data will be deleted."
+#~ "If passcode is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
 #~ msgstr ""
 #~ "Dacă parola este introdusă greșit, telefonul va iniția o resetare la "
-#~ "configurările inițiale, ale fabricantului, iar toate datele personale vor fi "
-#~ "șterse."
+#~ "configurările inițiale, ale fabricantului, iar toate datele personale vor "
+#~ "fi șterse."
 
 #~ msgid ""
 #~ "If passphrase is entered incorrectly, your phone will conduct a factory "
 #~ "reset and all personal data will be deleted."
 #~ msgstr ""
-#~ "Dacă fraza parolă este introdusă greșit, telefonul va iniția o resetare la "
-#~ "configurările inițiale, ale fabricantului, iar toate datele personale vor fi "
-#~ "șterse."
+#~ "Dacă fraza parolă este introdusă greșit, telefonul va iniția o resetare "
+#~ "la configurările inițiale, ale fabricantului, iar toate datele personale "
+#~ "vor fi șterse."
 
 #~ msgid "This will be your last attempt."
 #~ msgstr "Aceasta va fi ultima încercare"
@@ -1085,23 +1040,15 @@ msgstr ""
 #~ msgid "Sorry, incorrect passcode"
 #~ msgstr "Parolă incorectă"
 
-#, qt-format
 #~ msgid "Sorry, incorrect %1"
 #~ msgstr "%1 incorectă"
 
 #~ msgid "Manage Scopes"
 #~ msgstr "Administrare domenii"
 
-#~ msgid "Enter passphrase"
-#~ msgstr "Introduceți fraza parolă"
-
 #~ msgid "Please re-enter"
 #~ msgstr "Introduceți din nou"
 
-#~ msgid "Enter passcode"
-#~ msgstr "Introduceți parola"
-
-#, qt-format
 #~ msgid "Enter %1"
 #~ msgstr "Introducere %1"
 
@@ -1121,9 +1068,6 @@ msgstr ""
 #~ msgid "Let’s get started."
 #~ msgstr "Să începem."
 
-#~ msgid "Continue"
-#~ msgstr "Continuare"
-
 #~ msgid "Lock security"
 #~ msgstr "Blocare de securitate"
 
@@ -1138,14 +1082,11 @@ msgstr ""
 #~ "Puteți să modificați opțiunea utilizând <b>Configurări de sistem</b>."
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
+#~ "and conditions</a>."
 #~ msgstr ""
-#~ "Prin selectarea acestei opțiuni sunteți de acord cu <a href='#'>termenii și "
-#~ "condițiile</a> Nokia HERE."
-
-#~ msgid "Not at all"
-#~ msgstr "Deloc"
+#~ "Prin selectarea acestei opțiuni sunteți de acord cu <a href='#'>termenii "
+#~ "și condițiile</a> Nokia HERE."
 
 #~ msgid "Available networks…"
 #~ msgstr "Rețele disponibile..."
@@ -1164,8 +1105,8 @@ msgstr ""
 
 #~ msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
 #~ msgstr ""
-#~ "Utilizând GPS, rețelele fără fir în modul anonim și informațiile furnizate "
-#~ "de rețeaua celulară (recomandat)"
+#~ "Utilizând GPS, rețelele fără fir în modul anonim și informațiile "
+#~ "furnizate de rețeaua celulară (recomandat)"
 
 #~ msgid ""
 #~ "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
@@ -1178,9 +1119,9 @@ msgstr ""
 #~ "Your phone is set up to automatically report errors to Canonical and its "
 #~ "partners, the makers of the operating system."
 #~ msgstr ""
-#~ "Telefonul dumneavoastră este configurat să trimită în mod automat rapoarte "
-#~ "de erori către Canonical și partenerii săi, producătorii sistemului de "
-#~ "operare."
+#~ "Telefonul dumneavoastră este configurat să trimită în mod automat "
+#~ "rapoarte de erori către Canonical și partenerii săi, producătorii "
+#~ "sistemului de operare."
 
 #~ msgid "Nice work!"
 #~ msgstr "Bună treabă!"
@@ -1200,11 +1141,9 @@ msgstr ""
 #~ msgid "Your phone is now ready to use."
 #~ msgstr "Telefonul dumneavoastră este gata de utilizare."
 
-#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
-#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
@@ -1219,9 +1158,6 @@ msgstr ""
 
 #~ msgid "Short swipe from the left edge."
 #~ msgstr "Glisaţi scurt dinspre marginea din stânga."
-
-#~ msgid "Open the launcher"
-#~ msgstr "Deschide lansatorul"
 
 #~ msgid "Tap here to continue."
 #~ msgstr "Apăsaţi aici pentru a continua."

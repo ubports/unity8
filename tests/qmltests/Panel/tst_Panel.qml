@@ -1,5 +1,6 @@
 /*
  * Copyright 2013-2015 Canonical Ltd.
+ * Copyright 2020 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +31,7 @@ import "../../../qml/Components/PanelState"
 import "../Stage"
 import ".."
 
-PanelTest {
+PanelUI {
     id: root
     width: units.gu(120)
     height: units.gu(71)
@@ -257,12 +258,18 @@ PanelTest {
         }
 
         function init() {
+            var messagingMenu = findChild(panel, "fake-indicator-messages-panelItem");
+            // Make all indicators visible again
+            for (var i = 0; i < originalModelData.length; i++) {
+                root.setIndicatorVisible(i, false);
+                root.setIndicatorVisible(i, true);
+            }
             panel.mode = "staged";
             mouseEmulation.checked = true;
             panel.fullscreenMode = false;
             callManager.foregroundCall = null;
 
-            panelState.title = "";
+            panelState.title = "Fake Window Title";
             panelState.decorationsVisible = false;
 
             // Put the mouse somewhere neutral so it doesn't hover over things
@@ -280,6 +287,8 @@ PanelTest {
             compare(windowControlButtonsSpy.valid, true);
 
             waitForRendering(panel);
+            // Wait for indicators to fade in all the way using a sample
+            tryCompare(messagingMenu, "opacity", 1);
         }
 
         function cleanup() {
@@ -355,8 +364,6 @@ PanelTest {
         // expose more of the panel, binding it to the selected indicator and opening it's menu.
         // Tested from first Y pixel to check for swipe from offscreen.
         function test_drag_indicator_item_down_shows_menu(data) {
-            skip("Unstable test; panel expansion refactor may be required");
-
             panel.fullscreenMode = data.fullscreen;
             callManager.foregroundCall = data.call;
 
@@ -378,12 +385,18 @@ PanelTest {
 
                 var indicatorItem = get_indicator_item(i);
 
+                if (indicatorItem.hidden) {
+                    // Getting to this item would require swiping left after
+                    // pulling down
+                    continue;
+                }
+
                 var startXPosition = panel.mapFromItem(indicatorItem, indicatorItem.width / 2, 0).x;
 
                 touchFlick(panel,
                            startXPosition, 0,
                            startXPosition, panel.height,
-                           true /* beginTouch */, false /* endTouch */, 1, 15);
+                           true /* beginTouch */, false /* endTouch */);
 
                 // Indicators height should follow the drag, and therefore increase accordingly.
                 // They should be at least half-way through the screen
@@ -437,7 +450,7 @@ PanelTest {
             touchFlick(data.section,
                        data.section.width / 2, panel.height,
                        data.section.width / 2, 0,
-                       true /* beginTouch */, false /* endTouch */, units.gu(5), 15);
+                       true /* beginTouch */, false /* endTouch */);
 
             // Indicators height should follow the drag, and therefore increase accordingly.
             // They should be at least half-way through the screen
@@ -526,7 +539,7 @@ PanelTest {
             touchFlick(panel,
                        units.gu(1), 0,
                        units.gu(1), panel.height,
-                       true /* beginTouch */, false /* endTouch */, units.gu(5), 15);
+                       true /* beginTouch */, false /* endTouch */);
 
             // Indicators height should follow the drag, and therefore increase accordingly.
             // They should be at least half-way through the screen

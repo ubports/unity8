@@ -24,6 +24,7 @@ set(WINDOWMANAGER_SRC
     Workspace.cpp
     WorkspaceManager.cpp
     WorkspaceModel.cpp
+    InputMethodManager.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/Mir.h
@@ -37,10 +38,9 @@ add_definitions(-DWINDOWMANAGERQML_LIBRARY)
 add_library(windowmanager-qml SHARED ${WINDOWMANAGER_SRC})
 
 target_link_libraries(windowmanager-qml
+    Qt5::Qml Qt5::Quick Qt5::Gui
     ${QTMIRSERVER_LDFLAGS}
     unity8-private
 )
-
-qt5_use_modules(windowmanager-qml Qml Quick Gui)
 
 add_unity8_plugin(WindowManager 1.0 WindowManager TARGETS windowmanager-qml)

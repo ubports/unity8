@@ -44,9 +44,9 @@ target_link_libraries(launchermodeltestExec
     ${GSETTINGS_QT_LDFLAGS}
     ${GLIB_LIBRARIES}
     ${UAL_LIBRARIES}
+    Qt5::Test Qt5::Core Qt5::DBus Qt5::Xml Qt5::Gui Qt5::Qml
     )
 add_dependencies(launchermodeltestExec mock-server)
-qt5_use_modules(launchermodeltestExec Test Core DBus Xml Gui Qml)
 install(TARGETS launchermodeltestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Launcher"
     )
@@ -65,6 +65,7 @@ add_unity8_unittest(LauncherModel dbus-test-runner
 add_executable(appdrawermodeltestExec
     appdrawermodeltest.cpp
     ualwrapper.cpp
+    xdgwatcher.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/appdrawermodel.cpp
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/AppDrawerModelInterface.h
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/launcheritem.cpp
@@ -78,9 +79,9 @@ target_link_libraries(appdrawermodeltestExec
     ${GSETTINGS_QT_LDFLAGS}
     ${GLIB_LIBRARIES}
     ${UAL_LIBRARIES}
+    Qt5::Test Qt5::Core Qt5::DBus Qt5::Xml Qt5::Gui Qt5::Qml Qt5::Concurrent
     )
 add_dependencies(appdrawermodeltestExec mock-server)
-qt5_use_modules(appdrawermodeltestExec Test Core DBus Xml Gui Qml)
 install(TARGETS appdrawermodeltestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Launcher"
     )

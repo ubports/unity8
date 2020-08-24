@@ -27,6 +27,7 @@ GreeterPrivate::GreeterPrivate(Greeter* parent)
     m_active(false),
     responded(false),
     everResponded(false),
+    promptless(false),
     q_ptr(parent)
 {
 }
@@ -112,6 +113,12 @@ QString Greeter::defaultSessionHint() const
     return d->m_greeter->defaultSessionHint();
 }
 
+bool Greeter::promptless() const
+{
+    Q_D(const Greeter);
+    return d->promptless;
+}
+
 QString Greeter::selectUser() const
 {
     Q_D(const Greeter);
@@ -146,6 +153,10 @@ void Greeter::authenticate(const QString &username)
     d->prompts.clear();
     d->responded = false;
     d->everResponded = false;
+    if (d->promptless) {
+        d->promptless = false;
+        Q_EMIT promptlessChanged();
+    }
 
     if (authenticationUser() == username) {
         d->prompts = d->leftovers;
@@ -234,6 +245,11 @@ void Greeter::authenticationCompleteFilter()
 
     bool automatic = !d->everResponded;
     bool pamHasLeftoverMessages = !d->prompts.hasPrompt() && d->prompts.rowCount() > 0;
+
+    if (isAuthenticated() && automatic) {
+        d->promptless = true;
+        Q_EMIT promptlessChanged();
+    }
 
     if (!isAuthenticated()) {
         if (pamHasLeftoverMessages) {

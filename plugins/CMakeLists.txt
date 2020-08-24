@@ -1,4 +1,4 @@
-include(QmlPlugins)
+find_package(QmlPlugins)
 
 # Set up and install a plugin for unity8.
 #
@@ -15,7 +15,6 @@ add_subdirectory(AccountsService)
 add_subdirectory(Cursor)
 add_subdirectory(GlobalShortcut)
 add_subdirectory(Greeter)
-add_subdirectory(ImageCache)
 add_subdirectory(LightDM)
 add_subdirectory(Lights)
 add_subdirectory(Powerd)

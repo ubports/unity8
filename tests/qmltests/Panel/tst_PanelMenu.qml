@@ -1,5 +1,6 @@
 /*
  * Copyright 2013-2016 Canonical Ltd.
+ * Copyright 2019 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +30,12 @@ PanelTest {
     SignalSpy {
         id: clickThroughSpy
         target: clickThroughTester
+    }
+
+    SignalSpy {
+        id: showTappedSpy
+        target: indicatorsMenu
+        signalName: "showTapped"
     }
 
     MouseArea {
@@ -131,15 +138,18 @@ PanelTest {
         when: windowShown
 
         function init() {
-            indicatorsMenu.hide();
-            tryCompare(indicatorsMenu.hideAnimation, "running", false);
-            compare(indicatorsMenu.state, "initial");
-
             indicatorsMenu.verticalVelocityThreshold = 0.5
+            tryCompare(indicatorsMenu.hideAnimation, "running", false);
+            tryCompare(indicatorsMenu, "state", "initial");
+            wait(100);
         }
 
         function cleanup() {
+            touchRelease(root);
             clickThroughSpy.clear();
+            showTappedSpy.clear();
+            indicatorsMenu.hideAnimation.complete();
+            indicatorsMenu.hideNow();
         }
 
         function get_indicator_item(index) {
@@ -219,33 +229,45 @@ PanelTest {
             touchRelease(indicatorsMenu, mappedPosition.x, indicatorsMenu.minimizedPanelHeight / 2);
         }
 
+        function test_swipeForCurrentItem_data() {
+            return [
+                {item: 0},
+                {item: 1},
+                {item: 2},
+                {item: 3},
+                {item: 4},
+                {item: 5},
+                {item: 6},
+                {item: 7},
+                {item: 8},
+            ]
+        }
+
         // tests swiping on an indicator item activates the correct item.
-        function test_swipeForCurrentItem()
+        function test_swipeForCurrentItem(data)
         {
             var panelItemRow = findChild(indicatorsMenu, "panelItemRow");
             verify(panelItemRow !== null);
 
-            for (var i = 0; i < root.originalModelData.length; i++) {
-                var indicatorItem = get_indicator_item(i);
+            var indicatorItem = get_indicator_item(data.item);
 
-                var mappedPosition = indicatorsMenu.mapFromItem(indicatorItem, indicatorItem.width/2, indicatorItem.height/2);
+            var mappedPosition = indicatorsMenu.mapFromItem(indicatorItem, indicatorItem.width/2, indicatorItem.height/2);
 
-                touchFlick(indicatorsMenu,
-                           mappedPosition.x, mappedPosition.y,
-                           mappedPosition.x, indicatorsMenu.openedHeight / 2,
-                           true /* beginTouch */, false /* endTouch */);
+            touchFlick(indicatorsMenu,
+                        mappedPosition.x, mappedPosition.y,
+                        mappedPosition.x, indicatorsMenu.openedHeight / 2,
+                        true /* beginTouch */, false /* endTouch */);
 
-                tryCompare(panelItemRow, "currentItem", indicatorItem, undefined /*timeout, default */,
-                           "Incorrect item activated at position " + i);
+            tryCompare(panelItemRow, "currentItem", indicatorItem, undefined /*timeout, default */,
+                        "Incorrect item activated at position " + data.item);
 
-                touchFlick(panelItemRow,
-                           mappedPosition.x, indicatorsMenu.openedHeight / 2,
-                           mappedPosition.x, mappedPosition.y,
-                           false /* beginTouch */, true /* endTouch */);
+            touchFlick(panelItemRow,
+                        mappedPosition.x, indicatorsMenu.openedHeight / 2,
+                        mappedPosition.x, mappedPosition.y,
+                        false /* beginTouch */, true /* endTouch */);
 
-                // wait until fully closed
-                tryCompare(indicatorsMenu, "fullyClosed", true);
-            }
+            // wait until fully closed
+            tryCompare(indicatorsMenu, "fullyClosed", true);
         }
 
         // Test the vertical velocity check when flicking the indicators open at an angle.
@@ -320,6 +342,23 @@ PanelTest {
 
             indicatorsMenu.available = true;
             indicatorsMenu.hide();
+        }
+
+        // Ensure that showTapped is only signaled when the user hasn't moved
+        // thir tap point
+        // Prior to this, the user could press and drag down very fast but
+        // still call showTapped
+        function test_showTapped() {
+            // Get the first indicator
+            var firstItem = get_indicator_item(0);
+            var firstItemMappedPosition = indicatorsMenu.mapFromItem(firstItem, firstItem.width/2, firstItem.height/2);
+
+            touchFlick(indicatorsMenu,
+                       firstItemMappedPosition.x, indicatorsMenu.minimizedPanelHeight / 2,
+                       firstItemMappedPosition.x, indicatorsMenu.minimizedPanelHeight * 7,
+                       true /* beginTouch */, true /* endTouch */, 100, 2);
+
+            verify(showTappedSpy.count === 0);
         }
     }
 }

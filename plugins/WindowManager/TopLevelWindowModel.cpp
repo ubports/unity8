@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2016-2017 Canonical, Ltd.
+ * Copyright 2019 UBports Foundation
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -30,6 +31,7 @@
 // local
 #include "Window.h"
 #include "Workspace.h"
+#include "InputMethodManager.h"
 
 Q_LOGGING_CATEGORY(TOPLEVELWINDOWMODEL, "toplevelwindowmodel", QtInfoMsg)
 
@@ -40,7 +42,8 @@ namespace unityapi = unity::shell::application;
 
 TopLevelWindowModel::TopLevelWindowModel(Workspace* workspace)
     : m_nullWindow(createWindow(nullptr)),
-      m_workspace(workspace)
+      m_workspace(workspace),
+      m_surfaceManagerBusy(false)
 {
     connect(WindowManagerObjects::instance(), &WindowManagerObjects::applicationManagerChanged,
             this,                             &TopLevelWindowModel::setApplicationManager);
@@ -53,6 +56,9 @@ TopLevelWindowModel::TopLevelWindowModel(Workspace* workspace)
 
 TopLevelWindowModel::~TopLevelWindowModel()
 {
+    connect(m_nullWindow, &Window::focusedChanged, this, [this] {
+        Q_EMIT rootFocusChanged();
+    });
 }
 
 void TopLevelWindowModel::setApplicationManager(unityapi::ApplicationManagerInterface* value)
@@ -210,9 +216,8 @@ void TopLevelWindowModel::prependSurfaceHelper(unityapi::MirSurfaceInterface *su
 
     prependWindow(window, application);
 
-    if (!surface) {
-        activateEmptyWindow(window);
-    }
+    // Activate the newly-prepended window.
+    window->activate();
 
     INFO_MSG << " after " << toString();
 }
@@ -366,7 +371,17 @@ void TopLevelWindowModel::onSurfaceDestroyed(unityapi::MirSurfaceInterface *surf
 
 Window *TopLevelWindowModel::createWindow(unityapi::MirSurfaceInterface *surface)
 {
-    int id = generateId();
+    int id = m_nextId.fetchAndAddAcquire(1);
+    return createWindowWithId(surface, id);
+}
+
+Window *TopLevelWindowModel::createNullWindow()
+{
+    return createWindowWithId(nullptr, 0);
+}
+
+Window *TopLevelWindowModel::createWindowWithId(unityapi::MirSurfaceInterface *surface, int id)
+{
     Window *qmlWindow = new Window(id, this);
     connectWindow(qmlWindow);
     if (surface) {
@@ -527,6 +542,10 @@ void TopLevelWindowModel::removeAt(int index)
         m_focusedWindowCleared = false;
     }
 
+    if (m_previousWindow == window) {
+        m_previousWindow = nullptr;
+    }
+
     if (m_closingAllApps) {
         if (m_windowModel.isEmpty()) {
             Q_EMIT closedAllWindows();
@@ -544,6 +563,7 @@ void TopLevelWindowModel::setInputMethodWindow(Window *window)
     }
     m_inputMethodWindow = window;
     Q_EMIT inputMethodSurfaceChanged(m_inputMethodWindow->surface());
+    InputMethodManager::instance()->setWindow(window);
 }
 
 void TopLevelWindowModel::removeInputMethodWindow()
@@ -561,6 +581,7 @@ void TopLevelWindowModel::removeInputMethodWindow()
         delete m_inputMethodWindow;
         m_inputMethodWindow = nullptr;
         Q_EMIT inputMethodSurfaceChanged(nullptr);
+        InputMethodManager::instance()->setWindow(nullptr);
     }
 }
 
@@ -594,37 +615,6 @@ QVariant TopLevelWindowModel::data(const QModelIndex& index, int role) const
     } else {
         return QVariant();
     }
-}
-
-int TopLevelWindowModel::generateId()
-{
-    int id = m_nextId;
-    m_nextId = nextFreeId(nextId(id), id);
-    return id;
-}
-
-int TopLevelWindowModel::nextId(int id) const
-{
-    if (id == m_maxId) {
-        return id = 1;
-    } else {
-        return id + 1;
-    }
-}
-
-int TopLevelWindowModel::nextFreeId(int candidateId, const int latestId)
-{
-    int firstCandidateId = candidateId;
-
-    while (indexForId(candidateId) != -1 || candidateId == latestId) {
-        candidateId = nextId(candidateId);
-
-        if (candidateId == firstCandidateId) {
-            qFatal("TopLevelWindowModel: run out of window ids.");
-        }
-    }
-
-    return candidateId;
 }
 
 QString TopLevelWindowModel::toString()
@@ -796,6 +786,7 @@ void TopLevelWindowModel::move(int from, int to)
 }
 void TopLevelWindowModel::onModificationsStarted()
 {
+    m_surfaceManagerBusy = true;
 }
 
 void TopLevelWindowModel::onModificationsEnded()
@@ -805,6 +796,7 @@ void TopLevelWindowModel::onModificationsEnded()
     }
     // reset
     m_focusedWindowCleared = false;
+    m_surfaceManagerBusy = false;
 }
 
 void TopLevelWindowModel::activateTopMostWindowWithoutId(int forbiddenId)
@@ -815,6 +807,7 @@ void TopLevelWindowModel::activateTopMostWindowWithoutId(int forbiddenId)
         Window *window = m_windowModel[i].window;
         if (window->id() != forbiddenId) {
             window->activate();
+            break;
         }
     }
 }
@@ -885,8 +878,21 @@ void TopLevelWindowModel::closeAllWindows()
     }
 }
 
-void TopLevelWindowModel::rootFocus(bool focus)
+bool TopLevelWindowModel::rootFocus()
 {
+    return !m_nullWindow->focused();
+}
+
+void TopLevelWindowModel::setRootFocus(bool focus)
+{
+    INFO_MSG << "(" << focus << "), surfaceManagerBusy is " << m_surfaceManagerBusy;
+
+    if (m_surfaceManagerBusy) {
+        // Something else is probably being focused already, let's not add to
+        // the noise.
+        return;
+    }
+
     if (focus) {
         // Give focus back to previous focused window, only if null window is focused.
         // If null window is not focused, a different app had taken the focus and we
@@ -894,6 +900,9 @@ void TopLevelWindowModel::rootFocus(bool focus)
         if (m_previousWindow && !m_previousWindow->focused() && !m_pendingActivation &&
             m_nullWindow == m_focusedWindow && m_previousWindow != m_nullWindow) {
             m_previousWindow->activate();
+        } else if (!m_pendingActivation) {
+            // The previous window does not exist any more, focus top window.
+            activateTopMostWindowWithoutId(-1);
         }
     } else {
         if (!m_nullWindow->focused()) {

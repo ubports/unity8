@@ -1,4 +1,4 @@
-include(QmlPlugins)
+find_package(QmlPlugins)
 
 # Set up and optionally install a mock plugin for unity8.
 #

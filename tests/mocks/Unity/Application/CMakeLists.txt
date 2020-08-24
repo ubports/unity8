@@ -47,10 +47,10 @@ target_link_libraries(NonMirUnityApplicationQml
     ${MIRTEST_LDFLAGS}
     ${MIRAL_LDFLAGS}
     mockwindowmanagmentpolicy
+    Qt5::Core Qt5::Quick Qt5::DBus
 )
 
-qt5_use_modules(FakeUnityApplicationQml Core Quick DBus)
-qt5_use_modules(NonMirUnityApplicationQml Core Quick DBus)
+target_link_libraries(FakeUnityApplicationQml Qt5::Core Qt5::Quick Qt5::DBus)
 
 add_unity8_mock(Unity.Application 0.1 Unity/Application TARGETS FakeUnityApplicationQml)
 add_unity8_mock(Unity.Application 0.1 Unity/Application

@@ -328,6 +328,12 @@ void TouchGestureArea::touchEvent_rejected(QTouchEvent *event)
             }
         }
     }
+
+    // If this event is a new touch, ignore it and let the item below have it.
+    // We won't recognize any new touch until the whole current gesture is done
+    // i.e. we're in WaitingForTouch state.
+    // And even if it isn't, just ignore it anyway; we don't care about it.
+    event->ignore();
 }
 
 void TouchGestureArea::unownedTouchEvent(QTouchEvent *unownedTouchEvent)

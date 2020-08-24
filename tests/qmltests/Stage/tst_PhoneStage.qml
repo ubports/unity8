@@ -1,5 +1,6 @@
 /*
  * Copyright 2014-2016 Canonical Ltd.
+ * Copyright 2019 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +44,7 @@ Item {
         anchors { fill: parent; rightMargin: units.gu(30) }
         focus: true
         dragAreaWidth: units.gu(2)
-        interactive: true
+        allowInteractivity: true
         shellOrientation: Qt.PortraitOrientation
         orientations: Orientations {}
         applicationManager: ApplicationManager
@@ -76,21 +77,18 @@ Item {
             Column {
                 anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
                 spacing: units.gu(1)
-                EdgeBarrierControls {
-                    id: edgeBarrierControls
-                    text: "Drag here to pull out spread"
-                    backgroundColor: "blue"
-                    onDragged: { stage.pushRightEdge(amount); }
-                    Component.onCompleted: {
-                        edgeBarrierControls.target = testCase.findChild(stage, "edgeBarrierController");
-                    }
-                }
                 Repeater {
                     model: ApplicationManager.availableApplications
                     ApplicationCheckBox { appId: modelData }
                 }
             }
         }
+    }
+
+    SignalSpy {
+        id: mainAppChangedSpy
+        target: stage
+        signalName: "mainAppChanged"
     }
 
     UT.UnityTestCase {
@@ -230,7 +228,7 @@ Item {
             return [
                 {tag: "<breakPoint (trigger)", progress: .2, cancel: false, endState: "staged", newFocusedIndex: 1 },
                 {tag: "<breakPoint (cancel)", progress: .2, cancel: true, endState: "staged", newFocusedIndex: 0 },
-                {tag: ">breakPoint (trigger)", progress: .5, cancel: false, endState: "spread", newFocusedIndex: 0 },
+                {tag: ">breakPoint (trigger)", progress: .5, cancel: false, endState: "spread", newFocusedIndex: null },
                 {tag: ">breakPoint (cancel)", progress: .8, cancel: true, endState: "staged", newFocusedIndex: 0 },
             ];
         }
@@ -245,7 +243,6 @@ Item {
             var endY = startY;
             var endX = stage.width - (stage.width * data.progress) - stage.dragAreaWidth;
 
-            var oldFocusedApp = ApplicationManager.get(0);
             var newFocusedApp = ApplicationManager.get(data.newFocusedIndex);
 
             touchFlick(stage, startX, startY, endX, endY,
@@ -258,7 +255,7 @@ Item {
                 touchRelease(stage, endX, endY);            }
 
             tryCompare(stage, "state", data.endState);
-            tryCompare(ApplicationManager, "focusedApplicationId", data.endState == "spread" ? oldFocusedApp.appId : newFocusedApp.appId);
+            tryCompare(ApplicationManager, "focusedApplicationId", data.endState == "spread" ? "" : newFocusedApp.appId);
         }
 
         function test_selectAppFromSpread_data() {
@@ -517,7 +514,7 @@ Item {
             waitForRendering(stage);
 
             // Give nullwindow focus
-            topLevelSurfaceList.rootFocus(false);
+            topLevelSurfaceList.rootFocus = false;
             var webbrowserSurfaceId = topLevelSurfaceList.nextId;
             topLevelSurfaceList.pendingActivation();
             var webbrowserApp  = ApplicationManager.startApplication("morph-browser");
@@ -525,7 +522,7 @@ Item {
             var webbrowserWindow = topLevelSurfaceList.windowAt(0);
 
             // Give focus back to stage, but we should NOT refocus prev window (dash in this case)
-            topLevelSurfaceList.rootFocus(true);
+            topLevelSurfaceList.rootFocus = true;
 
             // We should have given focus to webbrowser at this point, not dashWindow
             tryCompare(topLevelSurfaceList, "focusedWindow", webbrowserWindow);
@@ -587,21 +584,51 @@ Item {
             compare(topLevelSurfaceList.count, 1);
         }
 
+        function test_launchAppWithSpreadOpen_data() {
+            return [
+                { tag: "expected", expected: true },
+                { tag: "unexpected", expected: false },
+            ];
+        }
 
         /*
             Check that when an application starts while the spread is open, the
             spread closes and that new app is brought to front (gets focused).
+
+            "Expected" means the app is started from the launcher or the spread,
+            where TLWM's pendingActivation() will be called. "Unexpected" means
+            the app is launched from outside, such as from the command line.
          */
-        function test_launchAppWithSpreadOpen()
+        function test_launchAppWithSpreadOpen(data)
         {
             performEdgeSwipeToShowAppSpread();
+
+            if (data.expected)
+                topLevelSurfaceList.pendingActivation();
 
             var webbrowserSurfaceId = topLevelSurfaceList.nextId;
             var webbrowserApp  = ApplicationManager.startApplication("morph-browser");
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
+            expectFail(/* tag */ "unexpected", "Surprise launch doesn't work properly yet");
             compare(topLevelSurfaceList.idAt(0), webbrowserSurfaceId);
             compare(webbrowserApp.focused, true);
+        }
+
+        /*
+            Check that set & unset allowInteractivity won't change main app.
+        */
+        function test_interactivityShouldNotChangeMainApp()
+        {
+            // Have something to focus
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
+            var webbrowserApp = ApplicationManager.startApplication("morph-browser");
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
+            mainAppChangedSpy.clear();
+            stage.allowInteractivity = false;
+            stage.allowInteractivity = true;
+            compare(mainAppChangedSpy.count, 0);
         }
     }
 }

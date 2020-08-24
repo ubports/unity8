@@ -100,10 +100,13 @@ Item {
 
                 var application = ApplicationManager.startApplication("dialer-app");
                 tryCompare(application.surfaceList, "count", 1);
-                tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
-                tryCompare(application, "state", ApplicationInfoInterface.Running);
 
-                if (!data.focused) {
+                if (data.focused) {
+                    // Dialer has to be explicitly activated because we don't have TLWM.
+                    application.surfaceList.get(0).activate();
+                    tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
+                    tryCompare(application, "state", ApplicationInfoInterface.Running);
+                } else {
                     dashApp.surfaceList.get(0).activate();
                     tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
                 }

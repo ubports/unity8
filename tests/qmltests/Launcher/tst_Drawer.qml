@@ -388,5 +388,38 @@ StyledItem {
             tryCompare(launcher, "state", "");
             tryCompare(drawer, "draggingHorizontally", false);
         }
+
+        function test_draggingAppListHidesKeyboard() {
+            // Ensures that dragging on the list of apps unfocuses the search
+            // field, hiding the keyboard
+            // Fix for https://github.com/ubports/ubuntu-touch/issues/1238
+            var drawer = dragDrawerIntoView();
+            var appList = findChild(drawer, "drawerAppList");
+            var searchField = drawer.searchTextField;
+
+            searchField.focus = true;
+
+            var startX = drawer.width / 2;
+            var startY = drawer.height / 2;
+            touchFlick(drawer, startX, startY, startX, startY+units.gu(1))
+
+            tryCompare(searchField, "focus", false);
+        }
+
+        function test_draggingLauncherHidesKeyboard() {
+            // Ensures that dragging on the Launcher unfocuses the search
+            // field, hiding the keyboard
+            // Fix for https://github.com/ubports/ubuntu-touch/issues/1245
+            var drawer = dragDrawerIntoView();
+            var searchField = drawer.searchTextField;
+
+            searchField.focus = true;
+
+            var startX = launcher.width / 2;
+            var startY = launcher.height / 2;
+            touchFlick(drawer, startX, startY, startX, startY+units.gu(1))
+
+            tryCompare(searchField, "focus", false);
+        }
     }
 }

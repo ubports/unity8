@@ -48,7 +48,7 @@ class Tutorial(fixtures.Fixture):
             '/org/freedesktop/Accounts/User32011',
             'org.freedesktop.DBus.Properties.Get',
             'string:com.canonical.unity.AccountsService',
-            'string:demo-edges'
+            'string:DemoEdges2'
         ]
         output = subprocess.check_output(command, universal_newlines=True)
         return True if output.count('true') else False

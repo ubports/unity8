@@ -6,49 +6,51 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-04-04 22:56+0000\n"
-"PO-Revision-Date: 2017-02-02 07:25+0000\n"
-"Last-Translator: Marcos Lans <Unknown>\n"
-"Language-Team: Galician <gl@li.org>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"PO-Revision-Date: 2020-04-12 01:02+0000\n"
+"Last-Translator: Neutrum N <neutro@tutanota.com>\n"
+"Language-Team: Galician <https://translate.ubports.com/projects/unity8/"
+"unity8/gl/>\n"
+"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-04-07 06:30+0000\n"
-"X-Generator: Launchpad (build 18343)\n"
+"X-Generator: Weblate 3.8\n"
+"X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
-#: plugins/LightDM/Greeter.cpp:188
+#: plugins/LightDM/Greeter.cpp:199
 msgid "Password: "
-msgstr "Contrasinal : "
+msgstr "Contrasinal: "
 
-#: plugins/LightDM/Greeter.cpp:203
+#: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr "Nome do usuario"
+msgstr ""
 
-#: plugins/LightDM/Greeter.cpp:242
+#: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr "Produciuse un fallo na autenticación"
+msgstr ""
 
-#: plugins/LightDM/Greeter.cpp:244
+#: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr "O contrasinal é incorrecto, ténteo de novo"
+msgstr ""
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
 msgstr "Iniciar sesión"
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
 msgstr "Reintentar"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr "Iniciar sesión"
+msgstr ""
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr "Sesión de convidado"
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
@@ -66,11 +68,11 @@ msgstr "Eliminar o atallo"
 #: qml/Components/Dialogs.qml:176
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr "Saír"
+msgstr "Pechar a sesión"
 
 #: qml/Components/Dialogs.qml:177
 msgid "Are you sure you want to log out?"
-msgstr "Desexa pechar a sesión?"
+msgstr "Confirma que desexa pechar a sesión?"
 
 #: qml/Components/Dialogs.qml:180
 msgctxt "Button: Lock the system"
@@ -80,11 +82,10 @@ msgstr "Bloquear"
 #: qml/Components/Dialogs.qml:191
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr "Saír da sesión"
+msgstr "Pechar a sesión"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:264
-#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:208
-#: qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Cancelar"
@@ -96,7 +97,7 @@ msgstr "Reiniciar"
 
 #: qml/Components/Dialogs.qml:212
 msgid "Are you sure you want to reboot?"
-msgstr "Desexa reiniciar?"
+msgstr "Confirma que desexa reiniciar?"
 
 #: qml/Components/Dialogs.qml:215
 msgid "No"
@@ -106,23 +107,25 @@ msgstr "Non"
 msgid "Yes"
 msgstr "Si"
 
-#: qml/Components/Dialogs.qml:239
+#: qml/Components/Dialogs.qml:243
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Alimentación"
 
-#: qml/Components/Dialogs.qml:240
+#: qml/Components/Dialogs.qml:244
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
-msgstr "Desexa apagar o aparato?"
+msgstr ""
+"Confirma que desexa\n"
+"apagar?"
 
-#: qml/Components/Dialogs.qml:244
+#: qml/Components/Dialogs.qml:248
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Apagar"
 
-#: qml/Components/Dialogs.qml:255
+#: qml/Components/Dialogs.qml:263
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Reiniciar"
@@ -141,15 +144,17 @@ msgstr "ImpPant"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr "Capturar a pantalla."
+msgstr "Captura a pantalla."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
 msgstr "Alt + ImpPant"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
+#, fuzzy
+#| msgid "Takes a screenshot of a window."
 msgid "Takes a screenshot of the current window."
-msgstr "Fai unha foto da xanela actual."
+msgstr "Captura unha xanela da pantalla."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -165,15 +170,19 @@ msgstr "Super + Maiús + Espazo"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr "Cambia á disposición anterior do teclado"
+msgstr "Cambia á disposición anterior do teclado."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
+#, fuzzy
+#| msgid "Ctrl + Super + D"
 msgid "Ctrl + Alt + T"
-msgstr "Ctrl + Alt + T"
+msgstr "Ctrl + Super + D"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
+#, fuzzy
+#| msgid "Switches between applications."
 msgid "Starts the Terminal application."
-msgstr "Inicia o aplicativo da Terminal"
+msgstr "Cambia entre aplicativos."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
@@ -204,20 +213,26 @@ msgid "Switches applications via the launcher."
 msgstr "Cambia entre aplicativos co Iniciador."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
+#, fuzzy
+#| msgid "Super + 0 to 9"
 msgid "Super + 1 to 0"
-msgstr "Super + 1 a 0"
+msgstr "Super + 0 a 9"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
 msgstr "Igual que premer nunha icona do Iniciador."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
+#, fuzzy
+#| msgid "Super + W"
 msgid "Super + A"
-msgstr "Super + A"
+msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
+#, fuzzy
+#| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
-msgstr "Abre o caixón dos aplicativos."
+msgstr "Abrir o Iniciador"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
@@ -303,7 +318,7 @@ msgstr "Alt + F4"
 msgid "Closes the current window."
 msgstr "Pecha a xanela actual."
 
-#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:228
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:235
 msgid "Return to Call"
 msgstr "Volver á chamada"
 
@@ -347,7 +362,7 @@ msgstr "De acordo, reconectarei"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:81
 msgid "Reconnect now!"
-msgstr "Reconectar agora."
+msgstr "Reconectar agora!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:94
 msgid "Close all"
@@ -366,117 +381,22 @@ msgstr ""
 "como área táctil para interactuar co punteiro."
 
 #: qml/Components/VirtualTouchPad.qml:327
+#, fuzzy
+#| msgid "Tap to return to call..."
 msgid "Tap left button to click."
-msgstr "Toque no botón esquerdo para facer clic."
+msgstr "Toque para volver á chamada..."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr "Toque no botón dereito para clic dereito."
+msgstr ""
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr "Esvarar con dous dedos para desprazar."
+msgstr ""
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr "Atope máis axustes nos axustes do sistema."
-
-#: qml/Dash/DashPageHeader.qml:361
-msgctxt "Button: Open the Ubuntu Store"
-msgid "Store"
-msgstr "Tenda"
-
-#: qml/Dash/DashPageHeader.qml:368
-msgctxt "Button: Start a search in the current dash scope"
-msgid "Search"
-msgstr "Buscar"
-
-#: qml/Dash/DashPageHeader.qml:378
-msgctxt "Button: Show the current dash scope settings"
-msgid "Settings"
-msgstr "Axustes"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Remove from Favorites"
-msgstr "Eliminar dos favoritos"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Add to Favorites"
-msgstr "Engadir aos favoritos"
-
-#: qml/Dash/FiltersPopover.qml:61
-msgid "Refine your results"
-msgstr "Afinar os resultados"
-
-#: qml/Dash/FiltersPopover.qml:70
-msgid "Reset"
-msgstr "Restabelecer"
-
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
-msgid "Show less"
-msgstr "Mostrar menos"
-
-#: qml/Dash/GenericScopeView.qml:547
-msgid "Show all"
-msgstr "Mostrar todo"
-
-#: qml/Dash/GenericScopeView.qml:578
-msgctxt "Label: Hint for dash search line edit"
-msgid "Search"
-msgstr "Buscar"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:67
-msgid "Recent Searches"
-msgstr "Buscas recentes"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:78
-msgid "Clear All"
-msgstr "Limpar todo"
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "More..."
-msgstr "Máis…"
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "Less..."
-msgstr "Menos..."
-
-#: qml/Dash/Previews/PreviewCommentInput.qml:83
-#: qml/Dash/Previews/PreviewRatingInput.qml:202
-msgid "Send"
-msgstr "Enviar"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:109
-msgid "Rate this"
-msgstr "Valore isto"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:184
-msgid "Add a review"
-msgstr "Engadir unha opinión"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:56
-msgid "Pull to refresh…"
-msgstr "Tirar para actualizar..."
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:61
-msgid "Release to refresh…"
-msgstr "Soltar para actualizar"
-
-#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
-msgid "Enable location data"
-msgstr "Activar datos da localización"
-
-#: qml/Dash/ScopesList.qml:146
-msgid "Manage"
-msgstr "Xestionar"
-
-#: qml/Dash/ScopesList.qml:187
-msgid "Home"
-msgstr "Persoal"
-
-#: qml/Dash/ScopesList.qml:188
-msgid "Also installed"
-msgstr "Tamén instalado"
+msgstr ""
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -506,14 +426,18 @@ msgid "Try again"
 msgstr "Tentar de novo"
 
 #: qml/Greeter/Greeter.qml:551
+#, fuzzy
+#| msgid "Enter passphrase"
 msgid "Enter passphrase to unlock"
-msgstr "Escriba a frase secreta de desbloqueo"
+msgstr "Introduza a frase secreta"
 
 #: qml/Greeter/Greeter.qml:552
+#, fuzzy
+#| msgid "Enter passcode"
 msgid "Enter passcode to unlock"
-msgstr "Escriba a clave de desbloqueo"
+msgstr "Introduza a clave"
 
-#: qml/Greeter/NarrowView.qml:228
+#: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
 msgstr "Emerxencia"
 
@@ -529,18 +453,11 @@ msgstr "Clave"
 msgid "Select desktop environment"
 msgstr "Seleccione o ambiente de escritorio"
 
-#: qml/Launcher/Drawer.qml:94
+#: qml/Launcher/Drawer.qml:249
+#, fuzzy
+#| msgid "Search"
 msgid "Search…"
-msgstr "Buscar..."
-
-#: qml/Launcher/Drawer.qml:129
-msgctxt "Apps sorted alphabetically"
-msgid "A-Z"
-msgstr "A-Z"
-
-#: qml/Launcher/MoreAppsHeader.qml:55
-msgid "More apps in the store"
-msgstr "Máis aplicativos na tenda"
+msgstr "Buscar"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -591,7 +508,7 @@ msgstr "Faltan %1"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1017
 msgid "In queue…"
-msgstr "Na cola..."
+msgstr "Na cola…"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1021
 msgid "Downloading"
@@ -630,6 +547,9 @@ msgid "Call back"
 msgstr "Chamar de volta"
 
 #: qml/Panel/PanelMenuPage.qml:92
+#, fuzzy
+#| msgctxt "Button: Go back one page in the Wizard"
+#| msgid "Back"
 msgid "Back"
 msgstr "Atrás"
 
@@ -637,20 +557,25 @@ msgstr "Atrás"
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "Arrastre con 3 dedos calquera aplicativo dunha xanela á outra"
 
-#: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Application Drawer"
+#: qml/Stage/Stage.qml:668
+msgid "No running apps"
 msgstr ""
-"Esvarar longo desde o bordo esquerdo para abrir o caixón dos aplicativos"
+
+#: qml/Tutorial/TutorialLeftLong.qml:49
+#, fuzzy
+#| msgid "Long swipe from the left edge to open the Today scope"
+msgid "Long swipe from the left edge to open the Application Drawer"
+msgstr "Esvare longo desde o bordo esquerdo para abrir o ámbito Hoxe"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
 msgstr "Esvarar lixeiramente desde a esquerda para abrir o Iniciador"
 
-#: qml/Tutorial/TutorialRight.qml:55
+#: qml/Tutorial/TutorialRight.qml:54
 msgid "Push your mouse against the right edge to view your open apps"
 msgstr "Empuxe o rato contra o bordo dereito para ver os aplicativos abertos"
 
-#: qml/Tutorial/TutorialRight.qml:56
+#: qml/Tutorial/TutorialRight.qml:55
 msgid "Swipe from the right edge to view your open apps"
 msgstr "Esvarar desde a dereita para ver os aplicativos abertos"
 
@@ -660,24 +585,40 @@ msgstr ""
 "Esvarar desde o bordo superior para acceder ás notificacións e axustes "
 "rápidos"
 
-#: qml/Wizard/Page.qml:54
+#: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Atrás"
 
-#: qml/Wizard/Pages/10-welcome.qml:28
+#: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
 msgstr "Idioma"
 
-#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:145
-#: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:142
-#: qml/Wizard/Pages/password-set.qml:142
+#: qml/Wizard/Pages/10-welcome.qml:176
+#: qml/Wizard/Pages/10-welcome-update.qml:126
+#: qml/Wizard/Pages/11-changelog.qml:74 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:214 qml/Wizard/Pages/50-timezone.qml:272
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/70-passwd-type.qml:146
+#: qml/Wizard/Pages/passcode-desktop.qml:154
+#: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
 msgstr "Seguinte"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:91
+msgid "Welcome to "
+msgstr "Benvida/o a "
+
+#: qml/Wizard/Pages/10-welcome-update.qml:106
+msgid "We will make sure your device is ready to use "
+msgstr "Asegurarémonos de que o seu dispositivo está listo para usar "
+
+#: qml/Wizard/Pages/11-changelog.qml:28
+msgid "What's new"
+msgstr "Novidades"
+
+#: qml/Wizard/Pages/11-changelog.qml:74
+msgid "Loading..."
+msgstr "Cargando..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
@@ -691,66 +632,33 @@ msgstr "Idioma do teclado"
 msgid "Keyboard layout"
 msgstr "Disposición do teclado"
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:214
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/79-system-update.qml:144
+#: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Saltar"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
 msgstr "Conectar a unha wifi"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
 msgstr "Conectado"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
 msgstr "Hai redes wifi dispoñíbeis"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
 msgstr "Non hai redes wifi dispoñíbeis"
 
-#: qml/Wizard/Pages/40-location.qml:27
-msgid "Location Services"
-msgstr "Servizos de localización"
-
-#: qml/Wizard/Pages/40-location.qml:83
-msgid ""
-"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
-"(recommended)"
-msgstr ""
-"Usar GPS, punto de conexión wifi e rede móbil anonimamente para detectar a "
-"localización (recomendado)"
-
-#: qml/Wizard/Pages/40-location.qml:105
-#, qt-format
-msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr "Seleccionando esta opción acepta os %1 de HERE."
-
-#: qml/Wizard/Pages/40-location.qml:106
-msgctxt "part of: Nokia HERE terms and conditions"
-msgid "terms and conditions"
-msgstr "termos e condicións"
-
-#: qml/Wizard/Pages/40-location.qml:160
-msgid "GPS only"
-msgstr "Só GPS"
-
-#: qml/Wizard/Pages/40-location.qml:214
-msgid "Don't use my location"
-msgstr "Non usar a localización"
-
-#: qml/Wizard/Pages/40-location.qml:260
-msgid "You can change it later in System Settings."
-msgstr "Pode cambiala depois nos axustes do sistema"
-
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
-msgstr "Zona horaria"
+msgstr "Fuso horario"
 
-#: qml/Wizard/Pages/50-timezone.qml:182
+#: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
 msgstr "Introduza a súa cidade"
 
@@ -758,7 +666,7 @@ msgstr "Introduza a súa cidade"
 msgid "Personalize Your Device"
 msgstr "Personalice o dispositivo"
 
-#: qml/Wizard/Pages/60-account.qml:48
+#: qml/Wizard/Pages/60-account.qml:54
 msgid "Preferred Name"
 msgstr "Nome preferido"
 
@@ -766,121 +674,111 @@ msgstr "Nome preferido"
 msgid "Lock Screen"
 msgstr "Bloquear pantalla"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:102
+#: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
-msgstr "Crear novo contrasinal"
+msgstr "Crear contrasinal novo"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:104
+#: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr "Crear clave (só números)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:106
+#: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "Sen código de bloqueo"
 
-#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
-msgid "Privacy Policy"
-msgstr "Política de confidencialidade"
+#: qml/Wizard/Pages/79-system-update.qml:28
+msgid "Update Device"
+msgstr "Actualizar dispositivo"
 
-#: qml/Wizard/Pages/75-report-check.qml:26
-msgid "Help Us Improve"
-msgstr "Axúdenos a mellorar"
-
-#: qml/Wizard/Pages/75-report-check.qml:59
-msgid "Improve system performance by sending us crashes and error reports."
+#: qml/Wizard/Pages/79-system-update.qml:55
+msgid ""
+"There is a system update available and ready to install. Afterwards, the "
+"device will automatically restart."
 msgstr ""
-"Mellorar o rendemento do sistema enviándonos informes de erro e quebra."
+"Hai unha actualización do sistema dispoñíbel e lista para instalar. Despois, "
+"o dispositivo reiniciarase automaticamente."
 
-#: qml/Wizard/Pages/75-report-check.qml:60
-msgid "Privacy policy"
-msgstr "Política de confidencialidade"
+#: qml/Wizard/Pages/79-system-update.qml:76
+#, fuzzy
+#| msgctxt "string identifying name of the update"
+#| msgid "Ubuntu system"
+msgctxt "string identifying name of the update"
+msgid "Ubuntu Touch system"
+msgstr "Sistema Ubuntu"
 
-#: qml/Wizard/Pages/80-finished.qml:89
+#: qml/Wizard/Pages/79-system-update.qml:83
+#, qt-format
+msgctxt "version of the system update"
+msgid "Version %1"
+msgstr "Versión %1"
+
+#: qml/Wizard/Pages/79-system-update.qml:95
+msgid "This could take a few minutes..."
+msgstr "Esto podería levar uns minutos..."
+
+#: qml/Wizard/Pages/79-system-update.qml:109
+msgid "Install and restart now"
+msgstr "Instalar e reiniciar agora"
+
+#: qml/Wizard/Pages/80-finished.qml:91
+msgid "Welcome Back"
+msgstr "Benvida/o de novo"
+
+#: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
 msgstr "Benvida/o a Ubuntu"
 
-#: qml/Wizard/Pages/80-finished.qml:104
+#: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
 msgstr "Xa está listo para usar o dispositivo"
 
-#: qml/Wizard/Pages/80-finished.qml:124
+#: qml/Wizard/Pages/80-finished.qml:126
+msgid "Continue"
+msgstr "Continuar"
+
+#: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
 msgstr "Comezar"
 
-#: qml/Wizard/Pages/here-terms.qml:25
-msgid "Terms & Conditions"
-msgstr "Termos e condicións"
-
-#: qml/Wizard/Pages/here-terms.qml:69
-msgid "Your device uses positioning technologies provided by HERE."
-msgstr "O dispositivo usa tecnoloxías de posicionamento fornecidas por HERE."
-
-#: qml/Wizard/Pages/here-terms.qml:81
-msgid ""
-"To provide you with positioning services and to improve their quality, HERE "
-"collects information about nearby cell towers and Wi-Fi hotspots around your "
-"current location whenever your position is being found."
-msgstr ""
-"Para proporcionarlle servizos de posicionamento e mellorar a calidade, HERE "
-"recompila información sobre torres de telefonía móbil cercanas e puntos wifi "
-"preto da localización actual sempre que se estabelece a posición."
-
-#: qml/Wizard/Pages/here-terms.qml:93
-msgid ""
-"The information collected is used to analyze the service and to improve the "
-"use of service, but not to identify you personally."
-msgstr ""
-"A información recompilada úsase para analizar o servizo e mellorar o uso, "
-"pero non o identifica persoalmente."
-
-#: qml/Wizard/Pages/here-terms.qml:106
-#, qt-format
-msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr "Se continúa, acepta implicitamente a plataforma %1 e %2 de HERE."
-
-#: qml/Wizard/Pages/here-terms.qml:107
-msgid "Service Terms"
-msgstr "Termos de servizo"
-
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:97
+#: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
 msgstr "Confirmar a clave"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
-msgstr "A clave é incorrecta"
+msgstr "A clave é incorrecta."
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgctxt "Enter the passcode again"
 msgid "Please re-enter."
-msgstr "Reintroducir"
+msgstr "Reintroduza."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
 msgstr "Clave da pantalla de bloqueo"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:61
+#: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "Introduza 4 números para estabelecer a clave"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:77
+#: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "Escolla unha clave"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:127
+#: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
 msgstr "A clave é curta de máis"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:129
+#: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
 msgstr "As claves coinciden"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:131
+#: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
 msgstr "As claves non coinciden"
 
@@ -892,15 +790,15 @@ msgstr "A clave debe ter 4 caracteres"
 msgid "Lock Screen Password"
 msgstr "Contrasinal da pantalla de bloqueo"
 
-#: qml/Wizard/Pages/password-set.qml:62
+#: qml/Wizard/Pages/password-set.qml:68
 msgid "Enter at least 8 characters"
 msgstr "Introduza cando menos 8 caracteres"
 
-#: qml/Wizard/Pages/password-set.qml:74
+#: qml/Wizard/Pages/password-set.qml:80
 msgid "Choose password"
 msgstr "Seleccionar contrasinal"
 
-#: qml/Wizard/Pages/password-set.qml:104
+#: qml/Wizard/Pages/password-set.qml:110
 msgid "Confirm password"
 msgstr "Confirmar o contrasinal"
 
@@ -958,6 +856,229 @@ msgstr "O contrasinal é feble"
 msgid "Very weak password"
 msgstr "O contrasinal é moi feble"
 
+#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgid "Store"
+#~ msgstr "Tenda"
+
+#~ msgctxt "Button: Start a search in the current dash scope"
+#~ msgid "Search"
+#~ msgstr "Buscar"
+
+#~ msgctxt "Button: Show the current dash scope settings"
+#~ msgid "Settings"
+#~ msgstr "Axustes"
+
+#~ msgid "Remove from Favorites"
+#~ msgstr "Eliminar dos favoritos"
+
+#~ msgid "Add to Favorites"
+#~ msgstr "Engadir aos favoritos"
+
+#~ msgid "Refine your results"
+#~ msgstr "Afinar os resultados"
+
+#~ msgid "Reset"
+#~ msgstr "Restabelecer"
+
+#~ msgid "Show less"
+#~ msgstr "Mostrar menos"
+
+#~ msgid "Show all"
+#~ msgstr "Mostrar todo"
+
+#~ msgctxt "Label: Hint for dash search line edit"
+#~ msgid "Search"
+#~ msgstr "Buscar"
+
+#~ msgid "Recent Searches"
+#~ msgstr "Buscas recentes"
+
+#~ msgid "Clear All"
+#~ msgstr "Limpar todo"
+
+#~ msgid "More..."
+#~ msgstr "Máis..."
+
+#~ msgid "Less..."
+#~ msgstr "Menos..."
+
+#~ msgid "Send"
+#~ msgstr "Enviar"
+
+#~ msgid "Rate this"
+#~ msgstr "Valore isto"
+
+#~ msgid "Add a review"
+#~ msgstr "Engadir unha opinión"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Tirar para actualizar…"
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Soltar para actualizar…"
+
+#~ msgid "Enable location data"
+#~ msgstr "Activar datos da localización"
+
+#~ msgid "Manage"
+#~ msgstr "Xestionar"
+
+#~ msgid "Home"
+#~ msgstr "Inicio"
+
+#~ msgid "Also installed"
+#~ msgstr "Tamén instalado"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "Política de confidencialidade"
+
+#~ msgid "Help Us Improve"
+#~ msgstr "Axúdenos a mellorar"
+
+#~ msgid "Improve system performance by sending us crashes and error reports."
+#~ msgstr ""
+#~ "Mellorar o rendemento do sistema enviándonos informes de erro e quebra."
+
+#~ msgid "Privacy policy"
+#~ msgstr "Política de confidencialidade"
+
+#~ msgid "Update Apps"
+#~ msgstr "Actualizar os aplicativos"
+
+#~ msgid "This device is not connected to the internet."
+#~ msgstr "Este dispositivo non está conectado a Internet."
+
+#~ msgid "Use the OpenStore app to check for updates once connected."
+#~ msgstr ""
+#~ "Use o aplicativo OpenStore para buscar actualizacións unha vez conectado."
+
+#~ msgid "Software is up to date"
+#~ msgstr "O software está actualizado"
+
+#~ msgid "The update server is not responding."
+#~ msgstr "O servidor de actualizacións non responde."
+
+#~ msgid "Please wait..."
+#~ msgstr "Agarde..."
+
+#~ msgid "Installation failed"
+#~ msgstr "A instalación fallou"
+
+#~ msgid "Checking for updates…"
+#~ msgstr "Buscando actualizacións…"
+
+#~ msgid "%1 update available"
+#~ msgid_plural "%1 updates available"
+#~ msgstr[0] "%1 actualización dispoñíbel"
+#~ msgstr[1] "%1 actualizacións dispoñíbeis"
+
+#~ msgid "Update all…"
+#~ msgstr "Actualizar todo…"
+
+#~ msgid "Update all"
+#~ msgstr "Actualizar todo"
+
+#~ msgid "Update"
+#~ msgstr "Actualizar"
+
+#~ msgid "Download"
+#~ msgstr "Descargar"
+
+#~ msgid "Resume"
+#~ msgstr "Continuar"
+
+#~ msgid "Pause"
+#~ msgstr "Pausar"
+
+#~ msgid "Install…"
+#~ msgstr "Instalar…"
+
+#~ msgid "Install"
+#~ msgstr "Instalar"
+
+#~ msgid "Open"
+#~ msgstr "Abrir"
+
+#~ msgid "Installing"
+#~ msgstr "Instalando"
+
+#~ msgid "Paused"
+#~ msgstr "Pausado"
+
+#~ msgid "Waiting to download"
+#~ msgstr "Agardando para descargar"
+
+#~ msgid "%1 of %2"
+#~ msgstr "%1 de %2"
+
+#~ msgid "Downloaded"
+#~ msgstr "Descargado"
+
+#~ msgid "Installed"
+#~ msgstr "Instalado"
+
+#~ msgid "Updated %1"
+#~ msgstr "Actualizado %1"
+
+#~ msgid "Update failed"
+#~ msgstr "A actualización fallou"
+
+#~ msgid "Location Services"
+#~ msgstr "Servizos de localización"
+
+#~ msgid ""
+#~ "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
+#~ "(recommended)"
+#~ msgstr ""
+#~ "Usar GPS, punto de conexión wifi e rede móbil anonimamente para detectar "
+#~ "a localización (recomendado)"
+
+#~ msgid "By selecting this option you agree to the Nokia HERE %1."
+#~ msgstr "Seleccionando esta opción acepta os %1 de HERE."
+
+#~ msgctxt "part of: Nokia HERE terms and conditions"
+#~ msgid "terms and conditions"
+#~ msgstr "termos e condicións"
+
+#~ msgid "GPS only"
+#~ msgstr "Só GPS"
+
+#~ msgid "Don't use my location"
+#~ msgstr "Non usar a localización"
+
+#~ msgid "You can change it later in System Settings."
+#~ msgstr "Pode cambiala depois nos axustes do sistema"
+
+#~ msgid "Terms & Conditions"
+#~ msgstr "Termos e condicións"
+
+#~ msgid "Your device uses positioning technologies provided by HERE."
+#~ msgstr ""
+#~ "O dispositivo usa tecnoloxías de posicionamento fornecidas por HERE."
+
+#~ msgid ""
+#~ "To provide you with positioning services and to improve their quality, "
+#~ "HERE collects information about nearby cell towers and Wi-Fi hotspots "
+#~ "around your current location whenever your position is being found."
+#~ msgstr ""
+#~ "Para proporcionarlle servizos de posicionamento e mellorar a calidade, "
+#~ "HERE recompila información sobre torres de telefonía móbil cercanas e "
+#~ "puntos wifi preto da localización actual sempre que se estabelece a "
+#~ "posición."
+
+#~ msgid ""
+#~ "The information collected is used to analyze the service and to improve "
+#~ "the use of service, but not to identify you personally."
+#~ msgstr ""
+#~ "A información recompilada úsase para analizar o servizo e mellorar o uso, "
+#~ "pero non o identifica persoalmente."
+
+#~ msgid "By continuing, you agree to the HERE platform %1 and %2."
+#~ msgstr "Se continúa, acepta implicitamente a plataforma %1 e %2 de HERE."
+
+#~ msgid "Service Terms"
+#~ msgstr "Termos de servizo"
+
 #~ msgid "Confirm"
 #~ msgstr "Confirmar"
 
@@ -966,12 +1087,6 @@ msgstr "O contrasinal é moi feble"
 
 #~ msgid "Speak Now..."
 #~ msgstr "Fale agora…"
-
-#~ msgid "Speaking..."
-#~ msgstr "Falando…"
-
-#~ msgid "Search"
-#~ msgstr "Buscar"
 
 #~ msgid "Right edge"
 #~ msgstr "Bordo dereito"
@@ -997,9 +1112,6 @@ msgstr "O contrasinal é moi feble"
 #~ msgstr ""
 #~ "Agora xa domina os xestos dos bordos e pode comezar a usar o "
 #~ "teléfono<br><br>Toque na pantalla para comezar"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Cargando, agarde…"
 
 #~ msgid "Try swiping from the top edge to access the indicators"
 #~ msgstr "Esvare o dedo desde o bordo superior para acceder aos indicadores."
@@ -1056,11 +1168,11 @@ msgstr "O contrasinal é moi feble"
 #~ msgstr "Sentímolo a frase é incorrecta"
 
 #~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
-#~ "and all personal data will be deleted."
+#~ "If passcode is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
 #~ msgstr ""
-#~ "Se a clave introducida é incorrecta, o teléfono restabelecerá os valores de "
-#~ "fábrica e perderá todos os datos persoais."
+#~ "Se a clave introducida é incorrecta, o teléfono restabelecerá os valores "
+#~ "de fábrica e perderá todos os datos persoais."
 
 #~ msgid "Sorry, incorrect passcode."
 #~ msgstr "Sentímolo, a clave é incorrecta."
@@ -1086,25 +1198,17 @@ msgstr "O contrasinal é moi feble"
 #~ msgid "Sorry, incorrect passphrase."
 #~ msgstr "Sentímolo a frase é incorrecta."
 
-#, qt-format
 #~ msgid "Sorry, incorrect %1"
 #~ msgstr "Sentímolo, %1 non coincide"
 
 #~ msgid "Manage Scopes"
 #~ msgstr "Xestionar os Ámbitos"
 
-#~ msgid "Enter passphrase"
-#~ msgstr "Introduza a frase secreta"
-
-#, qt-format
 #~ msgid "Enter %1"
 #~ msgstr "Introducir %1"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Introducir de novo"
-
-#~ msgid "Enter passcode"
-#~ msgstr "Introduza a clave"
 
 #~ msgid "Lock security"
 #~ msgstr "Seguranza do bloqueo"
@@ -1123,9 +1227,6 @@ msgstr "O contrasinal é moi feble"
 
 #~ msgid "Let’s get started."
 #~ msgstr "Comezamos."
-
-#~ msgid "Continue"
-#~ msgstr "Continuar"
 
 #~ msgid "Available networks…"
 #~ msgstr "Redes dispoñíbeis..."
@@ -1153,18 +1254,18 @@ msgstr "O contrasinal é moi feble"
 #~ "Your phone is set up to automatically report errors to Canonical and its "
 #~ "partners, the makers of the operating system."
 #~ msgstr ""
-#~ "O teléfono configurouse para informar dos erros automaticamente  a Canonical "
-#~ "e os seus socios, os creadores do sistema operativo."
+#~ "O teléfono configurouse para informar dos erros automaticamente  a "
+#~ "Canonical e os seus socios, os creadores do sistema operativo."
 
 #~ msgid "All done"
 #~ msgstr "Rematado"
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
+#~ "and conditions</a>."
 #~ msgstr ""
-#~ "Seleccionando esta opción acepta os <a href='#'>termos e condicións</a> do "
-#~ "HERE de Nokia."
+#~ "Seleccionando esta opción acepta os <a href='#'>termos e condicións</a> "
+#~ "do HERE de Nokia."
 
 #~ msgid "Not at all"
 #~ msgstr "De ningún xeito"
@@ -1187,7 +1288,6 @@ msgstr "O contrasinal é moi feble"
 #~ msgid "Confirm passphrase"
 #~ msgstr "Confirmar a frase secreta"
 
-#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
@@ -1204,7 +1304,6 @@ msgstr "O contrasinal é moi feble"
 #~ msgstr ""
 #~ "Sen ela, non poderá realizar chamadas nin usar a mensaxería de texto."
 
-#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
@@ -1216,9 +1315,6 @@ msgstr "O contrasinal é moi feble"
 
 #~ msgid "You almost got it!"
 #~ msgstr "Case o conseguiu!"
-
-#~ msgid "Open the launcher"
-#~ msgstr "Abrir o Iniciador"
 
 #~ msgid "Tap here to continue."
 #~ msgstr "Toque aquí para continuar."
@@ -1357,39 +1453,5 @@ msgstr "O contrasinal é moi feble"
 #~ msgid "Short or long swipe from the right edge to view your open apps"
 #~ msgstr "Esvare desde o bordo dereito para ver os aplicativos abertos"
 
-#~ msgid "Long swipe from the left edge to open the Today scope"
-#~ msgstr "Esvare longo desde o bordo esquerdo para abrir o ámbito Hoxe"
-
 #~ msgid "Swipe from the left edge to open the launcher"
 #~ msgstr "Esvare desde o bordo esquerdo para abrir o Iniciador"
-
-#~ msgid "Takes a screenshot of a window."
-#~ msgstr "Capturar unha xanela da pantalla."
-
-#~ msgid "Super + 0 to 9"
-#~ msgstr "Super + 0 a 9"
-
-#~ msgid "Install and restart now"
-#~ msgstr "Instalar e reiniciar agora"
-
-#~ msgid "This could take a few minutes..."
-#~ msgstr "Isto pode levar uns minutos..."
-
-#, qt-format
-#~ msgctxt "version of the system update"
-#~ msgid "Version %1"
-#~ msgstr "Versión %1"
-
-#~ msgctxt "string identifying name of the update"
-#~ msgid "Ubuntu system"
-#~ msgstr "Sistema Ubuntu"
-
-#~ msgid ""
-#~ "There is a system update available and ready to install. Afterwards, the "
-#~ "device will automatically restart."
-#~ msgstr ""
-#~ "Hai unha actualización do sistema dispoñíbel e lista para instalar. Despois, "
-#~ "o dispositivo reiniciarase automaticamente."
-
-#~ msgid "Update Device"
-#~ msgstr "Actualizar dispositivo"

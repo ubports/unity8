@@ -74,8 +74,9 @@ function(add_unity8_unittest COMPONENT_NAME TARGET)
         TARGETS unittests
         ${U8TEST_ARGN}
         ENVIRONMENT ${environment}
-                    QT_QPA_PLATFORM=minimal
                     ${U8TEST_ENVIRONMENT}
+                    QT_QPA_PLATFORM=minimal
+                    UITK_ICON_THEME=suru
     )
 endfunction()
 
@@ -88,6 +89,7 @@ function(add_unity8_uitest COMPONENT_NAME TARGET)
         ${U8TEST_ARGN}
         ENVIRONMENT ${environment}
                     ${U8TEST_ENVIRONMENT}
+                    UITK_ICON_THEME=suru
     )
 endfunction()
 
@@ -100,8 +102,9 @@ function(add_unity8_qmlunittest PATH COMPONENT_NAME)
         TARGET unittests
         ${U8TEST_ARGN}
         ENVIRONMENT ${environment}
-                    QT_QPA_PLATFORM=minimal
                     ${U8TEST_ENVIRONMENT}
+                    QT_QPA_PLATFORM=minimal
+                    UITK_ICON_THEME=suru
     )
 endfunction()
 
@@ -114,6 +117,7 @@ function(add_unity8_qmltest PATH COMPONENT_NAME)
         ${U8TEST_ARGN}
         ENVIRONMENT ${environment}
                     ${U8TEST_ENVIRONMENT}
+                    UITK_ICON_THEME=suru
     )
 endfunction()
 
@@ -134,6 +138,9 @@ else()
   FIND_PROGRAM(QDBUSXML2CPP_EXECUTABLE qdbusxml2cpp)
 endif()
 
+if(NOT QDBUSXML2CPP_EXECUTABLE)
+    message(FATAL_ERROR "qdbusxml2cpp not found")
+endif()
 
 install(DIRECTORY data graphics
     DESTINATION "${SHELL_APP_DIR}/tests"

@@ -6,50 +6,51 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-04-04 22:56+0000\n"
-"PO-Revision-Date: 2016-09-28 04:43+0000\n"
-"Last-Translator: P_E_T_O <Unknown>\n"
-"Language-Team: Slovak <sk@li.org>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"PO-Revision-Date: 2020-05-09 09:23+0000\n"
+"Last-Translator: dano6 <dano.kutka@gmail.com>\n"
+"Language-Team: Slovak <https://translate.ubports.com/projects/unity8/unity8/"
+"sk/>\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Launchpad-Export-Date: 2017-04-07 06:30+0000\n"
-"X-Generator: Launchpad (build 18343)\n"
-"Language: sk\n"
+"X-Generator: Weblate 3.8\n"
+"X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
-#: plugins/LightDM/Greeter.cpp:188
+#: plugins/LightDM/Greeter.cpp:199
 msgid "Password: "
 msgstr "Heslo: "
 
-#: plugins/LightDM/Greeter.cpp:203
+#: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr ""
+msgstr "Meno používateľa"
 
-#: plugins/LightDM/Greeter.cpp:242
+#: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "Chyba pri overení"
 
-#: plugins/LightDM/Greeter.cpp:244
+#: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "Nesprávne heslo, skúste to znovu prosím"
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
 msgstr "Prihlásiť sa"
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
 msgstr "Skúsiť znova"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr ""
+msgstr "Prihlásiť"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr ""
+msgstr "Hosťovské sedenie"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
@@ -83,9 +84,8 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Odhlásiť"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:264
-#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:208
-#: qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Zrušiť"
@@ -107,12 +107,12 @@ msgstr "Nie"
 msgid "Yes"
 msgstr "Áno"
 
-#: qml/Components/Dialogs.qml:239
+#: qml/Components/Dialogs.qml:243
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Napájanie"
 
-#: qml/Components/Dialogs.qml:240
+#: qml/Components/Dialogs.qml:244
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -120,12 +120,12 @@ msgstr ""
 "Naozaj chcete zariadenie\n"
 "vypnúť?"
 
-#: qml/Components/Dialogs.qml:244
+#: qml/Components/Dialogs.qml:248
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Vypnúť"
 
-#: qml/Components/Dialogs.qml:255
+#: qml/Components/Dialogs.qml:263
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Reštartovať"
@@ -152,11 +152,11 @@ msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of the current window."
-msgstr ""
+msgstr "Vytvorí snímku práve aktívneho okna."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
-msgstr "Super + Space"
+msgstr "Super + Medzerník"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
@@ -164,7 +164,7 @@ msgstr "Prepne na ďalšie rozloženie klávesnice."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
-msgstr "Super + Shift + Space"
+msgstr "Super + Shift + Medzerník"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
@@ -172,11 +172,11 @@ msgstr "Prepne na predošlé rozloženie klávesnice."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
 msgid "Ctrl + Alt + T"
-msgstr ""
+msgstr "Ctrl + Alt + T"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
 msgid "Starts the Terminal application."
-msgstr ""
+msgstr "Spustí aplikáciu terminál."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
@@ -196,7 +196,7 @@ msgstr "Alt + F1"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Opens launcher keyboard navigation mode."
-msgstr ""
+msgstr "Otvorí launcher klávesnicu v režime hľadania."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + Tab"
@@ -208,7 +208,7 @@ msgstr "Prepínanie aplikácií pomocou launchera."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + 1 to 0"
-msgstr ""
+msgstr "Super + 1 až 0"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
@@ -216,11 +216,11 @@ msgstr "Rovnaké ako kliknutie na ikonu v launchery."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
 msgid "Super + A"
-msgstr ""
+msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
 msgid "Opens the Application Drawer."
-msgstr ""
+msgstr "Otvoriť zoznam aplikácií."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
@@ -260,7 +260,7 @@ msgstr "Ľavý alebo pravý kurzorový kláves"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:273
 msgid "Moves the focus."
-msgstr ""
+msgstr "Posunie zaostrenie."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:285
 msgid "Windows"
@@ -296,7 +296,7 @@ msgstr "Ctrl + Super + Doľava alebo Doprava"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Semi-maximizes the current window."
-msgstr ""
+msgstr "Skoro maximalizuje aktuálne okno."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:344
 msgid "Alt + F4"
@@ -306,7 +306,7 @@ msgstr "Alt + F4"
 msgid "Closes the current window."
 msgstr "Zavrie aktuálne okno."
 
-#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:228
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:235
 msgid "Return to Call"
 msgstr "Návrat k hovoru"
 
@@ -369,116 +369,19 @@ msgstr ""
 
 #: qml/Components/VirtualTouchPad.qml:327
 msgid "Tap left button to click."
-msgstr ""
+msgstr "Pre kliknutie stlačte ľavé tlačidlo."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "Pre pravé kliknutie stlačte pravé tlačidlo."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "Pre posun prejdite dvoma prstami."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
-
-#: qml/Dash/DashPageHeader.qml:361
-msgctxt "Button: Open the Ubuntu Store"
-msgid "Store"
-msgstr "Obchod"
-
-#: qml/Dash/DashPageHeader.qml:368
-msgctxt "Button: Start a search in the current dash scope"
-msgid "Search"
-msgstr "Hľadať"
-
-#: qml/Dash/DashPageHeader.qml:378
-msgctxt "Button: Show the current dash scope settings"
-msgid "Settings"
-msgstr "Nastavenia"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Remove from Favorites"
-msgstr "Odstrániť z obľúbených"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Add to Favorites"
-msgstr "Pridať k obľúbeným"
-
-#: qml/Dash/FiltersPopover.qml:61
-msgid "Refine your results"
-msgstr "Spresniť výsledky"
-
-#: qml/Dash/FiltersPopover.qml:70
-msgid "Reset"
-msgstr "Resetovať"
-
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
-msgid "Show less"
-msgstr "Zobraziť menej"
-
-#: qml/Dash/GenericScopeView.qml:547
-msgid "Show all"
-msgstr "Zobraziť všetko"
-
-#: qml/Dash/GenericScopeView.qml:578
-msgctxt "Label: Hint for dash search line edit"
-msgid "Search"
-msgstr "Hľadať"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:67
-msgid "Recent Searches"
-msgstr "Nedávne vyhľadávania"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:78
-msgid "Clear All"
-msgstr "Vymazať všetko"
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "More..."
-msgstr "Viac..."
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "Less..."
-msgstr "Menej..."
-
-#: qml/Dash/Previews/PreviewCommentInput.qml:83
-#: qml/Dash/Previews/PreviewRatingInput.qml:202
-msgid "Send"
-msgstr "Poslať"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:109
-msgid "Rate this"
-msgstr "Ohodnotiť"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:184
-msgid "Add a review"
-msgstr "Pridať recenziu"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:56
-msgid "Pull to refresh…"
-msgstr "Potiahnúť pre obnovenie..."
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:61
-msgid "Release to refresh…"
-msgstr "Uvoľniť pre obnovenie..."
-
-#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
-msgid "Enable location data"
-msgstr "Zapnúť údaje o polohe"
-
-#: qml/Dash/ScopesList.qml:146
-msgid "Manage"
-msgstr "Spravovať"
-
-#: qml/Dash/ScopesList.qml:187
-msgid "Home"
-msgstr "Domov"
-
-#: qml/Dash/ScopesList.qml:188
-msgid "Also installed"
-msgstr "Tiež nainštalované"
+msgstr "Ďalšie nastavenia nájdete v systémových nastaveniach."
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -514,13 +417,13 @@ msgstr "Skúsiť znova"
 
 #: qml/Greeter/Greeter.qml:551
 msgid "Enter passphrase to unlock"
-msgstr ""
+msgstr "Pre odomknutie zadajte prístupové heslo"
 
 #: qml/Greeter/Greeter.qml:552
 msgid "Enter passcode to unlock"
-msgstr ""
+msgstr "Pre odomknutie zadajte prístupový kód"
 
-#: qml/Greeter/NarrowView.qml:228
+#: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
 msgstr "Tiesňový hovor"
 
@@ -536,18 +439,9 @@ msgstr "Heslo"
 msgid "Select desktop environment"
 msgstr "Vybrať pracovné prostredie"
 
-#: qml/Launcher/Drawer.qml:94
+#: qml/Launcher/Drawer.qml:249
 msgid "Search…"
-msgstr ""
-
-#: qml/Launcher/Drawer.qml:129
-msgctxt "Apps sorted alphabetically"
-msgid "A-Z"
-msgstr ""
-
-#: qml/Launcher/MoreAppsHeader.qml:55
-msgid "More apps in the store"
-msgstr ""
+msgstr "Hľadať…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -601,7 +495,7 @@ msgstr "Zostáva %1"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1017
 msgid "In queue…"
-msgstr "V poradí..."
+msgstr "V poradí…"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1021
 msgid "Downloading"
@@ -641,26 +535,30 @@ msgstr "Zavolať naspäť"
 
 #: qml/Panel/PanelMenuPage.qml:92
 msgid "Back"
-msgstr ""
+msgstr "Späť"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr ""
 "Potiahnite pomocou 3 prstov ľubovoľnú aplikáciu z jedného okna do druhého"
 
+#: qml/Stage/Stage.qml:668
+msgid "No running apps"
+msgstr "Žiadne spustené aplikácie"
+
 #: qml/Tutorial/TutorialLeftLong.qml:49
 msgid "Long swipe from the left edge to open the Application Drawer"
-msgstr ""
+msgstr "Dlhým potiahnutím od ľavého okraja otvoríte zoznam aplikácie"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
 msgstr "Krátkym potiahnutím zľava otvoríte launcher"
 
-#: qml/Tutorial/TutorialRight.qml:55
+#: qml/Tutorial/TutorialRight.qml:54
 msgid "Push your mouse against the right edge to view your open apps"
 msgstr "Potiahnuť myšou do pravého rohu pre zobrazenie otvorených aplikácií"
 
-#: qml/Tutorial/TutorialRight.qml:56
+#: qml/Tutorial/TutorialRight.qml:55
 msgid "Swipe from the right edge to view your open apps"
 msgstr "Potiahnutím sprava zobrazíte otvorené aplikácie"
 
@@ -668,24 +566,40 @@ msgstr "Potiahnutím sprava zobrazíte otvorené aplikácie"
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr "Potiahnite zhora pre prístup k oznámeniam a rýchlym nastaveniam"
 
-#: qml/Wizard/Page.qml:54
+#: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Naspäť"
 
-#: qml/Wizard/Pages/10-welcome.qml:28
+#: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
 msgstr "Jazyk"
 
-#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:145
-#: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:142
-#: qml/Wizard/Pages/password-set.qml:142
+#: qml/Wizard/Pages/10-welcome.qml:176
+#: qml/Wizard/Pages/10-welcome-update.qml:126
+#: qml/Wizard/Pages/11-changelog.qml:74 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:214 qml/Wizard/Pages/50-timezone.qml:272
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/70-passwd-type.qml:146
+#: qml/Wizard/Pages/passcode-desktop.qml:154
+#: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
 msgstr "Nasledujúci"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:91
+msgid "Welcome to "
+msgstr "Vitajte v "
+
+#: qml/Wizard/Pages/10-welcome-update.qml:106
+msgid "We will make sure your device is ready to use "
+msgstr "Uistíme sa, že vaše zariadenie je pripravené na používanie "
+
+#: qml/Wizard/Pages/11-changelog.qml:28
+msgid "What's new"
+msgstr "Novinky"
+
+#: qml/Wizard/Pages/11-changelog.qml:74
+msgid "Loading..."
+msgstr "Načítavam..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
@@ -699,66 +613,33 @@ msgstr "Jazyk klávesnice"
 msgid "Keyboard layout"
 msgstr "Rozloženie klávesnice"
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:214
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/79-system-update.qml:144
+#: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Preskočiť"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
 msgstr "Pripojiť k Wifi"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
 msgstr "Pripojené"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
 msgstr "Dostupné Wifi siete"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
 msgstr "Žiadne dostupné Wifi siete"
-
-#: qml/Wizard/Pages/40-location.qml:27
-msgid "Location Services"
-msgstr "Služby určovania polohy"
-
-#: qml/Wizard/Pages/40-location.qml:83
-msgid ""
-"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
-"(recommended)"
-msgstr ""
-"Používa GPS, Wifi hotspot a mobilný signál na anonymné zistenie polohy "
-"(odporúčané)"
-
-#: qml/Wizard/Pages/40-location.qml:105
-#, qt-format
-msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr "Vybraním tejto možnosti súhlasíte s Nokia HERE %1."
-
-#: qml/Wizard/Pages/40-location.qml:106
-msgctxt "part of: Nokia HERE terms and conditions"
-msgid "terms and conditions"
-msgstr "podmienky"
-
-#: qml/Wizard/Pages/40-location.qml:160
-msgid "GPS only"
-msgstr "Len GPS"
-
-#: qml/Wizard/Pages/40-location.qml:214
-msgid "Don't use my location"
-msgstr "Nepoužívať moju polohu"
-
-#: qml/Wizard/Pages/40-location.qml:260
-msgid "You can change it later in System Settings."
-msgstr "Môžete to zmeniť neskôr v Systémových nastaveniach."
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "Časové pásmo"
 
-#: qml/Wizard/Pages/50-timezone.qml:182
+#: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
 msgstr "Zadajte svoje mesto"
 
@@ -766,7 +647,7 @@ msgstr "Zadajte svoje mesto"
 msgid "Personalize Your Device"
 msgstr "Prispôsobte svoje zariadenie"
 
-#: qml/Wizard/Pages/60-account.qml:48
+#: qml/Wizard/Pages/60-account.qml:54
 msgid "Preferred Name"
 msgstr "Preferované meno"
 
@@ -774,86 +655,74 @@ msgstr "Preferované meno"
 msgid "Lock Screen"
 msgstr "Uzamknutie obrazovky"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:102
+#: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr "Vytvoriť nové heslo"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:104
+#: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr "Vytvoriť heslo (len čísla)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:106
+#: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "Bez uzamykacieho kódu"
 
-#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
-msgid "Privacy Policy"
-msgstr "Ochrana osobných údajov"
+#: qml/Wizard/Pages/79-system-update.qml:28
+msgid "Update Device"
+msgstr "Aktualizácia zariadenia"
 
-#: qml/Wizard/Pages/75-report-check.qml:26
-msgid "Help Us Improve"
-msgstr "Pomôžte nám vylepšiť"
+#: qml/Wizard/Pages/79-system-update.qml:55
+msgid ""
+"There is a system update available and ready to install. Afterwards, the "
+"device will automatically restart."
+msgstr ""
+"Je k dispozícii aktualizácia systému a pripravená na inštaláciu. Potom sa "
+"zariadenie automaticky reštartuje."
 
-#: qml/Wizard/Pages/75-report-check.qml:59
-msgid "Improve system performance by sending us crashes and error reports."
-msgstr "Zvýšiť výkon systému odosielaním pádov a chybových hlásení."
+#: qml/Wizard/Pages/79-system-update.qml:76
+msgctxt "string identifying name of the update"
+msgid "Ubuntu Touch system"
+msgstr "Ubuntu Touch systém"
 
-#: qml/Wizard/Pages/75-report-check.qml:60
-msgid "Privacy policy"
-msgstr "Ochrana osobných údajov"
+#: qml/Wizard/Pages/79-system-update.qml:83
+#, qt-format
+msgctxt "version of the system update"
+msgid "Version %1"
+msgstr "Verzia %1"
 
-#: qml/Wizard/Pages/80-finished.qml:89
+#: qml/Wizard/Pages/79-system-update.qml:95
+msgid "This could take a few minutes..."
+msgstr "Môže to trvať niekoľko minút..."
+
+#: qml/Wizard/Pages/79-system-update.qml:109
+msgid "Install and restart now"
+msgstr "Teraz nainštalovať a reštartovať"
+
+#: qml/Wizard/Pages/80-finished.qml:91
+msgid "Welcome Back"
+msgstr "Vitajte späť"
+
+#: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
 msgstr "Vitajte v Ubuntu"
 
-#: qml/Wizard/Pages/80-finished.qml:104
+#: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
 msgstr "Ste pripravený používať vaše zariadenie"
 
-#: qml/Wizard/Pages/80-finished.qml:124
+#: qml/Wizard/Pages/80-finished.qml:126
+msgid "Continue"
+msgstr "Pokračovať"
+
+#: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
 msgstr "Začať"
 
-#: qml/Wizard/Pages/here-terms.qml:25
-msgid "Terms & Conditions"
-msgstr "Všeobecné obchodné podmienky"
-
-#: qml/Wizard/Pages/here-terms.qml:69
-msgid "Your device uses positioning technologies provided by HERE."
-msgstr "Zariadenie používa lokalizačné technológie poskytované HERE."
-
-#: qml/Wizard/Pages/here-terms.qml:81
-msgid ""
-"To provide you with positioning services and to improve their quality, HERE "
-"collects information about nearby cell towers and Wi-Fi hotspots around your "
-"current location whenever your position is being found."
-msgstr ""
-"Aby sme mohli poskytovať lokalizačné služby a zlepšovať ich kvalitu, HERE "
-"zhromažďuje informácie o vysielačoch mobilných sietí a WiFi hotspotov v "
-"okolí vašej aktuálnej polohy."
-
-#: qml/Wizard/Pages/here-terms.qml:93
-msgid ""
-"The information collected is used to analyze the service and to improve the "
-"use of service, but not to identify you personally."
-msgstr ""
-"Zhromaždené informácie sa používajú na analýzu služieb a zlepšovanie "
-"využívania služieb, nie na vašu osobnú identifikáciu."
-
-#: qml/Wizard/Pages/here-terms.qml:106
-#, qt-format
-msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr "Pokračovaním súhlasíte s platformou HERE %1 a %2."
-
-#: qml/Wizard/Pages/here-terms.qml:107
-msgid "Service Terms"
-msgstr "Servisné podmienky"
-
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:97
+#: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
 msgstr "Potvrdiť heslo"
 
@@ -870,24 +739,24 @@ msgstr "Zadajte znova."
 msgid "Lock Screen Passcode"
 msgstr "Heslo uzamykacej obrazovky"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:61
+#: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "Zadajte 4 čísla pre nastavenie hesla"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:77
+#: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "Zvoliť heslo"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:127
+#: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
 msgstr "Heslo príliš krátke"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:129
+#: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
 msgstr "Zhoda hesiel"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:131
+#: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
 msgstr "Heslá sa nezhodujú"
 
@@ -899,15 +768,15 @@ msgstr "Heslo musí mať 4 znaky"
 msgid "Lock Screen Password"
 msgstr "Heslo uzamykacej obrazovky"
 
-#: qml/Wizard/Pages/password-set.qml:62
+#: qml/Wizard/Pages/password-set.qml:68
 msgid "Enter at least 8 characters"
 msgstr "Zadajte najmenej 8 znakov"
 
-#: qml/Wizard/Pages/password-set.qml:74
+#: qml/Wizard/Pages/password-set.qml:80
 msgid "Choose password"
 msgstr "Zvoliť heslo"
 
-#: qml/Wizard/Pages/password-set.qml:104
+#: qml/Wizard/Pages/password-set.qml:110
 msgid "Confirm password"
 msgstr "Potvrdiť heslo"
 
@@ -929,8 +798,7 @@ msgstr "Reštart"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
-msgstr ""
-"Bez SIM karty nebudete môcť telefonovať alebo používať textové správy."
+msgstr "Bez SIM karty nebudete môcť telefonovať alebo používať textové správy."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
@@ -963,6 +831,224 @@ msgstr "Heslo je slabé"
 #: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
 msgstr "Heslo je veľmi slabé"
+
+#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgid "Store"
+#~ msgstr "Obchod"
+
+#~ msgctxt "Button: Show the current dash scope settings"
+#~ msgid "Settings"
+#~ msgstr "Nastavenia"
+
+#~ msgid "Remove from Favorites"
+#~ msgstr "Odstrániť z obľúbených"
+
+#~ msgid "Add to Favorites"
+#~ msgstr "Pridať k obľúbeným"
+
+#~ msgid "Refine your results"
+#~ msgstr "Spresniť výsledky"
+
+#~ msgid "Reset"
+#~ msgstr "Resetovať"
+
+#~ msgid "Show less"
+#~ msgstr "Zobraziť menej"
+
+#~ msgid "Show all"
+#~ msgstr "Zobraziť všetko"
+
+#~ msgctxt "Label: Hint for dash search line edit"
+#~ msgid "Search"
+#~ msgstr "Hľadať"
+
+#~ msgid "Recent Searches"
+#~ msgstr "Nedávne vyhľadávania"
+
+#~ msgid "Clear All"
+#~ msgstr "Vymazať všetko"
+
+#~ msgid "More..."
+#~ msgstr "Viac..."
+
+#~ msgid "Less..."
+#~ msgstr "Menej..."
+
+#~ msgid "Send"
+#~ msgstr "Poslať"
+
+#~ msgid "Rate this"
+#~ msgstr "Ohodnotiť"
+
+#~ msgid "Add a review"
+#~ msgstr "Pridať recenziu"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Potiahnite pre obnovenie…"
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Uvoľniť pre obnovenie…"
+
+#~ msgid "Enable location data"
+#~ msgstr "Zapnúť údaje o polohe"
+
+#~ msgid "Manage"
+#~ msgstr "Spravovať"
+
+#~ msgid "Home"
+#~ msgstr "Domov"
+
+#~ msgid "Also installed"
+#~ msgstr "Tiež nainštalované"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "Ochrana osobných údajov"
+
+#~ msgid "Help Us Improve"
+#~ msgstr "Pomôžte nám vylepšiť"
+
+#~ msgid "Improve system performance by sending us crashes and error reports."
+#~ msgstr "Zvýšiť výkon systému odosielaním pádov a chybových hlásení."
+
+#~ msgid "Privacy policy"
+#~ msgstr "Ochrana osobných údajov"
+
+#~ msgid "Update Apps"
+#~ msgstr "Aktualizovať aplikácie"
+
+#~ msgid "This device is not connected to the internet."
+#~ msgstr "Zariadenie nie je pripojené k internetu."
+
+#~ msgid "Use the OpenStore app to check for updates once connected."
+#~ msgstr ""
+#~ "Ak budete pripojení, použite OpenStore aplikáciu pre vyhľadanie "
+#~ "aktualizácií."
+
+#~ msgid "Software is up to date"
+#~ msgstr "Software bol aktualizovaný"
+
+#~ msgid "The update server is not responding."
+#~ msgstr "Server s aktualizáciami neodpovedá."
+
+#~ msgid "Please wait..."
+#~ msgstr "Čakajte prosím..."
+
+#~ msgid "Installation failed"
+#~ msgstr "Inštalácia zlyhala"
+
+#~ msgid "Checking for updates…"
+#~ msgstr "Kontrola aktualizácií…"
+
+#~ msgid "%1 update available"
+#~ msgid_plural "%1 updates available"
+#~ msgstr[0] "%1 aktualizácia k dispozícii"
+#~ msgstr[1] "%1 aktualizácie k dispozícii"
+#~ msgstr[2] "%1 aktualizácií k dispozícii"
+
+#~ msgid "Update all…"
+#~ msgstr "Aktualizovať všetko…"
+
+#~ msgid "Update all"
+#~ msgstr "Aktualizovať všetko"
+
+#~ msgid "Update"
+#~ msgstr "Aktualizovať"
+
+#~ msgid "Download"
+#~ msgstr "Stiahnuť"
+
+#~ msgid "Resume"
+#~ msgstr "Pokračovať"
+
+#~ msgid "Pause"
+#~ msgstr "Pozastaviť"
+
+#~ msgid "Install…"
+#~ msgstr "Inštalovať…"
+
+#~ msgid "Install"
+#~ msgstr "Inštalovať"
+
+#~ msgid "Open"
+#~ msgstr "Otvoriť"
+
+#~ msgid "Installing"
+#~ msgstr "Inštalácia"
+
+#~ msgid "Paused"
+#~ msgstr "Pozastavené"
+
+#~ msgid "Waiting to download"
+#~ msgstr "Čakanie na stiahnutie"
+
+#~ msgid "%1 of %2"
+#~ msgstr "%1 z %2"
+
+#~ msgid "Downloaded"
+#~ msgstr "Stiahnuté"
+
+#~ msgid "Installed"
+#~ msgstr "Nainštalované"
+
+#~ msgid "Updated %1"
+#~ msgstr "Aktualizované %1"
+
+#~ msgid "Update failed"
+#~ msgstr "Aktualizácia zlyhala"
+
+#~ msgid "Location Services"
+#~ msgstr "Služby určovania polohy"
+
+#~ msgid ""
+#~ "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
+#~ "(recommended)"
+#~ msgstr ""
+#~ "Používa GPS, Wifi hotspot a mobilný signál na anonymné zistenie polohy "
+#~ "(odporúčané)"
+
+#~ msgid "By selecting this option you agree to the Nokia HERE %1."
+#~ msgstr "Vybraním tejto možnosti súhlasíte s Nokia HERE %1."
+
+#~ msgctxt "part of: Nokia HERE terms and conditions"
+#~ msgid "terms and conditions"
+#~ msgstr "podmienky"
+
+#~ msgid "GPS only"
+#~ msgstr "Len GPS"
+
+#~ msgid "Don't use my location"
+#~ msgstr "Nepoužívať moju polohu"
+
+#~ msgid "You can change it later in System Settings."
+#~ msgstr "Môžete to zmeniť neskôr v Systémových nastaveniach."
+
+#~ msgid "Terms & Conditions"
+#~ msgstr "Všeobecné obchodné podmienky"
+
+#~ msgid "Your device uses positioning technologies provided by HERE."
+#~ msgstr "Zariadenie používa lokalizačné technológie poskytované HERE."
+
+#~ msgid ""
+#~ "To provide you with positioning services and to improve their quality, "
+#~ "HERE collects information about nearby cell towers and Wi-Fi hotspots "
+#~ "around your current location whenever your position is being found."
+#~ msgstr ""
+#~ "Aby sme mohli poskytovať lokalizačné služby a zlepšovať ich kvalitu, HERE "
+#~ "zhromažďuje informácie o vysielačoch mobilných sietí a WiFi hotspotov v "
+#~ "okolí vašej aktuálnej polohy."
+
+#~ msgid ""
+#~ "The information collected is used to analyze the service and to improve "
+#~ "the use of service, but not to identify you personally."
+#~ msgstr ""
+#~ "Zhromaždené informácie sa používajú na analýzu služieb a zlepšovanie "
+#~ "využívania služieb, nie na vašu osobnú identifikáciu."
+
+#~ msgid "By continuing, you agree to the HERE platform %1 and %2."
+#~ msgstr "Pokračovaním súhlasíte s platformou HERE %1 a %2."
+
+#~ msgid "Service Terms"
+#~ msgstr "Servisné podmienky"
 
 #~ msgid "Reboot"
 #~ msgstr "Reštartovať"
@@ -1025,27 +1111,19 @@ msgstr "Heslo je veľmi slabé"
 #~ "If passphrase is entered incorrectly, your phone will conduct a factory "
 #~ "reset and all personal data will be deleted."
 #~ msgstr ""
-#~ "Ak bude zle zadaná prístupová fráza, váš telefón vykoná továrenský reset a "
-#~ "všetky osobné údaje budú vymazané."
+#~ "Ak bude zle zadaná prístupová fráza, váš telefón vykoná továrenský reset "
+#~ "a všetky osobné údaje budú vymazané."
 
 #~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
-#~ "and all personal data will be deleted."
+#~ "If passcode is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
 #~ msgstr ""
 #~ "Ak bude zle zadané heslo, váš telefón vykoná továrenský reset a všetky "
 #~ "osobné údaje budú vymazané."
 
-#, qt-format
 #~ msgid "Enter %1"
 #~ msgstr "Zadajte %1"
 
-#~ msgid "Enter passphrase"
-#~ msgstr "Zadajte prístupovú frázu"
-
-#~ msgid "Enter passcode"
-#~ msgstr "Zadajte heslo"
-
-#, qt-format
 #~ msgid "Sorry, incorrect %1"
 #~ msgstr "Prepáčte, nesprávne %1"
 
@@ -1080,9 +1158,6 @@ msgstr "Heslo je veľmi slabé"
 #~ msgid "Tap here to continue."
 #~ msgstr "Klik tu pre pokračovanie."
 
-#~ msgid "Open the launcher"
-#~ msgstr "Otvoriť Launcher"
-
 #~ msgid "Short swipe from the left edge."
 #~ msgstr "Krátke potiahnutie od ľavého okraja."
 
@@ -1109,9 +1184,6 @@ msgstr "Heslo je veľmi slabé"
 
 #~ msgid "Let’s get started."
 #~ msgstr "Začíname."
-
-#~ msgid "Continue"
-#~ msgstr "Pokračovať"
 
 #~ msgid "Add a SIM card and restart your device"
 #~ msgstr "Vložte SIM kartu a reštartujte zariadenie"
@@ -1165,8 +1237,8 @@ msgstr "Heslo je veľmi slabé"
 #~ msgstr "Použiť GPS, anonymné informácie Wifi a mobilnej siete (odporúčané)"
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
+#~ "and conditions</a>."
 #~ msgstr ""
 #~ "Vybraním tejto možnosti súhlasíte s Nokia HERE <a href='#'>terms and "
 #~ "conditions</a>."
@@ -1206,20 +1278,15 @@ msgstr "Heslo je veľmi slabé"
 #~ msgid "Confirm passphrase"
 #~ msgstr "Potvrdiť prístupovú frázu"
 
-#~ msgid "Please try again."
-#~ msgstr "Prosím, skúste znovu."
-
 #~ msgid "Choose your passcode"
 #~ msgstr "Zvoliť heslo"
 
 #~ msgid "Passphrase must be 4 characters long"
 #~ msgstr "Prístupová fráza musí mať 4 znaky"
 
-#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
-#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
@@ -1242,21 +1309,20 @@ msgstr "Heslo je veľmi slabé"
 #~ msgstr "Potiahnite od ľavého okraja pre otvorenie spúšťača"
 
 #~ msgid "Swipe from the top right edge to open the notification bar"
-#~ msgstr "Potiahnite od ľavého horného okraja pre otvorenie notifikačnej lišty"
+#~ msgstr ""
+#~ "Potiahnite od ľavého horného okraja pre otvorenie notifikačnej lišty"
 
 #~ msgid "Swipe from the top edge to open the notification bar"
 #~ msgstr "Potiahnite od horného okraja pre otvorenie notifikačnej lišty"
 
 #~ msgid "Hover your mouse on the right edge to view your open apps"
-#~ msgstr "Prejdite myšou od pravého okraja pre zobrazenie otvorených aplikácií"
+#~ msgstr ""
+#~ "Prejdite myšou od pravého okraja pre zobrazenie otvorených aplikácií"
 
 #~ msgid "Short or long swipe from the right edge to view your open apps"
 #~ msgstr ""
 #~ "Krátke alebo dlhé potiahnutie od pravého okraja pre zobrazenie otvorených "
 #~ "aplikácií"
-
-#~ msgid "Long swipe from the left edge to open the Today scope"
-#~ msgstr "Dlhé potiahnutie od ľavého okraja pre otvorenie scope Dnes"
 
 #~ msgid "Log out"
 #~ msgstr "Odhlásiť sa"
@@ -1278,34 +1344,3 @@ msgstr "Heslo je veľmi slabé"
 
 #~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
 #~ msgstr "Potiahnite z ľavého okraja pre rýchly prístup k aplikáciam"
-
-#~ msgid "Takes a screenshot of a window."
-#~ msgstr "Vytvorí snímku okna."
-
-#~ msgid "Super + 0 to 9"
-#~ msgstr "Super + 0 do 9"
-
-#, qt-format
-#~ msgctxt "version of the system update"
-#~ msgid "Version %1"
-#~ msgstr "Verzia %1"
-
-#~ msgctxt "string identifying name of the update"
-#~ msgid "Ubuntu system"
-#~ msgstr "Systém Ubuntu"
-
-#~ msgid "Update Device"
-#~ msgstr "Aktualizácia zariadenia"
-
-#~ msgid ""
-#~ "There is a system update available and ready to install. Afterwards, the "
-#~ "device will automatically restart."
-#~ msgstr ""
-#~ "Je k dispozícii aktualizácia systému a pripravená na inštaláciu. Potom sa "
-#~ "zariadenie automaticky reštartuje."
-
-#~ msgid "Install and restart now"
-#~ msgstr "Teraz nainštalovať a reštartovať"
-
-#~ msgid "This could take a few minutes..."
-#~ msgstr "Môže to trvať niekoľko minút..."

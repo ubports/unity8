@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2014-2016 Canonical, Ltd.
+ * Copyright (C) 2020 UBports Foundation
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +33,6 @@ Showable {
     property real openedHeight: units.gu(71)
     property bool enableHint: true
     property bool showOnClick: true
-    property bool adjustDragHandleSizeToContents: true
     property color panelColor: theme.palette.normal.background
     property real menuContentX: 0
 
@@ -46,9 +46,16 @@ Showable {
     readonly property bool partiallyOpened: unitProgress > 0 && unitProgress < 1.0
     readonly property bool fullyClosed: unitProgress == 0
     readonly property alias expanded: bar.expanded
-    readonly property int barWidth: adjustDragHandleSizeToContents ? Math.min(bar.width, bar.implicitWidth) : bar.width
+    readonly property int barWidth: bar.width
     readonly property alias currentMenuIndex: bar.currentItemIndex
 
+    // Exposes the current contentX of the PanelBar's internal ListView. This
+    // must be used to offset absolute x values against the ListView, since
+    // we commonly add or remove elements and cause the contentX to change.
+    readonly property int rowContentX: bar.rowContentX
+
+    // The user tapped the panel and did not move.
+    // Note that this does not fire on mouse events, only touch events.
     signal showTapped()
 
     // TODO: Perhaps we need a animation standard for showing/hiding? Each showable seems to
@@ -211,9 +218,8 @@ Showable {
 
     MouseArea {
         anchors.bottom: parent.bottom
-        anchors.left: alignment == Qt.AlignLeft ? parent.left : undefined
-        anchors.right: alignment == Qt.AlignRight ? parent.right : undefined
-        width: root.barWidth // show handle should only cover panel items.
+        anchors.left: alignment == Qt.AlignLeft ? parent.left : __showDragHandle.left
+        anchors.right: alignment == Qt.AlignRight ? parent.right : __showDragHandle.right
         height: minimizedPanelHeight
         enabled: __showDragHandle.enabled && showOnClick
         onClicked: {
@@ -230,10 +236,10 @@ Showable {
         anchors.left: alignment == Qt.AlignLeft ? parent.left : undefined
         anchors.leftMargin: -root.menuContentX
         anchors.right: alignment == Qt.AlignRight ? parent.right : undefined
-        width: root.barWidth + root.menuContentX // show handle should only cover panel items.
+        width: root.overFlowWidth + root.menuContentX
         height: minimizedPanelHeight
         direction: Direction.Downwards
-        enabled: !root.shown && root.available
+        enabled: !root.shown && root.available && !hideAnimation.running && !showAnimation.running
         autoCompleteDragThreshold: maxTotalDragDistance / 2
         stretch: true
 
@@ -242,7 +248,7 @@ Showable {
                 touchPressTime = new Date().getTime();
             } else {
                 var touchReleaseTime = new Date().getTime();
-                if (touchReleaseTime - touchPressTime <= 300) {
+                if (touchReleaseTime - touchPressTime <= 300 && distance < units.gu(1)) {
                     root.showTapped();
                 }
             }
@@ -266,7 +272,7 @@ Showable {
         objectName: "hideDragHandle"
         anchors.fill: handle
         direction: Direction.Upwards
-        enabled: root.shown && root.available
+        enabled: root.shown && root.available && !hideAnimation.running && !showAnimation.running
         hintDisplacement: units.gu(3)
         autoCompleteDragThreshold: maxTotalDragDistance / 6
         stretch: true

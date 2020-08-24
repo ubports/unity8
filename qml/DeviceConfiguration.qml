@@ -35,6 +35,8 @@ QtObject {
 
     readonly property alias category: priv.category
 
+    readonly property alias supportsMultiColorLed: priv.supportsMultiColorLed
+
     readonly property var deviceConfigParser: DeviceConfigParser {
         name: root.name
     }
@@ -52,6 +54,7 @@ QtObject {
         property int portraitOrientation: deviceConfigParser.portraitOrientation
         property int invertedPortraitOrientation: deviceConfigParser.invertedPortraitOrientation
         property string category: deviceConfigParser.category
+        property bool supportsMultiColorLed: deviceConfigParser.supportsMultiColorLed
 
         states: [
             State {
@@ -90,12 +93,14 @@ QtObject {
                     target: priv
                     primaryOrientation: root.useNativeOrientation
                     supportedOrientations: Qt.PortraitOrientation
+                                         | Qt.InvertedPortraitOrientation
                                          | Qt.LandscapeOrientation
                                          | Qt.InvertedLandscapeOrientation
                     landscapeOrientation: Qt.LandscapeOrientation
                     invertedLandscapeOrientation: Qt.InvertedLandscapeOrientation
                     portraitOrientation: Qt.PortraitOrientation
                     invertedPortraitOrientation: Qt.InvertedPortraitOrientation
+                    supportsMultiColorLed: false
                     category: "phone"
                 }
             },
@@ -142,6 +147,13 @@ QtObject {
                     portraitOrientation: Qt.PortraitOrientation
                     invertedPortraitOrientation: Qt.InvertedPortraitOrientation
                     category: "desktop"
+                }
+            },
+            State {
+                name: "turbo"
+                PropertyChanges {
+                    target: priv
+                    supportsMultiColorLed: false
                 }
             }
         ]

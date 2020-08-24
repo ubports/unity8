@@ -108,7 +108,7 @@ FocusScope {
             panel.dismissTimer.stop();
             fadeOutAnimation.stop();
             switchToNextState("visible")
-        } else if (!lockedVisible && state == "visible") {
+        } else if (!lockedVisible && (state == "visible" || state == "drawer")) {
             hide();
         }
     }
@@ -183,7 +183,7 @@ FocusScope {
         switchToNextState("visible")
     }
 
-    function toggleDrawer(focusInputField, onlyOpen) {
+    function toggleDrawer(focusInputField, onlyOpen, alsoToggleLauncher) {
         if (!drawerEnabled) {
             return;
         }
@@ -196,11 +196,13 @@ FocusScope {
         if (focusInputField) {
             drawer.focusInput();
         }
-        if (state === "drawer" && !onlyOpen) {
-            switchToNextState("visible");
-        } else {
+        if (state === "drawer" && !onlyOpen)
+            if (alsoToggleLauncher && !root.lockedVisible)
+                switchToNextState("");
+            else
+                switchToNextState("visible");
+        else
             switchToNextState("drawer");
-        }
     }
 
     Keys.onPressed: {
@@ -419,8 +421,8 @@ FocusScope {
         property bool animate: true
 
         onApplicationSelected: {
+            launcherApplicationSelected(appId);
             root.hide(ignoreHideIfMouseOverLauncher);
-            launcherApplicationSelected(appId)
         }
         onShowDashHome: {
             root.hide(ignoreHideIfMouseOverLauncher);
@@ -437,6 +439,10 @@ FocusScope {
             panel.highlightIndex = -2;
             root.hide();
             root.focus = false;
+        }
+
+        onDraggingChanged: {
+            drawer.unFocusInput()
         }
 
         Behavior on x {

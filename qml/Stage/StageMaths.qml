@@ -34,6 +34,8 @@ QtObject {
     property var mainStageDelegate: null
     property var sideStageDelegate: null
 
+    property int animationDuration: UbuntuAnimation.FastDuration
+
     // output
 
     // We need to shuffle z ordering a bit in order to keep side stage apps above main stage apps.
@@ -82,7 +84,7 @@ QtObject {
         }
         return sceneWidth;
     }
-    Behavior on itemX { enabled: root.animateX; UbuntuNumberAnimation {} }
+    Behavior on itemX { enabled: root.animateX; UbuntuNumberAnimation {duration: animationDuration} }
 
     readonly property int itemWidth: stage == ApplicationInfoInterface.MainStage ?
                                      sideStageDelegate != null ? sideStageX : sceneWidth :

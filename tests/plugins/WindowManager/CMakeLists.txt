@@ -18,12 +18,12 @@ add_executable(TopLevelWindowModelTestExec
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceListInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/SurfaceManagerInterface.h
     )
-qt5_use_modules(TopLevelWindowModelTestExec Test Core Gui Qml Quick)
 
 target_link_libraries(TopLevelWindowModelTestExec
+    Qt5::Test Qt5::Core Qt5::Gui Qt5::Qml Qt5::Quick
     windowmanager-qml
     unity8-private
-    )
+)
 
 install(TARGETS TopLevelWindowModelTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/WindowManager"

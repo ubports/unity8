@@ -46,7 +46,7 @@ Rectangle {
         id: stage
         anchors { fill: parent; rightMargin: units.gu(30) }
         dragAreaWidth: units.gu(2)
-        interactive: true
+        allowInteractivity: true
         shellOrientation: Qt.LandscapeOrientation
         nativeWidth: width
         nativeHeight: height
@@ -82,16 +82,6 @@ Rectangle {
         Column {
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
             spacing: units.gu(1)
-
-            EdgeBarrierControls {
-                id: edgeBarrierControls
-                text: "Drag here to pull out spread"
-                backgroundColor: "blue"
-                onDragged: { stage.pushRightEdge(amount); }
-                Component.onCompleted: {
-                    edgeBarrierControls.target = testCase.findChild(stage, "edgeBarrierController");
-                }
-            }
 
             Button {
                 text: testCase.sideStage ? testCase.sideStage.shown ? "Hide Side-stage" : "Show Side-stage" : ""

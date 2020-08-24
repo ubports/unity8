@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2020 UBports Foundation.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,9 +19,11 @@
 
 #include <QDebug>
 #include <QDateTime>
+#include <QTimer>
 
 MockAppDrawerModel::MockAppDrawerModel(QObject *parent):
-    AppDrawerModelInterface(parent)
+    AppDrawerModelInterface(parent),
+    m_refresing(false)
 {
     MockLauncherItem *item = new MockLauncherItem("dialer-app", "/usr/share/applications/dialer-app.desktop", "Dialer", "dialer-app", this);
     m_list.append(item);
@@ -71,4 +74,25 @@ QVariant MockAppDrawerModel::data(const QModelIndex &index, int role) const
     }
 
     return QVariant();
+}
+
+bool MockAppDrawerModel::refreshing() {
+    return m_refresing;
+}
+
+void MockAppDrawerModel::refresh() {
+    if (m_refresing)
+        return;
+
+    m_refresing = true;
+    Q_EMIT refreshingChanged();
+
+    QTimer::singleShot(/* msec */ 1000, this, [this] {
+        beginResetModel();
+        // Pretended that the data has changed;
+        endResetModel();
+
+        m_refresing = false;
+        Q_EMIT refreshingChanged();
+    });
 }

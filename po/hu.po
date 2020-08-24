@@ -6,39 +6,41 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-04-04 22:56+0000\n"
-"PO-Revision-Date: 2016-08-17 10:53+0000\n"
-"Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
-"Language-Team: Hungarian <hu@li.org>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"PO-Revision-Date: 2020-02-09 01:01+0000\n"
+"Last-Translator: Bence László <bencelaszlo@protonmail.com>\n"
+"Language-Team: Hungarian <https://translate.ubports.com/projects/unity8/"
+"unity8/hu/>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-04-07 06:30+0000\n"
-"X-Generator: Launchpad (build 18343)\n"
+"X-Generator: Weblate 3.8\n"
+"X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
-#: plugins/LightDM/Greeter.cpp:188
+#: plugins/LightDM/Greeter.cpp:199
 msgid "Password: "
 msgstr "Jelszó: "
 
-#: plugins/LightDM/Greeter.cpp:203
+#: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
 msgstr ""
 
-#: plugins/LightDM/Greeter.cpp:242
+#: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
 msgstr ""
 
-#: plugins/LightDM/Greeter.cpp:244
+#: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
 msgstr ""
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
 msgstr "Bejelentkezés"
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
 msgstr "Újra"
 
@@ -53,7 +55,7 @@ msgstr ""
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
-msgstr "Indító rögzítése"
+msgstr "Gyorsindító rögzítése"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:55
 msgid "Quit"
@@ -61,7 +63,7 @@ msgstr "Kilépés"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
-msgstr "Indító feloldása"
+msgstr "Gyorsindító feloldása"
 
 #: qml/Components/Dialogs.qml:176
 msgctxt "Title: Lock/Log out dialog"
@@ -82,9 +84,8 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Kijelentkezés"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:264
-#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:208
-#: qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Mégse"
@@ -106,12 +107,12 @@ msgstr "Nem"
 msgid "Yes"
 msgstr "Igen"
 
-#: qml/Components/Dialogs.qml:239
+#: qml/Components/Dialogs.qml:243
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Menü"
 
-#: qml/Components/Dialogs.qml:240
+#: qml/Components/Dialogs.qml:244
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -119,12 +120,12 @@ msgstr ""
 "Biztos benne, hogy ki\n"
 "szeretné kapcsolni?"
 
-#: qml/Components/Dialogs.qml:244
+#: qml/Components/Dialogs.qml:248
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Kikapcsolás"
 
-#: qml/Components/Dialogs.qml:255
+#: qml/Components/Dialogs.qml:263
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Újraindítás"
@@ -150,8 +151,10 @@ msgid "Alt + PrtScr"
 msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
+#, fuzzy
+#| msgid "Takes a screenshot of a window."
 msgid "Takes a screenshot of the current window."
-msgstr ""
+msgstr "Képernyőkép készítése az ablakról."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -170,12 +173,16 @@ msgid "Switches to previous keyboard layout."
 msgstr "Az előző billentyűzetkiosztására váltás."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
+#, fuzzy
+#| msgid "Ctrl + Super + D"
 msgid "Ctrl + Alt + T"
-msgstr ""
+msgstr "Ctrl + Szuper + D"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
+#, fuzzy
+#| msgid "Switches between applications."
 msgid "Starts the Terminal application."
-msgstr ""
+msgstr "Váltás az alkalmazások között."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
@@ -206,20 +213,26 @@ msgid "Switches applications via the launcher."
 msgstr "Alkalmazás váltás az indítóval"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
+#, fuzzy
+#| msgid "Super + 0 to 9"
 msgid "Super + 1 to 0"
-msgstr ""
+msgstr "Super + 0-9"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
 msgstr "Az adott számú alkalmazás indítása."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
+#, fuzzy
+#| msgid "Super + W"
 msgid "Super + A"
-msgstr ""
+msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
+#, fuzzy
+#| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
-msgstr ""
+msgstr "Indító megnyitása"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
@@ -305,7 +318,7 @@ msgstr "Alt + F4"
 msgid "Closes the current window."
 msgstr "Az aktuális ablak bezárása."
 
-#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:228
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:235
 msgid "Return to Call"
 msgstr "Vissza a híváshoz"
 
@@ -368,8 +381,10 @@ msgstr ""
 "kijelzőt érintőtáblaként, melynek segítéségével irányíthatja a mutatót."
 
 #: qml/Components/VirtualTouchPad.qml:327
+#, fuzzy
+#| msgid "Tap to return to call..."
 msgid "Tap left button to click."
-msgstr ""
+msgstr "Ide koppintva visszatérhet a híváshoz"
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
@@ -382,103 +397,6 @@ msgstr ""
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
 msgstr ""
-
-#: qml/Dash/DashPageHeader.qml:361
-msgctxt "Button: Open the Ubuntu Store"
-msgid "Store"
-msgstr "Áruház"
-
-#: qml/Dash/DashPageHeader.qml:368
-msgctxt "Button: Start a search in the current dash scope"
-msgid "Search"
-msgstr "Keresés"
-
-#: qml/Dash/DashPageHeader.qml:378
-msgctxt "Button: Show the current dash scope settings"
-msgid "Settings"
-msgstr "Beállítások"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Remove from Favorites"
-msgstr "Eltávolítás a kedvencek közül"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Add to Favorites"
-msgstr "Hozzáadás a kedvencekhez"
-
-#: qml/Dash/FiltersPopover.qml:61
-msgid "Refine your results"
-msgstr "Találatok finomítása"
-
-#: qml/Dash/FiltersPopover.qml:70
-msgid "Reset"
-msgstr "Alaphelyzetbe állítás"
-
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
-msgid "Show less"
-msgstr "Kevesebb"
-
-#: qml/Dash/GenericScopeView.qml:547
-msgid "Show all"
-msgstr "Összes megjelenítése"
-
-#: qml/Dash/GenericScopeView.qml:578
-msgctxt "Label: Hint for dash search line edit"
-msgid "Search"
-msgstr "Keresés"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:67
-msgid "Recent Searches"
-msgstr "Legutóbbi keresések"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:78
-msgid "Clear All"
-msgstr "Összes törlése"
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "More..."
-msgstr "Több…"
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "Less..."
-msgstr "Kevesebb…"
-
-#: qml/Dash/Previews/PreviewCommentInput.qml:83
-#: qml/Dash/Previews/PreviewRatingInput.qml:202
-msgid "Send"
-msgstr "Küldés"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:109
-msgid "Rate this"
-msgstr "Értékelje"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:184
-msgid "Add a review"
-msgstr "Értékelés hozzáadása"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:56
-msgid "Pull to refresh…"
-msgstr "Húzza a frissítéshez…"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:61
-msgid "Release to refresh…"
-msgstr "Engedje el a frissítéshez…"
-
-#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
-msgid "Enable location data"
-msgstr "Helymeghatározás engedélyezése"
-
-#: qml/Dash/ScopesList.qml:146
-msgid "Manage"
-msgstr "Szerkesztés"
-
-#: qml/Dash/ScopesList.qml:187
-msgid "Home"
-msgstr "Kezdőlapon"
-
-#: qml/Dash/ScopesList.qml:188
-msgid "Also installed"
-msgstr "Telepítve"
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -508,14 +426,18 @@ msgid "Try again"
 msgstr "Próbálja újra"
 
 #: qml/Greeter/Greeter.qml:551
+#, fuzzy
+#| msgid "Enter passphrase"
 msgid "Enter passphrase to unlock"
-msgstr ""
+msgstr "Jelmondat megadása"
 
 #: qml/Greeter/Greeter.qml:552
+#, fuzzy
+#| msgid "Enter passcode"
 msgid "Enter passcode to unlock"
-msgstr ""
+msgstr "Jelkód megadása"
 
-#: qml/Greeter/NarrowView.qml:228
+#: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
 msgstr "Segélyhívás"
 
@@ -531,18 +453,11 @@ msgstr "Jelkód"
 msgid "Select desktop environment"
 msgstr "Asztali-környezet kiválasztása"
 
-#: qml/Launcher/Drawer.qml:94
+#: qml/Launcher/Drawer.qml:249
+#, fuzzy
+#| msgid "Search"
 msgid "Search…"
-msgstr ""
-
-#: qml/Launcher/Drawer.qml:129
-msgctxt "Apps sorted alphabetically"
-msgid "A-Z"
-msgstr ""
-
-#: qml/Launcher/MoreAppsHeader.qml:55
-msgid "More apps in the store"
-msgstr ""
+msgstr "Keresés"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -632,54 +547,77 @@ msgid "Call back"
 msgstr "Visszahívás"
 
 #: qml/Panel/PanelMenuPage.qml:92
+#, fuzzy
+#| msgctxt "Button: Go back one page in the Wizard"
+#| msgid "Back"
 msgid "Back"
-msgstr ""
+msgstr "Vissza"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
+msgstr "Az alkalmazások 3 ujjal megragadva húzhatóak egyik ablakból a másikba"
+
+#: qml/Stage/Stage.qml:668
+msgid "No running apps"
 msgstr ""
-"Az alkalmazások 3 ujjal megragadva húzhatóak egyik ablakból a másikba"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
+#, fuzzy
+#| msgid "Long swipe from the left edge to open the Today scope"
 msgid "Long swipe from the left edge to open the Application Drawer"
-msgstr ""
+msgstr "Hosszan csúsztasson balról a Ma lencse eléréséhez"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
 msgstr "Balról röviden csúsztatva nyithatja meg az indítót"
 
-#: qml/Tutorial/TutorialRight.qml:55
+#: qml/Tutorial/TutorialRight.qml:54
 msgid "Push your mouse against the right edge to view your open apps"
 msgstr ""
 "Húzza az egeret a jobb oldalhoz a nyitott alkalmazások megjelenítéséhez"
 
-#: qml/Tutorial/TutorialRight.qml:56
+#: qml/Tutorial/TutorialRight.qml:55
 msgid "Swipe from the right edge to view your open apps"
 msgstr "Jobbról csúsztatva tekintheti meg a nyitott alkalmazásokat"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
-msgstr ""
-"Fentről csúsztatva érheti el az értesítéseket és a gyors-beállításokat"
+msgstr "Fentről csúsztatva érheti el az értesítéseket és a gyors-beállításokat"
 
-#: qml/Wizard/Page.qml:54
+#: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Vissza"
 
-#: qml/Wizard/Pages/10-welcome.qml:28
+#: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
 msgstr "Nyelv"
 
-#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:145
-#: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:142
-#: qml/Wizard/Pages/password-set.qml:142
+#: qml/Wizard/Pages/10-welcome.qml:176
+#: qml/Wizard/Pages/10-welcome-update.qml:126
+#: qml/Wizard/Pages/11-changelog.qml:74 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:214 qml/Wizard/Pages/50-timezone.qml:272
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/70-passwd-type.qml:146
+#: qml/Wizard/Pages/passcode-desktop.qml:154
+#: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
 msgstr "Következő"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:91
+msgid "Welcome to "
+msgstr "Üdvözli a "
+
+#: qml/Wizard/Pages/10-welcome-update.qml:106
+msgid "We will make sure your device is ready to use "
+msgstr "Meggyőződünk róla, hogy az eszköz használatra kész "
+
+#: qml/Wizard/Pages/11-changelog.qml:28
+msgid "What's new"
+msgstr "Újdonságok"
+
+#: qml/Wizard/Pages/11-changelog.qml:74
+msgid "Loading..."
+msgstr "Betöltés…"
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
@@ -693,66 +631,33 @@ msgstr "Billentyűzet nyelve"
 msgid "Keyboard layout"
 msgstr "Billentyűzetkiosztás"
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:214
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/79-system-update.qml:144
+#: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Kihagyás"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
 msgstr "Csatlakozás Wi-Fi hálózathoz"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
 msgstr "Kapcsolódva"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
 msgstr "Elérhető Wi-Fi hálózatok"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
 msgstr "Nincsenek elérhető Wi-Fi hálózatok"
-
-#: qml/Wizard/Pages/40-location.qml:27
-msgid "Location Services"
-msgstr "Helymeghatározás"
-
-#: qml/Wizard/Pages/40-location.qml:83
-msgid ""
-"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
-"(recommended)"
-msgstr ""
-"GPS, névtelen Wi-Fi- és mobilhálózati adatok használata a "
-"helymeghatározáshoz (ajánlott)"
-
-#: qml/Wizard/Pages/40-location.qml:105
-#, qt-format
-msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr "A lehetőség kiválasztásával elfogadja a Nokia HERE %1."
-
-#: qml/Wizard/Pages/40-location.qml:106
-msgctxt "part of: Nokia HERE terms and conditions"
-msgid "terms and conditions"
-msgstr "felhasználási feltételeit"
-
-#: qml/Wizard/Pages/40-location.qml:160
-msgid "GPS only"
-msgstr "Csak GPS használata"
-
-#: qml/Wizard/Pages/40-location.qml:214
-msgid "Don't use my location"
-msgstr "Ne határozza meg"
-
-#: qml/Wizard/Pages/40-location.qml:260
-msgid "You can change it later in System Settings."
-msgstr "Ezt később a Rendszerbeállítások alatt módosíthatja."
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "Időzóna"
 
-#: qml/Wizard/Pages/50-timezone.qml:182
+#: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
 msgstr "Város megadása"
 
@@ -760,7 +665,7 @@ msgstr "Város megadása"
 msgid "Personalize Your Device"
 msgstr "Eszköz személyre szabása"
 
-#: qml/Wizard/Pages/60-account.qml:48
+#: qml/Wizard/Pages/60-account.qml:54
 msgid "Preferred Name"
 msgstr "Választott név"
 
@@ -768,89 +673,77 @@ msgstr "Választott név"
 msgid "Lock Screen"
 msgstr "Képernyőzárolás"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:102
+#: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr "Új jelszó létrehozása"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:104
+#: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr "Új jelkód létrehozása (csak számok)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:106
+#: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "Nincs zárolás"
 
-#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
-msgid "Privacy Policy"
-msgstr "Adatvédelmi irányelvek"
+#: qml/Wizard/Pages/79-system-update.qml:28
+msgid "Update Device"
+msgstr "Eszköz frissítése"
 
-#: qml/Wizard/Pages/75-report-check.qml:26
-msgid "Help Us Improve"
-msgstr "Segítse a munkánkat"
-
-#: qml/Wizard/Pages/75-report-check.qml:59
-msgid "Improve system performance by sending us crashes and error reports."
+#: qml/Wizard/Pages/79-system-update.qml:55
+msgid ""
+"There is a system update available and ready to install. Afterwards, the "
+"device will automatically restart."
 msgstr ""
-"Összeomlás és egyéb hibajelentések küldése a rendszer teljesítményének "
-"javítása érdekében."
+"Elérhető egy rendszerfrissítés. A telepítést követően a készülék "
+"automatikusan újraindul."
 
-#: qml/Wizard/Pages/75-report-check.qml:60
-msgid "Privacy policy"
-msgstr "Adatvédelmi irányelvek"
+#: qml/Wizard/Pages/79-system-update.qml:76
+#, fuzzy
+#| msgctxt "string identifying name of the update"
+#| msgid "Ubuntu system"
+msgctxt "string identifying name of the update"
+msgid "Ubuntu Touch system"
+msgstr "Ubuntu rendszer"
 
-#: qml/Wizard/Pages/80-finished.qml:89
+#: qml/Wizard/Pages/79-system-update.qml:83
+#, qt-format
+msgctxt "version of the system update"
+msgid "Version %1"
+msgstr "Verzió: %1"
+
+#: qml/Wizard/Pages/79-system-update.qml:95
+msgid "This could take a few minutes..."
+msgstr "Ez néhány percet igénybe vehet…"
+
+#: qml/Wizard/Pages/79-system-update.qml:109
+msgid "Install and restart now"
+msgstr "Telepítés és újraindítás"
+
+#: qml/Wizard/Pages/80-finished.qml:91
+msgid "Welcome Back"
+msgstr "Üdvözöljük újra"
+
+#: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
 msgstr "Üdvözli az Ubuntu"
 
-#: qml/Wizard/Pages/80-finished.qml:104
+#: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
 msgstr "Az eszköze készen áll a használatra"
 
-#: qml/Wizard/Pages/80-finished.qml:124
+#: qml/Wizard/Pages/80-finished.qml:126
+msgid "Continue"
+msgstr "Folytatás"
+
+#: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
 msgstr "Első lépések"
 
-#: qml/Wizard/Pages/here-terms.qml:25
-msgid "Terms & Conditions"
-msgstr "Felhasználási feltételek"
-
-#: qml/Wizard/Pages/here-terms.qml:69
-msgid "Your device uses positioning technologies provided by HERE."
-msgstr ""
-"Az eszköze a HERE által nyújtott pozicionáló technológiákat használja."
-
-#: qml/Wizard/Pages/here-terms.qml:81
-msgid ""
-"To provide you with positioning services and to improve their quality, HERE "
-"collects information about nearby cell towers and Wi-Fi hotspots around your "
-"current location whenever your position is being found."
-msgstr ""
-"A helyzetmeghatározó szolgáltatások minőségének javítása érdekében, a HERE "
-"információkat gyűjt a közelben lévő adótornyokról és Wi-Fi Hotspotokról a "
-"helyzete meghatározása után."
-
-#: qml/Wizard/Pages/here-terms.qml:93
-msgid ""
-"The information collected is used to analyze the service and to improve the "
-"use of service, but not to identify you personally."
-msgstr ""
-"A gyűjtött információ a szolgáltatás elemzéséhez és továbbfejlesztéséhez "
-"szükséges, nem az Ön beazonosításához."
-
-#: qml/Wizard/Pages/here-terms.qml:106
-#, qt-format
-msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr "A folytatással elfogadja a következőket: HERE %1 és %2."
-
-#: qml/Wizard/Pages/here-terms.qml:107
-msgid "Service Terms"
-msgstr "Szolgáltatási feltételek"
-
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:97
+#: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
 msgstr "Jelkód megerősítése"
 
@@ -867,24 +760,24 @@ msgstr "Próbálja újra."
 msgid "Lock Screen Passcode"
 msgstr "Zárolási képernyő jelkódja"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:61
+#: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "Adjon meg egy 4 számjegyű jelkódot"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:77
+#: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "Jelkód megadása"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:127
+#: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
 msgstr "A jelkód túl rövid"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:129
+#: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
 msgstr "A jelkódok egyeznek"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:131
+#: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
 msgstr "A jelkódok nem egyeznek"
 
@@ -896,15 +789,15 @@ msgstr "A jelkód legalább 4 karakterhosszú legyen"
 msgid "Lock Screen Password"
 msgstr "Zárolási képernyő jelszava"
 
-#: qml/Wizard/Pages/password-set.qml:62
+#: qml/Wizard/Pages/password-set.qml:68
 msgid "Enter at least 8 characters"
 msgstr "Legalább 8 karakter"
 
-#: qml/Wizard/Pages/password-set.qml:74
+#: qml/Wizard/Pages/password-set.qml:80
 msgid "Choose password"
 msgstr "Jelszó megadása"
 
-#: qml/Wizard/Pages/password-set.qml:104
+#: qml/Wizard/Pages/password-set.qml:110
 msgid "Confirm password"
 msgstr "Jelszó megerősítése"
 
@@ -962,20 +855,235 @@ msgstr "Gyenge jelszó"
 msgid "Very weak password"
 msgstr "Nagyon gyenge jelszó"
 
+#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgid "Store"
+#~ msgstr "Áruház"
+
+#~ msgctxt "Button: Start a search in the current dash scope"
+#~ msgid "Search"
+#~ msgstr "Keresés"
+
+#~ msgctxt "Button: Show the current dash scope settings"
+#~ msgid "Settings"
+#~ msgstr "Beállítások"
+
+#~ msgid "Remove from Favorites"
+#~ msgstr "Eltávolítás a kedvencek közül"
+
+#~ msgid "Add to Favorites"
+#~ msgstr "Hozzáadás a kedvencekhez"
+
+#~ msgid "Refine your results"
+#~ msgstr "Találatok finomítása"
+
+#~ msgid "Reset"
+#~ msgstr "Alaphelyzetbe állítás"
+
+#~ msgid "Show less"
+#~ msgstr "Kevesebb"
+
+#~ msgid "Show all"
+#~ msgstr "Összes megjelenítése"
+
+#~ msgctxt "Label: Hint for dash search line edit"
+#~ msgid "Search"
+#~ msgstr "Keresés"
+
+#~ msgid "Recent Searches"
+#~ msgstr "Legutóbbi keresések"
+
+#~ msgid "Clear All"
+#~ msgstr "Összes törlése"
+
+#~ msgid "More..."
+#~ msgstr "Több…"
+
+#~ msgid "Less..."
+#~ msgstr "Kevesebb…"
+
+#~ msgid "Send"
+#~ msgstr "Küldés"
+
+#~ msgid "Rate this"
+#~ msgstr "Értékelje"
+
+#~ msgid "Add a review"
+#~ msgstr "Értékelés hozzáadása"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Húzza a frissítéshez…"
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Engedje el a frissítéshez…"
+
+#~ msgid "Enable location data"
+#~ msgstr "Helymeghatározás engedélyezése"
+
+#~ msgid "Manage"
+#~ msgstr "Szerkesztés"
+
+#~ msgid "Home"
+#~ msgstr "Kezdőlapon"
+
+#~ msgid "Also installed"
+#~ msgstr "Telepítve"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "Adatvédelmi irányelvek"
+
+#~ msgid "Help Us Improve"
+#~ msgstr "Segítse a munkánkat"
+
+#~ msgid "Improve system performance by sending us crashes and error reports."
+#~ msgstr ""
+#~ "Összeomlás és egyéb hibajelentések küldése a rendszer teljesítményének "
+#~ "javítása érdekében."
+
+#~ msgid "Privacy policy"
+#~ msgstr "Adatvédelmi irányelvek"
+
+#~ msgid "Update Apps"
+#~ msgstr "Alkalmazások frissítése"
+
+#~ msgid "This device is not connected to the internet."
+#~ msgstr "Az eszköz nem csatlakozik az internetre."
+
+#~ msgid "Use the OpenStore app to check for updates once connected."
+#~ msgstr ""
+#~ "Használja az OpenStore alkalmazást a frissítések kereséséhez, amikor "
+#~ "csatlakozott."
+
+#~ msgid "Software is up to date"
+#~ msgstr "A szoftver naprakész"
+
+#~ msgid "The update server is not responding."
+#~ msgstr "A frissítés-szerver nem válaszol."
+
+#~ msgid "Please wait..."
+#~ msgstr "Betöltés, kis türelmet…"
+
+#~ msgid "Installation failed"
+#~ msgstr "Sikertelen telepítés"
+
+#~ msgid "Checking for updates…"
+#~ msgstr "Frissítések keresése…"
+
+#~ msgid "%1 update available"
+#~ msgid_plural "%1 updates available"
+#~ msgstr[0] "%1 frissítés elérhető"
+#~ msgstr[1] "%1 frissítés elérhető"
+
+#~ msgid "Update all…"
+#~ msgstr "Összes frissítése…"
+
+#~ msgid "Update all"
+#~ msgstr "Összes frissítése"
+
+#~ msgid "Update"
+#~ msgstr "Frissítés"
+
+#~ msgid "Download"
+#~ msgstr "Letöltés"
+
+#~ msgid "Resume"
+#~ msgstr "Visszatérés"
+
+#~ msgid "Pause"
+#~ msgstr "Szünet"
+
+#~ msgid "Install…"
+#~ msgstr "Telepítés…"
+
+#~ msgid "Install"
+#~ msgstr "Telepítés"
+
+#~ msgid "Open"
+#~ msgstr "Megnyitás"
+
+#~ msgid "Installing"
+#~ msgstr "Telepítés"
+
+#~ msgid "Paused"
+#~ msgstr "Szüneteltetve"
+
+#~ msgid "Waiting to download"
+#~ msgstr "Várakozás a letöltésre"
+
+#~ msgid "%1 of %2"
+#~ msgstr "%1 / %2"
+
+#~ msgid "Downloaded"
+#~ msgstr "Letöltve"
+
+#~ msgid "Installed"
+#~ msgstr "Telepítve"
+
+#~ msgid "Updated %1"
+#~ msgstr "Frissítve %1-re"
+
+#~ msgid "Update failed"
+#~ msgstr "Sikertelen frissítés"
+
+#~ msgid "Location Services"
+#~ msgstr "Helymeghatározás"
+
+#~ msgid ""
+#~ "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
+#~ "(recommended)"
+#~ msgstr ""
+#~ "GPS, névtelen Wi-Fi- és mobilhálózati adatok használata a "
+#~ "helymeghatározáshoz (ajánlott)"
+
+#~ msgid "By selecting this option you agree to the Nokia HERE %1."
+#~ msgstr "A lehetőség kiválasztásával elfogadja a Nokia HERE %1."
+
+#~ msgctxt "part of: Nokia HERE terms and conditions"
+#~ msgid "terms and conditions"
+#~ msgstr "felhasználási feltételeit"
+
+#~ msgid "GPS only"
+#~ msgstr "Csak GPS használata"
+
+#~ msgid "Don't use my location"
+#~ msgstr "Ne határozza meg"
+
+#~ msgid "You can change it later in System Settings."
+#~ msgstr "Ezt később a Rendszerbeállítások alatt módosíthatja."
+
+#~ msgid "Terms & Conditions"
+#~ msgstr "Felhasználási feltételek"
+
+#~ msgid "Your device uses positioning technologies provided by HERE."
+#~ msgstr ""
+#~ "Az eszköze a HERE által nyújtott pozicionáló technológiákat használja."
+
+#~ msgid ""
+#~ "To provide you with positioning services and to improve their quality, "
+#~ "HERE collects information about nearby cell towers and Wi-Fi hotspots "
+#~ "around your current location whenever your position is being found."
+#~ msgstr ""
+#~ "A helyzetmeghatározó szolgáltatások minőségének javítása érdekében, a "
+#~ "HERE információkat gyűjt a közelben lévő adótornyokról és Wi-Fi "
+#~ "Hotspotokról a helyzete meghatározása után."
+
+#~ msgid ""
+#~ "The information collected is used to analyze the service and to improve "
+#~ "the use of service, but not to identify you personally."
+#~ msgstr ""
+#~ "A gyűjtött információ a szolgáltatás elemzéséhez és továbbfejlesztéséhez "
+#~ "szükséges, nem az Ön beazonosításához."
+
+#~ msgid "By continuing, you agree to the HERE platform %1 and %2."
+#~ msgstr "A folytatással elfogadja a következőket: HERE %1 és %2."
+
+#~ msgid "Service Terms"
+#~ msgstr "Szolgáltatási feltételek"
+
 #~ msgid "Confirm"
 #~ msgstr "Megerősítés"
 
 #~ msgid "Type or say a command"
 #~ msgstr "Írjon be vagy mondjon ki egy parancsot"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Betöltés, kis türelmet…"
-
-#~ msgid "Speaking..."
-#~ msgstr "Beszéd…"
-
-#~ msgid "Search"
-#~ msgstr "Keresés"
 
 #~ msgid "Top edge"
 #~ msgstr "Felső szél"
@@ -1016,8 +1124,8 @@ msgstr "Nagyon gyenge jelszó"
 #~ "You have now mastered the edge gestures and can start using the "
 #~ "phone<br><br>Tap on the screen to start"
 #~ msgstr ""
-#~ "Elsajátította a gesztusokat, és megkezdheti a telefon "
-#~ "használatát.<br><br>Koppintson a képernyőre a kezdéshez."
+#~ "Elsajátította a gesztusokat, és megkezdheti a telefon használatát."
+#~ "<br><br>Koppintson a képernyőre a kezdéshez."
 
 #~ msgid "See all"
 #~ msgstr "Összes megtekintése"
@@ -1047,8 +1155,8 @@ msgstr "Nagyon gyenge jelszó"
 #~ msgstr "Kész"
 
 #~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
-#~ "and all personal data will be deleted."
+#~ "If passcode is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
 #~ msgstr ""
 #~ "Ha helytelen jelkódot ad meg, a telefonja visszaállítja a gyári "
 #~ "beállításokat és törli minden személyes adatát."
@@ -1084,15 +1192,6 @@ msgstr "Nagyon gyenge jelszó"
 #~ msgid "Manage Scopes"
 #~ msgstr "Lencsék kezelése"
 
-#~ msgid "Enter passphrase"
-#~ msgstr "Jelmondat megadása"
-
-#~ msgid "Enter passcode"
-#~ msgstr "Jelkód megadása"
-
-#~ msgid "Continue"
-#~ msgstr "Folytatás"
-
 #~ msgid "Let’s get started."
 #~ msgstr "Kezdjünk is bele."
 
@@ -1109,11 +1208,11 @@ msgstr "Nagyon gyenge jelszó"
 #~ msgstr "Ezt később a <b>Rendszerbeállítások</b> alatt módosíthatja."
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
+#~ "and conditions</a>."
 #~ msgstr ""
-#~ "A lehetőség kiválasztásával elfogadja a Nokia HERE <a href='#'>felhasználási "
-#~ "feltételeit</a>."
+#~ "A lehetőség kiválasztásával elfogadja a Nokia HERE <a "
+#~ "href='#'>felhasználási feltételeit</a>."
 
 #~ msgid "Available networks…"
 #~ msgstr "Elérhető hálózatok…"
@@ -1134,8 +1233,8 @@ msgstr "Nagyon gyenge jelszó"
 #~ "Your phone is set up to automatically report errors to Canonical and its "
 #~ "partners, the makers of the operating system."
 #~ msgstr ""
-#~ "A telefonja automatikus hibajelentéseket küld az operációs rendszert készítő "
-#~ "Canonical, és annak partnerei felé."
+#~ "A telefonja automatikus hibajelentéseket küld az operációs rendszert "
+#~ "készítő Canonical, és annak partnerei felé."
 
 #~ msgid "Nice work!"
 #~ msgstr "Szép munka!"
@@ -1155,11 +1254,9 @@ msgstr "Nagyon gyenge jelszó"
 #~ msgid "Please try again."
 #~ msgstr "Próbálja újra."
 
-#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
-#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
@@ -1174,9 +1271,6 @@ msgstr "Nagyon gyenge jelszó"
 
 #~ msgid "Short swipe from the left edge."
 #~ msgstr "Húzza az ujját röviden a kijelző baloldalától indulva."
-
-#~ msgid "Open the launcher"
-#~ msgstr "Indító megnyitása"
 
 #~ msgid "Tap here to continue."
 #~ msgstr "Koppintson ide a folytatáshoz."
@@ -1241,7 +1335,6 @@ msgstr "Nagyon gyenge jelszó"
 #~ msgid "Sorry, incorrect passcode"
 #~ msgstr "Elnézést, helytelen jelkód"
 
-#, qt-format
 #~ msgid "Sorry, incorrect %1"
 #~ msgstr "Elnézést, helytelen %1"
 
@@ -1262,8 +1355,8 @@ msgstr "Nagyon gyenge jelszó"
 #~ "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 #~ "Privacy</b>"
 #~ msgstr ""
-#~ "Ezt kikapcsolhatja a <b>Rendszerbeállítások</b> alatt található <b>Biztonság "
-#~ "és adatvédelem</b> menüpontnál"
+#~ "Ezt kikapcsolhatja a <b>Rendszerbeállítások</b> alatt található "
+#~ "<b>Biztonság és adatvédelem</b> menüpontnál"
 
 #~ msgid "%a %l:%M %p"
 #~ msgstr "%a %p. %I.%M"
@@ -1289,7 +1382,6 @@ msgstr "Nagyon gyenge jelszó"
 #~ msgid "Tomorrow %H:%M"
 #~ msgstr "Holnap %H.%M"
 
-#, qt-format
 #~ msgid "Enter %1"
 #~ msgstr "%1 megadása"
 
@@ -1313,8 +1405,8 @@ msgstr "Nagyon gyenge jelszó"
 
 #~ msgid "Without it, you won’t be able to make calls or use text messaging."
 #~ msgstr ""
-#~ "Anélkül nem indíthat vagy fogadhat hívásokat, és nem küldhet vagy fogadhat "
-#~ "üzeneteket."
+#~ "Anélkül nem indíthat vagy fogadhat hívásokat, és nem küldhet vagy "
+#~ "fogadhat üzeneteket."
 
 #~ msgid "Add a SIM card and restart your device"
 #~ msgstr "Helyezzen be egy SIM kártyát és indítsa újra az eszközt"
@@ -1362,39 +1454,5 @@ msgstr "Nagyon gyenge jelszó"
 #~ msgstr ""
 #~ "Csúsztasson röviden vagy hosszan jobbról a nyitott alkalmazások eléréshez"
 
-#~ msgid "Long swipe from the left edge to open the Today scope"
-#~ msgstr "Hosszan csúsztasson balról a Ma lencse eléréséhez"
-
 #~ msgid "Swipe from the left edge to open the launcher"
 #~ msgstr "Csúsztasson balról az indító eléréshez"
-
-#~ msgid "Takes a screenshot of a window."
-#~ msgstr "Képernyőkép készítése az ablakról."
-
-#~ msgid "Super + 0 to 9"
-#~ msgstr "Super + 0-9"
-
-#~ msgid "This could take a few minutes..."
-#~ msgstr "Ez néhány percet igénybe vehet…"
-
-#, qt-format
-#~ msgctxt "version of the system update"
-#~ msgid "Version %1"
-#~ msgstr "Verzió: %1"
-
-#~ msgctxt "string identifying name of the update"
-#~ msgid "Ubuntu system"
-#~ msgstr "Ubuntu rendszer"
-
-#~ msgid "Update Device"
-#~ msgstr "Eszköz frissítése"
-
-#~ msgid ""
-#~ "There is a system update available and ready to install. Afterwards, the "
-#~ "device will automatically restart."
-#~ msgstr ""
-#~ "Elérhető egy rendszerfrissítés. A telepítést követően a készülék "
-#~ "automatikusan újraindul."
-
-#~ msgid "Install and restart now"
-#~ msgstr "Telepítés és újraindítás"

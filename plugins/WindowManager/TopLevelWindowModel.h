@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2016-2017 Canonical, Ltd.
+ * Copyright 2019 UBports Foundation
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -18,6 +19,7 @@
 #define TOPLEVELWINDOWMODEL_H
 
 #include <QAbstractListModel>
+#include <QAtomicInteger>
 #include <QLoggingCategory>
 
 #include <memory>
@@ -81,7 +83,28 @@ class WINDOWMANAGERQML_EXPORT TopLevelWindowModel : public QAbstractListModel
       The id to be used on the next entry created
       Useful for tests
      */
-    Q_PROPERTY(int nextId READ nextId NOTIFY nextIdChanged)
+    Q_PROPERTY(int nextId READ nextId)
+
+
+   /**
+     * @brief Sets whether a user Window or "nothing" should be focused
+     *
+     * This implementation of TLWM must have something focused. However, the
+     * user may wish to have nothing in some cases - for example, when they
+     * minimize all their windows on the desktop or unfocus the app they're
+     * using by clicking the background or indicators.
+     *
+     * Unsetting rootFocus effectively focuses "nothing" by setting up a Window
+     * that has no displayable Surfaces and bringing it into focus.
+     *
+     * Setting rootFocus attempts to focus the Window which was focused last -
+     * unless another app is attempting to gain focus (as determined by
+     * pendingActivation) and that's why we got rootFocus.
+     *
+     * If the previously-focused Window was closed before rootFocus was set,
+     * the next available window will be focused.
+     */
+    Q_PROPERTY(bool rootFocus READ rootFocus WRITE setRootFocus NOTIFY rootFocusChanged)
 
 public:
     /**
@@ -112,7 +135,7 @@ public:
     unity::shell::application::MirSurfaceInterface* inputMethodSurface() const;
     Window* focusedWindow() const;
 
-    int nextId() const { return m_nextId; }
+    int nextId() const { return m_nextId.load(); }
 
 public:
     /**
@@ -155,11 +178,6 @@ public:
     Q_INVOKABLE void raiseId(int id);
 
     /**
-     * @brief Raises and focuses a window with no surface
-     */
-    Q_INVOKABLE void rootFocus(bool focus);
-
-    /**
      * @brief Closes all windows, emits closedAllWindows when done
      */
     Q_INVOKABLE void closeAllWindows();
@@ -171,6 +189,9 @@ public:
 
     void setApplicationManager(unity::shell::application::ApplicationManagerInterface*);
     void setSurfaceManager(unity::shell::application::SurfaceManagerInterface*);
+    void setRootFocus(bool focus);
+    bool rootFocus();
+
 Q_SIGNALS:
     void countChanged();
     void inputMethodSurfaceChanged(unity::shell::application::MirSurfaceInterface* inputMethodSurface);
@@ -183,9 +204,9 @@ Q_SIGNALS:
      */
     void listChanged();
 
-    void nextIdChanged();
-
     void closedAllWindows();
+
+    void rootFocusChanged();
 
 private Q_SLOTS:
     void onSurfacesAddedToWorkspace(const std::shared_ptr<miral::Workspace>& workspace,
@@ -235,6 +256,8 @@ private:
     void clear();
 
     Window *createWindow(unity::shell::application::MirSurfaceInterface *surface);
+    Window *createWindowWithId(unity::shell::application::MirSurfaceInterface *surface, int id);
+    Window *createNullWindow();
 
     struct ModelEntry {
         ModelEntry() {}
@@ -256,14 +279,11 @@ private:
     Window* m_previousWindow{nullptr};
     bool m_pendingActivation;
 
-    int m_nextId{1};
-    // Just something big enough that we don't risk running out of unused id numbers.
-    // Not sure if QML int type supports something close to std::numeric_limits<int>::max() and
-    // there's no reason to try out its limits.
-    static const int m_maxId{1000000};
+    QAtomicInteger<int> m_nextId{1};
 
     unity::shell::application::ApplicationManagerInterface* m_applicationManager{nullptr};
     unity::shell::application::SurfaceManagerInterface *m_surfaceManager{nullptr};
+    bool m_surfaceManagerBusy;
 
     enum ModelState {
         IdleState,

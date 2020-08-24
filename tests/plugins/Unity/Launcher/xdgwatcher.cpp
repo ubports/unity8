@@ -1,5 +1,6 @@
 /*
- * Copyright 2016 Canonical Ltd.
+ * Copyright (C) 2019 UBports Foundation.
+ * Author(s): Marius Gripsgard <marius@ubports.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,10 +15,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.4
-import ImageCache 0.1
+#include "xdgwatcher.h"
 
-Image {
-    width: 400
-    height: 400
+XdgWatcher* XdgWatcher::s_xinstance = nullptr;
+
+XdgWatcher::XdgWatcher(QObject* parent)
+    : QObject(parent)
+{
+    s_xinstance = this;
+}
+
+XdgWatcher* XdgWatcher::instance()
+{
+    return s_xinstance;
+}
+
+void XdgWatcher::addMockApp(const QString &appId)
+{
+    Q_EMIT appAdded(appId);
+}
+
+void XdgWatcher::removeMockApp(const QString &appId)
+{
+    Q_EMIT appRemoved(appId);
+}
+
+const QString XdgWatcher::stripAppIdVersion(const QString rawAppID) {
+    return rawAppID;
 }

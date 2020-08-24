@@ -6,40 +6,41 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-04-04 22:56+0000\n"
-"PO-Revision-Date: 2016-06-19 19:31+0000\n"
-"Last-Translator: Josef Andersson <Unknown>\n"
-"Language-Team: Swedish\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-15 12:15-0500\n"
+"PO-Revision-Date: 2020-02-13 13:06+0000\n"
+"Last-Translator: Rondy Andersson <rondarius@vivaldi.net>\n"
+"Language-Team: Swedish <https://translate.ubports.com/projects/unity8/unity8/"
+"sv/>\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-04-07 06:30+0000\n"
-"X-Generator: Launchpad (build 18343)\n"
-"Language: sv\n"
+"X-Generator: Weblate 3.8\n"
+"X-Launchpad-Export-Date: 2016-11-23 06:36+0000\n"
 
-#: plugins/LightDM/Greeter.cpp:188
+#: plugins/LightDM/Greeter.cpp:199
 msgid "Password: "
 msgstr "Lösenord: "
 
-#: plugins/LightDM/Greeter.cpp:203
+#: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
 msgstr ""
 
-#: plugins/LightDM/Greeter.cpp:242
+#: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
 msgstr ""
 
-#: plugins/LightDM/Greeter.cpp:244
+#: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
 msgstr ""
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
 msgstr "Logga in"
 
-#: plugins/LightDM/Greeter.cpp:254
+#: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
 msgstr "Försök igen"
 
@@ -83,9 +84,8 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Logga ut"
 
-#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:264
-#: qml/Dash/DashPageHeader.qml:324 qml/Greeter/NarrowView.qml:208
-#: qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Components/Dialogs.qml:199 qml/Components/Dialogs.qml:276
+#: qml/Greeter/NarrowView.qml:215 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Avbryt"
@@ -107,12 +107,12 @@ msgstr "Nej"
 msgid "Yes"
 msgstr "Ja"
 
-#: qml/Components/Dialogs.qml:239
+#: qml/Components/Dialogs.qml:243
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Ström"
 
-#: qml/Components/Dialogs.qml:240
+#: qml/Components/Dialogs.qml:244
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -120,12 +120,12 @@ msgstr ""
 "Är du säker på att du vill \n"
 "stänga av?"
 
-#: qml/Components/Dialogs.qml:244
+#: qml/Components/Dialogs.qml:248
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Stäng av"
 
-#: qml/Components/Dialogs.qml:255
+#: qml/Components/Dialogs.qml:263
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Starta om"
@@ -144,15 +144,17 @@ msgstr "PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr "Tar en skärmbild"
+msgstr "Tar en skärmbild."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
 msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
+#, fuzzy
+#| msgid "Takes a screenshot of a window."
 msgid "Takes a screenshot of the current window."
-msgstr ""
+msgstr "Tar en skärmbild av ett fönster."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -171,12 +173,16 @@ msgid "Switches to previous keyboard layout."
 msgstr "Byter till tidigare tangentbordslayout."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
+#, fuzzy
+#| msgid "Ctrl + Super + D"
 msgid "Ctrl + Alt + T"
-msgstr ""
+msgstr "Ctrl + Super + D"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
+#, fuzzy
+#| msgid "Switches between applications."
 msgid "Starts the Terminal application."
-msgstr ""
+msgstr "Växlar mellan program."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
@@ -207,20 +213,26 @@ msgid "Switches applications via the launcher."
 msgstr "Byter program via Programstartaren."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
+#, fuzzy
+#| msgid "Super + 0 to 9"
 msgid "Super + 1 to 0"
-msgstr ""
+msgstr "Super + 0 till 9"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
 msgstr "Samma som att klicka på en ikon i Programstartaren."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
+#, fuzzy
+#| msgid "Super + W"
 msgid "Super + A"
-msgstr ""
+msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
+#, fuzzy
+#| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
-msgstr ""
+msgstr "Öppna programstartaren"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
@@ -306,7 +318,7 @@ msgstr "Alt + F4"
 msgid "Closes the current window."
 msgstr "Stänger det aktuella fönstret."
 
-#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:228
+#: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:235
 msgid "Return to Call"
 msgstr "Tillbaka till samtal"
 
@@ -368,8 +380,10 @@ msgstr ""
 "styrplatta för att interagera med pekaren."
 
 #: qml/Components/VirtualTouchPad.qml:327
+#, fuzzy
+#| msgid "Tap to return to call..."
 msgid "Tap left button to click."
-msgstr ""
+msgstr "Tryck för att återgå till samtal…"
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
@@ -382,103 +396,6 @@ msgstr ""
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
 msgstr ""
-
-#: qml/Dash/DashPageHeader.qml:361
-msgctxt "Button: Open the Ubuntu Store"
-msgid "Store"
-msgstr "Förråd"
-
-#: qml/Dash/DashPageHeader.qml:368
-msgctxt "Button: Start a search in the current dash scope"
-msgid "Search"
-msgstr "Sök"
-
-#: qml/Dash/DashPageHeader.qml:378
-msgctxt "Button: Show the current dash scope settings"
-msgid "Settings"
-msgstr "Inställningar"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Remove from Favorites"
-msgstr "Ta bort från Favoriter"
-
-#: qml/Dash/DashPageHeader.qml:385
-msgid "Add to Favorites"
-msgstr "Lägg till Favoriter"
-
-#: qml/Dash/FiltersPopover.qml:61
-msgid "Refine your results"
-msgstr "Förfina dina resultat"
-
-#: qml/Dash/FiltersPopover.qml:70
-msgid "Reset"
-msgstr "Återställ"
-
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/GenericScopeView.qml:718
-msgid "Show less"
-msgstr "Visa mindre"
-
-#: qml/Dash/GenericScopeView.qml:547
-msgid "Show all"
-msgstr "Visa alla"
-
-#: qml/Dash/GenericScopeView.qml:578
-msgctxt "Label: Hint for dash search line edit"
-msgid "Search"
-msgstr "Sök"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:67
-msgid "Recent Searches"
-msgstr "Senaste sökningar"
-
-#: qml/Dash/PageHeaderExtraPanel.qml:78
-msgid "Clear All"
-msgstr "Rensa allt"
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "More..."
-msgstr "Mer…"
-
-#: qml/Dash/Previews/PreviewActionCombo.qml:36
-msgid "Less..."
-msgstr "Mindre…"
-
-#: qml/Dash/Previews/PreviewCommentInput.qml:83
-#: qml/Dash/Previews/PreviewRatingInput.qml:202
-msgid "Send"
-msgstr "Skicka"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:109
-msgid "Rate this"
-msgstr "Betygsätt detta"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:184
-msgid "Add a review"
-msgstr "Lägg till en recension"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:56
-msgid "Pull to refresh…"
-msgstr "Dra för att uppdatera…"
-
-#: qml/Dash/PullToRefreshScopeStyle.qml:61
-msgid "Release to refresh…"
-msgstr "Släpp för att uppdatera…"
-
-#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
-msgid "Enable location data"
-msgstr "Aktivera platsdata"
-
-#: qml/Dash/ScopesList.qml:146
-msgid "Manage"
-msgstr "Hantera"
-
-#: qml/Dash/ScopesList.qml:187
-msgid "Home"
-msgstr "Hem"
-
-#: qml/Dash/ScopesList.qml:188
-msgid "Also installed"
-msgstr "Även installerat"
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -508,14 +425,18 @@ msgid "Try again"
 msgstr "Försök igen"
 
 #: qml/Greeter/Greeter.qml:551
+#, fuzzy
+#| msgid "Enter passphrase"
 msgid "Enter passphrase to unlock"
-msgstr ""
+msgstr "Ange lösenfras"
 
 #: qml/Greeter/Greeter.qml:552
+#, fuzzy
+#| msgid "Enter passcode"
 msgid "Enter passcode to unlock"
-msgstr ""
+msgstr "Ange lösenkod"
 
-#: qml/Greeter/NarrowView.qml:228
+#: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
 msgstr "Nödläge"
 
@@ -531,18 +452,11 @@ msgstr "Lösenkod"
 msgid "Select desktop environment"
 msgstr "Välj skrivbordsmiljö"
 
-#: qml/Launcher/Drawer.qml:94
+#: qml/Launcher/Drawer.qml:249
+#, fuzzy
+#| msgid "Search"
 msgid "Search…"
-msgstr ""
-
-#: qml/Launcher/Drawer.qml:129
-msgctxt "Apps sorted alphabetically"
-msgid "A-Z"
-msgstr ""
-
-#: qml/Launcher/MoreAppsHeader.qml:55
-msgid "More apps in the store"
-msgstr ""
+msgstr "Sök"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -632,26 +546,35 @@ msgid "Call back"
 msgstr "Ring upp"
 
 #: qml/Panel/PanelMenuPage.qml:92
+#, fuzzy
+#| msgctxt "Button: Go back one page in the Wizard"
+#| msgid "Back"
 msgid "Back"
-msgstr ""
+msgstr "Bakåt"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "Dra ett program från ett fönster till det andra med tre fingrar"
 
-#: qml/Tutorial/TutorialLeftLong.qml:49
-msgid "Long swipe from the left edge to open the Application Drawer"
+#: qml/Stage/Stage.qml:668
+msgid "No running apps"
 msgstr ""
+
+#: qml/Tutorial/TutorialLeftLong.qml:49
+#, fuzzy
+#| msgid "Long swipe from the left edge to open the Today scope"
+msgid "Long swipe from the left edge to open the Application Drawer"
+msgstr "Gör ett lång svep från vänstra kanten för öppna vyn Idag"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
 msgstr "Svep kort från vänster kant för att öppna Programstartaren"
 
-#: qml/Tutorial/TutorialRight.qml:55
+#: qml/Tutorial/TutorialRight.qml:54
 msgid "Push your mouse against the right edge to view your open apps"
 msgstr "Flytta din mus mot höger kant för att visa dina öppna program"
 
-#: qml/Tutorial/TutorialRight.qml:56
+#: qml/Tutorial/TutorialRight.qml:55
 msgid "Swipe from the right edge to view your open apps"
 msgstr "Svep från den högra kanten för att visa dina program"
 
@@ -660,24 +583,40 @@ msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
 "Svep för övre kanten för att komma åt aviseringar och snabbinställningar"
 
-#: qml/Wizard/Page.qml:54
+#: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Bakåt"
 
-#: qml/Wizard/Pages/10-welcome.qml:28
+#: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
 msgstr "Språk"
 
-#: qml/Wizard/Pages/10-welcome.qml:173 qml/Wizard/Pages/20-keyboard.qml:152
-#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/40-location.qml:271
-#: qml/Wizard/Pages/50-timezone.qml:271 qml/Wizard/Pages/60-account.qml:65
-#: qml/Wizard/Pages/70-passwd-type.qml:145
-#: qml/Wizard/Pages/75-report-check.qml:84
-#: qml/Wizard/Pages/passcode-desktop.qml:142
-#: qml/Wizard/Pages/password-set.qml:142
+#: qml/Wizard/Pages/10-welcome.qml:176
+#: qml/Wizard/Pages/10-welcome-update.qml:126
+#: qml/Wizard/Pages/11-changelog.qml:74 qml/Wizard/Pages/20-keyboard.qml:152
+#: qml/Wizard/Pages/30-wifi.qml:214 qml/Wizard/Pages/50-timezone.qml:272
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/70-passwd-type.qml:146
+#: qml/Wizard/Pages/passcode-desktop.qml:154
+#: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
 msgstr "Nästa"
+
+#: qml/Wizard/Pages/10-welcome-update.qml:91
+msgid "Welcome to "
+msgstr "Välkommen till "
+
+#: qml/Wizard/Pages/10-welcome-update.qml:106
+msgid "We will make sure your device is ready to use "
+msgstr "Vi kommer att försäkra oss om att din enhet är redo att användas "
+
+#: qml/Wizard/Pages/11-changelog.qml:28
+msgid "What's new"
+msgstr "Vad är nytt"
+
+#: qml/Wizard/Pages/11-changelog.qml:74
+msgid "Loading..."
+msgstr "Laddar…"
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
@@ -691,66 +630,33 @@ msgstr "Tangentbordsspråk"
 msgid "Keyboard layout"
 msgstr "Tangentbordslayout"
 
-#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:206
-#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/sim.qml:101
+#: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:214
+#: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/79-system-update.qml:144
+#: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Hoppa över"
 
-#: qml/Wizard/Pages/30-wifi.qml:30
+#: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
 msgstr "Anslut till Wi-Fi"
 
-#: qml/Wizard/Pages/30-wifi.qml:131
+#: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
 msgstr "Ansluten"
 
-#: qml/Wizard/Pages/30-wifi.qml:164
+#: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
 msgstr "Tillgängliga trådlösa nätverk"
 
-#: qml/Wizard/Pages/30-wifi.qml:165
+#: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
 msgstr "Inga tillgängliga trådlösa nätverk"
-
-#: qml/Wizard/Pages/40-location.qml:27
-msgid "Location Services"
-msgstr "Platstjänster"
-
-#: qml/Wizard/Pages/40-location.qml:83
-msgid ""
-"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
-"(recommended)"
-msgstr ""
-"Använd GPS, Wi-Fi-surfzoner och mobila nätverk anonymt för att upptäcka "
-"plats (rekommenderas)"
-
-#: qml/Wizard/Pages/40-location.qml:105
-#, qt-format
-msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr "Genom att välja detta alternativ godkänner du Nokia HERE %1."
-
-#: qml/Wizard/Pages/40-location.qml:106
-msgctxt "part of: Nokia HERE terms and conditions"
-msgid "terms and conditions"
-msgstr "villkor och begränsningar"
-
-#: qml/Wizard/Pages/40-location.qml:160
-msgid "GPS only"
-msgstr "Endast GPS"
-
-#: qml/Wizard/Pages/40-location.qml:214
-msgid "Don't use my location"
-msgstr "Använd inte min plats"
-
-#: qml/Wizard/Pages/40-location.qml:260
-msgid "You can change it later in System Settings."
-msgstr "Du kan ändra det senare i systeminställningar."
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
 msgstr "Tidszon"
 
-#: qml/Wizard/Pages/50-timezone.qml:182
+#: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
 msgstr "Ange din stad"
 
@@ -758,7 +664,7 @@ msgstr "Ange din stad"
 msgid "Personalize Your Device"
 msgstr "Personanpassa din enhet"
 
-#: qml/Wizard/Pages/60-account.qml:48
+#: qml/Wizard/Pages/60-account.qml:54
 msgid "Preferred Name"
 msgstr "Föredraget namn"
 
@@ -766,86 +672,77 @@ msgstr "Föredraget namn"
 msgid "Lock Screen"
 msgstr "Låsskärm"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:102
+#: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
 msgstr "Skapa nytt lösenord"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:104
+#: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
 msgstr "Skapa lösenkod (endast siffror)"
 
-#: qml/Wizard/Pages/70-passwd-type.qml:106
+#: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
 msgstr "Ingen låskod"
 
-#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
-msgid "Privacy Policy"
-msgstr "Sekretesspolicy"
+#: qml/Wizard/Pages/79-system-update.qml:28
+msgid "Update Device"
+msgstr "Uppdatera enhet"
 
-#: qml/Wizard/Pages/75-report-check.qml:26
-msgid "Help Us Improve"
-msgstr "Hjälp oss att bli bättre"
+#: qml/Wizard/Pages/79-system-update.qml:55
+msgid ""
+"There is a system update available and ready to install. Afterwards, the "
+"device will automatically restart."
+msgstr ""
+"En systemuppdatering är tillgänglig och redo för installation. Efteråt "
+"kommer enheten att startas om automatiskt."
 
-#: qml/Wizard/Pages/75-report-check.qml:59
-msgid "Improve system performance by sending us crashes and error reports."
-msgstr "Förbättra systemet genom att sända oss krasch- och felrapporter."
+#: qml/Wizard/Pages/79-system-update.qml:76
+#, fuzzy
+#| msgctxt "string identifying name of the update"
+#| msgid "Ubuntu system"
+msgctxt "string identifying name of the update"
+msgid "Ubuntu Touch system"
+msgstr "Ubuntusystem"
 
-#: qml/Wizard/Pages/75-report-check.qml:60
-msgid "Privacy policy"
-msgstr "Sekretesspolicy"
+#: qml/Wizard/Pages/79-system-update.qml:83
+#, qt-format
+msgctxt "version of the system update"
+msgid "Version %1"
+msgstr "Version %1"
 
-#: qml/Wizard/Pages/80-finished.qml:89
+#: qml/Wizard/Pages/79-system-update.qml:95
+msgid "This could take a few minutes..."
+msgstr "Det här kan ta några minuter..."
+
+#: qml/Wizard/Pages/79-system-update.qml:109
+msgid "Install and restart now"
+msgstr "Installera och starta om nu"
+
+#: qml/Wizard/Pages/80-finished.qml:91
+msgid "Welcome Back"
+msgstr "Välkommen tillbaka"
+
+#: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
 msgstr "Välkommen till Ubuntu"
 
-#: qml/Wizard/Pages/80-finished.qml:104
+#: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
 msgstr "Du är redo att använda din enhet nu"
 
-#: qml/Wizard/Pages/80-finished.qml:124
+#: qml/Wizard/Pages/80-finished.qml:126
+msgid "Continue"
+msgstr "Fortsätt"
+
+#: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
 msgstr "Kom igång"
 
-#: qml/Wizard/Pages/here-terms.qml:25
-msgid "Terms & Conditions"
-msgstr "Användarvillkor"
-
-#: qml/Wizard/Pages/here-terms.qml:69
-msgid "Your device uses positioning technologies provided by HERE."
-msgstr "Din enhet använder positioneringsteknik tillhandahållen av HERE."
-
-#: qml/Wizard/Pages/here-terms.qml:81
-msgid ""
-"To provide you with positioning services and to improve their quality, HERE "
-"collects information about nearby cell towers and Wi-Fi hotspots around your "
-"current location whenever your position is being found."
-msgstr ""
-"För att kunna ge erbjuda dig platstjänster och förbättra deras kvalitet "
-"samla HERE in information om alla närliggande master och Wi-Fi-surfzoner i "
-"närheten av din nuvarande plats närhelst din position hittas."
-
-#: qml/Wizard/Pages/here-terms.qml:93
-msgid ""
-"The information collected is used to analyze the service and to improve the "
-"use of service, but not to identify you personally."
-msgstr ""
-"Informationen som samlas in används för att analysera tjänsten och förbättra "
-"användningen av den, men inte för att identifiera dig personligen."
-
-#: qml/Wizard/Pages/here-terms.qml:106
-#, qt-format
-msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr "Genom att fortsätta godkänner du HERE-plattformen %1 och %2."
-
-#: qml/Wizard/Pages/here-terms.qml:107
-msgid "Service Terms"
-msgstr "Tjänstevillkor"
-
 #: qml/Wizard/Pages/passcode-confirm.qml:43
-#: qml/Wizard/Pages/passcode-desktop.qml:97
+#: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
 msgstr "Bekräfta lösenkod"
 
@@ -862,24 +759,24 @@ msgstr "Ange igen."
 msgid "Lock Screen Passcode"
 msgstr "Lösenkod för låsskärm"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:61
+#: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
 msgstr "Ange fyra nummer för att ställa in din lösenkod"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:77
+#: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
 msgstr "Välj lösenkod"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:127
+#: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
 msgstr "För kort lösenkod"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:129
+#: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
 msgstr "Lösenkoder matchar"
 
-#: qml/Wizard/Pages/passcode-desktop.qml:131
+#: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
 msgstr "Lösenkoder matchar ej"
 
@@ -891,15 +788,15 @@ msgstr "Lösenkoden måste vara fyra tecken lång"
 msgid "Lock Screen Password"
 msgstr "Låsskärm för lösenord"
 
-#: qml/Wizard/Pages/password-set.qml:62
+#: qml/Wizard/Pages/password-set.qml:68
 msgid "Enter at least 8 characters"
 msgstr "Ange minst 8 tecken"
 
-#: qml/Wizard/Pages/password-set.qml:74
+#: qml/Wizard/Pages/password-set.qml:80
 msgid "Choose password"
 msgstr "Välj lösenord"
 
-#: qml/Wizard/Pages/password-set.qml:104
+#: qml/Wizard/Pages/password-set.qml:110
 msgid "Confirm password"
 msgstr "Bekräfta lösenord"
 
@@ -957,6 +854,228 @@ msgstr "Svagt lösenord"
 msgid "Very weak password"
 msgstr "Väldigt svagt lösenord"
 
+#~ msgctxt "Button: Open the Ubuntu Store"
+#~ msgid "Store"
+#~ msgstr "Förråd"
+
+#~ msgctxt "Button: Start a search in the current dash scope"
+#~ msgid "Search"
+#~ msgstr "Sök"
+
+#~ msgctxt "Button: Show the current dash scope settings"
+#~ msgid "Settings"
+#~ msgstr "Inställningar"
+
+#~ msgid "Remove from Favorites"
+#~ msgstr "Ta bort från Favoriter"
+
+#~ msgid "Add to Favorites"
+#~ msgstr "Lägg till Favoriter"
+
+#~ msgid "Refine your results"
+#~ msgstr "Förfina dina resultat"
+
+#~ msgid "Reset"
+#~ msgstr "Återställ"
+
+#~ msgid "Show less"
+#~ msgstr "Visa mindre"
+
+#~ msgid "Show all"
+#~ msgstr "Visa alla"
+
+#~ msgctxt "Label: Hint for dash search line edit"
+#~ msgid "Search"
+#~ msgstr "Sök"
+
+#~ msgid "Recent Searches"
+#~ msgstr "Senaste sökningar"
+
+#~ msgid "Clear All"
+#~ msgstr "Rensa allt"
+
+#~ msgid "More..."
+#~ msgstr "Mer…"
+
+#~ msgid "Less..."
+#~ msgstr "Mindre…"
+
+#~ msgid "Send"
+#~ msgstr "Skicka"
+
+#~ msgid "Rate this"
+#~ msgstr "Betygsätt detta"
+
+#~ msgid "Add a review"
+#~ msgstr "Lägg till en recension"
+
+#~ msgid "Pull to refresh…"
+#~ msgstr "Dra för att uppdatera…"
+
+#~ msgid "Release to refresh…"
+#~ msgstr "Släpp för att uppdatera…"
+
+#~ msgid "Enable location data"
+#~ msgstr "Aktivera platsdata"
+
+#~ msgid "Manage"
+#~ msgstr "Hantera"
+
+#~ msgid "Home"
+#~ msgstr "Hem"
+
+#~ msgid "Also installed"
+#~ msgstr "Även installerat"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "Sekretesspolicy"
+
+#~ msgid "Help Us Improve"
+#~ msgstr "Hjälp oss att bli bättre"
+
+#~ msgid "Improve system performance by sending us crashes and error reports."
+#~ msgstr "Förbättra systemet genom att sända oss krasch- och felrapporter."
+
+#~ msgid "Privacy policy"
+#~ msgstr "Sekretesspolicy"
+
+#~ msgid "Update Apps"
+#~ msgstr "Uppdatera Appar"
+
+#~ msgid "This device is not connected to the internet."
+#~ msgstr "Denna enhet är inte ansluten till internet."
+
+#~ msgid "Use the OpenStore app to check for updates once connected."
+#~ msgstr ""
+#~ "Använd OpenStore appen för att kolla efter uppdateringar när den väl är "
+#~ "ansluten."
+
+#~ msgid "Software is up to date"
+#~ msgstr "Mjukvaran har den senaste uppdateringen"
+
+#~ msgid "The update server is not responding."
+#~ msgstr "Uppdaterings servern svarar inte."
+
+#~ msgid "Please wait..."
+#~ msgstr "Var snäll vänta..."
+
+#~ msgid "Installation failed"
+#~ msgstr "Installationen misslyckades"
+
+#~ msgid "Checking for updates…"
+#~ msgstr "Söker efter uppdateringar…"
+
+#~ msgid "%1 update available"
+#~ msgid_plural "%1 updates available"
+#~ msgstr[0] "%1 uppdatering tillgänglig"
+#~ msgstr[1] "%1 uppdateringar tillgängliga"
+
+#~ msgid "Update all…"
+#~ msgstr "Uppdatera alla…"
+
+#~ msgid "Update all"
+#~ msgstr "Uppdatera alla"
+
+#~ msgid "Update"
+#~ msgstr "Uppdatera"
+
+#~ msgid "Download"
+#~ msgstr "Ladda ner"
+
+#~ msgid "Resume"
+#~ msgstr "Återuppta"
+
+#~ msgid "Pause"
+#~ msgstr "Pausa"
+
+#~ msgid "Install…"
+#~ msgstr "Installera…"
+
+#~ msgid "Install"
+#~ msgstr "Installera"
+
+#~ msgid "Open"
+#~ msgstr "Öppna"
+
+#~ msgid "Installing"
+#~ msgstr "Installerar"
+
+#~ msgid "Paused"
+#~ msgstr "Pausad"
+
+#~ msgid "Waiting to download"
+#~ msgstr "Väntar på nedladdning"
+
+#~ msgid "%1 of %2"
+#~ msgstr "%1 av %2"
+
+#~ msgid "Downloaded"
+#~ msgstr "Hämtad"
+
+#~ msgid "Installed"
+#~ msgstr "Installerad"
+
+#~ msgid "Updated %1"
+#~ msgstr "Uppdaterat %1"
+
+#~ msgid "Update failed"
+#~ msgstr "Uppdatering misslyckades"
+
+#~ msgid "Location Services"
+#~ msgstr "Platstjänster"
+
+#~ msgid ""
+#~ "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
+#~ "(recommended)"
+#~ msgstr ""
+#~ "Använd GPS, Wi-Fi-surfzoner och mobila nätverk anonymt för att upptäcka "
+#~ "plats (rekommenderas)"
+
+#~ msgid "By selecting this option you agree to the Nokia HERE %1."
+#~ msgstr "Genom att välja detta alternativ godkänner du Nokia HERE %1."
+
+#~ msgctxt "part of: Nokia HERE terms and conditions"
+#~ msgid "terms and conditions"
+#~ msgstr "villkor och begränsningar"
+
+#~ msgid "GPS only"
+#~ msgstr "Endast GPS"
+
+#~ msgid "Don't use my location"
+#~ msgstr "Använd inte min plats"
+
+#~ msgid "You can change it later in System Settings."
+#~ msgstr "Du kan ändra det senare i systeminställningar."
+
+#~ msgid "Terms & Conditions"
+#~ msgstr "Användarvillkor"
+
+#~ msgid "Your device uses positioning technologies provided by HERE."
+#~ msgstr "Din enhet använder positioneringsteknik tillhandahållen av HERE."
+
+#~ msgid ""
+#~ "To provide you with positioning services and to improve their quality, "
+#~ "HERE collects information about nearby cell towers and Wi-Fi hotspots "
+#~ "around your current location whenever your position is being found."
+#~ msgstr ""
+#~ "För att kunna ge erbjuda dig platstjänster och förbättra deras kvalitet "
+#~ "samla HERE in information om alla närliggande master och Wi-Fi-surfzoner "
+#~ "i närheten av din nuvarande plats närhelst din position hittas."
+
+#~ msgid ""
+#~ "The information collected is used to analyze the service and to improve "
+#~ "the use of service, but not to identify you personally."
+#~ msgstr ""
+#~ "Informationen som samlas in används för att analysera tjänsten och "
+#~ "förbättra användningen av den, men inte för att identifiera dig "
+#~ "personligen."
+
+#~ msgid "By continuing, you agree to the HERE platform %1 and %2."
+#~ msgstr "Genom att fortsätta godkänner du HERE-plattformen %1 och %2."
+
+#~ msgid "Service Terms"
+#~ msgstr "Tjänstevillkor"
+
 #~ msgid "Top edge"
 #~ msgstr "Överkant"
 
@@ -977,9 +1096,6 @@ msgstr "Väldigt svagt lösenord"
 
 #~ msgid "Confirm"
 #~ msgstr "Bekräfta"
-
-#~ msgid "Search"
-#~ msgstr "Sök"
 
 #~ msgid "Swipe up again to close the settings screen"
 #~ msgstr "Svep upp igen för att stänga inställningsfönstret"
@@ -1006,14 +1122,8 @@ msgstr "Väldigt svagt lösenord"
 #~ "Du har nu bemästrat kantgesterna och kan börja använda "
 #~ "telefonen<br><br>Tryck på skärmen för att starta"
 
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Läser in. Var god vänta…"
-
 #~ msgid "Speak Now..."
 #~ msgstr "Tala nu…"
-
-#~ msgid "Speaking..."
-#~ msgstr "Talar…"
 
 #~ msgid "See all"
 #~ msgstr "Visa alla"
@@ -1057,7 +1167,6 @@ msgstr "Väldigt svagt lösenord"
 #~ msgid "Done"
 #~ msgstr "Klar"
 
-#, qt-format
 #~ msgid "Sorry, incorrect %1"
 #~ msgstr "Felaktig %1"
 
@@ -1084,11 +1193,11 @@ msgstr "Väldigt svagt lösenord"
 #~ msgstr "Detta är ditt sista försök."
 
 #~ msgid ""
-#~ "If passcode is entered incorrectly, your phone will conduct a factory reset "
-#~ "and all personal data will be deleted."
+#~ "If passcode is entered incorrectly, your phone will conduct a factory "
+#~ "reset and all personal data will be deleted."
 #~ msgstr ""
-#~ "Om lösenkoden anges felaktigt kommer telefonen att fabrikåterställas och all "
-#~ "personlig data kommer att tas bort."
+#~ "Om lösenkoden anges felaktigt kommer telefonen att fabrikåterställas och "
+#~ "all personlig data kommer att tas bort."
 
 #~ msgid "Manage Scopes"
 #~ msgstr "Hantera vyer"
@@ -1096,21 +1205,11 @@ msgstr "Väldigt svagt lösenord"
 #~ msgid "Please re-enter"
 #~ msgstr "Ange igen"
 
-#~ msgid "Enter passphrase"
-#~ msgstr "Ange lösenfras"
-
-#~ msgid "Enter passcode"
-#~ msgstr "Ange lösenkod"
-
-#, qt-format
 #~ msgid "Enter %1"
 #~ msgstr "Ange %1"
 
 #~ msgid "Add a SIM card and restart your device"
 #~ msgstr "Lägg till ett SIM-kort och starta om din enhet"
-
-#~ msgid "Continue"
-#~ msgstr "Fortsätt"
 
 #~ msgid "Hi!"
 #~ msgstr "Hej!"
@@ -1125,8 +1224,8 @@ msgstr "Väldigt svagt lösenord"
 #~ msgstr "Välj hur du vill låsa upp din telefon."
 
 #~ msgid ""
-#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-#~ "conditions</a>."
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms "
+#~ "and conditions</a>."
 #~ msgstr ""
 #~ "Genom att välja detta alternativ godkänner du <a "
 #~ "href='#'>användarvillkoren</a> för Nokia HERE."
@@ -1161,8 +1260,8 @@ msgstr "Väldigt svagt lösenord"
 #~ "Your phone is set up to automatically report errors to Canonical and its "
 #~ "partners, the makers of the operating system."
 #~ msgstr ""
-#~ "Din telefon är inställd på att automatiskt rapportera fel till Canonical och "
-#~ "dess partners, tillverkarna av operativsystemet."
+#~ "Din telefon är inställd på att automatiskt rapportera fel till Canonical "
+#~ "och dess partners, tillverkarna av operativsystemet."
 
 #~ msgid "Nice work!"
 #~ msgstr "Bra jobbat!"
@@ -1179,11 +1278,9 @@ msgstr "Väldigt svagt lösenord"
 #~ msgid "Confirm passphrase"
 #~ msgstr "Bekräfta lösenfras"
 
-#, qt-format
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"
 
-#, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
 
@@ -1201,9 +1298,6 @@ msgstr "Väldigt svagt lösenord"
 
 #~ msgid "You almost got it!"
 #~ msgstr "Nästan där!"
-
-#~ msgid "Open the launcher"
-#~ msgstr "Öppna programstartaren"
 
 #~ msgid "Tap here to continue."
 #~ msgstr "Tryck här för att fortsätta."
@@ -1357,37 +1451,3 @@ msgstr "Väldigt svagt lösenord"
 
 #~ msgid "Swipe up to create a message"
 #~ msgstr "Svep uppåt för att skapa ett meddelande"
-
-#~ msgid "Long swipe from the left edge to open the Today scope"
-#~ msgstr "Gör ett lång svep från vänstra kanten för öppna vyn Idag"
-
-#~ msgid "Takes a screenshot of a window."
-#~ msgstr "Tar en skärmbild av ett fönster."
-
-#~ msgid "Super + 0 to 9"
-#~ msgstr "Super + 0 till 9"
-
-#~ msgid "Install and restart now"
-#~ msgstr "Installera och starta om nu"
-
-#~ msgid "This could take a few minutes..."
-#~ msgstr "Det här kan ta några minuter..."
-
-#, qt-format
-#~ msgctxt "version of the system update"
-#~ msgid "Version %1"
-#~ msgstr "Version %1"
-
-#~ msgctxt "string identifying name of the update"
-#~ msgid "Ubuntu system"
-#~ msgstr "Ubuntusystem"
-
-#~ msgid "Update Device"
-#~ msgstr "Uppdatera enhet"
-
-#~ msgid ""
-#~ "There is a system update available and ready to install. Afterwards, the "
-#~ "device will automatically restart."
-#~ msgstr ""
-#~ "En systemuppdatering är tillgänglig och redo för installation. Efteråt "
-#~ "kommer enheten att startas om automatiskt."
