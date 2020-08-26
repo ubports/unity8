@@ -610,7 +610,6 @@ Item {
             var webbrowserApp  = ApplicationManager.startApplication("morph-browser");
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
-            expectFail(/* tag */ "unexpected", "Surprise launch doesn't work properly yet");
             compare(topLevelSurfaceList.idAt(0), webbrowserSurfaceId);
             compare(webbrowserApp.focused, true);
         }
