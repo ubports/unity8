@@ -278,7 +278,7 @@ Item {
         // hardcode screen count to only show osk on this screen
         // when it's the only one connected.
         // FIXME once multiscreen has landed
-        oskEnabled: (!hasKeyboard && screens.count === 1) ||
+        oskEnabled: (!hasKeyboard && Screens.count === 1) ||
                     unity8Settings.alwaysShowOsk || forceOSKEnabled
 
         usageScenario: {
