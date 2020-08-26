@@ -1,9 +1,11 @@
 Tests: qmluitests.sh
 Restrictions: allow-stderr
-Depends: dpkg-dev,
-         unity8-tests,
+Depends:
+ dpkg-dev,
+ unity8-tests,
 
 Tests: autopilot.sh
 Restrictions: allow-stderr,
               isolation-machine,
-Depends: unity8-autopilot,
+Depends:
+ unity8-autopilot,

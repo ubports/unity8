@@ -1,19 +1,19 @@
-var/lib/unity8/version
-data/unity8-filewatcher.conf usr/share/upstart/sessions/
-data/unity8.conf usr/share/upstart/sessions/
 data/devices.conf etc/ubuntu/
 data/test.sensors etc/ubuntusensors/
+data/unity8-filewatcher.conf usr/share/upstart/sessions/
+data/unity8.conf usr/share/upstart/sessions/
 usr/bin/unity8
 usr/share/applications/unity8.desktop
 usr/share/unity8/ApplicationMenus
+usr/share/unity8/DeviceConfiguration.qml
+usr/share/unity8/DisabledScreenNotice.qml
 usr/share/unity8/Greeter
 usr/share/unity8/Launcher
+usr/share/unity8/OrientedShell.qml
 usr/share/unity8/Panel
 usr/share/unity8/Rotation
-usr/share/unity8/DeviceConfiguration.qml
-usr/share/unity8/OrientedShell.qml
-usr/share/unity8/DisabledScreenNotice.qml
 usr/share/unity8/Shell.qml
 usr/share/unity8/Stage
 usr/share/unity8/Tutorial
 usr/share/unity8/Wizard
+var/lib/unity8/version
