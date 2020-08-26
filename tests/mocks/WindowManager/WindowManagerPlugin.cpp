@@ -31,6 +31,7 @@
 #include "WorkspaceManager.h"
 #include "Workspace.h"
 #include "WorkspaceModel.h"
+#include "InputMethodManager.h"
 
 #include <QtQml>
 
@@ -52,6 +53,12 @@ QObject* objectsSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
     Q_UNUSED(scriptEngine);
     return WindowManagerObjects::instance();
 }
+QObject *inputMethodManager(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return InputMethodManager::instance();
+}
 
 void WindowManagerPlugin::registerTypes(const char *uri)
 {
@@ -61,6 +68,7 @@ void WindowManagerPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<ConcreteScreens>(uri, 1, 0, "Screens", screensSingleton);
     qmlRegisterUncreatableType<qtmir::ScreenMode>(uri, 1, 0, "ScreenMode", notInstantiatable);
     qmlRegisterSingletonType<WindowManagerObjects>(uri, 1, 0, "WindowManagerObjects", objectsSingleton);
+    qmlRegisterSingletonType<InputMethodManager>(uri, 1, 0, "InputMethodManager", inputMethodManager);
 
     qRegisterMetaType<ConcreteScreen*>("ConcreteScreen*");
     qRegisterMetaType<ProxyScreens*>("ProxyScreens*");

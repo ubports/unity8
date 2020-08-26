@@ -24,7 +24,6 @@ import "../Components"
 Item {
     id: root
 
-    property var inputSurface: null
     property bool oskEnabled: false
 
     Component.onCompleted: {
@@ -245,7 +244,6 @@ Item {
         enabled: root.oskEnabled && settings.oskEnabled && !tutorial.running
         objectName: "inputMethod"
         anchors.fill: parent
-        surface: inputSurface
     }
 
     Label {
