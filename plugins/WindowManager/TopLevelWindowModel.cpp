@@ -52,13 +52,14 @@ TopLevelWindowModel::TopLevelWindowModel(Workspace* workspace)
 
     setApplicationManager(WindowManagerObjects::instance()->applicationManager());
     setSurfaceManager(WindowManagerObjects::instance()->surfaceManager());
+
+    connect(m_nullWindow, &Window::focusedChanged, this, [this] {
+        Q_EMIT rootFocusChanged();
+    });
 }
 
 TopLevelWindowModel::~TopLevelWindowModel()
 {
-    connect(m_nullWindow, &Window::focusedChanged, this, [this] {
-        Q_EMIT rootFocusChanged();
-    });
 }
 
 void TopLevelWindowModel::setApplicationManager(unityapi::ApplicationManagerInterface* value)

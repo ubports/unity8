@@ -37,6 +37,7 @@ set(WINDOWMANAGER_SRC
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/WorkspaceManager.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/WorkspaceModel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/WindowManager/Workspace.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/WindowManager/InputMethodManager.cpp
     MockScreens.cpp
     MockScreenWindow.cpp
     MockScreensConfiguration.cpp
