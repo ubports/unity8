@@ -88,7 +88,7 @@ LocalComponents.Page {
             fontSize: "x-large"
             font.weight: Font.Light
             lineHeight: 1.2
-            text: (System.isUpdate) ? i18n.tr("Welcome Back") : i18n.tr("Welcome to Ubuntu")
+            text: (System.isUpdate) ? i18n.tr("Welcome Back") : i18n.tr("Welcome to Ubuntu Touch")
             color: whiteColor
         }
 

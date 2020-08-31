@@ -8,6 +8,11 @@ include /usr/share/dpkg/default.mk
 export DPKG_GENSYMBOLS_CHECK_LEVEL=4
 export NO_PNG_PKG_MANGLE=1
 
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+
+# Skip tests on the archs they are known to be flaky with current configuration
+testskip_architectures := arm64
+
 %:
 	dh $@ --parallel --fail-missing --with python3
 
@@ -21,10 +26,12 @@ override_dh_auto_build:
 	dh_auto_build -- -O all doc
 
 override_dh_auto_test:
+ifneq ($(DEB_HOST_ARCH),$(findstring $(DEB_HOST_ARCH), $(testskip_architectures)))
 	# Run the entire test battery
 	# Parallel tests have a risk of starting xvfb on the same DISPLAY multiple times,
 	# causing the whole battery to fail.
 	dh_auto_test --no-parallel -- -O -k xvfballtests || true
+endif
 
 override_dh_install:
 	# install autopilot tests

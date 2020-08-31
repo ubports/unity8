@@ -171,6 +171,7 @@ Rectangle {
                 physicalOrientation: root.physicalOrientation0
                 orientationLocked: orientationLockedCheckBox.checked
                 orientationLock: mockOrientationLock
+                overrideDeviceName: applicationArguments.deviceName
                 Component.onDestruction: {
                     orientedShellLoader.itemDestroyed = true;
                 }

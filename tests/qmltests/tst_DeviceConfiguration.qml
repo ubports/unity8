@@ -34,8 +34,9 @@ Item {
         when: windowShown
 
         function test_defaults() {
-            deviceConfiguration.name = "nonexisting"
-            compare(deviceConfiguration.primaryOrientation, -1)
+            compare(deviceConfiguration.name, "generic");
+            compare(deviceConfiguration.category, "desktop");
+            compare(deviceConfiguration.primaryOrientation, Qt.LandscapeOrientation)
             compare(deviceConfiguration.landscapeOrientation, Qt.LandscapeOrientation)
             compare(deviceConfiguration.portraitOrientation, Qt.PortraitOrientation)
             compare(deviceConfiguration.invertedLandscapeOrientation, Qt.InvertedLandscapeOrientation)
@@ -44,6 +45,26 @@ Item {
                     | Qt.InvertedPortraitOrientation
                     | Qt.LandscapeOrientation
                     | Qt.InvertedLandscapeOrientation)
+        }
+
+        function test_nameOverride() {
+            deviceConfiguration.overrideName = "flo";
+            compare(deviceConfiguration.name, "flo");
+            compare(deviceConfiguration.category, "tablet");
+            compare(deviceConfiguration.primaryOrientation, Qt.InvertedLandscapeOrientation)
+            compare(deviceConfiguration.landscapeOrientation, Qt.InvertedLandscapeOrientation)
+            compare(deviceConfiguration.portraitOrientation, Qt.PortraitOrientation)
+            compare(deviceConfiguration.invertedLandscapeOrientation, Qt.LandscapeOrientation)
+            compare(deviceConfiguration.invertedPortraitOrientation, Qt.InvertedPortraitOrientation)
+            compare(deviceConfiguration.supportedOrientations, Qt.PortraitOrientation
+                    | Qt.InvertedPortraitOrientation
+                    | Qt.LandscapeOrientation
+                    | Qt.InvertedLandscapeOrientation)
+
+            // Also try reseting override
+            deviceConfiguration.overrideName = false;
+            compare(deviceConfiguration.name, "generic");
+            compare(deviceConfiguration.category, "desktop");
         }
     }
 }

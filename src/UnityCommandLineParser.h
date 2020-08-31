@@ -34,7 +34,6 @@ public:
     #endif
 
     bool hasFullscreen() const { return m_hasFullscreen; }
-    QString deviceName() const { return m_deviceName; }
     QString mode() const { return m_mode; }
 private:
 
@@ -53,7 +52,6 @@ private:
     #endif
 
     bool m_hasFullscreen;
-    QString m_deviceName;
     QString m_mode;
 };
 

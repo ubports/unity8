@@ -90,14 +90,25 @@ Rectangle {
             color: UbuntuColors.orange
             readonly property bool highlighted: root.highlightIndex == -1;
 
-            Icon {
+            Image {
                 objectName: "dashItem"
                 width: parent.width * .6
                 height: width
                 anchors.centerIn: parent
-                source: "graphics/home.svg"
-                color: "white"
+                source: homeIconResolver.background
                 rotation: root.rotation
+            }
+
+            ImageResolver {
+                id: homeIconResolver
+                objectName: "homeIconResolver"
+
+                readonly property url defaultHomeIcon: "graphics/home.svg"
+
+                candidates: [
+                    "file:///custom/graphics/homebutton.svg",
+                    defaultHomeIcon
+                ]
             }
 
             AbstractButton {
