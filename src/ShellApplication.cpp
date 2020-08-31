@@ -25,9 +25,6 @@
 
 #include <libintl.h>
 
-// libandroid-properties
-#include <hybris/properties/properties.h>
-
 // local
 #include <paths.h>
 #include "CachingNetworkManagerFactory.h"
