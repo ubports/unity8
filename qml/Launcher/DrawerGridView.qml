@@ -34,7 +34,7 @@ FocusScope {
     property alias topMargin: gridView.topMargin
     property alias bottomMargin: gridView.bottomMargin
 
-    readonly property int columns: width / delegateWidth
+    readonly property int columns: Math.floor(width / delegateWidth)
     readonly property int rows: Math.ceil(gridView.model.count / root.columns)
 
     property alias refreshing: pullToRefresh.refreshing
@@ -44,11 +44,10 @@ FocusScope {
         id: gridView
         anchors.fill: parent
         anchors.topMargin: units.gu(2)
-        leftMargin: spacing
         focus: true
 
         readonly property int overflow: width - (root.columns * root.delegateWidth)
-        readonly property real spacing: overflow / (root.columns)
+        readonly property real spacing: Math.ceil(overflow / root.columns)
 
         cellWidth: root.delegateWidth + spacing
         cellHeight: root.delegateHeight
