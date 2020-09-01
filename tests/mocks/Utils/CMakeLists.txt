@@ -52,7 +52,8 @@ target_link_libraries(FakeUtils-qml
     ${DEVICEINFO_LDFLAGS}
     ${GIO_LDFLAGS}
     Qt5::Qml Qt5::Quick Qt5::DBus Qt5::Network Qt5::Gui
-    )
+    ${DEVICEINFO_LDFLAGS}
+)
 
 # Because this is an internal support library, we want
 # to expose all symbols in it. Consider changing this
