@@ -34,10 +34,12 @@ Rectangle {
         signal logoutRequested
         signal shutdownRequested
         signal rebootRequested
+        signal screenshotRequested
         signal logoutReady
         function logout() {}
         function shutdown() {}
         function reboot() {}
+        function screenshot() {}
     }
 
     Rectangle {
@@ -88,6 +90,8 @@ Rectangle {
             Button { text: "Shutdown Requested"; onClicked: { fakeUnitySession.shutdownRequested(); }
                      activeFocusOnPress: false }
             Button { text: "Reboot Requested"; onClicked: { fakeUnitySession.rebootRequested(); }
+                     activeFocusOnPress: false }
+            Button { text: "Screenshot Requested"; onClicked: { fakeUnitySession.screenshotRequested(); }
                      activeFocusOnPress: false }
             Label { text: "Rotation:" }
             Button { text: "0"; onClicked: {fakeShell.rotation = 0;} activeFocusOnPress: false }
