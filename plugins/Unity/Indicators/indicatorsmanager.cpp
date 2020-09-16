@@ -286,8 +286,10 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator_name)
     // 2) enable keyboard indicator
     //
     // The rest of the indicators respect their default profile (which is "phone", even on desktop PCs)
-    if ((new_indicator->identifier() == QStringLiteral("indicator-session"))
-            || new_indicator->identifier() == QStringLiteral("indicator-keyboard")) {
+    if (new_indicator->identifier() == QStringLiteral("indicator-session") ||
+        new_indicator->identifier() == QStringLiteral("indicator-keyboard") ||
+        new_indicator->identifier() == QStringLiteral("ayatana-indicator-session") ||
+        new_indicator->identifier() == QStringLiteral("ayatana-indicator-keyboard")) {
         new_indicator->setProfile(QString(m_profile).replace(QStringLiteral("phone"), QStringLiteral("desktop")));
     } else {
         new_indicator->setProfile(m_profile);
