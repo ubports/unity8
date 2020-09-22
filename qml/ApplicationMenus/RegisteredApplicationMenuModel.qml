@@ -20,7 +20,7 @@ import Unity.Indicators 0.1
 import Unity.ApplicationMenu 0.1
 import Unity.Indicators 0.1 as Indicators
 
-Object {
+Item {
     property string persistentSurfaceId
     readonly property alias model: sharedAppModel.model
 
