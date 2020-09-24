@@ -25,7 +25,7 @@ import Ubuntu.Components 1.3
 import Unity.Session 0.1
 import Unity.Platform 1.0
 
-Object {
+Item {
     id: menuFactory
 
     property string indicator
