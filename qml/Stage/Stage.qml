@@ -94,6 +94,8 @@ FocusScope {
                 Qt.InvertedLandscapeOrientation;
     }
 
+    property int launcherLeftMargin : 0
+
     Binding {
         target: topLevelSurfaceList
         property: "rootFocus"
@@ -660,9 +662,10 @@ FocusScope {
             visible: false
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
+            anchors.fill: parent
             horizontalAlignment: Qt.AlignHCenter
             verticalAlignment: Qt.AlignVCenter
-            width: parent.width
+            anchors.leftMargin: root.launcherLeftMargin
             wrapMode: Label.WordWrap
             fontSize: "large"
             text: i18n.tr("No running apps")

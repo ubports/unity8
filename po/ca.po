@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-04-15 21:56+0000\n"
-"Last-Translator: Joan CiberSheep <cibersheep@gmail.com>\n"
+"PO-Revision-Date: 2020-07-26 19:34+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Catalan <https://translate.ubports.com/projects/unity8/unity8/"
 "ca/>\n"
 "Language: ca\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 3.11.3\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:34+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:199
@@ -34,7 +34,7 @@ msgstr "Ha fallat l'autenticació"
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr "Contrasenya invàlida, torneu-ho a provar"
+msgstr "Contrasenya no vàlida; torneu-ho a provar"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
@@ -707,7 +707,7 @@ msgstr "Instal·la i reinicia ara"
 
 #: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome Back"
-msgstr "Us tornam a donar la benvinguda"
+msgstr "Us tornem a donar la benvinguda"
 
 #: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
@@ -770,7 +770,7 @@ msgstr "El codi d'accés ha de tenir una longitud de 4 caràcters"
 
 #: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
-msgstr "Contrasenya de bloqueig de pantalla"
+msgstr "Contrasenya de blocatge de pantalla"
 
 #: qml/Wizard/Pages/password-set.qml:68
 msgid "Enter at least 8 characters"
