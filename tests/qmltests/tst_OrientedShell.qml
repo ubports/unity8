@@ -1587,6 +1587,9 @@ Rectangle {
             tryCompare(buttons[2], "activeFocus", true);
 
             keyClick(data.key);
+            tryCompare(buttons[3], "activeFocus", true);
+
+            keyClick(data.key);
             tryCompare(buttons[0], "activeFocus", true);
 
             keyClick(Qt.Key_Escape);
