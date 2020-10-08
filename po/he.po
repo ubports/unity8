@@ -8,16 +8,17 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2015-07-12 08:47+0000\n"
-"Last-Translator: Yaron <sh.yaron@gmail.com>\n"
-"Language-Team: Hebrew <he@li.org>\n"
+"PO-Revision-Date: 2020-09-05 22:10+0000\n"
+"Last-Translator: tamer dab <dabsantamer@yahoo.com>\n"
+"Language-Team: Hebrew <https://translate.ubports.com/projects/unity8/unity8/"
+"he/>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Weblate 3.11.3\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
-"X-Generator: Launchpad (build 18269)\n"
 
 #: plugins/LightDM/Greeter.cpp:199
 msgid "Password: "
@@ -25,19 +26,19 @@ msgstr "ססמה: "
 
 #: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr ""
+msgstr "שם משתמש"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "האימות נכשל"
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "סיסמה לא תקינה, נסה שוב"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
-msgstr ""
+msgstr "התחברות"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
@@ -45,11 +46,11 @@ msgstr "ניסיון חוזר"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr ""
+msgstr "התחבר"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr ""
+msgstr "כניסת אורח"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
@@ -58,7 +59,7 @@ msgstr "הצמדת קיצור דרך"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:55
 msgid "Quit"
-msgstr ""
+msgstr "צא"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
@@ -129,181 +130,179 @@ msgstr "הפעלה מחדש"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "קיצורי דרך במקלדת"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:55
 msgid "Unity 8"
-msgstr ""
+msgstr "Unity 8"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:62
 msgid "PrtScr"
-msgstr ""
+msgstr "PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:67
 msgid "Takes a screenshot."
-msgstr ""
+msgstr "מצלם מסך."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:75
 msgid "Alt + PrtScr"
-msgstr ""
+msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
 msgid "Takes a screenshot of the current window."
-msgstr ""
+msgstr "מצלם מסך של החלון הנוכחי."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
-msgstr ""
+msgstr "Super + Space"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr ""
+msgstr "עובר לפריסת המקלדת הבאה."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
-msgstr ""
+msgstr "Super + Shift + Space"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr ""
+msgstr "עובר לפריסת המקלדת הקודמת."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
 msgid "Ctrl + Alt + T"
-msgstr ""
+msgstr "Ctrl + Alt + T"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
 msgid "Starts the Terminal application."
-msgstr ""
+msgstr "מפעיל את יישום המסוף."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
-msgstr ""
+msgstr "משגר"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Super (Hold)"
-msgstr ""
+msgstr "Super (החזק)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens the launcher, displays shortcuts."
-msgstr ""
+msgstr "פותח את המשגר, מציג קיצורי דרך."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Alt + F1"
-msgstr ""
+msgstr "Alt + F1"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Opens launcher keyboard navigation mode."
-msgstr ""
+msgstr "פותח את מצב הניווט במקלדת המשגר."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + Tab"
-msgstr ""
+msgstr "Super + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Switches applications via the launcher."
-msgstr ""
+msgstr "מחליף יישומים באמצעות משגר."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + 1 to 0"
-msgstr ""
+msgstr "Super + 1 to 0"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
-msgstr ""
+msgstr "זהה ללחיצה על סמל משגר."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
 msgid "Super + A"
-msgstr ""
+msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
-#, fuzzy
-#| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
-msgstr "פתיחת המשגר"
+msgstr "פותח את מגירת היישומים."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
-msgstr ""
+msgstr "היקפים"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:214
 msgid "Super (Tap)"
-msgstr ""
+msgstr "Super (Tap)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:219
 msgid "Opens the Scopes home."
-msgstr ""
+msgstr "פותח את בית סקופס."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
-msgstr ""
+msgstr "החלפה"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Alt + Tab"
-msgstr ""
+msgstr "Alt + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Switches between applications."
-msgstr ""
+msgstr "עובר בין יישומים."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:255
 msgid "Super + W"
-msgstr ""
+msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:260
 msgid "Opens the desktop spread."
-msgstr ""
+msgstr "פותח את התפשטות שולחן העבודה."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:268
 msgid "Cursor Left or Right"
-msgstr ""
+msgstr "סמן שמאל או ימין"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:273
 msgid "Moves the focus."
-msgstr ""
+msgstr "מזיז את הפוקוס."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:285
 msgid "Windows"
-msgstr ""
+msgstr "חלונות"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + D"
-msgstr ""
+msgstr "Ctrl + Super + D"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes all windows."
-msgstr ""
+msgstr "ממזער את כל החלונות."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Up"
-msgstr ""
+msgstr "Ctrl + Super + Up"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Maximizes the current window."
-msgstr ""
+msgstr "ממקסם את החלון הנוכחי."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Ctrl + Super + Down"
-msgstr ""
+msgstr "Ctrl + Super + Down"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Minimizes or restores the current window."
-msgstr ""
+msgstr "ממזער או משחזר את החלון הנוכחי."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:331
 msgid "Ctrl + Super + Left or Right"
-msgstr ""
+msgstr "Ctrl + Super + Left or Right"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Semi-maximizes the current window."
-msgstr ""
+msgstr "ממקסם את החלון הנוכחי למחצה."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:344
 msgid "Alt + F4"
-msgstr ""
+msgstr "Alt + F4"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:349
 msgid "Closes the current window."
-msgstr ""
+msgstr "סוגר את החלון הנוכחי."
 
 #: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:235
 msgid "Return to Call"
@@ -320,66 +319,66 @@ msgstr "אישור"
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
 msgid "%1:%2:%3"
-msgstr ""
+msgstr "%1:%2:%3"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:49
 #, qt-format
 msgid "%1:%2"
-msgstr ""
+msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:33
 msgid "Apps may have unsaved data:"
-msgstr ""
+msgstr "ייתכן שיש לאפליקציות נתונים שלא נשמרו:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:60
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
-msgstr ""
+msgstr "לעגון מחדש, שמור את עבודתך וסגור יישומים אלה כדי להמשיך."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
-msgstr ""
+msgstr "או לחץ על סגירה כעת (נתונים שלא נשמרו יאבדו)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:80
 msgid "OK, I will reconnect"
-msgstr ""
+msgstr "בסדר, אני אתחבר מחדש"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:81
 msgid "Reconnect now!"
-msgstr ""
+msgstr "התחבר מחדש עכשיו!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:94
 msgid "Close all"
-msgstr ""
+msgstr "סגור הכל"
 
 #: qml/Components/SharingPicker.qml:54
 msgid "Preview Share Item"
-msgstr ""
+msgstr "תצוגה מקדימה של פריט השיתוף"
 
 #: qml/Components/VirtualTouchPad.qml:317
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
+"המכשיר שלך מחובר כעת לתצוגה חיצונית. השתמש במסך זה כמשטח מגע לאינטראקציה עם "
+"המצביע."
 
 #: qml/Components/VirtualTouchPad.qml:327
-#, fuzzy
-#| msgid "Tap to return to call..."
 msgid "Tap left button to click."
-msgstr "יש לגעת כדי להחזיר שיחה…"
+msgstr "הקש על הלחצן השמאלי כדי ללחוץ."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "הקש על הלחצן הימני כדי ללחוץ ימני."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "החלק בעזרת שתי אצבעות כדי לגלול."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "מצא הגדרות נוספות בהגדרות המערכת."
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -395,54 +394,50 @@ msgstr "ננעלת מחוץ למערכת עקב ריבוי ניסיונות הז
 
 #: qml/Greeter/DelayedLockscreen.qml:59
 msgid "You have been locked out due to too many failed passcode attempts."
-msgstr ""
+msgstr "אתה נעול בגלל יותר מדי ניסיונות קוד כניסה כושלים."
 
 #: qml/Greeter/DelayedLockscreen.qml:68
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "המתן דקה %1 ואז נסה שוב …"
+msgstr[1] "המתן %1 דקות ואז נסה שוב …"
 
 #: qml/Greeter/Greeter.qml:550
 msgid "Try again"
-msgstr ""
+msgstr "נסה שוב"
 
 #: qml/Greeter/Greeter.qml:551
-#, fuzzy
-#| msgid "Enter passphrase"
 msgid "Enter passphrase to unlock"
-msgstr "נא להזין מילת צופן"
+msgstr "הזן ביטוי סיסמה כדי לבטל את הנעילה"
 
 #: qml/Greeter/Greeter.qml:552
 msgid "Enter passcode to unlock"
-msgstr ""
+msgstr "הזן סיסמה כדי לבטל את הנעילה"
 
 #: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
-msgstr ""
+msgstr "חרום"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passphrase"
-msgstr ""
+msgstr "ביטוי סיסמה"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passcode"
-msgstr ""
+msgstr "קוד גישה"
 
 #: qml/Greeter/SessionsList.qml:124
 msgid "Select desktop environment"
-msgstr ""
+msgstr "בחר סביבת שולחן עבודה"
 
 #: qml/Launcher/Drawer.qml:249
-#, fuzzy
-#| msgid "Search"
 msgid "Search…"
-msgstr "חיפוש"
+msgstr "חיפוש…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
-msgstr "הצגת הססמה"
+msgstr "הראה סיסמה"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
@@ -454,38 +449,38 @@ msgstr "ועידה"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:869
 msgid "Nothing is playing"
-msgstr ""
+msgstr "שום דבר לא מתנגן"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:997
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 שעה"
+msgstr[1] "%1 שעות"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1001
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "דקה %1"
+msgstr[1] "%1 דקות"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1006
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 שנייה"
+msgstr[1] "%1 שניות"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1009
 msgid "0 seconds"
-msgstr ""
+msgstr "0 שניות"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1011
 #, qt-format
 msgid "%1 remaining"
-msgstr ""
+msgstr "נותר %1"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1017
 msgid "In queue…"
@@ -515,7 +510,7 @@ msgstr "נכשל, יש לגעת כדי לנסות שוב"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:210
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "שלח"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:152
 msgctxt "Label: Hint in message indicator line edit"
@@ -525,50 +520,48 @@ msgstr "להשיב"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:209
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr ""
+msgstr "התקשר חזרה"
 
 #: qml/Panel/PanelMenuPage.qml:92
 msgid "Back"
-msgstr ""
+msgstr "חזור"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
-msgstr ""
+msgstr "גרור באמצעות שלוש אצבעות כל יישום מחלון אחד למשנהו"
 
 #: qml/Stage/Stage.qml:668
 msgid "No running apps"
-msgstr ""
+msgstr "אין אפליקציות רצות"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-#, fuzzy
-#| msgid "Try swiping from the top edge to access the indicators"
 msgid "Long swipe from the left edge to open the Application Drawer"
-msgstr "נא לנסות למשוך מהשול העליון כדי לגשת למחוונים"
+msgstr "החלקה ארוכה מהקצה השמאלי כדי לפתוח את מגירת היישומים"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
-msgstr ""
+msgstr "החלקה קצרה מהקצה השמאלי כדי לפתוח את המשגר"
 
 #: qml/Tutorial/TutorialRight.qml:54
 msgid "Push your mouse against the right edge to view your open apps"
-msgstr ""
+msgstr "דחף את העכבר לקצה הימני כדי להציג את האפליקציות הפתוחות שלך"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Swipe from the right edge to view your open apps"
-msgstr ""
+msgstr "החלק מהקצה הימני כדי להציג את האפליקציות הפתוחות שלך"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
-msgstr ""
+msgstr "החלק מהקצה העליון כדי לגשת להתראות ולהגדרות מהירות"
 
 #: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr ""
+msgstr "חזור"
 
 #: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
-msgstr ""
+msgstr "שפה"
 
 #: qml/Wizard/Pages/10-welcome.qml:176
 #: qml/Wizard/Pages/10-welcome-update.qml:126
@@ -578,42 +571,41 @@ msgstr ""
 #: qml/Wizard/Pages/passcode-desktop.qml:154
 #: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
-msgstr ""
+msgstr "הבא"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 msgid "Welcome to "
-msgstr ""
+msgstr "ברוך/ה הבא/ה ל "
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
-msgstr ""
+msgstr "אנו נדאג שהמכשיר שלך יהיה מוכן לשימוש "
 
 #: qml/Wizard/Pages/11-changelog.qml:28
 msgid "What's new"
-msgstr ""
+msgstr "מה חדש"
 
 #: qml/Wizard/Pages/11-changelog.qml:74
-#, fuzzy
 msgid "Loading..."
-msgstr "הדיבור מושמע…"
+msgstr "בטעינה..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
-msgstr ""
+msgstr "בחר מקלדת"
 
 #: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
-msgstr ""
+msgstr "שפת מקלדת"
 
 #: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
-msgstr ""
+msgstr "פריסת מקלדת"
 
 #: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:214
 #: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/79-system-update.qml:144
 #: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
-msgstr "דילוג"
+msgstr "דלג"
 
 #: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
@@ -621,91 +613,93 @@ msgstr "התחברות לרשת אלחוטית"
 
 #: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
-msgstr ""
+msgstr "מחובר"
 
 #: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
-msgstr ""
+msgstr "רשתות Wi-Fi זמינות"
 
 #: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
-msgstr ""
+msgstr "אין רשתות Wi-Fi זמינות"
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
-msgstr ""
+msgstr "אזור זמן"
 
 #: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
-msgstr ""
+msgstr "היכנס/י עיר מגורך"
 
 #: qml/Wizard/Pages/60-account.qml:24
 msgid "Personalize Your Device"
-msgstr ""
+msgstr "התאם אישית את המכשיר שלך"
 
 #: qml/Wizard/Pages/60-account.qml:54
 msgid "Preferred Name"
-msgstr ""
+msgstr "שם מועדף"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:40
 msgid "Lock Screen"
-msgstr ""
+msgstr "מסך נעילה"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
-msgstr ""
+msgstr "צור סיסמה חדשה"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
-msgstr ""
+msgstr "צור סיסמה (מספרים בלבד)"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
-msgstr ""
+msgstr "אין קוד נעילה"
 
 #: qml/Wizard/Pages/79-system-update.qml:28
 msgid "Update Device"
-msgstr ""
+msgstr "עדכן את המכשיר"
 
 #: qml/Wizard/Pages/79-system-update.qml:55
 msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
 msgstr ""
+"יש עדכון מערכת זמין ומוכנים להתקנה. לאחר מכן, המכשיר יופעל מחדש באופן "
+"אוטומטי."
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu Touch system"
-msgstr ""
+msgstr "מערכת אובונטו טאץ'"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
-msgstr ""
+msgstr "גרסה %1"
 
 #: qml/Wizard/Pages/79-system-update.qml:95
 msgid "This could take a few minutes..."
-msgstr ""
+msgstr "זה יכול לקחת כמה דקות ..."
 
 #: qml/Wizard/Pages/79-system-update.qml:109
 msgid "Install and restart now"
-msgstr ""
+msgstr "התקן והפעל מחדש כעת"
 
 #: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome Back"
-msgstr ""
+msgstr "ברוך שובך"
 
 #: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
-msgstr ""
+msgstr "ברוך/ה הבא/ה לאובונטו"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
-msgstr ""
+msgstr "המכשיר שלך מוכן לשמוש עכשיו"
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Continue"
@@ -713,118 +707,118 @@ msgstr "להמשיך"
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
-msgstr ""
+msgstr "להתחיל"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
-msgstr "אישור קוד הצופן"
+msgstr "אשר קוד גישה"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
-msgstr ""
+msgstr "קוד גישה שגוי."
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgctxt "Enter the passcode again"
 msgid "Please re-enter."
-msgstr ""
+msgstr "אנא הכנס מחדש."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
-msgstr ""
+msgstr "סיסמה לנעילת מסך"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
-msgstr ""
+msgstr "הזן 4 מספרים כדי להגדיר את הססמה שלך"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
-msgstr ""
+msgstr "בחר קוד גישה"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
-msgstr ""
+msgstr "קוד הגישה קצר מדי"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
-msgstr ""
+msgstr "קוד הסיסמה תואם"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
-msgstr ""
+msgstr "קודי הסיסמה אינם תואמים"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr ""
+msgstr "קוד הגישה חייב להיות באורך של 4 תווים"
 
 #: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
-msgstr ""
+msgstr "סיסמת מסך נעילה"
 
 #: qml/Wizard/Pages/password-set.qml:68
 msgid "Enter at least 8 characters"
-msgstr ""
+msgstr "הזן לפחות 8 תווים"
 
 #: qml/Wizard/Pages/password-set.qml:80
 msgid "Choose password"
-msgstr ""
+msgstr "בחר סיסמה"
 
 #: qml/Wizard/Pages/password-set.qml:110
 msgid "Confirm password"
-msgstr ""
+msgstr "אשר סיסמה"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
-msgstr ""
+msgstr "לא הותקן כרטיס SIM"
 
 #: qml/Wizard/Pages/sim.qml:54
 msgid "SIM card added"
-msgstr ""
+msgstr "נוסף כרטיס SIM"
 
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
-msgstr ""
+msgstr "עליך להפעיל מחדש את המכשיר כדי לגשת לרשת הסלולרית."
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
-msgstr ""
+msgstr "אתחול"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
-msgstr ""
+msgstr "לא תוכל להתקשר או להשתמש בהודעות טקסט ללא SIM."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr ""
+msgstr "כדי להמשיך ללא SIM הקש על דלג."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr ""
+msgstr "סיסמא קצרה מדי"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
-msgstr ""
+msgstr "סיסמאות תואמות"
 
 #: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
-msgstr ""
+msgstr "סיסמאות לא תואמות"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
-msgstr ""
+msgstr "סיסמא חזקה"
 
 #: qml/Wizard/PasswordMeter.qml:97
 msgid "Fair password"
-msgstr ""
+msgstr "סיסמא הוגנת"
 
 #: qml/Wizard/PasswordMeter.qml:99
 msgid "Weak password"
-msgstr ""
+msgstr "ססמה חלשה"
 
 #: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
-msgstr ""
+msgstr "סיסמא חלשה מאוד"
 
 #~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"

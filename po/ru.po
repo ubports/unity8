@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-06-24 23:33+0000\n"
-"Last-Translator: Eugene Markoff <uralhistory@gmail.com>\n"
+"PO-Revision-Date: 2020-08-24 20:49+0000\n"
+"Last-Translator: Moshe Lazar <wersewikkov@gmail.com>\n"
 "Language-Team: Russian <https://translate.ubports.com/projects/unity8/unity8/"
 "ru/>\n"
 "Language: ru\n"
@@ -47,9 +47,8 @@ msgid "Retry"
 msgstr "Повторить"
 
 #: plugins/LightDM/UsersModel.cpp:157
-#, fuzzy
 msgid "Login"
-msgstr "Имя пользователя"
+msgstr "Войти"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
@@ -152,10 +151,8 @@ msgid "Alt + PrtScr"
 msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
-#, fuzzy
-#| msgid "Takes a screenshot of a window."
 msgid "Takes a screenshot of the current window."
-msgstr "Снимок окна."
+msgstr "Делает снимок экрана текущего окна."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
@@ -174,16 +171,12 @@ msgid "Switches to previous keyboard layout."
 msgstr "Предыдущая раскладка клавиатуры."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
-#, fuzzy
-#| msgid "Ctrl + Super + D"
 msgid "Ctrl + Alt + T"
-msgstr "Ctrl + Super + D"
+msgstr "Ctrl + Alt + T"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
-#, fuzzy
-#| msgid "Switches between applications."
 msgid "Starts the Terminal application."
-msgstr "Запустить Терминал."
+msgstr "Открывает новое окно терминала."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
@@ -214,8 +207,6 @@ msgid "Switches applications via the launcher."
 msgstr "Переключает приложения через пусковую установку."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
-#, fuzzy
-#| msgid "Super + 0 to 9"
 msgid "Super + 1 to 0"
 msgstr "Super + число от 1 до 0"
 
@@ -389,7 +380,7 @@ msgstr ""
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "Проведите двумя пальцами для прокрутки."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
@@ -428,16 +419,12 @@ msgid "Try again"
 msgstr "Повторите снова"
 
 #: qml/Greeter/Greeter.qml:551
-#, fuzzy
-#| msgid "Enter passphrase"
 msgid "Enter passphrase to unlock"
-msgstr "Введите кодовую фразу"
+msgstr "Введите кодовую фразу для разблокировки"
 
 #: qml/Greeter/Greeter.qml:552
-#, fuzzy
-#| msgid "Enter passcode"
 msgid "Enter passcode to unlock"
-msgstr "Введите секретный код"
+msgstr "Введите секретный код для разблокировки"
 
 #: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
@@ -456,10 +443,8 @@ msgid "Select desktop environment"
 msgstr "Выбрать среду рабочего стола"
 
 #: qml/Launcher/Drawer.qml:249
-#, fuzzy
-#| msgid "Search"
 msgid "Search…"
-msgstr "Поиск"
+msgstr "Найти…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -552,9 +537,6 @@ msgid "Call back"
 msgstr "Позвонить"
 
 #: qml/Panel/PanelMenuPage.qml:92
-#, fuzzy
-#| msgctxt "Button: Go back one page in the Wizard"
-#| msgid "Back"
 msgid "Back"
 msgstr "Назад"
 
@@ -564,13 +546,11 @@ msgstr "Передвигайте любое приложение с помощь
 
 #: qml/Stage/Stage.qml:668
 msgid "No running apps"
-msgstr ""
+msgstr "Нет запущенных приложений"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-#, fuzzy
-#| msgid "Long swipe from the left edge to open the Today scope"
 msgid "Long swipe from the left edge to open the Application Drawer"
-msgstr "Длинный свайп от левого края открывает область «Сегодня»"
+msgstr "Проведите пальцем от левого края, чтобы открыть блок с приложениями."
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
@@ -711,12 +691,9 @@ msgstr ""
 "выполнит автоматическую перезагрузку."
 
 #: qml/Wizard/Pages/79-system-update.qml:76
-#, fuzzy
-#| msgctxt "string identifying name of the update"
-#| msgid "Ubuntu system"
 msgctxt "string identifying name of the update"
 msgid "Ubuntu Touch system"
-msgstr "Система Ubuntu"
+msgstr "Система Ubuntu Touch"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
