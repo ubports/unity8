@@ -158,6 +158,9 @@ PanelUI {
         // expose more of the panel, binding it to the selected indicator and opening it's menu.
         // Tested from first Y pixel to check for swipe from offscreen.
         function test_drag_indicator_item_down_shows_menu(data) {
+
+            skip("https://github.com/ubports/unity8/issues/334");
+
             panel.fullscreenMode = data.fullscreen;
             callManager.foregroundCall = data.call;
 
