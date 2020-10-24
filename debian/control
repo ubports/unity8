@@ -72,6 +72,7 @@ Build-Depends:
  qtdeclarative5-private-dev (>= 5.6),
  qtdeclarative5-ubuntu-content1,
  ttf-ubuntu-font-family,
+ ubports-wallpapers,
  xvfb,
 Standards-Version: 3.9.4
 Homepage: https://github.com/ubports/unity8
