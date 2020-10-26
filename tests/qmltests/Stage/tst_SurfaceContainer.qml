@@ -125,7 +125,8 @@ Rectangle {
 
                 Label {
                     text: "surface"
-                    anchors.verticalCenter: parent.verticalCenter
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
                 }
             }
 

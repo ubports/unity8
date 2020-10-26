@@ -289,8 +289,9 @@ Rectangle {
                     activeFocusOnPress: false
                 }
                 Label {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
                     text: "Orientation Locked"
-                    anchors.verticalCenter: parent.verticalCenter
                 }
             }
             Button {
@@ -350,8 +351,9 @@ Rectangle {
                     }
                 }
                 Label {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
                     text: "Input Method"
-                    anchors.verticalCenter: parent.verticalCenter
                 }
             }
             Button {

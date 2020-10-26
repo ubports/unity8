@@ -117,7 +117,7 @@ PanelTest {
 
             ListItem.ItemSelector {
                 id: modeSelector
-                anchors { left: parent.left; right: parent.right }
+                Layout.fillWidth: true
                 activeFocusOnPress: false
                 text: "Mode"
                 model: ["staged", "windowed" ]

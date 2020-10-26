@@ -964,8 +964,8 @@ Item {
             QDBusActionGroup {
                 id: actionGroup
                 busType: 1
-                busName: rootModel.busName
-                objectPath: rootModel.actions["indicator"]
+                busName: menuFactory.rootModel.busName
+                objectPath: menuFactory.rootModel.actions["indicator"]
 
                 property var activateAction: action("activate-transfer")
                 property var cancelAction: action("cancel-transfer")

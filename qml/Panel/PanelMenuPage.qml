@@ -59,7 +59,7 @@ PageStack {
     function reset(clearModel) {
         if (clearModel) {
             clear();
-            var model = submenuIndex == undefined ? menuModel : menuModel.submenu(submenuIndex)
+            var model = root.submenuIndex == undefined ? menuModel : menuModel.submenu(root.submenuIndex)
             if (model) {
                 push(pageComponent, { "menuModel": model });
             }
