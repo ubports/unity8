@@ -8,6 +8,7 @@ include_directories(
 add_library(MockWizard-qml MODULE
     mockplugin.cpp
     MockSystem.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Wizard/Changelog.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Wizard/PageList.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Wizard/timezonemodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Wizard/LocalePlugin.cpp
