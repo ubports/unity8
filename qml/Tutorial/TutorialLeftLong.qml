@@ -28,7 +28,7 @@ TutorialPage {
     opacityOverride: shown ? 1 - launcher.dragDistance / (launcher.panelWidth * 3) : 1
 
     mouseArea {
-        anchors.leftMargin: launcher.dragAreaWidth
+        anchors.leftMargin: root.launcher.dragAreaWidth
     }
 
     background {

@@ -163,8 +163,8 @@ LocalComponents.Page {
 
         Label {
             id: label
-            anchors.left: parent.left
-            anchors.right: parent.right
+            Layout.fillWidth: true
+            Layout.fillHeight: false
             anchors.leftMargin: column.anchors.leftMargin == 0 ? staticMargin : 0
             font.weight: Font.Light
             color: textColor
@@ -176,11 +176,10 @@ LocalComponents.Page {
         ListView {
             id: listview
             objectName: "accessPointsListView"
-            anchors.left: parent.left
-            anchors.right: parent.right
+            Layout.fillWidth: true
+            Layout.fillHeight: true
             clip: true
             model: menuModel
-            Layout.fillHeight: true
 
             delegate: Loader {
                 readonly property bool isAccessPoint: model.type === "unity.widgets.systemsettings.tablet.accesspoint"
