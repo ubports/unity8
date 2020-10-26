@@ -35,8 +35,8 @@ Item {
     property bool __skipHideAnimation: false
 
     property list<QtObject> hides
-    property var showAnimation
-    property var hideAnimation
+    property PropertyAnimation showAnimation
+    property PropertyAnimation hideAnimation
 
     // automatically set the target on showAnimation and hideAnimation to be the
     // showable itself
