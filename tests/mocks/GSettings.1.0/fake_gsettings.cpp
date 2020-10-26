@@ -28,7 +28,7 @@ GSettingsControllerQml::GSettingsControllerQml()
     , m_launcherWidth(8)
     , m_edgeDragWidth(2)
     , m_enableIndicatorMenu(true)
-    , m_appstoreUri("http://uappexplorer.com")
+    , m_oskSwitchVisible(false)
 {
 }
 
@@ -160,9 +160,17 @@ void GSettingsControllerQml::setEnableIndicatorMenu(bool enableIndicatorMenu)
     }
 }
 
-QString GSettingsControllerQml::appstoreUri() const
+bool GSettingsControllerQml::oskSwitchVisible() const
 {
-    return m_appstoreUri;
+    return m_oskSwitchVisible;
+}
+
+void GSettingsControllerQml::setOskSwitchVisible(bool oskSwitchVisible)
+{
+    if (m_oskSwitchVisible != oskSwitchVisible) {
+        m_oskSwitchVisible = oskSwitchVisible;
+        Q_EMIT oskSwitchVisibleChanged(oskSwitchVisible);
+    }
 }
 
 GSettingsSchemaQml::GSettingsSchemaQml(QObject *parent): QObject(parent) {
@@ -231,6 +239,8 @@ void GSettingsQml::componentComplete()
             this, &GSettingsQml::edgeDragWidthChanged);
     connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::enableIndicatorMenuChanged,
             this, &GSettingsQml::enableIndicatorMenuChanged);
+    connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::oskSwitchVisibleChanged,
+            this, &GSettingsQml::oskSwitchVisibleChanged);
 
     Q_EMIT disableHeightChanged();
     Q_EMIT pictureUriChanged();
@@ -356,10 +366,10 @@ QVariant GSettingsQml::enableIndicatorMenu() const
     }
 }
 
-QVariant GSettingsQml::appstoreUri() const
+QVariant GSettingsQml::oskSwitchVisible() const
 {
     if (m_valid && m_schema->id() == "com.canonical.Unity8") {
-        return GSettingsControllerQml::instance()->appstoreUri();
+        return GSettingsControllerQml::instance()->oskSwitchVisible();
     }
     return QVariant();
 }
@@ -396,5 +406,12 @@ void GSettingsQml::setEnableIndicatorMenu(const QVariant &enableIndicatorMenu)
 {
     if (m_valid && m_schema->id() == "com.canonical.Unity8") {
         GSettingsControllerQml::instance()->setEnableIndicatorMenu(enableIndicatorMenu.toBool());
+    }
+}
+
+void GSettingsQml::setOskSwitchVisible(const QVariant &oskSwitchVisible)
+{
+    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+        GSettingsControllerQml::instance()->setOskSwitchVisible(oskSwitchVisible.toBool());
     }
 }
