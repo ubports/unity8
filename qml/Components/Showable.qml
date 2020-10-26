@@ -35,13 +35,13 @@ Item {
     property bool __skipHideAnimation: false
 
     property list<QtObject> hides
-    property PropertyAnimation showAnimation
-    property PropertyAnimation hideAnimation
+    property Animation showAnimation
+    property Animation hideAnimation
 
     // automatically set the target on showAnimation and hideAnimation to be the
     // showable itself
-    onShowAnimationChanged: if (showAnimation) showAnimation["target"] = showable
-    onHideAnimationChanged: if (hideAnimation) hideAnimation["target"] = showable
+    onShowAnimationChanged: if (showAnimation && showAnimation.hasOwnProperty("target")) showAnimation["target"] = showable
+    onHideAnimationChanged: if (hideAnimation && hideAnimation.hasOwnProperty("target")) hideAnimation["target"] = showable
 
     Component.onCompleted: required = shown;
 
