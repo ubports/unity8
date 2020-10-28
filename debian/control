@@ -62,7 +62,6 @@ Build-Depends:
  qml-module-ubuntu-layouts,
  qml-module-ubuntu-settings-components,
  qml-module-ubuntu-test,
- qt5-default,
  qtbase5-dev (>= 5.6),
  qtbase5-dev-tools,
  qtbase5-private-dev (>= 5.6),

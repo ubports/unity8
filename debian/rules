@@ -7,6 +7,12 @@ include /usr/share/dpkg/default.mk
 #export DH_VERBOSE=1
 export DPKG_GENSYMBOLS_CHECK_LEVEL=4
 export NO_PNG_PKG_MANGLE=1
+export QT_SELECT=qt5
+
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+
+# Skip tests on the archs they are known to be flaky  with current configuration
+testskip_architectures := powerpc ppc64el s390x
 
 %:
 	dh $@ --parallel --fail-missing --with python3
@@ -24,7 +30,13 @@ override_dh_auto_test:
 	# Run the entire test battery
 	# Parallel tests have a risk of starting xvfb on the same DISPLAY multiple times,
 	# causing the whole battery to fail.
-	dh_auto_test --no-parallel -- -O -k xvfballtests || true
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+ifneq (,$(filter $(DEB_HOST_ARCH),$(testskip_architectures)))
+	-dh_auto_test --no-parallel -- -O -k xvfballtests
+else
+	dh_auto_test --no-parallel -- -O -k xvfballtests
+endif
+endif
 
 override_dh_install:
 	# install autopilot tests
