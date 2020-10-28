@@ -12,7 +12,7 @@ export QT_SELECT=qt5
 DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 
 # Skip tests on the archs they are known to be flaky  with current configuration
-testskip_architectures := powerpc ppc64el s390x
+testskip_architectures := arm64 powerpc ppc64el s390x
 
 %:
 	dh $@ --parallel --fail-missing --with python3
