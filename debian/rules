@@ -32,7 +32,6 @@ override_dh_auto_build:
 	dh_auto_build -- -O all doc
 
 override_dh_auto_test:
-ifneq ($(DEB_HOST_ARCH),$(findstring $(DEB_HOST_ARCH), $(testskip_architectures)))
 	# Run the entire test battery
 	# Parallel tests have a risk of starting xvfb on the same DISPLAY multiple times,
 	# causing the whole battery to fail.
