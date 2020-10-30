@@ -47,7 +47,7 @@ FocusScope {
         focus: true
 
         readonly property int overflow: width - (root.columns * root.delegateWidth)
-        readonly property real spacing: Math.ceil(overflow / root.columns)
+        readonly property real spacing: Math.floor(overflow / root.columns)
 
         cellWidth: root.delegateWidth + spacing
         cellHeight: root.delegateHeight

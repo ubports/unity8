@@ -577,8 +577,6 @@ Rectangle {
                                         selectedItem.dragging = true
                                         preDragging = false;
                                     }
-                                }
-                                if (!selectedItem.dragging) {
                                     return
                                 }
 
