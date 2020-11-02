@@ -32,6 +32,9 @@ Item {
     property alias title: header.title
     property alias showHeader: header.visible
 
+    // Set clip to prevent drawing outside the window rectangle
+    clip: true
+
     Ambiance.Palette {
         id: ambiancePalette
     }
@@ -90,8 +93,8 @@ Item {
         anchors.centerIn: parent
         anchors.verticalCenterOffset: header.visible ? header.height / 2 : 0
         asynchronous: true
-        fillMode: Image.PreserveAspectFit
         cache: false
+        clip: true
     }
 
     UbuntuShape {
