@@ -198,30 +198,6 @@ Rectangle {
                     wrapMode: Text.Wrap
                     Layout.maximumWidth: maxTextSize
                 }
-
-
-                // Scopes section
-                Item { Layout.columnSpan: 2; height: units.gu(2) }
-                Label {
-                    Layout.columnSpan: 2
-                    text: i18n.tr("Scopes")
-                    font.weight: Font.Light
-                    color: theme.palette.normal.baseText
-                    lineHeight: 1.3
-                }
-
-                Label {
-                    text: i18n.tr("Super (Tap)")
-                    fontSize: "small"
-                    font.weight: Font.Medium
-                }
-                Label {
-                    text: i18n.tr("Opens the Scopes home.")
-                    fontSize: "small"
-                    font.weight: Font.Light
-                    wrapMode: Text.Wrap
-                    Layout.maximumWidth: maxTextSize
-                }
             }
 
             GridLayout {
