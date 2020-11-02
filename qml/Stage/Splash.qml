@@ -87,7 +87,7 @@ Item {
 
     Image {
         id: overlaidImage
-        anchors.centerIn: parent
+        anchors.fill: parent
         anchors.verticalCenterOffset: header.visible ? header.height / 2 : 0
         asynchronous: true
         fillMode: Image.PreserveAspectFit

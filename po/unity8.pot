@@ -218,18 +218,6 @@ msgstr ""
 msgid "Opens the Application Drawer."
 msgstr ""
 
-#: qml/Components/KeyboardShortcutsOverlay.qml:207
-msgid "Scopes"
-msgstr ""
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:214
-msgid "Super (Tap)"
-msgstr ""
-
-#: qml/Components/KeyboardShortcutsOverlay.qml:219
-msgid "Opens the Scopes home."
-msgstr ""
-
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
 msgstr ""
