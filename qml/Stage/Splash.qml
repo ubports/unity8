@@ -87,11 +87,12 @@ Item {
 
     Image {
         id: overlaidImage
-        anchors.fill: parent
+        anchors.centerIn: parent
         anchors.verticalCenterOffset: header.visible ? header.height / 2 : 0
         asynchronous: true
         fillMode: Image.PreserveAspectFit
         cache: false
+        crop: true
     }
 
     UbuntuShape {
