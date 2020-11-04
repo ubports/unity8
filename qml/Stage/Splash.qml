@@ -97,7 +97,6 @@ Item {
             height: root.height
         }
         asynchronous: true
-        fillMode: Image.PreserveAspectFit
         cache: false
         clip: true
     }
