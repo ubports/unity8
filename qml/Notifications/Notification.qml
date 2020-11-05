@@ -464,7 +464,8 @@ StyledItem {
                                 text: oneOverTwoLoaderTop.actionLabel
                                 outline: notification.hints["x-canonical-private-affirmative-tint"] !== "true"
                                 color: notification.hints["x-canonical-private-affirmative-tint"] === "true" ? theme.palette.normal.positive
-                                                                                                             : theme.palette.normal.foreground
+                                                                                                             : theme.name == "Ubuntu.Components.Themes.SuruDark" ? "#888"
+                                                                                                                                                                 : "#666"
                                 onClicked: notification.notification.invokeAction(oneOverTwoLoaderTop.actionId)
                             }
                         }
@@ -494,7 +495,8 @@ StyledItem {
                                     text: oneOverTwoLoaderBottom.actionLabel
                                     outline: notification.hints["x-canonical-private-rejection-tint"] !== "true"
                                     color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] === "true" ? theme.palette.normal.negative
-                                                                                                                             : theme.palette.normal.foreground
+                                                                                                                             : theme.name == "Ubuntu.Components.Themes.SuruDark" ? "#888"
+                                                                                                                                                                                 : "#666"
                                     onClicked: notification.notification.invokeAction(oneOverTwoLoaderBottom.actionId)
                                 }
                             }
@@ -556,7 +558,10 @@ StyledItem {
                                 outline: (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] !== "true") ||
                                          (index == 1 && notification.hints["x-canonical-private-rejection-tint"] !== "true")
                                 color: {
-                                    var result = theme.palette.normal.foreground;
+                                    var result = "#666";
+                                    if (theme.name == "Ubuntu.Components.Themes.SuruDark") {
+                                        result = "#888"
+                                    }
                                     if (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] === "true") {
                                         result = theme.palette.normal.positive;
                                     }
