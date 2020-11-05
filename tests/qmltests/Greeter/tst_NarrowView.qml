@@ -444,9 +444,7 @@ Item {
             var dataCircle = findChild(view, "dataCircle");
             verify(dataCircle);
 
-            tap(dataCircle);
-            wait(200);
-            tap(dataCircle);
+            mouseDoubleClickSequence(dataCircle);
 
             tryCompare(infographicDataChangedSpy, "count", 1);
         }
