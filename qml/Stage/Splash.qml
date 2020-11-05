@@ -92,10 +92,6 @@ Item {
         id: overlaidImage
         anchors.centerIn: parent
         anchors.verticalCenterOffset: header.visible ? header.height / 2 : 0
-        sourceSize {
-            width: root.width
-            height: root.height
-        }
         asynchronous: true
         cache: false
         clip: true
