@@ -44,6 +44,7 @@ PanelTest {
     property alias itemArea: itemArea
     property alias backgroundMouseArea: backgroundMouseArea
     property alias phoneCall: phoneCall
+    readonly property alias panelState: panel.panelState
 
     Binding {
         target: QuickUtils
@@ -51,10 +52,8 @@ PanelTest {
         value: keyboardAttached.checked
     }
 
-    SurfaceManager { id: sMgr }
     ApplicationMenuDataLoader {
         id: appMenuData
-        surfaceManager: sMgr
     }
 
     Component.onCompleted: {
@@ -107,6 +106,8 @@ PanelTest {
                         model: root.indicatorsModel
                         hides: [ panel.applicationMenus ]
                     }
+
+                    panelState: PanelState {}
                 }
             }
         }

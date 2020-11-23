@@ -18,10 +18,20 @@
 
 #include "qinputdeviceinfo_mock_p.h"
 
+#include <QQuickView>
+#include <QQmlComponent>
+#include <QQuickItem>
+#include <paths.h>
+
 MockController::MockController(QObject *parent):
     QObject(parent)
 {
+}
 
+MockController *MockController::instance()
+{
+    static MockController* controller = new MockController();
+    return controller;
 }
 
 QInputDevice *MockController::addMockDevice(const QString &devicePath, QInputDevice::InputType type)

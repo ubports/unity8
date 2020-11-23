@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2016 Canonical, Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -14,16 +14,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "plugin.h"
-#include "screens.h"
+#ifndef MOCK_SCREENS_H
+#define MOCK_SCREENS_H
 
-#include <QScreen>
+#include <QAbstractListModel>
+#include <QSharedPointer>
 
-void UnityScreensPlugin::registerTypes(const char* uri)
+#include <qtmir/screens.h>
+
+namespace qtmir
 {
-    Q_ASSERT(QLatin1String(uri) == QLatin1String("Unity.Screens"));
-
-    qRegisterMetaType<QScreen*>("QScreen*");
-
-    qmlRegisterType<Screens>(uri, 0, 1, "Screens");
+class Screens;
 }
+
+class ConcreteScreen;
+class ScreenWindow;
+
+class MockScreens : public qtmir::Screens
+{
+    Q_OBJECT
+public:
+    MockScreens();
+    ~MockScreens();
+
+    QVector<qtmir::Screen*> screens() const override;
+
+    qtmir::Screen *activeScreen() const override;
+
+    static QSharedPointer<MockScreens> instance();
+
+public Q_SLOTS:
+    void connectWindow(ScreenWindow *w);
+
+private:
+    QVector<qtmir::Screen*> m_mocks;
+};
+
+
+#endif // MOCK_SCREENS_H

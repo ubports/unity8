@@ -46,10 +46,12 @@ Rectangle {
         value: false
     }
 
-    SurfaceManager { id: sMgr }
     ApplicationMenuDataLoader {
         id: appMenuData
-        surfaceManager: sMgr
+    }
+
+    PanelState {
+        id: panelState
     }
 
     Item {
@@ -99,7 +101,7 @@ Rectangle {
                 surface: fakeApplication && fakeApplication.surfaceList.count > 0 ? fakeApplication.surfaceList.get(0) : null
 
                 Binding {
-                    target: PanelState
+                    target: panelState
                     property: "focusedPersistentSurfaceId"
                     value: decoratedWindow.surface ? decoratedWindow.surface.persistentId : "x"
                 }

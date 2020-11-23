@@ -39,6 +39,7 @@ FocusScope {
     property alias interactive: applicationWindow.interactive
     readonly property alias orientationChangesEnabled: applicationWindow.orientationChangesEnabled
     property alias windowControlButtonsVisible: decoration.windowControlButtonsVisible
+    property PanelState panelState
 
     // Changing this will actually add/remove a decoration, meaning, requestedHeight will take the decoration into account.
     property bool hasDecoration: true
@@ -126,15 +127,15 @@ FocusScope {
                 name: "preview"; when: root.scaleToPreviewProgress > 0
                 PropertyChanges {
                     target: root
-                    implicitWidth: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedWidth, root.scaleToPreviewSize, root.scaleToPreviewProgress)
-                    implicitHeight: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedHeight, root.scaleToPreviewSize, root.scaleToPreviewProgress)
+                    implicitWidth: MathUtils.linearAnimation(0, 1, applicationWindow.requestedWidth, root.scaleToPreviewSize, root.scaleToPreviewProgress)
+                    implicitHeight: MathUtils.linearAnimation(0, 1, applicationWindow.requestedHeight, root.scaleToPreviewSize, root.scaleToPreviewProgress)
                 }
                 PropertyChanges {
                     target: applicationWindow;
-                    requestedWidth: applicationWindow.oldRequestedWidth
-                    requestedHeight: applicationWindow.oldRequestedHeight
-                    width: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedWidth, applicationWindow.minSize, root.scaleToPreviewProgress)
-                    height: MathUtils.linearAnimation(0, 1, applicationWindow.oldRequestedHeight, applicationWindow.minSize, root.scaleToPreviewProgress)
+//                    requestedWidth: applicationWindow.oldRequestedWidth
+//                    requestedHeight: applicationWindow.oldRequestedHeight
+                    width: MathUtils.linearAnimation(0, 1, applicationWindow.requestedWidth, applicationWindow.minSize, root.scaleToPreviewProgress)
+                    height: MathUtils.linearAnimation(0, 1, applicationWindow.requestedHeight, applicationWindow.minSize, root.scaleToPreviewProgress)
                     itemScale: root.implicitWidth / width
                 }
             }
@@ -173,10 +174,10 @@ FocusScope {
         height: implicitHeight
         requestedHeight: !counterRotate ? root.requestedHeight - d.requestedDecorationHeight : root.requestedWidth
         requestedWidth: !counterRotate ? root.requestedWidth : root.requestedHeight - d.requestedDecorationHeight
-        property int oldRequestedWidth: requestedWidth
-        property int oldRequestedHeight: requestedHeight
-        onRequestedWidthChanged: oldRequestedWidth = requestedWidth
-        onRequestedHeightChanged: oldRequestedHeight = requestedHeight
+//        property int oldRequestedWidth: requestedWidth
+//        property int oldRequestedHeight: requestedHeight
+//        onRequestedWidthChanged: oldRequestedWidth = requestedWidth
+//        onRequestedHeightChanged: oldRequestedHeight = requestedHeight
         focus: true
 
         property real itemScale: 1
@@ -219,6 +220,7 @@ FocusScope {
 
         title: applicationWindow.title
         windowMoving: moveHandler.moving && !altDragHandler.dragging
+        panelState: root.panelState
 
         opacity: root.hasDecoration ? Math.min(1, root.showDecoration) : 0
         Behavior on opacity { UbuntuNumberAnimation { } }
@@ -242,7 +244,7 @@ FocusScope {
         enableMenus: {
             return active &&
                      surface &&
-                      (PanelState.focusedPersistentSurfaceId === surface.persistentId && !PanelState.decorationsVisible)
+                      (panelState.focusedPersistentSurfaceId === surface.persistentId && !panelState.decorationsVisible)
         }
         menu: sharedAppModel.model
 

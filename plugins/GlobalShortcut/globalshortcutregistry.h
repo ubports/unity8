@@ -52,9 +52,9 @@ public:
     void addShortcut(const QVariant &seq, GlobalShortcut * sc);
 
     /**
-     * Sets up key events filtering on window @p wid
+     * Sets up key events filtering on window @p window
      */
-    void setupFilterOnWindow(qulonglong wid);
+    void setupFilterOnWindow(QWindow* window);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;

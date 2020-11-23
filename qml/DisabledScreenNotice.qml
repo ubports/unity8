@@ -28,8 +28,11 @@ Item {
     property var screen: Screen
     property var orientationLock: OrientationLock
 
+    property bool oskEnabled: false
+
+    property alias deviceConfiguration: _deviceConfiguration
     DeviceConfiguration {
-        id: deviceConfiguration
+        id: _deviceConfiguration
         name: applicationArguments.deviceName
     }
 
@@ -76,6 +79,7 @@ Item {
         VirtualTouchPad {
             objectName: "virtualTouchPad"
             anchors.fill: parent
+            oskEnabled: root.oskEnabled
         }
     }
 }

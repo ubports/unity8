@@ -47,7 +47,7 @@ PanelUI {
 
         SignalSpy {
             id: windowControlButtonsSpy
-            target: PanelState
+            target: panelState
             signalName: "closeClicked"
         }
 
@@ -63,8 +63,8 @@ PanelUI {
             panel.fullscreenMode = false;
             callManager.foregroundCall = null;
 
-            PanelState.title = "Fake Window Title"
-            PanelState.decorationsVisible = false;
+            panelState.title = "Fake Window Title";
+            panelState.decorationsVisible = false;
 
             // Put the mouse somewhere neutral so it doesn't hover over things
             // and mess up the test
@@ -274,6 +274,7 @@ PanelUI {
         }
 
         function test_hint(data) {
+            panelState.title = "Fake Title"
             panel.fullscreenMode = data.fullscreen;
             callManager.foregroundCall = data.call;
 
@@ -315,6 +316,7 @@ PanelUI {
         // menus, first by running the hint animation, then after dragging down will
         // expose more of the panel. Releasing the touch will complete the show.
         function test_drag_applicationMenu_down_shows_menu(data) {
+            panelState.title = "Fake Title";
             panel.fullscreenMode = data.fullscreen;
             callManager.foregroundCall = data.call;
 
@@ -406,6 +408,7 @@ PanelUI {
         }
 
         function test_darkenedAreaEatsAllApplicationMenuEvents() {
+            panelState.title = "Fake Title"
 
             // The center of the area not covered by the indicators menu
             // Ie, the visible darkened area behind the menu
@@ -526,7 +529,7 @@ PanelUI {
             var windowControlArea = findChild(panel, "windowControlArea");
             verify(windowControlArea, "Window control area should have been created in windowed mode")
 
-            PanelState.decorationsVisible = true;
+            panelState.decorationsVisible = true;
             // click in very topleft corner and verify the close button got clicked too
             mouseMove(panel, 0, 0);
             mouseClick(panel, 0, 0, undefined /*button*/, undefined /*modifiers*/, 100 /*short delay*/);
@@ -589,6 +592,7 @@ PanelUI {
         }
 
         function test_windowedApplicationMenuBarShowOnMouseHover() {
+            panelState.title = "Fake Title";
             panel.mode = "windowed";
             mouseEmulation.checked = false;
 
@@ -606,6 +610,32 @@ PanelUI {
             var appMenuBarLoader = findChild(panel, "menuBarLoader")
             tryVerify(function() {return appMenuBarLoader.item});
             var appMenuBar = appMenuBarLoader.item
+            tryCompare(appTitle, "visible", false, undefined, "App title should not be visible on mouse hover");
+            tryCompare(appMenuBar, "visible", true, undefined, "App menu bar should be visible on mouse hover");
+        }
+
+        function test_windowedApplicationMenuShowOnMouseHoverWhenDecorationsShown() {
+            panelState.title = "Fake Title";
+            panel.mode = "windowed";
+            mouseEmulation.checked = false;
+
+            var appTitle = findChild(panel, "panelTitle"); verify(appTitle);
+            var appMenuRow = findChild(panel.applicationMenus, "panelRow"); verify(appMenuRow);
+            var menuBarLoader = findChild(panel, "menuBarLoader"); verify(menuBarLoader);
+
+            tryCompare(appTitle, "visible", true, undefined, "App title should be visible");
+            tryCompare(menuBarLoader, "visible", false, undefined, "App menu bar should not be visible");
+
+            mouseMove(panel, panel.width/2, panel.panelHeight);
+
+            tryVerify(function() {return menuBarLoader.item});
+            var appMenuBar = menuBarLoader.item
+            waitForRendering(panel);
+            tryCompare(appTitle, "visible", true, undefined, "App title should still be visible on mouse hover when panel decorations are not visible");
+            tryCompare(appMenuBar, "visible", true, undefined, "App menu bar should be visible on mouse hover when panel decorations are not visible");
+
+            panelState.decorationsVisible = true;
+
             tryCompare(appTitle, "visible", false, undefined, "App title should not be visible on mouse hover");
             tryCompare(appMenuBar, "visible", true, undefined, "App menu bar should be visible on mouse hover");
         }
@@ -652,6 +682,7 @@ PanelUI {
 
             var indicatorsBar = findChild(panel.applicationMenus, "indicatorsBar");
 
+            panelState.title = "Fake Title"
             waitForRendering(panel);
             pullDownApplicationsMenu(0 /*xPos*/);
             compare(aboutToShowCalledSpy.count, 1);
@@ -685,6 +716,7 @@ PanelUI {
 
             var indicatorsBar = findChild(panel.applicationMenus, "indicatorsBar");
 
+            panelState.title = "Fake Title"
             pullDownApplicationsMenu(0 /*xPos*/);
 
             tryCompare(indicatorsBar, "currentItemIndex", 0);

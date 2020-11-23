@@ -19,7 +19,6 @@ import QtQuick.Layouts 1.1
 import QtTest 1.0
 import Unity.Test 0.1
 import ".."
-import "../../../qml/Components/PanelState"
 import "../../../qml/Stage"
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
@@ -30,12 +29,6 @@ Item {
     id: root
     height: units.gu(60)
     width: units.gu(85)
-
-    Binding {
-        target: PanelState
-        property: "panelHeight"
-        value: units.gu(3)
-    }
 
     Component {
         id: fakeWindowComponent
@@ -362,7 +355,7 @@ Item {
 
             // Make sure it's again where we left it in normal state before destroying
             compare(fakeWindow.requestedX >= 0, true)
-            compare(fakeWindow.requestedY >= PanelState.panelHeight, true)
+            compare(fakeWindow.requestedY >= 0, true)
             compare(fakeWindow.requestedX + fakeWindow.width <= root.width, true)
             compare(fakeWindow.requestedY + fakeWindow.height <= root.height, true)
 

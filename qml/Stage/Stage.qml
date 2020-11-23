@@ -48,6 +48,7 @@ FocusScope {
     property rect inputMethodRect
     property real rightEdgePushProgress: 0
     property Item availableDesktopArea
+    property PanelState panelState
 
     // Whether outside forces say that the Stage may have focus
     property bool allowInteractivity
@@ -56,6 +57,9 @@ FocusScope {
 
     // Configuration
     property string mode: "staged"
+
+    readonly property var temporarySelectedWorkspace: state == "spread" ? screensAndWorkspaces.activeWorkspace : null
+    property bool workspaceEnabled: (mode == "windowed" || settings.forceEnableWorkspace) && settings.enableWorkspace
 
     // Used by the tutorial code
     readonly property real rightEdgeDragProgress: rightEdgeDragArea.dragging ? rightEdgeDragArea.progress : 0 // How far left the stage has been dragged
@@ -94,6 +98,11 @@ FocusScope {
                 Qt.InvertedLandscapeOrientation;
     }
 
+    GSettings {
+        id: settings
+        schema.id: "com.canonical.Unity8"
+    }
+    
     property int launcherLeftMargin : 0
 
     Binding {
@@ -157,6 +166,7 @@ FocusScope {
     function updateFocusedAppOrientationAnimated() { /* TODO */}
 
     function closeSpread() {
+        spreadItem.highlightedIndex = -1;
         priv.goneToSpread = false;
     }
 
@@ -260,6 +270,43 @@ FocusScope {
                 if (priv.startApp(candidates[i]))
                     break;
             }
+        }
+    }
+
+    GlobalShortcut {
+        id: showWorkspaceSwitcherShortcutLeft
+        shortcut: Qt.AltModifier|Qt.ControlModifier|Qt.Key_Left
+        active: !workspaceSwitcher.active
+        onTriggered: {
+            root.focus = true;
+            workspaceSwitcher.showLeft()
+        }
+    }
+    GlobalShortcut {
+        id: showWorkspaceSwitcherShortcutRight
+        shortcut: Qt.AltModifier|Qt.ControlModifier|Qt.Key_Right
+        active: !workspaceSwitcher.active
+        onTriggered: {
+            root.focus = true;
+            workspaceSwitcher.showRight()
+        }
+    }
+    GlobalShortcut {
+        id: showWorkspaceSwitcherShortcutUp
+        shortcut: Qt.AltModifier|Qt.ControlModifier|Qt.Key_Up
+        active: !workspaceSwitcher.active
+        onTriggered: {
+            root.focus = true;
+            workspaceSwitcher.showUp()
+        }
+    }
+    GlobalShortcut {
+        id: showWorkspaceSwitcherShortcutDown
+        shortcut: Qt.AltModifier|Qt.ControlModifier|Qt.Key_Down
+        active: !workspaceSwitcher.active
+        onTriggered: {
+            root.focus = true;
+            workspaceSwitcher.showDown()
         }
     }
 
@@ -398,23 +445,23 @@ FocusScope {
         readonly property real windowDecorationHeight: units.gu(3)
     }
 
-    Component.onCompleted: priv.updateMainAndSideStageIndexes();
+    Component.onCompleted: priv.updateMainAndSideStageIndexes()
 
     Connections {
-        target: PanelState
+        target: panelState
         onCloseClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.close(); } }
         onMinimizeClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.requestMinimize(); } }
         onRestoreClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.requestRestore(); } }
     }
 
     Binding {
-        target: PanelState
+        target: panelState
         property: "decorationsVisible"
         value: mode == "windowed" && priv.focusedAppDelegate && priv.focusedAppDelegate.maximized && !root.spreadShown
     }
 
     Binding {
-        target: PanelState
+        target: panelState
         property: "title"
         value: {
             if (priv.focusedAppDelegate !== null) {
@@ -429,7 +476,7 @@ FocusScope {
     }
 
     Binding {
-        target: PanelState
+        target: panelState
         property: "focusedPersistentSurfaceId"
         value: {
             if (priv.focusedAppDelegate !== null) {
@@ -443,21 +490,21 @@ FocusScope {
     }
 
     Binding {
-        target: PanelState
+        target: panelState
         property: "dropShadow"
         value: priv.focusedAppDelegate && !priv.focusedAppDelegate.maximized && priv.foregroundMaximizedAppDelegate !== null && mode == "windowed"
     }
 
     Binding {
-        target: PanelState
+        target: panelState
         property: "closeButtonShown"
         value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized
     }
 
     Component.onDestruction: {
-        PanelState.title = "";
-        PanelState.decorationsVisible = false;
-        PanelState.dropShadow = false;
+        panelState.title = "";
+        panelState.decorationsVisible = false;
+        panelState.dropShadow = false;
     }
 
     Instantiator {
@@ -523,6 +570,7 @@ FocusScope {
             PropertyChanges { target: noAppsRunningHint; visible: (root.topLevelSurfaceList.count < 1) }
             PropertyChanges { target: blurLayer; visible: true; blurRadius: 32; brightness: .65; opacity: 1 }
             PropertyChanges { target: wallpaper; visible: false }
+            PropertyChanges { target: screensAndWorkspaces; opacity: 1 }
         },
         State {
             name: "stagedRightEdge"; when: root.spreadEnabled && (rightEdgeDragArea.dragging || rightEdgePushProgress > 0) && root.mode == "staged"
@@ -577,11 +625,16 @@ FocusScope {
         Transition {
             from: "stagedRightEdge,sideStagedRightEdge,windowedRightEdge"; to: "spread"
             PropertyAction { target: spreadItem; property: "highlightedIndex"; value: -1 }
+            PropertyAction { target: screensAndWorkspaces; property: "activeWorkspace"; value: WMScreen.currentWorkspace }
             PropertyAnimation { target: blurLayer; properties: "brightness,blurRadius"; duration: priv.animationDuration }
+            UbuntuNumberAnimation { target: screensAndWorkspaces; property: "opacity"; duration: priv.animationDuration }
         },
         Transition {
             to: "spread"
+            PropertyAction { target: screensAndWorkspaces; property: "activeWorkspace"; value: WMScreen.currentWorkspace }
             PropertyAction { target: spreadItem; property: "highlightedIndex"; value: appRepeater.count > 1 ? 1 : 0 }
+            PropertyAction { target: floatingFlickable; property: "contentX"; value: 0 }
+            UbuntuNumberAnimation { target: screensAndWorkspaces; property: "opacity"; duration: priv.animationDuration }
         },
         Transition {
             from: "spread"
@@ -639,10 +692,26 @@ FocusScope {
             visible: false
         }
 
+        ScreensAndWorkspaces {
+            id: screensAndWorkspaces
+            anchors { left: parent.left; top: parent.top; right: parent.right; leftMargin: root.leftMargin }
+            height: Math.max(units.gu(30), parent.height * .3)
+            background: root.background
+            opacity: 0
+            visible: workspaceEnabled ? opacity > 0 : false
+            enabled: workspaceEnabled
+            onCloseSpread: priv.goneToSpread = false;
+        }
+
         Spread {
             id: spreadItem
             objectName: "spreadItem"
-            anchors.fill: appContainer
+            anchors {
+                left: parent.left;
+                bottom: parent.bottom;
+                right: parent.right;
+                top: workspaceEnabled ? screensAndWorkspaces.bottom : parent.top;
+            }
             leftMargin: root.availableDesktopArea.x
             model: root.topLevelSurfaceList
             spreadFlickable: floatingFlickable
@@ -654,6 +723,89 @@ FocusScope {
 
             onCloseCurrentApp: {
                 appRepeater.itemAt(highlightedIndex).close();
+            }
+
+            FloatingFlickable {
+                id: floatingFlickable
+                objectName: "spreadFlickable"
+                anchors.fill: parent
+                enabled: false
+                contentWidth: spreadItem.spreadTotalWidth
+
+                function snap(toIndex) {
+                    var delegate = appRepeater.itemAt(toIndex)
+                    var targetContentX = floatingFlickable.contentWidth / spreadItem.totalItemCount * toIndex;
+                    if (targetContentX - floatingFlickable.contentX > spreadItem.rightStackXPos - (spreadItem.spreadItemWidth / 2)) {
+                        var offset = (spreadItem.rightStackXPos - (spreadItem.spreadItemWidth / 2)) - (targetContentX - floatingFlickable.contentX)
+                        snapAnimation.to = floatingFlickable.contentX - offset;
+                        snapAnimation.start();
+                    } else if (targetContentX - floatingFlickable.contentX < spreadItem.leftStackXPos + units.gu(1)) {
+                        var offset = (spreadItem.leftStackXPos + units.gu(1)) - (targetContentX - floatingFlickable.contentX);
+                        snapAnimation.to = floatingFlickable.contentX - offset;
+                        snapAnimation.start();
+                    }
+                }
+                UbuntuNumberAnimation {id: snapAnimation; target: floatingFlickable; property: "contentX"}
+            }
+
+            MouseArea {
+                id: hoverMouseArea
+                objectName: "hoverMouseArea"
+                anchors.fill: parent
+                propagateComposedEvents: true
+                hoverEnabled: true
+                enabled: false
+                visible: enabled
+                property bool wasTouchPress: false
+
+                property int scrollAreaWidth: width / 3
+                property bool progressiveScrollingEnabled: false
+
+                onMouseXChanged: {
+                    mouse.accepted = false
+
+                    if (hoverMouseArea.pressed || wasTouchPress) {
+                        return;
+                    }
+
+                    // Find the hovered item and mark it active
+                    for (var i = appRepeater.count - 1; i >= 0; i--) {
+                        var appDelegate = appRepeater.itemAt(i);
+                        var mapped = mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
+                        var itemUnder = appDelegate.childAt(mapped.x, mapped.y);
+                        if (itemUnder && (itemUnder.objectName === "dragArea" || itemUnder.objectName === "windowInfoItem" || itemUnder.objectName == "closeMouseArea")) {
+                            spreadItem.highlightedIndex = i;
+                            break;
+                        }
+                    }
+
+                    if (floatingFlickable.contentWidth > floatingFlickable.width) {
+                        var margins = floatingFlickable.width * 0.05;
+
+                        if (!progressiveScrollingEnabled && mouseX < floatingFlickable.width - scrollAreaWidth) {
+                            progressiveScrollingEnabled = true
+                        }
+
+                        // do we need to scroll?
+                        if (mouseX < scrollAreaWidth + margins) {
+                            var progress = Math.min(1, (scrollAreaWidth + margins - mouseX) / (scrollAreaWidth - margins));
+                            var contentX = (1 - progress) * (floatingFlickable.contentWidth - floatingFlickable.width)
+                            floatingFlickable.contentX = Math.max(0, Math.min(floatingFlickable.contentX, contentX))
+                        }
+                        if (mouseX > floatingFlickable.width - scrollAreaWidth && progressiveScrollingEnabled) {
+                            var progress = Math.min(1, (mouseX - (floatingFlickable.width - scrollAreaWidth)) / (scrollAreaWidth - margins))
+                            var contentX = progress * (floatingFlickable.contentWidth - floatingFlickable.width)
+                            floatingFlickable.contentX = Math.min(floatingFlickable.contentWidth - floatingFlickable.width, Math.max(floatingFlickable.contentX, contentX))
+                        }
+                    }
+                }
+
+                onPressed: {
+                    mouse.accepted = false;
+                    wasTouchPress = mouse.source === Qt.MouseEventSynthesizedByQt;
+                }
+
+                onExited: wasTouchPress = false;
             }
         }
 
@@ -763,6 +915,25 @@ FocusScope {
             }
         }
 
+        MirSurfaceItem {
+            id: fakeDragItem
+            property real previewScale: .5
+            height: (screensAndWorkspaces.height - units.gu(8)) / 2
+            // w : h = iw : ih
+            width: implicitWidth * height / implicitHeight
+            surfaceWidth: -1
+            surfaceHeight: -1
+            opacity: surface != null ? 1 : 0
+            Behavior on opacity { UbuntuNumberAnimation {} }
+            visible: opacity > 0
+            enabled: workspaceSwitcher
+
+            Drag.active: surface != null
+            Drag.keys: ["application"]
+
+            z: 1000
+        }
+
         Repeater {
             id: appRepeater
             model: topLevelSurfaceList
@@ -790,6 +961,9 @@ FocusScope {
                     }
                 }
                 z: normalZ
+
+                opacity: fakeDragItem.surface == model.window.surface && fakeDragItem.Drag.active ? 0 : 1
+                Behavior on opacity { UbuntuNumberAnimation {} }
 
                 // Set these as propertyes as they wont update otherwise
                 property real screenOffsetX: Screen.virtualX
@@ -994,7 +1168,6 @@ FocusScope {
                 function claimFocus() {
                     if (root.state == "spread") {
                         spreadItem.highlightedIndex = index
-                        priv.goneToSpread = false;
                     }
                     if (root.mode == "stagedWithSideStage") {
                         if (appDelegate.stage == ApplicationInfoInterface.SideStage && !sideStage.shown) {
@@ -1359,8 +1532,6 @@ FocusScope {
                             y: spreadMaths.targetY
                             z: index
                             height: spreadItem.spreadItemHeight
-                            requestedWidth: decoratedWindow.oldRequestedWidth
-                            requestedHeight: decoratedWindow.oldRequestedHeight
                             visible: spreadMaths.itemVisible
                         }
                         PropertyChanges { target: dragArea; enabled: true }
@@ -1380,8 +1551,6 @@ FocusScope {
                             y: stagedRightEdgeMaths.animatedY
                             z: stagedRightEdgeMaths.animatedZ
                             height: stagedRightEdgeMaths.animatedHeight
-                            requestedWidth: decoratedWindow.oldRequestedWidth
-                            requestedHeight: decoratedWindow.oldRequestedHeight
                             visible: appDelegate.x < root.width
                         }
                         PropertyChanges {
@@ -1410,8 +1579,6 @@ FocusScope {
                             y: windowedRightEdgeMaths.animatedY
                             z: windowedRightEdgeMaths.animatedZ
                             height: stagedRightEdgeMaths.animatedHeight
-                            requestedWidth: decoratedWindow.oldRequestedWidth
-                            requestedHeight: decoratedWindow.oldRequestedHeight
                         }
                         PropertyChanges {
                             target: decoratedWindow
@@ -1434,10 +1601,14 @@ FocusScope {
                             target: appDelegate
                             x: stageMaths.itemX
                             y: root.availableDesktopArea.y
-                            requestedWidth: appContainer.width
-                            requestedHeight: root.availableDesktopArea.height
                             visuallyMaximized: true
                             visible: appDelegate.x < root.width
+                        }
+                        PropertyChanges {
+                            target: appDelegate
+                            requestedWidth: appContainer.width
+                            requestedHeight: root.availableDesktopArea.height
+                            restoreEntryValues: false
                         }
                         PropertyChanges {
                             target: decoratedWindow
@@ -1467,10 +1638,14 @@ FocusScope {
                             x: stageMaths.itemX
                             y: root.availableDesktopArea.y
                             z: stageMaths.itemZ
-                            requestedWidth: stageMaths.itemWidth
-                            requestedHeight: root.availableDesktopArea.height
                             visuallyMaximized: true
                             visible: appDelegate.x < root.width
+                        }
+                        PropertyChanges {
+                            target: appDelegate
+                            requestedWidth: stageMaths.itemWidth
+                            requestedHeight: root.availableDesktopArea.height
+                            restoreEntryValues: false
                         }
                         PropertyChanges {
                             target: decoratedWindow
@@ -1492,8 +1667,13 @@ FocusScope {
                             requestedX: root.availableDesktopArea.x;
                             requestedY: 0;
                             visuallyMinimized: false;
+                            visuallyMaximized: true
+                        }
+                        PropertyChanges {
+                            target: appDelegate
                             requestedWidth: root.availableDesktopArea.width;
                             requestedHeight: appContainer.height;
+                            restoreEntryValues: false
                         }
                         PropertyChanges { target: touchControls; enabled: true }
                         PropertyChanges { target: decoratedWindow; windowControlButtonsVisible: false }
@@ -1504,8 +1684,12 @@ FocusScope {
                             target: appDelegate;
                             requestedX: 0
                             requestedY: 0
-                            requestedWidth: appContainer.width;
-                            requestedHeight: appContainer.height;
+                        }
+                        PropertyChanges {
+                            target: appDelegate
+                            requestedWidth: appContainer.width
+                            requestedHeight: appContainer.height
+                            restoreEntryValues: false
                         }
                         PropertyChanges { target: decoratedWindow; hasDecoration: false }
                     },
@@ -1519,6 +1703,12 @@ FocusScope {
                         PropertyChanges { target: touchControls; enabled: true }
                         PropertyChanges { target: resizeArea; enabled: true }
                         PropertyChanges { target: decoratedWindow; shadowOpacity: .3; windowControlButtonsVisible: true}
+                        PropertyChanges {
+                            target: appDelegate
+                            requestedWidth: windowedWidth
+                            requestedHeight: windowedHeight
+                            restoreEntryValues: false
+                        }
                     },
                     State {
                         name: "restored";
@@ -1619,6 +1809,7 @@ FocusScope {
                         }
                     }
                 ]
+
                 transitions: [
 
                     // These two animate applications into position from Staged to Desktop and back
@@ -1636,6 +1827,7 @@ FocusScope {
                     },
 
                     Transition {
+                        from: "normal,restored,maximized,maximizedHorizontally,maximizedVertically,maximizedLeft,maximizedRight,maximizedTopLeft,maximizedBottomLeft,maximizedTopRight,maximizedBottomRight,staged,stagedWithSideStage,windowedRightEdge,stagedRightEdge";
                         to: "spread"
                         // DecoratedWindow wants the scaleToPreviewSize set before enabling scaleToPreview
                         PropertyAction { target: appDelegate; properties: "z,visible" }
@@ -1688,6 +1880,7 @@ FocusScope {
                         SequentialAnimation {
                             ScriptAction { script: { fakeRectangle.stop(); } }
                             PropertyAction { target: appDelegate; property: "visuallyMaximized" }
+                            PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                             UbuntuNumberAnimation { target: appDelegate; properties: "x,y,scale,opacity"; duration: priv.animationDuration }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                         }
@@ -1728,7 +1921,7 @@ FocusScope {
                 ]
 
                 Binding {
-                    target: PanelState
+                    target: panelState
                     property: "decorationsAlwaysVisible"
                     value: appDelegate && appDelegate.maximized && touchControls.overlayShown
                 }
@@ -1749,6 +1942,7 @@ FocusScope {
                     borderThickness: units.gu(2)
                     enabled: false
                     visible: enabled
+                    readyToAssesBounds: !appDelegate._constructing
 
                     onPressed: {
                         appDelegate.activate();
@@ -1772,17 +1966,12 @@ FocusScope {
                     width: implicitWidth
                     height: implicitHeight
                     highlightSize: windowInfoItem.iconMargin / 2
-                    altDragEnabled: root.mode == "windowed"
                     boundsItem: root.availableDesktopArea
+                    panelState: root.panelState
+                    altDragEnabled: root.mode == "windowed"
 
                     requestedWidth: appDelegate.requestedWidth
                     requestedHeight: appDelegate.requestedHeight
-
-                    property int oldRequestedWidth: -1
-                    property int oldRequestedHeight: -1
-
-                    onRequestedWidthChanged: oldRequestedWidth = requestedWidth
-                    onRequestedHeightChanged: oldRequestedHeight = requestedHeight
 
                     onCloseClicked: { appDelegate.close(); }
                     onMaximizeClicked: {
@@ -1864,6 +2053,8 @@ FocusScope {
                     anchors.fill: decoratedWindow
                     enabled: false
                     closeable: true
+                    stage: root
+                    dragDelegate: fakeDragItem
 
                     onClicked: {
                         spreadItem.highlightedIndex = index;
@@ -1873,7 +2064,7 @@ FocusScope {
                     }
                     onClose: {
                         priv.closingIndex = index
-                        model.window.close();
+                        appDelegate.close();
                     }
                 }
 
@@ -1906,12 +2097,15 @@ FocusScope {
                     objectName: "closeMouseArea"
                     anchors { left: parent.left; top: parent.top; leftMargin: -height / 2; topMargin: -height / 2 + spreadMaths.closeIconOffset }
                     readonly property var mousePos: hoverMouseArea.mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
-                    visible: dragArea.distance == 0
+                    readonly property bool shown: dragArea.distance == 0
                              && index == spreadItem.highlightedIndex
                              && mousePos.y < (decoratedWindow.height / 3)
                              && mousePos.y > -units.gu(4)
                              && mousePos.x > -units.gu(4)
                              && mousePos.x < (decoratedWindow.width * 2 / 3)
+                    opacity: shown ? 1 : 0
+                    visible: opacity > 0
+                    Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
                     height: units.gu(6)
                     width: height
 
@@ -1982,89 +2176,21 @@ FocusScope {
         leftMargin: root.availableDesktopArea.x
         appContainerWidth: appContainer.width
         appContainerHeight: appContainer.height
+        panelState: root.panelState
     }
 
-    MouseArea {
-        id: hoverMouseArea
-        objectName: "hoverMouseArea"
-        anchors.fill: appContainer
-        propagateComposedEvents: true
-        hoverEnabled: true
-        enabled: false
-        visible: enabled
-
-        property int scrollAreaWidth: width / 3
-        property bool progressiveScrollingEnabled: false
-        property bool wasTouchPress: false
-
-        onMouseXChanged: {
-            mouse.accepted = false
-
-            if (hoverMouseArea.pressed || wasTouchPress) {
-                return;
-            }
-
-            // Find the hovered item and mark it active
-            for (var i = appRepeater.count - 1; i >= 0; i--) {
-                var appDelegate = appRepeater.itemAt(i);
-                var mapped = mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
-                var itemUnder = appDelegate.childAt(mapped.x, mapped.y);
-                if (itemUnder && (itemUnder.objectName === "dragArea" || itemUnder.objectName === "windowInfoItem" || itemUnder.objectName == "closeMouseArea")) {
-                    spreadItem.highlightedIndex = i;
-                    break;
-                }
-            }
-
-            if (floatingFlickable.contentWidth > floatingFlickable.width) {
-                var margins = floatingFlickable.width * 0.05;
-
-                if (!progressiveScrollingEnabled && mouseX < floatingFlickable.width - scrollAreaWidth) {
-                    progressiveScrollingEnabled = true
-                }
-
-                // do we need to scroll?
-                if (mouseX < scrollAreaWidth + margins) {
-                    var progress = Math.min(1, (scrollAreaWidth + margins - mouseX) / (scrollAreaWidth - margins));
-                    var contentX = (1 - progress) * (floatingFlickable.contentWidth - floatingFlickable.width)
-                    floatingFlickable.contentX = Math.max(0, Math.min(floatingFlickable.contentX, contentX))
-                }
-                if (mouseX > floatingFlickable.width - scrollAreaWidth && progressiveScrollingEnabled) {
-                    var progress = Math.min(1, (mouseX - (floatingFlickable.width - scrollAreaWidth)) / (scrollAreaWidth - margins))
-                    var contentX = progress * (floatingFlickable.contentWidth - floatingFlickable.width)
-                    floatingFlickable.contentX = Math.min(floatingFlickable.contentWidth - floatingFlickable.width, Math.max(floatingFlickable.contentX, contentX))
-                }
+    WorkspaceSwitcher {
+        id: workspaceSwitcher
+        enabled: workspaceEnabled
+        anchors.centerIn: parent
+        height: units.gu(20)
+        width: root.width - units.gu(8)
+        background: root.background
+        onActiveChanged: {
+            if (!active) {
+                appContainer.focus = true;
             }
         }
-
-        onPressed: {
-          mouse.accepted = false;
-          wasTouchPress = mouse.source === Qt.MouseEventSynthesizedByQt;
-        }
-
-        onExited: wasTouchPress = false;
-    }
-
-    FloatingFlickable {
-        id: floatingFlickable
-        objectName: "spreadFlickable"
-        anchors.fill: appContainer
-        enabled: false
-        contentWidth: spreadItem.spreadTotalWidth
-
-        function snap(toIndex) {
-            var delegate = appRepeater.itemAt(toIndex)
-            var targetContentX = floatingFlickable.contentWidth / spreadItem.totalItemCount * toIndex;
-            if (targetContentX - floatingFlickable.contentX > spreadItem.rightStackXPos - (spreadItem.spreadItemWidth / 2)) {
-                var offset = (spreadItem.rightStackXPos - (spreadItem.spreadItemWidth / 2)) - (targetContentX - floatingFlickable.contentX)
-                snapAnimation.to = Math.max(0, floatingFlickable.contentX - offset);
-                snapAnimation.start();
-            } else if (targetContentX - floatingFlickable.contentX < spreadItem.leftStackXPos + units.gu(1)) {
-                var offset = (spreadItem.leftStackXPos + units.gu(1)) - (targetContentX - floatingFlickable.contentX);
-                snapAnimation.to = Math.max(0, floatingFlickable.contentX - offset);
-                snapAnimation.start();
-            }
-        }
-        UbuntuNumberAnimation {id: snapAnimation; target: floatingFlickable; property: "contentX"}
     }
 
     PropertyAnimation {

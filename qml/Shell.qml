@@ -38,6 +38,7 @@ import "Notifications"
 import "Stage"
 import "Tutorial"
 import "Wizard"
+import "Components/PanelState"
 import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.Indicators 0.1 as Indicators
@@ -95,6 +96,11 @@ StyledItem {
     }
 
     readonly property var mainApp: stage.mainApp
+
+    readonly property var topLevelSurfaceList: {
+        if (!WMScreen.currentWorkspace) return null;
+        return stage.temporarySelectedWorkspace ? stage.temporarySelectedWorkspace.windowModel : WMScreen.currentWorkspace.windowModel
+    }
 
     onMainAppChanged: {
         _onMainAppChanged((mainApp ? mainApp.appId : ""));
@@ -198,11 +204,11 @@ StyledItem {
     }
 
     function startApp(appId) {
-        if (ApplicationManager.findApplication(appId)) {
-            ApplicationManager.requestFocusApplication(appId);
-        } else {
+        if (!ApplicationManager.findApplication(appId)) {
             ApplicationManager.startApplication(appId);
         }
+        ApplicationManager.requestFocusApplication(appId);
+        stage.closeSpread();
     }
 
     function startLockedApp(app) {
@@ -280,22 +286,16 @@ StyledItem {
         schema.id: "com.canonical.Unity8"
     }
 
+    PanelState {
+        id: panelState
+        objectName: "panelState"
+    }
+
     Item {
         id: stages
         objectName: "stages"
         width: parent.width
         height: parent.height
-
-        SurfaceManager {
-            id: surfaceMan
-            objectName: "surfaceManager"
-        }
-        TopLevelWindowModel {
-            id: topLevelSurfaceList
-            objectName: "topLevelSurfaceList"
-            applicationManager: ApplicationManager // it's a singleton
-            surfaceManager: surfaceMan
-        }
 
         Stage {
             id: stage
@@ -307,7 +307,7 @@ StyledItem {
             background: wallpaperResolver.background
 
             applicationManager: ApplicationManager
-            topLevelSurfaceList: topLevelSurfaceList
+            topLevelSurfaceList: shell.topLevelSurfaceList
             inputMethodRect: inputMethod.visibleRect
             rightEdgePushProgress: rightEdgeBarrier.progress
             availableDesktopArea: availableDesktopAreaItem
@@ -336,6 +336,7 @@ StyledItem {
             altTabPressed: physicalKeysMapper.altTabPressed
             oskEnabled: shell.oskEnabled
             spreadEnabled: tutorial.spreadEnabled && (!greeter || (!greeter.hasLockedApp && !greeter.shown))
+            panelState: panelState
 
             onSpreadShownChanged: {
                 panel.indicators.hide();
@@ -389,8 +390,13 @@ StyledItem {
         objectName: "greeterLoader"
         anchors.fill: parent
         anchors.topMargin: panel.panelHeight
-        sourceComponent: shell.mode != "shell" ? integratedGreeter :
-            Qt.createComponent(Qt.resolvedUrl("Greeter/ShimGreeter.qml"));
+        sourceComponent: {
+            if (shell.mode != "shell") {
+                if (screenWindow.primary) return integratedGreeter;
+                return secondaryGreeter;
+            }
+            return Qt.createComponent(Qt.resolvedUrl("Greeter/ShimGreeter.qml"));
+        }
         onLoaded: {
             item.objectName = "greeter"
         }
@@ -439,6 +445,13 @@ StyledItem {
             }
 
             onEmergencyCall: startLockedApp("dialer-app")
+        }
+    }
+
+    Component {
+        id: secondaryGreeter
+        SecondaryGreeter {
+            hides: [launcher, panel.indicators]
         }
     }
 
@@ -550,13 +563,14 @@ StyledItem {
                         && !stage.spreadShown
             }
 
-            readonly property bool focusedSurfaceIsFullscreen: topLevelSurfaceList.focusedWindow
-                ? topLevelSurfaceList.focusedWindow.state == Mir.FullscreenState
+            readonly property bool focusedSurfaceIsFullscreen: shell.topLevelSurfaceList.focusedWindow
+                ? shell.topLevelSurfaceList.focusedWindow.state == Mir.FullscreenState
                 : false
             fullscreenMode: (focusedSurfaceIsFullscreen && !LightDMService.greeter.active && launcher.progress == 0 && !stage.spreadShown)
                             || greeter.hasLockedApp
             greeterShown: greeter && greeter.shown
             hasKeyboard: shell.hasKeyboard
+            panelState: panelState
             supportsMultiColorLed: shell.supportsMultiColorLed
         }
 
@@ -816,11 +830,11 @@ StyledItem {
     Cursor {
         id: cursor
         objectName: "cursor"
-        visible: shell.hasMouse
+
         z: itemGrabber.z + 1
         topBoundaryOffset: panel.panelHeight
-
-        confiningItem: stage.itemConfiningMouseCursor
+        enabled: shell.hasMouse && screenWindow.active
+        visible: enabled
 
         property bool mouseNeverMoved: true
         Binding {
@@ -831,6 +845,8 @@ StyledItem {
             target: cursor; property: "y"; value: shell.height / 2
             when: cursor.mouseNeverMoved && cursor.visible
         }
+
+        confiningItem: stage.itemConfiningMouseCursor
 
         height: units.gu(3)
 
@@ -895,7 +911,7 @@ StyledItem {
 
     // non-visual objects
     KeymapSwitcher {
-        focusedSurface: topLevelSurfaceList.focusedWindow ? topLevelSurfaceList.focusedWindow.surface : null
+        focusedSurface: shell.topLevelSurfaceList.focusedWindow ? shell.topLevelSurfaceList.focusedWindow.surface : null
     }
     BrightnessControl {}
 

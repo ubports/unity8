@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-04-25 06:23+0000\n"
+"PO-Revision-Date: 2020-11-04 19:10+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.ubports.com/projects/"
 "unity8/unity8/nb/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 3.11.3\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:199
@@ -566,14 +566,12 @@ msgid "No running apps"
 msgstr "Ingen kjørende programmer"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-#, fuzzy
-#| msgid "Long swipe from the left edge to open the Today scope"
 msgid "Long swipe from the left edge to open the Application Drawer"
-msgstr "Dra langt fra venstre kant for å åpne virkefeltet «I dag»"
+msgstr "Dra langt fra venstre kant for å åpne programskuffen"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
-msgstr "Dra raskt fra venstre kant for å åpne oppstarter"
+msgstr "Dra raskt fra venstre kant for å åpne oppstarteren"
 
 #: qml/Tutorial/TutorialRight.qml:54
 msgid "Push your mouse against the right edge to view your open apps"

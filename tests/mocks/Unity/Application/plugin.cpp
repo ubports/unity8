@@ -38,6 +38,12 @@ QObject* mirSingleton(QQmlEngine*, QJSEngine*)
 {
     return new MirMock;
 }
+
+QObject* surfaceManagerSingleton(QQmlEngine*, QJSEngine*)
+{
+    return new SurfaceManager;
+}
+
 } // anonymous namespace
 
 void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
@@ -59,7 +65,7 @@ void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
 
     qmlRegisterSingletonType<ApplicationManager>(uri, 0, 1, "ApplicationManager", applicationManagerSingleton);
     qmlRegisterSingletonType<MirMock>(uri, 0, 1, "Mir", mirSingleton);
-    qmlRegisterType<SurfaceManager>(uri, 0, 1, "SurfaceManager");
+    qmlRegisterSingletonType<SurfaceManager>(uri, 0, 1, "SurfaceManager", surfaceManagerSingleton);
 }
 
 void FakeUnityApplicationQmlPlugin::initializeEngine(QQmlEngine *engine, const char *uri)

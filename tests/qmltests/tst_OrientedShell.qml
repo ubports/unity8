@@ -30,7 +30,6 @@ import Utils 0.1
 
 import "../../qml"
 import "../../qml/Components"
-import "../../qml/Components/PanelState"
 import "Stage"
 
 Rectangle {
@@ -81,6 +80,12 @@ Rectangle {
         id: keyboardsModel
         deviceFilter: InputInfo.Keyboard
     }
+
+    QtObject {
+        id: _screenWindow
+        property bool primary: true
+    }
+    property alias screenWindow: _screenWindow
 
     property int physicalOrientation0
     property int physicalOrientation90
@@ -444,8 +449,17 @@ Rectangle {
         when: windowShown
 
         property Item orientedShell: orientedShellLoader.status === Loader.Ready ? orientedShellLoader.item : null
-        property Item shell
-        property QtObject topLevelSurfaceList
+        property Item shell: null
+        property QtObject topLevelSurfaceList : shell ? shell.topLevelSurfaceList : null
+        property var panelState: undefined
+
+        onOrientedShellChanged: {
+            if (orientedShell) {
+                panelState = findInvisibleChild(orientedShell, "panelState");
+            } else {
+                panelState = undefined;
+            }
+        }
 
         SignalSpy { id: signalSpy }
         SignalSpy { id: signalSpy2 }
@@ -504,7 +518,6 @@ Rectangle {
         function cleanup() {
             tryCompare(shell, "waitingOnGreeter", false, 10000); // make sure greeter didn't leave us in disabled state
             shell = null;
-            topLevelSurfaceList = null;
 
             tearDown();
         }
@@ -1462,8 +1475,7 @@ Rectangle {
             removeTimeConstraintsFromSwipeAreas(orientedShellLoader.item);
 
             shell = findChild(orientedShell, "shell");
-
-            topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
+            verify(shell);
             verify(topLevelSurfaceList);
 
             tryCompare(shell, "waitingOnGreeter", false); // reset by greeter when ready
@@ -1510,13 +1522,13 @@ Rectangle {
 
             switch (expectedAngle) {
             case 0:
-                return point.x === 0 && point.y === PanelState.panelHeight;
+                return point.x === 0 && point.y === panelState.panelHeight;
             case 90:
-                return point.x === orientedShell.width - PanelState.panelHeight && point.y === 0;
+                return point.x === orientedShell.width - panelState.panelHeight && point.y === 0;
             case 180:
-                return point.x === orientedShell.width && point.y === orientedShell.height - PanelState.panelHeight;
+                return point.x === orientedShell.width && point.y === orientedShell.height - panelState.panelHeight;
             default: // 270
-                return point.x === PanelState.panelHeight && point.y === orientedShell.height;
+                return point.x === panelState.panelHeight && point.y === orientedShell.height;
             }
         }
 

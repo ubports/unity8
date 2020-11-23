@@ -20,6 +20,7 @@ import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
 import "../../../qml/Components"
+import "../../../qml/Components/PanelState"
 import "../../../qml/Stage"
 import Ubuntu.Components 1.3
 import Unity.Application 0.1
@@ -32,10 +33,10 @@ Item {
 
     property var greeter: { fullyShown: true }
 
-    SurfaceManager { id: sMgr }
+    readonly property var topLevelSurfaceList: WorkspaceManager.activeWorkspace.windowModel
+
     ApplicationMenuDataLoader {
         id: appMenuData
-        surfaceManager: sMgr
     }
 
     Stage {
@@ -48,19 +49,17 @@ Item {
         orientations: Orientations {}
         applicationManager: ApplicationManager
         mode: "staged"
-        topLevelSurfaceList: TopLevelWindowModel {
-            id: topLevelSurfaceList
-            applicationManager: ApplicationManager
-            surfaceManager: sMgr
-        }
+        topLevelSurfaceList: root.topLevelSurfaceList
         availableDesktopArea: availableDesktopAreaItem
         Item {
             id: availableDesktopAreaItem
             anchors.fill: parent
         }
+
         Component.onCompleted: {
             ApplicationManager.startApplication("unity8-dash");
         }
+        panelState: PanelState {}
     }
 
     Flickable {
@@ -113,6 +112,7 @@ Item {
 
         function cleanup() {
             ApplicationManager.requestFocusApplication("unity8-dash");
+            stage.closeSpread();
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
             tryCompare(stage, "state", "staged");
             waitForRendering(stage);
@@ -187,6 +187,17 @@ Item {
             touchFlick(appWindow,
                     appWindow.width * 0.1, appWindow.height / 2,
                     appWindow.width * 0.1, -appWindow.height / 2);
+        }
+
+        function swipeSurfaceDownwards(surfaceId) {
+            var appWindow = findAppWindowForSurfaceId(surfaceId);
+            verify(appWindow);
+
+            // Swipe from the left side of the surface as it's the one most likely
+            // to not be covered by other surfaces when they're all being shown in the spread
+            touchFlick(appWindow,
+                    appWindow.width * 0.1, appWindow.height / 2,
+                    appWindow.width * 0.1, appWindow.height);
         }
 
         function switchToSurface(targetSurfaceId) {
@@ -302,7 +313,6 @@ Item {
 
             performEdgeSwipeToShowAppSpread();
 
-            print("tapping", selectedAppDeleage.appId, selectedAppDeleage.visible)
             if (selectedAppDeleage.x > stage.width - units.gu(5)) {
                 touchFlick(stage, stage.width - units.gu(2), stage.height / 2, units.gu(2), stage.height / 2, true, true, units.gu(2), 10)
             }
@@ -557,6 +567,7 @@ Item {
             performEdgeSwipeToShowAppSpread();
 
             var appDelegate = findChild(stage, "appDelegate_" + webbrowserSurfaceId);
+            verify(appDelegate);
             var dragArea = findChild(appDelegate, "dragArea");
             verify(dragArea);
             tryCompare(dragArea, "closeable", true);
@@ -599,7 +610,6 @@ Item {
             var webbrowserApp  = ApplicationManager.startApplication("morph-browser");
             waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
 
-            expectFail(/* tag */ "unexpected", "Surprise launch doesn't work properly yet");
             compare(topLevelSurfaceList.idAt(0), webbrowserSurfaceId);
             compare(webbrowserApp.focused, true);
         }
