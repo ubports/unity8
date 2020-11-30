@@ -8,17 +8,17 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-02-25 19:04+0000\n"
-"Last-Translator: Viktar Siarheichyk <viktar_siarheichyk@epam.com>\n"
+"PO-Revision-Date: 2020-11-09 14:42+0000\n"
+"Last-Translator: Zmicer <nashtlumach@gmail.com>\n"
 "Language-Team: Belarusian <https://translate.ubports.com/projects/unity8/"
 "unity8/be/>\n"
 "Language: be\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.8\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.11.3\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:34+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:199
@@ -27,19 +27,19 @@ msgstr "Пароль: "
 
 #: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr ""
+msgstr "Імя карыстальніка"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
-msgstr ""
+msgstr "Не атрымалася выканаць аўтэнтыфікацыю"
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr ""
+msgstr "Хібны пароль, паспрабуйце яшчэ раз"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
-msgstr ""
+msgstr "Увайсці"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Retry"
@@ -47,16 +47,16 @@ msgstr "Паспрабаваць зноў"
 
 #: plugins/LightDM/UsersModel.cpp:157
 msgid "Login"
-msgstr ""
+msgstr "Увайсці"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr ""
+msgstr "Сеанс госця"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
 msgid "Pin shortcut"
-msgstr "Замацаваць кнопку"
+msgstr "Замацаваць цэтлік"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:55
 msgid "Quit"
@@ -64,16 +64,16 @@ msgstr "Выйсці"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
-msgstr "Адмацаваць кнопку"
+msgstr "Адмацаваць цэтлік"
 
 #: qml/Components/Dialogs.qml:176
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr "Выйсці"
+msgstr "Завяршыць сеанс"
 
 #: qml/Components/Dialogs.qml:177
 msgid "Are you sure you want to log out?"
-msgstr "Вы ўпэўненыя, што хочаце выйсці?"
+msgstr "Сапраўды завяршыць сеанс?"
 
 #: qml/Components/Dialogs.qml:180
 msgctxt "Button: Lock the system"
@@ -98,7 +98,7 @@ msgstr "Перазагрузіць"
 
 #: qml/Components/Dialogs.qml:212
 msgid "Are you sure you want to reboot?"
-msgstr "Вы ўпэўнены, што жадаеце перазагрузіць?"
+msgstr "Сапраўды хочаце перазагрузіць сістэму?"
 
 #: qml/Components/Dialogs.qml:215
 msgid "No"
@@ -118,8 +118,8 @@ msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
-"Вы ўпэўнены, што хочаце\n"
-"выключыць камп'ютэр?"
+"Сапраўды хочаце\n"
+"выключыць?"
 
 #: qml/Components/Dialogs.qml:248
 msgctxt "Button: Power off the system"
@@ -129,7 +129,7 @@ msgstr "Выключыць"
 #: qml/Components/Dialogs.qml:263
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr "Перазапуск"
+msgstr "Перазапусціць"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:41
 msgid "Keyboard Shortcuts"
@@ -152,166 +152,160 @@ msgid "Alt + PrtScr"
 msgstr "Alt + PrtScr"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:80
-#, fuzzy
-#| msgid "Takes a screenshot of a window."
 msgid "Takes a screenshot of the current window."
-msgstr "Здымак акна."
+msgstr "Робіць здымак экрана бягучага акна."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:88
 msgid "Super + Space"
-msgstr "Super + Space"
+msgstr "Super + Прагал"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:93
 msgid "Switches to next keyboard layout."
-msgstr "Пераключыць на наступную раскладку клавіятуры."
+msgstr "Пераключыцца на наступную раскладку клавіятуры."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:101
 msgid "Super + Shift + Space"
-msgstr "Super + Shift + Space"
+msgstr "Super + Shift + Прагал"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:106
 msgid "Switches to previous keyboard layout."
-msgstr "Пераключыць на папярэднюю раскладку клавіятуры."
+msgstr "Пераключыцца на папярэднюю раскладку клавіятуры."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:114
 msgid "Ctrl + Alt + T"
-msgstr ""
+msgstr "Ctrl + Alt + T"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:119
 msgid "Starts the Terminal application."
-msgstr ""
+msgstr "Запускае тэрмінал."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:131
 msgid "Launcher"
-msgstr "Запускальнік"
+msgstr "Панэль запуску"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
 msgid "Super (Hold)"
-msgstr "Super (Трымайце)"
+msgstr "Super (утрыманне)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens the launcher, displays shortcuts."
-msgstr ""
+msgstr "Адкрывае панэль запуску, паказвае спалучэнні клавіш."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:151
 msgid "Alt + F1"
-msgstr ""
+msgstr "Alt + F1"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:156
 msgid "Opens launcher keyboard navigation mode."
-msgstr ""
+msgstr "Актывуе рэжым навігацыі па панэлі запуску з клавіятуры."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:164
 msgid "Super + Tab"
-msgstr ""
+msgstr "Super + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Switches applications via the launcher."
-msgstr ""
+msgstr "Пераключае праграмы праз панэль запуску."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + 1 to 0"
-msgstr ""
+msgstr "Super + лічба ад 1 да 0"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
 msgid "Same as clicking on a launcher icon."
-msgstr ""
+msgstr "Адпаведнік націскання на значок запуску."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:190
-#, fuzzy
-#| msgid "Super + Space"
 msgid "Super + A"
-msgstr "Super + Space"
+msgstr "Super + A"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:195
-#, fuzzy
-#| msgid "Open the launcher"
 msgid "Opens the Application Drawer."
-msgstr "Адкрыць панэль запуску"
+msgstr "Адкрывае спіс усталяваных праграм."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:207
 msgid "Scopes"
-msgstr ""
+msgstr "Лінзы"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:214
 msgid "Super (Tap)"
-msgstr ""
+msgstr "Super (націск)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:219
 msgid "Opens the Scopes home."
-msgstr ""
+msgstr "Адкрывае старонку лінзаў."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:235
 msgid "Switching"
-msgstr ""
+msgstr "Пераключэнне"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:242
 msgid "Alt + Tab"
-msgstr ""
+msgstr "Alt + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:247
 msgid "Switches between applications."
-msgstr ""
+msgstr "Пераключэнне паміж праграмамі."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:255
 msgid "Super + W"
-msgstr ""
+msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:260
 msgid "Opens the desktop spread."
-msgstr ""
+msgstr "Адкрывае працоўны стол."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:268
 msgid "Cursor Left or Right"
-msgstr ""
+msgstr "Улева ці ўправа"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:273
 msgid "Moves the focus."
-msgstr ""
+msgstr "Перамяшчае фокус."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:285
 msgid "Windows"
-msgstr ""
+msgstr "Вокны"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:292
 msgid "Ctrl + Super + D"
-msgstr ""
+msgstr "Ctrl + Super + D"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:297
 msgid "Minimizes all windows."
-msgstr ""
+msgstr "Згарнуць усе вокны."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:305
 msgid "Ctrl + Super + Up"
-msgstr ""
+msgstr "Ctrl + Super + уверх"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:310
 msgid "Maximizes the current window."
-msgstr ""
+msgstr "Разгарнуць бягучае акно."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:318
 msgid "Ctrl + Super + Down"
-msgstr ""
+msgstr "Ctrl + Super + уніз"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:323
 msgid "Minimizes or restores the current window."
-msgstr ""
+msgstr "Згарнуць альбо аднавіць бягучае акно."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:331
 msgid "Ctrl + Super + Left or Right"
-msgstr ""
+msgstr "Ctrl + Super + улева ці ўправа"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Semi-maximizes the current window."
-msgstr ""
+msgstr "Разгортвае бягучае акно напалову."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:344
 msgid "Alt + F4"
-msgstr ""
+msgstr "Alt + F4"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:349
 msgid "Closes the current window."
-msgstr ""
+msgstr "Закрывае бягучае акно."
 
 #: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:235
 msgid "Return to Call"
@@ -319,7 +313,7 @@ msgstr "Вярнуцца да выкліку"
 
 #: qml/Components/Lockscreen.qml:212
 msgid "Emergency Call"
-msgstr "Терміновы выклік"
+msgstr "Экстраны выклік"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "OK"
@@ -328,26 +322,28 @@ msgstr "Добра"
 #: qml/Components/MediaServices/VideoPlayerControls.qml:44
 #, qt-format
 msgid "%1:%2:%3"
-msgstr ""
+msgstr "%1:%2:%3"
 
 #: qml/Components/MediaServices/VideoPlayerControls.qml:49
 #, qt-format
 msgid "%1:%2"
-msgstr ""
+msgstr "%1:%2"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:33
 msgid "Apps may have unsaved data:"
-msgstr "Прылады могуць мець незахованыя дадзеныя:"
+msgstr "У праграм могуць быць незахаваныя даныя:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:60
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Перападлучыцеся, захавайце вынікі працы і закрыйце вокны праграм, каб "
+"працягнуць."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
-msgstr "Прымусіць зачыніць (незахаваныя дадзеныя будуць страчаны)."
+msgstr "Альбо закрыйце прымусова (незахаваныя даныя страцяцца)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:80
 msgid "OK, I will reconnect"
@@ -359,35 +355,35 @@ msgstr "Перападлучыцца зараз!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:94
 msgid "Close all"
-msgstr "Зачыніць усё"
+msgstr "Закрыць усе"
 
 #: qml/Components/SharingPicker.qml:54
 msgid "Preview Share Item"
-msgstr "Праглядзець элемент"
+msgstr "Папярэдні прагляд"
 
 #: qml/Components/VirtualTouchPad.qml:317
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
+"Ваша прылада падлучаная да вонкавага дысплея. Выкарыстоўвайце гэты экран як "
+"сэнсарную панэль для кіравання курсорам."
 
 #: qml/Components/VirtualTouchPad.qml:327
-#, fuzzy
-#| msgid "Tap to return to call..."
 msgid "Tap left button to click."
-msgstr "Націсніце, каб вярнуцца да выкліку..."
+msgstr "Націсніце левую кнопку, каб пстрыкнуць."
 
 #: qml/Components/VirtualTouchPad.qml:339
 msgid "Tap right button to right click."
-msgstr ""
+msgstr "Націсніце правую кнопку, каб пстрыкнуць правай клавішай мышы."
 
 #: qml/Components/VirtualTouchPad.qml:351
 msgid "Swipe with two fingers to scroll."
-msgstr ""
+msgstr "Правядзіце двума пальцамі, каб пракруціць."
 
 #: qml/Components/VirtualTouchPad.qml:396
 msgid "Find more settings in the system settings."
-msgstr ""
+msgstr "Больш налад можна знайсці ў сістэмных наладах."
 
 #: qml/Greeter/CoverPage.qml:127
 msgid "Unlock"
@@ -399,12 +395,14 @@ msgstr "Прылада заблакаваная"
 
 #: qml/Greeter/DelayedLockscreen.qml:58
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr "Вы былі заблакаваныя з-за занадта вялікай колькасці няўдалых спробаў."
+msgstr ""
+"Вы былі заблакаваныя праз занадта вялікую колькасць няўдалых спробаў уводу "
+"пароля."
 
 #: qml/Greeter/DelayedLockscreen.qml:59
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
-"Вы былі заблакаваныя з-за занадта вялікай колькасці няўдалых спробаў уводу "
+"Вы былі заблакаваныя праз занадта вялікую колькасць няўдалых спробаў уводу "
 "кода доступу."
 
 #: qml/Greeter/DelayedLockscreen.qml:68
@@ -417,41 +415,35 @@ msgstr[2] "Пачакайце %1 хвілін і паўтарыце спробу
 
 #: qml/Greeter/Greeter.qml:550
 msgid "Try again"
-msgstr ""
+msgstr "Паспрабаваць зноў"
 
 #: qml/Greeter/Greeter.qml:551
-#, fuzzy
-#| msgid "Enter passphrase"
 msgid "Enter passphrase to unlock"
-msgstr "Увядзіце пароль"
+msgstr "Увядзіце парольную фразу, каб разблакаваць"
 
 #: qml/Greeter/Greeter.qml:552
-#, fuzzy
-#| msgid "Enter passcode"
 msgid "Enter passcode to unlock"
-msgstr "Увядзіце код"
+msgstr "Увядзіце код доступу, каб разблакаваць"
 
 #: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
-msgstr ""
+msgstr "Экстраны выклік"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passphrase"
-msgstr ""
+msgstr "Парольная фраза"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passcode"
-msgstr ""
+msgstr "Код доступу"
 
 #: qml/Greeter/SessionsList.qml:124
 msgid "Select desktop environment"
-msgstr ""
+msgstr "Абраць працоўнае асяроддзе"
 
 #: qml/Launcher/Drawer.qml:249
-#, fuzzy
-#| msgid "Search"
 msgid "Search…"
-msgstr "Пошук"
+msgstr "Пошук…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
@@ -467,7 +459,7 @@ msgstr "Канферэнцыя"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:869
 msgid "Nothing is playing"
-msgstr "Нічога не грае"
+msgstr "Нічога не прайграецца"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:997
 #, qt-format
@@ -475,7 +467,7 @@ msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 гадзіна"
 msgstr[1] "%1 гадзіны"
-msgstr[2] "%1 гадзінаў"
+msgstr[2] "%1 гадзін"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1001
 #, qt-format
@@ -483,7 +475,7 @@ msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 хвіліна"
 msgstr[1] "%1 хвіліны"
-msgstr[2] "%1 хвілінаў"
+msgstr[2] "%1 хвілін"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1006
 #, qt-format
@@ -491,7 +483,7 @@ msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 секунда"
 msgstr[1] "%1 секунды"
-msgstr[2] "%1 секундаў"
+msgstr[2] "%1 секунд"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1009
 msgid "0 seconds"
@@ -501,15 +493,15 @@ msgstr "0 секунд"
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1011
 #, qt-format
 msgid "%1 remaining"
-msgstr "%1 засталося"
+msgstr "Засталося %1"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1017
 msgid "In queue…"
-msgstr "У чарзе..."
+msgstr "У чарзе…"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1021
 msgid "Downloading"
-msgstr "Запампоўка"
+msgstr "Запампоўванне"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1023
 msgid "Paused, tap to resume"
@@ -521,7 +513,7 @@ msgstr "Скасавана"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1027
 msgid "Finished"
-msgstr "Скончана"
+msgstr "Завершана"
 
 #: qml/Panel/Indicators/IndicatorMenuItemFactory.qml:1029
 msgid "Failed, tap to retry"
@@ -531,7 +523,7 @@ msgstr "Не атрымалася, націсніце, каб паўтарыць
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:210
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr "Даслаць"
+msgstr "Адправіць"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:152
 msgctxt "Label: Hint in message indicator line edit"
@@ -544,51 +536,49 @@ msgid "Call back"
 msgstr "Патэлефанаваць"
 
 #: qml/Panel/PanelMenuPage.qml:92
-#, fuzzy
-#| msgctxt "Button: Go back one page in the Wizard"
-#| msgid "Back"
 msgid "Back"
-msgstr "Вярнуцца"
+msgstr "Назад"
 
 #: qml/Stage/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
-msgstr ""
+msgstr "Перацягвайце любую праграму пры дапамозе трох пальцаў"
 
 #: qml/Stage/Stage.qml:668
 msgid "No running apps"
-msgstr ""
+msgstr "Няма запушчаных праграм"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
-#, fuzzy
-#| msgid "Try swiping from the top edge to access the indicators"
 msgid "Long swipe from the left edge to open the Application Drawer"
-msgstr ""
-"Паспрабуйце правесці пальцам ад верхняга краю для доступу да індыкатараў"
+msgstr "Правядзіце ад левага краю, каб адкрыць панэль праграм"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Short swipe from the left edge to open the launcher"
-msgstr ""
+msgstr "Коратка правядзіце ад левага краю, каб адкрыць панэль запуску"
 
 #: qml/Tutorial/TutorialRight.qml:54
 msgid "Push your mouse against the right edge to view your open apps"
 msgstr ""
+"Навядзіце курсор мышы на правы край экрана, каб праглядзець спіс адкрытых "
+"акон праграм"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Swipe from the right edge to view your open apps"
-msgstr ""
+msgstr "Правядзіце ад правага краю, каб праглядзець спіс адкрытых акон праграм"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top edge to access notifications and quick settings"
 msgstr ""
+"Правядзіце ад верхняга краю, каб атрымаць доступ да апавяшчэнняў і хуткіх "
+"налад"
 
 #: qml/Wizard/Page.qml:59
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr "Вярнуцца"
+msgstr "Назад"
 
 #: qml/Wizard/Pages/10-welcome.qml:29
 msgid "Language"
-msgstr ""
+msgstr "Мова"
 
 #: qml/Wizard/Pages/10-welcome.qml:176
 #: qml/Wizard/Pages/10-welcome-update.qml:126
@@ -598,134 +588,135 @@ msgstr ""
 #: qml/Wizard/Pages/passcode-desktop.qml:154
 #: qml/Wizard/Pages/password-set.qml:153
 msgid "Next"
-msgstr ""
+msgstr "Далей"
 
 #: qml/Wizard/Pages/10-welcome-update.qml:91
 msgid "Welcome to "
-msgstr ""
+msgstr "Вітаем у "
 
 #: qml/Wizard/Pages/10-welcome-update.qml:106
 msgid "We will make sure your device is ready to use "
-msgstr ""
+msgstr "Мы праверым, ці гатовая да выкарыстання вашая прылада "
 
 #: qml/Wizard/Pages/11-changelog.qml:28
 msgid "What's new"
-msgstr ""
+msgstr "Што новага"
 
 #: qml/Wizard/Pages/11-changelog.qml:74
-#, fuzzy
 msgid "Loading..."
-msgstr "Кажа..."
+msgstr "Загрузка..."
 
 #: qml/Wizard/Pages/20-keyboard.qml:31
 msgid "Select Keyboard"
-msgstr ""
+msgstr "Абярыце клавіятуру"
 
 #: qml/Wizard/Pages/20-keyboard.qml:71
 msgid "Keyboard language"
-msgstr ""
+msgstr "Мова клавіятуры"
 
 #: qml/Wizard/Pages/20-keyboard.qml:93
 msgid "Keyboard layout"
-msgstr ""
+msgstr "Раскладка клавіятуры"
 
 #: qml/Wizard/Pages/20-keyboard.qml:152 qml/Wizard/Pages/30-wifi.qml:214
 #: qml/Wizard/Pages/60-account.qml:72 qml/Wizard/Pages/79-system-update.qml:144
 #: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
-msgstr "Прапусціць"
+msgstr "Прамінуць"
 
 #: qml/Wizard/Pages/30-wifi.qml:31
 msgid "Connect to Wi‑Fi"
-msgstr "Злучыцца з Wi-Fi"
+msgstr "Злучэнне з Wi-Fi"
 
 #: qml/Wizard/Pages/30-wifi.qml:139
 msgid "Connected"
-msgstr ""
+msgstr "Падлучана"
 
 #: qml/Wizard/Pages/30-wifi.qml:172
 msgid "Available Wi-Fi networks"
-msgstr ""
+msgstr "Даступныя сеткі Wi-Fi"
 
 #: qml/Wizard/Pages/30-wifi.qml:173
 msgid "No available Wi-Fi networks"
-msgstr ""
+msgstr "Няма даступных сетак Wi-Fi"
 
 #: qml/Wizard/Pages/50-timezone.qml:30
 msgid "Time Zone"
-msgstr ""
+msgstr "Часавы пояс"
 
 #: qml/Wizard/Pages/50-timezone.qml:183
 msgid "Enter your city"
-msgstr ""
+msgstr "Увядзіце ваш горад"
 
 #: qml/Wizard/Pages/60-account.qml:24
 msgid "Personalize Your Device"
-msgstr ""
+msgstr "Персаналізацыя прылады"
 
 #: qml/Wizard/Pages/60-account.qml:54
 msgid "Preferred Name"
-msgstr ""
+msgstr "Пераважнае імя"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:40
 msgid "Lock Screen"
-msgstr ""
+msgstr "Заблакаваць экран"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create new password"
-msgstr ""
+msgstr "Стварыць новы пароль"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
-msgstr ""
+msgstr "Стварыць код доступу (толькі лічбы)"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:107
 msgctxt "Label: Type of security method"
 msgid "No lock code"
-msgstr ""
+msgstr "Без кода блакавання"
 
 #: qml/Wizard/Pages/79-system-update.qml:28
 msgid "Update Device"
-msgstr ""
+msgstr "Абнавіць прыладу"
 
 #: qml/Wizard/Pages/79-system-update.qml:55
 msgid ""
 "There is a system update available and ready to install. Afterwards, the "
 "device will automatically restart."
 msgstr ""
+"Ёсць даступнае абнаўленне сістэмы, якое можна ўсталяваць. Пасля ўсталёўкі "
+"сістэма аўтаматычна перазапусціцца."
 
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu Touch system"
-msgstr ""
+msgstr "Сістэма Ubuntu Touch"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
 msgctxt "version of the system update"
 msgid "Version %1"
-msgstr ""
+msgstr "Версія %1"
 
 #: qml/Wizard/Pages/79-system-update.qml:95
 msgid "This could take a few minutes..."
-msgstr ""
+msgstr "Аперацыя можа заняць некалькі хвілін…"
 
 #: qml/Wizard/Pages/79-system-update.qml:109
 msgid "Install and restart now"
-msgstr ""
+msgstr "Усталяваць і перазапусціць"
 
 #: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome Back"
-msgstr ""
+msgstr "Сардэчна запрашаем назад"
 
 #: qml/Wizard/Pages/80-finished.qml:91
 msgid "Welcome to Ubuntu"
-msgstr ""
+msgstr "Вітаем ва Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:106
 msgid "You are ready to use your device now"
-msgstr ""
+msgstr "Цяпер прылада гатовая да выкарыстання"
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Continue"
@@ -733,78 +724,78 @@ msgstr "Працягнуць"
 
 #: qml/Wizard/Pages/80-finished.qml:126
 msgid "Get Started"
-msgstr ""
+msgstr "Пачаць"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:104
 msgid "Confirm passcode"
-msgstr "Пацвердзіце код-пароль"
+msgstr "Пацвердзіце код доступу"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
-msgstr ""
+msgstr "Няправільны код доступу."
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgctxt "Enter the passcode again"
 msgid "Please re-enter."
-msgstr ""
+msgstr "Увядзіце нанова."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:31
 msgid "Lock Screen Passcode"
-msgstr ""
+msgstr "Код блакавання экрана"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:68
 msgid "Enter 4 numbers to setup your passcode"
-msgstr ""
+msgstr "Увядзіце код блакавання з чаторых лічбаў"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:84
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
-msgstr ""
+msgstr "Абраць код доступу"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:139
 msgid "Passcode too short"
-msgstr ""
+msgstr "Код доступу занадта кароткі"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:141
 msgid "Passcodes match"
-msgstr ""
+msgstr "Коды доступу супадаюць"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:143
 msgid "Passcodes do not match"
-msgstr ""
+msgstr "Коды доступу не супадаюць"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr ""
+msgstr "Код доступу павінен складацца з чатырох лічбаў"
 
 #: qml/Wizard/Pages/password-set.qml:31
 msgid "Lock Screen Password"
-msgstr ""
+msgstr "Пароль блакавання экрана"
 
 #: qml/Wizard/Pages/password-set.qml:68
 msgid "Enter at least 8 characters"
-msgstr ""
+msgstr "Увядзіце прынамсі 8 сімвалаў"
 
 #: qml/Wizard/Pages/password-set.qml:80
 msgid "Choose password"
-msgstr ""
+msgstr "Абярыце пароль"
 
 #: qml/Wizard/Pages/password-set.qml:110
 msgid "Confirm password"
-msgstr ""
+msgstr "Пацвердзіце пароль"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
-msgstr ""
+msgstr "SIM-картка не ўстаўленая"
 
 #: qml/Wizard/Pages/sim.qml:54
 msgid "SIM card added"
-msgstr ""
+msgstr "Дададзена SIM-картка"
 
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
-msgstr ""
+msgstr "Для доступу да мабільнай сеткі неабходна перазапусціць прыладу."
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
@@ -812,39 +803,39 @@ msgstr "Перазапусціць"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
-msgstr ""
+msgstr "Без SIM-карткі немагчыма тэлефанаваць і адпраўляць SMS."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr ""
+msgstr "Каб працягнуць працу без SIM-карткі, націсніце \"Прамінуць\"."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Password too short"
-msgstr ""
+msgstr "Пароль занадта кароткі"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords match"
-msgstr ""
+msgstr "Паролі супадаюць"
 
 #: qml/Wizard/PasswordMeter.qml:91
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Паролі не супадаюць"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Strong password"
-msgstr ""
+msgstr "Надзейны пароль"
 
 #: qml/Wizard/PasswordMeter.qml:97
 msgid "Fair password"
-msgstr ""
+msgstr "Неблагі пароль"
 
 #: qml/Wizard/PasswordMeter.qml:99
 msgid "Weak password"
-msgstr ""
+msgstr "Слабы пароль"
 
 #: qml/Wizard/PasswordMeter.qml:101
 msgid "Very weak password"
-msgstr ""
+msgstr "Вельмы слабы пароль"
 
 #~ msgctxt "Button: Open the Ubuntu Store"
 #~ msgid "Store"

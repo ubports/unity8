@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-07-04 18:09+0000\n"
-"Last-Translator: Tigran Khachatryan <tigrankhachatryan2008@gmail.com>\n"
+"PO-Revision-Date: 2020-11-09 23:00+0000\n"
+"Last-Translator: TigranKhachatryan0 <tigrank2008@gmail.com>\n"
 "Language-Team: Armenian <https://translate.ubports.com/projects/unity8/"
 "unity8/hy/>\n"
 "Language: hy\n"
@@ -26,7 +26,7 @@ msgstr "Գաղտնաբառ: "
 
 #: plugins/LightDM/Greeter.cpp:214
 msgid "Username"
-msgstr ""
+msgstr "Ծածկանուն"
 
 #: plugins/LightDM/Greeter.cpp:258
 msgid "Failed to authenticate"
@@ -34,7 +34,7 @@ msgstr "Նույնակացումը ձախողվել է"
 
 #: plugins/LightDM/Greeter.cpp:260
 msgid "Invalid password, please try again"
-msgstr "Ձեր գաղտնաբառը սխալ է, փորձեք ևս մեկ անգամ"
+msgstr "Ձեր գաղտնաբառը սխալ է, փորձեք նորից"
 
 #: plugins/LightDM/Greeter.cpp:270
 msgid "Log In"
@@ -50,7 +50,7 @@ msgstr "Մուտք"
 
 #: plugins/LightDM/UsersModel.cpp:165
 msgid "Guest Session"
-msgstr "Հյուրի ռեժիմ"
+msgstr "Հյուրի սեսիա"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:49
 #: plugins/Unity/Launcher/launcheritem.cpp:123
@@ -59,7 +59,7 @@ msgstr "Փակցնել պիտակը"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:55
 msgid "Quit"
-msgstr "Դուրս գալ"
+msgstr "Լքել"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:123
 msgid "Unpin shortcut"
@@ -68,11 +68,11 @@ msgstr "Հեռացնել պիտակը"
 #: qml/Components/Dialogs.qml:176
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr ""
+msgstr "Դուրս գալ"
 
 #: qml/Components/Dialogs.qml:177
 msgid "Are you sure you want to log out?"
-msgstr "Դուք համոզվա՞ծ եք, որ ցանկանում եք դուրս գալ համակարգից"
+msgstr "Դուք համոզվա՞ծ եք, որ ցանկանում եք դուրս գալ համակարգից։"
 
 #: qml/Components/Dialogs.qml:180
 msgctxt "Button: Lock the system"
@@ -116,7 +116,9 @@ msgstr "Սնուցում"
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
-msgstr "Դուք համոզվա՞ծ եք, որ ուզում եք սարքը անջատել։"
+msgstr ""
+"Դուք համոզվա՞ծ եք, որ ուզում եք \n"
+"սարքը անջատել։"
 
 #: qml/Components/Dialogs.qml:248
 msgctxt "Button: Power off the system"
@@ -202,7 +204,7 @@ msgstr "Super + Tab"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:169
 msgid "Switches applications via the launcher."
-msgstr "Փոխում է ծրագրերը ծրագրերի պանելով։"
+msgstr "Փոխում է ծրագրերը օգտվելով ծրագրերի պանելից։"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:177
 msgid "Super + 1 to 0"
@@ -310,7 +312,7 @@ msgstr "Վերադառնալ զանգին"
 
 #: qml/Components/Lockscreen.qml:212
 msgid "Emergency Call"
-msgstr "SOS զանգ"
+msgstr "Շտապօգնություն"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "OK"
@@ -335,8 +337,8 @@ msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
-"Անջատեք և նորից միացրեք սարքը, պահպանեք արդյունքները և փակեք այս ծրագրերի "
-"պատուհանները շարունակելու համար։"
+"Անջատեք և նորից միացրեք երկրորդական սարքը, պահպանեք արդյունքները և փակեք այս "
+"ծրագրերի պատուհանները շարունակելու համար։"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
@@ -344,7 +346,7 @@ msgstr "Կամ հարկադրված փակել (չպահպանված ինֆոր�
 
 #: qml/Components/ModeSwitchWarningDialog.qml:80
 msgid "OK, I will reconnect"
-msgstr "Լավ, ես կրկին կմիացնեմ"
+msgstr "Լավ, ես կանջատեմ եւ կմիացնեմ"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:81
 msgid "Reconnect now!"
@@ -388,7 +390,7 @@ msgstr "Ապաբլոկավորել"
 
 #: qml/Greeter/DelayedLockscreen.qml:43
 msgid "Device Locked"
-msgstr "Սարքը կողպեքի ռեժիմում է"
+msgstr "Սարքը արգելափակված է"
 
 #: qml/Greeter/DelayedLockscreen.qml:58
 msgid "You have been locked out due to too many failed passphrase attempts."
@@ -407,7 +409,7 @@ msgstr[0] "Խնդրում ենք սպասել %1 րոպե և փորձել կրկ
 
 #: qml/Greeter/Greeter.qml:550
 msgid "Try again"
-msgstr "Փորձել կրկին"
+msgstr "Փորձել նորից"
 
 #: qml/Greeter/Greeter.qml:551
 msgid "Enter passphrase to unlock"
@@ -419,7 +421,7 @@ msgstr "Մոտքագրե՛ք կոդը"
 
 #: qml/Greeter/NarrowView.qml:235
 msgid "Emergency"
-msgstr "SOS զանգ"
+msgstr "Շտապօգնություն"
 
 #: qml/Greeter/PromptList.qml:126
 msgid "Passphrase"
@@ -435,7 +437,7 @@ msgstr "Ընտրեք աշխատանքային սեղանի միջավայր"
 
 #: qml/Launcher/Drawer.qml:249
 msgid "Search…"
-msgstr "Որոնում…"
+msgstr "Որոնել…"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
