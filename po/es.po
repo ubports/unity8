@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-04-17 23:23+0000\n"
-"Last-Translator: Josué <j2g2rp@gmail.com>\n"
+"PO-Revision-Date: 2020-10-09 20:00+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://translate.ubports.com/projects/unity8/unity8/"
 "es/>\n"
 "Language: es\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 3.11.3\n"
 "X-Launchpad-Export-Date: 2016-11-23 06:35+0000\n"
 
 #: plugins/LightDM/Greeter.cpp:199
@@ -72,7 +72,7 @@ msgstr "Cerrar la sesión"
 
 #: qml/Components/Dialogs.qml:177
 msgid "Are you sure you want to log out?"
-msgstr "¿Seguro que quiere cerrar la sesión?"
+msgstr "¿Confirma que quiere cerrar la sesión?"
 
 #: qml/Components/Dialogs.qml:180
 msgctxt "Button: Lock the system"
@@ -97,7 +97,7 @@ msgstr "Reiniciar"
 
 #: qml/Components/Dialogs.qml:212
 msgid "Are you sure you want to reboot?"
-msgstr "¿Seguro que quiere reiniciar?"
+msgstr "¿Confirma que quiere reiniciar?"
 
 #: qml/Components/Dialogs.qml:215
 msgid "No"
@@ -117,7 +117,7 @@ msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
-"¿Seguro que quiere\n"
+"¿Confirma que quiere\n"
 "apagar?"
 
 #: qml/Components/Dialogs.qml:248
