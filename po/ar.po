@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-11-15 23:08+0000\n"
+"PO-Revision-Date: 2020-12-07 19:09+0000\n"
 "Last-Translator: abidin <abidin24@tutanota.com>\n"
 "Language-Team: Arabic <https://translate.ubports.com/projects/unity8/unity8/"
 "ar/>\n"
@@ -184,9 +184,8 @@ msgid "Launcher"
 msgstr "مُطْلِق"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:138
-#, fuzzy
 msgid "Super (Hold)"
-msgstr "Super (إبقاء)"
+msgstr "Super (ضغط مع التعليق)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:143
 msgid "Opens the launcher, displays shortcuts."
@@ -214,7 +213,6 @@ msgid "Super + 1 to 0"
 msgstr "Super + 1 to 0"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:182
-#, fuzzy
 msgid "Same as clicking on a launcher icon."
 msgstr "نفس تأثير النقر على أيقونة المطلق."
 
@@ -232,7 +230,7 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:214
 msgid "Super (Tap)"
-msgstr ""
+msgstr "Super (نقر)"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:219
 msgid "Opens the Scopes home."
@@ -255,12 +253,10 @@ msgid "Super + W"
 msgstr "Super + W"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:260
-#, fuzzy
 msgid "Opens the desktop spread."
 msgstr "يفتح وضع سطح المكتب."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:268
-#, fuzzy
 msgid "Cursor Left or Right"
 msgstr "اتجاه المؤشر لليمين أو اليسار"
 
@@ -269,12 +265,10 @@ msgid "Moves the focus."
 msgstr "بدّل التركيز."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:285
-#, fuzzy
 msgid "Windows"
 msgstr "نوافذ"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:292
-#, fuzzy
 msgid "Ctrl + Super + D"
 msgstr "Ctrl + Super + D"
 
@@ -304,7 +298,7 @@ msgstr "Ctrl + Super + Left or Right"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Semi-maximizes the current window."
-msgstr ""
+msgstr "كبر النافذة الحالة جزئيا."
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:344
 msgid "Alt + F4"
@@ -344,7 +338,7 @@ msgstr "ربما لم تَحفظ بيانات هذه التطبيقات:"
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
-msgstr ""
+msgstr "أعد الوصل، احفظ عملك على هذه التطبيقات ثم أغلقها للمتابعة."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
@@ -363,14 +357,15 @@ msgid "Close all"
 msgstr "أغلق الكل"
 
 #: qml/Components/SharingPicker.qml:54
+#, fuzzy
 msgid "Preview Share Item"
-msgstr ""
+msgstr "معاينة الملف المشارك"
 
 #: qml/Components/VirtualTouchPad.qml:317
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
-msgstr ""
+msgstr "جهازك متصل بجهاز عرض خارجي. استخدم جهازك كلوحة لمس لتحكم بالمؤشر."
 
 #: qml/Components/VirtualTouchPad.qml:327
 msgid "Tap left button to click."
@@ -544,9 +539,10 @@ msgid "Reply"
 msgstr "رد"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:209
+#, fuzzy
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr ""
+msgstr "عاود الاتصال"
 
 #: qml/Panel/PanelMenuPage.qml:92
 msgid "Back"
@@ -557,16 +553,14 @@ msgid "Drag using 3 fingers any application from one window to the other"
 msgstr "اسحب أي تطبيق بثلاث أصابع من نافذة لأخرى"
 
 #: qml/Stage/Stage.qml:668
-#, fuzzy
 msgid "No running apps"
-msgstr "لا تطبيقات مشغلة"
+msgstr "لا توجد تطبيقات مشغلة"
 
 #: qml/Tutorial/TutorialLeftLong.qml:49
 msgid "Long swipe from the left edge to open the Application Drawer"
 msgstr "اسحب اصبعك مطولا بدءً من الحافة اليسرى لفتح درج التطبيقات"
 
 #: qml/Tutorial/TutorialLeft.qml:47
-#, fuzzy
 msgid "Short swipe from the left edge to open the launcher"
 msgstr "اسحب اصبعك سحبا قصيرا بدءً من الحافة اليسرى لفتح المُطلِق"
 
@@ -700,7 +694,7 @@ msgstr "يتوفر تحديث للنظام وهو جاهز للتثبيت، سي
 #: qml/Wizard/Pages/79-system-update.qml:76
 msgctxt "string identifying name of the update"
 msgid "Ubuntu Touch system"
-msgstr ""
+msgstr "نظام أبونتو تاتش"
 
 #: qml/Wizard/Pages/79-system-update.qml:83
 #, qt-format
