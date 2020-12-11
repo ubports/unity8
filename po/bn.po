@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-15 12:15-0500\n"
-"PO-Revision-Date: 2020-12-11 13:59+0000\n"
+"PO-Revision-Date: 2020-12-11 16:51+0000\n"
 "Last-Translator: Pavel Sayekat <pavelsayekat@gmail.com>\n"
 "Language-Team: Bengali <https://translate.ubports.com/projects/unity8/unity8/"
 "bn/>\n"
@@ -292,7 +292,7 @@ msgstr "বর্তমান উইন্ডোটিকে লুকিয়ে 
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:331
 msgid "Ctrl + Super + Left or Right"
-msgstr ""
+msgstr "কন্ট্রোল কী + সুপার কী + বাম এ্যরো কী"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:336
 msgid "Semi-maximizes the current window."
@@ -300,11 +300,11 @@ msgstr ""
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:344
 msgid "Alt + F4"
-msgstr ""
+msgstr "অল্টার কী + F4 কী"
 
 #: qml/Components/KeyboardShortcutsOverlay.qml:349
 msgid "Closes the current window."
-msgstr ""
+msgstr "বর্তমান উইন্ডোটি বন্ধ করুন।"
 
 #: qml/Components/Lockscreen.qml:212 qml/Greeter/NarrowView.qml:235
 msgid "Return to Call"
@@ -330,29 +330,31 @@ msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:33
 msgid "Apps may have unsaved data:"
-msgstr ""
+msgstr "এ্যাপ সমূহে কিছু অসংরক্ষিত ডেটা থাকতে পারে:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:60
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"পূনসংযুক্ত করুন এবং আপনার কাজ সংরক্ষণ করার পর এ্যাপগুলি বন্ধ করে আপনার "
+"প্রক্রিয়া চলমান রাখুন।"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:67
 msgid "Or force close now (unsaved data will be lost)."
-msgstr ""
+msgstr "অথবা বাধ্যতামূলক এখনি বন্ধ করুন (আপনার অসংরক্ষিত তথ্য হারিয়ে যাবে)।"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:80
 msgid "OK, I will reconnect"
-msgstr ""
+msgstr "ঠিক আছে, আমি পূনসংযুক্ত করব"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:81
 msgid "Reconnect now!"
-msgstr ""
+msgstr "এখনি পূনসংযুক্ত করুন!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:94
 msgid "Close all"
-msgstr ""
+msgstr "সবগুলো বন্ধ করুন"
 
 #: qml/Components/SharingPicker.qml:54
 msgid "Preview Share Item"
