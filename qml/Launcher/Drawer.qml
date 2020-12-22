@@ -330,7 +330,7 @@ FocusScope {
                             id: sourceImage
                             asynchronous: true
                             sourceSize.width: iconWrapper.width
-                            source: "image://thumbnailer/%1".arg(model.icon)
+                            source: model.icon
                             visible: false
                             fillMode: Image.PreserveAspectCrop
                         }
