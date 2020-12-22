@@ -318,30 +318,52 @@ FocusScope {
                     height: childrenRect.height
                     spacing: units.gu(1)
 
-                    UbuntuShape {
-                        id: appIcon
+
+                    Item {
+                        id: iconWrapper
                         width: units.gu(6)
                         height: 7.5 / 8 * width
                         anchors.horizontalCenter: parent.horizontalCenter
-                        radius: "medium"
-                        borderSource: 'undefined'
-                        source: Image {
+
+
+                        Image {
                             id: sourceImage
                             asynchronous: true
-                            sourceSize.width: appIcon.width
-                            source: model.icon
+                            sourceSize.width: iconWrapper.width
+                            source: "image://thumbnailer/%1".arg(model.icon)
+                            visible: false
+                            fillMode: Image.PreserveAspectCrop
                         }
-                        sourceFillMode: UbuntuShape.PreserveAspectCrop
 
-                        StyledItem {
-                            styleName: "FocusShape"
-                            anchors.fill: parent
-                            StyleHints {
-                                visible: drawerDelegate.focused
-                                radius: units.gu(2.55)
+                        OpacityMask {
+                            anchors.fill: sourceImage
+                            source: sourceImage
+                            maskSource: Rectangle {
+                                width: sourceImage.width
+                                height: sourceImage.height
+                                color: "transparent"
+                                visible: false
                             }
                         }
+
+                        UbuntuShape {
+                            source: sourceImage
+                            aspect: UbuntuShape.Flat
+                            width: parent.width
+                            height:parent.height
+                            radius : "medium"
+                            StyledItem {
+                                styleName: "FocusShape"
+                                anchors.fill: parent
+                                StyleHints {
+                                    visible: drawerDelegate.focused
+                                    radius: units.gu(2.55)
+                                }
+                            }
+                        }
+
                     }
+
 
                     Label {
                         id: label
