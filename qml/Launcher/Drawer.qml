@@ -335,17 +335,6 @@ FocusScope {
                             fillMode: Image.PreserveAspectCrop
                         }
 
-                        OpacityMask {
-                            anchors.fill: sourceImage
-                            source: sourceImage
-                            maskSource: Rectangle {
-                                width: sourceImage.width
-                                height: sourceImage.height
-                                color: "transparent"
-                                visible: false
-                            }
-                        }
-
                         UbuntuShape {
                             source: sourceImage
                             aspect: UbuntuShape.Flat
