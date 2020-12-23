@@ -335,19 +335,23 @@ FocusScope {
                             fillMode: Image.PreserveAspectCrop
                         }
 
-                        UbuntuShape {
+                        OpacityMask {
+                            anchors.fill: sourceImage
                             source: sourceImage
-                            aspect: UbuntuShape.Flat
-                            width: parent.width
-                            height:parent.height
-                            radius : "medium"
-                            StyledItem {
-                                styleName: "FocusShape"
-                                anchors.fill: parent
-                                StyleHints {
-                                    visible: drawerDelegate.focused
-                                    radius: units.gu(2.55)
-                                }
+                            maskSource: UbuntuShape {
+                                width: sourceImage.width
+                                height: sourceImage.height
+                                radius : "medium"
+                                color: "white" // whatever color except transparent
+                            }
+                        }
+
+                        StyledItem {
+                            styleName: "FocusShape"
+                            anchors.fill: sourceImage
+                            StyleHints {
+                                visible: drawerDelegate.focused
+                                radius: units.gu(2.55)
                             }
                         }
 
