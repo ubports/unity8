@@ -1,0 +1,41 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+"http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd">
+  <!--
+    This is an interface meant to be accessible only from privileged system
+    processes.
+
+    It can be used to request Lomiri to alter the normal lifecycle of selected
+    applications, typically by granting them more wake-up times than they'd
+    normally have. For example, a location daemon could request a temporary
+    wake-up of its clients so that they'd be able to process the location
+    updates.
+  -->
+  <interface name="com.lomiri.ProcessControl">
+
+    <!--
+      Request a temporary wake-up of the selected processes.
+
+      Whether the request will actually be fulfilled is up to Lomiri.
+
+      This method will not return an error reply if a process listed in the
+      `processes` argument is not found.
+    -->
+    <method name="RequestWakeup">
+      <!--
+        The list of processes to be waken-up. Each process is specified by its
+        application ID (appId).
+      -->
+      <arg name="processes" direction="in" type="as" />
+
+      <!--
+        The desired time span that should be granted to each of the
+        applications, in milliseconds.
+      -->
+      <arg name="timeSpan" direction="in" type="t" />
+
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+
+  </interface>
+</node>

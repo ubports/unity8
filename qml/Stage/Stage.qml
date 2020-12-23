@@ -27,6 +27,7 @@ import GlobalShortcut 1.0
 import GSettings 1.0
 import "Spread"
 import "Spread/MathUtils.js" as MathUtils
+import ProcessControl 0.1
 import WindowManager 1.0
 
 FocusScope {
@@ -478,6 +479,8 @@ FocusScope {
                         priv.sideStageAppId === model.application.appId))
                    ? ApplicationInfoInterface.RequestedRunning
                    : ApplicationInfoInterface.RequestedSuspended
+            property bool temporaryAwaken: ProcessControl.awakenProcesses.indexOf(model.application.appId) >= 0
+
             property var stateBinding: Binding {
                 target: model.application
                 property: "requestedState"
@@ -488,7 +491,9 @@ FocusScope {
                 target: model.application
                 property: "exemptFromLifecycle"
                 value: model.application
-                            ? (!model.application.isTouchApp || isExemptFromLifecycle(model.application.appId))
+                            ? (!model.application.isTouchApp ||
+                               isExemptFromLifecycle(model.application.appId) ||
+                               applicationDelegate.temporaryAwaken)
                             : false
             }
 
