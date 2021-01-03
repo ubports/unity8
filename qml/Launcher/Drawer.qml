@@ -330,17 +330,18 @@ FocusScope {
                             id: sourceImage
                             asynchronous: true
                             sourceSize.width: iconWrapper.width
+                            sourceSize.height: iconWrapper.height
                             source: model.icon
                             visible: false
                             fillMode: Image.PreserveAspectCrop
                         }
 
                         OpacityMask {
-                            anchors.fill: sourceImage
+                            anchors.fill: iconWrapper
                             source: sourceImage
                             maskSource: UbuntuShape {
-                                width: sourceImage.width
-                                height: sourceImage.height
+                                width: iconWrapper.width
+                                height: iconWrapper.height
                                 radius : "medium"
                                 color: "white" // whatever color except transparent
                             }
