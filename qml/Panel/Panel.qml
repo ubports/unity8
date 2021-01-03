@@ -36,7 +36,7 @@ Item {
     readonly property real panelHeight: panelArea.y + minimizedPanelHeight
     readonly property bool fullyClosed: indicators.fullyClosed && applicationMenus.fullyClosed
 
-    property real minimizedPanelHeight: units.gu(3)
+    property real minimizedPanelHeight: units.gu(5)
     property real expandedPanelHeight: units.gu(7)
     property real menuWidth: partialWidth ? units.gu(40) : width
     property alias applicationMenuContentX: __applicationMenus.menuContentX
@@ -384,7 +384,7 @@ Item {
 
             anchors {
                 top: parent.top
-                right: parent.right
+                right: parent.right - units.gu(2)
             }
             width: root.menuWidth
             minimizedPanelHeight: root.minimizedPanelHeight
@@ -394,7 +394,7 @@ Item {
             overFlowWidth: width - appMenuClear
             enableHint: !callHint.active && !fullscreenMode
             showOnClick: !callHint.visible
-            panelColor: panelAreaBackground.color
+            panelColor: "#000000"
 
             // On small screens, the Indicators' handle area is the entire top
             // bar unless there is an application menu. In that case, our handle
