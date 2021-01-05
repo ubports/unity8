@@ -329,6 +329,8 @@ FocusScope {
                         Image {
                             id: sourceImage
                             asynchronous: true
+                            anchors.fill: iconWrapper
+                            smooth: false
                             sourceSize.width: iconWrapper.width
                             sourceSize.height: iconWrapper.height
                             source: model.icon
