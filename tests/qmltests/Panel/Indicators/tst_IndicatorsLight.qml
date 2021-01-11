@@ -19,6 +19,7 @@ import QtQuick.Layouts 1.1
 import Unity.Test 0.1 as UT
 import Unity.Indicators 0.1 as Indicators
 import Ubuntu.Components 1.3
+import GSettings 1.0
 import Powerd 0.1
 import Lights 0.1
 import QMenuModel 0.1
@@ -46,19 +47,14 @@ Item {
         }
     };
 
-    Component {
-        id: light
-        IndicatorsLight {}
-    }
-
-    Loader {
-        id: loader
-        sourceComponent: light
-    }
-
     Component.onCompleted: {
         ActionData.data = newMessage;
         Powerd.setStatus(Powerd.On, Powerd.Unknown);
+    }
+
+    GSettings {
+        id: lomiriSettings
+        schema.id: "com.lomiri.LedIndication"
     }
 
     RowLayout {
@@ -147,14 +143,15 @@ Item {
     property color orangeRed: "orangeRed"
 
     UT.UnityTestCase {
+        id: testCase
         name: "IndicatorsLight"
         when: windowShown
 
         function init() {
             // reload
             ActionData.data = noNewMessage;
-            loader.sourceComponent = undefined;
-            loader.sourceComponent = light;
+            lomiriSettings.chargingStateVisible = true;
+            Powerd.setStatus(Powerd.On, Powerd.Unknown);
         }
 
         function test_LightsStatus_data() {
@@ -265,22 +262,42 @@ Item {
                 { tag: "Powerd.Off while charging & no support for multicolor led",
                   expectedLightsState: Lights.Off,
                       powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging, supportsMultiColorLed: false },
+
+                //
+                // Charging state visibility
+                //
+                { tag: "Powerd.Off with New Message & chargingStateVisible==false",
+                  expectedLightsState: Lights.On,
+                      powerd: Powerd.Off, actionData: newMessage, chargingStateVisible: false },
+                { tag: "Powerd.Off while charging & chargingStateVisible==false",
+                  expectedLightsState: Lights.Off,
+                      powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging, chargingStateVisible: false },
+                { tag: "Powerd.Off while charging & chargingStateVisible==true",
+                  expectedLightsState: Lights.On,
+                      powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging, chargingStateVisible: true },
+                { tag: "Powerd.Off while charging & chargingStateVisible==true & no support for multicolor led",
+                  expectedLightsState: Lights.Off,
+                      powerd: Powerd.Off, actionData: deviceStateDBusSignals.charging, chargingStateVisible: true, supportsMultiColorLed: false },
+
             ]
         }
 
         function test_LightsStatus(data) {
-            console.log("----------------------------------------------------------------")
+            var item = createTemporaryQmlObject("import QtQuick 2.0; import\"" + Qt.resolvedUrl("../../../../qml/Panel/Indicators") + "\"; IndicatorsLight {}", testCase);
 
+            console.log("----------------------------------------------------------------")
             if (data.hasOwnProperty("supportsMultiColorLed"))
-                loader.item.supportsMultiColorLed = data.supportsMultiColorLed
+                item.supportsMultiColorLed = data.supportsMultiColorLed
+            if (data.hasOwnProperty("chargingStateVisible"))
+                lomiriSettings.chargingStateVisible = data.chargingStateVisible
             if (data.hasOwnProperty("powerd"))
                 Powerd.setStatus(data.powerd, Powerd.Unknown)
             if (data.hasOwnProperty("actionData"))
                 ActionData.data = data.actionData
             if (data.hasOwnProperty("wizardStatus"))
-                loader.item.batteryIconName = data.wizardStatus
+                item.batteryIconName = data.wizardStatus
 
-            compare(Lights.state, data.expectedLightsState, "Lights state does not match expected value");
+            compare(Lights.state, data.expectedLightsState, "Lights state does not match expected value")
             if (data.hasOwnProperty("expectedLightsColor"))
                 compare(Lights.color, data.expectedLightsColor, "Lights color does not match expected value")
             if (data.hasOwnProperty("expectedLightsOnMillisec"))

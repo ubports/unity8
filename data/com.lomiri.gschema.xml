@@ -1,0 +1,11 @@
+<schemalist>
+
+  <schema path="/com/lomiri/ledindication/" id="com.lomiri.LedIndication" gettext-domain="lomiri">
+    <key type="b" name="charging-state-visible">
+      <default>true</default>
+      <summary>Whether the battery charging state should be shown using the notification led</summary>
+      <description>Toggle the visibility of the battery charging state in the notification led patterns</description>
+    </key>
+  </schema>
+
+</schemalist>

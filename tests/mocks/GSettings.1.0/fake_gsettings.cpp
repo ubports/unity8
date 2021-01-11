@@ -29,6 +29,7 @@ GSettingsControllerQml::GSettingsControllerQml()
     , m_edgeDragWidth(2)
     , m_enableIndicatorMenu(true)
     , m_appstoreUri("http://uappexplorer.com")
+    , m_chargingStateVisible(true)
 {
 }
 
@@ -157,6 +158,19 @@ void GSettingsControllerQml::setEnableIndicatorMenu(bool enableIndicatorMenu)
     if (m_enableIndicatorMenu != enableIndicatorMenu) {
         m_enableIndicatorMenu = enableIndicatorMenu;
         Q_EMIT enableIndicatorMenuChanged(enableIndicatorMenu);
+    }
+}
+
+bool GSettingsControllerQml::chargingStateVisible() const
+{
+    return m_chargingStateVisible;
+}
+
+void GSettingsControllerQml::setChargingStateVisible(bool chargingStateVisible)
+{
+    if (m_chargingStateVisible != chargingStateVisible) {
+        m_chargingStateVisible = chargingStateVisible;
+        Q_EMIT chargingStateVisibleChanged(chargingStateVisible);
     }
 }
 
@@ -396,5 +410,21 @@ void GSettingsQml::setEnableIndicatorMenu(const QVariant &enableIndicatorMenu)
 {
     if (m_valid && m_schema->id() == "com.canonical.Unity8") {
         GSettingsControllerQml::instance()->setEnableIndicatorMenu(enableIndicatorMenu.toBool());
+    }
+}
+
+QVariant GSettingsQml::chargingStateVisible() const
+{
+    if (m_valid && m_schema->id() == "com.lomiri.LedIndication") {
+        return GSettingsControllerQml::instance()->chargingStateVisible();
+    } else {
+        return QVariant();
+    }
+}
+
+void GSettingsQml::setChargingStateVisible(const QVariant &chargingStateVisible)
+{
+    if (m_valid && m_schema->id() == "com.lomiri.LedIndication") {
+        GSettingsControllerQml::instance()->setChargingStateVisible(chargingStateVisible.toBool());
     }
 }
