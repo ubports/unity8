@@ -121,9 +121,10 @@ void TopLevelWindowModel::setSurfaceManager(unityapi::SurfaceManagerInterface *s
 
 void TopLevelWindowModel::addApplication(unityapi::ApplicationInfoInterface *application)
 {
-    DEBUG_MSG << "(" << application->appId() << ")";
+    DEBUG_MSG << "(" << application->appId() << ")" << " visible: " << application->visible();
 
-    if (application->state() != unityapi::ApplicationInfoInterface::Stopped && application->surfaceList()->count() == 0) {
+    if (application->state() != unityapi::ApplicationInfoInterface::Stopped &&
+        application->surfaceList()->count() == 0 && application->visible()) {
         prependPlaceholder(application);
     }
 }
@@ -155,6 +156,7 @@ void TopLevelWindowModel::prependSurface(unityapi::MirSurfaceInterface *surface,
 {
     Q_ASSERT(surface != nullptr);
 
+    application->setVisible(true);
     connectSurface(surface);
 
     bool filledPlaceholder = false;
