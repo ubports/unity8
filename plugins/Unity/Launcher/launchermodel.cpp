@@ -345,6 +345,17 @@ int LauncherModel::findApplication(const QString &appId)
     return -1;
 }
 
+int LauncherModel::findHiddenApplication(const QString &appId)
+{
+    for (int i = 0; i < m_hiddenList.count(); ++i) {
+        LauncherItem *item = m_hiddenList.at(i);
+        if (item->appId() == appId) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 void LauncherModel::progressChanged(const QString &appId, int progress)
 {
     const int idx = findApplication(appId);
@@ -534,13 +545,46 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
         item->setRecent(true);
         item->setRunning(true);
         item->setFocused(app->focused());
-        beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
-        m_list.append(item);
-        endInsertRows();
+
+        if (app->visible()) {
+            beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+            m_list.append(item);
+            endInsertRows();
+        } else {
+            m_hiddenList.append(item);
+        }
     }
+
+    connect(app, &ApplicationInfoInterface::visibleChanged, this, &LauncherModel::onVisibleChanged);
     connect(app, &ApplicationInfoInterface::surfaceCountChanged, this, &LauncherModel::updateSurfaceList);
     m_asAdapter->syncItems(m_list);
     Q_EMIT dataChanged(index(itemIndex), index(itemIndex), {RoleRunning});
+}
+
+void LauncherModel::onVisibleChanged(bool visible)
+{
+    ApplicationInfoInterface *app = static_cast<ApplicationInfoInterface*>(sender());
+
+    const int itemIndex = findApplication(app->appId());
+    qWarning() << "ind: " << itemIndex << " vis: " << visible;
+
+    if (visible) {
+        const int itemIndex = findHiddenApplication(app->appId());
+        if (itemIndex != -1) {
+            qWarning() << "Showing" << app->appId();
+            beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+            m_list.append(m_hiddenList.takeAt(itemIndex));
+            endInsertRows();
+        }
+    } else {
+        const int itemIndex = findApplication(app->appId());
+        if (itemIndex != -1) {
+            qWarning() << "Hideing" << app->appId();
+            beginRemoveRows(QModelIndex(), itemIndex, itemIndex);
+            m_hiddenList.append(m_list.takeAt(itemIndex));
+            endRemoveRows();
+        }
+    }
 }
 
 void LauncherModel::updateSurfaceList()
@@ -590,36 +634,40 @@ void LauncherModel::applicationRemoved(const QModelIndex &parent, int row)
     Q_UNUSED(parent)
 
     ApplicationInfoInterface *app = m_appManager->get(row);
-    int appIndex = -1;
-    for (int i = 0; i < m_list.count(); ++i) {
-        if (m_list.at(i)->appId() == app->appId()) {
-            appIndex = i;
-            break;
-        }
-    }
+    const int appIndex = findApplication(app->appId());
+    const int hiddenAppIndex = findHiddenApplication(app->appId());
 
-    if (appIndex < 0) {
+    if (appIndex == -1 && hiddenAppIndex == -1) {
         qWarning() << Q_FUNC_INFO << "appIndex not found";
         return;
     }
 
+    disconnect(app, &ApplicationInfoInterface::visibleChanged, this, &LauncherModel::onVisibleChanged);
     disconnect(app, &ApplicationInfoInterface::surfaceCountChanged, this, &LauncherModel::updateSurfaceList);
 
-    LauncherItem * item = m_list.at(appIndex);
+    if (appIndex != -1) {
+        qWarning() << "Removing app from shown " << app->appId();
+        LauncherItem * item = m_list.at(appIndex);
 
-    if (!item->pinned()) {
-        beginRemoveRows(QModelIndex(), appIndex, appIndex);
-        m_list.takeAt(appIndex)->deleteLater();
-        endRemoveRows();
-        m_asAdapter->syncItems(m_list);
-    } else {
-        QVector<int> changedRoles = {RoleRunning};
-        item->setRunning(false);
-        if (item->focused()) {
-            changedRoles << RoleFocused;
-            item->setFocused(false);
+        if (!item->pinned()) {
+            beginRemoveRows(QModelIndex(), appIndex, appIndex);
+            m_list.takeAt(appIndex)->deleteLater();
+            endRemoveRows();
+            m_asAdapter->syncItems(m_list);
+        } else {
+            QVector<int> changedRoles = {RoleRunning};
+            item->setRunning(false);
+            if (item->focused()) {
+                changedRoles << RoleFocused;
+                item->setFocused(false);
+            }
+            Q_EMIT dataChanged(index(appIndex), index(appIndex), changedRoles);
         }
-        Q_EMIT dataChanged(index(appIndex), index(appIndex), changedRoles);
+    }
+
+    if (hiddenAppIndex != -1) {
+        qWarning() << "Removing app from hidden " << app->appId();
+        m_hiddenList.takeAt(hiddenAppIndex)->deleteLater();
     }
 }
 

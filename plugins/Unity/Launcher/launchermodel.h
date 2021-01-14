@@ -67,6 +67,8 @@ private:
 
     void unpin(const QString &appId);
 
+    int findHiddenApplication(const QString &appId);
+
 private Q_SLOTS:
     void countChanged(const QString &appId, int count);
     void countVisibleChanged(const QString &appId, bool count);
@@ -79,8 +81,11 @@ private Q_SLOTS:
     void updateSurfaceListForApp(ApplicationInfoInterface *app);
     void updateSurfaceListForSurface();
 
+    void onVisibleChanged(bool visible);
+
 private:
     QList<LauncherItem*> m_list;
+    QList<LauncherItem*> m_hiddenList;
 
     GSettings *m_settings;
     DBusInterface *m_dbusIface;
