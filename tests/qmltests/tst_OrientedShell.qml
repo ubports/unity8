@@ -39,6 +39,8 @@ Rectangle {
     width:  units.gu(160) + controls.width
     height: units.gu(100)
 
+    property var tryShell: null
+
     Binding {
         target: LightDMController
         property: "userMode"
@@ -93,7 +95,7 @@ Rectangle {
         State {
             name: "mako"
             PropertyChanges {
-                target: orientedShellLoader
+                target: shellRect
                 width: units.gu(40)
                 height: units.gu(71)
             }
@@ -109,7 +111,7 @@ Rectangle {
         State {
             name: "manta"
             PropertyChanges {
-                target: orientedShellLoader
+                target: shellRect
                 width: units.gu(160)
                 height: units.gu(60)
             }
@@ -125,7 +127,7 @@ Rectangle {
         State {
             name: "flo"
             PropertyChanges {
-                target: orientedShellLoader
+                target: shellRect
                 width: units.gu(60)
                 height: units.gu(100)
             }
@@ -141,7 +143,7 @@ Rectangle {
         State {
             name: "desktop"
             PropertyChanges {
-                target: orientedShellLoader
+                target: shellRect
                 width: units.gu(100)
                 height: units.gu(65)
             }
@@ -156,26 +158,21 @@ Rectangle {
         }
     ]
 
-    Loader {
-        id: orientedShellLoader
+    Component {
+        id: shellComponent
+        OrientedShell {
+            anchors.fill: parent
+            physicalOrientation: root.physicalOrientation0
+            orientationLocked: orientationLockedCheckBox.checked
+            orientationLock: mockOrientationLock
+        }
+    }
 
+    Rectangle {
+        id: shellRect
+        color: "black"
         x: ((root.width - controls.width) - width) / 2
         y: (root.height - height) / 2
-
-        focus: true
-
-        property bool itemDestroyed: false
-        sourceComponent: Component {
-            OrientedShell {
-                anchors.fill: parent
-                physicalOrientation: root.physicalOrientation0
-                orientationLocked: orientationLockedCheckBox.checked
-                orientationLock: mockOrientationLock
-                Component.onDestruction: {
-                    orientedShellLoader.itemDestroyed = true;
-                }
-            }
-        }
     }
 
     function orientationsToStr(orientations) {
@@ -224,11 +221,19 @@ Rectangle {
             id: controlsColumn
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
             spacing: units.gu(1)
+
+            Button {
+                text: "Load shell"
+                onClicked: {
+                    createTryShell();
+                }
+            }
+
             Button {
                 text: "Show Greeter"
                 activeFocusOnPress: false
                 onClicked: {
-                    if (orientedShellLoader.status !== Loader.Ready)
+                    if (tryShell === null)
                         return;
 
                     LightDM.Greeter.showGreeter();
@@ -241,10 +246,8 @@ Rectangle {
                 id: rotate0Button
                 text: root.orientationsToStr(root.physicalOrientation0) + " (0)"
                 activeFocusOnPress: false
-                onClicked: {
-                    orientedShellLoader.item.physicalOrientation = root.physicalOrientation0;
-                }
-                color: orientedShellLoader.item && orientedShellLoader.item.physicalOrientation === root.physicalOrientation0 ?
+                onClicked: rotate0(tryShell)
+                color: tryShell && tryShell.physicalOrientation === root.physicalOrientation0 ?
                                                                                                     UbuntuColors.green :
                                                                                                     __styleInstance.defaultColor
             }
@@ -252,10 +255,8 @@ Rectangle {
                 id: rotate90Button
                 text: root.orientationsToStr(root.physicalOrientation90) + " (90)"
                 activeFocusOnPress: false
-                onClicked: {
-                    orientedShellLoader.item.physicalOrientation = root.physicalOrientation90;
-                }
-                color: orientedShellLoader.item && orientedShellLoader.item.physicalOrientation === root.physicalOrientation90 ?
+                onClicked: rotate90(tryShell)
+                color: tryShell && tryShell.physicalOrientation === root.physicalOrientation90 ?
                                                                                                      UbuntuColors.green :
                                                                                                      __styleInstance.defaultColor
             }
@@ -263,10 +264,8 @@ Rectangle {
                 id: rotate180Button
                 text: root.orientationsToStr(root.physicalOrientation180) + " (180)"
                 activeFocusOnPress: false
-                onClicked: {
-                    orientedShellLoader.item.physicalOrientation = root.physicalOrientation180;
-                }
-                color: orientedShellLoader.item && orientedShellLoader.item.physicalOrientation === root.physicalOrientation180 ?
+                onClicked: rotate180(tryShell)
+                color: tryShell && tryShell.physicalOrientation === root.physicalOrientation180 ?
                                                                                                       UbuntuColors.green :
                                                                                                       __styleInstance.defaultColor
             }
@@ -274,10 +273,8 @@ Rectangle {
                 id: rotate270Button
                 text: root.orientationsToStr(root.physicalOrientation270) + " (270)"
                 activeFocusOnPress: false
-                onClicked: {
-                    orientedShellLoader.item.physicalOrientation = root.physicalOrientation270;
-                }
-                color: orientedShellLoader.item && orientedShellLoader.item.physicalOrientation === root.physicalOrientation270 ?
+                onClicked: rotate270(tryShell)
+                color: tryShell && tryShell.physicalOrientation === root.physicalOrientation270 ?
                                                                                                       UbuntuColors.green :
                                                                                                       __styleInstance.defaultColor
             }
@@ -297,7 +294,7 @@ Rectangle {
             Button {
                 text: "Power dialog"
                 activeFocusOnPress: false
-                onClicked: { testCase.showPowerDialog(); }
+                onClicked: { testCase.showPowerDialog(tryShell); }
             }
             ListItem.ItemSelector {
                 id: deviceNameSelector
@@ -306,9 +303,9 @@ Rectangle {
                 text: "Device Name"
                 model: ["mako", "manta", "flo", "desktop"]
                 onSelectedIndexChanged: {
-                    testCase.tearDown();
+                    destroyShell();
                     applicationArguments.deviceName = model[selectedIndex];
-                    orientedShellLoader.active = true;
+                    createTryShell();
                 }
             }
             ListItem.ItemSelector {
@@ -356,6 +353,7 @@ Rectangle {
                     text: "Input Method"
                 }
             }
+
             Button {
                 text: Powerd.status === Powerd.On ? "Display ON" : "Display OFF"
                 activeFocusOnPress: false
@@ -440,14 +438,42 @@ Rectangle {
         }
     }
 
+    function createTryShell() {
+        if (root.tryShell === null) {
+            root.tryShell = shellComponent.createObject(shellRect);
+        }
+    }
+
+    function destroyShell() {
+        if (root.tryShell === null) {
+            return;
+        }
+        tryShell.destroy();
+        testCase.wait(100); // Need to wait for things like the SurfaceManager to be destroyed
+
+        testCase.tearDown();
+    }
+
+    function rotate0(orientedShell) {
+        orientedShell.physicalOrientation = root.physicalOrientation0;
+    }
+
+    function rotate90(orientedShell) {
+        orientedShell.physicalOrientation = root.physicalOrientation90;
+    }
+
+    function rotate180(orientedShell) {
+        orientedShell.physicalOrientation = root.physicalOrientation180;
+    }
+
+    function rotate270(orientedShell) {
+        orientedShell.physicalOrientation = root.physicalOrientation270;
+    }
+
     UnityTestCase {
         id: testCase
         name: "OrientedShell"
         when: windowShown
-
-        property Item orientedShell: orientedShellLoader.status === Loader.Ready ? orientedShellLoader.item : null
-        property Item shell
-        property QtObject topLevelSurfaceList
 
         SignalSpy { id: signalSpy }
         SignalSpy { id: signalSpy2 }
@@ -464,62 +490,41 @@ Rectangle {
         }
 
         function init() {
-            if (orientedShellLoader.active) {
-                // happens for the very first test function as shell
-                // is loaded by default
-                tearDown();
-            }
-        }
-
-        function tearDown() {
-            orientedShellLoader.itemDestroyed = false;
-            orientedShellLoader.active = false;
-
-            tryCompare(orientedShellLoader, "status", Loader.Null);
-            tryCompare(orientedShellLoader, "item", null);
-            // Loader.status might be Loader.Null and Loader.item might be null but the Loader
-            // actually took place. Likely because Loader waits until the next event loop
-            // iteration to do its work. So to ensure the reload, we will wait until the
-            // Shell instance gets destroyed.
-            tryCompare(orientedShellLoader, "itemDestroyed", true);
-
-            // kill all (fake) running apps
-            killApps();
-
             while (miceModel.count > 0)
                 MockInputDeviceBackend.removeDevice("/mouse" + (miceModel.count - 1));
             while (touchpadModel.count > 0)
                 MockInputDeviceBackend.removeDevice("/touchpad" + (touchpadModel.count - 1));
             while (keyboardsModel.count > 0)
                 MockInputDeviceBackend.removeDevice("/kbd" + (keyboardsModel.count - 1))
+            usageModeSelector.selectStaged();
+        }
 
+        function tearDown() {
+            // kill all (fake) running apps
+            testCase.killApps();
+            LightDM.Greeter.authenticate(""); // reset greeter
+        }
+
+        function cleanup() {
             appRepeaterConnections.target = null;
             appRepeaterConnections.itemAddedCallback = null;
             signalSpy.target = null;
             signalSpy.signalName = "";
 
-            LightDM.Greeter.authenticate(""); // reset greeter
-
-            usageModeSelector.selectStaged();
-        }
-
-        function cleanup() {
-            tryCompare(shell, "waitingOnGreeter", false, 10000); // make sure greeter didn't leave us in disabled state
-            shell = null;
-            topLevelSurfaceList = null;
-
             tearDown();
         }
 
         function test_appSupportingOnlyPrimaryOrientationMakesPhoneShellStayPut() {
-            loadShell("mako");
+            var orientedShell = loadShell("mako");
+            var topLevelSurfaceList = findInvisibleChild(orientedShell, "topLevelSurfaceList");
+            var shell = findChild(orientedShell, "shell");
 
             var primarySurfaceId = topLevelSurfaceList.nextId;
             var primaryApp = ApplicationManager.startApplication("primary-oriented-app");
             verify(primaryApp);
-            waitUntilAppWindowIsFullyLoaded(primarySurfaceId);
+            waitUntilAppWindowIsFullyLoaded(primarySurfaceId, orientedShell);
 
-            var primaryAppWindow = findAppWindowForSurfaceId(primarySurfaceId);
+            var primaryAppWindow = findAppWindowForSurfaceId(primarySurfaceId, orientedShell);
             verify(primaryAppWindow)
             var primaryDelegate = findChild(shell, "appDelegate_" + primarySurfaceId);
 
@@ -528,22 +533,22 @@ Rectangle {
             compare(primaryApp.supportedOrientations, Qt.PrimaryOrientation);
 
             tryVerify(function(){return primaryDelegate.surface});
-            verify(checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle));
+            verify(checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle, orientedShell));
 
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
-            rotateTo(90);
+            rotateTo(90, orientedShell);
 
-            verify(checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle));
+            verify(checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle, orientedShell));
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
 
-            rotateTo(180);
+            rotateTo(180, orientedShell);
 
-            verify(checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle));
+            verify(checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle, orientedShell));
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
 
-            rotateTo(270);
+            rotateTo(270, orientedShell);
 
-            verify(checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle));
+            verify(checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle, orientedShell));
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
         }
 
@@ -554,14 +559,16 @@ Rectangle {
             ];
         }
         function test_appSupportingOnlyPrimaryOrientationWillOnlyRotateInLandscape(data) {
-            loadShell(data.deviceName);
+            var orientedShell = loadShell(data.deviceName);
+            var shell = findChild(orientedShell, "shell");
+            var topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
 
             var primarySurfaceId = topLevelSurfaceList.nextId;
             var primaryApp = ApplicationManager.startApplication("primary-oriented-app");
             verify(primaryApp);
-            waitUntilAppWindowIsFullyLoaded(primarySurfaceId);
+            waitUntilAppWindowIsFullyLoaded(primarySurfaceId, orientedShell);
 
-            var primaryAppWindow = findAppWindowForSurfaceId(primarySurfaceId);
+            var primaryAppWindow = findAppWindowForSurfaceId(primarySurfaceId, orientedShell);
             verify(primaryAppWindow)
 
             // primary-oriented-app supports only primary orientation
@@ -574,22 +581,22 @@ Rectangle {
 
             tryCompareFunction(function(){return primaryApp.surfaceList.count > 0;}, true);
 
-            tryCompareFunction(function(){return checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle)}, true);
+            tryCompareFunction(function(){return checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle, orientedShell)}, true);
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
 
-            rotateTo(90);
+            rotateTo(90, orientedShell);
 
-            tryCompareFunction(function(){return checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle)}, true);
+            tryCompareFunction(function(){return checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle, orientedShell)}, true);
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
 
-            rotateTo(180);
+            rotateTo(180, orientedShell);
 
-            tryCompareFunction(function(){return checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle + 180)}, true);
+            tryCompareFunction(function(){return checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle + 180, orientedShell)}, true);
             compare(shell.transformRotationAngle, root.primaryOrientationAngle + 180);
 
-            rotateTo(270);
+            rotateTo(270, orientedShell);
 
-            tryCompareFunction(function(){return checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle + 180)}, true);
+            tryCompareFunction(function(){return checkAppSurfaceOrientation(primaryAppWindow, primaryApp, root.primaryOrientationAngle + 180, orientedShell)}, true);
             compare(shell.transformRotationAngle, root.primaryOrientationAngle + 180);
         }
 
@@ -601,7 +608,8 @@ Rectangle {
             ];
         }
         function test_greeterRemainsInPrimaryOrientation(data) {
-            loadShell(data.deviceName);
+            var orientedShell = loadShell(data.deviceName);
+            var shell = findChild(orientedShell, "shell");
 
             var gmailApp = ApplicationManager.startApplication("gmail-webapp");
             verify(gmailApp);
@@ -615,17 +623,17 @@ Rectangle {
             tryCompare(shell, "orientationChangesEnabled", true);
 
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
-            rotateTo(90);
+            rotateTo(90, orientedShell);
             tryCompare(shell, "transformRotationAngle", root.primaryOrientationAngle + 90);
 
-            showGreeter();
+            showGreeter(orientedShell);
 
             tryCompare(shell, "transformRotationAngle", root.primaryOrientationAngle);
-            rotateTo(180);
+            rotateTo(180, orientedShell);
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
-            rotateTo(270);
+            rotateTo(270, orientedShell);
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
-            rotateTo(0);
+            rotateTo(0, orientedShell);
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
         }
 
@@ -640,7 +648,9 @@ Rectangle {
             ];
         }
         function test_appRotatesWindowContents(data) {
-            loadShell(data.deviceName);
+            var orientedShell = loadShell(data.deviceName);
+            var shell = findChild(orientedShell, "shell");
+            var topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
 
             if (data.windowed) {
                 usageModeSelector.selectWindowed();
@@ -660,7 +670,7 @@ Rectangle {
             compare(cameraApp.supportedOrientations, Qt.PortraitOrientation | Qt.LandscapeOrientation
                     | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation);
 
-            waitUntilAppWindowIsFullyLoaded(cameraSurfaceId);
+            waitUntilAppWindowIsFullyLoaded(cameraSurfaceId, orientedShell);
 
             var focusChangedSpy = signalSpy;
             focusChangedSpy.clear();
@@ -688,7 +698,7 @@ Rectangle {
             transitionSpy.signalName = "runningChanged";
             verify(transitionSpy.valid);
 
-            rotateTo(90);
+            rotateTo(90, orientedShell);
 
             tryCompare(cameraSurface, "orientationAngle", data.orientationAngleAfterRotation);
 
@@ -726,7 +736,9 @@ Rectangle {
             ];
         }
         function test_switchingToAppWithDifferentRotation(data) {
-            loadShell(data.deviceName);
+            var orientedShell = loadShell(data.deviceName);
+            var shell = findChild(orientedShell, "shell");
+            var topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
             var gmailSurfaceId = topLevelSurfaceList.nextId;
             var gmailApp = ApplicationManager.startApplication("gmail-webapp");
             verify(gmailApp);
@@ -736,7 +748,7 @@ Rectangle {
             compare(gmailApp.supportedOrientations, Qt.PortraitOrientation | Qt.LandscapeOrientation
                     | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation);
 
-            waitUntilAppWindowIsFullyLoaded(gmailSurfaceId);
+            waitUntilAppWindowIsFullyLoaded(gmailSurfaceId, orientedShell);
 
             var musicSurfaceId = topLevelSurfaceList.nextId;
             var musicApp = ApplicationManager.startApplication("music-app");
@@ -751,13 +763,13 @@ Rectangle {
                 compare(musicDelegate.stage, ApplicationInfoInterface.MainStage);
             }
 
-            waitUntilAppWindowIsFullyLoaded(musicSurfaceId);
+            waitUntilAppWindowIsFullyLoaded(musicSurfaceId, orientedShell);
             tryCompare(shell, "orientationChangesEnabled", true);
 
-            rotateTo(90);
+            rotateTo(90, orientedShell);
             tryCompare(shell, "transformRotationAngle", data.shellAngleAfterRotation);
 
-            performEdgeSwipeToSwitchToPreviousApp();
+            performEdgeSwipeToSwitchToPreviousApp(orientedShell);
 
             tryCompare(shell, "mainAppWindowOrientationAngle", data.shellAngleAfterRotation);
             compare(shell.transformRotationAngle, data.shellAngleAfterRotation);
@@ -785,7 +797,9 @@ Rectangle {
             orientation (Screen.orientation), so they are both equally good alternatives
          */
         function test_rotateToUnsupportedDeviceOrientation(data) {
-            loadShell("mako");
+            var orientedShell = loadShell("mako");
+            var shell = findChild(orientedShell, "shell");
+            var topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
             var twitterSurfaceId = topLevelSurfaceList.nextId;
             var twitterApp = ApplicationManager.startApplication("twitter-webapp");
             verify(twitterApp);
@@ -795,12 +809,12 @@ Rectangle {
             compare(twitterApp.supportedOrientations, Qt.PortraitOrientation | Qt.LandscapeOrientation
                     | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation);
 
-            waitUntilAppWindowIsFullyLoaded(twitterSurfaceId);
+            waitUntilAppWindowIsFullyLoaded(twitterSurfaceId, orientedShell);
 
-            rotateTo(data.rotationAngle);
+            rotateTo(data.rotationAngle, orientedShell);
             tryCompare(shell, "transformRotationAngle", data.rotationAngle);
 
-            rotateTo(180);
+            rotateTo(180, orientedShell);
             tryCompare(shell, "transformRotationAngle", data.rotationAngle);
         }
         function test_rotateToUnsupportedDeviceOrientation_data() {
@@ -811,7 +825,9 @@ Rectangle {
         }
 
         function test_launchLandscapeOnlyAppFromPortrait() {
-            loadShell("mako");
+            var orientedShell = loadShell("mako");
+            var shell = findChild(orientedShell, "shell");
+            var topLevelSurfaceList = findInvisibleChild(orientedShell, "topLevelSurfaceList");
             var weatherSurfaceId = topLevelSurfaceList.nextId;
             var weatherApp = ApplicationManager.startApplication("ubuntu-weather-app");
             verify(weatherApp);
@@ -819,7 +835,7 @@ Rectangle {
             // ensure the mock app is as we expect
             compare(weatherApp.supportedOrientations, Qt.LandscapeOrientation | Qt.InvertedLandscapeOrientation);
 
-            waitUntilAppWindowIsFullyLoaded(weatherSurfaceId);
+            waitUntilAppWindowIsFullyLoaded(weatherSurfaceId, orientedShell);
 
             var rotationStates = findInvisibleChild(orientedShell, "rotationStates");
             waitUntilTransitionsEnd(rotationStates);
@@ -851,13 +867,15 @@ Rectangle {
             have an opacity > 0.
          */
         function test_greeterStaysAwayAfterRotation() {
-            loadShell("mako");
+            var orientedShell = loadShell("mako");
+            var shell = findChild(orientedShell, "shell");
+            var topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
 
             // Load an app which only supports primary
             var primarySurfaceId = topLevelSurfaceList.nextId;
             var primaryApp = ApplicationManager.startApplication("primary-oriented-app");
             verify(primaryApp);
-            waitUntilAppWindowIsFullyLoaded(primarySurfaceId);
+            waitUntilAppWindowIsFullyLoaded(primarySurfaceId, orientedShell);
 
             var twitterSurfaceId = topLevelSurfaceList.nextId;
             var twitterApp = ApplicationManager.startApplication("twitter-webapp");
@@ -868,17 +886,17 @@ Rectangle {
             compare(twitterApp.supportedOrientations, Qt.PortraitOrientation | Qt.LandscapeOrientation
                     | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation);
 
-            waitUntilAppWindowIsFullyLoaded(twitterSurfaceId);
-            waitUntilAppWindowCanRotate(twitterSurfaceId);
+            waitUntilAppWindowIsFullyLoaded(twitterSurfaceId, orientedShell);
+            waitUntilAppWindowCanRotate(twitterSurfaceId, orientedShell);
 
             // go back to primary-oriented-app
-            performEdgeSwipeToSwitchToPreviousApp();
+            performEdgeSwipeToSwitchToPreviousApp(orientedShell);
 
-            rotateTo(90);
+            rotateTo(90, orientedShell);
             wait(1); // spin the event loop to let all bindings do their thing
             tryCompare(shell, "transformRotationAngle", 0);
 
-            performEdgeSwipeToShowAppSpread();
+            performEdgeSwipeToShowAppSpread(shell);
 
             // wait until things have settled
             var greeter = findChild(shell, "greeter");
@@ -903,7 +921,9 @@ Rectangle {
         }
         function test_appInSideStageDoesntRotateOnStartUp(data) {
             WindowStateStorage.saveStage("twitter-webapp", ApplicationInfoInterface.SideStage)
-            loadShell(data.deviceName);
+            var orientedShell = loadShell(data.deviceName);
+            var shell = findChild(orientedShell, "shell");
+            var topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
 
             var twitterSurfaceId = topLevelSurfaceList.nextId;
             var twitterApp = ApplicationManager.startApplication("twitter-webapp");
@@ -933,7 +953,8 @@ Rectangle {
             ];
         }
         function test_portraitOnlyAppInSideStage(data) {
-            loadShell(data.deviceName);
+            var orientedShell = loadShell(data.deviceName);
+            var shell = findChild(orientedShell, "shell");
 
             var dialerDelegate = null;
             verify(appRepeaterConnections.target);
@@ -974,12 +995,13 @@ Rectangle {
             ];
         }
         function test_launchedAppHasActiveFocus(data) {
-            loadShell(data.deviceName);
+            var orientedShell = loadShell(data.deviceName);
+            var topLevelSurfaceList = findInvisibleChild(orientedShell, "topLevelSurfaceList");
 
             var gmailSurfaceId = topLevelSurfaceList.nextId;
             var gmailApp = ApplicationManager.startApplication("gmail-webapp");
             verify(gmailApp);
-            waitUntilAppWindowIsFullyLoaded(gmailSurfaceId);
+            waitUntilAppWindowIsFullyLoaded(gmailSurfaceId, orientedShell);
 
             var gmailSurface = gmailApp.surfaceList.get(0);
             verify(gmailSurface);
@@ -988,12 +1010,14 @@ Rectangle {
         }
 
         function test_launchLandscapeOnlyAppOverPortraitOnlyDashThenSwitchToDash() {
-            loadShell("mako");
+            var orientedShell = loadShell("mako");
+            var shell = findChild(orientedShell, "shell");
+            var topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
 
             var dashSurfaceId = topLevelSurfaceList.nextId;
             var dashApp = ApplicationManager.startApplication("unity8-dash");
             verify(dashApp);
-            waitUntilAppWindowIsFullyLoaded(dashSurfaceId);
+            waitUntilAppWindowIsFullyLoaded(dashSurfaceId, orientedShell);
 
             // starts as portrait, as unity8-dash is portrait only
             tryCompare(shell, "transformRotationAngle", 0);
@@ -1005,7 +1029,7 @@ Rectangle {
             // ensure the mock app is as we expect
             compare(weatherApp.supportedOrientations, Qt.LandscapeOrientation | Qt.InvertedLandscapeOrientation);
 
-            waitUntilAppWindowIsFullyLoaded(weatherSurfaceId);
+            waitUntilAppWindowIsFullyLoaded(weatherSurfaceId, orientedShell);
 
             // should have rotated to landscape
             tryCompareFunction(function () { return shell.transformRotationAngle == 270
@@ -1038,13 +1062,13 @@ Rectangle {
         }
 
         function test_attachRemoveInputDevices(data) {
-            loadShell("mako")
-            MockInputDeviceBackend.removeDevice("/indicator_kbd0");
+            var orientedShell = loadShell("mako");
             var shell = findChild(orientedShell, "shell");
+            MockInputDeviceBackend.removeDevice("/indicator_kbd0");
             var inputMethod = findChild(shell, "inputMethod");
 
-            var oldWidth = orientedShellLoader.width;
-            orientedShellLoader.width = data.screenWidth;
+            var oldWidth = shellRect.width;
+            shellRect.width = data.screenWidth;
 
             tryCompare(shell, "usageScenario", "phone");
             tryCompare(inputMethod, "enabled", true);
@@ -1062,17 +1086,17 @@ Rectangle {
             tryCompare(oskSettings, "disableHeight", data.expectedMode == "desktop" || data.kbd);
 
             // Restore width
-            orientedShellLoader.width = oldWidth;
+            shellRect.width = oldWidth;
         }
 
         function test_screenSizeChanges() {
-            loadShell("mako")
+            var orientedShell = loadShell("mako");
             var shell = findChild(orientedShell, "shell");
 
             tryCompare(shell, "usageScenario", "phone");
 
             // make screen larger
-            orientedShellLoader.width = units.gu(90);
+            shellRect.width = units.gu(90);
             tryCompare(shell, "usageScenario", "phone");
 
             // plug a mouse
@@ -1080,17 +1104,18 @@ Rectangle {
             tryCompare(shell, "usageScenario", "desktop");
 
             // make the screen smaller again, it should go back to staged even though there's still a mouse around
-            orientedShellLoader.width = units.gu(40);
+            shellRect.width = units.gu(40);
 
             tryCompare(shell, "usageScenario", "phone");
         }
 
         function test_overrideStaged() {
-            loadShell("mako")
+            var orientedShell = loadShell("mako");
+            var shell = findChild(orientedShell, "shell");
 
             // make sure we're big enough so that the automatism starts working
-            var oldWidth = orientedShellLoader.width;
-            orientedShellLoader.width = units.gu(100);
+            var oldWidth = shellRect.width;
+            shellRect.width = units.gu(100);
 
             // start off by plugging a mouse, we should switch to windowed
             MockInputDeviceBackend.addMockDevice("/mouse0", InputInfo.Mouse);
@@ -1117,7 +1142,7 @@ Rectangle {
             tryCompare(shell, "usageScenario", "phone");
 
             // Restore width
-            orientedShellLoader.width = oldWidth;
+            shellRect.width = oldWidth;
         }
 
         function test_setsUsageModeOnStartup() {
@@ -1127,17 +1152,19 @@ Rectangle {
             compare(unity8Settings.usageMode, "Staged");
 
             // Load shell, and have it pick desktop
-            loadShell("desktop");
+            var orientedShell = loadShell("desktop");
+            var shell = findChild(orientedShell, "shell");
             compare(shell.usageScenario, "desktop");
             compare(unity8Settings.usageMode, "Windowed");
         }
 
         function test_overrideWindowed() {
-            loadShell("mako")
+            var orientedShell = loadShell("mako")
+            var shell = findChild(orientedShell, "shell");
 
             // make sure we're big enough so that the automatism starts working
-            var oldWidth = orientedShellLoader.width;
-            orientedShellLoader.width = units.gu(100);
+            var oldWidth = shellRect.width;
+            shellRect.width = units.gu(100);
 
             // No mouse attached... we should be in staged
             tryCompare(shell, "usageScenario", "phone");
@@ -1155,7 +1182,7 @@ Rectangle {
             tryCompare(shell, "usageScenario", "phone");
 
             // Restore width
-            orientedShellLoader.width = oldWidth;
+            shellRect.width = oldWidth;
         }
 
         /*
@@ -1180,7 +1207,8 @@ Rectangle {
              hence the bug.
          */
         function test_phoneWithSpreadInLandscapeWhenGreeterShowsUp() {
-            loadShell("mako");
+            var orientedShell = loadShell("mako");
+            var shell = findChild(orientedShell, "shell");
 
             var gmailApp = ApplicationManager.startApplication("gmail-webapp");
             verify(gmailApp);
@@ -1193,12 +1221,12 @@ Rectangle {
             // wait until it's able to rotate
             tryCompare(shell, "orientationChangesEnabled", true);
 
-            rotateTo(90);
+            rotateTo(90, orientedShell);
             tryCompare(shell, "transformRotationAngle", root.primaryOrientationAngle + 90);
 
-            performEdgeSwipeToShowAppSpread();
+            performEdgeSwipeToShowAppSpread(shell);
 
-            showGreeter();
+            showGreeter(orientedShell);
 
             tryCompare(shell, "transformRotationAngle", root.primaryOrientationAngle);
         }
@@ -1223,22 +1251,24 @@ Rectangle {
            - The portrait-only application rotates freely
          */
         function test_lockPhoneAfterClosingAppInSpreadThenUnlockAndRotate() {
-            loadShell("mako");
+            var orientedShell = loadShell("mako");
+            var topLevelSurfaceList = findInvisibleChild(orientedShell, "topLevelSurfaceList");
+            var shell = findChild(orientedShell, "shell");
 
             var primarySurfaceId = topLevelSurfaceList.nextId;
             var primaryApp = ApplicationManager.startApplication("primary-oriented-app");
             verify(primaryApp);
-            waitUntilAppWindowIsFullyLoaded(primarySurfaceId);
+            waitUntilAppWindowIsFullyLoaded(primarySurfaceId, orientedShell);
 
             var gmailSurfaceId = topLevelSurfaceList.nextId;
             var gmailApp = ApplicationManager.startApplication("gmail-webapp");
             verify(gmailApp);
 
-            waitUntilAppWindowIsFullyLoaded(gmailSurfaceId);
+            waitUntilAppWindowIsFullyLoaded(gmailSurfaceId, orientedShell);
 
-            performEdgeSwipeToShowAppSpread();
+            performEdgeSwipeToShowAppSpread(shell);
 
-            swipeToCloseCurrentAppInSpread();
+            swipeToCloseCurrentAppInSpread(orientedShell);
 
             // press the power key once
             Powerd.setStatus(Powerd.Off, Powerd.Unknown);
@@ -1248,23 +1278,24 @@ Rectangle {
             // and a second time to turn the display back on
             Powerd.setStatus(Powerd.On, Powerd.Unknown);
 
-            swipeAwayGreeter();
+            swipeAwayGreeter(orientedShell);
 
-            tryCompareFunction(function() { return isAppSurfaceFocused(primarySurfaceId)}, true, 10000)
+            tryCompareFunction(function() { return isAppSurfaceFocused(topLevelSurfaceList, primarySurfaceId)}, true, 10000)
 
             signalSpy.clear();
             signalSpy.target = shell;
             signalSpy.signalName = "widthChanged";
             verify(signalSpy.valid);
 
-            rotateTo(90);
+            rotateTo(90, orientedShell);
 
             // shell shouldn't have change its orientation at any moment
             compare(signalSpy.count, 0);
         }
 
         function test_moveToExternalMonitor() {
-            loadShell("flo");
+            var orientedShell = loadShell("flo");
+            var shell = findChild(orientedShell, "shell");
 
             compare(orientedShell.orientation, Qt.InvertedLandscapeOrientation);
             compare(shell.transformRotationAngle, 90);
@@ -1298,7 +1329,9 @@ Rectangle {
             ];
         }
         function test_portraitOnlyAppInLandscapeDesktop(data) {
-            loadShell(data.deviceName);
+            var orientedShell = loadShell(data.deviceName);
+            var topLevelSurfaceList = findInvisibleChild(orientedShell, "topLevelSurfaceList");
+            var shell = findChild(orientedShell, "shell");
 
             ////
             // setup preconditions (put shell in Desktop mode and landscape)
@@ -1306,8 +1339,8 @@ Rectangle {
             usageModeSelector.selectWindowed();
 
             orientedShell.physicalOrientation = orientedShell.orientations.landscape;
-            waitUntilShellIsInOrientation(orientedShell.orientations.landscape);
-            waitForRotationAnimationsToFinish();
+            waitUntilShellIsInOrientation(orientedShell.orientations.landscape, orientedShell);
+            waitForRotationAnimationsToFinish(orientedShell);
 
             ////
             // Launch a portrait-only application
@@ -1320,39 +1353,39 @@ Rectangle {
             compare(dialerApp.rotatesWindowContents, false);
             compare(dialerApp.supportedOrientations, Qt.PortraitOrientation | Qt.InvertedPortraitOrientation);
 
-            waitUntilAppWindowIsFullyLoaded(dialerSurfaceId);
-            waitUntilAppWindowCanRotate(dialerSurfaceId);
-            verify(isAppSurfaceFocused(dialerSurfaceId));
+            waitUntilAppWindowIsFullyLoaded(dialerSurfaceId, orientedShell);
+            waitUntilAppWindowCanRotate(dialerSurfaceId, orientedShell);
+            verify(isAppSurfaceFocused(topLevelSurfaceList, dialerSurfaceId));
 
             ////
             // check outcome (shell should stay in landscape)
 
-            waitForRotationAnimationsToFinish();
+            waitForRotationAnimationsToFinish(orientedShell);
             compare(shell.orientation, orientedShell.orientations.landscape);
         }
 
         //  angle - rotation angle in degrees clockwise, relative to the primary orientation.
-        function rotateTo(angle) {
+        function rotateTo(angle, orientedShell) {
             switch (angle) {
             case 0:
-                rotate0Button.clicked();
+                root.rotate0(orientedShell);
                 break;
             case 90:
-                rotate90Button.clicked();
+                root.rotate90(orientedShell);
                 break;
             case 180:
-                rotate180Button.clicked();
+                root.rotate180(orientedShell);
                 break;
             case 270:
-                rotate270Button.clicked();
+                root.rotate270(orientedShell);
                 break;
             default:
                 verify(false);
             }
-            waitForRotationAnimationsToFinish();
+            waitForRotationAnimationsToFinish(orientedShell);
         }
 
-        function waitForRotationAnimationsToFinish() {
+        function waitForRotationAnimationsToFinish(orientedShell) {
             var rotationStates = findInvisibleChild(orientedShell, "rotationStates");
             verify(rotationStates.d);
             verify(rotationStates.d.stateUpdateTimer);
@@ -1374,8 +1407,8 @@ Rectangle {
             tryCompare(appWindowStates, "state", "surface");
         }
 
-        function findAppWindowForSurfaceId(surfaceId) {
-            var delegate = findChild(shell, "appDelegate_" + surfaceId);
+        function findAppWindowForSurfaceId(surfaceId, orientedShell) {
+            var delegate = findChild(orientedShell, "appDelegate_" + surfaceId);
             verify(delegate);
             var appWindow = findChild(delegate, "appWindow");
             return appWindow;
@@ -1383,25 +1416,28 @@ Rectangle {
 
         // Wait until the ApplicationWindow for the given Application object is fully loaded
         // (ie, the real surface has replaced the splash screen)
-        function waitUntilAppWindowIsFullyLoaded(surfaceId) {
-            var appWindow = findAppWindowForSurfaceId(surfaceId);
+        function waitUntilAppWindowIsFullyLoaded(surfaceId, orientedShell) {
+            var appWindow = findAppWindowForSurfaceId(surfaceId, orientedShell);
             var appWindowStateGroup = findInvisibleChild(appWindow, "applicationWindowStateGroup");
             tryCompareFunction(function() { return appWindowStateGroup.state === "surface" }, true);
             waitUntilTransitionsEnd(appWindowStateGroup);
         }
 
-        function waitUntilAppWindowCanRotate(surfaceId) {
-            var appWindow = findAppWindowForSurfaceId(surfaceId);
+        function waitUntilAppWindowCanRotate(surfaceId, orientedShell) {
+            var appWindow = findAppWindowForSurfaceId(surfaceId, orientedShell);
             tryCompare(appWindow, "orientationChangesEnabled", true);
         }
 
-        function waitUntilShellIsInOrientation(orientation) {
+        function waitUntilShellIsInOrientation(orientation, orientedShell) {
+            var shell = findInvisibleChild(orientedShell, "shell");
             tryCompare(shell, "orientation", orientation);
             var rotationStates = findInvisibleChild(orientedShell, "rotationStates");
             waitUntilTransitionsEnd(rotationStates);
         }
 
-        function performEdgeSwipeToSwitchToPreviousApp() {
+        function performEdgeSwipeToSwitchToPreviousApp(orientedShell) {
+            var topLevelSurfaceList = findInvisibleChild(orientedShell, "topLevelSurfaceList");
+            var shell = findChild(orientedShell, "shell");
             // swipe just enough to ensure an app switch action.
             // If we swipe too much we will trigger the spread mode
             // and we don't want that.
@@ -1416,41 +1452,43 @@ Rectangle {
             tryCompareFunction(function(){ return topLevelSurfaceList.idAt(0); }, previousSurfaceId);
         }
 
-        function performEdgeSwipeToShowAppSpread() {
-            var touchStartY = shell.height / 2;
-            touchFlick(shell,
-                       shell.width - 1, touchStartY,
+        function performEdgeSwipeToShowAppSpread(orientedShell) {
+            var touchStartY = orientedShell.height / 2;
+            touchFlick(orientedShell,
+                       orientedShell.width - 1, touchStartY,
                        0, touchStartY);
 
-            var stage = findChild(shell, "stage");
+            var stage = findChild(orientedShell, "stage");
             tryCompare(stage, "state", "spread");
             waitForRendering(stage);
         }
 
-        function showPowerDialog() {
+        function showPowerDialog(orientedShell) {
             var dialogs = findChild(orientedShell, "dialogs");
             var dialogsPrivate = findInvisibleChild(dialogs, "dialogsPrivate");
             dialogsPrivate.showPowerDialog();
         }
 
-        function swipeAwayGreeter() {
+        function swipeAwayGreeter(orientedShell) {
+            var shell = findChild(orientedShell, "shell");
             var greeter = findChild(shell, "greeter");
+            verify(greeter);
             tryCompare(greeter, "fullyShown", true);
             waitForRendering(greeter)
 
             var touchX = shell.width * .75;
             var touchY = shell.height / 2;
-            touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY);
+            touchFlick(shell, touchX, touchY, orientedShell.width * 0.1, touchY);
 
             // wait until the animation has finished
             tryCompare(greeter, "shown", false);
             waitForRendering(greeter);
         }
 
-        function showGreeter() {
+        function showGreeter(orientedShell) {
             LightDM.Greeter.showGreeter();
             // wait until the animation has finished
-            var greeter = findChild(shell, "greeter");
+            var greeter = findChild(orientedShell, "greeter");
             tryCompare(greeter, "fullyShown", true);
         }
 
@@ -1458,32 +1496,29 @@ Rectangle {
             applicationArguments.deviceName = deviceName;
 
             // reload our test subject to get it in a fresh state once again
-            orientedShellLoader.active = true;
+            var orientedShell = createTemporaryObject(shellComponent, shellRect);
 
-            tryCompare(orientedShellLoader, "status", Loader.Ready);
-            removeTimeConstraintsFromSwipeAreas(orientedShellLoader.item);
+            removeTimeConstraintsFromSwipeAreas(orientedShell);
 
-            shell = findChild(orientedShell, "shell");
-
-            topLevelSurfaceList = findInvisibleChild(shell, "topLevelSurfaceList");
-            verify(topLevelSurfaceList);
+            var shell = findChild(orientedShell, "shell");
 
             tryCompare(shell, "waitingOnGreeter", false); // reset by greeter when ready
 
-            waitUntilShellIsInOrientation(root.physicalOrientation0);
+            waitUntilShellIsInOrientation(root.physicalOrientation0, orientedShell);
 
-            waitForGreeterToStabilize();
+            waitForGreeterToStabilize(orientedShell);
 
-            swipeAwayGreeter();
+            swipeAwayGreeter(orientedShell);
 
             var appRepeater = findChild(shell, "appRepeater");
             if (appRepeater) {
                 appRepeaterConnections.target = appRepeater;
             }
+            return orientedShell;
         }
 
-        function waitForGreeterToStabilize() {
-            var greeter = findChild(shell, "greeter");
+        function waitForGreeterToStabilize(orientedShell) {
+            var greeter = findChild(orientedShell, "greeter");
             verify(greeter);
 
             var loginList = findChild(greeter, "loginList");
@@ -1496,7 +1531,7 @@ Rectangle {
         }
 
         // expectedAngle is in orientedShell's coordinate system
-        function checkAppSurfaceOrientation(item, app, expectedAngle) {
+        function checkAppSurfaceOrientation(item, app, expectedAngle, orientedShell) {
             var surface = app.surfaceList.get(0);
             if (!surface) {
                 console.warn("no surface");
@@ -1539,8 +1574,9 @@ Rectangle {
             return null;
         }
 
-        function swipeToCloseCurrentAppInSpread() {
-            var delegateToClose = findChild(shell, "appDelegate_" + topLevelSurfaceList.idAt(0));
+        function swipeToCloseCurrentAppInSpread(orientedShell) {
+            var topLevelSurfaceList = findInvisibleChild(orientedShell, "topLevelSurfaceList");
+            var delegateToClose = findChild(orientedShell, "appDelegate_" + topLevelSurfaceList.idAt(0));
             verify(delegateToClose);
 
             var appIdToClose = ApplicationManager.get(0).appId;
@@ -1557,7 +1593,7 @@ Rectangle {
             compare(ApplicationManager.findApplication(appIdToClose), null);
         }
 
-        function isAppSurfaceFocused(surfaceId) {
+        function isAppSurfaceFocused(topLevelSurfaceList, surfaceId) {
             var index = topLevelSurfaceList.indexForId(surfaceId);
             var surface = topLevelSurfaceList.surfaceAt(index);
             verify(surface);
@@ -1572,9 +1608,9 @@ Rectangle {
         }
 
         function test_tabCyclyingInShutdownDialog(data) {
-            loadShell("mako");
+            var orientedShell = loadShell("mako");
 
-            testCase.showPowerDialog();
+            testCase.showPowerDialog(orientedShell);
 
             var dialogs = findChild(orientedShell, "dialogs");
             var buttons = findChildsByType(dialogs, "Button");
@@ -1600,9 +1636,9 @@ Rectangle {
         }
 
         function test_escClosesShutdownDialog() {
-            loadShell("mako");
+            var orientedShell = loadShell("mako");
 
-            testCase.showPowerDialog();
+            testCase.showPowerDialog(orientedShell);
 
             var dialogLoader = findChild(orientedShell, "dialogLoader");
             tryCompareFunction(function() { return dialogLoader.item !== null }, true);
@@ -1613,20 +1649,21 @@ Rectangle {
         }
 
         function test_focusOnShutdownDialogClose() {
-            loadShell("manta");
+            var orientedShell = loadShell("manta");
+            var topLevelSurfaceList = findInvisibleChild(orientedShell, "topLevelSurfaceList");
             usageModeSelector.selectWindowed();
 
             var surfaceId = topLevelSurfaceList.nextId;
             var app = ApplicationManager.startApplication("twitter-webapp");
-            waitUntilAppWindowIsFullyLoaded(surfaceId);
+            waitUntilAppWindowIsFullyLoaded(surfaceId, orientedShell);
 
-            var primaryAppWindow = findAppWindowForSurfaceId(surfaceId);
+            var primaryAppWindow = findAppWindowForSurfaceId(surfaceId, orientedShell);
             var surface = app.surfaceList.get(0);
             var surfaceItem = findSurfaceItem(primaryAppWindow, surface);
 
             compare(window.activeFocusItem, surfaceItem);
 
-            testCase.showPowerDialog();
+            testCase.showPowerDialog(orientedShell);
 
             var dialogLoader = findChild(orientedShell, "dialogLoader");
             tryVerify(function() { return dialogLoader.item !== null });
@@ -1637,7 +1674,7 @@ Rectangle {
             compare(window.activeFocusItem, surfaceItem);
 
             // Do it twice, our previous solution failed the second time ^_^
-            testCase.showPowerDialog();
+            testCase.showPowerDialog(orientedShell);
 
             tryVerify(function() { return dialogLoader.item !== null });
 
@@ -1648,7 +1685,8 @@ Rectangle {
         }
 
         function test_tutorialDisabledWithNoTouchscreen() {
-            loadShell("desktop");
+            var orientedShell = loadShell("desktop");
+            var shell = findChild(orientedShell, "shell");
             usageModeSelector.selectWindowed();
 
             MockInputDeviceBackend.addMockDevice("/touchscreen", InputInfo.TouchScreen);
