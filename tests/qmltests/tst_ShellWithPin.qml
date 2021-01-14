@@ -428,7 +428,6 @@ Item {
             tryCompare(ApplicationManager, "focusedApplicationId", "gallery-app");
             var callHint = findChild(panel, "callHint");
             tryCompare(callHint, "visible", true);
-            wait(10000)
 
             // simulate a callHint press, the real thing requires dialer: url support
             ApplicationManager.requestFocusApplication("dialer-app");
