@@ -254,7 +254,7 @@ Rectangle {
                         itemWidth: launcherListView.itemWidth
                         width: parent.width
                         height: itemHeight
-                        iconName: model.icon
+                        iconName: model.icon ? model.icon : "graphics/wayland.svg"
                         count: model.count
                         countVisible: model.countVisible
                         progress: model.progress
