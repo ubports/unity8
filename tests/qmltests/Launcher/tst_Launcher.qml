@@ -253,6 +253,24 @@ Rectangle {
         target: clickThroughTester
     }
 
+    SignalSpy {
+        id: startedSpy
+        target: null
+        signalName: "started"
+    }
+
+    SignalSpy {
+        id: stoppedSpy
+        target: null
+        signalName: "stopped"
+    }
+
+    SignalSpy {
+        id: stoppedSpy2
+        target: null
+        signalName: "stopped"
+    }
+
     Item {
         id: fakeDismissTimer
         property bool running: false
@@ -276,6 +294,12 @@ Rectangle {
         function cleanup() {
             signalSpy.clear();
             clickThroughSpy.clear();
+            startedSpy.clear();
+            startedSpy.target = null;
+            stoppedSpy.clear();
+            stoppedSpy.target = null;
+            stoppedSpy2.clear();
+            stoppedSpy2.target = null;
             launcherLoader.active = false;
             // Loader.status might be Loader.Null and Loader.item might be null but the Loader
             // item might still be alive. So if we set Loader.active back to true
@@ -356,16 +380,6 @@ Rectangle {
         function waitUntilLauncherDisappears() {
             var panel = findChild(launcher, "launcherPanel");
             tryCompare(panel, "x", -panel.width, 1000);
-        }
-
-        function waitForWiggleToStart(appIcon) {
-            verify(appIcon != undefined)
-            tryCompare(appIcon, "wiggling", true, 1000, "wiggle-anim should not be in stopped state")
-        }
-
-        function waitForWiggleToStop(appIcon) {
-            verify(appIcon != undefined)
-            tryCompare(appIcon, "wiggling", false, 1000, "wiggle-anim should not be in running state")
         }
 
         function positionLauncherListAtBeginning() {
@@ -1090,10 +1104,13 @@ Rectangle {
             verify(listView != undefined)
             var appIcon6 = findChild(launcher, "launcherDelegate6")
             verify(appIcon6 != undefined)
+
+            startedSpy.target = appIcon6.wiggleAnim
+            stoppedSpy.target = appIcon6.wiggleAnim
             LauncherModel.setAlerting(LauncherModel.get(6).appId, true)
-            waitForWiggleToStart(appIcon6)
+            tryCompare(startedSpy, "count", 1);
             LauncherModel.setAlerting(LauncherModel.get(6).appId, false)
-            waitForWiggleToStop(appIcon6)
+            tryCompare(stoppedSpy, "count", 1);
             tryCompare(appIcon6, "x", 0, 1000, "x-value of appId #6 should not be non-zero")
             waitForRendering(listView)
         }
@@ -1139,49 +1156,60 @@ Rectangle {
         function test_alertMoveIconIntoView() {
             dragLauncherIntoView();
             var appIcon1 = findChild(launcher, "launcherDelegate1");
+            verify(appIcon1);
             var appIcon7 = findChild(launcher, "launcherDelegate7");
+            verify(appIcon7);
+            stoppedSpy.target = appIcon1.wiggleAnim;
+            stoppedSpy2.target = appIcon7.wiggleAnim;
+
+            startedSpy.target = appIcon1.wiggleAnim;
             LauncherModel.setAlerting(LauncherModel.get(1).appId, true)
             tryCompare(appIcon1, "angle", 0, 1000, "angle of appId #1 should not be non-zero")
-            waitForWiggleToStart(appIcon1)
+            tryCompare(startedSpy, "count", 1);
+            startedSpy.clear();
+
+            startedSpy.target = appIcon7.wiggleAnim;
             LauncherModel.setAlerting(LauncherModel.get(7).appId, true)
             tryCompare(appIcon7, "angle", 0, 1000, "angle of appId #7 should not be non-zero")
-            waitForWiggleToStart(appIcon7)
+            tryCompare(startedSpy, "count", 1);
             LauncherModel.setAlerting(LauncherModel.get(1).appId, false)
-            waitForWiggleToStop(appIcon1)
             LauncherModel.setAlerting(LauncherModel.get(7).appId, false)
-            waitForWiggleToStop(appIcon7)
+            tryCompare(stoppedSpy, "count", 1);
+            tryCompare(stoppedSpy2, "count", 1);
         }
 
         function test_alertWigglePeekDrag() {
             var appIcon5 = findChild(launcher, "launcherDelegate5");
-            var listView = findChild(launcher, "launcherListView")
+            var listView = findChild(launcher, "launcherListView");
+            startedSpy.target = appIcon5.wiggleAnim;
+            stoppedSpy.target = appIcon5.wiggleAnim;
+
             verify(listView != undefined)
             LauncherModel.setAlerting(LauncherModel.get(5).appId, true)
             tryCompare(listView, "peekingIndex", 5, 1000, "Wrong appId set as peeking-index")
-            waitForWiggleToStart(appIcon5)
-            tryCompare(appIcon5, "wiggling", true, 1000, "appId #6 should not be still")
+            tryCompare(startedSpy, "count", 1, 1000, "appId #6 should have wiggled")
             dragLauncherIntoView();
             tryCompare(listView, "peekingIndex", -1, 1000, "peeking-index should be -1")
             LauncherModel.setAlerting(LauncherModel.get(5).appId, false)
-            waitForWiggleToStop(appIcon5)
-            tryCompare(appIcon5, "wiggling", false, 1000, "appId #1 should not be wiggling")
+            tryCompare(stoppedSpy, "count", 1, 1000, "appId #6 should have stopped wiggling");
         }
 
         function test_alertViaCountAndCountVisible() {
             dragLauncherIntoView();
             var appIcon1 = findChild(launcher, "launcherDelegate1")
             var oldCount = LauncherModel.get(1).count
+            startedSpy.target = appIcon1.wiggleAnim;
             LauncherModel.setCount(LauncherModel.get(1).appId, 42)
-            tryCompare(appIcon1, "wiggling", false, 1000, "appId #1 should be still")
+            tryCompare(appIcon1.wiggleAnim, "running", false, 1000, "appId #1 should be still")
             LauncherModel.setCountVisible(LauncherModel.get(1).appId, 1)
-            tryCompare(appIcon1, "wiggling", true, 1000, "appId #1 should not be still")
+            tryCompare(startedSpy, "count", 1);
             LauncherModel.setAlerting(LauncherModel.get(1).appId, false)
-            waitForWiggleToStop(appIcon1)
+            appIcon1.wiggleAnim.complete();
 
             LauncherModel.setCount(LauncherModel.get(1).appId, 4711)
-            tryCompare(appIcon1, "wiggling", true, 1000, "appId #1 should not be still")
+            tryCompare(startedSpy, "count", 2);
             LauncherModel.setAlerting(LauncherModel.get(1).appId, false)
-            waitForWiggleToStop(appIcon1)
+            appIcon1.wiggleAnim.complete();
             LauncherModel.setCountVisible(LauncherModel.get(1).appId, 0)
             LauncherModel.setCount(LauncherModel.get(1).appId, oldCount)
         }
@@ -1560,6 +1588,36 @@ Rectangle {
             mouseMove(qEntry, qEntry.width / 2 + 1, qEntry.height / 2, 10);
 
             tryCompare(quickList, "selectedIndex", -1)
+        }
+
+        // Regression test for https://github.com/ubports/ubuntu-touch/issues/1441
+        // Short problem description: If the Launcher is dragged out while the
+        // Peek animation is running, the Launcher disappears after the peek
+        // animation ends. The Launcher does not appear until it is dismissed.
+        // To check for a regression: Start the peek animation and show the
+        // Launcher while it's running. Once the animation is done, check if
+        // it's still visible.
+        function test_peekCompletionDoesNotHideLauncher() {
+            var launcherPanel = findChild(launcher, "launcherPanel");
+            verify(launcherPanel);
+            var peekingAnimation = findInvisibleChild(launcherPanel, "peekingAnimation5");
+            verify(peekingAnimation);
+            startedSpy.target = peekingAnimation;
+
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, true);
+            // The timing of this test is very exact! The animation still needs
+            // to be running when the Launcher is out...
+            tryCompare(startedSpy, "count", 1);
+            launcher.show();
+            // ...the Launcher should be visible while the animation is
+            // running...
+            compare(peekingAnimation.running, true);
+            compare(launcherPanel.visible, true);
+            tryCompare(peekingAnimation, "running", false);
+            // ..and we need to make sure the Launcher completes its next frame
+            // after the animation completes
+            waitForRendering(launcherPanel);
+            compare(launcherPanel.visible, true);
         }
     }
 }
